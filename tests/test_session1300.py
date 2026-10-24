@@ -72,6 +72,13 @@ class Frames:
     def load(self):
         """The frames, after an Asker is made: making one sets its scope, which drops the frames read so far."""
         fx = load(FIX)
+        turns = load(TURNS)
+        if turns.get("extra"):
+            # session 1317: a scenario's extra rows, recorded from the live set in another fixture and read from there
+            other, t = load(os.path.join(ROOT, turns["extra"]["fixture"])), turns["extra"]["table"]
+            rows = next(v for k, v in other["reads"].items() if f"table_name=eq.{t}&" in k)
+            fx["rows"] += [{"table_name": t, "entity": r["entity"], "variable": r["variable"], "ts_utc": r["t"], "value": r["v"], "unit": r["unit"]} for r in rows]
+            fx["catalogue"].append(next(c for c in next(v for k, v in other["reads"].items() if "/catalogue?" in k) if c["table_name"] == t))
         tools._frames.clear()
         tools._backend_ready = True
         tools._frames["_coverage"] = pd.DataFrame([{"table": c["table_name"], "source_report": c["source_report"], "license": c["license"],
@@ -81,7 +88,7 @@ class Frames:
         for t, df in rows.groupby("table_name"):
             df = df.drop(columns=["table_name"]).reset_index(drop=True)
             df["ts_utc"] = pd.to_datetime(df["ts_utc"], utc=True)
-            df["freq"] = "P1M"
+            df["freq"] = next((c.get("interval") for c in fx["catalogue"] if c["table_name"] == t), None) or "P1M"
             tools._frames[t] = df
         return fx
 
@@ -104,7 +111,9 @@ def python_loop():
             frames.load()
             rec = asker.ask(s["question"], today=turns["today"])
             out[s["id"]] = {"status": rec.get("status"), "retried": bool(rec.get("retried")), "tool_calls": rec.get("tool_calls"), "model_calls": client.n,
-                            "citations": sorted(c.get("table") for c in rec.get("citations") or []), "answer": rec.get("answer"), "why": rec.get("why") or ""}
+                            "citations": sorted(c.get("table") for c in rec.get("citations") or []), "answer": rec.get("answer"), "why": rec.get("why") or "",
+                            "series": [{"result_id": x["result_id"], "table": x["table"], "title": x["title"], "group_by": x["group_by"], "unit": x["unit"],
+                                        "rows": [[y["key"], y["value"]] for y in x["rows"]], "check": x["check"]} for x in rec.get("series") or []]}
     return out
 
 
@@ -129,7 +138,14 @@ class ThePythonLoop(unittest.TestCase):
         got = python_loop()
         self.assertEqual({k: v["status"] for k, v in got.items()},
                          {"answered": "answered", "a_figure_in_no_result": "refused_unverified", "a_compare": "answered",
-                          "not_in_the_warehouse": "not_in_warehouse", "a_table_cited_unread": "refused_unverified", "a_held_grid": "answered"})
+                          "not_in_the_warehouse": "not_in_warehouse", "a_table_cited_unread": "refused_unverified", "a_held_grid": "answered",
+                          "a_series": "answered"})
+        # session 1317: the general chat's answer that rests on a series carries it, the tool's twelve rows; the others none
+        s = got["a_series"]["series"]
+        self.assertEqual(len(s), 1)
+        self.assertEqual((s[0]["table"], s[0]["group_by"], len(s[0]["rows"]), s[0]["check"]["same"]), ("ercot_peak_premium_annual", "year", 12, True))
+        self.assertEqual(s[0]["rows"][0], ["2015", -0.16])
+        self.assertTrue(all(not v["series"] for k, v in got.items() if k != "a_series"))
         self.assertTrue(got["a_figure_in_no_result"]["retried"])
         self.assertTrue(got["a_figure_in_no_result"]["answer"].startswith(ask.REFUSAL))
 
@@ -140,7 +156,7 @@ class BothLoops(unittest.TestCase):
         py = python_loop()
         self.assertEqual(sorted(site), sorted(py))
         for sid in site:
-            for k in ("status", "retried", "tool_calls", "model_calls", "citations", "answer", "why"):
+            for k in ("status", "retried", "tool_calls", "model_calls", "citations", "answer", "why", "series"):
                 self.assertEqual(py[sid][k], site[sid][k], f"{sid}: {k}")
 
 

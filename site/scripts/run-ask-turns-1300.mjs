@@ -11,6 +11,13 @@ import fs from "node:fs";
 const read = (p) => JSON.parse(fs.readFileSync(new URL(p, import.meta.url), "utf8"));
 const FIX = read("../../tests/fixtures/session1112/held_reads.json");
 const SET = read("../../tests/fixtures/session1300/turns.json");
+// session 1317: a scenario's extra rows, recorded from the live set in another fixture and read from there
+if (SET.extra) {
+  const other = read(`../../${SET.extra.fixture}`), t = SET.extra.table;
+  const rows = Object.entries(other.reads).find(([k]) => k.includes(`table_name=eq.${t}&`))[1];
+  FIX.rows.push(...rows.map((r) => ({ table_name: t, entity: r.entity, variable: r.variable, ts_utc: r.t, value: r.v, unit: r.unit })));
+  FIX.catalogue.push(Object.entries(other.reads).find(([k]) => k.includes("/catalogue?"))[1].find((c) => c.table_name === t));
+}
 process.env.SUPABASE_URL = "https://fixture.invalid";
 process.env.SUPABASE_ANON_KEY = "fixture";
 process.env.ANTHROPIC_API_KEY = "a-stand-in-not-a-key";
@@ -62,6 +69,7 @@ for (const s of SET.scenarios) {
   script = s.turns;
   calls = 0;
   const r = await ask.ask(s.question, SET.today, null, null, null, {});
-  out[s.id] = { status: r.status, retried: !!r.retried, tool_calls: r.tool_calls, model_calls: calls, citations: (r.citations ?? []).map((c) => c.table).sort(), answer: r.answer, why: r.why ?? "" };
+  out[s.id] = { status: r.status, retried: !!r.retried, tool_calls: r.tool_calls, model_calls: calls, citations: (r.citations ?? []).map((c) => c.table).sort(), answer: r.answer, why: r.why ?? "",
+    series: (r.series ?? []).map((x) => ({ result_id: x.result_id, table: x.table, title: x.title, group_by: x.group_by, unit: x.unit, rows: x.rows.map((y) => [y.key, y.value]), check: x.check })) };
 }
 console.log(JSON.stringify(out));

@@ -41,6 +41,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, HERE)
 import tools  # noqa: E402
+import general_series  # noqa: E402  (session 1317: the general chat's chart)
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
@@ -383,7 +384,15 @@ class Asker:
         return {x for t in clean_turns(history) for x in t["tables"]}
 
     def finish(self, record, results):
-        """Called once with the final record; a profile adds to it (the series behind a chart)."""
+        """Called once with the final record; a profile adds to it (the series behind a chart). Session 1317: the general
+        chat's (and a grid's) answer carries the series it rests on, as the site's (general_series.py)."""
+        if record.get("status") != "answered":
+            return
+        calls = [r for r in results if r["tool"] in ("query", "compare") and not r.get("is_error")
+                 and not (isinstance(r.get("out"), dict) and r["out"].get("held"))]
+        series = general_series.answer_series(calls, [c.get("table") for c in record.get("citations") or [] if isinstance(c, dict)])
+        if series:
+            record["series"] = series
 
     def source_texts(self, name, args, out):
         """Further texts of one tool call whose numbers count as fetched (a profile spells out the names it asked by)."""
