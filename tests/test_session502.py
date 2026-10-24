@@ -104,7 +104,8 @@ class TheLists(unittest.TestCase):
 
     def test_the_board_line_and_the_downloads_take_one_list_the_page_reads(self):
         page = src("site", "app", "board", "page.tsx")
-        self.assertIn("under={<TableLicenses tables={TABLES} />} footer={<TableDownloads tables={TABLES} />}", page)
+        self.assertIn("under={<TableLicenses tables={TABLES} />} footer={<>", page)   # session 1137: the rows' own CSV, then the downloads
+        self.assertIn("<TableDownloads tables={TABLES} /></>}", page)
         found = set(page_tables.read()["/board"]["tables"])
         self.assertEqual(sorted(board_list()), sorted(found))
 

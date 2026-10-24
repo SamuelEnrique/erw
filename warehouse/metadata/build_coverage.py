@@ -226,18 +226,92 @@ SECTOR_RULES = [
     (r"^usbr_hydropower_monthly$", "power"),  # session 2003: Reclamation's plants
     (r"^noaa_cpc_degree_days_daily$", "power;gas"),  # session 2006: CPC's degree days
     (r"^boem_offshore_platforms$", "oil;gas"),  # session 2007: BOEM's platforms
+    (r"^doe_oe417_events$", "power"),  # session 2028: DOE-417's disturbance events
+    (r"^eaglei_county_outages_daily$", "power"),  # session 2029: EAGLE-I's county outages, a day's peak
+    (r"^epa_rfs_rins_monthly$", "products;carbon"),  # session 2030: EPA's RFS, RINs and volumes a month by D code
+    (r"^epa_rfs_fuel_annual$", "products;carbon"),  # session 2030: EPA's RFS, a year by D code and fuel
+    (r"^eia_biofuel_plants$", "products"),  # session 2031: EIA's biofuels plant capacity, a plant and year a row
+    (r"^msha_coal_mines$", "coal"),  # session 2034: MSHA's coal mines
+    (r"^msha_coal_production_quarterly$", "coal"),  # session 2034: MSHA's coal production, hours and employees a quarter
+    (r"^fhwa_motor_fuel_monthly$", "products"),  # session 2035: FHWA's monthly motor fuel by state
+    (r"^afdc_vehicle_registrations_annual$", "power;products"),  # session 2036: AFDC's vehicle registrations by state and fuel
+    (r"^irena_capacity_annual$", "power"),  # session 2085: IRENA's installed capacity by country and technology
+    (r"^irs_soi_energy_credits_annual$", "power"),  # session 2087: the IRS's residential energy credits by state
+    (r"^eia_state_to_state_capacity$", "gas"),  # session 2090: EIA's state-to-state pipeline capacity
+    (r"^noaa_cpc_oni_monthly$", "power;gas"),  # session 2092: NOAA CPC's Oceanic Nino Index
+    (r"^wfigs_wildfires$", "power"),  # session 2134: NIFC's WFIGS wildfires of 1,000 acres or more
+    (r"^gfz_kp_index_3h$", "power"),  # session 2135: GFZ Potsdam's planetary Kp, every three hours from 1932
+    (r"^epa_ghg_inventory_annual$", "carbon;power;oil;gas"),  # session 2136: EPA's Inventory of U.S. Greenhouse Gas Emissions and Sinks, 1990 to 2022
+    (r"^scripps_co2_mlo_monthly$", "carbon"),  # session 2137: the Scripps CO2 Program's Mauna Loa CO2, a month from 1958
+    (r"^doe_lead_energy_burden$", "power;gas"),  # session 2140: DOE's LEAD Tool, households' energy burden by county and income
+    (r"^afdc_station_counts_annual$", "power"),  # session 2141: AFDC's alternative fueling station counts by state, a year from 2007
     (r"^noaa_ncei_storm_events$", "power"),  # session 2042: NOAA's storm events
     (r"^nrc_event_notifications$", "power;uranium"),  # session 2043: the NRC's event reports
     (r"^doe_lng_export_applications$", "gas;lng"),  # session 2044: DOE's LNG export applications
     (r"^noaa_climdiv_state_monthly$", "power;gas"),  # session 2045: NOAA's statewide climate
     (r"^ornl_tedb_transportation_annual$", "oil;products;power"),  # session 2048: ORNL's Transportation Energy Data Book
     (r"^doe_grip_selections$", "power"),  # session 2050: DOE's GRIP selections
-    (r"^eia_ice_electricity_daily$", "power"),  # session 2014: ICE's hub indices as EIA republishes them (internal)
-    (r"^eia_mecs_manufacturing$", "power;gas;oil;coal"),  # session 2016: EIA's manufacturing survey (MECS)
+    (r"^aeso_alberta_load_hourly$", "power"),  # session 2071: the AESO's Alberta internal load
     (r"^eia_cbecs_commercial_buildings$", "power;gas;oil"),  # session 2017: EIA's commercial buildings survey (CBECS 2018)
-    (r"^eia_recs_households$", "power;gas;oil"),  # session 2017: EIA's residential survey (RECS 2020)
-    (r"^lbnl_tracking_the_sun$", "power"),  # session 2015: Berkeley Lab's Tracking the Sun, summarised (written in session 2020)
+    (r"^eia_ice_electricity_daily$", "power"),  # session 2014: ICE's hub indices as EIA republishes them (internal)
     (r"^eia_lng_liquefaction_projects$", "gas"),  # session 2021: EIA's U.S. liquefaction capacity (LNG export projects)
+    (r"^eia_mecs_manufacturing$", "power;gas;oil;coal"),  # session 2016: EIA's manufacturing survey (MECS)
+    (r"^eia_recs_households$", "power;gas;oil"),  # session 2017: EIA's residential survey (RECS 2020)
+    (r"^cer_pipeline_throughput$", "oil;gas"),  # session 2169: the CER's pipeline throughput and capacity, the cross-border lines
+    (r"^desnz_uk_electricity_quarterly$", "power"),  # session 2168: DESNZ's Energy Trends 5.1, UK electricity by fuel
+    (r"^desnz_uk_renewables_quarterly$", "power"),  # session 2174: DESNZ's Energy Trends 6.1, UK renewable capacity and generation
+    (r"^ieso_generation_fuel_hourly$", "power"),  # session 2224: the IESO's Ontario generation by fuel, an hour, from 2020
+    (r"^eurostat_electricity_monthly$", "power"),  # session 2225: Eurostat's monthly electricity, net production by fuel and the flows, from 2016
+    (r"^desnz_uk_gas_quarterly$", "gas"),  # session 2226: DESNZ's Energy Trends 4.1, the UK's natural gas supply and consumption
+    (r"^ssb_norway_electricity_monthly$", "power"),  # session 2227: Statistics Norway's table 14091, Norway's electricity balance, a month from 1993
+    (r"^smard_germany_monthly$", "power"),  # session 2230: SMARD's Germany generation by source and grid load, a month from 2015
+    (r"^cbs_netherlands_electricity_monthly$", "power"),  # session 2231: CBS's table 84575NED, the Netherlands' electricity balance, a month from 1976
+    (r"^scb_sweden_electricity_monthly$", "power"),  # session 2236: SCB's table TAB1011, Sweden's electricity supply by type of production, a month from 1974
+    (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
+    (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
+    (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^epa_ghgrp_facility_emissions$", "carbon;power;oil;gas"),  # session 2072: EPA's GHGRP, every sector
+    (r"^epa_lmop_landfill_projects$", "power;gas"),  # session 2127: EPA's LMOP, landfills and landfill gas energy projects
+    (r"^epa_tri_energy_releases_annual$", "power;oil;gas;coal"),  # session 2121: EPA's Toxics Release Inventory, the energy industries
+    (r"^eurostat_gas_imports_monthly$", "gas;lng"),  # session 2213: Eurostat's gas and LNG imports by partner, a month
+    (r"^eurostat_renewable_capacity_annual$", "power"),  # session 2123: Eurostat's renewable and waste capacity by European country
+    (r"^fema_disaster_declarations$", "power;gas;oil"),  # session 2056: FEMA's disaster declarations (OpenFEMA)
+    (r"^ieso_ontario_demand_hourly$", "power"),  # session 2070: the IESO's Ontario demand
+    (r"^lbnl_tracking_the_sun$", "power"),  # session 2015: Berkeley Lab's Tracking the Sun, summarised (written in session 2020)
+    (r"^nhc_hurdat2_track_points$", "power;oil;gas"),  # session 2059: NHC's HURDAT2 best tracks
+    (r"^noaa_ncei_billion_disasters$", "power"),  # session 2073: NOAA's billion-dollar disasters
+    (r"^nrc_license_actions$", "power;uranium"),  # session 2064: the NRC's renewed licenses and power uprates
+    (r"^owid_ember_electricity_annual$", "power;carbon"),  # session 2126: Ember's electricity demand and emissions through Our World in Data
+    (r"^eia_shale_gas_reserves_annual$", "gas"),  # session 2250: EIA's shale gas proved reserves and their changes, 2007 to 2021
+    (r"^eia_gas_heat_content_monthly$", "gas"),  # session 2245: EIA's heat content of gas delivered to consumers by state, a month
+    (r"^eia_crude_quality_monthly$", "oil"),  # session 2244: EIA's crude oil input qualities (API gravity, sulfur), a month
+    (r"^ons_brazil_balance_hourly$", "power"),  # session 2240: ONS's open data, Brazil's balance an hour by subsystem
+    (r"^ree_spain_balance_monthly$", "power"),  # session 2239: REE's REData, Spain's electrical energy balance a month
+    (r"^rte_eco2mix_france_halfhourly$", "power"),  # session 2238: RTE's eco2mix, France every half hour
+    (r"^usbr_crsp_reservoirs_daily$", "power"),  # session 2221: Reclamation's CRSP power reservoirs above Lake Powell, a day
+    (r"^usbr_mead_powell_daily$", "power"),  # session 2211: Reclamation's Lake Mead and Lake Powell, a day
+    (r"^usdm_drought_state_weekly$", "power"),  # session 2058: the U.S. Drought Monitor by state
+    (r"^blm_oil_gas_statistics_annual$", "oil;gas"),  # session 2106: BLM's federal onshore leases, permits and wells by state and fiscal year
+    (r"^cec_total_system_generation_annual$", "power"),  # session 2109: the Energy Commission's in-state generation, imports and total system power
+    (r"^eia_seds_residential_annual$", "power;gas;oil"),  # session 2108: SEDS's residential expenditures by source and state
+    (r"^noaa_uscrn_solar_monthly$", "power"),  # session 2107: NOAA USCRN's monthly solar radiation near CAISO's and ERCOT's solar
+    (r"^treasury_1603_awards$", "power;deals"),  # session 2112: the Treasury's Section 1603 awards
+    (r"^usaspending_doe_obligations$", "power;deals"),  # session 2188: USAspending.gov, DOE's budget, obligations and award obligations by category, a fiscal year
+    (r"^usgs_comcat_earthquakes_south_central$", "oil;gas"),  # session 2120: the USGS earthquake catalog, OK, KS, TX and NM
+    (r"^usgs_streamflow_daily$", "power"),  # session 2113: the USGS's daily mean discharge below large hydropower plants
+    (r"^bpa_ba_hourly$", "power"),  # session 2148: BPA's balancing authority load and generation, five-minute values to the hour
+    (r"^nrcs_snotel_swe_daily$", "power"),  # session 2149: NRCS SNOTEL's daily snow water equivalent above the West's reservoirs
+    (r"^wb_electricity_access_annual$", "power"),  # session 2150: the World Bank's access to electricity by country
+    (r"^census_bps_state_annual$", "power"),  # session 2154: the Census Bureau's building permits by state, a year
+    (r"^afdc_ev_charging_state_annual$", "power"),  # session 2155: AFDC's EV charging stations and ports by state, each December
+    (r"^census_cbp_hosting_annual$", "power;datacenters"),  # session 2160: CBP's data processing and hosting (NAICS 518210) by state
+    (r"^statcan_electricity_generation_monthly$", "power"),  # session 2176: Statistics Canada's monthly generation by province, class and type
+    (r"^statcan_oil_gas_supply_monthly$", "oil;gas"),  # session 2179: Statistics Canada's crude oil and natural gas supply and disposition, by province, a month
+    (r"^ntd_transit_energy_annual$", "power;products"),  # session 2182: the FTA's National Transit Database fuel and energy, an agency, mode and year
+    (r"^epa_needs_units$", "power"),  # session 2183: EPA's NEEDS for the 2025 reference case, one row a generating unit
+    (r"^bsee_offshore_incidents$", "oil;gas"),  # session 2177: BSEE's offshore incidents, one row an incident
+    (r"^nrc_rop_findings$", "power;uranium"),  # session 2178: the NRC's ROP findings and violations, one row a finding
+    (r"^wb_iea_electricity_annual$", "power"),  # session 2150: the IEA's electricity per person and renewable share, via the World Bank
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
@@ -955,6 +1029,9 @@ def main():
                 elif n in gone_for_good and n not in {r["table"] for r in carried}:  # session 207: a retired table's line goes with its row
                     continue
             out_doc.append(ln)
+        last = max((i for i, ln in enumerate(out_doc) if name_of(ln) is not None), default=None)
+        if last is not None and todo:  # session 2134: a table after the alphabet's last goes in after the last line
+            out_doc[last + 1:last + 1] = [todo.pop(k) for k in sorted(todo)]
         if todo:
             raise ValueError(f"--only: no place in {os.path.relpath(DOC, ROOT)} for {sorted(todo)}")
         with open(DOC, "w", encoding="utf-8", newline="\n") as f:

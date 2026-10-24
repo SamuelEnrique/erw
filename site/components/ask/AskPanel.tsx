@@ -25,7 +25,7 @@ export { keySeconds };
 
 type Citation = { table: string; source_report: string; data_version: string; tier?: string };
 type Row = { key: string; value: number | null; n?: number; at?: string };
-type Series = {
+export type Series = {
   result_id: string; table: string; title: string; group_by: string; kind: "line" | "bar"; unit: string | null; rows: Row[];
   rows_matched: number | null; note: string | null; source_report: string | null; license: string | null; tier: string | null; chosen_by: string;
   check?: { rows_fetched: number; rows: number; same: boolean; points: number; not_drawn: number };
@@ -35,6 +35,9 @@ type Result = {
   answer: string; citations: Citation[]; status: string; model: string; tool_calls: number; retried: boolean; cost_usd: number | null; form?: Form;
   series?: Series[]; followups?: string[];
   seconds?: number; calls?: { tool: string; input: Record<string, unknown> }[]; nearest?: { table: string; holds: string }[]; premise?: string;
+  /** session 1115: what each query read (lib/chat/ask.ts readsOf), drawn under the sources */
+  reads?: { table: string; entity?: string; variable?: string; start?: string; end?: string; aggregation?: string; group_by?: string; tz?: string }[];
+  why?: string;
 };
 type Turn = { question: string; res: Result };
 const MAX_HISTORY = 3; // earlier turns sent with a question (lib/chat/spec_ercot.json max_history)
@@ -44,7 +47,7 @@ export type Context = { view: string; title?: string; settings?: Record<string, 
 const PROFILES = new Set(["ercot"]);
 const NOT_ANSWERED: Record<string, string> = {
   not_in_warehouse: "Not in the warehouse",
-  refused_unverified: "No answer: its numbers could not all be traced to a query",
+  refused_unverified: "The warehouse does not hold that figure",  // session 1110: the refusal's own words
   model_refusal: "No answer",
 };
 const SHOWN = 24; // rows of a table shown before the fold
@@ -60,7 +63,8 @@ export function sourceHref(table: string): { href: string; what: string } {
   return { href: `/data#${table}`, what: "ERW table" };
 }
 
-function SeriesBlock({ s, form }: { s: Series; form: Form }) {
+// session 1145: exported, so the general chat's form (app/ask/AskForm.tsx) draws a series as this panel does
+export function SeriesBlock({ s, form }: { s: Series; form: Form }) {
   const drawn = chartPoints(s.rows, s.group_by);
   const hours = s.group_by === HOUR_GROUP;   // session 161: the average day by hour is one line over the 24 local hours
   const points = drawn.points;
@@ -147,6 +151,18 @@ function Answer({ turn, n, last, busy, onAsk }: { turn: Turn; n: number; last: b
           })}
         </ul>
       ) : null}
+      {(res.reads ?? []).length ? (
+        <ul className="mt-1 text-xs text-muted" data-reads={res.reads!.length}>
+          {res.reads!.map((r, i) => (
+            <li key={i} className="py-0.5">
+              Read: <span className="font-mono">{r.table}</span>{r.entity ? <>, <span className="font-mono">{r.entity}</span></> : null}{r.variable ? <>, <span className="font-mono">{r.variable}</span></> : null}
+              {r.start || r.end ? `, ${r.start ?? "the first row"} to ${r.end ?? "the newest row"}${r.end ? " (the end not included)" : ""}${r.tz && r.tz !== "UTC" ? `, ${r.tz} time` : ""}` : ", every row held"}
+              {r.aggregation ? `, ${r.aggregation}${r.group_by ? ` by ${r.group_by}` : ""}` : ""}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {typeof res.seconds === "number" ? <p className="mt-1 text-xs text-muted" data-answered-in={res.seconds.toFixed(1)}>Answered in {res.seconds.toFixed(1)} seconds{res.tool_calls ? `, ${res.tool_calls} ${res.tool_calls === 1 ? "read" : "reads"} of the warehouse` : ""}.</p> : null}
       {last && (res.followups ?? []).length ? (
         <div className="mt-4" data-followups={res.followups!.length}>
           <div className="mb-1 text-xs uppercase tracking-wide text-muted">Ask next</div>
@@ -188,10 +204,11 @@ export function AskPanel({ grid, initial = "", context = null, showContext = tru
     setEarly(null);
     // the turns before this one: each question, its answer and the queries run for it
     const history = turns.filter((t) => t.res.status === "answered" || t.res.status === "not_in_warehouse").slice(-MAX_HISTORY)
-      .map((t) => ({ question: t.question, answer: t.res.answer, calls: t.res.calls ?? [], citations: t.res.citations.map((c) => ({ table: c.table })) }));
+      .map((t) => ({ question: t.question, answer: t.res.answer, calls: t.res.calls ?? [], citations: t.res.citations.map((c) => ({ table: c.table })), ...(own ? {} : { reads: t.res.reads ?? [] }) }));
     try {
       const r = await fetch("/api/ask", { method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(own ? { question, profile: grid, stream: true, ...(context ? { context } : {}), ...(history.length ? { history } : {}) } : { question, grid }) });
+        // session 1129: the general chat and a grid's scoped chat send their turns too (lib/chat/history.ts)
+        body: JSON.stringify(own ? { question, profile: grid, stream: true, ...(context ? { context } : {}), ...(history.length ? { history } : {}) } : { question, grid, ...(history.length ? { history } : {}) }) });
       if (!r.ok || !r.body) {
         const body = await r.json().catch(() => ({}));
         setErr((body as { error?: string }).error ?? `HTTP ${r.status}`);

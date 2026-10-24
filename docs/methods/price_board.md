@@ -276,6 +276,40 @@ What sessions 318, 319 and 328 changed, so that this note says what the page dra
   (`/api/download`), with a Python and a Stata reader of that CSV. A table not in the live set is named with its place
   on Redivis. The workbench's own CSV (the rows shown) is unchanged.
 
+## Every public price table, drawn or not (session 1117, 23 October 2026)
+
+The owner's ruling of 5 October 2026: "pretty much all energy prices". Every price table of `warehouse/metadata/coverage.csv` on 23 October 2026, and where it stands on the board. Three public tables were held and not drawn; they are drawn from this session, by `warehouse/derived/board_page.py` (`build_world`, `build_gas_prices`, `build_heating`), on the next run of the builder on a machine that holds them (the data machine's daily `dm_board_page`; a machine without the table builds no row and `page_keep.py` keeps what is held).
+
+| Table | License | On the board |
+|---|---|---|
+| `ercot_all_hub_prices_history`, `iso_hub_prices_history`, the rolling hub and zone tables | public; ISO-NE's, NYISO's and MISO's rows held | Power, on-peak and off-peak, spreads, battery spread, the week (held grids "license needed", session 1116) |
+| `ercot_as_prices`, `caiso_as_prices`, `spp_as_prices`, `nyiso_as_prices` | public; NYISO's held | Ancillary services |
+| `eia_fuel_spot_prices`, `eia_product_spot_prices` | public | Natural gas, crude oil, refined products, oil spreads |
+| `eia_crude_stream_prices` (first purchase, landed, F.O.B., refiner acquisition) | public | Crude oil, monthly |
+| `eia_regional_retail_fuel_prices` | public | Retail gasoline and diesel, weekly |
+| `eia_retail_electricity_prices` | public | Retail electricity by state, monthly |
+| `eia_power_plant_fuel_costs` | public | Coal and gas delivered to power plants, monthly |
+| `imf_commodity_prices` | public | Uranium and battery metals, monthly |
+| `frb_treasury_yields` | public | US Treasury yields |
+| `carb_lcfs_credit_prices` | public | Carbon and credits |
+| **`wb_commodity_prices_monthly`** | public (CC BY 4.0) | **World energy benchmarks, monthly (new):** crude oil (average, Brent, Dubai, WTI), coal (Australian, South African), natural gas (United States, Europe), LNG (Japan). The metals of the same table are not drawn: the board's metals are the IMF's |
+| **`eia_gas_prices_state_monthly`** | public | **Natural gas by sector and state, monthly (new):** citygate, homes, commercial, industrial and electric power, the United States and each state, USD per Mcf |
+| **`eia_heating_fuel_prices_weekly`** | public | **Heating oil and propane, weekly (new):** residential and wholesale, the United States, the PADDs and the states; EIA publishes weeks only in the heating season (October to March), so a row is marked stale from spring |
+| `carb_auction_allowance_prices` | public | **Carbon and credits (from session 1135):** the current and the advance auction's settlement prices, a quarterly row each: a move over a year only, the one-year range once four auctions are held, stale past 135 days (a quarter, a month and the 10 days), drawn in the workbench on the months' axis |
+| `eia_crude_first_purchase_prices` | public | Not drawn: the crude group draws `eia_crude_stream_prices`' first purchase prices; whether this table's two series are the same is not checked here |
+| `eia_retail_fuel_prices` | public | Not drawn: the retail fuel group draws `eia_regional_retail_fuel_prices`, whose regions include the United States; the two are not checked against each other here |
+| `ercot_as_prices_daily`, `ercot_as_prices_monthly`, `ercot_hub_prices_daily`, `ercot_rtm_price_adders`, `ercot_zone_prices_history`, `ercot_rtm_node_prices` | public | Not drawn: daily and monthly roll-ups of rows already drawn, a component of the real-time price, and nodes (the node basis is on the economics pages) |
+| `eia_coal_prices_annual`, `eia_coal_delivered_price_annual`, `eia_coal_trade_price_annual`, `eia_coal_price_rank_annual`, `eia_power_costs_annual` | public | Not drawn: annual series; the board draws daily, weekly and monthly rows |
+| `lbnl_ppa_prices`, `lbnl_hybrid_ppa_prices` | public | Not drawn: contract prices by signing date (events), not a market price |
+| `iso_all_capacity_prices`, `pjm_rpm_capacity_prices`, `isone_as_prices`, `miso_as_prices`, `rggi_auction_allowance_prices`, `eia_all_futures_prices`, `ercot_node_prices_hourly` | internal | Listed as held ("licensed source needed" or "not held yet") where the board names them |
+
+## The held rows and the stale closes (session 1116, 23 October 2026)
+
+- **The hold of 21 October on the whole board.** The builder holds ISO-NE's and NYISO's hub rows ("licensed source needed"), but until this session their peak and off-peak rows, spark and dark spreads, day-ahead less real time, battery spreads, NYISO's ancillary prices, their week rows and their spikes were still drawn: 94 rows of figures, read from tables held for those grids (`price_board_peak_offpeak`, `price_board_spreads`, `nyiso_as_prices`, `iso_hub_prices_history`; `site/data/license_status.json`). The page now makes every row of a grid held on the day "license needed" in place, its name and label kept and every figure dropped, with the hold's words on hover, and leaves the grid's week rows and spikes out, with one line "ISO-NE hubs: license needed" in the week's table as MISO's and PJM's have (`holdRows` in `site/lib/board.ts`). It is applied on the server (`site/app/board/page.tsx`), so no held figure is in what the browser receives. MISO's rows stay "paused while terms are reviewed" (the pause is the stronger reason) and PJM's "licensed source needed". The grids held are read from the status file on the day the page is built: a permission recorded there lifts the hold with no change here.
+- **Not changed here:** the series files the workbench opens (`site/public/board/s/<id>.json`) are written by the builder for every row, the held grids' included; no row of a held grid can open the workbench, but the files stand at their addresses. Holding them is the builder's (`warehouse/derived/board_page.py`, the data machine's).
+- **Every close's age** is in the hover of its date: whole UTC days from the value's date to the day the board's file was built ("3 days before the board was built on 23 Oct 2026"), counted as the Digest counts its fuel closes (session 804). A day-ahead price for a coming day says it is after the build.
+- **Stale**: a row is marked "stale" beside its date past 10 days for a daily series (session 304, the owner's ruling of 18 October 2026: EIA posts spot prices weekly and late), 17 for a weekly one (a week more), and 132 for a monthly one, dated the first day of its month (four months and the same 10 days: EIA's monthly series come about two months after their month). One function, `closeAge` in `site/lib/board.ts`, for every row and every tile. **By the publisher's calendar** (session 1134): a power market posts every day, weekends and holidays included, so a daily row of the power groups (power, on-peak and off-peak, spreads, day-ahead less real time, battery spread, ancillary services) is stale past 3 days; on the file of 23 October the power rows were 0 to 4 days old (the 4 were ISO-NE's and NYISO's, held), so only SPP's ancillary prices are marked among them. ERCOT's day-ahead row holds every day of its last 30 through 22 October: the gap of 15 October that roadmap v4 named is filled. On the file of 23 October: SPP's ancillary prices (newest 3 October), CARB's weekly credit prices (14 September) and the monthly series a publisher stopped (plant fuel by state, crude streams, some since 2020) are marked; none of the twelve at the top is.
+
 ## The figures on the page and their keys
 
 Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:

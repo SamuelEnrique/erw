@@ -35,8 +35,9 @@ only where the cell holds a full date. The proposed backfeed is printed as month
 printed, and proposed_initial_backfeed_month holds YYYY-MM where it reads so; no day is added. White space inside a
 cell is collapsed to one space; nothing else is changed (county "St; Lawrence" and state "New York" stay as typed).
 geo is US-<state> where the state is a two-letter code or a state's name. status is the harmonized value the queue
-tables use (active, withdrawn, completed): 0 is withdrawn, 14 (In Service Commercial) is completed, every other code
-of the sheet's key is active; a code that is not in the sheet's key fails the run. status_date is empty: the sheet
+tables use (active, withdrawn, completed), read from the words of the sheet's key, not its numbers: a code whose words
+hold "withdrawn" is withdrawn (on the sheet, 0), only the words "In Service Commercial" are completed (14), every other
+code of the key is active (session 2214); a code that is not in the sheet's key fails the run. status_date is empty: the sheet
 prints no date of withdrawal or of entering service.
 
 THE TWO SHEETS. "Load Project Tracking" holds no requests: its cells are formulas over "Load Projects" (megawatts by

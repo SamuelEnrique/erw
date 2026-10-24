@@ -142,8 +142,31 @@ class TheFiles(unittest.TestCase):
         # chain 048's sessions 887 and 888 add 12 and chain 049's session 902 adds 8, each session under its own ceiling of 20
         # (session 888 raised the bound); chain 051's sessions 911 and 914 add 3 and 14, each under its own ceiling (session
         # 914 raised the bound again); chain 052's session 928 adds 12 and chain 053's session 942 adds 5 (session 942 raised it
-        # once more); chain 059's session 2047 adds 13 with chain 059's robots reads (session 2047 raised it again)
-        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20)
+        # once more); chain 059's session 2047 adds 13 with chain 059's robots reads (session 2047 raised it again);
+        # chain 056's sessions 2000 to 2005 add 7 (168 to 174) and chain 058's sessions 2028 to 2036 add 20, renumbered 192 to 211
+        # at its merge after chain 059's (session 2041 raised it once more); chain 067's sessions 2070 to 2075 add 14,
+        # renumbered 216 to 229 at its merge after chain 058's (session 2083 raised it once more);
+        # chain 068's sessions 2084 to 2092 add 19, renumbered 223 to 241 after chain 066's and 237 to 255 after chain 067's (session
+        # 2089 raised it by 40, with room for the chains' reads at their merges)
+        # chain 069's sessions 2106 to 2114 add 17, renumbered 256 to 272 after chain 068's at session 2119's merge (session
+        # 2111 raised it by 20; with chain 068's room of 40 the two chains' reads fit, 272 in all)
+        # chain 079's sessions 2120 to 2127 add 17, renumbered 273 to 289 after chain 069's at session 2133's merge (session
+        # 2123 raised it by 20 on its branch, joined here)
+        # chain 092's sessions 2148 to 2153 add 12, renumbered 290 to 301 after chain 079's at session 2161's merge (its own
+        # + 20 and chain 079's met as one; 260 later reads against 262 allowed)
+        # chain 094's sessions 2162 to 2174 add 21, renumbered 302 to 322 after chain 092's at session 2171's merge (session
+        # 2168 raised it by 20, joined here);
+        # chain 090's sessions 2134 to 2141 add their reads from 256, renumbered 323 to 343 after chains 069, 079, 092 and 094's at session 2147's merges
+        # (session 2135 raised it by 40, with room for the licenses' nineteenth round)
+        # chain 098's sessions 2210 to 2217 add 13, renumbered 344 to 356 after chain 090's at session 2218's merge (session
+        # 2211 raised it by 20, joined here)
+        # chain 097's sessions 2176 to 2181 and 2188 add 22, renumbered 359 to 380 after chain 098's at session 2189's merge
+        # (its sessions 2185 and 2188 raised it by 40 on its branch, met here as 20 more: 339 later reads against 342 allowed);
+        # chain 099's sessions 2224 to 2236 add 23 from 344, renumbered 381 to 403 after chains 098 and 097's at session 2237's merges
+        # (session 2236 raised it by 40)
+        # chain 101's sessions 2238 to 2243 add 27 from 359, renumbered 404 to 430 after chains 097 and 099's at session 2247's
+        # merge (session 2238 raised it by 20, joined here)
+        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 40 + 20 + 20 + 20 + 40 + 20 + 20 + 40 + 20)
         self.assertEqual(len({r["publisher"] for r in reads}), len(reads))          # one page a publisher
         miso = [r for r in reads if "MISO" in r["publisher"]]
         self.assertEqual(len(miso), 1)

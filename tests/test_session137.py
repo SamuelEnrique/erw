@@ -72,7 +72,7 @@ class TheComponent(unittest.TestCase):
         self.assertIn("export function AskPanel({ grid,", c)
         self.assertIn('const PROFILES = new Set(["ercot"]);', c)
         self.assertIn("profile: grid, stream: true", c)
-        self.assertIn(": { question, grid }", c)                        # a grid without a profile is asked of the general chat for that grid
+        self.assertIn(": { question, grid, ...(history.length ? { history } : {}) }", c)   # a grid without a profile is asked of the general chat for that grid (session 1129: with its turns)
 
     def test_the_answer_sits_right_below_the_box(self):
         c = src("site", "components", "ask", "AskPanel.tsx")

@@ -355,18 +355,92 @@ catalogue_hold:
   - usbr_hydropower_monthly
   - noaa_cpc_degree_days_daily
   - boem_offshore_platforms
+  - doe_oe417_events
+  - eaglei_county_outages_daily
+  - epa_rfs_rins_monthly
+  - epa_rfs_fuel_annual
+  - eia_biofuel_plants
+  - msha_coal_mines
+  - msha_coal_production_quarterly
+  - fhwa_motor_fuel_monthly
+  - afdc_vehicle_registrations_annual
+  - irena_capacity_annual
+  - irs_soi_energy_credits_annual
+  - eia_state_to_state_capacity
+  - noaa_cpc_oni_monthly
+  - wfigs_wildfires
+  - gfz_kp_index_3h
+  - epa_ghg_inventory_annual
+  - scripps_co2_mlo_monthly
+  - doe_lead_energy_burden
+  - afdc_station_counts_annual
   - noaa_ncei_storm_events
   - nrc_event_notifications
   - doe_lng_export_applications
   - noaa_climdiv_state_monthly
   - ornl_tedb_transportation_annual
   - doe_grip_selections
-  - eia_ice_electricity_daily
-  - eia_mecs_manufacturing
+  - aeso_alberta_load_hourly
   - eia_cbecs_commercial_buildings
-  - eia_recs_households
-  - lbnl_tracking_the_sun
+  - eia_ice_electricity_daily
   - eia_lng_liquefaction_projects
+  - eia_mecs_manufacturing
+  - eia_recs_households
+  - cer_pipeline_throughput
+  - desnz_uk_electricity_quarterly
+  - desnz_uk_renewables_quarterly
+  - ieso_generation_fuel_hourly
+  - eurostat_electricity_monthly
+  - desnz_uk_gas_quarterly
+  - ssb_norway_electricity_monthly
+  - smard_germany_monthly
+  - cbs_netherlands_electricity_monthly
+  - scb_sweden_electricity_monthly
+  - eia_gas_other_uses_state_annual
+  - elexon_gb_demand_daily
+  - energinet_dk_production_hourly
+  - epa_ghgrp_facility_emissions
+  - epa_lmop_landfill_projects
+  - epa_tri_energy_releases_annual
+  - eurostat_gas_imports_monthly
+  - eurostat_renewable_capacity_annual
+  - fema_disaster_declarations
+  - ieso_ontario_demand_hourly
+  - lbnl_tracking_the_sun
+  - nhc_hurdat2_track_points
+  - noaa_ncei_billion_disasters
+  - nrc_license_actions
+  - owid_ember_electricity_annual
+  - eia_shale_gas_reserves_annual
+  - eia_gas_heat_content_monthly
+  - eia_crude_quality_monthly
+  - ons_brazil_balance_hourly
+  - ree_spain_balance_monthly
+  - rte_eco2mix_france_halfhourly
+  - usbr_crsp_reservoirs_daily
+  - usbr_mead_powell_daily
+  - usdm_drought_state_weekly
+  - blm_oil_gas_statistics_annual
+  - cec_total_system_generation_annual
+  - eia_seds_residential_annual
+  - noaa_uscrn_solar_monthly
+  - treasury_1603_awards
+  - usaspending_doe_obligations
+  - usgs_comcat_earthquakes_south_central
+  - usgs_streamflow_daily
+  - bpa_ba_hourly
+  - nrcs_snotel_swe_daily
+  - wb_electricity_access_annual
+  - census_bps_state_annual
+  - afdc_ev_charging_state_annual
+  - census_cbp_hosting_annual
+  - statcan_electricity_generation_monthly
+  - statcan_oil_gas_supply_monthly
+  - ntd_transit_energy_annual
+  - epa_needs_units
+  - bsee_offshore_incidents
+  - nrc_rop_findings
+  - wb_iea_electricity_annual
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential

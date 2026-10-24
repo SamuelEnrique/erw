@@ -21,7 +21,9 @@ hour, or whose zone is not one of the eleven, is read and not written (the log c
 REQUESTS. One zip a calendar month, newest first. This month's is asked for each run, last month's too in a month's
 first seven days; an earlier month once (its raw file is kept).
 
-License: public, with a caution (the ruling of session 65 for NYISO's capacity prices, kept by sessions 85 and 136;
+License: flagged public here, with a caution; since 21 October 2026 the license record holds NYISO's tables "license
+needed" (license_verdicts.csv, NYISO, read 5: needs written permission), which this flag does not change (the ruling
+of session 65 for NYISO's capacity prices, kept by sessions 85 and 136;
 the same notice covers this report, on the same public server). NYISO's legal notice
 (https://www.nyiso.com/legal-notice, read 6 October 2026) grants no license and does not forbid republishing its
 market data: "Access to this Web site does not confer any license or ownership interest in either the form or content

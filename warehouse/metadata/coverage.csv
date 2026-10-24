@@ -1,4 +1,8 @@
 table,iso,market,n_nodes,interval,ts_min,ts_max,n_rows,source_report,last_run,validator_status,license,sector,derived,tier
+aeso_alberta_load_hourly,aeso,,1,PT1H,2025-01-01T07:00:00Z,2026-10-23T19:00:00Z,15853,aeso:historical_pool_price,2026-10-23T20:11:37Z,pass,public,power,no,source
+afdc_ev_charging_state_annual,afdc,,51,P1Y,2014-01-01T00:00:00Z,2025-01-01T00:00:00Z,3060,afdc:historical_station_counts,2026-10-24T00:02:46Z,pass,public,power,no,source
+afdc_station_counts_annual,afdc,,21,P1Y,2007-01-01T00:00:00Z,2025-01-01T00:00:00Z,13520,doe:afdc_station_counts,2026-10-24T00:17:41Z,pass,public,power,no,source
+afdc_vehicle_registrations_annual,afdc,,12,P1Y,2016-01-01T00:00:00Z,2025-01-01T00:00:00Z,6240,doe:afdc_vehicle_registrations,2026-10-23T19:50:27Z,pass,public,power;products,no,source
 ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,2026-09-30T00:00:00Z,187,erw:ai_power_regions,2026-10-02T09:57:58Z,pass,public,power;carbon,yes,derived
 api_cost_ledger,none,,1,event,2026-09-29T10:08:33Z,2026-10-23T15:02:12Z,3793,1 outlets,2026-10-23T15:01:56Z,pass,internal,platform,no,derived
 ba_supply_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,473,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,158503,erw:ba_supply,2026-10-02T23:03:48Z,pass,public,power,yes,derived
@@ -7,9 +11,12 @@ battery_stack_monthly,CAISO;ERCOT,caiso;ercot,2,P1M,2018-01-01T00:00:00Z,2026-10
 battery_stack_review_monthly,NYISO;SPP,nyiso;spp,2,P1M,2024-09-01T00:00:00Z,2026-10-01T00:00:00Z,3744,erw:battery_stack,2026-10-04T17:20:21Z,pass,public,power,yes,derived
 battery_stack_stress_daily,CAISO;ERCOT,caiso;ercot,2,P1D,2021-02-07T00:00:00Z,2026-10-08T00:00:00Z,1890,erw:battery_stack,2026-10-23T15:04:47Z,pass,public,power,yes,derived
 blm_ca_renewable_rows,blm,,57,snapshot,2026-10-23T12:41:42Z,2026-10-23T12:41:42Z,57,blm:ca_renewable_energy_projects,2026-10-23T12:43:32Z,pass,public,power,no,source
+blm_oil_gas_statistics_annual,blm,,50,P1Y,2000-10-01T00:00:00Z,2024-10-01T00:00:00Z,12500,blm:oil_gas_statistics,2026-10-23T22:59:41Z,blocked (1 errors),public,oil;gas,no,source
 boem_offshore_platforms,boem,,7092,snapshot,2026-10-23T15:24:58Z,2026-10-23T15:24:58Z,7092,boem:platforms,2026-10-23T16:32:16Z,pass,public,oil;gas,no,source
 boem_ogor_lease_production_monthly,boem,,1378,P1M,1996-01-01T00:00:00Z,2026-06-01T00:00:00Z,1131562,boem:ogor_a,2026-10-22T02:49:35Z,pass,public,oil;gas,no,source
 boem_renewable_leases,boem,,52,snapshot,2026-10-21T18:33:10Z,2026-10-21T18:33:10Z,52,boem:lease_and_grant_information,2026-10-21T18:33:10Z,pass,public,power,no,source
+bpa_ba_hourly,bpa,,1,PT1H,2020-01-01T08:00:00Z,2026-10-23T06:00:00Z,400261,bpa:ba_load_generation,2026-10-24T00:18:49Z,pass,public,power,no,source
+bsee_offshore_incidents,none,,1,event,2018-01-02T00:00:00Z,2024-12-31T00:00:00Z,4818,1 outlets,2026-10-24T02:33:20Z,pass,public,oil;gas,no,source
 caiso_area_load_hourly,CAISO,caiso_load,6,PT1H,2021-09-17T00:00:00Z,2026-10-10T14:00:00Z,266340,caiso:SLD_FCST,2026-10-10T15:02:56Z,pass,public,power,no,source
 caiso_as_prices,CAISO,caiso_dam,2,PT1H,2023-07-14T07:00:00Z,2026-10-24T06:00:00Z,229440,caiso:PRC_AS,2026-10-23T15:03:56Z,pass,public,power,no,source
 caiso_battery_storage,CAISO,,1,PT5M,2025-08-24T07:00:00Z,2026-10-23T06:55:00Z,365472,caiso:todays_outlook_storage,2026-10-23T14:47:53Z,pass,public,power,no,source
@@ -23,15 +30,20 @@ caiso_fuel_supply_history,CAISO,,1,PT1H,2018-06-01T07:00:00Z,2025-06-01T06:00:00
 caiso_grid_emergencies,none,,1,event,1998-05-30T00:00:00Z,2026-10-08T00:00:00Z,1906,1 outlets,2026-10-22T17:34:42Z,pass,public,power,no,source
 caiso_interconnection_queue,CAISO,,2278,snapshot,2026-10-19T16:07:19Z,2026-10-19T16:07:19Z,2278,caiso:interconnection_queue,2026-10-19T20:31:01Z,pass,public,power,no,source
 caiso_reliability_daily,CAISO,,2,P1D,1998-05-30T00:00:00Z,2026-10-17T00:00:00Z,20624,erw:caiso_reliability,2026-10-22T17:35:14Z,pass,public,power,yes,derived
-caiso_wind_solar_forecast,CAISO,,3,PT1H,2023-06-01T07:00:00Z,2026-10-22T06:00:00Z,344329,caiso:SLD_REN_FCST,2026-10-22T17:31:42Z,pass,public,power,no,source
+caiso_wind_solar_forecast,CAISO,,3,PT1H,2023-06-01T07:00:00Z,2026-10-23T06:00:00Z,344617,caiso:SLD_REN_FCST,2026-10-23T17:30:48Z,pass,public,power,no,source
 carb_auction_allowance_prices,none,,56,P3M,2012-11-01T00:00:00Z,2026-08-01T00:00:00Z,336,carb:auction-results-summary,2026-10-23T14:45:19Z,pass,public,carbon,no,source
 carb_lcfs_credit_prices,none,,1,P1W,2019-01-07T00:00:00Z,2026-09-14T00:00:00Z,1124,carb:lcfs_weekly_credit_price,2026-10-12T23:44:54Z,pass,public,carbon,no,source
 carbon_intensity_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1D,2018-07-02T00:00:00Z,2026-10-20T00:00:00Z,46980,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-23T14:36:08Z,pass,public,power;carbon,yes,derived
 carbon_intensity_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2018-07-02T00:00:00Z,2026-10-20T23:00:00Z,1127945,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-23T14:36:08Z,pass,public,power;carbon,yes,derived
 carbon_intensity_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1M,2018-08-01T00:00:00Z,2026-09-01T00:00:00Z,1275,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-23T14:36:08Z,pass,public,power;carbon,yes,derived
+cbs_netherlands_electricity_monthly,cbs,,25,P1M,1976-01-01T00:00:00Z,2026-07-01T00:00:00Z,8880,cbs:84575NED,2026-10-24T02:53:50Z,pass,public,power,no,source
+cec_total_system_generation_annual,cec,,47,P1Y,2009-01-01T00:00:00Z,2025-01-01T00:00:00Z,795,cec:total_system_electric_generation,2026-10-23T23:00:10Z,pass,public,power,no,source
+census_bps_state_annual,census,,51,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,6732,census:bps_state_annual,2026-10-24T00:20:21Z,pass,public,power,no,source
+census_cbp_hosting_annual,census,,51,P1Y,2012-01-01T00:00:00Z,2023-01-01T00:00:00Z,1836,census:cbp_state_518210,2026-10-24T00:26:22Z,pass,public,power;datacenters,no,source
 census_metro_population,none,,387,,2020-04-01T00:00:00Z,2025-07-01T00:00:00Z,1650,census:popest_cbsa,2026-10-06T00:40:24Z,"pass, 1 warnings",public,power,no,source
 cer_electricity_trade,cer,,94,P1M;P1Y,2010-01-01T00:00:00Z,2026-07-01T00:00:00Z,1136,cer:electricity_trade_summary,2026-10-23T05:04:05Z,pass,public,power,no,source
 cer_gas_trade,cer,,8,P1M,2010-01-01T00:00:00Z,2025-12-01T00:00:00Z,1427,cer:natural_gas_trade_summary,2026-10-23T08:04:30Z,pass,public,gas,no,source
+cer_pipeline_throughput,cer,,44,P1D;P1M,2006-01-01T00:00:00Z,2026-06-30T00:00:00Z,408073,cer:throughput_capacity,2026-10-24T01:01:05Z,blocked (1 errors),public,oil;gas,no,source
 cftc_cot_positions,cftc,nymex,9,P1W,2015-01-06T00:00:00Z,2026-10-06T00:00:00Z,9824,cftc:disaggregated_cot_futures,2026-10-10T14:58:53Z,pass,public,oil;gas;products,no,source
 clean_energy_hourly,clean,,7,PT1H,2019-01-01T05:00:00Z,2026-10-19T04:00:00Z,473781,erw:clean_energy,2026-10-19T17:27:23Z,pass,public,power;carbon,yes,derived
 clean_energy_summary,clean,,7,P1M;P1Y,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,27531,erw:clean_energy,2026-10-19T17:27:23Z,pass,public,power;carbon,yes,derived
@@ -43,8 +55,13 @@ datacenter_operator_sites,none,,275,snapshot,2026-10-12T14:52:31Z,2026-10-12T14:
 datacenter_projects,none,,154,snapshot,2026-09-27T04:31:06Z,2026-10-23T15:01:58Z,154,Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;WSJ,2026-10-23T15:01:56Z,pass,public,power;datacenters,no,model_extracted
 datacenter_projects_evidence,none,,13,event,2025-01-07T08:00:00Z,2026-10-23T14:40:32Z,172,13 outlets,2026-10-23T15:01:56Z,pass,internal,power;datacenters,no,model_extracted
 datacenter_queue_positions,none,,3,snapshot,2026-09-26T00:06:50Z,2026-10-12T14:47:44Z,3,ercot:interconnection_queue;nyiso:interconnection_queue,,pass,public,power;datacenters,no,derived
+desnz_uk_electricity_quarterly,desnz,,45,P3M,1998-01-01T00:00:00Z,2026-04-01T00:00:00Z,7862,desnz:energy_trends_5_1,2026-10-24T00:37:27Z,pass,public,power,no,source
+desnz_uk_gas_quarterly,desnz,,21,P3M,1998-01-01T00:00:00Z,2026-04-01T00:00:00Z,2394,desnz:energy_trends_4_1,2026-10-24T02:20:20Z,pass,public,gas,no,source
+desnz_uk_renewables_quarterly,desnz,,20,P3M,2010-01-01T00:00:00Z,2026-04-01T00:00:00Z,1982,desnz:energy_trends_6_1,2026-10-24T01:59:04Z,pass,public,power,no,source
 doe_grip_selections,none,,1,event,2023-10-18T00:00:00Z,2024-10-18T00:00:00Z,105,1 outlets,2026-10-23T19:24:55Z,pass,public,power,no,source
+doe_lead_energy_burden,doe,,2012,P1Y,2022-01-01T00:00:00Z,2022-01-01T00:00:00Z,160419,doe:lead_2022,2026-10-24T00:22:03Z,pass,public,power;gas,no,source
 doe_lng_export_applications,doe,,135,snapshot,2026-10-23T18:41:41Z,2026-10-23T18:41:41Z,135,doe:lng_export_applications,2026-10-23T18:46:48Z,pass,public,gas;lng,no,source
+doe_oe417_events,none,,1,event,2016-01-04T00:00:00Z,2025-12-30T00:00:00Z,3313,1 outlets,2026-10-23T18:21:08Z,pass,public,power,no,source
 doe_useer_employment,doe,,3269,P1Y,2024-01-01T00:00:00Z,2025-01-01T00:00:00Z,3311,doe:useer_2026_public_data,2026-10-23T16:22:41Z,pass,public,power;gas;oil;coal,no,source
 egrid_power_plants,egrid,,12612,snapshot,2026-10-21T16:59:48Z,2026-10-21T16:59:48Z,12612,epa:egrid,2026-10-21T18:30:52Z,pass,public,power;carbon,no,source
 egrid_subregions_annual,egrid,,27,P1Y,2023-01-01T00:00:00Z,2023-01-01T00:00:00Z,540,epa:egrid_subregions,2026-10-23T16:20:42Z,pass,public,power;carbon,no,source
@@ -106,6 +123,7 @@ eia_all_futures_prices,none,nymex,4,P1D,2019-01-01T00:00:00Z,2024-04-05T00:00:00
 eia_annual_crosscheck_ba,none,,8,P1Y,2023-01-01T00:00:00Z,2025-01-01T00:00:00Z,144,erw:eia_annual_crosscheck_ba,2026-10-19T23:00:42Z,pass,public,power,yes,derived
 eia_annual_generation_ba,none,,68,P1Y,2023-01-01T00:00:00Z,2025-01-01T00:00:00Z,515,eia:eia923_annual,2026-10-19T22:59:37Z,pass,public,power,no,source
 eia_basin_production_monthly,none,,12,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,1668,eia:steo:basin_production,2026-10-10T14:58:19Z,pass,public,oil;gas,no,source
+eia_biofuel_plants,none,,511,snapshot,2026-10-23T18:54:11Z,2026-10-23T18:54:53Z,511,eia:biofuels_capacity,2026-10-23T18:57:42Z,pass,public,products,no,source
 eia_capacity_factors_annual,none,,17,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,374,eia:electric_power_annual,2026-10-23T14:09:41Z,pass,public,power,no,source
 eia_capacity_factors_monthly,none,,17,P1M,2023-01-01T00:00:00Z,2025-12-01T00:00:00Z,1224,eia:electric_power_annual,2026-10-23T14:09:50Z,pass,public,power,no,source
 eia_cbecs_commercial_buildings,none,,231,P1Y,2018-01-01T00:00:00Z,2018-01-01T00:00:00Z,5944,eia:cbecs_2018,2026-10-23T19:27:40Z,pass,public,power;gas;oil,no,source
@@ -122,6 +140,7 @@ eia_crude_first_purchase_prices,none,,2,P1M,1977-07-01T00:00:00Z,2026-07-01T00:0
 eia_crude_imports_by_country,none,,82,P1M,1920-01-01T00:00:00Z,2026-07-01T00:00:00Z,22633,eia:petroleum/move/impcus,2026-10-23T14:37:50Z,pass,public,oil,no,source
 eia_crude_imports_detail_monthly,none,,8536,P1M,2009-01-01T00:00:00Z,2026-07-01T00:00:00Z,183393,eia:crude-oil-imports,2026-10-22T06:54:47Z,pass,public,oil,no,source
 eia_crude_production_state_monthly,none,,84,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,25644,eia:petroleum/crd/crpdn,2026-10-21T21:14:11Z,pass,public,oil,no,source
+eia_crude_quality_monthly,none,,32,P1M,1985-01-01T00:00:00Z,2026-07-01T00:00:00Z,15968,eia:petroleum/pnp/crq,2026-10-24T04:10:20Z,pass,public,oil,no,source
 eia_crude_reserves_annual,none,,416,P1Y,1977-01-01T00:00:00Z,2021-01-01T00:00:00Z,13931,eia:petroleum/crd/pres,2026-10-21T22:16:51Z,pass,public,oil,no,source
 eia_crude_stream_prices,none,,38,P1M,2019-01-01T00:00:00Z,2026-08-01T00:00:00Z,2982,eia:petroleum/pri/dfp2:streams;eia:petroleum/pri/imc2;eia:petroleum/pri/land2;eia:petroleum/pri/rac2,2026-10-23T15:05:34Z,pass,public,oil,no,source
 eia_drilling_monthly,none,,6,P1M,1973-01-01T00:00:00Z,2026-02-01T00:00:00Z,3431,eia:petroleum/crd/drill,2026-10-22T00:37:00Z,pass,public,oil;gas,no,source
@@ -130,7 +149,9 @@ eia_fuel_spot_prices,none,,3,P1D,1986-01-02T00:00:00Z,2026-10-20T00:00:00Z,27766
 eia_gas_balance_annual,none,,460,P1Y,1997-01-01T00:00:00Z,2025-01-01T00:00:00Z,11274,eia:natural-gas/sum/snd,2026-10-21T23:21:38Z,pass,public,gas,no,source
 eia_gas_consumers_state_annual,none,,444,P1Y,1986-01-01T00:00:00Z,2024-01-01T00:00:00Z,12864,eia:natural-gas/cons/num,2026-10-23T02:20:47Z,pass,public,gas,no,source
 eia_gas_consumption_state_monthly,none,,208,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,63420,eia:natural-gas/cons/sum,2026-10-21T20:22:19Z,pass,public,gas,no,source
+eia_gas_heat_content_monthly,none,,52,P1M,2013-01-01T00:00:00Z,2026-07-01T00:00:00Z,8476,eia:natural-gas/cons/heat,2026-10-24T04:10:31Z,pass,public,gas,no,source
 eia_gas_interstate_annual,none,,1888,P1Y,1997-01-01T00:00:00Z,2024-01-01T00:00:00Z,29470,eia:natural-gas/move/ist,2026-10-21T22:16:43Z,pass,public,gas,no,source
+eia_gas_other_uses_state_annual,none,,157,P1Y,2001-01-01T00:00:00Z,2025-01-01T00:00:00Z,3838,eia:natural-gas/cons/sum:annual,2026-10-24T01:00:33Z,pass,public,gas,no,source
 eia_gas_pipeline_projects,none,,1,event,1903-11-05T00:00:00Z,2031-01-01T00:00:00Z,1334,1 outlets,2026-10-23T07:13:04Z,pass,public,gas,no,source
 eia_gas_prices_state_monthly,none,,257,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,72550,eia:natural-gas/pri/sum,2026-10-21T20:17:23Z,pass,public,gas,no,source
 eia_gas_production_state_monthly,none,,184,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,47805,eia:natural-gas/prod/sum,2026-10-21T21:14:19Z,pass,public,gas,no,source
@@ -181,10 +202,13 @@ eia_retail_electricity_prices,none,,372,P1M,2001-01-01T00:00:00Z,2026-08-01T00:0
 eia_retail_fuel_prices,none,,3,P1W,1990-08-20T00:00:00Z,2026-10-19T00:00:00Z,5334,eia:petroleum/pri/gnd,2026-10-23T14:37:50Z,pass,public,products,no,source
 eia_retail_sales_monthly,none,,744,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,228947,eia:electricity/retail-sales,2026-10-23T14:37:50Z,pass,public,power,no,source
 eia_sector_energy_consumption_monthly,none,,14,P1M,1973-01-01T00:00:00Z,2026-06-01T00:00:00Z,8988,eia:total-energy,2026-10-23T14:37:50Z,pass,public,power;gas;oil;coal,no,source
+eia_seds_residential_annual,none,,11,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,20020,eia:seds_residential,2026-10-23T23:00:00Z,pass,public,power;gas;oil,no,source
 eia_seds_state_energy,none,,27,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,49140,eia:seds,2026-10-21T21:54:13Z,pass,public,power;gas;oil;coal,no,source
+eia_shale_gas_reserves_annual,none,,469,P1Y,2007-01-01T00:00:00Z,2021-01-01T00:00:00Z,4455,eia:natural-gas/enr/shalegas,2026-10-24T04:10:41Z,pass,public,gas,no,source
 eia_state_capacity_annual,none,,2671,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,56719,eia:electricity/state-electricity-profiles/capability,2026-10-21T21:14:01Z,pass,public,power,no,source
 eia_state_generation_monthly,none,,759,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,201076,eia:electricity/electric-power-operational-data,2026-10-23T14:37:50Z,pass,public,power,no,source
 eia_state_source_disposition_annual,none,,52,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,37738,eia:electricity/state-electricity-profiles/source-disposition,2026-10-21T21:48:14Z,pass,public,power,no,source
+eia_state_to_state_capacity,none,,173,P1Y,1990-01-01T00:00:00Z,2025-01-01T00:00:00Z,19311,eia:state_to_state_capacity,2026-10-23T21:24:19Z,pass,public,gas,no,source
 eia_steo_forecasts,none,,53,P1M,2020-01-01T00:00:00Z,2027-12-01T00:00:00Z,5088,eia:steo,2026-10-21T18:32:37Z,pass,public,power;gas,no,source
 eia_uranium_facilities,none,,24,snapshot,2026-10-23T12:52:16Z,2026-10-23T12:52:16Z,24,eia:uranium_production_quarterly,2026-10-23T12:55:03Z,pass,public,uranium,no,source
 eia_uranium_marketing_annual,none,,31,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,763,eia:uranium_marketing_annual,2026-10-23T07:01:36Z,pass,public,power;uranium,no,source
@@ -195,11 +219,20 @@ eia_world_electricity_annual,none,,4285,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:0
 eia_world_energy_co2_annual,none,,3589,P1Y,1949-01-01T00:00:00Z,2025-01-01T00:00:00Z,246988,eia:international_bulk,2026-10-23T11:02:32Z,pass,public,carbon,no,source
 eia_world_oil_gas_annual,none,,6992,P1Y,1973-01-01T00:00:00Z,2025-01-01T00:00:00Z,448267,eia:international_bulk,2026-10-23T09:47:04Z,pass,public,oil;gas,no,source
 eia_world_oil_monthly,none,,1507,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,541215,eia:international_bulk,2026-10-23T10:10:51Z,pass,public,oil,no,source
+elexon_gb_demand_daily,elexon,,1,P1D,2021-04-27T00:00:00Z,2026-10-23T00:00:00Z,1932,elexon:indod,2026-10-24T00:21:05Z,pass,public,power,no,source
+energinet_dk_production_hourly,energinet,,2,PT1H,2024-12-31T23:00:00Z,2026-10-13T23:00:00Z,607311,energinet:production_consumption_settlement,2026-10-24T02:18:32Z,pass,public,power,no,source
 energy_companies,none,,488,snapshot,2026-09-28T17:04:21Z,2026-10-23T15:01:53Z,488,erw:energy_deals;erw:thesis_builder,2026-10-23T15:01:53Z,pass,public,deals,no,model_extracted
 energy_deals,none,,24,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,514,24 outlets,2026-10-23T15:01:15Z,pass,public,deals,no,model_extracted
 energy_deals_evidence,none,,26,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,568,26 outlets,2026-10-23T15:01:15Z,pass,internal,deals,no,model_extracted
 energy_projects,none,,39786,snapshot,2026-09-26T00:04:26Z,2026-10-19T20:31:58Z,39786,erw:energy_projects,2026-10-19T20:35:19Z,pass,public,power,no,derived
+epa_ghg_inventory_annual,epa,,8,P1Y,1990-01-01T00:00:00Z,2022-01-01T00:00:00Z,5016,epa:ghg_inventory_1990_2022,2026-10-23T23:30:11Z,pass,public,carbon;power;oil;gas,no,source
+epa_ghgrp_facility_emissions,epa,,9721,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,70338,epa:ghgrp_facilities,2026-10-23T20:36:05Z,pass,public,carbon;power;oil;gas,no,source
 epa_ghgrp_power_co2,epa,,1509,P1Y,2010-01-01T00:00:00Z,2023-01-01T00:00:00Z,17035,epa:ghgrp,2026-10-21T18:32:52Z,pass,public,power;carbon,no,source
+epa_lmop_landfill_projects,epa,,3399,snapshot,2026-10-23T23:11:19Z,2026-10-23T23:11:19Z,3399,epa:lmop,2026-10-23T23:13:39Z,pass,public,power;gas,no,source
+epa_needs_units,epa,,38030,snapshot,2026-10-24T01:59:08Z,2026-10-24T01:59:08Z,38030,epa:needs_2025_reference_case,2026-10-24T02:04:06Z,pass,public,power,no,source
+epa_rfs_fuel_annual,epa,,23,P1Y,2010-01-01T00:00:00Z,2026-01-01T00:00:00Z,568,epa:rfs_emts,2026-10-23T18:46:31Z,pass,public,products;carbon,no,source
+epa_rfs_rins_monthly,epa,,5,P1M,2010-07-01T00:00:00Z,2026-09-01T00:00:00Z,1632,epa:rfs_emts,2026-10-23T18:46:31Z,pass,public,products;carbon,no,source
+epa_tri_energy_releases_annual,epa,,2624,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,384483,epa:tri_basic,2026-10-23T23:30:41Z,blocked (1 errors),public,power;oil;gas;coal,no,source
 ercot_4cp_intervals,ERCOT,ercot_4cp,1,PT15M,2018-06-27T21:45:00Z,2025-09-04T22:15:00Z,28,ercot:NP9-83-M,2026-10-20T10:23:19Z,pass,public,power,no,source
 ercot_all_hub_prices_history,ERCOT,ercot_dam;ercot_rtm,6,PT15M;PT1H,2015-01-01T06:00:00Z,2026-10-23T04:00:00Z,3104178,ercot:NP4-180-ER;ercot:NP4-190-CD;ercot:NP6-785-ER;ercot:NP6-905-CD,2026-09-26T00:09:58Z,pass,public,power,no,source
 ercot_as_prices,ERCOT,ercot_dam,5,PT1H,2018-01-01T06:00:00Z,2026-10-24T04:00:00Z,338492,ercot:NP4-181-ER;ercot:NP4-188-CD,2026-10-23T15:02:43Z,pass,public,power,no,source
@@ -230,14 +263,18 @@ ercot_storage_dam_offers_monthly,ERCOT,ercot_dam,1,P1M,2025-12-01T00:00:00Z,2026
 ercot_storage_node_basis,ERCOT,ercot_rtm,293,P1W,2026-09-28T00:00:00Z,2026-09-28T00:00:00Z,2064,erw:ercot_storage_realtime,2026-10-19T17:22:33Z,pass,public,power,yes,derived
 ercot_storage_rt_monthly,ERCOT,,1,P1M,2026-02-01T00:00:00Z,2026-08-01T00:00:00Z,329,erw:ercot_storage_realtime,2026-10-19T17:22:33Z,pass,public,power,yes,derived
 ercot_transmission_projects,none,,1,event,2023-05-25T00:00:00Z,2033-12-15T00:00:00Z,2122,1 outlets,2026-10-23T01:45:24Z,pass,public,power,no,source
-ercot_wind_solar_forecast,ERCOT,,1,PT1H,2026-09-27T05:00:00Z,2026-10-29T15:00:00Z,2634,ercot:NP4-732-CD;ercot:NP4-745-CD,2026-10-22T17:32:57Z,pass,public,power,no,source
+ercot_wind_solar_forecast,ERCOT,,1,PT1H,2026-09-27T05:00:00Z,2026-10-30T15:00:00Z,2730,ercot:NP4-732-CD;ercot:NP4-745-CD,2026-10-23T17:32:00Z,pass,public,power,no,source
 ercot_wind_solar_hsl_daily,ERCOT,,1,P1D,2026-09-19T00:00:00Z,2026-10-22T00:00:00Z,198,ercot:np4_732_745,2026-10-23T14:45:31Z,pass,public,power,no,source
 ercot_wind_solar_hsl_hourly,ERCOT,,11,PT1H,2026-09-28T05:00:00Z,2026-10-23T12:00:00Z,9120,ercot:np4_742_745_region,2026-10-23T14:47:37Z,pass,public,power,no,source
-ercot_wind_solar_output_hourly,ERCOT,,1,PT1H,2023-01-01T06:00:00Z,2026-01-01T05:00:00Z,52608,ercot:PG7-126-M,2026-10-23T14:47:37Z,pass,public,power,no,source
+ercot_wind_solar_output_hourly,ERCOT,,1,PT1H,2023-01-01T06:00:00Z,2026-01-01T05:00:00Z,52608,ercot:PG7-126-M,2026-10-20T06:11:37Z,pass,public,power,no,source
 ercot_zone_load_hourly,ERCOT,ercot_load,13,PT1H,2015-01-01T06:00:00Z,2026-10-01T04:00:00Z,926838,ercot:load_hist,2026-10-19T11:34:56Z,pass,public,power,no,source
 ercot_zone_prices_history,ERCOT,ercot_dam;ercot_rtm,8,PT15M;PT1H,2015-01-01T06:00:00Z,2026-10-18T04:45:00Z,2481384,ercot:NP4-180-ER;ercot:NP6-785-ER,2026-10-22T17:42:18Z,pass,public,power,no,source
+eurostat_electricity_monthly,eurostat,,30,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,130025,eurostat:nrg_cb_pem_nrg_cb_em,2026-10-24T02:13:36Z,pass,public,power,no,source
+eurostat_gas_imports_monthly,eurostat,,865,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,34905,eurostat:nrg_ti_gasm,2026-10-24T01:46:31Z,pass,public,gas;lng,no,source
+eurostat_renewable_capacity_annual,eurostat,,34,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,49313,eurostat:nrg_inf_epcrw,2026-10-23T22:56:54Z,pass,public,power,no,source
 event_study_estimates,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,13,P1D;PT1H,2020-03-01T00:00:00Z,2026-02-02T00:00:00Z,3040,erw:event_study,2026-10-19T09:46:06Z,pass,public,power,yes,derived
 event_window_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,10,P1D;P1W,2018-03-04T00:00:00Z,2026-02-02T00:00:00Z,29953,erw:event_window,2026-10-19T09:43:29Z,pass,public,power;carbon,yes,derived
+fema_disaster_declarations,none,,1,event,2015-01-07T00:00:00Z,2026-10-17T00:00:00Z,26199,1 outlets,2026-10-23T20:53:46Z,pass,public,power;gas;oil,no,source
 ferc714_area_demand_2006,ferc714,,175,PT1H,2006-01-01T04:00:00Z,2006-12-31T23:00:00Z,1532108,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:39:11Z,pass,internal,power,no,source
 ferc714_area_demand_2007,ferc714,,177,PT1H,2007-01-01T00:00:00Z,2007-12-31T23:00:00Z,1375404,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:39:11Z,pass,internal,power,no,source
 ferc714_area_demand_2008,ferc714,,159,PT1H,2008-01-01T00:00:00Z,2008-12-31T23:00:00Z,1326412,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:39:11Z,pass,internal,power,no,source
@@ -267,18 +304,22 @@ ferc_eqr_contracts_history,none,,1,event,1924-10-24T00:00:00Z,2223-01-01T00:00:0
 ferc_eqr_party_mw,ferc,,812,snapshot,2026-10-05T16:59:01Z,2026-10-05T16:59:01Z,812,erw:eqr_terms,2026-10-05T16:59:01Z,pass,internal,power,no,source
 ferc_eqr_party_totals,ferc,,12290,snapshot,2026-10-04T17:29:30Z,2026-10-04T17:29:30Z,12290,erw:eqr_buyers,2026-10-04T17:29:30Z,pass,internal,power,no,source
 ferc_eqr_quarter_changes,ferc,,4,P3M,2025-07-01T00:00:00Z,2026-04-01T00:00:00Z,68,erw:eqr_terms,2026-10-05T16:59:01Z,pass,internal,power,yes,derived
+fhwa_motor_fuel_monthly,fhwa,,52,P1M,2020-01-01T00:00:00Z,2026-05-01T00:00:00Z,7998,fhwa:monthly_motor_fuel,2026-10-23T19:44:40Z,pass,public,products,no,source
 flex_alert_effects,flex,,1,P1D;P1Y;PT1H,2018-01-01T00:00:00Z,2024-07-25T06:00:00Z,2973,erw:flex_alert_scorecard,2026-10-19T22:49:51Z,pass,public,power,yes,derived
 flex_alert_model,flex,,1,;P1D,2018-07-01T00:00:00Z,2025-08-24T00:00:00Z,881,erw:flex_alert_scorecard,2026-10-19T22:49:51Z,pass,public,power,yes,derived
 frb_treasury_yields,frb,,3,P1D,2019-01-02T00:00:00Z,2026-10-21T00:00:00Z,5856,frb:h15_treasury_yields,2026-10-23T15:06:55Z,pass,public,equities,no,source
 frb_utility_output_monthly,frb,,19,P1M,1919-01-01T00:00:00Z,2026-09-01T00:00:00Z,15365,frb:g17,2026-10-23T05:34:53Z,pass,public,power,no,source
 generation_mix_hourly_profile,generation,,7,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,165760,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-10-19T17:43:12Z,pass,public,power;carbon,yes,derived
 generation_mix_records,generation,,7,PT1H,2019-01-14T05:00:00Z,2026-10-18T15:00:00Z,306,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-10-19T17:43:12Z,pass,public,power;carbon,yes,derived
+gfz_kp_index_3h,gfz,,1,PT3H,1932-01-01T00:00:00Z,2026-10-22T21:00:00Z,277032,gfz:kp_ap_since_1932,2026-10-23T23:18:55Z,pass,public,power,no,source
 grid_network_links,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,157,PT1H,2026-10-16T00:00:00Z,2026-10-21T23:00:00Z,22608,erw:grid_network,2026-10-23T14:36:57Z,pass,public,power,yes,derived
 grid_network_nodes,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,70,PT168H;PT1H,2026-10-15T00:00:00Z,2026-10-21T23:00:00Z,84,erw:grid_network,2026-10-23T14:36:57Z,pass,public,power,yes,derived
 grid_peak_vs_capacity,grid,,7,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,56,erw:grid_peak_vs_capacity,2026-10-22T09:46:59Z,pass,public,power;capacity,yes,derived
 grid_stress_days,grid,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1D,2015-07-30T00:00:00Z,2026-10-08T00:00:00Z,282,caiso:PRC_INTVL_LMP;erw:ercot_hub_prices_daily;isone:rt_lmp_5min;miso:rt_lmp_final;nyiso:realtime;spp:RTBM-LMP-SL,2026-10-19T22:57:38Z,pass,public,power,yes,derived
 grid_stress_yearly,grid,,7,P1Y,2019-01-01T00:00:00Z,2026-01-01T00:00:00Z,2394,erw:grid_stress,2026-10-06T09:50:58Z,pass,public,power,yes,derived
 hub_price_comparison,hub,,31,P1M;P1Y,2025-10-01T00:00:00Z,2026-09-01T00:00:00Z,575,erw:hub_price_comparison,2026-10-05T02:07:01Z,pass,public,power;carbon,yes,derived
+ieso_generation_fuel_hourly,ieso,,8,PT1H,2020-01-01T05:00:00Z,2026-10-23T04:00:00Z,371781,ieso:gen_output_by_fuel_hourly,2026-10-24T02:01:32Z,pass,public,power,no,source
+ieso_ontario_demand_hourly,ieso,,1,PT1H,2025-01-01T05:00:00Z,2026-10-23T05:00:00Z,31680,ieso:demand,2026-10-23T20:06:39Z,pass,public,power,no,source
 imf_commodity_prices,imf,,5,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,465,imf:pcps,2026-10-23T15:06:59Z,pass,public,uranium;metals,no,source
 impact_tax_rules,none,,10,event,1951-09-01T00:00:00Z,2026-10-20T00:00:00Z,49,10 outlets,2026-10-20T08:33:45Z,pass,public,power;oil;gas,no,source
 interconnection_agreements_by_grid,interconnection,,118,P1Y,2002-01-01T00:00:00Z,2025-01-01T00:00:00Z,438,erw:interconnection_agreements,2026-10-23T01:52:46Z,pass,public,power,yes,derived
@@ -286,6 +327,8 @@ interconnection_agreements_signed,interconnection,,2522,snapshot,2026-10-02T09:1
 interconnection_durations,interconnection,,3098,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,3098,erw:interconnection_durations,2026-10-22T09:46:56Z,pass,public,power,no,derived
 interconnection_durations_summary,interconnection,,9,P1Y,1999-01-01T00:00:00Z,2025-01-01T00:00:00Z,1365,erw:interconnection_durations,2026-10-22T09:46:56Z,pass,public,power,yes,derived
 interconnection_queue_summary,interconnection,,76,P1Y,1995-01-01T00:00:00Z,2025-01-01T00:00:00Z,17246,erw:interconnection_queue_summary,2026-10-04T17:29:25Z,pass,public,power,yes,derived
+irena_capacity_annual,irena,,224,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,20662,irena:irenastat_elecstat,2026-10-23T21:09:48Z,pass,internal,power,no,source
+irs_soi_energy_credits_annual,irs,,54,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,1074,irs:soi_historic_table_2,2026-10-23T21:16:06Z,pass,public,power,no,source
 iso_all_capacity_prices,ISO-NE;MISO;NYISO;PJM,isone_fca;miso_pra;nyiso_icap_spot;pjm_bra,39,P1M;P1Y;P3M,2007-06-01T00:00:00Z,2028-06-01T00:00:00Z,814,isone:fca-results;miso:pra-results-posting;nyiso:icap-spot-auction;pjm:rpm-clearing-price-summary,2026-10-02T19:47:50Z,pass,internal,capacity,no,source
 iso_curtailment_monthly,iso,,2,P1M,2014-03-01T00:00:00Z,2026-09-01T00:00:00Z,3232,erw:iso_curtailment_monthly,2026-10-23T14:45:58Z,pass,public,power,yes,derived
 iso_dam_hub_prices,CAISO;ERCOT;MISO;SPP,caiso_dam;ercot_dam;miso_dam;spp_dam,19,PT1H,2026-08-26T05:00:00Z,2026-10-24T06:00:00Z,23016,caiso:PRC_LMP;ercot:NP4-190-CD;miso:da_expost_lmp;spp:DA-LMP-SL,2026-10-23T14:18:24Z,pass,public,power,no,source
@@ -324,26 +367,36 @@ lbnl_wind_turbine_orders,none,,1,event,1997-02-01T00:00:00Z,2016-07-01T00:00:00Z
 merchant_revenue_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1M,2018-06-01T00:00:00Z,2026-10-01T00:00:00Z,8853,erw:merchant_revenue,2026-10-19T22:20:44Z,pass,public,power;gas,yes,derived
 miso_as_prices,MISO,miso_dam,1,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,54936,miso:asm_expost_damcp,2026-10-04T04:19:52Z,pass,internal,power,no,source
 miso_interconnection_queue,MISO,,3881,snapshot,2026-09-30T23:33:22Z,2026-09-30T23:33:22Z,3881,miso:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
+msha_coal_mines,msha,,35736,snapshot,2026-10-23T19:29:29Z,2026-10-23T19:29:29Z,35736,msha:open_government_data,2026-10-23T19:34:41Z,pass,public,coal,no,source
+msha_coal_production_quarterly,msha,,3130,P3M,2010-01-01T00:00:00Z,2026-04-01T00:00:00Z,294323,msha:open_government_data,2026-10-23T19:34:41Z,pass,public,coal,no,source
 news_index,none,,77,event,2025-01-01T08:00:00Z,2026-12-01T12:00:00Z,17047,77 outlets,2026-10-23T14:59:12Z,pass,public,news,no,model_extracted
 news_scores_shadow,none,,62,event,2026-08-31T07:00:00Z,2026-10-05T14:39:55Z,4748,62 outlets,2026-10-04T14:36:49Z,pass,internal,news,no,model_extracted
 news_stories,none,,79,event,2025-01-01T08:00:00Z,2026-12-01T12:00:00Z,22693,79 outlets,2026-10-23T14:48:52Z,pass,internal,news,no,model_extracted
+nhc_hurdat2_track_points,none,,1,event,2000-05-22T00:00:00Z,2025-11-01T00:00:00Z,27812,1 outlets,2026-10-23T20:55:29Z,pass,public,power;oil;gas,no,source
 nlr_atb_electricity_costs,nlr,,183,P1Y,2023-01-01T00:00:00Z,2060-01-01T00:00:00Z,95000,nlr:atb_electricity,2026-10-21T18:31:00Z,pass,public,power,no,source
 nlr_jedi_multipliers,nlr,,2266,P1Y,2010-01-01T00:00:00Z,2017-01-01T00:00:00Z,5562,nlr:jedi,2026-10-20T08:43:20Z,pass,public,power,no,derived
 noaa_climdiv_state_monthly,noaa,,49,P1M,2000-01-01T00:00:00Z,2026-09-01T00:00:00Z,31458,noaa:climdiv,2026-10-23T18:52:22Z,pass,public,power;gas,no,source
 noaa_cpc_degree_days_daily,noaa,,58,P1D,2024-01-01T00:00:00Z,2026-10-21T00:00:00Z,118900,noaa:cpc_degree_days,2026-10-23T16:30:23Z,pass,public,power;gas,no,source
+noaa_cpc_oni_monthly,noaa,,1,P1M,1950-01-01T00:00:00Z,2026-08-01T00:00:00Z,1840,noaa:cpc_oni,2026-10-23T21:32:08Z,pass,public,power;gas,no,source
 noaa_grid_weather_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,P1D,2019-01-01T00:00:00Z,2026-10-17T00:00:00Z,118630,noaa:isd_lite;noaa:lcd_v2,2026-10-21T08:45:57Z,pass,public,power,no,source
 noaa_grid_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,PT1H,2019-01-01T00:00:00Z,2026-10-18T03:00:00Z,1907625,noaa:isd_lite;noaa:lcd_v2,2026-10-21T08:45:57Z,pass,public,power,no,source
 noaa_grid_weather_stations,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2019-01-01T00:00:00Z,2019-01-01T00:00:00Z,245,noaa:isd_lite,2026-10-21T08:45:57Z,pass,public,power,no,source
 noaa_isd_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,4,,2018-03-04T05:51:00Z,2025-08-27T06:53:00Z,412435,noaa:isd_global_hourly,2026-10-01T03:54:43Z,pass,public,power,no,source
+noaa_ncei_billion_disasters,none,,1,event,1980-04-10T00:00:00Z,2024-10-09T00:00:00Z,403,1 outlets,2026-10-23T20:36:19Z,pass,public,power,no,source
 noaa_ncei_storm_events,none,,1,event,2015-01-01T06:00:00Z,2026-07-01T05:49:00Z,411139,1 outlets,2026-10-23T19:33:10Z,pass,public,power,no,source
 noaa_station_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,35,PT1H,2019-01-01T00:00:00Z,2026-10-18T03:00:00Z,4747179,noaa:isd_lite;noaa:lcd_v2,2026-10-21T08:45:57Z,pass,public,power,no,source
+noaa_uscrn_solar_monthly,noaa,,8,P1M,2003-04-01T00:00:00Z,2026-09-01T00:00:00Z,2025,noaa:uscrn_monthly01,2026-10-23T22:59:51Z,blocked (1 errors),public,power,no,source
 node_basis_daily,ERCOT,ercot_dam;ercot_rtm,888,P1D,2025-10-01T00:00:00Z,2026-10-21T00:00:00Z,963285,erw:node_basis,2026-10-22T17:25:22Z,pass,public,power,yes,derived
 node_basis_summary,ERCOT,ercot_dam;ercot_rtm,1,P1M,2025-10-01T00:00:00Z,2026-10-01T00:00:00Z,1260,erw:node_basis,2026-10-22T17:25:22Z,pass,public,power,yes,derived
 nrc_advanced_reactor_preapplicants,nrc,,43,snapshot,2026-10-23T15:09:52Z,2026-10-23T15:09:52Z,43,nrc:new_reactors,2026-10-23T16:24:42Z,pass,public,power;uranium,no,source
 nrc_event_notifications,none,,1,event,2025-05-07T01:08:00Z,2026-10-17T03:45:00Z,25,1 outlets,2026-10-23T19:35:37Z,pass,public,power;uranium,no,source
+nrc_license_actions,none,,1,event,1977-09-09T00:00:00Z,2026-04-02T00:00:00Z,236,1 outlets,2026-10-23T20:55:39Z,pass,public,power;uranium,no,source
 nrc_new_reactor_applications,none,,1,event,2025-03-31T00:00:00Z,2026-05-05T00:00:00Z,6,1 outlets,2026-10-23T16:24:42Z,pass,public,power;uranium,no,source
 nrc_power_reactors,nrc,,130,snapshot,2026-10-23T09:52:20Z,2026-10-23T09:53:52Z,130,nrc:power_reactors,2026-10-23T09:55:24Z,pass,public,power;uranium,no,source
 nrc_reactor_status,nrc,,99,P1D,2020-01-01T00:00:00Z,2026-10-22T00:00:00Z,234910,nrc:power_reactor_status,2026-10-22T17:33:58Z,pass,public,power;uranium,no,source
+nrc_rop_findings,none,,1,event,1999-07-29T00:00:00Z,2025-05-12T00:00:00Z,18240,1 outlets,2026-10-24T02:38:13Z,pass,public,power;uranium,no,source
+nrcs_snotel_swe_daily,nrcs,,20,P1D,2015-01-01T00:00:00Z,2026-10-22T00:00:00Z,86241,nrcs:awdb_snotel,2026-10-24T00:20:08Z,pass,internal,power,no,source
+ntd_transit_energy_annual,ntd,,1751,P1Y,2022-01-01T00:00:00Z,2025-01-01T00:00:00Z,10161,fta:ntd_fuel_energy,2026-10-24T02:38:28Z,pass,public,power;products,no,source
 nyiso_as_prices,NYISO,nyiso_dam,6,PT1H,2024-09-01T04:00:00Z,2026-10-05T03:00:00Z,293376,nyiso:damasp,2026-10-04T04:09:15Z,pass,public,power,no,source
 nyiso_dam_cleared_energy,NYISO,nyiso_dam,1,PT1H,2025-09-01T04:00:00Z,2026-10-12T03:00:00Z,9744,nyiso:damenergy,2026-10-10T15:00:04Z,pass,public,power,no,source
 nyiso_dam_zone_prices,NYISO,nyiso_dam,11,PT1H,2026-08-26T04:00:00Z,2026-10-25T03:00:00Z,15840,nyiso:damlbmp,2026-10-23T14:18:19Z,pass,public,power,no,source
@@ -354,12 +407,14 @@ nyiso_zone_load_hourly,NYISO,nyiso_load,11,PT1H,2019-01-01T05:00:00Z,2026-10-10T
 onrr_production_annual,onrr,,735,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,15068,onrr:revenue_data,2026-10-23T12:16:08Z,pass,public,oil;gas;coal,no,source
 onrr_production_monthly,onrr,,8,P1M,2003-01-01T00:00:00Z,2026-07-01T00:00:00Z,2264,onrr:revenue_data,2026-10-23T12:15:59Z,pass,public,oil;gas;coal,no,source
 onrr_revenue_monthly,onrr,,5030,P1M,2003-01-01T00:00:00Z,2026-08-01T00:00:00Z,413554,onrr:revenue_data,2026-10-23T12:16:18Z,pass,public,oil;gas;coal,no,source
+ons_brazil_balance_hourly,ons,,5,PT1H,2020-01-01T03:00:00Z,2026-10-23T02:00:00Z,1790640,ons:balanco_energia_subsistema,2026-10-24T03:28:31Z,pass,public,power,no,source
 ornl_eha_hydropower_plants,ornl,,2257,snapshot,2026-10-23T08:09:05Z,2026-10-23T08:09:05Z,2257,ornl:eha_plant,2026-10-23T08:11:07Z,pass,public,power,no,source
 ornl_eha_hydropower_units,ornl,,5362,snapshot,2026-10-23T11:18:37Z,2026-10-23T11:18:37Z,5362,ornl:eha_unit,2026-10-23T11:19:46Z,pass,public,power,no,source
 ornl_hydropower_pipeline,ornl,,196,snapshot,2026-10-23T08:33:21Z,2026-10-23T08:33:21Z,196,ornl:hydro_pipeline,2026-10-23T08:35:11Z,pass,public,power,no,source
 ornl_hydropower_relicensing,none,,1,event,2001-08-30T00:00:00Z,2025-12-23T00:00:00Z,559,1 outlets,2026-10-23T10:16:07Z,pass,public,power,no,source
 ornl_npd_potential,ornl,,597,snapshot,2026-10-23T11:05:59Z,2026-10-23T11:05:59Z,597,ornl:npd_potential,2026-10-23T11:31:10Z,pass,public,power,no,source
 ornl_tedb_transportation_annual,ornl,,46,P1Y,1950-01-01T00:00:00Z,2024-01-01T00:00:00Z,674,ornl:tedb,2026-10-23T19:05:39Z,pass,internal,oil;products;power,no,source
+owid_ember_electricity_annual,owid,,239,P1Y,1990-01-01T00:00:00Z,2025-01-01T00:00:00Z,12406,owid:energy,2026-10-23T23:31:20Z,pass,public,power;carbon,no,source
 pjm_rpm_capacity_prices,PJM,bra,18,P1Y,2007-06-01T00:00:00Z,2028-06-01T00:00:00Z,234,pjm:rpm-clearing-price-summary,2026-10-23T14:45:16Z,pass,internal,capacity,no,source
 policy_action_tags,none,,1,event,2026-01-26T00:00:00Z,2026-09-04T00:00:00Z,38,1 outlets,2026-10-08T10:18:10Z,pass,public,news,no,model_extracted
 policy_actions,none,,5,event,2025-10-01T00:00:00Z,2026-10-23T00:00:00Z,1951,5 outlets,2026-10-23T14:59:15Z,pass,public,news,no,model_extracted
@@ -371,15 +426,23 @@ price_board_latest,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;ercot_d
 price_board_peak_offpeak,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,6,P1D;P1Y,2015-01-01T00:00:00Z,2026-10-24T00:00:00Z,3894,erw:price_board,2026-10-23T15:02:39Z,pass,public,power,yes,derived
 price_board_spreads,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;ercot_dam;isone_dam;miso_dam;nyiso_dam;spp_dam,6,P1D,2025-09-29T00:00:00Z,2026-10-24T00:00:00Z,2488,erw:price_board,2026-10-23T15:02:39Z,pass,public,power;gas;oil,yes,derived
 price_years_by_window,CAISO;ERCOT;SPP,caiso;ercot;spp,19,P105M;P12M;P141M;P25M;P36M;P38M;P39M;P4M;P5M;P6M;P84M;P93M;P9M,2015-01-01T00:00:00Z,2026-01-01T00:00:00Z,2754,erw:price_years,2026-10-20T09:08:39Z,pass,public,power,yes,derived
+ree_spain_balance_monthly,ree,,1,P1M,2020-01-01T00:00:00Z,2026-09-01T00:00:00Z,1890,ree:redata_balance_electrico,2026-10-24T04:09:31Z,pass,public,power,no,source
 rggi_auction_allowance_prices,none,,85,P3M,2008-09-25T00:00:00Z,2026-09-09T00:00:00Z,304,rggi:prices-volumes,2026-10-23T14:45:19Z,pass,internal,carbon,no,source
 rrc_lease_production_monthly,none,,4828,P1M,2024-08-01T00:00:00Z,2026-07-01T00:00:00Z,212252,rrc:pdq_dump,2026-10-01T04:46:13Z,pass,public,oil;gas,no,source
+rte_eco2mix_france_halfhourly,rte,,1,PT30M,2019-12-31T23:00:00Z,2026-08-31T21:30:00Z,1448927,rte:eco2mix_national,2026-10-24T04:08:26Z,pass,public,power,no,source
 scarcity_hours_by_grid,scarcity,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm,2,PT1H,2023-10-01T06:00:00Z,2026-10-01T07:00:00Z,178886,erw:scarcity_hours_by_grid,2026-10-13T18:59:37Z,pass,public,power,yes,derived
+scb_sweden_electricity_monthly,scb,,11,P1M,1974-01-01T00:00:00Z,2026-08-01T00:00:00Z,6059,scb:TAB1011,2026-10-24T03:01:41Z,pass,public,power,no,source
+scripps_co2_mlo_monthly,scripps,,1,P1M,1958-03-01T00:00:00Z,2026-09-01T00:00:00Z,1636,scripps:co2_mlo_monthly,2026-10-23T23:42:11Z,pass,public,carbon,no,source
 shoulder_hours_monthly,CAISO;ERCOT,,3,P1D;P1M;P1Y,2019-01-01T00:00:00Z,2026-10-06T00:00:00Z,27197,erw:shoulder_hours,2026-10-19T11:43:46Z,pass,public,power,yes,derived
+smard_germany_monthly,smard,,13,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,1800,smard:market_data_month,2026-10-24T02:46:34Z,pass,public,power,no,source
 spp_as_prices,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,159432,spp:DA-MCP,2026-10-04T04:09:48Z,pass,public,power,no,source
 spp_as_quantities,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-05T04:00:00Z,159768,spp:DA-MC,2026-10-04T11:34:34Z,pass,public,power,no,source
 spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-10-22T00:00:00Z,38432,spp:ver_curtailments,2026-10-23T14:45:31Z,pass,public,power,no,source
 spp_dam_cleared_energy,SPP,spp_dam,1,PT1H,2025-09-01T05:00:00Z,2026-10-11T04:00:00Z,14352,spp:DA-MC:cleared,2026-10-10T15:00:20Z,pass,public,power,no,source
 spp_interconnection_queue,SPP,,3078,snapshot,2026-10-19T16:08:11Z,2026-10-19T20:31:58Z,3078,spp:interconnection_queue,2026-10-19T20:31:01Z,pass,public,power,no,source
+ssb_norway_electricity_monthly,ssb,,26,P1M,1993-01-01T00:00:00Z,2026-09-01T00:00:00Z,5550,ssb:14091,2026-10-24T02:39:26Z,pass,public,power,no,source
+statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source
+statcan_oil_gas_supply_monthly,statcan,,383,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,56007,statcan:25-10-0063-01;statcan:25-10-0086-01,2026-10-24T02:33:08Z,pass,public,oil;gas,no,source
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,108125,erw:generation_mix,2026-10-23T14:45:09Z,pass,public,power,yes,derived
 storage_buildout_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,9,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,21229,erw:storage_buildout,2026-10-23T14:48:47Z,pass,public,power,yes,derived
 storage_capacity,none,,1627,snapshot,2026-10-23T14:48:44Z,2026-10-23T14:48:44Z,1627,erw:storage_capacity,2026-10-23T14:48:44Z,pass,public,power,no,derived
@@ -387,12 +450,22 @@ storage_daily_cycle,CAISO;ERCOT;ISO-NE;MISO;SPP;US48,,6,P1D,2024-11-01T00:00:00Z
 storage_owners_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,948,P1M,2026-08-01T00:00:00Z,2026-08-01T00:00:00Z,9540,erw:storage_owners,2026-10-19T11:41:46Z,pass,public,power,yes,derived
 texas_delivery_charges,none,,5,event,2020-09-01T00:00:00Z,2026-10-07T00:00:00Z,73,5 outlets,2026-10-07T02:03:00Z,pass,internal,power,no,model_extracted
 texas_transmission_matrix,none,,1,event,2025-03-20T00:00:00Z,2026-03-16T00:00:00Z,855,1 outlets,2026-10-07T09:49:32Z,pass,internal,power,no,model_extracted
+treasury_1603_awards,none,,1,event,2009-09-01T00:00:00Z,2017-11-10T00:00:00Z,10012,1 outlets,2026-10-23T23:00:19Z,pass,internal,power;deals,no,source
 usace_nid_dams,usace,,92788,snapshot,2026-10-23T13:59:04Z,2026-10-23T13:59:04Z,92788,usace:nid,2026-10-23T14:01:30Z,pass,public,power,no,source
+usaspending_doe_obligations,usaspending,,7,P1M;P1Y;P3M,2016-10-01T00:00:00Z,2026-08-01T00:00:00Z,163,usaspending:doe_089,2026-10-24T02:46:54Z,pass,internal,power;deals,no,source
+usbr_crsp_reservoirs_daily,usbr,,4,P1D,1962-11-01T00:00:00Z,2026-10-22T00:00:00Z,330293,usbr:hydrodata_crsp_reservoirs,2026-10-24T02:19:07Z,pass,public,power,no,source
 usbr_hydropower_monthly,usbr,,55,P1M,2013-10-01T00:00:00Z,2025-10-01T00:00:00Z,31702,usbr:power_plant_data,2026-10-23T16:28:01Z,pass,public,power,no,source
+usbr_mead_powell_daily,usbr,,2,P1D,1934-04-01T00:00:00Z,2026-10-22T00:00:00Z,192508,usbr:hydrodata_reservoirs,2026-10-24T02:18:14Z,blocked (1 errors),public,power,no,source
+usdm_drought_state_weekly,usdm,,48,P1W,2014-12-30T00:00:00Z,2026-10-20T00:00:00Z,177696,usdm:state_statistics,2026-10-23T20:55:10Z,pass,public,power,no,source
+usgs_comcat_earthquakes_south_central,none,,1,event,2010-01-01T18:45:51Z,2026-10-22T05:48:51Z,16000,1 outlets,2026-10-23T23:30:30Z,pass,public,oil;gas,no,source
 usgs_mcs_critical_minerals,usgs,,653,P1Y;P4Y,2021-01-01T00:00:00Z,2025-01-01T00:00:00Z,1600,usgs:mcs_2026_data,2026-10-23T13:56:54Z,pass,public,metals,no,source
+usgs_streamflow_daily,usgs,,8,P1D,2015-01-01T00:00:00Z,2026-10-22T00:00:00Z,33421,usgs:nwis_daily_values,2026-10-23T23:00:29Z,blocked (1 errors),public,power,no,source
 uspvdb_solar_facilities,uspvdb,,6611,snapshot,2026-10-23T05:19:06Z,2026-10-23T05:19:06Z,6611,usgs:uspvdb,2026-10-23T05:35:32Z,pass,public,power,no,source
 uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:33:12Z,77839,usgs:uswtdb,2026-10-21T18:33:12Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
 wb_commodity_prices_monthly,wb,,15,P1M,1960-01-01T00:00:00Z,2026-09-01T00:00:00Z,11139,worldbank:pink_sheet,2026-10-23T10:00:26Z,pass,public,oil;gas;coal;metals,no,source
+wb_electricity_access_annual,wb,,215,P1Y,2000-01-01T00:00:00Z,2024-01-01T00:00:00Z,5350,worldbank:wdi_electricity_access,2026-10-23T23:45:20Z,pass,public,power,no,source
+wb_iea_electricity_annual,wb,,209,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,8220,worldbank:wdi_iea_electricity,2026-10-23T23:45:20Z,blocked (1 errors),internal,power,no,source
 weather_forecast_hourly,weather,,7,PT1H,2026-09-28T09:00:00Z,2026-10-30T01:00:00Z,10614,nws:forecast_hourly,2026-10-23T14:37:04Z,pass,public,power,no,source
 weather_obs_hourly,weather,,7,PT1H,2026-09-21T09:00:00Z,2026-10-23T13:00:00Z,10627,nws:observations,2026-10-23T14:37:04Z,pass,public,power,no,source
+wfigs_wildfires,none,,1,event,2015-01-18T00:00:00Z,2026-10-21T00:00:00Z,6222,1 outlets,2026-10-23T23:13:01Z,pass,public,power,no,source
