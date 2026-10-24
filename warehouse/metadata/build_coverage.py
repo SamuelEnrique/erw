@@ -317,6 +317,7 @@ SECTOR_RULES = [
     (r"^statcan_energy_balance_annual$", "power;gas;oil;coal"),  # session 2383: Statistics Canada 25-10-0029-01, supply and demand of primary and secondary energy, a year
     (r"^sne_panama_electricity_annual$", "power"),  # session 2407: Panama's Secretaria Nacional de Energia, gross generation by plant type, net production, maximum demand and load factor, a year (internal)
     (r"^sne_panama_generation_monthly$", "power"),  # session 2407: Panama's Secretaria Nacional de Energia, total gross generation a month (internal)
+    (r"^amm_guatemala_generation_monthly$", "power"),  # session 2408: Guatemala's AMM, generation by fuel, imports, exports and the SNI's demand, a month (internal)
     (r"^eia_lng_storage_annual$", "gas;lng"),  # session 2292: EIA's LNG peak-shaving storage additions and withdrawals by state
     (r"^eia_gas_plant_processing_annual$", "gas;products"),  # session 2287: EIA's gas plant processing (gas processed, liquids extracted), a year
     (r"^eia_crude_tank_farm_stocks_monthly$", "oil"),  # session 2286: EIA's crude stocks at tank farms and pipelines, Cushing among them
