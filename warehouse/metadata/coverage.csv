@@ -260,6 +260,7 @@ epa_rfs_rins_monthly,epa,,5,P1M,2010-07-01T00:00:00Z,2026-09-01T00:00:00Z,1632,e
 epa_tri_energy_releases_annual,epa,,2624,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,384483,epa:tri_basic,2026-10-23T23:30:41Z,blocked (1 errors),public,power;oil;gas;coal,no,source
 epra_kenya_electricity_annual,epra,,1,P1Y,2023-07-01T00:00:00Z,2025-07-01T00:00:00Z,129,epra:energy_petroleum_statistics_report,2026-10-24T07:39:47Z,pass,public,power,no,source
 erb_zambia_electricity_annual,erb,,59,P1Y,2013-01-01T00:00:00Z,2025-01-01T00:00:00Z,515,erb_zm:statistical_bulletin,2026-10-24T10:47:11Z,pass,internal,power,no,source
+erc_mongolia_electricity_annual,erc,,6,P1Y,2015-01-01T00:00:00Z,2020-01-01T00:00:00Z,210,erc_mn:statistics_on_energy_performance,2026-10-24T10:59:20Z,pass,internal,power,no,source
 ercot_4cp_intervals,ERCOT,ercot_4cp,1,PT15M,2018-06-27T21:45:00Z,2025-09-04T22:15:00Z,28,ercot:NP9-83-M,2026-10-20T10:23:19Z,pass,public,power,no,source
 ercot_all_hub_prices_history,ERCOT,ercot_dam;ercot_rtm,6,PT15M;PT1H,2015-01-01T06:00:00Z,2026-10-23T04:00:00Z,3104178,ercot:NP4-180-ER;ercot:NP4-190-CD;ercot:NP6-785-ER;ercot:NP6-905-CD,2026-09-26T00:09:58Z,pass,public,power,no,source
 ercot_as_prices,ERCOT,ercot_dam,5,PT1H,2018-01-01T06:00:00Z,2026-10-24T04:00:00Z,338492,ercot:NP4-181-ER;ercot:NP4-188-CD,2026-10-23T15:02:43Z,pass,public,power,no,source

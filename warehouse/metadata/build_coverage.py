@@ -318,6 +318,7 @@ SECTOR_RULES = [
     (r"^ceb_srilanka_electricity_annual$", "power"),  # session 2371: CEB's Statistical Digest, Sri Lanka's stations, capacity, generation and maximum demand (internal)
     (r"^erb_zambia_electricity_annual$", "power"),  # session 2420: ERB's Statistical Bulletin 2025, Zambia's generation by station, consumption, trade and capacity
     (r"^statsbots_botswana_electricity_monthly$", "power"),  # session 2421: Statistics Botswana's electricity stats brief, generation, imports and distribution a month
+    (r"^erc_mongolia_electricity_annual$", "power"),  # session 2422: ERC Mongolia's Statistics on Energy Performance 2020, generation, imports, capacity and sales by grid
     (r"^energycom_ghana_electricity_annual$", "power"),  # session 2373: Ghana's Energy Commission bulletin, generation by source, imports and exports, peak load, a year (internal)
     (r"^eia_gas_for_others_annual$", "gas"),  # session 2377: EIA's natural gas delivered for the account of others by state and sector, a year (natural-gas/cons/acct)
     (r"^statcan_petroleum_products_monthly$", "oil;products"),  # session 2378: Statistics Canada 25-10-0081-01, petroleum products by supply and disposition, a month
