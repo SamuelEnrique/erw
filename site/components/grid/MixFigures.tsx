@@ -9,9 +9,13 @@
 // Session 1155: on CAISO's monthly view, the months with an Energy Emergency Alert or a Flex Alert day are marked on the
 // chart (a dashed line at the month, its days on hover), and the alert days of the months drawn are one keyed count
 // (lib/caisoAlerts.ts alertMonths). The hourly mix has nothing to mark: it is withheld for CAISO.
+// Session 1174: on ERCOT's monthly view, the months with a call day in ERCOT's notices (an EEA, a conservation appeal, a
+// watch, an OCN for extreme weather: ercot_grid_notices) are marked the same way, and their call days one keyed count
+// (lib/ercotNotices.ts callMonths).
 import { Num } from "@/components/Num";
 import { scrollRegion } from "@/lib/cells";
 import { ALERT_TABLE, alertMonths, type NoticeLike } from "@/lib/caisoAlerts";
+import { NOTICE_TABLE, callMonths, type NoticeLike as ErcotNoticeLike } from "@/lib/ercotNotices";
 import { TimeChart } from "@/components/TimeChart";
 import { shown } from "@/lib/format";
 import { hourAge, mixMonthly, PROFILE, type Fig, type MixHourly, type MonthFuel } from "@/lib/mixHourly";
@@ -81,12 +85,15 @@ export const MONTH_FUELS: MonthFuel[] = [
 export const MONTH_VARIABLES = [...MONTH_FUELS.flatMap((f) => [`${f.stem}_mwh`, `${f.stem}_share_pct`]), "net_generation_mwh", "days_held", "days_in_month"];
 
 /** The monthly view: the grid's months from generation_mix_hourly_profile (rows read by the caller). */
-export function MonthlyFigures({ rows, label, caiso, notices }: { rows: { entity: string; variable: string; ts_utc: string; value: number }[]; label: string; caiso: boolean;
+export function MonthlyFigures({ rows, label, caiso, notices, ercot }: { rows: { entity: string; variable: string; ts_utc: string; value: number }[]; label: string; caiso: boolean;
   /** session 1155: CAISO's notices (caiso_grid_emergencies), read or failed; absent for another grid */
-  notices?: { ok: true; data: NoticeLike[] } | { ok: false; reason: string } | null }) {
+  notices?: { ok: true; data: NoticeLike[] } | { ok: false; reason: string } | null;
+  /** session 1174: ERCOT's notices (ercot_grid_notices), read or failed; absent for another grid */
+  ercot?: { ok: true; data: ErcotNoticeLike[] } | { ok: false; reason: string } | null }) {
   const m = mixMonthly(rows, MONTH_FUELS);
   if (!m) return <p className="text-sm italic text-muted" data-missing="1">No month of {label} is held in {PROFILE}.</p>;
   const al = notices && notices.ok ? alertMonths(notices.data, m.months) : null;
+  const en = ercot && ercot.ok ? callMonths(ercot.data, m.months) : null;
   const name = (d: string) => d.slice(0, 7);
   const x = m.months.map((d) => Date.parse(`${d}T00:00:00Z`));
   return (
@@ -98,7 +105,8 @@ export function MonthlyFigures({ rows, label, caiso, notices }: { rows: { entity
         {m.notBuilt.length ? <> Not built in the twelve months to {name(m.newest)}: {m.notBuilt.join(", ")} (too few complete days, or the month of a change of source).</> : null}
       </p>
       <TimeChart stack share x="month" unit="MWh" height={300}
-        marks={al?.months.length ? al.months.map((a) => ({ t: Date.parse(`${a.month}T00:00:00Z`), name: `EEA or Flex Alert: ${a.days.join(", ")}` })) : undefined}
+        marks={al?.months.length ? al.months.map((a) => ({ t: Date.parse(`${a.month}T00:00:00Z`), name: `EEA or Flex Alert: ${a.days.join(", ")}` }))
+          : en?.months.length ? en.months.map((a) => ({ t: Date.parse(`${a.month}T00:00:00Z`), name: `ERCOT notice days: ${a.days.join(", ")}` })) : undefined}
         ariaLabel={`${label} monthly net generation by fuel, ${name(m.months[0])} to ${name(m.newest)}`}
         series={m.fuels.map((f) => ({ name: f.label, color: `var(--color-fuel-${f.key})`, points: x.map((t, i) => [t, f.values[i]] as [number, number | null]) }))} />
       <div className="mt-3 overflow-x-auto" {...scrollRegion(`${label}: generation by fuel in ${name(m.newest)} and over the twelve months to it`)}>
@@ -129,6 +137,14 @@ export function MonthlyFigures({ rows, label, caiso, notices }: { rows: { entity
           {al ? <>Days with an Energy Emergency Alert or a Flex Alert in force, {al.from} to {al.to} ({ALERT_TABLE}): <F f={{ check: al.signal.check, raw: Number(al.signal.raw), tip: al.signal.tip }} />
             {al.months.length ? `; each month that holds one is marked on the chart (${al.months.map((a) => a.month.slice(0, 7)).join(", ")}).` : ", so no month of the chart is marked."}</>
             : <>The alert days could not be read just now ({ALERT_TABLE}: {notices.ok ? "" : notices.reason}).</>}
+        </p>
+      ) : null}
+      {ercot ? (
+        <p className="mt-1 text-xs text-muted" data-mix-notice-months={en ? en.months.length : "unread"}>
+          {en ? <>Days with a call on supply or demand in ERCOT&apos;s notices (an Energy Emergency Alert, a conservation appeal, a watch or an OCN for extreme
+            weather), {en.from} to {en.to} ({NOTICE_TABLE}): <F f={{ check: en.call.check, raw: Number(en.call.raw), tip: en.call.tip }} />
+            {en.months.length ? `; each month that holds one is marked on the chart (${en.months.map((a) => a.month.slice(0, 7)).join(", ")}).` : ", so no month of the chart is marked."}</>
+            : <>The notice days could not be read just now ({NOTICE_TABLE}: {ercot.ok ? "" : ercot.reason}).</>}
         </p>
       ) : null}
       <p className="mt-1 text-xs text-muted">A share is of the sum of the eight sources over the month&apos;s complete days; storage is negative when it charges more than it discharges. Hover the chart for each fuel&apos;s MWh and share in a month.</p>

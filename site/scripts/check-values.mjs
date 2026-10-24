@@ -290,6 +290,7 @@ async function fileTable({ file, path: at }) {
   return { row, value: hit ? hit.value : undefined };
 }
 let aweRows = null;   // session 1155: caiso_grid_emergencies, every row (event_date, event_type), read once for the awe|last and awe|ndays keys
+let ercotnRows = null;   // session 1174: ercot_grid_notices, every row (event_date, event_type, three fields of extra), read once for the ercotn| keys
 const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
 let R_statOf = null;
 /** Session 471: a CSV file's rows as objects, by its header (quoted cells, doubled quotes inside them). */
@@ -377,6 +378,20 @@ async function truth(check) {
     const A = await import("../lib/caisoAlerts.ts");
     if (!aweRows) aweRows = all("events", { select: "event_date,event_type", table_name: `eq.${A.ALERT_TABLE}`, order: "event_date,event_id" });
     return A.aweValue((await aweRows).map((r) => ({ event_date: String(r.event_date), event_type: r.event_type })), check);
+  }
+  // session 1174 (chain 078): the Grid tool's ERCOT notice state and notice days (grid_ercotnotice_ercot, the scarcity
+  // strip, the monthly mix): ercotn|last|<group>|<day> (the newest Central day on or before <day> with a notice of the
+  // group, as text), ercotn|ndays|<group>|<from>|<to> (the distinct days with one) and ercotn|read (the UTC day of the
+  // newest retrieved_at), recomputed by the page's own rule (lib/ercotNotices.ts ercotnValue) on every row of the
+  // table, read once a run, with the three fields of extra the rule reads (as lib/gridErcotNotices.ts asks for them)
+  if (p[0] === "ercotn") {
+    const E = await import("../lib/ercotNotices.ts");
+    if (!ercotnRows) ercotnRows = all("events", { select: "event_date,event_type,x_counts:extra->>x_counts,x_region:extra->>x_region,retrieved_at:extra->>retrieved_at",
+      table_name: `eq.${E.NOTICE_TABLE}`, order: "event_date,event_id" });
+    const v = E.ercotnValue((await ercotnRows).map((r) => ({ event_date: String(r.event_date), event_type: r.event_type,
+      extra: { x_counts: r.x_counts ?? "", x_region: r.x_region ?? "", retrieved_at: r.retrieved_at ?? "" } })), check);
+    if (v === undefined) throw new Error(`unknown ercotn key ${check}`);
+    return v;
   }
   if (p[0] === "awe") {
     const rows = await all("events", { select: "event_date", table_name: "eq.caiso_grid_emergencies", event_type: `eq.${p[2]}`,

@@ -22,7 +22,9 @@ export const GRID_VIEW_TABLES: Record<GridView, readonly string[]> = {
     "scarcity_hours_by_grid", "iso_rtm_hub_prices", "ercot_hub_prices_daily",
     // session 1167: the hub price beside the mix (data/mixplus, iso_hub_prices_history's for the grids other than
     // ERCOT): its held grids' read "license needed" (lib/gridHeld.ts)
-    "iso_hub_prices_history"],
+    "iso_hub_prices_history",
+    // session 1174: ERCOT's notices (components/grid/ErcotNoticeState.tsx, the scarcity strip, the monthly mix)
+    "ercot_grid_notices"],
   clean: ["caiso_battery_storage", "caiso_grid_emergencies", "caiso_reliability_daily", "carbon_intensity_daily", "carbon_intensity_hourly",
     "carbon_intensity_monthly", "clean_energy_hourly", "clean_energy_summary", "datacenter_facilities", "eia930_all_demand",
     "eia930_all_emissions", "eia930_all_generation", "eia930_generation_latest", "energy_projects", "generation_mix_hourly_profile",
@@ -30,6 +32,9 @@ export const GRID_VIEW_TABLES: Record<GridView, readonly string[]> = {
     "state_generation_mix_monthly", "storage_capacity", "storage_daily_cycle",
     // session 1167: the views' shared file (components/mix/views.tsx) names the hub price table its held grids are
     // asked of (lib/gridHeld.ts); the clean files' cost of moving a load is priced from it for the grids other than ERCOT
-    "iso_hub_prices_history"],
+    "iso_hub_prices_history",
+    // session 1174: components/grid/MixView.tsx, whose MixClean this tab draws, reads ERCOT's notices for the Mix tab's
+    // monthly view (as it reads caiso_grid_emergencies), so the tab's line names the table as it names CAISO's
+    "ercot_grid_notices"],
   gravity: NETWORK,
 };

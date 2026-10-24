@@ -1,0 +1,1787 @@
+{
+ "_note": "Session 1174 (chain 078): every row of ercot_grid_notices (events), read once with the anon key from the Supabase live set on 2026-10-24 (select event_id, event_date, event_type, and of extra x_counts, x_region and retrieved_at; x_text, ERCOT's words, not kept here). The table then held 178 notices, 2011-02-02 to 2026-10-15, read from ERCOT's pages on 2026-10-19. Read by scripts/test-ercot-notices.mjs.",
+ "table": "ercot_grid_notices",
+ "read_at": "2026-10-24",
+ "rows": [
+  {
+   "event_id": "ercot_notice:2011-02-02:rotating_outages:940f126d07",
+   "event_date": "2011-02-02",
+   "event_type": "rotating_outages",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-02-03:update:0ab5ac164a",
+   "event_date": "2011-02-03",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-02-08:power_watch:129e58267d",
+   "event_date": "2011-02-08",
+   "event_type": "power_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-02-09:power_watch:ccfe51d279",
+   "event_date": "2011-02-09",
+   "event_type": "power_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-02-10:power_watch:1a96203f84",
+   "event_date": "2011-02-10",
+   "event_type": "power_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-02-10:statement:4b22c02f31",
+   "event_date": "2011-02-10",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-06-27:power_watch:4810d6ed6a",
+   "event_date": "2011-06-27",
+   "event_type": "power_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-01:conservation_appeal:bf47257f6d",
+   "event_date": "2011-08-01",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-02:power_watch:eac961569d",
+   "event_date": "2011-08-02",
+   "event_type": "power_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-02:statement:a9fd175c45",
+   "event_date": "2011-08-02",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-02:update:6d09ed8504",
+   "event_date": "2011-08-02",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-03:conservation_appeal:3fab05a37b",
+   "event_date": "2011-08-03",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-03:power_watch:dd294e95c0",
+   "event_date": "2011-08-03",
+   "event_type": "power_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-04:power_watch:2df6d8e75b",
+   "event_date": "2011-08-04",
+   "event_type": "power_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-04:power_watch:4a6ccd6ca3",
+   "event_date": "2011-08-04",
+   "event_type": "power_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-04:update:fd729fa5fa",
+   "event_date": "2011-08-04",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-05:conservation_appeal:9fec881802",
+   "event_date": "2011-08-05",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-05:power_watch:9690f92edb",
+   "event_date": "2011-08-05",
+   "event_type": "power_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-05:update:f939c163ce",
+   "event_date": "2011-08-05",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-16:statement:dbfb8bd418",
+   "event_date": "2011-08-16",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-16:update:fa69b849b7",
+   "event_date": "2011-08-16",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-23:power_watch:f74b091407",
+   "event_date": "2011-08-23",
+   "event_type": "power_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-24:eea1:8cbaf4a084",
+   "event_date": "2011-08-24",
+   "event_type": "eea1",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-24:update:7e8e52dcae",
+   "event_date": "2011-08-24",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-26:conservation_appeal:363aa64784",
+   "event_date": "2011-08-26",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-28:conservation_appeal:72f3b84efe",
+   "event_date": "2011-08-28",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-29:conservation_appeal:72f3b84efe",
+   "event_date": "2011-08-29",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2011-08-30:conservation_appeal:72f3b84efe",
+   "event_date": "2011-08-30",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2012-06-22:statement:70cbcab842",
+   "event_date": "2012-06-22",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2012-06-27:statement:67df26cbcc",
+   "event_date": "2012-06-27",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2013-01-02:statement:68922d39ba",
+   "event_date": "2013-01-02",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-01-06:update:8780ef23fd",
+   "event_date": "2014-01-06",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-02-06:conservation_appeal:fd821f534f",
+   "event_date": "2014-02-06",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-02-06:rotating_outages:5760aa8667",
+   "event_date": "2014-02-06",
+   "event_type": "rotating_outages",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "Rio Grande Valley",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-02-07:conservation_appeal:fd821f534f",
+   "event_date": "2014-02-07",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-02-07:rotating_outages:8cb2cadae4",
+   "event_date": "2014-02-07",
+   "event_type": "rotating_outages",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "Rio Grande Valley",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-02-07:update:f7dca9918f",
+   "event_date": "2014-02-07",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-03-03:conservation_appeal:9018f32ceb",
+   "event_date": "2014-03-03",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-03-03:update:9e0d54122e",
+   "event_date": "2014-03-03",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-03-04:update:490be10675",
+   "event_date": "2014-03-04",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-10-08:rotating_outages:710c98dfcf",
+   "event_date": "2014-10-08",
+   "event_type": "rotating_outages",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "Rio Grande Valley",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-10-08:update:c69d0e75ad",
+   "event_date": "2014-10-08",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "Rio Grande Valley",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2014-10-10:update:ce2f2f2bff",
+   "event_date": "2014-10-10",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2015-07-30:conservation_appeal:19dd532144",
+   "event_date": "2015-07-30",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2015-08-05:statement:c2d8f44f0c",
+   "event_date": "2015-08-05",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2015-08-10:statement:443f17dff8",
+   "event_date": "2015-08-10",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2015-08-13:conservation_appeal:81298b53ec",
+   "event_date": "2015-08-13",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2015-08-13:update:f94527e84d",
+   "event_date": "2015-08-13",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2015-10-13:conservation_appeal:b905193fa2",
+   "event_date": "2015-10-13",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "Rio Grande Valley",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2016-08-08:statement:b6441c6910",
+   "event_date": "2016-08-08",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2016-08-10:statement:4a411e41d9",
+   "event_date": "2016-08-10",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2016-10-05:conservation_appeal:b4ad81417f",
+   "event_date": "2016-10-05",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "Rio Grande Valley",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2016-10-07:conservation_appeal:5ff584cbb2",
+   "event_date": "2016-10-07",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "Rio Grande Valley",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2016-10-10:conservation_appeal:6df32a93d4",
+   "event_date": "2016-10-10",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "Rio Grande Valley",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2016-12-19:statement:4d6a4aa298",
+   "event_date": "2016-12-19",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2017-01-09:statement:dfc1f4c8d8",
+   "event_date": "2017-01-09",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2017-08-25:statement:9d2ffa24f5",
+   "event_date": "2017-08-25",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2017-08-27:statement:c85b933414",
+   "event_date": "2017-08-27",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2018-01-04:statement:551479a5b5",
+   "event_date": "2018-01-04",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2018-01-17:statement:4782b1323d",
+   "event_date": "2018-01-17",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2019-08-13:conservation_appeal:b565914724",
+   "event_date": "2019-08-13",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2019-09-05:conservation_appeal:aac40ce55b",
+   "event_date": "2019-09-05",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2019-09-06:conservation_appeal:aac40ce55b",
+   "event_date": "2019-09-06",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-02-11:statement:0d990c0c8f",
+   "event_date": "2021-02-11",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-02-14:conservation_appeal:620fad1705",
+   "event_date": "2021-02-14",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-02-15:conservation_appeal:620fad1705",
+   "event_date": "2021-02-15",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-02-15:rotating_outages:8745c991d2",
+   "event_date": "2021-02-15",
+   "event_type": "rotating_outages",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-02-16:conservation_appeal:620fad1705",
+   "event_date": "2021-02-16",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-02-19:update:b8c3a496ca",
+   "event_date": "2021-02-19",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-04-14:statement:e05a2547c0",
+   "event_date": "2021-04-14",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-06-14:conservation_appeal:ede0ac5d77",
+   "event_date": "2021-06-14",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-06-15:conservation_appeal:a84a67b99b",
+   "event_date": "2021-06-15",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-06-15:conservation_appeal:ede0ac5d77",
+   "event_date": "2021-06-15",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-06-16:conservation_appeal:ede0ac5d77",
+   "event_date": "2021-06-16",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-06-17:conservation_appeal:ede0ac5d77",
+   "event_date": "2021-06-17",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-06-18:conservation_appeal:ede0ac5d77",
+   "event_date": "2021-06-18",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2021-09-13:statement:7e74540631",
+   "event_date": "2021-09-13",
+   "event_type": "statement",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-02-02:weather_watch:a5db962f65",
+   "event_date": "2022-02-02",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-02-03:weather_watch:a5db962f65",
+   "event_date": "2022-02-03",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-02-04:weather_watch:a5db962f65",
+   "event_date": "2022-02-04",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-02-05:weather_watch:a5db962f65",
+   "event_date": "2022-02-05",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-02-06:weather_watch:a5db962f65",
+   "event_date": "2022-02-06",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-05-13:conservation_appeal:642243ff86",
+   "event_date": "2022-05-13",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-07-10:conservation_appeal:fbb672f380",
+   "event_date": "2022-07-10",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-07-11:conservation_appeal:fbb672f380",
+   "event_date": "2022-07-11",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-07-13:conservation_appeal:67d6b7442f",
+   "event_date": "2022-07-13",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-07-13:conservation_appeal:8317c25ff3",
+   "event_date": "2022-07-13",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-12-22:ocn_weather:a9edbb04cc",
+   "event_date": "2022-12-22",
+   "event_type": "ocn_weather",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-12-23:ocn_weather:a9edbb04cc",
+   "event_date": "2022-12-23",
+   "event_type": "ocn_weather",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-12-24:ocn_weather:a9edbb04cc",
+   "event_date": "2022-12-24",
+   "event_type": "ocn_weather",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-12-25:ocn_weather:a9edbb04cc",
+   "event_date": "2022-12-25",
+   "event_type": "ocn_weather",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2022-12-26:ocn_weather:a9edbb04cc",
+   "event_date": "2022-12-26",
+   "event_type": "ocn_weather",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-06-20:voluntary_conservation:d4690de344",
+   "event_date": "2023-06-20",
+   "event_type": "voluntary_conservation",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-06-25:weather_watch:42c4d8479c",
+   "event_date": "2023-06-25",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-06-26:weather_watch:42c4d8479c",
+   "event_date": "2023-06-26",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-06-27:weather_watch:42c4d8479c",
+   "event_date": "2023-06-27",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-06-28:weather_watch:42c4d8479c",
+   "event_date": "2023-06-28",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-06-29:weather_watch:42c4d8479c",
+   "event_date": "2023-06-29",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-06-30:weather_watch:42c4d8479c",
+   "event_date": "2023-06-30",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-07-16:weather_watch:82a613c885",
+   "event_date": "2023-07-16",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-07-17:weather_watch:82a613c885",
+   "event_date": "2023-07-17",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-07-18:weather_watch:82a613c885",
+   "event_date": "2023-07-18",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-06:weather_watch:1ff2b2c426",
+   "event_date": "2023-08-06",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-07:weather_watch:1ff2b2c426",
+   "event_date": "2023-08-07",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-17:voluntary_conservation:442d5cd0c9",
+   "event_date": "2023-08-17",
+   "event_type": "voluntary_conservation",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-18:voluntary_conservation:442d5cd0c9",
+   "event_date": "2023-08-18",
+   "event_type": "voluntary_conservation",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-20:voluntary_conservation:ad71403a31",
+   "event_date": "2023-08-20",
+   "event_type": "voluntary_conservation",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-23:weather_watch:7526bb2e5a",
+   "event_date": "2023-08-23",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-24:conservation_appeal:4d3e0461ae",
+   "event_date": "2023-08-24",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-24:weather_watch:7526bb2e5a",
+   "event_date": "2023-08-24",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-25:conservation_appeal:6605137053",
+   "event_date": "2023-08-25",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-25:weather_watch:7526bb2e5a",
+   "event_date": "2023-08-25",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-26:conservation_appeal:70c11f3289",
+   "event_date": "2023-08-26",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-26:weather_watch:7526bb2e5a",
+   "event_date": "2023-08-26",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-27:conservation_appeal:805a1dcbff",
+   "event_date": "2023-08-27",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-27:weather_watch:7526bb2e5a",
+   "event_date": "2023-08-27",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-29:conservation_appeal:0cca54a357",
+   "event_date": "2023-08-29",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-08-30:conservation_appeal:a732c9a9b7",
+   "event_date": "2023-08-30",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-09-06:conservation_appeal:f5b5733cc5",
+   "event_date": "2023-09-06",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-09-06:eea2:bdb9f48676",
+   "event_date": "2023-09-06",
+   "event_type": "eea2",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-09-06:update:9e5e74e9f6",
+   "event_date": "2023-09-06",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-09-06:weather_watch:122eb0a1cf",
+   "event_date": "2023-09-06",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-09-07:conservation_appeal:ae2aa511aa",
+   "event_date": "2023-09-07",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-09-07:weather_watch:122eb0a1cf",
+   "event_date": "2023-09-07",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2023-09-08:weather_watch:122eb0a1cf",
+   "event_date": "2023-09-08",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2024-01-15:conservation_appeal:459a745749",
+   "event_date": "2024-01-15",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2024-01-15:weather_watch:9a3c77459e",
+   "event_date": "2024-01-15",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2024-01-16:conservation_appeal:079d3b2699",
+   "event_date": "2024-01-16",
+   "event_type": "conservation_appeal",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2024-01-16:weather_watch:9a3c77459e",
+   "event_date": "2024-01-16",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2024-01-17:weather_watch:9a3c77459e",
+   "event_date": "2024-01-17",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2024-05-08:weather_watch:65fea36640",
+   "event_date": "2024-05-08",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-01-06:weather_watch:4a996c1917",
+   "event_date": "2025-01-06",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-01-07:weather_watch:4a996c1917",
+   "event_date": "2025-01-07",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-01-08:weather_watch:4a996c1917",
+   "event_date": "2025-01-08",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-01-09:weather_watch:4a996c1917",
+   "event_date": "2025-01-09",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-01-10:weather_watch:4a996c1917",
+   "event_date": "2025-01-10",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-01-20:weather_watch:829b2dc86e",
+   "event_date": "2025-01-20",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-01-21:weather_watch:829b2dc86e",
+   "event_date": "2025-01-21",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-01-22:weather_watch:829b2dc86e",
+   "event_date": "2025-01-22",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-01-23:weather_watch:829b2dc86e",
+   "event_date": "2025-01-23",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-02-19:weather_watch:700c96200c",
+   "event_date": "2025-02-19",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-02-20:weather_watch:700c96200c",
+   "event_date": "2025-02-20",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2025-02-21:weather_watch:700c96200c",
+   "event_date": "2025-02-21",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-01-24:weather_watch:54ba59e422",
+   "event_date": "2026-01-24",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-01-25:weather_watch:54ba59e422",
+   "event_date": "2026-01-25",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-01-26:weather_watch:54ba59e422",
+   "event_date": "2026-01-26",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-01-27:weather_watch:54ba59e422",
+   "event_date": "2026-01-27",
+   "event_type": "weather_watch",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-05-21:emergency_test:5590fad676",
+   "event_date": "2026-05-21",
+   "event_type": "emergency_test",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-05-21:emergency_test:8638a974ba",
+   "event_date": "2026-05-21",
+   "event_type": "emergency_test",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-06-06:advisory:f993d846f6",
+   "event_date": "2026-06-06",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-06-09:advisory:dc8681f658",
+   "event_date": "2026-06-09",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-06-10:advisory:07a848102d",
+   "event_date": "2026-06-10",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-06-17:advisory:581480f00a",
+   "event_date": "2026-06-17",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-06-17:advisory:7ae45f35a5",
+   "event_date": "2026-06-17",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-06-18:advisory:8ecf4b323f",
+   "event_date": "2026-06-18",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-06-20:advisory:3562ee8ce0",
+   "event_date": "2026-06-20",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-06-23:advisory:42e4801d80",
+   "event_date": "2026-06-23",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-06-24:advisory:61c2bcf99a",
+   "event_date": "2026-06-24",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-06-30:advisory:d1b6968c47",
+   "event_date": "2026-06-30",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-07-04:advisory:6e5de1dcf4",
+   "event_date": "2026-07-04",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-07-04:update:e1a568f41f",
+   "event_date": "2026-07-04",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-07-09:update:89660e6ea6",
+   "event_date": "2026-07-09",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-07-09:watch:2cb36e50e6",
+   "event_date": "2026-07-09",
+   "event_type": "watch",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-08-20:ocn_weather:984cb81a08",
+   "event_date": "2026-08-20",
+   "event_type": "ocn_weather",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-08-21:ocn_weather:984cb81a08",
+   "event_date": "2026-08-21",
+   "event_type": "ocn_weather",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-08-22:ocn_weather:984cb81a08",
+   "event_date": "2026-08-22",
+   "event_type": "ocn_weather",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-08-23:ocn_weather:984cb81a08",
+   "event_date": "2026-08-23",
+   "event_type": "ocn_weather",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-08-24:ocn_weather:984cb81a08",
+   "event_date": "2026-08-24",
+   "event_type": "ocn_weather",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-08-25:ocn_weather:984cb81a08",
+   "event_date": "2026-08-25",
+   "event_type": "ocn_weather",
+   "extra": {
+    "x_counts": "yes",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-08-25:update:14680c4fad",
+   "event_date": "2026-08-25",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-09-15:advisory:0ef4686672",
+   "event_date": "2026-09-15",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-09-28:advisory:f69f085748",
+   "event_date": "2026-09-28",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-09-29:advisory:06c43889d3",
+   "event_date": "2026-09-29",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-10-09:advisory:50f98910cb",
+   "event_date": "2026-10-09",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-10-10:advisory:6ace5461f0",
+   "event_date": "2026-10-10",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-10-10:update:b296c497f6",
+   "event_date": "2026-10-10",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-10-15:advisory:92243a236d",
+   "event_date": "2026-10-15",
+   "event_type": "advisory",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  },
+  {
+   "event_id": "ercot_notice:2026-10-15:update:912fe95373",
+   "event_date": "2026-10-15",
+   "event_type": "update",
+   "extra": {
+    "x_counts": "no",
+    "x_region": "ERCOT",
+    "retrieved_at": "2026-10-19T21:02:01Z"
+   }
+  }
+ ]
+}

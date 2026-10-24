@@ -11,6 +11,10 @@
 // Session 1155: for CAISO, the days of the window with an Energy Emergency Alert or a Flex Alert in force
 // (caiso_grid_emergencies, lib/caisoAlerts.ts alertDays) are marked on the day axis, a triangle under the day, each
 // cell's hover naming the day's notices; the counts of alert days and restricted maintenance days (not alerts) keyed.
+// Session 1174: for ERCOT, the days of the window with a call on supply or demand in ERCOT's notices (an EEA, a
+// conservation appeal, a watch, an OCN for extreme weather: ercot_grid_notices, lib/ercotNotices.ts callDays) are marked
+// the same way, each cell's hover naming the day's notices; the counts of call days and of days with a notice that is
+// not a call keyed.
 import { HeatChart } from "@/components/svgchart";
 import { Missing } from "@/components/mix/Now";
 import { Num } from "@/components/Num";
@@ -19,6 +23,8 @@ import { ToolSection } from "@/components/tool/ToolPage";  // session 1159: the 
 import { newest, renderTime } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { ALERT_TABLE, alertDays, shortName, type AlertDays } from "@/lib/caisoAlerts";
+import { NOTICE_TABLE, callDays, shortName as noticeName } from "@/lib/ercotNotices";
+import { ercotNotices } from "@/lib/gridErcotNotices";
 import { gridHref } from "@/lib/gridtool";
 import { LICENSE_FROM, LICENSE_NEEDED, licenseHeldGrid } from "@/lib/license";
 import { DAILY_PRICE_TABLE, RT_PRICE_TABLE, SCARCITY_GRIDS, SCARCITY_LEVEL, SCARCITY_TABLE, isScarcityGrid, scarcityStrip, windowOf, type Fig, type ScarcityGrid } from "@/lib/scarcityStrip";
@@ -56,13 +62,15 @@ async function stripOf(g: ScarcityGrid) {
   if (!top) return null;
   const w = windowOf(top.ts_utc, g.behind);
   const span = `(ts_utc.gte.${w.start},ts_utc.lt.${w.end})`;
-  const [rows, prices, daily, notices] = await Promise.all([
+  const [rows, prices, daily, notices, ercot] = await Promise.all([
     rest<{ variable: string; ts_utc: string; value: number }>("series", { select: "variable,ts_utc,value", table_name: `eq.${SCARCITY_TABLE}`, entity: `eq.${g.entity}`, and: span, order: "ts_utc,variable" }, HOURLY),
     attempt(() => rest<{ ts_utc: string; value: number }>("series", { select: "ts_utc,value", table_name: `eq.${RT_PRICE_TABLE}`, entity: `eq.${g.price.entity}`, variable: `eq.${g.price.variable}`, and: span, order: "ts_utc" }, HOURLY)),
     g.daily ? attempt(() => rest<{ ts_utc: string; value: number }>("series", { select: "ts_utc,value", table_name: `eq.${DAILY_PRICE_TABLE}`, entity: `eq.${g.daily!.entity}`, variable: `eq.${g.daily!.variable}`,
       and: `(ts_utc.gte.${w.days[0]}T00:00:00Z,ts_utc.lte.${w.days[w.days.length - 1]}T00:00:00Z)`, order: "ts_utc" }, HOURLY)) : Promise.resolve(null),
     // session 1155: CAISO's notices, the same read as the Reliability section above (lib/reliability.ts, one request)
     g.slug === "caiso" ? attempt(() => gridNotices()) : Promise.resolve(null),
+    // session 1174: ERCOT's notices, the same read as the state line above (lib/gridErcotNotices.ts, one request)
+    g.slug === "ercot" ? attempt(() => ercotNotices()) : Promise.resolve(null),
   ]);
   const s = scarcityStrip(g, { rows, prices: prices.ok ? prices.data : [], daily: daily && daily.ok ? daily.data : [], newest: top.ts_utc });
   const alerts = notices && notices.ok ? alertDays(notices.data, w.days) : null;
@@ -73,10 +81,18 @@ async function stripOf(g: ScarcityGrid) {
       if (j >= 0) for (const row of s.tips) row[j] = `${row[j]} CAISO's notices that Pacific day (${ALERT_TABLE}): ${ts.map(shortName).join(", ")}.`;
     }
   }
+  const calls = ercot && ercot.ok ? callDays(ercot.data, w.days) : null;
+  if (calls) {
+    // session 1174: each cell of a call day names the day's notices in its hover
+    for (const [d, ts] of calls.byDay) {
+      const j = w.days.indexOf(d);
+      if (j >= 0) for (const row of s.tips) row[j] = `${row[j]} ERCOT's notices that Central day (${NOTICE_TABLE}): ${ts.map(noticeName).join(", ")}.`;
+    }
+  }
   return {
-    s, alerts,
+    s, alerts, calls,
     failed: [...(prices.ok ? [] : [`${RT_PRICE_TABLE}: ${prices.reason}`]), ...(daily && !daily.ok ? [`${DAILY_PRICE_TABLE}: ${daily.reason}`] : []),
-      ...(notices && !notices.ok ? [`${ALERT_TABLE}: ${notices.reason}`] : [])],
+      ...(notices && !notices.ok ? [`${ALERT_TABLE}: ${notices.reason}`] : []), ...(ercot && !ercot.ok ? [`${NOTICE_TABLE}: ${ercot.reason}`] : [])],
   };
 }
 
@@ -84,7 +100,9 @@ async function Strip({ g }: { g: ScarcityGrid }) {
   const read = await attempt(() => stripOf(g));
   if (!read.ok) return <Missing why={`${SCARCITY_TABLE} could not be read just now: ${read.reason}`} words="working on it" />;
   if (!read.data) return <Missing why={`${SCARCITY_TABLE} holds no hour of ${g.label}.`} />;
-  const { s, alerts, failed } = read.data;
+  const { s, alerts: caiso, calls, failed } = read.data;
+  // the day marks: CAISO's alert days, or ERCOT's call days (session 1174); one grid a strip
+  const alerts = caiso ?? calls;
   const w = s.window;
   const ago = Math.floor((renderTime() - (Date.parse(s.newest) + 3_600_000)) / D);
   const label = `${g.label}: the hours at or above ${LEVEL}, ${dayName(w.days[0])} to ${dayName(w.days[w.days.length - 1])}, by day and hour of day (${g.zone})`;
@@ -102,14 +120,26 @@ async function Strip({ g }: { g: ScarcityGrid }) {
         the grid&apos;s own signal in force ({g.own}){s.own ? "" : `: not held for these days (${g.ownMissing})`}.
       </p>
       {g.slug === "caiso" ? (
-        <p className="mt-1 text-xs text-muted" data-scarcity-alert-days={alerts ? alerts.cols.length : "unread"}>
+        <p className="mt-1 text-xs text-muted" data-scarcity-alert-days={caiso ? caiso.cols.length : "unread"}>
           <svg width="10" height="8" className="mr-1 inline-block align-middle" aria-hidden="true"><path d="M1 7L9 7L5 1Z" fill="var(--color-ink)" /></svg>
-          {alerts ? <>
+          {caiso ? <>
             under a day: an Energy Emergency Alert or a Flex Alert in force that Pacific day ({ALERT_TABLE}; the notice&apos;s Pacific day set on the
-            same date of the strip&apos;s standard-time days): <F f={days(alerts.signal)} /> days of these 30{alerts.cols.length ? ` (${[...alerts.byDay.keys()].join(", ")})` : ""}.
-            {" "}Restricted maintenance, not an alert and not marked: <F f={days(alerts.rmoFig)} /> days{alerts.rmo.length ? ` (${alerts.rmo.join(", ")})` : ""}{alerts.tx.length ? `; a transmission emergency, not an alert, on ${alerts.tx.join(", ")}` : ""}.
+            same date of the strip&apos;s standard-time days): <F f={days(caiso.signal)} /> days of these 30{caiso.cols.length ? ` (${[...caiso.byDay.keys()].join(", ")})` : ""}.
+            {" "}Restricted maintenance, not an alert and not marked: <F f={days(caiso.rmoFig)} /> days{caiso.rmo.length ? ` (${caiso.rmo.join(", ")})` : ""}{caiso.tx.length ? `; a transmission emergency, not an alert, on ${caiso.tx.join(", ")}` : ""}.
             {" "}<SiteLink href={`${gridHref("caiso", "mix")}#caiso-alerts`}>CAISO&apos;s alerts today</SiteLink>.
           </> : <>under a day: an alert day; {ALERT_TABLE} could not be read just now{failed.length ? ` (${failed.filter((x) => x.startsWith(ALERT_TABLE)).join("; ")})` : ""}.</>}
+        </p>
+      ) : null}
+      {g.slug === "ercot" ? (
+        <p className="mt-1 text-xs text-muted" data-scarcity-notice-days={calls ? calls.cols.length : "unread"}>
+          <svg width="10" height="8" className="mr-1 inline-block align-middle" aria-hidden="true"><path d="M1 7L9 7L5 1Z" fill="var(--color-ink)" /></svg>
+          {calls ? <>
+            under a day: a call on supply or demand in ERCOT&apos;s notices that Central day (an Energy Emergency Alert, a conservation appeal, a watch or an
+            OCN for extreme weather; {NOTICE_TABLE}, the notice&apos;s Central day set on the same date of the strip&apos;s standard-time days): <F f={days(calls.call)} /> days
+            of these 30{calls.cols.length ? ` (${[...calls.byDay.keys()].join(", ")})` : ""}.
+            {" "}A notice that is not a call (an Advisory on the control room&apos;s own tools, a test), not marked: <F f={days(calls.otherFig)} /> days{calls.other.length ? ` (${calls.other.join(", ")})` : ""}.
+            {" "}<SiteLink href={`${gridHref("ercot", "mix")}#ercot-notices`}>ERCOT&apos;s notices today</SiteLink>.
+          </> : <>under a day: a notice day; {NOTICE_TABLE} could not be read just now{failed.length ? ` (${failed.filter((x) => x.startsWith(NOTICE_TABLE)).join("; ")})` : ""}.</>}
         </p>
       ) : null}
       <ul className="mt-3 max-w-3xl list-disc space-y-1 pl-5 text-sm" data-scarcity-counts={g.slug}>
