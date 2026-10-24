@@ -320,6 +320,7 @@ SECTOR_RULES = [
     (r"^amm_guatemala_generation_monthly$", "power"),  # session 2408: Guatemala's AMM, generation by fuel, imports, exports and the SNI's demand, a month (internal)
     (r"^statsmu_mauritius_electricity_annual$", "power"),  # session 2409: Statistics Mauritius, Energy and Water Statistics, generation by source, capacity, peak demand and sales, a year (internal)
     (r"^eia_net_imports_monthly$", "oil;products"),  # session 2412: EIA's U.S. net imports of crude oil and petroleum products by country, a month (petroleum/move/neti)
+    (r"^eurostat_electricity_production_annual$", "power"),  # session 2413: Eurostat's gross electricity production by fuel, all producers, a year (nrg_bal_peh, GEP)
     (r"^eia_lng_storage_annual$", "gas;lng"),  # session 2292: EIA's LNG peak-shaving storage additions and withdrawals by state
     (r"^eia_gas_plant_processing_annual$", "gas;products"),  # session 2287: EIA's gas plant processing (gas processed, liquids extracted), a year
     (r"^eia_crude_tank_farm_stocks_monthly$", "oil"),  # session 2286: EIA's crude stocks at tank farms and pipelines, Cushing among them
