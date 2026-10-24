@@ -65,9 +65,11 @@ The rules of `queue/done/123-day-23-november-data-barbados-belize-seychelles-cab
 
 - **Hosts closed by chain 122, not asked again** (added by its session 2517): www.mew.gov.kw (the TLS handshake fails), statisticsguyana.gov.gy (its robots file disallows ClaudeBot, anthropic-ai and Claude-Web by name), pxweb.stat.si (its robots file disallows ClaudeBot by name), www.ceps.cz (its robots file disallows every path) and UNdata's old download handler on data.un.org (HTTP 404). www.nve.no asks a crawl delay of 20 seconds, which is kept. Publishers chain 122 found needing written permission: Vanuatu's URA (its verdict is on record). Kuwait's statistics bureau publishes behind Arabic form postbacks; CYSTAT's database holds no electricity table; IPTO's data are a file a day. A source session may first check the publisher's llms.txt, as stat.gl's names its API.
 
+- **Hosts closed by chain 123, not asked again** (added by its session 2531): www.electra.cv (its robots file disallows every path to every agent) and www.sec.gov.sc (does not resolve). Publishers chain 123 found needing written permission: NBS Seychelles (its verdict is on record). The Seychelles PUC's publication lists load by script; Belize's Energy Unit draws its annual report's figures as charts; the Barbados Statistical Service and BL&P publish no electricity table; ARME's (Cabo Verde) electricity reports list no file; MONSTAT gives its balance of electricity in a release's prose. ASKdata (Kosovo) is a PxWeb API whose "MWH" figures are thousands of MWh: check a statistics office's scale against EIA's world table.
+
 - **Test 378 allows no table flagged internal where its verdict reads "may be public"** (chain 114's landing): a table whose publisher grants reuse with a citation is public with the citation in its header, and the question goes to the owner.
 
-Read first: chain 123's note (written by session 2545), sessions 2532 to 2545's reports, chain 122's note, `docs/reviews/siting-gaps.md`.
+Read first: chain 123's note (written by session 2531), sessions 2518 to 2531's reports, chain 122's note, `docs/reviews/siting-gaps.md`.
 
 ## Session 2532: Madagascar's electricity (JIRAMA or INSTAT)
 
