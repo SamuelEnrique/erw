@@ -95,6 +95,7 @@ TIER_RULES = [
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
+    ("derived", r"^eia930_demand_growth$"),  # session 2298: ERW code (warehouse/derived/demand_growth.py) over EIA-930's workbooks
     ("derived", r"^interconnection_durations$"),  # session 671: ERW code over the Queued Up file (an entities table)
     ("derived", r"^interconnection_agreements_signed$"),  # session 854: the same, the requests with a signed agreement
     # session 345: NLR's JEDI workbooks' own formulas, evaluated by ERW code for each state the model lists, per MW
@@ -561,6 +562,8 @@ def iso_of(table):
     if table in ("eia930_all_history", "noaa_isd_hourly", "noaa_grid_weather_stations", "noaa_grid_weather_hourly", "noaa_grid_weather_daily",
                  "eia930_demand_weather", "noaa_station_weather_hourly"):  # session 49: the seven ISO BAs, and their weather stations; session 126: their weighted weather and demand with it taken out
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
+    if table == "eia930_demand_growth":  # session 2298: the seven ISO BAs and the Lower 48 (it was read as "DEMAND")
+        return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48"
     if table == "census_metro_population":  # session 129: metropolitan areas, no ISO
         return "none"
     if table == "rrc_lease_production_monthly":  # session 49: Texas leases, no ISO

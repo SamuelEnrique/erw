@@ -64,7 +64,7 @@ full:
   # internal_eqr_summary(token), migration 020, read it for the review page /contracts). The rows signed in the last 1,000
   # days (select, below); Redivis's internal dataset and the CSV hold every row
   - '^ferc_eqr_contracts$'
-  # session 31: /storage (the hourly series below, last 90 days)
+  # session 31: /storage (the hourly series below, last 90 days then; the recent window of 35 days since session 36C)
   - '^storage_(daily_cycle|capacity|buildout_monthly)$'
   # session 32: /emissions (the daily intensity whole; the hourly tables below, last 90 days)
   - '^carbon_intensity_(daily|monthly)$'          # session 34: the monthly table too, whole (about 1,600 rows)
