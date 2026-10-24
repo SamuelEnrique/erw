@@ -116,7 +116,8 @@ class TheRulingsChain091(unittest.TestCase):
 
     def test_none_of_the_37_ruled_said_in_one_line(self):
         self.assertIn("none of the 37 items of chains 077 and 078 has been ruled, so none is struck", self.t)
-        self.assertEqual(len(self.items), 18 + 19 + 8)
+        # Session 1408: chain 100's lines (sessions 14xx) are counted in TheRulingsChain100; the 45 before them stand.
+        self.assertEqual(len([l for l in self.items if not re.search(r"\(Sessions? 14\d\d[^)]*\)$", l)]), 18 + 19 + 8)
 
     def test_chain_091_items_one_a_line_each_with_its_recommendation(self):
         new = [l for l in self.items if re.search(r"\(Sessions? 11(7[89]|8[0-7])[^)]*\)$", l)]
@@ -141,6 +142,61 @@ class TheRulingsChain091(unittest.TestCase):
         for w in ("changed `site/scripts/check-values.mjs` for every page", "verdict by verdict",
                   "\"17 of 17 drawn\"", "In a browser at that landing: one click on a \"Download this table (CSV)\" link",
                   "Chain 091's expected differences", "Done in chain 091: session 1187"):
+            self.assertIn(w, fin)
+
+
+class TheRulingsChain100(unittest.TestCase):
+    """Session 1408 (chain 100): the list brought current again; the assertions above stand."""
+
+    def setUp(self):
+        self.t = src("docs", "reviews", "grid-rulings-2026-10-23.md").replace("\r\n", "\n")
+        rulings = self.t.split("## To finish")[0]
+        self.items = [l for l in rulings.splitlines() if l.startswith("- ")]
+        self.fin = [l for l in self.t.split("## To finish")[1].splitlines() if l.startswith("- ")]
+        self.new = [l for l in self.items if re.search(r"\(Sessions? 14\d\d[^)]*\)$", l)]
+
+    def test_none_of_the_45_ruled_said_in_one_line(self):
+        self.assertIn("none of the 45 items of chains 077, 078 and 091 has been ruled, so none is struck", self.t)
+        self.assertEqual(len(self.items), 18 + 19 + 8 + 11)
+        self.assertNotIn("~~", self.t)
+
+    def test_chain_100_items_one_a_line_each_with_its_recommendation(self):
+        self.assertEqual(len(self.new), 11)
+        for l in self.new:
+            self.assertIn("Recommendation:", l)
+        by = {s: sum(1 for l in self.new if l.endswith(f"(Session {s})")) for s in ("1400", "1401", "1402", "1403", "1404", "1405", "1406", "1407")}
+        self.assertEqual(by, {"1400": 0, "1401": 0, "1402": 3, "1403": 3, "1404": 2, "1405": 1, "1406": 2, "1407": 0})
+        for head, n in (("## The page's words", 2), ("## The design", 6), ("## The data and licenses", 3)):
+            part = self.t.split(head)[1].split("\n## ")[0]
+            got = [l for l in part.splitlines() if l.startswith("- ") and re.search(r"\(Session 140[2-6]\)$", l)]
+            self.assertEqual(len(got), n, head)
+
+    def test_the_named_items_are_there(self):
+        joined = "\n".join(self.new)
+        for w in ("`prices_public: true` for NYISO, ISO-NE and MISO", "The Clean tab's license line now names `iso_rtm_hub_prices`",
+                  "MISO's time zone", "63 python assertions", "The 413 pins", "raised six of session 1404's render cases' expected counts"):
+            self.assertIn(w, joined)
+
+    def test_the_weightiest_first_in_the_data_group(self):
+        data = self.t.split("## The data and licenses")[1].split("## To finish")[0]
+        lines = [l for l in data.splitlines() if l.startswith("- ")]
+        at = [i for i, l in enumerate(lines) if re.search(r"\(Session 140[2-6]\)$", l)]
+        self.assertEqual(len(at), 3)
+        self.assertGreater(at[0], 3)  # the four first lines of the group stand (TheRulings above)
+        self.assertIn("grids.json", lines[at[0]])
+        self.assertIn("MISO's time zone", lines[at[2]])
+
+    def test_landing_first_now_1408(self):
+        first = self.fin[0]
+        for w in ("`wip/1408-grid`", "1152 to 1408", "`c446038c`", "1400 to 1408", "chain 100 merged no main"):
+            self.assertIn(w, first)
+
+    def test_chain_100_to_finish(self):
+        fin = "\n".join(self.fin)
+        for w in ("Chain 100's expected differences", "blocked in session 1401", "the checks blocked in session 1407",
+                  "`GRID_FILE_PAGES`", "`grid_hubprice_<grid>`", "`grid_cleanweek_<grid>`", "`grid_network_us48_demand`",
+                  "`/grid?grid=us48&view=network` and `/grid?view=network` (13 new keys each",
+                  "`docs/brand/review-1402/`", "`review-1403/`", "`review-1406/`"):
             self.assertIn(w, fin)
 
 

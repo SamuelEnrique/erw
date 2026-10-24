@@ -94,5 +94,65 @@ class TheNotes(unittest.TestCase):
         self.assertNotIn(EM, src("archive", "sessions", "SESSION_1188_REPORT.md"))
 
 
+# Session 1408 (chain 100): each note's first chain 100 section, and the sessions its index line names.
+NOTES_100 = {
+    "grid_network": ("1405", "1406", "1404", "1402", "1403", "1400", "1401", "1407", "1408"),
+    "generation_mix_hourly": ("1402", "1403", "1404", "1405", "1406", "1400", "1401", "1407", "1408"),
+}
+
+
+def chain_100_sections(text):
+    """Every section of the note headed with chain 100, each up to the next second-level heading."""
+    return re.findall(r"^## [^\n]*chain 100[^\n]*\n(.*?)(?=^## |\Z)", text, re.M | re.S)
+
+
+class TheNotesChain100(unittest.TestCase):
+    def test_each_note_opens_its_chain_100_sections_with_one_index_line(self):
+        for n, sessions in NOTES_100.items():
+            secs = chain_100_sections(src("docs", "methods", f"{n}.md"))
+            self.assertTrue(secs, n)
+            first = secs[0].strip().split("\n\n")[0]
+            self.assertTrue(first.startswith("Chain 100 in this note (sessions 1400 to 1409): "), (n, first[:80]))
+            for s in sessions:
+                self.assertIn(s, first, (n, s))
+            self.assertEqual(sum(s.count("Chain 100 in this note (sessions 1400 to 1409)") for s in secs), 1, n)
+
+    def test_each_chain_100_section_has_its_decisions(self):
+        for n in NOTES_100:
+            for sec in chain_100_sections(src("docs", "methods", f"{n}.md")):
+                self.assertRegex(sec, r"\nDecisions \((chain 100, )?session 140\d", n)
+
+    def test_what_was_missing_is_there(self):
+        h = src("docs", "methods", "generation_mix_hourly.md")
+        for w in ("Decisions (chain 100, session 1402, the rest of its report, written by session 1408):",
+                  "Decisions (chain 100, session 1403, the rest of its report, written by session 1408):",
+                  "`prices_public: true`", "`scripts/page_tables.py` reads every import", "not `eia930_all_emissions`",
+                  "`METHOD_HUB_PRICE` in `site/lib/gridAnchors.ts`", "(`METHOD_CLEAN_WEEK`)", "`America/Chicago` and `Etc/GMT+5`"):
+            self.assertIn(w, h)
+        g = src("docs", "methods", "grid_network.md")
+        for w in ("Decisions (session 1405, the rest of its report, written by session 1408):", "`data-ask-order`",
+                  "`data-ask-example-tab`", "`gridAskExamples`",
+                  "Decisions (session 1406, the rest of its report, written by session 1408):", "`LOWER48_DEMAND_ANCHOR`",
+                  "## Every panel drawn, a render case each (chain 100, 24 October 2026)", "Decisions (session 1404, written by session 1408):",
+                  "a session that adds a panel adds its case to `CASES`", "No pin is retired"):
+            self.assertIn(w, g)
+        # session 1406's section still runs to "## Not here" with every word its test holds (tests/test_session1406.py)
+        self.assertLess(g.index("## The Lower 48 on the Network tab (chain 100"), g.index("## Every panel drawn, a render case each"))
+        self.assertLess(g.index("## Every panel drawn, a render case each"), g.index("## Not here"))
+
+    def test_the_linked_headings_stand(self):
+        for n, h in (("generation_mix_hourly", "## The hub's price beside the hourly mix (chain 100, 24 October 2026)"),
+                     ("generation_mix_hourly", "## The cleanest hours, live (chain 100, 24 October 2026)"),
+                     ("grid_network", "## The Lower 48 on the Network tab (chain 100, 24 October 2026)")):
+            self.assertEqual(src("docs", "methods", f"{n}.md").count("\n" + h + "\n"), 1, (n, h))
+
+    def test_no_em_dash(self):
+        for n in NOTES_100:
+            self.assertNotIn(EM, src("docs", "methods", f"{n}.md"), n)
+        for p in (("archive", "sessions", "SESSION_1408_REPORT.md"), ("tests", "test_session1176.py"), ("tests", "test_session1162.py")):
+            if os.path.exists(os.path.join(ROOT, *p)):
+                self.assertNotIn(EM, src(*p), p)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -922,13 +922,20 @@ Decisions (session 1187):
 
 ## The Ask column, by tab (chain 100, 24 October 2026)
 
-Chain 100 in this note: session 1405.
+Chain 100 in this note (sessions 1400 to 1409): session 1405 (this section); session 1406, "The Lower 48 on the Network tab", below; session 1404, "Every panel drawn, a render case each", after it; sessions 1402 and 1403 are in `generation_mix_hourly.md` (the hub's price beside the hourly mix, the cleanest hours live); sessions 1400, 1401 and 1407 changed no note (each blocked without a build); session 1408 wrote this line, session 1404's section and the two Decisions blocks marked as its own.
 
 Session 1405. The Ask column's stored answers (`grid_ask_<grid>`, sessions 1157 and 1187 above) are now ordered by the tab on screen: the page gives the panel its tab (`<AskExamples grid={grid} tab={view} />`), and `lib/gridask.ts` `orderByTab` puts first the answers that read a table of that tab, then the rest, each part in the stored order. The five at most a grid are chosen as before, then ordered; no answer is added, dropped or changed, and each `<details>` stays closed. An answer's tab is read from the tables its tool calls read (its `sources`), through `ASK_TABLE_TAB`, built once from the tab lists of `lib/gridtables.ts` (`GRID_VIEW_TABLES`): a table of the Network tab's list that the Mix tab's does not name, or an interchange table, is the Network tab's (Gravity reads the same list, so it orders as Network); a table of the Clean tab's list that the Mix tab's does not name, or a carbon, emissions or clean energy table, is the Clean tab's; any other table of the Mix tab's list (generation, demand, prices, the mix, storage) is the Mix tab's; a table no tab lists has no tab.
 
 On 24 October 2026 the order moves on four grids and two tabs: ERCOT on Clean (the carbon answer, q05, first), PJM on Clean (q29), ISO-NE on Clean (q18 and q26, its two public carbon answers, then the two held), the Lower 48 on Mix (p09, the hourly demand, first) and on Clean (p02 and q19, the carbon answers, first). CAISO, SPP, MISO and NYISO keep their order on every tab, and every grid keeps it on Network and Gravity: none of those answers reads a table a tab lists (the cost of power, merchant revenue, the battery stack, curtailment, day-ahead prices, the queue), or reads an interchange table.
 
 Decisions (session 1405): the tab of a table is decided in the order network, clean, mix because the tab lists overlap (the Mix and Clean tabs draw the same files, and the Network tab's list names carbon, demand and hub price tables too), so membership alone would put a carbon table on three tabs; tables on no tab's list (`cost_of_power_monthly`, `iso_dam_hub_prices` and the rest) are given no tab rather than one by their names, so the map stays the lists' and cannot drift from them; an answer reading tables of two tabs is first on both; the selection of five comes before the order, so a tab never brings in a sixth answer; `tests/test_session1157.py`'s pin of the page's line now reads `<AskExamples grid={grid} tab={view} />` (both its assertions kept, one added: the panel drawn once).
+
+Decisions (session 1405, the rest of its report, written by session 1408):
+
+- **The order is computed in `gridAskExamples`** (`lib/gridask.ts`, a fourth argument, optional), so the panel and `site/scripts/test-grid-ask.mjs` share one function; without a tab the order is the stored one.
+- **Two attributes, no words**: `data-ask-order` on the section (the tab used) and `data-ask-example-tab` on each answer (its tabs); neither is a `data-check` key.
+- **The tables on no tab's list** (the cost of power, merchant revenue, day-ahead hub prices) are put to the owner: counting them as the Mix tab's would move CAISO's and SPP's answers there, and would need a list of their own in `lib/gridtables.ts`.
+- **No figure moved**: `site/scripts/same-figures.mjs` on the four tabs of ERCOT and of the Lower 48, 592 figures, every page the same.
 
 ## The Lower 48 on the Network tab (chain 100, 24 October 2026)
 
@@ -951,6 +958,26 @@ Decisions (session 1406):
 - **The sum and the share only when all seven grids hold a demand in the hour**: a sum over fewer would be a different figure under the same words.
 - **The Lower 48's demand has no fallback**: the snapshot has no US48 node; where the week's rows lack the hour it is "not held".
 - **The stand-ins of three tests now read `fixtures/grid_balance.json`'s week as the `[ts_utc, value]` rows it holds**: they had read each row as an hour's value, so six grids' demand and generation were NaN in `test-grid-files.mjs`, `test-grid-failed-reads.mjs` and `test-grid-render.mjs`. With the rows read, CAISO's and ISO-NE's balance draw their week and the gravity table its seven shares in the render test; those six cases' counts were raised to the figures drawn, and the render test now counts a NaN as a figure without a value.
+
+Decisions (session 1406, the rest of its report, written by session 1408):
+
+- **The block is its own file, `site/components/grid/Lower48Demand.tsx`**: `tests/test_session1153.py`, `1159` and `1182` count `<F `, `className="mt-10">` and `<PanelFile ` in `NetworkFigures.tsx`, which gains one line and one import. Its anchor and method stand outside `GRID_ANCHOR` and `GRID_METHOD` (`LOWER48_DEMAND_ANCHOR`, `METHOD_NETWORK_US48`); this section's heading is a link target, its id held by `site/scripts/test-grid-files.mjs` and `tests/test_session1406.py`: a rename is made with the constant.
+- **The seven's share against the other balancing authorities** (the Lower 48 less the seven) is left to the reader, and put to the owner.
+- **No figure that stood moved**: `same-figures.mjs` on 7 addresses (267 figures), the two Lower 48 Network addresses differing by the block's 16 figures only.
+
+## Every panel drawn, a render case each (chain 100, 24 October 2026)
+
+Chain 100 in this note: session 1404 (written by session 1408 from its report; 1404 changed no note).
+
+Session 1404. `site/scripts/test-grid-render.mjs` draws `/grid` outside Next on the committed fixtures (`site/scripts/grid-render-standin.mjs`, session 1182's stand-in for PostgREST and Storage, with session 1180's and 1166's fixtures added) and holds each panel, a case a panel and a kind of grid (ERCOT; CAISO; a held grid, ISO-NE, and MISO on the Clean tab; the Lower 48; PJM where a panel has a line for no price held), to its block's name, its figures by key kind and count, each with a value, its rendered words, its held lines ("license needed" with the reason on hover), its anchor, its method link and its files. A family check fails when a `grid_<panel>_` family drawn on the fixtures' pages has no case, so **a session that adds a panel adds its case to `CASES`**, beside the panel's key, failed-read guard, file, anchor and method link (sessions 1181 to 1184). Session 1405 added an order check and four cases (72 in all), and session 1406 the Lower 48's demand rows to its Network case.
+
+The python tests that pin the Grid tool's markup word for word stand: 63 of their assertions, in 19 files, carry the line `# also covered by site/scripts/test-grid-render.mjs: <case>` above them, and `tests/test_session1404.py` holds every such line to a case that exists and ran. No pin is retired: that is the owner's ruling.
+
+Decisions (session 1404, written by session 1408):
+
+- **A pin is covered only when every string it holds is drawn in one case's block** (a sentence, a key template's literal prefix longer than four characters, a panel name, an anchor, a method link); 467 pins are not covered, 413 of them lines of code no render shows.
+- **The render's stand-in is a module of its own**, and the two older tests' stand-ins are left as they were, since python tests pin lines of `test-grid-files.mjs` and `test-grid-failed-reads.mjs`.
+- **The counts follow the fixtures as drawn**: session 1406 found the stand-ins read `fixtures/grid_balance.json`'s week as one value an hour, raised six cases' counts to what is drawn, and made a NaN count as a figure without a value; that change of 1404's expected counts is put to the owner beside 1404's pins.
 
 ## Not here
 
