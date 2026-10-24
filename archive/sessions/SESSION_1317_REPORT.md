@@ -1,6 +1,6 @@
 # Session 1317 report: the general chat's chart in the Python loop
 
-24 October 2026, 00:04 to 00:10 UTC, on samueloldlaptop, unattended. Chain `queue/done/096-day-29-october-code-ask-board-7.md`. Model spend USD 0.
+24 October 2026, 00:04 to 00:08 UTC, on samueloldlaptop, unattended. Chain `queue/done/096-day-29-october-code-ask-board-7.md`. Model spend USD 0.
 
 - **Done**: `warehouse/chat/general_series.py`, the site's `lib/chat/generalseries.ts` (session 1142) with `lib/chat/series.ts`'s `chartPoints`, `pointsAreRows` and `keySeconds`, in Python. The base loop's `finish` (`warehouse/chat/ask.py` `Asker`: the general chat and a grid's) gives an answered record the series it rests on: the last query result grouped by time of a cited table, at least three rows, its rows the tool's own, at least two points. Ask ERCOT's profile keeps its own (`ercot.py` overrides `finish`).
 - **Held equal to the site's**: session 1300's turn-by-turn test has a seventh scenario, `a_series` (ERCOT's hub average peak premium by year, over the twelve rows of `ercot_peak_premium_annual` recorded from the live set in `tests/fixtures/session143/tool_reads.json`, read from there at run time by both runners); both loops now report each answer's series (its table, title, group, unit, rows and check) and the test compares them: the same in all seven, one series of twelve rows in `a_series`, none elsewhere.
