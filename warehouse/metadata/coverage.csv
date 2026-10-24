@@ -15,6 +15,7 @@ boem_offshore_platforms,boem,,7092,snapshot,2026-10-23T15:24:58Z,2026-10-23T15:2
 boem_ogor_lease_production_monthly,boem,,1378,P1M,1996-01-01T00:00:00Z,2026-06-01T00:00:00Z,1131562,boem:ogor_a,2026-10-22T02:49:35Z,pass,public,oil;gas,no,source
 boem_renewable_leases,boem,,52,snapshot,2026-10-21T18:33:10Z,2026-10-21T18:33:10Z,52,boem:lease_and_grant_information,2026-10-21T18:33:10Z,pass,public,power,no,source
 bpa_ba_hourly,bpa,,1,PT1H,2020-01-01T08:00:00Z,2026-10-23T06:00:00Z,400261,bpa:ba_load_generation,2026-10-24T00:18:49Z,pass,public,power,no,source
+bsee_offshore_incidents,none,,1,event,2018-01-02T00:00:00Z,2024-12-31T00:00:00Z,4818,1 outlets,2026-10-24T01:21:38Z,pass,public,oil;gas,no,source
 caiso_area_load_hourly,CAISO,caiso_load,6,PT1H,2021-09-17T00:00:00Z,2026-10-10T14:00:00Z,266340,caiso:SLD_FCST,2026-10-10T15:02:56Z,pass,public,power,no,source
 caiso_as_prices,CAISO,caiso_dam,2,PT1H,2023-07-14T07:00:00Z,2026-10-24T06:00:00Z,229440,caiso:PRC_AS,2026-10-23T15:03:56Z,pass,public,power,no,source
 caiso_battery_storage,CAISO,,1,PT5M,2025-08-24T07:00:00Z,2026-10-23T06:55:00Z,365472,caiso:todays_outlook_storage,2026-10-23T14:47:53Z,pass,public,power,no,source

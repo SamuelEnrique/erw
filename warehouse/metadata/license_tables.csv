@@ -15,6 +15,7 @@ boem_offshore_platforms,Bureau of Ocean Energy Management (BOEM),the source regi
 boem_ogor_lease_production_monthly,Bureau of Ocean Energy Management (BOEM),the source registry
 boem_renewable_leases,Bureau of Ocean Energy Management (BOEM),the source registry
 bpa_ba_hourly,Bonneville Power Administration (BPA),the source registry
+bsee_offshore_incidents,"U.S. Department of the Interior, Bureau of Safety and Environmental Enforcement (BSEE)",the source registry
 caiso_area_load_hourly,CAISO,the source registry
 caiso_as_prices,CAISO,the source registry
 caiso_battery_storage,CAISO,the source registry

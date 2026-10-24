@@ -406,6 +406,7 @@ catalogue_hold:
   - afdc_ev_charging_state_annual
   - census_cbp_hosting_annual
   - statcan_electricity_generation_monthly
+  - bsee_offshore_incidents
   - wb_iea_electricity_annual
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects

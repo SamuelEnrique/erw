@@ -277,6 +277,7 @@ SECTOR_RULES = [
     (r"^afdc_ev_charging_state_annual$", "power"),  # session 2155: AFDC's EV charging stations and ports by state, each December
     (r"^census_cbp_hosting_annual$", "power;datacenters"),  # session 2160: CBP's data processing and hosting (NAICS 518210) by state
     (r"^statcan_electricity_generation_monthly$", "power"),  # session 2176: Statistics Canada's monthly generation by province, class and type
+    (r"^bsee_offshore_incidents$", "oil;gas"),  # session 2177: BSEE's offshore incidents, one row an incident
     (r"^wb_iea_electricity_annual$", "power"),  # session 2150: the IEA's electricity per person and renewable share, via the World Bank
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month

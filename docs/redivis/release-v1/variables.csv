@@ -267,6 +267,36 @@ bpa_ba_hourly,nuclear_generation,series variable,MW
 bpa_ba_hourly,solar_generation,series variable,MW
 bpa_ba_hourly,thermal_generation,series variable,MW
 bpa_ba_hourly,wind_generation,series variable,MW
+bsee_offshore_incidents,event_id,column,
+bsee_offshore_incidents,event_date,column,
+bsee_offshore_incidents,event_type,column,
+bsee_offshore_incidents,parties,column,
+bsee_offshore_incidents,entity_ids,column,
+bsee_offshore_incidents,mw,column,
+bsee_offshore_incidents,price,column,
+bsee_offshore_incidents,currency,column,
+bsee_offshore_incidents,status,column,
+bsee_offshore_incidents,source,column,
+bsee_offshore_incidents,source_url,column,
+bsee_offshore_incidents,x_year,column,
+bsee_offshore_incidents,x_time,column,
+bsee_offshore_incidents,x_region,column,
+bsee_offshore_incidents,x_district,column,
+bsee_offshore_incidents,x_area,column,
+bsee_offshore_incidents,x_block,column,
+bsee_offshore_incidents,x_water_depth_ft,column,
+bsee_offshore_incidents,x_structure,column,
+bsee_offshore_incidents,x_structure_type,column,
+bsee_offshore_incidents,x_rig,column,
+bsee_offshore_incidents,x_fatalities,column,
+bsee_offshore_incidents,x_injuries,column,
+bsee_offshore_incidents,x_fire,column,
+bsee_offshore_incidents,x_explosion,column,
+bsee_offshore_incidents,x_loss_of_well_control,column,
+bsee_offshore_incidents,x_collision,column,
+bsee_offshore_incidents,x_lifting,column,
+bsee_offshore_incidents,x_gas_release,column,
+bsee_offshore_incidents,x_summary,column,
 caiso_area_load_hourly,load,series variable,MW
 caiso_as_prices,as_price_dam_nr,series variable,USD/MW-hour
 caiso_as_prices,as_price_dam_rd,series variable,USD/MW-hour
