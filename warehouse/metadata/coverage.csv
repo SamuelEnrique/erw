@@ -245,6 +245,7 @@ energy_companies,none,,488,snapshot,2026-09-28T17:04:21Z,2026-10-23T15:01:53Z,48
 energy_deals,none,,24,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,514,24 outlets,2026-10-23T15:01:15Z,pass,public,deals,no,model_extracted
 energy_deals_evidence,none,,26,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,568,26 outlets,2026-10-23T15:01:15Z,pass,internal,deals,no,model_extracted
 energy_projects,none,,39786,snapshot,2026-09-26T00:04:26Z,2026-10-19T20:31:58Z,39786,erw:energy_projects,2026-10-19T20:35:19Z,pass,public,power,no,derived
+energycom_ghana_electricity_annual,energycom,,1,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,221,energycom:national_energy_statistics,2026-10-24T08:56:42Z,pass,internal,power,no,source
 epa_ghg_inventory_annual,epa,,8,P1Y,1990-01-01T00:00:00Z,2022-01-01T00:00:00Z,5016,epa:ghg_inventory_1990_2022,2026-10-23T23:30:11Z,pass,public,carbon;power;oil;gas,no,source
 epa_ghgrp_facility_emissions,epa,,9721,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,70338,epa:ghgrp_facilities,2026-10-23T20:36:05Z,pass,public,carbon;power;oil;gas,no,source
 epa_ghgrp_power_co2,epa,,1509,P1Y,2010-01-01T00:00:00Z,2023-01-01T00:00:00Z,17035,epa:ghgrp,2026-10-21T18:32:52Z,pass,public,power;carbon,no,source
