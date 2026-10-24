@@ -3734,6 +3734,19 @@ energy_charts_italy_power,solar,series variable,MW
 energy_charts_italy_power,waste,series variable,MW
 energy_charts_italy_power,wind_offshore,series variable,MW
 energy_charts_italy_power,wind_onshore,series variable,MW
+energy_charts_portugal_power,biomass,series variable,MW
+energy_charts_portugal_power,cross_border_electricity_trading,series variable,MW
+energy_charts_portugal_power,fossil_gas,series variable,MW
+energy_charts_portugal_power,fossil_hard_coal,series variable,MW
+energy_charts_portugal_power,hydro_pumped_storage,series variable,MW
+energy_charts_portugal_power,hydro_pumped_storage_consumption,series variable,MW
+energy_charts_portugal_power,hydro_run_of_river,series variable,MW
+energy_charts_portugal_power,hydro_water_reservoir,series variable,MW
+energy_charts_portugal_power,load,series variable,MW
+energy_charts_portugal_power,others,series variable,MW
+energy_charts_portugal_power,solar,series variable,MW
+energy_charts_portugal_power,wind_offshore,series variable,MW
+energy_charts_portugal_power,wind_onshore,series variable,MW
 energy_companies,entity_id,column,
 energy_companies,entity_type,column,
 energy_companies,name,column,
