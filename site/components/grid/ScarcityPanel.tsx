@@ -32,8 +32,9 @@ import { gridNotices } from "@/lib/reliability";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CAISO_HOLDS, wholeRead } from "@/lib/gridReads";  // session 1181
 import { PanelFile, type FileCell } from "@/components/grid/PanelFile";  // session 1182: the counts, to download
+import { METHOD_SCARCITY } from "@/lib/gridAnchors";  // session 1184: the panel's method, its own section of the note
+import { PanelMethod } from "@/components/grid/PanelMethod";
 
-const METHOD = "/data/methods/scarcity_hours_by_grid";
 const D = 86_400_000;
 const LEVEL = `USD ${SCARCITY_LEVEL.toLocaleString("en-US")} per MWh`;
 const dayName = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
@@ -179,7 +180,7 @@ async function Strip({ g }: { g: ScarcityGrid }) {
             ["Days with a notice that is not a call", calls ? days(calls.otherFig) : "could not be read", "", NOTICE_TABLE]] : []),
         ] as FileCell[][])} />
       <p className="mt-2 text-xs text-muted" data-scarcity-source="1">
-        Level: {LEVEL}, docs/methods/scarcity_hours_by_grid.md; prices: {g.label}. An hour without a row is not held, not a zero. <SiteLink href={METHOD}>Method: each grid&apos;s own scarcity signal</SiteLink>
+        Level: {LEVEL}, docs/methods/scarcity_hours_by_grid.md; prices: {g.label}. An hour without a row is not held, not a zero. <SiteLink href={METHOD_SCARCITY}>Method: each grid&apos;s own scarcity signal</SiteLink>
       </p>
     </div>
   );
@@ -196,6 +197,8 @@ export async function ScarcityPanel({ grid, label }: { grid: string; label: stri
               {SCARCITY_TABLE} is by grid, and it holds two: <SiteLink href={`${gridHref("ercot", "mix")}#scarcity`}>ERCOT&apos;s scarcity hours</SiteLink> and <SiteLink href={`${gridHref("caiso", "mix")}#scarcity`}>CAISO&apos;s</SiteLink>.
             </p>
           ) : (() => { const n = notHeld(grid, label); return <p className="max-w-3xl text-sm" data-scarcity-held={n.words}>{label}: <Missing why={n.why} words={n.words} /> <span className="text-xs text-muted">{n.why}</span></p>; })()}
+        {/* session 1184: the strip's source line links its method; the Lower 48's and the other grids' line has its own */}
+        {isScarcityGrid(grid) ? null : <PanelMethod at="scarcity"><SiteLink href={METHOD_SCARCITY}>Method: each grid&apos;s own scarcity signal</SiteLink></PanelMethod>}
       </ToolSection>
     </div>
   );

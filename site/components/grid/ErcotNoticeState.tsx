@@ -17,6 +17,7 @@ import { ercotNotices } from "@/lib/gridErcotNotices";
 import { gridHref } from "@/lib/gridtool";
 import { attempt } from "@/lib/supabase";
 import { PanelFile, type FileCell } from "@/components/grid/PanelFile";  // session 1182: the state line's days and counts, to download
+import { METHOD_ERCOT_NOTICES } from "@/lib/gridAnchors";  // session 1184: the panel's method, its own section of the note
 
 /** A figure with its key and its one-line source as the hover tip: a day as written (YYYY-MM-DD), a count whole. */
 function F({ f }: { f: Fig }) {
@@ -91,7 +92,7 @@ export async function ErcotNoticeState() {
                 ercot_grid_notices (Electric Reliability Council of Texas, ERCOT: its news releases since 2011 and its control room&apos;s operations messages,
                 which ERCOT serves for six months, since May 2026): one row per notice and Central day it covers. Before May 2026 a notice is held only where a
                 news release announced it, so a day may have had one the table does not hold. A call is a system-wide call on supply or demand, as
-                grid_stress_days counts it. <Link href="/data/methods/ercot_grid_notices">Method: ERCOT&apos;s grid notices</Link>
+                grid_stress_days counts it. <Link href="/data/methods/ercot_grid_notices">Method: ERCOT&apos;s grid notices</Link>; <Link href={METHOD_ERCOT_NOTICES}>Method: the notice state on the Grid tool</Link>
               </p>
             </div>
           );

@@ -21,6 +21,7 @@
 // on a day it is held); a cell in words is written in those words; a value with a comma or a quote is quoted.
 // Session 1183: and each block carries its anchor (lib/gridAnchors.ts: the id on the block, on an element inside it, or
 // on the element that holds it alone), and no id is drawn twice on a page.
+// Session 1184: and each block links its method, the section of its note (lib/gridAnchors.ts GRID_METHOD).
 // Prints one line a case; exit 0 when every case holds, 1 otherwise.
 import fs from "node:fs";
 import path from "node:path";
@@ -135,7 +136,7 @@ const MEMO = Symbol.for("react.memo");
 const FORWARD = Symbol.for("react.forward_ref");
 const BLOCKS = [["data-grid-panel", (v) => v], ["data-grid-balance", (v) => `balance_${v}`], ["data-grid-replay-day", (v) => `replay_${v}`],
   ["data-grid-view", (v) => `view_${v}`], ["data-mix", (v) => `mixview_${v}`]];
-const block = (rec, name) => (rec[name] ??= { nums: [], files: [], made: [], errors: [], ids: [] });
+const block = (rec, name) => (rec[name] ??= { nums: [], files: [], made: [], errors: [], ids: [], methods: [] });
 // session 1183: every id the page draws, in order (a symbol key: the blocks are the record's own keys)
 const IDS = Symbol("ids");
 const PF = await import("../components/grid/PanelFile.tsx");
@@ -165,6 +166,8 @@ async function walk(node, rec, at, seen, wrap) {
       if (props["data-grid-file"] !== undefined) block(rec, p).files.push({ id: props["data-grid-file"], href: props.href, download: props.download,
         rows: props["data-grid-file-rows"], figures: props["data-grid-file-figures"] });
     }
+    // session 1184: every link to a method note the block draws (a SiteLink or a link, before the release gate draws it)
+    if (typeof props.href === "string" && props.href.startsWith("/data/methods/")) block(rec, p).methods.push(props.href);
     if (type === PF.PanelFile) block(rec, p).made.push(PF.panelFile(props.of, props.columns, props.rows));
     if (typeof type === "function" && !type.__erwClient && !type.prototype?.isReactComponent) {
       let o;
@@ -316,6 +319,9 @@ function anchorsOf(name, sp) {
 const ANCHOR_PAGES = [...PAGES.map(([sp]) => sp), { grid: "us48", view: "mix" }, { grid: "ercot", view: "mix", grids: "ercot,caiso" },
   { grid: "ercot", view: "mix", mix: "stress", grids: "ercot,caiso" }, { grid: "nyiso", view: "clean" }];
 const seenAnchors = new Set();
+// session 1184: a panel's key in lib/gridAnchors.ts from its anchor (a second grid's anchor is the anchor and the grid)
+const keyOfAnchor = (a) => Object.keys(AN).find((k) => a === AN[k]) ?? Object.keys(AN).find((k) => a.startsWith(`${AN[k]}-`));
+const seenMethods = new Set();
 for (const sp of ANCHOR_PAGES) {
   const rec = await draw(sp);
   const q = new URLSearchParams(sp).toString();
@@ -334,7 +340,26 @@ for (const sp of ANCHOR_PAGES) {
     if (!Object.keys(rec).some((n) => anchorsOf(n, sp))) why.push(`no panel drawn (blocks: ${Object.keys(rec).join(", ")})`);
     return why.join("; ");
   });
+  // session 1184: and each panel drawn links its method, the section of its note (lib/gridAnchors.ts GRID_METHOD; the
+  // fragment held to the rendered note by scripts/test-grid-methods.mjs)
+  await check(`/grid?${q}: each panel links its method's own section (GRID_METHOD)`, () => {
+    const why = [];
+    for (const [name, b] of Object.entries(rec)) {
+      const want = anchorsOf(name, sp);
+      if (!want) continue;
+      const keys = new Set((Array.isArray(want) ? want : want.oneOf.filter((a) => b.ids.includes(a))).map(keyOfAnchor));
+      for (const k of keys) {
+        seenMethods.add(k);
+        if (!b.methods.includes(GA.GRID_METHOD[k])) why.push(`${name} (${k}) lacks ${GA.GRID_METHOD[k]} (links: ${b.methods.join(", ") || "none"})`);
+      }
+    }
+    return why.join("; ");
+  });
 }
+await check("every panel's method link is drawn on a page above (session 1184)", () => {
+  const miss = Object.keys(GA.GRID_METHOD).filter((k) => !seenMethods.has(k));
+  return miss.length ? `never drawn: ${miss.join(", ")}` : "";
+});
 await check("every anchor of lib/gridAnchors.ts is drawn on a page above, and every panel's address names its tab's words", () => {
   const miss = Object.values(AN).filter((a) => !seenAnchors.has(a));
   if (miss.length) return `never drawn: ${miss.join(", ")}`;

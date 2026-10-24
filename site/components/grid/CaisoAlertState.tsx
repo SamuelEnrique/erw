@@ -17,6 +17,7 @@ import { gridNotices } from "@/lib/reliability";
 import { attempt } from "@/lib/supabase";
 import { CAISO_HOLDS, wholeRead } from "@/lib/gridReads";  // session 1181
 import { PanelFile, type FileCell } from "@/components/grid/PanelFile";  // session 1182: the state line's days and counts, to download
+import { METHOD_CAISO_ALERTS } from "@/lib/gridAnchors";  // session 1184: the panel's method, its own section of the note
 
 /** A figure with its key and its one-line source as the hover tip: a day as written (YYYY-MM-DD), a count whole. */
 function F({ f }: { f: Fig }) {
@@ -86,7 +87,7 @@ export async function CaisoAlertState() {
               <p className="text-xs text-muted">
                 caiso_grid_emergencies (California ISO, Grid Emergencies History Report): one row per notice type, region and Pacific day; an alert is an
                 Energy Emergency Alert (EEA Watch, EEA 1 to 3) or a Flex Alert (before May 2022 also Alert, Warning and the stage emergencies), as the
-                scarcity table&apos;s own signal counts them. <Link href="/data/methods/california_reliability">Method: California reliability</Link>
+                scarcity table&apos;s own signal counts them. <Link href={METHOD_CAISO_ALERTS}>Method: California reliability</Link>
               </p>
             </div>
           );

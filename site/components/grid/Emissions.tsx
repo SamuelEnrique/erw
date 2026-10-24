@@ -22,7 +22,8 @@ import { scrollRegion } from "@/lib/cells";  // session 1159: the last 24 hours'
 import { carbonLeftOut, carbonLeftOutMonths, monthRuns, CARBON_HYDRO_GAP } from "@/lib/carbonLeftOut";  // session 118
 import { PanelFile } from "@/components/grid/PanelFile";  // session 1182: the last 24 hours' table, to download
 import { gridHref } from "@/lib/gridtool";
-import { GRID_ANCHOR } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
+import { GRID_ANCHOR, METHOD_CLEAN24 } from "@/lib/gridAnchors";  // session 1183: each panel's anchor; session 1184: its method
+import { PanelMethod } from "@/components/grid/PanelMethod";  // session 1184: the line that links the panel's method
 
 const T = "carbon_intensity_hourly";
 const TM = "carbon_intensity_monthly"; // session 34
@@ -212,6 +213,7 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
                 columns={["ISO", "Latest hour, kg CO2/MWh", "Latest hour (start, UTC)", "Lowest of the 24 hours", "Lowest hour (start, UTC)", "Highest of the 24 hours", "Highest hour (start, UTC)"]}
                 rows={lastDayFigures(rows, ISOS.map((i) => i.entity), newest).map((d) => [ISOS.find((i) => i.entity === d.entity)!.label,
                   <F key="l" f={d.latest} />, d.latest.ts, <F key="lo" f={d.low} />, d.low.ts, <F key="hi" f={d.high} />, d.high.ts])} />
+              <PanelMethod at="clean24"><Link href={METHOD_CLEAN24}>Method: the Grid tool&apos;s panels, every figure keyed</Link></PanelMethod>
             </div>
             </div>
           </>
@@ -220,6 +222,7 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
           <div id={GRID_ANCHOR.clean24}>
           <div data-grid-panel={`grid_clean24_${grid ?? "all"}`} data-clean24-unread={got.ok ? "empty" : "failed"}>
             <NoData what="the last 24 hours" reason={got.ok ? `${T} has no row in the last ${LOOK_BACK_DAYS} days` : got.reason} />
+            <PanelMethod at="clean24"><Link href={METHOD_CLEAN24}>Method: the Grid tool&apos;s panels, every figure keyed</Link></PanelMethod>
           </div>
           </div>
         )}

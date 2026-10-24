@@ -15,7 +15,9 @@ import type { ReplayRead } from "@/lib/gridReplayFile";
 import { PanelFile, type FileOf } from "@/components/grid/PanelFile";  // session 1182: the day's table, to download
 import { BA_GRID } from "@/lib/gridHeld";
 import { gridHref } from "@/lib/gridtool";
-import { GRID_ANCHOR } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
+import { GRID_ANCHOR, METHOD_REPLAY } from "@/lib/gridAnchors";  // session 1183: each panel's anchor; session 1184: its method
+import { SiteLink as Link } from "@/components/SiteLink";
+import { PanelMethod } from "@/components/grid/PanelMethod";  // session 1184: the line that links the panel's method
 
 /** The replayed day the address asks for: `day` the day drawn (held to the replay's first and last day, as the network
  *  component holds it), `asked` the address's own word, and the year's file as read. */
@@ -66,6 +68,7 @@ export function ReplayDayFigures({ ask, ba, name }: { ask: ReplayAsk; ba: string
             rows={rows} />
           <PanelFile of={file} columns={head} rows={rows.map((x) => x.cells)} /></>
         ) : <NoData what={`${name}'s figures of ${ask.day}`} reason={r.demandWhy ?? `${ask.day} is not a day of the replay's file`} />}
+        <PanelMethod at="replay"><Link href={METHOD_REPLAY}>Method: the outside grids&apos; demand in the replay</Link></PanelMethod>
       </ToolSection>
     </div>
   );

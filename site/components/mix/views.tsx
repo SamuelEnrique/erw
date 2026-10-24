@@ -21,7 +21,9 @@ import { DASHES, FUEL_COLOR, FUEL_WORDS, GRID_COLORS, HOURS, SEASON_NAMES, n0, n
 import { STATES } from "@/lib/regions";
 import * as stress from "@/lib/stress";
 import * as GS from "@/lib/gridStress";  // session 1168: the four measures by year, their notes and what each is not
-import { anchorOf, GRID_ANCHOR } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
+import { anchorOf, GRID_ANCHOR, METHOD_STRESS_CALM, METHOD_STRESS_GRIDS, METHOD_STRESS_RAMP, METHOD_STRESS_TIGHT } from "@/lib/gridAnchors";  // session 1183: each panel's anchor; session 1184: its method
+import { SiteLink } from "@/components/SiteLink";  // session 1184: a link to a method passes the release gate
+import { PanelMethod } from "@/components/grid/PanelMethod";  // session 1184: the line that links the panel's method
 import { PanelFile, type FileOf } from "@/components/grid/PanelFile";  // session 1182: the stress tables, to download
 
 const nameOf = (g: Slug) => mix.GRIDS.find((x) => x.slug === g)!.name;
@@ -383,6 +385,7 @@ export function StressView({ c }: { c: Choice }) {
                   return { key: y, on: y === year, cells: [`${y}${stress.wholeYear(f, y) ? "" : " to date"}`, sk("peak_demand_mw", "n0"), sk("evening_ramp_max_mw_per_h", "n0"), sk("evening_ramp_max_share_of_peak_pct", "n1", "%"),
                   whenOf(y, "evening_ramp_max_mw_per_h"), sk("evening_ramp_3h_max_mw", "n0"), sk("net_load_min_mw", "n0"), sk("net_load_min_share_of_peak_pct", "n1", "%"), whenOf(y, "net_load_min_mw"),
                   sk("hours_held", "n0")] }; })} />
+              <PanelMethod at="stressRamp"><SiteLink href={METHOD_STRESS_RAMP}>Method: the views&apos; figures, keyed from the committed files</SiteLink></PanelMethod>
             </Block>
             <Block title={`${nameOf(g)}: what each fuel gave in the ${f.tight} tightest hours, ${year}`} id={anchorOf("stressTight", i, g)}>
               {(() => { const ly = stress.yearsOf(f), tl = GS.tightLines(f, ly); return tl.length ? <>
@@ -393,6 +396,7 @@ export function StressView({ c }: { c: Choice }) {
                 rows={stress.fuelRows(f, year).map((r) => { const fk = (k: string, form: Form, v: number | null, unit = "") => kv(v, form, `stress/${g}.json`, `years.${year}.${k}`, unit, r.why ?? why);
                   return { key: r.fuel, cells: [r.fuel === "nuclear" ? <span key="n" className="cursor-help border-b border-dotted border-muted" title={nuclearNote(g, year)}>{r.name}</span> : r.name,
                   fk(`tight_${r.fuel}_mw`, "n0", r.mw), fk(`capacity_${r.fuel}_mw`, "n0", r.capacity), fk(`tight_${r.fuel}_share_of_capacity_pct`, "n1", r.share, "%")] }; })} /> : <NH why={why} />}
+              <PanelMethod at="stressTight"><SiteLink href={METHOD_STRESS_TIGHT}>Method: the large tables, keyed whole</SiteLink></PanelMethod>
             </Block>
             <Block title={`${nameOf(g)}: dark, calm stretches, by year`} id={anchorOf("stressCalm", i, g)}>
               {(() => { const ly = stress.yearsOf(f); return <>
@@ -406,6 +410,7 @@ export function StressView({ c }: { c: Choice }) {
                   whenOf(y, "calm_longest_hours"), ck("calm_longest_missing_mwh", "n0"), ck("calm_longest_fleet_mw", "n0", nb),
                   ck("calm_longest_fleet_mwh", "n0", nb), ck("calm_longest_fleet_full_power_hours", "n1", nb),
                   ck("calm_longest_fleet_energy_multiples", "n1", nb)] }; })} />
+              <PanelMethod at="stressCalm"><SiteLink href={METHOD_STRESS_CALM}>Method: the large tables, keyed whole</SiteLink></PanelMethod>
             </Block>
           </div>
         );
@@ -419,6 +424,7 @@ export function StressView({ c }: { c: Choice }) {
             return { key: g, on: c.grids.includes(g), cells: [nameOf(g), sk("evening_ramp_max_share_of_peak_pct", why), sk("evening_ramp_3h_max_share_of_peak_pct", why), sk("net_load_min_share_of_peak_pct", why),
               sk("tight_wind_share_of_capacity_pct", "The grid's file reports no wind for this year, or the year is not held."), sk("tight_solar_share_of_capacity_pct", "The grid's file reports no solar for this year, or the year is not held."),
               k("calm_longest_hours") === null ? <NH key="s" why={why} /> : kv(k("calm_longest_hours"), "span", `stress/${g}.json`, `years.${year}.calm_longest_hours`)] }; })} />
+        <PanelMethod at="stressGrids"><SiteLink href={METHOD_STRESS_GRIDS}>Method: the views&apos; figures, keyed from the committed files</SiteLink></PanelMethod>
       </Block>
     </>
   );

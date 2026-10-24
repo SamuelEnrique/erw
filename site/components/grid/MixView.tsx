@@ -9,7 +9,8 @@ import { GRIDS, calName, periodOf } from "@/lib/mix2";
 import { CLEAN, HISTORY, MIX, PLUS, STRESS } from "@/lib/mixdata";
 import { ALL_GRIDS, FACTORS, MAX_GRIDS, NO_GRID_CHOICE, SEASON_NAMES, VIEWS, filtered, gridUse, hrefOf, toggled, type Choice } from "@/lib/mixpage";
 import { gridHref } from "@/lib/gridtool";
-import { anchorOf } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
+import { anchorOf, METHOD_MIX } from "@/lib/gridAnchors";  // session 1183: each panel's anchor; session 1184: its method
+import { PanelMethod } from "@/components/grid/PanelMethod";  // session 1184: the line that links the panel's method
 import { BAS, STATES } from "@/lib/regions";
 import { attempt, HOURLY, rest } from "@/lib/supabase";
 import { HourlyFigures, MONTH_VARIABLES, MonthlyFigures } from "@/components/grid/MixFigures";
@@ -180,6 +181,7 @@ async function NowView({ c }: { c: Choice }) {
                   // session 1181: the grid's generation could not be read: the panel says so in its own place, and draws no figure
                   : !month && !withheld && !hourly.ok ? <p className="mb-2 text-sm" data-mix-unread="1">The hourly mix: {failed(hourly.reason)}</p> : null}
                 {!month && withheld ? <p className="mb-2 text-xs text-muted">California&apos;s monthly mix, from CAISO&apos;s own data since January 2026, is under &quot;By month&quot;.</p> : null}
+                <PanelMethod at="mix"><SiteLink href={METHOD_MIX}>Method: the Mix tab&apos;s energy mix, keyed, hourly and by month</SiteLink></PanelMethod>
               </div>
               </div>
               {month ? null : (

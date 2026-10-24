@@ -23,7 +23,8 @@ import { ReplayDayDemand, ReplayDayFigures, type ReplayAsk } from "@/components/
 import { Missing } from "@/components/mix/Now";
 import { PanelFile, type FileOf } from "@/components/grid/PanelFile";  // session 1182: each panel's table, to download
 import { gridHref } from "@/lib/gridtool";
-import { GRID_ANCHOR } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
+import { GRID_ANCHOR, METHOD_BALANCE, METHOD_GRAVITY, METHOD_NETWORK } from "@/lib/gridAnchors";  // session 1183: each panel's anchor; session 1184: its method
+import { PanelMethod } from "@/components/grid/PanelMethod";  // session 1184: the line that links the panel's method
 import { BA_GRID } from "@/lib/gridHeld";
 import { replayDay } from "@/lib/gridReplay";
 
@@ -77,6 +78,7 @@ export function NetworkFigures({ snap, hour, grid, live, replay, node }: { snap:
           <ToolTable caption="Net exchange of the seven grids in the hour the network shows" minWidth={380} head={head48}
             rows={rows48} />
           <PanelFile of={file48} columns={head48} rows={rows48.map((r) => r.cells)} />
+          <PanelMethod at="network"><Link href={METHOD_NETWORK}>Method: the Grid tool&apos;s panels, every figure keyed</Link></PanelMethod>
         </ToolSection>
       </div>
     );
@@ -113,6 +115,7 @@ export function NetworkFigures({ snap, hour, grid, live, replay, node }: { snap:
             <PanelFile of={tieFile} columns={tieHead} rows={tieRows.map((r) => r.cells)} />
           </>
         ) : <NoData what={`${grid.label}'s ties`} reason={`the snapshot holds no flow for ${grid.ba} in the hour starting ${hourName(hour)}`} />}
+        <PanelMethod at="network"><Link href={METHOD_NETWORK}>Method: the Grid tool&apos;s panels, every figure keyed</Link></PanelMethod>
       </ToolSection>
       {/* session 1181: a read of the live week that failed is said in the balance (its parts, the gap and the week), never "not held" */}
       {live.failed?.generation || live.failed?.demand
@@ -165,6 +168,7 @@ function Balance({ b, label, failed }: { b: BalancePanel; label: string; /** ses
             : weekGone ? <>The week&apos;s gap is not computed: its hours <span data-balance-unread="1">{weekGone}</span>.</>
             : <>No hour of the week holds all three, so the week&apos;s gap is not computed.</>}
         </p>
+        <PanelMethod at="balance"><Link href={METHOD_BALANCE}>Method: the balance, said where the figures are</Link></PanelMethod>
       </ToolSection>
     </div>
   );
@@ -206,6 +210,7 @@ export function GravityFigures({ snap, hour, grid, live, replay }: { snap: Snaps
           rows={gRows} />
         {replay ? <ReplayDayDemand ask={replay} ba={grid.ba} label={grid.label} /> : null}
         <PanelFile of={gFile} columns={gHead} rows={gRows.map((r) => r.cells)} />
+        <PanelMethod at="gravity"><Link href={METHOD_GRAVITY}>Method: the Grid tool&apos;s panels, every figure keyed</Link></PanelMethod>
       </ToolSection>
     </div>
   );

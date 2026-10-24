@@ -18,7 +18,8 @@ import { ChartFrame, HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolT
 import { HEADLINE, MEASURES, TABLE as SUPPLY_TABLE, supplyOf } from "@/lib/basupply";
 import { shown } from "@/lib/format";
 import { GRID_CHOICES, gridHref, type GridChoice } from "@/lib/gridtool";
-import { GRID_ANCHOR } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
+import { GRID_ANCHOR, METHOD_EXCHANGE_GRIDS, METHOD_EXCHANGE_MONTHS, METHOD_EXCHANGE_TIES } from "@/lib/gridAnchors";  // session 1183: each panel's anchor; session 1184: its method
+import { PanelMethod } from "@/components/grid/PanelMethod";  // session 1184: the line that links the panel's method
 import { directionWords, exchangeTies, type Fig } from "@/lib/gridKeys";  // session 1167
 import { netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
 import { freshSnapshot } from "@/lib/gridReads";  // session 1180
@@ -80,6 +81,7 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
           <ToolTable caption="Net export of the seven grids in the hour" minWidth={360} head={head48}
             rows={rows48} />
           <PanelFile of={file48} columns={head48} rows={rows48.map((r) => r.cells)} />
+          <PanelMethod at="exchangeGrids"><Link href={METHOD_EXCHANGE_GRIDS}>Method: the Exchange blocks under the gravity shape</Link></PanelMethod>
         </ToolSection>
         <p className="mb-6 text-sm"><Link href={gridHref(grid.slug, "network")}>See every tie on the network</Link>.</p>
         {source}
@@ -148,6 +150,7 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
             rows={tieRows} />
           <PanelFile of={tieFile} columns={tieHead} rows={tieRows.map((r) => r.cells)} /></>
         ) : <NoData what={`${grid.label}'s ties`} reason={`the snapshot holds no flow for ${ba} in the hour starting ${hourName(hour)}`} />}
+        <PanelMethod at="exchangeTies"><Link href={METHOD_EXCHANGE_TIES}>Method: the Exchange blocks under the gravity shape</Link></PanelMethod>
       </ToolSection>
 
       {week.length ? (
@@ -193,6 +196,7 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
               })()}
             </>
           )}
+        <PanelMethod at="exchangeMonths"><Link href={METHOD_EXCHANGE_MONTHS}>Method: who supplies a grid, the twelve months</Link></PanelMethod>
       </ToolSection>
       <p className="mb-6 text-sm"><Link href={gridHref(grid.slug, "network")}>See these ties on the network, and trace the power two steps back</Link>.</p>
       {source}

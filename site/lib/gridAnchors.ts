@@ -67,3 +67,49 @@ export const PANEL_ANCHORS: PanelAnchor[] = [
 
 /** The address of a panel with its anchor: what a reader shares. */
 export const panelAddress = (a: PanelAnchor) => `${a.address}#${GRID_ANCHOR[a.key]}`;
+
+// Session 1184 (chain 091): each panel's method, the section of its note that defines it (the chain 077 or 078
+// section, or the older section the panel follows), as /data/methods/<note>#<heading id>. The id is the one the site's
+// renderer writes for the heading (lib/markdown.ts headingSlugs): scripts/test-grid-methods.mjs renders each committed
+// note with lib/markdown.ts render and holds each fragment to an id of it, under the heading named there; check-links.mjs
+// finds the same ids on the served method page. One constant a panel, each linked in its component as
+// href={METHOD_<PANEL>}: scripts/check-methods.mjs reads a constant that holds a note's address as a link to that note,
+// and scripts/page_tables.py reads only the constants a component imports, so a note named like a table (ercot_grid_notices)
+// is not taken for a read of the network's panels. GRID_METHOD gathers them by panel, for the tests. A heading renamed in
+// a note moves its id: the test says which link broke.
+export const METHOD_NETWORK = "/data/methods/grid_network#the-grid-tools-panels-every-figure-keyed-chain-077-23-october-2026";
+export const METHOD_REPLAY = "/data/methods/grid_network_v3#the-outside-grids-demand-in-the-replay-chain-078-24-october-2026";
+export const METHOD_BALANCE = "/data/methods/grid_network#the-balance-said-where-the-figures-are-chain-078-24-october-2026";
+export const METHOD_GRAVITY = "/data/methods/grid_network#the-grid-tools-panels-every-figure-keyed-chain-077-23-october-2026";
+export const METHOD_EXCHANGE_GRIDS = "/data/methods/grid_network#the-exchange-blocks-under-the-gravity-shape-session-1167";
+export const METHOD_EXCHANGE_TIES = "/data/methods/grid_network#the-exchange-blocks-under-the-gravity-shape-session-1167";
+export const METHOD_EXCHANGE_MONTHS = "/data/methods/grid_network#who-supplies-a-grid-session-68";
+export const METHOD_CLEAN24 = "/data/methods/grid_network#the-grid-tools-panels-every-figure-keyed-chain-077-23-october-2026";
+export const METHOD_MIX = "/data/methods/generation_mix_hourly#the-mix-tabs-energy-mix-keyed-hourly-and-by-month-chain-077-23-october-2026";
+export const METHOD_SCARCITY = "/data/methods/scarcity_hours_by_grid#on-the-grid-tool-session-1154-23-october-2026";
+export const METHOD_CAISO_ALERTS = "/data/methods/california_reliability#on-the-grid-tool-the-alert-state-session-1155-23-october-2026";
+export const METHOD_ERCOT_NOTICES = "/data/methods/ercot_grid_notices#6-on-the-grid-tool-the-notice-state-session-1174-24-october-2026";
+export const METHOD_ASK = "/data/methods/grid_network#the-grid-tools-panels-every-figure-keyed-chain-077-23-october-2026";
+export const METHOD_STRESS_RAMP = "/data/methods/grid_stress#the-views-figures-keyed-from-the-committed-files-chain-078-24-october-2026";
+export const METHOD_STRESS_TIGHT = "/data/methods/grid_stress#the-large-tables-keyed-whole-session-1168";
+export const METHOD_STRESS_CALM = "/data/methods/grid_stress#the-large-tables-keyed-whole-session-1168";
+export const METHOD_STRESS_GRIDS = "/data/methods/grid_stress#the-views-figures-keyed-from-the-committed-files-chain-078-24-october-2026";
+export const GRID_METHOD: Record<GridAnchorKey, string> = {
+  network: METHOD_NETWORK,
+  replay: METHOD_REPLAY,
+  balance: METHOD_BALANCE,
+  gravity: METHOD_GRAVITY,
+  exchangeGrids: METHOD_EXCHANGE_GRIDS,
+  exchangeTies: METHOD_EXCHANGE_TIES,
+  exchangeMonths: METHOD_EXCHANGE_MONTHS,
+  clean24: METHOD_CLEAN24,
+  mix: METHOD_MIX,
+  scarcity: METHOD_SCARCITY,
+  caisoAlerts: METHOD_CAISO_ALERTS,
+  ercotNotices: METHOD_ERCOT_NOTICES,
+  ask: METHOD_ASK,
+  stressRamp: METHOD_STRESS_RAMP,
+  stressTight: METHOD_STRESS_TIGHT,
+  stressCalm: METHOD_STRESS_CALM,
+  stressGrids: METHOD_STRESS_GRIDS,
+};

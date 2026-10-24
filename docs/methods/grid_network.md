@@ -824,6 +824,39 @@ Decisions (session 1183):
 - **The files stay in the links** (measured above, under the brief's bound of 15 percent or 100 KB). `same-figures.mjs --sizes` is kept for the next panel that adds to a page.
 - **No copy line**: the older blocks of `/grid` have none to follow, and the address with its anchor is what a reader shares from the browser's own bar; a "copy this view" control is a question for a ruling, not a placement to copy.
 
+## The method from each panel (chain 091, 24 October 2026)
+
+Chain 091 in this note: session 1184.
+
+Session 1184. The older blocks of `/grid` end their source line with a link to their note ("Method", `/data/methods/grid_network`). Each panel chains 077, 078 and 091 added now links the section of its note that defines it: the chain 077 or 078 section, or the older section the panel follows. The links are kept beside the anchors in `site/lib/gridAnchors.ts`, one constant a panel (`METHOD_NETWORK`, `METHOD_BALANCE` and the rest), gathered by panel in `GRID_METHOD`, each `/data/methods/<note>#<id>` with the id the site's renderer writes for the heading (`site/lib/markdown.ts`, `headingSlugs`: the heading's text in lower case, without punctuation but the hyphen and the underscore, each space a hyphen).
+
+| Panel | Its method |
+|---|---|
+| The network's figures, the gravity table, the last 24 hours, the stored answers | this note, "The Grid tool's panels, every figure keyed (chain 077, 23 October 2026)" |
+| The balance | this note, "The balance, said where the figures are (chain 078, 24 October 2026)" |
+| The Exchange blocks: the seven grids, the ties and the week | this note, "The Exchange blocks under the gravity shape (session 1167)" |
+| The Exchange blocks: twelve months | this note, "Who supplies a grid (session 68)" |
+| The replayed day | `grid_network_v3.md`, "The outside grids' demand in the replay (chain 078, 24 October 2026)" |
+| The energy mix panel | `generation_mix_hourly.md`, "The Mix tab's energy mix, keyed, hourly and by month (chain 077, 23 October 2026)" |
+| The scarcity strip | `scarcity_hours_by_grid.md`, "On the Grid tool (session 1154, 23 October 2026)" |
+| CAISO's alerts | `california_reliability.md`, "On the Grid tool: the alert state (session 1155, 23 October 2026)" |
+| ERCOT's notices | `ercot_grid_notices.md`, "6. On the Grid tool: the notice state (session 1174, 24 October 2026)" |
+| The stress tables: the evening ramp, the seven grids | `grid_stress.md`, "The views' figures, keyed from the committed files (chain 078, 24 October 2026)" |
+| The stress tables: the tightest hours, the calm stretches | `grid_stress.md`, "The large tables, keyed whole (session 1168)" |
+
+Where the link stands: the scarcity strip and CAISO's alerts already ended their source line with a link to their note, and that link now opens the section (its words unchanged). ERCOT's notices keep the link to the whole note that session 1174 wrote and pinned, followed by one to the section. Every other panel gains one line at its foot, under its table and its download line, "Method: <the section's words>." (`site/components/grid/PanelMethod.tsx`, `data-grid-method="<panel>"`), inside the panel, so the line goes with the panel's anchor; the scarcity panel of the Lower 48 and of a grid without a strip draws that line too. Where a read fails, the replayed day (its year's file not read) and CAISO's and ERCOT's state lines say what could not be read as before, without a link; every other panel keeps its line. Each link is a `SiteLink`, so a visitor sees it as the other method links of the page while `/data/methods` is in review.
+
+**The checks.** `site/scripts/check-methods.mjs` reads a page's notes from the links its code writes; a constant that holds a note's address counts (session 409's rule), so each `href={METHOD_<PANEL>}` is a note of `/grid` with no change to the script: `/grid`'s notes gain `grid_network_v3` and `grid_stress`, and its 553 figures stay named. `site/scripts/check-links.mjs` already held each fragment against the ids of the served page it names, the method pages among the pages it reads in the internal view (session 581), so it needed no change. `site/scripts/test-grid-methods.mjs` (new) renders each committed note with `lib/markdown.ts`'s own `render` and holds, for each panel, that its fragment is an id of the note under the heading named in the table above, judged by check-links' own `internalTarget`, `anchorOk` and `judge` (an id one letter off is a finding); that the section says what the panel draws; that the link is written in its component as a `Link` to its `METHOD_<PANEL>` whose words say "Method", and check-methods reads every one of these notes for `/grid`; and that every other `/data/methods/<note>#<id>` the Grid tool's code writes (`STRESS_METHOD`) resolves too. `site/scripts/test-grid-files.mjs` draws the pages on committed real rows and holds that each panel drawn carries its link.
+
+Decisions (session 1184):
+
+- **The section that defines the panel, not the note's top**: a reader who asks how a figure is made lands on the rule for that panel. Where a panel has no section of its own (the network's figures, the gravity table, the last 24 hours and the stored answers are bullets and a paragraph of the chain 077 section), the link opens that section.
+- **The Exchange blocks' twelve months open "Who supplies a grid"**, the section that defines `ba_supply_monthly`'s measures and its held days, not session 1167's, which changed only the table's words.
+- **One constant a panel in the components, not the list**: `scripts/page_tables.py` reads the constants a component imports, and the list names two notes named like tables (`ercot_grid_notices`, `scarcity_hours_by_grid`); imported whole by the network's panels, it read as reads of those tables on the Network tab (`tests/test_session502.py`). A panel imports only its own.
+- **A heading's id is computed by the renderer in the test, never written by hand**: the ids in `site/lib/gridAnchors.ts` were printed by `render` and are held to it; a heading renamed in a note fails the test by name, and the link is changed with it.
+- **A pinned link is kept and a second one added** (ERCOT's notices): session 1174's test holds the words and the address of the link to the whole note; this session extends, it does not move it.
+- **No link in a failed read's words** (the replayed day's, CAISO's and ERCOT's): those lines say only what could not be read, as session 1181 set them.
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").

@@ -7,7 +7,9 @@
 // the grid today is not shown; in its place stand the live Ask's words for that read (lib/license.ts licenseReason).
 import { examplesLine, gridAskExamples } from "@/lib/gridask";
 import type { GridChoice } from "@/lib/gridtool";
-import { GRID_ANCHOR } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
+import { GRID_ANCHOR, METHOD_ASK } from "@/lib/gridAnchors";  // session 1183: each panel's anchor; session 1184: its method
+import { SiteLink as Link } from "@/components/SiteLink";
+import { PanelMethod } from "@/components/grid/PanelMethod";  // session 1184: the line that links the panel's method
 
 const dayWords = (iso: string) => {
   const d = new Date(iso);
@@ -51,6 +53,7 @@ export function AskExamples({ grid, now = new Date() }: { grid: GridChoice; now?
           </p>
         </details>
       ))}
+      <PanelMethod at="ask"><Link href={METHOD_ASK}>Method: the stored answers, in the Grid tool&apos;s panels</Link></PanelMethod>
     </section>
   );
 }
