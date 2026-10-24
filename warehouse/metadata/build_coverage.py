@@ -298,6 +298,7 @@ SECTOR_RULES = [
     (r"^eurostat_oil_monthly$", "oil"),  # session 2363: Eurostat's monthly oil supply, seven products by European country
     (r"^eurostat_crude_imports_monthly$", "oil"),  # session 2369: Eurostat's monthly crude oil imports by partner, European countries
     (r"^eurostat_gasoline_exports_monthly$", "oil"),  # session 2468: Eurostat's monthly motor gasoline exports by partner, European countries
+    (r"^eurostat_diesel_imports_monthly$", "oil"),  # session 2474: Eurostat's monthly gas oil and diesel imports by partner, European countries
     (r"^eurostat_crude_imports_by_field_monthly$", "oil"),  # session 2427: Eurostat's monthly crude oil imports by field of production, the EU
     (r"^eurostat_solid_fuels_monthly$", "coal"),  # session 2364: Eurostat's monthly solid fuels supply by European country
     (r"^eurostat_hard_coal_imports_annual$", "coal"),  # session 2426: Eurostat's annual hard coal imports by partner, European countries
