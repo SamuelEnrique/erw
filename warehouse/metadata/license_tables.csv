@@ -312,6 +312,7 @@ eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union)
 eurostat_electricity_production_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_trade_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_balance_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_gas_exports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gasoline_exports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_hard_coal_imports_annual,Eurostat (Statistical Office of the European Union),the source registry

@@ -293,6 +293,7 @@ SECTOR_RULES = [
     (r"^epa_lmop_landfill_projects$", "power;gas"),  # session 2127: EPA's LMOP, landfills and landfill gas energy projects
     (r"^epa_tri_energy_releases_annual$", "power;oil;gas;coal"),  # session 2121: EPA's Toxics Release Inventory, the energy industries
     (r"^eurostat_gas_imports_monthly$", "gas;lng"),  # session 2213: Eurostat's gas and LNG imports by partner, a month
+    (r"^eurostat_gas_exports_monthly$", "gas;lng"),  # session 2469: Eurostat's monthly natural gas and LNG exports by partner, European countries
     (r"^eurostat_renewable_capacity_annual$", "power"),  # session 2123: Eurostat's renewable and waste capacity by European country
     (r"^eurostat_oil_monthly$", "oil"),  # session 2363: Eurostat's monthly oil supply, seven products by European country
     (r"^eurostat_crude_imports_monthly$", "oil"),  # session 2369: Eurostat's monthly crude oil imports by partner, European countries
