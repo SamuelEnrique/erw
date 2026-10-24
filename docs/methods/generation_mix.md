@@ -1,5 +1,7 @@
 # Method: generation mix by state and grid operator
 
+Tables: `state_generation_mix_monthly`, `eia930_generation_latest`
+
 Energy Research Warehouse (ERW), session 18. Tables: `eia_state_generation_monthly` (EIA, series, public), `state_generation_mix_monthly` (derived, series, public) and `eia930_generation_latest` (EIA, series snapshot, public). Code: `warehouse/connectors/eia_series.py`, `warehouse/derived/generation_mix.py`, `warehouse/connectors/eia930.py`. The page that reads them: the site's `/mix` (platform tool 21, the energy mix explorer).
 
 ## Two sources, two geographies

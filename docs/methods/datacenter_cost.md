@@ -1,5 +1,7 @@
 # What a datacenter pays
 
+Tables: `texas_delivery_charges`, `texas_transmission_matrix`
+
 The method of the page `/cost-of-power` ("What a datacenter pays", in review), the first tab of the cost of power
 beside "What a generator earns" and "What a battery earns". It answers four questions for a load the reader describes:
 what the power will cost, whether it will be there, how clean it is, and how soon it can be had.
