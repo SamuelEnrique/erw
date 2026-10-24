@@ -10,6 +10,7 @@
   - At 08:11:59, without checking that I still held the lock, I ran `git checkout --` on those nine files to put main's back. That reverted chain 109's copies while its upload ran.
   - The same copy at 08:11:50 had replaced my upload's new record rows in the main checkout before I saved them.
   - Chain 109's agent was given the timeline and the repair to check: its metadata refresh, its record, and the validator for its unit ppm. The lesson is in my notes: after a killed shell, check `lock.py status` before touching the main checkout.
+  - **Its agent's check** (message at about 08:23 UTC): its metadata refresh read main's files, so the draft's `erw_coverage` (495) and `erw_sources` (583) lack its branch's rows for its two new tables (497 and 585). The record that went back to its branch was right, its three uploads were each proven by count, and no new unit was involved. The next plain upload refreshes the metadata tables; no request was spent on it now.
 - **Three method notes, one for each own choice** (`statcan_electricity_trade_monthly`, `eurostat_gas_balance_monthly`, `eia_refinery_utilization_monthly`), checked as session 960 checked its notes. Every point was acted on:
   - **StatCan:**
     - The header now says Canada's totals are its trade with the U.S. only (the provinces' include each other), carries StatCan's note 19 on wind and solar, and lists the three negative figures.
