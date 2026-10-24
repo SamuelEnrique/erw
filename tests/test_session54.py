@@ -164,6 +164,7 @@ class Fallback(unittest.TestCase):
         self.assertIn("next: { revalidate }", lib)
         self.assertIn("catch {", lib)
         self.assertIn("pickSnapshot(await fetchHourly(HOURLY), committed)", page)
+        # also covered by site/scripts/test-grid-render.mjs: older_the network's server lines on /grid?grid=ercot&view=network
         self.assertIn("Newest hour:", page)
         self.assertIn("The color updates daily", src("site", "app", "network", "Network.tsx"))
 

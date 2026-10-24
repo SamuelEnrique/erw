@@ -15,6 +15,8 @@
 // its rendered text (the strings the server draws, in order, spaces as written), the words on hover (a title, a
 // Missing's reason, a chart's accessible name), its headings, its ids (and the id of an element that holds it alone), its links to a method note, its files (data-grid-file), and the errors a component threw.
 // A block inside another adds its text and figures to the one around it too (`text` and `all`), keeping its own (`nums`).
+// Session 1422: the older blocks without a name on the page are named here as overlays (older_<name>, OLDER_MARKS and
+// OLDER_COMPONENTS below), which take nothing from the blocks around them; a written block's markdown is read as its words.
 // Importing this module sets the environment, the clock and globalThis.fetch for the whole process: a test imports it
 // first and alone.
 import fs from "node:fs";
@@ -106,6 +108,13 @@ for (const t of OLDER_TABLES) {
   }
 }
 add("energy_projects", fx("caiso_queue_positions.json").rows.map((r, i) => ({ entity_id: `caiso_queue:standin-${String(i).padStart(4, "0")}`, capacity_mw: r.capacity_mw, status: r.status, extra: { technology_group: r.tech, source_table: r.src } })));
+// session 1422 (chain 111): the two tables the Mix tab's older "today so far" and "monthly mix since 2001" read, which no
+// committed fixture held (fixtures/grid_mix_now.json, read once with the anon key): eia930_generation_latest for ERCOT,
+// ISO-NE and the Lower 48, and state_generation_mix_monthly for the United States
+const mixNow = fx("grid_mix_now.json");
+for (const [t, unit, freq] of [["eia930_generation_latest", "MW", "PT1H"], ["state_generation_mix_monthly", "MWh", "P1M"]]) {
+  for (const [k, rs] of Object.entries(mixNow[t])) { const [e, v] = k.split("|"); add(t, rs.map(([ts, x]) => ({ ...asSeries(e, v, tsOf(ts.length === 10 ? `${ts}T00:00:00+00:00` : ts), x, unit), freq }))); }
+}
 
 const cmp = (a, b) => (a === b ? 0 : a === undefined || a === null ? -1 : b === undefined || b === null ? 1 : a < b ? -1 : 1);
 const val = (r, col) => (col.startsWith("extra->>") ? r.extra?.[col.slice(8)] ?? null : r[col]);
@@ -171,19 +180,36 @@ const FORWARD = Symbol.for("react.forward_ref");
 export const BLOCKS = [["data-grid-panel", (v) => v], ["data-grid-balance", (v) => `balance_${v}`], ["data-grid-replay-day", (v) => `replay_${v}`],
   ["data-gravity-day", () => "gravityday"], ["data-grid-held", (v) => `held_${v}`], ["data-grid-view", (v) => `view_${v}`], ["data-mix", (v) => `mixview_${v}`],
   ["data-alerts-days", () => "alerts_days"]];   // session 1412: the Flex Alert scorecard's small charts
+// Session 1422 (chain 111): the older blocks that stood before chain 077 and carry no name of their own on the page are
+// named here only, for their render cases, by what the page already draws: a Section or ToolSection by its title
+// (older_<title>), a <section> of its own by its id (older_#<id>), and the lines and rows below by their attribute or
+// component (OLDER_MARKS). Such a block is an overlay: it takes nothing from the blocks around it (their figures, ids,
+// links and files stay theirs, as they were), and its own are those not inside a named panel within it.
+export const OLDER_MARKS = [["data-now-sentence", () => "older_the sentence"], ["data-grid-parts", (v) => `older_parts_${v}`], ["data-grid-network", () => "older_the network's server lines"],
+  ["data-ask-side", () => "older_the Ask aside"]];
+export const OLDER_COMPONENTS = { ToolHeader: () => "older_the header", HeadlineRow: () => "older_the headline numbers", SourceLine: () => "older_the source line", CaisoBreakNote: () => "older_CAISO's break note",
+  Decisions: () => "older_the decisions" };
 const newBlock = () => ({ nums: [], all: [], text: [], hover: [], heads: [], ids: [], methods: [], files: [], errors: [] });
 const HEAD = new Set(["h1", "h2", "h3", "h4"]);
 const ENTITY = { "&apos;": "'", "&quot;": '"', "&amp;": "&", "&lt;": "<", "&gt;": ">", "&nbsp;": " " };
-async function walk(node, rec, stack, seen, wrap, head) {
+const SECTIONS = new WeakSet();   // session 1422: the <section> a Section or ToolSection draws, named by its title, not again by its id
+const SECTION_FNS = new Set(["Section", "ToolSection"]);
+/** Session 1422: f(block, own) for each older block's overlay open here (`sh`, [name, the block it lies in]); own when
+ *  the element is in that block itself, not in a named panel inside it. */
+function over(rec, sh, me, f) {
+  const done = new Set();
+  for (const [n, base] of sh) { if (done.has(n)) continue; done.add(n); f(rec[n] ??= newBlock(), base === me); }
+}
+async function walk(node, rec, stack, seen, wrap, head, sh = []) {
   const at = stack[stack.length - 1];
   const each = (f) => { for (const n of new Set(stack)) f(rec[n] ??= newBlock(), n === at); };
   if (node === null || node === undefined || typeof node === "boolean") return;
-  if (typeof node === "string" || typeof node === "number") { each((b) => b.text.push(String(node))); if (head) head.push(String(node)); return; }
+  if (typeof node === "string" || typeof node === "number") { each((b) => b.text.push(String(node))); over(rec, sh, at, (b, own) => { b.text.push(String(node)); if (own) (b.own ??= []).push(String(node)); }); if (head) head.push(String(node)); return; }
   if (typeof node !== "object") return;
   if (typeof node.then === "function") {
     let v;
-    try { v = await node; } catch (e) { (rec[at] ??= newBlock()).errors.push(String(e?.message ?? e)); return; }
-    return walk(v, rec, stack, seen, wrap, head);
+    try { v = await node; } catch (e) { (rec[at] ??= newBlock()).errors.push(String(e?.message ?? e)); over(rec, sh, at, (b) => b.errors.push(String(e?.message ?? e))); return; }
+    return walk(v, rec, stack, seen, wrap, head, sh);
   }
   if (seen.has(node)) return;
   seen.add(node);
@@ -192,38 +218,55 @@ async function walk(node, rec, stack, seen, wrap, head) {
     const props = node.props ?? {};
     if (type && typeof type === "object" && type.$$typeof === MEMO) type = type.type;
     if (type && typeof type === "object" && type.$$typeof === FORWARD) type = type.render;
-    let st = stack, under, h = head;
+    let st = stack, under, h = head, s2 = sh;
     if (typeof type === "string") {
       let named = false;
       for (const [a, f] of BLOCKS) if (props[a] !== undefined) { st = [...st, f(props[a])]; rec[f(props[a])] ??= newBlock(); named = true; }
       const me = st[st.length - 1];
+      // session 1422: the older blocks' overlays this element opens (its attribute, or a <section> of its own by its id)
+      const opens = OLDER_MARKS.filter(([a]) => props[a] !== undefined).map(([a, f]) => f(props[a]));
+      if (type === "section" && props.id !== undefined && !SECTIONS.has(node)) opens.push(`older_#${props.id}`);
+      if (opens.length) s2 = [...sh, ...opens.map((n) => [n, me])];
+      const ov = (f) => over(rec, s2, me, f);
       const mine = (f) => { for (const n of new Set(st)) f(rec[n] ??= newBlock(), n === me); };
-      if (props.id !== undefined) rec[me].ids.push(String(props.id));
+      if (props.id !== undefined) { rec[me].ids.push(String(props.id)); ov((b, own) => own && b.ids.push(String(props.id))); }
       // session 1183's rule: an id on an element that holds one element alone is that element's (the anchor of a panel whose own
       // element a pinned test holds word for word)
       if (named && wrap) rec[me].ids.push(wrap);
       if (props.id !== undefined && props.children && typeof props.children === "object" && !Array.isArray(props.children) && ELEMENT.has(props.children.$$typeof)) under = String(props.id);
-      if (HEAD.has(type)) { h = []; rec[me].heads.push(h); }
-      if (props["data-check"] !== undefined) mine((b, own) => { const k = `${props["data-check"]}=${props["data-raw"]}`; b.all.push(k); if (own) b.nums.push(k); });
-      if (typeof props.title === "string" && props.title) mine((b) => b.hover.push(props.title));
-      if (props["data-grid-file"] !== undefined) rec[me].files.push(String(props["data-grid-file"]));
+      if (HEAD.has(type)) { h = []; rec[me].heads.push(h); ov((b, own) => own && b.heads.push(h)); }
+      if (props["data-check"] !== undefined) {
+        const k = `${props["data-check"]}=${props["data-raw"]}`;
+        mine((b, own) => { b.all.push(k); if (own) b.nums.push(k); });
+        ov((b, own) => { b.all.push(k); if (own) b.nums.push(k); });
+      }
+      if (typeof props.title === "string" && props.title) { mine((b) => b.hover.push(props.title)); ov((b) => b.hover.push(props.title)); }
+      if (props["data-grid-file"] !== undefined) { rec[me].files.push(String(props["data-grid-file"])); ov((b, own) => own && b.files.push(String(props["data-grid-file"]))); }
+      // session 1422: a written block's rendered markdown (YourGrid.tsx Written) is words a reader reads: its text, tags taken out
+      const html = props.dangerouslySetInnerHTML?.__html;
+      if (typeof html === "string") { const t = html.replace(/<[^>]*>/g, " "); mine((b) => b.text.push(t)); ov((b, own) => { b.text.push(t); if (own) (b.own ??= []).push(t); }); }
     }
-    if (typeof props.href === "string" && props.href.startsWith("/data/methods/")) (rec[st[st.length - 1]] ??= newBlock()).methods.push(props.href);
+    const top = st[st.length - 1];
+    if (typeof props.href === "string" && props.href.startsWith("/data/methods/")) { (rec[top] ??= newBlock()).methods.push(props.href); over(rec, s2, top, (b, own) => own && b.methods.push(props.href)); }
     // a client component is not drawn here: its accessible name (a chart's ariaLabel) is kept with the words on hover
-    if (typeof type === "function" && type.__erwClient && typeof props.ariaLabel === "string") (rec[st[st.length - 1]] ??= newBlock()).hover.push(props.ariaLabel);
+    if (typeof type === "function" && type.__erwClient && typeof props.ariaLabel === "string") { (rec[top] ??= newBlock()).hover.push(props.ariaLabel); over(rec, s2, top, (b) => b.hover.push(props.ariaLabel)); }
     if (typeof type === "function" && !type.__erwClient && !type.prototype?.isReactComponent) {
+      // session 1422: an older block a component draws (a Section by its title, OLDER_COMPONENTS by its name)
+      const nm = OLDER_COMPONENTS[type.name]?.() ?? (SECTION_FNS.has(type.name) && typeof props.title === "string" ? `older_${props.title}` : null);
+      const s3 = nm ? [...s2, [nm, top]] : s2;
       let o;
-      try { o = type(props); if (o && typeof o.then === "function") o = await o; } catch (e) { (rec[st[st.length - 1]] ??= newBlock()).errors.push(`${type.name}: ${e?.message ?? e}`); return; }
-      return walk(o, rec, st, seen, wrap, h);
+      try { o = type(props); if (o && typeof o.then === "function") o = await o; } catch (e) { (rec[top] ??= newBlock()).errors.push(`${type.name}: ${e?.message ?? e}`); over(rec, s3, top, (b) => b.errors.push(`${type.name}: ${e?.message ?? e}`)); return; }
+      if (SECTION_FNS.has(type.name) && o && typeof o === "object") SECTIONS.add(o);
+      return walk(o, rec, st, seen, wrap, h, s3);
     }
     if (typeof type !== "string") under = wrap;   // a fragment or a client component hands the wrapper on
     const drawn = (v) => v && typeof v === "object" && (ELEMENT.has(v.$$typeof) || (Array.isArray(v) && v.some((x) => drawn(x) || (Array.isArray(x) && x.some(drawn)))) || (!Array.isArray(v) && Object.values(v).some((x) => x && ELEMENT.has(x.$$typeof))));
-    for (const [k, v] of Object.entries(props)) if (k === "children" || drawn(v)) await walk(v, rec, st, seen, k === "children" ? under : undefined, k === "children" ? h : undefined);
+    for (const [k, v] of Object.entries(props)) if (k === "children" || drawn(v)) await walk(v, rec, st, seen, k === "children" ? under : undefined, k === "children" ? h : undefined, s2);
     return;
   }
-  if (Array.isArray(node) || typeof node[Symbol.iterator] === "function") { for (const v of node) await walk(v, rec, stack, seen, undefined, head); return; }
+  if (Array.isArray(node) || typeof node[Symbol.iterator] === "function") { for (const v of node) await walk(v, rec, stack, seen, undefined, head, sh); return; }
   const proto = Object.getPrototypeOf(node);
-  if (proto === Object.prototype || proto === null) for (const v of Object.values(node)) await walk(v, rec, stack, seen, undefined, head);
+  if (proto === Object.prototype || proto === null) for (const v of Object.values(node)) await walk(v, rec, stack, seen, undefined, head, sh);
 }
 
 /** The words as a reader reads them: the strings in order, entities read, every run of space one space. */
@@ -238,7 +281,8 @@ export async function draw(sp) {
   try { await walk(page.default({ searchParams: Promise.resolve(sp) }), rec, ["_page"], new WeakSet()); }
   catch (e) { (rec._page ??= newBlock()).errors.push(`the page: ${e?.message ?? e}`); }
   delete globalThis.__erwRequestCache;
-  for (const b of Object.values(rec)) { b.text = words(b.text); b.hover = b.hover.map((x) => words([x])); b.heads = b.heads.map((x) => words(x)).filter(Boolean); }
+  // session 1422: an older block's overlay keeps its own words apart too (`own`: not those of a named panel inside it)
+  for (const b of Object.values(rec)) { b.text = words(b.text); b.hover = b.hover.map((x) => words([x])); b.heads = b.heads.map((x) => words(x)).filter(Boolean); if (b.own) b.own = words(b.own); }
   return rec;
 }
 

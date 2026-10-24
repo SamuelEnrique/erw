@@ -141,6 +141,7 @@ class TheWiring(unittest.TestCase):
     def test_the_ask_panel_says_what_it_reads(self):
         page = src("site", "app", "grid", "page.tsx")
         self.assertIn("data-ask-licenses={licenseNeededTables().length}", page)
+        # also covered by site/scripts/test-grid-render.mjs: older_the Ask aside on /grid?grid=ercot&view=mix
         self.assertIn("the public tables of the site&apos;s live set", page)
         tools = src("site", "lib", "chat", "tools.ts")
         self.assertIn("if (licenseNeeded(name) && !licenseByGrid(name)) throw new ToolError", tools)

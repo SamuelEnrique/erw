@@ -124,6 +124,7 @@ class ThePage(unittest.TestCase):
         now = src("site", "components", "grid", "NowView.tsx")
         # also covered by site/scripts/test-grid-render.mjs: view_now on /grid?grid=ercot&view=mix
         self.assertIn("check={`net|lag|${xHour}|${snap.built}`}", now)
+        # also covered by site/scripts/test-grid-render.mjs: older_the sentence on /grid?grid=ercot&view=mix
         self.assertIn("hours before the latest hourly refresh of EIA-930&apos;s interchange", now)
         nv = src("site", "components", "grid", "NetworkView.tsx")
         # also covered by site/scripts/test-grid-render.mjs: view_exchange on /grid?grid=ercot&view=gravity

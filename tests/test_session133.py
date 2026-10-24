@@ -400,6 +400,7 @@ class ThePage(unittest.TestCase):
             self.assertNotIn(word, shown, word)
         self.assertIn('"/data/methods/generation_mix_hourly"', shown)
         for words in ("not held yet", "paused while terms are reviewed", "licensed source needed", "working on it"):
+            # also covered by site/scripts/test-grid-render.mjs: mixview_forecast on /grid?grid=us48&view=mix&mix=forecast
             self.assertIn(words, shown, words)
 
     def test_the_method_note_holds_what_the_page_does_not(self):

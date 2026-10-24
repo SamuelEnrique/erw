@@ -185,6 +185,7 @@ class ThePage(unittest.TestCase):
         self.assertIn('export const MUNICIPAL = ["zoning", "city council", "county board"] as const;', lib)
         self.assertIn('export const paused = (grid: string): boolean => grid === "miso";', lib)
         self.assertIn('export const PAUSED_WORDS = "paused while terms are reviewed";', src("site", "lib", "rules.ts"))
+        # also covered by site/scripts/test-grid-render.mjs: mixview_forecast on /grid?grid=us48&view=mix&mix=forecast
         self.assertIn("MISO's terms forbid automated access to its site; its pulls are paused.", src("site", "components", "mix", "views.tsx"))
         self.assertIn("{ PAUSED_WORDS, PAUSE_WHY }", lib)
 
