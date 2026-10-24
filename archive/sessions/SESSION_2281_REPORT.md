@@ -5,11 +5,11 @@
 ## Read these first
 
 - **Terna's own data are not taken.**
-  - Its robots file disallows `/Portals/` and other site paths, allowing its download API (read 436).
-  - **Its legal notice** (read 438) gives a new verdict, needs written permission in both columns: "The reproduction of documents published on these websites is authorised exclusively for personal and non-commercial use, provided that the source is cited correctly."
+  - Its robots file disallows `/Portals/` and other site paths, allowing its download API (read 467).
+  - **Its legal notice** (read 469) gives a new verdict, needs written permission in both columns: "The reproduction of documents published on these websites is authorised exclusively for personal and non-commercial use, provided that the source is cited correctly."
 - **Energy-Charts in its place,** as chain 104's file allows and chain 103's agent suggested (chain 102 holds Hungary, Romania, Greece and Bulgaria, chain 103 Austria, Switzerland and the Czech Republic, so Italy overlaps neither).
-  - api.energy-charts.info has no robots file (read 439).
-  - The API's description (read 440) states: "Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license. Proper attribution to Energy-Charts.info as the source is required." It allows 2 requests a minute; the year requests were 31 seconds apart.
+  - api.energy-charts.info has no robots file (read 470).
+  - The API's description (read 471) states: "Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license. Proper attribution to Energy-Charts.info as the source is required." It allows 2 requests a minute; the year requests were 31 seconds apart.
   - Chain 102's session 2257 read the same sentence on its branch; the chain landing second keeps one verdict row.
 - **One table written, validated, archived, in coverage (sector power), in the release package, both holds:** `energy_charts_italy_power`, 2020 to 22 October 2026, 1,329,375 rows.
   - Twenty production types and load, in MW: fossil gas, coal, oil and coal-derived gas, hydro (run-of-river, reservoir, pumped storage and its consumption), wind, solar, geothermal, biomass, waste, batteries, others, cross-border trading.
@@ -23,11 +23,11 @@
 
 ## The pulls
 
-1. www.terna.it/robots.txt (read 436).
-2. Terna's English home page (read 437), for the legal notice's address.
-3. The legal notice (read 438).
-4. api.energy-charts.info/robots.txt (read 439): HTTP 404.
-5. The API's description (read 440).
+1. www.terna.it/robots.txt (read 467).
+2. Terna's English home page (read 468), for the legal notice's address.
+3. The legal notice (read 469).
+4. api.energy-charts.info/robots.txt (read 470): HTTP 404.
+5. The API's description (read 471).
 6. to 12. Italy's public power, a year a request, 2020 to 2026 (to 22 October), 31 seconds apart. They were seeded into the raw store, and the trial and the write read them offline.
 
 ## Errors
