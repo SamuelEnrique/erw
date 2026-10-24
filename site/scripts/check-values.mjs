@@ -318,8 +318,123 @@ function licCsv(text) {
     .map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])));
 }
 
+// Session 1186 (chain 091): the Grid pages under check-values, lighter, every result the same (scripts/check-values-cost.mjs
+// measured it on the pages drawn outside Next, old against new, key by key; docs/methods/grid_network.md, chain 091).
+// - One recomputation a key a run (truth below): a calc| key's operands and a fmt| key's inner key were recomputed for
+//   each key that names them, so a fuel's share on the Mix tab read the day's whole net generation again for each fuel.
+//   A key's value is kept for the run once it is read, as readOne's `truths` kept every key the pages carry; a failed
+//   read is not kept, so the next key that names it reads again, as before.
+// - The network snapshot a page's net|, netsnap|, nettie| and netbal| keys read (the hourly one in Storage) is fetched
+//   once a page, not once a key (networkStored), and the committed one parsed once a run (networkCommitted): CAISO's
+//   Exchange tab fetched the 2 MB object 44 times. An answer that is not ok is not kept (the next key asks again).
+// - netbal|absmean and netbal|hours of one grid and week read the same two series (fcerr|mape and fcerr|hours the same
+//   two of a day, degday|cdd and |hdd the same station day): read once a run (keptRead). gridq| keys read their grid's
+//   whole queue for each key (27 keys on ERCOT's Mix tab, 2,000 rows each time): read once a run, by queue. awe|days
+//   read caiso_grid_emergencies once a key: now from the table's rows the awe| keys already read once a run (aweRows).
+// - A page's series| keys of one table, entity and hour, and its series_sum| and series_max| keys (calc| operands among
+//   them) of one table, window and entity, are read together, one request a group (pageBatches): the Flex Alert
+//   scorecard's 395 single-row reads are 46. A key's value is taken from its group's answer only where that answer
+//   holds what the key's own query would have (a series| key's variable in no row or in one row, a group answer under
+//   PostgREST's page of 1,000 rows); otherwise, or when the group's read fails, the key's own query is sent, as before.
+const known = new Map();
+/** The value Supabase holds for one data-check key: truthOf, once a run (session 1186). */
+function truth(check) {
+  let v = known.get(check);
+  if (!v) {
+    v = truthOf(check);
+    known.set(check, v);
+    v.catch(() => { if (known.get(check) === v) known.delete(check); });
+  }
+  return v;
+}
+/** Session 1186: a read kept for the run by its key (a failure is not kept). */
+const reads = new Map();
+function keptRead(k, read) {
+  let v = reads.get(k);
+  if (!v) {
+    v = read();
+    reads.set(k, v);
+    v.catch(() => { if (reads.get(k) === v) reads.delete(k); });
+  }
+  return v;
+}
+/** Session 1186: the hourly network snapshot in Storage as the page's keys read it, once a page (null when not ok). */
+let storedOfPage = null;
+async function networkStored() {
+  if (!storedOfPage) {
+    const p = (async () => {
+      const N = await import("../lib/network.ts");
+      const res = await fetch(`${origin}/${N.NETWORK_OBJECT}`, { cache: "no-store" });
+      return res.ok ? { ok: true, json: await res.json() } : { ok: false, status: res.status };
+    })();
+    storedOfPage = p;
+    p.then((r) => { if (!r.ok && storedOfPage === p) storedOfPage = null; }, () => { if (storedOfPage === p) storedOfPage = null; });
+  }
+  return storedOfPage;
+}
+let committedNetwork = null;
+/** Session 1186: the committed data/grid_network.json, parsed once a run (nothing changes it while the run reads). */
+function networkCommitted() {
+  committedNetwork ??= JSON.parse(fs.readFileSync(path.join(here, "..", "data", "grid_network.json"), "utf-8"));
+  return committedNetwork;
+}
+/** Session 1186: the group a key's read joins, or null: a series| key by its table, entity and hour (not newest, no
+ *  event), a series_sum| or series_max| key by its table, window and entity. */
+function batchGroupOf(check) {
+  const p = check.split("|");
+  if (p[0] === "series" && p.length === 5 && p[4] !== "newest") return `series|${p[1]}|${p[2]}|${p[4]}`;
+  if ((p[0] === "series_sum" || p[0] === "series_max") && (p.length === 5 || p.length === 6)) return `range|${p[1]}|${p[3]}|${p[4]}|${p[5] ?? ""}`;
+  return null;
+}
+/** Session 1186: the keys a key's value is read from: itself, a fmt| key's inner key, a calc| key's operands, in turn. */
+function leavesOf(check, out = []) {
+  const p = check.split("|");
+  const f = FMT.fmtParts(check);
+  if (f) return leavesOf(f.inner, out);
+  if (p[0] === "calc") { for (const k of CALC.calcOperands(p.slice(2))) leavesOf(k, out); return out; }
+  out.push(check);
+  return out;
+}
+/** Session 1186: a page's groups of two or more keys and variables: group to { variables, keys, read } (the read made
+ *  when a key of the group is first recomputed). */
+function planBatches(checks) {
+  const groups = new Map();
+  for (const c of checks) for (const leaf of leavesOf(c)) {
+    const g = batchGroupOf(leaf);
+    if (!g) continue;
+    const p = leaf.split("|");
+    const vars = p[0] === "series" ? [p[3]] : p[2].split(",");
+    const e = groups.get(g) ?? groups.set(g, { variables: new Set(), keys: new Set(), read: null }).get(g);
+    for (const v of vars) e.variables.add(v);
+    e.keys.add(leaf);
+  }
+  for (const [g, e] of groups) if (e.variables.size < 2 || e.keys.size < 2) groups.delete(g);
+  return groups;
+}
+let pageBatches = new Map();
+const quoted = (vs) => `in.(${[...vs].sort().map((v) => `"${v}"`).join(",")})`;
+/** Session 1186: the rows of a key's group, read once a page (null when the key has no group, or the read failed). */
+async function groupRows(check) {
+  const g = batchGroupOf(check);
+  const e = g ? pageBatches.get(g) : null;
+  if (!e) return null;
+  if (!e.read) {
+    const p = g.split("|");
+    e.read = p[0] === "series"
+      ? q("series", { select: "variable,value", table_name: `eq.${p[1]}`, entity: `eq.${p[2]}`, variable: quoted(e.variables), ts_utc: `eq.${p[3]}` })
+      : all("series", { select: "variable,value", table_name: `eq.${p[1]}`, variable: quoted(e.variables), and: `(ts_utc.gte.${p[2]},ts_utc.lt.${p[3]})`,
+        order: "entity,ts_utc,variable", ...(p[4] ? { entity: `eq.${p[4]}` } : {}) });
+  }
+  try {
+    return await e.read;
+  } catch (err) {
+    if (RUN.isTimeout(err)) throw err;
+    return null;   // the key's own query is sent instead
+  }
+}
+
 /** The value Supabase holds for one data-check key. */
-async function truth(check) {
+async function truthOf(check) {
   if (R_statOf === null) R_statOf = (await import("../lib/datacenter/answers.ts")).statOf;
   const p = check.split("|");
   if (p[0] === "catalogue") {
@@ -346,23 +461,24 @@ async function truth(check) {
   // session 54: demand from the hourly network refresh, netsnap|<BA>|demand_mw|<ts>: not in the database (the hourly job
   // never writes it), so it is read from the hourly snapshot itself, the public Storage object, whose demand_recent keeps
   // each ISO BA's last 48 hours (a page cached an hour ago still finds its hour)
+  // session 1186: the object (erw-public/network/grid_network.json, lib/network.ts NETWORK_OBJECT) fetched once a page
   if (p[0] === "netsnap") {
-    const res = await fetch(`${origin}/storage/v1/object/public/erw-public/network/grid_network.json`, { cache: "no-store" });
+    const res = await networkStored();
     if (!res.ok) throw new Error(`network snapshot in Storage: HTTP ${res.status}`);
-    return (await res.json()).nodes.find((n) => n.id === p[1])?.demand_recent?.[p[3]];
+    return res.json.nodes.find((n) => n.id === p[1])?.demand_recent?.[p[3]];
   }
   // session 55: problem set E's network answers, net|ties|<BA>|<hour>, net|maxflow|<BA>|<hour>, net|topexport|<hour>:
   // recomputed by lib/network.ts on the snapshot that holds the hour, the hourly one in Storage first, else the committed
   // data/grid_network.json (the page draws the Storage one unless it is unreachable or older)
   if (p[0] === "net") {
     const N = await import("../lib/network.ts");
-    const res = await fetch(`${origin}/${N.NETWORK_OBJECT}`, { cache: "no-store" });
-    const stored = res.ok ? await res.json() : null;
+    const res = await networkStored();   // session 1186: once a page
+    const stored = res.ok ? res.json : null;
     if (stored && N.isSnapshot(stored)) {
       const v = N.netValue(stored, check);
       if (v !== undefined) return v;
     }
-    return N.netValue(JSON.parse(fs.readFileSync(path.join(here, "..", "data", "grid_network.json"), "utf-8")), check);
+    return N.netValue(networkCommitted(), check);
   }
   // session 58: /grid/caiso's Reliability timeline, awe|days|<type>|<year>: the distinct local days with a CAISO notice of the
   // type in the year (caiso_grid_emergencies, the events table)
@@ -397,8 +513,12 @@ async function truth(check) {
     return v;
   }
   if (p[0] === "awe") {
-    const rows = await all("events", { select: "event_date", table_name: "eq.caiso_grid_emergencies", event_type: `eq.${p[2]}`,
-      and: `(event_date.gte.${p[3]}-01-01,event_date.lte.${p[3]}-12-31T23:59:59Z)` });
+    // session 1186: from the table's rows read once a run (aweRows, as awe|last and awe|ndays read them), the type and the
+    // year kept here as the query kept them: event_type eq, event_date from <year>-01-01 to <year>-12-31T23:59:59Z
+    const A = await import("../lib/caisoAlerts.ts");
+    if (!aweRows) aweRows = all("events", { select: "event_date,event_type", table_name: `eq.${A.ALERT_TABLE}`, order: "event_date,event_id" });
+    const lo = Date.parse(`${p[3]}-01-01T00:00:00Z`), hi = Date.parse(`${p[3]}-12-31T23:59:59Z`);
+    const rows = (await aweRows).filter((r) => r.event_type === p[2] && Date.parse(r.event_date) >= lo && Date.parse(r.event_date) <= hi);
     return new Set(rows.map((r) => String(r.event_date).slice(0, 10))).size;
   }
   // session 1166 (chain 078): fmt|<form>|<key>, a figure the page writes in a form of its own (a percent to one decimal,
@@ -434,8 +554,9 @@ async function truth(check) {
   if (p[0] === "fcerr") {
     const Y = await import("../lib/gridYesterday.ts");
     const [, what, entity, from, to] = p;
-    const read = (variable) => all("series", { select: "ts_utc,value", table_name: "eq.eia930_all_demand", entity: `eq.${entity}`, variable: `eq.${variable}`,
-      and: `(ts_utc.gte.${from},ts_utc.lt.${to})`, order: "ts_utc" });
+    // session 1186: the day's two series read once a run (mape and hours read the same)
+    const read = (variable) => keptRead(`fcerr|${entity}|${variable}|${from}|${to}`, () => all("series", { select: "ts_utc,value", table_name: "eq.eia930_all_demand", entity: `eq.${entity}`, variable: `eq.${variable}`,
+      and: `(ts_utc.gte.${from},ts_utc.lt.${to})`, order: "ts_utc" }));
     const [d, f] = await Promise.all([read("demand_mw"), read("demand_forecast_mw")]);
     const m = Y.forecastMiss(d, f);
     return what === "mape" ? (m.mape ?? undefined) : what === "hours" ? m.hours : undefined;
@@ -446,8 +567,9 @@ async function truth(check) {
     const Y = await import("../lib/gridYesterday.ts");
     const [, kind, entity, d] = p;
     const to = new Date(Date.parse(`${d}T00:00:00Z`) + 86_400_000).toISOString();
-    const rows = await all("series", { select: "ts_utc,value", table_name: "eq.weather_obs_hourly", entity: `eq.${entity}`, variable: "eq.temperature_f",
-      and: `(ts_utc.gte.${d}T00:00:00Z,ts_utc.lt.${to})`, order: "ts_utc" });
+    // session 1186: the station's day read once a run (cdd and hdd read the same)
+    const rows = await keptRead(`degday|${entity}|${d}`, () => all("series", { select: "ts_utc,value", table_name: "eq.weather_obs_hourly", entity: `eq.${entity}`, variable: "eq.temperature_f",
+      and: `(ts_utc.gte.${d}T00:00:00Z,ts_utc.lt.${to})`, order: "ts_utc" }));
     const dd = Y.degreeDay(rows);
     return dd && dd.kind === kind ? dd.value : undefined;
   }
@@ -470,12 +592,13 @@ async function truth(check) {
     const K = await import("../lib/gridKeys.ts");
     const N = await import("../lib/network.ts");
     const [, , ba, from, to] = p;
-    const res = await fetch(`${origin}/${N.NETWORK_OBJECT}`, { cache: "no-store" });
-    const stored = res.ok ? await res.json() : null;
-    const committed = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "grid_network.json"), "utf-8"));
+    // session 1186: the snapshot once a page, the committed one once a run, the grid's two series of the week once a run
+    const res = await networkStored();
+    const stored = res.ok ? res.json : null;
+    const committed = networkCommitted();
     const snaps = [stored, committed].filter((s) => s && N.isSnapshot(s));
-    const read = (table, variable) => all("series", { select: "ts_utc,value", table_name: `eq.${table}`, entity: `eq.eia930:${ba}`,
-      variable: `eq.${variable}`, and: `(ts_utc.gte.${from},ts_utc.lte.${to})`, order: "ts_utc" });
+    const read = (table, variable) => keptRead(`netbal|${table}|${ba}|${variable}|${from}|${to}`, () => all("series", { select: "ts_utc,value", table_name: `eq.${table}`, entity: `eq.eia930:${ba}`,
+      variable: `eq.${variable}`, and: `(ts_utc.gte.${from},ts_utc.lte.${to})`, order: "ts_utc" }));
     const [gen, dem] = await Promise.all([read("eia930_all_generation", "net_generation_mw"), read("eia930_all_demand", "demand_mw")]);
     return K.netbalValue(check, snaps, gen, dem);
   }
@@ -485,9 +608,10 @@ async function truth(check) {
   if (p[0] === "nettie") {
     const K = await import("../lib/gridKeys.ts");
     const N = await import("../lib/network.ts");
-    const res = await fetch(`${origin}/${N.NETWORK_OBJECT}`, { cache: "no-store" });
-    const stored = res.ok ? await res.json() : null;
-    const committed = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "grid_network.json"), "utf-8"));
+    // session 1186: the snapshot once a page (CAISO's Exchange tab fetched it 44 times), the committed one once a run
+    const res = await networkStored();
+    const stored = res.ok ? res.json : null;
+    const committed = networkCommitted();
     return K.nettieValue(check, [stored, committed].filter((s) => s && N.isSnapshot(s)));
   }
   // session 43: the bill explainer's default bills, recomputed here from data/bill_rules.json (California by the tariff's
@@ -654,6 +778,12 @@ async function truth(check) {
     if (event) params.event = `eq.${event}`; // session 36C: event_window_daily's key includes its event
     if (at === "newest") Object.assign(params, { order: "ts_utc.desc", limit: "1" });
     else params.ts_utc = `eq.${at}`;
+    // session 1186: the page's group of this table, entity and hour, where its answer holds no row or one of the variable
+    const g = await groupRows(check);
+    if (g && g.length < 1000) {
+      const mine = g.filter((r) => r.variable === variable);
+      if (mine.length <= 1) return mine[0]?.value;
+    }
     return (await q("series", params))[0]?.value;
   }
   // session 405: a count a series table's header states for one name, series_hdr|<table>|<entity naming the grid>|<line
@@ -722,7 +852,10 @@ async function truth(check) {
     // session 1152: the variable part may name several variables, comma separated (a fuel group of EIA-930's sources, the
     // Grid tool's energy mix panel, lib/mixHourly.ts): their rows are summed together. No variable name holds a comma
     const [, table, variable, start, end, entity] = p;
-    const rows = await all("series", { select: "value", table_name: `eq.${table}`, variable: variable.includes(",") ? `in.(${variable})` : `eq.${variable}`,
+    // session 1186: the page's group of this table, window and entity, read once (all() reads every page of it)
+    const g = await groupRows(check);
+    const mine = g ? new Set(variable.split(",")) : null;
+    const rows = g ? g.filter((r) => mine.has(r.variable)) : await all("series", { select: "value", table_name: `eq.${table}`, variable: variable.includes(",") ? `in.(${variable})` : `eq.${variable}`,
       and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "entity,ts_utc", ...(entity ? { entity: `eq.${entity}` } : {}) });
     if (!rows.length) return undefined;
     return p[0] === "series_max" ? Math.max(...rows.map((r) => r.value)) : rows.reduce((a, r) => a + r.value, 0);
@@ -1116,8 +1249,9 @@ async function truth(check) {
   // session 35: the grid pages. gridq|<queue table>|<status>|<technology_group>|n or mw: its positions in energy_projects
   if (p[0] === "gridq") {
     const [, table, status, tech, what] = p;
-    const rows = await all("entities", { select: "capacity_mw,status,tech:extra->>technology_group,src:extra->>source_table", table_name: "eq.energy_projects",
-      entity_id: `like.${table.replace(/_interconnection_queue$/, "_queue")}:*`, order: "entity_id" }).then((x) => x.filter((r) => r.src === table));
+    // session 1186: the queue's positions read once a run (every gridq| key of the queue read them all again)
+    const rows = await keptRead(`gridq|${table}`, () => all("entities", { select: "capacity_mw,status,tech:extra->>technology_group,src:extra->>source_table", table_name: "eq.energy_projects",
+      entity_id: `like.${table.replace(/_interconnection_queue$/, "_queue")}:*`, order: "entity_id" })).then((x) => x.filter((r) => r.src === table));
     const m = rows.filter((r) => r.status === status && (r.tech ?? "unknown") === tech);
     if (what === "n") return m.length;
     return Math.round(m.reduce((a, r) => a + (r.capacity_mw === null ? 0 : Number(r.capacity_mw)), 0) * 10) / 10;
@@ -1380,6 +1514,8 @@ async function main() {
       if (!o) onPage.set(check, { raw: decode(m[2]), text, usdFormat, written: written ? [written] : [] });
       else if (written && !o.written.includes(written)) o.written.push(written);
     }
+    // session 1186: the page's keys still to judge, grouped by the reads they share (planBatches)
+    pageBatches = planBatches([...onPage.keys()].filter((c) => !seen.has(c) && !truths.has(c)));
     for (const [check, { raw, text, usdFormat, written }] of onPage) {
       const first = !seen.has(check);
       if (!first && !ev) continue;   // a key judged on an earlier page is not judged again, but on an event page
@@ -1507,6 +1643,7 @@ async function main() {
   }
   async function readPage(page, signal) {
     pageSignal = signal;
+    storedOfPage = null;   // session 1186: each page reads the network snapshot in Storage afresh, once
     // a timeout leaves a cached read rejected: the page's second try reads again
     signal.addEventListener("abort", () => { dcAnswers.clear(); dcllRows.clear(); dcqRows.clear(); }, { once: true });
     try {

@@ -857,6 +857,43 @@ Decisions (session 1184):
 - **A pinned link is kept and a second one added** (ERCOT's notices): session 1174's test holds the words and the address of the link to the whole note; this session extends, it does not move it.
 - **No link in a failed read's words** (the replayed day's, CAISO's and ERCOT's): those lines say only what could not be read, as session 1181 set them.
 
+## The Grid pages under check-values, lighter (chain 091, 24 October 2026)
+
+Chain 091 in this note: session 1186.
+
+Session 1186. `site/scripts/check-values.mjs` reads 48 addresses of the Grid tool (`/grid` and its tabs, and the old addresses that redirect into it: `/emissions`, `/mix`, `/network`, the seven `/grid/<iso>`, with `/grid/caiso/alerts`). Without a server it cannot read them, so `site/scripts/check-values-cost.mjs` measures it another way: each address is drawn outside Next as `site/scripts/same-figures.mjs` draws it (41 distinct pages, every keyed span of the server's HTML), a local site serves that HTML at check-values' own addresses, and a proxy on this machine stands where `SUPABASE_URL` points, sends each distinct request to Supabase once and keeps the answers in memory. check-values is then run as it is against the two, every address in one run (as a landing reads them), each address in a run of its own (`CHECK_VALUES_PAGES`), a run a key kind, and a run with every page value moved; every request is counted against the page check-values was reading. The old script and the new one ran on the same answers.
+
+Where a key's recomputation read more than the page did for the same figure:
+
+| Kind | What check-values read | Now |
+|---|---|---|
+| `net\|`, `nettie\|`, `netbal\|`, `netsnap\|` | the network snapshot in Storage (about 2 MB) once a key: CAISO's Exchange tab 88 requests, 14.1 MB, where the page reads it once | once a page (the next page reads it afresh); the committed snapshot parsed once a run |
+| `calc\|`, `fmt\|` | a key's operands or inner key again for each key that names them: on the Mix tab each fuel's share read the day's whole net generation again | each key's value kept for the run, as the keys a page carries already were |
+| `fcerr\|`, `degday\|`, `netbal\|` | the same two series for each of a pair of keys (`mape` and `hours`, `cdd` and `hdd`, `absmean` and `hours`) | read once a run |
+| `gridq\|` | the grid's whole queue in `energy_projects` for each key: 27 keys on ERCOT's Mix tab, 2,000 rows each time | the queue once a run |
+| `awe\|days` | `caiso_grid_emergencies` once a key | the table's rows the `awe\|last` and `awe\|ndays` keys already read once a run, the type and the year kept as the query kept them |
+| `series\|`, `series_sum\|`, `series_max\|` | one request a key, where the page read the hour or the window once: the Flex Alert scorecard's 395 single-row reads | a page's keys of one table, entity and hour (`series\|`), or of one table, window and entity (the sums and maxima, a `calc\|` key's operands among them), read together, one request a group |
+
+A key's value is taken from its group's answer only where that answer holds what the key's own query would have: a `series|` key's variable in no row or in one row (a variable held twice at the hour sends its own query, which takes the first row as before), a group's answer under PostgREST's page of 1,000 rows, and the sums of a window read through every page of the group. When the group's read fails, each key sends its own query, as before. A failed read is never kept: the next key that names it reads again.
+
+On the live answers of 24 October 2026 (05:02 to 05:08 UTC, the pages drawn at 05:02; 1,729 distinct requests sent to Supabase through the one proxy kept open for the session, each once):
+
+- **Every address in one run**: 1,865 requests to 467, 203,367 rows to 108,608, 66.7 MB to 9.5 MB, about 153 s of Supabase's answers to 34 s (each request counted at the time its first answer took). 2,275 key lines, every one the same, value for value, 0 FAIL in both.
+- **Each address alone** (48 runs): 7,389 requests to 1,659, 730,329 rows to 361,041, about 547 s to 125 s. Every page's lines the same.
+- **Every page value moved**: every key FAILs in both scripts, the same 2,033 lines; the other 242 lines are the committed files against their live-set rows, which no page value reaches, the same in both.
+- **A run a kind** (18 kinds): the same lines in each. `bsup|`, `ercotn|`, `file|`, `series_esum|`, `series_max|`, `series_n|`, `states_sum|`, `storage|` read as before.
+
+The slowest ten addresses by that estimate, alone, before and after (requests, rows, seconds of answers; the page's own draw beside them): CAISO's monthly mix 425 to 91, 26,199 to 12,741, 28.1 to 6.6 (the page: 70 requests, 47,400 rows); `/grid/caiso` and `/grid?grid=caiso` 399 to 82, 26,093 to 12,635, 26.2 to 5.9 (69, 46,925); the Flex Alert scorecard 395 to 46, 395 rows both, 25.0 to 3.0 (6, 3,774); ERCOT's monthly mix 278 to 66, 70,044 to 23,011, 20.9 to 5.0 (61, 36,922); `/grid/ercot`, `/grid?grid=ercot`, its Mix tab and `/mix?ba=erco&state=TX` 277 to 58, 70,515 to 22,906, 20.2 to 4.5 (60, 36,447); `/grid/spp` 277 to 51, 50,181 to 18,594, 18.9 to 3.8 (52, 32,221).
+
+Decisions (chain 091, session 1186):
+
+- **Never a weaker check: a key that failed before fails.** Proved three ways: the two scripts' lines on the drawn pages, the run with every page value moved, and `site/scripts/test-check-values-light.mjs` (8 tests: check-values run as it is on two pages of real rows, every right key ok and every wrong key FAIL, a revised hour's row still read for its `loaded_at`; on the old script its three verdict tests pass and its five request tests fail).
+- **The snapshot once a page, not once a run**: the Storage object is refreshed every hour, and a page is drawn from one object; a run is up to 15 minutes. An answer that is not ok is not kept (the next key asks again, as before).
+- **Groups only where a key's own query would answer the same rows**, so no rule of PostgREST's order or paging changes a figure; the sums of a window keep the order of the rows they read (the window's rows by entity, hour and variable), so a sum over one variable adds the same numbers in the same order.
+- **Bytes can grow where rows fall**: a group's answer carries each row's variable, so the sums' runs read 0.8 MB to 2.6 MB for the same 47,616 rows in 124 requests to 57; across every address the bytes fall from 66.7 MB to 9.5 MB.
+- **Left as they read**: the Clean tabs' single hours of `carbon_intensity_hourly` (one variable, several hours a grid: 38 requests of one row each, against the page's 17 to 22 requests of about 10,000 rows) and `series_n|` (one window a key, no two keys of one window). Neither reads more than the page.
+- **The measure is kept** (`site/scripts/check-values-cost.mjs`): its estimate of time is the sum of each request's first answer, not a live run's; the live timing waits for a build (under "To finish" of session 1186's report). Its proxy can be kept open (`--serve-proxy`) so several runs share one set of answers.
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").
