@@ -57,7 +57,8 @@ CANON = [
     (r"St\. Louis|FRED", "FRED"),  # a name "through FRED" is FRED's: this rule goes before the Board's
     (r"Board of Governors|Federal Reserve System", "FRB"),  # session 207: the Board's own H.15 download (frb_treasury_yields)
     (r"PortWatch", "IMF PortWatch"), (r"International Monetary Fund", "IMF"), (r"Berkeley", "Berkeley Lab"), (r"Nuclear Regulatory", "NRC"),
-    (r"Census", "Census Bureau"), (r"Commodity Futures", "CFTC"), (r"Regional Greenhouse", "RGGI"), (r"Railroad Commission", "RRC"),
+    (r"Census Bureau", "Census Bureau"),  # session 2323: not "Census", which also matched Hong Kong's Census and Statistics Department
+    (r"Commodity Futures", "CFTC"), (r"Regional Greenhouse", "RGGI"), (r"Railroad Commission", "RRC"),
     (r"Federal Energy Regulatory|^FERC$", "FERC"), (r"Energy Research Warehouse|^ERW$", "ERW"),
     (r"(?i)bloomberg", "Bloomberg"), (r"(?i)^ft\.com$|\.ft\.com$|^FT Channels$|Financial Times", "Financial Times"), (r"(?i)hart ?energy", "Hart Energy"),
     (r"(?i)^WSJ$|wsj\.com$", "WSJ"), (r"(?i)reuters", "Reuters"), (r"(?i)hydrogen ?insight", "Hydrogen Insight"), (r"(?i)^JPT Homepage$|jpt\.spe\.org", "JPT"),

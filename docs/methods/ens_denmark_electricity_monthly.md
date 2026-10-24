@@ -6,7 +6,7 @@ Tables: `ens_denmark_electricity_monthly`
 
 ## Publisher and address
 
-The Danish Energy Agency (Energistyrelsen), "Månedlig elstatistik", the monthly electricity supply statistics, linked from `https://ens.dk/en/analyses-and-statistics/annual-and-monthly-statistics`. The workbook is `https://ens.dk/media/8572/download`, an .xls file, one GET, no key. Source id `ens:monthly_electricity`. Connector: `warehouse/connectors/ens_denmark_electricity.py` (session 2348). ens.dk's robots file allows `Claude-User` by name and every reader but Drupal's own paths (read 561).
+The Danish Energy Agency (Energistyrelsen), "Månedlig elstatistik", the monthly electricity supply statistics, linked from `https://ens.dk/en/analyses-and-statistics/annual-and-monthly-statistics`. The workbook is `https://ens.dk/media/8572/download`, an .xls file, one GET, no key. Source id `ens:monthly_electricity`. Connector: `warehouse/connectors/ens_denmark_electricity.py` (session 2348). ens.dk's robots file allows `Claude-User` by name and every reader but Drupal's own paths (read 597).
 
 ## Vintage and revision
 
@@ -61,7 +61,7 @@ Denmark, TWh a year (the twelve months summed here for this note):
 
 ## License
 
-Internal. The statistics page states no licence or terms (read 562), and no terms page was found in session 2348. `sources.csv` flags the source `internal` until a read settles it. The workbook names Energinet as the source of most of its data.
+Internal. The statistics page states no licence or terms (read 598), and no terms page was found in session 2348. `sources.csv` flags the source `internal` until a read settles it. The workbook names Energinet as the source of most of its data.
 
 ## Cross-checks (session 2348)
 

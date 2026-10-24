@@ -10,7 +10,7 @@
 - **Contradictions found:** none between the notes and the code.
 - **The branch merged with main twice:**
   - the code machine's queue files and session 1409's note;
-  - chain 105's landing (`636d8d20`): this chain's reads 529 to 540 renumbered 548 to 559, SFOE's verdict with them (558), the reports and notes shifted;
+  - chain 105's landing (`636d8d20`): this chain's reads 529 to 540 renumbered 548 to 559, SFOE's verdict with them (558; 594 after chain 108's landing, session 2349's merge), the reports and notes shifted;
   - after the merge: the license record, the release README (line 9) and the package and site records rebuilt; no row doubled; test 205 within its bound (518 later reads against 522).
 - **The Stanford draft (erw:b9wm), a plain upload under the data lock, nothing released.** It waited eight minutes for chain 108's session 2331. Three public tables were each proved by the draft's count:
   - `eia_petroleum_stocks_state_monthly` (73,997 rows);
