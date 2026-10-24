@@ -7,6 +7,7 @@ ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,
 amm_guatemala_generation_monthly,amm,,1,P1M,2017-01-01T00:00:00Z,2025-12-01T00:00:00Z,1739,amm:generacion_mensual_por_planta,2026-10-24T10:58:47Z,pass,internal,power,no,source
 aneel_siga_plants,aneel,,25042,snapshot,2026-10-24T06:57:16Z,2026-10-24T06:57:16Z,25042,aneel:siga,2026-10-24T07:39:34Z,pass,public,power,no,source
 api_cost_ledger,none,,1,event,2026-09-29T10:08:33Z,2026-10-24T15:02:10Z,3817,1 outlets,2026-10-24T15:01:43Z,pass,internal,platform,no,derived
+arsel_cameroon_electricity_annual,arsel,,22,P1Y,2024-01-01T00:00:00Z,2025-01-01T00:00:00Z,41,arsel:rapport_activites_2025,2026-10-24T20:54:10Z,pass,internal,power,no,source
 ask_kosovo_electricity_monthly,ask,,13,P1M,2022-01-01T00:00:00Z,2026-07-01T00:00:00Z,715,ask:energy_tab01,2026-10-24T19:23:32Z,pass,internal,power,no,source
 ba_supply_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,473,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,158503,erw:ba_supply,2026-10-02T23:03:48Z,pass,public,power,yes,derived
 battery_sourced_ranges,battery,,18,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,90,nlr:atb-2025-v1,2026-10-19T12:40:18Z,pass,public,power,no,source
