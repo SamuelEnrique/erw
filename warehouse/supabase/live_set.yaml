@@ -368,6 +368,12 @@ catalogue_hold:
   - irs_soi_energy_credits_annual
   - eia_state_to_state_capacity
   - noaa_cpc_oni_monthly
+  - wfigs_wildfires
+  - gfz_kp_index_3h
+  - epa_ghg_inventory_annual
+  - scripps_co2_mlo_monthly
+  - doe_lead_energy_burden
+  - afdc_station_counts_annual
   - noaa_ncei_storm_events
   - nrc_event_notifications
   - doe_lng_export_applications

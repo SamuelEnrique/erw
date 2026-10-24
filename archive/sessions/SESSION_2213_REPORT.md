@@ -15,7 +15,7 @@
 
 ## The pulls
 
-1. `ec.europa.eu/robots.txt` (read 330, read again).
+1. `ec.europa.eu/robots.txt` (read 351, read again).
 2. The full data set's query: answered with a queued job.
 3. That job's status: processing.
 4. A filtered query: also queued.

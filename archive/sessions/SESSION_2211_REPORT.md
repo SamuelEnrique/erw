@@ -5,7 +5,7 @@
 ## Read these first
 
 - **One table written, validated, archived, in coverage (sector power), in the release package, both holds:** `usbr_mead_powell_daily`, Lake Powell's and Lake Mead's pool elevation, storage, total release and (Lake Powell only) inflow, a day, over each reservoir's whole period of record: 192,509 rows, Lake Mead's release from 1934 and its elevation from 1935, Lake Powell's from 1963, to 22 October 2026. The files are Reclamation's Upper Colorado region's hydrodata (`www.usbr.gov/uc/water/hydrodata/reservoir_data/<site>/csv/<data type>.csv`, site 919 Lake Powell, 921 Lake Mead), not data.usbr.gov's RISE API, which is not asked. Reclamation marks them provisional.
-- **The units are Reclamation's own words,** since the files state none: the Lower Colorado levels page's note ("ft=feet above mean sea level, cfs=cubic feet per second, kaf=1000 acre-feet", read 325) and the Glen Canyon Dam page (elevation in feet, storage in acre-feet, read 326). **Two new units:** `ft` (Decision 71) and `acre-ft` (Decision 72); release and inflow use `ft3/s` (Decision 65). Chain 097 holds Decision 70, as its agent and this session agreed.
+- **The units are Reclamation's own words,** since the files state none: the Lower Colorado levels page's note ("ft=feet above mean sea level, cfs=cubic feet per second, kaf=1000 acre-feet", read 346) and the Glen Canyon Dam page (elevation in feet, storage in acre-feet, read 347). **Two new units:** `ft` (Decision 71) and `acre-ft` (Decision 72); release and inflow use `ft3/s` (Decision 65). Chain 097 holds Decision 70, as its agent and this session agreed.
 - **Lake Mead has no inflow file** (its dashboard lists none and the address answers HTTP 404); Lake Powell's inflow is taken.
 - **The cross-check** (`runs/c098/s2211/cross.py`):
   - Lake Powell on 30 September 2026 is 3,518.08 feet and 5.16 million acre-feet in the table, the figures the Glen Canyon Dam page gives for the end of September.
@@ -14,12 +14,12 @@
 
 ## The pulls
 
-1. `www.usbr.gov/robots.txt` (read 324, read again; read 172 is session 2003's).
+1. `www.usbr.gov/robots.txt` (read 345, read again; read 172 is session 2003's).
 2. Lake Powell's hydrodata dashboard, for the files and data type codes.
 3 and 4. Both lakes' pool elevation files.
 5. Lake Powell's storage as JSON, for units (it states none).
-6. The Lower Colorado levels page (read 325).
-7. The Glen Canyon Dam status page (read 326).
+6. The Lower Colorado levels page (read 346).
+7. The Glen Canyon Dam status page (read 347).
 8 to 15. The connector's trial: the four data types for both lakes (Lake Mead's inflow answering HTTP 404), saved and reused by the write (`--offline`).
 
 Reclamation's terms are the record's (read 173, may be public).

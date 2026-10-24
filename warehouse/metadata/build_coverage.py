@@ -239,6 +239,12 @@ SECTOR_RULES = [
     (r"^irs_soi_energy_credits_annual$", "power"),  # session 2087: the IRS's residential energy credits by state
     (r"^eia_state_to_state_capacity$", "gas"),  # session 2090: EIA's state-to-state pipeline capacity
     (r"^noaa_cpc_oni_monthly$", "power;gas"),  # session 2092: NOAA CPC's Oceanic Nino Index
+    (r"^wfigs_wildfires$", "power"),  # session 2134: NIFC's WFIGS wildfires of 1,000 acres or more
+    (r"^gfz_kp_index_3h$", "power"),  # session 2135: GFZ Potsdam's planetary Kp, every three hours from 1932
+    (r"^epa_ghg_inventory_annual$", "carbon;power;oil;gas"),  # session 2136: EPA's Inventory of U.S. Greenhouse Gas Emissions and Sinks, 1990 to 2022
+    (r"^scripps_co2_mlo_monthly$", "carbon"),  # session 2137: the Scripps CO2 Program's Mauna Loa CO2, a month from 1958
+    (r"^doe_lead_energy_burden$", "power;gas"),  # session 2140: DOE's LEAD Tool, households' energy burden by county and income
+    (r"^afdc_station_counts_annual$", "power"),  # session 2141: AFDC's alternative fueling station counts by state, a year from 2007
     (r"^noaa_ncei_storm_events$", "power"),  # session 2042: NOAA's storm events
     (r"^nrc_event_notifications$", "power;uranium"),  # session 2043: the NRC's event reports
     (r"^doe_lng_export_applications$", "gas;lng"),  # session 2044: DOE's LNG export applications
@@ -1002,6 +1008,9 @@ def main():
                 elif n in gone_for_good and n not in {r["table"] for r in carried}:  # session 207: a retired table's line goes with its row
                     continue
             out_doc.append(ln)
+        last = max((i for i, ln in enumerate(out_doc) if name_of(ln) is not None), default=None)
+        if last is not None and todo:  # session 2134: a table after the alphabet's last goes in after the last line
+            out_doc[last + 1:last + 1] = [todo.pop(k) for k in sorted(todo)]
         if todo:
             raise ValueError(f"--only: no place in {os.path.relpath(DOC, ROOT)} for {sorted(todo)}")
         with open(DOC, "w", encoding="utf-8", newline="\n") as f:

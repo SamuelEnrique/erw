@@ -4,7 +4,7 @@
 
 ## Read these first
 
-- **Why this source:** Denmark runs the world's most wind-led national grid, and Energinet, its transmission system operator, publishes every hour's settled production by technology, gross consumption and the flow on each interconnector, openly and under CC BY 4.0 (session 2215's verdict, read 335). The ERW held no European grid an hour, and no queue file plans one.
+- **Why this source:** Denmark runs the world's most wind-led national grid, and Energinet, its transmission system operator, publishes every hour's settled production by technology, gross consumption and the flow on each interconnector, openly and under CC BY 4.0 (session 2215's verdict, read 356). The ERW held no European grid an hour, and no queue file plans one.
 - **One table written, validated, archived, in coverage (sector power), in the release package, both holds:** `energinet_dk_production_hourly`, 2024-12-31T23:00Z to 2026-10-13T23:00Z (1 January 2025 to 14 October 2026 in Danish time), 607,311 rows.
   - Two price areas (DK1 west of the Great Belt, DK2 east), 15,625 hours each.
   - Twenty-one measures in MWh for the hour: thirteen production columns (central, local, commercial, offshore and onshore wind by size, hydro, solar by size, solar self-consumption, unknown), local self-consumption, gross consumption, and the exchanges with Norway, Sweden, Germany, the Netherlands, Great Britain and across the Great Belt (Energinet's sign: negative an export).

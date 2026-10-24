@@ -1,6 +1,7 @@
 table,verdict,status,status_from,decided_by,publishers,words,live_window
 aeso_alberta_load_hourly,public,,,,"Alberta Electric System Operator (AESO), Canada","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 afdc_ev_charging_state_annual,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+afdc_station_counts_annual,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 afdc_vehicle_registrations_annual,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ai_power_regions,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 api_cost_ledger,internal,,,,Anthropic,The ERW holds it for its own use only; it is never redistributed.,whole
@@ -55,6 +56,7 @@ datacenter_queue_positions,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYI
 desnz_uk_electricity_quarterly,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_renewables_quarterly,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 doe_grip_selections,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+doe_lead_energy_burden,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 doe_lng_export_applications,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 doe_oe417_events,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 doe_useer_employment,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -212,10 +214,12 @@ eia_world_energy_co2_annual,public,,,,EIA,"Public: every publisher's terms the E
 eia_world_oil_gas_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_world_oil_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 elexon_gb_demand_daily,public,,,,Elexon Limited (BMRS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+energinet_dk_production_hourly,public,,,,Energinet (Energi Data Service),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 energy_companies,public,,,,ERW,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 energy_deals,unsettled,license needed,2026-10-21,ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; Data Center Frontier; Financial Times; Hart Energy; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; pv magazine USA,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,"ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; Data Center Frontier; Financial Times; Hart Energy; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; pv magazine USA's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 energy_deals_evidence,internal,,,ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; and 15 more,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 energy_projects,unsettled,license needed,2026-10-21,ISO-NE,CAISO; Census Bureau; EIA; ERCOT; ISO-NE; SPP,"ISO-NE's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",some rows
+epa_ghg_inventory_annual,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_ghgrp_facility_emissions,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_ghgrp_power_co2,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_lmop_landfill_projects,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -258,6 +262,7 @@ ercot_wind_solar_hsl_hourly,public,,,,ERCOT,"Public: every publisher's terms the
 ercot_wind_solar_output_hourly,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_zone_load_hourly,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_zone_prices_history,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_gas_imports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_renewable_capacity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 event_study_estimates,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 event_window_daily,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
@@ -298,6 +303,7 @@ frb_treasury_yields,public,,,,FRB,"Public: every publisher's terms the ERW read 
 frb_utility_output_monthly,public,,,,FRB,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 generation_mix_hourly_profile,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 generation_mix_records,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+gfz_kp_index_3h,public,,,,GFZ Helmholtz Centre for Geosciences (Potsdam),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 grid_network_links,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 grid_network_nodes,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 grid_peak_vs_capacity,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -312,7 +318,7 @@ interconnection_agreements_signed,public,,,,Berkeley Lab,"Public: every publishe
 interconnection_durations,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 interconnection_durations_summary,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 interconnection_queue_summary,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
-irena_capacity_annual,internal,,,,International Renewable Energy Agency (IRENA),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+irena_capacity_annual,internal,,,International Renewable Energy Agency (IRENA),International Renewable Energy Agency (IRENA),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 irs_soi_energy_credits_annual,public,,,,"Internal Revenue Service (IRS), Statistics of Income","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 iso_all_capacity_prices,internal,,,PJM,ISO-NE; MISO; NYISO; PJM,The ERW holds it for its own use only (needs a paid license); it is never redistributed.,none
 iso_curtailment_monthly,public,,,,CAISO; ERCOT; SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
@@ -411,6 +417,7 @@ price_years_by_window,public,,,,CAISO; EIA; ERCOT; NOAA NCEI; SPP,"Public: every
 rggi_auction_allowance_prices,internal,,,RGGI,RGGI,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 rrc_lease_production_monthly,public,,,,RRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 scarcity_hours_by_grid,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
+scripps_co2_mlo_monthly,public,,,,"Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 shoulder_hours_monthly,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 spp_as_prices,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 spp_as_quantities,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -427,6 +434,7 @@ texas_transmission_matrix,internal,,,,Public Utility Commission of Texas,The ERW
 treasury_1603_awards,internal,,,,U.S. Department of the Treasury,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 usace_nid_dams,unsettled,,,,U.S. Army Corps of Engineers (USACE),"The terms of U.S. Army Corps of Engineers (USACE) have not been read or settled, so the ERW does not redistribute it until they are.",none
 usbr_hydropower_monthly,public,,,,U.S. Bureau of Reclamation (USBR),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+usbr_mead_powell_daily,public,,,,U.S. Bureau of Reclamation (USBR),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 usdm_drought_state_weekly,public,,,,"U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 usgs_comcat_earthquakes_south_central,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 usgs_mcs_critical_minerals,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -439,3 +447,4 @@ wb_electricity_access_annual,public,,,,World Bank,"Public: every publisher's ter
 wb_iea_electricity_annual,internal,,,IEA (standalone datasets),IEA (standalone datasets),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 weather_forecast_hourly,public,,,,NWS,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 weather_obs_hourly,public,,,,NWS,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+wfigs_wildfires,public,,,,National Interagency Fire Center (NIFC),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none

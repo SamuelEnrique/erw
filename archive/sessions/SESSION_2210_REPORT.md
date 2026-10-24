@@ -8,12 +8,12 @@
 - **The next file first,** pushed to main on its own before any other work: `queue/next/099-day-3-november-data-ontario-fuels-europe-supply-uk-gas-norway.md` (sessions 2224 to 2237, machine: data): the IESO's generation by fuel, Eurostat's monthly electricity balances, the UK's gas balance, Statistics Norway's electricity and the rest. 099 was the next free number; 2224 to 2237 were free. Snapshots `s2210-q-before`/`-after`: 0 differences.
 - **The price indexes are closed to the ERW:**
   - FRED's terms (read 12, the record's verdict) forbid incorporating FRED content "in any database, compilation, archive, cache, or other medium" without the Bank's written consent, so FRED's keyless downloads are not used.
-  - The indexes are the Bureau of Labor Statistics' own (producer prices for electric power and natural gas, consumer prices for electricity and utility gas), in the public domain, but www.bls.gov refuses automated retrieval (read 146, session 941) and api.bls.gov's robots file disallows every path (read 323).
+  - The indexes are the Bureau of Labor Statistics' own (producer prices for electric power and natural gas, consumer prices for electricity and utility gas), in the public domain, but www.bls.gov refuses automated retrieval (read 146, session 941) and api.bls.gov's robots file disallows every path (read 344).
 - **No replacement source** in this session: the file's rule replaces a source another chain took or the ERW holds; the three sessions of the chain's own choosing (2213, 2217, 2221) can take others.
 
 ## The pulls
 
-1. `api.bls.gov/robots.txt` (read 323): `Disallow: /` for every reader.
+1. `api.bls.gov/robots.txt` (read 344): `Disallow: /` for every reader.
 
 ## Errors
 
