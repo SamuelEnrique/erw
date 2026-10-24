@@ -146,6 +146,7 @@ eia_fuel_spot_prices,none,,3,P1D,1986-01-02T00:00:00Z,2026-10-20T00:00:00Z,27766
 eia_gas_balance_annual,none,,460,P1Y,1997-01-01T00:00:00Z,2025-01-01T00:00:00Z,11274,eia:natural-gas/sum/snd,2026-10-21T23:21:38Z,pass,public,gas,no,source
 eia_gas_consumers_state_annual,none,,444,P1Y,1986-01-01T00:00:00Z,2024-01-01T00:00:00Z,12864,eia:natural-gas/cons/num,2026-10-23T02:20:47Z,pass,public,gas,no,source
 eia_gas_consumption_state_monthly,none,,208,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,63420,eia:natural-gas/cons/sum,2026-10-21T20:22:19Z,pass,public,gas,no,source
+eia_gas_heat_content_monthly,none,,52,P1M,2013-01-01T00:00:00Z,2026-07-01T00:00:00Z,8476,eia:natural-gas/cons/heat,2026-10-24T03:45:55Z,pass,public,gas,no,source
 eia_gas_interstate_annual,none,,1888,P1Y,1997-01-01T00:00:00Z,2024-01-01T00:00:00Z,29470,eia:natural-gas/move/ist,2026-10-21T22:16:43Z,pass,public,gas,no,source
 eia_gas_other_uses_state_annual,none,,157,P1Y,2001-01-01T00:00:00Z,2025-01-01T00:00:00Z,3838,eia:natural-gas/cons/sum:annual,2026-10-24T01:00:33Z,pass,public,gas,no,source
 eia_gas_pipeline_projects,none,,1,event,1903-11-05T00:00:00Z,2031-01-01T00:00:00Z,1334,1 outlets,2026-10-23T07:13:04Z,pass,public,gas,no,source

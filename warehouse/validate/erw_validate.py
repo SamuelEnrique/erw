@@ -112,7 +112,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "ft", "acre-ft",
          # session 2244: a crude oil's API gravity in degrees, as EIA gives the crude run at refineries
          # (eia_crude_quality_monthly; Decision 73)
-         "degAPI"}
+         "degAPI",
+         # session 2245: natural gas heat content in Btu a cubic foot, as EIA gives the gas delivered to consumers
+         # (eia_gas_heat_content_monthly; Decision 74)
+         "Btu/ft3"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")

@@ -3181,6 +3181,7 @@ eia_gas_consumption_state_monthly,consumption_electric_power,series variable,MMc
 eia_gas_consumption_state_monthly,consumption_industrial,series variable,MMcf
 eia_gas_consumption_state_monthly,consumption_residential,series variable,MMcf
 eia_gas_consumption_state_monthly,consumption_total,series variable,MMcf
+eia_gas_heat_content_monthly,heat_content,series variable,Btu/ft3
 eia_gas_interstate_annual,deliveries,series variable,MMcf
 eia_gas_interstate_annual,deliveries_exports,series variable,MMcf
 eia_gas_interstate_annual,exports_intransit,series variable,MMcf
