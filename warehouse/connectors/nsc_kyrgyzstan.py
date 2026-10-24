@@ -24,9 +24,9 @@ The years 2011 to 2013 are in both sheets of each file; the old sheet gives the 
 imports "actually including flows" (transit); manufacturing including, from 2007 and in GKED-3, the electricity
 distributed for communal and household needs and to the population. So consumption_manufacturing holds households' supply
 from 2007; the header says so. The balance's "produced" and the stations' "generation" differ by up to 0.3 million kWh in
-three years (2003, 2004, 2010); both are kept as published. A "-" has no row; a footnote mark in a cell ("4293,5 2") is
+six years (2003, 2004, 2005, 2010, 2023, 2024; session 2471's count); both are kept as published. A "-" has no row; a footnote mark in a cell ("4293,5 2") is
 read as the number before it. Checks a year, within 0.15 million kWh (1.05 in a year whose figures are printed in whole
-million kWh, 1990 to 2002): hydro, thermal and other add to generation; the branches and the losses add to consumption;
+million kWh, 1991 to 2002): hydro, thermal and other add to generation; the branches and the losses add to consumption;
 produced and imports equal consumption and exports. A check that fails is the committee's own figure: kept as published
 and named in the header (one when written: 2001, where produced and imports are 55 million kWh over consumption and
 exports); more than six stops the run. A label or a year not the committee's or a value that is not a number stops the
@@ -210,7 +210,7 @@ def main(argv=None):
             "Shape: series (docs/datastandard.md v0). entity nsc_kg:KG; unit MWh (the committee's million kWh times 1,000); ts_utc the year's 1 January; freq P1Y; geo KG. variable: generation, generation_hydro, generation_thermal, generation_other (table 1.05.01.03); "
             "produced, imports, consumption (the branches and the network losses together), consumption_manufacturing, _agriculture, _transport, _construction, _public_utilities (to 2006; from 2007 within manufacturing) and _social_services (to 2010), _other_activities (from 2011), network_losses, exports (table 1.05.01.02).",
             f"{len(t)} rows. The old classification gives the years to 2010 and GKED-3 those from 2011; the two agree in 2011 to 2013. The committee's footnotes: imports include transit flows; manufacturing includes, from 2007, the electricity distributed for communal and household needs and to the population. "
-            "The balance's produced and the stations' generation differ by up to 0.3 million kWh in three years; both are kept. Each year's kinds add to generation, the branches and losses to consumption, and produced and imports equal consumption and exports, within 0.15 million kWh (1.05 in a year printed in whole million kWh)"
+            "The balance's produced and the stations' generation differ by up to 0.3 million kWh in six years; both are kept. Each year's kinds add to generation, the branches and losses to consumption, and produced and imports equal consumption and exports, within 0.15 million kWh (1.05 in a year printed in whole million kWh)"
             + ("".join(f"; in {y} {what} do not agree ({a:,.1f} against {b:,.1f} million kWh), the committee's figures kept as published" for y, what, a, b in gaps) if gaps else "")
             + ". Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/nsc_kyrgyzstan.py; table 1.05.01.03 retrieved {retrieved['344']}, table 1.05.01.02 {retrieved['1248']}",
