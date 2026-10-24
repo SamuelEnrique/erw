@@ -316,3 +316,90 @@ export function exchangeTies(snap: Snapshot, ba: string, hour: string, ties: { o
       tip: `eia930_all_interchange (the hourly network snapshot refreshed ${refreshName(snap.built)}), ${ba}'s tie with ${t.other}, MW signed from ${ba}'s side, hour ${hourName(hour)}.${weekWords}` };
   });
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 1406 (chain 100): the Lower 48 on the Network tab (grid_network_us48, components/grid/Lower48Demand.tsx). In
+// the hour the panel shows, beside the seven grids' net exchange (lower48Panel above, unchanged): each grid's demand,
+// chosen and keyed as the grid in view's demand is (demandAt: netsnap|... from the hourly snapshot's demand_recent, else
+// series|eia930_all_demand|eia930:<BA>|demand_mw|<hour>); the Lower 48's own, EIA-930's US48
+// (series|eia930_all_demand|eia930:US48|demand_mw|<hour>, the week's rows the page reads aligned as the seven's are); the
+// seven's sum, calc|add|<D1>|...|<D7>, and its share of the Lower 48, calc|addpct|<D1>|...|<D7>|<US48> (two ops of calc,
+// scripts/check-calc.mjs: the sum of the operands, and their sum over the last one, x 100), each only when all seven are
+// held. And the seven's exchange with the grids around them, in words: the sum of the seven's net exports over their
+// reporting ties (their ties with one another cancel in it), and its two parts, with the rest of the Lower 48 and with
+// Canada's and Mexico's operators (OUTSIDE_US48, the snapshot's nodes that are not of the Lower 48). Each is written as a
+// size with its direction in words, "sent out" or "took in", so each is keyed by the operands that give that size: the
+// seven's net|export|<BA>|<hour> keys (or net|import|...), and each tie to Canada or Mexico signed from the side that
+// makes the part, net|tie|<outside>|<BA>|<hour> or net|tie|<BA>|<outside>|<hour> (lib/network.ts netValue reads a tie
+// from either side); one operand is its own key. No new key kind: check-values recomputes every operand as it does.
+
+/** The balancing authorities of the network snapshot that are not of the Lower 48: Canada's and Mexico's operators. */
+export const OUTSIDE_US48 = ["AESO", "BCHA", "CEN", "HQT", "IESO", "MHEB", "NBSO", "SPC"] as const;
+const outside = (ba: string) => (OUTSIDE_US48 as readonly string[]).includes(ba);
+
+/** The Lower 48's own demand in the hour (EIA-930's US48): the week's eia930_all_demand rows, aligned to the snapshot's
+ * hours; null where the hour is not held. The snapshot has no US48 node, so there is no fallback. */
+export function lower48DemandAt(snap: Snapshot, hour: string, week: (number | null)[] | undefined): Fig | null {
+  const h = snap.hours.indexOf(hour);
+  const v = h >= 0 ? week?.[h] : null;
+  return v === null || v === undefined ? null
+    : { check: `series|eia930_all_demand|eia930:US48|demand_mw|${hour}`, raw: v, tip: `eia930_all_demand, entity eia930:US48 (EIA-930's Lower 48), demand_mw, hour ${hourName(hour)}, read with the snapshot refreshed ${refreshName(snap.built)}` };
+}
+
+/** A figure that adds its operands' figures (calc|add, or the one operand itself), and its tip. */
+function added(figs: { check: string; raw: number }[], tip: string): Fig {
+  if (figs.length === 1) return { check: figs[0].check, raw: figs[0].raw, tip };
+  return { check: `calc|add|${figs.map((f) => f.check.replaceAll("|", "~")).join("|")}`, raw: z(figs.reduce((a, f) => a + f.raw, 0)), tip };
+}
+
+export type Flow = Fig & { kind: "export" | "import" };
+export type Lower48Demand = {
+  hour: string;
+  rows: { ba: string; demand: Fig | null }[];
+  us48: Fig | null;
+  /** the seven's demand summed, and as a percent of the Lower 48's: only when all seven are held */
+  sum: Fig | null; share: Fig | null;
+  /** the grids of the seven with a tie reporting in the hour, the sums are over them */
+  reporting: string[];
+  /** the seven's net exchange with every grid around them, and its two parts; null when no grid reports a tie (or, for
+   *  `abroad`, no tie to Canada or Mexico reports) */
+  total: Flow | null; rest: Flow | null; abroad: Flow | null;
+};
+
+/** The Lower 48's Network panel's demand and exchange in the hour (`demand`: the week's demand by BA, the page's
+ * live.demand, the seven and US48). */
+export function lower48Demand(snap: Snapshot, bas: string[], hour: string, demand: Record<string, (number | null)[] | undefined>): Lower48Demand {
+  const rows = bas.map((ba) => ({ ba, demand: demandAt(snap, ba, hour, demand[ba]) }));
+  const us48 = lower48DemandAt(snap, hour, demand.US48);
+  const held = rows.every((r) => r.demand) ? rows.map((r) => r.demand!) : null;
+  const ks = held ? held.map((f) => f.check.replaceAll("|", "~")) : [];
+  const sumRaw = held ? z(held.reduce((a, f) => a + f.raw, 0)) : 0;
+  const sum = held ? { check: `calc|add|${ks.join("|")}`, raw: sumRaw, tip: `The seven grids' demand in the hour, each beside it, summed, hour ${hourName(hour)}` } : null;
+  const share = held && us48 && us48.raw > 0
+    ? { check: `calc|addpct|${ks.join("|")}|${us48.check.replaceAll("|", "~")}`, raw: (sumRaw / us48.raw) * 100, tip: `The seven grids' demand summed over the Lower 48's (EIA-930's US48), both beside it, hour ${hourName(hour)}` }
+    : null;
+
+  const src = (what: string) => `eia930_all_interchange (the hourly network snapshot), ${what}, hour ${hourName(hour)}, refreshed ${refreshName(snap.built)}`;
+  const grids = bas.map((ba) => ({ ba, ties: tiesOf(snap, ba, hour) })).filter((g) => g.ties.length);
+  const nets = grids.map((g) => ({ ba: g.ba, mw: z(g.ties.reduce((a, t) => a + t.mw, 0)) }));
+  const abroadTies = grids.flatMap((g) => g.ties.filter((t) => outside(t.other)).map((t) => ({ ba: g.ba, other: t.other, mw: t.mw })));
+  const exp = (n: { ba: string; mw: number }) => ({ check: `net|export|${n.ba}|${hour}`, raw: n.mw });
+  const imp = (n: { ba: string; mw: number }) => ({ check: `net|import|${n.ba}|${hour}`, raw: z(-n.mw) });
+  const out = (t: { ba: string; other: string; mw: number }) => ({ check: `net|tie|${t.ba}|${t.other}|${hour}`, raw: t.mw });
+  const back = (t: { ba: string; other: string; mw: number }) => ({ check: `net|tie|${t.other}|${t.ba}|${hour}`, raw: z(-t.mw) });
+  const flow = (sent: { check: string; raw: number }[], taken: { check: string; raw: number }[], what: string): Flow | null => {
+    if (!sent.length) return null;
+    const s = added(sent, "");
+    const sending = s.raw >= 0;
+    const f = sending ? s : added(taken, "");
+    return { ...f, kind: sending ? "export" : "import", tip: src(`${what}, ${sending ? "net export" : "net import"} MW`) };
+  };
+  const names = nets.map((n) => n.ba).join(", ");
+  const total = flow(nets.map(exp), nets.map(imp), `the net exports of ${names} summed (their ties with one another cancel)`);
+  const rest = nets.length
+    ? flow([...nets.map(exp), ...abroadTies.map(back)], [...nets.map(imp), ...abroadTies.map(out)],
+      `the net exports of ${names} summed, less their ties to Canada's and Mexico's operators (${abroadTies.map((t) => `${t.ba} with ${t.other}`).join(", ") || "none reporting"}): their exchange with the rest of the Lower 48`)
+    : null;
+  const abroad = flow(abroadTies.map(out), abroadTies.map(back), `the ties of ${names} to Canada's and Mexico's operators (${abroadTies.map((t) => `${t.ba} with ${t.other}`).join(", ")}) summed, signed from the seven's side`);
+  return { hour, rows, us48, sum, share, reporting: nets.map((n) => n.ba), total, rest, abroad };
+}

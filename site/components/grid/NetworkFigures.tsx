@@ -27,6 +27,7 @@ import { GRID_ANCHOR, METHOD_BALANCE, METHOD_GRAVITY, METHOD_NETWORK } from "@/l
 import { PanelMethod } from "@/components/grid/PanelMethod";  // session 1184: the line that links the panel's method
 import { BA_GRID } from "@/lib/gridHeld";
 import { replayDay } from "@/lib/gridReplay";
+import { Lower48Demand } from "@/components/grid/Lower48Demand";  // session 1406: the Lower 48's demand and the seven's exchange
 
 const hourName = (t: string) => `${t.slice(0, 10)} ${t.slice(11, 13)}:00 UTC`;
 
@@ -80,6 +81,8 @@ export function NetworkFigures({ snap, hour, grid, live, replay, node }: { snap:
           <PanelFile of={file48} columns={head48} rows={rows48.map((r) => r.cells)} />
           <PanelMethod at="network"><Link href={METHOD_NETWORK}>Method: the Grid tool&apos;s panels, every figure keyed</Link></PanelMethod>
         </ToolSection>
+        {/* session 1406: the seven grids' demand and the Lower 48's in the same hour, and the seven's exchange in words */}
+        <Lower48Demand snap={snap} hour={hour} live={live} grids={ISO_GRIDS} />
       </div>
     );
   }

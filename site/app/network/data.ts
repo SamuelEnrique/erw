@@ -35,6 +35,10 @@ export async function liveExtras(snap: Snapshot): Promise<LiveExtras> {
       const rows = dem.data.filter((r) => r.entity === `eia930:${ba}`);
       if (rows.length) out.demand[ba] = align(hourly(rows, 1));
     }
+    // session 1406: and the Lower 48's own (EIA-930's US48, rows the same read already returns), for the Lower 48's
+    // Network panel (components/grid/Lower48Demand.tsx); the network draws no US48 node, so its demand is not drawn there
+    const us48 = dem.data.filter((r) => r.entity === "eia930:US48");
+    if (us48.length) out.demand.US48 = align(hourly(us48, 1));
   }
   // session 266: net generation of the seven ISO grids and the Lower 48 by hour, for the gravity shape's circles
   const gen = await attempt(() => series("eia930_all_generation", { variable: "net_generation_mw", since }));

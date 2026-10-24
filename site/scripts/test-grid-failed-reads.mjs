@@ -60,13 +60,18 @@ const asSeries = (entity, variable, ts, value, unit = "MW") => ({ entity, variab
 for (const [t, rows] of Object.entries(mine.rows)) add(t, rows.map(([e, v, ts, x]) => asSeries(e, v, ts, x, t.startsWith("carbon") ? "kg/MWh" : "MW")));
 const tsOf = (t) => t.replace("Z", "+00:00");
 const have = new Set(T.get("eia930_all_generation").map((r) => `${r.entity}|${r.variable}|${Date.parse(r.ts_utc)}`));
+// session 1406: grid_balance.json holds each grid's week as [ts_utc, value] rows (its `about`); they are added as they are
+// (each had been read as the value of an hour, so six grids' generation and demand were NaN)
 for (const [ba, vals] of Object.entries(bal.generation)) {
-  add("eia930_all_generation", bal.hours.map((h, i) => [h, vals[i]]).filter(([h, v]) => v !== null && !have.has(`eia930:${ba}|net_generation_mw|${Date.parse(h)}`)).map(([h, v]) => asSeries(`eia930:${ba}`, "net_generation_mw", tsOf(h), v)));
+  add("eia930_all_generation", vals.filter(([h, v]) => v !== null && !have.has(`eia930:${ba}|net_generation_mw|${Date.parse(h)}`)).map(([h, v]) => asSeries(`eia930:${ba}`, "net_generation_mw", tsOf(h), v)));
 }
 const haveD = new Set(T.get("eia930_all_demand").map((r) => `${r.entity}|${Date.parse(r.ts_utc)}`));
 for (const [ba, vals] of Object.entries(bal.demand)) {
-  add("eia930_all_demand", bal.hours.map((h, i) => [h, vals[i]]).filter(([h, v]) => v !== null && !haveD.has(`eia930:${ba}|${Date.parse(h)}`)).map(([h, v]) => asSeries(`eia930:${ba}`, "demand_mw", tsOf(h), v)));
+  add("eia930_all_demand", vals.filter(([h, v]) => v !== null && !haveD.has(`eia930:${ba}|${Date.parse(h)}`)).map(([h, v]) => asSeries(`eia930:${ba}`, "demand_mw", tsOf(h), v)));
 }
+// session 1406: EIA-930's Lower 48 (eia930:US48) demand over the snapshot's week (fixtures/lower48_demand.json, read once with
+// the anon key), so the Lower 48's Network panel draws its own demand beside the seven's
+add("eia930_all_demand", fx("lower48_demand.json").rows.map(([ts, v]) => asSeries("eia930:US48", "demand_mw", ts, v)));
 for (const [g, entity, price] of [["ercot", "iso:ercot", "ercot:HB_HUBAVG|spp_rtm"], ["caiso", "iso:caiso", "caiso:TH_SP15_GEN-APND|lmp_rtm_15m_mean"]]) {
   add("scarcity_hours_by_grid", strip[g].rows.map((r) => ({ ...asSeries(entity, r.variable, r.ts_utc, r.value, "flag") })));
   const [pe, pv] = price.split("|");
@@ -301,6 +306,21 @@ for (const kind of KINDS) {
     if (y.nums.some((n) => n.check.startsWith("calc|bal|") || n.check.startsWith("netbal|"))) return "a gap or a week figure computed without the generation";
     if (/No hour of the week holds all three/.test(y.text) || /a part is not held/.test(y.text)) return "the failed read is said as 'not held'";
     return /not computed: a part could not be read/.test(y.text) && /The week's gap is not computed: its hours/.test(y.text) ? "" : `the gap and the week do not say why: ${y.text.slice(0, 400)}`;
+  });
+}
+// 1b. session 1406: the Lower 48 on the Network tab (grid_network_us48, components/grid/Lower48Demand.tsx): a failed read
+// of eia930_all_demand takes the Lower 48's own demand and the share, said "could not be read"; each grid's demand the
+// snapshot holds for the hour stands (the snapshot's own, as on the grid's panel), and the seven's net exchange stands
+const US48_NET = { grid: "us48", view: "network" };
+for (const kind of KINDS) {
+  await check(`grid_network_us48 (1406), eia930_all_demand, ${kind}: no Lower 48 demand or share, ${kind === "empty" ? "said not held" : "said not read"}; the exchange stands`, async () => {
+    const why = await failing(US48_NET, "grid_network_us48", "eia930_all_demand", kind, { emptySays: /the Lower 48's demand is not held for the hour, so the share is not computed/, snapshotHolds: true });
+    if (why) return why;
+    const ok = (await base(US48_NET)).rec.grid_network_us48, y = (await draw(US48_NET, { table: "eia930_all_demand", kind })).rec.grid_network_us48;
+    if (y.nums.some((n) => n.check.includes("eia930:US48") || n.check.startsWith("calc|addpct|"))) return "the Lower 48's demand or the share drawn without its read";
+    const keep = (r) => r.nums.filter((n) => n.check.startsWith("net|") || n.check.startsWith("calc|add|net~")).map((n) => `${n.check}=${n.raw}`).join(";");
+    if (keep(ok) !== keep(y)) return "the seven's net exchange moved";
+    return kind === "empty" || /the Lower 48's demand (\[why: eia930_all_demand could not be read just now: [^\]]*\] )?could not be read for the hour, so the share is not computed/.test(y.text) ? "" : `the Lower 48's demand is not said not read: ${y.text.slice(y.text.indexOf("Their demand"), y.text.indexOf("Their demand") + 300)}`;
   });
 }
 for (const kind of ["http500", "empty"]) {

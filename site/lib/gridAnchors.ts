@@ -111,6 +111,12 @@ export const METHOD_HUB_PRICE = "/data/methods/generation_mix_hourly#the-hubs-pr
 export const CLEAN_WEEK_ANCHOR = "clean-week";
 export const cleanWeekAnchor = (i: number, grid: string): string => (i ? `${CLEAN_WEEK_ANCHOR}-${grid}` : CLEAN_WEEK_ANCHOR);
 export const METHOD_CLEAN_WEEK = "/data/methods/generation_mix_hourly#the-cleanest-hours-live-chain-100-24-october-2026";
+// Session 1406 (chain 100): the Lower 48 on the Network tab, the seven grids' demand and the Lower 48's in the hour, and
+// the seven's exchange with the grids around them (inside grid_network_us48, components/grid/Lower48Demand.tsx): its
+// anchor and its method, outside GRID_ANCHOR and GRID_METHOD as sessions 1402's and 1403's are; the panel keeps its own
+// (#network-figures, METHOD_NETWORK).
+export const LOWER48_DEMAND_ANCHOR = "lower48-demand";
+export const METHOD_NETWORK_US48 = "/data/methods/grid_network#the-lower-48-on-the-network-tab-chain-100-24-october-2026";
 export const GRID_METHOD: Record<GridAnchorKey, string> = {
   network: METHOD_NETWORK,
   replay: METHOD_REPLAY,

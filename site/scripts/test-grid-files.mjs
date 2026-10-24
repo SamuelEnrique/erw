@@ -55,13 +55,18 @@ const asSeries = (entity, variable, ts, value, unit = "MW") => ({ entity, variab
 for (const [t, rows] of Object.entries(mine.rows)) add(t, rows.map(([e, v, ts, x]) => asSeries(e, v, ts, x, t.startsWith("carbon") ? "kg/MWh" : "MW")));
 const tsOf = (t) => t.replace("Z", "+00:00");
 const have = new Set(T.get("eia930_all_generation").map((r) => `${r.entity}|${r.variable}|${Date.parse(r.ts_utc)}`));
+// session 1406: grid_balance.json holds each grid's week as [ts_utc, value] rows (its `about`); they are added as they are
+// (each had been read as the value of an hour, so six grids' generation and demand were NaN)
 for (const [ba, vals] of Object.entries(bal.generation)) {
-  add("eia930_all_generation", bal.hours.map((x, i) => [x, vals[i]]).filter(([x, v]) => v !== null && !have.has(`eia930:${ba}|net_generation_mw|${Date.parse(x)}`)).map(([x, v]) => asSeries(`eia930:${ba}`, "net_generation_mw", tsOf(x), v)));
+  add("eia930_all_generation", vals.filter(([x, v]) => v !== null && !have.has(`eia930:${ba}|net_generation_mw|${Date.parse(x)}`)).map(([x, v]) => asSeries(`eia930:${ba}`, "net_generation_mw", tsOf(x), v)));
 }
 const haveD = new Set(T.get("eia930_all_demand").map((r) => `${r.entity}|${Date.parse(r.ts_utc)}`));
 for (const [ba, vals] of Object.entries(bal.demand)) {
-  add("eia930_all_demand", bal.hours.map((x, i) => [x, vals[i]]).filter(([x, v]) => v !== null && !haveD.has(`eia930:${ba}|${Date.parse(x)}`)).map(([x, v]) => asSeries(`eia930:${ba}`, "demand_mw", tsOf(x), v)));
+  add("eia930_all_demand", vals.filter(([x, v]) => v !== null && !haveD.has(`eia930:${ba}|${Date.parse(x)}`)).map(([x, v]) => asSeries(`eia930:${ba}`, "demand_mw", tsOf(x), v)));
 }
+// session 1406: EIA-930's Lower 48 (eia930:US48) demand over the snapshot's week (fixtures/lower48_demand.json, read once with
+// the anon key), so the Lower 48's Network panel draws its own demand beside the seven's
+add("eia930_all_demand", fx("lower48_demand.json").rows.map(([ts, v]) => asSeries("eia930:US48", "demand_mw", ts, v)));
 for (const [g, entity, price] of [["ercot", "iso:ercot", "ercot:HB_HUBAVG|spp_rtm"], ["caiso", "iso:caiso", "caiso:TH_SP15_GEN-APND|lmp_rtm_15m_mean"]]) {
   add("scarcity_hours_by_grid", strip[g].rows.map((r) => ({ ...asSeries(entity, r.variable, r.ts_utc, r.value, "flag") })));
   const [pe, pv] = price.split("|");
@@ -438,6 +443,26 @@ await check("the cleanest hours, live: its figures, file, anchor and method; a s
   if (!e.nums.includes("series_n|carbon_intensity_hourly|intensity_generation|2026-10-13T05:00:00Z|2026-10-20T05:00:00Z|eia930:ERCO=168")) return e.nums.join("; ");
   const n = (await draw({ grid: "nyiso", view: "clean" })).grid_cleanweek_nyiso;
   return !n ? "no block grid_cleanweek_nyiso" : n.nums.length || n.files.length ? `nyiso: ${n.nums.length} figures, ${n.files.length} files` : "";
+});
+// session 1406: the Lower 48 on the Network tab: under the seven grids' net exchange (its 14 figures and file as before),
+// the seven's demand and the Lower 48's (US48) in the hour, the sum and the share (calc|add, calc|addpct), the seven's
+// exchange and its two parts in words; a second file (grid_network_us48_demand), its anchor and its method
+await check("the Lower 48's Network panel: the seven's demand and the Lower 48's, the sum, the share and the exchange; its file, anchor and method", async () => {
+  const b = (await draw({ grid: "us48", view: "network" })).grid_network_us48;
+  if (!b) return "no block grid_network_us48";
+  if (b.files.map((f) => f.id).join(",") !== "grid_network_us48,grid_network_us48_demand") return `files ${b.files.map((f) => f.id).join(",")}`;
+  if (!b.ids.includes(GA.LOWER48_DEMAND_ANCHOR)) return `lacks #${GA.LOWER48_DEMAND_ANCHOR} (ids: ${b.ids.join(", ")})`;
+  if (!b.methods.includes(GA.METHOD_NETWORK) || !b.methods.includes(GA.METHOD_NETWORK_US48)) return `links ${b.methods.join(", ")}`;
+  const keys = new Set(b.nums.map((x) => x.slice(0, x.lastIndexOf("="))));
+  if (keys.size !== 14 + 13) return `${keys.size} figures, not 27`;
+  if (!b.nums.includes("series|eia930_all_demand|eia930:US48|demand_mw|2026-10-21T23:00:00Z=497563")) return "no Lower 48 demand of 497563 MW";
+  for (const k of ["calc|add|series~eia930_all_demand~", "calc|addpct|series~eia930_all_demand~", "calc|add|net~import~", "calc|add|net~tie~"]) if (![...keys].some((x) => x.startsWith(k))) return `no figure keyed ${k}...`;
+  if (b.nums.some((x) => x.endsWith("=NaN"))) return "a figure without a value (NaN)";
+  // the method link opens its section: the id the site's renderer writes for the heading (lib/markdown.ts)
+  const MD = await import("../lib/markdown.ts");
+  const html = String(MD.render(fs.readFileSync(path.join(SITE, "..", "docs", "methods", "grid_network.md"), "utf-8"), "docs/methods/grid_network.md"));
+  if (!html.includes(`id="${GA.METHOD_NETWORK_US48.split("#")[1]}"`)) return `${GA.METHOD_NETWORK_US48}: no such heading in grid_network.md`;
+  return blockHolds(b, "grid_network_us48");
 });
 // the ERCOT Exchange block's twelve months are drawn from the fixture (a file of its own, the neighbours')
 await check("/grid?grid=ercot&view=gravity: the Exchange blocks offer two files, the ties' and the twelve months'", async () => {
