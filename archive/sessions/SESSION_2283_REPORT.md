@@ -4,7 +4,7 @@
 
 ## Read these first
 
-- **CAMMESA's hosts reset the connection** at their robots files: cammesaweb.cammesa.com (read 477) and api.cammesa.com (read 478). Neither is asked again, so Argentina is not taken.
+- **CAMMESA's hosts reset the connection** at their robots files: cammesaweb.cammesa.com (read 498) and api.cammesa.com (read 499). Neither is asked again, so Argentina is not taken.
 - **U.S. underground gas storage by type in its place,** under the queue file's rule: the split between salt caverns and other fields, which the ERW did not hold. Its regional and weekly storage tables have no such split. EIA's verdict is on record.
 - **One table written, validated, archived, in coverage (sector gas), in the release package, both holds:** `eia_gas_storage_type_monthly`, December 1973 to July 2026, 8,367 rows, 18 series, in MMcf (already in the vocabulary).
   - Base gas, working gas, total, injections, withdrawals and net withdrawals, for all fields and for salt and non-salt.
@@ -16,8 +16,8 @@
 
 ## The pulls
 
-1. cammesaweb.cammesa.com/robots.txt (read 477): the connection reset.
-2. api.cammesa.com/robots.txt (read 478): the connection reset.
+1. cammesaweb.cammesa.com/robots.txt (read 498): the connection reset.
+2. api.cammesa.com/robots.txt (read 499): the connection reset.
 3. EIA's route metadata (1973-01 to 2026-07) and one page of 2025.
 4. The trial's two pages. The write reused them (0 requests).
 
@@ -38,7 +38,7 @@
 - New: `warehouse/connectors/eia_gas_storage_type.py`, `tests/test_session2283.py`, this report.
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (477, 478)
+  - `warehouse/metadata/license_reads.csv` (498, 499)
   - the coverage, sources, archive manifest and license files
   - `docs/redivis/release-v1/`
 - On the data machine only: `runs/c104/s2283/`, `runs/license_reads/s2283/`, `runs/s2283_*`, `warehouse/raw/eia_gas_storage_type/`.

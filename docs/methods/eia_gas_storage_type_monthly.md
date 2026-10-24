@@ -69,7 +69,7 @@ The figures in this note were computed from the rows of `warehouse/output/eia_ga
 ## Where the description and the data disagree
 
 1. **"A month from 1973" begins in December 1973, with a gap after it.** The docstring describes the table as "the U.S., a month from 1973", and the route's metadata starts at 1973-01. EIA gives no number for January to November 1973, so the first row is December 1973; the stocks then lack 18 of the 20 months from January 1974 to August 1975 and the flows begin in September 1975. Header line 3's "Months 1973-12 to 2026-07" and "A blank has no row" are right; a reader expecting every month from the first should not.
-2. **The reads' numbers in the report's file list.** The report's text gives CAMMESA's robots requests as reads 477 and 478; its file list says "`warehouse/metadata/license_reads.csv` (446, 447)". Since the merge of chain 102 (commit ef284545) they are 477 and 478. They concern CAMMESA, not this table.
+2. **The reads' numbers in the report's file list.** The report's text gives CAMMESA's robots requests as reads 498 and 499; its file list says "`warehouse/metadata/license_reads.csv` (446, 447)". Since the merge of chain 102 (commit ef284545) they are 477 and 478. They concern CAMMESA, not this table.
 
 Compared besides, with no contradiction found: the header's and docstring's counts, span, series, processes, area, unit, the stocks and flows, "salt plus non-salt is all fields" (within EIA's rounding), "Each row carries the time EIA served its page" and "nothing is filled" against the rows and the pages.
 

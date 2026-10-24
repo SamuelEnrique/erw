@@ -28,10 +28,10 @@
     - EIA's net series has the reversed sign in every area for all of 2003 to 2006.
     - There are no rows for 1970 to 1979, and 1969 holds only Alaska's figure (equal to the U.S.'s).
     - The pulls were five, not four.
-  - **Sessions 2280 to 2283's file lists** carried the reads' old numbers; they now give 462 to 478.
+  - **Sessions 2280 to 2283's file lists** carried the reads' old numbers; they now give 483 to 499.
 - **The merge with main** (chain 102 landed; commit ef284545):
   - Sixteen conflicts were resolved (`runs/c104/merge_resolve.py`, then `runs/union_resolve.py`).
-  - This chain's reads were renumbered 462 to 478 after main's 461, with the verdicts and reports.
+  - This chain's reads were renumbered 483 to 499 after main's 482, with the verdicts and reports.
   - Chain 102's Energy-Charts verdict (read 442) replaced this chain's identical row.
   - Test 205's bound was joined, and the release README's held line is the union (242).
   - The license record and the records were rebuilt (483 tables).

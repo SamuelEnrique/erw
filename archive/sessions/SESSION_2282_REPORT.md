@@ -5,11 +5,11 @@
 ## Read these first
 
 - **Japan is closed to the ERW for now:**
-  - OCCTO's site has no robots file (read 472), but its area supply-and-demand data are served through its interactive system pages (occtonet3), not as files.
-  - TEPCO's host answers HTTP 403 even to its robots file (read 473), so it is not asked again.
-  - **Kansai Transmission and Distribution's site terms** (read 476) give a new verdict, needs written permission in both columns: beyond private use and what copyright law allows, copying, transmitting, distributing, altering or reposting the site's data on one's own website without permission violates copyright, and prior permission is asked.
+  - OCCTO's site has no robots file (read 493), but its area supply-and-demand data are served through its interactive system pages (occtonet3), not as files.
+  - TEPCO's host answers HTTP 403 even to its robots file (read 494), so it is not asked again.
+  - **Kansai Transmission and Distribution's site terms** (read 497) give a new verdict, needs written permission in both columns: beyond private use and what copyright law allows, copying, transmitting, distributing, altering or reposting the site's data on one's own website without permission violates copyright, and prior permission is asked.
 - **Portugal's production by type an hour in its place,** under the queue file's rule (a source that cannot be taken is replaced by another public one).
-  - Energy-Charts' Portugal series, under the CC BY 4.0 of the API's description (read 471, session 2281).
+  - Energy-Charts' Portugal series, under the CC BY 4.0 of the API's description (read 492, session 2281).
   - It is a public companion to session 2280's `ren_portugal_balance_annual`, which is internal while REN states no terms.
 - **One table written, validated, archived, in coverage (sector power), in the release package, both holds:** `energy_charts_portugal_power`, 2020 to 22 October 2026, 725,799 rows, hourly, in MW.
 - **The cross-check** (`runs/c104/s2282/cross.py`, `cross.out`):
@@ -21,11 +21,11 @@
 
 ## The pulls
 
-1. www.occto.or.jp/robots.txt (read 472): HTTP 404.
-2. www.tepco.co.jp/robots.txt (read 473): HTTP 403.
-3. www.kansai-td.co.jp/robots.txt (read 474): HTTP 404.
-4. Kansai's electricity forecast page (read 475).
-5. Kansai's site terms (read 476).
+1. www.occto.or.jp/robots.txt (read 493): HTTP 404.
+2. www.tepco.co.jp/robots.txt (read 494): HTTP 403.
+3. www.kansai-td.co.jp/robots.txt (read 495): HTTP 404.
+4. Kansai's electricity forecast page (read 496).
+5. Kansai's site terms (read 497).
 6. to 12. Energy-Charts' Portugal, a year a request, 2020 to 2026 (to 22 October), 31 seconds apart. They were seeded into the raw store, and the trial and the write read them offline.
 
 ## Errors
@@ -46,7 +46,7 @@
 - New: `warehouse/connectors/energy_charts_portugal.py`, `tests/test_session2282.py`, this report.
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (472 to 476), `warehouse/metadata/license_verdicts.csv` (Kansai)
+  - `warehouse/metadata/license_reads.csv` (493 to 497), `warehouse/metadata/license_verdicts.csv` (Kansai)
   - the coverage, sources, archive manifest and license files
   - `docs/redivis/release-v1/`
 - On the data machine only: `runs/c104/s2282/`, `runs/license_reads/s2282/`, `runs/s2282_*`, `warehouse/raw/energy_charts_portugal/`.

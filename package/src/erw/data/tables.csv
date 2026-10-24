@@ -229,6 +229,7 @@ elexon_gb_demand_daily,public,,,,Elexon Limited (BMRS),"Public: every publisher'
 emi_nz_generation_demand_monthly,public,,,,Electricity Authority (New Zealand),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 energinet_dk_production_hourly,public,,,,Energinet (Energi Data Service),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 energy_charts_belgium_hourly,public,,,,Energy-Charts.info (Fraunhofer ISE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+energy_charts_central_europe,public,,,,Energy-Charts.info (Fraunhofer ISE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 energy_charts_italy_power,public,,,,Energy-Charts.info (Fraunhofer ISE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 energy_charts_portugal_power,public,,,,Energy-Charts.info (Fraunhofer ISE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 energy_charts_southeast_europe_daily,public,,,,Energy-Charts.info (Fraunhofer ISE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -457,6 +458,8 @@ ssb_norway_electricity_monthly,public,,,,Statistics Norway (SSB),"Public: every 
 statcan_electricity_generation_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_oil_gas_supply_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 state_generation_mix_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+statee_estonia_electricity_monthly,public,,,,Statistics Estonia,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statfi_finland_electricity_monthly,public,,,,Statistics Finland,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 storage_buildout_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_capacity,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_daily_cycle,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole

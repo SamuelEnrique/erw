@@ -6,7 +6,7 @@
 
 - **Chain 104 taken** at 04:36 UTC by chain 059's agent when chain 101 landed (f6b4cede). The owner's instruction for that run is to run the file the queue step prints. Chain 103, whose continuation this file is, still runs beside it under another agent, who was told; chain 102 runs too. Chain 103's agent sent its hosts, which are added to this chain's list: www.statssa.gov.za (a bot challenge), www.coordinador.cl's generation pages (HTTP 403), data.un.org's old DownloadHandler (gone), and XM (its terms).
 - **The next file first,** pushed to main on its own before any other work (c446038c, with snapshots): `queue/next/105-day-8-november-data-mexico-india-peru-korea.md`, sessions 2294 to 2307, machine: data. Its sources: Mexico (CENACE), India (Grid-India), Peru (COES) and South Korea (KPX), away from chains 102 to 104's.
-- **REN's terms:** datahub.ren.pt has no robots file (read 462). None of the Data Hub's pages read state terms of reuse: the monthly balance, API instructions, About and Hyperlinks pages (reads 463 to 466). The About page presents the numbers "to the scientific community, journalists and all interested parties". **So the table is `internal`** until a ruling, under the chain's rule for a license not settled, and no verdict is recorded.
+- **REN's terms:** datahub.ren.pt has no robots file (read 483). None of the Data Hub's pages read state terms of reuse: the monthly balance, API instructions, About and Hyperlinks pages (reads 484 to 487). The About page presents the numbers "to the scientific community, journalists and all interested parties". **So the table is `internal`** until a ruling, under the chain's rule for a license not settled, and no verdict is recorded.
 - **One table written, validated, archived, in coverage (sector power), held from the live set** (internal, so not in the release package): `ren_portugal_balance_annual`, 2020 to 2025, 146 rows.
   - REN's monthly balance rows: production by source (hydro, wind, solar, waves, biomass and its parts, coal, natural gas and its parts, other thermal), storage, the commercial exchanges and consumption.
   - Each a year, in MWh (REN's GWh times 1,000).
@@ -18,10 +18,10 @@
 
 ## The pulls
 
-1. datahub.ren.pt/robots.txt (read 462): HTTP 404.
-2. The monthly balance page (read 463).
-3. The API instructions (read 464).
-4. and 5. The About and Hyperlinks pages (reads 465, 466).
+1. datahub.ren.pt/robots.txt (read 483): HTTP 404.
+2. The monthly balance page (read 484).
+3. The API instructions (read 485).
+4. and 5. The About and Hyperlinks pages (reads 486, 487).
 6. The export for 2020 to 2026: answered with January 2020 only.
 7. to 9. The exports of December 2021, 2023 and 2025. They were seeded into the raw store, and the trial and the write read them offline.
 
@@ -44,6 +44,6 @@
 - Changed:
   - `tests/test_session205.py` (its bound, +20)
   - `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (462 to 466)
+  - `warehouse/metadata/license_reads.csv` (483 to 487)
   - the coverage, sources, archive manifest and license files
 - On the data machine only: `runs/c104/`, `runs/license_reads/s2280/`, `runs/s2280_*`, `warehouse/raw/ren_balance/`.
