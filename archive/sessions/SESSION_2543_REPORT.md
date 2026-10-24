@@ -20,5 +20,5 @@
 
 ## Files
 
-- Changed: `package/src/erw/data/tables.csv`, `site/data/table_citations.json`, `site/data/table_verdicts.json`, `docs/licenses.md`, `warehouse/metadata/license_tables.csv`; this report.
+- Changed: `package/src/erw/data/tables.csv`, `site/data/table_citations.json`, `site/data/table_verdicts.json`; this report. (The license record's files were already current: the write changed nothing.)
 - On the data machine only: `runs/c124/pre2543.out`, `lic2543.out`, `rel2543.out`, `bt2543*.out`, `t2543.out`.
