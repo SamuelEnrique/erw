@@ -33,8 +33,10 @@ class TheFiles(unittest.TestCase):
 
     def test_the_panel_follows_the_live_box(self):
         page = src("site", "app", "grid", "page.tsx")
-        self.assertIn("<AskExamples grid={grid} />", page)
-        self.assertLess(page.index("<AskView grid={grid}"), page.index("<AskExamples grid={grid} />"))
+        # session 1405: the panel is given the tab on screen (`tab={view}`, its examples first); the line is pinned as it now reads
+        self.assertIn("<AskExamples grid={grid} tab={view} />", page)
+        self.assertLess(page.index("<AskView grid={grid}"), page.index("<AskExamples grid={grid} tab={view} />"))
+        self.assertEqual(page.count("<AskExamples "), 1)
 
     def test_the_panel_is_named_and_folded(self):
         comp = src("site", "components", "grid", "AskExamples.tsx")

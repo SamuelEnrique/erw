@@ -920,6 +920,16 @@ Decisions (session 1187):
 - **Answers that name "EIA-930" stay out** (d01, d02, d08, d09, and 1133's d03): the number check reads 930 as a figure no tool returned. The rule is the site's own (`lib/chat/ask.ts`), so it is kept; 1113's d03 is shown in place of 1133's.
 - **The run files are read from the branch**: `origin/main` was merged into the chain's branch (commit `f2b163cf`), so the script and CI's `--check` read them where they read the older ones, rather than the script pointing at main's files.
 
+## The Ask column, by tab (chain 100, 24 October 2026)
+
+Chain 100 in this note: session 1405.
+
+Session 1405. The Ask column's stored answers (`grid_ask_<grid>`, sessions 1157 and 1187 above) are now ordered by the tab on screen: the page gives the panel its tab (`<AskExamples grid={grid} tab={view} />`), and `lib/gridask.ts` `orderByTab` puts first the answers that read a table of that tab, then the rest, each part in the stored order. The five at most a grid are chosen as before, then ordered; no answer is added, dropped or changed, and each `<details>` stays closed. An answer's tab is read from the tables its tool calls read (its `sources`), through `ASK_TABLE_TAB`, built once from the tab lists of `lib/gridtables.ts` (`GRID_VIEW_TABLES`): a table of the Network tab's list that the Mix tab's does not name, or an interchange table, is the Network tab's (Gravity reads the same list, so it orders as Network); a table of the Clean tab's list that the Mix tab's does not name, or a carbon, emissions or clean energy table, is the Clean tab's; any other table of the Mix tab's list (generation, demand, prices, the mix, storage) is the Mix tab's; a table no tab lists has no tab.
+
+On 24 October 2026 the order moves on four grids and two tabs: ERCOT on Clean (the carbon answer, q05, first), PJM on Clean (q29), ISO-NE on Clean (q18 and q26, its two public carbon answers, then the two held), the Lower 48 on Mix (p09, the hourly demand, first) and on Clean (p02 and q19, the carbon answers, first). CAISO, SPP, MISO and NYISO keep their order on every tab, and every grid keeps it on Network and Gravity: none of those answers reads a table a tab lists (the cost of power, merchant revenue, the battery stack, curtailment, day-ahead prices, the queue), or reads an interchange table.
+
+Decisions (session 1405): the tab of a table is decided in the order network, clean, mix because the tab lists overlap (the Mix and Clean tabs draw the same files, and the Network tab's list names carbon, demand and hub price tables too), so membership alone would put a carbon table on three tabs; tables on no tab's list (`cost_of_power_monthly`, `iso_dam_hub_prices` and the rest) are given no tab rather than one by their names, so the map stays the lists' and cannot drift from them; an answer reading tables of two tabs is first on both; the selection of five comes before the order, so a tab never brings in a sixth answer; `tests/test_session1157.py`'s pin of the page's line now reads `<AskExamples grid={grid} tab={view} />` (both its assertions kept, one added: the panel drawn once).
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").

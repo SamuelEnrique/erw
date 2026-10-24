@@ -8,8 +8,15 @@
 // read (lib/supabase.ts LicenseNeeded: licenseReason(table), "license needed: <publishers>: the publisher's own page
 // asks for permission; none is recorded yet"). A figure's grid is its entity's (lib/license.ts gridOfEntity), or the
 // example's own grid when the call named no entity of a grid (eia930:ISNE, a market filter, none).
+//
+// Session 1405 (chain 100): the examples of the tab on screen first. Each example's tab is read from the tables its
+// tool calls read (its sources), through ASK_TABLE_TAB, the one map from a table to a tab, built from the tab lists of
+// lib/gridtables.ts (GRID_VIEW_TABLES) so the two cannot part. The selection is unchanged (the same five at most a
+// grid); only the order moves, and ties keep the stored order.
 import stored from "@/data/grid_ask_examples.json";
 import { gridOfEntity, licenseHeldRow, licenseReason } from "@/lib/license";
+import { GRID_VIEW_TABLES } from "@/lib/gridtables";
+import type { GridView } from "@/lib/gridtool";
 
 export type AskExampleSource = { tool: string; tables: string[]; filter: string; entities: string[]; figures: string[] };
 export type AskExample = {
@@ -54,11 +61,57 @@ export function heldTableOf(e: Pick<AskExample, "grid" | "sources">, now: Date =
 /** The refusal's words for a held table: the live Ask's (lib/supabase.ts LicenseNeeded, licenseReason). */
 export const heldWords = (table: string) => licenseReason(table);
 
-/** The examples of one grid as drawn on the day, from a stored file (the committed one unless given). */
-export function gridAskExamples(slug: string, now: Date = new Date(), file: StoredExamples = STORED): { label: string; usable: number; shown: ShownExample[] } {
+/** The tab a stored answer belongs to: the Network tab's (which the Gravity tab shares: both draw the same tables), the
+ * Mix tab's or the Clean tab's. */
+export type AskTab = "network" | "mix" | "clean";
+
+/** The tab of a tab on screen: Gravity reads the Network tab's tables (lib/gridtables.ts), so it orders as Network. */
+export const askTabOfView = (view: GridView): AskTab => (view === "gravity" ? "network" : view);
+
+// Session 1405: the tab lists of lib/gridtables.ts overlap (the Mix and Clean tabs draw the same files, and the Network
+// tab's list names carbon, demand and hub price tables too), so a table's tab is decided in this order:
+//   network  a table of the Network tab's list that the Mix tab's list does not name, or an interchange table of it
+//   clean    a table of the Clean tab's list that the Mix tab's list does not name, or a carbon, emissions or clean
+//            energy table of it
+//   mix      any other table of the Mix tab's list (generation, demand, prices, the mix, storage)
+// A table on no tab's list (the cost of power, merchant revenue, the battery stack, the curtailment, ...) has no tab.
+const IS_CARBON = /^carbon_|emissions|^clean_energy_/;
+function tabOfTable(t: string): AskTab | null {
+  const net = GRID_VIEW_TABLES.network.includes(t), mix = GRID_VIEW_TABLES.mix.includes(t), clean = GRID_VIEW_TABLES.clean.includes(t);
+  if (net && (!mix || t.includes("interchange"))) return "network";
+  if (clean && (!mix || IS_CARBON.test(t))) return "clean";
+  if (mix) return "mix";
+  return null;
+}
+
+/** Every table a tab of the Grid tool names (lib/gridtables.ts), with the one tab a stored answer that reads it belongs to. */
+export const ASK_TABLE_TAB: Readonly<Record<string, AskTab>> = Object.freeze(Object.fromEntries(
+  [...new Set(Object.values(GRID_VIEW_TABLES).flat())].sort().flatMap((t) => { const tab = tabOfTable(t); return tab ? [[t, tab]] : []; }),
+));
+
+/** The tabs of a stored answer: the tabs of the tables its tool calls read, in the order first read; none for a refusal
+ * or an answer whose tables no tab names. */
+export function askTabsOf(e: Pick<AskExample, "sources">): AskTab[] {
+  const tabs: AskTab[] = [];
+  for (const s of e.sources) for (const t of s.tables) { const tab = ASK_TABLE_TAB[t]; if (tab && !tabs.includes(tab)) tabs.push(tab); }
+  return tabs;
+}
+
+/** The examples ordered for the tab on screen: those that read a table of its tab first, then the rest, each part in
+ * the order given (a stable sort: ties keep the stored order). The same examples, none added or dropped. */
+export function orderByTab<T extends Pick<AskExample, "sources">>(examples: readonly T[], view: GridView): T[] {
+  const tab = askTabOfView(view);
+  const mine = examples.filter((e) => askTabsOf(e).includes(tab));
+  return [...mine, ...examples.filter((e) => !mine.includes(e))];
+}
+
+/** The examples of one grid as drawn on the day, from a stored file (the committed one unless given); with a tab
+ * (session 1405), the examples of that tab first (orderByTab), the selection unchanged. */
+export function gridAskExamples(slug: string, now: Date = new Date(), file: StoredExamples = STORED, view: GridView | null = null): { label: string; usable: number; shown: ShownExample[] } {
   const g = file.grids[slug];
   if (!g) return { label: slug, usable: 0, shown: [] };
-  const shown = g.examples.slice(0, file.max_examples).map((e) => {
+  const picked = g.examples.slice(0, file.max_examples);
+  const shown = (view ? orderByTab(picked, view) : picked).map((e) => {
     const t = heldTableOf(e, now);
     return { ...e, held: t ? { table: t, words: heldWords(t) } : null };
   });

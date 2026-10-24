@@ -149,6 +149,76 @@ const fk = A.gridAskExamples("spp", after, fake).shown;
 ok(fk[0].held?.table === "news_index" && fk[1].held === null, "a table held whole is held for any grid; one held by grid only for its grids");
 ok(A.gridAskExamples("nowhere", after).shown.length === 0, "an unknown grid has no examples");
 
+// ---- session 1405: the examples of the tab on screen first (lib/gridask.ts ASK_TABLE_TAB, orderByTab)
+const T = await import("../lib/gridtables.ts");
+const TABS = ["network", "mix", "clean", "gravity"];
+const listed = [...new Set(Object.values(T.GRID_VIEW_TABLES).flat())];
+ok(listed.every((t) => A.ASK_TABLE_TAB[t]) && Object.keys(A.ASK_TABLE_TAB).length === listed.length, `every table a tab lists (lib/gridtables.ts) has one tab, and no other table has one (${listed.length})`);
+ok(Object.entries(A.ASK_TABLE_TAB).every(([t, tab]) => T.GRID_VIEW_TABLES[tab].includes(t)), "each table's tab is a tab whose list names it");
+const wantTab = {
+  eia930_all_interchange: "network", eia930_daily_interchange: "network", eia930_event_hourly_interchange: "network", ba_supply_monthly: "network",
+  eia930_all_storage: "network", eia930_daily_demand: "network",
+  carbon_intensity_monthly: "clean", carbon_intensity_daily: "clean", carbon_intensity_hourly: "clean", eia930_all_emissions: "clean",
+  clean_energy_hourly: "clean", clean_energy_summary: "clean",
+  eia930_all_generation: "mix", eia930_all_demand: "mix", eia930_generation_latest: "mix", generation_mix_hourly_profile: "mix",
+  state_generation_mix_monthly: "mix", price_board_latest: "mix", iso_rtm_hub_prices: "mix", ercot_hub_prices_daily: "mix",
+  iso_hub_prices_history: "mix", scarcity_hours_by_grid: "mix", caiso_battery_storage: "mix",
+};
+for (const [t, tab] of Object.entries(wantTab)) ok(A.ASK_TABLE_TAB[t] === tab, `${t}: the ${tab} tab (${A.ASK_TABLE_TAB[t]})`);
+for (const t of ["cost_of_power_monthly", "merchant_revenue_monthly", "battery_stack_monthly", "iso_curtailment_monthly", "iso_dam_hub_prices", "nyiso_interconnection_queue", "eia_fuel_spot_prices"])
+  ok(A.ASK_TABLE_TAB[t] === undefined, `${t}: on no tab's list, so no tab`);
+{
+  const code = fs.readFileSync(path.join(SITE, "lib", "gridask.ts"), "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
+  const named = listed.filter((t) => code.includes(`"${t}"`) || code.includes(`'${t}'`));
+  ok(named.length === 0, `lib/gridask.ts names no table of the tab lists itself: the map is built from lib/gridtables.ts (${named.join(", ") || "none"})`);
+}
+ok(A.askTabOfView("gravity") === "network" && A.askTabOfView("network") === "network" && A.askTabOfView("mix") === "mix" && A.askTabOfView("clean") === "clean", "Gravity orders as Network, whose tables it reads");
+
+// the committed data file, each grid on each tab: the same examples, the tab's first, ties in the stored order
+const idsOf = (xs) => xs.map((e) => e.id);
+const want = {
+  ercot: { mix: ["s302:q01", "s302:q02", "s302:q03", "s302:q04", "s302:q05"], clean: ["s302:q05", "s302:q01", "s302:q02", "s302:q03", "s302:q04"] },
+  pjm: { clean: ["s267:q29", "s302:q26"] },
+  isone: { clean: ["s302:q18", "s267:q26", "s302:q20", "s267:q25"] },
+  us48: { mix: ["s1114:p09", "s1114:p02", "s1114:p10", "s302:q19", "s302:q30"], clean: ["s1114:p02", "s302:q19", "s1114:p09", "s1114:p10", "s302:q30"] },
+};
+for (const [slug] of B.GRIDS) {
+  const stored = A.gridAskExamples(slug, after);
+  ok(JSON.stringify(idsOf(A.gridAskExamples(slug, after, undefined, null).shown)) === JSON.stringify(idsOf(stored.shown)), `${slug}: without a tab, the stored order`);
+  for (const view of TABS) {
+    const got = A.gridAskExamples(slug, after, undefined, view);
+    const ids = idsOf(got.shown), base = idsOf(stored.shown);
+    ok(ids.length === base.length && ids.length <= 5 && [...ids].sort().join() === [...base].sort().join(), `${slug} on ${view}: the same ${base.length} examples, none added or dropped`);
+    ok(got.label === stored.label && got.usable === stored.usable, `${slug} on ${view}: the same count and label`);
+    ok(got.shown.every((e) => JSON.stringify(e.held) === JSON.stringify(stored.shown.find((x) => x.id === e.id).held)), `${slug} on ${view}: each example held or shown as before`);
+    const tab = A.askTabOfView(view);
+    const k = got.shown.findIndex((e) => !A.askTabsOf(e).includes(tab));
+    const first = k < 0 ? got.shown : got.shown.slice(0, k), rest = k < 0 ? [] : got.shown.slice(k);
+    ok(first.every((e) => A.askTabsOf(e).includes(tab)) && rest.every((e) => !A.askTabsOf(e).includes(tab)), `${slug} on ${view}: the ${tab} tab's examples first (${first.length}), then the rest`);
+    const inStored = (part) => idsOf(part).join() === base.filter((id) => idsOf(part).includes(id)).join();
+    ok(inStored(first) && inStored(rest), `${slug} on ${view}: each part in the stored order`);
+    const expect = want[slug]?.[tab] ?? base;
+    ok(ids.join() === expect.join(), `${slug} on ${view}: ${ids.join(" ")}`);
+  }
+  ok(idsOf(A.gridAskExamples(slug, after, undefined, "gravity").shown).join() === idsOf(A.gridAskExamples(slug, after, undefined, "network").shown).join(), `${slug}: Gravity and Network in one order`);
+}
+ok(idsOf(A.gridAskExamples("isone", after, undefined, "clean").shown.filter((e) => !e.held)).join() === "s302:q18,s267:q26", "ISO-NE on Clean: its two public carbon answers first, the held ones after");
+ok(B.GRIDS.every(([slug]) => TABS.every((v) => idsOf(A.gridAskExamples(slug, after, undefined, v).shown).join() === idsOf(A.gridAskExamples(slug, after).shown).join())) === false, "the order moves on some tab of some grid");
+ok(["caiso", "spp", "miso", "nyiso"].every((slug) => TABS.every((v) => idsOf(A.gridAskExamples(slug, after, undefined, v).shown).join() === idsOf(A.gridAskExamples(slug, after).shown).join())), "CAISO, SPP, MISO, NYISO: none of their stored answers reads a table a tab lists, so their order stands on every tab");
+ok(B.GRIDS.every(([slug]) => ["network", "gravity"].every((v) => idsOf(A.gridAskExamples(slug, after, undefined, v).shown).join() === idsOf(A.gridAskExamples(slug, after).shown).join())), "Network and Gravity: no stored answer reads an interchange or network table yet, so every grid's order stands");
+
+// fixtures: ties, an example of two tabs, a refusal, more than the file's five
+const mk = (id, tables) => ({ ...fx.kept[0], grid: "spp", id, sources: tables.map((t) => ({ tool: "query", tables: [t], filter: "", entities: [], figures: ["1"] })) });
+const six = [mk("a", ["cost_of_power_monthly"]), mk("b", ["carbon_intensity_monthly"]), mk("c", ["eia930_all_interchange", "carbon_intensity_daily"]), mk("d", []), mk("e", ["eia930_all_generation"]), mk("f", ["carbon_intensity_hourly"])];
+ok(A.orderByTab(six, "clean").map((e) => e.id).join("") === "bcfade", "clean: b, c, f (each reads a carbon table) first in their order, then a, d, e");
+ok(A.orderByTab(six, "network").map((e) => e.id).join("") === "cabdef" && A.orderByTab(six, "gravity").map((e) => e.id).join("") === "cabdef", "an example of two tabs is first on each (network and gravity)");
+ok(A.orderByTab(six, "mix").map((e) => e.id).join("") === "eabcdf", "mix: the generation answer first; a refusal (no table) keeps its place among the rest");
+ok(JSON.stringify(A.askTabsOf(six[2])) === JSON.stringify(["network", "clean"]) && A.askTabsOf(six[3]).length === 0, "an example's tabs, in the order first read; none for a refusal");
+ok(A.orderByTab([], "mix").length === 0 && A.orderByTab(six, "mix").length === 6, "the order keeps every example it is given");
+const sixFile = { max_examples: 5, grids: { spp: { label: "SPP", usable: 6, examples: six } } };
+ok(idsOf(A.gridAskExamples("spp", after, sixFile, "clean").shown).join("") === "bcade", "the five are chosen first, then ordered: f, the sixth, is not brought in by the Clean tab");
+ok(six.map((e) => e.id).join("") === "abcdef", "the order does not change the list it is given");
+
 // ---- the words of the count
 ok(A.examplesLine(2, "SPP") === "Two stored answers for SPP so far, asked of the warehouse and graded right.", "fewer than five: said plainly");
 ok(A.examplesLine(0, "MISO").startsWith("No stored answers for MISO so far"), "none: said plainly");

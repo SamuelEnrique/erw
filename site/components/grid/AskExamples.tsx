@@ -5,8 +5,8 @@
 // is called and no question is sent: these are stored texts, not figures read from the database, so they carry no
 // data-check key (check-values has nothing to recompute in them). An example whose figures come from a table held for
 // the grid today is not shown; in its place stand the live Ask's words for that read (lib/license.ts licenseReason).
-import { examplesLine, gridAskExamples } from "@/lib/gridask";
-import type { GridChoice } from "@/lib/gridtool";
+import { askTabOfView, askTabsOf, examplesLine, gridAskExamples } from "@/lib/gridask";
+import type { GridChoice, GridView } from "@/lib/gridtool";
 import { GRID_ANCHOR, METHOD_ASK } from "@/lib/gridAnchors";  // session 1183: each panel's anchor; session 1184: its method
 import { SiteLink as Link } from "@/components/SiteLink";
 import { PanelMethod } from "@/components/grid/PanelMethod";  // session 1184: the line that links the panel's method
@@ -16,17 +16,19 @@ const dayWords = (iso: string) => {
   return Number.isNaN(d.getTime()) ? iso.slice(0, 10) : new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(d);
 };
 
-export function AskExamples({ grid, now = new Date() }: { grid: GridChoice; now?: Date }) {
-  const { label, shown } = gridAskExamples(grid.slug, now);
+// Session 1405: with the tab on screen (`tab`, the page's view), that tab's examples first (lib/gridask.ts orderByTab);
+// the same examples, each <details> closed as before.
+export function AskExamples({ grid, tab, now = new Date() }: { grid: GridChoice; tab?: GridView; now?: Date }) {
+  const { label, shown } = gridAskExamples(grid.slug, now, undefined, tab ?? null);
   return (
-    <section className="mt-8 border-t border-rule pt-3" data-grid-panel={`grid_ask_${grid.slug}`} id={GRID_ANCHOR.ask} data-ask-examples={shown.length} data-ask-stored="1" aria-labelledby={`ask-examples-${grid.slug}`}>
+    <section className="mt-8 border-t border-rule pt-3" data-grid-panel={`grid_ask_${grid.slug}`} id={GRID_ANCHOR.ask} data-ask-examples={shown.length} data-ask-stored="1" data-ask-order={tab ? askTabOfView(tab) : undefined} aria-labelledby={`ask-examples-${grid.slug}`}>
       <h3 id={`ask-examples-${grid.slug}`} className="mb-1 font-serif text-base">Stored answers</h3>
       <p className="mb-2 text-xs leading-relaxed text-muted" data-ask-examples-line="1">
         {examplesLine(shown.length, label)} Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day.
       </p>
       {shown.map((e) => (
         // session 1158: break-words, so a filter written without a space (where={...}) wraps in the 390 px column, not past it
-        <details key={e.id} className="border-b border-rule py-2 text-sm break-words" data-ask-example={e.id} data-ask-example-held={e.held ? e.held.table : undefined}>
+        <details key={e.id} className="border-b border-rule py-2 text-sm break-words" data-ask-example={e.id} data-ask-example-held={e.held ? e.held.table : undefined} data-ask-example-tab={askTabsOf(e).join(",") || undefined}>
           <summary className="cursor-pointer text-accent">{e.question}</summary>
           {e.held ? (
             <p className="mt-2 leading-relaxed" data-ask-held={e.held.table}>

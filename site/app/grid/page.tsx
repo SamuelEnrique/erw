@@ -151,8 +151,8 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
                 Tables read, with their licenses: the public tables of the site&apos;s live set, through the panel&apos;s tools; the {licenseNeededTables().length} tables held for a license are refused by name or, for a table held by grid, read without the held grids&apos; rows.
               </p>
               <AskView grid={grid} question={one(sp.q) ?? ""} tab={view} compact />
-              {/* session 1157: the grid's stored example answers, folded under the live box (lib/gridask.ts): no model call, no figure keyed */}
-              <AskExamples grid={grid} />
+              {/* session 1157: the grid's stored example answers, folded under the live box (lib/gridask.ts): no model call, no figure keyed; session 1405: the tab on screen's first */}
+              <AskExamples grid={grid} tab={view} />
             </aside>
           </div>
           <Related href="/grid" />
