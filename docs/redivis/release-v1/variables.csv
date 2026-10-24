@@ -560,6 +560,55 @@ doe_grip_selections,x_states,column,
 doe_grip_selections,x_state_names,column,
 doe_grip_selections,x_announced_on,column,
 doe_grip_selections,x_dates_from,column,
+doe_lead_energy_burden,electricity_cost_avg:ami_0_30,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_100_150,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_150_up,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_30_60,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_60_80,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_80_100,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_all,series variable,USD
+doe_lead_energy_burden,energy_burden:ami_0_30,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_100_150,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_150_up,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_30_60,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_60_80,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_80_100,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_all,series variable,pct
+doe_lead_energy_burden,energy_cost_avg:ami_0_30,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_100_150,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_150_up,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_30_60,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_60_80,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_80_100,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_all,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_0_30,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_100_150,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_150_up,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_30_60,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_60_80,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_80_100,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_all,series variable,USD
+doe_lead_energy_burden,households:ami_0_30,series variable,count
+doe_lead_energy_burden,households:ami_100_150,series variable,count
+doe_lead_energy_burden,households:ami_150_up,series variable,count
+doe_lead_energy_burden,households:ami_30_60,series variable,count
+doe_lead_energy_burden,households:ami_60_80,series variable,count
+doe_lead_energy_burden,households:ami_80_100,series variable,count
+doe_lead_energy_burden,households:ami_all,series variable,count
+doe_lead_energy_burden,income_avg:ami_0_30,series variable,USD
+doe_lead_energy_burden,income_avg:ami_100_150,series variable,USD
+doe_lead_energy_burden,income_avg:ami_150_up,series variable,USD
+doe_lead_energy_burden,income_avg:ami_30_60,series variable,USD
+doe_lead_energy_burden,income_avg:ami_60_80,series variable,USD
+doe_lead_energy_burden,income_avg:ami_80_100,series variable,USD
+doe_lead_energy_burden,income_avg:ami_all,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_0_30,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_100_150,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_150_up,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_30_60,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_60_80,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_80_100,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_all,series variable,USD
 doe_lng_export_applications,entity_id,column,
 doe_lng_export_applications,entity_type,column,
 doe_lng_export_applications,name,column,
