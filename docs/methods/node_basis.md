@@ -1,5 +1,7 @@
 # The node: ERCOT's settlement points against the hub, by day and by month
 
+Tables: `node_basis_daily`, `node_basis_summary` (session 2340; as held on 24 October 2026, 965,943 rows over 888 points, and 1,260 rows of 168 variables, October 2025 to October 2026)
+
 Two derived public tables, `node_basis_daily` and `node_basis_summary`, built by `warehouse/derived/node_basis.py`
 (session 358, the chain of 20 October 2026), and one internal table of hourly prices behind them,
 `ercot_node_prices_hourly`. They answer the node item of three packs: the battery's item 4, the generator's item 5 and
