@@ -8,9 +8,9 @@
 - **The next file first,** pushed to main on its own before any other work (448a2c49, with snapshots): `queue/next/102-day-5-november-data-poland-belgium-new-zealand-columbia.md`, sessions 2252 to 2265, machine: data.
   - Its sources: Poland's grid (PSE), Belgium's (Elia), New Zealand's (the Electricity Authority's EMI), and the Columbia River's federal dams (the Corps' Northwestern Division).
   - Germany was dropped from it because chain 099 takes SMARD.
-- **ODRE is closed to the ERW.** odre.opendatasoft.com's robots file disallows `/api/`, `/explore/download` and every dataset download for all readers but Googlebot (read 359). RTE's own download host serves the same national eco2mix data, so it is used instead.
-  - eco2mix.rte-france.com has no robots file (read 360). www.rte-france.com's robots file disallows only admin, search, user and filter paths (read 361).
-  - **RTE's legal notice** (read 365), a new verdict, may be public in both columns: "Les données publiées sur le portail « www.rte-france.com » sont publiques et leur réutilisation est permise sous réserve de mentionner la source. Toutefois la modification, la dénaturation totale ou partielle du site ou de son contenu, par quelque procédé que ce soit, et sur quelque support que ce soit est interdite." So the values are kept as published, reshaped only from wide to long.
+- **ODRE is closed to the ERW.** odre.opendatasoft.com's robots file disallows `/api/`, `/explore/download` and every dataset download for all readers but Googlebot (read 404). RTE's own download host serves the same national eco2mix data, so it is used instead.
+  - eco2mix.rte-france.com has no robots file (read 405). www.rte-france.com's robots file disallows only admin, search, user and filter paths (read 406).
+  - **RTE's legal notice** (read 410), a new verdict, may be public in both columns: "Les données publiées sur le portail « www.rte-france.com » sont publiques et leur réutilisation est permise sous réserve de mentionner la source. Toutefois la modification, la dénaturation totale ou partielle du site ou de son contenu, par quelque procédé que ce soit, et sur quelque support que ce soit est interdite." So the values are kept as published, reshaped only from wide to long.
 - **One table written, validated, archived, in coverage (sector power), in the release package, both holds:** `rte_eco2mix_france_halfhourly`, 2020 to August 2026, 1,647,503 rows.
   - Fifteen measures in MW every half hour: consumption, oil, coal, gas, nuclear, wind, solar, hydro, pumping, bioenergy, net physical exchanges, battery charging and discharging, onshore and offshore wind.
   - Sources: the definitive years 2020 to 2025 and this year's consolidated file.
@@ -28,20 +28,20 @@
 
 ## The pulls
 
-1. odre.opendatasoft.com/robots.txt (read 359): closed.
-2. eco2mix.rte-france.com/robots.txt (read 360): HTTP 404.
-3. www.rte-france.com/robots.txt (read 361).
-4. The eco2mix download page (read 362).
-5. Its list of downloadable years (read 363).
-6. Its download script (read 364), for the files' addresses.
-7. The legal notice (read 365).
+1. odre.opendatasoft.com/robots.txt (read 404): closed.
+2. eco2mix.rte-france.com/robots.txt (read 405): HTTP 404.
+3. www.rte-france.com/robots.txt (read 406).
+4. The eco2mix download page (read 407).
+5. Its list of downloadable years (read 408).
+6. Its download script (read 409), for the files' addresses.
+7. The legal notice (read 410).
 8. to 14. The six definitive years 2020 to 2025 and the consolidated current year. They were seeded into the raw store, and the trial and the write read them offline.
 
 ## Errors
 
 - **The first trial counted spring's nonexistent half hours as autumn's ambiguous ones.** A gap time also gives two UTC instants. Fixed: a round trip from UTC decides first. Nothing was written from it.
 - **A trial folder kept an earlier trial's rows;** it was cleared and the trial run again.
-- **Read 365's outcome** first carried words after "read"; the license test requires the bare word for a quoted sentence. Corrected.
+- **Read 410's outcome** first carried words after "read"; the license test requires the bare word for a quoted sentence. Corrected.
 
 ## Decisions made without you
 

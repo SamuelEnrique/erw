@@ -4,20 +4,20 @@
 
 ## Read these first
 
-- **AEMO's data are closed to the ERW's reader.** nemweb.com.au's robots file answers HTTP 403 with a Cloudflare challenge served from www.aemo.com.au (read 374). Neither host is asked again. Passing a challenge would be evading it.
-- **Two Australian Government hosts that publish the same quantities reset the connection** at their robots files: www.energy.gov.au (the Australian Energy Statistics, read 375) and www.aer.gov.au (the AER's wholesale statistics, read 376). Neither is asked again.
-- **Swissgrid tried in Australia's place** under the queue file's rule (a source that cannot be taken is replaced by another public one). Its robots file allows every path (read 377), and its generation page links yearly energy overview workbooks for 2009 to 2026 (read 379). **Its legal information** (read 380) gives a new verdict, needs written permission in both columns: "Accessing the Swissgrid website, downloading, and copying data from this website or its parts do not give the user any rights to content, the software, the registered trademark or other website elements. Any modification, reproduction or use of the website, the Swissgrid logo or its parts for public or commercial purposes without the prior consent of Swissgrid is strictly prohibited." The workbooks were not fetched.
+- **AEMO's data are closed to the ERW's reader.** nemweb.com.au's robots file answers HTTP 403 with a Cloudflare challenge served from www.aemo.com.au (read 419). Neither host is asked again. Passing a challenge would be evading it.
+- **Two Australian Government hosts that publish the same quantities reset the connection** at their robots files: www.energy.gov.au (the Australian Energy Statistics, read 420) and www.aer.gov.au (the AER's wholesale statistics, read 421). Neither is asked again.
+- **Swissgrid tried in Australia's place** under the queue file's rule (a source that cannot be taken is replaced by another public one). Its robots file allows every path (read 422), and its generation page links yearly energy overview workbooks for 2009 to 2026 (read 424). **Its legal information** (read 425) gives a new verdict, needs written permission in both columns: "Accessing the Swissgrid website, downloading, and copying data from this website or its parts do not give the user any rights to content, the software, the registered trademark or other website elements. Any modification, reproduction or use of the website, the Swissgrid logo or its parts for public or commercial purposes without the prior consent of Swissgrid is strictly prohibited." The workbooks were not fetched.
 - **No table was written.** Australia's demand stays as Ember's yearly figure through Our World in Data (`owid_ember_electricity_annual`).
 
 ## The pulls
 
-1. nemweb.com.au/robots.txt (read 374): HTTP 403, a challenge.
-2. www.energy.gov.au/robots.txt (read 375): the connection reset.
-3. www.aer.gov.au/robots.txt (read 376): the connection reset.
-4. www.swissgrid.ch/robots.txt (read 377).
-5. Swissgrid's English sitemap (read 378), for the pages' real addresses.
-6. The grid data generation page (read 379).
-7. The legal information (read 380).
+1. nemweb.com.au/robots.txt (read 419): HTTP 403, a challenge.
+2. www.energy.gov.au/robots.txt (read 420): the connection reset.
+3. www.aer.gov.au/robots.txt (read 421): the connection reset.
+4. www.swissgrid.ch/robots.txt (read 422).
+5. Swissgrid's English sitemap (read 423), for the pages' real addresses.
+6. The grid data generation page (read 424).
+7. The legal information (read 425).
 
 ## Errors
 
@@ -26,7 +26,7 @@
 ## Decisions made without you
 
 - **Australia not taken** without a challenge-passing or a disguised reader.
-- **Swissgrid tried, then left at its terms.** Its workbooks' addresses are in read 379, should you obtain consent.
+- **Swissgrid tried, then left at its terms.** Its workbooks' addresses are in read 424, should you obtain consent.
 
 ## For Samuel's ruling
 

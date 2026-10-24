@@ -5,9 +5,9 @@
 ## Read these first
 
 - **REE's terms read first.**
-  - apidatos.ree.es has no robots file (read 366, HTTP 404).
-  - www.ree.es's robots file disallows only search, feeds and press events (read 367).
-  - **REE's legal notice** (read 369) gives a new verdict: may be public as the ERW is, needs written permission if it sells. The sentence: "Notwithstanding the above, users may view and obtain a personal temporary copy of the content for their exclusive private use in their computer systems (software and hardware), publish them on their website or create company or academic content, as long as it is for information only, and not for commercial purposes."
+  - apidatos.ree.es has no robots file (read 411, HTTP 404).
+  - www.ree.es's robots file disallows only search, feeds and press events (read 412).
+  - **REE's legal notice** (read 414) gives a new verdict: may be public as the ERW is, needs written permission if it sells. The sentence: "Notwithstanding the above, users may view and obtain a personal temporary copy of the content for their exclusive private use in their computer systems (software and hardware), publish them on their website or create company or academic content, as long as it is for information only, and not for commercial purposes."
   - Users must also name REE as the source, not alter the data's meaning, and give the date of their latest update. REE's "last-update" is in the header.
 - **One table written, validated, archived, in coverage (sector power), in the release package, both holds:** `ree_spain_balance_monthly`, January 2020 to September 2026, 1,890 rows.
   - Every series of REE's electrical energy balance, in MWh a month: each technology, REE's three subtotals, pumping and batteries, the cross-border balance, and demand at busbars.
@@ -22,10 +22,10 @@
 
 ## The pulls
 
-1. apidatos.ree.es/robots.txt (read 366): HTTP 404.
-2. www.ree.es/robots.txt (read 367).
-3. REE's home page (read 368), for the legal notice's address.
-4. The legal notice (read 369).
+1. apidatos.ree.es/robots.txt (read 411): HTTP 404.
+2. www.ree.es/robots.txt (read 412).
+3. REE's home page (read 413), for the legal notice's address.
+4. The legal notice (read 414).
 5. The generation structure, 2015 to September 2026, a month: HTTP 400.
 6. The generation structure for 2025: served (kept, not used for the table).
 7. The generation structure, 2020 to 2024: HTTP 400.

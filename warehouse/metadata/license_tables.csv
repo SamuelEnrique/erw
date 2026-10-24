@@ -16,6 +16,7 @@ boem_offshore_platforms,Bureau of Ocean Energy Management (BOEM),the source regi
 boem_ogor_lease_production_monthly,Bureau of Ocean Energy Management (BOEM),the source registry
 boem_renewable_leases,Bureau of Ocean Energy Management (BOEM),the source registry
 bpa_ba_hourly,Bonneville Power Administration (BPA),the source registry
+bsee_offshore_incidents,"U.S. Department of the Interior, Bureau of Safety and Environmental Enforcement (BSEE)",the source registry
 caiso_area_load_hourly,CAISO,the source registry
 caiso_as_prices,CAISO,the source registry
 caiso_battery_storage,CAISO,the source registry
@@ -35,6 +36,7 @@ carb_lcfs_credit_prices,CARB,the source registry
 carbon_intensity_daily,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 carbon_intensity_hourly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 carbon_intensity_monthly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
+cbs_netherlands_electricity_monthly,Statistics Netherlands (CBS),the source registry
 cec_total_system_generation_annual,California Energy Commission (CEC),the source registry
 census_bps_state_annual,Census Bureau,the source registry
 census_cbp_hosting_annual,Census Bureau,the source registry
@@ -55,6 +57,7 @@ datacenter_projects_evidence,Bloomberg; Data Center Dynamics; Data Center Fronti
 datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: rows of the six operators' queue tables
 desnz_uk_electricity_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_renewables_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_uk_gas_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 doe_grip_selections,U.S. Department of Energy (DOE),the source registry
 doe_lead_energy_burden,U.S. Department of Energy (DOE),the source registry
 doe_lng_export_applications,U.S. Department of Energy (DOE),the source registry
@@ -226,6 +229,7 @@ epa_ghg_inventory_annual,EPA,the source registry
 epa_ghgrp_facility_emissions,EPA,the source registry
 epa_ghgrp_power_co2,EPA,the source registry
 epa_lmop_landfill_projects,EPA,the source registry
+epa_needs_units,EPA,the source registry
 epa_rfs_fuel_annual,EPA,the source registry
 epa_rfs_rins_monthly,EPA,the source registry
 epa_tri_energy_releases_annual,EPA,the source registry
@@ -266,6 +270,7 @@ ercot_wind_solar_output_hourly,ERCOT,the source registry
 ercot_zone_load_hourly,ERCOT,the source registry
 ercot_zone_prices_history,ERCOT,the source registry
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
 event_window_daily,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia930_all_emissions, eia930_all_history, ercot_all_hub_prices_history, iso_hub_prices_history, noaa_isd_hourly"
@@ -313,6 +318,7 @@ grid_peak_vs_capacity,EIA,"the source registry and the tables its header derives
 grid_stress_days,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"by hand: its header: the main hubs' real-time prices of six grids, CAISO's notices and ERCOT's (session 322)"
 grid_stress_yearly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, eia860m_operating_generators, eia860m_retired_generators_all, storage_buildout_monthly"
 hub_price_comparison,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: carbon_intensity_daily, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
+ieso_generation_fuel_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
 ieso_ontario_demand_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
 imf_commodity_prices,IMF,the source registry
 impact_tax_rules,Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts,the source registry
@@ -388,7 +394,9 @@ nrc_license_actions,NRC,the source registry
 nrc_new_reactor_applications,NRC,the source registry
 nrc_power_reactors,NRC,the source registry
 nrc_reactor_status,NRC,the source registry
+nrc_rop_findings,NRC,the source registry
 nrcs_snotel_swe_daily,USDA Natural Resources Conservation Service (NRCS),the source registry
+ntd_transit_energy_annual,"U.S. Department of Transportation, Federal Transit Administration (FTA)",the source registry
 nyiso_as_prices,NYISO,the source registry
 nyiso_dam_cleared_energy,NYISO,the source registry
 nyiso_dam_zone_prices,NYISO,the source registry
@@ -423,13 +431,18 @@ rggi_auction_allowance_prices,RGGI,the source registry
 rrc_lease_production_monthly,RRC,the source registry
 rte_eco2mix_france_halfhourly,RTE (Reseau de Transport d'Electricite),the source registry
 scarcity_hours_by_grid,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_grid_emergencies, ercot_all_hub_prices_history, ercot_rtm_price_adders, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
+scb_sweden_electricity_monthly,Statistics Sweden (SCB),the source registry
 scripps_co2_mlo_monthly,"Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego)",the source registry
 shoulder_hours_monthly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_battery_storage, caiso_curtailment_daily, caiso_fuel_supply, storage_buildout_monthly"
+smard_germany_monthly,Bundesnetzagentur (SMARD),the source registry
 spp_as_prices,SPP,the source registry
 spp_as_quantities,SPP,the source registry
 spp_curtailment_daily,SPP,the source registry
 spp_dam_cleared_energy,SPP,the source registry
 spp_interconnection_queue,SPP,the source registry
+statcan_electricity_generation_monthly,Statistics Canada,the source registry
+statcan_oil_gas_supply_monthly,Statistics Canada,the source registry
+ssb_norway_electricity_monthly,Statistics Norway (SSB),the source registry
 state_generation_mix_monthly,EIA,the source registry and the tables its header derives it from: eia_state_generation_monthly
 storage_buildout_monthly,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators, eia860m_retired_generators"
 storage_capacity,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators, eia860m_retired_generators"
@@ -439,6 +452,7 @@ texas_delivery_charges,"AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC
 texas_transmission_matrix,Public Utility Commission of Texas,the source registry
 treasury_1603_awards,U.S. Department of the Treasury,the source registry
 usace_nid_dams,U.S. Army Corps of Engineers (USACE),the source registry
+usaspending_doe_obligations,"U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov)",the source registry
 usbr_crsp_reservoirs_daily,U.S. Bureau of Reclamation (USBR),the source registry
 usbr_hydropower_monthly,U.S. Bureau of Reclamation (USBR),the source registry
 usbr_mead_powell_daily,U.S. Bureau of Reclamation (USBR),the source registry
