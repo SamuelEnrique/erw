@@ -25,8 +25,9 @@ or a row and period given twice stops the run. The vintage is each table's "data
 
 Ceiling: two requests a run, each saved in warehouse/raw/singstat_electricity/ and fetched again unless --offline.
 tablebuilder.singstat.gov.sg's robots file allows every path; www.singstat.gov.sg's asks a crawl delay of 2 seconds
-(session 2308). License: not read (SingStat's terms of use page draws its text with scripts); internal until a read
-settles it.
+(session 2308). License: public (session 2537). SingStat's terms of use, whose text the page holds in a script: "Use of
+Datasets made available through the Services is subject to the terms of the Singapore Open Data Licence"; its clause 10
+allows copying, distribution and derived products, for sale or otherwise, with the source credited; the header credits it.
 """
 
 import argparse
@@ -148,7 +149,11 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Singapore Department of Statistics, SingStat Table Builder, {PAGE}",
             f"  access: {API}<table>",
-            "License: internal (SingStat's terms of use not read: the page draws its text with scripts).",
+            "License: public (session 2537). SingStat's terms of use put its datasets under the Singapore Open Data Licence "
+            "(https://data.gov.sg/open-data-licence) and grant a free, worldwide, revocable and non-exclusive right to copy and distribute the "
+            "Contents and to derive products from them, for sale or otherwise, the source credited and no analysis presented as the "
+            "Government's. Source: Singapore Department of Statistics (SingStat), SingStat Table Builder; the figures are SingStat's, scaled "
+            "from GWh to MWh.",
         ]
         ip.write_snapshot(t, NAME, head, log, cols)
         results.append(dict(table=NAME, market="all", status="ok", detail=f"{len(t)} rows"))
@@ -162,7 +167,7 @@ def main(argv=None):
         if results and results[0]["status"] == "ok":
             ip.update_sources([dict(source=SOURCE, publisher="Singapore Department of Statistics (SingStat)",
                                     report="Table Builder M890831 and M890841: electricity generation, monthly; generation and consumption, annual",
-                                    report_url=PAGE, document_list=API + "M890831", license="internal", tables=[NAME])])
+                                    report_url=PAGE, document_list=API + "M890831", license="public", tables=[NAME])])
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
     return 0 if all(r["status"] == "ok" for r in results) else 1
