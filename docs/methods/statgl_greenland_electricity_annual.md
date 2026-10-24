@@ -38,7 +38,7 @@ Series, 2,064 rows, 33 entities. `unit` MWh; `ts_utc` the year's first day; `fre
 - **Cells without a row:** a cell without a number (the locations before their first year).
 - The run stops, and no file is written, for: dimensions other than the expected, a value array not the size of the dimensions, a year not of four digits, a key given twice.
 
-Nothing is filled. Five values are below zero, as printed: four towns' or settlements' electric heating sales in 2007 and 2017 (-0.005 to -0.806 MWh) and Ittoqqortoormiit's fishing-industry sales in 2007 (-45.9 MWh), corrections a year's sales could not cover.
+Nothing is filled. Five values are below zero, as printed: four towns' or settlements' electric heating sales in 2007 and 2017 (-0.005 to -0.806 MWh) and Ittoqqortoormiit's fishing-industry sales in 2007 (-45.9 MWh); the table gives no note on them.
 
 ## License
 
