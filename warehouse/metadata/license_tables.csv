@@ -43,6 +43,7 @@ cea_india_psp_annual,Central Electricity Authority (India),the source registry
 ceb_srilanka_electricity_annual,"Ceylon Electricity Board, Sri Lanka (CEB)",the source registry
 cec_total_system_generation_annual,California Energy Commission (CEC),the source registry
 censtatd_hk_electricity,"Census and Statistics Department, Hong Kong (C&SD)",the source registry
+cence_costarica_generation_monthly,"Centro Nacional de Control de Energia (CENCE, ICE)",the source registry
 census_bps_state_annual,Census Bureau,the source registry
 census_c30_construction_monthly,Census Bureau,the source registry
 census_cbp_hosting_annual,Census Bureau,the source registry
@@ -73,6 +74,7 @@ doe_lng_export_applications,U.S. Department of Energy (DOE),the source registry
 doe_oe417_events,U.S. Department of Energy (DOE),the source registry
 doe_useer_employment,U.S. Department of Energy (DOE),the source registry
 dosm_malaysia_electricity_monthly,Department of Statistics Malaysia (DOSM),the source registry
+econtrol_austria_electricity_monthly,E-Control (Energie-Control Austria),the source registry
 egrid_power_plants,EPA,the source registry
 egrid_subregions_annual,EPA,the source registry
 eia411_capacity_margins_annual,EIA,the source registry
@@ -348,9 +350,11 @@ grid_network_nodes,EIA,"the source registry and the tables its header derives it
 grid_peak_vs_capacity,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia930_demand_growth"
 grid_stress_days,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"by hand: its header: the main hubs' real-time prices of six grids, CAISO's notices and ERCOT's (session 322)"
 grid_stress_yearly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, eia860m_operating_generators, eia860m_retired_generators_all, storage_buildout_monthly"
+hagstofa_iceland_power_annual,Statistics Iceland (Hagstofa Islands),the source registry
 hub_price_comparison,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: carbon_intensity_daily, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 ieso_generation_fuel_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
 ieso_ontario_demand_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
+ilr_luxembourg_electricity,Institut Luxembourgeois de Regulation (ILR),the source registry
 imf_commodity_prices,IMF,the source registry
 impact_tax_rules,Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts,the source registry
 interconnection_agreements_by_grid,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue

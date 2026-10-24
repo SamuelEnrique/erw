@@ -1,5 +1,7 @@
 # Method: the battery revenue stack
 
+Tables: `battery_stack_monthly`, `battery_stack_review_monthly`, `battery_stack_stress_daily` (session 2389; as held on 24 October 2026, 11,556, 3,744 and 1,890 rows)
+
 Energy Research Warehouse (ERW), session 67. Tables: `battery_stack_monthly` and `battery_stack_stress_daily` (series, derived, public). Code: `warehouse/derived/battery_stack.py`; the page's arithmetic is `site/lib/batterystack.ts`. Page: `/cost-of-power/battery`, "What a battery earns". Tests: `tests/test_session67.py`.
 
 Every number on the page, step by step, with the replication files and the independent check of the optimizer: [battery_earns_algorithm.md](battery_earns_algorithm.md) (session 178). Where that note and this one differ, it lists the difference and the code governs.
