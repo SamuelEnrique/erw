@@ -25,8 +25,10 @@ California's generation here (warehouse/derived/caiso_join.py). On the runner th
 (warehouse/redivis/config.yaml).
 
 Completeness: a day is written only if it has every 5-minute interval of the Pacific operating day (288, or 276 and
-300 on the clock-change days); a day that falls short is logged and skipped, never filled. Ceiling: the approved pull
-is at most 300,000 rows; the run stops before writing if the table would exceed it. Raw files are stored under
+300 on the clock-change days); a day that falls short is logged and skipped, never filled. (Session 2166: in practice no
+clock-change day is written, 2025-11-02 and 2026-03-08 among them, because their local times fail to convert, as in
+caiso_fuel_supply_history; and the table lacks three other days, 2026-08-21, 2026-09-22 and 2026-10-15.) Ceiling: the
+approved pull is at most 300,000 rows a run (the run's own rows are counted, not the table's). Raw files are stored under
 warehouse/raw/caiso_fuel_supply/<run_id>/. License: public (CAISO's public system data; cite "California ISO, Today's
 Outlook").
 """
@@ -144,7 +146,7 @@ def main(argv=None):
             "twelve 5-minute values, MW (also the hour's MWh). Variables are CAISO's columns: solar, wind, geothermal, "
             "biomass, biogas, small_hydro, coal, nuclear, natural_gas, large_hydro, batteries (positive discharging), "
             "imports, other, each _mw.",
-            f"Window: this run pulled Pacific days {first} to {last}; the table holds every day pulled since 2025-06-01 (session "
+            f"Window: this run pulled Pacific days {first} to {last}; the table holds the complete days pulled since 2025-06-01 (session "
             f"73's approved pull, ceiling {CEILING:,} rows a run; session 82's approved daily pull of the last days, merged in); "
             "a day short of any 5-minute interval is not written"
             + (f" (this run skipped {len(short)}: {'; '.join(short[:5])})" if short else "") + ".",

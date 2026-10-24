@@ -1,6 +1,6 @@
 # Session 2183 report: the generating units of EPA's power sector model (NEEDS)
 
-24 October 2026, from 01:59 UTC, on lab-desktop (the data machine), a session of `queue/done/097-day-1-november-data-canada-offshore-inspections-supply.md`, the second source of the session's own choosing. Model spend USD 0. Pulls: www.epa.gov, 1 request of 20: the NEEDS workbook for the 2025 reference case. Its robots file and the NEEDS page were read in session 2181 (reads 318 and 319). The trials and the write ran offline. Also Supabase, for the locks and the archive.
+24 October 2026, from 01:59 UTC, on lab-desktop (the data machine), a session of `queue/done/097-day-1-november-data-canada-offshore-inspections-supply.md`, the second source of the session's own choosing. Model spend USD 0. Pulls: www.epa.gov, 1 request of 20: the NEEDS workbook for the 2025 reference case. Its robots file and the NEEDS page were read in session 2181 (reads 360 and 361). The trials and the write ran offline. Also Supabase, for the locks and the archive.
 
 ## Why this source
 

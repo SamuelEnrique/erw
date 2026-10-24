@@ -1,6 +1,6 @@
 # Session 2182 report: the fuel and electricity public transit uses (the FTA's National Transit Database)
 
-24 October 2026, from 01:54 UTC, on lab-desktop (the data machine), a session of `queue/done/097-day-1-november-data-canada-offshore-inspections-supply.md`, the first source of the session's own choosing. Model spend USD 0. Pulls: data.transportation.gov, 2 requests of 20: the dataset's metadata and its CSV. Its robots file and catalog were read in session 2181 (reads 313 and 317). The trial and the write ran offline. Also Supabase, for the locks and the archive.
+24 October 2026, from 01:54 UTC, on lab-desktop (the data machine), a session of `queue/done/097-day-1-november-data-canada-offshore-inspections-supply.md`, the first source of the session's own choosing. Model spend USD 0. Pulls: data.transportation.gov, 2 requests of 20: the dataset's metadata and its CSV. Its robots file and catalog were read in session 2181 (reads 355 and 359). The trial and the write ran offline. Also Supabase, for the locks and the archive.
 
 ## Why this source
 
