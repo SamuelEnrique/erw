@@ -446,6 +446,14 @@ were. The hub price beside the mix (the average day and year after year, "Price"
 holds; MISO keeps "paused while terms are reviewed" (its file holds none). The rule is `site/lib/gridHeld.ts`, its test
 `site/scripts/test-grid-held.mjs`.
 
+## California's generation, EIA-930's and CAISO's own side by side: not built (chain 078, 24 October 2026)
+
+Session 1169 was to draw, on the Mix tab for CAISO, EIA-930's hourly total and CAISO's own over the week (the Grid pack's blind spot 4), if a public CAISO own-generation table is in the live set. None is: `caiso_fuel_supply` (CAISO's Today's Outlook, hourly, public) is in the catalogue with `in_live_set` "no" and no rows in Supabase (an anon read on 24 October 2026), and `caiso_fuel_supply_history` is under `catalogue_hold`; so nothing was drawn, and California's hourly mix by fuel stays withheld (session 118).
+
+Decisions (chain 078):
+
+- **Written down and left, as the session's own condition says**: no chart from a committed file or a CSV in its place, since the week must be read where check-values can recompute it (the live set); loading `caiso_fuel_supply` (a `recent` rule in `warehouse/supabase/live_set.yaml`, a data session's) is the step that opens it.
+
 ## The figures on the page and their keys
 
 Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
