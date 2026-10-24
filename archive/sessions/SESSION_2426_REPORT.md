@@ -25,11 +25,11 @@ The trial and the write ran offline.
   | | 2010 | 2018 | 2022 | 2023 | 2024 |
   |---|---|---|---|---|---|
   | All partners | 164.5 | 154.4 | 126.7 | 92.4 | 67.7 |
-  | From the United States | 25.3 | 26.7 | 20.9 | 20.3 | 17.1 |
+  | From the United States | 25.2 | 26.7 | 20.9 | 20.3 | 17.1 |
   | From Russia | 36.8 | 61.0 | 27.2 | 0.8 | 0.2 |
 
   From the United States the peak was 36.1 Mt (2012) and the low 13.4 Mt (2020). Russia's fall follows the EU's embargo on Russian coal from August 2022.
-- **Against the monthly balance** (`eurostat_solid_fuels_monthly`, hard coal imports summed over twelve months): of 321 country-years, 102 agree within 1,000 t and 147 within 1 percent. For the EU, the annual figure is 7 percent under the monthly sum in 2016, 6 percent over in 2017, and within 2 percent from 2019 (2024: 67.7 against 68.6 Mt). Eurostat's annual and monthly collections are separate. This report says so, and session 2429's method note will; neither table is corrected.
+- **Against the monthly balance** (`eurostat_solid_fuels_monthly`, hard coal imports summed over twelve months): of 321 country-years, 102 agree within 1,000 t and 133 within 1 percent (147 within one or the other). For the EU, the annual figure is 7 percent under the monthly sum in 2016, 6 percent over in 2017, 2.8 percent over in 2019, and within 2 percent from 2020 (2024: 67.7 against 68.6 Mt). (Corrected by session 2429, from its method note's checks: this line first said 147 within 1 percent and within 2 percent from 2019, and the table above first gave the United States 25.3 Mt in 2010, where the table holds 25,247,655 t.) Eurostat's annual and monthly collections are separate. This report says so, and session 2429's method note will; neither table is corrected.
 - **Registered:**
   - the sector rule (`coal`), the live-set hold;
   - the release package's held list and its rows (the release check passes);

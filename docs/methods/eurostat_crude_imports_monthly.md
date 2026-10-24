@@ -85,3 +85,7 @@ The header's 173 partners, its "left out: UK", and its unit and geo rules agree 
 - **Crude oil only:** the other products of `nrg_ti_oilm` are not read, since the whole data set exceeds Eurostat's extraction limit.
 - **Quantities, not prices.**
 - **How Eurostat assigns the country of origin** is not read here; its metadata page for `nrg_ti_oilm` would say.
+
+## Acted on in session 2429
+
+- **The header's partner aggregates:** the connector's docstring and header line 3 said "TOTAL, the EU, extra-EU and the like"; this table has no extra-EU partner. Found by session 2429's helper in the coal connector copied from this one. The connector now names the aggregates read from the answer (`AFR_OTH`, `AME_LAT`, `AME_OTH`, `ASI_NME`, `ASI_NME_OTH`, `ASI_OTH`, `CN_X_HK`, `EU27_2020`, `EU28`, `EUR_OTH`, `EX_SU_OTH`, `NSP`, `TOTAL`) and says which overlap the named countries. The table was written again offline (run `20261024T115201Z`): the same 565,941 rows with only the header changed; its metadata rows were replaced by key.

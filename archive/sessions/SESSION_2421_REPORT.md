@@ -2,7 +2,7 @@
 
 24 October 2026, from 10:48 UTC, on lab-desktop (the data machine), a session of `queue/done/115-day-16-november-data-zambia-botswana-mongolia-cambodia.md`. Precheck passed (`runs/c115/precheck_2421.out`). Model spend USD 0.
 
-Pulls: 4 requests of 15, all to www.statsbots.org.bw, 10 seconds apart (its crawl delay):
+Pulls: 4 requests of 15, all to www.statsbots.org.bw. Its crawl delay is 10 seconds; the home page and the brief were asked 9 seconds apart (10:49:26Z and 10:49:35Z), by two runs of the probe, whose pause applied only within a run (corrected by session 2429; this line first said every request was 10 seconds apart). The connector waits 10 seconds:
 - its robots file, alone;
 - the home page, which links the newest brief;
 - the Electricity Generation and Distribution Stats Brief for the second quarter of 2026;
