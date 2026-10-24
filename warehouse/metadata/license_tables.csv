@@ -414,6 +414,7 @@ lbnl_wind_costs,Berkeley Lab,the source registry
 lbnl_wind_turbine_orders,Berkeley Lab,the source registry
 makstat_macedonia_electricity_monthly,State Statistical Office of North Macedonia (MakStat),the source registry
 merchant_revenue_monthly,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_retired_generators, eia_fuel_spot_prices, ercot_all_hub_prices_history, event_window_daily, iso_hub_prices_history, iso_rtm_hub_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices"
+mireme_mozambique_electricity_annual,"Ministry of Mineral Resources and Energy, Mozambique (MIREME)",the source registry
 miso_as_prices,MISO,the source registry
 miso_interconnection_queue,MISO,the source registry
 msha_coal_mines,"U.S. Department of Labor, Mine Safety and Health Administration (MSHA)",the source registry
