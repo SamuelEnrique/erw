@@ -205,6 +205,7 @@ eia_recs_households,none,,73,P1Y,2020-01-01T00:00:00Z,2020-01-01T00:00:00Z,2802,
 eia_refinery_capacity_annual,none,,2009,P1Y,1982-01-01T00:00:00Z,2026-01-01T00:00:00Z,62804,eia:petroleum/pnp/cap1,2026-10-22T02:42:37Z,pass,public,products,no,source
 eia_refinery_inputs_monthly,none,,1056,P1M,2005-01-01T00:00:00Z,2026-07-01T00:00:00Z,216010,eia:petroleum/pnp/inpt,2026-10-22T06:14:25Z,pass,public,products,no,source
 eia_refinery_production_monthly,none,,1488,P1M,2005-01-01T00:00:00Z,2026-07-01T00:00:00Z,326819,eia:petroleum/pnp/refp,2026-10-22T06:49:09Z,pass,public,products,no,source
+eia_refinery_utilization_monthly,none,,80,P1M,1985-01-01T00:00:00Z,2026-07-01T00:00:00Z,36672,eia:petroleum/pnp/unc,2026-10-24T07:35:23Z,pass,public,oil;products,no,source
 eia_refinery_weekly,none,,59,P1W,2010-01-01T00:00:00Z,2026-10-16T00:00:00Z,50753,eia:petroleum/pnp/wiup,2026-10-21T21:48:04Z,pass,public,oil;products,no,source
 eia_regional_retail_fuel_prices,none,,29,P1W,2019-01-07T00:00:00Z,2026-10-19T00:00:00Z,16279,eia:petroleum/pri/gnd:regional,2026-10-23T15:05:34Z,pass,public,products,no,source
 eia_retail_electricity_prices,none,,372,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,114574,eia:electricity/retail-sales,2026-10-23T14:37:50Z,pass,public,power,no,source

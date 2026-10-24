@@ -205,6 +205,7 @@ eia_recs_households,EIA,the source registry
 eia_refinery_capacity_annual,EIA,the source registry
 eia_refinery_inputs_monthly,EIA,the source registry
 eia_refinery_production_monthly,EIA,the source registry
+eia_refinery_utilization_monthly,EIA,the source registry
 eia_refinery_weekly,EIA,the source registry
 eia_regional_retail_fuel_prices,EIA,the source registry
 eia_retail_electricity_prices,EIA,the source registry
