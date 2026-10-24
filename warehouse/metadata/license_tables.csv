@@ -490,6 +490,7 @@ scb_sweden_electricity_monthly,Statistics Sweden (SCB),the source registry
 scripps_co2_mlo_monthly,"Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego)",the source registry
 shoulder_hours_monthly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_battery_storage, caiso_curtailment_daily, caiso_fuel_supply, storage_buildout_monthly"
 singstat_singapore_electricity,Singapore Department of Statistics (SingStat),the source registry
+slu_cso_electricity_annual,Central Statistical Office of Saint Lucia (CSO); St. Lucia Electricity Services Limited (LUCELEC),the source registry
 smard_germany_monthly,Bundesnetzagentur (SMARD),the source registry
 sne_panama_electricity_annual,"Secretaria Nacional de Energia, Panama",the source registry
 sne_panama_generation_monthly,"Secretaria Nacional de Energia, Panama",the source registry

@@ -10,8 +10,8 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **542 tables.** The flag and the verdict agree on 436; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 61 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 406 public, 86 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **543 tables.** The flag and the verdict agree on 437; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 61 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 406 public, 87 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **866 publishers in the record: 864 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 198 pages read, 666 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -1561,6 +1561,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `scripps_co2_mlo_monthly` | Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego) | may be public |  |  | public | agrees | may be public | public |
 | `shoulder_hours_monthly` | CAISO; EIA | may be public |  |  | public | agrees | may be public | public |
 | `singstat_singapore_electricity` | Singapore Department of Statistics (SingStat) | not settled (needs written permission by default) |  | Singapore Department of Statistics (SingStat) | internal | not settled | may be public | internal |
+| `slu_cso_electricity_annual` | Central Statistical Office of Saint Lucia (CSO); St. Lucia Electricity Services Limited (LUCELEC) | needs written permission | St. Lucia Electricity Services Limited (LUCELEC) |  | internal | agrees | needs written permission | internal |
 | `smard_germany_monthly` | Bundesnetzagentur (SMARD) | may be public |  |  | public | agrees | may be public | public |
 | `sne_panama_electricity_annual` | Secretaria Nacional de Energia, Panama | may be public |  |  | public | agrees | may be public | public |
 | `sne_panama_generation_monthly` | Secretaria Nacional de Energia, Panama | may be public |  |  | public | agrees | may be public | public |
@@ -1795,6 +1796,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Indiana Utility Regulatory Commission** (1 tables). Write to: no person or address on the page read. Tables: `large_load_rules_internal`.
 - **Berkeley Lab, hybrid plants file** (1 tables). Write to: no person or address on the page read. Tables: `lbnl_hybrid_plants`.
 - **National Statistical Office of Malawi (NSO)** (1 tables). Write to: no person or address on the page read. Tables: `nso_malawi_electricity_sales_annual`.
+- **St. Lucia Electricity Services Limited (LUCELEC)** (1 tables). Write to: no person or address on the page read. Tables: `slu_cso_electricity_annual`.
 - **AEP Texas Inc.** (1 tables). Write to: no person or address on the page read. Tables: `texas_delivery_charges`.
 - **CenterPoint Energy Houston Electric, LLC** (1 tables). Write to: CenterPointEnergy.com/en-us/corporate/contact-us/. Tables: `texas_delivery_charges`.
 - **Oncor Electric Delivery Company LLC** (1 tables). Write to: no person or address on the page read. Tables: `texas_delivery_charges`.
