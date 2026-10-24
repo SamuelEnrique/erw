@@ -14,7 +14,7 @@ for the two historical stories of /network, and for nothing else:
 
 from the EIA API v2 routes electricity/rto/interchange-data (every directed pair EIA reports) and
 electricity/rto/region-data, type D (demand), hourly. The warehouse's own hourly interchange table
-(eia930_all_interchange) is a rolling window of recent weeks and holds neither window.
+(eia930_all_interchange) is hourly from 2026-09-13, grown by the daily run and never trimmed, and holds neither window.
 
     python warehouse/connectors/eia930_event_hourly.py
 

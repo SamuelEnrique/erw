@@ -207,6 +207,10 @@
   "unsettled",
   "ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
+ "cso_ireland_electricity_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "datacenter_facilities": [
   "unsettled",
   "Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; Equinix; Financial Times; Google; Hart Energy; Heatmap News; ISO-NE; Latitude Media; MISO; Meta; Microsoft; NYISO; Natural Gas Intelligence; Oracle; POWER Magazine; Reuters; Switch; Vantage Data Centers; WSJ's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
@@ -1100,6 +1104,10 @@
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "ercot_zone_prices_history": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "eurostat_electricity_capacity_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],

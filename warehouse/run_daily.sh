@@ -268,7 +268,7 @@ run_other iso_curtailment_monthly "$PYTHON" warehouse/derived/iso_curtailment_mo
 pull ercot_wind_solar_history "$PYTHON" warehouse/connectors/ercot_wind_solar_history.py --pull --write
 run_other ercot_estimate_page "$PYTHON" warehouse/derived/ercot_estimate_page.py
 # Session 23: CAISO battery storage output (Today's Outlook, 5-minute), the last 30 days, for the Automated
-# Analysis template storage_evening_peak (EIA-930 carries no battery series)
+# Analysis template storage_evening_peak (EIA-930 carries no battery series for CAISO)
 pull caiso_outlook "$PYTHON" warehouse/connectors/caiso_outlook.py
 # Session 31: the daily cycle of battery storage from eia930_all_storage; session 34: with CAISO's rows from
 # caiso_battery_storage (above), so it runs after both (docs/methods/storage.md)
