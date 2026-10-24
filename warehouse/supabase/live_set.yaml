@@ -452,6 +452,13 @@ catalogue_hold:
   - eia_gas_for_others_annual
   - statcan_petroleum_products_monthly
   - statcan_energy_balance_annual
+  - sne_panama_electricity_annual
+  - sne_panama_generation_monthly
+  - amm_guatemala_generation_monthly
+  - statsmu_mauritius_electricity_annual
+  - eia_net_imports_monthly
+  - eurostat_electricity_production_annual
+  - statcan_generating_capacity_annual
   - eia_lng_storage_annual
   - eia_gas_plant_processing_annual
   - eia_crude_tank_farm_stocks_monthly

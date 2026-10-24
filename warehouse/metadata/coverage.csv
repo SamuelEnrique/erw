@@ -4,6 +4,7 @@ afdc_ev_charging_state_annual,afdc,,51,P1Y,2014-01-01T00:00:00Z,2025-01-01T00:00
 afdc_station_counts_annual,afdc,,21,P1Y,2007-01-01T00:00:00Z,2025-01-01T00:00:00Z,13520,doe:afdc_station_counts,2026-10-24T00:17:41Z,pass,public,power,no,source
 afdc_vehicle_registrations_annual,afdc,,12,P1Y,2016-01-01T00:00:00Z,2025-01-01T00:00:00Z,6240,doe:afdc_vehicle_registrations,2026-10-23T19:50:27Z,pass,public,power;products,no,source
 ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,2026-09-30T00:00:00Z,187,erw:ai_power_regions,2026-10-02T09:57:58Z,pass,public,power;carbon,yes,derived
+amm_guatemala_generation_monthly,amm,,1,P1M,2017-01-01T00:00:00Z,2025-12-01T00:00:00Z,1739,amm:generacion_mensual_por_planta,2026-10-24T10:58:47Z,pass,internal,power,no,source
 aneel_siga_plants,aneel,,25042,snapshot,2026-10-24T06:57:16Z,2026-10-24T06:57:16Z,25042,aneel:siga,2026-10-24T07:39:34Z,pass,public,power,no,source
 api_cost_ledger,none,,1,event,2026-09-29T10:08:33Z,2026-10-23T15:02:12Z,3793,1 outlets,2026-10-23T15:01:56Z,pass,internal,platform,no,derived
 ba_supply_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,473,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,158503,erw:ba_supply,2026-10-02T23:03:48Z,pass,public,power,yes,derived
@@ -42,8 +43,8 @@ cbs_netherlands_electricity_monthly,cbs,,25,P1M,1976-01-01T00:00:00Z,2026-07-01T
 cea_india_psp_annual,cea,,49,P1Y,2020-04-01T00:00:00Z,2025-04-01T00:00:00Z,777,cea:power_supply_position_energy,2026-10-24T07:10:01Z,pass,internal,power,no,source
 ceb_srilanka_electricity_annual,ceb,,1,P1Y,2024-01-01T00:00:00Z,2025-01-01T00:00:00Z,80,ceb:statistical_digest,2026-10-24T09:14:53Z,pass,internal,power,no,source
 cec_total_system_generation_annual,cec,,47,P1Y,2009-01-01T00:00:00Z,2025-01-01T00:00:00Z,795,cec:total_system_electric_generation,2026-10-23T23:00:10Z,pass,public,power,no,source
-censtatd_hk_electricity,censtatd,,1,P1M;P3M,1979-01-01T00:00:00Z,2026-08-01T00:00:00Z,3699,censtatd:hong_kong_energy_statistics,2026-10-24T06:50:35Z,pass,public,power,no,source
 cence_costarica_generation_monthly,cence,,117,P1M,2020-01-01T00:00:00Z,2026-08-01T00:00:00Z,7731,cence:EnergiaMensualOficial,2026-10-24T09:20:55Z,pass,internal,power,no,source
+censtatd_hk_electricity,censtatd,,1,P1M;P3M,1979-01-01T00:00:00Z,2026-08-01T00:00:00Z,3699,censtatd:hong_kong_energy_statistics,2026-10-24T06:50:35Z,pass,public,power,no,source
 census_bps_state_annual,census,,51,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,6732,census:bps_state_annual,2026-10-24T00:20:21Z,pass,public,power,no,source
 census_c30_construction_monthly,census,,110,P1M,1993-01-01T00:00:00Z,2026-08-01T00:00:00Z,82760,census:c30_construction_spending,2026-10-24T04:56:02Z,pass,public,power;datacenters,no,source
 census_cbp_hosting_annual,census,,51,P1Y,2012-01-01T00:00:00Z,2023-01-01T00:00:00Z,1836,census:cbp_state_518210,2026-10-24T00:26:22Z,pass,public,power;datacenters,no,source
@@ -188,6 +189,7 @@ eia_lng_liquefaction_projects,none,,48,snapshot,2026-10-23T18:59:44Z,2026-10-23T
 eia_lng_storage_annual,none,,81,P1Y,1969-01-01T00:00:00Z,2024-01-01T00:00:00Z,3074,eia:natural-gas/stor/lng,2026-10-24T05:54:29Z,pass,public,gas;lng,no,source
 eia_mecs_manufacturing,none,,82,P1Y,2022-01-01T00:00:00Z,2022-01-01T00:00:00Z,5363,eia:mecs,2026-10-23T18:33:31Z,pass,public,power;gas;oil;coal,no,source
 eia_meters_state_annual,none,,1040,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,8578,eia:electricity/state-electricity-profiles/meters,2026-10-21T23:48:23Z,pass,public,power,no,source
+eia_net_imports_monthly,none,,530,P1M,2010-01-01T00:00:00Z,2026-07-01T00:00:00Z,65501,eia:petroleum/move/neti,2026-10-24T11:22:31Z,pass,public,oil;products,no,source
 eia_net_metering_state_annual,none,,1031,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,16226,eia:electricity/state-electricity-profiles/net-metering,2026-10-21T21:48:23Z,pass,public,power,no,source
 eia_ngl_production_monthly,none,,283,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,110896,eia:petroleum/pnp/gp,2026-10-22T06:55:02Z,pass,public,products,no,source
 eia_nuclear_outages_daily,none,,1,P1D,2007-01-01T00:00:00Z,2026-10-21T00:00:00Z,21702,eia:nuclear-outages/us-nuclear-outages,2026-10-21T19:39:31Z,pass,public,power;uranium,no,source
@@ -300,6 +302,7 @@ ercot_zone_prices_history,ERCOT,ercot_dam;ercot_rtm,8,PT15M;PT1H,2015-01-01T06:0
 eurostat_crude_imports_monthly,eurostat,,173,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,565941,eurostat:nrg_ti_oilm_crude,2026-10-24T09:53:01Z,pass,public,oil,no,source
 eurostat_electricity_capacity_annual,eurostat,,27,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,159060,eurostat:nrg_inf_epc,2026-10-24T09:24:14Z,pass,public,power,no,source
 eurostat_electricity_monthly,eurostat,,30,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,130025,eurostat:nrg_cb_pem_nrg_cb_em,2026-10-24T02:13:36Z,pass,public,power,no,source
+eurostat_electricity_production_annual,eurostat,,2256,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,73988,eurostat:nrg_bal_peh,2026-10-24T11:22:45Z,pass,public,power,no,source
 eurostat_gas_balance_monthly,eurostat,,580,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,53214,eurostat:nrg_cb_gasm,2026-10-24T07:46:42Z,pass,public,gas,no,source
 eurostat_gas_imports_monthly,eurostat,,865,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,34905,eurostat:nrg_ti_gasm,2026-10-24T01:46:31Z,pass,public,gas;lng,no,source
 eurostat_oil_monthly,eurostat,,143,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,457009,eurostat:nrg_cb_oilm,2026-10-24T09:23:23Z,pass,public,oil,no,source
@@ -476,6 +479,8 @@ scripps_co2_mlo_monthly,scripps,,1,P1M,1958-03-01T00:00:00Z,2026-09-01T00:00:00Z
 shoulder_hours_monthly,CAISO;ERCOT,,3,P1D;P1M;P1Y,2019-01-01T00:00:00Z,2026-10-06T00:00:00Z,27197,erw:shoulder_hours,2026-10-19T11:43:46Z,pass,public,power,yes,derived
 singstat_singapore_electricity,singstat,,18,P1M;P1Y,1975-01-01T00:00:00Z,2026-06-01T00:00:00Z,1009,singstat:M890831_M890841,2026-10-24T06:07:53Z,pass,internal,power,no,source
 smard_germany_monthly,smard,,13,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,1800,smard:market_data_month,2026-10-24T02:46:34Z,pass,public,power,no,source
+sne_panama_electricity_annual,sne,,1,P1Y,1970-01-01T00:00:00Z,2021-01-01T00:00:00Z,569,sne:estadisticas_electricidad,2026-10-24T11:48:45Z,pass,public,power,no,source
+sne_panama_generation_monthly,sne,,1,P1M,1980-01-01T00:00:00Z,2021-12-01T00:00:00Z,504,sne:estadisticas_electricidad,2026-10-24T11:48:45Z,pass,public,power,no,source
 spp_as_prices,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,159432,spp:DA-MCP,2026-10-04T04:09:48Z,pass,public,power,no,source
 spp_as_quantities,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-05T04:00:00Z,159768,spp:DA-MC,2026-10-04T11:34:34Z,pass,public,power,no,source
 spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-10-22T00:00:00Z,38432,spp:ver_curtailments,2026-10-23T14:45:31Z,pass,public,power,no,source
@@ -486,12 +491,14 @@ statbank_moldova_electricity_monthly,statbank,,7,P1M,2015-01-01T00:00:00Z,2026-0
 statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source
 statcan_electricity_trade_monthly,statcan,,170,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,25215,statcan:25-10-0016-01,2026-10-24T07:46:32Z,pass,public,power,no,source
 statcan_energy_balance_annual,statcan,,6437,P1Y,1995-01-01T00:00:00Z,2024-01-01T00:00:00Z,128420,statcan:25-10-0029-01,2026-10-24T09:30:33Z,pass,public,power;gas;oil;coal,no,source
+statcan_generating_capacity_annual,statcan,,392,P1Y,2006-01-01T00:00:00Z,2025-01-01T00:00:00Z,5952,statcan:25-10-0022-01,2026-10-24T11:22:58Z,pass,public,power,no,source
 statcan_oil_gas_supply_monthly,statcan,,383,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,56007,statcan:25-10-0063-01;statcan:25-10-0086-01,2026-10-24T02:33:08Z,pass,public,oil;gas,no,source
 statcan_petroleum_products_monthly,statcan,,1331,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,112385,statcan:25-10-0081-01,2026-10-24T09:30:19Z,pass,public,oil;products,no,source
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,108125,erw:generation_mix,2026-10-23T14:45:09Z,pass,public,power,yes,derived
 statee_estonia_electricity_monthly,statee,,6,P1M,2005-01-01T00:00:00Z,2026-08-01T00:00:00Z,1344,statee:KE21,2026-10-24T05:05:10Z,pass,public,power,no,source
 statfi_finland_electricity_monthly,statfi,,16,P1M,1992-01-01T00:00:00Z,2026-06-01T00:00:00Z,6350,statfi:12su,2026-10-24T04:12:29Z,pass,public,power,no,source
 statnett_norway_daily,statnett,,1,P1D,2020-01-01T00:00:00Z,2026-10-23T00:00:00Z,4960,statnett:driftsdata_production_consumption,2026-10-24T07:10:35Z,pass,internal,power,no,source
+statsmu_mauritius_electricity_annual,statsmu,,1,P1Y,2017-01-01T00:00:00Z,2025-01-01T00:00:00Z,79,statsmu:energy_water_statistics,2026-10-24T11:48:57Z,pass,public,power,no,source
 storage_buildout_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,9,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,21229,erw:storage_buildout,2026-10-23T14:48:47Z,pass,public,power,yes,derived
 storage_capacity,none,,1627,snapshot,2026-10-23T14:48:44Z,2026-10-23T14:48:44Z,1627,erw:storage_capacity,2026-10-23T14:48:44Z,pass,public,power,no,derived
 storage_daily_cycle,CAISO;ERCOT;ISO-NE;MISO;SPP;US48,,6,P1D,2024-11-01T00:00:00Z,2026-10-22T00:00:00Z,14503,erw:storage_daily_cycle;erw:storage_daily_cycle_caiso,2026-10-23T14:48:07Z,pass,public,power,yes,derived
