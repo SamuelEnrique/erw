@@ -15,7 +15,8 @@ consumption, battery_charging, storage_balance, cross_border_exchange_balance, d
 (renewable_generation, non_renewable_generation, storage_balance) among them, so a sum over technologies leaves those
 out. Consumption by pumping and batteries and a net export are negative, as REE gives them.
 
-    entity      ree:ES (REE's default geography, the national system); node Spain; geo ES
+    entity      ree:ES (REE's default geography: the answers name none; their demand at busbars runs 0.92 to 0.95 of
+                Ember's Spanish demand, session 2239); node Spain; geo ES
     unit        MWh (the API states no unit; a year's demand at busbars agrees with Ember's Spanish demand, session
                 2239's cross-check); ts_utc the month's first day at 00:00:00Z (Decision 11); freq P1M
     x_*         REE's group and its series id
@@ -71,7 +72,9 @@ def file_rows(body, url, retrieved, vintage, counts):
     d = json.loads(body)
     if "errors" in d or (d.get("data") or {}).get("attributes", {}).get("title") != "Electrical energy balance":
         raise RuntimeError(f"{url}: the answer is not REE's electrical energy balance: {str(d)[:200]}")
-    updated = d["data"]["attributes"].get("last-update", "")
+    # session 2247: REE asks for the date of the latest update; its groups and series carry later dates than the
+    # answer's own, so the latest found anywhere in the answer is the one kept
+    updated = max(re.findall(r'"last-update":\s*"([^"]+)"', body) or [""])
     out = []
     for g in d.get("included", []):
         for x in g["attributes"].get("content", []):
@@ -138,7 +141,7 @@ def main(argv=None):
             f"{len(t)} rows, {t.variable.nunique()} series. {counts['open_month']} values of a month not yet ended when fetched are left out. A value REE does not give has no row; nothing is filled. "
             "The API states no unit: MWh, as a year's demand at busbars agrees with Ember's demand.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/ree_balance.py; the answers retrieved " + "; ".join(f"{y} {r}" for y, r in got)
-            + "; REE's last update " + ", ".join(sorted(u for u in updated if u)),
+            + "; REE's latest update in the answers " + max(u for u in updated if u),
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Red Electrica (REE), REData API, balance-electrico, {PAGE}",

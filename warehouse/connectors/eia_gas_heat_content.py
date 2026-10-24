@@ -104,7 +104,8 @@ def main(argv=None):
         hit = None if args.fresh else ip.raw_cached(CONNECTOR, url)
         if hit:
             log(f"  raw file reused: {ip.redact(url)}")
-            return json.loads(hit[0]), ip.redact(url)
+            # session 2247: a reused page keeps the time EIA served it
+            return json.loads(hit[0]), ip.redact(url), (hit[1] or {}).get("retrieved_at") or retrieved
         if args.offline:
             raise RuntimeError(f"offline: {ip.redact(url)} is not in warehouse/raw/{CONNECTOR}/")
         for attempt in (1, 2):
@@ -115,7 +116,7 @@ def main(argv=None):
             r = requests.get(url, timeout=180)
             if r.status_code < 500 and r.status_code != 429:
                 r.raise_for_status()
-                return r.json(), ip.redact(r.url)
+                return r.json(), ip.redact(r.url), dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
             log(f"  {ip.redact(r.url)}: HTTP {r.status_code}; " + (f"asked once more in {RETRY_WAIT} s" if attempt == 1 else "not asked again"))
             time.sleep(RETRY_WAIT)
         raise RuntimeError(f"HTTP {r.status_code} twice for {ip.redact(r.url)}")
@@ -137,10 +138,10 @@ def main(argv=None):
                     params["end"] = last
                 params.update({"length": 5000, "offset": offset, "sort[0][column]": "period", "sort[0][direction]": "asc",
                                "sort[1][column]": "series", "sort[1][direction]": "asc"})
-                body, url = get(params)
+                body, url, served = get(params)
                 resp = body["response"]
                 total = int(resp["total"])
-                frames.append(rows(resp["data"], url.split("&length")[0], retrieved))
+                frames.append(rows(resp["data"], url.split("&length")[0], served))
                 offset += len(resp["data"])
                 if offset >= total or len(resp["data"]) < 5000:
                     break

@@ -119,7 +119,8 @@ def main(argv=None):
         hit = None if args.fresh else ip.raw_cached(CONNECTOR, url)
         if hit:
             log(f"  raw file reused: {ip.redact(url)}")
-            return json.loads(hit[0]), ip.redact(url)
+            # session 2247: a reused page keeps the time EIA served it
+            return json.loads(hit[0]), ip.redact(url), (hit[1] or {}).get("retrieved_at") or retrieved
         if args.offline:
             raise RuntimeError(f"offline: {ip.redact(url)} is not in warehouse/raw/{CONNECTOR}/")
         for attempt in (1, 2):
@@ -130,7 +131,7 @@ def main(argv=None):
             r = requests.get(url, timeout=180)
             if r.status_code < 500 and r.status_code != 429:
                 r.raise_for_status()
-                return r.json(), ip.redact(r.url)
+                return r.json(), ip.redact(r.url), dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
             log(f"  {ip.redact(r.url)}: HTTP {r.status_code}; " + (f"asked once more in {RETRY_WAIT} s" if attempt == 1 else "not asked again"))
             time.sleep(RETRY_WAIT)
         raise RuntimeError(f"HTTP {r.status_code} twice for {ip.redact(r.url)}")
@@ -152,10 +153,10 @@ def main(argv=None):
                     params["end"] = last
                 params.update({"length": 5000, "offset": offset, "sort[0][column]": "period", "sort[0][direction]": "asc",
                                "sort[1][column]": "series", "sort[1][direction]": "asc"})
-                body, url = get(params)
+                body, url, served = get(params)
                 resp = body["response"]
                 total = int(resp["total"])
-                frames.append(rows(resp["data"], url.split("&length")[0], retrieved))
+                frames.append(rows(resp["data"], url.split("&length")[0], served))
                 offset += len(resp["data"])
                 if offset >= total or len(resp["data"]) < 5000:
                     break
@@ -172,12 +173,12 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): EIA, shale gas proved reserves and their changes, the U.S., the states and the reporting districts, a year, 2007 to 2021 (session 2250)",
             "Shape: series (docs/datastandard.md v0). entity eia_shale_gas_reserves:<series>; variable proved_reserves, reserves_based_production and the reserves' changes, in bcf; ts_utc the year's 1 January (as of 31 December); freq P1Y; "
             "geo US or US-<state>; node EIA's description. States and their districts overlap: a sum takes one level. EIA's route ends in 2021: a closed record.",
-            f"A blank has no row; nothing is filled. Months {span}; {total:,} records of EIA's, {len(s):,} rows.",
+            f"A blank has no row; nothing is filled. Years {span[:4]} to {span[-7:-3]}; {total:,} records of EIA's, {len(s):,} rows.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_shale_gas_reserves.py; {asked[0]} requests of {CEILING}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} U.S. Energy Information Administration, U.S. Crude Oil and Natural Gas Proved Reserves, shale gas (API v2, route natural-gas/enr/shalegas), {PAGE}",
-            f"  access: {API}data/?frequency=monthly&data[]=value&start={args.first}",
+            f"  access: {API}data/?frequency=annual&data[]=value&" + "&".join(f"facets[process][]={k}" for k in PROCESSES) + f"&start={args.first}",
             'License: public (a work of the U.S. government; cite "U.S. Energy Information Administration, U.S. Crude Oil and Natural Gas Proved Reserves").',
         ]
         ip.write_snapshot(s, NAME, header, log, ip.SERIES_COLS)

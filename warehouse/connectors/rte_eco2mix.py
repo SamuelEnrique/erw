@@ -16,11 +16,12 @@ commercial exchanges. Taken, in MW as published:
 
     consumption (Consommation), oil (Fioul), coal (Charbon), gas (Gaz), nuclear (Nucleaire), wind (Eolien), solar
     (Solaire), hydro (Hydraulique), pumping (Pompage, negative), bioenergy (Bioenergies), physical_exchanges (Ech.
-    physiques, the net), battery_charging (Stockage batterie), battery_discharging (Destockage batterie), wind_onshore
-    (Eolien terrestre), wind_offshore (Eolien offshore)
+    physiques, the net), wind_onshore (Eolien terrestre), wind_offshore (Eolien offshore)
 
 Not taken: the day-ahead and same-day forecasts, the CO2 rate (the files state no unit), the commercial exchanges by
-border (hourly values repeated on every quarter hour) and the sub-sources (TAC, cogeneration and the rest). The files
+border (printed on every quarter hour, some changing within the hour, beside half-hourly measures), the sub-sources
+(TAC, cogeneration and the rest) and the battery charging and discharging columns, which RTE prints as 0 in every
+half hour of 2021 to 2026 (a placeholder, not a measure; session 2247). The files
 state no unit either for the measures; they are MW: a year's consumption, each half hour's MW times half an hour,
 agrees with Ember's French demand (session 2238's cross-check).
 
@@ -30,7 +31,8 @@ agrees with Ember's French demand (session 2238's cross-check).
 
 French local time, placed in UTC: RTE's grid has 96 quarter hours every day. On the spring change it prints 02:00 to
 02:45, which do not exist in French time (their values repeat their neighbours'), and on the autumn change it prints
-02:00 to 02:45 once, though they occur twice. Both kinds are left out and counted, never guessed. Where RTE prints 0
+02:00 to 02:45 once, though they occur twice, so the autumn hour's two UTC hours both have no row. Both kinds of
+line are left out and counted, never guessed. Where RTE prints 0
 for both onshore and offshore wind beside a total that is not 0 (all of 2021), the split is a placeholder and is left
 out, counted; elsewhere onshore plus offshore can differ from the total on some half hours, kept as published. "ND" and a blank have
 no row; nothing is filled. A header not RTE's, a perimeter not France, a value that is not a number, a date or hour not
@@ -70,8 +72,7 @@ UA = {"User-Agent": "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github
 PARIS = ZoneInfo("Europe/Paris")
 FIELDS = {"Consommation": "consumption", "Fioul": "oil", "Charbon": "coal", "Gaz": "gas", "Nucléaire": "nuclear",
           "Eolien": "wind", "Solaire": "solar", "Hydraulique": "hydro", "Pompage": "pumping", "Bioénergies": "bioenergy",
-          "Ech. physiques": "physical_exchanges", "Stockage batterie": "battery_charging",
-          "Déstockage batterie": "battery_discharging", "Eolien terrestre": "wind_onshore", "Eolien offshore": "wind_offshore"}
+          "Ech. physiques": "physical_exchanges", "Eolien terrestre": "wind_onshore", "Eolien offshore": "wind_offshore"}
 FIRST = ["Périmètre", "Nature", "Date", "Heures", "Consommation"]
 COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "geo", "market", "node", "source", "source_url",
         "retrieved_at", "vintage", "x_nature", "x_local_date", "x_local_hour"]
@@ -177,9 +178,10 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): RTE, eco2mix, France's consumption, production by source and net physical exchanges every half hour, {t.ts_utc.min()[:10]} to {t.ts_utc.max()[:10]} (session 2238)",
             "Shape: series (docs/datastandard.md v0). entity rte_eco2mix:FR; variable consumption, oil, coal, gas, nuclear, wind, solar, hydro, pumping (negative), bioenergy, physical_exchanges (net), "
-            "battery_charging, battery_discharging, wind_onshore, wind_offshore; unit MW; ts_utc the half hour's start in UTC from French local time; freq PT30M; geo FR; x_nature RTE's definitive or consolidated.",
+            "wind_onshore, wind_offshore; unit MW; ts_utc the half hour's start in UTC from French local time; freq PT30M; geo FR; x_nature RTE's definitive or consolidated.",
             f"{len(t)} rows: " + "; ".join(f"{v} {int(r['size'])} from {r['min'][:10]}" for v, r in span.iterrows())
-            + f". Left out, never guessed: {counts['nonexistent']} half hours of the spring change that do not exist in French time and {counts['ambiguous']} of the autumn change that occur twice (RTE prints them once). "
+            + f". Left out, never guessed: {counts['nonexistent']} half hours of the spring change that do not exist in French time and {counts['ambiguous']} lines of the autumn change, whose hour occurs twice but is printed once (twice as many half hours have no row in UTC). "
+            "RTE's battery columns, 0 in every half hour, are not taken. "
             f"Wind's onshore and offshore split left out in {counts['zero_split']} half hours where RTE prints 0 for both beside a total (all of 2021); elsewhere the split can differ from the total, as published. "
             "'ND' and blanks have no row; nothing is filled. The files state no unit: MW, as a year's consumption agrees with Ember's demand.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/rte_eco2mix.py; the files retrieved " + "; ".join(f"{k} {r}" for k, r in got),

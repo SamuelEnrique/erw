@@ -7361,8 +7361,6 @@ rrc_lease_production_monthly,casinghead_gas_mcf,series variable,Mcf
 rrc_lease_production_monthly,condensate_bbl,series variable,bbl
 rrc_lease_production_monthly,gas_mcf,series variable,Mcf
 rrc_lease_production_monthly,oil_bbl,series variable,bbl
-rte_eco2mix_france_halfhourly,battery_charging,series variable,MW
-rte_eco2mix_france_halfhourly,battery_discharging,series variable,MW
 rte_eco2mix_france_halfhourly,bioenergy,series variable,MW
 rte_eco2mix_france_halfhourly,coal,series variable,MW
 rte_eco2mix_france_halfhourly,consumption,series variable,MW
