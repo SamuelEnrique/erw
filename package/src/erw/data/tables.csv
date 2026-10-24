@@ -76,6 +76,7 @@ doe_oe417_events,public,,,,U.S. Department of Energy (DOE),"Public: every publis
 doe_useer_employment,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 dosm_malaysia_electricity_monthly,public,,,,Department of Statistics Malaysia (DOSM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 econtrol_austria_electricity_monthly,internal,,,,E-Control (Energie-Control Austria),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+eehc_egypt_electricity_annual,internal,,,Egyptian Electricity Holding Company (EEHC),Egyptian Electricity Holding Company (EEHC),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 egrid_power_plants,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 egrid_subregions_annual,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia411_capacity_margins_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -262,6 +263,7 @@ epa_needs_units,public,,,,EPA,"Public: every publisher's terms the ERW read allo
 epa_rfs_fuel_annual,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_rfs_rins_monthly,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_tri_energy_releases_annual,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+epe_brazil_consumption_monthly,public,,,,Empresa de Pesquisa Energetica (EPE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epra_kenya_electricity_annual,public,,,,"Energy and Petroleum Regulatory Authority, Kenya (EPRA)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 erb_zambia_electricity_annual,internal,,,"Energy Regulation Board, Zambia (ERB)","Energy Regulation Board, Zambia (ERB)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 erc_mongolia_electricity_annual,internal,,,,Energy Regulatory Commission of Mongolia (ERC),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
@@ -498,8 +500,10 @@ statcan_electricity_generation_monthly,public,,,,Statistics Canada,"Public: ever
 statcan_electricity_trade_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_energy_balance_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_generating_capacity_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statcan_generation_class_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_oil_gas_supply_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_petroleum_products_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statcan_power_disposition_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 state_generation_mix_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 statee_estonia_electricity_monthly,public,,,,Statistics Estonia,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statfi_finland_electricity_monthly,public,,,,Statistics Finland,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
