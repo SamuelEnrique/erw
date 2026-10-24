@@ -243,3 +243,16 @@ What session 1010 found on the way (23 October 2026, 11 of its 100 Redivis reque
 - **Requests:** 142 Redivis requests of 150 (7, 69, 59 and 7), and 2 to Supabase. Nothing released.
 
 **Session 2394 (24 October 2026, 10:09 to 10:21 UTC):** one public table, chain 113's `ilr_luxembourg_electricity` (668 rows, Luxembourg's regulator ILR, CC BY 4.0), proved by the draft's count. A plain upload under the data lock from chain 113's branch merged with chain 112's landing; this run checked that it still held the lock before the upload and before putting main's files back. The metadata refresh read this branch's files: `erw_coverage` 513 rows, `erw_sources` 601, `erw_headers` 4,747 lines, so the lag left by session 2345 (chain 109's two tables) is closed. Chain 113's later public table, `hagstofa_iceland_power_annual` (session 2397), was written after this upload and waits for the next one. 77 of 150 Redivis requests (7, 63 and 7) and 1 to Supabase. Reconcile: before, 342 of 389 match, 46 differ (`erw_sources` 597 against 601 among them), 1 not yet uploaded; after, 345 match and 44 differ, tables daily runs have grown since their upload; none is missing from the draft. Nothing released.
+
+## Chain 115's upload (session 2429, 24 October 2026, 11:59 to 12:11 UTC)
+
+- **Five public tables uploaded, each proved by the draft's count:**
+  - chain 110's `eurostat_crude_imports_monthly` (565,941), left by chain 110's upload;
+  - this chain's `eurostat_electricity_trade_annual` (198,783), `eurostat_hard_coal_imports_annual` (99,288), `eurostat_crude_imports_by_field_monthly` (51,718) and `statsbots_botswana_electricity_monthly` (383, public since session 2425).
+  - Chain 113's `hagstofa_iceland_power_annual` was uploaded by chain 114's draft (its record, 11:30 UTC), so not again here.
+- **One run, cap 128,** after chain 110's lesson: the five tables and the metadata refresh used 86 requests, and the metadata tables were proved whole (`erw_headers` 4,837 lines, `erw_coverage` 526 rows, `erw_sources` 614 rows).
+- **The run's shell was stopped for low memory** at about 12:05 UTC while its uploader ran on. The uploader and the script finished on their own (the record carried to the branch, main's files put back, the lock released at 12:07); nothing was done by hand.
+- **Two reconciles:**
+  - before: 398 tables, 348 match, 45 differ, 5 not yet uploaded;
+  - after: 354 match, 44 differ (tables the daily runs have grown since their upload), none missing.
+- **Requests:** 101 Redivis requests of 150 (7, 86 and 8), and 1 to Supabase. Nothing released.
