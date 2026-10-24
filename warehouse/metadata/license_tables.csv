@@ -1,5 +1,6 @@
 table,publishers,how
 aeso_alberta_load_hourly,"Alberta Electric System Operator (AESO), Canada",the source registry
+afdc_ev_charging_state_annual,U.S. Department of Energy (DOE),the source registry
 afdc_vehicle_registrations_annual,U.S. Department of Energy (DOE),the source registry
 ai_power_regions,Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_grid_emergencies, caiso_interconnection_queue, carbon_intensity_daily, cost_of_power_monthly, eia930_all_demand, eia930_daily_interchange, ercot_all_hub_prices_history, ercot_interconnection_queue, event_study_estimates, iso_hub_prices_history, isone_interconnection_queue, lbnl_interconnection_queue, miso_interconnection_queue, nyiso_interconnection_queue, spp_interconnection_queue"
 api_cost_ledger,Anthropic,the source registry
@@ -13,6 +14,7 @@ blm_oil_gas_statistics_annual,"U.S. Department of the Interior, Bureau of Land M
 boem_offshore_platforms,Bureau of Ocean Energy Management (BOEM),the source registry
 boem_ogor_lease_production_monthly,Bureau of Ocean Energy Management (BOEM),the source registry
 boem_renewable_leases,Bureau of Ocean Energy Management (BOEM),the source registry
+bpa_ba_hourly,Bonneville Power Administration (BPA),the source registry
 caiso_area_load_hourly,CAISO,the source registry
 caiso_as_prices,CAISO,the source registry
 caiso_battery_storage,CAISO,the source registry
@@ -33,6 +35,8 @@ carbon_intensity_daily,EIA,the source registry and the tables its header derives
 carbon_intensity_hourly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 carbon_intensity_monthly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 cec_total_system_generation_annual,California Energy Commission (CEC),the source registry
+census_bps_state_annual,Census Bureau,the source registry
+census_cbp_hosting_annual,Census Bureau,the source registry
 census_metro_population,Census Bureau,the source registry
 cer_electricity_trade,Canada Energy Regulator (CER),the source registry
 cer_gas_trade,Canada Energy Regulator (CER),the source registry
@@ -375,6 +379,7 @@ nrc_license_actions,NRC,the source registry
 nrc_new_reactor_applications,NRC,the source registry
 nrc_power_reactors,NRC,the source registry
 nrc_reactor_status,NRC,the source registry
+nrcs_snotel_swe_daily,USDA Natural Resources Conservation Service (NRCS),the source registry
 nyiso_as_prices,NYISO,the source registry
 nyiso_dam_cleared_energy,NYISO,the source registry
 nyiso_dam_zone_prices,NYISO,the source registry
@@ -430,5 +435,7 @@ uspvdb_solar_facilities,U.S. Geological Survey (USGS),the source registry
 uswtdb_wind_turbines,U.S. Geological Survey (USGS),the source registry
 utility_service_territories,EIA,the source registry
 wb_commodity_prices_monthly,World Bank,the source registry
+wb_electricity_access_annual,World Bank,the source registry
+wb_iea_electricity_annual,IEA (standalone datasets),the source registry
 weather_forecast_hourly,NWS,the source registry
 weather_obs_hourly,NWS,the source registry

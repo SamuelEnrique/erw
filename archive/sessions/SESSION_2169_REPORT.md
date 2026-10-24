@@ -5,7 +5,7 @@
 ## Read these first
 
 - **Why this source:** the Canada Energy Regulator publishes each regulated pipeline's throughput and capacity at its key points, the volumes behind the Canadian oil and gas trade the warehouse holds in `cer_gas_trade` and `cer_electricity_trade`; the ERW held none of it and no queue file plans it.
-- **Finding the files:** the CER moved its site, and its old throughput folder and pipeline profile pages answer with a "not found" page served as HTTP 200 (reads 306, 307). The Government of Canada's open data catalogue (open.canada.ca, read 308) lists the dataset "Pipeline Throughput and Capacity Data" with every file's address under `www.cer-rec.gc.ca/open/energy/throughput-capacity/` and its licence, the **Open Government Licence - Canada** (read 309, a new verdict entry, may be public in both columns; the CER's own site terms, read 96, govern its other pages).
+- **Finding the files:** the CER moved its site, and its old throughput folder and pipeline profile pages answer with a "not found" page served as HTTP 200 (reads 318, 319). The Government of Canada's open data catalogue (open.canada.ca, read 320) lists the dataset "Pipeline Throughput and Capacity Data" with every file's address under `www.cer-rec.gc.ca/open/energy/throughput-capacity/` and its licence, the **Open Government Licence - Canada** (read 321, a new verdict entry, may be public in both columns; the CER's own site terms, read 96, govern its other pages).
 - **One table written, validated, archived, in coverage (sectors oil and gas), in the release package, both holds:** `cer_pipeline_throughput`, the nine pipelines that cross the U.S. border: Keystone, Enbridge's Canadian Mainline, Southern Lights and Cochin (oil, a month, by product) and Foothills, Alliance, Westcoast, TC Canadian Mainline and Maritimes & Northeast (gas, a day); 408,073 rows, 2006 to June 2026 (Keystone from 2010).
   - **A new unit, `m3/d` (Decision 69):** the CER gives oil and gas alike in thousand cubic metres a day, written here times 1,000. It is a rate, never summed over days, and oil and gas cubic metres are never added. Chain 090 holds Decision 67 and chain 092 holds 68, so this chain's first is 69, as its agent agreed.
   - **The keys:** an oil line's volumes by key point, product and trade type (Enbridge's ex-Gretna carries one product as export and as intracanada flow); a key point's oil capacity written once a month, not for each product (the run stops if the products disagree); a gas line's rows by key point and direction of flow (Westcoast's Kingsvale carries flow both ways). Enbridge's Mainline file gives no committed or uncommitted volumes.
@@ -15,11 +15,11 @@
 
 ## The pulls
 
-1. `www.cer-rec.gc.ca/robots.txt` (read 305, read again).
-2. The old throughput folder (read 306): a not-found page.
-3. Keystone's old profile page (read 307): a not-found page.
-4. `open.canada.ca/robots.txt` (read 308): a crawl delay of 20 seconds, kept.
-5. The catalogue search (read 309).
+1. `www.cer-rec.gc.ca/robots.txt` (read 317, read again).
+2. The old throughput folder (read 318): a not-found page.
+3. Keystone's old profile page (read 319): a not-found page.
+4. `open.canada.ca/robots.txt` (read 320): a crawl delay of 20 seconds, kept.
+5. The catalogue search (read 321).
 6 and 7. Keystone's and Alliance's files, for their columns (seeded into the raw store).
 8 to 14. The connector's trial: the other seven files, reused by the write (`--offline`).
 
@@ -42,5 +42,5 @@
 ## Files
 
 - New: `warehouse/connectors/cer_throughput.py`, `tests/test_session2169.py`, this report.
-- Changed: `docs/datastandard.md` (Decision 69), `warehouse/validate/erw_validate.py` (`m3/d`), `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (305 to 309), `license_verdicts.csv` (the CER under the Open Government Licence), the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
+- Changed: `docs/datastandard.md` (Decision 69), `warehouse/validate/erw_validate.py` (`m3/d`), `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (317 to 321), `license_verdicts.csv` (the CER under the Open Government Licence), the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c094/s2169/`, `runs/license_reads/s2169/`, `runs/s2169_*`, `warehouse/raw/cer_throughput/`.

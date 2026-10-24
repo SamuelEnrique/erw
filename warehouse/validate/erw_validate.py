@@ -98,6 +98,9 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          # session 2121: a mass in grams, as EPA's Toxics Release Inventory reports dioxins (epa_tri_energy_releases_annual;
          # Decision 66)
          "g",
+         # session 2150: electricity used a person in a year, in kWh, as the World Bank republishes the IEA's figure
+         # (wb_iea_electricity_annual; Decision 68)
+         "kWh/person",
          # session 2169: a volume a day in cubic metres, as the CER gives a pipeline's throughput and capacity
          # (cer_pipeline_throughput; Decision 69)
          "m3/d"}

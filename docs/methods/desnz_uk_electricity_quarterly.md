@@ -28,7 +28,7 @@ Series, 7,862 rows (generated 3,829, supplied 4,033), 43 generator type and fuel
 
 ## License
 
-Header: "License: public. Contains public sector information licensed under the Open Government Licence v3.0 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)." The docstring names the licence's record 303.
+Header: "License: public. Contains public sector information licensed under the Open Government Licence v3.0 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)." The docstring names the licence's record 315.
 
 ## Checks (session 2171)
 

@@ -38,7 +38,7 @@ Entities: `cer_pipe:<pipeline>:<key point>` for an oil key point's capacity (one
 
 ## License
 
-Header: "License: public. Contains information licensed under the Open Government Licence - Canada (https://open.canada.ca/en/open-government-licence-canada)." The report records the verdict as a new entry (read 309), may be public in both columns.
+Header: "License: public. Contains information licensed under the Open Government Licence - Canada (https://open.canada.ca/en/open-government-licence-canada)." The report records the verdict as a new entry (read 321), may be public in both columns.
 
 ## Checks (session 2171)
 

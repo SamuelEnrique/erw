@@ -14,7 +14,7 @@
 
 ## The pulls
 
-1. `assets.publishing.service.gov.uk/robots.txt` (read 304): HTTP 404, no robots file.
+1. `assets.publishing.service.gov.uk/robots.txt` (read 316): HTTP 404, no robots file.
 2. Table ET 5.1, September 2026 issue (360 KB), seeded into the raw store with session 2167's copy of the page; the trial and the write read both offline.
 
 ## Errors
@@ -35,5 +35,5 @@
 ## Files
 
 - New: `warehouse/connectors/desnz_energy_trends.py`, `tests/test_session2168.py`, this report.
-- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (304), `tests/test_session205.py`, the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
+- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (316), `tests/test_session205.py`, the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c094/s2168/`, `runs/license_reads/s2168/`, `runs/s2168_*`, `warehouse/raw/desnz_energy_trends/`.

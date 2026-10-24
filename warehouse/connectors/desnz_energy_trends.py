@@ -32,7 +32,7 @@ revised in a later issue). A sheet without the two tables, a column header not "
 
 Ceiling: two requests (the page and the file it links), reused from warehouse/raw/desnz_energy_trends/ with
 --offline. www.gov.uk's robots file disallows print and search pages only, and assets.publishing.service.gov.uk has no
-robots file (session 2168). License: the Open Government Licence v3.0 (GOV.UK's licence for its content, record 303);
+robots file (session 2168). License: the Open Government Licence v3.0 (GOV.UK's licence for its content, record 315);
 attribution: "Contains public sector information licensed under the Open Government Licence v3.0".
 """
 

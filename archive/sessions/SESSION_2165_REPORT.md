@@ -5,16 +5,16 @@
 ## Read these first
 
 - **The Waterborne Commerce Statistics Center's pages are closed or opaque to the ERW's reader:**
-  - www.iwr.usace.army.mil, where the Center's pages live, answers its robots file with HTTP 403, Access Denied, from the same edge server that refused the reader at www.usace.army.mil in session 983 (read 296; read 165). Not asked again.
-  - ndc.ops.usace.army.mil, the Navigation Data Center, has no robots file (read 297), and its waterborne commerce publication (`/wcsc/webpub/`) is a script-driven application whose page names no data file, no download and no terms (read 298). Its data come through an interface the scripts call, which is not a published file.
+  - www.iwr.usace.army.mil, where the Center's pages live, answers its robots file with HTTP 403, Access Denied, from the same edge server that refused the reader at www.usace.army.mil in session 983 (read 308; read 165). Not asked again.
+  - ndc.ops.usace.army.mil, the Navigation Data Center, has no robots file (read 309), and its waterborne commerce publication (`/wcsc/webpub/`) is a script-driven application whose page names no data file, no download and no terms (read 310). Its data come through an interface the scripts call, which is not a published file.
 - **The Corps' terms are unread** (the National Inventory of Dams' home page held none, read 166) and are a standing question in the notes of chains 067 and 079 (`usace_nid_dams` is unsettled for the same reason). A table from the Corps would be internal until a ruling even if its files could be reached.
 - **No replacement source** in this session: the three sessions of the chain's own choosing (2168, 2169, 2174) can take others.
 
 ## The pulls
 
-1. `www.iwr.usace.army.mil/robots.txt` (read 296): HTTP 403.
-2. `ndc.ops.usace.army.mil/robots.txt` (read 297): HTTP 404.
-3. The waterborne commerce application's page (read 298).
+1. `www.iwr.usace.army.mil/robots.txt` (read 308): HTTP 403.
+2. `ndc.ops.usace.army.mil/robots.txt` (read 309): HTTP 404.
+3. The waterborne commerce application's page (read 310).
 
 ## Errors
 
@@ -31,5 +31,5 @@
 ## Files
 
 - New: this report.
-- Changed: `warehouse/metadata/license_reads.csv` (296 to 298), `docs/licenses.md`.
+- Changed: `warehouse/metadata/license_reads.csv` (308 to 310), `docs/licenses.md`.
 - On the data machine only: `runs/c094/s2165/`, `runs/license_reads/s2165/`.

@@ -15,7 +15,7 @@
 ## The pulls
 
 1. A year of Elexon's FUELHH: HTTP 400, the seven-day limit.
-2. The Energy Trends section 6 page (read 310): ET 6.1 to 6.3 and its licence in the footer.
+2. The Energy Trends section 6 page (read 322): ET 6.1 to 6.3 and its licence in the footer.
 3. Table ET 6.1, September 2026 issue (478 KB), seeded into the raw store with the page; the trial and the write read both offline.
 
 ## Errors
@@ -34,5 +34,5 @@
 ## Files
 
 - New: `warehouse/connectors/desnz_renewables.py`, `tests/test_session2174.py`, this report.
-- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (310), the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
+- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (322), the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c094/s2174/`, `runs/license_reads/s2174/`, `runs/s2174_*`, `warehouse/raw/desnz_renewables/`.

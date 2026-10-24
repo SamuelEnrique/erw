@@ -39,7 +39,7 @@ A day Elexon gives no figure for has no row; nothing is filled. The endpoint's d
 
 ## License
 
-Header: "License: public. Contains BMRS data (c) Elexon Limited copyright and database right 2026" (the header prints the copyright sign), with the licence's address `https://www.elexon.co.uk/bsc/data/balancing-mechanism-reporting-agent/copyright-licence-bmrs-data/`. The session report records the licence (read 294) as a new verdict, may be public.
+Header: "License: public. Contains BMRS data (c) Elexon Limited copyright and database right 2026" (the header prints the copyright sign), with the licence's address `https://www.elexon.co.uk/bsc/data/balancing-mechanism-reporting-agent/copyright-licence-bmrs-data/`. The session report records the licence (read 306) as a new verdict, may be public.
 
 ## Checks (session 2171)
 
