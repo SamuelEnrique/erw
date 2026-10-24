@@ -310,6 +310,11 @@ SECTOR_RULES = [
     (r"^statcan_electricity_trade_monthly$", "power"),  # session 2328: Statistics Canada 25-10-0016-01, electricity receipts, deliveries and availability by province, a month (the U.S. trade among them)
     (r"^eurostat_gas_balance_monthly$", "gas"),  # session 2329: Eurostat's supply, transformation and consumption of natural gas, a month (nrg_cb_gasm)
     (r"^eia_refinery_utilization_monthly$", "oil;products"),  # session 2334: EIA's refinery utilization and capacity by PADD and refining district, a month (petroleum/pnp/unc)
+    (r"^ceb_srilanka_electricity_annual$", "power"),  # session 2371: CEB's Statistical Digest, Sri Lanka's stations, capacity, generation and maximum demand (internal)
+    (r"^energycom_ghana_electricity_annual$", "power"),  # session 2373: Ghana's Energy Commission bulletin, generation by source, imports and exports, peak load, a year (internal)
+    (r"^eia_gas_for_others_annual$", "gas"),  # session 2377: EIA's natural gas delivered for the account of others by state and sector, a year (natural-gas/cons/acct)
+    (r"^statcan_petroleum_products_monthly$", "oil;products"),  # session 2378: Statistics Canada 25-10-0081-01, petroleum products by supply and disposition, a month
+    (r"^statcan_energy_balance_annual$", "power;gas;oil;coal"),  # session 2383: Statistics Canada 25-10-0029-01, supply and demand of primary and secondary energy, a year
     (r"^eia_lng_storage_annual$", "gas;lng"),  # session 2292: EIA's LNG peak-shaving storage additions and withdrawals by state
     (r"^eia_gas_plant_processing_annual$", "gas;products"),  # session 2287: EIA's gas plant processing (gas processed, liquids extracted), a year
     (r"^eia_crude_tank_farm_stocks_monthly$", "oil"),  # session 2286: EIA's crude stocks at tank farms and pipelines, Cushing among them

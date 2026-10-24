@@ -438,6 +438,11 @@ catalogue_hold:
   - statcan_electricity_trade_monthly
   - eurostat_gas_balance_monthly
   - eia_refinery_utilization_monthly
+  - ceb_srilanka_electricity_annual
+  - energycom_ghana_electricity_annual
+  - eia_gas_for_others_annual
+  - statcan_petroleum_products_monthly
+  - statcan_energy_balance_annual
   - eia_lng_storage_annual
   - eia_gas_plant_processing_annual
   - eia_crude_tank_farm_stocks_monthly
