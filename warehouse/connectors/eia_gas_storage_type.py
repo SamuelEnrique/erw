@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """EIA's underground natural gas storage by type, the U.S., a month from 1973: base gas, working gas, total, injections,
-withdrawals and net withdrawals, in all fields and separately in salt caverns and in other (non-salt) fields (session
+withdrawals and net withdrawals, in all fields and separately in salt caverns and in other (non-salt) fields, from
+December 1973, the stocks with gaps in 1974 and 1975 where EIA gives none (session 2289's note) (session
 2283, chain 104: in place of Argentina, whose operator CAMMESA resets every connection).
 
 Energy Research Warehouse (ERW) connector. One series table, warehouse/output/eia_gas_storage_type_monthly.csv, from the

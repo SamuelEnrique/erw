@@ -19,7 +19,8 @@ footnote marks dropped) are mapped to variables, a parent's children named after
     pumped_storage_production, battery_injection; storage_consumption, pumping_consumption, battery_charging; net_imports
     (SALDO IMPORTADOR: negative a net export), imports_commercial, exports_commercial; consumption
 
-    entity      ren:PT; node Portugal; geo PT; unit MWh (REN's GWh times 1,000, an exact factor); ts_utc the year's 1
+    entity      ren:PT; node Portugal (mainland): REN's page gives "the consumption of electricity in mainland Portugal"
+                (session 2289); geo PT; unit MWh (REN's GWh times 1,000, an exact factor); ts_utc the year's 1
                 January at 00:00:00Z; freq P1Y
 
 A row REN does not print in a year (coal after 2021; waves and batteries from 2024) has no row; nothing is filled. A
@@ -109,7 +110,7 @@ def file_rows(text, url, retrieved, vintage):
             except ValueError:
                 raise RuntimeError(f"{url}: {name} {year}: not a number: {v!r}")
             out.append({"entity": "ren:PT", "variable": var, "ts_utc": f"{year}-01-01T00:00:00Z", "value": value, "unit": "MWh",
-                        "freq": "P1Y", "geo": "PT", "market": "", "node": "Portugal", "source": SOURCE, "source_url": url,
+                        "freq": "P1Y", "geo": "PT", "market": "", "node": "Portugal (mainland)", "source": SOURCE, "source_url": url,
                         "retrieved_at": retrieved, "vintage": vintage})
     return out
 
@@ -150,7 +151,7 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): REN, Data Hub, Portugal's electricity balance a year: production by source, storage, the commercial exchanges and consumption, {t.ts_utc.min()[:4]} to {t.ts_utc.max()[:4]} (session 2280)",
             "Shape: series (docs/datastandard.md v0). entity ren:PT; variable REN's rows in snake case, a parent's children named after it (production_total ... consumption; net_imports negative a net export); "
-            "unit MWh (REN's GWh times 1,000); ts_utc the year's 1 January; freq P1Y; geo PT. Each year is a December's year-to-date figure.",
+            "unit MWh (REN's GWh times 1,000); ts_utc the year's 1 January; freq P1Y; geo PT, the balance of mainland Portugal. Each year is a December's year-to-date figure.",
             f"{len(t)} rows, {t.variable.nunique()} variables. A row REN does not print in a year has no row; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/ren_balance.py; the Decembers retrieved " + "; ".join(f"{d} {r}" for d, r in got),
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

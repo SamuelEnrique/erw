@@ -46,7 +46,7 @@
 - New: `warehouse/connectors/energy_charts_portugal.py`, `tests/test_session2282.py`, this report.
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (441 to 445), `warehouse/metadata/license_verdicts.csv` (Kansai)
+  - `warehouse/metadata/license_reads.csv` (472 to 476), `warehouse/metadata/license_verdicts.csv` (Kansai)
   - the coverage, sources, archive manifest and license files
   - `docs/redivis/release-v1/`
 - On the data machine only: `runs/c104/s2282/`, `runs/license_reads/s2282/`, `runs/s2282_*`, `warehouse/raw/energy_charts_portugal/`.

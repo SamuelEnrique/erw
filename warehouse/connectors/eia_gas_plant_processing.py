@@ -11,8 +11,10 @@ the U.S. Energy Information Administration's API v2, route natural-gas/prod/pp (
     variable  gas_processed (EIA's process YGP, MMcf), extraction_loss (VG9, MMcf: the volume removed as liquids) or
               liquids_extracted (YGT, "Total Liquids Extracted - State of Origin", kbbl, EIA's "MBBL")
     ts_utc    the year's 1 January at 00:00:00Z; freq P1Y
-    geo       US for the U.S. and EIA's federal offshore areas; US-<state> for a state (EIA's S<state>) and for a pair
-              S<state>-S<state> (EIA's processing and origin areas: geo is the first state's); node EIA's description
+    geo       US for the U.S. and the federal offshore (EIA's R3FM, the Gulf, and R5F, the Pacific); US-<state> for a
+              state (S<state>), for a state's onshore or state offshore part (R<state>O, R<state>SF) and for a pair, whose
+              first area is where the gas was produced and second the state where its liquids were extracted (geo is the
+              producing area's; session 2289); node EIA's description
 
 A state's total and its pairs overlap, as do the U.S. and the states: a sum takes one level. An area code is accepted
 when it has EIA's forms (NUS, S<state>, an R area, or either followed by -S<state>); any other stops the run, as do a
@@ -64,9 +66,13 @@ AREAS = _Areas()
 
 
 def GEO_OF(area):
-    """US-<state> for a state or a pair (its first state), US for the U.S. and EIA's R areas."""
+    """US-<state> for a state, a state's onshore (R<state>O) or state offshore (R<state>SF) part and a pair (its first,
+    producing, area); US for the U.S. and the federal offshore (R3FM, R5F). Session 2289."""
     head = area.split("-")[0]
-    return "US-" + head[1:] if re.fullmatch(r"S[A-Z]{2}", head) else "US"
+    if re.fullmatch(r"S[A-Z]{2}", head):
+        return "US-" + head[1:]
+    m = re.fullmatch(r"R([A-Z]{2})(O|SF)", head)
+    return "US-" + m.group(1) if m else "US"
 
 
 def rows(data, url, retrieved):
@@ -172,7 +178,7 @@ def main(argv=None):
         header = [
             "Energy Research Warehouse (ERW): EIA, natural gas plant processing (gas processed, extraction loss, liquids extracted), the U.S., the states and EIA's processing areas, a year (session 2287)",
             "Shape: series (docs/datastandard.md v0). entity eia_gas_plant_processing:<series>; variable gas_processed and extraction_loss (MMcf) or liquids_extracted (kbbl); ts_utc the year's 1 January; freq P1Y; "
-            "geo US or US-<state> (a pair's first state); node EIA's description. The U.S., a state and its pairs overlap: a sum takes one level.",
+            "geo US (the U.S., the federal offshore) or US-<state> (a state, its onshore or offshore part, or a pair's producing area); node EIA's description. The U.S., a state and its parts and pairs overlap: a sum takes one level.",
             f"A blank has no row; nothing is filled. Years {span[:4]} to {span[-7:-3]}; {total:,} records of EIA's, {len(s):,} rows.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_gas_plant_processing.py; {asked[0]} requests of {CEILING}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

@@ -36,6 +36,7 @@ class Rows(unittest.TestCase):
         self.assertEqual(t[t.entity.str.endswith("STX")].iloc[0].unit, "kbbl")
         self.assertEqual(t[t.entity.str.endswith("SKS-SOK")].geo.iloc[0], "US-KS")
         self.assertEqual(t[t.entity.str.endswith("R3FM")].geo.iloc[0], "US")
+        self.assertEqual((P.GEO_OF("RTXO-SKS"), P.GEO_OF("RLASF-SLA"), P.GEO_OF("R5F-SCA")), ("US-TX", "US-LA", "US"))
 
     def test_stops(self):
         for bad in ([rec(process="VGX")], [rec(area="Texas")], [rec(units="BCF")], [rec(), rec()]):

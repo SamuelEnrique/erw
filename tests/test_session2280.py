@@ -33,7 +33,7 @@ class Rows(unittest.TestCase):
                 + line("Cogeração", "7", "") + line("CONSUMO", "53036", "51407"))
         t = R.finish(R.file_rows(text, "u", "r", "v"))
         c = t[(t.variable == "consumption") & (t.ts_utc == "2025-01-01T00:00:00Z")].iloc[0]
-        self.assertEqual((c.value, c.unit, c.freq, c.geo), (53036000.0, "MWh", "P1Y", "PT"))
+        self.assertEqual((c.value, c.unit, c.freq, c.geo, c.node), (53036000.0, "MWh", "P1Y", "PT", "Portugal (mainland)"))
         self.assertEqual(t[t.ts_utc.str.startswith("2024") & (t.variable == "consumption")].value.iloc[0], 51407000.0)
         self.assertIn("biomass_cogeneration", set(t.variable))
         self.assertIn("natural_gas_cogeneration", set(t.variable))

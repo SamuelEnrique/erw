@@ -38,7 +38,7 @@
 - New: `warehouse/connectors/eia_gas_storage_type.py`, `tests/test_session2283.py`, this report.
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (446, 447)
+  - `warehouse/metadata/license_reads.csv` (477, 478)
   - the coverage, sources, archive manifest and license files
   - `docs/redivis/release-v1/`
 - On the data machine only: `runs/c104/s2283/`, `runs/license_reads/s2283/`, `runs/s2283_*`, `warehouse/raw/eia_gas_storage_type/`.

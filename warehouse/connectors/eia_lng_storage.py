@@ -171,7 +171,7 @@ def main(argv=None):
         s = s[ip.SERIES_COLS]
         span = f"{s['ts_utc'].min()[:7]} to {s['ts_utc'].max()[:7]}"
         header = [
-            "Energy Research Warehouse (ERW): EIA, LNG storage additions, withdrawals and net withdrawals (peak-shaving tanks), the U.S. and the states, a year (session 2292)",
+            "Energy Research Warehouse (ERW): EIA, LNG storage additions and withdrawals (peak-shaving tanks), the U.S. and the states, a year (session 2292); no rows for 1970 to 1979, which EIA does not give",
             "Shape: series (docs/datastandard.md v0). entity eia_lng_storage:<series>; variable additions or withdrawals (MMcf; EIA's net series not taken); ts_utc the year's 1 January; freq P1Y; "
             "geo US or US-<state>; node EIA's description. Peak-shaving tanks, not export terminals. The U.S. and the states overlap: a sum takes one level.",
             f"A blank has no row; nothing is filled. Years {span[:4]} to {span[-7:-3]}; {total:,} records of EIA's, {len(s):,} rows.",

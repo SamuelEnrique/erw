@@ -48,7 +48,7 @@
 - New: `warehouse/connectors/energy_charts_italy.py`, `tests/test_session2281.py`, this report.
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (436 to 440), `warehouse/metadata/license_verdicts.csv` (Terna, Energy-Charts)
+  - `warehouse/metadata/license_reads.csv` (467 to 471), `warehouse/metadata/license_verdicts.csv` (Terna, Energy-Charts)
   - the coverage, sources, archive manifest and license files
   - `docs/redivis/release-v1/`
 - On the data machine only: `runs/c104/s2281/`, `runs/license_reads/s2281/`, `runs/s2281_*`, `warehouse/raw/energy_charts_italy/`.

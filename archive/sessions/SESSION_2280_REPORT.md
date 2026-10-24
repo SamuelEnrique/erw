@@ -44,6 +44,6 @@
 - Changed:
   - `tests/test_session205.py` (its bound, +20)
   - `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (431 to 435)
+  - `warehouse/metadata/license_reads.csv` (462 to 466)
   - the coverage, sources, archive manifest and license files
 - On the data machine only: `runs/c104/`, `runs/license_reads/s2280/`, `runs/s2280_*`, `warehouse/raw/ren_balance/`.
