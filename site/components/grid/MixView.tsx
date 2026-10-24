@@ -15,6 +15,7 @@ import { HourlyFigures, MONTH_VARIABLES, MonthlyFigures } from "@/components/gri
 import { DEMAND, PROFILE, mixHourly } from "@/lib/mixHourly";
 import { gridNotices } from "@/lib/reliability";
 import { ercotNotices } from "@/lib/gridErcotNotices";
+import { generationSince } from "@/lib/gridReads";
 
 // Session 133: the energy mix, one page at one address. It holds what /mix (session 18), /mix/v2 (94), /mix/clean (122)
 // and /mix/stress (123) showed, as views of this page (those addresses redirect here: next.config.ts; their pages are
@@ -122,7 +123,8 @@ async function NowView({ c }: { c: Choice }) {
   // session 1155: CAISO's notices, for the alert days of its monthly view (the same read as the Reliability section)
   // session 1174: ERCOT's notices, for the call days of its monthly view (the same read as its state line)
   const [reads, monthly, extras, notices, ercotN] = await Promise.all([
-    Promise.all(bas.map((b) => Promise.all([attempt(() => series(LATEST, { entity: b.entity })), attempt(() => series(table, { entity: b.entity, since: daysAgo(9) }))]))),
+    // session 1179: the 9 days out of the render's read of the grid's generation when the page shares one (lib/gridReads.ts)
+    Promise.all(bas.map((b) => Promise.all([attempt(() => series(LATEST, { entity: b.entity })), attempt(() => generationSince(b.entity, daysAgo(9)))]))),
     attempt(() => series(MONTHLY, { entity: `eia:${st}` })),
     Promise.all(bas.map(extra)),
     month && bas.some((b) => b.code === "ciso") ? attempt(() => gridNotices()) : Promise.resolve(null),

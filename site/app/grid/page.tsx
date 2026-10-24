@@ -4,7 +4,7 @@ import { Related } from "@/components/Related";
 import { SourceLine, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
 import { TableLicenses } from "@/components/tool/TableLicenses";
 import { GRID_VIEW_TABLES } from "@/lib/gridtables";
-import { renderTime } from "@/lib/data";
+import { daysAgo, renderTime } from "@/lib/data";
 import { licenseNeededTables } from "@/lib/license";
 import { ToolPicker, ToolTabs } from "@/components/tool/Choose";
 import { KEEP_DAY } from "@/lib/carry";
@@ -22,6 +22,7 @@ import { NowView } from "@/components/grid/NowView";
 import { Preliminary } from "@/components/grid/Preliminary";
 import { GridCleanParts, GridMixParts } from "@/components/grid/YourGrid";
 import { gridOf, load } from "@/lib/grid";
+import { shareGeneration } from "@/lib/gridReads";  // session 1179
 import { GRID_CHOICES, GRID_VIEWS, gridHref, gridPick } from "@/lib/gridtool";
 import { choiceOf } from "@/lib/mixpage";
 
@@ -84,6 +85,9 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
   const cfg = grid.slug === "us48" ? null : gridOf(grid.slug);
   // the grid's own reads (lib/grid.ts), for the tabs that draw its page's blocks
   const data = cfg && (view === "mix" || view === "clean") ? await load(cfg) : null;
+  // session 1179: on the Lower 48's Mix tab (no grid reads of its own), its generation is read once for the render at the
+  // widest window the tab reads whole, 10 days ("Yesterday", the mix table); the energy mix's 9 days come out of it
+  if (!cfg && view === "mix") shareGeneration(`eia930:${grid.ba}`, daysAgo(10));
   // the mix page's own choice, read from the same address: its view is written under "mix", its grids open on the grid in view
   const mixQuery: Query = { ...sp, view: view === "clean" ? "clean" : one(sp.mix), grid: undefined };
   if (grid.slug === "us48") { if (!one(sp.ba)) mixQuery.ba = "us48"; } else if (!one(sp.grids)) mixQuery.grids = grid.slug;

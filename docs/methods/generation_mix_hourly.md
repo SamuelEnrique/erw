@@ -478,6 +478,20 @@ Decisions (chain 078):
 - **Written down and left, as the session's own condition says**: no chart from a committed file or a CSV in its place, since the week must be read where check-values can recompute it (the live set); loading `caiso_fuel_supply` (a `recent` rule in `warehouse/supabase/live_set.yaml`, a data session's) is the step that opens it.
 - **This note, not the join's (`eia930_caiso_break.md`)**: the panel was to sit on the Mix tab, whose note this is.
 
+## One read of a grid's generation a page (chain 091, 24 October 2026)
+
+Session 1179. The Mix tab read the grid in view's `eia930_all_generation`, every variable, four times a render, each for its own window: 45 days (`site/lib/grid.ts` `load`, the grid's own blocks), 34 days (`latestHour`, the Now view's mix: two small requests), 10 days (`components/grid/Conditions.tsx` `loadConditions`: "Yesterday" and the grid's row of "Generation mix, as a table") and 9 days (`components/grid/MixView.tsx`, the hourly panel above). Now the render reads it once, at the widest window, and each reader takes its own days from it (`site/lib/gridReads.ts`): `shareGeneration(entity, since)` starts the read and keeps it for the render with React's `cache` (one Map a request, as `gridNotices()` is kept since session 1160); `generationSince(entity, since)` gives the rows at or after the reader's own start (its `daysAgo(n)`, computed where it was), in the read's order; `latestHour` gives the newest total at or after its start and every row from that hour on. The seven ISO grids share 45 days (`load`, on the Mix and Clean tabs); the Lower 48's Mix tab, which has no `load`, shares 10 days (`app/grid/page.tsx`), its widest whole read. The other regions of the mix table are read as before (10 days each): they are not the grid in view.
+
+On the live set, 24 October 2026, 01:58 and 02:01 UTC (`site/scripts/time-grid-reads.mjs`, one request at a time): the Mix tab of each ISO grid 5 to 8 fewer requests (ERCOT 67 to 61, CAISO 75 to 70, ISO-NE 58 to 50) and about 3,800 to 4,500 fewer rows of the table (27,134 to 23,396 for ERCOT, PJM, MISO, NYISO); `/grid` (the Lower 48) 43 to 39 requests and 28,300 to 24,974 rows; across the eleven Mix addresses and ERCOT's Clean tab, 677 requests to 614 and 444,370 rows to 401,920. The figures: the eleven Mix addresses and ERCOT's Clean tab drawn by the code before and after on the same answers (kept in memory, each request sent once): 2,232 figures, every key, value and text the same.
+
+Decisions (chain 091):
+
+- **The reader keeps its own start.** Each reader still computes `daysAgo(n)` where it did and takes the rows at or after it, so its rows are the ones its own read gave; a reader whose start is before the shared one, or whose entity is not the one shared, reads as before.
+- **A failed shared read fails every reader of the render with its error**, where before each read could fail alone; each reader still says so in its own words (`attempt`, `NoData`, `Missing`).
+- **The Lower 48 shares 10 days, not 45**: it has no 45-day read, and 34 days whole would read more than the two small requests of `latestHour`, which stay.
+- **The pinned calls stay as they were** (`latestHour(GEN, entity, "net_generation_mw", daysAgo(34))`, `loadConditions(ba, conditionsDay())`, `<MixTable />`): the share is found inside the readers, so no caller changed.
+- **The timing script walks each page as one render**: `site/scripts/tsx-loader.mjs` now gives the site's modules React with a `cache` kept in `globalThis.__erwRequestCache` (a new Map a page), since React's own `cache` outside Next calls the function every time; with no Map set it does so as before. The node test is `site/scripts/test-grid-generation.mjs`.
+
 ## The figures on the page and their keys
 
 Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:

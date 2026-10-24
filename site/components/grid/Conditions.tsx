@@ -10,6 +10,7 @@ import { count } from "@/lib/format";
 import { DOCS } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
 import { dayMean, forecastMiss } from "@/lib/gridYesterday";  // session 1166: the arithmetic the new keys recompute
+import { generationSince } from "@/lib/gridReads";  // session 1179: the grid's generation, read once a render
 import { CaisoMixWithheld } from "@/components/CaisoMixWithheld";  // session 118
 
 // Session 237: this file holds what app/grid/page.tsx ("Grid conditions", sessions 15 to 118) drew. The Grid tool is the
@@ -101,7 +102,8 @@ export async function loadConditions(ba: (typeof BAS)[number], yesterday: string
   // generation: the same day if complete, else the latest complete day, said so with the reason
   const gt = GEN;
   const gRun = `eia930_${ba.code}_generation`;
-  const g = await attempt(() => series(gt, { entity: ba.entity, since: daysAgo(10) }));
+  // session 1179: the 10 days out of the render's read of the grid's generation when the page shares one (lib/gridReads.ts)
+  const g = await attempt(() => generationSince(ba.entity, daysAgo(10)));
   if (!g.ok) return { ba, day, note, demand: d.data, gen: [], genDay: null, genNote: null, error: `generation: ${g.reason}` };
   const gh = new Map<string, number>();
   for (const r of g.data) if (r.variable === "net_generation_mw") gh.set(r.ts_utc.slice(0, 10), (gh.get(r.ts_utc.slice(0, 10)) ?? 0) + 1);

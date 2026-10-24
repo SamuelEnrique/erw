@@ -6,6 +6,7 @@ import { HOURLY, rest } from "@/lib/supabase";
 import { DOCS, type GridConfig } from "@/lib/markdown";
 import { daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
 import { shownQueue } from "@/lib/gridHeld";  // session 1167
+import { generationSince, shareGeneration } from "@/lib/gridReads";  // session 1179
 
 export const GRIDS: GridConfig[] = DOCS.grid_config;
 export const gridOf = (slug: string) => GRIDS.find((g) => g.slug === slug) ?? null;
@@ -111,9 +112,13 @@ export async function load(g: GridConfig): Promise<GridData> {
     }
   };
   const newsSince = daysAgo(14);
+  // session 1179: the grid's generation, 45 days, read once for the render (lib/gridReads.ts): the Now view's mix, the
+  // energy mix's hourly panel and "Yesterday" take their own days from it
+  const genSince = daysAgo(45);
+  shareGeneration(g.entity, genSince);
   const [demand, gen, cycle, units, ci, monthly, prices, peak, q, dcs, n] = await Promise.all([
     safe("demand", () => series("eia930_all_demand", { entity: g.entity, variable: "demand_mw", since: daysAgo(9) }), []),
-    safe("gen", () => series("eia930_all_generation", { entity: g.entity, since: daysAgo(45) }), []), // covers the 30-day window whole: it ends with the latest complete day, which lags when the loads do (session 295: four days behind since 15 October 2026, and a 34-day read missed the window's first hours)
+    safe("gen", () => generationSince(g.entity, genSince), []), // covers the 30-day window whole: it ends with the latest complete day, which lags when the loads do (session 295: four days behind since 15 October 2026, and a 34-day read missed the window's first hours)
     safe("cycle", () => (g.storage_entity ? series("storage_daily_cycle", { entity: g.storage_entity, since: daysAgo(45) }) : Promise.resolve([])), []),
     safe("units", storageUnits, []),
     safe("ci", () => series("carbon_intensity_hourly", { entity: g.entity, since: daysAgo(4) }), []),
