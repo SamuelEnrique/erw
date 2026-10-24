@@ -305,6 +305,7 @@ eurostat_electricity_capacity_annual,Eurostat (Statistical Office of the Europea
 eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_balance_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_hard_coal_imports_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_oil_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_solid_fuels_monthly,Eurostat (Statistical Office of the European Union),the source registry

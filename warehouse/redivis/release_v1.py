@@ -232,6 +232,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eurostat_crude_imports_monthly",
            "statsbots_botswana_electricity_monthly",
            "eurostat_solid_fuels_monthly",
+           "eurostat_hard_coal_imports_annual",
            "statbank_moldova_electricity_monthly",
            "eurostat_electricity_capacity_annual",
            "fema_disaster_declarations",

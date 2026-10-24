@@ -420,6 +420,7 @@ catalogue_hold:
   - eurostat_oil_monthly
   - eurostat_crude_imports_monthly
   - eurostat_solid_fuels_monthly
+  - eurostat_hard_coal_imports_annual
   - makstat_macedonia_electricity_monthly
   - statbank_moldova_electricity_monthly
   - eurostat_electricity_capacity_annual
