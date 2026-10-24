@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **480 tables.** The flag and the verdict agree on 387; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 48 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 366 public, 64 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **493 publishers in the record: 491 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 137 pages read, 354 that could not be read, 2 not asked (paused).**
+- **496 publishers in the record: 494 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 138 pages read, 356 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -516,6 +516,9 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 491 | Independent Electricity Market Operator of the Philippines (IEMOP), its legal and privacy page (session 2309) | https://www.iemop.ph/about/legal-and-privacy/ | 06:09:21 | 200 | 75159 | read |
 | 492 | Department of Energy (Philippines), doe.gov.ph's robots file (session 2309) | https://doe.gov.ph/robots.txt | 06:09:31 | 200 | 45010 | answered the site's HTML page: no robots file |
 | 493 | Philippine Statistics Authority, OpenSTAT's robots file (session 2309) | https://openstat.psa.gov.ph/robots.txt | 06:09:41 | 200 | 2676 | read: allows all readers but disallows every path to Anthropic's agents (ClaudeBot, anthropic-ai, Claude-Web) and other AI agents by name; not asked again |
+| 494 | Noga, Israel Independent System Operator, its robots file (session 2310) | https://www.noga-iso.co.il/robots.txt | 06:10:57 | 200 | 161 | read: allows the site but its CMS, install, search and test paths |
+| 495 | Noga, Israel Independent System Operator, its terms of use (session 2310) | https://www.noga-iso.co.il/en/terms-of-use/ | 06:11:16 | 200 | 62377 | read |
+| 496 | Central Bureau of Statistics (Israel), apis.cbs.gov.il's robots file (session 2310) | https://apis.cbs.gov.il/robots.txt | 06:11:27 | 200 | 2804 | refused the reader: an error page with an incident number, not a robots file; not asked again |
 
 ## The publishers: the sentence and the verdict
 
