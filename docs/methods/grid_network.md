@@ -981,7 +981,7 @@ Decisions (session 1404, written by session 1408):
 
 ## The older blocks when a read fails (chain 107, 24 October 2026)
 
-Chain 107 in this note: session 1411.
+Chain 107 in this note (sessions 1410 to 1418): session 1411, the older blocks when a read fails (this section, with a second Decisions block written by session 1417 from its report). The chain's other sessions are in other notes: 1412 in `flex_alert_scorecard.md` (section 12, the small charts on hover); 1413, 1414 and 1416 in `generation_mix_hourly.md` ("The computed views, keyed", and its subsections on the Clean tab's tables and on "Yesterday" and the mix table); 1415 in `emissions.md` ("On the Grid tool's Clean tab, keyed") with its one function in `generation_mix_hourly.md`. Session 1410 changed no note (the next file, and the landing blocked); session 1417 wrote this line, the other notes' index lines and the Decisions blocks marked as its own; session 1418 writes the chain's note in `docs/state/`, no method note.
 
 Session 1411. Session 1181's list of older blocks that said "not held", "not in the warehouse yet", "none" or nothing when their read failed, each now saying "could not be read" in the tool's one look (`Missing` of `components/mix/Now.tsx`: the table and the reason on hover) and drawing no figure of the read; with every read answered each is drawn as before:
 
@@ -1003,6 +1003,11 @@ Decisions (chain 107, session 1411):
 - **When the hourly carbon intensity fails, the block says so and stops**, as it stopped with no hour held; the months are not drawn alone (the block's shape is unchanged).
 - **The catalogue is answered only in the test's 1411 cases**: every case before them ran on a stand-in that answers it no row, so each draws as it did.
 - **The page's HTML is byte for byte the same when every read succeeds** (`same-figures.mjs --sizes`); the flight payload grows by 5 to 60 bytes a page, the `null` of each new failure branch.
+
+Decisions (chain 107, session 1411, the rest of its report, written by session 1417):
+
+- **In CAISO's latest days, a failed read of the battery's MW at the evening peak leaves the battery's share drawn**: the share is its own read (`battery_share_pct`), so it is drawn with its figure and the MW beside it says "could not be read" (`battery_mw_evening_peak`); a failed read of the share says the whole cell could not be read, since the MW is written inside the share's cell.
+- **A failed read can be shown on a running site only by hand**: production's reads cannot be made to fail, so the check at a build is `site/scripts/failing-read-proxy.mjs`, one table at a time (`storage_daily_cycle`, `price_board_latest`, `weather_obs_hourly`, `caiso_reliability_daily`, `catalogue`, `caiso_grid_emergencies`), with each block's words read in the browser; until then the node test is the proof.
 
 ## Not here
 

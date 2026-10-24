@@ -117,6 +117,8 @@ Three blocks, and nothing is computed on the page:
 
 ## On the Grid tool's Clean tab, keyed (chain 107, session 1415)
 
+Chain 107 in this note (sessions 1410 to 1418): session 1415, the Clean tab's carbon blocks (this section; its one `filecalc|` function is also named in `generation_mix_hourly.md`, where every function of that kind is). The chain's other sessions are in other notes: 1411 in `grid_network.md`, 1412 in `flex_alert_scorecard.md`, 1413, 1414 and 1416 in `generation_mix_hourly.md`; session 1410 changed no note; session 1417 wrote this line and the Decisions block marked as its own.
+
 Since session 237, `/emissions` redirects to the Clean tab of the Grid tool (`/grid?view=clean`), which draws the three blocks above from `site/components/grid/Emissions.tsx`, the grid in view marked in the ranking. Session 1151 keyed "The last 24 hours" (the table under its chart, `grid_clean24_<grid>`, defined in `grid_network.md`). The two other blocks are now named panels, every figure keyed, each with its file, its anchor and its method line, and the held rule written for all three:
 
 - **"Carbon intensity now, ranked"** (`data-grid-panel="grid_carbonrank_<grid>"`, anchor `#carbon-now`): each ISO's latest hour of `carbon_intensity_hourly`'s `intensity_generation` and the same hour's `intensity_demand`, keyed `series|carbon_intensity_hourly|<entity>|<variable>|<ts_utc>` as the block has written them since this page's first version: 14 figures, each with its table, entity, variable and hour on hover (`site/lib/gridKeys.ts` `carbonTip`). The order is the lowest intensity of generation first, a tie in the order CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP (`carbonRanked`: the code that stood in the component, moved as it stood). The rank and the hour are words.
@@ -138,3 +140,9 @@ Decisions (chain 107, session 1415):
 - **One method line for both blocks**, outside `GRID_ANCHOR` and `GRID_METHOD` (pinned by sessions 1183 and 1184), as sessions 1402 to 1414 did; **the anchors take no grid**: each block is drawn once a page.
 - **The held rule covers the last 24 hours too**, the third block of the file, so that no held ISO's rows would be drawn anywhere on the tab.
 - **The offline tests hold `carbon_intensity_monthly` now** (`site/scripts/fixtures/carbon_monthly.json`: its 636 rows of `intensity_generation`, read once with the anon key at 09:17 UTC on 24 October 2026), in the render stand-in and in `test-grid-files.mjs`: the older "How clean" block draws its four figures there too (the render case `view_clean`: 4 figures, the ranked table's 14 now its own panel's).
+
+Decisions (chain 107, session 1415, the rest of its report, written by session 1417):
+
+- **A held ISO's place is a `data-license-held` span**, in the look of "license needed" with the publishers on hover, not the tool's `Missing`: `tests/test_session473.py` lists the components that may import `components/mix/Now.tsx`, and `Emissions.tsx` is not one of them.
+- **The two figures of the monthly chart's note are checked by their keys, not by their numbers**: `site/data/carbon_left_out.json` is rebuilt by the warehouse (`warehouse/derived/carbon_left_out.py`), so no test's words name 13 or 7,869.
+- **The pinned counts stand**: `Emissions.tsx` still writes four `check=` (`tests/test_session473.py`, `1159`); `tests/test_session1182.py`'s count of panel files in `Emissions.tsx` was extended from one to three (that test's only change), no assertion removed.

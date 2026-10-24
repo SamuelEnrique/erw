@@ -154,5 +154,78 @@ class TheNotesChain100(unittest.TestCase):
                 self.assertNotIn(EM, src(*p), p)
 
 
+# Session 1417 (chain 107): each note's first chain 107 section, and the sessions its index line names.
+NOTES_107 = {
+    "grid_network": ("1411", "1412", "1413", "1414", "1415", "1416", "1410", "1417"),
+    "generation_mix_hourly": ("1413", "1414", "1415", "1416", "1411", "1412", "1410", "1417"),
+    "emissions": ("1415", "1411", "1412", "1413", "1414", "1416", "1410", "1417"),
+    "flex_alert_scorecard": ("1412", "1411", "1413", "1414", "1415", "1416", "1410", "1417"),
+}
+
+
+def chain_107_sections(text):
+    """Every section of the note headed with chain 107, each up to the next second-level heading."""
+    return re.findall(r"^## [^\n]*chain 107[^\n]*\n(.*?)(?=^## |\Z)", text, re.M | re.S)
+
+
+class TheNotesChain107(unittest.TestCase):
+    def test_each_note_opens_its_chain_107_sections_with_one_index_line(self):
+        for n, sessions in NOTES_107.items():
+            secs = chain_107_sections(src("docs", "methods", f"{n}.md"))
+            self.assertTrue(secs, n)
+            first = secs[0].strip().split("\n\n")[0]
+            self.assertTrue(first.startswith("Chain 107 in this note (sessions 1410 to 1418): "), (n, first[:80]))
+            for s in sessions:
+                self.assertIn(s, first, (n, s))
+            self.assertEqual(sum(s.count("Chain 107 in this note (sessions 1410 to 1418)") for s in secs), 1, n)
+
+    def test_each_chain_107_section_has_its_decisions(self):
+        for n in NOTES_107:
+            for sec in chain_107_sections(src("docs", "methods", f"{n}.md")):
+                self.assertRegex(sec, r"\nDecisions \(chain 107, session 141\d", n)
+
+    def test_what_was_missing_is_there(self):
+        g = src("docs", "methods", "grid_network.md")
+        for w in ("Decisions (chain 107, session 1411, the rest of its report, written by session 1417):", "`battery_share_pct`",
+                  "`battery_mw_evening_peak`", "`site/scripts/failing-read-proxy.mjs`, one table at a time"):
+            self.assertIn(w, g)
+        h = src("docs", "methods", "generation_mix_hourly.md")
+        for w in ("Decisions (chain 107, session 1413, the rest of its report, written by session 1417):",
+                  "**The availability files' header names `generation_mix_hourly_profile` first**", "`tests/test_session502.py`",
+                  "**The views' addresses are not yet in check-values' list**",
+                  "Decisions (chain 107, session 1416, the rest of its report, written by session 1417):",
+                  "**The sentence on hover is written for each grid**", "**The mix table's taller rows"):
+            self.assertIn(w, h)
+        e = src("docs", "methods", "emissions.md")
+        for w in ("Decisions (chain 107, session 1415, the rest of its report, written by session 1417):", "`data-license-held` span",
+                  "no test's words name 13 or 7,869", "`tests/test_session1182.py`'s count of panel files"):
+            self.assertIn(w, e)
+        f = src("docs", "methods", "flex_alert_scorecard.md")
+        for w in ("Decisions (chain 107, session 1412, the rest of its report, written by session 1417):",
+                  "\"A hover or a tap on a chart gives the hour's demand, the model's estimate and the difference, in MW.\"",
+                  "from 434,843 to 297,402 bytes", "a table of the 38 days' hours for a reader without a pointer"):
+            self.assertIn(w, f)
+
+    def test_the_linked_headings_stand(self):
+        # chain 107's method links open these headings (METHOD_MIX_VIEWS, METHOD_CLEAN_TABLES, METHOD_CONDITIONS,
+        # METHOD_EMISSIONS_BLOCKS); the index lines and Decisions blocks must not rename one
+        for n, h in (("generation_mix_hourly", "## The computed views, keyed (chain 107, 24 October 2026)"),
+                     ("generation_mix_hourly", "### The Clean tab's tables, keyed whole (session 1414)"),
+                     ("generation_mix_hourly", "### One function more, for the Clean tab's carbon chart (session 1415)"),
+                     ("generation_mix_hourly", "### \"Yesterday\" and the mix table, at 390 pixels and on hover (session 1416)"),
+                     ("emissions", "## On the Grid tool's Clean tab, keyed (chain 107, session 1415)"),
+                     ("grid_network", "## The older blocks when a read fails (chain 107, 24 October 2026)"),
+                     ("flex_alert_scorecard", "## 12. The small charts on hover (chain 107, 24 October 2026)")):
+            self.assertEqual(src("docs", "methods", f"{n}.md").count("\n" + h + "\n"), 1, (n, h))
+
+    def test_no_em_dash(self):
+        for n in NOTES_107:
+            self.assertNotIn(EM, src("docs", "methods", f"{n}.md"), n)
+        for p in (("archive", "sessions", "SESSION_1417_REPORT.md"), ("tests", "test_session1176.py"), ("tests", "test_session1162.py"),
+                  ("docs", "reviews", "grid-rulings-2026-10-23.md")):
+            if os.path.exists(os.path.join(ROOT, *p)):
+                self.assertNotIn(EM, src(*p), p)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -153,11 +153,12 @@ class TheRulingsChain100(unittest.TestCase):
         rulings = self.t.split("## To finish")[0]
         self.items = [l for l in rulings.splitlines() if l.startswith("- ")]
         self.fin = [l for l in self.t.split("## To finish")[1].splitlines() if l.startswith("- ")]
-        self.new = [l for l in self.items if re.search(r"\(Sessions? 14\d\d[^)]*\)$", l)]
+        # Session 1417: chain 107's lines (sessions 1410 to 1418) are counted in TheRulingsChain107; chain 100's are 1400 to 1409.
+        self.new = [l for l in self.items if re.search(r"\(Sessions? 140\d[^)]*\)$", l)]
 
     def test_none_of_the_45_ruled_said_in_one_line(self):
         self.assertIn("none of the 45 items of chains 077, 078 and 091 has been ruled, so none is struck", self.t)
-        self.assertEqual(len(self.items), 18 + 19 + 8 + 11)
+        self.assertEqual(len([l for l in self.items if not re.search(r"\(Sessions? 141\d[^)]*\)$", l)]), 18 + 19 + 8 + 11)
         self.assertNotIn("~~", self.t)
 
     def test_chain_100_items_one_a_line_each_with_its_recommendation(self):
@@ -197,6 +198,69 @@ class TheRulingsChain100(unittest.TestCase):
                   "`GRID_FILE_PAGES`", "`grid_hubprice_<grid>`", "`grid_cleanweek_<grid>`", "`grid_network_us48_demand`",
                   "`/grid?grid=us48&view=network` and `/grid?view=network` (13 new keys each",
                   "`docs/brand/review-1402/`", "`review-1403/`", "`review-1406/`"):
+            self.assertIn(w, fin)
+
+
+class TheRulingsChain107(unittest.TestCase):
+    """Session 1417 (chain 107): the list brought current again; the assertions above stand."""
+
+    def setUp(self):
+        self.t = src("docs", "reviews", "grid-rulings-2026-10-23.md").replace("\r\n", "\n")
+        rulings = self.t.split("## To finish")[0]
+        self.items = [l for l in rulings.splitlines() if l.startswith("- ")]
+        self.fin = [l for l in self.t.split("## To finish")[1].splitlines() if l.startswith("- ")]
+        self.new = [l for l in self.items if re.search(r"\(Sessions? 141\d[^)]*\)$", l)]
+
+    def test_none_of_the_56_ruled_said_in_one_line(self):
+        self.assertIn("none of the 56 items of chains 077, 078, 091 and 100 has been ruled, so none is struck", self.t)
+        self.assertEqual(len(self.items), 18 + 19 + 8 + 11 + 9)
+        self.assertNotIn("~~", self.t)
+
+    def test_chain_107_items_one_a_line_each_with_its_recommendation(self):
+        self.assertEqual(len(self.new), 9)
+        for l in self.new:
+            self.assertIn("Recommendation:", l)
+        by = {s: sum(1 for l in self.new if l.endswith(f"(Session {s})")) for s in ("1410", "1411", "1412", "1413", "1414", "1415", "1416")}
+        self.assertEqual(by, {"1410": 0, "1411": 0, "1412": 1, "1413": 2, "1414": 2, "1415": 2, "1416": 2})
+        for head, n in (("## The page's words", 4), ("## The design", 3), ("## The data and licenses", 2)):
+            part = self.t.split(head)[1].split("\n## ")[0]
+            got = [l for l in part.splitlines() if l.startswith("- ") and re.search(r"\(Session 141[2-6]\)$", l)]
+            self.assertEqual(len(got), n, head)
+
+    def test_the_named_items_are_there(self):
+        joined = "\n".join(self.new)
+        for w in ("\"Method: the computed views, keyed\"", "\"Method: the Clean tab's tables, keyed\"",
+                  "\"Method: the Clean tab's carbon blocks, keyed\"", "A hover or a tap on the chart gives the hour (UTC)",
+                  "a reader without a pointer", "rows about 33 px tall", "dotted underline", "check-values' list of pages", "66 light reads"):
+            self.assertIn(w, joined)
+        # the items the reports named again stand once, on their own sessions' lines
+        self.assertEqual(sum(1 for l in self.items if "green where demand was below the model" in l), 1)
+        self.assertIn("Three items the reports name again are lines already here, not new", self.t)
+
+    def test_the_weightiest_first_in_each_group(self):
+        design = [l for l in self.t.split("## The design")[1].split("\n## ")[0].splitlines() if l.startswith("- ")]
+        at = [i for i, l in enumerate(design) if re.search(r"\(Session 141[2-6]\)$", l)]
+        pins = [i for i, l in enumerate(design) if l.endswith("(Session 1404)")]
+        self.assertLess(max(at), min(pins))  # a visitor's lines before the lines on the tests
+        self.assertIn("a reader without a pointer", design[at[0]])
+        data = [l for l in self.t.split("## The data and licenses")[1].split("## To finish")[0].splitlines() if l.startswith("- ")]
+        at = [i for i, l in enumerate(data) if re.search(r"\(Session 141[2-6]\)$", l)]
+        diff = [i for i, l in enumerate(data) if "\"DIFF\" line in check-values" in l]
+        self.assertEqual(at, [diff[0] + 1, diff[0] + 2])
+        words = [l for l in self.t.split("## The page's words")[1].split("\n## ")[0].splitlines() if l.startswith("- ")]
+        self.assertTrue(words[-4].endswith("(Session 1416)"), words[-4][-40:])
+
+    def test_landing_first_now_1417(self):
+        first = self.fin[0]
+        for w in ("`wip/1417-grid`", "1152 to 1417", "1410 to 1417", "`c446038c`", "chain 107 merged none", "HTTP 402"):
+            self.assertIn(w, first)
+
+    def test_chain_107_to_finish(self):
+        fin = "\n".join(self.fin)
+        for w in ("Chain 107's expected differences", "the 54 python modules session 1414's run did not reach", "`89_miso_pause`",
+                  "session 1411's failing-read proxy by hand", "Add session 1413's computed views to check-values' list of pages",
+                  "`#the-clean-tabs-tables-keyed-whole-session-1414`", "`#yesterday-erco`", "`docs/brand/review-1413/`", "`review-1416/`",
+                  "Done in chain 107: session 1411"):
             self.assertIn(w, fin)
 
 

@@ -579,7 +579,9 @@ Decisions (chain 100, session 1403, the rest of its report, written by session 1
 
 ## The computed views, keyed (chain 107, 24 October 2026)
 
-Chain 107 in this note: sessions 1413 and 1414 (the Clean tab's tables, the subsection at the end). Session 1166 keyed the views' figures that are values of the committed files (`file|`, the section of chain 078 above) and left without a key the figures the views compute from the files' arrays: the duck curve year after year, the peak hours of the average day, the history by state and the availability means. Each now has a key of a new kind, `filecalc|<function>|<data file>|<args>`, always behind `fmt|<form>|` (`site/scripts/check-format.mjs`), whose recomputation applies the page's own function to the committed file in the repository, as `ercotn|` applies `lib/ercotNotices.ts` to the notices (`ercot_grid_notices.md`, section 6). No figure's text or value moved: each figure is wrapped in its key, with a one-line tip that names what it is, its rule and its file.
+Chain 107 in this note (sessions 1410 to 1418): session 1413, the computed views keyed (this section's opening, with a new key kind, `filecalc|`); session 1414, the Clean tab's large tables keyed whole (the subsection "The Clean tab's tables, keyed whole"); session 1415, one function of that kind for the Clean tab's carbon chart (a short subsection; its block and Decisions are in `emissions.md`, "On the Grid tool's Clean tab, keyed"); session 1416, "Yesterday" and the mix table (the last subsection). Session 1411 is in `grid_network.md` ("The older blocks when a read fails") and 1412 in `flex_alert_scorecard.md` (section 12); session 1410 changed no note (the next file, and the landing blocked); session 1417 wrote this line and the Decisions blocks marked as its own.
+
+Session 1413. Session 1166 keyed the views' figures that are values of the committed files (`file|`, the section of chain 078 above) and left without a key the figures the views compute from the files' arrays: the duck curve year after year, the peak hours of the average day, the history by state and the availability means. Each now has a key of a new kind, `filecalc|<function>|<data file>|<args>`, always behind `fmt|<form>|` (`site/scripts/check-format.mjs`), whose recomputation applies the page's own function to the committed file in the repository, as `ercotn|` applies `lib/ercotNotices.ts` to the notices (`ercot_grid_notices.md`, section 6). No figure's text or value moved: each figure is wrapped in its key, with a one-line tip that names what it is, its rule and its file.
 
 **The functions.** The duck view and the average day already called pure functions of `site/lib/mix2.ts` (no import: `acrossYears`, `periodOf`, `highest`); the key applies them as they are. The history's and availability's arithmetic stood inline in `site/components/mix/views.tsx`; it moved, as it stood, into `site/lib/mixViewCalc.ts` (no import: `historyTotal`, `historyCell`, `availOf`, `availMean`, `availMin`, `availMax`), which the views now call. `site/scripts/check-filecalc.mjs` parses a key (`filecalcParts`: the function, the file and the shape of each argument, else no key) and applies the function to the file (`filecalcValue`), which `site/scripts/check-values.mjs` reads as a `file|` key reads it. The functions, each `filecalc|<function>|...`:
 
@@ -604,6 +606,12 @@ Decisions (chain 107, session 1413):
 - **The days held of the duck view are a `file|` key**, not a function: the value is the file's own.
 - **The hours are not keyed**: they are times written as words, as session 1166 decided for the records and the stress view.
 - **The tightest hours table of the availability view gains a file, an anchor and a method line** though its keys are session 1166's: the view's file test holds every figure of a block to its files.
+
+Decisions (chain 107, session 1413, the rest of its report, written by session 1417):
+
+- **The availability files' header names `generation_mix_hourly_profile` first**, the table whose hours availability is computed over, since the file test needs each panel file to open with a table.
+- **No table new to the Mix or Clean tab is named in the views' code**, so the tabs' license lines (`site/lib/gridtables.ts`, read by `scripts/page_tables.py` and held by `tests/test_session502.py`) stand as they were.
+- **The views' addresses are not yet in check-values' list** (`mix=duck`, `mix=day`, `mix=supply`, `mix=history`; session 1166 left them out): at the landing the `filecalc|` keys are recomputed by the node tests on the committed files; adding the ERCOT address of each view to the list, with its floors, is put to the owner, recommended.
 
 ### The Clean tab's tables, keyed whole (session 1414)
 
@@ -651,6 +659,11 @@ Decisions (chain 107, session 1416):
 - **"Yesterday" takes its grid from its code** (`GRID_OF`, the inverse of `NowView.tsx`'s `CONDITIONS_CODE`), since `<GridYesterday code={CONDITIONS_CODE[grid.slug]} />` is read word for word by `tests/test_session237.py`.
 - **The files repeat no template by hand where a function exists**: the mix table's shares take `shareKey`, the day's net generation `genTotal` (FuelBar's rule); the other keys are written in the file's rows as in the page's figures, and `site/scripts/test-grid-files.mjs` holds every figure of each block to its file and back.
 - **The render cases of the two blocks are their own**: the figures they held in `view_now` and `view_mix` (the tab's blocks around them) are now counted in `grid_yesterday_<grid>` and `grid_mixtable_all`; the older cases keep every key they checked.
+
+Decisions (chain 107, session 1416, the rest of its report, written by session 1417):
+
+- **The sentence on hover is written for each grid**: it names the temperature only where the block has a station (none for the Lower 48) and the bar only where the day's mix is drawn (none for CAISO, whose mix stays withheld).
+- **The mix table's taller rows are the one visible change without a number**: they follow from naming the table a panel (session 1159's rule); the row height is put to the owner, recommended kept, one row height across the tool.
 
 ## The figures on the page and their keys
 

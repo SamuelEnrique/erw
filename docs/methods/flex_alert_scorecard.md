@@ -187,6 +187,8 @@ Each number `/grid/caiso/alerts` shows carries its key (`site/components/Num.tsx
 
 ## 12. The small charts on hover (chain 107, 24 October 2026)
 
+Chain 107 in this note (sessions 1410 to 1418): session 1412, the small charts on hover (this section, with a second Decisions block written by session 1417 from its report); session 1411's failed read of the notices column (`caiso_grid_emergencies`: each day's cell "could not be read") is in `grid_network.md`, "The older blocks when a read fails". The chain's other sessions are in other notes: 1413, 1414 and 1416 in `generation_mix_hourly.md`, 1415 in `emissions.md`; session 1410 changed no note; session 1417 wrote this line.
+
 Session 1412. Under "Each alert day through the evening", each of the 38 small charts answers a hover, and on a phone a tap, with one hour: the hour on the Pacific clock as the chart's axis writes it (`17:00`), demand served (`actual_mw`), the model's estimate (`predicted_mw`), its 90 percent band (`predicted_mw_lo` to `predicted_mw_hi`), all in MW, and the estimate less demand (the page's sign: a positive number is a cut), with "an alert hour" where `alert_hour` is 1. Each is the hour's own row of `flex_alert_effects` (freq PT1H), rounded to a whole MW in the card.
 
 - The drawing is session 60's, unchanged: its arithmetic moved word for word to `site/lib/alertDayChart.ts`, drawn by the client chart `site/app/grid/caiso/alerts/DayChart.tsx` (the same viewBox of 260 by 120, scale, points, colors and labels). `site/scripts/test-alert-day-chart.mjs` runs session 60's code and the lib on the committed rows (seven alert days) and holds every drawn string the same; on the live answers of 24 October 2026 the two gave the same strings for all 38 days (456 hours).
@@ -196,3 +198,9 @@ Session 1412. Under "Each alert day through the evening", each of the 38 small c
 - The page's keys are as before: 433 figures, the same keys and values (`site/scripts/same-figures.mjs` on `/grid/caiso/alerts`, the code before and after, the same live answers).
 
 Decisions: the card's figures are the chart's own points, not written figures, so they carry no key (as no shared chart's card does); the chart keeps its own drawing and takes only the shared card, since no shared chart draws this shape (a band, a dashed estimate and boxed hours on a fixed viewBox) at this size without changing its scale and look; no Chart or Table toggle on each of the 38 charts (the shared toggle is a chart's own, and 38 would crowd the cards), and no keyboard stop on each hour, as for the shared charts (session 1158); the render test draws the scorecard on session 1411's committed rows (`alerts_days on /grid/caiso/alerts`).
+
+Decisions (chain 107, session 1412, the rest of its report, written by session 1417):
+
+- **One sentence under the section's intro says the charts answer**: "A hover or a tap on a chart gives the hour's demand, the model's estimate and the difference, in MW."
+- **The page's served size reads smaller and is not**: `same-figures.mjs --sizes` does not count a client component's own markup, so the estimate fell from 434,843 to 297,402 bytes when the svg moved into the client chart, though Next still renders it into the HTML on the server.
+- **Still open, not changed here**: the "Year by year" note's "green" for bars drawn in ink (session 1159's item on the rulings list), and a table of the 38 days' hours for a reader without a pointer (put to the owner by this session).
