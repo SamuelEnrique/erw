@@ -1,6 +1,6 @@
 # Session 2139 report: the licenses' nineteenth round
 
-24 October 2026, from 00:10 UTC, on lab-desktop (the data machine), chain 090, unattended. Run beside session 2140's long pull, after 2140's connector was written, so that its publisher is in the round. Model spend USD 0. Pulls: 2 requests of 20.
+23 and 24 October 2026, from 23:58 UTC, on lab-desktop (the data machine), chain 090, unattended. Run beside session 2140's long pull, after 2140's connector was written, so that its publisher is in the round. Model spend USD 0. Pulls: 2 requests of 20.
 
 ## Read these first
 
