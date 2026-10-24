@@ -251,7 +251,7 @@
       8.071664080683222,
       21.196747337851196,
       11.594504869377051,
-      8.554031732540206
+      8.687029459659655
      ],
      "hours_ge_1000": [
       0.0,
@@ -352,7 +352,7 @@
      "hours_top1pct": [
       0.25,
       1.0,
-      3.75,
+      4.0,
       3.0,
       1.5,
       4.0,
@@ -414,7 +414,7 @@
       0.25,
       1.25,
       6.25,
-      5.0,
+      5.25,
       1.25,
       0.75,
       4.0,
@@ -635,7 +635,7 @@
      17324.7,
      18069.6,
      18204.5,
-     null,
+     19194.6,
      null
     ],
     "single": {
@@ -837,7 +837,7 @@
         8.071664080683222,
         21.196747337851196,
         11.594504869377051,
-        8.554031732540206
+        8.687029459659655
        ]
       },
       {
@@ -1040,7 +1040,7 @@
         17324.7,
         18069.6,
         18204.5,
-        null,
+        19194.6,
         null
        ]
       }
@@ -1080,8 +1080,8 @@
        "text": "87 MW"
       },
       "after": {
-       "period": "2026-08",
-       "text": "18,204 MW"
+       "period": "2026-09",
+       "text": "19,195 MW"
       },
       "unit": ""
      }
@@ -1089,30 +1089,30 @@
     "table": [
      {
       "measure": "worst-interval multiple (P99.9 over the median)",
-      "coef_per_gw": -10.756227713326055,
-      "se": 2.315732120300411,
-      "p": 1.3781813162732325e-05,
-      "n": 92,
-      "r2": 0.2500538425071771
+      "coef_per_gw": -10.807661857382568,
+      "se": 2.3308303664165764,
+      "p": 1.3991515431676241e-05,
+      "n": 93,
+      "r2": 0.25134566966351457
      },
      {
       "measure": "hours at or above USD 1,000/MWh",
-      "coef_per_gw": -1.2455015505470484,
-      "se": 0.5654565213284731,
-      "p": 0.0306110333996896,
-      "n": 92,
-      "r2": 0.16912821977204295
+      "coef_per_gw": -1.240982123897343,
+      "se": 0.5583125637149289,
+      "p": 0.02912941299173461,
+      "n": 93,
+      "r2": 0.16935628687873172
      },
      {
       "measure": "hours in the sample's top 1 percent",
-      "coef_per_gw": -1.9457604934516208,
-      "se": 0.8036917304108305,
-      "p": 0.017831141093870278,
-      "n": 92,
-      "r2": 0.21031938571844677
+      "coef_per_gw": -1.9374525775396099,
+      "se": 0.796583393495554,
+      "p": 0.017298716426888742,
+      "n": 93,
+      "r2": 0.21043695207369628
      }
     ],
-    "in_words": "ERCOT: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 10.76 lower (standard error 2.32, p < 0.001).",
+    "in_words": "ERCOT: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 10.81 lower (standard error 2.33, p < 0.001).",
     "caveat": "Caveat: the same months brought the 2021 winter storm, a new offer cap, more solar and a gas price that doubled and fell back; an association in a before-and-after with controls, not a cause."
    },
    {
@@ -1216,7 +1216,7 @@
       23.94429430807363,
       25.36442180239921,
       4.269152371760578,
-      4.183802571949588
+      3.950465358709258
      ],
      "hours_ge_1000": [
       null,
@@ -1369,7 +1369,7 @@
       null,
       null,
       null,
-      37.75,
+      38.25,
       17.25,
       0.25,
       21.25,
@@ -1589,18 +1589,18 @@
      13607.2,
      14267.3,
      14390.0,
-     15021.8,
-     15221.3,
-     15759.8,
-     15770.3,
-     15771.8,
-     15979.0,
-     15979.0,
-     16069.4,
-     16825.4,
-     17093.2,
-     17094.2,
-     null,
+     15039.3,
+     15238.8,
+     15777.3,
+     15787.8,
+     15789.3,
+     15996.5,
+     15996.5,
+     16086.9,
+     16842.9,
+     17110.7,
+     17211.7,
+     17265.5,
      null
     ],
     "single": {
@@ -1694,7 +1694,7 @@
         23.94429430807363,
         25.36442180239921,
         4.269152371760578,
-        4.183802571949588
+        3.950465358709258
        ]
       },
       {
@@ -1778,18 +1778,18 @@
         13607.2,
         14267.3,
         14390.0,
-        15021.8,
-        15221.3,
-        15759.8,
-        15770.3,
-        15771.8,
-        15979.0,
-        15979.0,
-        16069.4,
-        16825.4,
-        17093.2,
-        17094.2,
-        null,
+        15039.3,
+        15238.8,
+        15777.3,
+        15787.8,
+        15789.3,
+        15996.5,
+        15996.5,
+        16086.9,
+        16842.9,
+        17110.7,
+        17211.7,
+        17265.5,
         null
        ]
       }
@@ -1829,8 +1829,8 @@
        "text": "6,193 MW"
       },
       "after": {
-       "period": "2026-08",
-       "text": "17,094 MW"
+       "period": "2026-09",
+       "text": "17,266 MW"
       },
       "unit": ""
      }
@@ -1838,31 +1838,31 @@
     "table": [
      {
       "measure": "worst-interval multiple (P99.9 over the median)",
-      "coef_per_gw": -0.6718993601910844,
-      "se": 0.38561862013111103,
-      "p": 0.09479765608402697,
-      "n": 38,
-      "r2": 0.724844600013996
+      "coef_per_gw": -0.7396224051404738,
+      "se": 0.3765773715536069,
+      "p": 0.06120612825815815,
+      "n": 39,
+      "r2": 0.7170828493433324
      },
      {
       "measure": "hours at or above USD 1,000/MWh",
-      "coef_per_gw": -0.023097836800008965,
-      "se": 0.02747283653978286,
-      "p": 0.40914287972172037,
-      "n": 38,
-      "r2": 0.48986414763906816
+      "coef_per_gw": -0.024968815932730957,
+      "se": 0.026448835199828484,
+      "p": 0.354555574174626,
+      "n": 39,
+      "r2": 0.4811403703770418
      },
      {
       "measure": "hours in the sample's top 1 percent",
-      "coef_per_gw": -1.6993355297327,
-      "se": 0.8533892714023869,
-      "p": 0.058457431875948554,
-      "n": 38,
-      "r2": 0.5011138110258118
+      "coef_per_gw": -1.677284748592361,
+      "se": 0.8448506726144465,
+      "p": 0.058651860723370086,
+      "n": 39,
+      "r2": 0.5007652506893581
      }
     ],
-    "in_words": "CAISO: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is -0.67 per GW with a standard error of 0.39 (p = 0.095): flat.",
-    "caveat": "Caveat: 38 months against 15 parameters leave 23 degrees of freedom: read it as a description, not a test; an association in a before-and-after with controls, not a cause."
+    "in_words": "CAISO: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is -0.74 per GW with a standard error of 0.38 (p = 0.061): flat.",
+    "caveat": "Caveat: 39 months against 15 parameters leave 24 degrees of freedom: read it as a description, not a test; an association in a before-and-after with controls, not a cause."
    },
    {
     "grid": "nyiso",
@@ -2349,7 +2349,7 @@
      263.2,
      266.2,
      268.7,
-     null,
+     268.7,
      null
     ],
     "single": {
@@ -2754,7 +2754,7 @@
         263.2,
         266.2,
         268.7,
-        null,
+        268.7,
         null
        ]
       }
@@ -2794,7 +2794,7 @@
        "text": "8 MW"
       },
       "after": {
-       "period": "2026-08",
+       "period": "2026-09",
        "text": "269 MW"
       },
       "unit": ""
@@ -2803,30 +2803,30 @@
     "table": [
      {
       "measure": "worst-interval multiple (P99.9 over the median)",
-      "coef_per_gw": 26.626746525260117,
-      "se": 12.584982913943321,
-      "p": 0.037598229828642506,
-      "n": 92,
-      "r2": 0.18338597886295493
+      "coef_per_gw": 25.731937825139042,
+      "se": 12.276696375128436,
+      "p": 0.03932519169342864,
+      "n": 93,
+      "r2": 0.18205886559540607
      },
      {
       "measure": "hours at or above USD 1,000/MWh",
-      "coef_per_gw": 1.9525940481297637,
-      "se": 1.3896833216360538,
-      "p": 0.164023900298886,
-      "n": 92,
-      "r2": 0.16526803754366748
+      "coef_per_gw": 1.9304489161372047,
+      "se": 1.3623135704500968,
+      "p": 0.16045401237725784,
+      "n": 93,
+      "r2": 0.165653888437575
      },
      {
       "measure": "hours in the sample's top 1 percent",
-      "coef_per_gw": 74.2684892983974,
-      "se": 23.6095199209862,
-      "p": 0.002355389136164424,
-      "n": 92,
-      "r2": 0.5425326254954669
+      "coef_per_gw": 73.35784570999395,
+      "se": 23.329730533783255,
+      "p": 0.00235488005116157,
+      "n": 93,
+      "r2": 0.5424541076287763
      }
     ],
-    "in_words": "NYISO: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 26.63 higher (standard error 12.58, p = 0.038).",
+    "in_words": "NYISO: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 25.73 higher (standard error 12.28, p = 0.039).",
     "caveat": "Caveat: the fleet never passed 0.27 GW, so \"per GW\" is an extrapolation beyond anything this grid has seen; hourly prices: an hour's mean hides a spike that quarter hours would show, so the level is not comparable with the 15-minute grids; an association in a before-and-after with controls, not a cause."
    },
    {
@@ -2930,7 +2930,7 @@
       10.834596224729165,
       8.179399490140437,
       3.0847367092432374,
-      3.8703382787885388
+      3.85387821731726
      ],
      "hours_ge_1000": [
       null,
@@ -3102,7 +3102,7 @@
       0.75,
       1.0,
       11.75,
-      3.75,
+      4.0,
       0.25,
       0.0,
       0.0,
@@ -3113,7 +3113,7 @@
       0.5,
       0.75,
       1.75,
-      93.5,
+      93.75,
       35.75,
       0.25,
       0.0,
@@ -3314,7 +3314,7 @@
      1021.7,
      1021.7,
      1021.7,
-     null,
+     1021.7,
      null
     ],
     "single": {
@@ -3380,7 +3380,7 @@
         10.834596224729165,
         8.179399490140437,
         3.0847367092432374,
-        3.8703382787885388
+        3.85387821731726
        ]
       },
       {
@@ -3447,7 +3447,7 @@
         1021.7,
         1021.7,
         1021.7,
-        null,
+        1021.7,
         null
        ]
       }
@@ -3487,7 +3487,7 @@
        "text": "414 MW"
       },
       "after": {
-       "period": "2026-08",
+       "period": "2026-09",
        "text": "1,022 MW"
       },
       "unit": ""
@@ -3496,31 +3496,31 @@
     "table": [
      {
       "measure": "worst-interval multiple (P99.9 over the median)",
-      "coef_per_gw": -4.021239537747919,
-      "se": 9.869973040714395,
-      "p": 0.6932188077358029,
-      "n": 24,
-      "r2": 0.5995546765341807
+      "coef_per_gw": -3.872029617307242,
+      "se": 8.263501288669355,
+      "p": 0.6494242076076964,
+      "n": 25,
+      "r2": 0.6050684235433479
      },
      {
       "measure": "hours at or above USD 1,000/MWh",
-      "coef_per_gw": -0.9186297815054592,
-      "se": 1.0373236730219624,
-      "p": 0.3988883921430796,
-      "n": 24,
-      "r2": 0.5497618790708592
+      "coef_per_gw": -0.790798570398953,
+      "se": 0.8721664912546161,
+      "p": 0.3858893721479989,
+      "n": 25,
+      "r2": 0.5407620552025292
      },
      {
       "measure": "hours in the sample's top 1 percent",
-      "coef_per_gw": 8.79651264386668,
-      "se": 8.663839298132919,
-      "p": 0.33647250283118163,
-      "n": 24,
-      "r2": 0.787749389946099
+      "coef_per_gw": 5.694711450451991,
+      "se": 8.005484672840556,
+      "p": 0.4931257779376768,
+      "n": 25,
+      "r2": 0.7844561879819659
      }
     ],
-    "in_words": "ISO-NE: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is -4.02 per GW with a standard error of 9.87 (p = 0.693): flat.",
-    "caveat": "Caveat: 24 months against 15 parameters leave 9 degrees of freedom: read it as a description, not a test; the fleet never passed 1.02 GW, so \"per GW\" is an extrapolation beyond anything this grid has seen; an association in a before-and-after with controls, not a cause."
+    "in_words": "ISO-NE: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is -3.87 per GW with a standard error of 8.26 (p = 0.649): flat.",
+    "caveat": "Caveat: 25 months against 15 parameters leave 10 degrees of freedom: read it as a description, not a test; the fleet never passed 1.02 GW, so \"per GW\" is an extrapolation beyond anything this grid has seen; an association in a before-and-after with controls, not a cause."
    },
    {
     "grid": "spp",
@@ -3623,7 +3623,7 @@
       20.690719033286886,
       19.304504973324676,
       35.44430451855641,
-      58.85519565995571
+      59.09591679312411
      ],
      "hours_ge_1000": [
       null,
@@ -4007,7 +4007,7 @@
      487.5,
      490.5,
      490.5,
-     null,
+     490.5,
      null
     ],
     "single": {
@@ -4073,7 +4073,7 @@
         20.690719033286886,
         19.304504973324676,
         35.44430451855641,
-        58.85519565995571
+        59.09591679312411
        ]
       },
       {
@@ -4140,7 +4140,7 @@
         487.5,
         490.5,
         490.5,
-        null,
+        490.5,
         null
        ]
       }
@@ -4157,7 +4157,7 @@
       },
       "after": {
        "period": "2026 to date",
-       "text": "36.1x"
+       "text": "36.2x"
       },
       "unit": ""
      },
@@ -4180,7 +4180,7 @@
        "text": "30 MW"
       },
       "after": {
-       "period": "2026-08",
+       "period": "2026-09",
        "text": "490 MW"
       },
       "unit": ""
@@ -4189,31 +4189,31 @@
     "table": [
      {
       "measure": "worst-interval multiple (P99.9 over the median)",
-      "coef_per_gw": 37.49194179723843,
-      "se": 23.344532322813432,
-      "p": 0.1427305322120688,
-      "n": 24,
-      "r2": 0.6360162138006725
+      "coef_per_gw": 36.54219942294335,
+      "se": 24.544065095478622,
+      "p": 0.16737320451210042,
+      "n": 25,
+      "r2": 0.6322814530868399
      },
      {
       "measure": "hours at or above USD 1,000/MWh",
-      "coef_per_gw": 0.7885407473949599,
-      "se": 0.6442755919593122,
-      "p": 0.2520563742059621,
-      "n": 24,
-      "r2": 0.4577426949203012
+      "coef_per_gw": 0.8101524896963705,
+      "se": 0.5902820283321689,
+      "p": 0.19990958916269944,
+      "n": 25,
+      "r2": 0.4619934088765827
      },
      {
       "measure": "hours in the sample's top 1 percent",
-      "coef_per_gw": 9.455388463714819,
-      "se": 4.16946124872836,
-      "p": 0.049543175492660164,
-      "n": 24,
-      "r2": 0.7459930754239663
+      "coef_per_gw": 9.706593162673169,
+      "se": 4.400478967109935,
+      "p": 0.051928359033183116,
+      "n": 25,
+      "r2": 0.7449080861553721
      }
     ],
-    "in_words": "SPP: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is 37.49 per GW with a standard error of 23.34 (p = 0.143): flat.",
-    "caveat": "Caveat: 24 months against 15 parameters leave 9 degrees of freedom: read it as a description, not a test; the fleet never passed 0.49 GW, so \"per GW\" is an extrapolation beyond anything this grid has seen; an association in a before-and-after with controls, not a cause."
+    "in_words": "SPP: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is 36.54 per GW with a standard error of 24.54 (p = 0.167): flat.",
+    "caveat": "Caveat: 25 months against 15 parameters leave 10 degrees of freedom: read it as a description, not a test; the fleet never passed 0.49 GW, so \"per GW\" is an extrapolation beyond anything this grid has seen; an association in a before-and-after with controls, not a cause."
    }
   ],
   "placeholders": [
@@ -4257,10 +4257,10 @@
    "unit": ""
   },
   {
-   "label": "Battery fleet, 2026-08",
+   "label": "Battery fleet, 2026-09",
    "before": {
     "period": "ERCOT",
-    "text": "18,204 MW"
+    "text": "19,195 MW"
    },
    "after": {
     "period": "NYISO",
@@ -4269,8 +4269,8 @@
    "unit": ""
   }
  ],
- "why": "A battery that sells into a spike makes the spike smaller, so a big enough fleet should eat its own lunch. Texas has the fleet, 87 MW in 2019-01 and 18,204 MW in 2026-08 (EIA-860M), and its worst-interval multiple went from 126.6x in 2019 to 12.1x in 2025, its hours at or above USD 1,000 from 26 to 2. New York is the comparison nobody planned: 269 MW of batteries in 2026-08, and a multiple that rose from 8.8x in 2019 to 20.9x in 2025 (hourly prices), with 0 and then 9 hours at or above USD 1,000. California spoils the story: its fleet grew from 6,193 MW in 2023-07 to 17,094 MW, and its multiple rose from 3.3x in 2025 to 24.1x in 2026 to date; the warehouse holds its prices from 2023-07 only, so the years in which that fleet was built are not on the chart. The same holds for ISO-NE and SPP (2025 against 2026 to date: ISO-NE 8.2x and 13.6x on 1,022 MW; SPP 40.2x and 36.1x on 490 MW). ERCOT: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 10.76 lower (standard error 2.32, p < 0.001). NYISO: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 26.63 higher (standard error 12.58, p = 0.038). For ISO-NE and SPP the regression has 24 months and is flat in each; each grid's view prints it with its caveat. Nothing here separates a fleet from the years it arrived in, and a grid with one year of prices has no before to compare.",
- "footnote": "Data: real-time prices, ERCOT HB_HUBAVG (15-minute, ercot_all_hub_prices_history and iso_rtm_hub_prices, 2019-01 to 2026-10-22, 273,596 intervals in 94 local months, America/Chicago, top 1 percent at 302.58 USD/MWh); CAISO TH_SP15_GEN-APND (15-minute, iso_hub_prices_history and iso_rtm_hub_prices, 2023-07 to 2026-10-22, 115,488 intervals in 40 local months, America/Los_Angeles, top 1 percent at 105.44 USD/MWh); NYISO N.Y.C. (hourly, iso_zone_prices_history, 2019-01 to 2026-10-09, 67,659 intervals in 94 local months, America/New_York, top 1 percent at 245.21 USD/MWh); ISO-NE .H.INTERNAL_HUB (15-minute, iso_hub_prices_history and iso_rtm_hub_prices, 2024-09 to 2026-10-22, 68,928 intervals in 26 local months, America/New_York, top 1 percent at 293.68 USD/MWh); SPP SPPNORTH_HUB (15-minute, iso_hub_prices_history and iso_rtm_hub_prices, 2024-09 to 2026-10-21, 74,304 intervals in 26 local months, America/Chicago, top 1 percent at 237.98 USD/MWh). A grid's panel starts where its prices start in the warehouse; nothing earlier is filled. Per grid, local month and local year: the median and the 99.9th percentile (numpy linear percentiles, no cap or exclusion), their ratio (the worst-interval multiple), hours at or above USD 1,000 and USD 250 (intervals times their length), and hours at or above the 99th percentile of every interval of that grid's own sample (one fixed threshold per grid). A year is full when it holds at least 90 percent of its intervals (ISO-NE's 2025 holds 90.7 percent); a grid with one full year is compared with the year to date and labeled so. Fleet: storage_buildout_monthly, battery_operating_mw of iso:ercot, iso:caiso, iso:nyiso, iso:isone and iso:spp. A unit is a generator with prime mover BA in EIA-860M's inventory; it is assigned to a grid by its balancing authority code (ERCO, CISO, NYIS, ISNE, SWPP) and counted at nameplate MW from its first operating month until the month it retired (inventory of 2026-08; months after it carry no fleet figure). Load: ERCOT from ercot_zone_load_hourly, monthly mean; the other grids from eia930_daily_demand (EIA-930 daily MWh of the balancing authority over 24, mean of the month's days, EIA's Eastern day). Gas: eia_fuel_spot_prices Henry Hub daily spot, monthly mean. Regression, per grid: OLS of each monthly spike measure on battery GW, mean load in GW, Henry Hub in USD/MMBtu and eleven month-of-year dummies (15 parameters), over the months with every regressor held, HC1 standard errors, p from Student's t: ERCOT 92 months; CAISO 38 months; NYISO 92 months; ISO-NE 24 months; SPP 24 months. No instrument, no event window: associations. MISO is paused while its terms are reviewed and PJM needs a licensed source: neither is requested, neither is data here.",
+ "why": "A battery that sells into a spike makes the spike smaller, so a big enough fleet should eat its own lunch. Texas has the fleet, 87 MW in 2019-01 and 19,195 MW in 2026-09 (EIA-860M), and its worst-interval multiple went from 126.6x in 2019 to 12.1x in 2025, its hours at or above USD 1,000 from 26 to 2. New York is the comparison nobody planned: 269 MW of batteries in 2026-09, and a multiple that rose from 8.8x in 2019 to 20.9x in 2025 (hourly prices), with 0 and then 9 hours at or above USD 1,000. California spoils the story: its fleet grew from 6,193 MW in 2023-07 to 17,266 MW, and its multiple rose from 3.3x in 2025 to 23.3x in 2026 to date; the warehouse holds its prices from 2023-07 only, so the years in which that fleet was built are not on the chart. The same holds for ISO-NE and SPP (2025 against 2026 to date: ISO-NE 8.2x and 13.6x on 1,022 MW; SPP 40.2x and 36.2x on 490 MW). ERCOT: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 10.81 lower (standard error 2.33, p < 0.001). NYISO: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 25.73 higher (standard error 12.28, p = 0.039). For ISO-NE and SPP the regression has 25 months and is flat in each; each grid's view prints it with its caveat. Nothing here separates a fleet from the years it arrived in, and a grid with one year of prices has no before to compare.",
+ "footnote": "Data: real-time prices, ERCOT HB_HUBAVG (15-minute, ercot_all_hub_prices_history and iso_rtm_hub_prices, 2019-01 to 2026-10-24, 273,788 intervals in 94 local months, America/Chicago, top 1 percent at 302.32 USD/MWh); CAISO TH_SP15_GEN-APND (15-minute, iso_hub_prices_history and iso_rtm_hub_prices, 2023-07 to 2026-10-24, 115,680 intervals in 40 local months, America/Los_Angeles, top 1 percent at 105.35 USD/MWh); NYISO N.Y.C. (hourly, iso_zone_prices_history, 2019-01 to 2026-10-09, 67,659 intervals in 94 local months, America/New_York, top 1 percent at 245.21 USD/MWh); ISO-NE .H.INTERNAL_HUB (15-minute, iso_hub_prices_history and iso_rtm_hub_prices, 2024-09 to 2026-10-24, 69,120 intervals in 26 local months, America/New_York, top 1 percent at 293.49 USD/MWh); SPP SPPNORTH_HUB (15-minute, iso_hub_prices_history and iso_rtm_hub_prices, 2024-09 to 2026-10-24, 74,400 intervals in 26 local months, America/Chicago, top 1 percent at 237.91 USD/MWh). A grid's panel starts where its prices start in the warehouse; nothing earlier is filled. Per grid, local month and local year: the median and the 99.9th percentile (numpy linear percentiles, no cap or exclusion), their ratio (the worst-interval multiple), hours at or above USD 1,000 and USD 250 (intervals times their length), and hours at or above the 99th percentile of every interval of that grid's own sample (one fixed threshold per grid). A year is full when it holds at least 90 percent of its intervals (ISO-NE's 2025 holds 90.7 percent); a grid with one full year is compared with the year to date and labeled so. Fleet: storage_buildout_monthly, battery_operating_mw of iso:ercot, iso:caiso, iso:nyiso, iso:isone and iso:spp. A unit is a generator with prime mover BA in EIA-860M's inventory; it is assigned to a grid by its balancing authority code (ERCO, CISO, NYIS, ISNE, SWPP) and counted at nameplate MW from its first operating month until the month it retired (inventory of 2026-09; months after it carry no fleet figure). Load: ERCOT from ercot_zone_load_hourly, monthly mean; the other grids from eia930_daily_demand (EIA-930 daily MWh of the balancing authority over 24, mean of the month's days, EIA's Eastern day). Gas: eia_fuel_spot_prices Henry Hub daily spot, monthly mean. Regression, per grid: OLS of each monthly spike measure on battery GW, mean load in GW, Henry Hub in USD/MMBtu and eleven month-of-year dummies (15 parameters), over the months with every regressor held, HC1 standard errors, p from Student's t: ERCOT 93 months; CAISO 39 months; NYISO 93 months; ISO-NE 25 months; SPP 25 months. No instrument, no event window: associations. MISO is paused while its terms are reviewed and PJM needs a licensed source: neither is requested, neither is data here.",
  "numbers": {
   "ercot_first_year": "2019",
   "ercot_last_full_year": "2025",
@@ -4278,7 +4278,7 @@
   "ercot_multiple_last": 12.141762850467437,
   "ercot_hours1000_first": 26.25,
   "ercot_hours1000_last": 2.25,
-  "ercot_hours_top1_first": 81.5,
+  "ercot_hours_top1_first": 81.75,
   "ercot_hours_top1_last": 10.0,
   "ercot_p999_first": 2414.866270000294,
   "ercot_p999_last": 311.80047000000377,
@@ -4286,27 +4286,27 @@
   "ercot_median_last": 25.68,
   "ercot_fleet_first_month": "2019-01",
   "ercot_fleet_first_mw": 87.3,
-  "ercot_fleet_last_month": "2026-08",
-  "ercot_fleet_last_mw": 18204.5,
+  "ercot_fleet_last_month": "2026-09",
+  "ercot_fleet_last_mw": 19194.6,
   "ercot_peak_multiple_month": "2019-08",
   "ercot_peak_multiple": 464.9185433884299,
-  "ercot_reg_n": 92,
+  "ercot_reg_n": 93,
   "ercot_reg_first": "2019-01",
-  "ercot_reg_last": "2026-08",
-  "ercot_reg_multiple_coef": -10.756227713326055,
-  "ercot_reg_multiple_se": 2.315732120300411,
-  "ercot_reg_multiple_p": 1.3781813162732325e-05,
-  "ercot_reg_multiple_r2": 0.2500538425071771,
-  "ercot_reg_hours1000_coef": -1.2455015505470484,
-  "ercot_reg_hours1000_se": 0.5654565213284731,
-  "ercot_reg_hours1000_p": 0.0306110333996896,
-  "ercot_reg_top1_coef": -1.9457604934516208,
-  "ercot_reg_top1_se": 0.8036917304108305,
-  "ercot_reg_top1_p": 0.017831141093870278,
+  "ercot_reg_last": "2026-09",
+  "ercot_reg_multiple_coef": -10.807661857382568,
+  "ercot_reg_multiple_se": 2.3308303664165764,
+  "ercot_reg_multiple_p": 1.3991515431676241e-05,
+  "ercot_reg_multiple_r2": 0.25134566966351457,
+  "ercot_reg_hours1000_coef": -1.240982123897343,
+  "ercot_reg_hours1000_se": 0.5583125637149289,
+  "ercot_reg_hours1000_p": 0.02912941299173461,
+  "ercot_reg_top1_coef": -1.9374525775396099,
+  "ercot_reg_top1_se": 0.796583393495554,
+  "ercot_reg_top1_p": 0.017298716426888742,
   "ercot_n_months": 94,
-  "ercot_n_intervals": 273596,
+  "ercot_n_intervals": 273788,
   "ercot_full_years": 7,
-  "ercot_reg_df": 77,
+  "ercot_reg_df": 78,
   "caiso_first_year": "2024",
   "caiso_last_full_year": "2025",
   "caiso_this_year": "2026",
@@ -4314,11 +4314,11 @@
   "caiso_first_month": "2023-07",
   "caiso_last_month": "2026-10",
   "caiso_n_months": 40,
-  "caiso_n_intervals": 115488,
+  "caiso_n_intervals": 115680,
   "caiso_fleet_first_month": "2023-07",
   "caiso_fleet_first_mw": 6193.4,
-  "caiso_fleet_last_month": "2026-08",
-  "caiso_fleet_last_mw": 17094.2,
+  "caiso_fleet_last_month": "2026-09",
+  "caiso_fleet_last_mw": 17265.5,
   "caiso_peak_multiple_month": "2026-03",
   "caiso_peak_multiple": 50.384354768673774,
   "caiso_multiple_first": 6.861560105946708,
@@ -4335,29 +4335,29 @@
   "caiso_p999_last": 118.39718410000062,
   "caiso_median_last": 35.633849999999995,
   "caiso_share_last_pct": 100.0,
-  "caiso_multiple_this": 24.111327814571556,
+  "caiso_multiple_this": 23.319453978452646,
   "caiso_hours1000_this": 2.75,
   "caiso_hours_top1_this": 84.25,
   "caiso_hours250_this": 12.75,
-  "caiso_p999_this": 647.9171899003854,
-  "caiso_median_this": 26.8719,
-  "caiso_share_this_pct": 80.26255707762557,
-  "caiso_reg_n": 38,
-  "caiso_reg_df": 23,
+  "caiso_p999_this": 629.6217595001248,
+  "caiso_median_this": 26.999850000000002,
+  "caiso_share_this_pct": 80.81050228310502,
+  "caiso_reg_n": 39,
+  "caiso_reg_df": 24,
   "caiso_reg_first": "2023-07",
-  "caiso_reg_last": "2026-08",
-  "caiso_reg_multiple_coef": -0.6718993601910844,
-  "caiso_reg_multiple_se": 0.38561862013111103,
-  "caiso_reg_multiple_p": 0.09479765608402697,
-  "caiso_reg_multiple_r2": 0.724844600013996,
-  "caiso_reg_hours1000_coef": -0.023097836800008965,
-  "caiso_reg_hours1000_se": 0.02747283653978286,
-  "caiso_reg_hours1000_p": 0.40914287972172037,
-  "caiso_reg_hours1000_r2": 0.48986414763906816,
-  "caiso_reg_top1_coef": -1.6993355297327,
-  "caiso_reg_top1_se": 0.8533892714023869,
-  "caiso_reg_top1_p": 0.058457431875948554,
-  "caiso_reg_top1_r2": 0.5011138110258118,
+  "caiso_reg_last": "2026-09",
+  "caiso_reg_multiple_coef": -0.7396224051404738,
+  "caiso_reg_multiple_se": 0.3765773715536069,
+  "caiso_reg_multiple_p": 0.06120612825815815,
+  "caiso_reg_multiple_r2": 0.7170828493433324,
+  "caiso_reg_hours1000_coef": -0.024968815932730957,
+  "caiso_reg_hours1000_se": 0.026448835199828484,
+  "caiso_reg_hours1000_p": 0.354555574174626,
+  "caiso_reg_hours1000_r2": 0.4811403703770418,
+  "caiso_reg_top1_coef": -1.677284748592361,
+  "caiso_reg_top1_se": 0.8448506726144465,
+  "caiso_reg_top1_p": 0.058651860723370086,
+  "caiso_reg_top1_r2": 0.5007652506893581,
   "nyiso_first_year": "2019",
   "nyiso_last_full_year": "2025",
   "nyiso_this_year": "2026",
@@ -4368,7 +4368,7 @@
   "nyiso_n_intervals": 67659,
   "nyiso_fleet_first_month": "2019-01",
   "nyiso_fleet_first_mw": 8.0,
-  "nyiso_fleet_last_month": "2026-08",
+  "nyiso_fleet_last_month": "2026-09",
   "nyiso_fleet_last_mw": 268.7,
   "nyiso_peak_multiple_month": "2025-06",
   "nyiso_peak_multiple": 52.28581341415241,
@@ -4393,22 +4393,22 @@
   "nyiso_p999_this": 662.5432000000671,
   "nyiso_median_this": 45.65,
   "nyiso_share_this_pct": 71.81506849315069,
-  "nyiso_reg_n": 92,
-  "nyiso_reg_df": 77,
+  "nyiso_reg_n": 93,
+  "nyiso_reg_df": 78,
   "nyiso_reg_first": "2019-01",
-  "nyiso_reg_last": "2026-08",
-  "nyiso_reg_multiple_coef": 26.626746525260117,
-  "nyiso_reg_multiple_se": 12.584982913943321,
-  "nyiso_reg_multiple_p": 0.037598229828642506,
-  "nyiso_reg_multiple_r2": 0.18338597886295493,
-  "nyiso_reg_hours1000_coef": 1.9525940481297637,
-  "nyiso_reg_hours1000_se": 1.3896833216360538,
-  "nyiso_reg_hours1000_p": 0.164023900298886,
-  "nyiso_reg_hours1000_r2": 0.16526803754366748,
-  "nyiso_reg_top1_coef": 74.2684892983974,
-  "nyiso_reg_top1_se": 23.6095199209862,
-  "nyiso_reg_top1_p": 0.002355389136164424,
-  "nyiso_reg_top1_r2": 0.5425326254954669,
+  "nyiso_reg_last": "2026-09",
+  "nyiso_reg_multiple_coef": 25.731937825139042,
+  "nyiso_reg_multiple_se": 12.276696375128436,
+  "nyiso_reg_multiple_p": 0.03932519169342864,
+  "nyiso_reg_multiple_r2": 0.18205886559540607,
+  "nyiso_reg_hours1000_coef": 1.9304489161372047,
+  "nyiso_reg_hours1000_se": 1.3623135704500968,
+  "nyiso_reg_hours1000_p": 0.16045401237725784,
+  "nyiso_reg_hours1000_r2": 0.165653888437575,
+  "nyiso_reg_top1_coef": 73.35784570999395,
+  "nyiso_reg_top1_se": 23.329730533783255,
+  "nyiso_reg_top1_p": 0.00235488005116157,
+  "nyiso_reg_top1_r2": 0.5424541076287763,
   "isone_first_year": "2025",
   "isone_last_full_year": "2025",
   "isone_this_year": "2026",
@@ -4416,50 +4416,50 @@
   "isone_first_month": "2024-09",
   "isone_last_month": "2026-10",
   "isone_n_months": 26,
-  "isone_n_intervals": 68928,
+  "isone_n_intervals": 69120,
   "isone_fleet_first_month": "2024-09",
   "isone_fleet_first_mw": 414.5,
-  "isone_fleet_last_month": "2026-08",
+  "isone_fleet_last_month": "2026-09",
   "isone_fleet_last_mw": 1021.7,
   "isone_peak_multiple_month": "2025-06",
   "isone_peak_multiple": 34.33353073442788,
   "isone_multiple_first": 8.155368757466636,
   "isone_hours1000_first": 3.0,
-  "isone_hours_top1_first": 33.0,
+  "isone_hours_top1_first": 33.25,
   "isone_hours250_first": 93.0,
   "isone_p999_first": 359.4205575000045,
   "isone_median_first": 44.071650000000005,
   "isone_share_first_pct": 90.68493150684931,
   "isone_multiple_last": 8.155368757466636,
   "isone_hours1000_last": 3.0,
-  "isone_hours_top1_last": 33.0,
+  "isone_hours_top1_last": 33.25,
   "isone_hours250_last": 93.0,
   "isone_p999_last": 359.4205575000045,
   "isone_median_last": 44.071650000000005,
   "isone_share_last_pct": 90.68493150684931,
-  "isone_multiple_this": 13.561491443850278,
+  "isone_multiple_this": 13.595814818868472,
   "isone_hours1000_this": 0.0,
-  "isone_hours_top1_this": 137.75,
+  "isone_hours_top1_this": 138.0,
   "isone_hours250_this": 202.0,
-  "isone_p999_this": 621.3197305000004,
-  "isone_median_this": 45.815,
-  "isone_share_this_pct": 73.96118721461187,
-  "isone_reg_n": 24,
-  "isone_reg_df": 9,
+  "isone_p999_this": 621.1248000000062,
+  "isone_median_this": 45.685,
+  "isone_share_this_pct": 74.50913242009132,
+  "isone_reg_n": 25,
+  "isone_reg_df": 10,
   "isone_reg_first": "2024-09",
-  "isone_reg_last": "2026-08",
-  "isone_reg_multiple_coef": -4.021239537747919,
-  "isone_reg_multiple_se": 9.869973040714395,
-  "isone_reg_multiple_p": 0.6932188077358029,
-  "isone_reg_multiple_r2": 0.5995546765341807,
-  "isone_reg_hours1000_coef": -0.9186297815054592,
-  "isone_reg_hours1000_se": 1.0373236730219624,
-  "isone_reg_hours1000_p": 0.3988883921430796,
-  "isone_reg_hours1000_r2": 0.5497618790708592,
-  "isone_reg_top1_coef": 8.79651264386668,
-  "isone_reg_top1_se": 8.663839298132919,
-  "isone_reg_top1_p": 0.33647250283118163,
-  "isone_reg_top1_r2": 0.787749389946099,
+  "isone_reg_last": "2026-09",
+  "isone_reg_multiple_coef": -3.872029617307242,
+  "isone_reg_multiple_se": 8.263501288669355,
+  "isone_reg_multiple_p": 0.6494242076076964,
+  "isone_reg_multiple_r2": 0.6050684235433479,
+  "isone_reg_hours1000_coef": -0.790798570398953,
+  "isone_reg_hours1000_se": 0.8721664912546161,
+  "isone_reg_hours1000_p": 0.3858893721479989,
+  "isone_reg_hours1000_r2": 0.5407620552025292,
+  "isone_reg_top1_coef": 5.694711450451991,
+  "isone_reg_top1_se": 8.005484672840556,
+  "isone_reg_top1_p": 0.4931257779376768,
+  "isone_reg_top1_r2": 0.7844561879819659,
   "spp_first_year": "2025",
   "spp_last_full_year": "2025",
   "spp_this_year": "2026",
@@ -4467,10 +4467,10 @@
   "spp_first_month": "2024-09",
   "spp_last_month": "2026-10",
   "spp_n_months": 26,
-  "spp_n_intervals": 74304,
+  "spp_n_intervals": 74400,
   "spp_fleet_first_month": "2024-09",
   "spp_fleet_first_mw": 29.5,
-  "spp_fleet_last_month": "2026-08",
+  "spp_fleet_last_month": "2026-09",
   "spp_fleet_last_mw": 490.5,
   "spp_peak_multiple_month": "2025-10",
   "spp_peak_multiple": 87.17749786702738,
@@ -4488,29 +4488,29 @@
   "spp_p999_last": 836.3610885000523,
   "spp_median_last": 20.8097,
   "spp_share_last_pct": 100.0,
-  "spp_multiple_this": 36.1159153201428,
+  "spp_multiple_this": 36.161164814837164,
   "spp_hours1000_this": 4.25,
   "spp_hours_top1_this": 100.75,
   "spp_hours250_this": 88.5,
-  "spp_p999_this": 776.4849562000061,
-  "spp_median_this": 21.4998,
-  "spp_share_this_pct": 78.61872146118722,
-  "spp_reg_n": 24,
-  "spp_reg_df": 9,
+  "spp_p999_this": 776.0457178000165,
+  "spp_median_this": 21.460749999999997,
+  "spp_share_this_pct": 78.89269406392694,
+  "spp_reg_n": 25,
+  "spp_reg_df": 10,
   "spp_reg_first": "2024-09",
-  "spp_reg_last": "2026-08",
-  "spp_reg_multiple_coef": 37.49194179723843,
-  "spp_reg_multiple_se": 23.344532322813432,
-  "spp_reg_multiple_p": 0.1427305322120688,
-  "spp_reg_multiple_r2": 0.6360162138006725,
-  "spp_reg_hours1000_coef": 0.7885407473949599,
-  "spp_reg_hours1000_se": 0.6442755919593122,
-  "spp_reg_hours1000_p": 0.2520563742059621,
-  "spp_reg_hours1000_r2": 0.4577426949203012,
-  "spp_reg_top1_coef": 9.455388463714819,
-  "spp_reg_top1_se": 4.16946124872836,
-  "spp_reg_top1_p": 0.049543175492660164,
-  "spp_reg_top1_r2": 0.7459930754239663,
+  "spp_reg_last": "2026-09",
+  "spp_reg_multiple_coef": 36.54219942294335,
+  "spp_reg_multiple_se": 24.544065095478622,
+  "spp_reg_multiple_p": 0.16737320451210042,
+  "spp_reg_multiple_r2": 0.6322814530868399,
+  "spp_reg_hours1000_coef": 0.8101524896963705,
+  "spp_reg_hours1000_se": 0.5902820283321689,
+  "spp_reg_hours1000_p": 0.19990958916269944,
+  "spp_reg_hours1000_r2": 0.4619934088765827,
+  "spp_reg_top1_coef": 9.706593162673169,
+  "spp_reg_top1_se": 4.400478967109935,
+  "spp_reg_top1_p": 0.051928359033183116,
+  "spp_reg_top1_r2": 0.7449080861553721,
   "grids_with_two_full_years": [
    "ercot",
    "caiso",
@@ -4551,47 +4551,47 @@
   ],
   "rows": [
    {
-    "measure": "ERCOT (2019-01 to 2026-08)",
-    "coef_per_gw": -10.756227713326055,
-    "se": 2.315732120300411,
-    "p": 1.3781813162732325e-05,
-    "n": 92,
-    "r2": 0.2500538425071771
+    "measure": "ERCOT (2019-01 to 2026-09)",
+    "coef_per_gw": -10.807661857382568,
+    "se": 2.3308303664165764,
+    "p": 1.3991515431676241e-05,
+    "n": 93,
+    "r2": 0.25134566966351457
    },
    {
-    "measure": "CAISO (2023-07 to 2026-08)",
-    "coef_per_gw": -0.6718993601910844,
-    "se": 0.38561862013111103,
-    "p": 0.09479765608402697,
-    "n": 38,
-    "r2": 0.724844600013996
+    "measure": "CAISO (2023-07 to 2026-09)",
+    "coef_per_gw": -0.7396224051404738,
+    "se": 0.3765773715536069,
+    "p": 0.06120612825815815,
+    "n": 39,
+    "r2": 0.7170828493433324
    },
    {
-    "measure": "NYISO (2019-01 to 2026-08)",
-    "coef_per_gw": 26.626746525260117,
-    "se": 12.584982913943321,
-    "p": 0.037598229828642506,
-    "n": 92,
-    "r2": 0.18338597886295493
+    "measure": "NYISO (2019-01 to 2026-09)",
+    "coef_per_gw": 25.731937825139042,
+    "se": 12.276696375128436,
+    "p": 0.03932519169342864,
+    "n": 93,
+    "r2": 0.18205886559540607
    },
    {
-    "measure": "ISO-NE (2024-09 to 2026-08)",
-    "coef_per_gw": -4.021239537747919,
-    "se": 9.869973040714395,
-    "p": 0.6932188077358029,
-    "n": 24,
-    "r2": 0.5995546765341807
+    "measure": "ISO-NE (2024-09 to 2026-09)",
+    "coef_per_gw": -3.872029617307242,
+    "se": 8.263501288669355,
+    "p": 0.6494242076076964,
+    "n": 25,
+    "r2": 0.6050684235433479
    },
    {
-    "measure": "SPP (2024-09 to 2026-08)",
-    "coef_per_gw": 37.49194179723843,
-    "se": 23.344532322813432,
-    "p": 0.1427305322120688,
-    "n": 24,
-    "r2": 0.6360162138006725
+    "measure": "SPP (2024-09 to 2026-09)",
+    "coef_per_gw": 36.54219942294335,
+    "se": 24.544065095478622,
+    "p": 0.16737320451210042,
+    "n": 25,
+    "r2": 0.6322814530868399
    }
   ],
-  "in_words": "ERCOT: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 10.76 lower (standard error 2.32, p < 0.001). Caveat: the same months brought the 2021 winter storm, a new offer cap, more solar and a gas price that doubled and fell back; an association in a before-and-after with controls, not a cause. CAISO: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is -0.67 per GW with a standard error of 0.39 (p = 0.095): flat. Caveat: 38 months against 15 parameters leave 23 degrees of freedom: read it as a description, not a test; an association in a before-and-after with controls, not a cause. NYISO: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 26.63 higher (standard error 12.58, p = 0.038). Caveat: the fleet never passed 0.27 GW, so \"per GW\" is an extrapolation beyond anything this grid has seen; hourly prices: an hour's mean hides a spike that quarter hours would show, so the level is not comparable with the 15-minute grids; an association in a before-and-after with controls, not a cause. ISO-NE: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is -4.02 per GW with a standard error of 9.87 (p = 0.693): flat. Caveat: 24 months against 15 parameters leave 9 degrees of freedom: read it as a description, not a test; the fleet never passed 1.02 GW, so \"per GW\" is an extrapolation beyond anything this grid has seen; an association in a before-and-after with controls, not a cause. SPP: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is 37.49 per GW with a standard error of 23.34 (p = 0.143): flat. Caveat: 24 months against 15 parameters leave 9 degrees of freedom: read it as a description, not a test; the fleet never passed 0.49 GW, so \"per GW\" is an extrapolation beyond anything this grid has seen; an association in a before-and-after with controls, not a cause."
+  "in_words": "ERCOT: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 10.81 lower (standard error 2.33, p < 0.001). Caveat: the same months brought the 2021 winter storm, a new offer cap, more solar and a gas price that doubled and fell back; an association in a before-and-after with controls, not a cause. CAISO: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is -0.74 per GW with a standard error of 0.38 (p = 0.061): flat. Caveat: 39 months against 15 parameters leave 24 degrees of freedom: read it as a description, not a test; an association in a before-and-after with controls, not a cause. NYISO: with load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a worst-interval multiple 25.73 higher (standard error 12.28, p = 0.039). Caveat: the fleet never passed 0.27 GW, so \"per GW\" is an extrapolation beyond anything this grid has seen; hourly prices: an hour's mean hides a spike that quarter hours would show, so the level is not comparable with the 15-minute grids; an association in a before-and-after with controls, not a cause. ISO-NE: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is -3.87 per GW with a standard error of 8.26 (p = 0.649): flat. Caveat: 25 months against 15 parameters leave 10 degrees of freedom: read it as a description, not a test; the fleet never passed 1.02 GW, so \"per GW\" is an extrapolation beyond anything this grid has seen; an association in a before-and-after with controls, not a cause. SPP: with load, Henry Hub and the month of the year held fixed, the battery coefficient on the multiple is 36.54 per GW with a standard error of 24.54 (p = 0.167): flat. Caveat: 25 months against 15 parameters leave 10 degrees of freedom: read it as a description, not a test; the fleet never passed 0.49 GW, so \"per GW\" is an extrapolation beyond anything this grid has seen; an association in a before-and-after with controls, not a cause."
  },
  "source_line": "Source: ERCOT (NP6-785-ER, NP6-905-CD), CAISO OASIS, NYISO (P-4A), ISO-NE, SPP, EIA-860M, EIA-930, EIA Henry Hub spot; ERW tables ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history, iso_zone_prices_history, storage_buildout_monthly, ercot_zone_load_hourly, eia930_daily_demand, eia_fuel_spot_prices.",
  "tables": [
@@ -4604,11 +4604,11 @@
   "eia930_daily_demand",
   "eia_fuel_spot_prices"
  ],
- "computed_at": "2026-10-22T17:54:41Z",
+ "computed_at": "2026-10-24T18:06:14Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding batteries_lunch_grids, BATTERIES ATE THEIR OWN LUNCH? FIVE GRIDS",
-  "Computed 2026-10-22T17:54:41Z by warehouse/analysis/findings/batteries_lunch_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-24T18:06:14Z by warehouse/analysis/findings/batteries_lunch_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per grid and local month and one per grid and local year (kind): the spike measures, the grid's battery fleet, its mean load and Henry Hub; share_of_year_pct is the share of the year's intervals held and full_year whether it is at least 90 percent. MISO and PJM are not in the file: paused, and licensed",
   "Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history, iso_zone_prices_history, storage_buildout_monthly, ercot_zone_load_hourly, eia930_daily_demand, eia_fuel_spot_prices"
  ],
@@ -4617,17 +4617,17 @@
   "first_year": 2019,
   "grids": {
    "ercot": {
-    "top1_threshold_usd_mwh": 302.58349999999916,
-    "last_interval_utc": "2026-10-22T04:45:00Z",
+    "top1_threshold_usd_mwh": 302.3225000000012,
+    "last_interval_utc": "2026-10-24T04:45:00Z",
     "first_interval_utc": "2019-01-01T06:00:00Z",
-    "n_intervals": 273596,
+    "n_intervals": 273788,
     "load_how": "ercot_zone_load_hourly, the ERCOT total row"
    },
    "caiso": {
-    "top1_threshold_usd_mwh": 105.4412110000009,
+    "top1_threshold_usd_mwh": 105.34553899999996,
     "first_interval_utc": "2023-07-06T07:00:00Z",
-    "last_interval_utc": "2026-10-22T06:45:00Z",
-    "n_intervals": 115488,
+    "last_interval_utc": "2026-10-24T06:45:00Z",
+    "n_intervals": 115680,
     "load_how": "eia930_daily_demand, EIA's daily MWh over 24, mean of the month's days"
    },
    "nyiso": {
@@ -4638,64 +4638,64 @@
     "load_how": "eia930_daily_demand, EIA's daily MWh over 24, mean of the month's days"
    },
    "isone": {
-    "top1_threshold_usd_mwh": 293.67840899999914,
+    "top1_threshold_usd_mwh": 293.49199999999973,
     "first_interval_utc": "2024-09-01T04:00:00Z",
-    "last_interval_utc": "2026-10-22T03:45:00Z",
-    "n_intervals": 68928,
+    "last_interval_utc": "2026-10-24T03:45:00Z",
+    "n_intervals": 69120,
     "load_how": "eia930_daily_demand, EIA's daily MWh over 24, mean of the month's days"
    },
    "spp": {
-    "top1_threshold_usd_mwh": 237.9824820000001,
+    "top1_threshold_usd_mwh": 237.91470599999963,
     "first_interval_utc": "2024-09-01T05:00:00Z",
-    "last_interval_utc": "2026-10-21T04:45:00Z",
-    "n_intervals": 74304,
+    "last_interval_utc": "2026-10-24T04:45:00Z",
+    "n_intervals": 74400,
     "load_how": "eia930_daily_demand, EIA's daily MWh over 24, mean of the month's days"
    }
   },
   "ercot_card": {
    "hub": "HB_HUBAVG",
    "first_year": 2019,
-   "top1_threshold_usd_mwh": 302.58349999999916,
-   "last_interval_utc": "2026-10-22T04:45:00Z",
-   "n_intervals_all": 273596,
+   "top1_threshold_usd_mwh": 302.3225000000012,
+   "last_interval_utc": "2026-10-24T04:45:00Z",
+   "n_intervals_all": 273788,
    "load_how": "the ERCOT total row",
-   "fleet_last_month": "2026-08",
+   "fleet_last_month": "2026-09",
    "henry_hub_days": 1957
   },
-  "fleet_last_month": "2026-08"
+  "fleet_last_month": "2026-09"
  },
  "downloads": {
   "csv": "erw_2026_grids_spikes_batteries.csv",
   "python": "batteries_lunch_grids.py",
   "stata": "batteries_lunch_grids.do"
  },
- "csv_sha256": "42d20cddcee9a4fe6724834718ccc5f04574c5fc40cc8bfc1b966e5785274901",
+ "csv_sha256": "14de480a4ee397cdf7dced3ddffb221396e00293368cbc1389dd5a1f97559ebd",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-22",
+   "name": "the findings library's cards as computed by 2026-10-24",
    "claims_tested": 26,
-   "claims_passing": 15,
+   "claims_passing": 14,
    "alpha": 0.05,
    "method": "Benjamini-Hochberg over the round's distinct p-values",
    "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
    "claims_of_this_card": 15,
    "q_bh": {
-    "ercot_reg_multiple_p": 3.981412691456005e-05,
-    "ercot_reg_hours1000_p": 0.0612220667993792,
-    "ercot_reg_top1_p": 0.03863413903671894,
-    "caiso_reg_multiple_p": 0.13692994767692784,
-    "caiso_reg_hours1000_p": 0.4255085949105892,
-    "caiso_reg_top1_p": 0.0949933267984164,
-    "nyiso_reg_multiple_p": 0.06982528396747893,
-    "nyiso_reg_hours1000_p": 0.21323107038855177,
-    "nyiso_reg_top1_p": 0.006124011754027503,
-    "isone_reg_multiple_p": 0.6932188077358029,
-    "isone_reg_hours1000_p": 0.4255085949105892,
-    "isone_reg_top1_p": 0.38036022059177055,
-    "spp_reg_multiple_p": 0.19531546513230466,
-    "spp_reg_hours1000_p": 0.2978848058797734,
-    "spp_reg_top1_p": 0.08587483752061095
+    "ercot_reg_multiple_p": 4.0419933469286915e-05,
+    "ercot_reg_hours1000_p": 0.05825882598346922,
+    "ercot_reg_top1_p": 0.03748055225825894,
+    "caiso_reg_multiple_p": 0.09360937263012424,
+    "caiso_reg_hours1000_p": 0.4008019534147946,
+    "caiso_reg_top1_p": 0.09360937263012424,
+    "nyiso_reg_multiple_p": 0.07303249885922462,
+    "nyiso_reg_hours1000_p": 0.21758516586573054,
+    "nyiso_reg_top1_p": 0.006122688133020082,
+    "isone_reg_multiple_p": 0.6494242076076964,
+    "isone_reg_hours1000_p": 0.4180468198269988,
+    "isone_reg_top1_p": 0.5128508090551839,
+    "spp_reg_multiple_p": 0.21758516586573054,
+    "spp_reg_hours1000_p": 0.23625678719228116,
+    "spp_reg_top1_p": 0.0900091556575174
    }
   },
   "newey_west": {
@@ -4704,181 +4704,181 @@
      "spec": "ercot:worst_interval_multiple",
      "label": "ERCOT: worst-interval multiple (P99.9 over the median), per GW of batteries",
      "numbers_key": "ercot_reg_multiple",
-     "coef": -10.756227713325938,
-     "se_hc1": 2.3157321203001873,
-     "p_hc1": 1.378181316271157e-05,
-     "se_nw": 2.6917264399937837,
-     "p_nw": 0.000146362356541747,
+     "coef": -10.807661857382522,
+     "se_hc1": 2.330830366416212,
+     "p_hc1": 1.3991515431638938e-05,
+     "se_nw": 2.7226560204140475,
+     "p_nw": 0.00015907349588418853,
      "nw_lag": 3,
-     "n": 92
+     "n": 93
     },
     {
      "spec": "ercot:hours_ge_1000",
      "label": "ERCOT: hours at or above USD 1,000/MWh, per GW of batteries",
      "numbers_key": "ercot_reg_hours1000",
-     "coef": -1.2455015505470397,
-     "se_hc1": 0.565456521328347,
-     "p_hc1": 0.030611033399654652,
-     "se_nw": 0.5790018777527915,
-     "p_nw": 0.03460297770994643,
+     "coef": -1.2409821238973422,
+     "se_hc1": 0.5583125637148283,
+     "p_hc1": 0.029129412991706558,
+     "se_nw": 0.5700762450869677,
+     "p_nw": 0.032514844181106714,
      "nw_lag": 3,
-     "n": 92
+     "n": 93
     },
     {
      "spec": "ercot:hours_top1pct",
      "label": "ERCOT: hours in the sample's top 1 percent, per GW of batteries",
      "numbers_key": "ercot_reg_top1",
-     "coef": -1.9457604934516013,
-     "se_hc1": 0.8036917304109379,
-     "p_hc1": 0.017831141093886095,
-     "se_nw": 0.8212521267461504,
-     "p_nw": 0.020329763525105734,
+     "coef": -1.9374525775396045,
+     "se_hc1": 0.7965833934955031,
+     "p_hc1": 0.017298716426882153,
+     "se_nw": 0.8093079901063635,
+     "p_nw": 0.019069194805130852,
      "nw_lag": 3,
-     "n": 92
+     "n": 93
     },
     {
      "spec": "caiso:worst_interval_multiple",
      "label": "CAISO: worst-interval multiple (P99.9 over the median), per GW of batteries",
      "numbers_key": "caiso_reg_multiple",
-     "coef": -0.6718993601915011,
-     "se_hc1": 0.38561862013116627,
-     "p_hc1": 0.0947976560838789,
-     "se_nw": 0.41908689631120627,
-     "p_nw": 0.1225260473800449,
+     "coef": -0.739622405140632,
+     "se_hc1": 0.3765773715536038,
+     "p_hc1": 0.06120612825810476,
+     "se_nw": 0.40784096097307965,
+     "p_nw": 0.08227874281829059,
      "nw_lag": 3,
-     "n": 38
+     "n": 39
     },
     {
      "spec": "caiso:hours_ge_1000",
      "label": "CAISO: hours at or above USD 1,000/MWh, per GW of batteries",
      "numbers_key": "caiso_reg_hours1000",
-     "coef": -0.02309783680002191,
-     "se_hc1": 0.027472836539787937,
-     "p_hc1": 0.4091428797215471,
-     "se_nw": 0.024754248098273264,
-     "p_nw": 0.36046846130697313,
+     "coef": -0.024968815932736504,
+     "se_hc1": 0.026448835199835298,
+     "p_hc1": 0.35455557417464273,
+     "se_nw": 0.024528438043426155,
+     "p_nw": 0.3188525749741208,
      "nw_lag": 3,
-     "n": 38
+     "n": 39
     },
     {
      "spec": "caiso:hours_top1pct",
      "label": "CAISO: hours in the sample's top 1 percent, per GW of batteries",
      "numbers_key": "caiso_reg_top1",
-     "coef": -1.6993355297329837,
-     "se_hc1": 0.8533892714025121,
-     "p_hc1": 0.0584574318759438,
-     "se_nw": 0.9217821852624059,
-     "p_nw": 0.07817490242111697,
+     "coef": -1.6772847485925224,
+     "se_hc1": 0.8448506726144346,
+     "p_hc1": 0.05865186072334413,
+     "se_nw": 0.9043871208978645,
+     "p_nw": 0.07597946799556156,
      "nw_lag": 3,
-     "n": 38
+     "n": 39
     },
     {
      "spec": "nyiso:worst_interval_multiple",
      "label": "NYISO: worst-interval multiple (P99.9 over the median), per GW of batteries",
      "numbers_key": "nyiso_reg_multiple",
-     "coef": 26.626746525259897,
-     "se_hc1": 12.584982913943067,
-     "p_hc1": 0.03759822982864028,
-     "se_nw": 16.101264420124174,
-     "p_nw": 0.10225888763044863,
+     "coef": 25.73193782513996,
+     "se_hc1": 12.27669637512891,
+     "p_hc1": 0.03932519169342921,
+     "se_nw": 15.809824982722546,
+     "p_nw": 0.10764462200891722,
      "nw_lag": 3,
-     "n": 92
+     "n": 93
     },
     {
      "spec": "nyiso:hours_ge_1000",
      "label": "NYISO: hours at or above USD 1,000/MWh, per GW of batteries",
      "numbers_key": "nyiso_reg_hours1000",
-     "coef": 1.952594048129756,
-     "se_hc1": 1.3896833216360784,
-     "p_hc1": 0.16402390029889513,
-     "se_nw": 1.7212855746034987,
-     "p_nw": 0.2601538581591304,
+     "coef": 1.9304489161372342,
+     "se_hc1": 1.362313570449976,
+     "p_hc1": 0.16045401237721482,
+     "se_nw": 1.6890635201704551,
+     "p_nw": 0.25657157138629455,
      "nw_lag": 3,
-     "n": 92
+     "n": 93
     },
     {
      "spec": "nyiso:hours_top1pct",
      "label": "NYISO: hours in the sample's top 1 percent, per GW of batteries",
      "numbers_key": "nyiso_reg_top1",
-     "coef": 74.26848929839727,
-     "se_hc1": 23.6095199209865,
-     "p_hc1": 0.002355389136164744,
-     "se_nw": 22.978397695726503,
-     "p_nw": 0.0018095704202997498,
+     "coef": 73.35784570999463,
+     "se_hc1": 23.32973053378232,
+     "p_hc1": 0.0023548800511604593,
+     "se_nw": 22.776866680706405,
+     "p_nw": 0.0018655486017189389,
      "nw_lag": 3,
-     "n": 92
+     "n": 93
     },
     {
      "spec": "isone:worst_interval_multiple",
      "label": "ISONE: worst-interval multiple (P99.9 over the median), per GW of batteries",
      "numbers_key": "isone_reg_multiple",
-     "coef": -4.021239537746922,
-     "se_hc1": 9.869973040715383,
-     "p_hc1": 0.6932188077359035,
-     "se_nw": 5.9793995664916375,
-     "p_nw": 0.5181472551940809,
+     "coef": -3.8720296173068185,
+     "se_hc1": 8.263501288668573,
+     "p_hc1": 0.6494242076077011,
+     "se_nw": 4.974711174725302,
+     "p_nw": 0.4543894721847354,
      "nw_lag": 2,
-     "n": 24
+     "n": 25
     },
     {
      "spec": "isone:hours_ge_1000",
      "label": "ISONE: hours at or above USD 1,000/MWh, per GW of batteries",
      "numbers_key": "isone_reg_hours1000",
-     "coef": -0.9186297815054322,
-     "se_hc1": 1.0373236730219417,
-     "p_hc1": 0.398888392143084,
-     "se_nw": 0.6541634717005225,
-     "p_nw": 0.19379126946159897,
+     "coef": -0.7907985703989303,
+     "se_hc1": 0.8721664912545322,
+     "p_hc1": 0.385889372147968,
+     "se_nw": 0.59116883801127,
+     "p_nw": 0.21062447081956437,
      "nw_lag": 2,
-     "n": 24
+     "n": 25
     },
     {
      "spec": "isone:hours_top1pct",
      "label": "ISONE: hours in the sample's top 1 percent, per GW of batteries",
      "numbers_key": "isone_reg_top1",
-     "coef": 8.796512643867635,
-     "se_hc1": 8.663839298132896,
-     "p_hc1": 0.3364725028311309,
-     "se_nw": 9.685670260690685,
-     "p_nw": 0.38744553556082756,
+     "coef": 5.694711450452527,
+     "se_hc1": 8.005484672839085,
+     "p_hc1": 0.49312577793755974,
+     "se_nw": 8.499248065794694,
+     "p_nw": 0.5180140737113004,
      "nw_lag": 2,
-     "n": 24
+     "n": 25
     },
     {
      "spec": "spp:worst_interval_multiple",
      "label": "SPP: worst-interval multiple (P99.9 over the median), per GW of batteries",
      "numbers_key": "spp_reg_multiple",
-     "coef": 37.49194179724173,
-     "se_hc1": 23.344532322801413,
-     "p_hc1": 0.14273053221185572,
-     "se_nw": 16.03838696719725,
-     "p_nw": 0.04419090573549608,
+     "coef": 36.54219942294264,
+     "se_hc1": 24.544065095474693,
+     "p_hc1": 0.16737320451204615,
+     "se_nw": 17.592917859029576,
+     "p_nw": 0.0645112620678557,
      "nw_lag": 2,
-     "n": 24
+     "n": 25
     },
     {
      "spec": "spp:hours_ge_1000",
      "label": "SPP: hours at or above USD 1,000/MWh, per GW of batteries",
      "numbers_key": "spp_reg_hours1000",
-     "coef": 0.7885407473950136,
-     "se_hc1": 0.644275591959308,
-     "p_hc1": 0.2520563742059291,
-     "se_nw": 0.5354603469405883,
-     "p_nw": 0.17493615336521878,
+     "coef": 0.8101524896963691,
+     "se_hc1": 0.5902820283322486,
+     "p_hc1": 0.19990958916275597,
+     "se_nw": 0.515073821969725,
+     "p_nw": 0.14682074586332158,
      "nw_lag": 2,
-     "n": 24
+     "n": 25
     },
     {
      "spec": "spp:hours_top1pct",
      "label": "SPP: hours in the sample's top 1 percent, per GW of batteries",
      "numbers_key": "spp_reg_top1",
-     "coef": 9.455388463715533,
-     "se_hc1": 4.169461248729044,
-     "p_hc1": 0.04954317549267646,
-     "se_nw": 3.9562451732821717,
-     "p_nw": 0.040558018870449006,
+     "coef": 9.706593162673059,
+     "se_hc1": 4.400478967107291,
+     "p_hc1": 0.05192835903306878,
+     "se_nw": 4.091827384184051,
+     "p_nw": 0.03913066951053069,
      "nw_lag": 2,
-     "n": 24
+     "n": 25
     }
    ],
    "rule": "the Bartlett kernel to floor(4 (n / 100) ^ (2 / 9)) lags (Newey and West, 1994), with HC1's n / (n - k)",

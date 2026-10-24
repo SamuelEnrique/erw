@@ -178,7 +178,7 @@
   }
  ],
  "why": "Over 67,032 hours from 2019-01-01 to 2026-10-17, CAISO's batteries charged in 54.1 percent of hours, and 88.9 percent of all curtailed energy fell in those hours: the fleet keeps the same hours as the surplus. Hour by hour the two correlate at r = 0.39 (R2 0.15, charging alone). Net load with its square, the hour of the day and the month explains R2 0.45 of hourly curtailment without knowing anything about batteries; in the charging hours of 2025 it predicts 923 MW and the record shows 812 MW, 111 MW below. The sign is not a law: that residual is above zero in 4 of the 8 years and below it in 4, and in 2026 to date it is 140 MW above. Charging alone goes with 0.225 MW of curtailment per MW charged; with net load held fixed, -0.129; with the hour and the month too, -0.093 (standard error 0.010, p < 0.001, R2 0.45). That number is not what batteries prevent: they charge when prices are low, and prices are low when solar is being turned down. On the ceiling: in 2025 charging reached 90 percent of its trailing 30-day maximum in 175 hours, 171 of them with curtailment still on (171,897 MWh, 4.6 percent of the year's). Against the EIA-860M nameplate the fleet was never there: no hour of the sample charged at 90 percent of it, and the largest hour of 2025 was 9,289 MW, 70.1 percent of that month's fleet. The batteries are at the table when the surplus is served; this design cannot count what they ate.",
- "footnote": "Data: CAISO, hourly, Pacific time (America/Los_Angeles; daylight saving by time zone conversion of the UTC hour), 2019-01-01 to 2026-10-17: 67,032 hours on 2,793 days in 94 calendar months. Curtailment: caiso_curtailment_intervals, solar plus wind, 5-minute MW to 2025-12-31 (each interval's MW times 5/60, summed in the hour) and hourly MWh from 2026-01-01 (the six categories summed); CAISO lists only intervals with a curtailment, so an hour not listed on a day the table covers is zero. Summed by day, the hours differ from the table's own day totals by at most 0.001 MWh over 2,793 days (2,793 within 1 MWh). Charging and net load: caiso_fuel_supply_history and caiso_fuel_supply (Today's Outlook, the mean of the hour's twelve 5-minute values). Charging is the batteries column below zero, as a positive MW; an hour is a charging hour when the fleet took in more than it gave back. Demand is the sum of the thirteen sources (batteries net, imports net), which is the load served other than charging; net load is demand less solar and wind. A day is left out when it holds fewer than 23 hours (0 days) or when any hour reads natural gas or wind below -100 MW, small hydro above 2,000 MW or demand under 10,000 MW (4 days: 2019-10-01, 2019-10-02, 2020-10-17, 2022-01-14); nothing is filled. Regressions: OLS of hourly curtailment (MW) on charging (MW); on charging, net load (GW) and its square; on those with 23 hour-of-day and 93 month-of-sample dummies; and the last without charging, whose residual is 'what net load alone predicts' (a linear fit, so its prediction is not bounded at zero and reads below it at night). Net load is measured after curtailment, as published: delivered solar and wind are lower by what was curtailed. With the curtailed MW added back (net load before curtailment) the full model's charging coefficient is -0.231 (standard error 0.010, p < 0.001, R2 0.66). Standard errors are cluster-robust by Pacific day (2,793 clusters, Stata's vce(cluster) with its small-sample factor, p from Student's t on clusters less one), because the hours of one day share its weather and prices and are not independent draws. r is the Pearson correlation of hourly curtailment with charging over all hours. The ceiling: an hour is at it when charging is at or above 90 percent of (a) the largest charging hour of the 30 Pacific days before its day (at least 20 held) or (b) the fleet's nameplate MW of its month (storage_buildout_monthly, iso:caiso battery_operating_mw, EIA-860M, held to 2026-08); curtailment is on from 1 MW and rising when above the hour before. By year, measure (a): 2019: 30 hours at the ceiling, 19 with curtailment on (3,432 MWh, 0.4 percent of the year's; rising in 14), peak hour 86 MW or 50.9 percent of nameplate, residual in charging hours -6 MW; 2020: 44 hours at the ceiling, 32 with curtailment on (16,994 MWh, 1.1 percent of the year's; rising in 18), peak hour 202 MW or 37.1 percent of nameplate, residual in charging hours 17 MW; 2021: 77 hours at the ceiling, 76 with curtailment on (20,976 MWh, 1.4 percent of the year's; rising in 51), peak hour 1,206 MW or 65.2 percent of nameplate, residual in charging hours -3 MW; 2022: 103 hours at the ceiling, 99 with curtailment on (58,453 MWh, 2.6 percent of the year's; rising in 73), peak hour 2,143 MW or 45.8 percent of nameplate, residual in charging hours 101 MW; 2023: 83 hours at the ceiling, 78 with curtailment on (49,289 MWh, 1.9 percent of the year's; rising in 65), peak hour 4,295 MW or 57.7 percent of nameplate, residual in charging hours 66 MW; 2024: 146 hours at the ceiling, 142 with curtailment on (165,011 MWh, 4.9 percent of the year's; rising in 105), peak hour 7,164 MW or 66.9 percent of nameplate, residual in charging hours -15 MW; 2025: 175 hours at the ceiling, 171 with curtailment on (171,897 MWh, 4.6 percent of the year's; rising in 111), peak hour 9,289 MW or 70.1 percent of nameplate, residual in charging hours -111 MW; 2026: 189 hours at the ceiling, 187 with curtailment on (278,777 MWh, 5.4 percent of the year's; rising in 114), peak hour 11,548 MW or 64.8 percent of nameplate, residual in charging hours 140 MW. Measure (b): 0 hours in the sample. No instrument, no event window: an association.",
+ "footnote": "Data: CAISO, hourly, Pacific time (America/Los_Angeles; daylight saving by time zone conversion of the UTC hour), 2019-01-01 to 2026-10-17: 67,032 hours on 2,793 days in 94 calendar months. Curtailment: caiso_curtailment_intervals, solar plus wind, 5-minute MW to 2025-12-31 (each interval's MW times 5/60, summed in the hour) and hourly MWh from 2026-01-01 (the six categories summed); CAISO lists only intervals with a curtailment, so an hour not listed on a day the table covers is zero. Summed by day, the hours differ from the table's own day totals by at most 0.001 MWh over 2,793 days (2,793 within 1 MWh). Charging and net load: caiso_fuel_supply_history and caiso_fuel_supply (Today's Outlook, the mean of the hour's twelve 5-minute values). Charging is the batteries column below zero, as a positive MW; an hour is a charging hour when the fleet took in more than it gave back. Demand is the sum of the thirteen sources (batteries net, imports net), which is the load served other than charging; net load is demand less solar and wind. A day is left out when it holds fewer than 23 hours (0 days) or when any hour reads natural gas or wind below -100 MW, small hydro above 2,000 MW or demand under 10,000 MW (4 days: 2019-10-01, 2019-10-02, 2020-10-17, 2022-01-14); nothing is filled. Regressions: OLS of hourly curtailment (MW) on charging (MW); on charging, net load (GW) and its square; on those with 23 hour-of-day and 93 month-of-sample dummies; and the last without charging, whose residual is 'what net load alone predicts' (a linear fit, so its prediction is not bounded at zero and reads below it at night). Net load is measured after curtailment, as published: delivered solar and wind are lower by what was curtailed. With the curtailed MW added back (net load before curtailment) the full model's charging coefficient is -0.231 (standard error 0.010, p < 0.001, R2 0.66). Standard errors are cluster-robust by Pacific day (2,793 clusters, Stata's vce(cluster) with its small-sample factor, p from Student's t on clusters less one), because the hours of one day share its weather and prices and are not independent draws. r is the Pearson correlation of hourly curtailment with charging over all hours. The ceiling: an hour is at it when charging is at or above 90 percent of (a) the largest charging hour of the 30 Pacific days before its day (at least 20 held) or (b) the fleet's nameplate MW of its month (storage_buildout_monthly, iso:caiso battery_operating_mw, EIA-860M, held to 2026-09); curtailment is on from 1 MW and rising when above the hour before. By year, measure (a): 2019: 30 hours at the ceiling, 19 with curtailment on (3,432 MWh, 0.4 percent of the year's; rising in 14), peak hour 86 MW or 50.9 percent of nameplate, residual in charging hours -6 MW; 2020: 44 hours at the ceiling, 32 with curtailment on (16,994 MWh, 1.1 percent of the year's; rising in 18), peak hour 202 MW or 37.1 percent of nameplate, residual in charging hours 17 MW; 2021: 77 hours at the ceiling, 76 with curtailment on (20,976 MWh, 1.4 percent of the year's; rising in 51), peak hour 1,206 MW or 65.2 percent of nameplate, residual in charging hours -3 MW; 2022: 103 hours at the ceiling, 99 with curtailment on (58,453 MWh, 2.6 percent of the year's; rising in 73), peak hour 2,143 MW or 45.8 percent of nameplate, residual in charging hours 101 MW; 2023: 83 hours at the ceiling, 78 with curtailment on (49,289 MWh, 1.9 percent of the year's; rising in 65), peak hour 4,295 MW or 57.7 percent of nameplate, residual in charging hours 66 MW; 2024: 146 hours at the ceiling, 142 with curtailment on (165,011 MWh, 4.9 percent of the year's; rising in 105), peak hour 7,164 MW or 66.9 percent of nameplate, residual in charging hours -15 MW; 2025: 175 hours at the ceiling, 171 with curtailment on (171,897 MWh, 4.6 percent of the year's; rising in 111), peak hour 9,289 MW or 70.1 percent of nameplate, residual in charging hours -111 MW; 2026: 189 hours at the ceiling, 187 with curtailment on (278,777 MWh, 5.4 percent of the year's; rising in 114), peak hour 11,548 MW or 64.8 percent of nameplate, residual in charging hours 140 MW. Measure (b): 0 hours in the sample. No instrument, no event window: an association.",
  "numbers": {
   "n_hours": 67032,
   "n_days": 2793,
@@ -353,7 +353,7 @@
   "y2025_fleet_hours_held": 8712,
   "y2025_fleet_sat_hours": 0,
   "y2025_peak_pct_fleet": 70.14581131020505,
-  "y2025_fleet_mw_last": 15759.8,
+  "y2025_fleet_mw_last": 15777.3,
   "y2026_hours": 6864,
   "y2026_charging_hours": 3395,
   "y2026_curtailed_mwh": 5141791.5,
@@ -369,10 +369,10 @@
   "y2026_sat_rising_hours": 114,
   "y2026_sat_curt_mwh": 278777.2,
   "y2026_sat_curt_share_pct": 5.421791218099762,
-  "y2026_fleet_hours_held": 5784,
+  "y2026_fleet_hours_held": 6480,
   "y2026_fleet_sat_hours": 0,
-  "y2026_peak_pct_fleet": 64.835798938511,
-  "y2026_fleet_mw_last": 17094.2,
+  "y2026_peak_pct_fleet": 64.76393164342088,
+  "y2026_fleet_mw_last": 17265.5,
   "gw_year": 2021,
   "resid_years": 8,
   "resid_years_above": 4,
@@ -568,7 +568,7 @@
    "fleet_hours_held": 8712,
    "fleet_sat_hours": 0,
    "peak_pct_fleet": 70.14581131020505,
-   "fleet_mw_last": 15759.8
+   "fleet_mw_last": 15777.3
   },
   {
    "year": 2026,
@@ -587,10 +587,10 @@
    "sat_rising_hours": 114,
    "sat_curt_mwh": 278777.2,
    "sat_curt_share_pct": 5.421791218099762,
-   "fleet_hours_held": 5784,
+   "fleet_hours_held": 6480,
    "fleet_sat_hours": 0,
-   "peak_pct_fleet": 64.835798938511,
-   "fleet_mw_last": 17094.2
+   "peak_pct_fleet": 64.76393164342088,
+   "fleet_mw_last": 17265.5
   }
  ],
  "source_line": "Source: CAISO production and curtailments data and Daily Renewable Report; CAISO Today's Outlook (supply); EIA-860M; ERW tables caiso_curtailment_intervals, caiso_fuel_supply_history, caiso_fuel_supply, storage_buildout_monthly.",
@@ -600,11 +600,11 @@
   "caiso_fuel_supply",
   "storage_buildout_monthly"
  ],
- "computed_at": "2026-10-22T17:54:56Z",
+ "computed_at": "2026-10-24T18:06:29Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding batteries_curtailment_hourly, BY HOW MUCH DO BATTERIES CUT CURTAILMENT, HOUR BY HOUR",
-  "Computed 2026-10-22T17:54:56Z by warehouse/analysis/findings/batteries_curtailment_hourly.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-24T18:06:29Z by warehouse/analysis/findings/batteries_curtailment_hourly.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per hour held (day and hour are Pacific): curtailed MW (solar plus wind), battery charging MW, net load MW (demand less solar and wind), the fleet's EIA-860M MW of the month, the largest charging hour of the 30 days before the day; a blank is not held",
   "Sources: caiso_curtailment_intervals, caiso_fuel_supply_history, caiso_fuel_supply, storage_buildout_monthly"
  ],
@@ -623,25 +623,25 @@
    "2020-10-17",
    "2022-01-14"
   ],
-  "fleet_last_month": "2026-08",
+  "fleet_last_month": "2026-09",
   "reconcile_days": 2793,
   "reconcile_max_abs_mwh": 0.0009843333336903015,
   "reconcile_days_within_1_mwh": 2793,
   "curtailment_last_day": "2026-10-17",
-  "supply_last_hour_utc": "2026-10-22T06:00:00Z"
+  "supply_last_hour_utc": "2026-10-24T06:00:00Z"
  },
  "downloads": {
   "csv": "erw_2026_caiso_curtailment_hourly.csv",
   "python": "batteries_curtailment_hourly.py",
   "stata": "batteries_curtailment_hourly.do"
  },
- "csv_sha256": "ebe836b56c398b8f5e50846812b6ad7f03f82b12a8ad46b6fe3e6a0d7796483c",
+ "csv_sha256": "75e9ebec90726360e25b8921a7f16d405f25cd060897787868a51fcc30c8ffae",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-22",
+   "name": "the findings library's cards as computed by 2026-10-24",
    "claims_tested": 26,
-   "claims_passing": 15,
+   "claims_passing": 14,
    "alpha": 0.05,
    "method": "Benjamini-Hochberg over the round's distinct p-values",
    "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",

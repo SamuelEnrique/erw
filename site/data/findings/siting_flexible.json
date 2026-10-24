@@ -158,9 +158,9 @@
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-22",
+   "name": "the findings library's cards as computed by 2026-10-24",
    "claims_tested": 26,
-   "claims_passing": 15,
+   "claims_passing": 14,
    "alpha": 0.05,
    "method": "Benjamini-Hochberg over the round's distinct p-values",
    "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
