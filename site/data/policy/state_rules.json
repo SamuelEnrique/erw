@@ -1,6 +1,6 @@
 {
- "built_at_utc": "2026-10-20T01:13:43Z",
- "as_of": "2026-10-20",
+ "built_at_utc": "2026-10-24T15:35:35Z",
+ "as_of": "2026-10-24",
  "tables": {
   "large_load_rules": 43,
   "large_load_rules_internal": 74
@@ -3100,7 +3100,7 @@
    ],
    "all_grids": false,
    "why_here": "A statewide rule. Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM.",
-   "in_motion": true
+   "in_motion": false
   },
   {
    "id": "txpuc:58796:proceeding:c351b1af36",
