@@ -558,10 +558,20 @@ cer_gas_trade,export_price,series variable,USD/MMBtu
 cer_gas_trade,exports,series variable,Mcf
 cer_gas_trade,import_price,series variable,USD/MMBtu
 cer_gas_trade,imports,series variable,Mcf
+cer_pipeline_throughput,available_capacity,series variable,m3/d
+cer_pipeline_throughput,capacity,series variable,m3/d
+cer_pipeline_throughput,committed_volume,series variable,m3/d
+cer_pipeline_throughput,nameplate_capacity,series variable,m3/d
+cer_pipeline_throughput,throughput,series variable,m3/d
+cer_pipeline_throughput,uncommitted_volume,series variable,m3/d
 cftc_cot_positions,managed_money_long,series variable,count
 cftc_cot_positions,managed_money_net,series variable,count
 cftc_cot_positions,managed_money_short,series variable,count
 cftc_cot_positions,open_interest,series variable,count
+desnz_uk_electricity_quarterly,generated,series variable,MWh
+desnz_uk_electricity_quarterly,supplied,series variable,MWh
+desnz_uk_renewables_quarterly,capacity,series variable,MW
+desnz_uk_renewables_quarterly,generated,series variable,MWh
 doe_grip_selections,event_id,column,
 doe_grip_selections,event_date,column,
 doe_grip_selections,event_type,column,
@@ -3112,6 +3122,10 @@ eia_gas_interstate_annual,net_receipts,series variable,MMcf
 eia_gas_interstate_annual,net_receipts_imports,series variable,MMcf
 eia_gas_interstate_annual,receipts,series variable,MMcf
 eia_gas_interstate_annual,receipts_imports,series variable,MMcf
+eia_gas_other_uses_state_annual,consumption_lease_and_plant_fuel,series variable,MMcf
+eia_gas_other_uses_state_annual,consumption_pipeline_fuel,series variable,MMcf
+eia_gas_other_uses_state_annual,consumption_vehicle_fuel,series variable,MMcf
+eia_gas_other_uses_state_annual,delivered_to_consumers,series variable,MMcf
 eia_gas_pipeline_projects,event_id,column,
 eia_gas_pipeline_projects,event_date,column,
 eia_gas_pipeline_projects,event_type,column,
@@ -3516,6 +3530,7 @@ eia_world_oil_gas_annual,stocks,series variable,kbbl
 eia_world_oil_monthly,consumption,series variable,kbbl/d
 eia_world_oil_monthly,production,series variable,kbbl/d
 eia_world_oil_monthly,stocks,series variable,kbbl
+elexon_gb_demand_daily,indo_daily,series variable,MWh
 energy_companies,entity_id,column,
 energy_companies,entity_type,column,
 energy_companies,name,column,

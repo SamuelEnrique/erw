@@ -380,6 +380,11 @@ catalogue_hold:
   - eia_lng_liquefaction_projects
   - eia_mecs_manufacturing
   - eia_recs_households
+  - cer_pipeline_throughput
+  - desnz_uk_electricity_quarterly
+  - desnz_uk_renewables_quarterly
+  - eia_gas_other_uses_state_annual
+  - elexon_gb_demand_daily
   - epa_ghgrp_facility_emissions
   - epa_lmop_landfill_projects
   - epa_tri_energy_releases_annual

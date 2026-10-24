@@ -40,6 +40,7 @@ census_cbp_hosting_annual,Census Bureau,the source registry
 census_metro_population,Census Bureau,the source registry
 cer_electricity_trade,Canada Energy Regulator (CER),the source registry
 cer_gas_trade,Canada Energy Regulator (CER),the source registry
+cer_pipeline_throughput,"Canada Energy Regulator (CER), Open Government Licence - Canada",the source registry
 cftc_cot_positions,CFTC,the source registry
 clean_energy_hourly,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_fuel_supply, carbon_intensity_hourly, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history"
 clean_energy_summary,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_fuel_supply, carbon_intensity_hourly, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history"
@@ -51,6 +52,8 @@ datacenter_operator_sites,Amazon Web Services; Digital Realty; Equinix; Google; 
 datacenter_projects,Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_projects_evidence,Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: rows of the six operators' queue tables
+desnz_uk_electricity_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_uk_renewables_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 doe_grip_selections,U.S. Department of Energy (DOE),the source registry
 doe_lng_export_applications,U.S. Department of Energy (DOE),the source registry
 doe_oe417_events,U.S. Department of Energy (DOE),the source registry
@@ -141,6 +144,7 @@ eia_gas_balance_annual,EIA,the source registry
 eia_gas_consumers_state_annual,EIA,the source registry
 eia_gas_consumption_state_monthly,EIA,the source registry
 eia_gas_interstate_annual,EIA,the source registry
+eia_gas_other_uses_state_annual,EIA,the source registry
 eia_gas_pipeline_projects,EIA,the source registry
 eia_gas_prices_state_monthly,EIA,the source registry
 eia_gas_production_state_monthly,EIA,the source registry
@@ -207,6 +211,7 @@ eia_world_electricity_annual,EIA,the source registry
 eia_world_energy_co2_annual,EIA,the source registry
 eia_world_oil_gas_annual,EIA,the source registry
 eia_world_oil_monthly,EIA,the source registry
+elexon_gb_demand_daily,Elexon Limited (BMRS),the source registry
 energy_companies,ERW,"by hand: its header: names, one-line descriptions written by the ERW, and links"
 energy_deals,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
 energy_deals_evidence,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
