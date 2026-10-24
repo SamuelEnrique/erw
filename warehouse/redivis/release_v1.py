@@ -232,6 +232,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "statcan_electricity_generation_monthly",
            "emi_nz_generation_demand_monthly",
            "census_c30_construction_monthly",
+           "energy_charts_southeast_europe_daily",
            "energy_charts_belgium_hourly",
            "statcan_oil_gas_supply_monthly",
            "ntd_transit_energy_annual",

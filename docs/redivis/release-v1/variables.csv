@@ -3657,6 +3657,10 @@ energy_charts_belgium_hourly,cross_border_trading,series variable,MW
 energy_charts_belgium_hourly,load,series variable,MW
 energy_charts_belgium_hourly,public_net_power,series variable,MW
 energy_charts_belgium_hourly,residual_load,series variable,MW
+energy_charts_southeast_europe_daily,cross_border_trading,series variable,MWh
+energy_charts_southeast_europe_daily,load,series variable,MWh
+energy_charts_southeast_europe_daily,public_net_energy,series variable,MWh
+energy_charts_southeast_europe_daily,residual_load,series variable,MWh
 energy_companies,entity_id,column,
 energy_companies,entity_type,column,
 energy_companies,name,column,
