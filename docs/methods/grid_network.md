@@ -783,6 +783,47 @@ Decisions (session 1182):
 - **The check scripts' default pages carry the files each must offer**, so a panel that loses its file fails the check;
   a page whose read fails at the landing shows as a missing file, said, not hidden.
 
+## Every panel in the address (chain 091, 24 October 2026)
+
+Chain 091 in this note: session 1183.
+
+Session 1183. Each panel chains 077, 078 and 091 added to the Grid tool has an anchor, an `id` on the page, so a reader's view can be shared as an address: the tab, the grid and the panel's own state in the query, the panel after the `#`. The anchors are one list, `site/lib/gridAnchors.ts` (`GRID_ANCHOR`, `PANEL_ANCHORS`), read by the components that draw the panels, by the two node tests and by the route check. An anchor is the same on every grid where the panel is the same (the grid is in the query, not in the anchor); where one page draws the same panel for several grids, the first takes the anchor and each next one the anchor and its grid (`anchorOf`: `mix-panel`, `mix-panel-miso`), as the Mix view's older sections do (`today`, `today-<ba>`).
+
+| Panel | Anchor | An address that opens it, with its state | The state it carries |
+|---|---|---|---|
+| The network's figures, the hour shown (`grid_network_<grid>`) | `#network-figures` | `/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=BPAT` | `net`, `t`, `node` (the network component's own words, through `netToPage`) |
+| The replayed day (`grid_replay_<BA>`, inside the network's panel) | `#replayed-day` | `/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO` | `net=day`, `t`, `node` |
+| The balance (`data-grid-balance`) | `#balance` | `/grid?grid=ercot&view=network` | the grid |
+| The gravity table (`grid_gravity_<grid>`) | `#gravity-figures` | `/grid?grid=ercot&view=gravity&shape=gravity&net=day&t=2021-02-15` | `shape`, `net`, `t` |
+| The Exchange blocks: the seven grids (Lower 48) | `#exchange-grids` | `/grid?grid=us48&view=gravity&shape=gravity` | `shape` |
+| The Exchange blocks: the ties and the week | `#exchange-ties` | `/grid?grid=ercot&view=gravity&shape=gravity` | `shape` |
+| The Exchange blocks: twelve months | `#exchange-months` | `/grid?grid=ercot&view=gravity&shape=gravity` | `shape` |
+| The last 24 hours (`grid_clean24_<grid>`) | `#last-24-hours` | `/grid?grid=ercot&view=clean` | the grid |
+| The energy mix panel (`grid_mix_<grid>`) | `#mix-panel` | `/grid?grid=ercot&mixp=month` | `mixp` (and `grids`, `ba`) |
+| The scarcity strip (`grid_scarcity_<grid>`) | `#scarcity` | `/grid?grid=ercot` | the grid: the strip is the grid's in the address |
+| CAISO's alerts (`grid_caisoalert_caiso`) | `#caiso-alerts` | `/grid?grid=caiso` | the grid |
+| ERCOT's notices (`grid_ercotnotice_ercot`) | `#ercot-notices` | `/grid?grid=ercot` | the grid |
+| The stored answers under Ask (`grid_ask_<grid>`) | `#stored-answers` | `/grid?grid=ercot&ask=1&q=What+was+the+peak%3F` | `ask`, `q` (the question in the box, not sent) |
+| The stress tables: ramp, tightest hours, calm stretches (`grid_stress_<grid>`) | `#stress-ramp`, `#stress-tight`, `#stress-calm` | `/grid?grid=ercot&mix=stress&year=2024` | `mix=stress`, `year`, `grids` |
+| The stress tables: the seven grids (`grid_stress_all`) | `#stress-grids` | `/grid?grid=ercot&mix=stress&year=2024` | `mix=stress`, `year` |
+
+Every panel's state was already in the address: each panel is drawn on the server from the page's query, and the network component writes its own words back through `netToPage` (session 1172's round trips). None keeps a state of its own in the browser. The energy mix panel's two views (its chips) now carry the panel's anchor (`#mix-panel`, or `#mix-panel-<grid>` for a grid after the first), where both carried `#hourly`, the first grid's section, on every grid. Three panels kept the anchor their section already had (`#scarcity`, `#caiso-alerts`, `#ercot-notices`), which links on the page point to.
+
+`site/scripts/test-grid-addresses.mjs` (four tests more) holds, for each panel, that its address is the one the tool writes (`gridHref`), that it opens the panel's tab and grid without a redirect, and that each word of its state is read back as the panel reads it (the day and node by `gridPick`, `net` by the network component through `netFromPage`, `mixp` and `year` by the mix page's `choiceOf`, `ask` by the Ask panel); that no two panels share an anchor and no anchor is an id the page already draws; that the route check lists each address with its anchor; and that this note names each anchor. `site/scripts/test-grid-files.mjs` draws the pages on committed real rows and holds that each panel drawn carries its anchor (on the panel, on an element inside it, or on the element that holds it alone) and that no id is drawn twice on a page, a grid's second mix panel and stress tables included. `site/scripts/check-routes.mjs` asks each address of `GRID_ANCHORS` with the internal cookie at a landing and fails when the page does not draw the anchor's id.
+
+**The files of session 1182, measured.** Each panel's CSV is written into its link as a `data:` address. Drawn outside Next on the same live answers (`site/scripts/same-figures.mjs --sizes`: each page's HTML and its flight payload, the two copies Next sends of what the server draws; a client component's own markup is not counted, the same before and after), on 40 addresses (`/grid`, each grid on each tab, the two monthly views, two stress views, three replayed days), the pages grew by 1.3 to 6.7 percent: the largest growth 33,510 bytes (`/grid?grid=ercot&mix=stress`, six files, 832,353 to 865,863 bytes, the largest page of the 40). The stress view with the seven grids, the heaviest address the tool writes, grew by 84,032 bytes, 6.5 percent (1,299,291 to 1,383,323 bytes, fifteen files). No page grew by more than 15 percent or 100 KB, so the files stay in the links. The site's Content-Security-Policy (`site/next.config.ts`, enforced since session 301) governs no download: its directives are fetch directives (scripts, styles, images, fonts, requests, workers, frames), with the four that cannot break a page; a link followed or downloaded is a navigation, which no directive of the policy covers (`default-src` stands in for fetch directives only, and `navigate-to` was never shipped by a browser). So a `data:` link with `download` is allowed, and no route is needed.
+
+**The copy line.** `components/CopyLine.tsx` (session 1015) is drawn on `/data` only, under "Use the ERW in your tools"; no block of `/grid` has one, older or new, so none was added.
+
+Decisions (session 1183):
+
+- **The anchor is the panel's, not the grid's**: `#mix-panel` on every grid, so an address differs from another grid's only in its `grid`, and a link written for one grid works for the next. The grid goes into the anchor only where a page draws the same panel twice.
+- **Where a session's test pins the panel's element word for word** (the energy mix panel, sessions 1152 and 1159; the last 24 hours, sessions 1159 and 1181), the anchor is on an element that holds the panel alone, not on the panel itself; the pinned lines stand. Elsewhere the `id` is on the panel's own element.
+- **The three anchors that were there are kept** (`scarcity`, `caiso-alerts`, `ercot-notices`, on the panel's one section): the page links to them, and tests of sessions 1155, 1159 and 1174 pin them.
+- **The mix panel's chips point at the panel**, not at the section `#hourly` above it: on a page of two grids the second grid's chips opened the first grid's section. The chips are links with `scroll={false}`: a click keeps the reader's place, and the anchor serves the address a reader copies or opens anew.
+- **The files stay in the links** (measured above, under the brief's bound of 15 percent or 100 KB). `same-figures.mjs --sizes` is kept for the next panel that adds to a page.
+- **No copy line**: the older blocks of `/grid` have none to follow, and the address with its anchor is what a reader shares from the browser's own bar; a "copy this view" control is a question for a ruling, not a placement to copy.
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").

@@ -22,6 +22,7 @@ import { scrollRegion } from "@/lib/cells";  // session 1159: the last 24 hours'
 import { carbonLeftOut, carbonLeftOutMonths, monthRuns, CARBON_HYDRO_GAP } from "@/lib/carbonLeftOut";  // session 118
 import { PanelFile } from "@/components/grid/PanelFile";  // session 1182: the last 24 hours' table, to download
 import { gridHref } from "@/lib/gridtool";
+import { GRID_ANCHOR } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
 
 const T = "carbon_intensity_hourly";
 const TM = "carbon_intensity_monthly"; // session 34
@@ -176,6 +177,8 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
             <LineChart lines={lines} unit="kg CO2/MWh" height={260} ariaLabel="Carbon intensity of generation per ISO, the last 24 hours" />
             {/* session 1151: the chart's headline figures, each a key of carbon_intensity_hourly with its source in the tip */}
             {/* session 1159 (the brand pass): the table alone scrolls, in a frame a keyboard reaches; its note stays in place; each ISO is its row's header, so it stays in view as the figures scroll */}
+            {/* session 1183: the panel's anchor, on the element that holds it alone (lib/gridAnchors.ts) */}
+            <div id={GRID_ANCHOR.clean24}>
             <div className="mt-3" data-grid-panel={`grid_clean24_${grid ?? "all"}`}>
               <div className="overflow-x-auto" {...scrollRegion("Latest, lowest and highest intensity of generation per ISO in the 24 hours drawn")}>
               <table className="w-full min-w-[520px] text-sm tabular-nums">
@@ -210,11 +213,14 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
                 rows={lastDayFigures(rows, ISOS.map((i) => i.entity), newest).map((d) => [ISOS.find((i) => i.entity === d.entity)!.label,
                   <F key="l" f={d.latest} />, d.latest.ts, <F key="lo" f={d.low} />, d.low.ts, <F key="hi" f={d.high} />, d.high.ts])} />
             </div>
+            </div>
           </>
         ) : (
           // session 1181: the keyed panel's place says why it is not drawn (a failed read, or no row), under the panel's own name
+          <div id={GRID_ANCHOR.clean24}>
           <div data-grid-panel={`grid_clean24_${grid ?? "all"}`} data-clean24-unread={got.ok ? "empty" : "failed"}>
             <NoData what="the last 24 hours" reason={got.ok ? `${T} has no row in the last ${LOOK_BACK_DAYS} days` : got.reason} />
+          </div>
           </div>
         )}
         <Cite tables={[T]} note={newest ? `Intensity of generation, hourly, the 24 hours to ${utc(new Date(newest).toISOString())} (hour start)` : undefined} />

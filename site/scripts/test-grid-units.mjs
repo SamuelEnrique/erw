@@ -210,5 +210,21 @@ const whole = await storageUnits();
   check("compareFigures: a page not walked after is a difference", c3.differ === 1 && c3.pages[1].line.includes("not walked after"));
 }
 
+// 6. session 1183: a page's size, as same-figures.mjs --sizes measures it (the HTML and the flight payload, the data: links)
+{
+  const Client = () => null;
+  Client.__erwClient = "x#Chart";
+  const Page = ({ file }) => h("div", { className: "a", "data-grid-panel": "grid_test_x" },
+    h("p", null, "Flow & <ties>"), h(Client, { rows: [1, 2], onPick: () => 0 }, h("b", null, "kept")),
+    file ? h("a", { href: `data:text/csv;charset=utf-8,${encodeURIComponent("# x\na,b\n1,2\n")}`, download: "erw_x.csv" }, "Download") : null);
+  const r = await S.reduceTree(h(Page, { file: false }));
+  check("reduceTree: a host element and a client component's props, a function dropped", JSON.stringify(r) === JSON.stringify(["$", "div", { className: "a", "data-grid-panel": "grid_test_x", children: [["$", "p", { children: "Flow & <ties>" }], ["$", "C:x#Chart", { rows: [1, 2], children: ["$", "b", { children: "kept" }] }], null] }]), JSON.stringify(r));
+  check("htmlOf: attributes and text escaped, a client component drawn by its children", S.htmlOf(r) === '<div class="a" data-grid-panel="grid_test_x"><p>Flow &amp; &lt;ties&gt;</p><b>kept</b></div>', S.htmlOf(r));
+  const a = await S.sizeOf(h(Page, { file: false })), b = await S.sizeOf(h(Page, { file: true }));
+  check("sizeOf: a data: link is counted with its bytes, in the HTML and the flight payload", a.files === 0 && b.files === 1 && b.fileBytes > 40 && b.total - a.total > 2 * b.fileBytes && b.total === b.html + b.flight, JSON.stringify([a, b]));
+  const rows = S.sizeRows({ p: { size: { total: 1000 } }, q: { size: { total: 1000000 } }, r: { size: { total: 1000 } } }, { p: { size: { total: 1100 } }, q: { size: { total: 1000000 + 102401 } }, r: { size: { total: 1151 } } });
+  check("sizeRows: a page over 15 percent or 100 KB is marked, one under is not", rows.map((x) => x.over).join(",") === "false,true,true" && rows[0].pct === 10, JSON.stringify(rows));
+}
+
 console.log(failed ? `${failed} case(s) failed` : "every case holds");
 process.exit(failed ? 1 : 0);

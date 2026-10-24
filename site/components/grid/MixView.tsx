@@ -9,6 +9,7 @@ import { GRIDS, calName, periodOf } from "@/lib/mix2";
 import { CLEAN, HISTORY, MIX, PLUS, STRESS } from "@/lib/mixdata";
 import { ALL_GRIDS, FACTORS, MAX_GRIDS, NO_GRID_CHOICE, SEASON_NAMES, VIEWS, filtered, gridUse, hrefOf, toggled, type Choice } from "@/lib/mixpage";
 import { gridHref } from "@/lib/gridtool";
+import { anchorOf } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
 import { BAS, STATES } from "@/lib/regions";
 import { attempt, HOURLY, rest } from "@/lib/supabase";
 import { HourlyFigures, MONTH_VARIABLES, MonthlyFigures } from "@/components/grid/MixFigures";
@@ -92,12 +93,14 @@ const GRID_BA: Record<string, string> = { ercot: "erco", caiso: "ciso", pjm: "pj
 const BA_GRID: Record<string, string> = { ...Object.fromEntries(Object.entries(GRID_BA).map(([g, b]) => [b, g])), us48: "us48" };
 
 /** Session 1152: the energy mix panel's two views, as chips; the choice is in the address (mixp=month). */
-function PanelToggle({ c, month }: { c: Choice; month: boolean }) {
+/** Session 1183: the two views' links carry the panel's own anchor (`at`: mix-panel, or mix-panel-<grid> for a grid after
+ *  the first), so the address a reader copies opens the view at the panel. */
+function PanelToggle({ c, month, at }: { c: Choice; month: boolean; at: string }) {
   return (
     <div className="mb-2" data-mix-panel-toggle={month ? "month" : "hour"}>
       <Chips label="View" items={[
-        { key: "hour", label: "Hourly, last 7 days", on: !month, href: `${hrefOf({ ...c, mixp: undefined })}#hourly`, title: "EIA-930's hourly generation by fuel (eia930_all_generation)" },
-        { key: "month", label: "By month", on: month, href: `${hrefOf({ ...c, mixp: "month" })}#hourly`, title: "The grid's monthly mix (generation_mix_hourly_profile)" },
+        { key: "hour", label: "Hourly, last 7 days", on: !month, href: `${hrefOf({ ...c, mixp: undefined })}#${at}`, title: "EIA-930's hourly generation by fuel (eia930_all_generation)" },
+        { key: "month", label: "By month", on: month, href: `${hrefOf({ ...c, mixp: "month" })}#${at}`, title: "The grid's monthly mix (generation_mix_hourly_profile)" },
       ]} />
     </div>
   );
@@ -166,8 +169,10 @@ async function NowView({ c }: { c: Choice }) {
             <section id={i ? `hourly-${b.code}` : "hourly"} className="mb-8">
               <h2 className={h2}>{month ? `${b.label}: monthly mix, by grid` : <>{b.label}: hourly mix, last 7 days</>}</h2>
               {/* session 1152: the energy mix panel, its figures keyed (lib/mixHourly.ts), its two views in the address */}
+              {/* session 1183: the panel's anchor, on the element that holds it alone (lib/gridAnchors.ts) */}
+              <div id={anchorOf("mix", i, grid)}>
               <div data-grid-panel={`grid_mix_${grid}`}>
-                <PanelToggle c={c} month={month} />
+                <PanelToggle c={c} month={month} at={anchorOf("mix", i, grid)} />
                 {month ? (
                   grid === "us48" ? <Missing why="generation_mix_hourly_profile is built for the seven ISO grids, not for the Lower 48: its monthly mix by state is below." words="not built for the Lower 48" />
                     : more && more.ok ? <MonthlyFigures rows={more.data} label={b.label} caiso={withheld} notices={withheld ? notices : undefined} ercot={b.code === "erco" ? ercotN : undefined} /> : failed(more && !more.ok ? more.reason : "no read")
@@ -175,6 +180,7 @@ async function NowView({ c }: { c: Choice }) {
                   // session 1181: the grid's generation could not be read: the panel says so in its own place, and draws no figure
                   : !month && !withheld && !hourly.ok ? <p className="mb-2 text-sm" data-mix-unread="1">The hourly mix: {failed(hourly.reason)}</p> : null}
                 {!month && withheld ? <p className="mb-2 text-xs text-muted">California&apos;s monthly mix, from CAISO&apos;s own data since January 2026, is under &quot;By month&quot;.</p> : null}
+              </div>
               </div>
               {month ? null : (
                 <>

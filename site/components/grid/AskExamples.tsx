@@ -7,6 +7,7 @@
 // the grid today is not shown; in its place stand the live Ask's words for that read (lib/license.ts licenseReason).
 import { examplesLine, gridAskExamples } from "@/lib/gridask";
 import type { GridChoice } from "@/lib/gridtool";
+import { GRID_ANCHOR } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
 
 const dayWords = (iso: string) => {
   const d = new Date(iso);
@@ -16,7 +17,7 @@ const dayWords = (iso: string) => {
 export function AskExamples({ grid, now = new Date() }: { grid: GridChoice; now?: Date }) {
   const { label, shown } = gridAskExamples(grid.slug, now);
   return (
-    <section className="mt-8 border-t border-rule pt-3" data-grid-panel={`grid_ask_${grid.slug}`} data-ask-examples={shown.length} data-ask-stored="1" aria-labelledby={`ask-examples-${grid.slug}`}>
+    <section className="mt-8 border-t border-rule pt-3" data-grid-panel={`grid_ask_${grid.slug}`} id={GRID_ANCHOR.ask} data-ask-examples={shown.length} data-ask-stored="1" aria-labelledby={`ask-examples-${grid.slug}`}>
       <h3 id={`ask-examples-${grid.slug}`} className="mb-1 font-serif text-base">Stored answers</h3>
       <p className="mb-2 text-xs leading-relaxed text-muted" data-ask-examples-line="1">
         {examplesLine(shown.length, label)} Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day.

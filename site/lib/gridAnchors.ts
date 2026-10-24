@@ -1,0 +1,69 @@
+// Energy Research Warehouse (ERW) site, session 1183 (chain 091): every panel chains 077, 078 and 091 added to the Grid
+// tool (/grid) has an anchor, so a reader's view can be shared as an address: the tab, the grid and the panel's own
+// state in the query (lib/gridtool.ts gridHref: grid, view, net, t, node, shape, mixp, mix, grids, year, q), the panel
+// after the #. One list, read by the components that draw the panels, by scripts/test-grid-addresses.mjs (each address
+// opens its tab and grid, its state read back), by scripts/test-grid-files.mjs (each drawn panel carries its anchor, and
+// no id is twice on a page) and by scripts/check-routes.mjs (a landing asks each address and finds the anchor on it).
+// The method note docs/methods/grid_network.md names each one ("Every panel in the address").
+//
+// An anchor is the same on every grid where the panel is the same: the grid is in the query, not in the anchor. Where a
+// page draws the same panel for several grids (the energy mix panel with grids=pjm,miso; the stress view's three tables
+// a grid), the first takes the anchor and each next one the anchor and its grid (anchorOf), as the Mix view's own older
+// sections do (today, today-<ba>; hourly, hourly-<ba>). Three panels kept the anchor their section had before this
+// session (scarcity, caiso-alerts, ercot-notices): links already point to them.
+import type { GridView } from "@/lib/gridtool";
+
+export const GRID_ANCHOR = {
+  network: "network-figures",
+  replay: "replayed-day",
+  balance: "balance",
+  gravity: "gravity-figures",
+  exchangeGrids: "exchange-grids",
+  exchangeTies: "exchange-ties",
+  exchangeMonths: "exchange-months",
+  clean24: "last-24-hours",
+  mix: "mix-panel",
+  scarcity: "scarcity",
+  caisoAlerts: "caiso-alerts",
+  ercotNotices: "ercot-notices",
+  ask: "stored-answers",
+  stressRamp: "stress-ramp",
+  stressTight: "stress-tight",
+  stressCalm: "stress-calm",
+  stressGrids: "stress-grids",
+} as const;
+export type GridAnchorKey = keyof typeof GRID_ANCHOR;
+
+/** The anchor of a panel drawn for a grid among several on one page: the first (i = 0) the anchor, the next ones the
+ *  anchor and the grid ("mix-panel-miso"). */
+export function anchorOf(key: GridAnchorKey, i: number, grid: string): string {
+  return i ? `${GRID_ANCHOR[key]}-${grid}` : GRID_ANCHOR[key];
+}
+
+/** Each panel, the block on the page that carries the anchor (its data-grid-panel name, or the attribute that names a
+ *  block inside one), and an address that opens it with its state: the tab and the grid it opens on (`tab`, `grid`),
+ *  and the words of the panel's own state the address carries (`state`). */
+export type PanelAnchor = { key: GridAnchorKey; panel: string; block: string; what: string; address: string; tab: GridView; grid: string; state: string[] };
+
+export const PANEL_ANCHORS: PanelAnchor[] = [
+  { key: "network", panel: "grid_network_<grid>", block: "data-grid-panel", what: "the grid's ties (or the seven grids) in the hour the network shows", address: "/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=BPAT", tab: "network", grid: "ercot", state: ["net", "t", "node"] },
+  { key: "replay", panel: "grid_replay_<BA>", block: "data-grid-replay-day", what: "the balancing authority in the address on the day picked in the replay", address: "/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO", tab: "network", grid: "ercot", state: ["net", "t", "node"] },
+  { key: "balance", panel: "grid_network_<grid> (its balance)", block: "data-grid-balance", what: "whether the grid's balance closes, the hour shown and the week", address: "/grid?grid=ercot&view=network", tab: "network", grid: "ercot", state: [] },
+  { key: "gravity", panel: "grid_gravity_<grid>", block: "data-grid-panel", what: "the seven grids in the gravity shape, the hour shown (and the replayed day's demand)", address: "/grid?grid=ercot&view=gravity&shape=gravity&net=day&t=2021-02-15", tab: "gravity", grid: "ercot", state: ["shape", "net", "t"] },
+  { key: "exchangeGrids", panel: "grid_exchange_us48", block: "data-grid-view", what: "the seven grids' net export in the snapshot's hour", address: "/grid?grid=us48&view=gravity&shape=gravity", tab: "gravity", grid: "us48", state: ["shape"] },
+  { key: "exchangeTies", panel: "grid_exchange_<grid> (ties)", block: "data-grid-view", what: "the grid's ties in the hour, and each tie over the snapshot's week", address: "/grid?grid=ercot&view=gravity&shape=gravity", tab: "gravity", grid: "ercot", state: ["shape"] },
+  { key: "exchangeMonths", panel: "grid_exchange_<grid> (twelve months)", block: "data-grid-view", what: "the grid's neighbours over the last twelve months", address: "/grid?grid=ercot&view=gravity&shape=gravity", tab: "gravity", grid: "ercot", state: ["shape"] },
+  { key: "clean24", panel: "grid_clean24_<grid>", block: "data-grid-panel", what: "the latest, lowest and highest intensity of generation per ISO in the last 24 hours", address: "/grid?grid=ercot&view=clean", tab: "clean", grid: "ercot", state: [] },
+  { key: "mix", panel: "grid_mix_<grid>", block: "data-grid-panel", what: "the energy mix panel, hourly or by month", address: "/grid?grid=ercot&mixp=month", tab: "mix", grid: "ercot", state: ["mixp"] },
+  { key: "scarcity", panel: "grid_scarcity_<grid>", block: "data-grid-panel", what: "the scarcity hours of the grid in view, the latest 30 days held", address: "/grid?grid=ercot", tab: "mix", grid: "ercot", state: [] },
+  { key: "caisoAlerts", panel: "grid_caisoalert_caiso", block: "data-grid-panel", what: "CAISO's alerts: today, the last alert day, the notices that are not alerts", address: "/grid?grid=caiso", tab: "mix", grid: "caiso", state: [] },
+  { key: "ercotNotices", panel: "grid_ercotnotice_ercot", block: "data-grid-panel", what: "ERCOT's notices: today, the last day of each kind, the notices that are not calls", address: "/grid?grid=ercot", tab: "mix", grid: "ercot", state: [] },
+  { key: "ask", panel: "grid_ask_<grid>", block: "data-grid-panel", what: "the stored answers under the Ask box, the question in the box kept", address: "/grid?grid=ercot&ask=1&q=What+was+the+peak%3F", tab: "mix", grid: "ercot", state: ["ask", "q"] },
+  { key: "stressRamp", panel: "grid_stress_<grid> (ramp)", block: "data-mix", what: "the evening ramp and the lowest net load, by year", address: "/grid?grid=ercot&mix=stress&year=2024", tab: "mix", grid: "ercot", state: ["mix", "year"] },
+  { key: "stressTight", panel: "grid_stress_<grid> (tight)", block: "data-mix", what: "what each fuel gave in the tightest hours of the year", address: "/grid?grid=ercot&mix=stress&year=2024", tab: "mix", grid: "ercot", state: ["mix", "year"] },
+  { key: "stressCalm", panel: "grid_stress_<grid> (calm)", block: "data-mix", what: "dark, calm stretches, by year", address: "/grid?grid=ercot&mix=stress&year=2024", tab: "mix", grid: "ercot", state: ["mix", "year"] },
+  { key: "stressGrids", panel: "grid_stress_all", block: "data-mix", what: "the seven grids in the year", address: "/grid?grid=ercot&mix=stress&year=2024", tab: "mix", grid: "ercot", state: ["mix", "year"] },
+];
+
+/** The address of a panel with its anchor: what a reader shares. */
+export const panelAddress = (a: PanelAnchor) => `${a.address}#${GRID_ANCHOR[a.key]}`;

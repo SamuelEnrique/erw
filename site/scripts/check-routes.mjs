@@ -16,6 +16,8 @@
 // runs without it, as a visitor: each live page must open as itself, each page in review must show the in-review page
 // (status 200, marked noindex), and the home page's menu must list the pages in review greyed. The API routes are not
 // behind the gate; one of them is asked without the cookie to confirm it.
+// Session 1183: pass 1 also asks each panel of the Grid tool at its address (GRID_ANCHORS, lib/gridAnchors.ts) and fails
+// when the page does not draw the panel's anchor (its id), so a shared address still opens at its panel.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -130,6 +132,18 @@ const PAGES = [
   "/policy?view=week", "/policy?view=week&days=30", "/policy?view=week&days=30&agency=ferc&topic=large_load&grid=pjm&large=1", "/policy?view=week&grid=miso", "/data/methods/policy_monitor",  // session 157: "What changed this week", the second view of the policy monitor (in review; scripts/check-policy.mjs opens it in a real browser)
 ];
 
+// session 1183: every panel of the Grid tool in the address: each panel's address and its anchor (lib/gridAnchors.ts
+// PANEL_ANCHORS; scripts/test-grid-addresses.mjs asserts each one is listed here). Pass 1 asks each address with the
+// internal cookie and finds id="<anchor>" in the page.
+const GRID_ANCHORS = [
+  "/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=BPAT#network-figures", "/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO#replayed-day",
+  "/grid?grid=ercot&view=network#balance", "/grid?grid=ercot&view=gravity&shape=gravity&net=day&t=2021-02-15#gravity-figures",
+  "/grid?grid=us48&view=gravity&shape=gravity#exchange-grids", "/grid?grid=ercot&view=gravity&shape=gravity#exchange-ties", "/grid?grid=ercot&view=gravity&shape=gravity#exchange-months",
+  "/grid?grid=ercot&view=clean#last-24-hours", "/grid?grid=ercot&mixp=month#mix-panel", "/grid?grid=ercot#scarcity", "/grid?grid=caiso#caiso-alerts", "/grid?grid=ercot#ercot-notices",
+  "/grid?grid=ercot&ask=1&q=What+was+the+peak%3F#stored-answers", "/grid?grid=ercot&mix=stress&year=2024#stress-ramp", "/grid?grid=ercot&mix=stress&year=2024#stress-tight",
+  "/grid?grid=ercot&mix=stress&year=2024#stress-calm", "/grid?grid=ercot&mix=stress&year=2024#stress-grids",
+];
+
 function visible(html) {
   return html
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
@@ -169,9 +183,11 @@ if (!cookie) {
 const baseCookie = baseline ? await unlock(baseline) : "";
 
 let bad = 0;
+const drawn = new Map();   // session 1183: each page's HTML of pass 1, for the anchors' check
 console.log("== pass 1: every page, with the internal cookie");
 for (const page of PAGES) {
   const now = await get(base + page, cookie);
+  drawn.set(page, now.html);
   const msgs = [];
   if (now.status !== 200) msgs.push(`status ${now.status}${now.error ? ` (${now.error})` : ""}`);
   if (inReview(now.html)) msgs.push("the in-review page, although the internal cookie was sent");
@@ -191,6 +207,19 @@ for (const page of PAGES) {
     + (msgs.length ? `; ${msgs.join("; ")}` : ""));
 }
 console.log(`route check, pass 1: ${PAGES.length - bad} of ${PAGES.length} pages pass${baseline ? `, against ${baseline}` : " (no baseline)"}`);
+{
+  // session 1183: each Grid panel's address draws its anchor
+  let badA = 0;
+  for (const entry of GRID_ANCHORS) {
+    const [page, anchor] = entry.split("#");
+    if (!drawn.has(page)) { const r = await get(base + page, cookie); drawn.set(page, r.status === 200 ? r.html : ""); }
+    const ok = drawn.get(page).includes(`id="${anchor}"`);
+    badA += ok ? 0 : 1;
+    console.log(`${ok ? "ok  " : "FAIL"} ${page} #${anchor}${ok ? "" : ": the page does not draw the anchor (or did not answer 200)"}`);
+  }
+  bad += badA;
+  console.log(`route check, the Grid panels' anchors: ${GRID_ANCHORS.length - badA} of ${GRID_ANCHORS.length} drawn`);
+}
 
 console.log("== pass 2: as a visitor, without the cookie");
 let bad2 = 0, nLive = 0, nReview = 0;

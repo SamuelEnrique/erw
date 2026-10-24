@@ -15,6 +15,7 @@ import type { ReplayRead } from "@/lib/gridReplayFile";
 import { PanelFile, type FileOf } from "@/components/grid/PanelFile";  // session 1182: the day's table, to download
 import { BA_GRID } from "@/lib/gridHeld";
 import { gridHref } from "@/lib/gridtool";
+import { GRID_ANCHOR } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
 
 /** The replayed day the address asks for: `day` the day drawn (held to the replay's first and last day, as the network
  *  component holds it), `asked` the address's own word, and the year's file as read. */
@@ -36,7 +37,7 @@ export function ReplayDayFigures({ ask, ba, name }: { ask: ReplayAsk; ba: string
   const title = `${name}, the day picked (${ask.day}, EIA's Eastern day)`;
   if (!ask.read.ok) {
     return (
-      <div data-grid-replay-day={ba} data-replay-day={ask.day}>
+      <div data-grid-replay-day={ba} data-replay-day={ask.day} id={GRID_ANCHOR.replay}>
         <ToolSection title={title}><NoData what={`${name}'s figures of ${ask.day}`} reason={ask.read.why} /></ToolSection>
       </div>
     );
@@ -57,7 +58,7 @@ export function ReplayDayFigures({ ask, ba, name }: { ask: ReplayAsk; ba: string
     filter: `${ba} (${name}): its daily demand, and its ties with a flow that day summed and signed from its side`,
     window: `Window: ${ask.day}, EIA's Eastern day; a day's figure is its MWh over the day's hours, the day's average MW` };
   return (
-    <div data-grid-replay-day={ba} data-replay-day={ask.day}>
+    <div data-grid-replay-day={ba} data-replay-day={ask.day} id={GRID_ANCHOR.replay}>
       <ToolSection title={title}
         note={<>From the replay&apos;s committed file of {ask.day.slice(0, 4)}, built from EIA-930&apos;s daily demand and interchange (public domain): a day&apos;s figure is its MWh over the hours of EIA&apos;s Eastern day, the day&apos;s average MW, so it reads on the scale of an hour. The file holds a daily demand for {r.withDemand} balancing authorities; where it holds none for {name} that day, the cell says not held. A tie&apos;s flow is signed from {name}&apos;s side. These are the figures of the day in the address when the page was opened: a day picked in the replay above moves the address, and the page opened again draws that day here.{moved(ask)} Hover a figure for its file, filter and day.</>}>
         {r.inFile ? (

@@ -22,6 +22,7 @@ import { carryWords, KEEP_DAY } from "../lib/carry.ts";
 import { carryMoment } from "../lib/networkMap.ts";
 import { choiceOf } from "../lib/mixpage.ts";
 import nextConfig from "../next.config.ts";
+import { GRID_ANCHOR, PANEL_ANCHORS, anchorOf, panelAddress } from "../lib/gridAnchors.ts";   // session 1183
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.join(here, "..");
@@ -314,4 +315,65 @@ await test("the route check lists every old address marked route", () => {
   assert.deepEqual(missing, []);
 });
 
-console.log(`${n} tests passed, ${CASES.length} addresses`);
+// ------------------------------------------------------------------ session 1183: every panel in the address
+// Each panel chains 077, 078 and 091 added has an anchor (lib/gridAnchors.ts) and an address that opens it with its own
+// state: the address is the one the tool writes (gridHref), it opens the panel's tab and grid, each word of the panel's
+// state is read back by the page as the panel reads it, and the route check lists the address with its anchor.
+await test("every panel's address opens its tab and grid, written as gridHref writes it, its state read back", () => {
+  const failed = [];
+  for (const a of PANEL_ANCHORS) {
+    const q = queryOf(a.address.split("?")[1] ?? "");
+    const more = Object.fromEntries(Object.entries(q).filter(([k]) => k !== "grid" && k !== "view"));
+    if (T.gridHref(a.grid, a.tab, more) !== a.address) failed.push(`${a.key}: ${a.address} is not gridHref's ${T.gridHref(a.grid, a.tab, more)}`);
+    const l = land(a.address);
+    if (l.rule !== null) failed.push(`${a.key}: ${a.address} is redirected`);
+    const { p, mix } = pageOf(l.query);
+    if (p.view !== a.tab || p.grid.slug !== a.grid) failed.push(`${a.key}: opens ${p.view}/${p.grid.slug}, want ${a.tab}/${a.grid}`);
+    for (const w of a.state) {
+      if (!(w in q)) { failed.push(`${a.key}: the address carries no ${w}`); continue; }
+      if (w === "shape" && (q.shape === "gravity") !== (p.view === "gravity")) failed.push(`${a.key}: shape=${q.shape} on the ${p.view} tab`);
+      if (w === "t" && p.day !== q.t) failed.push(`${a.key}: the day read is ${p.day}, the address ${q.t}`);
+      if (w === "node" && p.node !== q.node) failed.push(`${a.key}: the node read is ${p.node}, the address ${q.node}`);
+      if (w === "ask" && !p.ask) failed.push(`${a.key}: ask=1 does not open the Ask panel`);
+      if (w === "mix" && mix !== q.mix) failed.push(`${a.key}: the mix view read is ${mix}, the address ${q.mix}`);
+      if (w === "mixp" || w === "year") {
+        const mq = { ...l.query, view: one(l.query.mix), grid: undefined };
+        if (!one(l.query.grids)) mq.grids = p.grid.slug;
+        const c = choiceOf(mq);
+        if (w === "mixp" && c.mixp !== "month") failed.push(`${a.key}: mixp=month is not read (${c.mixp})`);
+        if (w === "year" && c.year !== q.year) failed.push(`${a.key}: the year read is ${c.year}, the address ${q.year}`);
+      }
+      if (w === "net" && (p.view === "network" || p.view === "gravity")) {
+        const own = new URLSearchParams(T.netFromPage(`?${new URLSearchParams(Object.entries(l.query).map(([k, v]) => [k, one(v)]))}`, p.node).slice(1));
+        if (own.get("view") !== q.net) failed.push(`${a.key}: the network reads view=${own.get("view")}, the address net=${q.net}`);
+      }
+    }
+  }
+  assert.deepEqual(failed, []);
+});
+
+await test("each anchor is one id, never two panels', and every anchor has a panel's address", () => {
+  const ids = Object.values(GRID_ANCHOR);
+  assert.equal(new Set(ids).size, ids.length, "two panels share an anchor");
+  for (const id of ids) assert.match(id, /^[a-z][a-z0-9-]*$/, `${id}: a plain id`);
+  assert.deepEqual([...new Set(PANEL_ANCHORS.map((a) => a.key))].sort(), Object.keys(GRID_ANCHOR).sort());
+  assert.deepEqual([anchorOf("mix", 0, "pjm"), anchorOf("mix", 1, "miso"), anchorOf("stressRamp", 2, "caiso")], ["mix-panel", "mix-panel-miso", "stress-ramp-caiso"]);
+  assert.equal(panelAddress(PANEL_ANCHORS.find((a) => a.key === "mix")), "/grid?grid=ercot&mixp=month#mix-panel");
+  // no anchor is an id the page already draws for something else (the older sections and controls of /grid)
+  const older = ["ask", "ask-box", "today", "hourly", "monthly", "mix-table", "now-mix", "reliability", "day", "together", "years", "clean", "stress", "stress-netload", "supply", "history", "replay-day"];
+  for (const id of ids) assert.ok(!older.includes(id), `${id} is an older id of the page`);
+});
+
+await test("the route check lists every panel's address with its anchor, and checks the anchor is on the page", () => {
+  const routes = src("scripts", "check-routes.mjs");
+  const missing = PANEL_ANCHORS.filter((a) => !routes.includes(`"${panelAddress(a)}"`)).map(panelAddress);
+  assert.deepEqual(missing, []);
+  assert.ok(routes.includes("GRID_ANCHORS") && routes.includes("id=\"${anchor}\""), "check-routes.mjs looks for the anchor's id in the page");
+});
+
+await test("the method note names each anchor with its panel", () => {
+  const note = fs.readFileSync(path.join(SITE, "..", "docs", "methods", "grid_network.md"), "utf-8");
+  for (const a of PANEL_ANCHORS) assert.ok(note.includes(`\`#${GRID_ANCHOR[a.key]}\``), `docs/methods/grid_network.md names #${GRID_ANCHOR[a.key]}`);
+});
+
+console.log(`${n} tests passed, ${CASES.length} addresses, ${PANEL_ANCHORS.length} panels`);

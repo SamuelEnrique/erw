@@ -19,6 +19,8 @@
 //             no fewer; each figure's value is written whole in the file, in a cell or in a "Figure:" line of its header
 // And: a held grid's figure is written "license needed", never its value, in a cell and in a header line (lib/license.ts,
 // on a day it is held); a cell in words is written in those words; a value with a comma or a quote is quoted.
+// Session 1183: and each block carries its anchor (lib/gridAnchors.ts: the id on the block, on an element inside it, or
+// on the element that holds it alone), and no id is drawn twice on a page.
 // Prints one line a case; exit 0 when every case holds, 1 otherwise.
 import fs from "node:fs";
 import path from "node:path";
@@ -133,14 +135,16 @@ const MEMO = Symbol.for("react.memo");
 const FORWARD = Symbol.for("react.forward_ref");
 const BLOCKS = [["data-grid-panel", (v) => v], ["data-grid-balance", (v) => `balance_${v}`], ["data-grid-replay-day", (v) => `replay_${v}`],
   ["data-grid-view", (v) => `view_${v}`], ["data-mix", (v) => `mixview_${v}`]];
-const block = (rec, name) => (rec[name] ??= { nums: [], files: [], made: [], errors: [] });
+const block = (rec, name) => (rec[name] ??= { nums: [], files: [], made: [], errors: [], ids: [] });
+// session 1183: every id the page draws, in order (a symbol key: the blocks are the record's own keys)
+const IDS = Symbol("ids");
 const PF = await import("../components/grid/PanelFile.tsx");
-async function walk(node, rec, at, seen) {
+async function walk(node, rec, at, seen, wrap) {
   if (node === null || node === undefined || typeof node !== "object") return;
   if (typeof node.then === "function") {
     let v;
     try { v = await node; } catch (e) { block(rec, at).errors.push(String(e?.message ?? e)); return; }
-    return walk(v, rec, at, seen);
+    return walk(v, rec, at, seen, wrap);
   }
   if (seen.has(node)) return;
   seen.add(node);
@@ -150,8 +154,13 @@ async function walk(node, rec, at, seen) {
     if (type && typeof type === "object" && type.$$typeof === MEMO) type = type.type;
     if (type && typeof type === "object" && type.$$typeof === FORWARD) type = type.render;
     let p = at;
+    let under;   // session 1183: the id of an element that holds one element alone, handed to that element
     if (typeof type === "string") {
-      for (const [a, f] of BLOCKS) if (props[a] !== undefined) { p = f(props[a]); block(rec, p); }
+      let named = false;
+      for (const [a, f] of BLOCKS) if (props[a] !== undefined) { p = f(props[a]); block(rec, p); named = true; }
+      if (props.id !== undefined) { (rec[IDS] ??= []).push(String(props.id)); block(rec, p).ids.push(String(props.id)); }
+      if (named && wrap) block(rec, p).ids.push(wrap);
+      if (props.id !== undefined && props.children && typeof props.children === "object" && !Array.isArray(props.children) && ELEMENT.has(props.children.$$typeof)) under = String(props.id);
       if (props["data-check"] !== undefined) block(rec, p).nums.push(`${props["data-check"]}=${props["data-raw"]}`);
       if (props["data-grid-file"] !== undefined) block(rec, p).files.push({ id: props["data-grid-file"], href: props.href, download: props.download,
         rows: props["data-grid-file-rows"], figures: props["data-grid-file-figures"] });
@@ -160,10 +169,11 @@ async function walk(node, rec, at, seen) {
     if (typeof type === "function" && !type.__erwClient && !type.prototype?.isReactComponent) {
       let o;
       try { o = type(props); if (o && typeof o.then === "function") o = await o; } catch (e) { block(rec, p).errors.push(`${type.name}: ${e?.message ?? e}`); return; }
-      return walk(o, rec, p, seen);
+      return walk(o, rec, p, seen, wrap);
     }
+    if (typeof type !== "string") under = wrap;   // a fragment or a client component hands the wrapper on
     const drawn = (v) => v && typeof v === "object" && (ELEMENT.has(v.$$typeof) || (Array.isArray(v) && v.some((x) => drawn(x) || (Array.isArray(x) && x.some(drawn)))) || (!Array.isArray(v) && Object.values(v).some((x) => x && ELEMENT.has(x.$$typeof))));
-    for (const [k, v] of Object.entries(props)) if (k === "children" || (drawn(v) && type !== PF.PanelFile)) await walk(v, rec, p, seen);
+    for (const [k, v] of Object.entries(props)) if (k === "children" || (drawn(v) && type !== PF.PanelFile)) await walk(v, rec, p, seen, k === "children" ? under : undefined);
     return;
   }
   if (Array.isArray(node) || typeof node[Symbol.iterator] === "function") { for (const v of node) await walk(v, rec, at, seen); return; }
@@ -281,6 +291,63 @@ for (const [sp, blocks] of PAGES) {
     return stray.length ? `files in blocks without a figure: ${stray.join(", ")}` : "";
   });
 }
+
+// ------------------------------------------------------------------ session 1183: each panel's anchor, and no id twice
+const GA = await import("../lib/gridAnchors.ts");
+const AN = GA.GRID_ANCHOR;
+const gridOfBlock = (name) => name.split("_").slice(2).join("_");
+/** The anchors a block must carry, for the page's query (each list: every one of them; `oneOf`: at least one). */
+function anchorsOf(name, sp) {
+  const grids = (sp.grids ?? sp.grid ?? "ercot").split(",");
+  if (name.startsWith("grid_network_")) return [AN.network];
+  if (name.startsWith("balance_")) return [AN.balance];
+  if (name.startsWith("replay_")) return [AN.replay];
+  if (name.startsWith("grid_gravity_")) return [AN.gravity];
+  if (name === "view_exchange") return (sp.grid ?? "us48") === "us48" ? [AN.exchangeGrids] : [AN.exchangeTies, AN.exchangeMonths];
+  if (name.startsWith("grid_clean24_")) return [AN.clean24];
+  if (name.startsWith("grid_mix_")) return { oneOf: [AN.mix, `${AN.mix}-${gridOfBlock(name)}`] };
+  if (name.startsWith("grid_scarcity_")) return [AN.scarcity];
+  if (name === "grid_caisoalert_caiso") return [AN.caisoAlerts];
+  if (name === "grid_ercotnotice_ercot") return [AN.ercotNotices];
+  if (name.startsWith("grid_ask_")) return [AN.ask];
+  if (name === "mixview_stress") return [...grids.flatMap((g, i) => ["stressRamp", "stressTight", "stressCalm"].map((k) => GA.anchorOf(k, i, g))), AN.stressGrids];
+  return null;
+}
+const ANCHOR_PAGES = [...PAGES.map(([sp]) => sp), { grid: "us48", view: "mix" }, { grid: "ercot", view: "mix", grids: "ercot,caiso" },
+  { grid: "ercot", view: "mix", mix: "stress", grids: "ercot,caiso" }, { grid: "nyiso", view: "clean" }];
+const seenAnchors = new Set();
+for (const sp of ANCHOR_PAGES) {
+  const rec = await draw(sp);
+  const q = new URLSearchParams(sp).toString();
+  await check(`/grid?${q}: each panel carries its anchor (lib/gridAnchors.ts), and no id is drawn twice`, () => {
+    const why = [];
+    for (const [name, b] of Object.entries(rec)) {
+      const want = anchorsOf(name, sp);
+      if (!want) continue;
+      if (Array.isArray(want)) { for (const a of want) { if (b.ids.includes(a)) seenAnchors.add(a); else why.push(`${name} lacks #${a} (ids: ${b.ids.join(", ") || "none"})`); } }
+      else if (want.oneOf.some((a) => b.ids.includes(a))) want.oneOf.forEach((a) => b.ids.includes(a) && seenAnchors.add(a));
+      else why.push(`${name} lacks #${want.oneOf.join(" or #")} (ids: ${b.ids.join(", ") || "none"})`);
+    }
+    const ids = rec[IDS] ?? [];
+    const twice = [...new Set(ids.filter((x, i) => ids.indexOf(x) !== i))];
+    if (twice.length) why.push(`drawn twice: ${twice.join(", ")}`);
+    if (!Object.keys(rec).some((n) => anchorsOf(n, sp))) why.push(`no panel drawn (blocks: ${Object.keys(rec).join(", ")})`);
+    return why.join("; ");
+  });
+}
+await check("every anchor of lib/gridAnchors.ts is drawn on a page above, and every panel's address names its tab's words", () => {
+  const miss = Object.values(AN).filter((a) => !seenAnchors.has(a));
+  if (miss.length) return `never drawn: ${miss.join(", ")}`;
+  const keys = new Set(GA.PANEL_ANCHORS.map((p) => p.key));
+  const lost = Object.keys(AN).filter((k) => !keys.has(k));
+  return lost.length ? `anchors without a panel address: ${lost.join(", ")}` : "";
+});
+await check("two grids on one page: the second grid's mix panel and stress tables take the anchor and the grid", async () => {
+  const rec = await draw({ grid: "ercot", view: "mix", mix: "stress", grids: "ercot,caiso" });
+  const ids = rec[IDS] ?? [];
+  const want = ["stress-ramp", "stress-tight", "stress-calm", "stress-ramp-caiso", "stress-tight-caiso", "stress-calm-caiso", "stress-grids"];
+  return want.every((a) => ids.includes(a)) && !ids.includes("stress-ramp-ercot") ? "" : `ids: ${ids.filter((x) => x.startsWith("stress")).join(", ")}`;
+});
 
 // the ERCOT Exchange block's twelve months are drawn from the fixture (a file of its own, the neighbours')
 await check("/grid?grid=ercot&view=gravity: the Exchange blocks offer two files, the ties' and the twelve months'", async () => {

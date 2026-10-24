@@ -23,6 +23,7 @@ import { ReplayDayDemand, ReplayDayFigures, type ReplayAsk } from "@/components/
 import { Missing } from "@/components/mix/Now";
 import { PanelFile, type FileOf } from "@/components/grid/PanelFile";  // session 1182: each panel's table, to download
 import { gridHref } from "@/lib/gridtool";
+import { GRID_ANCHOR } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
 import { BA_GRID } from "@/lib/gridHeld";
 import { replayDay } from "@/lib/gridReplay";
 
@@ -69,7 +70,7 @@ export function NetworkFigures({ snap, hour, grid, live, replay, node }: { snap:
     const file48: FileOf = { panel, title: "the seven grids' net exchange in the hour the network shows", page: gridHref(grid.slug, "network"),
       tables: [snapTable(snap)], filter: "each of the seven ISO grids' reporting ties in the hour, summed and signed from the grid's side (negative: a net import)", window: hourLine(hour) };
     return (
-      <div data-grid-panel={panel} className="mt-10">
+      <div data-grid-panel={panel} id={GRID_ANCHOR.network} className="mt-10">
         {day}
         <ToolSection title={`The seven grids, the hour shown (${hourName(hour)})`}
           note="Net export, MW: the sum of a grid's reporting ties in the hour the network opens on, signed from its side; a negative number is a net import. Hover a figure for its table, filter, hour and the snapshot's refresh.">
@@ -97,7 +98,7 @@ export function NetworkFigures({ snap, hour, grid, live, replay, node }: { snap:
       { label: "demand in the hour, MW", value: p.demand ?? (live.failed?.demand ? "could not be read" : "not held") },
     ] : [] };
   return (
-    <div data-grid-panel={panel} className="mt-10">
+    <div data-grid-panel={panel} id={GRID_ANCHOR.network} className="mt-10">
       {day}
       <ToolSection title={`${grid.label}, the hour shown (${hourName(hour)})`}
         note={`The figures the network draws for ${grid.label} in the hour it opens on, from the same snapshot. A tie's flow is signed from ${grid.label}'s side: positive, power left the grid. Hover a figure for its table, filter, hour and the snapshot's refresh.`}>
@@ -151,7 +152,7 @@ function Balance({ b, label, failed }: { b: BalancePanel; label: string; /** ses
       { label: "the gap's mean size over those hours, MW", value: b.absmean && b.hours ? b.absmean : weekWords },
     ] };
   return (
-    <div data-grid-balance={b.ba}>
+    <div data-grid-balance={b.ba} id={GRID_ANCHOR.balance}>
       <ToolSection title={`Does ${label}'s balance close? The hour shown, and the week`}
         note={<>A grid&apos;s net generation less its demand less its net export over its ties is zero when EIA-930&apos;s figures close. For {label}, session 360 found the gap {b.where} (<Link href="/data/methods/eia930_balance">the method note on EIA-930&apos;s balance</Link>; EIA&apos;s adjusted series do not close it). The week&apos;s figure is the mean size of the gap, its absolute value, over the hours from {hourName(b.from)} to {hourName(b.to)} that hold every one of {label}&apos;s ties, its net generation and its demand.
           {b.ba === "CISO" ? <> {label}&apos;s net generation here is EIA-930&apos;s total, the figure the gravity shape draws; since December 2025 it reads below CAISO&apos;s own, and California&apos;s hourly mix by fuel stays withheld.</> : null} Hover a figure for its table, filter and hour, and for where session 360 found each grid&apos;s gap.</>}>
@@ -194,7 +195,7 @@ export function GravityFigures({ snap, hour, grid, live, replay }: { snap: Snaps
         value: rd?.demand ?? (grid.ba === "US48" || replay.read.ok ? "not held" : "could not be read") }] : []),
     ] };
   return (
-    <div data-grid-panel={`grid_gravity_${grid.slug}`} className="mt-10">
+    <div data-grid-panel={`grid_gravity_${grid.slug}`} id={GRID_ANCHOR.gravity} className="mt-10">
       <ToolSection title={`What the gravity shape draws, the hour shown (${hourName(hour)})`}
         note={<>Each circle&apos;s area follows the grid&apos;s net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48&apos;s generation sets the scale{g.center ? <>: <F f={g.center} /> MW</> : genGone ? <>; it <Unread table={GENERATION_TABLE} reason={genGone} /></> : <>; it is not held for the hour</>}. Hover a figure for its table, filter, hour and the snapshot&apos;s refresh.
           {" "}{replay

@@ -18,6 +18,7 @@ import { ChartFrame, HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolT
 import { HEADLINE, MEASURES, TABLE as SUPPLY_TABLE, supplyOf } from "@/lib/basupply";
 import { shown } from "@/lib/format";
 import { GRID_CHOICES, gridHref, type GridChoice } from "@/lib/gridtool";
+import { GRID_ANCHOR } from "@/lib/gridAnchors";  // session 1183: each panel's anchor
 import { directionWords, exchangeTies, type Fig } from "@/lib/gridKeys";  // session 1167
 import { netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
 import { freshSnapshot } from "@/lib/gridReads";  // session 1180
@@ -75,7 +76,7 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
           {top ? <> The largest net exporter among all {snap.nodes.length} balancing authorities was {nameOf(top.id)}, with <Num check={`net|topexport|${hour}`} raw={top.mw}>{shown(top.mw)}</Num> MW.</> : null}
         </p>
         <p className="-mt-3 mb-6 max-w-3xl text-sm text-muted" data-exchange-age="us48"><Age hour={hour} built={snap.built} /></p>
-        <ToolSection title="The seven grids, that hour" note="Net export, MW: the sum of a grid's reporting ties, signed from its side. A negative number is a net import.">
+        <ToolSection title="The seven grids, that hour" note="Net export, MW: the sum of a grid's reporting ties, signed from its side. A negative number is a net import." id={GRID_ANCHOR.exchangeGrids}>
           <ToolTable caption="Net export of the seven grids in the hour" minWidth={360} head={head48}
             rows={rows48} />
           <PanelFile of={file48} columns={head48} rows={rows48.map((r) => r.cells)} />
@@ -140,7 +141,7 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
         </HeadlineRow>
       ) : null}
 
-      <ToolSection title="Each neighbour, that hour" note={`Flow over the tie, MW, signed from this grid's side: a positive number left the grid, a negative one came in. The week's columns are the same tie over the snapshot's week, ${hourName(snap.hours[0])} to ${hourName(snap.hours[snap.hours.length - 1])}, in the hours that hold a flow; hover a flow for its source and the week in words.`}>
+      <ToolSection title="Each neighbour, that hour" note={`Flow over the tie, MW, signed from this grid's side: a positive number left the grid, a negative one came in. The week's columns are the same tie over the snapshot's week, ${hourName(snap.hours[0])} to ${hourName(snap.hours[snap.hours.length - 1])}, in the hours that hold a flow; hover a flow for its source and the week in words.`} id={GRID_ANCHOR.exchangeTies}>
         <p className="mb-3 max-w-3xl text-sm" data-exchange-age={ba}><Age hour={hour} built={snap.built} /></p>
         {ties.length ? (
           <><ToolTable caption={`${grid.label}'s ties in the hour`} minWidth={680} head={tieHead}
@@ -155,7 +156,7 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
         </ChartFrame>
       ) : null}
 
-      <ToolSection title="Over the last twelve months" note={s ? `${s.months[0]} to ${s.months.at(-1)}: ${s.daysHeld} days held, ${s.daysLeftOut} left out. Here a positive number is a net import: the neighbour supplied the grid. The share is of the grid's demand over the same months.` : undefined}>
+      <ToolSection title="Over the last twelve months" note={s ? `${s.months[0]} to ${s.months.at(-1)}: ${s.daysHeld} days held, ${s.daysLeftOut} left out. Here a positive number is a net import: the neighbour supplied the grid. The share is of the grid's demand over the same months.` : undefined} id={GRID_ANCHOR.exchangeMonths}>
         {!sup ? <NoData what="the twelve months" reason="a share needs the grid's demand, which the warehouse holds for the seven grids only" />
           : !sup.ok ? <NoData what="the twelve months" reason={sup.reason} />
           : !s ? <NoData what="the twelve months" reason={`${SUPPLY_TABLE} holds no whole month for ${ba}`} /> : (
