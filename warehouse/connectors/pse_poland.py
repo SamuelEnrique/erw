@@ -17,7 +17,10 @@ its report his-wlk-cal ("Wielkosci podstawowe", the basic quantities), one reque
                units JGa; one quarter hour of 2024 only), wind, solar, exchange_parallel and
                exchange_non_parallel (the domestic balance of cross-border exchange, parallel and non-parallel); value in
                MW, the quarter hour's power as PSE gives it; ts_utc the quarter hour's start (PSE's period in UTC); freq
-               PT15M; geo PL; x_field PSE's field name; x_business_date PSE's business day (Polish local time)
+               PT15M; geo PL; x_field PSE's field name; x_business_date PSE's business day (Polish local time).
+               Signs as PSE gives them: charging_jgm is never positive, and a positive exchange is a flow into Poland
+               (demand is near the scheduled generation plus jnwrb, charging and both exchanges; session 2261's note).
+               The one jga figure (-15.0 MW, the report's first quarter hour) looks like storage charging, kept as given.
 
 PSE's fields jgo, jgz1 and jgz3 hold no figure in any year read and are not taken. A blank figure has no row;
 the business day in progress at retrieval (whose later quarter hours PSE lists empty) is not taken (chain 098's ended

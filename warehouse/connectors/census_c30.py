@@ -19,9 +19,12 @@ spending time series (www.census.gov/construction/c30/historical_data.html):
                the month's first day; freq P1M; geo US; node the column as the Census Bureau names it; x_column; x_status
                p (preliminary) or r (revised) as the Census Bureau marks the month
 
-A blank cell has no row (the data center column begins in January 2014). Each workbook must open on its title, state
-millions of dollars, carry a Date column and the months as Mon-YY; a column name given twice, a month given twice, or a
-figure that does not read stops the run. The notes under the months end the sheet. Nothing is filled.
+A blank cell has no row (the data center column begins in January 2014). A public type's zero before 2002 has no row
+either: the workbooks' note says "Detailed types of construction not available prior to 2002", and their zeros stand for
+that (counted in the header). Each workbook must open on its title, state millions of dollars, carry a Date column and
+the months as Mon-YY; a column name given twice, a month given twice, a figure that does not read, or a row among the
+months that is not a month stops the run. The notes, after the blank row under the months, end the sheet. Nothing is
+filled. The private total's entity is census_c30:private:total_private_construction; the public ones end in :total.
 
     python warehouse/connectors/census_c30.py [--offline] [--out-dir DIR]
 
@@ -96,13 +99,18 @@ def parse(content, stem, kind, var, title, base, counts):
         raise RuntimeError(f"{stem}: a column given twice")
     ents = {j: owner_type(c, kind) for j, c in cols}
     out, seen = [], set()
+    started = ended = False
     for r in rows[h + 1:]:
-        if not r or r[0] is None or not isinstance(r[0], str) or not MONTH.match(r[0].strip()):
-            if r and isinstance(r[0], str) and (r[0].startswith("Source") or r[0].startswith("The Census") or r[0].startswith("(")):
-                break
-            if r and any(x not in (None, "") for x in r):
-                break
+        if not r or all(x in (None, "") for x in r):
+            ended = ended or started  # the blank row under the months: what follows is the notes
             continue
+        if not (isinstance(r[0], str) and MONTH.match(r[0].strip())):
+            if ended:
+                break
+            raise RuntimeError(f"{stem}: a row that is not a month among the months: {r[0]!r}")
+        if ended:
+            raise RuntimeError(f"{stem}: a month after the notes: {r[0]!r}")
+        started = True
         mon, yy, st = MONTH.match(r[0].strip()).groups()
         year = 1900 + int(yy) if int(yy) >= 90 else 2000 + int(yy)
         month = dt.datetime.strptime(mon, "%b").month
@@ -118,6 +126,10 @@ def parse(content, stem, kind, var, title, base, counts):
             if not isinstance(v, (int, float)):
                 raise RuntimeError(f"{stem} {r[0]} {c}: a figure that does not read: {v!r}")
             owner, typ = ents[j]
+            if kind == "public" and year < 2002 and v == 0 and typ != "total":
+                # the workbook's note: "Detailed types of construction not available prior to 2002"; its zeros stand for that
+                counts[f"{stem} detail before 2002"] = counts.get(f"{stem} detail before 2002", 0) + 1
+                continue
             out.append(dict(base, entity=f"census_c30:{owner}:{typ}", variable=var, ts_utc=ts, value=float(v) * 1e6, unit="USD", freq="P1M",
                             geo="US", market="", node=c, x_column=c, x_status=st))
     if not out:

@@ -17,7 +17,8 @@ Energy Research Warehouse (ERW) connector. One series table from the Energy-Char
                hour or an hour) times the period's length; ts_utc the UTC day's start; freq P1D; geo HU, RO, GR or BG;
                x_type Energy-Charts' name; x_periods the number of periods summed
 
-Energy-Charts gives Hungary in quarter hours, Romania in quarter hours and hours, Greece and Bulgaria in hours; a quarter
+Energy-Charts gives Hungary in quarter hours, Romania in hours to 2021 and quarter hours from 1 January 2022, Greece
+and Bulgaria in hours (a positive cross-border trading figure is an import); a quarter
 hour series of four countries would run to millions of rows, so each UTC day is summed. A day is summed for a type only
 when its periods cover the whole day (86,400 seconds) and none is blank; any other day has no row for that type and is
 counted (the first and last UTC days, cut by the countries' local days, among them). The renewable shares (Energy-Charts'

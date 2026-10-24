@@ -62,10 +62,20 @@ class Parse(unittest.TestCase):
         self.assertEqual(sorted(r["entity"] for r in out), sorted(["census_c30:public:total", "census_c30:public:power", "census_c30:state_local:total",
                                                                    "census_c30:state_local:power", "census_c30:federal:total", "census_c30:federal:power"]))
 
+    def test_detail_before_2002(self):
+        counts = {}
+        out = C.parse(book(PUB[3], ["Total\n_x000D_Public Construction1", "Public\n_x000D_Power"], [("Dec-01", 5, 0), ("Jan-02", 6, 0)]),
+                      *PUB[:3], PUB[3], {}, counts)
+        got = {(r["entity"], r["ts_utc"]): r["value"] for r in out}
+        self.assertNotIn(("census_c30:public:power", "2001-12-01T00:00:00Z"), got)
+        self.assertEqual(got[("census_c30:public:power", "2002-01-01T00:00:00Z")], 0.0)
+        self.assertEqual(counts["pubtime detail before 2002"], 1)
+
     def test_stops(self):
         for content, words in [(book("Another title", ["Data center"], [("Aug-26", 1)]), "not the workbook read"),
                                (book(PRIV[3], ["Data center"], [("Aug-26", 1), ("Aug-26", 2)]), "given twice"),
-                               (book(PRIV[3], ["Data center"], [("Aug-26", "(S)")]), "does not read")]:
+                               (book(PRIV[3], ["Data center"], [("Aug-26", "(S)")]), "does not read"),
+                               (book(PRIV[3], ["Data center"], [("Aug-26", 1), ("Annual", 2), ("Jul-26", 3)]), "not a month among the months")]:
             with self.assertRaises(RuntimeError) as c:
                 C.parse(content, *PRIV[:3], PRIV[3], {}, {})
             self.assertIn(words, str(c.exception))

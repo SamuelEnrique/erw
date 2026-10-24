@@ -17,7 +17,8 @@ Energy Research Warehouse (ERW) connector. One series table from the Energy-Char
                PT1H; geo BE; x_type Energy-Charts' name
 
 Energy-Charts' renewable shares of load and of generation (percentages it computes) are not taken. A blank figure has
-no row and is counted (2026's nuclear from its first gap). The answer's hours must be an hour apart and each type's
+no row and is counted (2026's nuclear in two blocks: May and June, and August and September).
+A positive cross-border trading figure is an import (session 2261's note). The answer's hours must be an hour apart and each type's
 series as long as the hours, or the run stops; so does a type not in the map, or an hour given twice. Nothing is filled.
 The current year is asked to the last day ended at the run (Belgian time).
 

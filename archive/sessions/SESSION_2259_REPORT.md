@@ -12,7 +12,7 @@ None of the four grids was in the ERW: Hungary's (nuclear and gas), Romania's (h
   - each country's public net production by type;
   - its load and residual load;
   - its cross-border trading.
-- **Summed to UTC days:** Energy-Charts gives Hungary in quarter hours, Romania in quarter hours then hours, and Greece and Bulgaria in hours. At the published grain, four countries would run to millions of rows, so each complete UTC day of mean power is summed to energy (MW times each period's length). Each row keeps the number of periods summed (`x_periods`). A day is summed for a type only when its periods cover all 86,400 seconds and none is blank.
+- **Summed to UTC days:** Energy-Charts gives Hungary in quarter hours, Romania in hours to 2021 and quarter hours from 2022 (corrected in session 2261), and Greece and Bulgaria in hours. At the published grain, four countries would run to millions of rows, so each complete UTC day of mean power is summed to energy (MW times each period's length). Each row keeps the number of periods summed (`x_periods`). A day is summed for a type only when its periods cover all 86,400 seconds and none is blank.
 - **Days not summed, counted in the header:**
   - each type's first and last UTC day, which the countries' local days cut short;
   - the days with a blank, most of them series that begin later (batteries, for one).
@@ -21,7 +21,7 @@ None of the four grids was in the ERW: Hungary's (nuclear and gas), Romania's (h
     - load is 0.97 (Greece) to 1.18 (Bulgaria) of the supply for the internal market;
     - wind is 0.88 to 1.00, and nuclear 1.00 to 1.09;
     - solar is 0.97 to 0.99 in Bulgaria and Greece, but 0.66 in Hungary and 0.75 in Romania. Energy-Charts' solar there seems to be the solar the grid operators see, without the rooftops Eurostat counts.
-  - **Against Ember's yearly demand,** load is 0.98 to 1.04 for Bulgaria and Romania, 0.87 to 0.90 for Greece and 0.88 to 0.92 for Hungary.
+  - **Against Ember's yearly demand,** load is 0.97 to 1.04 for Bulgaria and Romania (corrected in session 2261: Romania 0.972 in 2024), 0.87 to 0.90 for Greece and 0.88 to 0.92 for Hungary.
 - **Registered:**
   - the sector rule (`power`);
   - both holds;

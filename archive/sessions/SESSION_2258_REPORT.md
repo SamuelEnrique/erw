@@ -26,7 +26,7 @@ The ERW tracks data centers' power demand but held no measure of what is spent b
   - private power construction (gas and oil included) rose from 98 to 152 billion over the same years, and electric from 70 to 128 billion;
   - public power went from 12 to 20 billion.
 - **The cross-check** (`runs/c102/s2258/cross.py`):
-  - each year's unadjusted months sum to within 0.4 percent of the mean of its seasonally adjusted annual rates for total private construction, within 0.7 percent for data centers, and within 1 to 3 percent for power and electric;
+  - each year's unadjusted months sum to within 0.4 percent of the mean of its seasonally adjusted annual rates for total private construction, within 0.7 percent for data centers, and within 1 to 3.4 percent for power and electric (corrected in session 2261: electric's widest year is 3.4 percent);
   - private residential plus nonresidential equals the private total to 1 million USD in every month.
 - **Not taken:** the private power detail (`privatepower.xlsx`, HTTP 500 at its listed address), and the state and regional tables (annual).
 - **Registered:**
@@ -55,3 +55,7 @@ The ERW tracks data centers' power demand but held no measure of what is spent b
 - New: `warehouse/connectors/census_c30.py`, `tests/test_session2258.py`, this report.
 - Changed: `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`, `docs/coverage.md`, `coverage.csv`, `sources.csv`, `archive_manifest.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c102/s2258/`, `runs/c102/add_own_rows.py`.
+
+## Corrected by session 2261
+
+- **The public and federal detailed types held placeholder zeros before 2002** (5,616 rows), which the workbooks' note explains: "Detailed types of construction not available prior to 2002." They now have no row and are counted in the header, and the table was written again. A row among the months that is not a month now stops the run, where it would have ended the sheet silently.

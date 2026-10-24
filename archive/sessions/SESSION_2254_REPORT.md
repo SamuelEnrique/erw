@@ -25,7 +25,7 @@ www.mbie.govt.nz was not asked. The trial and the write ran offline.
 - **They agree to rounding from 2015 to May 2026.** From June 2026, New Zealand's generation exceeds the two islands' by 1.6 to 9.9 GWh a month (up to 0.24 percent). These are EMI's own figures, kept and named in the header. The dollar columns (NZD) are not taken.
 - **The cross-check** (`runs/c102/s2254/cross.py`, whole years):
   - EMI's grid demand is 94 to 96 percent of Ember's demand for New Zealand (41.6 against 43.3 TWh in 2025);
-  - grid generation runs 3.3 to 3.6 percent above grid demand every year;
+  - grid generation runs 3.0 to 3.6 percent above grid demand every year (corrected in session 2261: 2015 is 3.0);
   - the South Island generates 1.6 to 4.4 TWh a year more than it uses, sent north.
 - **Registered:**
   - the sector rule (`power`);
