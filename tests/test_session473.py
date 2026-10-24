@@ -34,6 +34,7 @@ OWN = {
     "components/grid/CaisoAlertState.tsx": 1,  # session 1155: CAISO's alerts today (grid_caisoalert_caiso); its one F writes every key
     "components/grid/ErcotNoticeState.tsx": 1,  # session 1174: ERCOT's notices today (grid_ercotnotice_ercot); its one F writes every key
     "components/grid/Lower48Mix.tsx": 1,  # session 1185: the Lower 48 by month (grid_mix_us48, the sum of the states); its one F writes every key
+    "components/grid/HubPricePanel.tsx": 1,  # session 1402: the hub's price beside the hourly mix (grid_hubprice_<grid>); its one F writes every key
 }
 FORBIDDEN = {
     "type under 12 px": re.compile(r"text-\[(?:[0-9]|1[01])(?:\.\d+)?px\]"),
@@ -79,7 +80,8 @@ class TheOwnComponents(unittest.TestCase):
                    "components/grid/ScarcityPanel.tsx",  # session 1154: drawn by the Grid page only; it takes Missing from mix/Now.tsx
                    "components/grid/ReplayDay.tsx",  # session 1170: drawn by the Grid page only (NetworkFigures); it takes Missing from mix/Now.tsx
                    # session 1181: drawn by the Grid page only; each takes Missing from mix/Now.tsx for a read that could not be read
-                   "components/grid/NetworkFigures.tsx", "components/grid/MixFigures.tsx", "components/grid/Reliability.tsx"}
+                   "components/grid/NetworkFigures.tsx", "components/grid/MixFigures.tsx", "components/grid/Reliability.tsx",
+                   "components/grid/HubPricePanel.tsx"}  # session 1402: drawn by the Grid page only (MixView); it takes Missing from mix/Now.tsx
         for dirpath, dirs, files in os.walk(SITE):
             dirs[:] = [d for d in dirs if d not in ("node_modules", ".next", "_retired", "public")]
             for fn in files:

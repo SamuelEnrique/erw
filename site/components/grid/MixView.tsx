@@ -20,6 +20,8 @@ import { ercotNotices } from "@/lib/gridErcotNotices";
 import { CAISO_HOLDS, generationSince, wholeRead } from "@/lib/gridReads";
 import { Lower48Monthly } from "@/components/grid/Lower48Mix";
 import { LOWER48_ENTITIES, STATE_MIX } from "@/lib/lower48";
+import { HubPricePanel, hubPriceWhy, hubStrip } from "@/components/grid/HubPricePanel";  // session 1402: the hub's price beside the hourly mix
+import { HUB_PRICE, RT_HUB_TABLE, chartWindow, hubPrice, priceWindow, type PriceRow } from "@/lib/hubPriceHourly";
 
 // Session 133: the energy mix, one page at one address. It holds what /mix (session 18), /mix/v2 (94), /mix/clean (122)
 // and /mix/stress (123) showed, as views of this page (those addresses redirect here: next.config.ts; their pages are
@@ -130,7 +132,13 @@ async function NowView({ c }: { c: Choice }) {
   };
   // session 1155: CAISO's notices, for the alert days of its monthly view (the same read as the Reliability section)
   // session 1174: ERCOT's notices, for the call days of its monthly view (the same read as its state line)
-  const [reads, monthly, extras, notices, ercotN] = await Promise.all([
+  // session 1402: the hub's real-time price of the same days, for the grids whose hub prices are public (lib/hubPriceHourly.ts);
+  // none on the monthly view, none for a held, paused or hubless grid (the panel says why)
+  const hubRead = (b: (typeof BAS)[number]) => {
+    const g = BA_GRID[b.code] ?? b.code, hub = HUB_PRICE[g];
+    return !month && hub && !hubPriceWhy(g, b.label) ? attempt(() => series(RT_HUB_TABLE, { entity: hub.entity, variable: hub.variable, since: daysAgo(9) })) : Promise.resolve(null);
+  };
+  const [reads, monthly, extras, notices, ercotN, hubs] = await Promise.all([
     // session 1179: the 9 days out of the render's read of the grid's generation when the page shares one (lib/gridReads.ts)
     Promise.all(bas.map((b) => Promise.all([attempt(() => series(LATEST, { entity: b.entity })), attempt(() => generationSince(b.entity, daysAgo(9)))]))),
     attempt(() => series(MONTHLY, { entity: `eia:${st}` })),
@@ -138,6 +146,7 @@ async function NowView({ c }: { c: Choice }) {
     // session 1181: the whole table answering no row is a failed read (lib/gridReads.ts wholeRead), never "no month marked"
     wholeRead(EMERGENCIES, CAISO_HOLDS, month && bas.some((b) => b.code === "ciso") ? attempt(() => gridNotices()) : Promise.resolve(null)),
     month && bas.some((b) => b.code === "erco") ? attempt(() => ercotNotices()) : Promise.resolve(null),
+    Promise.all(bas.map(hubRead)),
   ]);
   const now = renderTime();
   // session 118: EIA-930's generation for California is the series the faults register calls changed; it is not drawn
@@ -165,6 +174,11 @@ async function NowView({ c }: { c: Choice }) {
         const more = extras[i];
         const grid = BA_GRID[b.code] ?? b.code;
         const figures = !month && !withheld && hourly.ok ? mixHourly(hourly.data, more && more.ok ? more.data : [], HOURLY_FUELS) : null;
+        // session 1402: the hub's price over the chart's hours (chartWindow, Hourly's own rule), or over its own last 7 days where no chart is drawn
+        const hubR = hubs[i];
+        const chartW = !month && !withheld && hourly.ok ? chartWindow(hourly.data, figures?.newest.t) : null;
+        const hubW = hubR && hubR.ok ? chartW ?? priceWindow(hubR.data as PriceRow[]) : null;
+        const hp = hubR && hubR.ok && hubW ? hubPrice(hubR.data as PriceRow[], HUB_PRICE[grid], hubW) : null;
         return (
           <div key={b.code} data-now-ba={b.code}>
             <section id={i ? `today-${b.code}` : "today"} className="mb-8">
@@ -193,7 +207,8 @@ async function NowView({ c }: { c: Choice }) {
                 <>
                   <Legend items={HOURLY_FUELS.map((f) => ({ key: f.key, label: f.label, color: `var(--color-fuel-${f.key})` }))} />
                   {withheld ? <Missing why={caiso} /> : hourly.ok ? <Hourly rows={hourly.data} table={table} label={b.label} share through={figures?.newest.t}
-                    marks={figures?.peak ? [{ t: figures.peak.t, name: `Peak demand, ${new Date(figures.peak.t).toISOString().slice(11, 16)} UTC` }] : undefined} /> : failed(hourly.reason)}
+                    marks={figures?.peak ? [{ t: figures.peak.t, name: `Peak demand, ${new Date(figures.peak.t).toISOString().slice(11, 16)} UTC` }] : undefined} hub={chartW ? hubStrip(hp) : undefined} /> : failed(hourly.reason)}
+                  <HubPricePanel grid={grid} label={b.label} i={i} read={hubR} hp={hp} alone={!chartW} />
                 </>
               )}
             </section>

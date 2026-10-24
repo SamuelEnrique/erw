@@ -1,11 +1,11 @@
 // A stacked area chart (session 22: a wrapper over TimeChart, on ECharts, which replaced the server
 // SVG). The chart has its own legend, which toggles layers; Legend below is kept for tables that
 // show the same colors.
-import { TimeChart } from "./TimeChart";
+import { TimeChart, type TimeSeries } from "./TimeChart";
 
 export type Layer = { key: string; label: string; color: string; values: (number | null)[] };
 
-export function StackedArea({ x, layers, unit, ariaLabel, height = 260, share, marks }: {
+export function StackedArea({ x, layers, unit, ariaLabel, height = 260, share, marks, strip }: {
   x: number[];
   layers: Layer[];
   unit: string;
@@ -13,6 +13,7 @@ export function StackedArea({ x, layers, unit, ariaLabel, height = 260, share, m
   height?: number;
   share?: boolean; // session 1152: each layer's share of the stack in the hover card (TimeChart share)
   marks?: { t: number; name: string }[]; // session 1152: named times, a vertical line each (TimeChart marks)
+  strip?: TimeSeries; // session 1402: a series drawn in a strip under the stack, on the same time axis (TimeChart strip), its value on hover
   tick?: (t: number) => string; // no longer used: the time axis labels itself
   ticks?: number[];
 }) {
@@ -29,7 +30,7 @@ export function StackedArea({ x, layers, unit, ariaLabel, height = 260, share, m
       height={height + 60}
       ariaLabel={ariaLabel}
       x={fmt}
-      series={layers.map((l) => ({ name: l.label, color: l.color, points: x.map((t, i) => [t, l.values[i]] as [number, number | null]) }))}
+      series={[...layers.map((l) => ({ name: l.label, color: l.color, points: x.map((t, i) => [t, l.values[i]] as [number, number | null]) })), ...(strip ? [{ ...strip, strip: true }] : [])]}
     />
   );
 }

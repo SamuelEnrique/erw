@@ -35,6 +35,9 @@ export const GRID_VIEW_TABLES: Record<GridView, readonly string[]> = {
     "iso_hub_prices_history",
     // session 1174: components/grid/MixView.tsx, whose MixClean this tab draws, reads ERCOT's notices for the Mix tab's
     // monthly view (as it reads caiso_grid_emergencies), so the tab's line names the table as it names CAISO's
-    "ercot_grid_notices"],
+    "ercot_grid_notices",
+    // session 1402: the same file reads the hub's real-time price beside the Mix tab's hourly mix (components/grid/HubPricePanel.tsx,
+    // lib/hubPriceHourly.ts), so the tab's line names it as session 1174 named ERCOT's notices
+    "iso_rtm_hub_prices"],
   gravity: NETWORK,
 };

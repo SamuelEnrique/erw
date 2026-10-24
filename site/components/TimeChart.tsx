@@ -22,6 +22,8 @@ export type TimeSeries = {
   step?: boolean;
   dashed?: boolean;
   y2?: boolean; // session 24: drawn on a second axis at the right, in unit2 (the temperature over /grid's demand)
+  strip?: boolean; // session 1402: drawn in a strip under the chart, on the same time axis and its own scale, never stacked (the hub's price under the Grid tool's hourly mix); its value in the hover card beside the others'
+  unit?: string; // session 1402: a strip's unit (the chart's own unit is the others')
 };
 
 type Props = {
@@ -123,7 +125,12 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
     return () => ro.disconnect();
   }, []);
 
-  const has2 = !mini && series.some((s) => s.y2);
+  // session 1402: a series marked `strip` (one at most: the first) is drawn under the chart, not among the others; with
+  // none, `main` is `series` itself and the chart is drawn exactly as before
+  const strip = mini ? undefined : series.find((s) => s.strip);
+  const main = useMemo(() => (strip ? series.filter((s) => s !== strip) : series), [series, strip]);
+  const SH = strip ? 92 : 0;   // the strip's height, under the time axis's labels
+  const has2 = !mini && main.some((s) => s.y2);
   const hod = x === "hour_of_day";
   const fmt = FMT[x];
   // the frame: axis text at the left (and at the right for y2), the series' names in a gutter at the right
@@ -133,8 +140,8 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
 
   // the data, aligned on time: every x the series hold, sorted; a stack sums the series at each x in their order
   const model = useMemo(() => {
-    const xs = [...new Set(series.flatMap((s) => s.points.map((p) => p[0])))].sort((a, b) => a - b);
-    const at = series.map((s) => new Map<number, number | null>(s.points.map((p) => [p[0], p[1]])));
+    const xs = [...new Set(main.flatMap((s) => s.points.map((p) => p[0])))].sort((a, b) => a - b);
+    const at = main.map((s) => new Map<number, number | null>(s.points.map((p) => [p[0], p[1]])));
     let stacked: (number | null)[][] | null = null;
     // session 1152: each stacked value's base, the running sum of its own side (above or below zero) before it. A band
     // was drawn from the series below it, which on a mixed-sign stack (a battery charging) is on the other side of zero:
@@ -143,8 +150,8 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
     let bases: number[][] | null = null;
     if (stack) {
       const up = new Array<number>(xs.length).fill(0), down = new Array<number>(xs.length).fill(0);
-      bases = series.map(() => new Array<number>(xs.length).fill(0));
-      stacked = series.map((_, k) => xs.map((t, i) => {
+      bases = main.map(() => new Array<number>(xs.length).fill(0));
+      stacked = main.map((_, k) => xs.map((t, i) => {
         const v = at[k].get(t);
         if (v === null || v === undefined) return null;
         if (v >= 0) { bases![k][i] = up[i]; up[i] += v; return up[i]; }
@@ -152,19 +159,22 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
       }));
     }
     const vals = (k: number): (number | null)[] => (stacked ? stacked[k] : xs.map((t) => at[k].get(t) ?? null));
-    const left = series.flatMap((s, k) => (s.y2 && has2 ? [] : vals(k))).filter((v): v is number => v !== null);
-    const right = series.flatMap((s, k) => (s.y2 && has2 ? vals(k) : [])).filter((v): v is number => v !== null);
-    return { xs, at, stacked, bases, b1: bounds(left, stack), b2: bounds(right, false) };
-  }, [series, stack, has2]);
+    const left = main.flatMap((s, k) => (s.y2 && has2 ? [] : vals(k))).filter((v): v is number => v !== null);
+    const right = main.flatMap((s, k) => (s.y2 && has2 ? vals(k) : [])).filter((v): v is number => v !== null);
+    // session 1402: the strip's values by time, and its own scale (from its lowest to its highest, not from zero)
+    const sAt = strip ? new Map<number, number | null>(strip.points.map((p) => [p[0], p[1]])) : null;
+    const bS = bounds(strip ? strip.points.map((p) => p[1]).filter((v): v is number => v !== null) : [], false);
+    return { xs, at, stacked, bases, b1: bounds(left, stack), b2: bounds(right, false), sAt, bS };
+  }, [main, strip, stack, has2]);
 
-  const { xs, at, stacked, bases, b1, b2 } = model;
+  const { xs, at, stacked, bases, b1, b2, sAt, bS } = model;
   const t0 = hod ? 0 : xs[0] ?? 0, t1 = hod ? 23 : xs[xs.length - 1] ?? 1;
   const px = (t: number) => L + ((t - t0) / (t1 - t0 || 1)) * (plotR - L);
   const py = (v: number, b: Bounds) => TOP + ((b.hi - v) / (b.hi - b.lo || 1)) * (height - TOP - BOT);
   const xTicks = hod ? [0, 4, 8, 12, 16, 20, 23] : (() => { const n = Math.max(2, Math.min(7, Math.floor((plotR - L) / 110))); return x === "year" ? yearTicks(t0, t1, n) : Array.from({ length: n }, (_, i) => t0 + ((t1 - t0) * i) / (n - 1)); })();
 
   // each series' path, thinned to the pixels it has; a stacked series is an area from the series below it (or zero) to its own top
-  const drawn = series.map((s, k) => {
+  const drawn = main.map((s, k) => {
     const b = s.y2 && has2 ? b2 : b1;
     const pts: Pt[] = stacked ? xs.map((t, i) => [t, stacked[k][i]]) : s.points;
     const thinned = thin(pts, Math.max(10, Math.round(plotR - L)));
@@ -232,6 +242,21 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
   // session 1152: a value's share of the sum of every series at the time (negative values, a battery charging, count as they are)
   const shareOf = (v: number, t: number) => { const sum = at.reduce((a, m) => a + (m.get(t) ?? 0), 0); return sum ? `, ${((v / sum) * 100).toFixed(1)}%` : ""; };
   const pages = Math.ceil(xs.length / PAGE);
+  // session 1402: the strip under the chart, on the chart's time axis (px) and its own scale from sTop to sBot, its
+  // lowest, highest and zero (when between) written at the left; a gap where a time is not held
+  const sTop = height + 20, sBot = height + SH - 6;
+  const sy = (v: number) => sTop + ((bS.hi - v) / (bS.hi - bS.lo || 1)) * (sBot - sTop);
+  const sTicks = [bS.lo, ...(bS.lo < 0 && bS.hi > 0 ? [0] : []), bS.hi];
+  let stripPath = "";
+  if (strip) {
+    let open = false;
+    for (const [t, v] of strip.points) {
+      if (v === null || t < t0 || t > t1) { open = false; continue; }
+      stripPath += `${open ? " L" : stripPath ? " M" : "M"}${px(t).toFixed(1)},${sy(v).toFixed(1)}`;
+      open = true;
+    }
+  }
+  const stripValue = (t: number) => { const v = sAt?.get(t); return v === null || v === undefined ? "not held" : `${num(v)} ${strip?.unit ?? ""}`.trim(); };
 
   if (mini) {
     return (
@@ -255,12 +280,13 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
         <div className="overflow-x-auto" data-chart-as-table="1">
           <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: 320 }}>
             <caption className="sr-only">{ariaLabel}, as a table</caption>
-            <thead><tr><th scope="col" className="px-3 py-1.5 font-normal">Period</th>{series.map((s) => <th key={s.name} scope="col" className="px-3 py-1.5 text-right font-normal">{s.name}, {unitOf(s)}</th>)}</tr></thead>
+            <thead><tr><th scope="col" className="px-3 py-1.5 font-normal">Period</th>{main.map((s) => <th key={s.name} scope="col" className="px-3 py-1.5 text-right font-normal">{s.name}, {unitOf(s)}</th>)}{strip ? <th scope="col" className="px-3 py-1.5 text-right font-normal">{strip.name}, {strip.unit ?? ""}</th> : null}</tr></thead>
             <tbody>
               {xs.slice(page * PAGE, (page + 1) * PAGE).map((t) => (
                 <tr key={t} className="border-b border-rule">
                   <th scope="row" className="px-3 py-1.5 font-normal">{fmt(t)}</th>
-                  {series.map((s, k) => { const v = at[k].get(t); return <td key={s.name} className="px-3 py-1.5 text-right font-mono">{v === null || v === undefined ? <span className="font-sans text-muted">not held</span> : num(v)}</td>; })}
+                  {main.map((s, k) => { const v = at[k].get(t); return <td key={s.name} className="px-3 py-1.5 text-right font-mono">{v === null || v === undefined ? <span className="font-sans text-muted">not held</span> : num(v)}</td>; })}
+                  {strip ? (() => { const v = sAt?.get(t); return <td className="px-3 py-1.5 text-right font-mono">{v === null || v === undefined ? <span className="font-sans text-muted">not held</span> : num(v)}</td>; })() : null}
                 </tr>
               ))}
             </tbody>
@@ -275,8 +301,8 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
         </div>
       ) : (
         <>
-          <svg viewBox={`0 0 ${W} ${height}`} width={W} height={height} className="block max-w-full" role="img" aria-label={ariaLabel} onMouseMove={onMove} onMouseLeave={() => setHover(null)}
-            data-n={xs.length} data-points={xs.length <= 100 ? JSON.stringify(series.map((s, k) => xs.map((t) => [t, at[k].get(t) ?? null]))) : undefined}>
+          <svg viewBox={`0 0 ${W} ${height + SH}`} width={W} height={height + SH} className="block max-w-full" role="img" aria-label={strip ? `${ariaLabel}; under it, ${strip.name} in ${strip.unit ?? ""}` : ariaLabel} onMouseMove={onMove} onMouseLeave={() => setHover(null)}
+            data-n={xs.length} data-points={xs.length <= 100 ? JSON.stringify(main.map((s, k) => xs.map((t) => [t, at[k].get(t) ?? null]))) : undefined}>
             <title>{ariaLabel}</title>
             {ticksOf(b1).map((v) => (
               <g key={`y${v}`}>
@@ -307,14 +333,29 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
                 <text x={px(m.t)} y={TOP - 4} textAnchor={px(m.t) > (L + plotR) / 2 ? "end" : "start"} fontSize="12" fill="var(--color-accent)">{m.name}</text>
               </g>
             ))}
+            {strip ? (
+              <g data-chart-strip={strip.name}>
+                <text x={L} y={sTop - 6} fontSize="12" fill="var(--color-muted)">{strip.unit ?? ""}</text>
+                {sTicks.map((v) => (
+                  <g key={`s${v}`}>
+                    <line x1={L} x2={plotR} y1={sy(v)} y2={sy(v)} stroke={v === 0 ? "var(--color-ink)" : "var(--color-rule)"} strokeWidth={v === 0 ? 1 : 0.75} />
+                    <text x={L - 6} y={sy(v) + 4} textAnchor="end" fontSize="12" fill="var(--color-muted)">{axisNum(v)}</text>
+                  </g>
+                ))}
+                <path d={stripPath} fill="none" stroke={tokenColor(strip.color)} strokeWidth="1.5" strokeLinejoin="round" />
+                <text x={plotR + (has2 ? 50 : 6)} y={sTop + 8} fontSize="12" fill={tokenColor(strip.color)}>{lines(strip.name).map((ln, j) => <tspan key={j} x={plotR + (has2 ? 50 : 6)} dy={j ? 13 : 0}>{ln}</tspan>)}</text>
+                {hover ? <line x1={hover.px} x2={hover.px} y1={sTop} y2={sBot} stroke="var(--color-muted)" strokeWidth="1" strokeDasharray="3 3" /> : null}
+              </g>
+            ) : null}
             {hover ? <line x1={hover.px} x2={hover.px} y1={TOP} y2={height - BOT} stroke="var(--color-muted)" strokeWidth="1" strokeDasharray="3 3" /> : null}
           </svg>
           {hover ? (
             <div className="pointer-events-none absolute top-6 z-10 border border-rule bg-paper px-3 py-2 text-xs" style={{ left: Math.min(Math.max(0, hover.px + 10), Math.max(0, W - 230)) }} data-chart-card="1">
               <div className="text-ink">{fmt(hover.t)}</div>
-              {series.map((s, k) => { const v = at[k].get(hover.t); return (
+              {main.map((s, k) => { const v = at[k].get(hover.t); return (
                 <div key={s.name} className="flex justify-between gap-4"><span style={{ color: tokenColor(s.color) }}>{s.name}</span><span className="font-mono text-ink">{v === null || v === undefined ? "not held" : `${num(v)} ${unitOf(s)}${share ? shareOf(v, hover.t) : ""}`}</span></div>
               ); })}
+              {strip ? <div className="mt-1 flex justify-between gap-4 border-t border-rule pt-1" data-chart-card-strip="1"><span style={{ color: tokenColor(strip.color) }}>{strip.name}</span><span className="font-mono text-ink">{stripValue(hover.t)}</span></div> : null}
               {marks?.filter((m) => m.t === hover.t).map((m) => <div key={`m${m.t}`} className="text-accent" data-chart-card-mark="1">{m.name}</div>)}
             </div>
           ) : null}

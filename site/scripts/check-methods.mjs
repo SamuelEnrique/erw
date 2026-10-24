@@ -24,7 +24,7 @@
 //
 // 2. A figure. Each key is split at "|". A key that reads a warehouse table names the table and the variable (or field):
 //      series|<table>|<entity>|<variable>|<time>, series_esum|<table>|<entity>|<variable>|..., series_max and series_sum
-//      |<table>|<variable>|... (and series_n, session 1154; states_sum, session 1185), event and entity|<table>|<id>|<field>, latest_prices|<entity>|<variable>|<time>,
+//      |<table>|<variable>|... (and series_n, session 1154; states_sum, session 1185; series_hn, series_hmean, series_hmax, session 1402), event and entity|<table>|<id>|<field>, latest_prices|<entity>|<variable>|<time>,
 //      catalogue|<table>|n_rows (and catalogue|<count>).
 //    Its figure is that table and that variable; a variable part of several names, comma separated (series_sum's fuel
 //    group, session 1152), is a figure of each name (session 1162). Every other key is a figure of the page's own arithmetic (the battery's
@@ -70,6 +70,7 @@ const TABLE_KEY = {
   // family: [index of the table (or null: the family is the table), index of the variable (-1: the last part)]
   series: [1, 3], series_esum: [1, 3], series_max: [1, 2], series_sum: [1, 2], series_n: [1, 2], event: [1, 3], entity: [1, 3],   // session 1154: series_n
   states_sum: [1, 2],   // session 1185: the Lower 48 by month, a sum over the states (lib/lower48.ts)
+  series_hn: [1, 2], series_hmean: [1, 2], series_hmax: [1, 2],   // session 1402: the hub's price by hour beside the mix (lib/hubPriceHourly.ts)
   latest_prices: [null, 2], catalogue: [null, -1],
 };
 // the families whose measure is not the first part after the family that is not an instance: the part to take

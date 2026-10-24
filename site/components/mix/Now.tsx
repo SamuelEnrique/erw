@@ -7,6 +7,7 @@ import { ShareBar } from "@/components/ShareBar";
 import { Num } from "@/components/Num";
 import { Legend, StackedArea, type Layer } from "@/components/StackedArea";
 import type { SeriesRow } from "@/lib/data";
+import type { TimeSeries } from "@/components/TimeChart";
 import { count, price } from "@/lib/format";
 import { STATES } from "@/lib/regions";
 
@@ -95,7 +96,9 @@ export function Today({ rows, label }: { rows: SeriesRow[]; label: string }) {
 
 // session 1152: share and marks for the Grid tool's energy mix panel (each fuel's share on hover, the peak hour named),
 // and `through`, the newest hour held, so the chart runs on to it where it is later than the last complete day
-export function Hourly({ rows, table, label, share, marks, through }: { rows: SeriesRow[]; table: string; label: string; share?: boolean; marks?: { t: number; name: string }[]; through?: number }) {
+export function Hourly({ rows, table, label, share, marks, through, hub }: { rows: SeriesRow[]; table: string; label: string; share?: boolean; marks?: { t: number; name: string }[]; through?: number;
+  /** session 1402: the hub's real-time price by hour, drawn in a strip under the chart (TimeChart strip); none by default */
+  hub?: TimeSeries }) {
   const nh = new Map<string, number>();
   for (const r of rows) if (r.variable === "net_generation_mw") nh.set(r.ts_utc.slice(0, 10), (nh.get(r.ts_utc.slice(0, 10)) ?? 0) + 1);
   const days = Array.from(nh.entries()).filter(([, n]) => n === 24).map(([d]) => d).sort().slice(-7);
@@ -125,6 +128,7 @@ export function Hourly({ rows, table, label, share, marks, through }: { rows: Se
         ticks={ticks}
         share={share}
         marks={marks}
+        strip={hub}
       />
     </>
   );

@@ -79,6 +79,10 @@ add("ercot_grid_notices", ercotN.rows.map((r) => ({ event_id: r.event_id, event_
 const l48 = fx("lower48_mix.json");
 add("state_generation_mix_monthly", Object.entries(l48.months).flatMap(([m, states]) => Object.entries(states).flatMap(([st, vals]) => vals.flatMap((v, i) => (v === null ? [] : [{ ...asSeries(`eia:${st}`, `net_generation_${l48.stems[i]}_mwh`, `${m}-01T00:00:00+00:00`, v, "MWh"), freq: "P1M" }])))));
 
+// session 1402: the hub's real-time price beside the hourly mix (fixtures/hub_price.json: ERCOT's, SPP's and CAISO's hubs in
+// iso_rtm_hub_prices from 19 to 23 October 2026, read once with the anon key), so grid_hubprice_<grid> draws its figures
+for (const [k, rs] of Object.entries(fx("hub_price.json").rows)) { const [e, v] = k.split("|"); add("iso_rtm_hub_prices", rs.map(([ts, x]) => ({ ...asSeries(e, v, ts, x, "USD/MWh"), freq: "PT15M" }))); }
+
 // ------------------------------------------------------------------ the stand-in for PostgREST and Storage
 let fail = null;   // { table, kind }; table "storage:snapshot" for the Storage object, "*" for every table
 let asked = new Set();
@@ -162,7 +166,7 @@ const FORWARD = Symbol.for("react.forward_ref");
 const BLOCKS = [["data-grid-panel", (v) => v], ["data-grid-balance", (v) => `balance_${v}`], ["data-grid-replay-day", (v) => `replay_${v}`],
   ["data-gravity-day", () => "gravityday"], ["data-eia930-drawn", () => "preliminary"], ["data-grid-held", (v) => `held_${v}`],
   ["data-grid-queue-unread", () => "queue_unread"], ["data-mix", (v) => `mixview_${v}`]];
-const block = (rec, name) => (rec[name] ??= { nums: [], text: [], errors: [] });
+const block = (rec, name) => (rec[name] ??= { nums: [], text: [], errors: [], charts: [] });   // session 1402: charts, each TimeChart drawn (its series' names, a strip marked)
 async function walk(node, rec, at, seen) {
   if (node === null || node === undefined || typeof node === "boolean") return;
   if (typeof node === "string" || typeof node === "number") { block(rec, at).text.push(String(node)); return; }
@@ -185,6 +189,7 @@ async function walk(node, rec, at, seen) {
       if (props["data-check"] !== undefined) block(rec, p).nums.push({ check: String(props["data-check"]), raw: String(props["data-raw"]) });
       if (props["data-missing"] !== undefined && typeof props.title === "string") block(rec, p).text.push(` [why: ${props.title}] `);
     }
+    if (typeof type === "function" && String(type.__erwClient ?? "").endsWith("#TimeChart")) block(rec, p).charts.push([`chart:${props.ariaLabel ?? ""}`, ...(props.series ?? []).map((x) => (x.strip ? `strip:${x.name}` : x.name))]);
     if (typeof type === "function" && !type.__erwClient && !type.prototype?.isReactComponent) {
       let o;
       try { o = type(props); if (o && typeof o.then === "function") o = await o; } catch (e) { block(rec, p).errors.push(`${type.name}: ${e?.message ?? e}`); return; }
@@ -228,7 +233,7 @@ async function check(name, f) {
     console.log(`FAIL ${name}: threw ${e?.stack ?? e}`);
   }
 }
-const NAMED = /^(grid_(network|gravity|clean24|mix|scarcity|caisoalert|ercotnotice|ask)_|balance_|replay_|gravityday|preliminary|held_|queue_unread|mixview_)/;
+const NAMED = /^(grid_(network|gravity|clean24|mix|scarcity|caisoalert|ercotnotice|ask|hubprice)_|balance_|replay_|gravityday|preliminary|held_|queue_unread|mixview_)/;
 const SAYS = /could not be read|no data for|working on it/;
 const baselines = new Map();
 async function base(sp) {
@@ -407,6 +412,37 @@ for (const kind of KINDS) {
     return /The table's notices could not be read/.test(t) ? "" : "the section does not say the notices could not be read";
   });
 }
+
+// 6a. session 1402: the hub's real-time price beside the hourly mix (grid_hubprice_<grid>): on a failed price read no figure,
+// "could not be read", and the mix chart above still drawn, without its strip; CAISO's price, drawn alone, the same
+for (const kind of KINDS) {
+  await check(`grid_hubprice_ercot (1402), iso_rtm_hub_prices, ${kind}: no figure, the mix chart still drawn without its strip`, async () => {
+    const why = await failing(ERCOT_MIX, "grid_hubprice_ercot", "iso_rtm_hub_prices", kind, { emptySays: /holds its four 15-minute prices in iso_rtm_hub_prices/ });
+    if (why) return why;
+    const charts = (r) => Object.values(r.rec).flatMap((b) => b.charts);
+    const hourly = (c) => /hourly net generation by fuel/.test(c[0]);
+    const ok = charts(await base(ERCOT_MIX)).find(hourly);
+    if (!ok || !ok.some((n) => n.startsWith("strip:"))) return `with every read answered the hourly chart has no strip (${JSON.stringify(ok)})`;
+    const got = await draw(ERCOT_MIX, { table: "iso_rtm_hub_prices", kind });
+    const mix = charts(got).find(hourly);
+    if (!mix) return "the hourly mix chart is not drawn";
+    if (mix.some((n) => n.startsWith("strip:"))) return "the strip is drawn without its read";
+    return kind !== "empty" && !/could not be read/.test(got.rec.grid_hubprice_ercot.text) ? "the panel does not say could not be read" : "";
+  });
+  await check(`grid_hubprice_caiso (1402, drawn alone), iso_rtm_hub_prices, ${kind}: no figure and no chart, its words`, async () => {
+    const why = await failing(CAISO_MIX, "grid_hubprice_caiso", "iso_rtm_hub_prices", kind, { emptySays: /no day of the last 9 holds its 24 hours whole in iso_rtm_hub_prices/ });
+    if (why) return why;
+    const y = (await draw(CAISO_MIX, { table: "iso_rtm_hub_prices", kind })).rec.grid_hubprice_caiso;
+    return y.charts.length ? "a price chart drawn without its read" : "";
+  });
+}
+await check("grid_hubprice_ercot (1402), eia930_all_generation fails: no mix chart, the price drawn alone over its own days", async () => {
+  const got = await draw(ERCOT_MIX, { table: "eia930_all_generation", kind: "timeout" });
+  const b = got.rec.grid_hubprice_ercot;
+  if (!b) return "no panel";
+  if (b.charts.length !== 1 || b.charts[0].length !== 2) return `charts ${JSON.stringify(b.charts)}`;
+  return b.nums.length === 4 && /so the price is drawn alone/.test(b.text) ? "" : `${b.nums.length} figures: ${b.text.slice(0, 300)}`;
+});
 
 // 6b. session 1185: the Lower 48 by month (grid_mix_us48, mixp=month), the sum of the states of state_generation_mix_monthly
 for (const kind of KINDS) {

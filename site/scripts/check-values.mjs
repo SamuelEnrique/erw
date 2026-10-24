@@ -878,6 +878,17 @@ async function truthOf(check) {
       and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "ts_utc" });
     return S.heldHours(rows);
   }
+  // session 1402: the hub's real-time price by hour (the Grid tool's grid_hubprice_<grid>, under the hourly mix), over the
+  // hours of a time range whose four 15-minute prices are all held (an hour's price their mean, docs/methods/cost_of_power.md):
+  // series_hn|<table>|<variable>|<start>|<end>|<entity> the hours held, series_hmean|... their mean (over one hour, that
+  // hour's price), series_hmax|... the highest; recomputed by the page's own function (lib/hubPriceHourly.ts hubHourStat)
+  if (p[0] === "series_hn" || p[0] === "series_hmean" || p[0] === "series_hmax") {
+    const P = await import("../lib/hubPriceHourly.ts");
+    const [, table, variable, start, end, entity] = p;
+    const rows = await all("series", { select: "ts_utc,value", table_name: `eq.${table}`, entity: `eq.${entity}`, variable: `eq.${variable}`,
+      and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "ts_utc" });
+    return P.hubHourStat(rows, p[0].slice("series_h".length), start, end);
+  }
   // session 1185: a sum over a group of states in a time range, states_sum|<table>|<variables, comma separated>|<start>|
   // <end>|<group> (the Grid tool's Lower 48 by month, grid_mix_us48: the 48 contiguous states and DC of
   // state_generation_mix_monthly): the group's rows of every variable in the range are read once (a month is held when

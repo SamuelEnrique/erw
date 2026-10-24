@@ -77,6 +77,11 @@ add("ba_supply_monthly", files.ba_supply_monthly.map((r) => ({ ...asSeries(r.ent
 const l48 = fx("lower48_mix.json");
 add("state_generation_mix_monthly", Object.entries(l48.months).flatMap(([m, states]) => Object.entries(states).flatMap(([st, vals]) => vals.flatMap((v, i) => (v === null ? [] : [{ ...asSeries(`eia:${st}`, `net_generation_${l48.stems[i]}_mwh`, `${m}-01T00:00:00+00:00`, v, "MWh"), freq: "P1M" }])))));
 
+// session 1402: the hub's real-time price beside the hourly mix (fixtures/hub_price.json: ERCOT's, SPP's and CAISO's hubs in
+// iso_rtm_hub_prices, read once with the anon key on 24 October 2026), so the panel grid_hubprice_<grid> draws its figures
+const hubFx = fx("hub_price.json");
+for (const [k, rs] of Object.entries(hubFx.rows)) { const [e, v] = k.split("|"); add("iso_rtm_hub_prices", rs.map(([ts, x]) => ({ ...asSeries(e, v, ts, x, "USD/MWh"), freq: "PT15M" }))); }
+
 const cmp = (a, b) => (a === b ? 0 : a === undefined || a === null ? -1 : b === undefined || b === null ? 1 : a < b ? -1 : 1);
 const val = (r, col) => (col.startsWith("extra->>") ? r.extra?.[col.slice(8)] ?? null : r[col]);
 function test1(r, col, cond) {
@@ -275,9 +280,9 @@ const PAGES = [
   [{ grid: "ercot", view: "gravity", net: "day", t: "2020-08-14" }, ["grid_gravity_ercot"]],
   [{ grid: "us48", view: "gravity" }, ["grid_gravity_us48", "view_exchange"]],
   [{ grid: "ercot", view: "clean" }, ["grid_clean24_ercot"]],
-  [{ grid: "ercot", view: "mix" }, ["grid_mix_ercot", "grid_scarcity_ercot", "grid_ercotnotice_ercot"]],
+  [{ grid: "ercot", view: "mix" }, ["grid_mix_ercot", "grid_scarcity_ercot", "grid_ercotnotice_ercot", "grid_hubprice_ercot"]],   // session 1402: the hub's price
   [{ grid: "ercot", view: "mix", mixp: "month" }, ["grid_mix_ercot"]],
-  [{ grid: "caiso", view: "mix" }, ["grid_scarcity_caiso", "grid_caisoalert_caiso"]],
+  [{ grid: "caiso", view: "mix" }, ["grid_scarcity_caiso", "grid_caisoalert_caiso", "grid_hubprice_caiso"]],   // session 1402: CAISO's price, drawn alone
   [{ grid: "caiso", view: "mix", mixp: "month" }, ["grid_mix_caiso"]],
   [{ grid: "us48", view: "mix", mixp: "month" }, ["grid_mix_us48"]],   // session 1185: the Lower 48 by month, the sum of the states
   [{ grid: "ercot", view: "mix", mix: "stress" }, ["mixview_stress"]],
@@ -388,6 +393,26 @@ await check("/grid?grid=us48&view=mix&mixp=month: the Lower 48 by month, the sum
   if (b.files.map((f) => f.id).join(",") !== "grid_mix_us48_monthly") return `files ${b.files.map((f) => f.id).join(",")}`;
   if (!b.methods.includes(GA.METHOD_MIX) || !b.methods.includes(GA.METHOD_MIX_US48)) return `links ${b.methods.join(", ")}`;
   return b.nums.some((x) => x.startsWith("states_sum|state_generation_mix_monthly|net_generation_coal_mwh|2026-08-01T00:00:00Z|2026-09-01T00:00:00Z|lower48=")) ? "" : b.nums.slice(0, 3).join("; ");
+});
+// session 1402: the hub's price beside the hourly mix: four keyed figures of the three new kinds, its file, its anchor
+// (#hub-price, and the grid after the first), its method; the held, paused and hubless grids one line and no read
+await check("the hub's price beside the hourly mix: its figures, file, anchor and method; a second grid takes the anchor and its grid; the others say why", async () => {
+  const rec = await draw({ grid: "ercot", view: "mix", grids: "ercot,caiso" });
+  const e = rec.grid_hubprice_ercot, c = rec.grid_hubprice_caiso;
+  if (!e || !c) return `blocks: ${Object.keys(rec).join(", ")}`;
+  for (const [b, id] of [[e, GA.HUB_PRICE_ANCHOR], [c, `${GA.HUB_PRICE_ANCHOR}-caiso`]]) {
+    const kinds = [...new Set(b.nums.map((x) => x.split("|")[0]))].sort().join(",");
+    if (kinds !== "series_hmax,series_hmean,series_hn" || new Set(b.nums).size !== 4) return `${id}: ${b.nums.join("; ")}`;
+    if (!b.ids.includes(id)) return `lacks #${id} (ids: ${b.ids.join(", ")})`;
+    if (!b.methods.includes(GA.METHOD_HUB_PRICE)) return `${id}: links ${b.methods.join(", ")}`;
+  }
+  if (e.files.map((f) => f.id).join(",") !== "grid_hubprice_ercot") return `files ${e.files.map((f) => f.id).join(",")}`;
+  for (const g of ["pjm", "miso", "nyiso", "isone", "us48"]) {
+    const r = await draw({ grid: g, view: "mix" });
+    const b = r[`grid_hubprice_${g}`];
+    if (!b || b.nums.length || b.files.length) return `${g}: ${b ? `${b.nums.length} figures, ${b.files.length} files` : "no block"}`;
+  }
+  return "";
 });
 // the ERCOT Exchange block's twelve months are drawn from the fixture (a file of its own, the neighbours')
 await check("/grid?grid=ercot&view=gravity: the Exchange blocks offer two files, the ties' and the twelve months'", async () => {

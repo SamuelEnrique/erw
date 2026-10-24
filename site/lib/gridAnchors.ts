@@ -98,6 +98,13 @@ export const METHOD_STRESS_GRIDS = "/data/methods/grid_stress#the-views-figures-
 // of the states (lib/lower48.ts), whose rule is its own section of generation_mix.md: a second link of the mix panel,
 // drawn under that view only, beside METHOD_MIX. Not in GRID_METHOD, which is one method a panel.
 export const METHOD_MIX_US48 = "/data/methods/generation_mix#the-lower-48-by-month-the-sum-of-the-states-chain-091-24-october-2026";
+// Session 1402 (chain 100): the hub's real-time price beside the hourly mix (grid_hubprice_<grid>, under the energy mix
+// panel's 7-day chart on the Mix tab, components/grid/HubPricePanel.tsx): its anchor and its method, beside the mix
+// panel's. Not in GRID_ANCHOR or GRID_METHOD, whose 17 panels sessions 1183 and 1184 pin; a second grid on one page takes
+// the anchor and its grid, as anchorOf writes it (hubPriceAnchor).
+export const HUB_PRICE_ANCHOR = "hub-price";
+export const hubPriceAnchor = (i: number, grid: string): string => (i ? `${HUB_PRICE_ANCHOR}-${grid}` : HUB_PRICE_ANCHOR);
+export const METHOD_HUB_PRICE = "/data/methods/generation_mix_hourly#the-hubs-price-beside-the-hourly-mix-chain-100-24-october-2026";
 export const GRID_METHOD: Record<GridAnchorKey, string> = {
   network: METHOD_NETWORK,
   replay: METHOD_REPLAY,
