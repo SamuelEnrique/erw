@@ -241,6 +241,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "statcan_electricity_trade_monthly",
            "eurostat_gas_balance_monthly",
            "eia_refinery_utilization_monthly",
+           "eia_gas_for_others_annual",
            "eia_lng_storage_annual",
            "eia_gas_plant_processing_annual",
            "eia_crude_tank_farm_stocks_monthly",

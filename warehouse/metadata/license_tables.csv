@@ -159,6 +159,7 @@ eia_fuel_spot_prices,EIA,the source registry
 eia_gas_balance_annual,EIA,the source registry
 eia_gas_consumers_state_annual,EIA,the source registry
 eia_gas_consumption_state_monthly,EIA,the source registry
+eia_gas_for_others_annual,EIA,the source registry
 eia_gas_heat_content_monthly,EIA,the source registry
 eia_gas_interstate_annual,EIA,the source registry
 eia_gas_other_uses_state_annual,EIA,the source registry
