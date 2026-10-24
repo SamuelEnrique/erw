@@ -543,6 +543,8 @@ cftc_cot_positions,managed_money_short,series variable,count
 cftc_cot_positions,open_interest,series variable,count
 desnz_uk_electricity_quarterly,generated,series variable,MWh
 desnz_uk_electricity_quarterly,supplied,series variable,MWh
+desnz_uk_renewables_quarterly,capacity,series variable,MW
+desnz_uk_renewables_quarterly,generated,series variable,MWh
 doe_grip_selections,event_id,column,
 doe_grip_selections,event_date,column,
 doe_grip_selections,event_type,column,
