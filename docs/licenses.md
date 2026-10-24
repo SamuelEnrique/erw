@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **547 tables.** The flag and the verdict agree on 440; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 62 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 409 public, 88 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **955 publishers in the record: 953 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 222 pages read, 731 that could not be read, 2 not asked (paused).**
+- **963 publishers in the record: 961 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 227 pages read, 734 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -978,6 +978,14 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 953 | Agencia Reguladora Multissetorial da Economia, Cabo Verde (ARME), the home page (session 2521) | https://www.arme.cv/ | 19:13:54 | 200 | 136717 | read |
 | 954 | Agencia Reguladora Multissetorial da Economia, Cabo Verde (ARME), the electricity reports category (session 2521) | https://www.arme.cv/index.php/eletricidade-2/relatorios/category/44-relatorios-electricidade | 19:14:05 | 200 | 73199 | read: no file listed |
 | 955 | National Bureau of Statistics, Seychelles (NBS), the terms and conditions (session 2523) | https://www.nbs.gov.sc/terms-and-conditions | 19:15:26 | 200 | 150588 | read |
+| 956 | Kosovo Agency of Statistics (ASK), askdata.rks-gov.net's robots file (session 2524) | https://askdata.rks-gov.net/robots.txt | 19:16:35 | 404 | 1245 | HTTP 404: no robots file |
+| 957 | Kosovo Agency of Statistics (ASK), the ASKdata API's databases (session 2524) | https://askdata.rks-gov.net/api/v1/en/ | 19:16:42 | 200 | 65 | read |
+| 958 | Kosovo Agency of Statistics (ASK), the ASKdata API's subject areas (session 2524) | https://askdata.rks-gov.net/api/v1/en/ASKdata/ | 19:16:48 | 200 | 1659 | read |
+| 959 | Kosovo Agency of Statistics (ASK), the energy area (session 2524) | https://askdata.rks-gov.net/api/v1/en/ASKdata/Energy/ | 19:16:55 | 200 | 203 | read |
+| 960 | Kosovo Agency of Statistics (ASK), the monthly energy tables (session 2524) | https://askdata.rks-gov.net/api/v1/en/ASKdata/Energy/Monthly%20indicators/ | 19:17:01 | 200 | 800 | read |
+| 961 | Kosovo Agency of Statistics (ASK), table tab01's metadata (session 2524) | https://askdata.rks-gov.net/api/v1/en/ASKdata/Energy/Monthly%20indicators/tab01.px | 19:17:09 | 200 | 1661 | read |
+| 962 | Kosovo Agency of Statistics (ASK), ask.rks-gov.net's robots file (session 2524) | https://ask.rks-gov.net/robots.txt | 19:17:15 | 404 | 0 | HTTP 404: no robots file |
+| 963 | Kosovo Agency of Statistics (ASK), ask.rks-gov.net/en/ (session 2524) | https://ask.rks-gov.net/en/ | 19:17:24 | 404 | 0 | HTTP 404: no page at the address |
 
 ## The publishers: the sentence and the verdict
 
