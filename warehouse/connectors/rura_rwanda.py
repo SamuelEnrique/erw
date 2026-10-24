@@ -22,6 +22,14 @@ from three reports (PDF, read with pdfplumber's table extraction), each covering
     unit MWh (the reports' kWh divided by 1,000); ts_utc the quarter's first day; freq P3M; geo RW; node the plant or
     the line as the report names it. Source line of both tables: "EUCL-REG".
 
+What the lines hold (session 2452's note): none of the reports defines "Regional shared HPP" or "Imports" or names the
+plants; RURA's generation mix counts the regional line as hydro (Table 2 reproduces from Table 1 only that way). Sales
+include exports as a category: generation_total less sales_exports equals RURA's "electricity supplied to the national
+grid" in every quarter, and domestic sales fall 16 to 19 per cent short of it; the reports give no losses. The categories
+grow over the reports: Q3 and Q4 2021 have ten and no total (the September 2022 report's figure gives their exports,
+2,699 and 2,059 MWh, not taken); street lights and exports appear from Q1 2022; Nasho's own use (Nasho irrigation) from
+Q2 2023.
+
 A quarter two reports give is taken from the later report; the header counts the values that differ. A dash or a blank
 cell has no row; nothing is filled. pdfplumber's rows are read, not the text layer, whose cells shift between rows.
 Checks, each stopping the run: the plants add to the domestic total, and domestic, regional shared and imports to the
@@ -200,10 +208,10 @@ def main(argv=None):
                 for (e, var, ts), (v, node, url, ret, vin) in merged.items()]
         t = finish(rows)
         header = [
-            f"Energy Research Warehouse (ERW): Rwanda Utilities Regulatory Authority (RURA), Electricity Statistics Reports, generation by plant, imports and sales by customer category, a quarter, {t.ts_utc.min()[:7]} to {t.ts_utc.max()[:7]} (session 2448)",
+            f"Energy Research Warehouse (ERW): Rwanda Utilities Regulatory Authority (RURA), Electricity Statistics Reports, generation by plant, imports and sales by customer category, a quarter, {t.ts_utc.min()[:7]} to {(pd.Timestamp(t.ts_utc.max()[:10]) + pd.DateOffset(months=2)).strftime('%Y-%m')} (session 2448)",
             "Shape: series (docs/datastandard.md v0). entity rura:RW:<plant> (variable generation) or rura:RW (generation_domestic, generation_regional_shared, imports, generation_total, sales_<customer category>, sales_total); "
-            "unit MWh (the reports' kWh divided by 1,000); ts_utc the quarter's first day; freq P3M; geo RW; node the plant or line as the report names it. Sales include exports and Nasho's own use as categories.",
-            f"{len(t)} rows, {t.entity.nunique()} entities. The plants add to domestic generation, and domestic, regional shared and imports to the total, within 1 MWh; the categories add to the total sold within 1 MWh where a total is printed (Q3 and Q4 2021: ten categories, no total, street lights, Nasho's own use or exports). "
+            "unit MWh (the reports' kWh divided by 1,000); ts_utc the quarter's first day; freq P3M; geo RW; node the plant or line as the report names it. Sales include exports and Nasho's own use as categories; the regional shared line is hydro in RURA's own mix; the reports give no losses.",
+            f"{len(t)} rows, {t.entity.nunique()} entities. The plants add to domestic generation, and domestic, regional shared and imports to the total, within 1 MWh; the categories add to the total sold within 1 MWh where a total is printed (Q3 and Q4 2021: ten categories and no total; street lights and exports from Q1 2022, Nasho's own use from Q2 2023). "
             f"A quarter two reports give is taken from the later report ({diffs} values differ, listed in the run log). A dash or blank has no row; nothing is filled. The system peak demand is in a figure only and is not taken.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/rura_rwanda.py; the reports retrieved {min(got)} to {max(got)}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

@@ -1,8 +1,13 @@
-# Session 2460 report: Statistics Canada's annual supply and disposition of electricity by province, 2005 to 2025 (the third own choice)
+# Session 2460 report: Statistics Canada's annual supply and disposition of electricity (the third own choice), withdrawn as a duplicate of chain 117's table
 
 24 October 2026, from 13:05 UTC, on lab-desktop (the data machine), the thirteenth session of `queue/done/118-day-18-november-data-rwanda-senegal-azerbaijan-uzbekistan.md`, unattended. It ran before sessions 2456 to 2459, so that the daily run's lock (from about 14:10 UTC) would not hold up its write and the Stanford draft. Precheck passed (`runs/c118/pre2460.out`). Model spend USD 0. Pulls: 2 of 20 (below).
 
 ## Read these first
+
+- **Withdrawn (added at 13:26 UTC, after the session):** chain 117's session 2441 had taken the same source, StatCan's table 25-10-0021-01, as `statcan_power_disposition_annual` (3,909 rows, public), and landed it on main at 13:15 UTC. This session's search of the running branches for the source missed it: it looked for the table number in the registry of main and of chains 115's and 117's branches before chain 117 committed it, and did not ask chain 117's agent.
+  - The table below was therefore withdrawn. Its connector and test were removed from the branch (kept on the data machine as `runs/c118/s2460/*.withdrawn`). Its coverage, registry, archive manifest, sector, hold and release lines were removed (`runs/c118/s2460/withdraw.py`). Its file was moved to `warehouse/output/retired/` under the data lock.
+  - **It is in the Stanford draft:** session 2457's upload (part A, 13:14 UTC) took it before the duplicate was found. Its record row is kept, with `migrated_to` set to `statcan_power_disposition_annual`. **For Samuel:** remove `statcan_electricity_disposition_annual` from the draft (a human's command, `upload.py --remove-migrated` once the two are mapped in `table_migrations.csv`, or by hand).
+  - The two reads (825 and 826 on this branch's numbering after session 2457's merge) stay, being real requests. The account below is of the session as it ran.
 
 - **The record read first** (session 2455's lesson): Statistics Canada's verdict is public (the Open Licence, read 361), and nothing of StatCan's is in `warehouse/output/retired/`.
 - **The choice:** table 25-10-0021-01, electric power, electric utilities and industry, annual supply and disposition. The ERW holds StatCan's monthly generation and trade and, since chain 114, its capacity. It does not hold sales to ultimate customers by sector, producers' own use, unallocated electricity or interprovincial flows.

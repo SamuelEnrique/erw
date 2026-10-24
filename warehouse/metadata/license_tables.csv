@@ -497,7 +497,6 @@ spp_dam_cleared_energy,SPP,the source registry
 spp_interconnection_queue,SPP,the source registry
 ssb_norway_electricity_monthly,Statistics Norway (SSB),the source registry
 statbank_moldova_electricity_monthly,National Bureau of Statistics of the Republic of Moldova (StatBank),the source registry
-statcan_electricity_disposition_annual,Statistics Canada,the source registry
 statcan_electricity_generation_monthly,Statistics Canada,the source registry
 statcan_electricity_trade_monthly,Statistics Canada,the source registry
 statcan_energy_balance_annual,Statistics Canada,the source registry

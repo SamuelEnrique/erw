@@ -19,7 +19,7 @@
 
 ## The cross-check (`runs/c118/s2450/cross.py`, `cross.out`; tables read past their header lines)
 
-- **Production plus imports less exports (the balance's total supply) against `owid_ember_electricity_annual`'s Azerbaijan demand:** within 0.2 to 0.8 per cent from 2010 to 2023 (2023: 26.27 against 26.06 TWh), and 2.2 per cent above in 2024 (27.19 against 26.61 TWh).
+- **Production plus imports less exports (the balance's total supply) against `owid_ember_electricity_annual`'s Azerbaijan demand:** within 0.2 to 0.8 per cent in the years compared, 2010, 2015, 2020, 2022 and 2023 (2023: 26.27 against 26.06 TWh; this line first said "from 2010 to 2023", corrected in session 2452), and 2.2 per cent above in 2024 (27.19 against 26.61 TWh).
 - Exports reached 3.0 TWh in 2022 and 3.2 TWh in 2023 (as printed: -2,997.4 and -3,245.7 million kWh).
 
 ## Pulls against their ceilings

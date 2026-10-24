@@ -24,14 +24,15 @@ solar and wind collected since 2015, 2023 preliminary; consumption collected sin
 as published (wind is 0.0 in most years to 2022). The wind file has a column keyed "2022.1" besides "2022" (0.0 in
 both), which is not taken. Checks, each stopping the run: the indicator's code and unit are as read; a region not in the
 map; a value that is not a number; the regions adding to more than the republic, beyond 1 GWh. The republic's excess
-over its regions is data not allocated to a region (production: 19.8 GWh in 2016, 0.6 GWh in 2022 to 2024); the
+over its regions is data not allocated to a region (production: 34.1 GWh in 2017, 31.7 in 2019, 19.8 in 2016, 0.6 in 2022 to 2024); the
 header names the largest.
 
     python warehouse/connectors/siat_uzbekistan.py [--offline] [--out-dir DIR]
 
 Ceiling: four requests, reused from warehouse/raw/siat_uzbekistan/ with --offline. siat.stat.uz's and
 api.siat.stat.uz's robots files allow every path, ClaudeBot, Claude-Web and anthropic-ai named among the allowed
-(session 2451). License: public, CC BY 4.0 (each indicator page: "Litsenziya: CC BY 4.0"). Source: National Statistics
+(session 2451). License: public, CC BY 4.0 (indicator 440's page: "Litsenziya: CC BY 4.0", the source line naming the Statistics Agency;
+the other three pages were not read, and the files carry no license field). Source: National Statistics
 Committee of the Republic of Uzbekistan, SIAT.
 """
 
@@ -148,15 +149,15 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): National Statistics Committee of the Republic of Uzbekistan, SIAT open data, electricity production by region, solar and wind production, and gross consumption by region, {t.ts_utc.min()[:4]} to {t.ts_utc.max()[:4]} (session 2451)",
             "Shape: series (docs/datastandard.md v0). entity siat:UZ or siat:UZ:<SOATO code>; variable generation (1.02.02.0004), generation_solar (1.02.02.0006, the republic only), generation_wind (1.02.02.0007, the republic only), "
-            "consumption (1.02.02.0019, gross electricity consumption by subscribers), MWh (the files' million kWh times 1,000); ts_utc the year's 1 January; freq P1Y; geo UZ or ISO 3166-2; x_region_code SOATO. "
+            "consumption (1.02.02.0019, \"Volume of electricity consumption by subscribers\", which the file's note calls gross; undefined, and 19 to 24 per cent below production in most years), MWh (the files' million kWh times 1,000); ts_utc the year's 1 January; freq P1Y; geo UZ or ISO 3166-2; x_region_code SOATO. "
             "The regions are parts of the republic, which also holds data not allocated to a region: a sum takes one level.",
-            f"{len(t)} rows. The regions never add to more than the republic (within 1 GWh); the republic's excess is data not allocated to a region. Zeros are kept as published; the wind file's column \"2022.1\" (0.0) is not taken. The files' notes: " + " ".join(notes),
+            f"{len(t)} rows. The regions never add to more than the republic (within 1 GWh); the republic's excess is data not allocated to a region. Zeros are kept as published; the wind file's column \"2022.1\" (0.0) is not taken. 2018's consumption (60,744.7 million kWh) is out of line with 2017 and 2019 in 13 of 14 areas, as published. The files' notes, which stop at 2023 (2024 and 2025 have no stated status): " + " ".join(notes),
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/siat_uzbekistan.py; the files retrieved {min(got)} to {max(got)}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} National Statistics Committee of the Republic of Uzbekistan, SIAT, indicators 1.02.02.0004, 0006, 0007 and 0019, {PAGE}",
             f"  access: {BASE.format(440)} and the three others (446, 458, 2684)",
-            "License: public, CC BY 4.0 (each indicator's page). Source: National Statistics Committee of the Republic of Uzbekistan, siat.stat.uz.",
+            "License: public, CC BY 4.0 (indicator 440's page). Source: the Statistics Agency of the Republic of Uzbekistan (the page's source line), siat.stat.uz.",
         ]
         ip.write_csv(t, NAME, header, log, cols=COLS)
         if not args.out_dir:

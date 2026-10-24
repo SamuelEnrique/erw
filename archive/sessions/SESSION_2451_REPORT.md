@@ -15,7 +15,7 @@
   - the republic's excess is the unallocated part, at most 34.1 GWh, 19.8 GWh in 2016 and 0.6 GWh in 2022 to 2024.
   - The first check, an equality within 1 GWh, stopped at 2016's 19.8 GWh. The note's "including unallocated data by region" explains the gap, so the check now allows it.
 - **The wind file has a column keyed "2022.1"** besides "2022", both 0.0; it is not taken. Zeros are kept as published (wind is 0.0 in most years to 2022, and 789.6 million kWh in 2024).
-- **License: public, CC BY 4.0.** Each indicator page reads "Litsenziya: CC BY 4.0" and names it in its dataset record (read 810). New verdict: may be public.
+- **License: public, CC BY 4.0.** Indicator 440's page reads "Litsenziya: CC BY 4.0" and names it in its dataset record (read 810); the other three pages were not read, and the files carry no license field (this line first said "each indicator page", corrected in session 2452). New verdict: may be public.
 - **Robots:** stat.uz disallows only Joomla's system paths (read 808). siat.stat.uz and api.siat.stat.uz allow every path, with ClaudeBot, Claude-Web and anthropic-ai named among the allowed (reads 809 and 811).
 - **The indicator files were found by a web search,** which pointed to SIAT's indicator pages, rather than by browsing stat.uz.
 - **Not taken into the repository:** the download pointers name a staff member's email; it is not copied anywhere.

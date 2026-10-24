@@ -16,11 +16,16 @@ three requests:
     https://stat.gov.az/source/balance_fuel/en/005_3en.xls  sheet 5.3, "Plant capacity, MW", as of the end of the year:
         the total and its parts by kind of plant (capacity_<kind>), the same years
 
-    entity statsaz:AZ; geo AZ; node Azerbaijan; ts_utc the year's 1 January; freq P1Y; unit MWh (million kWh times
+    entity statsaz:AZ; geo AZ; node the balance's line, or "Production of electricity: <kind>" or "Plant capacity,
+    end of year: <kind>"; ts_utc the year's 1 January; freq P1Y; unit MWh (million kWh times
     1,000) for the balance and production, MW for capacity
 
-The workbooks' other sheets (the same balance in thousand toe and terajoules) are not taken. A dash ("-", nil) or "..."
-(not available) has no row; nothing is filled. Checks, each stopping the run: in the balance, production is electricity
+The workbooks' other sheets (the same balance in thousand toe and terajoules) are not taken. A dash ("-", "not applicable" in the
+Energy page's signs) or "..." (not available) has no row; nothing is filled; "0.0" ("the least number") is written as
+the cell holds it (biomass: 0.5, 0.2, 0.4 and 0.6 MWh in 2015 to 2018, 0 in 2019, 2020 and 2023). Table 5.4's parts
+include "avtopro-ducers (working with fuel)" and, 2000 to 2006, "by generator", neither defined: production_fuel_fired_
+and_chp leaves the autoproducers out, which the balance's fuel lines hold (1,967.4 million kWh in 2025). 19 of the
+balance's 59 lines, transformation input among them, are "-" in every year and have no row (session 2452's note). Checks, each stopping the run: in the balance, production is electricity
 plants plus CHP plants, and electricity plants are their kinds; production (5.4) is its parts; capacity (5.3) is its
 parts; the balance's production equals 5.4's within 1 GWh in each year both give; all within 1 GWh or 1 MW. A label,
 year or value that does not read stops it too.
@@ -203,7 +208,7 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): State Statistical Committee of the Republic of Azerbaijan, the electricity balance (2007 to 2025), electricity production and plant capacity by kind of plant ({t.ts_utc.min()[:4]} to {t.ts_utc.max()[:4]}) (session 2450)",
             "Shape: series (docs/datastandard.md v0). entity statsaz:AZ; variable balance_<line> (table 3.1.18: production, electricity plants and their kinds, CHP plants, import, export (negative, as printed), total supply, statistical difference, "
-            "transformation input, energy industries' own use, losses, final consumption and its sectors), production_<kind> (table 5.4) in MWh (million kWh times 1,000), capacity_<kind> (table 5.3, end of year) in MW; "
+            "energy industries' own use, losses, final consumption and its sectors; transformation input is \"-\" in every year), production_fuel_fired_and_chp without the autoproducers (production_autoproducers_fuel) among the other production_<kind> (table 5.4) in MWh (million kWh times 1,000), capacity_<kind> (table 5.3, end of year) in MW; "
             "ts_utc the year's 1 January; freq P1Y; geo AZ. The balance's lines and the kinds overlap (totals hold their parts): a sum takes one level. Before 2000 only single years are given (1913, 1920 to 1990 by ten, 1995).",
             f"{len(t)} rows, {t.variable.nunique()} variables. Production is electricity plants plus CHP plants, electricity plants are their kinds, and production and capacity are their kinds from 2000, within 1 GWh or 1 MW; "
             f"the balance's production equals table 5.4's within {gap:.1f} GWh. A dash or ... has no row; nothing is filled.",

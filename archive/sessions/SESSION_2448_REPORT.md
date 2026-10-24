@@ -20,7 +20,7 @@
   - the categories add to the total sold, within 1 MWh, where a total is printed;
   - the reports agree on all 2022 quarters that two of them give (0 values differ).
 - **The September 2022 report's sales table has ten categories and no total,** nor street lights, Nasho's own use or exports. So Q3 and Q4 2021 have no `sales_total` and lack those three categories; the header says so.
-- **Read with pdfplumber's tables, not the text layer,** whose cells shift between rows. Shema Power's 87 GWh in a quarter, from a 56 MW methane plant, and peat's 3.03% share agree with pdfplumber's rows and not with the text's.
+- **Read with pdfplumber's tables, not the text layer,** whose cells shift between rows. Shema Power's 87 GWh in Q2 2024 (a methane plant; its capacity is in no saved file, and this line first said 56 MW, corrected in session 2452) and peat's 3.03% share agree with pdfplumber's rows and not with the text's.
 - **Not taken:** the system peak demand, given only in a figure and the prose (233.74 MW in Q2 2024); the generation mix, given in percentages.
 - **License: internal.** RURA's footer reads "© 2026 Rwanda Utilities Regulatory Authority", and its pages state no terms of reuse, so no verdict is recorded. `www.rura.rw`'s robots file disallows CMS paths and a long list of named crawlers, none of them this reader or an AI agent (read 785).
 - **Test 205's bound raised by 40** for this chain's reads, which start at 763 on this branch.
