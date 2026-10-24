@@ -137,6 +137,7 @@ eia_crude_first_purchase_prices,public,,,,EIA,"Public: every publisher's terms t
 eia_crude_imports_by_country,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_crude_imports_detail_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_crude_production_state_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_crude_quality_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_crude_reserves_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_crude_stream_prices,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_drilling_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -145,6 +146,7 @@ eia_fuel_spot_prices,public,,,,EIA,"Public: every publisher's terms the ERW read
 eia_gas_balance_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_gas_consumers_state_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_gas_consumption_state_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_gas_heat_content_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_gas_interstate_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_gas_other_uses_state_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_gas_pipeline_projects,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -396,6 +398,7 @@ nyiso_zone_load_hourly,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's 
 onrr_production_annual,public,,,,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 onrr_production_monthly,public,,,,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 onrr_revenue_monthly,public,,,,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+ons_brazil_balance_hourly,public,,,,Operador Nacional do Sistema Eletrico (ONS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_eha_hydropower_plants,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_eha_hydropower_units,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_hydropower_pipeline,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -414,8 +417,10 @@ price_board_latest,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO
 price_board_peak_offpeak,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 price_board_spreads,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 price_years_by_window,public,,,,CAISO; EIA; ERCOT; NOAA NCEI; SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+ree_spain_balance_monthly,public,,,,Red Electrica (REE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 rggi_auction_allowance_prices,internal,,,RGGI,RGGI,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 rrc_lease_production_monthly,public,,,,RRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+rte_eco2mix_france_halfhourly,public,,,,RTE (Reseau de Transport d'Electricite),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 scarcity_hours_by_grid,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 scripps_co2_mlo_monthly,public,,,,"Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 shoulder_hours_monthly,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
@@ -433,6 +438,7 @@ texas_delivery_charges,internal,,,"AEP Texas Inc.; CenterPoint Energy Houston El
 texas_transmission_matrix,internal,,,,Public Utility Commission of Texas,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 treasury_1603_awards,internal,,,,U.S. Department of the Treasury,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 usace_nid_dams,unsettled,,,,U.S. Army Corps of Engineers (USACE),"The terms of U.S. Army Corps of Engineers (USACE) have not been read or settled, so the ERW does not redistribute it until they are.",none
+usbr_crsp_reservoirs_daily,public,,,,U.S. Bureau of Reclamation (USBR),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 usbr_hydropower_monthly,public,,,,U.S. Bureau of Reclamation (USBR),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 usbr_mead_powell_daily,public,,,,U.S. Bureau of Reclamation (USBR),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 usdm_drought_state_weekly,public,,,,"U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
