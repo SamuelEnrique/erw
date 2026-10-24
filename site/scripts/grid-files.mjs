@@ -18,6 +18,7 @@ export const GRID_FILE_PAGES = [
   ["/grid?grid=ercot&mixp=month", ["grid_mix_ercot_monthly"]],
   ["/grid?grid=caiso", ["grid_scarcity_caiso", "grid_caisoalert_caiso"]],
   ["/grid?grid=caiso&mixp=month", ["grid_mix_caiso_monthly"]],
+  ["/grid?grid=us48&mixp=month", ["grid_mix_us48_monthly"]],   // session 1185: the Lower 48 by month, the sum of the states
   ["/grid?grid=ercot&mix=stress", ["grid_stress_ercot_ramp", "grid_stress_ercot_tight_", "grid_stress_ercot_calm", "grid_stress_all_"]],
 ];
 

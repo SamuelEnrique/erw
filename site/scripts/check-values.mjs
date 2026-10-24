@@ -196,6 +196,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 1152: the energy mix panel's second view, the grid's monthly mix (mixp=month), for ERCOT and for CAISO (whose
   // hourly view is withheld by the session 118 ruling and whose monthly build is drawn)
   "/grid?grid=ercot&mixp=month", "/grid?grid=caiso&mixp=month",
+  // session 1185: the Lower 48's view by month, the sum of the states (lib/lower48.ts, states_sum)
+  "/grid?grid=us48&mixp=month",
   // session 299: the Gravity tab (the network's gravity shape with the exchange blocks under it)
   "/grid?grid=ercot&view=gravity&shape=gravity", "/grid?grid=us48&view=gravity&shape=gravity",
   // session 403: the ERCOT peak premium explorer (the thesis's default; another hub and two years; one month across the
@@ -267,6 +269,7 @@ async function all(table, params) {
 }
 
 const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's rows, by technology and state, and by technology
+const statesRows = new Map();   // session 1185: a states_sum key's rows, by table, group and range (one read for the month's keys)
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
 const dcllRows = new Map();
 // session 1166: the committed files of site/data/ a file| key reads, each parsed once a run; and the live-set rows the
@@ -741,6 +744,20 @@ async function truth(check) {
     const rows = await all("series", { select: "ts_utc", table_name: `eq.${table}`, entity: `eq.${entity}`, variable: `eq.${variable}`,
       and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "ts_utc" });
     return S.heldHours(rows);
+  }
+  // session 1185: a sum over a group of states in a time range, states_sum|<table>|<variables, comma separated>|<start>|
+  // <end>|<group> (the Grid tool's Lower 48 by month, grid_mix_us48: the 48 contiguous states and DC of
+  // state_generation_mix_monthly): the group's rows of every variable in the range are read once (a month is held when
+  // every entity of the group has a row of it), and the page's own function sums the variables over the months held
+  // (lib/lower48.ts statesSum)
+  if (p[0] === "states_sum") {
+    const L = await import("../lib/lower48.ts");
+    const [, table, variable, start, end, group] = p;
+    const entities = L.groupEntities(group);
+    const k = `${table}|${group}|${start}|${end}`;
+    if (!statesRows.has(k)) statesRows.set(k, await all("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${table}`,
+      entity: `in.(${entities.map((e) => `"${e}"`).join(",")})`, and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "entity,variable,ts_utc" }));
+    return L.statesSum(statesRows.get(k), entities, variable.split(","), start, end);
   }
   // session 16: /map (energy_projects, and datacenter_facilities as the kind datacenter; session 22) and /datacenters
   if (p[0] === "projects") {

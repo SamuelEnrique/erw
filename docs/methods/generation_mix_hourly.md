@@ -313,7 +313,9 @@ variables and window.
   it, `series_esum|generation_mix_hourly_profile|iso:<grid>|<fuel>_mwh|<from>|<to>`. A month of the twelve that the
   build did not write is named on the face (ERCOT: 2025-12). No twelve-month share is drawn.
 - **The Lower 48** has no monthly view by grid (the table holds the seven ISO grids): its panel says "not built for the
-  Lower 48", and the state monthly view below it is its monthly mix.
+  Lower 48", and the state monthly view below it is its monthly mix. Since session 1185 (chain 091) the view is drawn
+  for the Lower 48 as the sum of the 48 contiguous states and DC in `state_generation_mix_monthly` (EIA-923, not
+  EIA-930), keyed `states_sum`: `generation_mix.md`, section "The Lower 48 by month, the sum of the states".
 - **`mixp` in the address** is a field of the mix page's choice (`site/lib/mixpage.ts`), written only on "Now and by
   state" and only when it is `month`, so every older address opens as it did.
 - **CAISO's alert months** (session 1155): a month of the chart that holds an Energy Emergency Alert or a Flex Alert day

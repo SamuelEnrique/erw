@@ -73,6 +73,9 @@ add("ercot_grid_notices", ercotN.rows.map((r) => ({ event_id: r.event_id, event_
 add("generation_mix_hourly_profile", monthly.map((r) => ({ ...asSeries(r.entity, r.variable, r.ts_utc, r.value, "MWh"), freq: "P1M" })));
 add("generation_mix_hourly_profile", files.generation_mix_hourly_profile.map((r) => ({ ...asSeries(r.entity, r.variable, r.ts_utc, r.value, "MWh"), freq: "P1M" })));
 add("ba_supply_monthly", files.ba_supply_monthly.map((r) => ({ ...asSeries(r.entity, r.variable, r.ts_utc, r.value, ""), freq: "P1M" })));
+// session 1185: the 48 contiguous states and DC of state_generation_mix_monthly, 2025-08 to 2026-08 (fixtures/lower48_mix.json), for the Lower 48 by month
+const l48 = fx("lower48_mix.json");
+add("state_generation_mix_monthly", Object.entries(l48.months).flatMap(([m, states]) => Object.entries(states).flatMap(([st, vals]) => vals.flatMap((v, i) => (v === null ? [] : [{ ...asSeries(`eia:${st}`, `net_generation_${l48.stems[i]}_mwh`, `${m}-01T00:00:00+00:00`, v, "MWh"), freq: "P1M" }])))));
 
 const cmp = (a, b) => (a === b ? 0 : a === undefined || a === null ? -1 : b === undefined || b === null ? 1 : a < b ? -1 : 1);
 const val = (r, col) => (col.startsWith("extra->>") ? r.extra?.[col.slice(8)] ?? null : r[col]);
@@ -276,6 +279,7 @@ const PAGES = [
   [{ grid: "ercot", view: "mix", mixp: "month" }, ["grid_mix_ercot"]],
   [{ grid: "caiso", view: "mix" }, ["grid_scarcity_caiso", "grid_caisoalert_caiso"]],
   [{ grid: "caiso", view: "mix", mixp: "month" }, ["grid_mix_caiso"]],
+  [{ grid: "us48", view: "mix", mixp: "month" }, ["grid_mix_us48"]],   // session 1185: the Lower 48 by month, the sum of the states
   [{ grid: "ercot", view: "mix", mix: "stress" }, ["mixview_stress"]],
 ];
 // GRID_FILES_OUT=<dir>: each file drawn is also written there, to read (nothing is written otherwise)
@@ -374,6 +378,17 @@ await check("two grids on one page: the second grid's mix panel and stress table
   return want.every((a) => ids.includes(a)) && !ids.includes("stress-ramp-ercot") ? "" : `ids: ${ids.filter((x) => x.startsWith("stress")).join(", ")}`;
 });
 
+// session 1185: the Lower 48 by month is drawn from the states (lib/lower48.ts): every figure a states_sum key or a share of
+// two, the file grid_mix_us48_monthly, the panel's method and the section of the sum (METHOD_MIX_US48)
+await check("/grid?grid=us48&view=mix&mixp=month: the Lower 48 by month, the sum of the states, keyed, its file and both method links", async () => {
+  const b = (await draw({ grid: "us48", view: "mix", mixp: "month" })).grid_mix_us48;
+  if (!b) return "no block grid_mix_us48";
+  const kinds = new Set(b.nums.map((x) => x.split("|")[0]));
+  if (new Set(b.nums).size !== 2 + 9 * 3 || [...kinds].some((k) => k !== "states_sum" && k !== "calc")) return `${new Set(b.nums).size} figures, kinds ${[...kinds].join(", ")}`;
+  if (b.files.map((f) => f.id).join(",") !== "grid_mix_us48_monthly") return `files ${b.files.map((f) => f.id).join(",")}`;
+  if (!b.methods.includes(GA.METHOD_MIX) || !b.methods.includes(GA.METHOD_MIX_US48)) return `links ${b.methods.join(", ")}`;
+  return b.nums.some((x) => x.startsWith("states_sum|state_generation_mix_monthly|net_generation_coal_mwh|2026-08-01T00:00:00Z|2026-09-01T00:00:00Z|lower48=")) ? "" : b.nums.slice(0, 3).join("; ");
+});
 // the ERCOT Exchange block's twelve months are drawn from the fixture (a file of its own, the neighbours')
 await check("/grid?grid=ercot&view=gravity: the Exchange blocks offer two files, the ties' and the twelve months'", async () => {
   const b = (await draw({ grid: "ercot", view: "gravity" })).view_exchange;

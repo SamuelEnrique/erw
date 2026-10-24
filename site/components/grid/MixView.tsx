@@ -18,6 +18,8 @@ import { DEMAND, PROFILE, mixHourly } from "@/lib/mixHourly";
 import { EMERGENCIES, gridNotices } from "@/lib/reliability";
 import { ercotNotices } from "@/lib/gridErcotNotices";
 import { CAISO_HOLDS, generationSince, wholeRead } from "@/lib/gridReads";
+import { Lower48Monthly } from "@/components/grid/Lower48Mix";
+import { LOWER48_ENTITIES, STATE_MIX } from "@/lib/lower48";
 
 // Session 133: the energy mix, one page at one address. It holds what /mix (session 18), /mix/v2 (94), /mix/clean (122)
 // and /mix/stress (123) showed, as views of this page (those addresses redirect here: next.config.ts; their pages are
@@ -117,11 +119,13 @@ async function NowView({ c }: { c: Choice }) {
   const table = "eia930_all_generation";
   // session 1152: the energy mix panel's view (hourly, the default, or by month) and its own read: the demand of the
   // same days (the peak hour), or the grid's months of generation_mix_hourly_profile (none for the Lower 48)
+  // session 1185: the Lower 48's months: the 48 contiguous states' and DC's rows of state_generation_mix_monthly (lib/lower48.ts)
   const month = c.mixp === "month";
   const extra = (b: (typeof BAS)[number]) => {
     const g = BA_GRID[b.code];
     if (month) return g && g !== "us48" ? attempt(() => rest<SeriesRow>("series", { select: "entity,variable,ts_utc,value,unit", table_name: `eq.${PROFILE}`, entity: `eq.iso:${g}`,
-      variable: `in.(${MONTH_VARIABLES.join(",")})`, ts_utc: `gte.${daysAgo(800).slice(0, 7)}-01T00:00:00Z`, order: "entity,variable,ts_utc" }, HOURLY)) : Promise.resolve(null);
+      variable: `in.(${MONTH_VARIABLES.join(",")})`, ts_utc: `gte.${daysAgo(800).slice(0, 7)}-01T00:00:00Z`, order: "entity,variable,ts_utc" }, HOURLY))
+      : g === "us48" ? attempt(() => series(STATE_MIX, { entities: LOWER48_ENTITIES, since: `${daysAgo(800).slice(0, 7)}-01T00:00:00Z` })) : Promise.resolve(null);
     return b.code === "ciso" ? Promise.resolve(null) : attempt(() => series(DEMAND, { entity: b.entity, variable: "demand_mw", since: daysAgo(9) }));
   };
   // session 1155: CAISO's notices, for the alert days of its monthly view (the same read as the Reliability section)
@@ -175,7 +179,8 @@ async function NowView({ c }: { c: Choice }) {
               <div data-grid-panel={`grid_mix_${grid}`}>
                 <PanelToggle c={c} month={month} at={anchorOf("mix", i, grid)} />
                 {month ? (
-                  grid === "us48" ? <Missing why="generation_mix_hourly_profile is built for the seven ISO grids, not for the Lower 48: its monthly mix by state is below." words="not built for the Lower 48" />
+                  // session 1185: the Lower 48 by month is the sum of the states (EIA-923), not built from EIA-930 (lib/lower48.ts)
+                  grid === "us48" ? (more && more.ok ? <Lower48Monthly rows={more.data} /> : failed(more && !more.ok ? more.reason : "no read"))
                     : more && more.ok ? <MonthlyFigures rows={more.data} label={b.label} caiso={withheld} notices={withheld ? notices : undefined} ercot={b.code === "erco" ? ercotN : undefined} /> : failed(more && !more.ok ? more.reason : "no read")
                 ) : figures ? <HourlyFigures m={figures} label={b.label} now={now} demandFailed={more && !more.ok ? more.reason : undefined} />
                   // session 1181: the grid's generation could not be read: the panel says so in its own place, and draws no figure

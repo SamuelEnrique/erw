@@ -195,6 +195,9 @@ export async function ScarcityPanel({ grid, label }: { grid: string; label: stri
           : grid === "us48" ? (
             <p className="max-w-3xl text-sm" data-scarcity-us48="1">
               {SCARCITY_TABLE} is by grid, and it holds two: <SiteLink href={`${gridHref("ercot", "mix")}#scarcity`}>ERCOT&apos;s scarcity hours</SiteLink> and <SiteLink href={`${gridHref("caiso", "mix")}#scarcity`}>CAISO&apos;s</SiteLink>.
+              {/* session 1185: why the Lower 48 has no strip of its own (docs/methods/scarcity_hours_by_grid.md) */}
+              {" "}<span data-scarcity-us48-why="1">The Lower 48 has no strip of its own: the method counts a grid&apos;s hours at its own hub&apos;s price and its own operator&apos;s
+              signal, and the Lower 48 has neither one hub nor one operator, so the method defines no national scarcity measure, and none is summed from the grids.</span>
             </p>
           ) : (() => { const n = notHeld(grid, label); return <p className="max-w-3xl text-sm" data-scarcity-held={n.words}>{label}: <Missing why={n.why} words={n.words} /> <span className="text-xs text-muted">{n.why}</span></p>; })()}
         {/* session 1184: the strip's source line links its method; the Lower 48's and the other grids' line has its own */}

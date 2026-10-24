@@ -75,6 +75,9 @@ for (const [g, entity, price] of [["ercot", "iso:ercot", "ercot:HB_HUBAVG|spp_rt
 add("ercot_hub_prices_daily", strip.ercot.daily.map((r) => ({ ...asSeries("ercot:HB_HUBAVG", "rt_max", r.ts_utc, r.value, "USD/MWh"), freq: "P1D" })));
 add("caiso_grid_emergencies", caisoN.rows.map((r) => ({ event_id: r.event_id, event_date: `${r.event_date}T00:00:00+00:00`, event_type: r.event_type, extra: { region: r.region ?? "", time_frame: r.time_frame ?? "" } })));
 add("ercot_grid_notices", ercotN.rows.map((r) => ({ event_id: r.event_id, event_date: `${r.event_date}T00:00:00+00:00`, event_type: r.event_type, extra: r.extra })));
+// session 1185: the 48 contiguous states and DC of state_generation_mix_monthly (fixtures/lower48_mix.json), the Lower 48 by month
+const l48 = fx("lower48_mix.json");
+add("state_generation_mix_monthly", Object.entries(l48.months).flatMap(([m, states]) => Object.entries(states).flatMap(([st, vals]) => vals.flatMap((v, i) => (v === null ? [] : [{ ...asSeries(`eia:${st}`, `net_generation_${l48.stems[i]}_mwh`, `${m}-01T00:00:00+00:00`, v, "MWh"), freq: "P1M" }])))));
 
 // ------------------------------------------------------------------ the stand-in for PostgREST and Storage
 let fail = null;   // { table, kind }; table "storage:snapshot" for the Storage object, "*" for every table
@@ -402,6 +405,19 @@ for (const kind of KINDS) {
     const t = got.rec._page.text.replace(/ ?\[why:[^\]]*\] ?/g, " ").replace(/\s+/g, " ");
     if (/The table holds 0 notices/.test(t) || /the latest on no day/.test(t)) return "the failed read is said as an empty table";
     return /The table's notices could not be read/.test(t) ? "" : "the section does not say the notices could not be read";
+  });
+}
+
+// 6b. session 1185: the Lower 48 by month (grid_mix_us48, mixp=month), the sum of the states of state_generation_mix_monthly
+for (const kind of KINDS) {
+  await check(`grid_mix_us48 (1185, by month), state_generation_mix_monthly, ${kind}: no figure, ${kind === "empty" ? "no month of the 49 said" : "the view said not read (working on it)"}`, async () => {
+    const sp = { grid: "us48", view: "mix", mixp: "month" };
+    const why = await failing(sp, "grid_mix_us48", "state_generation_mix_monthly", kind, { emptySays: /holds every one of the 48 contiguous states and DC, so no month of the Lower 48 is drawn/ });
+    if (why) return why;
+    const ok = (await base(sp)).rec.grid_mix_us48;
+    if (!ok.nums.some((n) => n.check.startsWith("states_sum|"))) return "the view draws no states_sum figure with every read answered";
+    const y = (await draw(sp, { table: "state_generation_mix_monthly", kind })).rec.grid_mix_us48;
+    return y.nums.length ? `${y.nums.length} figures drawn` : "";
   });
 }
 

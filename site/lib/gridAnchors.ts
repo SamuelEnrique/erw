@@ -94,6 +94,10 @@ export const METHOD_STRESS_RAMP = "/data/methods/grid_stress#the-views-figures-k
 export const METHOD_STRESS_TIGHT = "/data/methods/grid_stress#the-large-tables-keyed-whole-session-1168";
 export const METHOD_STRESS_CALM = "/data/methods/grid_stress#the-large-tables-keyed-whole-session-1168";
 export const METHOD_STRESS_GRIDS = "/data/methods/grid_stress#the-views-figures-keyed-from-the-committed-files-chain-078-24-october-2026";
+// Session 1185 (chain 091): the Lower 48's view by month of the energy mix panel (grid_mix_us48, mixp=month) is the sum
+// of the states (lib/lower48.ts), whose rule is its own section of generation_mix.md: a second link of the mix panel,
+// drawn under that view only, beside METHOD_MIX. Not in GRID_METHOD, which is one method a panel.
+export const METHOD_MIX_US48 = "/data/methods/generation_mix#the-lower-48-by-month-the-sum-of-the-states-chain-091-24-october-2026";
 export const GRID_METHOD: Record<GridAnchorKey, string> = {
   network: METHOD_NETWORK,
   replay: METHOD_REPLAY,
