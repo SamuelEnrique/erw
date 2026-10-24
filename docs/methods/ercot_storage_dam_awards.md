@@ -6,6 +6,8 @@ resource and hour) and `ercot_storage_dam_awards_monthly` (series, derived, publ
 `/cost-of-power/battery/awards` (in review). Tests: `tests/test_session115.py`. It follows the scoping note of
 session 108, [`ercot_disclosure_scoping.md`](ercot_disclosure_scoping.md).
 
+Tables: `ercot_storage_dam_awards_monthly` (session 2312; as held on 24 October 2026, 252 rows, 28 variables, December 2025 to August 2026)
+
 ## What this is not
 
 **Day-ahead awards only: no real-time settlement, no deployment energy, no contracts.** It is each storage resource's

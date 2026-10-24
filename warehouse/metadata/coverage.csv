@@ -52,6 +52,8 @@ clean_energy_summary,clean,,7,P1M;P1Y,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,
 cost_of_power_carbon,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,7,P1M,2018-07-01T00:00:00Z,2026-10-01T00:00:00Z,712,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power;carbon,yes,derived
 cost_of_power_hourly_profile,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,7,P1M,2025-10-01T00:00:00Z,2026-10-01T00:00:00Z,4368,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power,yes,derived
 cost_of_power_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,7,P1M,2018-07-01T00:00:00Z,2026-10-01T00:00:00Z,2304,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power,yes,derived
+csp_latvia_electricity_monthly,csp,,10,P1M,2006-01-01T00:00:00Z,2026-08-01T00:00:00Z,2039,csp:ENB010m,2026-10-24T06:32:11Z,pass,internal,power,no,source
+cso_ireland_electricity_monthly,cso,,2,P1M,1975-01-01T00:00:00Z,2026-08-01T00:00:00Z,644,cso:MSM01,2026-10-24T06:58:59Z,pass,public,power,no,source
 datacenter_facilities,none,,430,snapshot,2026-10-23T15:02:15Z,2026-10-23T15:02:15Z,430,Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;WSJ;aws:locations;digitalrealty:data-centers;equinix:us-data-centers;ercot:interconnection_queue;google:datacenter-locations;meta:datacenter-locations;microsoft:azure-geographies;nyiso:interconnection_queue;oracle:public-cloud-regions;switch:locations;vantage:data-center-locations,2026-10-23T15:02:15Z,pass,public,power;datacenters,no,model_extracted
 datacenter_operator_sites,none,,275,snapshot,2026-10-12T14:52:31Z,2026-10-12T14:52:31Z,275,aws:locations;digitalrealty:data-centers;equinix:us-data-centers;google:datacenter-locations;meta:datacenter-locations;microsoft:azure-geographies;oracle:public-cloud-regions;switch:locations;vantage:data-center-locations,2026-10-12T14:48:48Z,pass,public,power;datacenters,no,source
 datacenter_projects,none,,154,snapshot,2026-09-27T04:31:06Z,2026-10-23T15:01:58Z,154,Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;WSJ,2026-10-23T15:01:56Z,pass,public,power;datacenters,no,model_extracted
@@ -229,10 +231,10 @@ elexon_gb_demand_daily,elexon,,1,P1D,2021-04-27T00:00:00Z,2026-10-23T00:00:00Z,1
 emi_nz_generation_demand_monthly,emi,,3,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,846,emi:generation_demand_trends,2026-10-24T03:58:46Z,pass,public,power,no,source
 energinet_dk_production_hourly,energinet,,2,PT1H,2024-12-31T23:00:00Z,2026-10-13T23:00:00Z,607311,energinet:production_consumption_settlement,2026-10-24T02:18:32Z,pass,public,power,no,source
 energy_charts_belgium_hourly,none,,16,PT1H,2019-12-31T23:00:00Z,2026-10-23T21:00:00Z,908600,energy_charts:public_power_be,2026-10-24T04:12:37Z,pass,public,power,no,source
+energy_charts_central_europe,none,,43,PT1H,2022-12-31T23:00:00Z,2026-10-23T21:00:00Z,1419805,energy_charts:public_power_at_ch_cz,2026-10-24T05:29:29Z,pass,public,power,no,source
 energy_charts_italy_power,none,,1,PT15M;PT1H,2019-12-31T23:00:00Z,2026-10-22T21:45:00Z,1329375,energy_charts:public_power_it,2026-10-24T05:03:58Z,pass,public,power,no,source
 energy_charts_portugal_power,none,,1,PT1H,2020-01-01T00:00:00Z,2026-10-22T22:00:00Z,725799,energy_charts:public_power_pt,2026-10-24T05:13:50Z,pass,public,power,no,source
 energy_charts_southeast_europe_daily,none,,58,P1D,2020-01-01T00:00:00Z,2026-10-22T00:00:00Z,128530,energy_charts:public_power_southeast,2026-10-24T04:32:06Z,pass,public,power,no,source
-energy_charts_central_europe,none,,43,PT1H,2022-12-31T23:00:00Z,2026-10-23T21:00:00Z,1419805,energy_charts:public_power_at_ch_cz,2026-10-24T05:29:29Z,pass,public,power,no,source
 energy_companies,none,,488,snapshot,2026-09-28T17:04:21Z,2026-10-23T15:01:53Z,488,erw:energy_deals;erw:thesis_builder,2026-10-23T15:01:53Z,pass,public,deals,no,model_extracted
 energy_deals,none,,24,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,514,24 outlets,2026-10-23T15:01:15Z,pass,public,deals,no,model_extracted
 energy_deals_evidence,none,,26,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,568,26 outlets,2026-10-23T15:01:15Z,pass,internal,deals,no,model_extracted
@@ -448,6 +450,7 @@ scarcity_hours_by_grid,scarcity,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm,2,PT1H,2
 scb_sweden_electricity_monthly,scb,,11,P1M,1974-01-01T00:00:00Z,2026-08-01T00:00:00Z,6059,scb:TAB1011,2026-10-24T03:01:41Z,pass,public,power,no,source
 scripps_co2_mlo_monthly,scripps,,1,P1M,1958-03-01T00:00:00Z,2026-09-01T00:00:00Z,1636,scripps:co2_mlo_monthly,2026-10-23T23:42:11Z,pass,public,carbon,no,source
 shoulder_hours_monthly,CAISO;ERCOT,,3,P1D;P1M;P1Y,2019-01-01T00:00:00Z,2026-10-06T00:00:00Z,27197,erw:shoulder_hours,2026-10-19T11:43:46Z,pass,public,power,yes,derived
+singstat_singapore_electricity,singstat,,18,P1M;P1Y,1975-01-01T00:00:00Z,2026-06-01T00:00:00Z,1009,singstat:M890831_M890841,2026-10-24T06:07:53Z,pass,internal,power,no,source
 smard_germany_monthly,smard,,13,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,1800,smard:market_data_month,2026-10-24T02:46:34Z,pass,public,power,no,source
 spp_as_prices,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,159432,spp:DA-MCP,2026-10-04T04:09:48Z,pass,public,power,no,source
 spp_as_quantities,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-05T04:00:00Z,159768,spp:DA-MC,2026-10-04T11:34:34Z,pass,public,power,no,source
@@ -458,8 +461,8 @@ ssb_norway_electricity_monthly,ssb,,26,P1M,1993-01-01T00:00:00Z,2026-09-01T00:00
 statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source
 statcan_oil_gas_supply_monthly,statcan,,383,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,56007,statcan:25-10-0063-01;statcan:25-10-0086-01,2026-10-24T02:33:08Z,pass,public,oil;gas,no,source
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,108125,erw:generation_mix,2026-10-23T14:45:09Z,pass,public,power,yes,derived
-statfi_finland_electricity_monthly,statfi,,16,P1M,1992-01-01T00:00:00Z,2026-06-01T00:00:00Z,6350,statfi:12su,2026-10-24T04:12:29Z,pass,public,power,no,source
 statee_estonia_electricity_monthly,statee,,6,P1M,2005-01-01T00:00:00Z,2026-08-01T00:00:00Z,1344,statee:KE21,2026-10-24T05:05:10Z,pass,public,power,no,source
+statfi_finland_electricity_monthly,statfi,,16,P1M,1992-01-01T00:00:00Z,2026-06-01T00:00:00Z,6350,statfi:12su,2026-10-24T04:12:29Z,pass,public,power,no,source
 storage_buildout_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,9,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,21229,erw:storage_buildout,2026-10-23T14:48:47Z,pass,public,power,yes,derived
 storage_capacity,none,,1627,snapshot,2026-10-23T14:48:44Z,2026-10-23T14:48:44Z,1627,erw:storage_capacity,2026-10-23T14:48:44Z,pass,public,power,no,derived
 storage_daily_cycle,CAISO;ERCOT;ISO-NE;MISO;SPP;US48,,6,P1D,2024-11-01T00:00:00Z,2026-10-22T00:00:00Z,14503,erw:storage_daily_cycle;erw:storage_daily_cycle_caiso,2026-10-23T14:48:07Z,pass,public,power,yes,derived
