@@ -11,7 +11,8 @@ from Eurostat's SDMX 2.1 dissemination API (no key), as sessions 2123 and 2225 t
     https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/SIEC         the fuels' English names
 
     entity      eurostat_epc:<Eurostat geo code>:<SIEC code> (TOTAL, CF combustible fuels and its groups, C0000 coal, G3000
-                natural gas, O4000 oil, N9000 nuclear, RA100 hydro and its kinds, RA300 wind, RA420 solar photovoltaic,
+                natural gas, O4000 oil, N9000 "nuclear fuels and other fuels n.e.c." (in effect nuclear: in 2024 above zero only in
+                the members with nuclear plants), RA100 hydro and its kinds, RA300 wind, RA420 solar photovoltaic,
                 R5000_W6000 biofuels and waste, HYD hydrogen and the rest, as node names them; each as published, no sum
                 made here)
     variable    net_capacity, net_capacity_commissioned or net_capacity_decommissioned (Eurostat's CAP_NET_ELC,
@@ -131,7 +132,11 @@ def main(argv=None):
             "each _total, _main_producers or _autoproducers; unit MW; ts_utc the year's 1 January; freq P1Y; geo ISO alpha-2 (Eurostat's EL is GR), blank for Eurostat's own aggregates "
             "EU27_2020 and EA21; node the SIEC code's English name.",
             f"{len(t)} rows. Countries: {' '.join(countries)}. Left out by Eurostat's terms (data for countries outside the EU, EFTA and the official candidates may not be reused commercially): "
-            f"{' '.join(left) or 'none'}. Fuel groups overlap (TOTAL, CF and its groups, RA100 and its kinds): a sum of rows double counts. Values as published, zeros kept; nothing is filled.",
+            f"{' '.join(left) or 'none'}. Fuel groups overlap (TOTAL, CF and its groups, RA100 and its kinds): a sum of rows double counts. "
+            "Commissioned and decommissioned capacity is given for 23 of the 27 fuel codes (not TOTAL, RA100, RA300 or RA420) and in most "
+            "countries only from 2020 to 2022. EU27_2020 and EA21 are the reporting members' sum where a member has no row. Germany's 2021 "
+            "total is 60,036 MW short of its parts (exactly its solar photovoltaic), as published, and so are the EU's and the euro area's "
+            "2021 totals (session 2366). Values as published, zeros kept; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eurostat_capacity.py; the data retrieved {rec.get('retrieved_at') or ''}; Eurostat's last update {', '.join(updated)}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

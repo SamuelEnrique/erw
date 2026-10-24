@@ -413,6 +413,11 @@ catalogue_hold:
   - epa_tri_energy_releases_annual
   - eurostat_gas_imports_monthly
   - eurostat_renewable_capacity_annual
+  - eurostat_oil_monthly
+  - eurostat_crude_imports_monthly
+  - eurostat_solid_fuels_monthly
+  - makstat_macedonia_electricity_monthly
+  - statbank_moldova_electricity_monthly
   - eurostat_electricity_capacity_annual
   - fema_disaster_declarations
   - ieso_ontario_demand_hourly

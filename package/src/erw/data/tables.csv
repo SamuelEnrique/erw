@@ -295,11 +295,14 @@ ercot_wind_solar_hsl_hourly,public,,,,ERCOT,"Public: every publisher's terms the
 ercot_wind_solar_output_hourly,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_zone_load_hourly,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_zone_prices_history,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_crude_imports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_capacity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_gas_balance_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_gas_imports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_oil_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_renewable_capacity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_solid_fuels_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 event_study_estimates,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 event_window_daily,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 fema_disaster_declarations,public,,,,Federal Emergency Management Agency (FEMA),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -394,6 +397,7 @@ lbnl_tracking_the_sun,public,,,,"Berkeley Lab, Tracking the Sun on OEDI","Public
 lbnl_wind_capacity_factors,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 lbnl_wind_costs,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 lbnl_wind_turbine_orders,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+makstat_macedonia_electricity_monthly,internal,,,,State Statistical Office of North Macedonia (MakStat),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 merchant_revenue_monthly,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 miso_as_prices,internal,,,MISO,MISO,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 miso_interconnection_queue,unsettled,license needed,2026-10-21,MISO,MISO,"MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
@@ -474,6 +478,7 @@ spp_curtailment_daily,public,,,,SPP,"Public: every publisher's terms the ERW rea
 spp_dam_cleared_energy,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 spp_interconnection_queue,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 ssb_norway_electricity_monthly,public,,,,Statistics Norway (SSB),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statbank_moldova_electricity_monthly,public,,,,National Bureau of Statistics of the Republic of Moldova (StatBank),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_electricity_generation_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_electricity_trade_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_energy_balance_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none

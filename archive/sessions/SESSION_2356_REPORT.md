@@ -44,8 +44,8 @@ The trial and the write ran offline.
     | Solar photovoltaic | 1,155 of 1,269 |
     | Hydro | 1,275 of 1,294 |
 
-    The largest gaps are Romania 2023, where Eurostat's two data sets disagree.
-  - **The EU in 2024:** 1,170 GW in all, of which combustible fuels 367, natural gas 164, coal 77, nuclear 97, hydro 153, wind 231 and solar photovoltaic 306 GW.
+    The largest gaps are Romania 2023, where `eurostat_renewable_capacity_annual` holds 0.0 for hydro, wind and solar photovoltaic: a zero in that table, not a second estimate. The counts include the EU27 and euro area rows; the 38 countries alone give 1,200 of 1,224, 1,128 of 1,199 and 1,210 of 1,224 (corrected by session 2366).
+  - **The EU in 2024:** 1,170 GW in all, of which combustible fuels 367, natural gas 164, coal 77, nuclear 97 (Eurostat's N9000, "nuclear fuels and other fuels n.e.c.", in effect nuclear), hydro 153, wind 231 and solar photovoltaic 306 GW.
 - **Registered:** the sector rule (`power`), the live-set hold, the release package's held list (public), its rows in `docs/redivis/release-v1/` (the release check passes), and the license tables (licenses check: 492 tables, 0 problems). The test is `tests/test_session2356.py` (3 tests).
 - **Not uploaded to the Stanford draft yet.** The next draft session takes it (the note says so).
 
