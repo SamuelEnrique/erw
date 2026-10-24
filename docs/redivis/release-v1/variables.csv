@@ -7920,6 +7920,16 @@ sne_panama_electricity_annual,load_factor,series variable,pct
 sne_panama_electricity_annual,net_production,series variable,MWh
 sne_panama_electricity_annual,peak_demand,series variable,MW
 sne_panama_generation_monthly,generation_gross_total,series variable,MWh
+sors_serbia_electricity_annual,available_final,series variable,MWh
+sors_serbia_electricity_annual,exports,series variable,MWh
+sors_serbia_electricity_annual,final_consumption,series variable,MWh
+sors_serbia_electricity_annual,gross_available,series variable,MWh
+sors_serbia_electricity_annual,gross_production,series variable,MWh
+sors_serbia_electricity_annual,imports,series variable,MWh
+sors_serbia_electricity_annual,losses,series variable,MWh
+sors_serbia_electricity_annual,own_use,series variable,MWh
+sors_serbia_electricity_annual,primary_production,series variable,MWh
+sors_serbia_electricity_annual,transformation_input,series variable,MWh
 spp_as_prices,as_price_dam_rampdn,series variable,USD/MW-hour
 spp_as_prices,as_price_dam_rampup,series variable,USD/MW-hour
 spp_as_prices,as_price_dam_regdn,series variable,USD/MW-hour

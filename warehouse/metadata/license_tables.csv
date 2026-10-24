@@ -498,6 +498,7 @@ slu_cso_electricity_annual,Central Statistical Office of Saint Lucia (CSO); St. 
 smard_germany_monthly,Bundesnetzagentur (SMARD),the source registry
 sne_panama_electricity_annual,"Secretaria Nacional de Energia, Panama",the source registry
 sne_panama_generation_monthly,"Secretaria Nacional de Energia, Panama",the source registry
+sors_serbia_electricity_annual,Statistical Office of the Republic of Serbia (SORS),the source registry
 spp_as_prices,SPP,the source registry
 spp_as_quantities,SPP,the source registry
 spp_curtailment_daily,SPP,the source registry
