@@ -499,6 +499,7 @@ state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00
 statee_estonia_electricity_monthly,statee,,6,P1M,2005-01-01T00:00:00Z,2026-08-01T00:00:00Z,1344,statee:KE21,2026-10-24T05:05:10Z,pass,public,power,no,source
 statfi_finland_electricity_monthly,statfi,,16,P1M,1992-01-01T00:00:00Z,2026-06-01T00:00:00Z,6350,statfi:12su,2026-10-24T04:12:29Z,pass,public,power,no,source
 statnett_norway_daily,statnett,,1,P1D,2020-01-01T00:00:00Z,2026-10-23T00:00:00Z,4960,statnett:driftsdata_production_consumption,2026-10-24T07:10:35Z,pass,internal,power,no,source
+statsaz_azerbaijan_electricity_annual,statsaz,,56,P1Y,1913-01-01T00:00:00Z,2025-01-01T00:00:00Z,1067,statsaz:energy,2026-10-24T12:42:07Z,pass,public,power,no,source
 statsmu_mauritius_electricity_annual,statsmu,,1,P1Y,2017-01-01T00:00:00Z,2025-01-01T00:00:00Z,79,statsmu:energy_water_statistics,2026-10-24T11:48:57Z,pass,public,power,no,source
 storage_buildout_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,9,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,21229,erw:storage_buildout,2026-10-23T14:48:47Z,pass,public,power,yes,derived
 storage_capacity,none,,1627,snapshot,2026-10-23T14:48:44Z,2026-10-23T14:48:44Z,1627,erw:storage_capacity,2026-10-23T14:48:44Z,pass,public,power,no,derived

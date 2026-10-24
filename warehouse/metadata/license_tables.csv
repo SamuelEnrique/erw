@@ -499,6 +499,7 @@ state_generation_mix_monthly,EIA,the source registry and the tables its header d
 statee_estonia_electricity_monthly,Statistics Estonia,the source registry
 statfi_finland_electricity_monthly,Statistics Finland,the source registry
 statnett_norway_daily,Statnett SF,the source registry
+statsaz_azerbaijan_electricity_annual,State Statistical Committee of the Republic of Azerbaijan,the source registry
 statsmu_mauritius_electricity_annual,Statistics Mauritius,the source registry
 storage_buildout_monthly,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators, eia860m_retired_generators"
 storage_capacity,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators, eia860m_retired_generators"

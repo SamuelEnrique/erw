@@ -332,6 +332,7 @@ SECTOR_RULES = [
     (r"^eurostat_electricity_production_annual$", "power"),  # session 2413: Eurostat's gross electricity production by fuel, all producers, a year (nrg_bal_peh, GEP)
     (r"^statcan_generating_capacity_annual$", "power"),  # session 2418: Statistics Canada 25-10-0022-01, installed generating capacity by type and class of producer, by province, a year
     (r"^rura_rwanda_electricity_quarterly$", "power"),  # session 2448: RURA's Electricity Statistics Reports, Rwanda's generation by plant, imports and sales by customer category, a quarter (internal)
+    (r"^statsaz_azerbaijan_electricity_annual$", "power"),  # session 2450: Azerbaijan's State Statistical Committee, the electricity balance, production and plant capacity by kind, a year (public with the source cited)
     (r"^eia_lng_storage_annual$", "gas;lng"),  # session 2292: EIA's LNG peak-shaving storage additions and withdrawals by state
     (r"^eia_gas_plant_processing_annual$", "gas;products"),  # session 2287: EIA's gas plant processing (gas processed, liquids extracted), a year
     (r"^eia_crude_tank_farm_stocks_monthly$", "oil"),  # session 2286: EIA's crude stocks at tank farms and pipelines, Cushing among them

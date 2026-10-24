@@ -261,6 +261,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "sne_panama_electricity_annual",
            "sne_panama_generation_monthly",
            "statsmu_mauritius_electricity_annual",
+           "statsaz_azerbaijan_electricity_annual",
            "eia_lng_storage_annual",
            "eia_gas_plant_processing_annual",
            "eia_crude_tank_farm_stocks_monthly",
