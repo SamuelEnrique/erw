@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **547 tables.** The flag and the verdict agree on 440; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 62 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 409 public, 88 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **949 publishers in the record: 947 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 219 pages read, 728 that could not be read, 2 not asked (paused).**
+- **954 publishers in the record: 952 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 220 pages read, 732 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -972,6 +972,11 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 947 | Public Utilities Corporation, Seychelles (PUC), the site's search for annual report (session 2520) | https://www.puc.sc/wp-json/wp/v2/search?search=annual+report&per_page=50 | 19:13:00 | 200 | 1170 | read |
 | 948 | National Bureau of Statistics, Seychelles (NBS), the home page (session 2520) | https://www.nbs.gov.sc/ | 19:13:01 | 200 | 224312 | read: no energy section in its menu |
 | 949 | Public Utilities Corporation, Seychelles (PUC), the publications page (session 2520) | https://www.puc.sc/publications/ | 19:13:08 | 200 | 148721 | read: the reports' lists are loaded by script |
+| 950 | Instituto Nacional de Estatistica, Cabo Verde (INE), ine.cv's robots address (session 2521) | https://ine.cv/robots.txt | 19:13:34 | 200 | 10697 | read: answers with the site's page; no robots file |
+| 951 | ELECTRA (Empresa de Electricidade e Agua, Cabo Verde), www.electra.cv's robots file (session 2521) | https://www.electra.cv/robots.txt | 19:13:35 | 200 | 25 | read: disallows every path to every agent; not asked again |
+| 952 | Agencia Reguladora Multissetorial da Economia, Cabo Verde (ARME), www.arme.cv's robots file (session 2521) | https://www.arme.cv/robots.txt | 19:13:36 | 200 | 842 | read: Joomla system paths closed; names no AI agent |
+| 953 | Agencia Reguladora Multissetorial da Economia, Cabo Verde (ARME), the home page (session 2521) | https://www.arme.cv/ | 19:13:54 | 200 | 136717 | read |
+| 954 | Agencia Reguladora Multissetorial da Economia, Cabo Verde (ARME), the electricity reports category (session 2521) | https://www.arme.cv/index.php/eletricidade-2/relatorios/category/44-relatorios-electricidade | 19:14:05 | 200 | 73199 | read: no file listed |
 
 ## The publishers: the sentence and the verdict
 
