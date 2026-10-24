@@ -213,6 +213,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "singstat_singapore_electricity",
            "csp_latvia_electricity_monthly",
            "cso_ireland_electricity_monthly",
+           "eia_petroleum_stocks_state_monthly",
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "energinet_dk_production_hourly",
