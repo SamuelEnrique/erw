@@ -226,10 +226,15 @@ test("a failed read: could not be read, no figure; no whole day: said in words; 
   assert.ok(none.includes('data-cleanweek-none="1"') && !none.includes("data-check="));
   // CleanView with no caller's `live` draws no week; with it, the week stands after the grid's cleanest hours, and under a held grid's block too
   const c = choiceOf({ view: "clean", grids: "ercot,miso" });
+  // session 1414: the Clean tab's tables now offer their files, whose first lines name the time the page was drawn
+  // (components/grid/PanelFile.tsx); the two drawings are made at one time, so they differ only by the weeks
+  const realNow = Date.now, drawnAt = realNow();
+  Date.now = () => drawnAt;
   const before = renderToStaticMarkup(createElement(V.CleanView, { c }));
   assert.ok(!before.includes("grid_cleanweek"));
   const live = (g, year) => createElement("div", { "data-grid-panel": `grid_cleanweek_${g}`, "data-year": year });
   const after = renderToStaticMarkup(createElement(V.CleanView, { c, live }));
+  Date.now = realNow;
   const at = after.indexOf("grid_cleanweek_ercot");
   assert.ok(at > after.indexOf("ERCOT: the cleanest hours of the average day") && at < after.indexOf("ERCOT: moving a flat load into the cleanest hours"));
   assert.ok(after.includes("grid_cleanweek_miso"), "a held grid's committed block reads license needed; the week, public, stands under it");

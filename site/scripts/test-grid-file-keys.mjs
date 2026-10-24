@@ -231,6 +231,40 @@ test("the clean view keys no figure of a grid held for a license (ISO-NE, MISO, 
   for (const g of GRIDS) {
     const ks = keysOf(createElement(V.CleanView, { c: choiceOf({ view: "clean", grids: g }) }));
     for (const h of held) assert.ok(!ks.some((k) => k.check.includes(`clean/${h}.json`)), `${g}: no key of ${h}`);
+    // session 1414 (chain 107): the three large tables of a grid not held keyed whole, in the year in view: the purchase
+    // against the hours (every shape and purchase, energy and hours), the cleanest hours by month (the cleanest and the
+    // dirtiest hour by the page's function, filecalc|clean_day_max and clean_day_min; the month's share) and the flat load
+    // moved, every year held (carbon, each shift, days; cost, each shift, days priced): a key exactly where the file holds
+    // the figure, and the hours (words) never keyed. Extended in place (tests/test_session1168.py counts this file's tests)
+    if (held.includes(g)) { assert.equal(ks.filter((k) => k.check.includes(`clean/${g}.json`)).length, 0, `${g}: held, no key of its own`); continue; }
+    const f = read(`clean/${g}.json`), year = clean.defaultYear(f), v = clean.yearView(f, year), cf = `clean/${g}.json`;
+    const inner = new Map(ks.map((k) => [FMT.fmtParts(k.check).inner, k]));
+    const has = (path) => inner.has(`file|${cf}|${path}`);
+    for (const s of f.shapes) for (const p of f.purchases) {
+      assert.equal(has(`years.${year}.match_${s}_${p}_energy_pct`), v.match[s][p].energy !== null, `${g} ${s} ${p} energy`);
+      assert.equal(has(`years.${year}.match_${s}_${p}_hours_pct`), v.match[s][p].hours !== null, `${g} ${s} ${p} hours`);
+    }
+    for (const m of clean.monthsOf(f, year)) {
+      const d = clean.dayOf(f, m).filter((x) => x !== null);
+      for (const [fn, want] of [["clean_day_max", d.length ? Math.max(...d) : null], ["clean_day_min", d.length ? Math.min(...d) : null]]) {
+        const k = inner.get(`filecalc|${fn}|${cf}|${m}`);
+        assert.equal(!!k, want !== null, `${g} ${m} ${fn}`);
+        if (k) { assert.equal(Number(k.raw), want, `${g} ${m} ${fn}: the old Math.max or Math.min of the day`); assert.equal(k.text, n1(want)); }
+      }
+      assert.equal(has(`months.${m}.carbon_free_share_pct`), clean.get(f.months[m], "carbon_free_share_pct") !== null, `${g} ${m} share`);
+    }
+    for (const y of clean.yearsOf(f)) {
+      const w = clean.yearView(f, y), at = (x) => `years.${y}.${x}`;
+      assert.equal(has(at("flat_kgco2_per_mwh")), w.carbon.flat !== null, `${g} ${y} flat carbon`);
+      assert.equal(has(at("shift_days")), w.carbon.days !== null, `${g} ${y} shift days`);
+      assert.equal(has(at("flat_cost_usd_per_mwh")), w.cost.flat !== null, `${g} ${y} flat cost`);
+      assert.equal(has(at("cost_days")), w.cost.days !== null, `${g} ${y} cost days`);
+      for (const s of f.shifts) {
+        assert.equal(has(at(`shift${s}_carbon_change_pct`)), w.carbon.change[s] !== null, `${g} ${y} ${s} carbon`);
+        assert.equal(has(at(`shift${s}_cost_change_pct`)), w.cost.change[s] !== null, `${g} ${y} ${s} cost`);
+      }
+    }
+    assert.ok(!ks.some((k) => /cleanest_hour/.test(k.check)), `${g}: the hours stay words`);
   }
 });
 

@@ -134,6 +134,21 @@ export const MIX_VIEW_ANCHOR = {
 export type MixViewAnchorKey = keyof typeof MIX_VIEW_ANCHOR;
 export const mixViewAnchor = (key: MixViewAnchorKey, i: number, who: string): string => (i ? `${MIX_VIEW_ANCHOR[key]}-${who}` : MIX_VIEW_ANCHOR[key]);
 export const METHOD_MIX_VIEWS = "/data/methods/generation_mix_hourly#the-computed-views-keyed-chain-107-24-october-2026";
+// Session 1414 (chain 107): the Clean tab's tables ("How clean, and when", components/mix/views.tsx CleanView), keyed
+// whole: the carbon-free share and hours (the grids chosen), each grid's annual purchase against the hours, its cleanest
+// hours by month and its flat load moved into the cleanest hours (one a grid), and the seven grids. Their anchors and
+// their one method, outside GRID_ANCHOR and GRID_METHOD as session 1413's are; the first keeps the id its block had
+// ("clean"); a second grid on one page takes the anchor and its grid, as anchorOf writes it.
+export const CLEAN_TABLE_ANCHOR = {
+  shares: "clean",
+  purchase: "clean-purchase",
+  months: "clean-months",
+  shift: "clean-shift",
+  grids: "clean-grids",
+} as const;
+export type CleanTableAnchorKey = keyof typeof CLEAN_TABLE_ANCHOR;
+export const cleanTableAnchor = (key: CleanTableAnchorKey, i: number, grid: string): string => (i ? `${CLEAN_TABLE_ANCHOR[key]}-${grid}` : CLEAN_TABLE_ANCHOR[key]);
+export const METHOD_CLEAN_TABLES = "/data/methods/generation_mix_hourly#the-clean-tabs-tables-keyed-whole-session-1414";
 export const GRID_METHOD: Record<GridAnchorKey, string> = {
   network: METHOD_NETWORK,
   replay: METHOD_REPLAY,

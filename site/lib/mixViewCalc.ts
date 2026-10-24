@@ -17,7 +17,11 @@
 //   avail_mean|mixplus/<grid>.json|<year>|<season>|<fuel>  the mean of the 24 hours' availability, percent (availMean)
 //   avail_min|...                                   the lowest hour (availMin)
 //   avail_max|...                                   the highest hour (availMax)
-// <cal> is a calendar month "01" to "12"; <period> is "YYYY-MM" or "YYYY"; <season> is winter, spring, summer, autumn or all.
+//   clean_day_max|clean/<grid>.json|<month>         session 1414: the carbon-free share in the cleanest hour of the month's
+//                                                   average day, percent (cleanDayMax)
+//   clean_day_min|clean/<grid>.json|<month>         session 1414: the share in its dirtiest hour, percent (cleanDayMin)
+// <cal> is a calendar month "01" to "12"; <period> is "YYYY-MM" or "YYYY"; <season> is winter, spring, summer, autumn or all;
+// <month> is "YYYY-MM".
 
 /** The function of each filecalc| key: the rule it applies and what its figure is, in words (the figure's tip). */
 export const FILECALC = {
@@ -31,6 +35,8 @@ export const FILECALC = {
   avail_mean: { rule: "lib/mixViewCalc.ts availMean", what: "output as a share of installed capacity, the mean of the day's 24 hours, percent" },
   avail_min: { rule: "lib/mixViewCalc.ts availMin", what: "output as a share of installed capacity, the day's lowest hour, percent" },
   avail_max: { rule: "lib/mixViewCalc.ts availMax", what: "output as a share of installed capacity, the day's highest hour, percent" },
+  clean_day_max: { rule: "lib/mixViewCalc.ts cleanDayMax", what: "the carbon-free share of generation in the cleanest hour of the month's average day, percent" },
+  clean_day_min: { rule: "lib/mixViewCalc.ts cleanDayMin", what: "the carbon-free share of generation in the dirtiest hour of the month's average day, percent" },
 } as const;
 export type FilecalcFn = keyof typeof FILECALC;
 
@@ -42,6 +48,8 @@ export function sourceOf(file: string): string {
   const m = /^mix\/([a-z]+)\.json$/.exec(file);
   if (m) return `generation_mix_hourly_profile, iso:${m[1]}`;
   if (file === "mix_history.json") return "state_generation_mix_monthly by year (warehouse/derived/mix_views.py)";
+  const c = /^clean\/([a-z]+)\.json$/.exec(file);   // session 1414: the clean files, the site's copy of clean_energy_summary
+  if (c) return `clean_energy_summary, iso:${c[1]}`;
   return "warehouse/derived/mix_views.py";
 }
 
@@ -76,3 +84,20 @@ export const availMean = (v: number[] | null | undefined): number | null => (v ?
 export const availMin = (v: number[] | null | undefined): number | null => (v ? Math.min(...v) : null);
 /** The highest hour, or null. */
 export const availMax = (v: number[] | null | undefined): number | null => (v ? Math.max(...v) : null);
+
+// ---- session 1414: how clean, and when (CleanView), the files site/data/clean/<grid>.json
+
+/** The shape of a clean file the arithmetic reads: by month, the average day's 24 local hours of carbon-free share. */
+export type CleanLike = { months: Record<string, Record<string, unknown> | undefined> };
+
+/** The hours of a month's average day the file holds, its unheld hours left out: lib/clean.ts dayOf (24 values, else
+ *  none) with the filter that stood in the view's table of the cleanest hours by month. */
+export function cleanDayHeld(f: CleanLike, m: string): number[] {
+  const d = f.months[m]?.day;
+  const day = Array.isArray(d) && d.length === 24 ? d.map((v) => (typeof v === "number" && Number.isFinite(v) ? v : null)) : [];
+  return day.filter((x): x is number => x !== null);
+}
+/** The share in the month's cleanest hour, or null when no hour is held. */
+export const cleanDayMax = (f: CleanLike, m: string): number | null => { const d = cleanDayHeld(f, m); return d.length ? Math.max(...d) : null; };
+/** The share in the month's dirtiest hour, or null when no hour is held. */
+export const cleanDayMin = (f: CleanLike, m: string): number | null => { const d = cleanDayHeld(f, m); return d.length ? Math.min(...d) : null; };

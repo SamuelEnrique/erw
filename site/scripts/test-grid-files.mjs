@@ -290,7 +290,9 @@ const PAGES = [
   [{ grid: "ercot", view: "gravity" }, ["grid_gravity_ercot", "view_exchange"]],
   [{ grid: "ercot", view: "gravity", net: "day", t: "2020-08-14" }, ["grid_gravity_ercot"]],
   [{ grid: "us48", view: "gravity" }, ["grid_gravity_us48", "view_exchange"]],
-  [{ grid: "ercot", view: "clean" }, ["grid_clean24_ercot", "grid_cleanweek_ercot"]],   // session 1403: the cleanest hours, live
+  [{ grid: "ercot", view: "clean" }, ["grid_clean24_ercot", "grid_cleanweek_ercot", "mixview_clean"]],   // session 1403: the cleanest hours, live; session 1414: the Clean tab's tables
+  [{ grid: "caiso", view: "clean" }, ["mixview_clean"]],   // session 1414: the Clean tab's tables keyed whole, each with its file
+  [{ grid: "isone", view: "clean" }, ["mixview_clean"]],   // session 1414: a held grid: its cells license needed, the seven grids' others keyed and filed
   [{ grid: "ercot", view: "mix" }, ["grid_mix_ercot", "grid_scarcity_ercot", "grid_ercotnotice_ercot", "grid_hubprice_ercot"]],   // session 1402: the hub's price
   [{ grid: "ercot", view: "mix", mixp: "month" }, ["grid_mix_ercot"]],
   [{ grid: "caiso", view: "mix" }, ["grid_scarcity_caiso", "grid_caisoalert_caiso", "grid_hubprice_caiso"]],   // session 1402: CAISO's price, drawn alone
@@ -563,6 +565,35 @@ await check("the computed views: each table carries its anchor, links METHOD_MIX
     const ids2 = rec[IDS] ?? [];
     const twice = [...new Set(ids2.filter((x, i) => ids2.indexOf(x) !== i))];
     if (twice.length) return `${name}: drawn twice: ${twice.join(", ")}`;
+  }
+  return "";
+});
+
+// session 1414: the Clean tab's five tables (components/mix/views.tsx CleanView) each carry their anchor (lib/gridAnchors.ts
+// CLEAN_TABLE_ANCHOR, a second grid the anchor and its grid), link their method (METHOD_CLEAN_TABLES) and offer exactly
+// their files; a held grid draws no table of its own, so its anchors and files are not drawn
+await check("the Clean tab's tables: each carries its anchor, links METHOD_CLEAN_TABLES and offers its file; a second grid takes the anchor and its grid; a held grid has none of its own", async () => {
+  const CA = GA.CLEAN_TABLE_ANCHOR;
+  const want = [
+    [{ grid: "ercot", view: "clean", grids: "ercot,caiso" }, [CA.shares, CA.purchase, CA.months, CA.shift, `${CA.purchase}-caiso`, `${CA.months}-caiso`, `${CA.shift}-caiso`, CA.grids],
+      ["grid_clean_all_shares_2024", "grid_clean_ercot_purchase_2024", "grid_clean_ercot_months_2024", "grid_clean_ercot_shift", "grid_clean_caiso_purchase_2024", "grid_clean_caiso_months_2024", "grid_clean_caiso_shift", "grid_clean_all_grids_2024"], 8],
+    [{ grid: "ercot", view: "clean", grids: "isone,ercot" }, [CA.shares, `${CA.purchase}-ercot`, `${CA.months}-ercot`, `${CA.shift}-ercot`, CA.grids],
+      ["grid_clean_all_shares_2025", "grid_clean_ercot_purchase_2025", "grid_clean_ercot_months_2025", "grid_clean_ercot_shift", "grid_clean_all_grids_2025"], 5],
+  ];
+  for (const [sp, ids, files, lines] of want) {
+    const rec = await draw(sp), b = rec.mixview_clean;
+    if (!b) return `no block mixview_clean (blocks: ${Object.keys(rec).join(", ")})`;
+    const held = blockHolds(b, "mixview_clean");
+    if (held) return `${sp.grids}: ${held}`;
+    const miss = ids.filter((a) => !b.ids.includes(a));
+    if (miss.length) return `${sp.grids} lacks #${miss.join(", #")} (ids: ${b.ids.join(", ")})`;
+    if (b.ids.some((a) => /^clean-(purchase|months|shift)-(isone|miso|nyiso)$/.test(a))) return `${sp.grids}: a held grid's anchor`;
+    if (b.files.map((f) => f.id).join(",") !== files.join(",")) return `${sp.grids}: files ${b.files.map((f) => f.id).join(",")}`;
+    if (b.methods.filter((m) => m === GA.METHOD_CLEAN_TABLES).length !== lines) return `${sp.grids}: ${b.methods.filter((m) => m === GA.METHOD_CLEAN_TABLES).length} links to METHOD_CLEAN_TABLES, not ${lines}`;
+    if (b.files.some((f) => /isone|miso|nyiso/.test(f.id))) return `${sp.grids}: a held grid's file`;
+    const ids2 = rec[IDS] ?? [];
+    const twice = [...new Set(ids2.filter((x, i) => ids2.indexOf(x) !== i))];
+    if (twice.length) return `${sp.grids}: drawn twice: ${twice.join(", ")}`;
   }
   return "";
 });

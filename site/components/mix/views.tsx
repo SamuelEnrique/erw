@@ -28,6 +28,7 @@ import { PanelFile, type FileOf } from "@/components/grid/PanelFile";  // sessio
 import { CalcKey } from "@/components/mix/CalcKey";  // session 1413: the figures computed from the committed files' arrays, keyed
 import * as MV from "@/lib/mixViewCalc";  // session 1413: the arithmetic that stood inline in the history and supply views
 import { METHOD_MIX_VIEWS, mixViewAnchor } from "@/lib/gridAnchors";  // session 1413: the computed views' anchors and method
+import { METHOD_CLEAN_TABLES, cleanTableAnchor } from "@/lib/gridAnchors";  // session 1414: the Clean tab's tables' anchors and method
 
 const nameOf = (g: Slug) => mix.GRIDS.find((x) => x.slug === g)!.name;
 const NH = ({ why, words }: { why: string; words?: string }) => <Missing why={why} words={words} />;
@@ -65,10 +66,14 @@ const kc = (v: number | null | undefined, form: Form, fn: MV.FilecalcFn, file: s
   (v === null || v === undefined ? <NH why={why} /> : <><CalcKey v={v} form={form} text={FORM[form](v)} fn={fn} file={file} args={args} />{unit}</>);
 /** Session 1413: the line under a computed view's table that links its method (as the Grid panels' PanelMethod lines). */
 const ViewMethod = () => <p className="mt-1 text-xs text-muted" data-grid-method="mix-views"><SiteLink href={METHOD_MIX_VIEWS}>Method: the computed views, keyed</SiteLink>.</p>;
+/** Session 1414: the line under each of the Clean tab's tables that links its method. */
+const CleanMethod = () => <p className="mt-1 text-xs text-muted" data-grid-method="mix-clean"><SiteLink href={METHOD_CLEAN_TABLES}>Method: the Clean tab&apos;s tables, keyed</SiteLink>.</p>;
 /** Session 1413: a view's address, as the stress view writes its own (its view under the page's own key, then its words). */
 const viewPage = (c: Choice, view: string, rest: string) => `${c.base?.href ?? "/mix"}${c.base ? "&" : "?"}${c.base && !c.base.viewKey ? "" : `${c.base?.viewKey ?? "view"}=${view}&`}${rest}`;
 /** Session 1413: the provenance of a mix file's table, for its file. */
 const mixTables = (g: Slug) => [`generation_mix_hourly_profile (warehouse/derived/mix_profile.py, docs/methods/generation_mix_hourly.md), as the committed file site/data/mix/${g}.json holds it (built ${MIX[g].built})`];
+/** Session 1414: the provenance of the clean files' table, for a file of the Clean tab (the grids it draws). */
+const cleanTables = (gs: Slug[]) => [`clean_energy_summary (warehouse/derived/mix_clean.py, docs/methods/clean_energy.md), as the committed file${gs.length > 1 ? "s" : ""} ${gs.map((g) => `site/data/clean/${g}.json (built ${CLEAN[g].built})`).join(", ")} ${gs.length > 1 ? "hold" : "holds"} it`];
 const plusTables = (g: Slug) => [`generation_mix_hourly_profile hours held (the energy mix's hours, warehouse/derived/mix_profile.py) over EIA-860M's installed nameplate capacity, by warehouse/derived/mix_views.py (docs/methods/generation_mix_hourly.md), as the committed file site/data/mixplus/${g}.json holds it (built ${PLUS[g].built})`];
 
 export function Chips({ label, items }: { label: string; items: { key: string; label: string; href: string; on: boolean; title?: string; off?: boolean }[] }) {
@@ -308,16 +313,26 @@ export function CleanView({ c, live }: { c: Choice;
   const CLEAN_TABLE = "clean_energy_summary";
   const held = (g: Slug) => licenseHeldRow(CLEAN_TABLE, `iso:${g}`);
   const LW = () => <NH why={licenseTitle(CLEAN_TABLE)} words={LICENSE_NEEDED} />;
+  // session 1414 (chain 107): each table keyed whole, its file, its anchor (lib/gridAnchors.ts CLEAN_TABLE_ANCHOR) and its
+  // method line; a held grid's cells stay "license needed" (lib/gridHeld.ts, session 1167) and carry no key
+  const page = viewPage(c, "clean", `grids=${c.grids.join(",")}&year=${year}`);
+  const shown = (gs: readonly Slug[]) => gs.filter((g) => !held(g));
+  const heldNote = (gs: readonly Slug[]) => { const h = gs.filter(held).map(nameOf); return h.length ? [`${h.join(", ")}: held for a license (${CLEAN_TABLE}, by grid); their cells read license needed and no figure of theirs is written.`] : []; };
+  const cleanFile = (gs: readonly Slug[], panel: string, part: string, title: string, filter: string, window: string, notes: string[] = []): FileOf =>
+    ({ panel, part, title, page, tables: cleanTables(shown(gs).length ? shown(gs) : [...gs]), filter, window, notes: [...heldNote(gs), ...notes] });
   return (
     <>
-      <Block title="Carbon-free share of generation, by year" id="clean">
+      <Block title="Carbon-free share of generation, by year" id={cleanTableAnchor("shares", 0, c.grids[0])}>
         <Bars x={years} unit="% of generation" name="erw-mix-carbon-free" label="Carbon-free share of generation"
           series={c.grids.filter((g) => !held(g)).map((g) => ({ name: nameOf(g), color: GRID_COLORS[c.grids.indexOf(g)], values: years.map((y) => clean.get(CLEAN[g].years[y], "carbon_free_share_pct")) }))} />
         <Table caption="Carbon-free share and hours" head={["Grid", `Carbon-free share, ${year}`, "For a flat load", "Hours at least 50% carbon-free", "At least 75%", "At least 90%", "Months held"]}
+          file={cleanFile(c.grids, "grid_clean_all", `shares_${year}`, `carbon-free share and hours, ${year}`, `${c.grids.map((g) => `iso:${g}`).join(", ")}, the year ${year}`,
+            `Window: the year ${year}, every hour held; months held of the months due`)}
           rows={c.grids.map((g) => { const f = CLEAN[g]; if (held(g)) return { key: g, cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <LW key={i} />)] };
             if (!f.years[year]) return { key: g, cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <NH key={i} why={notWritten(g)} />)] };
             const v = clean.yearView(f, year), cf = `clean/${g}.json`, y = `years.${year}`;
             return { key: g, cells: [nameOf(g), kv(v.share, "n1", cf, `${y}.carbon_free_share_pct`, "%"), kv(v.flat, "n1", cf, `${y}.carbon_free_share_flat_pct`, "%"), ...f.levels.map((l) => kv(v.ge[l], "n1", cf, `${y}.hours_cf_ge${l}_pct`, "%")), `${v.months ?? 0} of ${v.due ?? 12}`] }; })} />
+        <CleanMethod />
       </Block>
       {c.grids.map((g) => {
         const f = CLEAN[g];
@@ -327,32 +342,50 @@ export function CleanView({ c, live }: { c: Choice;
         if (held(g)) return week ? <div key={g}><Block title={`${nameOf(g)}, ${year}`}><LW /></Block>{week}</div> : <Block key={g} title={`${nameOf(g)}, ${year}`}><LW /></Block>;
         if (!f.years[year]) return week ? <div key={g}><Block title={`${nameOf(g)}, ${year}`}><NH why={notWritten(g)} /></Block>{week}</div> : <Block key={g} title={`${nameOf(g)}, ${year}`}><NH why={notWritten(g)} /></Block>;
         const v = clean.yearView(f, year), months = clean.monthsOf(f, year);
+        // session 1414 (chain 107): the three large tables keyed whole: each figure a value of the committed file (file|,
+        // session 1166's kind) or, the cleanest and the dirtiest hour, the page's function on its day (filecalc|, session
+        // 1413's kind, lib/mixViewCalc.ts cleanDayMax and cleanDayMin); the hours stay words. Each table, to download
+        const cf = `clean/${g}.json`, yy = `years.${year}`, i = c.grids.indexOf(g), tz = `local hour (${f.tz})`;
+        const pc = (x: number | null | undefined, at: string, why?: string) => kv(x, "n1", cf, at, "%", why);
         return (
           <div key={g}>
-            <Block title={`${nameOf(g)}: an annual clean purchase against the hours, ${year}`}>
+            <Block title={`${nameOf(g)}: an annual clean purchase against the hours, ${year}`} id={cleanTableAnchor("purchase", i, g)}>
               <Table caption="Annual against hourly matching" head={["Purchase, share of annual load", ...f.shapes.flatMap((s) => [`${clean.SHAPE_NAME[s]}: energy met in its own hour`, "Hours met in full"])]}
-                rows={f.purchases.map((p) => ({ key: String(p), on: p === 100, cells: [`${p}%`, ...f.shapes.flatMap((s) => [val(v.match[s]?.[p]?.energy, (x) => `${n1(x)}%`), val(v.match[s]?.[p]?.hours, (x) => `${n1(x)}%`)])] }))} />
+                file={cleanFile([g], `grid_clean_${g}`, `purchase_${year}`, `${nameOf(g)}: an annual clean purchase against the hours, ${year}`, `iso:${g}, the year ${year}`,
+                  `Window: the year ${year}, hour by hour (${tz})`, ["A flat load of 1 MW buys clean energy equal to the purchase's share of its year's use, delivered in the shape of the grid's own generation of a kind; nothing is stored."])}
+                rows={f.purchases.map((p) => ({ key: String(p), on: p === 100, cells: [`${p}%`, ...f.shapes.flatMap((s) => [pc(v.match[s]?.[p]?.energy, `${yy}.match_${s}_${p}_energy_pct`), pc(v.match[s]?.[p]?.hours, `${yy}.match_${s}_${p}_hours_pct`)])] }))} />
+              <CleanMethod />
             </Block>
-            <Block title={`${nameOf(g)}: the cleanest hours of the average day, ${year}`}>
+            <Block title={`${nameOf(g)}: the cleanest hours of the average day, ${year}`} id={cleanTableAnchor("months", i, g)}>
               <Heat rows={months.map((m) => clean.monthName(m))} cols={HOURS} unit="% carbon-free" name={`erw-mix-clean-${g}-${year}`} label={`${nameOf(g)}, carbon-free share of generation, ${year}`}
                 cells={months.map((m) => clean.dayOf(f, m))} marks={months.flatMap((m, r) => clean.cleanestOf(f, m).map((h): [number, number] => [r, h]))} />
               <Table caption="The cleanest hours by month" head={["Month", "The four cleanest hours", "Share in the cleanest hour", "Share in the dirtiest hour", "The month's share"]}
-                rows={months.map((m) => { const d = clean.dayOf(f, m).filter((x): x is number => x !== null); return { key: m, cells: [clean.monthName(m), clean.hoursName(clean.cleanestOf(f, m)), d.length ? `${n1(Math.max(...d))}%` : "", d.length ? `${n1(Math.min(...d))}%` : "",
-                  val(clean.get(f.months[m], "carbon_free_share_pct"), (x) => `${n1(x)}%`)] }; })} />
+                file={cleanFile([g], `grid_clean_${g}`, `months_${year}`, `${nameOf(g)}: the cleanest hours of the average day by month, ${year}`, `iso:${g}, the months of ${year}`,
+                  `Window: the months of ${year}, each month's average day by ${tz}`)}
+                rows={months.map((m) => { const d = MV.cleanDayHeld(f, m); return { key: m, cells: [clean.monthName(m), clean.hoursName(clean.cleanestOf(f, m)),
+                  d.length ? kc(MV.cleanDayMax(f, m), "n1", "clean_day_max", cf, [m], "%") : "", d.length ? kc(MV.cleanDayMin(f, m), "n1", "clean_day_min", cf, [m], "%") : "",
+                  pc(clean.get(f.months[m], "carbon_free_share_pct"), `months.${m}.carbon_free_share_pct`)] }; })} />
+              <CleanMethod />
             </Block>
             {week}
-            <Block title={`${nameOf(g)}: moving a flat load into the cleanest hours`}>
+            <Block title={`${nameOf(g)}: moving a flat load into the cleanest hours`} id={cleanTableAnchor("shift", i, g)}>
               <Table caption="Moving load into the cleanest hours" head={["Year", "Flat load, kg CO2/MWh", ...f.shifts.map((s) => `${s}% moved: carbon`), "Days", "Flat load, USD/MWh", ...f.shifts.map((s) => `${s}% moved: cost`), "Days priced"]}
-                rows={clean.yearsOf(f).reverse().map((y) => { const w = clean.yearView(f, y); const noPrice = f.no_price ?? "No hub price is held for this grid in this year.";
-                  return { key: y, on: y === year, cells: [y, val(w.carbon.flat, n1), ...f.shifts.map((s) => val(w.carbon.change[s], (x) => `${x > 0 ? "+" : ""}${n1(x)}%`)), val(w.carbon.days, n0),
-                    w.cost.flat === null ? <NH key="c" why={noPrice} words={/paused/.test(noPrice) ? "paused while terms are reviewed" : /PJM/.test(noPrice) ? "licensed source needed" : "not held yet"} /> : n2(w.cost.flat),
-                    ...f.shifts.map((s) => val(w.cost.change[s], (x) => `${x > 0 ? "+" : ""}${n1(x)}%`, noPrice)), val(w.cost.days, n0, noPrice)] }; })} />
+                file={cleanFile([g], `grid_clean_${g}`, "shift", `${nameOf(g)}: moving a flat load into the cleanest hours, by year`, `iso:${g}, every year held`,
+                  `Window: the years ${clean.yearsOf(f)[0] ?? ""} to ${clean.yearsOf(f).at(-1) ?? ""}, each day's hours (${tz})`,
+                  ["Each day, a share of a flat load's energy is moved from every hour into the month's four cleanest hours; the change is against the flat load, in carbon and in cost at the day-ahead hub price."])}
+                rows={clean.yearsOf(f).reverse().map((y) => { const w = clean.yearView(f, y); const noPrice = f.no_price ?? "No hub price is held for this grid in this year.", wy = `years.${y}`;
+                  return { key: y, on: y === year, cells: [y, kv(w.carbon.flat, "n1", cf, `${wy}.flat_kgco2_per_mwh`), ...f.shifts.map((s) => kv(w.carbon.change[s], "sn1", cf, `${wy}.shift${s}_carbon_change_pct`, "%")), kv(w.carbon.days, "n0", cf, `${wy}.shift_days`),
+                    w.cost.flat === null ? <NH key="c" why={noPrice} words={/paused/.test(noPrice) ? "paused while terms are reviewed" : /PJM/.test(noPrice) ? "licensed source needed" : "not held yet"} /> : <K key="c" v={w.cost.flat} form="n2" file={cf} at={`${wy}.flat_cost_usd_per_mwh`} />,
+                    ...f.shifts.map((s) => kv(w.cost.change[s], "sn1", cf, `${wy}.shift${s}_cost_change_pct`, "%", noPrice)), kv(w.cost.days, "n0", cf, `${wy}.cost_days`, "", noPrice)] }; })} />
+              <CleanMethod />
             </Block>
           </div>
         );
       })}
-      <Block title={`The seven grids, ${year}`}>
+      <Block title={`The seven grids, ${year}`} id={cleanTableAnchor("grids", 0, "all")}>
         <Table caption="The seven grids" head={["Grid", "Months held", "Carbon-free share", "Hours at least half carbon-free", "100% purchase: energy met in its hour", "20% moved: carbon", "20% moved: cost"]}
+          file={cleanFile(clean.GRIDS, "grid_clean_all", `grids_${year}`, `the seven grids, ${year}`, `${clean.GRIDS.map((g) => `iso:${g}`).join(", ")}, the year ${year}`,
+            `Window: the year ${year}, every hour held`)}
           rows={clean.GRIDS.map((g) => { const f = CLEAN[g];
             // session 1167 (the standing rule, lib/license.ts): a held grid's cells read "license needed", as every other block of the view
             if (held(g)) return { key: g, on: c.grids.includes(g), cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <LW key={i} />)] };
@@ -364,6 +397,7 @@ export function CleanView({ c, live }: { c: Choice;
             return { key: g, on: c.grids.includes(g), cells: [nameOf(g), `${v.months ?? 0} of ${v.due ?? 12}`, kp(v.share, "carbon_free_share_pct"), kp(v.ge[50], "hours_cf_ge50_pct"), kp(v.match.mix?.[100]?.energy, "match_mix_100_energy_pct"),
               kp(v.carbon.change[20], "shift20_carbon_change_pct", "sn1"), v.cost.change[20] === null || v.cost.change[20] === undefined
                 ? <NH key="p" why={noPrice} words={/paused/.test(noPrice) ? "paused while terms are reviewed" : /PJM/.test(noPrice) ? "licensed source needed" : "not held yet"} /> : kp(v.cost.change[20]!, "shift20_cost_change_pct", "sn1")] }; })} />
+        <CleanMethod />
       </Block>
     </>
   );

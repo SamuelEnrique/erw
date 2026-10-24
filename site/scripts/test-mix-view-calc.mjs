@@ -29,6 +29,7 @@ import * as FC from "./check-filecalc.mjs";
 import * as CM from "./check-methods.mjs";
 import * as mix from "../lib/mix2.ts";
 import * as calc from "../lib/mixViewCalc.ts";
+import * as clean from "../lib/clean.ts";   // session 1414: the clean files' days, as the view read them
 import { choiceOf } from "../lib/mixpage.ts";
 import { METHOD_MIX_VIEWS, MIX_VIEW_ANCHOR, mixViewAnchor } from "../lib/gridAnchors.ts";
 import { render } from "../lib/markdown.ts";
@@ -100,7 +101,10 @@ test("a filecalc| key is its function, file and arguments; a key that does not f
   assert.deepEqual(FC.filecalcParts("filecalc|avail_max|mixplus/spp.json|2025|summer|solar"), { fn: "avail_max", file: "mixplus/spp.json", args: ["2025", "summer", "solar"] });
   for (const bad of ["filecalc|nothing|mix/ercot.json|04|2025", "filecalc|duck_ramp|stress/ercot.json|04|2025", "filecalc|duck_ramp|mix/ercot.json|13|2025",
     "filecalc|duck_ramp|mix/ercot.json|04", "filecalc|avail_mean|mixplus/ercot.json|2025|monsoon|wind", "filecalc|hist_mwh|mix_history.json|Texas|2024|wind",
-    "filecalc|day_peak|mix/ercot.json|2026-09|coal", "filecalc|toString|mix/ercot.json|04|2025", "file|mix/ercot.json|months.2026-09.days_held", "filecalc"]) assert.equal(FC.filecalcParts(bad), null, bad);
+    "filecalc|day_peak|mix/ercot.json|2026-09|coal", "filecalc|toString|mix/ercot.json|04|2025", "file|mix/ercot.json|months.2026-09.days_held", "filecalc",
+    // session 1414: the clean files' cleanest and dirtiest hour, a month of a year on clean/<grid>.json only
+    "filecalc|clean_day_max|clean/ercot.json|2025", "filecalc|clean_day_max|clean/ercot.json|2025-13", "filecalc|clean_day_min|mix/ercot.json|2025-07", "filecalc|clean_day_min|clean/ercot.json|2025-07|x"]) assert.equal(FC.filecalcParts(bad), null, bad);
+  assert.deepEqual(FC.filecalcParts("filecalc|clean_day_max|clean/ercot.json|2025-07"), { fn: "clean_day_max", file: "clean/ercot.json", args: ["2025-07"] });
   // the functions check-filecalc.mjs knows are the ones lib/mixViewCalc.ts names (its words, the tip)
   assert.deepEqual(Object.keys(FC.SPEC).sort(), Object.keys(calc.FILECALC).sort());
   assert.equal(calc.filecalcKey("duck_low", "mix/pjm.json", ["07", "2024"]), "filecalc|duck_low|mix/pjm.json|07|2024");
@@ -135,6 +139,18 @@ test("a key's value is the page's figure, by the page's function, on every case 
     assert.equal(value(`filecalc|hist_share|mix_history.json|${s}|${y}|${f}`), OLD.share(s, y, f) ?? undefined, `${s} ${y} ${f}`);
     assert.equal(value(`filecalc|hist_mwh|mix_history.json|${s}|${y}|${f}`), OLD.mwh(s, y, f) ?? undefined, `${s} ${y} ${f}`);
     n += 2;
+  }
+  // session 1414: the cleanest and the dirtiest hour of every month of every clean file, against the expression that stood
+  // in CleanView (lib/clean.ts dayOf, its nulls filtered, then Math.max and Math.min when an hour is held)
+  for (const g of GRIDS) {
+    const f = read(`clean/${g}.json`);
+    for (const m of [...Object.keys(f.months), "1999-01"]) {
+      const d = clean.dayOf(f, m).filter((x) => x !== null);
+      assert.deepEqual(calc.cleanDayHeld(f, m), d, `${g} ${m} the day held`);
+      assert.equal(value(`filecalc|clean_day_max|clean/${g}.json|${m}`), d.length ? Math.max(...d) : undefined, `${g} ${m} max`);
+      assert.equal(value(`filecalc|clean_day_min|clean/${g}.json|${m}`), d.length ? Math.min(...d) : undefined, `${g} ${m} min`);
+      n += 2;
+    }
   }
   assert.ok(n > 3000, `${n} keys`);
   // a case the file does not hold has no value (the page draws its placeholder and writes no key)

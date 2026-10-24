@@ -9,8 +9,13 @@
 // scripts/test-mix-view-calc.mjs (each function against the arithmetic that stood in the view, a right and a wrong key)
 // and scripts/test-grid-file-keys.mjs (every key the views write, recomputed). No static import: the two libraries are
 // TypeScript, imported when a key needs them (node strips their types), as check-values imports lib/ercotNotices.ts.
+// Session 1414 (chain 107): and the Clean tab's cleanest hours by month, the shares in the cleanest and the dirtiest
+// hour of a month's average day (clean_day_max, clean_day_min on clean/<grid>.json, lib/mixViewCalc.ts cleanDayMax and
+// cleanDayMin): the file is a build of clean_energy_summary, but the highest and lowest of the 24 hours is no row of it,
+// so these too are checked against the file alone.
 
 const MIX = /^mix\/[a-z]+\.json$/, PLUS = /^mixplus\/[a-z]+\.json$/, HISTORY = /^mix_history\.json$/;
+const CLEAN = /^clean\/[a-z]+\.json$/, MONTH = /^\d{4}-(0[1-9]|1[0-2])$/;   // session 1414: the clean files, a month of a year
 const CAL = /^(0[1-9]|1[0-2])$/, YEAR = /^\d{4}$/, PERIOD = /^\d{4}(-(0[1-9]|1[0-2]))?$/, NAME = /^[a-z_]+$/, STATE = /^[A-Z]{2}$/;
 const SEASONS = new Set(["winter", "spring", "summer", "autumn", "all"]);
 
@@ -26,6 +31,8 @@ export const SPEC = {
   avail_mean: { file: PLUS, args: [YEAR, { test: (x) => SEASONS.has(x) }, NAME] },
   avail_min: { file: PLUS, args: [YEAR, { test: (x) => SEASONS.has(x) }, NAME] },
   avail_max: { file: PLUS, args: [YEAR, { test: (x) => SEASONS.has(x) }, NAME] },
+  clean_day_max: { file: CLEAN, args: [MONTH] },   // session 1414: the cleanest hours by month, on the Clean tab
+  clean_day_min: { file: CLEAN, args: [MONTH] },
 };
 
 /** The function, file and arguments of a filecalc| key, or null for another key or one whose parts do not fit. */
@@ -66,6 +73,8 @@ export function filecalcValueWith({ mix, calc }, parts, json) {
     const [state, year, fuel] = args;
     const c = calc.historyCell(json, state, year, fuel);
     v = fn === "hist_share" ? c.share : c.mwh;
+  } else if (fn === "clean_day_max" || fn === "clean_day_min") {
+    v = fn === "clean_day_max" ? calc.cleanDayMax(json, args[0]) : calc.cleanDayMin(json, args[0]);   // session 1414
   } else {
     const [year, season, fuel] = args;
     const hours = calc.availOf(json, year, season, fuel);
