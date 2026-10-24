@@ -97,7 +97,8 @@ export async function NetworkView({ keep, node, shape, grid, day }: { /** the pa
         Newest hour: {both(newest)}, refreshed {utc(snap.built)}{from === "storage" ? " (the hourly refresh)" : " (the daily snapshot: the hourly copy was not reachable)"}.
         {demandTs ? <> Demand of the seven ISOs: newest hour {both(demandTs)}.</> : null}
       </p>
-      {bad && !bad.ok ? <p className="mt-2 text-sm text-muted" role="status">The last twelve months could not be read, so the panel shows none: {bad.reason}</p> : null}
+      {/* session 1424: the reason can hold the database's answer, a long run without a space: it breaks at 390 px */}
+      {bad && !bad.ok ? <p className="mt-2 text-sm text-muted break-words" role="status" data-reason-wraps="1">The last twelve months could not be read, so the panel shows none: {bad.reason}</p> : null}
       <SourceLine tables={["eia930_all_interchange", "eia930_daily_interchange", "eia930_daily_demand", "eia930_all_demand", "carbon_intensity_hourly", "carbon_intensity_daily", SUPPLY_TABLE,
         "eia930_event_hourly_interchange", "eia930_all_storage", "caiso_battery_storage"]}
         note={<>Public domain (EIA) and CAISO; hub prices as each ISO publishes them. <Preliminary drawn={drawnAt} say /> <Link href="/data/methods/grid_network">Method</Link>.</>} />

@@ -189,8 +189,26 @@ export const OLDER_MARKS = [["data-now-sentence", () => "older_the sentence"], [
   ["data-ask-side", () => "older_the Ask aside"]];
 export const OLDER_COMPONENTS = { ToolHeader: () => "older_the header", HeadlineRow: () => "older_the headline numbers", SourceLine: () => "older_the source line", CaisoBreakNote: () => "older_CAISO's break note",
   Decisions: () => "older_the decisions" };
-const newBlock = () => ({ nums: [], all: [], text: [], hover: [], heads: [], ids: [], methods: [], files: [], errors: [] });
+const newBlock = () => ({ nums: [], all: [], text: [], hover: [], heads: [], ids: [], methods: [], files: [], errors: [], tables: [], wide: [] });
 const HEAD = new Set(["h1", "h2", "h3", "h4"]);
+// Session 1424 (chain 111): session 1158's rules at 390 pixels, read from the markup as the server draws it. Each table of a
+// block (`tables`): its caption, the scroll frame it sits in (the nearest element with role region and a tabIndex: a frame a
+// keyboard reaches, lib/cells.ts scrollRegion), its column header cells with a scope and those without, its body rows and
+// their row header cells. And each fixed width above 358 pixels (390 less the gutters) outside such a frame (`wide`): an
+// inline width or minWidth, a w-[Npx] or min-w-[Npx] class or a spacing width (w-N, N times 4 px) without a breakpoint, an
+// svg's or img's width. The walk is sequential, so the open frames and tables are a stack of the module.
+const FRAMES = [], TABLES = [];
+let BODY = 0;
+const pxOf = (v) => (typeof v === "number" ? v : typeof v !== "string" ? 0 : /^\d+(\.\d+)?px$/.test(v) ? parseFloat(v) : /^\d+(\.\d+)?rem$/.test(v) ? parseFloat(v) * 16 : 0);
+export function widthOver(type, props) {
+  const out = [];
+  for (const k of ["width", "minWidth"]) if (pxOf(props.style?.[k]) > 358) out.push(`style ${k} ${props.style[k]}`);
+  if ((type === "svg" || type === "img") && pxOf(props.width) > 358) out.push(`width ${props.width}`);
+  const cls = typeof props.className === "string" ? props.className : "";
+  for (const m of cls.matchAll(/(?:^|\s)((?:min-)?w-\[(\d+)px\])(?=\s|$)/g)) if (Number(m[2]) > 358) out.push(m[1]);
+  for (const m of cls.matchAll(/(?:^|\s)((?:min-)?w-(\d+))(?=\s|$)/g)) if (Number(m[2]) * 4 > 358) out.push(m[1]);
+  return out;
+}
 const ENTITY = { "&apos;": "'", "&quot;": '"', "&amp;": "&", "&lt;": "<", "&gt;": ">", "&nbsp;": " " };
 const SECTIONS = new WeakSet();   // session 1422: the <section> a Section or ToolSection draws, named by its title, not again by its id
 const SECTION_FNS = new Set(["Section", "ToolSection"]);
@@ -219,6 +237,7 @@ async function walk(node, rec, stack, seen, wrap, head, sh = []) {
     if (type && typeof type === "object" && type.$$typeof === MEMO) type = type.type;
     if (type && typeof type === "object" && type.$$typeof === FORWARD) type = type.render;
     let st = stack, under, h = head, s2 = sh;
+    const opened = {};   // session 1424
     if (typeof type === "string") {
       let named = false;
       for (const [a, f] of BLOCKS) if (props[a] !== undefined) { st = [...st, f(props[a])]; rec[f(props[a])] ??= newBlock(); named = true; }
@@ -245,6 +264,18 @@ async function walk(node, rec, stack, seen, wrap, head, sh = []) {
       // session 1422: a written block's rendered markdown (YourGrid.tsx Written) is words a reader reads: its text, tags taken out
       const html = props.dangerouslySetInnerHTML?.__html;
       if (typeof html === "string") { const t = html.replace(/<[^>]*>/g, " "); mine((b) => b.text.push(t)); ov((b, own) => { b.text.push(t); if (own) (b.own ??= []).push(t); }); }
+      // session 1424: the tables, their frames and the fixed widths outside a frame (above)
+      if (props.role === "region" && props.tabIndex !== undefined) { FRAMES.push({ label: props["aria-label"], tabIndex: props.tabIndex }); opened.frame = true; }
+      if (type === "table") {
+        const t = { caption: null, frame: FRAMES.at(-1) ?? null, minWidth: props.style?.minWidth ?? null, cols: 0, bareTh: 0, rowHeads: 0, bodyRows: 0 };
+        mine((b) => b.tables.push(t)); TABLES.push(t); opened.table = true;
+      }
+      const t = TABLES.at(-1);
+      if (type === "caption" && t) t.caption = words([].concat(props.children ?? []).filter((x) => typeof x === "string" || typeof x === "number").map(String));
+      if (type === "th" && t) { if (props.scope === "col") t.cols += 1; else if (props.scope === "row") t.rowHeads += 1; else t.bareTh += 1; }
+      if (type === "tbody") { BODY += 1; opened.body = true; }
+      if (type === "tr" && t && BODY > 0) t.bodyRows += 1;
+      if (!FRAMES.length) { const w = widthOver(type, props); if (w.length) mine((b) => b.wide.push(`<${type}> ${w.join(", ")}`)); }
     }
     const top = st[st.length - 1];
     if (typeof props.href === "string" && props.href.startsWith("/data/methods/")) { (rec[top] ??= newBlock()).methods.push(props.href); over(rec, s2, top, (b, own) => own && b.methods.push(props.href)); }
@@ -261,7 +292,13 @@ async function walk(node, rec, stack, seen, wrap, head, sh = []) {
     }
     if (typeof type !== "string") under = wrap;   // a fragment or a client component hands the wrapper on
     const drawn = (v) => v && typeof v === "object" && (ELEMENT.has(v.$$typeof) || (Array.isArray(v) && v.some((x) => drawn(x) || (Array.isArray(x) && x.some(drawn)))) || (!Array.isArray(v) && Object.values(v).some((x) => x && ELEMENT.has(x.$$typeof))));
-    for (const [k, v] of Object.entries(props)) if (k === "children" || drawn(v)) await walk(v, rec, st, seen, k === "children" ? under : undefined, k === "children" ? h : undefined, s2);
+    try {
+      for (const [k, v] of Object.entries(props)) if (k === "children" || drawn(v)) await walk(v, rec, st, seen, k === "children" ? under : undefined, k === "children" ? h : undefined, s2);
+    } finally {   // session 1424: the frame, table and body this element opened close with it
+      if (opened.frame) FRAMES.pop();
+      if (opened.table) TABLES.pop();
+      if (opened.body) BODY -= 1;
+    }
     return;
   }
   if (Array.isArray(node) || typeof node[Symbol.iterator] === "function") { for (const v of node) await walk(v, rec, stack, seen, undefined, head, sh); return; }

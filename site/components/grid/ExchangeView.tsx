@@ -161,7 +161,8 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
 
       <ToolSection title="Over the last twelve months" note={s ? `${s.months[0]} to ${s.months.at(-1)}: ${s.daysHeld} days held, ${s.daysLeftOut} left out. Here a positive number is a net import: the neighbour supplied the grid. The share is of the grid's demand over the same months.` : undefined} id={GRID_ANCHOR.exchangeMonths}>
         {!sup ? <NoData what="the twelve months" reason="a share needs the grid's demand, which the warehouse holds for the seven grids only" />
-          : !sup.ok ? <NoData what="the twelve months" reason={sup.reason} />
+          // session 1424: a failed read's reason can hold the database's answer, a run of 60 characters or more without a space: it breaks at 390 px
+          : !sup.ok ? <div className="break-words" data-reason-wraps="1"><NoData what="the twelve months" reason={sup.reason} /></div>
           : !s ? <NoData what="the twelve months" reason={`${SUPPLY_TABLE} holds no whole month for ${ba}`} /> : (
             <>
               <p className="mb-3 max-w-3xl text-sm">
