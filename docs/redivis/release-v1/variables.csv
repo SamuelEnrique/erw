@@ -7162,6 +7162,7 @@ spp_interconnection_queue,queue_date,column,
 spp_interconnection_queue,proposed_in_service_date,column,
 spp_interconnection_queue,actual_in_service_date,column,
 spp_interconnection_queue,withdrawn_date,column,
+statcan_electricity_generation_monthly,generation,series variable,MWh
 state_generation_mix_monthly,net_generation_coal_mwh,series variable,MWh
 state_generation_mix_monthly,net_generation_hydro_mwh,series variable,MWh
 state_generation_mix_monthly,net_generation_natural_gas_mwh,series variable,MWh
