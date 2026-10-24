@@ -297,6 +297,7 @@ ercot_wind_solar_hsl_hourly,ERCOT,the source registry
 ercot_wind_solar_output_hourly,ERCOT,the source registry
 ercot_zone_load_hourly,ERCOT,the source registry
 ercot_zone_prices_history,ERCOT,the source registry
+esco_georgia_electricity_monthly,Electricity Market Operator of Georgia (ESCO),the source registry
 eurostat_crude_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union),the source registry
