@@ -10,9 +10,9 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **482 tables.** The flag and the verdict agree on 387; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 50 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **482 tables.** The flag and the verdict agree on 390; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 47 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 366 public, 66 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **482 publishers in the record: 480 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 136 pages read, 344 that could not be read, 2 not asked (paused).**
+- **501 publishers in the record: 499 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 138 pages read, 361 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -505,6 +505,25 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 480 | Statistics Estonia, andmed.stat.ee's robots file (session 2278) | https://andmed.stat.ee/robots.txt | 05:00:31 | 404 | 1245 | answered HTTP 404: no robots file |
 | 481 | Statistics Estonia, www.stat.ee's robots file (session 2278) | https://www.stat.ee/robots.txt | 05:01:28 | 200 | 2141 | read: disallows Drupal's own folders, files and admin paths only |
 | 482 | Statistics Estonia, its principles for disseminating official statistics (session 2278) | https://www.stat.ee/en/statistics-estonia/about-us/strategy/principles-dissemination-official-statistics | 05:01:53 | 200 | 99447 | read |
+| 483 | Mexico's open data portal, www.datos.gob.mx's robots address (session 2294) | https://www.datos.gob.mx/robots.txt | 05:31:16 | 403 | 388 | refused: HTTP 403; not asked further |
+| 484 | Secretaria de Energia (SENER), Mexico, sie.energia.gob.mx's robots address (session 2294) | https://sie.energia.gob.mx/robots.txt | 05:31:25 | 404 | 1245 | no robots file: HTTP 404 |
+| 485 | Secretaria de Energia (SENER), Mexico, the energy information system's home page (session 2294) | https://sie.energia.gob.mx/ (answered at https://sie.energia.gob.mx/inicio/) | 05:31:38 | 200 | 2575 | read: a script application; no terms stated |
+| 486 | Secretaria de Energia (SENER), Mexico, a table address of the energy information system (session 2294) | https://sie.energia.gob.mx/bdiController.do?action=cuadro&cvecua=IIIA1C05 | 05:31:49 | 404 | 1245 | not read: HTTP 404 |
+| 487 | Grid Controller of India (Grid-India), grid-india.in's robots address (session 2295) | https://grid-india.in/robots.txt | 05:32:19 | no request |  | not read: the connection reset; not asked further |
+| 488 | Grid Controller of India (Grid-India), www.grid-india.in's robots address (session 2295) | https://www.grid-india.in/robots.txt | 05:32:27 | no request |  | not read: the connection reset; not asked further |
+| 489 | Central Electricity Authority (India), cea.nic.in's robots file (session 2295) | https://cea.nic.in/robots.txt | 05:32:36 | 200 | 23 | read: allows every path |
+| 490 | Central Electricity Authority (India), the home page (session 2295) | https://cea.nic.in/?lang=en | 05:32:56 | 200 | 230507 | read: links its website policies |
+| 491 | Central Electricity Authority (India), the Power Supply Position (Energy) reports page (session 2295) | https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10010&title=Power%%20Supply%%20Position%%20-%%20Energy&lang=en (answered at https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10010&title=Power%25%2520Supply%25%2520Position%25%2520-%25%2520Energy&lang=en) | 05:33:08 | 200 | 304222 | read: the monthly reports' addresses |
+| 492 | Comite de Operacion Economica del Sistema Interconectado Nacional (COES), Peru, www.coes.org.pe's robots address (session 2296) | https://www.coes.org.pe/robots.txt | 05:37:50 | 404 | 1245 | no robots file: HTTP 404 |
+| 493 | Comite de Operacion Economica del Sistema Interconectado Nacional (COES), Peru, the portal's home page (session 2296) | https://www.coes.org.pe/Portal/ | 05:38:00 | 200 | 1107850 | read: no terms of use linked |
+| 494 | Comite de Operacion Economica del Sistema Interconectado Nacional (COES), Peru, the statistics page (session 2296) | https://www.coes.org.pe/Portal/publicaciones/estadisticas/estadistica?anio=2025 | 05:38:11 | 200 | 56212 | read: its files are listed by POST requests from its scripts |
+| 495 | Korea Power Exchange, www.kpx.or.kr's robots file (session 2297) | https://www.kpx.or.kr/robots.txt | 05:38:48 | 200 | 634 | read: allows every path but some boards; no rule names an AI agent |
+| 496 | Korea Power Exchange, epsis.kpx.or.kr's robots address (session 2297) | https://epsis.kpx.or.kr/robots.txt (answered at https://epsis.kpx.or.kr/epsisnew/) | 05:38:58 | 200 | 44690 | no robots file: answered with the application's page |
+| 497 | Korea Power Exchange, EPSIS's Generation Output by Source page (session 2297) | https://epsis.kpx.or.kr/epsisnew/selectEkgeGepTotChart.do?menuId=060101&locale=eng | 05:39:16 | 200 | 227374 | read: the figures in the page's script; Copyright(C) 2020 Korea Power Exchange. All Right Reserved. |
+| 498 | Central Electricity Authority (India), the website policies page (session 2299) | https://cea.nic.in/websitePolicy?lang=en | 06:23:12 | 200 | 122249 | read: the policies are PDFs; Copyright Policy is the second |
+| 499 | Korea Power Exchange, the English home page (session 2299) | https://www.kpx.or.kr/eng/ | 06:23:17 | 200 | 27572 | read: no terms linked; COPYRIGHT(C) 2022 KOREA POWER EXCHANGE(KPX) ALL RIGHTS RESERVED |
+| 500 | Central Electricity Authority (India), the copyright policy (session 2299) | https://cea.nic.in/api/websitepolicy/pdf/view/en/2 | 06:23:58 | 200 | 118988 | read |
+| 501 | Korea Power Exchange, the Korean home page (session 2299) | https://www.kpx.or.kr/ | 06:24:01 | 200 | 97752 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -637,8 +656,10 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | Taiwan Power Company (Taipower) | #473: read | "為利各界廣為利用網站資料，台灣電力公司（以下簡稱本公司）網站上刊載之所有資料與素材，其得受著作權保護之範圍，以無償、非專屬，得再授權之方式提供公眾使用，使用者得不限時間及地域，重製、改作、編輯、公開傳輸或為其他方式之利用，開發各種產品或服務（簡稱加值衍生物），此一授權行為不會嗣後撤回，使用者亦無須取得本公司之書面或其他方式授權；然使用時，應註明出處。" | may be public | may be public | not named | none stated | Session 2271, from session 2269's read of Taipower's website open data declaration (in Chinese). In English: everything the site publishes is offered to the public free of charge, non-exclusively and sublicensably, to reproduce, adapt, edit, publicly transmit or otherwise use, without time or place limits and without the company's written or other authorisation, irrevocably; the source is to be cited. The declaration excludes trademarks and works the company marks as needing consent. The ERW holds no Taipower table. |
 | XM S.A. E.S.P. (Colombia) | #471: read | "Reproducir o copiar, distribuir, permitir el acceso del público a través de cualquier modalidad de comunicación pública, transformar o modificar los contenidos, a menos que se cuente con la autorización del titular de los correspondientes derechos o ello resulte legalmente permitido." | needs written permission | needs written permission | not named | none stated | Session 2271, from session 2268's read of XM's website legal terms (article six, in Spanish: the user abstains from reproducing, copying, distributing or giving the public access to the contents without the holder's authorisation). The same article bars using the information obtained through the portal to sell or spread it in any way. Session 2268 asked no data; the ERW holds no XM table. |
 | Statistics Estonia | #482: read | "Statistics Estonia’s open data can be shared under Creative Common (CC) licence BY-SA 4.0." | may be public | may be public | not named | none stated | Session 2278. Statistics Estonia's principles for disseminating official statistics, under "Reference to the data source". CC BY-SA 4.0 allows sharing and adapting, commercial use included, with credit and on the condition that a copy or adaptation carries the same license; the table's header says so. Elering's dashboard (dashboard.elering.ee) disallows every path in its robots file (read 479) and was not asked. |
+| Central Electricity Authority (India) | #500: read | "The content available on this Website/(www.cea.nic.in) is provided for public use and may be reproduced free of charge, subject to the following conditions: [...] Users must obtain prior permission by sending an email request to the designated CEA contact." | needs written permission | needs written permission | the designated CEA contact (the policy names no address) | none stated | Session 2299. CEA's Copyright Policy (a PDF of its Website Policies page): free of charge, after prior permission by email, unmodified, with CEA acknowledged as the source, not misleading; third-party material excepted. cea_india_psp_annual stays internal until the permission is asked for and given. |
+| Korea Power Exchange | #501: read | "COPYRIGHT(C) 2021 KOREA POWER EXCHANGE(KPX) ALL RIGHTS RESERVED" | needs written permission | needs written permission | not named | none stated | Session 2299. www.kpx.or.kr links no copyright policy and shows no KOGL (Korea Open Government License) mark, Korean or English; EPSIS's pages carry Copyright(C) 2020 Korea Power Exchange. All Right Reserved. Its sets on data.go.kr may carry a licence there, but need a key the ERW does not hold. kpx_korea_generation_annual and kpx_korea_demand_monthly stay internal. |
 
-**Publishers no read of this sweep covers (33):** Arizona Corporation Commission; CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Central Electricity Authority (India); Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Korea Power Exchange; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); PSE S.A. (Polskie Sieci Elektroenergetyczne); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov); USDA Natural Resources Conservation Service (NRCS); Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
+**Publishers no read of this sweep covers (31):** Arizona Corporation Commission; CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); PSE S.A. (Polskie Sieci Elektroenergetyczne); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov); USDA Natural Resources Conservation Service (NRCS); Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
 
 ## Every table
 
@@ -686,7 +707,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `carbon_intensity_hourly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `carbon_intensity_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `cbs_netherlands_electricity_monthly` | Statistics Netherlands (CBS) | may be public |  |  | public | agrees | may be public | public |
-| `cea_india_psp_annual` | Central Electricity Authority (India) | not settled (needs written permission by default) |  | Central Electricity Authority (India) | internal | not settled | may be public | internal |
+| `cea_india_psp_annual` | Central Electricity Authority (India) | needs written permission | Central Electricity Authority (India) |  | internal | agrees | needs written permission | internal |
 | `cec_total_system_generation_annual` | California Energy Commission (CEC) | may be public |  |  | public | agrees | needs written permission | public |
 | `census_bps_state_annual` | Census Bureau | may be public |  |  | public | agrees | may be public | public |
 | `census_c30_construction_monthly` | Census Bureau | may be public |  |  | public | agrees | may be public | public |
@@ -1004,8 +1025,8 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `isone_zone_load_hourly` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission | internal |
 | `isone_zone_prices_history` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission | internal |
 | `known_data_faults` | the ERW's own work | may be public |  |  | public | agrees | may be public | public |
-| `kpx_korea_demand_monthly` | Korea Power Exchange | not settled (needs written permission by default) |  | Korea Power Exchange | internal | not settled | may be public | internal |
-| `kpx_korea_generation_annual` | Korea Power Exchange | not settled (needs written permission by default) |  | Korea Power Exchange | internal | not settled | may be public | internal |
+| `kpx_korea_demand_monthly` | Korea Power Exchange | needs written permission | Korea Power Exchange |  | internal | agrees | needs written permission | internal |
+| `kpx_korea_generation_annual` | Korea Power Exchange | needs written permission | Korea Power Exchange |  | internal | agrees | needs written permission | internal |
 | `large_load_document_verdicts` | Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD); utilities and operators, each row's own document (not listed one by one) | needs written permission | NYISO | Public Utility District No. 2 of Grant County, Washington (Grant PUD); utilities and operators, each row's own document (not listed one by one) | internal | agrees | needs written permission | internal |
 | `large_load_public` | utilities and operators, each row's own document (not listed one by one) | not settled (needs written permission by default) |  | utilities and operators, each row's own document (not listed one by one) | public | not settled | may be public | unsettled |
 | `large_load_rule_reads` | Arizona Corporation Commission; California Public Utilities Commission; Illinois Commerce Commission; Office of the Federal Register (NARA); Oregon Public Utility Commission; Pennsylvania Public Utility Commission | not settled (needs written permission by default) |  | Arizona Corporation Commission; Illinois Commerce Commission; Oregon Public Utility Commission; and 1 more | public | not settled | may be public | unsettled |
@@ -1192,7 +1213,6 @@ None of these was changed. Each is a ruling.
 
 ### Not settled: a publisher was not read
 
-- `cea_india_psp_annual` (flag internal): not read: Central Electricity Authority (India).
 - `eia_all_futures_prices` (flag internal): not read: CME Group (NYMEX), whose prices EIA republished.
 - `ferc714_area_demand_2006` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
 - `ferc714_area_demand_2007` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
@@ -1224,8 +1244,6 @@ None of these was changed. Each is a ruling.
 - `ferc_eqr_party_totals` (flag internal): not read: FERC.
 - `ferc_eqr_quarter_changes` (flag internal): not read: FERC.
 - `impact_tax_rules` (flag public): not read: Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department.
-- `kpx_korea_demand_monthly` (flag internal): not read: Korea Power Exchange.
-- `kpx_korea_generation_annual` (flag internal): not read: Korea Power Exchange.
 - `large_load_public` (flag public): not read: utilities and operators, each row's own document (not listed one by one).
 - `large_load_rule_reads` (flag public): not read: Arizona Corporation Commission; Illinois Commerce Commission; Oregon Public Utility Commission; Pennsylvania Public Utility Commission.
 - `large_load_rules` (flag public): not read: Arizona Corporation Commission; Illinois Commerce Commission; Oregon Public Utility Commission; Pennsylvania Public Utility Commission.
@@ -1287,10 +1305,12 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Oracle** (2 tables). Write to: no person or address on the page read. Tables: `datacenter_facilities`, `datacenter_operator_sites`.
 - **Switch** (2 tables). Write to: no person or address on the page read. Tables: `datacenter_facilities`, `datacenter_operator_sites`.
 - **Vantage Data Centers** (2 tables). Write to: no person or address on the page read. Tables: `datacenter_facilities`, `datacenter_operator_sites`.
+- **Korea Power Exchange** (2 tables). Write to: no person or address on the page read. Tables: `kpx_korea_demand_monthly`, `kpx_korea_generation_annual`.
 - **CivicPlus** (2 tables). Write to: no person or address on the page read. Tables: `news_index`, `news_stories`.
 - **Hydrogen Insight** (2 tables). Write to: no person or address on the page read. Tables: `news_index`, `news_stories`.
 - **T&D World** (2 tables). Write to: none named for permissions in the sentences read. Tables: `news_index`, `news_stories`.
 - **RGGI** (2 tables). Write to: none named on the page. Tables: `price_board_carbon`, `rggi_auction_allowance_prices`.
+- **Central Electricity Authority (India)** (1 tables). Write to: the designated CEA contact (the policy names no address). Tables: `cea_india_psp_annual`.
 - **ICE, whose prices EIA republishes** (1 tables). Write to: no person or address on the page read. Tables: `eia_ice_electricity_daily`.
 - **International Renewable Energy Agency (IRENA)** (1 tables). Write to: no person or address on the page read. Tables: `irena_capacity_annual`.
 - **Indiana Utility Regulatory Commission** (1 tables). Write to: no person or address on the page read. Tables: `large_load_rules_internal`.
@@ -1359,6 +1379,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Canada Energy Regulator (CER) | may be public | needs written permission | none stated | Canada Energy Regulator Library, info@cer-rec.gc.ca, 403-299-3561 (on the same page) |  |
 | Canary Media | needs written permission | needs written permission | none stated | not named |  |
 | CenterPoint Energy Houston Electric, LLC | needs written permission | needs written permission | none stated | CenterPointEnergy.com/en-us/corporate/contact-us/ |  |
+| Central Electricity Authority (India) | needs written permission | needs written permission | none stated | the designated CEA contact (the policy names no address) |  |
 | CivicPlus | needs written permission | needs written permission | none stated | not named |  |
 | Data Center Dynamics | needs written permission | needs written permission | none stated | not named |  |
 | Data Center Frontier | needs written permission | needs written permission | none stated | not named |  |
@@ -1383,6 +1404,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | ISO-NE | needs written permission | needs written permission | none stated | info@iso-ne.com (the page names it for permission to use a graph, chart or image); Participant Support, (413) 540-4220 |  |
 | Joint Organisations Data Initiative (JODI) | needs written permission | needs written permission | none stated | not named |  |
 | JPT | needs written permission | needs written permission | none stated | not named |  |
+| Korea Power Exchange | needs written permission | needs written permission | none stated | not named |  |
 | Latitude Media | needs written permission | needs written permission | none stated | not named |  |
 | LNG Prime | needs written permission | needs written permission | none stated | its newsdesk |  |
 | Meta | needs written permission | needs written permission | none stated | not named |  |
