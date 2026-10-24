@@ -4865,6 +4865,8 @@ eurostat_electricity_monthly,net_production:RA420,series variable,MWh
 eurostat_electricity_monthly,net_production:RA500_5160,series variable,MWh
 eurostat_electricity_monthly,net_production:TOTAL,series variable,MWh
 eurostat_electricity_monthly,net_production:X9900,series variable,MWh
+eurostat_electricity_trade_annual,exports,series variable,MWh
+eurostat_electricity_trade_annual,imports,series variable,MWh
 eurostat_gas_balance_monthly,distribution_losses,series variable,MWh
 eurostat_gas_balance_monthly,exports,series variable,MWh
 eurostat_gas_balance_monthly,final_consumption_industry,series variable,MWh
