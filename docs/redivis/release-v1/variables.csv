@@ -6411,6 +6411,10 @@ msha_coal_mines,x_nearest_town,column,
 msha_coal_production_quarterly,average_employees,series variable,count
 msha_coal_production_quarterly,coal_production,series variable,short_ton
 msha_coal_production_quarterly,employee_hours,series variable,count
+ncsi_oman_electricity_annual,connections,series variable,count
+ncsi_oman_electricity_annual,distribution,series variable,MWh
+ncsi_oman_electricity_annual,production,series variable,MWh
+ncsi_oman_electricity_annual,production_by_source,series variable,MWh
 nhc_hurdat2_track_points,event_id,column,
 nhc_hurdat2_track_points,event_date,column,
 nhc_hurdat2_track_points,event_type,column,
@@ -6891,6 +6895,9 @@ ntd_transit_energy_annual,gasoline,series variable,gal
 ntd_transit_energy_annual,hydrogen,series variable,t
 ntd_transit_energy_annual,lpg_gal_equivalent,series variable,gal
 ntd_transit_energy_annual,other_fuel,series variable,gal
+nve_norway_reservoirs_weekly,capacity,series variable,MWh
+nve_norway_reservoirs_weekly,filling_share,series variable,pct
+nve_norway_reservoirs_weekly,stored_energy,series variable,MWh
 onrr_production_annual,production,series variable,MWh
 onrr_production_annual,production,series variable,Mcf
 onrr_production_annual,production,series variable,bbl

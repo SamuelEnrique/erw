@@ -417,6 +417,9 @@ catalogue_hold:
   - eia_gas_other_uses_state_annual
   - elexon_gb_demand_daily
   - energinet_dk_production_hourly
+  - nve_norway_reservoirs_weekly
+  - statgl_greenland_electricity_annual
+  - ncsi_oman_electricity_annual
   - hagstova_faroe_electricity_annual
   - slu_cso_electricity_annual
   - grenada_cso_electricity_annual
