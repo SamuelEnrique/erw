@@ -13,6 +13,17 @@ import { dayMean, forecastMiss } from "@/lib/gridYesterday";  // session 1166: t
 import { generationSince } from "@/lib/gridReads";  // session 1179: the grid's generation, read once a render
 import { CaisoMixWithheld } from "@/components/CaisoMixWithheld";  // session 118
 import { Missing } from "@/components/mix/Now";  // session 1411: a read that could not be read, the tool's one look (session 1181)
+// Session 1416 (chain 107): "Yesterday" (grid_yesterday_<grid>) and "Generation mix, as a table" (grid_mixtable_all) are
+// named panels, each with its file (1182), its anchor (1183: the ids they always had, lib/gridAnchors.ts
+// CONDITIONS_ANCHOR) and its method line (1184: METHOD_CONDITIONS, docs/methods/generation_mix_hourly.md); the mix table
+// scrolls at 390 px in a frame a keyboard reaches (session 1158's rules: lib/cells.ts scrollRegion, a caption, header
+// cells). The two small charts already answer a hover and a tap through the shared charts' own cards (TimeChart: the
+// hour, UTC, and each line's MW or degrees F; ShareSegments: the fuel, its MWh and share): their drawing is unchanged.
+import { SiteLink as Link } from "@/components/SiteLink";
+import { PanelFile, type FileCell } from "@/components/grid/PanelFile";
+import { scrollRegion } from "@/lib/cells";
+import { gridHref } from "@/lib/gridtool";
+import { CONDITIONS_ANCHOR, METHOD_CONDITIONS, yesterdayAnchor } from "@/lib/gridAnchors";
 
 // Session 237: this file holds what app/grid/page.tsx ("Grid conditions", sessions 15 to 118) drew. The Grid tool is the
 // page at /grid now (lib/gridtool.ts); its Now view draws one region's block (GridYesterday) and its Mix view the table
@@ -30,6 +41,8 @@ export const BAS = [
   { code: "nyis", entity: "eia930:NYIS", label: "NYISO", tz: "America/New_York", station: "KLGA" },
   { code: "isne", entity: "eia930:ISNE", label: "ISO-NE", tz: "America/New_York", station: "KBOS" },
 ];
+// session 1416: the Grid tool's grid for each block's code (components/grid/NowView.tsx CONDITIONS_CODE, the other way)
+const GRID_OF: Record<string, string> = { erco: "ercot", ciso: "caiso", pjm: "pjm", miso: "miso", swpp: "spp", nyis: "nyiso", isne: "isone", us48: "us48" };
 const WX = "weather_obs_hourly";
 const BASE_F = 65; // degree days: the US convention, base 65 degrees F (lib/gridYesterday.ts BASE_F, the same)
 
@@ -129,7 +142,7 @@ function F({ check, raw, tip, children }: { check: string; raw: number | string;
   return <span title={tip} className="cursor-help border-b border-dotted border-muted"><Num check={check} raw={raw}>{children}</Num></span>;
 }
 
-function Block({ r }: { r: BAResult }) {
+function Block({ r, grid }: { r: BAResult; grid: string }) {
   const table = DEMAND;
   const gtable = GEN;
   if (!r.day) return <NoData what={`${r.ba.label} demand`} reason={r.error ?? "no data"} />;
@@ -163,6 +176,28 @@ function Block({ r }: { r: BAResult }) {
   const dk = `series~${table}~${r.ba.entity}~demand_mw~${peak.ts_utc}`, fk = `series~${table}~${r.ba.entity}~demand_forecast_mw~${peak.ts_utc}`;
   const dayWin = `${r.ba.entity}|${iso(d0)}|${iso(d1)}`;
   const at = `${table}, ${r.ba.entity}, the hour starting ${peak.ts_utc.slice(0, 16).replace("T", " ")} UTC`;
+  // session 1416: the block's figures as a file, one a row, each with the key and the value the page draws; a degree day
+  // the page cannot compute, or cannot read, in the page's words
+  const hour = `the hour starting ${peak.ts_utc.slice(0, 16).replace("T", " ")} UTC`;
+  const gt = genTotal(r, gtable);
+  const fileRows: FileCell[][] = [
+    ["Peak demand", hour, { check: `series_max|${table}|demand_mw|${range}|${r.ba.entity}`, raw: peak.value }, "MW"],
+    ...(fAtPeak !== undefined ? [
+      ["Day-ahead forecast for that hour", hour, { check: `series|${table}|${r.ba.entity}|demand_forecast_mw|${peak.ts_utc}`, raw: fAtPeak }, "MW"],
+      ["Error: demand less the forecast", hour, { check: `fmt|pm0|calc|diff|${dk}|${fk}`, raw: peak.value - fAtPeak }, "MW"],
+      ["Error as a share of demand", hour, { check: `fmt|f1|calc|diffpct|${dk}|${fk}`, raw: ((peak.value - fAtPeak) / peak.value) * 100 }, "percent"],
+    ] : []),
+    ...(mape !== null ? [
+      ["Forecast error over the day (mean absolute)", `UTC day ${r.day}`, { check: `fmt|f1|fcerr|mape|${dayWin}`, raw: mape }, "percent of demand"],
+      ["Hours holding both demand and the forecast", `UTC day ${r.day}`, { check: `fcerr|hours|${dayWin}`, raw: paired }, "hours"],
+    ] : []),
+    ...(r.ba.station && r.weatherError ? [[`Degree days at ${r.ba.station}`, "the 7 UTC days drawn", "could not be read", ""]]
+      : r.ba.station ? dd.map((x) => (x.n !== 24 ? [`Degree days at ${r.ba.station}`, `UTC day ${x.day}`, `not computed (${x.n} of 24 hours in ${WX})`, ""]
+        : x.mean >= BASE_F ? [`CDD at ${r.ba.station} (base ${BASE_F} F)`, `UTC day ${x.day}`, { check: `fmt|f1|degday|cdd|nws:${r.ba.station}|${x.day}`, raw: x.mean - BASE_F }, "degree days F"]
+          : [`HDD at ${r.ba.station} (base ${BASE_F} F)`, `UTC day ${x.day}`, { check: `fmt|f1|degday|hdd|nws:${r.ba.station}|${x.day}`, raw: BASE_F - x.mean }, "degree days F"]))
+        : []),
+    ...(gt ? [["Net generation of the day", `UTC day ${r.genDay}`, gt, "MWh"]] : []),
+  ];
   return (
     <div className="grid gap-6 lg:grid-cols-[18rem_1fr]">
       <div>
@@ -216,9 +251,24 @@ function Block({ r }: { r: BAResult }) {
           </p>
         ) : null}
         <FuelBar r={r} gtable={gtable} />
+        {/* session 1416: the block's figures, to download */}
+        <PanelFile of={{ panel: `grid_yesterday_${grid}`, title: `${r.ba.label}'s peak demand of the UTC day, the day-ahead forecast's miss, the degree days and the day's net generation`, page: gridHref(grid, "mix"),
+          tables: [`${table} (EIA-930's hourly demand and EIA's day-ahead demand forecast)`, ...(r.ba.station ? [`${WX} (the National Weather Service's hourly observations at ${r.ba.station}, degrees F)`] : []), ...(gt ? [`${gtable} (EIA-930's hourly net generation)`] : [])],
+          filter: `${r.ba.entity}: demand_mw, demand_forecast_mw${gt ? ", net_generation_mw" : ""}${r.ba.station ? `; nws:${r.ba.station}, temperature_f` : ""}`,
+          window: `Window: the UTC day ${r.day}${r.ba.station ? `, and for the degree days the 7 UTC days to it` : ""}${gt && r.genDay !== r.day ? `; the net generation of ${r.genDay}, the latest complete day` : ""}`,
+          notes: ["The seven days of hourly demand, forecast and temperature are drawn in the chart (and its table, Chart | Table), not written here"] }}
+          columns={["Figure", "Day or hour", "Value", "Unit"]} rows={fileRows} />
       </div>
     </div>
   );
+}
+
+/** Session 1416: the day's net generation as FuelBar writes it (its key and its value), or null where FuelBar draws none. */
+function genTotal(r: BAResult, gtable: string): { check: string; raw: number } | null {
+  if (r.ba.code === "ciso" || (r.error && !r.gen.length)) return null;
+  const { total, hoursTotal } = mix(r.gen);
+  if (!r.genDay || hoursTotal !== 24) return null;
+  return { check: `series_sum|${gtable}|net_generation_mw|${r.genDay}T00:00:00Z|${iso(Date.parse(`${r.genDay}T00:00:00Z`) + 24 * H)}|${r.ba.entity}`, raw: total };
 }
 
 function mix(gen: SeriesRow[]) {
@@ -266,14 +316,18 @@ export async function GridYesterday({ code }: { code: string }) {
   const ba = BAS.find((b) => b.code === code);
   if (!ba) return null;
   const r = await loadConditions(ba, conditionsDay());
+  const grid = GRID_OF[ba.code] ?? ba.code;
   return (
-    <Section title={`${ba.label}: yesterday`} id={`yesterday-${ba.code}`}>
+    <div data-grid-panel={`grid_yesterday_${grid}`}>
+    <Section title={`${ba.label}: yesterday`} id={yesterdayAnchor(ba.code)}>
       <p className="mb-3 max-w-3xl text-sm text-muted">
         Peak demand and when it came, how far <Term t="EIA" first />&apos;s day-ahead demand forecast missed, the generation mix, and the last seven
         days of demand, from EIA&apos;s Hourly Electric Grid Monitor (Form EIA-930). Days are UTC days, as EIA publishes them; the peak
         hour is also given in the <Term t="ISO" first />&apos;s local time.
       </p>
-      <div className="mb-4 flex flex-wrap gap-3 text-xs" aria-label="Fuel colors">
+      {/* session 1416: the two small charts answer a hover and a tap (the shared charts' cards); said once, as the scorecard says it (session 1412) */}
+      <p className="mb-3 max-w-3xl text-xs text-muted">A hover or a tap on the chart gives the hour (UTC) and its {ba.station ? "demand, forecast and temperature" : "demand and forecast"}{ba.code === "ciso" ? "" : "; on the bar, a fuel's MWh and share"}. Hover a dotted figure for its table and hour.</p>
+      <div className="mb-4 flex flex-wrap gap-3 text-xs" role="group" aria-label="Fuel colors">
         {FUELS.map((f) => (
           <span key={f.key} className="flex items-center gap-1">
             <span className="inline-block h-3 w-3" style={{ background: `var(--color-fuel-${f.key})` }} />
@@ -281,8 +335,10 @@ export async function GridYesterday({ code }: { code: string }) {
           </span>
         ))}
       </div>
-      <Block r={r} />
+      <Block r={r} grid={grid} />
+      <p className="mt-1 text-xs text-muted" data-grid-method="yesterday"><Link href={METHOD_CONDITIONS}>Method: &quot;Yesterday&quot; and the mix table, keyed</Link>.</p>
     </Section>
+    </div>
   );
 }
 
@@ -301,16 +357,26 @@ const shareTip = (r: BAResult, fuel: string) =>
 export async function MixTable() {
   const yesterday = conditionsDay();
   const results = await Promise.all(BAS.map((b) => loadConditions(b, yesterday, { weather: false })));
+  // session 1416: the same cells as a file, each share with its key and value; a region without a complete day in the
+  // page's words. The table scrolls at 390 px in a frame a keyboard reaches, named by its caption (session 1158's rules)
+  const caption = "Each region's share of its UTC day's net generation by fuel, in percent (EIA-930)";
+  const fileRows: FileCell[][] = results.map((r) => {
+    const { total, hoursTotal, by } = mix(r.gen);
+    return [r.ba.label, r.genDay ?? "", ...FUELS.map((f) => (hoursTotal !== 24 ? "no data for this day" : by.has(f.key) ? { check: shareKey(r, f.key), raw: (by.get(f.key)! / total) * 100 } : ""))];
+  });
+  const days = [...new Set(results.map((r) => r.genDay).filter(Boolean))].sort();
   return (
-      <Section title="Generation mix, as a table" id="mix-table">
-        <div className="overflow-x-auto">
+    <div data-grid-panel="grid_mixtable_all">
+      <Section title="Generation mix, as a table" id={CONDITIONS_ANCHOR.mixTable}>
+        <div className="overflow-x-auto" {...scrollRegion(caption)}>
           <table className="w-full border-collapse text-sm">
+            <caption className="sr-only">{caption}</caption>
             <thead>
               <tr className="border-b border-rule text-left text-xs text-muted">
-                <th className="py-1 pr-3 font-normal">Region</th>
-                <th className="py-1 pr-3 font-normal">Day</th>
+                <th scope="col" className="py-1 pr-3 font-normal">Region</th>
+                <th scope="col" className="py-1 pr-3 font-normal">Day</th>
                 {FUELS.map((f) => (
-                  <th key={f.key} className="py-1 pr-3 text-right font-normal">{f.label}</th>
+                  <th key={f.key} scope="col" className="py-1 pr-3 text-right font-normal">{f.label}</th>
                 ))}
               </tr>
             </thead>
@@ -319,7 +385,7 @@ export async function MixTable() {
                 const { total, hoursTotal, by } = mix(r.gen);
                 return (
                   <tr key={r.ba.code} className="border-b border-rule/60">
-                    <td className="py-1 pr-3">{r.ba.label}</td>
+                    <th scope="row" className="py-1 pr-3 text-left font-normal">{r.ba.label}</th>
                     <td className="py-1 pr-3 text-xs">{r.genDay ?? ""}</td>
                     {hoursTotal === 24
                       ? FUELS.map((f) => (
@@ -338,7 +404,18 @@ export async function MixTable() {
           Share of the day&apos;s net generation (MWh) by fuel. Storage can be negative when it charged more than it discharged. Blank: the region
           reports no such fuel.
         </p>
+        {/* session 1416: the table's cells, to download, and the line that links its method */}
+        {results.some((r) => mix(r.gen).hoursTotal === 24) ? (
+          <PanelFile of={{ panel: "grid_mixtable_all", title: "each region's share of its UTC day's net generation by fuel, in percent", page: gridHref("us48", "mix"),
+            tables: [`${GEN} (EIA-930's hourly net generation by fuel, summed over the UTC day)`],
+            filter: `the eight regions (${BAS.map((b) => b.entity).join(", ")}): net_generation_mw and each fuel's net_generation_<fuel>_mw, grouped as the table's columns`,
+            window: `Window: each region's UTC day drawn (${days.join(", ") || "none"}): the day before the page was drawn, or the region's latest complete day in the last 10 days`,
+            notes: ["A blank cell: the region reports no such fuel"] }}
+            columns={["Region", "Day (UTC)", ...FUELS.map((f) => `${f.label}, percent`)]} rows={fileRows} />
+        ) : null}
+        <p className="mt-1 text-xs text-muted" data-grid-method="mix-table"><Link href={METHOD_CONDITIONS}>Method: &quot;Yesterday&quot; and the mix table, keyed</Link>.</p>
         <Cite tables={[GEN]} />
       </Section>
+    </div>
   );
 }

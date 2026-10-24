@@ -634,5 +634,27 @@ await check("the Clean tab's carbon blocks: each carries its anchor, links METHO
   return "";
 });
 
+// session 1416 (chain 107): "Yesterday" and the mix table (components/grid/Conditions.tsx), named panels: each block's
+// figures all in its file and back (blockHolds), its anchor (the ids the sections had), one link to METHOD_CONDITIONS
+await check("\"Yesterday\" and the mix table: each carries its anchor, links METHOD_CONDITIONS once and offers its file, every figure in it", async () => {
+  const code = { ercot: "erco", caiso: "ciso", isone: "isne", us48: "us48" };
+  for (const grid of ["ercot", "caiso", "isone", "us48"]) {
+    const rec = await draw({ grid, view: "mix" });
+    for (const [name, anchor] of [[`grid_yesterday_${grid}`, GA.yesterdayAnchor(code[grid])], ["grid_mixtable_all", GA.CONDITIONS_ANCHOR.mixTable]]) {
+      const b = rec[name];
+      if (!b) return `${grid}: no block ${name}`;
+      const why = blockHolds(b, name);
+      if (why) return `${grid}: ${why}`;
+      if (!b.ids.includes(anchor)) return `${name} lacks #${anchor} (ids: ${b.ids.join(", ") || "none"})`;
+      if (b.methods.filter((m) => m === GA.METHOD_CONDITIONS).length !== 1) return `${name}: ${b.methods.filter((m) => m === GA.METHOD_CONDITIONS).length} links to METHOD_CONDITIONS`;
+      if (b.files.map((f) => f.id).join(",") !== name) return `${name}: files ${b.files.map((f) => f.id).join(",")}`;
+    }
+    const ids = rec[IDS] ?? [];
+    const twice = [...new Set(ids.filter((x, i) => ids.indexOf(x) !== i))];
+    if (twice.length) return `${grid}: drawn twice: ${twice.join(", ")}`;
+  }
+  return "";
+});
+
 console.log(failures ? `${failures} of ${cases} case(s) failed` : `every case holds (${cases} cases)`);
 process.exitCode = failures ? 1 : 0;

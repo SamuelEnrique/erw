@@ -158,6 +158,16 @@ export const EMISSIONS_ANCHOR = {
   monthly: "carbon-monthly",
 } as const;
 export const METHOD_EMISSIONS_BLOCKS = "/data/methods/emissions#on-the-grid-tools-clean-tab-keyed-chain-107-session-1415";
+// Session 1416 (chain 107): the Mix tab's "Yesterday" (grid_yesterday_<grid>) and "Generation mix, as a table"
+// (grid_mixtable_all), components/grid/Conditions.tsx, blocks older than chain 077: their anchors are the ids their
+// sections always had ("yesterday-<EIA-930 code>", "mix-table"), and their one method, a section of
+// docs/methods/generation_mix_hourly.md, outside GRID_ANCHOR and GRID_METHOD as sessions 1413 to 1415's are.
+export const CONDITIONS_ANCHOR = {
+  yesterday: "yesterday",
+  mixTable: "mix-table",
+} as const;
+export const yesterdayAnchor = (code: string): string => `${CONDITIONS_ANCHOR.yesterday}-${code}`;
+export const METHOD_CONDITIONS = "/data/methods/generation_mix_hourly#yesterday-and-the-mix-table-at-390-pixels-and-on-hover-session-1416";
 export const GRID_METHOD: Record<GridAnchorKey, string> = {
   network: METHOD_NETWORK,
   replay: METHOD_REPLAY,
