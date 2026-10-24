@@ -51,7 +51,7 @@ FIRST = "1967"
 SPLIT, EARLY_END = "1967", "1966"   # one window
 PROCESSES = {"YGP": "gas_processed", "VG9": "extraction_loss", "YGT": "liquids_extracted"}
 UNITS = {"mmcf": ("MMcf", 1.0, ""), "mbbl": ("kbbl", 1.0, "")}
-AREA =re.compile(r"^(NUS|S[A-Z]{2}|R[0-9A-Z]+)(-S[A-Z]{2})?$")   # EIA's forms of area code (session 2287)
+AREA = re.compile(r"^(NUS|S[A-Z]{2}|R[0-9A-Z]+)(-S[A-Z]{2})?$")   # EIA's forms of area code (session 2287)
 
 
 class _Areas:

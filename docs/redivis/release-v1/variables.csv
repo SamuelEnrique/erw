@@ -3423,6 +3423,8 @@ eia_lng_liquefaction_projects,x_marks,column,
 eia_lng_liquefaction_projects,source_url,column,
 eia_lng_liquefaction_projects,retrieved_at,column,
 eia_lng_liquefaction_projects,vintage,column,
+eia_lng_storage_annual,additions,series variable,MMcf
+eia_lng_storage_annual,withdrawals,series variable,MMcf
 eia_mecs_manufacturing,elec_net_demand,series variable,MWh
 eia_mecs_manufacturing,elec_onsite_generation,series variable,MWh
 eia_mecs_manufacturing,elec_purchases,series variable,MWh
