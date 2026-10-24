@@ -463,6 +463,7 @@ spp_curtailment_daily,SPP,the source registry
 spp_dam_cleared_energy,SPP,the source registry
 spp_interconnection_queue,SPP,the source registry
 ssb_norway_electricity_monthly,Statistics Norway (SSB),the source registry
+statbank_moldova_electricity_monthly,National Bureau of Statistics of the Republic of Moldova (StatBank),the source registry
 statcan_electricity_generation_monthly,Statistics Canada,the source registry
 statcan_oil_gas_supply_monthly,Statistics Canada,the source registry
 state_generation_mix_monthly,EIA,the source registry and the tables its header derives it from: eia_state_generation_monthly
