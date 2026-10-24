@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **544 tables.** The flag and the verdict agree on 438; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 61 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 407 public, 87 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **907 publishers in the record: 905 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 209 pages read, 696 that could not be read, 2 not asked (paused).**
+- **918 publishers in the record: 916 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 215 pages read, 701 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -930,6 +930,17 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 905 | Statistical Service of Cyprus (CYSTAT), the Data Reusability page (session 2509) | https://www.cystat.gov.cy/en/StaticPage?id=1491 | 17:48:37 | 200 | 50482 | read |
 | 906 | Utilities Regulatory Authority, Vanuatu (URA), the copyright statement (session 2509) | https://ura.gov.vu/en/copyright | 17:48:38 | 200 | 84338 | read |
 | 907 | Guyana Power and Light Inc. (GPL), the terms and conditions (session 2509) | https://gplinc.com/terms-and-conditions/ | 17:48:40 | 200 | 50989 | read: the online account's terms; no statement on reuse |
+| 908 | Statistics Greenland (Gronlands Statistik), stat.gl's robots address (session 2510) | https://stat.gl/robots.txt (answered at https://stat.gl/dialog/main.asp?lang=&sc=RO&version=OTS.TXT) | 17:49:30 | 200 | 7702 | read: answers with a page; no robots file |
+| 909 | Statistics Greenland (Gronlands Statistik), bank.stat.gl's robots address (session 2510) | https://bank.stat.gl/robots.txt | 17:49:32 | 200 | 87 | read: a page saying the file is not found; no robots file |
+| 910 | Statistics Greenland (Gronlands Statistik), the Statbank API's databases (session 2510) | https://bank.stat.gl/api/v1/en/ | 17:49:43 | 200 | 77 | read |
+| 911 | Statistics Greenland (Gronlands Statistik), the Statbank API's subject areas (session 2510) | https://bank.stat.gl/api/v1/en/Greenland/ | 17:49:49 | 200 | 954 | read |
+| 912 | Statistics Greenland (Gronlands Statistik), the energy area (session 2510) | https://bank.stat.gl/api/v1/en/Greenland/EN/ | 17:49:55 | 200 | 197 | read |
+| 913 | Statistics Greenland (Gronlands Statistik), the energy tables (session 2510) | https://bank.stat.gl/api/v1/en/Greenland/EN/EN20/ | 17:50:01 | 200 | 1730 | read |
+| 914 | Statistics Greenland (Gronlands Statistik), table ENX3VVE's metadata (session 2510) | https://bank.stat.gl/api/v1/en/Greenland/EN/EN20/ENX3VVE.px | 17:50:09 | 200 | 798 | read |
+| 915 | Statistics Greenland (Gronlands Statistik), table ENX4NUK's metadata (session 2510) | https://bank.stat.gl/api/v1/en/Greenland/EN/EN20/ENX4NUK.px | 17:50:10 | 200 | 1598 | read |
+| 916 | Statistics Greenland (Gronlands Statistik), the English home page and its footer (session 2510) | https://stat.gl/default.asp?lang=en | 17:50:31 | 200 | 41021 | read: no terms page linked |
+| 917 | Statistics Greenland (Gronlands Statistik), stat.gl's llms.txt (session 2510) | https://stat.gl/llms.txt | 17:50:41 | 200 | 4522 | read: agents asked to use the Statbank API and to cite the Statbank with a link; no licence for the statistics |
+| 918 | Statistics Greenland (Gronlands Statistik), the Statbank agent profile (session 2510) | https://stat.gl/ai/skills/statistics-greenland-statbank/SKILL.md | 17:50:49 | 200 | 4446 | read: CC-BY-4.0 for the profile itself |
 
 ## The publishers: the sentence and the verdict
 

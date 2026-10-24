@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^statgl_greenland_electricity_annual$", "power"),  # session 2510: Statistics Greenland ENX3VVE and ENX4NUK, renewable electricity and Nukissiorfiit's sales
     (r"^ncsi_oman_electricity_annual$", "power"),  # session 2504: NCSI's Energy Statistics 2026, Oman's electricity by governorate and by source
     (r"^hagstova_faroe_electricity_annual$", "power"),  # session 2502: Statistics Faroe Islands UO03020 and UO03030, SEV's production by source and sales
     (r"^slu_cso_electricity_annual$", "power"),  # session 2497: CSO Saint Lucia, LUCELEC's electricity output and consumption
