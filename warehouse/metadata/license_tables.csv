@@ -215,6 +215,7 @@ eia_world_energy_co2_annual,EIA,the source registry
 eia_world_oil_gas_annual,EIA,the source registry
 eia_world_oil_monthly,EIA,the source registry
 elexon_gb_demand_daily,Elexon Limited (BMRS),the source registry
+emi_nz_generation_demand_monthly,Electricity Authority (New Zealand),the source registry
 energinet_dk_production_hourly,Energinet (Energi Data Service),the source registry
 energy_charts_belgium_hourly,Energy-Charts.info (Fraunhofer ISE),the source registry
 energy_companies,ERW,"by hand: its header: names, one-line descriptions written by the ERW, and links"

@@ -230,6 +230,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "afdc_ev_charging_state_annual",
            "census_cbp_hosting_annual",
            "statcan_electricity_generation_monthly",
+           "emi_nz_generation_demand_monthly",
            "statcan_oil_gas_supply_monthly",
            "ntd_transit_energy_annual",
            "epa_needs_units",

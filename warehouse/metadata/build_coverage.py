@@ -295,6 +295,7 @@ SECTOR_RULES = [
     (r"^afdc_ev_charging_state_annual$", "power"),  # session 2155: AFDC's EV charging stations and ports by state, each December
     (r"^census_cbp_hosting_annual$", "power;datacenters"),  # session 2160: CBP's data processing and hosting (NAICS 518210) by state
     (r"^statcan_electricity_generation_monthly$", "power"),  # session 2176: Statistics Canada's monthly generation by province, class and type
+    (r"^emi_nz_generation_demand_monthly$", "power"),  # session 2254: EMI's New Zealand grid generation and demand, nationally and by island, a month
     (r"^statcan_oil_gas_supply_monthly$", "oil;gas"),  # session 2179: Statistics Canada's crude oil and natural gas supply and disposition, by province, a month
     (r"^ntd_transit_energy_annual$", "power;products"),  # session 2182: the FTA's National Transit Database fuel and energy, an agency, mode and year
     (r"^epa_needs_units$", "power"),  # session 2183: EPA's NEEDS for the 2025 reference case, one row a generating unit
