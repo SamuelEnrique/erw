@@ -446,6 +446,7 @@ statcan_electricity_generation_monthly,Statistics Canada,the source registry
 statcan_oil_gas_supply_monthly,Statistics Canada,the source registry
 state_generation_mix_monthly,EIA,the source registry and the tables its header derives it from: eia_state_generation_monthly
 statfi_finland_electricity_monthly,Statistics Finland,the source registry
+statee_estonia_electricity_monthly,Statistics Estonia,the source registry
 storage_buildout_monthly,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators, eia860m_retired_generators"
 storage_capacity,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators, eia860m_retired_generators"
 storage_daily_cycle,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_battery_storage, eia930_all_storage"
