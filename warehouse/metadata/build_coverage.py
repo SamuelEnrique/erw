@@ -268,6 +268,9 @@ SECTOR_RULES = [
     (r"^smard_germany_monthly$", "power"),  # session 2230: SMARD's Germany generation by source and grid load, a month from 2015
     (r"^cbs_netherlands_electricity_monthly$", "power"),  # session 2231: CBS's table 84575NED, the Netherlands' electricity balance, a month from 1976
     (r"^scb_sweden_electricity_monthly$", "power"),  # session 2236: SCB's table TAB1011, Sweden's electricity supply by type of production, a month from 1974
+    (r"^statfi_finland_electricity_monthly$", "power"),  # session 2273: Statistics Finland's table 12su, Finland's electricity supply and consumption, a month from 1992
+    (r"^energy_charts_central_europe$", "power"),  # session 2272: Energy-Charts, Austria's, Switzerland's and Czechia's public net production and load, hourly
+    (r"^statee_estonia_electricity_monthly$", "power"),  # session 2278: Statistics Estonia table KE21, Estonia's electricity production, imports and exports, monthly
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour

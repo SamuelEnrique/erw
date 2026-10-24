@@ -11,6 +11,9 @@ about a year of reserve prices. In session 143 that read took 13.3 seconds. A mo
 The hourly table is not changed, moved or replaced. The battery page (`/cost-of-power/battery`, live) reads it as
 before.
 
+Tables: `ercot_as_prices_daily`, `ercot_as_prices_monthly` (session 2270: as held on 24 October 2026, 70,520 and 2,325 rows,
+five products, the four older ones from 1 January 2018 and ECRS from 10 June 2023, to 23 October 2026)
+
 ## What a row is
 
 For each reserve product and each local operating day, five rows in the daily table; for each product and each local

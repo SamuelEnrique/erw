@@ -2,6 +2,8 @@
 
 The table `grid_stress_days`, built by `warehouse/derived/stress_days.py` from tables the ERW already holds. No request is made to any publisher. The chain prompt names it `stress_days`; a series table's name has three parts (`docs/datastandard.md`, Decisions 19 and 47). The rule is the code machine's session 297, `docs/methods/battery_stress_days.md`; this note says how the data machine applies it.
 
+Tables: `grid_stress_days`
+
 ## Why a rule
 
 Before session 306 the repository recorded two ways of naming a stress day, one per grid: ERCOT's are three named events (Winter Storm Uri, Winter Storm Elliott, the August 2023 heat; `warehouse/derived/event_window.py`), and CAISO's are the days of its own system-wide notices (`docs/methods/battery_stack.md`, session 246). Neither reaches the other five grids. The chain prompt of 19 October 2026 gives the rule for all of them, the one the code machine's session 297 writes:
@@ -40,6 +42,16 @@ The header of `grid_stress_days.csv` carries each run's own counts.
 - **Winter Storm Uri: 11 to 19 February 2021 are all stress days by price** (event `uri_2021`), 15 to 19 February among them (daily means USD 6,764.8, 8,970.1, 9,002.0, 8,989.1 and 3,410.8 per MWh against thresholds of 99.1 to 314.8).
 - **Winter Storm Elliott: 22 to 26 December 2022 are stress days, 23 December by price and notice (USD 557.5 against 217.5), the others by notice.** 24 December's mean was USD 63.2 against a threshold of 225.6 (the summer of 2022 had raised the year's 98th percentile), so the price test alone missed it (session 306). Since session 322 the ERW holds ERCOT's notices (`ercot_grid_notices`, `docs/methods/ercot_grid_notices.md`): ERCOT's release of 16 December 2022 announced an Operating Condition Notice for temperatures of 25 degrees or lower between 22 and 26 December, an OCN for extreme weather, which the rule counts as it counts CAISO's notices. ERCOT issued no conservation appeal or EEA for Elliott in its releases.
 - **The summer 2023 heat: 11 stress days from 4 August to 6 September 2023** (event `ercot_heat_2023`).
+
+Columns: value the day's mean real-time price at the main hub (USD/MWh), variable `stress_day`, ts_utc the local day at
+00:00Z; `x_reason` price, notice, or price and notice; `x_event` the event; `x_trailing_p98` and `x_trailing_days` the
+threshold and the days it was taken over; `x_notices` the notice kinds that day.
+
+Session 2270: since session 322 ERCOT's notices are held too (`ercot_grid_notices`, those marked `x_counts` yes), so
+`x_notices` carries ERCOT's kinds as well as CAISO's (among ERCOT's stress days, `weather_watch` 36 times,
+`conservation_appeal` 18), and the first Limit below and "CAISO's notice kinds" above are true of CAISO and ERCOT
+together: the price test alone holds on four grids, not five. The table held on 24 October 2026 has 282 rows, as the
+counts above.
 
 ## Limits
 
