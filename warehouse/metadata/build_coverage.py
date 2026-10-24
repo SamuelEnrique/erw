@@ -279,6 +279,7 @@ SECTOR_RULES = [
     (r"^eia_seds_residential_annual$", "power;gas;oil"),  # session 2108: SEDS's residential expenditures by source and state
     (r"^noaa_uscrn_solar_monthly$", "power"),  # session 2107: NOAA USCRN's monthly solar radiation near CAISO's and ERCOT's solar
     (r"^treasury_1603_awards$", "power;deals"),  # session 2112: the Treasury's Section 1603 awards
+    (r"^usaspending_doe_obligations$", "power;deals"),  # session 2188: USAspending.gov, DOE's budget, obligations and award obligations by category, a fiscal year
     (r"^usgs_comcat_earthquakes_south_central$", "oil;gas"),  # session 2120: the USGS earthquake catalog, OK, KS, TX and NM
     (r"^usgs_streamflow_daily$", "power"),  # session 2113: the USGS's daily mean discharge below large hydropower plants
     (r"^bpa_ba_hourly$", "power"),  # session 2148: BPA's balancing authority load and generation, five-minute values to the hour

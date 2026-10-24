@@ -408,6 +408,7 @@ catalogue_hold:
   - eia_seds_residential_annual
   - noaa_uscrn_solar_monthly
   - treasury_1603_awards
+  - usaspending_doe_obligations
   - usgs_comcat_earthquakes_south_central
   - usgs_streamflow_daily
   - bpa_ba_hourly
