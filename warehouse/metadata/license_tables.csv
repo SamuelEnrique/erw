@@ -414,6 +414,7 @@ price_board_latest,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry a
 price_board_peak_offpeak,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 price_board_spreads,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: eia_fuel_spot_prices, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 price_years_by_window,CAISO; EIA; ERCOT; NOAA NCEI; SPP,"the source registry and the tables its header derives it from: battery_stack_monthly, battery_stack_review_monthly, battery_stack_stress_daily, ercot_all_hub_prices_history, ercot_zone_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, merchant_revenue_monthly"
+ree_spain_balance_monthly,Red Electrica (REE),the source registry
 rggi_auction_allowance_prices,RGGI,the source registry
 rrc_lease_production_monthly,RRC,the source registry
 rte_eco2mix_france_halfhourly,RTE (Reseau de Transport d'Electricite),the source registry
