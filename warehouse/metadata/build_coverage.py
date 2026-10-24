@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^eru_czech_electricity$", "power"),  # session 2538: ERU's annual report on the Czech electricity system 2025, tables 3.1 to 3.3
     (r"^inseed_togo_electricity_annual$", "power"),  # session 2535: INSEED's Annuaire Statistique National 2024, tables 25.2 and 25.7, Togo's purchases, production and sales
     (r"^arsel_cameroon_electricity_annual$", "power"),  # session 2533: ARSEL's activity report 2025, Cameroon's production, purchases and transmission flows
     (r"^instat_madagascar_electricity_monthly$", "power"),  # session 2532: INSTAT TBE 63 table 21, JIRAMA's electricity production and consumption a month
