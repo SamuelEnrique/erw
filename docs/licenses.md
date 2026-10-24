@@ -10,8 +10,8 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **537 tables.** The flag and the verdict agree on 432; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 60 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 405 public, 82 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **538 tables.** The flag and the verdict agree on 433; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 60 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 405 public, 83 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **866 publishers in the record: 864 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 198 pages read, 666 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -1389,6 +1389,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `eurostat_solid_fuels_monthly` | Eurostat (Statistical Office of the European Union) | may be public |  |  | public | agrees | may be public | public |
 | `event_study_estimates` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
 | `event_window_daily` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `ewa_bahrain_electricity_annual` | Electricity and Water Authority, Kingdom of Bahrain (EWA) | needs written permission | Electricity and Water Authority, Kingdom of Bahrain (EWA) |  | internal | agrees | needs written permission | internal |
 | `fema_disaster_declarations` | Federal Emergency Management Agency (FEMA) | may be public |  |  | public | agrees | may be public | public |
 | `ferc714_area_demand_2006` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
 | `ferc714_area_demand_2007` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
@@ -1784,6 +1785,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **ICE, whose prices EIA republishes** (1 tables). Write to: no person or address on the page read. Tables: `eia_ice_electricity_daily`.
 - **Energy Regulation Board, Zambia (ERB)** (1 tables). Write to: no person or address on the page read. Tables: `erb_zambia_electricity_annual`.
 - **Electricity Market Operator of Georgia (ESCO)** (1 tables). Write to: no person or address on the page read. Tables: `esco_georgia_electricity_monthly`.
+- **Electricity and Water Authority, Kingdom of Bahrain (EWA)** (1 tables). Write to: no person or address on the page read. Tables: `ewa_bahrain_electricity_annual`.
 - **International Renewable Energy Agency (IRENA)** (1 tables). Write to: no person or address on the page read. Tables: `irena_capacity_annual`.
 - **Indiana Utility Regulatory Commission** (1 tables). Write to: no person or address on the page read. Tables: `large_load_rules_internal`.
 - **Berkeley Lab, hybrid plants file** (1 tables). Write to: no person or address on the page read. Tables: `lbnl_hybrid_plants`.
