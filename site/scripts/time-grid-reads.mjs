@@ -2,7 +2,7 @@
 // as they are, and each timed three times against Supabase, one request at a time.
 //
 //   node --import ./scripts/alias-register.mjs --import ./scripts/tsx-register.mjs scripts/time-grid-reads.mjs \
-//     --env <file holding SUPABASE_URL and SUPABASE_ANON_KEY> [--out ../runs/s1160/reads.json] [--top 20] [--only <page>]
+//     --env <file holding SUPABASE_URL and SUPABASE_ANON_KEY> [--out ../runs/s1160/reads.json] [--top 20] [--only <page>[,<page>...]]
 //
 // No build and no server. The pages' modules are imported as they are (scripts/tsx-loader.mjs transpiles them, and
 // stands in for the browser's components, which never read Supabase), and each page is called with its address's
@@ -13,6 +13,9 @@
 //   - it sends one request at a time, the next only once the last has answered;
 //   - a request the page asked for before, by this page or another, is answered from the first answer, as Next's
 //     fetch cache answers it on a server (the count of times a page asked is kept: a read asked for twice is listed).
+//   - session 1179: each page is one render of React's `cache` (a new globalThis.__erwRequestCache a page, which
+//     scripts/tsx-loader.mjs's "react" keeps its answers in), so a read shared through `cache` is asked for once a
+//     page, as on Next's server, and a page that declares a read for the render (lib/gridReads.ts) is walked as it runs.
 // Then every distinct request is sent twice more, alone, one after another: three times in all. The time is from the
 // request to its answer's headers (session 580's measure, lib/supabase.ts readLine) and, beside it, to the body's end.
 // Only SUPABASE_URL and SUPABASE_ANON_KEY are read from the --env file; neither is printed or written: the output
@@ -221,11 +224,16 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, "
   const grid = await import("../app/grid/page.tsx");
   const alerts = await import("../app/grid/caiso/alerts/page.tsx");
   const perPage = [];
-  for (const p of pages().filter((x) => !only || x.name === only)) {
+  // session 1179: --only takes a comma list of the addresses (an address holds no comma)
+  const onlyList = only ? only.split(",") : null;
+  for (const p of pages().filter((x) => !onlyList || onlyList.includes(x.name))) {
     store.page = new Map();
+    // session 1179: one render's React cache a page (scripts/tsx-loader.mjs), as Next keeps one for each request
+    globalThis.__erwRequestCache = new Map();
     const t0 = performance.now();
     const fn = p.page === "grid" ? grid.default : alerts.default;
     const ctx = await walk(fn({ searchParams: Promise.resolve(p.sp) }));
+    delete globalThis.__erwRequestCache;
     perPage.push({ name: p.name, asked: [...store.page], calls: ctx.calls, errors: ctx.errors, ms: Math.round(performance.now() - t0) });
     const twice = [...store.page].filter(([, n]) => n > 1).length;
     console.log(`${p.name}: ${store.page.size} distinct requests, ${[...store.page.values()].reduce((a, b) => a + b, 0)} asked, ${twice} asked more than once, ${ctx.calls} components, ${ctx.errors.length} errors`);

@@ -12,10 +12,40 @@
 //     every read of the page is made on the server, so nothing is lost;
 //   - .css imports as empty modules, and stand-ins for next/link, next/navigation, next/dynamic, next/headers and
 //     next/font/google, the Next modules the site's components import.
+//   - session 1179: "react" as the site's own modules import it, with React's `cache` kept for one render. Outside Next,
+//     React's own `cache` calls the function every time (its client build has no request to keep it for), so a page
+//     walked here made every cached read once per caller. Here `cache` keeps one answer per function and arguments
+//     (compared as React compares them: a string by value, an object by identity) in globalThis.__erwRequestCache,
+//     the Map a caller sets for one render (scripts/time-grid-reads.mjs: a new one for each page) and drops after;
+//     with no Map set it calls the function every time, as before. Every other export is React's own.
 // Nothing here sends a request.
 import fs from "node:fs";
-import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import ts from "typescript";
+
+const SITE = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+const REACT = pathToFileURL(createRequire(path.join(SITE, "package.json")).resolve("react")).href;
+
+/** Session 1179: the stand-in for "react" (above): React's exports, and a `cache` that keeps its answers for one render. */
+export const REACT_STUB = [
+  `import * as R from ${JSON.stringify(REACT)};`,
+  `export * from ${JSON.stringify(REACT)};`,
+  "export default R.default;",
+  "export function cache(fn) {",
+  "  return function cached(...args) {",
+  "    const scope = globalThis.__erwRequestCache;",
+  "    if (!(scope instanceof Map)) return fn.apply(null, args);",
+  "    if (!scope.has(fn)) scope.set(fn, { kids: new Map() });",
+  "    let node = scope.get(fn);",
+  "    for (const a of args) { if (!node.kids.has(a)) node.kids.set(a, { kids: new Map() }); node = node.kids.get(a); }",
+  "    if (node.done) { if (node.threw) throw node.value; return node.value; }",
+  "    node.done = true;",
+  "    try { node.value = fn.apply(null, args); return node.value; } catch (e) { node.threw = true; node.value = e; throw e; }",
+  "  };",
+  "}",
+].join("\n");
 
 const STUBS = {
   "next/link": "export default function Link(p) { return p.children ?? null; } Link.__erwClient = 'next/link';",
@@ -88,10 +118,14 @@ export function transpile(src, file) {
 
 export async function resolve(specifier, context, next) {
   if (specifier in STUBS) return { url: `erw-tsx-stub:${specifier}`, shortCircuit: true };
+  // session 1179: the site's own modules (and scripts) get React with a `cache` kept for one render; React's own files
+  // and every package keep the real module
+  if (specifier === "react" && context.parentURL?.startsWith("file:") && !context.parentURL.includes("/node_modules/")) return { url: "erw-tsx-stub:react", shortCircuit: true };
   return next(specifier, context);
 }
 
 export async function load(url, context, next) {
+  if (url === "erw-tsx-stub:react") return { format: "module", source: REACT_STUB, shortCircuit: true };
   if (url.startsWith("erw-tsx-stub:")) return { format: "module", source: STUBS[url.slice("erw-tsx-stub:".length)], shortCircuit: true };
   if (url.startsWith("file:") && /\.css$/.test(url)) return { format: "module", source: "export default {};", shortCircuit: true };
   if (url.startsWith("file:") && /\.tsx?$/.test(url) && !url.includes("/node_modules/")) {
