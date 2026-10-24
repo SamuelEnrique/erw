@@ -4820,6 +4820,11 @@ ercot_wind_solar_output_hourly,wind_generation_mw,series variable,MW
 ercot_zone_load_hourly,load,series variable,MW
 ercot_zone_prices_history,spp_dam,series variable,USD/MWh
 ercot_zone_prices_history,spp_rtm,series variable,USD/MWh
+eurostat_crude_imports_by_field_monthly,api_gravity,series variable,degAPI
+eurostat_crude_imports_by_field_monthly,price,series variable,USD/bbl
+eurostat_crude_imports_by_field_monthly,sulphur,series variable,pct
+eurostat_crude_imports_by_field_monthly,value,series variable,USD
+eurostat_crude_imports_by_field_monthly,volume,series variable,kbbl
 eurostat_crude_imports_monthly,imports,series variable,t
 eurostat_electricity_capacity_annual,net_capacity_autoproducers,series variable,MW
 eurostat_electricity_capacity_annual,net_capacity_commissioned_autoproducers,series variable,MW

@@ -230,6 +230,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eurostat_renewable_capacity_annual",
            "eurostat_oil_monthly",
            "eurostat_crude_imports_monthly",
+           "eurostat_crude_imports_by_field_monthly",
            "statsbots_botswana_electricity_monthly",
            "eurostat_solid_fuels_monthly",
            "eurostat_hard_coal_imports_annual",

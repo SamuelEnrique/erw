@@ -291,6 +291,7 @@ SECTOR_RULES = [
     (r"^eurostat_renewable_capacity_annual$", "power"),  # session 2123: Eurostat's renewable and waste capacity by European country
     (r"^eurostat_oil_monthly$", "oil"),  # session 2363: Eurostat's monthly oil supply, seven products by European country
     (r"^eurostat_crude_imports_monthly$", "oil"),  # session 2369: Eurostat's monthly crude oil imports by partner, European countries
+    (r"^eurostat_crude_imports_by_field_monthly$", "oil"),  # session 2427: Eurostat's monthly crude oil imports by field of production, the EU
     (r"^eurostat_solid_fuels_monthly$", "coal"),  # session 2364: Eurostat's monthly solid fuels supply by European country
     (r"^eurostat_hard_coal_imports_annual$", "coal"),  # session 2426: Eurostat's annual hard coal imports by partner, European countries
     (r"^makstat_macedonia_electricity_monthly$", "power"),  # session 2357: MakStat's electricity in MWh by months, North Macedonia
