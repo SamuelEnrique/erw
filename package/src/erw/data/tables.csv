@@ -40,6 +40,7 @@ carbon_intensity_hourly,public,,,,EIA,"Public: every publisher's terms the ERW r
 carbon_intensity_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 cbs_netherlands_electricity_monthly,public,,,,Statistics Netherlands (CBS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cea_india_psp_annual,internal,,,Central Electricity Authority (India),Central Electricity Authority (India),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
+ceb_srilanka_electricity_annual,internal,,,,"Ceylon Electricity Board, Sri Lanka (CEB)",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 cec_total_system_generation_annual,public,,,,California Energy Commission (CEC),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 censtatd_hk_electricity,public,,,,"Census and Statistics Department, Hong Kong (C&SD)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_bps_state_annual,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -159,6 +160,7 @@ eia_fuel_spot_prices,public,,,,EIA,"Public: every publisher's terms the ERW read
 eia_gas_balance_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_gas_consumers_state_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_gas_consumption_state_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_gas_for_others_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_gas_heat_content_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_gas_interstate_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_gas_other_uses_state_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -246,6 +248,7 @@ energy_companies,public,,,,ERW,"Public: every publisher's terms the ERW read all
 energy_deals,unsettled,license needed,2026-10-21,ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; Data Center Frontier; Financial Times; Hart Energy; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; pv magazine USA,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,"ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; Data Center Frontier; Financial Times; Hart Energy; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; pv magazine USA's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 energy_deals_evidence,internal,,,ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; and 15 more,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 energy_projects,unsettled,license needed,2026-10-21,ISO-NE,CAISO; Census Bureau; EIA; ERCOT; ISO-NE; SPP,"ISO-NE's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",some rows
+energycom_ghana_electricity_annual,internal,,,,"Energy Commission, Ghana",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 ens_denmark_electricity_monthly,internal,,,,Danish Energy Agency (Energistyrelsen),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 epa_ghg_inventory_annual,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_ghgrp_facility_emissions,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -478,7 +481,9 @@ ssb_norway_electricity_monthly,public,,,,Statistics Norway (SSB),"Public: every 
 statbank_moldova_electricity_monthly,public,,,,National Bureau of Statistics of the Republic of Moldova (StatBank),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_electricity_generation_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_electricity_trade_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statcan_energy_balance_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_oil_gas_supply_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statcan_petroleum_products_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 state_generation_mix_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 statee_estonia_electricity_monthly,public,,,,Statistics Estonia,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statfi_finland_electricity_monthly,public,,,,Statistics Finland,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
