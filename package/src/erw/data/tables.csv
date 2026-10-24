@@ -5,6 +5,7 @@ afdc_station_counts_annual,public,,,,U.S. Department of Energy (DOE),"Public: ev
 afdc_vehicle_registrations_annual,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ai_power_regions,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 amm_guatemala_generation_monthly,internal,,,,"Administrador del Mercado Mayorista (AMM), Guatemala",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+anare_cotedivoire_electricity_annual,internal,,,,"ANARE-CI, Cote d'Ivoire's electricity regulator",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 aneel_siga_plants,public,,,,Agencia Nacional de Energia Eletrica (ANEEL),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 api_cost_ledger,internal,,,,Anthropic,The ERW holds it for its own use only; it is never redistributed.,whole
 ba_supply_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",430 days
@@ -311,7 +312,9 @@ eurostat_electricity_monthly,public,,,,Eurostat (Statistical Office of the Europ
 eurostat_electricity_production_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_trade_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_gas_balance_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_gas_exports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_gas_imports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_gasoline_exports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_hard_coal_imports_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_oil_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_renewable_capacity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -445,6 +448,7 @@ nrc_power_reactors,public,,,,NRC,"Public: every publisher's terms the ERW read a
 nrc_reactor_status,public,,,,NRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nrc_rop_findings,public,,,,NRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nrcs_snotel_swe_daily,internal,,,,USDA Natural Resources Conservation Service (NRCS),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+nsc_kyrgyzstan_electricity_annual,public,,,,National Statistical Committee of the Kyrgyz Republic,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ntd_transit_energy_annual,public,,,,"U.S. Department of Transportation, Federal Transit Administration (FTA)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nyiso_as_prices,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 nyiso_dam_cleared_energy,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
