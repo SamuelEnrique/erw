@@ -24,7 +24,8 @@
   - PADD 3 is its five districts in 489 (gross input; the largest gap 2).
   - PADD 2 is its three in 475 (the largest gap 65 kbbl/d).
   - The U.S. is the five PADDs in 494.
-- **Against `eia_refinery_weekly`:** each PADD's monthly utilization is within 0.02 of the mean of the weeks ending in the month in 694 of 970 PADD-months (median gap 0.011). The weekly figures are estimates, revised in the monthly report.
+- **Against `eia_refinery_weekly`:** each PADD's monthly utilization is within 0.02 of the mean of the weeks ending in the month in 694 of 970 PADD-months (median gap 0.011). The weekly figures are estimates, revised in the monthly report. 63 PADD-months differ by more than 0.05, 25 of them PADD 1's; the largest are PADD 1's 0.2023 (June 2020) and 0.1987 (February 2012). (Session 2331 added the spread.)
+- **Session 2331's header clauses:** utilization exceeds 1 in 483 area-months (as EIA publishes it), and a month without an `idle_capacity` record has operable equal to operating capacity, so its idle capacity is nil.
 - **The U.S., yearly means:** utilization 0.776 (1985), 0.926 (2000), 0.903 (2019), 0.789 (2020), 0.905 (2024), 0.920 (2025). Operable capacity 15,671 kbbl/d (1985) and 18,181 (2025).
 
 ## Pulls against their ceilings

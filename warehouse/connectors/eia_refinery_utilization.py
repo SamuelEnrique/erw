@@ -16,7 +16,10 @@ Capacity", Petroleum Supply Monthly):
     ts_utc    the month's first day at 00:00:00Z; freq P1M; geo US; node EIA's series description (the U.S., PADDs R10
               to R50 and the refining districts within them, R2A to R3E, RAP and REC; a sum takes one level)
 
-Utilization is EIA's own figure (gross input over operable capacity), not computed here. The weekly PADD figures are in
+Utilization is EIA's own figure (gross input over operable capacity), not computed here; it exceeds 1 where gross
+input is above operable capacity (483 area-months to July 2026). EIA gives no idle capacity record for a month whose
+operable capacity equals its operating capacity, and prints 0 in others: an absent idle_capacity month is nil, not
+unknown (session 2331's note). The weekly PADD figures are in
 eia_refinery_weekly, and the annual capacity by refinery in eia_refinery_capacity_annual; the monthly districts are
 this route's own. A blank has no row; nothing is filled. A process, unit or area not in the map stops the run; so does
 a key given twice. Each row carries the time EIA served its page (a reused page's first download).
@@ -161,7 +164,8 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): EIA, refinery utilization and capacity, the U.S., the PADDs and the refining districts, a month (session 2334)",
             "Shape: series (docs/datastandard.md v0). entity eia_refinery_utilization:<series>; variable gross_input, operable_capacity, operating_capacity, idle_capacity (kbbl/d) or utilization (ratio, EIA's percent divided by 100); "
             "ts_utc the month's first day; freq P1M; geo US; node EIA's series description. The PADDs are parts of the U.S. and the districts parts of their PADDs: a sum takes one level.",
-            f"A blank has no row; nothing is filled. Months {span}; {total:,} records of EIA's, {len(s):,} rows.",
+            f"A blank has no row; nothing is filled. Months {span}; {total:,} records of EIA's, {len(s):,} rows. Utilization exceeds 1 in {int(((s.variable == 'utilization') & (s.value > 1)).sum())} area-months (gross input above operable capacity, as EIA publishes it). "
+            "EIA gives no idle_capacity record where operable equals operating capacity: an absent month is nil, not unknown.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_refinery_utilization.py; {asked[0]} requests of {CEILING}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

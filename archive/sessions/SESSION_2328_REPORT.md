@@ -24,8 +24,9 @@
   - Both gaps are StatCan's as published, recorded, not adjusted.
 - **Against `statcan_electricity_generation_monthly`:** Canada's total generation is the same in all 223 months.
 - **Against `eia_international_electricity_annual` (the U.S.):**
-  - Canada's deliveries to the U.S. are 2.5 to 8.1 TWh a year above EIA's U.S. imports (2024: 35.78 against 33.25 TWh; 2017: 72.04 against 65.68).
-  - Canada's purchased receipts from the U.S. are 0.6 to 6.7 TWh from EIA's U.S. exports (2024: 23.28 against 19.44 TWh).
+  - From 2016 to 2024, Canada's deliveries to the U.S. are 0.38 to 10.53 TWh a year above EIA's U.S. imports (2019: 1.29; 2023: 10.53; 2024: 35.78 against 33.25 TWh). From 2008 to 2015 they are below EIA's, by 0.21 to 8.67 TWh.
+  - Canada's purchased receipts from the U.S. differ from EIA's U.S. exports by 0.44 to 6.66 TWh a year (2019: 13.35 against 20.01; 2024: 23.28 against 19.44 TWh).
+  - Session 2331 corrected these ranges (first "2.5 to 8.1 TWh a year above" and "0.6 to 6.7 TWh"), computed over every year both tables hold (`runs/c108/s2331/` and the method note).
   - The two agencies measure at different points and in different ways; recorded, not reconciled.
   - The fall in deliveries to the U.S., from 65.4 TWh (2022) to 35.8 TWh (2024), and the rise in purchases from it (14.1 to 23.3 TWh) match the drought years of Quebec's and British Columbia's hydro.
 
@@ -45,6 +46,7 @@
 
 - **StatCan's table chosen** after MBIE's challenge and INE Chile's unknown addresses.
 - **Every component kept,** with StatCan's totals marked `x_total`, as the generation table does.
+- **Session 2331's header clauses:** Canada's totals are its trade with the U.S. only (a province's include other provinces), StatCan's note 19 on wind and solar, and the three negative figures (Alberta, 2016 and 2018).
 
 ## For Samuel's ruling
 

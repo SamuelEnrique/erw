@@ -5,7 +5,7 @@
 ## Read these first
 
 - **One public table:** `eurostat_gas_balance_monthly`, Eurostat's supply, transformation and consumption of natural gas, a month, 2015 to September 2026. It is written, validated, archived, in coverage (sector gas), and held from the live set and the release.
-  - 53,214 rows, 40 areas (the EU's members, EFTA's and the candidates, with EU27_2020, EA21 and EA20), 16 balance items: production, imports, exports, stock changes, inland consumption (calculated and observed), gas for power and heat, industry and other final use, losses, bunkers, flaring, venting and statistical differences.
+  - 53,214 rows, 38 areas (the EU's members, Norway, the candidates in the file, EU27_2020 and EA21; the file holds no EA20, and the United Kingdom and Kosovo are left out; session 2331 corrected "40 areas ... and EA20"), 16 balance items: production, imports, exports, stock changes, inland consumption (calculated and observed), gas for power and heat, industry and other final use, losses, bunkers, flaring, venting and statistical differences.
   - In MWh, from Eurostat's terajoules of gross calorific value; the million cubic metres are not taken.
 - **Why this one:** the ERW holds Eurostat's gas imports by partner (chain 098) but not the balance they feed. Europe's monthly demand, storage draws and gas burn are what the United States' LNG serves.
 - **Zeros kept:** 18,211 zeros are written as Eurostat prints them, since in a balance a zero says an item is nil. The imports table leaves its zeros out, because 97 per cent of its partner cells are zero. 292 blanks have no row.
@@ -14,12 +14,12 @@
 
 ## The cross-check (`runs/c108/s2329/cross.py`, `cross.out`)
 
-- **MOS GAS's identity:** inland consumption calculated equals production plus imports minus exports minus the stock change in 3,866 of 4,494 area-months within 0.5 per cent, and in 4,078 with transfers from other sources added. Inland consumption calculated equals observed plus statistical differences in 4,219 of 4,868. The rest are cells Eurostat leaves blank or marks confidential, and it rounds.
+- **MOS GAS's identity:** inland consumption calculated equals production plus imports minus exports minus the stock change in 3,866 of 4,494 area-months within 0.5 per cent, and in 4,078 with transfers from other sources added. Inland consumption calculated equals observed plus statistical differences in 4,219 of 4,868. Of the 628 misses, 225 are months whose consumption and gap are both 0 (which a relative test cannot pass), and 373 of the other 403 carry transfers from other sources. (Session 2331: this replaces "the rest are cells Eurostat leaves blank or marks confidential", which the test, taking only months with every item, cannot meet; `cross.py` is now saved in the form that printed these figures.)
 - **Against `eurostat_gas_imports_monthly`:** the balance's imports equal the TOTAL partner of the imports table in 4,422 of 4,431 area-months within 0.1 per cent; 5 differ by more than 5 per cent.
 - **The EU's year, TWh** (complete years only):
   - Inland consumption: 3,855.6 (2015), 4,401.3 (2021), 3,807.0 (2022), 3,535.3 (2023), 3,555.2 (2024), 3,644.9 (2025).
   - Production: 927.3 (2015) falling to 334.8 (2025).
-  - The EU's imports (6,220 to 7,319 TWh) are larger than its consumption because the aggregate counts the members' trade with each other.
+  - The EU's imports (4,747.2 to 7,319.0 TWh; 6,220 to 7,319 to 2022, then 5,135.3, 4,747.2 and 5,144.9) are larger than its consumption because the aggregate counts the members' trade with each other. (Session 2331 corrected the range.)
 
 ## Pulls against their ceilings
 

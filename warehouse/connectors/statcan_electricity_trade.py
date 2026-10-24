@@ -23,7 +23,11 @@ A figure StatCan marks ".." (not available), "x" (suppressed to meet the Statist
 unreliable to be published) has no row, and the header counts each. A unit other than megawatt hours, a scalar factor
 other than units, an area or component not in the maps, a month that does not read or a key given twice stops the run.
 Nothing is filled. All months StatCan publishes are taken (2008 on; the survey is the Monthly Electricity Supply and
-Disposition Survey, 2151).
+Disposition Survey, 2151). Canada's receipts_total and deliveries_total are its trade with the United States only; a
+province's are its trade with other provinces and the United States (StatCan's notes 3 and 7), so the provinces'
+totals do not add to Canada's. StatCan's note 19: the survey's target population was widened for wind and solar, and
+historical comparisons of generation want caution (it gives no date). A negative figure is StatCan's as published
+(Alberta's deliveries in February 2016 and August 2018; session 2331's note).
 
     python warehouse/connectors/statcan_electricity_trade.py [--offline] [--out-dir DIR]
 
@@ -139,6 +143,7 @@ def main(argv=None):
         s = pd.DataFrame(parse(content, base, counts))
         cols = ip.SERIES_COLS + X_COLS
         s = s[cols].sort_values(["entity", "variable", "ts_utc"]).reset_index(drop=True)
+        neg = s[s.value < 0]
         head = [
             "Energy Research Warehouse (ERW): Statistics Canada, table 25-10-0016-01, electric power generation, monthly receipts, deliveries and availability by province, "
             f"the trade with the United States and between provinces among them, {s.ts_utc.min()[:7]} to {s.ts_utc.max()[:7]} (session 2328)",
@@ -146,7 +151,10 @@ def main(argv=None):
             "ts_utc the month's first day; geo CA or CA-<province>; node the area and component as StatCan names them; x_total yes for StatCan's totals "
             "(never summed with their parts); x_vector; x_revised r where revised.",
             f"Figures StatCan marks .. (not available), x (suppressed for confidentiality) or F (too unreliable) have no row: "
-            f"{', '.join(f'{k} {v:,}' for k, v in sorted(counts.items())) or 'none'}. Nothing is filled.",
+            f"{', '.join(f'{k} {v:,}' for k, v in sorted(counts.items())) or 'none'}. Nothing is filled. Canada's receipts_total and deliveries_total are its trade with the United States only; "
+            "a province's include its trade with other provinces, so the provinces' totals do not add to Canada's (StatCan's notes 3 and 7). StatCan's note 19: wind and solar were added to the "
+            f"survey's population at a date it does not give; compare generation over the years with caution. {len(neg)} figures are negative, as StatCan publishes them"
+            f"{' (' + '; '.join(f'{r.node} {r.ts_utc[:7]}' for r in neg.itertuples()) + ')' if len(neg) else ''}.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/statcan_electricity_trade.py; the file retrieved {base['retrieved_at']}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
