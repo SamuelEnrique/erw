@@ -17,10 +17,10 @@ The trial and the write ran offline.
 - **India's figures come from the Central Electricity Authority instead.** Its monthly Energy Power Supply Position reports are PDFs (no Excel is offered). Each March report's second block gives the fiscal year's totals by state, region and All India.
 - **One series table, `cea_india_psp_annual`:** 777 figures, fiscal years 2020-21 to 2025-26, for 49 states, regions and All India. It holds energy required, supplied and not supplied, in MWh (CEA's MU of net energy times 1,000).
   - Names printed over two lines are joined, and "Others" carry their region.
-  - Places CEA marks "#" (Lakshadweep) are kept but left out of their region's sum, as CEA leaves them.
+  - Places CEA marks "#" (Lakshadweep and Andaman-Nicobar; the second added by session 2353) are kept but left out of their region's sum, as CEA leaves them.
 - **The checks:**
   - **The regions sum to All India** in every year, to CEA's rounding.
-  - **A region's line can hold more than its listed states.** CEA marks such regions "##". Until 2024-25 the consumption it does not show by state is folded into the region; 2025-26 lists it as "Others". The gaps are named in the header, up to 11,314 MU (the Western Region, 2024-25).
+  - **A region's line can hold more than its listed states.** CEA marks such regions "##". From 2022-23 to 2024-25 (corrected by session 2353: the earlier reports carry no ## mark) the consumption it does not show by state is folded into the region; 2025-26 lists it as "Others", entities drawing power directly from ISTS (since session 2353 their own `x_kind`, other_entities). The gaps are named in the header, up to 11,314 MU (the Western Region, 2024-25).
 - **The cross-check** (`runs/c105/s2295/cross.py`):
   - All India's energy supplied grew from 1,271 TWh (2020-21) to 1,707 TWh (2025-26).
   - The shortfall fell from 0.38 percent to 0.03 percent.

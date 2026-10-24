@@ -32,8 +32,8 @@ The trial and the write ran offline.
 - **The cross-check** (`runs/c105/s2300/cross_ssb.py`), monthly sums against Statistics Norway's balance:
   - production is 99.4 percent of total generation (the median of 81 months);
   - consumption is 99.2 percent of gross consumption;
-  - November 2025 is 70 percent (the eight missing days), and some summer months are down to 96 percent.
-  - Statnett's own page says data "may be missing in some places on this page, for example, data from wind power production that came into operation after 2019". The header says so.
+  - November 2025 is 70 percent (the eight missing days). The rest of the shortfall is seasonal (session 2353): within 0.3 percent from November to March, about 3.4 percent at June's median, July 2023 the lowest at 96.1 percent, in consumption as well as production.
+  - Statnett's own page says data "may be missing in some places on this page, for example, data from wind power production that came into operation after 2019". The header says so; since consumption falls short in the same months, missing wind cannot be the whole cause (session 2353).
 - **A check that could not decide:** the clock-change Sundays do not stand out from the Sundays around them by the hour's worth a 25- or 23-hour day would add or remove (weather moves them more). Whether Statnett counts those days as 24 hours is not known; the note will say so.
 - **License: internal.** Neither Statnett page states terms, and there is no robots file on either host. The next licenses round reads Statnett's terms.
 - **Registered:** the sector rule (`power`), the live-set hold, the license tables (licenses check: 483 tables, 0 problems). The test is `tests/test_session2350.py` (4 tests).

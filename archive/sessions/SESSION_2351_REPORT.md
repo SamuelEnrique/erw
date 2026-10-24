@@ -23,7 +23,7 @@ The trial and the write ran offline.
   - **Extra column:** `x_published` keeps Mimer's publication time as printed.
 - **The time base, found from the data.**
   - No page states it, but every day has 24 hours, the clock-change days included, so the hours are a fixed offset.
-  - June's mean solar output is symmetric about the 12:00 label. Sweden's solar noon is about 11:50 Swedish normal time; in UTC labels it would fall at 13:00.
+  - June's mean solar output is centred at 12:00 on the label clock (12:03, between the hours labelled 11:00 and 12:00, session 2353). Sweden's solar noon is about 11:50 Swedish normal time; read as UTC hour starts, the labels would put the centre at about 13:00 normal time, an hour after solar noon (wording corrected by session 2353).
   - So the hours are Swedish normal time (UTC+1 all year) labelled by their start, and `ts_utc` is the label minus one hour. The header and the docstring say how this was found.
 - **The checks:**
   - every file's rows sum to its "Summa" line;
@@ -31,7 +31,7 @@ The trial and the write ran offline.
   - no hour twice;
   - no blank figure.
 - **The cross-check against Eurostat's net production for Sweden** (`eurostat_electricity_monthly`, `runs/c105/s2351/cross_eurostat.py`):
-  - **Nuclear, hydro and wind** agree within 0.5 percent every year from 2020 to 2024, and exactly in 2021 and 2022.
+  - **Nuclear, hydro and wind** agree within 0.5 percent every year from 2020 to 2024, except hydro in 2020 (1.2 percent over), and within 0.05 percent in 2021 and 2022 (corrected by session 2353).
   - **Solar** is about 58 percent of Eurostat's, and other thermal about 50 percent: Mimer counts production settled at the grid, without production behind the meter or used on industrial sites.
   - **All types together** come to 95 to 97 percent.
 - **License: internal.** Neither Mimer nor svk.se's about page states terms; the next licenses round reads them.

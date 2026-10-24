@@ -54,10 +54,17 @@ class Parse(unittest.TestCase):
         d = got[("cea_psp:delhi", "energy_supplied")]
         self.assertEqual((d["value"], d["unit"], d["ts_utc"], d["x_region"], d["x_kind"]), (990000.0, "MWh", "2024-04-01T00:00:00Z", "Northern Region", "state"))
         self.assertIn(("cea_psp:ut_of_j_k_and_ladakh", "energy_requirement"), got)
-        self.assertIn(("cea_psp:others_northern_region", "energy_supplied"), got)
+        self.assertEqual(got[("cea_psp:others_northern_region", "energy_supplied")]["x_kind"], "other_entities")
         self.assertEqual(got[("cea_psp:lakshadweep", "energy_supplied")]["x_kind"], "state_outside_region_total")
+        self.assertEqual(got[("cea_psp:lakshadweep", "energy_supplied")]["node"], "Lakshadweep")  # the # mark taken off
         self.assertEqual(got[("cea_psp:all_india", "energy_not_supplied")]["value"], 10000.0)
-        self.assertEqual(gaps, {"2024-25 Western Region": 5000})  # no states listed above it in this fixture
+        self.assertEqual(gaps, {"2024-25 Northern Region": 0, "2024-25 Western Region": 5000})  # ## named, whatever its gap; no states above Western
+
+    def test_marks_off(self):
+        rows, _ = run(HEAD + ["x / Tripura (*) 1 1 0 0.0 1,000 1,000 0 0.0", "x / Andaman-  Nicobar (**) # 1 1 0 0.0 50 50 0 0.0",
+                              "x / North-Eastern Region 1 1 0 0.0 1,000 1,000 0 0.0", "x / All India 1 1 0 0.0 1,000 1,000 0 0.0"])
+        nodes = {r["entity"]: r["node"] for r in rows}
+        self.assertEqual((nodes["cea_psp:tripura"], nodes["cea_psp:andaman_nicobar"]), ("Tripura", "Andaman- Nicobar"))
 
     def test_gap_and_stop(self):
         _, gaps = run(HEAD + ["x / Delhi 1 1 0 0.0 1,000 1,000 0 0.0", "x / Northern Region (##) 1 1 0 0.0 1,500 1,500 0 0.0",

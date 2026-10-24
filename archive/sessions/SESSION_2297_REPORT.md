@@ -37,10 +37,10 @@ The trial and the writes ran offline.
       - the peak view before 2005, which holds one to seven months a year, and one a year in 1993 to 2001;
       - the base view's 2025, whose first month, November, reads 12,277 MW against December's 57,565.
 - **The cross-check against Ember** (`owid_ember_electricity_annual`, Korea's demand): KPX's national total (utilities plus non-utility generators) is:
-  - **equal to Ember's to the MWh** in 2000, 2010, 2015, 2020 and 2023;
+  - **within 0.004 percent of Ember's from 2000 to 2020, and equal at Ember's rounding (0.01 TWh) in 11 years** (corrected by session 2353: no year can match to the MWh, Ember rounding to 0.01 TWh; 2021 is 0.96 percent below Ember's, 2022 0.32 percent above);
   - 0.38 percent above in 2024 (627.8 against 625.4 TWh);
   - 1.57 percent above in 2025 (634.5 against 624.7 TWh), probably Ember's preliminary years.
-- **License: internal.** EPSIS's pages carry "Copyright(C) 2020 Korea Power Exchange. All Right Reserved." The licenses' round (session 2299) reads KPX's terms; the license tables mark the publisher "not settled".
+- **License: internal.** EPSIS's pages carry "Copyright(C) 2020 Korea Power Exchange. All Right Reserved." The licenses' round (session 2299) read KPX's pages: no licence stated, all rights reserved, so the verdict is "needs written permission" (updated by session 2353; the license tables marked the publisher "not settled" until then).
 - **Registered:**
   - the sector rules (`power`) and the live-set holds, for both tables;
   - the license tables (licenses check: 479 tables, 0 problems).

@@ -20,8 +20,10 @@ day, which is skipped; any other empty slot is a day not published (no row, name
 progress (the last slot) is not written. Nothing is filled.
 
 Statnett's page says data "may be missing in some places on this page, for example, data from wind power production that
-came into operation after 2019": its production is about 1 percent under Statistics Norway's total generation (session
-2350: 99.4 percent, the median of 81 months; consumption 99.2 percent of gross consumption, ssb_norway_electricity_monthly).
+came into operation after 2019". Against Statistics Norway's monthly balance (ssb_norway_electricity_monthly) the shortfall is
+seasonal: production is 99.4 percent of total generation and consumption 99.2 percent of gross consumption at the median
+of 81 months, within 0.3 percent from November to March and about 3.4 percent short in June (July 2023 the lowest, 96.1
+percent). Consumption falls short in the same months, so missing wind cannot be the whole cause (session 2353).
 
     python warehouse/connectors/statnett_norway.py [--offline] [--out-dir DIR]
 
@@ -126,8 +128,9 @@ def main(argv=None):
             "published; freq P1D; ts_utc Norway's day (Europe/Oslo) at 00:00:00Z, a label; geo NO.",
             "Statnett's arrays hold one empty slot after each autumn clock-change day, skipped; the slots end at Norway's day of "
             f"the answer's end time (checked). Days Statnett leaves empty (no row): {gaps}. The day in progress is not written. "
-            "Statnett says data may be missing, for example from wind power that came into operation after 2019: production is "
-            "about 1 percent under Statistics Norway's total generation (session 2350). Nothing is filled.",
+            "Statnett says data may be missing (its example: wind power that came into operation after 2019). Against Statistics "
+            "Norway's monthly balance the shortfall is seasonal: within 0.3 percent from November to March, about 3.4 percent in June, "
+            "in production and consumption alike (session 2353). Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/statnett_norway.py; the answer retrieved at {got}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

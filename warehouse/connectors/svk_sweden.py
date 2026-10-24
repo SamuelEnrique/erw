@@ -14,20 +14,25 @@ Energy Research Warehouse (ERW) connector. One series table from six GET downloa
                (Mimer's settled kWh, Avraknad, divided by 1,000); ts_utc the hour's start in UTC; freq PT1H; geo SE;
                x_published Mimer's publication time as printed (Publiceringstidpunkt)
 
-Mimer's production statistics end with 18 March 2025: "Produktionsstatistik for dygn 2025-03-18 och framat rapporteras
-till eSett" (the days from 2025-03-18 on are reported to eSett and published on eSett Open Data), so the table is closed
-history. Each file must hold 24 hours for every day (Mimer's hours are a fixed offset: no day has 23 or 25), no hour
+Mimer's production statistics end with 18 March 2025. The page says both "Produktionsstatistik for dygn 2025-03-18 och
+framat rapporteras till eSett" (the days from 2025-03-18 on are reported to eSett and published on eSett Open Data) and
+"Historisk data innan 2025-03-18 kommer finnas kvar pa Mimer" (data before 2025-03-18 stays on Mimer), yet the files hold
+18 March whole: that day is on both, to be compared before the two are joined. The table is closed history. Each file must hold 24 hours for every day (Mimer's hours are a fixed offset: no day has 23 or 25), no hour
 twice, no blank figure, and its rows must sum to its "Summa" line, or the run stops.
 
 Time: the hours are Swedish normal time (UTC+1 all year), labelled by their start: no page says so, but every day has
-24 hours across the clock changes, and June's mean solar output is symmetric about the 12:00 label, where Sweden's solar
-noon falls (about 11:50 normal time; in UTC labels it would fall at 13:00). ts_utc = the label minus one hour (session
-2351).
+24 hours across the clock changes, and June's mean solar output is centred at 12:00 on the label clock (between the
+hours labelled 11:00 and 12:00, session 2353: 12:03), where Sweden's solar noon falls (about 11:50 normal time; read as
+UTC hour starts the labels would put the centre at about 13:00 normal time, an hour after solar noon). ts_utc = the label
+minus one hour (session 2351).
 
 What it counts: production settled hourly at the grid (Avraknad). Nuclear, hydro and wind equal Eurostat's net production
-for Sweden to 0.5 percent each year from 2020 to 2024 (exactly in 2021 and 2022); solar is about 58 percent and other
+for Sweden to 0.5 percent each year from 2020 to 2024, except hydro in 2020 (1.2 percent over), and within 0.05 percent in
+2021 and 2022; solar is about 58 percent and other
 thermal about 50 percent of Eurostat's (production behind the meter and on industrial sites is not in it); all types
-together are 95 to 97 percent (session 2351, eurostat_electricity_monthly). Nothing is filled.
+together are 95 to 97 percent (session 2351, eurostat_electricity_monthly). Nothing is filled. vintage is empty: Mimer's
+publication time is kept as printed in x_published, its clock not stated; 68 percent of hours were published more than a
+week after the hour and some months later again, and only the newest publication is shown (session 2353).
 
     python warehouse/connectors/svk_sweden.py [--offline] [--out-dir DIR]
 
@@ -143,10 +148,11 @@ def main(argv=None):
             "generation_unspecified_measured, generation_solar, generation_hydro or generation_wind; unit MWh (Mimer's settled kWh "
             "divided by 1,000); freq PT1H; ts_utc the hour's start in UTC; geo SE; x_published Mimer's publication time as printed.",
             "Mimer's hours are Swedish normal time (UTC+1 all year) labelled by their start (24 hours every day; June's solar output "
-            "centred on the 12:00 label): ts_utc is the label minus one hour. Every file's rows sum to its Summa line (checked). "
-            "Closed history: Mimer's production statistics end on 18 March 2025 (later days are on eSett Open Data). Production "
-            "settled at the grid: nuclear, hydro and wind equal Eurostat's within 0.5 percent a year; solar is about 58 percent and "
-            "other thermal about 50 percent of Eurostat's (session 2351). Nothing is filled.",
+            "centred at 12:00 on the label clock, Sweden's solar noon): ts_utc is the label minus one hour. Every file's rows sum to its "
+            "Summa line (checked). Closed history: Mimer's production statistics end on 18 March 2025 (from that day on eSett Open "
+            "Data; 18 March is on both). Production settled at the grid: nuclear, hydro and wind equal Eurostat's within 0.5 percent "
+            "a year but hydro in 2020 (1.2 percent over); solar is about 58 percent and other thermal about 50 percent of Eurostat's "
+            "(sessions 2351, 2353). vintage is empty: the publication time, clock not stated, is x_published. Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/svk_sweden.py; the files retrieved from {min(got)} to {max(got)}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

@@ -13,23 +13,27 @@ dashboard page:
     cea_india_psp_annual   entity cea_psp:<state, region or all_india as a slug> ("others" carry their region:
                others_northern_region); variable energy_requirement, energy_supplied or energy_not_supplied; value in MWh
                (CEA's MU, million units of net energy, times 1,000); ts_utc the fiscal year's first day (1 April); freq P1Y;
-               geo IN; node the name as CEA prints it (English); x_kind state, region or country (or
-               state_outside_region_total for a place CEA marks # and leaves out of its region's total, Lakshadweep); x_region the region a
-               state is in; x_fiscal_year as CEA writes it (2025-26)
+               geo IN; node the name as CEA prints it (English), its footnote marks (#, *, (*), (**)) taken off; x_kind state,
+               region or country, or state_outside_region_total for a place CEA marks # and leaves out of its region's total
+               (Lakshadweep and Andaman-Nicobar), or other_entities for the 2025-26 report's "Others" (CEA's note: "other
+               miscellaneous entities drawing power directly from ISTS"); x_region the region a state is in; x_fiscal_year as
+               CEA writes it (2025-26)
 
 Each report must print its period as "April,YYYY to March,YYYY"; each line of the table must end with eight figures (the
 month's requirement, supply, shortfall and percent, then the year's), a name split over two lines is joined, and a
 region's line closes the states above it. The regions must sum to All India to CEA's rounding (5 MU a region), or the run
-stops; a region's line can hold more than its states (CEA marks such regions ##, consumption it does not show by state),
-and the gap is named in the header. The month's figures and the percents are not taken (the percents follow from
+stops; a region's line can hold more than its states (CEA marks such regions ##, consumption it does not show by state:
+the reports of 2022-23 to 2024-25), and every gap of a region marked ##, or of any region over the tolerance, is named in
+the header (session 2353: the North-Eastern Region's 8 and 9 MU are under it). The month's figures and the percents are not taken (the percents follow from
 the energies). Nothing is filled.
 
     python warehouse/connectors/cea_india_psp.py [--offline] [--out-dir DIR]
 
 Ceiling: one request a fiscal year (six, the March reports of 2021 to 2026), each asked again unless --offline (CEA
-revises reports; the 2026 one is marked revised). cea.nic.in's robots file allows every path. grid-india.in and
-www.grid-india.in reset the connection at their robots files (session 2295). License: internal until the licenses' round
-reads CEA's terms.
+revises reports; every report's English title says Revised). cea.nic.in's robots file allows every path. grid-india.in
+and www.grid-india.in reset the connection at their robots files (session 2295). License: internal. CEA's copyright
+policy allows reproduction free of charge after prior permission asked by email (session 2299's verdict, needs written
+permission; docs/licenses.md).
 """
 
 import argparse
@@ -72,7 +76,7 @@ def slug(s):
 
 def english(label):
     name = label.split("/")[-1] if "/" in label else label
-    name = re.sub(r"\(?#+\)?", "", name).strip()
+    name = re.sub(r"\s+", " ", re.sub(r"\(?[#*]+\)?", "", name)).strip()  # CEA's footnote marks off (session 2353)
     return name if name and all(ord(c) < 128 for c in name) else ""
 
 
@@ -98,7 +102,8 @@ def parse(content, fy, base, gaps):
             continue
         nums = m.group("nums").split()
         lab = m.group("label")
-        row = {"name": english(lab), "fy": [mu(x) for x in nums[4:7]], "outside": bool(re.search(r"(?<!#)#(?!#)", lab))}
+        row = {"name": english(lab), "fy": [mu(x) for x in nums[4:7]], "outside": bool(re.search(r"(?<!#)#(?!#)", lab)),
+               "marked": "##" in lab}
         if row["name"]:
             entries.append(row)
         else:
@@ -109,11 +114,13 @@ def parse(content, fy, base, gaps):
         if re.search(r"(?i)\bregion\b", n):
             region = re.sub(r"(?i)\s*region$", " Region", n).strip()
             req = sum(s["fy"][0] for s in states if not s["outside"])
-            if abs(req - e["fy"][0]) > TOLERANCE * max(1, len(states)):
+            if e.get("marked") or abs(req - e["fy"][0]) > TOLERANCE * max(1, len(states)):
                 gaps[f"{fy} {region}"] = round(e["fy"][0] - req)  # the region's line holds more than its states (CEA's ## mark)
             for s in states:
-                nm = s["name"] if s["name"] != "Others" else f"Others ({region})"
-                out.append((nm, "state" if not s["outside"] else "state_outside_region_total", region, s["fy"]))
+                others = s["name"] == "Others"  # 2025-26: entities drawing power directly from ISTS (CEA's note)
+                nm = f"Others ({region})" if others else s["name"]
+                kind = "other_entities" if others else ("state_outside_region_total" if s["outside"] else "state")
+                out.append((nm, kind, region, s["fy"]))
             out.append((region, "region", "", e["fy"]))
             regions[region] = e["fy"]
             states = []
@@ -168,16 +175,20 @@ def main(argv=None):
             f"{s.x_fiscal_year.min()} to {s.x_fiscal_year.max()} by state, region and all India (session 2295)",
             "Shape: series (docs/datastandard.md v0). entity cea_psp:<state, region or all_india>; variable energy_requirement, energy_supplied "
             "or energy_not_supplied; unit MWh (CEA's MU of net energy times 1,000); freq P1Y; ts_utc the fiscal year's first day (1 April); geo "
-            "IN; node CEA's name; x_kind state, region or country; x_region; x_fiscal_year.",
+            "IN; node CEA's name, its footnote marks taken off; x_kind state, region, country, state_outside_region_total (a place "
+            "CEA marks # and leaves out of its region's total: Lakshadweep, Andaman-Nicobar) or other_entities (2025-26's Others, "
+            "entities drawing power directly from ISTS, CEA's note); x_region; x_fiscal_year.",
             "From each March report's year-to-date block. The regions sum to All India to CEA's rounding (checked). A region's line can hold "
-            f"more than its states (CEA marks it ##), in MU: {', '.join(f'{k} {v:+,}' for k, v in gaps.items()) or 'none'}. The month's figures "
-            "and the percents are not taken. Nothing is filled.",
+            "more than its states (CEA marks it ##); every gap of a region marked ## or over the tolerance (5 MU a place), in MU: "
+            f"{', '.join(f'{k} {v:+,}' for k, v in gaps.items()) or 'none'}. The month's figures and the percents are not taken. "
+            "Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/cea_india_psp.py; the reports retrieved from {min(got)} to {max(got)}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Central Electricity Authority, Government of India, Power Supply Position - Energy (monthly reports), {PAGE}",
             "  access: https://cea.nic.in/api/dashboardReports/download-pdf/en/<id>, the March report of each fiscal year",
-            "License: internal until the licenses' round reads CEA's terms. Source: Central Electricity Authority.",
+            "License: internal. CEA's copyright policy allows reproduction free of charge after prior permission asked by email (session "
+            "2299's verdict: needs written permission). Source: Central Electricity Authority.",
         ]
         ip.write_snapshot(s, TABLE, head, log, cols)
         results.append(dict(table=TABLE, market="all", status="ok", detail=f"{len(s)} rows"))

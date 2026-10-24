@@ -31,8 +31,8 @@ each of 1993 to 2001, a summer or winter month), and the base view begins in Nov
 
 Ceiling: two requests, each page asked again unless --offline. www.kpx.or.kr's robots file allows these paths;
 epsis.kpx.or.kr has no robots file (its robots address answers with the application's page). data.go.kr's sets need a
-key the ERW does not hold. License: internal until the licenses' round reads KPX's terms (EPSIS's pages carry "Copyright(C)
-2020 Korea Power Exchange. All Right Reserved.").
+key the ERW does not hold. License: internal. EPSIS's pages carry "Copyright(C) 2020 Korea Power Exchange. All Right
+Reserved." and www.kpx.or.kr no licence (session 2299's verdict: needs written permission, docs/licenses.md).
 """
 
 import argparse
@@ -229,8 +229,8 @@ def main(argv=None):
                     *common,
                     f"Source: {SOURCE_GEN} Korea Power Exchange, Electric Power Statistics Information System (EPSIS), Generation Output by Source, {GEN_URL}",
                     "  access: the figures written into the page's script (other periods come only by POST, not sent)",
-                    "License: internal until the licenses' round reads KPX's terms (the page: Copyright(C) 2020 Korea Power Exchange. All Right "
-                    "Reserved.). Source: Korea Power Exchange.",
+                    "License: internal. KPX states no licence, all rights reserved (the page: Copyright(C) 2020 Korea Power Exchange. All Right "
+                    "Reserved.); session 2299's verdict: needs written permission. Source: Korea Power Exchange.",
                 ]
             else:
                 rows, short = parse_demand(text, base, now)
@@ -250,8 +250,8 @@ def main(argv=None):
                     *common,
                     f"Source: {SOURCE_DEM} Korea Power Exchange, Electric Power Statistics Information System (EPSIS), Average Peak/Base Demand by Month, {DEM_URL}",
                     "  access: the figures written into the page's script (other periods come only by POST, not sent)",
-                    "License: internal until the licenses' round reads KPX's terms (the page: Copyright(C) 2020 Korea Power Exchange. All Right "
-                    "Reserved.). Source: Korea Power Exchange.",
+                    "License: internal. KPX states no licence, all rights reserved (the page: Copyright(C) 2020 Korea Power Exchange. All Right "
+                    "Reserved.); session 2299's verdict: needs written permission. Source: Korea Power Exchange.",
                 ]
             if s.duplicated(["entity", "variable", "ts_utc"]).any():
                 raise RuntimeError("a key given twice")
