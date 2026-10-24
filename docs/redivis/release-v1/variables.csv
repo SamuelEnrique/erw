@@ -6411,6 +6411,10 @@ msha_coal_mines,x_nearest_town,column,
 msha_coal_production_quarterly,average_employees,series variable,count
 msha_coal_production_quarterly,coal_production,series variable,short_ton
 msha_coal_production_quarterly,employee_hours,series variable,count
+ncsi_oman_electricity_annual,connections,series variable,count
+ncsi_oman_electricity_annual,distribution,series variable,MWh
+ncsi_oman_electricity_annual,production,series variable,MWh
+ncsi_oman_electricity_annual,production_by_source,series variable,MWh
 nhc_hurdat2_track_points,event_id,column,
 nhc_hurdat2_track_points,event_date,column,
 nhc_hurdat2_track_points,event_type,column,
