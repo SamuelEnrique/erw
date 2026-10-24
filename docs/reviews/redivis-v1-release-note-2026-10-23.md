@@ -172,3 +172,10 @@ What session 1010 found on the way (23 October 2026, 11 of its 100 Redivis reque
 - **Two reconciles:** before, 312 tables, 262 match, 45 differ, none missing; after, 268 match, 44 differ (tables daily runs have grown since their upload), none missing.
 - 94 requests of 150. Nothing released. **Samuel: do not click before chain 069 has landed and uploaded its tables, and an upload has refreshed `erw_coverage` from main.**
 - **`erw_coverage` refreshed again** (session 2133, 23:38 to 23:40 UTC), from this chain's branch merged with main (chains 068 and 069 landed), by a plain upload of `owid_ember_electricity_annual`: the draft's `erw_coverage` holds 428 rows, every landed chain's tables. The run stopped at its cap of 50 requests in the proof after `erw_coverage`'s replace (the replace itself finished; a count of the draft table, 5 requests, shows 428), so `erw_sources` was not refreshed and lags main by 10 rows (chains 068 and 069's sources) until the next full upload. Session 2130's ceiling: 149 of 150.
+
+## Chain 094's upload (session 2171, 24 October 2026, 01:04 to 01:11 UTC)
+
+- **Five public tables uploaded to the Stanford draft, each proved by the draft's count:** `elexon_gb_demand_daily` (1,932), `eia_gas_other_uses_state_annual` (3,838), `desnz_uk_electricity_quarterly` (7,862), `desnz_uk_renewables_quarterly` (1,982) and `cer_pipeline_throughput` (408,073).
+- **The metadata tables refreshed from the branch merged with main** (chains 068, 069, 079 and 092 landed): `erw_coverage` 440 rows, `erw_sources` 527 (the 10 rows session 2133 left behind are in), `erw_headers` 4,191 lines.
+- **Two reconciles:** before, 331 tables, 277 match, 47 differ, none missing; after, 284 match, 45 differ (tables daily runs have grown since their upload), none missing.
+- 93 requests of 150. Nothing released. **Samuel: do not click before chain 090 (and the chains after it) have landed and uploaded their tables.**
