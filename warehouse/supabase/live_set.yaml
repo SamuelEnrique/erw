@@ -414,6 +414,7 @@ catalogue_hold:
   - eurostat_gas_imports_monthly
   - eurostat_renewable_capacity_annual
   - eurostat_oil_monthly
+  - eurostat_crude_imports_monthly
   - eurostat_solid_fuels_monthly
   - makstat_macedonia_electricity_monthly
   - statbank_moldova_electricity_monthly

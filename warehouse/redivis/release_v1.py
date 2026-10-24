@@ -225,6 +225,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eurostat_gas_imports_monthly",
            "eurostat_renewable_capacity_annual",
            "eurostat_oil_monthly",
+           "eurostat_crude_imports_monthly",
            "eurostat_solid_fuels_monthly",
            "statbank_moldova_electricity_monthly",
            "eurostat_electricity_capacity_annual",

@@ -292,6 +292,7 @@ ercot_wind_solar_hsl_hourly,ERCOT,,11,PT1H,2026-09-28T05:00:00Z,2026-10-23T12:00
 ercot_wind_solar_output_hourly,ERCOT,,1,PT1H,2023-01-01T06:00:00Z,2026-01-01T05:00:00Z,52608,ercot:PG7-126-M,2026-10-20T06:11:37Z,pass,public,power,no,source
 ercot_zone_load_hourly,ERCOT,ercot_load,13,PT1H,2015-01-01T06:00:00Z,2026-10-01T04:00:00Z,926838,ercot:load_hist,2026-10-19T11:34:56Z,pass,public,power,no,source
 ercot_zone_prices_history,ERCOT,ercot_dam;ercot_rtm,8,PT15M;PT1H,2015-01-01T06:00:00Z,2026-10-18T04:45:00Z,2481384,ercot:NP4-180-ER;ercot:NP6-785-ER,2026-10-22T17:42:18Z,pass,public,power,no,source
+eurostat_crude_imports_monthly,eurostat,,173,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,565941,eurostat:nrg_ti_oilm_crude,2026-10-24T09:53:01Z,pass,public,oil,no,source
 eurostat_electricity_capacity_annual,eurostat,,27,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,159060,eurostat:nrg_inf_epc,2026-10-24T09:24:14Z,pass,public,power,no,source
 eurostat_electricity_monthly,eurostat,,30,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,130025,eurostat:nrg_cb_pem_nrg_cb_em,2026-10-24T02:13:36Z,pass,public,power,no,source
 eurostat_gas_balance_monthly,eurostat,,580,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,53214,eurostat:nrg_cb_gasm,2026-10-24T07:46:42Z,pass,public,gas,no,source
