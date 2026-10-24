@@ -103,7 +103,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "kWh/person",
          # session 2169: a volume a day in cubic metres, as the CER gives a pipeline's throughput and capacity
          # (cer_pipeline_throughput; Decision 69)
-         "m3/d"}
+         "m3/d",
+         # session 2211: a reservoir's pool elevation in feet above mean sea level and its storage in acre-feet, as
+         # Reclamation gives Lake Mead's and Lake Powell's (usbr_mead_powell_daily; Decisions 71 and 72)
+         "ft", "acre-ft"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
