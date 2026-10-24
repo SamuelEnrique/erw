@@ -33,7 +33,7 @@
 
 ## Decisions made without you
 
-- **EIA's shale gas reserves as the session's own choice,** though it ends in 2021, because it is the only public record of the shale reserves by state, and their yearly changes.
+- **EIA's shale gas reserves as the session's own choice,** though it ends in 2021, because it holds the shale reserves by state and their yearly changes, which the ERW lacked.
 
 ## For Samuel's ruling
 
