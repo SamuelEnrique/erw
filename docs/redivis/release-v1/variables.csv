@@ -3135,6 +3135,8 @@ eia_crude_imports_by_country,imports,series variable,kbbl/d
 eia_crude_imports_detail_monthly,imports,series variable,kbbl
 eia_crude_production_state_monthly,field_production,series variable,kbbl
 eia_crude_production_state_monthly,field_production_per_day,series variable,kbbl/d
+eia_crude_quality_monthly,api_gravity,series variable,degAPI
+eia_crude_quality_monthly,sulfur_content,series variable,pct
 eia_crude_reserves_annual,acquisitions,series variable,kbbl
 eia_crude_reserves_annual,adjustments,series variable,kbbl
 eia_crude_reserves_annual,extensions_and_discoveries,series variable,kbbl

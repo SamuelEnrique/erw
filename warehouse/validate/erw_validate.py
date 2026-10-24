@@ -109,7 +109,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "m3/d",
          # session 2211: a reservoir's pool elevation in feet above mean sea level and its storage in acre-feet, as
          # Reclamation gives Lake Mead's and Lake Powell's (usbr_mead_powell_daily; Decisions 71 and 72)
-         "ft", "acre-ft"}
+         "ft", "acre-ft",
+         # session 2244: a crude oil's API gravity in degrees, as EIA gives the crude run at refineries
+         # (eia_crude_quality_monthly; Decision 73)
+         "degAPI"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
