@@ -399,6 +399,7 @@ catalogue_hold:
   - wb_electricity_access_annual
   - census_bps_state_annual
   - afdc_ev_charging_state_annual
+  - census_cbp_hosting_annual
   - wb_iea_electricity_annual
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
