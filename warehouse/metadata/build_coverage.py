@@ -244,6 +244,7 @@ SECTOR_RULES = [
     (r"^epa_ghg_inventory_annual$", "carbon;power;oil;gas"),  # session 2136: EPA's Inventory of U.S. Greenhouse Gas Emissions and Sinks, 1990 to 2022
     (r"^scripps_co2_mlo_monthly$", "carbon"),  # session 2137: the Scripps CO2 Program's Mauna Loa CO2, a month from 1958
     (r"^doe_lead_energy_burden$", "power;gas"),  # session 2140: DOE's LEAD Tool, households' energy burden by county and income
+    (r"^afdc_station_counts_annual$", "power"),  # session 2141: AFDC's alternative fueling station counts by state, a year from 2007
     (r"^noaa_ncei_storm_events$", "power"),  # session 2042: NOAA's storm events
     (r"^nrc_event_notifications$", "power;uranium"),  # session 2043: the NRC's event reports
     (r"^doe_lng_export_applications$", "gas;lng"),  # session 2044: DOE's LNG export applications

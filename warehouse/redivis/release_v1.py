@@ -185,6 +185,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "epa_ghg_inventory_annual",
            "scripps_co2_mlo_monthly",
            "doe_lead_energy_burden",
+           "afdc_station_counts_annual",
            "noaa_ncei_storm_events",
            "nrc_event_notifications",
            "doe_lng_export_applications",

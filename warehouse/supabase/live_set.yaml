@@ -373,6 +373,7 @@ catalogue_hold:
   - epa_ghg_inventory_annual
   - scripps_co2_mlo_monthly
   - doe_lead_energy_burden
+  - afdc_station_counts_annual
   - noaa_ncei_storm_events
   - nrc_event_notifications
   - doe_lng_export_applications
