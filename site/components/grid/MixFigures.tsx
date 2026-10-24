@@ -18,7 +18,8 @@ import { ALERT_TABLE, alertMonths, type NoticeLike } from "@/lib/caisoAlerts";
 import { NOTICE_TABLE, callMonths, type NoticeLike as ErcotNoticeLike } from "@/lib/ercotNotices";
 import { TimeChart } from "@/components/TimeChart";
 import { shown } from "@/lib/format";
-import { hourAge, mixMonthly, PROFILE, type Fig, type MixHourly, type MonthFuel } from "@/lib/mixHourly";
+import { DEMAND, hourAge, mixMonthly, PROFILE, type Fig, type MixHourly, type MonthFuel } from "@/lib/mixHourly";
+import { Missing } from "@/components/mix/Now";
 
 const H = 3_600_000;
 const hourName = (t: number) => `${new Date(t).toISOString().slice(0, 13).replace("T", " ")}:00 UTC`;
@@ -33,14 +34,17 @@ function F({ f, unit }: { f: Fig; unit?: string }) {
   );
 }
 
-/** The hourly view's figures: the 24 hours to the newest hour held. */
-export function HourlyFigures({ m, label, now }: { m: MixHourly; label: string; now: number }) {
+/** The hourly view's figures: the 24 hours to the newest hour held. Session 1181: `demandFailed`, the reason the demand
+ *  of the same days could not be read: the peak is then said not to be read, never "not held". */
+export function HourlyFigures({ m, label, now, demandFailed }: { m: MixHourly; label: string; now: number; demandFailed?: string }) {
   const age = hourAge(m.newest.t, now);
   return (
     <div className="mb-2">
       <p className="mb-1 max-w-3xl text-sm" data-mix-headline="1">
         The 24 hours from {hourName(m.start)} to {endName(m.end)} ({m.hours} of 24 hours held): <F f={m.total} /> MWh net generation.{" "}
-        {m.peak ? <>Peak demand <F f={m.peak.fig} /> MW, in the hour from {hourName(m.peak.t)} (marked on the chart).</> : <>Demand is not held for these hours.</>}
+        {m.peak ? <>Peak demand <F f={m.peak.fig} /> MW, in the hour from {hourName(m.peak.t)} (marked on the chart).</>
+          : demandFailed ? <>Peak demand: <Missing words="could not be read" why={`${DEMAND} could not be read just now: ${demandFailed}`} />.</>
+          : <>Demand is not held for these hours.</>}
       </p>
       <p className="mb-2 text-xs text-muted" data-mix-age={age}>
         Newest hour held: from {hourName(m.newest.t)}, <F f={m.newest.fig} /> MW net generation. It ended {age} {age === 1 ? "hour" : "hours"} before this page was drawn ({new Date(now).toISOString().slice(0, 16).replace("T", " ")} UTC); EIA publishes fuel data a day or more after the hour.

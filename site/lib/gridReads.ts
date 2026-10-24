@@ -25,7 +25,7 @@
 import "server-only";
 import { cache } from "react";
 import { series, type SeriesRow } from "@/lib/data";
-import { HOURLY, rest } from "@/lib/supabase";
+import { DataError, HOURLY, markFailedRead, rest } from "@/lib/supabase";
 import { fetchHourly } from "@/lib/network";  // session 1180
 
 /** Session 1179: the table read once a render. */
@@ -122,3 +122,32 @@ export async function gridStorageUnits(iso: string): Promise<GridUnit[]> {
 
 /** Session 1180: the network's hourly snapshot, read fresh (lib/network.ts fetchHourly(0)), once a render. */
 export const freshSnapshot = cache((): Promise<unknown> => fetchHourly(0));
+
+// ------------------------------------------------------------------ session 1181 (chain 091): a whole table answering no row
+/** A read of a whole table that always holds rows (CAISO's and ERCOT's notices: every row of each, no window), whose empty
+ *  answer is a failed read, not "no notice": it throws a DataError with the reason, after asking the page for a short
+ *  revalidation as a failed read does (lib/supabase.ts markFailedRead, session 537), so every reader of the render says it
+ *  could not be read and none draws "0 days" or "no alert today" from nothing. A read of a window (the scorecard's, the
+ *  heat event page's) can hold no row and does not come here. */
+export async function wholeTable<T>(table: string, holds: string, read: () => Promise<T[]>): Promise<T[]> {
+  const rows = await read();
+  if (rows.length) return rows;
+  const e = new DataError(`Supabase events: ${table} answered no row for the whole table, which holds ${holds}: read as a failed read`);
+  await markFailedRead(e);
+  throw e;
+}
+
+/** The same rule over a read already made through attempt() (lib/supabase.ts): an answer of no row becomes a failed read
+ *  with its reason, and the page is asked for a short revalidation; a read that failed, a read with rows and a read not
+ *  made (null) are handed back as they came. For CAISO's notices (lib/reliability.ts gridNotices(), one request a render,
+ *  read as session 1160 left it, so its other readers, the scorecard and the heat event page, are as they were). */
+export async function wholeRead<T>(table: string, holds: string, read: Promise<{ ok: true; data: T[] } | { ok: false; reason: string } | null>): Promise<{ ok: true; data: T[] } | { ok: false; reason: string } | null> {
+  const r = await read;
+  if (!r || !r.ok || r.data.length) return r;
+  const e = new DataError(`Supabase events: ${table} answered no row for the whole table, which holds ${holds}: read as a failed read`);
+  await markFailedRead(e);
+  return { ok: false, reason: e.message };
+}
+
+/** What caiso_grid_emergencies always holds, for the reason of an empty answer. */
+export const CAISO_HOLDS = "every notice since 1998";

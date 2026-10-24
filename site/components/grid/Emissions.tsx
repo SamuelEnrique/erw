@@ -202,7 +202,10 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
             </div>
           </>
         ) : (
-          <NoData what="the last 24 hours" reason={got.ok ? `${T} has no row in the last ${LOOK_BACK_DAYS} days` : got.reason} />
+          // session 1181: the keyed panel's place says why it is not drawn (a failed read, or no row), under the panel's own name
+          <div data-grid-panel={`grid_clean24_${grid ?? "all"}`} data-clean24-unread={got.ok ? "empty" : "failed"}>
+            <NoData what="the last 24 hours" reason={got.ok ? `${T} has no row in the last ${LOOK_BACK_DAYS} days` : got.reason} />
+          </div>
         )}
         <Cite tables={[T]} note={newest ? `Intensity of generation, hourly, the 24 hours to ${utc(new Date(newest).toISOString())} (hour start)` : undefined} />
       </Section>

@@ -109,7 +109,9 @@ function localDay(ms: number, tz: string): string {
 }
 
 /** The strip and its figures, from the table's rows in the window, the hub's 15-minute prices and (ERCOT) its days. */
-export function scarcityStrip(g: ScarcityGrid, input: { rows: Row[]; prices: Price[]; daily: Price[]; newest: string }, days = SCARCITY_DAYS): Strip {
+export function scarcityStrip(g: ScarcityGrid, input: { rows: Row[]; prices: Price[]; daily: Price[]; newest: string;
+  /** session 1181: a price read that failed (its reason): an hour's hover then says the prices could not be read, not that none is held */
+  unread?: { prices?: string | null; daily?: string | null } }, days = SCARCITY_DAYS): Strip {
   const w = windowOf(input.newest, g.behind, days);
   const inW = (ms: number) => ms >= w.startMs && ms < w.endMs;
   // each variable's value by hour, an hour written twice read once (its highest), as lib/datacenter/answers.ts reads it
@@ -164,8 +166,11 @@ export function scarcityStrip(g: ScarcityGrid, input: { rows: Row[]; prices: Pri
       const ones = (["rt_hour_ge_1000", "da_hour_ge_1000", "own_signal"] as const).filter((v) => at(v, ms) === 1);
       const pm = hourMax.get(ms);
       const dp = g.daily ? dayPrice.get(localDay(ms, g.daily.tz)) : undefined;
+      const lost = input.unread?.prices, lostDay = input.unread?.daily;
       const price = pm ? `Highest 15-minute real-time price at ${g.hub}: ${usd(pm.v)} per MWh (${pm.n} of 4 intervals held, ${RT_PRICE_TABLE}).`
-        : dp !== undefined && g.daily ? `The hour's 15-minute prices are not in the live set; the highest real-time price of ERCOT's local day ${localDay(ms, g.daily.tz)} at ${g.hub}: ${usd(dp)} per MWh (${DAILY_PRICE_TABLE}).`
+        : dp !== undefined && g.daily ? `${lost ? `The hour's 15-minute prices could not be read just now (${RT_PRICE_TABLE})` : "The hour's 15-minute prices are not in the live set"}; the highest real-time price of ERCOT's local day ${localDay(ms, g.daily.tz)} at ${g.hub}: ${usd(dp)} per MWh (${DAILY_PRICE_TABLE}).`
+        : lost ? `The hour's prices could not be read just now (${[RT_PRICE_TABLE, ...(lostDay ? [DAILY_PRICE_TABLE] : [])].join(", ")}).`
+        : lostDay && g.daily ? `The hour's 15-minute prices are not in the live set; the highest real-time price of ERCOT's local day could not be read just now (${DAILY_PRICE_TABLE}).`
         : `No price of this hour is in the live set (it keeps about 35 days of 15-minute prices).`;
       tips[h][j] = [
         head,

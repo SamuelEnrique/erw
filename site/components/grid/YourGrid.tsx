@@ -318,6 +318,9 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
   } else if (heldQueue(g.queue_table)) {
     // session 1167: a held grid's queue positions are left out of the read (lib/grid.ts) and read "license needed" here
     queue = <HeldLine what={`${g.iso}'s interconnection queue`} held={heldQueue(g.queue_table)!} />;
+  } else if (d.errors.queue) {
+    // session 1181: the queue's read failed: said so in the tool's one look, never "not in the warehouse yet"
+    queue = <p className="text-sm text-muted" role="status" data-grid-queue-unread={g.queue_table}>{g.iso}&apos;s interconnection queue: <Missing words="could not be read" why={`energy_projects (${g.queue_table}) could not be read just now: ${d.errors.queue}`} /></p>;
   } else if (!d.queue.length) {
     queue = <NotYet what={`${g.iso}'s interconnection queue in the live set`} where={`${g.iso} publishes it`} href="https://www.eia.gov/electricity/data/eia860m/" />;
   } else {

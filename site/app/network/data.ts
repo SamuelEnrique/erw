@@ -26,8 +26,10 @@ function hourly(rows: { ts_utc: string; value: number }[], perHour: number): Map
 export async function liveExtras(snap: Snapshot): Promise<LiveExtras> {
   const since = snap.hours[0];
   const align = (m: Map<string, number>) => snap.hours.map((h) => (m.has(h) ? Math.round(m.get(h)! * 10) / 10 : null));
-  const out: LiveExtras = { batteries: {}, batterySource: {}, prices: {}, priceKind: {}, demand: {} };
+  const out: LiveExtras = { batteries: {}, batterySource: {}, prices: {}, priceKind: {}, demand: {}, failed: {} };
   const dem = await attempt(() => series("eia930_all_demand", { variable: "demand_mw", since }));
+  // session 1181: a failed read is kept with its reason, so the Grid tool's panels say it could not be read (not "not held")
+  if (!dem.ok) out.failed!.demand = dem.reason;
   if (dem.ok) {
     for (const ba of Object.values(ISO_BA)) {
       const rows = dem.data.filter((r) => r.entity === `eia930:${ba}`);
@@ -36,6 +38,7 @@ export async function liveExtras(snap: Snapshot): Promise<LiveExtras> {
   }
   // session 266: net generation of the seven ISO grids and the Lower 48 by hour, for the gravity shape's circles
   const gen = await attempt(() => series("eia930_all_generation", { variable: "net_generation_mw", since }));
+  if (!gen.ok) out.failed!.generation = gen.reason;
   if (gen.ok) {
     out.generation = {};
     for (const ba of [...Object.values(ISO_BA), "US48"]) {

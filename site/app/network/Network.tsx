@@ -59,7 +59,10 @@ export type Story = { event: string; title: string; focus: string; tz: string; w
 export type LiveExtras = { batteries: Record<string, (number | null)[]>; batterySource: Record<string, string>; prices: Record<string, (number | null)[]>;
   priceKind: Record<string, string>; demand: Record<string, (number | null)[]>;
   /** session 266: net generation of the seven ISO grids and US48 by hour of the week (eia930_all_generation), for the gravity shape */
-  generation?: Record<string, (number | null)[]> };
+  generation?: Record<string, (number | null)[]>;
+  /** session 1181: a read of the live week that failed, by what it was for ("demand", "generation"), with its reason: the server panels say it
+   * could not be read, not that the figure is not held (nothing of it is drawn) */
+  failed?: Partial<Record<"demand" | "generation", string>> };
 
 const ET = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
 const fmt = (v: number) => (Math.round(v) === 0 ? 0 : Math.round(v)).toLocaleString("en-US");  // never "-0"

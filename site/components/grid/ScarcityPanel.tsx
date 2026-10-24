@@ -30,6 +30,7 @@ import { LICENSE_FROM, LICENSE_NEEDED, licenseHeldGrid } from "@/lib/license";
 import { DAILY_PRICE_TABLE, RT_PRICE_TABLE, SCARCITY_GRIDS, SCARCITY_LEVEL, SCARCITY_TABLE, isScarcityGrid, scarcityStrip, windowOf, type Fig, type ScarcityGrid } from "@/lib/scarcityStrip";
 import { gridNotices } from "@/lib/reliability";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
+import { CAISO_HOLDS, wholeRead } from "@/lib/gridReads";  // session 1181
 
 const METHOD = "/data/methods/scarcity_hours_by_grid";
 const D = 86_400_000;
@@ -68,11 +69,13 @@ async function stripOf(g: ScarcityGrid) {
     g.daily ? attempt(() => rest<{ ts_utc: string; value: number }>("series", { select: "ts_utc,value", table_name: `eq.${DAILY_PRICE_TABLE}`, entity: `eq.${g.daily!.entity}`, variable: `eq.${g.daily!.variable}`,
       and: `(ts_utc.gte.${w.days[0]}T00:00:00Z,ts_utc.lte.${w.days[w.days.length - 1]}T00:00:00Z)`, order: "ts_utc" }, HOURLY)) : Promise.resolve(null),
     // session 1155: CAISO's notices, the same read as the Reliability section above (lib/reliability.ts, one request)
-    g.slug === "caiso" ? attempt(() => gridNotices()) : Promise.resolve(null),
+    // session 1181: the whole table answering no row is a failed read (lib/gridReads.ts wholeRead), never "0 days"
+    wholeRead(ALERT_TABLE, CAISO_HOLDS, g.slug === "caiso" ? attempt(() => gridNotices()) : Promise.resolve(null)),
     // session 1174: ERCOT's notices, the same read as the state line above (lib/gridErcotNotices.ts, one request)
     g.slug === "ercot" ? attempt(() => ercotNotices()) : Promise.resolve(null),
   ]);
-  const s = scarcityStrip(g, { rows, prices: prices.ok ? prices.data : [], daily: daily && daily.ok ? daily.data : [], newest: top.ts_utc });
+  const s = scarcityStrip(g, { rows, prices: prices.ok ? prices.data : [], daily: daily && daily.ok ? daily.data : [], newest: top.ts_utc,
+    unread: { prices: prices.ok ? null : prices.reason, daily: daily && !daily.ok ? daily.reason : null } });  // session 1181
   const alerts = notices && notices.ok ? alertDays(notices.data, w.days) : null;
   if (alerts) {
     // each cell of an alert day names the day's notices in its hover
@@ -91,6 +94,8 @@ async function stripOf(g: ScarcityGrid) {
   }
   return {
     s, alerts, calls,
+    // session 1181: the two price reads that failed, each said where its figure would stand (never "not in the live set")
+    priceFailed: prices.ok ? null : prices.reason, dailyFailed: daily && !daily.ok ? daily.reason : null,
     failed: [...(prices.ok ? [] : [`${RT_PRICE_TABLE}: ${prices.reason}`]), ...(daily && !daily.ok ? [`${DAILY_PRICE_TABLE}: ${daily.reason}`] : []),
       ...(notices && !notices.ok ? [`${ALERT_TABLE}: ${notices.reason}`] : []), ...(ercot && !ercot.ok ? [`${NOTICE_TABLE}: ${ercot.reason}`] : [])],
   };
@@ -100,7 +105,7 @@ async function Strip({ g }: { g: ScarcityGrid }) {
   const read = await attempt(() => stripOf(g));
   if (!read.ok) return <Missing why={`${SCARCITY_TABLE} could not be read just now: ${read.reason}`} words="working on it" />;
   if (!read.data) return <Missing why={`${SCARCITY_TABLE} holds no hour of ${g.label}.`} />;
-  const { s, alerts: caiso, calls, failed } = read.data;
+  const { s, alerts: caiso, calls, failed, priceFailed, dailyFailed } = read.data;
   // the day marks: CAISO's alert days, or ERCOT's call days (session 1174); one grid a strip
   const alerts = caiso ?? calls;
   const w = s.window;
@@ -147,8 +152,10 @@ async function Strip({ g }: { g: ScarcityGrid }) {
         {s.da ? <li>Day ahead: <F f={s.da.hours} /> of <F f={s.da.held} /> hours held at or above {LEVEL}.</li> : <li>Day ahead: no hour of these days is held.</li>}
         {s.own ? <li>The grid&apos;s own signal ({g.own}): <F f={s.own.hours} /> of <F f={s.own.held} /> hours held.</li> : <li>The grid&apos;s own signal: not held for these days ({g.ownMissing}).</li>}
         {s.rtMax ? <li>Highest 15-minute real-time price at {g.hub} the live set holds for these days: USD <F f={s.rtMax} /> per MWh ({RT_PRICE_TABLE}, from {utc(s.rtMax.from)}: the live set keeps about 35 days of 15-minute prices).</li>
+          : priceFailed ? <li data-scarcity-unread={RT_PRICE_TABLE}>Highest 15-minute real-time price at {g.hub} for these days: <Missing words="could not be read" why={`${RT_PRICE_TABLE} could not be read just now: ${priceFailed}`} /> ({RT_PRICE_TABLE}).</li>
           : <li>No 15-minute price of these days is in the live set ({RT_PRICE_TABLE} keeps about 35 days){failed.length ? `: ${failed.join("; ")}` : ""}.</li>}
-        {s.dayMax ? <li>Highest real-time price of ERCOT&apos;s local days {dayName(w.days[0])} to {dayName(w.days[w.days.length - 1])} at {g.hub}: USD <F f={s.dayMax} /> per MWh ({DAILY_PRICE_TABLE}).</li> : null}
+        {s.dayMax ? <li>Highest real-time price of ERCOT&apos;s local days {dayName(w.days[0])} to {dayName(w.days[w.days.length - 1])} at {g.hub}: USD <F f={s.dayMax} /> per MWh ({DAILY_PRICE_TABLE}).</li>
+          : dailyFailed ? <li data-scarcity-unread={DAILY_PRICE_TABLE}>Highest real-time price of ERCOT&apos;s local days {dayName(w.days[0])} to {dayName(w.days[w.days.length - 1])} at {g.hub}: <Missing words="could not be read" why={`${DAILY_PRICE_TABLE} could not be read just now: ${dailyFailed}`} /> ({DAILY_PRICE_TABLE}).</li> : null}
       </ul>
       <p className="mt-2 text-xs text-muted" data-scarcity-source="1">
         Level: {LEVEL}, docs/methods/scarcity_hours_by_grid.md; prices: {g.label}. An hour without a row is not held, not a zero. <SiteLink href={METHOD}>Method: each grid&apos;s own scarcity signal</SiteLink>

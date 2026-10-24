@@ -8,16 +8,19 @@
 import { cache } from "react";
 import { NOTICE_TABLE } from "@/lib/ercotNotices";
 import { HOURLY, rest } from "@/lib/supabase";
+import { wholeTable } from "@/lib/gridReads";  // session 1181
 
 export type ErcotNotice = { event_id: string; event_date: string; event_type: string; extra: Record<string, string> };
 type Row = { event_id: string; event_date: string; event_type: string; x_counts: string | null; x_region: string | null; retrieved_at: string | null };
 
 /** ERCOT's notices, oldest first, with extra's x_counts, x_region and retrieved_at. */
 export const ercotNotices = cache(async (): Promise<ErcotNotice[]> => {
-  const rows = await rest<Row>("events", {
+  // session 1181 (chain 091): the whole table answering no row is a failed read (it holds ERCOT's notices since 2011), not
+  // "no call": every reader of the render says it could not be read (lib/gridReads.ts wholeTable)
+  const rows = await wholeTable(NOTICE_TABLE, "ERCOT's notices since 2011", () => rest<Row>("events", {
     select: "event_id,event_date,event_type,x_counts:extra->>x_counts,x_region:extra->>x_region,retrieved_at:extra->>retrieved_at",
     table_name: `eq.${NOTICE_TABLE}`, order: "event_date,event_id",
-  }, HOURLY, 20_000);
+  }, HOURLY, 20_000));
   return rows.map((r) => ({ event_id: r.event_id, event_date: r.event_date, event_type: r.event_type,
     extra: { x_counts: r.x_counts ?? "", x_region: r.x_region ?? "", retrieved_at: r.retrieved_at ?? "" } }));
 });

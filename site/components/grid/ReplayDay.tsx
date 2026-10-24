@@ -72,7 +72,9 @@ export function ReplayDayDemand({ ask, ba, label }: { ask: ReplayAsk; ba: string
     <p className="mt-3 max-w-3xl text-sm" data-gravity-day={ask.day}>
       The day picked in the replay, {ask.day} (EIA&apos;s Eastern day): {r?.demand
         ? <>{label}&apos;s demand averaged <D f={r.demand} /> MW, from the replay&apos;s committed file of EIA-930&apos;s daily demand.</>
-        : <>{label}&apos;s demand that day is <Missing words="not held" why={r?.demandWhy ?? (ask.read.ok ? "" : ask.read.why)} />.</>}{shape}{moved(ask)}
+        // session 1181: the year's file could not be read on the server: said so, never "not held"
+        : !ask.read.ok ? <>{label}&apos;s demand that day <span data-gravity-day-unread="1"><Missing words="could not be read" why={ask.read.why} /></span>.</>
+        : <>{label}&apos;s demand that day is <Missing words="not held" why={r?.demandWhy ?? ""} />.</>}{shape}{moved(ask)}
     </p>
   );
 }

@@ -9,12 +9,13 @@
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolSection } from "@/components/tool/ToolPage";
-import { alertState, shortName, type DayNotices, type Fig } from "@/lib/caisoAlerts";
+import { ALERT_TABLE, alertState, shortName, type DayNotices, type Fig } from "@/lib/caisoAlerts";
 import { renderTime } from "@/lib/data";
 import { count } from "@/lib/format";
 import { gridHref } from "@/lib/gridtool";
 import { gridNotices } from "@/lib/reliability";
 import { attempt } from "@/lib/supabase";
+import { CAISO_HOLDS, wholeRead } from "@/lib/gridReads";  // session 1181
 
 /** A figure with its key and its one-line source as the hover tip: a day as written (YYYY-MM-DD), a count whole. */
 function F({ f }: { f: Fig }) {
@@ -31,7 +32,8 @@ const regions = (d: DayNotices) => (d.regions.length ? `, ${d.regions.join("; ")
 
 /** Session 1155: the state line of CAISO's alerts, for the CAISO view of the Mix tab. */
 export async function CaisoAlertState() {
-  const read = await attempt(() => gridNotices());
+  // session 1181: the whole table answering no row is a failed read, never "no alert today" (lib/gridReads.ts wholeRead)
+  const read = (await wholeRead(ALERT_TABLE, CAISO_HOLDS, attempt(() => gridNotices())))!;
   return (
     <div data-grid-panel="grid_caisoalert_caiso">
       <ToolSection title="CAISO's alerts: today" id="caiso-alerts">

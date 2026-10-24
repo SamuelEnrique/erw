@@ -5,6 +5,8 @@ import type { SeriesRow } from "@/lib/data";
 import { count, shown } from "@/lib/format";
 import { DAILY, EMERGENCIES, GEHR, daysByYear, dailyNotices, dailyVar, gridNotices, typeName } from "@/lib/reliability";
 import { attempt } from "@/lib/supabase";
+import { CAISO_HOLDS, wholeRead } from "@/lib/gridReads";  // session 1181
+import { Missing } from "@/components/mix/Now";  // session 1181
 
 // Session 58: California reliability v1, /grid/caiso's "Reliability" section. Every Flex Alert and emergency CAISO lists
 // since 1998 (caiso_grid_emergencies), and how tight its evenings were day by day since 2018 (caiso_reliability_daily: peak
@@ -51,7 +53,7 @@ function V({ r, unit }: { r?: SeriesRow; unit?: string }) {
 
 export async function Reliability() {
   const [ns, peak, ramp, share, bat, marks] = await Promise.all([
-    attempt(() => gridNotices()), attempt(() => dailyVar("peak_demand_mw")), attempt(() => dailyVar("evening_ramp_mw")),
+    wholeRead(EMERGENCIES, CAISO_HOLDS, attempt(() => gridNotices())).then((r) => r!), attempt(() => dailyVar("peak_demand_mw")), attempt(() => dailyVar("evening_ramp_mw")),
     attempt(() => dailyVar("battery_share_pct")), attempt(() => dailyVar("battery_mw_evening_peak")), attempt(() => dailyNotices()),
   ]);
   const notices = ns.ok ? ns.data : [];
@@ -101,10 +103,11 @@ export async function Reliability() {
       ) : <p className="text-sm text-muted">The notices could not be read: {ns.reason}</p>}
       <p className="mb-4 max-w-3xl text-xs text-muted">
         Days with at least one notice of each type, as CAISO counts them; a notice for one region counts as that day. Stage emergencies, Alerts and Warnings were
-        CAISO&apos;s notices until April 2022; EEA Watch and EEA 1 to 3 since May 2022. The table holds{" "}
+        CAISO&apos;s notices until April 2022; EEA Watch and EEA 1 to 3 since May 2022. {/* session 1181: a failed read is said, never "0 notices" */}{ns.ok ? <>The table holds{" "}
         {/* session 1166: the count and the newest day, keyed (awe|rows|any and awe|newest|any, lib/caisoAlerts.ts aweValue) */}
         {ns.ok ? <span title={`${EMERGENCIES}: every row (one a notice type, region and Pacific day)`} className="cursor-help border-b border-dotted border-muted"><Num check="awe|rows|any" raw={notices.length}>{count(notices.length)}</Num></span> : count(notices.length)} notices, the latest on{" "}
-        {lastNotice ? <span title={`${EMERGENCIES}: the newest event_date of any notice`} className="cursor-help border-b border-dotted border-muted"><Num check="awe|newest|any" raw={lastNotice.event_date.slice(0, 10)}>{lastNotice.event_date.slice(0, 10)}</Num></span> : "no day"}. Our day counts match CAISO&apos;s own yearly summary in 214 of 232 year and type cells; the 18 that
+        {lastNotice ? <span title={`${EMERGENCIES}: the newest event_date of any notice`} className="cursor-help border-b border-dotted border-muted"><Num check="awe|newest|any" raw={lastNotice.event_date.slice(0, 10)}>{lastNotice.event_date.slice(0, 10)}</Num></span> : "no day"}.</>
+        : <span data-reliability-unread="1">The table&apos;s notices <Missing words="could not be read" why={`${EMERGENCIES} could not be read just now: ${ns.reason}`} />.</span>} Our day counts match CAISO&apos;s own yearly summary in 214 of 232 year and type cells; the 18 that
         differ, and why, are in <Link href="/data/methods/california_reliability">the method</Link>.
       </p>
 

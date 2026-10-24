@@ -13,9 +13,9 @@ import { BAS, STATES } from "@/lib/regions";
 import { attempt, HOURLY, rest } from "@/lib/supabase";
 import { HourlyFigures, MONTH_VARIABLES, MonthlyFigures } from "@/components/grid/MixFigures";
 import { DEMAND, PROFILE, mixHourly } from "@/lib/mixHourly";
-import { gridNotices } from "@/lib/reliability";
+import { EMERGENCIES, gridNotices } from "@/lib/reliability";
 import { ercotNotices } from "@/lib/gridErcotNotices";
-import { generationSince } from "@/lib/gridReads";
+import { CAISO_HOLDS, generationSince, wholeRead } from "@/lib/gridReads";
 
 // Session 133: the energy mix, one page at one address. It holds what /mix (session 18), /mix/v2 (94), /mix/clean (122)
 // and /mix/stress (123) showed, as views of this page (those addresses redirect here: next.config.ts; their pages are
@@ -127,7 +127,8 @@ async function NowView({ c }: { c: Choice }) {
     Promise.all(bas.map((b) => Promise.all([attempt(() => series(LATEST, { entity: b.entity })), attempt(() => generationSince(b.entity, daysAgo(9)))]))),
     attempt(() => series(MONTHLY, { entity: `eia:${st}` })),
     Promise.all(bas.map(extra)),
-    month && bas.some((b) => b.code === "ciso") ? attempt(() => gridNotices()) : Promise.resolve(null),
+    // session 1181: the whole table answering no row is a failed read (lib/gridReads.ts wholeRead), never "no month marked"
+    wholeRead(EMERGENCIES, CAISO_HOLDS, month && bas.some((b) => b.code === "ciso") ? attempt(() => gridNotices()) : Promise.resolve(null)),
     month && bas.some((b) => b.code === "erco") ? attempt(() => ercotNotices()) : Promise.resolve(null),
   ]);
   const now = renderTime();
@@ -170,7 +171,9 @@ async function NowView({ c }: { c: Choice }) {
                 {month ? (
                   grid === "us48" ? <Missing why="generation_mix_hourly_profile is built for the seven ISO grids, not for the Lower 48: its monthly mix by state is below." words="not built for the Lower 48" />
                     : more && more.ok ? <MonthlyFigures rows={more.data} label={b.label} caiso={withheld} notices={withheld ? notices : undefined} ercot={b.code === "erco" ? ercotN : undefined} /> : failed(more && !more.ok ? more.reason : "no read")
-                ) : figures ? <HourlyFigures m={figures} label={b.label} now={now} /> : null}
+                ) : figures ? <HourlyFigures m={figures} label={b.label} now={now} demandFailed={more && !more.ok ? more.reason : undefined} />
+                  // session 1181: the grid's generation could not be read: the panel says so in its own place, and draws no figure
+                  : !month && !withheld && !hourly.ok ? <p className="mb-2 text-sm" data-mix-unread="1">The hourly mix: {failed(hourly.reason)}</p> : null}
                 {!month && withheld ? <p className="mb-2 text-xs text-muted">California&apos;s monthly mix, from CAISO&apos;s own data since January 2026, is under &quot;By month&quot;.</p> : null}
               </div>
               {month ? null : (

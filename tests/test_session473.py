@@ -76,7 +76,9 @@ class TheOwnComponents(unittest.TestCase):
                    "components/grid/YourGrid.tsx", "components/grid/NowView.tsx", "components/grid/NetworkView.tsx",
                    "components/mix/Now.tsx", "components/mix/views.tsx", "app/network/Network.tsx",
                    "components/grid/ScarcityPanel.tsx",  # session 1154: drawn by the Grid page only; it takes Missing from mix/Now.tsx
-                   "components/grid/ReplayDay.tsx"}  # session 1170: drawn by the Grid page only (NetworkFigures); it takes Missing from mix/Now.tsx
+                   "components/grid/ReplayDay.tsx",  # session 1170: drawn by the Grid page only (NetworkFigures); it takes Missing from mix/Now.tsx
+                   # session 1181: drawn by the Grid page only; each takes Missing from mix/Now.tsx for a read that could not be read
+                   "components/grid/NetworkFigures.tsx", "components/grid/MixFigures.tsx", "components/grid/Reliability.tsx"}
         for dirpath, dirs, files in os.walk(SITE):
             dirs[:] = [d for d in dirs if d not in ("node_modules", ".next", "_retired", "public")]
             for fn in files:
