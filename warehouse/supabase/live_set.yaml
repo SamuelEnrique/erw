@@ -405,6 +405,7 @@ catalogue_hold:
   - nrc_license_actions
   - owid_ember_electricity_annual
   - pse_poland_balance_15min
+  - energy_charts_belgium_hourly
   - usbr_crsp_reservoirs_daily
   - usbr_mead_powell_daily
   - usdm_drought_state_weekly

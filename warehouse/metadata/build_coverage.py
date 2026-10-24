@@ -276,6 +276,7 @@ SECTOR_RULES = [
     (r"^nrc_license_actions$", "power;uranium"),  # session 2064: the NRC's renewed licenses and power uprates
     (r"^owid_ember_electricity_annual$", "power;carbon"),  # session 2126: Ember's electricity demand and emissions through Our World in Data
     (r"^pse_poland_balance_15min$", "power"),  # session 2252: PSE's power balance of Poland, a quarter hour
+    (r"^energy_charts_belgium_hourly$", "power"),  # session 2253: Energy-Charts' Belgian public net production by type and load, an hour
     (r"^usbr_crsp_reservoirs_daily$", "power"),  # session 2221: Reclamation's CRSP power reservoirs above Lake Powell, a day
     (r"^usbr_mead_powell_daily$", "power"),  # session 2211: Reclamation's Lake Mead and Lake Powell, a day
     (r"^usdm_drought_state_weekly$", "power"),  # session 2058: the U.S. Drought Monitor by state

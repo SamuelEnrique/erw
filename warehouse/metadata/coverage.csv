@@ -216,6 +216,7 @@ eia_world_oil_gas_annual,none,,6992,P1Y,1973-01-01T00:00:00Z,2025-01-01T00:00:00
 eia_world_oil_monthly,none,,1507,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,541215,eia:international_bulk,2026-10-23T10:10:51Z,pass,public,oil,no,source
 elexon_gb_demand_daily,elexon,,1,P1D,2021-04-27T00:00:00Z,2026-10-23T00:00:00Z,1932,elexon:indod,2026-10-24T00:21:05Z,pass,public,power,no,source
 energinet_dk_production_hourly,energinet,,2,PT1H,2024-12-31T23:00:00Z,2026-10-13T23:00:00Z,607311,energinet:production_consumption_settlement,2026-10-24T02:18:32Z,pass,public,power,no,source
+energy_charts_belgium_hourly,none,,16,PT1H,2019-12-31T23:00:00Z,2026-10-23T21:00:00Z,908600,energy_charts:public_power_be,2026-10-24T03:51:18Z,pass,internal,power,no,source
 energy_companies,none,,488,snapshot,2026-09-28T17:04:21Z,2026-10-23T15:01:53Z,488,erw:energy_deals;erw:thesis_builder,2026-10-23T15:01:53Z,pass,public,deals,no,model_extracted
 energy_deals,none,,24,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,514,24 outlets,2026-10-23T15:01:15Z,pass,public,deals,no,model_extracted
 energy_deals_evidence,none,,26,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,568,26 outlets,2026-10-23T15:01:15Z,pass,internal,deals,no,model_extracted
