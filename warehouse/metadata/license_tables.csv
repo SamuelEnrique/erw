@@ -71,6 +71,7 @@ datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its h
 desnz_uk_electricity_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_gas_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_renewables_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+dfe_ni_electricity_monthly,Department for the Economy (Northern Ireland),the source registry
 doe_grip_selections,U.S. Department of Energy (DOE),the source registry
 doe_lead_energy_burden,U.S. Department of Energy (DOE),the source registry
 doe_lng_export_applications,U.S. Department of Energy (DOE),the source registry
