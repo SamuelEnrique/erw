@@ -10,11 +10,11 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **435 tables.** The flag and the verdict agree on 343; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 1; 46 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **435 tables.** The flag and the verdict agree on 344; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 46 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 324 public, 61 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **301 publishers in the record: 299 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 105 pages read, 194 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
-- **1 tables are flagged internal where the sentence read allows them:** `wb_iea_electricity_annual`.
+- **0 tables are flagged internal where the sentence read allows them.**
 - **14 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; RRC 1).
 
 ## The reads
@@ -426,6 +426,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | Eurostat (Statistical Office of the European Union) | #280: read | "Reuse of statistical data, metadata, publications, and other dissemination tools published on this website for commercial or non-commercial purposes is authorised provided the source is acknowledged. [...] [Not for commercial reuse:] Data for countries other than: Member States of the European Union (EU) Member States of the European Free Trade Association (EFTA) official EU acceding and candidate countries. Examples are data for the United States of America, Japan or China." | may be public | may be public | not named | none stated | Session 2123. Eurostat's copyright notice: its statistical data may be reused for commercial or non-commercial purposes with the source acknowledged, under the Commission's Decision of 12 December 2011; data for countries other than the EU's, EFTA's and the official candidates' may not be reused commercially, so eurostat_renewable_capacity_annual leaves out the United Kingdom and Kosovo. A modification is stated and Eurostat's non-responsibility said (the table's header does). |
 | Open NY (New York State) | #272: read | "You must not create accounts with OPEN-NY or access the site through unauthorized means, including but not limited to, by using an automated device, script, bot, spider, crawler or scraper." | needs written permission | needs written permission | not named | none stated | Session 2114. The OPEN-NY Terms of Use, read whole: the data's reuse is open (no attribution, share-alike or pre-approval; 'so long as you are not doing anything malicious with NYS data, you may use it as you wish'), but the site may not be accessed through unauthorized means, an automated device, script, bot, spider, crawler or scraper among them. Read as the IEF's like clause is read for JODI (session 2075) and MISO's for its pause: no data pulled from data.ny.gov until a ruling. |
 | Our World in Data | #284: read | "All visualizations, data, and code produced by _Our World in Data_ are completely open access under the [Creative Commons BY license](https://creativecommons.org/licenses/by/4.0/). You have the permission to use, distribute, and reproduce these in any medium, provided the source and authors are credited. The data produced by third parties and made available by _Our World in Data_ is subject to the license terms from the original third-party authors. We will always indicate the original source of the data in our database, and you should always check the license of any such third-party data before use." | may be public | may be public | not named | none stated | Session 2125. Our World in Data's own work is CC BY 4.0; data it republishes keeps its producer's terms (its FAQs, read the same session, say the same). A table from its energy dataset takes only columns whose every source has a verdict that allows it (EIA, Ember, Our World in Data's own processing); the Energy Institute's columns wait on the Energy Institute's terms (its site refuses the ERW's reader). |
+| IEA (standalone datasets) | #60: read | "The following content is not made available under a CC BY 4.0 licence as part of the Open Use Terms: The Oil Market Report ; Standalone datasets, data explorers and databases, including those listed at https://www.iea.org/data-and-statistics/data-sets ; Data annexes to the World Energy Outlook or other IEA publications;" | needs written permission | needs written permission | Rights@iea.org | none stated | Session 2161. The exception on the IEA's own terms page (read 60, session 311, whose verdict for the IEA's text, reports and graphs is may be public): standalone datasets, data explorers and databases are not under its CC BY licence. The World Bank republishes two of them (EG.USE.ELEC.KH.PC and EG.ELC.RNEW.ZS, sourced to the IEA's Energy Statistics Data Browser), held internal in wb_iea_electricity_annual. |
 
 **Publishers no read of this sweep covers (30):** Arizona Corporation Commission; CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; International Renewable Energy Agency (IRENA); Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; USDA Natural Resources Conservation Service (NRCS); Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
 
@@ -869,7 +870,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `utility_service_territories` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `wb_commodity_prices_monthly` | World Bank | may be public |  |  | public | agrees | may be public | public |
 | `wb_electricity_access_annual` | World Bank | may be public |  |  | public | agrees | may be public | public |
-| `wb_iea_electricity_annual` | World Bank | may be public |  |  | internal | DISAGREES: the flag is stricter | may be public | internal |
+| `wb_iea_electricity_annual` | IEA (standalone datasets) | needs written permission | IEA (standalone datasets) |  | internal | agrees | needs written permission | internal |
 | `weather_forecast_hourly` | NWS | may be public |  |  | public | agrees | may be public | public |
 | `weather_obs_hourly` | NWS | may be public |  |  | public | agrees | may be public | public |
 
@@ -931,7 +932,6 @@ None of these was changed. Each is a ruling.
 
 ### Flagged internal; the sentence read allows it
 
-- `wb_iea_electricity_annual`: may be public (World Bank).
 
 ### Not settled: a publisher was not read
 
@@ -1036,6 +1036,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **AEP Texas Inc.** (1 tables). Write to: no person or address on the page read. Tables: `texas_delivery_charges`.
 - **CenterPoint Energy Houston Electric, LLC** (1 tables). Write to: CenterPointEnergy.com/en-us/corporate/contact-us/. Tables: `texas_delivery_charges`.
 - **Oncor Electric Delivery Company LLC** (1 tables). Write to: no person or address on the page read. Tables: `texas_delivery_charges`.
+- **IEA (standalone datasets)** (1 tables). Write to: Rights@iea.org. Tables: `wb_iea_electricity_annual`.
 
 Only if the ERW sells anything:
 
@@ -1108,6 +1109,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Heatmap News | needs written permission | needs written permission | none stated | not named |  |
 | Hydrogen Insight | needs written permission | needs written permission | none stated | not named |  |
 | ICE, whose prices EIA republishes | needs written permission | needs written permission | none stated | not named |  |
+| IEA (standalone datasets) | needs written permission | needs written permission | none stated | Rights@iea.org |  |
 | IMF | may be public | needs written permission | none stated | copyright@imf.org |  |
 | IMF PortWatch | may be public | needs written permission | none stated | copyright@imf.org |  |
 | Indiana Utility Regulatory Commission | needs written permission | needs written permission | none stated | not named |  |

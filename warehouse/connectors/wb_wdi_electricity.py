@@ -155,7 +155,7 @@ def main(argv=None):
         results.append(dict(table=CONNECTOR, market="all", status="failed", detail=tb.strip().splitlines()[-1][:300]))
     if not args.out_dir:
         if results and all(r["status"] == "ok" for r in results):
-            ip.update_sources([dict(source=src, publisher="World Bank", report="World Development Indicators (Indicators API v2): " +
+            ip.update_sources([dict(source=src, publisher=("World Bank" if lic == "public" else "IEA (standalone datasets)"), report="World Development Indicators (Indicators API v2): " +
                                     ", ".join(i for i, v in INDICATORS.items() if v[0] == t), report_url=API, document_list=API,
                                     license=lic, tables=[t]) for t, (src, lic) in TABLES.items()])
         ip.write_status(CONNECTOR, run_id, results)
