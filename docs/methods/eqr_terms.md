@@ -5,6 +5,8 @@ Built in session 125 for the review page `/contracts`, on top of `ferc_eqr_contr
 [`eqr_buyers.md`](eqr_buyers.md)). Code: `warehouse/derived/eqr_terms.py`, and the connector's history mode in
 `warehouse/connectors/ferc_eqr_contracts.py`.
 
+Tables: `ferc_eqr_contracts_history`, `ferc_eqr_contract_terms`, `ferc_eqr_party_mw`, `ferc_eqr_quarter_changes`
+
 **All four tables are internal,** as their input is. They are in `warehouse/output` and in no file of this repository.
 No party's name and no party's figure is written here, in a test, or in a session report: only counts. The examples
 below are made up.
@@ -30,7 +32,7 @@ under a ceiling of 800,000 contract rows for the pull, at no cost.
   would hold most contracts four times, and the page, the buyers' tables and the live set read one.
 - `--also` names the pull's other quarters, whose rows on disk count toward the ceiling. The run refuses to pass it.
 - **What was pulled:** 2026 Q1, 4,016 filings and 191,996 contract rows; 2025 Q4, 3,912 of 3,914 filings and 191,132
-  rows; 2025 Q3, 3,768 filings and 190,877 rows. 574,005 rows of the 800,000 allowed.
+  rows; 2025 Q3, 3,768 filings and 190,877 rows. 574,005 rows of the 800,000 allowed. These are the rows read: the table holds 571,115 (190,816, 190,249 and 190,050), each quarter's earlier filings of a company and the rows whose execution date the standard cannot hold being left out, as each run's header counts them (session 2361).
 - **What it cost FERC's server:** 2026 Q1, 4,018 requests and 3.74 GB; 2025 Q3, 3,770 and 3.95 GB; 2025 Q4 in two runs,
   the first stopped by an unreadable filing after more than 2,502 requests and 2.6 GB, the second 1,218 and 0.84 GB.
   A filing's zip holds its transactions too; only its contracts file is kept, about 200 MB for the three quarters.
@@ -178,3 +180,7 @@ stay internal** until a person has read the Commission's statement.
 - It does not merge a doubtful pair, a parent with a subsidiary, or a misspelling no rule covers.
 - It does not convert megawatt-hours to megawatts, or a capacity price to an energy price.
 - It does not cover Texas: sales inside ERCOT are not filed with FERC.
+
+## Checks (session 2361)
+
+Counted from `warehouse/output` by `runs/c110/s2361/check_eqr.py` (counts only): `ferc_eqr_contracts_history` 571,115 rows, three quarters (2026 Q1 190,816, 2025 Q4 190,249, 2025 Q3 190,050), no event_id twice; `ferc_eqr_contract_terms` 186,873 rows, one for each row of `ferc_eqr_contracts` (2026 Q2); `ferc_eqr_party_mw` 812 rows (sellers 429, buyers 383); `ferc_eqr_quarter_changes` 68 rows, 2025 Q3 to 2026 Q2. The shapes are the table above's. The Tables line was added so that the finder of held tables with no note sees them.
