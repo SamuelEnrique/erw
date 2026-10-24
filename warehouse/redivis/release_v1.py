@@ -191,6 +191,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_lng_liquefaction_projects",
            "eia_mecs_manufacturing",
            "eia_recs_households",
+           "elexon_gb_demand_daily",
            "epa_ghgrp_facility_emissions",
            "epa_lmop_landfill_projects",
            "epa_tri_energy_releases_annual",
