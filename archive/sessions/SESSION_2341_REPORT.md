@@ -5,10 +5,10 @@
 ## Read these first
 
 - **No verdict this round.** For each publisher of sessions 2336 to 2339, no page read could settle its data:
-  - **EPIAS (Turkey):** its API needs a login ticket (read 530). A verdict on terms whose data the ERW cannot reach would settle nothing; the ruling asked is the account.
-  - **NSMO (Vietnam):** both its hosts timed out (reads 531 and 532).
-  - **EVN (Vietnam):** its robots file allows all (read 533), but no EVN data were taken, so its terms were not asked.
-  - **PLN (Indonesia):** no robots file and no statistics page found (reads 534 and 535); no data taken.
+  - **EPIAS (Turkey):** its API needs a login ticket (read 549). A verdict on terms whose data the ERW cannot reach would settle nothing; the ruling asked is the account.
+  - **NSMO (Vietnam):** both its hosts timed out (reads 550 and 551).
+  - **EVN (Vietnam):** its robots file allows all (read 552), but no EVN data were taken, so its terms were not asked.
+  - **PLN (Indonesia):** no robots file and no statistics page found (reads 553 and 554); no data taken.
   - **EIA:** public domain, read 1, on record.
 - **Earlier chains' unsettled publishers, looked at again without a request:**
   - **SingStat:** its terms page draws its text with scripts (read 506).

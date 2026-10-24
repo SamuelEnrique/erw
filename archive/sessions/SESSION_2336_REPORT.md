@@ -6,8 +6,8 @@
 
 - **The next file first:** `queue/next/110-day-12-november-data-pakistan-bangladesh-morocco-kazakhstan.md` (sessions 2357 to 2370) was written, committed alone and pushed to main before any other work. Its hosts list adds chain 108's closed hosts. Both agents beside this chain were told its four sources.
 - **No table this session.**
-  - EPIAS's transparency platform has a robots file that allows every path and names no AI agent (read 529).
-  - But its API answered an unauthenticated request with HTTP 406: "Sorguya erişebilmeniz için TGT göndermeniz gerekmektedir" (to access the query you must send a TGT), pointing to its web service user guide (read 530).
+  - EPIAS's transparency platform has a robots file that allows every path and names no AI agent (read 548).
+  - But its API answered an unauthenticated request with HTTP 406: "Sorguya erişebilmeniz için TGT göndermeniz gerekmektedir" (to access the query you must send a TGT), pointing to its web service user guide (read 549).
 
   A TGT is a ticket issued to a registered account. The ERW holds none, so the session stops, as the chain file says, without signing up.
 - **The request was asked twice:** the first answer's Turkish text broke the terminal's print before it was saved. Both are counted.
@@ -19,7 +19,7 @@
 | 1 | seffaflik.epias.com.tr/robots.txt | 200: allows every path |
 | 2, 3 | the real-time generation endpoint, two hours, no ticket | 406: a TGT is required |
 
-Reads recorded: 529 and 530.
+Reads recorded: 548 and 549.
 
 ## Decisions made without you
 
@@ -31,5 +31,5 @@ Reads recorded: 529 and 530.
 
 ## Files
 
-- New: `queue/next/110-day-12-november-data-pakistan-bangladesh-morocco-kazakhstan.md` (on main), this report. Changed: the license record (reads 529 and 530).
+- New: `queue/next/110-day-12-november-data-pakistan-bangladesh-morocco-kazakhstan.md` (on main), this report. Changed: the license record (reads 548 and 549).
 - On the data machine only: `runs/c109/`.

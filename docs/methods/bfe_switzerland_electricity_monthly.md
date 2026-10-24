@@ -6,7 +6,7 @@ Tables: `bfe_switzerland_electricity_monthly`
 
 ## Publisher and address
 
-The Swiss Federal Office of Energy (SFOE, BFE), "ENSTAT: Elektrizitätsbilanz der Schweiz - Monatswerte-CSV", listed on opendata.swiss (`https://opendata.swiss/en/dataset/enstat-elektrizitatsbilanz-der-schweiz-monatswerte-csv`). The file is `https://www.bfe-ogd.ch/ogd35/ogd35_schweizerische_elektrizitaetsbilanz_monatswerte.csv`, one GET, no key. Source id `bfe:ogd35`. Connector: `warehouse/connectors/bfe_switzerland_electricity.py` (session 2343). opendata.swiss and www.bfe-ogd.ch have no robots file (reads 538 and 540).
+The Swiss Federal Office of Energy (SFOE, BFE), "ENSTAT: Elektrizitätsbilanz der Schweiz - Monatswerte-CSV", listed on opendata.swiss (`https://opendata.swiss/en/dataset/enstat-elektrizitatsbilanz-der-schweiz-monatswerte-csv`). The file is `https://www.bfe-ogd.ch/ogd35/ogd35_schweizerische_elektrizitaetsbilanz_monatswerte.csv`, one GET, no key. Source id `bfe:ogd35`. Connector: `warehouse/connectors/bfe_switzerland_electricity.py` (session 2343). opendata.swiss and www.bfe-ogd.ch have no robots file (reads 557 and 559).
 
 ## Vintage and revision
 
@@ -71,7 +71,7 @@ TWh a year (the twelve months summed here for this note):
 
 ## License
 
-Public. `license_verdicts.csv` records the Swiss Federal Office of Energy (SFOE), read 539 (session 2343): "may be public", sold or not. The dataset's resource names opendata.swiss's term "Open use. Must provide the source": "You may use this dataset for commercial purposes. You must provide the source (author, title and link to the dataset)". The header gives all three.
+Public. `license_verdicts.csv` records the Swiss Federal Office of Energy (SFOE), read 558 (session 2343): "may be public", sold or not. The dataset's resource names opendata.swiss's term "Open use. Must provide the source": "You may use this dataset for commercial purposes. You must provide the source (author, title and link to the dataset)". The header gives all three.
 
 ## Cross-checks (session 2343)
 

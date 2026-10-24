@@ -7,7 +7,8 @@ Energy Research Warehouse (ERW) connector. One series table,
 
 from EIA's open data API (https://api.eia.gov/v2/), routes petroleum/pri/fut and natural-gas/pri/fut, frequency daily:
 the official daily closing prices of the New York Mercantile Exchange for contracts 1 to 4 of crude oil (Cushing,
-Oklahoma), New York Harbor No. 2 heating oil, New York Harbor reformulated RBOB regular gasoline and natural gas
+Oklahoma), New York Harbor No. 2 heating oil (EIA's name; its prices follow EIA's New York Harbor ultra-low sulfur
+diesel spot price, session 2298), New York Harbor reformulated RBOB regular gasoline and natural gas
 (Henry Hub). node is the contract: 1 is the earliest delivery month, as EIA defines it.
 
     python warehouse/connectors/eia_futures.py              # 2019-01-01 to the newest day EIA holds

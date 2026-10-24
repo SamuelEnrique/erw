@@ -5,8 +5,8 @@
 ## Read these first
 
 - **No table this session.**
-- **NSMO, the system operator:** www.nsmo.vn and nsmo.vn both timed out at the connection, robots file first (reads 531 and 532). Nothing more was asked of either.
-- **EVN, the state utility,** the chain file's alternative: its robots file allows every path and names no AI agent (read 533). Its home page shows news and no statistics, data or report section, so no series could be found within the ceiling. Ember's annual table already covers Vietnam.
+- **NSMO, the system operator:** www.nsmo.vn and nsmo.vn both timed out at the connection, robots file first (reads 550 and 551). Nothing more was asked of either.
+- **EVN, the state utility,** the chain file's alternative: its robots file allows every path and names no AI agent (read 552). Its home page shows news and no statistics, data or report section, so no series could be found within the ceiling. Ember's annual table already covers Vietnam.
 
 ## Requests (4 of 15)
 
@@ -17,7 +17,7 @@
 | 3 | www.evn.com.vn/robots.txt | 200: allows every path |
 | 4 | EVN's home page | 200: news only |
 
-Reads recorded: 531 to 533.
+Reads recorded: 550 to 552.
 
 ## Decisions made without you
 
@@ -29,5 +29,5 @@ Reads recorded: 531 to 533.
 
 ## Files
 
-- New: this report. Changed: the license record (reads 531 to 533).
+- New: this report. Changed: the license record (reads 550 to 552).
 - On the data machine only: `runs/c109/s2337/`.
