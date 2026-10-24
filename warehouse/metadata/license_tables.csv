@@ -39,6 +39,7 @@ carbon_intensity_hourly,EIA,the source registry and the tables its header derive
 carbon_intensity_monthly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 cbs_netherlands_electricity_monthly,Statistics Netherlands (CBS),the source registry
 cea_india_psp_annual,Central Electricity Authority (India),the source registry
+ceb_srilanka_electricity_annual,"Ceylon Electricity Board, Sri Lanka (CEB)",the source registry
 cec_total_system_generation_annual,California Energy Commission (CEC),the source registry
 censtatd_hk_electricity,"Census and Statistics Department, Hong Kong (C&SD)",the source registry
 census_bps_state_annual,Census Bureau,the source registry
@@ -55,8 +56,8 @@ clean_energy_summary,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source reg
 cost_of_power_carbon,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 cost_of_power_hourly_profile,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 cost_of_power_monthly,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
-csp_latvia_electricity_monthly,Central Statistical Bureau of Latvia (CSP),the source registry
 cso_ireland_electricity_monthly,"Central Statistics Office, Ireland (CSO)",the source registry
+csp_latvia_electricity_monthly,Central Statistical Bureau of Latvia (CSP),the source registry
 datacenter_facilities,Amazon Web Services; Bloomberg; CAISO; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; ERCOT; Equinix; Financial Times; Google; Hart Energy; Heatmap News; ISO-NE; Latitude Media; MISO; Meta; Microsoft; NYISO; Natural Gas Intelligence; OilPrice.com; Oracle; POWER Magazine; Reuters; SPP; Switch; Vantage Data Centers; WSJ,"the source registry and the tables its header derives it from: caiso_interconnection_queue, datacenter_operator_sites, datacenter_projects, ercot_interconnection_queue, isone_interconnection_queue, miso_interconnection_queue, nyiso_interconnection_queue, spp_interconnection_queue"
 datacenter_operator_sites,Amazon Web Services; Digital Realty; Equinix; Google; Meta; Microsoft; Oracle; Switch; Vantage Data Centers,the source registry
 datacenter_projects,Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
