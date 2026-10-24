@@ -6376,6 +6376,12 @@ onrr_production_monthly,production,series variable,Mcf
 onrr_production_monthly,production,series variable,bbl
 onrr_production_monthly,production,series variable,short_ton
 onrr_revenue_monthly,revenue,series variable,USD
+ons_brazil_balance_hourly,hydro,series variable,MW
+ons_brazil_balance_hourly,load,series variable,MW
+ons_brazil_balance_hourly,net_interchange,series variable,MW
+ons_brazil_balance_hourly,solar,series variable,MW
+ons_brazil_balance_hourly,thermal,series variable,MW
+ons_brazil_balance_hourly,wind,series variable,MW
 ornl_eha_hydropower_plants,entity_id,column,
 ornl_eha_hydropower_plants,entity_type,column,
 ornl_eha_hydropower_plants,name,column,
