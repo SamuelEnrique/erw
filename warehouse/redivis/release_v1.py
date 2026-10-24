@@ -199,6 +199,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "epa_ghgrp_facility_emissions",
            "epa_lmop_landfill_projects",
            "epa_tri_energy_releases_annual",
+           "eurostat_gas_imports_monthly",
            "eurostat_renewable_capacity_annual",
            "fema_disaster_declarations",
            "ieso_ontario_demand_hourly",

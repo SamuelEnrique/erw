@@ -4301,6 +4301,7 @@ ercot_wind_solar_output_hourly,wind_generation_mw,series variable,MW
 ercot_zone_load_hourly,load,series variable,MW
 ercot_zone_prices_history,spp_dam,series variable,USD/MWh
 ercot_zone_prices_history,spp_rtm,series variable,USD/MWh
+eurostat_gas_imports_monthly,imports,series variable,MWh
 eurostat_renewable_capacity_annual,net_capacity,series variable,MW
 eurostat_renewable_capacity_annual,net_capacity_ac,series variable,MW
 eurostat_renewable_capacity_annual,net_capacity_dc,series variable,MW
