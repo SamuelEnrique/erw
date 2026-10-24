@@ -39,8 +39,10 @@ carbon_intensity_monthly,EIA,the source registry and the tables its header deriv
 cbs_netherlands_electricity_monthly,Statistics Netherlands (CBS),the source registry
 cec_total_system_generation_annual,California Energy Commission (CEC),the source registry
 census_bps_state_annual,Census Bureau,the source registry
+census_c30_construction_monthly,Census Bureau,the source registry
 census_cbp_hosting_annual,Census Bureau,the source registry
 census_metro_population,Census Bureau,the source registry
+census_qss_utilities_hosting_quarterly,Census Bureau,the source registry
 cer_electricity_trade,Canada Energy Regulator (CER),the source registry
 cer_gas_trade,Canada Energy Regulator (CER),the source registry
 cer_pipeline_throughput,"Canada Energy Regulator (CER), Open Government Licence - Canada",the source registry
@@ -220,7 +222,10 @@ eia_world_energy_co2_annual,EIA,the source registry
 eia_world_oil_gas_annual,EIA,the source registry
 eia_world_oil_monthly,EIA,the source registry
 elexon_gb_demand_daily,Elexon Limited (BMRS),the source registry
+emi_nz_generation_demand_monthly,Electricity Authority (New Zealand),the source registry
 energinet_dk_production_hourly,Energinet (Energi Data Service),the source registry
+energy_charts_belgium_hourly,Energy-Charts.info (Fraunhofer ISE),the source registry
+energy_charts_southeast_europe_daily,Energy-Charts.info (Fraunhofer ISE),the source registry
 energy_companies,ERW,"by hand: its header: names, one-line descriptions written by the ERW, and links"
 energy_deals,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
 energy_deals_evidence,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
@@ -426,6 +431,7 @@ price_board_latest,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry a
 price_board_peak_offpeak,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 price_board_spreads,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: eia_fuel_spot_prices, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 price_years_by_window,CAISO; EIA; ERCOT; NOAA NCEI; SPP,"the source registry and the tables its header derives it from: battery_stack_monthly, battery_stack_review_monthly, battery_stack_stress_daily, ercot_all_hub_prices_history, ercot_zone_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, merchant_revenue_monthly"
+pse_poland_balance_15min,PSE S.A. (Polskie Sieci Elektroenergetyczne),the source registry
 ree_spain_balance_monthly,Red Electrica (REE),the source registry
 rggi_auction_allowance_prices,RGGI,the source registry
 rrc_lease_production_monthly,RRC,the source registry
