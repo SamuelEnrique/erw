@@ -5,6 +5,8 @@ Energy Research Warehouse (ERW), tool 17 of the platform (`docs/platform-tools.m
 from, what the models behind them assume, and what they cannot see. Section 1 is the jobs, earnings and output
 (`nlr_jedi_multipliers`); section 2 is the tax side (`impact_tax_rules`).
 
+Tables: `nlr_jedi_multipliers`, `impact_tax_rules`
+
 ## 1. Jobs, earnings and output: NLR's JEDI models
 
 ### What JEDI is
