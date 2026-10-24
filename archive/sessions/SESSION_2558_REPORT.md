@@ -1,6 +1,6 @@
 # Session 2558 report: a third own choice, none taken (the UAE's open data portal moved to a host that does not answer; Hungary's KSH draws its table lists by script)
 
-24 October 2026, about 23:23 to 23:28 UTC, on lab-desktop (the data machine), chain 125, unattended (run before session 2557, so that the package's records are rebuilt once). Precheck passed (`runs/c125/pre2558.out`). Model spend USD 0. Pulls: 4 requests of 20.
+24 October 2026, about 23:20 to 23:24 UTC, on lab-desktop (the data machine), chain 125, unattended (run before session 2557, so that the package's records are rebuilt once). Precheck passed (`runs/c125/pre2558.out`). Model spend USD 0. Pulls: 4 requests of 20.
 
 ## Read these first
 

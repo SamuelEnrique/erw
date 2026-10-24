@@ -1,6 +1,6 @@
 # Session 2557 report: the package's and the site's records
 
-24 October 2026, about 23:28 to 23:30 UTC, on lab-desktop (the data machine), chain 125, unattended (after session 2558, so that every table of the chain was in). Precheck passed (`runs/c125/pre2557.out`). Model spend USD 0. Pulls: none.
+24 October 2026, about 23:24 to 23:27 UTC, on lab-desktop (the data machine), chain 125, unattended (after session 2558, so that every table of the chain was in). Precheck passed (`runs/c125/pre2557.out`). Model spend USD 0. Pulls: none.
 
 ## Read these first
 
