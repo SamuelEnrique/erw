@@ -1,5 +1,6 @@
 table,iso,market,n_nodes,interval,ts_min,ts_max,n_rows,source_report,last_run,validator_status,license,sector,derived,tier
 aeso_alberta_load_hourly,aeso,,1,PT1H,2025-01-01T07:00:00Z,2026-10-23T19:00:00Z,15853,aeso:historical_pool_price,2026-10-23T20:11:37Z,pass,public,power,no,source
+afdc_station_counts_annual,afdc,,21,P1Y,2007-01-01T00:00:00Z,2025-01-01T00:00:00Z,13520,doe:afdc_station_counts,2026-10-24T00:17:41Z,pass,public,power,no,source
 afdc_vehicle_registrations_annual,afdc,,12,P1Y,2016-01-01T00:00:00Z,2025-01-01T00:00:00Z,6240,doe:afdc_vehicle_registrations,2026-10-23T19:50:27Z,pass,public,power;products,no,source
 ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,2026-09-30T00:00:00Z,187,erw:ai_power_regions,2026-10-02T09:57:58Z,pass,public,power;carbon,yes,derived
 api_cost_ledger,none,,1,event,2026-09-29T10:08:33Z,2026-10-23T15:02:12Z,3793,1 outlets,2026-10-23T15:01:56Z,pass,internal,platform,no,derived
