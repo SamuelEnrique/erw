@@ -443,6 +443,7 @@ nrc_power_reactors,NRC,the source registry
 nrc_reactor_status,NRC,the source registry
 nrc_rop_findings,NRC,the source registry
 nrcs_snotel_swe_daily,USDA Natural Resources Conservation Service (NRCS),the source registry
+nsc_kyrgyzstan_electricity_annual,National Statistical Committee of the Kyrgyz Republic,the source registry
 ntd_transit_energy_annual,"U.S. Department of Transportation, Federal Transit Administration (FTA)",the source registry
 nyiso_as_prices,NYISO,the source registry
 nyiso_dam_cleared_energy,NYISO,the source registry
