@@ -5,7 +5,7 @@
 ## Read these first
 
 - **Why this source:** gas processing plants strip the liquids (ethane, propane and the rest) from the gas the wells produce. Their volumes link the ERW's gas production tables to its natural gas liquids. The ERW did not hold them, no chain plans them, and EIA's verdict is on record.
-- **One table written, validated, archived, in coverage (sectors gas and products), in the release package, both holds:** `eia_gas_plant_processing_annual`, 1967 to 2024, 5,829 rows, 276 series.
+- **One table written, validated, archived, in coverage (sectors gas and products), in the release package, both holds:** `eia_gas_plant_processing_annual`, 1967 to 2024, with one 2025 row (the U.S. extraction loss, which EIA already gives), 5,829 rows, 276 series.
   - Gas processed and extraction loss in MMcf; liquids extracted in kbbl.
   - For the U.S., the states, EIA's offshore areas, and EIA's pairs of a processing state and an origin state. A pair's geo is its first state.
   - Area codes are accepted by EIA's forms (NUS, S<state>, an R area, or either with -S<state>); any other stops the run.
