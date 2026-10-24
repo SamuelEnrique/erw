@@ -25,11 +25,13 @@ COVERAGE_MD = ROOT / "docs" / "coverage.md"
 def coverage_md_rows():
     """{table: rows} from the markdown table in docs/coverage.md."""
     lines = [ln for ln in COVERAGE_MD.read_text(encoding="utf-8").splitlines() if ln.startswith("|")]
-    header = [c.strip() for c in lines[0].strip("|").split("|")]
+    # session 2514: a cell may hold an escaped bar (build_coverage.md_line writes "|" as "\|"), so split on the others only
+    split = lambda ln: [c.strip() for c in re.split(r"(?<!\\)\|", ln.strip()[1:-1])]
+    header = split(lines[0])
     t_col, r_col = header.index("Table"), header.index("Rows")
     out = {}
     for ln in lines[2:]:
-        cells = [c.strip() for c in ln.strip().strip("|").split("|")]
+        cells = split(ln)
         out[cells[t_col].strip("`")] = int(cells[r_col].replace(",", ""))
     return out
 
