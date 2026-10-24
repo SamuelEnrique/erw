@@ -10,7 +10,7 @@ U.S. Department of Transportation, Federal Transit Administration (FTA), Nationa
 
 `https://data.transportation.gov/api/views/8ehq-7his/rows.csv?accessType=DOWNLOAD`
 
-The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source id `fta:ntd_fuel_energy`. Connector: `warehouse/connectors/ntd_transit_energy.py` (session 2182), its only table. data.transportation.gov's robots file (read 355) asks a crawl delay of 1 second and disallows browse and facet searches, OData and login paths, not `/api/views/` or `/data.json`. The dataset was found in DOT DataHub's `data.json` (read 359), whose record for it gives the license.
+The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source id `fta:ntd_fuel_energy`. Connector: `warehouse/connectors/ntd_transit_energy.py` (session 2182), its only table. data.transportation.gov's robots file (read 370) asks a crawl delay of 1 second and disallows browse and facet searches, OData and login paths, not `/api/views/` or `/data.json`. The dataset was found in DOT DataHub's `data.json` (read 374), whose record for it gives the license.
 
 The table is not scheduled: no line of `warehouse/run_daily.sh`, the other `warehouse/*.sh` scripts, `warehouse/scheduled.py`, `scripts/` or `.github/workflows/` names the connector (searched in session 2185), and `run_status.csv` holds no row for it. It was written once, by run `20261024T015626Z` on the data machine, offline from the saved CSV.
 
@@ -70,7 +70,7 @@ The cross-check prints the 25 largest state years only, so the blanks above are 
 
 ## License
 
-The header: "License: public (Public Domain U.S. Government, https://www.usa.gov/government-works; see license_verdicts.csv). Cite the Federal Transit Administration, National Transit Database." `license_verdicts.csv` gives the FTA "may be public", the same if the ERW sells anything (read 359, the license field of the dataset's record in DOT DataHub's catalog, `https://www.usa.gov/government-works`, as for the FHWA, read 214; recorded in session 2181). `coverage.csv`: public.
+The header: "License: public (Public Domain U.S. Government, https://www.usa.gov/government-works; see license_verdicts.csv). Cite the Federal Transit Administration, National Transit Database." `license_verdicts.csv` gives the FTA "may be public", the same if the ERW sells anything (read 374, the license field of the dataset's record in DOT DataHub's catalog, `https://www.usa.gov/government-works`, as for the FHWA, read 214; recorded in session 2181). `coverage.csv`: public.
 
 ## Found while writing this note
 

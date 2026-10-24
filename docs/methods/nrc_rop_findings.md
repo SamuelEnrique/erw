@@ -6,11 +6,11 @@ Tables: `nrc_rop_findings`
 
 ## Publisher and address
 
-U.S. Nuclear Regulatory Commission (NRC), the dataset "Reactor Oversight Process: Findings and Violations", linked from the NRC Data page (`https://www.nrc.gov/documents-reports/nrc-data`, read 351), with its data dictionary (read 352). One workbook, its first sheet:
+U.S. Nuclear Regulatory Commission (NRC), the dataset "Reactor Oversight Process: Findings and Violations", linked from the NRC Data page (`https://www.nrc.gov/documents-reports/nrc-data`, read 366), with its data dictionary (read 367). One workbook, its first sheet:
 
 `https://www.nrc.gov/sites/default/files/doc_library/cdn/data/reactors/operating/dataset/findings-violations.xlsx`
 
-The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source id `nrc:rop_findings_violations`. Connector: `warehouse/connectors/nrc_rop_findings.py` (session 2178), its only table. www.nrc.gov's robots file (read 349) disallows, for every reader, its search pages, `ads.txt` and autodiscover; it disallows `/docs/` only to two named crawlers, Akamai-SiteSnapshot and Amazonbot. The report links in the table point to `/docs/` and are never asked.
+The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source id `nrc:rop_findings_violations`. Connector: `warehouse/connectors/nrc_rop_findings.py` (session 2178), its only table. www.nrc.gov's robots file (read 364) disallows, for every reader, its search pages, `ads.txt` and autodiscover; it disallows `/docs/` only to two named crawlers, Akamai-SiteSnapshot and Amazonbot. The report links in the table point to `/docs/` and are never asked.
 
 The table is not scheduled: no line of `warehouse/run_daily.sh`, the other `warehouse/*.sh` scripts, `warehouse/scheduled.py`, `scripts/` or `.github/workflows/` names the connector (searched in session 2185), and `run_status.csv` holds no row for it. It was written by run `20261024T013246Z` (session 2178) and written again, with the same rows, by run `20261024T015207Z` (session 2181, after the robots file's account in the connector and the header was corrected); the archive found no changed row.
 

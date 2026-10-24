@@ -6,11 +6,11 @@ Tables: `epa_needs_units`
 
 ## Publisher and address
 
-U.S. Environmental Protection Agency (EPA), National Electric Energy Data System (NEEDS), the inventory of generating units its Integrated Planning Model (IPM) starts from. The NEEDS page (`https://www.epa.gov/power-sector-modeling/national-electric-energy-data-system-needs`, read 361) links NEEDS for the 2025 reference case (December 2025) and each earlier version. One workbook, four of its sheets:
+U.S. Environmental Protection Agency (EPA), National Electric Energy Data System (NEEDS), the inventory of generating units its Integrated Planning Model (IPM) starts from. The NEEDS page (`https://www.epa.gov/power-sector-modeling/national-electric-energy-data-system-needs`, read 376) links NEEDS for the 2025 reference case (December 2025) and each earlier version. One workbook, four of its sheets:
 
 `https://www.epa.gov/system/files/documents/2025-12/needs-for-2025-reference-case.xlsx`
 
-The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source id `epa:needs_2025_reference_case`. Connector: `warehouse/connectors/epa_needs.py` (session 2183), its only table. www.epa.gov's robots file (read 360) disallows its admin, search, user, core and theme paths, not /power-sector-modeling/ or /system/files/.
+The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source id `epa:needs_2025_reference_case`. Connector: `warehouse/connectors/epa_needs.py` (session 2183), its only table. www.epa.gov's robots file (read 375) disallows its admin, search, user, core and theme paths, not /power-sector-modeling/ or /system/files/.
 
 The table is not scheduled: no line of `warehouse/run_daily.sh`, the other `warehouse/*.sh` scripts, `warehouse/scheduled.py`, `scripts/` or `.github/workflows/` names the connector (searched in session 2185), and `run_status.csv` holds no row for it. It was written once, by run `20261024T020406Z` on the data machine, offline from the saved workbook.
 

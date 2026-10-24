@@ -10,7 +10,7 @@ Statistics Canada (StatCan), table 25-10-0015-01, "Electric power generation, mo
 
 `https://www150.statcan.gc.ca/n1/tbl/csv/25100015-eng.zip`
 
-The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source id `statcan:25-10-0015-01`. Connector: `warehouse/connectors/statcan_electricity.py` (session 2176), its only table. www150.statcan.gc.ca's robots file (read 344) asks a crawl delay of 2 seconds and disallows its framework, error and some subject paths and files ending .csv, .xls and the like, not /n1/ or /t1/; www.statcan.gc.ca's (read 345) has the same rules.
+The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source id `statcan:25-10-0015-01`. Connector: `warehouse/connectors/statcan_electricity.py` (session 2176), its only table. www150.statcan.gc.ca's robots file (read 359) asks a crawl delay of 2 seconds and disallows its framework, error and some subject paths and files ending .csv, .xls and the like, not /n1/ or /t1/; www.statcan.gc.ca's (read 360) has the same rules.
 
 The table is not scheduled: no line of `warehouse/run_daily.sh`, the other `warehouse/*.sh` scripts, `warehouse/scheduled.py`, `scripts/` or `.github/workflows/` names the connector (searched in session 2185), and `run_status.csv` holds no row for it. It was written once, by run `20261024T005122Z` on the data machine.
 
@@ -62,13 +62,13 @@ Session 2176 set the yearly totals (class all, type total_all_types_of_electrici
 
 ## License
 
-The header: "License: may be public (the Statistics Canada Open Licence; see license_verdicts.csv). Source: Statistics Canada, Table 25-10-0015-01. This does not constitute an endorsement by Statistics Canada of this product." `license_verdicts.csv` gives Statistics Canada "may be public", the same if the ERW sells anything (read 346, the Open Licence, read in session 2176 and recorded in session 2181): "Statistics Canada grants you a worldwide, royalty-free, non-exclusive licence to: use, reproduce, publish, freely distribute, or sell the Information". A value-added product carries a source line and the statement that StatCan does not endorse it; the header carries both. `coverage.csv`: public.
+The header: "License: may be public (the Statistics Canada Open Licence; see license_verdicts.csv). Source: Statistics Canada, Table 25-10-0015-01. This does not constitute an endorsement by Statistics Canada of this product." `license_verdicts.csv` gives Statistics Canada "may be public", the same if the ERW sells anything (read 361, the Open Licence, read in session 2176 and recorded in session 2181): "Statistics Canada grants you a worldwide, royalty-free, non-exclusive licence to: use, reproduce, publish, freely distribute, or sell the Information". A value-added product carries a source line and the statement that StatCan does not endorse it; the header carries both. `coverage.csv`: public.
 
 ## Found while writing this note
 
 - The docstring and the header say a figure marked ".." or "x" has no row. The code also passes over a figure marked "F" and counts it. No "F" was met in this run.
 - The docstring says "an area or label not in the maps" stops the run. The code maps areas and classes only; a type of generation it has not met becomes a new slug and a new series without stopping the run.
-- The docstring says the robots file "disallows its framework and error paths, not /n1/". Read 344 also records files ending .csv, .xls and the like as disallowed. The zip the connector asks is not such a file.
+- The docstring says the robots file "disallows its framework and error paths, not /n1/". Read 359 also records files ending .csv, .xls and the like as disallowed. The zip the connector asks is not such a file.
 - From January 2016 the combustion types are given only as totals (above), so a sum of the parts misses combustion; neither the docstring nor the header says so.
 
 Acted on in session 2185: the docstring now names "F", says a class of producer (not a label) outside the maps stops the run and a new type becomes a new series, records the robots file's file-ending rules and says the parts leave combustion out from 2016; the header's license line reads public, as the oil and gas table's does. The table was written again (the same rows).

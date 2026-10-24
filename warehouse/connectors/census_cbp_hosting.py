@@ -17,8 +17,8 @@ Energy Research Warehouse (ERW) connector. One series table from the CBP state f
 
 Each file's header must name fipstate, naics, emp_nf, emp, ap_nf, ap and est; a file with an lfo column gives one row a
 state for all legal forms ("-"), which is the one taken. A state given twice, a figure that is not a whole number or a
-state code not in the map stops the run. A row the Bureau withholds (flag N with zero) is kept as the Bureau prints it,
-with its flag; nothing is filled. The file is read a line at a time and only NAICS 518210's lines are kept.
+state code not in the map stops the run. A row the Bureau withholds (a zero with its flag, D or S in
+these files; session 2222 found no N) is kept as the Bureau prints it, with its flag; nothing is filled. The file is read a line at a time and only NAICS 518210's lines are kept.
 
     python warehouse/connectors/census_cbp_hosting.py [--offline] [--out-dir DIR] [--first YEAR] [--last YEAR]
 

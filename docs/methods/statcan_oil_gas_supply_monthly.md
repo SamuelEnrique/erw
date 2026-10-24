@@ -11,9 +11,9 @@ Statistics Canada (StatCan), two tables, each read from its full CSV download (a
 - 25-10-0063-01, "Supply and disposition of crude oil and equivalent" (`https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510006301`): `https://www150.statcan.gc.ca/n1/tbl/csv/25100063-eng.zip`
 - 25-10-0086-01, "Natural gas supply and disposition, monthly" (`https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510008601`): `https://www150.statcan.gc.ca/n1/tbl/csv/25100086-eng.zip`
 
-The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source ids `statcan:25-10-0063-01` and `statcan:25-10-0086-01`. Connector: `warehouse/connectors/statcan_oil_gas.py` (session 2179), its only table. www150.statcan.gc.ca's robots file (read 353, as read 344 in session 2176) asks a crawl delay of 2 seconds and does not disallow /n1/ or /t1/.
+The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source ids `statcan:25-10-0063-01` and `statcan:25-10-0086-01`. Connector: `warehouse/connectors/statcan_oil_gas.py` (session 2179), its only table. www150.statcan.gc.ca's robots file (read 368, as read 359 in session 2176) asks a crawl delay of 2 seconds and does not disallow /n1/ or /t1/.
 
-The gas table the chain file named, 25-10-0055-01, is inactive: its page (read 354) says it is archived and "Replaced by 25-10-0086-01". It is not taken.
+The gas table the chain file named, 25-10-0055-01, is inactive: its page (read 369) says it is archived and "Replaced by 25-10-0086-01". It is not taken.
 
 The table is not scheduled: no line of `warehouse/run_daily.sh`, the other `warehouse/*.sh` scripts, `warehouse/scheduled.py`, `scripts/` or `.github/workflows/` names the connector (searched in session 2185), and `run_status.csv` holds no row for it. It was written once, by run `20261024T014056Z` on the data machine, offline from the saved zips.
 
@@ -69,13 +69,13 @@ The replaced gas table, 25-10-0055-01, beside 25-10-0086-01 for Canada: 732 figu
 
 ## License
 
-The header: "License: public (the Statistics Canada Open Licence; see license_verdicts.csv). Source: Statistics Canada, Tables 25-10-0063-01 and 25-10-0086-01. This does not constitute an endorsement by Statistics Canada of this product." `license_verdicts.csv` gives Statistics Canada "may be public", the same if the ERW sells anything (read 346, the Open Licence, recorded in session 2181): "Statistics Canada grants you a worldwide, royalty-free, non-exclusive licence to: use, reproduce, publish, freely distribute, or sell the Information". A value-added product carries a source line and the statement that StatCan does not endorse it; the header carries both. `coverage.csv`: public.
+The header: "License: public (the Statistics Canada Open Licence; see license_verdicts.csv). Source: Statistics Canada, Tables 25-10-0063-01 and 25-10-0086-01. This does not constitute an endorsement by Statistics Canada of this product." `license_verdicts.csv` gives Statistics Canada "may be public", the same if the ERW sells anything (read 361, the Open Licence, recorded in session 2181): "Statistics Canada grants you a worldwide, royalty-free, non-exclusive licence to: use, reproduce, publish, freely distribute, or sell the Information". A value-added product carries a source line and the statement that StatCan does not endorse it; the header carries both. `coverage.csv`: public.
 
 ## Found while writing this note
 
 - The docstring gives `geo` as "CA or CA-<province>". The Atlantic provinces' rows (`statcan_oil:atl`, 1,313 rows) also carry `geo` CA, so a filter on `geo` CA takes Canada and the Atlantic provinces together; `entity` or `x_area_total` tells them apart.
 - The docstring and the header write the license as "public"; the verdict in `license_verdicts.csv` is "may be public". The session 2176 table's header writes "may be public".
-- The docstring says the robots file "disallows its framework and error paths, not /n1/". Read 344 also records files ending .csv, .xls and the like as disallowed. The zips the connector asks are not such files.
+- The docstring says the robots file "disallows its framework and error paths, not /n1/". Read 359 also records files ending .csv, .xls and the like as disallowed. The zips the connector asks are not such files.
 
 Acted on in session 2185: the docstring and the header say the Atlantic provinces carry `geo` CA (filter on the entity), the robots account names the file-ending rules, and both StatCan headers now read "public" for the table's license (the verdict, "may be public", is the publisher's terms; the table's license is public). The table was written again (the same rows).
 

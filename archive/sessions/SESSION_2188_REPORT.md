@@ -23,11 +23,11 @@ The ERW held no record of the federal money behind DOE's programmes. Its grant a
   - Budgetary resources stood at 49 to 61 billion USD a year to fiscal 2021, then 130 billion in fiscal 2022 and 141 to 153 billion since.
   - Obligations rose from 41.6 to 98.5 billion (fiscal 2025).
   - **Grants rose from about 3 billion a year to 28.8 billion in fiscal 2025, and stand at 2.6 billion in fiscal 2026 to August.**
-- **License: internal.** USAspending is the Treasury's Bureau of the Fiscal Service, and the Treasury's terms are the standing question already put for `treasury_1603_awards` (chain 069). The API's landing page states no terms (read 365), so no verdict is added and the table stays internal until the ruling. It is not in the release package.
+- **License: internal.** USAspending is the Treasury's Bureau of the Fiscal Service, and the Treasury's terms are the standing question already put for `treasury_1603_awards` (chain 069). The API's landing page states no terms (read 380), so no verdict is added and the table stays internal until the ruling. It is not in the release package.
 - **Not taken:** obligations by state. They need a POST to USAspending's search API, and the ERW's fetch helper asks by GET only.
 - **Registered and recorded:**
   - the sector rule (`power;deals`) and the live-set hold;
-  - reads 362 to 365;
+  - reads 377 to 380;
   - `tests/test_session205.py`'s bound raised by 20 (324 later reads against 342);
   - the license tables (licenses check: 0 problems);
   - a method note (`docs/methods/usaspending_doe_obligations.md`) and its Method cell;

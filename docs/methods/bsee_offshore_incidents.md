@@ -21,7 +21,7 @@ The workbooks read, as `source_url` gives them:
 | 2023 | `https://www.bsee.gov/sites/bsee.gov/files/2024-10/cy-2023-excel-spreadsheet.xlsx` | 9 Oct 2024 |
 | 2024 | `https://www.bsee.gov/sites/bsee.gov/files/2026-04/cy-2024-excel-spreadsheet.xlsx` | 7 Apr 2026 |
 
-The Last-Modified times are from the raw files' manifests on the data machine. The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source id `bsee:offshore_incidents`. Connector: `warehouse/connectors/bsee_incidents.py` (session 2177), its only table. www.bsee.gov's robots file (read 347) disallows the site's admin, search, user, core and profile paths, not /sites/ or /stats-facts/.
+The Last-Modified times are from the raw files' manifests on the data machine. The User-Agent is "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)". Source id `bsee:offshore_incidents`. Connector: `warehouse/connectors/bsee_incidents.py` (session 2177), its only table. www.bsee.gov's robots file (read 362) disallows the site's admin, search, user, core and profile paths, not /sites/ or /stats-facts/.
 
 The table is not scheduled: no line of `warehouse/run_daily.sh`, the other `warehouse/*.sh` scripts, `warehouse/scheduled.py`, `scripts/` or `.github/workflows/` names the connector (searched in session 2185), and `run_status.csv` holds no row for it. It was written once, by run `20261024T012138Z` on the data machine, offline from the saved workbooks.
 
@@ -72,7 +72,7 @@ Incidents roughly doubled against production. Of the 683 leases the incidents na
 
 ## License
 
-The header: "License: public (BSEE's workbooks: Public Access Level: Public; the Department of the Interior's notice, see license_verdicts.csv). Cite the Bureau of Safety and Environmental Enforcement." `license_verdicts.csv` gives BSEE "may be public", the same if the ERW sells anything (read 159, the Department of the Interior's notice, as for ONRR and BLM; recorded in session 2181): "Generally, materials produced by federal agencies are in the public domain and may be reproduced without permission." Its note: the incident workbooks are BSEE's own record, marked "Public Access Level: Public" on the statistics page (read 348). `coverage.csv`: public.
+The header: "License: public (BSEE's workbooks: Public Access Level: Public; the Department of the Interior's notice, see license_verdicts.csv). Cite the Bureau of Safety and Environmental Enforcement." `license_verdicts.csv` gives BSEE "may be public", the same if the ERW sells anything (read 159, the Department of the Interior's notice, as for ONRR and BLM; recorded in session 2181): "Generally, materials produced by federal agencies are in the public domain and may be reproduced without permission." Its note: the incident workbooks are BSEE's own record, marked "Public Access Level: Public" on the statistics page (read 363). `coverage.csv`: public.
 
 ## Found while writing this note
 

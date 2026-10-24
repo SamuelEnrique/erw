@@ -6,12 +6,12 @@ Tables: `usaspending_doe_obligations`
 
 ## Publisher and address
 
-The U.S. Department of the Treasury's Bureau of the Fiscal Service publishes USAspending.gov, the federal spending record under the DATA Act. Its public API gives each agency's figures by its toptier code; the Department of Energy is 089 (the toptier agencies list, read 364).
+The U.S. Department of the Treasury's Bureau of the Fiscal Service publishes USAspending.gov, the federal spending record under the DATA Act. Its public API gives each agency's figures by its toptier code; the Department of Energy is 089 (the toptier agencies list, read 379).
 
 - `https://api.usaspending.gov/api/v2/agency/089/budgetary_resources/`: each fiscal year's budgetary resources, total obligations and total outlays, and the obligations to date at each reporting period.
 - `https://api.usaspending.gov/api/v2/agency/089/obligations_by_award_category/?fiscal_year=<year>`: the year's award obligations by category, one request a year, fiscal 2017 to 2026.
 
-api.usaspending.gov has no robots file (HTTP 404, read 362). www.usaspending.gov's disallows only addresses with a query or `.php` (read 363). The API's landing page states no terms of use (read 365).
+api.usaspending.gov has no robots file (HTTP 404, read 377). www.usaspending.gov's disallows only addresses with a query or `.php` (read 378). The API's landing page states no terms of use (read 380).
 
 ## Vintage and revision
 
