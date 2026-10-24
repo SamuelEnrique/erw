@@ -12,7 +12,14 @@
 // (components/svgchart.tsx) with the props they took on the canvas; the page hands the same arrays, no number moved.
 import { CategoryChart, HeatChart, type CatSeries } from "@/components/svgchart";
 
-export type Series = { name: string; color: string; values: (number | null)[]; axis?: 0 | 1; dash?: "solid" | "dashed" | "dotted"; width?: number; unit?: string };
+export type Series = { name: string; color: string; values: (number | null)[]; axis?: 0 | 1; dash?: "solid" | "dashed" | "dotted"; width?: number; unit?: string; digits?: number };
+
+// Session 1168 (chain 078): Lines and Bars may carry, on hover, a note for each category (the year's figures behind the
+// point: MW, the hour it began) and one line under it on every hover (what the figure is not, the method note's own
+// words). Both are off unless a page passes them; no chart that stood takes either, so none of their cards moves.
+function Tip({ tip }: { tip?: string }) {
+  return tip ? <div className="mt-1 max-w-[260px] border-t border-rule pt-1 text-muted" data-chart-not="1">{tip}</div> : null;
+}
 
 export function HourStack({ x, layers, lines, unit, unit2, label, height = 300, name }: { x: string[]; layers: Series[]; lines: Series[]; unit: string; unit2?: string; label: string; height?: number; name: string }) {
   const series: CatSeries[] = [
@@ -22,12 +29,12 @@ export function HourStack({ x, layers, lines, unit, unit2, label, height = 300, 
   return <div data-chart="stack"><CategoryChart id={name} x={x} series={series} unit={unit} unit2={unit2} label={label} height={height} /></div>;
 }
 
-export function Lines({ x, series, unit, unit2, label, height = 300, name, zero, every }: { x: string[]; series: Series[]; unit: string; unit2?: string; label: string; height?: number; name: string; zero?: boolean; every?: number }) {
-  return <div data-chart="lines"><CategoryChart id={name} x={x} series={series.map((l) => ({ ...l, kind: "line" as const }))} unit={unit} unit2={unit2} label={label} height={height} zero={Boolean(zero)} every={every} /></div>;
+export function Lines({ x, series, unit, unit2, label, height = 300, name, zero, every, notes, tip }: { x: string[]; series: Series[]; unit: string; unit2?: string; label: string; height?: number; name: string; zero?: boolean; every?: number; notes?: (string | null)[]; tip?: string }) {
+  return <div data-chart="lines"><CategoryChart id={name} x={x} series={series.map((l) => ({ ...l, kind: "line" as const }))} unit={unit} unit2={unit2} label={label} height={height} zero={Boolean(zero)} every={every} notes={notes}><Tip tip={tip} /></CategoryChart></div>;
 }
 
-export function Bars({ x, series, unit, label, height = 260, name }: { x: string[]; series: Series[]; unit: string; label: string; height?: number; name: string }) {
-  return <div data-chart="bars"><CategoryChart id={name} x={x} series={series.map((l) => ({ ...l, kind: "bar" as const }))} unit={unit} label={label} height={height} /></div>;
+export function Bars({ x, series, unit, label, height = 260, name, notes, tip }: { x: string[]; series: Series[]; unit: string; label: string; height?: number; name: string; notes?: (string | null)[]; tip?: string }) {
+  return <div data-chart="bars"><CategoryChart id={name} x={x} series={series.map((l) => ({ ...l, kind: "bar" as const }))} unit={unit} label={label} height={height} notes={notes}><Tip tip={tip} /></CategoryChart></div>;
 }
 
 /** rows by columns; cells[r][c] is the value or null. The mouse reads the row, the column and the value. */

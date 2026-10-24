@@ -152,3 +152,66 @@ Decisions (chain 078):
   the owner, not a page fault. The owner may make it a failure.
 - **The form is part of the key** (`fmt|n1|...`), so the text is recomputed exactly, not only the number; no figure's
   text moved.
+
+### The four measures by year, on the Mix tab (session 1168)
+
+Session 1168 drew each of this note's four measures on the view "How hard the system works" (`/grid?view=mix&mix=stress`,
+`components/mix/views.tsx` `StressView`) as a chart with a point a year, from the same committed file
+(`site/data/stress/<grid>.json`), the values picked by `site/lib/gridStress.ts` (a pure file, held by
+`site/scripts/test-grid-stress.mjs`):
+
+- **The evening ramp**: the chart that stood ("The largest evening ramp of each year, as a share of peak demand", bars for
+  one grid, a line a grid for several), its series as they were; its hover now adds the year's ramp in MW in one hour
+  and the hour it started, over three hours, and the year's peak demand.
+- **The lowest net load** (new): "The lowest net load of each year, as a share of peak demand", a line a grid, its hover
+  the share to one decimal, the MW, the hour and the peak it is set against.
+- **The tightest hours** (new, above each grid's fuel table): each fuel's output in the year's 100 tightest hours as a
+  share of its installed capacity, a line a fuel (hydro and storage as the one line they are set against capacity as);
+  its hover the mean net load of those hours.
+- **Dark, calm stretches** (new, above each grid's table): the longest stretch of each year in hours; its hover when it
+  began, the energy missing, the battery fleet's hours at full power and the year's dark, calm hours.
+
+A year the file does not hold is a gap, never a zero; the newest year's note says "the year to date". Each chart's hover
+ends with the line below, and a link under the chart, "What this chart is not", opens the section below, the line on its hover.
+`grid_stress_yearly` is public (EIA-930, EIA-860M and `storage_buildout_monthly`, `site/data/license_status.json`), so
+every grid is drawn; no grid of the view is held.
+
+### What each chart is not (session 1168)
+
+The tip of each chart, word for word. The two last are this note's "What the figures are not", in short; the two first
+are lines written for the two charts that section had none for, from "The definitions, as computed" and "The hours".
+
+- **The evening ramp:** Not a reliability study: the largest rise of net load from one hour to the next between 14:00 and 22:00 local, a spike the next hour takes back by more than half left out. Outages, transmission limits and reserves are not in the file.
+- **The lowest net load:** One hour, not a level held: the year's single lowest hour of demand less wind less solar, set against the same year's peak demand. California across the join of 16 December 2025 is two series.
+- **The tightest hours:** Not what a plant could do: a plant below its capacity in a tight hour may have been in reserve, on outage, out of fuel or not needed; the share is what the fleet did. Not a reliability study: the hours are tight by net load.
+- **Dark, calm stretches:** Not a sizing of storage: the energy missing is set against today's battery fleet to show its scale. Dark and calm is one line, wind and solar below a tenth of their capacity, so a grid with much solar and little wind is below it most nights.
+
+### The large tables, keyed whole (session 1168)
+
+The two tables session 1166 left are keyed, every cell, as the others (`fmt|<form>|file|stress/<grid>.json|years.<year>.<variable>`):
+"what each fuel gave in the 100 tightest hours" (`tight_<natural_gas, coal, nuclear, wind, solar, hydro, storage, hydro_storage>_mw`,
+`capacity_<natural_gas, coal, nuclear, wind, solar, hydro_storage>_mw`, `tight_<fuel>_share_of_capacity_pct` as above)
+and "dark, calm stretches, by year" (`calm_hours`, `calm_stretches_ge24h`, `calm_longest_missing_mwh`, `calm_longest_fleet_mw`,
+`calm_longest_fleet_mwh`, `calm_longest_fleet_full_power_hours`, `calm_longest_fleet_energy_multiples`). "The longest", written
+in days and hours, is keyed `calm_longest_hours` in a new form, `span` (`site/scripts/check-format.mjs`, `lib/stress.ts`
+`span` as it stands), in the grid's table and in "The seven grids". On the committed files, drawn for one grid at a time, the
+view wrote 616 keys before and 1,228 after (612 added: 91 for CAISO, ERCOT, ISO-NE and MISO, 84 for NYISO, 90 for PJM, 74
+for SPP). `test-grid-file-keys.mjs`, which draws every view for every grid and recomputes every key, ran in 1.4 seconds
+before and 1.8 after. check-values reads one live-set row set a grid and a year for the table comparison
+(`fileTableRows`), which the ramp table's keys already read, so the added keys add no request.
+
+Still not keyed: the hours ("When it started", "When", "It began": times), the chart's hover values (drawn in the browser).
+
+Decisions (session 1168):
+
+- **The ramp's chart was kept as it stood** (bars for one grid, its two series, the hover's values with up to two decimals);
+  the new charts write their shares to one decimal on hover, as the tables do. The owner may ask the ramp's hover to one
+  decimal too; no figure on the page's face would move.
+- **The lowest net load is drawn as a share of peak**, as the ramp and "The seven grids" compare grids; its MW is in the hover.
+- **Two lines were written for the ramp and the lowest net load**, which "What the figures are not" did not cover, from this
+  note's own definitions; that section is left as it stood.
+- **The tightest hours and the stretches are drawn per grid**, above each grid's table, as the tables are; the ramp and the
+  lowest net load are drawn across the grids chosen, as the ramp's chart was.
+- **The line is in the chart's hover card and on a link's hover**, not written on the page's face (the view's rule since
+  session 133: the face carries no method); the link opens this section.
+- **The large tables were keyed whole**: the added keys cost no request and 0.4 seconds of the node test.

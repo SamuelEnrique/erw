@@ -58,6 +58,15 @@ test("each form writes a number as the page's own function writes it", () => {
   assert.equal(FMT.formText("nope", 1), undefined);
 });
 
+test("session 1168: the span form writes a stretch of hours as lib/stress.ts span does", () => {
+  for (const h of [0, 1, 2, 15, 18, 23, 24, 25, 38, 48, 62, 101, 23.6, 47.5, 240]) assert.equal(FMT.formText("span", h), stress.span(h), `span ${h}`);
+  assert.equal(FMT.formText("span", 101), "4 days 5 hours");
+  assert.equal(FMT.formText("span", 18), "18 hours");
+  assert.equal(FMT.formText("span", 24), "1 day");
+  assert.deepEqual(FMT.fmtParts("fmt|span|file|stress/ercot.json|years.2025.calm_longest_hours"), { form: "span", inner: "file|stress/ercot.json|years.2025.calm_longest_hours" });
+  assert.equal(FMT.formText("span", null), undefined);
+});
+
 test("a fmt| key is its form and its inner key whole, the calc operands' ~ kept", () => {
   const inner = "calc|pct|series_sum~eia930_all_generation~net_generation_wind_mw,net_generation_wind_with_battery_mw~2026-10-21T00:00:00Z~2026-10-22T00:00:00Z~eia930:ERCO|series_sum~eia930_all_generation~net_generation_mw~2026-10-21T00:00:00Z~2026-10-22T00:00:00Z~eia930:ERCO";
   assert.deepEqual(FMT.fmtParts(`fmt|f1|${inner}`), { form: "f1", inner });
@@ -209,6 +218,25 @@ test("the clean view keys no figure of a grid held for a license (ISO-NE, MISO, 
   for (const g of GRIDS) {
     const ks = keysOf(createElement(V.CleanView, { c: choiceOf({ view: "clean", grids: g }) }));
     for (const h of held) assert.ok(!ks.some((k) => k.check.includes(`clean/${h}.json`)), `${g}: no key of ${h}`);
+  }
+});
+
+test("session 1168: the stress view keys its large tables whole: every held figure of the fuels and the stretches, and the longest in days and hours", () => {
+  for (const g of GRIDS) {
+    const f = read(`stress/${g}.json`), ys = stress.yearsOf(f), year = stress.defaultYear(f);
+    const ks = new Map(keysOf(createElement(V.StressView, { c: choiceOf({ view: "stress", grids: g }) })).map((k) => [FMT.fmtParts(k.check).inner, k]));
+    const has = (y, v) => ks.has(`file|stress/${g}.json|years.${y}.${v}`);
+    for (const r of stress.fuelRows(f, year)) {
+      assert.equal(has(year, `tight_${r.fuel}_mw`), r.mw !== null, `${g} ${r.fuel} mw`);
+      assert.equal(has(year, `capacity_${r.fuel}_mw`), r.capacity !== null, `${g} ${r.fuel} capacity`);
+      assert.equal(has(year, `tight_${r.fuel}_share_of_capacity_pct`), r.share !== null, `${g} ${r.fuel} share`);
+    }
+    for (const y of ys) {
+      for (const v of ["calm_hours", "calm_stretches_ge24h", "calm_longest_missing_mwh", "calm_longest_fleet_mw", "calm_longest_fleet_mwh", "calm_longest_fleet_full_power_hours", "calm_longest_fleet_energy_multiples", "calm_longest_hours"])
+        assert.equal(has(y, v), stress.get(f, y, v) !== null, `${g} ${y} ${v}`);
+      const k = ks.get(`file|stress/${g}.json|years.${y}.calm_longest_hours`);
+      if (k) { assert.ok(k.check.startsWith("fmt|span|"), k.check); assert.equal(k.text, stress.span(stress.get(f, y, "calm_longest_hours"))); }
+    }
   }
 });
 
