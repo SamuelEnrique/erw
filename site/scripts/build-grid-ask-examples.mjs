@@ -15,6 +15,13 @@
 //   - a question about one grid (a comparison of two grids is left out), once (the newest asking of the same words);
 //   - at most five: the route the panel itself sends first (ERCOT: the panel's profile; the Lower 48: the general chat;
 //     the other grids: the grid's own chat), then the newest run, then answers with figures before refusals, then id.
+// Session 1187 (chain 091): a run whose grade is in a file of its own (chains 075 and 076's runs of 23 October,
+// eval_s1113.py --grade) has it joined by question id from `grades`, each row checked against the run's (its status,
+// its count of tool calls, its seconds, its cost: a row of another asking is not used). Graded right there is the
+// grade on the keys: `ok` with `grade.ok` (session 1114's set), `now_ok` with `grade_now.ok` (session 320's set);
+// an answer right only under the hold (a license refusal) or only with session 320's rulings taken its way is left
+// out, and said so. When two runs asked the same words, the newest asking (its time, then its session) is the one
+// kept (`newestAskings`), before the order above, so a later run of the same question replaces the earlier one.
 // The hold of a license is not applied here: lib/gridask.ts applies it on the day the page is drawn (lib/license.ts).
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -38,8 +45,13 @@ export const GRIDS = [
   ["us48", "US48", "general"],
 ];
 
-// The recorded runs read, newest first. `route` is how the run asked when a question carries no `via` of its own.
+// The recorded runs read, newest first. `route` is how the run asked when a question carries no `via` of its own;
+// `grades` is the file holding the run's grade when its questions carry none (session 1187).
 export const RUNS = [
+  { file: "warehouse/chat/eval/eval_s1133_s1114_run.json", grades: "warehouse/chat/eval/eval_s1133_s1114_grades.json", session: 1133, route: null },
+  { file: "warehouse/chat/eval/eval_s1133_s320_run.json", grades: "warehouse/chat/eval/eval_s1133_s320_grades.json", session: 1133, route: null },
+  { file: "warehouse/chat/eval/eval_s1114_run.json", grades: "warehouse/chat/eval/eval_s1114_grades.json", session: 1114, route: null },
+  { file: "warehouse/chat/eval/eval_s1113_run.json", grades: "warehouse/chat/eval/eval_s1113_grades.json", session: 1113, route: null },
   { file: "warehouse/chat/eval/eval_s320_first_run.json", session: 320, route: null },
   { file: "warehouse/chat/eval/eval_s302_fixtures.json", session: 302, route: null },
   { file: "warehouse/chat/eval/eval_s267_fixtures.json", session: 267, route: "general" },
@@ -140,18 +152,38 @@ export function traceFigures(answer, question, trace) {
 
 // ------------------------------------------------------------------ the selection
 
+/** A run's questions with the grade of its grades file joined by id (session 1187), and the ids that file could not
+ *  grade, with why. A row is used only when it is of this asking: the same status, count of tool calls, seconds and
+ *  cost as the run's question. Right is the grade on the keys; the hold's grade and the rulings' are not used. */
+export function joinGrades(questions, grades) {
+  const rows = new Map((grades?.questions ?? []).map((g) => [g.id, g]));
+  const why = new Map();
+  const out = (questions ?? []).map((q) => {
+    const g = rows.get(q.id);
+    if (!g) { why.set(q.id, "the grades file holds no row for it"); return { ...q, verdict: undefined, grade: undefined }; }
+    const same = g.status === q.status && g.trace_calls === (Array.isArray(q.trace) ? q.trace.length : null) && g.seconds === q.seconds && g.cost_usd === q.cost_usd;
+    if (!same) { why.set(q.id, "the grades file's row is of another asking"); return { ...q, verdict: undefined, grade: undefined }; }
+    const onKeys = "now_ok" in g ? g.now_ok === true && g.grade_now?.ok === true : g.ok === true && g.grade?.ok === true;
+    if (!onKeys && g.held_ok === true) why.set(q.id, "graded right only under the hold (a license refusal), not on its key");
+    else if (!onKeys && g.if_ruled_ok === true) why.set(q.id, "graded right only with session 320's rulings taken its way, not on its key");
+    return { ...q, verdict: onKeys ? "right" : "wrong", grade: { ok: onKeys } };
+  });
+  return { questions: out, why };
+}
+
 const gradedRight = (q) => q.verdict === "right" && q.grade && q.grade.ok === true && (q.status === "answered" || q.status === "not_in_warehouse");
 const words = (s) => String(s).toLowerCase().replace(/\s+/g, " ").trim();
 
 /** One run's usable examples and what was left out, with why. `run` is a RUNS entry, `data` the file read. */
-export function examplesOfRun(run, data) {
+export function examplesOfRun(run, data, grades = null) {
   const kept = [];
   const left = [];
   const labels = new Map(GRIDS.map(([slug, label]) => [label, slug]));
-  for (const q of data.questions ?? []) {
+  const joined = grades ? joinGrades(data.questions, grades) : { questions: data.questions ?? [], why: new Map() };
+  for (const q of joined.questions) {
     const why = (w) => left.push({ question_id: q.id, why: w });
     if (!labels.has(q.grid)) { why(`not one grid (${q.grid})`); continue; }
-    if (!gradedRight(q)) { why(`graded ${q.verdict ?? "without a verdict"}`); continue; }
+    if (!gradedRight(q)) { why(joined.why.get(q.id) ?? `graded ${q.verdict ?? "without a verdict"}`); continue; }
     if (!Array.isArray(q.trace)) { why("the run recorded no tool results for it"); continue; }
     const { traced, untraced } = traceFigures(q.answer, q.question, q.trace);
     if (untraced.length) { why(`a figure no tool returned: ${untraced.join(", ")}`); continue; }
@@ -183,10 +215,28 @@ export function examplesOfRun(run, data) {
   return { kept, left };
 }
 
+/** One asking of each question's words: when two runs asked the same words, the panel's own route first (as before),
+ *  then the newest asking by its time, then by its session, then the run read first (RUNS is newest first). */
+export function newestAskings(examples, route) {
+  const best = new Map();
+  const better = (a, b) =>
+    ((a.via === route ? 0 : 1) - (b.via === route ? 0 : 1))
+    || String(b.asked_at_utc).localeCompare(String(a.asked_at_utc))
+    || (b.session - a.session);
+  for (const e of examples) {
+    const w = words(e.question);
+    const now = best.get(w);
+    if (!now || better(e, now) < 0) best.set(w, e);
+  }
+  const keep = new Set(best.values());
+  return examples.filter((e) => keep.has(e));
+}
+
 /** The examples of one grid, chosen from every run's kept examples: at most MAX_EXAMPLES, in the order the file says. */
 export function chooseForGrid(slug, kept) {
   const route = (GRIDS.find(([s]) => s === slug) ?? [])[2];
-  const mine = kept.filter((e) => e.grid === slug);
+  const all = kept.filter((e) => e.grid === slug);
+  const mine = newestAskings(all, route);
   mine.sort((a, b) =>
     (a.via === route ? 0 : 1) - (b.via === route ? 0 : 1)
     || String(b.asked_at_utc).slice(0, 10).localeCompare(String(a.asked_at_utc).slice(0, 10))
@@ -202,7 +252,7 @@ export function chooseForGrid(slug, kept) {
     if (out.length === MAX_EXAMPLES) break;
   }
   // usable: the distinct questions of the grid that pass, shown or not
-  return { examples: out, usable: new Set(mine.map((e) => words(e.question))).size };
+  return { examples: out, usable: new Set(all.map((e) => words(e.question))).size };
 }
 
 // the hash of the file as git holds it: line ends as LF, so a Windows checkout (CRLF) and a Linux one agree
@@ -220,9 +270,10 @@ export function build(read = (rel) => fs.readFileSync(path.join(ROOT, rel))) {
       files.push({ file: run.file, sha256_16: sha(buf), questions: (data.questions ?? []).length, kept: 0, left_out: "the run recorded the count of tool calls, not their results, so no figure of it can be traced to a tool result" });
       continue;
     }
-    const r = examplesOfRun(run, data);
+    const gbuf = run.grades ? read(run.grades) : null;
+    const r = examplesOfRun(run, data, gbuf ? JSON.parse(String(gbuf)) : null);
     kept.push(...r.kept);
-    files.push({ file: run.file, sha256_16: sha(buf), questions: (data.questions ?? []).length, kept: r.kept.length, left: r.left });
+    files.push({ file: run.file, sha256_16: sha(buf), ...(gbuf ? { grades: run.grades, grades_sha256_16: sha(gbuf) } : {}), questions: (data.questions ?? []).length, kept: r.kept.length, left: r.left });
   }
   const grids = {};
   for (const [slug, label] of GRIDS) {

@@ -4,6 +4,225 @@
  "max_examples": 5,
  "files": [
   {
+   "file": "warehouse/chat/eval/eval_s1133_s1114_run.json",
+   "sha256_16": "5ff36129c67d0632",
+   "grades": "warehouse/chat/eval/eval_s1133_s1114_grades.json",
+   "grades_sha256_16": "d07e2b1b4af2751d",
+   "questions": 8,
+   "kept": 8,
+   "left": []
+  },
+  {
+   "file": "warehouse/chat/eval/eval_s1133_s320_run.json",
+   "sha256_16": "f5aa0433b3d2d538",
+   "grades": "warehouse/chat/eval/eval_s1133_s320_grades.json",
+   "grades_sha256_16": "ac9f3f57d8c3d307",
+   "questions": 30,
+   "kept": 10,
+   "left": [
+    {
+     "question_id": "b01",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b02",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b03",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b04",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b05",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b06",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b08",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b09",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "g03",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "g06",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "g07",
+     "why": "graded right only under the hold (a license refusal), not on its key"
+    },
+    {
+     "question_id": "g08",
+     "why": "graded right only under the hold (a license refusal), not on its key"
+    },
+    {
+     "question_id": "d01",
+     "why": "a figure no tool returned: 930"
+    },
+    {
+     "question_id": "d02",
+     "why": "a figure no tool returned: 930"
+    },
+    {
+     "question_id": "d03",
+     "why": "a figure no tool returned: 930"
+    },
+    {
+     "question_id": "d05",
+     "why": "graded right only under the hold (a license refusal), not on its key"
+    },
+    {
+     "question_id": "d07",
+     "why": "graded right only under the hold (a license refusal), not on its key"
+    },
+    {
+     "question_id": "d08",
+     "why": "a figure no tool returned: 930"
+    },
+    {
+     "question_id": "d09",
+     "why": "a figure no tool returned: 930"
+    },
+    {
+     "question_id": "d10",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    }
+   ]
+  },
+  {
+   "file": "warehouse/chat/eval/eval_s1114_run.json",
+   "sha256_16": "ea10ecf4cbe8ba18",
+   "grades": "warehouse/chat/eval/eval_s1114_grades.json",
+   "grades_sha256_16": "9642953318a3826a",
+   "questions": 30,
+   "kept": 24,
+   "left": [
+    {
+     "question_id": "t06",
+     "why": "graded wrong"
+    },
+    {
+     "question_id": "t09",
+     "why": "graded wrong"
+    },
+    {
+     "question_id": "f05",
+     "why": "graded wrong"
+    },
+    {
+     "question_id": "f06",
+     "why": "graded wrong"
+    },
+    {
+     "question_id": "f07",
+     "why": "graded wrong"
+    },
+    {
+     "question_id": "f08",
+     "why": "graded wrong"
+    }
+   ]
+  },
+  {
+   "file": "warehouse/chat/eval/eval_s1113_run.json",
+   "sha256_16": "d2c847b0a838b520",
+   "grades": "warehouse/chat/eval/eval_s1113_grades.json",
+   "grades_sha256_16": "e6f35dba16d16fa6",
+   "questions": 30,
+   "kept": 11,
+   "left": [
+    {
+     "question_id": "b01",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b02",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b03",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b04",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b05",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b06",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b08",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "b09",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "g03",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "g06",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    },
+    {
+     "question_id": "g07",
+     "why": "graded right only under the hold (a license refusal), not on its key"
+    },
+    {
+     "question_id": "g08",
+     "why": "graded right only under the hold (a license refusal), not on its key"
+    },
+    {
+     "question_id": "d01",
+     "why": "a figure no tool returned: 930"
+    },
+    {
+     "question_id": "d02",
+     "why": "a figure no tool returned: 930"
+    },
+    {
+     "question_id": "d05",
+     "why": "graded right only under the hold (a license refusal), not on its key"
+    },
+    {
+     "question_id": "d07",
+     "why": "graded right only under the hold (a license refusal), not on its key"
+    },
+    {
+     "question_id": "d08",
+     "why": "a figure no tool returned: 930"
+    },
+    {
+     "question_id": "d09",
+     "why": "a figure no tool returned: 930"
+    },
+    {
+     "question_id": "d10",
+     "why": "graded right only with session 320's rulings taken its way, not on its key"
+    }
+   ]
+  },
+  {
    "file": "warehouse/chat/eval/eval_s320_first_run.json",
    "sha256_16": "032f432e7cbce65e",
    "questions": 30,
@@ -62,7 +281,7 @@
  "grids": {
   "ercot": {
    "label": "ERCOT",
-   "usable": 23,
+   "usable": 44,
    "examples": [
     {
      "id": "s302:q01",
@@ -218,20 +437,179 @@
   },
   "caiso": {
    "label": "CAISO",
-   "usable": 10,
+   "usable": 17,
    "examples": [
     {
-     "id": "s302:q11",
+     "id": "s1113:d03",
      "grid": "caiso",
-     "file": "warehouse/chat/eval/eval_s302_fixtures.json",
-     "session": 302,
-     "question_id": "q11",
-     "run": "session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat",
-     "asked_at_utc": "2026-10-19T11:52:20.043Z",
+     "file": "warehouse/chat/eval/eval_s1113_run.json",
+     "session": 1113,
+     "question_id": "d03",
+     "run": "session 1113's evaluation, asked 2026-10-23 through POST /api/ask, the grid's own chat",
+     "asked_at_utc": "2026-10-23T19:38:07Z",
      "via": "grid",
      "model": "claude-sonnet-5-5",
-     "question": "How much wind did CAISO curtail in total in 2024, in MWh?",
-     "answer": "CAISO curtailed about 230,777 MWh of wind in calendar year 2024 (230776.644 MWh, rounded). This is the sum of 12 monthly values of curtailed_wind_mwh for entity caiso:ISO, from January to December 2024 (iso_curtailment_monthly, derived from CAISO's curtailment reports). Months are in local time. This is CAISO's own curtailment figure, which isn't comparable with other ISOs' figures.",
+     "question": "What was the real-time shape premium (the load-weighted price over the simple mean) at CAISO's NP15 hub in July 2026, in USD per MWh?",
+     "answer": "The real-time shape premium at CAISO's NP15 hub (TH_NP15_GEN-APND) for July 2026 was 0.93 USD/MWh (cost_of_power_monthly, derived, entity caiso:TH_NP15_GEN-APND, variable rt_shape_premium, value 0.9321). The month is local July 2026 (Pacific time), with 744 of 744 real-time hours held. It is the real-time load-weighted price of 37.66 USD/MWh less the simple mean of 36.72 USD/MWh (both cost_of_power_monthly). Wholesale energy only.",
+     "refusal": false,
+     "verdict": "right",
+     "sources": [
+      {
+       "tool": "query",
+       "tables": [
+        "cost_of_power_monthly"
+       ],
+       "filter": "aggregation=latest, entity=caiso:TH_NP15_GEN-APND, start=2026-07-01, end=2026-08-01, group_by=variable",
+       "entities": [
+        "caiso:TH_NP15_GEN-APND"
+       ],
+       "figures": [
+        "0.93",
+        "0.9321",
+        "744",
+        "37.66",
+        "36.72"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "s1114:f02",
+     "grid": "caiso",
+     "file": "warehouse/chat/eval/eval_s1114_run.json",
+     "session": 1114,
+     "question_id": "f02",
+     "run": "session 1114's evaluation, asked 2026-10-23 through POST /api/ask, the grid's own chat",
+     "asked_at_utc": "2026-10-23T19:47:02Z",
+     "via": "grid",
+     "model": "claude-sonnet-5-5",
+     "question": "What did a 4-hour battery at CAISO's SP15 hub earn in total on the day-ahead strategy in September 2026, in USD per MW?",
+     "answer": "A 1 MW, 4-hour battery at CAISO's SP15 hub (TH_SP15_GEN-APND) earned a total of 6321.48 USD/MW in September 2026 on the day-ahead strategy (battery_stack_monthly, derived). Of that, energy was 2441.58 USD/MW and ancillary services were 3879.89 USD/MW (same table). All 30 of the month's 30 days were held, and none were left out (battery_stack_monthly). The month is a Pacific local month, and the figure is USD per MW of battery for the month, not per year. This is a modeled figure from one linear program a day. The battery is a price taker, and reserves are assumed to be paid and never called. It is not an actual fleet's earnings and includes no capacity payment.",
+     "refusal": false,
+     "verdict": "right",
+     "sources": [
+      {
+       "tool": "query",
+       "tables": [
+        "battery_stack_monthly"
+       ],
+       "filter": "aggregation=latest, variable=dayahead_4h_revenue_total_usd_per_mw, start=2026-09-01, end=2026-10-01",
+       "entities": [],
+       "figures": [
+        "1",
+        "6321.48"
+       ]
+      },
+      {
+       "tool": "query",
+       "tables": [
+        "battery_stack_monthly"
+       ],
+       "filter": "aggregation=latest, variable=dayahead_4h_revenue_energy_usd_per_mw, start=2026-09-01, end=2026-10-01",
+       "entities": [],
+       "figures": [
+        "2441.58"
+       ]
+      },
+      {
+       "tool": "query",
+       "tables": [
+        "battery_stack_monthly"
+       ],
+       "filter": "aggregation=latest, variable=dayahead_4h_revenue_ancillary_usd_per_mw, start=2026-09-01, end=2026-10-01",
+       "entities": [],
+       "figures": [
+        "3879.89"
+       ]
+      },
+      {
+       "tool": "query",
+       "tables": [
+        "battery_stack_monthly"
+       ],
+       "filter": "aggregation=latest, variable=dayahead_4h_days_held, start=2026-09-01, end=2026-10-01",
+       "entities": [],
+       "figures": [
+        "30"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "s1133:g05",
+     "grid": "caiso",
+     "file": "warehouse/chat/eval/eval_s1133_s320_run.json",
+     "session": 1133,
+     "question_id": "g05",
+     "run": "session 1133's evaluation, asked 2026-10-23 through POST /api/ask, the grid's own chat",
+     "asked_at_utc": "2026-10-23T22:55:01Z",
+     "via": "grid",
+     "model": "claude-sonnet-5-5",
+     "question": "What was the average of the twelve monthly solar capture rates at CAISO's SP15 hub over 2025?",
+     "answer": "The twelve monthly solar capture rates at CAISO's SP15 hub (caiso:TH_SP15_GEN-APND) for 2025 average 38.33 pct. This is the mean of 12 monthly values, January to December 2025, from merchant_revenue_monthly (derived table, energy-only). The months run from -33.42 pct in April 2025 to 80.29 pct in August 2025. February (-8.47 pct), March (-18.08 pct) and April were negative. The months are local calendar months.",
+     "refusal": false,
+     "verdict": "right",
+     "sources": [
+      {
+       "tool": "query",
+       "tables": [
+        "merchant_revenue_monthly"
+       ],
+       "filter": "aggregation=mean, variable=solar_capture_rate, start=2025-01-01, end=2026-01-01",
+       "entities": [],
+       "figures": [
+        "38.33",
+        "12"
+       ]
+      },
+      {
+       "tool": "query",
+       "tables": [
+        "merchant_revenue_monthly"
+       ],
+       "filter": "aggregation=min, variable=solar_capture_rate, start=2025-01-01, end=2026-01-01",
+       "entities": [],
+       "figures": [
+        "-33.42"
+       ]
+      },
+      {
+       "tool": "query",
+       "tables": [
+        "merchant_revenue_monthly"
+       ],
+       "filter": "aggregation=max, variable=solar_capture_rate, start=2025-01-01, end=2026-01-01",
+       "entities": [],
+       "figures": [
+        "80.29"
+       ]
+      },
+      {
+       "tool": "query",
+       "tables": [
+        "merchant_revenue_monthly"
+       ],
+       "filter": "aggregation=mean, variable=solar_capture_rate, start=2025-01-01, end=2026-01-01, group_by=month",
+       "entities": [],
+       "figures": [
+        "-8.47",
+        "-18.08"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "s1114:p03",
+     "grid": "caiso",
+     "file": "warehouse/chat/eval/eval_s1114_run.json",
+     "session": 1114,
+     "question_id": "p03",
+     "run": "session 1114's evaluation, asked 2026-10-23 through POST /api/ask, the grid's own chat",
+     "asked_at_utc": "2026-10-23T19:51:07Z",
+     "via": "grid",
+     "model": "claude-sonnet-5-5",
+     "question": "How many MWh of solar did CAISO curtail in total from January to September 2026 (the nine monthly totals summed)?",
+     "answer": "CAISO curtailed about 4,790,395 MWh of solar from January to September 2026. That is the sum of the nine monthly totals of curtailed_solar_mwh for entity caiso:ISO (iso_curtailment_monthly, derived). Months are CAISO local (Pacific) months. The monthly totals in MWh were: Jan 21,446; Feb 230,828; Mar 727,191; Apr 1,348,695; May 1,361,346; Jun 563,500; Jul 226,958; Aug 146,936; Sep 163,495 (iso_curtailment_monthly).",
      "refusal": false,
      "verdict": "right",
      "sources": [
@@ -240,276 +618,61 @@
        "tables": [
         "iso_curtailment_monthly"
        ],
-       "filter": "aggregation=sum, variable=curtailed_wind_mwh, start=2024-01-01, end=2025-01-01",
+       "filter": "aggregation=sum, variable=curtailed_solar_mwh, start=2026-01-01, end=2026-10-01",
        "entities": [],
        "figures": [
-        "230,777",
-        "230776.644",
-        "12"
-       ]
-      }
-     ]
-    },
-    {
-     "id": "s302:q12",
-     "grid": "caiso",
-     "file": "warehouse/chat/eval/eval_s302_fixtures.json",
-     "session": 302,
-     "question_id": "q12",
-     "run": "session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat",
-     "asked_at_utc": "2026-10-19T11:38:07.515Z",
-     "via": "grid",
-     "model": "claude-sonnet-5-5",
-     "question": "What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month?",
-     "answer": "The lowest monthly carbon intensity of CAISO generation in the warehouse is 44.2145 kgCO2/MWh, in May 2026 (intensity_generation, entity eia930:CISO, UTC month start 2026-05-01, which is 1 May 2026 Pacific). This comes from carbon_intensity_monthly, which is derived (computed by the ERW). It is the minimum of 69 monthly values from August 2018 to July 2026. Pacific-local month labels are the same as UTC here. The next-lowest months are June 2026 at 48.2772 kgCO2/MWh and then the pre-2026 low of 94.5725 kgCO2/MWh in May 2019 (all carbon_intensity_monthly). The table's source report says the CAISO series is built from a join made on 16 December 2025. The 2026 values are far below every earlier month. This may partly reflect that data break, so treat the comparison with caution.",
-     "refusal": false,
-     "verdict": "right",
-     "sources": [
-      {
-       "tool": "query",
-       "tables": [
-        "carbon_intensity_monthly"
-       ],
-       "filter": "aggregation=min, variable=intensity_generation, entity=eia930:CISO",
-       "entities": [
-        "eia930:CISO"
-       ],
-       "figures": [
-        "44.2145",
-        "69"
-       ]
-      },
-      {
-       "tool": "query",
-       "tables": [
-        "carbon_intensity_monthly"
-       ],
-       "filter": "aggregation=min, variable=intensity_generation, entity=eia930:CISO, start=2025-12-01, group_by=month",
-       "entities": [
-        "eia930:CISO"
-       ],
-       "figures": [
-        "48.2772"
-       ]
-      },
-      {
-       "tool": "query",
-       "tables": [
-        "carbon_intensity_monthly"
-       ],
-       "filter": "aggregation=min, variable=intensity_generation, entity=eia930:CISO, start=2018-01-01, group_by=year",
-       "entities": [
-        "eia930:CISO"
-       ],
-       "figures": [
-        "94.5725"
-       ]
-      }
-     ]
-    },
-    {
-     "id": "s302:q13",
-     "grid": "caiso",
-     "file": "warehouse/chat/eval/eval_s302_fixtures.json",
-     "session": 302,
-     "question_id": "q13",
-     "run": "session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat",
-     "asked_at_utc": "2026-10-19T11:52:37.196Z",
-     "via": "grid",
-     "model": "claude-sonnet-5-5",
-     "question": "What was the load-weighted real-time price at CAISO's SP15 hub in September 2024?",
-     "answer": "The load-weighted real-time price at CAISO's SP15 hub (TH_SP15_GEN-APND) for September 2024 was 33.07 USD/MWh (cost_of_power_monthly, derived). It is the hourly real-time price weighted by CAISO's hourly demand, for the Pacific-time month. The month is complete: 720 real-time hours out of 720 hours in the month (cost_of_power_monthly). For comparison, a flat load paid a simple mean of 31.38 USD/MWh (cost_of_power_monthly), so the shape premium was 1.68 USD/MWh (cost_of_power_monthly). This covers wholesale energy only, with no transmission, distribution, capacity or taxes.",
-     "refusal": false,
-     "verdict": "right",
-     "sources": [
-      {
-       "tool": "query",
-       "tables": [
-        "cost_of_power_monthly"
-       ],
-       "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=rt_load_weighted, start=2024-09-01, end=2024-10-01",
-       "entities": [
-        "caiso:TH_SP15_GEN-APND"
-       ],
-       "figures": [
-        "33.07"
+        "4,790,395"
        ]
       },
       {
        "tool": "compare",
        "tables": [
-        "cost_of_power_monthly"
+        "iso_curtailment_monthly"
        ],
-       "filter": "a: cost_of_power_monthly aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=rt_hours, start=2024-09-01, end=2024-10-01; b: cost_of_power_monthly aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=hours_in_month, start=2024-09-01, end=2024-10-01",
-       "entities": [
-        "caiso:TH_SP15_GEN-APND"
-       ],
+       "filter": "a: iso_curtailment_monthly aggregation=sum, variable=curtailed_solar_mwh, start=2026-01-01, end=2026-10-01; b: iso_curtailment_monthly aggregation=latest, variable=curtailed_solar_mwh, start=2026-01-01, end=2026-10-01, group_by=month",
+       "entities": [],
        "figures": [
-        "720"
-       ]
-      },
-      {
-       "tool": "query",
-       "tables": [
-        "cost_of_power_monthly"
-       ],
-       "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=rt_simple_mean, start=2024-09-01, end=2024-10-01",
-       "entities": [
-        "caiso:TH_SP15_GEN-APND"
-       ],
-       "figures": [
-        "31.38"
-       ]
-      },
-      {
-       "tool": "query",
-       "tables": [
-        "cost_of_power_monthly"
-       ],
-       "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=rt_shape_premium, start=2024-09-01, end=2024-10-01",
-       "entities": [
-        "caiso:TH_SP15_GEN-APND"
-       ],
-       "figures": [
-        "1.68"
+        "21,446",
+        "230,828",
+        "727,191",
+        "1,348,695",
+        "1,361,346",
+        "563,500",
+        "226,958",
+        "146,936",
+        "163,495"
        ]
       }
      ]
     },
     {
-     "id": "s302:q14",
+     "id": "s1133:t07",
      "grid": "caiso",
-     "file": "warehouse/chat/eval/eval_s302_fixtures.json",
-     "session": 302,
-     "question_id": "q14",
-     "run": "session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat",
-     "asked_at_utc": "2026-10-19T11:53:07.334Z",
+     "file": "warehouse/chat/eval/eval_s1133_s1114_run.json",
+     "session": 1133,
+     "question_id": "t07",
+     "run": "session 1133's evaluation, asked 2026-10-23 through POST /api/ask, the grid's own chat",
+     "asked_at_utc": "2026-10-23T23:06:53Z",
      "via": "grid",
      "model": "claude-sonnet-5-5",
-     "question": "What was a 4-hour battery's capture rate at CAISO's SP15 hub in March 2025?",
-     "answer": "A 4-hour battery's capture rate at CAISO's SP15 hub (TH_SP15_GEN-APND) in March 2025 was 216.5 pct (merchant_revenue_monthly, derived). The row is labelled 1 March 2025, which I read as the whole local month. The capture price was 53.71 USD/MWh against a flat price of 24.81 USD/MWh (merchant_revenue_monthly). This table covers energy revenue only.",
+     "question": "What was the mean of the hourly day-ahead prices at CAISO's SP15 hub over the 336 hours starting 1 October 2026 00:00 UTC through the hour starting 14 October 2026 23:00 UTC, in USD per MWh?",
+     "answer": "The mean day-ahead price at CAISO's SP15 hub (TH_SP15_GEN-APND, variable lmp_dam) was 51.26 USD/MWh (iso_dam_hub_prices). It is the mean of 336 hourly values from 2026-10-01 00:00 UTC through the hour starting 2026-10-14 23:00 UTC. In Pacific time that is 5 pm on 30 September to 4 pm on 14 October 2026. The table is public source data.",
      "refusal": false,
      "verdict": "right",
      "sources": [
       {
        "tool": "query",
        "tables": [
-        "merchant_revenue_monthly"
+        "iso_dam_hub_prices"
        ],
-       "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=battery_4h_capture_rate, start=2025-03-01, end=2025-04-01",
+       "filter": "aggregation=mean, entity=caiso:TH_SP15_GEN-APND, variable=lmp_dam, start=2026-10-01T00:00:00Z, end=2026-10-15T00:00:00Z",
        "entities": [
         "caiso:TH_SP15_GEN-APND"
        ],
        "figures": [
-        "216.5"
-       ]
-      },
-      {
-       "tool": "query",
-       "tables": [
-        "merchant_revenue_monthly"
-       ],
-       "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=battery_4h_capture_price, start=2025-03-01, end=2025-04-01",
-       "entities": [
-        "caiso:TH_SP15_GEN-APND"
-       ],
-       "figures": [
-        "53.71"
-       ]
-      },
-      {
-       "tool": "query",
-       "tables": [
-        "merchant_revenue_monthly"
-       ],
-       "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=battery_4h_flat_price, start=2025-03-01, end=2025-04-01",
-       "entities": [
-        "caiso:TH_SP15_GEN-APND"
-       ],
-       "figures": [
-        "24.81"
-       ]
-      }
-     ]
-    },
-    {
-     "id": "s302:q15",
-     "grid": "caiso",
-     "file": "warehouse/chat/eval/eval_s302_fixtures.json",
-     "session": 302,
-     "question_id": "q15",
-     "run": "session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat",
-     "asked_at_utc": "2026-10-19T11:53:22.070Z",
-     "via": "grid",
-     "model": "claude-sonnet-5-5",
-     "question": "What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?",
-     "answer": "The day-ahead shape premium at CAISO's SP15 hub (TH_SP15_GEN-APND) for March 2025 was 1.1363 USD/MWh (cost_of_power_monthly, derived). It is the load-weighted day-ahead price, 25.4274 USD/MWh, less the flat-load simple mean, 24.2911 USD/MWh (both cost_of_power_monthly). The month is local Pacific time. The table holds 719 day-ahead hours against 743 hours in the month (cost_of_power_monthly), so March 2025 is not fully covered and the figure rests on the 719 hours held.",
-     "refusal": false,
-     "verdict": "right",
-     "sources": [
-      {
-       "tool": "query",
-       "tables": [
-        "cost_of_power_monthly"
-       ],
-       "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=da_shape_premium, start=2025-03-01, end=2025-04-01",
-       "entities": [
-        "caiso:TH_SP15_GEN-APND"
-       ],
-       "figures": [
-        "1.1363"
-       ]
-      },
-      {
-       "tool": "query",
-       "tables": [
-        "cost_of_power_monthly"
-       ],
-       "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=da_load_weighted, start=2025-03-01, end=2025-04-01",
-       "entities": [
-        "caiso:TH_SP15_GEN-APND"
-       ],
-       "figures": [
-        "25.4274"
-       ]
-      },
-      {
-       "tool": "query",
-       "tables": [
-        "cost_of_power_monthly"
-       ],
-       "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=da_simple_mean, start=2025-03-01, end=2025-04-01",
-       "entities": [
-        "caiso:TH_SP15_GEN-APND"
-       ],
-       "figures": [
-        "24.2911"
-       ]
-      },
-      {
-       "tool": "query",
-       "tables": [
-        "cost_of_power_monthly"
-       ],
-       "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=da_hours, start=2025-03-01, end=2025-04-01",
-       "entities": [
-        "caiso:TH_SP15_GEN-APND"
-       ],
-       "figures": [
-        "719"
-       ]
-      },
-      {
-       "tool": "query",
-       "tables": [
-        "cost_of_power_monthly"
-       ],
-       "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=hours_in_month, start=2025-03-01, end=2025-04-01",
-       "entities": [
-        "caiso:TH_SP15_GEN-APND"
-       ],
-       "figures": [
-        "743"
+        "51.26",
+        "5",
+        "4"
        ]
       }
      ]
@@ -583,8 +746,24 @@
   },
   "miso": {
    "label": "MISO",
-   "usable": 1,
+   "usable": 2,
    "examples": [
+    {
+     "id": "s1133:g10",
+     "grid": "miso",
+     "file": "warehouse/chat/eval/eval_s1133_s320_run.json",
+     "session": 1133,
+     "question_id": "g10",
+     "run": "session 1133's evaluation, asked 2026-10-23 through POST /api/ask, the grid's own chat",
+     "asked_at_utc": "2026-10-23T23:02:29Z",
+     "via": "grid",
+     "model": "claude-sonnet-5-5",
+     "question": "What was the solar capture price at MISO's Indiana hub in July 2026, in USD per MWh?",
+     "answer": "Not in the warehouse: MISO is paused while terms are reviewed. Since 4 October 2026 the warehouse shows no figure of MISO's own data, so I can't give the July 2026 solar capture price at the Indiana hub. The table that would hold it is merchant_revenue_monthly.",
+     "refusal": true,
+     "verdict": "right",
+     "sources": []
+    },
     {
      "id": "s302:q29",
      "grid": "miso",
@@ -1017,8 +1196,173 @@
   },
   "spp": {
    "label": "SPP",
-   "usable": 5,
+   "usable": 9,
    "examples": [
+    {
+     "id": "s1133:d06",
+     "grid": "spp",
+     "file": "warehouse/chat/eval/eval_s1133_s320_run.json",
+     "session": 1133,
+     "question_id": "d06",
+     "run": "session 1133's evaluation, asked 2026-10-23 through POST /api/ask, the grid's own chat",
+     "asked_at_utc": "2026-10-23T23:04:25Z",
+     "via": "grid",
+     "model": "claude-sonnet-5-5",
+     "question": "How many real-time hours were held for SPP's North hub in July 2026?",
+     "answer": "For July 2026 the warehouse counts 744 real-time hours (rt_hours) for SPP's North hub, SPPNORTH_HUB (cost_of_power_monthly, derived). The same table gives 744 hours_in_month for July 2026, so every hour of the month is counted. The month is local (Central time) and the ts_utc label is 2026-07-01. One caution: the briefing says SPP real-time prices (iso_rtm_hub_prices) start on 2026-09-24. I did not check the July hours against the price table itself.",
+     "refusal": false,
+     "verdict": "right",
+     "sources": [
+      {
+       "tool": "query",
+       "tables": [
+        "cost_of_power_monthly"
+       ],
+       "filter": "aggregation=latest, variable=rt_hours, entity=spp:SPPNORTH_HUB, group_by=month",
+       "entities": [
+        "spp:SPPNORTH_HUB"
+       ],
+       "figures": [
+        "744"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "s1114:f04",
+     "grid": "spp",
+     "file": "warehouse/chat/eval/eval_s1114_run.json",
+     "session": 1114,
+     "question_id": "f04",
+     "run": "session 1114's evaluation, asked 2026-10-23 through POST /api/ask, the grid's own chat",
+     "asked_at_utc": "2026-10-23T19:47:47Z",
+     "via": "grid",
+     "model": "claude-sonnet-5-5",
+     "question": "Which month of 2025 was best for wind at SPP's North hub by revenue per MW, and how much did wind earn that month, in USD per MW?",
+     "answer": "December 2025 was the best month of 2025 for wind at SPP's North hub (SPPNORTH_HUB). Wind earned about 8,181.91 USD per MW that month (merchant_revenue_monthly, variable wind_revenue_per_mw, 12 monthly rows for 2025). July 2025 was next at 7,816.62 USD/MW (merchant_revenue_monthly). April 2025 was the lowest at 3,943.35 USD/MW (merchant_revenue_monthly). This is a derived table (energy revenue only, by calendar month). Its months are labelled by UTC month start, and the table does not state a time zone for them.",
+     "refusal": false,
+     "verdict": "right",
+     "sources": [
+      {
+       "tool": "query",
+       "tables": [
+        "merchant_revenue_monthly"
+       ],
+       "filter": "aggregation=max, variable=wind_revenue_per_mw, start=2025-01-01, end=2026-01-01, entity=spp:SPPNORTH_HUB",
+       "entities": [
+        "spp:SPPNORTH_HUB"
+       ],
+       "figures": [
+        "8,181.91",
+        "12"
+       ]
+      },
+      {
+       "tool": "query",
+       "tables": [
+        "merchant_revenue_monthly"
+       ],
+       "filter": "aggregation=mean, variable=wind_revenue_per_mw, start=2025-01-01, end=2026-01-01, entity=spp:SPPNORTH_HUB, group_by=month",
+       "entities": [
+        "spp:SPPNORTH_HUB"
+       ],
+       "figures": [
+        "7,816.62",
+        "3,943.35"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "s1114:p04",
+     "grid": "spp",
+     "file": "warehouse/chat/eval/eval_s1114_run.json",
+     "session": 1114,
+     "question_id": "p04",
+     "run": "session 1114's evaluation, asked 2026-10-23 through POST /api/ask, the grid's own chat",
+     "asked_at_utc": "2026-10-23T19:51:24Z",
+     "via": "grid",
+     "model": "claude-sonnet-5-5",
+     "question": "Which month of 2025 had the most wind curtailment in SPP, and how many MWh of wind were curtailed that month?",
+     "answer": "March 2025 had the most wind curtailment in SPP. It had 2,381,248 MWh curtailed (curtailed_wind_mwh, entity spp:SPP, iso_curtailment_monthly, derived from SPP's VER curtailment data). The next highest month was April 2025 at 2,332,973 MWh (iso_curtailment_monthly). The lowest was August 2025 at 279,149 MWh (iso_curtailment_monthly). The monthly figures are the sums of SPP's daily curtailment over complete months, and the months are in local time.",
+     "refusal": false,
+     "verdict": "right",
+     "sources": [
+      {
+       "tool": "query",
+       "tables": [
+        "iso_curtailment_monthly"
+       ],
+       "filter": "aggregation=max, variable=curtailed_wind_mwh, entity=spp:SPP, start=2025-01-01, end=2026-01-01",
+       "entities": [
+        "spp:SPP"
+       ],
+       "figures": [
+        "2,381,248"
+       ]
+      },
+      {
+       "tool": "query",
+       "tables": [
+        "iso_curtailment_monthly"
+       ],
+       "filter": "aggregation=sum, variable=curtailed_wind_mwh, entity=spp:SPP, start=2025-01-01, end=2026-01-01, group_by=month",
+       "entities": [
+        "spp:SPP"
+       ],
+       "figures": [
+        "2,332,973",
+        "279,149"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "s1133:t01",
+     "grid": "spp",
+     "file": "warehouse/chat/eval/eval_s1133_s1114_run.json",
+     "session": 1133,
+     "question_id": "t01",
+     "run": "session 1133's evaluation, asked 2026-10-23 through POST /api/ask, the grid's own chat",
+     "asked_at_utc": "2026-10-23T23:05:33Z",
+     "via": "grid",
+     "model": "claude-sonnet-5-5",
+     "question": "What was the simple average day-ahead price at SPP's North hub in September 2026 (the local calendar month), in USD per MWh?",
+     "answer": "The simple average day-ahead price at SPP's North hub (SPPNORTH_HUB) for September 2026 was 36.21 USD/MWh. This is the flat-load simple mean of 720 day-ahead hours, which is the full local month (cost_of_power_monthly, derived). The month is in Central time (America/Chicago).\n\nThe raw hourly table, iso_dam_hub_prices, holds only part of September for this hub. Its 301 hours run from 11 am Central on 18 September to 11 pm Central on 30 September. Their mean was 32.34 USD/MWh, but that covers only part of the month, so it is not the monthly figure.",
+     "refusal": false,
+     "verdict": "right",
+     "sources": [
+      {
+       "tool": "query",
+       "tables": [
+        "cost_of_power_monthly"
+       ],
+       "filter": "aggregation=latest, entity=spp:SPPNORTH_HUB, start=2026-09-01, end=2026-10-01, group_by=variable",
+       "entities": [
+        "spp:SPPNORTH_HUB"
+       ],
+       "figures": [
+        "36.21",
+        "720"
+       ]
+      },
+      {
+       "tool": "query",
+       "tables": [
+        "iso_dam_hub_prices"
+       ],
+       "filter": "aggregation=mean, entity=SPPNORTH_HUB, variable=lmp_dam, start=2026-09-01, end=2026-10-01, tz=America/Chicago",
+       "entities": [
+        "SPPNORTH_HUB"
+       ],
+       "figures": [
+        "301",
+        "11",
+        "32.34"
+       ]
+      }
+     ]
+    },
     {
      "id": "s302:q17",
      "grid": "spp",
@@ -1074,95 +1418,25 @@
        ]
       }
      ]
-    },
+    }
+   ]
+  },
+  "us48": {
+   "label": "US48",
+   "usable": 6,
+   "examples": [
     {
-     "id": "s267:q21",
-     "grid": "spp",
-     "file": "warehouse/chat/eval/eval_s267_fixtures.json",
-     "session": 267,
-     "question_id": "q21",
-     "run": "session 267's evaluation, asked 2026-10-14 through POST /api/ask, the general chat of /ask",
-     "asked_at_utc": "2026-10-14T09:43:07.798Z",
+     "id": "s1114:p02",
+     "grid": "us48",
+     "file": "warehouse/chat/eval/eval_s1114_run.json",
+     "session": 1114,
+     "question_id": "p02",
+     "run": "session 1114's evaluation, asked 2026-10-23 through POST /api/ask, the general chat of /ask",
+     "asked_at_utc": "2026-10-23T19:50:58Z",
      "via": "general",
      "model": "claude-sonnet-5-5",
-     "question": "How much wind did SPP curtail in total in 2023, in MWh?",
-     "answer": "SPP curtailed 11,423,441 MWh of wind in 2023. This is the sum of the 12 monthly values for entity spp:SPP, variable curtailed_wind_mwh, January to December 2023 (iso_curtailment_monthly, derived from SPP's VER curtailments). The monthly totals ran from 237,065 MWh in July to 1,921,222 MWh in April. The warehouse holds no 2023 wind rows for the separate spp:SWPW entity. The daily table spp_curtailment_daily has no 2023 rows in this live set, so the total comes from the monthly table. Months are UTC calendar months as the table labels them.",
-     "refusal": false,
-     "verdict": "right",
-     "sources": [
-      {
-       "tool": "query",
-       "tables": [
-        "iso_curtailment_monthly"
-       ],
-       "filter": "aggregation=sum, variable=curtailed_wind_mwh, start=2023-01-01, end=2024-01-01, group_by=entity",
-       "entities": [],
-       "figures": [
-        "11,423,441",
-        "12"
-       ]
-      },
-      {
-       "tool": "query",
-       "tables": [
-        "iso_curtailment_monthly"
-       ],
-       "filter": "aggregation=sum, variable=curtailed_wind_mwh, entity=spp:SPP, start=2023-01-01, end=2024-01-01, group_by=month",
-       "entities": [
-        "spp:SPP"
-       ],
-       "figures": [
-        "237,065",
-        "1,921,222"
-       ]
-      }
-     ]
-    },
-    {
-     "id": "s267:q22",
-     "grid": "spp",
-     "file": "warehouse/chat/eval/eval_s267_fixtures.json",
-     "session": 267,
-     "question_id": "q22",
-     "run": "session 267's evaluation, asked 2026-10-14 through POST /api/ask, the general chat of /ask",
-     "asked_at_utc": "2026-10-14T09:43:29.363Z",
-     "via": "general",
-     "model": "claude-sonnet-5-5",
-     "question": "What was the flat, time-weighted price at SPP's North hub in February 2025?",
-     "answer": "At SPP's North hub (spp:SPPNORTH_HUB) in February 2025, a flat load paid a real-time simple mean of 23.33 USD/MWh (cost_of_power_monthly, derived). The month is local, and the mean covers all 672 of its 672 hours. For comparison, the day-ahead simple mean was 26.75 USD/MWh (cost_of_power_monthly). I read \"flat, time-weighted\" as the table's simple mean of hourly prices, which is what a flat load pays. The load-weighted figure, which weights by demand, was 24.78 USD/MWh real-time (cost_of_power_monthly). The table covers wholesale energy only.",
-     "refusal": false,
-     "verdict": "right",
-     "sources": [
-      {
-       "tool": "query",
-       "tables": [
-        "cost_of_power_monthly"
-       ],
-       "filter": "aggregation=latest, entity=spp:SPPNORTH_HUB, start=2025-02-01, end=2025-03-01, group_by=variable",
-       "entities": [
-        "spp:SPPNORTH_HUB"
-       ],
-       "figures": [
-        "23.33",
-        "672",
-        "26.75",
-        "24.78"
-       ]
-      }
-     ]
-    },
-    {
-     "id": "s267:q23",
-     "grid": "spp",
-     "file": "warehouse/chat/eval/eval_s267_fixtures.json",
-     "session": 267,
-     "question_id": "q23",
-     "run": "session 267's evaluation, asked 2026-10-14 through POST /api/ask, the general chat of /ask",
-     "asked_at_utc": "2026-10-14T09:43:43.123Z",
-     "via": "general",
-     "model": "claude-sonnet-5-5",
-     "question": "What is the lowest monthly carbon intensity of SPP's generation in the warehouse, and in which month?",
-     "answer": "The lowest monthly carbon intensity of SPP's generation in the warehouse is 274.64 kgCO2/MWh, in April 2026 (month starting 2026-04-01 UTC). The figure is the variable intensity_generation for entity eia930:SWPP, which is SPP's balancing authority, in carbon_intensity_monthly (derived table). It is the minimum over the 46 monthly values held, from September 2018 to September 2026. The table holds only complete UTC months, so some months in that span are absent.",
+     "question": "What was the average of the nine monthly carbon intensities of US Lower 48 demand from January to September 2026, in kg of CO2 per MWh?",
+     "answer": "The unweighted mean of the nine monthly values of US Lower 48 carbon intensity of demand (variable intensity_demand, entity eia930:US48), January to September 2026, is about 328.4 kgCO2/MWh (carbon_intensity_monthly, derived table). The query matched 9 monthly rows, from 1 January 2026 to 1 September 2026 UTC. Each month counts equally, with no weighting by demand.",
      "refusal": false,
      "verdict": "right",
      "sources": [
@@ -1171,62 +1445,92 @@
        "tables": [
         "carbon_intensity_monthly"
        ],
-       "filter": "aggregation=min, entity=eia930:SWPP, variable=intensity_generation",
+       "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_demand, start=2026-01-01, end=2026-10-01",
        "entities": [
-        "eia930:SWPP"
+        "eia930:US48"
        ],
        "figures": [
-        "274.64",
-        "46"
+        "328.4",
+        "9"
        ]
       }
      ]
     },
     {
-     "id": "s267:q24",
-     "grid": "spp",
-     "file": "warehouse/chat/eval/eval_s267_fixtures.json",
-     "session": 267,
-     "question_id": "q24",
-     "run": "session 267's evaluation, asked 2026-10-14 through POST /api/ask, the general chat of /ask",
-     "asked_at_utc": "2026-10-14T09:43:51.768Z",
+     "id": "s1114:p09",
+     "grid": "us48",
+     "file": "warehouse/chat/eval/eval_s1114_run.json",
+     "session": 1114,
+     "question_id": "p09",
+     "run": "session 1114's evaluation, asked 2026-10-23 through POST /api/ask, the general chat of /ask",
+     "asked_at_utc": "2026-10-23T19:53:18Z",
      "via": "general",
      "model": "claude-sonnet-5-5",
-     "question": "How many active wind projects are in SPP's interconnection queue, and what is their total capacity in MW?",
-     "answer": "SPP's interconnection queue holds 111 active wind projects with a total of 23208.66 MW (spp_interconnection_queue, vintage 2026-10-12, source tier). The count is of queue positions with status active and a fuel_technology of WIND, Wind, Wind - Wind or wind - wind. The capacity is the sum of capacity_mw over those same positions. Hybrid projects such as Wind/Solar and Wind/Storage are not included.",
+     "question": "What was the highest hourly demand in the US Lower 48 over the hours starting 1 October 2026 00:00 UTC through 21 October 2026 23:00 UTC, in MW, and on which day (UTC) did it occur?",
+     "answer": "The highest hourly US Lower 48 demand in that window was 590,310 MW (eia930_all_demand, entity eia930:US48, variable demand_mw). It occurred in the hour starting 2026-10-13 21:00 UTC, so the day is 13 October 2026 (UTC). The maximum is over 504 hourly values from 2026-10-01 00:00 UTC to 2026-10-21 23:00 UTC. The next-highest daily peak was 588,767 MW on 1 October 2026 (eia930_all_demand).",
      "refusal": false,
      "verdict": "right",
      "sources": [
       {
        "tool": "query",
        "tables": [
-        "spp_interconnection_queue"
+        "eia930_all_demand"
        ],
-       "filter": "aggregation=count, where={\"status\":\"active\",\"fuel_technology\":[\"WIND\",\"Wind\",\"Wind - Wind\",\"wind - wind\"]}",
-       "entities": [],
+       "filter": "aggregation=max, entity=eia930:US48, variable=demand_mw, start=2026-10-01T00:00:00Z, end=2026-10-22T00:00:00Z",
+       "entities": [
+        "eia930:US48"
+       ],
        "figures": [
-        "111"
+        "590,310",
+        "504"
        ]
       },
       {
        "tool": "query",
        "tables": [
-        "spp_interconnection_queue"
+        "eia930_all_demand"
        ],
-       "filter": "aggregation=sum, where={\"status\":\"active\",\"fuel_technology\":[\"WIND\",\"Wind\",\"Wind - Wind\",\"wind - wind\"]}",
-       "entities": [],
+       "filter": "aggregation=max, entity=eia930:US48, variable=demand_mw, start=2026-10-01T00:00:00Z, end=2026-10-22T00:00:00Z, group_by=day",
+       "entities": [
+        "eia930:US48"
+       ],
        "figures": [
-        "23208.66"
+        "588,767"
        ]
       }
      ]
-    }
-   ]
-  },
-  "us48": {
-   "label": "US48",
-   "usable": 3,
-   "examples": [
+    },
+    {
+     "id": "s1114:p10",
+     "grid": "us48",
+     "file": "warehouse/chat/eval/eval_s1114_run.json",
+     "session": 1114,
+     "question_id": "p10",
+     "run": "session 1114's evaluation, asked 2026-10-23 through POST /api/ask, the general chat of /ask",
+     "asked_at_utc": "2026-10-23T19:53:40Z",
+     "via": "general",
+     "model": "claude-sonnet-5-5",
+     "question": "What was the average Henry Hub natural gas spot price over the trading days of September 2026, in USD per MMBtu?",
+     "answer": "The mean Henry Hub spot price for September 2026 was about 2.95 USD/MMBtu (eia_fuel_spot_prices, entity eia:henry_hub, variable spot_price). It is a simple mean of 22 daily trading-day values, from 2026-09-01 to 2026-09-30. The dates are daily trading dates, so UTC and local dates are the same.",
+     "refusal": false,
+     "verdict": "right",
+     "sources": [
+      {
+       "tool": "query",
+       "tables": [
+        "eia_fuel_spot_prices"
+       ],
+       "filter": "aggregation=mean, entity=eia:henry_hub, start=2026-09-01, end=2026-10-01",
+       "entities": [
+        "eia:henry_hub"
+       ],
+       "figures": [
+        "2.95",
+        "22"
+       ]
+      }
+     ]
+    },
     {
      "id": "s302:q19",
      "grid": "us48",
@@ -1287,48 +1591,6 @@
      "refusal": true,
      "verdict": "right",
      "sources": []
-    },
-    {
-     "id": "s267:q27",
-     "grid": "us48",
-     "file": "warehouse/chat/eval/eval_s267_fixtures.json",
-     "session": 267,
-     "question_id": "q27",
-     "run": "session 267's evaluation, asked 2026-10-14 through POST /api/ask, the general chat of /ask",
-     "asked_at_utc": "2026-10-14T09:44:28.922Z",
-     "via": "general",
-     "model": "claude-sonnet-5-5",
-     "question": "What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
-     "answer": "The mean of the twelve 2025 monthly values for US Lower 48 generation carbon intensity (eia930:US48, variable intensity_generation) was 344.75 kgCO2/MWh (carbon_intensity_monthly, derived). This is an unweighted average of the monthly figures, and the months are UTC months. The monthly values ranged from a low of 299.81 kgCO2/MWh in April 2025 to a high of 382.87 kgCO2/MWh in January 2025 (carbon_intensity_monthly). The other months were:\n- Feb: 356.37\n- Mar: 303.86\n- May: 313.62\n- Jun: 348.01\n- Jul: 379.66\n- Aug: 367.86\n- Sep: 358.43\n- Oct: 341.12\n- Nov: 336.64\n- Dec: 348.82",
-     "refusal": false,
-     "verdict": "right",
-     "sources": [
-      {
-       "tool": "query",
-       "tables": [
-        "carbon_intensity_monthly"
-       ],
-       "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
-       "entities": [
-        "eia930:US48"
-       ],
-       "figures": [
-        "344.75",
-        "299.81",
-        "382.87",
-        "356.37",
-        "303.86",
-        "313.62",
-        "348.01",
-        "379.66",
-        "367.86",
-        "358.43",
-        "341.12",
-        "336.64",
-        "348.82"
-       ]
-      }
-     ]
     }
    ]
   }

@@ -56,6 +56,13 @@ class TheFiles(unittest.TestCase):
                 self.assertTrue(e["question_id"] and e["run"] and e["asked_at_utc"], e["id"])
                 for s in e["sources"]:
                     self.assertTrue(s["tables"] and s["figures"], e["id"])
+        # session 1187: chains 075 and 076's runs of 23 October are read, each with its grades file
+        graded = {f["file"]: f for f in data["files"] if f.get("grades")}
+        for name in ("eval_s1113_run.json", "eval_s1114_run.json", "eval_s1133_s320_run.json", "eval_s1133_s1114_run.json"):
+            f = graded.get("warehouse/chat/eval/" + name)
+            self.assertIsNotNone(f, name)
+            self.assertTrue(os.path.isfile(os.path.join(ROOT, f["grades"])), name)
+            self.assertGreater(f["kept"], 0, name)
 
 
 class TheNodeTest(unittest.TestCase):

@@ -34,7 +34,11 @@ for (const [slug] of B.GRIDS) {
   ok(new Set(g.examples.map((e) => e.question.toLowerCase())).size === g.examples.length, `${slug}: no question twice`);
   for (const e of g.examples) {
     const q = evalOf(e.file).questions.find((x) => x.id === e.question_id);
-    ok(!!q && q.verdict === "right" && q.grade?.ok === true, `${e.id}: graded right by its run`);
+    // session 1187: a run whose grade is in a file of its own is read from that file, on its keys (not the hold's, not the rulings')
+    const gfile = (B.RUNS.find((r) => r.file === e.file) ?? {}).grades;
+    const gr = gfile ? evalOf(gfile).questions.find((x) => x.id === e.question_id) : null;
+    const rightOnKeys = !!gr && ("now_ok" in gr ? gr.now_ok === true && gr.grade_now?.ok === true : gr.ok === true && gr.grade?.ok === true);
+    ok(!!q && (gfile ? rightOnKeys && gr.trace_calls === q.trace.length && gr.seconds === q.seconds : q.verdict === "right" && q.grade?.ok === true), `${e.id}: graded right by its run`);
     ok(q && q.answer === e.answer && q.question === e.question, `${e.id}: the question and answer as stored`);
     ok(e.grid === slug, `${e.id}: of the grid it is shown for`);
     const outs = (q?.trace ?? []).filter((c) => !c.isError).map((c) => B.numbers(JSON.stringify(c.out)).map(([v]) => v));
@@ -73,6 +77,61 @@ const many = Array.from({ length: 8 }, (_, i) => ({ ...fx.kept[0], id: `x${i}`, 
 const ch = B.chooseForGrid("spp", [...many, { ...many[7], id: "dup" }]);
 ok(ch.examples.length === 5 && ch.usable === 8, `at most five shown, the rest counted (${ch.examples.length} of ${ch.usable})`);
 ok(ch.examples[0].via === "grid" && ch.examples[1].session === 107, "the panel's own route first, then the newest run");
+
+// ---- session 1187: the runs of chains 075 and 076 (23 October), their grades in files of their own
+const NEW_RUNS = ["eval_s1133_s1114_run.json", "eval_s1133_s320_run.json", "eval_s1114_run.json", "eval_s1113_run.json"];
+for (const name of NEW_RUNS) {
+  const r = B.RUNS.find((x) => x.file.endsWith("/" + name));
+  ok(!!r && !!r.grades && fs.existsSync(path.join(ROOT, r.grades)), `${name}: in RUNS with its grades file`);
+  const f = built.files.find((x) => x.file === r?.file);
+  ok(!!f && f.grades === r.grades && /^[0-9a-f]{16}$/.test(f.grades_sha256_16 ?? "") && f.kept > 0, `${name}: read, its grades file hashed, ${f?.kept} answers kept`);
+  ok(evalOf(r.file).questions.every((q) => Array.isArray(q.trace)), `${name}: every answer kept its tool calls with their results`);
+}
+ok(B.RUNS.every((r, i) => i === 0 || B.RUNS[i - 1].session >= r.session), "RUNS are read newest first");
+const leftOf = (name, id) => built.files.find((x) => x.file.endsWith("/" + name)).left.find((l) => l.question_id === id)?.why ?? "";
+ok(/only under the hold/.test(leftOf("eval_s1113_run.json", "g07")), "an answer right only under the hold (a license refusal) is left out, and said so");
+ok(/rulings/.test(leftOf("eval_s1113_run.json", "b01")), "an answer right only with session 320's rulings taken its way is left out, and said so");
+ok(/graded wrong/.test(leftOf("eval_s1114_run.json", "t06")), "an answer wrong on its key is left out");
+ok(built.grids.spp.examples.some((e) => e.id === "s1133:t01") && !built.grids.spp.examples.some((e) => e.id === "s1114:t01"), "SPP's t01, asked by sessions 1114 and 1133: the newer asking shown, the older not");
+for (const [slug] of B.GRIDS) {
+  for (const e of built.grids[slug].examples) {
+    const later = B.RUNS.flatMap((r) => (evalOf(r.file).questions ?? []).filter((q) => q.question === e.question && String(q.asked_at_utc) > String(e.asked_at_utc)).map((q) => ({ r, q })));
+    const usedLater = later.filter(({ r, q }) => built.files.find((x) => x.file === r.file)?.left?.every((l) => l.question_id !== q.id) && (q.via ?? r.route ?? "general") === e.via);
+    ok(usedLater.length === 0, `${e.id}: no newer kept asking of the same words by the same route`);
+  }
+}
+// joinGrades on fixtures: the two forms of grade, a row of another asking, a missing row
+const tq = (id, over = {}) => Q(id, { verdict: undefined, grade: undefined, seconds: 10, cost_usd: 0.1, ...over });
+const jg = B.joinGrades([tq("k1"), tq("k2"), tq("k3"), tq("k4"), tq("k5"), tq("k6"), tq("k7")], { questions: [
+  { id: "k1", status: "answered", trace_calls: 1, seconds: 10, cost_usd: 0.1, ok: true, grade: { ok: true } },
+  { id: "k2", status: "answered", trace_calls: 1, seconds: 10, cost_usd: 0.1, now_ok: true, grade_now: { ok: true }, held_ok: true },
+  { id: "k3", status: "answered", trace_calls: 1, seconds: 10, cost_usd: 0.1, now_ok: false, grade_now: { ok: false }, held_ok: true, if_ruled_ok: true },
+  { id: "k4", status: "answered", trace_calls: 1, seconds: 10, cost_usd: 0.1, now_ok: false, grade_now: { ok: false }, held_ok: false, if_ruled_ok: true },
+  { id: "k5", status: "answered", trace_calls: 2, seconds: 10, cost_usd: 0.1, ok: true, grade: { ok: true } },
+  { id: "k7", status: "answered", trace_calls: 1, seconds: 10, cost_usd: 0.1, ok: true, grade: { ok: false } },
+] });
+const jv = Object.fromEntries(jg.questions.map((q) => [q.id, q.verdict ?? "none"]));
+ok(jv.k1 === "right" && jv.k2 === "right", "a grades row right on its key (ok, or now_ok) makes the answer right");
+ok(jv.k3 === "wrong" && /under the hold/.test(jg.why.get("k3")) && jv.k4 === "wrong" && /rulings/.test(jg.why.get("k4")), "right only under the hold or only with the rulings is not right");
+ok(jv.k5 === "none" && /another asking/.test(jg.why.get("k5")), "a grades row of another asking (its count of calls differs) is not used");
+ok(jv.k6 === "none" && /no row/.test(jg.why.get("k6")), "a question the grades file does not hold has no verdict");
+ok(jv.k7 === "wrong", "ok without grade.ok is not right");
+const fj = B.examplesOfRun(run, { questions: [tq("k1"), tq("k3"), tq("k5")] }, { questions: [
+  { id: "k1", status: "answered", trace_calls: 1, seconds: 10, cost_usd: 0.1, ok: true, grade: { ok: true } },
+  { id: "k3", status: "answered", trace_calls: 1, seconds: 10, cost_usd: 0.1, now_ok: false, grade_now: { ok: false }, held_ok: true },
+] });
+ok(fj.kept.map((e) => e.question_id).join() === "k1" && fj.kept[0].verdict === "right" && fj.left.map((l) => l.question_id).join() === "k3,k5", "a run with a grades file keeps only its answers right on their keys");
+// the order rule: the newest asking of the same words, before the order of the panel
+const base = { ...fx.kept[0], grid: "spp", question: "Same words?", via: "grid" };
+const older = { ...base, id: "s1114:t01", session: 1114, question_id: "t01", asked_at_utc: "2026-10-23T19:43:43Z" };
+const newer = { ...base, id: "s1133:t01", session: 1133, question_id: "t01", asked_at_utc: "2026-10-23T23:05:33Z" };
+ok(B.chooseForGrid("spp", [older, newer]).examples.map((e) => e.id).join() === "s1133:t01" && B.chooseForGrid("spp", [newer, older]).examples.map((e) => e.id).join() === "s1133:t01", "two runs asked the same words the same day: the later asking kept, whatever the order read");
+const sameTime = { ...older, id: "s1200:t01", session: 1200 };
+ok(B.chooseForGrid("spp", [older, sameTime]).examples[0].id === "s1200:t01", "asked at the same time: the later session kept");
+const otherRoute = { ...newer, id: "s1300:t01", session: 1300, via: "general", asked_at_utc: "2026-10-24T00:00:00Z" };
+ok(B.chooseForGrid("spp", [older, otherRoute]).examples[0].id === "s1114:t01", "the panel's own route still comes before a newer asking by another route");
+ok(B.chooseForGrid("spp", [older, newer]).usable === 1, "one question asked twice is one usable question");
+ok(B.chooseForGrid("spp", [{ ...older, refusal: true }, newer]).examples[0].id === "s1133:t01" && B.chooseForGrid("spp", [older, { ...newer, refusal: true }]).examples[0].id === "s1133:t01", "the newer asking is kept whether it or the older is a refusal");
 
 // ---- the hold on the day (lib/gridask.ts, lib/license.ts)
 const nyAfter = A.gridAskExamples("nyiso", after);
