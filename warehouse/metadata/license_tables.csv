@@ -68,6 +68,7 @@ datacenter_operator_sites,Amazon Web Services; Digital Realty; Equinix; Google; 
 datacenter_projects,Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_projects_evidence,Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: rows of the six operators' queue tables
+derk_bih_electricity_annual,State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK),the source registry
 desnz_uk_electricity_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_gas_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_renewables_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
@@ -359,6 +360,7 @@ flex_alert_effects,CAISO; EIA; NOAA NCEI,"the source registry and the tables its
 flex_alert_model,CAISO; EIA; NOAA NCEI,"the source registry and the tables its header derives it from: caiso_dam_alert_day_hub_prices, caiso_grid_emergencies, eia930_all_demand, noaa_isd_hourly"
 frb_treasury_yields,FRB,the source registry
 frb_utility_output_monthly,FRB,the source registry
+gastat_saudi_electricity_annual,"Ministry of Energy, Saudi Arabia, as published by GASTAT",the source registry
 generation_mix_hourly_profile,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
 generation_mix_records,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
 gfz_kp_index_3h,GFZ Helmholtz Centre for Geosciences (Potsdam),the source registry
