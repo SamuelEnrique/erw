@@ -6895,6 +6895,9 @@ ntd_transit_energy_annual,gasoline,series variable,gal
 ntd_transit_energy_annual,hydrogen,series variable,t
 ntd_transit_energy_annual,lpg_gal_equivalent,series variable,gal
 ntd_transit_energy_annual,other_fuel,series variable,gal
+nve_norway_reservoirs_weekly,capacity,series variable,MWh
+nve_norway_reservoirs_weekly,filling_share,series variable,pct
+nve_norway_reservoirs_weekly,stored_energy,series variable,MWh
 onrr_production_annual,production,series variable,MWh
 onrr_production_annual,production,series variable,Mcf
 onrr_production_annual,production,series variable,bbl

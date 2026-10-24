@@ -452,6 +452,7 @@ nrc_rop_findings,NRC,the source registry
 nrcs_snotel_swe_daily,USDA Natural Resources Conservation Service (NRCS),the source registry
 nso_malawi_electricity_sales_annual,National Statistical Office of Malawi (NSO),the source registry
 ntd_transit_energy_annual,"U.S. Department of Transportation, Federal Transit Administration (FTA)",the source registry
+nve_norway_reservoirs_weekly,Norwegian Water Resources and Energy Directorate (NVE),the source registry
 nyiso_as_prices,NYISO,the source registry
 nyiso_dam_cleared_energy,NYISO,the source registry
 nyiso_dam_zone_prices,NYISO,the source registry
