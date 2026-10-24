@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **544 tables.** The flag and the verdict agree on 438; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 61 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 407 public, 87 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **895 publishers in the record: 893 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 206 pages read, 687 that could not be read, 2 not asked (paused).**
+- **904 publishers in the record: 902 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 207 pages read, 695 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -918,6 +918,15 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 893 | Guyana Energy Agency (GEA), the downloads page (session 2506) | https://gea.gov.gy/resources/downloads/ | 17:44:57 | 200 | 100730 | read: the statistics workbooks end in 2014 |
 | 894 | Guyana Power and Light Inc. (GPL), the sitemap (session 2506) | https://gplinc.com/sitemap.xml | 17:45:05 | 200 | 221664 | read |
 | 895 | Guyana Power and Light Inc. (GPL), the publications page (session 2506) | https://gplinc.com/about-us/publications/ | 17:45:20 | 200 | 76854 | read: annual reports 2009 to 2012 only |
+| 896 | Lesotho Electricity and Water Authority (LEWA), www.lewa.org.ls's robots file (session 2507) | https://www.lewa.org.ls/robots.txt | 17:45:46 | 200 | 116 | read: /wp-admin/ closed; names no AI agent |
+| 897 | Lesotho Electricity Company (LEC), lec.co.ls's robots file (session 2507) | https://www.lec.co.ls/robots.txt (answered at https://lec.co.ls/robots.txt) | 17:45:49 | 200 | 110 | read: /wp-admin/ closed; names no AI agent |
+| 898 | Bureau of Statistics, Lesotho, www.bos.gov.ls's robots file (session 2507) | https://www.bos.gov.ls/robots.txt | 17:45:55 | 404 | 1245 | HTTP 404: no robots file |
+| 899 | Lesotho Electricity and Water Authority (LEWA), the site's search for statistics (session 2507) | https://www.lewa.org.ls/wp-json/wp/v2/search?search=statistics&per_page=50 | 17:46:05 | 200 | 2 | read: no result |
+| 900 | Lesotho Electricity and Water Authority (LEWA), the site's search for annual report (session 2507) | https://www.lewa.org.ls/wp-json/wp/v2/search?search=annual+report&per_page=50 | 17:46:13 | 200 | 537 | read: a news post only |
+| 901 | Lesotho Electricity Company (LEC), the site's search for annual report (session 2507) | https://lec.co.ls/wp-json/wp/v2/search?search=annual+report&per_page=50 | 17:46:15 | 200 | 388 | read |
+| 902 | Lesotho Electricity Company (LEC), the annual reports page (session 2507) | https://lec.co.ls/annual-reports/ | 17:46:22 | 200 | 130514 | read: no annual report listed |
+| 903 | Utilities Regulatory Authority, Vanuatu (URA), ura.gov.vu's robots file (session 2507) | https://ura.gov.vu/robots.txt | 17:46:41 | 200 | 764 | read: Joomla system paths closed; names no AI agent |
+| 904 | Utilities Regulatory Authority, Vanuatu (URA), the monthly energy snapshot for June 2022 (session 2507) | https://ura.gov.vu/en/publications/monthly-energy-snapshot/2022-monthly-energy-snapshot/monthly-energy-market-snapshot-for-june-2022 | 17:46:48 | 200 | 90540 | read: one PDF a month |
 
 ## The publishers: the sentence and the verdict
 
