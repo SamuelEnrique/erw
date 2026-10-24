@@ -287,6 +287,7 @@ SECTOR_RULES = [
     (r"^eia_crude_quality_monthly$", "oil"),  # session 2244: EIA's crude oil input qualities (API gravity, sulfur), a month
     (r"^ons_brazil_balance_hourly$", "power"),  # session 2240: ONS's open data, Brazil's balance an hour by subsystem
     (r"^ree_spain_balance_monthly$", "power"),  # session 2239: REE's REData, Spain's electrical energy balance a month
+    (r"^ren_portugal_balance_annual$", "power"),  # session 2280: REN's Data Hub, Portugal's electricity balance a year (internal)
     (r"^rte_eco2mix_france_halfhourly$", "power"),  # session 2238: RTE's eco2mix, France every half hour
     (r"^usbr_crsp_reservoirs_daily$", "power"),  # session 2221: Reclamation's CRSP power reservoirs above Lake Powell, a day
     (r"^usbr_mead_powell_daily$", "power"),  # session 2211: Reclamation's Lake Mead and Lake Powell, a day

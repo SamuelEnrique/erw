@@ -416,6 +416,7 @@ catalogue_hold:
   - eia_crude_quality_monthly
   - ons_brazil_balance_hourly
   - ree_spain_balance_monthly
+  - ren_portugal_balance_annual
   - rte_eco2mix_france_halfhourly
   - usbr_crsp_reservoirs_daily
   - usbr_mead_powell_daily
