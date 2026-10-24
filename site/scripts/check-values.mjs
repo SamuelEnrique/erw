@@ -260,7 +260,8 @@ const dcllRows = new Map();
 // files were built from (scripts/check-file.mjs tableRow), one read a table, entity, period and frequency
 const dataFiles = new Map(), fileTableRows = new Map();
 function dataFile(f) {
-  if (!dataFiles.has(f)) dataFiles.set(f, JSON.parse(fs.readFileSync(path.join(here, "..", "data", f), "utf-8")));
+  // session 1170: the replay's daily files are under site/public/network/ (scripts/check-file.mjs fileOnDisk)
+  if (!dataFiles.has(f)) dataFiles.set(f, JSON.parse(fs.readFileSync(FILE.fileOnDisk(path.join(here, ".."), f), "utf-8")));
   return dataFiles.get(f);
 }
 /** The table row a file| key's value was built from and its value: { row: null } when the file is not a build of one. */
@@ -385,6 +386,16 @@ async function truth(check) {
     if (!f) throw new Error(`bad file key ${check}`);
     const v = FILE.readPath(dataFile(f.file), f.path);
     return v === null || v === undefined || typeof v === "object" ? undefined : v;
+  }
+  // session 1170 (chain 078): a replayed day's net exchange on the Grid tool, netday|<export|import|ties>|<BA>|<day>: the
+  // sum over the replay's committed daily file's links of the balancing authority's ties with a flow that day (lib/gridReplay.ts
+  // netdayValue, the page's own rule), read from the file in the repository (site/public/network/daily_<year>.json), as a
+  // file| key reads it; neither daily table is in the live set
+  if (p[0] === "netday") {
+    const R = await import("../lib/gridReplay.ts");
+    const day = p[3];
+    if (!day || !/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`bad netday key ${check}`);
+    return R.netdayValue(check, dataFile(R.replayFileOf(day)));
   }
   // session 1166: the Mix tab's "Yesterday" (components/grid/Conditions.tsx): fcerr|mape|<entity>|<from>|<to>, the day's
   // mean absolute miss of EIA's day-ahead demand forecast in percent of demand, and fcerr|hours|..., the hours that hold
@@ -1386,7 +1397,7 @@ async function main() {
       }
       pass ? out.ok++ : out.bad++;
       out.n++;
-      out.lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | ${FILE.fileParts(fp ? fp.inner : check) ? "the committed file" : "Supabase"} ${t}`);
+      out.lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | ${FILE.fileParts(fp ? fp.inner : check) || /^netday\|/.test(fp ? fp.inner : check) ? "the committed file" : "Supabase"} ${t}`);
       // session 1166: a figure of a committed file that is a build of a live-set row, against that row, on its own line:
       // "same" within the rounding of the less precise of the two, "DIFF" else (counted apart; not a failure of the run)
       const fk = FILE.fileParts(fp ? fp.inner : check);

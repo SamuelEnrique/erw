@@ -38,7 +38,8 @@
 //    fmt|<form>|<key> is the figures of its key; file|<data file>|<path> is the figure of the live-set table the file is a
 //    build of, by the row it was built from (scripts/check-file.mjs tableRow: clean_energy_summary year_<v>, ...), and of
 //    a file that is a build of none, the family file| and the path's last name (its selector's value when that name is
-//    "value": records.all[key=<k>].value is <k>). The Digest's chart of the day, digest_chart|<date>|<table>|<figure>,
+//    "value": records.all[key=<k>].value is <k>; session 1170: a path ending at a replay's day, demand.<BA>.@<day>, is its
+//    last name that is not an instance, demand). The Digest's chart of the day, digest_chart|<date>|<table>|<figure>,
 //    is a family: its table is the day's.
 //
 // 3. Named. A note names a table figure when its text holds both the table's name and the variable's, each as a whole
@@ -100,9 +101,12 @@ export function figures(key) {
   const fk = head === "file" ? FILE.fileParts(key) : null;
   if (fk) {
     let row = null;
-    try { row = FILE.tableRow(fk.file, fk.path, JSON.parse(fs.readFileSync(path.join(SITE, "data", fk.file), "utf-8"))); } catch { row = null; }
+    try { row = FILE.tableRow(fk.file, fk.path, JSON.parse(fs.readFileSync(FILE.fileOnDisk(SITE, fk.file), "utf-8"))); } catch { row = null; }
     if (row) return [{ kind: "table", table: row.table, measure: row.variable, id: `${row.table} ${shape(row.variable)}` }];
-    const seg = FILE.segments(fk.path);
+    // session 1170: a path that ends at a day of the replay's files (demand.BPAT.@2021-02-15) is the figure of its last
+    // name that is neither the day nor an instance (demand); a path that does not end at a day is read as before
+    const all = FILE.segments(fk.path);
+    const seg = all[all.length - 1]?.key.startsWith("@") ? all.filter((x) => !x.key.startsWith("@") && !instance(x.key)) : all;
     const last = seg[seg.length - 1], prev = seg[seg.length - 2];
     const measure = last.key === "value" && prev?.where ? Object.values(prev.where)[0] : last.key;
     return [{ kind: "family", table: "file", measure, id: `file| ${shape(measure)}` }];

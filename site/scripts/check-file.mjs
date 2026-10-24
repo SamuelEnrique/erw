@@ -9,6 +9,10 @@
 // The path: segments joined by ".", each an object's key ("years", "2025", "carbon_free_share_pct"), or an array's
 // element chosen by its fields, "records[variable=solar_share_max_pct,period=all]" (the first element whose fields
 // all equal those, as lib/mix2.ts recordOf finds it). No key of these files holds a ".", "[" or "|".
+// Session 1170 (chain 078): the replay's committed daily files too, public/network/daily_<year>.json (site/public/, not
+// site/data/: the browser fetches them; lib/gridReplay.ts reads them on the server), and one more segment, "@<day>": the
+// element of an array at that day's place in the file's own top-level `days` ("demand.BPAT.@2021-02-15"). Their demand
+// and interchange are EIA-930's daily tables, which are not in the live set: no table row, checked against the file.
 //
 // The files that are builds of a live-set table (warehouse/derived/, docs/methods/):
 //   stress/<grid>.json   years.<Y>.<v>      grid_stress_yearly             iso:<grid>  <v>         <Y>-01-01
@@ -37,6 +41,13 @@ export function readPath(json, path) {
   let v = json;
   for (const { key, where } of segments(path)) {
     if (v === null || typeof v !== "object") return undefined;
+    // session 1170: "@<day>", the element at that day's place in the file's own days (the replay's daily files)
+    if (key.startsWith("@")) {
+      const i = Array.isArray(json?.days) ? json.days.indexOf(key.slice(1)) : -1;
+      if (i < 0 || !Array.isArray(v)) return undefined;
+      v = v[i];
+      continue;
+    }
     v = v[key];
     if (where) {
       if (!Array.isArray(v)) return undefined;
@@ -49,8 +60,16 @@ export function readPath(json, path) {
 /** The data file and path of a file| key, or null for another key. */
 export function fileParts(check) {
   const p = String(check).split("|");
-  if (p[0] !== "file" || p.length !== 3 || !/^[a-z0-9_]+(\/[a-z0-9_]+)?\.json$/.test(p[1])) return null;
+  if (p[0] !== "file" || p.length !== 3 || !(/^[a-z0-9_]+(\/[a-z0-9_]+)?\.json$/.test(p[1]) || REPLAY.test(p[1]))) return null;
   return { file: p[1], path: p[2] };
+}
+
+/** Session 1170: the replay's committed daily files, named from site/ (public/network/daily_<year>.json). */
+const REPLAY = /^public\/network\/daily_\d{4}\.json$/;
+
+/** Where a file| key's file is on disk, from the site's folder: site/public/... for the replay's files, else site/data/. */
+export function fileOnDisk(siteDir, file) {
+  return REPLAY.test(file) ? `${siteDir}/${file}` : `${siteDir}/data/${file}`;
 }
 
 const day1 = (s) => (s.length === 4 ? `${s}-01-01T00:00:00Z` : `${s}-01T00:00:00Z`);

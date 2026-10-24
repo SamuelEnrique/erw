@@ -172,7 +172,7 @@ Ranked for the question "what is this grid doing now"; for another question the 
 8. **Minutes.** Every figure is an hourly mean, the replay a daily mean (ERCOT's 2023 record over minutes is 76 MW above the hour).
 9. **Revisions.** EIA calls the data preliminary; one revised hour moved two of MISO's figures between a page's read and a checker's on 13 October 2026.
 10. **Unscreened hours.** The rule for impossible values is applied by day and in the derived tables, not to an hour of interchange.
-11. **Demand outside the seven ISO grids.** In the live week the others have no demand, so no share of demand; the replay holds daily demand for 54.
+11. **Demand outside the seven ISO grids.** In the live week the others have no demand, so no share of demand; the replay holds daily demand for 54. Since session 1170 (chain 078) the Grid tool draws a picked day's demand, net exchange and ties for the balancing authority in the address (BPAT as well as the seven) on the Network tab, and the grid in view's demand on the Gravity tab, from the replay's committed file, keyed; "not held" where the file holds none (`docs/methods/grid_network_v3.md`, "The outside grids' demand in the replay"). The live week is as it was.
 12. **History by the hour.** Hourly interchange from 2026-09-13 plus two story windows; before that the replay is daily.
 13. **True boundaries.** The map's areas are derived: 44 of the 70 grids have an area, 26 none; 3,067 of 3,107 counties drawn, 1,126 served by several codes.
 14. **Hours lost to source faults.** PJM's mix rests on a 15 percent tolerance (2,689 hours differ by 5 to 15 percent); New York loses 2022 and 2023 in "How clean, and when" to 3,147 hours of misfiled nuclear; SPP loses 2,568 stale hours in the stress figures.

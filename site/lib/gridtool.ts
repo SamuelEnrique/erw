@@ -64,6 +64,9 @@ export type GridPick = {
   node: string | null;
   /** true when the address named the grid; false when the page chose its default */
   named: boolean;
+  /** session 1170: the replayed day the address names (net=day and t a date), else null; the network component holds it
+   *  to the replay's first and last day */
+  day: string | null;
 };
 
 /** What an address asks for. Anything unknown falls back to the page as it opens. */
@@ -87,7 +90,9 @@ export function gridPick(q: Query): GridPick {
   const unnamed = GRID_CHOICES.find((g) => g.slug === DEFAULT_GRID)!;
   const grid = byGrid ?? (other ? us48 : null) ?? byBa ?? byGrids ?? byNode ?? unnamed;
   const node = code(one(q.node)) ?? other ?? (grid.slug === "us48" ? null : grid.ba);
-  return { grid, view, ask, node, named: !!(byGrid ?? other ?? byBa ?? byGrids ?? byNode) };
+  const t = one(q.t);
+  const day = one(q.net) === "day" && t && /^\d{4}-\d{2}-\d{2}$/.test(t) ? t : null;
+  return { grid, view, ask, node, named: !!(byGrid ?? other ?? byBa ?? byGrids ?? byNode), day };
 }
 
 /** The address of a grid and a view; `more` adds a view's own state. The opening page writes nothing. */

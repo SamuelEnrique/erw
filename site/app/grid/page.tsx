@@ -100,7 +100,7 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
           <ToolTabs label="Views" items={GRID_VIEWS.map(([k, label]) => ({ key: k, label, href: gridHref(grid.slug, k), on: k === view }))} />
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
             <div className="min-w-0">
-              {view === "network" ? <NetworkView keep={keep} node={p.node} grid={grid} /> : null}
+              {view === "network" ? <NetworkView keep={keep} node={p.node} grid={grid} day={p.day} /> : null}
               {view === "mix" ? (
                 <div data-grid-view="mix">
                   {/* session 1155: CAISO's alerts today (caiso_grid_emergencies), first on the CAISO view, linked to /grid/caiso/alerts */}
@@ -125,7 +125,7 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
               {view === "gravity" ? (
                 <div data-grid-view="gravity">
                   {/* session 299: the network component in its gravity shape (the address carries shape=gravity), the Exchange view's blocks under it */}
-                  <NetworkView keep={keep} node={p.node} shape="gravity" grid={grid} />
+                  <NetworkView keep={keep} node={p.node} shape="gravity" grid={grid} day={p.day} />
                   <div className="mt-10"><ExchangeView grid={grid} /></div>
                 </div>
               ) : null}

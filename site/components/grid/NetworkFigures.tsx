@@ -6,6 +6,10 @@
 // lib/gridKeys.ts figure: a check key check-values already recomputes, and a one-line source in its hover tip.
 // Session 1165 (chain 078): under the ties, the grid's balance (Balance below): the Grid pack's item 3, said where the
 // figures are.
+// Session 1170 (chain 078): when the address names a replayed day (net=day&t=<day>), the day's figures from the replay's
+// committed daily file (components/grid/ReplayDay.tsx): on the Network tab the balancing authority in the address (node,
+// any of the network's, BPAT as well as the seven), first in the panel; on the Gravity tab one line under the table, the
+// grid in view's demand that day. Without a day in the address both panels draw as before.
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { NoData } from "@/components/NoData";
@@ -15,6 +19,7 @@ import { shown } from "@/lib/format";
 import { GRID_CHOICES, type GridChoice } from "@/lib/gridtool";
 import { balancePanel, gravityPanel, lower48Panel, networkPanel, type BalancePanel, type Fig } from "@/lib/gridKeys";
 import { GRAVITY_CENTER, GRAVITY_GRIDS } from "@/lib/networkGravity";
+import { ReplayDayDemand, ReplayDayFigures, type ReplayAsk } from "@/components/grid/ReplayDay";
 
 const hourName = (t: string) => `${t.slice(0, 10)} ${t.slice(11, 13)}:00 UTC`;
 
@@ -29,13 +34,16 @@ function F({ f }: { f: Fig }) {
 
 const ISO_GRIDS = GRID_CHOICES.filter((g) => g.slug !== "us48");
 
-export function NetworkFigures({ snap, hour, grid, live }: { snap: Snapshot; hour: string; grid: GridChoice; live: LiveExtras }) {
+export function NetworkFigures({ snap, hour, grid, live, replay, node }: { snap: Snapshot; hour: string; grid: GridChoice; live: LiveExtras;
+  /** session 1170: the replayed day the address names, and the balancing authority whose panel it opens */ replay?: ReplayAsk | null; node?: string | null }) {
   const nameOf = (id: string) => snap.nodes.find((n) => n.id === id)?.name ?? id;
   const panel = `grid_network_${grid.slug}`;
+  const day = replay && node ? <ReplayDayFigures ask={replay} ba={node} name={nameOf(node)} /> : null;
   if (grid.slug === "us48") {
     const rows = lower48Panel(snap, ISO_GRIDS.map((g) => g.ba), hour);
     return (
       <div data-grid-panel={panel} className="mt-10">
+        {day}
         <ToolSection title={`The seven grids, the hour shown (${hourName(hour)})`}
           note="Net export, MW: the sum of a grid's reporting ties in the hour the network opens on, signed from its side; a negative number is a net import. Hover a figure for its table, filter, hour and the snapshot's refresh.">
           <ToolTable caption="Net exchange of the seven grids in the hour the network shows" minWidth={380} head={["Grid", "Net export, MW", "Ties reporting"]}
@@ -51,6 +59,7 @@ export function NetworkFigures({ snap, hour, grid, live }: { snap: Snapshot; hou
   const p = networkPanel(snap, grid.ba, hour, live.demand[grid.ba]);
   return (
     <div data-grid-panel={panel} className="mt-10">
+      {day}
       <ToolSection title={`${grid.label}, the hour shown (${hourName(hour)})`}
         note={`The figures the network draws for ${grid.label} in the hour it opens on, from the same snapshot. A tie's flow is signed from ${grid.label}'s side: positive, power left the grid. Hover a figure for its table, filter, hour and the snapshot's refresh.`}>
         {p.ties.length ? (
@@ -102,13 +111,16 @@ function Balance({ b, label }: { b: BalancePanel; label: string }) {
   );
 }
 
-export function GravityFigures({ snap, hour, grid, live }: { snap: Snapshot; hour: string; grid: GridChoice; live: LiveExtras }) {
+export function GravityFigures({ snap, hour, grid, live, replay }: { snap: Snapshot; hour: string; grid: GridChoice; live: LiveExtras;
+  /** session 1170: the replayed day the address names; its demand of the grid in view is one line under the table */ replay?: ReplayAsk | null }) {
   const g = gravityPanel(snap, GRAVITY_GRIDS.map((x) => x.id), GRAVITY_CENTER, hour, live.generation);
   return (
     <div data-grid-panel={`grid_gravity_${grid.slug}`} className="mt-10">
       <ToolSection title={`What the gravity shape draws, the hour shown (${hourName(hour)})`}
         note={<>Each circle&apos;s area follows the grid&apos;s net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48&apos;s generation sets the scale{g.center ? <>: <F f={g.center} /> MW</> : <>; it is not held for the hour</>}. Hover a figure for its table, filter, hour and the snapshot&apos;s refresh.
-          {" "}<span data-gravity-window="live">These are the figures of the hour the shape opens on, in the live week. A day picked in the replay stays in the address, but neither the shape nor this table draws it: net generation is held by hour for the live week only, not by day, so no figure here is that day&apos;s.</span>
+          {" "}{replay
+            ? <span data-gravity-window="day">These are the figures of the hour the shape opens on, in the live week. The day picked in the replay, {replay.day}, stays in the address, but neither the shape nor this table draws it: net generation is held by hour for the live week only, not by day, so no figure in this table is that day&apos;s; the line under the table gives that day&apos;s demand.</span>
+            : <span data-gravity-window="live">These are the figures of the hour the shape opens on, in the live week. A day picked in the replay stays in the address, but neither the shape nor this table draws it: net generation is held by hour for the live week only, not by day, so no figure here is that day&apos;s.</span>}
           {" "}<span data-gravity-public="1">Every figure here, for every grid, is EIA-930&apos;s public interchange and net generation; no grid operator&apos;s own table is read, so no grid is held here.</span></>}>
         <ToolTable caption="The seven grids in the gravity shape, the hour shown" minWidth={460} head={["Grid", "Net generation, MW", "Net import, MW", "Import, percent of generation"]}
           rows={g.rows.map((r) => ({ key: r.ba, highlight: r.ba === grid.ba, cells: [
@@ -117,6 +129,7 @@ export function GravityFigures({ snap, hour, grid, live }: { snap: Snapshot; hou
             r.net ? <F key="n" f={r.net} /> : <span key="n" className="text-muted">no tie reported</span>,
             r.share ? <F key="s" f={r.share} /> : <span key="s" className="text-muted">none</span>,
           ] }))} />
+        {replay ? <ReplayDayDemand ask={replay} ba={grid.ba} label={grid.label} /> : null}
       </ToolSection>
     </div>
   );

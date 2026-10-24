@@ -30,7 +30,9 @@ class OneAddress(unittest.TestCase):
         # whose title names the grid in view (site/app/grid/page.tsx generateMetadata)
         self.assertIn("export async function NetworkView(", page)
         # session 1151: the view also takes the grid in view, whose keyed figures it draws under the component
-        self.assertIn('{view === "network" ? <NetworkView keep={keep} node={p.node} grid={grid} /> : null}', src("site", "app", "grid", "page.tsx"))
+        # session 1170: and the replayed day the address names, whose figures it draws from the replay's daily file
+        self.assertIn('{view === "network" ? <NetworkView keep={keep} node={p.node} grid={grid}', src("site", "app", "grid", "page.tsx"))
+        self.assertIn('{view === "network" ? <NetworkView keep={keep} node={p.node} grid={grid} day={p.day} /> : null}', src("site", "app", "grid", "page.tsx"))
         self.assertFalse(os.path.exists(os.path.join(ROOT, "site", "app", "network", "v3", "page.tsx")))
         old = src("site", "app", "_retired", "network-original", "page.tsx")
         self.assertIn("<Network snap={snap} supply={supply} live={extras} />", old)

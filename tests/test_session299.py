@@ -96,7 +96,8 @@ class ThePage(unittest.TestCase):
         for tab in ("network", "mix", "clean", "gravity"):
             self.assertIn(f'view === "{tab}" ?', page)
         self.assertIn('<div data-grid-now="1"><NowView grid={grid} cfg={cfg} data={data} /></div>', page)             # the Now view's blocks, on the Mix tab
-        self.assertIn('<NetworkView keep={keep} node={p.node} shape="gravity" grid={grid} />', page)                   # the gravity shape, on the Gravity tab (session 1151: with the grid, for its keyed figures)
+        self.assertIn('<NetworkView keep={keep} node={p.node} shape="gravity" grid={grid}', page)                    # the gravity shape, on the Gravity tab (session 1151: with the grid, for its keyed figures)
+        self.assertIn('<NetworkView keep={keep} node={p.node} shape="gravity" grid={grid} day={p.day} />', page)     # session 1170: and the replayed day, its demand one line under the table
         self.assertIn('<div className="mt-10"><ExchangeView grid={grid} /></div>', page)                                # the Exchange view's blocks under it
         self.assertIn('<aside className="min-w-0 lg:border-l lg:border-rule lg:pl-6" aria-label="Ask" data-ask-side={grid.slug} data-ask-tab={view}>', page)
         self.assertIn('<AskView grid={grid} question={one(sp.q) ?? ""} tab={view} compact />', page)

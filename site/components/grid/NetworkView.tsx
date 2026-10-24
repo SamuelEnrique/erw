@@ -6,7 +6,7 @@ import snapJson from "@/data/grid_network.json";
 import indexJson from "@/public/network/daily_index.json";
 import { TABLE as SUPPLY_TABLE, supplyOf, type Supply } from "@/lib/basupply";
 import { fetchHourly, pickSnapshot } from "@/lib/network";
-import { completeHour, type DailyIndex } from "@/lib/networkV3";
+import { clampDay, completeHour, type DailyIndex } from "@/lib/networkV3";
 import type { Shape } from "@/lib/networkMap";
 import { HOURLY, attempt } from "@/lib/supabase";
 import { Network, type Snapshot } from "@/app/network/Network";
@@ -14,6 +14,8 @@ import { ISO_BA, liveExtras, supplyRows } from "@/app/network/data";
 import { GravityFigures, NetworkFigures } from "@/components/grid/NetworkFigures";
 import type { GridChoice } from "@/lib/gridtool";
 import { shownHour } from "@/lib/gridKeys";
+import { readReplayYear } from "@/lib/gridReplayFile";
+import type { ReplayAsk } from "@/components/grid/ReplayDay";
 
 // Session 168 (the owner's instruction of 8 October 2026): version 3 is the network page. This file is version 3's page
 // (app/network/v3/page.tsx, sessions 93, 109 and 124), moved to the tool's own address; /network/v3 redirects here
@@ -44,9 +46,12 @@ const both = (t: string) => `${utc(t)} (${ET.format(new Date(t))} Eastern)`;
 // drawn on the server with their check keys and a one-line source each (components/grid/NetworkFigures.tsx): the
 // grid's ties, net and demand on the Network tab (the seven grids' net exchange for the Lower 48), what the gravity
 // shape draws on the Gravity tab.
-export async function NetworkView({ keep, node, shape, grid }: { /** the page's own query, kept in the address: "?grid=ercot&view=network" */ keep: string; /** the balancing authority whose panel opens when the address names none */ node: string | null;
+// Session 1170 (chain 078): when the address names a replayed day (net=day&t=<day>, `day`), the panels add that day's
+// figures from the replay's committed daily file, held to the replay's first and last day as the component holds it.
+export async function NetworkView({ keep, node, shape, grid, day }: { /** the page's own query, kept in the address: "?grid=ercot&view=network" */ keep: string; /** the balancing authority whose panel opens when the address names none */ node: string | null;
   /** session 299: the shape the page's tab is (the Gravity tab passes "gravity"); the address's, else the network, when absent */ shape?: Shape;
-  /** session 1151: the grid in view, whose figures are drawn under the component; none given, none drawn */ grid?: GridChoice }) {
+  /** session 1151: the grid in view, whose figures are drawn under the component; none given, none drawn */ grid?: GridChoice;
+  /** session 1170: the replayed day the address names (net=day&t=<day>), else none */ day?: string | null }) {
   const { snap, from } = pickSnapshot(await fetchHourly(HOURLY), committed);
   const isos = Object.entries(ISO_BA);
   const [reads, extras] = await Promise.all([Promise.all(isos.map(([, ba]) => attempt(() => supplyRows(ba)))), liveExtras(snap)]);
@@ -54,6 +59,8 @@ export async function NetworkView({ keep, node, shape, grid }: { /** the page's 
   const supply: Record<string, Supply> = {};
   if (!bad) for (const [, ba] of isos) { const s = supplyOf(reads.flatMap((r) => (r.ok ? r.data : [])), ba); if (s) supply[ba] = s; }
   const complete = completeHour(snap.hours, snap.links);
+  const shownDay = day ? clampDay(day, index) : null;
+  const replay: ReplayAsk | null = day && shownDay ? { day: shownDay, asked: day, first: index.first, last: index.last, read: readReplayYear(shownDay) } : null;
   // carried over from the page that stood here until session 168: the newest hour of all, and of the seven ISOs' demand
   const newest = snap.hours[snap.hours.length - 1];
   const demandTs = snap.nodes.filter((n) => n.iso && n.demand_ts).map((n) => n.demand_ts as string).reduce((a, b) => (b > a ? b : a), "");
@@ -71,8 +78,8 @@ export async function NetworkView({ keep, node, shape, grid }: { /** the page's 
           this week&apos;s latest hourly refresh ({utc(snap.built)}), and {shown(clockLag)} hours before this page was drawn ({utc(drawn.toISOString())}): EIA-930 publishes a balancing authority&apos;s interchange for a local day on the second morning after it, so the network runs about two days behind the clock.</p>
       ); })()}
       {grid ? (shape === "gravity"
-        ? <GravityFigures snap={snap} hour={shownHour(snap, complete)} grid={grid} live={extras} />
-        : <NetworkFigures snap={snap} hour={shownHour(snap, complete)} grid={grid} live={extras} />) : null}
+        ? <GravityFigures snap={snap} hour={shownHour(snap, complete)} grid={grid} live={extras} replay={replay} />
+        : <NetworkFigures snap={snap} hour={shownHour(snap, complete)} grid={grid} live={extras} replay={replay} node={node} />) : null}
       <p className="mt-3 max-w-3xl text-xs text-muted" data-network-source={from}>
         The live week: refreshed {utc(snap.built)}. <span data-newest-complete={complete.hour ?? "none"}>{complete.hour
           ? <>Newest hour complete for every reporting pair: {hourName(complete.hour)} ({complete.reporting} of the week&apos;s {complete.pairs} pairs report; the newest hour of all, {hourName(complete.newest)}, holds {complete.newestPairs} of them).</>
