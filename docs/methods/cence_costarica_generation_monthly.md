@@ -41,7 +41,7 @@ Series, 7,731 rows, 117 entities.
 
 ## License
 
-Internal. `license_verdicts.csv` records the Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica), read 603 (session 2390): "needs written permission". Every answer of the web services ends "Declaración de Privacidad © 2025 ICE Todos los Derechos Reservados." and no reuse is granted. The table is held from the Redivis storage and the live set until ICE consents.
+Internal. `license_verdicts.csv` records the Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica), read 640 (session 2390): "needs written permission". Every answer of the web services ends "Declaración de Privacidad © 2025 ICE Todos los Derechos Reservados." and no reuse is granted. The table is held from the Redivis storage and the live set until ICE consents.
 
 ## Cross-checks (session 2387)
 

@@ -5,15 +5,15 @@
 ## Read these first
 
 - **Why this source:** session 2272's Energy-Charts table gives Austria's public net production by the hour. E-Control's monthly statistics add gross generation for all producers, imports and exports by neighbour, consumption, losses and pumping. No ERW table held them. Both agents beside this chain were told.
-- **data.gv.at first:** no robots file (read 606). Its old CKAN API is gone (404), its new search finds no E-Control statistics data set, and the "Betriebsstatistik" search gives 0.
-- **E-Control's own site:** its robots file closes its services, login and `/home` paths only (read 607). Its download area offers five CSV files of time series; the monthly one is `el_dataset_mn.csv`.
+- **data.gv.at first:** no robots file (read 643). Its old CKAN API is gone (404), its new search finds no E-Control statistics data set, and the "Betriebsstatistik" search gives 0.
+- **E-Control's own site:** its robots file closes its services, login and `/home` paths only (read 644). Its download area offers five CSV files of time series; the monthly one is `el_dataset_mn.csv`.
 - **A new table, `econtrol_austria_electricity_monthly`** (series, 12,472 rows, `power`): 63 series, January 2010 to August 2026, in MWh.
   - The series: gross generation and its kinds (hydro by type and size, combustibles by fuel, wind, solar, geothermal), own use, pumping, imports and exports in all and with Switzerland, Czechia, Germany, Hungary, Italy, Liechtenstein and Slovenia, inland and gross consumption, losses, final consumption, and the public grid's series.
   - Each keeps E-Control's TS_ID, breakdown, scope and category.
   - Not taken: the generation coefficient (unit "[1]") and two series in kW, counted. Two series the file gives twice (exports and imports, identical columns) are kept once.
   - The file is in Windows-1252, and the connector reads it as such.
   - Written, validated (0 errors, 0 warnings), archived, held from the Redivis storage and the live set.
-- **The license is not settled.** The impressum carries "Copyright 2026 © E-Control" and grants no reuse (read 608). The table is `internal`.
+- **The license is not settled.** The impressum carries "Copyright 2026 © E-Control" and grants no reuse (read 645). The table is `internal`.
 - **Cross-checks against `eurostat_electricity_monthly` (Austria), 2016 to 2025:**
   - imports and exports 1.000 (1.001 in 2016);
   - wind 1.008 to 1.032;
@@ -34,7 +34,7 @@
 | 8 | E-Control's impressum | 200: copyright, no reuse statement |
 | 9 | the monthly CSV (the fetch) | 200 |
 
-Reads recorded: 606 to 608.
+Reads recorded: 643 to 645.
 
 ## Decisions made without you
 
@@ -48,5 +48,5 @@ Reads recorded: 606 to 608.
 ## Files
 
 - New: `warehouse/connectors/econtrol_austria_electricity.py`, `tests/test_session2391.py`, this report.
-- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`, the license record (reads 606 to 608).
+- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`, the license record (reads 643 to 645).
 - On the data machine only: `runs/c113/s2391/`, `warehouse/raw/econtrol_electricity/`, `warehouse/output/econtrol_austria_electricity_monthly.csv`.

@@ -5,10 +5,10 @@
 ## Read these first
 
 - **Three verdicts, each from a read this chain's source sessions recorded**, every one **needs written permission**, sold or not:
-  - **ERA (Uganda)** (read 600): "Electricity Regulatory Authority authorizes to view and download the information ("Materials") at this Web site ("Site") only for personal, non-commercial use." The same disclaimer bars reproducing or distributing the materials "for any public or commercial purpose".
-  - **CENCE, ICE (Costa Rica)** (read 603): "Declaración de Privacidad © 2025 ICE Todos los Derechos Reservados.", the line that ends every answer of CENCE's web services. All rights reserved and no reuse granted, read as POWER Magazine's notice was (read 29). `cence_costarica_generation_monthly` stays internal.
-  - **CNDC (Bolivia)** (read 605): "© 2026 CNDC, Comité Nacional de Despacho de Carga de Bolivia. Todos los derechos reservados." The page's dash after CNDC is written as a comma here: the repository writes no dash of that kind.
-- **Reads 603 and 605 now have the outcome exactly `read`,** as test 205 requires of a verdict's read. Their details moved to the verdicts' notes.
+  - **ERA (Uganda)** (read 637): "Electricity Regulatory Authority authorizes to view and download the information ("Materials") at this Web site ("Site") only for personal, non-commercial use." The same disclaimer bars reproducing or distributing the materials "for any public or commercial purpose".
+  - **CENCE, ICE (Costa Rica)** (read 640): "Declaración de Privacidad © 2025 ICE Todos los Derechos Reservados.", the line that ends every answer of CENCE's web services. All rights reserved and no reuse granted, read as POWER Magazine's notice was (read 29). `cence_costarica_generation_monthly` stays internal.
+  - **CNDC (Bolivia)** (read 642): "© 2026 CNDC, Comité Nacional de Despacho de Carga de Bolivia. Todos los derechos reservados." The page's dash after CNDC is written as a comma here: the repository writes no dash of that kind.
+- **Reads 640 and 642 now have the outcome exactly `read`,** as test 205 requires of a verdict's read. Their details moved to the verdicts' notes.
 - **Not given a verdict:** EWURA (Tanzania), whose terms were not found and from which no data was taken.
 - **The record:** `licenses.py tables`, `write` and `check`: 506 tables, 143 publishers with a verdict, 0 problems. `tests.test_session205`, `207` and `887` pass; test 205's bound raised by 40 (564 later reads against 562 before it).
 

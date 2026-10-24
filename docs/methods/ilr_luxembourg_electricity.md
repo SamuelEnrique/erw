@@ -6,7 +6,7 @@ Tables: `ilr_luxembourg_electricity`
 
 ## Publisher and address
 
-The Institut Luxembourgeois de Regulation (ILR, the regulator), its data set "Données statistiques du secteur d'électricité (ILR)" on the national open data portal (`https://data.public.lu/fr/datasets/donnees-statistiques-du-secteur-delectricite-ilr/`). Two GETs a run, no key: the data set's record, `https://data.public.lu/api/1/datasets/667bbcc61ceeb0f9faecfd4b/`, which gives the address of its one xlsx resource (it changes with each update), then the workbook itself, on download.data.public.lu (in session 2392, `.../20260901-135330/donnees-statistiques-du-secteur-delectricite.xlsx`, 104,406 bytes). Source id `ilr:donnees-statistiques-electricite`. Connector: `warehouse/connectors/ilr_luxembourg_electricity.py` (session 2392). data.public.lu has no robots file (HTTP 404, read 609); download.data.public.lu's allows every path (read 614).
+The Institut Luxembourgeois de Regulation (ILR, the regulator), its data set "Données statistiques du secteur d'électricité (ILR)" on the national open data portal (`https://data.public.lu/fr/datasets/donnees-statistiques-du-secteur-delectricite-ilr/`). Two GETs a run, no key: the data set's record, `https://data.public.lu/api/1/datasets/667bbcc61ceeb0f9faecfd4b/`, which gives the address of its one xlsx resource (it changes with each update), then the workbook itself, on download.data.public.lu (in session 2392, `.../20260901-135330/donnees-statistiques-du-secteur-delectricite.xlsx`, 104,406 bytes). Source id `ilr:donnees-statistiques-electricite`. Connector: `warehouse/connectors/ilr_luxembourg_electricity.py` (session 2392). data.public.lu has no robots file (HTTP 404, read 646); download.data.public.lu's allows every path (read 651).
 
 ## Vintage and revision
 
@@ -50,7 +50,7 @@ Series, 668 rows (342 monthly, 326 annual), 15 entities. The workbook ("Tableau 
 
 ## License
 
-Public. `license_verdicts.csv` records the Institut Luxembourgeois de Regulation (ILR), read 615 (session 2392): "may be public", for public and for commercial use. The data set's record gives licence `cc-by` (read 613), and the portal's licence list names it "Creative Commons Attribution 4.0" with `https://creativecommons.org/licenses/by/4.0/` (read 615). The header names ILR.
+Public. `license_verdicts.csv` records the Institut Luxembourgeois de Regulation (ILR), read 652 (session 2392): "may be public", for public and for commercial use. The data set's record gives licence `cc-by` (read 650), and the portal's licence list names it "Creative Commons Attribution 4.0" with `https://creativecommons.org/licenses/by/4.0/` (read 652). The header names ILR.
 
 ## Cross-checks (session 2392, against `eurostat_electricity_monthly`'s Luxembourg, 2022 to 2025)
 

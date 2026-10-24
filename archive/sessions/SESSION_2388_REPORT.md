@@ -5,7 +5,7 @@
 ## Read these first
 
 - **No table this session.**
-- **CNDC:** its robots file disallows WordPress's admin path only and names no AI agent (read 604). Its sitemap lists history pages for demand, peak load, capacity and marginal cost. But the demand history page holds no figures in its HTML ("Cargando datos…"). They come through WordPress's `admin-ajax.php` with a nonce issued to the page, a scripted request rather than a published file or open endpoint. The footer reads "Todos los derechos reservados" (read 605). No data request was made.
+- **CNDC:** its robots file disallows WordPress's admin path only and names no AI agent (read 641). Its sitemap lists history pages for demand, peak load, capacity and marginal cost. But the demand history page holds no figures in its HTML ("Cargando datos…"). They come through WordPress's `admin-ajax.php` with a nonce issued to the page, a scripted request rather than a published file or open endpoint. The footer reads "Todos los derechos reservados" (read 642). No data request was made.
 - Ember's annual table already covers Bolivia.
 
 ## Requests (3 of 15)
@@ -16,7 +16,7 @@
 | 2 | CNDC's page sitemap | 200: 33 pages, the history pages among them |
 | 3 | the demand history page | 200: figures by AJAX with a nonce; all rights reserved |
 
-Reads recorded: 604 and 605.
+Reads recorded: 641 and 642.
 
 ## Decisions made without you
 
@@ -28,5 +28,5 @@ Reads recorded: 604 and 605.
 
 ## Files
 
-- New: this report. Changed: the license record (reads 604 and 605).
+- New: this report. Changed: the license record (reads 641 and 642).
 - On the data machine only: `runs/c113/s2388/`.
