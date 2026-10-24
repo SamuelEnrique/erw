@@ -17,12 +17,12 @@ The trial and the write ran offline.
 - **Bangladesh is closed to the reader.** The Power Grid Company of Bangladesh (both hosts) and the Bangladesh Power Development Board answer with certificates that fail verification, and the ERW does not work around that (as for the Corps of Engineers' host, session 2255). The file's rule replaces a closed source with another public one.
 - **In Bangladesh's place: Moldova, from the National Bureau of Statistics' StatBank** (not held; no chain planned it).
   - **Table:** `statbank_moldova_electricity_monthly`, 980 figures, January 2015 to August 2026, internal until the licenses' round reads the bureau's terms (public since session 2362: the bureau's terms are CC BY 4.0).
-  - **Variables (7):** production, imports, electricity acquired from other sources, stock change, exports, gross inland consumption, and the residential sector's share.
+  - **Variables (7):** production, imports, electricity acquired from other sources, stock change, exports, gross inland consumption, and the residential sector's consumption (corrected by session 2366: MWh, not a share).
   - **Access:** one query by POST after the metadata's GET, as session 2357 reads MakStat.
 - **The unit was found from the data.** The API states none; the figures are thousand kWh, which is MWh:
   - StatBank's exports equal Eurostat's for Moldova (`eurostat_electricity_monthly`, entity `eurostat_elec:MD`): median ratio 1.000 over 79 months;
-  - its production, gross, is about 13 percent over Eurostat's net production.
-- **Imports, two ways.** The bureau's "Import" leaves out the electricity bought from the Transnistrian region's plant, which it counts as "acquired from other sources". Imports plus that line equal Eurostat's imports in all 79 months. The header says so.
+  - its production, which the bureau does not call gross or net, is about 13 percent over Eurostat's net production, as gross would be (worded by session 2366).
+- **Imports, two ways.** The bureau's "Import" plus its "Acquired from other sources" equal Eurostat's imports in all 79 months (within 39 MWh). The header says so. (This report first said the second line is the power bought from the Transnistrian region's plant; the bureau's table does not say so, and the line is 0 from January 2025. Session 2366 took the claim out.)
 - **The months of 2026 not yet published** (September to December) have no row.
 - **Registered:** the sector rule (`power`), the live-set hold, the license tables (licenses check: 497 tables, 0 problems). The test is `tests/test_session2358.py` (3 tests).
 

@@ -122,7 +122,9 @@ def main(argv=None):
             "alpha-2 (Eurostat's EL is GR), blank for EU27_2020; node the fuel and flow.",
             f"{len(t)} rows. Countries: {' '.join(countries)}. Left out by Eurostat's terms (data for countries outside the EU, EFTA and the official candidates may not be reused commercially): "
             f"{' '.join(left) or 'none'}. Flows overlap (observed and calculated deliveries are two readings; industry holds iron and steel; imports hold those from outside the EU): "
-            "a sum of rows double counts. Values as published; a blank value has no row; nothing is filled.",
+            "a sum of rows double counts. Stock change is positive when coal is taken out of stock (opening less closing stocks), the "
+            "opposite of the oil table's. EU27_2020 is Eurostat's sum of the members that report a cell (Malta and, for brown coal, "
+            "Greece have no row in some months; session 2366). Values as published; a blank value has no row; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eurostat_solid_fuels_monthly.py; the data retrieved {rec.get('retrieved_at') or ''}; Eurostat's last update {', '.join(updated)}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

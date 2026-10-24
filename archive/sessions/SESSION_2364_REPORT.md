@@ -22,9 +22,9 @@ The trial and the write ran offline.
   - **Unit:** `t` (Eurostat's thousand tonnes times 1,000).
   - **License:** Eurostat's verdict is on record.
 - **Left out by Eurostat's terms:** the United Kingdom and Kosovo, named in the header.
-- **`vintage`** is the shared fetch helper's (`ip.vintage_of`), as in the other Eurostat connectors that use it; Eurostat's own last update is in the header.
+- **`vintage`** is empty: the shared fetch helper (`ip.vintage_of`) found no Last-Modified in Eurostat's answer; Eurostat's own last update is in the header (worded by session 2366).
 - **The checks:**
-  - **Members against the EU:** hard coal and brown coal production summed over the 27 members equal Eurostat's EU27 figure in every month (124 and 126 months).
+  - **Members against the EU:** hard coal and brown coal production summed over the members that report equal Eurostat's EU27 figure in all 124 months of hard coal and 124 of 126 of brown coal (1 t apart in two); all 27 report in 88 and 78 of them (corrected by session 2366).
   - **The EU in 2024:** it produced 45.3 Mt of hard coal and 196.6 Mt of brown coal.
 - **Registered:**
   - the sector rule (`coal`), the live-set hold;

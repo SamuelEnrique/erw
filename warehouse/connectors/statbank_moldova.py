@@ -16,11 +16,13 @@ as chain 106's csp_latvia_electricity.py and session 2357's makstat_macedonia.py
                 residential_consumption ("of which: consumed in the residential sector"); node the indicator as StatBank
                 writes it; x_code its code (1 to 7)
     unit        MWh: StatBank states no unit in the API; its figures are thousand kWh, which is MWh (session 2358: its
-                exports equal Eurostat's for Moldova, median ratio 1.000 over 79 months, and its production, gross, is
-                about 13 percent over Eurostat's net production); ts_utc the month's first day; freq P1M; geo MD
+                exports equal Eurostat's for Moldova within 0.6 MWh in all 79 months; its production, which the bureau does
+                not call gross or net, runs 10 to 15 percent a year over Eurostat's net production, as gross would);
+                ts_utc the month's first day; freq P1M; geo MD
 
-The bureau's "Import" leaves out the electricity bought from the Transnistrian region's plant, which it counts as
-"acquired from other sources"; Eurostat counts both as imports (session 2358). A month StatBank leaves empty (those of 2026
+Imports, two ways: the bureau's "Import" and its "Acquired from other sources" together equal Eurostat's imports for
+Moldova (within 39 MWh in all 79 months, sessions 2358 and 2366); the bureau does not say in the table what the second
+line holds, and it is 0 in every month from January 2025. A month StatBank leaves empty (those of 2026
 not yet published) has no row; nothing is filled. A metadata without the three variables (Indicatori, Ani, Luni), an
 indicator list not the seven expected, a value array not the size of the dimensions, or an indicator and month given twice
 stops the run.
@@ -150,15 +152,15 @@ def main(argv=None):
         g = g[g["size"] == 12]["sum"] / 1e6
         head = [
             "Energy Research Warehouse (ERW): National Bureau of Statistics of the Republic of Moldova, StatBank table ENE010100, Stocks, inputs "
-            f"and electricity consumption, a month, {t.ts_utc.min()[:7]} to {t.ts_utc.max()[:7]} (session 2358)",
+            f"and electricity consumption, a month, {t.ts_utc.min()[:7]} to {t.ts_utc.max()[:7]} (session 2358; written again offline in sessions 2362 and 2366)",
             "Shape: series (docs/datastandard.md v0). entity statbank_md:md; variable production, imports, acquired_from_other_sources, "
             "stock_change, exports, gross_inland_consumption, residential_consumption; unit MWh (StatBank's thousand kWh: no unit in the "
             "API, its exports equal Eurostat's for Moldova, session 2358); ts_utc the month's first day; freq P1M; geo MD; node the "
             "indicator as StatBank writes it; x_code its code.",
-            f"{len(t)} rows; production TWh a full year: " + ", ".join(f"{k} {v:.2f}" for k, v in g.items()) + ". The bureau's imports "
-            "leave out the electricity bought from the Transnistrian region's plant, counted as acquired_from_other_sources (Eurostat "
-            "counts both as imports). A month left empty has no row; nothing is filled.",
-            f"Retrieved: {run_id} (UTC) by warehouse/connectors/statbank_moldova.py; the query answered {retrieved}",
+            f"{len(t)} rows; production TWh a full year: " + ", ".join(f"{k} {v:.2f}" for k, v in g.items()) + ". Production is not "
+            "called gross or net by the bureau (10 to 15 percent a year over Eurostat's net). imports plus acquired_from_other_sources "
+            "equal Eurostat's imports for Moldova (the second line 0 from January 2025). A month left empty has no row; nothing is filled.",
+            f"Retrieved: {run_id} (UTC) by warehouse/connectors/statbank_moldova.py; the query answered {retrieved} (an offline run reads that saved answer)",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/{SAVED} (the metadata and the answer; not in git)",
             f"Source: {SOURCE} National Bureau of Statistics of the Republic of Moldova, StatBank, Energy resources, monthly series, {PAGE}",

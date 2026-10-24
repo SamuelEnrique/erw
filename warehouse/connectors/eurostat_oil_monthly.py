@@ -172,7 +172,11 @@ def main(argv=None):
             "unit t (Eurostat's thousand tonnes times 1,000); ts_utc the month's first day; freq P1M; geo ISO alpha-2 (Eurostat's EL is GR), blank for EU27_2020; node the product and flow.",
             f"{len(t)} rows. Countries: {' '.join(countries)}. Left out by Eurostat's terms (data for countries outside the EU, EFTA and the official candidates may not be reused commercially): "
             f"{' '.join(left) or 'none'}. The file's other 26 products (their parts and biofuel shares) are not taken. Products and flows overlap (O4600 holds the others; observed and "
-            "calculated deliveries are two readings): a sum of rows double counts. Values as published; a blank value has no row; nothing is filled.",
+            "calculated deliveries are two readings, apart by the statistical difference): a sum of rows double counts. Stock change is positive "
+            "when oil is put into stock. EU27_2020 is Eurostat's sum of the members that report a cell: in some months members have no row "
+            "(the oil products' calculated deliveries of September 2018 to December 2019 come from one to three members), so it is not the "
+            "EU's whole in those months (session 2366). Values as published, some flows negative as Eurostat prints them; a blank value has "
+            "no row; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eurostat_oil_monthly.py; the extract retrieved {retrieved}; Eurostat's last update {', '.join(updated)}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/{SAVED} (not in git)",

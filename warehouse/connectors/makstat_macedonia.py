@@ -16,7 +16,10 @@ as chain 106's csp_latvia_electricity.py reads Latvia's:
                 power plants, CHP plants and autoproducers' thermal stations, hydro, solar, wind, biogas),
                 net_production_total and net_production_<plant> (the same six), energy_branch_consumption,
                 distribution_losses, available_for_final_consumption, final_consumption_households; node the indicator
-                as MakStat writes it; x_code its code (0 to 20)
+                as MakStat writes it without its leading dots (a gross plant and its net plant share one; x_code tells
+                them apart); x_code its code (0 to 20). MakStat's "Gross inland consumption" line equals imports less
+                exports in every month (session 2366): it is the country's net imports, negative in a month it exported
+                more than it imported, and it is kept under MakStat's name
     unit        MWh as published; ts_utc the month's first day; freq P1M; geo MK
 
 Totals are MakStat's lines, never sums made here (the plants are checked against them: a month whose plants differ from
@@ -168,15 +171,15 @@ def main(argv=None):
             os.makedirs(os.path.dirname(path), exist_ok=True)
             json.dump({"retrieved_at": retrieved, "query": body, "meta": meta, "answer": js}, open(path, "w", encoding="utf-8"))
             log(f"  POST {TABLE_URL}: {len(r.content)} bytes, saved with the metadata as {path}")
-        upd = js.get("updated", "") or ""
-        if upd.startswith("9999"):  # a placeholder some PxWeb servers answer, not a date
-            upd = ""
-        base = dict(source=SOURCE, source_url=TABLE_URL, retrieved_at=retrieved, vintage=upd)
+        upd = js.get("updated", "") or ""  # MakStat answers 2013-04-23, older than most of the table's months: not a vintage
+        base = dict(source=SOURCE, source_url=TABLE_URL, retrieved_at=retrieved, vintage="")
         t = parse(js, meta, base)
         cols = ip.SERIES_COLS + X_COLS
         t = t[cols].sort_values(["variable", "ts_utc"]).reset_index(drop=True)
         off = plants_off(t)
-        neg = t[(t.variable == "gross_inland_consumption") & (t.value < 0)].ts_utc.str[:7].tolist()  # impossible, kept as published
+        neg = t[(t.variable == "gross_inland_consumption") & (t.value < 0)].ts_utc.str[:7].tolist()  # net exports (it is net imports)
+        w = t[t.variable.isin(["imports", "exports", "gross_inland_consumption"])].pivot_table(index="ts_utc", columns="variable", values="value")
+        net_imports = int(((w.imports - w.exports - w.gross_inland_consumption).abs() <= 1).sum())
         g = t[t.variable == "gross_production_total"].assign(y=lambda q: q.ts_utc.str[:4]).groupby("y").value.agg(["sum", "size"])
         g = g[g["size"] == 12]["sum"] / 1e6
         head = [
@@ -186,13 +189,16 @@ def main(argv=None):
             "gross_production_total and gross_production_<plant>, net_production_total and net_production_<plant> (thermal_power_plants, "
             "chp_and_autoproducer_thermal, hydro, solar, wind, biogas), energy_branch_consumption, distribution_losses, "
             "available_for_final_consumption, final_consumption_households; unit MWh as published; ts_utc the month's first day; freq "
-            "P1M; geo MK; node the indicator as MakStat writes it; x_code its code.",
+            "P1M; geo MK; node the indicator as MakStat writes it without its leading dots (a gross plant and its net plant share one); "
+            "x_code its code.",
             f"{len(t)} rows, {t.variable.nunique()} indicators; gross production TWh a full year: "
             + ", ".join(f"{k} {v:.2f}" for k, v in g.items()) + ". Totals are MakStat's lines (a sum of rows double counts); months whose "
-            f"plants differ from the total by more than 1 MWh a plant: {'; '.join(off) or 'none'}. Gross inland consumption is negative, "
-            f"as published, in {len(neg)} month(s): {', '.join(neg) or 'none'}; net production of autoproducers' and CHP thermal plants "
-            "can be negative (their own use above their output). A cell left empty has no row; nothing is filled.",
-            f"Retrieved: {run_id} (UTC) by warehouse/connectors/makstat_macedonia.py; the query answered {retrieved}; updated {base['vintage'] or 'not given'}",
+            f"plants differ from the total by more than 1 MWh a plant: {'; '.join(off) or 'none'}. MakStat's gross_inland_consumption equals "
+            f"imports less exports in {net_imports} of {len(w)} months: it is net imports, under MakStat's name, negative in the "
+            f"{len(neg)} month(s) the country exported more than it imported ({', '.join(neg) or 'none'}). Net production of "
+            "autoproducers' and CHP thermal plants can be negative (their own use above their output). A cell left empty has no row; "
+            "nothing is filled; vintage is empty (MakStat's 'updated' says 2013-04-23, older than most months).",
+            f"Retrieved: {run_id} (UTC) by warehouse/connectors/makstat_macedonia.py; the query answered {retrieved} (an offline run reads that saved answer)",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/{SAVED} (the metadata and the answer; not in git)",
             f"Source: {SOURCE} State Statistical Office of North Macedonia, MakStat, Energy, Monthly energy statistics, {PAGE}",

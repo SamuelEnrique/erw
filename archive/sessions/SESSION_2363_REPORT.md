@@ -29,7 +29,7 @@ The trial and the write ran offline.
 - **Eurostat's extract is too large to be answered at once.** Eurostat queues it and returns a job key; the connector asks the status and then the data from Eurostat's asynchronous API by GET. The extract is saved for offline runs.
 - **`vintage` is empty.** Eurostat's "LAST UPDATE" is printed as `23/10/26 23:00:00`, its clock unstated, so it goes in the header instead.
 - **The checks:**
-  - **Members against the EU:** crude oil imports summed over the 27 members equal Eurostat's EU27 figure in all 126 months.
+  - **Members against the EU:** crude oil imports summed over the members that report equal Eurostat's EU27 figure in all 126 months; all 27 report in 107 of them (corrected by session 2366: Eurostat's EU row is the reporting members' sum).
   - **Scale:** the EU imported 469.2 Mt of crude oil in 2024.
 - **Registered:**
   - the sector rule (`oil`), the live-set hold;
@@ -41,6 +41,7 @@ The trial and the write ran offline.
 ## Errors
 
 - **The first trial put Eurostat's "LAST UPDATE" in `vintage`,** which the validator warned is not ISO 8601. It is now empty, and the date is in the header.
+- **The write's metadata patch did not apply** (`runs/c110/s2363/write.out` ends "fail=1": the main checkout lagged main); the table's own rows were put in by `runs/c102/add_own_rows.py` (added by session 2366).
 
 ## Decisions made without you
 

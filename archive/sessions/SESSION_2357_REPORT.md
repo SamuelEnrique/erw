@@ -12,7 +12,7 @@ Pulls: 14 requests of 15:
 - **MakStat:**
   - makstat.stat.gov.mk's robots address (HTTP 404);
   - three listings of MakStat's PxWeb API;
-  - the table's metadata, twice (the first trial stopped on a month label);
+  - the table's metadata, three times: the probe's and two trials' (the first trial stopped on a month label; corrected by session 2366);
   - one JSON-stat query by POST.
 
 ## Read these first
@@ -37,7 +37,7 @@ Pulls: 14 requests of 15:
 - **The checks:**
   - **Net production against Eurostat's monthly net production for North Macedonia** (`eurostat_electricity_monthly`, entity `eurostat_elec:MK`): median ratio 1.0000 over 127 months, 90 within 0.1 percent, the range 0.987 to 1.189.
   - **The plants against MakStat's totals:** one month is off, gross January 2016 by 2,382 MWh (named in the header).
-  - **Values that cannot be right, kept as published:** gross inland consumption is negative in 13 months from September 2022 to September 2025, down to -60,362 MWh; they are named in the header. Net production of CHP and autoproducers' thermal plants is negative in 39 months, which is their own use above their output.
+  - **Gross inland consumption, negative in 13 months** from September 2022 to September 2025, down to -60,362 MWh, is not consumption: session 2366 found MakStat's line equal to imports less exports in every month, so it is net imports, negative when the country exported more than it imported. It is kept under MakStat's name, and the header says so (this report first called these values impossible). Net production of CHP and autoproducers' thermal plants is negative in 39 months, which is their own use above their output.
 - **Registered:**
   - the sector rule (`power`), the live-set hold, the license tables (licenses check: 496 tables, 0 problems);
   - the test, `tests/test_session2357.py` (3 tests).
@@ -51,7 +51,7 @@ Pulls: 14 requests of 15:
 
 - **Pakistan replaced by North Macedonia,** as the file's rule allows.
 - **A query sent by POST,** as chain 106's connector does.
-- **Gross inland consumption's negative months kept as published,** and named.
+- **Gross inland consumption's negative months kept as published,** and named (net exports, session 2366).
 
 ## For Samuel's ruling
 
