@@ -17,6 +17,7 @@
 import { useMemo, useState, type PointerEvent } from "react";
 import { caisoJoinDay } from "@/lib/caisoJoin";
 import { cardWidth } from "@/lib/networkMap";
+import { shown } from "@/lib/format";  // session 1423: the card writes each figure as the server panel grid_gravity_<grid> does
 import { GRAVITY, gravityEdges, gravityLayout, gravityTip, type GravityLayout, type GravityWindow } from "@/lib/networkGravity";
 
 export function NetworkGravity({ gen, net, names, colorOf, at, pick, neighbours, onPick, held }: {
@@ -98,7 +99,7 @@ export function NetworkGravity({ gen, net, names, colorOf, at, pick, neighbours,
           <div className="pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-0.5 text-xs" data-gravity-hover={hover.id} data-gravity-hover-kind={hover.kind}
             style={{ ...(hover.x < 0 ? { left: 8, top: 8 } : hover.right ? { right: `calc(100% - ${hover.x - 12}px)`, top: hover.y + 12 } : { left: hover.x + 12, top: hover.y + 12 }), maxWidth: cardWidth(hover.x, hover.right) }}>
             <div className="text-ink">{nameOf(hover.id)}</div>
-            {hovered ? gravityTip(hovered, at, hover.kind).map((line) => <div key={line} className="text-muted">{line}</div>) : null}
+            {hovered ? gravityTip(hovered, at, hover.kind, shown).map((line) => <div key={line} className="text-muted">{line}</div>) : null}
           </div>
         ) : null}
       </div>

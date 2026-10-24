@@ -108,22 +108,31 @@ export function gravityEdges(lay: GravityLayout): GravityPlace[] {
   return lay.places.filter((p) => p.net !== null);
 }
 
-/** The grid's net exchange in words: "Net import 1,234 MW", "Net export 1,234 MW", "No net exchange (0 MW)"; null with no tie. */
-export function netWords(p: GravityPlace): string | null {
+/** The grid's net exchange in words: "Net import 1,234 MW", "Net export 1,234 MW", "No net exchange (0 MW)"; null with no tie.
+ * Session 1423: with `fmt` (the component passes lib/format.ts shown, the server panel's way), the size is written as the
+ * panel grid_gravity_<grid> writes its net import, and only a zero figure is "no net exchange"; without it, whole MW and a
+ * figure that rounds to zero, as since session 1153. */
+export function netWords(p: GravityPlace, fmt?: (v: number) => string): string | null {
   if (p.net === null) return null;
+  if (fmt) return p.net > 0 ? `Net import ${fmt(p.net)} MW` : p.net < 0 ? `Net export ${fmt(-p.net)} MW` : "No net exchange (0 MW)";
   const r = Math.round(p.net);
   return r > 0 ? `Net import ${mwWords(p.net)} MW` : r < 0 ? `Net export ${mwWords(p.net)} MW` : "No net exchange (0 MW)";
 }
 
 /** The lines of a hover card under the grid's name: for an edge, its net exchange, its share of the grid's generation and
- * its window; for a circle, the generation, the net exchange and the window. */
-export function gravityTip(p: GravityPlace, w: GravityWindow, kind: "edge" | "circle"): string[] {
-  const net = netWords(p);
-  const share = p.share !== null && Math.round(p.net ?? 0) !== 0
-    ? `${(Math.abs(p.share) * 100).toFixed(1)} percent of its net generation` : null;
+ * its window; for a circle, the generation, the net exchange and the window.
+ * Session 1423: with `fmt` (NetworkGravity.tsx passes lib/format.ts shown), every figure of the card is written as the
+ * server panel grid_gravity_<grid> writes the same figure in the same hour: the generation, the net import's size and
+ * the import as a percent of generation, two decimals where not whole (the card wrote one until then: "6.2 percent" for
+ * the panel's 6.23). Without it, the words of session 1153 (whole MW, a one-decimal share). */
+export function gravityTip(p: GravityPlace, w: GravityWindow, kind: "edge" | "circle", fmt?: (v: number) => string): string[] {
+  const net = netWords(p, fmt);
+  const share = p.share !== null && (fmt ? p.net !== 0 : Math.round(p.net ?? 0) !== 0)
+    ? `${fmt ? fmt(Math.abs(p.share * 100)) : (Math.abs(p.share) * 100).toFixed(1)} percent of its net generation` : null;
   const ties = net ? `${net}, over its reporting ties (EIA-930 interchange)` : "No tie reported in the hour";
+  const gen = p.gen === null ? null : fmt ? fmt(p.gen || 0) : (Math.round(p.gen) || 0).toLocaleString("en-US");   // never "-0"
   const lines = kind === "edge"
     ? [ties, ...(share ? [share] : [])]
-    : [p.gen === null ? "Net generation not held for the hour" : `Net generation ${(Math.round(p.gen) || 0).toLocaleString("en-US")} MW (EIA-930)`, ties, ...(share ? [share] : [])];
+    : [gen === null ? "Net generation not held for the hour" : `Net generation ${gen} MW (EIA-930)`, ties, ...(share ? [share] : [])];
   return [...lines, `In ${windowWords(w)}`];
 }

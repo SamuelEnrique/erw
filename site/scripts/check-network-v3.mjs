@@ -68,7 +68,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   const net = y21.links.filter((l) => l.a === "ERCO" || l.b === "ERCO").reduce((a, l) => (l.mw[i] === null ? a : a + (l.b === "ERCO" ? l.mw[i] : -l.mw[i])), 0);
   const panel = await evaluate(`document.querySelector('[data-panel]').innerText`);
   const shownNet = panel.match(/Net (imports|exports) this day\s+([\d,]+) MW on average/);
-  check(!!shownNet && num(shownNet[2]) === Math.abs(Math.round(net)) && (shownNet[1] === "imports") === (net >= 0), `the panel's net ${shownNet?.[1]} of the day, ${shownNet?.[2]} MW on average, is the file's (${net.toFixed(1)})`);
+  check(!!shownNet && num(shownNet[2]) === Math.abs(Math.round(net)) && (shownNet[1] === "imports") === (net > 0), `the panel's net ${shownNet?.[1]} of the day, ${shownNet?.[2]} MW on average, is the file's (${net.toFixed(1)})`);
   // session 109: the replay now holds each day's demand (EIA's daily demand, the day's average MW), so the panel gives
   // the net imports as a share of it and each supplier's share
   const dem = y21.demand?.ERCO?.[i] ?? null;

@@ -36,6 +36,8 @@ import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery
 import { carryMoment, edgesAt, mapPanelOf, parseShape, regionSlug, withShape, type Shape } from "@/lib/networkMap";
 import { GRID_CHOICES, gridHref, netFromPage, netToPage } from "@/lib/gridtool";
 import { GRAVITY_CENTER, GRAVITY_GRIDS, netImportAt } from "@/lib/networkGravity";
+// session 1423: the side panel's MW words, pure, so a node test compares them with the server panels (scripts/test-network-words.mjs)
+import { liveDemand, sideFormat, sideNet, sideNetLabel, sideNetMw, sideTieWords, sideTies } from "@/lib/networkSide";
 
 // session 180: the map is loaded when it is first shown, so the network's own load is what it was
 const NetworkMap = dynamic(() => import("./NetworkMap").then((m) => m.NetworkMap), { ssr: false });
@@ -140,15 +142,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   const liveView: View = useMemo(() => ({
     kind: "live", key: "live", title: "The live week", hours: snap.hours, links: snap.links,
     intensity: (id) => snap.nodes.find((n) => n.id === id)?.intensity ?? null,
-    demand: (id, h) => {
-      const n = snap.nodes.find((x) => x.id === id);
-      const ts = snap.hours[h];
-      if (!n) return null;
-      const d = live.demand[id]?.[h];
-      if (d !== null && d !== undefined) return d;  // the seven ISOs' hourly demand of the week (eia930_all_demand)
-      if (n.demand_recent && ts in n.demand_recent) return n.demand_recent[ts];
-      return n.demand_ts === ts ? n.demand_mw : null;
-    },
+    demand: (id, h) => liveDemand(snap, live, id, h),  // session 1423: moved, unchanged, to lib/networkSide.ts
     battery: (id, h) => live.batteries[id]?.[h] ?? null, batteryReported: (id) => !!live.batteries[id], batterySource: (id) => live.batterySource[id] ?? "",
     price: (id, h) => shownPrice(id, live.prices[id]?.[h]), priceKind: (id) => live.priceKind[id] ?? "",
   }), [snap, live]);
@@ -429,12 +423,11 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   const unit = isDayView ? "day" : "hour";
   const hoursOf = view.hoursOf ?? (() => 1);
   const nameOf = (id: string) => snap.nodes.find((n) => n.id === id)?.name ?? id;
-  const ties = useMemo(() => (pick ? view.links.filter((l) => l.a === pick.id || l.b === pick.id).map((l) => {
-    const v = l.mw[hour];
-    if (v === null || v === undefined) return null;
-    return { other: l.a === pick.id ? l.b : l.a, imp: l.a === pick.id ? -v : v };  // positive: the neighbour supplies this grid
-  }).filter((x): x is { other: string; imp: number } => !!x).sort((x, y) => y.imp - x.imp) : []), [pick, hour, view]);
-  const netImport = ties.reduce((a, t) => a + t.imp, 0);
+  // session 1423: the ties and their net moved, unchanged, to lib/networkSide.ts; in the live week a MW is written as the
+  // server panel grid_network_<grid> writes it (shown), in a story or the replay whole MW as before
+  const ties = useMemo(() => (pick ? sideTies(view.links, pick.id, hour) : []), [pick, hour, view]);
+  const netImport = sideNet(ties);
+  const mwOf = sideFormat(view.kind, shown, fmt);
   // session 93: trace the power over the period shown (the frames of the range), two steps
   // session 124: in the replay the trace covers the day shown, its month (as it opens) or the whole year; elsewhere, the view
   const traceSpan: [number, number] = isDayView ? (tracePeriod === "day" ? [hour, hour + 1] : tracePeriod === "month" ? monthSpan(view.hours, hour) : range) : range;
@@ -599,14 +592,14 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
             <p className="mb-2 text-xs">{isDayView ? <>{ts.slice(0, 10)}, EIA&apos;s Eastern day</> : LOCAL_TZ[pick.id] ? <>{localTime(ts, LOCAL_TZ[pick.id])} local time</> : <>{ts.slice(0, 13).replace("T", " ")}:00 UTC (its local time is not held)</>}</p>
             <dl className="space-y-1.5">
               <div>
-                <dt className="text-xs text-muted">Net {netImport >= 0 ? "imports" : "exports"} this {unit}</dt>
-                <dd>{ties.length ? <>{fmt(Math.abs(netImport))} MW{isDayView ? " on average" : ""}{demandNow ? <>, {pct((Math.abs(netImport) / demandNow) * 100)} percent of its {demandKey(pick, ts, demandNow)} MW demand</> : <> (its demand for this {unit} is not held)</>}</> : `no tie reported this ${unit}`}</dd>
+                <dt className="text-xs text-muted">{sideNetLabel(netImport, unit)}</dt>
+                <dd>{ties.length ? <>{sideNetMw(netImport, mwOf)}{isDayView ? " on average" : ""}{demandNow ? <>, {pct((Math.abs(netImport) / demandNow) * 100)} percent of its {demandKey(pick, ts, demandNow)} MW demand</> : <> (its demand for this {unit} is not held)</>}</> : `no tie reported this ${unit}`}</dd>
               </div>
               <div>
                 <dt className="text-xs text-muted">Who is supplying it, largest first</dt>
                 <dd>{ties.length ? (
                   <ul className="mt-0.5 space-y-0.5 tabular-nums">
-                    {ties.map((t) => <li key={t.other} className="flex justify-between gap-2"><span>{nameOf(t.other)} <span className="font-mono text-xs text-muted">{t.other}</span></span><span className="whitespace-nowrap">{Math.round(t.imp) === 0 ? "0 MW" : t.imp > 0 ? `${fmt(t.imp)} MW in` : `${fmt(-t.imp)} MW out`}{isDayView && demandNow && Math.round(t.imp) !== 0 ? <span className="text-muted" data-tie-share={t.other}>, {pct((Math.abs(t.imp) / demandNow) * 100)}% of demand</span> : null}</span></li>)}
+                    {ties.map((t) => <li key={t.other} className="flex justify-between gap-2"><span>{nameOf(t.other)} <span className="font-mono text-xs text-muted">{t.other}</span></span><span className="whitespace-nowrap">{sideTieWords(t.imp, mwOf, view.kind === "live")}{isDayView && demandNow && Math.round(t.imp) !== 0 ? <span className="text-muted" data-tie-share={t.other}>, {pct((Math.abs(t.imp) / demandNow) * 100)}% of demand</span> : null}</span></li>)}
                   </ul>
                 ) : "none reported"}</dd>
               </div>
