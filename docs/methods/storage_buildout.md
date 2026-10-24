@@ -1,5 +1,7 @@
 # Storage build-out: method
 
+Tables: `storage_buildout_monthly`
+
 Built in session 69 for the site's `/storage/buildout` ("How much storage has been built"), since session 239 the build-out tab of `/storage` (`/storage?tab=buildout`; the old address redirects). One table:
 
 | Table | Tier | What |
