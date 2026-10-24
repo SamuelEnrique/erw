@@ -5,17 +5,17 @@
 ## Read these first
 
 - **Ecuador is not taken.** None of its three hosts can be read:
-  - **CENACE (www.cenace.gob.ec)** fails TLS certificate verification: its chain is incomplete ("unable to get local issuer certificate"; read 519).
-  - **ARCERNNR (www.controlrecursosyenergia.gob.ec)**, the regulator the plan names as the fallback, fails it as well: its certificate is not valid for its name (read 520).
+  - **CENACE (www.cenace.gob.ec)** fails TLS certificate verification: its chain is incomplete ("unable to get local issuer certificate"; read 567).
+  - **ARCERNNR (www.controlrecursosyenergia.gob.ec)**, the regulator the plan names as the fallback, fails it as well: its certificate is not valid for its name (read 568).
   - Verification was not turned off: an unverified answer could not be traced to its publisher.
-  - **datosabiertos.gob.ec**, Ecuador's open data portal, answers HTTP 403 at its robots file (read 521).
+  - **datosabiertos.gob.ec**, Ecuador's open data portal, answers HTTP 403 at its robots file (read 569).
   - None is asked again.
 - **One public table in Ecuador's place:** `aneel_siga_plants`, Brazil's central generation plants from ANEEL's SIGA register (the October 2026 file). It is written, validated, archived, in coverage (sector power), and held from the live set and the release.
   - **25,042 plants:** 22,798 operating, with 220,659 MW in operation; 145 under construction; 2,099 not yet begun.
   - Each plant has its granted capacity, the capacity in operation, its physical guarantee, its state, coordinates, fuel, grant and ownership.
   - The ERW holds Brazil's operator (ONS) but not its regulator's plant register.
-- **License:** the dataset's page names the Open Data Commons Open Database License (ODbL) (read 523). It allows commercial use, redistribution and adaptation with attribution; a database adapted from it and made public is to be offered under the ODbL (share-alike). A new verdict, may be public in both columns, the share-alike recorded in its note.
-  - The portal's robots file disallows /dataset/rate/, /api/, /revision/ and the datasets' history (four paths: session 2326 corrected "only" three), asks 10 seconds between requests (kept), and names no AI agent (read 522).
+- **License:** the dataset's page names the Open Data Commons Open Database License (ODbL) (read 571). It allows commercial use, redistribution and adaptation with attribution; a database adapted from it and made public is to be offered under the ODbL (share-alike). A new verdict, may be public in both columns, the share-alike recorded in its note.
+  - The portal's robots file disallows /dataset/rate/, /api/, /revision/ and the datasets' history (four paths: session 2326 corrected "only" three), asks 10 seconds between requests (kept), and names no AI agent (read 570).
 - **Two choices about ANEEL's rows:**
   - **465 plants carry the coordinates 0 and 0,** a point in the Gulf of Guinea. That is ANEEL's blank, not a place, so their lat and lon are empty.
   - **Three plants are listed twice,** once for each of two grant types (Autorizacao and Concessao), with every other field the same. They are one row each here, the grant types joined.
@@ -40,7 +40,7 @@
 
 ## Errors
 
-- **The verdict first named read 522** (the robots file) instead of 523 (the dataset page). Corrected before the commit.
+- **The verdict first named read 570** (the robots file) instead of 523 (the dataset page). Corrected before the commit.
 
 ## Decisions made without you
 
@@ -61,7 +61,7 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (519 to 524), `license_verdicts.csv` (ANEEL), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (567 to 572), `license_verdicts.csv` (ANEEL), `license_tables.csv`, `docs/licenses.md`
   - `docs/redivis/release-v1/`
   - the coverage, sources and archive manifest files
 - On the data machine only: `runs/c108/s2324/`, `runs/license_reads/s2324/`, `runs/s2324*`.

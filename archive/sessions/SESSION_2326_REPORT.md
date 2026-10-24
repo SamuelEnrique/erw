@@ -11,7 +11,7 @@
 - **Every point was acted on:**
   - **ANEEL:**
     - 1900-01-03 is ANEEL's blank date. `status_date` is now empty for those 2,398 plants, as the 0 and 0 coordinates are; the header counts them, and the test covers it.
-    - The robots file disallows four paths, not three; the docstring, the report and read 522 are corrected.
+    - The robots file disallows four paths, not three; the docstring, the report and read 570 are corrected.
     - The cross-check was run again on the written table.
     - Written again offline.
   - **DOSM:**
@@ -49,6 +49,6 @@
   - `warehouse/connectors/dosm_malaysia_electricity.py`, `aneel_siga.py`, `epra_kenya_electricity.py`
   - `tests/test_session2324.py`
   - sessions 2322 to 2325's reports
-  - `warehouse/metadata/license_reads.csv` (read 522's outcome)
+  - `warehouse/metadata/license_reads.csv` (read 570's outcome)
   - the coverage (Method cells), sources and archive manifest files
 - On the data machine only: `runs/c108/s2326/` (the helper's scripts in `notes/`), the cross-check outputs of sessions 2322 and 2324.

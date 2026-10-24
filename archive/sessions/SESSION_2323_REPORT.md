@@ -5,13 +5,13 @@
 ## Read these first
 
 - **Thailand is not taken.** None of its three sources can be used:
-  - **EPPO (www.eppo.go.th):** its robots file allows the reader (read 506), but its website policy (read 511, a PDF) needs written permission. A new verdict, needs written permission in both columns:
+  - **EPPO (www.eppo.go.th):** its robots file allows the reader (read 554), but its website policy (read 559, a PDF) needs written permission. A new verdict, needs written permission in both columns:
     - Clause 2.2: the user may not change, distribute, transfer or make derivative works from the content without the owner's express permission.
     - Clause 3.3 forbids access by automated means (scripts) outside the channels EPPO provides; clause 3.5 forbids copying.
-    - Its data API (data.eppo.go.th) needs a request for access (read 509).
+    - Its data API (data.eppo.go.th) needs a request for access (read 557).
     - EPPO's data files were not asked for.
-  - **data.go.th**, Thailand's open data portal, refuses the reader at its robots file (HTTP 403, a security block; read 512). Not asked again.
-  - **EGAT** publishes its system figures as graphs only (read 514). Its robots file disallows /home/wp-content/, where its files and website policy sit (read 513).
+  - **data.go.th**, Thailand's open data portal, refuses the reader at its robots file (HTTP 403, a security block; read 560). Not asked again.
+  - **EGAT** publishes its system figures as graphs only (read 562). Its robots file disallows /home/wp-content/, where its files and website policy sit (read 561).
 - **EIA routes looked at and left** (5 requests to api.eia.gov, `runs/c108/s2323/`):
   - Prime supplier sales (petroleum/cons/prim) end in March 2022.
   - Distillate sales by end use (petroleum/cons/821dsta) end in 2020.
@@ -21,9 +21,9 @@
   - **table 915-91203:** local generation, imports from and exports to the Mainland, industry own use and losses, and local consumption a quarter, 2013 to the second quarter of 2026.
   - Units: C&SD's terajoules times 1,000,000/3,600, giving MWh.
   - C&SD's years are the sums of its quarters (within 2 TJ) and of its months (within 5 TJ, session 2326), so they are not taken; neither is town gas.
-- **License:** DATA.GOV.HK's terms (read 516) allow use "for both commercial and non-commercial purposes on a free-of-charge basis", with the source identified and attributed. A new verdict, may be public in both columns.
-  - DATA.GOV.HK has no robots file (read 515).
-  - www.censtatd.gov.hk's robots file allows every path and names ClaudeBot, anthropic-ai and Claude-Web to allow them (read 518).
+- **License:** DATA.GOV.HK's terms (read 564) allow use "for both commercial and non-commercial purposes on a free-of-charge basis", with the source identified and attributed. A new verdict, may be public in both columns.
+  - DATA.GOV.HK has no robots file (read 563).
+  - www.censtatd.gov.hk's robots file allows every path and names ClaudeBot, anthropic-ai and Claude-Web to allow them (read 566).
 - **A fault in `scripts/licenses.py` fixed:** its rule `Census` gave the Hong Kong table to the U.S. Census Bureau. It now reads `Census Bureau`, which still matches the Bureau's five tables and changes no other row.
 - **Session 2322's table corrected:** `sources.csv` uses only `public` and `internal` as licenses, and session 2322 had written `CC BY 4.0`. Its source row, header and release row now read `public, CC BY 4.0`. The table was written again offline (the same rows), and its duplicated metadata rows were removed.
 
@@ -72,7 +72,7 @@
   - `scripts/licenses.py` (the Census rule)
   - `warehouse/connectors/dosm_malaysia_electricity.py` (the license word)
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (506 to 518), `license_verdicts.csv` (EPPO, C&SD), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (554 to 566), `license_verdicts.csv` (EPPO, C&SD), `license_tables.csv`, `docs/licenses.md`
   - `docs/redivis/release-v1/`
   - the coverage, sources and archive manifest files
 - On the data machine only: `runs/c108/s2323/`, `runs/license_reads/s2323/`, `runs/s2323*`.

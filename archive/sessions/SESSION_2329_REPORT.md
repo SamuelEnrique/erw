@@ -10,7 +10,7 @@
 - **Why this one:** the ERW holds Eurostat's gas imports by partner (chain 098) but not the balance they feed. Europe's monthly demand, storage draws and gas burn are what the United States' LNG serves.
 - **Zeros kept:** 18,211 zeros are written as Eurostat prints them, since in a balance a zero says an item is nil. The imports table leaves its zeros out, because 97 per cent of its partner cells are zero. 292 blanks have no row.
 - **Eurostat's sign of stock changes:** positive when gas goes into storage. The EU's is positive from April to October 2024 and negative in winter; January 2024 is -190.5 TWh. The docstring first said the opposite and was corrected before the write.
-- **License:** Eurostat's copyright notice, already on record (public with acknowledgement). ec.europa.eu's robots file disallows only the old SDMX path and the search pages, and names no AI agent (read 535).
+- **License:** Eurostat's copyright notice, already on record (public with acknowledgement). ec.europa.eu's robots file disallows only the old SDMX path and the search pages, and names no AI agent (read 583).
 
 ## The cross-check (`runs/c108/s2329/cross.py`, `cross.out`)
 
@@ -48,7 +48,7 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (535), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (583), `license_tables.csv`, `docs/licenses.md`
   - `docs/redivis/release-v1/`
   - the coverage, sources and archive manifest files
 - On the data machine only: `runs/c108/s2329/`, `runs/license_reads/s2329/`, `runs/s2329*`.

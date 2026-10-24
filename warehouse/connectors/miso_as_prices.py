@@ -24,7 +24,8 @@ https://docs.misoenergy.org/marketreports/<YYYYMMDD>_asm_expost_damcp.csv. One r
 day already in the raw files is not requested again.
 
 Kept: the three "MISO Wide" prices a generator or a battery is paid. Left out: the demand-side and stored-energy
-types on the same rows (DEMREGMCP, DEMSPINMCP, DEMSUPPMCP, SERREGMCP), and the file's several thousand rows that
+types on the same rows (DEMREGMCP, DEMSPINMCP, DEMSUPPMCP, SERREGMCP), which in all 18,312 hours held equal the
+generation prices kept (session 2298), and the file's several thousand rows that
 repeat a price for each resource with its reserve zone. A zone's price can differ from the system's when its own
 reserve requirement binds, so for every file the connector counts the (zone, product, hour) cells in which any
 resource row differs from the MISO Wide row; the count is in the log and the header, and the zones' own prices are

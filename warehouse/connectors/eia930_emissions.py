@@ -33,7 +33,7 @@ that day only when it too has all 24 hours, and is otherwise left out for that d
 left out is recorded as a gap in run_status.csv. Adding the six changed no day of the pair.
 
     python warehouse/connectors/eia930_emissions.py                  # the whole series (session 32)
-    python warehouse/connectors/eia930_emissions.py --days 3         # the daily run: the newest workbooks, last 3 days
+    python warehouse/connectors/eia930_emissions.py --days 10        # the daily run (run_daily.sh: --days ${EMISSIONS_DAYS:-10}, since session 321)
     python warehouse/connectors/eia930_emissions.py --from-raw --variables co2_emissions_coal,...   # session 34
 
 Raw files and resume: every workbook is downloaded through requests into warehouse/raw/eia930_emissions/<run_id>/ with
@@ -387,7 +387,7 @@ def main(argv=None):
             log.close()
             return 0
         header = [
-            "Energy Research Warehouse (ERW): EIA-930 hourly CO2 emissions estimates by balancing authority",
+            "Energy Research Warehouse (ERW): EIA-930 hourly CO2 emissions estimates, the seven ISO balancing authorities and the Lower 48",
             "Shape: series (docs/datastandard.md v0), partition column ba. tCO2 = metric tons of CO2, as EIA states "
             "them. co2_emissions_generated: EIA's CO2 Emissions Generated (all sources in the BA); co2_emissions_consumed: "
             "EIA's CO2 Emissions Consumed (generated plus imported minus exported); since session 34 co2_emissions_coal, "

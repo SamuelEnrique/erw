@@ -5,14 +5,14 @@
 ## Read these first
 
 - **Two sources tried first and left:**
-  - **New Zealand's MBIE:** its robots file allows the reader (read 531), but its electricity statistics page answers with an Incapsula challenge (read 532), which is not answered. Not asked again.
-  - **Chile's INE:** it has no robots file (a 404 page under status 200, read 533). Its data pages are not known without guessing addresses, so nothing more was asked.
+  - **New Zealand's MBIE:** its robots file allows the reader (read 579), but its electricity statistics page answers with an Incapsula challenge (read 580), which is not answered. Not asked again.
+  - **Chile's INE:** it has no robots file (a 404 page under status 200, read 581). Its data pages are not known without guessing addresses, so nothing more was asked.
 - **One public table, the session's choice:** `statcan_electricity_trade_monthly`, from Statistics Canada's table 25-10-0016-01 (the Monthly Electricity Supply and Disposition Survey). It is written, validated, archived, in coverage (sector power), and held from the live set and the release. 25,215 rows, January 2008 to July 2026:
   - for Canada and each province and territory, a month's generation, receipts from other provinces and from the United States, deliveries to other provinces and to the United States (firm, non-firm and other), and the electricity available for use;
   - in MWh, as StatCan publishes them.
   - 12,503 cells StatCan marks ".." (not available) have no row.
 - **Why this one:** the ERW holds StatCan's generation table (25-10-0015-01, chain 097) but not its trade table. Canada's sales to and purchases from the U.S. grids (New England, New York, the Midwest and the Pacific Northwest) bear directly on U.S. markets.
-- **License:** Statistics Canada's Open Licence, already on record (public). The robots file asks a crawl delay of 2 seconds (kept) and names no AI agent (read 534).
+- **License:** Statistics Canada's Open Licence, already on record (public). The robots file asks a crawl delay of 2 seconds (kept) and names no AI agent (read 582).
 
 ## The cross-check (`runs/c108/s2328/cross.py`, `cross.out`)
 
@@ -60,7 +60,7 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (531 to 534), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (579 to 582), `license_tables.csv`, `docs/licenses.md`
   - `docs/redivis/release-v1/`
   - the coverage, sources and archive manifest files
 - On the data machine only: `runs/c108/s2328/`, `runs/license_reads/s2328/`, `runs/s2328*`.

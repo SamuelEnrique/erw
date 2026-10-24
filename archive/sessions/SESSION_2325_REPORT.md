@@ -11,8 +11,8 @@
   - Every part's technologies must add to its total, and every technology's interconnected, captive and offgrid capacity to its total installed, within 0.15 MW.
   - The customer categories must add to their total within 0.15 GWh.
   - All three reports pass. A failed check stops the run.
-- **License:** each report says "Unless otherwise stated, material in this publication may be freely used, shared, copied, reproduced, printed and/or stored, provided that appropriate acknowledgment is given of EPRA as the source and copyright holder" (read 528; the same in reads 529 and 530). A new verdict, may be public in both columns.
-  - EPRA's robots file keeps the default Drupal rules and names no AI agent (read 525).
+- **License:** each report says "Unless otherwise stated, material in this publication may be freely used, shared, copied, reproduced, printed and/or stored, provided that appropriate acknowledgment is given of EPRA as the source and copyright holder" (read 576; the same in reads 577 and 578). A new verdict, may be public in both columns.
+  - EPRA's robots file keeps the default Drupal rules and names no AI agent (read 573).
 - **Kenya Power (KPLC) was not needed:** EPRA's reports carry the figures the plan asked for, except monthly generation and peak demand, which the 2025 and 2026 reports give only as charts. The 2024 report's table 2.4 does give each month of 2023/24's energy purchased, sold and lost (session 2326); it is not taken here.
 - **Session 2326's header clause:** as EPRA prints them, June 2026's solar effective capacity (210.30 MW) is above installed (210.25), and June 2026's effective capacity is June 2025's for geothermal, solar, thermal and the total while installed capacity changed. The header now names both.
 
@@ -54,7 +54,7 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (525 to 530), `license_verdicts.csv` (EPRA), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (573 to 578), `license_verdicts.csv` (EPRA), `license_tables.csv`, `docs/licenses.md`
   - `docs/redivis/release-v1/`
   - the coverage, sources and archive manifest files
 - On the data machine only: `runs/c108/s2325/`, `runs/license_reads/s2325/`, `runs/s2325*`.

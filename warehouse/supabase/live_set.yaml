@@ -64,7 +64,7 @@ full:
   # internal_eqr_summary(token), migration 020, read it for the review page /contracts). The rows signed in the last 1,000
   # days (select, below); Redivis's internal dataset and the CSV hold every row
   - '^ferc_eqr_contracts$'
-  # session 31: /storage (the hourly series below, last 90 days)
+  # session 31: /storage (the hourly series below, last 90 days then; the recent window of 35 days since session 36C)
   - '^storage_(daily_cycle|capacity|buildout_monthly)$'
   # session 32: /emissions (the daily intensity whole; the hourly tables below, last 90 days)
   - '^carbon_intensity_(daily|monthly)$'          # session 34: the monthly table too, whole (about 1,600 rows)
@@ -399,6 +399,9 @@ catalogue_hold:
   - statfi_finland_electricity_monthly
   - energy_charts_central_europe
   - statee_estonia_electricity_monthly
+  - singstat_singapore_electricity
+  - csp_latvia_electricity_monthly
+  - cso_ireland_electricity_monthly
   - eia_gas_other_uses_state_annual
   - elexon_gb_demand_daily
   - energinet_dk_production_hourly
@@ -407,6 +410,7 @@ catalogue_hold:
   - epa_tri_energy_releases_annual
   - eurostat_gas_imports_monthly
   - eurostat_renewable_capacity_annual
+  - eurostat_electricity_capacity_annual
   - fema_disaster_declarations
   - ieso_ontario_demand_hourly
   - lbnl_tracking_the_sun
@@ -414,6 +418,11 @@ catalogue_hold:
   - noaa_ncei_billion_disasters
   - nrc_license_actions
   - owid_ember_electricity_annual
+  - cea_india_psp_annual
+  - kpx_korea_generation_annual
+  - kpx_korea_demand_monthly
+  - statnett_norway_daily
+  - svk_sweden_production_hourly
   - eia_shale_gas_reserves_annual
   - eia_gas_heat_content_monthly
   - eia_crude_quality_monthly

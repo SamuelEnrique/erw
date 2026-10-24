@@ -15,10 +15,10 @@
   - The source is the Department of Statistics Malaysia's two sets on data.gov.my, compiled from TNB's, Sabah Electricity's, Sarawak Energy's and the Energy Commission's records.
   - The values are million kWh times 1,000, giving MWh.
   - DOSM says the latest six months are provisional.
-- **License: CC BY 4.0.** Each dataset page says "This data is made open under the Creative Commons Attribution 4.0 International License (CC BY 4.0)" (reads 503 and 505). A new verdict is recorded: may be public in both columns.
-  - data.gov.my's robots file allows every path to every agent and names no AI agent (read 500).
-  - The API and storage hosts have no robots file (reads 501 and 504).
-  - There is no separate terms page (read 502).
+- **License: CC BY 4.0.** Each dataset page says "This data is made open under the Creative Commons Attribution 4.0 International License (CC BY 4.0)" (reads 551 and 553). A new verdict is recorded: may be public in both columns.
+  - data.gov.my's robots file allows every path to every agent and names no AI agent (read 548).
+  - The API and storage hosts have no robots file (reads 549 and 552).
+  - There is no separate terms page (read 550).
 
 ## The cross-check (`runs/c108/s2322/cross.py`, `cross.out`)
 
@@ -61,7 +61,7 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py` (the sector rule), `warehouse/redivis/release_v1.py` (held), `warehouse/supabase/live_set.yaml` (held)
-  - `warehouse/metadata/license_reads.csv` (500 to 505), `license_verdicts.csv` (DOSM), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (548 to 553), `license_verdicts.csv` (DOSM), `license_tables.csv`, `docs/licenses.md`
   - `docs/redivis/release-v1/` (the table's rows)
   - the coverage, sources and archive manifest files
   - `tests/test_session205.py`
