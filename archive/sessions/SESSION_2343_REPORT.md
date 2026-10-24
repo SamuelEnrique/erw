@@ -20,7 +20,7 @@
     - national generation less pumping is net generation;
     - net generation plus imports less exports is national consumption;
     - consumption less losses is final consumption.
-  - Against session 2272's `energy_charts_central_europe` (Switzerland, 2023 to 2025): nuclear, solar and run-of-river are 1.000 of SFOE's every year. Energy-Charts publishes SFOE's figures.
+  - Against session 2272's `energy_charts_central_europe` (Switzerland, 2023 to 2025): nuclear, solar and run-of-river are 1.000 of SFOE's every year: for these three, Energy-Charts' figures equal SFOE's.
   - National consumption over `owid_ember_electricity_annual`'s demand: 0.956 to 0.967, 2016 to 2025.
 
 ## Requests (8 of 20)
