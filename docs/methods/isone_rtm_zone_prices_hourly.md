@@ -60,6 +60,8 @@ The figures in this note were computed from the rows of `warehouse/output/isone_
 2. **Days absent, two with no gap row.** The header: "Each day not written is a gap row in warehouse/metadata/run_status.csv." 2026-10-02 and 2026-10-09 are gap rows (each "failed after 4 attempts: EmptyDataError('No columns to parse from file')", the empty final file session 202 since reads as "no final yet"), and no later run in whose window they fell wrote them. 2026-10-14 and 2026-10-15 have no row in `run_status.csv` at all: it records no ISO-NE run between 20261014T142656Z and 20261020T002541Z, and the three-day window of the runs after did not reach back to them.
 3. **The license flag.** `coverage.csv` flags the table public; ISO-NE's sentence asks for permission, and the record shows "license needed" from 2026-10-21. The header states no license.
 
+Recorded, not changed in session 2242: the license record governs the table's standing (ISO-NE's terms ask for written permission) whatever its header lacks, as for ISO-NE's other tables; the page address and the four missing days are for the connector's next change, with no request now.
+
 ## The session report against the table
 
 `SESSION_5_REPORT.md`: "ISO-NE hourly final (new, 30 days)" and "Finals were posted for every day of the window." Both hold of the rows that remain: the table begins on 2026-08-26, thirty days before 25 September, and every row from then to 2026-10-21 is final.

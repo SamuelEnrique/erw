@@ -50,6 +50,8 @@ The figures in this note were computed from the rows of `warehouse/output/eia930
 2. **"A day EIA does not report is absent."** It holds, but 46 days in November and December 2025 are absent for every respondent, and neither the header nor the docstring says so. Because a past month is read from its checkpoint and never asked again, those days will not be taken if EIA publishes them later; to take them, the checkpoints of 2025-11 and 2025-12 would have to be removed before a run.
 3. **The metadata lag the table.** `coverage.csv` gives 212,384 rows to 2026-10-21 (last run 2026-10-22T17:30:20Z), and `archive_manifest.csv` 212,384 as of run 20261022T173105Z-local; the table holds 212,461 rows to 2026-10-22, written at 17:29:58Z on 23 October, whose stores had not yet been recorded when this note was written.
 
+Recorded, not changed in session 2242 (no request): the 46 days EIA's API returned empty are not asked again while their months are read from saved files; a run with those months' checkpoints cleared would ask for them. The coverage row counts the rows of its last build and will agree at the next one.
+
 ## The session report against the table
 
 `SESSION_68_REPORT.md`, "The pulls, against their ceilings": "210,911 | 300,000 | 2019-01-01 to 2026-10-01, 83 respondents (EIA's regional sums among them)". The 83 respondents hold. The table now holds 210,920 rows dated 2019-01-01 to 2026-10-01, 9 more than session 68 wrote; it was pulled again whole on 13 October.

@@ -70,6 +70,8 @@ The figures in this note were computed from the rows of `warehouse/output/eia860
 2. **"Writes only when the newest published vintage differs."** `run_status.csv` records 26 writes of vintage 2026-08 and 2 runs that wrote nothing; the runner wrote on each of its 25 runs (see the operating table's note).
 3. **The generator id.** The docstring gives `entity_id` as `eia860:<plant id>:<generator id>`; one row has no generator id, so its `entity_id` is `eia860:64835:`.
 
+Acted on in session 2242: `eia860.py`'s docstring and header now say that earlier vintages are in the raw files and the archive (the tables left git in session 9), and that a run writes only when the vintage differs from the tables on the machine that runs it, so every run on the GitHub runner, which holds no tables, writes. The rows are unchanged; the next write carries the header. The rows without a generator id or a technology, and the first-retrieval times the archive keeps, are EIA's or the archive's, recorded, not changed.
+
 ## The session report against the table
 
 `SESSION_8_REPORT.md`: 2,316 rows, and "`status` `planned` (P, L, T, OT) or `under_construction` (U, V, TS), EIA's code kept": both hold.
