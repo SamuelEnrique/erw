@@ -319,6 +319,7 @@ eurostat_solid_fuels_monthly,eurostat,,49,P1M,2016-01-01T00:00:00Z,2026-09-01T00
 event_study_estimates,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,13,P1D;PT1H,2020-03-01T00:00:00Z,2026-02-02T00:00:00Z,3040,erw:event_study,2026-10-19T09:46:06Z,pass,public,power,yes,derived
 event_window_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,10,P1D;P1W,2018-03-04T00:00:00Z,2026-02-02T00:00:00Z,29953,erw:event_window,2026-10-19T09:43:29Z,pass,public,power;carbon,yes,derived
 ewa_bahrain_electricity_annual,ewa,,28,P1Y,2020-01-01T00:00:00Z,2024-01-01T00:00:00Z,135,ewa:statistical_book,2026-10-24T16:27:44Z,pass,internal,power,no,source
+fbos_fiji_electricity_annual,fbos,,6,P1Y,2011-01-01T00:00:00Z,2024-01-01T00:00:00Z,83,fbos:electricity,2026-10-24T16:29:15Z,pass,public,power,no,source
 fema_disaster_declarations,none,,1,event,2015-01-07T00:00:00Z,2026-10-17T00:00:00Z,26199,1 outlets,2026-10-23T20:53:46Z,pass,public,power;gas;oil,no,source
 ferc714_area_demand_2006,ferc714,,175,PT1H,2006-01-01T04:00:00Z,2006-12-31T23:00:00Z,1532108,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:39:11Z,pass,internal,power,no,source
 ferc714_area_demand_2007,ferc714,,177,PT1H,2007-01-01T00:00:00Z,2007-12-31T23:00:00Z,1375404,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:39:11Z,pass,internal,power,no,source

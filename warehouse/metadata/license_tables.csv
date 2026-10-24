@@ -319,6 +319,7 @@ eurostat_solid_fuels_monthly,Eurostat (Statistical Office of the European Union)
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
 event_window_daily,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia930_all_emissions, eia930_all_history, ercot_all_hub_prices_history, iso_hub_prices_history, noaa_isd_hourly"
 ewa_bahrain_electricity_annual,"Electricity and Water Authority, Kingdom of Bahrain (EWA)",the source registry
+fbos_fiji_electricity_annual,Fiji Bureau of Statistics (FBoS),the source registry
 fema_disaster_declarations,Federal Emergency Management Agency (FEMA),the source registry
 ferc714_area_demand_2006,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
 ferc714_area_demand_2007,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
