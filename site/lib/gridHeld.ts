@@ -35,6 +35,17 @@ export function heldHubPrice(ba: string, now: Date = new Date()): Held | null {
   return g ? heldGridPrice(g, now) : null;
 }
 
+/** Session 1403 (chain 100): the table the Clean tab's live week reads (components/grid/CleanWeekPanel.tsx). */
+export const CARBON_HOURLY_TABLE = "carbon_intensity_hourly";
+
+/** A grid's hourly carbon intensity held for a license on the day, by the grid's slug ("isone"), or null. The table is
+ *  public in every status file today (site/data/license_status.json), so no grid is held; a grid that becomes held reads
+ *  "license needed" and its rows are not read. A slug of no ISO grid (the Lower 48) is held as the table whole is. */
+export function heldCarbon(slug: string, now: Date = new Date()): Held | null {
+  const ba = Object.keys(BA_GRID).find((k) => BA_GRID[k] === slug);
+  return licenseHeldRow(CARBON_HOURLY_TABLE, ba ? `eia930:${ba}` : undefined, now) ? held(CARBON_HOURLY_TABLE) : null;
+}
+
 /** The queue's positions of energy_projects a page may draw: a held grid's are left out ("isone_queue:137" is ISO-NE's). */
 export function shownQueue<T extends { entity_id: string }>(rows: T[], now: Date = new Date()): T[] {
   return rows.filter((r) => !licenseHeldRow(QUEUE_TABLE, r.entity_id, now));

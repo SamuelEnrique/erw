@@ -105,6 +105,12 @@ export const METHOD_MIX_US48 = "/data/methods/generation_mix#the-lower-48-by-mon
 export const HUB_PRICE_ANCHOR = "hub-price";
 export const hubPriceAnchor = (i: number, grid: string): string => (i ? `${HUB_PRICE_ANCHOR}-${grid}` : HUB_PRICE_ANCHOR);
 export const METHOD_HUB_PRICE = "/data/methods/generation_mix_hourly#the-hubs-price-beside-the-hourly-mix-chain-100-24-october-2026";
+// Session 1403 (chain 100): the cleanest hours, live (grid_cleanweek_<grid>, beside the Clean tab's committed "the
+// cleanest hours of the average day", components/grid/CleanWeekPanel.tsx): its anchor and its method, outside
+// GRID_ANCHOR and GRID_METHOD as session 1402's are; a second grid on one page takes the anchor and its grid.
+export const CLEAN_WEEK_ANCHOR = "clean-week";
+export const cleanWeekAnchor = (i: number, grid: string): string => (i ? `${CLEAN_WEEK_ANCHOR}-${grid}` : CLEAN_WEEK_ANCHOR);
+export const METHOD_CLEAN_WEEK = "/data/methods/generation_mix_hourly#the-cleanest-hours-live-chain-100-24-october-2026";
 export const GRID_METHOD: Record<GridAnchorKey, string> = {
   network: METHOD_NETWORK,
   replay: METHOD_REPLAY,

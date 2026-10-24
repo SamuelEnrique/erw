@@ -82,6 +82,10 @@ add("state_generation_mix_monthly", Object.entries(l48.months).flatMap(([m, stat
 // session 1402: the hub's real-time price beside the hourly mix (fixtures/hub_price.json: ERCOT's, SPP's and CAISO's hubs in
 // iso_rtm_hub_prices from 19 to 23 October 2026, read once with the anon key), so grid_hubprice_<grid> draws its figures
 for (const [k, rs] of Object.entries(fx("hub_price.json").rows)) { const [e, v] = k.split("|"); add("iso_rtm_hub_prices", rs.map(([ts, x]) => ({ ...asSeries(e, v, ts, x, "USD/MWh"), freq: "PT15M" }))); }
+// session 1403: the cleanest hours, live (fixtures/clean_week.json: carbon_intensity_hourly from 8 October 2026 for ERCOT,
+// California and MISO, read once with the anon key; an hour already held is not added twice), so grid_cleanweek_<grid> draws its week
+const haveC = new Set(T.get("carbon_intensity_hourly").map((r) => `${r.entity}|${r.variable}|${Date.parse(r.ts_utc)}`));
+for (const [k, rs] of Object.entries(fx("clean_week.json").week.rows)) { const [e, v] = k.split("|"); add("carbon_intensity_hourly", rs.filter(([ts]) => !haveC.has(`${k}|${Date.parse(ts)}`)).map(([ts, x]) => asSeries(e, v, tsOf(ts), x, "kg/MWh"))); }
 
 // ------------------------------------------------------------------ the stand-in for PostgREST and Storage
 let fail = null;   // { table, kind }; table "storage:snapshot" for the Storage object, "*" for every table
@@ -234,6 +238,8 @@ async function check(name, f) {
   }
 }
 const NAMED = /^(grid_(network|gravity|clean24|mix|scarcity|caisoalert|ercotnotice|ask|hubprice)_|balance_|replay_|gravityday|preliminary|held_|queue_unread|mixview_)/;
+// session 1403: the cleanest hours, live, is a named panel too (beside NAMED, whose words test_session1402 pins)
+const NAMED_1403 = /^grid_cleanweek_/;
 const SAYS = /could not be read|no data for|working on it/;
 const baselines = new Map();
 async function base(sp) {
@@ -253,7 +259,7 @@ async function failing(sp, panel, table, kind, { emptySays, wholeTable, snapshot
   const got = await draw(sp, { table, kind });
   const errs = Object.entries(got.rec).flatMap(([b, r]) => r.errors.map((e) => `${b}: ${e}`));
   if (errs.length) return `a component threw: ${errs[0]}`;
-  const lost = Object.keys(ok.rec).filter((b) => NAMED.test(b) && !got.rec[b] && b !== "queue_unread");
+  const lost = Object.keys(ok.rec).filter((b) => (NAMED.test(b) || NAMED_1403.test(b)) && !got.rec[b] && b !== "queue_unread");
   if (lost.length) return `panels no longer drawn: ${lost.join(", ")}`;
   const y = got.rec[panel];
   const before = new Map(x.nums.map((n) => [n.check, n.raw]));
@@ -330,6 +336,20 @@ for (const kind of KINDS) {
     if (why) return why;
     const y = (await draw({ grid: "ercot", view: "clean" }, { table: "carbon_intensity_hourly", kind })).rec.grid_clean24_ercot;
     return y.nums.length ? `${y.nums.length} figures drawn` : "";
+  });
+  // session 1403: the cleanest hours, live (grid_cleanweek_<grid>), beside the committed view: no figure, "could not be
+  // read", the committed view beside it drawn as with every read answered
+  await check(`grid_cleanweek_ercot (1403), carbon_intensity_hourly, ${kind}: no figure, its words, the committed view as before`, async () => {
+    const sp = { grid: "ercot", view: "clean" };
+    const why = await failing(sp, "grid_cleanweek_ercot", "carbon_intensity_hourly", kind, { emptySays: /no local day of the last 12 holds all its hours/ });
+    if (why) return why;
+    const ok = await base(sp), got = await draw(sp, { table: "carbon_intensity_hourly", kind });
+    const y = got.rec.grid_cleanweek_ercot;
+    if (y.nums.length) return `${y.nums.length} figures drawn`;
+    if (kind !== "empty" && !/could not be read/.test(y.text)) return "the panel does not say could not be read";
+    const x = ok.rec.grid_cleanweek_ercot;
+    if (new Set(x.nums.map((n) => n.check.split("|")[0])).size !== 4) return `with every read answered: ${x.nums.map((n) => n.check).join("; ")}`;
+    return JSON.stringify(ok.rec.mixview_clean.nums) === JSON.stringify(got.rec.mixview_clean.nums) ? "" : "the committed view's figures moved";
   });
 }
 

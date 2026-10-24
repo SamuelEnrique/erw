@@ -81,6 +81,12 @@ add("state_generation_mix_monthly", Object.entries(l48.months).flatMap(([m, stat
 // iso_rtm_hub_prices, read once with the anon key on 24 October 2026), so the panel grid_hubprice_<grid> draws its figures
 const hubFx = fx("hub_price.json");
 for (const [k, rs] of Object.entries(hubFx.rows)) { const [e, v] = k.split("|"); add("iso_rtm_hub_prices", rs.map(([ts, x]) => ({ ...asSeries(e, v, ts, x, "USD/MWh"), freq: "PT15M" }))); }
+// session 1403: the cleanest hours, live (fixtures/clean_week.json: carbon_intensity_hourly, intensity_generation, ERCOT's,
+// California's and MISO's rows from 8 October 2026, read once with the anon key on 24 October 2026; an hour the stand-in
+// already holds is not added twice), so the panel grid_cleanweek_<grid> draws its week
+const weekFx = fx("clean_week.json");
+const haveC = new Set(T.get("carbon_intensity_hourly").map((r) => `${r.entity}|${r.variable}|${Date.parse(r.ts_utc)}`));
+for (const [k, rs] of Object.entries(weekFx.week.rows)) { const [e, v] = k.split("|"); add("carbon_intensity_hourly", rs.filter(([ts]) => !haveC.has(`${k}|${Date.parse(ts)}`)).map(([ts, x]) => asSeries(e, v, tsOf(ts), x, "kg/MWh"))); }
 
 const cmp = (a, b) => (a === b ? 0 : a === undefined || a === null ? -1 : b === undefined || b === null ? 1 : a < b ? -1 : 1);
 const val = (r, col) => (col.startsWith("extra->>") ? r.extra?.[col.slice(8)] ?? null : r[col]);
@@ -279,7 +285,7 @@ const PAGES = [
   [{ grid: "ercot", view: "gravity" }, ["grid_gravity_ercot", "view_exchange"]],
   [{ grid: "ercot", view: "gravity", net: "day", t: "2020-08-14" }, ["grid_gravity_ercot"]],
   [{ grid: "us48", view: "gravity" }, ["grid_gravity_us48", "view_exchange"]],
-  [{ grid: "ercot", view: "clean" }, ["grid_clean24_ercot"]],
+  [{ grid: "ercot", view: "clean" }, ["grid_clean24_ercot", "grid_cleanweek_ercot"]],   // session 1403: the cleanest hours, live
   [{ grid: "ercot", view: "mix" }, ["grid_mix_ercot", "grid_scarcity_ercot", "grid_ercotnotice_ercot", "grid_hubprice_ercot"]],   // session 1402: the hub's price
   [{ grid: "ercot", view: "mix", mixp: "month" }, ["grid_mix_ercot"]],
   [{ grid: "caiso", view: "mix" }, ["grid_scarcity_caiso", "grid_caisoalert_caiso", "grid_hubprice_caiso"]],   // session 1402: CAISO's price, drawn alone
@@ -413,6 +419,25 @@ await check("the hub's price beside the hourly mix: its figures, file, anchor an
     if (!b || b.nums.length || b.files.length) return `${g}: ${b ? `${b.nums.length} figures, ${b.files.length} files` : "no block"}`;
   }
   return "";
+});
+// session 1403: the cleanest hours, live: four keyed figures (series_n, series_min, series_max, series_mean), its file, its
+// anchor (#clean-week, and the grid after the first), its method; a grid whose week is not whole in the stand-in says so
+await check("the cleanest hours, live: its figures, file, anchor and method; a second grid takes the anchor and its grid", async () => {
+  const rec = await draw({ grid: "ercot", view: "clean", grids: "ercot,caiso" });
+  const e = rec.grid_cleanweek_ercot, c = rec.grid_cleanweek_caiso;
+  if (!e || !c) return `blocks: ${Object.keys(rec).join(", ")}`;
+  for (const [b, id, g] of [[e, GA.CLEAN_WEEK_ANCHOR, "ercot"], [c, `${GA.CLEAN_WEEK_ANCHOR}-caiso`, "caiso"]]) {
+    const kinds = [...new Set(b.nums.map((x) => x.split("|")[0]))].sort().join(",");
+    if (kinds !== "series_max,series_mean,series_min,series_n" || new Set(b.nums).size !== 4) return `${id}: ${b.nums.join("; ")}`;
+    if (!b.ids.includes(id)) return `lacks #${id} (ids: ${b.ids.join(", ")})`;
+    if (!b.methods.includes(GA.METHOD_CLEAN_WEEK)) return `${id}: links ${b.methods.join(", ")}`;
+    if (b.files.map((f) => f.id).join(",") !== `grid_cleanweek_${g}`) return `files ${b.files.map((f) => f.id).join(",")}`;
+    const why = blockHolds(b, `grid_cleanweek_${g}`);
+    if (why) return `${id}: ${why}`;
+  }
+  if (!e.nums.includes("series_n|carbon_intensity_hourly|intensity_generation|2026-10-13T05:00:00Z|2026-10-20T05:00:00Z|eia930:ERCO=168")) return e.nums.join("; ");
+  const n = (await draw({ grid: "nyiso", view: "clean" })).grid_cleanweek_nyiso;
+  return !n ? "no block grid_cleanweek_nyiso" : n.nums.length || n.files.length ? `nyiso: ${n.nums.length} figures, ${n.files.length} files` : "";
 });
 // the ERCOT Exchange block's twelve months are drawn from the fixture (a file of its own, the neighbours')
 await check("/grid?grid=ercot&view=gravity: the Exchange blocks offer two files, the ties' and the twelve months'", async () => {

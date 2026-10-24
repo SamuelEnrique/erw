@@ -22,6 +22,9 @@ import { Lower48Monthly } from "@/components/grid/Lower48Mix";
 import { LOWER48_ENTITIES, STATE_MIX } from "@/lib/lower48";
 import { HubPricePanel, hubPriceWhy, hubStrip } from "@/components/grid/HubPricePanel";  // session 1402: the hub's price beside the hourly mix
 import { HUB_PRICE, RT_HUB_TABLE, chartWindow, hubPrice, priceWindow, type PriceRow } from "@/lib/hubPriceHourly";
+import { CleanWeekPanel } from "@/components/grid/CleanWeekPanel";  // session 1403: the cleanest hours, live
+import { CARBON_ENTITY, CARBON_TABLE, CLEAN_VARIABLE, READ_DAYS, cleanWeek, type CarbonRow } from "@/lib/cleanWeek";
+import { heldCarbon } from "@/lib/gridHeld";
 
 // Session 133: the energy mix, one page at one address. It holds what /mix (session 18), /mix/v2 (94), /mix/clean (122)
 // and /mix/stress (123) showed, as views of this page (those addresses redirect here: next.config.ts; their pages are
@@ -251,8 +254,17 @@ export function MixView({ c }: { c: Choice }) {
   );
 }
 
-/** Session 237: "How clean, and when" (the mix page's view, /mix/clean until session 133), as the Clean view draws it. */
-export function MixClean({ c }: { c: Choice }) {
+/** Session 237: "How clean, and when" (the mix page's view, /mix/clean until session 133), as the Clean view draws it.
+ *  Session 1403: beside each grid's committed cleanest hours, the newest 7 days of carbon_intensity_hourly for the grid
+ *  (components/grid/CleanWeekPanel.tsx), one read a grid (its last 12 days, one variable); none for a held grid. */
+export async function MixClean({ c }: { c: Choice }) {
+  const reads = await Promise.all(c.grids.map((g) => (heldCarbon(g) || !CARBON_ENTITY[g] ? Promise.resolve(null)
+    : attempt(() => series(CARBON_TABLE, { entity: CARBON_ENTITY[g], variable: CLEAN_VARIABLE, since: daysAgo(READ_DAYS) })))));
+  const live = (g: (typeof c.grids)[number], year: string) => {
+    const i = c.grids.indexOf(g), r = reads[i];
+    const week = r && r.ok ? cleanWeek(r.data as CarbonRow[], CARBON_ENTITY[g], CLEAN[g].tz) : null;
+    return <CleanWeekPanel grid={g} name={GRIDS.find((x) => x.slug === g)!.name} i={i} read={r} week={week} file={CLEAN[g]} year={year} />;
+  };
   return (
     <div className="border border-rule bg-white px-3 py-4 text-ink sm:px-5" data-mix="clean">
       <header className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule pb-2">
@@ -260,7 +272,7 @@ export function MixClean({ c }: { c: Choice }) {
         <p className="text-xs text-muted"><SiteLink href={METHOD}>Method, sources and gaps</SiteLink></p>
       </header>
       <Controls c={c} />
-      <CleanView c={c} />
+      <CleanView c={c} live={live} />
     </div>
   );
 }

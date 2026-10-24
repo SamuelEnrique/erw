@@ -260,7 +260,10 @@ export function RecordsView({ c }: { c: Choice }) {
 // how clean, and when
 // ---------------------------------------------------------------------------------------------------------------------
 
-export function CleanView({ c }: { c: Choice }) {
+export function CleanView({ c, live }: { c: Choice;
+  /** session 1403: the Grid tool's live week beside each grid's cleanest hours (components/grid/CleanWeekPanel.tsx), given
+   *  the grid and the year in view; none elsewhere, so the view is drawn as before where no caller passes it */
+  live?: (g: Slug, year: string) => ReactNode }) {
   const first = CLEAN[c.grids[0]];
   const year = c.year && c.grids.some((g) => CLEAN[g].years[c.year!]) ? c.year : clean.defaultYear(first) ?? clean.yearsOf(first).at(-1)!;
   const years = [...new Set(c.grids.flatMap((g) => clean.yearsOf(CLEAN[g])))].sort();
@@ -284,8 +287,11 @@ export function CleanView({ c }: { c: Choice }) {
       </Block>
       {c.grids.map((g) => {
         const f = CLEAN[g];
-        if (held(g)) return <Block key={g} title={`${nameOf(g)}, ${year}`}><LW /></Block>;
-        if (!f.years[year]) return <Block key={g} title={`${nameOf(g)}, ${year}`}><NH why={notWritten(g)} /></Block>;
+        // session 1403: the live week is of carbon_intensity_hourly, public for every grid, so it stands under a held or
+        // unwritten year too (its own line says when the committed day it is set against is held)
+        const week = live ? <Block title={`${nameOf(g)}: the cleanest hours of the last 7 days held`}>{live(g, year)}</Block> : null;
+        if (held(g)) return week ? <div key={g}><Block title={`${nameOf(g)}, ${year}`}><LW /></Block>{week}</div> : <Block key={g} title={`${nameOf(g)}, ${year}`}><LW /></Block>;
+        if (!f.years[year]) return week ? <div key={g}><Block title={`${nameOf(g)}, ${year}`}><NH why={notWritten(g)} /></Block>{week}</div> : <Block key={g} title={`${nameOf(g)}, ${year}`}><NH why={notWritten(g)} /></Block>;
         const v = clean.yearView(f, year), months = clean.monthsOf(f, year);
         return (
           <div key={g}>
@@ -300,6 +306,7 @@ export function CleanView({ c }: { c: Choice }) {
                 rows={months.map((m) => { const d = clean.dayOf(f, m).filter((x): x is number => x !== null); return { key: m, cells: [clean.monthName(m), clean.hoursName(clean.cleanestOf(f, m)), d.length ? `${n1(Math.max(...d))}%` : "", d.length ? `${n1(Math.min(...d))}%` : "",
                   val(clean.get(f.months[m], "carbon_free_share_pct"), (x) => `${n1(x)}%`)] }; })} />
             </Block>
+            {week}
             <Block title={`${nameOf(g)}: moving a flat load into the cleanest hours`}>
               <Table caption="Moving load into the cleanest hours" head={["Year", "Flat load, kg CO2/MWh", ...f.shifts.map((s) => `${s}% moved: carbon`), "Days", "Flat load, USD/MWh", ...f.shifts.map((s) => `${s}% moved: cost`), "Days priced"]}
                 rows={clean.yearsOf(f).reverse().map((y) => { const w = clean.yearView(f, y); const noPrice = f.no_price ?? "No hub price is held for this grid in this year.";

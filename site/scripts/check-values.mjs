@@ -889,6 +889,16 @@ async function truthOf(check) {
       and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "ts_utc" });
     return P.hubHourStat(rows, p[0].slice("series_h".length), start, end);
   }
+  // session 1403: the cleanest hours, live (the Grid tool's grid_cleanweek_<grid>, on the Clean tab): over the hours of a
+  // time range, each hour once, series_min|<table>|<variable>|<start>|<end>|<entity> the lowest and series_mean|... the
+  // mean; recomputed by the page's own function (lib/cleanWeek.ts weekStat). The highest is a series_max| key, as before.
+  if (p[0] === "series_min" || p[0] === "series_mean") {
+    const W = await import("../lib/cleanWeek.ts");
+    const [, table, variable, start, end, entity] = p;
+    const rows = await all("series", { select: "ts_utc,value", table_name: `eq.${table}`, entity: `eq.${entity}`, variable: `eq.${variable}`,
+      and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "ts_utc" });
+    return W.weekStat(rows, p[0].slice("series_".length), start, end);
+  }
   // session 1185: a sum over a group of states in a time range, states_sum|<table>|<variables, comma separated>|<start>|
   // <end>|<group> (the Grid tool's Lower 48 by month, grid_mix_us48: the 48 contiguous states and DC of
   // state_generation_mix_monthly): the group's rows of every variable in the range are read once (a month is held when
