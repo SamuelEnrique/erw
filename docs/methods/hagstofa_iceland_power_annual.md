@@ -6,7 +6,7 @@ Tables: `hagstofa_iceland_power_annual`
 
 ## Publisher and address
 
-Statistics Iceland (Hagstofa Islands), table IDN02101, "Installed capacity and generation in public power plants 1976-2019", in its PxWeb database (environment, energy, production and consumption: `https://px.hagstofa.is/pxen/pxweb/en/Umhverfi/Umhverfi__4_orkumal__2_framleidslaognotkun/`). Statistics Iceland gives the figures' source as the National Energy Authority (Orkustofnun), documents OS-2018-T006-01 and OS-2019-T006-01. It is read through the PxWeb API (no key), one JSON-stat 2.0 query by POST with an empty query (every value): `https://px.hagstofa.is/pxen/api/v1/en/Umhverfi/4_orkumal/2_framleidslaognotkun/IDN02101.px`. Source id `hagstofa:IDN02101`. Connector: `warehouse/connectors/hagstofa_iceland_electricity.py` (session 2397). px.hagstofa.is and statice.is have no robots file (HTTP 404, reads 653 and 663); www.hagstofa.is asks a crawl delay of 10 seconds (read 660).
+Statistics Iceland (Hagstofa Islands), table IDN02101, "Installed capacity and generation in public power plants 1976-2019", in its PxWeb database (environment, energy, production and consumption: `https://px.hagstofa.is/pxen/pxweb/en/Umhverfi/Umhverfi__4_orkumal__2_framleidslaognotkun/`). Statistics Iceland gives the figures' source as the National Energy Authority (Orkustofnun), documents OS-2018-T006-01 and OS-2019-T006-01. It is read through the PxWeb API (no key), one JSON-stat 2.0 query by POST with an empty query (every value): `https://px.hagstofa.is/pxen/api/v1/en/Umhverfi/4_orkumal/2_framleidslaognotkun/IDN02101.px`. Source id `hagstofa:IDN02101`. Connector: `warehouse/connectors/hagstofa_iceland_electricity.py` (session 2397). px.hagstofa.is and statice.is have no robots file (HTTP 404, reads 691 and 701); www.hagstofa.is asks a crawl delay of 10 seconds (read 698).
 
 ## Vintage and revision
 
@@ -41,7 +41,7 @@ Generation, TWh: 1976 2.42, 1990 4.45, 2000 7.68, 2010 17.06, 2019 19.49. Capaci
 
 ## License
 
-Public. `license_verdicts.csv` records Statistics Iceland (Hagstofa Islands), read 664 (session 2397): "may be public", for public and for commercial use. Its Open data access page: "All published content on the Statistics Iceland website may be reused, copied, and shared in any format or medium for any purpose as long as Statistics Iceland is credited as the author in accordance with the Creative Commons Attribution 4.0 International (CC BY 4.0) license." The header credits Statistics Iceland.
+Public. `license_verdicts.csv` records Statistics Iceland (Hagstofa Islands), read 702 (session 2397): "may be public", for public and for commercial use. Its Open data access page: "All published content on the Statistics Iceland website may be reused, copied, and shared in any format or medium for any purpose as long as Statistics Iceland is credited as the author in accordance with the Creative Commons Attribution 4.0 International (CC BY 4.0) license." The header credits Statistics Iceland.
 
 ## Cross-checks (session 2397)
 

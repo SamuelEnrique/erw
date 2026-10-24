@@ -8,7 +8,7 @@
   - Its sessions are 2406 to 2419, not 2399 to 2412: the code machine holds 2400 to 2405 on main (`wip/2400-policy-games`), so those numbers and 2399 were skipped, as the rule says.
   - Its hosts list adds chains 109's and 112's closed hosts.
   - Both agents beside this chain were told its four sources.
-- **No table this session.** ERA's robots file disallows WordPress's admin path only and names no AI agent (read 636). Its sitemap lists statistics pages: energy generated, purchases, sales and losses, maximum demand, the statistical bulletin. But its legal disclaimer (read 637) says:
+- **No table this session.** ERA's robots file disallows WordPress's admin path only and names no AI agent (read 674). Its sitemap lists statistics pages: energy generated, purchases, sales and losses, maximum demand, the statistical bulletin. But its legal disclaimer (read 675) says:
   - ERA "authorizes to view and download the information ("Materials") at this Web site ("Site") only for personal, non-commercial use";
   - the user may "Not modify the Materials in any way nor reproduce or display, perform, or distribute or otherwise use them for any public or commercial purpose".
 
@@ -22,7 +22,7 @@
 | 2 | ERA's page sitemap | 200: 116 pages, the statistics among them |
 | 3 | ERA's legal disclaimer | 200: personal, non-commercial use only |
 
-Reads recorded: 636 and 637.
+Reads recorded: 674 and 675.
 
 ## Decisions made without you
 
@@ -34,5 +34,5 @@ Reads recorded: 636 and 637.
 
 ## Files
 
-- New: `queue/next/114-day-15-november-data-paraguay-panama-guatemala-namibia.md` (on main), this report. Changed: the license record (reads 636 and 637).
+- New: `queue/next/114-day-15-november-data-paraguay-panama-guatemala-namibia.md` (on main), this report. Changed: the license record (reads 674 and 675).
 - On the data machine only: `runs/c113/`.

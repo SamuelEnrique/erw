@@ -5,7 +5,7 @@
 ## Read these first
 
 - **Why this source:** the ERW held Luxembourg only inside `eurostat_electricity_monthly` and `owid_ember_electricity_annual`. The regulator's own figures add what neither gives: the electricity withdrawn each month by class of customer, the customers, and by source the capacity, the production, the connections and the self-consumers. No ERW table and no running chain held ILR or data.public.lu (main and the wip branches of chains 110 and 112 and the code machine's searched). Both agents beside this chain were told.
-- **The portal:** data.public.lu has no robots file (HTTP 404, read 646); download.data.public.lu's allows every path (read 651). No rule names an AI agent. Its API 1 search found nothing; API 2's search found 18 data sets, ILR's among them (reads 647 to 649).
+- **The portal:** data.public.lu has no robots file (HTTP 404, read 684); download.data.public.lu's allows every path (read 689). No rule names an AI agent. Its API 1 search found nothing; API 2's search found 18 data sets, ILR's among them (reads 685 to 687).
 - **A new table, `ilr_luxembourg_electricity`** (series, 668 rows, 15 entities, `power`):
   - `withdrawal`: the electricity withdrawn each month by industrial (more than 2 GWh a year), professional and residential customers, January 2017 to June 2026, MWh. The 2026 months are marked `provisional` in `x_status`, as ILR's note says.
   - `customers`: customers at 31 December by class and in all, 2017 to 2025.
@@ -14,7 +14,7 @@
   - `import` and `export` by neighbour (Germany, Belgium, France), 2017 to 2025, MWh.
   - ILR's totals are kept as entity `ilr:lu:total`: a sum takes one level.
   - Written, validated (0 errors, 0 warnings), archived, and held from the Redivis storage and the live set like the chain's other tables.
-- **Public, under CC BY 4.0.** The data set's record gives licence `cc-by` (read 650), and the portal's licence list names it "Creative Commons Attribution 4.0" (read 652). `license_verdicts.csv` gains ILR, "may be public". The connector stops if the record's licence ever changes.
+- **Public, under CC BY 4.0.** The data set's record gives licence `cc-by` (read 688), and the portal's licence list names it "Creative Commons Attribution 4.0" (read 690). `license_verdicts.csv` gains ILR, "may be public". The connector stops if the record's licence ever changes.
 - **Not taken: sheet 7's monthly import and export.** From October to December 2025 they run the other way from the annual totals. The annual import from Germany, 2,627.26 GWh, equals the monthly imports to September plus the monthly "exports" from October, 2,626.49 GWh. Also not taken: the battery sheet (its power is in kVA), and the shares, switching rates, prices and planning sheets.
 
 ## Cross-checks
@@ -40,7 +40,7 @@ Against `owid_ember_electricity_annual`: withdrawals are 0.887 to 0.928 of Ember
 | 8 | the portal's licence list | 200: cc-by is Creative Commons Attribution 4.0 |
 | 9, 10 | the record and the workbook again (the trial) | 200 |
 
-Reads recorded: 646 to 652.
+Reads recorded: 684 to 690.
 
 ## Decisions made without you
 
@@ -59,5 +59,5 @@ Reads recorded: 646 to 652.
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`;
   - `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`;
-  - the license record (reads 646 to 652, ILR's verdict, `license_tables.csv`, `docs/licenses.md`) and `docs/redivis/release-v1/` (the table's rows).
+  - the license record (reads 684 to 690, ILR's verdict, `license_tables.csv`, `docs/licenses.md`) and `docs/redivis/release-v1/` (the table's rows).
 - On the data machine only: `runs/c113/s2392/`, `warehouse/raw/ilr_electricity/`, `warehouse/output/ilr_luxembourg_electricity.csv`.

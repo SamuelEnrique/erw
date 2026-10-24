@@ -6,12 +6,12 @@
 
 - **Why this source:** the ERW held Iceland only inside Eurostat's renewable capacity table and, from 2017, in `eurostat_electricity_monthly`. Iceland is not among the countries of chains 113, 114 and 115, and no chain or connector named Statistics Iceland, Orkustofnun or Landsnet (main and the wip branches of chains 110 and 114 searched). Estonia, the first thought, is held (`statee_electricity`).
 - **The hosts:**
-  - px.hagstofa.is (the PxWeb API) has no robots file (HTTP 404, read 653).
-  - www.hagstofa.is's robots file asks a crawl delay of 10 seconds and closes system paths only (read 660). The two requests to it were 10 seconds apart.
-  - statice.is, which answers the English pages, has no robots file (read 663).
+  - px.hagstofa.is (the PxWeb API) has no robots file (HTTP 404, read 691).
+  - www.hagstofa.is's robots file asks a crawl delay of 10 seconds and closes system paths only (read 698). The two requests to it were 10 seconds apart.
+  - statice.is, which answers the English pages, has no robots file (read 701).
   - No rule names an AI agent.
 - **A new table, `hagstofa_iceland_power_annual`** (series, 88 rows, `power`): the public power plants' installed capacity at the year's end (MW) and annual generation (MWh), 1976 to 2019, table IDN02101. Statistics Iceland gives its source as the National Energy Authority's documents OS-2018-T006-01 and OS-2019-T006-01. Written, validated (0 errors, 0 warnings), archived, and held from the Redivis storage and the live set like the chain's other tables.
-- **Public, under CC BY 4.0.** Statistics Iceland's terms of use (read 664): "All published content on the Statistics Iceland website may be reused, copied, and shared in any format or medium for any purpose as long as Statistics Iceland is credited as the author in accordance with the Creative Commons Attribution 4.0 International (CC BY 4.0) license." `license_verdicts.csv` gains Statistics Iceland, "may be public".
+- **Public, under CC BY 4.0.** Statistics Iceland's terms of use (read 702): "All published content on the Statistics Iceland website may be reused, copied, and shared in any format or medium for any purpose as long as Statistics Iceland is credited as the author in accordance with the Creative Commons Attribution 4.0 International (CC BY 4.0) license." `license_verdicts.csv` gains Statistics Iceland, "may be public".
 - **Not taken:**
   - **IDN02100 (1904 to 1975).** It was fetched, but its figures run about twice IDN02101's where the two meet: 1975 has 992.4 MW and 4,591 GWh, 1976 has 502.7 MW and 2,421.4 GWh. Neither table explains the step, so they are not joined. The parser reads either table; `TABLES` names IDN02101 only.
   - **IDN02103 (heavy industry's use) and IDN02104 (use by sector).** An empty query returned one default series of each, not the whole table. Asking for their metadata and a full query would have passed the ceiling. Both tables stop in 2018 or 2019.
@@ -38,7 +38,7 @@
 | 12 | statice.is, Open data access | 200: CC BY 4.0 |
 | 13 to 16 | IDN02100, IDN02101, IDN02103, IDN02104 (the fetch, one POST each) | 200 |
 
-Reads recorded: 653 to 664.
+Reads recorded: 691 to 702.
 
 ## Decisions made without you
 
@@ -58,5 +58,5 @@ Reads recorded: 653 to 664.
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`;
   - `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`;
-  - the license record (reads 653 to 664, Statistics Iceland's verdict, `license_tables.csv`, `docs/licenses.md`) and `docs/redivis/release-v1/` (the table's rows).
+  - the license record (reads 691 to 702, Statistics Iceland's verdict, `license_tables.csv`, `docs/licenses.md`) and `docs/redivis/release-v1/` (the table's rows).
 - On the data machine only: `runs/c113/s2397/`, `warehouse/raw/hagstofa_energy/`, `warehouse/output/hagstofa_iceland_power_annual.csv`.

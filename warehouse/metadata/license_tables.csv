@@ -297,11 +297,14 @@ ercot_wind_solar_hsl_hourly,ERCOT,the source registry
 ercot_wind_solar_output_hourly,ERCOT,the source registry
 ercot_zone_load_hourly,ERCOT,the source registry
 ercot_zone_prices_history,ERCOT,the source registry
+eurostat_crude_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_balance_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_oil_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_solid_fuels_monthly,Eurostat (Statistical Office of the European Union),the source registry
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
 event_window_daily,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia930_all_emissions, eia930_all_history, ercot_all_hub_prices_history, iso_hub_prices_history, noaa_isd_hourly"
 fema_disaster_declarations,Federal Emergency Management Agency (FEMA),the source registry
@@ -398,6 +401,7 @@ lbnl_tracking_the_sun,"Berkeley Lab, Tracking the Sun on OEDI","by hand: its sub
 lbnl_wind_capacity_factors,Berkeley Lab,the source registry
 lbnl_wind_costs,Berkeley Lab,the source registry
 lbnl_wind_turbine_orders,Berkeley Lab,the source registry
+makstat_macedonia_electricity_monthly,State Statistical Office of North Macedonia (MakStat),the source registry
 merchant_revenue_monthly,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_retired_generators, eia_fuel_spot_prices, ercot_all_hub_prices_history, event_window_daily, iso_hub_prices_history, iso_rtm_hub_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices"
 miso_as_prices,MISO,the source registry
 miso_interconnection_queue,MISO,the source registry
@@ -478,6 +482,7 @@ spp_curtailment_daily,SPP,the source registry
 spp_dam_cleared_energy,SPP,the source registry
 spp_interconnection_queue,SPP,the source registry
 ssb_norway_electricity_monthly,Statistics Norway (SSB),the source registry
+statbank_moldova_electricity_monthly,National Bureau of Statistics of the Republic of Moldova (StatBank),the source registry
 statcan_electricity_generation_monthly,Statistics Canada,the source registry
 statcan_electricity_trade_monthly,Statistics Canada,the source registry
 statcan_energy_balance_annual,Statistics Canada,the source registry

@@ -15,7 +15,7 @@
   - Luxembourg: three claims the reads did not prove were softened: the update rhythm (now the record's "annual" frequency), why the trade leaves out Vianden, and the publisher of the cross-border flows data set.
   - None between the notes and the code.
 - **The branch merged with main** after chain 112's landing (679cfa3d):
-  - this chain's reads 599 to 615 renumbered 636 to 652, its verdicts' reads with them (ERA 637, CENCE 640, CNDC 642, ILR 652), and the reports, notes and ILR's verdict note shifted;
+  - this chain's reads 599 to 615 renumbered 636 to 652, its verdicts' reads with them, and the reports, notes and ILR's verdict note shifted (renumbered again, 674 to 690, at session 2398's merge of chain 110's landing: ERA 675, CENCE 678, CNDC 680, ILR 690);
   - test 205's bound raised by 40 again: chain 112's raise and this chain's met as one line at the merge;
   - the release README's held line regenerated; the license record and the package's tables rebuilt (513 tables);
   - no row doubled in sources, coverage, the release tables or the archive manifest; 80 tests of the records and of both chains pass.

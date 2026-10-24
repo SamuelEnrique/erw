@@ -6,7 +6,7 @@ Tables: `econtrol_austria_electricity_monthly`
 
 ## Publisher and address
 
-E-Control (Energie-Control Austria, the regulator), its electricity statistics download area (`https://www.e-control.at/statistik/e-statistik/data`), the file of monthly time series ("Zeitreihen mit monatlichen Daten"): `https://www.e-control.at/documents/1785851/8165594/el_dataset_mn.csv`. One GET, no key. Source id `econtrol:el_dataset_mn`. Connector: `warehouse/connectors/econtrol_austria_electricity.py` (session 2391). E-Control's robots file closes its services, login and `/home` paths only (read 644).
+E-Control (Energie-Control Austria, the regulator), its electricity statistics download area (`https://www.e-control.at/statistik/e-statistik/data`), the file of monthly time series ("Zeitreihen mit monatlichen Daten"): `https://www.e-control.at/documents/1785851/8165594/el_dataset_mn.csv`. One GET, no key. Source id `econtrol:el_dataset_mn`. Connector: `warehouse/connectors/econtrol_austria_electricity.py` (session 2391). E-Control's robots file closes its services, login and `/home` paths only (read 682).
 
 ## Vintage and revision
 
@@ -46,7 +46,7 @@ Series, 12,472 rows, 63 series, every one beginning in January 2010: 53 have all
 
 ## License
 
-Internal. The site carries "Copyright 2026 © E-Control" and the impressum grants no reuse (read 645, session 2391); `license_verdicts.csv` holds no verdict for E-Control yet. The table is held from the Redivis storage and the live set until a ruling or a reuse statement is read.
+Internal. The site carries "Copyright 2026 © E-Control" and the impressum grants no reuse (read 683, session 2391); `license_verdicts.csv` holds no verdict for E-Control yet. The table is held from the Redivis storage and the live set until a ruling or a reuse statement is read.
 
 ## Cross-checks (session 2391, against `eurostat_electricity_monthly`'s Austria, 2016 to 2025)
 
