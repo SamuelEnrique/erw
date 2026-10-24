@@ -416,6 +416,7 @@ price_board_spreads,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source regi
 price_years_by_window,CAISO; EIA; ERCOT; NOAA NCEI; SPP,"the source registry and the tables its header derives it from: battery_stack_monthly, battery_stack_review_monthly, battery_stack_stress_daily, ercot_all_hub_prices_history, ercot_zone_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, merchant_revenue_monthly"
 rggi_auction_allowance_prices,RGGI,the source registry
 rrc_lease_production_monthly,RRC,the source registry
+rte_eco2mix_france_halfhourly,RTE (Reseau de Transport d'Electricite),the source registry
 scarcity_hours_by_grid,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_grid_emergencies, ercot_all_hub_prices_history, ercot_rtm_price_adders, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
 scripps_co2_mlo_monthly,"Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego)",the source registry
 shoulder_hours_monthly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_battery_storage, caiso_curtailment_daily, caiso_fuel_supply, storage_buildout_monthly"
