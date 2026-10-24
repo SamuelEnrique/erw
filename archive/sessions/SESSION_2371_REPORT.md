@@ -9,8 +9,8 @@
   - Its sources: Uganda (ERA), Tanzania (EWURA or TANESCO), Costa Rica (CENCE, ICE) and Bolivia (CNDC), none held and none planned by chains 057 to 112.
   - It carries 112's rules and chain 110's closed hosts.
 - **PUCSL's dispatch dashboard was left.**
-  - www.pucsl.gov.lk's robots file allows the reader (read 584). Its data portal links the dashboard at gendata.pucsl.gov.lk (read 586), which has no robots file (read 587).
-  - Its figures load only in the browser, through its script chunks (21 on the generation profile page, session 2375; this line first said a dozen); the page's own script names no data address (read 590). Chain 109 closed eSett for the same pattern.
+  - www.pucsl.gov.lk's robots file allows the reader (read 599). Its data portal links the dashboard at gendata.pucsl.gov.lk (read 601), which has no robots file (read 602).
+  - Its figures load only in the browser, through its script chunks (21 on the generation profile page, session 2375; this line first said a dozen); the page's own script names no data address (read 605). Chain 109 closed eSett for the same pattern.
   - PUCSL's pages state no terms of reuse.
 - **One internal table in its place:** `ceb_srilanka_electricity_annual`, from page 3 of the Ceylon Electricity Board's Statistical Digest 2025. It is written, validated, archived, in coverage (sector power), and held from the live set. 80 rows, 2024 and 2025:
   - power stations and installed capacity, by owner (CEB, the independent producers, all) and source (major hydro, oil, coal, wind, mini hydro, other NCRE, grid-connected solar);
@@ -18,8 +18,8 @@
   - the day and night maximum demand.
   - Read with pdfplumber's table extraction. Each owner's sources add to its total, and CEB's and the producers' totals to the Total row, within 1.5.
 - **Why only two years:** the 2023 digest's text is in CID-encoded fonts that do not extract, and the 2022 digest's generation table merges its rows into one cell. Both were fetched (2 requests) and are not used; a later session could read the 2022 digest's capacity table, which is clean.
-- **License: internal.** Neither the digest nor CEB's pages read state terms of reuse (reads 591 to 593), so the table is internal until a ruling and no verdict is recorded.
-  - CEB's robots file allows every path and asks a crawl delay of 30 seconds, which was kept (read 591).
+- **License: internal.** Neither the digest nor CEB's pages read state terms of reuse (reads 606 to 608), so the table is internal until a ruling and no verdict is recorded.
+  - CEB's robots file allows every path and asks a crawl delay of 30 seconds, which was kept (read 606).
 
 ## The cross-check (`runs/c112/s2371/cross.py`, `cross.out`; tables read past their header lines, never with `comment="#"`)
 
@@ -57,7 +57,7 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (584 to 593), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (599 to 608), `license_tables.csv`, `docs/licenses.md`
   - the coverage, sources and archive manifest files
   - `tests/test_session205.py`
 - On the data machine only: `runs/c112/`, `runs/license_reads/s2371/`.

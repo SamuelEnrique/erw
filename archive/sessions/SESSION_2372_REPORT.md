@@ -6,15 +6,15 @@
 
 - **No table this session.** Nigeria's sources and the replacements tried could not be read within the ceiling.
 - **Nigeria:**
-  - **NERC (nerc.gov.ng):** its robots file allows the reader (read 594). Its site holds fourteen pages and four posts (reads 596 and 598), and its "Statistics and Performance Data" section loads by script with no file linked (read 597). Its quarterly reports were not found.
-  - **TCN (www.tcn.org.ng):** its robots file allows every path (read 599). Its site is a theme template's pages with no operational figures (read 600); it links nsong.org.
-  - **The system operator's nsong.org** is a dispatch tools login behind a CAPTCHA (read 602). Not asked again.
+  - **NERC (nerc.gov.ng):** its robots file allows the reader (read 609). Its site holds fourteen pages and four posts (reads 611 and 613), and its "Statistics and Performance Data" section loads by script with no file linked (read 612). Its quarterly reports were not found.
+  - **TCN (www.tcn.org.ng):** its robots file allows every path (read 614). Its site is a theme template's pages with no operational figures (read 615); it links nsong.org.
+  - **The system operator's nsong.org** is a dispatch tools login behind a CAPTCHA (read 617). Not asked again.
 - **Replacements tried:**
   - **EIA's natural gas routes not held** (one route list, three samples):
     - `natural-gas/move/state` answers only U.S. totals, which the held trade table has.
     - `natural-gas/prod/ngpl` ends in 2021.
     - `natural-gas/prod/off` holds only the Gulf's federal offshore withdrawals, which the held production summary carries.
-  - **The Dominican Republic's coordinator (www.oc.do):** its robots file disallows `/Portals/`, where such sites keep their files (read 603). Its operation reports page loads its list by script, with no file linked (read 605).
+  - **The Dominican Republic's coordinator (www.oc.do):** its robots file disallows `/Portals/`, where such sites keep their files (read 618). Its operation reports page loads its list by script, with no file linked (read 620).
 - The route list's other new routes (coalbed methane, lease condensate, shale gas, wellhead value, supplemental supplies, residential and commercial prices by state) are left for a later session to read for currency.
 
 ## Pulls against their ceilings
@@ -42,5 +42,5 @@
 ## Files
 
 - New: this report.
-- Changed: `warehouse/metadata/license_reads.csv` (594 to 605), `docs/licenses.md`.
+- Changed: `warehouse/metadata/license_reads.csv` (609 to 620), `docs/licenses.md`.
 - On the data machine only: `runs/c112/s2372/`, `runs/license_reads/s2372/`.

@@ -13,8 +13,8 @@
   - The sources add to the total, and exports less imports to net exports, within 1.5 GWh, in every year.
   - The bulletin's footnote 8 says total generation "includes embedded generation and import". Session 2375's note found that table 3.7's total holds no imports (it is hydro plus thermal plus other renewables, and the bulletin's energy transmitted is that total plus imports in 2000 to 2006); the header now says so.
   - Ghana's peak is above the system peak in 2001 (1,213 against 1,190 MW) and 2007. The bulletin defines the system peak as Ghana's peak plus export load (footnote 11) and as Ghana's load at peak plus export load (its text); both years are kept as published and named in the header.
-- **License: internal.** The bulletin states no terms of reuse, and the site's "Terms & Condition" link leads to its home page (read 608). So the table is internal until a ruling and no verdict is recorded.
-  - www.energycom.gov.gh's robots file allows every path, asks a crawl delay of 3 seconds (kept), and names no AI agent (read 606).
+- **License: internal.** The bulletin states no terms of reuse, and the site's "Terms & Condition" link leads to its home page (read 623). So the table is internal until a ruling and no verdict is recorded.
+  - www.energycom.gov.gh's robots file allows every path, asks a crawl delay of 3 seconds (kept), and names no AI agent (read 621).
 - **GRIDCo was not needed:** the bulletin carries GRIDCo's and ECG's figures, as its tables' source lines say.
 
 ## The cross-check (`runs/c112/s2373/cross.py`, `cross.out`; tables read past their header lines)
@@ -52,6 +52,6 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (606 to 609), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (621 to 624), `license_tables.csv`, `docs/licenses.md`
   - the coverage, sources and archive manifest files
 - On the data machine only: `runs/c112/s2373/`, `runs/license_reads/s2373/`.

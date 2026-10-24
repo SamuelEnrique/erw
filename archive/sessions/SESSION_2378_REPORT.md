@@ -18,7 +18,7 @@
   - Each product carries its parent, and a product with parts is marked `x_total`.
   - 25,400 cells StatCan suppresses for confidentiality ("x") and 626 not available ("..") have no row.
 - **Why this one:** the ERW holds StatCan's crude oil and gas supply (`statcan_oil_gas_supply_monthly`) and electricity tables, but not the refined products. Canada is the largest supplier of the United States' imported products.
-- **License:** Statistics Canada's Open Licence, on record (public). The robots file asks a crawl delay of 2 seconds (kept) and names no AI agent (read 619).
+- **License:** Statistics Canada's Open Licence, on record (public). The robots file asks a crawl delay of 2 seconds (kept) and names no AI agent (read 634).
 
 ## The cross-check (`runs/c112/s2378/cross.py`, `cross.out`; read past its header lines)
 
@@ -57,7 +57,7 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (619), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (634), `license_tables.csv`, `docs/licenses.md`
   - `docs/redivis/release-v1/`
   - the coverage, sources and archive manifest files
 - On the data machine only: `runs/c112/s2378/`, `runs/license_reads/s2378/`.

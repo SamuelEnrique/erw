@@ -13,7 +13,7 @@
   - 49,530 confidential cells and 32,103 not available have no row.
   - Fuels and lines overlap (totals hold their parts), which the header says.
 - **Why this one:** it is the yearly balance behind this chain's monthly electricity trade and petroleum products tables, and the ERW holds no Canadian energy balance.
-- **License:** Statistics Canada's Open Licence, on record (public). The robots file asks a crawl delay of 2 seconds (kept) and names no AI agent (read 620).
+- **License:** Statistics Canada's Open Licence, on record (public). The robots file asks a crawl delay of 2 seconds (kept) and names no AI agent (read 635).
 
 ## The cross-check (`runs/c112/s2383/cross.py`, `cross.out`; tables read past their header lines)
 
@@ -49,7 +49,7 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (620), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (635), `license_tables.csv`, `docs/licenses.md`
   - `docs/redivis/release-v1/`
   - the coverage, sources and archive manifest files
 - On the data machine only: `runs/c112/s2383/`, `runs/license_reads/s2383/`.

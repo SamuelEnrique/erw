@@ -5,12 +5,12 @@
 ## Read these first
 
 - **No table this session.** Jordan's three publishers cannot be used without a ruling or their permission.
-- **NEPCO (www.nepco.com.jo):** its robots file allows every path (read 610).
-  - Its terms of use (read 612, Arabic) grant "a limited, non-transferable, non-exclusive, revocable licence to access the site only for your personal, non-commercial use".
+- **NEPCO (www.nepco.com.jo):** its robots file allows every path (read 625).
+  - Its terms of use (read 627, Arabic) grant "a limited, non-transferable, non-exclusive, revocable licence to access the site only for your personal, non-commercial use".
   - No part of the site may be copied, reproduced, distributed, republished or downloaded except as stated, and no derivative work made.
   - A new verdict, needs written permission in both columns. Its annual report and peak load files were not asked for.
-- **The Department of Statistics (dosweb.dos.gov.jo):** its robots file has two groups for every agent (read 614). Read together, as the robots standard asks, they disallow `/wp-content/uploads/`, where the site keeps its files. Nothing more was asked.
-- **The Ministry of Energy and Mineral Resources (www.memr.gov.jo):** it has no robots file (read 615). Its terms of use cover only the site's security (read 617). Its copyright page (read 618, Arabic) allows:
+- **The Department of Statistics (dosweb.dos.gov.jo):** its robots file has two groups for every agent (read 629). Read together, as the robots standard asks, they disallow `/wp-content/uploads/`, where the site keeps its files. Nothing more was asked.
+- **The Ministry of Energy and Mineral Resources (www.memr.gov.jo):** it has no robots file (read 630). Its terms of use cover only the site's security (read 632). Its copyright page (read 633, Arabic) allows:
   - downloading, viewing and printing for personal or in-house, non-commercial use;
   - links;
   - republishing small parts unmodified with the source named.
@@ -40,5 +40,5 @@
 ## Files
 
 - New: this report.
-- Changed: `warehouse/metadata/license_reads.csv` (610 to 618), `license_verdicts.csv` (NEPCO, MEMR), `docs/licenses.md`.
+- Changed: `warehouse/metadata/license_reads.csv` (625 to 633), `license_verdicts.csv` (NEPCO, MEMR), `docs/licenses.md`.
 - On the data machine only: `runs/c112/s2374/`, `runs/license_reads/s2374/`.
