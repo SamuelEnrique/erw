@@ -42,6 +42,7 @@ census_bps_state_annual,public,,,,Census Bureau,"Public: every publisher's terms
 census_c30_construction_monthly,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_cbp_hosting_annual,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_metro_population,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+census_qss_utilities_hosting_quarterly,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cer_electricity_trade,public,,,,Canada Energy Regulator (CER),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cer_gas_trade,public,,,,Canada Energy Regulator (CER),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cer_pipeline_throughput,public,,,,"Canada Energy Regulator (CER), Open Government Licence - Canada","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none

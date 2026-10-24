@@ -41,6 +41,7 @@
  "census_c30_construction_monthly": "U.S. Census Bureau. Construction Spending (C30), monthly time series by type.",
  "census_cbp_hosting_annual": "Census Bureau. County Business Patterns: state files, NAICS 518210.",
  "census_metro_population": "U.S. Census Bureau. Population Estimates Program, Metropolitan and Micropolitan Statistical Areas Totals (vintage 2025).",
+ "census_qss_utilities_hosting_quarterly": "U.S. Census Bureau. Quarterly Services Survey, Historical Annual Benchmark Dataset (2024).",
  "cer_electricity_trade": "Canada Energy Regulator (CER). Electricity Trade Summary.",
  "cer_gas_trade": "Canada Energy Regulator (CER). Natural Gas Trade Summary.",
  "cer_pipeline_throughput": "Canada Energy Regulator (CER), Open Government Licence - Canada. Pipeline Throughput and Capacity Data (nine cross-border pipelines).",
