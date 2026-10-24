@@ -16,6 +16,7 @@ boem_offshore_platforms,public,,,,Bureau of Ocean Energy Management (BOEM),"Publ
 boem_ogor_lease_production_monthly,public,,,,Bureau of Ocean Energy Management (BOEM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 boem_renewable_leases,public,,,,Bureau of Ocean Energy Management (BOEM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 bpa_ba_hourly,public,,,,Bonneville Power Administration (BPA),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+bsee_offshore_incidents,public,,,,"U.S. Department of the Interior, Bureau of Safety and Environmental Enforcement (BSEE)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 caiso_area_load_hourly,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 caiso_as_prices,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 caiso_battery_storage,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",32 days
@@ -222,6 +223,7 @@ epa_ghg_inventory_annual,public,,,,EPA,"Public: every publisher's terms the ERW 
 epa_ghgrp_facility_emissions,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_ghgrp_power_co2,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_lmop_landfill_projects,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+epa_needs_units,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_rfs_fuel_annual,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_rfs_rins_monthly,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_tri_energy_releases_annual,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -383,7 +385,9 @@ nrc_license_actions,public,,,,NRC,"Public: every publisher's terms the ERW read 
 nrc_new_reactor_applications,public,,,,NRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nrc_power_reactors,public,,,,NRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nrc_reactor_status,public,,,,NRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+nrc_rop_findings,public,,,,NRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nrcs_snotel_swe_daily,internal,,,,USDA Natural Resources Conservation Service (NRCS),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+ntd_transit_energy_annual,public,,,,"U.S. Department of Transportation, Federal Transit Administration (FTA)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nyiso_as_prices,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 nyiso_dam_cleared_energy,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 nyiso_dam_zone_prices,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",35 days
@@ -422,6 +426,8 @@ spp_as_quantities,public,,,,SPP,"Public: every publisher's terms the ERW read al
 spp_curtailment_daily,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",100 days
 spp_dam_cleared_energy,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 spp_interconnection_queue,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+statcan_electricity_generation_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statcan_oil_gas_supply_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 state_generation_mix_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_buildout_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_capacity,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
