@@ -287,6 +287,7 @@ SECTOR_RULES = [
     (r"^statcan_power_disposition_annual$", "power"),  # session 2441: Statistics Canada 25-10-0021-01, annual supply and disposition of electric power
     (r"^epe_brazil_consumption_monthly$", "power"),  # session 2446: EPE's yearbook raw data, Brazil's monthly consumption by state, class and sector
     (r"^mireme_mozambique_electricity_annual$", "power"),  # session 2477: MIREME's energy statistics report, Mozambique's electricity balance
+    (r"^statcan_thermal_fuel_annual$", "power"),  # session 2482: Statistics Canada 25-10-0084-01, generation by fuel at thermal plants
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
