@@ -10,11 +10,11 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **513 tables.** The flag and the verdict agree on 410; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 58 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 386 public, 77 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **665 publishers in the record: 663 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 154 pages read, 509 that could not be read, 2 not asked (paused).**
+- **514 tables.** The flag and the verdict agree on 410; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 1; 58 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 386 public, 78 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **679 publishers in the record: 677 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 156 pages read, 521 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
-- **0 tables are flagged internal where the sentence read allows them.**
+- **1 tables are flagged internal where the sentence read allows them:** `statsmu_mauritius_electricity_annual`.
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
 
 ## The reads
@@ -688,6 +688,20 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 663 | Administrador del Mercado Mayorista, Guatemala (AMM), Generacion Mensual por Planta 2022 (session 2408) | https://www.amm.org.gt/pdfs2/pub_gen_mensual_x_planta/GM20220101.xlsx | 10:26:51 | 200 | 192092 | read: a workbook of amm_guatemala_generation_monthly |
 | 664 | Administrador del Mercado Mayorista, Guatemala (AMM), Generacion Mensual por Planta 2023 (session 2408) | https://www.amm.org.gt/pdfs2/pub_gen_mensual_x_planta/GM20230101.xlsx | 10:26:52 | 200 | 186147 | read: a workbook of amm_guatemala_generation_monthly |
 | 665 | Administrador del Mercado Mayorista, Guatemala (AMM), Generacion Mensual por Planta 2024 (session 2408) | https://www.amm.org.gt/pdfs2/pub_gen_mensual_x_planta/GM20240101.xlsx | 10:26:53 | 200 | 185714 | read: a workbook of amm_guatemala_generation_monthly |
+| 666 | Namibia Power Corporation (NamPower), its robots file (session 2409) | https://www.nampower.com.na/robots.txt | 10:30:54 | 200 | 117 | read: disallows error, status and search paths only; names no AI agent |
+| 667 | Namibia Power Corporation (NamPower), its home page (session 2409) | https://www.nampower.com.na/ | 10:31:03 | 200 | 37358 | read |
+| 668 | Namibia Power Corporation (NamPower), its media page (session 2409) | https://www.nampower.com.na/Media/ | 10:31:11 | 200 | 55957 | read: annual reports as PDFs; the footer reads All Rights Reserved; no grant of reuse found |
+| 669 | Electricity Control Board, Namibia (ECB), its robots file (session 2409) | https://www.ecb.org.na/robots.txt | 10:31:23 | no request |  | no response: the certificate does not verify (SSLCertVerificationError); not bypassed, not asked again |
+| 670 | Unidad de Transacciones, El Salvador (UT), its robots file (session 2409) | https://www.ut.com.sv/robots.txt | 10:31:41 | 403 | 385 | HTTP 403: Access Denied (Akamai); not asked again |
+| 671 | Operador del Sistema, Honduras (ODS), its robots file (session 2409) | https://www.ods.org.hn/robots.txt | 10:31:47 | no request |  | no response: redirected to cnd.enee.hn, whose certificate does not verify; not bypassed, not asked again |
+| 672 | Statistics Mauritius, its robots file (session 2409) | https://statsmauritius.govmu.org/robots.txt | 10:32:08 | 404 | 666 | HTTP 404: no robots file |
+| 673 | Statistics Mauritius, its home page (session 2409) | https://statsmauritius.govmu.org/ (answered at https://statsmauritius.govmu.org/SitePages/Index.aspx) | 10:32:18 | 200 | 115345 | read: the footer links a copyright notice |
+| 674 | Statistics Mauritius, its copyright notice (session 2409) | https://statsmauritius.govmu.org/Pages/CopyrightNotice.aspx | 10:32:27 | 200 | 72882 | read |
+| 675 | Statistics Mauritius, a subject page guessed from the home page's pattern (session 2409) | https://statsmauritius.govmu.org/Pages/Statistics/By_Subject/Energy/SB_Energy.aspx | 10:32:47 | 404 | 725 | HTTP 404: no such page |
+| 676 | Statistics Mauritius, Energy and Water Statistics 2025 (session 2409) | https://statsmauritius.govmu.org/Pages/Statistics/ESI/Energy_Water/Energy_Water_Yr25.aspx | 10:33:12 | 200 | 72781 | read: links the Excel and PDF of Issue 1929 |
+| 677 | Statistics Mauritius, Energy and Water Statistics 2025, the Excel (session 2409) | https://statsmauritius.govmu.org/Documents/Statistics/ESI/2026/EI1929/ESI_Energy_Yr25_050626.xlsx | 10:33:20 | 200 | 574386 | read: a workbook of statsmu_mauritius_electricity_annual |
+| 678 | Statistics Mauritius, Energy and Water Statistics 2023 (session 2409) | https://statsmauritius.govmu.org/Pages/Statistics/ESI/Energy_Water/Energy_Water_Yr23.aspx | 10:33:47 | 200 | 73949 | read: links the Excel and PDF of Issue 1791 |
+| 679 | Statistics Mauritius, Energy and Water Statistics 2023, the Excel (session 2409) | https://statsmauritius.govmu.org/Documents/Statistics/ESI/2024/EI1791/Energy_Water_Yr23_070624.xlsx | 10:33:57 | 200 | 1356256 | read: a workbook of statsmu_mauritius_electricity_annual |
 
 ## The publishers: the sentence and the verdict
 
@@ -836,6 +850,8 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | National Electric Power Company, Jordan (NEPCO) | #627: read | "تمنحك الشركة ترخيصًا محدودًا غير قابل للتحويل وغير حصري وقابل للإلغاء للوصول إلى الموقع فقط لاستخدامك الشخصي غير التجاري." | needs written permission | needs written permission | not named | none stated | Session 2374. NEPCO's terms of use (Arabic): a limited licence for personal, non-commercial use only; no part of the site may be copied, reproduced, distributed, republished or downloaded except as stated, and no derivative work made. |
 | Ministry of Energy and Mineral Resources, Jordan (MEMR) | #633: read | "تسمح وزارة الطاقة والثروة المعدنية للغير القيام بما يلي :- لتنزيل و/أو الإطلاع و/أو الطباعة لأي معلومات منشورة للاستخدام الشخصي أو للاستخدام داخل المؤسسة ولإغراض غير تجارية." | needs written permission | needs written permission | not named | none stated | Session 2374. The ministry's copyright page (Arabic): download, viewing and printing for personal or in-house non-commercial use, links, and republishing small parts unmodified with the source named; any other use needs the ministry's permission (memr@memr.gov.jo). |
 | Secretaria Nacional de Energia, Panama (SNE) | #649: read | "La Secretaría Nacional de Energía pone a disposición la información contenida en este sitio; para su utilización deberá citarse la fuente: SECRETARÍA NACIONAL DE ENERGÍA." | may be public | may be public | not named | none stated | Session 2407. The Datos y Estadisticas page's own statement on the figures it lists: use with the source cited, no use excluded. Every page's footer reads "© Copyright Secretaría de Energía / Todos los derechos reservados" (read 648); the tables stay internal until Samuel rules which governs. |
+| Statistics Mauritius | #674: read | "Apart from any use permitted by the Copyright Act, the State copyright protected material may be downloaded free of charge to file or printer without requiring specific permission, provided that any such State owned material being reproduced accurately and not being used in a derogated manner or in a misleading context. Where this material is being issued to others, the source (including the URL) and copyright status must be acknowledged." | may be public | may be public | not named | none stated | Session 2409. The Government of Mauritius's copyright notice on statsmauritius.govmu.org. "Any other proposed use of any State protected material is subject to approval" by the Government Information Service; the table stays internal until Samuel rules whether the ERW's reshaping is reproduction. |
+| Namibia Power Corporation (NamPower) | #667: read | "Copyright © NamPower, All Rights Reserved." | needs written permission | needs written permission | not named | none stated | Session 2409. The home page's footer (read 667), as on its media page (read 668); no terms of use or grant of reuse found on either. Treated as chain 113 treated CNDC and ICE: not taken, not asked again. |
 
 **Publishers no read of this sweep covers (41):** Administrador del Mercado Mayorista (AMM), Guatemala; Arizona Corporation Commission; CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Central Statistical Bureau of Latvia (CSP); Ceylon Electricity Board, Sri Lanka (CEB); Danish Energy Agency (Energistyrelsen); Electrek; Energy Commission, Ghana; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); PSE S.A. (Polskie Sieci Elektroenergetyczne); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); REN (Redes Energeticas Nacionais); Secretaria Nacional de Energia, Panama; Singapore Department of Statistics (SingStat); Statnett SF; Svenska kraftnat; Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov); USDA Natural Resources Conservation Service (NRCS); Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
 
@@ -1334,6 +1350,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `statee_estonia_electricity_monthly` | Statistics Estonia | may be public |  |  | public | agrees | may be public | public |
 | `statfi_finland_electricity_monthly` | Statistics Finland | may be public |  |  | public | agrees | may be public | public |
 | `statnett_norway_daily` | Statnett SF | not settled (needs written permission by default) |  | Statnett SF | internal | not settled | may be public | internal |
+| `statsmu_mauritius_electricity_annual` | Statistics Mauritius | may be public |  |  | internal | DISAGREES: the flag is stricter | may be public | internal |
 | `storage_buildout_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `storage_capacity` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `storage_daily_cycle` | CAISO; EIA | may be public |  |  | public | agrees | may be public | public |
@@ -1419,6 +1436,7 @@ None of these was changed. Each is a ruling.
 
 ### Flagged internal; the sentence read allows it
 
+- `statsmu_mauritius_electricity_annual`: may be public (Statistics Mauritius).
 
 ### Not settled: a publisher was not read
 
@@ -1633,6 +1651,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Meta | needs written permission | needs written permission | none stated | not named |  |
 | Microsoft | needs written permission | needs written permission | none stated | not named |  |
 | Ministry of Energy and Mineral Resources, Jordan (MEMR) | needs written permission | needs written permission | none stated | not named |  |
+| Namibia Power Corporation (NamPower) | needs written permission | needs written permission | none stated | not named |  |
 | National Electric Power Company, Jordan (NEPCO) | needs written permission | needs written permission | none stated | not named |  |
 | Natural Gas Intelligence | needs written permission | needs a paid license | not stated on the page (an "NGI Data Feed" or a "Corporate Licensing Agreement") | info@naturalgasintel.com |  |
 | Noga, Israel Independent System Operator | needs written permission | needs written permission | none stated | not named |  |
