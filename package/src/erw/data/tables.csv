@@ -306,6 +306,7 @@ ercot_zone_prices_history,public,,,,ERCOT,"Public: every publisher's terms the E
 esco_georgia_electricity_monthly,internal,,,Electricity Market Operator of Georgia (ESCO),Electricity Market Operator of Georgia (ESCO),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 eurostat_crude_imports_by_field_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_crude_imports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_electricity_balance_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_capacity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_production_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -481,10 +482,12 @@ ren_portugal_balance_annual,internal,,,,REN (Redes Energeticas Nacionais),The ER
 rggi_auction_allowance_prices,internal,,,RGGI,RGGI,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 rrc_lease_production_monthly,public,,,,RRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 rte_eco2mix_france_halfhourly,public,,,,RTE (Reseau de Transport d'Electricite),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+rura_rwanda_electricity_quarterly,internal,,,,Rwanda Utilities Regulatory Authority (RURA),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 scarcity_hours_by_grid,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 scb_sweden_electricity_monthly,public,,,,Statistics Sweden (SCB),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 scripps_co2_mlo_monthly,public,,,,"Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 shoulder_hours_monthly,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+siat_uzbekistan_electricity_annual,public,,,,National Statistics Committee of the Republic of Uzbekistan (SIAT),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 singstat_singapore_electricity,internal,,,,Singapore Department of Statistics (SingStat),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 smard_germany_monthly,public,,,,Bundesnetzagentur (SMARD),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 sne_panama_electricity_annual,public,,,,"Secretaria Nacional de Energia, Panama","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -508,6 +511,7 @@ state_generation_mix_monthly,public,,,,EIA,"Public: every publisher's terms the 
 statee_estonia_electricity_monthly,public,,,,Statistics Estonia,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statfi_finland_electricity_monthly,public,,,,Statistics Finland,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statnett_norway_daily,internal,,,,Statnett SF,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+statsaz_azerbaijan_electricity_annual,public,,,,State Statistical Committee of the Republic of Azerbaijan,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statsbots_botswana_electricity_monthly,public,,,,Statistics Botswana,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statsmu_mauritius_electricity_annual,public,,,,Statistics Mauritius,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 storage_buildout_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
