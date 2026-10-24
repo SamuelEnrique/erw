@@ -14,7 +14,7 @@
 - **Cross-checks against `eurostat_electricity_monthly`, full years 2023 to 2025** (production types summed without pumped storage's consumption, which Energy-Charts gives as a negative series):
   - Czechia: 1.008, 0.997 and 1.003 of Eurostat's net production. Nuclear is 28.72, 28.04 and 30.29 TWh against Eurostat's 28.73, 28.05 and 30.32, and wind in 2024 is 0.70 against 0.70.
   - Austria: 0.857, 0.864 and 0.797 of Eurostat's total. Energy-Charts' figures are public net production; Eurostat's total is all net production. Austria's wind in 2024 is 9.37 TWh against Eurostat's 9.13.
-  - Switzerland: Eurostat's table holds no Swiss total. The table's Swiss load is 1.037 to 1.042 of Ember's demand (`owid_ember_electricity_annual`), against 0.821 for Austria and 0.914 for Czechia, so the load series is not the same quantity as Ember's demand.
+  - Switzerland: Eurostat's table holds no Swiss total. The table's Swiss load is 1.037 to 1.042 of Ember's demand (`owid_ember_electricity_annual`), against 0.781 to 0.821 for Austria and 0.914 to 0.921 for Czechia, so the load series is not the same quantity as Ember's demand.
   - Every year 2023 to 2025 has all its hours (8,760 or 8,784) in each country.
 
 ## Requests (14 of 20)
