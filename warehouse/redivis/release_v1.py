@@ -218,6 +218,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "ens_denmark_electricity_monthly",
            "cence_costarica_generation_monthly",
            "econtrol_austria_electricity_monthly",
+           "ilr_luxembourg_electricity",
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "energinet_dk_production_hourly",
