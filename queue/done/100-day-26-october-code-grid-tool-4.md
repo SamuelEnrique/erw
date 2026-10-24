@@ -2,7 +2,7 @@
 
 machine: samueloldlaptop
 
-Ten sessions for the old laptop (`samueloldlaptop`, C:\Users\lossa\Documents\erw), written by session 1178 at the start of chain 091 (`queue/done/091-day-25-october-code-grid-tool-3.md`, sessions 1178 to 1189), to be updated by session 1189 from that chain's results. Model: Opus 5.5, high effort. Session numbers 1400 to 1409 are this chain's and 1410 to 1419 its successor's (the other window holds 1190 to 1203 and 1300 to 1319 on 24 October). Goal: what chains 077, 078 and 091 built, seen working: the landings first, then the Grid tool's prices beside its mix for the grids whose prices are public, and its tests made sturdier. Nothing here waits for a ruling: no page's default figure moves, no held grid's rows are drawn, nothing goes public, no warehouse data is written.
+Ten sessions for the old laptop (`samueloldlaptop`, C:\Users\lossa\Documents\erw), written by session 1178 at the start of chain 091 (`queue/done/091-day-25-october-code-grid-tool-3.md`, sessions 1178 to 1189), updated by session 1189 from that chain's results (nothing of chains 077's landing B, 078 or 091 on main: all wait on `wip/1188-grid`). Model: Opus 5.5, high effort. Session numbers 1400 to 1409 are this chain's and 1410 to 1419 its successor's (the other window holds 1190 to 1203 and 1300 to 1319 on 24 October). Goal: what chains 077, 078 and 091 built, seen working: the landings first, then the Grid tool's prices beside its mix for the grids whose prices are public, and its tests made sturdier. Nothing here waits for a ruling: no page's default figure moves, no held grid's rows are drawn, nothing goes public, no warehouse data is written.
 
 **The next file is written first.** Session 1400 begins by writing the successor's file in `queue/next/` for this machine (`machine: samueloldlaptop`, at least eight sessions, real work only, no ruling needed), commits it alone and pushes it to main before any other work. Session 1409 updates it. A session that finds its part done or blocked says so in two lines and moves on.
 
@@ -14,7 +14,7 @@ As chain 091's, section "Rules for every session", word for word (chain 077's ru
 
 ## Session 1400: the next file, then the landings
 
-Long end 2:00. First the next file (above). Then the stacked branch of chains 077, 078 and 091 (the newest `wip/<N>-grid` of chain 091, which holds `wip/1176-grid`) landed as chain 078's note says ("To finish"), if a person has not landed it and if the gate can run alone on the machine; else said in two lines.
+Long end 2:00. First the next file (above). Then the stacked branch of chains 077, 078 and 091, **`wip/1188-grid`** (sessions 1152 to 1188, main merged at `c446038c`), landed as chain 091's note says (`docs/state/review_2026-10-24_code_grid3.md`, "To finish"), if a person has not landed it and if the gate can run alone on the machine and in a window that has not had a reap; else said in two lines, and every later session cuts its branch from the one before (the first from `wip/1188-grid`) and works code-only (`runs/c077/brief.md`).
 
 ## Session 1401: the screenshots and the trader path's values
 
