@@ -467,6 +467,10 @@ Decisions (chain 077):
 
 ## The balance, said where the figures are (chain 078, 24 October 2026)
 
+Chain 078 in this note (sessions 1164 to 1177): 1165 (this section), 1167, 1171 and 1172 (below), 1175 (the next
+section); 1170's keys in the list at the end, its method in `grid_network_v3.md`; 1164, 1166, 1168, 1169, 1173 and
+1174 set no rule here.
+
 Session 1165 (`queue/done/078-day-24-october-code-grid-tool-2.md`), the Grid pack's blind spot 3
 (`docs/reviews/packs/grid.md`, section 6): for CAISO, PJM, MISO and SPP the ties do not sum to net generation minus
 demand. The Network tab's panel `grid_network_<grid>` now says so for the grid in view, under its ties, in a block
@@ -529,6 +533,8 @@ Decisions (chain 078):
   "|" are "~"). The arithmetic moved to `site/scripts/check-calc.mjs` with its test; ratio, diff and pct compute as
   before. check-methods reads a calc key as the figures of all its operands (two, as before, or three).
 - **No figure in the block's words**: where each gap sits is said in words; the figures are the keyed ones.
+- **The test's fixture is self-contained** (`site/scripts/fixtures/grid_balance.json`: the snapshot's hours, the seven
+  grids' links and the two tables' rows), since `site/data/grid_network.json` is rewritten each day.
 
 ### The Exchange blocks under the gravity shape (session 1167)
 
@@ -567,6 +573,11 @@ Decisions (session 1167):
 - **The age is said once in the Exchange block** even though the network above it on the Gravity tab says it for its
   own read: each block reads the snapshot on its own (the Exchange block on every request), so each says the hour it
   shows. Whether the tab should say it once only is put to the owner.
+- **The replay's price is filtered on its way, `priceOf` left as it is**: `tests/test_session124.py` pins `priceOf`, so
+  each view's own price goes through `shownPrice` before the ring and the panel.
+- **`check-network-v3.mjs` counts the rings without the held grids**: its floor of five rings on a 2025 day becomes five
+  less the held grids not already paused (three today, read from `site/data/license_status.json`), and a new check
+  says no held grid has a ring.
 
 ### Revisions, said and checked (session 1171)
 
@@ -621,6 +632,24 @@ Decisions (session 1171):
 - **Counted apart**: a revised line counts among the values read, not among those that match, as the latest prices'
   "superseded" lines do; check-methods (`keysFromValues`) reads a revised line's key as it reads ok and FAIL lines.
 
+### Every old address, tested (session 1172)
+
+The rule and its test are in "One page, four tabs, and the Ask panel" above (`site/scripts/test-grid-addresses.mjs`, 8
+tests over 61 addresses). Every case passed as the code stood, so `site/lib/gridtool.ts` and `site/next.config.ts` did
+not change; the route check (`site/scripts/check-routes.mjs`, the block "session 1172") lists 15 more old addresses.
+
+Decisions (session 1172):
+
+- **The redirects are modelled, not served**: the test applies `next.config.ts`'s own list with Next 16's merge rule,
+  read from Next's source; four requests to production, not followed, gave the same destinations. A rule to `/grid`
+  with a pattern in its source (`:path*`) would fail the test's first case; there is none today.
+- **`/ask`'s redirect is modelled from its two lines**, pinned by the test as `tests/test_session299.py` pins them; the
+  page is chain 075's and was not changed.
+- **The route check lists 46 of the 61 cases**, one for each rule and word: each is a full render in both passes, and a
+  second address of the same rule asks nothing new of the server.
+- **`node=BPAT` with no grid opens the Lower 48 with `named` false** (`grid=BPAT` gives true); no page or component
+  reads `named`, so the test does not pin it.
+
 ## The 3D scene's code, loaded when it is drawn (sessions 428 and 1175)
 
 The Network shape's 3D scene is drawn by 3d-force-graph on three.js, the largest code the Grid page can load (about
@@ -644,6 +673,14 @@ Decisions (session 1175):
   its own would take a few kilobytes off the component, against the older tests that pin the scene's code where it is
   (sessions 93, 237, 241c, 428); the libraries, the weight, were split in session 428.
 - **A line, not a drawing, while it loads**: no fake sphere or grey shape stands in for the network.
+- **The proof is a source scan with the TypeScript parser**, not regular expressions: a comment or a string holding
+  "three" is not read as an import, and a type-only import, which the compiler erases, is left out.
+- **The scan covers every module the page and the root layout reach**, whichever tab draws them, so the claim holds as
+  tabs change.
+- **The line is drawn on the server too** (the scene never is), so the served HTML of each Network tab carries it: an
+  expected difference at the landing.
+- **A chunk that fails to download still shows "This browser cannot draw 3D"** (the fallback, kept as it was); a
+  sentence for that case is put to the owner.
 
 ## Not here
 

@@ -37,6 +37,8 @@ ERCOT publishes no single history of its notices. Three of its pages were read o
 
 ## 6. On the Grid tool: the notice state (session 1174, 24 October 2026)
 
+Chain 078 in this note (sessions 1164 to 1177): 1174 (this section, its keys and its decisions).
+
 The table's first page. The Mix tab of `/grid?grid=ercot` opens on the panel `grid_ercotnotice_ercot` (`site/components/grid/ErcotNoticeState.tsx`, `site/lib/ercotNotices.ts`), as CAISO's opens on its alerts (`california_reliability.md`, "On the Grid tool: the alert state"). The rows are read once per render (`site/lib/gridErcotNotices.ts`: `event_id`, `event_date`, `event_type` and three fields of `extra`, `x_counts`, `x_region` and `retrieved_at`; `x_text` is not asked for, since no panel draws ERCOT's words).
 
 - **A call** is a row with `x_counts` `yes` (section 3): a system-wide call on supply or demand, as `grid_stress_days` counts it. Its kinds, each a group of the keys: `eea` (`eea1`, `eea2`, `eea3`, `rotating_outages`), `conservation` (`conservation_appeal`, `voluntary_conservation`), `watch` (`weather_watch`, and 2011's `power_watch`) and `ocn` (`ocn_weather`); a counted `update` (a release ending an emergency) is a call of no kind. `other` is every row with `x_counts` `no` (the control room's Advisories and Watches on its own tools, tests, statements, other updates, notices for the Rio Grande Valley only), named apart and never marked. `any` is every row.
@@ -62,3 +64,7 @@ The table's first page. The Mix tab of `/grid?grid=ercot` opens on the panel `gr
 - **The notice's Central day is set on the strip's column of the same date** (the strip's days are Central standard time days; in summer the two share 23 of their 24 hours), as CAISO's Pacific days are.
 - **Only three fields of `extra` are read** (PostgREST's `extra->>`), about 48 KB for 178 rows in place of about 156 KB with ERCOT's words; the page draws none of the words.
 - **`ercot:news_releases` and `ercot:operations_messages` stay under `sources_hold`** and the table under `review_hold` (`warehouse/supabase/live_set.yaml`): every page is in review, so nothing a visitor counts changes. When the Grid tool opens, both come off with it.
+- **The hourly 7-day mix is not marked**: the session named the strip and the monthly mix; the hourly chart's marks are its peak hour.
+- **The tabs' table lines name the table** (`site/lib/gridtables.ts`): the Mix tab, and the Clean tab too, since it draws `MixView.tsx`'s `MixClean`, whose file reads the notices for the Mix tab, as it names `caiso_grid_emergencies` (`tests/test_session502.py`).
+- **The fixture leaves out `x_text`**: ERCOT's words are not copied, so its terms' "not modified" is not in play.
+- **Whether the connector should run on a schedule is put to the owner** (`docs/reviews/grid-rulings-2026-10-23.md`): until it does, the state line says "not held yet" for every day after the newest read.

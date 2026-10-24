@@ -108,6 +108,19 @@ Decisions (chain 077):
 - **The newest hour's age in days is not a key**: it is the clock against the page's drawing time, as the energy mix panel's age in hours.
 - **SPP is "not in the table yet"**, not "license needed": its hub prices are public, and the table leaves it out because its own signal (reserve shortage pricing) is not held as a table ("Not in the table" above). Adding a grid is one entry in `GRIDS`, a builder change left for a later chain.
 
+## The panel in chain 078 (24 October 2026)
+
+Chain 078 in this note (sessions 1164 to 1177): 1174 (ERCOT's notice days on the strip, the bullet in "On the Grid
+tool" above; the rule and the keys in `ercot_grid_notices.md`, section 6).
+
+Decisions (session 1174):
+
+- **One prop carries either grid's marks**: CAISO's line in `site/components/grid/ScarcityPanel.tsx` reads its days as
+  `caiso` (renamed inside that line only), so `colMarks={alerts?.cols}`, pinned by `tests/test_session1155.py`, carries
+  CAISO's or ERCOT's marks; CAISO's strip is drawn as before.
+- **ERCOT's strip marks calls only**: a day with a notice that is not a call is named under the strip, never marked, as
+  CAISO's restricted maintenance is.
+
 ## Checks
 
 - The validator: `python warehouse/validate/erw_validate.py warehouse/output/scarcity_hours_by_grid.csv`, pass.

@@ -116,3 +116,15 @@ Decisions (chain 077):
 - **"No alert today" is never said past the table**: a day after the newest notice is "not held yet", with the newest notice day beside it. The report's revision date (9 October 2026) is only in the CSV's header, not in the live set, so the page gives the newest notice day.
 - **An alert is the scarcity table's own signal set**, so the strip's squares (by hour) and its triangles (by day) mean the same notices.
 - **The scorecard's "Limits" line "CAISO's Grid Emergencies History Report runs to 2025-04-30" is stale** since the report's revision of 9 October 2026 (notices to 2026-10-08, none an alert after 2024); it was left as written, since session 1155 changed nothing else on that page, and is put to the owner (`docs/reviews/grid-rulings-2026-10-23.md`).
+
+## The Reliability section's count, keyed (chain 078, 24 October 2026)
+
+Chain 078 in this note (sessions 1164 to 1177): 1166 (the count below) and 1174 (ERCOT's notices, kept apart from this table's keys).
+
+- **The count** (session 1166, `site/components/grid/Reliability.tsx`, CAISO's Mix tab): "The table holds N notices" is `awe|rows|any`, every row of `caiso_grid_emergencies`, and "the latest on <day>" is `awe|newest|any`, the newest `event_date` of any row: two forms of the `awe|` kind, recomputed by check-values with `aweValue` (`site/lib/caisoAlerts.ts`). `generation_mix_hourly.md`, the Mix tab's note, names them too.
+- **ERCOT's notices** (session 1174) are keyed by a kind of their own, `ercotn|` (`ercot_grid_notices.md`, section 6), not this table's `awe|`; the scarcity strip's day marks carry either grid's through the same prop (`scarcity_hours_by_grid.md`, "The panel in chain 078").
+
+Decisions (chain 078):
+
+- **`awe|newest|any` has no "as of" day**: the section names the table's newest notice, whatever the day; the alert state's `awe|last|any|<today>` keeps its day.
+- **`awe|` stays CAISO's**: its groups are this table's types and session 1155's tests pin its recomputation to `site/lib/caisoAlerts.ts`, so ERCOT's rule was given its own file and test.

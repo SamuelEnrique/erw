@@ -47,12 +47,17 @@ reading is the one under which most grids would be published as they are.
 
 ## On the Grid tool (session 1165, chain 078)
 
+Chain 078 in this note (sessions 1164 to 1177): 1165 (this section).
+
 The Network tab of `/grid` states the gap for the grid in view, each of the seven: in the hour the panel shows, net
 generation, demand, the net export over the ties and the gap (net generation less demand less net export, the sign
 the other way from the pack's test), and over the snapshot's week the mean of the gap's absolute value and the count
 of hours that hold every tie and both series. It reads the live tables the tab already reads, not EIA's workbooks, so
 the gap there is the total of the two parts above; its note says where this note found each grid's gap, and its hover
 tip the split in one line. The keys and their rule: `grid_network.md`, "The balance, said where the figures are".
+
+Decisions (session 1165): in `grid_network.md`, that section's Decisions. This note's answer is used as it stands
+(the split, the mean of the absolute gap); nothing in it changed.
 
 ## The pull
 

@@ -358,6 +358,10 @@ Decisions (chain 077):
 
 ## The Mix tab's last unkeyed figures, and the views drawn from committed files (chain 078, 24 October 2026)
 
+Chain 078 in this note (sessions 1164 to 1177): 1166 (this section), 1167 (its last part, with its decisions), 1169
+(the next section). On the same tab elsewhere: 1168's stress charts in `grid_stress.md`, 1171's sentence on revisions
+in `grid_network.md`, 1174's ERCOT notice state in `ercot_grid_notices.md`, section 6.
+
 Session 1166 keyed what session 1151 listed as still without a key on `/grid`. No figure's text moved: each figure is
 wrapped in its key, with a one-line source in its hover tip (dotted, as the tool's panels write theirs).
 
@@ -446,6 +450,25 @@ were. The hub price beside the mix (the average day and year after year, "Price"
 holds; MISO keeps "paused while terms are reviewed" (its file holds none). The rule is `site/lib/gridHeld.ts`, its test
 `site/scripts/test-grid-held.mjs`.
 
+The same session, "What is being built" (`components/grid/YourGrid.tsx`): `lib/grid.ts` reads `energy_projects` by
+`entity_id`, and the shared reader's hold (`site/lib/supabase.ts`) filters a table held by grid by `entity` only, so
+ISO-NE's queue rows came through (`isone_queue:137` and `isone_queue:1515` are in the live set, an anon read of 24
+October 2026). The read now drops them (`shownQueue`) and the block reads "ISO-NE's interconnection queue: license
+needed". A held grid's hub prices in "What it costs" said "Not in the warehouse yet"; the read is refused for a
+license, so they now say "license needed".
+
+Decisions (session 1167):
+
+- **Words a visitor sees changed by the rule, not by design**: the clean table's held cells, the Price factor for
+  ISO-NE and NYISO, ISO-NE's queue block and the held grids' "What it costs" (every page is in review).
+- **One rule file**, `site/lib/gridHeld.ts` over `licenseHeldRow`. The table named for the mix's prices is
+  `iso_hub_prices_history`, the builders' source for every grid but ERCOT; it joins the Mix and Clean tabs' lists in
+  `site/lib/gridtables.ts`, which `tests/test_session502.py` holds to the code.
+- **The queue is held for ISO-NE only**, as the status file holds `energy_projects`; NYISO's and MISO's positions stay
+  drawn though their own queue tables are held (put to the owner, `docs/reviews/grid-rulings-2026-10-23.md`).
+- **The filter is the Grid tool's own** (`shownQueue`): the shared reader's missing `entity_id` filter is outside this
+  chain's files, and is put to the owner.
+
 ## California's generation, EIA-930's and CAISO's own side by side: not built (chain 078, 24 October 2026)
 
 Session 1169 was to draw, on the Mix tab for CAISO, EIA-930's hourly total and CAISO's own over the week (the Grid pack's blind spot 4), if a public CAISO own-generation table is in the live set. None is: `caiso_fuel_supply` (CAISO's Today's Outlook, hourly, public) is in the catalogue with `in_live_set` "no" and no rows in Supabase (an anon read on 24 October 2026), and `caiso_fuel_supply_history` is under `catalogue_hold`; so nothing was drawn, and California's hourly mix by fuel stays withheld (session 118).
@@ -453,6 +476,7 @@ Session 1169 was to draw, on the Mix tab for CAISO, EIA-930's hourly total and C
 Decisions (chain 078):
 
 - **Written down and left, as the session's own condition says**: no chart from a committed file or a CSV in its place, since the week must be read where check-values can recompute it (the live set); loading `caiso_fuel_supply` (a `recent` rule in `warehouse/supabase/live_set.yaml`, a data session's) is the step that opens it.
+- **This note, not the join's (`eia930_caiso_break.md`)**: the panel was to sit on the Mix tab, whose note this is.
 
 ## The figures on the page and their keys
 

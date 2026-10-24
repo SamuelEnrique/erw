@@ -121,6 +121,8 @@ Decisions (chain 077):
 
 ## The views' figures, keyed from the committed files (chain 078, 24 October 2026)
 
+Chain 078 in this note (sessions 1164 to 1177): 1166 (this section), 1168 (the three subsections below).
+
 Session 1166 keyed the figures this note's tables put on the Grid tool's Mix tab (`components/mix/views.tsx`, the view
 "How hard the system works" and the tightest hours of "Availability by source"). The page reads the site's copy of
 `grid_stress_yearly`, `site/data/stress/<grid>.json` (`warehouse/derived/mix_stress.py`); each figure is keyed
@@ -215,3 +217,12 @@ Decisions (session 1168):
 - **The line is in the chart's hover card and on a link's hover**, not written on the page's face (the view's rule since
   session 133: the face carries no method); the link opens this section.
 - **The large tables were keyed whole**: the added keys cost no request and 0.4 seconds of the node test.
+- **Two optional props on the mix charts**: `Lines` and `Bars` (`components/mix/Charts.tsx`) take `notes` and `tip`, off
+  by default, and `Series` takes `digits`; no other chart passes them, so no other card moves.
+- **The `span` form is a copy of `lib/stress.ts` `span`** in `site/scripts/check-format.mjs`, which imports nothing from
+  the site; `tests/test_session1168.py` holds the two equal line for line.
+- **The join's day in the code is `caisoJoinDay()`**, not a date (`tests/test_session78.py`: one constant).
+
+A finding, not changed: "As built on 5 October 2026" above says California's 2019 and 2020 are not written; the
+committed file `site/data/stress/caiso.json` holds both, and the view draws them. Put to the owner: the "As built"
+lines are to be rebuilt from the table at the next data session.

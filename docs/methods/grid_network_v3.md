@@ -236,6 +236,8 @@ Decisions (chain 077):
 
 ## The outside grids' demand in the replay (chain 078, 24 October 2026)
 
+Chain 078 in this note (sessions 1164 to 1177): 1170 (this section). The replay's held hub prices (session 1167) are in `grid_network.md`, "The Exchange blocks under the gravity shape".
+
 Session 1170, the Grid pack's blind spot 11 (`docs/reviews/packs/grid.md`, section 6): in the live week only the seven ISO grids have a demand, so a balancing authority such as BPAT has no share of demand; the replay's files hold EIA's daily demand (`eia930_daily_demand`, session 109 above) for 54 balancing authorities across the years (52 in each year's file to 2025, 54 in 2026's). The Grid tool now draws a picked day's figures on the server, from the replay's committed file, wherever the address names a day (`net=day&t=<day>`):
 
 - **The Network tab** (`grid_network_<grid>`, first in the panel, `data-grid-replay-day="<BA>"`): for the balancing authority the address names (`node`, else the grid's own), any of the network's, BPAT as well as the seven ISO grids: the day's demand, its net export or import over the ties with a flow that day (signed from its side, positive when power left it) and how many ties held a flow, each the day's MWh over the hours of EIA's Eastern day, the day's average MW, written whole. Where the file holds no demand for it that day the cell says "not held" in the tool's one look (`Missing`), the reason on hover: the file holds no demand for that balancing authority at all (CENACE, BC Hydro), or the day's is blank (session 109's band, or not reported).
@@ -253,3 +255,4 @@ Decisions (chain 078, session 1170):
 - **A new kind for the net, `netday|`, beside `file|`**: the instruction asked for the same kind; a single path cannot hold a sum of up to 18 ties, so the net reads the same committed file through a kind of its own, as `net|export` reads the snapshot for the hour.
 - **The server reads the file from `site/public/network/`** (`site/lib/gridReplayFile.ts`), and `next.config.ts` traces those files into `/grid`'s function (`outputFileTracingIncludes`); a file that cannot be read is said, never filled.
 - **The gravity table's own sentence keeps its words without a day**; with a day it says "no figure in this table is that day's", since the line under it is.
+- **check-methods reads a `file|` path ending at `@<day>` as the figure of its last name that is not an instance** (`demand`); every other path reads as before.
