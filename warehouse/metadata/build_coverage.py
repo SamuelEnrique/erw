@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^slu_cso_electricity_annual$", "power"),  # session 2497: CSO Saint Lucia, LUCELEC's electricity output and consumption
     (r"^grenada_cso_electricity_annual$", "power"),  # session 2496: CSO Grenada, electricity produced and consumed by category
     (r"^nso_malawi_electricity_sales_annual$", "power"),  # session 2493: NSO Malawi's Statistical Year Book 2023, table 10.1, ESCOM's units sold by type of user
     (r"^fbos_fiji_electricity_annual$", "power"),  # session 2492: FBoS table 3.7[A] and Electricity 2024 Appendix III, Energy Fiji Ltd's production and sales
