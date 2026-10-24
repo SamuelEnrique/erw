@@ -19,7 +19,9 @@ const SITE = path.resolve(here, "..");
 const NM = path.join(SITE, "node_modules");
 const ts = createRequire(path.join(SITE, "package.json"))("typescript");
 const rel = (f) => path.relative(SITE, f).split(path.sep).join("/");
-const read = (r) => fs.readFileSync(path.join(SITE, r), "utf-8");
+// line endings normalised (session 1180): a Windows checkout holds the sources with CRLF, the assertions match LF
+const lf = (s) => s.replace(/\r\n/g, "\n");
+const read = (r) => lf(fs.readFileSync(path.join(SITE, r), "utf-8"));
 let n = 0;
 const test = (name, f) => { f(); n += 1; console.log(`ok   ${name}`); };
 
@@ -29,7 +31,7 @@ const CODE = /\.(tsx?|mjs|jsx?)$/;
 
 /** The imports of a module: static (type-only left out: they are erased), and dynamic import() calls with their node. */
 function parse(file) {
-  const text = fs.readFileSync(file, "utf-8");
+  const text = lf(fs.readFileSync(file, "utf-8"));
   const sf = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true, file.endsWith("x") ? ts.ScriptKind.TSX : ts.ScriptKind.TS);
   const out = { text, sf, statics: [], dynamics: [] };
   const visit = (node) => {
