@@ -19,7 +19,7 @@
 | 4 | Energia Abierta's electricity statistics page | 200: no dataset address in the HTML |
 | 5 | the same, filtered to gross generation | 200: the same |
 
-Reads recorded: 408 to 410.
+Reads recorded: 435 to 437.
 
 ## Decisions made without you
 

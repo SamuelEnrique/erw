@@ -10,7 +10,7 @@ Energy-Charts.info (Fraunhofer Institute for Solar Energy Systems ISE), public n
 
     https://api.energy-charts.info/public_power?country=<at|ch|cz>&start=<year>-01-01&end=<year>-12-31
 
-The current year is asked to the last day ended at the run, in Central European time (`--last-day` sets it). Source id `energy_charts:public_power_at_ch_cz`. Connector: `warehouse/connectors/energy_charts_central.py` (session 2272), in the form of chain 102's `energy_charts_belgium.py`. api.energy-charts.info has no robots file (HTTP 404, read 419). The API's description (`https://api.energy-charts.info/openapi.json`, read 420) states the license and a rate limit of 2 requests a minute for each client.
+The current year is asked to the last day ended at the run, in Central European time (`--last-day` sets it). Source id `energy_charts:public_power_at_ch_cz`. Connector: `warehouse/connectors/energy_charts_central.py` (session 2272), in the form of chain 102's `energy_charts_belgium.py`. api.energy-charts.info has no robots file (HTTP 404, read 446). The API's description (`https://api.energy-charts.info/openapi.json`, read 447) states the license and a rate limit of 2 requests a minute for each client.
 
 Energy-Charts compiles the countries' figures from the operators' publications. The operators were not asked: APG's transparency platform did not answer (chain 102), and Swissgrid's legal information forbids public or commercial use without consent (session 2272).
 

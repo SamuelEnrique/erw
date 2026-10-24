@@ -284,6 +284,12 @@ SECTOR_RULES = [
     (r"^noaa_ncei_billion_disasters$", "power"),  # session 2073: NOAA's billion-dollar disasters
     (r"^nrc_license_actions$", "power;uranium"),  # session 2064: the NRC's renewed licenses and power uprates
     (r"^owid_ember_electricity_annual$", "power;carbon"),  # session 2126: Ember's electricity demand and emissions through Our World in Data
+    (r"^eia_shale_gas_reserves_annual$", "gas"),  # session 2250: EIA's shale gas proved reserves and their changes, 2007 to 2021
+    (r"^eia_gas_heat_content_monthly$", "gas"),  # session 2245: EIA's heat content of gas delivered to consumers by state, a month
+    (r"^eia_crude_quality_monthly$", "oil"),  # session 2244: EIA's crude oil input qualities (API gravity, sulfur), a month
+    (r"^ons_brazil_balance_hourly$", "power"),  # session 2240: ONS's open data, Brazil's balance an hour by subsystem
+    (r"^ree_spain_balance_monthly$", "power"),  # session 2239: REE's REData, Spain's electrical energy balance a month
+    (r"^rte_eco2mix_france_halfhourly$", "power"),  # session 2238: RTE's eco2mix, France every half hour
     (r"^usbr_crsp_reservoirs_daily$", "power"),  # session 2221: Reclamation's CRSP power reservoirs above Lake Powell, a day
     (r"^usbr_mead_powell_daily$", "power"),  # session 2211: Reclamation's Lake Mead and Lake Powell, a day
     (r"^usdm_drought_state_weekly$", "power"),  # session 2058: the U.S. Drought Monitor by state

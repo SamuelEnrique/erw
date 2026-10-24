@@ -140,6 +140,7 @@ eia_crude_first_purchase_prices,EIA,the source registry
 eia_crude_imports_by_country,EIA,the source registry
 eia_crude_imports_detail_monthly,EIA,the source registry
 eia_crude_production_state_monthly,EIA,the source registry
+eia_crude_quality_monthly,EIA,the source registry
 eia_crude_reserves_annual,EIA,the source registry
 eia_crude_stream_prices,EIA,the source registry
 eia_drilling_monthly,EIA,the source registry
@@ -148,6 +149,7 @@ eia_fuel_spot_prices,EIA,the source registry
 eia_gas_balance_annual,EIA,the source registry
 eia_gas_consumers_state_annual,EIA,the source registry
 eia_gas_consumption_state_monthly,EIA,the source registry
+eia_gas_heat_content_monthly,EIA,the source registry
 eia_gas_interstate_annual,EIA,the source registry
 eia_gas_other_uses_state_annual,EIA,the source registry
 eia_gas_pipeline_projects,EIA,the source registry
@@ -202,6 +204,7 @@ eia_retail_sales_monthly,EIA,the source registry
 eia_sector_energy_consumption_monthly,EIA,the source registry
 eia_seds_residential_annual,EIA,the source registry
 eia_seds_state_energy,EIA,the source registry
+eia_shale_gas_reserves_annual,EIA,the source registry
 eia_state_capacity_annual,EIA,the source registry
 eia_state_generation_monthly,EIA,the source registry
 eia_state_source_disposition_annual,EIA,the source registry
@@ -405,6 +408,7 @@ nyiso_zone_load_hourly,NYISO,the source registry
 onrr_production_annual,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)",the source registry
 onrr_production_monthly,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)",the source registry
 onrr_revenue_monthly,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)",the source registry
+ons_brazil_balance_hourly,Operador Nacional do Sistema Eletrico (ONS),the source registry
 ornl_eha_hydropower_plants,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_eha_hydropower_units,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_hydropower_pipeline,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
@@ -423,8 +427,10 @@ price_board_latest,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry a
 price_board_peak_offpeak,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 price_board_spreads,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: eia_fuel_spot_prices, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 price_years_by_window,CAISO; EIA; ERCOT; NOAA NCEI; SPP,"the source registry and the tables its header derives it from: battery_stack_monthly, battery_stack_review_monthly, battery_stack_stress_daily, ercot_all_hub_prices_history, ercot_zone_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, merchant_revenue_monthly"
+ree_spain_balance_monthly,Red Electrica (REE),the source registry
 rggi_auction_allowance_prices,RGGI,the source registry
 rrc_lease_production_monthly,RRC,the source registry
+rte_eco2mix_france_halfhourly,RTE (Reseau de Transport d'Electricite),the source registry
 scarcity_hours_by_grid,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_grid_emergencies, ercot_all_hub_prices_history, ercot_rtm_price_adders, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
 scb_sweden_electricity_monthly,Statistics Sweden (SCB),the source registry
 scripps_co2_mlo_monthly,"Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego)",the source registry

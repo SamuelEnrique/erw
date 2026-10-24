@@ -10,7 +10,7 @@
   - The answers' own spacing is kept in `x_resolution`.
   - Energy-Charts' renewable shares (496,062 figures) are not taken. Hours with a blank or a missing quarter have no row and are counted in the header, most of them Czechia's coal-derived gas (8,113 hours), oil (722) and hard coal (745).
   - Written, validated (0 errors, 0 warnings), archived, held from the Redivis storage and the live set.
-- **The license:** the API's description (read 420): "Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license". The registry says `internal` until the licenses round (session 2271) records the verdict, as for chain 102's Belgian table, so no release rows were added. The rate limit read there, 2 requests a minute, set the trial's pause.
+- **The license:** the API's description (read 447): "Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license". The registry says `internal` until the licenses round (session 2271) records the verdict, as for chain 102's Belgian table, so no release rows were added. The rate limit read there, 2 requests a minute, set the trial's pause.
 - **Cross-checks against `eurostat_electricity_monthly`, full years 2023 to 2025** (production types summed without pumped storage's consumption, which Energy-Charts gives as a negative series):
   - Czechia: 1.008, 0.997 and 1.003 of Eurostat's net production. Nuclear is 28.72, 28.04 and 30.29 TWh against Eurostat's 28.73, 28.05 and 30.32, and wind in 2024 is 0.70 against 0.70.
   - Austria: 0.857, 0.864 and 0.797 of Eurostat's total. Energy-Charts' figures are public net production; Eurostat's total is all net production. Austria's wind in 2024 is 9.37 TWh against Eurostat's 9.13.
@@ -25,7 +25,7 @@
 | 2 | the API's description (openapi.json) | 200: CC BY 4.0, 2 requests a minute |
 | 3 to 14 | public_power for at, ch and cz, 2023 to 2026 (the trial) | 200 |
 
-Reads recorded: 419 and 420, each with a label of its own (test 205 holds one label a read).
+Reads recorded: 446 and 447, each with a label of its own (test 205 holds one label a read).
 
 ## Decisions made without you
 
