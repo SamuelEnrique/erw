@@ -265,6 +265,8 @@ epa_rfs_rins_monthly,EPA,the source registry
 epa_tri_energy_releases_annual,EPA,the source registry
 epe_brazil_consumption_monthly,Empresa de Pesquisa Energetica (EPE),the source registry
 epra_kenya_electricity_annual,"Energy and Petroleum Regulatory Authority, Kenya (EPRA)",the source registry
+erb_zambia_electricity_annual,"Energy Regulation Board, Zambia (ERB)",the source registry
+erc_mongolia_electricity_annual,Energy Regulatory Commission of Mongolia (ERC),the source registry
 ercot_4cp_intervals,ERCOT,the source registry
 ercot_all_hub_prices_history,ERCOT,by hand: ERCOT's hub price reports
 ercot_as_prices,ERCOT,the source registry
@@ -301,12 +303,16 @@ ercot_wind_solar_hsl_hourly,ERCOT,the source registry
 ercot_wind_solar_output_hourly,ERCOT,the source registry
 ercot_zone_load_hourly,ERCOT,the source registry
 ercot_zone_prices_history,ERCOT,the source registry
+esco_georgia_electricity_monthly,Electricity Market Operator of Georgia (ESCO),the source registry
+eurostat_crude_imports_by_field_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_crude_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_production_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_electricity_trade_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_balance_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_hard_coal_imports_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_oil_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_solid_fuels_monthly,Eurostat (Statistical Office of the European Union),the source registry
@@ -502,6 +508,7 @@ state_generation_mix_monthly,EIA,the source registry and the tables its header d
 statee_estonia_electricity_monthly,Statistics Estonia,the source registry
 statfi_finland_electricity_monthly,Statistics Finland,the source registry
 statnett_norway_daily,Statnett SF,the source registry
+statsbots_botswana_electricity_monthly,Statistics Botswana,the source registry
 statsmu_mauritius_electricity_annual,Statistics Mauritius,the source registry
 storage_buildout_monthly,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators, eia860m_retired_generators"
 storage_capacity,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators, eia860m_retired_generators"

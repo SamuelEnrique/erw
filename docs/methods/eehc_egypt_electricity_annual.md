@@ -15,7 +15,7 @@ The Egyptian Electricity Holding Company (EEHC), the table "Electricity in <year
 | 2020/2021 | 2019/2020, 2020/2021 | `http://www.moee.gov.eg/english_new/EEHC_Rep/REP2021-2022en.pdf` (the file's name notwithstanding) |
 | 2023/2024 | 2022/2023, 2023/2024 | `https://www.eehc.gov.eg/CMSEehc/Files/AnnualReport2024En.pdf` |
 
-Source id `eehc:annual_report`. Connector: `warehouse/connectors/eehc_egypt_electricity.py` (session 2435). www.eehc.gov.eg has no robots file (HTTP 404, read 767). www.moee.gov.eg, the ministry's host of the earlier reports, closes two pages only (read 770).
+Source id `eehc:annual_report`. Connector: `warehouse/connectors/eehc_egypt_electricity.py` (session 2435). www.eehc.gov.eg has no robots file (HTTP 404, read 788). www.moee.gov.eg, the ministry's host of the earlier reports, closes two pages only (read 791).
 
 ## Vintage and revision
 
@@ -58,7 +58,7 @@ No value is 0 or negative. Totals and parts are EEHC's: a sum takes one level. T
 
 ## License
 
-Internal. `license_verdicts.csv` records the Egyptian Electricity Holding Company (EEHC), read 768 (session 2439): "needs written permission", sold or not. EEHC's site carries "All Rights Reserved ©2022" and grants no reuse. The table is held from the Redivis storage and the live set until EEHC consents.
+Internal. `license_verdicts.csv` records the Egyptian Electricity Holding Company (EEHC), read 789 (session 2439): "needs written permission", sold or not. EEHC's site carries "All Rights Reserved ©2022" and grants no reuse. The table is held from the Redivis storage and the live set until EEHC consents.
 
 ## Cross-checks (session 2435)
 

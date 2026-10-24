@@ -391,6 +391,7 @@ catalogue_hold:
   - desnz_uk_renewables_quarterly
   - ieso_generation_fuel_hourly
   - eurostat_electricity_monthly
+  - eurostat_electricity_trade_annual
   - desnz_uk_gas_quarterly
   - ssb_norway_electricity_monthly
   - smard_germany_monthly
@@ -423,7 +424,9 @@ catalogue_hold:
   - eurostat_renewable_capacity_annual
   - eurostat_oil_monthly
   - eurostat_crude_imports_monthly
+  - eurostat_crude_imports_by_field_monthly
   - eurostat_solid_fuels_monthly
+  - eurostat_hard_coal_imports_annual
   - makstat_macedonia_electricity_monthly
   - statbank_moldova_electricity_monthly
   - eurostat_electricity_capacity_annual
@@ -452,6 +455,10 @@ catalogue_hold:
   - eurostat_gas_balance_monthly
   - eia_refinery_utilization_monthly
   - ceb_srilanka_electricity_annual
+  - erb_zambia_electricity_annual
+  - statsbots_botswana_electricity_monthly
+  - erc_mongolia_electricity_annual
+  - esco_georgia_electricity_monthly
   - energycom_ghana_electricity_annual
   - eia_gas_for_others_annual
   - statcan_petroleum_products_monthly

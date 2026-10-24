@@ -6,8 +6,8 @@
 
 - **The ERW held no EEHC source** (`sources.csv` and the connectors on main searched for EEHC and Egypt).
 - **The hosts:**
-  - www.eehc.gov.eg has no robots file (HTTP 404, read 767);
-  - www.moee.gov.eg, the ministry's host of the earlier reports, closes two pages only (read 770);
+  - www.eehc.gov.eg has no robots file (HTTP 404, read 788);
+  - www.moee.gov.eg, the ministry's host of the earlier reports, closes two pages only (read 791);
   - no rule names an AI agent.
 - **A new table, `eehc_egypt_electricity_annual`** (series, 105 rows, `power`). It is read from the summary table "Electricity in <year>" of four annual reports, each giving its fiscal year and the one before: fiscal years 2014/15 to 2017/18, 2019/20 and 2020/21, and 2022/23 and 2023/24. It holds:
   - installed capacity (MW): total, hydro, thermal, the 2015/16 fast track plan, renewables, and the private BOOT plants;
@@ -15,7 +15,7 @@
   - generation (MWh): total, hydro, thermal, renewables, IPP purchases, BOOT, isolated plants, and industrial surplus.
   - `ts_utc` is the fiscal year's first day (1 July), and `x_fiscal_year` keeps EEHC's label.
   - Written, validated (0 errors, 0 warnings), archived, and held from the Redivis storage and the live set.
-- **Internal.** EEHC's site carries "All Rights Reserved ©2022" and grants no reuse (read 768).
+- **Internal.** EEHC's site carries "All Rights Reserved ©2022" and grants no reuse (read 789).
 - **Not in the table:**
   - **Fiscal years 2018/19 and 2021/22.** Their reports were not found. EEHC's 2022/23 and 2024/25 reports (27 and 30 MB) are scanned images without text, so they were fetched but not read.
   - **The report data:** the 2015/16 report prints the peak load's unit as GWh beside megawatt figures (28,015 and 29,200); they are written as MW.
@@ -45,7 +45,7 @@
 | 11 | the 2015/2016 report (fetch) | 200, 12.6 MB, text |
 | 12 | the 2017/2018 report again (the trial) | 200, 7.2 MB |
 
-Reads recorded: 767 to 770 (on this branch).
+Reads recorded: 788 to 791 (on this branch).
 
 **Why request 12.** Each fetch script opened the same raw folder, so its manifest kept only the last file. Two rows were rebuilt from the records the fetches printed (time of retrieval and last modified) and from each file's own size and hash. The 2017/2018 record's last-modified line was cut off in the output, so the trial asked for that report again.
 
@@ -66,5 +66,5 @@ Reads recorded: 767 to 770 (on this branch).
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`;
   - `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`;
-  - the license record (reads 767 to 770, `license_tables.csv`, `docs/licenses.md`).
+  - the license record (reads 788 to 791, `license_tables.csv`, `docs/licenses.md`).
 - On the data machine only: `runs/c117/s2435/`, `warehouse/raw/eehc_electricity/`, `warehouse/output/eehc_egypt_electricity_annual.csv`.

@@ -6,7 +6,7 @@ Tables: `epe_brazil_consumption_monthly`
 
 ## Publisher and address
 
-The Empresa de Pesquisa Energetica (EPE), "Dados do Anuario Estatistico de Energia Eletrica" (`https://www.epe.gov.br/pt/publicacoes-dados-abertos/dados-abertos/dados-do-anuario-estatistico-de-energia-eletrica`), its raw data workbook ("Dados Brutos"): `https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/dados-abertos/Documents/Dados%20brutos.xlsx`. One GET, no key. Source id `epe:anuario_dados_brutos`. Connector: `warehouse/connectors/epe_brazil_electricity.py` (session 2446). www.epe.gov.br's robots file closes its system paths, `.aspx` pages and restricted areas only, and names no AI agent (read 787).
+The Empresa de Pesquisa Energetica (EPE), "Dados do Anuario Estatistico de Energia Eletrica" (`https://www.epe.gov.br/pt/publicacoes-dados-abertos/dados-abertos/dados-do-anuario-estatistico-de-energia-eletrica`), its raw data workbook ("Dados Brutos"): `https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/dados-abertos/Documents/Dados%20brutos.xlsx`. One GET, no key. Source id `epe:anuario_dados_brutos`. Connector: `warehouse/connectors/epe_brazil_electricity.py` (session 2446). www.epe.gov.br's robots file closes its system paths, `.aspx` pages and restricted areas only, and names no AI agent (read 808).
 
 ## Vintage and revision
 
@@ -47,7 +47,7 @@ Consumption, TWh a year: 2011 433.0, 2015 465.5, 2020 475.7, 2024 561.6, 2025 56
 
 ## License
 
-Public. `license_verdicts.csv` records the Empresa de Pesquisa Energetica (EPE), read 788 (session 2446): "may be public", for public and for commercial use. The open data page's footer: "Todo o conteúdo deste site está publicado sob a licença Creative Commons Atribuição 4.0 Internacional (CC BY 4.0)". The header names EPE.
+Public. `license_verdicts.csv` records the Empresa de Pesquisa Energetica (EPE), read 809 (session 2446): "may be public", for public and for commercial use. The open data page's footer: "Todo o conteúdo deste site está publicado sob a licença Creative Commons Atribuição 4.0 Internacional (CC BY 4.0)". The header names EPE.
 
 ## Cross-checks (session 2446)
 

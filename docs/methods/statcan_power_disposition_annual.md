@@ -6,7 +6,7 @@ Tables: `statcan_power_disposition_annual`
 
 ## Publisher and address
 
-Statistics Canada, table 25-10-0021-01, "Electric power, electric utilities and industry, annual supply and disposition" (`https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510002101`), read as the table's full CSV download, a zip: `https://www150.statcan.gc.ca/n1/tbl/csv/25100021-eng.zip`. Source id `statcan:25-10-0021-01`. Connector: `warehouse/connectors/statcan_power_disposition.py` (session 2441). The host's robots file disallows paths ending in `.csv` for every agent, not a `.zip`, and names no AI agent (read 786).
+Statistics Canada, table 25-10-0021-01, "Electric power, electric utilities and industry, annual supply and disposition" (`https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510002101`), read as the table's full CSV download, a zip: `https://www150.statcan.gc.ca/n1/tbl/csv/25100021-eng.zip`. Source id `statcan:25-10-0021-01`. Connector: `warehouse/connectors/statcan_power_disposition.py` (session 2441). The host's robots file disallows paths ending in `.csv` for every agent, not a `.zip`, and names no AI agent (read 807).
 
 ## Vintage and revision
 

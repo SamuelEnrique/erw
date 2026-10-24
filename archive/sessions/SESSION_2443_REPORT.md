@@ -15,7 +15,7 @@
   - Two "What it does not hold" lines claimed what no read showed: a terminated predecessor table, and where losses sit. Both were softened.
   - The negative figures of both StatCan tables are now described: combustion turbines' net generation, and StatCan's unallocated residual.
 - **The branch merged with main** after chain 114's landing (`ded5150f`), by `runs/c117/resolve1.py`:
-  - this chain's reads 703 to 728 renumbered 763 to 788, and its verdicts' reads with them (Tunisia's ministry 765, EEHC 768, Kyrgyzstan's statistics 776, EPE 788);
+  - this chain's reads 703 to 728 renumbered 763 to 788, and its verdicts' reads with them (renumbered again, 784 to 809, at session 2447's merge of chain 115's landing: Tunisia's ministry 786, EEHC 789, Kyrgyzstan's statistics 797, EPE 809);
   - the reports, notes and verdict notes shifted;
   - test 205's bound raised by 80: 65 later reads over it once chain 114's raise and this chain's met as one line;
   - the release README's held line regenerated; the license record and the package's tables rebuilt (530 tables, 0 problems);
@@ -24,6 +24,7 @@
   - Three public tables, each proved by the draft's count: `statcan_generation_class_annual` (5,937), `statcan_power_disposition_annual` (3,909) and `epe_brazil_consumption_monthly` (105,032).
   - The run checked that it still held the lock before the upload and before putting main's files back.
   - The metadata refresh read this branch's files: `erw_coverage` 530 rows, `erw_sources` 617, `erw_headers` 4,898 lines.
+  - That branch did not yet hold chain 115's five tables (proved in the draft at 12:07 UTC by chain 115's own run), so the draft's `erw_coverage` and `erw_sources` lack their rows until the next refresh from main (chain 115's agent's message, 12:45 UTC).
 - **Reconciles:**
   - before: 403 tables, 351 match, 46 differ (`erw_sources` 614 against 617 among them), 6 not yet uploaded;
   - after: 356 match, 44 differ (tables daily runs have grown since their upload).

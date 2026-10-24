@@ -6,7 +6,7 @@ Tables: `statcan_generation_class_annual`
 
 ## Publisher and address
 
-Statistics Canada, table 25-10-0020-01, "Electric power, annual generation by class of producer" (`https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510002001`), read as the table's full CSV download, a zip: `https://www150.statcan.gc.ca/n1/tbl/csv/25100020-eng.zip`. Source id `statcan:25-10-0020-01`. Connector: `warehouse/connectors/statcan_generation_class.py` (session 2440). The host's robots file disallows paths ending in `.csv` for every agent, not a `.zip`, and names no AI agent (read 785).
+Statistics Canada, table 25-10-0020-01, "Electric power, annual generation by class of producer" (`https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510002001`), read as the table's full CSV download, a zip: `https://www150.statcan.gc.ca/n1/tbl/csv/25100020-eng.zip`. Source id `statcan:25-10-0020-01`. Connector: `warehouse/connectors/statcan_generation_class.py` (session 2440). The host's robots file disallows paths ending in `.csv` for every agent, not a `.zip`, and names no AI agent (read 806).
 
 ## Vintage and revision
 

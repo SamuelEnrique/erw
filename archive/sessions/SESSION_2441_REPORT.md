@@ -13,7 +13,7 @@
   - sales to ultimate customers by sector (residential, mining and manufacturing, agriculture, other industries).
 
   The ERW's monthly trade table (25-10-0016-01) gives no sales by sector. No chain has taken this table (main and chains 114's and 115's branches searched).
-- **www150.statcan.gc.ca's robots file**, asked again in this session's own call, disallows paths ending in `.csv` and names no AI agent (read 786).
+- **www150.statcan.gc.ca's robots file**, asked again in this session's own call, disallows paths ending in `.csv` and names no AI agent (read 807).
 - **A new table, `statcan_power_disposition_annual`** (series, 3,909 rows, 21 components, `power`): quantities in MWh by province and territory, 2005 to 2025.
   - **Not taken:** the estimate "Electricity value" (2,153 rows in Canadian dollars), a foreign currency's values being a standing question for the owner. It is counted in the header.
   - StatCan's ".." (867) have no row. Revisions are kept in `x_revised`.
@@ -34,7 +34,7 @@
 | 1 | www150.statcan.gc.ca/robots.txt | 200: `.csv` closed |
 | 2 | 25100021-eng.zip (the fetch) | 200, 105,168 bytes, last modified 16 October 2026 |
 
-Reads recorded: 786 (on this branch).
+Reads recorded: 807 (on this branch).
 
 ## Decisions made without you
 
@@ -51,5 +51,5 @@ Reads recorded: 786 (on this branch).
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`;
   - `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`;
-  - the license record (read 786) and `docs/redivis/release-v1/` (the table's rows).
+  - the license record (read 807) and `docs/redivis/release-v1/` (the table's rows).
 - On the data machine only: `runs/c117/s2441/`, `warehouse/raw/statcan_power_disposition/`, `warehouse/output/statcan_power_disposition_annual.csv`.

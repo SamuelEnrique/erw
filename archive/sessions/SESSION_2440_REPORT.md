@@ -6,12 +6,12 @@
 
 - **First choice, Statistics Poland's Local Data Bank (BDL), not taken.**
   - The ERW held no GUS source.
-  - bdl.stat.gov.pl has no robots file: the request was answered by the bank's start page (read 780).
-  - Its API names subject P1674, "Production of electricity by sources", 2000 to 2025, by voivodeship (reads 781 and 783).
-  - After three API requests it answered HTTP 429, "API calls quota exceeded! Maximum admitted 1000 per 12 h." (reads 782 and 784). The quota is counted for the machine's address, not for this session, so it was spent before this session began. Waiting twelve hours is past the session's span.
+  - bdl.stat.gov.pl has no robots file: the request was answered by the bank's start page (read 801).
+  - Its API names subject P1674, "Production of electricity by sources", 2000 to 2025, by voivodeship (reads 802 and 804).
+  - After three API requests it answered HTTP 429, "API calls quota exceeded! Maximum admitted 1000 per 12 h." (reads 803 and 805). The quota is counted for the machine's address, not for this session, so it was spent before this session began. Waiting twelve hours is past the session's span.
 - **Instead, Statistics Canada's table 25-10-0020-01, "Electric power, annual generation by class of producer".**
   - Why: the ERW holds StatCan's monthly generation by type (25-10-0015-01) and five other energy tables, but not the split between electric utilities and industrial producers. No chain has taken this table (main and chains 114's and 115's branches searched).
-  - www150.statcan.gc.ca's robots file disallows paths ending in `.csv` for every agent and names no AI agent (read 785). The table's download is a `.zip`, as chain 112's connector uses.
+  - www150.statcan.gc.ca's robots file disallows paths ending in `.csv` for every agent and names no AI agent (read 806). The table's download is a `.zip`, as chain 112's connector uses.
 - **A new table, `statcan_generation_class_annual`** (series, 5,937 rows, 42 series, `power`): generation in MWh by province and territory, class of producer (all, utilities and industries) and type of generation, 2005 to 2025.
   - StatCan's ".." (1,316) and "x" (10, suppressed for confidentiality) have no row and are counted in the header.
   - Its revisions ("r") are kept in `x_revised`.
@@ -37,7 +37,7 @@
 | 6 | www150.statcan.gc.ca/robots.txt | 200: `.csv` closed, `.zip` open |
 | 7 | 25100020-eng.zip (the fetch) | 200, 100,577 bytes, last modified 16 October 2026 |
 
-Reads recorded: 780 to 785 (on this branch). `tests/test_session205.py`'s bound was raised by 40 for this chain's reads (684 later reads against 682).
+Reads recorded: 801 to 806 (on this branch). `tests/test_session205.py`'s bound was raised by 40 for this chain's reads (684 later reads against 682).
 
 ## Decisions made without you
 
@@ -54,5 +54,5 @@ Reads recorded: 780 to 785 (on this branch). `tests/test_session205.py`'s bound 
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`;
   - `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`;
-  - the license record (reads 780 to 785), `docs/redivis/release-v1/` (the table's rows), and `tests/test_session205.py` (the bound).
+  - the license record (reads 801 to 806), `docs/redivis/release-v1/` (the table's rows), and `tests/test_session205.py` (the bound).
 - On the data machine only: `runs/c117/s2440/`, `warehouse/raw/statcan_generation_class/`, `warehouse/output/statcan_generation_class_annual.csv`.
