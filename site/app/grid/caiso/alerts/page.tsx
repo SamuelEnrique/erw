@@ -10,6 +10,8 @@ import { shown } from "@/lib/format";
 import { EMERGENCIES, gridNotices } from "@/lib/reliability";
 import { attempt } from "@/lib/supabase";
 import { Missing } from "@/components/mix/Now";  // session 1411: the notices' column when their read failed, the tool's one look (session 1181)
+import { pointsOf } from "@/lib/alertDayChart";
+import { DayChart as HoverDayChart } from "./DayChart";   // session 1412: the small charts answer a hover and a tap
 
 // Session 60: the Flex Alert scorecard (California grid-stress tool v1). How much did CAISO's demand fall in the hours of
 // a Flex Alert or grid emergency, against what the weather and the calendar predicted, and what was that worth? Read from
@@ -40,35 +42,17 @@ function Usd({ r, table = EFFECTS }: { r?: SeriesRow; table?: string }) {
 const Interval = ({ lo, hi, table = EFFECTS, usd = false }: { lo?: SeriesRow; hi?: SeriesRow; table?: string; usd?: boolean }) =>
   usd ? <>(<Usd r={lo} table={table} /> to <Usd r={hi} table={table} />)</> : <>(<V r={lo} table={table} /> to <V r={hi} table={table} />)</>;
 
-/** One alert day through the evening: actual (cardinal), predicted (dashed), its 90 percent band, the alert hours shaded. */
-function DayChart({ rows }: { rows: SeriesRow[] }) {
+/** One alert day through the evening: actual (cardinal), predicted (dashed), its 90 percent band, the alert hours shaded.
+ *  Session 1412: the rows grouped by Pacific hour here, as before; the drawing (session 60's, unchanged, in
+ *  lib/alertDayChart.ts) and its hover in the client chart ./DayChart.tsx. */
+function DayChart({ rows, day }: { rows: SeriesRow[]; day: string }) {
   const by = new Map<number, Record<string, number>>();
   for (const r of rows) {
     const h = pacificHour(r.ts_utc);
     (by.get(h) ?? by.set(h, {}).get(h)!)[r.variable] = r.value;
   }
-  const hs = [...by.keys()].sort((a, b) => a - b);
-  if (!hs.length) return null;
-  const vals = hs.flatMap((h) => ["actual_mw", "predicted_mw_lo", "predicted_mw_hi"].map((k) => by.get(h)![k]).filter((v) => v !== undefined));
-  const lo = Math.min(...vals), hi = Math.max(...vals), pad = (hi - lo) * 0.08 || 500;
-  const W = 260, Hh = 120, L = 34, B = 16, x = (h: number) => L + ((h - hs[0]) / Math.max(1, hs.at(-1)! - hs[0])) * (W - L - 6);
-  const y = (v: number) => 4 + (1 - (v - (lo - pad)) / (hi - lo + 2 * pad)) * (Hh - B - 4);
-  const path = (k: string) => hs.filter((h) => by.get(h)![k] !== undefined).map((h, i) => `${i ? "L" : "M"}${x(h).toFixed(1)},${y(by.get(h)![k]).toFixed(1)}`).join("");
-  const band = hs.map((h) => `${x(h).toFixed(1)},${y(by.get(h)!.predicted_mw_hi).toFixed(1)}`).join(" ") + " " +
-    [...hs].reverse().map((h) => `${x(h).toFixed(1)},${y(by.get(h)!.predicted_mw_lo).toFixed(1)}`).join(" ");
-  const alertHs = hs.filter((h) => by.get(h)!.alert_hour === 1);
-  const step = (W - L - 6) / Math.max(1, hs.at(-1)! - hs[0]);
-  return (
-    <svg viewBox={`0 0 ${W} ${Hh}`} className="h-auto w-full" role="img" aria-label="Actual and predicted demand through the evening">
-      {alertHs.map((h) => <rect key={h} x={x(h) - step / 2} y={2} width={step} height={Hh - B - 2} fill="var(--color-panel)" stroke="var(--color-rule)" strokeWidth={0.4} />)}
-      <polygon points={band} fill="var(--color-rule)" opacity={0.7} />
-      <path d={path("predicted_mw")} fill="none" stroke="var(--color-muted)" strokeWidth={1.2} strokeDasharray="3 2" />
-      <path d={path("actual_mw")} fill="none" stroke="var(--color-accent)" strokeWidth={1.6} />
-      <text x={2} y={10} fontSize={8} fill="var(--color-muted)">{Math.round(hi / 1000)} GW</text>
-      <text x={2} y={Hh - B} fontSize={8} fill="var(--color-muted)">{Math.round(lo / 1000)} GW</text>
-      {hs.filter((h) => h % 3 === 0).map((h) => <text key={h} x={x(h)} y={Hh - 4} fontSize={8} textAnchor="middle" fill="var(--color-muted)">{h}:00</text>)}
-    </svg>
-  );
+  if (!by.size) return null;
+  return <HoverDayChart points={pointsOf(by)} ariaLabel={`${day}: actual and predicted demand through the evening`} />;
 }
 
 /** The year-by-year estimate: a bar per year with its 90 percent interval, zero marked. */
@@ -272,12 +256,13 @@ export default async function FlexAlertScorecard() {
         <p className="mb-3 max-w-3xl text-sm">
           Demand served each hour from noon to midnight (cardinal) against the model&apos;s prediction (dashed) and its 90 percent band (shaded), the alert
           hours boxed. Where the cardinal line runs under the band through the boxed hours, the day shows a cut the model cannot explain.
+          A hover or a tap on a chart gives the hour&apos;s demand, the model&apos;s estimate and the difference, in MW.
         </p>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" data-alerts-days="1">
           {days.map((d) => (
             <div key={d.day} id={`d${d.day}`} className="scroll-mt-2 border border-rule bg-panel p-2">
               <p className="mb-1 text-xs"><span className="font-mono">{d.day}</span>: cut <V r={val(d, "reduction_mw")} /> MW</p>
-              <DayChart rows={hours.get(d.day) ?? []} />
+              <DayChart rows={hours.get(d.day) ?? []} day={d.day} />
             </div>
           ))}
         </div>

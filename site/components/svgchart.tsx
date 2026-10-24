@@ -101,8 +101,9 @@ export function DataTable({ label, head, rows, id }: { label: string; head: Reac
   );
 }
 const NotHeld = () => <span className="font-sans text-muted">not held</span>;
-/** The hover card on fog, at a horizontal position inside the chart's box. */
-function Card({ left, width, children }: { left: number; width: number; children: ReactNode }) {
+/** The hover card on fog, at a horizontal position inside the chart's box. Session 1412: exported, for the Flex Alert
+ * scorecard's small charts (app/grid/caiso/alerts/DayChart.tsx), which keep their own drawing and take this card. */
+export function Card({ left, width, children }: { left: number; width: number; children: ReactNode }) {
   return <div className="pointer-events-none absolute top-6 z-10 border border-rule bg-paper px-3 py-2 text-xs" style={{ left: Math.min(Math.max(0, left), Math.max(0, width - 240)) }} data-chart-card="1">{children}</div>;
 }
 

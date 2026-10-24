@@ -36,6 +36,11 @@
 // fixtures/grid_balance.json as the [ts_utc, value] rows the fixture holds (it had read each row as a value, so six
 // grids' demand and generation were NaN): the balance of CAISO and ISO-NE gains its week, the gravity table its shares.
 // A figure whose value is NaN is a figure without a value.
+// Session 1412 (chain 107): the Flex Alert scorecard (/grid/caiso/alerts, its own page file) has a case, its small charts
+// ("Each alert day through the evening", data-alerts-days): a case with `page` is drawn by grid-render-standin.mjs
+// drawAlerts() on session 1411's committed rows of the scorecard's tables, is named by its page, and is not walked by
+// the family check (which draws /grid). Each small chart is the client chart app/grid/caiso/alerts/DayChart.tsx, named
+// by its day (its aria-label) and handed that day's hours.
 // Prints one line a case; exit 0 when every case holds, 1 otherwise.
 const S = await import("./grid-render-standin.mjs");
 const GA = await import("../lib/gridAnchors.ts");
@@ -114,6 +119,12 @@ const CASES = [
   {"name": "view_mix on /grid?grid=ercot&view=mix&mixp=month", "q": "grid=ercot&view=mix&mixp=month", "block": "view_mix", "grid": "an older block", "figures": 25, "kinds": {"fmt|calc": 8, "series_n": 8, "series_sum": 9}, "words": [], "keys": ["fmt|f1|calc|pct|series_sum~", "series_n|"], "anchors": [], "methods": [], "files": [], "held": ["license needed"]},
   {"name": "view_now on /grid?grid=isone&view=mix", "q": "grid=isone&view=mix", "block": "view_now", "grid": "an older block", "figures": 14, "kinds": {"fmt|degday": 1, "net": 3, "series": 3, "series_max": 2, "series_sum": 1, "storage": 4}, "words": [], "keys": ["fmt|f1|degday|hdd|nws:"], "anchors": [], "methods": [], "files": [], "held": ["license needed"]},
 ];
+// session 1412: the cases of a page of its own (drawn by its own draw, named by its page; tests/test_session1404.py reads
+// the /grid cases above, one a line at two spaces)
+const OWN_PAGE_CASES = [
+    {"name": "alerts_days on /grid/caiso/alerts", "page": "/grid/caiso/alerts", "q": "", "block": "alerts_days", "grid": "the Flex Alert scorecard", "figures": 6, "kinds": {"series": 6}, "words": ["2021-07-09: cut 2,159.40 MW", "2024-07-24: cut -2,413.33 MW", "2021-07-09: actual and predicted demand through the evening", "2024-07-24: actual and predicted demand through the evening"], "keys": ["series|flex_alert_effects|eia930:CISO|reduction_mw|"], "anchors": ["d2021-07-09", "d2024-07-24"], "methods": [], "files": [], "held": []},
+];
+const ALL_CASES = [...CASES, ...OWN_PAGE_CASES];
 
 let failures = 0, cases = 0;
 async function check(name, f) {
@@ -131,6 +142,12 @@ const pages = new Map();
 const drawn = async (q) => {
   if (!pages.has(q)) pages.set(q, await S.draw(Object.fromEntries(new URLSearchParams(q))));
   return pages.get(q);
+};
+const drawnCase = async (c) => {   // session 1412: a case of its own page (the scorecard) is drawn by its page's draw
+  if (!c.page) return drawn(c.q);
+  if (c.page !== "/grid/caiso/alerts") throw new Error(`no draw for ${c.page}`);
+  if (!pages.has(c.page)) pages.set(c.page, await S.drawAlerts());
+  return pages.get(c.page);
 };
 const kindOf = (k) => (k.startsWith("fmt|") ? `fmt|${k.split("|")[2]}` : k.split("|")[0]);
 const says = (b, w) => b.text.includes(w) || b.hover.some((x) => x.includes(w));
@@ -169,18 +186,28 @@ function holds(c, b) {
 }
 
 await check("each case is named once, and its name is its block and its page", () => {
-  const names = CASES.map((c) => c.name);
+  const names = ALL_CASES.map((c) => c.name);
   const twice = names.filter((x, i) => names.indexOf(x) !== i);
   if (twice.length) return `named twice: ${twice.join(", ")}`;
-  const off = CASES.filter((c) => c.name !== `${c.block} on /grid?${c.q}`);
+  const off = ALL_CASES.filter((c) => c.name !== `${c.block} on ${c.page ?? `/grid?${c.q}`}`);
   return off.length ? `misnamed: ${off.map((c) => c.name).join(", ")}` : "";
 });
-for (const c of CASES) await check(`${c.name} (${c.grid})`, async () => holds(c, (await drawn(c.q))[c.block]));
+for (const c of ALL_CASES) await check(`${c.name} (${c.grid})`, async () => holds(c, (await drawnCase(c))[c.block]));
+await check("the scorecard's small charts: one a day of the ranked table, each named by its day, its cut keyed above it (1412)", async () => {
+  const r = await drawnCase(OWN_PAGE_CASES.find((c) => c.page === "/grid/caiso/alerts"));
+  const b = r.alerts_days;
+  if (!b) return "the small charts are not drawn";
+  const charts = b.hover.filter((x) => /^\d{4}-\d{2}-\d{2}: actual and predicted demand through the evening$/.test(x));
+  const cut = b.nums.filter((k) => k.includes("|reduction_mw|"));
+  if (charts.length !== b.ids.length || cut.length !== b.ids.length) return `${charts.length} charts, ${cut.length} cuts, ${b.ids.length} days`;
+  const days = b.ids.map((x) => x.slice(1));
+  return charts.every((x, i) => x.startsWith(days[i])) ? "" : `charts ${charts.join(", ")}, days ${days.join(", ")}`;
+});
 await check("every panel family drawn on these pages has a case (grid_<panel>_), and each grid kind has a case", async () => {
   const fam = (b) => (/^grid_[a-z0-9]+_/.exec(b) ?? [""])[0];
   const have = new Set(CASES.map((c) => fam(c.block)).filter(Boolean));
   const miss = new Set();
-  for (const q of new Set(CASES.map((c) => c.q))) for (const b of Object.keys(await drawn(q))) if (fam(b) && !have.has(fam(b))) miss.add(`${fam(b)} (on /grid?${q})`);
+  for (const q of new Set(CASES.filter((c) => !c.page).map((c) => c.q))) for (const b of Object.keys(await drawn(q))) if (fam(b) && !have.has(fam(b))) miss.add(`${fam(b)} (on /grid?${q})`);
   if (miss.size) return `no case: ${[...miss].join(", ")}`;
   const kinds = new Set(CASES.map((c) => c.grid));
   const want = ["an ISO with prices (ERCOT)", "CAISO", "a held grid (ISO-NE)", "the Lower 48"];

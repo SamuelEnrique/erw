@@ -31,7 +31,7 @@ PAGES = {
     "/curtailment": ["app/curtailment/page.tsx", "app/curtailment/Sections.tsx", "app/curtailment/Charts.tsx"],
     "/queues": ["app/queues/page.tsx"],
     "/cost-of-power/battery/awards": ["app/cost-of-power/battery/awards/page.tsx", "app/cost-of-power/battery/awards/Offers.tsx", "app/cost-of-power/battery/awards/RealTime.tsx"],
-    "/grid/caiso/alerts": ["app/grid/caiso/alerts/page.tsx"],
+    "/grid/caiso/alerts": ["app/grid/caiso/alerts/page.tsx", "app/grid/caiso/alerts/DayChart.tsx"],   # session 1412: its small charts' client chart
     "/events": ["app/events/page.tsx", "app/events/EventWindow.tsx", "components/EventStudy.tsx"],
     "/policy": ["app/policy/page.tsx", "app/policy/PolicyTable.tsx", "app/policy/WeekView.tsx"],
 }

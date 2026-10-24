@@ -92,6 +92,7 @@ for (const [st, rs] of Object.entries(yest.temps)) add("weather_obs_hourly", rs.
 const cmp = (a, b) => (a === b ? 0 : a === undefined || a === null ? -1 : b === undefined || b === null ? 1 : a < b ? -1 : 1);
 const val = (r, col) => (col.startsWith("extra->>") ? r.extra?.[col.slice(8)] ?? null : r[col]);
 function test1(r, col, cond) {
+  if (cond.startsWith("not.")) return !test1(r, col, cond.slice(4));   // session 1412: the scorecard's model read (variable=not.like.coef_*), as test-grid-failed-reads.mjs (1411)
   const m = /^(eq|neq|gte|gt|lte|lt|like|in|is)\.(.*)$/s.exec(cond);
   if (!m) throw new Error(`the stand-in does not know the filter ${col}=${cond}`);
   const [, op, raw] = m;
@@ -150,7 +151,8 @@ const ELEMENT = new Set([Symbol.for("react.transitional.element"), Symbol.for("r
 const MEMO = Symbol.for("react.memo");
 const FORWARD = Symbol.for("react.forward_ref");
 export const BLOCKS = [["data-grid-panel", (v) => v], ["data-grid-balance", (v) => `balance_${v}`], ["data-grid-replay-day", (v) => `replay_${v}`],
-  ["data-gravity-day", () => "gravityday"], ["data-grid-held", (v) => `held_${v}`], ["data-grid-view", (v) => `view_${v}`], ["data-mix", (v) => `mixview_${v}`]];
+  ["data-gravity-day", () => "gravityday"], ["data-grid-held", (v) => `held_${v}`], ["data-grid-view", (v) => `view_${v}`], ["data-mix", (v) => `mixview_${v}`],
+  ["data-alerts-days", () => "alerts_days"]];   // session 1412: the Flex Alert scorecard's small charts
 const newBlock = () => ({ nums: [], all: [], text: [], hover: [], heads: [], ids: [], methods: [], files: [], errors: [] });
 const HEAD = new Set(["h1", "h2", "h3", "h4"]);
 const ENTITY = { "&apos;": "'", "&quot;": '"', "&amp;": "&", "&lt;": "<", "&gt;": ">", "&nbsp;": " " };
@@ -218,6 +220,28 @@ export async function draw(sp) {
   try { await walk(page.default({ searchParams: Promise.resolve(sp) }), rec, ["_page"], new WeakSet()); }
   catch (e) { (rec._page ??= newBlock()).errors.push(`the page: ${e?.message ?? e}`); }
   delete globalThis.__erwRequestCache;
+  for (const b of Object.values(rec)) { b.text = words(b.text); b.hover = b.hover.map((x) => words([x])); b.heads = b.heads.map((x) => words(x)).filter(Boolean); }
+  return rec;
+}
+
+// Session 1412 (chain 107): the Flex Alert scorecard (app/grid/caiso/alerts/page.tsx), drawn as /grid is, on session 1411's
+// committed rows of its two tables (fixtures/grid_older_reads.json: flex_alert_effects' yearly rows and seven alert days with
+// their evening hours, flex_alert_model without its coefficients) and CAISO's notices above. The two tables are held only
+// while the scorecard is drawn, so every /grid case draws as it did.
+const olderFx = fx("grid_older_reads.json");
+const SCORECARD = Object.fromEntries(["flex_alert_effects", "flex_alert_model"].map((t) => [t, Object.entries(olderFx.rows[t]).flatMap(([k, rs]) => {
+  const [e, v, unit, freq] = k.split("|");
+  return rs.map(([ts, x]) => ({ ...asSeries(e, v, tsOf(ts), x, unit), freq: freq ?? "" }));
+})]));
+/** Draws /grid/caiso/alerts: { block name: ... } as draw() gives. */
+export async function drawAlerts() {
+  const alertsPage = await import("../app/grid/caiso/alerts/page.tsx");
+  for (const [t, rows] of Object.entries(SCORECARD)) T.set(t, rows);
+  globalThis.__erwRequestCache = new Map();
+  const rec = {};
+  try { await walk(alertsPage.default(), rec, ["_page"], new WeakSet()); }
+  catch (e) { (rec._page ??= newBlock()).errors.push(`the page: ${e?.message ?? e}`); }
+  finally { delete globalThis.__erwRequestCache; for (const t of Object.keys(SCORECARD)) T.delete(t); }
   for (const b of Object.values(rec)) { b.text = words(b.text); b.hover = b.hover.map((x) => words([x])); b.heads = b.heads.map((x) => words(x)).filter(Boolean); }
   return rec;
 }
