@@ -375,6 +375,7 @@ nrc_license_actions,none,,1,event,1977-09-09T00:00:00Z,2026-04-02T00:00:00Z,236,
 nrc_new_reactor_applications,none,,1,event,2025-03-31T00:00:00Z,2026-05-05T00:00:00Z,6,1 outlets,2026-10-23T16:24:42Z,pass,public,power;uranium,no,source
 nrc_power_reactors,nrc,,130,snapshot,2026-10-23T09:52:20Z,2026-10-23T09:53:52Z,130,nrc:power_reactors,2026-10-23T09:55:24Z,pass,public,power;uranium,no,source
 nrc_reactor_status,nrc,,99,P1D,2020-01-01T00:00:00Z,2026-10-22T00:00:00Z,234910,nrc:power_reactor_status,2026-10-22T17:33:58Z,pass,public,power;uranium,no,source
+nrc_rop_findings,none,,1,event,1999-07-29T00:00:00Z,2025-05-12T00:00:00Z,18240,1 outlets,2026-10-24T01:32:46Z,pass,public,power;uranium,no,source
 nrcs_snotel_swe_daily,nrcs,,20,P1D,2015-01-01T00:00:00Z,2026-10-22T00:00:00Z,86241,nrcs:awdb_snotel,2026-10-24T00:20:08Z,pass,internal,power,no,source
 nyiso_as_prices,NYISO,nyiso_dam,6,PT1H,2024-09-01T04:00:00Z,2026-10-05T03:00:00Z,293376,nyiso:damasp,2026-10-04T04:09:15Z,pass,public,power,no,source
 nyiso_dam_cleared_energy,NYISO,nyiso_dam,1,PT1H,2025-09-01T04:00:00Z,2026-10-12T03:00:00Z,9744,nyiso:damenergy,2026-10-10T15:00:04Z,pass,public,power,no,source
