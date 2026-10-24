@@ -29,9 +29,9 @@ stops the run. Nothing is filled. The indices and percentage changes (tables 1, 
 
 Ceiling: two requests, reused from warehouse/raw/statsbots_botswana/ with --offline. www.statsbots.org.bw's robots file
 asks a crawl delay of 10 seconds, kept between the two requests, disallows Drupal's system paths and /search/, and names
-no AI agent (session 2421). License: its terms of use (read in session 2421): "users may utilise the information as they
-wish, provided that they acknowledge Statistics Botswana as the source of the basic data", and specify that the analysis
-is their own; internal until the licenses' round writes the verdict.
+no AI agent (session 2421). License: public with acknowledgement, from its terms of use (read in session 2421; verdict in session 2425): "users may
+utilise the information as they wish, provided that they acknowledge Statistics Botswana as the source of the basic
+data", and specify that the analysis is their own.
 """
 
 import argparse
@@ -238,13 +238,13 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Statistics Botswana, Electricity Generation and Distribution Stats Brief (tables 2, 3, 7, 10 and 11), linked from {HOME}",
             f"  access: {url}",
-            "License: internal until the licenses' round writes the verdict. Statistics Botswana's terms of use: users \"may utilise the information as they wish, provided that they acknowledge Statistics Botswana as the source of the basic data\"; this table is the ERW's own processing of it. Cite: Statistics Botswana, Electricity Generation and Distribution Stats Brief.",
+            "License: public with acknowledgement (session 2425's verdict). Statistics Botswana's terms of use: users \"may utilise the information as they wish, provided that they acknowledge Statistics Botswana as the source of the basic data\"; this table is the ERW's own processing of it. Cite: Statistics Botswana, Electricity Generation and Distribution Stats Brief.",
         ]
         ip.write_csv(t, NAME, header, log, cols=COLS)
         if not args.out_dir:
             ip.update_sources([dict(source=SOURCE, publisher="Statistics Botswana",
                                     report="Electricity Generation and Distribution Stats Brief (tables 2, 3, 7, 10 and 11)",
-                                    report_url=HOME, document_list=url, license="internal", tables=[NAME])])
+                                    report_url=HOME, document_list=url, license="public", tables=[NAME])])
         results.append(dict(table=NAME, market="all", status="ok", detail=f"{len(t)} rows"))
         print(f"{NAME}: {len(t)} rows; distribution months not taken: {[(y, m) for y, m, *_ in left]}")
     except Exception:
