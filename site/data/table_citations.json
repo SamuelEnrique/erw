@@ -415,6 +415,7 @@
  "scb_sweden_electricity_monthly": "Statistics Sweden (SCB). Table TAB1011: Electricity supply in Sweden by type of production, monthly.",
  "scripps_co2_mlo_monthly": "Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego). Primary Mauna Loa CO2 Record: monthly in situ CO2.",
  "shoulder_hours_monthly": "Energy Research Warehouse (ERW), derived. The shoulder hours by grid and month (docs/methods/shoulder_hours.md).",
+ "singstat_singapore_electricity": "Singapore Department of Statistics (SingStat). Table Builder M890831 and M890841: electricity generation, monthly; generation and consumption, annual.",
  "smard_germany_monthly": "Bundesnetzagentur (SMARD). SMARD market data: actual generation and grid load.",
  "sne_panama_electricity_annual": "Secretaria Nacional de Energia, Panama. Generacion Historica Electrica (Serie 1970-2021), cuadros GE-8 (gross generation by plant type), GE-10 (monthly gross generation) and GE-14 (net production, maximum demand, load factor).",
  "sne_panama_generation_monthly": "Secretaria Nacional de Energia, Panama. Generacion Historica Electrica (Serie 1970-2021), cuadros GE-8 (gross generation by plant type), GE-10 (monthly gross generation) and GE-14 (net production, maximum demand, load factor).",
