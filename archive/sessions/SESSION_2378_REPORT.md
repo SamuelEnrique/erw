@@ -12,7 +12,8 @@
 - **One public table:** `statcan_petroleum_products_monthly`, from Statistics Canada's table 25-10-0081-01, "Petroleum products by supply and disposition, monthly". It is written, validated, archived, in coverage (sector oil and products), and held from the live set and the release. 112,385 rows, 406 series, January 2019 to July 2026:
   - for Canada and each province and territory;
   - for 31 products, from natural gas liquids and their parts to gasoline, jet fuel, distillate, residual fuel, petroleum coke and asphalt;
-  - eleven supply and disposition items: field, renewable and refinery production, imports, inter-regional receipts, adjustments, stock change, refinery inputs, exports, products supplied, ending stocks.
+  - ten supply and disposition items: field, renewable and refinery production, imports, adjustments, stock change, refinery inputs, exports, products supplied, ending stocks. StatCan's metadata lists inter-regional receipts too, but its file holds none (session 2380 corrected "eleven").
+  - Products supplied and adjustments are Canada's only; renewable production, field production and ending stocks are given for 2, 4 and 9 areas.
   - In m3, as StatCan publishes them (Decision 70's unit).
   - Each product carries its parent, and a product with parts is marked `x_total`.
   - 25,400 cells StatCan suppresses for confidentiality ("x") and 626 not available ("..") have no row.
@@ -32,7 +33,7 @@
 
 | Host | Requests | What |
 |---|---|---|
-| www150.statcan.gc.ca | 2 of 20 | robots, the table's zip (1.65 MB); 3 s apart |
+| www150.statcan.gc.ca | 2 of 20 | robots, the table's zip (1.65 MB); 10 s apart (the probe log; this line first said 3) |
 | api.eia.gov | 7 | four routes' metadata, a sample, two route lists |
 
 ## Errors

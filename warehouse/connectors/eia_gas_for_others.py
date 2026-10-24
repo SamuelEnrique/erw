@@ -17,12 +17,14 @@ of Others", Natural Gas Annual):
     ts_utc    the year's 1 January at 00:00:00Z; freq P1Y; geo US or US-<state> (EIA's NUS and S<state>); node EIA's
               series description
 
-The shares are EIA's own, not computed here. EIA gives no record where a state has no such deliveries (in 2024 the
-residential volume for 36 areas and the residential share for 33 of the 51 areas EIA lists); nothing is filled. A
+The shares are EIA's own, not computed here; the residential share is in whole percents (the others to 0.1), so a
+small residential volume can sit beside a share of 0. Where a state has no such deliveries EIA gives a 0 (kept), a record
+with no value or no record at all (no row); nothing is filled. EIA's areas are the U.S., 49 states and DC: Hawaii has no
+record in any process, DC no industrial series and Vermont no commercial series (session 2380's note). A
 process, unit or area not in the map stops the run; so does a key given twice. Each row carries the time EIA served
 its page (a reused page's first download).
 
-    python warehouse/connectors/eia_gas_for_others.py [--from 1982] [--offline | --fresh]
+    python warehouse/connectors/eia_gas_for_others.py [--from 1982] [--offline | --fresh] [--out-dir DIR]
 
 Ceiling: 10 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused
 unless --fresh; --offline asks nothing). License: public (EIA, record 1 of license_reads.csv; cite "U.S. Energy
@@ -163,7 +165,8 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): EIA, natural gas delivered for the account of others (customer choice and transportation gas), by state and sector, a year (session 2377)",
             "Shape: series (docs/datastandard.md v0). entity eia_gas_for_others:<series>; variable residential_for_others, commercial_for_others, industrial_for_others (MMcf) or residential_share, commercial_share, industrial_share "
             "(ratio, EIA's percent divided by 100); ts_utc the year's 1 January; freq P1Y; geo US or US-<state>; node EIA's series description. The states are parts of the U.S.: a sum takes one level.",
-            f"EIA gives no record where a state has no such deliveries; nothing is filled. Years {span}; {total:,} records of EIA's, {len(s):,} rows.",
+            f"EIA gives a 0 (kept), a record without a value or no record (no row) where a state has none; nothing is filled. Hawaii has no record, DC no industrial and Vermont no commercial series. "
+            f"The residential share is in whole percents. Years {span}; {total:,} records of EIA's, {len(s):,} rows.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_gas_for_others.py; {asked[0]} requests of {CEILING}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

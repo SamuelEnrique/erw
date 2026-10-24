@@ -17,6 +17,18 @@ Energy Research Warehouse (ERW) connector. One series table from the table's ful
                territories; node the area, fuel and line as StatCan names them; x_fuel and x_line StatCan's names;
                x_vector; x_terminated t where StatCan has ended the series
 
+Signs (session 2380's note): exports, stock variation (positive for a build) and the transformation lines are
+positive and subtracted, except steam's own "transformed to steam generation", which is its output and negative;
+inter-regional and inter-product transfers and other adjustments are signed and added (Canada's inter-regional line is
+not zero in every year). The statistical difference is net supply less producer consumption, non-energy use and final
+demand; final demand is the six sectors without it, though StatCan's metadata lists it under final demand. Electricity's
+demand lines sit under "Primary electricity, hydro and nuclear" and cover all electricity; "Secondary electricity,
+thermal" has production, availability and net supply only. Primary electricity's statistical difference includes the
+secondary net supply from 2010, leaves it out in 2005 to 2009 (about -100 TWh for Canada each year, not a measured
+imbalance) and has no value before 2005. By the figures, primary electricity's production holds wind, solar and tidal
+too: from 2016 to 2024 it exceeds statcan_electricity_generation_monthly's hydraulic and nuclear turbines by those
+sources' generation within 4 TWh a year; StatCan does not say so. Anthracite has no value in any line.
+
 StatCan's fuels and lines overlap: totals (total primary and secondary energy, primary energy, total coal, total refined
 petroleum products; net supply, energy use final demand, total industrial, total transportation and the like) hold
 their parts, and a sum takes one level. A figure StatCan marks ".." (not available), "x" (suppressed to meet the
@@ -133,7 +145,9 @@ def main(argv=None):
             f"{s.ts_utc.min()[:4]} to {s.ts_utc.max()[:4]} (session 2383)",
             "Shape: series (docs/datastandard.md v0). entity statcan_eb:<area>:<fuel>; variable the supply and demand line as a slug; unit MWh (StatCan's terajoules times 1,000,000/3,600); freq P1Y; "
             "ts_utc the year's 1 January; geo CA, CA-<province>, or blank for the Atlantic provinces (atl) and the three territories together (ter); x_fuel, x_line StatCan's names; x_vector; x_terminated t for an ended series. "
-            "Fuels and lines overlap (totals hold their parts): a sum takes one level.",
+            "Fuels and lines overlap (totals hold their parts): a sum takes one level. Exports, stock variation (positive for a build) and transformation are subtracted; transfers and adjustments are signed and added; "
+            "the statistical difference is not part of final demand. Electricity's demand lines, under primary electricity, cover all electricity; its statistical difference leaves out secondary net supply in 2005 to 2009. "
+            "Primary electricity's production appears to hold wind, solar and tidal too (StatCan does not say).",
             f"Figures StatCan marks .. (not available), x (suppressed for confidentiality) or F (too unreliable) have no row: "
             f"{', '.join(f'{k} {v:,}' for k, v in sorted(counts.items())) or 'none'}. Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/statcan_energy_balance.py; the file retrieved {base['retrieved_at']}",

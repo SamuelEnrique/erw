@@ -8,7 +8,7 @@
   - `natural-gas/prod/shalegas` ends in 2021, so it was left.
   - `natural-gas/cons/acct` runs from 1982 to 2024, so it was taken.
 - **One public table:** `eia_gas_for_others_annual`. It is written, validated, archived, in coverage (sector gas), and held from the live set and the release. 9,245 rows, 269 series, 1982 to 2024:
-  - for the U.S., the 50 states and DC, the natural gas delivered to residential, commercial and industrial consumers for the account of others (MMcf);
+  - for the U.S., 49 states and DC (Hawaii has no record; DC has no industrial and Vermont no commercial series; session 2380 corrected "the 50 states"), the natural gas delivered to residential, commercial and industrial consumers for the account of others (MMcf);
   - EIA's share of each sector's deliveries made that way (ratio, EIA's percent divided by 100, as `eia_refinery_utilization_monthly` writes a percent).
 - **Why this one:** it measures how far each state's gas customers buy their gas from marketers rather than their utility (customer choice and transportation). The ERW holds the deliveries but not this split.
 - **License:** EIA's verdict is on record (public).

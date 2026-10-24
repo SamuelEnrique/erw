@@ -17,6 +17,12 @@ Energy Research Warehouse (ERW) connector. One series table from the table's ful
                hydrocarbon gas liquids, other liquids, finished petroleum products); x_total yes where the product has
                parts in the table (never summed with them); x_vector StatCan's vector id; x_revised r where revised
 
+StatCan's metadata lists "Net inter-regional receipts, supply", but its file holds no such line in October 2026, so
+the table has none. Stock change is positive for a build (StatCan's note 14, whose first sentence reads the other way;
+the data follow the second, and products supplied subtracts it). Refinery and blender production and inputs are net
+figures and can be negative (note 13). Products supplied and adjustments are Canada's only; renewable production, field
+production and ending stocks are given for a few areas (session 2380's note).
+
 A figure StatCan marks ".." (not available), "x" (suppressed to meet the Statistics Act's confidentiality) or "F" (too
 unreliable to be published) has no row, and the header counts each. A unit other than cubic metres, a scalar factor
 other than units, an area, item or product not in the maps, a month that does not read or a key given twice stops the
@@ -148,7 +154,8 @@ def main(argv=None):
             f"{s.ts_utc.min()[:7]} to {s.ts_utc.max()[:7]} (session 2378)",
             "Shape: series (docs/datastandard.md v0). entity statcan_pp:<area>:<product>; variable the supply or disposition item (field_production, renewable_production, refinery_production, imports, "
             "net_interregional_receipts, adjustments, stock_change, refinery_inputs, exports, products_supplied, ending_stocks); unit m3; freq P1M; ts_utc the month's first day; geo CA or CA-<province>; "
-            "x_product; x_parent the product it is part of; x_total yes for a product with parts (never summed with them); x_vector; x_revised r where revised.",
+            "x_product; x_parent the product it is part of; x_total yes for a product with parts (never summed with them); x_vector; x_revised r where revised. "
+            "Stock change is positive for a build; refinery production and inputs are net and can be negative; products supplied and adjustments are Canada's only; StatCan lists net inter-regional receipts but publishes none.",
             f"Figures StatCan marks .. (not available), x (suppressed for confidentiality) or F (too unreliable) have no row: "
             f"{', '.join(f'{k} {v:,}' for k, v in sorted(counts.items())) or 'none'}. Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/statcan_petroleum_products.py; the file retrieved {base['retrieved_at']}",
