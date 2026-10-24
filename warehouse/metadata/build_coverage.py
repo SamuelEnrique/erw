@@ -326,6 +326,7 @@ SECTOR_RULES = [
     (r"^erb_zambia_electricity_annual$", "power"),  # session 2420: ERB's Statistical Bulletin 2025, Zambia's generation by station, consumption, trade and capacity
     (r"^statsbots_botswana_electricity_monthly$", "power"),  # session 2421: Statistics Botswana's electricity stats brief, generation, imports and distribution a month
     (r"^nsc_kyrgyzstan_electricity_annual$", "power"),  # session 2462: NSC Kyrgyzstan's generation by kind of station and electricity balance, a year
+    (r"^anare_cotedivoire_electricity_annual$", "power"),  # session 2463: ANARE-CI's open data, Cote d'Ivoire's generation by kind, consumption by voltage and peak
     (r"^erc_mongolia_electricity_annual$", "power"),  # session 2422: ERC Mongolia's Statistics on Energy Performance 2020, generation, imports, capacity and sales by grid
     (r"^esco_georgia_electricity_monthly$", "power"),  # session 2423: ESCO's actual electricity balance of Georgia a month (in place of Cambodia)
     (r"^energycom_ghana_electricity_annual$", "power"),  # session 2373: Ghana's Energy Commission bulletin, generation by source, imports and exports, peak load, a year (internal)

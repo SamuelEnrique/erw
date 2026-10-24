@@ -454,6 +454,7 @@ catalogue_hold:
   - erb_zambia_electricity_annual
   - statsbots_botswana_electricity_monthly
   - nsc_kyrgyzstan_electricity_annual
+  - anare_cotedivoire_electricity_annual
   - erc_mongolia_electricity_annual
   - esco_georgia_electricity_monthly
   - energycom_ghana_electricity_annual
