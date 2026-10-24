@@ -420,6 +420,7 @@ rrc_lease_production_monthly,none,,4828,P1M,2024-08-01T00:00:00Z,2026-07-01T00:0
 scarcity_hours_by_grid,scarcity,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm,2,PT1H,2023-10-01T06:00:00Z,2026-10-01T07:00:00Z,178886,erw:scarcity_hours_by_grid,2026-10-13T18:59:37Z,pass,public,power,yes,derived
 scripps_co2_mlo_monthly,scripps,,1,P1M,1958-03-01T00:00:00Z,2026-09-01T00:00:00Z,1636,scripps:co2_mlo_monthly,2026-10-23T23:42:11Z,pass,public,carbon,no,source
 shoulder_hours_monthly,CAISO;ERCOT,,3,P1D;P1M;P1Y,2019-01-01T00:00:00Z,2026-10-06T00:00:00Z,27197,erw:shoulder_hours,2026-10-19T11:43:46Z,pass,public,power,yes,derived
+smard_germany_monthly,smard,,13,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,1800,smard:market_data_month,2026-10-24T02:46:34Z,pass,public,power,no,source
 spp_as_prices,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,159432,spp:DA-MCP,2026-10-04T04:09:48Z,pass,public,power,no,source
 spp_as_quantities,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-05T04:00:00Z,159768,spp:DA-MC,2026-10-04T11:34:34Z,pass,public,power,no,source
 spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-10-22T00:00:00Z,38432,spp:ver_curtailments,2026-10-23T14:45:31Z,pass,public,power,no,source
