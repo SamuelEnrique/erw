@@ -621,6 +621,30 @@ Decisions (session 1171):
 - **Counted apart**: a revised line counts among the values read, not among those that match, as the latest prices'
   "superseded" lines do; check-methods (`keysFromValues`) reads a revised line's key as it reads ok and FAIL lines.
 
+## The 3D scene's code, loaded when it is drawn (sessions 428 and 1175)
+
+The Network shape's 3D scene is drawn by 3d-force-graph on three.js, the largest code the Grid page can load (about
+841 KB as session 428 measured its chunk). It is fetched by two `import()` calls in the network component's own effect
+(`site/app/network/Network.tsx`), which returns before them unless the shape shown is the network (session 180), the
+browser draws WebGL, and the frame is on screen or within 200 px of it (session 428). So the Mix tab, where `/grid`
+opens, never fetches it; the Gravity tab and the Map shape never fetch it; the Network tab fetches it on a phone only as
+the reader scrolls to the frame. No other module of the page imports either library or a package built on them:
+`site/scripts/test-network-split.mjs` walks the page's import graph with the site's own TypeScript parser and fails on
+any static import of them.
+
+Session 1175 (24 October 2026): while the chunk is on its way, the frame (the same box, `min(72vh, 620px)` high and at
+least 420 px) says "Loading the 3D network." over its middle. The line is the box's sibling, not its child, because the
+library empties the box when it draws; it goes once the scene is built, and comes back if the reader leaves the shape
+and returns. What the scene draws, its fixed positions, its hint line and the "This browser cannot draw 3D" fallback
+are as they were.
+
+Decisions (session 1175):
+
+- **The libraries were already split; the scene's own code stays in the component.** Moving the scene into a module of
+  its own would take a few kilobytes off the component, against the older tests that pin the scene's code where it is
+  (sessions 93, 237, 241c, 428); the libraries, the weight, were split in session 428.
+- **A line, not a drawing, while it loads**: no fake sphere or grey shape stands in for the network.
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").

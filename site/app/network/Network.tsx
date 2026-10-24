@@ -158,6 +158,8 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   const [pick, setPick] = useState<NetNode | null>(null);
   const [batteriesOn, setBatteriesOn] = useState(false);
   const [noGl, setNoGl] = useState(false);
+  // session 1175: the scene is built (its chunk fetched and the network drawn); until then the frame says it is loading
+  const [sceneReady, setSceneReady] = useState(false);
   const [loading, setLoading] = useState<string | null>(null);
   const [failed, setFailed] = useState<string | null>(null);
   const stories = useRef<Record<string, Story>>({});
@@ -273,6 +275,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       ctl.addEventListener("start", () => { ctl.autoRotate = false; }); // stops when touched
       g.cameraPosition({ x: 0, y: 0, z: 700 });
       graph.current = g;
+      setSceneReady(true);
       // session 93 (v3 only): the browser check counts the rings in the scene itself, through the frame's element
       if (v3) (el as unknown as { __erwGraph?: unknown }).__erwGraph = g;
       // session 68: the network fills its frame when the page opens
@@ -288,7 +291,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
     }
     const onResize = () => { if (graph.current && el) graph.current.width(el.clientWidth).height(el.clientHeight); };
     window.addEventListener("resize", onResize);
-    return () => { alive = false; seen?.disconnect(); window.removeEventListener("resize", onResize); graph.current?._destructor?.(); graph.current = null; };
+    return () => { alive = false; seen?.disconnect(); window.removeEventListener("resize", onResize); graph.current?._destructor?.(); graph.current = null; setSceneReady(false); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shape]);
 
@@ -569,8 +572,17 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
             <Link href="/grid">grid conditions</Link>, hold the same numbers.
           </p>
         ) : (
-          <div ref={box} className="w-full min-w-0 cursor-grab overflow-hidden border border-rule" style={{ height: "min(72vh, 620px)", minHeight: 420 }}
-            aria-label="A 3D network of the US balancing authorities and their interchange; drag to rotate, scroll to zoom, click a grid for its panel" role="img" />
+          // session 1175: the frame is the same box as before; the library empties the box when it draws, so the
+          // loading line is its sibling over it, not its child, and goes once the scene is built
+          <div className="relative min-w-0" data-scene={sceneReady ? "ready" : "loading"}>
+            <div ref={box} className="w-full min-w-0 cursor-grab overflow-hidden border border-rule" style={{ height: "min(72vh, 620px)", minHeight: 420 }}
+              aria-label="A 3D network of the US balancing authorities and their interchange; drag to rotate, scroll to zoom, click a grid for its panel" role="img" />
+            {sceneReady ? null : (
+              <p className="pointer-events-none absolute inset-0 flex items-center justify-center p-4 text-center text-sm text-muted" data-scene-wait="1">
+                Loading the 3D network.
+              </p>
+            )}
+          </div>
         )}
         {pick ? (
           <aside className="border border-rule bg-panel p-3 text-sm" aria-label={`${pick.name}, the ${unit} shown`} data-panel={pick.id}>
