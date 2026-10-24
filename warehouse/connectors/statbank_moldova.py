@@ -28,8 +28,10 @@ stops the run.
     python warehouse/connectors/statbank_moldova.py [--offline] [--out-dir DIR]
 
 Ceiling: two requests (the metadata and the query), saved together in warehouse/raw/statbank_moldova/ and reused offline.
-statbank.statistica.md has no robots file (HTTP 404, session 2358). License: internal until the licenses' round reads the
-National Bureau of Statistics' terms.
+statbank.statistica.md has no robots file (HTTP 404, session 2358). License: public. The bureau's terms of use of data
+(session 2362): reuse "will be made under the license Creative Commons Attribution 4.0 International License", commercial
+use included; the source named ("Source: National Bureau of Statistics of the Republic of Moldova") with a link to the
+material, and any change indicated.
 """
 
 import argparse
@@ -161,7 +163,9 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/{SAVED} (the metadata and the answer; not in git)",
             f"Source: {SOURCE} National Bureau of Statistics of the Republic of Moldova, StatBank, Energy resources, monthly series, {PAGE}",
             f"  access: {TABLE_URL} (the metadata by GET and one JSON-stat query by POST)",
-            "License: internal until the licenses' round reads the National Bureau of Statistics' terms. Source: National Bureau of Statistics of the Republic of Moldova.",
+            "License: public, CC BY 4.0 (the bureau's terms of use of data, https://statistica.gov.md/en/terms-of-use-of-data-national-bureau-of-statistics-139_4417.html, "
+            "session 2362). Source: National Bureau of Statistics of the Republic of Moldova, StatBank table ENE010100; reshaped by the ERW (renamed, "
+            "the values unchanged).",
         ]
         ip.write_snapshot(t, NAME, head, log, cols)
         results.append(dict(table=NAME, market="all", status="ok", detail=f"{len(t)} rows"))
@@ -175,7 +179,7 @@ def main(argv=None):
         if results and results[0]["status"] == "ok":
             ip.update_sources([dict(source=SOURCE, publisher="National Bureau of Statistics of the Republic of Moldova (StatBank)",
                                     report="StatBank table ENE010100: Stocks, inputs and electricity consumption, monthly",
-                                    report_url=PAGE, document_list=TABLE_URL, license="internal", tables=[NAME])])
+                                    report_url=PAGE, document_list=TABLE_URL, license="public", tables=[NAME])])
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
     return 0 if all(r["status"] == "ok" for r in results) else 1

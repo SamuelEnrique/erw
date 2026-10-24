@@ -16,7 +16,7 @@ The trial and the write ran offline.
 
 - **Bangladesh is closed to the reader.** The Power Grid Company of Bangladesh (both hosts) and the Bangladesh Power Development Board answer with certificates that fail verification, and the ERW does not work around that (as for the Corps of Engineers' host, session 2255). The file's rule replaces a closed source with another public one.
 - **In Bangladesh's place: Moldova, from the National Bureau of Statistics' StatBank** (not held; no chain planned it).
-  - **Table:** `statbank_moldova_electricity_monthly`, 980 figures, January 2015 to August 2026, internal until the licenses' round reads the bureau's terms.
+  - **Table:** `statbank_moldova_electricity_monthly`, 980 figures, January 2015 to August 2026, internal until the licenses' round reads the bureau's terms (public since session 2362: the bureau's terms are CC BY 4.0).
   - **Variables (7):** production, imports, electricity acquired from other sources, stock change, exports, gross inland consumption, and the residential sector's share.
   - **Access:** one query by POST after the metadata's GET, as session 2357 reads MakStat.
 - **The unit was found from the data.** The API states none; the figures are thousand kWh, which is MWh:
