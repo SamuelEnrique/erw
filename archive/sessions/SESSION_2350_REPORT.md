@@ -41,6 +41,8 @@ The trial and the write ran offline.
 ## Errors
 
 - **The write's metadata patch carried main's newer rows** (chain 104's landing, in the main checkout) and did not apply. The table's own rows were put in by `runs/c102/add_own_rows.py` and checked: one row in each of the four files.
+- **This session's first commit overwrote the code machine's `SESSION_2300_REPORT.md`,** which arrived with the merge of main in session 2299. The number had been taken after file 105 was written. The file was restored unchanged and this report moved to 2350.
+- **The table was written again offline at 06:43 UTC** (`runs/s2350_*`) so that its header names session 2350. The rows are the same (the archive found none changed); its metadata rows were replaced by key from a patch filtered to the table's own lines.
 
 ## Decisions made without you
 
