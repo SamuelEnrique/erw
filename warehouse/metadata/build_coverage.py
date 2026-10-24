@@ -294,6 +294,7 @@ SECTOR_RULES = [
     (r"^censtatd_hk_electricity$", "power"),  # session 2323: C&SD's Hong Kong Energy Statistics, electricity consumption by user a month, generation and trade a quarter
     (r"^aneel_siga_plants$", "power"),  # session 2324: ANEEL's SIGA, Brazil's generation plants (central generation; operating, under construction, planned)
     (r"^epra_kenya_electricity_annual$", "power"),  # session 2325: EPRA's statistics reports, Kenya's capacity by technology and consumption by customer category, a fiscal year
+    (r"^statcan_electricity_trade_monthly$", "power"),  # session 2328: Statistics Canada 25-10-0016-01, electricity receipts, deliveries and availability by province, a month (the U.S. trade among them)
     (r"^eia_lng_storage_annual$", "gas;lng"),  # session 2292: EIA's LNG peak-shaving storage additions and withdrawals by state
     (r"^eia_gas_plant_processing_annual$", "gas;products"),  # session 2287: EIA's gas plant processing (gas processed, liquids extracted), a year
     (r"^eia_crude_tank_farm_stocks_monthly$", "oil"),  # session 2286: EIA's crude stocks at tank farms and pipelines, Cushing among them

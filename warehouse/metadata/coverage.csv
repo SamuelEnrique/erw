@@ -460,6 +460,7 @@ spp_dam_cleared_energy,SPP,spp_dam,1,PT1H,2025-09-01T05:00:00Z,2026-10-11T04:00:
 spp_interconnection_queue,SPP,,3078,snapshot,2026-10-19T16:08:11Z,2026-10-19T20:31:58Z,3078,spp:interconnection_queue,2026-10-19T20:31:01Z,pass,public,power,no,source
 ssb_norway_electricity_monthly,ssb,,26,P1M,1993-01-01T00:00:00Z,2026-09-01T00:00:00Z,5550,ssb:14091,2026-10-24T02:39:26Z,pass,public,power,no,source
 statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source
+statcan_electricity_trade_monthly,statcan,,170,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,25215,statcan:25-10-0016-01,2026-10-24T07:24:00Z,pass,public,power,no,source
 statcan_oil_gas_supply_monthly,statcan,,383,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,56007,statcan:25-10-0063-01;statcan:25-10-0086-01,2026-10-24T02:33:08Z,pass,public,oil;gas,no,source
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,108125,erw:generation_mix,2026-10-23T14:45:09Z,pass,public,power,yes,derived
 statee_estonia_electricity_monthly,statee,,6,P1M,2005-01-01T00:00:00Z,2026-08-01T00:00:00Z,1344,statee:KE21,2026-10-24T05:05:10Z,pass,public,power,no,source
