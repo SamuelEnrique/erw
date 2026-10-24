@@ -154,6 +154,7 @@ eia_gas_heat_content_monthly,EIA,the source registry
 eia_gas_interstate_annual,EIA,the source registry
 eia_gas_other_uses_state_annual,EIA,the source registry
 eia_gas_pipeline_projects,EIA,the source registry
+eia_gas_plant_processing_annual,EIA,the source registry
 eia_gas_prices_state_monthly,EIA,the source registry
 eia_gas_production_state_monthly,EIA,the source registry
 eia_gas_reserves_annual,EIA,the source registry

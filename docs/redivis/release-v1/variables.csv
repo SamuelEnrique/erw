@@ -3316,6 +3316,9 @@ eia_gas_pipeline_projects,x_website,column,
 eia_gas_pipeline_projects,x_last_updated,column,
 eia_gas_pipeline_projects,x_sheet,column,
 eia_gas_pipeline_projects,x_date_basis,column,
+eia_gas_plant_processing_annual,extraction_loss,series variable,MMcf
+eia_gas_plant_processing_annual,gas_processed,series variable,MMcf
+eia_gas_plant_processing_annual,liquids_extracted,series variable,kbbl
 eia_gas_prices_state_monthly,price_citygate,series variable,USD/Mcf
 eia_gas_prices_state_monthly,price_commercial,series variable,USD/Mcf
 eia_gas_prices_state_monthly,price_electric_power,series variable,USD/Mcf
