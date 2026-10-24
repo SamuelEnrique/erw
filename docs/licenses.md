@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **544 tables.** The flag and the verdict agree on 438; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 61 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 407 public, 87 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **886 publishers in the record: 884 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 203 pages read, 681 that could not be read, 2 not asked (paused).**
+- **895 publishers in the record: 893 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 206 pages read, 687 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -909,6 +909,15 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 884 | Statistical Service of Cyprus (CYSTAT), CYSTAT-DB's energy tables (session 2505) | https://cystatdb.cystat.gov.cy/api/v1/en/8.CYSTAT-DB/Energy/ | 17:43:07 | 200 | 888 | read: petroleum products only |
 | 885 | Statistical Service of Cyprus (CYSTAT), CYSTAT-DB's industry tables (session 2505) | https://cystatdb.cystat.gov.cy/api/v1/en/8.CYSTAT-DB/Industry/ | 17:43:14 | 200 | 339 | read: indices only |
 | 886 | Tonga Statistics Department, tongastats.gov.to's robots file (session 2505) | https://tongastats.gov.to/robots.txt | 17:43:26 | 200 | 103 | read: /wp-admin/ closed; SemrushBot closed; names no AI agent |
+| 887 | Guyana Energy Agency (GEA), gea.gov.gy's robots file (session 2506) | https://gea.gov.gy/robots.txt | 17:44:18 | 200 | 111 | read: /wp-admin/ closed; names no AI agent |
+| 888 | Guyana Power and Light Inc. (GPL), gplinc.com's robots file (session 2506) | https://gplinc.com/robots.txt | 17:44:18 | 200 | 119 | read: /pl/wp-admin/ closed; names no AI agent |
+| 889 | Bureau of Statistics, Guyana, statisticsguyana.gov.gy's robots file (session 2506) | https://statisticsguyana.gov.gy/robots.txt | 17:44:18 | 200 | 2857 | read: disallows ClaudeBot, anthropic-ai and Claude-Web by name, and every path to them; not asked again |
+| 890 | Guyana Energy Agency (GEA), the site's search for statistics (session 2506) | https://gea.gov.gy/wp-json/wp/v2/search?search=statistics&per_page=50 | 17:44:29 | 401 | 108 | HTTP 401: the site's search answers only to a login |
+| 891 | Guyana Energy Agency (GEA), the sitemap index (session 2506) | https://gea.gov.gy/wp-sitemap.xml | 17:44:44 | 200 | 1439 | read |
+| 892 | Guyana Energy Agency (GEA), the pages' sitemap (session 2506) | https://gea.gov.gy/wp-sitemap-posts-page-1.xml | 17:44:50 | 200 | 4535 | read |
+| 893 | Guyana Energy Agency (GEA), the downloads page (session 2506) | https://gea.gov.gy/resources/downloads/ | 17:44:57 | 200 | 100730 | read: the statistics workbooks end in 2014 |
+| 894 | Guyana Power and Light Inc. (GPL), the sitemap (session 2506) | https://gplinc.com/sitemap.xml | 17:45:05 | 200 | 221664 | read |
+| 895 | Guyana Power and Light Inc. (GPL), the publications page (session 2506) | https://gplinc.com/about-us/publications/ | 17:45:20 | 200 | 76854 | read: annual reports 2009 to 2012 only |
 
 ## The publishers: the sentence and the verdict
 
