@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Daily interchange between every pair of balancing authorities, EIA-930, 2019 to today (session 62, approved pull,
+"""Daily interchange between every pair EIA-930 reports (balancing authorities, and neighbours in Canada and Mexico that
+do not report themselves; session 2284), 2019 to today (session 62, approved pull,
 ceiling 3 million rows).
 
 Energy Research Warehouse (ERW) connector. Writes one series table, history (not in the Supabase live set):
@@ -114,7 +115,7 @@ def rows_of(x):
 
 def header_of(rows_line, retrieved_line, run_id):
     return [
-        "Energy Research Warehouse (ERW): daily interchange between every pair of balancing authorities, EIA-930, from 2019 (session 62)",
+        "Energy Research Warehouse (ERW): daily interchange between every pair EIA-930 reports (balancing authorities and their Canadian and Mexican neighbours), from 2019 (session 62)",
         "Shape: series (docs/datastandard.md v0), partition column ba (the reporting BA, EIA's fromba); entity eia930:<FROM>-<TO>; "
         "interchange_mwh, MWh over the day, positive when the reporting BA exports to the neighbour (x_to_ba); ts_utc the day at "
         f"00:00:00Z (Decision 11); EIA's {TZ} day for every pair (x_timezone). Nothing filled: a pair-day EIA does not report is absent.",
