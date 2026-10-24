@@ -1,6 +1,6 @@
 # Session 2526 report: the siting review read again (no row can close)
 
-24 October 2026, about 19:27 UTC, on lab-desktop (the data machine), chain 123, unattended. Precheck passed (`runs/c123/pre2526.out`). Model spend USD 0. Pulls: none of 10.
+24 October 2026, about 19:24 UTC, on lab-desktop (the data machine), chain 123, unattended. Precheck passed (`runs/c123/pre2526.out`). Model spend USD 0. Pulls: none of 10.
 
 ## Read these first
 

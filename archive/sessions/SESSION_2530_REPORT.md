@@ -1,6 +1,6 @@
 # Session 2530 report: a third own choice, none taken (Montenegro's electricity balance not served as a table)
 
-24 October 2026, about 19:30 to 19:34 UTC, on lab-desktop (the data machine), chain 123, unattended. Precheck passed (`runs/c123/pre2530.out`). Model spend USD 0. Pulls: 3 requests of 20.
+24 October 2026, about 19:26 to 19:29 UTC, on lab-desktop (the data machine), chain 123, unattended. Precheck passed (`runs/c123/pre2530.out`). Model spend USD 0. Pulls: 3 requests of 20.
 
 ## Read these first
 
