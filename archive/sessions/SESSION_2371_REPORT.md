@@ -10,11 +10,11 @@
   - It carries 112's rules and chain 110's closed hosts.
 - **PUCSL's dispatch dashboard was left.**
   - www.pucsl.gov.lk's robots file allows the reader (read 584). Its data portal links the dashboard at gendata.pucsl.gov.lk (read 586), which has no robots file (read 587).
-  - Its figures load only in the browser, through a dozen script chunks; the page's own script names no data address (read 590). Chain 109 closed eSett for the same pattern.
+  - Its figures load only in the browser, through its script chunks (21 on the generation profile page, session 2375; this line first said a dozen); the page's own script names no data address (read 590). Chain 109 closed eSett for the same pattern.
   - PUCSL's pages state no terms of reuse.
 - **One internal table in its place:** `ceb_srilanka_electricity_annual`, from page 3 of the Ceylon Electricity Board's Statistical Digest 2025. It is written, validated, archived, in coverage (sector power), and held from the live set. 80 rows, 2024 and 2025:
-  - power stations and installed capacity, by owner (CEB, the independent producers, all) and source (major hydro, oil, coal, wind, mini hydro, other NCRE, grid and rooftop solar, small islands);
-  - net generation, likewise;
+  - power stations and installed capacity, by owner (CEB, the independent producers, all) and source (major hydro, oil, coal, wind, mini hydro, other NCRE, grid-connected solar);
+  - net generation, likewise, with two rows of its own: small islands, and rooftop solar's energy exported to the network, which CEB prints under the IPPs (session 2375 corrected this line, which listed both among the station and capacity sources);
   - the day and night maximum demand.
   - Read with pdfplumber's table extraction. Each owner's sources add to its total, and CEB's and the producers' totals to the Total row, within 1.5.
 - **Why only two years:** the 2023 digest's text is in CID-encoded fonts that do not extract, and the 2022 digest's generation table merges its rows into one cell. Both were fetched (2 requests) and are not used; a later session could read the 2022 digest's capacity table, which is clean.

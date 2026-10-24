@@ -4,7 +4,8 @@ maximum demand, a year, from the Ceylon Electricity Board's Statistical Digest (
 generation, in place of PUCSL's dispatch dashboard, whose figures load only through its script chunks).
 
 Energy Research Warehouse (ERW) connector. One series table, warehouse/output/ceb_srilanka_electricity_annual.csv, from
-page 3 of CEB's Statistical Digest 2025 (a PDF, read with pdfplumber's table extraction), one request:
+the PDF's third page (printed page 1, the digest's "Summary of Statistics" page reference 1) of CEB's Statistical Digest 2025 (read with
+pdfplumber's table extraction), one request:
 
     https://www.ceb.lk/front_img/img_reports/1783568926SD-2025-Finalized-(Web-Edition).pdf
 
@@ -20,8 +21,13 @@ The page's three tables each give two years, 2024 (stations and capacity "Restat
               waste), ncre_grid_solar, ncre_rooftop_solar, small_islands (NCRE: non-conventional renewable energy)
     entity    ceb:LK; geo LK; node Sri Lanka; ts_utc the year's 1 January; freq P1Y
 
-Each owner's sources must add to its total, and CEB's and the IPPs' totals to the "Total" row, within 1.5 (CEB prints
-whole numbers); a header not CEB's, a row not in the map, a value that is not a number or a failed check stops the
+generation_ipp_ncre_rooftop_solar is the energy rooftop solar exported to CEB's network (the digest's next page,
+"Energy exported in GWh", from 73,050 and 108,979 consumer accounts), printed under the IPPs; rooftop solar has no
+station or capacity row, so capacity_all_total leaves out its 1,141 MW (2024) and 1,935 MW (2025, provisional) given on
+the summary page (session 2375's note). Small islands are a generation row only.
+
+Each owner's sources must add to its total, and CEB's and the IPPs' totals to the "Total" row, within 1.5 in CEB's
+printed units (stations, MW or GWh; CEB prints small islands to 0.1 GWh); a header not CEB's, a row not in the map, a value that is not a number or a failed check stops the
 run. The percentage columns are not taken. Earlier digests are not read here: the 2023 digest's text is in CID-encoded
 fonts that do not extract, and the 2022 digest's generation table merges its rows into one cell (session 2371).
 
@@ -176,12 +182,13 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): Ceylon Electricity Board (CEB), Statistical Digest 2025, Sri Lanka's power stations, installed capacity and net generation by owner and source, and the maximum demand, {t.ts_utc.min()[:4]} and {t.ts_utc.max()[:4]} (session 2371)",
             "Shape: series (docs/datastandard.md v0). entity ceb:LK; variable stations_, capacity_ (MW) or generation_ (MWh, CEB's net GWh times 1,000) followed by <owner>_<source> (owner ceb, ipp or all; source total, major_hydro, thermal_oil, "
-            "thermal_coal, ncre_wind, ncre_mini_hydro, ncre_other, ncre_grid_solar, ncre_rooftop_solar, small_islands), and max_demand_day, max_demand_night (MW); ts_utc the year's 1 January; freq P1Y; geo LK. 2024's stations and capacity are CEB's restated figures.",
-            f"{len(t)} rows, {t.variable.nunique()} variables. Each owner's sources add to its total, and CEB's and the IPPs' to the Total row, within 1.5. Nothing is filled.",
+            "thermal_coal, ncre_wind, ncre_mini_hydro, ncre_other, ncre_grid_solar, ncre_rooftop_solar, small_islands), and max_demand_day, max_demand_night (MW); ts_utc the year's 1 January; freq P1Y; geo LK. 2024's stations and capacity are CEB's restated figures. "
+            "generation_ipp_ncre_rooftop_solar is rooftop solar's energy exported to the network, not IPP output; rooftop solar has no capacity row (the summary page gives 1,141 MW for 2024 and 1,935 MW for 2025), so capacity_all_total leaves it out.",
+            f"{len(t)} rows, {t.variable.nunique()} variables. Each owner's sources add to its total, and CEB's and the IPPs' to the Total row, within 1.5 in CEB's printed units (stations, MW, GWh). Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/ceb_srilanka.py; the digest retrieved {rec.get('retrieved_at') or ''}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
-            f"Source: {SOURCE} Ceylon Electricity Board, Statistical Digest 2025 (Web Edition), page 3, {PAGE}",
+            f"Source: {SOURCE} Ceylon Electricity Board, Statistical Digest 2025 (Web Edition), the PDF's third page (printed page 1), {PAGE}",
             f"  access: {URL}",
             "License: internal. Neither the digest nor CEB's pages read state terms of reuse; internal until a ruling. Cite: Ceylon Electricity Board, Statistical Digest 2025.",
         ]

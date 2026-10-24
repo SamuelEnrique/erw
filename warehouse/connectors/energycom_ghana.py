@@ -7,10 +7,11 @@ from three tables of the bulletin (a PDF, read with pdfplumber's table extractio
 
     https://www.energycom.gov.gh/index.php/planning/energy-statistics?download=855:2026-energy-statistics
 
-    Table 3.7  Annual Electricity Generation: hydro, thermal, other renewables, total (GWh)
-    Table 3.8  Electricity Import and Export (GWh): import, export, net export
-    Table 3.9  Ghana and System Peak Load (MW): Ghana peak (ECG, NEDCo, mines, VALCO and direct customers), system peak
-               (Ghana peak plus export load)
+    Table 3.7  Annual Electricity Generation (printed page 12): hydro, thermal, other renewables, total (GWh)
+    Table 3.8  Electricity Import and Export (printed page 14): import, export, net export (GWh)
+    Table 3.9  Ghana and System Peak Load (printed page 16, MW): Ghana peak (ECG, NEDCo, mines, VALCO and direct
+               customers), system peak
+    (the body's captions; the bulletin's list of tables and its text number these 3.4, 3.5 and 3.6)
 
     entity    energycom:GH; geo GH; node Ghana; ts_utc the year's 1 January; freq P1Y
     variable  generation_hydro, generation_thermal, generation_other_renewables, generation_total, imports, exports,
@@ -19,9 +20,13 @@ from three tables of the bulletin (a PDF, read with pdfplumber's table extractio
 pdfplumber gives the rows with their cells shifted on alternate lines; each row's non-empty cells are read in order
 (year, then the values, then the shares, which are not taken). Hydro, thermal and other renewables must add to the total,
 and exports less imports to net exports, within 1.5 GWh; a year, header or value that does not read stops the run. A
-dash (before other renewables began, 2013) has no row; nothing is filled. The bulletin's footnote 8 says its
-generation "includes embedded generation and import". A year whose Ghana peak is above its system peak, which the
-bulletin defines as Ghana's plus exports, is kept as published and named in the header.
+dash (before other renewables began, 2013) has no row; nothing is filled. The bulletin's footnote 8 says "total
+electricity generation includes embedded generation and import", but table 3.7's total is hydro plus thermal plus
+other renewables, with no import column, and the bulletin's energy transmitted equals that total plus imports in
+2000 to 2006: the total holds no imports (session 2375's note). The bulletin defines the system peak twice, as Ghana's
+peak plus export load (footnote 11) and as Ghana's load at peak plus export load (its text); Ghana's peak is above the
+system peak in some years, kept as published and named in the header, so peak_system less peak_ghana is not export
+load.
 
     python warehouse/connectors/energycom_ghana.py [--offline] [--out-dir DIR]
 
@@ -153,13 +158,14 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): Energy Commission, Ghana, National Energy Statistical Bulletin 2026, electricity generation by source, imports and exports, and peak load, {t.ts_utc.min()[:4]} to {t.ts_utc.max()[:4]} (session 2373)",
             "Shape: series (docs/datastandard.md v0). entity energycom:GH; variable generation_hydro, generation_thermal, generation_other_renewables, generation_total, imports, exports, net_exports (MWh, the bulletin's GWh times 1,000), "
-            "peak_ghana, peak_system (MW); ts_utc the year's 1 January; freq P1Y; geo GH. The bulletin's generation includes embedded generation and import (its footnote 8); the system peak is Ghana's peak plus export load.",
+            "peak_ghana, peak_system (MW); ts_utc the year's 1 January; freq P1Y; geo GH. generation_total is hydro plus thermal plus other renewables (footnote 8's \"and import\" does not hold for table 3.7: the bulletin's energy transmitted is that total plus imports); "
+            "the system peak is defined as Ghana's peak, or Ghana's load at peak, plus export load, so peak_system less peak_ghana is not export load.",
             f"{len(t)} rows, {t.variable.nunique()} variables. The sources add to the total, and exports less imports to net exports, within 1.5 GWh. A dash has no row; nothing is filled. "
             f"Years whose Ghana peak is above the system peak, as published: {', '.join(map(str, above)) or 'none'}.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/energycom_ghana.py; the bulletin retrieved {rec.get('retrieved_at') or ''}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
-            f"Source: {SOURCE} Energy Commission, Ghana, 2026 National Energy Statistical Bulletin, tables 3.7, 3.8 and 3.9, {PAGE}",
+            f"Source: {SOURCE} Energy Commission, Ghana, 2026 National Energy Statistical Bulletin, tables 3.7 Annual Electricity Generation, 3.8 Electricity Import and Export and 3.9 Ghana and System Peak Load (printed pages 12, 14 and 16; 3.4 to 3.6 in its list of tables), {PAGE}",
             f"  access: {URL}",
             "License: internal. The bulletin states no terms of reuse; internal until a ruling. Cite: Energy Commission, Ghana, National Energy Statistical Bulletin 2026.",
         ]
