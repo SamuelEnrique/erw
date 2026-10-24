@@ -417,6 +417,7 @@ catalogue_hold:
   - eia_gas_other_uses_state_annual
   - elexon_gb_demand_daily
   - energinet_dk_production_hourly
+  - nsi_bulgaria_electricity_monthly
   - eru_czech_electricity
   - inseed_togo_electricity_annual
   - arsel_cameroon_electricity_annual
