@@ -22,6 +22,8 @@
   - The solar report's id, against ERCOT's own file names (below).
 - **Tests:** 1,758 tests that read the notes or the coverage page pass but one, `test_session705`, the known artifact of running from a worktree (it passes in the main checkout).
 
+- **After chain 092's landing** (session 2147's second merge): chain 092 had written its own notes for `ercot_as_quantities`, `ercot_wind_solar_forecast` and `ercot_wind_solar_output_hourly` (its branch did not hold them when this session read it). Theirs landed first and are kept; this session's three are dropped at the merge. `ercot_sced_esr_hourly`'s note and the two `Tables:` lines are this chain's. The findings below stay this session's record.
+
 ## Contradictions found, written into the notes, no code changed
 
 1. **The wrong solar report id.** `ercot_wind_solar_forecast.py`'s docstring, its `REPORTS` entry, the table's header and `sources.csv` call the solar report NP4-745-CD. The report type it reads, 13483, is NP4-737-CD by ERCOT's own file names (every one of the 11,840 times the report's file name appears in the raw store, it reads `PVGRHRLYAVGACTNP4737`). `curtailment.py` (line 74) and `docs/methods/generation_mix_hourly.md` carry the same label. **For a code session:** the label changes a source id, so it is not changed here.

@@ -1,5 +1,10 @@
 table,name,kind,unit
 aeso_alberta_load_hourly,ail_demand,series variable,MW
+afdc_ev_charging_state_annual,ev_dcfast_ports,series variable,count
+afdc_ev_charging_state_annual,ev_level1_ports,series variable,count
+afdc_ev_charging_state_annual,ev_level2_ports,series variable,count
+afdc_ev_charging_state_annual,ev_ports,series variable,count
+afdc_ev_charging_state_annual,ev_stations,series variable,count
 afdc_station_counts_annual,ev_locations,series variable,count
 afdc_station_counts_annual,ev_ports,series variable,count
 afdc_station_counts_annual,ev_ports_dc_fast,series variable,count
@@ -272,6 +277,13 @@ boem_renewable_leases,authorization,column,
 boem_renewable_leases,resource_type,column,
 boem_renewable_leases,effective_year,column,
 boem_renewable_leases,boem_status,column,
+bpa_ba_hourly,hydro_generation,series variable,MW
+bpa_ba_hourly,load,series variable,MW
+bpa_ba_hourly,net_interchange,series variable,MW
+bpa_ba_hourly,nuclear_generation,series variable,MW
+bpa_ba_hourly,solar_generation,series variable,MW
+bpa_ba_hourly,thermal_generation,series variable,MW
+bpa_ba_hourly,wind_generation,series variable,MW
 caiso_area_load_hourly,load,series variable,MW
 caiso_as_prices,as_price_dam_nr,series variable,USD/MW-hour
 caiso_as_prices,as_price_dam_rd,series variable,USD/MW-hour
@@ -540,6 +552,21 @@ carbon_intensity_monthly,intensity_generation,series variable,kgCO2/MWh
 cec_total_system_generation_annual,imports,series variable,MWh
 cec_total_system_generation_annual,in_state_generation,series variable,MWh
 cec_total_system_generation_annual,total_system_power,series variable,MWh
+census_bps_state_annual,buildings_1_unit,series variable,count
+census_bps_state_annual,buildings_2_units,series variable,count
+census_bps_state_annual,buildings_3_4_units,series variable,count
+census_bps_state_annual,buildings_5_plus_units,series variable,count
+census_bps_state_annual,units_1_unit,series variable,count
+census_bps_state_annual,units_2_units,series variable,count
+census_bps_state_annual,units_3_4_units,series variable,count
+census_bps_state_annual,units_5_plus_units,series variable,count
+census_bps_state_annual,value_1_unit,series variable,USD
+census_bps_state_annual,value_2_units,series variable,USD
+census_bps_state_annual,value_3_4_units,series variable,USD
+census_bps_state_annual,value_5_plus_units,series variable,USD
+census_cbp_hosting_annual,annual_payroll,series variable,USD
+census_cbp_hosting_annual,employment,series variable,count
+census_cbp_hosting_annual,establishments,series variable,count
 census_metro_population,population_2025,series variable,count
 census_metro_population,population_base_2020,series variable,count
 cer_electricity_trade,exports,series variable,MWh
@@ -7654,6 +7681,7 @@ utility_service_territories,x_sheet,column,
 wb_commodity_prices_monthly,price,series variable,USD/MMBtu
 wb_commodity_prices_monthly,price,series variable,USD/bbl
 wb_commodity_prices_monthly,price,series variable,USD/t
+wb_electricity_access_annual,access_to_electricity,series variable,pct
 weather_forecast_hourly,temperature_f,series variable,degF
 weather_forecast_hourly,wind_speed_mph,series variable,mph
 weather_obs_hourly,temperature_f,series variable,degF

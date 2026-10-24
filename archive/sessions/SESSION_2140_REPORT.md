@@ -1,10 +1,10 @@
 # Session 2140 report: households' energy burden (DOE's LEAD Tool)
 
-23 and 24 October 2026, from 23:52 UTC, on lab-desktop (the data machine), chain 090, unattended. Its pull ran in the background while sessions 2139 and 2141 ran. Model spend USD 0. Pulls: 53 requests of 70 (the robots file, and the 52 state zips, Vermont's first as a trial); the submission page was read again in session 2139 (read 308).
+23 and 24 October 2026, from 23:52 UTC, on lab-desktop (the data machine), chain 090, unattended. Its pull ran in the background while sessions 2139 and 2141 ran. Model spend USD 0. Pulls: 53 requests of 70 (the robots file, and the 52 state zips, Vermont's first as a trial); the submission page was read again in session 2139 (read 320).
 
 ## Read these first
 
-- **A new table, `doe_lead_energy_burden`** (series, 160,419 rows, `power;gas`): DOE's Low-Income Energy Affordability Data (the LEAD Tool, 2022 update) for every county of the 50 states, DC and Puerto Rico, and for each state. It holds households and their average income, electricity, gas and other fuel costs, total energy cost and energy burden, by income bracket as a share of area median income (0 to 30, 30 to 60, 60 to 80, 80 to 100, 100 to 150, 150 percent and up) and for all households. Written, validated (0 errors, 0 warnings), archived (160,419 rows), held from the Redivis storage and the live set, its release rows added. Public: CC BY 4.0, the submission's license (reads 261 and 308), under DOE's verdict.
+- **A new table, `doe_lead_energy_burden`** (series, 160,419 rows, `power;gas`): DOE's Low-Income Energy Affordability Data (the LEAD Tool, 2022 update) for every county of the 50 states, DC and Puerto Rico, and for each state. It holds households and their average income, electricity, gas and other fuel costs, total energy cost and energy burden, by income bracket as a share of area median income (0 to 30, 30 to 60, 60 to 80, 80 to 100, 100 to 150, 150 percent and up) and for all households. Written, validated (0 errors, 0 warnings), archived (160,419 rows), held from the Redivis storage and the live set, its release rows added. Public: CC BY 4.0, the submission's license (reads 261 and 320), under DOE's verdict.
 - **How the 7.84 GB were taken without holding a file whole** (chain 069 left the source for this reason):
   - `--pull` streams each state's zip to `warehouse/raw/doe_lead/files/` with a manifest (address, time, bytes, sha256). California's is 912,720,159 bytes, all 52 together 7,841,647,083 bytes (7.84 GB, 7.30 GiB).
   - `--write` reads each state's AMI Counties CSV inside its zip in chunks of 200,000 rows, keeping only the columns it sums.
@@ -34,7 +34,7 @@
 | 2 | VT-2022-LEAD-data.zip (the trial) | 200, 28,399,134 bytes |
 | 3 to 53 | the other 51 state zips | 200 each; 7.84 GB in all, the manifest has each |
 
-Read recorded: 310 (the robots file) (renumbered at session 2147's merge, after chains 069 and 079's).
+Read recorded: 322 (the robots file) (renumbered at session 2147's merge, after chains 069 and 079's).
 
 ## Decisions made without you
 

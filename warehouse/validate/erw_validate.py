@@ -100,7 +100,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "g",
          # session 2137: parts per million of dry air, carbon dioxide at Mauna Loa as the Scripps CO2 Program gives it
          # (scripps_co2_mlo_monthly; Decision 67)
-         "ppm"}
+         "ppm",
+         # session 2150: electricity used a person in a year, in kWh, as the World Bank republishes the IEA's figure
+         # (wb_iea_electricity_annual; Decision 68)
+         "kWh/person"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")

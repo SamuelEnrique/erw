@@ -1,5 +1,6 @@
 table,iso,market,n_nodes,interval,ts_min,ts_max,n_rows,source_report,last_run,validator_status,license,sector,derived,tier
 aeso_alberta_load_hourly,aeso,,1,PT1H,2025-01-01T07:00:00Z,2026-10-23T19:00:00Z,15853,aeso:historical_pool_price,2026-10-23T20:11:37Z,pass,public,power,no,source
+afdc_ev_charging_state_annual,afdc,,51,P1Y,2014-01-01T00:00:00Z,2025-01-01T00:00:00Z,3060,afdc:historical_station_counts,2026-10-24T00:02:46Z,pass,public,power,no,source
 afdc_station_counts_annual,afdc,,21,P1Y,2007-01-01T00:00:00Z,2025-01-01T00:00:00Z,13520,doe:afdc_station_counts,2026-10-24T00:17:41Z,pass,public,power,no,source
 afdc_vehicle_registrations_annual,afdc,,12,P1Y,2016-01-01T00:00:00Z,2025-01-01T00:00:00Z,6240,doe:afdc_vehicle_registrations,2026-10-23T19:50:27Z,pass,public,power;products,no,source
 ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,2026-09-30T00:00:00Z,187,erw:ai_power_regions,2026-10-02T09:57:58Z,pass,public,power;carbon,yes,derived
@@ -14,6 +15,7 @@ blm_oil_gas_statistics_annual,blm,,50,P1Y,2000-10-01T00:00:00Z,2024-10-01T00:00:
 boem_offshore_platforms,boem,,7092,snapshot,2026-10-23T15:24:58Z,2026-10-23T15:24:58Z,7092,boem:platforms,2026-10-23T16:32:16Z,pass,public,oil;gas,no,source
 boem_ogor_lease_production_monthly,boem,,1378,P1M,1996-01-01T00:00:00Z,2026-06-01T00:00:00Z,1131562,boem:ogor_a,2026-10-22T02:49:35Z,pass,public,oil;gas,no,source
 boem_renewable_leases,boem,,52,snapshot,2026-10-21T18:33:10Z,2026-10-21T18:33:10Z,52,boem:lease_and_grant_information,2026-10-21T18:33:10Z,pass,public,power,no,source
+bpa_ba_hourly,bpa,,1,PT1H,2020-01-01T08:00:00Z,2026-10-23T06:00:00Z,400261,bpa:ba_load_generation,2026-10-24T00:18:49Z,pass,public,power,no,source
 caiso_area_load_hourly,CAISO,caiso_load,6,PT1H,2021-09-17T00:00:00Z,2026-10-10T14:00:00Z,266340,caiso:SLD_FCST,2026-10-10T15:02:56Z,pass,public,power,no,source
 caiso_as_prices,CAISO,caiso_dam,2,PT1H,2023-07-14T07:00:00Z,2026-10-24T06:00:00Z,229440,caiso:PRC_AS,2026-10-23T15:03:56Z,pass,public,power,no,source
 caiso_battery_storage,CAISO,,1,PT5M,2025-08-24T07:00:00Z,2026-10-23T06:55:00Z,365472,caiso:todays_outlook_storage,2026-10-23T14:47:53Z,pass,public,power,no,source
@@ -34,6 +36,8 @@ carbon_intensity_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1D,2018-07
 carbon_intensity_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2018-07-02T00:00:00Z,2026-10-20T23:00:00Z,1127945,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-23T14:36:08Z,pass,public,power;carbon,yes,derived
 carbon_intensity_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1M,2018-08-01T00:00:00Z,2026-09-01T00:00:00Z,1275,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-23T14:36:08Z,pass,public,power;carbon,yes,derived
 cec_total_system_generation_annual,cec,,47,P1Y,2009-01-01T00:00:00Z,2025-01-01T00:00:00Z,795,cec:total_system_electric_generation,2026-10-23T23:00:10Z,pass,public,power,no,source
+census_bps_state_annual,census,,51,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,6732,census:bps_state_annual,2026-10-24T00:20:21Z,pass,public,power,no,source
+census_cbp_hosting_annual,census,,51,P1Y,2012-01-01T00:00:00Z,2023-01-01T00:00:00Z,1836,census:cbp_state_518210,2026-10-24T00:26:22Z,pass,public,power;datacenters,no,source
 census_metro_population,none,,387,,2020-04-01T00:00:00Z,2025-07-01T00:00:00Z,1650,census:popest_cbsa,2026-10-06T00:40:24Z,"pass, 1 warnings",public,power,no,source
 cer_electricity_trade,cer,,94,P1M;P1Y,2010-01-01T00:00:00Z,2026-07-01T00:00:00Z,1136,cer:electricity_trade_summary,2026-10-23T05:04:05Z,pass,public,power,no,source
 cer_gas_trade,cer,,8,P1M,2010-01-01T00:00:00Z,2025-12-01T00:00:00Z,1427,cer:natural_gas_trade_summary,2026-10-23T08:04:30Z,pass,public,gas,no,source
@@ -246,10 +250,10 @@ ercot_storage_dam_offers_monthly,ERCOT,ercot_dam,1,P1M,2025-12-01T00:00:00Z,2026
 ercot_storage_node_basis,ERCOT,ercot_rtm,293,P1W,2026-09-28T00:00:00Z,2026-09-28T00:00:00Z,2064,erw:ercot_storage_realtime,2026-10-19T17:22:33Z,pass,public,power,yes,derived
 ercot_storage_rt_monthly,ERCOT,,1,P1M,2026-02-01T00:00:00Z,2026-08-01T00:00:00Z,329,erw:ercot_storage_realtime,2026-10-19T17:22:33Z,pass,public,power,yes,derived
 ercot_transmission_projects,none,,1,event,2023-05-25T00:00:00Z,2033-12-15T00:00:00Z,2122,1 outlets,2026-10-23T01:45:24Z,pass,public,power,no,source
-ercot_wind_solar_forecast,ERCOT,,1,PT1H,2026-09-27T05:00:00Z,2026-10-29T15:00:00Z,2634,ercot:NP4-732-CD;ercot:NP4-745-CD,2026-10-22T17:32:57Z,pass,public,power,no,source
+ercot_wind_solar_forecast,ERCOT,,1,PT1H,2026-09-27T05:00:00Z,2026-10-30T15:00:00Z,2730,ercot:NP4-732-CD;ercot:NP4-745-CD,2026-10-23T17:32:00Z,pass,public,power,no,source
 ercot_wind_solar_hsl_daily,ERCOT,,1,P1D,2026-09-19T00:00:00Z,2026-10-22T00:00:00Z,198,ercot:np4_732_745,2026-10-23T14:45:31Z,pass,public,power,no,source
 ercot_wind_solar_hsl_hourly,ERCOT,,11,PT1H,2026-09-28T05:00:00Z,2026-10-23T12:00:00Z,9120,ercot:np4_742_745_region,2026-10-23T14:47:37Z,pass,public,power,no,source
-ercot_wind_solar_output_hourly,ERCOT,,1,PT1H,2023-01-01T06:00:00Z,2026-01-01T05:00:00Z,52608,ercot:PG7-126-M,2026-10-23T14:47:37Z,pass,public,power,no,source
+ercot_wind_solar_output_hourly,ERCOT,,1,PT1H,2023-01-01T06:00:00Z,2026-01-01T05:00:00Z,52608,ercot:PG7-126-M,2026-10-20T06:11:37Z,pass,public,power,no,source
 ercot_zone_load_hourly,ERCOT,ercot_load,13,PT1H,2015-01-01T06:00:00Z,2026-10-01T04:00:00Z,926838,ercot:load_hist,2026-10-19T11:34:56Z,pass,public,power,no,source
 ercot_zone_prices_history,ERCOT,ercot_dam;ercot_rtm,8,PT15M;PT1H,2015-01-01T06:00:00Z,2026-10-18T04:45:00Z,2481384,ercot:NP4-180-ER;ercot:NP6-785-ER,2026-10-22T17:42:18Z,pass,public,power,no,source
 eurostat_renewable_capacity_annual,eurostat,,34,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,49313,eurostat:nrg_inf_epcrw,2026-10-23T22:56:54Z,pass,public,power,no,source
@@ -374,6 +378,7 @@ nrc_license_actions,none,,1,event,1977-09-09T00:00:00Z,2026-04-02T00:00:00Z,236,
 nrc_new_reactor_applications,none,,1,event,2025-03-31T00:00:00Z,2026-05-05T00:00:00Z,6,1 outlets,2026-10-23T16:24:42Z,pass,public,power;uranium,no,source
 nrc_power_reactors,nrc,,130,snapshot,2026-10-23T09:52:20Z,2026-10-23T09:53:52Z,130,nrc:power_reactors,2026-10-23T09:55:24Z,pass,public,power;uranium,no,source
 nrc_reactor_status,nrc,,99,P1D,2020-01-01T00:00:00Z,2026-10-22T00:00:00Z,234910,nrc:power_reactor_status,2026-10-22T17:33:58Z,pass,public,power;uranium,no,source
+nrcs_snotel_swe_daily,nrcs,,20,P1D,2015-01-01T00:00:00Z,2026-10-22T00:00:00Z,86241,nrcs:awdb_snotel,2026-10-24T00:20:08Z,pass,internal,power,no,source
 nyiso_as_prices,NYISO,nyiso_dam,6,PT1H,2024-09-01T04:00:00Z,2026-10-05T03:00:00Z,293376,nyiso:damasp,2026-10-04T04:09:15Z,pass,public,power,no,source
 nyiso_dam_cleared_energy,NYISO,nyiso_dam,1,PT1H,2025-09-01T04:00:00Z,2026-10-12T03:00:00Z,9744,nyiso:damenergy,2026-10-10T15:00:04Z,pass,public,power,no,source
 nyiso_dam_zone_prices,NYISO,nyiso_dam,11,PT1H,2026-08-26T04:00:00Z,2026-10-25T03:00:00Z,15840,nyiso:damlbmp,2026-10-23T14:18:19Z,pass,public,power,no,source
@@ -430,6 +435,8 @@ uspvdb_solar_facilities,uspvdb,,6611,snapshot,2026-10-23T05:19:06Z,2026-10-23T05
 uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:33:12Z,77839,usgs:uswtdb,2026-10-21T18:33:12Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
 wb_commodity_prices_monthly,wb,,15,P1M,1960-01-01T00:00:00Z,2026-09-01T00:00:00Z,11139,worldbank:pink_sheet,2026-10-23T10:00:26Z,pass,public,oil;gas;coal;metals,no,source
+wb_electricity_access_annual,wb,,215,P1Y,2000-01-01T00:00:00Z,2024-01-01T00:00:00Z,5350,worldbank:wdi_electricity_access,2026-10-23T23:45:20Z,pass,public,power,no,source
+wb_iea_electricity_annual,wb,,209,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,8220,worldbank:wdi_iea_electricity,2026-10-23T23:45:20Z,blocked (1 errors),internal,power,no,source
 weather_forecast_hourly,weather,,7,PT1H,2026-09-28T09:00:00Z,2026-10-30T01:00:00Z,10614,nws:forecast_hourly,2026-10-23T14:37:04Z,pass,public,power,no,source
 weather_obs_hourly,weather,,7,PT1H,2026-09-21T09:00:00Z,2026-10-23T13:00:00Z,10627,nws:observations,2026-10-23T14:37:04Z,pass,public,power,no,source
 wfigs_wildfires,none,,1,event,2015-01-18T00:00:00Z,2026-10-21T00:00:00Z,6222,1 outlets,2026-10-23T23:13:01Z,pass,public,power,no,source
