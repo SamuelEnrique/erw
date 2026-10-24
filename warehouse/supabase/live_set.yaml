@@ -372,6 +372,7 @@ catalogue_hold:
   - gfz_kp_index_3h
   - epa_ghg_inventory_annual
   - scripps_co2_mlo_monthly
+  - doe_lead_energy_burden
   - noaa_ncei_storm_events
   - nrc_event_notifications
   - doe_lng_export_applications
