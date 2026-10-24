@@ -200,6 +200,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "cer_pipeline_throughput",
            "desnz_uk_electricity_quarterly",
            "desnz_uk_renewables_quarterly",
+           "ieso_generation_fuel_hourly",
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "epa_ghgrp_facility_emissions",
