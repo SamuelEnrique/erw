@@ -14,7 +14,7 @@ Statistics Norway's PxWeb API (no key): the table's metadata by GET and one JSON
                 wind_power_generation, solar_power_generation, thermal_power_generation, import, export,
                 gross_electricity_consumption, pump_storage_consumption, grid_loss_and_statistical_difference,
                 net_electricity_consumption and its industries and households, as SSB names them); node the name as SSB
-                writes it; x_code SSB's code for the line (1, 1.1, ..., 7.41)
+                writes it; x_code SSB's code for the line (1, 1.1, ..., 7.42)
     unit        MWh, as SSB gives it; ts_utc the month's first day; freq P1M; geo NO
 
 A cell SSB leaves empty ("." or "..") has no row; a 0 SSB gives is kept. Totals are SSB's lines, never sums made here.

@@ -21,7 +21,8 @@ from CBS's dataset download (a zip of semicolon-separated files):
 Only the monthly periods (CBS's "MM" codes) are taken; the years and quarters are not. CBS's description: "Volledige
 gegevens per maand zijn beschikbaar vanaf 2015. Vanaf 1936 per jaar en vanaf 1976 per maand zijn alleen de totale
 productie, invoer en uitvoer bekend" (complete monthly figures from 2015; from 1976 a month only the total production,
-imports and exports); a cell CBS leaves empty has no row. Totals are CBS's measures, never sums made here. A measure code
+imports and exports; the rows hold more lines than that from 1976, own use, net production, distribution losses, net
+consumption and the imports from Belgium and Germany among them, session 2233); a cell CBS leaves empty has no row. Totals are CBS's measures, never sums made here. A measure code
 not in the map, a unit other than "mln kWh", a period code of another form, a value that is not a number or a month given
 twice stops the run. Nothing is filled.
 

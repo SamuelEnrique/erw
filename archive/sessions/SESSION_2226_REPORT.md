@@ -9,7 +9,7 @@
 - **The chain file's "imports by route"** is the monthly ET 4.3, not taken. The quarterly table's imports and LNG imports are the routes it gives.
 - **Cross-checks:**
   - The balance holds: total supply less total demand equals DESNZ's statistical difference within 10 MWh in every quarter.
-  - Against `desnz_uk_electricity_quarterly` (chain 094, ET 5.1b), the electricity generated from gas by all generating companies over the gas used for electricity generation, in all 114 shared quarters: a median 0.468, 0.429 to 0.496. Yearly it rises from 0.440 (1998) to 0.48 and above from 2016, a plausible fleet efficiency.
+  - Against `desnz_uk_electricity_quarterly` (chain 094, ET 5.1b), the electricity generated from gas by all generating companies over the gas used for electricity generation, in all 114 shared quarters: a median 0.468, 0.429 to 0.496. Yearly it rises from 0.440 (1998) to 0.478 to 0.488 from 2016, a plausible fleet efficiency.
   - LNG is 13.7 to 44.9 percent of the UK's imports a year from 2016 (44.9 in 2022).
   - The chain file's LNG check against EIA's U.S. LNG exports to the UK could not be made: `eia_lng_exports_monthly` is by U.S. terminal, not by destination.
 

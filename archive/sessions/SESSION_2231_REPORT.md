@@ -15,7 +15,7 @@
     - imports and exports in total and with Belgium, Denmark, Germany, the United Kingdom and Norway;
     - distribution losses and net consumption.
   - In MWh (CBS's million kWh times 1,000), each measure under an English name in the connector's map of CBS's codes, CBS's Dutch name kept as the node, the period's status kept (7,951 definitive, 719 later provisional, 210 provisional).
-  - CBS's description: complete monthly figures from 2015; from 1976 a month only the totals of production, imports and exports.
+  - CBS's description: complete monthly figures from 2015; from 1976 a month only the totals of production, imports and exports. The rows hold more than that from 1976 (own use, net production, losses, net consumption, imports from Belgium and Germany), found by session 2233.
   - Written, validated (0 errors, 0 warnings), archived, held from the Redivis storage and the live set, its release rows added.
 - **The license:** CC BY 4.0, stated in the table's own properties (read 376) and CBS's catalog; source "CBS".
 - **The robots files:** opendata.cbs.nl's disallows its OData paths, which the connector does not use; datasets.cbs.nl, where the table's download is, has no robots file.

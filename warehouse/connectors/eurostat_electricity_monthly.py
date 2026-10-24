@@ -12,7 +12,7 @@ Eurostat's SDMX 2.1 dissemination API (no key), as session 2123 took nrg_inf_epc
     https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/NRG_BAL   the flows' English names
 
     entity      eurostat_elec:<Eurostat geo code>
-    variable    net_production:<SIEC code> (nrg_cb_pem: TOTAL, the combustible fuels CF and their parts, nuclear N9000,
+    variable    net_production:<SIEC code> (nrg_cb_pem: TOTAL, the combustible fuels CF and their parts, N9000 ("Nuclear fuels and other fuels n.e.c."),
                 the renewables RA000 and their parts, and the rest as Eurostat codes them; each as published, no sum made
                 here), or flow:<NRG_BAL code> (nrg_cb_em, electricity E7000: IMP, IMP_FROM_EU, EXP, EXP_TO_EU, AIM the
                 supply available for the internal market, DL distribution losses, TI_EHG_EPS)

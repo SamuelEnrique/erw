@@ -9,7 +9,7 @@
 - **A new table, `ieso_generation_fuel_hourly`** (series, 371,781 rows, `power`): Ontario's generation by fuel, an hour, from 1 January 2020 to 23 October 2026. Every one of the 59,688 hours is held. It comes from the IESO's yearly Generator Output by Fuel Type Hourly Reports (XML). The values are the hour's energy in MWh; the IESO's quality code is kept as `x_quality`. Written, validated (0 errors, 0 warnings), archived, held from the Redivis storage and the live set, its release rows added. Public under the IESO's verdict (read 225), its copyright notice carried in the header as the demand table carries it.
 - **Two lines the code did not expect, kept as published:**
   - OTHER appears from 2025.
-  - CONTROL ACTIONS appears on one day of July 2026 (24 hours, every value given 0). It is written as `control_actions`, not as a fuel.
+  - CONTROL ACTIONS appears on one day of July 2026: 24 hours, of which 15 (hours 10 to 24) carry a value, each 0 (session 2233). It is written as `control_actions`, not as a fuel.
 - **Cross-checks:**
   - Against `ieso_ontario_demand_hourly` (chain 067), in its 15,839 shared hours: generation is a median 0.991 of market demand (Ontario's demand plus exports), 0.938 to 1.007 from the 5th to the 95th percentile, and 1.133 of Ontario demand. That is what an exporting province with some imports should show.
   - The mix by year: nuclear falls from 59.6 percent (2020) to 46.5 (2026) while gas rises from 6.8 to 22.5 percent; hydro 22.3 to 25.6 percent, wind 7.6 to 9.5, solar under 1 (the report's grid-connected generators).
