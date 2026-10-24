@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **503 tables.** The flag and the verdict agree on 405; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 53 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 381 public, 72 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **593 publishers in the record: 591 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 150 pages read, 441 that could not be read, 2 not asked (paused).**
+- **605 publishers in the record: 603 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 150 pages read, 453 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -616,6 +616,18 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 591 | Ceylon Electricity Board, Sri Lanka (CEB), its robots file (session 2371) | https://www.ceb.lk/robots.txt | 08:42:39 | 200 | 30 | read: allows every path; a crawl delay of 30 seconds; names no AI agent |
 | 592 | Ceylon Electricity Board, Sri Lanka (CEB), its home page (session 2371) | https://www.ceb.lk/ | 08:43:18 | 200 | 148050 | read: links the publications pages |
 | 593 | Ceylon Electricity Board, Sri Lanka (CEB), its other publications page (session 2371) | https://www.ceb.lk/publication-media/other-publications/en | 08:44:00 | 200 | 213058 | read: lists the Statistical Digests 2005 to 2025 as PDF files; states no terms of reuse |
+| 594 | Nigerian Electricity Regulatory Commission (NERC), its robots file (session 2372) | https://nerc.gov.ng/robots.txt | 08:49:39 | 200 | 151 | read: disallows WordPress's admin path; names no AI agent |
+| 595 | Nigerian Electricity Regulatory Commission (NERC), its sitemap index (session 2372) | https://nerc.gov.ng/sitemap.xml | 08:49:49 | 200 | 1075 | read: three sitemaps |
+| 596 | Nigerian Electricity Regulatory Commission (NERC), its page sitemap (session 2372) | https://nerc.gov.ng/page-sitemap.xml | 08:49:59 | 200 | 3089 | read: fourteen pages, none of statistics |
+| 597 | Nigerian Electricity Regulatory Commission (NERC), its resource page (session 2372) | https://nerc.gov.ng/resource-page/ | 08:50:09 | 200 | 135810 | read: its Statistics and Performance Data section loads by script, no file linked |
+| 598 | Nigerian Electricity Regulatory Commission (NERC), its post sitemap (session 2372) | https://nerc.gov.ng/post-sitemap.xml | 08:51:01 | 200 | 1525 | read: four posts, no report |
+| 599 | Transmission Company of Nigeria (TCN), its robots file (session 2372) | https://www.tcn.org.ng/robots.txt | 08:50:20 | 200 | 78 | read: allows every path; names no AI agent |
+| 600 | Transmission Company of Nigeria (TCN), its home page (session 2372) | https://www.tcn.org.ng/ | 08:50:28 | 200 | 62598 | read: a theme template's pages; links nsong.org |
+| 601 | Nigerian Independent System Operator (NISO), nsong.org, its robots file (session 2372) | https://nsong.org/robots.txt | 08:50:43 | 404 | 4840 | HTTP 404: no robots file |
+| 602 | Nigerian Independent System Operator (NISO), nsong.org, its home page (session 2372) | https://nsong.org/ | 08:50:52 | 200 | 13695 | read: a dispatch tools login behind a CAPTCHA; not asked again |
+| 603 | Organismo Coordinador del SENI, Dominican Republic (OC), its robots file (session 2372) | https://www.oc.do/robots.txt | 08:52:19 | 200 | 4136 | read: disallows /Portals/ and the site's code paths; names no AI agent |
+| 604 | Organismo Coordinador del SENI, Dominican Republic (OC), its home page (session 2372) | https://www.oc.do/ | 08:52:33 | 200 | 252326 | read: links its operation reports |
+| 605 | Organismo Coordinador del SENI, Dominican Republic (OC), its operational analysis reports page (session 2372) | https://www.oc.do/Informes-Hist%C3%B3ricos/Operaci%C3%B3n-del-SENI/An%C3%A1lisis-Operativo | 08:52:44 | 200 | 131924 | read: the reports load by script, no file linked |
 
 ## The publishers: the sentence and the verdict
 
