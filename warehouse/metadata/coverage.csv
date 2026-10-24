@@ -474,6 +474,7 @@ ssb_norway_electricity_monthly,ssb,,26,P1M,1993-01-01T00:00:00Z,2026-09-01T00:00
 statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source
 statcan_electricity_trade_monthly,statcan,,170,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,25215,statcan:25-10-0016-01,2026-10-24T07:46:32Z,pass,public,power,no,source
 statcan_oil_gas_supply_monthly,statcan,,383,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,56007,statcan:25-10-0063-01;statcan:25-10-0086-01,2026-10-24T02:33:08Z,pass,public,oil;gas,no,source
+statcan_petroleum_products_monthly,statcan,,1331,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,112385,statcan:25-10-0081-01,2026-10-24T09:06:40Z,pass,public,oil;products,no,source
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,108125,erw:generation_mix,2026-10-23T14:45:09Z,pass,public,power,yes,derived
 statee_estonia_electricity_monthly,statee,,6,P1M,2005-01-01T00:00:00Z,2026-08-01T00:00:00Z,1344,statee:KE21,2026-10-24T05:05:10Z,pass,public,power,no,source
 statfi_finland_electricity_monthly,statfi,,16,P1M,1992-01-01T00:00:00Z,2026-06-01T00:00:00Z,6350,statfi:12su,2026-10-24T04:12:29Z,pass,public,power,no,source
