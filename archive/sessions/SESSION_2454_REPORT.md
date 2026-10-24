@@ -9,12 +9,13 @@
   - FERC Form 714, LBNL's data sets and the federal power marketers are held too.
   - Eurostat's annual electricity balance (`nrg_cb_e`) is held by no table and taken by no chain. It complements `eurostat_electricity_production_annual` (production by fuel) and the monthly flows of `eurostat_electricity_monthly` (from 2016).
 - **One public table:** `eurostat_electricity_balance_annual`, 73,062 rows, 1990 to 2025. It is written, validated, archived, in coverage (sector power), held from the live set, and listed in the release's held tables:
-  - for 40 areas (the EU's members, EFTA's and the candidates, with EU27_2020; the United Kingdom, Kosovo and the euro area left out, as the gas balance does);
+  - for 40 areas (the EU's members, EFTA's and the candidates, with EU27_2020; the United Kingdom and Kosovo left out by Eurostat's terms, and the euro area EA21, which the gas balance keeps, left out by this connector's list: corrected in session 2457);
   - 63 balance items, from gross and net production, imports, exports and inland demand to the energy sector's own use, losses and final consumption by sector;
   - in MWh (Eurostat's GWh times 1,000).
-- **No sum is made or checked but one.** The file's identities do not close:
-  - other sectors' total (FC_OTH_E) is in the codelist but has no value, and the parts of final consumption fall short of it (Germany 2023: 9.5 TWh);
-  - net production plus imports less exports differs from inland demand in 970 of the file's 1,419 country years.
+- **The identities (corrected in session 2457, from its note):** this line first said they do not close. They do:
+  - inland demand is net production plus imports less exports less the six transformation input items (pumped storage, batteries, electric boilers, heat pumps, hydrogen) in every country year, and the run now checks it;
+  - the 9.5 TWh between Germany's 2023 final consumption and its sectors is the energy sector's own use (NRG_E);
+  - FC_OTH_E has values, in 2025 only.
   - The first trial checked final consumption against industry, transport and other and failed in 1,309 of 1,326 country years; that check was dropped.
   - The run now stops only if net production is ever above gross by more than 1 GWh. It never is, in all 1,328 country years.
 - **License: public** (Eurostat's copyright notice, the record's verdict). `ec.europa.eu`'s robots file is the same as session 2413's (read 846).

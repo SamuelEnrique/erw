@@ -50,6 +50,17 @@ class Build(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             E.nep_check(t)
 
+    def test_inland_demand(self):
+        """Session 2457: inland demand is net production plus imports less exports less transformation input."""
+        names = E.item_names(CODES + "IMP\tImports\nID\tInland demand\nTI_EHG_EPS_PURE\tPumping\n".encode())
+        rows = [("EL", "GEP", "2023", "50", ""), ("EL", "NEP", "2023", "48", ""), ("EL", "IMP", "2023", "5", ""),
+                ("EL", "EXP", "2023", "3", ""), ("EL", "TI_EHG_EPS_PURE", "2023", "2", "")]
+        t, _ = E.build(csv(rows + [("EL", "ID", "2023", "48", "")]), names, "u", "r", "")
+        self.assertEqual(E.nep_check(t), 1)
+        t, _ = E.build(csv(rows + [("EL", "ID", "2023", "50", "")]), names, "u", "r", "")
+        with self.assertRaises(RuntimeError):
+            E.nep_check(t)
+
 
 class Registered(unittest.TestCase):
     def test_sector_and_holds(self):

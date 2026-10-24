@@ -13,21 +13,27 @@ NRG_BAL codelist (the balance items' names):
 
     entity      eurostat_electricity_balance:<Eurostat geo code>
     variable    the balance item's code, lower case (gep gross electricity production, nep net, imp, exp, id
-                inland demand, nrg_e energy sector own use and its parts, dl distribution losses, fc final consumption,
-                fc_ind_e, fc_tra_e, fc_oth_e and their parts, and so on)
+                inland demand, ti_* electricity used in transformation (pumped storage, batteries, electric boilers,
+                heat pumps, hydrogen), nrg_e the energy sector's own use and its parts (nrg_ehg_e, gross less net
+                production, is not one of them), loss all losses (dl distribution, dl_nt transmission: the split is
+                mostly reported from 2022), fc final consumption, fc_ind_e, fc_tra_e, fc_oth_e and their parts)
     unit        MWh: Eurostat's GWh times 1,000
     ts_utc      the year's 1 January; freq P1Y; geo the country's ISO alpha-2 (EL is GR), blank for EU27_2020
     node        "<geo code> electricity, <the item's name>"
-    x_*         Eurostat's geo and balance codes, the observation's flag (p provisional, e estimated, d, b) and
+    x_*         Eurostat's geo and balance codes, the observation's flag (p provisional, e estimated; b and d, once each, not defined in the files read) and
                 confidentiality status
 
 The items overlap (totals hold their parts): a sum takes one level. Signs are Eurostat's (exports are positive). A blank
-has no row; zeros are kept; nothing is filled. No sum is made here: the file's identities do not close (other sectors'
-total, FC_OTH_E, is in the codelist but has no value, and the parts of final consumption fall short of it, by 9.5 TWh for
-Germany in 2023; net production plus imports less exports differs from inland demand in 970 of 1,419 country years).
-The run stops if net production is ever above gross production by more than 1 GWh (it never is).
+has no row (October 2026's file has none); zeros are kept; nothing is filled. The run stops if inland demand is not net
+production plus imports less exports less the six transformation input items (TI_*) within 1 GWh, or if net production
+is above gross; both hold in every country year. Session 2457's note found these too, not checked here: gross is net
+plus nrg_ehg_e; available is inland demand less losses; final consumption is available less the statistical difference,
+and is the sectors' sum plus the energy sector's own use (nrg_e) in most country years (Germany 2023: the 9.5 TWh is
+nrg_e), not France's from 2011. fc_oth_e has values in 2025 only. 2025 is provisional and partial (every row flagged p
+or e, 37 areas, 20 items). The EU's imports and exports are its members' sums, trade between members included.
 Countries kept: the EU's members, EFTA's and the official candidates, with EU27_2020, as eurostat_gas_balance_monthly
-keeps them (the United Kingdom and Kosovo left out). A header not Eurostat's, a unit, frequency, product or item not
+keeps its countries: the United Kingdom and Kosovo are left out by Eurostat's terms; the euro area (EA21), which the gas
+balance keeps, is not in this list (session 2457 left it so); Switzerland is in the list but not in the file. A header not Eurostat's, a unit, frequency, product or item not
 expected, a value that is not a number or a key given twice stops the run.
 
     python warehouse/connectors/eurostat_electricity_balance.py [--offline] [--out-dir DIR]
@@ -120,12 +126,19 @@ def build(content, names, url, retrieved, vintage):
 
 
 def nep_check(t):
-    """Net production against gross: the country years compared; stops if net is above gross by more than TOL GWh."""
+    """Net production against gross, and inland demand against net production plus imports less exports less the
+    transformation input items (session 2457): the country years compared; stops if either fails by more than TOL GWh."""
     p = t.assign(g=t.value / 1000.0).pivot_table(index=["x_geo_code", "ts_utc"], columns="x_nrg_bal", values="g", aggfunc="first")
     d = (p["NEP"] - p["GEP"]).dropna()
     if (d > TOL).any():
         k = d[d > TOL].index[0]
         raise RuntimeError(f"net production above gross by {d[k]:.3f} GWh: {k[0]} {k[1][:4]}")
+    ti = [c for c in p.columns if c.startswith("TI_")]
+    f = lambda c: p[c].fillna(0) if c in p.columns else 0  # noqa: E731
+    e = (f("NEP") + f("IMP") - f("EXP") - p[ti].fillna(0).sum(axis=1) - p["ID"]).dropna() if "ID" in p.columns else p.iloc[:0, 0]
+    if (e.abs() > TOL).any():
+        k = e[e.abs() > TOL].index[0]
+        raise RuntimeError(f"inland demand is not net production, trade and transformation input by {e[k]:.3f} GWh: {k[0]} {k[1][:4]}")
     return len(d)
 
 
@@ -152,12 +165,13 @@ def main(argv=None):
         compared = nep_check(t)
         header = [
             f"Energy Research Warehouse (ERW): Eurostat, supply, transformation and consumption of electricity, annual (nrg_cb_e), {t.ts_utc.min()[:4]} to {t.ts_utc.max()[:4]} (session 2454)",
-            "Shape: series (docs/datastandard.md v0). entity eurostat_electricity_balance:<geo>; variable the NRG_BAL item's code in lower case (gep, nep, imp, exp, id, nrg_e and its parts, dl, fc, fc_ind_e, fc_tra_e, fc_oth_e and their parts); "
-            "unit MWh (Eurostat's GWh times 1,000); ts_utc the year's 1 January; freq P1Y; geo ISO alpha-2 (EL is GR), blank for EU27_2020; node the item's name; x_nrg_bal Eurostat's code; x_flag p provisional, e estimated. "
+            "Shape: series (docs/datastandard.md v0). entity eurostat_electricity_balance:<geo>; variable the NRG_BAL item's code in lower case (gep, nep, imp, exp, id, ti_* transformation input, nrg_ehg_e the power plants' own use, nrg_e the rest of the energy sector and its parts, loss and its parts transl and dl, fc, fc_ind_e, fc_tra_e, fc_oth_e and their parts); "
+            "unit MWh (Eurostat's GWh times 1,000); ts_utc the year's 1 January; freq P1Y; geo ISO alpha-2 (EL is GR), blank for EU27_2020; node the item's name; x_nrg_bal Eurostat's code; x_flag p provisional, e estimated (b and d not defined in the files read); x_conf_status is blank in Eurostat's file. "
             "The items overlap (totals hold their parts): a sum takes one level. Exports are positive, as Eurostat prints them.",
-            f"{len(t)} rows, {t.x_geo_code.nunique()} areas, {t.variable.nunique()} items. Zeros are kept ({counts['zero']:,}); {counts['blank']:,} blanks have no row; nothing is filled. "
-            f"Net production is never above gross in the {compared:,} country years that give both. No sum is made: the file's identities do not close (FC_OTH_E has no value). "
-            f"Areas left out by Eurostat's terms: {' '.join(counts['left_out_geo']) or 'none'}. Eurostat's last update, as its file gives it (no time zone): {counts['last_update']}.",
+            f"{len(t)} rows, {t.x_geo_code.nunique()} areas, {t.variable.nunique()} items. Zeros are kept ({counts['zero']:,}); a figure Eurostat lacks is absent from its file ({counts['blank']:,} blank lines); nothing is filled. "
+            f"Net production is never above gross, and inland demand is net production plus imports less exports less the transformation input items (ti_*), within 1 GWh in the {compared:,} country years. "
+            "Final consumption is the sectors' sum plus the energy sector's own use (nrg_e) in most country years; fc_oth_e has values in 2025 only, and 2025 is provisional and partial. "
+            f"Areas left out: {' '.join(counts['left_out_geo']) or 'none'} (UK and XK by Eurostat's terms; EA21 is not in this connector's list, though the gas balance keeps it). The EU's imports and exports include trade between members. Eurostat's last update, as its file gives it (no time zone): {counts['last_update']}.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eurostat_electricity_balance.py; the file retrieved {rec.get('retrieved_at') or ''}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
