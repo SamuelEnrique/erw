@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **544 tables.** The flag and the verdict agree on 438; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 61 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 407 public, 87 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **874 publishers in the record: 872 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 199 pages read, 673 that could not be read, 2 not asked (paused).**
+- **886 publishers in the record: 884 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 203 pages read, 681 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -897,6 +897,18 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 872 | National Centre for Statistics and Information, Oman (NCSI), www.ncsi.gov.om's robots file (session 2504) | https://www.ncsi.gov.om/robots.txt | 17:32:24 | 404 | 3482 | HTTP 404: no robots file |
 | 873 | National Centre for Statistics and Information, Oman (NCSI), the home page and its footer (session 2504) | https://www.ncsi.gov.om/ | 17:37:10 | 200 | 231985 | read |
 | 874 | National Centre for Statistics and Information, Oman (NCSI), the Open Government Licence of the Sultanate of Oman (session 2504) | https://www.ncsi.gov.om/assets/docs/gov_license.pdf | 17:37:24 | 200 | 469649 | read: Arabic; use and redistribution for any purpose with the source named; compatible with CC BY 4.0 |
+| 875 | Transmission System Operator of Cyprus (TSO Cyprus), tsoc.org.cy's robots file (session 2505) | https://tsoc.org.cy/robots.txt | 17:41:29 | 404 | 146 | HTTP 404: no robots file |
+| 876 | Statistical Service of Cyprus (CYSTAT), www.cystat.gov.cy's robots file (session 2505) | https://www.cystat.gov.cy/robots.txt | 17:41:30 | 404 | 1245 | HTTP 404: no robots file |
+| 877 | Statistical Service of Cyprus (CYSTAT), the English home page (session 2505) | https://www.cystat.gov.cy/en (answered at https://www.cystat.gov.cy/en/default) | 17:41:54 | 200 | 3249620 | read |
+| 878 | Statistical Service of Cyprus (CYSTAT), the energy theme page (session 2505) | https://www.cystat.gov.cy/en/SubthemeStatistics?id=34 | 17:42:12 | 200 | 76603 | read |
+| 879 | Statistical Service of Cyprus (CYSTAT), the energy predefined tables (session 2505) | https://www.cystat.gov.cy/en/KeyFiguresList?s=34 | 17:42:21 | 200 | 78256 | read: petroleum products only |
+| 880 | Statistical Service of Cyprus (CYSTAT), the terms of use (session 2505) | https://www.cystat.gov.cy/en/StaticPage?id=1245 (answered at https://www.cystat.gov.cy/en/StaticPage?id=1246) | 17:42:22 | 200 | 49627 | read: a disclaimer; no grant of reuse on the page |
+| 881 | Statistical Service of Cyprus (CYSTAT), cystatdb.cystat.gov.cy's robots file (session 2505) | https://cystatdb.cystat.gov.cy/robots.txt | 17:42:48 | 404 | 1245 | HTTP 404: no robots file |
+| 882 | Statistical Service of Cyprus (CYSTAT), CYSTAT-DB's databases (session 2505) | https://cystatdb.cystat.gov.cy/api/v1/en/ | 17:42:54 | 200 | 45 | read |
+| 883 | Statistical Service of Cyprus (CYSTAT), CYSTAT-DB's subject areas (session 2505) | https://cystatdb.cystat.gov.cy/api/v1/en/8.CYSTAT-DB/ | 17:43:00 | 200 | 1332 | read |
+| 884 | Statistical Service of Cyprus (CYSTAT), CYSTAT-DB's energy tables (session 2505) | https://cystatdb.cystat.gov.cy/api/v1/en/8.CYSTAT-DB/Energy/ | 17:43:07 | 200 | 888 | read: petroleum products only |
+| 885 | Statistical Service of Cyprus (CYSTAT), CYSTAT-DB's industry tables (session 2505) | https://cystatdb.cystat.gov.cy/api/v1/en/8.CYSTAT-DB/Industry/ | 17:43:14 | 200 | 339 | read: indices only |
+| 886 | Tonga Statistics Department, tongastats.gov.to's robots file (session 2505) | https://tongastats.gov.to/robots.txt | 17:43:26 | 200 | 103 | read: /wp-admin/ closed; SemrushBot closed; names no AI agent |
 
 ## The publishers: the sentence and the verdict
 
