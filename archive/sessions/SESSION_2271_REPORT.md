@@ -1,6 +1,6 @@
 # Session 2271 report: the licenses' twenty-seventh round (Statistics Finland, Taipower, XM)
 
-24 October 2026, from 04:32 UTC, on lab-desktop (the data machine), chain 103, unattended. Model spend USD 0. Pulls: none of 20. Each verdict rests on a page this chain's sessions had already read and saved.
+24 October 2026, from 04:29 UTC to 04:31 UTC, on lab-desktop (the data machine), chain 103, unattended. Model spend USD 0. Pulls: none of 20. Each verdict rests on a page this chain's sessions had already read and saved.
 
 ## Read these first
 
