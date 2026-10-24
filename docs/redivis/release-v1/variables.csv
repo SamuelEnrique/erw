@@ -3651,6 +3651,10 @@ energinet_dk_production_hourly,solar_power_ge40kw,series variable,MWh
 energinet_dk_production_hourly,solar_power_lt10kw,series variable,MWh
 energinet_dk_production_hourly,solar_power_self_con,series variable,MWh
 energinet_dk_production_hourly,unknown_prod,series variable,MWh
+energy_charts_belgium_hourly,cross_border_trading,series variable,MW
+energy_charts_belgium_hourly,load,series variable,MW
+energy_charts_belgium_hourly,public_net_power,series variable,MW
+energy_charts_belgium_hourly,residual_load,series variable,MW
 energy_companies,entity_id,column,
 energy_companies,entity_type,column,
 energy_companies,name,column,

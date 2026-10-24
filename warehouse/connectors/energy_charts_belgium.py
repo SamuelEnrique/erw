@@ -26,8 +26,8 @@ The current year is asked to the last day ended at the run (Belgian time).
 Ceiling: one request a year from 2020 (seven in 2026), 35 seconds apart: the API allows 2 requests a minute for each
 client (its description, rate limiting). Each is asked again unless --offline. api.energy-charts.info has no robots file
 (HTTP 404). License: CC BY 4.0 with attribution to Energy-Charts.info, as the API's description states ("Unless stated
-otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license"); internal until the
-licenses' round records the verdict. Energy-Charts compiles Belgium's figures from the operators' publications.
+otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license"); public since the
+licenses' round recorded the verdict (session 2257). Energy-Charts compiles Belgium's figures from the operators' publications.
 """
 
 import argparse
@@ -135,7 +135,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Energy-Charts.info (Fraunhofer Institute for Solar Energy Systems ISE), public net electricity production, Belgium, {PAGE}",
             "  access: https://api.energy-charts.info/public_power?country=be, one calendar year a request",
-            "License: CC BY 4.0, attribution to Energy-Charts.info (the API's description); internal until the licenses' round records the verdict.",
+            "License: public (CC BY 4.0, attribution to Energy-Charts.info, the API's description; see license_verdicts.csv). Source: Energy-Charts.info.",
         ]
         ip.write_snapshot(s, TABLE, head, log, cols)
         results.append(dict(table=TABLE, market="all", status="ok", detail=f"{len(s)} rows"))
@@ -148,7 +148,7 @@ def main(argv=None):
     if not args.out_dir:
         if results and results[0]["status"] == "ok":
             ip.update_sources([dict(source=SOURCE, publisher="Energy-Charts.info (Fraunhofer ISE)", report="Public net electricity production, Belgium (API public_power)",
-                                    report_url=PAGE, document_list="https://api.energy-charts.info/openapi.json", license="internal", tables=[TABLE])])
+                                    report_url=PAGE, document_list="https://api.energy-charts.info/openapi.json", license="public", tables=[TABLE])])
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
     return 0 if all(r["status"] == "ok" for r in results) else 1

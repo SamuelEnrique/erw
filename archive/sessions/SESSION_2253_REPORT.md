@@ -45,3 +45,7 @@ The trial and the write ran offline. Also Supabase, for the locks and the archiv
 - New: `warehouse/connectors/energy_charts_belgium.py`, `tests/test_session2253.py`, this report.
 - Changed: `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `sources.csv`, `archive_manifest.csv`, `license_tables.csv`, `docs/licenses.md`.
 - On the data machine only: `runs/c102/s2253/`.
+
+## Changed by session 2257
+
+- **The table is public:** the licenses' round recorded Energy-Charts' verdict (CC BY 4.0, read 392 on this branch), the connector's license and header now say public, the table was written again (the same rows) and it is in the release package.
