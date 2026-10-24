@@ -127,7 +127,9 @@ class ThePage(unittest.TestCase):
     def test_the_hours_age_is_said_twice(self):
         view = src("site", "components", "grid", "NetworkView.tsx")
         self.assertIn("data-network-lag={lag} data-network-clock-lag={clockLag}", view)
+        # also covered by site/scripts/test-grid-render.mjs: view_exchange on /grid?grid=ercot&view=gravity
         self.assertIn("<Num check={`net|lag|${shownHour}|${snap.built}`} raw={lag}>", view)
+        # also covered by site/scripts/test-grid-render.mjs: view_gravity on /grid?grid=ercot&view=gravity
         self.assertIn("hours before this page was drawn", view)
         self.assertIn('shape?: Shape', view)
         self.assertIn("page={{ keep, node, shape }}", view)

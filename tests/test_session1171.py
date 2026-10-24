@@ -27,6 +27,7 @@ class TheSentence(unittest.TestCase):
     def test_the_words_live_in_one_constant(self):
         lib = src("site", "lib", "gridPreliminary.ts")
         self.assertIn(f'const HEAD = "{WORDS}: a figure here is the value the warehouse held when this page was drawn";', lib)
+        # also covered by site/scripts/test-grid-render.mjs: view_gravity on /grid?grid=ercot&view=gravity
         self.assertIn('const TAIL = ", so a later read of the same hour can differ.";', lib)
         self.assertIn("export const EIA930_PRELIMINARY = preliminaryText();", lib)
         self.assertIn('export const DRAWN_ATTR = "data-eia930-drawn";', lib)
@@ -53,9 +54,11 @@ class TheSentence(unittest.TestCase):
         self.assertEqual(net.count("<Preliminary "), 1)
         self.assertIn("<Preliminary drawn={drawnAt} say />", net)   # the tab already says when the page was drawn
         self.assertIn("const drawn = drawnAt; const clockLag", net)   # one clock for the lag line and the sentence
+        # also covered by site/scripts/test-grid-render.mjs: view_gravity on /grid?grid=ercot&view=gravity
         self.assertIn("hours before this page was drawn", net)
         now = src("site", "components", "grid", "NowView.tsx")   # the Mix tab
         self.assertEqual(now.count("<Preliminary "), 1)
+        # also covered by site/scripts/test-grid-render.mjs: view_now on /grid?grid=ercot&view=mix
         self.assertIn("Hours are hour starts. <Preliminary drawn={new Date(renderTime())} /></>} />", now)
         page = src("site", "app", "grid", "page.tsx")   # the Clean tab: its data line is new
         clean = page[page.index('{view === "clean" ? ('):page.index('{view === "gravity" ? (')]

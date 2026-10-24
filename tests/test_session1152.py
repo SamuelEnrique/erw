@@ -25,10 +25,12 @@ def src(*parts):
 class ThePanel(unittest.TestCase):
     def test_the_panel_is_named_and_placed_at_the_top_of_the_hourly_block(self):
         v = src("site", "components", "grid", "MixView.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: grid_mix_ercot on /grid?grid=ercot&view=mix
         self.assertIn("<div data-grid-panel={`grid_mix_${grid}`}>", v)
         top = v.index('<section id={i ? `hourly-${b.code}` : "hourly"} className="mb-8">')
         self.assertLess(top, v.index("data-grid-panel={`grid_mix_${grid}`}"))
         self.assertLess(v.index("data-grid-panel={`grid_mix_${grid}`}"), v.index("<Legend items={HOURLY_FUELS.map("))
+        # also covered by site/scripts/test-grid-render.mjs: mixview_now on /grid?grid=ercot&view=mix
         self.assertIn("hourly mix, last 7 days", v)
 
     def test_california_stays_withheld_as_the_ruling_says(self):

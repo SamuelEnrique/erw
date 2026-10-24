@@ -77,7 +77,9 @@ class TheExchange(unittest.TestCase):
         self.assertIn('if (p[0] === "nettie") {', c)
         self.assertIn("return K.nettieValue(check, [stored, committed].filter((s) => s && N.isSnapshot(s)));", c)
         e = src("site", "components", "grid", "ExchangeView.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: view_exchange on /grid?grid=ercot&view=gravity
         self.assertIn("<Num check={`net|tie|${ba}|${t.other}|${hour}`} raw={t.mw}>{shown(t.mw)}</Num>", e)
+        # also covered by site/scripts/test-grid-render.mjs: view_exchange on /grid?grid=ercot&view=gravity
         self.assertIn("<Num check={`net|lag|${hour}|${built}`} raw={lag}>{shown(lag)}</Num>", e)
         self.assertEqual(e.count("<Age hour={hour} built={snap.built} />"), 2)
 

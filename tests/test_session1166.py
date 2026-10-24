@@ -50,10 +50,13 @@ class TheDatabaseFigures(unittest.TestCase):
         self.assertIn("<F check={`fmt|f1|calc|diffpct|${dk}|${fk}`} raw={((peak.value - fAtPeak) / peak.value) * 100}", c)
         self.assertIn("<F check={`fmt|f1|fcerr|mape|${dayWin}`} raw={mape}", c)
         self.assertIn("<F check={`fcerr|hours|${dayWin}`} raw={paired}", c)
+        # also covered by site/scripts/test-grid-render.mjs: view_now on /grid?grid=ercot&view=mix
         self.assertIn("<F check={`fmt|f1|degday|cdd|nws:${r.ba.station}|${x.day}`} raw={x.mean - BASE_F}", c)
+        # also covered by site/scripts/test-grid-render.mjs: view_now on /grid?grid=isone&view=mix
         self.assertIn("<F check={`fmt|f1|degday|hdd|nws:${r.ba.station}|${x.day}`} raw={BASE_F - x.mean}", c)
         # the text is the page's own, as it was: the sign, then the size; one decimal; "% over N hours"
         self.assertIn('{peak.value - fAtPeak >= 0 ? "+" : "−"}{count(Math.abs(peak.value - fAtPeak))}</F> MW (', c)
+        # also covered by site/scripts/test-grid-render.mjs: view_now on /grid?grid=ercot&view=mix
         self.assertIn("{(((peak.value - fAtPeak) / peak.value) * 100).toFixed(1)}</F>% of demand)", c)
         self.assertIn("{mape.toFixed(1)}</F>% over{\" \"}", c)
         self.assertIn("<>CDD <F", c)
@@ -69,10 +72,12 @@ class TheDatabaseFigures(unittest.TestCase):
     def test_the_mix_table_keys_each_share_as_two_sums_of_the_day(self):
         c = src("site", "components", "grid", "Conditions.tsx")
         self.assertIn("{by.has(f.key) ? <><F check={shareKey(r, f.key)} raw={(by.get(f.key)! / total) * 100} tip={shareTip(r, f.key)}>{((by.get(f.key)! / total) * 100).toFixed(1)}</F>%</> : \"\"}", c)
+        # also covered by site/scripts/test-grid-render.mjs: view_mix on /grid?grid=ercot&view=mix&mixp=month
         self.assertIn("return `fmt|f1|calc|pct|series_sum~${GEN}~${groupVars(r, fuel).join(\",\")}~${s0}~${s1}~${r.ba.entity}|series_sum~${GEN}~net_generation_mw~${s0}~${s1}~${r.ba.entity}`;", c)
 
     def test_hours_held_and_the_notice_count(self):
         g = src("site", "components", "grid", "YourGrid.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: view_mix on /grid?grid=ercot&view=mix&mixp=month
         self.assertIn("<Num check={`series_n|${T}|${s.v}|${s0}|${s1}|${g.entity}`} raw={s.n}>{count(s.n)}</Num>", g)
         r = src("site", "components", "grid", "Reliability.tsx")
         self.assertIn('<Num check="awe|rows|any" raw={notices.length}>{count(notices.length)}</Num>', r)
@@ -113,6 +118,7 @@ class TheViews(unittest.TestCase):
     def test_one_keyed_figure_writes_every_key_of_the_views(self):
         v = src("site", "components", "mix", "views.tsx")
         self.assertEqual(v.count("check="), 1)
+        # also covered by site/scripts/test-grid-render.mjs: mixview_stress on /grid?grid=ercot&view=mix&mix=stress
         self.assertIn("<Num check={`fmt|${form}|file|${file}|${at}`} raw={v}>{FORM[form](v)}</Num>", v)
         # a held grid's cells in the clean view's table of the seven grids stay as they were
         self.assertIn("cf = `clean/${g}.json`, y = `years.${year}`, key = !held(g);", v)

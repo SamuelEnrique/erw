@@ -34,6 +34,7 @@ class TheStateLine(unittest.TestCase):
 
     def test_the_panel_names_itself_and_keys_through_one_f(self):
         c = src("components", "grid", "CaisoAlertState.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: grid_caisoalert_caiso on /grid?grid=caiso&view=mix
         self.assertIn('data-grid-panel="grid_caisoalert_caiso"', c)
         self.assertIn('id="caiso-alerts"', c)
         self.assertEqual(c.count("check="), 1)
@@ -42,14 +43,19 @@ class TheStateLine(unittest.TestCase):
 
     def test_it_never_says_no_alert_past_the_table(self):
         c = src("components", "grid", "CaisoAlertState.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: grid_caisoalert_caiso on /grid?grid=caiso&view=mix
         self.assertIn("is not held yet:</strong> the table holds CAISO&apos;s notices to <F f={s.newest} />", c)
         self.assertIn('data-caisoalert-state={s.covered ? (s.todayAlerts.length ? "in-force" : "none") : "not-held"}', c)
 
     def test_rmo_and_transmission_are_named_apart_and_the_scorecard_linked(self):
         c = src("components", "grid", "CaisoAlertState.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: grid_caisoalert_caiso on /grid?grid=caiso&view=mix
         self.assertIn("Not alerts, named apart:", c)
+        # also covered by site/scripts/test-grid-render.mjs: grid_caisoalert_caiso on /grid?grid=caiso&view=mix
         self.assertIn("restricted maintenance operations", c)
+        # also covered by site/scripts/test-grid-render.mjs: grid_caisoalert_caiso on /grid?grid=caiso&view=mix
         self.assertIn("a transmission emergency (local)", c)
+        # also covered by site/scripts/test-grid-render.mjs: grid_caisoalert_caiso on /grid?grid=caiso&view=mix
         self.assertIn('<Link href="/grid/caiso/alerts">The Flex Alert scorecard</Link>', c)
         self.assertIn("#scarcity`}>the scarcity strip</Link>", c)
 
@@ -75,6 +81,7 @@ class TheStrip(unittest.TestCase):
         self.assertIn('g.slug === "caiso" ? attempt(() => gridNotices()) : Promise.resolve(null)', p)
         self.assertIn("alertDays(notices.data, w.days)", p)
         self.assertIn("data-scarcity-alert-days=", p)
+        # also covered by site/scripts/test-grid-render.mjs: grid_scarcity_caiso on /grid?grid=caiso&view=mix
         self.assertIn("Restricted maintenance, not an alert and not marked", p)
         self.assertEqual(p.count("check="), 1)
 
@@ -98,6 +105,7 @@ class TheMonthlyMix(unittest.TestCase):
 class TheAlertsPage(unittest.TestCase):
     def test_it_links_back(self):
         a = src("app", "grid", "caiso", "alerts", "page.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: grid_caisoalert_caiso on /grid?grid=caiso&view=mix
         self.assertIn('<Link href="/grid?grid=caiso#caiso-alerts">whether an alert is in force today</Link>', a)
         self.assertIn('<Link href="/grid?grid=caiso#scarcity">the alert days on the scarcity strip</Link>', a)
 

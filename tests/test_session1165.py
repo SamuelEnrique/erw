@@ -42,19 +42,26 @@ class ThePanel(unittest.TestCase):
         self.assertIn("data-grid-balance={b.ba}", b)
         for fig in ("b.gen", "b.demand", "b.net", "b.gap", "b.hours", "b.absmean"):
             self.assertIn(f"<F key=\"v\" f={{{fig}}} />" if fig not in ("b.hours", "b.absmean") else f"<F f={{{fig}}} />", b)
+        # also covered by site/scripts/test-grid-render.mjs: balance_ERCO on /grid?grid=ercot&view=network
         self.assertIn("session 360 found the gap {b.where}", b)
+        # also covered by site/scripts/test-grid-render.mjs: balance_ERCO on /grid?grid=ercot&view=network
         self.assertIn('href="/data/methods/eia930_balance"', b)
         self.assertIn("EIA-930&apos;s total, the figure the gravity shape draws", b)
         self.assertIn("California&apos;s hourly mix by fuel stays withheld", b)
 
     def test_the_keys(self):
         k = src("site", "lib", "gridKeys.ts")
+        # also covered by site/scripts/test-grid-render.mjs: balance_ERCO on /grid?grid=ercot&view=network
         self.assertIn("check: `calc|bal|${k(gen)}|${k(demand)}|${k(net)}`", k)
+        # also covered by site/scripts/test-grid-render.mjs: balance_ERCO on /grid?grid=ercot&view=network
         self.assertIn("check: `netbal|absmean|${ba}|${from}|${to}`", k)
+        # also covered by site/scripts/test-grid-render.mjs: balance_ERCO on /grid?grid=ercot&view=network
         self.assertIn("check: `netbal|hours|${ba}|${from}|${to}`", k)
+        # also covered by site/scripts/test-grid-render.mjs: balance_ERCO on /grid?grid=ercot&view=network
         self.assertIn("check: `net|export|${ba}|${hour}`", k)
         self.assertIn("${BALANCE_SPLIT}", k)
         # the gravity panel's generation key is unchanged, now drawn through generationAt
+        # also covered by site/scripts/test-grid-render.mjs: grid_mix_ercot on /grid?grid=ercot&view=mix
         self.assertIn("check: `series|eia930_all_generation|eia930:${ba}|net_generation_mw|${hour}`", k)
         self.assertIn("const genOf = (ba: string): Fig | null => generationAt(snap, ba, hour, generation?.[ba]);", k)
 

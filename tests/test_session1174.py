@@ -39,6 +39,7 @@ class TheStateLine(unittest.TestCase):
 
     def test_the_panel_names_itself_and_keys_through_one_f(self):
         c = src("components", "grid", "ErcotNoticeState.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: grid_ercotnotice_ercot on /grid?grid=ercot&view=mix
         self.assertIn('data-grid-panel="grid_ercotnotice_ercot"', c)
         self.assertIn('id="ercot-notices"', c)
         self.assertEqual(c.count("check="), 1)
@@ -48,18 +49,24 @@ class TheStateLine(unittest.TestCase):
 
     def test_it_never_says_none_past_the_table(self):
         c = src("components", "grid", "ErcotNoticeState.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: grid_ercotnotice_ercot on /grid?grid=ercot&view=mix
         self.assertIn("is not held yet:</strong> the table holds ERCOT&apos;s notices to <F f={s.newest} />", c)
+        # also covered by site/scripts/test-grid-render.mjs: grid_ercotnotice_ercot on /grid?grid=ercot&view=mix
         self.assertIn("read from ERCOT&apos;s pages on <F f={s.read} /> (UTC)", c)
         self.assertIn('data-ercotnotice-state={s.covered ? (s.todayCalls.length ? "in-force" : "none") : "not-held"}', c)
 
     def test_the_kinds_the_others_and_the_links(self):
         c = src("components", "grid", "ErcotNoticeState.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: grid_ercotnotice_ercot on /grid?grid=ercot&view=mix
         self.assertIn("The last day with {k.name}:", c)
+        # also covered by site/scripts/test-grid-render.mjs: grid_ercotnotice_ercot on /grid?grid=ercot&view=mix
         self.assertIn("Not calls, named apart:", c)
         self.assertIn("#scarcity`}>the scarcity strip</Link>", c)
         self.assertIn("#hourly`}>the monthly mix</Link>", c)
         self.assertIn('const MONTH = gridHref("ercot", "mix", { mixp: "month" });', c)
+        # also covered by site/scripts/test-grid-render.mjs: grid_ercotnotice_ercot on /grid?grid=ercot&view=mix
         self.assertIn('<Link href="/data/methods/ercot_grid_notices">Method: ERCOT&apos;s grid notices</Link>', c)
+        # also covered by site/scripts/test-grid-render.mjs: grid_ercotnotice_ercot on /grid?grid=ercot&view=mix
         self.assertIn("Electric Reliability Council of Texas, ERCOT", c)
 
     def test_a_call_is_the_methods_own_count(self):
@@ -89,6 +96,7 @@ class TheStrip(unittest.TestCase):
         self.assertIn('g.slug === "caiso" ? attempt(() => gridNotices()) : Promise.resolve(null)', p)
         self.assertIn("alertDays(notices.data, w.days)", p)
         self.assertIn('data-scarcity-alert-days={caiso ? caiso.cols.length : "unread"}', p)
+        # also covered by site/scripts/test-grid-render.mjs: grid_scarcity_caiso on /grid?grid=caiso&view=mix
         self.assertIn("Restricted maintenance, not an alert and not marked: <F f={days(caiso.rmoFig)} /> days", p)
 
 

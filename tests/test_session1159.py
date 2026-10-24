@@ -77,7 +77,9 @@ class TheComponents(unittest.TestCase):
     def test_the_last_24_hours_table_scrolls_alone_with_its_row_heads(self):
         e = src("site", "components", "grid", "Emissions.tsx")
         self.assertIn('import { scrollRegion } from "@/lib/cells";', e)
+        # also covered by site/scripts/test-grid-render.mjs: grid_clean24_ercot on /grid?grid=ercot&view=clean
         self.assertIn('<div className="mt-3" data-grid-panel={`grid_clean24_${grid ?? "all"}`}>', e)
+        # also covered by site/scripts/test-grid-render.mjs: grid_clean24_ercot on /grid?grid=ercot&view=clean
         self.assertIn('<div className="overflow-x-auto" {...scrollRegion("Latest, lowest and highest intensity of generation per ISO in the 24 hours drawn")}>', e)
         self.assertIn('<th scope="row" className="py-0.5 pr-2 text-left font-normal">{ISOS.find((i) => i.entity === d.entity)!.label}</th>', e)
         # the note under the table is outside the scrolling frame

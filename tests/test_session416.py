@@ -68,6 +68,7 @@ class TheEmissionsAxis(unittest.TestCase):
         t = src("site", "components", "TimeChart.tsx")
         self.assertIn('month: (t) => new Date(t).toISOString().slice(0, 7),', t)
         # the last 24 hours keep the minute axis
+        # also covered by site/scripts/test-grid-render.mjs: view_clean on /grid?grid=ercot&view=clean
         self.assertIn('<LineChart lines={lines} unit="kg CO2/MWh" height={260} ariaLabel="Carbon intensity of generation per ISO, the last 24 hours" />', s)
 
 

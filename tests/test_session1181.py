@@ -81,6 +81,7 @@ class TheWords(unittest.TestCase):
 
     def test_the_clean_panel_keeps_its_name(self):
         e = src("site", "components", "grid", "Emissions.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: grid_clean24_ercot on /grid?grid=ercot&view=clean
         self.assertIn('<div data-grid-panel={`grid_clean24_${grid ?? "all"}`} data-clean24-unread={got.ok ? "empty" : "failed"}>', e)
 
     def test_the_scarcity_prices(self):
@@ -96,6 +97,7 @@ class TheWords(unittest.TestCase):
         g = src("site", "lib", "gridReads.ts")
         self.assertIn("export async function wholeTable<T>(table: string, holds: string, read: () => Promise<T[]>): Promise<T[]> {", g)
         self.assertIn("answered no row for the whole table, which holds ${holds}: read as a failed read`);\n  await markFailedRead(e);\n  throw e;", g)
+        # also covered by site/scripts/test-grid-render.mjs: grid_caisoalert_caiso on /grid?grid=caiso&view=mix
         self.assertIn('export const CAISO_HOLDS = "every notice since 1998";', g)
         self.assertIn("const rows = await wholeTable(NOTICE_TABLE, \"ERCOT's notices since 2011\", () => rest<Row>(\"events\", {", src("site", "lib", "gridErcotNotices.ts"))
         self.assertIn("export async function wholeRead<T>(table: string, holds: string, read: Promise<", g)

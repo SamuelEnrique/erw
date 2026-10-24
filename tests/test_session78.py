@@ -240,6 +240,7 @@ class Page(unittest.TestCase):
             note = f.read()
         shown = note.split("export function CaisoBreakNote", 1)[1]
         self.assertNotIn("under review", shown)
+        # also covered by site/scripts/test-grid-render.mjs: view_clean on /grid?grid=ercot&view=clean
         self.assertIn('href="/data/methods/eia930_caiso_break"', shown)
         self.assertIn("caisoJoinDay()", shown)
         # session 168: version 3 is the network page; the page that showed the sentence is kept in app/_retired/network-original,

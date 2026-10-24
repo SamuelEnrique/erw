@@ -83,6 +83,7 @@ class TheUnits(unittest.TestCase):
         y = src("site", "components", "grid", "YourGrid.tsx")
         self.assertIn('const mw = (us: GridData["units"]) => Math.round(us.reduce((a, u) => a + (u.capacity_mw ?? 0), 0) * 10) / 10;', y)
         self.assertIn('const mwh = (us: GridData["units"]) => Math.round(us.filter((u) => u.mwh).reduce((a, u) => a + Number(u.mwh), 0) * 10) / 10;', y)
+        # also covered by site/scripts/test-grid-render.mjs: view_now on /grid?grid=ercot&view=mix
         self.assertIn("<Num check={`storage|iso_mw|${g.iso}|operating`} raw={mw(op)}>", y)
 
     def test_the_whole_fleet_read_is_unchanged(self):

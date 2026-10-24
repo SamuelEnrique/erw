@@ -38,6 +38,7 @@ class TheFiles(unittest.TestCase):
 
     def test_the_panel_is_named_and_folded(self):
         comp = src("site", "components", "grid", "AskExamples.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: grid_ask_ercot on /grid?grid=ercot&ask=1&q=What+was+the+peak%3F
         self.assertIn("data-grid-panel={`grid_ask_${grid.slug}`}", comp)
         code = re.sub(r"//.*", "", comp)
         self.assertIn("<details", code)

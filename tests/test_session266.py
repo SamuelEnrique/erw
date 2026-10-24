@@ -122,10 +122,13 @@ class ThePage(unittest.TestCase):
 
     def test_the_lag_is_said_twice_and_keyed(self):
         now = src("site", "components", "grid", "NowView.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: view_now on /grid?grid=ercot&view=mix
         self.assertIn("check={`net|lag|${xHour}|${snap.built}`}", now)
         self.assertIn("hours before the latest hourly refresh of EIA-930&apos;s interchange", now)
         nv = src("site", "components", "grid", "NetworkView.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: view_exchange on /grid?grid=ercot&view=gravity
         self.assertIn("check={`net|lag|${shownHour}|${snap.built}`}", nv)
+        # also covered by site/scripts/test-grid-render.mjs: view_gravity on /grid?grid=ercot&view=gravity
         self.assertIn("on the second morning after it", nv)
 
     def test_a_grid_with_no_tie_is_not_written_as_the_lower_48(self):

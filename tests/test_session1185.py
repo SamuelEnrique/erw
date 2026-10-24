@@ -53,13 +53,16 @@ class TheLower48ByMonth(unittest.TestCase):
         for x in ("AK", "HI", "PR", "US"):
             self.assertNotIn(x, codes)
         self.assertIn("export function statesSum(", lib)
+        # also covered by site/scripts/test-grid-render.mjs: grid_mix_us48 on /grid?grid=us48&view=mix&mixp=month
         self.assertIn("`states_sum|${STATE_MIX}|${variables.join(\",\")}|${start}|${end}|${group}`", lib)
         self.assertNotIn("import ", lib.split("export const STATE_MIX")[0].replace("no import", ""))
 
     def test_the_face_says_what_it_is(self):
         c = src("site", "components", "grid", "Lower48Mix.tsx")
         self.assertIn("monthly net generation by state ({STATE_MIX}), not EIA-930&apos;s US48 total, which adds up the balancing authorities hour by hour", c)
+        # also covered by site/scripts/test-grid-render.mjs: grid_mix_us48 on /grid?grid=us48&view=mix&mixp=month
         self.assertIn("A month is drawn only\n        when every one of the 49 holds it.", c)
+        # also covered by site/scripts/test-grid-render.mjs: grid_mix_us48 on /grid?grid=us48&view=mix&mixp=month
         self.assertIn("<SiteLink href={METHOD_MIX_US48}>Method: the Lower 48 by month, the sum of the states</SiteLink>", c)
         self.assertEqual(c.count("<PanelFile "), 1)
         self.assertEqual(c.count("check="), 1)
@@ -86,8 +89,11 @@ class TheScarcityLine(unittest.TestCase):
     def test_the_lower_48_line_stays_and_says_why(self):
         s = src("site", "components", "grid", "ScarcityPanel.tsx")
         self.assertIn('<p className="max-w-3xl text-sm" data-scarcity-us48="1">', s)
+        # also covered by site/scripts/test-grid-render.mjs: grid_scarcity_us48 on /grid?grid=us48&view=mix
         self.assertIn("is by grid, and it holds two:", s)
+        # also covered by site/scripts/test-grid-render.mjs: grid_scarcity_us48 on /grid?grid=us48&view=mix
         self.assertIn('<span data-scarcity-us48-why="1">The Lower 48 has no strip of its own:', s)
+        # also covered by site/scripts/test-grid-render.mjs: grid_scarcity_us48 on /grid?grid=us48&view=mix
         self.assertIn("so the method defines no national scarcity measure, and none is summed from the grids.", s)
         n = src("docs", "methods", "scarcity_hours_by_grid.md")
         self.assertIn("- **The Lower 48 has no strip of its own** (session 1185, chain 091, 24 October 2026)", n)

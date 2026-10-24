@@ -47,6 +47,7 @@ class OneAddress(unittest.TestCase):
     def test_the_line_carried_over_and_the_one_source_line(self):
         page = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn("Newest hour: {both(newest)}, refreshed {utc(snap.built)}", page)
+        # also covered by site/scripts/test-grid-render.mjs: view_gravity on /grid?grid=ercot&view=gravity
         self.assertIn("Demand of the seven ISOs: newest hour {both(demandTs)}.", page)
         self.assertEqual(page.count("<SourceLine "), 1)
         self.assertNotIn("<Fold", page)

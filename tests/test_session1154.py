@@ -35,6 +35,7 @@ class ThePanel(unittest.TestCase):
 
     def test_named_drawn_by_the_shared_chart_and_keyed(self):
         p = src("site", "components", "grid", "ScarcityPanel.tsx")
+        # also covered by site/scripts/test-grid-render.mjs: grid_scarcity_ercot on /grid?grid=ercot&view=mix
         self.assertIn("data-grid-panel={`grid_scarcity_${grid}`}", p)
         self.assertIn('import { HeatChart } from "@/components/svgchart";', p)
         self.assertIn("<Num check={f.check} raw={f.raw}>", p)
@@ -54,6 +55,7 @@ class ThePanel(unittest.TestCase):
         lib = src("site", "lib", "scarcityStrip.ts")
         self.assertIn("export const SCARCITY_DAYS = 30;", lib)
         self.assertIn("export function windowOf(newest: string, behind: number, days = SCARCITY_DAYS): Window {", lib)
+        # also covered by site/scripts/test-grid-render.mjs: grid_scarcity_ercot on /grid?grid=ercot&view=mix
         self.assertIn("so these are not the 30 days before today", src("site", "components", "grid", "ScarcityPanel.tsx"))
 
 

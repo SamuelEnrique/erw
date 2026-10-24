@@ -84,11 +84,16 @@ class ThePanels(unittest.TestCase):
         self.assertIn('<Missing words="not held"', r)
         self.assertIn("data-grid-replay-day={ba}", r)
         self.assertIn("data-gravity-day={ask.day}", r)
+        # also covered by site/scripts/test-grid-render.mjs: gravityday on /grid?grid=ercot&view=gravity&net=day&t=2020-08-14
         self.assertIn("still draws the live hour: it is sized by net generation (ruling 1a)", r)
         k = src("site", "lib", "gridReplay.ts")
+        # also covered by site/scripts/test-grid-render.mjs: gravityday on /grid?grid=ercot&view=gravity&net=day&t=2020-08-14
         self.assertIn("check: `fmt|n0|file|${file}|demand.${ba}.@${day}`", k)
+        # also covered by site/scripts/test-grid-render.mjs: replay_BPAT on /grid?grid=us48&view=network&net=day&t=2021-02-15&node=BPAT
         self.assertIn("check: `fmt|n0|netday|export|${ba}|${day}`", k)
+        # also covered by site/scripts/test-grid-render.mjs: replay_ERCO on /grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO
         self.assertIn("check: `fmt|n0|netday|import|${ba}|${day}`", k)
+        # also covered by site/scripts/test-grid-render.mjs: replay_ERCO on /grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO
         self.assertIn("check: `netday|ties|${ba}|${day}`", k)
 
 
