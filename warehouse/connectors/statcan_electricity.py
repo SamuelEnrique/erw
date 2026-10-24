@@ -13,15 +13,18 @@ Energy Research Warehouse (ERW) connector. One series table from the table's ful
                where the class or the type is one of StatCan's totals (never summed with its parts); x_vector StatCan's
                vector id; x_revised r where StatCan marks the figure revised
 
-A figure StatCan marks ".." (not available) or "x" (suppressed to meet the Statistics Act's confidentiality) has no row,
-and the header counts each. A unit other than megawatt hours, a scalar factor other than units, an area or label not in
-the maps, or a key given twice stops the run. Nothing is filled. All months StatCan publishes are taken (2008 on).
+A figure StatCan marks ".." (not available), "x" (suppressed to meet the Statistics Act's confidentiality) or "F" (too
+unreliable to be published) has no row, and the header counts each. A unit other than megawatt hours, a scalar factor
+other than units, an area or class of producer not in the maps, or a key given twice stops the run; a new type of
+generation becomes a new series. Nothing is filled. All months StatCan publishes are taken (2008 on). From January 2016
+StatCan gives combustion only within its totals, so the parts that are not totals leave combustion out from then.
 
     python warehouse/connectors/statcan_electricity.py [--offline] [--out-dir DIR]
 
 Ceiling: one request (the zip, asked again unless --offline, since StatCan revises it at the same address). The robots
-file of www150.statcan.gc.ca asks a crawl delay of 2 seconds and disallows its framework and error paths, not /n1/.
-License: may be public (the Statistics Canada Open Licence: use, reproduce, publish, distribute or sell, with
+file of www150.statcan.gc.ca asks a crawl delay of 2 seconds and disallows its framework and error paths and files ending
+.csv, .xls and the like, not /n1/ or a .zip.
+License: public (the Statistics Canada Open Licence: use, reproduce, publish, distribute or sell, with
 attribution and without implying endorsement; see license_verdicts.csv). Quantities only; no price is taken.
 """
 
@@ -131,7 +134,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Statistics Canada, Table 25-10-0015-01, Electric power generation, monthly generation by type of electricity, {PAGE}",
             f"  access: {URL}",
-            "License: may be public (the Statistics Canada Open Licence; see license_verdicts.csv). Source: Statistics Canada, Table "
+            "License: public (the Statistics Canada Open Licence; see license_verdicts.csv). Source: Statistics Canada, Table "
             "25-10-0015-01. This does not constitute an endorsement by Statistics Canada of this product.",
         ]
         ip.write_snapshot(s, TABLE, head, log, cols)

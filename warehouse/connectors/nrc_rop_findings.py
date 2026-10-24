@@ -8,7 +8,7 @@ Energy Research Warehouse (ERW) connector. One events table from the NRC's publi
     https://www.nrc.gov/documents-reports/nrc-data
     https://www.nrc.gov/sites/default/files/doc_library/cdn/data/reactors/operating/dataset/findings-violations.xlsx
 
-    nrc_rop_findings   event_id nrc_rop:<a hash of the docket, report number, issue date, procedure, title, type and
+    nrc_rop_findings   event_id nrc_rop:<a hash of the docket, report number, issue date (as read, YYYY-MM-DD), procedure, title, type and
                cornerstone attribute, which together are unique>; event_date the issue date; event_type the NRC's type in
                lower case (ncv non-cited violation, fin finding, vio violation, nov notice of violation, ncviv and noviv the
                same at severity IV, av apparent violation); parties the site as the NRC names it; entity_ids
@@ -87,13 +87,14 @@ def parse(content, base, serials):
         raise RuntimeError(f"the columns are not the data dictionary's: {list(v.columns)}")
     out, seen = [], set()
     for i, r in v.iterrows():
-        key = "|".join(text(r[c]) for c in KEY)
+        day = issue_day(r["Issue Date"], f"row {i}", serials)
+        key = "|".join(day if c == "Issue Date" else text(r[c]) for c in KEY)  # the date as read, so a serial and a date agree
         if key in seen:
             raise RuntimeError(f"row {i}: a finding given twice: {key[:120]}")
         seen.add(key)
         docket = text(r["Docket Number"])
         row = dict(base, event_id="nrc_rop:" + hashlib.sha1(key.encode("utf-8")).hexdigest()[:14],
-                   event_date=issue_day(r["Issue Date"], f"row {i}", serials), event_type=text(r["Type"]).lower(),
+                   event_date=day, event_type=text(r["Type"]).lower(),
                    parties=text(r["Site Name"]), entity_ids=f"nrc_reactor:{docket}" if docket else "", mw="", price="", currency="",
                    status=text(r["Significance"]).lower())
         for k, c in X_MAP.items():
@@ -125,7 +126,7 @@ def main(argv=None):
         base = dict(source=SOURCE, source_url=URL, retrieved_at=rec.get("retrieved_at") or "")
         serials = []
         t = pd.DataFrame(parse(content, base, serials))
-        cols = EVENT_COLS + X_COLS
+        cols = EVENT_COLS + ["retrieved_at"] + X_COLS
         t = t[cols].sort_values(["event_date", "event_id"]).reset_index(drop=True)
         head = [
             f"Energy Research Warehouse (ERW): U.S. Nuclear Regulatory Commission, Reactor Oversight Process findings and violations, {len(t):,} "

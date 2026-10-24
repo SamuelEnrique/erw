@@ -19,11 +19,13 @@ Energy Research Warehouse (ERW) connector. One series table from the FTA's datas
                x_questionable yes where the FTA marks the figure Questionable
 
 A blank cell has no row; a zero the FTA prints is kept. Miles and miles per gallon are not taken (no unit for a
-distance in the standard; the ratios are the FTA's own arithmetic). The dataset's columns must be the 67 read on 24
-October 2026, or the run stops; so does a key (NTD ID, mode, type of service, report year) given twice, a number that
+distance in the standard; the ratios are the FTA's own arithmetic). The dataset must have 67 columns, as on 24 October
+2026, among them the 15 identifying and 18 energy and Questionable columns read, or the run stops; so does a key (NTD ID, mode, type of service, report year) given twice, a number that
 does not read, a negative quantity, a state not two letters, or a Questionable column holding anything but blank or
 Questionable for a quantity taken. Nothing is filled. Only Full Reporters report energy consumption (the FTA's
-description); demand response taxi is not in the dataset, and non-dedicated fleets report energy but not miles.
+description), though the 2025 file holds 9 rows of Reduced Reporters; demand response taxi is not in the dataset, and
+non-dedicated fleets report energy but not miles. The FTA wrote a zero for electric battery in most agency modes in 2022
+and 2023 and leaves it blank from 2024, so the rows a year are not comparable; sum the values, not the rows.
 
     python warehouse/connectors/ntd_transit_energy.py [--offline] [--out-dir DIR]
 
@@ -145,8 +147,9 @@ def main(argv=None):
             "1,000), electric_propulsion, electric_battery (MWh: the FTA's kWh / 1,000); freq P1Y; ts_utc the report year's first day; geo "
             "US-<state of the agency's headquarters>; x_ columns the agency, city, mode, type of service, urbanized area, vehicles in maximum "
             "service, reporter type and x_questionable yes where the FTA marks the figure Questionable.",
-            "A blank has no row; a zero the FTA prints is kept. Miles and miles per gallon are not taken. Only Full Reporters report energy "
-            "(the FTA's description). Nothing is filled.",
+            "A blank has no row; a zero the FTA prints is kept (electric battery: zeros in 2022 and 2023, blanks from 2024). Miles and miles "
+            "per gallon are not taken. Only Full Reporters report energy (the FTA's description), though 2025 holds some Reduced Reporters. "
+            "Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/ntd_transit_energy.py; the file retrieved {base['retrieved_at']}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

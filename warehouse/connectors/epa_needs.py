@@ -10,7 +10,8 @@ Energy Research Warehouse (ERW) connector. One entities table from EPA's workboo
     https://www.epa.gov/system/files/documents/2025-12/needs-for-2025-reference-case.xlsx
 
     epa_needs_units   entity_id epa_needs:<EPA's UniqueID_Final (ORIS plant code, unit kind and unit id)>; entity_type
-               generator (EPA's G and I) or equipment (B, a boiler; Decision 54); name the plant and unit; geo US-<state>
+               generator (EPA's G, its one I, a 1,000 MW import into California, and C, a committed unit, of which this workbook has
+               none) or equipment (B, a boiler; Decision 54); name the plant and unit; geo US-<state>
                (from EPA's state name, checked against its FIPS code where given); capacity_mw EPA's Capacity (MW), blank
                where EPA gives none (counted); status active for a unit of the
                NEEDS_Active sheet, else blank (Decision 20: the source's own status stays in its own column); x_needs_sheet
@@ -21,8 +22,7 @@ Energy Research Warehouse (ERW) connector. One entities table from EPA's workboo
                BART, owner and share, holding company and share, regulatory status, and the reason a dropped unit was
                dropped
 
-The four sheets must hold the columns read on 24 October 2026 (the first 50 alike, the dropped sheet with EPA's
-reasons), or the run stops; so does a unit id given twice in any sheet or across sheets, a unit kind not in the map,
+The four sheets must hold the 36 columns read (with EPA's reasons in the dropped sheet), or the run stops; so does a unit id given twice in any sheet or across sheets, a unit kind not in the map,
 a state not in the map or unlike its code, or a capacity that does not read. Nothing is filled. The workbook's address names its
 version; a later reference case is a new address, read from the page by a later session.
 

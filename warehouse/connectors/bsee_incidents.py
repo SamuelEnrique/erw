@@ -18,9 +18,9 @@ linked from
                (crane or other lifting device); x_gas_release (reportable H2S or shut-down gas release); x_summary BSEE's
                own words
 
-Each workbook's incidents sheet must hold BSEE's header row (naming Date and Operator Name, and the columns read below); its last line holds BSEE's totals
-(2018's has none, and is not checked), and every Y/N column's count of Y and every count column's sum must equal that
-line, or the run stops. BSEE's notes under 2018's incidents, written in the date column, end the sheet. A serial number
+Each workbook's incidents sheet must hold BSEE's header row (naming Date and Operator Name, and the columns read below); where its last line holds BSEE's
+totals (2022 to 2024; 2018, 2020 and 2021 have none and are not checked), every Y/N column's count of Y and every count
+column's sum must equal that line's figure where it gives one, or the run stops. BSEE's notes under 2018's incidents, written in the date column, end the sheet. A serial number
 given twice, a date that does not read, or a flag that is neither Y nor N stops the run. Blank lines are passed over.
 Nothing is filled. The calendar years are those the page links from 2018 (2017's workbook holds its fourth quarter only, and the
 fiscal-year files before it are in another form): neither is taken.
@@ -127,7 +127,7 @@ def parse(content, year, url):
     if len(h) != 1:
         raise RuntimeError(f"{year}: no single header row naming Date and Operator Name")
     head = [normal(text(c)) for c in v.iloc[h[0]]]
-    serial = head.index("SN_EV_MASTERS") if "SN_EV_MASTERS" in head else None  # 2018 to 2020's workbooks have no serial
+    serial = head.index("SN_EV_MASTERS") if "SN_EV_MASTERS" in head else None  # 2018's workbook has no serial
     missing = [c for c in NEEDED if c not in head]
     inj = [c for c in head if "injur" in c.lower()]
     fatal = [c for c in head if "fatalit" in c.lower()]  # operator and contractor from 2020; one column in 2018
@@ -171,7 +171,7 @@ def parse(content, year, url):
             row[k] = "Y" if any(flag(r.iloc[ix[c]], f"{where} {c}") for c in cols) else "N"
         out.append(row)
     if total is None:
-        return out, False  # 2018's workbook has no totals line
+        return out, False  # no totals line (2018, 2020 and 2021)
     for c in [c for cols in FLAGS.values() for c in cols]:
         got, want = sum(1 for i in range(h[0] + 1, len(v)) if text(v.iat[i, ix["Date"]]) and flag(v.iat[i, ix[c]], c)), total.iloc[ix[c]]
         if text(want) and count(want, f"{year} total {c}") != got:
@@ -216,7 +216,7 @@ def main(argv=None):
         t = pd.DataFrame(rows)
         if t.event_id.duplicated().any():
             raise RuntimeError(f"an incident in two years: {t.event_id[t.event_id.duplicated()].iloc[0]}")
-        cols = EVENT_COLS + X_COLS
+        cols = EVENT_COLS + ["retrieved_at"] + X_COLS
         t = t[cols].sort_values(["event_date", "event_id"]).reset_index(drop=True)
         head = [
             f"Energy Research Warehouse (ERW): Bureau of Safety and Environmental Enforcement, offshore incidents for public use, calendar years "

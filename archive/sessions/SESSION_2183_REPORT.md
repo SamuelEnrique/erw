@@ -61,3 +61,11 @@ NEEDS is the unit inventory EPA's Integrated Planning Model starts from, the fle
 - New: `warehouse/connectors/epa_needs.py`, `tests/test_session2183.py`, this report.
 - Changed: `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`, `docs/coverage.md`, `coverage.csv`, `sources.csv`, `archive_manifest.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c097/s2183/`.
+
+## Corrected by session 2185
+
+- **"The same 49 states and DC" should read 48 states and DC:** NEEDS's active units sit in 49 `geo` values.
+- **California's ratio of 1.00 includes EPA's one I unit,** "IMPORT1 1", 1,000 MW of imports typed as a generator in the active sheet.
+- **The ratio of 0.97 counts 276 hardwired units that come on line only in 2026 to 2028,** against EIA-860M's operating generators. It overstates the match a little.
+
+The connector's description now names the import unit and the unit kind C (none in this workbook).

@@ -44,3 +44,9 @@
 - New: `warehouse/connectors/bsee_incidents.py`, `tests/test_session2177.py`, this report.
 - Changed: `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`, `docs/coverage.md`, `coverage.csv`, `sources.csv`, `archive_manifest.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c097/s2177/`.
+
+## Corrected by session 2185
+
+- **"The header says which years carry BSEE's serial"** (Decisions made without you) is wrong. The header names the id form `bsee_incident:<serial>` and not the years. Only 2018's incidents have hash ids (`h` and a hash); 2020 to 2024 carry BSEE's serial. The connector's comment that 2018 to 2020 lack a serial was wrong the same way and is corrected.
+- **The totals line:** 2018, 2020 and 2021 have none. Only 2022 to 2024 are checked, and only where the line gives a figure. The connector's description now says so.
+- **The table had no `retrieved_at` column,** though its header's last line says each row carries one. The connector built it and then dropped it. It is now kept after `source_url`, and the table was written again in session 2185 (the same 4,818 rows).

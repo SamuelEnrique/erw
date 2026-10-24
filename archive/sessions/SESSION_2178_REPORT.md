@@ -52,3 +52,12 @@ The trial and the write ran offline from the saved workbook. Also Supabase, for 
 - New: `warehouse/connectors/nrc_rop_findings.py`, `tests/test_session2178.py`, this report.
 - Changed: `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`, `docs/coverage.md`, `coverage.csv`, `sources.csv`, `archive_manifest.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c097/s2178/`.
+
+## Corrected by session 2185
+
+- **"The two tables do not overlap in time" is wrong.** The findings run to 12 May 2025 and the event notifications start on 7 May 2025, so they overlap for six days. No count by plant was compared.
+- **The finding's id hashed the issue date as the workbook stores it,** so a date the NRC changed from an Excel serial number to a date would have given the finding a new id. The key now uses the date as read (YYYY-MM-DD).
+- **The table had no `retrieved_at` column,** though its header says each row carries one. It is now kept.
+- **18 links have a space or tab after `/docs/`, 21 accession fields hold a note, and 234 are blank.** All are kept as the NRC prints them.
+
+The table was written again in session 2185 (the same 18,240 findings, with new ids).

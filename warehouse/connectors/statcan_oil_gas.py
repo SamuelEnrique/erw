@@ -15,7 +15,7 @@ Energy Research Warehouse (ERW) connector. One series table from the two tables'
                count of customers); value in m3 (crude as StatCan gives it in cubic metres; gas in thousand cubic metres,
                written times 1,000) or count; ts_utc the month's first day; freq P1M; geo CA or CA-<province>; node the
                area and item as StatCan names them; x_product crude_oil or natural_gas; x_item; x_parent the item it is part
-               of (never summed with it); x_area_total yes for Canada and the Atlantic provinces; x_table; x_vector;
+               of (never summed with it); x_area_total yes for Canada and the Atlantic provinces (both geo CA: filter on the entity, not geo); x_table; x_vector;
                x_revised r where StatCan marks the figure revised
 
 The crude table gives each figure in cubic metres and in barrels; the cubic metres are taken and every barrel figure is
@@ -29,7 +29,8 @@ table's own metadata, or a key given twice stops the run. Nothing is filled.
     python warehouse/connectors/statcan_oil_gas.py [--offline] [--out-dir DIR]
 
 Ceiling: two requests (the zips, asked again unless --offline, since StatCan revises them at the same address), 2
-seconds apart as the robots file of www150.statcan.gc.ca asks; it disallows its framework and error paths, not /n1/.
+seconds apart as the robots file of www150.statcan.gc.ca asks; it disallows its framework and error paths and files
+ending .csv, .xls and the like, not /n1/ or a .zip.
 License: public (the Statistics Canada Open Licence: use, reproduce, publish, distribute or sell, with attribution and
 without implying endorsement; see license_verdicts.csv). Quantities only; no price is taken.
 """
@@ -221,7 +222,7 @@ def main(argv=None):
             "Shape: series (docs/datastandard.md v0). entity statcan_oil:<area> or statcan_gas:<area>; variable the item's slug; unit m3 (gas "
             "given in thousand m3, written times 1,000) or count (customers); freq P1M; ts_utc the month's first day; geo CA or CA-<province>; "
             "node the area and item as StatCan names them; x_product; x_item; x_parent the item it is part of (never summed with it); "
-            "x_area_total yes for Canada and the Atlantic provinces; x_table; x_vector; x_revised r where revised.",
+            "x_area_total yes for Canada and the Atlantic provinces (both geo CA: filter on the entity, not geo); x_table; x_vector; x_revised r where revised.",
             "The crude table's barrels are checked against its cubic metres (6.2898 a cubic metre, to rounding), not kept. Not taken, counted: "
             f"{', '.join(f'{k} {v:,}' for k, v in sorted(counts.items())) or 'none'} (.. not available, x suppressed for confidentiality). "
             "Table 25-10-0055-01, inactive and replaced by 25-10-0086-01, is not taken. Nothing is filled.",
