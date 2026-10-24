@@ -311,6 +311,7 @@ SECTOR_RULES = [
     (r"^energycom_ghana_electricity_annual$", "power"),  # session 2373: Ghana's Energy Commission bulletin, generation by source, imports and exports, peak load, a year (internal)
     (r"^eia_gas_for_others_annual$", "gas"),  # session 2377: EIA's natural gas delivered for the account of others by state and sector, a year (natural-gas/cons/acct)
     (r"^statcan_petroleum_products_monthly$", "oil;products"),  # session 2378: Statistics Canada 25-10-0081-01, petroleum products by supply and disposition, a month
+    (r"^statcan_energy_balance_annual$", "power;gas;oil;coal"),  # session 2383: Statistics Canada 25-10-0029-01, supply and demand of primary and secondary energy, a year
     (r"^eia_lng_storage_annual$", "gas;lng"),  # session 2292: EIA's LNG peak-shaving storage additions and withdrawals by state
     (r"^eia_gas_plant_processing_annual$", "gas;products"),  # session 2287: EIA's gas plant processing (gas processed, liquids extracted), a year
     (r"^eia_crude_tank_farm_stocks_monthly$", "oil"),  # session 2286: EIA's crude stocks at tank farms and pipelines, Cushing among them
