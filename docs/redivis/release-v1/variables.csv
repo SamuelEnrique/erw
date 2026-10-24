@@ -5859,6 +5859,8 @@ grid_stress_yearly,tight_wind_share_of_capacity_pct,series variable,pct
 grid_stress_yearly,wind_reported,series variable,count
 grid_stress_yearly,wind_solar_capacity_mw,series variable,MW
 grid_stress_yearly,wind_solar_mean_mw,series variable,MW
+hagstofa_iceland_power_annual,capacity,series variable,MW
+hagstofa_iceland_power_annual,generation,series variable,MWh
 ieso_generation_fuel_hourly,control_actions,series variable,MWh
 ieso_generation_fuel_hourly,generation_biofuel,series variable,MWh
 ieso_generation_fuel_hourly,generation_gas,series variable,MWh
