@@ -290,7 +290,8 @@ async function keysFromSite(base, pages) {
 export function keysFromValues(text) {
   const out = {};
   for (const line of text.split(/\r?\n/)) {
-    const m = line.match(/^(?:ok|late|FAIL)\s*\| (\S+) \| ([^ ]+\|[^ ]*) \|/);
+    // session 1171: a "revised" line (scripts/check-revised.mjs) names a key the page carries, as ok, late and FAIL do
+    const m = line.match(/^(?:ok|late|revised|FAIL)\s*\| (\S+) \| ([^ ]+\|[^ ]*) \|/);
     if (m) (out[m[1]] ??= new Set()).add(m[2]);
   }
   return Object.fromEntries(Object.entries(out).map(([p, s]) => [p, [...s]]));

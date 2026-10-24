@@ -39,6 +39,15 @@
 // CHECK_VALUES_PAGES read and reads only the others. CHECK_VALUES_WRITE_FLOOR=1 writes floors only from a run (resumed or
 // not) that read every page and passed. scripts/check-values-run.mjs holds the scheduling; its test is
 // scripts/test-check-values-run.mjs.
+//
+// Session 1171 (chain 078), a revised EIA-930 hour: EIA revises its preliminary hourly data, and a figure the page read
+// before a load that rewrote its row differs from Supabase's afterwards (one MISO hour, 13 October 2026). For a key
+// series|eia930_<table>|<entity>|<variable>|<hour> that differs, the row's loaded_at (the load run that last wrote it) is
+// read: written after the page's drawing time (data-eia930-drawn, which every Grid tab carries), the line is "revised",
+// on its own line and in the summary, and passes only for a table docs/methods/grid_network.md names on its line
+// "Revised hours tolerated by check-values: ..."; written before it, the line fails as before and says the row was not
+// rewritten since. Every other difference fails as before. The rule: scripts/check-revised.mjs, its test
+// scripts/test-check-revised.mjs.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -48,6 +57,7 @@ import * as RUN from "./check-values-run.mjs";   // session 430: the pages in ba
 import * as CALC from "./check-calc.mjs";   // session 1165: the arithmetic of the calc| keys, with its test
 import * as FMT from "./check-format.mjs";   // session 1166: fmt|<form>|<key>, a figure written in a form of the page's own
 import * as FILE from "./check-file.mjs";   // session 1166: file|<data file>|<path>, a figure of a committed file of site/data/
+import * as REV from "./check-revised.mjs";   // session 1171: a revised EIA-930 hour told apart from a wrong figure
 
 const REQUEST_MS = Number(process.env.CHECK_VALUES_REQUEST_S ?? 60) * 1000;
 const RUN_MIN = Number(process.env.CHECK_VALUES_TIMEOUT_MIN ?? 15);
@@ -75,6 +85,9 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3000";
 const FLOOR_FILE = path.join(here, "check-values-floor.json");
 const FLOOR = fs.existsSync(FLOOR_FILE) ? JSON.parse(fs.readFileSync(FLOOR_FILE, "utf-8")).floor : {};
+// Session 1171: the tables whose revised hours the method note tolerates (none when the note or its line is missing)
+const REVISED_NOTE = path.join(here, "..", "..", "docs", "methods", "grid_network.md");
+const REVISED_OK = REV.toleratedOf(fs.existsSync(REVISED_NOTE) ? fs.readFileSync(REVISED_NOTE, "utf-8") : "");
 // Session 178: CHECK_VALUES_PAGES=<prefix>[,<prefix>] reads only the pages whose address starts with one of them: one
 // tool's checks on their own (the weekly brief is then not parsed, and the summary says the run was restricted). The
 // gate of a landing is the full run, with the variable unset.
@@ -1121,6 +1134,18 @@ async function eventRows(check) {
     ...(event ? { event: `eq.${event}` } : {}), order: "ts_utc" }));
   return evRows.get(k);
 }
+/** Session 1171: the row of an hourly EIA-930 key, { loaded_at, freq } as Supabase holds it (the load run that last wrote
+ *  it), else null; a query that fails is no revision (the figure's failure stands), the database's slowness is the page's. */
+async function revisedRow(check) {
+  const k = REV.revisedKey(check);
+  if (!k) return null;
+  try {
+    return (await q("series", { select: "loaded_at,freq", table_name: `eq.${k.table}`, entity: `eq.${k.entity}`, variable: `eq.${k.variable}`, ts_utc: `eq.${k.ts}`, limit: "1" }))[0] ?? null;
+  } catch (e) {
+    if (RUN.isTimeout(e)) throw e;
+    return null;
+  }
+}
 
 /** US dollars, short, as site/app/deals/DealsTable.tsx writes them (data-format usd). */
 function usd(v) {
@@ -1297,7 +1322,7 @@ async function main() {
   const truths = new Map();   // one query a key, whichever page it is judged on
 
   async function readOne({ page, url, internal }, signal) {
-    const out = { page, lines: [], ok: 0, bad: 0, superseded: 0, n: 0, keys: [], count: 0, fileSame: 0, fileDiff: 0 };
+    const out = { page, lines: [], ok: 0, bad: 0, superseded: 0, revised: 0, n: 0, keys: [], count: 0, fileSame: 0, fileDiff: 0 };
     const res = await fetch(base + url, { headers: cookie ? { Cookie: cookie } : {} });
     if (internal && res.status === 404) {  // the server has no INTERNAL_COSTS_TOKEN (or another): the page is off there
       out.skipped = `internal page not checked: ${page} answers 404 at ${base} (its INTERNAL_COSTS_TOKEN is not this one)`;
@@ -1308,6 +1333,7 @@ async function main() {
     if (html.includes('data-in-review="1"')) throw new Error(`${page}: the in-review page was served (no internal cookie, or the server's token is not this one)`);
     const re = /<span data-check="([^"]+)" data-raw="([^"]*)"[^>]*>([\s\S]*?)<\/span>/g;
     const ms = [...html.matchAll(re)];
+    const drawn = REV.drawnOf(html);   // session 1171: the page's drawing time, for a revised EIA-930 hour
     out.count = ms.length;   // session 268: the keys the page carried, counted before keys shared with a page read earlier are set aside
     // session 369 (todo 008): on an event page, the date the page writes beside the figure (from the text between the
     // figures around it), and every event page that carries the key, each reported on its own line
@@ -1383,6 +1409,19 @@ async function main() {
       const fp = FMT.fmtParts(check);
       const textHolds = fp ? text === FMT.formText(fp.form, t) : textOk;
       let pass = t !== undefined && t !== null && same && textHolds;
+      // session 1171: a value that differs on an hourly EIA-930 key whose row was rewritten after the page was drawn is a
+      // revision (scripts/check-revised.mjs): its own line, and a pass only where the method note tolerates its table
+      let notRevised = "";
+      if (!pass && !ev && t !== undefined && t !== null && !same && textHolds && REV.revisedKey(check)) {
+        const j = REV.judgeRevised({ check, row: await revisedRow(check), drawn, textHolds, tolerated: REVISED_OK });
+        if (j?.revised) {
+          j.pass ? out.revised++ : out.bad++;
+          out.n++;
+          out.lines.push(REV.revisedLine({ page, check, text, raw, value: t, j }));
+          continue;
+        }
+        if (j) notRevised = ` | ${j.why}`;
+      }
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
       // that day's, and a date the page writes beside the figure must be the same date
@@ -1397,7 +1436,7 @@ async function main() {
       }
       pass ? out.ok++ : out.bad++;
       out.n++;
-      out.lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | ${FILE.fileParts(fp ? fp.inner : check) || /^netday\|/.test(fp ? fp.inner : check) ? "the committed file" : "Supabase"} ${t}`);
+      out.lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | ${FILE.fileParts(fp ? fp.inner : check) || /^netday\|/.test(fp ? fp.inner : check) ? "the committed file" : "Supabase"} ${t}${notRevised}`);
       // session 1166: a figure of a committed file that is a build of a live-set row, against that row, on its own line:
       // "same" within the rounding of the less precise of the two, "DIFF" else (counted apart; not a failure of the run)
       const fk = FILE.fileParts(fp ? fp.inner : check);
@@ -1449,7 +1488,7 @@ async function main() {
     for (const [page, r] of results) {
       if (state.pages[page]) continue;
       state.pages[page] = r.error
-        ? { page, lines: [`FAIL | ${page} | the page | ${r.error.message}`], ok: 0, bad: 1, superseded: 0, n: 0, keys: [] }
+        ? { page, lines: [`FAIL | ${page} | the page | ${r.error.message}`], ok: 0, bad: 1, superseded: 0, revised: 0, n: 0, keys: [] }
         : r;
     }
     try {
@@ -1472,8 +1511,8 @@ async function main() {
   const done = ids.filter((p) => state.pages[p]).map((p) => state.pages[p]);
   for (const r of done) if (r.skipped) console.log(r.skipped);
   const lines = done.flatMap((r) => r.lines);
-  let ok = 0, bad = 0, superseded = 0, n = 0, fileSame = 0, fileDiff = 0;
-  for (const r of done) { ok += r.ok; bad += r.bad; superseded += r.superseded; n += r.n; fileSame += r.fileSame ?? 0; fileDiff += r.fileDiff ?? 0; }
+  let ok = 0, bad = 0, superseded = 0, revised = 0, n = 0, fileSame = 0, fileDiff = 0;
+  for (const r of done) { ok += r.ok; bad += r.bad; superseded += r.superseded; revised += r.revised ?? 0; n += r.n; fileSame += r.fileSame ?? 0; fileDiff += r.fileDiff ?? 0; }
   const wk = state.pages[WEEKLY];
   const [wok, wbad] = [wk?.ok ?? 0, wk?.bad ?? 0];
   // session 430: what this run could not read, a page a line; their floors are not judged and the run is not a pass
@@ -1482,7 +1521,7 @@ async function main() {
   for (const p of missing) lines.push(`not read | ${p} | ${why.get(p) ?? "not reached"} | its numbers and its floor are not judged`);
   console.log(lines.join("\n"));
   if (ONLY.length) console.log(`\nRESTRICTED RUN (CHECK_VALUES_PAGES): only the pages starting with ${ONLY.join(", ")}; not the gate of a landing`);
-  console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})${missing.length ? `; ${missing.length} of ${ids.length} pages NOT READ` : ""}`);
+  console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${revised ? `; ${revised} EIA-930 hours revised after the page was drawn (the lines marked revised; tolerated by docs/methods/grid_network.md for ${[...REVISED_OK].join(", ")})` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})${missing.length ? `; ${missing.length} of ${ids.length} pages NOT READ` : ""}`);
   // session 1166: the committed files' figures against the live-set rows they were built from (not a failure of the run)
   if (fileSame + fileDiff) console.log(`committed files against their live-set tables: ${fileSame} of ${fileSame + fileDiff} the same${fileDiff ? `; ${fileDiff} DIFF (the lines marked DIFF: a file built before its table was, or a row the table no longer holds)` : ""}`);
   if (n < 10) console.log(`check-values FAILED: ${n} values checked, fewer than the floor of ten a run`);

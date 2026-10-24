@@ -16,6 +16,7 @@ import type { GridChoice } from "@/lib/gridtool";
 import { shownHour } from "@/lib/gridKeys";
 import { readReplayYear } from "@/lib/gridReplayFile";
 import type { ReplayAsk } from "@/components/grid/ReplayDay";
+import { Preliminary } from "@/components/grid/Preliminary";
 
 // Session 168 (the owner's instruction of 8 October 2026): version 3 is the network page. This file is version 3's page
 // (app/network/v3/page.tsx, sessions 93, 109 and 124), moved to the tool's own address; /network/v3 redirects here
@@ -65,6 +66,8 @@ export async function NetworkView({ keep, node, shape, grid, day }: { /** the pa
   const newest = snap.hours[snap.hours.length - 1];
   const demandTs = snap.nodes.filter((n) => n.iso && n.demand_ts).map((n) => n.demand_ts as string).reduce((a, b) => (b > a ? b : a), "");
   const hourName = (t: string) => `${t.slice(0, 13).replace("T", " ")}:00 UTC`;
+  // session 1171: the clock the page was drawn by, said in the lag line and in the source line's sentence on revisions
+  const drawnAt = new Date();
   return (
     <div data-grid-network="1">
       <p className="mb-4 max-w-3xl text-base leading-relaxed">The {snap.nodes.length} balancing authorities that report to EIA-930 and the power they exchange. Watch a story, replay any day since {index.first.slice(0, 4)}, or
@@ -73,7 +76,7 @@ export async function NetworkView({ keep, node, shape, grid, day }: { /** the pa
       {/* session 266: the two-day lag, under the chart, computed from the snapshot (net|lag in lib/network.ts) */}
       {(() => { const shownHour = complete.hour ?? newest; const lag = Math.round((Date.parse(snap.built) - Date.parse(shownHour)) / 3_600_000);
         // session 299 (the owner's ruling 3c of 18 October 2026): both ages: against the snapshot's refresh (checkable, the key) and against the clock when this page was drawn (not a key: the clock is not a table)
-        const drawn = new Date(); const clockLag = Math.round((drawn.getTime() - Date.parse(shownHour)) / 3_600_000); return (
+        const drawn = drawnAt; const clockLag = Math.round((drawn.getTime() - Date.parse(shownHour)) / 3_600_000); return (
         <p className="mt-3 max-w-3xl text-sm" data-network-lag={lag} data-network-clock-lag={clockLag}>The newest hour shown, {hourName(shownHour)}, began <Num check={`net|lag|${shownHour}|${snap.built}`} raw={lag}>{shown(lag)}</Num> hours before
           this week&apos;s latest hourly refresh ({utc(snap.built)}), and {shown(clockLag)} hours before this page was drawn ({utc(drawn.toISOString())}): EIA-930 publishes a balancing authority&apos;s interchange for a local day on the second morning after it, so the network runs about two days behind the clock.</p>
       ); })()}
@@ -94,7 +97,7 @@ export async function NetworkView({ keep, node, shape, grid, day }: { /** the pa
       {bad && !bad.ok ? <p className="mt-2 text-sm text-muted" role="status">The last twelve months could not be read, so the panel shows none: {bad.reason}</p> : null}
       <SourceLine tables={["eia930_all_interchange", "eia930_daily_interchange", "eia930_daily_demand", "eia930_all_demand", "carbon_intensity_hourly", "carbon_intensity_daily", SUPPLY_TABLE,
         "eia930_event_hourly_interchange", "eia930_all_storage", "caiso_battery_storage"]}
-        note={<>Public domain (EIA) and CAISO; hub prices as each ISO publishes them. <Link href="/data/methods/grid_network">Method</Link>.</>} />
+        note={<>Public domain (EIA) and CAISO; hub prices as each ISO publishes them. <Preliminary drawn={drawnAt} say /> <Link href="/data/methods/grid_network">Method</Link>.</>} />
     </div>
   );
 }

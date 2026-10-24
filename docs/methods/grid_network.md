@@ -560,6 +560,59 @@ Decisions (session 1167):
   own read: each block reads the snapshot on its own (the Exchange block on every request), so each says the hour it
   shows. Whether the tab should say it once only is put to the owner.
 
+### Revisions, said and checked (session 1171)
+
+Session 1171, the Grid pack's blind spot 9 (`docs/reviews/packs/grid.md`, section 6): EIA calls EIA-930's hourly data
+preliminary and revises an hour after it first publishes it; on 13 October 2026 one revised hour moved two of MISO's
+figures between a page's read and the value checker's, and the run failed on them as if they were wrong.
+
+**Said.** Each tab's data line (the grey source line at its foot) carries one sentence, the same words on the four tabs,
+held in one constant (`EIA930_PRELIMINARY`, `site/lib/gridPreliminary.ts`, drawn by `components/grid/Preliminary.tsx`):
+"EIA-930's hourly figures are preliminary and EIA revises them: a figure here is the value the warehouse held when this
+page was drawn, so a later read of the same hour can differ." The Network and Gravity tabs, which already say under the
+network how many hours before "this page was drawn" the newest hour began, write the same clock after "drawn"
+("(2026-10-24 09:15 UTC)"); the Mix tab (the Now blocks' source line) and the Clean tab do not write a clock, so their
+sentence has none. The Clean tab had no source line; it now has one, naming the tables the tab reads (the list of
+`site/lib/gridtables.ts`, which its license line already shows). Every tab carries the drawing time on the sentence's
+element as `data-eia930-drawn` (an ISO timestamp), for the checker. On the Gravity tab the sentence is in the network's
+source line only, not again in the Exchange blocks' line under it.
+
+**Checked.** The live set's `series` rows carry `loaded_at`, the load run that last wrote the row
+(`warehouse/supabase/load.py` writes only the rows that are new or changed, session 11), and the anon key reads it. So
+check-values (`site/scripts/check-values.mjs`, the rule in `site/scripts/check-revised.mjs`) tells a revision from an
+error: for a key `series|eia930_<table>|<entity>|<variable>|<hour>` whose value on the page differs from Supabase's, it
+reads the row's `loaded_at` and `freq`. When the page's text is its own value as the page writes it, the row is hourly
+(`PT1H`) and it was written after the page's drawing time (the latest `data-eia930-drawn` on the page), the line is
+`revised`, on its own line and in the summary ("N EIA-930 hours revised after the page was drawn"), and it passes only
+for a table named on the line below. A row written at or before the drawing time is the row the page read, so its
+difference fails as before, and the line adds "the row was last written ..., before the page was drawn ...: not a
+revision". Every other difference fails as before: a page without `data-eia930-drawn`, a key of any other kind (a sum,
+a maximum, a `calc|`, a snapshot's `net|` or `netbal|`), a table not named below, a text that is not the page's own
+value.
+
+Revised hours tolerated by check-values: `eia930_all_demand`, `eia930_all_generation`.
+
+(check-values reads that line, word for word; a table taken off it makes its revised hours fail again, and a line
+removed makes every one fail. `site/scripts/test-check-revised.mjs` reads it from this file.)
+
+Decisions (session 1171):
+
+- **The load time, not the retrieval time.** `retrieved_at` is when the data machine pulled EIA's file; a pull that
+  brings the same value does not rewrite the row, but a revised value does, stamped with that load's `loaded_at`. A row
+  is rewritten too when another of its columns changes (its `retrieved_at`), so a later `loaded_at` says the row may have
+  moved, not that it did; the rule is asked only of a figure whose value already differs.
+- **The drawing time is the page's clock, not its build's.** A Grid page is drawn on a request and cached up to an hour;
+  its reads are made in the same drawing, or come from the site's fetch cache, which is older. A row loaded between a
+  cached read and the drawing fails (the rule leans to a failure, never to a pass). The latest of the page's
+  `data-eia930-drawn` is taken.
+- **Two tables, the ones the Grid tabs key by the hour**: `eia930_all_demand` and `eia930_all_generation` (the Now
+  blocks, the Network and Gravity panels, the hourly mix). Another EIA-930 table's revised hour fails, its line saying
+  the note does not tolerate it, until its name is added here.
+- **One row's key only.** A figure over many hours (`series_sum|`, `series_max|`, `netbal|`) moves when one of its hours
+  is revised too, but telling which hour moved needs every row's load time; left failing, as before.
+- **Counted apart**: a revised line counts among the values read, not among those that match, as the latest prices'
+  "superseded" lines do; check-methods (`keysFromValues`) reads a revised line's key as it reads ok and FAIL lines.
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").

@@ -13,7 +13,7 @@ import { Num } from "@/components/Num";
 import { ShareBar } from "@/components/ShareBar";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolTable } from "@/components/tool/ToolPage";
-import { daysAgo, series, type SeriesRow } from "@/lib/data";
+import { daysAgo, renderTime, series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { FUELS, fuelName, fuelOf, type GridData } from "@/lib/grid";
 import { latestHour } from "@/lib/gridReads";
@@ -24,6 +24,7 @@ import { completeHour } from "@/lib/networkV3";
 import { attempt } from "@/lib/supabase";
 import { GridYesterday } from "./Conditions";
 import { GridNowParts } from "./YourGrid";
+import { Preliminary } from "./Preliminary";
 
 const DEMAND = "eia930_all_demand", GEN = "eia930_all_generation", CARBON = "carbon_intensity_hourly";
 const H = 3_600_000;
@@ -128,7 +129,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
       {cfg && data ? <GridNowParts g={cfg} d={data} /> : null}
       <GridYesterday code={CONDITIONS_CODE[grid.slug]} />
       <SourceLine tables={[DEMAND, GEN, CARBON, "eia930_all_interchange"]}
-        note={<>Public domain (EIA, Form EIA-930). The exchange is read from the network&apos;s hourly snapshot of the interchange table. Hours are hour starts.</>} />
+        note={<>Public domain (EIA, Form EIA-930). The exchange is read from the network&apos;s hourly snapshot of the interchange table. Hours are hour starts. <Preliminary drawn={new Date(renderTime())} /></>} />
     </div>
   );
 }

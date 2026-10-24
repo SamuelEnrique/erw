@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { Related } from "@/components/Related";
-import { ToolHeader, ToolPage } from "@/components/tool/ToolPage";
+import { SourceLine, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
 import { TableLicenses } from "@/components/tool/TableLicenses";
 import { GRID_VIEW_TABLES } from "@/lib/gridtables";
+import { renderTime } from "@/lib/data";
 import { licenseNeededTables } from "@/lib/license";
 import { ToolPicker, ToolTabs } from "@/components/tool/Choose";
 import { KEEP_DAY } from "@/lib/carry";
@@ -17,6 +18,7 @@ import { ExchangeView } from "@/components/grid/ExchangeView";
 import { MixClean, MixView } from "@/components/grid/MixView";
 import { NetworkView } from "@/components/grid/NetworkView";
 import { NowView } from "@/components/grid/NowView";
+import { Preliminary } from "@/components/grid/Preliminary";
 import { GridCleanParts, GridMixParts } from "@/components/grid/YourGrid";
 import { gridOf, load } from "@/lib/grid";
 import { GRID_CHOICES, GRID_VIEWS, gridHref, gridPick } from "@/lib/gridtool";
@@ -120,6 +122,8 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
                   {cfg && data ? <GridCleanParts g={cfg} d={data} /> : null}
                   <EmissionsParts focus={`eia930:${grid.ba}`} grid={grid.slug} />
                   <div className="mt-10"><MixClean c={mix} /></div>
+                  {/* session 1171: the Clean tab's data line, the tables the tab reads (lib/gridtables.ts) and the sentence on EIA-930's revisions every tab carries */}
+                  <SourceLine tables={[...GRID_VIEW_TABLES.clean]} note={<Preliminary drawn={new Date(renderTime())} />} />
                 </div>
               ) : null}
               {view === "gravity" ? (
