@@ -531,6 +531,12 @@ cer_gas_trade,export_price,series variable,USD/MMBtu
 cer_gas_trade,exports,series variable,Mcf
 cer_gas_trade,import_price,series variable,USD/MMBtu
 cer_gas_trade,imports,series variable,Mcf
+cer_pipeline_throughput,available_capacity,series variable,m3/d
+cer_pipeline_throughput,capacity,series variable,m3/d
+cer_pipeline_throughput,committed_volume,series variable,m3/d
+cer_pipeline_throughput,nameplate_capacity,series variable,m3/d
+cer_pipeline_throughput,throughput,series variable,m3/d
+cer_pipeline_throughput,uncommitted_volume,series variable,m3/d
 cftc_cot_positions,managed_money_long,series variable,count
 cftc_cot_positions,managed_money_net,series variable,count
 cftc_cot_positions,managed_money_short,series variable,count

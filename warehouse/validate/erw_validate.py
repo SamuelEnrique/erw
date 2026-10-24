@@ -97,7 +97,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "ft3/s",
          # session 2121: a mass in grams, as EPA's Toxics Release Inventory reports dioxins (epa_tri_energy_releases_annual;
          # Decision 66)
-         "g"}
+         "g",
+         # session 2169: a volume a day in cubic metres, as the CER gives a pipeline's throughput and capacity
+         # (cer_pipeline_throughput; Decision 69)
+         "m3/d"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
