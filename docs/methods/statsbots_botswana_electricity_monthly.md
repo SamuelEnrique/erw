@@ -17,7 +17,7 @@ Saved files, in `warehouse/raw/statsbots_botswana/20261024T104905Z_probe/`, fetc
 - the home page, 194,858 bytes, sha256 `9ebcd7c3...`, at 2026-10-24T10:49:26Z;
 - the brief, 2,384,893 bytes, sha256 `9ba2a347...`, at 2026-10-24T10:49:35Z, Last-Modified "Tue, 29 Sep 2026 07:03:14 GMT".
 
-The connector's run folders (`20261024T105340Z`, an empty manifest; `20261024T105351Z` and `20261024T111816Z`) hold only the data-lock check, so its runs were offline. www.statsbots.org.bw's robots file (read 707) asks a crawl delay of 10 seconds, disallows Drupal's system paths and `/search/`, and names no AI agent. Session 2421 made 4 requests of 15 (the robots file, the home page, the brief, the terms of use) and reports them 10 seconds apart; the manifest's whole-second stamps for the home page and the brief are 9 seconds apart (what instant the probe stamps, the request or the end of the answer, is not read here).
+The connector's run folders (`20261024T105340Z`, an empty manifest; `20261024T105351Z` and `20261024T111816Z`) hold only the data-lock check, so its runs were offline. www.statsbots.org.bw's robots file (read 767) asks a crawl delay of 10 seconds, disallows Drupal's system paths and `/search/`, and names no AI agent. Session 2421 made 4 requests of 15 (the robots file, the home page, the brief, the terms of use) and reports them 10 seconds apart; the manifest's whole-second stamps for the home page and the brief are 9 seconds apart (what instant the probe stamps, the request or the end of the answer, is not read here).
 
 Connector: `warehouse/connectors/statsbots_botswana.py` (session 2421, license lines changed in session 2425), `[--offline] [--out-dir DIR]`.
 - **Ceiling:** two requests, 10 seconds apart online. The home page is fetched again on every online run (`fresh`); the brief is reused when a file for its address is saved, and a new quarter's brief has a new address. A paused `statsbots` or host www.statsbots.org.bw is never asked.
@@ -40,7 +40,7 @@ Records:
 
 Readers: none. `tests/test_session2421.py` (5 tests) tests the reader on text built in the test.
 
-License: `license_verdicts.csv`, read 709 (session 2421's read of the terms of use, `https://www.statsbots.org.bw/terms-use`): "users may utilise the information as they wish, provided that they acknowledge Statistics Botswana as the source of the basic data wherever they process, apply, utilise, publish or distribute the data", verdict "may be public", the same if the ERW sells anything (session 2425); the note adds that users must say an application or analysis is their own processing. Header line 9 states this. `docs/licenses.md`, the table's row: "may be public", flag public, "agrees", ERW verdict public.
+License: `license_verdicts.csv`, read 769 (session 2421's read of the terms of use, `https://www.statsbots.org.bw/terms-use`): "users may utilise the information as they wish, provided that they acknowledge Statistics Botswana as the source of the basic data wherever they process, apply, utilise, publish or distribute the data", verdict "may be public", the same if the ERW sells anything (session 2425); the note adds that users must say an application or analysis is their own processing. Header line 9 states this. `docs/licenses.md`, the table's row: "may be public", flag public, "agrees", ERW verdict public.
 
 ## Vintage and revision
 

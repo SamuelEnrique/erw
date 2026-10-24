@@ -4,6 +4,7 @@ afdc_ev_charging_state_annual,public,,,,U.S. Department of Energy (DOE),"Public:
 afdc_station_counts_annual,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 afdc_vehicle_registrations_annual,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ai_power_regions,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
+amm_guatemala_generation_monthly,internal,,,,"Administrador del Mercado Mayorista (AMM), Guatemala",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 aneel_siga_plants,public,,,,Agencia Nacional de Energia Eletrica (ANEEL),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 api_cost_ledger,internal,,,,Anthropic,The ERW holds it for its own use only; it is never redistributed.,whole
 ba_supply_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",430 days
@@ -188,6 +189,7 @@ eia_lng_liquefaction_projects,public,,,,EIA,"Public: every publisher's terms the
 eia_lng_storage_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_mecs_manufacturing,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_meters_state_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_net_imports_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_net_metering_state_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_ngl_production_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_nuclear_outages_daily,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -304,6 +306,8 @@ eurostat_crude_imports_by_field_monthly,public,,,,Eurostat (Statistical Office o
 eurostat_crude_imports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_capacity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_electricity_production_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_electricity_trade_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_gas_balance_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_gas_imports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_hard_coal_imports_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -481,6 +485,8 @@ scripps_co2_mlo_monthly,public,,,,"Scripps CO2 Program (Scripps Institution of O
 shoulder_hours_monthly,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 singstat_singapore_electricity,internal,,,,Singapore Department of Statistics (SingStat),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 smard_germany_monthly,public,,,,Bundesnetzagentur (SMARD),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+sne_panama_electricity_annual,public,,,,"Secretaria Nacional de Energia, Panama","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+sne_panama_generation_monthly,public,,,,"Secretaria Nacional de Energia, Panama","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 spp_as_prices,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 spp_as_quantities,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 spp_curtailment_daily,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",100 days
@@ -491,6 +497,7 @@ statbank_moldova_electricity_monthly,public,,,,National Bureau of Statistics of 
 statcan_electricity_generation_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_electricity_trade_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_energy_balance_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statcan_generating_capacity_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_oil_gas_supply_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_petroleum_products_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 state_generation_mix_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
@@ -498,6 +505,7 @@ statee_estonia_electricity_monthly,public,,,,Statistics Estonia,"Public: every p
 statfi_finland_electricity_monthly,public,,,,Statistics Finland,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statnett_norway_daily,internal,,,,Statnett SF,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 statsbots_botswana_electricity_monthly,public,,,,Statistics Botswana,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statsmu_mauritius_electricity_annual,public,,,,Statistics Mauritius,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 storage_buildout_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_capacity,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_daily_cycle,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole

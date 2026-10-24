@@ -24,7 +24,7 @@ Saved pages, in `warehouse/raw/esco_georgia/20261024T110109Z_probe/`, fetched by
 | 2025 | 67,378 | `f857b931...` | 11:02:48Z |
 | 2026 | 67,515 | `ec04efc8...` | 11:03:19Z |
 
-The 2025 page is also read 723 in `docs/licenses.md` (the same size and time). The connector's run folders (`20261024T110707Z`, an empty manifest, and `20261024T110718Z`) hold only the data-lock check, so its runs were offline. esco.ge has no robots file (read 721, HTTP 404). Session 2423 made 14 requests of 15, 8 of them to esco.ge (the report). In the saved pages the wind line reads "Kartli Wind Power Plant" from 2021 to 2025 and "Wind Power Plants" in 2026, the line "Solar power plants" is on the 2026 page only, and the line "Supplied to the Consumers and Export" is on every page but 2021's.
+The 2025 page is also read 783 in `docs/licenses.md` (the same size and time). The connector's run folders (`20261024T110707Z`, an empty manifest, and `20261024T110718Z`) hold only the data-lock check, so its runs were offline. esco.ge has no robots file (read 721, HTTP 404). Session 2423 made 14 requests of 15, 8 of them to esco.ge (the report). In the saved pages the wind line reads "Kartli Wind Power Plant" from 2021 to 2025 and "Wind Power Plants" in 2026, the line "Solar power plants" is on the 2026 page only, and the line "Supplied to the Consumers and Export" is on every page but 2021's.
 
 Connector: `warehouse/connectors/esco_georgia.py` (session 2423), `[--offline] [--out-dir DIR]`.
 - **Ceiling:** one request a year's page, 2 seconds apart; a page saved is reused unless `fresh`. In the code, a page is fetched again online when its year is the current year or the one before (`y >= this_year - 1`); the docstring said only the current year's until session 2429 (Checks). A paused `esco_ge` or host esco.ge is never asked.
@@ -48,7 +48,7 @@ Records:
 
 Readers: none. `tests/test_session2423.py` (5 tests) tests the reader on a page built in the test.
 
-License: `license_verdicts.csv`, read 722 (session 2423's read of the English home page's footer): "(c) 2016 ESCO ALL RIGHTS RESERVED" (the page and the verdict file have the copyright sign where this note writes "(c)"), verdict "needs written permission", the same if the ERW sells anything (session 2425). `docs/licenses.md`, the table's row: verdict "needs written permission", flag internal, "agrees", ERW verdict internal; under "Permission needed", ESCO: "Write to: no person or address on the page read." Header line 9 and the docstring said "internal until a ruling" until session 2429 (Checks).
+License: `license_verdicts.csv`, read 782 (session 2423's read of the English home page's footer): "(c) 2016 ESCO ALL RIGHTS RESERVED" (the page and the verdict file have the copyright sign where this note writes "(c)"), verdict "needs written permission", the same if the ERW sells anything (session 2425). `docs/licenses.md`, the table's row: verdict "needs written permission", flag internal, "agrees", ERW verdict internal; under "Permission needed", ESCO: "Write to: no person or address on the page read." Header line 9 and the docstring said "internal until a ruling" until session 2429 (Checks).
 
 ## Vintage and revision
 
@@ -102,7 +102,7 @@ Counted in session 2429 from the table in the main checkout (`C:\Users\Shared\Do
 - **Transit:** outbound transit equals inbound in every month but two. In June 2021 inbound is blank and outbound is 35.467 GWh, within 0.001 of that month's resource gap (35.468). In March 2023 inbound is 444.774 and outbound 762.825, 318.051 more, the same as that month's total demand over the delivery. These are observations; nothing is filled or corrected.
 - **Against Ember** (`owid_ember_electricity_annual`, `owid_energy:GEO`, `electricity_demand`, MWh, to 2025): consumption as above over Ember's demand is 1.0000 (2021), 0.9999 (2022), 0.9976 (2023), 1.0216 (2024) and 1.0125 (2025). The report's table (ESCO 14,260.3, 14,808.6, 13,717.3, 14,414.3, 14,884.0 GWh against Ember's 14,260, 14,810, 13,750, 14,110, 14,700) holds; the report reads Ember's 2021 and 2022 as ESCO's own figures.
 - **The docstring against the code on re-fetching:** the docstring says "one request a year (six when written; the current year's page fetched again on a run, the others reused)"; the code (`fresh=not args.offline and y >= this_year - 1`) fetches the current year's page and the previous year's again on an online run, two requests in 2026, not one. Changed in session 2429 (below).
-- **License wording:** header line 9 and the docstring say "internal until a ruling"; session 2425 has since recorded "needs written permission" for ESCO (read 722). The flag (internal) and the verdict agree. Changed in session 2429 (below).
+- **License wording:** header line 9 and the docstring say "internal until a ruling"; session 2425 has since recorded "needs written permission" for ESCO (read 782). The flag (internal) and the verdict agree. Changed in session 2429 (below).
 
 ## What it cannot say
 
