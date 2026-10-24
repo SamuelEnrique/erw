@@ -223,6 +223,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eehc_egypt_electricity_annual",
            "statcan_generation_class_annual",
            "statcan_power_disposition_annual",
+           "epe_brazil_consumption_monthly",
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "energinet_dk_production_hourly",
