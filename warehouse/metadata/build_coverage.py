@@ -311,6 +311,7 @@ SECTOR_RULES = [
     (r"^emi_nz_generation_demand_monthly$", "power"),  # session 2254: EMI's New Zealand grid generation and demand, nationally and by island, a month
     (r"^census_c30_construction_monthly$", "power;datacenters"),  # session 2258: the Census Bureau's construction spending by type and owner, a month (data centers, power)
     (r"^energy_charts_southeast_europe_daily$", "power"),  # session 2259: Energy-Charts' Hungary, Romania, Greece and Bulgaria, production by type and load, a day
+    (r"^census_qss_utilities_hosting_quarterly$", "power;gas;datacenters"),  # session 2264: the Census Bureau's QSS benchmark, utilities' and hosting's revenue, a quarter
     (r"^statcan_oil_gas_supply_monthly$", "oil;gas"),  # session 2179: Statistics Canada's crude oil and natural gas supply and disposition, by province, a month
     (r"^ntd_transit_energy_annual$", "power;products"),  # session 2182: the FTA's National Transit Database fuel and energy, an agency, mode and year
     (r"^epa_needs_units$", "power"),  # session 2183: EPA's NEEDS for the 2025 reference case, one row a generating unit

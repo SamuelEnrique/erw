@@ -42,6 +42,7 @@ census_bps_state_annual,census,,51,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z
 census_c30_construction_monthly,census,,110,P1M,1993-01-01T00:00:00Z,2026-08-01T00:00:00Z,88376,census:c30_construction_spending,2026-10-24T04:19:04Z,pass,public,power;datacenters,no,source
 census_cbp_hosting_annual,census,,51,P1Y,2012-01-01T00:00:00Z,2023-01-01T00:00:00Z,1836,census:cbp_state_518210,2026-10-24T00:26:22Z,pass,public,power;datacenters,no,source
 census_metro_population,none,,387,,2020-04-01T00:00:00Z,2025-07-01T00:00:00Z,1650,census:popest_cbsa,2026-10-06T00:40:24Z,"pass, 1 warnings",public,power,no,source
+census_qss_utilities_hosting_quarterly,census,,5,P3M,2003-10-01T00:00:00Z,2024-10-01T00:00:00Z,784,census:qss_benchmark,2026-10-24T04:51:58Z,pass,public,power;gas;datacenters,no,source
 cer_electricity_trade,cer,,94,P1M;P1Y,2010-01-01T00:00:00Z,2026-07-01T00:00:00Z,1136,cer:electricity_trade_summary,2026-10-23T05:04:05Z,pass,public,power,no,source
 cer_gas_trade,cer,,8,P1M,2010-01-01T00:00:00Z,2025-12-01T00:00:00Z,1427,cer:natural_gas_trade_summary,2026-10-23T08:04:30Z,pass,public,gas,no,source
 cer_pipeline_throughput,cer,,44,P1D;P1M,2006-01-01T00:00:00Z,2026-06-30T00:00:00Z,408073,cer:throughput_capacity,2026-10-24T01:01:05Z,blocked (1 errors),public,oil;gas,no,source

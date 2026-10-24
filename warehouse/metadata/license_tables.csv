@@ -42,6 +42,7 @@ census_bps_state_annual,Census Bureau,the source registry
 census_c30_construction_monthly,Census Bureau,the source registry
 census_cbp_hosting_annual,Census Bureau,the source registry
 census_metro_population,Census Bureau,the source registry
+census_qss_utilities_hosting_quarterly,Census Bureau,the source registry
 cer_electricity_trade,Canada Energy Regulator (CER),the source registry
 cer_gas_trade,Canada Energy Regulator (CER),the source registry
 cer_pipeline_throughput,"Canada Energy Regulator (CER), Open Government Licence - Canada",the source registry
