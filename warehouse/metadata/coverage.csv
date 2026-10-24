@@ -393,7 +393,7 @@ lbnl_tracking_the_sun,lbnl,,7,P1Y,1983-01-01T00:00:00Z,2024-01-01T00:00:00Z,8762
 lbnl_wind_capacity_factors,lbnl,,1210,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,1210,lbnl:wind_capacity_factors,2026-10-23T11:24:31Z,pass,public,power,no,source
 lbnl_wind_costs,lbnl,,35,P1Y,1983-01-01T00:00:00Z,2025-06-30T00:00:00Z,119,lbnl:wind_costs,2026-10-23T12:23:01Z,pass,public,power,no,source
 lbnl_wind_turbine_orders,none,,1,event,1997-02-01T00:00:00Z,2016-07-01T00:00:00Z,122,1 outlets,2026-10-23T12:23:12Z,pass,public,power,no,source
-makstat_macedonia_electricity_monthly,makstat,,15,P1M,2012-01-01T00:00:00Z,2026-07-01T00:00:00Z,3669,makstat:125_Ene_Mk_EEmes_ml,2026-10-24T08:27:51Z,pass,internal,power,no,source
+makstat_macedonia_electricity_monthly,makstat,,15,P1M,2012-01-01T00:00:00Z,2026-07-01T00:00:00Z,3669,makstat:125_Ene_Mk_EEmes_ml,2026-10-24T09:23:02Z,pass,internal,power,no,source
 merchant_revenue_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1M,2018-06-01T00:00:00Z,2026-10-01T00:00:00Z,8853,erw:merchant_revenue,2026-10-19T22:20:44Z,pass,public,power;gas,yes,derived
 miso_as_prices,MISO,miso_dam,1,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,54936,miso:asm_expost_damcp,2026-10-04T04:19:52Z,pass,internal,power,no,source
 miso_interconnection_queue,MISO,,3881,snapshot,2026-09-30T23:33:22Z,2026-09-30T23:33:22Z,3881,miso:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
