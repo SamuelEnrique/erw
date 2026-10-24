@@ -42,6 +42,7 @@ cbs_netherlands_electricity_monthly,public,,,,Statistics Netherlands (CBS),"Publ
 cea_india_psp_annual,internal,,,Central Electricity Authority (India),Central Electricity Authority (India),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 ceb_srilanka_electricity_annual,internal,,,,"Ceylon Electricity Board, Sri Lanka (CEB)",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 cec_total_system_generation_annual,public,,,,California Energy Commission (CEC),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+cence_costarica_generation_monthly,internal,,,,"Centro Nacional de Control de Energia (CENCE, ICE)",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 censtatd_hk_electricity,public,,,,"Census and Statistics Department, Hong Kong (C&SD)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_bps_state_annual,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_c30_construction_monthly,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -73,6 +74,7 @@ doe_lng_export_applications,public,,,,U.S. Department of Energy (DOE),"Public: e
 doe_oe417_events,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 doe_useer_employment,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 dosm_malaysia_electricity_monthly,public,,,,Department of Statistics Malaysia (DOSM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+econtrol_austria_electricity_monthly,internal,,,,E-Control (Energie-Control Austria),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 egrid_power_plants,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 egrid_subregions_annual,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia411_capacity_margins_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -348,9 +350,11 @@ grid_network_nodes,public,,,,EIA,"Public: every publisher's terms the ERW read a
 grid_peak_vs_capacity,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 grid_stress_days,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 grid_stress_yearly,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+hagstofa_iceland_power_annual,public,,,,Statistics Iceland (Hagstofa Islands),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 hub_price_comparison,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 ieso_generation_fuel_hourly,public,,,,"Independent Electricity System Operator (IESO), Ontario","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ieso_ontario_demand_hourly,public,,,,"Independent Electricity System Operator (IESO), Ontario","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+ilr_luxembourg_electricity,public,,,,Institut Luxembourgeois de Regulation (ILR),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 imf_commodity_prices,public,,,,IMF,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 impact_tax_rules,unsettled,,,,Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts,"The terms of Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department have not been read or settled, so the ERW does not redistribute it until they are.",none
 interconnection_agreements_by_grid,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
