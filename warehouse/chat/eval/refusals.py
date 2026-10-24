@@ -26,7 +26,7 @@ sys.path.insert(0, HERE)
 import replay as R  # noqa: E402
 
 OUT = os.path.join(ROOT, "docs", "reviews", "ask-refusals.md")
-EIGHT = {"session 267", "session 302"}   # the runs asked under the limit of 8
+EIGHT = {e["label"] for e in R.RUN_LIST if e["limit"] == 8}   # the runs asked under the limit of 8 (runs.json)
 REFUSED = ("not_in_warehouse", "refused_unverified")
 CLASSES = [("pause", "MISO's pause"), ("held", "a license hold"), ("limit", "the call limit"), ("lacks", "the warehouse lacks the figure"),
            ("read", "rows read, then refused"), ("checked", "the number check's refusal")]

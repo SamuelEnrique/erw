@@ -24,15 +24,11 @@ sys.path.insert(0, os.path.dirname(HERE))
 import ask  # noqa: E402
 
 OUT = os.path.join(ROOT, "docs", "reviews", "ask-replay.md")
-# each run with the file of its grades and how a grade says right
-RUNS = [
-    ("eval_s267_fixtures.json", None, "session 267"),
-    ("eval_s302_fixtures.json", None, "session 302"),
-    ("eval_s1113_run.json", ("eval_s1113_grades.json", "held_ok"), "session 1113"),
-    ("eval_s1114_run.json", ("eval_s1114_grades.json", "ok"), "session 1114"),
-    ("eval_s1133_s320_run.json", ("eval_s1133_s320_grades.json", "held_ok"), "session 1149, first set"),
-    ("eval_s1133_s1114_run.json", ("eval_s1133_s1114_grades.json", "ok"), "session 1149, second set"),
-]
+# each run that carries a tool record, with the file of its grades and how a grade says right (session 1315: from
+# runs.json, the one list of the stored runs)
+with open(os.path.join(HERE, "runs.json"), encoding="utf-8") as _f:
+    RUN_LIST = json.load(_f)["runs"]
+RUNS = [(e["file"], (e["grades"], e["right"]) if e["grades"] else None, e["label"]) for e in RUN_LIST if e["replay"]]
 
 
 def load(name):
