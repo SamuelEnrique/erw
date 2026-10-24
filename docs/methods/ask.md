@@ -85,6 +85,14 @@ The Python loop and the site's are held to give a reader the same thing: `tests/
 
 `tests/test_session1309.py` runs every replayed answer, and a copy of each with one figure moved, through the number check and the unit check of both loops: 284 cases on 23 October, the same verdict in every one.
 
+## One list of the runs (24 October 2026, session 1315)
+
+`warehouse/chat/eval/runs.json` names every stored run once (its file, grades, label, call limit, whether it carries a tool record, its row in the history); `history.py`, `replay.py` and `refusals.py` read it, and a test fails when a JSON file of the folder is neither a run, a run's grades, nor named there as left out.
+
+## The general chat's chart in the Python loop (24 October 2026, session 1317)
+
+The Python loop's general and grid chats give an answered record the series it rests on, as the site's do since session 1142 (`warehouse/chat/general_series.py`); session 1300's turn-by-turn test compares the two loops' series too (its seventh scenario).
+
 ## The refusals, classed (23 October 2026, session 1304)
 
 `python warehouse/chat/eval/refusals.py` classes every stored refusal from its tool record (MISO's pause, a license hold, the call limit of its day, the warehouse lacking the figure, rows read and still refused, the number check's refusal) and writes `docs/reviews/ask-refusals.md`. On 23 October: 10 refusals, 3 MISO's pause and 7 the warehouse lacking the figure; none is the loop's fault (the two graded wrong are PJM's d10, session 320's ruling 3).
@@ -136,3 +144,4 @@ Each dated, with the session that made it; the reports in `archive/sessions/` ca
 - 23 October 2026, session 1301: only the answers the loop let through are replayed (a refused draft is not stored).
 - 23 October 2026, session 1304: a refusal is classed from its record alone, the first class it shows.
 - 23 October 2026, session 1308: the replay a step of the gate beside the suite's own run of it.
+- 24 October 2026, session 1317: the series in the base loop's `finish`, so a grid's chat carries it too; Ask ERCOT's profile keeps its own.

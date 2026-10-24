@@ -27,3 +27,7 @@ Energy Research Warehouse (ERW), chain 075 (sessions 1108 to 1125, the old lapto
 
 13. **Should the CLI hold the licensed grids' rows by default?** Since session 1191 the Python tools can hold what the site holds (`ASK_HOLD=on`, `warehouse/chat/license_hold.py`), off by default, so `python warehouse/chat/ask.py` reads every row as before. **Recommended: on for the evaluation's own loop, off for the CLI**, which is the owner's reader of the warehouse, not a page.
 14. **The board's list of the tables read, at phone width** (session 1149's screenshot, `docs/brand/review-1149/board-390.png`): at 390 wide the list with its licenses fills the first screen and the first figure is below it. **Recommended: move it under the figures** (or fold it behind one line), as the method link is.
+
+## Added by chain 096 (24 October 2026)
+
+15. **A build on this machine and the 3 GB line** (sessions 1307 and 1314): with two Claude sessions on it the old laptop has had 1.75 to 2.1 GB free since 23:20 on 23 October (0.39 GB while the other chain built), so chains 089, 093, 095 and 096 have not built, and their code waits on `wip/1314-ask`. Chain 085's gate passed at 2.4 GB. **Recommended: one chain at a time on this machine when a landing is due**, the line kept; or the line lowered to 2 GB for this machine only.
