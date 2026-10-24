@@ -1,6 +1,6 @@
 # Session 2314 report: a source of the session's own choosing (Latvia's electricity, the Central Statistical Bureau)
 
-24 October 2026, from 06:29 UTC to 06:34 UTC, on lab-desktop (the data machine), chain 106, unattended. Model spend USD 0. Pulls: 7 requests of 20 (5 by the probe, the metadata and the query by the trial; the write ran offline).
+24 October 2026, from 06:29 UTC to 06:33 UTC, on lab-desktop (the data machine), chain 106, unattended. Model spend USD 0. Pulls: 7 requests of 20 (5 by the probe, the metadata and the query by the trial; the write ran offline).
 
 ## Read these first
 
@@ -29,7 +29,7 @@
 | n | What | Outcome |
 |---|---|---|
 | 1 | data.stat.gov.lv/robots.txt | 404 |
-| 2 | the database's search for "electricity" | 200: ENB010m among 40 tables |
+| 2 | the database's search for "electricity" | 200: ENB010m among the results |
 | 3 | table ENB010m's metadata | 200 |
 | 4 | stat.gov.lv/robots.txt | 403 |
 | 5 | the portal's database page | 200: no licence text |
