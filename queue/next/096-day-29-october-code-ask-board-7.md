@@ -10,11 +10,15 @@ Read first: chains 093's and 095's notes (`docs/state/review_2026-10-28_code_ask
 
 ## Rules for every session
 
-As chain 085's, section "Rules for every session", word for word, with this chain's numbers (a build only with 3 GB of memory free; the build lock waited for at most 20 minutes; a landing's check-values failures read against production's; the snapshots before and after every push to main, each as its own command; model spend USD 0 except session 1316, cap USD 1).
+As chain 085's, section "Rules for every session", word for word, with this chain's numbers (a build only with 3 GB of memory free; the build lock waited for at most 20 minutes; a landing's check-values failures read against production's; the snapshots before and after every push to main, each as its own command; model spend USD 0 except session 1314's item 2, cap USD 2.50, and session 1316, cap USD 1).
 
 ## Session 1314: the next file, then what chain 095 left
 
-Long end 2:00. First the next file. Then every item chain 095's sessions left under "To finish", in order, each said in the report; a landing that waited for memory first.
+Long end 2:00. First the next file. Then every item chain 095's sessions left under "To finish", in order, each said in the report; a landing that waited for memory first. Updated by session 1313 (`docs/state/review_2026-10-29_code_ask_board.md`), they are:
+1. **Land `wip/1307-ask`** (chains 089, 093 and 095: sessions 1190 to 1195, 1300 to 1305, 1307 to 1312), when 3 GB are free: merged with main, `python scripts/land_check.py --ref wip/1307-ask --task 1190-1312-ask-board --port 3708` (its new step `ask_replay` included), check-values' failures read against production's; on the same build `check-board.mjs`, `check-links.mjs` with `CHECK_LINKS_PAGES=/board,/ask`, the board at 390 and 1280 with a held line closed and opened, the board's keyboard walk (chain 093's 1303), Ask's panel and the general form at 390 and 1280 (chain 095's 1310), under `docs/brand/review-1314/`; snapshots before and after.
+2. **The second set's rest** (chain 093's 1302) on the same build's server, cap USD 2.50 for this item: `eval_s1133_s1114_run.json` read first, the keys computed again the same hour; the review, the history, the replay and the refusals written again.
+3. **Chain 085's after snapshot**, once production carries `1ccf3c5e` or later.
+4. **The board's new rows**, once a daily run's `board` step has built them.
 
 ## Session 1315: one list of the evaluation's runs
 
