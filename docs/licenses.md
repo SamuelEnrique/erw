@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **537 tables.** The flag and the verdict agree on 432; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 60 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 405 public, 82 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **838 publishers in the record: 836 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 179 pages read, 657 that could not be read, 2 not asked (paused).**
+- **846 publishers in the record: 844 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 184 pages read, 660 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -861,6 +861,14 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 836 | Malawi Energy Regulatory Authority (MERA), the site's search for electricity statistics (session 2493) | https://mera.mw/wp-json/wp/v2/search?search=electricity+statistics&per_page=50 | 15:04:49 | 200 | 2 | read: no result |
 | 837 | Malawi Energy Regulatory Authority (MERA), the site's search for statistics (session 2493) | https://mera.mw/wp-json/wp/v2/search?search=statistics&per_page=50 | 15:04:59 | 200 | 2 | read: no result |
 | 838 | National Statistical Office of Malawi (NSO), the home page and its footer (session 2495) | https://www.nsomalawi.mw/ | 15:09:17 | 200 | 3769722 | read |
+| 839 | Central Statistical Office of Grenada (CSO), stats.gov.gd's robots file (session 2496) | https://stats.gov.gd/robots.txt | 15:11:09 | 200 | 170 | read: disallows nothing; names no AI agent |
+| 840 | Central Statistical Office of Grenada (CSO), the production and consumption page (session 2496) | https://stats.gov.gd/data/production-and-consumption-of-electricity-2000-to-2023/ | 15:11:15 | 200 | 216340 | read |
+| 841 | Central Statistical Office of Grenada (CSO), the terms and conditions (session 2496) | https://stats.gov.gd/terms-and-conditions/ | 15:11:24 | 200 | 198493 | read |
+| 842 | Central Statistical Office of Grenada (CSO), the site's search for electricity (session 2496) | https://stats.gov.gd/wp-json/wp/v2/search?search=electricity&per_page=50 | 15:11:24 | 200 | 1975 | read |
+| 843 | Central Statistical Office of Grenada (CSO), statsgrd.com's robots file, where the terms link the Open Licence Agreement (session 2496) | https://statsgrd.com/robots.txt | 15:11:35 | no request |  | not read: the name does not resolve |
+| 844 | Central Statistical Office of Grenada (CSO), the site's search for licence (session 2496) | https://stats.gov.gd/wp-json/wp/v2/search?search=licence&per_page=50 | 15:11:40 | 200 | 763 | read |
+| 845 | Central Statistical Office of Grenada (CSO), the Open Licence Agreement page (session 2496) | https://stats.gov.gd/open-licence-agreement/ | 15:11:49 | 200 | 188929 | read: the page has a title and no text |
+| 846 | Central Statistical Office of Grenada (CSO), the production and consumption by category page (session 2496) | https://stats.gov.gd/subjects/energy/production-and-consumption-of-electricity-by-category-2000-to-2023/ | 15:11:49 | 200 | 281919 | read |
 
 ## The publishers: the sentence and the verdict
 
