@@ -1,5 +1,7 @@
 # Storage build-out: method
 
+Tables: `storage_buildout_monthly`
+
 Built in session 69 for the site's `/storage/buildout` ("How much storage has been built"), since session 239 the build-out tab of `/storage` (`/storage?tab=buildout`; the old address redirects). One table:
 
 | Table | Tier | What |
@@ -114,3 +116,7 @@ EIA-860M's Planned sheet has no energy column (checked in the saved August 2026 
 - **Planned dates** are developers' own estimates as reported to EIA. They slip, and some planned units are never built.
 - **The solar ratio** compares energy with power: 1.0 means the grid's batteries hold one hour of its solar fleet's nameplate output. It says nothing about how the batteries are used or whether they sit beside the solar.
 - **PJM is shown.** These are EIA's public generator data, not PJM's prices, so the table is public.
+
+## Checks against the table (session 2466)
+
+Counted from `warehouse/output` by `runs/c119/s2466/check_tables.py`: `storage_buildout_monthly` 21,229 rows, January 2015 to August 2026, 9 entities (the seven ISO grids, `us:outside_isos` and `us:total`), 26 variables, units MW, MWh, MWh/MW and count, freq P1M, geo US, no key given twice, every value a number. As the table above describes. The Tables line was added so that the finder of held tables with no note sees it.

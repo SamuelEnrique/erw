@@ -1,5 +1,7 @@
 # Cost of power: method
 
+Tables: `cost_of_power_monthly`, `cost_of_power_hourly_profile`, `cost_of_power_carbon`
+
 > **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's hub prices stop at the last day pulled, and so do the months built on them. What is held stays as it is. [`miso_pause.md`](miso_pause.md)
 
 Built in session 37 for the cost-of-power model v0, platform tool 16 (`/cost-of-power`). Three derived tables (tier derived, public), written by `warehouse/derived/cost_of_power.py`, from tables and files the warehouse already held. No pull was made to build them.
@@ -441,3 +443,7 @@ Each number `/reports/draft/ai-gigawatts` shows carries its key (`site/component
 - `net_import_share_pct`, `pair_import_share_pct`, `net_import_days_pct`, `peak_import_share_pct`, `interchange_days`, `screened_pair_days`, `demand_mwh`: in "6. Imports", each region's net imports in percent of demand by EIA's balance and by the pair sums, the percent of complete days it was a net importer, the percent imported on its ten peak days, the complete days, the pair-days screened out, and its demand in MWh.
 
 Section 8 ("Reading the table three ways") shows the same rows again for the three regions first in each order.
+
+## Checks against the table (session 2466)
+
+Counted from `warehouse/output` by `runs/c119/s2466/check_tables.py`, each read past its 13 header lines: `cost_of_power_monthly` (the table of the Formulas section, which the note calls "the monthly table"; its name is the builder's, `MONTHLY` in `warehouse/derived/cost_of_power.py`) 2,304 rows, July 2018 to October 2026, 9 variables (`rt_` and `da_` load-weighted, simple mean and shape premium, their hours, and `hours_in_month`), units USD/MWh and count; `cost_of_power_hourly_profile` 4,368 rows, October 2025 to October 2026, 48 variables (`rt_mean_h00` to `h23` and `rt_days_h00` to `h23`), 624 a hub; `cost_of_power_carbon` 712 rows, July 2018 to October 2026, 3 variables (`rt_load_weighted`, `intensity_demand`, `intensity_generation`, kgCO2/MWh). Each holds the same 7 hubs (CAISO's NP15 and SP15, ERCOT's hub average, ISO-NE's internal hub, MISO's Indiana hub, NYISO's zone J and SPP's north hub), freq P1M, no key given twice, every value a number. The Tables line was added so that the finder of held tables with no note sees them.

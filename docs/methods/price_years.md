@@ -1,5 +1,7 @@
 # The price years: what each economics page's figure is under every window of years held
 
+Tables: `price_years_by_window`
+
 One derived table, `price_years_by_window`, built by `warehouse/derived/price_years.py` (session 357, the chain of
 20 October 2026). No request is made. It answers the first weakness each economics pack ranks (section 6, item 1,
 "the years ahead"): every page prices its project on the last twelve months, and a reader could not see what the same
@@ -115,3 +117,7 @@ datacenter's flat load at `LZ_NORTH` 33.73, from 21.68 (2016) to 150.61 (2021), 
 and 33.16 without Uri's days.
 
     python warehouse/lock.py run --task price-years -- <python> warehouse/derived/price_years.py --live
+
+## Checks against the table (session 2466)
+
+Counted from `warehouse/output` by `runs/c119/s2466/check_tables.py`: `price_years_by_window` 2,754 rows, 23 columns (`x_tool`, `x_grid`, `x_config`, `x_window`, `x_window_kind`, `x_left_out`, `x_from` and the rest among them), 19 entities, 470 variables, 13 freq values, each a window's length (P4M to P141M), 2015 to 2026, units USD/MWh and USD/kW-year, the markets `caiso`, `ercot` and `spp`, no key given twice, every value a number. The Tables line was added so that the finder of held tables with no note sees it.

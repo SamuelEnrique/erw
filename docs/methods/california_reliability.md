@@ -1,5 +1,7 @@
 # California reliability v1: method
 
+Tables: `caiso_reliability_daily`
+
 Energy Research Warehouse (ERW), session 58. The "Reliability" section of `/grid/caiso` answers two questions:
 - When has California's grid operator, CAISO, told the public the grid was short?
 - How tight were its evenings, day by day?
@@ -86,3 +88,7 @@ Controlling for temperature removes about five sixths of the effect: the extra d
 - **Timeline cells:** `awe|days|<type>|<year>`. check-values counts the distinct days in Supabase's events table.
 - **Daily figures:** series keys of `caiso_reliability_daily`.
 - **The event page:** the keys of `event_window_daily` and `event_study_estimates`, as the other events.
+
+## Checks against the table (session 2466)
+
+Counted from `warehouse/output` by `runs/c119/s2466/check_tables.py`: `caiso_reliability_daily` 20,624 rows, 30 May 1998 to 17 October 2026, two entities (`caiso:ISO` 2,630 rows, `eia930:CISO` 17,994), 22 variables, units MW, count, hour and pct, freq P1D, geo US-CA, no key given twice, every value a number. The Tables line was added so that the finder of held tables with no note sees it.
