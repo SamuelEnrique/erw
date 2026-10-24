@@ -461,6 +461,7 @@ catalogue_hold:
   - statcan_generating_capacity_annual
   - rura_rwanda_electricity_quarterly
   - statsaz_azerbaijan_electricity_annual
+  - siat_uzbekistan_electricity_annual
   - eia_lng_storage_annual
   - eia_gas_plant_processing_annual
   - eia_crude_tank_farm_stocks_monthly
