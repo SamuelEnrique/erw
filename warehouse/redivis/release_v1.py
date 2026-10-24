@@ -228,6 +228,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "energinet_dk_production_hourly",
+           "instat_madagascar_electricity_monthly",
            "sors_serbia_electricity_annual",
            "ask_kosovo_electricity_monthly",
            "nve_norway_reservoirs_weekly",
