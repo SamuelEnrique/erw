@@ -35,6 +35,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "blm_oil_gas_statistics_annual": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "boem_offshore_platforms": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -120,6 +124,10 @@
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "carbon_intensity_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "cec_total_system_generation_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
@@ -727,6 +735,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "eia_seds_residential_annual": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "eia_seds_state_energy": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -807,11 +819,19 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "epa_lmop_landfill_projects": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "epa_rfs_fuel_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "epa_rfs_rins_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "epa_tri_energy_releases_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
@@ -952,6 +972,10 @@
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "ercot_zone_prices_history": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "eurostat_renewable_capacity_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
@@ -1223,6 +1247,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "noaa_uscrn_solar_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "node_basis_daily": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -1312,6 +1340,10 @@
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "ornl_npd_potential": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "owid_ember_electricity_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
@@ -1407,7 +1439,15 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "usgs_comcat_earthquakes_south_central": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "usgs_mcs_critical_minerals": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "usgs_streamflow_daily": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],

@@ -30,7 +30,7 @@
 | 9 | keelinglabsites.ucsd.edu/robots.txt | 404 |
 | 10 | monthly_in_situ_co2_mlo.csv | 200, 87,054 bytes, last modified 21 October 2026 |
 
-Reads recorded: 269 to 273 (probe requests 1, 2, 7, 8 and 9), renumbered at this chain's merge after main's last (272 since chain 069 landed).
+Reads recorded: 303 to 307 (probe requests 1, 2, 7, 8 and 9) (renumbered at session 2147's merge, after chains 069 and 079's).
 
 ## Decisions made without you
 

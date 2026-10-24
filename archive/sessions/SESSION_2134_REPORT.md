@@ -32,7 +32,7 @@
 | 9 | www.nifc.gov's Wildfires and Acres page | 200: the yearly totals, 1983 to 2025 |
 | 10 to 13 | the connector's four pages (trial) | 200 each |
 
-Reads recorded in `warehouse/metadata/license_reads.csv`: 256 to 260 (probe requests 1, 2, 6, 7 and 8), numbered after main's last; they will be renumbered at this chain's merge if another chain lands first.
+Reads recorded in `warehouse/metadata/license_reads.csv`: 290 to 294 (probe requests 1, 2, 6, 7 and 8; 256 to 260 on the branchrenumbered at session 2147's merge, after chains 069 and 079's).
 
 ## Decisions made without you
 
