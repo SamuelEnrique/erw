@@ -414,6 +414,7 @@ lbnl_wind_costs,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW 
 lbnl_wind_turbine_orders,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 makstat_macedonia_electricity_monthly,internal,,,,State Statistical Office of North Macedonia (MakStat),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 merchant_revenue_monthly,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
+mireme_mozambique_electricity_annual,internal,,,,"Ministry of Mineral Resources and Energy, Mozambique (MIREME)",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 miso_as_prices,internal,,,MISO,MISO,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 miso_interconnection_queue,unsettled,license needed,2026-10-21,MISO,MISO,"MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 msha_coal_mines,public,,,,"U.S. Department of Labor, Mine Safety and Health Administration (MSHA)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -501,9 +502,11 @@ statcan_electricity_trade_monthly,public,,,,Statistics Canada,"Public: every pub
 statcan_energy_balance_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_generating_capacity_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_generation_class_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statcan_manufacturing_energy_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_oil_gas_supply_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_petroleum_products_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_power_disposition_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statcan_thermal_fuel_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 state_generation_mix_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 statee_estonia_electricity_monthly,public,,,,Statistics Estonia,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statfi_finland_electricity_monthly,public,,,,Statistics Finland,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
