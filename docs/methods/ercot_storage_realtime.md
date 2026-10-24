@@ -5,6 +5,8 @@ Energy Research Warehouse (ERW), session 120 (5 October 2026). Tables: `ercot_sc
 `warehouse/connectors/ercot_sced_esr.py`, `warehouse/connectors/ercot_rt_spp.py`,
 `warehouse/derived/ercot_storage_realtime.py`. Page: the last section of `/cost-of-power/battery/awards` (in review).
 
+Tables: `ercot_storage_rt_monthly`, `ercot_storage_node_basis` (session 2270; `ercot_sced_esr_hourly` has its own note)
+
 ## What it still leaves out
 
 Read this first. The tables add the real-time energy market to the day-ahead awards
@@ -116,6 +118,9 @@ One entity, `ercot:esr_fleet`, by local (Central) month, over the operating days
 - `as_rt_<service>_mwh`, `as_da_<service>_mwh`, `as_imbalance_<service>_mwh` (regup, regdn, rrs, ecrs, nspin): a MW
   for an hour, real time, day-ahead, and the difference. Not valued.
 - `intervals`, `intervals_priced`: an interval with no hub price is not valued and is counted.
+- `days_held`, `days_in_month`, `resources`, `resource_hours`, `resource_hours_real_time_only`,
+  `resource_hours_day_ahead_only`: what the month rests on, the operating days both disclosures hold against the
+  month's days, and the resource-hours in both files or in one only (session 2270, from the builder's lines 183 to 185).
 - `da_node_minus_hub_sold`, `da_node_minus_hub_bought` (USD/MWh): the day-ahead price at the resources' own
   settlement points less the hub average's, weighted by the MWh sold and by the MWh bought. This is the first measure
   of what the hub price misses, taken day-ahead, where the warehouse holds both prices.
@@ -133,6 +138,12 @@ points up, each counted once: how many, the hub's spread, the points' median, me
 many are wider than the hub.
 
 It is one week, in early autumn. It is applied to no figure and nothing is adjusted by it.
+
+Session 2270: the table held on 24 October 2026 rests on more than a week. Its one date is still 28 September 2026
+(freq P1W), but `ercot:esr_nodes` gives `whole_days` 21 and an `intervals_median` of 2,065, over 293 points, 231 of
+them wider than the hub. The summary entity's variables are `nodes`, `nodes_with_spread`, `whole_days`, `spread_hub`,
+`spread_node_median`, `spread_node_mean`, `spread_node_p10`, `spread_node_p90`, `nodes_spread_above_hub`,
+`mean_node_median`, `mean_hub`, `mean_abs_difference_median` and `intervals_median`.
 
 ## What would close the gaps (for a person to approve; none is scheduled)
 
