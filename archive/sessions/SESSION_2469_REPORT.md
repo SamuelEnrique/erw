@@ -28,6 +28,14 @@ The trial and the write ran offline.
   - the test, `tests/test_session2469.py` (3 tests).
 - **Not yet in the Stanford draft:** session 2471 uploads it if the cap allows a table of this size, and says so if not.
 
+## Corrected in session 2471
+
+- **The retry** came 128 seconds after the 413 (13:30:34 and 13:32:42 UTC), not 100.
+- **Norway's 913 TWh for 2026 is January to August.** All of Norway's rows for September 2026 are zero, where Eurostat's gas balance has 103.2 TWh.
+- **Other zero months against the balance:** Bulgaria in September 2026 (14.21 TWh in the balance) and October 2025 (17.77 TWh), and Austria in September 2026 (5.31 TWh).
+- **The EU aggregate** has no exports to all partners in 2019 and no row in 2020.
+- The method note is `docs/methods/eurostat_gas_exports_monthly.md`.
+
 ## Errors
 
 - **The test's first version was written through a heredoc,** which turned its escaped line ends into real ones (the known trap on this machine). It was rewritten with the Write tool.

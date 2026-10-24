@@ -258,3 +258,14 @@ What session 1010 found on the way (23 October 2026, 11 of its 100 Redivis reque
 - **Requests:** 101 Redivis requests of 150 (7, 86 and 8), and 1 to Supabase. Nothing released.
 
 **Session 2443 (24 October 2026, 12:22 to 12:34 UTC):** chain 117's three public tables, each proved by the draft's count: `statcan_generation_class_annual` (5,937 rows), `statcan_power_disposition_annual` (3,909) and `epe_brazil_consumption_monthly` (105,032; Brazil's consumption, EPE, CC BY 4.0). A plain upload under the data lock from chain 117's branch merged with chain 114's landing; the run checked that it still held the lock before the upload and before putting main's files back. The metadata refresh read this branch's files: `erw_coverage` 530 rows, `erw_sources` 617, `erw_headers` 4,898 lines. 89 of 150 Redivis requests (8, 73 and 8; the cap 110 a run) and 1 to Supabase. Reconcile: before, 351 of 403 match, 46 differ (`erw_sources` 614 against 617 among them), 6 not yet uploaded; after, 356 match and 44 differ (tables daily runs have grown since their upload); 3 not yet uploaded, chain 114's `sne_panama_electricity_annual`, `sne_panama_generation_monthly` and `statsmu_mauritius_electricity_annual`, made public at its landing and left for the next draft. Nothing released.
+
+## Chain 119's upload (session 2471, 24 October 2026, 13:45 to 13:49 UTC)
+
+- **Three public tables uploaded, each proved by the draft's count:** `nsc_kyrgyzstan_electricity_annual` (478 rows), `eurostat_gasoline_exports_monthly` (557,429) and `eurostat_gas_exports_monthly` (1,049,782).
+- **One run** under the data lock (taken 13:45:04, released 13:48:55 UTC). The metadata tables were proved whole: `erw_headers` 4,968 lines, `erw_coverage` 541 rows, `erw_sources` 628 rows.
+- **Kyrgyzstan's header was corrected after the upload** (session 2471, the count of years where produced and generation differ). The data and their hash are unchanged, but the draft's `erw_headers` holds the old line 3 until the next draft upload.
+- **Two reconciles:**
+  - before: 410 tables, 361 match, 46 differ, 3 not yet uploaded (this chain's);
+  - after: 366 match, 44 differ (tables the daily runs have grown since their upload), none missing.
+- **Left for the next draft session:** session 2474's `eurostat_diesel_imports_monthly` (569,595 rows, public), written after this upload. Chain 119's `anare_cotedivoire_electricity_annual` is internal and not uploaded.
+- **Requests:** 92 Redivis requests (8, 76 and 8), and 1 to Supabase. Nothing released.

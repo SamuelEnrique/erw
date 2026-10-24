@@ -33,6 +33,16 @@ The trial and the write ran offline.
   - the test, `tests/test_session2468.py` (3 tests).
 - **Not yet in the Stanford draft:** session 2471 uploads it.
 
+## Corrected in session 2471
+
+- **The retry** came 4 minutes 7 seconds after the 413 (13:11:04 and 13:15:11 UTC), not two minutes.
+- **The EU's rows end in June 2026**, so "2.6 (2026 to September)" is January to June 2026, six months.
+- **14 values are negative,** as published, and this report did not name them:
+  - Germany to Slovenia (1) and to Slovakia (2);
+  - the Netherlands to Spain (2), to France (1) and to "not specified" (5);
+  - the EU to "not specified" (3).
+- The method note is `docs/methods/eurostat_gasoline_exports_monthly.md`.
+
 ## Errors
 
 - **The connector-making script first cut the old docstring at its opening quotes,** leaving the crude connector's text in place. Its own check of words left over caught it before any run; it was corrected and run again.

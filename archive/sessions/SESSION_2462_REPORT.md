@@ -44,6 +44,13 @@ The trial and the write ran offline.
   - the license tables (licenses check: 534 tables, 0 problems);
   - the test, `tests/test_session2462.py` (4 tests).
 
+## Corrected in session 2471
+
+- **Produced against generation** differ in six years, not three: 2003, 2004, 2005, 2010, 2023 and 2024, each within 0.3 million kWh (the bound above holds).
+- **The whole-number years** of the balance are 1991 to 2002, not 1990 to 2002. The 1990 figures carry one decimal and were held to 0.15; they agree exactly.
+- **The connector's docstring and header line 3** are corrected (commit `573bae84`), and the table was written again offline (commit `83d7fc39`). Its 478 rows and their hash are unchanged.
+- The method note is `docs/methods/nsc_kyrgyzstan_electricity_annual.md`.
+
 ## Errors
 
 - **The first parse stopped at 1997:** the balance missed by 1.0 in the years printed in whole million kWh. The rounding is now allowed for those years only.
