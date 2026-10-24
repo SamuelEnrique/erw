@@ -9,7 +9,7 @@
   - web.pln.co.id, the address the chain file names, does not resolve (read 534).
   - www.pln.co.id has no robots file: the address answers the site's page-not-found page (read 535). Its pages are drawn by scripts.
   - A guessed statistics page answered the same not-found page, with no PDF or spreadsheet link. PLN's Statistik PLN is published as yearly PDF books, which no request within the ceiling could locate.
-- **Indonesia's statistics office (BPS):** its web API needs a key the ERW does not hold. It was not asked, per the rule that a session needing a key stops and says so, without signing up.
+- **Indonesia's statistics office (BPS):** its web API (webapi.bps.go.id) is documented as needing an application key, which the ERW does not hold. It was not asked, per the rule that a session needing a key stops and says so, without signing up.
 - Ember's annual table already covers Indonesia.
 
 ## Requests (3 of 15)
