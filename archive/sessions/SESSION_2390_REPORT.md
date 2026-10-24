@@ -1,6 +1,6 @@
 # Session 2390 report: the licenses' thirty-fifth round (ERA, ICE and CNDC need written permission)
 
-24 October 2026, from 09:25 UTC to 09:28 UTC, on lab-desktop (the data machine), chain 113, unattended. Model spend USD 0. Pulls: none of 20.
+24 October 2026, from 09:24 UTC to 09:26 UTC, on lab-desktop (the data machine), chain 113, unattended. Model spend USD 0. Pulls: none of 20.
 
 ## Read these first
 
