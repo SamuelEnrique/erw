@@ -210,6 +210,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "statfi_finland_electricity_monthly",
            "energy_charts_central_europe",
            "statee_estonia_electricity_monthly",
+           "singstat_singapore_electricity",
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "energinet_dk_production_hourly",
