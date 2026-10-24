@@ -204,6 +204,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eurostat_electricity_monthly",
            "desnz_uk_gas_quarterly",
            "ssb_norway_electricity_monthly",
+           "smard_germany_monthly",
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "epa_ghgrp_facility_emissions",
