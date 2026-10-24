@@ -514,6 +514,7 @@ statcan_power_disposition_annual,statcan,,229,P1Y,2005-01-01T00:00:00Z,2025-01-0
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,108125,erw:generation_mix,2026-10-24T14:46:58Z,pass,public,power,yes,derived
 statee_estonia_electricity_monthly,statee,,6,P1M,2005-01-01T00:00:00Z,2026-08-01T00:00:00Z,1344,statee:KE21,2026-10-24T05:05:10Z,pass,public,power,no,source
 statfi_finland_electricity_monthly,statfi,,16,P1M,1992-01-01T00:00:00Z,2026-06-01T00:00:00Z,6350,statfi:12su,2026-10-24T04:12:29Z,pass,public,power,no,source
+statgl_greenland_electricity_annual,statgl,,96,P1Y,1996-01-01T00:00:00Z,2024-01-01T00:00:00Z,2064,statgl:ENX3VVE_ENX4NUK,2026-10-24T18:22:05Z,pass,internal,power,no,source
 statnett_norway_daily,statnett,,1,P1D,2020-01-01T00:00:00Z,2026-10-23T00:00:00Z,4960,statnett:driftsdata_production_consumption,2026-10-24T07:10:35Z,pass,internal,power,no,source
 statsbots_botswana_electricity_monthly,statsbots,,1,P1M;P3M,2016-01-01T00:00:00Z,2026-06-01T00:00:00Z,383,statsbots:electricity_stats_brief,2026-10-24T11:18:16Z,pass,public,power,no,source
 statsmu_mauritius_electricity_annual,statsmu,,1,P1Y,2017-01-01T00:00:00Z,2025-01-01T00:00:00Z,79,statsmu:energy_water_statistics,2026-10-24T11:48:57Z,pass,public,power,no,source
