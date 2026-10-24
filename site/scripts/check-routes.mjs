@@ -121,6 +121,12 @@ const PAGES = [
   "/grid?grid=ercot&view=gravity&shape=gravity", "/grid?grid=us48&view=gravity&shape=gravity", "/grid?grid=ercot&view=now", "/grid?grid=caiso&ask=1",
   "/grid?grid=caiso&view=mix&mix=day&period=2026-04", "/grid?grid=pjm&view=mix&mix=stress&year=2025", "/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO&prices=1&trace=1&shape=map",
   "/grid?view=network&grid=BPAT", "/grid?view=mix&ba=ciso&state=CA", "/grid?grid=nowhere&view=nothing",
+  // session 1172: the old addresses of the Grid tool that the list above lacked, each answering through its redirect (next.config.ts,
+  // app/ask/page.tsx) or read by the tool (lib/gridtool.ts); scripts/test-grid-addresses.mjs says the tab and the grid each opens
+  "/network?view=live&grid=BPAT", "/network?shape=gravity&grid=ERCO", "/network?shape=map&grid=NYIS", "/mix?view=clean", "/mix?view=now&ba=erco&mixp=month",
+  "/mix?view=day&grids=pjm,miso&period=2026-04", "/grid/ercot?view=network", "/ask?grid=ercot&q=What+was+the+peak%3F",
+  "/grid?grid=caiso&view=now&mixp=month", "/grid?grid=nyiso&view=mix&mix=clean", "/grid?grid=ercot&view=network&shape=gravity", "/grid?grid=ERCO&view=network",
+  "/grid?view=mix&ba=erco", "/grid?view=mix&mix=day&grids=pjm,miso", "/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=BPAT",
   "/policy?view=week", "/policy?view=week&days=30", "/policy?view=week&days=30&agency=ferc&topic=large_load&grid=pjm&large=1", "/policy?view=week&grid=miso", "/data/methods/policy_monitor",  // session 157: "What changed this week", the second view of the policy monitor (in review; scripts/check-policy.mjs opens it in a real browser)
 ];
 

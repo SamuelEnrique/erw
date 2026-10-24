@@ -326,7 +326,15 @@ blocks (the latest hour) open the Mix tab; the Exchange view's blocks sit under 
 `/ask` and `/mix` redirect to the panel and the tab. An old address keeps resolving: `view=now` opens Mix,
 `view=exchange` opens Gravity, `view=ask` opens the page with the panel, `shape=gravity` with `view=network` opens
 Gravity (`site/lib/gridtool.ts`, `OLD_VIEWS`). Every block keeps its markup inside the wrapper and its check keys, so
-no number moved. The rulings the page carries, said on the page in its decisions block:
+no number moved. Since session 1172 `site/scripts/test-grid-addresses.mjs` holds this to every address: it follows each
+redirect to `/grid` in `site/next.config.ts` as Next applies it (the rules in order, their query conditions, the old
+address's query carried under the destination's words) and `/ask`'s own redirect, then reads the result as the page
+does, so `/network`, `/network/v3`, `/mix` with each of its views, `/mix/v2`, `/mix/clean`, `/mix/stress`, `/emissions`,
+the seven `/grid/<iso>` and the old words (`view=now`, `exchange`, `ask`; `mix=clean`; `shape=gravity`; a grid as
+`grid=ERCO`, `ba=erco` or `grids=pjm,miso`; `node=BPAT`) each open the tab that holds their blocks with the grid they
+named, `net`, `t`, `node`, `mix`, `mixp`, `shape` and `q` kept; and an address written by `gridHref`, the picker's
+carried day, the map's region link or the network's own writes reads back to the same grid and tab. The route check
+lists one address of each. The rulings the page carries, said on the page in its decisions block:
 
 - **4b, the opening grid.** With no grid in the address the page opens on the Lower 48 on every tab (ERCOT on the Now
   and Ask views until then).
