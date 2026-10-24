@@ -27,7 +27,7 @@
     - session 2451's report is corrected on the license pages.
   - **"Not read" for RURA in `docs/licenses.md`** means no verdict, as for AMM; nothing was changed.
   - **The three tables were written again offline,** with the same rows.
-  - **The notes' read numbers** were renumbered with session 2457's merge mapping, from 763 to 805 to 784 to 826.
+  - **The notes' read numbers** were renumbered with session 2457's merge mapping, from 763 to 805 to 784 to 826, and again at session 2456's merge, to 810 to 852.
 
 ## Errors
 

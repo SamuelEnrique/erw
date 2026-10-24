@@ -16,7 +16,7 @@
     - the connector was removed from the branch (kept on the data machine as `runs/c118/s2455/fred_power_indexes.py.not_taken`);
     - the written file was moved to `warehouse/output/retired/` under the data lock, so coverage and the loader do not meet it.
   - **What stays:**
-    - the two reads (823 and 824 on this branch's numbering), which were real requests;
+    - the two reads (849 and 850 on this branch's numbering), which were real requests;
     - the rows the archive run copied to the private `erw-archive` bucket (13:01 UTC). No manifest names them, so no restore rebuilds the table. **For Samuel:** they can be deleted from the bucket if wanted.
 - **The cross-check, kept for the record** (`runs/c118/s2455/cross.out`): the CPI for electricity (not seasonally adjusted) changed over a year by 14.3, 3.3, 2.8 and 6.7 per cent in December 2022 to 2025. EIA's U.S. residential price (`eia_retail_electricity_prices`) changed by 8.9, 5.0, 3.7 and 5.2 per cent.
 
@@ -44,5 +44,5 @@
 ## Files
 
 - New: this report.
-- Changed: `warehouse/metadata/license_reads.csv` (823 and 824), `docs/licenses.md`.
+- Changed: `warehouse/metadata/license_reads.csv` (849 and 850), `docs/licenses.md`.
 - On the data machine only: `runs/c118/s2455/` (the connector not taken, the trials' logs, the cross-check), `runs/license_reads/s2455/`, `warehouse/output/retired/fred_power_price_indexes_monthly.csv`.

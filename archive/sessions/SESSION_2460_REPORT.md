@@ -7,7 +7,7 @@
 - **Withdrawn (added at 13:26 UTC, after the session):** chain 117's session 2441 had taken the same source, StatCan's table 25-10-0021-01, as `statcan_power_disposition_annual` (3,909 rows, public), and landed it on main at 13:15 UTC. This session's search of the running branches for the source missed it: it looked for the table number in the registry of main and of chains 115's and 117's branches before chain 117 committed it, and did not ask chain 117's agent.
   - The table below was therefore withdrawn. Its connector and test were removed from the branch (kept on the data machine as `runs/c118/s2460/*.withdrawn`). Its coverage, registry, archive manifest, sector, hold and release lines were removed (`runs/c118/s2460/withdraw.py`). Its file was moved to `warehouse/output/retired/` under the data lock.
   - **It is in the Stanford draft:** session 2457's upload (part A, 13:14 UTC) took it before the duplicate was found. Its record row is kept, with `migrated_to` set to `statcan_power_disposition_annual`. **For Samuel:** remove `statcan_electricity_disposition_annual` from the draft (a human's command, `upload.py --remove-migrated` once the two are mapped in `table_migrations.csv`, or by hand).
-  - The two reads (825 and 826 on this branch's numbering after session 2457's merge) stay, being real requests. The account below is of the session as it ran.
+  - The two reads (851 and 852 on this branch's numbering after the second merge, session 2456's) stay, being real requests. The account below is of the session as it ran.
 
 - **The record read first** (session 2455's lesson): Statistics Canada's verdict is public (the Open Licence, read 361), and nothing of StatCan's is in `warehouse/output/retired/`.
 - **The choice:** table 25-10-0021-01, electric power, electric utilities and industry, annual supply and disposition. The ERW holds StatCan's monthly generation and trade and, since chain 114, its capacity. It does not hold sales to ultimate customers by sector, producers' own use, unallocated electricity or interprovincial flows.
@@ -20,7 +20,7 @@
   - the four sales sectors add to total sales within 1 MWh in all 294 area years (the run stops otherwise);
   - supply (generation, imports, exports, receipts, deliveries) does not equal the electricity available in 6 of 294 area years;
   - use (producers', sales, unallocated) does not equal it in 107. Both are counted in the header and kept as published.
-- **License: public** (the Statistics Canada Open Licence). The robots file is unchanged since session 2418 (read 825).
+- **License: public** (the Statistics Canada Open Licence). The robots file is unchanged since session 2418 (read 851).
 - **Test 205's bound raised by 40 again,** for this chain's reads, which reach 805 on this branch.
 
 ## The cross-check (`runs/c118/s2460/cross.py`, `cross.out`; tables read past their header lines)

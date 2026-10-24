@@ -4,7 +4,7 @@
 
 ## Read these first
 
-- **One public table:** `siat_uzbekistan_electricity_annual`, 395 rows, 15 entities (the republic and its 14 regions, Tashkent city among them). It is written, validated, archived, in coverage (sector power), held from the live set, and listed in the release's held tables. It comes from four indicator files of SIAT, the statistics committee's open data portal (reads 816 to 819 on this branch's numbering):
+- **One public table:** `siat_uzbekistan_electricity_annual`, 395 rows, 15 entities (the republic and its 14 regions, Tashkent city among them). It is written, validated, archived, in coverage (sector power), held from the live set, and listed in the release's held tables. It comes from four indicator files of SIAT, the statistics committee's open data portal (reads 842 to 845 on this branch's numbering):
   - 1.02.02.0004, electricity production, by region, 2010 to 2024 (`generation`);
   - 1.02.02.0006 and 0007, production by solar and by wind plants, the republic, 2015 to 2024 (`generation_solar`, `generation_wind`);
   - 1.02.02.0019, gross electricity consumption by subscribers, by region, 2016 to 2025 (`consumption`);
@@ -15,8 +15,8 @@
   - the republic's excess is the unallocated part, at most 34.1 GWh, 19.8 GWh in 2016 and 0.6 GWh in 2022 to 2024.
   - The first check, an equality within 1 GWh, stopped at 2016's 19.8 GWh. The note's "including unallocated data by region" explains the gap, so the check now allows it.
 - **The wind file has a column keyed "2022.1"** besides "2022", both 0.0; it is not taken. Zeros are kept as published (wind is 0.0 in most years to 2022, and 789.6 million kWh in 2024).
-- **License: public, CC BY 4.0.** Indicator 440's page reads "Litsenziya: CC BY 4.0" and names it in its dataset record (read 810); the other three pages were not read, and the files carry no license field (this line first said "each indicator page", corrected in session 2452). New verdict: may be public.
-- **Robots:** stat.uz disallows only Joomla's system paths (read 808). siat.stat.uz and api.siat.stat.uz allow every path, with ClaudeBot, Claude-Web and anthropic-ai named among the allowed (reads 809 and 811).
+- **License: public, CC BY 4.0.** Indicator 440's page reads "Litsenziya: CC BY 4.0" and names it in its dataset record (read 836); the other three pages were not read, and the files carry no license field (this line first said "each indicator page", corrected in session 2452). New verdict: may be public.
+- **Robots:** stat.uz disallows only Joomla's system paths (read 834). siat.stat.uz and api.siat.stat.uz allow every path, with ClaudeBot, Claude-Web and anthropic-ai named among the allowed (reads 835 and 837).
 - **The indicator files were found by a web search,** which pointed to SIAT's indicator pages, rather than by browsing stat.uz.
 - **Not taken into the repository:** the download pointers name a staff member's email; it is not copied anywhere.
 
@@ -55,6 +55,6 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`
-  - `warehouse/metadata/license_reads.csv` (808 to 819), `license_verdicts.csv` (the committee), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (834 to 845), `license_verdicts.csv` (the committee), `license_tables.csv`, `docs/licenses.md`
   - the coverage, sources and archive manifest files, and the release lists
 - On the data machine only: `runs/c118/s2451/`, `runs/license_reads/s2451/`.
