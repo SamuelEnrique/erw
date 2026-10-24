@@ -1,0 +1,4015 @@
+{
+ "about": "Session 1173: the Grid pack refreshed from production through the internal view (docs/brand/review-1173/walk-1173.mjs; the token posted, never printed). Each address read once with node fetch; the panels figures with their data-check keys, the first keys outside panels, and the sentences the pack quotes. Not committed: the pages HTML.",
+ "at": [
+  "2026-10-24T00:58:24.637Z",
+  "2026-10-24T00:58:56.762Z"
+ ],
+ "base": "https://erw-flame.vercel.app",
+ "record": [
+  {
+   "address": "/grid",
+   "status": 200,
+   "ms": 3349,
+   "final": "/grid",
+   "bytes": 401660,
+   "keys": 38,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_ask_us48",
+     "figures": [],
+     "text": "Stored answers Three stored answers for the Lower 48 so far, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the average monthly carbon intensity of US Lower 48 generation over 2024? The mean of the 12 monthly values of US Lower 48 generation carbon intensity (entity eia930:US48, variable intensity_generation) for January to December 2024 was 337.48 kgCO2/MWh (carbon_intensity_monthly, derived by the ERW). This is a simple average of the monthly figures, not weighted by generation. Months are UTC calendar months. The monthly values ranged from a low of 289.93 kgCO2/MWh in April 2024 to a high of 383.24 kgCO2/MWh in January 2024 (carbon_intensity_monthly). 12, 337.48 : carbon_intensity_monthly , query with aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01 , read 19 October 2026. 289.93, 383.24 : carbon_intensity_monthly , query with aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01, group_by=month , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the general chat of /ask: warehouse/chat/eval/eval_s302_fixtures.json , question q19. How many electric vehicles were registered in Texas in 2025? Not in the warehouse. It has no table of"
+    }
+   ],
+   "first": [
+    {
+     "key": "series|eia930_all_demand|eia930:US48|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "492641",
+     "shown": "492,641"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:US48|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "549771",
+     "shown": "549,771"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_natural_gas_mw|2026-10-22T23:00:00+00:00",
+     "raw": "214437",
+     "shown": "214,437"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "483211",
+     "shown": "483,211"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:US48|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "357.2863",
+     "shown": "357.29"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:US48|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "492641",
+     "shown": "492,641"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:US48|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "549771",
+     "shown": "549,771"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:US48|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "357.2863",
+     "shown": "357.29"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:US48|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "355.7579",
+     "shown": "355.76"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "483211",
+     "shown": "483,211"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_natural_gas_mw|2026-10-22T23:00:00+00:00",
+     "raw": "214437",
+     "shown": "214,437"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_coal_mw|2026-10-22T23:00:00+00:00",
+     "raw": "81069",
+     "shown": "81,069"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_nuclear_mw|2026-10-22T23:00:00+00:00",
+     "raw": "79975",
+     "shown": "79,975"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_wind_mw|2026-10-22T23:00:00+00:00",
+     "raw": "46061",
+     "shown": "46,061"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_hydro_mw|2026-10-22T23:00:00+00:00",
+     "raw": "24504",
+     "shown": "24,504"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_solar_mw|2026-10-22T23:00:00+00:00",
+     "raw": "13173",
+     "shown": "13,173"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_battery_mw|2026-10-22T23:00:00+00:00",
+     "raw": "10672",
+     "shown": "10,672"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_other_mw|2026-10-22T23:00:00+00:00",
+     "raw": "6760",
+     "shown": "6,760"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_pumped_storage_mw|2026-10-22T23:00:00+00:00",
+     "raw": "4227",
+     "shown": "4,227"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_oil_mw|2026-10-22T23:00:00+00:00",
+     "raw": "1354",
+     "shown": "1,354"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting 2026-10-22 23:00 UTC, the latest EIA has published, the Lower 48 states used 492,641 MW, less than the 549,771 MW of the same hour a week earlier. Natural gas was its largest source: 214,437 MW of the 483,211 MW generated in the hour starting 2026-10-22 23:00 UTC. Each MWh it generated carried 357.29 kg of CO2 in the hour starting 2026-10-20 23:00 UTC, the latest EIA has estimated. Demand 492,641 MW Hour starting 2026-10-22 23:00 UTC. A week earlier: 549,771 MW. Net export by grid MW The Lower 48 is the sum of its grids: the exchange of each in review . Carbon intensity 357.29 kg CO2/MWh Of generation, hour star",
+    "lag": null,
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "The mix in that hour",
+    "US Lower 48: yesterday",
+    "Energy mix",
+    "US Lower 48: today so far",
+    "US Lower 48: hourly mix, last 7 days",
+    "United States: monthly mix since 2001",
+    "Generation mix, as a table",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=ercot",
+   "status": 200,
+   "ms": 2869,
+   "final": "/grid?grid=ercot",
+   "bytes": 539962,
+   "keys": 85,
+   "held": 3,
+   "panels": [
+    {
+     "panel": "grid_ask_ercot",
+     "figures": [],
+     "text": "Stored answers Five stored answers for ERCOT, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the average real-time on-peak price at ERCOT's hub average (HB_HUBAVG) over calendar year 2024? For calendar year 2024, the mean of the daily real-time on-peak means at HB_HUBAVG was 31.57 USD/MWh (ercot_hub_prices_daily, derived by the ERW). Peak is the weekday sixteen-hour block; weekends and holidays have no peak row. 31.57 : ercot_hub_prices_daily , query with aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_peak_mean, start=2024-01-01, end=2025-01-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the Grid panel's ERCOT profile (Ask ERCOT): warehouse/chat/eval/eval_s302_fixtures.json , question q01. What was the load-weighted real-time price at ERCOT's HB_HUBAVG in July 2025? The load-weighted real-time price at ERCOT's HB_HUBAVG for July 2025 was 34.18 USD/MWh (cost_of_power_monthly), weighted by ERCOT's hourly demand and derived by the ERW. 34.18 : cost_of_power_monthly , query with aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_load_weighted, start=2025-07-01, end=2025-08-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the Grid panel's ERCOT profile (Ask ERCOT): wareho"
+    }
+   ],
+   "first": [
+    {
+     "key": "series|eia930_all_demand|eia930:ERCO|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "61155",
+     "shown": "61,155"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:ERCO|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "71275",
+     "shown": "71,275"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ERCO|net_generation_natural_gas_mw|2026-10-22T23:00:00+00:00",
+     "raw": "30011",
+     "shown": "30,011"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ERCO|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "60930",
+     "shown": "60,930"
+    },
+    {
+     "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+     "raw": "350",
+     "shown": "350"
+    },
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "342.2921",
+     "shown": "342.29"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:ERCO|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "61155",
+     "shown": "61,155"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:ERCO|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "71275",
+     "shown": "71,275"
+    },
+    {
+     "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+     "raw": "350",
+     "shown": "350"
+    },
+    {
+     "key": "net|ties|ERCO|2026-10-22T03:00:00Z",
+     "raw": "2",
+     "shown": "2"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "342.2921",
+     "shown": "342.29"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "342.4375",
+     "shown": "342.44"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ERCO|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "60930",
+     "shown": "60,930"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ERCO|net_generation_natural_gas_mw|2026-10-22T23:00:00+00:00",
+     "raw": "30011",
+     "shown": "30,011"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ERCO|net_generation_wind_mw|2026-10-22T23:00:00+00:00",
+     "raw": "8676",
+     "shown": "8,676"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ERCO|net_generation_battery_mw|2026-10-22T23:00:00+00:00",
+     "raw": "8015",
+     "shown": "8,015"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ERCO|net_generation_coal_mw|2026-10-22T23:00:00+00:00",
+     "raw": "7994",
+     "shown": "7,994"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ERCO|net_generation_nuclear_mw|2026-10-22T23:00:00+00:00",
+     "raw": "3845",
+     "shown": "3,845"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ERCO|net_generation_solar_mw|2026-10-22T23:00:00+00:00",
+     "raw": "2268",
+     "shown": "2,268"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting Oct 22, 6:00 PM CDT, the latest EIA has published, ERCOT used 61,155 MW, less than the 71,275 MW of the same hour a week earlier. Natural gas was its largest source: 30,011 MW of the 60,930 MW generated in the hour starting Oct 22, 6:00 PM CDT. Over its 2 reporting ties it took in more than it sent out: a net import of 350 MW in the hour starting Oct 21, 10:00 PM CDT, 45 hours before the latest hourly refresh of EIA-930's interchange (2026-10-24 00:06 UTC), which EIA publishes about two days late. Each MWh it generated carried 342.29 kg of CO2 in the hour starting Oct 20, 6:00 PM CDT, the latest EIA has estimate",
+    "lag": null,
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "The mix in that hour",
+    "Right now: demand",
+    "Who runs this grid",
+    "Batteries",
+    "What it costs",
+    "What is being built",
+    "In the news",
+    "About ERCOT",
+    "How its market sets prices",
+    "What makes it different",
+    "A short history",
+    "Glossary",
+    "ERCOT: yesterday",
+    "Energy mix",
+    "ERCOT: today so far",
+    "ERCOT: hourly mix, last 7 days",
+    "United States: monthly mix since 2001",
+    "Where the power comes from",
+    "Generation mix, as a table",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=caiso",
+   "status": 200,
+   "ms": 2581,
+   "final": "/grid?grid=caiso",
+   "bytes": 621750,
+   "keys": 267,
+   "held": 3,
+   "panels": [
+    {
+     "panel": "grid_ask_caiso",
+     "figures": [],
+     "text": "Stored answers Five stored answers for CAISO, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. How much wind did CAISO curtail in total in 2024, in MWh? CAISO curtailed about 230,777 MWh of wind in calendar year 2024 (230776.644 MWh, rounded). This is the sum of 12 monthly values of curtailed_wind_mwh for entity caiso:ISO, from January to December 2024 (iso_curtailment_monthly, derived from CAISO's curtailment reports). Months are in local time. This is CAISO's own curtailment figure, which isn't comparable with other ISOs' figures. 230,777, 230776.644, 12 : iso_curtailment_monthly , query with aggregation=sum, variable=curtailed_wind_mwh, start=2024-01-01, end=2025-01-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat: warehouse/chat/eval/eval_s302_fixtures.json , question q11. What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month? The lowest monthly carbon intensity of CAISO generation in the warehouse is 44.2145 kgCO2/MWh, in May 2026 (intensity_generation, entity eia930:CISO, UTC month start 2026-05-01, which is 1 May 2026 Pacific). This comes from carbon_intensity_monthly, which is derived (computed by the ERW). It is the minimum of 69 monthly values from August 2018"
+    }
+   ],
+   "first": [
+    {
+     "key": "series|eia930_all_demand|eia930:CISO|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "27035",
+     "shown": "27,035"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:CISO|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "29601",
+     "shown": "29,601"
+    },
+    {
+     "key": "net|import|CISO|2026-10-22T03:00:00Z",
+     "raw": "3969",
+     "shown": "3,969"
+    },
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "181.1137",
+     "shown": "181.11"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:CISO|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "27035",
+     "shown": "27,035"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:CISO|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "29601",
+     "shown": "29,601"
+    },
+    {
+     "key": "net|import|CISO|2026-10-22T03:00:00Z",
+     "raw": "3969",
+     "shown": "3,969"
+    },
+    {
+     "key": "net|ties|CISO|2026-10-22T03:00:00Z",
+     "raw": "11",
+     "shown": "11"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "181.1137",
+     "shown": "181.11"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "193.0156",
+     "shown": "193.02"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:CISO|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "27035",
+     "shown": "27,035"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:CISO|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "29601",
+     "shown": "29,601"
+    },
+    {
+     "key": "series_max|eia930_all_demand|demand_mw|2026-10-22T07:00:00+00:00|2026-10-23T00:00:00Z|eia930:CISO",
+     "raw": "29313",
+     "shown": "29,313"
+    },
+    {
+     "key": "series|storage_daily_cycle|caiso:ISO|mwh_discharged|2026-10-22T00:00:00+00:00",
+     "raw": "30126.833",
+     "shown": "30,126.83"
+    },
+    {
+     "key": "series|storage_daily_cycle|caiso:ISO|mwh_charged|2026-10-22T00:00:00+00:00",
+     "raw": "38245.917",
+     "shown": "38,245.92"
+    },
+    {
+     "key": "series|storage_daily_cycle|caiso:ISO|peak_discharge_hour|2026-10-22T00:00:00+00:00",
+     "raw": "18",
+     "shown": "18"
+    },
+    {
+     "key": "storage|iso_mw|CAISO|operating",
+     "raw": "17094.2",
+     "shown": "17,094.20"
+    },
+    {
+     "key": "storage|iso_mwh|CAISO|operating",
+     "raw": "59118.3",
+     "shown": "59,118.30"
+    },
+    {
+     "key": "storage|iso_mw|CAISO|under_construction",
+     "raw": "4707.5",
+     "shown": "4,707.50"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting Oct 22, 4:00 PM PDT, the latest EIA has published, CAISO used 27,035 MW, less than the 29,601 MW of the same hour a week earlier. Over its 11 reporting ties it took in more than it sent out: a net import of 3,969 MW in the hour starting Oct 21, 8:00 PM PDT, 45 hours before the latest hourly refresh of EIA-930's interchange (2026-10-24 00:06 UTC), which EIA publishes about two days late. Each MWh it generated carried 181.11 kg of CO2 in the hour starting Oct 20, 4:00 PM PDT, the latest EIA has estimated. Demand 27,035 MW Hour starting Oct 22, 4:00 PM PDT. A week earlier: 29,601 MW. Net import 3,969 MW Hour starti",
+    "lag": null,
+    "twelve": null,
+    "months": null,
+    "notices": "The table holds 1,906 notices, the latest on 2026-10-08",
+    "seven2024": null
+   },
+   "h2": [
+    "The mix in that hour",
+    "Right now: demand",
+    "Who runs this grid",
+    "Batteries",
+    "What it costs",
+    "Reliability",
+    "What is being built",
+    "In the news",
+    "About CAISO",
+    "How its market sets prices",
+    "What makes it different",
+    "A short history",
+    "Glossary",
+    "CAISO: yesterday",
+    "Energy mix",
+    "CAISO: today so far",
+    "CAISO: hourly mix, last 7 days",
+    "United States: monthly mix since 2001",
+    "Where the power comes from",
+    "Generation mix, as a table",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=spp",
+   "status": 200,
+   "ms": 2240,
+   "final": "/grid?grid=spp",
+   "bytes": 548451,
+   "keys": 90,
+   "held": 3,
+   "panels": [
+    {
+     "panel": "grid_ask_spp",
+     "figures": [],
+     "text": "Stored answers Five stored answers for SPP, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the load-weighted real-time price at SPP's North hub in February 2025? The load-weighted real-time price at SPP's North hub (spp:SPPNORTH_HUB) for February 2025 was 24.78 USD/MWh (cost_of_power_monthly, variable rt_load_weighted, local month of February 2025, Central time). The table is derived: each hourly real-time price is weighted by SPP's hourly demand. It covers 672 hours, which is all the hours in that month (rt_hours, cost_of_power_monthly). For comparison, a flat load would have paid a simple mean of 23.33 USD/MWh (rt_simple_mean, cost_of_power_monthly). 24.78 : cost_of_power_monthly , query with aggregation=latest, entity=spp:SPPNORTH_HUB, variable=rt_load_weighted, start=2025-02-01, end=2025-03-01, group_by=month , read 19 October 2026. 672 : cost_of_power_monthly , query with aggregation=latest, entity=spp:SPPNORTH_HUB, variable=rt_hours, start=2025-02-01, end=2025-03-01, group_by=month , read 19 October 2026. 23.33 : cost_of_power_monthly , query with aggregation=latest, entity=spp:SPPNORTH_HUB, variable=rt_simple_mean, start=2025-02-01, end=2025-03-01, group_by=month , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's "
+    }
+   ],
+   "first": [
+    {
+     "key": "series|eia930_all_demand|eia930:SWPP|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "35237",
+     "shown": "35,237"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:SWPP|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "34756",
+     "shown": "34,756"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:SWPP|net_generation_wind_mw|2026-10-22T23:00:00+00:00",
+     "raw": "16371",
+     "shown": "16,371"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:SWPP|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "36699",
+     "shown": "36,699"
+    },
+    {
+     "key": "net|export|SWPP|2026-10-22T03:00:00Z",
+     "raw": "800",
+     "shown": "800"
+    },
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "408.8409",
+     "shown": "408.84"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:SWPP|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "35237",
+     "shown": "35,237"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:SWPP|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "34756",
+     "shown": "34,756"
+    },
+    {
+     "key": "net|export|SWPP|2026-10-22T03:00:00Z",
+     "raw": "800",
+     "shown": "800"
+    },
+    {
+     "key": "net|ties|SWPP|2026-10-22T03:00:00Z",
+     "raw": "10",
+     "shown": "10"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "408.8409",
+     "shown": "408.84"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:SWPP|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "434.7474",
+     "shown": "434.75"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:SWPP|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "36699",
+     "shown": "36,699"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:SWPP|net_generation_wind_mw|2026-10-22T23:00:00+00:00",
+     "raw": "16371",
+     "shown": "16,371"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:SWPP|net_generation_natural_gas_mw|2026-10-22T23:00:00+00:00",
+     "raw": "9159",
+     "shown": "9,159"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:SWPP|net_generation_coal_mw|2026-10-22T23:00:00+00:00",
+     "raw": "8764",
+     "shown": "8,764"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:SWPP|net_generation_nuclear_mw|2026-10-22T23:00:00+00:00",
+     "raw": "1218",
+     "shown": "1,218"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:SWPP|net_generation_hydro_mw|2026-10-22T23:00:00+00:00",
+     "raw": "935",
+     "shown": "935"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:SWPP|net_generation_solar_mw|2026-10-22T23:00:00+00:00",
+     "raw": "229",
+     "shown": "229"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting Oct 22, 6:00 PM CDT, the latest EIA has published, SPP used 35,237 MW, more than the 34,756 MW of the same hour a week earlier. Wind was its largest source: 16,371 MW of the 36,699 MW generated in the hour starting Oct 22, 6:00 PM CDT. Over its 10 reporting ties it sent out more than it took in: a net export of 800 MW in the hour starting Oct 21, 10:00 PM CDT, 45 hours before the latest hourly refresh of EIA-930's interchange (2026-10-24 00:06 UTC), which EIA publishes about two days late. Each MWh it generated carried 408.84 kg of CO2 in the hour starting Oct 20, 6:00 PM CDT, the latest EIA has estimated. Deman",
+    "lag": null,
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "The mix in that hour",
+    "Right now: demand",
+    "Who runs this grid",
+    "Batteries",
+    "What it costs",
+    "What is being built",
+    "In the news",
+    "About SPP",
+    "How its market sets prices",
+    "What makes it different",
+    "A short history",
+    "Glossary",
+    "SPP: yesterday",
+    "Energy mix",
+    "SPP: today so far",
+    "SPP: hourly mix, last 7 days",
+    "United States: monthly mix since 2001",
+    "Where the power comes from",
+    "Generation mix, as a table",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=nyiso",
+   "status": 200,
+   "ms": 2095,
+   "final": "/grid?grid=nyiso",
+   "bytes": 475525,
+   "keys": 50,
+   "held": 3,
+   "panels": [
+    {
+     "panel": "grid_ask_nyiso",
+     "figures": [],
+     "text": "Stored answers Four stored answers for NYISO so far, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the load-weighted day-ahead price at NYISO's N.Y.C. zone in February 2025? license needed: ISO-NE; MISO; NYISO: the publisher's own page asks for permission; none is recorded yet. The stored answer read cost_of_power_monthly , which is held for NYISO today, so it is not shown. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat: warehouse/chat/eval/eval_s302_fixtures.json , question q16. What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025? license needed: ISO-NE; MISO; NYISO: the publisher's own page asks for permission; none is recorded yet. The stored answer read cost_of_power_monthly , which is held for NYISO today, so it is not shown. From session 267's evaluation, asked 2026-10-14 through POST /api/ask, the general chat of /ask: warehouse/chat/eval/eval_s267_fixtures.json , question q18. What was a 4-hour battery's capture rate at NYISO's N.Y.C. zone in January 2025? license needed: ISO-NE; MISO; NYISO: the publisher's own page asks for permission; none is recorded yet. The stored answer read merchant_revenue_monthly , which is held for NYISO today, so it is not shown. From session 267's"
+    }
+   ],
+   "first": [
+    {
+     "key": "series|eia930_all_demand|eia930:NYIS|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "17421",
+     "shown": "17,421"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:NYIS|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "17237",
+     "shown": "17,237"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:NYIS|net_generation_natural_gas_mw|2026-10-22T23:00:00+00:00",
+     "raw": "7741",
+     "shown": "7,741"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:NYIS|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "15617",
+     "shown": "15,617"
+    },
+    {
+     "key": "net|import|NYIS|2026-10-22T03:00:00Z",
+     "raw": "2521",
+     "shown": "2,521"
+    },
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "220.0922",
+     "shown": "220.09"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:NYIS|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "17421",
+     "shown": "17,421"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:NYIS|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "17237",
+     "shown": "17,237"
+    },
+    {
+     "key": "net|import|NYIS|2026-10-22T03:00:00Z",
+     "raw": "2521",
+     "shown": "2,521"
+    },
+    {
+     "key": "net|ties|NYIS|2026-10-22T03:00:00Z",
+     "raw": "4",
+     "shown": "4"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "220.0922",
+     "shown": "220.09"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:NYIS|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "239.3439",
+     "shown": "239.34"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:NYIS|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "15617",
+     "shown": "15,617"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:NYIS|net_generation_natural_gas_mw|2026-10-22T23:00:00+00:00",
+     "raw": "7741",
+     "shown": "7,741"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:NYIS|net_generation_hydro_mw|2026-10-22T23:00:00+00:00",
+     "raw": "3923",
+     "shown": "3,923"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:NYIS|net_generation_nuclear_mw|2026-10-22T23:00:00+00:00",
+     "raw": "3291",
+     "shown": "3,291"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:NYIS|net_generation_wind_mw|2026-10-22T23:00:00+00:00",
+     "raw": "407",
+     "shown": "407"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:NYIS|net_generation_other_mw|2026-10-22T23:00:00+00:00",
+     "raw": "253",
+     "shown": "253"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:NYIS|net_generation_coal_mw|2026-10-22T23:00:00+00:00",
+     "raw": "0",
+     "shown": "0"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting Oct 22, 7:00 PM EDT, the latest EIA has published, NYISO used 17,421 MW, more than the 17,237 MW of the same hour a week earlier. Natural gas was its largest source: 7,741 MW of the 15,617 MW generated in the hour starting Oct 22, 7:00 PM EDT. Over its 4 reporting ties it took in more than it sent out: a net import of 2,521 MW in the hour starting Oct 21, 11:00 PM EDT, 45 hours before the latest hourly refresh of EIA-930's interchange (2026-10-24 00:06 UTC), which EIA publishes about two days late. Each MWh it generated carried 220.09 kg of CO2 in the hour starting Oct 20, 7:00 PM EDT, the latest EIA has estimat",
+    "lag": null,
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "The mix in that hour",
+    "Right now: demand",
+    "Who runs this grid",
+    "Batteries",
+    "What it costs",
+    "What is being built",
+    "In the news",
+    "About NYISO",
+    "How its market sets prices",
+    "What makes it different",
+    "A short history",
+    "Glossary",
+    "NYISO: yesterday",
+    "Energy mix",
+    "NYISO: today so far",
+    "NYISO: hourly mix, last 7 days",
+    "United States: monthly mix since 2001",
+    "Where the power comes from",
+    "Generation mix, as a table",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=isone",
+   "status": 200,
+   "ms": 2101,
+   "final": "/grid?grid=isone",
+   "bytes": 515132,
+   "keys": 93,
+   "held": 3,
+   "panels": [
+    {
+     "panel": "grid_ask_isone",
+     "figures": [],
+     "text": "Stored answers Four stored answers for ISO-NE so far, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the carbon intensity of ISO-NE's demand in July 2024? ISO-NE's carbon intensity of demand in July 2024 was 269.85 kgCO2/MWh (carbon_intensity_monthly, entity eia930:ISNE, variable intensity_demand). This is a derived monthly figure, CO2 consumed over EIA's demand. The row is labelled 2024-07-01 UTC, which is the month of July 2024. 269.85 : carbon_intensity_monthly , query with aggregation=latest, variable=intensity_demand, start=2024-07-01, end=2024-08-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat: warehouse/chat/eval/eval_s302_fixtures.json , question q18. What was solar's capture rate at ISO-NE's Internal Hub in June 2025? license needed: ISO-NE; MISO; NYISO: the publisher's own page asks for permission; none is recorded yet. The stored answer read merchant_revenue_monthly , which is held for ISO-NE today, so it is not shown. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat: warehouse/chat/eval/eval_s302_fixtures.json , question q20. What was the load-weighted real-time price at ISO-NE's Internal Hub in December 2024? license needed: ISO-NE; MISO; NYISO: the pu"
+    }
+   ],
+   "first": [
+    {
+     "key": "series|eia930_all_demand|eia930:ISNE|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "13950",
+     "shown": "13,950"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:ISNE|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "13751",
+     "shown": "13,751"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ISNE|net_generation_natural_gas_mw|2026-10-22T23:00:00+00:00",
+     "raw": "7172",
+     "shown": "7,172"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ISNE|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "13354",
+     "shown": "13,354"
+    },
+    {
+     "key": "net|export|ISNE|2026-10-22T03:00:00Z",
+     "raw": "598",
+     "shown": "598"
+    },
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "190.9599",
+     "shown": "190.96"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:ISNE|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "13950",
+     "shown": "13,950"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:ISNE|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "13751",
+     "shown": "13,751"
+    },
+    {
+     "key": "net|export|ISNE|2026-10-22T03:00:00Z",
+     "raw": "598",
+     "shown": "598"
+    },
+    {
+     "key": "net|ties|ISNE|2026-10-22T03:00:00Z",
+     "raw": "3",
+     "shown": "3"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "190.9599",
+     "shown": "190.96"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:ISNE|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "192.6688",
+     "shown": "192.67"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ISNE|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "13354",
+     "shown": "13,354"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ISNE|net_generation_natural_gas_mw|2026-10-22T23:00:00+00:00",
+     "raw": "7172",
+     "shown": "7,172"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ISNE|net_generation_nuclear_mw|2026-10-22T23:00:00+00:00",
+     "raw": "2300",
+     "shown": "2,300"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ISNE|net_generation_wind_mw|2026-10-22T23:00:00+00:00",
+     "raw": "1855",
+     "shown": "1,855"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ISNE|net_generation_pumped_storage_mw|2026-10-22T23:00:00+00:00",
+     "raw": "1115",
+     "shown": "1,115"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ISNE|net_generation_other_mw|2026-10-22T23:00:00+00:00",
+     "raw": "426",
+     "shown": "426"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:ISNE|net_generation_hydro_mw|2026-10-22T23:00:00+00:00",
+     "raw": "355",
+     "shown": "355"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting Oct 22, 7:00 PM EDT, the latest EIA has published, ISO-NE used 13,950 MW, more than the 13,751 MW of the same hour a week earlier. Natural gas was its largest source: 7,172 MW of the 13,354 MW generated in the hour starting Oct 22, 7:00 PM EDT. Over its 3 reporting ties it sent out more than it took in: a net export of 598 MW in the hour starting Oct 21, 11:00 PM EDT, 45 hours before the latest hourly refresh of EIA-930's interchange (2026-10-24 00:06 UTC), which EIA publishes about two days late. Each MWh it generated carried 190.96 kg of CO2 in the hour starting Oct 20, 7:00 PM EDT, the latest EIA has estimate",
+    "lag": null,
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "The mix in that hour",
+    "Right now: demand",
+    "Who runs this grid",
+    "Batteries",
+    "What it costs",
+    "What is being built",
+    "In the news",
+    "About ISO-NE",
+    "How its market sets prices",
+    "What makes it different",
+    "A short history",
+    "Glossary",
+    "ISO-NE: yesterday",
+    "Energy mix",
+    "ISO-NE: today so far",
+    "ISO-NE: hourly mix, last 7 days",
+    "United States: monthly mix since 2001",
+    "Where the power comes from",
+    "Generation mix, as a table",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=ercot&view=network",
+   "status": 200,
+   "ms": 1664,
+   "final": "/grid?grid=ercot&view=network",
+   "bytes": 268647,
+   "keys": 6,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_network_ercot",
+     "figures": [
+      {
+       "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+       "raw": "350",
+       "shown": "350"
+      },
+      {
+       "key": "net|ties|ERCO|2026-10-22T03:00:00Z",
+       "raw": "2",
+       "shown": "2"
+      },
+      {
+       "key": "netsnap|ERCO|demand_mw|2026-10-22T03:00:00Z",
+       "raw": "53405",
+       "shown": "53,405"
+      },
+      {
+       "key": "net|tie|ERCO|SWPP|2026-10-22T03:00:00Z",
+       "raw": "-352",
+       "shown": "-352"
+      },
+      {
+       "key": "net|tie|ERCO|CEN|2026-10-22T03:00:00Z",
+       "raw": "2",
+       "shown": "2"
+      }
+     ],
+     "text": "ERCOT, the hour shown (2026-10-22 03:00 UTC) ERCOT took in, on net, 350 MW over its 2 reporting ties, with a demand of 53,405 MW in the hour. ERCOT's ties in the hour the network shows Neighbour Flow, MW Direction Southwest Power Pool SWPP -352 in Centro Nacional de Control de Energia CEN 2 out The figures the network draws for ERCOT in the hour it opens on, from the same snapshot. A tie's flow is signed from ERCOT's side: positive, power left the grid. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_ercot",
+     "figures": [],
+     "text": "Stored answers Five stored answers for ERCOT, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the average real-time on-peak price at ERCOT's hub average (HB_HUBAVG) over calendar year 2024? For calendar year 2024, the mean of the daily real-time on-peak means at HB_HUBAVG was 31.57 USD/MWh (ercot_hub_prices_daily, derived by the ERW). Peak is the weekday sixteen-hour block; weekends and holidays have no peak row. 31.57 : ercot_hub_prices_daily , query with aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_peak_mean, start=2024-01-01, end=2025-01-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the Grid panel's ERCOT profile (Ask ERCOT): warehouse/chat/eval/eval_s302_fixtures.json , question q01. What was the load-weighted real-time price at ERCOT's HB_HUBAVG in July 2025? The load-weighted real-time price at ERCOT's HB_HUBAVG for July 2025 was 34.18 USD/MWh (cost_of_power_monthly), weighted by ERCOT's hourly demand and derived by the ERW. 34.18 : cost_of_power_monthly , query with aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_load_weighted, start=2025-07-01, end=2025-08-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the Grid panel's ERCOT profile (Ask ERCOT): wareho"
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    }
+   ],
+   "sentences": {
+    "now": null,
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. ERCOT, the hour shown (2026-10-22 03:00 UTC) ERCOT took in, on net, 350 MW over its 2 reporting tie",
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "ERCOT, the hour shown (2026-10-22 03:00 UTC)",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?view=network",
+   "status": 200,
+   "ms": 332,
+   "final": "/grid?view=network",
+   "bytes": 271979,
+   "keys": 15,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_network_us48",
+     "figures": [
+      {
+       "key": "net|export|ERCO|2026-10-22T03:00:00Z",
+       "raw": "-350",
+       "shown": "-350"
+      },
+      {
+       "key": "net|ties|ERCO|2026-10-22T03:00:00Z",
+       "raw": "2",
+       "shown": "2"
+      },
+      {
+       "key": "net|export|CISO|2026-10-22T03:00:00Z",
+       "raw": "-3969",
+       "shown": "-3,969"
+      },
+      {
+       "key": "net|ties|CISO|2026-10-22T03:00:00Z",
+       "raw": "11",
+       "shown": "11"
+      },
+      {
+       "key": "net|export|PJM|2026-10-22T03:00:00Z",
+       "raw": "645",
+       "shown": "645"
+      },
+      {
+       "key": "net|ties|PJM|2026-10-22T03:00:00Z",
+       "raw": "7",
+       "shown": "7"
+      },
+      {
+       "key": "net|export|MISO|2026-10-22T03:00:00Z",
+       "raw": "-3538",
+       "shown": "-3,538"
+      },
+      {
+       "key": "net|ties|MISO|2026-10-22T03:00:00Z",
+       "raw": "10",
+       "shown": "10"
+      },
+      {
+       "key": "net|export|NYIS|2026-10-22T03:00:00Z",
+       "raw": "-2521",
+       "shown": "-2,521"
+      },
+      {
+       "key": "net|ties|NYIS|2026-10-22T03:00:00Z",
+       "raw": "4",
+       "shown": "4"
+      },
+      {
+       "key": "net|export|ISNE|2026-10-22T03:00:00Z",
+       "raw": "598",
+       "shown": "598"
+      },
+      {
+       "key": "net|ties|ISNE|2026-10-22T03:00:00Z",
+       "raw": "3",
+       "shown": "3"
+      },
+      {
+       "key": "net|export|SWPP|2026-10-22T03:00:00Z",
+       "raw": "800",
+       "shown": "800"
+      },
+      {
+       "key": "net|ties|SWPP|2026-10-22T03:00:00Z",
+       "raw": "10",
+       "shown": "10"
+      }
+     ],
+     "text": "The seven grids, the hour shown (2026-10-22 03:00 UTC) Net exchange of the seven grids in the hour the network shows Grid Net export, MW Ties reporting ERCOT -350 2 CAISO -3,969 11 PJM 645 7 MISO -3,538 10 NYISO -2,521 4 ISO-NE 598 3 SPP 800 10 Net export, MW: the sum of a grid's reporting ties in the hour the network opens on, signed from its side; a negative number is a net import. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_us48",
+     "figures": [],
+     "text": "Stored answers Three stored answers for the Lower 48 so far, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the average monthly carbon intensity of US Lower 48 generation over 2024? The mean of the 12 monthly values of US Lower 48 generation carbon intensity (entity eia930:US48, variable intensity_generation) for January to December 2024 was 337.48 kgCO2/MWh (carbon_intensity_monthly, derived by the ERW). This is a simple average of the monthly figures, not weighted by generation. Months are UTC calendar months. The monthly values ranged from a low of 289.93 kgCO2/MWh in April 2024 to a high of 383.24 kgCO2/MWh in January 2024 (carbon_intensity_monthly). 12, 337.48 : carbon_intensity_monthly , query with aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01 , read 19 October 2026. 289.93, 383.24 : carbon_intensity_monthly , query with aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01, group_by=month , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the general chat of /ask: warehouse/chat/eval/eval_s302_fixtures.json , question q19. How many electric vehicles were registered in Texas in 2025? Not in the warehouse. It has no table of"
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    }
+   ],
+   "sentences": {
+    "now": null,
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. The seven grids, the hour shown (2026-10-22 03:00 UTC) Net exchange of the seven grids in the hour ",
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "The seven grids, the hour shown (2026-10-22 03:00 UTC)",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=caiso&view=network",
+   "status": 200,
+   "ms": 371,
+   "final": "/grid?grid=caiso&view=network",
+   "bytes": 296163,
+   "keys": 15,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_network_caiso",
+     "figures": [
+      {
+       "key": "net|import|CISO|2026-10-22T03:00:00Z",
+       "raw": "3969",
+       "shown": "3,969"
+      },
+      {
+       "key": "net|ties|CISO|2026-10-22T03:00:00Z",
+       "raw": "11",
+       "shown": "11"
+      },
+      {
+       "key": "netsnap|CISO|demand_mw|2026-10-22T03:00:00Z",
+       "raw": "27279",
+       "shown": "27,279"
+      },
+      {
+       "key": "net|tie|CISO|SRP|2026-10-22T03:00:00Z",
+       "raw": "-1388",
+       "shown": "-1,388"
+      },
+      {
+       "key": "net|tie|CISO|NEVP|2026-10-22T03:00:00Z",
+       "raw": "-1355",
+       "shown": "-1,355"
+      },
+      {
+       "key": "net|tie|CISO|AZPS|2026-10-22T03:00:00Z",
+       "raw": "-1181",
+       "shown": "-1,181"
+      },
+      {
+       "key": "net|tie|CISO|BPAT|2026-10-22T03:00:00Z",
+       "raw": "-564",
+       "shown": "-564"
+      },
+      {
+       "key": "net|tie|CISO|LDWP|2026-10-22T03:00:00Z",
+       "raw": "371",
+       "shown": "371"
+      },
+      {
+       "key": "net|tie|CISO|TIDC|2026-10-22T03:00:00Z",
+       "raw": "139",
+       "shown": "139"
+      },
+      {
+       "key": "net|tie|CISO|IID|2026-10-22T03:00:00Z",
+       "raw": "-57",
+       "shown": "-57"
+      },
+      {
+       "key": "net|tie|CISO|BANC|2026-10-22T03:00:00Z",
+       "raw": "54",
+       "shown": "54"
+      },
+      {
+       "key": "net|tie|CISO|CEN|2026-10-22T03:00:00Z",
+       "raw": "8",
+       "shown": "8"
+      },
+      {
+       "key": "net|tie|CISO|WALC|2026-10-22T03:00:00Z",
+       "raw": "4",
+       "shown": "4"
+      },
+      {
+       "key": "net|tie|CISO|PACW|2026-10-22T03:00:00Z",
+       "raw": "0",
+       "shown": "0"
+      }
+     ],
+     "text": "CAISO, the hour shown (2026-10-22 03:00 UTC) CAISO took in, on net, 3,969 MW over its 11 reporting ties, with a demand of 27,279 MW in the hour. CAISO's ties in the hour the network shows Neighbour Flow, MW Direction Salt River Project Agricultural Improvement and Power District SRP -1,388 in Nevada Power Company NEVP -1,355 in Arizona Public Service Company AZPS -1,181 in Bonneville Power Administration BPAT -564 in Los Angeles Department of Water and Power LDWP 371 out Turlock Irrigation District TIDC 139 out Imperial Irrigation District IID -57 in Balancing Authority of Northern California BANC 54 out Centro Nacional de Control de Energia CEN 8 out Western Area Power Administration - Desert Southwest Region WALC 4 out PacifiCorp West PACW 0 none The figures the network draws for CAISO in the hour it opens on, from the same snapshot. A tie's flow is signed from CAISO's side: positive, power left the grid. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_caiso",
+     "figures": [],
+     "text": "Stored answers Five stored answers for CAISO, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. How much wind did CAISO curtail in total in 2024, in MWh? CAISO curtailed about 230,777 MWh of wind in calendar year 2024 (230776.644 MWh, rounded). This is the sum of 12 monthly values of curtailed_wind_mwh for entity caiso:ISO, from January to December 2024 (iso_curtailment_monthly, derived from CAISO's curtailment reports). Months are in local time. This is CAISO's own curtailment figure, which isn't comparable with other ISOs' figures. 230,777, 230776.644, 12 : iso_curtailment_monthly , query with aggregation=sum, variable=curtailed_wind_mwh, start=2024-01-01, end=2025-01-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat: warehouse/chat/eval/eval_s302_fixtures.json , question q11. What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month? The lowest monthly carbon intensity of CAISO generation in the warehouse is 44.2145 kgCO2/MWh, in May 2026 (intensity_generation, entity eia930:CISO, UTC month start 2026-05-01, which is 1 May 2026 Pacific). This comes from carbon_intensity_monthly, which is derived (computed by the ERW). It is the minimum of 69 monthly values from August 2018"
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    }
+   ],
+   "sentences": {
+    "now": null,
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. CAISO, the hour shown (2026-10-22 03:00 UTC) CAISO took in, on net, 3,969 MW over its 11 reporting ",
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "CAISO, the hour shown (2026-10-22 03:00 UTC)",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=ercot&view=gravity&shape=gravity",
+   "status": 200,
+   "ms": 414,
+   "final": "/grid?grid=ercot&view=gravity&shape=gravity",
+   "bytes": 312592,
+   "keys": 36,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_gravity_ercot",
+     "figures": [
+      {
+       "key": "series|eia930_all_generation|eia930:CISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "22740",
+       "shown": "22,740"
+      },
+      {
+       "key": "net|import|CISO|2026-10-22T03:00:00Z",
+       "raw": "3969",
+       "shown": "3,969"
+      },
+      {
+       "key": "calc|pct|net~import~CISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:CISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "17.45382585751979",
+       "shown": "17.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:SWPP|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "32590",
+       "shown": "32,590"
+      },
+      {
+       "key": "net|import|SWPP|2026-10-22T03:00:00Z",
+       "raw": "-800",
+       "shown": "-800"
+      },
+      {
+       "key": "calc|pct|net~import~SWPP~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:SWPP~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-2.45474071801166",
+       "shown": "-2.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:MISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "64636",
+       "shown": "64,636"
+      },
+      {
+       "key": "net|import|MISO|2026-10-22T03:00:00Z",
+       "raw": "3538",
+       "shown": "3,538"
+      },
+      {
+       "key": "calc|pct|net~import~MISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:MISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "5.473729810012996",
+       "shown": "5.47"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ISNE|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11530",
+       "shown": "11,530"
+      },
+      {
+       "key": "net|import|ISNE|2026-10-22T03:00:00Z",
+       "raw": "-598",
+       "shown": "-598"
+      },
+      {
+       "key": "calc|pct|net~import~ISNE~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ISNE~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-5.1864700780572415",
+       "shown": "-5.19"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:NYIS|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11935",
+       "shown": "11,935"
+      },
+      {
+       "key": "net|import|NYIS|2026-10-22T03:00:00Z",
+       "raw": "2521",
+       "shown": "2,521"
+      },
+      {
+       "key": "calc|pct|net~import~NYIS~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:NYIS~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "21.122748219522414",
+       "shown": "21.12"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:PJM|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "82357",
+       "shown": "82,357"
+      },
+      {
+       "key": "net|import|PJM|2026-10-22T03:00:00Z",
+       "raw": "-645",
+       "shown": "-645"
+      },
+      {
+       "key": "calc|pct|net~import~PJM~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:PJM~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-0.7831756863411732",
+       "shown": "-0.78"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ERCO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "53053",
+       "shown": "53,053"
+      },
+      {
+       "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+       "raw": "350",
+       "shown": "350"
+      },
+      {
+       "key": "calc|pct|net~import~ERCO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ERCO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "0.6597176408497163",
+       "shown": "0.66"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "430999",
+       "shown": "430,999"
+      }
+     ],
+     "text": "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity shape, the hour shown Grid Net generation, MW Net import, MW Import, percent of generation CAISO 22,740 3,969 17.45 SPP 32,590 -800 -2.45 MISO 64,636 3,538 5.47 ISO-NE 11,530 -598 -5.19 NYISO 11,935 2,521 21.12 PJM 82,357 -645 -0.78 ERCOT 53,053 350 0.66 Each circle's area follows the grid's net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48's generation sets the scale: 430,999 MW. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_ercot",
+     "figures": [],
+     "text": "Stored answers Five stored answers for ERCOT, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the average real-time on-peak price at ERCOT's hub average (HB_HUBAVG) over calendar year 2024? For calendar year 2024, the mean of the daily real-time on-peak means at HB_HUBAVG was 31.57 USD/MWh (ercot_hub_prices_daily, derived by the ERW). Peak is the weekday sixteen-hour block; weekends and holidays have no peak row. 31.57 : ercot_hub_prices_daily , query with aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_peak_mean, start=2024-01-01, end=2025-01-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the Grid panel's ERCOT profile (Ask ERCOT): warehouse/chat/eval/eval_s302_fixtures.json , question q01. What was the load-weighted real-time price at ERCOT's HB_HUBAVG in July 2025? The load-weighted real-time price at ERCOT's HB_HUBAVG for July 2025 was 34.18 USD/MWh (cost_of_power_monthly), weighted by ERCOT's hourly demand and derived by the ERW. 34.18 : cost_of_power_monthly , query with aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_load_weighted, start=2025-07-01, end=2025-08-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the Grid panel's ERCOT profile (Ask ERCOT): wareho"
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "net|ties|ERCO|2026-10-22T03:00:00Z",
+     "raw": "2",
+     "shown": "2"
+    },
+    {
+     "key": "net|maxflow|ERCO|2026-10-22T03:00:00Z",
+     "raw": "352",
+     "shown": "352"
+    },
+    {
+     "key": "net|tie|ERCO|SWPP|2026-10-22T03:00:00Z",
+     "raw": "-352",
+     "shown": "-352"
+    },
+    {
+     "key": "net|tie|ERCO|CEN|2026-10-22T03:00:00Z",
+     "raw": "2",
+     "shown": "2"
+    },
+    {
+     "key": "bsup|ERCO|share:pairs",
+     "raw": "0.0819668067817875",
+     "shown": "0.08"
+    },
+    {
+     "key": "bsup|ERCO|mwh:pairs",
+     "raw": "362309",
+     "shown": "362,309"
+    },
+    {
+     "key": "bsup|ERCO|days_held",
+     "raw": "311",
+     "shown": "311"
+    },
+    {
+     "key": "bsup|ERCO|neighbour_mwh:SWPP",
+     "raw": "495822",
+     "shown": "495,822"
+    },
+    {
+     "key": "bsup|ERCO|neighbour:SWPP",
+     "raw": "0.1121916523510664",
+     "shown": "0.11"
+    },
+    {
+     "key": "bsup|ERCO|neighbour_mwh:CEN",
+     "raw": "-133513",
+     "shown": "-133,513"
+    },
+    {
+     "key": "bsup|ERCO|neighbour:CEN",
+     "raw": "-0.030248320949312985",
+     "shown": "-0.03"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting 2026-10-22 03:00 UTC, ERCOT took in more power than it sent out over its 2 reporting ties: a net import of 350 MW. Net import 350 MW The sum of its reporting ties in the hour. Ties reporting 2 Neighbours with a flow in the hour starting 2026-10-22 03:00 UTC. Largest flow 352 MW Either way, with Southwest Power Pool. Each neighbour, that hour ERCOT's ties in the hour Neighbour Flow, MW Direction Southwest Power Pool SWPP -352 in Centro Nacional de Control de Energia CEN 2 out Flow over the tie, MW, signed from this grid's side: a positive number left the grid, a negative one came in. Net export, hour by hour over",
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity ",
+    "twelve": "Net imports were 0.08 percent of ERCOT's demand (the sum of its reported ties): 362,309 MWh over 311 days. ERCOT's neighbours over twelve months Neighbour Net import, MWh Perce",
+    "months": "2025-10 to 2026-09: 311 days held, 54 left out",
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC)",
+    "Each neighbour, that hour",
+    "Over the last twelve months",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=caiso&view=gravity&shape=gravity",
+   "status": 200,
+   "ms": 555,
+   "final": "/grid?grid=caiso&view=gravity&shape=gravity",
+   "bytes": 347262,
+   "keys": 63,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_gravity_caiso",
+     "figures": [
+      {
+       "key": "series|eia930_all_generation|eia930:CISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "22740",
+       "shown": "22,740"
+      },
+      {
+       "key": "net|import|CISO|2026-10-22T03:00:00Z",
+       "raw": "3969",
+       "shown": "3,969"
+      },
+      {
+       "key": "calc|pct|net~import~CISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:CISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "17.45382585751979",
+       "shown": "17.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:SWPP|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "32590",
+       "shown": "32,590"
+      },
+      {
+       "key": "net|import|SWPP|2026-10-22T03:00:00Z",
+       "raw": "-800",
+       "shown": "-800"
+      },
+      {
+       "key": "calc|pct|net~import~SWPP~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:SWPP~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-2.45474071801166",
+       "shown": "-2.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:MISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "64636",
+       "shown": "64,636"
+      },
+      {
+       "key": "net|import|MISO|2026-10-22T03:00:00Z",
+       "raw": "3538",
+       "shown": "3,538"
+      },
+      {
+       "key": "calc|pct|net~import~MISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:MISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "5.473729810012996",
+       "shown": "5.47"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ISNE|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11530",
+       "shown": "11,530"
+      },
+      {
+       "key": "net|import|ISNE|2026-10-22T03:00:00Z",
+       "raw": "-598",
+       "shown": "-598"
+      },
+      {
+       "key": "calc|pct|net~import~ISNE~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ISNE~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-5.1864700780572415",
+       "shown": "-5.19"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:NYIS|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11935",
+       "shown": "11,935"
+      },
+      {
+       "key": "net|import|NYIS|2026-10-22T03:00:00Z",
+       "raw": "2521",
+       "shown": "2,521"
+      },
+      {
+       "key": "calc|pct|net~import~NYIS~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:NYIS~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "21.122748219522414",
+       "shown": "21.12"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:PJM|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "82357",
+       "shown": "82,357"
+      },
+      {
+       "key": "net|import|PJM|2026-10-22T03:00:00Z",
+       "raw": "-645",
+       "shown": "-645"
+      },
+      {
+       "key": "calc|pct|net~import~PJM~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:PJM~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-0.7831756863411732",
+       "shown": "-0.78"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ERCO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "53053",
+       "shown": "53,053"
+      },
+      {
+       "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+       "raw": "350",
+       "shown": "350"
+      },
+      {
+       "key": "calc|pct|net~import~ERCO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ERCO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "0.6597176408497163",
+       "shown": "0.66"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "430999",
+       "shown": "430,999"
+      }
+     ],
+     "text": "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity shape, the hour shown Grid Net generation, MW Net import, MW Import, percent of generation CAISO 22,740 3,969 17.45 SPP 32,590 -800 -2.45 MISO 64,636 3,538 5.47 ISO-NE 11,530 -598 -5.19 NYISO 11,935 2,521 21.12 PJM 82,357 -645 -0.78 ERCOT 53,053 350 0.66 Each circle's area follows the grid's net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48's generation sets the scale: 430,999 MW. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_caiso",
+     "figures": [],
+     "text": "Stored answers Five stored answers for CAISO, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. How much wind did CAISO curtail in total in 2024, in MWh? CAISO curtailed about 230,777 MWh of wind in calendar year 2024 (230776.644 MWh, rounded). This is the sum of 12 monthly values of curtailed_wind_mwh for entity caiso:ISO, from January to December 2024 (iso_curtailment_monthly, derived from CAISO's curtailment reports). Months are in local time. This is CAISO's own curtailment figure, which isn't comparable with other ISOs' figures. 230,777, 230776.644, 12 : iso_curtailment_monthly , query with aggregation=sum, variable=curtailed_wind_mwh, start=2024-01-01, end=2025-01-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat: warehouse/chat/eval/eval_s302_fixtures.json , question q11. What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month? The lowest monthly carbon intensity of CAISO generation in the warehouse is 44.2145 kgCO2/MWh, in May 2026 (intensity_generation, entity eia930:CISO, UTC month start 2026-05-01, which is 1 May 2026 Pacific). This comes from carbon_intensity_monthly, which is derived (computed by the ERW). It is the minimum of 69 monthly values from August 2018"
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "net|ties|CISO|2026-10-22T03:00:00Z",
+     "raw": "11",
+     "shown": "11"
+    },
+    {
+     "key": "net|maxflow|CISO|2026-10-22T03:00:00Z",
+     "raw": "1388",
+     "shown": "1,388"
+    },
+    {
+     "key": "net|tie|CISO|SRP|2026-10-22T03:00:00Z",
+     "raw": "-1388",
+     "shown": "-1,388"
+    },
+    {
+     "key": "net|tie|CISO|NEVP|2026-10-22T03:00:00Z",
+     "raw": "-1355",
+     "shown": "-1,355"
+    },
+    {
+     "key": "net|tie|CISO|AZPS|2026-10-22T03:00:00Z",
+     "raw": "-1181",
+     "shown": "-1,181"
+    },
+    {
+     "key": "net|tie|CISO|BPAT|2026-10-22T03:00:00Z",
+     "raw": "-564",
+     "shown": "-564"
+    },
+    {
+     "key": "net|tie|CISO|LDWP|2026-10-22T03:00:00Z",
+     "raw": "371",
+     "shown": "371"
+    },
+    {
+     "key": "net|tie|CISO|TIDC|2026-10-22T03:00:00Z",
+     "raw": "139",
+     "shown": "139"
+    },
+    {
+     "key": "net|tie|CISO|IID|2026-10-22T03:00:00Z",
+     "raw": "-57",
+     "shown": "-57"
+    },
+    {
+     "key": "net|tie|CISO|BANC|2026-10-22T03:00:00Z",
+     "raw": "54",
+     "shown": "54"
+    },
+    {
+     "key": "net|tie|CISO|CEN|2026-10-22T03:00:00Z",
+     "raw": "8",
+     "shown": "8"
+    },
+    {
+     "key": "net|tie|CISO|WALC|2026-10-22T03:00:00Z",
+     "raw": "4",
+     "shown": "4"
+    },
+    {
+     "key": "net|tie|CISO|PACW|2026-10-22T03:00:00Z",
+     "raw": "0",
+     "shown": "0"
+    },
+    {
+     "key": "bsup|CISO|share:pairs",
+     "raw": "16.843548368128893",
+     "shown": "16.84"
+    },
+    {
+     "key": "bsup|CISO|mwh:pairs",
+     "raw": "34203380",
+     "shown": "34,203,380"
+    },
+    {
+     "key": "bsup|CISO|days_held",
+     "raw": "311",
+     "shown": "311"
+    },
+    {
+     "key": "bsup|CISO|neighbour_mwh:NEVP",
+     "raw": "8155906",
+     "shown": "8,155,906"
+    },
+    {
+     "key": "bsup|CISO|neighbour:NEVP",
+     "raw": "4.025426424447763",
+     "shown": "4.03"
+    },
+    {
+     "key": "bsup|CISO|neighbour_mwh:AZPS",
+     "raw": "7333463",
+     "shown": "7,333,463"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting 2026-10-22 03:00 UTC, CAISO took in more power than it sent out over its 11 reporting ties: a net import of 3,969 MW. Net import 3,969 MW The sum of its reporting ties in the hour. Ties reporting 11 Neighbours with a flow in the hour starting 2026-10-22 03:00 UTC. Largest flow 1,388 MW Either way, with Salt River Project Agricultural Improvement and Power District. Each neighbour, that hour CAISO's ties in the hour Neighbour Flow, MW Direction Salt River Project Agricultural Improvement and Power District SRP -1,388 in Nevada Power Company NEVP -1,355 in Arizona Public Service Company AZPS -1,181 in Bonneville P",
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity ",
+    "twelve": "Net imports were 16.84 percent of CAISO's demand (the sum of its reported ties): 34,203,380 MWh over 311 days. CAISO's neighbours over twelve months Neighbour Net import, MWh P",
+    "months": "2025-10 to 2026-09: 311 days held, 54 left out",
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC)",
+    "Each neighbour, that hour",
+    "Over the last twelve months",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=us48&view=gravity&shape=gravity",
+   "status": 200,
+   "ms": 276,
+   "final": "/grid?grid=us48&view=gravity&shape=gravity",
+   "bytes": 295143,
+   "keys": 38,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_gravity_us48",
+     "figures": [
+      {
+       "key": "series|eia930_all_generation|eia930:CISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "22740",
+       "shown": "22,740"
+      },
+      {
+       "key": "net|import|CISO|2026-10-22T03:00:00Z",
+       "raw": "3969",
+       "shown": "3,969"
+      },
+      {
+       "key": "calc|pct|net~import~CISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:CISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "17.45382585751979",
+       "shown": "17.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:SWPP|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "32590",
+       "shown": "32,590"
+      },
+      {
+       "key": "net|import|SWPP|2026-10-22T03:00:00Z",
+       "raw": "-800",
+       "shown": "-800"
+      },
+      {
+       "key": "calc|pct|net~import~SWPP~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:SWPP~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-2.45474071801166",
+       "shown": "-2.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:MISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "64636",
+       "shown": "64,636"
+      },
+      {
+       "key": "net|import|MISO|2026-10-22T03:00:00Z",
+       "raw": "3538",
+       "shown": "3,538"
+      },
+      {
+       "key": "calc|pct|net~import~MISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:MISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "5.473729810012996",
+       "shown": "5.47"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ISNE|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11530",
+       "shown": "11,530"
+      },
+      {
+       "key": "net|import|ISNE|2026-10-22T03:00:00Z",
+       "raw": "-598",
+       "shown": "-598"
+      },
+      {
+       "key": "calc|pct|net~import~ISNE~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ISNE~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-5.1864700780572415",
+       "shown": "-5.19"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:NYIS|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11935",
+       "shown": "11,935"
+      },
+      {
+       "key": "net|import|NYIS|2026-10-22T03:00:00Z",
+       "raw": "2521",
+       "shown": "2,521"
+      },
+      {
+       "key": "calc|pct|net~import~NYIS~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:NYIS~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "21.122748219522414",
+       "shown": "21.12"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:PJM|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "82357",
+       "shown": "82,357"
+      },
+      {
+       "key": "net|import|PJM|2026-10-22T03:00:00Z",
+       "raw": "-645",
+       "shown": "-645"
+      },
+      {
+       "key": "calc|pct|net~import~PJM~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:PJM~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-0.7831756863411732",
+       "shown": "-0.78"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ERCO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "53053",
+       "shown": "53,053"
+      },
+      {
+       "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+       "raw": "350",
+       "shown": "350"
+      },
+      {
+       "key": "calc|pct|net~import~ERCO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ERCO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "0.6597176408497163",
+       "shown": "0.66"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "430999",
+       "shown": "430,999"
+      }
+     ],
+     "text": "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity shape, the hour shown Grid Net generation, MW Net import, MW Import, percent of generation CAISO 22,740 3,969 17.45 SPP 32,590 -800 -2.45 MISO 64,636 3,538 5.47 ISO-NE 11,530 -598 -5.19 NYISO 11,935 2,521 21.12 PJM 82,357 -645 -0.78 ERCOT 53,053 350 0.66 Each circle's area follows the grid's net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48's generation sets the scale: 430,999 MW. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_us48",
+     "figures": [],
+     "text": "Stored answers Three stored answers for the Lower 48 so far, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the average monthly carbon intensity of US Lower 48 generation over 2024? The mean of the 12 monthly values of US Lower 48 generation carbon intensity (entity eia930:US48, variable intensity_generation) for January to December 2024 was 337.48 kgCO2/MWh (carbon_intensity_monthly, derived by the ERW). This is a simple average of the monthly figures, not weighted by generation. Months are UTC calendar months. The monthly values ranged from a low of 289.93 kgCO2/MWh in April 2024 to a high of 383.24 kgCO2/MWh in January 2024 (carbon_intensity_monthly). 12, 337.48 : carbon_intensity_monthly , query with aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01 , read 19 October 2026. 289.93, 383.24 : carbon_intensity_monthly , query with aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01, group_by=month , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the general chat of /ask: warehouse/chat/eval/eval_s302_fixtures.json , question q19. How many electric vehicles were registered in Texas in 2025? Not in the warehouse. It has no table of"
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "net|topexport|2026-10-22T03:00:00Z",
+     "raw": "4222",
+     "shown": "4,222"
+    },
+    {
+     "key": "net|export|ERCO|2026-10-22T03:00:00Z",
+     "raw": "-350",
+     "shown": "-350"
+    },
+    {
+     "key": "net|ties|ERCO|2026-10-22T03:00:00Z",
+     "raw": "2",
+     "shown": "2"
+    },
+    {
+     "key": "net|export|CISO|2026-10-22T03:00:00Z",
+     "raw": "-3969",
+     "shown": "-3,969"
+    },
+    {
+     "key": "net|ties|CISO|2026-10-22T03:00:00Z",
+     "raw": "11",
+     "shown": "11"
+    },
+    {
+     "key": "net|export|PJM|2026-10-22T03:00:00Z",
+     "raw": "645",
+     "shown": "645"
+    },
+    {
+     "key": "net|ties|PJM|2026-10-22T03:00:00Z",
+     "raw": "7",
+     "shown": "7"
+    },
+    {
+     "key": "net|export|MISO|2026-10-22T03:00:00Z",
+     "raw": "-3538",
+     "shown": "-3,538"
+    },
+    {
+     "key": "net|ties|MISO|2026-10-22T03:00:00Z",
+     "raw": "10",
+     "shown": "10"
+    },
+    {
+     "key": "net|export|NYIS|2026-10-22T03:00:00Z",
+     "raw": "-2521",
+     "shown": "-2,521"
+    },
+    {
+     "key": "net|ties|NYIS|2026-10-22T03:00:00Z",
+     "raw": "4",
+     "shown": "4"
+    },
+    {
+     "key": "net|export|ISNE|2026-10-22T03:00:00Z",
+     "raw": "598",
+     "shown": "598"
+    },
+    {
+     "key": "net|ties|ISNE|2026-10-22T03:00:00Z",
+     "raw": "3",
+     "shown": "3"
+    },
+    {
+     "key": "net|export|SWPP|2026-10-22T03:00:00Z",
+     "raw": "800",
+     "shown": "800"
+    },
+    {
+     "key": "net|ties|SWPP|2026-10-22T03:00:00Z",
+     "raw": "10",
+     "shown": "10"
+    }
+   ],
+   "sentences": {
+    "now": null,
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity ",
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC)",
+    "The seven grids, that hour",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=ercot&view=clean",
+   "status": 200,
+   "ms": 652,
+   "final": "/grid?grid=ercot&view=clean",
+   "bytes": 339006,
+   "keys": 53,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_clean24_ercot",
+     "figures": [
+      {
+       "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "181.1137",
+       "shown": "181.11"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-10-20T18:00:00+00:00",
+       "raw": "168.2948",
+       "shown": "168.29"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-10-20T11:00:00+00:00",
+       "raw": "303.8069",
+       "shown": "303.81"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "342.2921",
+       "shown": "342.29"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-10-20T18:00:00+00:00",
+       "raw": "174.8578",
+       "shown": "174.86"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-10-20T10:00:00+00:00",
+       "raw": "360.866",
+       "shown": "360.87"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "190.9599",
+       "shown": "190.96"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-10-20T17:00:00+00:00",
+       "raw": "167.5666",
+       "shown": "167.57"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-10-20T01:00:00+00:00",
+       "raw": "238.5095",
+       "shown": "238.51"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:MISO|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "497.4636",
+       "shown": "497.46"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:MISO|intensity_generation|2026-10-20T19:00:00+00:00",
+       "raw": "335.606",
+       "shown": "335.61"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:MISO|intensity_generation|2026-10-20T02:00:00+00:00",
+       "raw": "506.0577",
+       "shown": "506.06"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "220.0922",
+       "shown": "220.09"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-10-20T17:00:00+00:00",
+       "raw": "173.3133",
+       "shown": "173.31"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-10-20T02:00:00+00:00",
+       "raw": "239.4122",
+       "shown": "239.41"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:PJM|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "361.8936",
+       "shown": "361.89"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:PJM|intensity_generation|2026-10-20T19:00:00+00:00",
+       "raw": "293.7121",
+       "shown": "293.71"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:PJM|intensity_generation|2026-10-20T02:00:00+00:00",
+       "raw": "373.2465",
+       "shown": "373.25"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "408.8409",
+       "shown": "408.84"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-10-20T05:00:00+00:00",
+       "raw": "227.5059",
+       "shown": "227.51"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "408.8409",
+       "shown": "408.84"
+      }
+     ],
+     "text": "Latest, lowest and highest intensity of generation per ISO in the 24 hours drawn ISO Latest hour, kg CO2/MWh Lowest of the 24 hours Highest of the 24 hours CAISO 181.11 23:00 168.29 18:00 303.81 11:00 ERCOT 342.29 23:00 174.86 18:00 360.87 10:00 ISO-NE 190.96 23:00 167.57 17:00 238.51 01:00 MISO 497.46 23:00 335.61 19:00 506.06 02:00 NYISO 220.09 23:00 173.31 17:00 239.41 02:00 PJM 361.89 23:00 293.71 19:00 373.25 02:00 SPP 408.84 23:00 227.51 05:00 408.84 23:00 The hour beside each figure is its hour start, UTC. Hover a figure for its table, entity and hour."
+    },
+    {
+     "panel": "grid_ask_ercot",
+     "figures": [],
+     "text": "Stored answers Five stored answers for ERCOT, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the average real-time on-peak price at ERCOT's hub average (HB_HUBAVG) over calendar year 2024? For calendar year 2024, the mean of the daily real-time on-peak means at HB_HUBAVG was 31.57 USD/MWh (ercot_hub_prices_daily, derived by the ERW). Peak is the weekday sixteen-hour block; weekends and holidays have no peak row. 31.57 : ercot_hub_prices_daily , query with aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_peak_mean, start=2024-01-01, end=2025-01-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the Grid panel's ERCOT profile (Ask ERCOT): warehouse/chat/eval/eval_s302_fixtures.json , question q01. What was the load-weighted real-time price at ERCOT's HB_HUBAVG in July 2025? The load-weighted real-time price at ERCOT's HB_HUBAVG for July 2025 was 34.18 USD/MWh (cost_of_power_monthly), weighted by ERCOT's hourly demand and derived by the ERW. 34.18 : cost_of_power_monthly , query with aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_load_weighted, start=2025-07-01, end=2025-08-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the Grid panel's ERCOT profile (Ask ERCOT): wareho"
+    }
+   ],
+   "first": [
+    {
+     "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "342.4375",
+     "shown": "342.44"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2018-08-01T00:00:00+00:00",
+     "raw": "460.4669",
+     "shown": "460.47"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2026-09-01T00:00:00+00:00",
+     "raw": "340.3504",
+     "shown": "340.35"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "193.0156",
+     "shown": "193.02"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:ISNE|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "192.6688",
+     "shown": "192.67"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:NYIS|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "239.3439",
+     "shown": "239.34"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "342.4375",
+     "shown": "342.44"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:PJM|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "363.3642",
+     "shown": "363.36"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:SWPP|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "434.7474",
+     "shown": "434.75"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:MISO|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "492.9413",
+     "shown": "492.94"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2018-08-01T00:00:00+00:00",
+     "raw": "213.5147",
+     "shown": "213.51"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2026-07-01T00:00:00+00:00",
+     "raw": "127.3126",
+     "shown": "127.31"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2018-08-01T00:00:00+00:00",
+     "raw": "460.4669",
+     "shown": "460.47"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2026-09-01T00:00:00+00:00",
+     "raw": "340.3504",
+     "shown": "340.35"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:ISNE|intensity_generation|2018-08-01T00:00:00+00:00",
+     "raw": "251.5063",
+     "shown": "251.51"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:ISNE|intensity_generation|2026-08-01T00:00:00+00:00",
+     "raw": "244.3533",
+     "shown": "244.35"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:MISO|intensity_generation|2018-09-01T00:00:00+00:00",
+     "raw": "595.9164",
+     "shown": "595.92"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:MISO|intensity_generation|2026-09-01T00:00:00+00:00",
+     "raw": "454.7337",
+     "shown": "454.73"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:NYIS|intensity_generation|2018-08-01T00:00:00+00:00",
+     "raw": "255.4985",
+     "shown": "255.50"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:NYIS|intensity_generation|2026-09-01T00:00:00+00:00",
+     "raw": "258.916",
+     "shown": "258.92"
+    }
+   ],
+   "sentences": {
+    "now": null,
+    "lag": null,
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": "The seven grids, 2024 The seven grids Grid Months held Carbon-free share Hours at least half carbon-free 100% purchase: energy met in its hour 20% moved: carbon 20% moved: cost CAISO 12 of 12 53.2% 55.4% 80.1% -4.1% -13.5% ERCOT 12 of 12 42.9% 34.4% 85.8% -3.2% -9.0% ISO-NE 12 of 12 37.3% 9.9% 92.0% -1.1% -2.5% MISO 12 of 12 33.7% 4.1% 90.6% -0.9% paused while terms are reviewed NYISO 11 of 12 45.9% 33.1% 94.7% -1.2% -3.7% PJM 12 of 12 39.7% 2.4% 95.9% -0.7% licensed source needed SPP 12 of 12 46.4% 47.1% 85.8% -2.4% -13.2% Decisions on this page (the owner's rulings of 18 October 2026, ses"
+   },
+   "h2": [
+    "How clean",
+    "Carbon intensity now, ranked",
+    "The last 24 hours",
+    "Monthly since 2018",
+    "How clean, and when",
+    "Carbon-free share of generation, by year",
+    "ERCOT: an annual clean purchase against the hours, 2024",
+    "ERCOT: the cleanest hours of the average day, 2024",
+    "ERCOT: moving a flat load into the cleanest hours",
+    "The seven grids, 2024",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=caiso&view=clean",
+   "status": 200,
+   "ms": 558,
+   "final": "/grid?grid=caiso&view=clean",
+   "bytes": 359126,
+   "keys": 53,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_clean24_caiso",
+     "figures": [
+      {
+       "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "181.1137",
+       "shown": "181.11"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-10-20T18:00:00+00:00",
+       "raw": "168.2948",
+       "shown": "168.29"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-10-20T11:00:00+00:00",
+       "raw": "303.8069",
+       "shown": "303.81"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "342.2921",
+       "shown": "342.29"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-10-20T18:00:00+00:00",
+       "raw": "174.8578",
+       "shown": "174.86"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-10-20T10:00:00+00:00",
+       "raw": "360.866",
+       "shown": "360.87"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "190.9599",
+       "shown": "190.96"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-10-20T17:00:00+00:00",
+       "raw": "167.5666",
+       "shown": "167.57"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-10-20T01:00:00+00:00",
+       "raw": "238.5095",
+       "shown": "238.51"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:MISO|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "497.4636",
+       "shown": "497.46"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:MISO|intensity_generation|2026-10-20T19:00:00+00:00",
+       "raw": "335.606",
+       "shown": "335.61"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:MISO|intensity_generation|2026-10-20T02:00:00+00:00",
+       "raw": "506.0577",
+       "shown": "506.06"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "220.0922",
+       "shown": "220.09"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-10-20T17:00:00+00:00",
+       "raw": "173.3133",
+       "shown": "173.31"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-10-20T02:00:00+00:00",
+       "raw": "239.4122",
+       "shown": "239.41"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:PJM|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "361.8936",
+       "shown": "361.89"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:PJM|intensity_generation|2026-10-20T19:00:00+00:00",
+       "raw": "293.7121",
+       "shown": "293.71"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:PJM|intensity_generation|2026-10-20T02:00:00+00:00",
+       "raw": "373.2465",
+       "shown": "373.25"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "408.8409",
+       "shown": "408.84"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-10-20T05:00:00+00:00",
+       "raw": "227.5059",
+       "shown": "227.51"
+      },
+      {
+       "key": "series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-10-20T23:00:00+00:00",
+       "raw": "408.8409",
+       "shown": "408.84"
+      }
+     ],
+     "text": "Latest, lowest and highest intensity of generation per ISO in the 24 hours drawn ISO Latest hour, kg CO2/MWh Lowest of the 24 hours Highest of the 24 hours CAISO 181.11 23:00 168.29 18:00 303.81 11:00 ERCOT 342.29 23:00 174.86 18:00 360.87 10:00 ISO-NE 190.96 23:00 167.57 17:00 238.51 01:00 MISO 497.46 23:00 335.61 19:00 506.06 02:00 NYISO 220.09 23:00 173.31 17:00 239.41 02:00 PJM 361.89 23:00 293.71 19:00 373.25 02:00 SPP 408.84 23:00 227.51 05:00 408.84 23:00 The hour beside each figure is its hour start, UTC. Hover a figure for its table, entity and hour."
+    },
+    {
+     "panel": "grid_ask_caiso",
+     "figures": [],
+     "text": "Stored answers Five stored answers for CAISO, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. How much wind did CAISO curtail in total in 2024, in MWh? CAISO curtailed about 230,777 MWh of wind in calendar year 2024 (230776.644 MWh, rounded). This is the sum of 12 monthly values of curtailed_wind_mwh for entity caiso:ISO, from January to December 2024 (iso_curtailment_monthly, derived from CAISO's curtailment reports). Months are in local time. This is CAISO's own curtailment figure, which isn't comparable with other ISOs' figures. 230,777, 230776.644, 12 : iso_curtailment_monthly , query with aggregation=sum, variable=curtailed_wind_mwh, start=2024-01-01, end=2025-01-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat: warehouse/chat/eval/eval_s302_fixtures.json , question q11. What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month? The lowest monthly carbon intensity of CAISO generation in the warehouse is 44.2145 kgCO2/MWh, in May 2026 (intensity_generation, entity eia930:CISO, UTC month start 2026-05-01, which is 1 May 2026 Pacific). This comes from carbon_intensity_monthly, which is derived (computed by the ERW). It is the minimum of 69 monthly values from August 2018"
+    }
+   ],
+   "first": [
+    {
+     "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "193.0156",
+     "shown": "193.02"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2018-08-01T00:00:00+00:00",
+     "raw": "213.5147",
+     "shown": "213.51"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2026-07-01T00:00:00+00:00",
+     "raw": "127.3126",
+     "shown": "127.31"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:CISO|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "193.0156",
+     "shown": "193.02"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:ISNE|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "192.6688",
+     "shown": "192.67"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:NYIS|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "239.3439",
+     "shown": "239.34"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "342.4375",
+     "shown": "342.44"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:PJM|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "363.3642",
+     "shown": "363.36"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:SWPP|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "434.7474",
+     "shown": "434.75"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:MISO|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "492.9413",
+     "shown": "492.94"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2018-08-01T00:00:00+00:00",
+     "raw": "213.5147",
+     "shown": "213.51"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2026-07-01T00:00:00+00:00",
+     "raw": "127.3126",
+     "shown": "127.31"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2018-08-01T00:00:00+00:00",
+     "raw": "460.4669",
+     "shown": "460.47"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2026-09-01T00:00:00+00:00",
+     "raw": "340.3504",
+     "shown": "340.35"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:ISNE|intensity_generation|2018-08-01T00:00:00+00:00",
+     "raw": "251.5063",
+     "shown": "251.51"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:ISNE|intensity_generation|2026-08-01T00:00:00+00:00",
+     "raw": "244.3533",
+     "shown": "244.35"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:MISO|intensity_generation|2018-09-01T00:00:00+00:00",
+     "raw": "595.9164",
+     "shown": "595.92"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:MISO|intensity_generation|2026-09-01T00:00:00+00:00",
+     "raw": "454.7337",
+     "shown": "454.73"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:NYIS|intensity_generation|2018-08-01T00:00:00+00:00",
+     "raw": "255.4985",
+     "shown": "255.50"
+    },
+    {
+     "key": "series|carbon_intensity_monthly|eia930:NYIS|intensity_generation|2026-09-01T00:00:00+00:00",
+     "raw": "258.916",
+     "shown": "258.92"
+    }
+   ],
+   "sentences": {
+    "now": null,
+    "lag": null,
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": "The seven grids, 2024 The seven grids Grid Months held Carbon-free share Hours at least half carbon-free 100% purchase: energy met in its hour 20% moved: carbon 20% moved: cost CAISO 12 of 12 53.2% 55.4% 80.1% -4.1% -13.5% ERCOT 12 of 12 42.9% 34.4% 85.8% -3.2% -9.0% ISO-NE 12 of 12 37.3% 9.9% 92.0% -1.1% -2.5% MISO 12 of 12 33.7% 4.1% 90.6% -0.9% paused while terms are reviewed NYISO 11 of 12 45.9% 33.1% 94.7% -1.2% -3.7% PJM 12 of 12 39.7% 2.4% 95.9% -0.7% licensed source needed SPP 12 of 12 46.4% 47.1% 85.8% -2.4% -13.2% Decisions on this page (the owner's rulings of 18 October 2026, ses"
+   },
+   "h2": [
+    "How clean",
+    "Carbon intensity now, ranked",
+    "The last 24 hours",
+    "Monthly since 2018",
+    "How clean, and when",
+    "Carbon-free share of generation, by year",
+    "CAISO: an annual clean purchase against the hours, 2024",
+    "CAISO: the cleanest hours of the average day, 2024",
+    "CAISO: moving a flat load into the cleanest hours",
+    "The seven grids, 2024",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid/caiso/alerts",
+   "status": 200,
+   "ms": 396,
+   "final": "/grid/caiso/alerts",
+   "bytes": 518827,
+   "keys": 433,
+   "held": 0,
+   "panels": [],
+   "first": [
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|pooled_days|2018-07-01T00:00:00+00:00",
+     "raw": "38",
+     "shown": "38"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|pooled_hours|2018-07-01T00:00:00+00:00",
+     "raw": "204",
+     "shown": "204"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mw|2018-07-01T00:00:00+00:00",
+     "raw": "-503.1849",
+     "shown": "-503.18"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mw_lo|2018-07-01T00:00:00+00:00",
+     "raw": "-1274.8892",
+     "shown": "-1,274.89"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mw_hi|2018-07-01T00:00:00+00:00",
+     "raw": "247.377",
+     "shown": "247.38"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_pct|2018-07-01T00:00:00+00:00",
+     "raw": "-1.2012",
+     "shown": "-1.20"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mwh|2018-07-01T00:00:00+00:00",
+     "raw": "-102649.7286",
+     "shown": "-102,649.73"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mwh_lo|2018-07-01T00:00:00+00:00",
+     "raw": "-260077.3898",
+     "shown": "-260,077.39"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mwh_hi|2018-07-01T00:00:00+00:00",
+     "raw": "50464.9058",
+     "shown": "50,464.91"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|oos_bias_mw|2018-07-01T00:00:00+00:00",
+     "raw": "-239.3376",
+     "shown": "-239.34"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|oos_rmse_mw|2018-07-01T00:00:00+00:00",
+     "raw": "1598.5565",
+     "shown": "1,598.56"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|oos_mape_pct|2018-07-01T00:00:00+00:00",
+     "raw": "3.18",
+     "shown": "3.18"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|oos_days|2018-07-01T00:00:00+00:00",
+     "raw": "128",
+     "shown": "128"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|variant_minimal_oos_bias_mw|2018-07-01T00:00:00+00:00",
+     "raw": "-272.2928",
+     "shown": "-272.29"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|variant_minimal_oos_rmse_mw|2018-07-01T00:00:00+00:00",
+     "raw": "1917.8568",
+     "shown": "1,917.86"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|variant_minimal_pooled_reduction_mw|2018-07-01T00:00:00+00:00",
+     "raw": "-58.9951",
+     "shown": "-59.00"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|variant_minimal_pooled_reduction_mw_lo|2018-07-01T00:00:00+00:00",
+     "raw": "-756.8456",
+     "shown": "-756.85"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|variant_minimal_pooled_reduction_mw_hi|2018-07-01T00:00:00+00:00",
+     "raw": "545.7158",
+     "shown": "545.72"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_oos_bias_mw|2018-07-01T00:00:00+00:00",
+     "raw": "-497.0896",
+     "shown": "-497.09"
+    },
+    {
+     "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_oos_rmse_mw|2018-07-01T00:00:00+00:00",
+     "raw": "1744.533",
+     "shown": "1,744.53"
+    }
+   ],
+   "sentences": {
+    "now": null,
+    "lag": null,
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "The answer, pooled",
+    "Every alert day, ranked",
+    "Year by year",
+    "Each alert day through the evening",
+    "What it was worth, at the day-ahead price",
+    "The model's check: the hottest days it did not see",
+    "What the estimate can and cannot say"
+   ]
+  },
+  {
+   "address": "/grid?grid=ercot&view=network&net=day&t=2021-02-15",
+   "status": 200,
+   "ms": 362,
+   "final": "/grid?grid=ercot&view=network&net=day&t=2021-02-15",
+   "bytes": 268775,
+   "keys": 6,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_network_ercot",
+     "figures": [
+      {
+       "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+       "raw": "350",
+       "shown": "350"
+      },
+      {
+       "key": "net|ties|ERCO|2026-10-22T03:00:00Z",
+       "raw": "2",
+       "shown": "2"
+      },
+      {
+       "key": "netsnap|ERCO|demand_mw|2026-10-22T03:00:00Z",
+       "raw": "53405",
+       "shown": "53,405"
+      },
+      {
+       "key": "net|tie|ERCO|SWPP|2026-10-22T03:00:00Z",
+       "raw": "-352",
+       "shown": "-352"
+      },
+      {
+       "key": "net|tie|ERCO|CEN|2026-10-22T03:00:00Z",
+       "raw": "2",
+       "shown": "2"
+      }
+     ],
+     "text": "ERCOT, the hour shown (2026-10-22 03:00 UTC) ERCOT took in, on net, 350 MW over its 2 reporting ties, with a demand of 53,405 MW in the hour. ERCOT's ties in the hour the network shows Neighbour Flow, MW Direction Southwest Power Pool SWPP -352 in Centro Nacional de Control de Energia CEN 2 out The figures the network draws for ERCOT in the hour it opens on, from the same snapshot. A tie's flow is signed from ERCOT's side: positive, power left the grid. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_ercot",
+     "figures": [],
+     "text": "Stored answers Five stored answers for ERCOT, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the average real-time on-peak price at ERCOT's hub average (HB_HUBAVG) over calendar year 2024? For calendar year 2024, the mean of the daily real-time on-peak means at HB_HUBAVG was 31.57 USD/MWh (ercot_hub_prices_daily, derived by the ERW). Peak is the weekday sixteen-hour block; weekends and holidays have no peak row. 31.57 : ercot_hub_prices_daily , query with aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_peak_mean, start=2024-01-01, end=2025-01-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the Grid panel's ERCOT profile (Ask ERCOT): warehouse/chat/eval/eval_s302_fixtures.json , question q01. What was the load-weighted real-time price at ERCOT's HB_HUBAVG in July 2025? The load-weighted real-time price at ERCOT's HB_HUBAVG for July 2025 was 34.18 USD/MWh (cost_of_power_monthly), weighted by ERCOT's hourly demand and derived by the ERW. 34.18 : cost_of_power_monthly , query with aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_load_weighted, start=2025-07-01, end=2025-08-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the Grid panel's ERCOT profile (Ask ERCOT): wareho"
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    }
+   ],
+   "sentences": {
+    "now": null,
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. ERCOT, the hour shown (2026-10-22 03:00 UTC) ERCOT took in, on net, 350 MW over its 2 reporting tie",
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "ERCOT, the hour shown (2026-10-22 03:00 UTC)",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/network",
+   "status": 200,
+   "ms": 491,
+   "final": "/grid?view=network",
+   "bytes": 271979,
+   "keys": 15,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_network_us48",
+     "figures": [
+      {
+       "key": "net|export|ERCO|2026-10-22T03:00:00Z",
+       "raw": "-350",
+       "shown": "-350"
+      },
+      {
+       "key": "net|ties|ERCO|2026-10-22T03:00:00Z",
+       "raw": "2",
+       "shown": "2"
+      },
+      {
+       "key": "net|export|CISO|2026-10-22T03:00:00Z",
+       "raw": "-3969",
+       "shown": "-3,969"
+      },
+      {
+       "key": "net|ties|CISO|2026-10-22T03:00:00Z",
+       "raw": "11",
+       "shown": "11"
+      },
+      {
+       "key": "net|export|PJM|2026-10-22T03:00:00Z",
+       "raw": "645",
+       "shown": "645"
+      },
+      {
+       "key": "net|ties|PJM|2026-10-22T03:00:00Z",
+       "raw": "7",
+       "shown": "7"
+      },
+      {
+       "key": "net|export|MISO|2026-10-22T03:00:00Z",
+       "raw": "-3538",
+       "shown": "-3,538"
+      },
+      {
+       "key": "net|ties|MISO|2026-10-22T03:00:00Z",
+       "raw": "10",
+       "shown": "10"
+      },
+      {
+       "key": "net|export|NYIS|2026-10-22T03:00:00Z",
+       "raw": "-2521",
+       "shown": "-2,521"
+      },
+      {
+       "key": "net|ties|NYIS|2026-10-22T03:00:00Z",
+       "raw": "4",
+       "shown": "4"
+      },
+      {
+       "key": "net|export|ISNE|2026-10-22T03:00:00Z",
+       "raw": "598",
+       "shown": "598"
+      },
+      {
+       "key": "net|ties|ISNE|2026-10-22T03:00:00Z",
+       "raw": "3",
+       "shown": "3"
+      },
+      {
+       "key": "net|export|SWPP|2026-10-22T03:00:00Z",
+       "raw": "800",
+       "shown": "800"
+      },
+      {
+       "key": "net|ties|SWPP|2026-10-22T03:00:00Z",
+       "raw": "10",
+       "shown": "10"
+      }
+     ],
+     "text": "The seven grids, the hour shown (2026-10-22 03:00 UTC) Net exchange of the seven grids in the hour the network shows Grid Net export, MW Ties reporting ERCOT -350 2 CAISO -3,969 11 PJM 645 7 MISO -3,538 10 NYISO -2,521 4 ISO-NE 598 3 SPP 800 10 Net export, MW: the sum of a grid's reporting ties in the hour the network opens on, signed from its side; a negative number is a net import. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_us48",
+     "figures": [],
+     "text": "Stored answers Three stored answers for the Lower 48 so far, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the average monthly carbon intensity of US Lower 48 generation over 2024? The mean of the 12 monthly values of US Lower 48 generation carbon intensity (entity eia930:US48, variable intensity_generation) for January to December 2024 was 337.48 kgCO2/MWh (carbon_intensity_monthly, derived by the ERW). This is a simple average of the monthly figures, not weighted by generation. Months are UTC calendar months. The monthly values ranged from a low of 289.93 kgCO2/MWh in April 2024 to a high of 383.24 kgCO2/MWh in January 2024 (carbon_intensity_monthly). 12, 337.48 : carbon_intensity_monthly , query with aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01 , read 19 October 2026. 289.93, 383.24 : carbon_intensity_monthly , query with aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01, group_by=month , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the general chat of /ask: warehouse/chat/eval/eval_s302_fixtures.json , question q19. How many electric vehicles were registered in Texas in 2025? Not in the warehouse. It has no table of"
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    }
+   ],
+   "sentences": {
+    "now": null,
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. The seven grids, the hour shown (2026-10-22 03:00 UTC) Net exchange of the seven grids in the hour ",
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "The seven grids, the hour shown (2026-10-22 03:00 UTC)",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/mix",
+   "status": 200,
+   "ms": 658,
+   "final": "/grid?view=mix",
+   "bytes": 401718,
+   "keys": 38,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_ask_us48",
+     "figures": [],
+     "text": "Stored answers Three stored answers for the Lower 48 so far, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the average monthly carbon intensity of US Lower 48 generation over 2024? The mean of the 12 monthly values of US Lower 48 generation carbon intensity (entity eia930:US48, variable intensity_generation) for January to December 2024 was 337.48 kgCO2/MWh (carbon_intensity_monthly, derived by the ERW). This is a simple average of the monthly figures, not weighted by generation. Months are UTC calendar months. The monthly values ranged from a low of 289.93 kgCO2/MWh in April 2024 to a high of 383.24 kgCO2/MWh in January 2024 (carbon_intensity_monthly). 12, 337.48 : carbon_intensity_monthly , query with aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01 , read 19 October 2026. 289.93, 383.24 : carbon_intensity_monthly , query with aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01, group_by=month , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the general chat of /ask: warehouse/chat/eval/eval_s302_fixtures.json , question q19. How many electric vehicles were registered in Texas in 2025? Not in the warehouse. It has no table of"
+    }
+   ],
+   "first": [
+    {
+     "key": "series|eia930_all_demand|eia930:US48|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "492641",
+     "shown": "492,641"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:US48|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "549771",
+     "shown": "549,771"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_natural_gas_mw|2026-10-22T23:00:00+00:00",
+     "raw": "214437",
+     "shown": "214,437"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "483211",
+     "shown": "483,211"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:US48|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "357.2863",
+     "shown": "357.29"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:US48|demand_mw|2026-10-22T23:00:00+00:00",
+     "raw": "492641",
+     "shown": "492,641"
+    },
+    {
+     "key": "series|eia930_all_demand|eia930:US48|demand_mw|2026-10-15T23:00:00+00:00",
+     "raw": "549771",
+     "shown": "549,771"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:US48|intensity_generation|2026-10-20T23:00:00+00:00",
+     "raw": "357.2863",
+     "shown": "357.29"
+    },
+    {
+     "key": "series|carbon_intensity_hourly|eia930:US48|intensity_demand|2026-10-20T23:00:00+00:00",
+     "raw": "355.7579",
+     "shown": "355.76"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T23:00:00+00:00",
+     "raw": "483211",
+     "shown": "483,211"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_natural_gas_mw|2026-10-22T23:00:00+00:00",
+     "raw": "214437",
+     "shown": "214,437"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_coal_mw|2026-10-22T23:00:00+00:00",
+     "raw": "81069",
+     "shown": "81,069"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_nuclear_mw|2026-10-22T23:00:00+00:00",
+     "raw": "79975",
+     "shown": "79,975"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_wind_mw|2026-10-22T23:00:00+00:00",
+     "raw": "46061",
+     "shown": "46,061"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_hydro_mw|2026-10-22T23:00:00+00:00",
+     "raw": "24504",
+     "shown": "24,504"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_solar_mw|2026-10-22T23:00:00+00:00",
+     "raw": "13173",
+     "shown": "13,173"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_battery_mw|2026-10-22T23:00:00+00:00",
+     "raw": "10672",
+     "shown": "10,672"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_other_mw|2026-10-22T23:00:00+00:00",
+     "raw": "6760",
+     "shown": "6,760"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_pumped_storage_mw|2026-10-22T23:00:00+00:00",
+     "raw": "4227",
+     "shown": "4,227"
+    },
+    {
+     "key": "series|eia930_all_generation|eia930:US48|net_generation_oil_mw|2026-10-22T23:00:00+00:00",
+     "raw": "1354",
+     "shown": "1,354"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting 2026-10-22 23:00 UTC, the latest EIA has published, the Lower 48 states used 492,641 MW, less than the 549,771 MW of the same hour a week earlier. Natural gas was its largest source: 214,437 MW of the 483,211 MW generated in the hour starting 2026-10-22 23:00 UTC. Each MWh it generated carried 357.29 kg of CO2 in the hour starting 2026-10-20 23:00 UTC, the latest EIA has estimated. Demand 492,641 MW Hour starting 2026-10-22 23:00 UTC. A week earlier: 549,771 MW. Net export by grid MW The Lower 48 is the sum of its grids: the exchange of each in review . Carbon intensity 357.29 kg CO2/MWh Of generation, hour star",
+    "lag": null,
+    "twelve": null,
+    "months": null,
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "The mix in that hour",
+    "US Lower 48: yesterday",
+    "Energy mix",
+    "US Lower 48: today so far",
+    "US Lower 48: hourly mix, last 7 days",
+    "United States: monthly mix since 2001",
+    "Generation mix, as a table",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=pjm&view=gravity&shape=gravity",
+   "status": 200,
+   "ms": 724,
+   "final": "/grid?grid=pjm&view=gravity&shape=gravity",
+   "bytes": 315806,
+   "keys": 51,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_gravity_pjm",
+     "figures": [
+      {
+       "key": "series|eia930_all_generation|eia930:CISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "22740",
+       "shown": "22,740"
+      },
+      {
+       "key": "net|import|CISO|2026-10-22T03:00:00Z",
+       "raw": "3969",
+       "shown": "3,969"
+      },
+      {
+       "key": "calc|pct|net~import~CISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:CISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "17.45382585751979",
+       "shown": "17.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:SWPP|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "32590",
+       "shown": "32,590"
+      },
+      {
+       "key": "net|import|SWPP|2026-10-22T03:00:00Z",
+       "raw": "-800",
+       "shown": "-800"
+      },
+      {
+       "key": "calc|pct|net~import~SWPP~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:SWPP~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-2.45474071801166",
+       "shown": "-2.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:MISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "64636",
+       "shown": "64,636"
+      },
+      {
+       "key": "net|import|MISO|2026-10-22T03:00:00Z",
+       "raw": "3538",
+       "shown": "3,538"
+      },
+      {
+       "key": "calc|pct|net~import~MISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:MISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "5.473729810012996",
+       "shown": "5.47"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ISNE|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11530",
+       "shown": "11,530"
+      },
+      {
+       "key": "net|import|ISNE|2026-10-22T03:00:00Z",
+       "raw": "-598",
+       "shown": "-598"
+      },
+      {
+       "key": "calc|pct|net~import~ISNE~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ISNE~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-5.1864700780572415",
+       "shown": "-5.19"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:NYIS|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11935",
+       "shown": "11,935"
+      },
+      {
+       "key": "net|import|NYIS|2026-10-22T03:00:00Z",
+       "raw": "2521",
+       "shown": "2,521"
+      },
+      {
+       "key": "calc|pct|net~import~NYIS~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:NYIS~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "21.122748219522414",
+       "shown": "21.12"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:PJM|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "82357",
+       "shown": "82,357"
+      },
+      {
+       "key": "net|import|PJM|2026-10-22T03:00:00Z",
+       "raw": "-645",
+       "shown": "-645"
+      },
+      {
+       "key": "calc|pct|net~import~PJM~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:PJM~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-0.7831756863411732",
+       "shown": "-0.78"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ERCO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "53053",
+       "shown": "53,053"
+      },
+      {
+       "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+       "raw": "350",
+       "shown": "350"
+      },
+      {
+       "key": "calc|pct|net~import~ERCO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ERCO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "0.6597176408497163",
+       "shown": "0.66"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "430999",
+       "shown": "430,999"
+      }
+     ],
+     "text": "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity shape, the hour shown Grid Net generation, MW Net import, MW Import, percent of generation CAISO 22,740 3,969 17.45 SPP 32,590 -800 -2.45 MISO 64,636 3,538 5.47 ISO-NE 11,530 -598 -5.19 NYISO 11,935 2,521 21.12 PJM 82,357 -645 -0.78 ERCOT 53,053 350 0.66 Each circle's area follows the grid's net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48's generation sets the scale: 430,999 MW. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_pjm",
+     "figures": [],
+     "text": "Stored answers Two stored answers for PJM so far, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the average day-ahead price at PJM's Western Hub in 2025? Not in the warehouse. It holds no PJM day-ahead or real-time energy prices, including for Western Hub in 2025. The PJM tables that came back from list_tables hold demand, generation, emissions and similar data, not energy prices. PJM's pages also say its prices are licensed for internal use only and are not shown. I am giving no number. No figure: the answer says what the warehouse does not hold. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the general chat of /ask: warehouse/chat/eval/eval_s302_fixtures.json , question q26. What was the carbon intensity of PJM's demand in January 2025? PJM's carbon intensity of demand in January 2025 was 375.95 kgCO2/MWh (carbon_intensity_monthly, entity eia930:PJM, variable intensity_demand, derived table). That is the ERW's monthly figure for the UTC month starting 2025-01-01. It is EIA's estimate of CO2 consumed divided by EIA's demand, not a measurement. For comparison, the same table gives 382.42 kgCO2/MWh for intensity of generation in that month. 375.95 : carbon_intensity_monthly , query with aggregation=latest, entity=eia930:PJM, variable=intensity_demand"
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "net|export|PJM|2026-10-22T03:00:00Z",
+     "raw": "645",
+     "shown": "645"
+    },
+    {
+     "key": "net|export|PJM|2026-10-22T03:00:00Z",
+     "raw": "645",
+     "shown": "645"
+    },
+    {
+     "key": "net|ties|PJM|2026-10-22T03:00:00Z",
+     "raw": "7",
+     "shown": "7"
+    },
+    {
+     "key": "net|maxflow|PJM|2026-10-22T03:00:00Z",
+     "raw": "2616",
+     "shown": "2,616"
+    },
+    {
+     "key": "net|tie|PJM|MISO|2026-10-22T03:00:00Z",
+     "raw": "2616",
+     "shown": "2,616"
+    },
+    {
+     "key": "net|tie|PJM|NYIS|2026-10-22T03:00:00Z",
+     "raw": "1601",
+     "shown": "1,601"
+    },
+    {
+     "key": "net|tie|PJM|CPLE|2026-10-22T03:00:00Z",
+     "raw": "-1599",
+     "shown": "-1,599"
+    },
+    {
+     "key": "net|tie|PJM|TVA|2026-10-22T03:00:00Z",
+     "raw": "-1173",
+     "shown": "-1,173"
+    },
+    {
+     "key": "net|tie|PJM|DUK|2026-10-22T03:00:00Z",
+     "raw": "-574",
+     "shown": "-574"
+    },
+    {
+     "key": "net|tie|PJM|LGEE|2026-10-22T03:00:00Z",
+     "raw": "-160",
+     "shown": "-160"
+    },
+    {
+     "key": "net|tie|PJM|CPLW|2026-10-22T03:00:00Z",
+     "raw": "-66",
+     "shown": "-66"
+    },
+    {
+     "key": "bsup|PJM|share:pairs",
+     "raw": "-2.661215657972689",
+     "shown": "-2.66"
+    },
+    {
+     "key": "bsup|PJM|mwh:pairs",
+     "raw": "-14109758",
+     "shown": "-14,109,758"
+    },
+    {
+     "key": "bsup|PJM|days_held",
+     "raw": "222",
+     "shown": "222"
+    },
+    {
+     "key": "bsup|PJM|neighbour_mwh:TVA",
+     "raw": "4493058",
+     "shown": "4,493,058"
+    },
+    {
+     "key": "bsup|PJM|neighbour:TVA",
+     "raw": "0.8396574102003767",
+     "shown": "0.84"
+    },
+    {
+     "key": "bsup|PJM|neighbour_mwh:CPLE",
+     "raw": "4448722",
+     "shown": "4,448,722"
+    },
+    {
+     "key": "bsup|PJM|neighbour:CPLE",
+     "raw": "0.8327877312770439",
+     "shown": "0.83"
+    },
+    {
+     "key": "bsup|PJM|neighbour_mwh:DUK",
+     "raw": "1846304",
+     "shown": "1,846,304"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting 2026-10-22 03:00 UTC, PJM sent out more power than it took in over its 7 reporting ties: a net export of 645 MW. Net export 645 MW The sum of its reporting ties in the hour. Ties reporting 7 Neighbours with a flow in the hour starting 2026-10-22 03:00 UTC. Largest flow 2,616 MW Either way, with Midcontinent Independent System Operator, Inc.. Each neighbour, that hour PJM's ties in the hour Neighbour Flow, MW Direction Midcontinent Independent System Operator, Inc. MISO 2,616 out New York Independent System Operator NYIS 1,601 out Duke Energy Progress East CPLE -1,599 in Tennessee Valley Authority TVA -1,173 in D",
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity ",
+    "twelve": "Net imports were -2.66 percent of PJM's demand (the sum of its reported ties): -14,109,758 MWh over 222 days. PJM's neighbours over twelve months Neighbour Net import, MWh Perc",
+    "months": "2025-10 to 2026-09: 222 days held, 143 left out",
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC)",
+    "Each neighbour, that hour",
+    "Over the last twelve months",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=miso&view=gravity&shape=gravity",
+   "status": 200,
+   "ms": 291,
+   "final": "/grid?grid=miso&view=gravity&shape=gravity",
+   "bytes": 317027,
+   "keys": 60,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_gravity_miso",
+     "figures": [
+      {
+       "key": "series|eia930_all_generation|eia930:CISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "22740",
+       "shown": "22,740"
+      },
+      {
+       "key": "net|import|CISO|2026-10-22T03:00:00Z",
+       "raw": "3969",
+       "shown": "3,969"
+      },
+      {
+       "key": "calc|pct|net~import~CISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:CISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "17.45382585751979",
+       "shown": "17.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:SWPP|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "32590",
+       "shown": "32,590"
+      },
+      {
+       "key": "net|import|SWPP|2026-10-22T03:00:00Z",
+       "raw": "-800",
+       "shown": "-800"
+      },
+      {
+       "key": "calc|pct|net~import~SWPP~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:SWPP~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-2.45474071801166",
+       "shown": "-2.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:MISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "64636",
+       "shown": "64,636"
+      },
+      {
+       "key": "net|import|MISO|2026-10-22T03:00:00Z",
+       "raw": "3538",
+       "shown": "3,538"
+      },
+      {
+       "key": "calc|pct|net~import~MISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:MISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "5.473729810012996",
+       "shown": "5.47"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ISNE|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11530",
+       "shown": "11,530"
+      },
+      {
+       "key": "net|import|ISNE|2026-10-22T03:00:00Z",
+       "raw": "-598",
+       "shown": "-598"
+      },
+      {
+       "key": "calc|pct|net~import~ISNE~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ISNE~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-5.1864700780572415",
+       "shown": "-5.19"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:NYIS|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11935",
+       "shown": "11,935"
+      },
+      {
+       "key": "net|import|NYIS|2026-10-22T03:00:00Z",
+       "raw": "2521",
+       "shown": "2,521"
+      },
+      {
+       "key": "calc|pct|net~import~NYIS~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:NYIS~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "21.122748219522414",
+       "shown": "21.12"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:PJM|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "82357",
+       "shown": "82,357"
+      },
+      {
+       "key": "net|import|PJM|2026-10-22T03:00:00Z",
+       "raw": "-645",
+       "shown": "-645"
+      },
+      {
+       "key": "calc|pct|net~import~PJM~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:PJM~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-0.7831756863411732",
+       "shown": "-0.78"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ERCO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "53053",
+       "shown": "53,053"
+      },
+      {
+       "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+       "raw": "350",
+       "shown": "350"
+      },
+      {
+       "key": "calc|pct|net~import~ERCO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ERCO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "0.6597176408497163",
+       "shown": "0.66"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "430999",
+       "shown": "430,999"
+      }
+     ],
+     "text": "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity shape, the hour shown Grid Net generation, MW Net import, MW Import, percent of generation CAISO 22,740 3,969 17.45 SPP 32,590 -800 -2.45 MISO 64,636 3,538 5.47 ISO-NE 11,530 -598 -5.19 NYISO 11,935 2,521 21.12 PJM 82,357 -645 -0.78 ERCOT 53,053 350 0.66 Each circle's area follows the grid's net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48's generation sets the scale: 430,999 MW. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_miso",
+     "figures": [],
+     "text": "Stored answers One stored answer for MISO so far, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the load-weighted real-time price at MISO's Indiana hub in August 2026? Not in the warehouse. MISO data is paused while its terms are reviewed (since 4 October 2026), so I can't give a load-weighted real-time price for MISO's Indiana hub in August 2026. No figure: the answer says what the warehouse does not hold. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the general chat of /ask: warehouse/chat/eval/eval_s302_fixtures.json , question q29."
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "net|ties|MISO|2026-10-22T03:00:00Z",
+     "raw": "10",
+     "shown": "10"
+    },
+    {
+     "key": "net|maxflow|MISO|2026-10-22T03:00:00Z",
+     "raw": "2616",
+     "shown": "2,616"
+    },
+    {
+     "key": "net|tie|MISO|PJM|2026-10-22T03:00:00Z",
+     "raw": "-2616",
+     "shown": "-2,616"
+    },
+    {
+     "key": "net|tie|MISO|TVA|2026-10-22T03:00:00Z",
+     "raw": "2115",
+     "shown": "2,115"
+    },
+    {
+     "key": "net|tie|MISO|MHEB|2026-10-22T03:00:00Z",
+     "raw": "-1276",
+     "shown": "-1,276"
+    },
+    {
+     "key": "net|tie|MISO|AECI|2026-10-22T03:00:00Z",
+     "raw": "-1152",
+     "shown": "-1,152"
+    },
+    {
+     "key": "net|tie|MISO|SWPP|2026-10-22T03:00:00Z",
+     "raw": "-659",
+     "shown": "-659"
+    },
+    {
+     "key": "net|tie|MISO|IESO|2026-10-22T03:00:00Z",
+     "raw": "-435",
+     "shown": "-435"
+    },
+    {
+     "key": "net|tie|MISO|LGEE|2026-10-22T03:00:00Z",
+     "raw": "286",
+     "shown": "286"
+    },
+    {
+     "key": "net|tie|MISO|SOCO|2026-10-22T03:00:00Z",
+     "raw": "172",
+     "shown": "172"
+    },
+    {
+     "key": "net|tie|MISO|SPA|2026-10-22T03:00:00Z",
+     "raw": "53",
+     "shown": "53"
+    },
+    {
+     "key": "net|tie|MISO|SIKE|2026-10-22T03:00:00Z",
+     "raw": "-26",
+     "shown": "-26"
+    },
+    {
+     "key": "bsup|MISO|share:pairs",
+     "raw": "2.659473633511867",
+     "shown": "2.66"
+    },
+    {
+     "key": "bsup|MISO|mwh:pairs",
+     "raw": "15665977",
+     "shown": "15,665,977"
+    },
+    {
+     "key": "bsup|MISO|days_held",
+     "raw": "311",
+     "shown": "311"
+    },
+    {
+     "key": "bsup|MISO|neighbour_mwh:PJM",
+     "raw": "19636241",
+     "shown": "19,636,241"
+    },
+    {
+     "key": "bsup|MISO|neighbour:PJM",
+     "raw": "3.3677863971550175",
+     "shown": "3.37"
+    },
+    {
+     "key": "bsup|MISO|neighbour_mwh:IESO",
+     "raw": "4358463",
+     "shown": "4,358,463"
+    },
+    {
+     "key": "bsup|MISO|neighbour:IESO",
+     "raw": "0.7487961538016664",
+     "shown": "0.75"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting 2026-10-22 03:00 UTC, MISO took in more power than it sent out over its 10 reporting ties: a net import of 3,538 MW. Net import 3,538 MW The sum of its reporting ties in the hour. Ties reporting 10 Neighbours with a flow in the hour starting 2026-10-22 03:00 UTC. Largest flow 2,616 MW Either way, with PJM Interconnection, LLC. Each neighbour, that hour MISO's ties in the hour Neighbour Flow, MW Direction PJM Interconnection, LLC PJM -2,616 in Tennessee Valley Authority TVA 2,115 out Manitoba Hydro MHEB -1,276 in Associated Electric Cooperative, Inc. AECI -1,152 in Southwest Power Pool SWPP -659 in Ontario IESO I",
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity ",
+    "twelve": "Net imports were 2.66 percent of MISO's demand (the sum of its reported ties): 15,665,977 MWh over 311 days. MISO's neighbours over twelve months Neighbour Net import, MWh Perc",
+    "months": "2025-10 to 2026-09: 311 days held, 54 left out",
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC)",
+    "Each neighbour, that hour",
+    "Over the last twelve months",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=nyiso&view=gravity&shape=gravity",
+   "status": 200,
+   "ms": 485,
+   "final": "/grid?grid=nyiso&view=gravity&shape=gravity",
+   "bytes": 310152,
+   "keys": 42,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_gravity_nyiso",
+     "figures": [
+      {
+       "key": "series|eia930_all_generation|eia930:CISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "22740",
+       "shown": "22,740"
+      },
+      {
+       "key": "net|import|CISO|2026-10-22T03:00:00Z",
+       "raw": "3969",
+       "shown": "3,969"
+      },
+      {
+       "key": "calc|pct|net~import~CISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:CISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "17.45382585751979",
+       "shown": "17.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:SWPP|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "32590",
+       "shown": "32,590"
+      },
+      {
+       "key": "net|import|SWPP|2026-10-22T03:00:00Z",
+       "raw": "-800",
+       "shown": "-800"
+      },
+      {
+       "key": "calc|pct|net~import~SWPP~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:SWPP~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-2.45474071801166",
+       "shown": "-2.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:MISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "64636",
+       "shown": "64,636"
+      },
+      {
+       "key": "net|import|MISO|2026-10-22T03:00:00Z",
+       "raw": "3538",
+       "shown": "3,538"
+      },
+      {
+       "key": "calc|pct|net~import~MISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:MISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "5.473729810012996",
+       "shown": "5.47"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ISNE|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11530",
+       "shown": "11,530"
+      },
+      {
+       "key": "net|import|ISNE|2026-10-22T03:00:00Z",
+       "raw": "-598",
+       "shown": "-598"
+      },
+      {
+       "key": "calc|pct|net~import~ISNE~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ISNE~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-5.1864700780572415",
+       "shown": "-5.19"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:NYIS|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11935",
+       "shown": "11,935"
+      },
+      {
+       "key": "net|import|NYIS|2026-10-22T03:00:00Z",
+       "raw": "2521",
+       "shown": "2,521"
+      },
+      {
+       "key": "calc|pct|net~import~NYIS~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:NYIS~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "21.122748219522414",
+       "shown": "21.12"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:PJM|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "82357",
+       "shown": "82,357"
+      },
+      {
+       "key": "net|import|PJM|2026-10-22T03:00:00Z",
+       "raw": "-645",
+       "shown": "-645"
+      },
+      {
+       "key": "calc|pct|net~import~PJM~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:PJM~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-0.7831756863411732",
+       "shown": "-0.78"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ERCO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "53053",
+       "shown": "53,053"
+      },
+      {
+       "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+       "raw": "350",
+       "shown": "350"
+      },
+      {
+       "key": "calc|pct|net~import~ERCO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ERCO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "0.6597176408497163",
+       "shown": "0.66"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "430999",
+       "shown": "430,999"
+      }
+     ],
+     "text": "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity shape, the hour shown Grid Net generation, MW Net import, MW Import, percent of generation CAISO 22,740 3,969 17.45 SPP 32,590 -800 -2.45 MISO 64,636 3,538 5.47 ISO-NE 11,530 -598 -5.19 NYISO 11,935 2,521 21.12 PJM 82,357 -645 -0.78 ERCOT 53,053 350 0.66 Each circle's area follows the grid's net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48's generation sets the scale: 430,999 MW. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_nyiso",
+     "figures": [],
+     "text": "Stored answers Four stored answers for NYISO so far, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the load-weighted day-ahead price at NYISO's N.Y.C. zone in February 2025? license needed: ISO-NE; MISO; NYISO: the publisher's own page asks for permission; none is recorded yet. The stored answer read cost_of_power_monthly , which is held for NYISO today, so it is not shown. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat: warehouse/chat/eval/eval_s302_fixtures.json , question q16. What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025? license needed: ISO-NE; MISO; NYISO: the publisher's own page asks for permission; none is recorded yet. The stored answer read cost_of_power_monthly , which is held for NYISO today, so it is not shown. From session 267's evaluation, asked 2026-10-14 through POST /api/ask, the general chat of /ask: warehouse/chat/eval/eval_s267_fixtures.json , question q18. What was a 4-hour battery's capture rate at NYISO's N.Y.C. zone in January 2025? license needed: ISO-NE; MISO; NYISO: the publisher's own page asks for permission; none is recorded yet. The stored answer read merchant_revenue_monthly , which is held for NYISO today, so it is not shown. From session 267's"
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "net|ties|NYIS|2026-10-22T03:00:00Z",
+     "raw": "4",
+     "shown": "4"
+    },
+    {
+     "key": "net|maxflow|NYIS|2026-10-22T03:00:00Z",
+     "raw": "1601",
+     "shown": "1,601"
+    },
+    {
+     "key": "net|tie|NYIS|PJM|2026-10-22T03:00:00Z",
+     "raw": "-1601",
+     "shown": "-1,601"
+    },
+    {
+     "key": "net|tie|NYIS|ISNE|2026-10-22T03:00:00Z",
+     "raw": "-517",
+     "shown": "-517"
+    },
+    {
+     "key": "net|tie|NYIS|IESO|2026-10-22T03:00:00Z",
+     "raw": "-397",
+     "shown": "-397"
+    },
+    {
+     "key": "net|tie|NYIS|HQT|2026-10-22T03:00:00Z",
+     "raw": "-6",
+     "shown": "-6"
+    },
+    {
+     "key": "bsup|NYIS|share:pairs",
+     "raw": "11.694482614557963",
+     "shown": "11.69"
+    },
+    {
+     "key": "bsup|NYIS|mwh:pairs",
+     "raw": "15193064",
+     "shown": "15,193,064"
+    },
+    {
+     "key": "bsup|NYIS|days_held",
+     "raw": "313",
+     "shown": "313"
+    },
+    {
+     "key": "bsup|NYIS|neighbour_mwh:PJM",
+     "raw": "18738977",
+     "shown": "18,738,977"
+    },
+    {
+     "key": "bsup|NYIS|neighbour:PJM",
+     "raw": "14.444700250175066",
+     "shown": "14.44"
+    },
+    {
+     "key": "bsup|NYIS|neighbour_mwh:IESO",
+     "raw": "5957984",
+     "shown": "5,957,984"
+    },
+    {
+     "key": "bsup|NYIS|neighbour:IESO",
+     "raw": "4.595838381583374",
+     "shown": "4.60"
+    },
+    {
+     "key": "bsup|NYIS|neighbour_mwh:ISNE",
+     "raw": "-4513890",
+     "shown": "-4,513,890"
+    },
+    {
+     "key": "bsup|NYIS|neighbour:ISNE",
+     "raw": "-3.4989955564383757",
+     "shown": "-3.50"
+    },
+    {
+     "key": "bsup|NYIS|neighbour_mwh:HQT",
+     "raw": "-4990007",
+     "shown": "-4,990,007"
+    },
+    {
+     "key": "bsup|NYIS|neighbour:HQT",
+     "raw": "-3.8470431263732388",
+     "shown": "-3.85"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting 2026-10-22 03:00 UTC, NYISO took in more power than it sent out over its 4 reporting ties: a net import of 2,521 MW. Net import 2,521 MW The sum of its reporting ties in the hour. Ties reporting 4 Neighbours with a flow in the hour starting 2026-10-22 03:00 UTC. Largest flow 1,601 MW Either way, with PJM Interconnection, LLC. Each neighbour, that hour NYISO's ties in the hour Neighbour Flow, MW Direction PJM Interconnection, LLC PJM -1,601 in ISO New England ISNE -517 in Ontario IESO IESO -397 in Hydro-Quebec TransEnergie HQT -6 in Flow over the tie, MW, signed from this grid's side: a positive number left the g",
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity ",
+    "twelve": "Net imports were 11.69 percent of NYISO's demand (the sum of its reported ties): 15,193,064 MWh over 313 days. NYISO's neighbours over twelve months Neighbour Net import, MWh P",
+    "months": "2025-10 to 2026-09: 313 days held, 52 left out",
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC)",
+    "Each neighbour, that hour",
+    "Over the last twelve months",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=isone&view=gravity&shape=gravity",
+   "status": 200,
+   "ms": 475,
+   "final": "/grid?grid=isone&view=gravity&shape=gravity",
+   "bytes": 310231,
+   "keys": 39,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_gravity_isone",
+     "figures": [
+      {
+       "key": "series|eia930_all_generation|eia930:CISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "22740",
+       "shown": "22,740"
+      },
+      {
+       "key": "net|import|CISO|2026-10-22T03:00:00Z",
+       "raw": "3969",
+       "shown": "3,969"
+      },
+      {
+       "key": "calc|pct|net~import~CISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:CISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "17.45382585751979",
+       "shown": "17.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:SWPP|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "32590",
+       "shown": "32,590"
+      },
+      {
+       "key": "net|import|SWPP|2026-10-22T03:00:00Z",
+       "raw": "-800",
+       "shown": "-800"
+      },
+      {
+       "key": "calc|pct|net~import~SWPP~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:SWPP~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-2.45474071801166",
+       "shown": "-2.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:MISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "64636",
+       "shown": "64,636"
+      },
+      {
+       "key": "net|import|MISO|2026-10-22T03:00:00Z",
+       "raw": "3538",
+       "shown": "3,538"
+      },
+      {
+       "key": "calc|pct|net~import~MISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:MISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "5.473729810012996",
+       "shown": "5.47"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ISNE|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11530",
+       "shown": "11,530"
+      },
+      {
+       "key": "net|import|ISNE|2026-10-22T03:00:00Z",
+       "raw": "-598",
+       "shown": "-598"
+      },
+      {
+       "key": "calc|pct|net~import~ISNE~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ISNE~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-5.1864700780572415",
+       "shown": "-5.19"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:NYIS|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11935",
+       "shown": "11,935"
+      },
+      {
+       "key": "net|import|NYIS|2026-10-22T03:00:00Z",
+       "raw": "2521",
+       "shown": "2,521"
+      },
+      {
+       "key": "calc|pct|net~import~NYIS~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:NYIS~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "21.122748219522414",
+       "shown": "21.12"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:PJM|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "82357",
+       "shown": "82,357"
+      },
+      {
+       "key": "net|import|PJM|2026-10-22T03:00:00Z",
+       "raw": "-645",
+       "shown": "-645"
+      },
+      {
+       "key": "calc|pct|net~import~PJM~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:PJM~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-0.7831756863411732",
+       "shown": "-0.78"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ERCO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "53053",
+       "shown": "53,053"
+      },
+      {
+       "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+       "raw": "350",
+       "shown": "350"
+      },
+      {
+       "key": "calc|pct|net~import~ERCO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ERCO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "0.6597176408497163",
+       "shown": "0.66"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "430999",
+       "shown": "430,999"
+      }
+     ],
+     "text": "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity shape, the hour shown Grid Net generation, MW Net import, MW Import, percent of generation CAISO 22,740 3,969 17.45 SPP 32,590 -800 -2.45 MISO 64,636 3,538 5.47 ISO-NE 11,530 -598 -5.19 NYISO 11,935 2,521 21.12 PJM 82,357 -645 -0.78 ERCOT 53,053 350 0.66 Each circle's area follows the grid's net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48's generation sets the scale: 430,999 MW. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_isone",
+     "figures": [],
+     "text": "Stored answers Four stored answers for ISO-NE so far, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the carbon intensity of ISO-NE's demand in July 2024? ISO-NE's carbon intensity of demand in July 2024 was 269.85 kgCO2/MWh (carbon_intensity_monthly, entity eia930:ISNE, variable intensity_demand). This is a derived monthly figure, CO2 consumed over EIA's demand. The row is labelled 2024-07-01 UTC, which is the month of July 2024. 269.85 : carbon_intensity_monthly , query with aggregation=latest, variable=intensity_demand, start=2024-07-01, end=2024-08-01 , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat: warehouse/chat/eval/eval_s302_fixtures.json , question q18. What was solar's capture rate at ISO-NE's Internal Hub in June 2025? license needed: ISO-NE; MISO; NYISO: the publisher's own page asks for permission; none is recorded yet. The stored answer read merchant_revenue_monthly , which is held for ISO-NE today, so it is not shown. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's own chat: warehouse/chat/eval/eval_s302_fixtures.json , question q20. What was the load-weighted real-time price at ISO-NE's Internal Hub in December 2024? license needed: ISO-NE; MISO; NYISO: the pu"
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "net|export|ISNE|2026-10-22T03:00:00Z",
+     "raw": "598",
+     "shown": "598"
+    },
+    {
+     "key": "net|export|ISNE|2026-10-22T03:00:00Z",
+     "raw": "598",
+     "shown": "598"
+    },
+    {
+     "key": "net|ties|ISNE|2026-10-22T03:00:00Z",
+     "raw": "3",
+     "shown": "3"
+    },
+    {
+     "key": "net|maxflow|ISNE|2026-10-22T03:00:00Z",
+     "raw": "517",
+     "shown": "517"
+    },
+    {
+     "key": "net|tie|ISNE|NYIS|2026-10-22T03:00:00Z",
+     "raw": "517",
+     "shown": "517"
+    },
+    {
+     "key": "net|tie|ISNE|NBSO|2026-10-22T03:00:00Z",
+     "raw": "111",
+     "shown": "111"
+    },
+    {
+     "key": "net|tie|ISNE|HQT|2026-10-22T03:00:00Z",
+     "raw": "-30",
+     "shown": "-30"
+    },
+    {
+     "key": "bsup|ISNE|share:pairs",
+     "raw": "4.667417368835007",
+     "shown": "4.67"
+    },
+    {
+     "key": "bsup|ISNE|mwh:pairs",
+     "raw": "4690674",
+     "shown": "4,690,674"
+    },
+    {
+     "key": "bsup|ISNE|days_held",
+     "raw": "317",
+     "shown": "317"
+    },
+    {
+     "key": "bsup|ISNE|neighbour_mwh:NYIS",
+     "raw": "4498947",
+     "shown": "4,498,947"
+    },
+    {
+     "key": "bsup|ISNE|neighbour:NYIS",
+     "raw": "4.471895626423242",
+     "shown": "4.47"
+    },
+    {
+     "key": "bsup|ISNE|neighbour_mwh:NBSO",
+     "raw": "456478",
+     "shown": "456,478"
+    },
+    {
+     "key": "bsup|ISNE|neighbour:NBSO",
+     "raw": "0.4487000843771932",
+     "shown": "0.45"
+    },
+    {
+     "key": "bsup|ISNE|neighbour_mwh:HQT",
+     "raw": "-264751",
+     "shown": "-264,751"
+    },
+    {
+     "key": "bsup|ISNE|neighbour:HQT",
+     "raw": "-0.25319253973410205",
+     "shown": "-0.25"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting 2026-10-22 03:00 UTC, ISO-NE sent out more power than it took in over its 3 reporting ties: a net export of 598 MW. Net export 598 MW The sum of its reporting ties in the hour. Ties reporting 3 Neighbours with a flow in the hour starting 2026-10-22 03:00 UTC. Largest flow 517 MW Either way, with New York Independent System Operator. Each neighbour, that hour ISO-NE's ties in the hour Neighbour Flow, MW Direction New York Independent System Operator NYIS 517 out New Brunswick System Operator NBSO 111 out Hydro-Quebec TransEnergie HQT -30 in Flow over the tie, MW, signed from this grid's side: a positive number le",
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity ",
+    "twelve": "Net imports were 4.67 percent of ISO-NE's demand (the sum of its reported ties): 4,690,674 MWh over 317 days. ISO-NE's neighbours over twelve months Neighbour Net import, MWh P",
+    "months": "2025-10 to 2026-09: 317 days held, 48 left out",
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC)",
+    "Each neighbour, that hour",
+    "Over the last twelve months",
+    "Ask"
+   ]
+  },
+  {
+   "address": "/grid?grid=spp&view=gravity&shape=gravity",
+   "status": 200,
+   "ms": 395,
+   "final": "/grid?grid=spp&view=gravity&shape=gravity",
+   "bytes": 335137,
+   "keys": 56,
+   "held": 0,
+   "panels": [
+    {
+     "panel": "grid_gravity_spp",
+     "figures": [
+      {
+       "key": "series|eia930_all_generation|eia930:CISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "22740",
+       "shown": "22,740"
+      },
+      {
+       "key": "net|import|CISO|2026-10-22T03:00:00Z",
+       "raw": "3969",
+       "shown": "3,969"
+      },
+      {
+       "key": "calc|pct|net~import~CISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:CISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "17.45382585751979",
+       "shown": "17.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:SWPP|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "32590",
+       "shown": "32,590"
+      },
+      {
+       "key": "net|import|SWPP|2026-10-22T03:00:00Z",
+       "raw": "-800",
+       "shown": "-800"
+      },
+      {
+       "key": "calc|pct|net~import~SWPP~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:SWPP~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-2.45474071801166",
+       "shown": "-2.45"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:MISO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "64636",
+       "shown": "64,636"
+      },
+      {
+       "key": "net|import|MISO|2026-10-22T03:00:00Z",
+       "raw": "3538",
+       "shown": "3,538"
+      },
+      {
+       "key": "calc|pct|net~import~MISO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:MISO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "5.473729810012996",
+       "shown": "5.47"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ISNE|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11530",
+       "shown": "11,530"
+      },
+      {
+       "key": "net|import|ISNE|2026-10-22T03:00:00Z",
+       "raw": "-598",
+       "shown": "-598"
+      },
+      {
+       "key": "calc|pct|net~import~ISNE~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ISNE~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-5.1864700780572415",
+       "shown": "-5.19"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:NYIS|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "11935",
+       "shown": "11,935"
+      },
+      {
+       "key": "net|import|NYIS|2026-10-22T03:00:00Z",
+       "raw": "2521",
+       "shown": "2,521"
+      },
+      {
+       "key": "calc|pct|net~import~NYIS~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:NYIS~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "21.122748219522414",
+       "shown": "21.12"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:PJM|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "82357",
+       "shown": "82,357"
+      },
+      {
+       "key": "net|import|PJM|2026-10-22T03:00:00Z",
+       "raw": "-645",
+       "shown": "-645"
+      },
+      {
+       "key": "calc|pct|net~import~PJM~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:PJM~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "-0.7831756863411732",
+       "shown": "-0.78"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:ERCO|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "53053",
+       "shown": "53,053"
+      },
+      {
+       "key": "net|import|ERCO|2026-10-22T03:00:00Z",
+       "raw": "350",
+       "shown": "350"
+      },
+      {
+       "key": "calc|pct|net~import~ERCO~2026-10-22T03:00:00Z|series~eia930_all_generation~eia930:ERCO~net_generation_mw~2026-10-22T03:00:00Z",
+       "raw": "0.6597176408497163",
+       "shown": "0.66"
+      },
+      {
+       "key": "series|eia930_all_generation|eia930:US48|net_generation_mw|2026-10-22T03:00:00Z",
+       "raw": "430999",
+       "shown": "430,999"
+      }
+     ],
+     "text": "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity shape, the hour shown Grid Net generation, MW Net import, MW Import, percent of generation CAISO 22,740 3,969 17.45 SPP 32,590 -800 -2.45 MISO 64,636 3,538 5.47 ISO-NE 11,530 -598 -5.19 NYISO 11,935 2,521 21.12 PJM 82,357 -645 -0.78 ERCOT 53,053 350 0.66 Each circle's area follows the grid's net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48's generation sets the scale: 430,999 MW. Hover a figure for its table, filter, hour and the snapshot's refresh."
+    },
+    {
+     "panel": "grid_ask_spp",
+     "figures": [],
+     "text": "Stored answers Five stored answers for SPP, asked of the warehouse and graded right. Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day. What was the load-weighted real-time price at SPP's North hub in February 2025? The load-weighted real-time price at SPP's North hub (spp:SPPNORTH_HUB) for February 2025 was 24.78 USD/MWh (cost_of_power_monthly, variable rt_load_weighted, local month of February 2025, Central time). The table is derived: each hourly real-time price is weighted by SPP's hourly demand. It covers 672 hours, which is all the hours in that month (rt_hours, cost_of_power_monthly). For comparison, a flat load would have paid a simple mean of 23.33 USD/MWh (rt_simple_mean, cost_of_power_monthly). 24.78 : cost_of_power_monthly , query with aggregation=latest, entity=spp:SPPNORTH_HUB, variable=rt_load_weighted, start=2025-02-01, end=2025-03-01, group_by=month , read 19 October 2026. 672 : cost_of_power_monthly , query with aggregation=latest, entity=spp:SPPNORTH_HUB, variable=rt_hours, start=2025-02-01, end=2025-03-01, group_by=month , read 19 October 2026. 23.33 : cost_of_power_monthly , query with aggregation=latest, entity=spp:SPPNORTH_HUB, variable=rt_simple_mean, start=2025-02-01, end=2025-03-01, group_by=month , read 19 October 2026. From session 302's evaluation, asked 2026-10-19 through POST /api/ask, the grid's "
+    }
+   ],
+   "first": [
+    {
+     "key": "net|lag|2026-10-22T03:00:00Z|2026-10-24T00:06:19Z",
+     "raw": "45",
+     "shown": "45"
+    },
+    {
+     "key": "net|export|SWPP|2026-10-22T03:00:00Z",
+     "raw": "800",
+     "shown": "800"
+    },
+    {
+     "key": "net|export|SWPP|2026-10-22T03:00:00Z",
+     "raw": "800",
+     "shown": "800"
+    },
+    {
+     "key": "net|ties|SWPP|2026-10-22T03:00:00Z",
+     "raw": "10",
+     "shown": "10"
+    },
+    {
+     "key": "net|maxflow|SWPP|2026-10-22T03:00:00Z",
+     "raw": "659",
+     "shown": "659"
+    },
+    {
+     "key": "net|tie|SWPP|MISO|2026-10-22T03:00:00Z",
+     "raw": "659",
+     "shown": "659"
+    },
+    {
+     "key": "net|tie|SWPP|SPA|2026-10-22T03:00:00Z",
+     "raw": "-591",
+     "shown": "-591"
+    },
+    {
+     "key": "net|tie|SWPP|ERCO|2026-10-22T03:00:00Z",
+     "raw": "352",
+     "shown": "352"
+    },
+    {
+     "key": "net|tie|SWPP|AECI|2026-10-22T03:00:00Z",
+     "raw": "206",
+     "shown": "206"
+    },
+    {
+     "key": "net|tie|SWPP|BHBA|2026-10-22T03:00:00Z",
+     "raw": "205",
+     "shown": "205"
+    },
+    {
+     "key": "net|tie|SWPP|SPC|2026-10-22T03:00:00Z",
+     "raw": "-147",
+     "shown": "-147"
+    },
+    {
+     "key": "net|tie|SWPP|SIKE|2026-10-22T03:00:00Z",
+     "raw": "116",
+     "shown": "116"
+    },
+    {
+     "key": "net|tie|SWPP|EPE|2026-10-22T03:00:00Z",
+     "raw": "0",
+     "shown": "0"
+    },
+    {
+     "key": "net|tie|SWPP|PNM|2026-10-22T03:00:00Z",
+     "raw": "0",
+     "shown": "0"
+    },
+    {
+     "key": "net|tie|SWPP|PSCO|2026-10-22T03:00:00Z",
+     "raw": "0",
+     "shown": "0"
+    },
+    {
+     "key": "bsup|SWPP|share:pairs",
+     "raw": "-1.7016010447211385",
+     "shown": "-1.70"
+    },
+    {
+     "key": "bsup|SWPP|mwh:pairs",
+     "raw": "-3086664",
+     "shown": "-3,086,664"
+    },
+    {
+     "key": "bsup|SWPP|days_held",
+     "raw": "204",
+     "shown": "204"
+    },
+    {
+     "key": "bsup|SWPP|neighbour_mwh:SPC",
+     "raw": "73633",
+     "shown": "73,633"
+    },
+    {
+     "key": "bsup|SWPP|neighbour:SPC",
+     "raw": "0.04100582961360351",
+     "shown": "0.04"
+    }
+   ],
+   "sentences": {
+    "now": "In the hour starting 2026-10-22 03:00 UTC, SPP sent out more power than it took in over its 10 reporting ties: a net export of 800 MW. Net export 800 MW The sum of its reporting ties in the hour. Ties reporting 10 Neighbours with a flow in the hour starting 2026-10-22 03:00 UTC. Largest flow 659 MW Either way, with Midcontinent Independent System Operator, Inc.. Each neighbour, that hour SPP's ties in the hour Neighbour Flow, MW Direction Midcontinent Independent System Operator, Inc. MISO 659 out Southwestern Power Administration SPA -591 in Electric Reliability Council of Texas, Inc. ERCO 352 out Associated Electric Cooperative, I",
+    "lag": "The newest hour shown, 2026-10-22 03:00 UTC, began 45 hours before this week's latest hourly refresh (2026-10-24 00:06 UTC), and 46 hours before this page was drawn (2026-10-24 00:58 UTC): EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it, so the network runs about two days behind the clock. What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC) The seven grids in the gravity ",
+    "twelve": "Net imports were -1.70 percent of SPP's demand (the sum of its reported ties): -3,086,664 MWh over 204 days. SPP's neighbours over twelve months Neighbour Net import, MWh Perce",
+    "months": "2025-10 to 2026-09: 204 days held, 161 left out",
+    "notices": null,
+    "seven2024": null
+   },
+   "h2": [
+    "What the gravity shape draws, the hour shown (2026-10-22 03:00 UTC)",
+    "Each neighbour, that hour",
+    "Over the last twelve months",
+    "Ask"
+   ]
+  }
+ ]
+}
