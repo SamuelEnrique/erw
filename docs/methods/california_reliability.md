@@ -1,5 +1,7 @@
 # California reliability v1: method
 
+Tables: `caiso_reliability_daily`
+
 Energy Research Warehouse (ERW), session 58. The "Reliability" section of `/grid/caiso` answers two questions:
 - When has California's grid operator, CAISO, told the public the grid was short?
 - How tight were its evenings, day by day?

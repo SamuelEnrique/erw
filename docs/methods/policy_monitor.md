@@ -1,5 +1,7 @@
 # The policy monitor: what is collected, from whom, and what a model reads into it
 
+Tables: `policy_actions`, `policy_reads`, `policy_reads_evidence`, `large_load_rule_reads`
+
 The policy monitor (`/policy`, in review) follows what federal regulators, state utility commissions and grid
 operators do that moves the US energy system: rules, proposed rules, notices, orders and open proceedings. **Scope:
 federal regulators, state commissions and grid operators only. There is nothing municipal in it**: no city or county
