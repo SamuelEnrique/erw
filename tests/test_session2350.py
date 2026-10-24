@@ -1,11 +1,11 @@
-"""Session 2300: Statnett's operational data, Norway's production and consumption a day.
+"""Session 2350 (chain 105's session 2300, renumbered): Statnett's operational data, Norway's production and consumption a day.
 
 Energy Research Warehouse (ERW). Tests warehouse/connectors/statnett_norway.py on answers built here in Statnett's form
 (figures made up for the test, not Statnett's): the slots placed on Norway's days, the empty slot after an autumn
 clock-change day skipped, any other empty slot a day not published, an answer whose slots do not end at its end time
 stopping the run; the sector rule and the hold. No network.
 
-    python -m unittest tests.test_session2300 -v
+    python -m unittest tests.test_session2350 -v
 """
 
 import datetime as dt

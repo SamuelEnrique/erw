@@ -7,7 +7,7 @@
 - **How the tables were chosen.**
   - The held tables with no method note were found by `runs/c105/s2298/find_unnoted.py`, chain 104's script pointed at this worktree. A table counts as described if a `Tables:` line or a note's file name names it, on main, chain 103's branch or chain 104's branch. 65 have none.
   - Six source tables that chains 103 and 104 did not take were chosen.
-  - This chain's own tables wait for session 2303.
+  - This chain's own tables wait for session 2353.
 - **Six notes** in `docs/methods/`. Three helpers drafted them, two tables each, from the connectors, the tables and the records, with no request. I read each and checked its `Tables:` line and its dash count (0).
   - `eia930_all_interchange.md`: 295,104 rows, 345 directed pairs, 2026-09-13 to 2026-10-21.
   - `eia930_all_storage.md`: 73,224 rows, five respondents, from 2024-11-01.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Norway's electricity production and consumption a day, from Statnett's operational data (driftsdata) (session 2300,
+"""Norway's electricity production and consumption a day, from Statnett's operational data (driftsdata) (session 2350,
 chain 105: a source of the session's own choosing).
 
 Energy Research Warehouse (ERW) connector. One series table from one request to the REST address behind Statnett's
@@ -13,7 +13,7 @@ Production and Consumption chart (https://driftsdata.statnett.no/Web/ProductionC
 
 The answer is two arrays (Production, Consumption) with a start time (StartPointUTC, Norway's midnight of the first day),
 an end time and a step of 24 hours. The arrays hold one slot more than Norway's days each autumn: the slot after the day
-the clocks go back (the last Sunday of October) is empty in every year (2020 to 2025, session 2300), and the values go on
+the clocks go back (the last Sunday of October) is empty in every year (2020 to 2025, session 2350), and the values go on
 after it. So: a slot is a day, in order from the first day, except an empty slot right after an autumn clock-change
 day, which is skipped; any other empty slot is a day not published (no row, named in the header: eight days of November
 2025 when this was written). The slots must come out at Norway's day of the end time, or the run stops. The day in
@@ -21,12 +21,12 @@ progress (the last slot) is not written. Nothing is filled.
 
 Statnett's page says data "may be missing in some places on this page, for example, data from wind power production that
 came into operation after 2019": its production is about 1 percent under Statistics Norway's total generation (session
-2300: 99.4 percent, the median of 81 months; consumption 99.2 percent of gross consumption, ssb_norway_electricity_monthly).
+2350: 99.4 percent, the median of 81 months; consumption 99.2 percent of gross consumption, ssb_norway_electricity_monthly).
 
     python warehouse/connectors/statnett_norway.py [--offline] [--out-dir DIR]
 
 Ceiling: one request, asked again unless --offline. driftsdata.statnett.no and www.statnett.no have no robots file (HTTP
-404, session 2300). License: internal until the licenses' round reads Statnett's terms (none found on its data pages).
+404, session 2350). License: internal until the licenses' round reads Statnett's terms (none found on its data pages).
 """
 
 import argparse
@@ -121,13 +121,13 @@ def main(argv=None):
         gaps = ", ".join(str(m) for m in missing) or "none"
         head = [
             f"Energy Research Warehouse (ERW): Statnett, Production and Consumption, Norway a day, {s.ts_utc.min()[:10]} to "
-            f"{s.ts_utc.max()[:10]} (session 2300)",
+            f"{s.ts_utc.max()[:10]} (session 2350)",
             "Shape: series (docs/datastandard.md v0). entity statnett:norway; variable production or consumption; unit MWh as "
             "published; freq P1D; ts_utc Norway's day (Europe/Oslo) at 00:00:00Z, a label; geo NO.",
             "Statnett's arrays hold one empty slot after each autumn clock-change day, skipped; the slots end at Norway's day of "
             f"the answer's end time (checked). Days Statnett leaves empty (no row): {gaps}. The day in progress is not written. "
             "Statnett says data may be missing, for example from wind power that came into operation after 2019: production is "
-            "about 1 percent under Statistics Norway's total generation (session 2300). Nothing is filled.",
+            "about 1 percent under Statistics Norway's total generation (session 2350). Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/statnett_norway.py; the answer retrieved at {got}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
