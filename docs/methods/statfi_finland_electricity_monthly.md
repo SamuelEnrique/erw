@@ -6,7 +6,7 @@ Tables: `statfi_finland_electricity_monthly`
 
 ## Publisher and address
 
-Statistics Finland, StatFin table 12su, "Supplies and total consumption of electricity by Month, Electricity production/supply and Information" (`https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__ehk/statfin_ehk_pxt_12su.px/`). It is read through Statistics Finland's PxWeb API (no key): the table's metadata by GET and one JSON-stat 2.0 query by POST, both at `https://pxdata.stat.fi/PxWeb/api/v1/en/StatFin/ehk/12su.px`. Source id `statfi:12su`. Connector: `warehouse/connectors/statfi_electricity.py` (session 2273). pxdata.stat.fi has no robots file (HTTP 404). stat.fi's robots file disallows a few paths, none of them used here (session 2273, reads 443 and 444).
+Statistics Finland, StatFin table 12su, "Supplies and total consumption of electricity by Month, Electricity production/supply and Information" (`https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__ehk/statfin_ehk_pxt_12su.px/`). It is read through Statistics Finland's PxWeb API (no key): the table's metadata by GET and one JSON-stat 2.0 query by POST, both at `https://pxdata.stat.fi/PxWeb/api/v1/en/StatFin/ehk/12su.px`. Source id `statfi:12su`. Connector: `warehouse/connectors/statfi_electricity.py` (session 2273). pxdata.stat.fi has no robots file (HTTP 404). stat.fi's robots file disallows a few paths, none of them used here (session 2273, reads 474 and 475).
 
 ## Vintage and revision
 
@@ -67,7 +67,7 @@ January to June 2026: total generation 42.40 TWh, total consumption 46.20 TWh.
 
 ## License
 
-Public. `license_verdicts.csv` records Statistics Finland, read 445 (session 2271, from session 2273's read of its terms of use): "may be public", for public and for commercial use. The sentence: "Statistics Finland's open data materials and public content of the web service are covered by the Creative Commons Attribution 4.0 International licence." The page asks for "Source: Statistics Finland", which the header gives. `sources.csv` flags `statfi:12su` public; `license_tables.csv` lists the table under Statistics Finland.
+Public. `license_verdicts.csv` records Statistics Finland, read 476 (session 2271, from session 2273's read of its terms of use): "may be public", for public and for commercial use. The sentence: "Statistics Finland's open data materials and public content of the web service are covered by the Creative Commons Attribution 4.0 International licence." The page asks for "Source: Statistics Finland", which the header gives. `sources.csv` flags `statfi:12su` public; `license_tables.csv` lists the table under Statistics Finland.
 
 ## Cross-checks (session 2275)
 

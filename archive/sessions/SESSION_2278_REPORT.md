@@ -5,7 +5,7 @@
 ## Read these first
 
 - **Why this source:** with chain 099's Norway and Sweden and session 2273's Finland, Estonia completes the Nordic and Baltic neighbours of the Nordic market's statistics. No ERW table held it, and chains 101, 102 and 104 do not take it; their agents were told before any request.
-- **Elering first, not taken.** Elering's dashboard (`dashboard.elering.ee`) is the grid operator's own data. Its robots file disallows every path for every reader (read 448), so nothing more was asked there.
+- **Elering first, not taken.** Elering's dashboard (`dashboard.elering.ee`) is the grid operator's own data. Its robots file disallows every path for every reader (read 479), so nothing more was asked there.
 - **A new table, `statee_estonia_electricity_monthly`** (series, 1,344 rows, `power`): Statistics Estonia's table KE21, January 2005 to August 2026, six indicators:
   - total electricity production;
   - production from hydro, wind and solar (solar from January 2023, 44 months);
@@ -13,7 +13,7 @@
 
   The values are in MWh (the table's GWh times 1,000). The table's two shares of sold electricity (percent) are not taken. Written, validated (0 errors, 0 warnings), archived, held from the Redivis storage and the live set, its release rows added.
 - **The answer's "updated" is 9999-12-31T21:59:59Z,** a placeholder, so the connector writes no vintage and the header says why. The table listing gives KE21's last update as 2026-09-29.
-- **The license:** CC BY-SA 4.0. Statistics Estonia's principles for disseminating official statistics (read 451): "Statistics Estonia's open data can be shared under Creative Common (CC) licence BY-SA 4.0." This session wrote the verdict, **may be public**, sold or not (commercial use is allowed). Any copy or adaptation must carry the same license, and the header says so.
+- **The license:** CC BY-SA 4.0. Statistics Estonia's principles for disseminating official statistics (read 482): "Statistics Estonia's open data can be shared under Creative Common (CC) licence BY-SA 4.0." This session wrote the verdict, **may be public**, sold or not (commercial use is allowed). Any copy or adaptation must carry the same license, and the header says so.
 - **Cross-checks, full years 2016 to 2025:**
   - against `eurostat_electricity_monthly` (Estonia): imports and exports equal Eurostat's (1.000) in every year but 2017 (imports 1.051, exports 1.004) and 2024 (imports 0.997); wind is within 2 percent;
   - total production is 1.115 to 1.176 times Eurostat's net production. The table does not say whether its production is gross or net;
@@ -32,7 +32,7 @@
 | 11 | the principles for disseminating official statistics | 200: CC BY-SA 4.0 |
 | 12, 13 | the metadata and the query (the trial) | 200 |
 
-Reads recorded: 448 to 451.
+Reads recorded: 479 to 482.
 
 ## Decisions made without you
 
@@ -46,5 +46,5 @@ Reads recorded: 448 to 451.
 ## Files
 
 - New: `warehouse/connectors/statee_electricity.py`, `tests/test_session2278.py`, this report.
-- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`, `docs/redivis/release-v1/`, the license record (reads 448 to 451, one verdict).
+- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`, `docs/redivis/release-v1/`, the license record (reads 479 to 482, one verdict).
 - On the data machine only: `runs/c103/s2278/`, `warehouse/raw/statee_electricity/`, `warehouse/output/statee_estonia_electricity_monthly.csv`.

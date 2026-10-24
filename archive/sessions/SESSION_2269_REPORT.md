@@ -5,7 +5,7 @@
 ## Read these first
 
 - **No table this session.**
-- **Taipower's terms allow the reuse.** Its website open data declaration (read 442), in Chinese: everything published on the site is offered to the public free of charge, non-exclusively and sublicensably. Users may reproduce, adapt, edit, publicly transmit or otherwise use it, to develop products or services, without the company's written or other authorisation, on the condition that the source is cited. www.taipower.com.tw has no robots file (its robots address answers the site's error page).
+- **Taipower's terms allow the reuse.** Its website open data declaration (read 473), in Chinese: everything published on the site is offered to the public free of charge, non-exclusively and sublicensably. Users may reproduce, adapt, edit, publicly transmit or otherwise use it, to develop products or services, without the company's written or other authorisation, on the condition that the source is cited. www.taipower.com.tw has no robots file (its robots address answers the site's error page).
 - **The data were found, but cannot be labelled.** Taipower's past supply and demand file (`/d006/loadGraph/loadGraph/data/sys_dem_sup.csv`) answered 200: 656 lines, one a day from 1 January 2025 to 18 October 2026, 71 values each (the date among them), and no header row. Its columns are defined on Taiwan's open-data platform (data.gov.tw), whose robots file answered HTTP 500, as chain 101's session found. That counts as no robots file the ERW can read, so data.gov.tw is not asked.
   - The first columns look like the daily report's supply capability, peak load and reserve margin, and the rest like generating units, but a table labelled from that guess would not trace to its source.
   - **For a later session:** the definitions, from a Taipower page that states them, or from data.gov.tw once its robots file answers.
@@ -19,7 +19,7 @@
 | 2 | Taipower's open data declaration | 200: free reuse with the source cited |
 | 3 | sys_dem_sup.csv | 200, 191,131 bytes, no header |
 
-Reads recorded: 441 and 442.
+Reads recorded: 472 and 473.
 
 ## Decisions made without you
 

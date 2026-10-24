@@ -4,7 +4,7 @@
 
 ## Read these first
 
-- **No table this session.** XM's API host (servapibi.xm.com.co) has no robots file, and www.xm.com.co's robots file allows the site but for a few paths. But XM's website terms ("Términos y condiciones de uso", read 440) bind its contents. Article six commits the user to abstain from:
+- **No table this session.** XM's API host (servapibi.xm.com.co) has no robots file, and www.xm.com.co's robots file allows the site but for a few paths. But XM's website terms ("Términos y condiciones de uso", read 471) bind its contents. Article six commits the user to abstain from:
   - "Reproducir o copiar, distribuir, permitir el acceso del público a través de cualquier modalidad de comunicación pública, transformar o modificar los contenidos, a menos que se cuente con la autorización del titular de los correspondientes derechos o ello resulte legalmente permitido" (reproducing, copying, distributing or giving the public access to the contents without the holder's authorisation);
   - "Emplear los contenidos y, en particular, la información de cualquier clase obtenida a través del portal o de los servicios para comercializar o divulgar de cualquier modo dicha información" (using the information obtained through the portal to sell or spread it in any way).
 - **The API was not asked.** XM goes to the licenses round as needs written permission (session 2271).
@@ -18,7 +18,7 @@
 | 3 | a guessed terms address | 404, its footer naming the terms page |
 | 4 | www.xm.com.co/legales/terminos-legales-del-sitio-web | 200: the terms |
 
-Reads recorded: 438 to 440.
+Reads recorded: 469 to 471.
 
 ## Decisions made without you
 

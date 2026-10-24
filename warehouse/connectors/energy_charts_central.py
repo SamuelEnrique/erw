@@ -27,8 +27,8 @@ twice. Nothing is filled. The current year is asked to the last day ended at the
 Ceiling: one request a country and year from 2023 (twelve in 2026), 35 seconds apart: the API allows 2 requests a minute
 for each client (its description, rate limiting). Each is asked again unless --offline. api.energy-charts.info has no
 robots file (HTTP 404). License: CC BY 4.0 with attribution to Energy-Charts.info, as the API's description states
-("Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license"); internal
-until the licenses' round records the verdict, as for chain 102's Belgian table. Energy-Charts compiles the countries'
+("Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license"); public
+since chain 102's verdict for Energy-Charts reached main (session 2279). Energy-Charts compiles the countries'
 figures from the operators' publications.
 """
 
@@ -150,7 +150,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Energy-Charts.info (Fraunhofer Institute for Solar Energy Systems ISE), public net electricity production, {PAGE}",
             "  access: https://api.energy-charts.info/public_power?country=<at|ch|cz>, one calendar year a request",
-            "License: CC BY 4.0, attribution to Energy-Charts.info (the API's description); internal until the licenses' round records the verdict.",
+            "License: public (CC BY 4.0, attribution to Energy-Charts.info, the API's description; the verdict recorded by chain 102).",
         ]
         ip.write_snapshot(s, TABLE, head, log, cols)
         results.append(dict(table=TABLE, market="all", status="ok", detail=f"{len(s)} rows"))
@@ -164,7 +164,7 @@ def main(argv=None):
         if results and results[0]["status"] == "ok":
             ip.update_sources([dict(source=SOURCE, publisher="Energy-Charts.info (Fraunhofer ISE)",
                                     report="Public net electricity production, Austria, Switzerland and Czechia (API public_power)",
-                                    report_url=PAGE, document_list="https://api.energy-charts.info/openapi.json", license="internal", tables=[TABLE])])
+                                    report_url=PAGE, document_list="https://api.energy-charts.info/openapi.json", license="public", tables=[TABLE])])  # CC BY 4.0
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
     return 0 if all(r["status"] == "ok" for r in results) else 1

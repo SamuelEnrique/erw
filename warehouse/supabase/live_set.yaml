@@ -420,6 +420,8 @@ catalogue_hold:
   - ons_brazil_balance_hourly
   - ree_spain_balance_monthly
   - rte_eco2mix_france_halfhourly
+  - pse_poland_balance_15min
+  - energy_charts_belgium_hourly
   - usbr_crsp_reservoirs_daily
   - usbr_mead_powell_daily
   - usdm_drought_state_weekly
@@ -438,6 +440,10 @@ catalogue_hold:
   - afdc_ev_charging_state_annual
   - census_cbp_hosting_annual
   - statcan_electricity_generation_monthly
+  - emi_nz_generation_demand_monthly
+  - census_c30_construction_monthly
+  - energy_charts_southeast_europe_daily
+  - census_qss_utilities_hosting_quarterly
   - statcan_oil_gas_supply_monthly
   - ntd_transit_energy_annual
   - epa_needs_units

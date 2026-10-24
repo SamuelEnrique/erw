@@ -10,7 +10,7 @@ Energy-Charts.info (Fraunhofer Institute for Solar Energy Systems ISE), public n
 
     https://api.energy-charts.info/public_power?country=<at|ch|cz>&start=<year>-01-01&end=<year>-12-31
 
-The current year is asked to the last day ended at the run, in Central European time (`--last-day` sets it). Source id `energy_charts:public_power_at_ch_cz`. Connector: `warehouse/connectors/energy_charts_central.py` (session 2272), in the form of chain 102's `energy_charts_belgium.py`. api.energy-charts.info has no robots file (HTTP 404, read 446). The API's description (`https://api.energy-charts.info/openapi.json`, read 447) states the license and a rate limit of 2 requests a minute for each client.
+The current year is asked to the last day ended at the run, in Central European time (`--last-day` sets it). Source id `energy_charts:public_power_at_ch_cz`. Connector: `warehouse/connectors/energy_charts_central.py` (session 2272), in the form of chain 102's `energy_charts_belgium.py`. api.energy-charts.info has no robots file (HTTP 404, read 477). The API's description (`https://api.energy-charts.info/openapi.json`, read 478) states the license and a rate limit of 2 requests a minute for each client.
 
 Energy-Charts compiles the countries' figures from the operators' publications. The operators were not asked: APG's transparency platform did not answer (chain 102), and Swissgrid's legal information forbids public or commercial use without consent (session 2272).
 
@@ -58,7 +58,7 @@ An hour with a blank figure, or with a quarter missing, has no row and is counte
 
 ## License
 
-Internal, until the verdict reaches this branch. The API's description reads: "Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license", with attribution to Energy-Charts.info. Chain 102's session 2257 recorded the verdict for Energy-Charts.info (Fraunhofer ISE), may be public, on its branch. This chain wrote no second row (session 2271). `sources.csv` flags the source `internal` until that verdict is on main.
+Public since session 2279. The API's description reads: "Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license", with attribution to Energy-Charts.info. Chain 102's session 2257 recorded the verdict for Energy-Charts.info (Fraunhofer ISE), read 442: may be public. This chain wrote no second row (session 2271). When chain 102 landed, session 2279 flagged the source public in `sources.csv` and wrote the table again offline, its header's license line changed and its rows unchanged.
 
 ## Cross-checks (session 2272)
 

@@ -11,7 +11,7 @@
   - net imports, and their parts with Norway, Sweden, Russia and Estonia.
 
   The values are in MWh (the table's GWh times 1,000), and only the quantity is taken. Written, validated (0 errors, 0 warnings), archived, held from the Redivis storage and the live set, its release rows added.
-- **The license:** CC BY 4.0, Statistics Finland's terms of use (read 445): its "open data materials and public content of the web service are covered by the Creative Commons Attribution 4.0 International licence", with "Source: Statistics Finland". The verdict is for the licenses round (session 2271).
+- **The license:** CC BY 4.0, Statistics Finland's terms of use (read 476): its "open data materials and public content of the web service are covered by the Creative Commons Attribution 4.0 International licence", with "Source: Statistics Finland". The verdict is for the licenses round (session 2271).
 - **Cross-checks, full years 2016 to 2025:**
   - total generation is within 1.4 percent of Eurostat's net production for Finland (`eurostat_electricity_monthly`) every year;
   - net imports equal Eurostat's imports less exports within 3.1 percent;
@@ -33,7 +33,7 @@
 | 9 | Statistics Finland's terms of use | 200: CC BY 4.0 |
 | 10, 11 | the metadata and the query (the trial) | 200 |
 
-Reads recorded: 443 to 445.
+Reads recorded: 474 to 476.
 
 ## Decisions made without you
 
