@@ -482,6 +482,8 @@ Decisions (chain 078):
 
 ## One read of a grid's generation a page (chain 091, 24 October 2026)
 
+Chain 091 in this note (sessions 1178 to 1189): 1179 (this section) and the energy mix panel's part in 1181 to 1186 (the subsection "The energy mix panel in chain 091" below, written by session 1188 from their reports). Each of those sessions' own sections is in `grid_network.md` (1180 to 1184, 1186, 1187) and `generation_mix.md` (1185).
+
 Session 1179. The Mix tab read the grid in view's `eia930_all_generation`, every variable, four times a render, each for its own window: 45 days (`site/lib/grid.ts` `load`, the grid's own blocks), 34 days (`latestHour`, the Now view's mix: two small requests), 10 days (`components/grid/Conditions.tsx` `loadConditions`: "Yesterday" and the grid's row of "Generation mix, as a table") and 9 days (`components/grid/MixView.tsx`, the hourly panel above). Now the render reads it once, at the widest window, and each reader takes its own days from it (`site/lib/gridReads.ts`): `shareGeneration(entity, since)` starts the read and keeps it for the render with React's `cache` (one Map a request, as `gridNotices()` is kept since session 1160); `generationSince(entity, since)` gives the rows at or after the reader's own start (its `daysAgo(n)`, computed where it was), in the read's order; `latestHour` gives the newest total at or after its start and every row from that hour on. The seven ISO grids share 45 days (`load`, on the Mix and Clean tabs); the Lower 48's Mix tab, which has no `load`, shares 10 days (`app/grid/page.tsx`), its widest whole read. The other regions of the mix table are read as before (10 days each): they are not the grid in view.
 
 On the live set, 24 October 2026, 01:58 and 02:01 UTC (`site/scripts/time-grid-reads.mjs`, one request at a time): the Mix tab of each ISO grid 5 to 8 fewer requests (ERCOT 67 to 61, CAISO 75 to 70, ISO-NE 58 to 50) and about 3,800 to 4,500 fewer rows of the table (27,134 to 23,396 for ERCOT, PJM, MISO, NYISO); `/grid` (the Lower 48) 43 to 39 requests and 28,300 to 24,974 rows; across the eleven Mix addresses and ERCOT's Clean tab, 677 requests to 614 and 444,370 rows to 401,920. The figures: the eleven Mix addresses and ERCOT's Clean tab drawn by the code before and after on the same answers (kept in memory, each request sent once): 2,232 figures, every key, value and text the same.
@@ -493,6 +495,23 @@ Decisions (chain 091):
 - **The Lower 48 shares 10 days, not 45**: it has no 45-day read, and 34 days whole would read more than the two small requests of `latestHour`, which stay.
 - **The pinned calls stay as they were** (`latestHour(GEN, entity, "net_generation_mw", daysAgo(34))`, `loadConditions(ba, conditionsDay())`, `<MixTable />`): the share is found inside the readers, so no caller changed.
 - **The timing script walks each page as one render**: `site/scripts/tsx-loader.mjs` now gives the site's modules React with a `cache` kept in `globalThis.__erwRequestCache` (a new Map a page), since React's own `cache` outside Next calls the function every time; with no Map set it does so as before. The node test is `site/scripts/test-grid-generation.mjs`.
+
+### The energy mix panel in chain 091 (sessions 1181 to 1186)
+
+What the chain's other sessions changed in the panel `grid_mix_<grid>` (the section "The Mix tab's energy mix, keyed, hourly and by month" above); each rule in full is in the section named.
+
+- **A failed read (session 1181)**: "Demand is not held for these hours" on a failed `eia930_all_demand` read, and an empty panel on a failed `eia930_all_generation` read, are now "Peak demand: could not be read" and "The hourly mix: working on it" (the view's own words for a failed read), inside the panel. `grid_network.md`, "When a read fails".
+- **Its files (session 1182)**: `erw_grid_mix_<grid>_hourly.csv` (each fuel's MWh and share; the 24 hours' total, the peak demand and the newest hour in the header) and `erw_grid_mix_<grid>_monthly.csv` (the month's days and its alert or notice days in the header); the Lower 48's monthly view writes `grid_mix_us48_monthly` (session 1185). `grid_network.md`, "Each panel's table, to download".
+- **Its anchor (session 1183)**: `#mix-panel`, and `#mix-panel-<grid>` for a grid after the first on one page; the two chips ("Hourly, last 7 days", "By month") now link the panel's own anchor, where both linked `#hourly`, the first grid's section, on every grid. `grid_network.md`, "Every panel in the address".
+- **Its method (session 1184)**: the line "Method: the Mix tab's energy mix, keyed, hourly and by month" at the panel's foot links this note's section of that name (`METHOD_MIX` in `site/lib/gridAnchors.ts`); the Lower 48's monthly view adds a second line to `generation_mix.md` (`METHOD_MIX_US48`). `grid_network.md`, "The method from each panel".
+- **The Lower 48 by month (session 1185)**: drawn in place of "not built for the Lower 48" (the bullet above and `generation_mix.md`).
+- **Under check-values (session 1186)**: each fuel's share (`calc|pct|`) no longer reads the day's total again for each fuel (each key's value kept for the run), and the panel's `series_sum` and `series_max` keys of one window are read together; every verdict the same. `grid_network.md`, "The Grid pages under check-values, lighter".
+
+Decisions (chain 091, for this panel, written by session 1188):
+
+- **The heading "The Mix tab's energy mix, keyed, hourly and by month (chain 077, 23 October 2026)" is a link target**: its id is held to `METHOD_MIX` by `site/scripts/test-grid-methods.mjs`, so a rename fails that test by name and is made with the constant (session 1184).
+- **The anchor is on an element that holds the panel alone**, not on the panel's own element, because sessions 1152 and 1159 pin that element word for word (session 1183).
+- **No figure of the panel moved** in any of these sessions: each proved it with `site/scripts/same-figures.mjs` on the same live answers (sessions 1181 to 1185) or with the old and new check-values on the same pages (session 1186).
 
 ## The figures on the page and their keys
 

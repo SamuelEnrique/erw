@@ -122,6 +122,36 @@ Decisions (session 1174):
 - **ERCOT's strip marks calls only**: a day with a notice that is not a call is named under the strip, never marked, as
   CAISO's restricted maintenance is.
 
+## The panel in chain 091 (24 October 2026)
+
+Chain 091 in this note (sessions 1178 to 1189): 1181 (a failed price read), 1182 (its file), 1183 (its anchor), 1184
+(its method link), 1185 (the Lower 48's line, the last bullet of "On the Grid tool" above), 1186 (its keys under
+check-values); written by session 1188 from their reports. Each rule in full is in `grid_network.md`, in the section of
+the session's name.
+
+- **A failed price read (session 1181)**: when `iso_rtm_hub_prices` could not be read, the strip said "No 15-minute
+  price of these days is in the live set" and each cell's hover "No price of this hour is in the live set", and nothing
+  for ERCOT's daily price; now each says the price could not be read (`site/lib/scarcityStrip.ts` takes the failed
+  reads). A failed read of this table keeps the view's "working on it", as before.
+- **Its file (session 1182)**: `erw_grid_scarcity_<grid>.csv`, each count of the strip with its hours held and its
+  table, the provenance in its first lines.
+- **Its anchor (session 1183)**: `#scarcity`, kept as it was on the panel's one section.
+- **Its method (session 1184)**: the source line's link now opens "On the Grid tool (session 1154, 23 October 2026)"
+  (`METHOD_SCARCITY` in `site/lib/gridAnchors.ts`), its words unchanged; the Lower 48's panel and a grid without a strip
+  draw the line "Method: ..." at the panel's foot.
+- **Under check-values (session 1186)**: the strip's `series_sum` and `series_max` keys of one window are read
+  together, one request a group; `series_n|` reads one window a key, as before (no two keys of one window).
+
+Decisions (chain 091):
+
+- **An empty answer of a window stays what the table holds for it** ("No 15-minute price of these days is in the live
+  set"); only a failed read says "could not be read" (session 1181).
+- **The anchor `#scarcity` is kept**: links on the page point to it, and sessions 1155, 1159 and 1174 pin it (session
+  1183).
+- **The heading "On the Grid tool (session 1154, 23 October 2026)" is a link target**, its id held to
+  `METHOD_SCARCITY` by `site/scripts/test-grid-methods.mjs`: a rename is made with the constant (session 1184).
+- **No national strip is summed from the grids** (session 1185): the reason is the bullet above.
+
 ## Checks
 
 - The validator: `python warehouse/validate/erw_validate.py warehouse/output/scarcity_hours_by_grid.csv`, pass.

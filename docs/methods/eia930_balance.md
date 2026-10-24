@@ -59,6 +59,19 @@ tip the split in one line. The keys and their rule: `grid_network.md`, "The bala
 Decisions (session 1165): in `grid_network.md`, that section's Decisions. This note's answer is used as it stands
 (the split, the mean of the absolute gap); nothing in it changed.
 
+## The balance in chain 091 (24 October 2026)
+
+Chain 091 in this note (sessions 1178 to 1189): 1181 (a failed read), 1182 (its file), 1183 (its anchor), 1184 (its
+method link), 1186 (`netbal|` under check-values); written by session 1188 from their reports. When
+`eia930_all_generation` or `eia930_all_demand` cannot be read, the balance says "could not be read" and "The week's
+gap is not computed: its hours could not be read", where it said "not held" (1181); its file is
+`erw_grid_network_<grid>_balance.csv` (1182), its anchor `#balance` (1183), its method line opens `grid_network.md`,
+"The balance, said where the figures are" (1184), and check-values reads the pair of series of `netbal|` once a run
+(1186).
+
+Decisions (chain 091): in `grid_network.md`, the sections of those sessions. This note's answer is used as it stands;
+nothing in it changed.
+
 ## The pull
 
 EIA's API (`/v2/electricity/rto/region-data`) offers the region data as four types only (its facet "type", read on 20

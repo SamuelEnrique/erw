@@ -256,3 +256,19 @@ Decisions (chain 078, session 1170):
 - **The server reads the file from `site/public/network/`** (`site/lib/gridReplayFile.ts`), and `next.config.ts` traces those files into `/grid`'s function (`outputFileTracingIncludes`); a file that cannot be read is said, never filled.
 - **The gravity table's own sentence keeps its words without a day**; with a day it says "no figure in this table is that day's", since the line under it is.
 - **check-methods reads a `file|` path ending at `@<day>` as the figure of its last name that is not an instance** (`demand`); every other path reads as before.
+
+## The replayed day in chain 091 (24 October 2026)
+
+Chain 091 in this note (sessions 1178 to 1189): 1181 (a file not read), 1182 (its file), 1183 (its anchor), 1184 (its method link), 1185 (the Lower 48's demand); written by session 1188 from their reports. Each rule in full is in `grid_network.md`, in the section of the session's name.
+
+- **A year's file not read (session 1181)**: on the Gravity tab the day's demand said "not held" when the year's committed file could not be read on the server; it now says "could not be read" (the Network tab's block already did).
+- **Its file (session 1182)**: `erw_grid_replay_<BA>.csv`, named for the balancing authority shown: the day's demand, net exchange and ties.
+- **Its anchor (session 1183)**: `#replayed-day`, opened with its state by `/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO`.
+- **Its method (session 1184)**: the line "Method: ..." at the block's foot opens the section above, "The outside grids' demand in the replay (chain 078, 24 October 2026)" (`METHOD_REPLAY` in `site/lib/gridAnchors.ts`); the words said when the year's file could not be read carry no link.
+- **The Lower 48's demand stays "not held" (session 1185)**: the replay's files hold 54 balancing authorities, not US48; of the live set only `event_window_daily` holds US48 by day, for the COVID window (March 2019 to May 2020), which is not the replay's rule.
+
+Decisions (chain 091):
+
+- **The file is named for its node, not for a grid**: the block is drawn on the Network tab of whichever grid the address names, and session 1170's call is pinned word for word, so the block is not told the grid (session 1182).
+- **The heading "The outside grids' demand in the replay (chain 078, 24 October 2026)" is a link target**, its id held to `METHOD_REPLAY` by `site/scripts/test-grid-methods.mjs`: a rename is made with the constant (session 1184).
+- **No other table is read for the Lower 48's day**: a demand from another window or rule would be a figure the replay does not hold (session 1185).

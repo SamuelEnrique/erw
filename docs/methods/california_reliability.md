@@ -128,3 +128,19 @@ Decisions (chain 078):
 
 - **`awe|newest|any` has no "as of" day**: the section names the table's newest notice, whatever the day; the alert state's `awe|last|any|<today>` keeps its day.
 - **`awe|` stays CAISO's**: its groups are this table's types and session 1155's tests pin its recomputation to `site/lib/caisoAlerts.ts`, so ERCOT's rule was given its own file and test.
+
+## The alert state in chain 091 (24 October 2026)
+
+Chain 091 in this note (sessions 1178 to 1189): 1181 (an empty answer is a failed read), 1182 (the file), 1183 (the anchor), 1184 (the method link), 1186 (`awe|days` under check-values); written by session 1188 from their reports. Each rule in full is in `grid_network.md`, in the section of the session's name.
+
+- **An empty answer of the whole table is a failed read on the Grid tool (session 1181).** The table holds every notice since 1998, so a read of every row that answers none has failed: the alert state, the strip's day marks, the Reliability section and the monthly mix now say the notices could not be read, where an empty answer drew "holds no notice", "0 days" of restricted maintenance (2 in the window) and "The table holds 0 notices, the latest on no day". The guard is at the Grid readers (`site/lib/gridReads.ts` `wholeRead` over `attempt(() => gridNotices())`, `CAISO_HOLDS`); `gridNotices()` in `site/lib/reliability.ts` is as session 1160 left it, and its bounded form (the Flex Alert scorecard, the heat event page) still says "no notice in the window" for an empty window.
+- **The file (session 1182)**: `erw_grid_caisoalert_caiso.csv`, each day and count of the alert line with its notices.
+- **The anchor (session 1183)**: `#caiso-alerts`, kept as it was.
+- **The method (session 1184)**: the panel's source line now opens "On the Grid tool: the alert state (session 1155, 23 October 2026)" (`METHOD_CAISO_ALERTS`), its words unchanged; the line said on a failed read carries no link.
+- **Under check-values (session 1186)**: `awe|days` no longer reads the table once a key; it uses the rows `awe|last` and `awe|ndays` already read once a run, the type and the year kept as its query kept them.
+
+Decisions (chain 091):
+
+- **A failed read, not `required()`**: `/grid` is drawn on demand, so no failed read is kept in a page; the empty 200 was the one answer an hourly cache could keep, and it drew "0 days" as a fact (session 1181).
+- **The scorecard keeps `attempt()`** with session 537's one-minute mark: it is the one Grid page that is prerendered (session 1181).
+- **The heading "On the Grid tool: the alert state (session 1155, 23 October 2026)" is a link target**, its id held to `METHOD_CAISO_ALERTS` by `site/scripts/test-grid-methods.mjs` (session 1184).

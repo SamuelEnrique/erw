@@ -105,5 +105,44 @@ class TheRulings(unittest.TestCase):
             self.assertIn(w, first)
 
 
+class TheRulingsChain091(unittest.TestCase):
+    """Session 1188 (chain 091): the list brought current again; chain 078's assertions above stand."""
+
+    def setUp(self):
+        self.t = src("docs", "reviews", "grid-rulings-2026-10-23.md").replace("\r\n", "\n")
+        rulings = self.t.split("## To finish")[0]
+        self.items = [l for l in rulings.splitlines() if l.startswith("- ")]
+        self.fin = [l for l in self.t.split("## To finish")[1].splitlines() if l.startswith("- ")]
+
+    def test_none_of_the_37_ruled_said_in_one_line(self):
+        self.assertIn("none of the 37 items of chains 077 and 078 has been ruled, so none is struck", self.t)
+        self.assertEqual(len(self.items), 18 + 19 + 8)
+
+    def test_chain_091_items_one_a_line_each_with_its_recommendation(self):
+        new = [l for l in self.items if re.search(r"\(Sessions? 11(7[89]|8[0-7])[^)]*\)$", l)]
+        self.assertEqual(len(new), 8)
+        for l in new:
+            self.assertIn("Recommendation:", l)
+        by = {s: sum(1 for l in new if l.endswith(f"(Session {s})")) for s in ("1182", "1183", "1184", "1185")}
+        self.assertEqual(by, {"1182": 1, "1183": 2, "1184": 2, "1185": 3})
+        # each group holds chain 091's lines: three groups, as before
+        for head, n in (("## The page's words", 5), ("## The design", 2), ("## The data and licenses", 1)):
+            part = self.t.split(head)[1].split("\n## ")[0]
+            got = [l for l in part.splitlines() if l.startswith("- ") and re.search(r"\(Session 118[2-5]\)$", l)]
+            self.assertEqual(len(got), n, head)
+
+    def test_landing_first_now_1188(self):
+        first = self.fin[0]
+        for w in ("`wip/1188-grid`", "1152 to 1188", "`c446038c`", "1178 to 1188"):
+            self.assertIn(w, first)
+
+    def test_chain_091_to_finish(self):
+        fin = "\n".join(self.fin)
+        for w in ("changed `site/scripts/check-values.mjs` for every page", "verdict by verdict",
+                  "\"17 of 17 drawn\"", "In a browser at that landing: one click on a \"Download this table (CSV)\" link",
+                  "Chain 091's expected differences", "Done in chain 091: session 1187"):
+            self.assertIn(w, fin)
+
+
 if __name__ == "__main__":
     unittest.main()

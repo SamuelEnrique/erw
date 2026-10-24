@@ -66,6 +66,8 @@ Decisions (chain 077):
 
 ## The Lower 48 by month, the sum of the states (chain 091, 24 October 2026)
 
+Chain 091 in this note (sessions 1178 to 1189): 1185 (this section; the last Decisions block written by session 1188 from its report). The energy mix panel's other changes of the chain are in `generation_mix_hourly.md`, "The energy mix panel in chain 091".
+
 Session 1185. Until this session the energy mix panel's view by month (`mixp=month`, panel `grid_mix_us48`) said "not built for the Lower 48": `generation_mix_hourly_profile` is built for the seven ISO grids only. It now draws the Lower 48 from this note's table. Code: `site/lib/lower48.ts` (the rule, pure functions), `site/components/grid/Lower48Mix.tsx` (the view), read in `site/components/grid/MixView.tsx`.
 
 - **Why the states.** No table of the live set holds EIA-930's Lower 48 (`eia930:US48`) by month with its mix: `eia930_all_generation` holds `eia930:US48` hour by hour for its recent window only (about 45 days, from 26 August 2026 on 24 October 2026), `carbon_intensity_monthly` holds the Lower 48's carbon intensity by month and not its generation, and `generation_mix_hourly_profile` is by ISO grid. `state_generation_mix_monthly` holds every state and DC by month since 2001, so the sum of the contiguous ones is the Lower 48's monthly mix.
@@ -82,3 +84,11 @@ Decisions (chain 091):
 - **A new key kind rather than `series_sum` over a list of 49 entities.** The list would write 49 entities into each of about 30 keys, and `series_sum` cannot leave out a month a state misses: the twelve months' figure would be recomputed over a partial month. `states_sum` names the group and recomputes the page's rule.
 - **The view's chips and titles were kept** ("By month", the section's title "monthly mix, by grid"); the words that say what the view draws are its first paragraph and its source line, which link this section.
 - **The state view below is unchanged**, and it still draws `eia:US`, the 50 states, DC and (where EIA lists it) Puerto Rico: a different area from the Lower 48.
+
+Decisions (session 1185, the rest of its report, written by session 1188):
+
+- **The read**: the 49's rows since the first of the month 800 days before the page (the window the grids' monthly view reads), through `series()`: about 9,200 rows in 10 requests, made only on the Lower 48's `mixp=month` address.
+- **The view's method link is a second link of the mix panel** (`METHOD_MIX_US48` in `site/lib/gridAnchors.ts`, this section's id), drawn under the Lower 48's monthly view only; the panel's own link (`METHOD_MIX`) stays. This heading is therefore a link target: a rename is made with the constant, and `site/scripts/test-grid-files.mjs` and `tests/test_session1185.py` hold the link.
+- **The key kind is known to the checks and to the license gate**: `site/scripts/check-methods.mjs` reads `states_sum|` as a figure of its table (`TABLE_KEY`), and `components/Num.tsx` gates it by its table, held or not as a whole table (public on 24 October 2026).
+- **Its file** is `erw_grid_mix_us48_monthly.csv`, made from the view's cells as every panel's (`grid_network.md`, "Each panel's table, to download").
+- **The words on the face, the national row against the sum, and the chip's and section's titles** are put to the owner (`docs/reviews/grid-rulings-2026-10-23.md`), each with a recommendation; the code stands as above until a ruling.

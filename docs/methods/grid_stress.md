@@ -226,3 +226,32 @@ Decisions (session 1168):
 A finding, not changed: "As built on 5 October 2026" above says California's 2019 and 2020 are not written; the
 committed file `site/data/stress/caiso.json` holds both, and the view draws them. Put to the owner: the "As built"
 lines are to be rebuilt from the table at the next data session.
+
+## The stress tables in chain 091 (24 October 2026)
+
+Chain 091 in this note (sessions 1178 to 1189): 1181 (no read to fail), 1182 (the files), 1183 (the anchors), 1184
+(the method links); written by session 1188 from their reports. Each rule in full is in `grid_network.md`, in the
+section of the session's name.
+
+- **No read to fail (session 1181)**: the stress view draws the committed files and reads no database, so it is drawn
+  the same with every read failing.
+- **The files (session 1182)**: under each of the four tables, `erw_grid_stress_<grid>_ramp.csv`,
+  `erw_grid_stress_<grid>_tight_<year>.csv`, `erw_grid_stress_<grid>_calm.csv` and `erw_grid_stress_all_<year>.csv`,
+  each year or each fuel as the table, the committed file named in the header.
+- **The anchors (session 1183)**: `#stress-ramp`, `#stress-tight`, `#stress-calm`, `#stress-grids`; a grid after the
+  first on a view of several takes the anchor and its grid (`#stress-ramp-caiso`). Opened with their state by
+  `/grid?grid=ercot&mix=stress&year=2024` (`mix=stress`, `year`, `grids`).
+- **The method links (session 1184)**: the evening ramp and the seven grids open "The views' figures, keyed from the
+  committed files (chain 078, 24 October 2026)" (`METHOD_STRESS_RAMP`, `METHOD_STRESS_GRIDS`); the tightest hours and
+  the calm stretches open "The large tables, keyed whole (session 1168)" (`METHOD_STRESS_TIGHT`, `METHOD_STRESS_CALM`),
+  each a line "Method: ..." at the table's foot.
+
+Decisions (chain 091):
+
+- **The files' address is written from the view's choice** (its base address, grids and year), not by `hrefOf`, which
+  `tests/test_session411.py` holds out of `components/mix/views.tsx` (session 1182).
+- **The two headings are link targets**, their ids held to the constants by `site/scripts/test-grid-methods.mjs`: a
+  rename is made with the constants in `site/lib/gridAnchors.ts` (session 1184). The other `#` link of the view,
+  `STRESS_METHOD` (`#what-each-chart-is-not-session-1168`), is held by the same test.
+- **The stress view with the seven grids is the heaviest address the tool writes**: its fifteen files added 84,032
+  bytes, 6.5 percent, under the bound of 15 percent or 100 KB, so the files stay in the links (session 1183).

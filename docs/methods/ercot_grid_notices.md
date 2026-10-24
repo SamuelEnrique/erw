@@ -68,3 +68,19 @@ The table's first page. The Mix tab of `/grid?grid=ercot` opens on the panel `gr
 - **The tabs' table lines name the table** (`site/lib/gridtables.ts`): the Mix tab, and the Clean tab too, since it draws `MixView.tsx`'s `MixClean`, whose file reads the notices for the Mix tab, as it names `caiso_grid_emergencies` (`tests/test_session502.py`).
 - **The fixture leaves out `x_text`**: ERCOT's words are not copied, so its terms' "not modified" is not in play.
 - **Whether the connector should run on a schedule is put to the owner** (`docs/reviews/grid-rulings-2026-10-23.md`): until it does, the state line says "not held yet" for every day after the newest read.
+
+## 7. The notice state in chain 091 (24 October 2026)
+
+Chain 091 in this note (sessions 1178 to 1189): 1181 (an empty answer is a failed read), 1182 (the file), 1183 (the anchor), 1184 (the method links), 1186 (`ercotn|` under check-values); written by session 1188 from their reports. Each rule in full is in `grid_network.md`, in the section of the session's name.
+
+- **An empty answer of the whole table is a failed read (session 1181).** The table holds every notice since 2011, so a read of every row that answers none has failed: `ercotNotices()` (`site/lib/gridErcotNotices.ts`, through `wholeTable` in `site/lib/gridReads.ts`) gives every reader of the render a failed read, and the panel, the strip and the monthly mix say the notices could not be read, where an empty answer drew "0 days" of other notices (3 in the window) and "0" call days on the monthly mix (22).
+- **The file (session 1182)**: `erw_grid_ercotnotice_ercot.csv`, each day and count of the notice line with its notices; ERCOT's words (`x_text`) are not read, so none is written.
+- **The anchor (session 1183)**: `#ercot-notices`, kept as it was.
+- **The method (session 1184)**: session 1174's link to this whole note stays (its test pins its words and address), followed by "Method: the notice state on the Grid tool", which opens section 6 (`METHOD_ERCOT_NOTICES`); the line said on a failed read carries no link.
+- **Under check-values (session 1186)**: `ercotn|` reads as before, every row once a run.
+
+Decisions (chain 091):
+
+- **The guard is inside `ercotNotices()`**, whose only readers are the Grid tool's; CAISO's is at its readers, since its table's bounded reads must keep saying "no notice in the window" (session 1181).
+- **Two method links, not one**: the pinned link is kept and the section's added; keeping only the section's would need session 1174's assertion changed by a person, and is put to the owner (`docs/reviews/grid-rulings-2026-10-23.md`, session 1184).
+- **The heading "6. On the Grid tool: the notice state (session 1174, 24 October 2026)" is a link target**, its id held to `METHOD_ERCOT_NOTICES` by `site/scripts/test-grid-methods.mjs`: a rename is made with the constant (session 1184).
