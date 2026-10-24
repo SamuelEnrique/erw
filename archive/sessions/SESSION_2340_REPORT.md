@@ -1,6 +1,6 @@
 # Session 2340 report: six held tables linked to the notes that describe them (the price board, the node basis, ERCOT's peak premium by year)
 
-24 October 2026, from 07:45 UTC to 07:49 UTC, on lab-desktop (the data machine), chain 109, unattended. Model spend USD 0. Pulls: none.
+24 October 2026, from 07:45 UTC to 07:46 UTC, on lab-desktop (the data machine), chain 109, unattended. Model spend USD 0. Pulls: none.
 
 ## Read these first
 
