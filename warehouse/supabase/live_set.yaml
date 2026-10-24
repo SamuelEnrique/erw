@@ -399,6 +399,13 @@ catalogue_hold:
   - treasury_1603_awards
   - usgs_comcat_earthquakes_south_central
   - usgs_streamflow_daily
+  - bpa_ba_hourly
+  - nrcs_snotel_swe_daily
+  - wb_electricity_access_annual
+  - census_bps_state_annual
+  - afdc_ev_charging_state_annual
+  - census_cbp_hosting_annual
+  - wb_iea_electricity_annual
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential

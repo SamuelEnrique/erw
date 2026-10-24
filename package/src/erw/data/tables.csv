@@ -1,5 +1,6 @@
 table,verdict,status,status_from,decided_by,publishers,words,live_window
 aeso_alberta_load_hourly,public,,,,"Alberta Electric System Operator (AESO), Canada","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+afdc_ev_charging_state_annual,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 afdc_vehicle_registrations_annual,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ai_power_regions,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 api_cost_ledger,internal,,,,Anthropic,The ERW holds it for its own use only; it is never redistributed.,whole
@@ -13,6 +14,7 @@ blm_oil_gas_statistics_annual,public,,,,"U.S. Department of the Interior, Bureau
 boem_offshore_platforms,public,,,,Bureau of Ocean Energy Management (BOEM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 boem_ogor_lease_production_monthly,public,,,,Bureau of Ocean Energy Management (BOEM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 boem_renewable_leases,public,,,,Bureau of Ocean Energy Management (BOEM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+bpa_ba_hourly,public,,,,Bonneville Power Administration (BPA),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 caiso_area_load_hourly,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 caiso_as_prices,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 caiso_battery_storage,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",32 days
@@ -33,6 +35,8 @@ carbon_intensity_daily,public,,,,EIA,"Public: every publisher's terms the ERW re
 carbon_intensity_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",430 days
 carbon_intensity_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 cec_total_system_generation_annual,public,,,,California Energy Commission (CEC),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+census_bps_state_annual,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+census_cbp_hosting_annual,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_metro_population,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cer_electricity_trade,public,,,,Canada Energy Regulator (CER),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cer_gas_trade,public,,,,Canada Energy Regulator (CER),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -370,6 +374,7 @@ nrc_license_actions,public,,,,NRC,"Public: every publisher's terms the ERW read 
 nrc_new_reactor_applications,public,,,,NRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nrc_power_reactors,public,,,,NRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nrc_reactor_status,public,,,,NRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+nrcs_snotel_swe_daily,internal,,,,USDA Natural Resources Conservation Service (NRCS),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 nyiso_as_prices,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 nyiso_dam_cleared_energy,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 nyiso_dam_zone_prices,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",35 days
@@ -425,5 +430,7 @@ uspvdb_solar_facilities,public,,,,U.S. Geological Survey (USGS),"Public: every p
 uswtdb_wind_turbines,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 utility_service_territories,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 wb_commodity_prices_monthly,public,,,,World Bank,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+wb_electricity_access_annual,public,,,,World Bank,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+wb_iea_electricity_annual,internal,,,IEA (standalone datasets),IEA (standalone datasets),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 weather_forecast_hourly,public,,,,NWS,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 weather_obs_hourly,public,,,,NWS,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole

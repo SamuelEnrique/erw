@@ -1,5 +1,6 @@
 {
  "aeso_alberta_load_hourly": "Alberta Electric System Operator (AESO), Canada. Historical Pool Price report, Alberta internal load.",
+ "afdc_ev_charging_state_annual": "U.S. Department of Energy (DOE). Historical Alternative Fueling Station Counts (EV charging stations and ports by state).",
  "afdc_vehicle_registrations_annual": "U.S. Department of Energy (DOE). Alternative Fuels Data Center (AFDC): Vehicle Registration Counts by State.",
  "ai_power_regions": "Energy Research Warehouse (ERW), derived. Where the next gigawatts for AI can come from (warehouse/derived/ai_power_regions.py).",
  "ba_supply_monthly": "Energy Research Warehouse (ERW), derived. Who supplies a grid: net imports by neighbour and month (docs/methods/grid_network.md).",
@@ -12,6 +13,7 @@
  "boem_offshore_platforms": "Bureau of Ocean Energy Management (BOEM). Data Center: Platform Structures, Platform Locations and Platform Masters.",
  "boem_ogor_lease_production_monthly": "Bureau of Ocean Energy Management (BOEM). Oil and Gas Operations Reports Part A (OGOR-A), well production, by year.",
  "boem_renewable_leases": "Bureau of Ocean Energy Management (BOEM). Renewable energy Lease and Grant Information.",
+ "bpa_ba_hourly": "Bonneville Power Administration (BPA). VER and Balancing Authority Monitoring: Total Load, Wind, Solar, Hydro, Thermal and Net Interchange (five-minute, yearly workbooks).",
  "caiso_area_load_hourly": "California ISO (CAISO). OASIS SLD_FCST, CAISO Demand Forecast, the actual run (Total Actual Hourly Integrated Load), by TAC area [terms: materials \"may be used by you provided that you keep intact all copyright, trademark and other proprietary notices and that you credit the California ISO when using such materials and/or information.\" (https://www.caiso.com/privacy-terms-of-use, read 6 October 2026)].",
  "caiso_as_prices": "California Independent System Operator (CAISO). OASIS AS Clearing Prices (PRC_AS), day-ahead market (DAM).",
  "caiso_battery_storage": "California ISO (CAISO). Today's Outlook: batteries trend (storage.csv history).",
@@ -32,6 +34,8 @@
  "carbon_intensity_hourly": "Energy Research Warehouse (ERW), derived. California's carbon intensity of generation from the join of 16 December 2025 (docs/methods/eia930_caiso_break.md); Carbon intensity per balancing authority (docs/methods/emissions.md).",
  "carbon_intensity_monthly": "Energy Research Warehouse (ERW), derived. California's carbon intensity of generation from the join of 16 December 2025 (docs/methods/eia930_caiso_break.md); Carbon intensity per balancing authority (docs/methods/emissions.md).",
  "cec_total_system_generation_annual": "California Energy Commission (CEC). Total System Electric Generation (Energy Almanac), the workbook of all years with totals.",
+ "census_bps_state_annual": "Census Bureau. Building Permits Survey: annual state files.",
+ "census_cbp_hosting_annual": "Census Bureau. County Business Patterns: state files, NAICS 518210.",
  "census_metro_population": "U.S. Census Bureau. Population Estimates Program, Metropolitan and Micropolitan Statistical Areas Totals (vintage 2025).",
  "cer_electricity_trade": "Canada Energy Regulator (CER). Electricity Trade Summary.",
  "cer_gas_trade": "Canada Energy Regulator (CER). Natural Gas Trade Summary.",
@@ -366,6 +370,7 @@
  "uswtdb_wind_turbines": "U.S. Geological Survey (USGS), with LBNL and ACP. U.S. Wind Turbine Database (API v1).",
  "utility_service_territories": "U.S. Energy Information Administration (EIA). Form EIA-861 Annual Electric Power Industry Report, service territories.",
  "wb_commodity_prices_monthly": "World Bank. World Bank Commodity Price Data (The Pink Sheet).",
+ "wb_electricity_access_annual": "World Bank. World Development Indicators (Indicators API v2): EG.ELC.ACCS.ZS.",
  "weather_forecast_hourly": "National Weather Service (NWS, NOAA). Hourly gridpoint forecast (api.weather.gov).",
  "weather_obs_hourly": "National Weather Service (NWS, NOAA). Station observations (api.weather.gov)."
 }
