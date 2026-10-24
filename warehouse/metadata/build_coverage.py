@@ -260,6 +260,13 @@ SECTOR_RULES = [
     (r"^cer_pipeline_throughput$", "oil;gas"),  # session 2169: the CER's pipeline throughput and capacity, the cross-border lines
     (r"^desnz_uk_electricity_quarterly$", "power"),  # session 2168: DESNZ's Energy Trends 5.1, UK electricity by fuel
     (r"^desnz_uk_renewables_quarterly$", "power"),  # session 2174: DESNZ's Energy Trends 6.1, UK renewable capacity and generation
+    (r"^ieso_generation_fuel_hourly$", "power"),  # session 2224: the IESO's Ontario generation by fuel, an hour, from 2020
+    (r"^eurostat_electricity_monthly$", "power"),  # session 2225: Eurostat's monthly electricity, net production by fuel and the flows, from 2016
+    (r"^desnz_uk_gas_quarterly$", "gas"),  # session 2226: DESNZ's Energy Trends 4.1, the UK's natural gas supply and consumption
+    (r"^ssb_norway_electricity_monthly$", "power"),  # session 2227: Statistics Norway's table 14091, Norway's electricity balance, a month from 1993
+    (r"^smard_germany_monthly$", "power"),  # session 2230: SMARD's Germany generation by source and grid load, a month from 2015
+    (r"^cbs_netherlands_electricity_monthly$", "power"),  # session 2231: CBS's table 84575NED, the Netherlands' electricity balance, a month from 1976
+    (r"^scb_sweden_electricity_monthly$", "power"),  # session 2236: SCB's table TAB1011, Sweden's electricity supply by type of production, a month from 1974
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour

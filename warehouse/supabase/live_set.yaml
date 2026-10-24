@@ -389,6 +389,13 @@ catalogue_hold:
   - cer_pipeline_throughput
   - desnz_uk_electricity_quarterly
   - desnz_uk_renewables_quarterly
+  - ieso_generation_fuel_hourly
+  - eurostat_electricity_monthly
+  - desnz_uk_gas_quarterly
+  - ssb_norway_electricity_monthly
+  - smard_germany_monthly
+  - cbs_netherlands_electricity_monthly
+  - scb_sweden_electricity_monthly
   - eia_gas_other_uses_state_annual
   - elexon_gb_demand_daily
   - energinet_dk_production_hourly
