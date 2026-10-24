@@ -251,6 +251,7 @@ SECTOR_RULES = [
     (r"^eia_lng_liquefaction_projects$", "gas"),  # session 2021: EIA's U.S. liquefaction capacity (LNG export projects)
     (r"^eia_mecs_manufacturing$", "power;gas;oil;coal"),  # session 2016: EIA's manufacturing survey (MECS)
     (r"^eia_recs_households$", "power;gas;oil"),  # session 2017: EIA's residential survey (RECS 2020)
+    (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^epa_ghgrp_facility_emissions$", "carbon;power;oil;gas"),  # session 2072: EPA's GHGRP, every sector
     (r"^epa_lmop_landfill_projects$", "power;gas"),  # session 2127: EPA's LMOP, landfills and landfill gas energy projects

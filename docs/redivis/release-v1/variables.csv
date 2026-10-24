@@ -3085,6 +3085,10 @@ eia_gas_interstate_annual,net_receipts,series variable,MMcf
 eia_gas_interstate_annual,net_receipts_imports,series variable,MMcf
 eia_gas_interstate_annual,receipts,series variable,MMcf
 eia_gas_interstate_annual,receipts_imports,series variable,MMcf
+eia_gas_other_uses_state_annual,consumption_lease_and_plant_fuel,series variable,MMcf
+eia_gas_other_uses_state_annual,consumption_pipeline_fuel,series variable,MMcf
+eia_gas_other_uses_state_annual,consumption_vehicle_fuel,series variable,MMcf
+eia_gas_other_uses_state_annual,delivered_to_consumers,series variable,MMcf
 eia_gas_pipeline_projects,event_id,column,
 eia_gas_pipeline_projects,event_date,column,
 eia_gas_pipeline_projects,event_type,column,
