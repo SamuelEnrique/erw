@@ -36,11 +36,13 @@ all within 0.01 GWh. A label, year or value that does not read stops it too.
     python warehouse/connectors/statsmu_mauritius.py [--offline] [--out-dir DIR]
 
 Ceiling: two requests, reused from warehouse/raw/statsmu_mauritius/ with --offline. statsmauritius.govmu.org has no
-robots file (HTTP 404, session 2409). License: internal until a ruling. Its copyright notice: State material "may be
+robots file (HTTP 404, session 2409). License: public with the source and copyright status acknowledged (session 2419; the record's
+verdict, may be public). Its copyright notice: State material "may be
 downloaded free of charge to file or printer without requiring specific permission, provided that any such State owned
 material being reproduced accurately and not being used in a derogated manner or in a misleading context. Where this
 material is being issued to others, the source (including the URL) and copyright status must be acknowledged." Any other
-use needs the Government Information Service's approval.
+use needs the Government Information Service's approval. The table was internal until session 2419, and Samuel may
+rule otherwise.
 """
 
 import argparse
@@ -254,14 +256,14 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Statistics Mauritius, Economic and Social Indicators, Energy and Water Statistics 2025 (Issue 1929) and 2023 (Issue 1791), Tables 1, 7 and 8, {PAGE}",
             f"  access: {EDITIONS[1]} and {EDITIONS[0]}",
-            f"License: internal. The Government of Mauritius's copyright notice ({TERMS}) lets State material be downloaded and reproduced accurately without specific permission, with the source (including the URL) and copyright status acknowledged; "
-            "any other use needs the Government Information Service's approval; internal until a ruling. Source: Statistics Mauritius, statsmauritius.govmu.org, (c) Government of Mauritius.",
+            f"License: public with acknowledgement (the record's verdict, may be public). The Government of Mauritius's copyright notice ({TERMS}) lets State material be downloaded and reproduced accurately without specific permission, with the source (including the URL) and copyright status acknowledged; "
+            "any other use needs the Government Information Service's approval, for Samuel's ruling. Source: Statistics Mauritius, statsmauritius.govmu.org, (c) Government of Mauritius.",
         ]
         ip.write_csv(t, NAME, header, log, cols=COLS)
         if not args.out_dir:
             ip.update_sources([dict(source=SOURCE, publisher="Statistics Mauritius",
                                     report="Economic and Social Indicators, Energy and Water Statistics (2023 and 2025 editions), Tables 1, 7 and 8",
-                                    report_url=PAGE, document_list=EDITIONS[1], license="internal", tables=[NAME])])
+                                    report_url=PAGE, document_list=EDITIONS[1], license="public", tables=[NAME])])
         results.append(dict(table=NAME, market="all", status="ok", detail=f"{len(t)} rows"))
         print(f"{NAME}: {len(t)} rows; {diff_line}")
     except Exception:

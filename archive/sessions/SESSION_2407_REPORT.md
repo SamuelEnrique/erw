@@ -5,7 +5,7 @@
 ## Read these first
 
 - **CND not taken.** The Centro Nacional de Despacho's statistics and reports pages (reads 710 and 713 on this branch's numbering) list nothing in their HTML. A script (read 712) loads the lists and the downloads from `sitioprivado.cnd.com.pa`, its private site, with an access key written in the script. Neither the key nor that host was used, as for the Dominican coordinator's and PUCSL's script-only figures (chain 112). Both CND hosts' robots files are comment lines only (reads 708 and 711).
-- **In its place, two internal tables** from the Secretaria Nacional de Energia's "Generacion Historica Electrica (Serie 1970-2021)" workbook (read 717), listed on its Datos y Estadisticas page. Each is written, validated, archived, in coverage (sector power), and held from the live set:
+- **In its place, two tables, internal when written (made public in session 2419: test 378's rule allows no table flagged internal where the verdict read allows it)** from the Secretaria Nacional de Energia's "Generacion Historica Electrica (Serie 1970-2021)" workbook (read 717), listed on its Datos y Estadisticas page. Each is written, validated, archived, in coverage (sector power), and held from the live set:
   - `sne_panama_electricity_annual`, 569 rows:
     - Cuadro GE-8, 1980 to 2021: gross generation for the system total, the interconnected system, the Panama Canal Authority's plants and eleven plant types (hydro, steam on bunker, internal combustion, two gas turbine kinds, other light diesel, wind, solar, natural gas, biogas, isolated systems);
     - Cuadro GE-14, 1970 to 2021: net production, maximum demand (MW) and load factor (pct).
@@ -14,7 +14,7 @@
   - The eleven types add to the total in every year, as do the interconnected system, the Canal Authority and the isolated systems, within 0.5 GWh. Each year's months add to the sheet's annual column within 0.5 GWh.
   - That annual column differs from GE-8's total by up to 2.272 GWh in a year. Both are kept as published.
 - **The workbook ends at 2021.** The Secretaria's newer files on the page are its energy balances to 2025 (read 718: whole-economy balances, not taken) and an Infogram chart of gross generation to 2025 on a third-party host (not requested). No monthly figure from 2020 on beyond 2021 was found within the ceiling.
-- **License: internal, with a verdict of "may be public" (read 716), for your ruling.**
+- **License: internal when written, with a verdict of "may be public" (read 716), for your ruling; made public in session 2419: test 378's rule allows no table flagged internal where the verdict read allows it.**
   - The Datos y Estadisticas page says the Secretaria makes the information available and that its use must cite the source.
   - Every page's footer reads "© Copyright Secretaría de Energía | Todos los derechos reservados" (read 715).
   - The tables' headers carry the citation. www.energia.gob.pa's robots file disallows only `/wp-admin/` and names no AI agent (read 714).
@@ -46,7 +46,7 @@
 
 - **The Secretaria's workbook in place of CND,** since CND's figures load only through its private site's key.
 - **Two tables, a year and a month,** since `freq` is not a partition column (Decision 44).
-- **The tables internal** until you rule on the Secretaria's terms. The verdict "may be public" records its data page's grant.
+- **The tables internal** until you rule on the Secretaria's terms (made public in session 2419: test 378's rule allows no table flagged internal where the verdict read allows it). The verdict "may be public" records its data page's grant.
 - **The energy balances not taken,** since they are the whole economy in barrels of oil equivalent, which the session did not ask for.
 
 ## For Samuel's ruling

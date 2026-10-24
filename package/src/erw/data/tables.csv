@@ -479,8 +479,8 @@ scripps_co2_mlo_monthly,public,,,,"Scripps CO2 Program (Scripps Institution of O
 shoulder_hours_monthly,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 singstat_singapore_electricity,internal,,,,Singapore Department of Statistics (SingStat),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 smard_germany_monthly,public,,,,Bundesnetzagentur (SMARD),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
-sne_panama_electricity_annual,internal,,,,"Secretaria Nacional de Energia, Panama",The ERW holds it for its own use only; it is never redistributed.,none
-sne_panama_generation_monthly,internal,,,,"Secretaria Nacional de Energia, Panama",The ERW holds it for its own use only; it is never redistributed.,none
+sne_panama_electricity_annual,public,,,,"Secretaria Nacional de Energia, Panama","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+sne_panama_generation_monthly,public,,,,"Secretaria Nacional de Energia, Panama","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 spp_as_prices,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 spp_as_quantities,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 spp_curtailment_daily,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",100 days
@@ -498,7 +498,7 @@ state_generation_mix_monthly,public,,,,EIA,"Public: every publisher's terms the 
 statee_estonia_electricity_monthly,public,,,,Statistics Estonia,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statfi_finland_electricity_monthly,public,,,,Statistics Finland,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statnett_norway_daily,internal,,,,Statnett SF,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
-statsmu_mauritius_electricity_annual,internal,,,,Statistics Mauritius,The ERW holds it for its own use only; it is never redistributed.,none
+statsmu_mauritius_electricity_annual,public,,,,Statistics Mauritius,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 storage_buildout_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_capacity,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_daily_cycle,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole

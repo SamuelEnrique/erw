@@ -10,14 +10,14 @@
 - **Two other replacements were closed on their robots file:**
   - El Salvador's Unidad de Transacciones answers HTTP 403 Access Denied from its CDN (read 737).
   - Honduras's system operator redirects to `cnd.enee.hn`, whose certificate does not verify (read 738).
-- **In its place, one internal table:** `statsmu_mauritius_electricity_annual`, 79 rows, from Statistics Mauritius's "Energy and Water Statistics", the 2025 edition (Issue 1929, read 744) and the 2023 edition (Issue 1791, read 746). It is written, validated, archived, in coverage (sector power), and held from the live set:
+- **In its place, one table, internal when written (made public in session 2419: test 378's rule allows no table flagged internal where the verdict read allows it):** `statsmu_mauritius_electricity_annual`, 79 rows, from Statistics Mauritius's "Energy and Water Statistics", the 2025 edition (Issue 1929, read 744) and the 2023 edition (Issue 1791, read 746). It is written, validated, archived, in coverage (sector power), and held from the live set:
   - Table 1, 2017 to 2025: electricity generated, the renewables' share, and electricity sold;
   - Table 7, 2022 to 2025: installed and effective capacity, and the peak demand of Mauritius and of Rodrigues (MW);
   - Table 8, 2022 to 2025: generation from hydro, wind, landfill gas, photovoltaic, gas turbines (kerosene), fuel oil and diesel, coal, and bagasse (the 2025 edition's "Bagasse & Fuelwood"), and the renewable total.
   - In MWh (the tables' GWh times 1,000) and MW.
   - Table 8's sources add to its primary, secondary and total rows, Table 7's to its total, and both totals equal Table 1's generation, within 0.01 GWh.
   - The two editions agree on every value both give (2018 to 2023).
-- **License: internal, with a verdict of "may be public" (read 741), for your ruling.**
+- **License: internal when written, with a verdict of "may be public" (read 741), for your ruling; made public in session 2419: test 378's rule allows no table flagged internal where the verdict read allows it.**
   - The Government of Mauritius's copyright notice lets State material be downloaded and reproduced accurately without specific permission, with the source (including the URL) and copyright status acknowledged.
   - "Any other proposed use" needs the Government Information Service's approval.
   - The table's header carries the acknowledgement. `statsmauritius.govmu.org` has no robots file (HTTP 404, read 739).
@@ -49,7 +49,7 @@
 - **No Namibian table** rather than one from a publisher reserving all rights, or a host whose certificate does not verify.
 - **Mauritius in its place:** a statistics office with a written reuse notice, not planned by any chain (file 115 has Zambia, Botswana, Mongolia and Cambodia; file 117 has Tunisia, Egypt, Armenia and Nepal).
 - **Two editions only,** within the ceiling: Tables 7 and 8 therefore start in 2022.
-- **The table internal** until you rule on the notice.
+- **The table internal** until you rule on the notice (made public in session 2419: test 378's rule allows no table flagged internal where the verdict read allows it).
 
 ## For Samuel's ruling
 

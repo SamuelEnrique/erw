@@ -18,7 +18,7 @@
 - **The other publishers without a verdict** were not asked again (session 2125's reasons).
 - **One fix:** the Secretaria's verdict key carried "(SNE)", which the source registry's publisher name does not, so its two tables showed as "not read". The key is now the registry's name, and both tables carry the verdict.
 - **The record:** 514 tables, 145 publishers with a verdict, 677 requests on this branch. The license check finds no problem.
-- **Three tables are flagged internal where the sentence read allows them:** `sne_panama_electricity_annual`, `sne_panama_generation_monthly` and `statsmu_mauritius_electricity_annual`. They stay internal until your ruling (sessions 2407 and 2409).
+- **Three tables are flagged internal where the sentence read allows them:** `sne_panama_electricity_annual`, `sne_panama_generation_monthly` and `statsmu_mauritius_electricity_annual`. They stayed internal until session 2419, which made them public under test 378's rule; your ruling stands open.
 
 ## Errors
 

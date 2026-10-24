@@ -50,9 +50,10 @@ The increments and the sheets' growth rates are not taken (they are computed fro
     python warehouse/connectors/sne_panama.py [--only annual|monthly] [--offline] [--out-dir DIR]
 
 Ceiling: one request, reused from warehouse/raw/sne_panama/ with --offline. www.energia.gob.pa's robots file disallows
-only /wp-admin/ and names no AI agent (session 2407). License: internal until a ruling: the Datos y Estadisticas page
-says the Secretaria makes the information available and that its use must cite the source (SECRETARIA NACIONAL DE
-ENERGIA), while every page's footer says all rights are reserved.
+only /wp-admin/ and names no AI agent (session 2407). License: public with the source cited (session 2419; the record's verdict, may be
+public): the Datos y Estadisticas page says the Secretaria makes the information available and that its use must cite
+the source (SECRETARIA NACIONAL DE ENERGIA), while every page's footer says all rights are reserved; the tables were
+internal until session 2419, and Samuel may rule otherwise.
 """
 
 import argparse
@@ -223,8 +224,8 @@ def main(argv=None):
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
         ]
-        license_line = ("License: internal. The Secretaria's Datos y Estadisticas page says it makes the information available and that its use must cite the source; "
-                        "every page's footer says all rights are reserved; internal until a ruling. Cite: Secretaria Nacional de Energia, Panama, Generacion Historica Electrica (Serie 1970-2021).")
+        license_line = ("License: public with the source cited (the record's verdict, may be public). The Secretaria's Datos y Estadisticas page says it makes the information available and that its use must cite the source; "
+                        "every page's footer says all rights are reserved, for Samuel's ruling. Cite: Secretaria Nacional de Energia, Panama, Generacion Historica Electrica (Serie 1970-2021).")
         if args.only in (None, "annual"):
             rows = []
             for name, by_year in a.items():
@@ -280,7 +281,7 @@ def main(argv=None):
         if not args.out_dir:
             ip.update_sources([dict(source=SOURCE, publisher="Secretaria Nacional de Energia, Panama",
                                     report="Generacion Historica Electrica (Serie 1970-2021), cuadros GE-8 (gross generation by plant type), GE-10 (monthly gross generation) and GE-14 (net production, maximum demand, load factor)",
-                                    report_url=PAGE, document_list=URL, license="internal", tables=written)])
+                                    report_url=PAGE, document_list=URL, license="public", tables=written)])
     except Exception:
         tb = ip.redact(traceback.format_exc())
         log(f"FAILED, no output file written:\n{tb}")

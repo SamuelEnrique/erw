@@ -43,8 +43,8 @@ cbs_netherlands_electricity_monthly,cbs,,25,P1M,1976-01-01T00:00:00Z,2026-07-01T
 cea_india_psp_annual,cea,,49,P1Y,2020-04-01T00:00:00Z,2025-04-01T00:00:00Z,777,cea:power_supply_position_energy,2026-10-24T07:10:01Z,pass,internal,power,no,source
 ceb_srilanka_electricity_annual,ceb,,1,P1Y,2024-01-01T00:00:00Z,2025-01-01T00:00:00Z,80,ceb:statistical_digest,2026-10-24T09:14:53Z,pass,internal,power,no,source
 cec_total_system_generation_annual,cec,,47,P1Y,2009-01-01T00:00:00Z,2025-01-01T00:00:00Z,795,cec:total_system_electric_generation,2026-10-23T23:00:10Z,pass,public,power,no,source
-censtatd_hk_electricity,censtatd,,1,P1M;P3M,1979-01-01T00:00:00Z,2026-08-01T00:00:00Z,3699,censtatd:hong_kong_energy_statistics,2026-10-24T06:50:35Z,pass,public,power,no,source
 cence_costarica_generation_monthly,cence,,117,P1M,2020-01-01T00:00:00Z,2026-08-01T00:00:00Z,7731,cence:EnergiaMensualOficial,2026-10-24T09:20:55Z,pass,internal,power,no,source
+censtatd_hk_electricity,censtatd,,1,P1M;P3M,1979-01-01T00:00:00Z,2026-08-01T00:00:00Z,3699,censtatd:hong_kong_energy_statistics,2026-10-24T06:50:35Z,pass,public,power,no,source
 census_bps_state_annual,census,,51,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,6732,census:bps_state_annual,2026-10-24T00:20:21Z,pass,public,power,no,source
 census_c30_construction_monthly,census,,110,P1M,1993-01-01T00:00:00Z,2026-08-01T00:00:00Z,82760,census:c30_construction_spending,2026-10-24T04:56:02Z,pass,public,power;datacenters,no,source
 census_cbp_hosting_annual,census,,51,P1Y,2012-01-01T00:00:00Z,2023-01-01T00:00:00Z,1836,census:cbp_state_518210,2026-10-24T00:26:22Z,pass,public,power;datacenters,no,source
@@ -479,8 +479,8 @@ scripps_co2_mlo_monthly,scripps,,1,P1M,1958-03-01T00:00:00Z,2026-09-01T00:00:00Z
 shoulder_hours_monthly,CAISO;ERCOT,,3,P1D;P1M;P1Y,2019-01-01T00:00:00Z,2026-10-06T00:00:00Z,27197,erw:shoulder_hours,2026-10-19T11:43:46Z,pass,public,power,yes,derived
 singstat_singapore_electricity,singstat,,18,P1M;P1Y,1975-01-01T00:00:00Z,2026-06-01T00:00:00Z,1009,singstat:M890831_M890841,2026-10-24T06:07:53Z,pass,internal,power,no,source
 smard_germany_monthly,smard,,13,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,1800,smard:market_data_month,2026-10-24T02:46:34Z,pass,public,power,no,source
-sne_panama_electricity_annual,sne,,1,P1Y,1970-01-01T00:00:00Z,2021-01-01T00:00:00Z,569,sne:estadisticas_electricidad,2026-10-24T10:58:37Z,pass,internal,power,no,source
-sne_panama_generation_monthly,sne,,1,P1M,1980-01-01T00:00:00Z,2021-12-01T00:00:00Z,504,sne:estadisticas_electricidad,2026-10-24T10:58:37Z,pass,internal,power,no,source
+sne_panama_electricity_annual,sne,,1,P1Y,1970-01-01T00:00:00Z,2021-01-01T00:00:00Z,569,sne:estadisticas_electricidad,2026-10-24T11:48:45Z,pass,public,power,no,source
+sne_panama_generation_monthly,sne,,1,P1M,1980-01-01T00:00:00Z,2021-12-01T00:00:00Z,504,sne:estadisticas_electricidad,2026-10-24T11:48:45Z,pass,public,power,no,source
 spp_as_prices,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,159432,spp:DA-MCP,2026-10-04T04:09:48Z,pass,public,power,no,source
 spp_as_quantities,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-05T04:00:00Z,159768,spp:DA-MC,2026-10-04T11:34:34Z,pass,public,power,no,source
 spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-10-22T00:00:00Z,38432,spp:ver_curtailments,2026-10-23T14:45:31Z,pass,public,power,no,source
@@ -498,7 +498,7 @@ state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00
 statee_estonia_electricity_monthly,statee,,6,P1M,2005-01-01T00:00:00Z,2026-08-01T00:00:00Z,1344,statee:KE21,2026-10-24T05:05:10Z,pass,public,power,no,source
 statfi_finland_electricity_monthly,statfi,,16,P1M,1992-01-01T00:00:00Z,2026-06-01T00:00:00Z,6350,statfi:12su,2026-10-24T04:12:29Z,pass,public,power,no,source
 statnett_norway_daily,statnett,,1,P1D,2020-01-01T00:00:00Z,2026-10-23T00:00:00Z,4960,statnett:driftsdata_production_consumption,2026-10-24T07:10:35Z,pass,internal,power,no,source
-statsmu_mauritius_electricity_annual,statsmu,,1,P1Y,2017-01-01T00:00:00Z,2025-01-01T00:00:00Z,79,statsmu:energy_water_statistics,2026-10-24T10:58:57Z,pass,internal,power,no,source
+statsmu_mauritius_electricity_annual,statsmu,,1,P1Y,2017-01-01T00:00:00Z,2025-01-01T00:00:00Z,79,statsmu:energy_water_statistics,2026-10-24T11:48:57Z,pass,public,power,no,source
 storage_buildout_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,9,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,21229,erw:storage_buildout,2026-10-23T14:48:47Z,pass,public,power,yes,derived
 storage_capacity,none,,1627,snapshot,2026-10-23T14:48:44Z,2026-10-23T14:48:44Z,1627,erw:storage_capacity,2026-10-23T14:48:44Z,pass,public,power,no,derived
 storage_daily_cycle,CAISO;ERCOT;ISO-NE;MISO;SPP;US48,,6,P1D,2024-11-01T00:00:00Z,2026-10-22T00:00:00Z,14503,erw:storage_daily_cycle;erw:storage_daily_cycle_caiso,2026-10-23T14:48:07Z,pass,public,power,yes,derived
