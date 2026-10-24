@@ -5863,6 +5863,18 @@ ieso_generation_fuel_hourly,generation_solar,series variable,MWh
 ieso_generation_fuel_hourly,generation_wind,series variable,MWh
 ieso_ontario_demand_hourly,market_demand,series variable,MW
 ieso_ontario_demand_hourly,ontario_demand,series variable,MW
+ilr_luxembourg_electricity,capacity,series variable,MW
+ilr_luxembourg_electricity,connections,series variable,count
+ilr_luxembourg_electricity,customers,series variable,count
+ilr_luxembourg_electricity,export,series variable,MWh
+ilr_luxembourg_electricity,generation,series variable,MWh
+ilr_luxembourg_electricity,import,series variable,MWh
+ilr_luxembourg_electricity,injection,series variable,MWh
+ilr_luxembourg_electricity,self_consumer_injection,series variable,MWh
+ilr_luxembourg_electricity,self_consumers,series variable,count
+ilr_luxembourg_electricity,self_consumption,series variable,MWh
+ilr_luxembourg_electricity,self_consumption_capacity,series variable,MW
+ilr_luxembourg_electricity,withdrawal,series variable,MWh
 imf_commodity_prices,price,series variable,USD/lb
 imf_commodity_prices,price,series variable,USD/t
 impact_tax_rules,event_id,column,
