@@ -33,3 +33,9 @@
 - New: `docs/state/note_2026-11-14_data.md`, this report.
 - Changed: `warehouse/metadata/license_verdicts.csv` (the IEA's datasets), `sources.csv`, `license_tables.csv`, `docs/licenses.md`, `warehouse/connectors/wb_wdi_electricity.py`, the package's and the site's records, and the merge's files (above).
 - On the data machine only: `runs/c092/` (the resolvers, the suite halves, the snapshots' outputs).
+
+## Addendum (written in session 2177, chain 097, 01:28 UTC)
+
+- **The check run passed and the branch merged:** run 40046499311 (`success`), merged to main as `01eacca9` ("Merge task/2148-2161-data: checks passed"). Vercel's deployment is still rate limited, so nothing deployed.
+- **Rule 8's snapshot after:** `c092-land-after` against `c092-land-before` (00:44 UTC): **0 differences** in all 25 pages.
+- **The queue step** handed this machine `097-day-1-november-data-canada-offshore-inspections-supply.md` (written by chain 094's session 2162), taken under the owner's instruction for this run with chain 094's agent told (`5e82499c`, between snapshots `q097-before` and `q097-after`: 0 differences).

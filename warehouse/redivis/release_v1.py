@@ -229,6 +229,12 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "census_bps_state_annual",
            "afdc_ev_charging_state_annual",
            "census_cbp_hosting_annual",
+           "statcan_electricity_generation_monthly",
+           "statcan_oil_gas_supply_monthly",
+           "ntd_transit_energy_annual",
+           "epa_needs_units",
+           "bsee_offshore_incidents",
+           "nrc_rop_findings",
            "interconnection_durations", "interconnection_durations_summary",
            "grid_peak_vs_capacity"):  # 510 to 672 the same way
     STORAGE_HELD[_t] = ("held: not yet on Redivis (written 21 October 2026, session 489; the account's free 10 GB is full, "

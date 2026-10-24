@@ -107,6 +107,9 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          # session 2169: a volume a day in cubic metres, as the CER gives a pipeline's throughput and capacity
          # (cer_pipeline_throughput; Decision 69)
          "m3/d",
+         # session 2179: a volume in cubic metres, as Statistics Canada gives crude oil (and natural gas in thousands, written
+         # times 1,000) a month (statcan_oil_gas_supply_monthly; Decision 70)
+         "m3",
          # session 2211: a reservoir's pool elevation in feet above mean sea level and its storage in acre-feet, as
          # Reclamation gives Lake Mead's and Lake Powell's (usbr_mead_powell_daily; Decisions 71 and 72)
          "ft", "acre-ft"}
