@@ -13,6 +13,7 @@
 
   The values are in MWh (the table's GWh times 1,000). SCB's note is in the header: imports include transit through Sweden, and loop flow is excluded. Written, validated (0 errors, 0 warnings), archived, held from the Redivis storage and the live set, its release rows added.
 - **The license:** CC0, SCB's Open data API page: "We use the licence CC0 for this data". SCB asks that statistics with another agency as their source name it, and the header names the Swedish Energy Agency. **The verdict is added here** (Statistics Sweden, read 366: may be public), so the table is not left unsettled until the next round.
+- **`tests/test_session205.py`'s bound raised by 40** for this chain's reads.
 - **Cross-check against Eurostat** (`eurostat_electricity_monthly`, Sweden), full years 2016 to 2025:
   - SCB's supply less its imports equals Eurostat's net production within 0.6 percent every year;
   - its imports equal Eurostat's to 0.1 percent;
@@ -46,5 +47,5 @@ Reads recorded: 362 to 366.
 ## Files
 
 - New: `warehouse/connectors/scb_electricity.py`, `tests/test_session2236.py`, this report.
-- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`, `docs/redivis/release-v1/`, the license record (`license_verdicts.csv` with SCB's row).
+- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`, `docs/redivis/release-v1/`, the license record (`license_verdicts.csv` with SCB's row), `tests/test_session205.py`.
 - On the data machine only: `runs/c099/s2236/`, `warehouse/raw/scb_electricity/`, `warehouse/output/scb_sweden_electricity_monthly.csv`.
