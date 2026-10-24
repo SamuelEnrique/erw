@@ -455,6 +455,7 @@ nrc_power_reactors,nrc,,130,snapshot,2026-10-23T09:52:20Z,2026-10-23T09:53:52Z,1
 nrc_reactor_status,nrc,,99,P1D,2020-01-01T00:00:00Z,2026-10-23T00:00:00Z,235005,nrc:power_reactor_status,2026-10-24T17:36:39Z,pass,public,power;uranium,no,source
 nrc_rop_findings,none,,1,event,1999-07-29T00:00:00Z,2025-05-12T00:00:00Z,18240,1 outlets,2026-10-24T02:38:13Z,pass,public,power;uranium,no,source
 nrcs_snotel_swe_daily,nrcs,,20,P1D,2015-01-01T00:00:00Z,2026-10-22T00:00:00Z,86241,nrcs:awdb_snotel,2026-10-24T00:20:08Z,pass,internal,power,no,source
+nsi_bulgaria_electricity_monthly,nsi,,14,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,157,nsi_bg:energy_1_4_electricity,2026-10-24T21:43:40Z,pass,internal,power,no,source
 nso_malawi_electricity_sales_annual,nso,,5,P1Y,1992-01-01T00:00:00Z,2019-01-01T00:00:00Z,140,nso_malawi:statistical_yearbook,2026-10-24T16:29:27Z,pass,internal,power,no,source
 ntd_transit_energy_annual,ntd,,1751,P1Y,2022-01-01T00:00:00Z,2025-01-01T00:00:00Z,10161,fta:ntd_fuel_energy,2026-10-24T02:38:28Z,pass,public,power;products,no,source
 nve_norway_reservoirs_weekly,nve,,14931,P1W,1995-01-08T00:00:00Z,2026-10-18T00:00:00Z,44793,nve:magasinstatistikk,2026-10-24T18:22:50Z,pass,public,power,no,source
