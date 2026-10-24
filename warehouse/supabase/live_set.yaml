@@ -445,6 +445,7 @@ catalogue_hold:
   - eia_refinery_utilization_monthly
   - ceb_srilanka_electricity_annual
   - erb_zambia_electricity_annual
+  - statsbots_botswana_electricity_monthly
   - energycom_ghana_electricity_annual
   - eia_gas_for_others_annual
   - statcan_petroleum_products_monthly
