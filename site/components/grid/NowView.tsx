@@ -25,6 +25,7 @@ import { attempt } from "@/lib/supabase";
 import { GridYesterday } from "./Conditions";
 import { GridNowParts } from "./YourGrid";
 import { Preliminary } from "./Preliminary";
+import { PanelFile } from "@/components/grid/PanelFile";  // session 1420: the mix in that hour, to download
 
 const DEMAND = "eia930_all_demand", GEN = "eia930_all_generation", CARBON = "carbon_intensity_hourly";
 const H = 3_600_000;
@@ -78,6 +79,8 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
   // carbon: the latest hour EIA has estimated
   const cg = ci.ok ? ci.data.filter((r) => r.variable === "intensity_generation").sort(byTime).at(-1) : undefined;
   const cd = cg && ci.ok ? ci.data.find((r) => r.variable === "intensity_demand" && r.ts_utc === cg.ts_utc) : undefined;
+  // session 1420: the mix's rows, drawn in its table and written in its file
+  const mixRows = fuels.map((r) => ({ key: r.variable, cells: [fuelName(r.variable), <N key="v" t={GEN} r={r} />] }));
 
   return (
     <div data-grid-view="now">
@@ -110,6 +113,8 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
           note={cg ? <>Of generation, hour starting {hourOf(cg.ts_utc, tz)}.{cd ? <> Of the power used here, imports counted: <N t={CARBON} r={cd} />.</> : null}</> : ci.ok ? "No hour in the last seven days." : ci.reason} />
       </HeadlineRow>
 
+      {/* session 1420: a named panel, its table to download */}
+      <div data-grid-panel={`grid_nowmix_${grid.slug}`}>
       <ToolSection title="The mix in that hour" id="now-mix">
         {withheld ? <CaisoMixWithheld what="California's generation by fuel" /> : !gen.ok ? <NoData what="generation by fuel" reason={gen.reason} /> : !total || !fuels.length ? <NoData what="generation by fuel" reason={`${GEN} holds no hour for ${grid.label} in the last 34 days`} /> : (
           <>
@@ -120,11 +125,18 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
               unit="MW" ariaLabel={`${grid.label} generation by fuel, the latest hour`} file={`erw-${grid.slug}-mix-now`} />
             <div className="mt-3 max-w-xl">
               <ToolTable caption={`${grid.label} net generation by fuel, the latest hour`} minWidth={280} head={["Fuel, as EIA names it", "MW"]}
-                rows={fuels.map((r) => ({ key: r.variable, cells: [fuelName(r.variable), <N key="v" t={GEN} r={r} />] }))} />
+                rows={mixRows} />
             </div>
+            <PanelFile of={{ panel: `grid_nowmix_${grid.slug}`, title: `${grid.label}'s net generation by fuel in the latest hour that holds the total, MW`, page: gridHref(grid.slug, "mix"),
+              tables: [`${GEN} (EIA-930's hourly net generation by fuel, MW; hour starts)`], filter: `${entity}: net_generation_mw and each fuel's net_generation_<fuel>_mw`,
+              window: `Hour: ${total.ts_utc.slice(0, 16).replace("T", " ")} UTC (hour start), the newest that holds the total in the last 34 days`,
+              notes: ["The bar's shares are drawn from these rows, the fuels grouped as the bar's colours; they are not written here"],
+              figures: [{ label: "Net generation in the hour", value: <N t={GEN} r={total} /> }] }}
+              columns={["Fuel, as EIA names it", "MW"]} rows={mixRows.map((r) => r.cells)} />
           </>
         )}
       </ToolSection>
+      </div>
 
       {cfg && data ? <GridNowParts g={cfg} d={data} /> : null}
       <GridYesterday code={CONDITIONS_CODE[grid.slug]} />

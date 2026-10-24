@@ -20,6 +20,8 @@ import { carbonLeftOut, carbonLeftOutMonths, monthRuns } from "@/lib/carbonLeftO
 import { Missing } from "@/components/mix/Now";  // session 1167: "license needed", the tool's one look (session 1159)
 import { heldQueue, type Held } from "@/lib/gridHeld";  // session 1167
 import { licenseHeldRow, licenseTitle, LICENSE_NEEDED } from "@/lib/license";  // session 1167
+import { PanelFile, type FileCell } from "@/components/grid/PanelFile";  // session 1420: each older block's figures, to download
+import { heldBy } from "@/components/Num";  // session 1420: the datacenters' figures are held whole (lib/license.ts)
 
 // Session 35: "Ask your grid". One template, seven pages (docs/grids/grids.json), for a student in a first energy
 // course: who runs the grid, where the power comes from now, what it costs, how clean it is, what is being built,
@@ -30,6 +32,12 @@ import { licenseHeldRow, licenseTitle, LICENSE_NEEDED } from "@/lib/license";  /
 // page now; /grid/<iso> redirects to it (next.config.ts) and its blocks are drawn by the tool's views: GridNowParts in
 // Now, GridMixParts in Mix, GridCleanParts in Clean. The Ask box is the tool's Ask view (components/grid/AskView.tsx).
 // Nothing a grid page showed is dropped; each block is as it was.
+// Session 1420 (chain 111): the older blocks that show a table of figures (Right now, Batteries, What it costs, What is
+// being built) are named panels (grid_rightnow_<grid>, grid_batteries_<grid>, grid_cost_<grid>, grid_building_<grid>),
+// each offering its figures as a file (components/grid/PanelFile.tsx, session 1182): the same figure nodes the block
+// draws, its tables, filter, window and drawing time in the file's first lines. A held grid's block draws a held line
+// and no figure, and offers no file; a held figure in a file is written "license needed" (Num's heldBy), never its value.
+const UTC_HOUR = (ts: string) => `the hour starting ${ts.slice(0, 16).replace("T", " ")} UTC`;
 
 const H = 3_600_000;
 const EIA = (g: GridConfig) => `https://www.eia.gov/electricity/gridmonitor/dashboard/electric_overview/balancing_authority/${g.entity.split(":")[1]}`;
@@ -90,6 +98,13 @@ function RightNow({ g, d }: { g: GridConfig; d: GridData }) {
     { label: `${today} so far`, color: "accent", points: so.map((r) => ({ t: Date.parse(r.ts_utc) / 1000, v: r.value })) },
     { label: "Same day last week", color: "muted", points: weekAgo.map((r) => ({ t: (Date.parse(r.ts_utc) + 7 * 24 * H) / 1000, v: r.value })) },
   ];
+  // session 1420: the day's highest hour, drawn once and filed
+  const peakNum = <Num check={`series_max|${T}|demand_mw|${start}|${end}|${g.entity}`} raw={peak.value}>{shown(peak.value)}</Num>;
+  const fileRows: FileCell[][] = [
+    ["Demand in the latest hour EIA has published", UTC_HOUR(last.ts_utc), <N key="v" t={T} r={last} />, "MW"],
+    ["The same hour a week earlier", UTC_HOUR(isoTs(lt - 7 * 24 * H)), sameHour ? <N key="v" t={T} r={sameHour} /> : "not held", "MW"],
+    [`Highest hour so far on ${today} (${g.tz_label})`, UTC_HOUR(peak.ts_utc), peakNum, "MW"],
+  ];
   return (
     <>
       <div className="grid gap-6 lg:grid-cols-[18rem_1fr]">
@@ -100,7 +115,7 @@ function RightNow({ g, d }: { g: GridConfig; d: GridData }) {
           <div className="mb-2 tabular-nums">{sameHour ? <><N t={T} r={sameHour} /> MW</> : <span className="text-muted">not held</span>}</div>
           <div className="text-xs text-muted">Highest hour so far on {today} ({g.tz_label})</div>
           <div className="tabular-nums">
-            <Num check={`series_max|${T}|demand_mw|${start}|${end}|${g.entity}`} raw={peak.value}>{shown(peak.value)}</Num> MW at {local(peak.ts_utc, g.tz, false)}
+            {peakNum} MW at {local(peak.ts_utc, g.tz, false)}
           </div>
         </div>
         <div className="min-w-0">
@@ -111,6 +126,11 @@ function RightNow({ g, d }: { g: GridConfig; d: GridData }) {
         Demand is how much power customers use each hour. EIA publishes each grid&apos;s hourly demand an hour or so after the hour, so &quot;right now&quot;
         is the latest hour it has published. Last week&apos;s line is moved forward seven days so the two days line up.
       </p>
+      <PanelFile of={{ panel: `grid_rightnow_${g.slug}`, title: `${g.iso}'s demand in the latest hour EIA has published, the same hour a week earlier and the day's highest hour so far`,
+        page: gridHref(g.slug, "mix"), tables: [`${T} (EIA-930's hourly demand, MW; hour starts)`], filter: `${g.entity}: demand_mw`,
+        window: `Window: ${today} so far (${g.tz_label}), the hours from ${start} to ${end} (UTC), and the same hour a week earlier`,
+        notes: ["The two days' hourly demand (today so far, the same day last week) are drawn in the chart, not written here"] }}
+        columns={["Figure", "Hour", "Value", "Unit"]} rows={fileRows} />
       <Cite tables={[T]} note="EIA-930 hourly demand, MW; hour starts" />
     </>
   );
@@ -190,6 +210,22 @@ function Batteries({ g, d }: { g: GridConfig; d: GridData }) {
   const mw = (us: GridData["units"]) => Math.round(us.reduce((a, u) => a + (u.capacity_mw ?? 0), 0) * 10) / 10;
   const mwh = (us: GridData["units"]) => Math.round(us.filter((u) => u.mwh).reduce((a, u) => a + Number(u.mwh), 0) * 10) / 10;
   const op = by(["operating"]);
+  // session 1420: the block's figures, drawn once each and filed
+  const ph = at("peak_discharge_hour");
+  const phNum = ph ? <Num check={key(T, ph)} raw={ph.value}>{String(ph.value)}</Num> : null;
+  const opMw = <Num check={`storage|iso_mw|${g.iso}|operating`} raw={mw(op)}>{shown(mw(op))}</Num>;
+  const opMwh = <Num check={`storage|iso_mwh|${g.iso}|operating`} raw={mwh(op)}>{shown(mwh(op))}</Num>;
+  const ucMw = <Num check={`storage|iso_mw|${g.iso}|under_construction`} raw={mw(by(["under_construction"]))}>{shown(mw(by(["under_construction"])))}</Num>;
+  const plMw = <Num check={`storage|iso_mw|${g.iso}|planned`} raw={mw(by(["planned"]))}>{shown(mw(by(["planned"])))}</Num>;
+  const day = last ? `the day ${last.ts_utc.slice(0, 10)}` : "";
+  const fileRows: FileCell[][] = [
+    ...(last ? [["Discharged", day, <N key="v" t={T} r={last} />, "MWh"], ["Charged", day, <N key="v" t={T} r={at("mwh_charged")} />, "MWh"],
+      ...(phNum ? [["The hour of most discharge", day, phNum, "hour starting, local time"]] : [])]
+      : d.errors.cycle ? [["The daily battery cycle", "the latest complete day", "could not be read", ""]] : []),
+    ...(d.units.length ? [["Operating battery units", "as EIA-860M lists them", opMw, "MW"], ["Operating battery units", "as EIA-860M lists them", opMwh, "MWh"],
+      ["Battery units under construction", "as EIA-860M lists them", ucMw, "MW"], ["Planned battery units", "as EIA-860M lists them", plMw, "MW"]]
+      : d.errors.units ? [["Battery units", "as EIA-860M lists them", "could not be read", ""]] : []),
+  ];
   return (
     <>
       {last ? (
@@ -200,7 +236,7 @@ function Batteries({ g, d }: { g: GridConfig; d: GridData }) {
           <div className="flex flex-wrap gap-x-6 tabular-nums">
             <span>Discharged <N t={T} r={last} /> MWh</span>
             <span>Charged <N t={T} r={at("mwh_charged")} /> MWh</span>
-            {at("peak_discharge_hour") ? <span>Most discharge at <Num check={key(T, at("peak_discharge_hour")!)} raw={at("peak_discharge_hour")!.value}>{String(at("peak_discharge_hour")!.value)}</Num>:00 local</span> : null}
+            {phNum ? <span>Most discharge at {phNum}:00 local</span> : null}
           </div>
           <div className="mt-1 max-w-sm">
             <InlineSpark values={dis.slice(-30).map((r) => ({ t: r.ts_utc, v: r.value }))} label={`${g.iso} battery MWh discharged per day, last 30 days`} />
@@ -217,9 +253,9 @@ function Batteries({ g, d }: { g: GridConfig; d: GridData }) {
         <div className="text-sm tabular-nums">
           <div className="text-xs text-muted">Battery units in {g.iso}&apos;s footprint (EIA-860M, the unit&apos;s balancing authority)</div>
           <div className="flex flex-wrap gap-x-6">
-            <span>Operating: <Num check={`storage|iso_mw|${g.iso}|operating`} raw={mw(op)}>{shown(mw(op))}</Num> MW, <Num check={`storage|iso_mwh|${g.iso}|operating`} raw={mwh(op)}>{shown(mwh(op))}</Num> MWh</span>
-            <span>Under construction: <Num check={`storage|iso_mw|${g.iso}|under_construction`} raw={mw(by(["under_construction"]))}>{shown(mw(by(["under_construction"])))}</Num> MW</span>
-            <span>Planned: <Num check={`storage|iso_mw|${g.iso}|planned`} raw={mw(by(["planned"]))}>{shown(mw(by(["planned"])))}</Num> MW</span>
+            <span>Operating: {opMw} MW, {opMwh} MWh</span>
+            <span>Under construction: {ucMw} MW</span>
+            <span>Planned: {plMw} MW</span>
           </div>
           <p className="mt-1 text-xs text-muted">MW is how fast a battery can deliver power; MWh is how much energy it holds. EIA-860M gives MWh for operating units, not planned ones.</p>
           <Cite tables={["storage_capacity"]} note="Sums of the battery units whose balancing authority is this grid" />
@@ -230,6 +266,15 @@ function Batteries({ g, d }: { g: GridConfig; d: GridData }) {
       ) : (
         <NotYet what={`battery units mapped to ${g.iso}`} where="EIA publishes the generator inventory, EIA-860M" href="https://www.eia.gov/electricity/data/eia860m/" />
       )}
+      {last || d.units.length ? (
+        <PanelFile of={{ panel: `grid_batteries_${g.slug}`, title: `${g.iso}'s battery cycle of the latest complete day and the battery units in its footprint`, page: gridHref(g.slug, "mix"),
+          tables: [`${T} (${g.storage_source === "caiso" ? "CAISO's own 5-minute Total batteries series, averaged to hours, complete Pacific days" : "from EIA-930's hourly battery net generation, complete local days"})`,
+            `storage_capacity (EIA-860M's battery units whose balancing authority is ${g.iso})`],
+          filter: `${g.storage_entity ? `${g.storage_entity}: mwh_discharged, mwh_charged, peak_discharge_hour; ` : ""}storage_capacity: the units of ${g.iso}, summed by status (operating, under_construction, planned)`,
+          window: `Window: ${last ? `the latest complete day, ${last.ts_utc.slice(0, 10)}` : "no day of the cycle drawn"}; the units as the live set holds them when the page was drawn`,
+          notes: ["The last 30 days' discharge are drawn in the small chart, not written here", "EIA-860M gives MWh for operating units, not planned ones"] }}
+          columns={["Figure", "Day", "Value", "Unit"]} rows={fileRows} />
+      ) : null}
       <p className="mt-1 text-xs text-muted"><Link href="/data/methods/storage">Method</Link>.</p>
     </>
   );
@@ -305,6 +350,15 @@ function Cost({ g, d }: { g: GridConfig; d: GridData }) {
   const off = pk ? d.peak.find((r) => r.variable === "da_offpeak_mean" && r.ts_utc === pk.ts_utc) : undefined;
   // session 1411: the peak and off-peak cells when price_board_peak_offpeak's read failed: "could not be read", never "none"
   const peakN = (r?: SeriesRow) => (d.errors.peak && !r ? <Missing words="could not be read" why={`${TP} could not be read just now: ${d.errors.peak}`} /> : <N t={TP} r={r} />);
+  // session 1420: the block's five figures, as it draws them, to download
+  const dayOfRow = (r?: SeriesRow) => (r ? `the day ${r.ts_utc.slice(0, 10)}` : "");
+  const fileRows: FileCell[][] = [
+    ["Day-ahead, the day's mean", dayOfRow(daMean), <N key="v" t={T} r={daMean} />, "USD per MWh"],
+    ["Real-time, the day's mean", dayOfRow(rtMean), <N key="v" t={T} r={rtMean} />, "USD per MWh"],
+    ["Day-ahead peak hours, mean", dayOfRow(pk), peakN(pk), "USD per MWh"],
+    ["Day-ahead off-peak hours, mean", dayOfRow(pk), peakN(off), "USD per MWh"],
+    ["Day-ahead daily mean, 30-day average", dayOfRow(avg30), <N key="v" t={T} r={avg30} />, "USD per MWh"],
+  ];
   return (
     <>
       <div className="text-xs text-muted">{g.hub.label}, USD per MWh</div>
@@ -322,6 +376,12 @@ function Cost({ g, d }: { g: GridConfig; d: GridData }) {
         Wholesale prices, what power plants are paid, not what a household pays. Day-ahead is the price agreed the day before; real-time is the price at
         the moment. Peak hours are the busy daytime hours of working days, as the price board&apos;s method defines them; off-peak is the rest. <Link href="/data/methods/price_board">Method</Link>.
       </p>
+      {daMean || rtMean || avg30 || pk || off ? <PanelFile of={{ panel: `grid_cost_${g.slug}`, title: `${g.hub.label}'s day-ahead and real-time daily means, its peak and off-peak means and the 30-day average, USD per MWh`, page: gridHref(g.slug, "mix"),
+        tables: [`${T} (daily means of ${g.iso}'s own hourly prices)`, `${TP} (the day-ahead mean over peak and off-peak hours, as the price board's method defines them)`],
+        filter: `${g.hub.entity}: da_latest_day_mean, rt_latest_day_mean, da_avg_30d; da_peak_mean, da_offpeak_mean`,
+        window: "Window: the latest day each table holds, and the 30 days to it for the average",
+        notes: ["The 30 days of day-ahead daily means (da_daily_mean) are drawn in the small chart, not written here"] }}
+        columns={["Figure", "Day", "Value", "Unit"]} rows={fileRows} /> : null}
       <Cite tables={[T, TP]} note="Daily means of the ISO's own hourly prices" />
     </>
   );
@@ -333,6 +393,10 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
   const states = Object.keys(g.states).sort();
   const dcMw = Math.round(d.dcs.reduce((a, x) => a + (x.capacity_mw ?? 0), 0) * 10) / 10;
   const dcN = d.dcs.length;
+  // session 1420: the datacenters' two figures, drawn once each and filed; the queue's rows, drawn and filed
+  const dcNum = <Num check={`griddc|${g.slug}|n`} raw={dcN}>{count(dcN)}</Num>;
+  const dcMwNum = <Num check={`griddc|${g.slug}|mw`} raw={dcMw}>{shown(dcMw)}</Num>;
+  let qRows: { key: string; cells: React.ReactNode[] }[] = [];
   let queue: React.ReactNode;
   if (!g.queue_table) {
     queue = <NotYet what={`${g.iso}'s interconnection queue`} where={`${g.iso} publishes it`} href={g.queue_url ?? "https://www.eia.gov/electricity/data/eia860m/"} />;
@@ -351,18 +415,20 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
       return { t, n: a.length, mw: Math.round(a.reduce((s, q) => s + (q.capacity_mw ?? 0), 0) * 10) / 10, done: d.queue.filter((q) => (q.tech ?? "unknown") === t && q.status === "completed").length };
     }).filter((r) => r.n || r.done).sort((a, b) => b.mw - a.mw);
     const k = (s: string, t: string, what: string) => `gridq|${g.queue_table}|${s}|${t}|${what}`;
+    qRows = rows.map((r) => ({ key: r.t, cells: [r.t.replace(/_/g, " "), <Num key="n" check={k("active", r.t, "n")} raw={r.n}>{count(r.n)}</Num>,
+      <Num key="mw" check={k("active", r.t, "mw")} raw={r.mw}>{shown(r.mw)}</Num>, <Num key="done" check={k("completed", r.t, "n")} raw={r.done}>{count(r.done)}</Num>] }));
     queue = (
       <>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[420px] text-sm tabular-nums">
             <thead><tr className="border-b border-rule text-left text-xs text-muted"><th className="py-0.5 font-normal">Kind of project</th><th className="pr-2 text-right font-normal">Waiting (active)</th><th className="pr-2 text-right font-normal">Active MW</th><th className="pr-2 text-right font-normal">Completed</th></tr></thead>
             <tbody>
-              {rows.map((r) => (
-                <tr key={r.t} className="border-b border-rule">
-                  <td className="py-0.5 pr-2">{r.t.replace(/_/g, " ")}</td>
-                  <td className="pr-2 text-right"><Num check={k("active", r.t, "n")} raw={r.n}>{count(r.n)}</Num></td>
-                  <td className="pr-2 text-right"><Num check={k("active", r.t, "mw")} raw={r.mw}>{shown(r.mw)}</Num></td>
-                  <td className="pr-2 text-right"><Num check={k("completed", r.t, "n")} raw={r.done}>{count(r.done)}</Num></td>
+              {qRows.map((r) => (
+                <tr key={r.key} className="border-b border-rule">
+                  <td className="py-0.5 pr-2">{r.cells[0]}</td>
+                  <td className="pr-2 text-right">{r.cells[1]}</td>
+                  <td className="pr-2 text-right">{r.cells[2]}</td>
+                  <td className="pr-2 text-right">{r.cells[3]}</td>
                 </tr>
               ))}
             </tbody>
@@ -382,7 +448,7 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
       <div className="mt-4 text-sm">
         <div className="text-xs text-muted">Datacenter facilities mapped to {g.iso}<Chip tier="model_extracted" /></div>
         <div className="tabular-nums">
-          <Num check={`griddc|${g.slug}|n`} raw={dcN}>{count(dcN)}</Num> facilities; <Num check={`griddc|${g.slug}|mw`} raw={dcMw}>{shown(dcMw)}</Num> MW where a source states it.{" "}
+          {dcNum} facilities; {dcMwNum} MW where a source states it.{" "}
           <Link href="/datacenters" className="underline">All datacenters</Link>.
         </div>
         <p className="mt-1 text-xs text-muted">
@@ -393,6 +459,18 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
         </p>
         <Cite tables={["datacenter_facilities"]} />
       </div>
+      {/* session 1420: the queue's table and the datacenters' figures, to download, wherever the block draws a figure (the
+          datacenters' are held whole today, so they are written "license needed"; a held queue is not drawn and not filed) */}
+      {qRows.length || !heldBy(`griddc|${g.slug}|n`) ? (
+        <PanelFile of={{ panel: `grid_building_${g.slug}`, title: `${g.iso}'s interconnection queue by kind of project, and the datacenter facilities mapped to it`, page: gridHref(g.slug, "mix"),
+          tables: [...(qRows.length ? [`energy_projects (${g.queue_table}'s queue positions, as energy_projects groups them; withdrawn positions are left out)`] : []),
+            "datacenter_facilities (facilities mapped to the grid; many rows come from news stories read by a model)"],
+          filter: `${qRows.length ? `energy_projects: entity_id like ${(g.queue_table ?? "").replace(/_interconnection_queue$/, "_queue")}:*, status active and completed, by kind (technology_group); ` : ""}datacenter_facilities: the facilities from ${g.iso}'s queue or of its utilities, else of the states ${states.map((s) => g.states[s]).join(", ")}`,
+          window: "Window: the live set as read when the page was drawn",
+          notes: qRows.length ? [] : ["The queue's table is not drawn for this grid: the page says why"],
+          figures: [{ label: `Datacenter facilities mapped to ${g.iso}`, value: dcNum }, { label: "Their MW, where a source states it", value: dcMwNum }] }}
+          columns={["Kind of project", "Waiting (active)", "Active MW", "Completed"]} rows={qRows.map((r) => r.cells)} />
+      ) : null}
     </>
   );
 }
@@ -446,11 +524,13 @@ export function GridNowParts({ g, d }: { g: GridConfig; d: GridData }) {
         {" "}How it trades power with its neighbors: <Link href={gridHref(g.slug, "gravity")}>the exchange</Link> and <Link href={gridHref(g.slug, "network")}>the grid network</Link>.
       </p>
 
-      <Section title="Right now: demand" aside={<Chip tier="source" />}><RightNow g={g} d={d} /></Section>
+      {/* session 1420: the older blocks of figures are named panels, each with its file (Reliability names its own) */}
+      <div data-grid-panel={`grid_rightnow_${g.slug}`}><Section title="Right now: demand" aside={<Chip tier="source" />}><RightNow g={g} d={d} /></Section></div>
       <Section title="Who runs this grid" aside={<Chip tier="written" />}>
         <Written md={first.replace(/^## [^\n]*\n/, "")} slug={g.slug} />
       </Section>
-      <Section title="Batteries" aside={<><Chip tier="derived" /></>}><Batteries g={g} d={d} /></Section>
+      <div data-grid-panel={`grid_batteries_${g.slug}`}><Section title="Batteries" aside={<><Chip tier="derived" /></>}><Batteries g={g} d={d} /></Section></div>
+      <div data-grid-panel={`grid_cost_${g.slug}`}>
       <Section title="What it costs" aside={<Chip tier="derived" />}>
         <Cost g={g} d={d} />
         {/* session 37: the cost-of-power model (PJM's prices are internal, so it has no PJM row) */}
@@ -459,9 +539,10 @@ export function GridNowParts({ g, d }: { g: GridConfig; d: GridData }) {
           <Link href="/cost-of-power">cost of power</Link>{g.slug === "pjm" ? " model has no PJM row." : "."}
         </p>
       </Section>
+      </div>
       {/* session 58: California reliability v1, CAISO only */}
       {g.slug === "caiso" ? <Section id="reliability" title="Reliability" aside={<Chip tier="derived" />}><Reliability /></Section> : null}
-      <Section title="What is being built" aside={<Chip tier="derived" />}><Building g={g} d={d} /></Section>
+      <div data-grid-panel={`grid_building_${g.slug}`}><Section title="What is being built" aside={<Chip tier="derived" />}><Building g={g} d={d} /></Section></div>
       <Section title="In the news" aside={<Chip tier="model_extracted" />}><News g={g} d={d} /></Section>
 
       <Section title={`About ${g.iso}`} aside={<Chip tier="written" />}>

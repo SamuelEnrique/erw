@@ -17,6 +17,10 @@
 //              for none): every panel's file the page must offer is there, and each opens with its provenance (the panel and
 //              page, the tables, the filter, the hour or window, the time drawn), then its columns. A Grid page is read, not
 //              a download: it does not count against the sixty an hour. check-download.mjs --grid reads each file whole.
+//              Session 1420: the older blocks' files too (YourGrid's Right now, Batteries, What it costs, What is being
+//              built; Reliability's three tables; the Now view's mix in that hour; "Yesterday", the mix table and the
+//              Clean tab's carbon blocks), a held grid's page (ISO-NE, its held blocks offering no file), and each file's
+//              held figures written "license needed" (the link's data-grid-file-held), never a value.
 // A download is limited to sixty an hour a visitor (lib/guard.ts): the check asks for one CSV and three readers a page.
 // Exit 1 on a failure.
 import { execFileSync } from "node:child_process";
@@ -110,6 +114,9 @@ for (const [page, want] of gridPages) {
   for (const f of files) {
     const top = gridFileProblems(f, raws).filter((x) => /link|decode|downloads|header|columns/.test(x));
     check(!top.length, `${page}: ${f.id}: an attachment, erw_${f.id}.csv, opening with its provenance, then its columns${top.length ? ` (${top.join("; ")})` : ""}`);
+    // session 1420: a held figure is written "license needed", never its value
+    const held = gridFileProblems(f, raws).filter((x) => /license needed/.test(x));
+    if (f.held) check(!held.length, `${page}: ${f.id}: its ${f.held} held figure(s) written "license needed"${held.length ? ` (${held.join("; ")})` : ""}`);
   }
 }
 

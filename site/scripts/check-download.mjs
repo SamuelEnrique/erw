@@ -26,6 +26,10 @@
 // the time drawn); the columns; as many rows as its link states, each with as many cells as there are columns; and
 // every number in it past the first column, and in its "Figure:" lines, a figure the page draws (a data-raw of the
 // page). No database read and no download: the files are in the pages. Exit 0 only if every file is whole.
+// Session 1420 (chain 111): the default addresses carry the older blocks' files too (YourGrid's Right now, Batteries,
+// What it costs, What is being built; Reliability's three tables; the Now view's mix in that hour; "Yesterday", the mix
+// table, the Clean tab's carbon blocks) and a held grid's page (ISO-NE); a file is whole only if each held figure its link
+// counts is written "license needed" (scripts/grid-files.mjs gridFileProblems).
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

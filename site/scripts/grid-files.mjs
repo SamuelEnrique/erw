@@ -13,10 +13,19 @@ export const GRID_FILE_PAGES = [
   ["/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO", ["grid_replay_ERCO", "grid_network_ercot", "grid_network_ercot_balance"]],
   ["/grid?grid=ercot&view=gravity&shape=gravity", ["grid_gravity_ercot", "grid_exchange_ercot_ties", "grid_exchange_ercot_twelve_months"]],
   ["/grid?grid=us48&view=gravity&shape=gravity", ["grid_gravity_us48", "grid_exchange_us48"]],
-  ["/grid?grid=ercot&view=clean", ["grid_clean24_ercot"]],
-  ["/grid?grid=ercot", ["grid_mix_ercot_hourly", "grid_scarcity_ercot", "grid_ercotnotice_ercot"]],
+  // session 1420: and the Clean tab's carbon blocks (session 1415)
+  ["/grid?grid=ercot&view=clean", ["grid_clean24_ercot", "grid_carbonrank_ercot", "grid_carbonmonth_ercot"]],
+  // session 1420: and the older blocks' files: Right now, Batteries, What it costs, the mix in that hour, and "Yesterday"
+  // and the mix table (session 1416)
+  ["/grid?grid=ercot", ["grid_mix_ercot_hourly", "grid_scarcity_ercot", "grid_ercotnotice_ercot",
+    "grid_rightnow_ercot", "grid_batteries_ercot", "grid_cost_ercot", "grid_nowmix_ercot", "grid_yesterday_ercot", "grid_mixtable_all"]],
   ["/grid?grid=ercot&mixp=month", ["grid_mix_ercot_monthly"]],
-  ["/grid?grid=caiso", ["grid_scarcity_caiso", "grid_caisoalert_caiso"]],
+  // session 1420: and CAISO's older blocks: Right now, Batteries, What is being built (its queue), Reliability's three tables
+  ["/grid?grid=caiso", ["grid_scarcity_caiso", "grid_caisoalert_caiso",
+    "grid_rightnow_caiso", "grid_batteries_caiso", "grid_building_caiso", "grid_reliability_caiso_days_per_year", "grid_reliability_caiso_highest_peaks",
+    "grid_reliability_caiso_latest_days", "grid_yesterday_caiso"]],
+  // session 1420: a held grid (ISO-NE): its prices and its queue are held, so they offer no file; its public blocks do
+  ["/grid?grid=isone", ["grid_rightnow_isone", "grid_batteries_isone", "grid_yesterday_isone"]],
   ["/grid?grid=caiso&mixp=month", ["grid_mix_caiso_monthly"]],
   ["/grid?grid=us48&mixp=month", ["grid_mix_us48_monthly"]],   // session 1185: the Lower 48 by month, the sum of the states
   ["/grid?grid=ercot&mix=stress", ["grid_stress_ercot_ramp", "grid_stress_ercot_tight_", "grid_stress_ercot_calm", "grid_stress_all_"]],
@@ -83,6 +92,11 @@ export function gridFileProblems(f, raws) {
     ...top.filter((l) => l.startsWith("# Figure: ")).map((l) => /: (-?[\d.e+-]+)(?: \(key [^)]*\))?$/i.exec(l)?.[1]).filter((x) => x && NUMBER.test(x))];
   const stray = nums.filter((n) => !raws.has(n));
   if (stray.length) out.push(`${stray.length} number(s) of the file are no figure of the page: ${stray.slice(0, 3).join(", ")}`);
+  // session 1420: each held figure the link counts is written "license needed" where its value would stand (a cell, or a
+  // "Figure:" line), never its value
+  const heldWritten = [...body.slice(1).flat(), ...top.filter((l) => l.startsWith("# Figure: ")).map((l) => l.replace(/^# Figure: [^:]*: /, ""))]
+    .reduce((a, c) => a + (c.match(/license needed/g) ?? []).length, 0);
+  if ((f.held ?? 0) > heldWritten) out.push(`the link counts ${f.held} held figure(s), the file writes "license needed" ${heldWritten} time(s)`);
   if (!(f.figures > 0)) out.push("the link says it holds no figure");
   return out;
 }

@@ -92,6 +92,20 @@ const haveY = new Set(T.get("eia930_all_demand").filter((r) => r.entity === "eia
 add("eia930_all_demand", yest.demand.filter((r) => !haveY.has(Date.parse(r.ts_utc))).map((r) => asSeries("eia930:ERCO", "demand_mw", r.ts_utc, r.value)));
 add("eia930_all_demand", yest.forecast.map((r) => asSeries("eia930:ERCO", "demand_forecast_mw", r.ts_utc, r.value)));
 for (const [st, rs] of Object.entries(yest.temps)) add("weather_obs_hourly", rs.map((r) => asSeries(`nws:${st}`, "temperature_f", r.ts_utc, r.value, "F")));
+// session 1420 (chain 111): the older blocks' own rows, so each draws its figures and its file: four tables of session
+// 1411's committed reads (fixtures/grid_older_reads.json: ERCOT's battery cycle and price board, CAISO's daily
+// reliability series) and CAISO's queue positions of energy_projects (fixtures/caiso_queue_positions.json, session 1186,
+// real rows of the four fields the block reads; the fixture holds no entity_id, so each row is given one here,
+// caiso_queue:standin-<n>, for the read's prefix filter only: no id is drawn or keyed)
+export const OLDER_TABLES = ["storage_daily_cycle", "price_board_latest", "price_board_peak_offpeak", "caiso_reliability_daily"];
+const olderRows = fx("grid_older_reads.json").rows;
+for (const t of OLDER_TABLES) {
+  for (const [k, rs] of Object.entries(olderRows[t])) {
+    const [e, v, unit, freq] = k.split("|");
+    add(t, rs.map(([ts, x]) => ({ ...asSeries(e, v, tsOf(ts), x, unit), freq: freq ?? "" })));
+  }
+}
+add("energy_projects", fx("caiso_queue_positions.json").rows.map((r, i) => ({ entity_id: `caiso_queue:standin-${String(i).padStart(4, "0")}`, capacity_mw: r.capacity_mw, status: r.status, extra: { technology_group: r.tech, source_table: r.src } })));
 
 const cmp = (a, b) => (a === b ? 0 : a === undefined || a === null ? -1 : b === undefined || b === null ? 1 : a < b ? -1 : 1);
 const val = (r, col) => (col.startsWith("extra->>") ? r.extra?.[col.slice(8)] ?? null : r[col]);

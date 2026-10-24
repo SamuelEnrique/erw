@@ -97,6 +97,20 @@ for (const [k, rs] of Object.entries(weekFx.week.rows)) { const [e, v] = k.split
 // its figures and its file
 const monthlyC = fx("carbon_monthly.json");
 add("carbon_intensity_monthly", monthlyC.rows.map(([e, ts, x]) => ({ ...asSeries(e, monthlyC.variable, ts, x, monthlyC.unit), freq: monthlyC.freq })));
+// session 1420 (chain 111): the older blocks' own rows, as scripts/grid-render-standin.mjs adds them, so each draws its
+// figures and its file: the battery units (fixtures/grid_units.json, session 1180), four tables of session 1411's committed
+// reads (fixtures/grid_older_reads.json: ERCOT's battery cycle and price board, CAISO's daily reliability series) and
+// CAISO's queue positions (fixtures/caiso_queue_positions.json, session 1186: real rows of the four fields the block reads;
+// each given an id, caiso_queue:standin-<n>, for the read's prefix filter only: no id is drawn or keyed)
+add("storage_capacity", fx("grid_units.json").rows.map((r) => ({ entity_id: r.entity_id, capacity_mw: r.capacity_mw, status: r.status, extra: { iso: r.iso, energy_capacity_mwh: r.mwh, state: r.state, planned_year: r.planned_year } })));
+const olderRows = fx("grid_older_reads.json").rows;
+for (const t of ["storage_daily_cycle", "price_board_latest", "price_board_peak_offpeak", "caiso_reliability_daily"]) {
+  for (const [k, rs] of Object.entries(olderRows[t])) {
+    const [e, v, unit, freq] = k.split("|");
+    add(t, rs.map(([ts, x]) => ({ ...asSeries(e, v, tsOf(ts), x, unit), freq: freq ?? "" })));
+  }
+}
+add("energy_projects", fx("caiso_queue_positions.json").rows.map((r, i) => ({ entity_id: `caiso_queue:standin-${String(i).padStart(4, "0")}`, capacity_mw: r.capacity_mw, status: r.status, extra: { technology_group: r.tech, source_table: r.src } })));
 
 const cmp = (a, b) => (a === b ? 0 : a === undefined || a === null ? -1 : b === undefined || b === null ? 1 : a < b ? -1 : 1);
 const val = (r, col) => (col.startsWith("extra->>") ? r.extra?.[col.slice(8)] ?? null : r[col]);
@@ -300,9 +314,12 @@ const PAGES = [
   [{ grid: "isone", view: "clean" }, ["mixview_clean"]],   // session 1414: a held grid: its cells license needed, the seven grids' others keyed and filed
   // session 1415: the Clean tab's carbon blocks, the ranked table and the monthly since 2018, each with its file, on the Lower 48
   [{ grid: "us48", view: "clean" }, ["grid_carbonrank_us48", "grid_carbonmonth_us48", "grid_clean24_us48"]],
-  [{ grid: "ercot", view: "mix" }, ["grid_mix_ercot", "grid_scarcity_ercot", "grid_ercotnotice_ercot", "grid_hubprice_ercot"]],   // session 1402: the hub's price
+  [{ grid: "ercot", view: "mix" }, ["grid_mix_ercot", "grid_scarcity_ercot", "grid_ercotnotice_ercot", "grid_hubprice_ercot",   // session 1402: the hub's price
+    "grid_nowmix_ercot", "grid_rightnow_ercot", "grid_batteries_ercot", "grid_cost_ercot"]],   // session 1420: the older blocks' files
   [{ grid: "ercot", view: "mix", mixp: "month" }, ["grid_mix_ercot"]],
-  [{ grid: "caiso", view: "mix" }, ["grid_scarcity_caiso", "grid_caisoalert_caiso", "grid_hubprice_caiso"]],   // session 1402: CAISO's price, drawn alone
+  [{ grid: "caiso", view: "mix" }, ["grid_scarcity_caiso", "grid_caisoalert_caiso", "grid_hubprice_caiso",   // session 1402: CAISO's price, drawn alone
+    "grid_rightnow_caiso", "grid_batteries_caiso", "grid_building_caiso", "grid_reliability_caiso"]],   // session 1420: the older blocks' files (CAISO's queue, its reliability)
+  [{ grid: "isone", view: "mix" }, ["grid_rightnow_isone", "grid_batteries_isone"]],   // session 1420: a held grid: its prices and queue held, no file of them (below)
   [{ grid: "caiso", view: "mix", mixp: "month" }, ["grid_mix_caiso"]],
   [{ grid: "us48", view: "mix", mixp: "month" }, ["grid_mix_us48"]],   // session 1185: the Lower 48 by month, the sum of the states
   [{ grid: "ercot", view: "mix", mix: "stress" }, ["mixview_stress"]],
@@ -652,6 +669,54 @@ await check("\"Yesterday\" and the mix table: each carries its anchor, links MET
     const ids = rec[IDS] ?? [];
     const twice = [...new Set(ids.filter((x, i) => ids.indexOf(x) !== i))];
     if (twice.length) return `${grid}: drawn twice: ${twice.join(", ")}`;
+  }
+  return "";
+});
+
+// session 1420: the checks' reader finds a file whose link counts a held figure the file does not write "license needed"
+await check("scripts/grid-files.mjs: a file whose held figures are not written \"license needed\" is not whole (1420)", () => {
+  const of = { panel: "grid_test_isone", title: "t", page: "/grid?grid=isone", tables: ["iso_hub_prices_history"], filter: "iso:isone", window: "Hour: x" };
+  const rows = [["ISO-NE", { check: HELD, raw: 3 }], ["ERCOT", { check: "series|iso_rtm_hub_prices|ercot:HB_HUBAVG|spp_rtm|2026-10-20T00:00:00Z", raw: 41.5 }]];
+  const [f] = GF.gridFilesOf(renderToStaticMarkup(h(PF.PanelFile, { of, columns: ["Hub", "USD"], rows })));
+  if (GF.gridFileProblems(f, new Set(["41.5"])).length) return `whole, it is said: ${GF.gridFileProblems(f, new Set(["41.5"])).join("; ")}`;
+  const bad = GF.gridFileProblems({ ...f, csv: f.csv.replace(`ISO-NE,${LICENSE_NEEDED}`, "ISO-NE,") }, new Set(["41.5"]));
+  return bad.some((x) => x.includes("held figure")) ? "" : `a held figure left out passes: ${bad.join("; ") || "no problem"}`;
+});
+
+// session 1420 (chain 111): the older blocks' files (YourGrid's Right now, Batteries, What it costs, What is being built;
+// Reliability's three tables; the Now view's mix in that hour): each block's figures all in its files and back
+// (blockHolds), each file named for its block; a held grid's prices and queue draw no figure and offer no file; the
+// datacenters' figures, held whole, are written "license needed" in the Building file; Reliability's daily files write the
+// batteries' share and MW in two columns, and the days per year a blank where the page draws a dot
+await check("the older blocks' files (1420): every figure in its block's file and back, a held grid's prices and queue never in a file", async () => {
+  const want = { ercot: { grid_rightnow_ercot: ["grid_rightnow_ercot"], grid_batteries_ercot: ["grid_batteries_ercot"], grid_cost_ercot: ["grid_cost_ercot"], grid_nowmix_ercot: ["grid_nowmix_ercot"] },
+    caiso: { grid_rightnow_caiso: ["grid_rightnow_caiso"], grid_batteries_caiso: ["grid_batteries_caiso"], grid_building_caiso: ["grid_building_caiso"],
+      grid_reliability_caiso: ["grid_reliability_caiso_days_per_year", "grid_reliability_caiso_highest_peaks", "grid_reliability_caiso_latest_days"] },
+    isone: { grid_rightnow_isone: ["grid_rightnow_isone"], grid_batteries_isone: ["grid_batteries_isone"], grid_cost_isone: [], grid_building_isone: [], grid_nowmix_isone: [] } };
+  const csvOf = (f) => decodeURIComponent(f.href.slice("data:text/csv;charset=utf-8,".length));
+  for (const [grid, blocks] of Object.entries(want)) {
+    const rec = await draw({ grid, view: "mix" });
+    for (const [name, files] of Object.entries(blocks)) {
+      const b = rec[name];
+      if (!b) return `${grid}: no block ${name}`;
+      if (b.files.map((f) => f.id).join(",") !== files.join(",")) return `${name}: files ${b.files.map((f) => f.id).join(",") || "none"}, not ${files.join(",") || "none"}`;
+      if (files.length) { const why = blockHolds(b, name); if (why) return `${grid}: ${why}`; }
+      else if (b.nums.length) return `${name}: ${b.nums.length} figures and no file`;
+    }
+    if (grid === "isone") {
+      const all = Object.values(rec).flatMap((r) => r.files).map(csvOf).join("\n");
+      if (/price_board_latest\||iso_hub_prices_history\||gridq\|isone/.test(all) || /isone_queue:/.test(all)) return "a held table's figure of ISO-NE in a file";
+      // (the held lines' words, "license needed" and why, are held by test-grid-render.mjs's cases of the two blocks)
+    }
+    if (grid === "caiso") {
+      const bld = csvOf(rec.grid_building_caiso.files[0]);
+      if (!bld.includes("# Figure: Datacenter facilities mapped to CAISO: license needed") || !bld.includes("# Figure: Their MW, where a source states it: license needed")) return "the datacenters' figures are not written license needed";
+      const [days, tight] = rec.grid_reliability_caiso.files.map(csvOf);
+      if (/^\d{4},.*\./m.test(days.split("\n").filter((l) => !l.startsWith("#")).slice(1).join("\n"))) return "a dot in the days per year";
+      const head = tight.split("\n").find((l) => !l.startsWith("#"));
+      if (!head.includes("percent\",\"Batteries at the evening peak, MW\"")) return `the daily file's columns: ${head}`;
+      if (!rec.grid_reliability_caiso.nums.some((n) => n.includes("|battery_mw_evening_peak|"))) return "no battery MW drawn on the fixture";
+    }
   }
   return "";
 });

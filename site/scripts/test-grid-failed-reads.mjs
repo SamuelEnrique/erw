@@ -488,7 +488,8 @@ for (const kind of KINDS) {
     if (!all(ok).some((n) => n.check === "awe|rows|any")) return "the count is not drawn with every read answered";
     const got = await draw(CAISO_MIX, { table: "caiso_grid_emergencies", kind });
     if (all(got).some((n) => n.check.startsWith("awe|"))) return "a notice figure drawn";
-    const t = got.rec._page.text.replace(/ ?\[why:[^\]]*\] ?/g, " ").replace(/\s+/g, " ");
+    // session 1420: the section is a named panel (grid_reliability_caiso), its words that block's; the page's are read too
+    const t = [got.rec._page, got.rec.grid_reliability_caiso].filter(Boolean).map((b) => b.text).join(" ").replace(/ ?\[why:[^\]]*\] ?/g, " ").replace(/\s+/g, " ");
     if (/The table holds 0 notices/.test(t) || /the latest on no day/.test(t)) return "the failed read is said as an empty table";
     return /The table's notices could not be read/.test(t) ? "" : "the section does not say the notices could not be read";
   });

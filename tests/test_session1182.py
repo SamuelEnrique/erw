@@ -51,7 +51,9 @@ class TheNodeTest(unittest.TestCase):
         self.assertGreaterEqual(len(re.findall(r"^ok   ", r.stdout, re.M)), 53)
         for block in ("grid_network_ercot", "balance_ERCO", "grid_network_us48", "replay_ERCO", "replay_BPAT", "grid_gravity_ercot", "view_exchange",
                       "grid_clean24_ercot", "grid_mix_ercot", "grid_mix_caiso", "grid_scarcity_ercot", "grid_scarcity_caiso", "grid_caisoalert_caiso",
-                      "grid_ercotnotice_ercot", "mixview_stress"):
+                      "grid_ercotnotice_ercot", "mixview_stress",
+                      # session 1420: the older blocks' files
+                      "grid_rightnow_ercot", "grid_batteries_ercot", "grid_cost_ercot", "grid_nowmix_ercot", "grid_building_caiso", "grid_reliability_caiso"):
             self.assertIn(f": {block}\n", r.stdout)
         self.assertIn('a held grid\'s figure is written "license needed"', r.stdout)
 
@@ -70,7 +72,9 @@ class TheFile(unittest.TestCase):
     def test_every_panel_offers_its_table(self):
         for parts, n in ((("components", "grid", "NetworkFigures.tsx"), 4), (("components", "grid", "ReplayDay.tsx"), 1), (("components", "grid", "Emissions.tsx"), 3),  # session 1415: and the ranked table's and the monthly's
                          (("components", "grid", "MixFigures.tsx"), 2), (("components", "grid", "ScarcityPanel.tsx"), 1), (("components", "grid", "CaisoAlertState.tsx"), 1),
-                         (("components", "grid", "ErcotNoticeState.tsx"), 1), (("components", "grid", "ExchangeView.tsx"), 3)):
+                         (("components", "grid", "ErcotNoticeState.tsx"), 1), (("components", "grid", "ExchangeView.tsx"), 3),
+                         # session 1420: the older blocks' files (Right now, Batteries, What it costs, What is being built; Reliability's three tables; the mix in that hour)
+                         (("components", "grid", "YourGrid.tsx"), 4), (("components", "grid", "Reliability.tsx"), 3), (("components", "grid", "NowView.tsx"), 1)):
             s = src("site", *parts)
             self.assertIn('from "@/components/grid/PanelFile"', s, parts)
             self.assertEqual(s.count("<PanelFile "), n, parts)
