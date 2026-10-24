@@ -411,6 +411,7 @@ catalogue_hold:
   - noaa_ncei_billion_disasters
   - nrc_license_actions
   - owid_ember_electricity_annual
+  - cea_india_psp_annual
   - eia_shale_gas_reserves_annual
   - eia_gas_heat_content_monthly
   - eia_crude_quality_monthly
