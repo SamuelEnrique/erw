@@ -190,6 +190,7 @@ eia_padd_rail_barge_movements_monthly,EIA,the source registry
 eia_petroleum_exports_by_destination,EIA,the source registry
 eia_petroleum_snd_monthly,EIA,the source registry
 eia_petroleum_stocks_monthly,EIA,the source registry
+eia_petroleum_stocks_state_monthly,EIA,the source registry
 eia_petroleum_stocks_weekly,EIA,the source registry
 eia_petroleum_supply_weekly,EIA,the source registry
 eia_petroleum_trade_weekly,EIA,the source registry

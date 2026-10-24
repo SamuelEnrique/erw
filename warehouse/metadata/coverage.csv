@@ -190,6 +190,7 @@ eia_padd_rail_barge_movements_monthly,none,,689,P1M,1986-01-01T00:00:00Z,2026-07
 eia_petroleum_exports_by_destination,none,,1098,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,112478,eia:petroleum/move/expc,2026-10-23T05:35:40Z,pass,public,oil;products,no,source
 eia_petroleum_snd_monthly,none,,4455,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,523835,eia:petroleum/sum/snd,2026-10-22T02:33:32Z,pass,public,oil;products,no,source
 eia_petroleum_stocks_monthly,none,,63,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,18247,eia:petroleum/stoc/ts,2026-10-21T23:17:29Z,pass,public,oil;products,no,source
+eia_petroleum_stocks_state_monthly,none,,593,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,73997,eia:petroleum/stoc/st,2026-10-24T07:48:20Z,pass,public,products,no,source
 eia_petroleum_stocks_weekly,none,,8,P1W,1982-08-20T00:00:00Z,2026-10-16T00:00:00Z,16831,eia:petroleum/stoc/wstk,2026-10-23T14:37:50Z,pass,public,oil;products,no,source
 eia_petroleum_supply_weekly,none,,30,P1W,2010-01-01T00:00:00Z,2026-10-02T00:00:00Z,26118,eia:petroleum/move/wkly:supply;eia:petroleum/stoc/wstk:supply;eia:petroleum/sum/sndw,2026-10-10T14:58:19Z,pass,public,oil;products,no,source
 eia_petroleum_trade_weekly,none,,7,P1W,1990-01-05T00:00:00Z,2026-10-16T00:00:00Z,12593,eia:petroleum/move/wkly,2026-10-23T14:37:50Z,pass,public,oil;products,no,source
