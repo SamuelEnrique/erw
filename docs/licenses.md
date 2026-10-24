@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **464 tables.** The flag and the verdict agree on 373; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 46 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 352 public, 62 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **403 publishers in the record: 401 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 124 pages read, 277 that could not be read, 2 not asked (paused).**
+- **407 publishers in the record: 405 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 124 pages read, 281 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **14 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; RRC 1).
@@ -426,6 +426,10 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 401 | Statistics Sweden (SCB), statistikdatabasen.scb.se's robots file (session 2236) | https://statistikdatabasen.scb.se/robots.txt | 02:58:56 | 404 | 0 | answered HTTP 404: no robots file |
 | 402 | Statistics Sweden (SCB), www.scb.se's robots file (session 2236) | https://www.scb.se/robots.txt | 02:59:38 | 200 | 65 | read: no Disallow rule |
 | 403 | Statistics Sweden (SCB), its Open data API page, which states the license (session 2236) | https://www.scb.se/en/services/open-data-api/ | 02:59:48 | 200 | 19636 | read |
+| 404 | Statistics South Africa (Stats SA), www.statssa.gov.za's robots file (session 2266) | https://www.statssa.gov.za/robots.txt | 03:59:10 | 200 | 23 | read: allows all |
+| 405 | Statistics South Africa (Stats SA), its P4141 publication page (session 2266) | https://www.statssa.gov.za/?page_id=1854&PPN=P4141 | 03:59:23 | 200 | 212 | refused the reader: an Incapsula bot challenge, not the page |
+| 406 | United Nations Statistics Division (UNdata), data.un.org's robots.txt (session 2266) | https://data.un.org/robots.txt | 03:59:42 | 200 | 3769 | answered the site's HTML page: no robots file |
+| 407 | United Nations Statistics Division (UNdata), its energy statistics download handler (session 2266) | https://data.un.org/Handlers/DownloadHandler.ashx?DataFilter=cmID:EL;trID:01&DataMartId=EDATA&Format=csv | 03:59:53 | 404 | 3769 | answered HTTP 404: the old download address is gone |
 
 ## The publishers: the sentence and the verdict
 
