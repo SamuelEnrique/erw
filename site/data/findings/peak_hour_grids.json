@@ -67,7 +67,7 @@
       58.082191780821915,
       68.85245901639344,
       70.95890410958904,
-      69.96587030716724
+      69.83050847457626
      ],
      "share_midday_pct": [
       32.87671232876712,
@@ -77,7 +77,7 @@
       13.150684931506849,
       6.284153005464481,
       3.8356164383561646,
-      2.04778156996587
+      2.0338983050847457
      ],
      "median_peak_hour": [
       15.0,
@@ -91,14 +91,14 @@
      ]
     },
     "fleet": [
-     2592.2999999999997,
-     4865.6,
+     2592.3,
+     4865.599999999999,
      8836.6,
-     11361.7,
+     11361.700000000003,
      14914.5,
-     22201.4,
-     30017.699999999997,
-     32759.800000000003
+     22201.399999999998,
+     30017.7,
+     33779.7
     ],
     "days": [
      365,
@@ -108,7 +108,7 @@
      365,
      366,
      365,
-     293
+     295
     ],
     "single": {
      "kind": "lines",
@@ -209,32 +209,32 @@
        "type": "line",
        "unit": "percent of days",
        "values": [
-        3.0716723549488054,
-        1.3651877133105803,
-        1.023890784982935,
-        0.6825938566552902,
-        1.023890784982935,
-        1.7064846416382253,
-        1.7064846416382253,
-        3.4129692832764507,
-        2.3890784982935154,
-        1.023890784982935,
-        0.3412969283276451,
+        3.050847457627119,
+        1.3559322033898304,
+        1.0169491525423728,
+        0.6779661016949152,
+        1.0169491525423728,
+        1.694915254237288,
+        1.694915254237288,
+        3.728813559322034,
+        2.3728813559322033,
+        1.0169491525423728,
+        0.3389830508474576,
         0.0,
-        0.6825938566552902,
-        0.3412969283276451,
+        0.6779661016949152,
+        0.3389830508474576,
         0.0,
-        0.6825938566552902,
-        2.04778156996587,
-        4.436860068259386,
-        13.651877133105803,
-        18.088737201365188,
-        20.13651877133106,
-        13.651877133105803,
-        5.460750853242321,
-        3.0716723549488054
+        0.6779661016949152,
+        2.0338983050847457,
+        4.406779661016949,
+        13.898305084745763,
+        17.966101694915253,
+        20.0,
+        13.559322033898304,
+        5.423728813559322,
+        3.050847457627119
        ],
-       "days": 293
+       "days": 295
       }
      ],
      "y_left_label": "percent of the year's days",
@@ -298,7 +298,7 @@
       55.3072625698324,
       48.08743169398907,
       34.24657534246575,
-      33.44709897610921
+      33.220338983050844
      ],
      "share_midday_pct": [
       null,
@@ -308,7 +308,7 @@
       3.35195530726257,
       1.366120218579235,
       2.191780821917808,
-      2.04778156996587
+      2.0338983050847457
      ],
      "median_peak_hour": [
       null,
@@ -327,9 +327,9 @@
      null,
      null,
      19493.9,
-     22180.800000000003,
-     24009.1,
-     24874.300000000003
+     22180.8,
+     24022.200000000004,
+     25096.0
     ],
     "days": [
      null,
@@ -339,7 +339,7 @@
      179,
      366,
      365,
-     293
+     295
     ],
     "single": {
      "kind": "lines",
@@ -440,32 +440,32 @@
        "type": "line",
        "unit": "percent of days",
        "values": [
-        13.310580204778159,
-        3.4129692832764507,
-        1.3651877133105803,
-        1.3651877133105803,
-        2.04778156996587,
-        5.1194539249146755,
-        11.262798634812286,
-        6.484641638225256,
-        1.3651877133105803,
+        13.220338983050848,
+        3.728813559322034,
+        1.3559322033898304,
+        1.3559322033898304,
+        2.0338983050847457,
+        5.084745762711865,
+        11.186440677966102,
+        6.779661016949152,
+        1.3559322033898304,
         0.0,
         0.0,
         0.0,
-        0.3412969283276451,
+        0.3389830508474576,
         0.0,
-        0.6825938566552902,
-        1.023890784982935,
-        1.7064846416382253,
-        5.802047781569966,
-        8.19112627986348,
-        11.945392491467576,
-        3.754266211604096,
-        3.754266211604096,
-        7.508532423208192,
-        9.556313993174061
+        0.6779661016949152,
+        1.0169491525423728,
+        1.694915254237288,
+        5.762711864406779,
+        8.135593220338983,
+        11.864406779661017,
+        3.728813559322034,
+        3.728813559322034,
+        7.457627118644068,
+        9.491525423728813
        ],
-       "days": 293
+       "days": 295
       }
      ],
      "y_left_label": "percent of the year's days",
@@ -505,13 +505,13 @@
       },
       "after": {
        "period": "2025",
-       "text": "24,009 MW"
+       "text": "24,022 MW"
       },
       "unit": ""
      }
     ],
     "table": [],
-    "in_words": "CAISO: the share of days whose dearest hour fell between 17:00 and 21:59 fell from 48.1 percent in 2024 to 34.2 percent in 2025; the median peak hour went from 17 to 17, the most common peak hour from 6 to 6, with solar at 22,181 and then 24,009 MW (366 and 365 days).",
+    "in_words": "CAISO: the share of days whose dearest hour fell between 17:00 and 21:59 fell from 48.1 percent in 2024 to 34.2 percent in 2025; the median peak hour went from 17 to 17, the most common peak hour from 6 to 6, with solar at 22,181 and then 24,022 MW (366 and 365 days).",
     "caveat": "Caveat: a comparison of years: it does not separate solar from gas prices, load growth, weather or batteries."
    },
    {
@@ -555,12 +555,12 @@
     "fleet": [
      525.3,
      697.5999999999999,
-     1011.9999999999999,
+     1012.0,
      1278.6999999999998,
-     1591.5,
+     1591.4999999999998,
      2518.2,
-     2885.9,
-     2942.2
+     2893.3999999999996,
+     2963.7999999999997
     ],
     "days": [
      365,
@@ -736,13 +736,13 @@
       },
       "after": {
        "period": "2025",
-       "text": "2,886 MW"
+       "text": "2,893 MW"
       },
       "unit": ""
      }
     ],
     "table": [],
-    "in_words": "NYISO: the share of days whose dearest hour fell between 17:00 and 21:59 rose from 43.3 percent in 2019 to 62.5 percent in 2025; the median peak hour went from 16 to 17, the most common peak hour from 17 to 17, with solar at 525 and then 2,886 MW (365 and 365 days).",
+    "in_words": "NYISO: the share of days whose dearest hour fell between 17:00 and 21:59 rose from 43.3 percent in 2019 to 62.5 percent in 2025; the median peak hour went from 16 to 17, the most common peak hour from 17 to 17, with solar at 525 and then 2,893 MW (365 and 365 days).",
     "caveat": "Caveat: EIA-860M counts plants of 1 MW and more, and most of this grid's solar sits on rooftops, outside the count; hourly prices, where the other grids' hours are means of 15-minute prices; a comparison of years: it does not separate solar from gas prices, load growth, weather or batteries."
    },
    {
@@ -760,7 +760,7 @@
       null,
       43.58974358974359,
       54.98489425981873,
-      41.11111111111111
+      41.17647058823529
      ],
      "share_midday_pct": [
       null,
@@ -770,7 +770,7 @@
       null,
       11.965811965811966,
       12.990936555891238,
-      17.037037037037038
+      16.911764705882355
      ],
      "median_peak_hour": [
       null,
@@ -789,9 +789,9 @@
      null,
      null,
      null,
-     3434.6,
-     3723.7000000000003,
-     3745.0
+     3442.6,
+     3731.7,
+     3757.0
     ],
     "days": [
      null,
@@ -801,7 +801,7 @@
      null,
      117,
      331,
-     270
+     272
     ],
     "single": {
      "kind": "lines",
@@ -870,32 +870,32 @@
        "type": "line",
        "unit": "percent of days",
        "values": [
-        2.2222222222222223,
-        3.7037037037037033,
-        1.1111111111111112,
-        0.7407407407407408,
-        0.7407407407407408,
-        0.7407407407407408,
-        4.814814814814815,
-        10.74074074074074,
-        3.3333333333333335,
-        1.8518518518518516,
-        1.8518518518518516,
-        2.2222222222222223,
-        2.5925925925925926,
-        2.9629629629629632,
-        1.8518518518518516,
-        5.555555555555555,
-        8.148148148148149,
-        4.444444444444445,
-        10.37037037037037,
-        8.88888888888889,
-        13.703703703703704,
-        3.7037037037037033,
-        2.2222222222222223,
-        1.4814814814814816
+        2.2058823529411766,
+        3.6764705882352944,
+        1.1029411764705883,
+        0.7352941176470588,
+        0.7352941176470588,
+        0.7352941176470588,
+        4.779411764705882,
+        11.029411764705882,
+        3.308823529411765,
+        1.8382352941176472,
+        1.8382352941176472,
+        2.2058823529411766,
+        2.5735294117647056,
+        2.941176470588235,
+        1.8382352941176472,
+        5.514705882352941,
+        8.088235294117647,
+        4.779411764705882,
+        10.294117647058822,
+        8.823529411764707,
+        13.602941176470587,
+        3.6764705882352944,
+        2.2058823529411766,
+        1.4705882352941175
        ],
-       "days": 270
+       "days": 272
       }
      ],
      "y_left_label": "percent of the year's days",
@@ -923,7 +923,7 @@
       },
       "after": {
        "period": "2026 to date",
-       "text": "41.1%"
+       "text": "41.2%"
       },
       "unit": ""
      },
@@ -931,17 +931,17 @@
       "label": "ISO-NE solar fleet, year end",
       "before": {
        "period": "2025",
-       "text": "3,724 MW"
+       "text": "3,732 MW"
       },
       "after": {
        "period": "2026 to date",
-       "text": "3,745 MW"
+       "text": "3,757 MW"
       },
       "unit": ""
      }
     ],
     "table": [],
-    "in_words": "ISO-NE: the share of days whose dearest hour fell between 17:00 and 21:59 fell from 55.0 percent in 2025 to 41.1 percent in 2026 to date; the median peak hour went from 17 to 16, the most common peak hour from 18 to 20, with solar at 3,724 and then 3,745 MW (331 and 270 days).",
+    "in_words": "ISO-NE: the share of days whose dearest hour fell between 17:00 and 21:59 fell from 55.0 percent in 2025 to 41.2 percent in 2026 to date; the median peak hour went from 17 to 16, the most common peak hour from 18 to 20, with solar at 3,732 and then 3,757 MW (331 and 272 days).",
     "caveat": "Caveat: prices are held from 2024 only, so one full year is set against the year to date: seasons differ between the two; EIA-860M counts plants of 1 MW and more, and most of this grid's solar sits on rooftops, outside the count; a comparison of years: it does not separate solar from gas prices, load growth, weather or batteries."
    },
    {
@@ -959,7 +959,7 @@
       null,
       27.86885245901639,
       36.43835616438356,
-      40.069686411149824
+      40.27777777777778
      ],
      "share_midday_pct": [
       null,
@@ -969,7 +969,7 @@
       null,
       27.86885245901639,
       27.397260273972602,
-      22.99651567944251
+      22.916666666666664
      ],
      "median_peak_hour": [
       null,
@@ -989,8 +989,8 @@
      null,
      null,
      799.9,
-     1357.8999999999999,
-     2410.6000000000004
+     1357.9,
+     2710.6
     ],
     "days": [
      null,
@@ -1000,7 +1000,7 @@
      null,
      122,
      365,
-     287
+     288
     ],
     "single": {
      "kind": "lines",
@@ -1069,32 +1069,32 @@
        "type": "line",
        "unit": "percent of days",
        "values": [
-        2.4390243902439024,
-        1.3937282229965158,
-        1.7421602787456445,
-        0.6968641114982579,
-        0.34843205574912894,
-        1.7421602787456445,
-        3.1358885017421603,
-        4.529616724738676,
-        4.878048780487805,
-        3.8327526132404177,
-        4.878048780487805,
-        3.484320557491289,
-        4.181184668989547,
-        3.484320557491289,
-        3.8327526132404177,
-        3.1358885017421603,
-        8.013937282229964,
-        10.104529616724738,
-        11.498257839721255,
-        13.240418118466899,
-        1.7421602787456445,
-        3.484320557491289,
-        2.7874564459930316,
-        1.3937282229965158
+        2.430555555555556,
+        1.3888888888888888,
+        1.7361111111111112,
+        0.6944444444444444,
+        0.3472222222222222,
+        1.7361111111111112,
+        3.125,
+        4.513888888888888,
+        4.861111111111112,
+        3.8194444444444446,
+        4.861111111111112,
+        3.4722222222222223,
+        4.166666666666666,
+        3.4722222222222223,
+        3.8194444444444446,
+        3.125,
+        7.986111111111111,
+        10.416666666666668,
+        11.458333333333332,
+        13.194444444444445,
+        1.7361111111111112,
+        3.4722222222222223,
+        2.7777777777777777,
+        1.3888888888888888
        ],
-       "days": 287
+       "days": 288
       }
      ],
      "y_left_label": "percent of the year's days",
@@ -1122,7 +1122,7 @@
       },
       "after": {
        "period": "2026 to date",
-       "text": "40.1%"
+       "text": "40.3%"
       },
       "unit": ""
      },
@@ -1134,13 +1134,13 @@
       },
       "after": {
        "period": "2026 to date",
-       "text": "2,411 MW"
+       "text": "2,711 MW"
       },
       "unit": ""
      }
     ],
     "table": [],
-    "in_words": "SPP: the share of days whose dearest hour fell between 17:00 and 21:59 rose from 36.4 percent in 2025 to 40.1 percent in 2026 to date; the median peak hour went from 15 to 16, the most common peak hour from 17 to 19, with solar at 1,358 and then 2,411 MW (365 and 287 days).",
+    "in_words": "SPP: the share of days whose dearest hour fell between 17:00 and 21:59 rose from 36.4 percent in 2025 to 40.3 percent in 2026 to date; the median peak hour went from 15 to 16, the most common peak hour from 17 to 19, with solar at 1,358 and then 2,711 MW (365 and 288 days).",
     "caveat": "Caveat: prices are held from 2024 only, so one full year is set against the year to date: seasons differ between the two; a comparison of years: it does not separate solar from gas prices, load growth, weather or batteries."
    }
   ],
@@ -1192,13 +1192,13 @@
    },
    "after": {
     "period": "NYISO",
-    "text": "2,886 MW"
+    "text": "2,893 MW"
    },
    "unit": ""
   }
  ],
- "why": "A solar-heavy grid is cheap at midday and dear after sunset, so the day's highest price should walk into the evening as panels go up. In Texas it did: solar went from 2,592 MW at the end of 2019 to 30,018 MW at the end of 2025 (EIA-860M), the share of days peaking between 17:00 and 21:59 from 24.9 to 71.0 percent, and the median peak hour from 15 to 19. New York City's zone is the comparison with little utility solar behind it (525 MW in 2019, 2,886 MW in 2025, rooftops not counted): its evening share rose from 43.3 to 62.5 percent and its median peak hour went from 16 to 17. A grid with 10 percent of Texas's counted solar moved the same way; its rooftop solar is not in EIA-860M, so the card cannot say how much of that is panels. ISO-NE and SPP have prices in the warehouse from September 2024 only, one full year each, so their panels are short and compare 2025 with the year to date: evening share ISO-NE 55.0 percent in 2025 and 41.1 in 2026 to date, median hour 17 and 16; SPP 36.4 percent in 2025 and 40.1 in 2026 to date, median hour 15 and 16. California, with 24,009 MW of solar, peaks most often at hour 6: the hour's place depends on the hub and the season as well as on the panels. The card compares years; it does not separate solar from gas prices, load growth, weather or the batteries that now work the evening.",
- "footnote": "Data: real-time prices, ERCOT: HB_HUBAVG, the mean of the four 15-minute settlement point prices in the local hour, 2019-01-01 to 2026-10-21 (2,850 local days, America/Chicago); CAISO: TH_SP15_GEN-APND, the mean of the four 15-minute interval means in the local hour, 2023-07-06 to 2026-10-21 (1,203 local days, America/Los_Angeles); NYISO: N.Y.C., NYISO's own integrated hourly real-time price, 2019-01-01 to 2026-10-08 (2,819 local days, America/New_York); ISO-NE: .H.INTERNAL_HUB, the mean of the 15-minute interval means in the local hour, 2024-09-01 to 2026-10-21 (718 local days, America/New_York); SPP: SPPNORTH_HUB, the mean of the 15-minute interval means in the local hour, 2024-09-01 to 2026-10-20 (774 local days, America/Chicago). Tables: ercot_all_hub_prices_history and iso_rtm_hub_prices (ERCOT); iso_hub_prices_history and iso_rtm_hub_prices (CAISO, ISO-NE, SPP); iso_zone_prices_history (NYISO). A day's peak hour is the local clock hour with the highest mean of its intervals (the first hour on a tie); a day needs at least 20 held hours; local time is the grid's own and daylight saving is handled by the time zone conversion (a 23-hour spring day and a 25-hour autumn day are days like any other). Per grid and year: the percent of days peaking in each hour, the median peak hour, the percent peaking 17:00 to 21:59 (evening) and 10:00 to 15:59 (midday). A year is full with at least 300 held days; a grid with one full year is compared with the year to date and labeled so. Solar: nameplate MW of Solar Photovoltaic generators with the grid's balancing authority code (ERCO, CISO, NYIS, ISNE, SWPP) operating at the end of the year, from EIA-860M's inventory of August 2026 (eia860m_operating_generators by operating_year, plus eia860m_retired_generators_all by retirement year); plants under 1 MW (rooftops) are not in EIA-860M, and units retired before the retired list begins are not counted. A year a grid's prices do not cover is not held and not filled. MISO is paused while its terms are reviewed and PJM needs a licensed source: neither is requested, neither is data here.",
+ "why": "A solar-heavy grid is cheap at midday and dear after sunset, so the day's highest price should walk into the evening as panels go up. In Texas it did: solar went from 2,592 MW at the end of 2019 to 30,018 MW at the end of 2025 (EIA-860M), the share of days peaking between 17:00 and 21:59 from 24.9 to 71.0 percent, and the median peak hour from 15 to 19. New York City's zone is the comparison with little utility solar behind it (525 MW in 2019, 2,893 MW in 2025, rooftops not counted): its evening share rose from 43.3 to 62.5 percent and its median peak hour went from 16 to 17. A grid with 10 percent of Texas's counted solar moved the same way; its rooftop solar is not in EIA-860M, so the card cannot say how much of that is panels. ISO-NE and SPP have prices in the warehouse from September 2024 only, one full year each, so their panels are short and compare 2025 with the year to date: evening share ISO-NE 55.0 percent in 2025 and 41.2 in 2026 to date, median hour 17 and 16; SPP 36.4 percent in 2025 and 40.3 in 2026 to date, median hour 15 and 16. California, with 24,022 MW of solar, peaks most often at hour 6: the hour's place depends on the hub and the season as well as on the panels. The card compares years; it does not separate solar from gas prices, load growth, weather or the batteries that now work the evening.",
+ "footnote": "Data: real-time prices, ERCOT: HB_HUBAVG, the mean of the four 15-minute settlement point prices in the local hour, 2019-01-01 to 2026-10-23 (2,852 local days, America/Chicago); CAISO: TH_SP15_GEN-APND, the mean of the four 15-minute interval means in the local hour, 2023-07-06 to 2026-10-23 (1,205 local days, America/Los_Angeles); NYISO: N.Y.C., NYISO's own integrated hourly real-time price, 2019-01-01 to 2026-10-08 (2,819 local days, America/New_York); ISO-NE: .H.INTERNAL_HUB, the mean of the 15-minute interval means in the local hour, 2024-09-01 to 2026-10-23 (720 local days, America/New_York); SPP: SPPNORTH_HUB, the mean of the 15-minute interval means in the local hour, 2024-09-01 to 2026-10-23 (775 local days, America/Chicago). Tables: ercot_all_hub_prices_history and iso_rtm_hub_prices (ERCOT); iso_hub_prices_history and iso_rtm_hub_prices (CAISO, ISO-NE, SPP); iso_zone_prices_history (NYISO). A day's peak hour is the local clock hour with the highest mean of its intervals (the first hour on a tie); a day needs at least 20 held hours; local time is the grid's own and daylight saving is handled by the time zone conversion (a 23-hour spring day and a 25-hour autumn day are days like any other). Per grid and year: the percent of days peaking in each hour, the median peak hour, the percent peaking 17:00 to 21:59 (evening) and 10:00 to 15:59 (midday). A year is full with at least 300 held days; a grid with one full year is compared with the year to date and labeled so. Solar: nameplate MW of Solar Photovoltaic generators with the grid's balancing authority code (ERCO, CISO, NYIS, ISNE, SWPP) operating at the end of the year, from EIA-860M's inventory of August 2026 (eia860m_operating_generators by operating_year, plus eia860m_retired_generators_all by retirement year); plants under 1 MW (rooftops) are not in EIA-860M, and units retired before the retired list begins are not counted. A year a grid's prices do not cover is not held and not filled. MISO is paused while its terms are reviewed and PJM needs a licensed source: neither is requested, neither is data here.",
  "numbers": {
   "first_year": 2019,
   "last_full_year": 2025,
@@ -1211,7 +1211,7 @@
   "ercot_first_evening_pct": 24.93150684931507,
   "ercot_first_midday_pct": 32.87671232876712,
   "ercot_first_days": 365,
-  "ercot_first_solar_mw": 2592.2999999999997,
+  "ercot_first_solar_mw": 2592.3,
   "ercot_first_modal_hour": 16,
   "ercot_first_modal_pct": 15.342465753424658,
   "ercot_last_year": 2025,
@@ -1219,23 +1219,23 @@
   "ercot_last_evening_pct": 70.95890410958904,
   "ercot_last_midday_pct": 3.8356164383561646,
   "ercot_last_days": 365,
-  "ercot_last_solar_mw": 30017.699999999997,
+  "ercot_last_solar_mw": 30017.7,
   "ercot_last_modal_hour": 19,
   "ercot_last_modal_pct": 22.19178082191781,
   "ercot_this_year": 2026,
   "ercot_this_median_hour": 19.0,
-  "ercot_this_evening_pct": 69.96587030716724,
-  "ercot_this_midday_pct": 2.04778156996587,
-  "ercot_this_days": 293,
-  "ercot_this_solar_mw": 32759.800000000003,
+  "ercot_this_evening_pct": 69.83050847457626,
+  "ercot_this_midday_pct": 2.0338983050847457,
+  "ercot_this_days": 295,
+  "ercot_this_solar_mw": 33779.7,
   "ercot_this_modal_hour": 20,
-  "ercot_this_modal_pct": 20.13651877133106,
+  "ercot_this_modal_pct": 20.0,
   "ercot_full0_year": 2019,
   "ercot_full0_median_hour": 15.0,
   "ercot_full0_evening_pct": 24.93150684931507,
   "ercot_full0_midday_pct": 32.87671232876712,
   "ercot_full0_days": 365,
-  "ercot_full0_solar_mw": 2592.2999999999997,
+  "ercot_full0_solar_mw": 2592.3,
   "ercot_full0_modal_hour": 16,
   "ercot_full0_modal_pct": 15.342465753424658,
   "ercot_full1_year": 2025,
@@ -1243,11 +1243,11 @@
   "ercot_full1_evening_pct": 70.95890410958904,
   "ercot_full1_midday_pct": 3.8356164383561646,
   "ercot_full1_days": 365,
-  "ercot_full1_solar_mw": 30017.699999999997,
+  "ercot_full1_solar_mw": 30017.7,
   "ercot_full1_modal_hour": 19,
   "ercot_full1_modal_pct": 22.19178082191781,
-  "ercot_solar_mw_first_year": 2592.2999999999997,
-  "ercot_solar_mw_last_full_year": 30017.699999999997,
+  "ercot_solar_mw_first_year": 2592.3,
+  "ercot_solar_mw_last_full_year": 30017.7,
   "caiso_first_held_year": 2023,
   "caiso_last_full_held_year": 2025,
   "caiso_full_years": 2,
@@ -1264,23 +1264,23 @@
   "caiso_last_evening_pct": 34.24657534246575,
   "caiso_last_midday_pct": 2.191780821917808,
   "caiso_last_days": 365,
-  "caiso_last_solar_mw": 24009.1,
+  "caiso_last_solar_mw": 24022.200000000004,
   "caiso_last_modal_hour": 6,
   "caiso_last_modal_pct": 14.794520547945206,
   "caiso_this_year": 2026,
   "caiso_this_median_hour": 17.0,
-  "caiso_this_evening_pct": 33.44709897610921,
-  "caiso_this_midday_pct": 2.04778156996587,
-  "caiso_this_days": 293,
-  "caiso_this_solar_mw": 24874.300000000003,
+  "caiso_this_evening_pct": 33.220338983050844,
+  "caiso_this_midday_pct": 2.0338983050847457,
+  "caiso_this_days": 295,
+  "caiso_this_solar_mw": 25096.0,
   "caiso_this_modal_hour": 0,
-  "caiso_this_modal_pct": 13.310580204778159,
+  "caiso_this_modal_pct": 13.220338983050848,
   "caiso_full0_year": 2024,
   "caiso_full0_median_hour": 17.0,
   "caiso_full0_evening_pct": 48.08743169398907,
   "caiso_full0_midday_pct": 1.366120218579235,
   "caiso_full0_days": 366,
-  "caiso_full0_solar_mw": 22180.800000000003,
+  "caiso_full0_solar_mw": 22180.8,
   "caiso_full0_modal_hour": 6,
   "caiso_full0_modal_pct": 18.0327868852459,
   "caiso_full1_year": 2025,
@@ -1288,11 +1288,11 @@
   "caiso_full1_evening_pct": 34.24657534246575,
   "caiso_full1_midday_pct": 2.191780821917808,
   "caiso_full1_days": 365,
-  "caiso_full1_solar_mw": 24009.1,
+  "caiso_full1_solar_mw": 24022.200000000004,
   "caiso_full1_modal_hour": 6,
   "caiso_full1_modal_pct": 14.794520547945206,
   "caiso_solar_mw_first_year": 11679.7,
-  "caiso_solar_mw_last_full_year": 24009.1,
+  "caiso_solar_mw_last_full_year": 24022.200000000004,
   "nyiso_first_held_year": 2019,
   "nyiso_last_full_held_year": 2025,
   "nyiso_full_years": 7,
@@ -1309,7 +1309,7 @@
   "nyiso_last_evening_pct": 62.465753424657535,
   "nyiso_last_midday_pct": 9.863013698630137,
   "nyiso_last_days": 365,
-  "nyiso_last_solar_mw": 2885.9,
+  "nyiso_last_solar_mw": 2893.3999999999996,
   "nyiso_last_modal_hour": 17,
   "nyiso_last_modal_pct": 16.43835616438356,
   "nyiso_this_year": 2026,
@@ -1317,7 +1317,7 @@
   "nyiso_this_evening_pct": 56.48854961832062,
   "nyiso_this_midday_pct": 12.213740458015266,
   "nyiso_this_days": 262,
-  "nyiso_this_solar_mw": 2942.2,
+  "nyiso_this_solar_mw": 2963.7999999999997,
   "nyiso_this_modal_hour": 19,
   "nyiso_this_modal_pct": 17.17557251908397,
   "nyiso_full0_year": 2019,
@@ -1333,11 +1333,11 @@
   "nyiso_full1_evening_pct": 62.465753424657535,
   "nyiso_full1_midday_pct": 9.863013698630137,
   "nyiso_full1_days": 365,
-  "nyiso_full1_solar_mw": 2885.9,
+  "nyiso_full1_solar_mw": 2893.3999999999996,
   "nyiso_full1_modal_hour": 17,
   "nyiso_full1_modal_pct": 16.43835616438356,
   "nyiso_solar_mw_first_year": 525.3,
-  "nyiso_solar_mw_last_full_year": 2885.9,
+  "nyiso_solar_mw_last_full_year": 2893.3999999999996,
   "isone_first_held_year": 2024,
   "isone_last_full_held_year": 2025,
   "isone_full_years": 1,
@@ -1346,7 +1346,7 @@
   "isone_first_evening_pct": 43.58974358974359,
   "isone_first_midday_pct": 11.965811965811966,
   "isone_first_days": 117,
-  "isone_first_solar_mw": 3434.6,
+  "isone_first_solar_mw": 3442.6,
   "isone_first_modal_hour": 17,
   "isone_first_modal_pct": 17.94871794871795,
   "isone_last_year": 2025,
@@ -1354,23 +1354,23 @@
   "isone_last_evening_pct": 54.98489425981873,
   "isone_last_midday_pct": 12.990936555891238,
   "isone_last_days": 331,
-  "isone_last_solar_mw": 3723.7000000000003,
+  "isone_last_solar_mw": 3731.7,
   "isone_last_modal_hour": 18,
   "isone_last_modal_pct": 16.012084592145015,
   "isone_this_year": 2026,
   "isone_this_median_hour": 16.0,
-  "isone_this_evening_pct": 41.11111111111111,
-  "isone_this_midday_pct": 17.037037037037038,
-  "isone_this_days": 270,
-  "isone_this_solar_mw": 3745.0,
+  "isone_this_evening_pct": 41.17647058823529,
+  "isone_this_midday_pct": 16.911764705882355,
+  "isone_this_days": 272,
+  "isone_this_solar_mw": 3757.0,
   "isone_this_modal_hour": 20,
-  "isone_this_modal_pct": 13.703703703703704,
+  "isone_this_modal_pct": 13.602941176470587,
   "isone_full0_year": 2025,
   "isone_full0_median_hour": 17.0,
   "isone_full0_evening_pct": 54.98489425981873,
   "isone_full0_midday_pct": 12.990936555891238,
   "isone_full0_days": 331,
-  "isone_full0_solar_mw": 3723.7000000000003,
+  "isone_full0_solar_mw": 3731.7,
   "isone_full0_modal_hour": 18,
   "isone_full0_modal_pct": 16.012084592145015,
   "isone_full1_year": 2025,
@@ -1378,11 +1378,11 @@
   "isone_full1_evening_pct": 54.98489425981873,
   "isone_full1_midday_pct": 12.990936555891238,
   "isone_full1_days": 331,
-  "isone_full1_solar_mw": 3723.7000000000003,
+  "isone_full1_solar_mw": 3731.7,
   "isone_full1_modal_hour": 18,
   "isone_full1_modal_pct": 16.012084592145015,
-  "isone_solar_mw_first_year": 1364.9,
-  "isone_solar_mw_last_full_year": 3723.7000000000003,
+  "isone_solar_mw_first_year": 1364.8999999999999,
+  "isone_solar_mw_last_full_year": 3731.7,
   "spp_first_held_year": 2024,
   "spp_last_full_held_year": 2025,
   "spp_full_years": 1,
@@ -1399,23 +1399,23 @@
   "spp_last_evening_pct": 36.43835616438356,
   "spp_last_midday_pct": 27.397260273972602,
   "spp_last_days": 365,
-  "spp_last_solar_mw": 1357.8999999999999,
+  "spp_last_solar_mw": 1357.9,
   "spp_last_modal_hour": 17,
   "spp_last_modal_pct": 11.232876712328768,
   "spp_this_year": 2026,
   "spp_this_median_hour": 16.0,
-  "spp_this_evening_pct": 40.069686411149824,
-  "spp_this_midday_pct": 22.99651567944251,
-  "spp_this_days": 287,
-  "spp_this_solar_mw": 2410.6000000000004,
+  "spp_this_evening_pct": 40.27777777777778,
+  "spp_this_midday_pct": 22.916666666666664,
+  "spp_this_days": 288,
+  "spp_this_solar_mw": 2710.6,
   "spp_this_modal_hour": 19,
-  "spp_this_modal_pct": 13.240418118466899,
+  "spp_this_modal_pct": 13.194444444444445,
   "spp_full0_year": 2025,
   "spp_full0_median_hour": 15.0,
   "spp_full0_evening_pct": 36.43835616438356,
   "spp_full0_midday_pct": 27.397260273972602,
   "spp_full0_days": 365,
-  "spp_full0_solar_mw": 1357.8999999999999,
+  "spp_full0_solar_mw": 1357.9,
   "spp_full0_modal_hour": 17,
   "spp_full0_modal_pct": 11.232876712328768,
   "spp_full1_year": 2025,
@@ -1423,11 +1423,11 @@
   "spp_full1_evening_pct": 36.43835616438356,
   "spp_full1_midday_pct": 27.397260273972602,
   "spp_full1_days": 365,
-  "spp_full1_solar_mw": 1357.8999999999999,
+  "spp_full1_solar_mw": 1357.9,
   "spp_full1_modal_hour": 17,
   "spp_full1_modal_pct": 11.232876712328768,
   "spp_solar_mw_first_year": 365.2,
-  "spp_solar_mw_last_full_year": 1357.8999999999999,
+  "spp_solar_mw_last_full_year": 1357.9,
   "grids_with_two_full_years": [
    "ercot",
    "caiso",
@@ -1460,19 +1460,19 @@
    "caveat": "Caveat: a comparison of years: it does not separate solar from gas prices, load growth, weather or batteries."
   },
   "caiso": {
-   "in_words": "CAISO: the share of days whose dearest hour fell between 17:00 and 21:59 fell from 48.1 percent in 2024 to 34.2 percent in 2025; the median peak hour went from 17 to 17, the most common peak hour from 6 to 6, with solar at 22,181 and then 24,009 MW (366 and 365 days).",
+   "in_words": "CAISO: the share of days whose dearest hour fell between 17:00 and 21:59 fell from 48.1 percent in 2024 to 34.2 percent in 2025; the median peak hour went from 17 to 17, the most common peak hour from 6 to 6, with solar at 22,181 and then 24,022 MW (366 and 365 days).",
    "caveat": "Caveat: a comparison of years: it does not separate solar from gas prices, load growth, weather or batteries."
   },
   "nyiso": {
-   "in_words": "NYISO: the share of days whose dearest hour fell between 17:00 and 21:59 rose from 43.3 percent in 2019 to 62.5 percent in 2025; the median peak hour went from 16 to 17, the most common peak hour from 17 to 17, with solar at 525 and then 2,886 MW (365 and 365 days).",
+   "in_words": "NYISO: the share of days whose dearest hour fell between 17:00 and 21:59 rose from 43.3 percent in 2019 to 62.5 percent in 2025; the median peak hour went from 16 to 17, the most common peak hour from 17 to 17, with solar at 525 and then 2,893 MW (365 and 365 days).",
    "caveat": "Caveat: EIA-860M counts plants of 1 MW and more, and most of this grid's solar sits on rooftops, outside the count; hourly prices, where the other grids' hours are means of 15-minute prices; a comparison of years: it does not separate solar from gas prices, load growth, weather or batteries."
   },
   "isone": {
-   "in_words": "ISO-NE: the share of days whose dearest hour fell between 17:00 and 21:59 fell from 55.0 percent in 2025 to 41.1 percent in 2026 to date; the median peak hour went from 17 to 16, the most common peak hour from 18 to 20, with solar at 3,724 and then 3,745 MW (331 and 270 days).",
+   "in_words": "ISO-NE: the share of days whose dearest hour fell between 17:00 and 21:59 fell from 55.0 percent in 2025 to 41.2 percent in 2026 to date; the median peak hour went from 17 to 16, the most common peak hour from 18 to 20, with solar at 3,732 and then 3,757 MW (331 and 272 days).",
    "caveat": "Caveat: prices are held from 2024 only, so one full year is set against the year to date: seasons differ between the two; EIA-860M counts plants of 1 MW and more, and most of this grid's solar sits on rooftops, outside the count; a comparison of years: it does not separate solar from gas prices, load growth, weather or batteries."
   },
   "spp": {
-   "in_words": "SPP: the share of days whose dearest hour fell between 17:00 and 21:59 rose from 36.4 percent in 2025 to 40.1 percent in 2026 to date; the median peak hour went from 15 to 16, the most common peak hour from 17 to 19, with solar at 1,358 and then 2,411 MW (365 and 287 days).",
+   "in_words": "SPP: the share of days whose dearest hour fell between 17:00 and 21:59 rose from 36.4 percent in 2025 to 40.3 percent in 2026 to date; the median peak hour went from 15 to 16, the most common peak hour from 17 to 19, with solar at 1,358 and then 2,711 MW (365 and 288 days).",
    "caveat": "Caveat: prices are held from 2024 only, so one full year is set against the year to date: seasons differ between the two; a comparison of years: it does not separate solar from gas prices, load growth, weather or batteries."
   }
  },
@@ -1485,11 +1485,11 @@
   "eia860m_operating_generators",
   "eia860m_retired_generators_all"
  ],
- "computed_at": "2026-10-22T17:54:52Z",
+ "computed_at": "2026-10-24T18:06:25Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding peak_hour_grids, THE PEAK HOUR MOVED: FIVE GRIDS",
-  "Computed 2026-10-22T17:54:52Z by warehouse/analysis/findings/peak_hour_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-24T18:06:25Z by warehouse/analysis/findings/peak_hour_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per grid, local year and hour of the day: the percent of the year's days whose highest hourly real-time price fell in that hour; the year's days, median peak hour, percent of days peaking 17:00 to 21:59 and 10:00 to 15:59 (repeated on each hour row); solar MW at year end",
   "A blank is a year the warehouse does not hold for that grid; MISO and PJM are not in the file (paused, and licensed). Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history, iso_zone_prices_history, eia860m_operating_generators, eia860m_retired_generators_all"
  ],
@@ -1500,15 +1500,15 @@
   "spans": {
    "ercot": {
     "first_day": "2019-01-01",
-    "last_day": "2026-10-21",
-    "n_days": 2850,
+    "last_day": "2026-10-23",
+    "n_days": 2852,
     "how": "HB_HUBAVG, the mean of the four 15-minute settlement point prices in the local hour",
     "tz": "America/Chicago"
    },
    "caiso": {
     "first_day": "2023-07-06",
-    "last_day": "2026-10-21",
-    "n_days": 1203,
+    "last_day": "2026-10-23",
+    "n_days": 1205,
     "how": "TH_SP15_GEN-APND, the mean of the four 15-minute interval means in the local hour",
     "tz": "America/Los_Angeles"
    },
@@ -1521,15 +1521,15 @@
    },
    "isone": {
     "first_day": "2024-09-01",
-    "last_day": "2026-10-21",
-    "n_days": 718,
+    "last_day": "2026-10-23",
+    "n_days": 720,
     "how": ".H.INTERNAL_HUB, the mean of the 15-minute interval means in the local hour",
     "tz": "America/New_York"
    },
    "spp": {
     "first_day": "2024-09-01",
-    "last_day": "2026-10-20",
-    "n_days": 774,
+    "last_day": "2026-10-23",
+    "n_days": 775,
     "how": "SPPNORTH_HUB, the mean of the 15-minute interval means in the local hour",
     "tz": "America/Chicago"
    }
@@ -1541,13 +1541,13 @@
   "python": "peak_hour_grids.py",
   "stata": "peak_hour_grids.do"
  },
- "csv_sha256": "029a663b850ea801b1962c59f1b70d56105fb62cedf1b597e09dde335cf68d79",
+ "csv_sha256": "cd47512f233b538530da1bd4df80810214e29ddaf538638b7727b5ddd68b6190",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-22",
+   "name": "the findings library's cards as computed by 2026-10-24",
    "claims_tested": 26,
-   "claims_passing": 15,
+   "claims_passing": 14,
    "alpha": 0.05,
    "method": "Benjamini-Hochberg over the round's distinct p-values",
    "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",

@@ -112,5 +112,19 @@
   "Energy Research Warehouse (ERW): finding siting_battery_swing, WHERE A BATTERY'S DAY SWINGS MOST",
   "Computed by site/scripts/siting-card.mjs from site/data/siting/nodes.json (node_basis_daily, dam_spread_4h); method docs/methods/siting.md",
   "Rows: one per ERCOT storage node holding at least 90 percent of the days, its mean day-ahead intraday swing and its 10th and 90th percentile, USD per MWh, and its days"
- ]
+ ],
+ "statistics": {
+  "session": 361,
+  "round": {
+   "name": "the findings library's cards as computed by 2026-10-24",
+   "claims_tested": 26,
+   "claims_passing": 14,
+   "alpha": 0.05,
+   "method": "Benjamini-Hochberg over the round's distinct p-values",
+   "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
+   "claims_of_this_card": 0,
+   "q_bh": {},
+   "this_card": "no claim of this card is a test with a p-value: it states figures, and the round's count is the library's"
+  }
+ }
 }

@@ -21,11 +21,11 @@
   "ercot_hub_prices_daily",
   "iso_zone_prices_history"
  ],
- "computed_at": "2026-10-22T17:54:58Z",
+ "computed_at": "2026-10-24T18:06:31Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): analysis impact_study: IMPACT OF AN EVENT ON A SERIES",
-  "Computed 2026-10-22T17:54:58Z by warehouse/analysis/findings/impact_study.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-24T18:06:31Z by warehouse/analysis/findings/impact_study.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per day from 3 windows before the date to the window's last day: t (days from the date); period (lead or before or after); after; in_window; series_value; control_value; diff (series minus control)",
   "Series: ERCOT North Hub real-time price (ercot_hub_prices_daily); control: NYISO New York City real-time price (iso_zone_prices_history); date 2021-02-07; window 14 days"
  ],
@@ -955,10 +955,10 @@
   "refusal": "",
   "min_obs": 5,
   "series_first": "2015-01-01",
-  "series_last": "2026-10-21",
+  "series_last": "2026-10-23",
   "control_first": "2019-01-02",
   "control_last": "2026-10-08",
-  "series_days_held": 4311,
+  "series_days_held": 4313,
   "control_days_held": 2818
  },
  "downloads": {
@@ -966,21 +966,21 @@
   "python": "impact_study.py",
   "stata": "impact_study.do"
  },
- "csv_sha256": "71d0b1829fffd637b0e2defbedd0a2ca4fc3324fc0a44d713edb09c432aaa4ff",
+ "csv_sha256": "2e8de4e25971cb70541e62f617663dfffcdac4d8cf213507d4e2c642ed9c65a3",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-22",
+   "name": "the findings library's cards as computed by 2026-10-24",
    "claims_tested": 26,
-   "claims_passing": 15,
+   "claims_passing": 14,
    "alpha": 0.05,
    "method": "Benjamini-Hochberg over the round's distinct p-values",
    "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
    "claims_of_this_card": 3,
    "q_bh": {
     "reg_const_p": 0.0272746794080286,
-    "reg_did_p": 0.10773425423195833,
-    "pre_slope_p": 0.24518125346020575
+    "reg_did_p": 0.10174901788573842,
+    "pre_slope_p": 0.23625678719228116
    }
   }
  }
