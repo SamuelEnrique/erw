@@ -158,6 +158,7 @@ eia_gas_production_state_monthly,EIA,the source registry
 eia_gas_reserves_annual,EIA,the source registry
 eia_gas_storage_capacity_monthly,EIA,the source registry
 eia_gas_storage_state_monthly,EIA,the source registry
+eia_gas_storage_type_monthly,EIA,the source registry
 eia_gas_storage_weekly,EIA,the source registry
 eia_gas_trade_country_monthly,EIA,the source registry
 eia_gas_trade_monthly,EIA,the source registry

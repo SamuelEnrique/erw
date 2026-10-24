@@ -287,6 +287,7 @@ SECTOR_RULES = [
     (r"^eia_crude_quality_monthly$", "oil"),  # session 2244: EIA's crude oil input qualities (API gravity, sulfur), a month
     (r"^ons_brazil_balance_hourly$", "power"),  # session 2240: ONS's open data, Brazil's balance an hour by subsystem
     (r"^ree_spain_balance_monthly$", "power"),  # session 2239: REE's REData, Spain's electrical energy balance a month
+    (r"^eia_gas_storage_type_monthly$", "gas"),  # session 2283: EIA's underground gas storage by type (salt, non-salt), a month
     (r"^energy_charts_portugal_power$", "power"),  # session 2282: Energy-Charts, Portugal's production by type and load
     (r"^energy_charts_italy_power$", "power"),  # session 2281: Energy-Charts, Italy's production by type and load
     (r"^ren_portugal_balance_annual$", "power"),  # session 2280: REN's Data Hub, Portugal's electricity balance a year (internal)
