@@ -12,7 +12,8 @@ from two editions of the Economic and Social Indicators "Energy and Water Statis
     sheet TAB1, Table 1 (Main Energy and Water Indicators, 2018 to 2025 and 2017 to 2023): generation_total ("Total
         electricity generated", MWh), renewable_share ("Of which renewables", pct), electricity_sold (MWh)
     sheet "TAB7,8,9", Table 7 (capacities, peak power demand, the edition's two years): capacity_installed,
-        capacity_effective, peak_demand_mauritius, peak_demand_rodrigues (MW)
+        capacity_effective, peak_demand_mauritius, peak_demand_rodrigues (MW); its footnote 1: capacity "includes plant
+        capacity for electricity not exported to CEB"; neither edition defines effective capacity
     sheet "TAB7,8,9", Table 8 (generation by source of energy, the edition's two years): generation_hydro,
         generation_wind, generation_landfill_gas, generation_photovoltaic, generation_gas_turbine_kerosene,
         generation_fuel_oil_diesel, generation_coal, generation_bagasse (the 2025 edition's "Bagasse & Fuelwood", the
@@ -20,6 +21,12 @@ from two editions of the Economic and Social Indicators "Energy and Water Statis
 
     entity statsmu:MU; geo MU; node Mauritius (the Republic: the islands of Mauritius and Rodrigues); ts_utc the year's
     1 January; freq P1Y
+
+Generation is every producer's (Table 9: the CEB in Mauritius and Rodrigues and the independent power producers), and
+it includes what the independent producers generate for their own use, not exported to the CEB (203 to 245 GWh a year in
+2022 to 2025); Table 8's thermal rows include theirs, and coal is burned only in their plants. electricity_sold is the
+CEB's sales (Table 11's total by tariff), so generation less sales holds that own use as well as losses (session 2410's
+note).
 
 A year both editions give is taken from the later one (2025's); the header says how far the two differ. Checks, each
 stopping the run: Table 8's primary sources add to its primary energy, its secondary ones to its secondary energy, and the
@@ -239,7 +246,8 @@ def main(argv=None):
             f"Energy Research Warehouse (ERW): Statistics Mauritius, Energy and Water Statistics, electricity generation by source, capacity, peak demand and sales, {t.ts_utc.min()[:4]} to {t.ts_utc.max()[:4]} (session 2409)",
             "Shape: series (docs/datastandard.md v0). entity statsmu:MU (the Republic of Mauritius); ts_utc the year's 1 January; freq P1Y; geo MU. From Table 1: generation_total, renewable_share (pct), electricity_sold (MWh). "
             "From Table 7: capacity_installed, capacity_effective, peak_demand_mauritius, peak_demand_rodrigues (MW). From Table 8: generation_hydro, _wind, _landfill_gas, _photovoltaic, _gas_turbine_kerosene, _fuel_oil_diesel, _coal, "
-            "_bagasse (the 2025 edition's \"Bagasse & Fuelwood\"), generation_renewable (MWh, the tables' GWh times 1,000). Tables 7 and 8 give each edition's two years only (2022 to 2025); Table 1 gives 2017 to 2025.",
+            "_bagasse (the 2025 edition's \"Bagasse & Fuelwood\"), generation_renewable (MWh, the tables' GWh times 1,000). Tables 7 and 8 give each edition's two years only (2022 to 2025); Table 1 gives 2017 to 2025. "
+            "Generation is every producer's, the independent producers' own use included; electricity_sold is the CEB's sales, so generation less sales is not losses. Capacity includes plants not exporting to the CEB (Table 7's footnote); effective capacity is not defined.",
             f"{len(t)} rows, {t.variable.nunique()} variables. Table 8's sources add to its primary, secondary and total rows, Table 7's to its total, and both totals equal Table 1's generation, within 0.01 GWh. {diff_line}",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/statsmu_mauritius.py; the workbooks retrieved {', '.join(got)}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

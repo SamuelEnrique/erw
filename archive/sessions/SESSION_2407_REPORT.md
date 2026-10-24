@@ -22,9 +22,9 @@
 ## The cross-check (`runs/c114/s2407/cross.py`, `cross.out`; tables read past their header lines)
 
 - **The ERW's Ember table holds Panama's demand only,** not its generation (`owid_ember_electricity_annual`: `electricity_demand` and `electricity_emissions`), so the check is net production against Ember's demand, which is not a like-for-like pair:
-  - From 2000 to 2015, net production is 0.8 to 2.4 per cent below Ember's demand (2015: 9.939 against 10.180 TWh).
-  - From 2019 it is above: 8.8 per cent in 2019, 15.3 in 2020 and 13.4 in 2021 (13.234 against 11.670 TWh). Gross generation is 14.5 to 21.7 per cent above. The gap opens the year after the natural gas plant (Costa Norte) first appears in GE-8 (2018: 623.4 GWh). The ERW holds no Panama trade figure to tell whether exports explain it, and this report does not say they do.
-- **GE-14's net production is above GE-8's gross generation in 2000** (4.968 against 4.887 TWh). The two sheets are kept as published.
+  - From 2000 to 2018, net production is 0.8 to 2.6 per cent below Ember's demand (2015: 9.939 against 10.180 TWh). (This line first said "2000 to 2015" and "2.4"; corrected in session 2410.)
+  - From 2019 it is above: 8.8 per cent in 2019, 15.3 in 2020 and 13.4 in 2021 (13.234 against 11.670 TWh). Gross generation is 14.5 to 21.7 per cent above. The gap opens the year after the natural gas plant (Costa Norte) first appears in GE-8 (2018: 623.4 GWh). Net production already holds the net interchange (GE-13's footnotes: net generation plus purchases, negative from 2019), so exports do not explain the gap, which is not explained here (session 2410's note; this line first said the ERW held no trade figure to tell).
+- **GE-14's net production is above GE-8's gross generation in 14 years** (1984, 1987 to 1995, 1997 to 2000; 2000: 4.968 against 4.887 TWh), each a year of positive purchases, which net production includes (session 2410; this line first named 2000 only). The two sheets are kept as published.
 - **Load factor against net production over the peak and the year's hours:** the largest gap is 6.66 points (1973).
 
 ## Pulls against their ceilings

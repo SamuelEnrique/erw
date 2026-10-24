@@ -6,7 +6,8 @@
 
 - **One internal table:** `amm_guatemala_generation_monthly`, 1,739 rows, January 2017 to December 2025. It is written, validated, archived, in coverage (sector power), and held from the live set. It comes from the Administrador del Mercado Mayorista's yearly workbooks "Generacion Mensual por Planta (XLS)", one a year (reads 657 to 665 on this branch's numbering):
   - generation by fuel: geothermal, wind, solar, hydro, biogas, biomass, syngas (from 2021), natural gas (from 2019), coal, petroleum coke (from 2018), bunker and diesel;
-  - the total, imports, exports, regional transactions (`net_exports`, exports less imports), and the national interconnected system's demand (`demand_sni`);
+  - the total, imports, exports, international transactions (`net_exports`, TRANSACCIONES INTERNACIONALES (NETO), exports less imports; this line first said "regional"), and the national interconnected system's demand (`demand_sni`, generation plus imports less exports, its losses included);
+  - generation is the system's executed dispatch, distributed renewable generation included (session 2410's note);
   - in MWh (the workbooks' GWh times 1,000).
 - **Every check holds in every month:**
   - the fuels add to the fuel block's TOTAL, and that total equals GENERACION TOTAL;
@@ -23,7 +24,7 @@
 
 ## The cross-check (`runs/c114/s2408/cross.py`, `cross.out`; tables read past their header lines)
 
-- **AMM's demand against `owid_ember_electricity_annual`'s Guatemala demand.** AMM's is lower every year, by 4.2 per cent in 2019 and by 22.9 per cent in 2021 (11.952 against 15.500 TWh). Ember's series moves unevenly (15.50 TWh in 2021, 13.86 TWh in 2022), and AMM's rises steadily from 10.50 to 13.93 TWh between 2017 and 2024.
+- **AMM's demand against `owid_ember_electricity_annual`'s Guatemala demand.** AMM's is lower every year, by 4.2 per cent in 2019 and by 22.9 per cent in 2021 (11.952 against 15.500 TWh). Ember's series moves unevenly (15.50 TWh in 2021, 13.86 TWh in 2022), and AMM's rises from 10.50 to 13.93 TWh between 2017 and 2024, falling only in 2020 (11.155 to 11.028 TWh; this line first said "steadily", corrected in session 2410). AMM's demand is generation plus imports less exports, its losses included.
 - AMM's figure is the interconnected system's (the wholesale market's) demand. This report does not say what Ember's adds to it, and the gap is not explained here.
 - **Guatemala turns from net exporter to net importer:** generation is above the system's demand to 2020, about equal to it in 2021 (11.943 against 11.952 TWh), and below it from 2022 (2024: 13.117 against 13.932 TWh).
 
@@ -31,7 +32,7 @@
 
 | Host | Requests | What |
 |---|---|---|
-| www.amm.org.gt | 14 of 15 | robots (404), the home page, the operation results page, the monthly reports frame, the reports script, nine workbooks (2017 to 2025), about a second apart (no robots file, so no crawl delay is asked); the connector waits 2 s between them |
+| www.amm.org.gt | 14 of 15 | robots (404), the home page, the operation results page, the monthly reports frame, the reports script, nine workbooks (2017 to 2025): 2025's at 10:26:26Z, 20 seconds before 2017's, the other eight 0 to 2 seconds apart (no robots file, so no crawl delay is asked; corrected in session 2410); the connector waits 2 s between them |
 
 ## Errors
 

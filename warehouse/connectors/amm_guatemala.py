@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Guatemala's generation by fuel, imports, exports and the national interconnected system's demand, a month from 2017,
+"""Guatemala's generation by resource, imports, exports and the national interconnected system's demand, a month from 2017,
 from the Administrador del Mercado Mayorista's yearly workbooks of monthly generation by plant (session 2408, chain 114:
 Guatemala's generation).
 
@@ -10,14 +10,16 @@ por Planta (XLS)" (its script js/informes.js: .xls before 2021, .xlsx after):
     https://www.amm.org.gt/pdfs2/pub_gen_mensual_x_planta/GM<year>0101.xls[x]
 
 Each workbook's first sheet ("Energia", "Despacho de carga ejecutado del Sistema Nacional Interconectado", GWh) lists
-every plant's energy a month and ends with two blocks, which are what is taken:
-    the system rows: TRANSACCIONES (regional transactions, exports less imports), IMPORTACIONES, EXPORTACIONES,
-        GENERACION TOTAL, DEMANDA S.N.I.
-    "GENERACION POR TIPO DE COMBUSTIBLE": one row a fuel and TOTAL
+every plant's energy a month, the interconnected system's executed dispatch, distributed renewable generation (the
+plants marked GDR, about 3 to 4 per cent of the total) included, and ends with two blocks, which are what is taken:
+    the system rows: TRANSACCIONES INTERNACIONALES (NETO) (exports less imports), IMPORTACIONES ( - ), EXPORTACIONES
+        ( + ), GENERACION TOTAL S.N.I., DEMANDA S.N.I. (generation plus imports less exports: energy supplied to the
+        system, its losses included; the workbooks have no consumption or loss row)
+    "GENERACION POR TIPO DE RECURSO": one row a resource and TOTAL
 
     entity amm:GT; geo GT; node Guatemala; ts_utc the month's first day; freq P1M
     variable generation_<fuel> for geothermal, wind, solar, hydro, biogas, biomass, syngas, natural_gas, coal, petcoke,
-             bunker, diesel; generation_total; imports, exports, net_exports (TRANSACCIONES); demand_sni (MWh, the
+             bunker, diesel; generation_total; imports, exports, net_exports (TRANSACCIONES INTERNACIONALES); demand_sni (MWh, the
              workbook's GWh times 1,000)
 
 A fuel a year's workbook does not list has no row that year (syngas from 2021, natural gas from 2019, petroleum coke from
@@ -209,15 +211,16 @@ def main(argv=None):
         t = finish(rows)
         firsts = {v: g.ts_utc.min()[:4] for v, g in t.groupby("variable") if g.ts_utc.min()[:4] != str(YEARS[0])}
         header = [
-            f"Energy Research Warehouse (ERW): Administrador del Mercado Mayorista (AMM), Guatemala, generation by fuel, imports, exports and the national interconnected system's demand, a month, {t.ts_utc.min()[:7]} to {t.ts_utc.max()[:7]} (session 2408)",
+            f"Energy Research Warehouse (ERW): Administrador del Mercado Mayorista (AMM), Guatemala, the national interconnected system's executed dispatch: generation by resource, imports, exports and demand, a month, {t.ts_utc.min()[:7]} to {t.ts_utc.max()[:7]} (session 2408)",
             "Shape: series (docs/datastandard.md v0). entity amm:GT; variable generation_<fuel> (geothermal, wind, solar, hydro, biogas, biomass, syngas, natural_gas, coal, petcoke, bunker, diesel), generation_total, "
-            "imports, exports, net_exports (AMM's TRANSACCIONES, regional transactions: exports less imports), demand_sni (DEMANDA S.N.I.) (MWh, the workbooks' GWh times 1,000); ts_utc the month's first day; freq P1M; geo GT.",
+            "imports, exports, net_exports (AMM's TRANSACCIONES INTERNACIONALES (NETO): exports less imports), demand_sni (DEMANDA S.N.I.: generation plus imports less exports, so the system's losses are inside it) (MWh, the workbooks' GWh times 1,000); "
+            "ts_utc the month's first day; freq P1M; geo GT. Generation is the system's (S.N.I.) and includes distributed renewable generation (GDR).",
             f"{len(t)} rows, {t.variable.nunique()} variables. The fuels add to the total, which equals GENERACION TOTAL; exports less imports equal TRANSACCIONES; generation less TRANSACCIONES equals the demand; all within 0.01 GWh a month. "
             f"A fuel a year's workbook does not list, or a blank month, has no row (first year: {', '.join(f'{k} {v}' for k, v in sorted(firsts.items())) or 'all from the first'}); a zero is as published. The peak demand is not in these workbooks.",
-            f"Retrieved: {run_id} (UTC) by warehouse/connectors/amm_guatemala.py; the workbooks retrieved {got[0][1]} to {got[-1][1]}",
+            f"Retrieved: {run_id} (UTC) by warehouse/connectors/amm_guatemala.py; the workbooks retrieved {min(g[1] for g in got)} to {max(g[1] for g in got)}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
-            f"Source: {SOURCE} Administrador del Mercado Mayorista, Guatemala, Generacion Mensual por Planta (XLS), one workbook a year, sheet Energia, its system rows and its block GENERACION POR TIPO DE COMBUSTIBLE, listed at {PAGE} (Anuales)",
+            f"Source: {SOURCE} Administrador del Mercado Mayorista, Guatemala, Generacion Mensual por Planta (XLS), one workbook a year, sheet Energia, its system rows and its block GENERACION POR TIPO DE RECURSO, listed at {PAGE} (Anuales)",
             f"  access: {url_of(YEARS[0])} to {url_of(YEARS[-1])}",
             "License: internal. AMM's pages state no terms of reuse; internal until a ruling. Cite: Administrador del Mercado Mayorista, Generacion Mensual por Planta.",
         ]
