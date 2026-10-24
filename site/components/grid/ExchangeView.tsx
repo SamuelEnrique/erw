@@ -19,7 +19,8 @@ import { HEADLINE, MEASURES, TABLE as SUPPLY_TABLE, supplyOf } from "@/lib/basup
 import { shown } from "@/lib/format";
 import { GRID_CHOICES, gridHref, type GridChoice } from "@/lib/gridtool";
 import { directionWords, exchangeTies, type Fig } from "@/lib/gridKeys";  // session 1167
-import { fetchHourly, netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
+import { netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
+import { freshSnapshot } from "@/lib/gridReads";  // session 1180
 import { completeHour } from "@/lib/networkV3";
 import { attempt } from "@/lib/supabase";
 
@@ -36,7 +37,9 @@ function Age({ hour, built }: { hour: string; built: string }) {
 
 export async function ExchangeView({ grid }: { grid: GridChoice }) {
   // read on each request: the hourly refresh may revise an hour, and a number shown must be the object's own
-  const { snap } = pickSnapshot(await fetchHourly(0), committed);
+  // session 1180: fresh once a render (lib/gridReads.ts freshSnapshot), the same object the network component above
+  // draws on the Gravity tab
+  const { snap } = pickSnapshot(await freshSnapshot(), committed);
   const complete = completeHour(snap.hours, snap.links);
   const hour = complete.hour ?? snap.hours[snap.hours.length - 1];
   const nameOf = (id: string) => snap.nodes.find((n) => n.id === id)?.name ?? id;

@@ -6,6 +6,7 @@ import snapJson from "@/data/grid_network.json";
 import indexJson from "@/public/network/daily_index.json";
 import { TABLE as SUPPLY_TABLE, supplyOf, type Supply } from "@/lib/basupply";
 import { fetchHourly, pickSnapshot } from "@/lib/network";
+import { freshSnapshot } from "@/lib/gridReads";  // session 1180
 import { clampDay, completeHour, type DailyIndex } from "@/lib/networkV3";
 import type { Shape } from "@/lib/networkMap";
 import { HOURLY, attempt } from "@/lib/supabase";
@@ -53,7 +54,9 @@ export async function NetworkView({ keep, node, shape, grid, day }: { /** the pa
   /** session 299: the shape the page's tab is (the Gravity tab passes "gravity"); the address's, else the network, when absent */ shape?: Shape;
   /** session 1151: the grid in view, whose figures are drawn under the component; none given, none drawn */ grid?: GridChoice;
   /** session 1170: the replayed day the address names (net=day&t=<day>), else none */ day?: string | null }) {
-  const { snap, from } = pickSnapshot(await fetchHourly(HOURLY), committed);
+  // session 1180: on the Gravity tab the Exchange blocks under the component read the snapshot fresh (session 237); the
+  // render reads it once, fresh (lib/gridReads.ts freshSnapshot), and both draw that object. Every other tab: as before
+  const { snap, from } = shape === "gravity" ? pickSnapshot(await freshSnapshot(), committed) : pickSnapshot(await fetchHourly(HOURLY), committed);
   const isos = Object.entries(ISO_BA);
   const [reads, extras] = await Promise.all([Promise.all(isos.map(([, ba]) => attempt(() => supplyRows(ba)))), liveExtras(snap)]);
   const bad = reads.find((r) => !r.ok);

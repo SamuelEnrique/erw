@@ -26,6 +26,7 @@ import "server-only";
 import { cache } from "react";
 import { series, type SeriesRow } from "@/lib/data";
 import { HOURLY, rest } from "@/lib/supabase";
+import { fetchHourly } from "@/lib/network";  // session 1180
 
 /** Session 1179: the table read once a render. */
 export const GENERATION = "eia930_all_generation";
@@ -88,3 +89,36 @@ export async function latestHour(table: string, entity: string, variable: string
   if (!top.length) return [];
   return series(table, { entity, since: top[0].ts_utc });
 }
+
+// Session 1180 (chain 091, "the storage units and the snapshot, read once"):
+//
+// gridStorageUnits: the Mix and Clean tabs of an ISO grid drew the battery units of its footprint (components/grid/
+// YourGrid.tsx Batteries: sums of MW by status and of MWh) out of lib/data.ts storageUnits, the whole of
+// storage_capacity (1,627 units, two requests, seven columns), kept by lib/grid.ts load for the units whose ISO is the
+// grid's. Now the read asks PostgREST for the grid's units only (extra->>iso=eq.<ISO>, the filter the chat's tools use
+// on the same table) and for the three columns drawn: capacity_mw, status and the MWh. The rows come in the order of the
+// whole read (entity_id), so each sum adds the same numbers in the same order. storageUnits is unchanged for the pages
+// that draw the whole fleet (/storage, the home page, the battery game).
+//
+// freshSnapshot: the Gravity tab drew the network's hourly snapshot (lib/network.ts fetchHourly) twice a render, once
+// with a one-hour revalidation for the network component and its panel grid_gravity_<grid> (components/grid/
+// NetworkView.tsx) and once fresh for the Exchange blocks under it (components/grid/ExchangeView.tsx, session 237: a
+// number shown must be the object's own, which check-values reads fresh). The fresh read is kept, the reason for it
+// holds; it does not need a second, older read beside it. Now the render reads it fresh once (React's `cache`), and
+// both draw that one object; the Network tab keeps its hourly read, the Now tab its own fresh one.
+
+/** Session 1180: what the grid's own blocks draw of a battery unit of storage_capacity. */
+export type GridUnit = { capacity_mw: number | null; status: string | null; mwh: string | null };
+
+/** Session 1180: the query of a grid's battery units: its ISO's units only, the columns drawn, the whole read's order. */
+export function gridUnitsQuery(iso: string): Record<string, string> {
+  return { select: "capacity_mw,status,mwh:extra->>energy_capacity_mwh", table_name: "eq.storage_capacity", "extra->>iso": `eq.${iso}`, order: "entity_id" };
+}
+
+/** Session 1180: the battery units of storage_capacity whose ISO is `iso` (EIA-860M's balancing authority, mapped). */
+export async function gridStorageUnits(iso: string): Promise<GridUnit[]> {
+  return rest<GridUnit>("entities", gridUnitsQuery(iso), HOURLY, 20_000);
+}
+
+/** Session 1180: the network's hourly snapshot, read fresh (lib/network.ts fetchHourly(0)), once a render. */
+export const freshSnapshot = cache((): Promise<unknown> => fetchHourly(0));

@@ -4,9 +4,9 @@
 import "server-only";
 import { HOURLY, rest } from "@/lib/supabase";
 import { DOCS, type GridConfig } from "@/lib/markdown";
-import { daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
+import { daysAgo, series, type SeriesRow } from "@/lib/data";
 import { shownQueue } from "@/lib/gridHeld";  // session 1167
-import { generationSince, shareGeneration } from "@/lib/gridReads";  // session 1179
+import { generationSince, gridStorageUnits, shareGeneration, type GridUnit } from "@/lib/gridReads";  // session 1179; session 1180: the grid's units
 
 export const GRIDS: GridConfig[] = DOCS.grid_config;
 export const gridOf = (slug: string) => GRIDS.find((g) => g.slug === slug) ?? null;
@@ -94,7 +94,7 @@ export function newsMatch(g: GridConfig, r: { extra: Record<string, string> }): 
 }
 
 export type GridData = {
-  demand: SeriesRow[]; gen: SeriesRow[]; cycle: SeriesRow[]; units: StorageUnit[];
+  demand: SeriesRow[]; gen: SeriesRow[]; cycle: SeriesRow[]; units: GridUnit[];
   ci: SeriesRow[]; monthly: SeriesRow[]; prices: SeriesRow[]; peak: SeriesRow[];
   queue: QueueRow[]; dcs: Facility[];
   news: NewsRow[]; newsSince: string;
@@ -120,7 +120,7 @@ export async function load(g: GridConfig): Promise<GridData> {
     safe("demand", () => series("eia930_all_demand", { entity: g.entity, variable: "demand_mw", since: daysAgo(9) }), []),
     safe("gen", () => generationSince(g.entity, genSince), []), // covers the 30-day window whole: it ends with the latest complete day, which lags when the loads do (session 295: four days behind since 15 October 2026, and a 34-day read missed the window's first hours)
     safe("cycle", () => (g.storage_entity ? series("storage_daily_cycle", { entity: g.storage_entity, since: daysAgo(45) }) : Promise.resolve([])), []),
-    safe("units", storageUnits, []),
+    safe("units", () => gridStorageUnits(g.iso), []),  // session 1180: the grid's ISO's units and the columns drawn (lib/gridReads.ts), not the whole table
     safe("ci", () => series("carbon_intensity_hourly", { entity: g.entity, since: daysAgo(4) }), []),
     safe("monthly", () => series("carbon_intensity_monthly", { entity: g.entity, variable: "intensity_generation" }), []),
     safe("prices", () => (g.hub && g.prices_public ? series("price_board_latest", { entity: g.hub.entity }) : Promise.resolve([])), []),
@@ -130,7 +130,7 @@ export async function load(g: GridConfig): Promise<GridData> {
     safe("news", () => news(newsSince), []),
   ]);
   return {
-    demand, gen, cycle, units: units.filter((u) => u.iso === g.iso), ci, monthly, prices, peak, queue: q,
+    demand, gen, cycle, units, ci, monthly, prices, peak, queue: q,
     dcs: dcs.filter((d) => facilityInGrid(g, d)), news: n.filter((r) => newsMatch(g, r)), newsSince, errors,
   };
 }

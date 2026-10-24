@@ -7,7 +7,7 @@ import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { ShareBar } from "@/components/ShareBar";
 import { StackedArea } from "@/components/StackedArea";
-import type { SeriesRow, StorageUnit } from "@/lib/data";
+import type { SeriesRow } from "@/lib/data";
 import { count, shown } from "@/lib/format";
 import { FUELS, fuelName, fuelOf, type GridData } from "@/lib/grid";
 import { gridHref } from "@/lib/gridtool";
@@ -181,8 +181,8 @@ function Batteries({ g, d }: { g: GridConfig; d: GridData }) {
   const last = dis.at(-1);
   const at = (v: string) => (last ? d.cycle.find((r) => r.variable === v && r.ts_utc === last.ts_utc) : undefined);
   const by = (s: string[]) => d.units.filter((u) => s.includes(u.status ?? ""));
-  const mw = (us: StorageUnit[]) => Math.round(us.reduce((a, u) => a + (u.capacity_mw ?? 0), 0) * 10) / 10;
-  const mwh = (us: StorageUnit[]) => Math.round(us.filter((u) => u.mwh).reduce((a, u) => a + Number(u.mwh), 0) * 10) / 10;
+  const mw = (us: GridData["units"]) => Math.round(us.reduce((a, u) => a + (u.capacity_mw ?? 0), 0) * 10) / 10;
+  const mwh = (us: GridData["units"]) => Math.round(us.filter((u) => u.mwh).reduce((a, u) => a + Number(u.mwh), 0) * 10) / 10;
   const op = by(["operating"]);
   return (
     <>
