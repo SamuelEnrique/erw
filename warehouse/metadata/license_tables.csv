@@ -473,6 +473,7 @@ ren_portugal_balance_annual,REN (Redes Energeticas Nacionais),the source registr
 rggi_auction_allowance_prices,RGGI,the source registry
 rrc_lease_production_monthly,RRC,the source registry
 rte_eco2mix_france_halfhourly,RTE (Reseau de Transport d'Electricite),the source registry
+rura_rwanda_electricity_quarterly,Rwanda Utilities Regulatory Authority (RURA),the source registry
 scarcity_hours_by_grid,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_grid_emergencies, ercot_all_hub_prices_history, ercot_rtm_price_adders, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
 scb_sweden_electricity_monthly,Statistics Sweden (SCB),the source registry
 scripps_co2_mlo_monthly,"Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego)",the source registry

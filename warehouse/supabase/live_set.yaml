@@ -459,6 +459,7 @@ catalogue_hold:
   - eia_net_imports_monthly
   - eurostat_electricity_production_annual
   - statcan_generating_capacity_annual
+  - rura_rwanda_electricity_quarterly
   - eia_lng_storage_annual
   - eia_gas_plant_processing_annual
   - eia_crude_tank_farm_stocks_monthly
