@@ -7,6 +7,7 @@ ai_power_regions,Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO
 amm_guatemala_generation_monthly,"Administrador del Mercado Mayorista (AMM), Guatemala",the source registry
 aneel_siga_plants,Agencia Nacional de Energia Eletrica (ANEEL),the source registry
 api_cost_ledger,Anthropic,the source registry
+ask_kosovo_electricity_monthly,Kosovo Agency of Statistics (ASK),the source registry
 ba_supply_monthly,EIA,"the source registry and the tables its header derives it from: eia930_daily_interchange, eia930_daily_total_interchange"
 battery_sourced_ranges,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 battery_stack_monthly,CAISO; ERCOT,"the source registry and the tables its header derives it from: caiso_as_prices, ercot_all_hub_prices_history, ercot_as_prices, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
@@ -497,6 +498,7 @@ slu_cso_electricity_annual,Central Statistical Office of Saint Lucia (CSO); St. 
 smard_germany_monthly,Bundesnetzagentur (SMARD),the source registry
 sne_panama_electricity_annual,"Secretaria Nacional de Energia, Panama",the source registry
 sne_panama_generation_monthly,"Secretaria Nacional de Energia, Panama",the source registry
+sors_serbia_electricity_annual,Statistical Office of the Republic of Serbia (SORS),the source registry
 spp_as_prices,SPP,the source registry
 spp_as_quantities,SPP,the source registry
 spp_curtailment_daily,SPP,the source registry

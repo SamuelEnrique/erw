@@ -418,6 +418,7 @@
  "smard_germany_monthly": "Bundesnetzagentur (SMARD). SMARD market data: actual generation and grid load.",
  "sne_panama_electricity_annual": "Secretaria Nacional de Energia, Panama. Generacion Historica Electrica (Serie 1970-2021), cuadros GE-8 (gross generation by plant type), GE-10 (monthly gross generation) and GE-14 (net production, maximum demand, load factor).",
  "sne_panama_generation_monthly": "Secretaria Nacional de Energia, Panama. Generacion Historica Electrica (Serie 1970-2021), cuadros GE-8 (gross generation by plant type), GE-10 (monthly gross generation) and GE-14 (net production, maximum demand, load factor).",
+ "sors_serbia_electricity_annual": "Statistical Office of the Republic of Serbia (SORS). Energy Balances, 2024 (final data), table 1: Balance of Electricity in 2024.",
  "spp_as_prices": "Southwest Power Pool (SPP). Day-Ahead Market Clearing Prices (MCP) for operating reserve.",
  "spp_as_quantities": "Southwest Power Pool (SPP). Day-Ahead Market Clearing (operating reserve cleared, by hour).",
  "spp_curtailment_daily": "Southwest Power Pool (SPP). VER Curtailments (5-minute, by BAA).",

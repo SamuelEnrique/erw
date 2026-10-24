@@ -190,7 +190,8 @@ class TheFiles(unittest.TestCase):
         # at session 2447's merge (6 over main's bound of 762 once both chains' raises met as one, so it is raised by 40 here)
         # chain 121's sessions 2490 to 2497 add 46 from 810 (on its branch; chains 118 to 120 also begin at 810), so the bound is raised by 40
         # chain 122's sessions from 2504 add their reads from 867, so the bound is raised by 40 twice (sessions 2505 and 2516)
-        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 40 + 20 + 20 + 20 + 40 + 20 + 20 + 40 + 20 + 40 + 20 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40)
+        # chain 123's sessions from 2518 add their reads from 930, so the bound is raised by 40
+        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 40 + 20 + 20 + 20 + 40 + 20 + 20 + 40 + 20 + 40 + 20 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40)
         self.assertEqual(len({r["publisher"] for r in reads}), len(reads))          # one page a publisher
         miso = [r for r in reads if "MISO" in r["publisher"]]
         self.assertEqual(len(miso), 1)
