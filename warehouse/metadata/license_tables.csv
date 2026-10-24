@@ -468,6 +468,7 @@ storage_buildout_monthly,EIA,"the source registry and the tables its header deri
 storage_capacity,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators, eia860m_retired_generators"
 storage_daily_cycle,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_battery_storage, eia930_all_storage"
 storage_owners_monthly,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators"
+svk_sweden_production_hourly,Svenska kraftnat,the source registry
 texas_delivery_charges,"AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company",the source registry
 texas_transmission_matrix,Public Utility Commission of Texas,the source registry
 treasury_1603_awards,U.S. Department of the Treasury,the source registry

@@ -290,6 +290,7 @@ SECTOR_RULES = [
     (r"^kpx_korea_generation_annual$", "power"),  # session 2297: KPX's EPSIS, South Korea's generation by source a year
     (r"^kpx_korea_demand_monthly$", "power"),  # session 2297: KPX's EPSIS, South Korea's mean daily peak and base demand a month
     (r"^statnett_norway_daily$", "power"),  # session 2350: Statnett's operational data, Norway's production and consumption a day
+    (r"^svk_sweden_production_hourly$", "power"),  # session 2351: Svenska kraftnat's Mimer, Sweden's production an hour by type, 2020 to 18 March 2025
     (r"^eia_shale_gas_reserves_annual$", "gas"),  # session 2250: EIA's shale gas proved reserves and their changes, 2007 to 2021
     (r"^eia_gas_heat_content_monthly$", "gas"),  # session 2245: EIA's heat content of gas delivered to consumers by state, a month
     (r"^eia_crude_quality_monthly$", "oil"),  # session 2244: EIA's crude oil input qualities (API gravity, sulfur), a month
