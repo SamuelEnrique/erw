@@ -398,6 +398,7 @@ catalogue_hold:
   - nrcs_snotel_swe_daily
   - wb_electricity_access_annual
   - census_bps_state_annual
+  - afdc_ev_charging_state_annual
   - wb_iea_electricity_annual
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects

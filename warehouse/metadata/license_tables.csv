@@ -1,5 +1,6 @@
 table,publishers,how
 aeso_alberta_load_hourly,"Alberta Electric System Operator (AESO), Canada",the source registry
+afdc_ev_charging_state_annual,U.S. Department of Energy (DOE),the source registry
 afdc_vehicle_registrations_annual,U.S. Department of Energy (DOE),the source registry
 ai_power_regions,Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_grid_emergencies, caiso_interconnection_queue, carbon_intensity_daily, cost_of_power_monthly, eia930_all_demand, eia930_daily_interchange, ercot_all_hub_prices_history, ercot_interconnection_queue, event_study_estimates, iso_hub_prices_history, isone_interconnection_queue, lbnl_interconnection_queue, miso_interconnection_queue, nyiso_interconnection_queue, spp_interconnection_queue"
 api_cost_ledger,Anthropic,the source registry

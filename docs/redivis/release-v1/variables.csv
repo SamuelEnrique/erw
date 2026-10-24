@@ -1,5 +1,10 @@
 table,name,kind,unit
 aeso_alberta_load_hourly,ail_demand,series variable,MW
+afdc_ev_charging_state_annual,ev_dcfast_ports,series variable,count
+afdc_ev_charging_state_annual,ev_level1_ports,series variable,count
+afdc_ev_charging_state_annual,ev_level2_ports,series variable,count
+afdc_ev_charging_state_annual,ev_ports,series variable,count
+afdc_ev_charging_state_annual,ev_stations,series variable,count
 afdc_vehicle_registrations_annual,registrations_biodiesel,series variable,count
 afdc_vehicle_registrations_annual,registrations_cng,series variable,count
 afdc_vehicle_registrations_annual,registrations_diesel,series variable,count

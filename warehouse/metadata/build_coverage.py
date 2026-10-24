@@ -269,6 +269,7 @@ SECTOR_RULES = [
     (r"^nrcs_snotel_swe_daily$", "power"),  # session 2149: NRCS SNOTEL's daily snow water equivalent above the West's reservoirs
     (r"^wb_electricity_access_annual$", "power"),  # session 2150: the World Bank's access to electricity by country
     (r"^census_bps_state_annual$", "power"),  # session 2154: the Census Bureau's building permits by state, a year
+    (r"^afdc_ev_charging_state_annual$", "power"),  # session 2155: AFDC's EV charging stations and ports by state, each December
     (r"^wb_iea_electricity_annual$", "power"),  # session 2150: the IEA's electricity per person and renewable share, via the World Bank
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
