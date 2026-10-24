@@ -77,6 +77,7 @@ doe_oe417_events,U.S. Department of Energy (DOE),the source registry
 doe_useer_employment,U.S. Department of Energy (DOE),the source registry
 dosm_malaysia_electricity_monthly,Department of Statistics Malaysia (DOSM),the source registry
 econtrol_austria_electricity_monthly,E-Control (Energie-Control Austria),the source registry
+eehc_egypt_electricity_annual,Egyptian Electricity Holding Company (EEHC),the source registry
 egrid_power_plants,EPA,the source registry
 egrid_subregions_annual,EPA,the source registry
 eia411_capacity_margins_annual,EIA,the source registry
@@ -263,6 +264,7 @@ epa_needs_units,EPA,the source registry
 epa_rfs_fuel_annual,EPA,the source registry
 epa_rfs_rins_monthly,EPA,the source registry
 epa_tri_energy_releases_annual,EPA,the source registry
+epe_brazil_consumption_monthly,Empresa de Pesquisa Energetica (EPE),the source registry
 epra_kenya_electricity_annual,"Energy and Petroleum Regulatory Authority, Kenya (EPRA)",the source registry
 erb_zambia_electricity_annual,"Energy Regulation Board, Zambia (ERB)",the source registry
 erc_mongolia_electricity_annual,Energy Regulatory Commission of Mongolia (ERC),the source registry
@@ -501,8 +503,10 @@ statcan_electricity_generation_monthly,Statistics Canada,the source registry
 statcan_electricity_trade_monthly,Statistics Canada,the source registry
 statcan_energy_balance_annual,Statistics Canada,the source registry
 statcan_generating_capacity_annual,Statistics Canada,the source registry
+statcan_generation_class_annual,Statistics Canada,the source registry
 statcan_oil_gas_supply_monthly,Statistics Canada,the source registry
 statcan_petroleum_products_monthly,Statistics Canada,the source registry
+statcan_power_disposition_annual,Statistics Canada,the source registry
 state_generation_mix_monthly,EIA,the source registry and the tables its header derives it from: eia_state_generation_monthly
 statee_estonia_electricity_monthly,Statistics Estonia,the source registry
 statfi_finland_electricity_monthly,Statistics Finland,the source registry

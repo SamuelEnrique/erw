@@ -5,6 +5,8 @@
 Energy Research Warehouse (ERW), session 122 (5 October 2026). Tables: `clean_energy_hourly`,
 `clean_energy_summary`. Code: `warehouse/derived/mix_clean.py`. Page: `/mix/clean` (in review).
 
+Tables: `clean_energy_hourly`, `clean_energy_summary`
+
 ## What the figures are, and are not
 
 1. **Generation inside the grid, not imports.** Each figure is what the grid's own plants put out, hour by hour. It is
@@ -95,6 +97,8 @@ by the buyer. Prices at a load's own node or zone. PJM's and MISO's cost.
 
 - `clean_energy_hourly`: 463,459 held hours of the seven grids, January 2019 to 4 October 2026.
   `clean_energy_summary`: 27,012 rows.
+- As written by run `20261019T172723Z` (read by session 2438): `clean_energy_hourly` 473,781 rows,
+  `clean_energy_summary` 27,531.
 - Left out beyond the mix's own tests: 7 hours by session 118's rule on net generation (California 6, New England
   1); 3,171 because nuclear is under "other" (New York 3,147, California 24).
 - Carbon-free share of generation in 2025: California 54.7 percent (EIA's series; 11 months), Texas 45.8, SPP 45.6,
