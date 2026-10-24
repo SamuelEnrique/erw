@@ -419,6 +419,7 @@ catalogue_hold:
   - eia_seds_residential_annual
   - noaa_uscrn_solar_monthly
   - treasury_1603_awards
+  - usaspending_doe_obligations
   - usgs_comcat_earthquakes_south_central
   - usgs_streamflow_daily
   - bpa_ba_hourly
@@ -427,6 +428,12 @@ catalogue_hold:
   - census_bps_state_annual
   - afdc_ev_charging_state_annual
   - census_cbp_hosting_annual
+  - statcan_electricity_generation_monthly
+  - statcan_oil_gas_supply_monthly
+  - ntd_transit_energy_annual
+  - epa_needs_units
+  - bsee_offshore_incidents
+  - nrc_rop_findings
   - wb_iea_electricity_annual
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects

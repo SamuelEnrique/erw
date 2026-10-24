@@ -44,3 +44,13 @@ Recorded, not changed in session 2214: the license record (the ruling of 21 Octo
 ## What it does not hold
 
 - Zones, offers, generation, imports, exports and virtual bids (read and not written), and real-time quantities.
+
+## Found by chain 097's session 2180
+
+Chain 097's session 2180 described this table on its own branch while chain 098's session 2214 wrote this note; at chain 097's merge (session 2189) this note is kept and the other's findings, read against the same connector, are added here as written:
+
+- The header and `coverage.csv` say public; `license_verdicts.csv`, `license_status.csv` and `docs/licenses.md` say NYISO's permission is needed (license needed from 21 October 2026, ERW verdict unsettled). The connector keeps its weekly step in `warehouse/refresh_supply.sh`, while NYISO's note in `license_verdicts.csv` records that `nyiso_as_prices` gets no scheduled step until this license is answered (session 308).
+- The docstring and `docs/methods/supply_and_trade.md` disagree on what Total Load Scheduled counts: the docstring lists the virtual bids among the columns "read and not written"; the method note says the total includes cleared virtual bids.
+- Within a month's zip, `pull()` gathers the days' hours in one dictionary (`hours.update`): an hour given by two daily files keeps the later file's value without a word, and the run's check for a key given twice sees only what is left.
+- The docstring is silent on cells that are not numbers; the code drops them without a count.
+- The refresh is weekly, on Saturdays, but `run_status.csv` holds only the run of Saturday 10 October 2026 for this table, and no row of any connector dated 15, 16 or 17 October. The copy on the data machine ends on 11 October 2026 (Eastern).

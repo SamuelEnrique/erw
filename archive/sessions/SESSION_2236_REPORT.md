@@ -12,7 +12,7 @@
   - imports, and the sum of supply.
 
   The values are in MWh (the table's GWh times 1,000). SCB's note is in the header: imports include transit through Sweden, and loop flow is excluded. Written, validated (0 errors, 0 warnings), archived, held from the Redivis storage and the live set, its release rows added.
-- **The license:** CC0, SCB's Open data API page: "We use the licence CC0 for this data". SCB asks that statistics with another agency as their source name it, and the header names the Swedish Energy Agency. **The verdict is added here** (Statistics Sweden, read 381: may be public), so the table is not left unsettled until the next round.
+- **The license:** CC0, SCB's Open data API page: "We use the licence CC0 for this data". SCB asks that statistics with another agency as their source name it, and the header names the Swedish Energy Agency. **The verdict is added here** (Statistics Sweden, read 403: may be public), so the table is not left unsettled until the next round.
 - **`tests/test_session205.py`'s bound raised by 40** for this chain's reads.
 - **Cross-check against Eurostat** (`eurostat_electricity_monthly`, Sweden), full years 2016 to 2025:
   - SCB's supply less its imports equals Eurostat's net production within 0.6 percent every year;
@@ -33,7 +33,7 @@
 | 7 | SCB's Open data API page | 200: CC0 |
 | 8, 9 | the metadata and the data (the trial) | 200 |
 
-Reads recorded: 377 to 381.
+Reads recorded: 399 to 403.
 
 ## Decisions made without you
 

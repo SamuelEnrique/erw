@@ -49,3 +49,11 @@ None found: the docstring, the header and the rows agree on the areas, their sta
 ## What it does not hold
 
 - SPP's other cleared quantities (generation, virtual bids, offers), real-time quantities, and reserve quantities (`spp_as_quantities`).
+
+## Found by chain 097's session 2180
+
+Chain 097's session 2180 described this table on its own branch while chain 098's session 2214 wrote this note; at chain 097's merge (session 2189) this note is kept and the other's findings, read against the same connector, are added here as written:
+
+- `parse()` builds a dictionary keyed by (area, hour): an hour a file gives twice keeps its last value without a word, and the run's check for a key given twice sees only what is left.
+- The docstring says "An empty cell is not a quantity and gives no row". The code also drops, without a count, a cell that holds text that is not a number.
+- The refresh is weekly, on Saturdays, but `run_status.csv` holds only the run of Saturday 10 October 2026 for this table, and no row of any connector dated 15, 16 or 17 October. The copy on the data machine ends on 10 October 2026 (Central).

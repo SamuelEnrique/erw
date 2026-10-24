@@ -5,11 +5,11 @@
 ## Read these first
 
 - **Four verdicts** (`warehouse/metadata/license_verdicts.csv`, read first; none of the four had one):
-  - **Statistics Norway (SSB), read 365: may be public.** SSB's API page, where data.ssb.no/robots.txt redirects: "I likhet med resten av ssb.no benytter API-ene lisensen CC BY 4.0" (like the rest of ssb.no, the APIs use the CC BY 4.0 license). `ssb_norway_electricity_monthly` is public.
-  - **Bundesnetzagentur (SMARD), read 368: may be public.** Its Data use page: market data "is licensed under a Creative Commons Attribution 4.0 International Licence", attributed "Bundesnetzagentur | SMARD.de". `smard_germany_monthly` is public.
-  - **Statistics Netherlands (CBS), read 376: may be public.** Table 84575NED's own License property, https://creativecommons.org/licenses/by/4.0/, as CBS's catalog gives it. `cbs_netherlands_electricity_monthly` is public.
-  - **EirGrid, read 373: needs written permission.** Its website disclaimer bars copying, republishing or distributing its materials "for any public or commercial purposes" without EirGrid's written authority. No table is held from EirGrid.
-- **No verdict for MBIE (New Zealand) or Hydro-Quebec:** neither's terms were read. MBIE's page answered a bot challenge (read 370); Hydro-Quebec's robots file bars its API and downloads (read 371).
+  - **Statistics Norway (SSB), read 387: may be public.** SSB's API page, where data.ssb.no/robots.txt redirects: "I likhet med resten av ssb.no benytter API-ene lisensen CC BY 4.0" (like the rest of ssb.no, the APIs use the CC BY 4.0 license). `ssb_norway_electricity_monthly` is public.
+  - **Bundesnetzagentur (SMARD), read 390: may be public.** Its Data use page: market data "is licensed under a Creative Commons Attribution 4.0 International Licence", attributed "Bundesnetzagentur | SMARD.de". `smard_germany_monthly` is public.
+  - **Statistics Netherlands (CBS), read 398: may be public.** Table 84575NED's own License property, https://creativecommons.org/licenses/by/4.0/, as CBS's catalog gives it. `cbs_netherlands_electricity_monthly` is public.
+  - **EirGrid, read 395: needs written permission.** Its website disclaimer bars copying, republishing or distributing its materials "for any public or commercial purposes" without EirGrid's written authority. No table is held from EirGrid.
+- **No verdict for MBIE (New Zealand) or Hydro-Quebec:** neither's terms were read. MBIE's page answered a bot challenge (read 392); Hydro-Quebec's robots file bars its API and downloads (read 393).
 - **The other publishers of this chain have verdicts:** the IESO (read 225), Eurostat, DESNZ (the Open Government Licence).
 - **The license record:** 452 tables, 110 publishers with a verdict, 359 requests in the record, 0 problems. The 663 tests of the license record and the release package pass (7 skipped). `tests/test_session205.py`'s bound holds without a raise.
 
