@@ -57,6 +57,8 @@ The rules of `queue/done/120-day-20-november-data-ethiopia-mozambique-bhutan-tri
 
 - **Publishers chain 117 found needing written permission, not asked again:** the Egyptian Electricity Holding Company (EEHC) and Tunisia's Ministry of Industry, Mines and Energy (their verdicts are on record).
 
+- **Hosts closed by chain 119, not asked again** (added by its session 2475): www.cienergies.ci (does not resolve), www.jpsco.com's reports (an Incapsula challenge), www.edl.com.la (a script shell with no figures), www.mem.gov.la (a timeout at its robots file), laosis.lsb.gov.la (its certificate fails verification) and www.enecho.meti.go.jp (HTTP 403 at its robots file). Jamaica's OUR gives no generation statistics and STATIN links none. ANARE-CI (Côte d'Ivoire's regulator) states no terms of reuse; its table is internal.
+
 - **Test 378 allows no table flagged internal where its verdict reads "may be public"** (chain 114's landing): a table whose publisher grants reuse with a citation is public with the citation in its header, and the question goes to the owner.
 
 Read first: chain 120's note (written by session 2489), sessions 2476 to 2489's reports, chain 119's and chain 118's notes, `docs/reviews/siting-gaps.md`.
@@ -71,7 +73,7 @@ Long end 1:30. Pulls: at most 15 requests. The Zimbabwe Energy Regulatory Author
 
 ## Session 2492: Fiji's electricity (Energy Fiji Limited or the Bureau of Statistics)
 
-Long end 1:30. Pulls: at most 15 requests. Energy Fiji Limited's annual reports or the Fiji Bureau of Statistics' energy tables (robots and terms first): generation by source (hydro, diesel, biomass, solar) and sales, a year, as far back as published within the ceiling; a series table in MWh; prices not taken (FJD); cross-check: a year's generation against Ember's Fiji.
+Long end 1:30. Pulls: at most 15 requests. Energy Fiji Limited's annual reports or the Fiji Bureau of Statistics' energy tables (robots and terms first; chain 119's session 2465 found efl.com.fj's robots file open, its "demand" posts one a day (646 in the newest sitemap, the newest of 20 May 2025) and its year pages frames with no figure, so the annual reports or the Bureau are the way): generation by source (hydro, diesel, biomass, solar) and sales, a year, as far back as published within the ceiling; a series table in MWh; prices not taken (FJD); cross-check: a year's generation against Ember's Fiji.
 
 ## Session 2493: Malawi's electricity (ESCOM, EGENCO or MERA)
 
