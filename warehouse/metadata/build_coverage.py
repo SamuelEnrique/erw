@@ -274,6 +274,7 @@ SECTOR_RULES = [
     (r"^csp_latvia_electricity_monthly$", "power"),  # session 2314: CSP table ENB010m, Latvia's electricity production, imports and exports, monthly
     (r"^cso_ireland_electricity_monthly$", "power"),  # session 2320: CSO table MSM01, Ireland's gross and net electricity output, monthly
     (r"^eia_petroleum_stocks_state_monthly$", "products"),  # session 2342: EIA petroleum/stoc/st, product stocks at refineries, bulk terminals and gas plants by state, monthly
+    (r"^bfe_switzerland_electricity_monthly$", "power"),  # session 2343: SFOE ENSTAT electricity balance of Switzerland, monthly
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
