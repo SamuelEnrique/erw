@@ -117,6 +117,23 @@ export const METHOD_CLEAN_WEEK = "/data/methods/generation_mix_hourly#the-cleane
 // (#network-figures, METHOD_NETWORK).
 export const LOWER48_DEMAND_ANCHOR = "lower48-demand";
 export const METHOD_NETWORK_US48 = "/data/methods/grid_network#the-lower-48-on-the-network-tab-chain-100-24-october-2026";
+// Session 1413 (chain 107): the energy mix views' tables whose figures are computed from the committed files' arrays, or
+// read from them, on the Mix tab (components/mix/views.tsx): the average day's two tables (mix=day), the duck curve by
+// year (mix=duck, one a grid), the history's shares (mix=history, one a state) and availability's two tables
+// (mix=supply: the mean, lowest and highest hour; the tightest hours, one a grid). Their anchors and their one method,
+// outside GRID_ANCHOR and GRID_METHOD as sessions 1402's and 1403's are; a second grid or state on one page takes the
+// anchor and its grid or state, in lower case, as anchorOf writes it.
+export const MIX_VIEW_ANCHOR = {
+  dayShares: "day-shares",
+  dayPeak: "day-peak",
+  duckYears: "duck-by-year",
+  historyShares: "history-shares",
+  supplyMean: "supply-mean",
+  supplyTight: "supply-tight",
+} as const;
+export type MixViewAnchorKey = keyof typeof MIX_VIEW_ANCHOR;
+export const mixViewAnchor = (key: MixViewAnchorKey, i: number, who: string): string => (i ? `${MIX_VIEW_ANCHOR[key]}-${who}` : MIX_VIEW_ANCHOR[key]);
+export const METHOD_MIX_VIEWS = "/data/methods/generation_mix_hourly#the-computed-views-keyed-chain-107-24-october-2026";
 export const GRID_METHOD: Record<GridAnchorKey, string> = {
   network: METHOD_NETWORK,
   replay: METHOD_REPLAY,

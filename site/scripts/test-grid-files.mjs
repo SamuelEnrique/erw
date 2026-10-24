@@ -297,6 +297,12 @@ const PAGES = [
   [{ grid: "caiso", view: "mix", mixp: "month" }, ["grid_mix_caiso"]],
   [{ grid: "us48", view: "mix", mixp: "month" }, ["grid_mix_us48"]],   // session 1185: the Lower 48 by month, the sum of the states
   [{ grid: "ercot", view: "mix", mix: "stress" }, ["mixview_stress"]],
+  // session 1413: the computed views, keyed (filecalc|), each table with its file
+  [{ grid: "ercot", view: "mix", mix: "day" }, ["mixview_day"]],
+  [{ grid: "ercot", view: "mix", mix: "duck" }, ["mixview_duck"]],
+  [{ grid: "caiso", view: "mix", mix: "duck" }, ["mixview_duck"]],
+  [{ grid: "ercot", view: "mix", mix: "history" }, ["mixview_history"]],
+  [{ grid: "ercot", view: "mix", mix: "supply" }, ["mixview_supply"]],
 ];
 // GRID_FILES_OUT=<dir>: each file drawn is also written there, to read (nothing is written otherwise)
 const OUT = process.env.GRID_FILES_OUT;
@@ -532,6 +538,33 @@ await check("scripts/check-table-downloads.mjs and check-download.mjs check the 
   const a = fs.readFileSync(path.join(here, "check-table-downloads.mjs"), "utf-8"), b = fs.readFileSync(path.join(here, "check-download.mjs"), "utf-8");
   if (!a.includes('from "./grid-files.mjs"') || !a.includes("GRID_FILE_PAGES") || !a.includes("missingFiles")) return "check-table-downloads.mjs does not read the panels' files";
   return b.includes('from "./grid-files.mjs"') && b.includes("--grid") && b.includes("gridFileProblems") ? "" : "check-download.mjs does not read the panels' files";
+});
+
+// session 1413: the computed views' tables (components/mix/views.tsx: the average day, the duck curve by year, the history
+// by state, availability) each carry their anchor (lib/gridAnchors.ts MIX_VIEW_ANCHOR, a second grid or state the anchor
+// and its name) and link their method (METHOD_MIX_VIEWS), and offer exactly their files
+await check("the computed views: each table carries its anchor, links METHOD_MIX_VIEWS and offers its file; a second grid or state takes the anchor and its name", async () => {
+  const MV = GA.MIX_VIEW_ANCHOR;
+  const want = [
+    [{ grid: "ercot", view: "mix", mix: "day", grids: "ercot,caiso" }, "mixview_day", [MV.dayShares, MV.dayPeak], ["grid_mixday_all_shares", "grid_mixday_all_peak"], 2],
+    [{ grid: "ercot", view: "mix", mix: "duck", grids: "ercot,caiso" }, "mixview_duck", [MV.duckYears, `${MV.duckYears}-caiso`], ["grid_duck_ercot", "grid_duck_caiso"], 2],
+    [{ grid: "ercot", view: "mix", mix: "history", states: "TX,CA" }, "mixview_history", [MV.historyShares, `${MV.historyShares}-ca`], ["grid_history_tx", "grid_history_ca"], 2],
+    [{ grid: "ercot", view: "mix", mix: "supply", grids: "ercot,caiso" }, "mixview_supply", [MV.supplyMean, MV.supplyTight, `${MV.supplyTight}-caiso`], ["grid_supply_all_mean", "grid_supply_ercot_tight", "grid_supply_caiso_tight"], 3],
+  ];
+  for (const [sp, name, ids, files, lines] of want) {
+    const rec = await draw(sp), b = rec[name];
+    if (!b) return `no block ${name}`;
+    const held = blockHolds(b, name);
+    if (held) return `${name}: ${held}`;
+    const miss = ids.filter((a) => !b.ids.includes(a));
+    if (miss.length) return `${name} lacks #${miss.join(", #")} (ids: ${b.ids.join(", ")})`;
+    if (b.files.map((f) => f.id).join(",") !== files.join(",")) return `${name}: files ${b.files.map((f) => f.id).join(",")}`;
+    if (b.methods.filter((m) => m === GA.METHOD_MIX_VIEWS).length !== lines) return `${name}: ${b.methods.filter((m) => m === GA.METHOD_MIX_VIEWS).length} links to METHOD_MIX_VIEWS, not ${lines}`;
+    const ids2 = rec[IDS] ?? [];
+    const twice = [...new Set(ids2.filter((x, i) => ids2.indexOf(x) !== i))];
+    if (twice.length) return `${name}: drawn twice: ${twice.join(", ")}`;
+  }
+  return "";
 });
 
 console.log(failures ? `${failures} of ${cases} case(s) failed` : `every case holds (${cases} cases)`);

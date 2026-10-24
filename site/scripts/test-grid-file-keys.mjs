@@ -30,6 +30,8 @@ import * as mix from "../lib/mix2.ts";
 import { n0, n1, n2, choiceOf } from "../lib/mixpage.ts";
 import { count } from "../lib/format.ts";
 import * as V from "../components/mix/views.tsx";
+import * as FCALC from "./check-filecalc.mjs";   // session 1413: the computed views' keys
+import * as MVC from "../lib/mixViewCalc.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const DATA = path.join(here, "..", "data");
@@ -189,6 +191,16 @@ function keysOf(el) {
 function recompute(k) {
   const f = FMT.fmtParts(k.check);
   assert.ok(f, `${k.check}: a file figure is written in a form`);
+  // session 1413: a figure the views compute from a file's arrays, filecalc|<function>|<file>|<args>, is the page's own
+  // function applied to the file (scripts/check-filecalc.mjs); every other key of the views is a file| key, as before
+  const fc = FCALC.filecalcParts(f.inner);
+  if (fc) {
+    const v = FCALC.filecalcValueWith({ mix, calc: MVC }, fc, read(fc.file));
+    assert.equal(typeof v, "number", `${k.check}: the function gives a number`);
+    assert.ok(Math.abs(v - Number(k.raw)) <= 1e-9 * Math.max(1, Math.abs(v)), `${k.check}: file ${v}, page ${k.raw}`);
+    assert.equal(k.text, FMT.formText(f.form, v), `${k.check}: the text`);
+    return fc;
+  }
   const fk = FILE.fileParts(f.inner);
   assert.ok(fk, `${k.check}: a file key`);
   const v = FILE.readPath(read(fk.file), fk.path);
@@ -198,7 +210,8 @@ function recompute(k) {
   return fk;
 }
 
-const VIEWS = [["clean", V.CleanView], ["stress", V.StressView], ["day", V.DayView], ["records", V.RecordsView], ["supply", V.SupplyView], ["forecast", V.ForecastView]];
+const VIEWS = [["clean", V.CleanView], ["stress", V.StressView], ["day", V.DayView], ["records", V.RecordsView], ["supply", V.SupplyView], ["forecast", V.ForecastView],
+  ["duck", V.DuckView], ["history", V.HistoryView]];   // session 1413: the two views keyed whole by filecalc| (and the duck view's days held by file|)
 
 test("every key the views write is the committed file's value, written in its form", () => {
   const seen = {};

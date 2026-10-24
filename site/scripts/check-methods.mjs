@@ -40,7 +40,8 @@
 //    a file that is a build of none, the family file| and the path's last name (its selector's value when that name is
 //    "value": records.all[key=<k>].value is <k>; session 1170: a path ending at a replay's day, demand.<BA>.@<day>, is its
 //    last name that is not an instance, demand). The Digest's chart of the day, digest_chart|<date>|<table>|<figure>,
-//    is a family: its table is the day's.
+//    is a family: its table is the day's. Session 1413: filecalc|<function>|<data file>|<args>, a figure the energy mix
+//    views compute from a committed file, is the family filecalc| and its function (duck_ramp, hist_share, ...).
 //
 // 3. Named. A note names a table figure when its text holds both the table's name and the variable's, each as a whole
 //    word, as written in the key (in the variable, an underscore may be read as a space). It names a figure of the page's
@@ -76,6 +77,10 @@ const TABLE_KEY = {
 };
 // the families whose measure is not the first part after the family that is not an instance: the part to take
 export const MEASURE_AT = { digest_chart: 3, cap: -1, impact: -1, gridq: -1, shape: 3, sev: 2, ms: -1, finding: 4, awe: 2, dcd: -1, bsa: -1, es: 3, mrs: -1 };
+// session 1413 (chain 107): filecalc|<function>|<data file>|<args>, a figure the energy mix views compute from a
+// committed file (scripts/check-filecalc.mjs, lib/mixViewCalc.ts): a family of the page's arithmetic whose measure is
+// its function (duck_ramp, day_peak, hist_share, avail_mean, ...), always behind fmt|<form>|
+MEASURE_AT.filecalc = 1;
 // the families whose measure is the last piece of that part when it is cut at ":" (dcd|<mw>|<utility>:<charge>)
 export const CUT_LAST = new Set(["dcd"]);
 const GRIDS = new Set(["ercot", "caiso", "pjm", "miso", "nyiso", "isone", "spp", "us48", "us", "erco", "ciso", "isne", "nyis", "swpp", "west", "east", "none of the seven", "more than one"]);

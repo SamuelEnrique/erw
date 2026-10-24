@@ -1,0 +1,78 @@
+// Energy Research Warehouse (ERW) site, session 1413 (chain 107): the arithmetic the energy mix views
+// (components/mix/views.tsx) apply to the committed files' arrays, moved here as it stood in the views, so the page and
+// scripts/check-values.mjs apply one rule. No import: node runs this file with its types stripped, and
+// scripts/check-filecalc.mjs imports it (with lib/mix2.ts, whose acrossYears, periodOf and highest the duck view and the
+// average day already called) to recompute the filecalc| keys from the file in the repository. A node test holds each
+// function to the expression that stood in the view, on every committed file (scripts/test-mix-view-calc.mjs).
+//
+// The key kind, filecalc|<function>|<data file>|<args>..., always behind fmt|<form>| (scripts/check-format.mjs):
+//   duck_solar_peak|mix/<grid>.json|<cal>|<year>    the month's average day: solar at its peak hour, MW (lib/mix2.ts acrossYears)
+//   duck_low|mix/<grid>.json|<cal>|<year>           net load's midday low, 09:00 to 16:00, MW (acrossYears)
+//   duck_evening|mix/<grid>.json|<cal>|<year>       net load's evening high, from 16:00, MW (acrossYears)
+//   duck_ramp|mix/<grid>.json|<cal>|<year>          the ramp between them, MW, when the low comes first (acrossYears)
+//   day_peak|mix/<grid>.json|<period>|<solar|wind>  a month's or a year's average day: the source at its peak hour, MW
+//                                                   (lib/mix2.ts highest over periodOf's avg)
+//   hist_share|mix_history.json|<state>|<year>|<fuel>  the fuel's share of the state's net generation in the year, percent (historyCell)
+//   hist_mwh|mix_history.json|<state>|<year>|<fuel>    the fuel's net generation in the year, million MWh (historyCell)
+//   avail_mean|mixplus/<grid>.json|<year>|<season>|<fuel>  the mean of the 24 hours' availability, percent (availMean)
+//   avail_min|...                                   the lowest hour (availMin)
+//   avail_max|...                                   the highest hour (availMax)
+// <cal> is a calendar month "01" to "12"; <period> is "YYYY-MM" or "YYYY"; <season> is winter, spring, summer, autumn or all.
+
+/** The function of each filecalc| key: the rule it applies and what its figure is, in words (the figure's tip). */
+export const FILECALC = {
+  duck_solar_peak: { rule: "lib/mix2.ts acrossYears", what: "solar at its peak hour of the month's average day, MW" },
+  duck_low: { rule: "lib/mix2.ts acrossYears", what: "net load's midday low (09:00 to 16:00) of the month's average day, MW" },
+  duck_evening: { rule: "lib/mix2.ts acrossYears", what: "net load's evening high (from 16:00) of the month's average day, MW" },
+  duck_ramp: { rule: "lib/mix2.ts acrossYears", what: "the ramp from the midday low to the evening high, MW" },
+  day_peak: { rule: "lib/mix2.ts highest", what: "the source at its peak hour of the average day, MW" },
+  hist_share: { rule: "lib/mixViewCalc.ts historyCell", what: "the fuel's share of the state's net generation in the year, percent" },
+  hist_mwh: { rule: "lib/mixViewCalc.ts historyCell", what: "the fuel's net generation in the year, million MWh" },
+  avail_mean: { rule: "lib/mixViewCalc.ts availMean", what: "output as a share of installed capacity, the mean of the day's 24 hours, percent" },
+  avail_min: { rule: "lib/mixViewCalc.ts availMin", what: "output as a share of installed capacity, the day's lowest hour, percent" },
+  avail_max: { rule: "lib/mixViewCalc.ts availMax", what: "output as a share of installed capacity, the day's highest hour, percent" },
+} as const;
+export type FilecalcFn = keyof typeof FILECALC;
+
+/** The key of a figure computed from a committed file by one of the functions above. */
+export const filecalcKey = (fn: FilecalcFn, file: string, args: string[]): string => `filecalc|${fn}|${file}|${args.join("|")}`;
+
+/** Where a committed file's figures come from, for a tip: the live-set table it is a build of, or the builder that writes it. */
+export function sourceOf(file: string): string {
+  const m = /^mix\/([a-z]+)\.json$/.exec(file);
+  if (m) return `generation_mix_hourly_profile, iso:${m[1]}`;
+  if (file === "mix_history.json") return "state_generation_mix_monthly by year (warehouse/derived/mix_views.py)";
+  return "warehouse/derived/mix_views.py";
+}
+
+// ---- since 2001: net generation by state and fuel (HistoryView), the file site/data/mix_history.json
+
+/** The shape of mix_history.json the arithmetic reads: each state's years, each a row of MWh by fuel and its months held. */
+export type HistoryLike = { fuels: string[]; states: Record<string, Record<string, Record<string, number>>> };
+
+/** A state's net generation in a year: the sum over the file's fuels of the year's MWh, a fuel not listed counted 0. */
+export function historyTotal(h: HistoryLike, s: string, y: string): number {
+  return h.fuels.reduce((a, f) => a + (h.states[s]?.[y]?.[f] ?? 0), 0);
+}
+
+/** A cell of a state's table of shares: the fuel's share of the year's total, percent, and its MWh in millions; both
+ *  null when the year does not hold twelve months or does not list the fuel. */
+export function historyCell(h: HistoryLike, s: string, y: string, f: string): { share: number | null; mwh: number | null } {
+  const r = h.states[s]?.[y];
+  const v = r?.months === 12 ? r[f] : undefined;
+  return { share: v === undefined ? null : (100 * v) / historyTotal(h, s, y), mwh: v === undefined ? null : v / 1e6 };
+}
+
+// ---- availability by source (SupplyView), the files site/data/mixplus/<grid>.json
+
+/** The shape of a mixplus file the arithmetic reads: by year, by season, by fuel, the 24 local hours' availability. */
+export type AvailabilityLike = { availability: Record<string, Record<string, Record<string, number[]>>> };
+
+/** The 24 hours of a fuel's availability for a year and a season, or undefined when the file does not hold them. */
+export const availOf = (p: AvailabilityLike, year: string, season: string, fuel: string): number[] | undefined => p.availability[year]?.[season]?.[fuel];
+/** The mean of the hours, or null when there are none. */
+export const availMean = (v: number[] | null | undefined): number | null => (v ? v.reduce((a, b) => a + b, 0) / v.length : null);
+/** The lowest hour, or null. */
+export const availMin = (v: number[] | null | undefined): number | null => (v ? Math.min(...v) : null);
+/** The highest hour, or null. */
+export const availMax = (v: number[] | null | undefined): number | null => (v ? Math.max(...v) : null);

@@ -58,6 +58,7 @@ import * as CALC from "./check-calc.mjs";   // session 1165: the arithmetic of t
 import * as FMT from "./check-format.mjs";   // session 1166: fmt|<form>|<key>, a figure written in a form of the page's own
 import * as FILE from "./check-file.mjs";   // session 1166: file|<data file>|<path>, a figure of a committed file of site/data/
 import * as REV from "./check-revised.mjs";   // session 1171: a revised EIA-930 hour told apart from a wrong figure
+import * as FCALC from "./check-filecalc.mjs";   // session 1413: filecalc|<function>|<data file>|<args>, a figure the mix views compute from a committed file
 
 const REQUEST_MS = Number(process.env.CHECK_VALUES_REQUEST_S ?? 60) * 1000;
 const RUN_MIN = Number(process.env.CHECK_VALUES_TIMEOUT_MIN ?? 15);
@@ -537,6 +538,15 @@ async function truthOf(check) {
     if (!f) throw new Error(`bad file key ${check}`);
     const v = FILE.readPath(dataFile(f.file), f.path);
     return v === null || v === undefined || typeof v === "object" ? undefined : v;
+  }
+  // session 1413 (chain 107): filecalc|<function>|<data file>|<args>, a figure the energy mix views compute from a
+  // committed file's arrays (the duck curve by year, the average day's peak hours, the history by state, the availability
+  // means): the file in the repository, read as a file| key reads it, and the page's own function applied to it
+  // (scripts/check-filecalc.mjs: lib/mix2.ts, lib/mixViewCalc.ts). Checked against the file alone: no live-set row holds it
+  if (p[0] === "filecalc") {
+    const f = FCALC.filecalcParts(check);
+    if (!f) throw new Error(`bad filecalc key ${check}`);
+    return FCALC.filecalcValue(f, dataFile(f.file));
   }
   // session 1170 (chain 078): a replayed day's net exchange on the Grid tool, netday|<export|import|ties>|<BA>|<day>: the
   // sum over the replay's committed daily file's links of the balancing authority's ties with a flow that day (lib/gridReplay.ts
@@ -1625,7 +1635,7 @@ async function main() {
       }
       pass ? out.ok++ : out.bad++;
       out.n++;
-      out.lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | ${FILE.fileParts(fp ? fp.inner : check) || /^netday\|/.test(fp ? fp.inner : check) ? "the committed file" : "Supabase"} ${t}${notRevised}`);
+      out.lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | ${FILE.fileParts(fp ? fp.inner : check) || /^(netday|filecalc)\|/.test(fp ? fp.inner : check) ? "the committed file" : "Supabase"} ${t}${notRevised}`);
       // session 1166: a figure of a committed file that is a build of a live-set row, against that row, on its own line:
       // "same" within the rounding of the less precise of the two, "DIFF" else (counted apart; not a failure of the run)
       const fk = FILE.fileParts(fp ? fp.inner : check);

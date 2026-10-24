@@ -25,6 +25,7 @@ OWN = {
     "components/grid/YourGrid.tsx": 18,  # session 1166: one more, "Hours held" (series_n)
     "components/mix/Now.tsx": 2,
     "components/mix/views.tsx": 1,  # session 1166: the committed files' figures; its one K writes every key
+    "components/mix/CalcKey.tsx": 1,  # session 1413: the figures the views compute from the committed files (filecalc|); its one CalcKey writes every key
     "app/network/Network.tsx": 2,
     "app/network/NetworkMap.tsx": 0,
     "app/network/NetworkGravity.tsx": 0,
