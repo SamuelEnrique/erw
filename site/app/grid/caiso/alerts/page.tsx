@@ -7,8 +7,9 @@ import { Section } from "@/components/Section";
 import type { SeriesRow } from "@/lib/data";
 import { EFFECTS, MODEL, VARIANTS, effects, key, model, pacificHour, shape, type Day } from "@/lib/flexalerts";
 import { shown } from "@/lib/format";
-import { gridNotices } from "@/lib/reliability";
+import { EMERGENCIES, gridNotices } from "@/lib/reliability";
 import { attempt } from "@/lib/supabase";
+import { Missing } from "@/components/mix/Now";  // session 1411: the notices' column when their read failed, the tool's one look (session 1181)
 
 // Session 60: the Flex Alert scorecard (California grid-stress tool v1). How much did CAISO's demand fall in the hours of
 // a Flex Alert or grid emergency, against what the weather and the calendar predicted, and what was that worth? Read from
@@ -230,7 +231,10 @@ export default async function FlexAlertScorecard() {
               {ranked.map((d) => (
                 <tr key={d.day} className="border-b border-rule">
                   <td className="py-1 pr-2 font-mono"><a href={`#d${d.day}`}>{d.day}</a></td>
+                  {/* session 1411: the notices' read failed: each day's cell says so, never a blank (no notice that day) */}
+                  {ns.ok ? (
                   <td className="py-1 pr-2 text-xs">{[...(types.get(d.day) ?? [])].filter((t) => SHORT[t] && t !== "rmo" && t !== "transmission_emergency").map((t) => SHORT[t]).join(", ")}</td>
+                  ) : <td className="py-1 pr-2 text-xs" data-alerts-unread={EMERGENCIES}><Missing words="could not be read" why={`${EMERGENCIES} could not be read just now: ${ns.reason}`} /></td>}
                   <td className="py-1 pr-2 text-xs"><V r={val(d, "alert_first_hour")} />:00 to <V r={val(d, "alert_last_hour")} />:00{val(d, "hours_assumed")?.value === 1 ? " (assumed)" : ""}</td>
                   <td className="py-1 pr-2 text-right tabular-nums"><V r={val(d, "temp_max_f")} /></td>
                   <td className="py-1 pr-2 text-right tabular-nums"><V r={val(d, "train_days_as_hot")} /></td>

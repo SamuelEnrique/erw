@@ -92,12 +92,29 @@ for (const [k, rs] of Object.entries(fx("hub_price.json").rows)) { const [e, v] 
 const haveC = new Set(T.get("carbon_intensity_hourly").map((r) => `${r.entity}|${r.variable}|${Date.parse(r.ts_utc)}`));
 for (const [k, rs] of Object.entries(fx("clean_week.json").week.rows)) { const [e, v] = k.split("|"); add("carbon_intensity_hourly", rs.filter(([ts]) => !haveC.has(`${k}|${Date.parse(ts)}`)).map(([ts, x]) => asSeries(e, v, tsOf(ts), x, "kg/MWh"))); }
 
+// session 1411: the older blocks (fixtures/grid_older_reads.json, read once with the anon key): ERCOT's battery cycle, price
+// board, monthly carbon intensity and station temperatures, CAISO's daily series, the Flex Alert scorecard's two tables; and
+// the battery units of storage_capacity (fixtures/grid_units.json, session 1180), as scripts/grid-render-standin.mjs adds them.
+// The catalogue (the citations' source reports) is answered only while `withCatalogue` is set (the cases of session 1411):
+// every case before them ran on a stand-in that answers it no row, so each draws as it did.
+const older = fx("grid_older_reads.json");
+for (const [t, groups] of Object.entries(older.rows)) {
+  for (const [k, rs] of Object.entries(groups)) {
+    const [e, v, unit, freq] = k.split("|");
+    add(t, rs.map(([ts, x]) => ({ ...asSeries(e, v, tsOf(ts), x, unit), freq: freq ?? "" })));
+  }
+}
+add("storage_capacity", fx("grid_units.json").rows.map((r) => ({ entity_id: r.entity_id, capacity_mw: r.capacity_mw, status: r.status, extra: { iso: r.iso, energy_capacity_mwh: r.mwh, state: r.state, planned_year: r.planned_year } })));
+const CATALOGUE = older.catalogue.map(([table_name, tier, source_report, license, in_live_set]) => ({ table_name, tier, source_report, license, in_live_set }));
+let withCatalogue = false;
+
 // ------------------------------------------------------------------ the stand-in for PostgREST and Storage
 let fail = null;   // { table, kind }; table "storage:snapshot" for the Storage object, "*" for every table
 let asked = new Set();
 const cmp = (a, b) => (a === b ? 0 : a === undefined || a === null ? -1 : b === undefined || b === null ? 1 : a < b ? -1 : 1);
 const val = (r, col) => (col.startsWith("extra->>") ? r.extra?.[col.slice(8)] ?? null : r[col]);
 function test1(r, col, cond) {
+  if (cond.startsWith("not.")) return !test1(r, col, cond.slice(4));   // session 1411: the scorecard's model read (variable=not.like.coef_*)
   const m = /^(eq|neq|gte|gt|lte|lt|like|in|is)\.(.*)$/s.exec(cond);
   if (!m) throw new Error(`the stand-in does not know the filter ${col}=${cond}`);
   const [, op, raw] = m;
@@ -118,7 +135,7 @@ function test1(r, col, cond) {
 function postgrest(u) {
   const p = u.searchParams;
   const table = (p.get("table_name") ?? "").replace(/^eq\./, "") || u.pathname.replace(/^\/rest\/v1\//, "");
-  let rows = [...(T.get(table) ?? [])];
+  let rows = [...(table === "catalogue" ? (withCatalogue ? CATALOGUE : []) : T.get(table) ?? [])];
   for (const [k, v] of p) {
     if (["select", "order", "limit", "offset", "table_name"].includes(k)) continue;
     if (!rows.length) break;
@@ -176,14 +193,17 @@ const BLOCKS = [["data-grid-panel", (v) => v], ["data-grid-balance", (v) => `bal
   ["data-gravity-day", () => "gravityday"], ["data-eia930-drawn", () => "preliminary"], ["data-grid-held", (v) => `held_${v}`],
   ["data-grid-queue-unread", () => "queue_unread"], ["data-mix", (v) => `mixview_${v}`]];
 const block = (rec, name) => (rec[name] ??= { nums: [], text: [], errors: [], charts: [] });   // session 1402: charts, each TimeChart drawn (its series' names, a strip marked)
-async function walk(node, rec, at, seen) {
+// session 1411: the older blocks are not named panels; each is recorded, beside the block it is drawn in, under its Section's
+// title (older_Batteries, older_What it costs, older_How clean, older_Reliability, older_ERCOT: yesterday)
+const OLDER = /^(Batteries|What it costs|How clean|Reliability|.*: yesterday)$/;
+async function walk(node, rec, at, seen, also = []) {
   if (node === null || node === undefined || typeof node === "boolean") return;
-  if (typeof node === "string" || typeof node === "number") { block(rec, at).text.push(String(node)); return; }
+  if (typeof node === "string" || typeof node === "number") { block(rec, at).text.push(String(node)); for (const a of also) block(rec, a).text.push(String(node)); return; }
   if (typeof node !== "object") return;
   if (typeof node.then === "function") {
     let v;
     try { v = await node; } catch (e) { block(rec, at).errors.push(String(e?.message ?? e)); return; }
-    return walk(v, rec, at, seen);
+    return walk(v, rec, at, seen, also);
   }
   if (seen.has(node)) return;
   seen.add(node);
@@ -197,22 +217,27 @@ async function walk(node, rec, at, seen) {
       for (const [a, f] of BLOCKS) if (props[a] !== undefined) { p = f(props[a]); block(rec, p); }
       if (props["data-check"] !== undefined) block(rec, p).nums.push({ check: String(props["data-check"]), raw: String(props["data-raw"]) });
       if (props["data-missing"] !== undefined && typeof props.title === "string") block(rec, p).text.push(` [why: ${props.title}] `);
+      for (const a of also) {
+        if (props["data-check"] !== undefined) block(rec, a).nums.push({ check: String(props["data-check"]), raw: String(props["data-raw"]) });
+        if (props["data-missing"] !== undefined && typeof props.title === "string") block(rec, a).text.push(` [why: ${props.title}] `);
+      }
     }
+    if (typeof type === "function" && type.name === "Section" && OLDER.test(String(props.title ?? ""))) { also = [...also, `older_${props.title}`]; block(rec, also.at(-1)); }
     if (typeof type === "function" && String(type.__erwClient ?? "").endsWith("#TimeChart")) block(rec, p).charts.push([`chart:${props.ariaLabel ?? ""}`, ...(props.series ?? []).map((x) => (x.strip ? `strip:${x.name}` : x.name))]);
     if (typeof type === "function" && !type.__erwClient && !type.prototype?.isReactComponent) {
       let o;
       try { o = type(props); if (o && typeof o.then === "function") o = await o; } catch (e) { block(rec, p).errors.push(`${type.name}: ${e?.message ?? e}`); return; }
-      return walk(o, rec, p, seen);
+      return walk(o, rec, p, seen, also);
     }
     // a host element: its children and the elements in its props; a client component's stand-in: the same (its data props,
     // a chart's points or the network's snapshot, are not drawn on the server)
     const drawn = (v) => v && typeof v === "object" && (ELEMENT.has(v.$$typeof) || (Array.isArray(v) && v.some((x) => drawn(x) || (Array.isArray(x) && x.some(drawn)))) || (!Array.isArray(v) && Object.values(v).some((x) => x && ELEMENT.has(x.$$typeof))));
-    for (const [k, v] of Object.entries(props)) if (k === "children" || drawn(v)) await walk(v, rec, p, seen);
+    for (const [k, v] of Object.entries(props)) if (k === "children" || drawn(v)) await walk(v, rec, p, seen, also);
     return;
   }
-  if (Array.isArray(node) || typeof node[Symbol.iterator] === "function") { for (const v of node) await walk(v, rec, at, seen); return; }
+  if (Array.isArray(node) || typeof node[Symbol.iterator] === "function") { for (const v of node) await walk(v, rec, at, seen, also); return; }
   const proto = Object.getPrototypeOf(node);
-  if (proto === Object.prototype || proto === null) for (const v of Object.values(node)) await walk(v, rec, at, seen);
+  if (proto === Object.prototype || proto === null) for (const v of Object.values(node)) await walk(v, rec, at, seen, also);
 }
 
 const page = await import("../app/grid/page.tsx");
@@ -248,7 +273,7 @@ const NAMED_1403 = /^grid_cleanweek_/;
 const SAYS = /could not be read|no data for|working on it/;
 const baselines = new Map();
 async function base(sp) {
-  const k = JSON.stringify(sp);
+  const k = JSON.stringify(sp) + (withCatalogue ? "|catalogue" : "");   // session 1411: a baseline with the catalogue answered is its own
   if (!baselines.has(k)) baselines.set(k, await draw(sp));
   return baselines.get(k);
 }
@@ -572,6 +597,164 @@ await check("no read of the Grid page is required(): the page is drawn on demand
   if (hit.length) return `required() in ${hit.join(", ")}`;
   const src = realRead(path.join(SITE, "app", "grid", "page.tsx"), "utf-8");
   return /await searchParams/.test(src) ? "" : "the page no longer reads its address (it would be prerendered and cached: read every read again)";
+});
+
+// 11. session 1411 (chain 107): the older blocks on a failed read (session 1181's list): YourGrid's battery cycle and units, the
+// price board, the carbon intensity (hourly and monthly), the station's temperatures in "Yesterday", CAISO's daily series,
+// the table citations (the catalogue) and the Flex Alert scorecard's notices column. Each says "could not be read" with the
+// table and the reason on hover, draws no figure of the read, and is drawn as before when the read succeeds. The catalogue
+// is answered from here on, so each citation draws its source reports with every read answered.
+withCatalogue = true;
+const CLEAN = { grid: "ercot", view: "clean" };
+await check("the older blocks (1411), every read answered: each draws its figures, its citations their source reports", async () => {
+  const m = (await base(ERCOT_MIX)).rec, c = (await base(CLEAN)).rec, ca = (await base(CAISO_MIX)).rec;
+  const has = (b, re, n = 1) => (b && b.nums.filter((x) => re.test(x.check)).length >= n ? "" : `${re}`);
+  const why = [has(m.older_Batteries, /^series\|storage_daily_cycle\|/, 2), has(m.older_Batteries, /^storage\|iso_mw\|ERCOT\|/, 3),
+    has(m["older_What it costs"], /^series\|price_board_latest\|/, 3), has(m["older_What it costs"], /^series\|price_board_peak_offpeak\|/, 2),
+    has(c["older_How clean"], /^series\|carbon_intensity_hourly\|/, 2), has(c["older_How clean"], /^series\|carbon_intensity_monthly\|/, 2),
+    has(m["older_ERCOT: yesterday"], /degday\|/, 4), has(ca.older_Reliability, /^series\|caiso_reliability_daily\|/, 40)].filter(Boolean);
+  if (why.length) return `not drawn with every read answered: ${why.join("; ")}`;
+  return /\(source report /.test(m.older_Batteries.text) && !/could not be read/.test(m.older_Batteries.text) ? "" : `the citations: ${m.older_Batteries.text.slice(-400)}`;
+});
+const notSaid = (y, re) => (re.test(y.text.replace(/ ?\[why:[^\]]*\] ?/g, " ")) ? `the failed read is said as ${re}` : "");
+for (const kind of KINDS) {
+  await check(`older_Batteries (1411), storage_daily_cycle, ${kind}: no cycle figure, never "EIA-930 has no battery series"; the units stand`, async () => {
+    const why = await failing(ERCOT_MIX, "older_Batteries", "storage_daily_cycle", kind, { emptySays: /EIA-930 has no battery series for this grid/ });
+    if (why || kind === "empty") return why;
+    const ok = (await base(ERCOT_MIX)).rec.older_Batteries, y = (await draw(ERCOT_MIX, { table: "storage_daily_cycle", kind })).rec.older_Batteries;
+    const units = (r) => r.nums.filter((n) => n.check.startsWith("storage|")).map((n) => `${n.check}=${n.raw}`).join(";");
+    return notSaid(y, /no battery series/) || (units(ok) === units(y) ? "" : "the units' figures moved");
+  });
+  await check(`older_Batteries (1411), storage_capacity, ${kind}: no unit figure, never "not in the warehouse yet"; the cycle stands`, async () => {
+    const why = await failing(ERCOT_MIX, "older_Batteries", "storage_capacity", kind, { emptySays: /battery units mapped to ERCOT/ });
+    if (why || kind === "empty") return why;
+    const y = (await draw(ERCOT_MIX, { table: "storage_capacity", kind })).rec.older_Batteries;
+    if (y.nums.some((n) => n.check.startsWith("storage|"))) return "a unit figure drawn";
+    return notSaid(y, /Not in the warehouse yet: battery units/) || (y.nums.some((n) => n.check.startsWith("series|storage_daily_cycle|")) ? "" : "the cycle is not drawn");
+  });
+  await check(`older_What it costs (1411), price_board_latest, ${kind}: no price figure, never "not in the warehouse yet"`, async () => {
+    const why = await failing(ERCOT_MIX, "older_What it costs", "price_board_latest", kind, { emptySays: /Not in the warehouse yet: ERCOT's hub prices/ });
+    if (why || kind === "empty") return why;
+    const y = (await draw(ERCOT_MIX, { table: "price_board_latest", kind })).rec["older_What it costs"];
+    return y.nums.length ? `${y.nums.length} figures drawn` : notSaid(y, /Not in the warehouse yet/);
+  });
+  await check(`older_What it costs (1411), price_board_peak_offpeak, ${kind}: no peak figure, never "none"; the latest days' prices stand`, async () => {
+    const why = await failing(ERCOT_MIX, "older_What it costs", "price_board_peak_offpeak", kind, { emptySays: /none/ });
+    if (why || kind === "empty") return why;
+    const ok = (await base(ERCOT_MIX)).rec["older_What it costs"], y = (await draw(ERCOT_MIX, { table: "price_board_peak_offpeak", kind })).rec["older_What it costs"];
+    const latest = (r) => r.nums.filter((n) => n.check.startsWith("series|price_board_latest|")).map((n) => `${n.check}=${n.raw}`).join(";");
+    if (latest(ok) !== latest(y)) return "the latest days' prices moved";
+    return /off-peak, same day ?(\[why:[^\]]*\] )?could not be read/.test(y.text) ? notSaid(y, /\bnone\b/) : `the cells: ${y.text.slice(0, 500)}`;
+  });
+  await check(`older_How clean (1411), carbon_intensity_hourly, ${kind}: no hourly figure, never "not in the warehouse yet"`, async () => {
+    const why = await failing(CLEAN, "older_How clean", "carbon_intensity_hourly", kind, { emptySays: /Not in the warehouse yet: ERCOT's carbon intensity/ });
+    if (why || kind === "empty") return why;
+    const y = (await draw(CLEAN, { table: "carbon_intensity_hourly", kind })).rec["older_How clean"];
+    return y.nums.length ? `${y.nums.length} figures drawn` : notSaid(y, /Not in the warehouse yet/);
+  });
+  await check(`older_How clean (1411), carbon_intensity_monthly, ${kind}: no monthly figure, ${kind === "empty" ? "the line not drawn" : "said not read"}; the hour stands`, async () => {
+    const why = await failing(CLEAN, "older_How clean", "carbon_intensity_monthly", kind);
+    if (why) return why;
+    const ok = (await base(CLEAN)).rec["older_How clean"], y = (await draw(CLEAN, { table: "carbon_intensity_monthly", kind })).rec["older_How clean"];
+    if (y.nums.some((n) => n.check.includes("|carbon_intensity_monthly|"))) return "a monthly figure drawn";
+    const hour = (r) => r.nums.filter((n) => n.check.includes("|carbon_intensity_hourly|")).map((n) => `${n.check}=${n.raw}`).join(";");
+    return hour(ok) === hour(y) ? "" : "the hourly figures moved";
+  });
+  await check(`older_ERCOT: yesterday (1411), weather_obs_hourly, ${kind}: no degree day, ${kind === "empty" ? "each day not computed" : "never \"not computed (0 of 24 hours)\""}; demand stands`, async () => {
+    const why = await failing(ERCOT_MIX, "older_ERCOT: yesterday", "weather_obs_hourly", kind, { emptySays: /not computed \(0 of 24 hours in weather_obs_hourly\)/ });
+    if (why) return why;
+    const ok = (await base(ERCOT_MIX)).rec["older_ERCOT: yesterday"], y = (await draw(ERCOT_MIX, { table: "weather_obs_hourly", kind })).rec["older_ERCOT: yesterday"];
+    if (y.nums.some((n) => n.check.includes("degday|"))) return "a degree day drawn";
+    const dem = (r) => r.nums.filter((n) => !n.check.includes("degday|")).map((n) => `${n.check}=${n.raw}`).join(";");
+    if (dem(ok) !== dem(y)) return "the demand figures moved";
+    return kind === "empty" ? "" : notSaid(y, /not computed \(/) || (/Degree days at KDFW: ?(\[why: weather_obs_hourly could not be read just now[^\]]*\] )?could not be read/.test(y.text) ? "" : "the degree days are not said not read");
+  });
+  await check(`older_Reliability (1411), caiso_reliability_daily, ${kind}: no daily figure, both tables said not read (an empty answer is a failed read); the notices stand`, async () => {
+    const why = await failing(CAISO_MIX, "older_Reliability", "caiso_reliability_daily", kind, { wholeTable: true });
+    if (why) return why;
+    const ok = (await base(CAISO_MIX)).rec.older_Reliability, y = (await draw(CAISO_MIX, { table: "caiso_reliability_daily", kind })).rec.older_Reliability;
+    if (y.nums.some((n) => n.check.includes("|caiso_reliability_daily|"))) return "a daily figure drawn";
+    const awe = (r) => r.nums.filter((n) => n.check.startsWith("awe|")).map((n) => `${n.check}=${n.raw}`).join(";");
+    if (awe(ok) !== awe(y)) return "the notices' figures moved";
+    return /The daily peaks (\[why:[^\]]*\] )?could not be read/.test(y.text) && /The latest days (\[why:[^\]]*\] )?could not be read/.test(y.text) ? notSaid(y, /not held/) : `its words: ${y.text.slice(0, 400)}`;
+  });
+}
+await check("older_Reliability (1411), one daily read failing (evening_ramp_mw, the rest answered): its cells \"could not be read\", every other figure as before", async () => {
+  // the stand-in fails a whole table; here the ramp's read alone answers an HTTP 500, the other daily reads as they are
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async (input, ...a) => {
+    const u = new URL(String(input?.url ?? input));
+    if (u.searchParams.get("table_name") === "eq.caiso_reliability_daily" && u.searchParams.get("variable") === "eq.evening_ramp_mw") return new Response('{"message":"session 1411: this read fails on purpose"}', { status: 500 });
+    return realFetch(input, ...a);
+  };
+  try {
+    const ok = (await base(CAISO_MIX)).rec.older_Reliability, y = (await draw(CAISO_MIX)).rec.older_Reliability;
+    if (y.nums.some((n) => n.check.includes("|evening_ramp_mw|"))) return "a ramp figure drawn";
+    const before = new Map(ok.nums.map((n) => [n.check, n.raw]));
+    const lost = ok.nums.filter((n) => !n.check.includes("|evening_ramp_mw|") && !y.nums.some((m) => m.check === n.check && m.raw === n.raw));
+    if (lost.length) return `${lost.length} other figure(s) lost or moved: ${lost[0].check}`;
+    if (y.nums.some((n) => before.get(n.check) !== n.raw)) return "a figure moved";
+    return /caiso_reliability_daily \(evening_ramp_mw\) could not be read just now/.test(y.text) ? notSaid({ text: y.text.replace(/Batteries at the evening peak[\s\S]*$/, "") }, /not held/) : "the ramp's cells do not say why";
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
+for (const kind of KINDS) {
+  await check(`the table citations (1411), catalogue, ${kind}: "the source reports could not be read", no figure moved (its empty answer was already a failed read)`, async () => {
+    const why = await failing(ERCOT_MIX, "older_Batteries", "catalogue", kind, { wholeTable: true });
+    if (why) return why;
+    const y = (await draw(ERCOT_MIX, { table: "catalogue", kind })).rec.older_Batteries;
+    if (/\(source report /.test(y.text)) return "a source report drawn without its read";
+    return /\(the source reports (\[why: catalogue could not be read just now[^\]]*\] )?could not be read\)/.test(y.text) ? "" : `its words: ${y.text.slice(-400)}`;
+  });
+}
+
+// the Flex Alert scorecard (/grid/caiso/alerts), drawn as the Grid page is, at "_alerts"
+const alertsPage = await import("../app/grid/caiso/alerts/page.tsx");
+async function drawAlerts(f = null) {
+  fail = f;
+  asked = new Set();
+  globalThis.__erwRequestCache = new Map();
+  const rec = {};
+  try { await walk(alertsPage.default(), rec, "_alerts", new WeakSet()); }
+  catch (e) { block(rec, "_alerts").errors.push(`the page: ${e?.message ?? e}`); }
+  delete globalThis.__erwRequestCache;
+  fail = null;
+  for (const b of Object.values(rec)) b.text = b.text.join("").replace(/\s+/g, " ").trim();
+  return { rec, asked: new Set(asked) };
+}
+const alertsOk = await drawAlerts();
+for (const kind of KINDS) {
+  await check(`the Flex Alert scorecard's notices column (1411), caiso_grid_emergencies, ${kind}: ${kind === "empty" ? "blank as before (a window)" : "each day \"could not be read\""}, every figure as before`, async () => {
+    const x = alertsOk.rec._alerts;
+    const errs = Object.values(alertsOk.rec).flatMap((r) => r.errors);
+    if (errs.length) return `with every read answered a component threw: ${errs[0]}`;
+    if (!alertsOk.asked.has("caiso_grid_emergencies")) return "the scorecard does not read caiso_grid_emergencies";
+    if (x.nums.length < 50) return `with every read answered only ${x.nums.length} figures`;
+    if (/could not be read/.test(x.text)) return "with every read answered the page says not read";
+    const got = await drawAlerts({ table: "caiso_grid_emergencies", kind });
+    const y = got.rec._alerts;
+    const e2 = Object.values(got.rec).flatMap((r) => r.errors);
+    if (e2.length) return `a component threw: ${e2[0]}`;
+    if (JSON.stringify(x.nums) !== JSON.stringify(y.nums)) return "the scorecard's figures moved";
+    const said = (y.text.match(/\[why: caiso_grid_emergencies could not be read just now/g) ?? []).length;
+    if (kind === "empty") return said ? "an empty window said as a failed read" : "";
+    const days = (x.text.match(/EEA \d|Stage \d|Flex Alert, |Warning|Alert,/g) ?? []).length;
+    return said >= 1 && days ? "" : `${said} cells say could not be read (${days} notice names with every read answered)`;
+  });
+}
+
+await check("inside Next an empty answer of CAISO's daily peaks (a whole series) asks for a revalidation of RETRY seconds (1411)", async () => {
+  process.env.NEXT_RUNTIME = "nodejs";
+  try {
+    const n0 = (globalThis.__erwCacheCalls ?? []).length;
+    await draw(CAISO_MIX, { table: "caiso_reliability_daily", kind: "empty" });
+    const marks = (globalThis.__erwCacheCalls ?? []).slice(n0);
+    if (!marks.length) return "the empty daily series made no mark";
+    return marks.every((m) => m.options?.revalidate === sb.RETRY && JSON.stringify(m.keyParts) === '["erw-failed-read"]') ? "" : `a mark of ${JSON.stringify(marks[0])}`;
+  } finally {
+    delete process.env.NEXT_RUNTIME;
+  }
 });
 
 console.log(failures ? `${failures} of ${cases} case(s) failed` : `every case holds (${cases} cases)`);

@@ -149,5 +149,16 @@ export async function wholeRead<T>(table: string, holds: string, read: Promise<{
   return { ok: false, reason: e.message };
 }
 
+/** Session 1411: wholeRead's rule for a series of a table that holds a row every day (caiso_reliability_daily's peak demand,
+ *  every Pacific day since 2018): an answer of no row is a failed read, said with the series endpoint, and the page is
+ *  asked for a short revalidation; a read that failed and a read with rows are handed back as they came. */
+export async function wholeSeriesRead<T>(table: string, holds: string, read: Promise<{ ok: true; data: T[] } | { ok: false; reason: string }>): Promise<{ ok: true; data: T[] } | { ok: false; reason: string }> {
+  const r = await read;
+  if (!r.ok || r.data.length) return r;
+  const e = new DataError(`Supabase series: ${table} answered no row, and it holds ${holds}: read as a failed read`);
+  await markFailedRead(e);
+  return { ok: false, reason: e.message };
+}
+
 /** What caiso_grid_emergencies always holds, for the reason of an empty answer. */
 export const CAISO_HOLDS = "every notice since 1998";

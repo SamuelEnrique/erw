@@ -12,6 +12,7 @@ import { attempt } from "@/lib/supabase";
 import { dayMean, forecastMiss } from "@/lib/gridYesterday";  // session 1166: the arithmetic the new keys recompute
 import { generationSince } from "@/lib/gridReads";  // session 1179: the grid's generation, read once a render
 import { CaisoMixWithheld } from "@/components/CaisoMixWithheld";  // session 118
+import { Missing } from "@/components/mix/Now";  // session 1411: a read that could not be read, the tool's one look (session 1181)
 
 // Session 237: this file holds what app/grid/page.tsx ("Grid conditions", sessions 15 to 118) drew. The Grid tool is the
 // page at /grid now (lib/gridtool.ts); its Now view draws one region's block (GridYesterday) and its Mix view the table
@@ -73,6 +74,7 @@ export type BAResult = {
   genNote: string | null;
   error: string | null;
   weather?: SeriesRow[]; // session 24: the station's hourly observed temperature (weather_obs_hourly)
+  weatherError?: string; // session 1411: the reason the station's temperatures could not be read, when they could not
 };
 
 // Session 29: the eight BAs' tables are one table per family (docs/migrations/2026-09-29-consolidation.md), a BA's
@@ -115,6 +117,8 @@ export async function loadConditions(ba: (typeof BAS)[number], yesterday: string
   }
   const gen = genDay ? g.data.filter((r) => r.ts_utc.slice(0, 10) === genDay) : [];
   const w = weather && ba.station ? await attempt(() => series(WX, { entity: `nws:${ba.station}`, variable: "temperature_f", since: daysAgo(10) })) : null;
+  // session 1411: a failed read of the temperatures is kept, so the degree days say "could not be read", never "0 of 24 hours"
+  if (w && !w.ok) return { ba, day, note, demand: d.data, gen, genDay, genNote, error: null, weather: [], weatherError: w.reason };
   return { ba, day, note, demand: d.data, gen, genDay, genNote, error: null, weather: w && w.ok ? w.data : [] };
 }
 
@@ -190,7 +194,12 @@ function Block({ r }: { r: BAResult }) {
       <div className="min-w-0">
         <LineChart lines={lines} unit="MW" unit2="degF" height={220} ariaLabel={`${r.ba.label} hourly demand, day-ahead forecast and temperature, 7 days`} />
         <Cite tables={temps.length ? [table, WX] : [table]} note={`Hourly demand and EIA's day-ahead demand forecast, the 7 UTC days to ${r.day}. Error is demand minus forecast${temps.length ? `. Temperature: the hourly mean observed at ${r.ba.station}, the load center's airport (right axis, degrees F); weather data: National Weather Service` : ""}`} />
-        {r.ba.station ? (
+        {/* session 1411: the station's temperatures could not be read: the degree days say so, and no day is drawn as "not computed" */}
+        {r.ba.station && r.weatherError ? (
+          <p className="mt-1 text-xs" data-yesterday-unread={WX}>
+            <span className="text-muted">Degree days at {r.ba.station}:</span> <Missing words="could not be read" why={`${WX} could not be read just now: ${r.weatherError}`} />
+          </p>
+        ) : r.ba.station ? (
           <p className="mt-1 text-xs">
             <span className="text-muted">Degree days at {r.ba.station} (base {BASE_F} F, from the UTC day&apos;s 24 hourly mean temperatures; CDD cooling, HDD heating):</span>{" "}
             {dd.map((x, i) => (

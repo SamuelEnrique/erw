@@ -51,6 +51,14 @@ export async function Cite({ tables, note }: { tables: string[]; note?: string }
           </span>
         );
       })}
+      {/* session 1411: the catalogue's read failed: the source reports are said not read, never left out without a word (the
+          look of the Grid tool's Missing, components/mix/Now.tsx, written here: this component is every page's) */}
+      {!cat.ok && uniq.some((t) => !LIVE_ONLY[t]) ? (
+        <>
+          {" "}(the source reports{" "}
+          <span className="cursor-help border-b border-dotted border-muted italic" title={`catalogue could not be read just now: ${cat.reason}`} data-missing="1" data-cite-unread="catalogue">could not be read</span>)
+        </>
+      ) : null}
       {note ? <>. {note}</> : null}.
     </p>
   );

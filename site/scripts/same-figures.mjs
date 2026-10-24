@@ -4,6 +4,8 @@
 //   node scripts/same-figures.mjs --env <file holding SUPABASE_URL and SUPABASE_ANON_KEY> --before <tree> --after <tree>
 //     --only <address>[,<address>...] --out <dir> [--sizes]
 //
+// Session 1411: --only also takes /grid/caiso/alerts, the Flex Alert scorecard (its own page file, no search parameters).
+//
 // Session 1183: with --sizes each page is also drawn to its markup (sizeOf: the HTML and the flight payload Next would
 // send, estimated outside Next, a client component's own markup not counted), its bytes before and after written to
 // --out as sizes.json, and a page that grew by more than 15 percent or 100 KB marked OVER (the exit stays the figures').
@@ -200,11 +202,16 @@ async function walkTree(site, addresses, out) {
   delete process.env.NEXT_RUNTIME;
   delete process.env.SUPABASE_SERVICE_KEY;
   const page = await import(pathToFileURL(path.join(site, "app", "grid", "page.tsx")).href);
+  // session 1411: the Flex Alert scorecard, the Grid tool's page of its own (no search parameters), walked the same way
+  const OWN_PAGES = { "/grid/caiso/alerts": ["app", "grid", "caiso", "alerts", "page.tsx"] };
+  const own = {};
+  for (const name of addresses) if (OWN_PAGES[name]) own[name] = await import(pathToFileURL(path.join(site, ...OWN_PAGES[name])).href);
+  const drawOf = (name) => (own[name] ? own[name].default() : page.default({ searchParams: Promise.resolve(paramsOf(name)) }));
   const result = {};
   for (const name of addresses) {
     globalThis.__erwRequestCache = new Map();
-    const rec = await figuresOf(page.default({ searchParams: Promise.resolve(paramsOf(name)) }));
-    if (process.env.ERW_SIZES === "1") rec.size = await sizeOf(page.default({ searchParams: Promise.resolve(paramsOf(name)) }));
+    const rec = await figuresOf(drawOf(name));
+    if (process.env.ERW_SIZES === "1") rec.size = await sizeOf(drawOf(name));
     delete globalThis.__erwRequestCache;
     result[name] = rec;
     console.log(`${name}: ${rec.nums.length} figures, ${rec.held.length} held, ${rec.panels.length} panels, ${rec.errors.length} errors`);

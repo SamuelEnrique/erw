@@ -62,6 +62,12 @@ function HeldLine({ what, held }: { what: string; held: Held }) {
   return <p className="text-sm text-muted" role="status" data-grid-held={what}>{what}: <Missing why={held.why} words={held.words} /></p>;
 }
 
+/** Session 1411: a block whose read failed (lib/grid.ts load keeps the reason in d.errors), said in the tool's one look
+ *  with session 1181's words, the table and the reason on hover; never "not in the warehouse yet", and no figure of it. */
+function Unread({ what, table, reason }: { what: string; table: string; reason: string }) {
+  return <p className="text-sm text-muted" role="status" data-grid-unread={table}>{what}: <Missing words="could not be read" why={`${table} could not be read just now: ${reason}`} /></p>;
+}
+
 const key = (t: string, r: SeriesRow) => `series|${t}|${r.entity}|${r.variable}|${r.ts_utc}`;
 const N = ({ t, r }: { t: string; r?: SeriesRow }) => (r ? <Num check={key(t, r)} raw={r.value}>{shown(r.value)}</Num> : <span className="text-muted">none</span>);
 const latestOf = (rows: SeriesRow[], v: string) => rows.filter((r) => r.variable === v).sort((a, b) => a.ts_utc.localeCompare(b.ts_utc)).at(-1);
@@ -201,6 +207,9 @@ function Batteries({ g, d }: { g: GridConfig; d: GridData }) {
           </div>
           <Cite tables={[T]} note={g.storage_source === "caiso" ? "CAISO's rows from its own 5-minute Total batteries series (caiso_battery_storage), averaged to hours, complete Pacific days" : "From EIA-930's hourly battery net generation, complete local days"} />
         </div>
+      ) : d.errors.cycle ? (
+        // session 1411: the cycle's read failed: said so, never "EIA-930 has no battery series for this grid"
+        <div className="mb-3"><Unread what={`${g.iso}'s daily battery cycle`} table={T} reason={d.errors.cycle} /></div>
       ) : (
         <NotYet what={`a daily battery cycle for ${g.iso}: EIA-930 has no battery series for this grid`} where="EIA publishes each grid's hourly generation by fuel" href={EIA(g)} />
       )}
@@ -215,6 +224,9 @@ function Batteries({ g, d }: { g: GridConfig; d: GridData }) {
           <p className="mt-1 text-xs text-muted">MW is how fast a battery can deliver power; MWh is how much energy it holds. EIA-860M gives MWh for operating units, not planned ones.</p>
           <Cite tables={["storage_capacity"]} note="Sums of the battery units whose balancing authority is this grid" />
         </div>
+      ) : d.errors.units ? (
+        // session 1411: the units' read failed: said so, never "not in the warehouse yet"
+        <Unread what={`Battery units in ${g.iso}'s footprint`} table="storage_capacity" reason={d.errors.units} />
       ) : (
         <NotYet what={`battery units mapped to ${g.iso}`} where="EIA publishes the generator inventory, EIA-860M" href="https://www.eia.gov/electricity/data/eia860m/" />
       )}
@@ -229,6 +241,8 @@ function Clean({ g, d }: { g: GridConfig; d: GridData }) {
   const T = "carbon_intensity_hourly", TM = "carbon_intensity_monthly";
   const gen = d.ci.filter((r) => r.variable === "intensity_generation").sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
   const last = gen.at(-1);
+  // session 1411: the hourly read failed: said so, never "not in the warehouse yet"
+  if (!last && d.errors.ci) return <Unread what={`${g.iso}'s carbon intensity, hourly`} table={T} reason={d.errors.ci} />;
   if (!last) return <NotYet what={`${g.iso}'s carbon intensity`} where="EIA publishes hourly CO2 estimates per grid in its Grid Monitor workbooks" href={EIA(g)} />;
   const dem = d.ci.find((r) => r.variable === "intensity_demand" && r.ts_utc === last.ts_utc);
   const lt = Date.parse(last.ts_utc);
@@ -266,6 +280,9 @@ function Clean({ g, d }: { g: GridConfig; d: GridData }) {
           ) : null}
           <Cite tables={[TM]} />
         </div>
+      ) : d.errors.monthly ? (
+        // session 1411: the monthly read failed: said so (the block drew nothing in its place)
+        <div className="mt-3"><Unread what="Monthly since 2018" table={TM} reason={d.errors.monthly} /></div>
       ) : null}
       <p className="mt-1 text-xs text-muted">Carbon intensity is the CO2 released per MWh of electricity: lower is cleaner. <Link href="/data/methods/emissions">Method</Link>.</p>
     </>
@@ -279,19 +296,23 @@ function Cost({ g, d }: { g: GridConfig; d: GridData }) {
   if (!g.prices_public) return <NotYet what={`${g.iso}'s prices: ${(g.prices_note ?? "not public here").replace(/[.]$/, "")}`} where={`${g.iso} publishes them`} href={g.prices_url ?? "https://www.eia.gov/electricity/wholesale/"} />;
   // session 1167: a held grid's prices read "license needed" (the read is refused by lib/supabase.ts; until now the block said "not in the warehouse yet")
   if (g.hub && licenseHeldRow(T, g.hub.entity)) return <HeldLine what={`${g.iso}'s hub prices`} held={{ words: LICENSE_NEEDED, why: licenseTitle(T) }} />;
+  // session 1411: the price board's read failed: said so, never "not in the warehouse yet"
+  if (g.hub && !d.prices.length && d.errors.prices) return <Unread what={`${g.iso}'s hub prices`} table={T} reason={d.errors.prices} />;
   if (!g.hub || !d.prices.length) return <NotYet what={`${g.iso}'s hub prices`} where="EIA summarizes wholesale prices" href="https://www.eia.gov/electricity/wholesale/" />;
   const daMean = latestOf(d.prices, "da_latest_day_mean"), rtMean = latestOf(d.prices, "rt_latest_day_mean"), avg30 = latestOf(d.prices, "da_avg_30d");
   const daily = d.prices.filter((r) => r.variable === "da_daily_mean").sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
   const pk = latestOf(d.peak, "da_peak_mean");
   const off = pk ? d.peak.find((r) => r.variable === "da_offpeak_mean" && r.ts_utc === pk.ts_utc) : undefined;
+  // session 1411: the peak and off-peak cells when price_board_peak_offpeak's read failed: "could not be read", never "none"
+  const peakN = (r?: SeriesRow) => (d.errors.peak && !r ? <Missing words="could not be read" why={`${TP} could not be read just now: ${d.errors.peak}`} /> : <N t={TP} r={r} />);
   return (
     <>
       <div className="text-xs text-muted">{g.hub.label}, USD per MWh</div>
       <div className="mt-1 grid grid-cols-2 gap-px border border-rule bg-rule text-sm tabular-nums sm:grid-cols-4">
         <div className="bg-panel p-2"><div className="text-xs text-muted">Day-ahead, {daMean?.ts_utc.slice(0, 10)}</div><div className="text-xl"><N t={T} r={daMean} /></div></div>
         <div className="bg-panel p-2"><div className="text-xs text-muted">Real-time, {rtMean?.ts_utc.slice(0, 10)}</div><div className="text-xl"><N t={T} r={rtMean} /></div></div>
-        <div className="bg-panel p-2"><div className="text-xs text-muted">Day-ahead peak, {pk?.ts_utc.slice(0, 10)}</div><div className="text-xl"><N t={TP} r={pk} /></div></div>
-        <div className="bg-panel p-2"><div className="text-xs text-muted">Day-ahead off-peak, same day</div><div className="text-xl"><N t={TP} r={off} /></div></div>
+        <div className="bg-panel p-2"><div className="text-xs text-muted">Day-ahead peak, {pk?.ts_utc.slice(0, 10)}</div><div className="text-xl">{peakN(pk)}</div></div>
+        <div className="bg-panel p-2"><div className="text-xs text-muted">Day-ahead off-peak, same day</div><div className="text-xl">{peakN(off)}</div></div>
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-3 text-sm">
         <span className="text-xs text-muted">Day-ahead daily mean, 30 days (average <N t={T} r={avg30} />)</span>

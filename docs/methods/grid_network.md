@@ -979,6 +979,31 @@ Decisions (session 1404, written by session 1408):
 - **The render's stand-in is a module of its own**, and the two older tests' stand-ins are left as they were, since python tests pin lines of `test-grid-files.mjs` and `test-grid-failed-reads.mjs`.
 - **The counts follow the fixtures as drawn**: session 1406 found the stand-ins read `fixtures/grid_balance.json`'s week as one value an hour, raised six cases' counts to what is drawn, and made a NaN count as a figure without a value; that change of 1404's expected counts is put to the owner beside 1404's pins.
 
+## The older blocks when a read fails (chain 107, 24 October 2026)
+
+Chain 107 in this note: session 1411.
+
+Session 1411. Session 1181's list of older blocks that said "not held", "not in the warehouse yet", "none" or nothing when their read failed, each now saying "could not be read" in the tool's one look (`Missing` of `components/mix/Now.tsx`: the table and the reason on hover) and drawing no figure of the read; with every read answered each is drawn as before:
+
+- YourGrid's battery cycle (`storage_daily_cycle`): "EIA-930 has no battery series for this grid" on a failed read; now "ERCOT's daily battery cycle: could not be read" (`components/grid/YourGrid.tsx`, `Unread`);
+- YourGrid's battery units (`storage_capacity`): "Not in the warehouse yet: battery units mapped to ERCOT"; now "Battery units in ERCOT's footprint: could not be read";
+- the price board (`price_board_latest`): "Not in the warehouse yet: ERCOT's hub prices"; now "could not be read"; its peak and off-peak cells (`price_board_peak_offpeak`): "none"; now "could not be read", the latest days' prices beside them as before;
+- the carbon intensity: the hour (`carbon_intensity_hourly`) "Not in the warehouse yet"; the months since 2018 (`carbon_intensity_monthly`) nothing; each now "could not be read", the other drawn as before;
+- "Yesterday" (`components/grid/Conditions.tsx`): the station's temperatures (`weather_obs_hourly`) failed drew every day's degree days as "not computed (0 of 24 hours in weather_obs_hourly)"; now "Degree days at KDFW: could not be read" (`weatherError` in `loadConditions`);
+- CAISO's daily series (`caiso_reliability_daily`, `components/grid/Reliability.tsx`): a failed peak read drew the two tables with no row and no word; now "The daily peaks could not be read" and "The latest days could not be read"; a failed ramp, battery or notice read drew "not held" or a blank cell; now that cell says "could not be read", every other cell as before (`RowUnread`);
+- the table citations (`components/Cite.tsx`, every page's): a failed `catalogue` read left the source reports out without a word; now "(the source reports could not be read)", the reason on hover;
+- the Flex Alert scorecard's notices column (`/grid/caiso/alerts`): blank on every day when `caiso_grid_emergencies` failed; now each day's cell "could not be read"; its 433 figures as before.
+
+`site/scripts/test-grid-failed-reads.mjs` holds each (33 cases, 107 in all): the blocks are recorded under their Section's title beside the block they are drawn in, on a new committed fixture (`site/scripts/fixtures/grid_older_reads.json`, real rows read once with the anon key) and session 1180's `grid_units.json`; on the code before (the six source files stashed) 24 of the 33 failed. `site/scripts/same-figures.mjs` now also walks `/grid/caiso/alerts`.
+
+Decisions (chain 107, session 1411):
+
+- **An empty answer of CAISO's daily peaks is a failed read** (`lib/gridReads.ts` `wholeSeriesRead`, beside 1181's `wholeRead`, whose words name the events endpoint): `peak_demand_mw` holds every Pacific day since 2018, and an empty 200 is the one answer the hourly data cache could keep. The other daily reads, and every other block's empty answer, say what an empty answer is, as before ("not held", "not in the warehouse yet", "not computed (0 of 24 hours)", "none"); the scorecard's notices read is a window and stays blank on an empty answer (1181's rule).
+- **The citation's words are written in `Cite.tsx`, not taken from `Missing`**: the component is every page's, and `tests/test_session473.py` keeps `Missing` to the Grid tool's files; the look is the same (dotted, italic, the reason on hover, `data-missing`). `Conditions.tsx` and the scorecard page take `Missing` and join that test's allowed list (no assertion removed).
+- **When the hourly carbon intensity fails, the block says so and stops**, as it stopped with no hour held; the months are not drawn alone (the block's shape is unchanged).
+- **The catalogue is answered only in the test's 1411 cases**: every case before them ran on a stand-in that answers it no row, so each draws as it did.
+- **The page's HTML is byte for byte the same when every read succeeds** (`same-figures.mjs --sizes`); the flight payload grows by 5 to 60 bytes a page, the `null` of each new failure branch.
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").

@@ -5,7 +5,7 @@ import type { SeriesRow } from "@/lib/data";
 import { count, shown } from "@/lib/format";
 import { DAILY, EMERGENCIES, GEHR, daysByYear, dailyNotices, dailyVar, gridNotices, typeName } from "@/lib/reliability";
 import { attempt } from "@/lib/supabase";
-import { CAISO_HOLDS, wholeRead } from "@/lib/gridReads";  // session 1181
+import { CAISO_HOLDS, wholeRead, wholeSeriesRead } from "@/lib/gridReads";  // session 1181; session 1411: wholeSeriesRead, the daily peaks' empty answer is a failed read
 import { Missing } from "@/components/mix/Now";  // session 1181
 
 // Session 58: California reliability v1, /grid/caiso's "Reliability" section. Every Flex Alert and emergency CAISO lists
@@ -21,9 +21,14 @@ const SHORT: Record<string, string> = {
 const dayOf = (r: SeriesRow) => r.ts_utc.slice(0, 10);
 const key = (r: SeriesRow) => `series|${DAILY}|${r.entity}|${r.variable}|${r.ts_utc}`;
 type Days = { R: Map<string, SeriesRow>; S: Map<string, SeriesRow>; B: Map<string, SeriesRow>; M: Map<string, string[]> };
+// session 1411: the daily reads that failed (R the ramp, S the share, B the batteries' MW, M the notices), each with its reason
+type Unread = Partial<Record<"R" | "S" | "B" | "M", string>>;
+/** Session 1411: a figure of caiso_reliability_daily whose read failed, in the tool's one look (session 1181). */
+const unread = (what: string, reason: string) => <Missing words="could not be read" why={`${DAILY} (${what}) could not be read just now: ${reason}`} />;
 
-function Row({ p, x }: { p: SeriesRow; x: Days }) {
+function Row({ p, x, f = {} }: { p: SeriesRow; x: Days; f?: Unread }) {
   const d = dayOf(p), m = x.M.get(d) ?? [];
+  if (f.R || f.S || f.B || f.M) return <RowUnread p={p} x={x} f={f} />;  // session 1411
   return (
     <tr className="border-b border-rule">
       <td className="py-1 pr-3 font-mono">{d}</td>
@@ -31,6 +36,23 @@ function Row({ p, x }: { p: SeriesRow; x: Days }) {
       <td className="py-1 pr-3 text-right tabular-nums"><V r={x.R.get(d)} /></td>
       <td className="py-1 pr-3 text-right tabular-nums">{x.S.get(d) ? <><V r={x.S.get(d)} />% (<V r={x.B.get(d)} /> MW)</> : <span className="text-muted">not held</span>}</td>
       <td className="py-1 pr-3 text-xs">{m.length ? m.map((t) => SHORT[t] ?? typeName(t)).join(", ") : ""}</td>
+    </tr>
+  );
+}
+
+/** Session 1411: a day's row when a daily read other than the peak failed: each cell of a failed read says "could not be
+ *  read" and draws no figure; the cells of the reads that succeeded are drawn as Row draws them. */
+function RowUnread({ p, x, f }: { p: SeriesRow; x: Days; f: Unread }) {
+  const d = dayOf(p), m = x.M.get(d) ?? [];
+  const share = f.S ? unread("battery_share_pct", f.S)
+    : x.S.get(d) ? <><V r={x.S.get(d)} />% ({f.B ? unread("battery_mw_evening_peak", f.B) : <><V r={x.B.get(d)} /> MW</>})</> : <span className="text-muted">not held</span>;
+  return (
+    <tr className="border-b border-rule" data-reliability-daily-unread="row">
+      <td className="py-1 pr-3 font-mono">{d}</td>
+      <td className="py-1 pr-3 text-right tabular-nums"><V r={p} /></td>
+      <td className="py-1 pr-3 text-right tabular-nums">{f.R ? unread("evening_ramp_mw", f.R) : <V r={x.R.get(d)} />}</td>
+      <td className="py-1 pr-3 text-right tabular-nums">{share}</td>
+      <td className="py-1 pr-3 text-xs">{f.M ? unread("notices_*", f.M) : m.length ? m.map((t) => SHORT[t] ?? typeName(t)).join(", ") : ""}</td>
     </tr>
   );
 }
@@ -53,7 +75,7 @@ function V({ r, unit }: { r?: SeriesRow; unit?: string }) {
 
 export async function Reliability() {
   const [ns, peak, ramp, share, bat, marks] = await Promise.all([
-    wholeRead(EMERGENCIES, CAISO_HOLDS, attempt(() => gridNotices())).then((r) => r!), attempt(() => dailyVar("peak_demand_mw")), attempt(() => dailyVar("evening_ramp_mw")),
+    wholeRead(EMERGENCIES, CAISO_HOLDS, attempt(() => gridNotices())).then((r) => r!), wholeSeriesRead(DAILY, "every Pacific day since 2018", attempt(() => dailyVar("peak_demand_mw"))), attempt(() => dailyVar("evening_ramp_mw")),
     attempt(() => dailyVar("battery_share_pct")), attempt(() => dailyVar("battery_mw_evening_peak")), attempt(() => dailyNotices()),
   ]);
   const notices = ns.ok ? ns.data : [];
@@ -62,6 +84,8 @@ export async function Reliability() {
   const idx = (x: { ok: boolean; data?: SeriesRow[] }) => new Map((x.ok ? x.data! : []).map((r) => [dayOf(r), r]));
   const x: Days = { R: idx(ramp as never), S: idx(share as never), B: idx(bat as never), M: new Map() };
   for (const r of marks.ok ? marks.data : []) x.M.set(dayOf(r), [...(x.M.get(dayOf(r)) ?? []), r.variable.replace(/^notices_/, "")]);
+  // session 1411: the daily reads that failed, so a row says "could not be read" where it said "not held" or nothing
+  const f: Unread = { ...(ramp.ok ? {} : { R: ramp.reason }), ...(share.ok ? {} : { S: share.reason }), ...(bat.ok ? {} : { B: bat.reason }), ...(marks.ok ? {} : { M: marks.reason }) };
   const peaks = peak.ok ? [...peak.data] : [];
   const tight = [...peaks].sort((a, b) => b.value - a.value || a.ts_utc.localeCompare(b.ts_utc)).slice(0, 12);
   const latest = peaks.slice(-14).reverse();
@@ -123,9 +147,12 @@ export async function Reliability() {
         Each day&apos;s highest hour of demand served, the evening ramp (the rise from the 12:00 to 15:00 mean to the 17:00 to 21:00 peak), and, since
         2025-08-24, what CAISO&apos;s batteries delivered in the evening&apos;s peak hour and their share of that hour&apos;s demand.
       </p>
-      <div className="mb-4 overflow-x-auto"><table className="w-full text-sm"><Head /><tbody>{tight.map((p) => <Row key={p.ts_utc} p={p} x={x} />)}</tbody></table></div>
+      {/* session 1411: the peak's read failed: the two tables say so, never an empty table */}
+      {!peak.ok ? <p className="mb-4 text-sm text-muted" data-reliability-daily-unread="peaks">The daily peaks {unread("peak_demand_mw", peak.reason)}.</p> : null}
+      {peak.ok ? <div className="mb-4 overflow-x-auto"><table className="w-full text-sm"><Head /><tbody>{tight.map((p) => <Row key={p.ts_utc} p={p} x={x} f={f} />)}</tbody></table></div> : null}
       <h3 className="mb-1 text-base">The latest fourteen days held</h3>
-      <div className="mb-2 overflow-x-auto"><table className="w-full text-sm"><Head /><tbody>{latest.map((p) => <Row key={p.ts_utc} p={p} x={x} />)}</tbody></table></div>
+      {!peak.ok ? <p className="mb-2 text-sm text-muted" data-reliability-daily-unread="latest">The latest days {unread("peak_demand_mw", peak.reason)}.</p> : null}
+      {peak.ok ? <div className="mb-2 overflow-x-auto"><table className="w-full text-sm"><Head /><tbody>{latest.map((p) => <Row key={p.ts_utc} p={p} x={x} f={f} />)}</tbody></table></div> : null}
       <p className="mb-2 max-w-3xl text-xs text-muted">
         Not here yet: the day&apos;s available supply (CAISO&apos;s Today&apos;s Outlook &quot;available resources&quot; is not in the warehouse), so peak demand is not set against it;
         and batteries before 2025-08-24. Demand is EIA-930&apos;s for CAISO&apos;s balancing authority, hourly, Pacific days. A September 2022 heat wave set the
