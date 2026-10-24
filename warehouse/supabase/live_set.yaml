@@ -420,6 +420,7 @@ catalogue_hold:
   - ons_brazil_balance_hourly
   - ree_spain_balance_monthly
   - dosm_malaysia_electricity_monthly
+  - censtatd_hk_electricity
   - eia_lng_storage_annual
   - eia_gas_plant_processing_annual
   - eia_crude_tank_farm_stocks_monthly

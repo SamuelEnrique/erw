@@ -38,6 +38,7 @@ carbon_intensity_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2018-
 carbon_intensity_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1M,2018-08-01T00:00:00Z,2026-09-01T00:00:00Z,1275,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-23T14:36:08Z,pass,public,power;carbon,yes,derived
 cbs_netherlands_electricity_monthly,cbs,,25,P1M,1976-01-01T00:00:00Z,2026-07-01T00:00:00Z,8880,cbs:84575NED,2026-10-24T02:53:50Z,pass,public,power,no,source
 cec_total_system_generation_annual,cec,,47,P1Y,2009-01-01T00:00:00Z,2025-01-01T00:00:00Z,795,cec:total_system_electric_generation,2026-10-23T23:00:10Z,pass,public,power,no,source
+censtatd_hk_electricity,censtatd,,1,P1M;P3M,1979-01-01T00:00:00Z,2026-08-01T00:00:00Z,3699,censtatd:hong_kong_energy_statistics,2026-10-24T06:50:35Z,pass,public,power,no,source
 census_bps_state_annual,census,,51,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,6732,census:bps_state_annual,2026-10-24T00:20:21Z,pass,public,power,no,source
 census_c30_construction_monthly,census,,110,P1M,1993-01-01T00:00:00Z,2026-08-01T00:00:00Z,82760,census:c30_construction_spending,2026-10-24T04:56:02Z,pass,public,power;datacenters,no,source
 census_cbp_hosting_annual,census,,51,P1Y,2012-01-01T00:00:00Z,2023-01-01T00:00:00Z,1836,census:cbp_state_518210,2026-10-24T00:26:22Z,pass,public,power;datacenters,no,source
@@ -65,7 +66,7 @@ doe_lead_energy_burden,doe,,2012,P1Y,2022-01-01T00:00:00Z,2022-01-01T00:00:00Z,1
 doe_lng_export_applications,doe,,135,snapshot,2026-10-23T18:41:41Z,2026-10-23T18:41:41Z,135,doe:lng_export_applications,2026-10-23T18:46:48Z,pass,public,gas;lng,no,source
 doe_oe417_events,none,,1,event,2016-01-04T00:00:00Z,2025-12-30T00:00:00Z,3313,1 outlets,2026-10-23T18:21:08Z,pass,public,power,no,source
 doe_useer_employment,doe,,3269,P1Y,2024-01-01T00:00:00Z,2025-01-01T00:00:00Z,3311,doe:useer_2026_public_data,2026-10-23T16:22:41Z,pass,public,power;gas;oil;coal,no,source
-dosm_malaysia_electricity_monthly,dosm,,1,P1M,2018-01-01T00:00:00Z,2026-06-01T00:00:00Z,1224,dosm:electricity_supply_consumption,2026-10-24T06:34:23Z,pass,public,power,no,source
+dosm_malaysia_electricity_monthly,dosm,,1,P1M,2018-01-01T00:00:00Z,2026-06-01T00:00:00Z,1224,dosm:electricity_supply_consumption,2026-10-24T06:52:20Z,pass,public,power,no,source
 egrid_power_plants,egrid,,12612,snapshot,2026-10-21T16:59:48Z,2026-10-21T16:59:48Z,12612,epa:egrid,2026-10-21T18:30:52Z,pass,public,power;carbon,no,source
 egrid_subregions_annual,egrid,,27,P1Y,2023-01-01T00:00:00Z,2023-01-01T00:00:00Z,540,epa:egrid_subregions,2026-10-23T16:20:42Z,pass,public,power;carbon,no,source
 eia411_capacity_margins_annual,eia411,,17,P1Y,1990-06-01T00:00:00Z,2027-10-01T00:00:00Z,2924,eia:eia411,2026-10-23T07:12:56Z,pass,public,power,no,source

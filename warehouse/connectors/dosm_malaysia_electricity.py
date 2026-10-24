@@ -126,13 +126,13 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Department of Statistics Malaysia, Monthly Electricity Supply and Monthly Electricity Consumption (compiled from TNB, SESB, Sarawak Energy and the Energy Commission), {PAGE}",
             f"  access: {FILES['supply']} and {FILES['consumption']}",
-            "License: CC BY 4.0 (each dataset's page on data.gov.my). Cite: Department of Statistics Malaysia, data.gov.my.",
+            "License: public, CC BY 4.0 (each dataset's page on data.gov.my). Cite: Department of Statistics Malaysia, data.gov.my.",
         ]
         ip.write_csv(t, NAME, header, log, cols=COLS)
         if not args.out_dir:
             ip.update_sources([dict(source=SOURCE, publisher="Department of Statistics Malaysia (DOSM)",
                                     report="Monthly Electricity Supply and Monthly Electricity Consumption, by sector (data.gov.my catalogue)",
-                                    report_url=PAGE, document_list=" ".join(FILES.values()), license="CC BY 4.0", tables=[NAME])])
+                                    report_url=PAGE, document_list=" ".join(FILES.values()), license="public", tables=[NAME])])
         results.append(dict(table=NAME, market="all", status="ok", detail=f"{len(t)} rows"))
         print(f"{NAME}: {len(t)} rows")
     except Exception:
