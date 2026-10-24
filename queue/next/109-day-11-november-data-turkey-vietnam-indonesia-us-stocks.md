@@ -39,9 +39,9 @@ The rules of `queue/done/108-day-10-november-data-malaysia-thailand-ecuador-keny
 - **A currency other than USD is a standing question for the owner:** a foreign country's prices are not taken; its quantities are.
 - **Merging main into a chain's branch:** a generated line is merged as the union of both sides with its true count, never by taking one side.
 - **The live site:** from 24 October 2026 (about 02:00 UTC) every page answered HTTP 402 (the Vercel deployment disabled, a question for the owner); the snapshots are still taken on both sides of a push, and a comparison that cannot run is said so in the report.
-- **Session 2336 begins by writing `queue/next/<next free number>-<slug>.md`** for this machine (at least twelve sessions, machine: data, numbered from 2350, a number found taken skipped upward and said so), commits it alone and pushes it to main before any other work; session 2349 updates it.
+- **Session 2336 begins by writing `queue/next/<next free number>-<slug>.md`** for this machine (at least twelve sessions, machine: data, numbered from 2357, a number found taken skipped upward and said so: 2350 to 2356 are chain 105's, renumbered from 2300 to 2306, which the code machine's chain 087 and its wip/2306-audit-fixes used; look on the running chains' wip branches too), commits it alone and pushes it to main before any other work; session 2349 updates it.
 
-- **Hosts closed by chains 104 and 106, not asked again:** Terna's data (personal use only), www.tepco.co.jp (HTTP 403), Kansai Transmission and Distribution (its terms), OCCTO's interactive system, CAMMESA's hosts (connection reset), www.ema.gov.sg (a challenge), IEMOP's data and Noga's (their terms), apis.cbs.gov.il, and openstat.psa.gov.ph, whose robots file disallows ClaudeBot, anthropic-ai and Claude-Web by name: **every robots file is read for rules that name AI agents, not only `*`.**
+- **Hosts closed by chains 104, 105 and 106, not asked again:** osp.stat.gov.lt (a Cloudflare challenge), www.litgrid.eu (its robots file disallows ClaudeBot, anthropic-ai and Claude-Web by name), donnees.hydroquebec.com (robots closes its API and downloads to all but Google), api.neso.energy (robots disallows every path), Terna's data (personal use only), www.tepco.co.jp (HTTP 403), Kansai Transmission and Distribution (its terms), OCCTO's interactive system, CAMMESA's hosts (connection reset), www.ema.gov.sg (a challenge), IEMOP's data and Noga's (their terms), apis.cbs.gov.il, and openstat.psa.gov.ph, whose robots file disallows ClaudeBot, anthropic-ai and Claude-Web by name: **every robots file is read for rules that name AI agents, not only `*`.**
 
 Read first: chain 108's note (written by session 2335), sessions 2322 to 2335's reports, chain 106's and chain 107's notes, `docs/reviews/siting-gaps.md`.
 
@@ -71,7 +71,7 @@ Long end 1:30. Pulls: at most 20 requests, two pages a host beside its robots fi
 
 ## Session 2342: a source of the session's own choosing
 
-Long end 1:30. Pulls: at most 20 requests. A public source the ERW does not hold and no chain has taken, chosen by the session; say why. Taken by chains beside 108 and not chosen again: Singapore's statistics (SingStat), Estonia's (Statistics Estonia, Elering), Finland's, Latvia's (CSP) and Lithuania's statistics offices (chain 106), and Energy-Charts' countries.
+Long end 1:30. Pulls: at most 20 requests. A public source the ERW does not hold and no chain has taken, chosen by the session; say why. Taken by chains beside 108 and not chosen again: Singapore's statistics (SingStat), Estonia's (Statistics Estonia, Elering), Finland's, Latvia's (CSP), Lithuania's and Iceland's (Statistics Iceland) statistics offices (chain 106), and Energy-Charts' countries.
 
 ## Session 2343: a second source of the session's own choosing
 
