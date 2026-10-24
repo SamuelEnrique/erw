@@ -14,7 +14,7 @@
   - One POST to SMARD's download centre, the form behind its Data download page, answering a zip of two CSV files.
   - The module numbers of its form were taken from memory of that form and confirmed by the answer: its columns are the twelve sources and the grid load.
   - SMARD's monthly chart files would have cost one request a series and year (156 in all).
-- **The license:** SMARD's Data use page licenses its market data CC BY 4.0, attributed "Bundesnetzagentur | SMARD.de". It says the data come from the transmission system operators through ENTSO-E, verified by the Bundesnetzagentur. The verdict is for the licenses round, read 353.
+- **The license:** SMARD's Data use page licenses its market data CC BY 4.0, attributed "Bundesnetzagentur | SMARD.de". It says the data come from the transmission system operators through ENTSO-E, verified by the Bundesnetzagentur. The verdict is for the licenses round, read 368.
 - **Cross-checks, full years 2016 to 2025:**
   - SMARD's generation is 0.894 (2017) to 0.995 (2020, 2023) of Eurostat's net production for Germany (`eurostat_electricity_monthly`, session 2225).
   - Its grid load is 0.853 (2016) to 0.901 (2021) of Ember's German demand.
@@ -32,7 +32,7 @@
 | 5 | the download centre (a test of the form) | 200, a zip of two CSVs |
 | 6 | the download centre from 1 January 2015, German time (the trial) | 200 |
 
-Reads recorded: 352 and 353.
+Reads recorded: 367 and 368.
 
 ## Decisions made without you
 

@@ -23,7 +23,7 @@
 | 4 | ET_4.1_SEP_26.xlsx | 200, 149,197 bytes |
 | 5 | the page again (the trial, for the file's address) | 200 |
 
-Reads recorded: 347 to 349.
+Reads recorded: 362 to 364.
 
 ## Decisions made without you
 

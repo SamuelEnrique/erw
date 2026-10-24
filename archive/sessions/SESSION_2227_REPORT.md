@@ -12,7 +12,7 @@
   - net consumption by industry (the power intensive manufacturers by kind) and households.
 
   The values are in MWh, as SSB gives them. The 4,980 cells SSB leaves empty have no row. Written, validated (0 errors, 0 warnings), archived, held from the Redivis storage and the live set, its release rows added.
-- **The license:** data.ssb.no's robots.txt redirects to SSB's API page (www.ssb.no/api). That page states: "I likhet med resten av ssb.no benytter API-ene lisensen CC BY 4.0" (like the rest of ssb.no, the APIs use the CC BY 4.0 license). The table is registered `public`, and its verdict is for the licenses round (session 2229), read 350.
+- **The license:** data.ssb.no's robots.txt redirects to SSB's API page (www.ssb.no/api). That page states: "I likhet med resten av ssb.no benytter API-ene lisensen CC BY 4.0" (like the rest of ssb.no, the APIs use the CC BY 4.0 license). The table is registered `public`, and its verdict is for the licenses round (session 2229), read 365.
 - **Cross-checks, full years 2016 to 2025:**
   - Against Eurostat (`eurostat_electricity_monthly`, session 2225, Norway): SSB's total generation equals Eurostat's net production within 0.05 percent every year from 2017. In 2016 it is 2.9 percent above (149.53 against 145.32 TWh). Imports and exports agree within 0.2 percent from 2017; in 2016 exports differ by 2.5 percent.
   - Against Ember's demand (`owid_ember_electricity_annual`): SSB's gross consumption is within 1.2 percent every year (133.12 against 131.62 TWh in 2016; 138.99 against 137.71 in 2025).
@@ -29,7 +29,7 @@
 | 6 | table 14091's metadata | 200: 26 lines, 405 months |
 | 7, 8 | the metadata and the JSON query (the trial) | 200 |
 
-Reads recorded: 350 and 351.
+Reads recorded: 365 and 366.
 
 ## Decisions made without you
 

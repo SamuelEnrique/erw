@@ -9,7 +9,8 @@ Retired_PR, and writes every row of them to its own table,
 
     warehouse/output/eia860m_retired_generators_all.csv     entities, one row per retired generator
 
-with the columns of eia860m_retired_generators. That table, and the operating and planned tables, are not touched.
+with the columns of eia860m_retired_generators but energy_capacity_mwh (session 2222: its storage units have no
+MWh here). That table, and the operating and planned tables, are not touched.
 
     python warehouse/connectors/eia860m_retired_all.py [--out-dir DIR]
 
@@ -112,7 +113,7 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): EIA-860M, every retired generator EIA lists, vintage {vintage} (session 133)",
             "Shape: entities (docs/datastandard.md v0). One row per generator; entity_id eia860:<plant id>:<generator id>; capacity_mw is EIA nameplate capacity (MW); "
-            "status_date and retirement_date are the first day of EIA's retirement month. The columns of eia860m_retired_generators, which holds only the last two years' retirements.",
+            "status_date and retirement_date are the first day of EIA's retirement month. The columns of eia860m_retired_generators, which holds only the last two years' retirements, but energy_capacity_mwh.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia860m_retired_all.py",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/{run_id}/ (not in git)",

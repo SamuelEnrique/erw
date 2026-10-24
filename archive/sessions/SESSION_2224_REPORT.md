@@ -24,7 +24,7 @@
 | 3 | the 2026 file, read for its form | 200, 6.6 MB |
 | 4 to 10 | the files for 2020 to 2026 (the trial) | 200 each |
 
-Reads recorded: 344 and 345, numbered after main's 343; renumbered at this chain's merge if a chain beside it lands first.
+Reads recorded: 359 and 360, numbered after main's 343; renumbered at this chain's merge if a chain beside it lands first.
 
 ## Decisions made without you
 
