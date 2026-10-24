@@ -6,14 +6,14 @@
 
 - **The ERW holds no Armenian source** (`sources.csv` and the connectors on main searched for Armstat, PSRC and Armenia).
 - **Armenia is not taken:**
-  - armstatbank.am, the statistics committee's database, fails certificate verification at its robots file (read 711);
-  - armstat.am and www.armstat.am answer HTTP 500 at theirs (reads 712 and 713), as data.gov.tw did when an earlier chain closed it;
-  - the regulator PSRC (www.psrc.am) has no robots file (read 714), but a search of its site found no generation tables, only its market rules. Armenia's monthly figures appear in the press as the statistics committee's.
+  - armstatbank.am, the statistics committee's database, fails certificate verification at its robots file (read 771);
+  - armstat.am and www.armstat.am answer HTTP 500 at theirs (reads 772 and 773), as data.gov.tw did when an earlier chain closed it;
+  - the regulator PSRC (www.psrc.am) has no robots file (read 774), but a search of its site found no generation tables, only its market rules. Armenia's monthly figures appear in the press as the statistics committee's.
 - **In its place, under the chain's rule, Kyrgyzstan's National Statistical Committee** (no chain has planned Kyrgyzstan):
-  - www.stat.gov.kg has no robots file (read 715);
-  - its open data category for electricity, gas and water (read 716) gives electricity output in million kWh for 2015 to 2019 only (13,016.6 to 15,051.2).
+  - www.stat.gov.kg has no robots file (read 775);
+  - its open data category for electricity, gas and water (read 776) gives electricity output in million kWh for 2015 to 2019 only (13,016.6 to 15,051.2).
   - Its licence: "Open data created by the National Statistics Committee of the Kyrgyz Republic is published under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike license ... 4.0 Worldwide."
-  - **Not taken:** five annual figures, which Ember's table already covers, under a non-commercial licence. The licences' round (session 2439) can record the verdict from read 716.
+  - **Not taken:** five annual figures, which Ember's table already covers, under a non-commercial licence. The licences' round (session 2439) can record the verdict from read 776.
 
 ## Requests (6 of 15)
 
@@ -26,7 +26,7 @@
 | 5 | www.stat.gov.kg/robots.txt | 404 |
 | 6 | stat.gov.kg's open data category 3557 | 200: five years, CC BY-NC-SA 4.0 |
 
-Reads recorded: 711 to 716 (on this branch). Two web searches looked for the PSRC's and Armenia's system operator's figures; they reached no publisher's host.
+Reads recorded: 771 to 776 (on this branch). Two web searches looked for the PSRC's and Armenia's system operator's figures; they reached no publisher's host.
 
 ## Decisions made without you
 
@@ -40,5 +40,5 @@ Reads recorded: 711 to 716 (on this branch). Two web searches looked for the PSR
 ## Files
 
 - New: this report.
-- Changed: `warehouse/metadata/license_reads.csv` (reads 711 to 716).
+- Changed: `warehouse/metadata/license_reads.csv` (reads 771 to 776).
 - On the data machine only: `runs/c117/s2436/`.

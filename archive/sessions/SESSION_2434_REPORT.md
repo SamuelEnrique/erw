@@ -11,11 +11,11 @@
   - Both agents beside this chain were told.
 - **The ERW holds no Tunisian source** (`sources.csv` and the connectors on main searched for STEG, ONEM and Tunisia).
 - **Tunisia is not taken:**
-  - **STEG:** www.steg.com.tn did not answer at its robots file (a connection timeout, read 703), so nothing else of its host was asked.
+  - **STEG:** www.steg.com.tn did not answer at its robots file (a connection timeout, read 763), so nothing else of its host was asked.
   - **The ministry of industry, mines and energy**, whose energy observatory (ONEM) publishes the bulletins:
-    - www.energiemines.gov.tn has no robots file (HTTP 404, read 704);
-    - its home page carries the ministry's 2020 copyright and no reuse statement (read 705);
-    - its open data portal, data.industrie.gov.tn, answered HTTP 503 at its robots file, "under maintenance" (read 706).
+    - www.energiemines.gov.tn has no robots file (HTTP 404, read 764);
+    - its home page carries the ministry's 2020 copyright and no reuse statement (read 765);
+    - its open data portal, data.industrie.gov.tn, answered HTTP 503 at its robots file, "under maintenance" (read 766).
   - **The figures:** the ministry's PDFs give generation by source, purchases, imports, exports and sales as tables of two years only. "Chiffres clés de l'énergie 2024" has 2023 and 2024: total production 19,542 and 19,208 GWh; imports 2,496 and 3,221 GWh; a record peak of 4,888 MW on 14 August 2024. The longer series of the 2024 energy balance report are charts, and its summary table extracts as garbled text.
   - A two-year table under a copyright notice would add little to `owid_ember_electricity_annual`'s Tunisia, so none is written.
 - **The two PDFs** were fetched once each through `iso_prices.fetch_raw` and are kept in `warehouse/raw/onem_tunisia_energy/` for a later session.
@@ -31,7 +31,7 @@
 | 5 | Chiffres clés de l'énergie 2024 (the fetch) | 200, 3.7 MB, 23 pages |
 | 6 | Rapport Bilan Energétique 2024 (the fetch) | 200, 3.3 MB, 44 pages |
 
-Reads recorded: 703 to 706 (on this branch; renumbered after any chain landing first). Two web searches found the ministry's documents; they reached no publisher's host.
+Reads recorded: 763 to 766 (on this branch; renumbered after any chain landing first). Two web searches found the ministry's documents; they reached no publisher's host.
 
 ## Decisions made without you
 
@@ -45,5 +45,5 @@ Reads recorded: 703 to 706 (on this branch; renumbered after any chain landing f
 ## Files
 
 - New: `queue/next/118-day-18-november-data-rwanda-senegal-azerbaijan-uzbekistan.md` (on main), this report.
-- Changed: `warehouse/metadata/license_reads.csv` (reads 703 to 706).
+- Changed: `warehouse/metadata/license_reads.csv` (reads 763 to 766).
 - On the data machine only: `runs/c117/s2434/`, `runs/c117/write_118.py`, `warehouse/raw/onem_tunisia_energy/`.
