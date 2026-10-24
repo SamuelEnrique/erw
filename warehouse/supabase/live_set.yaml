@@ -417,6 +417,7 @@ catalogue_hold:
   - cea_india_psp_annual
   - kpx_korea_generation_annual
   - kpx_korea_demand_monthly
+  - statnett_norway_daily
   - eia_shale_gas_reserves_annual
   - eia_gas_heat_content_monthly
   - eia_crude_quality_monthly

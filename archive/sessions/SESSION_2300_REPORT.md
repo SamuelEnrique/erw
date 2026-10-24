@@ -1,56 +1,56 @@
-# Session 2300 report: the project map's figures keyed, with their source tips
+# Session 2300 report: Norway's production and consumption a day (Statnett), a source of the session's own choosing
 
-23 October 2026, about 20:05 to 20:25 UTC, unattended, on portable-laptop (the code machine). Chain `queue/done/087-day-23-october-portable-map-tracker.md`, session 2300 (the chain file was written first by this session, committed alone, pushed to main at 20:12 UTC and taken by name). Model Fable 5.1. Precheck 0 (the machine was on duty for session 2200 already; it is on duty for this chain now). Model spend USD 0. No warehouse data written; no request but GitHub and the ERW's own database (the probe). Code in the worktree `C:\Users\samen\Documents\erw-2300` on `wip/2300-map-tracker`, cut from `origin/main` at `e1eaadf5`.
+24 October 2026, from 06:28 UTC, on lab-desktop (the data machine), a session of `queue/done/105-day-8-november-data-mexico-india-peru-korea.md`. Model spend USD 0.
+
+Pulls: 8 requests of 20:
+- donnees.hydroquebec.com's robots file;
+- www.neso.energy's and api.neso.energy's robots files;
+- driftsdata.statnett.no's robots address (HTTP 404);
+- Statnett's production and consumption data from 2020 (one answer);
+- www.statnett.no's robots address (HTTP 404);
+- Statnett's two data pages, in English and Norwegian.
+
+The trial and the write ran offline.
 
 ## Read these first
 
-- **Every figure the project map computes now says where it comes from.** A figure summed in the browser from the page's own copy of the tables (`data/map.json`) cannot carry a check key the value checker reads back from the live set, so it carries `data-source="<tables>|<vintage>|<rule>"` (`site/lib/projectmap.ts`, `sourceOf`) and stands beside a hover tip (`Tip`, `components/tool/ToolPage.tsx`) with the same words: the tables, EIA's month or the queue's and the tracker's day, the copy's build day, and the rule (summed over the rows chosen; counted over the whole file; the row's own fields). The sentence's six figures, every total by status, every count and MW of "By technology", the rows not drawn, the unit count in the lead and the unit card's fields carry it. The one figure read from the live set, the unplaced queue positions, keeps its check key.
-- **The Queues tab:** each of the three charts stands in a frame with `data-source` naming `iso_queue_statistics`, the ISO's own queue table and the variables drawn, and each chart's note now says so in words; the table "Every entry year" has a tip saying every figure is a row of the live set with its check key (the keys were there since session 349).
-- **The Resources tab's seven counts** (operating units, planned units, queue rows drawn, counties, queue rows not drawn, facilities drawn, facilities not drawn) carry `data-source` with the layer's own vintage and a `title`; three of them had a hover note before, four had none.
-- **Not built, not landed.** The database probe took 8.38 s (the gate needs under 3 s), so the chain's rule forbids a build this session; free memory was 0.8 GB at the start and 2.7 GB at the end. The gate's commands are under "To finish". Nothing of this session is on production.
-- **The other session on this machine** is chain 086 (`wip/2200-explorers`, worktree `erw-2200`), on the three explorers; nothing of it was touched. The data machine has `task/2014-2027-data` in flight (and the leftover `task/198-battery-data`).
+- **Why Statnett.**
+  - **Not taken elsewhere:** the ERW did not hold a Statnett source, and no chain running or planned has taken it.
+  - **Tried first and closed by their robots files:**
+    - Hydro-Québec's open data (Quebec exports to New York and New England). Its robots file disallows `/api/` and every download path to all readers but Google, as odre.opendatasoft.com's does.
+    - Great Britain's NESO data portal. api.neso.energy, where its files are served, disallows `/` to every reader.
+  - **Avoided:** the countries of chains 102 to 109 and the Baltic states chain 106 took.
+  - **What it adds:** Norway's daily figures, beside the monthly balance the ERW holds from Statistics Norway (`ssb_norway_electricity_monthly`).
+- **One series table, `statnett_norway_daily`:** 4,960 figures, production and consumption in MWh as published, for Norway's days from 1 January 2020 to 23 October 2026. The day in progress is not written. Internal.
+- **How the answer is read.**
+  - Statnett's answer is two arrays with a start time (Norway's midnight), an end time and a 24-hour step.
+  - **They hold one empty slot after each autumn clock-change day,** 2020 to 2025. Placing the values by skipping those slots brings the last slot to Norway's day of the end time, the day in progress (82,734 MWh, partial). Treating them as days would put it six days in the future.
+  - **The connector checks that placement** and stops if it fails.
+  - **Eight days Statnett leaves empty,** 18 to 25 November 2025, have no row and are named in the header.
+- **The cross-check** (`runs/c105/s2300/cross_ssb.py`), monthly sums against Statistics Norway's balance:
+  - production is 99.4 percent of total generation (the median of 81 months);
+  - consumption is 99.2 percent of gross consumption;
+  - November 2025 is 70 percent (the eight missing days), and some summer months are down to 96 percent.
+  - Statnett's own page says data "may be missing in some places on this page, for example, data from wind power production that came into operation after 2019". The header says so.
+- **A check that could not decide:** the clock-change Sundays do not stand out from the Sundays around them by the hour's worth a 25- or 23-hour day would add or remove (weather moves them more). Whether Statnett counts those days as 24 hours is not known; the note will say so.
+- **License: internal.** Neither Statnett page states terms, and there is no robots file on either host. The next licenses round reads Statnett's terms.
+- **Registered:** the sector rule (`power`), the live-set hold, the license tables (licenses check: 483 tables, 0 problems). The test is `tests/test_session2300.py` (4 tests).
 
-## What to review (on a build of `wip/2300-map-tracker`, in the internal view)
+## Errors
 
-- `/map`: hover the small "i" after the summary sentence, after each totals heading ("Generating units, by EIA's status", "Queue positions...", "Datacenters..."), in the note under "The map", in the note of "By technology", and after the unit count in the lead: each names the tables, the vintage and the rule. In the page's HTML every figure of the sentence, every tile and every cell of the technology table carries `data-source`.
-- `/map?tab=queues&iso=ercot`: under each chart, the note names `iso_queue_statistics` and `ercot_interconnection_queue`; the "i" after "Every entry year".
-- `/map?tab=resources`: turn the plants, queue and datacenters layers on; hover each count under "What is built or planned".
-
-## Checks
-
-| Check | Exit | Result |
-|---|---|---|
-| `scripts/precheck.py --what "session 2300"` | 0 | on duty |
-| `node --import ./scripts/alias-register.mjs scripts/test-map-sources.mjs` (new, no browser) | 0 | 37 of 37: the tables and vintage of each kind on the file and on a fixture, the words, the components' attributes and tips, no em dash |
-| `eslint app/map app/resources/ResourceMap.tsx lib/projectmap.ts` | 0 | clean |
-| `tsc --noEmit` | 2 | 15 errors, every one pre-existing and outside this session's files (Next's generated `PageProps` and `LayoutProps`, and `content/*.json` that `prebuild` writes); none in the changed files |
-| `scripts/db_probe.py` | 1 | 8.38 s for 1,000 rows: no build this session |
-| `scripts/db_probe.py`, again at the end | 0 | open 2.60 s 1000 rows of iso_dam_hub_prices (free memory then 2454000 KB) |
-| free memory | | 787,892 KB at the start; 2,698,748 KB after the tests |
-| `scripts/check-map.mjs` (browser) | not run | extended with three checks (every figure carries `data-source` or a key; each `data-source` names a table of the file, a vintage and a rule; the five tips stand); runs under the gate |
-
-## The landing
-
-Not run: the probe said no build. The branch is pushed. Session 2301 stacks on `wip/2300-map-tracker` unless this branch has landed by then.
-
-## Files
-
-- `site/lib/projectmap.ts`: `SourceKind`, `SOURCE_RULE`, `sourceTables`, `sourceVintage`, `sourceOf`, `sourceWords`.
-- `site/app/map/ProjectMap.tsx`, `page.tsx`, `QueueCharts.tsx` (an `iso` prop), `QueuesView.tsx`; `site/app/resources/ResourceMap.tsx` (seven attributes and four titles, nothing else).
-- `site/scripts/test-map-sources.mjs` (new); `site/scripts/check-map.mjs` (three checks added to "opens").
+- **The write's metadata patch carried main's newer rows** (chain 104's landing, in the main checkout) and did not apply. The table's own rows were put in by `runs/c102/add_own_rows.py` and checked: one row in each of the four files.
 
 ## Decisions made without you
 
-1. The browser-computed figures carry `data-source` and a tip rather than a check key: a key would be compared with the live set, which the page's copy lags by design (the copy is built from the tables; the live set can move after). The chain file says so; the choice is recorded here too.
-2. The Resources tab's counts live in `site/app/resources/ResourceMap.tsx`, outside the chain's owned files; the chain says a figure there with no key and no tip gets one, so seven attributes and four `title` words were added and nothing else in that file changed.
-3. The tip's words say "Nothing is read from the live set for this figure", so a reader does not take the copy for the live table.
-4. The worktree has no `node_modules`; a directory junction to the main checkout's was made for the tests and the lint (not in git).
-5. No build on a probe over 3 s, as the chain's rule says, although free memory had reached 2.7 GB by the end.
+- **Statnett,** after Hydro-Québec and NESO were found closed.
+- **The empty autumn slots are read as Statnett's artefact, not as days,** on the evidence of the end time.
 
 ## For Samuel's ruling
 
-- None from this session.
+- None new.
 
-## To finish (the gate, on a machine with memory and a probe under 3 s)
+## Files
 
-From the main checkout, each its own command, its exit read: `.venv\Scripts\python.exe scripts\db_probe.py`; `.venv\Scripts\python.exe scripts\land_check.py --ref wip/2300-map-tracker --lock-as s2300 --port 3300`; then the commands it prints (freeze status, the snapshot before, the push to `task/2300-map-tracker`, the snapshot after, `compare`). If 2301 to 2304 stack on this branch, the last branch's gate carries this work and this one is not run on its own.
+- New: `warehouse/connectors/statnett_norway.py`, `tests/test_session2300.py`, this report.
+- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `sources.csv`, `archive_manifest.csv`, `license_tables.csv`, `docs/licenses.md`.
+- On the data machine only: `runs/c105/s2300/`, `runs/license_reads/s2300/`.
