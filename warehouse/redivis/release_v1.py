@@ -227,6 +227,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_crude_quality_monthly",
            "ons_brazil_balance_hourly",
            "ree_spain_balance_monthly",
+           "eia_crude_tank_farm_stocks_monthly",
            "eia_gas_storage_type_monthly",
            "energy_charts_portugal_power",
            "energy_charts_italy_power",

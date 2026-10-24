@@ -143,6 +143,7 @@ eia_crude_production_state_monthly,EIA,the source registry
 eia_crude_quality_monthly,EIA,the source registry
 eia_crude_reserves_annual,EIA,the source registry
 eia_crude_stream_prices,EIA,the source registry
+eia_crude_tank_farm_stocks_monthly,EIA,the source registry
 eia_drilling_monthly,EIA,the source registry
 eia_energy_efficiency_state_annual,EIA,the source registry
 eia_fuel_spot_prices,EIA,the source registry

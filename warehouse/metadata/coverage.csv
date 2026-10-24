@@ -143,6 +143,7 @@ eia_crude_production_state_monthly,none,,84,P1M,2001-01-01T00:00:00Z,2026-07-01T
 eia_crude_quality_monthly,none,,32,P1M,1985-01-01T00:00:00Z,2026-07-01T00:00:00Z,15968,eia:petroleum/pnp/crq,2026-10-24T04:10:20Z,pass,public,oil,no,source
 eia_crude_reserves_annual,none,,416,P1Y,1977-01-01T00:00:00Z,2021-01-01T00:00:00Z,13931,eia:petroleum/crd/pres,2026-10-21T22:16:51Z,pass,public,oil,no,source
 eia_crude_stream_prices,none,,38,P1M,2019-01-01T00:00:00Z,2026-08-01T00:00:00Z,2982,eia:petroleum/pri/dfp2:streams;eia:petroleum/pri/imc2;eia:petroleum/pri/land2;eia:petroleum/pri/rac2,2026-10-23T15:05:34Z,pass,public,oil,no,source
+eia_crude_tank_farm_stocks_monthly,none,,7,P1M,1981-01-01T00:00:00Z,2026-07-01T00:00:00Z,3553,eia:petroleum/stoc/cu,2026-10-24T05:22:16Z,pass,public,oil,no,source
 eia_drilling_monthly,none,,6,P1M,1973-01-01T00:00:00Z,2026-02-01T00:00:00Z,3431,eia:petroleum/crd/drill,2026-10-22T00:37:00Z,pass,public,oil;gas,no,source
 eia_energy_efficiency_state_annual,none,,520,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,19740,eia:electricity/state-electricity-profiles/energy-efficiency,2026-10-21T23:25:25Z,pass,public,power,no,source
 eia_fuel_spot_prices,none,,3,P1D,1986-01-02T00:00:00Z,2026-10-20T00:00:00Z,27766,eia:natural-gas/pri/fut;eia:petroleum/pri/spt,2026-10-23T14:37:25Z,pass,public,oil;gas,no,source

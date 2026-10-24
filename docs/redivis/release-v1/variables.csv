@@ -3231,6 +3231,8 @@ eia_crude_stream_prices,first_purchase_price,series variable,USD/bbl
 eia_crude_stream_prices,fob_cost,series variable,USD/bbl
 eia_crude_stream_prices,landed_cost,series variable,USD/bbl
 eia_crude_stream_prices,refiner_acquisition_cost,series variable,USD/bbl
+eia_crude_tank_farm_stocks_monthly,ending_stocks,series variable,kbbl
+eia_crude_tank_farm_stocks_monthly,tank_farm_pipeline_stocks,series variable,kbbl
 eia_drilling_monthly,rotary_rigs,series variable,count
 eia_drilling_monthly,service_rigs,series variable,count
 eia_energy_efficiency_state_annual,all_other_costs,series variable,USD
