@@ -14,8 +14,8 @@ ASK's PxWeb API (no key), one JSON-stat 2.0 query by POST, every value of both d
     variable    gross_production (thermal, hydro, wind_solar), imports, exports, gross_available, consumption
     unit        MWh: the figures times 1,000. The dimension is named "MWH", but its figures carry three decimals
                 (px decimals 3) and a year's gross electricity available sums to about 7.3 thousand: they are
-                thousands of MWh (GWh). `eia_world_electricity_annual` confirms the scale: Kosovo's 2024 generation
-                7.02 TWh, imports 3.16 and exports 2.62 TWh, against ASK's 6.75, 3.2 and 2.6 read so (session 2524)
+                thousands of MWh (GWh). `eia_world_electricity_annual` confirms the scale: read so, Kosovo's 2024
+                imports and exports equal EIA's to the MWh (session 2524)
     ts_utc      the month's first day, 00:00 UTC; freq P1M; geo XK
     node        the item as ASK labels it
 
