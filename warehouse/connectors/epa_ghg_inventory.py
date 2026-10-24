@@ -15,11 +15,15 @@ which EPA publishes as CSV files in one zip:
     epa_ghg_inventory_annual   entity epa_ghgi:<sector> (us for the national totals); variable <table's basis>:<line>
                                (direct, power or distributed, then the slug of the line, see below); unit tCO2e (Decision
                                61; the Inventory's MMT CO2 Eq. times 1,000,000); ts_utc the year's 1 January; freq P1Y; geo
-                               US; x_table the Inventory's table; x_sector, x_group and x_line the lines as published (the
-                               footnote letter after a word dropped, the stray character before one dropped)
+                               US; x_table the Inventory's table; x_sector, x_group and x_line the lines as published (a
+                               footnote letter dropped after Combustion, Total, HFCs and Percent, and the stray character
+                               before one; Table 2-11's "Stationary Sourcesa" keeps its letter, so two of its variables
+                               end in sourcesa)
 
     Table 2-10: a sector's own line is direct:total, each source under it direct:<source>; the national lines
-                (Total Gross Emissions, the LULUCF Sector Net Total, Net Emissions) go to epa_ghgi:us.
+                (Total Gross Emissions, the LULUCF Sector Net Total, Net Emissions) go to epa_ghgi:us,
+                with no basis before the slug (total_gross_emissions_sources, lulucf_sector_net_total,
+                net_emissions_sources_and_sinks).
     Table 2-11: epa_ghgi:electric_power_industry; a gas's line is power:<gas>, each line under it power:<gas>:<source>,
                 the table's Total power:total.
     Table 2-12: a sector's line is distributed:total; its Direct Emissions and Electricity-Related lines

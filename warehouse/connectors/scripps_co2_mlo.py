@@ -118,7 +118,7 @@ def main(argv=None):
             "Observatory, Hawaii, from in situ air measurements, a month from 1958 (session 2137)",
             "Shape: series (docs/datastandard.md v0). entity scripps:mlo; variables co2 (the monthly mean, adjusted to the 15th) and co2_seasonally_adjusted; "
             "unit ppm (Decision 67, micromoles per mole of dry air, the 2012 SIO manometric scale); ts_utc the month's first day; freq P1M; x_station MLO, "
-            "or MKO (Maunakea's summit) for the months after Mauna Loa's 2022 eruption.",
+            "or MKO (Maunakea's summit) for the months the file marks so after Mauna Loa's 2022 eruption.",
             f"{len(co2)} months of co2, {co2.ts_utc.min()[:7]} to {last.ts_utc[:7]} ({last.value:.2f} ppm); {missing} values marked -99.99 have no row; "
             f"MKO months {mko.min() if len(mko) else 'none'} to {mko.max() if len(mko) else 'none'} ({mko.nunique()}). The fitted and filled columns are not "
             "taken. Nothing is filled.",

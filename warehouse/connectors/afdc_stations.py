@@ -24,8 +24,8 @@ Alternative Fueling Station Counts by State page (https://afdc.energy.gov/statio
     2013, as the About the Data sheet says it counts.
 
 The sheet's Total column is kept as published: AFDC's note says it counts a station once for each fuel it offers, and
-electric by ports. In the sheets for 2007 to 2013 a state's Total does not always equal the sum of its fuels; the
-header counts those rows. A sheet whose header is not one of the two forms, a place not known, a count not a whole number
+electric by ports. In the 2013 sheet a state's Total does not always equal the sum of its fuels (in the sheets for
+2007 to 2012 it always does); the header counts those rows. A sheet whose header is not one of the two forms, a place not known, a count not a whole number
 (commas allowed), a pair or triple that is not one, or a year sheet given twice stops the run. Nothing is filled.
 
     python warehouse/connectors/afdc_stations.py [--offline] [--out-dir DIR]

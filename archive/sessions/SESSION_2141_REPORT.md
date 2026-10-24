@@ -15,7 +15,7 @@
 - **What the counts mean, as AFDC's About the Data sheet says:**
   - From 2014 the electric charging columns give locations, ports, and ports by Level 1, Level 2 and DC Fast, and hydrogen and propane come with their designations. In the sheets for 2007 to 2013 there is one number a fuel: the Electric column counts locations to 2010 and ports from 2011, and the table names them `ev_locations` and `ev_ports` accordingly.
   - Counts jump in 2021 as the charging networks' OCPI feeds were integrated.
-  - The sheet's Total counts a station once for each fuel, and electric by ports. It is kept as published. In 24 place-years of 2007 to 2013 it does not equal the sum of the fuels (West Virginia 2013: 430 against 65), and the header counts them.
+  - The sheet's Total counts a station once for each fuel, and electric by ports. It is kept as published. In 24 place-years, all in the 2013 sheet, it does not equal the sum of the fuels (West Virginia 2013: 430 against 65), and the header counts them.
 - **Cross-checks:**
   - In all 260 variable-years, the 51 states and DC sum exactly to the sheet's own Total row.
   - The United States' charging ports grow from 5,070 (2011) to 25,913 (2014), 107,395 (2020) and 271,488 (2025); 68,599 of 2025's are DC fast, at 85,692 locations.

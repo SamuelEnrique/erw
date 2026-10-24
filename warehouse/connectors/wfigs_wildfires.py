@@ -24,7 +24,8 @@ record given twice stops the run. Nothing is filled.
 
     python warehouse/connectors/wfigs_wildfires.py [--offline] [--out-dir DIR] [--min-acres 1000]
 
-Ceiling: one request a page (four for 2015 to October 2026), saved in warehouse/raw/wfigs_wildfires/ and reused offline.
+Ceiling: one request a page (four for 2015 to October 2026), saved in warehouse/raw/wfigs_wildfires/ and reused offline;
+a 21st page that still says more remain stops the run, with no file written.
 The service's host has no robots file; data-nifc.opendata.arcgis.com's asks a 60-second crawl delay and is not asked by
 this connector. License: public (a federal interagency record; read in the licenses round).
 """

@@ -26,7 +26,7 @@
 ## The source
 
 - `https://www.epa.gov/system/files/other-files/2024-04/trends-in-greenhouse-gas-emissions-and-removals.zip` (the "2024 Trends in Greenhouse Gas Emissions Tables", 15 CSV files, last modified 26 August 2024), listed on the 1990-2022 Inventory's page.
-- The footnote letters EPA appends to a word ("Stationary Combustionb", "LULUCF Sector Net Totalc", "HFCsb") and a stray character before one are dropped from the lines; the lines are otherwise as published.
+- The footnote letters EPA appends after Combustion, Total, HFCs and Percent ("Stationary Combustionb", "LULUCF Sector Net Totalc", "HFCsb") and a stray character before one are dropped from the lines; the lines are otherwise as published. Table 2-11's "Stationary Sourcesa" keeps its letter, so `power:ch4:stationary_sourcesa` and `power:n2o:stationary_sourcesa` carry it (66 rows; found by session 2143, left as written, since a new name would break the table's series).
 - No value in the three tables is printed as "+". Table 2-12's Residential line under Direct Emissions is labelled SF6, as EPA labels it (Table 2-10 gives Residential's substitutes for ozone depleting substances the same values). It is kept as published and noted in the header.
 - The Inventory's tables do not name their global warming potentials, so the header does not either.
 
