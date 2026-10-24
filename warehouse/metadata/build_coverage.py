@@ -266,6 +266,7 @@ SECTOR_RULES = [
     (r"^ssb_norway_electricity_monthly$", "power"),  # session 2227: Statistics Norway's table 14091, Norway's electricity balance, a month from 1993
     (r"^smard_germany_monthly$", "power"),  # session 2230: SMARD's Germany generation by source and grid load, a month from 2015
     (r"^cbs_netherlands_electricity_monthly$", "power"),  # session 2231: CBS's table 84575NED, the Netherlands' electricity balance, a month from 1976
+    (r"^scb_sweden_electricity_monthly$", "power"),  # session 2236: SCB's table TAB1011, Sweden's electricity supply by type of production, a month from 1974
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^epa_ghgrp_facility_emissions$", "carbon;power;oil;gas"),  # session 2072: EPA's GHGRP, every sector
