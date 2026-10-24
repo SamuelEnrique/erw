@@ -187,6 +187,7 @@ eia_lng_liquefaction_projects,none,,48,snapshot,2026-10-23T18:59:44Z,2026-10-23T
 eia_lng_storage_annual,none,,81,P1Y,1969-01-01T00:00:00Z,2024-01-01T00:00:00Z,3074,eia:natural-gas/stor/lng,2026-10-24T05:54:29Z,pass,public,gas;lng,no,source
 eia_mecs_manufacturing,none,,82,P1Y,2022-01-01T00:00:00Z,2022-01-01T00:00:00Z,5363,eia:mecs,2026-10-23T18:33:31Z,pass,public,power;gas;oil;coal,no,source
 eia_meters_state_annual,none,,1040,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,8578,eia:electricity/state-electricity-profiles/meters,2026-10-21T23:48:23Z,pass,public,power,no,source
+eia_net_imports_monthly,none,,530,P1M,2010-01-01T00:00:00Z,2026-07-01T00:00:00Z,65501,eia:petroleum/move/neti,2026-10-24T10:44:44Z,pass,public,oil;products,no,source
 eia_net_metering_state_annual,none,,1031,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,16226,eia:electricity/state-electricity-profiles/net-metering,2026-10-21T21:48:23Z,pass,public,power,no,source
 eia_ngl_production_monthly,none,,283,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,110896,eia:petroleum/pnp/gp,2026-10-22T06:55:02Z,pass,public,products,no,source
 eia_nuclear_outages_daily,none,,1,P1D,2007-01-01T00:00:00Z,2026-10-21T00:00:00Z,21702,eia:nuclear-outages/us-nuclear-outages,2026-10-21T19:39:31Z,pass,public,power;uranium,no,source

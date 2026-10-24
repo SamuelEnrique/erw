@@ -3526,6 +3526,9 @@ eia_mecs_manufacturing,gen_cogeneration,series variable,MWh
 eia_mecs_manufacturing,gen_other,series variable,MWh
 eia_mecs_manufacturing,gen_renewable,series variable,MWh
 eia_meters_state_annual,meters,series variable,count
+eia_net_imports_monthly,net_imports_crude,series variable,kbbl/d
+eia_net_imports_monthly,net_imports_crude_and_products,series variable,kbbl/d
+eia_net_imports_monthly,net_imports_products,series variable,kbbl/d
 eia_net_metering_state_annual,capacity,series variable,MW
 eia_net_metering_state_annual,customers,series variable,count
 eia_ngl_production_monthly,field_production,series variable,kbbl

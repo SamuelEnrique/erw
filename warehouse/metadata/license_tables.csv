@@ -187,6 +187,7 @@ eia_lng_liquefaction_projects,EIA,the source registry
 eia_lng_storage_annual,EIA,the source registry
 eia_mecs_manufacturing,EIA,the source registry
 eia_meters_state_annual,EIA,the source registry
+eia_net_imports_monthly,EIA,the source registry
 eia_net_metering_state_annual,EIA,the source registry
 eia_ngl_production_monthly,EIA,the source registry
 eia_nuclear_outages_daily,EIA,the source registry
