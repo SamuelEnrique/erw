@@ -6,7 +6,7 @@ path).
 
 Energy Research Warehouse (ERW) connector. One series table, warehouse/output/esco_georgia_electricity_monthly.csv, from
 the two HTML tables (supply and consumption, million kWh) of each year's page of esco.ge's "Actual Balance", one request
-a year (six when written; the current year's page fetched again on a run, the others reused):
+a year (six when written; the current and the previous year's pages fetched again on a run, the others reused):
 
     https://esco.ge/en/energy-balance/by-year-1/<the year's page, as YEARS names it>
 
@@ -43,9 +43,10 @@ label not in the map, a value that is not a number or a failed check stops the r
 
     python warehouse/connectors/esco_georgia.py [--offline] [--out-dir DIR]
 
-Ceiling: one request a year's page (six), the past years' reused from warehouse/raw/esco_georgia/; with --offline none.
+Ceiling: one request a year's page (six), the current and the previous year's asked again, the others reused from
+warehouse/raw/esco_georgia/; with --offline none.
 esco.ge has no robots file (HTTP 404, session 2423). The balances for 2006 to 2020 are on pages of their own, not read
-here (session 2423's ceiling). License: internal until a ruling: the site's footer reads "(c) 2016 ESCO ALL RIGHTS
+here (session 2423's ceiling). License: internal; session 2425's verdict, needs written permission: the site's footer reads "© 2016 ESCO ALL RIGHTS
 RESERVED", and no page read states terms of reuse.
 """
 
@@ -227,7 +228,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Electricity Market Operator (ESCO), Energy Balance, Actual Balance, the years {min(YEARS)} to {max(YEARS)}, {PAGE}",
             f"  access: {PAGE}/<year's page> (one a year)",
-            "License: internal. ESCO's site reads \"(c) 2016 ESCO ALL RIGHTS RESERVED\" and states no terms of reuse; internal until a ruling. Cite: Electricity Market Operator (ESCO), Georgia, Actual Balance.",
+            "License: internal. ESCO's site reads \"© 2016 ESCO ALL RIGHTS RESERVED\" and states no terms of reuse; session 2425's verdict: needs written permission. Cite: Electricity Market Operator (ESCO), Georgia, Actual Balance.",
         ]
         ip.write_csv(t, NAME, header, log, cols=COLS)
         if not args.out_dir:

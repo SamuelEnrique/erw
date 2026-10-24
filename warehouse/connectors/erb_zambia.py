@@ -38,7 +38,7 @@ ZESCO's only (table 18): the bulletin's figure 6 also charts the power traders' 
     python warehouse/connectors/erb_zambia.py [--offline] [--out-dir DIR]
 
 Ceiling: one request, reused from warehouse/raw/erb_zambia/ with --offline. www.erb.org.zm's robots file disallows only
-/wp-admin/ and names no AI agent (session 2420). License: internal until a ruling: the site's footer reads "Copyright
+/wp-admin/ and names no AI agent (session 2420). License: internal; session 2425's verdict, needs written permission: the site's footer reads "Copyright
 2026 All Rights Reserved", and no page read states terms of reuse.
 """
 
@@ -322,7 +322,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Energy Regulation Board, Zambia, 2025 Statistical Bulletin, tables 12 to 19 and 26, {PAGE}",
             f"  access: {URL}",
-            "License: internal. ERB's site reads \"Copyright 2026 All Rights Reserved\" and states no terms of reuse; internal until a ruling. Cite: Energy Regulation Board, Statistical Bulletin 2025.",
+            "License: internal. ERB's site reads \"Copyright 2026 All Rights Reserved\" and states no terms of reuse; session 2425's verdict: needs written permission. Cite: Energy Regulation Board, Statistical Bulletin 2025.",
         ]
         ip.write_csv(t, NAME, header, log, cols=COLS)
         if not args.out_dir:
