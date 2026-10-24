@@ -425,6 +425,7 @@ catalogue_hold:
   - census_cbp_hosting_annual
   - statcan_electricity_generation_monthly
   - emi_nz_generation_demand_monthly
+  - census_c30_construction_monthly
   - statcan_oil_gas_supply_monthly
   - ntd_transit_energy_annual
   - epa_needs_units

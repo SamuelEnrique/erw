@@ -595,6 +595,8 @@ census_bps_state_annual,value_1_unit,series variable,USD
 census_bps_state_annual,value_2_units,series variable,USD
 census_bps_state_annual,value_3_4_units,series variable,USD
 census_bps_state_annual,value_5_plus_units,series variable,USD
+census_c30_construction_monthly,value_put_in_place,series variable,USD
+census_c30_construction_monthly,value_put_in_place_saar,series variable,USD
 census_cbp_hosting_annual,annual_payroll,series variable,USD
 census_cbp_hosting_annual,employment,series variable,count
 census_cbp_hosting_annual,establishments,series variable,count
