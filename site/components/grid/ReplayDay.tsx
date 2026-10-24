@@ -12,6 +12,9 @@ import { Missing } from "@/components/mix/Now";
 import { ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { replayDay, type DayFig } from "@/lib/gridReplay";
 import type { ReplayRead } from "@/lib/gridReplayFile";
+import { PanelFile, type FileOf } from "@/components/grid/PanelFile";  // session 1182: the day's table, to download
+import { BA_GRID } from "@/lib/gridHeld";
+import { gridHref } from "@/lib/gridtool";
 
 /** The replayed day the address asks for: `day` the day drawn (held to the replay's first and last day, as the network
  *  component holds it), `asked` the address's own word, and the year's file as read. */
@@ -40,17 +43,27 @@ export function ReplayDayFigures({ ask, ba, name }: { ask: ReplayAsk; ba: string
   }
   const r = replayDay(ask.read.y, ba, ask.day);
   const not = <Missing words="not held" why={r.demandWhy ?? ""} />;
+  // session 1182: the table's rows, drawn and offered as a file from the same cells
+  const head = ["The day picked", "MW, the day's average", "Source"];
+  const rows = [
+              { key: "dem", cells: ["Demand", r.demand ? <D key="v" f={r.demand} /> : not, "eia930_daily_demand"] },
+              { key: "net", cells: [r.net?.kind === "import" ? "Net import over the ties" : "Net export over the ties", r.net ? <D key="v" f={r.net} /> : <span key="v" className="text-muted">no tie reported</span>, "eia930_daily_interchange"] },
+              { key: "ties", cells: ["Ties with a flow that day", <D key="v" f={r.ties} />, "eia930_daily_interchange"] },
+            ];
+  // the block is drawn on the Network tab of whichever grid the address names, its node any balancing authority
+  const file: FileOf = { panel: `grid_replay_${ba}`, title: `${name} on ${ask.day}, the day picked in the replay`,
+    page: `${gridHref(BA_GRID[ba] ?? "us48", "network", { net: "day", t: ask.day, node: ba })} (or the Network tab of any grid, with the same net, t and node)`,
+    tables: [`eia930_daily_demand and eia930_daily_interchange (EIA-930, public domain), as the replay's committed daily file site/${r.file} holds them`],
+    filter: `${ba} (${name}): its daily demand, and its ties with a flow that day summed and signed from its side`,
+    window: `Window: ${ask.day}, EIA's Eastern day; a day's figure is its MWh over the day's hours, the day's average MW` };
   return (
     <div data-grid-replay-day={ba} data-replay-day={ask.day}>
       <ToolSection title={title}
         note={<>From the replay&apos;s committed file of {ask.day.slice(0, 4)}, built from EIA-930&apos;s daily demand and interchange (public domain): a day&apos;s figure is its MWh over the hours of EIA&apos;s Eastern day, the day&apos;s average MW, so it reads on the scale of an hour. The file holds a daily demand for {r.withDemand} balancing authorities; where it holds none for {name} that day, the cell says not held. A tie&apos;s flow is signed from {name}&apos;s side. These are the figures of the day in the address when the page was opened: a day picked in the replay above moves the address, and the page opened again draws that day here.{moved(ask)} Hover a figure for its file, filter and day.</>}>
         {r.inFile ? (
-          <ToolTable caption={`${name} on ${ask.day}, from the replay's daily file`} minWidth={420} head={["The day picked", "MW, the day's average", "Source"]}
-            rows={[
-              { key: "dem", cells: ["Demand", r.demand ? <D key="v" f={r.demand} /> : not, "eia930_daily_demand"] },
-              { key: "net", cells: [r.net?.kind === "import" ? "Net import over the ties" : "Net export over the ties", r.net ? <D key="v" f={r.net} /> : <span key="v" className="text-muted">no tie reported</span>, "eia930_daily_interchange"] },
-              { key: "ties", cells: ["Ties with a flow that day", <D key="v" f={r.ties} />, "eia930_daily_interchange"] },
-            ]} />
+          <><ToolTable caption={`${name} on ${ask.day}, from the replay's daily file`} minWidth={420} head={head}
+            rows={rows} />
+          <PanelFile of={file} columns={head} rows={rows.map((x) => x.cells)} /></>
         ) : <NoData what={`${name}'s figures of ${ask.day}`} reason={r.demandWhy ?? `${ask.day} is not a day of the replay's file`} />}
       </ToolSection>
     </div>

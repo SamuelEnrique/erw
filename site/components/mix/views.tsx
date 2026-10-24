@@ -21,6 +21,7 @@ import { DASHES, FUEL_COLOR, FUEL_WORDS, GRID_COLORS, HOURS, SEASON_NAMES, n0, n
 import { STATES } from "@/lib/regions";
 import * as stress from "@/lib/stress";
 import * as GS from "@/lib/gridStress";  // session 1168: the four measures by year, their notes and what each is not
+import { PanelFile, type FileOf } from "@/components/grid/PanelFile";  // session 1182: the stress tables, to download
 
 const nameOf = (g: Slug) => mix.GRIDS.find((x) => x.slug === g)!.name;
 const NH = ({ why, words }: { why: string; words?: string }) => <Missing why={why} words={words} />;
@@ -68,7 +69,9 @@ function Block({ title, children, id }: { title: string; children: ReactNode; id
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return <div className="min-w-0"><h3 className="mb-1 text-sm font-semibold">{title}</h3>{children}</div>;
 }
-function Table({ head, rows, caption }: { head: ReactNode[]; rows: { key: string; cells: ReactNode[]; on?: boolean }[]; caption: string }) {
+function Table({ head, rows, caption, file }: { head: ReactNode[]; rows: { key: string; cells: ReactNode[]; on?: boolean }[]; caption: string;
+  /** session 1182: the table offered as a file, from the same cells (components/grid/PanelFile.tsx) */ file?: FileOf }) {
+  if (file) return <><Table head={head} rows={rows} caption={caption} /><PanelFile of={file} columns={head} rows={rows.map((r) => r.cells)} /></>;
   return (
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-sm tabular-nums">
@@ -344,6 +347,12 @@ export function StressView({ c }: { c: Choice }) {
   // under it opens the method note's line (docs/methods/grid_stress.md, "What each chart is not (session 1168)")
   const files = c.grids.map((g) => STRESS[g]);
   const not = (m: GS.Measure) => <p className="mt-1 text-xs text-muted"><Link href={GS.STRESS_METHOD} title={GS.NOT[m]} data-stress-not={m} className="cursor-help">What this chart is not</Link></p>;
+  // session 1182: each table's file names its table, its grid, its years and the committed file it is read from
+  // the page's address, as the view's links write it (lib/mixpage.ts, the stress view's own words: its grids and year)
+  const page = `${c.base?.href ?? "/mix"}${c.base ? "&" : "?"}${c.base && !c.base.viewKey ? "" : `${c.base?.viewKey ?? "view"}=stress&`}grids=${c.grids.join(",")}&year=${year}`;
+  const stressFile = (g: Slug, part: string, title: string, window: string): FileOf => ({ panel: `grid_stress_${g}`, part, title: `${nameOf(g)}: ${title}`, page,
+    tables: [`grid_stress_yearly (derived: warehouse/derived/grid_stress.py, docs/methods/grid_stress.md), as the committed file site/data/stress/${g}.json holds it (built ${STRESS[g].built})`],
+    filter: `iso:${g}, by year`, window, notes: ["A year marked to date is not a whole year; a stretch of hours is written in hours."] });
   return (
     <>
       <Block title="The largest evening ramp of each year, as a share of peak demand" id="stress">
@@ -368,7 +377,7 @@ export function StressView({ c }: { c: Choice }) {
         return (
           <div key={g}>
             <Block title={`${nameOf(g)}: the evening ramp and the lowest net load, by year`}>
-              <Table caption="Evening ramp and lowest net load" head={["Year", "Peak demand, MW", "Largest ramp in one hour, MW", "Share of peak", "When it started", "Largest over three hours, MW", "Lowest net load, MW", "Share of peak", "When", "Hours held"]}
+              <Table caption="Evening ramp and lowest net load" file={stressFile(g, "ramp", "the evening ramp and the lowest net load, by year", `Window: the years ${ys.at(-1)} to ${ys[0]}, each its own year (hours in ${f.tz})`)} head={["Year", "Peak demand, MW", "Largest ramp in one hour, MW", "Share of peak", "When it started", "Largest over three hours, MW", "Lowest net load, MW", "Share of peak", "When", "Hours held"]}
                 rows={ys.map((y) => { const sk = (k: string, form: Form, unit = "") => kv(stress.get(f, y, k), form, `stress/${g}.json`, `years.${y}.${k}`, unit);
                   return { key: y, on: y === year, cells: [`${y}${stress.wholeYear(f, y) ? "" : " to date"}`, sk("peak_demand_mw", "n0"), sk("evening_ramp_max_mw_per_h", "n0"), sk("evening_ramp_max_share_of_peak_pct", "n1", "%"),
                   whenOf(y, "evening_ramp_max_mw_per_h"), sk("evening_ramp_3h_max_mw", "n0"), sk("net_load_min_mw", "n0"), sk("net_load_min_share_of_peak_pct", "n1", "%"), whenOf(y, "net_load_min_mw"),
@@ -379,7 +388,7 @@ export function StressView({ c }: { c: Choice }) {
                 <Lines x={ly} unit="% of installed capacity" zero name={`erw-mix-tight-${g}`} label={`${nameOf(g)}, output in the ${f.tight} tightest hours as a share of installed capacity, by year`} notes={ly.map((y) => GS.tightNote(f, y))} tip={GS.NOT.tight}
                   series={tl.map((l) => ({ name: l.name, color: FUEL_COLOR[l.fuel] ?? "var(--color-muted)", values: l.values, width: 2, digits: 1 }))} />
                 {not("tight")}</> : null; })()}
-              {f.years[year] ? <Table caption="Fuels in the tightest hours" head={["Fuel", "Mean output, MW", "Installed capacity, MW", "Output as a share of installed capacity"]}
+              {f.years[year] ? <Table caption="Fuels in the tightest hours" file={stressFile(g, `tight_${year}`, `what each fuel gave in the ${f.tight} tightest hours, ${year}`, `Window: ${year}, the year's ${f.tight} tightest hours`)} head={["Fuel", "Mean output, MW", "Installed capacity, MW", "Output as a share of installed capacity"]}
                 rows={stress.fuelRows(f, year).map((r) => { const fk = (k: string, form: Form, v: number | null, unit = "") => kv(v, form, `stress/${g}.json`, `years.${year}.${k}`, unit, r.why ?? why);
                   return { key: r.fuel, cells: [r.fuel === "nuclear" ? <span key="n" className="cursor-help border-b border-dotted border-muted" title={nuclearNote(g, year)}>{r.name}</span> : r.name,
                   fk(`tight_${r.fuel}_mw`, "n0", r.mw), fk(`capacity_${r.fuel}_mw`, "n0", r.capacity), fk(`tight_${r.fuel}_share_of_capacity_pct`, "n1", r.share, "%")] }; })} /> : <NH why={why} />}
@@ -389,7 +398,7 @@ export function StressView({ c }: { c: Choice }) {
                 <Lines x={ly} unit="hours" zero name={`erw-mix-calm-${g}`} label={`${nameOf(g)}, the longest dark, calm stretch of each year`} notes={ly.map((y) => GS.calmNote(f, y))} tip={GS.NOT.calm}
                   series={[{ name: "The longest stretch", color: "var(--color-accent)", values: GS.valuesOf(f, ly, "calm_longest_hours"), width: 2, digits: 0 }]} />
                 {not("calm")}</>; })()}
-              <Table caption="Dark, calm stretches" head={["Year", `Hours with wind and solar below ${f.calm_pct}% of capacity`, "Stretches of a day or more", "The longest", "It began", "Energy missing, MWh", "Battery fleet, MW", "Battery fleet, MWh", "Hours at full power to cover it", "Times the fleet's energy"]}
+              <Table caption="Dark, calm stretches" file={stressFile(g, "calm", "dark, calm stretches, by year", `Window: the years ${ys.at(-1)} to ${ys[0]}, each its own year (hours in ${f.tz}); wind and solar below ${f.calm_pct}% of capacity`)} head={["Year", `Hours with wind and solar below ${f.calm_pct}% of capacity`, "Stretches of a day or more", "The longest", "It began", "Energy missing, MWh", "Battery fleet, MW", "Battery fleet, MWh", "Hours at full power to cover it", "Times the fleet's energy"]}
                 rows={ys.map((y) => { const nb = "No battery fleet is held for this grid in that month.";
                   const ck = (k: string, form: Form, w?: string) => kv(stress.get(f, y, k), form, `stress/${g}.json`, `years.${y}.${k}`, "", w);
                   return { key: y, on: y === year, cells: [y, ck("calm_hours", "n0"), ck("calm_stretches_ge24h", "n0"), stress.get(f, y, "calm_longest_hours") === null ? <NH key="s" why={why} /> : ck("calm_longest_hours", "span"),
@@ -401,7 +410,9 @@ export function StressView({ c }: { c: Choice }) {
         );
       })}
       <Block title={`The seven grids, ${year}`}>
-        <Table caption="The seven grids" head={["Grid", "Largest evening ramp, share of peak", "Over three hours", "Lowest net load, share of peak", "Wind in the tightest hours, share of capacity", "Solar in the tightest hours, share of capacity", "Longest dark, calm stretch"]}
+        <Table caption="The seven grids" file={{ panel: "grid_stress_all", part: year, title: `the seven grids, ${year}`, page,
+          tables: ["grid_stress_yearly (derived: warehouse/derived/grid_stress.py, docs/methods/grid_stress.md), as the committed files site/data/stress/<grid>.json hold it"],
+          filter: `iso:<grid> for the seven ISO grids, the year ${year}`, window: `Window: ${year}` }} head={["Grid", "Largest evening ramp, share of peak", "Over three hours", "Lowest net load, share of peak", "Wind in the tightest hours, share of capacity", "Solar in the tightest hours, share of capacity", "Longest dark, calm stretch"]}
           rows={stress.GRIDS.map((g) => { const f = STRESS[g]; const k = (name: string) => (f.years[year] ? stress.get(f, year, name) : null);
             const sk = (name: string, w: string) => kv(k(name), "n1", `stress/${g}.json`, `years.${year}.${name}`, "%", w);
             return { key: g, on: c.grids.includes(g), cells: [nameOf(g), sk("evening_ramp_max_share_of_peak_pct", why), sk("evening_ramp_3h_max_share_of_peak_pct", why), sk("net_load_min_share_of_peak_pct", why),

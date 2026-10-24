@@ -1,6 +1,7 @@
 // Energy Research Warehouse (ERW) site, session 368: /api/download gives every table whole.
 //
 //   node scripts/check-download.mjs [base-url] [table ...]      (default http://localhost:3000, the ten tables below)
+//   node scripts/check-download.mjs [base-url] --grid [address ...]   session 1182: the Grid tool's panel files instead
 //
 // The six largest tables of the live set, whose download the route's exact row count and its paging by offset made fail
 // (session 328's finding, the night note of 20 October 2026, item 3), and the four that sometimes failed. For each, the
@@ -16,17 +17,56 @@
 // It prints, for each table, the rows, the live set's count, the row count in warehouse/metadata/coverage.csv (which
 // counts the whole table: a windowed table holds fewer in the live set), the seconds and the size. Reads only, with the
 // anon key; a download counts against the route's limit of sixty an hour a visitor. Exit 0 only if every file is whole.
+//
+// Session 1182 (chain 091), --grid: each panel chains 077 and 078 added to the Grid tool offers its table as a CSV made
+// from the page's own figures and written into its link (components/grid/PanelFile.tsx, data-grid-file). On each Grid
+// address (by default scripts/grid-files.mjs GRID_FILE_PAGES), read through the internal door (INTERNAL_COSTS_TOKEN; the
+// pages are in review), every file the page must offer is there, and each is whole: a CSV data: address and an
+// attachment named for its panel; the provenance lines (the panel and page, the tables, the filter, the hour or window,
+// the time drawn); the columns; as many rows as its link states, each with as many cells as there are columns; and
+// every number in it past the first column, and in its "Figure:" lines, a figure the page draws (a data-raw of the
+// page). No database read and no download: the files are in the pages. Exit 0 only if every file is whole.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { env } from "./browser.mjs";
+import { env, unlockPost } from "./browser.mjs";
+import { GRID_FILE_PAGES, gridFileProblems, gridFilesOf, missingFiles, rawsOf } from "./grid-files.mjs";  // session 1182
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
-const base = (args[0] ?? "http://localhost:3000").replace(/\/$/, "");
+const base = (args[0] && args[0] !== "--grid" ? args[0] : "http://localhost:3000").replace(/\/$/, "");
 const SIX = ["eia930_all_emissions", "carbon_intensity_hourly", "ercot_as_prices", "state_generation_mix_monthly", "eia930_all_generation", "iso_rtm_hub_prices"];
 const FOUR = ["eia_fuel_spot_prices", "iso_dam_hub_prices", "event_window_daily", "energy_projects"];
 const tables = args.length > 1 ? args.slice(1) : [...SIX, ...FOUR];
+
+// session 1182: --grid, the Grid tool's panel files (the header's last paragraph), and nothing else
+if (args.includes("--grid")) {
+  const asked = args.slice(args.indexOf("--grid") + 1).map((p) => p.replaceAll("\\", "/").replace(/^[A-Za-z]:\/.*?\/Git(?=\/)/, "")).map((p) => (p.startsWith("/") ? p : `/${p}`));
+  const pages = asked.length ? asked.map((p) => [p, null]) : GRID_FILE_PAGES;
+  const u = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
+  const cookie = (u.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
+  if (!cookie) { console.log("FAIL no internal cookie (INTERNAL_COSTS_TOKEN missing or not the server's)"); process.exit(1); }
+  let bad = 0, n = 0, whole = 0;
+  console.log(`check-download --grid against ${base}, ${new Date().toISOString()}`);
+  for (const [page, want] of pages) {
+    const r = await fetch(base + page, { headers: { Cookie: cookie } });
+    const html = await r.text();
+    const files = gridFilesOf(html), raws = rawsOf(html);
+    const lines = [];
+    if (r.status !== 200) lines.push(`answers ${r.status}`);
+    const miss = want ? missingFiles(files.map((f) => f.id), want) : files.length ? [] : ["any panel file"];
+    if (miss.length) lines.push(`missing ${miss.join(", ")}`);
+    for (const f of files) {
+      n += 1;
+      const why = gridFileProblems(f, raws);
+      if (why.length) bad += 1; else whole += 1;
+      console.log(`${why.length ? "FAIL" : "ok  "} ${page}: ${f.id}.csv, ${f.rows} rows, ${f.figures} figures${f.held ? `, ${f.held} held (written "license needed")` : ""}${why.length ? `: ${why.join("; ")}` : ", whole"}`);
+    }
+    if (lines.length) { bad += 1; console.log(`FAIL ${page}: ${lines.join("; ")}`); }
+  }
+  console.log(`\n${whole} of ${n} panel files whole${bad ? `; ${bad} failure(s)` : ""}`);
+  process.exit(bad ? 1 : 0);
+}
 
 const SUPA = new URL(env("SUPABASE_URL") ?? "http://missing").origin, KEY = env("SUPABASE_ANON_KEY") ?? "";
 if (!KEY) { console.log("FAIL SUPABASE_URL or SUPABASE_ANON_KEY is not set (site/.env.local or the environment)"); process.exit(1); }

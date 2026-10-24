@@ -11,6 +11,12 @@
 //              (a table whose row count passes the database's statement timeout is the route's known fault, named and skipped)
 //   readers    its Python, Stata and R readers name this site's own address for the CSV and are attachments
 //   run        (optional) the Python reader, or the R reader, run, loads the table: it prints the provenance and the shape
+//   grid       session 1182: the Grid tool's panel files (components/grid/PanelFile.tsx: each panel chains 077 and 078 added
+//              offers its table as a CSV written into its link, data-grid-file). On each Grid page, by default
+//              scripts/grid-files.mjs GRID_FILE_PAGES (CHECK_GRID_FILES=<address>,<address> for others, CHECK_GRID_FILES=0
+//              for none): every panel's file the page must offer is there, and each opens with its provenance (the panel and
+//              page, the tables, the filter, the hour or window, the time drawn), then its columns. A Grid page is read, not
+//              a download: it does not count against the sixty an hour. check-download.mjs --grid reads each file whole.
 // A download is limited to sixty an hour a visitor (lib/guard.ts): the check asks for one CSV and three readers a page.
 // Exit 1 on a failure.
 import { execFileSync } from "node:child_process";
@@ -18,6 +24,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { env, unlockPost } from "./browser.mjs";
+import { GRID_FILE_PAGES, gridFileProblems, gridFilesOf, missingFiles, rawsOf } from "./grid-files.mjs";  // session 1182
 
 const args = process.argv.slice(2);
 const base = (args[0] ?? "http://localhost:3000").replace(/\/$/, "");
@@ -82,6 +89,27 @@ for (const page of pages) {
   for (const as of ["py", "do", "r"]) {
     const s = await head(`${base}/api/download?table=${t}&as=${as}`, 20000);
     check(s.status === 200 && s.text.includes(`${base}/api/download?table=${t}`) && s.disp.includes(`erw_${t}.${as}"`), `${page}: the ${{ py: "Python", do: "Stata", r: "R" }[as]} reader of ${t} names this site's CSV and is an attachment`);
+  }
+}
+
+// session 1182: the Grid tool's panel files (the header's "grid")
+const gridEnv = process.env.CHECK_GRID_FILES;
+const gridPages = gridEnv === "0" ? [] : gridEnv
+  ? gridEnv.split(",").map((p) => p.replaceAll("\\", "/").replace(/^[A-Za-z]:\/.*?\/Git(?=\/)/, "")).map((p) => [p.startsWith("/") ? p : `/${p}`, null])
+  : GRID_FILE_PAGES;
+for (const [page, want] of gridPages) {
+  const r = await fetch(base + page, { headers: { Cookie: cookie } });
+  const html = await r.text();
+  const files = gridFilesOf(html);
+  check(r.status === 200 && files.length > 0, `${page}: ${files.length} panel files on the page, data-grid-file (${files.map((f) => f.id).join(", ")})`);
+  if (want) {
+    const miss = missingFiles(files.map((f) => f.id), want);
+    check(!miss.length, `${page}: every panel's file it must offer (${want.join(", ")})${miss.length ? `; missing ${miss.join(", ")}` : ""}`);
+  }
+  const raws = rawsOf(html);
+  for (const f of files) {
+    const top = gridFileProblems(f, raws).filter((x) => /link|decode|downloads|header|columns/.test(x));
+    check(!top.length, `${page}: ${f.id}: an attachment, erw_${f.id}.csv, opening with its provenance, then its columns${top.length ? ` (${top.join("; ")})` : ""}`);
   }
 }
 

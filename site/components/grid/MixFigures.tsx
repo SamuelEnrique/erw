@@ -20,10 +20,15 @@ import { TimeChart } from "@/components/TimeChart";
 import { shown } from "@/lib/format";
 import { DEMAND, hourAge, mixMonthly, PROFILE, type Fig, type MixHourly, type MonthFuel } from "@/lib/mixHourly";
 import { Missing } from "@/components/mix/Now";
+import { PanelFile } from "@/components/grid/PanelFile";  // session 1182: the panel's tables, to download
+import { BA_GRID } from "@/lib/gridHeld";
+import { gridHref } from "@/lib/gridtool";
 
 const H = 3_600_000;
 const hourName = (t: number) => `${new Date(t).toISOString().slice(0, 13).replace("T", " ")}:00 UTC`;
 const endName = (t: number) => { const s = hourName(t); return s.endsWith(" 00:00 UTC") ? `${new Date(t - H).toISOString().slice(0, 10)} 24:00 UTC` : s; };
+/** Session 1182: the grid of a figure's entity (eia930:ERCO, iso:ercot), as the panel's name on the page holds it. */
+const gridOf = (entity: string) => (entity.startsWith("iso:") ? entity.slice(4) : BA_GRID[entity.replace(/^eia930:/, "")] ?? "us48");
 
 /** A figure with its key and its one-line source as the hover tip. */
 function F({ f, unit }: { f: Fig; unit?: string }) {
@@ -71,6 +76,18 @@ export function HourlyFigures({ m, label, now, demandFailed }: { m: MixHourly; l
           </tbody>
         </table>
       </div>
+      {/* session 1182: the table as a file, the headline's figures in its header */}
+      <PanelFile of={{ panel: `grid_mix_${gridOf(m.entity)}`, part: "hourly", title: `${label}: net generation by fuel over the 24 hours to the newest hour held`, page: gridHref(gridOf(m.entity), "mix"),
+        tables: ["eia930_all_generation (EIA-930, net generation by energy source, MWh in each hour)", `${DEMAND} (EIA-930, demand_mw: the hour of peak demand)`],
+        filter: `${m.entity}: each energy source's hourly MWh, summed by fuel over the hours held; a share is of the sum of the fuels`,
+        window: `Window: the 24 hours from ${hourName(m.start)} to ${endName(m.end)} (${m.hours} of 24 hours held); the newest hour held starts ${hourName(m.newest.t)}`,
+        figures: [
+          { label: "net generation over the 24 hours, MWh", value: m.total },
+          { label: m.peak ? `peak demand, MW, in the hour from ${hourName(m.peak.t)}` : "peak demand, MW", value: m.peak ? m.peak.fig : demandFailed ? "could not be read" : "not held" },
+          { label: `net generation in the newest hour held, from ${hourName(m.newest.t)}, MW`, value: m.newest.fig },
+        ] }}
+        columns={["Fuel", "MWh, 24 hours", "Share of net generation, percent"]}
+        rows={m.fuels.map((f) => [f.label, <F key="m" f={f.mwh} />, f.share ? <F key="s" f={f.share} unit="%" /> : ""])} />
     </div>
   );
 }
@@ -152,6 +169,21 @@ export function MonthlyFigures({ rows, label, caiso, notices, ercot }: { rows: {
         </p>
       ) : null}
       <p className="mt-1 text-xs text-muted">A share is of the sum of the eight sources over the month&apos;s complete days; storage is negative when it charges more than it discharges. Hover the chart for each fuel&apos;s MWh and share in a month.</p>
+      {/* session 1182: the table as a file, the newest month's days and the alert or notice days in its header */}
+      <PanelFile of={{ panel: `grid_mix_${gridOf(m.entity)}`, part: "monthly", title: `${label}: generation by fuel in ${name(m.newest)} and over the twelve months to it`, page: gridHref(gridOf(m.entity), "mix", { mixp: "month" }),
+        tables: [`${PROFILE} (built from EIA-930's hourly generation by fuel over each month's complete days${caiso ? "; California from January 2026 on CAISO's own data" : ""})`,
+          ...(notices ? [`${ALERT_TABLE} (California ISO, Grid Emergencies History Report)`] : []), ...(ercot ? [`${NOTICE_TABLE} (ERCOT's news releases and operations messages)`] : [])],
+        filter: `${m.entity}: each fuel's MWh and share of the month; the twelve months' MWh summed over the months built`,
+        window: `Window: ${name(m.newest)}, and the twelve months ${name(m.from)} to ${name(m.newest)}${m.notBuilt.length ? ` (not built: ${m.notBuilt.join(", ")})` : ""}`,
+        figures: [
+          ...(m.days && m.daysInMonth ? [{ label: `complete days ${name(m.newest)} is built on`, value: m.days }, { label: `days in ${name(m.newest)}`, value: m.daysInMonth }] : []),
+          ...(notices ? [{ label: al ? `days with an Energy Emergency Alert or a Flex Alert in force, ${al.from} to ${al.to}` : "days with an Energy Emergency Alert or a Flex Alert in force",
+            value: al ? { check: al.signal.check, raw: Number(al.signal.raw) } : "could not be read" }] : []),
+          ...(ercot ? [{ label: en ? `days with a call on supply or demand in ERCOT's notices, ${en.from} to ${en.to}` : "days with a call on supply or demand in ERCOT's notices",
+            value: en ? { check: en.call.check, raw: Number(en.call.raw) } : "could not be read" }] : []),
+        ] }}
+        columns={["Fuel", `${name(m.newest)}, MWh`, `${name(m.newest)}, share, percent`, `12 months to ${name(m.newest)}, MWh`]}
+        rows={m.fuels.map((f) => [f.label, f.mwh ? <F key="m" f={f.mwh} /> : "", f.share ? <F key="s" f={f.share} unit="%" /> : "", f.year ? <F key="y" f={f.year} /> : ""])} />
     </div>
   );
 }

@@ -16,6 +16,7 @@ import { gridHref } from "@/lib/gridtool";
 import { gridNotices } from "@/lib/reliability";
 import { attempt } from "@/lib/supabase";
 import { CAISO_HOLDS, wholeRead } from "@/lib/gridReads";  // session 1181
+import { PanelFile, type FileCell } from "@/components/grid/PanelFile";  // session 1182: the state line's days and counts, to download
 
 /** A figure with its key and its one-line source as the hover tip: a day as written (YYYY-MM-DD), a count whole. */
 function F({ f }: { f: Fig }) {
@@ -66,6 +67,22 @@ export async function CaisoAlertState() {
                 demand, the cut in MW with its interval, and its wholesale value. The alert days on <Link href={`${MIX}#scarcity`}>the scarcity strip</Link>, and every
                 notice since 1998 in <Link href={`${MIX}#reliability`}>Reliability</Link>.
               </p>
+              {/* session 1182: the days and counts above as a file, one a row, exactly those the lines draw */}
+              <PanelFile of={{ panel: "grid_caisoalert_caiso", title: "CAISO's alerts: today, the last alert day, and the notices that are not alerts", page: `${MIX}#caiso-alerts`,
+                tables: [`${ALERT_TABLE} (California ISO, Grid Emergencies History Report: one row per notice type, region and Pacific day)`],
+                filter: "every notice the table holds; an alert is an Energy Emergency Alert (EEA Watch, EEA 1 to 3) or a Flex Alert (before May 2022 also Alert, Warning and the stage emergencies)",
+                window: `Window: every day the table holds, to ${s.today} (Pacific), the day the page was drawn; the year counted is ${s.year}` }}
+                columns={["What", "Day or count", "Notices"]}
+                rows={([
+                  ["Today (Pacific)", s.today, s.covered ? (s.todayAlerts.length ? s.todayAlerts.map(shortName).join(", ") : "no Energy Emergency Alert or Flex Alert") : "not held yet"],
+                  ...(s.covered ? [] : [["The newest day the table holds", s.newest, ""]]),
+                  ["The last day with an Energy Emergency Alert or a Flex Alert in force", s.lastSignal ? s.lastSignal.fig : "none held", s.lastSignal ? `${types(s.lastSignal)}${regions(s.lastSignal)}` : ""],
+                  ...(s.lastFlex && s.lastFlex.day !== s.lastSignal?.day ? [["The last Flex Alert", s.lastFlex.fig, ""]] : []),
+                  [`Days with one in ${s.year}, as held`, s.signalDays, ""],
+                  ["Restricted maintenance operations (not an alert): the last day", s.lastRmo ? s.lastRmo.fig : "none held", s.lastRmo ? regions(s.lastRmo).replace(/^, /, "") : ""],
+                  ...(s.lastRmo ? [[`Restricted maintenance operations: days in ${s.year}`, s.rmoDays, ""]] : []),
+                  ["A transmission emergency (local, not an alert): the last day", s.lastTx ? s.lastTx.fig : "none held", s.lastTx ? regions(s.lastTx).replace(/^, /, "") : ""],
+                ] as FileCell[][])} />
               <p className="text-xs text-muted">
                 caiso_grid_emergencies (California ISO, Grid Emergencies History Report): one row per notice type, region and Pacific day; an alert is an
                 Energy Emergency Alert (EEA Watch, EEA 1 to 3) or a Flex Alert (before May 2022 also Alert, Warning and the stage emergencies), as the

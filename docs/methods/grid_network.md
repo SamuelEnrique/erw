@@ -722,6 +722,67 @@ Decisions (chain 091, session 1181):
 - **The words**: "could not be read" in `Missing`, the tool's one look for what is not there (session 1159), with the table and the reason on hover; never "not held", which says the warehouse holds no such figure. The words a panel already had for a failed read stay (`NoData`'s "no data for", "could not be read just now", the mix view's "working on it").
 - **The blocks older than chain 077 that say "not held" or nothing on a failed read** (the grid's own blocks of `components/grid/YourGrid.tsx`: carbon, storage cycles, the Batteries block, the price board, the weather; the table citations' catalogue; CAISO's daily reliability series) are listed in the session's report, not changed: they are not this chain's panels, and their failed reads are named at the foot of the grid's blocks ("Reads that failed").
 
+## Each panel's table, to download (chain 091, 24 October 2026)
+
+Chain 091 in this note: session 1182.
+
+Session 1182. Each panel chains 077 and 078 added to the Grid tool offers its table as a file, as the older blocks offer
+theirs: under the table, "Download this table (CSV)". The file is made on the server from the cells the panel draws
+(`site/components/grid/PanelFile.tsx`), as the hub table's and the node list's downloads are made from the page's own
+figures (`app/cost-of-power/AllGridsDownload.tsx`, session 793): no new route and no read, so the file holds what the
+page draws when it is drawn. It is written into the link itself, a `data:text/csv` address with the `download`
+attribute, so it needs no script and a checker reads it from the page's HTML. The files, by panel (`erw_<id>.csv`):
+
+| Panel | File id | Rows | In the header beside the table |
+|---|---|---|---|
+| The network ties (Network tab) | `grid_network_<grid>` | each reporting tie: the neighbour, its flow, its direction; the Lower 48: the seven grids' net export and ties | the net export or import, the ties, the demand in the hour |
+| The balance | `grid_network_<grid>_balance` | net generation, demand, net export, the gap | the week's hours and the gap's mean size |
+| The replayed day (Network tab) | `grid_replay_<BA>` | the day's demand, net exchange, ties | |
+| The gravity table | `grid_gravity_<grid>` | each of the seven grids: net generation, net import, the import's share | the Lower 48's generation; the replayed day's demand when the address names a day |
+| The Exchange blocks | `grid_exchange_<grid>_ties`, `grid_exchange_<grid>_twelve_months`; the Lower 48: `grid_exchange_us48` | each tie in the hour and over the week; each neighbour over twelve months | the net, the ties, the largest flow, the hour's age; the twelve months' share, MWh and days held |
+| The last 24 hours (Clean tab) | `grid_clean24_<grid>` | each ISO's latest, lowest and highest intensity, each with its hour | |
+| The energy mix panel | `grid_mix_<grid>_hourly`, `grid_mix_<grid>_monthly` | each fuel's MWh and share | the 24 hours' total, the peak demand, the newest hour; the month's days, the alert or notice days |
+| The scarcity counts | `grid_scarcity_<grid>` | each count of the strip, its hours held, its table | |
+| CAISO's and ERCOT's notice lines | `grid_caisoalert_caiso`, `grid_ercotnotice_ercot` | each day and count of the lines, with its notices | |
+| The stress tables | `grid_stress_<grid>_ramp`, `_tight_<year>`, `_calm`, `grid_stress_all_<year>` | each year, or each fuel, as the table | |
+
+Each file opens with its provenance (CLAUDE.md, non-negotiable 5), one `#` line each: the panel and the page's
+address, the tables (each with its source, and for the snapshot its build time), the filter, the hour or the window,
+and the time the page was drawn; then the figures that stand beside the table in the panel's sentences, one line each
+with its value and its check key; then the columns and the rows. A cell that holds a figure is the figure's value as
+read (its `data-raw`), before the page rounds it; a figure of a held grid is written "license needed", never its value
+(`components/Num.tsx` `heldBy`, the rule `lib/gridHeld.ts` and `lib/license.ts` keep); a cell the page writes in words
+("not held", "could not be read", "no tie reported") is written in those words.
+
+`site/scripts/test-grid-files.mjs` draws the pages on committed real rows (session 1181's stand-in, with
+`site/scripts/fixtures/grid_files.json`: ERCOT's `ba_supply_monthly` and CAISO's monthly mix, read once with the anon
+key) and holds, block by block, the figures of its files (key and value) to the figures the block draws, no more and no
+fewer: 53 cases. `site/scripts/check-table-downloads.mjs` (by default on `site/scripts/grid-files.mjs`
+`GRID_FILE_PAGES`; `CHECK_GRID_FILES`) checks that each page offers every panel's file and that each opens with its
+provenance; `site/scripts/check-download.mjs --grid` reads each file whole: its rows as its link states, each with its
+columns, and every number past the first column a figure of the page. `site/scripts/same-figures.mjs` on 20 addresses:
+2,878 figures, every one the same before and after.
+
+Decisions (session 1182):
+
+- **The file is made from the cells the panel draws, not from a second read.** A route would read again, minutes or an
+  hourly refresh later, and its figures could differ from the page's; the cells are read without drawing them
+  (`cellOf`: a figure is a `Num`, a held figure its words, the rest its text), so the table and the file cannot say two
+  things. Where a panel built its rows inline, the rows are now one constant handed to the table and to the file; the
+  pinned lines of sessions 1165 and 1181 stand word for word.
+- **A data: link, not a button that builds a file in the browser** (session 793's way): it works without script, and
+  the two check scripts and the node test read it from the HTML. The cost is the page's size: the largest file is a
+  few kilobytes.
+- **The sentence's figures go in the header, one line each with its key**, so the file holds every figure of the panel
+  and the table keeps the panel's columns; a figure drawn twice on the page (the Exchange net, in the sentence and the
+  headline) is written once.
+- **The replayed day's file is `grid_replay_<BA>`**, not named for a grid: its block is drawn on the Network tab of
+  whichever grid the address names (session 1170's call is pinned word for word, so the block is not told the grid).
+- **No figure moved, and no panel's words**: the link is a line under each table; the figures, their keys and the
+  panels' names are the same before and after on the same live answers.
+- **The check scripts' default pages carry the files each must offer**, so a panel that loses its file fails the check;
+  a page whose read fails at the landing shows as a missing file, said, not hidden.
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").

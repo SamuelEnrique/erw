@@ -20,6 +20,8 @@ import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 import { lastDayFigures, type Fig } from "@/lib/gridKeys";  // session 1151
 import { scrollRegion } from "@/lib/cells";  // session 1159: the last 24 hours' table scrolls in a frame a keyboard reaches, as ToolTable's
 import { carbonLeftOut, carbonLeftOutMonths, monthRuns, CARBON_HYDRO_GAP } from "@/lib/carbonLeftOut";  // session 118
+import { PanelFile } from "@/components/grid/PanelFile";  // session 1182: the last 24 hours' table, to download
+import { gridHref } from "@/lib/gridtool";
 
 const T = "carbon_intensity_hourly";
 const TM = "carbon_intensity_monthly"; // session 34
@@ -199,6 +201,14 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
               </table>
               </div>
               <p className="mt-1 text-xs text-muted">The hour beside each figure is its hour start, UTC. Hover a figure for its table, entity and hour.</p>
+              {/* session 1182: the same figures as a file, each with its hour */}
+              <PanelFile of={{ panel: `grid_clean24_${grid ?? "all"}`, title: "the latest, lowest and highest intensity of generation per ISO in the 24 hours drawn", page: gridHref(grid ?? "us48", "clean"),
+                tables: [`${T} (derived from eia930_all_emissions, EIA's CO2 estimates, over EIA-930's net generation), kg CO2 per MWh`],
+                filter: "the seven ISOs' balancing authorities (eia930:CISO, ERCO, ISNE, MISO, NYIS, PJM, SWPP), variable intensity_generation",
+                window: `Window: the 24 hours to ${utc(new Date(newest).toISOString())} (hour start), the newest hour the table holds in the last ${LOOK_BACK_DAYS} days` }}
+                columns={["ISO", "Latest hour, kg CO2/MWh", "Latest hour (start, UTC)", "Lowest of the 24 hours", "Lowest hour (start, UTC)", "Highest of the 24 hours", "Highest hour (start, UTC)"]}
+                rows={lastDayFigures(rows, ISOS.map((i) => i.entity), newest).map((d) => [ISOS.find((i) => i.entity === d.entity)!.label,
+                  <F key="l" f={d.latest} />, d.latest.ts, <F key="lo" f={d.low} />, d.low.ts, <F key="hi" f={d.high} />, d.high.ts])} />
             </div>
           </>
         ) : (

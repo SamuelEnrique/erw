@@ -31,6 +31,7 @@ import { DAILY_PRICE_TABLE, RT_PRICE_TABLE, SCARCITY_GRIDS, SCARCITY_LEVEL, SCAR
 import { gridNotices } from "@/lib/reliability";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CAISO_HOLDS, wholeRead } from "@/lib/gridReads";  // session 1181
+import { PanelFile, type FileCell } from "@/components/grid/PanelFile";  // session 1182: the counts, to download
 
 const METHOD = "/data/methods/scarcity_hours_by_grid";
 const D = 86_400_000;
@@ -157,6 +158,26 @@ async function Strip({ g }: { g: ScarcityGrid }) {
         {s.dayMax ? <li>Highest real-time price of ERCOT&apos;s local days {dayName(w.days[0])} to {dayName(w.days[w.days.length - 1])} at {g.hub}: USD <F f={s.dayMax} /> per MWh ({DAILY_PRICE_TABLE}).</li>
           : dailyFailed ? <li data-scarcity-unread={DAILY_PRICE_TABLE}>Highest real-time price of ERCOT&apos;s local days {dayName(w.days[0])} to {dayName(w.days[w.days.length - 1])} at {g.hub}: <Missing words="could not be read" why={`${DAILY_PRICE_TABLE} could not be read just now: ${dailyFailed}`} /> ({DAILY_PRICE_TABLE}).</li> : null}
       </ul>
+      {/* session 1182: the counts above as a file, one a row, with the window and the tables */}
+      <PanelFile of={{ panel: `grid_scarcity_${g.slug}`, title: `${g.label}: the scarcity hours, the latest 30 days ${SCARCITY_TABLE} holds`, page: `${gridHref(g.slug, "mix")}#scarcity`,
+        tables: [`${SCARCITY_TABLE} (derived: docs/methods/scarcity_hours_by_grid.md, rebuilt each month)`, `${RT_PRICE_TABLE} (15-minute real-time prices, the live set keeps about 35 days)`,
+          ...(g.daily ? [`${DAILY_PRICE_TABLE} (ERCOT's daily hub prices)`] : []), ...(g.slug === "caiso" ? [`${ALERT_TABLE} (California ISO, Grid Emergencies History Report)`] : []),
+          ...(g.slug === "ercot" ? [`${NOTICE_TABLE} (ERCOT's news releases and operations messages)`] : [])],
+        filter: `${g.entity} in ${SCARCITY_TABLE}; prices ${g.price.entity}, ${g.price.variable}${g.daily ? `; daily ${g.daily.entity}, ${g.daily.variable}` : ""}; the level ${LEVEL} at ${g.hub}`,
+        window: `Window: ${w.start} to ${w.end} (UTC), the days ${w.days[0]} to ${w.days[w.days.length - 1]} in ${g.zoneName}; the table's newest hour starts ${utc(s.newest)}` }}
+        columns={["Count", "Value", "Of hours held", "Table"]}
+        rows={([
+          ["Real time: hours at or above the level (the hour's mean)", s.rt ? s.rt.hours : "not held", s.rt ? s.rt.held : "", SCARCITY_TABLE],
+          ["Real time: 15-minute intervals at or above the level", s.rt ? s.rt.intervals : "not held", "", SCARCITY_TABLE],
+          ["Day ahead: hours at or above the level", s.da ? s.da.hours : "not held", s.da ? s.da.held : "", SCARCITY_TABLE],
+          [`The grid's own signal (${g.own}): hours`, s.own ? s.own.hours : "not held", s.own ? s.own.held : "", SCARCITY_TABLE],
+          ["Highest 15-minute real-time price of these days, USD per MWh", s.rtMax ? s.rtMax : priceFailed ? "could not be read" : "not in the live set", "", RT_PRICE_TABLE],
+          ...(s.dayMax || dailyFailed ? [["Highest real-time price of the local days, USD per MWh", s.dayMax ? s.dayMax : "could not be read", "", DAILY_PRICE_TABLE]] : []),
+          ...(g.slug === "caiso" ? [["Days with an Energy Emergency Alert or a Flex Alert in force", caiso ? days(caiso.signal) : "could not be read", "", ALERT_TABLE],
+            ["Days of restricted maintenance (not an alert)", caiso ? days(caiso.rmoFig) : "could not be read", "", ALERT_TABLE]] : []),
+          ...(g.slug === "ercot" ? [["Days with a call on supply or demand", calls ? days(calls.call) : "could not be read", "", NOTICE_TABLE],
+            ["Days with a notice that is not a call", calls ? days(calls.otherFig) : "could not be read", "", NOTICE_TABLE]] : []),
+        ] as FileCell[][])} />
       <p className="mt-2 text-xs text-muted" data-scarcity-source="1">
         Level: {LEVEL}, docs/methods/scarcity_hours_by_grid.md; prices: {g.label}. An hour without a row is not held, not a zero. <SiteLink href={METHOD}>Method: each grid&apos;s own scarcity signal</SiteLink>
       </p>

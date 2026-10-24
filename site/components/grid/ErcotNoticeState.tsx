@@ -16,6 +16,7 @@ import { count } from "@/lib/format";
 import { ercotNotices } from "@/lib/gridErcotNotices";
 import { gridHref } from "@/lib/gridtool";
 import { attempt } from "@/lib/supabase";
+import { PanelFile, type FileCell } from "@/components/grid/PanelFile";  // session 1182: the state line's days and counts, to download
 
 /** A figure with its key and its one-line source as the hover tip: a day as written (YYYY-MM-DD), a count whole. */
 function F({ f }: { f: Fig }) {
@@ -71,6 +72,21 @@ export async function ErcotNoticeState() {
               <p className="mb-1" data-ercotnotice-links="1">
                 The notice days on <Link href={`${MIX}#scarcity`}>the scarcity strip</Link>, and by month on <Link href={`${MONTH}#hourly`}>the monthly mix</Link>.
               </p>
+              {/* session 1182: the days and counts above as a file, one a row, exactly those the lines draw */}
+              <PanelFile of={{ panel: "grid_ercotnotice_ercot", title: "ERCOT's notices: today, the last day of each kind, and the notices that are not calls", page: `${MIX}#ercot-notices`,
+                tables: ["ercot_grid_notices (ERCOT's news releases since 2011 and its control room's operations messages since May 2026: one row per notice and Central day it covers)"],
+                filter: "every notice the table holds; a call is a system-wide call on supply or demand (an Energy Emergency Alert, a conservation appeal, a watch, an OCN for extreme weather)",
+                window: `Window: every day the table holds, to ${s.today} (Central), the day the page was drawn; the year counted is ${s.year}` }}
+                columns={["What", "Day or count", "Notices"]}
+                rows={([
+                  ["Today (Central)", s.today, s.covered ? (s.todayCalls.length ? s.todayCalls.map(shortName).join(", ") : "no Energy Emergency Alert, conservation appeal or watch") : "not held yet"],
+                  ...(s.covered ? [] : [["The newest day the table holds", s.newest, ""], ...(s.read ? [["Read from ERCOT's pages on (UTC)", s.read, ""]] : [])]),
+                  ["The last day with a call on supply or demand", s.lastCall ? s.lastCall.fig : "none held", s.lastCall ? types(s.lastCall) : ""],
+                  [`Days with one in ${s.year}, as held`, s.callDays, ""],
+                  ...s.kinds.map((k) => [`The last day with ${k.name}`, k.last ? k.last.fig : "none held", k.last ? `${types(k.last)}${regions(k.last)}` : ""]),
+                  ["A notice that is not a call: the last day", s.lastOther ? s.lastOther.fig : "none held", s.lastOther ? `${types(s.lastOther)}${regions(s.lastOther)}` : ""],
+                  ...(s.lastOther ? [[`Days with a notice that is not a call in ${s.year}`, s.otherDays, ""]] : []),
+                ] as FileCell[][])} />
               <p className="text-xs text-muted">
                 ercot_grid_notices (Electric Reliability Council of Texas, ERCOT: its news releases since 2011 and its control room&apos;s operations messages,
                 which ERCOT serves for six months, since May 2026): one row per notice and Central day it covers. Before May 2026 a notice is held only where a
