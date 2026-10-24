@@ -278,6 +278,7 @@ SECTOR_RULES = [
     (r"^census_cbp_hosting_annual$", "power;datacenters"),  # session 2160: CBP's data processing and hosting (NAICS 518210) by state
     (r"^statcan_electricity_generation_monthly$", "power"),  # session 2176: Statistics Canada's monthly generation by province, class and type
     (r"^statcan_oil_gas_supply_monthly$", "oil;gas"),  # session 2179: Statistics Canada's crude oil and natural gas supply and disposition, by province, a month
+    (r"^ntd_transit_energy_annual$", "power;products"),  # session 2182: the FTA's National Transit Database fuel and energy, an agency, mode and year
     (r"^bsee_offshore_incidents$", "oil;gas"),  # session 2177: BSEE's offshore incidents, one row an incident
     (r"^nrc_rop_findings$", "power;uranium"),  # session 2178: the NRC's ROP findings and violations, one row a finding
     (r"^wb_iea_electricity_annual$", "power"),  # session 2150: the IEA's electricity per person and renewable share, via the World Bank
