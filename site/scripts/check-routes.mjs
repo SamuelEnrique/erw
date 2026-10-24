@@ -18,6 +18,8 @@
 // behind the gate; one of them is asked without the cookie to confirm it.
 // Session 1183: pass 1 also asks each panel of the Grid tool at its address (GRID_ANCHORS, lib/gridAnchors.ts) and fails
 // when the page does not draw the panel's anchor (its id), so a shared address still opens at its panel.
+// Session 1421: and each older block's anchor (lib/gridAnchors.ts OLDER_BLOCKS: Right now, Batteries, What it costs, What
+// is being built, Reliability and its three tables, the mix in that hour), on the Mix tab of a grid that draws it.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -142,6 +144,10 @@ const GRID_ANCHORS = [
   "/grid?grid=ercot&view=clean#last-24-hours", "/grid?grid=ercot&mixp=month#mix-panel", "/grid?grid=ercot#scarcity", "/grid?grid=caiso#caiso-alerts", "/grid?grid=ercot#ercot-notices",
   "/grid?grid=ercot&ask=1&q=What+was+the+peak%3F#stored-answers", "/grid?grid=ercot&mix=stress&year=2024#stress-ramp", "/grid?grid=ercot&mix=stress&year=2024#stress-tight",
   "/grid?grid=ercot&mix=stress&year=2024#stress-calm", "/grid?grid=ercot&mix=stress&year=2024#stress-grids",
+  // session 1421: the older blocks' anchors (lib/gridAnchors.ts OLDER_BLOCKS; scripts/test-grid-addresses.mjs asserts each is listed here)
+  "/grid?grid=ercot#right-now", "/grid?grid=ercot#batteries", "/grid?grid=ercot#what-it-costs", "/grid?grid=caiso#what-is-being-built",
+  "/grid?grid=caiso#reliability", "/grid?grid=caiso#reliability-days", "/grid?grid=caiso#reliability-peaks", "/grid?grid=caiso#reliability-latest",
+  "/grid?grid=ercot#now-mix",
 ];
 
 function visible(html) {

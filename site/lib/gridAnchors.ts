@@ -168,6 +168,50 @@ export const CONDITIONS_ANCHOR = {
 } as const;
 export const yesterdayAnchor = (code: string): string => `${CONDITIONS_ANCHOR.yesterday}-${code}`;
 export const METHOD_CONDITIONS = "/data/methods/generation_mix_hourly#yesterday-and-the-mix-table-at-390-pixels-and-on-hover-session-1416";
+// Session 1421 (chain 111): the older blocks of figures session 1420 named as panels (components/grid/YourGrid.tsx's Right
+// now, Batteries, What it costs and What is being built; Reliability.tsx's three tables; NowView.tsx's mix in that hour):
+// an anchor each (session 1183's rules) and a method each (session 1184's: the section of its note that defines it, the
+// fragment the id lib/markdown.ts headingSlugs writes for its heading, held to it by scripts/test-grid-older-methods.mjs).
+// Outside GRID_ANCHOR and GRID_METHOD, whose 17 panels sessions 1183 and 1184 pin, as sessions 1402 to 1416 placed theirs.
+// Two keep the id their section always had (reliability, pinned by sessions 58 and 1420; now-mix); each block is drawn
+// once a page, so no anchor takes a grid.
+export const OLDER_ANCHOR = {
+  rightNow: "right-now",
+  batteries: "batteries",
+  cost: "what-it-costs",
+  building: "what-is-being-built",
+  reliability: "reliability",
+  reliabilityDays: "reliability-days",
+  reliabilityPeaks: "reliability-peaks",
+  reliabilityLatest: "reliability-latest",
+  nowMix: "now-mix",
+} as const;
+export type OlderAnchorKey = keyof typeof OLDER_ANCHOR;
+// Right now and the mix in that hour: no note defined them, so a section of grid_network.md's chain 111 section does.
+export const METHOD_RIGHT_NOW = "/data/methods/grid_network#right-now-and-the-mix-in-that-hour-what-each-figure-is-session-1421";
+export const METHOD_NOW_MIX = "/data/methods/grid_network#right-now-and-the-mix-in-that-hour-what-each-figure-is-session-1421";
+// The others: the section that names the block, linked where the block's own "Method" link stood (its words unchanged).
+export const METHOD_BATTERIES = "/data/methods/storage#the-figures-on-the-page-and-their-keys";
+export const METHOD_COST = "/data/methods/price_board#the-figures-on-the-page-and-their-keys";
+export const METHOD_BUILDING_QUEUE = "/data/methods/energy_projects#the-figures-on-the-grid-page-and-their-keys";
+export const METHOD_BUILDING_DATACENTERS = "/data/methods/datacenter_facilities#grid-pages-which-grid-a-facility-belongs-to-session-36a";
+export const METHOD_RELIABILITY_NOTICES = "/data/methods/california_reliability#1-every-notice-since-1998-caiso_grid_emergencies";
+export const METHOD_RELIABILITY_DAILY = "/data/methods/california_reliability#2-how-tight-was-it-caiso_reliability_daily-derived";
+/** Each older block: its anchor, its panel, an address that draws it (the Mix tab of a grid that draws its figures), and the
+ *  methods its links open. Read by scripts/test-grid-older-methods.mjs, test-grid-addresses.mjs and test-grid-render.mjs; the
+ *  route check (scripts/check-routes.mjs GRID_ANCHORS) lists each address with its anchor. */
+export type OlderBlock = { key: OlderAnchorKey; panel: string; address: string; methods: string[] };
+export const OLDER_BLOCKS: OlderBlock[] = [
+  { key: "rightNow", panel: "grid_rightnow_<grid>", address: "/grid?grid=ercot", methods: [METHOD_RIGHT_NOW] },
+  { key: "batteries", panel: "grid_batteries_<grid>", address: "/grid?grid=ercot", methods: [METHOD_BATTERIES] },
+  { key: "cost", panel: "grid_cost_<grid>", address: "/grid?grid=ercot", methods: [METHOD_COST] },
+  { key: "building", panel: "grid_building_<grid>", address: "/grid?grid=caiso", methods: [METHOD_BUILDING_QUEUE, METHOD_BUILDING_DATACENTERS] },
+  { key: "reliability", panel: "grid_reliability_caiso", address: "/grid?grid=caiso", methods: [METHOD_RELIABILITY_NOTICES, METHOD_RELIABILITY_DAILY] },
+  { key: "reliabilityDays", panel: "grid_reliability_caiso (days per year)", address: "/grid?grid=caiso", methods: [METHOD_RELIABILITY_NOTICES] },
+  { key: "reliabilityPeaks", panel: "grid_reliability_caiso (the twelve highest peaks)", address: "/grid?grid=caiso", methods: [METHOD_RELIABILITY_DAILY] },
+  { key: "reliabilityLatest", panel: "grid_reliability_caiso (the latest fourteen days)", address: "/grid?grid=caiso", methods: [METHOD_RELIABILITY_DAILY] },
+  { key: "nowMix", panel: "grid_nowmix_<grid>", address: "/grid?grid=ercot", methods: [METHOD_NOW_MIX] },
+];
 export const GRID_METHOD: Record<GridAnchorKey, string> = {
   network: METHOD_NETWORK,
   replay: METHOD_REPLAY,

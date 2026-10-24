@@ -26,6 +26,7 @@ import { GridYesterday } from "./Conditions";
 import { GridNowParts } from "./YourGrid";
 import { Preliminary } from "./Preliminary";
 import { PanelFile } from "@/components/grid/PanelFile";  // session 1420: the mix in that hour, to download
+import { METHOD_NOW_MIX, OLDER_ANCHOR } from "@/lib/gridAnchors";  // session 1421: its anchor and its method (as session 1184)
 
 const DEMAND = "eia930_all_demand", GEN = "eia930_all_generation", CARBON = "carbon_intensity_hourly";
 const H = 3_600_000;
@@ -115,7 +116,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
 
       {/* session 1420: a named panel, its table to download */}
       <div data-grid-panel={`grid_nowmix_${grid.slug}`}>
-      <ToolSection title="The mix in that hour" id="now-mix">
+      <ToolSection title="The mix in that hour" id={OLDER_ANCHOR.nowMix}>
         {withheld ? <CaisoMixWithheld what="California's generation by fuel" /> : !gen.ok ? <NoData what="generation by fuel" reason={gen.reason} /> : !total || !fuels.length ? <NoData what="generation by fuel" reason={`${GEN} holds no hour for ${grid.label} in the last 34 days`} /> : (
           <>
             <p className="mb-2 max-w-3xl text-sm">
@@ -135,6 +136,8 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
               columns={["Fuel, as EIA names it", "MW"]} rows={mixRows.map((r) => r.cells)} />
           </>
         )}
+        {/* session 1421: the section that defines the block, drawn in each of its states */}
+        <p className="mt-1 text-xs text-muted" data-grid-method="now-mix"><Link href={METHOD_NOW_MIX}>Method: &quot;Right now&quot; and the mix in that hour</Link>.</p>
       </ToolSection>
       </div>
 

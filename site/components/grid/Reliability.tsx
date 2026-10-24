@@ -10,6 +10,8 @@ import { Missing } from "@/components/mix/Now";  // session 1181
 import type { ReactNode } from "react";
 import { PanelFile, type FileCell } from "@/components/grid/PanelFile";  // session 1420: the three tables, to download
 import { gridHref } from "@/lib/gridtool";
+// session 1421: each table's anchor and the sections of the note that define them (lib/gridAnchors.ts, as session 1184)
+import { METHOD_RELIABILITY_DAILY, METHOD_RELIABILITY_NOTICES, OLDER_ANCHOR } from "@/lib/gridAnchors";
 
 // Session 58: California reliability v1, /grid/caiso's "Reliability" section. Every Flex Alert and emergency CAISO lists
 // since 1998 (caiso_grid_emergencies), and how tight its evenings were day by day since 2018 (caiso_reliability_daily: peak
@@ -134,7 +136,7 @@ export async function Reliability() {
         a weather-and-calendar model of demand, with intervals and a wholesale value.
       </p>
 
-      <h3 className="mb-1 text-base">Every notice since 1998: days per year</h3>
+      <h3 id={OLDER_ANCHOR.reliabilityDays} className="mb-1 text-base">Every notice since 1998: days per year</h3>
       {ns.ok ? (
         <div className="mb-2 overflow-x-auto">
           <table className="text-sm">
@@ -157,7 +159,7 @@ export async function Reliability() {
         {ns.ok ? <span title={`${EMERGENCIES}: every row (one a notice type, region and Pacific day)`} className="cursor-help border-b border-dotted border-muted"><Num check="awe|rows|any" raw={notices.length}>{count(notices.length)}</Num></span> : count(notices.length)} notices, the latest on{" "}
         {lastNotice ? <span title={`${EMERGENCIES}: the newest event_date of any notice`} className="cursor-help border-b border-dotted border-muted"><Num check="awe|newest|any" raw={lastNotice.event_date.slice(0, 10)}>{lastNotice.event_date.slice(0, 10)}</Num></span> : "no day"}.</>
         : <span data-reliability-unread="1">The table&apos;s notices <Missing words="could not be read" why={`${EMERGENCIES} could not be read just now: ${ns.reason}`} />.</span>} Our day counts match CAISO&apos;s own yearly summary in 214 of 232 year and type cells; the 18 that
-        differ, and why, are in <Link href="/data/methods/california_reliability">the method</Link>.
+        differ, and why, are in <Link href={METHOD_RELIABILITY_NOTICES}>the method</Link>.
       </p>
       {ns.ok && years.length ? (
         <PanelFile of={{ panel: "grid_reliability_caiso", part: "days_per_year", title: "the days per year with at least one notice of each type, as CAISO counts them, since 1998", page,
@@ -177,7 +179,7 @@ export async function Reliability() {
         ))}
       </ul>
 
-      <h3 className="mb-1 text-base">How tight was it: the twelve highest peaks since 2018</h3>
+      <h3 id={OLDER_ANCHOR.reliabilityPeaks} className="mb-1 text-base">How tight was it: the twelve highest peaks since 2018</h3>
       <p className="mb-2 max-w-3xl text-sm">
         Each day&apos;s highest hour of demand served, the evening ramp (the rise from the 12:00 to 15:00 mean to the 17:00 to 21:00 peak), and, since
         2025-08-24, what CAISO&apos;s batteries delivered in the evening&apos;s peak hour and their share of that hour&apos;s demand.
@@ -190,7 +192,7 @@ export async function Reliability() {
           tables: dailyTables, filter: dailyFilter, window: "Window: every Pacific day since 2018 the table holds: the twelve with the highest peak_demand_mw" }}
           columns={DAY_COLUMNS} rows={tight.map(dayRow)} />
       ) : null}
-      <h3 className="mb-1 text-base">The latest fourteen days held</h3>
+      <h3 id={OLDER_ANCHOR.reliabilityLatest} className="mb-1 text-base">The latest fourteen days held</h3>
       {!peak.ok ? <p className="mb-2 text-sm text-muted" data-reliability-daily-unread="latest">The latest days {unread("peak_demand_mw", peak.reason)}.</p> : null}
       {peak.ok ? <div className="mb-2 overflow-x-auto"><table className="w-full text-sm"><Head /><tbody>{latest.map((p) => <Row key={p.ts_utc} p={p} x={x} f={f} />)}</tbody></table></div> : null}
       {peak.ok && latest.length ? (
@@ -198,6 +200,8 @@ export async function Reliability() {
           tables: dailyTables, filter: dailyFilter, window: `Window: the latest fourteen Pacific days the table holds, ${dayOf(latest.at(-1)!)} to ${dayOf(latest[0])}` }}
           columns={DAY_COLUMNS} rows={latest.map(dayRow)} />
       ) : null}
+      {/* session 1421: the two daily tables' method, the section that defines their figures (drawn whether or not the read succeeded) */}
+      <p className="mb-2 text-xs text-muted" data-grid-method="reliability-daily"><Link href={METHOD_RELIABILITY_DAILY}>Method: how tight was it, the daily figures</Link>.</p>
       <p className="mb-2 max-w-3xl text-xs text-muted">
         Not here yet: the day&apos;s available supply (CAISO&apos;s Today&apos;s Outlook &quot;available resources&quot; is not in the warehouse), so peak demand is not set against it;
         and batteries before 2025-08-24. Demand is EIA-930&apos;s for CAISO&apos;s balancing authority, hourly, Pacific days. A September 2022 heat wave set the

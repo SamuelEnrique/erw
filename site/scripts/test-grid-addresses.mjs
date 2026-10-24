@@ -23,6 +23,7 @@ import { carryMoment } from "../lib/networkMap.ts";
 import { choiceOf } from "../lib/mixpage.ts";
 import nextConfig from "../next.config.ts";
 import { GRID_ANCHOR, PANEL_ANCHORS, anchorOf, panelAddress } from "../lib/gridAnchors.ts";   // session 1183
+import * as GA from "../lib/gridAnchors.ts";   // session 1421: the older blocks' anchors and the later panels'
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.join(here, "..");
@@ -374,6 +375,29 @@ await test("the route check lists every panel's address with its anchor, and che
 await test("the method note names each anchor with its panel", () => {
   const note = fs.readFileSync(path.join(SITE, "..", "docs", "methods", "grid_network.md"), "utf-8");
   for (const a of PANEL_ANCHORS) assert.ok(note.includes(`\`#${GRID_ANCHOR[a.key]}\``), `docs/methods/grid_network.md names #${GRID_ANCHOR[a.key]}`);
+});
+
+// Session 1421 (chain 111): the older blocks' anchors (lib/gridAnchors.ts OLDER_ANCHOR, OLDER_BLOCKS), outside the 17 above:
+// plain ids, none twice, none another panel's anchor; each block's address opens the Mix tab of its grid, unredirected, as
+// gridHref writes it; and the route check lists each address with its anchor.
+await test("each older block's anchor is one plain id, none another panel's; its address opens the Mix tab of its grid; the route check lists it", () => {
+  const ids = Object.values(GA.OLDER_ANCHOR);
+  assert.equal(new Set(ids).size, ids.length, "two older blocks share an anchor");
+  for (const id of ids) assert.match(id, /^[a-z][a-z0-9-]*$/, `${id}: a plain id`);
+  assert.deepEqual(GA.OLDER_BLOCKS.map((b) => b.key).sort(), Object.keys(GA.OLDER_ANCHOR).sort());
+  const others = [...Object.values(GRID_ANCHOR), GA.HUB_PRICE_ANCHOR, GA.CLEAN_WEEK_ANCHOR, GA.LOWER48_DEMAND_ANCHOR, ...Object.values(GA.MIX_VIEW_ANCHOR),
+    ...Object.values(GA.CLEAN_TABLE_ANCHOR), ...Object.values(GA.EMISSIONS_ANCHOR), ...Object.values(GA.CONDITIONS_ANCHOR)];
+  for (const id of ids) assert.ok(!others.includes(id) && !id.startsWith(`${GA.CONDITIONS_ANCHOR.yesterday}-`), `${id} is another panel's anchor`);
+  const routes = src("scripts", "check-routes.mjs");
+  for (const b of GA.OLDER_BLOCKS) {
+    const grid = queryOf(b.address.split("?")[1] ?? "").grid;
+    assert.equal(T.gridHref(grid, "mix"), b.address, `${b.key}: ${b.address} is not gridHref's`);
+    const l = land(b.address);
+    assert.equal(l.rule, null, `${b.key}: ${b.address} is redirected`);
+    const { p } = pageOf(l.query);
+    assert.deepEqual([p.view, p.grid.slug], ["mix", grid], `${b.key}: opens ${p.view}/${p.grid.slug}`);
+    assert.ok(routes.includes(`"${b.address}#${GA.OLDER_ANCHOR[b.key]}"`), `check-routes.mjs does not list ${b.address}#${GA.OLDER_ANCHOR[b.key]}`);
+  }
 });
 
 console.log(`${n} tests passed, ${CASES.length} addresses, ${PANEL_ANCHORS.length} panels`);

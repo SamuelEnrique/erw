@@ -22,6 +22,8 @@ import { heldQueue, type Held } from "@/lib/gridHeld";  // session 1167
 import { licenseHeldRow, licenseTitle, LICENSE_NEEDED } from "@/lib/license";  // session 1167
 import { PanelFile, type FileCell } from "@/components/grid/PanelFile";  // session 1420: each older block's figures, to download
 import { heldBy } from "@/components/Num";  // session 1420: the datacenters' figures are held whole (lib/license.ts)
+// session 1421: each older block's anchor and the section of its note that defines it (one constant a link, as session 1184)
+import { METHOD_BATTERIES, METHOD_BUILDING_DATACENTERS, METHOD_BUILDING_QUEUE, METHOD_COST, METHOD_RIGHT_NOW, OLDER_ANCHOR } from "@/lib/gridAnchors";
 
 // Session 35: "Ask your grid". One template, seven pages (docs/grids/grids.json), for a student in a first energy
 // course: who runs the grid, where the power comes from now, what it costs, how clean it is, what is being built,
@@ -275,7 +277,7 @@ function Batteries({ g, d }: { g: GridConfig; d: GridData }) {
           notes: ["The last 30 days' discharge are drawn in the small chart, not written here", "EIA-860M gives MWh for operating units, not planned ones"] }}
           columns={["Figure", "Day", "Value", "Unit"]} rows={fileRows} />
       ) : null}
-      <p className="mt-1 text-xs text-muted"><Link href="/data/methods/storage">Method</Link>.</p>
+      <p className="mt-1 text-xs text-muted"><Link href={METHOD_BATTERIES}>Method</Link>.</p>
     </>
   );
 }
@@ -374,7 +376,7 @@ function Cost({ g, d }: { g: GridConfig; d: GridData }) {
       </div>
       <p className="mt-1 text-xs text-muted">
         Wholesale prices, what power plants are paid, not what a household pays. Day-ahead is the price agreed the day before; real-time is the price at
-        the moment. Peak hours are the busy daytime hours of working days, as the price board&apos;s method defines them; off-peak is the rest. <Link href="/data/methods/price_board">Method</Link>.
+        the moment. Peak hours are the busy daytime hours of working days, as the price board&apos;s method defines them; off-peak is the rest. <Link href={METHOD_COST}>Method</Link>.
       </p>
       {daMean || rtMean || avg30 || pk || off ? <PanelFile of={{ panel: `grid_cost_${g.slug}`, title: `${g.hub.label}'s day-ahead and real-time daily means, its peak and off-peak means and the 30-day average, USD per MWh`, page: gridHref(g.slug, "mix"),
         tables: [`${T} (daily means of ${g.iso}'s own hourly prices)`, `${TP} (the day-ahead mean over peak and off-peak hours, as the price board's method defines them)`],
@@ -436,7 +438,7 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
         </div>
         <p className="mt-1 text-xs text-muted">
           The interconnection queue is the waiting list of projects asking to connect to the grid; many never get built. Withdrawn projects are left out.
-          Kinds are the ERW&apos;s grouping of the ISO&apos;s own fuel names. <Link href="/data/methods/energy_projects">Method</Link>.
+          Kinds are the ERW&apos;s grouping of the ISO&apos;s own fuel names. <Link href={METHOD_BUILDING_QUEUE}>Method</Link>.
         </p>
         <Cite tables={["energy_projects", g.queue_table]} note={`Queue positions of ${g.queue_table}, as energy_projects groups them`} />
       </>
@@ -455,7 +457,7 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
           A facility from {g.iso}&apos;s interconnection queue, or whose utility is one of {g.iso}&apos;s, is counted here; any other is counted by its
           state, for the states wholly or mostly inside {g.iso} ({states.map((s) => g.states[s]).join(", ")}), so one there may be served by a
           neighboring grid. Many rows come from news stories read by a model: check each against its source.{" "}
-          <Link href="/data/methods/datacenter_facilities">Method</Link>.
+          <Link href={METHOD_BUILDING_DATACENTERS}>Method</Link>.
         </p>
         <Cite tables={["datacenter_facilities"]} />
       </div>
@@ -525,13 +527,16 @@ export function GridNowParts({ g, d }: { g: GridConfig; d: GridData }) {
       </p>
 
       {/* session 1420: the older blocks of figures are named panels, each with its file (Reliability names its own) */}
-      <div data-grid-panel={`grid_rightnow_${g.slug}`}><Section title="Right now: demand" aside={<Chip tier="source" />}><RightNow g={g} d={d} /></Section></div>
+      {/* session 1421: each block's anchor on its own Section (lib/gridAnchors.ts OLDER_ANCHOR), inside its panel's element */}
+      <div data-grid-panel={`grid_rightnow_${g.slug}`}><Section title="Right now: demand" id={OLDER_ANCHOR.rightNow} aside={<Chip tier="source" />}><RightNow g={g} d={d} />
+        <p className="mt-1 text-xs text-muted" data-grid-method="right-now"><Link href={METHOD_RIGHT_NOW}>Method: &quot;Right now&quot; and the mix in that hour</Link>.</p>
+      </Section></div>
       <Section title="Who runs this grid" aside={<Chip tier="written" />}>
         <Written md={first.replace(/^## [^\n]*\n/, "")} slug={g.slug} />
       </Section>
-      <div data-grid-panel={`grid_batteries_${g.slug}`}><Section title="Batteries" aside={<><Chip tier="derived" /></>}><Batteries g={g} d={d} /></Section></div>
+      <div data-grid-panel={`grid_batteries_${g.slug}`}><Section title="Batteries" id={OLDER_ANCHOR.batteries} aside={<><Chip tier="derived" /></>}><Batteries g={g} d={d} /></Section></div>
       <div data-grid-panel={`grid_cost_${g.slug}`}>
-      <Section title="What it costs" aside={<Chip tier="derived" />}>
+      <Section title="What it costs" id={OLDER_ANCHOR.cost} aside={<Chip tier="derived" />}>
         <Cost g={g} d={d} />
         {/* session 37: the cost-of-power model (PJM's prices are internal, so it has no PJM row) */}
         <p className="mt-2 text-sm">
@@ -542,7 +547,7 @@ export function GridNowParts({ g, d }: { g: GridConfig; d: GridData }) {
       </div>
       {/* session 58: California reliability v1, CAISO only */}
       {g.slug === "caiso" ? <Section id="reliability" title="Reliability" aside={<Chip tier="derived" />}><Reliability /></Section> : null}
-      <div data-grid-panel={`grid_building_${g.slug}`}><Section title="What is being built" aside={<Chip tier="derived" />}><Building g={g} d={d} /></Section></div>
+      <div data-grid-panel={`grid_building_${g.slug}`}><Section title="What is being built" id={OLDER_ANCHOR.building} aside={<Chip tier="derived" />}><Building g={g} d={d} /></Section></div>
       <Section title="In the news" aside={<Chip tier="model_extracted" />}><News g={g} d={d} /></Section>
 
       <Section title={`About ${g.iso}`} aside={<Chip tier="written" />}>
