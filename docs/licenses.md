@@ -10,8 +10,8 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **538 tables.** The flag and the verdict agree on 433; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 60 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 405 public, 83 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **539 tables.** The flag and the verdict agree on 434; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 60 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 405 public, 84 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **866 publishers in the record: 864 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 198 pages read, 666 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -1608,6 +1608,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `weather_forecast_hourly` | NWS | may be public |  |  | public | agrees | may be public | public |
 | `weather_obs_hourly` | NWS | may be public |  |  | public | agrees | may be public | public |
 | `wfigs_wildfires` | National Interagency Fire Center (NIFC) | may be public |  |  | public | agrees | may be public | public |
+| `zimstat_zimbabwe_generation_monthly` | Zimbabwe National Statistics Agency (ZIMSTAT) | needs written permission | Zimbabwe National Statistics Agency (ZIMSTAT) |  | internal | agrees | needs written permission | internal |
 
 ## Settled by a ruling (session 324)
 
@@ -1793,6 +1794,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **CenterPoint Energy Houston Electric, LLC** (1 tables). Write to: CenterPointEnergy.com/en-us/corporate/contact-us/. Tables: `texas_delivery_charges`.
 - **Oncor Electric Delivery Company LLC** (1 tables). Write to: no person or address on the page read. Tables: `texas_delivery_charges`.
 - **IEA (standalone datasets)** (1 tables). Write to: Rights@iea.org. Tables: `wb_iea_electricity_annual`.
+- **Zimbabwe National Statistics Agency (ZIMSTAT)** (1 tables). Write to: no person or address on the page read. Tables: `zimstat_zimbabwe_generation_monthly`.
 
 Only if the ERW sells anything:
 

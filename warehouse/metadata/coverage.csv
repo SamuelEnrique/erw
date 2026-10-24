@@ -537,3 +537,4 @@ wb_iea_electricity_annual,wb,,209,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,
 weather_forecast_hourly,weather,,7,PT1H,2026-09-28T09:00:00Z,2026-10-30T01:00:00Z,10614,nws:forecast_hourly,2026-10-23T14:37:04Z,pass,public,power,no,source
 weather_obs_hourly,weather,,7,PT1H,2026-09-21T09:00:00Z,2026-10-23T13:00:00Z,10627,nws:observations,2026-10-23T14:37:04Z,pass,public,power,no,source
 wfigs_wildfires,none,,1,event,2015-01-18T00:00:00Z,2026-10-21T00:00:00Z,6222,1 outlets,2026-10-23T23:13:01Z,pass,public,power,no,source
+zimstat_zimbabwe_generation_monthly,zimstat,,85,P1M,2019-01-01T00:00:00Z,2026-03-01T00:00:00Z,85,zimstat:index_of_electricity_generation,2026-10-24T16:28:31Z,pass,internal,power,no,source

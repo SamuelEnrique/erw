@@ -537,3 +537,4 @@ wb_iea_electricity_annual,IEA (standalone datasets),the source registry
 weather_forecast_hourly,NWS,the source registry
 weather_obs_hourly,NWS,the source registry
 wfigs_wildfires,National Interagency Fire Center (NIFC),the source registry
+zimstat_zimbabwe_generation_monthly,Zimbabwe National Statistics Agency (ZIMSTAT),the source registry
