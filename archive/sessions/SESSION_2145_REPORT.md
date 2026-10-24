@@ -1,6 +1,6 @@
 # Session 2145 report: seven days of the data jobs
 
-24 October 2026, from 00:36 UTC, on lab-desktop (the data machine), chain 090, unattended. Done in session 962's form while the helper drafted session 2143's notes. This session writes nothing to the warehouse. Model spend USD 0.
+24 October 2026, from 00:31 UTC, on lab-desktop (the data machine), chain 090, unattended. Done in session 962's form while the helper drafted session 2143's notes. This session writes nothing to the warehouse. Model spend USD 0.
 
 ## Read these first
 
@@ -14,7 +14,7 @@
   | 21 October | 632 | 0 |
   | 22 October | 731 | 1 |
   | 23 October | 740 | 1 |
-  | 24 October (to 00:36 UTC) | 20 | 0 |
+  | 24 October (to 00:31 UTC) | 20 | 0 |
 
 - **No failed step is new since session 2095's look.** The newest is the same one: 23 October's daily run failed its package test (`test_coverage_has_one_row_per_table_and_the_documented_columns`). Sessions 2039 and 2095 traced it to a coverage row a data chain had rebuilt with main's validator, gone from main since.
 - **GitHub's record:**
