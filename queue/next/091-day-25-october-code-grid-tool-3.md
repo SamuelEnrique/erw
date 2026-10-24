@@ -2,7 +2,7 @@
 
 machine: samueloldlaptop
 
-Twelve sessions for the old laptop (`samueloldlaptop`, C:\Users\lossa\Documents\erw), written by session 1164 at the start of chain 078 (`queue/done/078-day-24-october-code-grid-tool-2.md`, sessions 1164 to 1177), to be updated by session 1177 from that chain's results. Model: Opus 5.5, high effort. Goal: the Grid tool's reads, failures, downloads and links made as solid as its figures, from the open items of chains 077 and 078 (`docs/state/review_2026-10-24_code_grid.md`, session 1160's report on the reads). Nothing here waits for a ruling: no page's default figure moves, no held grid's rows are drawn, nothing goes public, no warehouse data is written.
+Twelve sessions for the old laptop (`samueloldlaptop`, C:\Users\lossa\Documents\erw), written by session 1164 at the start of chain 078 (`queue/done/078-day-24-october-code-grid-tool-2.md`, sessions 1164 to 1177), updated by session 1177 from that chain's results (nothing of chains 077's landing B or 078 is on main: both wait on `wip/1176-grid`). Model: Opus 5.5, high effort. Goal: the Grid tool's reads, failures, downloads and links made as solid as its figures, from the open items of chains 077 and 078 (`docs/state/review_2026-10-24_code_grid.md`, session 1160's report on the reads). Nothing here waits for a ruling: no page's default figure moves, no held grid's rows are drawn, nothing goes public, no warehouse data is written.
 
 Session numbers 1178 to 1189 are this chain's. A number found taken when a session starts is skipped upward and said so; the successor takes the next free numbers its writer finds.
 
@@ -16,7 +16,7 @@ As chain 077's, section "Rules for every session", word for word, and two more f
 
 ## Session 1178: the next file, then what chain 078 left
 
-Long end 1:30. First the next file (above). Then every item chain 078 left under "To finish", in the order of its note, each said in the report. If landing B of chain 077 (`wip/1162-grid`) is still not on main, it comes first.
+Long end 1:30. First the next file (above). Then every item chain 078 left under "To finish", in the order of its note (`docs/state/review_2026-10-24_code_grid2.md`), each said in the report. **The landing comes first: `wip/1176-grid`** (chains 077 and 078, sessions 1152 to 1176, stacked; it carries the fix of four places where production shows held grids' rows). It is made only by a gate run alone on the machine, and never by a session after a reap in the same window; if it cannot be made, say so in two lines, and every later session of this chain cuts its branch from the one before (the first from `wip/1176-grid`) and works code-only, as chain 078 did (`runs/c077/brief.md`, its first paragraph). Sessions 1181, 1182 and 1186 need a running site for their checks: without one, their code and tests land on the branch and the checks go under "To finish".
 
 ## Session 1179: one read of a grid's generation a page
 
