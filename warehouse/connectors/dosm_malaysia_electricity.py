@@ -23,7 +23,8 @@ catalogue's variable definitions). The variables are the file's name and the sec
 The catalogue says the figures are compiled from the operational records of Tenaga Nasional Berhad (Peninsular
 Malaysia), Sabah Electricity and Sarawak Energy, with the independent producers', and that the latest six months are
 provisional. A header not DOSM's, a sector not in the map, a date not a month's first day, a value that is not a number
-or a month and sector given twice stops the run.
+or a month and sector given twice stops the run. DOSM's distribution sector equals its total in every month to June 2026
+(session 2326): it is kept as published and the header says so.
 
     python warehouse/connectors/dosm_malaysia_electricity.py [--offline] [--out-dir DIR]
 
@@ -115,12 +116,16 @@ def main(argv=None):
             rows += file_rows(kind, content.decode("utf-8-sig"), url, rec.get("retrieved_at") or "", ip.vintage_of(rec))
             got.append((kind, rec.get("retrieved_at") or ""))
         t = finish(rows)
+        p = t.pivot(index="ts_utc", columns="variable", values="value")
+        both = int(p[["supply_distribution", "supply_total"]].dropna().shape[0])
+        same = int(((p.supply_distribution - p.supply_total).abs() < 0.5).sum())
         header = [
             f"Energy Research Warehouse (ERW): Department of Statistics Malaysia (data.gov.my), Malaysia's electricity supply and consumption a month by sector, {t.ts_utc.min()[:7]} to {t.ts_utc.max()[:7]} (session 2322)",
             "Shape: series (docs/datastandard.md v0). entity dosm:MY; variable the file and its sector (supply_total, supply_local, supply_local_public, supply_local_private, supply_imports, supply_distribution; "
             "consumption_total, consumption_local, consumption_local_commercial, consumption_local_domestic, consumption_exports, consumption_losses); unit MWh (DOSM's million kWh times 1,000); "
             "ts_utc the month's first day; freq P1M; geo MY. Commercial includes industry and mining; domestic includes public lighting. The latest six months are provisional (DOSM).",
-            f"{len(t)} rows, {t.variable.nunique()} variables. Nothing is filled.",
+            f"{len(t)} rows, {t.variable.nunique()} variables. Nothing is filled. supply_distribution equals supply_total in {same} of {both} months (DOSM's sector, kept): never add it to the other sectors. "
+            "supply_local_private and consumption_losses change level between December 2022 and January 2023 (private supply about triples, losses fall by about 30 per cent); DOSM's pages do not say why (session 2326's note).",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/dosm_malaysia_electricity.py; the files retrieved " + "; ".join(f"{k} {r}" for k, r in got),
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

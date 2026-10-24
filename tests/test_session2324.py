@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW). Tests warehouse/connectors/aneel_siga.py on a file built here in SIGA's form (made up
 for the test, not ANEEL's): kW written as MW, decimal commas, ANEEL's phases as the standard's statuses, coordinates of
-0 and 0 left empty, a plant listed under two grant types kept once with both; a header not ANEEL's, a phase not in the
+0 and 0 and the date 1900-01-03 left empty, a plant listed under two grant types kept once with both; a header not ANEEL's, a phase not in the
 map, a number not in ANEEL's form, a plant given twice with other fields differing and two generation dates stopping
 the run; the sector rule and the holds. No network.
 
@@ -40,6 +40,11 @@ class Rows(unittest.TestCase):
         b = t[t.entity_id == "aneel_siga:UFV.RS.PA.000002-1.1"].iloc[0]
         self.assertTrue(b.lat != b.lat and b.lon != b.lon)   # empty, not 0
         self.assertEqual(b.status, "planned")
+
+    def test_blank_date(self):
+        # session 2326: 1900-01-03 is ANEEL's date where it has none
+        t = A.finish(A.file_rows(HEAD + line().replace('"2020-01-02"', '"1900-01-03"'), "r", "v"))
+        self.assertEqual(t.status_date.iloc[0] if t.status_date.iloc[0] == t.status_date.iloc[0] else "", "")
 
     def test_two_grants(self):
         t = A.finish(A.file_rows(HEAD + line(grant="Autorização") + line(grant="Concessão"), "r", "v"))

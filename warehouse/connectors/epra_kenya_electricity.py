@@ -181,11 +181,24 @@ def main(argv=None):
             got.append(rec.get("retrieved_at") or "")
         t = finish(rows)
         years = sorted(t.ts_utc.str[:4].astype(int) + 1)
+        # session 2326: EPRA's effective capacity printed above installed, and an effective column repeating the year before's
+        cap = t[t.variable.str.startswith("capacity_interconnected_")].copy()
+        cap["fy"] = cap.ts_utc.str[:4].astype(int) + 1
+        cap["part"] = cap.variable.str.extract(r"capacity_interconnected_(installed|effective)_")[0]
+        cap["tech"] = cap.variable.str.replace(r"capacity_interconnected_(installed|effective)_", "", regex=True)
+        cw = cap.pivot_table(index=["fy", "tech"], columns="part", values="value")
+        above = [f"{tech} {fy} ({r.effective:,.2f} against {r.installed:,.2f})" for (fy, tech), r in cw.iterrows() if r.effective > r.installed]
+        eff = cap[cap.part == "effective"].pivot_table(index="tech", columns="fy", values="value")
+        ins = cap[cap.part == "installed"].pivot_table(index="tech", columns="fy", values="value")
+        repeat = [f"{tech} {b} ({eff.at[tech, b]:,.2f}, installed {ins.at[tech, a]:,.2f} to {ins.at[tech, b]:,.2f})"
+                  for a, b in zip(eff.columns[:-1], eff.columns[1:]) for tech in eff.index
+                  if abs(eff.at[tech, b] - eff.at[tech, a]) < 0.05 and abs(ins.at[tech, b] - ins.at[tech, a]) >= 0.05]
         header = [
             f"Energy Research Warehouse (ERW): EPRA (Energy and Petroleum Regulatory Authority), Kenya's generation capacity by technology and electricity consumption by customer category, fiscal years ending June {years[0]} to {years[-1]} (session 2325)",
             "Shape: series (docs/datastandard.md v0). entity epra:KE; variable capacity_<interconnected_installed, interconnected_effective, captive, offgrid, total_installed>_<technology> (MW, as at 30 June) "
             "and consumption_<industrial, domestic, small_commercial, street_lighting, e_mobility, total> (MWh, EPRA's GWh times 1,000); ts_utc the fiscal year's 1 July; freq P1Y; geo KE.",
-            f"{len(t)} rows, {t.variable.nunique()} variables, from tables 2.1 and 2.2 of three reports. A cell EPRA leaves blank or marks '-' has no row; nothing is filled. Every part adds to its total within 0.15 MW, and the categories to theirs within 0.15 GWh.",
+            f"{len(t)} rows, {t.variable.nunique()} variables, from tables 2.1 and 2.2 of three reports. A cell EPRA leaves blank or marks '-' has no row; nothing is filled. Every part adds to its total within 0.15 MW, and the categories to theirs within 0.15 GWh. "
+            f"As EPRA prints them: effective capacity above installed for {'; '.join(above) or 'none'}; effective capacity unchanged from the year before while installed changed for {'; '.join(repeat) or 'none'} (session 2326's note).",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/epra_kenya_electricity.py; the reports retrieved " + "; ".join(got),
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

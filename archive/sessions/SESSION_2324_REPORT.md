@@ -15,7 +15,7 @@
   - Each plant has its granted capacity, the capacity in operation, its physical guarantee, its state, coordinates, fuel, grant and ownership.
   - The ERW holds Brazil's operator (ONS) but not its regulator's plant register.
 - **License:** the dataset's page names the Open Data Commons Open Database License (ODbL) (read 523). It allows commercial use, redistribution and adaptation with attribution; a database adapted from it and made public is to be offered under the ODbL (share-alike). A new verdict, may be public in both columns, the share-alike recorded in its note.
-  - The portal's robots file disallows only /api/, /revision/ and the datasets' history, asks 10 seconds between requests (kept), and names no AI agent (read 522).
+  - The portal's robots file disallows /dataset/rate/, /api/, /revision/ and the datasets' history (four paths: session 2326 corrected "only" three), asks 10 seconds between requests (kept), and names no AI agent (read 522).
 - **Two choices about ANEEL's rows:**
   - **465 plants carry the coordinates 0 and 0,** a point in the Gulf of Guinea. That is ANEEL's blank, not a place, so their lat and lon are empty.
   - **Three plants are listed twice,** once for each of two grant types (Autorizacao and Concessao), with every other field the same. They are one row each here, the grant types joined.
@@ -27,8 +27,8 @@
   - Wind: 34,937 MW in operation against IRENA's 34,866 MW (0.2 per cent).
   - Hydro (UHE, PCH and CGH): 110,227 MW against 110,269 MW (0.04 per cent).
   - Solar: 23,615 MW against IRENA's 64,690 MW. IRENA counts distributed solar, which this register leaves out.
-- **Operating plants:** every one has a first-operation date. Granted capacity is 221,383 MW against 220,659 MW in operation.
-- **Coordinates:** every one is inside Brazil's bounding box once the 465 blanks are left empty.
+- **Operating plants:** granted capacity is 221,383 MW against 220,659 MW in operation. **Session 2326 found 1900-01-03 to be ANEEL's blank date** (2,398 plants: every plant not yet begun, all but one under construction, 155 operating); `status_date` is empty for them now, as the 0 and 0 coordinates are, and the header counts them. One plant dated 1900-12-25 is kept as published. This line first said every operating plant had a first-operation date.
+- **Coordinates:** every one is inside Brazil's bounding box once the 465 blanks are left empty. `cross.out` was first written by an earlier trial; session 2326 ran `cross.py` again on the written table.
 
 ## Pulls against their ceilings
 

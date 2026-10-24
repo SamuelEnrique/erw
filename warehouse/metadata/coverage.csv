@@ -4,7 +4,7 @@ afdc_ev_charging_state_annual,afdc,,51,P1Y,2014-01-01T00:00:00Z,2025-01-01T00:00
 afdc_station_counts_annual,afdc,,21,P1Y,2007-01-01T00:00:00Z,2025-01-01T00:00:00Z,13520,doe:afdc_station_counts,2026-10-24T00:17:41Z,pass,public,power,no,source
 afdc_vehicle_registrations_annual,afdc,,12,P1Y,2016-01-01T00:00:00Z,2025-01-01T00:00:00Z,6240,doe:afdc_vehicle_registrations,2026-10-23T19:50:27Z,pass,public,power;products,no,source
 ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,2026-09-30T00:00:00Z,187,erw:ai_power_regions,2026-10-02T09:57:58Z,pass,public,power;carbon,yes,derived
-aneel_siga_plants,aneel,,25042,snapshot,2026-10-24T06:57:16Z,2026-10-24T06:57:16Z,25042,aneel:siga,2026-10-24T07:08:01Z,pass,public,power,no,source
+aneel_siga_plants,aneel,,25042,snapshot,2026-10-24T06:57:16Z,2026-10-24T06:57:16Z,25042,aneel:siga,2026-10-24T07:39:34Z,pass,public,power,no,source
 api_cost_ledger,none,,1,event,2026-09-29T10:08:33Z,2026-10-23T15:02:12Z,3793,1 outlets,2026-10-23T15:01:56Z,pass,internal,platform,no,derived
 ba_supply_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,473,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,158503,erw:ba_supply,2026-10-02T23:03:48Z,pass,public,power,yes,derived
 battery_sourced_ranges,battery,,18,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,90,nlr:atb-2025-v1,2026-10-19T12:40:18Z,pass,public,power,no,source
@@ -67,7 +67,7 @@ doe_lead_energy_burden,doe,,2012,P1Y,2022-01-01T00:00:00Z,2022-01-01T00:00:00Z,1
 doe_lng_export_applications,doe,,135,snapshot,2026-10-23T18:41:41Z,2026-10-23T18:41:41Z,135,doe:lng_export_applications,2026-10-23T18:46:48Z,pass,public,gas;lng,no,source
 doe_oe417_events,none,,1,event,2016-01-04T00:00:00Z,2025-12-30T00:00:00Z,3313,1 outlets,2026-10-23T18:21:08Z,pass,public,power,no,source
 doe_useer_employment,doe,,3269,P1Y,2024-01-01T00:00:00Z,2025-01-01T00:00:00Z,3311,doe:useer_2026_public_data,2026-10-23T16:22:41Z,pass,public,power;gas;oil;coal,no,source
-dosm_malaysia_electricity_monthly,dosm,,1,P1M,2018-01-01T00:00:00Z,2026-06-01T00:00:00Z,1224,dosm:electricity_supply_consumption,2026-10-24T06:52:20Z,pass,public,power,no,source
+dosm_malaysia_electricity_monthly,dosm,,1,P1M,2018-01-01T00:00:00Z,2026-06-01T00:00:00Z,1224,dosm:electricity_supply_consumption,2026-10-24T07:39:24Z,pass,public,power,no,source
 egrid_power_plants,egrid,,12612,snapshot,2026-10-21T16:59:48Z,2026-10-21T16:59:48Z,12612,epa:egrid,2026-10-21T18:30:52Z,pass,public,power;carbon,no,source
 egrid_subregions_annual,egrid,,27,P1Y,2023-01-01T00:00:00Z,2023-01-01T00:00:00Z,540,epa:egrid_subregions,2026-10-23T16:20:42Z,pass,public,power;carbon,no,source
 eia411_capacity_margins_annual,eia411,,17,P1Y,1990-06-01T00:00:00Z,2027-10-01T00:00:00Z,2924,eia:eia411,2026-10-23T07:12:56Z,pass,public,power,no,source
@@ -249,7 +249,7 @@ epa_needs_units,epa,,38030,snapshot,2026-10-24T01:59:08Z,2026-10-24T01:59:08Z,38
 epa_rfs_fuel_annual,epa,,23,P1Y,2010-01-01T00:00:00Z,2026-01-01T00:00:00Z,568,epa:rfs_emts,2026-10-23T18:46:31Z,pass,public,products;carbon,no,source
 epa_rfs_rins_monthly,epa,,5,P1M,2010-07-01T00:00:00Z,2026-09-01T00:00:00Z,1632,epa:rfs_emts,2026-10-23T18:46:31Z,pass,public,products;carbon,no,source
 epa_tri_energy_releases_annual,epa,,2624,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,384483,epa:tri_basic,2026-10-23T23:30:41Z,blocked (1 errors),public,power;oil;gas;coal,no,source
-epra_kenya_electricity_annual,epra,,1,P1Y,2023-07-01T00:00:00Z,2025-07-01T00:00:00Z,129,epra:energy_petroleum_statistics_report,2026-10-24T07:14:47Z,pass,public,power,no,source
+epra_kenya_electricity_annual,epra,,1,P1Y,2023-07-01T00:00:00Z,2025-07-01T00:00:00Z,129,epra:energy_petroleum_statistics_report,2026-10-24T07:39:47Z,pass,public,power,no,source
 ercot_4cp_intervals,ERCOT,ercot_4cp,1,PT15M,2018-06-27T21:45:00Z,2025-09-04T22:15:00Z,28,ercot:NP9-83-M,2026-10-20T10:23:19Z,pass,public,power,no,source
 ercot_all_hub_prices_history,ERCOT,ercot_dam;ercot_rtm,6,PT15M;PT1H,2015-01-01T06:00:00Z,2026-10-23T04:00:00Z,3104178,ercot:NP4-180-ER;ercot:NP4-190-CD;ercot:NP6-785-ER;ercot:NP6-905-CD,2026-09-26T00:09:58Z,pass,public,power,no,source
 ercot_as_prices,ERCOT,ercot_dam,5,PT1H,2018-01-01T06:00:00Z,2026-10-24T04:00:00Z,338492,ercot:NP4-181-ER;ercot:NP4-188-CD,2026-10-23T15:02:43Z,pass,public,power,no,source

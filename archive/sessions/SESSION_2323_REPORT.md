@@ -20,7 +20,7 @@
   - **table 915-91201:** local consumption a month by type of user (total, domestic, commercial, industrial, street lighting) and exports to the Chinese Mainland, January 1979 to August 2026;
   - **table 915-91203:** local generation, imports from and exports to the Mainland, industry own use and losses, and local consumption a quarter, 2013 to the second quarter of 2026.
   - Units: C&SD's terajoules times 1,000,000/3,600, giving MWh.
-  - C&SD's years are the sums of its months and quarters (within 2 TJ), so they are not taken; neither is town gas.
+  - C&SD's years are the sums of its quarters (within 2 TJ) and of its months (within 5 TJ, session 2326), so they are not taken; neither is town gas.
 - **License:** DATA.GOV.HK's terms (read 516) allow use "for both commercial and non-commercial purposes on a free-of-charge basis", with the source identified and attributed. A new verdict, may be public in both columns.
   - DATA.GOV.HK has no robots file (read 515).
   - www.censtatd.gov.hk's robots file allows every path and names ClaudeBot, anthropic-ai and Claude-Web to allow them (read 518).
@@ -32,7 +32,7 @@
 - **The months add up:** domestic plus commercial plus industrial plus street lighting equals the total within 1.8 TJ (rounding), 35 months over 1 TJ.
 - **The quarters balance:** generation plus imports minus exports minus own use and losses equals local consumption within 1 TJ in all 54 quarters.
 - **The tables agree:** the months' sums equal table 91203's quarterly local consumption within 1.3 TJ, and the exports within 1 TJ.
-- **Against `owid_ember_electricity_annual`'s Hong Kong demand:** generation plus net imports is 0.3 to 2.2 per cent from Ember's, 2019 to 2024 (2024: 49.89 against 48.81 TWh). Local consumption is lower, because it leaves out the power companies' own use and losses (3.3 to 4.4 TWh a year).
+- **Against `owid_ember_electricity_annual`'s Hong Kong demand:** generation plus net imports is 0.02 to 2.2 per cent from Ember's, 2019 to 2024 (2022: 48.44 against 48.45 TWh; 2024: 49.89 against 48.81 TWh). (Session 2326 corrected "0.3 to 2.2".) Local consumption is lower, because it leaves out the power companies' own use and losses (3.3 to 4.4 TWh a year).
 - Exports to the Mainland are zero in every quarter from 2019.
 
 ## Pulls against their ceilings

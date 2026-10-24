@@ -16,7 +16,9 @@ dataset's monthly CSV (semicolon separated, UTF-8, decimal commas), one request:
                  (MdaPotenciaFiscalizadaKw) is x_capacity_operating_mw and the physical guarantee x_physical_guarantee_mw
     status       DscFaseUsina: Operacao operating, Construcao under_construction, Construcao nao iniciada planned
                  (ANEEL's phase in x_phase)
-    status_date  DatEntradaOperacao, the first unit's entry into operation, where ANEEL gives it
+    status_date  DatEntradaOperacao, the first unit's entry into operation, where ANEEL gives it: empty where ANEEL
+                 writes 1900-01-03, its blank (2,398 plants in October 2026's file: every plant not yet begun, all but
+                 one under construction, 155 operating; session 2326's note). Other early dates are kept as published.
     x_*          ANEEL's other fields, as published (Portuguese)
 
 The dataset is ANEEL's central generation register: it does not hold the distributed micro and mini generation
@@ -28,7 +30,7 @@ two generation dates stops the run.
     python warehouse/connectors/aneel_siga.py [--offline] [--out-dir DIR]
 
 Ceiling: one request, reused from warehouse/raw/aneel_siga/ with --offline. dadosabertos.aneel.gov.br's robots file
-disallows /api/, /revision/ and the datasets' history to every agent and asks a crawl delay of 10 seconds; it names no
+disallows /dataset/rate/, /api/, /revision/ and the datasets' history to every agent and asks a crawl delay of 10 seconds; it names no
 AI agent (session 2324). License: the dataset's page names the Open Data Commons Open Database License (ODbL): use,
 redistribution and adaptation allowed with attribution, a database adapted from it to be offered under the ODbL.
 Cite: Agencia Nacional de Energia Eletrica (ANEEL), SIGA.
@@ -68,6 +70,7 @@ ENTITY_COLS = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capacit
 EXTRA = ["x_ceg", "x_generation_type", "x_phase", "x_fuel_origin", "x_fuel_source", "x_fuel_name", "x_grant_type",
          "x_capacity_operating_mw", "x_physical_guarantee_mw", "x_qualified_generation", "x_grant_start", "x_grant_end",
          "x_ownership", "x_sub_basin", "x_municipalities", "x_dataset_date"]
+BLANK_DATE = "1900-01-03"   # session 2326: ANEEL's date where it has none, as 0 and 0 are its coordinates
 UA = {"User-Agent": "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)"}
 
 
@@ -112,7 +115,7 @@ def file_rows(text, retrieved, vintage):
             lat = lon = None
         out.append(dict(entity_id=f"aneel_siga:{ceg}", entity_type="plant", name=a["NomEmpreendimento"],
                         geo=f"BR-{a['SigUFPrincipal']}", lat=lat, lon=lon, capacity_mw=kw("MdaPotenciaOutorgadaKw"),
-                        status=PHASES[a["DscFaseUsina"]], status_date=day(a["DatEntradaOperacao"], ceg), operator="",
+                        status=PHASES[a["DscFaseUsina"]], status_date="" if a["DatEntradaOperacao"] == BLANK_DATE else day(a["DatEntradaOperacao"], ceg), operator="",
                         source=SOURCE, source_url=URL, retrieved_at=retrieved, vintage=vintage,
                         x_ceg=ceg, x_generation_type=a["SigTipoGeracao"], x_phase=a["DscFaseUsina"],
                         x_fuel_origin=a["DscOrigemCombustivel"], x_fuel_source=a["DscFonteCombustivel"],
@@ -170,7 +173,7 @@ def main(argv=None):
             "capacity_mw the granted or registered capacity (kW / 1,000); status operating, under_construction or planned from ANEEL's phase; status_date the first unit's entry into operation; "
             "x_capacity_operating_mw the capacity in operation; x_* ANEEL's other fields (Portuguese, as published).",
             f"{len(t)} plants ({len(raw)} rows of ANEEL's: three plants are listed under two grant types, one row each here); {len(op)} operating with "
-            f"{op.x_capacity_operating_mw.sum():,.0f} MW in operation; {int(t.lat.isna().sum())} plants without coordinates (ANEEL's 0 and 0). Central generation only: the distributed micro and mini generation is another ANEEL dataset. Nothing is filled.",
+            f"{op.x_capacity_operating_mw.sum():,.0f} MW in operation; {int(t.lat.isna().sum())} plants without coordinates (ANEEL's 0 and 0) and {int((t.status_date == '').sum())} without a date of entry into operation (ANEEL's 1900-01-03). Central generation only: the distributed micro and mini generation is another ANEEL dataset. Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/aneel_siga.py; the file retrieved {rec.get('retrieved_at') or ''}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

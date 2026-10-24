@@ -30,7 +30,8 @@
   - total supply equals total consumption.
 - **DOSM's `distribution` supply equals total supply in all 102 months.** It is kept as published and recorded here.
 - **Against `owid_ember_electricity_annual`'s Malaysia:** that table holds demand only, no generation, for MYS. DOSM's total supply is 1.7 to 5.5 per cent below Ember's demand in every year from 2018 to 2025 (2018: 163.49 against 169.09 TWh; 2025: 193.01 against 199.91 TWh). The gap is likely generation the utilities' records leave out (Ember's demand is generation plus net imports); recorded, not adjusted.
-- Imports are small: 0.02 to 0.24 TWh a year, and zero in 26 months.
+- Imports are small: 0.003 to 0.24 TWh a year (0.003 in 2022), and zero in 26 months. (Session 2326 corrected "0.02 to 0.24".)
+- **Session 2326's checks, added here:** `cross.py` first tested distribution against local consumption plus losses and found no Ember generation; it now tests what this report states, on the written table, and `cross.out` bears both out (distribution 0 MWh from the total in all 102 months; DOSM 1.68 to 5.52 per cent below Ember's demand). The header now says that distribution repeats the total, and that private supply and losses change level between December 2022 and January 2023, which DOSM's pages do not explain.
 
 ## Pulls against their ceilings
 

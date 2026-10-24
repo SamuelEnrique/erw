@@ -13,7 +13,8 @@
   - All three reports pass. A failed check stops the run.
 - **License:** each report says "Unless otherwise stated, material in this publication may be freely used, shared, copied, reproduced, printed and/or stored, provided that appropriate acknowledgment is given of EPRA as the source and copyright holder" (read 528; the same in reads 529 and 530). A new verdict, may be public in both columns.
   - EPRA's robots file keeps the default Drupal rules and names no AI agent (read 525).
-- **Kenya Power (KPLC) was not needed:** EPRA's reports carry the figures the plan asked for, except monthly generation and peak demand, which the reports give only as charts.
+- **Kenya Power (KPLC) was not needed:** EPRA's reports carry the figures the plan asked for, except monthly generation and peak demand, which the 2025 and 2026 reports give only as charts. The 2024 report's table 2.4 does give each month of 2023/24's energy purchased, sold and lost (session 2326); it is not taken here.
+- **Session 2326's header clause:** as EPRA prints them, June 2026's solar effective capacity (210.30 MW) is above installed (210.25), and June 2026's effective capacity is June 2025's for geothermal, solar, thermal and the total while installed capacity changed. The header now names both.
 
 ## The cross-check (`runs/c108/s2325/cross.py`, `cross.out`)
 
@@ -22,7 +23,7 @@
   - Geothermal: 943.7 MW (June 2024 and 2025) against IRENA's 939.7 (end 2024).
   - Hydro: 872.4 to 872.6 against 892.0 to 892.7 (2.3 per cent below).
   - Solar: 514.1 MW (June 2025) against 551.1 (end 2024). The two differ in timing and in what captive solar they count.
-- **Against `owid_ember_electricity_annual`'s demand:** EPRA's 2024/25 consumption (11.33 TWh) is about 23 per cent below Ember's calendar 2024 and 2025 demand (14.75 and 15.58 TWh). Consumption is sales; demand includes losses, which EPRA's reports put at about 20 per cent and more.
+- **Against `owid_ember_electricity_annual`'s demand:** EPRA's 2024/25 consumption (11.33 TWh) is 23.2 per cent below Ember's calendar 2024 demand (14.75 TWh) and 27.3 per cent below 2025's (15.58 TWh). (Session 2326 corrected "about 23 per cent below" both.) Consumption is sales; demand includes losses, which EPRA's reports put at about 20 per cent and more.
 
 ## Pulls against their ceilings
 
