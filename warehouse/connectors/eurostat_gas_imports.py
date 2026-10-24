@@ -20,9 +20,12 @@ the connector polls the job's status and then fetches its result:
                 GR), blank for Eurostat's aggregates EU27_2020 and EA21
     x_*         Eurostat's geo, SIEC and partner codes, the observation's flag and confidentiality status
 
-Importing countries kept: the EU's members, EFTA's and the official candidates, with the two aggregates, as
+Importing countries kept: the EU's members, EFTA's and the official candidates, with the aggregates EU27_2020 and EA21
+(EA20 is kept too, and has no rows in this file; session 2218), as
 eurostat_renewable_capacity_annual keeps them under Eurostat's terms (the United Kingdom and Kosovo left out); every
-partner is kept, aggregates such as TOTAL and NSP (not specified) among them, as Eurostat publishes them.
+partner is kept, aggregates such as TOTAL and NSP (not specified) among them, as Eurostat publishes them. An aggregate
+is as complete as Eurostat's file: EU27_2020 has no TOTAL in 2019 and only TOTAL in 2020, and the countries' last
+months differ (session 2218's note).
 
 **Zeros are not written:** Eurostat prints a value for every partner in every month, about 97% of them zero; a zero and a
 blank both have no row, and the header counts each. Nothing is filled. A header not Eurostat's, a value that is not a

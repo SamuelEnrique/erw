@@ -25,7 +25,8 @@ acre-feet on the Glen Canyon page; session 2211's cross-check):
 
 Reclamation's pages say "All data considered provisional and subject to revision." Values as published; a blank has no
 row; nothing is filled. A header not "datetime,<name>", a date not YYYY-MM-DD, a value that is not a number or a day
-given twice stops the run.
+given twice stops the run. A day not yet ended when the file was fetched (Arizona's time, no daylight saving) is left out and
+counted (session 2218).
 
     python warehouse/connectors/usbr_colorado_reservoirs.py [--offline] [--out-dir DIR]
 
@@ -58,6 +59,7 @@ SITES = {"919": "Lake Powell (Glen Canyon Dam)", "921": "Lake Mead (Hoover Dam)"
 TYPES = {"49": ("pool elevation", "pool_elevation", "ft"), "17": ("storage", "storage", "acre-ft"),
          "42": ("total release", "total_release", "ft3/s"), "29": ("inflow", "inflow", "ft3/s")}
 NOT_PUBLISHED = {"921": ("29",)}   # Lake Mead has no inflow file (HTTP 404, session 2211)
+TZ = "America/Phoenix"  # session 2218: the reservoirs' local day, for leaving out the day in progress
 COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "geo", "market", "node", "source", "source_url",
         "retrieved_at", "vintage"]
 
@@ -92,6 +94,15 @@ def finish(rows):
     return t.sort_values(["entity", "variable", "ts_utc"]).reset_index(drop=True)
 
 
+def ended_days(t):
+    """Session 2218: only days that had ended where the reservoir is when the file was fetched. Reclamation's file can
+    end with the day in progress (Lake Mead's total release of 23 October 2026, fetched at 18:35 that day, was a part
+    day); a day on or after the retrieval's local date is left out, and counted."""
+    local = pd.to_datetime(t.retrieved_at, utc=True).dt.tz_convert(TZ).dt.strftime("%Y-%m-%d")
+    keep = t.ts_utc.str[:10] < local
+    return t[keep].reset_index(drop=True), t[~keep]
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Reclamation: Lake Mead and Lake Powell, elevation, storage, release, inflow, a day")
     ap.add_argument("--offline", action="store_true", help="the saved files only, no request")
@@ -118,14 +129,14 @@ def main(argv=None):
                 content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120)
                 rows += file_rows(content.decode("utf-8", errors="replace"), site, dtype, url, rec.get("retrieved_at") or "", ip.vintage_of(rec))
                 got.append((site, dtype, rec.get("retrieved_at") or ""))
-        t = finish(rows)
+        t, part = ended_days(finish(rows))
         span = t.groupby(["node", "variable"]).ts_utc.agg(["min", "max"])
         header = [
             "Energy Research Warehouse (ERW): Bureau of Reclamation, Upper Colorado region's hydrodata, Lake Powell and Lake Mead, pool elevation, storage, total release and inflow, a day (session 2211)",
             "Shape: series (docs/datastandard.md v0). entity usbr_hydrodata:<site> (919 Lake Powell, 921 Lake Mead); variable pool_elevation (ft, feet above mean sea level, Decision 71), storage (acre-ft, Decision 72), "
             "total_release and inflow (ft3/s); ts_utc the day at 00:00:00Z; freq P1D; geo US-AZ. Reclamation: 'All data considered provisional and subject to revision.'",
             f"{len(t)} rows: " + "; ".join(f"{n}, {v} {a[:10]} to {b[:10]}" for (n, v), (a, b) in span.iterrows())
-            + ". The files state no unit; Reclamation's status pages give them (ft feet above mean sea level, cfs cubic feet per second, storage in acre-feet). A blank has no row; nothing is filled.",
+            + f". {len(part)} rows of a day not yet ended when its file was fetched are left out (session 2218). The files state no unit; Reclamation's status pages give them (ft feet above mean sea level, cfs cubic feet per second, storage in acre-feet). A blank has no row; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/usbr_colorado_reservoirs.py; the files retrieved " + "; ".join(f"{s}/{d} {r}" for s, d, r in got),
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

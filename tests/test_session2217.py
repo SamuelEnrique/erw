@@ -46,7 +46,8 @@ class Build(unittest.TestCase):
         self.assertEqual((a.value, a.unit, a.ts_utc, a.freq, a.geo, a.node, a.x_hour_dk),
                          (-250.5, "MWh", "2025-06-01T10:00:00Z", "PT1H", "DK", "DK1", "2025-06-01T12:00:00"))
         self.assertNotIn("grid_loss_transmission", set(t.variable))
-        self.assertNotIn("local_power_self_con", set(t[t.entity == "energinet:DK2"].variable))
+        self.assertNotIn("commercial_power_self_con", set(t[t.entity == "energinet:DK2"].variable))
+        self.assertIn("commercial_power_self_con", set(t[t.entity == "energinet:DK1"].variable))
 
     def test_stops(self):
         short = rec()

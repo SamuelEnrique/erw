@@ -214,7 +214,7 @@ eia_world_energy_co2_annual,none,,3589,P1Y,1949-01-01T00:00:00Z,2025-01-01T00:00
 eia_world_oil_gas_annual,none,,6992,P1Y,1973-01-01T00:00:00Z,2025-01-01T00:00:00Z,448267,eia:international_bulk,2026-10-23T09:47:04Z,pass,public,oil;gas,no,source
 eia_world_oil_monthly,none,,1507,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,541215,eia:international_bulk,2026-10-23T10:10:51Z,pass,public,oil,no,source
 elexon_gb_demand_daily,elexon,,1,P1D,2021-04-27T00:00:00Z,2026-10-23T00:00:00Z,1932,elexon:indod,2026-10-24T00:21:05Z,pass,public,power,no,source
-energinet_dk_production_hourly,energinet,,2,PT1H,2024-12-31T23:00:00Z,2026-10-13T23:00:00Z,607311,energinet:production_consumption_settlement,2026-10-24T01:55:28Z,pass,public,power,no,source
+energinet_dk_production_hourly,energinet,,2,PT1H,2024-12-31T23:00:00Z,2026-10-13T23:00:00Z,607311,energinet:production_consumption_settlement,2026-10-24T02:18:32Z,pass,public,power,no,source
 energy_companies,none,,488,snapshot,2026-09-28T17:04:21Z,2026-10-23T15:01:53Z,488,erw:energy_deals;erw:thesis_builder,2026-10-23T15:01:53Z,pass,public,deals,no,model_extracted
 energy_deals,none,,24,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,514,24 outlets,2026-10-23T15:01:15Z,pass,public,deals,no,model_extracted
 energy_deals_evidence,none,,26,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,568,26 outlets,2026-10-23T15:01:15Z,pass,internal,deals,no,model_extracted
@@ -433,8 +433,9 @@ texas_delivery_charges,none,,5,event,2020-09-01T00:00:00Z,2026-10-07T00:00:00Z,7
 texas_transmission_matrix,none,,1,event,2025-03-20T00:00:00Z,2026-03-16T00:00:00Z,855,1 outlets,2026-10-07T09:49:32Z,pass,internal,power,no,model_extracted
 treasury_1603_awards,none,,1,event,2009-09-01T00:00:00Z,2017-11-10T00:00:00Z,10012,1 outlets,2026-10-23T23:00:19Z,pass,internal,power;deals,no,source
 usace_nid_dams,usace,,92788,snapshot,2026-10-23T13:59:04Z,2026-10-23T13:59:04Z,92788,usace:nid,2026-10-23T14:01:30Z,pass,public,power,no,source
+usbr_crsp_reservoirs_daily,usbr,,4,P1D,1962-11-01T00:00:00Z,2026-10-22T00:00:00Z,330293,usbr:hydrodata_crsp_reservoirs,2026-10-24T02:19:07Z,pass,public,power,no,source
 usbr_hydropower_monthly,usbr,,55,P1M,2013-10-01T00:00:00Z,2025-10-01T00:00:00Z,31702,usbr:power_plant_data,2026-10-23T16:28:01Z,pass,public,power,no,source
-usbr_mead_powell_daily,usbr,,2,P1D,1934-04-01T00:00:00Z,2026-10-23T00:00:00Z,192509,usbr:hydrodata_reservoirs,2026-10-24T01:36:19Z,pass,public,power,no,source
+usbr_mead_powell_daily,usbr,,2,P1D,1934-04-01T00:00:00Z,2026-10-22T00:00:00Z,192508,usbr:hydrodata_reservoirs,2026-10-24T02:18:14Z,blocked (1 errors),public,power,no,source
 usdm_drought_state_weekly,usdm,,48,P1W,2014-12-30T00:00:00Z,2026-10-20T00:00:00Z,177696,usdm:state_statistics,2026-10-23T20:55:10Z,pass,public,power,no,source
 usgs_comcat_earthquakes_south_central,none,,1,event,2010-01-01T18:45:51Z,2026-10-22T05:48:51Z,16000,1 outlets,2026-10-23T23:30:30Z,pass,public,oil;gas,no,source
 usgs_mcs_critical_minerals,usgs,,653,P1Y;P4Y,2021-01-01T00:00:00Z,2025-01-01T00:00:00Z,1600,usgs:mcs_2026_data,2026-10-23T13:56:54Z,pass,public,metals,no,source

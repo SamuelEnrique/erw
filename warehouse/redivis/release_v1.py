@@ -215,6 +215,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "noaa_ncei_billion_disasters",
            "nrc_license_actions",
            "owid_ember_electricity_annual",
+           "usbr_crsp_reservoirs_daily",
            "usbr_mead_powell_daily",
            "usdm_drought_state_weekly",
            "blm_oil_gas_statistics_annual",

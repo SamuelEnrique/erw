@@ -11,16 +11,24 @@ the open API's dataset ProductionConsumptionSettlement (settlement data from Dat
 The answer is JSON, one record an hour and price area (DK1 west of the Great Belt, DK2 east), each measure in MWh for
 the hour. Twenty-one are taken:
 
-    production    central_power, local_power, local_power_self_con, commercial_power, offshore_wind_lt100mw,
+    production    central_power, local_power, commercial_power, commercial_power_self_con, offshore_wind_lt100mw,
                   offshore_wind_ge100mw, onshore_wind_lt50kw, onshore_wind_ge50kw, hydro_power, solar_power_lt10kw,
                   solar_power_ge10lt40kw, solar_power_ge40kw, solar_power_self_con, unknown_prod
-    consumption   gross_consumption (including grid losses)
+    consumption   gross_consumption (Energinet: "Calculated as sum of all production including self-consumption plus
+                  sum of exchange", so it includes the transmission and distribution grid losses but not the
+                  interconnectors' losses, which Energinet says are "Not included in the Gross consumption")
     exchanges     exchange_no, exchange_se, exchange_ge, exchange_nl, exchange_gb, exchange_great_belt (negative an
                   export, positive an import, as Energinet signs them)
 
-Not taken: the three grid losses and power-to-heat (inside gross consumption). LocalPowerSelfConMWh is taken: Energinet
-ended it on 1 September 2026 (null since, so no row), and until then the hour's production and exchanges add up to
-gross consumption only with it (session 2217's cross-check).
+Not taken: the three grid losses and power-to-heat (the last inside gross consumption). commercial_power_self_con is
+Energinet's column LocalPowerSelfConMWh, whose display name is "Commercial power self-consumption (terminated)" ("Named
+before commercial power was separated from Local power, therefor the confusing DB name"); Energinet calls it "Very
+uncertain", says it overlaps solar self-consumption and should be excluded from total consumption, and ended it from
+1 September 2026 (null since, so no row). It is taken because gross consumption counts it until then (session 2218).
+
+A break at 1 September 2026: Energinet's caution says the dataset "has changed as part of the transition to DataHub
+3.0 ... the values will be calculated using a different method"; local_power steps up from that day (DK1's monthly
+mean 80.83 MWh in August 2026, 122.84 in September; session 2218's note) as the self-consumption column ends.
 
     entity      energinet:<price area> (DK1, DK2); node the price area
     unit        MWh; ts_utc HourUTC, the hour's start in UTC; freq PT1H; geo DK
@@ -56,7 +64,7 @@ SOURCE = "energinet:production_consumption_settlement"
 PAGE = "https://www.energidataservice.dk/tso-electricity/ProductionConsumptionSettlement"
 API = "https://api.energidataservice.dk/dataset/ProductionConsumptionSettlement?start={a}T00:00&end={b}T00:00&limit=0&sort=HourUTC%20ASC"
 UA = {"User-Agent": "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)"}
-FIELDS = {"CentralPowerMWh": "central_power", "LocalPowerMWh": "local_power", "LocalPowerSelfConMWh": "local_power_self_con",
+FIELDS = {"CentralPowerMWh": "central_power", "LocalPowerMWh": "local_power", "LocalPowerSelfConMWh": "commercial_power_self_con",
           "CommercialPowerMWh": "commercial_power",
           "OffshoreWindLt100MW_MWh": "offshore_wind_lt100mw", "OffshoreWindGe100MW_MWh": "offshore_wind_ge100mw",
           "OnshoreWindLt50kW_MWh": "onshore_wind_lt50kw", "OnshoreWindGe50kW_MWh": "onshore_wind_ge50kw",
@@ -128,7 +136,7 @@ def main(argv=None):
             "Shape: series (docs/datastandard.md v0). entity energinet:<price area> (DK1, DK2); variable the measure in snake case (central_power ... exchange_great_belt; exchanges negative for export); unit MWh for the hour; "
             "ts_utc the hour's start in UTC; freq PT1H; geo DK. Settlement data, revised for up to two years (Energinet).",
             f"{len(t)} rows from {total} of Energinet's records: " + "; ".join(f"{e} {int(r['nunique'])} hours" for e, r in hours.iterrows())
-            + ". Grid losses and power-to-heat (inside gross consumption) are not taken; local self-consumption ends 1 September 2026 (null since, no row). A null has no row; nothing is filled.",
+            + ". Grid losses and power-to-heat are not taken. Gross consumption is Energinet's sum of production and exchange (the interconnectors' losses outside it); commercial_power_self_con (Energinet's LocalPowerSelfConMWh, 'very uncertain') ends 1 September 2026, where Energinet's DataHub 3.0 method change begins and local_power steps up. A null has no row; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/energinet_production.py; the answer retrieved {rec.get('retrieved_at') or ''}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

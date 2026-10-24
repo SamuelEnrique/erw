@@ -3599,6 +3599,7 @@ eia_world_oil_monthly,stocks,series variable,kbbl
 elexon_gb_demand_daily,indo_daily,series variable,MWh
 energinet_dk_production_hourly,central_power,series variable,MWh
 energinet_dk_production_hourly,commercial_power,series variable,MWh
+energinet_dk_production_hourly,commercial_power_self_con,series variable,MWh
 energinet_dk_production_hourly,exchange_gb,series variable,MWh
 energinet_dk_production_hourly,exchange_ge,series variable,MWh
 energinet_dk_production_hourly,exchange_great_belt,series variable,MWh
@@ -3608,7 +3609,6 @@ energinet_dk_production_hourly,exchange_se,series variable,MWh
 energinet_dk_production_hourly,gross_consumption,series variable,MWh
 energinet_dk_production_hourly,hydro_power,series variable,MWh
 energinet_dk_production_hourly,local_power,series variable,MWh
-energinet_dk_production_hourly,local_power_self_con,series variable,MWh
 energinet_dk_production_hourly,offshore_wind_ge100mw,series variable,MWh
 energinet_dk_production_hourly,offshore_wind_lt100mw,series variable,MWh
 energinet_dk_production_hourly,onshore_wind_ge50kw,series variable,MWh
@@ -7564,6 +7564,10 @@ usace_nid_dams,locks_n,column,
 usace_nid_dams,source_agency,column,
 usace_nid_dams,record_updated,column,
 usace_nid_dams,coordinate_given,column,
+usbr_crsp_reservoirs_daily,pool_elevation,series variable,ft
+usbr_crsp_reservoirs_daily,power_release,series variable,ft3/s
+usbr_crsp_reservoirs_daily,storage,series variable,acre-ft
+usbr_crsp_reservoirs_daily,total_release,series variable,ft3/s
 usbr_hydropower_monthly,auxiliary_use,series variable,MWh
 usbr_hydropower_monthly,gross_generation,series variable,MWh
 usbr_hydropower_monthly,installed_capacity,series variable,MW
