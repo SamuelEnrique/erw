@@ -74,6 +74,25 @@ KINDS = {"daily": ("ERW's Energy Digest", "digest", DIGEST), "roundup": ("ERW's 
 SUBJECT = re.compile(r"^<!-- subject: (.+?) -->$")
 V2_MOVED = "## What moved"
 CORRECTIONS = "https://github.com/SamuelEnrique/erw/issues"
+# Session 2705 (the owner's ruling of 24 October 2026: the character is part of the brand): ERW, direction 5, a still PNG
+# 48 px tall at 2x (site/public/brand/erw-character-48.png, 77 by 96), in the fun-fact module only, left of the fact's text;
+# never in the masthead, the numbers or beside a figure or a chart. Alt text "ERW". EMAIL_ASSET_REF names the git ref the
+# picture is read from (main by default; a preview sent before the landing names its branch).
+CHARACTER = "site/public/brand/erw-character-48.png"
+CHARACTER_W, CHARACTER_H = 38, 48
+PREVIEW_PREFIX = "PREVIEW v2: "
+
+
+def character_url():
+    return f"https://raw.githubusercontent.com/SamuelEnrique/erw/{env('EMAIL_ASSET_REF') or 'main'}/{CHARACTER}"
+
+
+def fun_fact_html(inner):
+    """The fun-fact module's HTML: the character left of the fact's text (a table, as mail clients lay out two cells)."""
+    return ("<table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:4px 0\"><tr>"
+            f"<td style=\"vertical-align:top;padding:2px 12px 0 0;width:{CHARACTER_W}px\"><img src=\"{html.escape(character_url())}\" alt=\"ERW\" "
+            f"width=\"{CHARACTER_W}\" height=\"{CHARACTER_H}\" style=\"display:block;width:{CHARACTER_W}px;height:{CHARACTER_H}px\"></td>"
+            f"<td style=\"vertical-align:top\">{inner}</td></tr></table>")
 # Session 59: every test uses this address or a +tag of it (erw-test+owner@example.invalid). The .invalid domain is
 # reserved (RFC 2606) and can never be a real recipient, so no test can touch the real recipient's subscription.
 TEST_ADDRESS = "erw-test@example.invalid"
@@ -323,6 +342,8 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
         if any(x.strip() for x in body):
             bt, bh = block(body, img_base=f"docs/{rel}")
             t.extend(["", heading[3:], ""] + bt)
+            if heading == "## ERW's Fun Fact" and (v2 or v2r):   # session 2705: the character, here and nowhere else
+                bh = fun_fact_html(bh)
             h.extend([H2.format(heading[3:]), SMALL.format(bh)])
     if v2 or v2r:   # session 2703: the opening number (and the Digest's block) come before the stories
         add_block("## The opening number", "## The opening number")
@@ -636,6 +657,38 @@ def deliver(kind, lines, to, fixed, sender, key, path, log):
     return sent
 
 
+def send_preview(kind, path, log, out_dir=None):
+    """Session 2705: one preview of an issue at `path` (never latest.md, never a past issue's own file), rendered by this
+    code and sent once to the fixed recipients only (DIGEST_RECIPIENTS; never a subscriber), the subject prefixed
+    PREVIEW_PREFIX. It claims nothing (the day's real send stays free) and writes its copies to out_dir only. Returns
+    [(address count, Resend ids, UTC time)]."""
+    key = env("RESEND_API_KEY")
+    fixed = [a.strip().lower() for a in env("DIGEST_RECIPIENTS").split(",") if a.strip()]
+    if not key or not fixed:
+        raise RuntimeError("a preview needs RESEND_API_KEY and DIGEST_RECIPIENTS")
+    sender = env("DIGEST_FROM") or "ERW Energy Digest <onboarding@resend.dev>"
+    stop = suppressed(log)
+    ids = []
+    for addr in [a for a in fixed if a not in stop]:
+        unsub = unsubscribe_url(addr)
+        title, label, text, body_html = render(path, kind, unsubscribe=unsub)
+        msg = {"from": sender, "to": [addr], "subject": PREVIEW_PREFIX + title, "text": text, "html": body_html}
+        if unsub:
+            msg["headers"] = {"List-Unsubscribe": f"<{unsub}>", "List-Unsubscribe-Post": "List-Unsubscribe=One-Click"}
+        r = requests.post(RESEND, headers={"Authorization": f"Bearer {key}"}, timeout=60, json=msg)
+        if r.status_code >= 300:
+            raise RuntimeError(f"Resend HTTP {r.status_code}: {ip.redact(r.text[:200])}")
+        ids.append(r.json().get("id", "?"))
+        log(f"  preview {kind} {label}: sent to fixed recipient {len(ids)} of {len(fixed)} (Resend id {ids[-1]})")
+    if out_dir:
+        title, label, text, body_html = render(path, kind, unsubscribe="Each recipient's email carries its own signed unsubscribe link.")
+        os.makedirs(out_dir, exist_ok=True)
+        for ext, content in (("txt", text), ("html", body_html)):
+            with open(os.path.join(out_dir, f"{label}-{kind}.{ext}"), "w", encoding="utf-8", newline="\n") as f:
+                f.write(content)
+    return len(ids), ids, dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW email digest")
     g = ap.add_mutually_exclusive_group()
@@ -645,7 +698,18 @@ def main(argv=None):
     ap.add_argument("--sent-check", action="store_true",
                     help="session 119: send nothing; exit ERW_SKIP_EXIT (75) with the reason when this kind was already "
                          "sent for today's send day, else exit 0. For a workflow to ask before it writes an issue again")
+    ap.add_argument("--preview", help="session 2705: send this issue's file once to the fixed recipients only, the subject "
+                    "prefixed 'PREVIEW v2: ' (no claim on the day's send; no subscriber)")
+    ap.add_argument("--preview-out", help="with --preview: write the rendered text and HTML here")
     args = ap.parse_args(argv)
+    if args.preview:
+        os.makedirs(ip.LOG_DIR, exist_ok=True)
+        log = ip.Log(os.path.join(ip.LOG_DIR, f"news_email_preview_{dt.datetime.now(dt.timezone.utc):%Y%m%dT%H%M%SZ}.log"))
+        kind = "roundup" if args.roundup else "daily"
+        n, ids, at = send_preview(kind, args.preview, log, args.preview_out)
+        print(f"preview {kind}: sent to {n} fixed recipient(s) at {at}; Resend ids {', '.join(ids)}")
+        log.close()
+        return 0
     if args.sent_check:
         kind = "roundup" if args.roundup else "daily"
         prior = already_sent(kind)

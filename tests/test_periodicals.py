@@ -1087,5 +1087,69 @@ class V2RTheEmail(unittest.TestCase):
         self.assertNotIn("A weekend story", text)   # the fold is on the site
 
 
+
+class TheCharacterInTheEmails(unittest.TestCase):
+    """Session 2705: the character (site/public/brand/erw-character-48.png) appears once in each v2 email, in the fun-fact
+    module, alt "ERW", and nowhere else (not the masthead, not the numbers, not the text part)."""
+
+    def render(self, md, kind, name):
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, name)
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(md)
+            return email_digest.render(p, kind, unsubscribe="https://x/unsub")
+
+    def test_once_and_only_in_the_fun_fact(self):
+        url = email_digest.character_url()
+        self.assertTrue(url.endswith("/main/site/public/brand/erw-character-48.png"))
+        for md, kind, name in ((V2_MD, "daily", "2026-10-23.md"), (V2R_MD, "roundup", "2026-W43.md")):
+            title, label, text, body = self.render(md, kind, name)
+            self.assertEqual(body.count(url), 1, kind)
+            self.assertNotIn(url, text)
+            at, fact = body.index(url), body.index("A fact that is fun.")
+            self.assertGreater(at, body.index(">ERW&#x27;s Fun Fact<") if ">ERW&#x27;s Fun Fact<" in body else body.index("Fun Fact"))
+            self.assertLess(at, fact)                                   # left of the fact's text
+            self.assertIn('alt="ERW" width="38" height="48"', body)
+            numbers = body[body.index("The numbers" if kind == "daily" else "The week in five numbers"):body.index("What moved" if kind == "daily" else "What mattered")]
+            self.assertNotIn(url, numbers)
+
+    def test_the_picture_is_committed_at_96_px(self):
+        path = os.path.join(ROOT, "site", "public", "brand", "erw-character-48.png")
+        with open(path, "rb") as f:
+            head = f.read(24)
+        self.assertEqual(head[:8], b"\x89PNG\r\n\x1a\n")
+        self.assertEqual(int.from_bytes(head[20:24], "big"), 96)        # the height
+        with mock.patch.dict(os.environ, {"EMAIL_ASSET_REF": "wip/2705-periodicals"}):
+            self.assertIn("/erw/wip/2705-periodicals/site/public/brand/", email_digest.character_url())
+
+    def test_a_preview_goes_to_the_fixed_recipients_only_and_claims_nothing(self):
+        sent = []
+
+        class R:
+            status_code = 200
+
+            def json(self):
+                return {"id": f"id{len(sent)}"}
+
+        def post(url, headers=None, timeout=None, json=None):
+            sent.append(json)
+            return R()
+        env = {"RESEND_API_KEY": "k", "DIGEST_RECIPIENTS": "a@example.invalid, b@example.invalid"}
+        with tempfile.TemporaryDirectory() as d, mock.patch.dict(os.environ, env), \
+                mock.patch.object(email_digest.requests, "post", side_effect=post), \
+                mock.patch.object(email_digest, "suppressed", return_value=set()), \
+                mock.patch.object(email_digest, "subscribers", side_effect=AssertionError("no subscriber is read")), \
+                mock.patch.object(email_digest, "claim", side_effect=AssertionError("a preview claims nothing")), \
+                mock.patch.object(email_digest, "unsubscribe_url", return_value=None):
+            p = os.path.join(d, "2026-10-23.md")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(V2_MD)
+            n, ids, at = email_digest.send_preview("daily", p, quiet, os.path.join(d, "out"))
+            self.assertTrue(os.path.exists(os.path.join(d, "out", "2026-10-23-daily.html")))
+        self.assertEqual(n, 2)
+        self.assertEqual([m["to"] for m in sent], [["a@example.invalid"], ["b@example.invalid"]])
+        self.assertTrue(all(m["subject"].startswith("PREVIEW v2: ERW Daily | ") for m in sent))
+
+
 if __name__ == "__main__":
     unittest.main()
