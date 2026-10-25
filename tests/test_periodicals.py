@@ -623,5 +623,41 @@ class Item6TheChartsFloorAndTheDismissedDrafts(unittest.TestCase):
         self.assertEqual(seen["params"]["state"], "eq.dismissed")
 
 
+
+class Item19TheFloorsCountLicenseNeeded(unittest.TestCase):
+    """Item 19 (session 2702): a "license needed" mark counts toward a page's floor in check-values.mjs, and land_check.py
+    says which floors the marks met; the gate fails on a lost figure, not on a held one."""
+
+    def test_the_marks_and_the_verdict(self):
+        import shutil
+        import subprocess
+        if shutil.which("node") is None:
+            self.skipTest("node is not on this machine")
+        mod = os.path.join(ROOT, "site", "scripts", "held-marks.mjs").replace("\\", "/")
+        js = ("import('file:///" + mod.lstrip("/") + "').then((m) => console.log(JSON.stringify(["
+              "m.heldMarks('<p><span data-license-held=\"a\">license needed</span> <span data-license-held=\"b\">license needed</span></p>'),"
+              "m.heldMarks('<p title=\"license needed\">The figures: license needed. <b>License needed</b></p>'),"
+              "m.heldMarks('<p>7 GW</p>'),"
+              "m.floorVerdict(3, 7, 10), m.floorVerdict(3, 6, 10), m.floorVerdict(0, 0, undefined)])))")
+        out = subprocess.run(["node", "-e", js], capture_output=True, text=True, timeout=60)
+        self.assertEqual(out.returncode, 0, out.stderr)
+        got = json.loads(out.stdout.strip().splitlines()[-1])
+        self.assertEqual(got[:3], [2, 2, 0])
+        self.assertEqual(got[3], {"counted": 10, "fail": False})
+        self.assertEqual(got[4], {"counted": 9, "fail": True})
+        self.assertEqual(got[5], {"counted": 0, "fail": False})
+
+    def test_check_values_uses_them_and_land_check_counts_the_notes(self):
+        with open(os.path.join(ROOT, "site", "scripts", "check-values.mjs"), encoding="utf-8") as f:
+            src = f.read()
+        self.assertIn('import { floorVerdict, heldMarks } from "./held-marks.mjs";', src)
+        self.assertIn("const fv = floorVerdict(out.count, held, floor);", src)
+        import land_check
+        log = ("ok   | /map | x | page shows \"1\"\n"
+               "note | /map | the floor | 1 checked numbers and 12 held by a license (\"license needed\") meet its floor of 10\n"
+               "note | /map | the floor | the page carries 1 checked numbers and has no floor\n")
+        self.assertEqual(land_check.held_floor_notes(log), ["/map"])
+
+
 if __name__ == "__main__":
     unittest.main()

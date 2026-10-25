@@ -45,6 +45,7 @@ import { fileURLToPath } from "node:url";
 import { unlockPost } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
 import * as ED from "./event-dates.mjs";   // session 369: the date of every event-page figure (todo 008)
 import * as RUN from "./check-values-run.mjs";   // session 430: the pages in batches, each under its own timeout
+import { floorVerdict, heldMarks } from "./held-marks.mjs";   // session 2702 (rulings item 19): a held figure counts toward the floor
 
 const REQUEST_MS = Number(process.env.CHECK_VALUES_REQUEST_S ?? 60) * 1000;
 const RUN_MIN = Number(process.env.CHECK_VALUES_TIMEOUT_MIN ?? 15);
@@ -1273,9 +1274,14 @@ async function main() {
       out.lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | Supabase ${t}`);
     }
     const floor = FLOOR[page];
-    if (floor !== undefined && out.count < floor) {
+    // session 2702 (rulings item 19, the 24-hour default): each "license needed" mark counts toward the floor (held-marks.mjs)
+    const held = heldMarks(html);
+    const fv = floorVerdict(out.count, held, floor);
+    if (fv.fail) {
       out.bad++;
-      out.lines.push(`FAIL | ${page} | the floor | the page carries ${out.count} checked numbers; its floor is ${floor} (scripts/check-values-floor.json): a read failed and the page drew fewer numbers, or a number lost its key`);
+      out.lines.push(`FAIL | ${page} | the floor | the page carries ${out.count} checked numbers and ${held} held by a license; its floor is ${floor} (scripts/check-values-floor.json): a read failed and the page drew fewer numbers, or a number lost its key`);
+    } else if (floor !== undefined && held && out.count < floor) {
+      out.lines.push(`note | ${page} | the floor | ${out.count} checked numbers and ${held} held by a license ("license needed") meet its floor of ${floor}`);
     }
     // session 408: a page read here with no floor is said on its own line (not a failure): a run with
     // CHECK_VALUES_WRITE_FLOOR=1 that passes in full gives it one

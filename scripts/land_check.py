@@ -234,6 +234,17 @@ def suite_env(environ):
     return env
 
 
+def held_floor_notes(lines):
+    """Session 2702 (rulings item 19, the 24-hour default): the pages of check-values' "note | <page> | the floor | ... held
+    by a license ..." lines, whose floor the "license needed" marks met (site/scripts/held-marks.mjs), in order."""
+    out = []
+    for ln in str(lines).splitlines():
+        parts = [x.strip() for x in ln.split("|")]
+        if len(parts) >= 4 and parts[0] == "note" and parts[2] == "the floor" and "held by a license" in parts[3]:
+            out.append(parts[1])
+    return out
+
+
 def revised_notes(lines):
     """The check keys of check-values' "note | <page> | <key> | revised: ..." lines (session 2207), in order."""
     out = []
@@ -425,6 +436,9 @@ class Gate:
         revised = revised_notes(self.ops.read(log)[before:])
         if revised:
             note += f"; {len(revised)} revised figure{'s' if len(revised) > 1 else ''} read as notes ({', '.join(revised)})"
+        held_met = held_floor_notes(self.ops.read(log)[before:])
+        if held_met:
+            note += f"; {len(held_met)} floor{'s' if len(held_met) > 1 else ''} met with \"license needed\" counted ({', '.join(held_met)})"
         if code == 0:
             return "pass", 0, note
         if code == 3:
