@@ -742,6 +742,8 @@ desnz_uk_derated_capacity_annual,derated_capacity,series variable,MW
 desnz_uk_derated_capacity_annual,thermal_capacity,series variable,MW
 desnz_uk_electricity_quarterly,generated,series variable,MWh
 desnz_uk_electricity_quarterly,supplied,series variable,MWh
+desnz_uk_fuel_used_generation_annual,fuel_used,series variable,MWh
+desnz_uk_fuel_used_generation_annual,fuel_used_by_plant,series variable,MWh
 desnz_uk_gas_quarterly,domestic,series variable,MWh
 desnz_uk_gas_quarterly,electricity_generation,series variable,MWh
 desnz_uk_gas_quarterly,energy_industry_use,series variable,MWh

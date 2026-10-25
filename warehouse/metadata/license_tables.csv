@@ -90,6 +90,7 @@ desnz_uk_capacity_by_connection_annual,UK Department for Energy Security and Net
 desnz_uk_co2_intensity_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_derated_capacity_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_electricity_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_uk_fuel_used_generation_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_gas_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_interconnector_flows_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_mpp_capacity_countries_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
