@@ -11,6 +11,7 @@ api_cost_ledger,Anthropic,the source registry
 arse_burkina_electricity_annual,"Autorite de Regulation du Secteur de l'Energie (ARSE), Burkina Faso",the source registry
 arsel_cameroon_electricity_annual,"Agence de Regulation du Secteur de l'Electricite (ARSEL), Cameroun",the source registry
 ask_kosovo_electricity_monthly,Kosovo Agency of Statistics (ASK),the source registry
+asli_liechtenstein_electricity_annual,Amt fuer Statistik Liechtenstein,the source registry
 ba_supply_monthly,EIA,"the source registry and the tables its header derives it from: eia930_daily_interchange, eia930_daily_total_interchange"
 battery_sourced_ranges,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 battery_stack_monthly,CAISO; ERCOT,"the source registry and the tables its header derives it from: caiso_as_prices, ercot_all_hub_prices_history, ercot_as_prices, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
@@ -440,6 +441,7 @@ miso_as_prices,MISO,the source registry
 miso_interconnection_queue,MISO,the source registry
 msha_coal_mines,"U.S. Department of Labor, Mine Safety and Health Administration (MSHA)",the source registry
 msha_coal_production_quarterly,"U.S. Department of Labor, Mine Safety and Health Administration (MSHA)",the source registry
+nawec_gambia_electricity_monthly,National Water and Electricity Company (NAWEC),the source registry
 nbs_maldives_electricity,Maldives Bureau of Statistics (NBS),the source registry
 ncsi_oman_electricity_annual,"National Centre for Statistics and Information, Oman (NCSI)",the source registry
 news_index,ANS Nuclear Newswire; Africa Sustainable Futures Awards; Bloomberg; CAISO; CTVC; California Public Utilities Commission; California State Portal | CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; EIA; EPA; ERCOT; Electrek; Energy-Storage.news; FERC; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; IEA; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM (its news releases); POWER Magazine; Public Utility Commission of Texas; Reuters; Rigzone; SPP; T&D World; Texas.gov; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
