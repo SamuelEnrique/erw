@@ -74,6 +74,9 @@ asli_liechtenstein_electricity_annual,consumption,series variable,MWh
 asli_liechtenstein_electricity_annual,exports,series variable,MWh
 asli_liechtenstein_electricity_annual,generation,series variable,MWh
 asli_liechtenstein_electricity_annual,imports,series variable,MWh
+asub_aland_electricity_annual,generation,series variable,MWh
+asub_aland_electricity_annual,imports,series variable,MWh
+asub_aland_electricity_annual,supply,series variable,MWh
 ba_supply_monthly,balance_all_days_mwh,series variable,MWh
 ba_supply_monthly,balance_days,series variable,count
 ba_supply_monthly,days_held,series variable,count
@@ -889,6 +892,9 @@ dosm_malaysia_electricity_monthly,supply_local,series variable,MWh
 dosm_malaysia_electricity_monthly,supply_local_private,series variable,MWh
 dosm_malaysia_electricity_monthly,supply_local_public,series variable,MWh
 dosm_malaysia_electricity_monthly,supply_total,series variable,MWh
+edf_sei_islands_electricity_annual,generation,series variable,MWh
+edf_sei_islands_electricity_annual,net_imports,series variable,MWh
+edf_sei_islands_electricity_annual,supply,series variable,MWh
 egrid_power_plants,entity_id,column,
 egrid_power_plants,entity_type,column,
 egrid_power_plants,name,column,
