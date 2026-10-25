@@ -92,6 +92,7 @@ desnz_uk_derated_capacity_annual,UK Department for Energy Security and Net Zero 
 desnz_uk_electricity_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_gas_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_interconnector_flows_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_uk_mpp_capacity_countries_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_nations_electricity_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_plant_loads_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_power_stations,UK Department for Energy Security and Net Zero (DESNZ),the source registry
