@@ -30,7 +30,7 @@
 
 ## Cross-check
 
-No other ERW table holds the UK's peak. A plausibility check against `elexon_gb_demand_daily` (Elexon's daily national demand, MWh), year by year from April to March: each year's GB peak sits 9,000 to 12,500 MW above the highest day's mean.
+No other ERW table holds the UK's peak. A plausibility check against `elexon_gb_demand_daily` (Elexon's daily national demand, MWh), year by year from April to March: each year's GB peak sits 8,150 to 12,550 MW above the highest day's mean.
 
 | DESNZ's year | GB maximum load (MW) | Elexon's highest day | That day's mean (MW) |
 |---|---|---|---|
