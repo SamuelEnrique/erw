@@ -296,16 +296,18 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     # session 2703: the v2 Digest (masthead, opening number, numbers block, what moved, chart, the fold on the site, fun
     # fact, footer); the comments of its masthead (the subject line, the opening's key) are not text
     v2 = kind == "daily" and any(x.strip() == V2_MOVED for x in lines)
+    v2r = kind == "roundup" and any(x.strip() == "## What mattered" for x in lines)   # session 2704: the v2 Roundup
     subject = next((m.group(1) for m in (SUBJECT.match(x.strip()) for x in lines[1:first]) if m), None)
     intro = [x for x in lines[1:first] if x.strip() and not x.strip().startswith("<!--")]
     if stories is None:
-        stories = numbered(lines, (V2_MOVED,), 3) if v2 else top_stories(lines)
-        if len(stories) < (2 if v2 else 5):
-            raise RuntimeError(f"{path}: {len(stories)} top stories found, {2 if v2 else 5} needed")
-    num_text, num_html = block([site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in section(lines, ("## The numbers",))]) if v2 else numbers(lines)
+        stories = numbered(lines, (V2_MOVED,), 3) if v2 else (numbered(lines, ("## What mattered",), 3) if v2r else top_stories(lines))
+        if len(stories) < (2 if v2 else 1 if v2r else 5):
+            raise RuntimeError(f"{path}: {len(stories)} top stories found, {2 if v2 else 1 if v2r else 5} needed")
+    num_text, num_html = block([site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in section(lines, ("## The numbers",))]) if v2 else (
+        block([site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in section(lines, ("### ERW's Numbers This Week",))]) if v2r else numbers(lines))
     if not num_text:
         raise RuntimeError(f"{path}: no numbers section")
-    head = ("What moved" if v2 else "Top 5 of the day") if kind == "daily" else "The five stories of the week"
+    head = ("What moved" if v2 else "Top 5 of the day") if kind == "daily" else ("What mattered" if v2r else "The five stories of the week")
     if note:  # session 23: a subscriber's topic filter
         head = "Top stories in your topics" if kind == "daily" else "Stories of the week in your topics"
     t, h = [title, ""], [WORDMARK_HTML, f"<h1 style=\"font-size:22px;margin:0 0 12px\">{html.escape(title)}</h1>"]
@@ -322,11 +324,14 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
             bt, bh = block(body, img_base=f"docs/{rel}")
             t.extend(["", heading[3:], ""] + bt)
             h.extend([H2.format(heading[3:]), SMALL.format(bh)])
-    if v2:   # session 2703: the opening number and the numbers block come before the stories
+    if v2 or v2r:   # session 2703: the opening number (and the Digest's block) come before the stories
         add_block("## The opening number", "## The opening number")
+    if v2r:   # session 2704: the Roundup's five numbers, then what mattered
+        add_block("## The week in five numbers", "## The week in five numbers")
+    if v2:
         t.extend(["", "The numbers", ""] + num_text)
         h.extend([H2.format("The numbers"), SMALL.format(num_html)])
-    if kind == "roundup":  # session 23: the weekend's stories open the Roundup
+    if kind == "roundup" and not v2r:  # session 23: the weekend's stories open the Roundup
         # session 810: the week in five numbers (session 806) opens the email as it opens the page
         five = [site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in section(lines, ("## The week in five numbers",))]
         if any(x.strip() for x in five):
@@ -342,14 +347,20 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     h += [H2.format(head)] + ([SMALL.format(f"<p style=\"color:#6B665E\">{html.escape(note)}</p>")] if note else []) + [sh]
     # session 817: the Roundup's blocks in the page's order (the policy of the week, then the numbers, then the chart);
     # the Digest's as before (the numbers, the chart of the day, the fun fact)
-    if kind == "roundup":
+    if kind == "roundup" and not v2r:
         add_block("## ERW's Policy of the Week", "## Policy of the week")
-    if not v2:
+    if not (v2 or v2r):
         nh = "ERW's Numbers Today" if kind == "daily" else "ERW's Numbers This Week"
         t += ["", nh, ""] + num_text
         h += [H2.format(nh), SMALL.format(num_html)]
-    for heading, old in (("## ERW's Chart of the Week", "## Chart of the week"), ("## ERW's Chart of the Day", "## Chart of the day")):
+    for heading, old in (("## ERW's Chart of the Week", "## Chart of the week"), ("## ERW's Chart of the Day", "## Chart of the day"),
+                         ("## Next week", "## Next week")):   # session 2704: the Roundup's next week after its chart
         add_block(heading, old)
+    if v2r:   # session 2704: the Roundup's fold, one link away
+        more = f"More on the site: the weekend's and the week's other stories, the deals, the datacenters, the policy of the week and the numbers in full: {page}"
+        t.extend(["", more])
+        h.append(SMALL.format(f"<p style=\"margin:12px 0\"><a href=\"{html.escape(page)}\">More on the site</a>: the weekend's and the week's "
+                              "other stories, the deals, the datacenters, the policy of the week and the numbers in full.</p>"))
     if v2:   # session 2703 (rulings items 5 and 14): the fold is on the site, one link away, not cut
         more = (f"More on the site: the rest of the top ten, the sectors, AI and power, and the numbers in full: {page}")
         t.extend(["", more])
@@ -358,7 +369,8 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     add_block("## ERW's Fun Fact", "## Fun fact")
     t += ["", "ERW", "", f"All of {name}: {page}"] + ([f"How this is made: {how}"] if how else []) + [
           "ERW, the live, citable record of the US energy system. Every number names the table it came from."]
-    if v2:   # session 2703: the footer's corrections and preferences
+    prefs = None
+    if v2 or v2r:   # session 2703: the footer's corrections and preferences
         prefs = f"{site or SITE_DEFAULT}/subscribe" if live("/subscribe", gates) else None
         t.append(f"Corrections: {CORRECTIONS}" + (f". Preferences: {prefs}" if prefs else ""))
     if unsubscribe:
@@ -366,7 +378,7 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     h.append("<p style=\"font-family:Georgia,serif;font-size:15px;margin:16px 0 4px\">ERW</p>")
     h.append(f"<p style=\"font-size:13px;font-family:system-ui,sans-serif;margin-top:16px\"><a href=\"{html.escape(page)}\">"
              f"All of {html.escape(name)}</a>. " + (f"<a href=\"{html.escape(how)}\">How this is made</a>. " if how else "")
-             + (f"<a href=\"{CORRECTIONS}\">Corrections</a>. " + (f"<a href=\"{html.escape(prefs)}\">Preferences</a>. " if prefs else "") if v2 else "")
+             + (f"<a href=\"{CORRECTIONS}\">Corrections</a>. " + (f"<a href=\"{html.escape(prefs)}\">Preferences</a>. " if prefs else "") if v2 or v2r else "")
              + "ERW, the live, citable record of the US energy system. Every number names the table it came from.</p>")
     if unsubscribe:
         h.append("<p style=\"font-size:12px;font-family:system-ui,sans-serif;color:#6B665E\">"
@@ -378,7 +390,7 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
                  "</head><body style=\"margin:0;padding:16px;background:#F7F3EA;color:#2E2D29;"
                  "font-family:Georgia,serif\"><div style=\"max-width:640px;margin:0 auto\">" + "".join(h)
                  + "</div></body></html>")
-    return (subject if v2 and subject else title), label, "\n".join(t) + "\n", body_html
+    return (subject if (v2 or v2r) and subject else title), label, "\n".join(t) + "\n", body_html
 
 
 def items(lines, kind):

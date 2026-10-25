@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { notFound } from "next/navigation";
-import { DOCS, render, weeklyWeeks } from "@/lib/markdown";
+import { DOCS, foldMore, render, weeklyWeeks } from "@/lib/markdown";
 
 export const revalidate = 3600;
 export const dynamicParams = false;
@@ -31,7 +31,7 @@ export default async function RoundupWeek({ params }: PageProps<"/roundup/[week]
         {weeks[i + 1] ? <Link href={`/roundup/${weeks[i + 1]}`}>Earlier: {weeks[i + 1]}</Link> : null}
         {i > 0 ? <Link href={`/roundup/${weeks[i - 1]}`}>Later: {weeks[i - 1]}</Link> : null}
       </p>
-      <article className="prose-erw" dangerouslySetInnerHTML={{ __html: render(md, DOCS.weekly_source[week]) }} />
+      <article className="prose-erw" dangerouslySetInnerHTML={{ __html: foldMore(render(md, DOCS.weekly_source[week])) /* session 2704: the v2 fold */ }} />
     </Brand>
   );
 }

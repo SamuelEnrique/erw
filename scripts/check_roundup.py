@@ -23,6 +23,7 @@ replication). The deals and datacenter tables print story rows, traced to their 
     python scripts/check_roundup.py --supabase            # the live set (anon key; ISO prices held 35 days)
     python scripts/check_roundup.py --supabase --then-csv # the live set, then the CSVs for what it does not hold
     python scripts/check_roundup.py --week 2026-W41       # only these Roundups (repeat)
+    python scripts/check_roundup.py --dir FOLDER          # the Roundups of FOLDER (session 2704: a regeneration's)
 
 Each figure is one line: ok, FAIL, "revised" (a single row that differs and was retrieved after the issue was written,
 from the comment roundup.py leaves at the foot: the publisher's revision, both values said), "not here" (the source
@@ -45,7 +46,7 @@ ROUNDUP = os.path.join(cd.ROOT, "docs", "roundup")
 ISO_RT = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "MISO": "miso", "SPP": "spp", "ISO-NE": "isone"}
 FUEL_ENTITY = {"Henry Hub natural gas": "eia:henry_hub", "WTI Cushing crude": "eia:wti_cushing", "Brent crude": "eia:brent"}
 
-SECTION = re.compile(r"^## (?:ERW's )?Numbers (?:of the week|This Week)\s*$", re.M)
+SECTION = re.compile(r"^###? (?:ERW's )?Numbers (?:of the week|This Week)\s*$", re.M)   # session 2704: "### " in the v2 fold
 NOTE = re.compile(r"\[(\d+)\] `([a-z0-9_]+)`")
 DAM = re.compile(r"^\| (ERCOT|CAISO|NYISO|MISO|SPP|ISO-NE) \| (\S+) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \| \[(\d+)\] \|", re.M)
 PRICE = re.compile(r"^-?\d+\.\d{2}$")
@@ -221,7 +222,7 @@ def section(md):
     if not m:
         return None
     rest = md[m.end():]
-    nxt = re.search(r"^## ", rest, re.M)
+    nxt = re.search(r"^###? ", rest, re.M)   # session 2704: a part of the fold ends at the next part
     return rest[: nxt.start()] if nxt else rest
 
 
@@ -394,7 +395,11 @@ def main(argv=None):
     ap.add_argument("--supabase", action="store_true")
     ap.add_argument("--then-csv", action="store_true", help="with --supabase: read a figure the live set does not hold from --in-dir")
     ap.add_argument("--week", action="append", help="only these Roundups (YYYY-Www; repeat)")
+    ap.add_argument("--dir", help="session 2704: read the Roundups from this folder instead of docs/roundup (a regeneration's)")
     a = ap.parse_args(argv)
+    global ROUNDUP
+    if a.dir:
+        ROUNDUP = os.path.abspath(a.dir)
     src = cd.Live() if a.supabase else cd.Csv(a.in_dir)
     alt = cd.Csv(a.in_dir) if (a.supabase and a.then_csv) else None
     print(f"check_roundup: {len(roundups(a.week))} Roundups, read against {src.describe()}"

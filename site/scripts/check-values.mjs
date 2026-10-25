@@ -1065,7 +1065,7 @@ const cells = (row) => [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((m) =
 async function checkWeekly(lines) {
   // session 23: Energy Week became the Energy Roundup (/roundup; /weekly redirects there)
   const html = await fetch(base + "/roundup").then((r) => r.text());
-  const label = (html.match(/(?:Energy Week|Energy Roundup|ERW&#x27;s Roundup|ERW's Roundup), (\d{4}-W\d{2})/) || [])[1];
+  const label = (html.match(/(?:Energy Week|Energy Roundup|ERW&#x27;s Roundup|ERW's Roundup|ERW Weekly Roundup), (\d{4}-W\d{2})/) || [])[1];   // 2704: the v2 title
   if (!label) return [0, 0];
   const mon = isoWeekMonday(label);
   let ok = 0, bad = 0;
