@@ -36,7 +36,9 @@ The rules (session 23 prompt):
     independent model call must find every claim in the spans (a misreading of a quote passes the word
     checks). The word and number checks are rerun on the day's item before it is printed.
   - A conjecture is allowed only when phrased as one ("perhaps", "might", "may have", ...).
-  - A pun makes no claim: it may hold no number.
+  - A pun makes no claim: it may hold no number. Session 2701 (rulings item 7, the default of 24 October
+    2026): a pun that states a claim ("no wonder ...", "because", "since", ", so") is held to its source like any
+    second half: without a verified span for its own part it fails (PUN_CLAIM).
   - A digest without a fun fact ships rather than one with an unverified fact: brief.py re-verifies
     the day's item against the stored files and leaves the section out on any failure.
 
@@ -80,6 +82,9 @@ COLS = ["fact_id", "created_at", "kind", "fact", "second", "structure", "conject
         "reason", "used_on", "key"]
 STRUCTURES = ["none", "scale", "on_this_day", "etymology", "cross_field", "pun"]
 HEDGE = re.compile(r"\b(perhaps|might|may have|may be|possibly|probably|it is tempting|one guess|could be|arguably)\b", re.I)
+# session 2701 (rulings item 7): the words by which a pun states a claim (the audit's 2 October pun, "no wonder it moves at
+# a crawl"; the kWh pun, "so no wonder utilities charge you by the kWh"; the Btu match, "since it is about the heat ...")
+PUN_CLAIM = re.compile(r"\b(?:no wonder|because|since|hence|thus|which is why|that is why|that's why)\b|,\s*so\b", re.I)
 EM = chr(0x2014)  # the em dash, which no file here may hold (CLAUDE.md, non-negotiable 2)
 
 # Stored sources for history, quirk and etymology facts: Wikipedia articles (plain-text extracts through
@@ -197,6 +202,9 @@ def check_record(r):
         elif structure == "pun":
             if re.search(r"\d", second):
                 problems.append("a pun holds a number")
+            claim = PUN_CLAIM.search(second)
+            if claim and not by_part["second"]:   # session 2701 (rulings item 7): a pun is held to its source
+                problems.append(f"a pun that states a claim ({claim.group(0)!r}) has no verified source span")
         elif structure in ("scale", "on_this_day", "etymology", "cross_field"):
             conj = str(r.get("conjecture", "")).lower() in ("true", "1", "yes")
             if not by_part["second"] and not conj:

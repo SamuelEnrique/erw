@@ -505,5 +505,28 @@ class Item4TheTieBreak(unittest.TestCase):
         self.assertEqual(int(c.loc[c["cluster_id"] == "gas", "outlets"].iloc[0]), 2)
 
 
+class Item7APunIsHeldToItsSource(unittest.TestCase):
+    """Item 7: a pun that states a claim needs a verified span, like any second half; the bank's puns the rule refuses
+    are cut (status dropped, with the reason), and every pun still verified passes it."""
+
+    def test_the_rule_and_the_bank(self):
+        import funfact
+        bank = funfact.read_bank()
+        puns = bank[bank["structure"] == "pun"]
+        for r in puns.to_dict("records"):
+            if r["status"] == "verified":
+                self.assertIsNone(funfact.PUN_CLAIM.search(r["second"]), r["second"])
+        for fid in ("ff_6c3f03312f", "ff_528bbbd5f8"):   # the audit's 2 October pun; the kWh pun
+            r = bank[bank["fact_id"] == fid].iloc[0]
+            self.assertEqual(r["status"], "dropped")
+            self.assertIn("rulings item 7", r["reason"])
+            probs = funfact.check_record(r.to_dict())
+            self.assertTrue(any("a pun that states a claim" in p for p in probs), probs)
+        btu = bank[bank["fact_id"] == "ff_b2e98af092"].iloc[0]   # the Btu match: dropped before, refused by the rule too
+        self.assertTrue(funfact.PUN_CLAIM.search(btu["second"]))
+        duck = bank[bank["fact_id"] == "ff_85d03fb363"].iloc[0]
+        self.assertFalse(any("a pun that states a claim" in p for p in funfact.check_record(duck.to_dict())))
+
+
 if __name__ == "__main__":
     unittest.main()
