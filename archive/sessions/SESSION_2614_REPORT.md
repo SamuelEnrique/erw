@@ -10,7 +10,7 @@
 
 - **No table.**
   - **WEB Aruba N.V.:** its robots file closes only system paths (read 1216). Its Power Production Figures page (read 1218) gives the figures only as an image, a JPG "awareness sheet", and earlier chains took no figures from images (NBS China, chain 125).
-  - Its Terms of Use (read 1219): "It must not be copied, reproduced, republished, downloaded, posted, broadcast or transmitted in any way except for your own personal, non-commercial use." **Verdict: needs written permission** (NEPCO's form, chain 108).
+  - Its Terms of Use (read 1219): "It must not be copied, reproduced, republished, downloaded, posted, broadcast or transmitted in any way except for your own personal, non-commercial use." **Verdict: needs written permission** (NEPCO's form, session 2374).
   - **CBS Aruba:** cbs.aw has no robots file (HTTP 404, read 1220), and its site answers with a Sucuri script challenge (HTTP 307, read 1221). Not asked again.
 - **Bermuda** was searched (no request): only press reports and EIA's figures republished by third parties came up, and no first-hand table within the ceiling. So nothing was taken.
 
