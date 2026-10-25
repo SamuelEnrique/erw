@@ -31,7 +31,7 @@ function dayBefore(day: string): string {
   return d.toISOString().slice(0, 10);
 }
 /** The sections of stories: the news index's (news_index), held whole since 21 October when it is held. */
-export const STORY_SECTIONS = ["Top of the industry", "By sector", "AI and power"];
+export const STORY_SECTIONS = ["Top of the industry", "By sector", "AI and power", "What moved", "The rest of the top ten"];   // session 2703: the v2 order's
 
 export type Figure = {
   part: "dam" | "rt" | "fuel" | "chart" | "demand";
@@ -69,7 +69,7 @@ function sectionsOf(lines: string[]): Section[] {
   const out: Section[] = [];
   let open = false;
   lines.forEach((l, i) => {
-    const m = /^## (.+?)\s*$/.exec(l);
+    const m = /^###? (.+?)\s*$/.exec(l);   // session 2703: the v2 Digest's fold holds its parts under "### " headings
     if (m) {
       if (open) out[out.length - 1].end = i;
       out.push({ title: m[1], start: i, end: lines.length });
@@ -81,7 +81,11 @@ function sectionsOf(lines: string[]): Section[] {
   });
   return out;
 }
-const isNumbers = (t: string) => /^(ERW's )?Numbers today$/i.test(t);
+const isFullNumbers = (t: string) => /^(ERW's )?Numbers today$/i.test(t);
+// session 2703: the v2 Digest's opening number and numbers block carry figures in the same forms, each with its own list of tables
+const isNumbers = (t: string) => isFullNumbers(t) || /^The (opening number|numbers)$/i.test(t);
+/** A v2 line read as the older forms: a block row's bold label ("- **Market price.** ") and the opening's bold off. */
+const asOld = (l: string) => l.replace(/^- \*\*[^*]+\*\* /, "- ").replace(/^\*\*(?=[A-Z])/, "- ");
 const isChart = (t: string) => /^ERW's Chart of the Day$/i.test(t);
 
 const NUM = "-?\\d[\\d,]*\\.\\d+|-?\\d[\\d,]*";
@@ -104,7 +108,7 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
   const secs = sectionsOf(lines);
   const num = secs.find((s) => isNumbers(s.title));
   let summary: number[] = [];
-  if (num) {
+  for (const num of secs.filter((s) => isNumbers(s.title))) {   // session 2703: every numbers section, each with its own tables
     const foot: Record<string, string> = {};
     for (let i = num.start; i < num.end; i++) {
       if (lines[i].startsWith("Tables: ")) for (const m of lines[i].matchAll(/\[(\d+)\] `([a-z0-9_]+)`/g)) foot[m[1]] = m[2];
@@ -114,9 +118,9 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
       if (mk) return foot[mk[1]] ?? "";
       return /`([a-z0-9_]+)`/.exec(cell)?.[1] ?? "";
     };
-    let seenTable = false;
+    let seenTable = !isFullNumbers(num.title);   // the summary is the model's sentences above the full section's table only
     for (let i = num.start + 1; i < num.end; i++) {
-      const l = lines[i];
+      const l = isFullNumbers(num.title) ? lines[i] : asOld(lines[i]);   // session 2703: the v2 forms only in the v2 sections
       if (l.startsWith("**Day-ahead average")) seenTable = true;
       if (!seenTable && l.trim() && !l.startsWith("Every number below")) summary.push(i);
       if (l.startsWith("| ")) {
@@ -171,7 +175,7 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
         continue;
       }
       // session 804: US48 demand's peak hour, and the same weekday a year before where held
-      if (/^\*\*US48 demand/.test(l)) {
+      if (/^\*\*US48 demand/.test(l) || /US48 demand peaked at /.test(l)) {
         for (const m of l.matchAll(/peaked at (-?[\d,]+) MW in the hour starting (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) UTC/g)) {
           const table = "eia930_all_demand", entity = US48;
           figs.push({ part: "demand", key: `digest_demand|${table}|${entity}|demand_mw|${m[2]}T${m[3]}:00Z`, raw: plain(m[1]), text: m[1], table, entity,
@@ -273,7 +277,7 @@ export function digestMarkdown(md: string, date: string, chart: { table: string;
   }
   // session 2207: the revision notes, one line a revised figure, at the end of the numbers section (before any splice
   // of the sections above it moves the lines); the figure keeps its span and its key, and the note names the value held
-  const num = secs.find((s) => isNumbers(s.title));
+  const num = secs.find((s) => s.title === "The numbers") ?? secs.find((s) => isNumbers(s.title));   // session 2703: under the v2 block
   const revised = figs.filter((f) => f.part !== "chart" && revisions[f.key] && !f.held);
   if (num && revised.length) {
     const notes = revised.map((f) => {

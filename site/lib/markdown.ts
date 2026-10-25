@@ -277,5 +277,18 @@ export function archiveDays(today: string = new Date().toISOString().slice(0, 10
 export function renderDigest(md: string, date: string, now: Date = new Date(), revisions: Record<string, Revision> = {}): string {
   const chart = DOCS.digest_charts?.[date] ?? null;
   const t = digestMarkdown(md, date, chart ? { table: chart.table, numbers: chart.numbers } : null, now, revisions);
-  return fillDigest(render(t.md, `docs/digest/${date}.md`), t.spans);
+  return foldMore(fillDigest(render(t.md, `docs/digest/${date}.md`), t.spans));
+}
+
+/** Session 2703 (the v2 Digest, rulings items 5 and 14: fold, do not cut): the "More" section, from its heading to the
+ *  next h2, is drawn closed, a details element the reader opens; an issue without it is returned as it was. */
+export function foldMore(html: string): string {
+  const head = /<h2 id="more">More<\/h2>\n?/.exec(html);
+  if (!head) return html;
+  const rest = html.slice(head.index + head[0].length);
+  const next = rest.search(/<h2[ >]/);
+  const body = next < 0 ? rest : rest.slice(0, next);
+  return html.slice(0, head.index)
+    + `<details class="digest-more" data-digest-fold="more"><summary>More: the rest of the top ten, the sectors, AI and power, and the numbers in full</summary>\n${body}</details>\n`
+    + (next < 0 ? "" : rest.slice(next));
 }
