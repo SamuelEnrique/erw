@@ -1,6 +1,6 @@
 # Session 2590 report: Papua New Guinea's electricity, not taken (NSO publishes no energy file; PNG Power's site is drawn by script)
 
-25 October 2026, about 03:35 to 03:37 UTC, on lab-desktop (the data machine), chain 128, unattended. Precheck passed (`runs/c128/pre2590.out`). Model spend USD 0. Pulls: 6 requests of 15. No table.
+25 October 2026, about 03:34 to 03:36 UTC, on lab-desktop (the data machine), chain 128, unattended. Precheck passed (`runs/c128/pre2590.out`). Model spend USD 0. Pulls: 6 requests of 15. No table.
 
 ## Read these first
 
