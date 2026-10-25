@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^bcrp_peru_hydrocarbons_monthly$", "oil;gas"),  # session 2567: BCRPData's Produccion minera e hidrocarburos (INEI, MINEM), Peru's crude oil, natural gas liquids and natural gas a month
     (r"^bcrp_peru_electricity_monthly$", "power"),  # session 2566: BCRPData's Produccion de electricidad por departamento (MINEM), Peru's production a month by department
     (r"^abs_suriname_electricity_annual$", "power"),  # session 2563: ABS's Milieustatistieken 2024, tables 7.1, 7.4, 7.8 and 7.9, Suriname's demand, generation and capacity (EBS, Staatsolie)
     (r"^nbs_maldives_electricity$", "power"),  # session 2562: NBS's Statistical Yearbook 2026, tables 12.2 and 12.1, the Maldives' production by island and Male's use by sector
