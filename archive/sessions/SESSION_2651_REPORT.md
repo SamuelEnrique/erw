@@ -4,7 +4,7 @@
 
 ## Why this source
 
-- **The ERW held Aland in no table** of its own (Statistics Finland's national figures include it), and no chain or queue file had taken it. Aland imports most of its power from Sweden, and its own wind production grew from 15 GWh in 2000 to 202 GWh in 2025, more than half its supply.
+- **The ERW held Aland in no table** of its own (Statistics Finland's national figures include it), and no chain or queue file had taken it. Aland imports most of its power from Sweden, and its own wind production grew from 14.6 GWh in 2000 to 202.4 GWh in 2025, more than half its supply.
 - **North Macedonia and Moldova** were checked first: both are held already (MakStat, session 2357; StatBank Moldova).
 
 ## Read these first
