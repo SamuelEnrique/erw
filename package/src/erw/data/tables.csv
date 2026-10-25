@@ -45,6 +45,7 @@ carb_lcfs_credit_prices,public,,,,CARB,"Public: every publisher's terms the ERW 
 carbon_intensity_daily,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",100 days
 carbon_intensity_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",430 days
 carbon_intensity_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+cbs_curacao_electricity_annual,public,,,,Central Bureau of Statistics Curacao (CBS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cbs_netherlands_electricity_monthly,public,,,,Statistics Netherlands (CBS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cea_india_psp_annual,internal,,,Central Electricity Authority (India),Central Electricity Authority (India),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 ceb_srilanka_electricity_annual,internal,,,,"Ceylon Electricity Board, Sri Lanka (CEB)",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
@@ -411,6 +412,7 @@ isone_rtm_zone_prices,unsettled,license needed,2026-10-21,ISO-NE,ISO-NE,"ISO-NE'
 isone_rtm_zone_prices_hourly,unsettled,license needed,2026-10-21,ISO-NE,ISO-NE,"ISO-NE's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",35 days
 isone_zone_load_hourly,internal,,,ISO-NE,ISO-NE,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 isone_zone_prices_history,internal,,,ISO-NE,ISO-NE,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
+je_jersey_electricity_annual,internal,,,Government of Jersey,Government of Jersey,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 known_data_faults,public,,,,ERW,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 kpx_korea_demand_monthly,internal,,,Korea Power Exchange,Korea Power Exchange,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 kpx_korea_generation_annual,internal,,,Korea Power Exchange,Korea Power Exchange,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
