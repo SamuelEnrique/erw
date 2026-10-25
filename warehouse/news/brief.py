@@ -824,25 +824,44 @@ NOT_HELD = (("TTF, the Dutch gas benchmark", "not held: its source asks for a li
 US48 = "eia930:US48"
 
 
+def held_rows(path=None):
+    """The rows of warehouse/metadata/license_status.csv whose status is "license needed"; [] when the file is not here."""
+    import csv
+    try:
+        with open(path or LICENSE_FILE, encoding="utf-8", newline="") as f:
+            return [r for r in csv.DictReader(ln for ln in f if not ln.startswith("#")) if r.get("status") == "license needed"]
+    except OSError:
+        return []
+
+
+def table_held(table, grid, rows):
+    """A grid's figures of `table` are held: the table's row is "license needed" and names the grid among its publishers
+    (a row naming none holds every grid of the table)."""
+    for r in rows:
+        if r.get("table") != table:
+            continue
+        pubs = [x.strip() for x in str(r.get("publishers", "")).split(";") if x.strip()]
+        if not pubs or outlet_key(grid) in {outlet_key(x) for x in pubs}:
+            return True
+    return False
+
+
 def held_grids(path=None):
     """The grids of MAIN_HUBS whose table is "license needed" in warehouse/metadata/license_status.csv (a consolidated
     table holds a grid only when the row's publishers name it): {"NYISO", "ISO-NE", "MISO"} on 22 October 2026."""
-    import csv
-    rows = []
-    try:
-        with open(path or LICENSE_FILE, encoding="utf-8", newline="") as f:
-            rows = [r for r in csv.DictReader(ln for ln in f if not ln.startswith("#")) if r.get("status") == "license needed"]
-    except OSError:
-        return set()
-    out = set()
-    for label, table, _node, _tz in MAIN_HUBS:
-        for r in rows:
-            if r.get("table") != table:
-                continue
-            pubs = [x.strip() for x in str(r.get("publishers", "")).split(";") if x.strip()]
-            if not pubs or outlet_key(label) in {outlet_key(x) for x in pubs}:
-                out.add(label)
-    return out
+    rows = held_rows(path)
+    return {label for label, table, _node, _tz in MAIN_HUBS if table_held(table, label, rows)}
+
+
+# Session 2701 (rulings item 1, the default of 24 October 2026): the real-time parts' grids by the label the license
+# file's publishers use, so the highest real-time price skips a held grid's table
+RT_GRID = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO", "miso": "MISO", "spp": "SPP", "isone": "ISO-NE"}
+
+
+def held_rt(parts, path=None):
+    """The (iso, table) pairs of rt_parts whose figures are held (table_held, by RT_GRID)."""
+    rows = held_rows(path)
+    return {(iso, table) for iso, table, _m in parts if table_held(table, RT_GRID.get(iso, iso.upper()), rows)}
 
 
 def dam_mean(label, table, node, tz, day, log):
@@ -948,14 +967,19 @@ def numbers_today(digest_date, log, clusters=None):
              "| ISO | Hub or zone | Operating day | Average USD/MWh | Table | Day before USD/MWh | Change |", "|---|---|---|---|---|---|---|"]
     for h in hubs:
         ref = notes.ref(h["table"])
-        if h["m1"] is not None:
+        paused = (f"not requested: paused by the ERW since {h['pause']['paused_on']} ({h['pause']['reason']})"
+                  if h["pause"] else "")
+        if h["held"]:   # session 2701 (rulings item 1): a held grid prints no digit, in the markdown and so in the email
+            cell, prev = paused or LICENSED_NOTE, ""
+        elif h["m1"] is not None:
             cell = f"{h['m1']}"
         elif h["pause"]:  # session 470 (digest audit fix 12): why the grid is absent, not "not in the warehouse"
-            cell = f"not requested: paused by the ERW since {h['pause']['paused_on']} ({h['pause']['reason']})"
+            cell = paused
         else:
             cell = f"not in the warehouse ({h['n1']} of {h['x1']} hours)"
-        prev = f"{h['m0']}" if h["m0"] is not None else ("" if h["pause"] else f"not in the warehouse ({h['n0']} of {h['x0']} hours)")
-        if h["m1"] is not None and h["m0"] is not None:
+        if not h["held"]:
+            prev = f"{h['m0']}" if h["m0"] is not None else ("" if h["pause"] else f"not in the warehouse ({h['n0']} of {h['x0']} hours)")
+        if h["m1"] is not None and h["m0"] is not None and not h["held"]:
             mv = day_move(h["m1"], day, h["m0"], before)
             chg = f"{mv['ch']:+.2f}" + (f" ({mv['pct']:+.1f}%)" if mv["pct"] is not None else "")
         else:
@@ -966,6 +990,10 @@ def numbers_today(digest_date, log, clusters=None):
     # the real-time maximum (session 16; session 30: the consolidated table one ISO at a time)
     best = None
     parts = rt_parts()
+    held_parts = held_rt(parts)   # session 2701 (rulings item 1): a held grid's real-time table is not read for the maximum
+    if held_parts:
+        log(f"  numbers: real-time maximum skips the held {', '.join(sorted(f'{i} ({t})' for i, t in held_parts))}")
+    parts = [p for p in parts if (p[0], p[1]) not in held_parts]
     rt_tables = list(dict.fromkeys(t for _, t, _ in parts))
     for iso, table, market in parts:
         tz = RT_TZ.get(iso, "UTC")
@@ -990,6 +1018,9 @@ def numbers_today(digest_date, log, clusters=None):
                       f"{notes.ref(table, 'real-time tables read: ' + ', '.join(rt_tables))}.")
     else:
         lines[-1] += "no real-time table covers yesterday."
+    if held_parts:
+        lines[-1] += (" Not read: " + ", ".join(sorted({RT_GRID.get(i, i.upper()) for i, _t in held_parts}))
+                      + f" ({LICENSED_NOTE}).")
 
     # the fuel closes, with their age, and the close before each
     lines += ["", "**Latest fuel spot closes** (EIA, trading dates; EIA publishes its closes about a week after the day):", ""]

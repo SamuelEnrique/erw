@@ -394,5 +394,53 @@ class TheNamedDays(unittest.TestCase):
         self.assertEqual(top10["sector"].nunique(), len(top10))
 
 
+# Session 2701: the Digest's rulings of docs/reviews/periodicals-rulings-2026-10-23.md applied as their defaults (the
+# owner's rule of 18 October: a proposed ruling's default holds after 24 hours of silence). One class an item.
+
+LICENSE_ROWS = ("table,status,from,publishers,verdict,permission,permission_ref,note\n"
+                "nyiso_dam_zone_prices,license needed,2026-10-21,NYISO,needs written permission,,,n\n"
+                "isone_dam_zone_prices,license needed,2026-10-21,ISO-NE,needs written permission,,,n\n"
+                "nyiso_rtm_zone_prices,license needed,2026-10-21,NYISO,needs written permission,,,n\n"
+                "iso_rtm_hub_prices,license needed,2026-10-21,MISO,needs written permission,,,n\n")
+
+
+def rt_fetch(table, start=None, end=None, node=None, market=None, ba=None, **kw):
+    """fake_fetch, with NYISO's real-time table holding the day's highest price (a held grid's)."""
+    if table == "nyiso_rtm_zone_prices":
+        ts = [start + pd.Timedelta(minutes=5 * i) for i in range(288)]
+        return pd.DataFrame({"ts_utc": ts, "value": [30.0] * 287 + [999.99], "node": "N.Y.C.", "variable": "lmp_rtm", "freq": "PT5M"})
+    return fake_fetch(table, start, end, node, market, ba, **kw)
+
+
+class Item1NoHeldDigit(unittest.TestCase):
+    """Item 1: a held grid prints "licensed source needed" and no digit; the real-time maximum skips held tables."""
+
+    def test_no_held_digit_in_the_numbers(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "license_status.csv")
+            with open(p, "w", encoding="utf-8", newline="") as f:
+                f.write(LICENSE_ROWS)
+            parts = [("spp", "iso_rtm_hub_prices", "spp_rtm"), ("miso", "iso_rtm_hub_prices", "miso_rtm"), ("nyiso", "nyiso_rtm_zone_prices", None)]
+            self.assertEqual(brief.held_grids(p), {"NYISO", "ISO-NE"})
+            self.assertEqual(brief.held_rt(parts, p), {("miso", "iso_rtm_hub_prices"), ("nyiso", "nyiso_rtm_zone_prices")})
+            with mock.patch.object(brief, "LICENSE_FILE", p), mock.patch.object(brief.erw, "fetch", side_effect=rt_fetch), \
+                    mock.patch.object(brief, "rt_parts", return_value=parts), mock.patch.object(brief, "cite_short", side_effect=lambda t: f"`{t}`"), \
+                    mock.patch.object(brief, "paused_row", return_value=None), no_hold():
+                lines = brief.numbers_today("2026-10-21", quiet, None)
+        text = "\n".join(lines)
+        for grid in ("NYISO", "ISO-NE"):
+            row = next(ln for ln in lines if ln.startswith(f"| {grid} |"))
+            cells = [c.strip() for c in row.strip("|").split("|")]
+            self.assertEqual(cells[3], "licensed source needed", row)
+            self.assertEqual(cells[5], "", row)
+            self.assertEqual(cells[6], "not computed", row)
+        self.assertNotIn("49.25", text)            # the held grids' fixture price appears nowhere
+        self.assertNotIn("999.99", text)           # nor the held real-time maximum
+        rt = next(ln for ln in lines if ln.startswith("**Highest real-time price"))
+        self.assertIn("276.41 USD/MWh at SPPNORTH_HUB (SPP)", rt)
+        self.assertTrue(rt.endswith("Not read: MISO, NYISO (licensed source needed)."), rt)
+        self.assertTrue(RT_LINE.match(rt))
+
+
 if __name__ == "__main__":
     unittest.main()
