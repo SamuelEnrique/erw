@@ -106,6 +106,7 @@ doe_lng_export_applications,doe,,135,snapshot,2026-10-23T18:41:41Z,2026-10-23T18
 doe_oe417_events,none,,1,event,2016-01-04T00:00:00Z,2025-12-30T00:00:00Z,3313,1 outlets,2026-10-23T18:21:08Z,pass,public,power,no,source
 doe_useer_employment,doe,,3269,P1Y,2024-01-01T00:00:00Z,2025-01-01T00:00:00Z,3311,doe:useer_2026_public_data,2026-10-23T16:22:41Z,pass,public,power;gas;oil;coal,no,source
 dosm_malaysia_electricity_monthly,dosm,,1,P1M,2018-01-01T00:00:00Z,2026-06-01T00:00:00Z,1224,dosm:electricity_supply_consumption,2026-10-24T07:39:24Z,pass,public,power,no,source
+dst_dk_electricity_supply_annual,dst,,6,P1Y,1966-01-01T00:00:00Z,2025-01-01T00:00:00Z,360,dst:statbank_ene1ht,2026-10-25T22:18:30Z,pass,public,power,no,source
 econtrol_austria_electricity_monthly,econtrol,,63,P1M,2010-01-01T00:00:00Z,2026-08-01T00:00:00Z,12472,econtrol:el_dataset_mn,2026-10-24T09:31:44Z,pass,internal,power,no,source
 edf_sei_islands_electricity_annual,edf,,9,P1Y,2018-01-01T00:00:00Z,2024-01-01T00:00:00Z,326,edf_sei:production-annuelle-delectricite-par-filiere,2026-10-25T09:20:16Z,pass,public,power,no,source
 eec_eswatini_electricity_annual,eec,,5,P1Y,2023-04-01T00:00:00Z,2024-04-01T00:00:00Z,10,eec:integrated_annual_report_2025,2026-10-25T00:08:05Z,pass,internal,power,no,source
@@ -343,6 +344,7 @@ eso_cayman_electricity_annual,eso,,6,P1Y,1996-01-01T00:00:00Z,2024-01-01T00:00:0
 eurostat_crude_imports_by_field_monthly,eurostat,,819,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,51718,eurostat:nrg_ti_coifpm_eu,2026-10-24T11:53:07Z,pass,public,oil,no,source
 eurostat_crude_imports_monthly,eurostat,,173,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,565941,eurostat:nrg_ti_oilm_crude,2026-10-24T11:52:01Z,pass,public,oil,no,source
 eurostat_electricity_capacity_annual,eurostat,,27,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,159060,eurostat:nrg_inf_epc,2026-10-24T09:24:14Z,pass,public,power,no,source
+eurostat_electricity_consumption_annual,eurostat,,479,P1Y,1990-01-01T00:00:00Z,2025-01-01T00:00:00Z,15667,eurostat:nrg_cb_e,2026-10-25T22:28:57Z,pass,public,power,no,source
 eurostat_electricity_monthly,eurostat,,30,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,130025,eurostat:nrg_cb_pem_nrg_cb_em,2026-10-24T02:13:36Z,pass,public,power,no,source
 eurostat_electricity_production_annual,eurostat,,2256,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,73988,eurostat:nrg_bal_peh,2026-10-24T11:22:45Z,pass,public,power,no,source
 eurostat_electricity_trade_annual,eurostat,,167,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,198783,eurostat:nrg_ti_eh_nrg_te_eh,2026-10-24T11:52:47Z,pass,public,power,no,source
@@ -351,6 +353,7 @@ eurostat_gas_imports_monthly,eurostat,,865,P1M,2015-01-01T00:00:00Z,2026-09-01T0
 eurostat_hard_coal_imports_annual,eurostat,,167,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,99288,eurostat:nrg_ti_sff_c0100,2026-10-24T11:52:31Z,pass,public,coal,no,source
 eurostat_oil_monthly,eurostat,,143,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,457009,eurostat:nrg_cb_oilm,2026-10-24T09:23:23Z,pass,public,oil,no,source
 eurostat_renewable_capacity_annual,eurostat,,34,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,49313,eurostat:nrg_inf_epcrw,2026-10-23T22:56:54Z,pass,public,power,no,source
+eurostat_renewable_shares_annual,eurostat,,163,P1Y,2004-01-01T00:00:00Z,2025-01-01T00:00:00Z,3095,eurostat:nrg_ind_ren,2026-10-25T22:34:42Z,pass,public,power,no,source
 eurostat_solid_fuels_monthly,eurostat,,49,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,209040,eurostat:nrg_cb_sffm,2026-10-24T09:23:56Z,pass,public,coal,no,source
 event_study_estimates,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,13,P1D;PT1H,2020-03-01T00:00:00Z,2026-02-02T00:00:00Z,3040,erw:event_study,2026-10-19T09:46:06Z,pass,public,power,yes,derived
 event_window_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,10,P1D;P1W,2018-03-04T00:00:00Z,2026-02-02T00:00:00Z,29953,erw:event_window,2026-10-19T09:43:29Z,pass,public,power;carbon,yes,derived
@@ -591,6 +594,7 @@ uspvdb_solar_facilities,uspvdb,,6611,snapshot,2026-10-23T05:19:06Z,2026-10-23T05
 uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:33:12Z,77839,usgs:uswtdb,2026-10-21T18:33:12Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
 vmme_paraguay_electricity_annual,vmme,,19,P1Y,2023-01-01T00:00:00Z,2024-01-01T00:00:00Z,38,vmme_py:ben_2024_cuadro_3,2026-10-25T01:31:16Z,pass,internal,power,no,source
+wapa_energy_sales_annual,wapa,,12,P1Y,2007-10-01T00:00:00Z,2024-10-01T00:00:00Z,307,wapa:rates_and_sales_data,2026-10-25T22:04:40Z,pass,public,power,no,source
 wb_commodity_prices_monthly,wb,,15,P1M,1960-01-01T00:00:00Z,2026-09-01T00:00:00Z,11139,worldbank:pink_sheet,2026-10-23T10:00:26Z,pass,public,oil;gas;coal;metals,no,source
 wb_electricity_access_annual,wb,,215,P1Y,2000-01-01T00:00:00Z,2024-01-01T00:00:00Z,5350,worldbank:wdi_electricity_access,2026-10-23T23:45:20Z,pass,public,power,no,source
 wb_iea_electricity_annual,wb,,209,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,8220,worldbank:wdi_iea_electricity,2026-10-23T23:45:20Z,pass,internal,power,no,source

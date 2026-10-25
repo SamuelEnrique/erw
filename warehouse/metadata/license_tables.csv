@@ -106,6 +106,7 @@ doe_lng_export_applications,U.S. Department of Energy (DOE),the source registry
 doe_oe417_events,U.S. Department of Energy (DOE),the source registry
 doe_useer_employment,U.S. Department of Energy (DOE),the source registry
 dosm_malaysia_electricity_monthly,Department of Statistics Malaysia (DOSM),the source registry
+dst_dk_electricity_supply_annual,Statistics Denmark (Danmarks Statistik),the source registry
 econtrol_austria_electricity_monthly,E-Control (Energie-Control Austria),the source registry
 edf_sei_islands_electricity_annual,EDF SA (EDF Systemes Energetiques Insulaires),the source registry
 eec_eswatini_electricity_annual,Eswatini Electricity Company (EEC),the source registry
@@ -343,6 +344,7 @@ eso_cayman_electricity_annual,"Economics and Statistics Office, Cayman Islands (
 eurostat_crude_imports_by_field_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_crude_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_electricity_consumption_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_production_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_trade_annual,Eurostat (Statistical Office of the European Union),the source registry
@@ -351,6 +353,7 @@ eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union)
 eurostat_hard_coal_imports_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_oil_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_renewable_shares_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_solid_fuels_monthly,Eurostat (Statistical Office of the European Union),the source registry
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
 event_window_daily,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia930_all_emissions, eia930_all_history, ercot_all_hub_prices_history, iso_hub_prices_history, noaa_isd_hourly"
@@ -591,6 +594,7 @@ uspvdb_solar_facilities,U.S. Geological Survey (USGS),the source registry
 uswtdb_wind_turbines,U.S. Geological Survey (USGS),the source registry
 utility_service_territories,EIA,the source registry
 vmme_paraguay_electricity_annual,"Viceministerio de Minas y Energia (VMME), Paraguay",the source registry
+wapa_energy_sales_annual,Western Area Power Administration (WAPA),the source registry
 wb_commodity_prices_monthly,World Bank,the source registry
 wb_electricity_access_annual,World Bank,the source registry
 wb_iea_electricity_annual,IEA (standalone datasets),the source registry

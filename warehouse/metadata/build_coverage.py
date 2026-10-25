@@ -289,6 +289,10 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^eurostat_renewable_shares_annual$", "power"),  # session 2762: Eurostat's nrg_ind_ren, European renewable energy shares a year
+    (r"^eurostat_electricity_consumption_annual$", "power"),  # session 2757: Eurostat's nrg_cb_e, European electricity consumption by sector a year
+    (r"^dst_dk_electricity_supply_annual$", "power"),  # session 2756: Statistics Denmark's ENE1HT, Denmark's electricity supply a year from 1966 (CC BY 4.0)
+    (r"^wapa_energy_sales_annual$", "power"),  # session 2751: WAPA's energy sold and power rate by project, each fiscal year (DOE, public domain)
     (r"^desnz_uk_fuel_used_generation_annual$", "power"),  # session 2748: DESNZ's DUKES 5.3, the fuel used in UK electricity generation (OGL v3.0)
     (r"^desnz_uk_mpp_capacity_countries_annual$", "power"),  # session 2743: DESNZ's DUKES 5.8, the major power producers' capacity by UK country (OGL v3.0)
     (r"^desnz_uk_capacity_by_connection_annual$", "power"),  # session 2742: DESNZ's DUKES 5.12, the UK's installed capacity by connection (OGL v3.0)
