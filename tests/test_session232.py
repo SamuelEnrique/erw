@@ -302,7 +302,8 @@ class TheCandidatesAcrossTwoMachines(unittest.TestCase):
 class TheDigestAndTheEmail(unittest.TestCase):
     def test_the_section_sits_after_the_numbers_and_before_the_fun_fact(self):
         text = src("warehouse", "news", "brief.py")
-        a, b, c = text.index('"## ERW\'s Numbers Today"'), text.index("L += daily_chart_section(digest_date, log, args.out)"), text.index("L += fun_fact_section(digest_date, log)")
+        # session 805: the day's top ten go with the call, so the chart follows the day
+        a, b, c = text.index('"## ERW\'s Numbers Today"'), text.index("L += daily_chart_section(digest_date, log, args.out, stories="), text.index("L += fun_fact_section(digest_date, log)")
         self.assertLess(a, b)
         self.assertLess(b, c)
 
@@ -325,7 +326,7 @@ class TheDigestAndTheEmail(unittest.TestCase):
 
     def test_the_site_serves_the_picture(self):
         self.assertIn("/digest-charts/${m[1]}", src("site", "lib", "markdown.ts"))
-        self.assertIn(r"docs\/digest\/charts\/(\d{4}-\d{2}-\d{2}\.png)", src("site", "lib", "markdown.ts"))
+        self.assertIn(r"docs\/digest\/charts\/(\d{4}-\d{2}-\d{2}(?:-600)?\.png)", src("site", "lib", "markdown.ts"))   # session 815: the phone picture too
         build = src("site", "scripts", "build-content.mjs")
         self.assertIn('path.join(here, "..", "public", "digest-charts")', build)
         self.assertIn("/public/digest-charts/", src("site", ".gitignore"))

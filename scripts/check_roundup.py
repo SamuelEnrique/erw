@@ -54,6 +54,149 @@ RT = re.compile(r"\*\*Highest real-time price of the week:\*\* (-?[\d.]+) USD/MW
 FUEL = re.compile(r"^\| (Henry Hub natural gas|WTI Cushing crude|Brent crude) \| (-?[\d.]+) \S+ on (\d{4}-\d\d-\d\d) \| "
                   r"(-?[\d.]+) on (\d{4}-\d\d-\d\d) \| ([+-][\d.]+) \(([+-][\d.]+)%\)", re.M)
 US48 = re.compile(r"\*\*US48 peak demand of the week:\*\* ([\d,]+) MW in the hour starting (\d{4}-\d\d-\d\d \d\d:\d\d) UTC")
+# session 806: the week in five numbers, each line its own form
+FIVE = re.compile(r"^## The week in five numbers\s*$", re.M)
+FIVE_DAM = re.compile(r"\*\*Price move of the week:\*\* (ERCOT|CAISO|NYISO|MISO|SPP|ISO-NE) (\S+) day-ahead averaged (-?[\d.]+) USD/MWh over the week, "
+                      r"against (-?[\d.]+) USD/MWh the week before \(([+-][\d.]+) USD/MWh, ([+-][\d.]+)%\) \[(\d+)\]")
+FIVE_FUEL = re.compile(r"\*\*Price move of the week:\*\* (Henry Hub natural gas|WTI Cushing crude|Brent crude) closed at (-?[\d.]+) \S+ on "
+                       r"(\d{4}-\d\d-\d\d), against (-?[\d.]+) \S+ on (\d{4}-\d\d-\d\d) \(([+-][\d.]+) \S+, ([+-][\d.]+)%\) \[(\d+)\]")
+FIVE_US48 = re.compile(r"\*\*US48 peak demand:\*\* ([\d,]+) MW in the hour starting (\d{4}-\d\d-\d\d \d\d:\d\d) UTC")
+FIVE_DEAL = re.compile(r"\*\*Deal of the week, by US dollars:\*\* (USD [\d,.]+(?: \w+)?), .*?`energy_deals` (deal:[0-9a-f]+)\)")
+FIVE_DEAL_MW = re.compile(r"\*\*Deal of the week, by MW[^*]*:\*\* ([\d,]+) MW, .*?`energy_deals` (deal:[0-9a-f]+)\)")
+FIVE_LOAD = re.compile(r"\*\*Largest new datacenter load first reported this week:\*\* ([\d,]+) MW, .*?`datacenter_projects` (\S+?)\)")
+FIVE_CHART = re.compile(r"\*\*From the chart of the week:\*\* (.+?): ([\d,.]+) (.+?) in (.+?) \(template `([a-z0-9_]+)`, `(docs/analysis/[^`]+)`\)")
+
+
+def usd_words(d):
+    """As roundup.usd_words writes a sum: 'USD 12 billion', 'USD 4.3 billion', 'USD 834 million', 'USD 250,000'."""
+    from decimal import Decimal, ROUND_HALF_UP
+    v = float(d)
+    for scale, word in ((1e12, "trillion"), (1e9, "billion"), (1e6, "million")):
+        if abs(v) >= scale:
+            x = (Decimal(repr(v)) / Decimal(int(scale))).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+            s = f"{x:.2f}".rstrip("0").rstrip(".")
+            return f"USD {s} {word}"
+    return f"USD {v:,.0f}"
+
+
+def chart_figure(v):
+    v = float(v)
+    if v == int(v):
+        return f"{int(v):,}"
+    return f"{v:,.0f}" if abs(v) >= 100 else f"{v:,.2f}"
+
+
+def event_row(src, table, event_id, id_col="event_id"):
+    """A row of an events table by its id, from the CSVs (the live set holds the series store only): (status, row)."""
+    if not isinstance(src, cd.Csv):
+        return "not here", f"{table} is an events table, not in {src.name}"
+    path = os.path.join(src.dir, f"{table}.csv")
+    if not os.path.exists(path):
+        return "not here", f"{table} is not held by {src.name}"
+    import pandas as pd
+    df = pd.read_csv(path, skiprows=cd.header_rows(path), dtype=str, keep_default_na=False)
+    got = df[df[id_col] == event_id]
+    if got.empty:
+        return "not here", f"no row {event_id} in {table}"
+    return "held", got.iloc[0]
+
+
+def five_section(md):
+    m = FIVE.search(md)
+    if not m:
+        return None
+    rest = md[m.end():]
+    nxt = re.search(r"^## ", rest, re.M)
+    return rest[: nxt.start()] if nxt else rest
+
+
+def five_checks(label, md, refs, written):
+    """The checks of the week in five numbers (session 806)."""
+    text = five_section(md)
+    if text is None:
+        return []
+    monday = week_start(label)
+    out = []
+    m = FIVE_DAM.search(text)
+    if m:
+        iso, node, this, before, chg, pct, ref = m.groups()
+        table = refs.get(ref)
+        for which, cell, start in (("week", this, monday), ("week before", before, monday - timedelta(days=7))):
+            def f(src, table=table, iso=iso, node=node, start=start, cell=cell):
+                st, got = dam_mean(src, table, iso, node, start)
+                return (("ok" if got == cell else "FAIL"), got) if st == "held" else (st, got)
+            out.append((f"rdp_five_dam|{iso}|{table}|{node}|{which}", cell, f))
+        a, b = float(this), float(before)
+        want = f"{a - b:+.2f}, {100 * (a / b - 1):+.1f}%" if b > 0 else "no percent"
+        out.append((f"rdp_five_change|{iso}|{node}", f"{chg}, {pct}%", lambda src, w=want, c=f"{chg}, {pct}%": (("ok" if w == c else "FAIL"), w)))
+    m = FIVE_FUEL.search(text)
+    if m:
+        name, v1, d1, v0, d0, chg, pct, ref = m.groups()
+        entity = FUEL_ENTITY[name]
+        for v, d in ((v1, d1), (v0, d0)):
+            def f(src, entity=entity, v=v, d=d):
+                st, got = value_at(src, "eia_fuel_spot_prices", entity, f"{d}T00:00:00Z")
+                return compare(src, v, f"{got:.2f}", written, "eia_fuel_spot_prices", entity, f"{d}T00:00:00Z") if st == "held" else (st, got)
+            out.append((f"rdp_five_fuel|eia_fuel_spot_prices|{entity}|{d}", v, f))
+    m = FIVE_US48.search(text)
+    if m:
+        v, ts = m.groups()
+        t = datetime.strptime(ts, "%Y-%m-%d %H:%M").strftime("%Y-%m-%dT%H:%M:00Z")
+
+        def f(src, t=t, v=v):
+            st, got = value_at(src, "eia930_all_demand", "eia930:US48", t, "demand_mw")
+            return compare(src, v, f"{got:,.0f}", written, "eia930_all_demand", "eia930:US48", t, "demand_mw") if st == "held" else (st, got)
+        out.append((f"rdp_five_us48|eia930_all_demand|eia930:US48|demand_mw|{t}", v, f))
+    m = FIVE_DEAL.search(text)
+    if m:
+        v, eid = m.groups()
+
+        def f(src, v=v, eid=eid):
+            st, row = event_row(src, "energy_deals", eid)
+            if st != "held":
+                return st, row
+            got = usd_words(row["dollars"]) if row["dollars"] else "no dollars in the row"
+            return ("ok" if got == v else "FAIL"), got
+        out.append((f"rdp_five_deal|energy_deals|{eid}|dollars", v, f))
+    m = FIVE_DEAL_MW.search(text)
+    if m:
+        v, eid = m.groups()
+
+        def f(src, v=v, eid=eid):
+            st, row = event_row(src, "energy_deals", eid)
+            if st != "held":
+                return st, row
+            got = f"{float(row['mw']):,.0f}" if row["mw"] else "no mw in the row"
+            return ("ok" if got == v else "FAIL"), got
+        out.append((f"rdp_five_deal|energy_deals|{eid}|mw", v, f))
+    m = FIVE_LOAD.search(text)
+    if m:
+        v, eid = m.groups()
+
+        def f(src, v=v, eid=eid):
+            st, row = event_row(src, "datacenter_projects", eid, "entity_id")
+            if st != "held":
+                return st, row
+            mw = row["capacity_mw"] if "capacity_mw" in row.index else row.get("mw", "")
+            got = f"{float(mw):,.0f}" if mw else "no capacity in the row"
+            return ("ok" if got == v else "FAIL"), got
+        out.append((f"rdp_five_load|datacenter_projects|{eid}|capacity_mw", v, f))
+    m = FIVE_CHART.search(text)
+    if m:
+        _label, v, unit, period, template, path = m.groups()
+
+        def f(src, v=v, path=path, template=template):
+            import json
+            p = os.path.join(cd.ROOT, path)
+            if not os.path.exists(p):
+                return "not here", f"{path} is not in this checkout"
+            d = json.load(open(p, encoding="utf-8"))
+            if d.get("template") != template:
+                return "FAIL", f"the week's chart is {d.get('template')}"
+            got = chart_figure(d["headline"]["value"])
+            return ("ok" if got == v else "FAIL"), got
+        out.append((f"rdp_five_chart|{label}|{template}|headline", v, f))
+    return out
 
 
 def week_start(label):
@@ -153,14 +296,15 @@ def written_at(md):
 
 
 def checks(label, md):
-    """[(key, page text, fn(src) -> (status, got))] of a Roundup's numbers section; [] if it has none."""
+    """[(key, page text, fn(src) -> (status, got))] of a Roundup's numbers section and, since session 806, of the week in
+    five numbers; [] if it has none."""
     text = section(md)
     if text is None:
         return []
     refs = notes(text)
     monday = week_start(label)
     written = written_at(md)
-    out = []
+    out = five_checks(label, md, refs, written)
     for iso, node, this, before, change, ref in DAM.findall(text):
         table = refs.get(ref)
         for which, cell, start in (("week", this.strip(), monday), ("week before", before.strip(), monday - timedelta(days=7))):

@@ -1,0 +1,292 @@
+{
+ "session": 801,
+ "source": "warehouse/output/news_stories.csv, scored to 2026-10-21 15:06 UTC",
+ "items": [
+  {
+   "event_id": "news:03730502e2cbddc4",
+   "title": "NTT to build $6.3bn data center for Anthropic in Japan - report",
+   "head": "NTT in final talks to build $6.3bn data center for Anthropic in Japan, report says",
+   "why": "Massive AI data center capex; major power demand commitment in final negotiation stages.",
+   "mw": "",
+   "price": "$6.3bn",
+   "parties": "NTT; Anthropic",
+   "problems": [
+    "adjective: massive",
+    "adjective: major"
+   ],
+   "expected_why": "AI data center capex; power demand commitment in final negotiation stages.",
+   "expected_detail": "parties: NTT; Anthropic. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:0379248ddb71fb36",
+   "title": "Amazon pledges €16bn investment in Germany in 2027",
+   "head": "Amazon pledges €16bn investment in Germany in 2027",
+   "why": "Major datacenter and AI infrastructure expansion signals sustained power demand growth in Europe.",
+   "mw": "",
+   "price": "€16bn",
+   "parties": "Amazon",
+   "problems": [
+    "adjective: major"
+   ],
+   "expected_why": "Datacenter and AI infrastructure expansion signals sustained power demand growth in Europe.",
+   "expected_detail": "parties: Amazon. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:083d61aa6c00a439",
+   "title": "UK approves long-delayed Jackdaw gas field on energy security grounds",
+   "head": "UK approves the long-delayed Jackdaw gas field, a $3B project, on energy security grounds",
+   "why": "Major North Sea gas project approval adds supply; supports energy security amid geopolitical tensions.",
+   "mw": "",
+   "price": "",
+   "parties": "UK",
+   "problems": [
+    "adjective: major"
+   ],
+   "expected_why": "North Sea gas project approval adds supply; supports energy security amid geopolitical tensions.",
+   "expected_detail": "parties: UK. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:09148090d3a9b492",
+   "title": "Saudi Aramco Headquarters Hit as Houthi Attacks Escalate",
+   "head": "Saudi Aramco Headquarters Hit as Houthi Attacks Escalate",
+   "why": "Direct strike on major oil producer headquarters escalates Middle East conflict and supply risk.",
+   "mw": "",
+   "price": "",
+   "parties": "Saudi Aramco; Houthis",
+   "problems": [
+    "adjective: major"
+   ],
+   "expected_why": "Direct strike on oil producer headquarters escalates Middle East conflict and supply risk.",
+   "expected_detail": "parties: Saudi Aramco; Houthis. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:1e4a10e699bf4ac6",
+   "title": "DOE Announces $967 Million in Grid Resilience Funding",
+   "head": "DOE announces $967 million in funding for grid resilience projects",
+   "why": "Significant federal investment in grid resilience and capacity to meet growing electricity demand.",
+   "mw": "",
+   "price": "$967 million",
+   "parties": "Department of Energy",
+   "problems": [
+    "adjective: significant"
+   ],
+   "expected_why": "Federal investment in grid resilience and capacity to meet growing electricity demand.",
+   "expected_detail": "parties: Department of Energy. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:20cc72836b2bb733",
+   "title": "Dominion Energy files IRP with plans to build 3.5GW of BESS in PJM over next 20 years",
+   "head": "Dominion Energy files IRP with plans to build 3.5GW of BESS in PJM over next 20 years",
+   "why": "Major utility storage commitment signals grid modernization and renewable integration strategy.",
+   "mw": "3500",
+   "price": "",
+   "parties": "Dominion Energy",
+   "problems": [
+    "adjective: major"
+   ],
+   "expected_why": "Utility storage commitment signals grid modernization and renewable integration strategy.",
+   "expected_detail": "3,500 MW; parties: Dominion Energy. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:01ca78f26cff8730",
+   "title": "Mexico Poised to Approve $12.5 Billion in Renewable Energy Projects",
+   "head": "Mexico's state utility set to approve up to 60 projects, 8,200 MW, $12.5 billion",
+   "why": "Major renewable capacity addition and investment in Mexico's power generation.",
+   "mw": "8200",
+   "price": "$12.5 billion",
+   "parties": "Federal Electricity Commission",
+   "problems": [
+    "adjective: major"
+   ],
+   "expected_why": "Renewable capacity addition and investment in Mexico's power generation.",
+   "expected_detail": "parties: Federal Electricity Commission. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:01cfd3a27f835343",
+   "title": "OPEC cuts 2026 oil demand growth forecast to 400,000 bpd, sees pent-up demand in 2027",
+   "head": "OPEC cuts 2026 oil demand growth forecast to 400,000 bpd, sees pent-up demand in 2027",
+   "why": "OPEC's lower demand outlook, with pent-up demand expected in 2027, shifts the supply-demand balance view.",
+   "mw": "",
+   "price": "",
+   "parties": "OPEC",
+   "problems": [],
+   "expected_why": "OPEC's lower demand outlook, with pent-up demand expected in 2027, shifts the supply-demand balance view.",
+   "expected_detail": "parties: OPEC. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:248636440bc09223",
+   "title": "PJM approves fast-track interconnection for 2.1 GW from Engie, LS Power",
+   "head": "PJM accepts first three expedited interconnection projects, two batteries and a gas uprate",
+   "why": "Storage and a gas uprate totaling 2.1 GW expected online by mid-2029 show the expedited track working.",
+   "mw": "2100",
+   "price": "",
+   "parties": "PJM; Engie; LS Power",
+   "problems": [],
+   "expected_why": "Storage and a gas uprate totaling 2.1 GW expected online by mid-2029 show the expedited track working.",
+   "expected_detail": "2,100 MW; parties: PJM; Engie; LS Power. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:4a5a8e7190692266",
+   "title": "Google Deal Backs 890 MW of Constellation Nuclear Uprates at 11 PJM Reactors",
+   "head": "Google and Constellation sign 20-year PPA backing 890 MW of nuclear uprates",
+   "why": "Customer-funded uprates at 11 PJM reactors add firm capacity by 2032 without new plants.",
+   "mw": "890",
+   "price": "$4.3 billion",
+   "parties": "Google; Constellation Energy; PJM Interconnection",
+   "problems": [],
+   "expected_why": "Customer-funded uprates at 11 PJM reactors add firm capacity by 2032 without new plants.",
+   "expected_detail": "USD 4.3 billion; parties: Google; Constellation Energy; PJM Interconnection. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:6698426fc29c19f4",
+   "title": "OPEC Sees Oil Demand Growth Surging to 2.6 Million Bpd in 2027",
+   "head": "OPEC Sees Oil Demand Growth Surging to 2.6 Million Bpd in 2027",
+   "why": "OPEC significantly raises 2027 demand forecast, signaling stronger market outlook and inventory rebuilding.",
+   "mw": "",
+   "price": "",
+   "parties": "OPEC",
+   "problems": [
+    "adjective: significantly"
+   ],
+   "expected_why": "OPEC raises 2027 demand forecast, signaling stronger market outlook and inventory rebuilding.",
+   "expected_detail": "parties: OPEC. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:d75107a7a0153bfa",
+   "title": "Sesterce to invest $10bn in 600MW AI data center campus in Jämsä, Finland",
+   "head": "Sesterce to invest $10bn in 600MW AI data center campus in Jämsä, Finland",
+   "why": "A 600 MW load with a secured anchor customer adds sizable demand to the Finnish grid.",
+   "mw": "600",
+   "price": "$10bn",
+   "parties": "Sesterce",
+   "problems": [
+    "figure of the headline: 600"
+   ],
+   "expected_why": "A load with a secured anchor customer adds sizable demand to the Finnish grid.",
+   "expected_detail": "parties: Sesterce. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:01345eadd3432a4f",
+   "title": "Middle East on Edge: Houthis Strike Energy Target as Trump Threatens, Delays Iran War Escalation",
+   "head": "Middle East on Edge: Houthis Strike Energy Target as Trump Threatens, Delays Iran War Escalation",
+   "why": "Attacks on Persian Gulf energy interests are driving volatility in crude and overseas LNG prices.",
+   "mw": "",
+   "price": "",
+   "parties": "Iran; Houthis; Trump",
+   "problems": [],
+   "expected_why": "Attacks on Persian Gulf energy interests are driving volatility in crude and overseas LNG prices.",
+   "expected_detail": "parties: Iran; Houthis; Trump. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:0323339ac3432af4",
+   "title": "Iran says US response to its proposal to reopen Hormuz was 'insufficient'",
+   "head": "Iran says US response to its proposal to reopen Hormuz was 'insufficient'",
+   "why": "Hormuz status drives oil, LNG and tanker pricing; stalled talks keep supply risk elevated.",
+   "mw": "",
+   "price": "",
+   "parties": "Iran; United States",
+   "problems": [],
+   "expected_why": "Hormuz status drives oil, LNG and tanker pricing; stalled talks keep supply risk elevated.",
+   "expected_detail": "parties: Iran; United States. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:053c59b00fedc181",
+   "title": "Hyperscaler Backs BKV’s 1.2 GW Natural Gas Power Push Near Dallas",
+   "head": "BKV locks in 1,200 MW of gas generation equipment, backed by a hyperscaler",
+   "why": "Gigawatt-scale gas generation equipment secured with investment-grade financial backing, selling power into the DFW market.",
+   "mw": "1200",
+   "price": "",
+   "parties": "BKV; unnamed hyperscaler",
+   "problems": [],
+   "expected_why": "Gigawatt-scale gas generation equipment secured with investment-grade financial backing, selling power into the DFW market.",
+   "expected_detail": "parties: BKV; unnamed hyperscaler. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:07d297e9b1cb0801",
+   "title": "Shell’s Refining Margin Jumps 75% as Fuel Supplies Dry Up",
+   "head": "Shell's third-quarter refining margin hits a record, indicated at $42 per barrel",
+   "why": "Record refining margins confirm tight fuel supply and windfall earnings for majors.",
+   "mw": "",
+   "price": "$42 per barrel",
+   "parties": "Shell",
+   "problems": [],
+   "expected_why": "Record refining margins confirm tight fuel supply and windfall earnings for majors.",
+   "expected_detail": "parties: Shell. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:668c2eadedb72ff2",
+   "title": "Anthropic May Spend $750 Billion on Computing Costs, Report Says",
+   "head": "Anthropic May Spend $750 Billion on Computing Costs, Report Says",
+   "why": "Massive AI compute capex signals unprecedented power demand growth and infrastructure investment scale.",
+   "mw": "",
+   "price": "$750 Billion",
+   "parties": "Anthropic",
+   "problems": [
+    "adjective: massive",
+    "adjective: unprecedented"
+   ],
+   "expected_why": "AI compute capex signals power demand growth and infrastructure investment scale.",
+   "expected_detail": "parties: Anthropic. ",
+   "fallback": false
+  },
+  {
+   "event_id": "news:3f3d7ac27b366845",
+   "title": "Middle East Conflict Disrupts Global Energy Flows as Strait of Hormuz Traffic Slows",
+   "head": "Middle East Conflict Disrupts Global Energy Flows as Strait of Hormuz Traffic Slows",
+   "why": "Key chokepoint disruption threatens global oil and gas transport.",
+   "mw": "",
+   "price": "",
+   "parties": "",
+   "problems": [
+    "adjective: key"
+   ],
+   "expected_why": "Chokepoint disruption threatens global oil and gas transport.",
+   "expected_detail": "",
+   "fallback": false
+  },
+  {
+   "event_id": "news:14f80b42597a29df",
+   "title": "India’s Coal Crisis Deepens as Power Demand Surges",
+   "head": "India’s Coal Crisis Deepens as Power Demand Surges",
+   "why": "Half of India's coal plants operating with critically low fuel stocks; supply squeeze threatens power generation.",
+   "mw": "",
+   "price": "",
+   "parties": "",
+   "problems": [
+    "adjective: critically"
+   ],
+   "expected_why": "Half of India's coal plants operating with low fuel stocks; supply squeeze threatens power generation.",
+   "expected_detail": "",
+   "fallback": false
+  },
+  {
+   "event_id": "news:01fb6970809bdc1e",
+   "title": "Toyo lines up announcements in anticipation of Texas factory ribbon cutting",
+   "head": "Toyo lines up announcements in anticipation of Texas factory ribbon cutting",
+   "why": "A domestic solar cell and module factory opening on Oct. 6 adds US manufacturing supply.",
+   "mw": "",
+   "price": "",
+   "parties": "Toyo",
+   "problems": [],
+   "expected_why": "A domestic solar cell and module factory opening on Oct. 6 adds US manufacturing supply.",
+   "expected_detail": "parties: Toyo. ",
+   "fallback": false
+  }
+ ]
+}

@@ -252,9 +252,59 @@ test("every Digest the site holds has its numbers read: a key for each figure, a
     const to = lines.findIndex((l, k) => k > from && l.startsWith("## "));
     const sec = (from < 0 ? lines : lines.slice(from, to < 0 ? undefined : to))
       .filter((l) => /^\| (ERCOT|CAISO|NYISO|MISO|SPP|ISO-NE) \|/.test(l) || l.startsWith("**Highest real-time") || /^- (Henry Hub|WTI|Brent)[^:(\[]*: /.test(l));
-    assert.equal(sec.filter((l) => l.startsWith("- ")).length, 3, `${f}: the three fuel lines`);
+    // session 804: a mover line ("- Brent crude: ... down 2.10 USD/bbl (1.7%) from ...") is not a fuel line
+    assert.equal(sec.filter((l) => l.startsWith("- ") && !/, (up|down) /.test(l)).length, 3, `${f}: the three fuel lines`);
     for (const l of sec) assert.ok(!/(?<![\dA-Z.])\d+\.\d{2}(?= |$)(?! UTC)/.test(l.replace(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}/g, "")), `${f}: a bare figure in ${l}`);
   }
+});
+
+test("session 804: the day before, the movers and the demand line carry their keys", () => {
+  const md = `# ERW's Energy Digest, 2026-09-28
+
+## ERW's Numbers Today
+
+**What moved most** (the 5 largest moves in percent):
+
+- CAISO TH_SP15_GEN-APND day-ahead: 45.01 USD/MWh on 2026-09-27, up 4.20 USD/MWh (10.3%) from 40.81 USD/MWh on 2026-09-26 [1]. Reason, from the day's stories: Heat lifted load. ([X](https://example.org/x))
+- Brent crude: 114.89 USD/bbl on 2026-09-22, down 4.77 USD/bbl (4.0%) from 119.66 USD/bbl on 2026-09-18 [2].
+- Not ranked: NYISO N.Y.C. (licensed source needed); TTF, the Dutch gas benchmark (not held).
+
+**Day-ahead average, yesterday, main hub** (mean of the 24 hourly prices of the operating day, and the day before):
+
+| ISO | Hub or zone | Operating day | Average USD/MWh | Table | Day before USD/MWh | Change |
+|---|---|---|---|---|---|---|
+| ERCOT | HB_NORTH | 2026-09-27 | 28.38 | [1] | 26.28 | +2.10 (+8.0%) |
+| MISO | INDIANA.HUB | 2026-09-27 | not in the warehouse (0 of 24 hours) | [1] | | not computed |
+| PJM | | | no PJM price table (no API key) | | | |
+
+**Latest fuel spot closes** (EIA, trading dates; EIA publishes its closes about a week after the day):
+
+- Brent crude: 114.89 USD/bbl on 2026-09-22 [2], EIA's newest close when this was written (6 days before this issue)
+
+**US48 demand, yesterday:** peaked at 612,345 MW in the hour starting 2026-09-27 21:00 UTC [3]; the same weekday a year before (2025-09-28) peaked at 598,100 MW in the hour starting 2025-09-28 22:00 UTC [3], so +2.4% on the year.
+
+Tables: [1] \`iso_dam_hub_prices\` (caiso:PRC_LMP); [2] \`eia_fuel_spot_prices\` (eia:petroleum/pri/spt); [3] \`eia930_all_demand\` (eia:electricity/rto/region-data); balancing authority us48.
+
+ERW
+
+---
+`;
+  const f = D.digestFigures(md, "2026-09-28", null, BEFORE);
+  assert.deepEqual(keys(f), [
+    "digest_dam|CAISO|iso_dam_hub_prices|TH_SP15_GEN-APND|2026-09-27", "digest_dam|CAISO|iso_dam_hub_prices|TH_SP15_GEN-APND|2026-09-26",
+    "digest_fuel|eia_fuel_spot_prices|eia:brent|2026-09-22", "digest_fuel|eia_fuel_spot_prices|eia:brent|2026-09-18",
+    "digest_dam|ERCOT|iso_dam_hub_prices|HB_NORTH|2026-09-27", "digest_dam|ERCOT|iso_dam_hub_prices|HB_NORTH|2026-09-26",
+    "digest_fuel|eia_fuel_spot_prices|eia:brent|2026-09-22",
+    "digest_demand|eia930_all_demand|eia930:US48|demand_mw|2026-09-27T21:00:00Z", "digest_demand|eia930_all_demand|eia930:US48|demand_mw|2025-09-28T22:00:00Z"]);
+  assert.equal(f[1].raw, "40.81");
+  assert.equal(f[5].raw, "26.28");
+  assert.equal(f[7].raw, "612345");
+  assert.equal(f[7].text, "612,345");
+  const page = D.digestMarkdown(md, "2026-09-28", null, BEFORE);
+  const row = page.md.split("\n").find((l) => l.startsWith("| ERCOT"));
+  assert.equal((row.match(/ERWDIGESTFIG\d+Z/g) || []).length, 2, "both cells of the ERCOT row carry a figure");
+  const demand = page.md.split("\n").find((l) => l.startsWith("**US48 demand"));
+  assert.equal((demand.match(/ERWDIGESTFIG\d+Z MW/g) || []).length, 2, "both peaks keep their unit");
 });
 
 console.log(`\n${n} tests passed`);
