@@ -1,6 +1,6 @@
 # Session 2593 report: the licenses' forty-ninth round (INSTAT Mali's open data licence: may be public; SOMELEC and ARE in Mauritania need written permission)
 
-25 October 2026, about 03:45 to 03:48 UTC, on lab-desktop (the data machine), chain 128, unattended. Precheck passed (`runs/c128/pre2593.out`). Model spend USD 0. Pulls: none of 20.
+25 October 2026, about 03:45 to 03:46 UTC, on lab-desktop (the data machine), chain 128, unattended. Precheck passed (`runs/c128/pre2593.out`). Model spend USD 0. Pulls: none of 20.
 
 ## Read these first
 
