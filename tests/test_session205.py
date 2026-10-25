@@ -200,7 +200,8 @@ class TheFiles(unittest.TestCase):
         # chain 130's sessions from 2616 add their reads from 1222, so the bound is raised by 40
         # chain 131's sessions from 2630 add their reads from 1267, so the bound is raised by 40
         # chain 132's sessions from 2644 add their reads from 1296, so the bound is raised by 40
-        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 40 + 20 + 20 + 20 + 40 + 20 + 20 + 40 + 20 + 40 + 20 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40)
+        # chain 133's sessions from 2658 add their reads from 1335, so the bound is raised by 40
+        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 40 + 20 + 20 + 20 + 40 + 20 + 20 + 40 + 20 + 40 + 20 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40)
         self.assertEqual(len({r["publisher"] for r in reads}), len(reads))          # one page a publisher
         miso = [r for r in reads if "MISO" in r["publisher"]]
         self.assertEqual(len(miso), 1)
