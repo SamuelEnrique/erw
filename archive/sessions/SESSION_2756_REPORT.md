@@ -12,7 +12,7 @@
   - **Checked exactly every year:** total supply = production + imports; each renewable's total supply = its renewable supply; the cells StatBank gives as 0 every year (imports and "total production" of wind, hydro and solar, and the renewable supply of electricity) are 0. Those are not written.
 - **Cross-check** against `eurostat_electricity_production_annual` (Denmark, 1990 to 2024):
   - Wind (RA300), hydro (RA100) and solar photovoltaic (RA420): 102 of 105 year pairs agree within 0.5 GWh. The three that do not: wind in 2018 (Eurostat 13,902 GWh, Statistics Denmark 13,899) and 2022 (19,048 and 19,022), and solar in 2022 (2,385 and 2,203). Each publisher's revisions, stated here, not corrected.
-  - Production against Eurostat's gross production: 0.4 to 7.6 per cent below (1990: 24,012 against 25,982 GWh; 2024: 34,474 against 35,318). The account's production is read as net of the plants' own use; this reading is mine, and the note says so.
+  - Production against Eurostat's gross production: below it in 31 of 35 years, by 0.4 to 7.6 per cent (1990: 24,012 against 25,982 GWh; 2024: 34,474 against 35,318), and above it in 2011 to 2013 and 2017, by 1.0 to 6.6 per cent. **Corrected in session 2759:** this report first read the account's production as net of the plants' own use, which the four years above Eurostat's contradict; the reading is withdrawn.
 - **Terms and verdict:** www.dst.dk's and dst.dk's robots files are the same file. It closes Sitecore, upload and Extranet paths, gives GPTBot a crawl delay, and names no Claude agent (reads 1498 and 1499). api.statbank.dk has no robots file (read 1500). The source references page (read 1501, outcome exactly `read`): "You are free to re-use and reproduce contents from dst.dk and statbank.dk. This includes even commercial use." It adds that this "corresponds to the license known as Creative Commons, CC 4.0 BY". **Verdict added: may be public** (`runs/c139/s2756_verdict.py`), crediting "Source: Statistics Denmark - StatBank.dk/ENE1HT".
 - **Written under the data lock:** validated, archived (360 rows), in coverage. The patch applied cleanly, with no conflict marker. Coverage has 601 tables and `sources.csv` 691 sources, none twice. `finish_table.sh`: the release and license checks pass (601 tables, 251 verdicts, 0 problems).
 
@@ -33,7 +33,7 @@ Reads recorded: 1498 to 1503.
 ## Decisions made without you
 
 - **The zero cells left out:** they stand for supplies that do not exist (wind is not imported). Each is checked to be 0.
-- **Production read as net,** from its gap to Eurostat's gross production. Stated in the header, not in the variable's name.
+- **Production not called net or gross:** neither file says (session 2759 withdrew this report's first reading, net).
 - **Prices not taken:** ENERGI1 and ENERGI2 give household and non-household electricity prices in DKK, half-yearly. The ERW states prices in USD.
 
 ## For Samuel's ruling
