@@ -21,7 +21,8 @@ import brief  # noqa: E402
 
 class WhatTheDryRunShowed(unittest.TestCase):
     def test_a_source_is_named_once(self):
-        self.assertEqual(brief.link_text([("POWER Magazine", "https://a"), ("POWER Magazine", "https://b")], {"POWER Magazine"}), "POWER Magazine")
+        # session 2701 (rulings item 15): a held outlet keeps its link, so it prints as any outlet does: once a link
+        self.assertEqual(brief.link_text([("POWER Magazine", "https://a"), ("POWER Magazine", "https://a")], {"POWER Magazine"}), "[POWER Magazine](https://a)")
         self.assertEqual(brief.link_text([("X", "https://a"), ("X", "https://b")], set()), "[X](https://a), [X](https://b)")
 
     def test_the_fallback_is_not_the_headline_again(self):
@@ -47,7 +48,8 @@ class TheWindow(unittest.TestCase):
     def test_the_window_ends_at_now_and_takes_nothing_after_it(self):
         import inspect
         src = inspect.getsource(brief.main)
-        self.assertIn("(when <= now)", src)
+        self.assertIn("(when <= now)", inspect.getsource(brief.window_rows))   # session 2206's window_rows, which main calls
+        self.assertIn("window_rows(df, now, hours, start)", src)
         self.assertIn('ap.add_argument("--now"', src)
         t = pd.Timestamp("2026-10-21T15:45Z")
         self.assertEqual(t.tz_convert("UTC").strftime("%Y-%m-%d %H:%M"), "2026-10-21 15:45")
