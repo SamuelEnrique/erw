@@ -1309,6 +1309,28 @@ def one_per_topic(clusters, n, log, what="the top ten"):
     return out.reset_index(drop=True), folded
 
 
+# Session 2701 (rulings items 5 and 14, the 24-hour defaults): the two-minute form. The words above the fold are the
+# prose before the "More" heading; the "also" lines are not counted (they are the fold, item 14), nor the source lines,
+# the numbers block (its table rows and figure lines), pictures, headings, comments and the footer.
+FOLD_HEADING = "## More"
+FOOTER_START = ("ERW", "---", "[How this is made.]")
+
+
+def above_fold_words(md):
+    """The words of prose above the fold of an issue's markdown (FOLD_HEADING; the whole issue when it has none)."""
+    n = 0
+    for ln in md.splitlines():
+        t = ln.strip()
+        if t == FOLD_HEADING or t.startswith(FOOTER_START):
+            break
+        if (not t or t.startswith(("#", "|", "![", "<!--", "Tables: ", "Sources: ")) or t.startswith(ALSO_LABEL)
+                or re.match(r"^\[\d+\] ", t)):
+            continue
+        t = re.sub(r"^\d+\.\s+", "", t.split(" Sources: ")[0].split(" Source: ")[0])   # a list's number is not a word
+        n += len(re.findall(r"[A-Za-z0-9][^\s]*", re.sub(r"\*\*|\[(\d+)\]", " ", t)))
+    return n
+
+
 def also_line(recs):
     """The line under an item for the stories folded under it: each its publisher's own title and its first outlet."""
     parts = [f"{nodash(x['title']).strip().rstrip('.')} ({link_text(x['links'])})" if x.get("links") else nodash(x["title"]).strip()

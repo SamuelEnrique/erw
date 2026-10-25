@@ -571,5 +571,21 @@ class Item13TheTopicKeyIsTheSectorWithTheRegion(unittest.TestCase):
         self.assertEqual(brief.build_clusters(s).iloc[0]["region"], "Mexico")
 
 
+class Item14TheAlsoLinesAreTheFold(unittest.TestCase):
+    """Item 14: the "also" lines do not count toward the words above the fold (nor the sources, the numbers, the fold)."""
+
+    def test_the_count(self):
+        md = "\n".join([
+            "# ERW Daily Digest", "", "One two three four five.", "",
+            "1. **Six seven eight** (oil)  ",
+            "   Nine ten eleven. Sources: [Reuters](https://r/1), [Bloomberg](https://b/1)  ",
+            "   Also on this topic: a b c d e f g h (Outlet).",
+            "| ERCOT | HB_NORTH | 2026-10-20 | 28.38 | [1] | 26.28 | +2.10 (+8.0%) |",
+            "![Chart words](charts/x.png)", "Tables: [1] `iso_dam_hub_prices`", "",
+            brief.FOLD_HEADING, "", "Twelve thirteen fourteen fifteen.", "", "ERW", "", "---"])
+        self.assertEqual(brief.above_fold_words(md), 12)
+        self.assertEqual(brief.above_fold_words(md.replace(brief.FOLD_HEADING, "## Not the fold")), 16)
+
+
 if __name__ == "__main__":
     unittest.main()
