@@ -417,6 +417,7 @@ catalogue_hold:
   - eia_gas_other_uses_state_annual
   - elexon_gb_demand_daily
   - energinet_dk_production_hourly
+  - cisos_cook_electricity_quarterly
   - siea_solomon_electricity_annual
   - je_jersey_electricity_annual
   - cbs_curacao_electricity_annual
