@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **583 tables.** The flag and the verdict agree on 473; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 423 public, 110 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1383 publishers in the record: 1381 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 296 pages read, 1085 that could not be read, 2 not asked (paused).**
+- **1386 publishers in the record: 1384 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 296 pages read, 1088 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -1406,6 +1406,9 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 1381 | Central Statistical Organization, Myanmar (CSO), the SMEI publication page (session 2673) | https://www.csostat.gov.mm/PublicationAndRelease/MonthlyPublication | 11:37:36 | 200 | 71611 | read: its file list loads by script |
 | 1382 | Central Statistical Organization, Myanmar (CSO), the SMEI page (session 2673) | https://www.csostat.gov.mm/Home/SMEI | 11:37:54 | 200 | 96686 | read: tables headed April 2018, among them 2.4 and 2.5 (electric power); the 2.5 workbook's link answers 404 |
 | 1383 | Central Statistical Organization, Myanmar (CSO), the Terms Of Use (session 2673) | https://www.csostat.gov.mm/Laws/TermsOfUse | 11:38:17 | 200 | 67201 | read |
+| 1384 | Tavanir (Iran Power Generation, Transmission and Distribution Management Company), www.tavanir.org.ir's robots file (session 2674) | https://www.tavanir.org.ir/robots.txt | 11:39:22 | no request |  | ConnectTimeout: the host does not answer; nothing read |
+| 1385 | Statistical Centre of Iran, www.amar.org.ir's robots file (session 2674) | https://www.amar.org.ir/robots.txt | 11:39:56 | no request |  | SSLError: the TLS handshake ends unexpectedly; nothing read |
+| 1386 | Iran Grid Management Company (IGMC), www.igmc.ir's robots file (session 2674) | https://www.igmc.ir/robots.txt | 11:40:07 | no request |  | ConnectTimeout: the host does not answer; nothing read |
 
 ## The publishers: the sentence and the verdict
 
