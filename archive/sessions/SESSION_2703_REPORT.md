@@ -1,6 +1,6 @@
 # Session 2703 report: the Digest in the brandbook's v2 shape
 
-Energy Research Warehouse (ERW), session 2703, chain 131 (`queue/done/131-night-25-october-code-periodicals-v2.md`), samueloldlaptop, 25 October 2026, about 07:05 to 07:30 UTC. Model Opus 5.5. Model spend USD 0 (the regenerations ran with `--no-model`). No warehouse data written; nothing sent or posted; web requests to GitHub and the ERW's own database (reads: the chart's candidates, the live set for the checker) only; no site build.
+Energy Research Warehouse (ERW), session 2703, chain 131 (`queue/done/131-night-25-october-code-periodicals-v2.md`), samueloldlaptop, 25 October 2026, about 07:05 to 07:25 UTC. Model Opus 5.5. Model spend USD 0 (the regenerations ran with `--no-model`). No warehouse data written; nothing sent or posted; web requests to GitHub and the ERW's own database (reads: the chart's candidates, the live set for the checker) only; no site build.
 
 ## Read these first
 
