@@ -82,6 +82,7 @@ datacenter_projects_evidence,none,,13,event,2025-01-07T08:00:00Z,2026-10-23T17:5
 datacenter_queue_positions,none,,3,snapshot,2026-09-26T00:06:50Z,2026-10-12T14:47:44Z,3,ercot:interconnection_queue;nyiso:interconnection_queue,,pass,public,power;datacenters,no,derived
 dbedt_hawaii_electricity_annual,dbedt,,113,P1Y,1994-01-01T00:00:00Z,2025-01-01T00:00:00Z,268,dbedt_hi:data_book_2025_section_17,2026-10-25T02:42:18Z,pass,internal,power,no,source
 derk_bih_electricity_annual,derk,,10,P1Y,2021-01-01T00:00:00Z,2025-01-01T00:00:00Z,214,derk:annex_c_balance_2025,2026-10-24T22:58:44Z,pass,internal,power,no,source
+desnz_gb_regional_consumption_annual,desnz,,246,P1Y,2005-01-01T00:00:00Z,2024-01-01T00:00:00Z,2608,desnz:subnational_electricity_consumption_2005_2024,2026-10-25T13:08:18Z,pass,public,power,no,source
 desnz_regional_renewable_capacity_annual,desnz,,197,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,3157,desnz:regional_renewable_capacity_2003_2025,2026-10-25T13:00:35Z,pass,public,power,no,source
 desnz_regional_renewables_annual,desnz,,194,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,3002,desnz:regional_renewable_generation_2003_2025,2026-10-25T12:02:49Z,pass,public,power,no,source
 desnz_uk_electricity_quarterly,desnz,,45,P3M,1998-01-01T00:00:00Z,2026-04-01T00:00:00Z,7862,desnz:energy_trends_5_1,2026-10-24T00:37:27Z,pass,public,power,no,source
