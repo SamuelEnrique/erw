@@ -1,0 +1,88 @@
+{
+ "date": "2026-10-23",
+ "source": "scanner",
+ "key": "scan-record-f19ccec8cc53",
+ "fact": "onrr_revenue:federal:onshore:56013_fremont:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -2,344,195 in June 2026, the lowest monthly value held since January 2003. The record until now was USD -1,995,113, in February 2023.",
+ "table": "onrr_revenue_monthly",
+ "series_key": "entity=onrr_revenue:federal:onshore:56013_fremont:other_revenues:oil_gas:oil_gas_pre_production:none|variable=revenue|market=|node=Fremont, Wyoming: Other revenues, Oil & gas (pre-production)|freq=P1M",
+ "why": "the strongest of the scanner's 24 flag(s) of the day that no Digest has shown (rank 14; rule record, strength 7.7661); the most related to the day's top stories (relevance 66: it shares gas with 'European Natural Gas Prices Surge to Highest Level Since 2022'); 14 record(s) more than 25 percent past the old one held a day by the guard; 1 flag(s) whose draft was dismissed passed over",
+ "candidates_from": "the scan of 2026-10-23 (computed 2026-10-23T15:45:56+00:00)",
+ "title": "RECORD LOW",
+ "numbers": {
+  "sigma": 44949.629885999995,
+  "value": -2344194.95,
+  "margin": -349081.7200000002,
+  "strength": 7.7661,
+  "threshold": -1995113.23,
+  "old_record": -1995113.23,
+  "stood_points": 40,
+  "history_years": 23.33,
+  "margin_sigmas": 7.7661,
+  "history_points": 281
+ },
+ "image": "2026-10-23.png",
+ "rendered_at": "2026-10-25T07:38:50Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "image_phone": "2026-10-23-600.png",
+ "relevance": {
+  "score": 66,
+  "story": "European Natural Gas Prices Surge to Highest Level Since 2022",
+  "shared": [
+   "gas"
+  ]
+ },
+ "flag": {
+  "id": "scan-record-f19ccec8cc53",
+  "geo": "US-WY",
+  "date": "2026-06-01",
+  "note": "",
+  "rule": "record",
+  "unit": "USD",
+  "label": "onrr_revenue:federal:onshore:56013_fremont:other_revenues:oil_gas:oil_gas_pre_production:none revenue",
+  "table": "onrr_revenue_monthly",
+  "value": -2344194.95,
+  "series": {
+   "freq": "P1M",
+   "node": "Fremont, Wyoming: Other revenues, Oil & gas (pre-production)",
+   "entity": "onrr_revenue:federal:onshore:56013_fremont:other_revenues:oil_gas:oil_gas_pre_production:none",
+   "market": "",
+   "variable": "revenue"
+  },
+  "source": "onrr:revenue_data",
+  "window": [
+   "2026-06-01",
+   "2026-06-01"
+  ],
+  "history": {
+   "last": "2026-05-01",
+   "first": "2003-01-01",
+   "years": 23.33,
+   "points": 281
+  },
+  "compared": {
+   "sigma": 44949.629885999995,
+   "margin": -349081.7200000002,
+   "old_record": -1995113.23,
+   "stood_points": 40,
+   "margin_sigmas": 7.7661,
+   "old_record_date": "2023-02-01"
+  },
+  "flag_key": "record|onrr_revenue_monthly|entity=onrr_revenue:federal:onshore:56013_fremont:other_revenues:oil_gas:oil_gas_pre_production:none|variable=revenue|market=|node=Fremont, Wyoming: Other revenues, Oil & gas (pre-production)|freq=P1M",
+  "strength": 7.7661,
+  "direction": "low",
+  "scan_date": "2026-10-23",
+  "statistic": "monthly value",
+  "threshold": {
+   "name": "record low",
+   "value": -1995113.23,
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   },
+   "statistic": "the lowest monthly value of the held history"
+  },
+  "series_key": "entity=onrr_revenue:federal:onshore:56013_fremont:other_revenues:oil_gas:oil_gas_pre_production:none|variable=revenue|market=|node=Fremont, Wyoming: Other revenues, Oil & gas (pre-production)|freq=P1M",
+  "scanner_version": "1.1.0"
+ }
+}
