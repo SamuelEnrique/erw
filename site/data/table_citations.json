@@ -40,6 +40,7 @@
  "carbon_intensity_daily": "Energy Research Warehouse (ERW), derived. California's carbon intensity of generation from the join of 16 December 2025 (docs/methods/eia930_caiso_break.md); Carbon intensity per balancing authority (docs/methods/emissions.md).",
  "carbon_intensity_hourly": "Energy Research Warehouse (ERW), derived. California's carbon intensity of generation from the join of 16 December 2025 (docs/methods/eia930_caiso_break.md); Carbon intensity per balancing authority (docs/methods/emissions.md).",
  "carbon_intensity_monthly": "Energy Research Warehouse (ERW), derived. California's carbon intensity of generation from the join of 16 December 2025 (docs/methods/eia930_caiso_break.md); Carbon intensity per balancing authority (docs/methods/emissions.md).",
+ "cbs_curacao_electricity_annual": "Central Bureau of Statistics Curacao (CBS). Manufacturing: electricity production (source Aqualectra).",
  "cbs_netherlands_electricity_monthly": "Statistics Netherlands (CBS). Table 84575NED: Elektriciteitsbalans; aanbod en verbruik.",
  "cec_total_system_generation_annual": "California Energy Commission (CEC). Total System Electric Generation (Energy Almanac), the workbook of all years with totals.",
  "censtatd_hk_electricity": "Census and Statistics Department, Hong Kong (C&SD). Hong Kong Energy Statistics, tables 915-91201 (monthly consumption of electricity by type of user) and 915-91203 (electricity production, imports, exports and consumption).",

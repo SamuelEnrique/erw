@@ -417,6 +417,8 @@ catalogue_hold:
   - eia_gas_other_uses_state_annual
   - elexon_gb_demand_daily
   - energinet_dk_production_hourly
+  - je_jersey_electricity_annual
+  - cbs_curacao_electricity_annual
   - dbedt_hawaii_electricity_annual
   - sbs_samoa_electricity_annual
   - vmme_paraguay_electricity_annual
