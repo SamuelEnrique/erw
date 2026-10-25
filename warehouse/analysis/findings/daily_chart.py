@@ -691,15 +691,38 @@ def held_words(c):
     return f"The table holds {common.fmt(n, 0)} {unit} of this series; the last is {when}."
 
 
+PUBLISHER = {"eia": "EIA", "ercot": "ERCOT", "caiso": "CAISO", "spp": "SPP", "nyiso": "NYISO", "isone": "ISO-NE", "miso": "MISO",
+             "pjm": "PJM", "ferc": "FERC", "epa": "EPA", "noaa": "NOAA", "usgs": "USGS", "lbnl": "LBNL", "census": "Census Bureau"}
+
+
+def source_words(c, meta_dir=None):
+    """Session 2703 (the v2 Digest): the chart's source trail, from coverage.csv: the publisher, the source report, the
+    period shown, the newest period the table holds (its vintage) and when the ERW last retrieved it. "" when the table
+    has no row there."""
+    row = next((r for r in _csv(os.path.join(meta_dir or META_DIR, "coverage.csv")) if r.get("table") == c.get("table")), None)
+    if not row:
+        return ""
+    rep = str(row.get("source_report") or "")
+    pub = PUBLISHER.get(rep.split(":")[0].lower(), rep.split(":")[0].upper() or "the publisher")
+    got = periods_held(c)
+    period = f", period {day_words(got[1], monthly=got[2] == 'months')}" if got else ""
+    vintage = f", newest period held {str(row.get('ts_max', ''))[:10]}" if row.get("ts_max") else ""
+    when = str(row.get("last_run") or "")
+    when = f", retrieved by the ERW {when[:10]} {when[11:16]} UTC" if len(when) >= 16 else ""
+    return f"Source: {pub} (`{rep}`){period}{vintage}{when}. "
+
+
 def markdown(day, c):
     """The section's lines. The image sits beside the Digest (docs/digest/charts/<date>.png). Session 2206: a line after
-    the fact says how many periods the table holds and the last one (held_words); the fact's own line is as it was."""
+    the fact says how many periods the table holds and the last one (held_words); the fact's own line is as it was.
+    Session 2703: the source line (source_words, then the table) and the reading of the choice (how_words) are two lines."""
     alt = c["fact"].replace("[", "(").replace("]", ")")
     series = ", ".join(part for part in str(c["series_key"]).split("|") if part and not part.endswith("="))
     held = held_words(c)
     return ["", HEADING, "", f"![{alt}](charts/{day}.png)", "", c["fact"], *([held] if held else []), "",
-            f"Table `{c['table']}`, series `{series}`: [the table and its download](/data#{c['table']}). {how_words(c)} "
-            f"[How the chart is chosen](/data/methods/automated_analysis_scanner)."]
+            f"{source_words(c)}Table `{c['table']}`, series `{series}`: [the table and its download](/data#{c['table']}).", "",
+            # session 2703: the reading of the choice on its own line, so the source line is the source trail alone
+            f"{how_words(c)} [How the chart is chosen](/data/methods/automated_analysis_scanner)."]
 
 
 def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candidates=None, proof=False, used=None, waited=None,
