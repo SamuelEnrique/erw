@@ -39,7 +39,7 @@ Against `statcan_electricity_trade_monthly`'s Nova Scotia, available for use (ge
 |---|---|---|---|
 | 2022 | 10.96 | 11.32 | 3.3 per cent |
 | 2023 | 11.08 | 11.25 | 1.5 per cent |
-| 2024 | 11.26 | 11.41 | 1.3 per cent |
+| 2024 | 11.26 | 11.41 | 1.4 per cent |
 
 Generation alone was 8.99, 8.28 and 8.83 TWh in `statcan_electricity_generation_monthly`, the rest imported over the Maritime Link and from New Brunswick.
 
