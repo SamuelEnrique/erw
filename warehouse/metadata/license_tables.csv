@@ -412,6 +412,7 @@ isone_rtm_zone_prices,ISO-NE,the source registry
 isone_rtm_zone_prices_hourly,ISO-NE,the source registry
 isone_zone_load_hourly,ISO-NE,the source registry
 isone_zone_prices_history,ISO-NE,the source registry
+je_jersey_electricity_annual,Government of Jersey,the source registry
 known_data_faults,ERW,by hand: its header: the ERW's own account of its sources' data
 kpx_korea_demand_monthly,Korea Power Exchange,the source registry
 kpx_korea_generation_annual,Korea Power Exchange,the source registry
