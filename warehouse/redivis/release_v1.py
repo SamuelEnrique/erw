@@ -228,6 +228,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "energinet_dk_production_hourly",
+           "desnz_uk_power_stations",
            "nspower_ns_load_hourly",
            "desnz_gb_regional_gas_consumption_annual",
            "desnz_gb_regional_consumption_annual",
