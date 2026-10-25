@@ -88,8 +88,11 @@ desnz_regional_renewable_capacity_annual,public,,,,UK Department for Energy Secu
 desnz_regional_renewables_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_electricity_quarterly,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_gas_quarterly,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+desnz_uk_interconnector_flows_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_nations_electricity_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+desnz_uk_power_stations,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_renewables_quarterly,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+desnz_uk_storage_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 dfe_ni_electricity_monthly,public,,,,Department for the Economy (Northern Ireland),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 doe_grip_selections,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 doe_lead_energy_burden,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -485,6 +488,7 @@ nrc_rop_findings,public,,,,NRC,"Public: every publisher's terms the ERW read all
 nrcs_snotel_swe_daily,internal,,,,USDA Natural Resources Conservation Service (NRCS),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 nsi_bulgaria_electricity_monthly,internal,,,"National Statistical Institute, Bulgaria (NSI)","National Statistical Institute, Bulgaria (NSI)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 nso_malawi_electricity_sales_annual,internal,,,National Statistical Office of Malawi (NSO),National Statistical Office of Malawi (NSO),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
+nspower_ns_load_hourly,internal,,,Nova Scotia Power (NS Power),Nova Scotia Power (NS Power),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 ntd_transit_energy_annual,public,,,,"U.S. Department of Transportation, Federal Transit Administration (FTA)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nve_norway_reservoirs_weekly,public,,,,Norwegian Water Resources and Energy Directorate (NVE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nyiso_as_prices,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none

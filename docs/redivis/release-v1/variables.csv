@@ -759,6 +759,14 @@ desnz_uk_gas_quarterly,total_supply,series variable,MWh
 desnz_uk_gas_quarterly,transfers,series variable,MWh
 desnz_uk_gas_quarterly,transformation,series variable,MWh
 desnz_uk_gas_quarterly,transport,series variable,MWh
+desnz_uk_interconnector_flows_annual,exports,series variable,MWh
+desnz_uk_interconnector_flows_annual,imports,series variable,MWh
+desnz_uk_interconnector_flows_annual,net_imports,series variable,MWh
+desnz_uk_interconnector_flows_annual,net_transfers,series variable,MWh
+desnz_uk_interconnector_flows_annual,transfers_to_england,series variable,MWh
+desnz_uk_interconnector_flows_annual,transfers_to_northern_ireland,series variable,MWh
+desnz_uk_interconnector_flows_annual,transfers_to_scotland,series variable,MWh
+desnz_uk_interconnector_flows_annual,utilisation,series variable,ratio
 desnz_uk_nations_electricity_annual,consumption,series variable,MWh
 desnz_uk_nations_electricity_annual,generation,series variable,MWh
 desnz_uk_nations_electricity_annual,losses,series variable,MWh
@@ -768,8 +776,39 @@ desnz_uk_nations_electricity_annual,own_use,series variable,MWh
 desnz_uk_nations_electricity_annual,sales,series variable,MWh
 desnz_uk_nations_electricity_annual,statistical_difference,series variable,MWh
 desnz_uk_nations_electricity_annual,transfers,series variable,MWh
+desnz_uk_power_stations,entity_id,column,
+desnz_uk_power_stations,entity_type,column,
+desnz_uk_power_stations,name,column,
+desnz_uk_power_stations,geo,column,
+desnz_uk_power_stations,lat,column,
+desnz_uk_power_stations,lon,column,
+desnz_uk_power_stations,capacity_mw,column,
+desnz_uk_power_stations,status,column,
+desnz_uk_power_stations,status_date,column,
+desnz_uk_power_stations,operator,column,
+desnz_uk_power_stations,source,column,
+desnz_uk_power_stations,source_url,column,
+desnz_uk_power_stations,retrieved_at,column,
+desnz_uk_power_stations,vintage,column,
+desnz_uk_power_stations,technology,column,
+desnz_uk_power_stations,type,column,
+desnz_uk_power_stations,chp,column,
+desnz_uk_power_stations,primary_fuel,column,
+desnz_uk_power_stations,secondary_fuel,column,
+desnz_uk_power_stations,grid_connection_type,column,
+desnz_uk_power_stations,country,column,
+desnz_uk_power_stations,region,column,
+desnz_uk_power_stations,postcode,column,
+desnz_uk_power_stations,os_reference,column,
+desnz_uk_power_stations,x_coordinate,column,
+desnz_uk_power_stations,y_coordinate,column,
+desnz_uk_power_stations,year_commissioned,column,
+desnz_uk_power_stations,desnz_site_code,column,
 desnz_uk_renewables_quarterly,capacity,series variable,MW
 desnz_uk_renewables_quarterly,generated,series variable,MWh
+desnz_uk_storage_annual,input,series variable,MWh
+desnz_uk_storage_annual,output,series variable,MWh
+desnz_uk_storage_annual,power_capacity,series variable,MW
 dfe_ni_electricity_monthly,exports,series variable,MWh
 dfe_ni_electricity_monthly,imports,series variable,MWh
 dfe_ni_electricity_monthly,net_imports,series variable,MWh
