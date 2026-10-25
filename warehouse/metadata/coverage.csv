@@ -45,6 +45,7 @@ carb_lcfs_credit_prices,none,,1,P1W,2019-01-07T00:00:00Z,2026-09-14T00:00:00Z,11
 carbon_intensity_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1D,2018-07-02T00:00:00Z,2026-10-21T00:00:00Z,46996,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-24T14:38:34Z,pass,public,power;carbon,yes,derived
 carbon_intensity_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2018-07-02T00:00:00Z,2026-10-21T23:00:00Z,1128329,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-24T14:38:34Z,pass,public,power;carbon,yes,derived
 carbon_intensity_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1M,2018-08-01T00:00:00Z,2026-09-01T00:00:00Z,1275,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-24T14:38:34Z,pass,public,power;carbon,yes,derived
+cbs_curacao_electricity_annual,cbs,,1,P1Y,2022-01-01T00:00:00Z,2024-01-01T00:00:00Z,3,cbs_cw:manufacturing_electricity_production,2026-10-25T03:38:28Z,pass,public,power,no,source
 cbs_netherlands_electricity_monthly,cbs,,25,P1M,1976-01-01T00:00:00Z,2026-07-01T00:00:00Z,8880,cbs:84575NED,2026-10-24T02:53:50Z,pass,public,power,no,source
 cea_india_psp_annual,cea,,49,P1Y,2020-04-01T00:00:00Z,2025-04-01T00:00:00Z,777,cea:power_supply_position_energy,2026-10-24T07:10:01Z,pass,internal,power,no,source
 ceb_srilanka_electricity_annual,ceb,,1,P1Y,2024-01-01T00:00:00Z,2025-01-01T00:00:00Z,80,ceb:statistical_digest,2026-10-24T09:14:53Z,pass,internal,power,no,source

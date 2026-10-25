@@ -634,6 +634,7 @@ carbon_intensity_hourly,intensity_demand,series variable,kgCO2/MWh
 carbon_intensity_hourly,intensity_generation,series variable,kgCO2/MWh
 carbon_intensity_monthly,intensity_demand,series variable,kgCO2/MWh
 carbon_intensity_monthly,intensity_generation,series variable,kgCO2/MWh
+cbs_curacao_electricity_annual,production,series variable,MWh
 cbs_netherlands_electricity_monthly,distribution_losses,series variable,MWh
 cbs_netherlands_electricity_monthly,export,series variable,MWh
 cbs_netherlands_electricity_monthly,export_belgium,series variable,MWh

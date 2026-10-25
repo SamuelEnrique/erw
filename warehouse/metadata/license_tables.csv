@@ -45,6 +45,7 @@ carb_lcfs_credit_prices,CARB,the source registry
 carbon_intensity_daily,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 carbon_intensity_hourly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 carbon_intensity_monthly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
+cbs_curacao_electricity_annual,Central Bureau of Statistics Curacao (CBS),the source registry
 cbs_netherlands_electricity_monthly,Statistics Netherlands (CBS),the source registry
 cea_india_psp_annual,Central Electricity Authority (India),the source registry
 ceb_srilanka_electricity_annual,"Ceylon Electricity Board, Sri Lanka (CEB)",the source registry
