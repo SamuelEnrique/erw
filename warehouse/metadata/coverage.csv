@@ -1,4 +1,5 @@
 table,iso,market,n_nodes,interval,ts_min,ts_max,n_rows,source_report,last_run,validator_status,license,sector,derived,tier
+abs_suriname_electricity_annual,abs,,12,P1Y,2019-01-01T00:00:00Z,2023-01-01T00:00:00Z,56,abs_sr:milieustatistieken_2024_tables_7_1_7_4_7_8_7_9,2026-10-25T00:35:17Z,pass,public,power,no,source
 aeso_alberta_load_hourly,aeso,,1,PT1H,2025-01-01T07:00:00Z,2026-10-23T19:00:00Z,15853,aeso:historical_pool_price,2026-10-23T20:11:37Z,pass,public,power,no,source
 afdc_ev_charging_state_annual,afdc,,51,P1Y,2014-01-01T00:00:00Z,2025-01-01T00:00:00Z,3060,afdc:historical_station_counts,2026-10-24T00:02:46Z,pass,public,power,no,source
 afdc_station_counts_annual,afdc,,21,P1Y,2007-01-01T00:00:00Z,2025-01-01T00:00:00Z,13520,doe:afdc_station_counts,2026-10-24T00:17:41Z,pass,public,power,no,source
@@ -7,6 +8,7 @@ ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,
 amm_guatemala_generation_monthly,amm,,1,P1M,2017-01-01T00:00:00Z,2025-12-01T00:00:00Z,1739,amm:generacion_mensual_por_planta,2026-10-24T10:58:47Z,pass,internal,power,no,source
 aneel_siga_plants,aneel,,25042,snapshot,2026-10-24T06:57:16Z,2026-10-24T06:57:16Z,25042,aneel:siga,2026-10-24T07:39:34Z,pass,public,power,no,source
 api_cost_ledger,none,,1,event,2026-09-29T10:08:33Z,2026-10-24T15:02:10Z,3817,1 outlets,2026-10-24T15:01:43Z,pass,internal,platform,no,derived
+arse_burkina_electricity_annual,arse,,21,P1Y,2023-01-01T00:00:00Z,2024-01-01T00:00:00Z,41,arse_bf:rapport_activite_2024_tableau_15,2026-10-25T00:16:05Z,pass,internal,power,no,source
 arsel_cameroon_electricity_annual,arsel,,22,P1Y,2024-01-01T00:00:00Z,2025-01-01T00:00:00Z,41,arsel:rapport_activites_2025,2026-10-24T20:54:10Z,pass,internal,power,no,source
 ask_kosovo_electricity_monthly,ask,,13,P1M,2022-01-01T00:00:00Z,2026-07-01T00:00:00Z,715,ask:energy_tab01,2026-10-24T19:23:32Z,pass,internal,power,no,source
 ba_supply_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,473,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,158503,erw:ba_supply,2026-10-02T23:03:48Z,pass,public,power,yes,derived
@@ -14,6 +16,8 @@ battery_sourced_ranges,battery,,18,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z
 battery_stack_monthly,CAISO;ERCOT,caiso;ercot,2,P1M,2018-01-01T00:00:00Z,2026-10-01T00:00:00Z,11556,erw:battery_stack,2026-10-24T15:12:22Z,pass,public,power,yes,derived
 battery_stack_review_monthly,NYISO;SPP,nyiso;spp,2,P1M,2024-09-01T00:00:00Z,2026-10-01T00:00:00Z,3744,erw:battery_stack,2026-10-04T17:20:21Z,pass,public,power,yes,derived
 battery_stack_stress_daily,CAISO;ERCOT,caiso;ercot,2,P1D,2021-02-07T00:00:00Z,2026-10-08T00:00:00Z,1890,erw:battery_stack,2026-10-24T15:12:22Z,pass,public,power,yes,derived
+bcrp_peru_electricity_monthly,bcrp,,25,P1M,2005-01-01T00:00:00Z,2026-06-01T00:00:00Z,6450,bcrp_pe:bcrpdata_produccion_electricidad_departamento,2026-10-25T00:56:01Z,pass,public,power,no,source
+bcrp_peru_hydrocarbons_monthly,bcrp,,3,P1M,2000-01-01T00:00:00Z,2026-08-01T00:00:00Z,960,bcrp_pe:bcrpdata_produccion_hidrocarburos,2026-10-25T01:01:14Z,pass,public,oil;gas,no,source
 bfe_switzerland_electricity_monthly,bfe,,15,P1M,2000-01-01T00:00:00Z,2026-08-01T00:00:00Z,4000,bfe:ogd35,2026-10-24T07:54:39Z,pass,public,power,no,source
 blm_ca_renewable_rows,blm,,57,snapshot,2026-10-23T12:41:42Z,2026-10-23T12:41:42Z,57,blm:ca_renewable_energy_projects,2026-10-23T12:43:32Z,pass,public,power,no,source
 blm_oil_gas_statistics_annual,blm,,50,P1Y,2000-10-01T00:00:00Z,2024-10-01T00:00:00Z,12500,blm:oil_gas_statistics,2026-10-23T22:59:41Z,blocked (1 errors),public,oil;gas,no,source
@@ -80,6 +84,7 @@ doe_oe417_events,none,,1,event,2016-01-04T00:00:00Z,2025-12-30T00:00:00Z,3313,1 
 doe_useer_employment,doe,,3269,P1Y,2024-01-01T00:00:00Z,2025-01-01T00:00:00Z,3311,doe:useer_2026_public_data,2026-10-23T16:22:41Z,pass,public,power;gas;oil;coal,no,source
 dosm_malaysia_electricity_monthly,dosm,,1,P1M,2018-01-01T00:00:00Z,2026-06-01T00:00:00Z,1224,dosm:electricity_supply_consumption,2026-10-24T07:39:24Z,pass,public,power,no,source
 econtrol_austria_electricity_monthly,econtrol,,63,P1M,2010-01-01T00:00:00Z,2026-08-01T00:00:00Z,12472,econtrol:el_dataset_mn,2026-10-24T09:31:44Z,pass,internal,power,no,source
+eec_eswatini_electricity_annual,eec,,5,P1Y,2023-04-01T00:00:00Z,2024-04-01T00:00:00Z,10,eec:integrated_annual_report_2025,2026-10-25T00:08:05Z,pass,internal,power,no,source
 eehc_egypt_electricity_annual,eehc,,29,P1Y,2014-07-01T00:00:00Z,2023-07-01T00:00:00Z,105,eehc:annual_report,2026-10-24T11:25:07Z,pass,internal,power,no,source
 egrid_power_plants,egrid,,12612,snapshot,2026-10-21T16:59:48Z,2026-10-21T16:59:48Z,12612,epa:egrid,2026-10-21T18:30:52Z,pass,public,power;carbon,no,source
 egrid_subregions_annual,egrid,,27,P1Y,2023-01-01T00:00:00Z,2023-01-01T00:00:00Z,540,epa:egrid_subregions,2026-10-23T16:20:42Z,pass,public,power;carbon,no,source
@@ -430,6 +435,7 @@ miso_as_prices,MISO,miso_dam,1,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,54
 miso_interconnection_queue,MISO,,3881,snapshot,2026-09-30T23:33:22Z,2026-09-30T23:33:22Z,3881,miso:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 msha_coal_mines,msha,,35736,snapshot,2026-10-23T19:29:29Z,2026-10-23T19:29:29Z,35736,msha:open_government_data,2026-10-23T19:34:41Z,pass,public,coal,no,source
 msha_coal_production_quarterly,msha,,3130,P3M,2010-01-01T00:00:00Z,2026-04-01T00:00:00Z,294323,msha:open_government_data,2026-10-23T19:34:41Z,pass,public,coal,no,source
+nbs_maldives_electricity,nbs,,40,P1M;P1Y,2009-01-01T00:00:00Z,2025-12-01T00:00:00Z,505,nbs_mv:yearbook_2026_table_12_1;nbs_mv:yearbook_2026_table_12_2,2026-10-25T00:24:14Z,pass,internal,power,no,source
 ncsi_oman_electricity_annual,ncsi,,42,P1Y,2023-01-01T00:00:00Z,2025-01-01T00:00:00Z,126,ncsi:energy_statistics,2026-10-24T18:19:30Z,pass,public,power,no,source
 news_index,none,,78,event,2025-01-01T08:00:00Z,2026-12-01T12:00:00Z,17447,78 outlets,2026-10-24T14:59:29Z,pass,public,news,no,model_extracted
 news_scores_shadow,none,,62,event,2026-08-31T07:00:00Z,2026-10-05T14:39:55Z,4748,62 outlets,2026-10-04T14:36:49Z,pass,internal,news,no,model_extracted
@@ -549,6 +555,7 @@ usgs_streamflow_daily,usgs,,8,P1D,2015-01-01T00:00:00Z,2026-10-22T00:00:00Z,3342
 uspvdb_solar_facilities,uspvdb,,6611,snapshot,2026-10-23T05:19:06Z,2026-10-23T05:19:06Z,6611,usgs:uspvdb,2026-10-23T05:35:32Z,pass,public,power,no,source
 uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:33:12Z,77839,usgs:uswtdb,2026-10-21T18:33:12Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
+vmme_paraguay_electricity_annual,vmme,,19,P1Y,2023-01-01T00:00:00Z,2024-01-01T00:00:00Z,38,vmme_py:ben_2024_cuadro_3,2026-10-25T01:31:16Z,pass,internal,power,no,source
 wb_commodity_prices_monthly,wb,,15,P1M,1960-01-01T00:00:00Z,2026-09-01T00:00:00Z,11139,worldbank:pink_sheet,2026-10-23T10:00:26Z,pass,public,oil;gas;coal;metals,no,source
 wb_electricity_access_annual,wb,,215,P1Y,2000-01-01T00:00:00Z,2024-01-01T00:00:00Z,5350,worldbank:wdi_electricity_access,2026-10-23T23:45:20Z,pass,public,power,no,source
 wb_iea_electricity_annual,wb,,209,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,8220,worldbank:wdi_iea_electricity,2026-10-23T23:45:20Z,blocked (1 errors),internal,power,no,source

@@ -1,4 +1,10 @@
 table,name,kind,unit
+abs_suriname_electricity_annual,available_capacity,series variable,MW
+abs_suriname_electricity_annual,demand,series variable,MWh
+abs_suriname_electricity_annual,generation,series variable,MWh
+abs_suriname_electricity_annual,installed_capacity,series variable,MW
+abs_suriname_electricity_annual,net_consumption,series variable,MWh
+abs_suriname_electricity_annual,net_generation,series variable,MWh
 aeso_alberta_load_hourly,ail_demand,series variable,MW
 afdc_ev_charging_state_annual,ev_dcfast_ports,series variable,count
 afdc_ev_charging_state_annual,ev_level1_ports,series variable,count
@@ -209,6 +215,9 @@ battery_stack_stress_daily,foresight_4h_revenue_total_usd_per_mw,series variable
 battery_stack_stress_daily,foresight_8h_revenue_ancillary_usd_per_mw,series variable,USD/MW
 battery_stack_stress_daily,foresight_8h_revenue_energy_usd_per_mw,series variable,USD/MW
 battery_stack_stress_daily,foresight_8h_revenue_total_usd_per_mw,series variable,USD/MW
+bcrp_peru_electricity_monthly,production,series variable,MWh
+bcrp_peru_hydrocarbons_monthly,production,series variable,MMcf
+bcrp_peru_hydrocarbons_monthly,production,series variable,kbbl
 bfe_switzerland_electricity_monthly,exports,series variable,MWh
 bfe_switzerland_electricity_monthly,final_consumption,series variable,MWh
 bfe_switzerland_electricity_monthly,imports,series variable,MWh
