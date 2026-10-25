@@ -106,6 +106,7 @@ doe_lng_export_applications,doe,,135,snapshot,2026-10-23T18:41:41Z,2026-10-23T18
 doe_oe417_events,none,,1,event,2016-01-04T00:00:00Z,2025-12-30T00:00:00Z,3313,1 outlets,2026-10-23T18:21:08Z,pass,public,power,no,source
 doe_useer_employment,doe,,3269,P1Y,2024-01-01T00:00:00Z,2025-01-01T00:00:00Z,3311,doe:useer_2026_public_data,2026-10-23T16:22:41Z,pass,public,power;gas;oil;coal,no,source
 dosm_malaysia_electricity_monthly,dosm,,1,P1M,2018-01-01T00:00:00Z,2026-06-01T00:00:00Z,1224,dosm:electricity_supply_consumption,2026-10-24T07:39:24Z,pass,public,power,no,source
+dst_dk_electricity_supply_annual,dst,,6,P1Y,1966-01-01T00:00:00Z,2025-01-01T00:00:00Z,360,dst:statbank_ene1ht,2026-10-25T22:18:30Z,pass,public,power,no,source
 econtrol_austria_electricity_monthly,econtrol,,63,P1M,2010-01-01T00:00:00Z,2026-08-01T00:00:00Z,12472,econtrol:el_dataset_mn,2026-10-24T09:31:44Z,pass,internal,power,no,source
 edf_sei_islands_electricity_annual,edf,,9,P1Y,2018-01-01T00:00:00Z,2024-01-01T00:00:00Z,326,edf_sei:production-annuelle-delectricite-par-filiere,2026-10-25T09:20:16Z,pass,public,power,no,source
 eec_eswatini_electricity_annual,eec,,5,P1Y,2023-04-01T00:00:00Z,2024-04-01T00:00:00Z,10,eec:integrated_annual_report_2025,2026-10-25T00:08:05Z,pass,internal,power,no,source
