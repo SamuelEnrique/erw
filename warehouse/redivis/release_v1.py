@@ -228,6 +228,8 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "energinet_dk_production_hourly",
+           "asli_liechtenstein_electricity_annual",
+           "nawec_gambia_electricity_monthly",
            "ope_pf_electricity_annual",
            "enercal_nc_electricity_annual",
            "cisos_cook_electricity_quarterly",

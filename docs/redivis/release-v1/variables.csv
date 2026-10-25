@@ -70,6 +70,10 @@ aneel_siga_plants,x_ownership,column,
 aneel_siga_plants,x_sub_basin,column,
 aneel_siga_plants,x_municipalities,column,
 aneel_siga_plants,x_dataset_date,column,
+asli_liechtenstein_electricity_annual,consumption,series variable,MWh
+asli_liechtenstein_electricity_annual,exports,series variable,MWh
+asli_liechtenstein_electricity_annual,generation,series variable,MWh
+asli_liechtenstein_electricity_annual,imports,series variable,MWh
 ba_supply_monthly,balance_all_days_mwh,series variable,MWh
 ba_supply_monthly,balance_days,series variable,count
 ba_supply_monthly,days_held,series variable,count
