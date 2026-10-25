@@ -1,6 +1,6 @@
 # Session 2764 report: Austria's electricity balance a year from 1970 (Statistics Austria); queue file 141 written first
 
-25 October 2026, about 23:26 to 23:42 UTC, on lab-desktop (the data machine), chain 140, unattended. Precheck passed first (`runs/c140/pre2764.out`). Model spend USD 0. Pulls: 11 requests of 15 (10 by the probe, 1 fetch of the file); two web searches.
+25 October 2026, about 23:26 to 23:44 UTC, on lab-desktop (the data machine), chain 140, unattended. Precheck passed first (`runs/c140/pre2764.out`). Model spend USD 0. Pulls: 11 requests of 15 (10 by the probe, 1 fetch of the file); two web searches.
 
 ## Read these first
 
