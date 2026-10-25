@@ -27,7 +27,7 @@ Reads recorded: 1199 to 1201. No robots file asked again: both hosts' were read 
 
 ## Decisions made without you
 
-- **No new robots requests:** session 2604 had read both hosts' an hour before.
+- **No new robots requests:** session 2604 had read both hosts' about ten minutes before.
 
 ## For Samuel's ruling
 
