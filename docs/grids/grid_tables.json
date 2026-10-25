@@ -1,9 +1,9 @@
 {
  "_about": "Session 314: the tables each grid's scoped chat reads, found by rule from the live set's catalogue and one row asked of each public table (warehouse/chat/grid_tables.py, which says the rules). Written by the data machine after its live-set load; read by site/lib/chat/tools.ts (scopeOf, scopeFilter) and warehouse/chat/tools.py (set_scope, scope_rows). docs/grids/grids.json's tables are documentation since this session: not_in_grids_json and grids_json_not_found say how the two differ on the day this ran.",
- "read_at": "2026-10-24T17:43:37Z",
+ "read_at": "2026-10-25T17:43:29Z",
  "public_live_tables": 103,
  "requests": 699,
- "seconds": 56,
+ "seconds": 55,
  "rules": [
   "name",
   "entity",

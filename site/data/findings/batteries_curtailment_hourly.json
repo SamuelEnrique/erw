@@ -600,11 +600,11 @@
   "caiso_fuel_supply",
   "storage_buildout_monthly"
  ],
- "computed_at": "2026-10-24T18:06:29Z",
+ "computed_at": "2026-10-25T18:07:23Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding batteries_curtailment_hourly, BY HOW MUCH DO BATTERIES CUT CURTAILMENT, HOUR BY HOUR",
-  "Computed 2026-10-24T18:06:29Z by warehouse/analysis/findings/batteries_curtailment_hourly.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-25T18:07:23Z by warehouse/analysis/findings/batteries_curtailment_hourly.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per hour held (day and hour are Pacific): curtailed MW (solar plus wind), battery charging MW, net load MW (demand less solar and wind), the fleet's EIA-860M MW of the month, the largest charging hour of the 30 days before the day; a blank is not held",
   "Sources: caiso_curtailment_intervals, caiso_fuel_supply_history, caiso_fuel_supply, storage_buildout_monthly"
  ],
@@ -628,18 +628,18 @@
   "reconcile_max_abs_mwh": 0.0009843333336903015,
   "reconcile_days_within_1_mwh": 2793,
   "curtailment_last_day": "2026-10-17",
-  "supply_last_hour_utc": "2026-10-24T06:00:00Z"
+  "supply_last_hour_utc": "2026-10-25T06:00:00Z"
  },
  "downloads": {
   "csv": "erw_2026_caiso_curtailment_hourly.csv",
   "python": "batteries_curtailment_hourly.py",
   "stata": "batteries_curtailment_hourly.do"
  },
- "csv_sha256": "75e9ebec90726360e25b8921a7f16d405f25cd060897787868a51fcc30c8ffae",
+ "csv_sha256": "994a8348ba2496a250938be07f0cf3799307f0ab05964e269385950facf2465a",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-24",
+   "name": "the findings library's cards as computed by 2026-10-25",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,
