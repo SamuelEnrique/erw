@@ -149,7 +149,7 @@ def build_clusters(stories):
         rows.append({
             "cluster_id": cid, "sig": int(g["sig"].max()), "ai": int(g["ai"].max()),
             # session 21: the MW and price of the cluster are the first any of its stories' scored fields hold
-            "sector": lead["sector"], "why": lead["why"], "mw": next((x for x in g["mw"] if x), ""),
+            "sector": lead["sector"], "region": str(lead.get("region", "") or ""), "why": lead["why"], "mw": next((x for x in g["mw"] if x), ""),
             "price": next((x for x in g["price_mentioned"] if x), ""), "parties": lead["parties"],
             "first": g["event_date"].min(), "n": len(g),
             "outlets": g["source"].astype(str).str.strip().str.lower().nunique(),   # session 2701: the outlets that ran it
@@ -1248,14 +1248,27 @@ AI_MIN_SIG = 5  # session 470 (digest audit fix 16): the AI section takes no sto
 # in "By sector" below, so no story is lost (session 470's rule of fix 3).
 TOPIC_WORDS = 2
 ALSO_MAX = 3
+# Session 2701 (rulings item 13): with the region in the key a sector may hold more than one item, and the ruling's words
+# were "lets a sector hold two items": a third item of a sector folds under the sector's first, as one topic did before
+SECTOR_MAX = 2
 ALSO_LABEL = "Also on this topic:"
 
 
+def region_key(r):
+    """A cluster's region as the topic key reads it: the scorer's region (a US state, a country, or "global"), lower case;
+    "" when the scorer gave none."""
+    return re.sub(r"\s+", " ", str(r.get("region") or "").strip().lower())
+
+
 def same_topic(a, b):
-    """Two clusters are one topic: one sector, or a party in common and TOPIC_WORDS or more content words shared by their
-    lead titles."""
+    """Two clusters are one topic: one sector in one region, or a party in common and TOPIC_WORDS or more content words
+    shared by their lead titles. Session 2701 (rulings item 13, the 24-hour default): the key is the sector with the
+    region, so Mexico's 8,200 MW and India's coal stocks are two topics though both are "generation"; a cluster whose
+    region is not given is of every region (the sector alone decides, as before)."""
     if a.get("sector") == b.get("sector"):
-        return True
+        ra, rb = region_key(a), region_key(b)
+        if not ra or not rb or ra == rb:
+            return True
     if not party_words(a) & party_words(b):
         return False
     return len(title_words((a.get("titles") or [""])[0]) & title_words((b.get("titles") or [""])[0])) >= TOPIC_WORDS
@@ -1278,8 +1291,11 @@ def one_per_topic(clusters, n, log, what="the top ten"):
             break
         twin = next((k for k in top if same_topic(k, r)), None)
         if twin is None:
-            top.append(dict(r, also=[]))
-            continue
+            same_sector = [k for k in top if k.get("sector") == r.get("sector")]
+            if len(same_sector) < SECTOR_MAX:
+                top.append(dict(r, also=[]))
+                continue
+            twin = same_sector[0]   # session 2701: the sector holds SECTOR_MAX items already
         if len(twin["also"]) >= ALSO_MAX:
             log(f"  {what}: left for the sections below, the topic of {twin['cluster_id']} is full: "
                 f"{str((r.get('titles') or [''])[0])[:80]!r} ({r['cluster_id']})")

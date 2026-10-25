@@ -371,7 +371,7 @@ class TheNamedDays(unittest.TestCase):
         c = self.clusters("2026-10-13")
         top10, _, _ = brief.select(c, "2026-10-13", quiet)
         self.assertEqual(len(top10), 10)
-        self.assertLessEqual(int((top10["sector"] == "datacenter_power").sum()), 1)
+        self.assertLessEqual(int((top10["sector"] == "datacenter_power").sum()), brief.SECTOR_MAX)   # session 2701, item 13
 
     def test_an_issue_rendered_without_the_model_holds_every_rule(self):
         """The 21 October window, selected and rendered as the no-model path does, line by line."""
@@ -391,7 +391,7 @@ class TheNamedDays(unittest.TestCase):
             head = heads[r["cluster_id"]]
             self.assertFalse(brief.figures_of(why.split(". parties:")[0]) & brief.figures_of(head) - brief.figures_of(brief.why_fallback(head)), (head, why))
             self.assertNotIn("news.google.com)", why)
-        self.assertEqual(top10["sector"].nunique(), len(top10))
+        self.assertLessEqual(int(top10["sector"].value_counts().max()), brief.SECTOR_MAX)   # session 2701, item 13: two a sector at most
 
 
 # Session 2701: the Digest's rulings of docs/reviews/periodicals-rulings-2026-10-23.md applied as their defaults (the
@@ -543,6 +543,32 @@ class Item8TheFourteenthStaysAsWritten(unittest.TestCase):
         with open(os.path.join(ROOT, "site", "app", "digest", "[date]", "page.tsx"), encoding="utf-8") as f:
             page = f.read()
         self.assertIn("data-issue-note={date}>{ISSUE_NOTES[date]}</p>", page)
+
+
+
+class Item13TheTopicKeyIsTheSectorWithTheRegion(unittest.TestCase):
+    """Item 13: one sector in two regions is two topics; a cluster without a region is of every region; two items a
+    sector at most, the third folded under the sector's first."""
+
+    def test_regions(self):
+        mx = dict(rec("mx", "Mexico plans 8,200 MW of new plants", "generation", "CFE", sig=9), region="Mexico")
+        ind = dict(rec("in", "India's coal stocks fall at power plants", "generation", "Coal India", sig=8), region="India")
+        tx = dict(rec("tx", "Texas adds a 900 MW peaker plant", "generation", "Vistra", sig=7), region="Texas")
+        nor = dict(rec("nr", "Ormat wins a geothermal auction", "generation", "Ormat", sig=7), region="")
+        gas = dict(rec("g1", "UK approves Jackdaw gas field", "gas", "UK", sig=8), region="United Kingdom")
+        self.assertFalse(brief.same_topic(mx, ind))
+        self.assertTrue(brief.same_topic(mx, dict(tx, region=" mexico ")))
+        self.assertTrue(brief.same_topic(mx, nor))
+        top, folded = brief.one_per_topic(frame(mx, ind, gas, tx), 10, quiet)
+        self.assertEqual(list(top["cluster_id"]), ["mx", "in", "g1"])
+        self.assertEqual([x["cluster_id"] for x in top.iloc[0]["also"]], ["tx"])   # a third generation item folds under the first
+        self.assertEqual(folded, {"tx"})
+
+    def test_build_clusters_keeps_the_region(self):
+        s = pd.DataFrame([{"cluster_id": "a", "sig": 7, "ai": 0, "sector": "generation", "region": "Mexico", "why": "Why.", "mw": "",
+                           "price_mentioned": "", "parties": "", "event_date": "2026-10-13T01:00:00Z", "source": "O",
+                           "source_url": "https://e/a", "title": "A plant", "summary": ""}])
+        self.assertEqual(brief.build_clusters(s).iloc[0]["region"], "Mexico")
 
 
 if __name__ == "__main__":
