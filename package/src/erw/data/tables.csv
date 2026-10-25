@@ -12,6 +12,7 @@ arse_burkina_electricity_annual,internal,,,"Autorite de Regulation du Secteur de
 arsel_cameroon_electricity_annual,internal,,,"Agence de Regulation du Secteur de l'Electricite (ARSEL), Cameroun","Agence de Regulation du Secteur de l'Electricite (ARSEL), Cameroun",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 ask_kosovo_electricity_monthly,internal,,,,Kosovo Agency of Statistics (ASK),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 asli_liechtenstein_electricity_annual,public,,,,Amt fuer Statistik Liechtenstein,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+asub_aland_electricity_annual,public,,,,Statistics and Research Aland (ASUB),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ba_supply_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",430 days
 battery_sourced_ranges,public,,,,"National Laboratory of the Rockies (NLR, formerly NREL)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 battery_stack_monthly,public,,,,CAISO; ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
@@ -88,6 +89,7 @@ doe_oe417_events,public,,,,U.S. Department of Energy (DOE),"Public: every publis
 doe_useer_employment,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 dosm_malaysia_electricity_monthly,public,,,,Department of Statistics Malaysia (DOSM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 econtrol_austria_electricity_monthly,internal,,,,E-Control (Energie-Control Austria),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+edf_sei_islands_electricity_annual,public,,,,EDF SA (EDF Systemes Energetiques Insulaires),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eec_eswatini_electricity_annual,internal,,,Eswatini Electricity Company (EEC),Eswatini Electricity Company (EEC),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 eehc_egypt_electricity_annual,internal,,,Egyptian Electricity Holding Company (EEHC),Egyptian Electricity Holding Company (EEHC),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 egrid_power_plants,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
