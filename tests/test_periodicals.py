@@ -659,5 +659,21 @@ class Item19TheFloorsCountLicenseNeeded(unittest.TestCase):
         self.assertEqual(land_check.held_floor_notes(log), ["/map"])
 
 
+
+class Item10AMissedWeekIsSaid(unittest.TestCase):
+    """Item 10 (session 2702): a Roundup whose previous ISO week has no issue says so in one line under its title."""
+
+    def test_w43_with_no_w42(self):
+        start = pd.Timestamp("2026-10-19", tz="UTC")   # Monday of 2026-W43
+        with tempfile.TemporaryDirectory() as d:
+            line = roundup.missed_week_line(start, d)
+            self.assertEqual(line, "No Roundup was written for 2026-W42; that week's stories are in the Digests of 2026-10-12 to "
+                                   "2026-10-16 ([the archive](/digest)).")
+            with open(os.path.join(d, "2026-W42.md"), "w", encoding="utf-8") as f:
+                f.write("# ERW's Roundup, 2026-W42\n")
+            self.assertEqual(roundup.missed_week_line(start, d), "")
+        self.assertIn("missed_week_line(start)", open(os.path.join(ROOT, "warehouse", "news", "roundup.py"), encoding="utf-8").read())
+
+
 if __name__ == "__main__":
     unittest.main()

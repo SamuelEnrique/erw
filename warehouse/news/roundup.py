@@ -80,6 +80,17 @@ def previous_week(start):
     return f"{y}-W{w:02d}"
 
 
+def missed_week_line(start, folder=None):
+    """Session 2702 (rulings item 10, the default of 24 October 2026): one line under the title when the previous ISO week
+    has no Roundup (week 42 has none), pointing to that week's Digests; "" when it has one."""
+    prev = previous_week(start)
+    if os.path.exists(os.path.join(folder or ROUNDUP_DIR, f"{prev}.md")):
+        return ""
+    mon = start - pd.Timedelta(days=7)
+    return (f"No Roundup was written for {prev}; that week's stories are in the Digests of {mon:%Y-%m-%d} to "
+            f"{mon + pd.Timedelta(days=4):%Y-%m-%d} ([the archive](/digest)).")
+
+
 def policy_title(title):
     """Session 470 (roundup audit fix 9): a Federal Register title over 160 characters ("Parties; Subject") is written as
     its subject, with the parties when they are short; the full title is on /policy."""
@@ -592,6 +603,7 @@ def main(argv=None):
         L = [f"# ERW's Roundup, {label}", "",
              # session 21: one sentence (what, the period, the story count); the method is on /about#digest
              f"ERW's weekly roundup of energy news for {span}, from {len(s)} scored stories.", "",
+             *([missed, ""] if (missed := missed_week_line(start)) else []),   # session 2702, rulings item 10
              *([brief.NO_MODEL_LINE.replace("Today's", "This week's"), ""] if args.no_model else []),
              "## Weekend", ""]
         if weekend.empty:
