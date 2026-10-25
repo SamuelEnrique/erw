@@ -87,7 +87,7 @@ class Parse(unittest.TestCase):
         bad_head = old_sheet()
         bad_head[2] = bad_head[2][:3] + ("Number of meters (thousands): Prepayment",) + bad_head[2][4:]
         for fn in (lambda: A.parse_sheet(old_sheet(extra_area="Isle of Man"), 2005), lambda: A.parse_sheet(old_sheet(total=12.0), 2005),
-                   lambda: A.parse_sheet(old_sheet(england=95.0), 2005), lambda: A.parse_sheet(new_sheet(e7=2.0), 2024),
+                   lambda: A.parse_sheet(old_sheet(england=95.0), 2005), lambda: A.parse_sheet(new_sheet(e7=3.0), 2024),
                    lambda: A.parse_sheet(bad_head, 2005)):
             with self.assertRaises(RuntimeError):
                 fn()
