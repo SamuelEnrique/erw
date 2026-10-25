@@ -1,6 +1,6 @@
 # Session 2565 report: the licenses' forty-seventh round (INSD's open data licence: may be public; EBS needs written permission)
 
-25 October 2026, about 00:48 to 00:55 UTC, on lab-desktop (the data machine), chain 126, unattended. Precheck passed on its second run (`runs/c126/pre2565b.out`; see below). Model spend USD 0. Pulls: 6 requests of 20.
+25 October 2026, about 00:48 to 00:50 UTC, on lab-desktop (the data machine), chain 126, unattended. Precheck passed on its second run (`runs/c126/pre2565b.out`; see below). Model spend USD 0. Pulls: 6 requests of 20.
 
 ## Read these first
 

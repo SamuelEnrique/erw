@@ -1,6 +1,6 @@
 # Session 2564 report: four held tables described (the news pair, a note of its own; the two large-load rules tables, linked to the note that describes them)
 
-25 October 2026, about 00:40 to 00:49 UTC, on lab-desktop (the data machine), chain 126, unattended. Precheck passed (`runs/c126/pre2564.out`). Model spend USD 0. Pulls: none.
+25 October 2026, about 00:40 to 00:48 UTC, on lab-desktop (the data machine), chain 126, unattended. Precheck passed (`runs/c126/pre2564.out`). Model spend USD 0. Pulls: none.
 
 ## Read these first
 

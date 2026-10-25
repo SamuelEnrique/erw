@@ -1,6 +1,6 @@
 # Session 2567 report: Peru's crude oil, natural gas liquids and natural gas production a month, 2000 to August 2026 (BCRPData, INEI's and MINEM's figures), public, a second source of the session's own choosing
 
-25 October 2026, about 00:58 to 01:06 UTC, on lab-desktop (the data machine), chain 126, unattended. Precheck passed (`runs/c126/pre2567.out`). Model spend USD 0. Pulls: 2 requests of 20 (1 by the probe, 1 by the fetch the connector reads offline).
+25 October 2026, about 00:59 to 01:05 UTC, on lab-desktop (the data machine), chain 126, unattended. Precheck passed (`runs/c126/pre2567.out`). Model spend USD 0. Pulls: 2 requests of 20 (1 by the probe, 1 by the fetch the connector reads offline).
 
 ## Why this source
 
