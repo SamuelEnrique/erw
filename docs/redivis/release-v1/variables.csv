@@ -776,6 +776,11 @@ desnz_uk_nations_electricity_annual,own_use,series variable,MWh
 desnz_uk_nations_electricity_annual,sales,series variable,MWh
 desnz_uk_nations_electricity_annual,statistical_difference,series variable,MWh
 desnz_uk_nations_electricity_annual,transfers,series variable,MWh
+desnz_uk_plant_loads_annual,load_factor,series variable,pct
+desnz_uk_plant_loads_annual,max_demand_share_of_capacity,series variable,pct
+desnz_uk_plant_loads_annual,max_load,series variable,MW
+desnz_uk_plant_loads_annual,system_load_factor,series variable,pct
+desnz_uk_plant_loads_annual,thermal_efficiency,series variable,pct
 desnz_uk_power_stations,entity_id,column,
 desnz_uk_power_stations,entity_type,column,
 desnz_uk_power_stations,name,column,
