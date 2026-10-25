@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^asub_aland_electricity_sales_annual$", "power"),  # session 2670: ASUB's PxWeb table MI010, Aland's electricity sales by distributor and sector (CC BY 4.0)
     (r"^aedg_alaska_generation_monthly$", "power"),  # session 2665: the Alaska Energy Data Gateway's monthly generation by service area and fuel (CC BY 4.0)
     (r"^stat_kz_kazakhstan_electricity_annual$", "power"),  # session 2664: the Bureau of National Statistics of Kazakhstan's fuel and energy balance, the electricity column
     (r"^cosit_iraq_electricity_annual$", "power"),  # session 2661: COSIT's electricity projects statistics, Iraq's production, purchases, sales and losses
