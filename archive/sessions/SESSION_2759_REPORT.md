@@ -1,6 +1,6 @@
 # Session 2759 report: method notes for chain 139's four tables, and the Stanford draft of all four
 
-25 October 2026, about 22:37 to 22:53 UTC, on lab-desktop (the data machine), chain 139, unattended. Run after session 2762, so that its table is described and uploaded with the chain's others. Precheck passed (`runs/c139/pre2759.out`). Model spend USD 0. Pulls: 90 Redivis requests of 150, and 1 to Supabase; none to a publisher.
+25 October 2026, about 22:37 to 22:52 UTC, on lab-desktop (the data machine), chain 139, unattended. Run after session 2762, so that its table is described and uploaded with the chain's others. Precheck passed (`runs/c139/pre2759.out`). Model spend USD 0. Pulls: 90 Redivis requests of 150, and 1 to Supabase; none to a publisher.
 
 ## Read these first
 
