@@ -228,6 +228,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "energinet_dk_production_hourly",
+           "bcrp_peru_electricity_monthly",
            "abs_suriname_electricity_annual",
            "nbs_maldives_electricity",
            "arse_burkina_electricity_annual",
