@@ -1,6 +1,6 @@
 # Session 2701 report: the Digest's rulings applied as their defaults
 
-Energy Research Warehouse (ERW), session 2701, chain 131 (`queue/done/131-night-25-october-code-periodicals-v2.md`), samueloldlaptop, 25 October 2026, about 06:50 to 08:00 UTC. Model Opus 5.5. Model spend USD 0. No warehouse data written; nothing sent or posted; no web request but GitHub; no build.
+Energy Research Warehouse (ERW), session 2701, chain 131 (`queue/done/131-night-25-october-code-periodicals-v2.md`), samueloldlaptop, 25 October 2026, about 06:44 to 06:58 UTC. Model Opus 5.5. Model spend USD 0. No warehouse data written; nothing sent or posted; no web request but GitHub; no build.
 
 ## Read these first
 
