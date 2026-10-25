@@ -417,6 +417,9 @@ catalogue_hold:
   - eia_gas_other_uses_state_annual
   - elexon_gb_demand_daily
   - energinet_dk_production_hourly
+  - desnz_uk_derated_capacity_annual
+  - desnz_uk_co2_intensity_annual
+  - desnz_uk_plant_loads_annual
   - desnz_uk_storage_annual
   - desnz_uk_interconnector_flows_annual
   - desnz_uk_power_stations

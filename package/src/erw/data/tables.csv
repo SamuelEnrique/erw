@@ -86,10 +86,13 @@ desnz_gb_regional_consumption_annual,public,,,,UK Department for Energy Security
 desnz_gb_regional_gas_consumption_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_regional_renewable_capacity_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_regional_renewables_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+desnz_uk_co2_intensity_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+desnz_uk_derated_capacity_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_electricity_quarterly,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_gas_quarterly,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_interconnector_flows_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_nations_electricity_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+desnz_uk_plant_loads_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_power_stations,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_renewables_quarterly,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_storage_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none

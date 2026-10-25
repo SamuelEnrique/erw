@@ -289,6 +289,9 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^desnz_uk_derated_capacity_annual$", "power"),  # session 2734: DESNZ's DUKES 5.7, the UK's de-rated plant capacity a year (OGL v3.0)
+    (r"^desnz_uk_co2_intensity_annual$", "carbon"),  # session 2729: DESNZ's DUKES 5.14, the CO2 intensity of the UK's electricity supplied (OGL v3.0)
+    (r"^desnz_uk_plant_loads_annual$", "power"),  # session 2728: DESNZ's DUKES 5.10, the UK's maximum load, load factors and efficiency (OGL v3.0)
     (r"^desnz_uk_storage_annual$", "power"),  # session 2720: DESNZ's DUKES 5.16, the UK's electricity storage a year (OGL v3.0)
     (r"^desnz_uk_interconnector_flows_annual$", "power"),  # session 2715: DESNZ's DUKES 5.13, the UK's interconnector flows a year (OGL v3.0)
     (r"^desnz_uk_power_stations$", "power"),  # session 2714: DESNZ's DUKES 5.11, the major power producers' power stations in the UK (OGL v3.0)

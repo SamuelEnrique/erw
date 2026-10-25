@@ -736,6 +736,9 @@ desnz_gb_regional_gas_consumption_annual,consumption,series variable,MWh
 desnz_gb_regional_gas_consumption_annual,meters,series variable,count
 desnz_regional_renewable_capacity_annual,capacity,series variable,MW
 desnz_regional_renewables_annual,generation,series variable,MWh
+desnz_uk_co2_intensity_annual,co2_intensity,series variable,kgCO2/MWh
+desnz_uk_derated_capacity_annual,derated_capacity,series variable,MW
+desnz_uk_derated_capacity_annual,thermal_capacity,series variable,MW
 desnz_uk_electricity_quarterly,generated,series variable,MWh
 desnz_uk_electricity_quarterly,supplied,series variable,MWh
 desnz_uk_gas_quarterly,domestic,series variable,MWh
@@ -776,6 +779,11 @@ desnz_uk_nations_electricity_annual,own_use,series variable,MWh
 desnz_uk_nations_electricity_annual,sales,series variable,MWh
 desnz_uk_nations_electricity_annual,statistical_difference,series variable,MWh
 desnz_uk_nations_electricity_annual,transfers,series variable,MWh
+desnz_uk_plant_loads_annual,load_factor,series variable,pct
+desnz_uk_plant_loads_annual,max_demand_share_of_capacity,series variable,pct
+desnz_uk_plant_loads_annual,max_load,series variable,MW
+desnz_uk_plant_loads_annual,system_load_factor,series variable,pct
+desnz_uk_plant_loads_annual,thermal_efficiency,series variable,pct
 desnz_uk_power_stations,entity_id,column,
 desnz_uk_power_stations,entity_type,column,
 desnz_uk_power_stations,name,column,

@@ -86,10 +86,13 @@ desnz_gb_regional_consumption_annual,UK Department for Energy Security and Net Z
 desnz_gb_regional_gas_consumption_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_regional_renewable_capacity_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_regional_renewables_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_uk_co2_intensity_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_uk_derated_capacity_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_electricity_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_gas_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_interconnector_flows_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_nations_electricity_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_uk_plant_loads_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_power_stations,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_renewables_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_storage_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
