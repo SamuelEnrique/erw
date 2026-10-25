@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^desnz_regional_renewable_capacity_annual$", "power"),  # session 2692: DESNZ's installed renewable capacity by UK region and technology (OGL v3.0)
     (r"^desnz_regional_renewables_annual$", "power"),  # session 2684: DESNZ's renewable generation by UK region and technology (OGL v3.0)
     (r"^bchydro_ba_load_hourly$", "power"),  # session 2679: BC Hydro's balancing authority load an hour (internal)
     (r"^desnz_uk_nations_electricity_annual$", "power"),  # session 2678: DESNZ's electricity generation and supply for each UK nation (OGL v3.0)
