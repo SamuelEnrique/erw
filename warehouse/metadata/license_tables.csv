@@ -591,6 +591,7 @@ uspvdb_solar_facilities,U.S. Geological Survey (USGS),the source registry
 uswtdb_wind_turbines,U.S. Geological Survey (USGS),the source registry
 utility_service_territories,EIA,the source registry
 vmme_paraguay_electricity_annual,"Viceministerio de Minas y Energia (VMME), Paraguay",the source registry
+wapa_energy_sales_annual,Western Area Power Administration (WAPA),the source registry
 wb_commodity_prices_monthly,World Bank,the source registry
 wb_electricity_access_annual,World Bank,the source registry
 wb_iea_electricity_annual,IEA (standalone datasets),the source registry

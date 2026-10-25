@@ -8743,6 +8743,8 @@ utility_service_territories,x_county,column,
 utility_service_territories,x_short_form,column,
 utility_service_territories,x_data_year,column,
 utility_service_territories,x_sheet,column,
+wapa_energy_sales_annual,energy_sold,series variable,MWh
+wapa_energy_sales_annual,power_rate,series variable,USD/MWh
 wb_commodity_prices_monthly,price,series variable,USD/MMBtu
 wb_commodity_prices_monthly,price,series variable,USD/bbl
 wb_commodity_prices_monthly,price,series variable,USD/t
