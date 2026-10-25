@@ -1,5 +1,6 @@
 table,publishers,how
 abs_suriname_electricity_annual,Algemeen Bureau voor de Statistiek in Suriname (ABS),the source registry
+aedg_alaska_generation_monthly,"Alaska Energy Data Gateway (ACEP, University of Alaska Fairbanks)",the source registry
 aeso_alberta_load_hourly,"Alberta Electric System Operator (AESO), Canada",the source registry
 afdc_ev_charging_state_annual,U.S. Department of Energy (DOE),the source registry
 afdc_station_counts_annual,U.S. Department of Energy (DOE),the source registry

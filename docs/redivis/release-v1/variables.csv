@@ -5,6 +5,7 @@ abs_suriname_electricity_annual,generation,series variable,MWh
 abs_suriname_electricity_annual,installed_capacity,series variable,MW
 abs_suriname_electricity_annual,net_consumption,series variable,MWh
 abs_suriname_electricity_annual,net_generation,series variable,MWh
+aedg_alaska_generation_monthly,generation,series variable,MWh
 aeso_alberta_load_hourly,ail_demand,series variable,MW
 afdc_ev_charging_state_annual,ev_dcfast_ports,series variable,count
 afdc_ev_charging_state_annual,ev_level1_ports,series variable,count
