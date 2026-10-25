@@ -484,6 +484,7 @@ onrr_production_annual,onrr,,735,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,1
 onrr_production_monthly,onrr,,8,P1M,2003-01-01T00:00:00Z,2026-07-01T00:00:00Z,2264,onrr:revenue_data,2026-10-23T12:15:59Z,pass,public,oil;gas;coal,no,source
 onrr_revenue_monthly,onrr,,5030,P1M,2003-01-01T00:00:00Z,2026-08-01T00:00:00Z,413554,onrr:revenue_data,2026-10-23T12:16:18Z,pass,public,oil;gas;coal,no,source
 ons_brazil_balance_hourly,ons,,5,PT1H,2020-01-01T03:00:00Z,2026-10-23T02:00:00Z,1790640,ons:balanco_energia_subsistema,2026-10-24T03:28:31Z,pass,public,power,no,source
+ope_pf_electricity_annual,ope,,4,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,52,sde_pf:bilan_energetique_2024,2026-10-25T05:24:58Z,pass,internal,power,no,source
 ornl_eha_hydropower_plants,ornl,,2257,snapshot,2026-10-23T08:09:05Z,2026-10-23T08:09:05Z,2257,ornl:eha_plant,2026-10-23T08:11:07Z,pass,public,power,no,source
 ornl_eha_hydropower_units,ornl,,5362,snapshot,2026-10-23T11:18:37Z,2026-10-23T11:18:37Z,5362,ornl:eha_unit,2026-10-23T11:19:46Z,pass,public,power,no,source
 ornl_hydropower_pipeline,ornl,,196,snapshot,2026-10-23T08:33:21Z,2026-10-23T08:33:21Z,196,ornl:hydro_pipeline,2026-10-23T08:35:11Z,pass,public,power,no,source

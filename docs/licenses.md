@@ -10,8 +10,8 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **571 tables.** The flag and the verdict agree on 461; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 416 public, 105 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **572 tables.** The flag and the verdict agree on 462; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 416 public, 106 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **1215 publishers in the record: 1213 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 271 pages read, 942 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -1952,6 +1952,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `onrr_production_monthly` | U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR) | may be public |  |  | public | agrees | may be public | public |
 | `onrr_revenue_monthly` | U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR) | may be public |  |  | public | agrees | may be public | public |
 | `ons_brazil_balance_hourly` | Operador Nacional do Sistema Eletrico (ONS) | may be public |  |  | public | agrees | may be public | public |
+| `ope_pf_electricity_annual` | Government of French Polynesia (Direction Polynesienne de l'Energie) | needs written permission | Government of French Polynesia (Direction Polynesienne de l'Energie) |  | internal | agrees | needs written permission | internal |
 | `ornl_eha_hydropower_plants` | Oak Ridge National Laboratory (ORNL), HydroSource | may be public |  |  | public | agrees | may be public | public |
 | `ornl_eha_hydropower_units` | Oak Ridge National Laboratory (ORNL), HydroSource | may be public |  |  | public | agrees | may be public | public |
 | `ornl_hydropower_pipeline` | Oak Ridge National Laboratory (ORNL), HydroSource | may be public |  |  | public | agrees | may be public | public |
@@ -2237,6 +2238,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Maldives Bureau of Statistics (NBS)** (1 tables). Write to: info@stats.gov.mv (the site's footer). Tables: `nbs_maldives_electricity`.
 - **National Statistical Institute, Bulgaria (NSI)** (1 tables). Write to: no person or address on the page read. Tables: `nsi_bulgaria_electricity_monthly`.
 - **National Statistical Office of Malawi (NSO)** (1 tables). Write to: no person or address on the page read. Tables: `nso_malawi_electricity_sales_annual`.
+- **Government of French Polynesia (Direction Polynesienne de l'Energie)** (1 tables). Write to: no person or address on the page read. Tables: `ope_pf_electricity_annual`.
 - **Samoa Bureau of Statistics (SBS)** (1 tables). Write to: info.stats@sbs.gov.ws (the site's header). Tables: `sbs_samoa_electricity_annual`.
 - **Solomon Islands Electricity Authority (Solomon Power)** (1 tables). Write to: no person or address on the page read. Tables: `siea_solomon_electricity_annual`.
 - **St. Lucia Electricity Services Limited (LUCELEC)** (1 tables). Write to: no person or address on the page read. Tables: `slu_cso_electricity_annual`.
