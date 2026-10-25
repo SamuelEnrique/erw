@@ -61,6 +61,7 @@ cer_electricity_trade,public,,,,Canada Energy Regulator (CER),"Public: every pub
 cer_gas_trade,public,,,,Canada Energy Regulator (CER),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cer_pipeline_throughput,public,,,,"Canada Energy Regulator (CER), Open Government Licence - Canada","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cftc_cot_positions,public,,,,CFTC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+cisos_cook_electricity_quarterly,internal,,,Cook Islands Statistics Office,Cook Islands Statistics Office,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 clean_energy_hourly,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 clean_energy_summary,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 cost_of_power_carbon,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
@@ -254,6 +255,7 @@ eia_world_oil_gas_annual,public,,,,EIA,"Public: every publisher's terms the ERW 
 eia_world_oil_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 elexon_gb_demand_daily,public,,,,Elexon Limited (BMRS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 emi_nz_generation_demand_monthly,public,,,,Electricity Authority (New Zealand),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+enercal_nc_electricity_annual,internal,,,Enercal,Enercal,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 energinet_dk_production_hourly,public,,,,Energinet (Energi Data Service),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 energy_charts_belgium_hourly,public,,,,Energy-Charts.info (Fraunhofer ISE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 energy_charts_central_europe,public,,,,Energy-Charts.info (Fraunhofer ISE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -482,6 +484,7 @@ onrr_production_annual,public,,,,"U.S. Department of the Interior, Office of Nat
 onrr_production_monthly,public,,,,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 onrr_revenue_monthly,public,,,,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ons_brazil_balance_hourly,public,,,,Operador Nacional do Sistema Eletrico (ONS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+ope_pf_electricity_annual,internal,,,Government of French Polynesia (Direction Polynesienne de l'Energie),Government of French Polynesia (Direction Polynesienne de l'Energie),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 ornl_eha_hydropower_plants,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_eha_hydropower_units,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_hydropower_pipeline,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -511,6 +514,7 @@ scarcity_hours_by_grid,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,C
 scb_sweden_electricity_monthly,public,,,,Statistics Sweden (SCB),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 scripps_co2_mlo_monthly,public,,,,"Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 shoulder_hours_monthly,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+siea_solomon_electricity_annual,internal,,,Solomon Islands Electricity Authority (Solomon Power),Solomon Islands Electricity Authority (Solomon Power),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 singstat_singapore_electricity,public,,,,Singapore Department of Statistics (SingStat),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 slu_cso_electricity_annual,internal,,,St. Lucia Electricity Services Limited (LUCELEC),Central Statistical Office of Saint Lucia (CSO); St. Lucia Electricity Services Limited (LUCELEC),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 smard_germany_monthly,public,,,,Bundesnetzagentur (SMARD),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none

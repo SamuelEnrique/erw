@@ -61,6 +61,7 @@ cer_electricity_trade,cer,,94,P1M;P1Y,2010-01-01T00:00:00Z,2026-07-01T00:00:00Z,
 cer_gas_trade,cer,,8,P1M,2010-01-01T00:00:00Z,2025-12-01T00:00:00Z,1427,cer:natural_gas_trade_summary,2026-10-23T08:04:30Z,pass,public,gas,no,source
 cer_pipeline_throughput,cer,,44,P1D;P1M,2006-01-01T00:00:00Z,2026-06-30T00:00:00Z,408073,cer:throughput_capacity,2026-10-24T01:01:05Z,blocked (1 errors),public,oil;gas,no,source
 cftc_cot_positions,cftc,nymex,9,P1W,2015-01-06T00:00:00Z,2026-10-20T00:00:00Z,9856,cftc:disaggregated_cot_futures,2026-10-24T15:03:10Z,pass,public,oil;gas;products,no,source
+cisos_cook_electricity_quarterly,cisos,,12,P3M,2014-01-01T00:00:00Z,2025-10-01T00:00:00Z,1049,cisos_ck:energy_statistics_tables_2025q4,2026-10-25T05:01:09Z,pass,internal,power,no,source
 clean_energy_hourly,clean,,7,PT1H,2019-01-01T05:00:00Z,2026-10-19T04:00:00Z,473781,erw:clean_energy,2026-10-19T17:27:23Z,pass,public,power;carbon,yes,derived
 clean_energy_summary,clean,,7,P1M;P1Y,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,27531,erw:clean_energy,2026-10-19T17:27:23Z,pass,public,power;carbon,yes,derived
 cost_of_power_carbon,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,7,P1M,2018-07-01T00:00:00Z,2026-10-01T00:00:00Z,712,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power;carbon,yes,derived
@@ -254,6 +255,7 @@ eia_world_oil_gas_annual,none,,6992,P1Y,1973-01-01T00:00:00Z,2025-01-01T00:00:00
 eia_world_oil_monthly,none,,1507,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,541215,eia:international_bulk,2026-10-23T10:10:51Z,pass,public,oil,no,source
 elexon_gb_demand_daily,elexon,,1,P1D,2021-04-27T00:00:00Z,2026-10-23T00:00:00Z,1932,elexon:indod,2026-10-24T00:21:05Z,pass,public,power,no,source
 emi_nz_generation_demand_monthly,emi,,3,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,846,emi:generation_demand_trends,2026-10-24T03:58:46Z,pass,public,power,no,source
+enercal_nc_electricity_annual,enercal,,26,P1Y,2022-07-01T00:00:00Z,2024-07-01T00:00:00Z,83,enercal_nc:rapport_activite_2024_2025_chiffres_cles,2026-10-25T05:19:11Z,pass,internal,power,no,source
 energinet_dk_production_hourly,energinet,,2,PT1H,2024-12-31T23:00:00Z,2026-10-13T23:00:00Z,607311,energinet:production_consumption_settlement,2026-10-24T02:18:32Z,pass,public,power,no,source
 energy_charts_belgium_hourly,none,,16,PT1H,2019-12-31T23:00:00Z,2026-10-23T21:00:00Z,908600,energy_charts:public_power_be,2026-10-24T04:12:37Z,pass,public,power,no,source
 energy_charts_central_europe,none,,43,PT1H,2022-12-31T23:00:00Z,2026-10-23T21:00:00Z,1419805,energy_charts:public_power_at_ch_cz,2026-10-24T05:29:29Z,pass,public,power,no,source
@@ -482,6 +484,7 @@ onrr_production_annual,onrr,,735,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,1
 onrr_production_monthly,onrr,,8,P1M,2003-01-01T00:00:00Z,2026-07-01T00:00:00Z,2264,onrr:revenue_data,2026-10-23T12:15:59Z,pass,public,oil;gas;coal,no,source
 onrr_revenue_monthly,onrr,,5030,P1M,2003-01-01T00:00:00Z,2026-08-01T00:00:00Z,413554,onrr:revenue_data,2026-10-23T12:16:18Z,pass,public,oil;gas;coal,no,source
 ons_brazil_balance_hourly,ons,,5,PT1H,2020-01-01T03:00:00Z,2026-10-23T02:00:00Z,1790640,ons:balanco_energia_subsistema,2026-10-24T03:28:31Z,pass,public,power,no,source
+ope_pf_electricity_annual,ope,,4,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,52,sde_pf:bilan_energetique_2024,2026-10-25T05:24:58Z,pass,internal,power,no,source
 ornl_eha_hydropower_plants,ornl,,2257,snapshot,2026-10-23T08:09:05Z,2026-10-23T08:09:05Z,2257,ornl:eha_plant,2026-10-23T08:11:07Z,pass,public,power,no,source
 ornl_eha_hydropower_units,ornl,,5362,snapshot,2026-10-23T11:18:37Z,2026-10-23T11:18:37Z,5362,ornl:eha_unit,2026-10-23T11:19:46Z,pass,public,power,no,source
 ornl_hydropower_pipeline,ornl,,196,snapshot,2026-10-23T08:33:21Z,2026-10-23T08:33:21Z,196,ornl:hydro_pipeline,2026-10-23T08:35:11Z,pass,public,power,no,source
@@ -511,6 +514,7 @@ scarcity_hours_by_grid,scarcity,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm,2,PT1H,2
 scb_sweden_electricity_monthly,scb,,11,P1M,1974-01-01T00:00:00Z,2026-08-01T00:00:00Z,6059,scb:TAB1011,2026-10-24T03:01:41Z,pass,public,power,no,source
 scripps_co2_mlo_monthly,scripps,,1,P1M,1958-03-01T00:00:00Z,2026-09-01T00:00:00Z,1636,scripps:co2_mlo_monthly,2026-10-23T23:42:11Z,pass,public,carbon,no,source
 shoulder_hours_monthly,CAISO;ERCOT,,3,P1D;P1M;P1Y,2019-01-01T00:00:00Z,2026-10-06T00:00:00Z,27197,erw:shoulder_hours,2026-10-19T11:43:46Z,pass,public,power,yes,derived
+siea_solomon_electricity_annual,siea,,6,P1Y,2017-01-01T00:00:00Z,2025-01-01T00:00:00Z,49,siea_sb:annual_report_2025_energy_produced,2026-10-25T04:52:48Z,pass,internal,power,no,source
 singstat_singapore_electricity,singstat,,18,P1M;P1Y,1975-01-01T00:00:00Z,2026-06-01T00:00:00Z,1009,singstat:M890831_M890841,2026-10-24T21:29:00Z,pass,public,power,no,source
 slu_cso_electricity_annual,slu,,11,P1Y,2010-01-01T00:00:00Z,2023-01-01T00:00:00Z,139,slu_cso:electricity_output_consumption,2026-10-24T16:30:01Z,pass,internal,power,no,source
 smard_germany_monthly,smard,,13,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,1800,smard:market_data_month,2026-10-24T02:46:34Z,pass,public,power,no,source
