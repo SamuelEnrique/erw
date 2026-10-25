@@ -1,6 +1,6 @@
 # Session 2569 report: method notes for chain 126's six tables, and the Stanford draft of its three public tables
 
-25 October 2026, about 01:05 to 01:25 UTC, on lab-desktop (the data machine), chain 126, unattended. Precheck passed (`runs/c126/pre2568.out`, on duty to 16:18 UTC). Model spend USD 0. Pulls: 86 Redivis requests of 150, and 1 to Supabase; none to a publisher.
+25 October 2026, about 01:05 to 01:25 UTC, on lab-desktop (the data machine), chain 126, unattended. Precheck: not run at the start (an omission; session 2568's had passed at 01:05); run at the end, 01:24 UTC, it passed (`runs/c126/pre2569.out`). Model spend USD 0. Pulls: 86 Redivis requests of 150, and 1 to Supabase; none to a publisher.
 
 ## Read these first
 
