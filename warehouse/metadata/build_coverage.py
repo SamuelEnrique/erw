@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^siea_solomon_electricity_annual$", "power"),  # session 2602: Solomon Power's Annual Report 2025, Energy Produced, the Solomon Islands' production by station
     (r"^je_jersey_electricity_annual$", "power"),  # session 2594: the Government of Jersey's Energy Trends 2025, the electricity column of its energy balances
     (r"^cbs_curacao_electricity_annual$", "power"),  # session 2591: CBS Curacao's Manufacturing page, Curacao's electricity production (Aqualectra)
     (r"^dbedt_hawaii_electricity_annual$", "power"),  # session 2580: DBEDT's State of Hawaii Data Book 2025, tables 17.07, 17.10 and 17.13, Hawaii's electricity by island
