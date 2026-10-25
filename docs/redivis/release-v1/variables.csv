@@ -737,6 +737,8 @@ desnz_gb_regional_gas_consumption_annual,meters,series variable,count
 desnz_regional_renewable_capacity_annual,capacity,series variable,MW
 desnz_regional_renewables_annual,generation,series variable,MWh
 desnz_uk_co2_intensity_annual,co2_intensity,series variable,kgCO2/MWh
+desnz_uk_derated_capacity_annual,derated_capacity,series variable,MW
+desnz_uk_derated_capacity_annual,thermal_capacity,series variable,MW
 desnz_uk_electricity_quarterly,generated,series variable,MWh
 desnz_uk_electricity_quarterly,supplied,series variable,MWh
 desnz_uk_gas_quarterly,domestic,series variable,MWh
