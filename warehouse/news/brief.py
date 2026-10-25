@@ -1335,7 +1335,7 @@ def above_fold_words(md):
     for ln in md.splitlines():
         t = ln.strip()
         if t.startswith("## "):
-            skip = t in (FOLD_HEADING, "## The numbers")
+            skip = t in (FOLD_HEADING, "## The numbers", "## The week in five numbers")   # 2704: the Roundup's block too
             continue
         if t in ("ERW", "---") or t.startswith("[How this is made.]"):   # the footer (the stamp line also begins "ERW's")
             break

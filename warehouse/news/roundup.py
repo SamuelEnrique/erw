@@ -220,6 +220,9 @@ def chart_of_the_week(label, log, stories=None):
     L = [f"**{m['title']}** (the rule's pick; no finding was chosen for this week)", "", f"![{m['title']}](../analysis/{label}/{m['files']['email']})", ""]
     if m.get("note"):
         L += [m["note"], ""]
+    h = m.get("headline") or {}
+    if h.get("label") and h.get("value") is not None:   # session 2704: one sentence on what the picture shows
+        L += [f"Reading: the chart shows {h['label']} at {chart_figure(h['value'])} {h.get('unit', '')} in {h.get('period', 'its latest period')}.".replace("  ", " "), ""]
     L.append(f"{m['source_line']} Template `{m['template']}`; every template's latest run is on "
              "[/research](/research).")
     best, same = chart_relevance(m, stories, log)
@@ -498,7 +501,7 @@ def chart_figure(v):
 FIVE_HEADING = "## The week in five numbers"
 
 
-def five_numbers(label, start, cut, facts, log):
+def five_numbers(label, start, cut, facts, log, picked=None):
     """Session 806 (docs/reviews/periodicals-plan-2026-10-23.md, Roundup change 1): the week in five numbers, each
     traced (scripts/check_roundup.py): the week's biggest price move among the main hubs' weekly means (both weeks
     complete, not held, not paused) and EIA's closes a week apart, in percent; the US48 peak with its hour; the week's
@@ -512,16 +515,18 @@ def five_numbers(label, start, cut, facts, log):
     for h in facts.get("dam", []):
         mv = brief.day_move(h["m1"], start, h["m0"], start - pd.Timedelta(days=7))
         if mv["pct"] is not None:
-            moves.append(dict(mv, text=f"{h['label']} {h['node']} day-ahead averaged {h['m1']} USD/MWh over the week, against {h['m0']} USD/MWh "
+            moves.append(dict(mv, label=f"{h['label']} {h['node']} day-ahead", text=f"{h['label']} {h['node']} day-ahead averaged {h['m1']} USD/MWh over the week, against {h['m0']} USD/MWh "
                                        f"the week before ({mv['ch']:+.2f} USD/MWh, {mv['pct']:+.1f}%) {h['ref']}"))
     for f in facts.get("fuel", []):
         mv = brief.day_move(f["a"]["value"], f["a"]["ts_utc"], f["b"]["value"], f["b"]["ts_utc"])
         if mv["pct"] is not None:
-            moves.append(dict(mv, text=f"{f['label']} closed at {f['a']['value']:.2f} {f['a']['unit']} on {f['a']['ts_utc']:%Y-%m-%d}, against "
+            moves.append(dict(mv, label=f["label"], text=f"{f['label']} closed at {f['a']['value']:.2f} {f['a']['unit']} on {f['a']['ts_utc']:%Y-%m-%d}, against "
                                        f"{f['b']['value']:.2f} {f['a']['unit']} on {f['b']['ts_utc']:%Y-%m-%d} ({mv['ch']:+.2f} {f['a']['unit']}, "
                                        f"{mv['pct']:+.1f}%) {f['ref']}"))
+    picked = {} if picked is None else picked   # session 2704: what the opening number chooses from
     if moves:
         best = max(moves, key=lambda m: abs(m["pct"]))
+        picked["move"] = best
         L.append(f"- **Price move of the week:** {best['text']}.")
     else:
         L.append("- **Price move of the week:** no price with a complete week and a week before it is held.")
@@ -529,6 +534,7 @@ def five_numbers(label, start, cut, facts, log):
     if facts.get("us48"):
         top = facts["us48"]["top"]
         L.append(f"- **US48 peak demand:** {top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC {facts['us48']['ref']}.")
+        picked["us48"] = {"text": f"US48 demand peaked at {top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC"}
     else:
         L.append("- **US48 peak demand:** not in the warehouse for this week.")
     # 3. the deal of the week
@@ -545,6 +551,7 @@ def five_numbers(label, start, cut, facts, log):
             who = " and ".join(x for x in (r["buyer"], r["seller"]) if x) or "parties not stated"
             L.append(f"- **Deal of the week, by US dollars:** {usd_words(r['_d'])}, {who}, {r['asset'] or 'asset not stated'} "
                      f"({DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))}, {r['event_date'][:10]}; `energy_deals` {r['event_id']}).")
+            picked["deal"] = {"usd": float(r["_d"]), "text": L[-1].split(":** ", 1)[1].rstrip(".")}
         elif dw["_m"].notna().any():
             r = dw.sort_values(["_m", "event_date"], ascending=[False, True]).iloc[0]
             who = " and ".join(x for x in (r["buyer"], r["seller"]) if x) or "parties not stated"
@@ -566,6 +573,7 @@ def five_numbers(label, start, cut, facts, log):
             place = ", ".join(x for x in (r.get("city", ""), r.get("state", "")) if x) or "place not stated"
             L.append(f"- **Largest new datacenter load first reported this week:** {float(r['_m']):,.0f} MW, {r['operator'] or 'operator not stated'}, "
                      f"{r['site_name'] or 'site not stated'}, {place} (`datacenter_projects` {r['entity_id']}).")
+            picked["dc"] = {"mw": float(r["_m"]), "text": L[-1].split(":** ", 1)[1].rstrip(".")}
         else:
             L.append("- **Largest new datacenter load first reported this week:** no facility first reported this week states its MW.")
     # 5. the chart's figure
@@ -580,6 +588,152 @@ def five_numbers(label, start, cut, facts, log):
         L.append("- **From the chart of the week:** no chart of the week was picked for this week, so no figure.")
     log(f"  five numbers: {len(L)} lines")
     return L
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Session 2704: the Roundup in the brandbook's v2 shape (the owner's rulings of 24 October 2026, queue file 131). The
+# promise: a one-page executive read on the week's most consequential changes, the evidence behind them, and what merits
+# attention next week. The order is fixed: the masthead (with the missed-week line); the opening number; the week in five
+# numbers (session 806, kept); what mattered (three developments); "More" (the weekend's and the week's other stories,
+# the deals and datacenter tables, the policy of the week, the numbers in full); the chart of the week with its reading;
+# next week; the fun fact; the footer.
+# ---------------------------------------------------------------------------------------------------------------------
+V2_TITLE = "ERW Weekly Roundup"
+WHAT_MATTERED_N = 3
+WEEK_MOVE_PCT = 10.0        # a weekly mean (or a close a week apart) that moved this much in percent opens the Roundup
+DEAL_USD_MIN = 1e9          # else a deal of the week of at least USD 1 billion
+DC_MW_MIN = 500             # else a datacenter load first reported this week of at least 500 MW
+NEXT_WEEK_N = 3
+DATE_WORDS = re.compile(r"(January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4})")
+
+
+def opening_number(picked):
+    """The Roundup's opening number: the number that best explains the week, chosen by rule among the week in five
+    numbers (`picked`, as five_numbers fills it), in this order:
+      1. the price move of the week, when it is WEEK_MOVE_PCT percent or more: a move held over a whole week is persistent,
+         market-wide and drawn from the warehouse's own tables (calculated from observed prices);
+      2. else the deal of the week, when it is DEAL_USD_MIN or more: relevance to capital decisions (reported: extracted
+         from the week's stories, every number checked against its story);
+      3. else the largest datacenter load first reported this week, when it is DC_MW_MIN MW or more: relevance to
+         infrastructure (reported, as its stories state it);
+      4. else the US48 peak of the week: system scale (observed, EIA-930).
+    Returns {key, text, status} or None when the week holds none of them."""
+    move, deal, dc, us48 = (picked.get(k) for k in ("move", "deal", "dc", "us48"))
+    if move and abs(float(move["pct"])) >= WEEK_MOVE_PCT:
+        return {"key": "move", "text": move["text"], "status": "calculated from observed prices (the warehouse's tables)", "move": move}
+    if deal and deal.get("usd") and float(deal["usd"]) >= DEAL_USD_MIN:
+        return {"key": "deal", "text": deal["text"], "status": "reported: extracted from the week's stories, every number checked against its story"}
+    if dc and dc.get("mw") and float(dc["mw"]) >= DC_MW_MIN:
+        return {"key": "datacenter", "text": dc["text"], "status": "reported, as its stories state it"}
+    if us48:
+        return {"key": "us48", "text": us48["text"], "status": "observed (EIA-930 hourly demand)"}
+    return None
+
+
+def opening_lines(op):
+    L = ["## The opening number", ""]
+    if op is None:
+        return L + ["The week holds none of the five numbers this section reads.", ""]
+    return L + [f"**{op['text'].rstrip('.')}.** Status: {op['status']}.", ""]
+
+
+def subject_line(op, first_head):
+    """ERW Weekly | <plain description of the week>, with a second clause of one verified metric and unit when the
+    opening number is a warehouse figure (the price move of the week)."""
+    head = brief.nodash(str(first_head or "the week's energy news")).rstrip(".")
+    mv = (op or {}).get("move")
+    return f"ERW Weekly | {head}" + (f"; {mv['label']} {float(mv['pct']):+.1f}% on the week" if mv and mv.get("label") else "")
+
+
+def masthead_lines(label, end, cut, op, first_head, missed):
+    return ([f"# {V2_TITLE}, {label}", "", f"**Week ending {brief.day_words(end - pd.Timedelta(days=1))}.** "
+             f"{brief.cutoff_words(cut).replace('Data through', 'Sources through')}", ""]
+            + ([missed, ""] if missed else [])
+            + [f"<!-- subject: {subject_line(op, first_head)} -->", "", f"<!-- opening: {(op or {}).get('key', '')} -->", ""])
+
+
+def evidence_gap(r):
+    """What the evidence does not establish, from the record alone: the figure is the outlet's, or the stories give none;
+    one outlet so far, or an analysis piece."""
+    fig = brief.story_figure(r)
+    words = [f"The {fig} is the outlet's figure, not a warehouse table's." if fig else "The stories give no figure for it."]
+    lim = brief.limitation(r)
+    if lim:
+        words.append(lim)
+    text = " ".join(words)
+    return "What the evidence does not establish: " + text[0].lower() + text[1:]
+
+
+def next_week(end, log, n=NEXT_WEEK_N):
+    """Dated items of the week after the Roundup's (Monday to Sunday) that the policy monitor holds with a date: the
+    deadlines and next steps its reads quote from the agencies' own text (policy_reads.timeline), most significant first,
+    one line each; [] when none is held. What is scheduled, never a prediction."""
+    reads = read_table("policy_reads")
+    if reads is None:
+        log("  next week: policy_reads is not on this machine")
+        return []
+    lo, hi = end.tz_convert(None).normalize(), end.tz_convert(None).normalize() + pd.Timedelta(days=7)
+    items = []
+    for r in reads.to_dict("records"):
+        text = str(r.get("timeline") or "")
+        for sent in re.split(r"(?<=[a-z0-9]{2}[.;])\s+(?=[A-Z])", text):   # "5:00 p.m. Eastern" is one sentence
+            m = DATE_WORDS.search(sent)
+            if not m:
+                continue
+            day = pd.Timestamp(f"{m.group(1)} {m.group(2)} {m.group(3)}")
+            if lo <= day < hi:
+                try:
+                    sig = int(r.get("significance") or 0)
+                except ValueError:
+                    sig = 0
+                items.append((day, -sig, brief.nodash(str(r.get("title") or "")), str(r.get("agency") or ""), brief.nodash(sent.strip()),
+                              str(r.get("source_url") or "")))
+                break
+    items.sort(key=lambda x: (x[1], x[0], x[2]))
+    out, seen = [], set()
+    for day, _sig, title, agency, sent, url in items:
+        if title in seen:
+            continue
+        seen.add(title)
+        src = f" ([source]({url}))" if url.startswith("http") else ""
+        out.append(f"- **{brief.day_words(day)}**: {title[:TITLE_MAX].rstrip('.')} ({agency}). {sent.rstrip('.')}.{src}")
+        if len(out) >= n:
+            break
+    log(f"  next week: {len(out)} dated item(s) of {len(items)} found in policy_reads")
+    return sorted(out, key=lambda x: pd.Timestamp(re.search(r"\*\*(.+?)\*\*", x).group(1)))
+
+
+NO_NEXT_WEEK = ("No dated events held this week: the warehouse and the policy monitor hold no filing, auction, hearing, data "
+                "release or project milestone dated in the week ahead.")
+
+
+def week_fun_fact(start, cut, log):
+    """The week's fun fact, as the Digest's (session 23): the newest of the week's stored items, re-verified against its
+    stored sources; none when no Digest of the week carried one or it fails."""
+    try:
+        import funfact
+        days = [d for d in pd.date_range(start.tz_convert(None).normalize(), cut.tz_convert(None).normalize(), freq="D")][::-1]
+        for d in days:
+            item = funfact.load_item(f"{d:%Y-%m-%d}")
+            if item is None:
+                continue
+            problems = funfact.verify_item(item)
+            if problems:
+                log(f"  fun fact: {item['fact_id']} failed re-verification ({problems}); the week's next one is tried")
+                continue
+            return ["", "## ERW's Fun Fact", ""] + funfact.item_markdown(item)
+    except Exception as exc:
+        log(f"  fun fact: omitted ({ip.redact(repr(exc))[:200]})")
+    log("  fun fact: none of the week's items passed; section omitted")
+    return []
+
+
+def footer_lines(now, run_id, model):
+    return ["", "ERW", "", "---", "", "[How this is made.](/about#digest)", "",
+            "Corrections: [open an issue](https://github.com/SamuelEnrique/erw/issues). Preferences and topics: [subscribe](/subscribe). "
+            "Every email carries its own unsubscribe link.", "",
+            f"<!-- Generated by warehouse/news/roundup.py at {now:%Y-%m-%d %H:%M} UTC; run log "
+            f"warehouse/output/logs/news_roundup_{run_id}.log; model {model}. -->"]
 
 
 def main(argv=None):
@@ -617,12 +771,17 @@ def main(argv=None):
         wk_start = start + pd.Timedelta(days=5)
         wk_s = s[pd.to_datetime(s["event_date"], utc=True, format="ISO8601") >= wk_start]
         # session 802: one topic, one item, the rest folded under it, for the weekend's three and the five of the week
+        # session 2704 (the v2 order): what mattered first, the week's three most consequential developments (the scorer's
+        # significance, one topic one item); the weekend's three and the week's five are the others, under More
+        mattered, m_folded = brief.one_per_topic(clusters, WHAT_MATTERED_N, log, "what mattered")
+        taken = set(mattered["cluster_id"]) | m_folded
         wk_c = (brief.one_per_event(brief.not_shown_before(brief.build_clusters(wk_s), prev, log, "the previous Roundup"), log)
                 if len(wk_s) else clusters.head(0))
+        wk_c = wk_c[~wk_c["cluster_id"].isin(taken)]
         weekend, wk_folded = brief.one_per_topic(wk_c, WEEKEND_N, log, "the weekend")
-        rest = clusters[~clusters["cluster_id"].isin(set(weekend["cluster_id"]) | wk_folded)]
+        rest = clusters[~clusters["cluster_id"].isin(taken | set(weekend["cluster_id"]) | wk_folded)]
         top5, _ = brief.one_per_topic(rest, 5, log, "the five of the week")
-        shown = pd.concat([weekend, top5]).drop_duplicates("cluster_id")
+        shown = pd.concat([mattered, weekend, top5]).drop_duplicates("cluster_id")
         if args.no_model:
             client, model = None, brief.NO_MODEL
             heads, u, calls = brief.own_titles(shown), brief.SimpleNamespace(input_tokens=0, output_tokens=0), 0
@@ -633,20 +792,20 @@ def main(argv=None):
             heads, u, calls = brief.headlines(client, model, shown, log)
         if set(shown["cluster_id"]) - set(heads):
             raise RuntimeError("headlines missing for some clusters")
-        secs = brief.unique_items({"weekend": weekend, "top": top5}, heads, log)
-        weekend, top5 = secs["weekend"], secs["top"]
+        secs = brief.unique_items({"mattered": mattered, "weekend": weekend, "top": top5}, heads, log)
+        mattered, weekend, top5 = secs["mattered"], secs["weekend"], secs["top"]
         cost = (f"USD {(u.input_tokens * PRICES[model][0] + u.output_tokens * PRICES[model][1]) / 1e6:.4f}"
                 if model in PRICES else "unknown")
         log(f"  headlines from {model}: tokens in {u.input_tokens} out {u.output_tokens}; cost {cost}")
 
         span = (f"{start:%Y-%m-%d} to {(end - pd.Timedelta(days=1)):%Y-%m-%d}" +
                 (f", to {cut:%Y-%m-%d %H:%M} UTC" if partial else ""))
-        L = [f"# ERW's Roundup, {label}", "",
-             # session 21: one sentence (what, the period, the story count); the method is on /about#digest
+        missed = missed_week_line(start)   # session 2702, rulings item 10
+        intro = [  # session 21: one sentence (what, the period, the story count); the method is on /about#digest
              f"ERW's weekly roundup of energy news for {span}, from {len(s)} scored stories.", "",
-             *([missed, ""] if (missed := missed_week_line(start)) else []),   # session 2702, rulings item 10
-             *([brief.NO_MODEL_LINE.replace("Today's", "This week's"), ""] if args.no_model else []),
-             "## Weekend", ""]
+             *([brief.NO_MODEL_LINE.replace("Today's", "This week's"), ""] if args.no_model else [])]
+        # session 2704: the lines below are the fold ("More"); the page's order is assembled after the numbers
+        L = ["### Weekend", ""]
         if weekend.empty:
             L.append(f"- no scored story was published on {wk_start:%Y-%m-%d} or "
                      f"{wk_start + pd.Timedelta(days=1):%Y-%m-%d} (UTC).")
@@ -654,14 +813,14 @@ def main(argv=None):
             L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
                                   brief.why_line(r['why'], heads[r['cluster_id']]), f"Sources: {link_text(r['links'])}")  # 470, 577, 801, 802
-        L += ["", "## The five stories of the week", ""]
+        L += ["", "### The five stories of the week", ""]
         for i, r in enumerate(top5.to_dict("records"), 1):
             # session 21, ruling 4: the sector label, never the significance score
             L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
                                   brief.why_line(r['why'], heads[r['cluster_id']]), f"Sources: {link_text(r['links'])}")
 
-        L += ["", "## Deals of the week", ""]
+        L += ["", "### Deals of the week", ""]
         deals = read_table("energy_deals")
         if deals is None:
             L.append("- energy_deals is not in the warehouse on this machine.")
@@ -687,7 +846,7 @@ def main(argv=None):
                 L.append(floor_note("energy_deals", "deals", shown_d, rest_d, under_d) + " Extracted from the scored stories by "
                          "`warehouse/deals/extract.py`, every number checked against its story.")
 
-        L += ["", "## Datacenter announcements of the week", ""]
+        L += ["", "### Datacenter announcements of the week", ""]
         dc = read_table("datacenter_projects")
         if dc is None:
             L.append("- datacenter_projects is not in the warehouse on this machine.")
@@ -712,22 +871,37 @@ def main(argv=None):
                 L.append(floor_note("datacenter_projects", "facilities", shown_c, rest_c, under_c)
                          + " `warehouse/datacenters/extract.py`, every field only as its story states it.")
 
-        L += ["", "## ERW's Policy of the Week", ""] + policy_section(policy_of_the_week(start, cut, log), L, log)
-        facts = {}
+        L += ["", "### ERW's Policy of the Week", ""] + policy_section(policy_of_the_week(start, cut, log), L, log)
+        facts, picked = {}, {}
         nums = numbers(start, cut, log, facts)
-        # session 806: the week in five numbers opens the Roundup, after the line under the title
-        at = L.index("## Weekend")
-        L[at:at] = [FIVE_HEADING, ""] + five_numbers(label, start, cut, facts, log) + [""]
+        five = five_numbers(label, start, cut, facts, log, picked)   # session 806, kept; session 2704: what the opening reads
         summary, su = (None, []) if args.no_model else brief.numbers_summary(client, model, nums, log)
         if model in PRICES:
             scost = sum(x.input_tokens * PRICES[model][0] + x.output_tokens * PRICES[model][1] for x in su) / 1e6
             log(f"  numbers summary: {len(su)} call(s), cost USD {scost:.4f}")
             cost = f"{cost} + summary USD {scost:.4f}"
-        L += ["", "## ERW's Numbers This Week", ""] + ([summary, ""] if summary else []) + nums
-        L += ["", "## ERW's Chart of the Week", ""] + chart_of_the_week(label, log, stories=shown.to_dict("records"))  # 806: the week's stories
-        L += ["", "ERW", "", "---", "", "[How this is made.](/about#digest)", "",  # session 25: signed ERW
-              f"<!-- Generated by warehouse/news/roundup.py at {now:%Y-%m-%d %H:%M} UTC; run log "
-              f"warehouse/output/logs/news_roundup_{run_id}.log; model {model}. -->"]
+        L += ["", "### ERW's Numbers This Week", ""] + ([summary, ""] if summary else []) + nums
+        # session 2704: the v2 order. The masthead (with the missed week), the opening number, the week in five numbers,
+        # what mattered, the fold, the chart of the week, next week, the fun fact, the footer
+        op = opening_number(picked)
+        log(f"  opening number: {(op or {}).get('key', 'none')}")
+        recs = mattered.to_dict("records")
+        W = ["## What mattered", ""]
+        if not recs:
+            W.append("- no scored story of the week to rank.")
+        for i, r in enumerate(recs, 1):
+            W += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+                                  f"{'story' if r['n'] == 1 else 'stories'})  ",
+                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r)) if x),
+                                  f"Sources: {link_text(r['links'])}")
+        nxt = next_week(end, log)
+        L = (masthead_lines(label, end, cut, op, heads[recs[0]["cluster_id"]] if recs else "", missed) + intro + opening_lines(op)
+             + [FIVE_HEADING, ""] + five + [""] + W + ["", brief.FOLD_HEADING, ""] + L
+             + ["", "## ERW's Chart of the Week", ""] + chart_of_the_week(label, log, stories=shown.to_dict("records"))  # 806: the week's stories
+             + ["", "## Next week", ""] + (nxt or [NO_NEXT_WEEK])
+             + week_fun_fact(start, cut, log)
+             + footer_lines(now, run_id, model))   # session 25: signed ERW; session 2704: corrections, preferences, unsubscribe
+        log(f"  words of prose above the fold: {brief.above_fold_words(chr(10).join(L))}")
         path = os.path.abspath(args.out) if args.out else os.path.join(ROUNDUP_DIR, f"{label}.md")
         os.makedirs(os.path.dirname(path), exist_ok=True)
         L = brief.drop_repeated_items(L, log)  # session 470: a repeat is dropped and named, not the Roundup
