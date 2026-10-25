@@ -417,6 +417,7 @@ catalogue_hold:
   - eia_gas_other_uses_state_annual
   - elexon_gb_demand_daily
   - energinet_dk_production_hourly
+  - desnz_gb_regional_consumption_annual
   - desnz_regional_renewable_capacity_annual
   - desnz_regional_renewables_annual
   - bchydro_ba_load_hourly
