@@ -1,5 +1,6 @@
 table,iso,market,n_nodes,interval,ts_min,ts_max,n_rows,source_report,last_run,validator_status,license,sector,derived,tier
 abs_suriname_electricity_annual,abs,,12,P1Y,2019-01-01T00:00:00Z,2023-01-01T00:00:00Z,56,abs_sr:milieustatistieken_2024_tables_7_1_7_4_7_8_7_9,2026-10-25T00:35:17Z,pass,public,power,no,source
+aedg_alaska_generation_monthly,aedg,,175,P1M,2001-01-01T00:00:00Z,2021-12-01T00:00:00Z,51061,aedg_ak:public_monthly_generation_v3,2026-10-25T10:39:39Z,pass,public,power,no,source
 aeso_alberta_load_hourly,aeso,,1,PT1H,2025-01-01T07:00:00Z,2026-10-23T19:00:00Z,15853,aeso:historical_pool_price,2026-10-23T20:11:37Z,pass,public,power,no,source
 afdc_ev_charging_state_annual,afdc,,51,P1Y,2014-01-01T00:00:00Z,2025-01-01T00:00:00Z,3060,afdc:historical_station_counts,2026-10-24T00:02:46Z,pass,public,power,no,source
 afdc_station_counts_annual,afdc,,21,P1Y,2007-01-01T00:00:00Z,2025-01-01T00:00:00Z,13520,doe:afdc_station_counts,2026-10-24T00:17:41Z,pass,public,power,no,source
@@ -13,6 +14,7 @@ arsel_cameroon_electricity_annual,arsel,,22,P1Y,2024-01-01T00:00:00Z,2025-01-01T
 ask_kosovo_electricity_monthly,ask,,13,P1M,2022-01-01T00:00:00Z,2026-07-01T00:00:00Z,715,ask:energy_tab01,2026-10-24T19:23:32Z,pass,internal,power,no,source
 asli_liechtenstein_electricity_annual,asli,,4,P1Y,1985-01-01T00:00:00Z,2025-01-01T00:00:00Z,164,asli_li:energie_2025_tabelle5,2026-10-25T06:52:01Z,pass,public,power,no,source
 asub_aland_electricity_annual,asub,,7,P1Y,1994-01-01T00:00:00Z,2025-01-01T00:00:00Z,190,asub_ax:MI009,2026-10-25T08:56:07Z,pass,public,power,no,source
+asub_aland_electricity_sales_annual,asub,,18,P1Y,1980-01-01T00:00:00Z,2025-01-01T00:00:00Z,603,asub_ax:MI010,2026-10-25T10:47:43Z,pass,public,power,no,source
 ba_supply_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,473,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,158503,erw:ba_supply,2026-10-02T23:03:48Z,pass,public,power,yes,derived
 battery_sourced_ranges,battery,,18,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,90,nlr:atb-2025-v1,2026-10-19T12:40:18Z,pass,public,power,no,source
 battery_stack_monthly,CAISO;ERCOT,caiso;ercot,2,P1M,2018-01-01T00:00:00Z,2026-10-01T00:00:00Z,11556,erw:battery_stack,2026-10-24T15:12:22Z,pass,public,power,yes,derived
@@ -66,6 +68,7 @@ cftc_cot_positions,cftc,nymex,9,P1W,2015-01-06T00:00:00Z,2026-10-20T00:00:00Z,98
 cisos_cook_electricity_quarterly,cisos,,12,P3M,2014-01-01T00:00:00Z,2025-10-01T00:00:00Z,1049,cisos_ck:energy_statistics_tables_2025q4,2026-10-25T05:01:09Z,pass,internal,power,no,source
 clean_energy_hourly,clean,,7,PT1H,2019-01-01T05:00:00Z,2026-10-19T04:00:00Z,473781,erw:clean_energy,2026-10-19T17:27:23Z,pass,public,power;carbon,yes,derived
 clean_energy_summary,clean,,7,P1M;P1Y,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,27531,erw:clean_energy,2026-10-19T17:27:23Z,pass,public,power;carbon,yes,derived
+cosit_iraq_electricity_annual,cosit,,14,P1Y,2021-01-01T00:00:00Z,2024-01-01T00:00:00Z,56,cosit_iq:electricity_projects_2024_tables_1_3,2026-10-25T10:20:43Z,pass,internal,power,no,source
 cost_of_power_carbon,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,7,P1M,2018-07-01T00:00:00Z,2026-10-01T00:00:00Z,712,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power;carbon,yes,derived
 cost_of_power_hourly_profile,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,7,P1M,2025-10-01T00:00:00Z,2026-10-01T00:00:00Z,4368,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power,yes,derived
 cost_of_power_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,7,P1M,2018-07-01T00:00:00Z,2026-10-01T00:00:00Z,2304,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power,yes,derived
@@ -532,6 +535,8 @@ spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-10-23T00:00:00Z,38448
 spp_dam_cleared_energy,SPP,spp_dam,1,PT1H,2025-09-01T05:00:00Z,2026-10-25T04:00:00Z,15024,spp:DA-MC:cleared,2026-10-24T15:04:27Z,pass,public,power,no,source
 spp_interconnection_queue,SPP,,3078,snapshot,2026-10-19T16:08:11Z,2026-10-19T20:31:58Z,3078,spp:interconnection_queue,2026-10-19T20:31:01Z,pass,public,power,no,source
 ssb_norway_electricity_monthly,ssb,,26,P1M,1993-01-01T00:00:00Z,2026-09-01T00:00:00Z,5550,ssb:14091,2026-10-24T02:39:26Z,pass,public,power,no,source
+stat_kz_kazakhstan_electricity_annual,stat,,35,P1Y,2022-01-01T00:00:00Z,2025-01-01T00:00:00Z,84,stat_kz:fuel_energy_balance_physical,2026-10-25T10:30:39Z,pass,public,power,no,source
+stat_tj_tajikistan_electricity_annual,stat,,14,P1Y,1991-01-01T00:00:00Z,2025-01-01T00:00:00Z,475,stat_tj:analytical_table_11,2026-10-25T10:10:39Z,pass,public,power,no,source
 statai_anguilla_electricity_monthly,statai,,1,P1M,1995-01-01T00:00:00Z,2025-12-01T00:00:00Z,372,statai_ai:energy_statistics_table_2_4_2_1,2026-10-25T08:08:27Z,pass,internal,power,no,source
 statbank_moldova_electricity_monthly,statbank,,7,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,980,statbank_md:ENE010100,2026-10-24T09:23:13Z,pass,public,power,no,source
 statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source
