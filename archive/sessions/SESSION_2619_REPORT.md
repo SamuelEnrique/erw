@@ -1,4 +1,4 @@
-# Session 2619 report: Chad's electricity not taken (INSEED's site drawn by script; ARSE gives its energy only as chart labels that disagree with its text)
+# Session 2619 report: Chad's electricity not taken (INSEED's site drawn by script; ARSE gives its energy by year only as chart labels, which cannot be placed in their years)
 
 25 October 2026, about 06:41 to 06:45 UTC, on lab-desktop (the data machine), chain 130, unattended. Precheck passed (`runs/c130/pre2619.out`). Model spend USD 0. Pulls: 7 requests of 15 (4 by the probe, 3 fetches).
 
@@ -11,7 +11,7 @@
 - **ARSE, the regulator:**
   - www.arse.td's robots file names `*` with no rule (read 1244). Its media list (read 1245) gives the annual reports for 2021, 2023 and 2024, on arse.td, whose robots file was read first (read 1246).
   - The 2024 report (34 pages, fetched) covers the regulator's activities and gives no production figures.
-  - The 2023 report (45 pages, fetched) gives the energy delivered as chart labels only, and they disagree with its text. The text says 598 GWh was delivered in 2023 and 540 GWh in 2022, and SNE's production fell from 382 to 345 GWh. The chart's labels run 545, 547, 540, 414, 623, 688, 778 and 598, with no reading of which year each belongs to.
+  - The 2023 report (45 pages, fetched) gives the energy delivered by year only as chart labels. Its text names two years: 598 GWh delivered in 2023 and 540 GWh in 2022, and SNE's production falling from 382 to 345 GWh. The chart's labels come out of the PDF in their drawing order (778, 688, 623, 598, 545, 547, 540, 414), so the other years cannot be placed without guessing.
   - Its one table, the available capacity by year (SNE, independent producers and total, 2016 to 2023, in MW), is not the series asked for. Earlier chains took no figures from chart labels (URCA, chain 127).
 - **No verdict:** no terms page was read.
 
@@ -30,7 +30,7 @@ Reads recorded: 1243 to 1246.
 
 ## Decisions made without you
 
-- **Chad not taken:** no figure from charts, from text that disagrees with them, or from the World Bank's copies of ARSE's reports.
+- **Chad not taken:** no figure from chart labels, and none from the World Bank's copies of ARSE's reports. Two years in prose are not a series.
 - **INSEED's API on inseed.ssn-tchad.td not asked:** it is the script's own route, which earlier chains left alone (TEIAS, chain 127).
 
 ## For Samuel's ruling
