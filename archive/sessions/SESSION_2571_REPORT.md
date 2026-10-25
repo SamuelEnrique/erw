@@ -1,6 +1,6 @@
 # Session 2571 report: the package's and the site's records
 
-25 October 2026, about 01:37 to 01:40 UTC, on lab-desktop (the data machine), chain 126, unattended (after session 2572, so that every table of the chain was in). Precheck passed (`runs/c126/pre2571.out`). Model spend USD 0. Pulls: none.
+25 October 2026, about 01:33 to 01:35 UTC, on lab-desktop (the data machine), chain 126, unattended (after session 2572, so that every table of the chain was in). Precheck passed (`runs/c126/pre2571.out`, run at 01:25, before session 2572). Model spend USD 0. Pulls: none.
 
 ## Read these first
 

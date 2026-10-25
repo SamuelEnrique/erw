@@ -1,6 +1,6 @@
 # Session 2572 report: Paraguay's electricity balance, 2023 and 2024 (VMME's Balance Energetico Nacional 2024), internal, a third source of the session's own choosing
 
-25 October 2026, about 01:20 to 01:36 UTC, on lab-desktop (the data machine), chain 126, unattended; run before session 2571, so that the records check covers every table of the chain. Precheck passed (`runs/c126/pre2572.out`). Model spend USD 0. Pulls: 9 requests of 20 (8 by the probe, 1 by the fetch the connector reads offline).
+25 October 2026, about 01:25 to 01:33 UTC, on lab-desktop (the data machine), chain 126, unattended; run before session 2571, so that the records check covers every table of the chain. Precheck passed (`runs/c126/pre2572.out`). Model spend USD 0. Pulls: 9 requests of 20 (8 by the probe, 1 by the fetch the connector reads offline).
 
 ## Read these first
 
