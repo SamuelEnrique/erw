@@ -503,6 +503,7 @@ ren_portugal_balance_annual,ren,,1,P1Y,2020-01-01T00:00:00Z,2025-01-01T00:00:00Z
 rggi_auction_allowance_prices,none,,85,P3M,2008-09-25T00:00:00Z,2026-09-09T00:00:00Z,304,rggi:prices-volumes,2026-10-24T14:47:08Z,pass,internal,carbon,no,source
 rrc_lease_production_monthly,none,,4828,P1M,2024-08-01T00:00:00Z,2026-07-01T00:00:00Z,212252,rrc:pdq_dump,2026-10-01T04:46:13Z,pass,public,oil;gas,no,source
 rte_eco2mix_france_halfhourly,rte,,1,PT30M,2019-12-31T23:00:00Z,2026-08-31T21:30:00Z,1448927,rte:eco2mix_national,2026-10-24T04:08:26Z,pass,public,power,no,source
+sbs_samoa_electricity_annual,sbs,,17,P1Y,2008-01-01T00:00:00Z,2025-01-01T00:00:00Z,288,sbs_ws:electricity_statistics_2025,2026-10-25T02:20:51Z,pass,internal,power,no,source
 scarcity_hours_by_grid,scarcity,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm,2,PT1H,2023-10-01T06:00:00Z,2026-10-01T07:00:00Z,178886,erw:scarcity_hours_by_grid,2026-10-13T18:59:37Z,pass,public,power,yes,derived
 scb_sweden_electricity_monthly,scb,,11,P1M,1974-01-01T00:00:00Z,2026-08-01T00:00:00Z,6059,scb:TAB1011,2026-10-24T03:01:41Z,pass,public,power,no,source
 scripps_co2_mlo_monthly,scripps,,1,P1M,1958-03-01T00:00:00Z,2026-09-01T00:00:00Z,1636,scripps:co2_mlo_monthly,2026-10-23T23:42:11Z,pass,public,carbon,no,source
