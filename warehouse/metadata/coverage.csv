@@ -1,4 +1,5 @@
 table,iso,market,n_nodes,interval,ts_min,ts_max,n_rows,source_report,last_run,validator_status,license,sector,derived,tier
+abs_suriname_electricity_annual,abs,,12,P1Y,2019-01-01T00:00:00Z,2023-01-01T00:00:00Z,56,abs_sr:milieustatistieken_2024_tables_7_1_7_4_7_8_7_9,2026-10-25T00:35:17Z,pass,public,power,no,source
 aeso_alberta_load_hourly,aeso,,1,PT1H,2025-01-01T07:00:00Z,2026-10-23T19:00:00Z,15853,aeso:historical_pool_price,2026-10-23T20:11:37Z,pass,public,power,no,source
 afdc_ev_charging_state_annual,afdc,,51,P1Y,2014-01-01T00:00:00Z,2025-01-01T00:00:00Z,3060,afdc:historical_station_counts,2026-10-24T00:02:46Z,pass,public,power,no,source
 afdc_station_counts_annual,afdc,,21,P1Y,2007-01-01T00:00:00Z,2025-01-01T00:00:00Z,13520,doe:afdc_station_counts,2026-10-24T00:17:41Z,pass,public,power,no,source
