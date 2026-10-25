@@ -66,6 +66,9 @@ MAX_FLAGS, MAX_WATCH = 25, 12           # the candidates published a day
 # later day): if the scan raises it again it may be shown then. A jump that large is as often a unit, a revision or a
 # missing month as a record (13 October 2026 showed one 34 percent past the old record, 7 October's proof one 103).
 RECORD_JUMP = 0.25
+# Session 2701 (rulings item 6(b), the default of 24 October 2026): no scanner flag weaker than this many robust standard
+# deviations past its threshold is the chart of the day (the weakest shown before the ruling was 1.01)
+STRENGTH_FLOOR = 1.5
 HELD_FILE = "held.json"
 WATCH_MAX_AGE = {"week": 14, "month": 100}   # days since the period ended: older is not "the latest period"
 # Roadmap, Rulings, 12 October 2026: "NYISO and SPP tables stay held until their licenses are answered." Their tables and
@@ -560,17 +563,28 @@ def ranked(candidates, stories):
     return flags, watch_c
 
 
-def choose(candidates, used, day=None, waited=None, stories=None):
+def choose(candidates, used, day=None, waited=None, stories=None, dismissed=None):
     """(candidate, why) by the rule: among the candidates most related to the day's top stories (session 805, when
     `stories` is given), the strongest scanner flag not shown before; else the watch list's largest change not shown
     before; else (None, the reason). The same day's own file never blocks its choice (a rerun).
     Session 267: a record more than 25 percent past the old one is passed over unless its key is in `waited` (held on
-    an earlier run: held_before); the why says how many were held."""
+    an earlier run: held_before); the why says how many were held.
+    Session 2701 (rulings item 6, the 24-hour defaults): (b) a flag under STRENGTH_FLOOR is never the chart; (c) a flag
+    whose draft a check or a person dismissed (`dismissed`: the draft ids, dismissed_keys) is never the chart. The why
+    says how many each rule passed over."""
     waited = set() if waited is None else set(waited)
+    dismissed = set() if dismissed is None else set(dismissed)
     flags, watch_c = ranked(list(candidates), stories)
+    weak = [c for c in flags if float(c["flag"].get("strength", 0)) < STRENGTH_FLOOR]
+    out = [c for c in flags if c["key"] in dismissed]
+    flags = [c for c in flags if c not in weak and c not in out]
     held = [c["key"] for c in flags if c["key"] not in used and must_wait(c, waited)]
     note = (f"; {len(held)} record(s) more than {round(100 * RECORD_JUMP)} percent past the old one held a day by the guard"
             if held else "")
+    if weak:
+        note += f"; {len(weak)} flag(s) under the floor of {STRENGTH_FLOOR} robust standard deviations passed over"
+    if out:
+        note += f"; {len(out)} flag(s) whose draft was dismissed passed over"
 
     def related(c):
         score, title, shared = c.get("_relevance", (0, "", []))
@@ -590,6 +604,34 @@ def choose(candidates, used, day=None, waited=None, stories=None):
     return None, (("the scanner flagged nothing and the watch list has no change" if not candidates
                    else f"every candidate ({len(flags)} flag(s), {len(watch_c)} watch change(s)) was shown in an earlier Digest or held")
                   + note)
+
+
+def dismissed_keys(log=print, get=None):
+    """Session 2701 (rulings item 6(c)): the ids of the scanner's drafts a check or a person dismissed
+    (public.scanner_drafts, state dismissed), read with the service role as roundup_pick reads the review list; an empty
+    set, said in the log, when this machine has no key or the read fails (the chart is then chosen without the rule)."""
+    import urllib.parse
+    sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+    try:
+        import lock
+        import requests
+    except ImportError:
+        return set()
+    url, key = lock.env("SUPABASE_URL"), lock.env("SUPABASE_SERVICE_KEY")
+    if not url or not key:
+        log("  daily chart: no service key on this machine; dismissed drafts not read")
+        return set()
+    u = urllib.parse.urlparse(url)
+    try:
+        r = (get or requests.get)(f"{u.scheme}://{u.netloc}/rest/v1/scanner_drafts", params={"state": "eq.dismissed", "select": "id"},
+                                  headers={"apikey": key, "Authorization": f"Bearer {key}"}, timeout=30)
+        if r.status_code != 200:
+            log(f"  daily chart: the review list answered HTTP {r.status_code}; dismissed drafts not read")
+            return set()
+        return {str(x["id"]) for x in r.json() if x.get("id")}
+    except Exception as exc:
+        log(f"  daily chart: dismissed drafts not read ({type(exc).__name__}: {str(exc)[:120]})")
+        return set()
 
 
 def how_words(c):
@@ -661,7 +703,7 @@ def markdown(day, c):
 
 
 def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candidates=None, proof=False, used=None, waited=None,
-            stories=None):
+            stories=None, dismissed=None):
     """The Digest's section for `day`: [] when there is nothing to show (the reason is logged). Writes the picture and
     the record of the choice. candidates: given (a test, a proof) instead of read. waited: the keys the guard held on an
     earlier run (session 267; by default read from chart_dir's held.json); the records it holds now are written there.
@@ -681,7 +723,10 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
         used = (used_keys(chart_dir, but=day) if used is None else set(used))   # a rerun of the day chooses as it did the first time
         own = os.path.join(chart_dir, f"{day}.json")
         waited = held_before(day, chart_dir) if waited is None else set(waited)
-        c, why = choose(candidates, used, day, waited, stories)
+        # session 2701 (rulings item 6(c)): the dismissed drafts, read with the candidates (given candidates, a test or a
+        # proof, read nothing of the network)
+        dismissed = (dismissed_keys(log) if why_source != "given" else set()) if dismissed is None else set(dismissed)
+        c, why = choose(candidates, used, day, waited, stories, dismissed)
         for k in ([] if proof else keep_held(day, candidates, used, waited, chart_dir)):   # a proof holds nothing
             log(f"  daily chart: {k} held a day (a record more than {round(100 * RECORD_JUMP)} percent past the old one)")
         if c is None:

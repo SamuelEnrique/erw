@@ -25,14 +25,15 @@ def flag(key, table, entity, fact, strength, rule="record", value=100.0, old=95.
             "flag": {"id": key, "rule": rule, "strength": strength, "value": value, "compared": {"old_record": old}}, "card": {"title": "T"}}
 
 
+# session 2701 (rulings item 6(b)): the strengths raised over the floor of 1.5, their order kept
 IOWA = flag("iowa", "eia_retail_electricity_prices", "eia:retail_price:IA:IND",
-            "Retail electricity price in Iowa, industrial: USD 99.90 per MWh in July 2026, the highest monthly value held since January 2001.", 0.80)
+            "Retail electricity price in Iowa, industrial: USD 99.90 per MWh in July 2026, the highest monthly value held since January 2001.", 1.60)
 UTAH = flag("utah", "eia_retail_sales_monthly", "eia:retail_sales:UT:RES",
-            "Retail electricity sales in Utah, residential: 1,658,263 MWh in July 2026, the highest monthly value held since January 2001.", 1.01)
+            "Retail electricity sales in Utah, residential: 1,658,263 MWh in July 2026, the highest monthly value held since January 2001.", 1.70)
 WYO = flag("wyo", "eia_state_generation_monthly", "eia:generation:WY:NG",
            "Net generation from natural gas in Wyoming: 1,028,747 MWh in July 2026, the highest monthly value held since January 2001.", 2.5, old=90.0)
 PJM = flag("pjm", "storage_buildout_monthly", "iso:pjm",
-           "iso:pjm battery_operating_mw_net_added_12m: 223.0 MW in July 2026, the highest monthly value held since January 2020.", 1.5)
+           "iso:pjm battery_operating_mw_net_added_12m: 223.0 MW in July 2026, the highest monthly value held since January 2020.", 1.9)
 
 
 def story(title, sector, why="", parties=""):

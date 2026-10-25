@@ -258,9 +258,9 @@ class TheNumbersTraced(unittest.TestCase):
 
 class TheChartFollowsTheDay(unittest.TestCase):
     IOWA = {"source": "scanner", "key": "iowa", "rank": 1, "fact": "Retail electricity price in Iowa, industrial: USD 99.90 per MWh in July 2026.",
-            "table": "eia_retail_electricity_prices", "series_key": "entity=eia:retail_price:IA:IND|variable=retail_price", "flag": {"id": "iowa", "rule": "record", "strength": 0.8, "value": 99.9, "compared": {"old_record": 91.7}}, "card": {"title": "T"}}
+            "table": "eia_retail_electricity_prices", "series_key": "entity=eia:retail_price:IA:IND|variable=retail_price", "flag": {"id": "iowa", "rule": "record", "strength": 1.6, "value": 99.9, "compared": {"old_record": 91.7}}, "card": {"title": "T"}}
     UTAH = {"source": "scanner", "key": "utah", "rank": 2, "fact": "Retail electricity sales in Utah, residential: 1,658,263 MWh in July 2026.",
-            "table": "eia_retail_sales_monthly", "series_key": "entity=eia:retail_sales:UT:RES|variable=retail_sales", "flag": {"id": "utah", "rule": "record", "strength": 1.01, "value": 1658263, "compared": {"old_record": 1484757}}, "card": {"title": "T"}}
+            "table": "eia_retail_sales_monthly", "series_key": "entity=eia:retail_sales:UT:RES|variable=retail_sales", "flag": {"id": "utah", "rule": "record", "strength": 1.7, "value": 1658263, "compared": {"old_record": 1484757}}, "card": {"title": "T"}}
 
     def test_the_related_candidate_comes_first_and_strength_decides_without_stories(self):
         stories = [{"titles": ["Iowa industrial rates rise for data centers"], "sector": "power_prices", "why": "", "parties": ""}]
@@ -586,6 +586,41 @@ class Item14TheAlsoLinesAreTheFold(unittest.TestCase):
             brief.FOLD_HEADING, "", "Twelve thirteen fourteen fifteen.", "", "ERW", "", "---"])
         self.assertEqual(brief.above_fold_words(md), 12)
         self.assertEqual(brief.above_fold_words(md.replace(brief.FOLD_HEADING, "## Not the fold")), 16)
+
+
+class Item6TheChartsFloorAndTheDismissedDrafts(unittest.TestCase):
+    """Item 6(b): no flag under 1.5 robust standard deviations is the chart; 6(c): no flag whose draft was dismissed."""
+
+    def flag(self, key, strength):
+        return {"source": "scanner", "key": key, "rank": 1, "fact": f"fact {key}", "table": "t", "series_key": f"entity={key}",
+                "flag": {"id": key, "rule": "spike", "strength": strength}, "card": {"title": "T"}}
+
+    def test_the_floor_and_the_dismissed(self):
+        weak, mid, strong = self.flag("weak", 1.01), self.flag("mid", 1.5), self.flag("strong", 3.0)
+        c, why = dc.choose([weak, mid, strong], set())
+        self.assertEqual(c["key"], "strong")
+        c, why = dc.choose([weak, mid, strong], set(), dismissed={"strong"})
+        self.assertEqual(c["key"], "mid")   # the floor itself passes
+        self.assertIn("1 flag(s) under the floor of 1.5 robust standard deviations passed over", why)
+        self.assertIn("1 flag(s) whose draft was dismissed passed over", why)
+        c, why = dc.choose([weak], set())
+        self.assertIsNone(c)
+
+    def test_the_dismissed_drafts_are_read_from_the_review_list(self):
+        class R:
+            status_code = 200
+
+            def json(self):
+                return [{"id": "scan-a"}, {"id": "scan-b"}]
+        seen = {}
+
+        def get(url, params=None, headers=None, timeout=None):
+            seen.update(url=url, params=params)
+            return R()
+        with mock.patch.dict(os.environ, {"SUPABASE_URL": "https://x.supabase.co/rest/v1/", "SUPABASE_SERVICE_KEY": "k"}):
+            self.assertEqual(dc.dismissed_keys(quiet, get=get), {"scan-a", "scan-b"})
+        self.assertEqual(seen["url"], "https://x.supabase.co/rest/v1/scanner_drafts")
+        self.assertEqual(seen["params"]["state"], "eq.dismissed")
 
 
 if __name__ == "__main__":
