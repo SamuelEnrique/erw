@@ -485,9 +485,8 @@ def source_text(src, url, licensed=None):
     """One source as an item prints it (session 803): the outlet's name from the feed's own field as the link text, never
     the address; "(via Google News)" after a Google News address (session 470, kept); an outlet whose stories ask for a
     license (licensed_outlets) is named with no link, so the item shows the outlet and the title only."""
-    licensed = licensed_outlets() if licensed is None else licensed
-    if outlet_key(src) in {outlet_key(x) for x in licensed}:
-        return str(src)
+    # Session 2701 (rulings item 15, the 24-hour default): a held outlet's item keeps its link. The hold is about
+    # republishing text, and a link republishes nothing; `licensed` is kept in the signature for the callers.
     return f"[{src}]({url})" + (" (via Google News)" if "news.google.com" in str(url) else "")
 
 

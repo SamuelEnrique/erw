@@ -167,8 +167,9 @@ class TheOutlet(unittest.TestCase):
         lic = {"Reuters"}
         self.assertEqual(brief.source_text("Heatmap News", GN, lic), f"[Heatmap News]({GN}) (via Google News)")
         self.assertEqual(brief.source_text("T&D World", "https://www.tdworld.com/x", lic), "[T&D World](https://www.tdworld.com/x)")
-        self.assertEqual(brief.source_text("Reuters", GN, lic), "Reuters")
-        self.assertEqual(brief.link_text([("Reuters", GN), ("Reuters", "https://r/2")], lic), "Reuters")
+        # session 2701 (rulings item 15, the 24-hour default): a held outlet keeps its link; a source is still printed once a link
+        self.assertEqual(brief.source_text("Reuters", GN, lic), f"[Reuters]({GN}) (via Google News)")
+        self.assertEqual(brief.link_text([("Reuters", GN), ("Reuters", GN)], lic), f"[Reuters]({GN}) (via Google News)")
 
     def test_the_email_s_text_never_prints_a_google_address(self):
         lines = ["# ERW's Energy Digest, 2026-10-21", "", "## Top of the industry", "", "1. **Head** (oil)  ",
