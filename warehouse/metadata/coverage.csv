@@ -532,6 +532,7 @@ spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-10-23T00:00:00Z,38448
 spp_dam_cleared_energy,SPP,spp_dam,1,PT1H,2025-09-01T05:00:00Z,2026-10-25T04:00:00Z,15024,spp:DA-MC:cleared,2026-10-24T15:04:27Z,pass,public,power,no,source
 spp_interconnection_queue,SPP,,3078,snapshot,2026-10-19T16:08:11Z,2026-10-19T20:31:58Z,3078,spp:interconnection_queue,2026-10-19T20:31:01Z,pass,public,power,no,source
 ssb_norway_electricity_monthly,ssb,,26,P1M,1993-01-01T00:00:00Z,2026-09-01T00:00:00Z,5550,ssb:14091,2026-10-24T02:39:26Z,pass,public,power,no,source
+stat_tj_tajikistan_electricity_annual,stat,,14,P1Y,1991-01-01T00:00:00Z,2025-01-01T00:00:00Z,475,stat_tj:analytical_table_11,2026-10-25T10:10:39Z,pass,public,power,no,source
 statai_anguilla_electricity_monthly,statai,,1,P1M,1995-01-01T00:00:00Z,2025-12-01T00:00:00Z,372,statai_ai:energy_statistics_table_2_4_2_1,2026-10-25T08:08:27Z,pass,internal,power,no,source
 statbank_moldova_electricity_monthly,statbank,,7,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,980,statbank_md:ENE010100,2026-10-24T09:23:13Z,pass,public,power,no,source
 statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source
