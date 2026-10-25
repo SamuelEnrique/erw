@@ -14,6 +14,7 @@ arsel_cameroon_electricity_annual,arsel,,22,P1Y,2024-01-01T00:00:00Z,2025-01-01T
 ask_kosovo_electricity_monthly,ask,,13,P1M,2022-01-01T00:00:00Z,2026-07-01T00:00:00Z,715,ask:energy_tab01,2026-10-24T19:23:32Z,pass,internal,power,no,source
 asli_liechtenstein_electricity_annual,asli,,4,P1Y,1985-01-01T00:00:00Z,2025-01-01T00:00:00Z,164,asli_li:energie_2025_tabelle5,2026-10-25T06:52:01Z,pass,public,power,no,source
 asub_aland_electricity_annual,asub,,7,P1Y,1994-01-01T00:00:00Z,2025-01-01T00:00:00Z,190,asub_ax:MI009,2026-10-25T08:56:07Z,pass,public,power,no,source
+asub_aland_electricity_sales_annual,asub,,18,P1Y,1980-01-01T00:00:00Z,2025-01-01T00:00:00Z,603,asub_ax:MI010,2026-10-25T10:47:43Z,pass,public,power,no,source
 ba_supply_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,473,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,158503,erw:ba_supply,2026-10-02T23:03:48Z,pass,public,power,yes,derived
 battery_sourced_ranges,battery,,18,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,90,nlr:atb-2025-v1,2026-10-19T12:40:18Z,pass,public,power,no,source
 battery_stack_monthly,CAISO;ERCOT,caiso;ercot,2,P1M,2018-01-01T00:00:00Z,2026-10-01T00:00:00Z,11556,erw:battery_stack,2026-10-24T15:12:22Z,pass,public,power,yes,derived

@@ -78,6 +78,8 @@ asli_liechtenstein_electricity_annual,imports,series variable,MWh
 asub_aland_electricity_annual,generation,series variable,MWh
 asub_aland_electricity_annual,imports,series variable,MWh
 asub_aland_electricity_annual,supply,series variable,MWh
+asub_aland_electricity_sales_annual,exports,series variable,MWh
+asub_aland_electricity_sales_annual,sales,series variable,MWh
 ba_supply_monthly,balance_all_days_mwh,series variable,MWh
 ba_supply_monthly,balance_days,series variable,count
 ba_supply_monthly,days_held,series variable,count
