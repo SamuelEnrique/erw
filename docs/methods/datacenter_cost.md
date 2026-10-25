@@ -1,6 +1,6 @@
 # What a datacenter pays
 
-Tables: `texas_delivery_charges`, `texas_transmission_matrix`
+Tables: `texas_delivery_charges`, `texas_transmission_matrix`, `large_load_rules`, `large_load_rules_internal`
 
 The method of the page `/cost-of-power` ("What a datacenter pays", in review), the first tab of the cost of power
 beside "What a generator earns" and "What a battery earns". It answers four questions for a load the reader describes:
@@ -559,6 +559,12 @@ it. A row is what a document said on its date; a later order may have changed it
      under the nearest topic by the pass (Indiana 6, California 4, Arizona 2): kept, flagged, never among the ten
      rules of the month. 4 California rows are draft resolutions as posted for the agenda: their status reads
      "DRAFT" as the document words it and their status class is "not stated", since no adopted text was read.
+   - **Session 2564: as held on 25 October 2026** the two tables hold 117 rows (43 public, 74 internal; 49
+     proceedings, 68 orders): the 116 above and one order of the Public Utility Commission of Texas dated 15 October
+     2026, added by the daily refresh (`warehouse/connectors/policy_monitor_refresh.py`, session 157), whose sentence
+     is the docket list's own title line (`sentence_kind` `docket list`, and `row_flag` says so). The counts above
+     (87 document sentences, 29 records, the 4 untied docket numbers, the 12 single-customer rows, the 4 drafts)
+     were counted again from the tables that day and stand.
 2. The federal policy actions held in `policy_actions` that the tags' rule marks (`policy_action_tags`; method and
    the rule's measurement: [`policy_action_tags.md`](policy_action_tags.md)): large loads, interconnection,
    transmission cost, tax credits. The rule is a list of terms that code applies to the title and the abstract, with
