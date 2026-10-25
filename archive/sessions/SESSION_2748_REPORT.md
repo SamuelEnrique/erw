@@ -6,7 +6,7 @@
 
 - **DUKES 5.15 (combined heat and power) was fetched and set aside:**
   - Its 2025 column repeats its 2024 column in every row, totals included. For example, the major power producers' capacity is 61,326.68 MW in both years, where DUKES 5.7 gives 61,931.21 MW for 2025.
-  - Its generation also repeats 2017 as 2018.
+  - Its generation totals also repeat 2017 as 2018 (the major power producers' and all generators', the rows checked).
   - DESNZ's note 5 explains carried-forward values for CHP sites without a return, not whole totals. A table with a doubtful last year would mislead, so 5.15 was not written; its workbook is saved (`warehouse/raw/desnz_dukes/s2748probe1/`).
 - **The host:** www.gov.uk's robots file closes only print and search paths and names no Claude agent (read 1480). The terms are the Open Government Licence v3.0 (read 315), so the table is **public**.
 - **A new table, `desnz_uk_fuel_used_generation_annual`** (series, 900 rows, 30 entities, `power`), 1996 to 2025:
