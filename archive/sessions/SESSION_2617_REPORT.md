@@ -22,7 +22,7 @@
 
 ## Cross-checks
 
-- EIA's world table (`eia_world_electricity_annual`, read past its header lines) gives the Gambia 511.5 GWh of generation and no imports in 2022. NAWEC's table gives 374.1 GWh generated in the country (NAWEC and Karpower) and 197.6 GWh imported (SENELEC and OMVG): EIA counts no imports. NAWEC's total, 571.6 GWh, is close to the 571,627.54 MWh the report's text gives for 2022.
+- EIA's world table (`eia_world_electricity_annual`, read past its header lines) gives the Gambia 511.5 GWh of generation and no imports in 2022. NAWEC's table gives 374.1 GWh generated in the country (NAWEC and Karpower) and 197.6 GWh imported (SENELEC and OMVG): EIA counts no imports. Table 3's total equals the 571,627.54 MWh the report's text gives for 2022 (467,103.30 MWh in 2021).
 
 ## Requests (10 of 15)
 
