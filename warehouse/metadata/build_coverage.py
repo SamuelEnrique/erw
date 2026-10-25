@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^statai_anguilla_electricity_monthly$", "power"),  # session 2642: the Anguilla Statistics Department's Energy Statistics, Table 2.4.2-1, electricity generation a month (ANGLEC)
     (r"^eso_cayman_electricity_annual$", "power"),  # session 2633: ESO's Compendium of Statistics 2024, Table 20.01, Grand Cayman's electricity capacity, production and consumption by class
     (r"^asli_liechtenstein_electricity_annual$", "power"),  # session 2622: the Amt fuer Statistik Liechtenstein's Energie 2025, Tabelle 5, electricity production, trade and consumption since 1985
     (r"^nawec_gambia_electricity_monthly$", "power"),  # session 2617: NAWEC's Annual Activity Report 2022, Table 3, the Gambia's electricity a month by source
