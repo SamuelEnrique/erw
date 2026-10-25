@@ -1,6 +1,6 @@
 # Session 2591 report: Curacao's electricity production a year, 2022 to 2024 (CBS Curacao, Aqualectra's figures), public
 
-25 October 2026, about 03:36 to 03:40 UTC, on lab-desktop (the data machine), chain 128, unattended. Precheck passed (`runs/c128/pre2591.out`). Model spend USD 0. Pulls: 5 requests of 15 (4 by the probe, 1 by the fetch the connector reads offline).
+25 October 2026, about 03:36 to 03:41 UTC, on lab-desktop (the data machine), chain 128, unattended. Precheck passed (`runs/c128/pre2591.out`). Model spend USD 0. Pulls: 5 requests of 15 (4 by the probe, 1 by the fetch the connector reads offline).
 
 ## Read these first
 
