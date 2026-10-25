@@ -1,6 +1,6 @@
 # Session 2723 report: Yukon's electricity not taken (Yukon Energy's hourly workbook states no time base, and its thermal columns are unsound)
 
-25 October 2026, about 19:18 to 19:35 UTC, on lab-desktop (the data machine), chain 137, unattended. Precheck passed (`runs/c137/pre2723.out`). Model spend USD 0. Pulls: 4 requests of 15 (3 by the probe, 1 fetch of the workbook).
+25 October 2026, about 19:18 to 19:22 UTC, on lab-desktop (the data machine), chain 137, unattended. Precheck passed (`runs/c137/pre2723.out`). Model spend USD 0. Pulls: 4 requests of 15 (3 by the probe, 1 fetch of the workbook).
 
 ## Read these first
 

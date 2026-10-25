@@ -9,7 +9,7 @@
   - 138 was the next free number, and 2736 to 2749 were free on main and on every branch.
   - **Its sources are the US territories' grids:** Puerto Rico, the US Virgin Islands, American Samoa and the Northern Mariana Islands. The ERW is US first, and none is a source in the record or the queue (American Samoa appears only inside US tables). Guam's power authority was closed by chain 130.
   - I first wrote that "session 2587" had found American Samoa only in US tables; it was chain 127's queue file. I corrected it before the commit.
-  - Pushed to main alone as `40f77d92`; snapshots `c137-q138-before` and `c137-q138-after`.
+  - Pushed to main alone as `40f77d92`; snapshots `c137-q138-before` and `c137-q138-after` show **0 differences**.
 - **Chain 137's worktree:** `erw-c137` on `wip/2722-2735-data`, from main at `88eb54ef`.
 - **Prince Edward Island not taken:**
   - www.princeedwardisland.ca's robots file holds Drupal's standard rules and names no Claude agent (read 1450).
