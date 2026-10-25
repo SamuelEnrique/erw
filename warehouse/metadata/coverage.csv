@@ -89,6 +89,7 @@ desnz_regional_renewables_annual,desnz,,194,P1Y,2003-01-01T00:00:00Z,2025-01-01T
 desnz_uk_electricity_quarterly,desnz,,45,P3M,1998-01-01T00:00:00Z,2026-04-01T00:00:00Z,7862,desnz:energy_trends_5_1,2026-10-24T00:37:27Z,pass,public,power,no,source
 desnz_uk_gas_quarterly,desnz,,21,P3M,1998-01-01T00:00:00Z,2026-04-01T00:00:00Z,2394,desnz:energy_trends_4_1,2026-10-24T02:20:20Z,pass,public,gas,no,source
 desnz_uk_nations_electricity_annual,desnz,,40,P1Y,2004-01-01T00:00:00Z,2025-01-01T00:00:00Z,4167,desnz:electricity_generation_supply_nations_2026,2026-10-25T11:50:17Z,pass,public,power,no,source
+desnz_uk_power_stations,desnz,,1364,snapshot,2026-10-25T17:09:21Z,2026-10-25T17:09:21Z,1364,desnz:dukes_5_11_power_stations,2026-10-25T18:21:27Z,pass,public,power,no,source
 desnz_uk_renewables_quarterly,desnz,,20,P3M,2010-01-01T00:00:00Z,2026-04-01T00:00:00Z,1982,desnz:energy_trends_6_1,2026-10-24T01:59:04Z,pass,public,power,no,source
 dfe_ni_electricity_monthly,dfe,,13,P1M,2018-01-01T00:00:00Z,2026-06-01T00:00:00Z,1326,dfe_ni:electricity_consumption_renewable_generation_2026,2026-10-24T21:59:50Z,pass,public,power,no,source
 doe_grip_selections,none,,1,event,2023-10-18T00:00:00Z,2024-10-18T00:00:00Z,105,1 outlets,2026-10-23T19:24:55Z,pass,public,power,no,source
