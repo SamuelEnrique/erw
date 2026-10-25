@@ -412,6 +412,7 @@ ieso_ontario_demand_hourly,"Independent Electricity System Operator (IESO), Onta
 ilr_luxembourg_electricity,Institut Luxembourgeois de Regulation (ILR),the source registry
 imf_commodity_prices,IMF,the source registry
 impact_tax_rules,Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts,the source registry
+ine_es_dwellings_electricity_2021,"Instituto Nacional de Estadistica (INE), Spain",the source registry
 inseed_togo_electricity_annual,"Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo",the source registry
 instat_madagascar_electricity_monthly,"Institut National de la Statistique (INSTAT), Madagascar",the source registry
 interconnection_agreements_by_grid,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
