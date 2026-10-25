@@ -11,7 +11,7 @@
 - **The host:** www.gov.uk's robots file closes only print and search paths and names no Claude agent (read 1479). The terms are the Open Government Licence v3.0 (read 315), so the table is **public**.
 - **A new table, `desnz_uk_mpp_capacity_countries_annual`** (series, 1,539 rows, 51 entities, `power`), 1999 to 2025 (1996 to 1998 are "[x]", DESNZ's note 1):
   - Entity `desnz_mppr:<country>:<item>`, for England and Wales, Scotland and Northern Ireland.
-  - `derated_capacity` (5.8.A, by fuel, MW) and `thermal_capacity` (5.8.B's thermal plant types, 5.8.C, MW).
+  - `derated_capacity` (5.8.A, by fuel, MW) and `thermal_capacity` (5.8.C, by thermal plant type, MW).
   - `capacity_share` (5.8.B), as a ratio. The sheet's heading says "per cent", but its cells hold fractions such as 0.7977.
   - These are de-rated figures, as in DUKES 5.7 (notes 3 and 5).
 - **Figures:**
