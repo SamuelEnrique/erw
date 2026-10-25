@@ -163,7 +163,9 @@ class TheCaptionSaysWhatIsHeld(unittest.TestCase):
         i = lines.index(c["fact"])
         self.assertEqual(lines[i + 1], "The table holds 307 months of this series; the last is July 2026.")
         self.assertEqual(lines[i + 2], "")
-        self.assertTrue(lines[i + 3].startswith("Table `"))
+        # session 2703: the chart's source trail (publisher, period, vintage, retrieval) opens the table line
+        self.assertTrue(lines[i + 3].startswith(("Table `", "Source: ")), lines[i + 3])
+        self.assertIn("Table `", lines[i + 3])
 
 
 class RevisedNotFailed(unittest.TestCase):

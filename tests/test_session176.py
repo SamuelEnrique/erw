@@ -331,8 +331,9 @@ class WithoutTheModel(unittest.TestCase):
             self.fail(log[-1500:])
         text = open(out, encoding="utf-8").read()
         self.assertIn(self.brief.NO_MODEL_LINE, text)
-        self.assertIn("## Top of the industry", text)
-        self.assertIn("## ERW's Numbers Today", text)
+        # session 2703: the v2 order (what moved above the fold, the full numbers in the fold)
+        self.assertIn("## What moved", text)
+        self.assertIn("### ERW's Numbers Today", text)
         self.assertIn("model none (the daily model cap was reached)", text)
         self.assertNotIn(chr(8212), text)
 

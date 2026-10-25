@@ -697,5 +697,222 @@ class Item11TheTablesFloorAndUSFirst(unittest.TestCase):
         self.assertIn("25 more pass, 0 fall under the floor; [the whole table](/data#energy_deals)", note)
 
 
+
+# Session 2703: the Digest in the brandbook's v2 shape (the owner's rulings of 24 October 2026, queue file 131)
+
+def cand(label, key, v, pv, pct, table="eia_fuel_spot_prices", unit="USD/MMBtu", reason="", node=""):
+    return dict(label=label, key=key, unit=unit, v=v, pv=pv, d=pd.Timestamp("2026-10-14"), pd=pd.Timestamp("2026-10-13"),
+                ch=round(v - pv, 4), pct=pct, table=table, reason=reason, node=node, ref="[1]")
+
+
+V2_MD = """# ERW Daily Digest, 2026-10-23
+
+**23 October 2026.** Data through 11:45 ET, 15:45 UTC.
+
+<!-- subject: ERW Daily | Henry Hub natural gas: 3.22 USD/MMBtu, down 3.0% on the close before -->
+
+<!-- opening: Henry_Hub_natural_gas -->
+
+ERW's weekday brief of energy news for the 24 hours to 2026-10-23 15:45 UTC, from 2026-10-22 15:45 UTC, from 9 scored stories.
+
+## The opening number
+
+**Henry Hub natural gas: 3.22 USD/MMBtu on 2026-10-14, down 0.10 USD/MMBtu (3.0%) from 3.32 USD/MMBtu on 2026-10-13 [1].** EIA's spot close at Henry Hub, Louisiana, the US natural gas benchmark, against the close before it.
+
+Tables: [1] `eia_fuel_spot_prices`.
+
+## The numbers
+
+- **Market price.** ERCOT HB_NORTH day-ahead: 28.38 USD/MWh on 2026-10-20, up 2.10 USD/MWh (8.0%) from 26.28 USD/MWh on 2026-10-19 [1]. Status: observed, the mean of the operating day's 24 hourly day-ahead prices.
+- **Physical.** US48 demand peaked at 612,000 MW in the hour starting 2026-10-20 19:00 UTC [2]; the same weekday a year before (2025-10-21) is not held, so no change is shown. Status: observed, EIA-930 hourly demand.
+- **Project or capacity.** 600 MW: A signs a gas plant deal (gas, ranked 2 of the day's top ten), reported on 2026-10-22 by Outlet. Change: a new report, no earlier figure held. Status: reported by the outlet, not a warehouse table's figure.
+- **Policy, capital or reliability.** No story of the day states a policy, capital or reliability figure.
+
+Tables: [1] `iso_dam_hub_prices`; [2] `eia930_all_demand`; balancing authority us48.
+
+## What moved
+
+1. **Oil surges on Saudi attacks** (oil)
+   Supply fears lift crude. One outlet has reported it so far. Sources: [Rigzone](https://www.rigzone.com/a)
+2. **A signs a gas plant deal** (gas)
+   A new plant adds supply. Sources: [Outlet](https://example.org/b)
+
+## More
+
+### The rest of the top ten
+
+1. **Third story** (nuclear)
+   Why three. Sources: [Outlet](https://example.org/c)
+
+### By sector
+
+**Power**
+
+- no scored story in this group today
+
+### AI and power
+
+- no further story on AI and power today (any such story is listed above)
+
+### ERW's Numbers Today
+
+- Brent crude: 126.55 USD/bbl on 2026-10-14, up 6.55 USD/bbl (5.5%) from 120.00 USD/bbl on 2026-10-13 [1].
+
+Tables: [1] `eia_fuel_spot_prices`.
+
+## ERW's Fun Fact
+
+A fact that is fun.
+
+Sources: [Wikipedia, Fun](https://en.wikipedia.org/wiki/Fun).
+
+ERW
+
+---
+
+[How this is made.](/about#digest)
+
+Corrections: [open an issue](https://github.com/SamuelEnrique/erw/issues). Preferences and topics: [subscribe](/subscribe). Every email carries its own unsubscribe link.
+"""
+
+
+class V2TheOpeningNumber(unittest.TestCase):
+    """The opening number's rule (brief.opening_number's docstring): defensible moves only; consequence, then novelty,
+    then source quality, then size; a structural figure of the top stories when no move is defensible."""
+
+    def test_the_rule_on_fixtures(self):
+        hub_big = cand("SPP SPPSOUTH_HUB day-ahead", "SPP", 40.0, 20.0, 100.0, table="iso_dam_hub_prices", unit="USD/MWh")
+        hh = cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01)
+        wti = cand("WTI Cushing crude", "WTI Cushing crude", 101.91, 98.0, 3.99, unit="USD/bbl", reason=" Reason, from the day's stories: x")
+        small = cand("Brent crude", "Brent crude", 126.55, 126.0, 0.44, unit="USD/bbl")
+        # the largest move is not the choice by default: a benchmark named by a story comes first
+        self.assertEqual(brief.opening_number([hub_big, hh, wti, small], [])["cand"]["key"], "WTI Cushing crude")
+        # without the reason, a benchmark before a hub, however large the hub's move
+        wti0 = dict(wti, reason="")
+        self.assertEqual(brief.opening_number([hub_big, hh, wti0], [])["cand"]["key"], "WTI Cushing crude")
+        # novelty: yesterday's metric leads again only at twice the bar (WTI's 3.99 is under 6)
+        self.assertEqual(brief.opening_number([hub_big, hh, wti0], [], prev_key="WTI_Cushing_crude")["cand"]["key"], "Henry Hub natural gas")
+        # no defensible move: the structural figure of the highest-ranked story stating one
+        recs = [rec("a", "A takes stock", sector="company"), rec("b", "B plans 600 MW", sector="gas", mw="600"), rec("c", "C raises $3bn", price="$3bn")]
+        op = brief.opening_number([small], recs)
+        self.assertEqual((op["kind"], op["figure"], op["rank"]), ("story", "600 MW", 2))
+        self.assertEqual(brief.opening_number([], [rec("a", "A")])["kind"], None)
+        self.assertIn("never the choice by default", brief.opening_number.__doc__)
+
+    def test_three_saved_days(self):
+        st = stories()
+        if st is None:
+            self.skipTest("news_stories.csv is not here")
+        seen = 0
+        for day in ("2026-10-13", "2026-10-20", "2026-10-21"):
+            path = os.path.join(ROOT, "docs", "digest", f"{day}.md")
+            if not os.path.exists(path):
+                continue
+            with open(path, encoding="utf-8") as f:
+                m = re.search(r"for the (\d+) hours to (\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC", f.read())
+            now = pd.Timestamp(m.group(2), tz="UTC")
+            s, _, _ = brief.window_rows(st, now, int(m.group(1)))
+            if len(s) < 20:
+                continue
+            top10, _, _ = brief.select(brief.build_clusters(s), day, quiet)
+            recs = top10.to_dict("records")
+            op = brief.opening_number([], recs)   # the saved days' prices are not in the clean copy: the structural figure
+            first = next(r for r in recs if brief.story_figure(r))
+            self.assertEqual(op["rec"]["cluster_id"], first["cluster_id"])
+            line = brief.opening_lines(op, {})[2]
+            self.assertTrue(line.startswith(f"**{op['figure']}**: "), line)
+            self.assertIn("not a warehouse table's", line)
+            seen += 1
+        if not seen:
+            self.skipTest("the saved days' stories are not here")
+
+
+class V2TheNumbersBlock(unittest.TestCase):
+    def test_four_rows_in_the_traced_forms(self):
+        facts = {"cands": [cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01),
+                           cand("ERCOT HB_NORTH day-ahead", "ERCOT", 28.38, 26.28, 7.99, table="iso_dam_hub_prices", unit="USD/MWh", node="HB_NORTH")],
+                 "demand": {"top": {"value": 612000.0, "ts_utc": pd.Timestamp("2026-10-20 19:00", tz="UTC")}, "before": pd.Timestamp("2025-10-21"), "old": None}}
+        op = brief.opening_number(facts["cands"], [])
+        recs = [rec("a", "A plans 600 MW", sector="gas", mw="600"), rec("b", "B raises $3bn", sector="capital", price="$3bn")]
+        with mock.patch.object(brief, "cite_short", side_effect=lambda t: f"`{t}`"):
+            L = brief.numbers_block(facts, op, recs, {"a": "A plans 600 MW", "b": "B raises USD 3 billion"})
+        rows = [ln for ln in L if ln.startswith("- **")]
+        self.assertEqual(len(rows), 4)
+        self.assertTrue(MOVER.match(re.sub(r"^- \*\*[^*]+\*\* ", "- ", rows[0])), rows[0])
+        self.assertIn("ERCOT HB_NORTH day-ahead", rows[0])            # the opening's own metric is not repeated
+        self.assertEqual(len(DEMAND.findall(rows[1])), 1)
+        self.assertIn("600 MW: A plans 600 MW", rows[2])
+        self.assertIn("USD 3 billion: B raises USD 3 billion", rows[3])
+        self.assertNotIn("](http", "\n".join(rows[2:]))                 # no story link: the item carries it (the hard check)
+        self.assertTrue(any(ln.startswith("Tables: [1] `iso_dam_hub_prices`; [2] `eia930_all_demand`") for ln in L))
+
+    def test_the_masthead_and_the_subject(self):
+        op = brief.opening_number([cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01)], [])
+        L = brief.masthead_lines("2026-10-26", pd.Timestamp("2026-10-26 15:45", tz="UTC"), op)
+        self.assertEqual(L[0], "# ERW Daily Digest, 2026-10-26")
+        self.assertEqual(L[2], "**26 October 2026.** Data through 11:45 ET, 15:45 UTC.")
+        self.assertEqual(L[4], "<!-- subject: ERW Daily | Henry Hub natural gas: 3.22 USD/MMBtu, down 3.0% on the close before -->")
+        self.assertEqual(L[6], "<!-- opening: Henry_Hub_natural_gas -->")
+        self.assertEqual(brief.subject_line({"kind": "story"}, "2026-10-26"), "ERW Daily | 26 October 2026")
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "2026-10-23.md"), "w", encoding="utf-8") as f:
+                f.write(V2_MD)
+            self.assertEqual(brief.previous_opening("2026-10-26", d), "Henry_Hub_natural_gas")
+
+    def test_the_words_above_the_fold(self):
+        n = brief.above_fold_words(V2_MD)
+        # the stamp, the opening sentence and two stories with their limitations; not the numbers block, the fold or sources
+        self.assertGreater(n, 50)
+        self.assertLess(n, 110)
+        self.assertEqual(brief.above_fold_words(V2_MD.replace("Third story", "Third story with many more words")), n)
+
+
+class V2TheEmail(unittest.TestCase):
+    def test_the_order_the_subject_and_the_footer(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "2026-10-23.md")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(V2_MD)
+            title, label, text, body = email_digest.render(p, "daily", unsubscribe="https://x/unsub")
+        self.assertEqual(title, "ERW Daily | Henry Hub natural gas: 3.22 USD/MMBtu, down 3.0% on the close before")
+        self.assertEqual(label, "2026-10-23")
+        order = [text.index(x) for x in ("23 October 2026.", "The opening number", "The numbers", "What moved", "More on the site",
+                                          "A fact that is fun.", "Corrections: https://github.com/SamuelEnrique/erw/issues", "Stop these emails")]
+        self.assertEqual(order, sorted(order))
+        self.assertNotIn("subject:", text)
+        self.assertNotIn("Third story", text)                          # the fold is on the site, one link away
+        self.assertIn("Oil surges on Saudi attacks", text)
+        self.assertIn('href="https://github.com/SamuelEnrique/erw/issues">Corrections</a>', body)
+
+
+class V2ThePageReadsIt(unittest.TestCase):
+    def test_the_keys_of_the_v2_issue(self):
+        import shutil
+        import subprocess
+        if shutil.which("node") is None:
+            self.skipTest("node is not on this machine")
+        site = os.path.join(ROOT, "site")
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "v2.md")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(V2_MD)
+            js = ("const D = await import('./lib/digest.ts'); const M = (await import('node:fs')).readFileSync(process.argv[1], 'utf-8');"
+                  "console.log(JSON.stringify(D.digestFigures(M, '2026-10-23', null, new Date('2026-10-20T12:00:00Z')).map((f) => f.key)));")
+            out = subprocess.run(["node", "--no-warnings", "--import", "./scripts/alias-register.mjs", "--input-type=module", "-e", js, p], cwd=site, capture_output=True, text=True, timeout=120)
+        self.assertEqual(out.returncode, 0, out.stderr[-600:])
+        keys = json.loads(out.stdout.strip().splitlines()[-1])
+        for k in ("digest_fuel|eia_fuel_spot_prices|eia:henry_hub|2026-10-14", "digest_fuel|eia_fuel_spot_prices|eia:henry_hub|2026-10-13",
+                  "digest_dam|ERCOT|iso_dam_hub_prices|HB_NORTH|2026-10-20", "digest_dam|ERCOT|iso_dam_hub_prices|HB_NORTH|2026-10-19",
+                  "digest_demand|eia930_all_demand|eia930:US48|demand_mw|2026-10-20T19:00:00Z",
+                  "digest_fuel|eia_fuel_spot_prices|eia:brent|2026-10-14"):
+            self.assertIn(k, keys)
+
+    def test_the_fold_is_drawn_closed(self):
+        with open(os.path.join(ROOT, "site", "lib", "markdown.ts"), encoding="utf-8") as f:
+            src = f.read()
+        self.assertIn("return foldMore(fillDigest(", src)
+        self.assertIn('<details class="digest-more" data-digest-fold="more">', src)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -118,7 +118,9 @@ class TheHandOff(unittest.TestCase):
         import inspect
         sys.path.insert(0, os.path.join(ROOT, "warehouse", "news"))
         import brief
-        self.assertIn('stories=top10.to_dict("records")', inspect.getsource(brief.main))
+        # session 2703: the top ten as records (recs), the same list the v2 order reads
+        self.assertIn('recs = top10.to_dict("records")', inspect.getsource(brief.main))
+        self.assertIn("daily_chart_section(digest_date, log, args.out, stories=recs)", inspect.getsource(brief.main))
         self.assertIn("stories", inspect.signature(brief.daily_chart_section).parameters)
         self.assertIn("stories", inspect.signature(dc.section).parameters)
 
