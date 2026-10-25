@@ -255,6 +255,7 @@ eia_world_oil_gas_annual,none,,6992,P1Y,1973-01-01T00:00:00Z,2025-01-01T00:00:00
 eia_world_oil_monthly,none,,1507,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,541215,eia:international_bulk,2026-10-23T10:10:51Z,pass,public,oil,no,source
 elexon_gb_demand_daily,elexon,,1,P1D,2021-04-27T00:00:00Z,2026-10-23T00:00:00Z,1932,elexon:indod,2026-10-24T00:21:05Z,pass,public,power,no,source
 emi_nz_generation_demand_monthly,emi,,3,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,846,emi:generation_demand_trends,2026-10-24T03:58:46Z,pass,public,power,no,source
+enercal_nc_electricity_annual,enercal,,26,P1Y,2022-07-01T00:00:00Z,2024-07-01T00:00:00Z,83,enercal_nc:rapport_activite_2024_2025_chiffres_cles,2026-10-25T05:19:11Z,pass,internal,power,no,source
 energinet_dk_production_hourly,energinet,,2,PT1H,2024-12-31T23:00:00Z,2026-10-13T23:00:00Z,607311,energinet:production_consumption_settlement,2026-10-24T02:18:32Z,pass,public,power,no,source
 energy_charts_belgium_hourly,none,,16,PT1H,2019-12-31T23:00:00Z,2026-10-23T21:00:00Z,908600,energy_charts:public_power_be,2026-10-24T04:12:37Z,pass,public,power,no,source
 energy_charts_central_europe,none,,43,PT1H,2022-12-31T23:00:00Z,2026-10-23T21:00:00Z,1419805,energy_charts:public_power_at_ch_cz,2026-10-24T05:29:29Z,pass,public,power,no,source

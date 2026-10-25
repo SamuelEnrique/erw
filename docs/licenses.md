@@ -10,8 +10,8 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **570 tables.** The flag and the verdict agree on 460; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 416 public, 104 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **571 tables.** The flag and the verdict agree on 461; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 416 public, 105 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **1211 publishers in the record: 1209 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 270 pages read, 939 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -1718,6 +1718,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `eia_world_oil_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `elexon_gb_demand_daily` | Elexon Limited (BMRS) | may be public |  |  | public | agrees | may be public | public |
 | `emi_nz_generation_demand_monthly` | Electricity Authority (New Zealand) | may be public |  |  | public | agrees | may be public | public |
+| `enercal_nc_electricity_annual` | Enercal | needs written permission | Enercal |  | internal | agrees | needs written permission | internal |
 | `energinet_dk_production_hourly` | Energinet (Energi Data Service) | may be public |  |  | public | agrees | may be public | public |
 | `energy_charts_belgium_hourly` | Energy-Charts.info (Fraunhofer ISE) | may be public |  |  | public | agrees | may be public | public |
 | `energy_charts_central_europe` | Energy-Charts.info (Fraunhofer ISE) | may be public |  |  | public | agrees | may be public | public |
@@ -2218,6 +2219,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Eswatini Electricity Company (EEC)** (1 tables). Write to: no person or address on the page read. Tables: `eec_eswatini_electricity_annual`.
 - **Egyptian Electricity Holding Company (EEHC)** (1 tables). Write to: no person or address on the page read. Tables: `eehc_egypt_electricity_annual`.
 - **ICE, whose prices EIA republishes** (1 tables). Write to: no person or address on the page read. Tables: `eia_ice_electricity_daily`.
+- **Enercal** (1 tables). Write to: no person or address on the page read. Tables: `enercal_nc_electricity_annual`.
 - **Energy Regulation Board, Zambia (ERB)** (1 tables). Write to: no person or address on the page read. Tables: `erb_zambia_electricity_annual`.
 - **Electricity Market Operator of Georgia (ESCO)** (1 tables). Write to: no person or address on the page read. Tables: `esco_georgia_electricity_monthly`.
 - **Electricity and Water Authority, Kingdom of Bahrain (EWA)** (1 tables). Write to: no person or address on the page read. Tables: `ewa_bahrain_electricity_annual`.
