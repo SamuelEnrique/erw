@@ -1,6 +1,6 @@
 # Session 2589 report: Mali's electricity, not taken (INSTAT's one energy table mislabels its units and holds EDM's figures; EDM's and CREE's hosts do not resolve)
 
-25 October 2026, about 03:32 to 03:36 UTC, on lab-desktop (the data machine), chain 128, unattended. Precheck passed (`runs/c128/pre2589.out`). Model spend USD 0. Pulls: 7 requests of 15 (6 by the probe, 1 by a fetch). No table.
+25 October 2026, about 03:32 to 03:35 UTC, on lab-desktop (the data machine), chain 128, unattended. Precheck passed (`runs/c128/pre2589.out`). Model spend USD 0. Pulls: 7 requests of 15 (6 by the probe, 1 by a fetch). No table.
 
 ## Read these first
 
