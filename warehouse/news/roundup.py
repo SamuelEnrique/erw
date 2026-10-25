@@ -652,11 +652,16 @@ def masthead_lines(label, end, cut, op, first_head, missed):
             + [f"<!-- subject: {subject_line(op, first_head)} -->", "", f"<!-- opening: {(op or {}).get('key', '')} -->", ""])
 
 
-def evidence_gap(r):
-    """What the evidence does not establish, from the record alone: the figure is the outlet's, or the stories give none;
-    one outlet so far, or an analysis piece."""
+def evidence_gap(r, head=""):
+    """What the evidence does not establish, from the record alone: the figure is the outlet's (a scored MW or sum; else
+    any figure the headline or the why line states), or the stories give none; one outlet so far, or an analysis piece."""
     fig = brief.story_figure(r)
-    words = [f"The {fig} is the outlet's figure, not a warehouse table's." if fig else "The stories give no figure for it."]
+    if fig:
+        words = [f"The {fig} is the outlet's figure, not a warehouse table's."]
+    elif brief.figures_of(f"{head} {r.get('why') or ''}"):
+        words = ["Its figures are the outlets', not a warehouse table's."]
+    else:
+        words = ["The stories give no figure for it."]
     lim = brief.limitation(r)
     if lim:
         words.append(lim)
@@ -892,7 +897,7 @@ def main(argv=None):
         for i, r in enumerate(recs, 1):
             W += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
-                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r)) if x),
+                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']])) if x),
                                   f"Sources: {link_text(r['links'])}")
         nxt = next_week(end, log)
         L = (masthead_lines(label, end, cut, op, heads[recs[0]["cluster_id"]] if recs else "", missed) + intro + opening_lines(op)

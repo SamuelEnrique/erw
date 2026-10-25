@@ -1042,6 +1042,8 @@ class V2RTheParts(unittest.TestCase):
                          "What the evidence does not establish: the 600 MW is the outlet's figure, not a warehouse table's.")
         self.assertEqual(roundup.evidence_gap(dict(rec("b", "B"), outlets=1)),
                          "What the evidence does not establish: the stories give no figure for it. One outlet has reported it so far.")
+        self.assertEqual(roundup.evidence_gap(rec("c", "C"), "Cheniere signs supply through 2054, 4 million tonnes per annum"),
+                         "What the evidence does not establish: its figures are the outlets', not a warehouse table's.")
 
     def test_next_week_from_the_policy_reads(self):
         reads = pd.DataFrame([

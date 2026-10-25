@@ -233,7 +233,9 @@ def block(body, img_base="docs"):
         im = IMAGE.fullmatch(ln.strip())
         if im:
             src = im.group(2)
-            url = src if re.match(r"https?://", src) else f"{RAW}/{posixpath.normpath(img_base + '/' + src)}"
+            # session 2705: the ref the pictures are read from follows EMAIL_ASSET_REF (main by default), as the character's
+            raw = RAW if not env("EMAIL_ASSET_REF") else RAW.rsplit("/", 1)[0] + "/" + env("EMAIL_ASSET_REF")
+            url = src if re.match(r"https?://", src) else f"{raw}/{posixpath.normpath(img_base + '/' + src)}"
             text.append(f"[chart: {im.group(1)}] {url}")
             parts.append(f"<p style=\"margin:8px 0\"><img src=\"{html.escape(url)}\" alt=\"{html.escape(im.group(1))}\" "
                          "width=\"600\" style=\"max-width:100%;height:auto;border:1px solid #D9D2C3\"></p>")
@@ -306,6 +308,10 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     site = env("SITE_URL").rstrip("/")
     name, rel, _ = KINDS[kind]
     gates = release()
+    # session 2705: a picture's folder is the issue's own (docs/digest, or a preview's docs/digest/preview), when the file
+    # sits in the repository; else the kind's folder, as before
+    here = os.path.relpath(os.path.dirname(os.path.abspath(path)), ROOT).replace(os.sep, "/")
+    img_dir = here if here.startswith("docs/") else f"docs/{rel}"
     # session 470 (digest audit fix 17): the issue's page only when it is open to a visitor; else its markdown on GitHub
     page = f"{site}/{rel}/{label}" if site and live(f"/{rel}/{label}", gates) else f"{REPO}/docs/{rel}/{label}.md"
     how = f"{site or SITE_DEFAULT}/about#digest" if live("/about", gates) else None  # session 21: /about#digest
@@ -340,7 +346,7 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     def add_block(heading, old):
         body = [site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in section(lines, (heading, old))]
         if any(x.strip() for x in body):
-            bt, bh = block(body, img_base=f"docs/{rel}")
+            bt, bh = block(body, img_base=img_dir)
             t.extend(["", heading[3:], ""] + bt)
             if heading == "## ERW's Fun Fact" and (v2 or v2r):   # session 2705: the character, here and nowhere else
                 bh = fun_fact_html(bh)
@@ -356,7 +362,7 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
         # session 810: the week in five numbers (session 806) opens the email as it opens the page
         five = [site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in section(lines, ("## The week in five numbers",))]
         if any(x.strip() for x in five):
-            ft, fh = block(five, img_base=f"docs/{rel}")
+            ft, fh = block(five, img_base=img_dir)
             t += ["The week in five numbers", ""] + ft + [""]
             h += [H2.format("The week in five numbers"), SMALL.format(fh)]
         wk = numbered(lines, ("## Weekend",), 5)
