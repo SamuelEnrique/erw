@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **572 tables.** The flag and the verdict agree on 462; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 416 public, 106 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1229 publishers in the record: 1227 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 274 pages read, 953 that could not be read, 2 not asked (paused).**
+- **1237 publishers in the record: 1235 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 275 pages read, 960 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -1252,6 +1252,14 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 1227 | Liberia Electricity Corporation (LEC), the pages' sitemap (session 2616) | https://lecliberia.com/wp-sitemap-posts-page-1.xml | 06:29:17 | 200 | 7724 | read: a Reports page and a Terms page |
 | 1228 | Liberia Electricity Corporation (LEC), the Reports page (session 2616) | https://lecliberia.com/news/reports/ | 06:29:28 | 200 | 212000 | read: board reports and financial analyses, their files under /wp-content/uploads/ (closed by robots) |
 | 1229 | Liberia Electricity Corporation (LEC), the Terms of Use (session 2616) | https://lecliberia.com/terms/ | 06:29:29 | 200 | 87306 | read |
+| 1230 | Gambia Bureau of Statistics (GBoS), www.gbosdata.org's robots file (session 2617) | https://www.gbosdata.org/robots.txt | 06:30:52 | 404 | 278 | HTTP 404: no robots file |
+| 1231 | National Water and Electricity Company (NAWEC), nawec.gm's robots file (session 2617) | https://nawec.gm/robots.txt | 06:30:53 | 404 | 808 | HTTP 404: no robots file |
+| 1232 | Public Utilities Regulatory Authority (PURA), pura.gm's robots file (session 2617) | https://pura.gm/robots.txt | 06:30:53 | 200 | 165 | read: names * with no rule; names its sitemap |
+| 1233 | Gambia Bureau of Statistics (GBoS), the home page (session 2617) | https://www.gbosdata.org/ | 06:31:04 | 200 | 35802 | read: its data portal's categories; a copyright line |
+| 1234 | Public Utilities Regulatory Authority (PURA), the site's media list for report (session 2617) | https://pura.gm/wp-json/wp/v2/media?search=report&per_page=50 | 06:31:05 | 200 | 141449 | read: annual reports 2009 to 2024; 2024's gives production only in prose |
+| 1235 | Gambia Bureau of Statistics (GBoS), the Macroeconomic and Financial Data page (session 2617) | https://www.gbosdata.org/data/1-macroeconomic-and-financial-data | 06:33:07 | 200 | 63918 | read: electricity only as national accounts value added and a price index; no quantities |
+| 1236 | National Water and Electricity Company (NAWEC), the home page with its footer (session 2617) | https://nawec.gm/ | 06:33:34 | 200 | 79900 | read |
+| 1237 | National Water and Electricity Company (NAWEC), the Annual Reports page (session 2617) | https://nawec.gm/?page_id=196 | 06:33:43 | 200 | 126661 | read: the Annual Activity Report 2022 and audited statements |
 
 ## The publishers: the sentence and the verdict
 
