@@ -83,6 +83,7 @@ datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its h
 dbedt_hawaii_electricity_annual,"Hawaii State Department of Business, Economic Development and Tourism (DBEDT)",the source registry
 derk_bih_electricity_annual,State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK),the source registry
 desnz_gb_regional_consumption_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_gb_regional_gas_consumption_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_regional_renewable_capacity_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_regional_renewables_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_electricity_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
