@@ -9,7 +9,7 @@
   - 139 was the next free number, and 2750 to 2763 were free on main and on every branch.
   - **Its sources are the federal power agencies other than the BPA,** which the ERW holds: TVA, WAPA, and the Southwestern and Southeastern Power Administrations. None is in the record or the queue, and their works are likely in the public domain, which each session confirms from the terms.
   - State open data portals were set aside, as Open NY's terms forbid automated access (chain 069).
-  - Pushed to main alone as `532f2e3d`, with snapshots `c138-q139-before` and `c138-q139-after`.
+  - Pushed to main alone as `532f2e3d`; snapshots `c138-q139-before` and `c138-q139-after` show **0 differences**.
 - **Chain 138's worktree:** `erw-c138` on `wip/2736-2749-data`, from main at `d24b0429`.
 - **Puerto Rico not taken:**
   - **LUMA Energy** (lumapr.com): its robots file is empty, stating no rule (read 1467). The search found its figures only in monthly operations reports, PDFs on docs.pr.gov, whose sales are monthly in GWh.
