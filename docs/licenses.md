@@ -10,8 +10,8 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **574 tables.** The flag and the verdict agree on 464; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 417 public, 107 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **575 tables.** The flag and the verdict agree on 465; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 417 public, 108 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **1284 publishers in the record: 1282 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 281 pages read, 1001 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -1866,6 +1866,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `ercot_zone_prices_history` | ERCOT | may be public |  |  | public | agrees | may be public | public |
 | `eru_czech_electricity` | Energeticky regulacni urad (ERU), Czechia | not settled (needs written permission by default) |  | Energeticky regulacni urad (ERU), Czechia | internal | not settled | may be public | internal |
 | `esco_georgia_electricity_monthly` | Electricity Market Operator of Georgia (ESCO) | needs written permission | Electricity Market Operator of Georgia (ESCO) |  | internal | agrees | needs written permission | internal |
+| `eso_cayman_electricity_annual` | Economics and Statistics Office, Cayman Islands (ESO) | needs written permission | Economics and Statistics Office, Cayman Islands (ESO) |  | internal | agrees | needs written permission | internal |
 | `eurostat_crude_imports_by_field_monthly` | Eurostat (Statistical Office of the European Union) | may be public |  |  | public | agrees | may be public | public |
 | `eurostat_crude_imports_monthly` | Eurostat (Statistical Office of the European Union) | may be public |  |  | public | agrees | may be public | public |
 | `eurostat_electricity_capacity_annual` | Eurostat (Statistical Office of the European Union) | may be public |  |  | public | agrees | may be public | public |
@@ -2309,6 +2310,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Enercal** (1 tables). Write to: no person or address on the page read. Tables: `enercal_nc_electricity_annual`.
 - **Energy Regulation Board, Zambia (ERB)** (1 tables). Write to: no person or address on the page read. Tables: `erb_zambia_electricity_annual`.
 - **Electricity Market Operator of Georgia (ESCO)** (1 tables). Write to: no person or address on the page read. Tables: `esco_georgia_electricity_monthly`.
+- **Economics and Statistics Office, Cayman Islands (ESO)** (1 tables). Write to: no person or address on the page read. Tables: `eso_cayman_electricity_annual`.
 - **Electricity and Water Authority, Kingdom of Bahrain (EWA)** (1 tables). Write to: no person or address on the page read. Tables: `ewa_bahrain_electricity_annual`.
 - **Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo** (1 tables). Write to: no person or address on the page read. Tables: `inseed_togo_electricity_annual`.
 - **Institut National de la Statistique (INSTAT), Madagascar** (1 tables). Write to: no person or address on the page read. Tables: `instat_madagascar_electricity_monthly`.
