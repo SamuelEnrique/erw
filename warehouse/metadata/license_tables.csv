@@ -11,6 +11,7 @@ api_cost_ledger,Anthropic,the source registry
 arse_burkina_electricity_annual,"Autorite de Regulation du Secteur de l'Energie (ARSE), Burkina Faso",the source registry
 arsel_cameroon_electricity_annual,"Agence de Regulation du Secteur de l'Electricite (ARSEL), Cameroun",the source registry
 ask_kosovo_electricity_monthly,Kosovo Agency of Statistics (ASK),the source registry
+asli_liechtenstein_electricity_annual,Amt fuer Statistik Liechtenstein,the source registry
 ba_supply_monthly,EIA,"the source registry and the tables its header derives it from: eia930_daily_interchange, eia930_daily_total_interchange"
 battery_sourced_ranges,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 battery_stack_monthly,CAISO; ERCOT,"the source registry and the tables its header derives it from: caiso_as_prices, ercot_all_hub_prices_history, ercot_as_prices, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
