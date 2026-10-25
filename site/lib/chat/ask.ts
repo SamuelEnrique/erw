@@ -16,6 +16,7 @@ import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./st
 import { readerEffort, rulePlanOn } from "./switches";
 import { plainTimes } from "./plaintime";
 import { cleanTurns, generalOpening } from "./history";  // session 1129: the general chat's conversation
+import { answerSeries } from "./generalseries";  // session 1142: the general chat's chart
 
 export type Citation = { table: string; source_report: string; data_version: string; tier: string };
 export type AskResult = {
@@ -176,10 +177,15 @@ export function unverified(answer: string, sources: string[]): string[] {
 const UNIT_AFTER = /^\s*(USD|US dollars|dollars)?\s*(?:\/|per\s+)(kWh|kW|MWh|MW)(?![\w-])/i;
 const MONEY_BEFORE = /(?:\$|USD\s)\s*$/;  // "$81.40/kW", "USD 81.40 per kW": the money is written before the figure
 const UNIT_NAMES: Record<string, string> = { kwh: "kWh", kw: "kW", mwh: "MWh", mw: "MW" };
+// Session 1144, as ask.py PHYS_AFTER: percent and MW judged too (measured on the stored answers first); MWh is not
+const PHYS_AFTER = /^\s*(percent|pct|%|MW)(?![\w-])/i;
+const PHYS_NAMES: Record<string, string> = { percent: "pct", pct: "pct", "%": "pct", mw: "MW" };
+const KNOWN_UNITS = new Set(["pct", "MW", "USD/kW", "USD/MW", "USD/MWh", "USD/kWh"]);
 export function normUnit(u: unknown): string | null {
   if (typeof u !== "string") return null;
   const t = u.trim().toLowerCase().replace(/ per /g, "/").replace(/ /g, "").replace(/\$/g, "usd");
   const m = /^usd\/(kwh|kw|mwh|mw)$/.exec(t);
+  if (!m && t in PHYS_NAMES) return PHYS_NAMES[t];
   return m ? `USD/${UNIT_NAMES[m[1]]}` : `other:${t}`;
 }
 const keyUnit = (key: string | null): string | null => {
@@ -212,13 +218,19 @@ export function unitMismatches(answer: string, sources: string[]): string[] {
   for (const m of t.matchAll(NUM)) {
     const at = (m.index ?? 0) + m[1].length;
     if (isName(t, at)) continue;
-    const u = UNIT_AFTER.exec(t.slice((m.index ?? 0) + m[0].length, (m.index ?? 0) + m[0].length + 40));
-    if (!u || !(u[1] || MONEY_BEFORE.test(t.slice(Math.max(0, (m.index ?? 0) - 5), m.index ?? 0)))) continue;  // MWh per MW, USD per MW-month: not judged here
+    const after = t.slice((m.index ?? 0) + m[0].length, (m.index ?? 0) + m[0].length + 40);
+    const u = UNIT_AFTER.exec(after), p = PHYS_AFTER.exec(after.slice(0, 12));
+    const money = MONEY_BEFORE.test(t.slice(Math.max(0, (m.index ?? 0) - 5), m.index ?? 0));
+    let said: string;
+    if (u && (u[1] || money)) said = `USD/${UNIT_NAMES[u[2].toLowerCase()]}`;
+    else if (p && !money) said = PHYS_NAMES[p[1].toLowerCase()];   // session 1144: percent and MW
+    else continue;   // no unit judged here (MWh, MWh per MW, USD per MW-month)
     const frac = m[3] ?? "";
     const v = parseFloat(m[2].replace(/,/g, "") + frac), d = frac ? frac.length - 1 : 0;
-    const said = `USD/${UNIT_NAMES[u[2].toLowerCase()]}`;
     const tol = 0.5 * 10 ** -d + 1e-9;
     const hits = placed.filter(([p]) => Math.abs(Math.abs(p) - Math.abs(v)) <= tol).map(([, unit]) => unit);
+    // session 1144: a percent or an MW figure is judged only against tool numbers in a unit the check knows
+    if ((said === "pct" || said === "MW") && !hits.every((h) => h !== null && KNOWN_UNITS.has(h))) continue;
     if (hits.length && hits.every((h) => h !== null && h !== "mixed") && !hits.includes(said)) {
       const gave = Array.from(new Set(hits.map((h) => h!.replace("other:", "")))).sort().join(", ");
       const s = `${v.toFixed(d)} ${said} (the tools gave it in ${gave})`;
@@ -410,6 +422,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const readsLog: Read[] = [];
   // session 1132: the tables a question queried or described, the nearest a refusal of the general chat names
   const looked = new Set<string>();
+  // session 1142: the general chat's query results, for the series an answer rests on (lib/chat/generalseries.ts)
+  const generalResults: { tool: string; input: Record<string, unknown>; out: Record<string, unknown> }[] = [];
   const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(tracing ? { trace: traced } : {}), ...(readsLog.length ? { reads: readsLog } : {}) });
   const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
   // The check of a whole draft, as it always was: every number in a tool result, every cited table read, an answer and
@@ -439,6 +453,11 @@ export async function ask(question: string, today = new Date().toISOString().sli
     if (typeof drawn.premise === "string") drawn.premise = plain(drawn.premise);
     clock.add("drawing", "series", Date.now() - tDraw);
     // session 1132: the general chat's "not in the warehouse" names what it did look at, as Ask ERCOT's does
+    // session 1142: an answer of the general chat that rests on a series carries it, as Ask ERCOT's does
+    if (!profile && status === "answered") {
+      const series = answerSeries(generalResults, citations.map((c) => c.table));
+      if (series.length) return done({ ...draft, answer, citations, status, ...base(), ...drawn, series });
+    }
     if (!profile && status === "not_in_warehouse" && looked.size)
       return nearestFor([...looked]).then((nearest) => done({ ...draft, answer, citations, status, ...base(), ...drawn, ...(nearest.length ? { nearest } : {}) }));
     return done({ ...draft, answer, citations, status, ...base(), ...drawn });
@@ -470,6 +489,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
     if (!isError && !out.held) for (const r of readsOf(name, input)) if (!readsLog.some((x) => JSON.stringify(x) === JSON.stringify(r))) readsLog.push(r);
     if (!isError && name === "describe_table" && typeof input.table === "string") looked.add(input.table);
     for (const r of readsOf(name, input)) looked.add(r.table);
+    if (!profile && !isError && !out.held && (name === "query" || name === "compare")) generalResults.push({ tool: name, input, out });
     if (profile) {
       out = profile.tag(name, input, out, n);
       records.push({ tool: name, input, out, isError });

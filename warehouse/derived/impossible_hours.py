@@ -1,8 +1,8 @@
 """Energy Research Warehouse (ERW): the screening rule for impossible hours (session 103).
 
-EIA-930's hourly demand holds hours that did not happen: PJM at 224,345 MW at 18:00 UTC on 13 July 2020 between hours
-near 140,000; New York at zero; California at 12,000 to 14,000 MW between hours of 23,000 in the spring of 2019; SPP at
-1,505 MW at 04:00 UTC on 21 June 2025. Session 97 met them building the demand growth table and screened them there.
+EIA-930's hourly demand holds hours that did not happen: PJM at 224,345 MW at 18:00 Eastern (22:00 UTC) on 13 July 2020
+between hours near 140,000; New York at zero; California at 12,000 to 14,000 MW between hours of 23,000 in the spring of
+2019; SPP at 1,505 MW at 04:00 Central (09:00 UTC) on 21 June 2025. Session 97 met them building the demand growth table and screened them there.
 This module is that rule, stated once, for every derived table that reads those hours (docs/methods/impossible_hours.md).
 
 The rule. An hour of demand is used when it is

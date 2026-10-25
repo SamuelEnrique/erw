@@ -145,8 +145,59 @@ class TheFiles(unittest.TestCase):
         # once more); chain 059's session 2047 adds 13 with chain 059's robots reads (session 2047 raised it again);
         # chain 056's sessions 2000 to 2005 add 7 (168 to 174) and chain 058's sessions 2028 to 2036 add 20, renumbered 192 to 211
         # at its merge after chain 059's (session 2041 raised it once more); chain 067's sessions 2070 to 2075 add 14,
-        # renumbered 216 to 229 at its merge after chain 058's (session 2083 raised it once more)
-        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 20)
+        # renumbered 216 to 229 at its merge after chain 058's (session 2083 raised it once more);
+        # chain 068's sessions 2084 to 2092 add 19, renumbered 223 to 241 after chain 066's and 237 to 255 after chain 067's (session
+        # 2089 raised it by 40, with room for the chains' reads at their merges)
+        # chain 069's sessions 2106 to 2114 add 17, renumbered 256 to 272 after chain 068's at session 2119's merge (session
+        # 2111 raised it by 20; with chain 068's room of 40 the two chains' reads fit, 272 in all)
+        # chain 079's sessions 2120 to 2127 add 17, renumbered 273 to 289 after chain 069's at session 2133's merge (session
+        # 2123 raised it by 20 on its branch, joined here)
+        # chain 092's sessions 2148 to 2153 add 12, renumbered 290 to 301 after chain 079's at session 2161's merge (its own
+        # + 20 and chain 079's met as one; 260 later reads against 262 allowed)
+        # chain 094's sessions 2162 to 2174 add 21, renumbered 302 to 322 after chain 092's at session 2171's merge (session
+        # 2168 raised it by 20, joined here);
+        # chain 090's sessions 2134 to 2141 add their reads from 256, renumbered 323 to 343 after chains 069, 079, 092 and 094's at session 2147's merges
+        # (session 2135 raised it by 40, with room for the licenses' nineteenth round)
+        # chain 098's sessions 2210 to 2217 add 13, renumbered 344 to 356 after chain 090's at session 2218's merge (session
+        # 2211 raised it by 20, joined here)
+        # chain 097's sessions 2176 to 2181 and 2188 add 22, renumbered 359 to 380 after chain 098's at session 2189's merge
+        # (its sessions 2185 and 2188 raised it by 40 on its branch, met here as 20 more: 339 later reads against 342 allowed);
+        # chain 099's sessions 2224 to 2236 add 23 from 344, renumbered 381 to 403 after chains 098 and 097's at session 2237's merges
+        # (session 2236 raised it by 40)
+        # chain 101's sessions 2238 to 2243 add 27 from 359, renumbered 404 to 430 after chains 097 and 099's at session 2247's
+        # merge (session 2238 raised it by 20, joined here)
+        # chain 102's sessions 2252 to 2257 add 31, renumbered 431 to 461 after chains 099 and 101's at session 2261's merge (within main's bound)
+        # chain 103's sessions 2266 to 2278 add 21 from 404, renumbered 431 to 451 after chain 101's and 462 to 482 after
+        # chain 102's at session 2279's merges (session 2279 raised it by 40)
+        # chain 104's sessions 2280 to 2283 add 17 from 431, renumbered 483 to 499 after chains 102 and 103's at session 2293's merge
+        # (session 2280 raised it by 20, joined here)
+        # chain 106's sessions 2308 to 2315 add 25 from 483, renumbered 500 to 524 after chain 104's at session 2317's merge (session 2314 raised it by 40)
+        # chain 105's sessions 2294 to 2299 add 19 from 483, renumbered 500 to 518 after chain 104's and 529 to 547 after
+        # chain 106's at session 2307's merges (its + 20 met as one with chain 104's; within main's bound)
+        # chain 108's sessions 2322 to 2329 add 36 from 500, renumbered 548 to 583 after chains 106's and 105's at session 2331's merge
+        # (session 2322 raised it by 40; chain 106's + 40 met it as one at the merge, so it is raised by 40 again here)
+        # chain 112's sessions from 2371 add reads from 584, beside chains 109's and 110's (session 2371 raised it by 40)
+        # chain 110's sessions 2357 to 2362 add 38 from 584 (session 2362 raised it by 40), renumbered 636 to 673 after chain 112's at session 2370's merge
+        # (chain 112's + 40 and session 2362's + 40 met as one at the merge, so it is raised by 40 again here)
+        # chain 113's sessions 2385 to 2397 add 29 from 599, renumbered 636 to 664 after chain 112's and 674 to 702 after chain 110's
+        # at session 2398's merge (chain 110's + 40 and session 2394's + 40 met as one at the merge, so it is raised by 40 again here)
+        # chain 114's sessions 2406 to 2418 add 60 from 636, renumbered 703 to 762 after chains 110's and 113's at session 2415's merge
+        # (sessions 2406 and 2413 raised it by 40 each; the two met main's as one at the merge, so it is raised by 40 again here)
+        # chain 115's sessions 2420 to 2423 add 21 from 703 (session 2425 raised it by 40), renumbered 763 to 783 after chain 114's
+        # at session 2433's merge
+        # (session 2425's + 40 met chain 114's as one at the merge, so it is raised by 40 again here)
+        # chain 117's sessions 2434 to 2446 add 26 from 703, renumbered 763 to 788 after chain 114's and 784 to 809 after chain 115's
+        # at session 2447's merge (6 over main's bound of 762 once both chains' raises met as one, so it is raised by 40 here)
+        # chain 121's sessions 2490 to 2497 add 46 from 810 (on its branch; chains 118 to 120 also begin at 810), so the bound is raised by 40
+        # chain 122's sessions from 2504 add their reads from 867, so the bound is raised by 40 twice (sessions 2505 and 2516)
+        # chain 123's sessions from 2518 add their reads from 930, so the bound is raised by 40
+        # chain 124's sessions from 2532 add their reads from 971, so the bound is raised by 40
+        # chain 125's sessions from 2546 add their reads from 1014, so the bound is raised by 40
+        # chain 126's sessions from 2560 add their reads from 1048, so the bound is raised by 40
+        # chain 127's sessions from 2574 add their reads from 1093, so the bound is raised by 40
+        # chain 128's sessions from 2588 add their reads from 1139, so the bound is raised by 40
+        # chain 129's sessions from 2602 add their reads from 1169, so the bound is raised by 40
+        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 40 + 20 + 20 + 20 + 40 + 20 + 20 + 40 + 20 + 40 + 20 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40)
         self.assertEqual(len({r["publisher"] for r in reads}), len(reads))          # one page a publisher
         miso = [r for r in reads if "MISO" in r["publisher"]]
         self.assertEqual(len(miso), 1)

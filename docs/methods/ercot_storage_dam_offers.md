@@ -6,6 +6,8 @@ fleet by operating day) and `ercot_storage_dam_offers_monthly` (series, derived,
 day-ahead" of `/cost-of-power/battery/awards` (in review). Tests: `tests/test_session116.py` (the tables) and `tests/test_session116_page.py` (the page). It follows [`ercot_storage_dam_awards.md`](ercot_storage_dam_awards.md), which
 describes the source, the pull and the awards.
 
+Tables: `ercot_storage_dam_offers_monthly`, `ercot_storage_dam_offers_daily`
+
 ## What this is not
 
 **Day-ahead offers and awards only: no real-time offers, no state of charge, no contracts.** An offer is counted at

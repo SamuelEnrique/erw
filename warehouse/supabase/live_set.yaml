@@ -64,7 +64,7 @@ full:
   # internal_eqr_summary(token), migration 020, read it for the review page /contracts). The rows signed in the last 1,000
   # days (select, below); Redivis's internal dataset and the CSV hold every row
   - '^ferc_eqr_contracts$'
-  # session 31: /storage (the hourly series below, last 90 days)
+  # session 31: /storage (the hourly series below, last 90 days then; the recent window of 35 days since session 36C)
   - '^storage_(daily_cycle|capacity|buildout_monthly)$'
   # session 32: /emissions (the daily intensity whole; the hourly tables below, last 90 days)
   - '^carbon_intensity_(daily|monthly)$'          # session 34: the monthly table too, whole (about 1,600 rows)
@@ -364,6 +364,16 @@ catalogue_hold:
   - msha_coal_production_quarterly
   - fhwa_motor_fuel_monthly
   - afdc_vehicle_registrations_annual
+  - irena_capacity_annual
+  - irs_soi_energy_credits_annual
+  - eia_state_to_state_capacity
+  - noaa_cpc_oni_monthly
+  - wfigs_wildfires
+  - gfz_kp_index_3h
+  - epa_ghg_inventory_annual
+  - scripps_co2_mlo_monthly
+  - doe_lead_energy_burden
+  - afdc_station_counts_annual
   - noaa_ncei_storm_events
   - nrc_event_notifications
   - doe_lng_export_applications
@@ -376,14 +386,163 @@ catalogue_hold:
   - eia_lng_liquefaction_projects
   - eia_mecs_manufacturing
   - eia_recs_households
+  - cer_pipeline_throughput
+  - desnz_uk_electricity_quarterly
+  - desnz_uk_renewables_quarterly
+  - ieso_generation_fuel_hourly
+  - eurostat_electricity_monthly
+  - eurostat_electricity_trade_annual
+  - desnz_uk_gas_quarterly
+  - ssb_norway_electricity_monthly
+  - smard_germany_monthly
+  - cbs_netherlands_electricity_monthly
+  - scb_sweden_electricity_monthly
+  - statfi_finland_electricity_monthly
+  - energy_charts_central_europe
+  - statee_estonia_electricity_monthly
+  - singstat_singapore_electricity
+  - csp_latvia_electricity_monthly
+  - cso_ireland_electricity_monthly
+  - eia_petroleum_stocks_state_monthly
+  - bfe_switzerland_electricity_monthly
+  - ens_denmark_electricity_monthly
+  - cence_costarica_generation_monthly
+  - econtrol_austria_electricity_monthly
+  - ilr_luxembourg_electricity
+  - hagstofa_iceland_power_annual
+  - eehc_egypt_electricity_annual
+  - statcan_generation_class_annual
+  - statcan_power_disposition_annual
+  - epe_brazil_consumption_monthly
+  - eia_gas_other_uses_state_annual
+  - elexon_gb_demand_daily
+  - energinet_dk_production_hourly
+  - ope_pf_electricity_annual
+  - enercal_nc_electricity_annual
+  - cisos_cook_electricity_quarterly
+  - siea_solomon_electricity_annual
+  - je_jersey_electricity_annual
+  - cbs_curacao_electricity_annual
+  - dbedt_hawaii_electricity_annual
+  - sbs_samoa_electricity_annual
+  - vmme_paraguay_electricity_annual
+  - bcrp_peru_hydrocarbons_monthly
+  - bcrp_peru_electricity_monthly
+  - abs_suriname_electricity_annual
+  - nbs_maldives_electricity
+  - arse_burkina_electricity_annual
+  - eec_eswatini_electricity_annual
+  - gastat_saudi_electricity_annual
+  - derk_bih_electricity_annual
+  - dfe_ni_electricity_monthly
+  - nsi_bulgaria_electricity_monthly
+  - eru_czech_electricity
+  - inseed_togo_electricity_annual
+  - arsel_cameroon_electricity_annual
+  - instat_madagascar_electricity_monthly
+  - sors_serbia_electricity_annual
+  - ask_kosovo_electricity_monthly
+  - nve_norway_reservoirs_weekly
+  - statgl_greenland_electricity_annual
+  - ncsi_oman_electricity_annual
+  - hagstova_faroe_electricity_annual
+  - slu_cso_electricity_annual
+  - grenada_cso_electricity_annual
+  - nso_malawi_electricity_sales_annual
+  - fbos_fiji_electricity_annual
+  - zimstat_zimbabwe_generation_monthly
+  - ewa_bahrain_electricity_annual
   - epa_ghgrp_facility_emissions
+  - epa_lmop_landfill_projects
+  - epa_tri_energy_releases_annual
+  - eurostat_gas_imports_monthly
+  - eurostat_renewable_capacity_annual
+  - eurostat_oil_monthly
+  - eurostat_crude_imports_monthly
+  - eurostat_crude_imports_by_field_monthly
+  - eurostat_solid_fuels_monthly
+  - eurostat_hard_coal_imports_annual
+  - makstat_macedonia_electricity_monthly
+  - statbank_moldova_electricity_monthly
+  - eurostat_electricity_capacity_annual
   - fema_disaster_declarations
   - ieso_ontario_demand_hourly
   - lbnl_tracking_the_sun
   - nhc_hurdat2_track_points
   - noaa_ncei_billion_disasters
   - nrc_license_actions
+  - owid_ember_electricity_annual
+  - cea_india_psp_annual
+  - kpx_korea_generation_annual
+  - kpx_korea_demand_monthly
+  - statnett_norway_daily
+  - svk_sweden_production_hourly
+  - eia_shale_gas_reserves_annual
+  - eia_gas_heat_content_monthly
+  - eia_crude_quality_monthly
+  - ons_brazil_balance_hourly
+  - ree_spain_balance_monthly
+  - dosm_malaysia_electricity_monthly
+  - censtatd_hk_electricity
+  - aneel_siga_plants
+  - epra_kenya_electricity_annual
+  - statcan_electricity_trade_monthly
+  - eurostat_gas_balance_monthly
+  - eia_refinery_utilization_monthly
+  - ceb_srilanka_electricity_annual
+  - erb_zambia_electricity_annual
+  - statsbots_botswana_electricity_monthly
+  - erc_mongolia_electricity_annual
+  - esco_georgia_electricity_monthly
+  - energycom_ghana_electricity_annual
+  - eia_gas_for_others_annual
+  - statcan_petroleum_products_monthly
+  - statcan_energy_balance_annual
+  - sne_panama_electricity_annual
+  - sne_panama_generation_monthly
+  - amm_guatemala_generation_monthly
+  - statsmu_mauritius_electricity_annual
+  - eia_net_imports_monthly
+  - eurostat_electricity_production_annual
+  - statcan_generating_capacity_annual
+  - eia_lng_storage_annual
+  - eia_gas_plant_processing_annual
+  - eia_crude_tank_farm_stocks_monthly
+  - eia_gas_storage_type_monthly
+  - energy_charts_portugal_power
+  - energy_charts_italy_power
+  - ren_portugal_balance_annual
+  - rte_eco2mix_france_halfhourly
+  - pse_poland_balance_15min
+  - energy_charts_belgium_hourly
+  - usbr_crsp_reservoirs_daily
+  - usbr_mead_powell_daily
   - usdm_drought_state_weekly
+  - blm_oil_gas_statistics_annual
+  - cec_total_system_generation_annual
+  - eia_seds_residential_annual
+  - noaa_uscrn_solar_monthly
+  - treasury_1603_awards
+  - usaspending_doe_obligations
+  - usgs_comcat_earthquakes_south_central
+  - usgs_streamflow_daily
+  - bpa_ba_hourly
+  - nrcs_snotel_swe_daily
+  - wb_electricity_access_annual
+  - census_bps_state_annual
+  - afdc_ev_charging_state_annual
+  - census_cbp_hosting_annual
+  - statcan_electricity_generation_monthly
+  - emi_nz_generation_demand_monthly
+  - census_c30_construction_monthly
+  - energy_charts_southeast_europe_daily
+  - census_qss_utilities_hosting_quarterly
+  - statcan_oil_gas_supply_monthly
+  - ntd_transit_energy_annual
+  - epa_needs_units
+  - bsee_offshore_incidents
+  - nrc_rop_findings
+  - wb_iea_electricity_annual
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential

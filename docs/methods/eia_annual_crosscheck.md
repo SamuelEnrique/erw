@@ -1,5 +1,7 @@
 # EIA's hourly generation against its annual figure: method
 
+Tables: `eia_annual_crosscheck_ba`
+
 Energy Research Warehouse (ERW), session 323 (the Grid pack's question 5, `docs/reviews/packs/grid.md`). Two tables:
 
 - `eia_annual_generation_ba` (source tier): EIA's annual net generation by balancing authority, summed from Form EIA-923's plant rows (`warehouse/connectors/eia923_annual_ba.py`).

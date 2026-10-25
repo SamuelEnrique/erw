@@ -103,6 +103,7 @@ news:0977ee5a02871adf,news:b6bc2d91f4b89741,2026-10-06T14:44:03Z,claude-sonnet-5
 news:09a1d9e2e2e2827e,news:09a1d9e2e2e2827e,2026-10-13T14:59:51Z,claude-sonnet-5-5,1
 news:09b5c384e552e76d,news:835f24843bd562f1,2026-10-13T14:59:51Z,claude-sonnet-5-5,1
 news:09c1d76491720085,news:3dcf14901ddaacd4,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
+news:0a09e8fff55e1b69,news:0a09e8fff55e1b69,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:0a0e707d7623459c,news:0a0e707d7623459c,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:0a213f59bba56256,news:0a213f59bba56256,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:0a527b7d5da4a7d9,news:0a527b7d5da4a7d9,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -226,6 +227,7 @@ news:170942cce74ca3d5,news:170942cce74ca3d5,2026-09-27T09:07:36Z,claude-sonnet-5
 news:172d271eea638ba1,news:172d271eea638ba1,2026-10-04T14:42:39Z,claude-sonnet-5-5,0
 news:174e2776f455f6b3,news:174e2776f455f6b3,2026-09-30T19:57:09Z,claude-sonnet-5-5,0
 news:1779265b1c1e22d0,news:3b0ef613628dd2e6,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
+news:17a726239616bc0d,news:17a726239616bc0d,2026-10-24T15:01:20Z,claude-sonnet-5-5,1
 news:17ebf956d53e9670,news:1f5b5307a6e55f4a,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:1863a2395f045ca2,news:1863a2395f045ca2,2026-09-27T01:52:23Z,claude-sonnet-5,0
 news:18649ef12271e075,news:3f2102e4da633ff4,2026-10-05T15:07:16Z,claude-sonnet-5-5,1
@@ -255,6 +257,7 @@ news:1c582c98ae85c554,news:cea386cebf551b28,2026-10-13T14:59:51Z,claude-sonnet-5
 news:1c5f83aa97f52940,news:1c5f83aa97f52940,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:1c68ff36b9f3ab6a,news:1c68ff36b9f3ab6a,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:1c6fa4ce5a9d2496,news:e0da01c86db51872,2026-10-08T15:01:01Z,claude-sonnet-5-5,0
+news:1c74ffb9c1b9b682,news:1c74ffb9c1b9b682,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:1c7992c6a8811c61,news:1c7992c6a8811c61,2026-10-11T15:32:07Z,claude-sonnet-5-5,0
 news:1c85e74acc019fdc,news:8963af5940a971fc,2026-10-09T14:54:18Z,claude-sonnet-5-5,0
 news:1cbb1701fb5a43b1,news:1cbb1701fb5a43b1,2026-09-27T09:07:36Z,claude-sonnet-5,0
@@ -315,6 +318,7 @@ news:21bf3c9b6535506f,news:21bf3c9b6535506f,2026-09-28T20:56:41Z,claude-sonnet-5
 news:21c9f69e0f0c43db,news:21c9f69e0f0c43db,2026-10-11T15:32:07Z,claude-sonnet-5-5,0
 news:220e48521e2a783a,news:220e48521e2a783a,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:222acc2368789bb9,news:222acc2368789bb9,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
+news:2243c46e002f060e,news:2243c46e002f060e,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:2255cda44745966c,news:2255cda44745966c,2026-10-06T14:44:03Z,claude-sonnet-5-5,0
 news:229795dde5c1da6b,news:229795dde5c1da6b,2026-09-27T01:52:23Z,claude-sonnet-5,1
 news:22b544dc7b0c3863,news:22b544dc7b0c3863,2026-10-05T15:07:16Z,claude-sonnet-5-5,0
@@ -362,6 +366,7 @@ news:260c6a186cb19951,news:260c6a186cb19951,2026-10-14T15:34:53Z,claude-sonnet-5
 news:262d4c2f5c5f80d7,news:262d4c2f5c5f80d7,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:263b7fa06c17b0bc,news:63edd744ca2ad088,2026-09-27T09:07:36Z,claude-sonnet-5,1
 news:2667bedc3a8079dd,news:2667bedc3a8079dd,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
+news:2667e534ae398c24,news:2667e534ae398c24,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:26886c119d8d47a0,news:26886c119d8d47a0,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:26951839e13c8574,news:e0da01c86db51872,2026-10-08T15:01:01Z,claude-sonnet-5-5,0
 news:26e51363c8e8c471,news:26e51363c8e8c471,2026-10-20T01:00:22Z,claude-sonnet-5-5,0
@@ -434,6 +439,7 @@ news:2c53d716656a0aef,news:2c53d716656a0aef,2026-09-28T20:56:41Z,claude-sonnet-5
 news:2c54bcf0a09ab287,news:2c54bcf0a09ab287,2026-10-09T14:54:18Z,claude-sonnet-5-5,0
 news:2ca8c33e65563610,news:2ca8c33e65563610,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:2cb499683db14dea,news:2cb499683db14dea,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
+news:2cbce69f1fa0278a,news:2cbce69f1fa0278a,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:2cc5aad4f698a724,news:2cc5aad4f698a724,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:2ccf45c983acce3e,news:2ccf45c983acce3e,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:2cf0f33382f1bfb4,news:08351bc089fad2d4,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
@@ -464,6 +470,7 @@ news:2f21908ec46f1095,news:2f21908ec46f1095,2026-09-27T09:46:50Z,claude-sonnet-5
 news:2f3e1d70e9826932,news:9067996958167ead,2026-10-02T00:09:45Z,claude-sonnet-5-5,1
 news:2f46a7f3f4e8efcc,news:2f46a7f3f4e8efcc,2026-09-27T09:07:36Z,claude-sonnet-5,1
 news:2f6982c1515f0f1f,news:2f6982c1515f0f1f,2026-09-27T01:52:23Z,claude-sonnet-5,1
+news:2f6a3be434df57ab,news:2f6a3be434df57ab,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:2f81ff59cfe4c9ab,news:6d63e32a5f3f97f3,2026-10-20T01:00:22Z,claude-sonnet-5-5,0
 news:2fb89886266dbf37,news:2fb89886266dbf37,2026-10-04T14:42:39Z,claude-sonnet-5-5,0
 news:2fbf4e57ad6794b7,news:2fbf4e57ad6794b7,2026-09-27T01:52:23Z,claude-sonnet-5,1
@@ -571,6 +578,7 @@ news:38d88f9115b3eacf,news:38d88f9115b3eacf,2026-10-07T14:43:23Z,claude-sonnet-5
 news:391777317595c38c,news:62ae70342b513351,2026-10-06T14:44:03Z,claude-sonnet-5-5,0
 news:392793ac8c6af978,news:392793ac8c6af978,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:3956c3383ac5c7f8,news:3956c3383ac5c7f8,2026-10-08T15:01:01Z,claude-sonnet-5-5,0
+news:395dc79243a2c16c,news:395dc79243a2c16c,2026-10-24T15:01:20Z,claude-sonnet-5-5,1
 news:39661d4d6d1c96fd,news:39661d4d6d1c96fd,2026-09-27T01:52:23Z,claude-sonnet-5,0
 news:39674a89cdc22df3,news:39674a89cdc22df3,2026-10-14T15:34:53Z,claude-sonnet-5-5,1
 news:397843117a85c298,news:397843117a85c298,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -636,6 +644,7 @@ news:3fd7649af3564326,news:57103fcac072bd97,2026-09-28T20:56:41Z,claude-sonnet-5
 news:3fdbc95ea3cc2d72,news:3fdbc95ea3cc2d72,2026-09-27T01:52:23Z,claude-sonnet-5,0
 news:401f88482a32fbd5,news:401f88482a32fbd5,2026-09-27T09:07:36Z,claude-sonnet-5,1
 news:404371f8fc184bae,news:404371f8fc184bae,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
+news:404bdd81505da1dd,news:404bdd81505da1dd,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:40518dbd62db7009,news:31f26121bba5e95b,2026-09-27T09:07:36Z,claude-sonnet-5,1
 news:40552afa4a5c48cd,news:de0f6d8d0a5a8998,2026-10-04T14:42:39Z,claude-sonnet-5-5,0
 news:406c8ef629024a28,news:406c8ef629024a28,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -753,12 +762,14 @@ news:4c9c1efb2d94a0bc,news:4c9c1efb2d94a0bc,2026-09-28T20:56:41Z,claude-sonnet-5
 news:4ccb01e50089bb0b,news:4ccb01e50089bb0b,2026-10-14T15:34:53Z,claude-sonnet-5-5,0
 news:4ccd343d55f2d73d,news:4ccd343d55f2d73d,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:4d17ec3d914bc746,news:4d17ec3d914bc746,2026-10-14T15:34:53Z,claude-sonnet-5-5,0
+news:4d2577404cb20823,news:4d2577404cb20823,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:4d4f352f9095dff1,news:9067996958167ead,2026-10-02T00:09:45Z,claude-sonnet-5-5,1
 news:4d7487d5a4501788,news:4d7487d5a4501788,2026-09-30T19:57:09Z,claude-sonnet-5-5,0
 news:4d809c176b5eb273,news:4d809c176b5eb273,2026-10-13T14:59:51Z,claude-sonnet-5-5,0
 news:4d80e3a76123120e,news:fd0f90e87fd2e97e,2026-09-27T09:07:36Z,claude-sonnet-5,1
 news:4d83b4ab5533be09,news:4d83b4ab5533be09,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:4d98dcb83089c5aa,news:4d98dcb83089c5aa,2026-10-02T00:09:45Z,claude-sonnet-5-5,0
+news:4d9d8233dcfdb17d,news:81f3d7f8a2c88c5c,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:4da1fc338f98c4ed,news:4da1fc338f98c4ed,2026-09-27T01:52:23Z,claude-sonnet-5,0
 news:4dc57afa5850c4dd,news:4dc57afa5850c4dd,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:4dd49b278224bf27,news:4dd49b278224bf27,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
@@ -1130,6 +1141,7 @@ news:73b9502dbf3ea593,news:73b9502dbf3ea593,2026-09-27T09:07:36Z,claude-sonnet-5
 news:73c0f570f8e837bb,news:73c0f570f8e837bb,2026-10-08T15:01:01Z,claude-sonnet-5-5,0
 news:73c15c22df9eee63,news:73c15c22df9eee63,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:73c6d2fe17a28735,news:73c6d2fe17a28735,2026-10-02T00:09:45Z,claude-sonnet-5-5,0
+news:73d0ae3ba87209d7,news:73d0ae3ba87209d7,2026-10-24T15:01:20Z,claude-sonnet-5-5,1
 news:7425400e003b0a18,news:7425400e003b0a18,2026-09-27T09:07:36Z,claude-sonnet-5,1
 news:744624a7d12600a9,news:744624a7d12600a9,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:7495aab50de0f090,news:7495aab50de0f090,2026-09-27T01:52:23Z,claude-sonnet-5,0
@@ -1194,6 +1206,7 @@ news:7a30bd81a54ce853,news:7a30bd81a54ce853,2026-09-28T20:56:41Z,claude-sonnet-5
 news:7a51090c55fe16ec,news:7a51090c55fe16ec,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:7a61aa946c64f454,news:7a61aa946c64f454,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:7abadaa22895648b,news:7abadaa22895648b,2026-09-27T09:07:36Z,claude-sonnet-5,0
+news:7ac4d58ef557b21f,news:7ac4d58ef557b21f,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:7af2f0e3d31e52e2,news:7af2f0e3d31e52e2,2026-09-27T01:52:23Z,claude-sonnet-5,0
 news:7af7871deee88452,news:7af7871deee88452,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:7b0139fb6e8f554c,news:7b0139fb6e8f554c,2026-10-05T15:07:16Z,claude-sonnet-5-5,1
@@ -1249,6 +1262,7 @@ news:8026048c2e4f9134,news:78c3cb248a190cc9,2026-09-28T20:56:41Z,claude-sonnet-5
 news:8038b933e84af8a8,news:8038b933e84af8a8,2026-10-09T14:54:18Z,claude-sonnet-5-5,0
 news:8057f76e86a73696,news:9216a1d2356bfb5e,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:80595bb761c9f2f1,news:80595bb761c9f2f1,2026-09-27T09:07:36Z,claude-sonnet-5,1
+news:805bd0d4c3de15fe,news:805bd0d4c3de15fe,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:806273eda991ade1,news:806273eda991ade1,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:8080802f867bd3fe,news:42140c47d3602872,2026-10-06T14:44:03Z,claude-sonnet-5-5,1
 news:8089b908e18dcf0b,news:8089b908e18dcf0b,2026-09-27T09:07:36Z,claude-sonnet-5,1
@@ -1264,6 +1278,7 @@ news:815345651f3f717d,news:815345651f3f717d,2026-10-14T15:34:53Z,claude-sonnet-5
 news:8176d5c8e5c67341,news:8176d5c8e5c67341,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:8183346768fdeaf4,news:8183346768fdeaf4,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:8193574aaccff30e,news:8193574aaccff30e,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
+news:81f3d7f8a2c88c5c,news:81f3d7f8a2c88c5c,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:824b1f4375393a94,news:824b1f4375393a94,2026-10-13T14:59:51Z,claude-sonnet-5-5,0
 news:8254736ff22cdd45,news:8254736ff22cdd45,2026-10-23T15:01:16Z,claude-sonnet-5-5,1
 news:825b193b15ab1a47,news:825b193b15ab1a47,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -1336,6 +1351,7 @@ news:88a357f95fc999a6,news:88a357f95fc999a6,2026-10-20T01:00:22Z,claude-sonnet-5
 news:88a4ca0b0483ced9,news:42140c47d3602872,2026-10-07T14:43:23Z,claude-sonnet-5-5,1
 news:88a531199707fc15,news:88a531199707fc15,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:88acdbd143b1dc45,news:4ad496a2afa9e4d6,2026-09-27T09:07:36Z,claude-sonnet-5,0
+news:890dc977d0ca49ad,news:890dc977d0ca49ad,2026-10-24T15:01:20Z,claude-sonnet-5-5,1
 news:8913d4a4a4ca732e,news:8913d4a4a4ca732e,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:89218f9200a0f51f,news:89218f9200a0f51f,2026-10-20T01:00:22Z,claude-sonnet-5-5,0
 news:893e0840a7f08005,news:893e0840a7f08005,2026-10-20T01:00:22Z,claude-sonnet-5-5,0
@@ -1402,6 +1418,7 @@ news:8e40569f8793f3e9,news:8e40569f8793f3e9,2026-09-27T09:07:36Z,claude-sonnet-5
 news:8e7124db931e5428,news:8e7124db931e5428,2026-10-13T14:59:51Z,claude-sonnet-5-5,0
 news:8e8960bec184835a,news:8e8960bec184835a,2026-10-21T15:08:26Z,claude-sonnet-5-5,0
 news:8e98ad3bf06bc19e,news:8e98ad3bf06bc19e,2026-10-04T14:42:39Z,claude-sonnet-5-5,0
+news:8ea85e491da1ab96,news:4650f03d03072830,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:8eda9328c6c38858,news:8eda9328c6c38858,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:8f1319466954e2e2,news:8f1319466954e2e2,2026-10-02T00:09:45Z,claude-sonnet-5-5,0
 news:8f3174df006857b6,news:8f3174df006857b6,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -1421,6 +1438,7 @@ news:90819300e5f1b634,news:90819300e5f1b634,2026-09-28T20:56:41Z,claude-sonnet-5
 news:90825ad77862f64b,news:90825ad77862f64b,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:90955219d1c654b6,news:90955219d1c654b6,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:90b7ec50ea203ccc,news:90b7ec50ea203ccc,2026-09-27T09:07:36Z,claude-sonnet-5,0
+news:90c088421e98bb47,news:d012aa564ff47e12,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:90c57a6b88588bd6,news:509e8e5cca0557e3,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:90ed374ca3ab7e57,news:6fed3d025a96b3e5,2026-09-28T23:46:03Z,claude-sonnet-5-5,0
 news:91212cb253f1f962,news:91212cb253f1f962,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -1454,6 +1472,7 @@ news:936c9d499b5adda6,news:89a25920bbf1b233,2026-10-20T01:00:22Z,claude-sonnet-5
 news:936d97a6c08f3e4e,news:936d97a6c08f3e4e,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:937a6e97dc0f443c,news:937a6e97dc0f443c,2026-10-04T14:42:39Z,claude-sonnet-5-5,0
 news:9384a90a842a076c,news:9384a90a842a076c,2026-10-14T15:34:53Z,claude-sonnet-5-5,0
+news:939986ca9a0e77bf,news:939986ca9a0e77bf,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:93c3fa43209a758e,news:93c3fa43209a758e,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:9407c7116a3a0113,news:9407c7116a3a0113,2026-09-27T01:52:23Z,claude-sonnet-5,0
 news:9421713edf535949,news:9421713edf535949,2026-09-27T09:07:36Z,claude-sonnet-5,0
@@ -1463,6 +1482,7 @@ news:945f517098b35e29,news:945f517098b35e29,2026-10-11T15:32:07Z,claude-sonnet-5
 news:947aa15474f1e090,news:364792a2193bf105,2026-10-07T14:43:23Z,claude-sonnet-5-5,1
 news:948fd2c6db65564f,news:948fd2c6db65564f,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:94cb4a0073625cb3,news:94cb4a0073625cb3,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
+news:950097a956bcf4e7,news:950097a956bcf4e7,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:952002ff8924bb4c,news:41fbff0979ececd0,2026-09-27T01:52:23Z,claude-sonnet-5,0
 news:9590df113b0c1014,news:9590df113b0c1014,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:95bc0f1ec0d1cc14,news:95bc0f1ec0d1cc14,2026-09-27T09:07:36Z,claude-sonnet-5,0
@@ -1586,6 +1606,7 @@ news:a1a3e91a86b4409e,news:a1a3e91a86b4409e,2026-09-28T20:56:41Z,claude-sonnet-5
 news:a1ba6c4ebf0aa06c,news:a1ba6c4ebf0aa06c,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:a1ced16f1090b0d1,news:34b93f128dbf5eab,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:a1fb4e49210e77ae,news:b564340d5cd0ded6,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
+news:a231c179671e0e26,news:2a846927634f5f5b,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:a23765178fb606c4,news:a23765178fb606c4,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:a23f1ae55abd90f8,news:a23f1ae55abd90f8,2026-09-27T09:07:36Z,claude-sonnet-5,1
 news:a25fe70bd0c6dc0d,news:a25fe70bd0c6dc0d,2026-09-27T01:52:23Z,claude-sonnet-5,0
@@ -1602,6 +1623,7 @@ news:a38701094d47ac05,news:a38701094d47ac05,2026-10-04T14:42:39Z,claude-sonnet-5
 news:a39f05960ca94fc9,news:a39f05960ca94fc9,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:a3a1e93cf12d9949,news:a3a1e93cf12d9949,2026-09-27T09:07:36Z,claude-sonnet-5,1
 news:a3b0454ec8cf36e5,news:a3b0454ec8cf36e5,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
+news:a3b621bb9fddd27c,news:a3b621bb9fddd27c,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:a3c382e92cb226a9,news:a3c382e92cb226a9,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:a3ce0765df064abc,news:a3ce0765df064abc,2026-09-27T01:52:23Z,claude-sonnet-5,0
 news:a3dd0c60e685742b,news:a3dd0c60e685742b,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -1617,6 +1639,7 @@ news:a4f67f2ae3a90536,news:a4f67f2ae3a90536,2026-10-06T14:44:03Z,claude-sonnet-5
 news:a527e52a8011c65c,news:a527e52a8011c65c,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:a5480466330e3b49,news:a5480466330e3b49,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:a54978f607e8b6a0,news:a54978f607e8b6a0,2026-09-27T09:07:36Z,claude-sonnet-5,0
+news:a565b8393b753fef,news:a565b8393b753fef,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:a59bfd7ed98c37d9,news:78591154f83c5c90,2026-10-23T15:01:16Z,claude-sonnet-5-5,1
 news:a5b550ec22c222fd,news:d44d7887ba730da2,2026-09-27T09:07:36Z,claude-sonnet-5,1
 news:a5bd9b49117154e4,news:a5bd9b49117154e4,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -1795,8 +1818,10 @@ news:b83254b3249a11c5,news:b83254b3249a11c5,2026-09-27T09:07:36Z,claude-sonnet-5
 news:b847b3a6e413c6ff,news:b847b3a6e413c6ff,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:b84be8b3b88abc74,news:b84be8b3b88abc74,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:b860ee32b9203f56,news:b860ee32b9203f56,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
+news:b8867cc9e99d9acf,news:b8867cc9e99d9acf,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:b8c7780770dee3c7,news:58c1b1a1601f604d,2026-09-30T22:03:23Z,claude-sonnet-5-5,0
 news:b9213dcf0a4730ec,news:b9213dcf0a4730ec,2026-10-20T01:00:22Z,claude-sonnet-5-5,0
+news:b92c8061d7d350aa,news:b92c8061d7d350aa,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:b9431056a030a58a,news:e39e2a4f29012a40,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:b97c6d0eaeea05d3,news:521ad060e117478a,2026-10-20T01:00:22Z,claude-sonnet-5-5,0
 news:b98638a4ad85db9f,news:b98638a4ad85db9f,2026-10-13T14:59:51Z,claude-sonnet-5-5,0
@@ -1897,6 +1922,7 @@ news:c2e1c6d15f03c5f4,news:c2e1c6d15f03c5f4,2026-10-07T14:43:23Z,claude-sonnet-5
 news:c2e66a6705fa1a50,news:c2e66a6705fa1a50,2026-09-27T01:52:23Z,claude-sonnet-5,0
 news:c30af2cbbe297db7,news:f96cc76a18212ba4,2026-10-09T14:54:18Z,claude-sonnet-5-5,1
 news:c32cca9a7929ab4e,news:c32cca9a7929ab4e,2026-09-27T09:07:36Z,claude-sonnet-5,1
+news:c33c4848cf7b56dc,news:c33c4848cf7b56dc,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:c35fb0cf95202ece,news:c35fb0cf95202ece,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:c38a14ac97f97880,news:c38a14ac97f97880,2026-10-06T14:44:03Z,claude-sonnet-5-5,0
 news:c3defd90322d7ba4,news:c3defd90322d7ba4,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -2150,6 +2176,7 @@ news:dd8c701b262f8542,news:6e1752939a52a4d8,2026-09-27T09:07:36Z,claude-sonnet-5
 news:dd8e42d0fc3fecff,news:ee1a9df915023de7,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:ddd9fb81fdae9015,news:ddd9fb81fdae9015,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:ddf35fa0e8d160d7,news:ddf35fa0e8d160d7,2026-10-13T14:59:51Z,claude-sonnet-5-5,0
+news:ddfecf6d6bcb13b7,news:ddfecf6d6bcb13b7,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:de01eab532421ba9,news:ff87db6980fe9c68,2026-10-21T15:08:26Z,claude-sonnet-5-5,1
 news:de0f6d8d0a5a8998,news:de0f6d8d0a5a8998,2026-10-04T14:42:39Z,claude-sonnet-5-5,0
 news:de229662d7854a20,news:de229662d7854a20,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
@@ -2241,6 +2268,7 @@ news:e6ffd4fcbe4a0184,news:e6ffd4fcbe4a0184,2026-09-28T20:56:41Z,claude-sonnet-5
 news:e70563a5c72f94fe,news:e70563a5c72f94fe,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:e710df8eddc07db0,news:e710df8eddc07db0,2026-10-13T14:59:51Z,claude-sonnet-5-5,0
 news:e7158c76ac87a9a4,news:1336fbf6bc08c4db,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
+news:e73449e840a8a85e,news:17a726239616bc0d,2026-10-24T15:01:20Z,claude-sonnet-5-5,1
 news:e754b23705b04021,news:e754b23705b04021,2026-10-14T15:34:53Z,claude-sonnet-5-5,1
 news:e7742144676d80f4,news:e7742144676d80f4,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:e776d52c1e49bc10,news:ebd0abb48064693b,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -2311,6 +2339,7 @@ news:ee5cc877b143990e,news:ee5cc877b143990e,2026-09-27T09:07:36Z,claude-sonnet-5
 news:ee6b3f648d5c00ef,news:ee6b3f648d5c00ef,2026-10-22T15:02:19Z,claude-sonnet-5-5,0
 news:ee7fea78ad3591a7,news:ee7fea78ad3591a7,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:ee8b1b5d6f8b993e,news:ee8b1b5d6f8b993e,2026-09-27T09:07:36Z,claude-sonnet-5,0
+news:ee8cca4233dd3689,news:ee8cca4233dd3689,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:eea8ad972c1ff81f,news:eea8ad972c1ff81f,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:eec08966965d0c68,news:eec08966965d0c68,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:eec7106dd5834721,news:eec7106dd5834721,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -2351,6 +2380,7 @@ news:f2dbd72bb3478f1e,news:f2dbd72bb3478f1e,2026-10-21T15:08:26Z,claude-sonnet-5
 news:f2e29079c80def90,news:f2e29079c80def90,2026-10-05T15:07:16Z,claude-sonnet-5-5,0
 news:f30d3d67fb912097,news:f30d3d67fb912097,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:f32cf45bfe94064b,news:f32cf45bfe94064b,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
+news:f334b28c8408fcdd,news:f334b28c8408fcdd,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:f33beeabaaca1041,news:f33beeabaaca1041,2026-09-30T22:03:23Z,claude-sonnet-5-5,1
 news:f361954096b4f5fd,news:f361954096b4f5fd,2026-10-22T15:02:19Z,claude-sonnet-5-5,0
 news:f373ef55295aaa24,news:f373ef55295aaa24,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
@@ -2367,10 +2397,12 @@ news:f446de48b10c6ae5,news:f446de48b10c6ae5,2026-10-07T14:43:23Z,claude-sonnet-5
 news:f456fdc9b0e5e485,news:f456fdc9b0e5e485,2026-10-20T01:00:22Z,claude-sonnet-5-5,0
 news:f45cedcf10bb9640,news:f45cedcf10bb9640,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:f492018fdce13e98,news:f492018fdce13e98,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
+news:f4d0ef9f1e6637ae,news:f4d0ef9f1e6637ae,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:f4dc18420edf844d,news:f4dc18420edf844d,2026-10-20T01:00:22Z,claude-sonnet-5-5,0
 news:f526faf755e84a7e,news:f526faf755e84a7e,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
 news:f530327a3ac6a635,news:f530327a3ac6a635,2026-10-20T01:00:22Z,claude-sonnet-5-5,0
 news:f53949fb1745519d,news:5c8f393041cd7e6f,2026-09-28T20:56:41Z,claude-sonnet-5-5,1
+news:f57d130b289381b1,news:f57d130b289381b1,2026-10-24T15:01:20Z,claude-sonnet-5-5,1
 news:f58dded52ff35fb7,news:4641a8beeb4fc44f,2026-10-06T14:44:03Z,claude-sonnet-5-5,0
 news:f59e31c17ebe7031,news:e530dbb201a96a26,2026-09-28T20:56:41Z,claude-sonnet-5-5,0
 news:f5b21b7ea3af4c46,news:f5b21b7ea3af4c46,2026-10-20T01:00:22Z,claude-sonnet-5-5,0
@@ -2393,6 +2425,7 @@ news:f7d34e09308aa4cb,news:f7d34e09308aa4cb,2026-09-27T01:52:23Z,claude-sonnet-5
 news:f7d81bbb89971c69,news:6e1752939a52a4d8,2026-09-27T09:07:36Z,claude-sonnet-5,1
 news:f808ba79412b861c,news:f808ba79412b861c,2026-09-27T09:07:36Z,claude-sonnet-5,1
 news:f81676df810f92f7,news:4d98dcb83089c5aa,2026-10-02T00:09:45Z,claude-sonnet-5-5,0
+news:f82db1b0b961308b,news:f82db1b0b961308b,2026-10-24T15:01:20Z,claude-sonnet-5-5,0
 news:f8700952ce7e6a37,news:f8700952ce7e6a37,2026-09-27T09:07:36Z,claude-sonnet-5,0
 news:f87a46da8df7e751,news:f87a46da8df7e751,2026-10-11T15:32:07Z,claude-sonnet-5-5,0
 news:f88fa1626e51a128,news:f88fa1626e51a128,2026-09-27T09:07:36Z,claude-sonnet-5,0

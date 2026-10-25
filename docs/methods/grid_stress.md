@@ -1,5 +1,7 @@
 # How hard the system works: evening ramp, lowest net load, the tightest hours, dark and calm stretches
 
+Tables: `grid_stress_yearly`
+
 > **Session 133 (6 October 2026).** Installed capacity is now read from every retired unit EIA lists (`eia860m_retired_generators_all`), so the share of capacity in the tightest hours is given for natural gas, coal, nuclear, and hydro and storage from 2019, not from 2025 only. The page is a view of `/mix` (`/mix?view=stress`); what stood on its face is in this note. Details: `generation_mix_hourly.md`, "Session 133".
 
 Energy Research Warehouse (ERW), session 123 (5 October 2026). Table: `grid_stress_yearly`. Code:
@@ -105,3 +107,7 @@ The battery fleet in the dark, calm measure is `storage_buildout_monthly`'s oper
   (New York); Texas 31.7, and 39.9 in 2026 to date.
 - The longest dark, calm stretch of 2025: Texas 18 hours (322,188 MWh missing; 37.8 hours of its battery fleet at
   full power), California 18 hours, MISO 16, PJM 20, SPP 15, New England 62, New York 101 (wind only).
+
+## Checks against the table (session 2424)
+
+Counted from `warehouse/output` by `runs/c115/s2424/check_tables.py`: `grid_stress_yearly` 2,394 rows (2,002 when built on 5 October 2026; the daily run has added the year to date since), 46 variables, `freq P1Y`, 2019 to 2026, the seven ISO grids: CAISO 364, ERCOT 363, ISO-NE 363, MISO 362, NYISO 312, PJM 360, SPP 270. Units MW, MWh, count, hour, pct and ratio; no key given twice, every value a number. The Tables line was added so that the finder of held tables with no note sees it.

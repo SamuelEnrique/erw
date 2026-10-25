@@ -1,17 +1,31 @@
 table,publishers,how
+abs_suriname_electricity_annual,Algemeen Bureau voor de Statistiek in Suriname (ABS),the source registry
 aeso_alberta_load_hourly,"Alberta Electric System Operator (AESO), Canada",the source registry
+afdc_ev_charging_state_annual,U.S. Department of Energy (DOE),the source registry
+afdc_station_counts_annual,U.S. Department of Energy (DOE),the source registry
 afdc_vehicle_registrations_annual,U.S. Department of Energy (DOE),the source registry
 ai_power_regions,Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_grid_emergencies, caiso_interconnection_queue, carbon_intensity_daily, cost_of_power_monthly, eia930_all_demand, eia930_daily_interchange, ercot_all_hub_prices_history, ercot_interconnection_queue, event_study_estimates, iso_hub_prices_history, isone_interconnection_queue, lbnl_interconnection_queue, miso_interconnection_queue, nyiso_interconnection_queue, spp_interconnection_queue"
+amm_guatemala_generation_monthly,"Administrador del Mercado Mayorista (AMM), Guatemala",the source registry
+aneel_siga_plants,Agencia Nacional de Energia Eletrica (ANEEL),the source registry
 api_cost_ledger,Anthropic,the source registry
+arse_burkina_electricity_annual,"Autorite de Regulation du Secteur de l'Energie (ARSE), Burkina Faso",the source registry
+arsel_cameroon_electricity_annual,"Agence de Regulation du Secteur de l'Electricite (ARSEL), Cameroun",the source registry
+ask_kosovo_electricity_monthly,Kosovo Agency of Statistics (ASK),the source registry
 ba_supply_monthly,EIA,"the source registry and the tables its header derives it from: eia930_daily_interchange, eia930_daily_total_interchange"
 battery_sourced_ranges,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 battery_stack_monthly,CAISO; ERCOT,"the source registry and the tables its header derives it from: caiso_as_prices, ercot_all_hub_prices_history, ercot_as_prices, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
 battery_stack_review_monthly,NYISO; SPP,"the source registry and the tables its header derives it from: iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, nyiso_as_prices, nyiso_dam_zone_prices, nyiso_rtm_zone_prices, spp_as_prices"
 battery_stack_stress_daily,CAISO; ERCOT,"the source registry and the tables its header derives it from: caiso_as_prices, ercot_all_hub_prices_history, ercot_as_prices, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
+bcrp_peru_electricity_monthly,Banco Central de Reserva del Peru (BCRP),the source registry
+bcrp_peru_hydrocarbons_monthly,Banco Central de Reserva del Peru (BCRP),the source registry
+bfe_switzerland_electricity_monthly,Swiss Federal Office of Energy (SFOE),the source registry
 blm_ca_renewable_rows,"U.S. Department of the Interior, Bureau of Land Management (BLM)",the source registry
+blm_oil_gas_statistics_annual,"U.S. Department of the Interior, Bureau of Land Management (BLM)",the source registry
 boem_offshore_platforms,Bureau of Ocean Energy Management (BOEM),the source registry
 boem_ogor_lease_production_monthly,Bureau of Ocean Energy Management (BOEM),the source registry
 boem_renewable_leases,Bureau of Ocean Energy Management (BOEM),the source registry
+bpa_ba_hourly,Bonneville Power Administration (BPA),the source registry
+bsee_offshore_incidents,"U.S. Department of the Interior, Bureau of Safety and Environmental Enforcement (BSEE)",the source registry
 caiso_area_load_hourly,CAISO,the source registry
 caiso_as_prices,CAISO,the source registry
 caiso_battery_storage,CAISO,the source registry
@@ -31,24 +45,50 @@ carb_lcfs_credit_prices,CARB,the source registry
 carbon_intensity_daily,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 carbon_intensity_hourly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 carbon_intensity_monthly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
+cbs_curacao_electricity_annual,Central Bureau of Statistics Curacao (CBS),the source registry
+cbs_netherlands_electricity_monthly,Statistics Netherlands (CBS),the source registry
+cea_india_psp_annual,Central Electricity Authority (India),the source registry
+ceb_srilanka_electricity_annual,"Ceylon Electricity Board, Sri Lanka (CEB)",the source registry
+cec_total_system_generation_annual,California Energy Commission (CEC),the source registry
+cence_costarica_generation_monthly,"Centro Nacional de Control de Energia (CENCE, ICE)",the source registry
+censtatd_hk_electricity,"Census and Statistics Department, Hong Kong (C&SD)",the source registry
+census_bps_state_annual,Census Bureau,the source registry
+census_c30_construction_monthly,Census Bureau,the source registry
+census_cbp_hosting_annual,Census Bureau,the source registry
 census_metro_population,Census Bureau,the source registry
+census_qss_utilities_hosting_quarterly,Census Bureau,the source registry
 cer_electricity_trade,Canada Energy Regulator (CER),the source registry
 cer_gas_trade,Canada Energy Regulator (CER),the source registry
+cer_pipeline_throughput,"Canada Energy Regulator (CER), Open Government Licence - Canada",the source registry
 cftc_cot_positions,CFTC,the source registry
+cisos_cook_electricity_quarterly,Cook Islands Statistics Office,the source registry
 clean_energy_hourly,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_fuel_supply, carbon_intensity_hourly, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history"
 clean_energy_summary,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_fuel_supply, carbon_intensity_hourly, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history"
 cost_of_power_carbon,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 cost_of_power_hourly_profile,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 cost_of_power_monthly,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
+cso_ireland_electricity_monthly,"Central Statistics Office, Ireland (CSO)",the source registry
+csp_latvia_electricity_monthly,Central Statistical Bureau of Latvia (CSP),the source registry
 datacenter_facilities,Amazon Web Services; Bloomberg; CAISO; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; ERCOT; Equinix; Financial Times; Google; Hart Energy; Heatmap News; ISO-NE; Latitude Media; MISO; Meta; Microsoft; NYISO; Natural Gas Intelligence; OilPrice.com; Oracle; POWER Magazine; Reuters; SPP; Switch; Vantage Data Centers; WSJ,"the source registry and the tables its header derives it from: caiso_interconnection_queue, datacenter_operator_sites, datacenter_projects, ercot_interconnection_queue, isone_interconnection_queue, miso_interconnection_queue, nyiso_interconnection_queue, spp_interconnection_queue"
 datacenter_operator_sites,Amazon Web Services; Digital Realty; Equinix; Google; Meta; Microsoft; Oracle; Switch; Vantage Data Centers,the source registry
 datacenter_projects,Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_projects_evidence,Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: rows of the six operators' queue tables
+dbedt_hawaii_electricity_annual,"Hawaii State Department of Business, Economic Development and Tourism (DBEDT)",the source registry
+derk_bih_electricity_annual,State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK),the source registry
+desnz_uk_electricity_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_uk_gas_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_uk_renewables_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+dfe_ni_electricity_monthly,Department for the Economy (Northern Ireland),the source registry
 doe_grip_selections,U.S. Department of Energy (DOE),the source registry
+doe_lead_energy_burden,U.S. Department of Energy (DOE),the source registry
 doe_lng_export_applications,U.S. Department of Energy (DOE),the source registry
 doe_oe417_events,U.S. Department of Energy (DOE),the source registry
 doe_useer_employment,U.S. Department of Energy (DOE),the source registry
+dosm_malaysia_electricity_monthly,Department of Statistics Malaysia (DOSM),the source registry
+econtrol_austria_electricity_monthly,E-Control (Energie-Control Austria),the source registry
+eec_eswatini_electricity_annual,Eswatini Electricity Company (EEC),the source registry
+eehc_egypt_electricity_annual,Egyptian Electricity Holding Company (EEHC),the source registry
 egrid_power_plants,EPA,the source registry
 egrid_subregions_annual,EPA,the source registry
 eia411_capacity_margins_annual,EIA,the source registry
@@ -126,21 +166,28 @@ eia_crude_first_purchase_prices,EIA,the source registry
 eia_crude_imports_by_country,EIA,the source registry
 eia_crude_imports_detail_monthly,EIA,the source registry
 eia_crude_production_state_monthly,EIA,the source registry
+eia_crude_quality_monthly,EIA,the source registry
 eia_crude_reserves_annual,EIA,the source registry
 eia_crude_stream_prices,EIA,the source registry
+eia_crude_tank_farm_stocks_monthly,EIA,the source registry
 eia_drilling_monthly,EIA,the source registry
 eia_energy_efficiency_state_annual,EIA,the source registry
 eia_fuel_spot_prices,EIA,the source registry
 eia_gas_balance_annual,EIA,the source registry
 eia_gas_consumers_state_annual,EIA,the source registry
 eia_gas_consumption_state_monthly,EIA,the source registry
+eia_gas_for_others_annual,EIA,the source registry
+eia_gas_heat_content_monthly,EIA,the source registry
 eia_gas_interstate_annual,EIA,the source registry
+eia_gas_other_uses_state_annual,EIA,the source registry
 eia_gas_pipeline_projects,EIA,the source registry
+eia_gas_plant_processing_annual,EIA,the source registry
 eia_gas_prices_state_monthly,EIA,the source registry
 eia_gas_production_state_monthly,EIA,the source registry
 eia_gas_reserves_annual,EIA,the source registry
 eia_gas_storage_capacity_monthly,EIA,the source registry
 eia_gas_storage_state_monthly,EIA,the source registry
+eia_gas_storage_type_monthly,EIA,the source registry
 eia_gas_storage_weekly,EIA,the source registry
 eia_gas_trade_country_monthly,EIA,the source registry
 eia_gas_trade_monthly,EIA,the source registry
@@ -152,8 +199,10 @@ eia_ieo_projections,EIA,the source registry
 eia_international_electricity_annual,EIA,the source registry
 eia_lng_exports_monthly,EIA,the source registry
 eia_lng_liquefaction_projects,EIA,the source registry
+eia_lng_storage_annual,EIA,the source registry
 eia_mecs_manufacturing,EIA,the source registry
 eia_meters_state_annual,EIA,the source registry
+eia_net_imports_monthly,EIA,the source registry
 eia_net_metering_state_annual,EIA,the source registry
 eia_ngl_production_monthly,EIA,the source registry
 eia_nuclear_outages_daily,EIA,the source registry
@@ -165,6 +214,7 @@ eia_padd_rail_barge_movements_monthly,EIA,the source registry
 eia_petroleum_exports_by_destination,EIA,the source registry
 eia_petroleum_snd_monthly,EIA,the source registry
 eia_petroleum_stocks_monthly,EIA,the source registry
+eia_petroleum_stocks_state_monthly,EIA,the source registry
 eia_petroleum_stocks_weekly,EIA,the source registry
 eia_petroleum_supply_weekly,EIA,the source registry
 eia_petroleum_trade_weekly,EIA,the source registry
@@ -179,16 +229,20 @@ eia_recs_households,EIA,the source registry
 eia_refinery_capacity_annual,EIA,the source registry
 eia_refinery_inputs_monthly,EIA,the source registry
 eia_refinery_production_monthly,EIA,the source registry
+eia_refinery_utilization_monthly,EIA,the source registry
 eia_refinery_weekly,EIA,the source registry
 eia_regional_retail_fuel_prices,EIA,the source registry
 eia_retail_electricity_prices,EIA,the source registry
 eia_retail_fuel_prices,EIA,the source registry
 eia_retail_sales_monthly,EIA,the source registry
 eia_sector_energy_consumption_monthly,EIA,the source registry
+eia_seds_residential_annual,EIA,the source registry
 eia_seds_state_energy,EIA,the source registry
+eia_shale_gas_reserves_annual,EIA,the source registry
 eia_state_capacity_annual,EIA,the source registry
 eia_state_generation_monthly,EIA,the source registry
 eia_state_source_disposition_annual,EIA,the source registry
+eia_state_to_state_capacity,EIA,the source registry
 eia_steo_forecasts,EIA,the source registry
 eia_uranium_facilities,EIA,the source registry
 eia_uranium_marketing_annual,EIA,the source registry
@@ -199,14 +253,33 @@ eia_world_electricity_annual,EIA,the source registry
 eia_world_energy_co2_annual,EIA,the source registry
 eia_world_oil_gas_annual,EIA,the source registry
 eia_world_oil_monthly,EIA,the source registry
+elexon_gb_demand_daily,Elexon Limited (BMRS),the source registry
+emi_nz_generation_demand_monthly,Electricity Authority (New Zealand),the source registry
+enercal_nc_electricity_annual,Enercal,the source registry
+energinet_dk_production_hourly,Energinet (Energi Data Service),the source registry
+energy_charts_belgium_hourly,Energy-Charts.info (Fraunhofer ISE),the source registry
+energy_charts_central_europe,Energy-Charts.info (Fraunhofer ISE),the source registry
+energy_charts_italy_power,Energy-Charts.info (Fraunhofer ISE),the source registry
+energy_charts_portugal_power,Energy-Charts.info (Fraunhofer ISE),the source registry
+energy_charts_southeast_europe_daily,Energy-Charts.info (Fraunhofer ISE),the source registry
 energy_companies,ERW,"by hand: its header: names, one-line descriptions written by the ERW, and links"
 energy_deals,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
 energy_deals_evidence,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
 energy_projects,CAISO; Census Bureau; EIA; ERCOT; ISO-NE; SPP,"the source registry and the tables its header derives it from: caiso_interconnection_queue, eia860m_operating_generators, eia860m_planned_generators, ercot_interconnection_queue, isone_interconnection_queue, spp_interconnection_queue"
+energycom_ghana_electricity_annual,"Energy Commission, Ghana",the source registry
+ens_denmark_electricity_monthly,Danish Energy Agency (Energistyrelsen),the source registry
+epa_ghg_inventory_annual,EPA,the source registry
 epa_ghgrp_facility_emissions,EPA,the source registry
 epa_ghgrp_power_co2,EPA,the source registry
+epa_lmop_landfill_projects,EPA,the source registry
+epa_needs_units,EPA,the source registry
 epa_rfs_fuel_annual,EPA,the source registry
 epa_rfs_rins_monthly,EPA,the source registry
+epa_tri_energy_releases_annual,EPA,the source registry
+epe_brazil_consumption_monthly,Empresa de Pesquisa Energetica (EPE),the source registry
+epra_kenya_electricity_annual,"Energy and Petroleum Regulatory Authority, Kenya (EPRA)",the source registry
+erb_zambia_electricity_annual,"Energy Regulation Board, Zambia (ERB)",the source registry
+erc_mongolia_electricity_annual,Energy Regulatory Commission of Mongolia (ERC),the source registry
 ercot_4cp_intervals,ERCOT,the source registry
 ercot_all_hub_prices_history,ERCOT,by hand: ERCOT's hub price reports
 ercot_as_prices,ERCOT,the source registry
@@ -243,8 +316,24 @@ ercot_wind_solar_hsl_hourly,ERCOT,the source registry
 ercot_wind_solar_output_hourly,ERCOT,the source registry
 ercot_zone_load_hourly,ERCOT,the source registry
 ercot_zone_prices_history,ERCOT,the source registry
+eru_czech_electricity,"Energeticky regulacni urad (ERU), Czechia",the source registry
+esco_georgia_electricity_monthly,Electricity Market Operator of Georgia (ESCO),the source registry
+eurostat_crude_imports_by_field_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_crude_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_electricity_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_electricity_production_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_electricity_trade_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_gas_balance_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_hard_coal_imports_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_oil_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_solid_fuels_monthly,Eurostat (Statistical Office of the European Union),the source registry
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
 event_window_daily,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia930_all_emissions, eia930_all_history, ercot_all_hub_prices_history, iso_hub_prices_history, noaa_isd_hourly"
+ewa_bahrain_electricity_annual,"Electricity and Water Authority, Kingdom of Bahrain (EWA)",the source registry
+fbos_fiji_electricity_annual,Fiji Bureau of Statistics (FBoS),the source registry
 fema_disaster_declarations,Federal Emergency Management Agency (FEMA),the source registry
 ferc714_area_demand_2006,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
 ferc714_area_demand_2007,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
@@ -280,22 +369,33 @@ flex_alert_effects,CAISO; EIA; NOAA NCEI,"the source registry and the tables its
 flex_alert_model,CAISO; EIA; NOAA NCEI,"the source registry and the tables its header derives it from: caiso_dam_alert_day_hub_prices, caiso_grid_emergencies, eia930_all_demand, noaa_isd_hourly"
 frb_treasury_yields,FRB,the source registry
 frb_utility_output_monthly,FRB,the source registry
+gastat_saudi_electricity_annual,"Ministry of Energy, Saudi Arabia, as published by GASTAT",the source registry
 generation_mix_hourly_profile,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
 generation_mix_records,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
+gfz_kp_index_3h,GFZ Helmholtz Centre for Geosciences (Potsdam),the source registry
+grenada_cso_electricity_annual,Central Statistical Office of Grenada (CSO),the source registry
 grid_network_links,EIA,"the source registry and the tables its header derives it from: carbon_intensity_hourly, eia930_all_demand, eia930_all_interchange"
 grid_network_nodes,EIA,"the source registry and the tables its header derives it from: carbon_intensity_hourly, eia930_all_demand, eia930_all_interchange"
 grid_peak_vs_capacity,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia930_demand_growth"
 grid_stress_days,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"by hand: its header: the main hubs' real-time prices of six grids, CAISO's notices and ERCOT's (session 322)"
 grid_stress_yearly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, eia860m_operating_generators, eia860m_retired_generators_all, storage_buildout_monthly"
+hagstofa_iceland_power_annual,Statistics Iceland (Hagstofa Islands),the source registry
+hagstova_faroe_electricity_annual,Statistics Faroe Islands (Hagstova Foroya),the source registry
 hub_price_comparison,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: carbon_intensity_daily, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
+ieso_generation_fuel_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
 ieso_ontario_demand_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
+ilr_luxembourg_electricity,Institut Luxembourgeois de Regulation (ILR),the source registry
 imf_commodity_prices,IMF,the source registry
 impact_tax_rules,Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts,the source registry
+inseed_togo_electricity_annual,"Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo",the source registry
+instat_madagascar_electricity_monthly,"Institut National de la Statistique (INSTAT), Madagascar",the source registry
 interconnection_agreements_by_grid,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_agreements_signed,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_durations,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_durations_summary,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_queue_summary,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
+irena_capacity_annual,International Renewable Energy Agency (IRENA),the source registry
+irs_soi_energy_credits_annual,"Internal Revenue Service (IRS), Statistics of Income",the source registry
 iso_all_capacity_prices,ISO-NE; MISO; NYISO; PJM,the source registry
 iso_curtailment_monthly,CAISO; ERCOT; SPP,"the source registry and the tables its header derives it from: caiso_curtailment_daily, ercot_wind_solar_hsl_daily, spp_curtailment_daily"
 iso_dam_hub_prices,CAISO; ERCOT; MISO; SPP,the grids its coverage row lists (a table of several operators' own prices)
@@ -314,7 +414,10 @@ isone_rtm_zone_prices,ISO-NE,the source registry
 isone_rtm_zone_prices_hourly,ISO-NE,the source registry
 isone_zone_load_hourly,ISO-NE,the source registry
 isone_zone_prices_history,ISO-NE,the source registry
+je_jersey_electricity_annual,Government of Jersey,the source registry
 known_data_faults,ERW,by hand: its header: the ERW's own account of its sources' data
+kpx_korea_demand_monthly,Korea Power Exchange,the source registry
+kpx_korea_generation_annual,Korea Power Exchange,the source registry
 large_load_document_verdicts,"Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD); utilities and operators, each row's own document (not listed one by one)","the source registry and the tables its header derives it from: large_load_statements, large_load_waits"
 large_load_public,"utilities and operators, each row's own document (not listed one by one)",the source registry and the tables its header derives it from: large_load_statements
 large_load_rule_reads,Arizona Corporation Commission; California Public Utilities Commission; Illinois Commerce Commission; Office of the Federal Register (NARA); Oregon Public Utility Commission; Pennsylvania Public Utility Commission,by hand: its header: a model's reads of the rows of large_load_rules and of policy_actions
@@ -331,19 +434,23 @@ lbnl_tracking_the_sun,"Berkeley Lab, Tracking the Sun on OEDI","by hand: its sub
 lbnl_wind_capacity_factors,Berkeley Lab,the source registry
 lbnl_wind_costs,Berkeley Lab,the source registry
 lbnl_wind_turbine_orders,Berkeley Lab,the source registry
+makstat_macedonia_electricity_monthly,State Statistical Office of North Macedonia (MakStat),the source registry
 merchant_revenue_monthly,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_retired_generators, eia_fuel_spot_prices, ercot_all_hub_prices_history, event_window_daily, iso_hub_prices_history, iso_rtm_hub_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices"
 miso_as_prices,MISO,the source registry
 miso_interconnection_queue,MISO,the source registry
 msha_coal_mines,"U.S. Department of Labor, Mine Safety and Health Administration (MSHA)",the source registry
 msha_coal_production_quarterly,"U.S. Department of Labor, Mine Safety and Health Administration (MSHA)",the source registry
-news_index,ANS Nuclear Newswire; Bloomberg; CAISO; CTVC; California Public Utilities Commission; California State Portal | CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; EIA; EPA; ERCOT; Electrek; Energy-Storage.news; FERC; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; IEA; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM (its news releases); POWER Magazine; Public Utility Commission of Texas; Reuters; Rigzone; SPP; T&D World; Texas.gov; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
+nbs_maldives_electricity,Maldives Bureau of Statistics (NBS),the source registry
+ncsi_oman_electricity_annual,"National Centre for Statistics and Information, Oman (NCSI)",the source registry
+news_index,ANS Nuclear Newswire; Africa Sustainable Futures Awards; Bloomberg; CAISO; CTVC; California Public Utilities Commission; California State Portal | CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; EIA; EPA; ERCOT; Electrek; Energy-Storage.news; FERC; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; IEA; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM (its news releases); POWER Magazine; Public Utility Commission of Texas; Reuters; Rigzone; SPP; T&D World; Texas.gov; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
 news_scores_shadow,the outlets of news_stories,by hand: its header: scores of the stories of news_stories
-news_stories,ANS Nuclear Newswire; Bloomberg; CAISO; CTVC; California Public Advocates Office (.gov); California Public Utilities Commission; California State Portal | CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; EIA; EPA; ERCOT; Electrek; Energy-Storage.news; FERC; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; IEA; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM (its news releases); POWER Magazine; Public Utility Commission of Texas; Reuters; Rigzone; SPP; T&D World; Texas.gov; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
+news_stories,ANS Nuclear Newswire; Africa Sustainable Futures Awards; Bloomberg; CAISO; CTVC; California Public Advocates Office (.gov); California Public Utilities Commission; California State Portal | CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; EIA; EPA; ERCOT; Electrek; Energy-Storage.news; FERC; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; IEA; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM (its news releases); POWER Magazine; Public Utility Commission of Texas; Reuters; Rigzone; SPP; T&D World; Texas.gov; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
 nhc_hurdat2_track_points,NWS,the source registry
 nlr_atb_electricity_costs,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 nlr_jedi_multipliers,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 noaa_climdiv_state_monthly,NOAA NCEI,the source registry
 noaa_cpc_degree_days_daily,NWS,the source registry
+noaa_cpc_oni_monthly,NWS,the source registry
 noaa_grid_weather_daily,NOAA NCEI,the source registry
 noaa_grid_weather_hourly,NOAA NCEI,the source registry
 noaa_grid_weather_stations,NOAA NCEI,the source registry
@@ -351,6 +458,7 @@ noaa_isd_hourly,NOAA NCEI,the source registry
 noaa_ncei_billion_disasters,NOAA NCEI,the source registry
 noaa_ncei_storm_events,NOAA NCEI,the source registry
 noaa_station_weather_hourly,NOAA NCEI,the source registry
+noaa_uscrn_solar_monthly,NOAA NCEI,the source registry
 node_basis_daily,ERCOT,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, ercot_zone_prices_history"
 node_basis_summary,ERCOT,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, ercot_zone_prices_history"
 nrc_advanced_reactor_preapplicants,NRC,the source registry
@@ -359,6 +467,12 @@ nrc_license_actions,NRC,the source registry
 nrc_new_reactor_applications,NRC,the source registry
 nrc_power_reactors,NRC,the source registry
 nrc_reactor_status,NRC,the source registry
+nrc_rop_findings,NRC,the source registry
+nrcs_snotel_swe_daily,USDA Natural Resources Conservation Service (NRCS),the source registry
+nsi_bulgaria_electricity_monthly,"National Statistical Institute, Bulgaria (NSI)",the source registry
+nso_malawi_electricity_sales_annual,National Statistical Office of Malawi (NSO),the source registry
+ntd_transit_energy_annual,"U.S. Department of Transportation, Federal Transit Administration (FTA)",the source registry
+nve_norway_reservoirs_weekly,Norwegian Water Resources and Energy Directorate (NVE),the source registry
 nyiso_as_prices,NYISO,the source registry
 nyiso_dam_cleared_energy,NYISO,the source registry
 nyiso_dam_zone_prices,NYISO,the source registry
@@ -369,12 +483,15 @@ nyiso_zone_load_hourly,NYISO,the source registry
 onrr_production_annual,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)",the source registry
 onrr_production_monthly,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)",the source registry
 onrr_revenue_monthly,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)",the source registry
+ons_brazil_balance_hourly,Operador Nacional do Sistema Eletrico (ONS),the source registry
+ope_pf_electricity_annual,Government of French Polynesia (Direction Polynesienne de l'Energie),the source registry
 ornl_eha_hydropower_plants,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_eha_hydropower_units,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_hydropower_pipeline,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_hydropower_relicensing,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_npd_potential,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_tedb_transportation_annual,"Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book",the source registry
+owid_ember_electricity_annual,Ember; Our World in Data,the source registry
 pjm_rpm_capacity_prices,PJM,the source registry
 policy_action_tags,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),the source registry and the tables its header derives it from: policy_actions
 policy_actions,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),the source registry
@@ -386,29 +503,71 @@ price_board_latest,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry a
 price_board_peak_offpeak,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 price_board_spreads,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: eia_fuel_spot_prices, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 price_years_by_window,CAISO; EIA; ERCOT; NOAA NCEI; SPP,"the source registry and the tables its header derives it from: battery_stack_monthly, battery_stack_review_monthly, battery_stack_stress_daily, ercot_all_hub_prices_history, ercot_zone_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, merchant_revenue_monthly"
+pse_poland_balance_15min,PSE S.A. (Polskie Sieci Elektroenergetyczne),the source registry
+ree_spain_balance_monthly,Red Electrica (REE),the source registry
+ren_portugal_balance_annual,REN (Redes Energeticas Nacionais),the source registry
 rggi_auction_allowance_prices,RGGI,the source registry
 rrc_lease_production_monthly,RRC,the source registry
+rte_eco2mix_france_halfhourly,RTE (Reseau de Transport d'Electricite),the source registry
+sbs_samoa_electricity_annual,Samoa Bureau of Statistics (SBS),the source registry
 scarcity_hours_by_grid,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_grid_emergencies, ercot_all_hub_prices_history, ercot_rtm_price_adders, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
+scb_sweden_electricity_monthly,Statistics Sweden (SCB),the source registry
+scripps_co2_mlo_monthly,"Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego)",the source registry
 shoulder_hours_monthly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_battery_storage, caiso_curtailment_daily, caiso_fuel_supply, storage_buildout_monthly"
+siea_solomon_electricity_annual,Solomon Islands Electricity Authority (Solomon Power),the source registry
+singstat_singapore_electricity,Singapore Department of Statistics (SingStat),the source registry
+slu_cso_electricity_annual,Central Statistical Office of Saint Lucia (CSO); St. Lucia Electricity Services Limited (LUCELEC),the source registry
+smard_germany_monthly,Bundesnetzagentur (SMARD),the source registry
+sne_panama_electricity_annual,"Secretaria Nacional de Energia, Panama",the source registry
+sne_panama_generation_monthly,"Secretaria Nacional de Energia, Panama",the source registry
+sors_serbia_electricity_annual,Statistical Office of the Republic of Serbia (SORS),the source registry
 spp_as_prices,SPP,the source registry
 spp_as_quantities,SPP,the source registry
 spp_curtailment_daily,SPP,the source registry
 spp_dam_cleared_energy,SPP,the source registry
 spp_interconnection_queue,SPP,the source registry
+ssb_norway_electricity_monthly,Statistics Norway (SSB),the source registry
+statbank_moldova_electricity_monthly,National Bureau of Statistics of the Republic of Moldova (StatBank),the source registry
+statcan_electricity_generation_monthly,Statistics Canada,the source registry
+statcan_electricity_trade_monthly,Statistics Canada,the source registry
+statcan_energy_balance_annual,Statistics Canada,the source registry
+statcan_generating_capacity_annual,Statistics Canada,the source registry
+statcan_generation_class_annual,Statistics Canada,the source registry
+statcan_oil_gas_supply_monthly,Statistics Canada,the source registry
+statcan_petroleum_products_monthly,Statistics Canada,the source registry
+statcan_power_disposition_annual,Statistics Canada,the source registry
 state_generation_mix_monthly,EIA,the source registry and the tables its header derives it from: eia_state_generation_monthly
+statee_estonia_electricity_monthly,Statistics Estonia,the source registry
+statfi_finland_electricity_monthly,Statistics Finland,the source registry
+statgl_greenland_electricity_annual,Statistics Greenland (Gronlands Statistik),the source registry
+statnett_norway_daily,Statnett SF,the source registry
+statsbots_botswana_electricity_monthly,Statistics Botswana,the source registry
+statsmu_mauritius_electricity_annual,Statistics Mauritius,the source registry
 storage_buildout_monthly,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators, eia860m_retired_generators"
 storage_capacity,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators, eia860m_retired_generators"
 storage_daily_cycle,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_battery_storage, eia930_all_storage"
 storage_owners_monthly,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators"
+svk_sweden_production_hourly,Svenska kraftnat,the source registry
 texas_delivery_charges,"AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company",the source registry
 texas_transmission_matrix,Public Utility Commission of Texas,the source registry
+treasury_1603_awards,U.S. Department of the Treasury,the source registry
 usace_nid_dams,U.S. Army Corps of Engineers (USACE),the source registry
+usaspending_doe_obligations,"U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov)",the source registry
+usbr_crsp_reservoirs_daily,U.S. Bureau of Reclamation (USBR),the source registry
 usbr_hydropower_monthly,U.S. Bureau of Reclamation (USBR),the source registry
+usbr_mead_powell_daily,U.S. Bureau of Reclamation (USBR),the source registry
 usdm_drought_state_weekly,"U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA)",the source registry
+usgs_comcat_earthquakes_south_central,U.S. Geological Survey (USGS),the source registry
 usgs_mcs_critical_minerals,U.S. Geological Survey (USGS),the source registry
+usgs_streamflow_daily,U.S. Geological Survey (USGS),the source registry
 uspvdb_solar_facilities,U.S. Geological Survey (USGS),the source registry
 uswtdb_wind_turbines,U.S. Geological Survey (USGS),the source registry
 utility_service_territories,EIA,the source registry
+vmme_paraguay_electricity_annual,"Viceministerio de Minas y Energia (VMME), Paraguay",the source registry
 wb_commodity_prices_monthly,World Bank,the source registry
+wb_electricity_access_annual,World Bank,the source registry
+wb_iea_electricity_annual,IEA (standalone datasets),the source registry
 weather_forecast_hourly,NWS,the source registry
 weather_obs_hourly,NWS,the source registry
+wfigs_wildfires,National Interagency Fire Center (NIFC),the source registry
+zimstat_zimbabwe_generation_monthly,Zimbabwe National Statistics Agency (ZIMSTAT),the source registry

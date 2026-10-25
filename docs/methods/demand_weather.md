@@ -1,5 +1,7 @@
 # Demand growth with the weather taken out
 
+Tables: `eia930_demand_weather`
+
 Table `eia930_demand_weather`, built by `warehouse/derived/demand_weather.py` from EIA-930 hourly demand and
 `noaa_grid_weather_hourly`. The weather tables (`noaa_grid_weather_stations`, `noaa_grid_weather_hourly`,
 `noaa_grid_weather_daily`) are built by `warehouse/connectors/noaa_grid_weather.py`. Page: `/demand?view=weather`, the second view of the

@@ -4,6 +4,8 @@ The metrics behind the ERCOT peak-premium chart (the human's thesis), as the Ene
 - `ercot_peak_premium_annual`: one value per metric, hub and ERCOT operating year, freq `P1Y`;
 - `ercot_peak_premium_monthly`: the same metrics per calendar month, freq `P1M`.
 
+Tables: `ercot_peak_premium_monthly`, `ercot_peak_premium_annual`
+
 ## Input
 
 - **Prices:** ERCOT real-time settlement point prices, 15-minute intervals, USD/MWh (variable `spp_rtm`). They come from ERCOT's NP6-785-ER yearly archives and NP6-905-CD live files, as stored in the ERW tables:
