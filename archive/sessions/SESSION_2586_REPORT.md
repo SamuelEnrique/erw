@@ -1,6 +1,6 @@
 # Session 2586 report: a third own choice, none taken (Nicaragua's central bank answers with a CAPTCHA; the Dominican Republic's central bank's table not found)
 
-25 October 2026, about 02:52 to 02:55 UTC, on lab-desktop (the data machine), chain 127, unattended; run before session 2585, so that the records check covers every table of the chain. Precheck passed (`runs/c127/pre2586.out`). Model spend USD 0. Pulls: 3 requests of 20. No table.
+25 October 2026, about 02:52 to 02:54 UTC, on lab-desktop (the data machine), chain 127, unattended; run before session 2585, so that the records check covers every table of the chain. Precheck passed (`runs/c127/pre2586.out`). Model spend USD 0. Pulls: 3 requests of 20. No table.
 
 ## Read these first
 
