@@ -1,0 +1,56 @@
+PREVIEW v2: ERW Weekly | The Nuclear Company proposes 6,600 MW of AP1000 reactors in eastern Kentucky; WTI Cushing crude +13.1% on the week
+
+ERW Weekly Roundup, 2026-W43
+
+Week ending 25 October 2026. Sources through 03:40 ET, 07:40 UTC.
+
+No Roundup was written for 2026-W42; that week's stories are in the Digests of 2026-10-12 to 2026-10-16 (the archive).
+
+ERW's weekly roundup of energy news for 2026-10-19 to 2026-10-25, to 2026-10-25 07:40 UTC, from 1449 scored stories.
+
+
+The opening number
+
+WTI Cushing crude closed at 107.89 USD/bbl on 2026-10-20, against 95.39 USD/bbl on 2026-10-13 (+12.50 USD/bbl, +13.1%) [5]. Status: calculated from observed prices (the warehouse's tables).
+
+The week in five numbers
+
+- Price move of the week: WTI Cushing crude closed at 107.89 USD/bbl on 2026-10-20, against 95.39 USD/bbl on 2026-10-13 (+12.50 USD/bbl, +13.1%) [5].
+- US48 peak demand: 519,440 MW in the hour starting 2026-10-20 22:00 UTC [6].
+- Deal of the week, by US dollars: USD 45 billion, Anthropic and Nscale, cloud computing deal (offtake, 2026-10-19; energy_deals deal:d7ed182372909e6d).
+- Largest new datacenter load first reported this week: 1,000 MW, operator not stated, site not stated, Newport (datacenter_projects datacenter:8ea094c6d5fc3593).
+- From the chart of the week: no chart of the week was picked for this week, so no figure.
+
+What mattered
+
+1. The Nuclear Company proposes 6,600 MW of AP1000 reactors in eastern Kentucky
+   Largest proposed US nuclear project in decades; generation FID for Kentucky. What the evidence does not establish: the 6,600 MW is the outlet's figure, not a warehouse table's.
+   ANS Nuclear Newswire: https://www.ans.org/news/2026-10-22/article-8511/six-ap1000-reactors-eyed-for-kentucky-nuclear-power-facility/
+2. Cheniere signs agreements to supply QatarEnergy with 4 million tonnes per annum of LNG through 2054
+   Decade-spanning LNG contract locks in supply volumes and reshapes global LNG trade flows. What the evidence does not establish: its figures are the outlets', not a warehouse table's.
+   LNG Prime: https://lngprime.com/contracts-and-tenders/cheniere-inks-long-term-lng-supply-deals-with-qatarenergy/198822/
+3. AEP, Amazon and X-energy plan 960 MW nuclear plant at retired Indiana coal site
+   What the evidence does not establish: the 960 MW is the outlet's figure, not a warehouse table's.
+   Financial Times (via Google News)
+
+ERW's Chart of the Week
+
+- no chart of the week was picked for this week (warehouse/analysis/run.py has not run for it).
+
+Next week
+
+No dated events held this week: the warehouse and the policy monitor hold no filing, auction, hearing, data release or project milestone dated in the week ahead.
+
+More on the site: the weekend's and the week's other stories, the deals, the datacenters, the policy of the week and the numbers in full: https://github.com/SamuelEnrique/erw/blob/main/docs/roundup/2026-W43.md
+
+ERW's Fun Fact
+
+The term duck curve was coined in 2012 by the California Independent System Operator, and the curve is named for its visual similarity to the outline of a duck. Grid operators hope batteries help the duck keep its neck in check.
+Sources: Wikipedia, Duck curve (https://en.wikipedia.org/wiki/Duck_curve).
+
+ERW
+
+All of ERW's Roundup: https://github.com/SamuelEnrique/erw/blob/main/docs/roundup/2026-W43.md
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Corrections: https://github.com/SamuelEnrique/erw/issues
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.
