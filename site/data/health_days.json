@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-10-24T16:28Z",
+ "written": "2026-10-25T16:04Z",
  "green_days": 0,
- "counted_to": "2026-10-23",
+ "counted_to": "2026-10-24",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -1810,6 +1810,90 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 39 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-24": {
+   "rows": 714,
+   "failed": 2,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 103
+    },
+    "daily prices": {
+     "ok": 36,
+     "skipped": 2,
+     "retried": 1,
+     "failed": 1,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 22,
+     "skipped": 8,
+     "retried": 0,
+     "failed": 0,
+     "runs": 30
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 8,
+     "retried": 0,
+     "failed": 0,
+     "runs": 104
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 50,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 1,
+     "runs": 53
+    },
+    "local:lab-desktop": {
+     "ok": 34,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 34
+    },
+    "local:samueloldlaptop": {
+     "ok": 6,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 6
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-24T16:28",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "1 error in 0.49s"
+    },
+    {
+     "at": "2026-10-24T18:18",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_board",
+     "reason": "its tests exited 1 (tests.test_session132 tests.test_session240); the group was put back as committed"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-24T15:14",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 40 days old (limit 28)"
+    },
+    {
+     "at": "2026-10-24T17:32",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 40 days old (limit 28)"
     }
    ]
   }
