@@ -1,6 +1,6 @@
 # Session 2588 report: the next file first; Mauritania's electricity, not taken (ANSADE's site is drawn by script, SOMELEC and ARE publish no figures)
 
-25 October 2026, about 03:26 to 03:33 UTC, on lab-desktop (the data machine), the first session of `queue/done/128-day-28-november-data-mauritania-mali-papua-new-guinea-curacao.md`, unattended. Precheck passed (`runs/c128/pre2588.out`). Model spend USD 0. Pulls: 8 requests of 15. No table.
+25 October 2026, about 03:26 to 03:32 UTC, on lab-desktop (the data machine), the first session of `queue/done/128-day-28-november-data-mauritania-mali-papua-new-guinea-curacao.md`, unattended. Precheck passed (`runs/c128/pre2588.out`). Model spend USD 0. Pulls: 8 requests of 15. No table.
 
 ## Read these first
 
