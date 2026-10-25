@@ -892,6 +892,9 @@ dosm_malaysia_electricity_monthly,supply_local,series variable,MWh
 dosm_malaysia_electricity_monthly,supply_local_private,series variable,MWh
 dosm_malaysia_electricity_monthly,supply_local_public,series variable,MWh
 dosm_malaysia_electricity_monthly,supply_total,series variable,MWh
+edf_sei_islands_electricity_annual,generation,series variable,MWh
+edf_sei_islands_electricity_annual,net_imports,series variable,MWh
+edf_sei_islands_electricity_annual,supply,series variable,MWh
 egrid_power_plants,entity_id,column,
 egrid_power_plants,entity_type,column,
 egrid_power_plants,name,column,
