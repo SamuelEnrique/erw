@@ -1,6 +1,6 @@
 # Session 2581 report: a second own choice, none taken (TEIAS's reports load by script from a route in lazily loaded chunks; Puerto Rico's figures are already in EIA-923; ONEI Cuba's certificate fails)
 
-25 October 2026, about 02:44 to 02:52 UTC, on lab-desktop (the data machine), chain 127, unattended. Precheck passed (`runs/c127/pre2581.out`). Model spend USD 0. Pulls: 6 requests of 20. No table.
+25 October 2026, about 02:43 to 02:47 UTC, on lab-desktop (the data machine), chain 127, unattended. Precheck passed (`runs/c127/pre2581.out`). Model spend USD 0. Pulls: 6 requests of 20. No table.
 
 ## Read these first
 
