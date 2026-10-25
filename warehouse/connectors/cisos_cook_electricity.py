@@ -21,7 +21,7 @@ column of its first quarter). A cell "-" is the key's "nil or zero" and is writt
 displays as whole numbers; the value is the cell's, to 3 decimals. Checks: each quarter's islands add to the Cook Islands within
 1 MWh; each island's four quarters add to Tables 3 and 4's year within 1 MWh or 2%, the larger, where both are given (a gap
 above 1 MWh is listed in the file's header). Tables 3 and 4 are not
-written. Table 1 is not read as including Table 2 (Mitiaro has renewable energy and no "electricity generated" since 2017);
+written. Table 1 is not read as including Table 2 (Mitiaro had renewable energy and no "electricity generated" from 2017 to 2023);
 the two are not added. Nothing is filled.
 
     python warehouse/connectors/cisos_cook_electricity.py [--offline] [--fresh] [--out-dir DIR]
