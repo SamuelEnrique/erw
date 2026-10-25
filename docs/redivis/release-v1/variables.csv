@@ -806,6 +806,9 @@ desnz_uk_power_stations,year_commissioned,column,
 desnz_uk_power_stations,desnz_site_code,column,
 desnz_uk_renewables_quarterly,capacity,series variable,MW
 desnz_uk_renewables_quarterly,generated,series variable,MWh
+desnz_uk_storage_annual,input,series variable,MWh
+desnz_uk_storage_annual,output,series variable,MWh
+desnz_uk_storage_annual,power_capacity,series variable,MW
 dfe_ni_electricity_monthly,exports,series variable,MWh
 dfe_ni_electricity_monthly,imports,series variable,MWh
 dfe_ni_electricity_monthly,net_imports,series variable,MWh

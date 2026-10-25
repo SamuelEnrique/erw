@@ -92,6 +92,7 @@ desnz_uk_interconnector_flows_annual,UK Department for Energy Security and Net Z
 desnz_uk_nations_electricity_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_power_stations,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_renewables_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_uk_storage_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 dfe_ni_electricity_monthly,Department for the Economy (Northern Ireland),the source registry
 doe_grip_selections,U.S. Department of Energy (DOE),the source registry
 doe_lead_energy_burden,U.S. Department of Energy (DOE),the source registry
