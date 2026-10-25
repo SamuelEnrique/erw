@@ -152,15 +152,19 @@ def build_clusters(stories):
             "sector": lead["sector"], "why": lead["why"], "mw": next((x for x in g["mw"] if x), ""),
             "price": next((x for x in g["price_mentioned"] if x), ""), "parties": lead["parties"],
             "first": g["event_date"].min(), "n": len(g),
+            "outlets": g["source"].astype(str).str.strip().str.lower().nunique(),   # session 2701: the outlets that ran it
             # session 470: one link an address (two stories of a cluster at one address printed it twice)
             "links": list({r.source_url: (r.source, r.source_url) for r in g.itertuples()}.values())[:3],
             "titles": list(g["title"])[:4], "summary": lead["summary"][:300],
             "kind": title_kind(lead["title"]),   # session 814: event or commentary, by the title's form
         })
     c = pd.DataFrame(rows)
-    # session 814: among equals in significance, a reported event before commentary; then the tie-break as before
+    # session 814: among equals in significance, a reported event before commentary; then the tie-break.
+    # Session 2701 (rulings item 4, the 24-hour default): the tie-break is the number of outlets that ran the story, then
+    # the time, no longer AI relevance: the rubric gives an AI angle no credit by itself, and a 42 MW datacenter story
+    # outranked a 600 MW gas deal at the same score
     c["_kind"] = (c["kind"] == "commentary").astype(int)
-    return (c.sort_values(["sig", "_kind", "ai", "n", "first"], ascending=[False, True, False, False, True])
+    return (c.sort_values(["sig", "_kind", "outlets", "first"], ascending=[False, True, False, True], kind="stable")
              .drop(columns="_kind").reset_index(drop=True))
 
 

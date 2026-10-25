@@ -361,8 +361,8 @@ class TheNamedDays(unittest.TestCase):
         c = self.clusters("2026-10-02")
         if {"news:8470c320a7225474", "news:ec41f0a2f9b34be4"} <= set(c["cluster_id"]):
             top10, _, _ = brief.select(c, "2026-10-02", quiet)
-            self.assertIn("news:8470c320a7225474", set(top10["cluster_id"]))
-            self.assertNotIn("news:ec41f0a2f9b34be4", set(top10["cluster_id"]))
+            # once: session 2701's tie-break (item 4) may keep either twin, never both
+            self.assertEqual(len({"news:8470c320a7225474", "news:ec41f0a2f9b34be4"} & set(top10["cluster_id"])), 1)
         c = self.clusters("2026-10-09")
         if "news:f96cc76a18212ba4" in set(c["cluster_id"]):
             top10, by_group, ai = brief.select(c, "2026-10-09", quiet)
@@ -483,6 +483,26 @@ class Item3TheWindowOpensAtThePreviousEnd(unittest.TestCase):
         s, st, _ = brief.window_rows(df, now, brief.window_hours(start, now), start)
         self.assertEqual(list(s["event_date"]), ["2026-10-23T18:00:00Z"])   # Friday evening in; before the end out; after the run out
         self.assertTrue(brief.stamp_line(72, st, now, 1).startswith("ERW's weekday brief of energy news for the 72 hours to 2026-10-26 15:45 UTC"))
+
+
+class Item4TheTieBreak(unittest.TestCase):
+    """Item 4: among equal significance (and kind), more outlets first, then the earlier story; AI relevance no longer counts."""
+
+    def story(self, cid, source, when, ai=0, sig=7, title=None):
+        return {"cluster_id": cid, "sig": sig, "ai": ai, "sector": "deal", "why": "Why.", "mw": "", "price_mentioned": "", "parties": "",
+                "event_date": when, "source": source, "source_url": f"https://e/{cid}/{source}", "title": title or f"A signs deal {cid}", "summary": ""}
+
+    def test_outlets_then_time_not_ai(self):
+        s = pd.DataFrame([
+            self.story("dc", "Outlet A", "2026-10-13T01:00:00Z", ai=10, title="A 42 MW datacenter signs a supply deal"),
+            self.story("gas", "Outlet A", "2026-10-13T02:00:00Z", title="A 600 MW gas plant deal is signed"),
+            self.story("gas", "Outlet B", "2026-10-13T02:30:00Z", title="A 600 MW gas plant deal is signed"),
+            self.story("late", "Outlet C", "2026-10-13T05:00:00Z"),
+            self.story("early", "Outlet D", "2026-10-13T00:30:00Z"),
+            self.story("top", "Outlet E", "2026-10-13T06:00:00Z", sig=9)])
+        c = brief.build_clusters(s)
+        self.assertEqual(list(c["cluster_id"]), ["top", "gas", "early", "dc", "late"])
+        self.assertEqual(int(c.loc[c["cluster_id"] == "gas", "outlets"].iloc[0]), 2)
 
 
 if __name__ == "__main__":
