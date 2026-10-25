@@ -365,6 +365,12 @@ function shownTwo(v: number): string {
   return v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
+/** Session 2701 (rulings item 8, the default of 24 October 2026): an issue kept as it was written, with one line on its
+ *  page saying why. A corrected archive is not a record, so the stored markdown is never rewritten. */
+export const ISSUE_NOTES: Record<string, string> = {
+  "2026-10-14": "This issue is kept as it was written. Its fun fact's second half is a colliery disaster, which the fun fact has not allowed since 21 October 2026.",
+};
+
 export function dayWords(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
   return `${d.toLocaleDateString("en-GB", { weekday: "long", timeZone: "UTC" })} ${day(date)}`;

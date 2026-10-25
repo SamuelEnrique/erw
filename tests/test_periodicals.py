@@ -528,5 +528,22 @@ class Item7APunIsHeldToItsSource(unittest.TestCase):
         self.assertFalse(any("a pun that states a claim" in p for p in funfact.check_record(duck.to_dict())))
 
 
+class Item8TheFourteenthStaysAsWritten(unittest.TestCase):
+    """Item 8: the 14 October issue is not rewritten; its page says so in one line."""
+
+    def test_the_issue_and_its_line(self):
+        with open(os.path.join(ROOT, "docs", "digest", "2026-10-14.md"), encoding="utf-8") as f:
+            self.assertIn("Senghenydd colliery disaster", f.read())   # as written
+        with open(os.path.join(ROOT, "site", "lib", "digest.ts"), encoding="utf-8") as f:
+            ts = f.read()
+        notes = ts[ts.index("export const ISSUE_NOTES"):]
+        notes = notes[:notes.index("};")]
+        self.assertEqual(re.findall(r'"(\d{4}-\d{2}-\d{2})":', notes), ["2026-10-14"])
+        self.assertIn("kept as it was written", notes)
+        with open(os.path.join(ROOT, "site", "app", "digest", "[date]", "page.tsx"), encoding="utf-8") as f:
+            page = f.read()
+        self.assertIn("data-issue-note={date}>{ISSUE_NOTES[date]}</p>", page)
+
+
 if __name__ == "__main__":
     unittest.main()
