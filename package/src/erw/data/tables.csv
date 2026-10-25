@@ -20,6 +20,7 @@ battery_sourced_ranges,public,,,,"National Laboratory of the Rockies (NLR, forme
 battery_stack_monthly,public,,,,CAISO; ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 battery_stack_review_monthly,unsettled,license needed,2026-10-21,NYISO,NYISO; SPP,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 battery_stack_stress_daily,public,,,,CAISO; ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+bchydro_ba_load_hourly,internal,,,BC Hydro (British Columbia Hydro and Power Authority),BC Hydro (British Columbia Hydro and Power Authority),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 bcrp_peru_electricity_monthly,public,,,,Banco Central de Reserva del Peru (BCRP),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 bcrp_peru_hydrocarbons_monthly,public,,,,Banco Central de Reserva del Peru (BCRP),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 bfe_switzerland_electricity_monthly,public,,,,Swiss Federal Office of Energy (SFOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -81,8 +82,10 @@ datacenter_projects_evidence,internal,,,Bloomberg; Data Center Dynamics; Data Ce
 datacenter_queue_positions,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 dbedt_hawaii_electricity_annual,internal,,,"Hawaii State Department of Business, Economic Development and Tourism (DBEDT)","Hawaii State Department of Business, Economic Development and Tourism (DBEDT)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 derk_bih_electricity_annual,internal,,,State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK),State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
+desnz_regional_renewables_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_electricity_quarterly,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_gas_quarterly,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+desnz_uk_nations_electricity_annual,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 desnz_uk_renewables_quarterly,public,,,,UK Department for Energy Security and Net Zero (DESNZ),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 dfe_ni_electricity_monthly,public,,,,Department for the Economy (Northern Ireland),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 doe_grip_selections,public,,,,U.S. Department of Energy (DOE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
