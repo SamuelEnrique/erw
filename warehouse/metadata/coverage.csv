@@ -86,6 +86,7 @@ desnz_gb_regional_consumption_annual,desnz,,246,P1Y,2005-01-01T00:00:00Z,2024-01
 desnz_gb_regional_gas_consumption_annual,desnz,,130,P1Y,2005-01-01T00:00:00Z,2024-01-01T00:00:00Z,1966,desnz:subnational_gas_consumption_2005_2024,2026-10-25T13:17:51Z,pass,public,gas,no,source
 desnz_regional_renewable_capacity_annual,desnz,,197,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,3157,desnz:regional_renewable_capacity_2003_2025,2026-10-25T13:00:35Z,pass,public,power,no,source
 desnz_regional_renewables_annual,desnz,,194,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,3002,desnz:regional_renewable_generation_2003_2025,2026-10-25T12:02:49Z,pass,public,power,no,source
+desnz_uk_capacity_by_connection_annual,desnz,,43,P1Y,2011-01-01T00:00:00Z,2025-01-01T00:00:00Z,1245,desnz:dukes_5_12_capacity_by_connection,2026-10-25T20:56:04Z,pass,public,power,no,source
 desnz_uk_co2_intensity_annual,desnz,,4,P1Y,1996-01-01T00:00:00Z,2025-01-01T00:00:00Z,119,desnz:dukes_5_14_co2_intensity,2026-10-25T19:35:27Z,pass,public,carbon,no,source
 desnz_uk_derated_capacity_annual,desnz,,53,P1Y,1996-01-01T00:00:00Z,2025-01-01T00:00:00Z,1680,desnz:dukes_5_7_plant_capacity,2026-10-25T19:43:23Z,pass,public,power,no,source
 desnz_uk_electricity_quarterly,desnz,,45,P3M,1998-01-01T00:00:00Z,2026-04-01T00:00:00Z,7862,desnz:energy_trends_5_1,2026-10-24T00:37:27Z,pass,public,power,no,source
