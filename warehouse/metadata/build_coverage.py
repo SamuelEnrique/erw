@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^eec_eswatini_electricity_annual$", "power"),  # session 2560: EEC's Integrated Annual Report 2025, Eswatini's energy sold, sent out, generated and imported
     (r"^gastat_saudi_electricity_annual$", "power"),  # session 2552: GASTAT's Electrical Energy Statistics 2024, Saudi Arabia's capacity, peak load, energy and sales
     (r"^derk_bih_electricity_annual$", "power"),  # session 2547: DERK's report on activities 2025, Annex C, Bosnia and Herzegovina's balance by utility
     (r"^dfe_ni_electricity_monthly$", "power"),  # session 2544: DfE's Electricity Consumption and Renewable Generation in Northern Ireland, figures 6 to 9
