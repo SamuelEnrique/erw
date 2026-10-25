@@ -417,6 +417,7 @@ catalogue_hold:
   - eia_gas_other_uses_state_annual
   - elexon_gb_demand_daily
   - energinet_dk_production_hourly
+  - vmme_paraguay_electricity_annual
   - bcrp_peru_hydrocarbons_monthly
   - bcrp_peru_electricity_monthly
   - abs_suriname_electricity_annual
