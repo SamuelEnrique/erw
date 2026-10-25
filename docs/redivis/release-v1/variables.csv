@@ -753,6 +753,15 @@ desnz_uk_gas_quarterly,total_supply,series variable,MWh
 desnz_uk_gas_quarterly,transfers,series variable,MWh
 desnz_uk_gas_quarterly,transformation,series variable,MWh
 desnz_uk_gas_quarterly,transport,series variable,MWh
+desnz_uk_nations_electricity_annual,consumption,series variable,MWh
+desnz_uk_nations_electricity_annual,generation,series variable,MWh
+desnz_uk_nations_electricity_annual,losses,series variable,MWh
+desnz_uk_nations_electricity_annual,net_supply,series variable,MWh
+desnz_uk_nations_electricity_annual,net_transfers,series variable,MWh
+desnz_uk_nations_electricity_annual,own_use,series variable,MWh
+desnz_uk_nations_electricity_annual,sales,series variable,MWh
+desnz_uk_nations_electricity_annual,statistical_difference,series variable,MWh
+desnz_uk_nations_electricity_annual,transfers,series variable,MWh
 desnz_uk_renewables_quarterly,capacity,series variable,MW
 desnz_uk_renewables_quarterly,generated,series variable,MWh
 dfe_ni_electricity_monthly,exports,series variable,MWh
