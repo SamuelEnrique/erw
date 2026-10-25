@@ -1,6 +1,6 @@
 # Session 2755 report: the licenses' sixtieth round (WAPA, SWPA and SEPA may be public, under DOE's notice; TVA's terms unreadable)
 
-25 October 2026, about 22:19 to 22:22 UTC, on lab-desktop (the data machine), chain 139, unattended. Precheck passed (`runs/c139/pre2755.out`). Model spend USD 0. Pulls: none of 20.
+25 October 2026, about 22:12 to 22:13 UTC, on lab-desktop (the data machine), chain 139, unattended. Precheck passed (`runs/c139/pre2755.out`). Model spend USD 0. Pulls: none of 20.
 
 ## Read these first
 

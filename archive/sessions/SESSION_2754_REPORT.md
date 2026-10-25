@@ -1,6 +1,6 @@
 # Session 2754 report: no held table left to describe (the unlanded chains' eight, and this chain's WAPA table for session 2759)
 
-25 October 2026, about 22:17 UTC, on lab-desktop (the data machine), chain 139, unattended. Precheck passed (`runs/c139/pre2754.out`). Model spend USD 0. Pulls: none.
+25 October 2026, about 22:12 UTC, on lab-desktop (the data machine), chain 139, unattended. Precheck passed (`runs/c139/pre2754.out`). Model spend USD 0. Pulls: none.
 
 ## Read these first
 

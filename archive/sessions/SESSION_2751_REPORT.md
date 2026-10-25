@@ -1,6 +1,6 @@
 # Session 2751 report: the Western Area Power Administration's energy sold and power rate by project, FY 2008 to 2025
 
-25 October 2026, about 21:58 to 22:08 UTC, on lab-desktop (the data machine), chain 139, unattended. Precheck passed (`runs/c139/pre2751.out`). Model spend USD 0. Pulls: 7 requests of 15 (6 by the probe, 1 fetch of the workbook, read offline by the trial and the write); two web searches.
+25 October 2026, about 21:58 to 22:07 UTC, on lab-desktop (the data machine), chain 139, unattended. Precheck passed (`runs/c139/pre2751.out`). Model spend USD 0. Pulls: 7 requests of 15 (6 by the probe, 1 fetch of the workbook, read offline by the trial and the write); two web searches.
 
 ## Read these first
 

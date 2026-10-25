@@ -1,6 +1,6 @@
 # Session 2753 report: the Southeastern Power Administration not taken (its annual reports chart generation but print no table)
 
-25 October 2026, about 22:12 to 22:16 UTC, on lab-desktop (the data machine), chain 139, unattended. Precheck passed (`runs/c139/pre2753.out`). Model spend USD 0. Pulls: 3 requests of 15 (2 by the probe, 1 fetch of a report).
+25 October 2026, about 22:09 to 22:11 UTC, on lab-desktop (the data machine), chain 139, unattended. Precheck passed (`runs/c139/pre2753.out`). Model spend USD 0. Pulls: 3 requests of 15 (2 by the probe, 1 fetch of a report).
 
 ## Read these first
 

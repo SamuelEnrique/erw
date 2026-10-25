@@ -1,6 +1,6 @@
 # Session 2752 report: the Southwestern Power Administration not taken (its hosts do not answer; its annual reports end at FY 2021 and give money, not energy)
 
-25 October 2026, about 22:07 to 22:12 UTC, on lab-desktop (the data machine), chain 139, unattended. Precheck passed (`runs/c139/pre2752.out`). Model spend USD 0. Pulls: 6 requests of 15 (5 by the probe, 1 fetch of a report); one web search.
+25 October 2026, about 22:07 to 22:10 UTC, on lab-desktop (the data machine), chain 139, unattended. Precheck passed (`runs/c139/pre2752.out`). Model spend USD 0. Pulls: 6 requests of 15 (5 by the probe, 1 fetch of a report); one web search.
 
 ## Read these first
 
