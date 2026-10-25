@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^nspower_ns_load_hourly$", "power"),  # session 2708: NS Power's OASIS hourly total net Nova Scotia load (internal)
     (r"^desnz_gb_regional_gas_consumption_annual$", "gas"),  # session 2698: DESNZ's gas consumption and meters by GB country and region, weather corrected (OGL v3.0)
     (r"^desnz_gb_regional_consumption_annual$", "power"),  # session 2693: DESNZ's electricity consumption and meters by GB country and region (OGL v3.0)
     (r"^desnz_regional_renewable_capacity_annual$", "power"),  # session 2692: DESNZ's installed renewable capacity by UK region and technology (OGL v3.0)
