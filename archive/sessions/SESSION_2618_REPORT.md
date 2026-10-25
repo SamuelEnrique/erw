@@ -26,7 +26,7 @@ Reads recorded: 1238 to 1242.
 
 ## Decisions made without you
 
-- **Palau not taken:** the only first-hand electricity tables are in yearbooks of 2017 and before. No figure is taken from donors' reports or fact sheets.
+- **Palau not taken:** neither the 2021 nor the 2023 yearbook holds an electricity table, and PPUC publishes none (which edition last had one was not asked). No figure is taken from donors' reports or fact sheets.
 
 ## For Samuel's ruling
 
