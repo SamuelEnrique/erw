@@ -344,6 +344,7 @@ eso_cayman_electricity_annual,eso,,6,P1Y,1996-01-01T00:00:00Z,2024-01-01T00:00:0
 eurostat_crude_imports_by_field_monthly,eurostat,,819,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,51718,eurostat:nrg_ti_coifpm_eu,2026-10-24T11:53:07Z,pass,public,oil,no,source
 eurostat_crude_imports_monthly,eurostat,,173,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,565941,eurostat:nrg_ti_oilm_crude,2026-10-24T11:52:01Z,pass,public,oil,no,source
 eurostat_electricity_capacity_annual,eurostat,,27,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,159060,eurostat:nrg_inf_epc,2026-10-24T09:24:14Z,pass,public,power,no,source
+eurostat_electricity_consumption_annual,eurostat,,479,P1Y,1990-01-01T00:00:00Z,2025-01-01T00:00:00Z,15667,eurostat:nrg_cb_e,2026-10-25T22:28:57Z,pass,public,power,no,source
 eurostat_electricity_monthly,eurostat,,30,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,130025,eurostat:nrg_cb_pem_nrg_cb_em,2026-10-24T02:13:36Z,pass,public,power,no,source
 eurostat_electricity_production_annual,eurostat,,2256,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,73988,eurostat:nrg_bal_peh,2026-10-24T11:22:45Z,pass,public,power,no,source
 eurostat_electricity_trade_annual,eurostat,,167,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,198783,eurostat:nrg_ti_eh_nrg_te_eh,2026-10-24T11:52:47Z,pass,public,power,no,source
