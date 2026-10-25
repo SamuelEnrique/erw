@@ -1279,7 +1279,7 @@ async function main() {
     const fv = floorVerdict(out.count, held, floor);
     if (fv.fail) {
       out.bad++;
-      out.lines.push(`FAIL | ${page} | the floor | the page carries ${out.count} checked numbers and ${held} held by a license; its floor is ${floor} (scripts/check-values-floor.json): a read failed and the page drew fewer numbers, or a number lost its key`);
+      out.lines.push(`FAIL | ${page} | the floor | the page carries ${out.count} checked numbers${held ? ` and ${held} held by a license` : ""}; its floor is ${floor} (scripts/check-values-floor.json): a read failed and the page drew fewer numbers, or a number lost its key`);
     } else if (floor !== undefined && held && out.count < floor) {
       out.lines.push(`note | ${page} | the floor | ${out.count} checked numbers and ${held} held by a license ("license needed") meet its floor of ${floor}`);
     }
