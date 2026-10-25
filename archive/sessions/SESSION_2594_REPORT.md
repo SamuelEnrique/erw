@@ -16,7 +16,7 @@
 
 ## Cross-checks
 
-- EIA's world table holds no Jersey. Within the report: 2025's net imports, 52,415 toe, are 93% of its primary supply (56,848 toe), as the report's text says.
+- EIA's world table holds no Jersey. Within the report: 2025's net imports, 52,415 toe, are 92.2% of the balance's primary supply of electricity (56,848 toe); the report's text gives imports as 93% of the public electricity supply, a measure of its own (session 2597 set this line right).
 
 ## Requests (5 of 20)
 
