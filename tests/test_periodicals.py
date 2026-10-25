@@ -675,5 +675,27 @@ class Item10AMissedWeekIsSaid(unittest.TestCase):
         self.assertIn("missed_week_line(start)", open(os.path.join(ROOT, "warehouse", "news", "roundup.py"), encoding="utf-8").read())
 
 
+
+class Item11TheTablesFloorAndUSFirst(unittest.TestCase):
+    """Item 11 (session 2702): confidence 0.7 or more and one of operator, site or MW; US first; at most 15; the rest counted."""
+
+    def test_the_floor_and_the_order(self):
+        rows = [{"confidence": "0.9", "operator": "Op", "site_name": "", "mw": "", "state": ""},          # passes, not US
+                {"confidence": "0.6", "operator": "Low", "site_name": "S", "mw": "100", "state": "TX"},   # under: confidence
+                {"confidence": "0.7", "operator": "", "site_name": "", "mw": "", "state": "VA"},          # under: nothing stated
+                {"confidence": "0.85", "operator": "", "site_name": "", "mw": "300", "state": "TX"}]     # passes, US
+        shown, rest, under = roundup.floor_rows(pd.DataFrame(rows), "datacenter_projects")
+        self.assertEqual([r["confidence"] for r in shown], ["0.85", "0.9"])   # US first
+        self.assertEqual((rest, under), (0, 2))
+        many = pd.DataFrame([{"confidence": "0.8", "buyer": f"B{i}", "seller": "", "asset": "", "mw": "", "state": "",
+                              "country": "United States" if i % 2 else "India"} for i in range(40)])
+        shown, rest, under = roundup.floor_rows(many, "energy_deals")
+        self.assertEqual((len(shown), rest, under), (15, 25, 0))
+        self.assertTrue(all(roundup.row_is_us(r) for r in shown))   # 20 US rows: the 15 shown are all of them
+        note = roundup.floor_note("energy_deals", "deals", shown, rest, under)
+        self.assertIn("15 deals shown", note)
+        self.assertIn("25 more pass, 0 fall under the floor; [the whole table](/data#energy_deals)", note)
+
+
 if __name__ == "__main__":
     unittest.main()

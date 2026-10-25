@@ -429,6 +429,47 @@ def fuel_change(series, entity, cut):
     return a, b, flags
 
 
+# Session 2702 (rulings item 11, the default of 24 October 2026): the deals and datacenter tables print a row with
+# confidence ROW_CONFIDENCE or more and at least one of operator, site or MW (for a deal: a buyer or a seller, an asset,
+# or MW), US rows first, at most ROW_MAX a section, with a count of the rest and a link to the whole table
+ROW_CONFIDENCE = 0.7
+ROW_MAX = 15
+US_STATES = set("AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND "
+                "OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split())
+US_NAMES = {"us", "usa", "u.s.", "united states", "united states of america"}
+ROW_FIELDS = {"energy_deals": ("buyer", "seller", "asset", "mw"), "datacenter_projects": ("operator", "site_name", "mw")}
+
+
+def row_is_us(r):
+    """A row is of the United States: its country says so, or its state is a US state's code."""
+    return (str(r.get("country", "")).strip().lower() in US_NAMES) or (str(r.get("state", "")).strip().upper() in US_STATES)
+
+
+def row_passes(r, table):
+    """The floor: confidence ROW_CONFIDENCE or more and one of the table's ROW_FIELDS stated."""
+    try:
+        conf = float(r.get("confidence") or 0)
+    except ValueError:
+        conf = 0.0
+    return conf >= ROW_CONFIDENCE and any(str(r.get(f, "")).strip() for f in ROW_FIELDS[table])
+
+
+def floor_rows(df, table, n=ROW_MAX):
+    """(rows to print, how many more pass the floor, how many fall under it): the rows that pass, US rows first, each
+    group in the frame's own order, at most n."""
+    recs = df.to_dict("records")
+    ok = [r for r in recs if row_passes(r, table)]
+    ok = [r for r in ok if row_is_us(r)] + [r for r in ok if not row_is_us(r)]
+    return ok[:n], max(0, len(ok) - n), len(recs) - len(ok)
+
+
+def floor_note(table, what, shown, rest, under):
+    """The line under a floored table: what is shown, the rest, and the link to the whole table."""
+    return (f"Table: `{table}` ({len(shown)} {what} shown: confidence {ROW_CONFIDENCE} or more and "
+            f"{'a party, an asset or MW' if table == 'energy_deals' else 'an operator, a site or MW'} stated, US first, at "
+            f"most {ROW_MAX}; {rest} more pass, {under} fall under the floor; [the whole table](/data#{table})).")
+
+
 def num(v, fmt="{:,.0f}"):
     return fmt.format(float(v)) if v not in ("", None) else "not stated"
 
@@ -627,20 +668,24 @@ def main(argv=None):
         else:
             dw = deals[(pd.to_datetime(deals["event_date"], utc=True, format="ISO8601") >= start)
                        & (pd.to_datetime(deals["event_date"], utc=True, format="ISO8601") < cut)].sort_values("event_date")
+            shown_d, rest_d, under_d = floor_rows(dw, "energy_deals")   # session 2702, rulings item 11
             if dw.empty:
                 L.append("- no deal in `energy_deals` is dated this week.")
+            elif not shown_d:
+                L.append(f"- none of the {len(dw)} deals dated this week passes the floor (confidence {ROW_CONFIDENCE} or more and a "
+                         f"party, an asset or MW stated); [the whole table](/data#energy_deals).")
             else:
                 L += ["| Date | Type | Buyer | Seller | Asset | MW | US dollars | Status | Story |",
                       "|---|---|---|---|---|---|---|---|---|"]
-                for r in dw.to_dict("records"):
+                for r in shown_d:
                     first = r["story_urls"].split(";")[0]
                     L.append(f"| {r['event_date'][:10]} | {DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))} | "
                              f"{r['buyer'] or 'not stated'} | "
                              f"{r['seller'] or 'not stated'} | {r['asset'] or 'not stated'} | {num(r['mw'])} | "
                              f"{num(r['dollars'])} | {r['status'] or 'not stated'} | [1]({first}) |")
                 L.append("")
-                L.append(f"Table: `energy_deals` ({len(dw)} deals; extracted from the scored stories by "
-                         "`warehouse/deals/extract.py`, every number checked against its story).")
+                L.append(floor_note("energy_deals", "deals", shown_d, rest_d, under_d) + " Extracted from the scored stories by "
+                         "`warehouse/deals/extract.py`, every number checked against its story.")
 
         L += ["", "## Datacenter announcements of the week", ""]
         dc = read_table("datacenter_projects")
@@ -649,19 +694,23 @@ def main(argv=None):
         else:
             t = pd.to_datetime(dc["first_story_at"], utc=True, format="ISO8601")
             cw = dc[(t >= start) & (t < cut)].sort_values("first_story_at")
+            shown_c, rest_c, under_c = floor_rows(cw, "datacenter_projects")   # session 2702, rulings item 11
             if cw.empty:
                 L.append("- no datacenter facility in `datacenter_projects` was first reported this week.")
+            elif not shown_c:
+                L.append(f"- none of the {len(cw)} facilities first reported this week passes the floor (confidence {ROW_CONFIDENCE} or "
+                         "more and an operator, a site or MW stated); [the whole table](/data#datacenter_projects).")
             else:
                 L += ["| First reported | Operator | Site | Place | MW | Status | Story |", "|---|---|---|---|---|---|---|"]
-                for r in cw.to_dict("records"):
+                for r in shown_c:
                     place = ", ".join(x for x in (r["city"], r["county"], r["state"]) if x) or "not stated"
                     L.append(f"| {r['first_story_at'][:10]} | {r['operator'] or 'not stated'} | "
                              f"{r['site_name'] or 'not stated'} | {place} | {num(r['mw'])} | "
                              f"{(r['project_status'] or 'not stated').replace('_', ' ')} | "
                              f"[1]({r['story_urls'].split(';')[0]}) |")
                 L.append("")
-                L.append(f"Table: `datacenter_projects` ({len(cw)} facilities; `warehouse/datacenters/extract.py`, "
-                         "every field only as its story states it).")
+                L.append(floor_note("datacenter_projects", "facilities", shown_c, rest_c, under_c)
+                         + " `warehouse/datacenters/extract.py`, every field only as its story states it.")
 
         L += ["", "## ERW's Policy of the Week", ""] + policy_section(policy_of_the_week(start, cut, log), L, log)
         facts = {}
