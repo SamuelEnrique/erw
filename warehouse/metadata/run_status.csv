@@ -7346,3 +7346,10 @@ run_id,runner,connector,table,market,status,detail
 20261025T153014Z,github,news_brief,digest,brief,skipped,no weekend issue (Sunday 2026-10-25); the weekend's stories are in Sunday's Energy Roundup
 20261025T153014Z,github,news_email,email,daily,skipped,no weekend issue: the daily digest is a Monday to Friday email; the Roundup is sent on Sundays
 20261025T153016Z,github,news_shadow_digest,digest,shadow,skipped,SHADOW_MODEL is not set (the kill switch): no shadow call
+20261025T160555Z,github,supabase_vacuum,catalogue,all,ok,0.2 MB -> 0.1 MB
+20261025T160555Z,github,supabase_vacuum,entities,all,ok,80.1 MB -> 77.4 MB
+20261025T160555Z,github,supabase_vacuum,events,all,ok,48.1 MB -> 45.3 MB
+20261025T160555Z,github,supabase_vacuum,headers,all,ok,0.8 MB -> 0.5 MB
+20261025T160555Z,github,supabase_vacuum,series,all,ok,1450.8 MB -> 1224.1 MB
+20261025T160555Z,github,supabase_vacuum,sources,all,ok,0.6 MB -> 0.3 MB
+20261025T160555Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 1618.7 MB -> 1386.0 MB
