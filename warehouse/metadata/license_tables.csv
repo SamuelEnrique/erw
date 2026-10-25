@@ -533,6 +533,7 @@ spp_curtailment_daily,SPP,the source registry
 spp_dam_cleared_energy,SPP,the source registry
 spp_interconnection_queue,SPP,the source registry
 ssb_norway_electricity_monthly,Statistics Norway (SSB),the source registry
+stat_kz_kazakhstan_electricity_annual,Bureau of National Statistics of Kazakhstan,the source registry
 stat_tj_tajikistan_electricity_annual,Agency on Statistics under the President of the Republic of Tajikistan,the source registry
 statai_anguilla_electricity_monthly,Anguilla Statistics Department,the source registry
 statbank_moldova_electricity_monthly,National Bureau of Statistics of the Republic of Moldova (StatBank),the source registry
