@@ -61,6 +61,7 @@ cer_electricity_trade,cer,,94,P1M;P1Y,2010-01-01T00:00:00Z,2026-07-01T00:00:00Z,
 cer_gas_trade,cer,,8,P1M,2010-01-01T00:00:00Z,2025-12-01T00:00:00Z,1427,cer:natural_gas_trade_summary,2026-10-23T08:04:30Z,pass,public,gas,no,source
 cer_pipeline_throughput,cer,,44,P1D;P1M,2006-01-01T00:00:00Z,2026-06-30T00:00:00Z,408073,cer:throughput_capacity,2026-10-24T01:01:05Z,blocked (1 errors),public,oil;gas,no,source
 cftc_cot_positions,cftc,nymex,9,P1W,2015-01-06T00:00:00Z,2026-10-20T00:00:00Z,9856,cftc:disaggregated_cot_futures,2026-10-24T15:03:10Z,pass,public,oil;gas;products,no,source
+cisos_cook_electricity_quarterly,cisos,,12,P3M,2014-01-01T00:00:00Z,2025-10-01T00:00:00Z,1049,cisos_ck:energy_statistics_tables_2025q4,2026-10-25T05:01:09Z,pass,internal,power,no,source
 clean_energy_hourly,clean,,7,PT1H,2019-01-01T05:00:00Z,2026-10-19T04:00:00Z,473781,erw:clean_energy,2026-10-19T17:27:23Z,pass,public,power;carbon,yes,derived
 clean_energy_summary,clean,,7,P1M;P1Y,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,27531,erw:clean_energy,2026-10-19T17:27:23Z,pass,public,power;carbon,yes,derived
 cost_of_power_carbon,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,7,P1M,2018-07-01T00:00:00Z,2026-10-01T00:00:00Z,712,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power;carbon,yes,derived
