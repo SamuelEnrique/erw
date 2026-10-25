@@ -181,7 +181,9 @@ class TheRoundupTakesIt(unittest.TestCase):
         src = inspect.getsource(roundup.main)
         self.assertIn('brief.one_per_topic(wk_c, WEEKEND_N, log, "the weekend")', src)
         self.assertIn('brief.one_per_topic(rest, 5, log, "the five of the week")', src)
-        self.assertEqual(src.count("brief.item_lines("), 2)
+        # session 2704: what mattered is a third list, one topic one item too
+        self.assertIn('brief.one_per_topic(clusters, WHAT_MATTERED_N, log, "what mattered")', src)
+        self.assertEqual(src.count("brief.item_lines("), 3)
 
 
 def stories():

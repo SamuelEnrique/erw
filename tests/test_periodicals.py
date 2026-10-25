@@ -914,5 +914,178 @@ class V2ThePageReadsIt(unittest.TestCase):
         self.assertIn('<details class="digest-more" data-digest-fold="more">', src)
 
 
+
+# Session 2704: the Roundup in the brandbook's v2 shape (the owner's rulings of 24 October 2026, queue file 131)
+
+def picked_of(lines):
+    """The opening number's inputs read back from five-number lines as roundup.five_numbers writes them."""
+    out = {}
+    for ln in lines:
+        m = re.match(r"^- \*\*(.+?):\*\* (.*)$", ln)
+        if not m:
+            continue
+        label, text = m.group(1), m.group(2).rstrip(".")
+        if label == "Price move of the week" and "%" in text:
+            out["move"] = {"pct": float(re.findall(r"([+-]\d+\.\d)%\)", text)[-1]), "text": text, "label": text.split(" closed at")[0]}
+        elif label == "US48 peak demand" and "MW" in text:
+            out["us48"] = {"text": text}
+        elif label.startswith("Deal of the week, by US dollars"):
+            v, unit = re.match(r"USD ([\d.]+) (billion|million)", text).groups()
+            out["deal"] = {"usd": float(v) * (1e9 if unit == "billion" else 1e6), "text": text}
+        elif label.startswith("Largest new datacenter load") and " MW" in text:
+            out["dc"] = {"mw": float(text.split(" MW")[0].replace(",", "")), "text": text}
+    return out
+
+
+V2R_MD = """# ERW Weekly Roundup, 2026-W43
+
+**Week ending 25 October 2026.** Sources through 19:00 ET, 23:00 UTC.
+
+No Roundup was written for 2026-W42; that week's stories are in the Digests of 2026-10-12 to 2026-10-16 ([the archive](/digest)).
+
+<!-- subject: ERW Weekly | Six AP1000 reactors eyed for Kentucky -->
+
+<!-- opening: deal -->
+
+ERW's weekly roundup of energy news for 2026-10-19 to 2026-10-25, from 1449 scored stories.
+
+## The opening number
+
+**USD 45 billion, Anthropic and Nscale, cloud computing deal.** Status: reported: extracted from the week's stories, every number checked against its story.
+
+## The week in five numbers
+
+- **US48 peak demand:** 519,415 MW in the hour starting 2026-10-20 22:00 UTC [1].
+
+## What mattered
+
+1. **Six AP1000 reactors eyed for Kentucky** (nuclear, 5 stories)
+   The largest proposed US nuclear project in decades. What the evidence does not establish: the 6,600 MW is the outlet's figure, not a warehouse table's. Sources: [ANS](https://www.ans.org/a)
+
+## More
+
+### Weekend
+
+1. **A weekend story** (oil, 1 story)
+   Why. Sources: [Outlet](https://example.org/w)
+
+### ERW's Numbers This Week
+
+- US48 peak.
+
+Tables: [1] `eia930_all_demand`.
+
+## ERW's Chart of the Week
+
+- no chart of the week was picked for this week (warehouse/analysis/run.py has not run for it).
+
+## Next week
+
+- **2 November 2026**: Northern Natural Gas Company; Notice (Federal Energy Regulatory Commission). Comments on the EA are due to FERC by 5:00 p.m. Eastern Time on November 2, 2026. ([source](https://www.federalregister.gov/x))
+
+## ERW's Fun Fact
+
+A fact that is fun.
+
+Sources: [Wikipedia, Fun](https://en.wikipedia.org/wiki/Fun).
+
+ERW
+
+---
+
+[How this is made.](/about#digest)
+"""
+
+
+class V2RTheOpeningNumber(unittest.TestCase):
+    def test_the_rule_on_fixtures(self):
+        move = {"pct": 12.0, "text": "WTI moved", "label": "WTI Cushing crude"}
+        deal = {"usd": 5e9, "text": "USD 5 billion, A and B"}
+        dc = {"mw": 900.0, "text": "900 MW, Op"}
+        us48 = {"text": "US48 demand peaked at 600,000 MW"}
+        self.assertEqual(roundup.opening_number({"move": move, "deal": deal, "dc": dc, "us48": us48})["key"], "move")
+        self.assertEqual(roundup.opening_number({"move": dict(move, pct=-9.9), "deal": deal, "dc": dc, "us48": us48})["key"], "deal")
+        self.assertEqual(roundup.opening_number({"deal": dict(deal, usd=5e8), "dc": dc, "us48": us48})["key"], "datacenter")
+        self.assertEqual(roundup.opening_number({"dc": dict(dc, mw=300.0), "us48": us48})["key"], "us48")
+        self.assertIsNone(roundup.opening_number({}))
+        self.assertIn("persistent", roundup.opening_number.__doc__)
+        op = roundup.opening_number({"move": move})
+        self.assertEqual(roundup.opening_lines(op)[2], "**WTI moved.** Status: calculated from observed prices (the warehouse's tables).")
+        self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | Six reactors eyed; WTI Cushing crude +12.0% on the week")
+        self.assertEqual(roundup.subject_line(None, "Six reactors eyed."), "ERW Weekly | Six reactors eyed")
+
+    def test_w40_and_w41(self):
+        """The five numbers of W40 and W41 as session 808's regeneration wrote them (docs/reviews/periodicals-roundup-regen-
+        2026-10-23.md): Henry Hub's 9.7 percent is under the bar, so the deal of the week opens each."""
+        with open(os.path.join(ROOT, "docs", "reviews", "periodicals-roundup-regen-2026-10-23.md"), encoding="utf-8") as f:
+            text = f.read()
+        blocks = [b for b in re.split(r"^### The week in five numbers \(new\)\s*$", text, flags=re.M)[1:]]
+        self.assertEqual(len(blocks), 2)
+        got = []
+        for blk in blocks:
+            op = roundup.opening_number(picked_of(blk.split("\n#")[0].splitlines()))
+            got.append((op["key"], op["text"].split(",")[0]))
+        self.assertEqual(got, [("deal", "USD 50 billion"), ("deal", "USD 12 billion")])
+
+
+class V2RTheParts(unittest.TestCase):
+    def test_the_masthead_and_the_missed_week(self):
+        end = pd.Timestamp("2026-10-26", tz="UTC")
+        L = roundup.masthead_lines("2026-W43", end, pd.Timestamp("2026-10-25 23:00", tz="UTC"), None, "A head.", "No Roundup was written for 2026-W42; x")
+        self.assertEqual(L[0], "# ERW Weekly Roundup, 2026-W43")
+        self.assertEqual(L[2], "**Week ending 25 October 2026.** Sources through 19:00 ET, 23:00 UTC.")
+        self.assertEqual(L[4], "No Roundup was written for 2026-W42; x")
+        self.assertEqual(L[6], "<!-- subject: ERW Weekly | A head -->")
+
+    def test_the_evidence_gap(self):
+        self.assertEqual(roundup.evidence_gap(rec("a", "A", mw="600")),
+                         "What the evidence does not establish: the 600 MW is the outlet's figure, not a warehouse table's.")
+        self.assertEqual(roundup.evidence_gap(dict(rec("b", "B"), outlets=1)),
+                         "What the evidence does not establish: the stories give no figure for it. One outlet has reported it so far.")
+
+    def test_next_week_from_the_policy_reads(self):
+        reads = pd.DataFrame([
+            {"title": "Northern Natural Gas Company; Notice", "agency": "Federal Energy Regulatory Commission", "significance": "6",
+             "source_url": "https://www.federalregister.gov/x",
+             "timeline": "Comments on the EA are due to FERC by 5:00 p.m. Eastern Time on November 2, 2026. The Commission will then decide."},
+            {"title": "Later rule", "agency": "EPA", "significance": "8", "source_url": "https://e/y", "timeline": "Comments are due on November 20, 2026."},
+            {"title": "Earlier", "agency": "DOE", "significance": "9", "source_url": "https://e/z", "timeline": "It took effect on October 20, 2026."}])
+        with mock.patch.object(roundup, "read_table", return_value=reads):
+            got = roundup.next_week(pd.Timestamp("2026-10-27", tz="UTC"), quiet)
+        self.assertEqual(got, ["- **2 November 2026**: Northern Natural Gas Company; Notice (Federal Energy Regulatory Commission). Comments on the EA "
+                               "are due to FERC by 5:00 p.m. Eastern Time on November 2, 2026. ([source](https://www.federalregister.gov/x))"])
+        with mock.patch.object(roundup, "read_table", return_value=reads.iloc[1:]):
+            self.assertEqual(roundup.next_week(pd.Timestamp("2026-10-27", tz="UTC"), quiet), [])
+
+    def test_the_words_skip_the_five_numbers_and_the_fold(self):
+        n = brief.above_fold_words(V2R_MD)
+        self.assertEqual(brief.above_fold_words(V2R_MD.replace("A weekend story", "A weekend story of many more words")), n)
+        self.assertEqual(brief.above_fold_words(V2R_MD.replace("519,415 MW in the hour", "519,415 MW in the very same hour")), n)
+
+    def test_the_checker_reads_the_fold_s_numbers(self):
+        import check_roundup
+        sec = check_roundup.section(V2R_MD)
+        self.assertIn("- US48 peak.", sec)
+        self.assertNotIn("Chart of the Week", sec)
+        with open(os.path.join(ROOT, "site", "app", "roundup", "[week]", "page.tsx"), encoding="utf-8") as f:
+            self.assertIn("foldMore(render(md, DOCS.weekly_source[week]))", f.read())
+
+
+class V2RTheEmail(unittest.TestCase):
+    def test_the_order_and_the_subject(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "2026-W43.md")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(V2R_MD)
+            title, label, text, body = email_digest.render(p, "roundup", unsubscribe="https://x/unsub")
+        self.assertEqual(title, "ERW Weekly | Six AP1000 reactors eyed for Kentucky")
+        self.assertEqual(label, "2026-W43")
+        order = [text.index(x) for x in ("Week ending 25 October 2026.", "No Roundup was written for 2026-W42", "The opening number",
+                                          "The week in five numbers", "What mattered", "Next week", "More on the site", "A fact that is fun.",
+                                          "Stop these emails")]
+        self.assertEqual(order, sorted(order))
+        self.assertNotIn("A weekend story", text)   # the fold is on the site
+
+
 if __name__ == "__main__":
     unittest.main()
