@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **586 tables.** The flag and the verdict agree on 476; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 425 public, 111 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1409 publishers in the record: 1407 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 299 pages read, 1108 that could not be read, 2 not asked (paused).**
+- **1413 publishers in the record: 1411 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 299 pages read, 1112 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -1432,6 +1432,10 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 1407 | Ukrenergo, ua.energy's robots file (session 2687) | https://ua.energy/robots.txt | 12:51:07 | 403 | 4544 | HTTP 403: a Cloudflare challenge; not asked again |
 | 1408 | State Statistics Service of Ukraine, ukrstat.gov.ua's robots file (session 2687) | https://ukrstat.gov.ua/robots.txt | 12:51:17 | no request |  | SSLError: the host's certificate fails verification; nothing read |
 | 1409 | State Statistics Service of Ukraine, stat.gov.ua's robots file (session 2687) | https://stat.gov.ua/robots.txt | 12:51:26 | 200 | 1186 | read: closes facet and query paths and Drupal's core to *; Crawl-delay 5; names no AI agent |
+| 1410 | General Electricity Company of Libya (GECOL), www.gecol.ly's robots file (session 2688) | https://www.gecol.ly/robots.txt | 12:52:09 | no request |  | ConnectTimeout: the host does not answer; nothing read |
+| 1411 | Bureau of Statistics and Census, Libya, bsc.ly's robots file (session 2688) | https://bsc.ly/robots.txt | 12:52:39 | 200 | 107 | read: closes only /wp-admin/ to *; names no AI agent |
+| 1412 | Bureau of Statistics and Census, Libya, the WordPress media search for electricity in Arabic (session 2688) | https://bsc.ly/wp-json/wp/v2/media?search=%D9%83%D9%87%D8%B1%D8%A8%D8%A7%D8%A1&per_page=50 | 12:52:51 | 200 | 2 | read: an empty list |
+| 1413 | Bureau of Statistics and Census, Libya, the WordPress media search for electricity (session 2688) | https://bsc.ly/wp-json/wp/v2/media?search=electricity&per_page=50 | 12:52:52 | 200 | 2 | read: an empty list |
 
 ## The publishers: the sentence and the verdict
 
