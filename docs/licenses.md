@@ -10,8 +10,8 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **565 tables.** The flag and the verdict agree on 455; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 415 public, 100 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **566 tables.** The flag and the verdict agree on 456; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 415 public, 101 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **1129 publishers in the record: 1127 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 258 pages read, 869 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -1441,6 +1441,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `datacenter_projects` | Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; and 8 more | needs written permission | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; and 9 more |  | public | ruled: license needed from 2026-10-21 | needs a paid license | unsettled |
 | `datacenter_projects_evidence` | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; and 7 more | needs written permission | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; and 9 more |  | internal | agrees | needs a paid license | internal |
 | `datacenter_queue_positions` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `dbedt_hawaii_electricity_annual` | Hawaii State Department of Business, Economic Development and Tourism (DBEDT) | needs written permission | Hawaii State Department of Business, Economic Development and Tourism (DBEDT) |  | internal | agrees | needs written permission | internal |
 | `derk_bih_electricity_annual` | State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK) | needs written permission | State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK) |  | internal | agrees | needs written permission | internal |
 | `desnz_uk_electricity_quarterly` | UK Department for Energy Security and Net Zero (DESNZ) | may be public |  |  | public | agrees | may be public | public |
 | `desnz_uk_gas_quarterly` | UK Department for Energy Security and Net Zero (DESNZ) | may be public |  |  | public | agrees | may be public | public |
@@ -2113,6 +2114,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Autorite de Regulation du Secteur de l'Energie (ARSE), Burkina Faso** (1 tables). Write to: no person or address on the page read. Tables: `arse_burkina_electricity_annual`.
 - **Agence de Regulation du Secteur de l'Electricite (ARSEL), Cameroun** (1 tables). Write to: no person or address on the page read. Tables: `arsel_cameroon_electricity_annual`.
 - **Central Electricity Authority (India)** (1 tables). Write to: the designated CEA contact (the policy names no address). Tables: `cea_india_psp_annual`.
+- **Hawaii State Department of Business, Economic Development and Tourism (DBEDT)** (1 tables). Write to: no person or address on the page read. Tables: `dbedt_hawaii_electricity_annual`.
 - **State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK)** (1 tables). Write to: no person or address on the page read. Tables: `derk_bih_electricity_annual`.
 - **Eswatini Electricity Company (EEC)** (1 tables). Write to: no person or address on the page read. Tables: `eec_eswatini_electricity_annual`.
 - **Egyptian Electricity Holding Company (EEHC)** (1 tables). Write to: no person or address on the page read. Tables: `eehc_egypt_electricity_annual`.
