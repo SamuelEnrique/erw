@@ -1,4 +1,8 @@
 {
+ "abs_suriname_electricity_annual": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "aeso_alberta_load_hourly": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -40,6 +44,14 @@
   "NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
  "battery_stack_stress_daily": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "bcrp_peru_electricity_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "bcrp_peru_hydrocarbons_monthly": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
