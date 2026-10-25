@@ -1,6 +1,6 @@
 # Session 2766 report: ISTAT not taken (its SDMX service down, its legacy host a redirect loop); the session's ceiling passed by a redirect loop
 
-25 October 2026, about 23:53 to 23:58 UTC, on lab-desktop (the data machine), chain 140, unattended. Precheck passed (`runs/c140/pre2766.out`). Model spend USD 0. Pulls: 5 probe lines of 15, **but about 35 HTTP requests**, as one line followed a redirect loop.
+25 October 2026, about 23:53 to 23:55 UTC, on lab-desktop (the data machine), chain 140, unattended. Precheck passed (`runs/c140/pre2766.out`). Model spend USD 0. Pulls: 5 probe lines of 15, **but about 35 HTTP requests**, as one line followed a redirect loop.
 
 ## Read these first
 
