@@ -10,9 +10,9 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **574 tables.** The flag and the verdict agree on 464; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 417 public, 107 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1266 publishers in the record: 1264 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 280 pages read, 984 that could not be read, 2 not asked (paused).**
+- **576 tables.** The flag and the verdict agree on 466; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 65 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 417 public, 109 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **1295 publishers in the record: 1293 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 285 pages read, 1008 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -1289,6 +1289,35 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 1264 | Manx Utilities, www.manxutilities.im's robots file (session 2628) | https://www.manxutilities.im/robots.txt | 07:09:27 | 200 | 269 | read: a firewall's Request Rejected page served at the robots file |
 | 1265 | Isle of Man Government, www.gov.im's robots file (session 2628) | https://www.gov.im/robots.txt | 07:09:36 | 200 | 269 | read: a firewall's Request Rejected page served at the robots file |
 | 1266 | Ufficio Informatica, Tecnologia, Dati e Statistica, San Marino, www.statistica.sm's robots file (session 2628) | https://www.statistica.sm/robots.txt | 07:09:44 | 404 | 3827 | HTTP 404: no robots file |
+| 1267 | Institut National de la Statistique et des Etudes Economiques et Demographiques, Comores (INSEED), www.inseed.km's robots file (session 2630) | https://www.inseed.km/robots.txt | 07:46:36 | no request |  | SSLError: the host's certificate fails verification; nothing read |
+| 1268 | Societe Nationale d'Electricite des Comores (SONELEC), www.sonelec.km's robots file (session 2630) | https://www.sonelec.km/robots.txt | 07:46:38 | no request |  | NameResolutionError: the name does not resolve; nothing read |
+| 1269 | Institut National de la Statistique et des Etudes Economiques et Demographiques, Comores (INSEED), inseed.km's robots file (session 2630) | https://inseed.km/robots.txt | 07:46:47 | no request |  | SSLError: the host's certificate fails verification; nothing read |
+| 1270 | Institut National de la Statistique du Burundi (INSBU, formerly ISTEEBU), www.insbu.bi's robots file (session 2631) | https://www.insbu.bi/robots.txt | 07:47:56 | 200 | 67 | read: names * with no rule |
+| 1271 | Institut National de la Statistique du Burundi (INSBU, formerly ISTEEBU), the site's media list address (session 2631) | https://www.insbu.bi/wp-json/wp/v2/media?search=conjoncture&per_page=20 | 07:48:04 | 200 | 1041 | read: the shell of a site drawn by script; no list |
+| 1272 | Regie de Production et de Distribution d'Eau et d'Electricite, Burundi (REGIDESO), www.regideso.bi's robots file (session 2631) | https://www.regideso.bi/robots.txt (answered at https://regideso.bi/robots.txt) | 07:48:25 | 200 | 112 | read: closes only /wp-admin/ to * |
+| 1273 | Regie de Production et de Distribution d'Eau et d'Electricite, Burundi (REGIDESO), the site's media list for rapport (session 2631) | https://www.regideso.bi/wp-json/wp/v2/media?search=rapport&per_page=50 | 07:48:34 | 200 | 2 | read: an empty list |
+| 1274 | Regie de Production et de Distribution d'Eau et d'Electricite, Burundi (REGIDESO), the site's media list of PDFs (session 2631) | https://www.regideso.bi/wp-json/wp/v2/media?mime_type=application/pdf&per_page=50 | 07:48:42 | 200 | 144347 | read: recruitment notices and environmental plans; no statistics or report |
+| 1275 | Kiribati National Statistics Office (NSO), nso.gov.ki's robots file (session 2632) | https://nso.gov.ki/robots.txt | 07:49:26 | 200 | 103 | read: closes /wp-admin/ to * and / to SemrushBot; names no AI agent |
+| 1276 | Public Utilities Board, Kiribati (PUB), www.pub.com.ki's robots file (session 2632) | https://www.pub.com.ki/robots.txt (answered at https://pub.com.ki/robots.txt) | 07:49:27 | 200 | 168 | read: names * with no rule |
+| 1277 | Kiribati National Statistics Office (NSO), the site's media list for energy (session 2632) | https://nso.gov.ki/wp-json/wp/v2/media?search=energy&per_page=50 | 07:49:38 | 200 | 2 | read: an empty list |
+| 1278 | Public Utilities Board, Kiribati (PUB), the site's media list for report (session 2632) | https://www.pub.com.ki/wp-json/wp/v2/media?search=report&per_page=50 | 07:49:39 | 200 | 2 | read: an empty list |
+| 1279 | Kiribati National Statistics Office (NSO), the site's media list for electricity (session 2632) | https://nso.gov.ki/wp-json/wp/v2/media?search=electricity&per_page=50 | 07:49:51 | 200 | 2 | read: an empty list |
+| 1280 | Kiribati National Statistics Office (NSO), the site's media list for yearbook (session 2632) | https://nso.gov.ki/wp-json/wp/v2/media?search=yearbook&per_page=50 | 07:49:51 | 200 | 2 | read: an empty list |
+| 1281 | Kiribati National Statistics Office (NSO), the site's media list unfiltered (session 2632) | https://nso.gov.ki/wp-json/wp/v2/media?per_page=50 | 07:50:00 | 200 | 166758 | read: 48 files, trade, immigration, census and survey covers; nothing on energy |
+| 1282 | Economics and Statistics Office, Cayman Islands (ESO), www.eso.ky's robots file (session 2633) | https://www.eso.ky/robots.txt | 07:50:45 | 200 | 24 | read: names * with no rule |
+| 1283 | Economics and Statistics Office, Cayman Islands (ESO), the home page with its footer (session 2633) | https://www.eso.ky/ | 07:50:54 | 200 | 62924 | read |
+| 1284 | Economics and Statistics Office, Cayman Islands (ESO), the Energy and Water Supply page (session 2633) | https://www.eso.ky/utilities.html | 07:51:02 | 200 | 65509 | read: the chapter's workbooks for 2004 to 2024, the newest dated 24 December 2025 |
+| 1285 | Regie de Production et de Distribution d'Eau et d'Electricite, Burundi (REGIDESO), the home page with its footer (session 2635) | https://www.regideso.bi/ (answered at https://regideso.bi/) | 07:56:57 | 200 | 138411 | read |
+| 1286 | Kiribati National Statistics Office (NSO), the home page (session 2635) | https://nso.gov.ki/ | 07:56:59 | 200 | 273723 | read |
+| 1287 | Public Utilities Board, Kiribati (PUB), the home page with its footer (session 2635) | https://www.pub.com.ki/ (answered at https://pub.com.ki/) | 07:57:02 | 200 | 334170 | read |
+| 1288 | Government of Bermuda (Department of Statistics), www.gov.bm's robots address (session 2636) | https://www.gov.bm/robots.txt | 07:58:07 | 404 | 47120 | HTTP 404: no robots file; the site is drawn by script (a Blazor app) |
+| 1289 | Turks and Caicos Islands Statistics Department, www.sto.gov.tc's robots file (session 2636) | https://www.sto.gov.tc/robots.txt | 07:58:16 | no request |  | NameResolutionError: the name does not resolve; nothing read |
+| 1290 | Government of the Turks and Caicos Islands, gov.tc's robots file (session 2636) | https://gov.tc/robots.txt | 07:58:39 | 200 | 764 | read: closes the Joomla system paths and /api/ to *; names no AI agent |
+| 1291 | Government of the Turks and Caicos Islands (Statistics Department), the Electricity Consumption page (session 2636) | https://gov.tc/stats/statistics/economic/12-electricity-consumption | 07:58:49 | 503 | 286386 | HTTP 503: the site offline, a Coming Soon page; nothing read |
+| 1292 | Department of Statistics, Sint Maarten (STAT), www.stat.gov.sx's robots file (session 2637) | https://www.stat.gov.sx/robots.txt | 07:59:27 | no request |  | NameResolutionError: the name does not resolve; nothing read |
+| 1293 | Department of Statistics, Sint Maarten (STAT), www.stat.sx's robots file (session 2637) | https://www.stat.sx/robots.txt | 07:59:49 | no request |  | NameResolutionError: the name does not resolve; nothing read |
+| 1294 | Anguilla Statistics Department, statistics.gov.ai's robots file (session 2642) | https://statistics.gov.ai/robots.txt | 08:05:54 | 404 | 1245 | HTTP 404: no robots file |
+| 1295 | Anguilla Statistics Department, the Energy page with its footer (session 2642) | https://statistics.gov.ai/StatisticsDept/Energy2_4_2 | 08:06:04 | 200 | 79415 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -1516,6 +1545,11 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | Government of Palau (Bureau of Budget and Planning) | #1251: read | "© 2026 PalauGov.pw" | needs written permission | needs written permission | not named | none stated | Session 2621, from its read of the Government of Palau's home page, whose footer carries the line; its pages list holds no terms or disclaimer page (read 1248): a copyright line with no reuse statement, read as ZIMSTAT's (session 2495). Its statistical yearbooks of 2021 and 2023 hold no electricity table (session 2618). The ERW holds no table of it. |
 | Autorite de Regulation du Secteur de l'Electricite, Tchad (ARSE) | #1253: read | "These are the Terms and Conditions governing the use of this Service and the agreement that operates between You and the Company. These Terms and Conditions set out the rights and obligations of all users regarding the use of the Service." | needs written permission | needs written permission | info@arse.td | none stated | Session 2621, from its read of ARSE's Terms & conditions, a general template: they govern the use of the site and grant no licence to reuse its content (the page has no clause on content or intellectual property). With no licence stated, the cautious reading is to ask (RGGI's form). The ERW holds no table of it. |
 | Amt fuer Statistik Liechtenstein | #1258: read | "Nutzungsbedingungen: CC BY 4.0" | may be public | may be public | thomas.erhart@llv.li | none stated | Session 2622, from its read of the Energie 2025 tables workbook's Metadaten sheet, which states its terms of use as CC BY 4.0 (the Office named as publisher; the source cited). asli_liechtenstein_electricity_annual is public. |
+| Economics and Statistics Office, Cayman Islands (ESO) | #1283: read | "COPYRIGHT © 2026 ESO The Economics and Statistics Office. ALL RIGHTS RESERVED." | needs written permission | needs written permission | not named | none stated | Session 2633, from its read of ESO's home page, whose footer carries the line; the site links no terms of reuse: a copyright line with no reuse statement, read as ZIMSTAT's (session 2495). The table's figures are Caribbean Utilities Company's. eso_cayman_electricity_annual is internal. |
+| Regie de Production et de Distribution d'Eau et d'Electricite, Burundi (REGIDESO) | #1285: read | "2026© REGIDESO. Tous droit reserves" | needs written permission | needs written permission | not named | none stated | Session 2635, from its read of REGIDESO's home page, whose footer carries the line; its media files are notices and environmental plans, with no statistics (session 2631): a copyright line with no reuse statement, read as ZIMSTAT's (session 2495). The ERW holds no table of it. |
+| Public Utilities Board, Kiribati (PUB) | #1287: read | "© Copyright Public Utilities Board 2025. All Rights Reserved." | needs written permission | needs written permission | not named | none stated | Session 2635, from its read of PUB's home page, whose footer carries the line: a copyright line with no reuse statement, read as ZIMSTAT's (session 2495). It publishes no report (session 2632). The ERW holds no table of it. |
+| Kiribati National Statistics Office (NSO) | #1286: read | none | needs written permission | needs written permission | none named on the page | none stated | Session 2635, from its read of the NSO's home page, which carries no statement on reuse at all; with no licence stated, the cautious reading is to ask (RGGI's form). Its files hold no energy table (session 2632). The ERW holds no table of it. |
+| Anguilla Statistics Department | #1295: read | "Anguilla Statistics Department, GOA . All rights reserved." | needs written permission | needs written permission | not named | none stated | Session 2642, from its read of the Department's Energy page, whose footer reads a copyright sign, 2026 and this line; the site links no terms of reuse: a copyright line with no reuse statement, read as ZIMSTAT's (session 2495). The figures are ANGLEC's. statai_anguilla_electricity_monthly is internal. |
 
 **Publishers no read of this sweep covers (50):** Administrador del Mercado Mayorista (AMM), Guatemala; Africa Sustainable Futures Awards; Arizona Corporation Commission; CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Central Statistical Bureau of Latvia (CSP); Central Statistical Office of Grenada (CSO); Centro Nacional de Control de Energia (CENCE, ICE); Ceylon Electricity Board, Sri Lanka (CEB); Danish Energy Agency (Energistyrelsen); E-Control (Energie-Control Austria); Electrek; Energeticky regulacni urad (ERU), Czechia; Energy Commission, Ghana; Energy Regulatory Commission of Mongolia (ERC); Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Kosovo Agency of Statistics (ASK); Louisiana Department of Revenue; Louisiana State Legislature; Ministry of Energy, Saudi Arabia, as published by GASTAT; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); PSE S.A. (Polskie Sieci Elektroenergetyczne); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); REN (Redes Energeticas Nacionais); State Statistical Office of North Macedonia (MakStat); Statistics Greenland (Gronlands Statistik); Statnett SF; Svenska kraftnat; Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov); USDA Natural Resources Conservation Service (NRCS); Viceministerio de Minas y Energia (VMME), Paraguay; Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
 
@@ -1847,6 +1881,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `ercot_zone_prices_history` | ERCOT | may be public |  |  | public | agrees | may be public | public |
 | `eru_czech_electricity` | Energeticky regulacni urad (ERU), Czechia | not settled (needs written permission by default) |  | Energeticky regulacni urad (ERU), Czechia | internal | not settled | may be public | internal |
 | `esco_georgia_electricity_monthly` | Electricity Market Operator of Georgia (ESCO) | needs written permission | Electricity Market Operator of Georgia (ESCO) |  | internal | agrees | needs written permission | internal |
+| `eso_cayman_electricity_annual` | Economics and Statistics Office, Cayman Islands (ESO) | needs written permission | Economics and Statistics Office, Cayman Islands (ESO) |  | internal | agrees | needs written permission | internal |
 | `eurostat_crude_imports_by_field_monthly` | Eurostat (Statistical Office of the European Union) | may be public |  |  | public | agrees | may be public | public |
 | `eurostat_crude_imports_monthly` | Eurostat (Statistical Office of the European Union) | may be public |  |  | public | agrees | may be public | public |
 | `eurostat_electricity_capacity_annual` | Eurostat (Statistical Office of the European Union) | may be public |  |  | public | agrees | may be public | public |
@@ -2057,6 +2092,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `spp_dam_cleared_energy` | SPP | may be public |  |  | public | agrees | needs written permission | public |
 | `spp_interconnection_queue` | SPP | may be public |  |  | public | agrees | needs written permission | public |
 | `ssb_norway_electricity_monthly` | Statistics Norway (SSB) | may be public |  |  | public | agrees | may be public | public |
+| `statai_anguilla_electricity_monthly` | Anguilla Statistics Department | needs written permission | Anguilla Statistics Department |  | internal | agrees | needs written permission | internal |
 | `statbank_moldova_electricity_monthly` | National Bureau of Statistics of the Republic of Moldova (StatBank) | may be public |  |  | public | agrees | may be public | public |
 | `statcan_electricity_generation_monthly` | Statistics Canada | may be public |  |  | public | agrees | may be public | public |
 | `statcan_electricity_trade_monthly` | Statistics Canada | may be public |  |  | public | agrees | may be public | public |
@@ -2290,6 +2326,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Enercal** (1 tables). Write to: no person or address on the page read. Tables: `enercal_nc_electricity_annual`.
 - **Energy Regulation Board, Zambia (ERB)** (1 tables). Write to: no person or address on the page read. Tables: `erb_zambia_electricity_annual`.
 - **Electricity Market Operator of Georgia (ESCO)** (1 tables). Write to: no person or address on the page read. Tables: `esco_georgia_electricity_monthly`.
+- **Economics and Statistics Office, Cayman Islands (ESO)** (1 tables). Write to: no person or address on the page read. Tables: `eso_cayman_electricity_annual`.
 - **Electricity and Water Authority, Kingdom of Bahrain (EWA)** (1 tables). Write to: no person or address on the page read. Tables: `ewa_bahrain_electricity_annual`.
 - **Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo** (1 tables). Write to: no person or address on the page read. Tables: `inseed_togo_electricity_annual`.
 - **Institut National de la Statistique (INSTAT), Madagascar** (1 tables). Write to: no person or address on the page read. Tables: `instat_madagascar_electricity_monthly`.
@@ -2305,6 +2342,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Samoa Bureau of Statistics (SBS)** (1 tables). Write to: info.stats@sbs.gov.ws (the site's header). Tables: `sbs_samoa_electricity_annual`.
 - **Solomon Islands Electricity Authority (Solomon Power)** (1 tables). Write to: no person or address on the page read. Tables: `siea_solomon_electricity_annual`.
 - **St. Lucia Electricity Services Limited (LUCELEC)** (1 tables). Write to: no person or address on the page read. Tables: `slu_cso_electricity_annual`.
+- **Anguilla Statistics Department** (1 tables). Write to: no person or address on the page read. Tables: `statai_anguilla_electricity_monthly`.
 - **AEP Texas Inc.** (1 tables). Write to: no person or address on the page read. Tables: `texas_delivery_charges`.
 - **CenterPoint Energy Houston Electric, LLC** (1 tables). Write to: CenterPointEnergy.com/en-us/corporate/contact-us/. Tables: `texas_delivery_charges`.
 - **Oncor Electric Delivery Company LLC** (1 tables). Write to: no person or address on the page read. Tables: `texas_delivery_charges`.
@@ -2363,6 +2401,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Agence de Regulation du Secteur de l'Electricite (ARSEL), Cameroun | needs written permission | needs written permission | none stated | not named |  |
 | Alberta Electric System Operator (AESO), Canada | may be public | needs written permission | none stated | not named |  |
 | Amazon Web Services | needs written permission | needs written permission | none stated | not named |  |
+| Anguilla Statistics Department | needs written permission | needs written permission | none stated | not named |  |
 | ANS Nuclear Newswire | needs written permission | needs written permission | none stated | not named |  |
 | Autorite de Regulation de l'Electricite, Benin (ARE) | needs written permission | needs written permission | none stated | not named |  |
 | Autorite de Regulation du Secteur de l'Electricite, Tchad (ARSE) | needs written permission | needs written permission | none stated | info@arse.td |  |
@@ -2387,6 +2426,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Department of Economic Planning and Statistics, Brunei (DEPS) | needs written permission | needs written permission | none stated | not named |  |
 | Digital Realty | needs written permission | needs written permission | none stated | not named |  |
 | Direction Generale de la Statistique, Gabon (DGS) | needs written permission | needs written permission | none stated | not named |  |
+| Economics and Statistics Office, Cayman Islands (ESO) | needs written permission | needs written permission | none stated | not named |  |
 | EEX | needs written permission | needs written permission | none stated | not named |  |
 | Egyptian Electricity Holding Company (EEHC) | needs written permission | needs written permission | none stated | not named |  |
 | EirGrid | needs written permission | needs written permission | none stated | not named |  |
@@ -2426,6 +2466,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Joint Organisations Data Initiative (JODI) | needs written permission | needs written permission | none stated | not named |  |
 | JPT | needs written permission | needs written permission | none stated | not named |  |
 | Kansai Transmission and Distribution | needs written permission | needs written permission | none stated | not named |  |
+| Kiribati National Statistics Office (NSO) | needs written permission | needs written permission | none stated | none named on the page |  |
 | Korea Power Exchange | needs written permission | needs written permission | none stated | not named |  |
 | Latitude Media | needs written permission | needs written permission | none stated | not named |  |
 | Liberia Electricity Corporation (LEC) | needs written permission | needs written permission | none stated | not named |  |
@@ -2452,9 +2493,11 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Open NY (New York State) | needs written permission | needs written permission | none stated | not named |  |
 | Oracle | needs written permission | needs written permission | none stated | not named |  |
 | POWER Magazine | needs written permission | needs written permission | none stated | not named |  |
+| Public Utilities Board, Kiribati (PUB) | needs written permission | needs written permission | none stated | not named |  |
 | Public Utilities Regulatory Authority (PURA) | needs written permission | needs written permission | none stated | not named |  |
 | pv magazine USA | needs written permission | needs written permission | none stated | not named |  |
 | Red Electrica (REE) | may be public | needs written permission | none stated | not named |  |
+| Regie de Production et de Distribution d'Eau et d'Electricite, Burundi (REGIDESO) | needs written permission | needs written permission | none stated | not named |  |
 | Reuters | needs written permission | needs written permission | none stated | not named |  |
 | RGGI | needs written permission | needs written permission | none stated | none named on the page |  |
 | Rigzone | needs written permission | needs written permission | none stated | not named |  |

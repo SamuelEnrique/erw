@@ -319,6 +319,7 @@ ercot_zone_load_hourly,ERCOT,ercot_load,13,PT1H,2015-01-01T06:00:00Z,2026-10-01T
 ercot_zone_prices_history,ERCOT,ercot_dam;ercot_rtm,8,PT15M;PT1H,2015-01-01T06:00:00Z,2026-10-18T04:45:00Z,2481384,ercot:NP4-180-ER;ercot:NP6-785-ER,2026-10-24T17:44:37Z,pass,public,power,no,source
 eru_czech_electricity,eru,,31,P1M;P1Y,2016-01-01T00:00:00Z,2025-12-01T00:00:00Z,702,eru:rocni_zprava_elektro_2025,2026-10-24T21:37:36Z,pass,internal,power,no,source
 esco_georgia_electricity_monthly,esco,,1,P1M,2021-01-01T00:00:00Z,2026-09-01T00:00:00Z,1514,esco_ge:actual_balance,2026-10-24T11:55:05Z,pass,internal,power,no,source
+eso_cayman_electricity_annual,eso,,6,P1Y,1996-01-01T00:00:00Z,2024-01-01T00:00:00Z,174,eso_ky:compendium_2024_table_20_01,2026-10-25T07:54:25Z,pass,internal,power,no,source
 eurostat_crude_imports_by_field_monthly,eurostat,,819,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,51718,eurostat:nrg_ti_coifpm_eu,2026-10-24T11:53:07Z,pass,public,oil,no,source
 eurostat_crude_imports_monthly,eurostat,,173,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,565941,eurostat:nrg_ti_oilm_crude,2026-10-24T11:52:01Z,pass,public,oil,no,source
 eurostat_electricity_capacity_annual,eurostat,,27,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,159060,eurostat:nrg_inf_epc,2026-10-24T09:24:14Z,pass,public,power,no,source
@@ -529,6 +530,7 @@ spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-10-23T00:00:00Z,38448
 spp_dam_cleared_energy,SPP,spp_dam,1,PT1H,2025-09-01T05:00:00Z,2026-10-25T04:00:00Z,15024,spp:DA-MC:cleared,2026-10-24T15:04:27Z,pass,public,power,no,source
 spp_interconnection_queue,SPP,,3078,snapshot,2026-10-19T16:08:11Z,2026-10-19T20:31:58Z,3078,spp:interconnection_queue,2026-10-19T20:31:01Z,pass,public,power,no,source
 ssb_norway_electricity_monthly,ssb,,26,P1M,1993-01-01T00:00:00Z,2026-09-01T00:00:00Z,5550,ssb:14091,2026-10-24T02:39:26Z,pass,public,power,no,source
+statai_anguilla_electricity_monthly,statai,,1,P1M,1995-01-01T00:00:00Z,2025-12-01T00:00:00Z,372,statai_ai:energy_statistics_table_2_4_2_1,2026-10-25T08:08:27Z,pass,internal,power,no,source
 statbank_moldova_electricity_monthly,statbank,,7,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,980,statbank_md:ENE010100,2026-10-24T09:23:13Z,pass,public,power,no,source
 statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source
 statcan_electricity_trade_monthly,statcan,,170,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,25215,statcan:25-10-0016-01,2026-10-24T07:46:32Z,pass,public,power,no,source
