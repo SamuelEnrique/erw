@@ -1,6 +1,6 @@
 # Session 2577 report: the Bahamas' electricity, not taken (the statistics office's host does not resolve, URCA's figures are chart labels, BPL's last report covers 2018); four cut outcomes in the license record restored
 
-25 October 2026, about 02:27 to 02:35 UTC, on lab-desktop (the data machine), chain 127, unattended. Precheck passed (`runs/c127/pre2577.out`). Model spend USD 0. Pulls: 8 requests of 15 (7 by the probe, 1 by a fetch). No table.
+25 October 2026, about 02:27 to 02:30 UTC, on lab-desktop (the data machine), chain 127, unattended. Precheck passed (`runs/c127/pre2577.out`). Model spend USD 0. Pulls: 8 requests of 15 (7 by the probe, 1 by a fetch). No table.
 
 ## Read these first
 
