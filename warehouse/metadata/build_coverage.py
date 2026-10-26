@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^eurostat_data_centre_electricity_annual$", "power"),  # session 2799: Eurostat's isoc_env_ict_nrg, European data centres' electricity consumption a year
     (r"^eurostat_household_electricity_annual$", "power"),  # session 2798: Eurostat's nrg_d_hhq, European households' electricity by end use a year
     (r"^statat_austria_electricity_monthly$", "power"),  # session 2795: Statistics Austria's monthly electricity statistics from 2023
     (r"^eurostat_import_dependency_annual$", "power"),  # session 2790: Eurostat's nrg_ind_id, European energy import dependency by product a year

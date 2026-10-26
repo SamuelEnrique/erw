@@ -228,6 +228,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "energinet_dk_production_hourly",
+           "eurostat_data_centre_electricity_annual",
            "eurostat_household_electricity_annual",
            "statat_austria_electricity_monthly",
            "eurostat_import_dependency_annual",
