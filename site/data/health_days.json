@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-10-25T16:04Z",
+ "written": "2026-10-26T16:27Z",
  "green_days": 0,
- "counted_to": "2026-10-24",
+ "counted_to": "2026-10-25",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -1894,6 +1894,98 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 40 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-25": {
+   "rows": 708,
+   "failed": 1,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 103
+    },
+    "daily prices": {
+     "ok": 21,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 1,
+     "runs": 2
+    },
+    "energy roundup": {
+     "ok": 9,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 9,
+     "retried": 0,
+     "failed": 0,
+     "runs": 30
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 103
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 51,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 53
+    },
+    "local:lab-desktop": {
+     "ok": 1,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "local:samueloldlaptop": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    },
+    "weekly vacuum": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-25T16:04",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_coverage_has_one_row_per_table_and_the_documented_columns - AssertionError: assert np.False_"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-25T14:56",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-21, 34 days old (limit 28)"
+    },
+    {
+     "at": "2026-10-25T17:31",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 41 days old (limit 28)"
     }
    ]
   }
