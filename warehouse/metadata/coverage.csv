@@ -356,6 +356,7 @@ eurostat_electrification_rate_annual,eurostat,,1319,P1Y,1990-01-01T00:00:00Z,202
 eurostat_ev_recharging_annual,eurostat,,119,P1Y,2019-01-01T00:00:00Z,2025-01-01T00:00:00Z,465,eurostat:road_if_rchev,2026-10-26T03:32:28Z,pass,public,power,no,source
 eurostat_ev_recharging_power_annual,eurostat,,277,P1Y,2019-01-01T00:00:00Z,2025-01-01T00:00:00Z,1171,eurostat:road_if_rchevpow,2026-10-26T05:23:53Z,pass,public,power,no,source
 eurostat_gas_balance_monthly,eurostat,,580,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,53214,eurostat:nrg_cb_gasm,2026-10-24T07:46:42Z,pass,public,gas,no,source
+eurostat_gas_import_origin_annual,eurostat,,224,P1Y,2015-01-01T00:00:00Z,2020-01-01T00:00:00Z,1253,eurostat:nrg_ind_idogas,2026-10-26T06:38:28Z,pass,public,gas,no,source
 eurostat_gas_imports_monthly,eurostat,,865,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,34905,eurostat:nrg_ti_gasm,2026-10-24T01:46:31Z,pass,public,gas;lng,no,source
 eurostat_hard_coal_imports_annual,eurostat,,167,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,99288,eurostat:nrg_ti_sff_c0100,2026-10-24T11:52:31Z,pass,public,coal,no,source
 eurostat_household_electricity_annual,eurostat,,266,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,3150,eurostat:nrg_d_hhq,2026-10-26T03:19:57Z,pass,public,power,no,source
