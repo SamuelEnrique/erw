@@ -1,6 +1,6 @@
 # Session 2792 report: the Salt River Project not taken (no data file found); queue file 143 written first
 
-26 October 2026, about 02:58 to 03:04 UTC, on lab-desktop (the data machine), chain 142, unattended. Precheck passed first (`runs/c142/pre2792.out`). Model spend USD 0. Pulls: 2 requests of 15, both by the probe (redirects capped at 5); one web search.
+26 October 2026, about 02:58 to 03:02 UTC, on lab-desktop (the data machine), chain 142, unattended. Precheck passed first (`runs/c142/pre2792.out`). Model spend USD 0. Pulls: 2 requests of 15, both by the probe (redirects capped at 5); one web search.
 
 ## Read these first
 
