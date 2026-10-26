@@ -22,7 +22,7 @@ electricity, SIEC E7000, in GWh):
 The balance items' names are Eurostat's NRG_BAL codelist's (session 2798 read it, beside this file), written here: the
 dataset holds no other item for electricity. The six end uses sum to the total within 1 GWh in every country year that gives
 all seven, a check that stops the run. A country year whose seven items are all zero is not written: no country's households
-use no electricity, and these are the years a country did not report the split (nineteen countries a year in 2010 to 2012,
+use no electricity, and these are the years a country did not report the split (eighteen countries a year in 2010 to 2012,
 none from 2018); the header counts them. Other checks that stop the run: a header not Eurostat's; a unit, frequency, product
 or balance item not expected; a value not a number; a key given twice. Countries kept: the EU's members, EFTA's and the
 official candidates, with EU27_2020, as eurostat_electricity_consumption_annual keeps them (the United Kingdom, Kosovo and the

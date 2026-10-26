@@ -5005,6 +5005,13 @@ eurostat_gas_balance_monthly,transformation_input_electricity_heat_main,series v
 eurostat_gas_balance_monthly,vented,series variable,MWh
 eurostat_gas_imports_monthly,imports,series variable,MWh
 eurostat_hard_coal_imports_annual,imports,series variable,t
+eurostat_household_electricity_annual,cooking,series variable,MWh
+eurostat_household_electricity_annual,lighting_appliances,series variable,MWh
+eurostat_household_electricity_annual,other_end_use,series variable,MWh
+eurostat_household_electricity_annual,space_cooling,series variable,MWh
+eurostat_household_electricity_annual,space_heating,series variable,MWh
+eurostat_household_electricity_annual,total,series variable,MWh
+eurostat_household_electricity_annual,water_heating,series variable,MWh
 eurostat_import_dependency_annual,import_dependency,series variable,pct
 eurostat_oil_monthly,flow:BKFLOW,series variable,t
 eurostat_oil_monthly,flow:DU,series variable,t
