@@ -560,6 +560,7 @@ stat_kz_kazakhstan_electricity_annual,stat,,35,P1Y,2022-01-01T00:00:00Z,2025-01-
 stat_tj_tajikistan_electricity_annual,stat,,14,P1Y,1991-01-01T00:00:00Z,2025-01-01T00:00:00Z,475,stat_tj:analytical_table_11,2026-10-25T10:10:39Z,pass,public,power,no,source
 statai_anguilla_electricity_monthly,statai,,1,P1M,1995-01-01T00:00:00Z,2025-12-01T00:00:00Z,372,statai_ai:energy_statistics_table_2_4_2_1,2026-10-25T08:08:27Z,pass,internal,power,no,source
 statat_austria_electricity_annual,statat,,124,P1Y,1970-01-01T00:00:00Z,2024-01-01T00:00:00Z,6675,statat:energy_balances_1970_2024,2026-10-25T23:40:02Z,pass,public,power,no,source
+statat_austria_electricity_monthly,statat,,74,P1M,2023-01-01T00:00:00Z,2026-07-01T00:00:00Z,793,statat:monthly_electricity_statistics,2026-10-26T03:07:37Z,pass,public,power,no,source
 statbank_moldova_electricity_monthly,statbank,,7,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,980,statbank_md:ENE010100,2026-10-24T09:23:13Z,pass,public,power,no,source
 statbel_be_electricity_production_annual,statbel,,25,P1Y,2018-01-01T00:00:00Z,2025-01-01T00:00:00Z,200,statbel:bestat_gross_electricity_production,2026-10-26T00:06:15Z,pass,public,power,no,source
 statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source
