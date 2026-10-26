@@ -228,6 +228,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "energinet_dk_production_hourly",
+           "hops_croatia_annual",
            "eles_slovenia_hourly",
            "eurostat_gas_import_origin_annual",
            "eurostat_nonhousehold_bands_annual",
