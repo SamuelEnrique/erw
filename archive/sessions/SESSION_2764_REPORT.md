@@ -16,7 +16,7 @@
   - The sheet gives its blocks in TJ and again in MWh; **the table reads the MWh blocks, so nothing is converted**:
     - the balance items: imports, exports, gross inland consumption (electricity's net imports), transformation input and output, the energy sector's use, transport losses, final energy use;
     - the transformation output by plant type (power, CHP, heating), owner (public, autoproducers) and fuel, with sub-fuels (hydropower by size, wind, PV, the biomass kinds);
-    - final energy use by 21 sectors and their three totals;
+    - final energy use by sector, 19 branches and their three totals (internal navigation and air transport are 0 every year and not written; corrected in session 2773, which first said 21 sectors);
     - the energy sector's use by branch, from 1999, where the sheet begins it.
   - Generation (the transformation output): 29,453,000 MWh in 1970, 59,855,089 in 2000, 78,753,844 in 2024. Final energy use: 20,219,998, 50,805,814 and 62,699,563.
   - **Checked every year within 1 MWh, all passing:**
