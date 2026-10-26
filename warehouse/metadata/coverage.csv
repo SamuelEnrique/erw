@@ -371,6 +371,7 @@ eurostat_oil_monthly,eurostat,,143,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z
 eurostat_renewable_capacity_annual,eurostat,,34,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,49313,eurostat:nrg_inf_epcrw,2026-10-23T22:56:54Z,pass,public,power,no,source
 eurostat_renewable_shares_annual,eurostat,,163,P1Y,2004-01-01T00:00:00Z,2025-01-01T00:00:00Z,3095,eurostat:nrg_ind_ren,2026-10-25T22:34:42Z,pass,public,power,no,source
 eurostat_solid_fuels_monthly,eurostat,,49,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,209040,eurostat:nrg_cb_sffm,2026-10-24T09:23:56Z,pass,public,coal,no,source
+eurostat_supply_diversity_annual,eurostat,,27,P1Y,1992-01-01T00:00:00Z,2024-01-01T00:00:00Z,891,eurostat:nrg_ind_di,2026-10-26T07:05:15Z,pass,public,power;gas;oil;coal,no,source
 event_study_estimates,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,13,P1D;PT1H,2020-03-01T00:00:00Z,2026-02-02T00:00:00Z,3040,erw:event_study,2026-10-19T09:46:06Z,pass,public,power,yes,derived
 event_window_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,10,P1D;P1W,2018-03-04T00:00:00Z,2026-02-02T00:00:00Z,29953,erw:event_window,2026-10-19T09:43:29Z,pass,public,power;carbon,yes,derived
 ewa_bahrain_electricity_annual,ewa,,28,P1Y,2020-01-01T00:00:00Z,2024-01-01T00:00:00Z,135,ewa:statistical_book,2026-10-24T16:27:44Z,pass,internal,power,no,source
