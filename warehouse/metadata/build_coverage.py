@@ -289,6 +289,13 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^eurostat_supply_diversity_annual$", "power;gas;oil;coal"),  # session 2832: Eurostat's nrg_ind_di, the diversity index of energy supply a year
+    (r"^eurostat_import_concentration_annual$", "power;gas;oil;coal"),  # session 2827: Eurostat's nrg_ind_ioc, the EU's energy import origin concentration by fuel a year
+    (r"^eurostat_fossil_share_annual$", "power"),  # session 2826: Eurostat's nrg_ind_ffgae, the share of fossil fuels in gross available energy a year
+    (r"^hops_croatia_annual$", "power"),  # session 2823: HOPS, Croatia's transmission network a year: production, exchange, load, losses
+    (r"^eles_slovenia_hourly$", "power"),  # session 2822: ELES, production and take-over on Slovenia's transmission network an hour from 2021
+    (r"^eurostat_gas_import_origin_annual$", "gas"),  # session 2821: Eurostat's nrg_ind_idogas, European natural gas import dependency by country of origin, 2015 to 2020
+    (r"^eurostat_nonhousehold_bands_annual$", "power"),  # session 2820: Eurostat's nrg_pc_205_v, non-household electricity by consumption band a year
     (r"^eurostat_industry_electricity_annual$", "power"),  # session 2818: Eurostat's nrg_d_indq_n, European industry's electricity by NACE activity a year
     (r"^eurostat_ev_recharging_power_annual$", "power"),  # session 2813: Eurostat's road_if_rchevpow, European EV recharging points by power category a year
     (r"^eurostat_nuclear_fuel_cycle_annual$", "power;uranium"),  # session 2812: Eurostat's nrg_inf_nuc, Europe's nuclear fuel cycle facilities and nuclear heat a year

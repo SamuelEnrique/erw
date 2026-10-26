@@ -5017,6 +5017,7 @@ eurostat_ev_recharging_annual,recharging_pools,series variable,count
 eurostat_ev_recharging_annual,recharging_pools_power,series variable,MW
 eurostat_ev_recharging_annual,recharging_stations,series variable,count
 eurostat_ev_recharging_power_annual,recharging_points,series variable,count
+eurostat_fossil_share_annual,fossil_share_gross_available_energy,series variable,pct
 eurostat_gas_balance_monthly,distribution_losses,series variable,MWh
 eurostat_gas_balance_monthly,exports,series variable,MWh
 eurostat_gas_balance_monthly,final_consumption_industry,series variable,MWh
@@ -5033,6 +5034,7 @@ eurostat_gas_balance_monthly,stock_change_cushion_gas,series variable,MWh
 eurostat_gas_balance_monthly,transfer_from_other_sources,series variable,MWh
 eurostat_gas_balance_monthly,transformation_input_electricity_heat_main,series variable,MWh
 eurostat_gas_balance_monthly,vented,series variable,MWh
+eurostat_gas_import_origin_annual,import_dependency_by_origin,series variable,pct
 eurostat_gas_imports_monthly,imports,series variable,MWh
 eurostat_hard_coal_imports_annual,imports,series variable,t
 eurostat_household_electricity_annual,cooking,series variable,MWh
@@ -5042,8 +5044,10 @@ eurostat_household_electricity_annual,space_cooling,series variable,MWh
 eurostat_household_electricity_annual,space_heating,series variable,MWh
 eurostat_household_electricity_annual,total,series variable,MWh
 eurostat_household_electricity_annual,water_heating,series variable,MWh
+eurostat_import_concentration_annual,import_origin_concentration,series variable,index
 eurostat_import_dependency_annual,import_dependency,series variable,pct
 eurostat_industry_electricity_annual,electricity_consumption,series variable,MWh
+eurostat_nonhousehold_bands_annual,consumption_share,series variable,pct
 eurostat_nuclear_fuel_cycle_annual,enrichment_capacity,series variable,SWU
 eurostat_nuclear_fuel_cycle_annual,fresh_fuel_production,series variable,t
 eurostat_nuclear_fuel_cycle_annual,fresh_fuel_production_capacity,series variable,t
@@ -5103,6 +5107,7 @@ eurostat_solid_fuels_monthly,flow:STKOP_NAT,series variable,t
 eurostat_solid_fuels_monthly,flow:STK_CHG,series variable,t
 eurostat_solid_fuels_monthly,flow:TI_CO,series variable,t
 eurostat_solid_fuels_monthly,flow:TI_EHG_MAP,series variable,t
+eurostat_supply_diversity_annual,supply_diversity_index,series variable,index
 fbos_fiji_electricity_annual,generation,series variable,MWh
 fbos_fiji_electricity_annual,sales,series variable,MWh
 fema_disaster_declarations,event_id,column,

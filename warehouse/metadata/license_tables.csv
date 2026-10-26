@@ -278,6 +278,7 @@ eia_world_electricity_annual,EIA,the source registry
 eia_world_energy_co2_annual,EIA,the source registry
 eia_world_oil_gas_annual,EIA,the source registry
 eia_world_oil_monthly,EIA,the source registry
+eles_slovenia_hourly,ELES (the Slovenian transmission system operator),the source registry
 elexon_gb_demand_daily,Elexon Limited (BMRS),the source registry
 emi_nz_generation_demand_monthly,Electricity Authority (New Zealand),the source registry
 enercal_nc_electricity_annual,Enercal,the source registry
@@ -355,17 +356,22 @@ eurostat_electricity_trade_annual,Eurostat (Statistical Office of the European U
 eurostat_electrification_rate_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_ev_recharging_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_ev_recharging_power_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_fossil_share_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_balance_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_gas_import_origin_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_hard_coal_imports_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_household_electricity_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_import_concentration_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_import_dependency_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_industry_electricity_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_nonhousehold_bands_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_nuclear_fuel_cycle_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_oil_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_shares_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_solid_fuels_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_supply_diversity_annual,Eurostat (Statistical Office of the European Union),the source registry
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
 event_window_daily,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia930_all_emissions, eia930_all_history, ercot_all_hub_prices_history, iso_hub_prices_history, noaa_isd_hourly"
 ewa_bahrain_electricity_annual,"Electricity and Water Authority, Kingdom of Bahrain (EWA)",the source registry
@@ -417,6 +423,7 @@ grid_stress_days,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"by hand: its header: th
 grid_stress_yearly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, eia860m_operating_generators, eia860m_retired_generators_all, storage_buildout_monthly"
 hagstofa_iceland_power_annual,Statistics Iceland (Hagstofa Islands),the source registry
 hagstova_faroe_electricity_annual,Statistics Faroe Islands (Hagstova Foroya),the source registry
+hops_croatia_annual,HOPS (the Croatian transmission system operator),the source registry
 hub_price_comparison,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: carbon_intensity_daily, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 ieso_generation_fuel_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
 ieso_ontario_demand_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
