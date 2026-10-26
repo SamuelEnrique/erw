@@ -278,6 +278,7 @@ eia_world_electricity_annual,public,,,,EIA,"Public: every publisher's terms the 
 eia_world_energy_co2_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_world_oil_gas_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_world_oil_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eles_slovenia_hourly,internal,,,,ELES (the Slovenian transmission system operator),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 elexon_gb_demand_daily,public,,,,Elexon Limited (BMRS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 emi_nz_generation_demand_monthly,public,,,,Electricity Authority (New Zealand),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 enercal_nc_electricity_annual,internal,,,Enercal,Enercal,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
@@ -355,17 +356,22 @@ eurostat_electricity_trade_annual,public,,,,Eurostat (Statistical Office of the 
 eurostat_electrification_rate_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_ev_recharging_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_ev_recharging_power_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_fossil_share_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_gas_balance_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_gas_import_origin_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_gas_imports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_hard_coal_imports_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_household_electricity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_import_concentration_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_import_dependency_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_industry_electricity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_nonhousehold_bands_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_nuclear_fuel_cycle_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_oil_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_renewable_capacity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_renewable_shares_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_solid_fuels_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_supply_diversity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 event_study_estimates,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 event_window_daily,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 ewa_bahrain_electricity_annual,internal,,,"Electricity and Water Authority, Kingdom of Bahrain (EWA)","Electricity and Water Authority, Kingdom of Bahrain (EWA)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
@@ -417,6 +423,7 @@ grid_stress_days,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; 
 grid_stress_yearly,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 hagstofa_iceland_power_annual,public,,,,Statistics Iceland (Hagstofa Islands),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 hagstova_faroe_electricity_annual,public,,,,Statistics Faroe Islands (Hagstova Foroya),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+hops_croatia_annual,internal,,,,HOPS (the Croatian transmission system operator),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 hub_price_comparison,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 ieso_generation_fuel_hourly,public,,,,"Independent Electricity System Operator (IESO), Ontario","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ieso_ontario_demand_hourly,public,,,,"Independent Electricity System Operator (IESO), Ontario","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
