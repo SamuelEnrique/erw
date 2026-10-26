@@ -278,6 +278,7 @@ eia_world_electricity_annual,none,,4285,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:0
 eia_world_energy_co2_annual,none,,3589,P1Y,1949-01-01T00:00:00Z,2025-01-01T00:00:00Z,246988,eia:international_bulk,2026-10-23T11:02:32Z,pass,public,carbon,no,source
 eia_world_oil_gas_annual,none,,6992,P1Y,1973-01-01T00:00:00Z,2025-01-01T00:00:00Z,448267,eia:international_bulk,2026-10-23T09:47:04Z,pass,public,oil;gas,no,source
 eia_world_oil_monthly,none,,1507,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,541215,eia:international_bulk,2026-10-23T10:10:51Z,pass,public,oil,no,source
+eles_slovenia_hourly,eles,,7,PT1H,2020-12-31T23:00:00Z,2026-10-25T22:00:00Z,356789,eles:prevzem_in_proizvodnja,2026-10-26T06:46:55Z,pass,internal,power,no,source
 elexon_gb_demand_daily,elexon,,1,P1D,2021-04-27T00:00:00Z,2026-10-23T00:00:00Z,1932,elexon:indod,2026-10-24T00:21:05Z,pass,public,power,no,source
 emi_nz_generation_demand_monthly,emi,,3,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,846,emi:generation_demand_trends,2026-10-24T03:58:46Z,pass,public,power,no,source
 enercal_nc_electricity_annual,enercal,,26,P1Y,2022-07-01T00:00:00Z,2024-07-01T00:00:00Z,83,enercal_nc:rapport_activite_2024_2025_chiffres_cles,2026-10-25T05:19:11Z,pass,internal,power,no,source
