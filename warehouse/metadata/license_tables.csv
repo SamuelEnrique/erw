@@ -23,6 +23,7 @@ battery_stack_stress_daily,CAISO; ERCOT,"the source registry and the tables its 
 bchydro_ba_load_hourly,BC Hydro (British Columbia Hydro and Power Authority),the source registry
 bcrp_peru_electricity_monthly,Banco Central de Reserva del Peru (BCRP),the source registry
 bcrp_peru_hydrocarbons_monthly,Banco Central de Reserva del Peru (BCRP),the source registry
+bfe_ch_electricity_wednesdays,Swiss Federal Office of Energy (SFOE),the source registry
 bfe_switzerland_electricity_monthly,Swiss Federal Office of Energy (SFOE),the source registry
 blm_ca_renewable_rows,"U.S. Department of the Interior, Bureau of Land Management (BLM)",the source registry
 blm_oil_gas_statistics_annual,"U.S. Department of the Interior, Bureau of Land Management (BLM)",the source registry
