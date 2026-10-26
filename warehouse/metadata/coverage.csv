@@ -343,14 +343,17 @@ esco_georgia_electricity_monthly,esco,,1,P1M,2021-01-01T00:00:00Z,2026-09-01T00:
 eso_cayman_electricity_annual,eso,,6,P1Y,1996-01-01T00:00:00Z,2024-01-01T00:00:00Z,174,eso_ky:compendium_2024_table_20_01,2026-10-25T07:54:25Z,pass,internal,power,no,source
 eurostat_crude_imports_by_field_monthly,eurostat,,819,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,51718,eurostat:nrg_ti_coifpm_eu,2026-10-24T11:53:07Z,pass,public,oil,no,source
 eurostat_crude_imports_monthly,eurostat,,173,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,565941,eurostat:nrg_ti_oilm_crude,2026-10-24T11:52:01Z,pass,public,oil,no,source
+eurostat_data_centre_electricity_annual,eurostat,,32,P1Y,2020-01-01T00:00:00Z,2024-01-01T00:00:00Z,85,eurostat:isoc_env_ict_nrg,2026-10-26T03:27:17Z,pass,public,power,no,source
 eurostat_electricity_capacity_annual,eurostat,,27,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,159060,eurostat:nrg_inf_epc,2026-10-24T09:24:14Z,pass,public,power,no,source
 eurostat_electricity_consumption_annual,eurostat,,479,P1Y,1990-01-01T00:00:00Z,2025-01-01T00:00:00Z,15667,eurostat:nrg_cb_e,2026-10-25T22:28:57Z,pass,public,power,no,source
 eurostat_electricity_monthly,eurostat,,30,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,130025,eurostat:nrg_cb_pem_nrg_cb_em,2026-10-24T02:13:36Z,pass,public,power,no,source
 eurostat_electricity_production_annual,eurostat,,2256,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,73988,eurostat:nrg_bal_peh,2026-10-24T11:22:45Z,pass,public,power,no,source
 eurostat_electricity_trade_annual,eurostat,,167,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,198783,eurostat:nrg_ti_eh_nrg_te_eh,2026-10-24T11:52:47Z,pass,public,power,no,source
+eurostat_ev_recharging_annual,eurostat,,119,P1Y,2019-01-01T00:00:00Z,2025-01-01T00:00:00Z,465,eurostat:road_if_rchev,2026-10-26T03:32:28Z,pass,public,power,no,source
 eurostat_gas_balance_monthly,eurostat,,580,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,53214,eurostat:nrg_cb_gasm,2026-10-24T07:46:42Z,pass,public,gas,no,source
 eurostat_gas_imports_monthly,eurostat,,865,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,34905,eurostat:nrg_ti_gasm,2026-10-24T01:46:31Z,pass,public,gas;lng,no,source
 eurostat_hard_coal_imports_annual,eurostat,,167,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,99288,eurostat:nrg_ti_sff_c0100,2026-10-24T11:52:31Z,pass,public,coal,no,source
+eurostat_household_electricity_annual,eurostat,,266,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,3150,eurostat:nrg_d_hhq,2026-10-26T03:19:57Z,pass,public,power,no,source
 eurostat_import_dependency_annual,eurostat,,507,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,16627,eurostat:nrg_ind_id,2026-10-26T02:06:14Z,pass,public,power,no,source
 eurostat_oil_monthly,eurostat,,143,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,457009,eurostat:nrg_cb_oilm,2026-10-24T09:23:23Z,pass,public,oil,no,source
 eurostat_renewable_capacity_annual,eurostat,,34,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,49313,eurostat:nrg_inf_epcrw,2026-10-23T22:56:54Z,pass,public,power,no,source
@@ -560,6 +563,7 @@ stat_kz_kazakhstan_electricity_annual,stat,,35,P1Y,2022-01-01T00:00:00Z,2025-01-
 stat_tj_tajikistan_electricity_annual,stat,,14,P1Y,1991-01-01T00:00:00Z,2025-01-01T00:00:00Z,475,stat_tj:analytical_table_11,2026-10-25T10:10:39Z,pass,public,power,no,source
 statai_anguilla_electricity_monthly,statai,,1,P1M,1995-01-01T00:00:00Z,2025-12-01T00:00:00Z,372,statai_ai:energy_statistics_table_2_4_2_1,2026-10-25T08:08:27Z,pass,internal,power,no,source
 statat_austria_electricity_annual,statat,,124,P1Y,1970-01-01T00:00:00Z,2024-01-01T00:00:00Z,6675,statat:energy_balances_1970_2024,2026-10-25T23:40:02Z,pass,public,power,no,source
+statat_austria_electricity_monthly,statat,,74,P1M,2023-01-01T00:00:00Z,2026-07-01T00:00:00Z,793,statat:monthly_electricity_statistics,2026-10-26T03:07:37Z,pass,public,power,no,source
 statbank_moldova_electricity_monthly,statbank,,7,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,980,statbank_md:ENE010100,2026-10-24T09:23:13Z,pass,public,power,no,source
 statbel_be_electricity_production_annual,statbel,,25,P1Y,2018-01-01T00:00:00Z,2025-01-01T00:00:00Z,200,statbel:bestat_gross_electricity_production,2026-10-26T00:06:15Z,pass,public,power,no,source
 statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source

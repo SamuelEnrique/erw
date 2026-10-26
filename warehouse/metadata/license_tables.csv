@@ -343,14 +343,17 @@ esco_georgia_electricity_monthly,Electricity Market Operator of Georgia (ESCO),t
 eso_cayman_electricity_annual,"Economics and Statistics Office, Cayman Islands (ESO)",the source registry
 eurostat_crude_imports_by_field_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_crude_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_data_centre_electricity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_consumption_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_production_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_trade_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_ev_recharging_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_balance_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_hard_coal_imports_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_household_electricity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_import_dependency_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_oil_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
@@ -560,6 +563,7 @@ stat_kz_kazakhstan_electricity_annual,Bureau of National Statistics of Kazakhsta
 stat_tj_tajikistan_electricity_annual,Agency on Statistics under the President of the Republic of Tajikistan,the source registry
 statai_anguilla_electricity_monthly,Anguilla Statistics Department,the source registry
 statat_austria_electricity_annual,Statistics Austria (Statistik Austria),the source registry
+statat_austria_electricity_monthly,Statistics Austria (Statistik Austria),the source registry
 statbank_moldova_electricity_monthly,National Bureau of Statistics of the Republic of Moldova (StatBank),the source registry
 statbel_be_electricity_production_annual,Statistics Belgium (Statbel),the source registry
 statcan_electricity_generation_monthly,Statistics Canada,the source registry
