@@ -1,6 +1,6 @@
 # Session 2794 report: NYPA not taken (its net generation by facility is on Open NY, whose terms forbid automated access)
 
-26 October 2026, about 03:03 to 03:06 UTC, on lab-desktop (the data machine), chain 142, unattended. Precheck passed (`runs/c142/pre2794.out`). Model spend USD 0. Pulls: 2 requests of 15, both by the probe; one web search.
+26 October 2026, about 03:03 to 03:04 UTC, on lab-desktop (the data machine), chain 142, unattended. Precheck passed (`runs/c142/pre2794.out`). Model spend USD 0. Pulls: 2 requests of 15, both by the probe; one web search.
 
 ## Read these first
 
