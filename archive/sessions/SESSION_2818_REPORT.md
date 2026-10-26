@@ -18,7 +18,7 @@
   Their 4,199 observations are not written, counted in the header and listed in the run log. 1,104 other zeros are kept, and 488 confidential observations have no row.
 - **Checks:**
   - **The hierarchy:** each group's children against their parent within 0.5 GWh holds in 1,835 of 1,851 cases. The 16 others are kept as published.
-  - **Against the held table:** this table's total against `eurostat_electricity_consumption_annual`'s industry, in the 191 country years both give. 123 agree within 0.1 per cent (Germany 2024: 190,603 GWh in both) and 140 within 1 per cent. 11 differ by more than 5 per cent: Estonia 2017 to 2020, Italy 2021, Greece 2020, Georgia 2024, the Netherlands 2017. These are the two datasets' vintages, kept as published.
+  - **Against the held table:** this table's total against `eurostat_electricity_consumption_annual`'s industry, in the 191 country years both give. 123 agree within 0.1 per cent (Germany 2024: 190,603 GWh in both) and 140 within 1 per cent. 11 differ by more than 5 per cent: Estonia 2017 to 2020, Italy 2021, Greece 2020, Georgia 2024, the Netherlands 2017 to 2019 and Serbia 2020 (corrected by session 2815, which first listed only the Netherlands' 2017). These are the two datasets' vintages, kept as published.
 - **A conflict at the write:** the metadata patch met the nuclear table's rows (session 2812) in `coverage.csv`, `docs/coverage.md` and `archive_manifest.csv`. Each block was resolved as the union of its two new rows (`runs/c124/resolve_union.py`), before any commit. No marker and no row twice remained.
 
 ## The requests
