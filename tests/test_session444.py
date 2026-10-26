@@ -53,11 +53,15 @@ class TestSession444(unittest.TestCase):
 
     def test_every_issue_named(self):
         s = text(DOC)
-        pages = [os.path.relpath(p, ROOT).replace(os.sep, "/") for p in glob.glob(os.path.join(ROOT, "docs", "roundup", "2026-W*.md"))]
+        # session 2777: the audit is dated; it names every issue to 2026-W43 (its added section), not the Sundays after it
+        pages = [os.path.relpath(p, ROOT).replace(os.sep, "/") for p in glob.glob(os.path.join(ROOT, "docs", "roundup", "2026-W*.md"))
+                 if os.path.basename(p)[:8] <= "2026-W43"]
         self.assertTrue(pages)
         for p in pages:
             self.assertIn(f"`{p}`", s, p)
         for p in glob.glob(os.path.join(ROOT, "docs", "digest", "email", "*-roundup.txt")):
+            if os.path.basename(p)[:8] > "2026-W43":
+                continue
             stem = os.path.basename(p)[:-len(".txt")]
             self.assertIn(stem, s, p)
 

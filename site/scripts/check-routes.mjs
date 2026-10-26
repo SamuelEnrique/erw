@@ -170,7 +170,8 @@ for (const page of PAGES) {
   if (now.status !== 200) msgs.push(`status ${now.status}${now.error ? ` (${now.error})` : ""}`);
   if (inReview(now.html)) msgs.push("the in-review page, although the internal cookie was sent");
   const text = visible(now.html);
-  const undef = text.match(/.{0,60}\bundefined\b.{0,60}/);
+  // session 2777: not a URL's path (a host's redirect to /undefined, as lustat.statec.lu's, recorded on /data/licenses)
+  const undef = text.match(/.{0,60}(?<!\/)\bundefined\b.{0,60}/);
   if (undef) msgs.push(`"undefined" in the page: ...${undef[0].replace(/\s+/g, " ").trim()}...`);
   let before = null;
   if (baseline) {

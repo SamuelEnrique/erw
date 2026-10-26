@@ -412,6 +412,7 @@ ieso_ontario_demand_hourly,"Independent Electricity System Operator (IESO), Onta
 ilr_luxembourg_electricity,Institut Luxembourgeois de Regulation (ILR),the source registry
 imf_commodity_prices,IMF,the source registry
 impact_tax_rules,Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts,the source registry
+ine_es_dwellings_electricity_2021,"Instituto Nacional de Estadistica (INE), Spain",the source registry
 inseed_togo_electricity_annual,"Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo",the source registry
 instat_madagascar_electricity_monthly,"Institut National de la Statistique (INSTAT), Madagascar",the source registry
 interconnection_agreements_by_grid,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
@@ -557,7 +558,9 @@ ssb_norway_electricity_monthly,Statistics Norway (SSB),the source registry
 stat_kz_kazakhstan_electricity_annual,Bureau of National Statistics of Kazakhstan,the source registry
 stat_tj_tajikistan_electricity_annual,Agency on Statistics under the President of the Republic of Tajikistan,the source registry
 statai_anguilla_electricity_monthly,Anguilla Statistics Department,the source registry
+statat_austria_electricity_annual,Statistics Austria (Statistik Austria),the source registry
 statbank_moldova_electricity_monthly,National Bureau of Statistics of the Republic of Moldova (StatBank),the source registry
+statbel_be_electricity_production_annual,Statistics Belgium (Statbel),the source registry
 statcan_electricity_generation_monthly,Statistics Canada,the source registry
 statcan_electricity_trade_monthly,Statistics Canada,the source registry
 statcan_energy_balance_annual,Statistics Canada,the source registry
@@ -567,6 +570,8 @@ statcan_oil_gas_supply_monthly,Statistics Canada,the source registry
 statcan_petroleum_products_monthly,Statistics Canada,the source registry
 statcan_power_disposition_annual,Statistics Canada,the source registry
 state_generation_mix_monthly,EIA,the source registry and the tables its header derives it from: eia_state_generation_monthly
+statec_lu_electricity_generation_annual,STATEC (Luxembourg),the source registry
+statec_lu_electricity_trade_annual,STATEC (Luxembourg),the source registry
 statee_estonia_electricity_monthly,Statistics Estonia,the source registry
 statfi_finland_electricity_monthly,Statistics Finland,the source registry
 statgl_greenland_electricity_annual,Statistics Greenland (Gronlands Statistik),the source registry

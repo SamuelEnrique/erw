@@ -412,6 +412,7 @@ ieso_ontario_demand_hourly,ieso,,1,PT1H,2025-01-01T05:00:00Z,2026-10-23T05:00:00
 ilr_luxembourg_electricity,ilr,,15,P1M;P1Y,2017-01-01T00:00:00Z,2026-06-01T00:00:00Z,668,ilr:donnees-statistiques-electricite,2026-10-24T09:51:43Z,pass,public,power,no,source
 imf_commodity_prices,imf,,5,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,465,imf:pcps,2026-10-25T14:56:31Z,pass,public,uranium;metals,no,source
 impact_tax_rules,none,,10,event,1951-09-01T00:00:00Z,2026-10-20T00:00:00Z,49,10 outlets,2026-10-20T08:33:45Z,pass,public,power;oil;gas,no,source
+ine_es_dwellings_electricity_2021,ine,,58626,P1Y,2021-01-01T00:00:00Z,2021-01-01T00:00:00Z,58626,ine_es:jaxi_tpx_59531,2026-10-25T23:50:36Z,pass,public,power,no,source
 inseed_togo_electricity_annual,inseed,,12,P1Y,2020-01-01T00:00:00Z,2024-01-01T00:00:00Z,55,inseed_tg:annuaire_2024_ch25,2026-10-24T21:13:20Z,pass,internal,power,no,source
 instat_madagascar_electricity_monthly,instat,,7,P1M,2024-07-01T00:00:00Z,2026-06-01T00:00:00Z,168,instat_mg:tbe63_table21,2026-10-24T20:42:03Z,pass,internal,power,no,source
 interconnection_agreements_by_grid,interconnection,,118,P1Y,2002-01-01T00:00:00Z,2025-01-01T00:00:00Z,438,erw:interconnection_agreements,2026-10-23T01:52:46Z,pass,public,power,yes,derived
@@ -557,7 +558,9 @@ ssb_norway_electricity_monthly,ssb,,26,P1M,1993-01-01T00:00:00Z,2026-09-01T00:00
 stat_kz_kazakhstan_electricity_annual,stat,,35,P1Y,2022-01-01T00:00:00Z,2025-01-01T00:00:00Z,84,stat_kz:fuel_energy_balance_physical,2026-10-25T10:30:39Z,pass,public,power,no,source
 stat_tj_tajikistan_electricity_annual,stat,,14,P1Y,1991-01-01T00:00:00Z,2025-01-01T00:00:00Z,475,stat_tj:analytical_table_11,2026-10-25T10:10:39Z,pass,public,power,no,source
 statai_anguilla_electricity_monthly,statai,,1,P1M,1995-01-01T00:00:00Z,2025-12-01T00:00:00Z,372,statai_ai:energy_statistics_table_2_4_2_1,2026-10-25T08:08:27Z,pass,internal,power,no,source
+statat_austria_electricity_annual,statat,,124,P1Y,1970-01-01T00:00:00Z,2024-01-01T00:00:00Z,6675,statat:energy_balances_1970_2024,2026-10-25T23:40:02Z,pass,public,power,no,source
 statbank_moldova_electricity_monthly,statbank,,7,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,980,statbank_md:ENE010100,2026-10-24T09:23:13Z,pass,public,power,no,source
+statbel_be_electricity_production_annual,statbel,,25,P1Y,2018-01-01T00:00:00Z,2025-01-01T00:00:00Z,200,statbel:bestat_gross_electricity_production,2026-10-26T00:06:15Z,pass,public,power,no,source
 statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source
 statcan_electricity_trade_monthly,statcan,,170,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,25215,statcan:25-10-0016-01,2026-10-24T07:46:32Z,pass,public,power,no,source
 statcan_energy_balance_annual,statcan,,6437,P1Y,1995-01-01T00:00:00Z,2024-01-01T00:00:00Z,128420,statcan:25-10-0029-01,2026-10-24T09:30:33Z,pass,public,power;gas;oil;coal,no,source
@@ -567,6 +570,8 @@ statcan_oil_gas_supply_monthly,statcan,,383,P1M,2016-01-01T00:00:00Z,2026-08-01T
 statcan_petroleum_products_monthly,statcan,,1331,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,112385,statcan:25-10-0081-01,2026-10-24T09:30:19Z,pass,public,oil;products,no,source
 statcan_power_disposition_annual,statcan,,229,P1Y,2005-01-01T00:00:00Z,2025-01-01T00:00:00Z,3909,statcan:25-10-0021-01,2026-10-24T11:47:29Z,pass,public,power,no,source
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,108125,erw:generation_mix,2026-10-25T14:43:15Z,pass,public,power,yes,derived
+statec_lu_electricity_generation_annual,statec,,19,P1Y,1928-01-01T00:00:00Z,2024-01-01T00:00:00Z,942,statec:lustat_df_a4203,2026-10-26T00:13:26Z,pass,public,power,no,source
+statec_lu_electricity_trade_annual,statec,,10,P1Y,1933-01-01T00:00:00Z,2024-01-01T00:00:00Z,584,statec:lustat_df_a4208,2026-10-26T00:19:29Z,pass,public,power,no,source
 statee_estonia_electricity_monthly,statee,,6,P1M,2005-01-01T00:00:00Z,2026-08-01T00:00:00Z,1344,statee:KE21,2026-10-24T05:05:10Z,pass,public,power,no,source
 statfi_finland_electricity_monthly,statfi,,16,P1M,1992-01-01T00:00:00Z,2026-06-01T00:00:00Z,6350,statfi:12su,2026-10-24T04:12:29Z,pass,public,power,no,source
 statgl_greenland_electricity_annual,statgl,,96,P1Y,1996-01-01T00:00:00Z,2024-01-01T00:00:00Z,2064,statgl:ENX3VVE_ENX4NUK,2026-10-24T18:22:05Z,pass,internal,power,no,source
