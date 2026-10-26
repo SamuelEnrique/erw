@@ -1,6 +1,6 @@
 # Session 2778 report: LADWP not taken (no current series published); queue file 142 written first
 
-26 October 2026, about 01:42 to 01:50 UTC, on lab-desktop (the data machine), chain 141, unattended. Precheck passed first (`runs/c141/pre2778.out`). Model spend USD 0. Pulls: 4 requests of 15, all by the probe (redirects capped at 5; data.lacity.org's crawl delay of 1 second kept); one web search.
+26 October 2026, about 01:42 to 01:48 UTC, on lab-desktop (the data machine), chain 141, unattended. Precheck passed first (`runs/c141/pre2778.out`). Model spend USD 0. Pulls: 4 requests of 15, all by the probe (redirects capped at 5; data.lacity.org's crawl delay of 1 second kept); one web search.
 
 ## Read these first
 
