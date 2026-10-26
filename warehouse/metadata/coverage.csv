@@ -362,6 +362,7 @@ eurostat_gas_import_origin_annual,eurostat,,224,P1Y,2015-01-01T00:00:00Z,2020-01
 eurostat_gas_imports_monthly,eurostat,,865,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,34905,eurostat:nrg_ti_gasm,2026-10-24T01:46:31Z,pass,public,gas;lng,no,source
 eurostat_hard_coal_imports_annual,eurostat,,167,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,99288,eurostat:nrg_ti_sff_c0100,2026-10-24T11:52:31Z,pass,public,coal,no,source
 eurostat_household_electricity_annual,eurostat,,266,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,3150,eurostat:nrg_d_hhq,2026-10-26T03:19:57Z,pass,public,power,no,source
+eurostat_import_concentration_annual,eurostat,,713,P1Y,2015-01-01T00:00:00Z,2024-01-01T00:00:00Z,6497,eurostat:nrg_ind_ioc,2026-10-26T07:00:46Z,pass,public,power;gas;oil;coal,no,source
 eurostat_import_dependency_annual,eurostat,,507,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,16627,eurostat:nrg_ind_id,2026-10-26T02:06:14Z,pass,public,power,no,source
 eurostat_industry_electricity_annual,eurostat,,1507,P1Y,2017-01-01T00:00:00Z,2024-01-01T00:00:00Z,8307,eurostat:nrg_d_indq_n,2026-10-26T05:31:56Z,pass,public,power,no,source
 eurostat_nonhousehold_bands_annual,eurostat,,253,P1Y,2017-01-01T00:00:00Z,2025-01-01T00:00:00Z,2013,eurostat:nrg_pc_205_v,2026-10-26T06:31:58Z,pass,public,power,no,source
