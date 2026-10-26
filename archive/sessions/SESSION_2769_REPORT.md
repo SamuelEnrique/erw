@@ -1,6 +1,6 @@
 # Session 2769 report: the licenses' sixty-first round (ISTAT and ELSTAT may be public)
 
-26 October 2026, about 00:00 to 00:04 UTC, on lab-desktop (the data machine), chain 140, unattended. Precheck passed (`runs/c140/pre2769.out`). Model spend USD 0. Pulls: 6 requests of 20, two pages a host beside its robots file (redirects capped at 5).
+25 to 26 October 2026, about 23:59 to 00:01 UTC, on lab-desktop (the data machine), chain 140, unattended. Precheck passed (`runs/c140/pre2769.out`). Model spend USD 0. Pulls: 6 requests of 20, two pages a host beside its robots file (redirects capped at 5).
 
 ## Read these first
 
