@@ -21,7 +21,7 @@
   - 5 in 2015, 3 in 2016, 1 in 2017;
   - none from 2018.
 
-  The header counts them and the run log lists them. 370 other zeros are kept (mostly space cooling).
+  The header counts them and the run log lists them. 370 other zeros are kept (291 other end uses, 78 space cooling, 1 cooking; corrected by session 2801, which first read them as mostly space cooling).
 - **Cross-check against the held table:** the households' total compared with `eurostat_electricity_consumption_annual`'s `households` in the 451 country years both give:
   - **Agreement:** 392 within 1 GWh and 416 within 1 per cent.
   - **The rest differ** by up to 31 per cent (North Macedonia 2024; Georgia 2021 23 per cent; Turkey 2024 6.5 per cent; Croatia 1.2 to 6 per cent in most years). nrg_d_hhq was last updated on 9 June 2026, nrg_cb_e later; this is read as the two datasets' different vintages and kept as published.
