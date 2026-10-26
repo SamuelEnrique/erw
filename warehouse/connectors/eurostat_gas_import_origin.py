@@ -21,7 +21,7 @@ Summed over the seven partners, a country year's figures are not its natural gas
 eurostat_import_dependency_annual (nrg_ind_id, G3000): the median difference is 0.43 points, but 111 of 176 country years
 differ by more than 5 (Poland 2020: 95.23 here, 78.25 there), so the two are different measures; the method note compares
 them and reads neither as the other. Zeros stand for origins not reported:
-some countries give 0 for every partner (Austria, whose imports arrive through its neighbours), so a country year whose every
+some countries give 0 for every partner (Austria and Georgia in every year), so a country year whose every
 partner is zero is not written and is counted; any other zero is kept. A blank (flag m) has no row; nothing is filled. Checks
 that stop the run: a header not Eurostat's; a frequency, product, unit or partner not expected; a value not a number, or
 outside 0 to 100; a period not a year; a key given twice. Countries kept: the EU's members, EFTA's and the official
