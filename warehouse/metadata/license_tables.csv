@@ -420,6 +420,7 @@ grid_stress_days,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"by hand: its header: th
 grid_stress_yearly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, eia860m_operating_generators, eia860m_retired_generators_all, storage_buildout_monthly"
 hagstofa_iceland_power_annual,Statistics Iceland (Hagstofa Islands),the source registry
 hagstova_faroe_electricity_annual,Statistics Faroe Islands (Hagstova Foroya),the source registry
+hops_croatia_annual,HOPS (the Croatian transmission system operator),the source registry
 hub_price_comparison,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: carbon_intensity_daily, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 ieso_generation_fuel_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
 ieso_ontario_demand_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
