@@ -99,6 +99,7 @@ desnz_uk_plant_loads_annual,desnz,,16,P1Y,1996-01-01T00:00:00Z,2025-01-01T00:00:
 desnz_uk_power_stations,desnz,,1364,snapshot,2026-10-25T17:09:21Z,2026-10-25T17:09:21Z,1364,desnz:dukes_5_11_power_stations,2026-10-25T18:21:27Z,pass,public,power,no,source
 desnz_uk_renewables_quarterly,desnz,,20,P3M,2010-01-01T00:00:00Z,2026-04-01T00:00:00Z,1982,desnz:energy_trends_6_1,2026-10-24T01:59:04Z,pass,public,power,no,source
 desnz_uk_storage_annual,desnz,,4,P1Y,1996-01-01T00:00:00Z,2025-01-01T00:00:00Z,360,desnz:dukes_5_16_energy_storage,2026-10-25T18:25:59Z,pass,public,power,no,source
+destatis_de_electricity_monthly,destatis,,123,P1M,2026-07-01T00:00:00Z,2026-07-01T00:00:00Z,123,destatis:monatsbericht_elektrizitaet_waerme,2026-10-26T04:46:55Z,pass,public,power,no,source
 dfe_ni_electricity_monthly,dfe,,13,P1M,2018-01-01T00:00:00Z,2026-06-01T00:00:00Z,1326,dfe_ni:electricity_consumption_renewable_generation_2026,2026-10-24T21:59:50Z,pass,public,power,no,source
 doe_grip_selections,none,,1,event,2023-10-18T00:00:00Z,2024-10-18T00:00:00Z,105,1 outlets,2026-10-23T19:24:55Z,pass,public,power,no,source
 doe_lead_energy_burden,doe,,2012,P1Y,2022-01-01T00:00:00Z,2022-01-01T00:00:00Z,160419,doe:lead_2022,2026-10-24T00:22:03Z,pass,public,power;gas,no,source
