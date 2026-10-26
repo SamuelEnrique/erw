@@ -351,6 +351,7 @@ eurostat_electricity_trade_annual,Eurostat (Statistical Office of the European U
 eurostat_gas_balance_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_hard_coal_imports_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_import_dependency_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_oil_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_shares_annual,Eurostat (Statistical Office of the European Union),the source registry
@@ -572,6 +573,8 @@ statcan_power_disposition_annual,Statistics Canada,the source registry
 state_generation_mix_monthly,EIA,the source registry and the tables its header derives it from: eia_state_generation_monthly
 statec_lu_electricity_generation_annual,STATEC (Luxembourg),the source registry
 statec_lu_electricity_trade_annual,STATEC (Luxembourg),the source registry
+statec_lu_power_capacity_annual,STATEC (Luxembourg),the source registry
+statec_lu_supplier_mix_annual,STATEC (Luxembourg),the source registry
 statee_estonia_electricity_monthly,Statistics Estonia,the source registry
 statfi_finland_electricity_monthly,Statistics Finland,the source registry
 statgl_greenland_electricity_annual,Statistics Greenland (Gronlands Statistik),the source registry

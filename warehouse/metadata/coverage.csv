@@ -351,6 +351,7 @@ eurostat_electricity_trade_annual,eurostat,,167,P1Y,2010-01-01T00:00:00Z,2024-01
 eurostat_gas_balance_monthly,eurostat,,580,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,53214,eurostat:nrg_cb_gasm,2026-10-24T07:46:42Z,pass,public,gas,no,source
 eurostat_gas_imports_monthly,eurostat,,865,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,34905,eurostat:nrg_ti_gasm,2026-10-24T01:46:31Z,pass,public,gas;lng,no,source
 eurostat_hard_coal_imports_annual,eurostat,,167,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,99288,eurostat:nrg_ti_sff_c0100,2026-10-24T11:52:31Z,pass,public,coal,no,source
+eurostat_import_dependency_annual,eurostat,,507,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,16627,eurostat:nrg_ind_id,2026-10-26T02:06:14Z,pass,public,power,no,source
 eurostat_oil_monthly,eurostat,,143,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,457009,eurostat:nrg_cb_oilm,2026-10-24T09:23:23Z,pass,public,oil,no,source
 eurostat_renewable_capacity_annual,eurostat,,34,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,49313,eurostat:nrg_inf_epcrw,2026-10-23T22:56:54Z,pass,public,power,no,source
 eurostat_renewable_shares_annual,eurostat,,163,P1Y,2004-01-01T00:00:00Z,2025-01-01T00:00:00Z,3095,eurostat:nrg_ind_ren,2026-10-25T22:34:42Z,pass,public,power,no,source
@@ -572,6 +573,8 @@ statcan_power_disposition_annual,statcan,,229,P1Y,2005-01-01T00:00:00Z,2025-01-0
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,108125,erw:generation_mix,2026-10-25T14:43:15Z,pass,public,power,yes,derived
 statec_lu_electricity_generation_annual,statec,,19,P1Y,1928-01-01T00:00:00Z,2024-01-01T00:00:00Z,942,statec:lustat_df_a4203,2026-10-26T00:13:26Z,pass,public,power,no,source
 statec_lu_electricity_trade_annual,statec,,10,P1Y,1933-01-01T00:00:00Z,2024-01-01T00:00:00Z,584,statec:lustat_df_a4208,2026-10-26T00:19:29Z,pass,public,power,no,source
+statec_lu_power_capacity_annual,statec,,14,P1Y,1960-01-01T00:00:00Z,2024-01-01T00:00:00Z,951,statec:lustat_df_a4201,2026-10-26T01:56:17Z,pass,public,power,no,source
+statec_lu_supplier_mix_annual,statec,,13,P1Y,2009-01-01T00:00:00Z,2024-01-01T00:00:00Z,196,statec:lustat_df_a4209,2026-10-26T02:01:04Z,pass,public,power,no,source
 statee_estonia_electricity_monthly,statee,,6,P1M,2005-01-01T00:00:00Z,2026-08-01T00:00:00Z,1344,statee:KE21,2026-10-24T05:05:10Z,pass,public,power,no,source
 statfi_finland_electricity_monthly,statfi,,16,P1M,1992-01-01T00:00:00Z,2026-06-01T00:00:00Z,6350,statfi:12su,2026-10-24T04:12:29Z,pass,public,power,no,source
 statgl_greenland_electricity_annual,statgl,,96,P1Y,1996-01-01T00:00:00Z,2024-01-01T00:00:00Z,2064,statgl:ENX3VVE_ENX4NUK,2026-10-24T18:22:05Z,pass,internal,power,no,source
