@@ -228,6 +228,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
            "energinet_dk_production_hourly",
+           "statec_lu_electricity_generation_annual",
            "statbel_be_electricity_production_annual",
            "ine_es_dwellings_electricity_2021",
            "statat_austria_electricity_annual",
