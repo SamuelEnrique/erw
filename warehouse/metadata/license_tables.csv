@@ -349,6 +349,7 @@ eurostat_electricity_consumption_annual,Eurostat (Statistical Office of the Euro
 eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_production_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_trade_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_electrification_rate_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_ev_recharging_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_balance_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
