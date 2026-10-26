@@ -343,14 +343,17 @@ esco_georgia_electricity_monthly,internal,,,Electricity Market Operator of Georg
 eso_cayman_electricity_annual,internal,,,"Economics and Statistics Office, Cayman Islands (ESO)","Economics and Statistics Office, Cayman Islands (ESO)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 eurostat_crude_imports_by_field_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_crude_imports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_data_centre_electricity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_capacity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_consumption_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_production_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_electricity_trade_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_ev_recharging_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_gas_balance_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_gas_imports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_hard_coal_imports_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_household_electricity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_import_dependency_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_oil_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_renewable_capacity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -560,6 +563,7 @@ stat_kz_kazakhstan_electricity_annual,public,,,,Bureau of National Statistics of
 stat_tj_tajikistan_electricity_annual,public,,,,Agency on Statistics under the President of the Republic of Tajikistan,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statai_anguilla_electricity_monthly,internal,,,Anguilla Statistics Department,Anguilla Statistics Department,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 statat_austria_electricity_annual,public,,,,Statistics Austria (Statistik Austria),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statat_austria_electricity_monthly,public,,,,Statistics Austria (Statistik Austria),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statbank_moldova_electricity_monthly,public,,,,National Bureau of Statistics of the Republic of Moldova (StatBank),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statbel_be_electricity_production_annual,public,,,,Statistics Belgium (Statbel),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_electricity_generation_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
