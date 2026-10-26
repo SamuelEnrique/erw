@@ -362,6 +362,7 @@ eurostat_gas_import_origin_annual,Eurostat (Statistical Office of the European U
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_hard_coal_imports_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_household_electricity_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_import_concentration_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_import_dependency_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_industry_electricity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_nonhousehold_bands_annual,Eurostat (Statistical Office of the European Union),the source registry
