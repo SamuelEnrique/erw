@@ -351,6 +351,7 @@ eurostat_electricity_trade_annual,public,,,,Eurostat (Statistical Office of the 
 eurostat_gas_balance_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_gas_imports_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_hard_coal_imports_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_import_dependency_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_oil_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_renewable_capacity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eurostat_renewable_shares_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -572,6 +573,8 @@ statcan_power_disposition_annual,public,,,,Statistics Canada,"Public: every publ
 state_generation_mix_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 statec_lu_electricity_generation_annual,public,,,,STATEC (Luxembourg),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statec_lu_electricity_trade_annual,public,,,,STATEC (Luxembourg),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statec_lu_power_capacity_annual,public,,,,STATEC (Luxembourg),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statec_lu_supplier_mix_annual,public,,,,STATEC (Luxembourg),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statee_estonia_electricity_monthly,public,,,,Statistics Estonia,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statfi_finland_electricity_monthly,public,,,,Statistics Finland,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statgl_greenland_electricity_annual,internal,,,,Statistics Greenland (Gronlands Statistik),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
