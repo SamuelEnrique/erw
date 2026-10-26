@@ -371,6 +371,7 @@ eurostat_oil_monthly,Eurostat (Statistical Office of the European Union),the sou
 eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_shares_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_solid_fuels_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_supply_diversity_annual,Eurostat (Statistical Office of the European Union),the source registry
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
 event_window_daily,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia930_all_emissions, eia930_all_history, ercot_all_hub_prices_history, iso_hub_prices_history, noaa_isd_hourly"
 ewa_bahrain_electricity_annual,"Electricity and Water Authority, Kingdom of Bahrain (EWA)",the source registry

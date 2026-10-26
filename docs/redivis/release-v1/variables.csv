@@ -5107,6 +5107,7 @@ eurostat_solid_fuels_monthly,flow:STKOP_NAT,series variable,t
 eurostat_solid_fuels_monthly,flow:STK_CHG,series variable,t
 eurostat_solid_fuels_monthly,flow:TI_CO,series variable,t
 eurostat_solid_fuels_monthly,flow:TI_EHG_MAP,series variable,t
+eurostat_supply_diversity_annual,supply_diversity_index,series variable,index
 fbos_fiji_electricity_annual,generation,series variable,MWh
 fbos_fiji_electricity_annual,sales,series variable,MWh
 fema_disaster_declarations,event_id,column,
