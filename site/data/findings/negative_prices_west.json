@@ -47,7 +47,7 @@
      8760,
      8784,
      8760,
-     7103
+     7127
     ]
    },
    {
@@ -72,7 +72,7 @@
      8760,
      8784,
      8760,
-     7103
+     7127
     ]
    },
    {
@@ -97,7 +97,7 @@
      8760,
      8784,
      8760,
-     7103
+     7127
     ]
    },
    {
@@ -122,7 +122,7 @@
      8760,
      8784,
      8760,
-     7103
+     7127
     ]
    },
    {
@@ -192,8 +192,8 @@
    "unit": ""
   }
  ],
- "why": "ERCOT's West hub had 308 hours with a negative mean real-time price in 2019 and 638 in 2025 (3.5 and 7.3 percent of the year's held hours); Houston had 46 and 142. West's worst year was 2022 with 1,014 hours; North had 224 in 2025 and South 235. Counted by 15-minute interval West's 2025 figure is 2,650 intervals. SPP's North hub, held from 2024-09-01, had 1,044 negative hours in 2025 (11.9 percent of 8,760 held hours). So far in 2026: West 936 hours, Houston 117, of 7,103 held. A negative hour is wind or solar paid to run (tax credits, contracts) behind a line that cannot carry it east; the hubs name where that happens. The count says how often, not what it cost anyone.",
- "footnote": "Data: real-time settlement point prices, 15-minute: ERCOT West: HB_WEST, 2018-01-01 to 2026-10-24 (273,884 intervals, America/Chicago); ERCOT Houston: HB_HOUSTON, 2018-01-01 to 2026-10-24 (273,884 intervals, America/Chicago); ERCOT North: HB_NORTH, 2018-01-01 to 2026-10-24 (273,884 intervals, America/Chicago); ERCOT South: HB_SOUTH, 2018-01-01 to 2026-10-24 (273,884 intervals, America/Chicago); SPP North: SPPNORTH_HUB, 2024-09-01 to 2026-10-24 (74,496 intervals, America/Chicago). An hour is the local clock hour; its price is the mean of its held intervals; it counts as negative when that mean is below 0 USD/MWh (the threshold input); the share is of the year's held hours; the interval count is of intervals below the same threshold. The ERCOT hubs' history runs from 2015 (ercot_all_hub_prices_history, ERCOT NP6-785-ER and NP6-905-CD) and the live table from 2026-08-26; SPP North from 2024-09-01 (iso_hub_prices_history, SPP's RTBM settlement prices). A year a hub does not cover is not held and not filled. No cap, no exclusion.",
+ "why": "ERCOT's West hub had 308 hours with a negative mean real-time price in 2019 and 638 in 2025 (3.5 and 7.3 percent of the year's held hours); Houston had 46 and 142. West's worst year was 2022 with 1,014 hours; North had 224 in 2025 and South 235. Counted by 15-minute interval West's 2025 figure is 2,650 intervals. SPP's North hub, held from 2024-09-01, had 1,044 negative hours in 2025 (11.9 percent of 8,760 held hours). So far in 2026: West 936 hours, Houston 117, of 7,127 held. A negative hour is wind or solar paid to run (tax credits, contracts) behind a line that cannot carry it east; the hubs name where that happens. The count says how often, not what it cost anyone.",
+ "footnote": "Data: real-time settlement point prices, 15-minute: ERCOT West: HB_WEST, 2018-01-01 to 2026-10-25 (273,980 intervals, America/Chicago); ERCOT Houston: HB_HOUSTON, 2018-01-01 to 2026-10-25 (273,980 intervals, America/Chicago); ERCOT North: HB_NORTH, 2018-01-01 to 2026-10-25 (273,980 intervals, America/Chicago); ERCOT South: HB_SOUTH, 2018-01-01 to 2026-10-25 (273,980 intervals, America/Chicago); SPP North: SPPNORTH_HUB, 2024-09-01 to 2026-10-24 (74,496 intervals, America/Chicago). An hour is the local clock hour; its price is the mean of its held intervals; it counts as negative when that mean is below 0 USD/MWh (the threshold input); the share is of the year's held hours; the interval count is of intervals below the same threshold. The ERCOT hubs' history runs from 2015 (ercot_all_hub_prices_history, ERCOT NP6-785-ER and NP6-905-CD) and the live table from 2026-08-26; SPP North from 2024-09-01 (iso_hub_prices_history, SPP's RTBM settlement prices). A year a hub does not cover is not held and not filled. No cap, no exclusion.",
  "numbers": {
   "first_year": 2019,
   "last_full_year": 2025,
@@ -208,8 +208,8 @@
   "ercot_west_last_hours": 8760,
   "ercot_west_last_intervals": 2650,
   "ercot_west_this": 936,
-  "ercot_west_this_share": 13.177530620864422,
-  "ercot_west_this_hours": 7103,
+  "ercot_west_this_share": 13.133155605444086,
+  "ercot_west_this_hours": 7127,
   "ercot_west_this_intervals": 3844,
   "ercot_west_peak_year": 2022,
   "ercot_west_peak": 1014,
@@ -223,8 +223,8 @@
   "ercot_houston_last_hours": 8760,
   "ercot_houston_last_intervals": 591,
   "ercot_houston_this": 117,
-  "ercot_houston_this_share": 1.6471913276080528,
-  "ercot_houston_this_hours": 7103,
+  "ercot_houston_this_share": 1.6416444506805108,
+  "ercot_houston_this_hours": 7127,
   "ercot_houston_this_intervals": 464,
   "ercot_houston_peak_year": 2021,
   "ercot_houston_peak": 150,
@@ -238,8 +238,8 @@
   "ercot_north_last_hours": 8760,
   "ercot_north_last_intervals": 949,
   "ercot_north_this": 238,
-  "ercot_north_this_share": 3.3506968886386033,
-  "ercot_north_this_hours": 7103,
+  "ercot_north_this_share": 3.3394134979654835,
+  "ercot_north_this_hours": 7127,
   "ercot_north_this_intervals": 1049,
   "ercot_north_peak_year": 2025,
   "ercot_north_peak": 224,
@@ -253,8 +253,8 @@
   "ercot_south_last_hours": 8760,
   "ercot_south_last_intervals": 992,
   "ercot_south_this": 154,
-  "ercot_south_this_share": 2.168097986766155,
-  "ercot_south_this_hours": 7103,
+  "ercot_south_this_share": 2.160796969271783,
+  "ercot_south_this_hours": 7127,
   "ercot_south_this_intervals": 650,
   "ercot_south_peak_year": 2021,
   "ercot_south_peak": 286,
@@ -281,11 +281,11 @@
   "iso_rtm_hub_prices",
   "iso_hub_prices_history"
  ],
- "computed_at": "2026-10-25T18:06:54Z",
+ "computed_at": "2026-10-26T18:48:40Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding negative_prices_west, NEGATIVE PRICES MARCH WEST",
-  "Computed 2026-10-25T18:06:54Z by warehouse/analysis/findings/negative_prices_west.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-26T18:48:40Z by warehouse/analysis/findings/negative_prices_west.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per hub and local year: held hours, hours with a negative mean real-time price, their share, negative 15-minute intervals and held intervals, first and last day held",
   "A blank is a year the warehouse does not hold for that hub. Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history"
  ],
@@ -296,29 +296,29 @@
   "spans": {
    "ercot_west": {
     "first": "2018-01-01",
-    "last": "2026-10-24",
-    "n_intervals": 273884,
+    "last": "2026-10-25",
+    "n_intervals": 273980,
     "node": "HB_WEST",
     "tz": "America/Chicago"
    },
    "ercot_houston": {
     "first": "2018-01-01",
-    "last": "2026-10-24",
-    "n_intervals": 273884,
+    "last": "2026-10-25",
+    "n_intervals": 273980,
     "node": "HB_HOUSTON",
     "tz": "America/Chicago"
    },
    "ercot_north": {
     "first": "2018-01-01",
-    "last": "2026-10-24",
-    "n_intervals": 273884,
+    "last": "2026-10-25",
+    "n_intervals": 273980,
     "node": "HB_NORTH",
     "tz": "America/Chicago"
    },
    "ercot_south": {
     "first": "2018-01-01",
-    "last": "2026-10-24",
-    "n_intervals": 273884,
+    "last": "2026-10-25",
+    "n_intervals": 273980,
     "node": "HB_SOUTH",
     "tz": "America/Chicago"
    },
@@ -337,11 +337,11 @@
   "python": "negative_prices_west.py",
   "stata": "negative_prices_west.do"
  },
- "csv_sha256": "e6a708dc67c42e462c87cd6121851c5944be59350a6328b01bb8e0deae08ea4e",
+ "csv_sha256": "26ed58e28f1ef14f3268bda99aa6ff8f8e5aa55577cdaa3b7816f121b9ca7c3a",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-25",
+   "name": "the findings library's cards as computed by 2026-10-26",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,

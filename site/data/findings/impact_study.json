@@ -21,11 +21,11 @@
   "ercot_hub_prices_daily",
   "iso_zone_prices_history"
  ],
- "computed_at": "2026-10-25T18:07:25Z",
+ "computed_at": "2026-10-26T18:49:12Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): analysis impact_study: IMPACT OF AN EVENT ON A SERIES",
-  "Computed 2026-10-25T18:07:25Z by warehouse/analysis/findings/impact_study.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-26T18:49:12Z by warehouse/analysis/findings/impact_study.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per day from 3 windows before the date to the window's last day: t (days from the date); period (lead or before or after); after; in_window; series_value; control_value; diff (series minus control)",
   "Series: ERCOT North Hub real-time price (ercot_hub_prices_daily); control: NYISO New York City real-time price (iso_zone_prices_history); date 2021-02-07; window 14 days"
  ],
@@ -955,10 +955,10 @@
   "refusal": "",
   "min_obs": 5,
   "series_first": "2015-01-01",
-  "series_last": "2026-10-24",
+  "series_last": "2026-10-25",
   "control_first": "2019-01-02",
   "control_last": "2026-10-08",
-  "series_days_held": 4314,
+  "series_days_held": 4315,
   "control_days_held": 2818
  },
  "downloads": {
@@ -966,11 +966,11 @@
   "python": "impact_study.py",
   "stata": "impact_study.do"
  },
- "csv_sha256": "f191374894c15244f0f3016d04e1fe15954e0ab8e6aedeb7530567e72ab3cd91",
+ "csv_sha256": "b7b00116dc2b88870f74161250868d0640c64c4e177af6eb878a2bb4175e4fe0",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-25",
+   "name": "the findings library's cards as computed by 2026-10-26",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,

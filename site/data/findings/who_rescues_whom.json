@@ -155,11 +155,11 @@
   "eia930_daily_interchange",
   "event_window_daily"
  ],
- "computed_at": "2026-10-25T18:06:38Z",
+ "computed_at": "2026-10-26T18:48:23Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding who_rescues_whom, WHO RESCUES WHOM",
-  "Computed 2026-10-25T18:06:38Z by warehouse/analysis/findings/who_rescues_whom.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-26T18:48:23Z by warehouse/analysis/findings/who_rescues_whom.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per balancing authority: mean net exports (MWh a day) over the baseline days and over the event's window, the swing, the days held, and the flip (import_to_export, export_to_import, same, small)",
   "Sources: eia930_daily_interchange, event_window_daily"
  ],
@@ -220,11 +220,11 @@
   "python": "who_rescues_whom.py",
   "stata": "who_rescues_whom.do"
  },
- "csv_sha256": "8c7618fcd86a449e67b224e9b04941c647473e852bd61e926c98a029e7f9d121",
+ "csv_sha256": "fbde0bf174fd0f5ce12b2b1bb65244f4017c65c82f6acbe62d5c853436bacad7",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-25",
+   "name": "the findings library's cards as computed by 2026-10-26",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,
