@@ -823,6 +823,11 @@ desnz_uk_renewables_quarterly,generated,series variable,MWh
 desnz_uk_storage_annual,input,series variable,MWh
 desnz_uk_storage_annual,output,series variable,MWh
 desnz_uk_storage_annual,power_capacity,series variable,MW
+destatis_de_electricity_monthly,gross_generation,series variable,MWh
+destatis_de_electricity_monthly,net_generation,series variable,MWh
+destatis_de_electricity_monthly,net_generation_chp,series variable,MWh
+destatis_de_electricity_monthly,net_heat_generation,series variable,MWh
+destatis_de_electricity_monthly,net_heat_generation_chp,series variable,MWh
 dfe_ni_electricity_monthly,exports,series variable,MWh
 dfe_ni_electricity_monthly,imports,series variable,MWh
 dfe_ni_electricity_monthly,net_imports,series variable,MWh
