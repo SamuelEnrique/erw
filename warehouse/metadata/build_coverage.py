@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^statec_lu_electricity_trade_annual$", "power"),  # session 2776: STATEC's LUSTAT DF_A4208, Luxembourg's electricity imports and exports by country (CC0 1.0)
     (r"^statec_lu_electricity_generation_annual$", "power"),  # session 2771: STATEC's LUSTAT DF_A4203, Luxembourg's electricity generation a year from 1928 (CC0 1.0)
     (r"^statbel_be_electricity_production_annual$", "power"),  # session 2770: Statbel's beSTAT, Belgium's gross electricity production by product (CC BY 4.0)
     (r"^ine_es_dwellings_electricity_2021$", "power"),  # session 2765: INE's 2021 census, Spain's dwellings by electricity consumption (CC BY 4.0)
