@@ -1,7 +1,7 @@
 {
- "built_at_utc": "2026-10-24T15:35:41Z",
+ "built_at_utc": "2026-10-26T15:31:48Z",
  "rule_version": "3",
- "actions_read": 1959,
+ "actions_read": 1960,
  "actions_tagged": 24,
  "fields_read": [
   "title",

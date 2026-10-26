@@ -1,0 +1,327 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: Tesla (unit)
+# url: https://en.wikipedia.org/wiki/Tesla_(unit)
+# revision: 1361621200
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20261026T154933Z
+
+The tesla (symbol: T) is the unit of magnetic flux density (B) (also called magnetic B-field) in the International System of Units (SI).
+One tesla is equal to one weber per square metre. The unit was announced during the General Conference on Weights and Measures in 1960 and is named in honour of Serbian-American electrical and mechanical engineer Nikola Tesla, upon the proposal of the Slovenian electrical engineer France Avčin. As with every SI unit named after a person, its symbol is upper case (T) but the name of the unit is written in sentence case (tesla).
+
+
+== Definition ==
+
+A particle, carrying a charge of one coulomb (C), and moving perpendicularly through a magnetic field of one tesla, at a speed of one metre per second (m/s), experiences a force with magnitude one newton (N), according to the Lorentz force law. That is, 
+
+  
+    
+      
+        
+          T
+          =
+          
+            
+              
+                
+                  N
+                  
+                    ⋅
+                  
+                  s
+                
+                
+                  C
+                  
+                    ⋅
+                  
+                  m
+                
+              
+            
+          
+        
+        .
+      
+    
+    {\displaystyle \mathrm {T={\dfrac {N{\cdot }s}{C{\cdot }m}}} .}
+  
+
+Expressed in SI base units, 1 tesla is:
+
+  
+    
+      
+        
+          T
+          =
+          
+            
+              
+                
+                  k
+                  g
+                
+                
+                  A
+                  
+                    ⋅
+                  
+                  
+                    s
+                    
+                      2
+                    
+                  
+                
+              
+            
+          
+        
+        ,
+      
+    
+    {\displaystyle \mathrm {T={\dfrac {kg}{A{\cdot }s^{2}}}} ,}
+  
+
+where A is ampere, kg is kilogram, and s is second.
+
+
+=== In terms of other SI derived units ===
+As an SI derived unit, the tesla can also be expressed in terms of other units. For example, a magnetic flux of 1 weber (Wb) through a surface of one square meter is equal to a magnetic flux density of 1 tesla. That is,
+
+  
+    
+      
+        
+          T
+          =
+          
+            
+              
+                
+                  W
+                  b
+                
+                
+                  m
+                  
+                    2
+                  
+                
+              
+            
+          
+        
+        .
+      
+    
+    {\displaystyle \mathrm {T={\dfrac {Wb}{m^{2}}}} .}
+  
+
+Additional equivalences result from the derivation of coulombs from amperes (A), 
+  
+    
+      
+        
+          C
+          =
+          A
+          
+            ⋅
+          
+          s
+        
+      
+    
+    {\displaystyle \mathrm {C=A{\cdot }s} }
+  
+:
+
+  
+    
+      
+        
+          T
+          =
+          
+            
+              
+                N
+                
+                  A
+                  
+                    ⋅
+                  
+                  m
+                
+              
+            
+          
+        
+        ,
+      
+    
+    {\displaystyle \mathrm {T={\dfrac {N}{A{\cdot }m}}} ,}
+  
+
+the relationship between newtons and joules (J), 
+  
+    
+      
+        
+          J
+          =
+          N
+          
+            ⋅
+          
+          m
+        
+      
+    
+    {\displaystyle \mathrm {J=N{\cdot }m} }
+  
+:
+
+  
+    
+      
+        
+          T
+          =
+          
+            
+              
+                J
+                
+                  A
+                  
+                    ⋅
+                  
+                  
+                    m
+                    
+                      2
+                    
+                  
+                
+              
+            
+          
+        
+        ,
+      
+    
+    {\displaystyle \mathrm {T={\dfrac {J}{A{\cdot }m^{2}}}} ,}
+  
+
+and the derivation of the weber from volts (V), 
+  
+    
+      
+        
+          W
+          b
+          =
+          V
+          
+            ⋅
+          
+          s
+        
+      
+    
+    {\displaystyle \mathrm {Wb=V{\cdot }s} }
+  
+:
+
+  
+    
+      
+        
+          T
+          =
+          
+            
+              
+                
+                  V
+                  
+                    ⋅
+                  
+                  
+                    s
+                  
+                
+                
+                  m
+                  
+                    2
+                  
+                
+              
+            
+          
+        
+        .
+      
+    
+    {\displaystyle \mathrm {T={\dfrac {V{\cdot }{s}}{m^{2}}}} .}
+  
+
+
+== Conversion to non-SI units ==
+The CGS system has a unit similar to the tesla called the gauss. One tesla corresponds to 104 G, but there are subtle differences in the meaning of the units and the gauss is not acceptable for use with SI units according to NIST guidelines. 
+The unit γ (gamma), formerly used in geophysics and defined as 10-5 G, corresponds to 10-9 T. The modern convention is to use the nanotesla (nT) instead of γ.
+The 2019 revision of the SI changed the definition of the ampere and that changed the definition of the tesla by 106.67 parts in 109. The revision also changed the definition of the permeability constant, 
+  
+    
+      
+        
+          μ
+          
+            0
+          
+        
+      
+    
+    {\displaystyle \mu _{0}}
+  
+, altering the meaning of conversions between SI units like the tesla and CGS units like the gauss, and making them a little uncertain. Use of these conversions has been discouraged in scholarly journals.
+
+
+== Examples ==
+
+The following examples are listed in the ascending order of the magnetic-field strength.
+
+25000–65000 nT – the magnitude of Earth's magnetic field at its surface
+4×10−5 T (40 μT) – walking under a high-voltage power line
+5×10−3 T (5 mT) – the strength of a typical refrigerator magnet
+0.3 T – the strength of solar sunspots
+1 T to 2.4 T – coil gap of a typical loudspeaker magnet
+1.5 T to 3 T – strength of medical magnetic resonance imaging systems in practice, experimentally up to 17 T
+4 T – strength of the superconducting magnet built around the CMS detector at CERN
+5.16 T – the strength of a specially designed room temperature Halbach array
+8 T – the strength of LHC magnets
+11.75 T – the strength of INUMAC magnets, largest MRI scanner
+13 T – strength of the superconducting ITER magnet system
+14.5 T – highest magnetic field strength ever recorded for an accelerator steering magnet at Fermilab
+16 T – magnetic field strength required to levitate a frog (by diamagnetic levitation of the water in its body tissues) according to the 2000 Ig Nobel Prize in Physics
+17.6 T – strongest field trapped in a superconductor in a lab as of July 2014
+20 T – strength of the large scale high temperature superconducting magnet developed by MIT and Commonwealth Fusion Systems to be used in fusion reactors
+27 T – maximal field strengths of superconducting electromagnets at cryogenic temperatures
+35.4 T – the current (2009) world record for a superconducting electromagnet in a background magnetic field
+45 T – the current (2015) world record for continuous field magnets
+97.4 T – strongest magnetic field produced by a "non-destructive" magnet
+100 T – approximate magnetic field strength of a typical white dwarf star
+1200 T – the field, lasting for about 100 microseconds, formed using the electromagnetic flux-compression technique
+109 T – Schwinger limit above which the electromagnetic field itself is expected to become nonlinear
+108 – 1011 T (100 MT – 100 GT) – magnetic strength range of magnetar neutron stars
+
+
+== Notes and references ==
+
+
+== External links ==
+
+Gauss ↔ Tesla Conversion Tool
