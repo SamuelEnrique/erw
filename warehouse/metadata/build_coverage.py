@@ -289,6 +289,7 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^eles_slovenia_hourly$", "power"),  # session 2822: ELES, production and take-over on Slovenia's transmission network an hour from 2021
     (r"^eurostat_gas_import_origin_annual$", "gas"),  # session 2821: Eurostat's nrg_ind_idogas, European natural gas import dependency by country of origin, 2015 to 2020
     (r"^eurostat_nonhousehold_bands_annual$", "power"),  # session 2820: Eurostat's nrg_pc_205_v, non-household electricity by consumption band a year
     (r"^eurostat_industry_electricity_annual$", "power"),  # session 2818: Eurostat's nrg_d_indq_n, European industry's electricity by NACE activity a year
