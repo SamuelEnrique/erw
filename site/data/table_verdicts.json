@@ -1403,6 +1403,10 @@
   "unsettled",
   "The terms of Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department have not been read or settled, so the ERW does not redistribute it until they are."
  ],
+ "ine_es_dwellings_electricity_2021": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "interconnection_agreements_by_grid": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -1823,7 +1827,15 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "statat_austria_electricity_annual": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "statbank_moldova_electricity_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "statbel_be_electricity_production_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
@@ -1860,6 +1872,14 @@
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "state_generation_mix_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "statec_lu_electricity_generation_annual": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "statec_lu_electricity_trade_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
