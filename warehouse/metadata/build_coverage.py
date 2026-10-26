@@ -289,6 +289,13 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^eurostat_industry_electricity_annual$", "power"),  # session 2818: Eurostat's nrg_d_indq_n, European industry's electricity by NACE activity a year
+    (r"^eurostat_ev_recharging_power_annual$", "power"),  # session 2813: Eurostat's road_if_rchevpow, European EV recharging points by power category a year
+    (r"^eurostat_nuclear_fuel_cycle_annual$", "power;uranium"),  # session 2812: Eurostat's nrg_inf_nuc, Europe's nuclear fuel cycle facilities and nuclear heat a year
+    (r"^czso_cz_regional_electricity_annual$", "power"),  # session 2809: the CZSO's Comparison of Regions, Czech regions' electricity capacity, production and consumption
+    (r"^bfe_ch_electricity_wednesdays$", "power"),  # session 2808: the SFOE's weekly electricity balance (ogd51), Switzerland's balance on each Wednesday from 2003
+    (r"^destatis_de_electricity_monthly$", "power"),  # session 2807: Destatis's monthly report, Germany's general supply plants' electricity and heat by energy source
+    (r"^eurostat_electrification_rate_annual$", "power"),  # session 2806: Eurostat's nrg_ind_re, electricity's share of final energy consumption by sector a year
     (r"^eurostat_ev_recharging_annual$", "power"),  # session 2804: Eurostat's road_if_rchev, European EV recharging pools, stations, points and power output a year
     (r"^eurostat_data_centre_electricity_annual$", "power"),  # session 2799: Eurostat's isoc_env_ict_nrg, European data centres' electricity consumption a year
     (r"^eurostat_household_electricity_annual$", "power"),  # session 2798: Eurostat's nrg_d_hhq, European households' electricity by end use a year

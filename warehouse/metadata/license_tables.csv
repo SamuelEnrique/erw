@@ -23,6 +23,7 @@ battery_stack_stress_daily,CAISO; ERCOT,"the source registry and the tables its 
 bchydro_ba_load_hourly,BC Hydro (British Columbia Hydro and Power Authority),the source registry
 bcrp_peru_electricity_monthly,Banco Central de Reserva del Peru (BCRP),the source registry
 bcrp_peru_hydrocarbons_monthly,Banco Central de Reserva del Peru (BCRP),the source registry
+bfe_ch_electricity_wednesdays,Swiss Federal Office of Energy (SFOE),the source registry
 bfe_switzerland_electricity_monthly,Swiss Federal Office of Energy (SFOE),the source registry
 blm_ca_renewable_rows,"U.S. Department of the Interior, Bureau of Land Management (BLM)",the source registry
 blm_oil_gas_statistics_annual,"U.S. Department of the Interior, Bureau of Land Management (BLM)",the source registry
@@ -75,6 +76,7 @@ cost_of_power_hourly_profile,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source 
 cost_of_power_monthly,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 cso_ireland_electricity_monthly,"Central Statistics Office, Ireland (CSO)",the source registry
 csp_latvia_electricity_monthly,Central Statistical Bureau of Latvia (CSP),the source registry
+czso_cz_regional_electricity_annual,Czech Statistical Office (CZSO),the source registry
 datacenter_facilities,Amazon Web Services; Bloomberg; CAISO; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; ERCOT; Equinix; Financial Times; Google; Hart Energy; Heatmap News; ISO-NE; Latitude Media; MISO; Meta; Microsoft; NYISO; Natural Gas Intelligence; OilPrice.com; Oracle; POWER Magazine; Reuters; SPP; Switch; Vantage Data Centers; WSJ,"the source registry and the tables its header derives it from: caiso_interconnection_queue, datacenter_operator_sites, datacenter_projects, ercot_interconnection_queue, isone_interconnection_queue, miso_interconnection_queue, nyiso_interconnection_queue, spp_interconnection_queue"
 datacenter_operator_sites,Amazon Web Services; Digital Realty; Equinix; Google; Meta; Microsoft; Oracle; Switch; Vantage Data Centers,the source registry
 datacenter_projects,Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
@@ -99,6 +101,7 @@ desnz_uk_plant_loads_annual,UK Department for Energy Security and Net Zero (DESN
 desnz_uk_power_stations,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_renewables_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_storage_annual,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+destatis_de_electricity_monthly,Statistisches Bundesamt (Destatis),the source registry
 dfe_ni_electricity_monthly,Department for the Economy (Northern Ireland),the source registry
 doe_grip_selections,U.S. Department of Energy (DOE),the source registry
 doe_lead_energy_burden,U.S. Department of Energy (DOE),the source registry
@@ -349,12 +352,16 @@ eurostat_electricity_consumption_annual,Eurostat (Statistical Office of the Euro
 eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_production_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_trade_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_electrification_rate_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_ev_recharging_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_ev_recharging_power_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_balance_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_hard_coal_imports_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_household_electricity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_import_dependency_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_industry_electricity_annual,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_nuclear_fuel_cycle_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_oil_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_shares_annual,Eurostat (Statistical Office of the European Union),the source registry

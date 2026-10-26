@@ -23,6 +23,7 @@ battery_stack_stress_daily,CAISO;ERCOT,caiso;ercot,2,P1D,2021-02-07T00:00:00Z,20
 bchydro_ba_load_hourly,bchydro,,1,PT1H,2024-01-01T08:00:00Z,2026-10-01T06:00:00Z,24095,bchydro:hourly_control_area_load_report,2026-10-25T11:57:52Z,pass,internal,power,no,source
 bcrp_peru_electricity_monthly,bcrp,,25,P1M,2005-01-01T00:00:00Z,2026-06-01T00:00:00Z,6450,bcrp_pe:bcrpdata_produccion_electricidad_departamento,2026-10-25T00:56:01Z,pass,public,power,no,source
 bcrp_peru_hydrocarbons_monthly,bcrp,,3,P1M,2000-01-01T00:00:00Z,2026-08-01T00:00:00Z,960,bcrp_pe:bcrpdata_produccion_hidrocarburos,2026-10-25T01:01:14Z,pass,public,oil;gas,no,source
+bfe_ch_electricity_wednesdays,bfe,,12,P1D,2003-01-01T00:00:00Z,2026-06-24T00:00:00Z,11154,bfe:ogd51,2026-10-26T04:57:10Z,pass,public,power,no,source
 bfe_switzerland_electricity_monthly,bfe,,15,P1M,2000-01-01T00:00:00Z,2026-08-01T00:00:00Z,4000,bfe:ogd35,2026-10-24T07:54:39Z,pass,public,power,no,source
 blm_ca_renewable_rows,blm,,57,snapshot,2026-10-23T12:41:42Z,2026-10-23T12:41:42Z,57,blm:ca_renewable_energy_projects,2026-10-23T12:43:32Z,pass,public,power,no,source
 blm_oil_gas_statistics_annual,blm,,50,P1Y,2000-10-01T00:00:00Z,2024-10-01T00:00:00Z,12500,blm:oil_gas_statistics,2026-10-23T22:59:41Z,pass,public,oil;gas,no,source
@@ -75,6 +76,7 @@ cost_of_power_hourly_profile,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_r
 cost_of_power_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,7,P1M,2018-07-01T00:00:00Z,2026-10-01T00:00:00Z,2304,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power,yes,derived
 cso_ireland_electricity_monthly,cso,,2,P1M,1975-01-01T00:00:00Z,2026-08-01T00:00:00Z,644,cso:MSM01,2026-10-24T06:58:59Z,pass,public,power,no,source
 csp_latvia_electricity_monthly,csp,,10,P1M,2006-01-01T00:00:00Z,2026-08-01T00:00:00Z,2039,csp:ENB010m,2026-10-24T06:32:11Z,pass,internal,power,no,source
+czso_cz_regional_electricity_annual,czso,,255,P1Y,2024-01-01T00:00:00Z,2024-01-01T00:00:00Z,360,czso:comparison_of_regions_14_energy,2026-10-26T05:06:13Z,pass,public,power,no,source
 datacenter_facilities,none,,433,snapshot,2026-10-25T14:53:46Z,2026-10-25T14:53:46Z,433,Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;WSJ;aws:locations;digitalrealty:data-centers;equinix:us-data-centers;ercot:interconnection_queue;google:datacenter-locations;meta:datacenter-locations;microsoft:azure-geographies;nyiso:interconnection_queue;oracle:public-cloud-regions;switch:locations;vantage:data-center-locations,2026-10-25T14:53:46Z,pass,public,power;datacenters,no,model_extracted
 datacenter_operator_sites,none,,275,snapshot,2026-10-12T14:52:31Z,2026-10-12T14:52:31Z,275,aws:locations;digitalrealty:data-centers;equinix:us-data-centers;google:datacenter-locations;meta:datacenter-locations;microsoft:azure-geographies;oracle:public-cloud-regions;switch:locations;vantage:data-center-locations,2026-10-12T14:48:48Z,pass,public,power;datacenters,no,source
 datacenter_projects,none,,157,snapshot,2026-09-27T04:31:06Z,2026-10-25T14:53:41Z,157,Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;WSJ,2026-10-25T14:53:39Z,pass,public,power;datacenters,no,model_extracted
@@ -99,6 +101,7 @@ desnz_uk_plant_loads_annual,desnz,,16,P1Y,1996-01-01T00:00:00Z,2025-01-01T00:00:
 desnz_uk_power_stations,desnz,,1364,snapshot,2026-10-25T17:09:21Z,2026-10-25T17:09:21Z,1364,desnz:dukes_5_11_power_stations,2026-10-25T18:21:27Z,pass,public,power,no,source
 desnz_uk_renewables_quarterly,desnz,,20,P3M,2010-01-01T00:00:00Z,2026-04-01T00:00:00Z,1982,desnz:energy_trends_6_1,2026-10-24T01:59:04Z,pass,public,power,no,source
 desnz_uk_storage_annual,desnz,,4,P1Y,1996-01-01T00:00:00Z,2025-01-01T00:00:00Z,360,desnz:dukes_5_16_energy_storage,2026-10-25T18:25:59Z,pass,public,power,no,source
+destatis_de_electricity_monthly,destatis,,123,P1M,2026-07-01T00:00:00Z,2026-07-01T00:00:00Z,123,destatis:monatsbericht_elektrizitaet_waerme,2026-10-26T04:46:55Z,pass,public,power,no,source
 dfe_ni_electricity_monthly,dfe,,13,P1M,2018-01-01T00:00:00Z,2026-06-01T00:00:00Z,1326,dfe_ni:electricity_consumption_renewable_generation_2026,2026-10-24T21:59:50Z,pass,public,power,no,source
 doe_grip_selections,none,,1,event,2023-10-18T00:00:00Z,2024-10-18T00:00:00Z,105,1 outlets,2026-10-23T19:24:55Z,pass,public,power,no,source
 doe_lead_energy_burden,doe,,2012,P1Y,2022-01-01T00:00:00Z,2022-01-01T00:00:00Z,160419,doe:lead_2022,2026-10-24T00:22:03Z,pass,public,power;gas,no,source
@@ -349,12 +352,16 @@ eurostat_electricity_consumption_annual,eurostat,,479,P1Y,1990-01-01T00:00:00Z,2
 eurostat_electricity_monthly,eurostat,,30,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,130025,eurostat:nrg_cb_pem_nrg_cb_em,2026-10-24T02:13:36Z,pass,public,power,no,source
 eurostat_electricity_production_annual,eurostat,,2256,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,73988,eurostat:nrg_bal_peh,2026-10-24T11:22:45Z,pass,public,power,no,source
 eurostat_electricity_trade_annual,eurostat,,167,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,198783,eurostat:nrg_ti_eh_nrg_te_eh,2026-10-24T11:52:47Z,pass,public,power,no,source
+eurostat_electrification_rate_annual,eurostat,,1319,P1Y,1990-01-01T00:00:00Z,2023-01-01T00:00:00Z,38269,eurostat:nrg_ind_re,2026-10-26T04:37:45Z,pass,public,power,no,source
 eurostat_ev_recharging_annual,eurostat,,119,P1Y,2019-01-01T00:00:00Z,2025-01-01T00:00:00Z,465,eurostat:road_if_rchev,2026-10-26T03:32:28Z,pass,public,power,no,source
+eurostat_ev_recharging_power_annual,eurostat,,277,P1Y,2019-01-01T00:00:00Z,2025-01-01T00:00:00Z,1171,eurostat:road_if_rchevpow,2026-10-26T05:23:53Z,pass,public,power,no,source
 eurostat_gas_balance_monthly,eurostat,,580,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,53214,eurostat:nrg_cb_gasm,2026-10-24T07:46:42Z,pass,public,gas,no,source
 eurostat_gas_imports_monthly,eurostat,,865,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,34905,eurostat:nrg_ti_gasm,2026-10-24T01:46:31Z,pass,public,gas;lng,no,source
 eurostat_hard_coal_imports_annual,eurostat,,167,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,99288,eurostat:nrg_ti_sff_c0100,2026-10-24T11:52:31Z,pass,public,coal,no,source
 eurostat_household_electricity_annual,eurostat,,266,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,3150,eurostat:nrg_d_hhq,2026-10-26T03:19:57Z,pass,public,power,no,source
 eurostat_import_dependency_annual,eurostat,,507,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,16627,eurostat:nrg_ind_id,2026-10-26T02:06:14Z,pass,public,power,no,source
+eurostat_industry_electricity_annual,eurostat,,1507,P1Y,2017-01-01T00:00:00Z,2024-01-01T00:00:00Z,8307,eurostat:nrg_d_indq_n,2026-10-26T05:31:56Z,pass,public,power,no,source
+eurostat_nuclear_fuel_cycle_annual,eurostat,,313,P1Y,2009-01-01T00:00:00Z,2024-01-01T00:00:00Z,4247,eurostat:nrg_inf_nuc,2026-10-26T05:17:46Z,pass,public,power;uranium,no,source
 eurostat_oil_monthly,eurostat,,143,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,457009,eurostat:nrg_cb_oilm,2026-10-24T09:23:23Z,pass,public,oil,no,source
 eurostat_renewable_capacity_annual,eurostat,,34,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,49313,eurostat:nrg_inf_epcrw,2026-10-23T22:56:54Z,pass,public,power,no,source
 eurostat_renewable_shares_annual,eurostat,,163,P1Y,2004-01-01T00:00:00Z,2025-01-01T00:00:00Z,3095,eurostat:nrg_ind_ren,2026-10-25T22:34:42Z,pass,public,power,no,source
