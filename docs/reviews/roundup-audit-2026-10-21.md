@@ -184,3 +184,11 @@ Written by session 577 (`archive/sessions/SESSION_577_REPORT.md`), from session 
 | 13 | Trace W40 and W41 | done: 76 figures equal, 4 revised by the publisher after the issue (W40's highest real-time price, 1372.09, now reads 42.72; the US48 peaks 0.2 to 0.5 percent higher), 4 gaps stated when written, 0 failed | session 498, `scripts/check_roundup.py`, on `wip/506-combined`, landing with chain 023 |
 
 Beside the ranked fixes, left as they are: the email puts the numbers before the policy of the week and does not name the deals and datacenter sections (no fix asked it); W41's no-model headline "massive" is the publisher's own title, said as such on the page and in the email (whether those titles may be edited is in session 577's report, for Samuel).
+
+## Issues written after this audit
+
+Added by session 2777 (chain 140, data machine), 26 October 2026, so that the list above stays complete; these issues are not audited here.
+
+| Issue | Page | Email as sent | Chart files | Written |
+|---|---|---|---|---|
+| 2026-W43 (19 to 25 October) | `docs/roundup/2026-W43.md` | `docs/digest/email/2026-W43-roundup.txt` and `.html` | `docs/analysis/2026-W43/` | 25 October 23:20 UTC, the Sunday energy roundup workflow (commit `28a803da`) |
