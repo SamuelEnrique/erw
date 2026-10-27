@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): finding batteries_curtailment_hourly, BY HOW MUCH DO BATTERIES CUT CURTAILMENT, HOUR BY HOUR
-# Computed 2026-10-26T18:49:10Z by warehouse/analysis/findings/batteries_curtailment_hourly.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
+# Computed 2026-10-27T18:12:03Z by warehouse/analysis/findings/batteries_curtailment_hourly.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
 # Rows: one per hour held (day and hour are Pacific): curtailed MW (solar plus wind), battery charging MW, net load MW (demand less solar and wind), the fleet's EIA-860M MW of the month, the largest charging hour of the 30 days before the day; a blank is not held
 # Sources: caiso_curtailment_intervals, caiso_fuel_supply_history, caiso_fuel_supply, storage_buildout_monthly
 day,hour,curtailed_mw,charging_mw,net_load_mw,fleet_mw,trail_max_charging_mw
