@@ -76,3 +76,14 @@ day,card,status,computed_at,numbers,numbers_moved,detail
 2026-10-27,peak_hour_grids,recomputed,2026-10-27T18:11:59Z,231,17,caiso_this_days; caiso_this_evening_pct; caiso_this_median_hour; caiso_this_midday_pct; caiso_this_modal_pct; ercot_this_days; ercot_this_evening_pct; ercot_this_midday_pct; ercot_this_modal_pct; isone_this_days; isone_this_evening_pct; isone_this_midday_pct; ...
 2026-10-27,batteries_curtailment_hourly,recomputed,2026-10-27T18:12:03Z,197,0,
 2026-10-27,impact_study,recomputed,2026-10-27T18:12:05Z,39,0,
+2026-10-28,batteries_lunch,recomputed,2026-10-28T18:11:52Z,33,4,n_intervals; reg_top1_coef; reg_top1_p; reg_top1_se
+2026-10-28,gas_sets_price,recomputed,2026-10-28T18:11:59Z,18,4,caiso_this; ercot_this; nyiso_this; spp_this
+2026-10-28,queue_divorce,recomputed,2026-10-28T18:11:59Z,19,0,
+2026-10-28,peak_hour_moved,recomputed,2026-10-28T18:12:05Z,59,9,caiso_this_days; caiso_this_evening_pct; caiso_this_median_hour; caiso_this_midday_pct; caiso_this_modal_pct; ercot_this_days; ercot_this_evening_pct; ercot_this_midday_pct; ercot_this_modal_pct
+2026-10-28,who_rescues_whom,recomputed,2026-10-28T18:12:07Z,27,0,
+2026-10-28,negative_prices_west,recomputed,2026-10-28T18:12:23Z,79,10,ercot_houston_this_hours; ercot_houston_this_share; ercot_north_this_hours; ercot_north_this_share; ercot_south_this_hours; ercot_south_this_share; ercot_west_this_hours; ercot_west_this_share; spp_north_this_hours; spp_north_this_share
+2026-10-28,batteries_curtailment,recomputed,2026-10-28T18:12:24Z,34,29,charging_coef; charging_n; charging_p; charging_r2; charging_se; charging_solar_coef; charging_solar_month_coef; charging_solar_month_n; charging_solar_month_p; charging_solar_month_r2; charging_solar_month_se; charging_solar_n; ...
+2026-10-28,batteries_lunch_grids,recomputed,2026-10-28T18:12:37Z,243,35,caiso_hours_top1_this; caiso_median_this; caiso_multiple_this; caiso_n_intervals; caiso_p999_this; caiso_reg_top1_coef; caiso_reg_top1_p; caiso_reg_top1_r2; caiso_reg_top1_se; caiso_share_this_pct; ercot_n_intervals; ercot_reg_top1_coef; ...
+2026-10-28,peak_hour_grids,recomputed,2026-10-28T18:12:48Z,231,17,caiso_this_days; caiso_this_evening_pct; caiso_this_median_hour; caiso_this_midday_pct; caiso_this_modal_pct; ercot_this_days; ercot_this_evening_pct; ercot_this_midday_pct; ercot_this_modal_pct; isone_this_days; isone_this_evening_pct; isone_this_midday_pct; ...
+2026-10-28,batteries_curtailment_hourly,recomputed,2026-10-28T18:12:52Z,197,0,
+2026-10-28,impact_study,recomputed,2026-10-28T18:12:54Z,39,0,
