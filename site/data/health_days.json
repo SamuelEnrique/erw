@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-10-27T16:22Z",
+ "written": "2026-10-28T16:32Z",
  "green_days": 0,
- "counted_to": "2026-10-26",
+ "counted_to": "2026-10-27",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -2075,6 +2075,100 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 42 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-27": {
+   "rows": 697,
+   "failed": 6,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "daily prices": {
+     "ok": 21,
+     "skipped": 3,
+     "retried": 1,
+     "failed": 6,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 28
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 50,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 52
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-27T14:48",
+     "workflow": "daily prices",
+     "step": "portwatch",
+     "reason": "portwatch_chokepoint_transits: portwatch portwatch_chokepoint_transits FAILED, no output file written: RuntimeError: PortWatch chokepoint6 offset 0 failed after 4 attempts: RuntimeError(\"PortWatch err"
+    },
+    {
+     "at": "2026-10-27T14:53",
+     "workflow": "daily prices",
+     "step": "news_score",
+     "reason": "news score: model claude-haiku-4-5; calls 0 (16 failed); stories scored 0 of 400; tokens input 0, output 0, cache write 0, cache read 0; cost USD 0.0000; duplicate links rejected 0; clusters 16350 amo"
+    },
+    {
+     "at": "2026-10-27T14:55",
+     "workflow": "daily prices",
+     "step": "policy_score",
+     "reason": "policy_score: 0 newly scored, 1959 of 1970 scored; 388 at significance 5 or more; cost USD 0.0000"
+    },
+    {
+     "at": "2026-10-27T14:56",
+     "workflow": "daily prices",
+     "step": "deals",
+     "reason": "extract: deals extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-27T14:56",
+     "workflow": "daily prices",
+     "step": "datacenters",
+     "reason": "extract: datacenters extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-27T15:44",
+     "workflow": "daily prices",
+     "step": "news_brief",
+     "reason": "digest: news_brief digest FAILED: anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-27T15:00",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 43 days old (limit 28)"
+    },
+    {
+     "at": "2026-10-27T17:35",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 43 days old (limit 28)"
     }
    ]
   }
