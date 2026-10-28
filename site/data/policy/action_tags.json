@@ -1,15 +1,15 @@
 {
- "built_at_utc": "2026-10-27T15:29:30Z",
+ "built_at_utc": "2026-10-28T15:36:04Z",
  "rule_version": "3",
- "actions_read": 1970,
- "actions_tagged": 25,
+ "actions_read": 1977,
+ "actions_tagged": 26,
  "fields_read": [
   "title",
   "abstract",
   "first_paragraph"
  ],
  "counts": {
-  "large_load": 14,
+  "large_load": 15,
   "interconnection": 9,
   "transmission_cost": 12,
   "tax_credit": 6
@@ -263,6 +263,13 @@
     "matched_field": "abstract"
    }
   ],
+  "federalregister:2026-21989": [
+   {
+    "tag": "large_load",
+    "matched_term": "data center",
+    "matched_field": "first_paragraph"
+   }
+  ],
   "puct:537c766a4c02": [
    {
     "tag": "large_load",
@@ -275,6 +282,7 @@
   "federalregister:2026-03005": "Take notice that on January 29, 2026, Transwestern Pipeline Company, LLC (Transwestern), 1300 Main Street, Houston, Texas 77002, filed in the above referenced docket, a prior notice request pursuant to sections 157.205, 157.208, and 157.211 of the Commission's regulations under the Natural Gas Act (NGA), and Transwestern's blanket certificate issued in Docket No. CP82-534-000, for authorization to construct, install, own, maintain, and operate its Green Chile Project (Project). The Project consists of an approximately 17.77-mile-long, 24-inch-diameter lateral, metering facilities, and appurtenances in Do[ntilde]a Ana County, New Mexico. The Project will be capable of delivering 400,000 dekatherms per day of natural gas to Green Chile Ventures, LLC for the generation of electricity for an AI/data center. Transwestern estimates the cost of the Project to be approximately $60.2 million, all as more fully set forth in the request which is on file with the Commission and open to public inspection.",
   "federalregister:2026-14686": "Take notice that on July 1, 2026, ETC Tiger Pipeline, LLC (ETC Tiger), 1300 Main Street, Houston, Texas, 77002 filed an application under section 7(c) of the Natural Gas Act (NGA) and Part 157 of the Commission's regulations requesting authorization for its Franklin Farms Project (Project). The Project consists of: (1) approximately 13.24 miles of new 36-inch-diameter greenfield pipeline (Franklin Farms Lateral); (2) the Franklin Farms Delivery Meter, the Bee Bayou Delivery Meter, and the Trio Farm Delivery Meter; (3) approximately 1.75 miles of 20-inch-diameter pipeline lateral (FF Trio Farm Lateral); (4) the MEP Receipt Meter, the Gulf South Pipeline Receipt Meter, the Gulf Crossing Pipeline Receipt Meter, and the Gulf Run Pipeline Bi- directional Meter; (5) three new mainline valves; and (6) related appurtenant facilities, all located in Richland Parish, Louisiana. The Project will provide approximately 1,000,000 dekatherms per day of firm transportation capacity to serve Entergy Louisiana, LLC's power generation facility for its Richland Parish Data Center. ETC Tiger estimates the total cost of the Project to be $137,388,622, all as more fully set forth in the application which is on file with the Commission and open for public inspection.",
   "federalregister:2026-15286": "On January 29, 2026, Transwestern Pipeline Company, LLC (Transwestern) filed a prior notice application in Docket No. CP26-80- 000, pursuant to sections 157.205, 157.208, and 157.211 of the Commission's regulations under the Natural Gas Act (NGA), and Transwestern's blanket certificate issued in Docket No. CP82-534-000, requesting authorization to construct and operate certain natural gas pipeline facilities in Do[ntilde]a Ana County, New Mexico. The proposed project is known as the Green Chile Project (Project) and would be capable of delivering up to 400,000 dekatherms per day of natural gas from a point of receipt located on the existing El Paso Natural Gas Company, L.L.C. pipeline system to a point of delivery with Green Chile Ventures, LLC (GCV). According to Transwestern, the Project is designed to meet GCV's demand for natural gas that would be used for power generation by a new artificial intelligence/data center campus.",
-  "federalregister:2026-21364": "On September 30, 2026, Moraga Storage, LLC; River Mill Storage, LLC; Hecate Energy Medway Energy Center LLC; Brough Storage, LLC; and Partridge Storage, LLC (collectively, Project Companies) filed a complaint and waiver request in the above-referenced docket. Project Companies request a shortened 10-day comment period because they must decide whether to execute a Large Generator Interconnection Agreement (LGIA), seek to file an unexecuted LGIA, or withdraw from the ISO New England Inc. (ISO-NE) interconnection queue by October 20, 2026."
+  "federalregister:2026-21364": "On September 30, 2026, Moraga Storage, LLC; River Mill Storage, LLC; Hecate Energy Medway Energy Center LLC; Brough Storage, LLC; and Partridge Storage, LLC (collectively, Project Companies) filed a complaint and waiver request in the above-referenced docket. Project Companies request a shortened 10-day comment period because they must decide whether to execute a Large Generator Interconnection Agreement (LGIA), seek to file an unexecuted LGIA, or withdraw from the ISO New England Inc. (ISO-NE) interconnection queue by October 20, 2026.",
+  "federalregister:2026-21989": "On July 1, 2026, ETC Tiger Pipeline, LLC (ETC Tiger) filed an application in Docket No. CP26-61-000 requesting a Certificate of Public Convenience and Necessity pursuant to Section 7c of the Natural Gas Act to construct and operate certain natural gas facilities. The proposed project, known as the Franklin Farms Project (Project), would enable ETC Tiger to provide Entergy Louisiana, LLC with 250,000 dekatherms per day of firm transportation service mainline capacity and 1,000,000 dekatherms per day of capacity on a newly constructed lateral for a new artificial intelligence data center campus in Richland Parish, Louisiana."
  }
 }

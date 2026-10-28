@@ -1,0 +1,21 @@
+{
+ "date": "2026-10-28",
+ "fact_id": "ff_61987e00c2",
+ "kind": "warehouse",
+ "fact": "In 2001, solar made 0.3% of the electricity generated in California; in 2025 it made 27.0%.",
+ "second": "",
+ "structure": "none",
+ "conjecture": "False",
+ "sources": [
+  {
+   "part": "fact",
+   "label": "ERW table state_generation_mix_monthly",
+   "table": "state_generation_mix_monthly",
+   "publisher": "Energy Research Warehouse (ERW), derived",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/share_ca_solar_20260930T221439Z.txt",
+   "span": "state_generation_mix_monthly eia:CA: solar share of net generation 0.3% in 2001, 27.0% in 2025 (sums of monthly MWh over complete years)",
+   "retrieved_at": "20260930T221439Z"
+  }
+ ]
+}
