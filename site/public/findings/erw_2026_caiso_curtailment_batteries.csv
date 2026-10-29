@@ -1,7 +1,7 @@
 # Energy Research Warehouse (ERW): finding batteries_curtailment, BY HOW MUCH DO BATTERIES CUT CURTAILMENT
-# Computed 2026-10-28T18:12:24Z by warehouse/analysis/findings/batteries_curtailment.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
+# Computed 2026-10-29T18:12:59Z by warehouse/analysis/findings/batteries_curtailment.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
 # Rows: one per Pacific day: curtailed MWh (as counted), solar and wind curtailed, battery charging and discharging MWh, solar generation MWh, intervals and hours held
-# Sources: caiso_curtailment_daily, caiso_battery_storage, caiso_fuel_supply. Pearson r of curtailed_mwh with charging_mwh over these rows: 0.289401 (r squared 0.083753, the R2 of the charging-alone fit)
+# Sources: caiso_curtailment_daily, caiso_battery_storage, caiso_fuel_supply. Pearson r of curtailed_mwh with charging_mwh over these rows: 0.286686 (r squared 0.082189, the R2 of the charging-alone fit)
 day,month,curtailed_mwh,curtailed_solar_mwh,curtailed_wind_mwh,charging_mwh,discharging_mwh,solar_mwh,battery_intervals,solar_hours
 2025-08-24,2025-08,2036.8590000000002,1998.526,38.333,48199.416666666664,38733.916666666664,172551.25,288,24
 2025-08-25,2025-08,3874.701,3745.157,129.544,41692.666666666664,36154.166666666664,141688.75,288,24
@@ -425,5 +425,6 @@ day,month,curtailed_mwh,curtailed_solar_mwh,curtailed_wind_mwh,charging_mwh,disc
 2026-10-22,2026-10,588.012,288.931,299.081,39346.166666666664,31227.083333333332,103424.6665,288,24
 2026-10-23,2026-10,3670.313,3662.07,8.243,52634.0,43166.166666666664,129595.8334,288,24
 2026-10-24,2026-10,9791.491,9763.215,28.276,61625.5,56000.08333333333,164599.3336,288,24
-2026-10-25,2026-10,4084.9,4064.587,20.313,62164.416666666664,53083.666666666664,170676.5835,288,24
+2026-10-25,2026-10,4084.9,4064.587,20.313,62164.166666666664,53083.33333333333,170676.5835,288,24
 2026-10-26,2026-10,2719.886,2664.394,55.492,62317.666666666664,54700.916666666664,167812.9166,288,24
+2026-10-27,2026-10,4805.055,4652.796,152.259,63848.166666666664,49806.83333333333,165029.5002,288,24

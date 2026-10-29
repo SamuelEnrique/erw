@@ -47,7 +47,7 @@
      8760,
      8784,
      8760,
-     7175
+     7199
     ]
    },
    {
@@ -72,7 +72,7 @@
      8760,
      8784,
      8760,
-     7175
+     7199
     ]
    },
    {
@@ -97,7 +97,7 @@
      8760,
      8784,
      8760,
-     7175
+     7199
     ]
    },
    {
@@ -122,7 +122,7 @@
      8760,
      8784,
      8760,
-     7175
+     7199
     ]
    },
    {
@@ -137,7 +137,7 @@
      null,
      541,
      1044,
-     742
+     743
     ],
     "hours": [
      null,
@@ -147,7 +147,7 @@
      null,
      2929,
      8760,
-     6983
+     7007
     ]
    }
   ],
@@ -192,8 +192,8 @@
    "unit": ""
   }
  ],
- "why": "ERCOT's West hub had 308 hours with a negative mean real-time price in 2019 and 638 in 2025 (3.5 and 7.3 percent of the year's held hours); Houston had 46 and 142. West's worst year was 2022 with 1,014 hours; North had 224 in 2025 and South 235. Counted by 15-minute interval West's 2025 figure is 2,650 intervals. SPP's North hub, held from 2024-09-01, had 1,044 negative hours in 2025 (11.9 percent of 8,760 held hours). So far in 2026: West 936 hours, Houston 117, of 7,175 held. A negative hour is wind or solar paid to run (tax credits, contracts) behind a line that cannot carry it east; the hubs name where that happens. The count says how often, not what it cost anyone.",
- "footnote": "Data: real-time settlement point prices, 15-minute: ERCOT West: HB_WEST, 2018-01-01 to 2026-10-27 (274,172 intervals, America/Chicago); ERCOT Houston: HB_HOUSTON, 2018-01-01 to 2026-10-27 (274,172 intervals, America/Chicago); ERCOT North: HB_NORTH, 2018-01-01 to 2026-10-27 (274,172 intervals, America/Chicago); ERCOT South: HB_SOUTH, 2018-01-01 to 2026-10-27 (274,172 intervals, America/Chicago); SPP North: SPPNORTH_HUB, 2024-09-01 to 2026-10-26 (74,688 intervals, America/Chicago). An hour is the local clock hour; its price is the mean of its held intervals; it counts as negative when that mean is below 0 USD/MWh (the threshold input); the share is of the year's held hours; the interval count is of intervals below the same threshold. The ERCOT hubs' history runs from 2015 (ercot_all_hub_prices_history, ERCOT NP6-785-ER and NP6-905-CD) and the live table from 2026-08-26; SPP North from 2024-09-01 (iso_hub_prices_history, SPP's RTBM settlement prices). A year a hub does not cover is not held and not filled. No cap, no exclusion.",
+ "why": "ERCOT's West hub had 308 hours with a negative mean real-time price in 2019 and 638 in 2025 (3.5 and 7.3 percent of the year's held hours); Houston had 46 and 142. West's worst year was 2022 with 1,014 hours; North had 224 in 2025 and South 235. Counted by 15-minute interval West's 2025 figure is 2,650 intervals. SPP's North hub, held from 2024-09-01, had 1,044 negative hours in 2025 (11.9 percent of 8,760 held hours). So far in 2026: West 936 hours, Houston 117, of 7,199 held. A negative hour is wind or solar paid to run (tax credits, contracts) behind a line that cannot carry it east; the hubs name where that happens. The count says how often, not what it cost anyone.",
+ "footnote": "Data: real-time settlement point prices, 15-minute: ERCOT West: HB_WEST, 2018-01-01 to 2026-10-28 (274,268 intervals, America/Chicago); ERCOT Houston: HB_HOUSTON, 2018-01-01 to 2026-10-28 (274,268 intervals, America/Chicago); ERCOT North: HB_NORTH, 2018-01-01 to 2026-10-28 (274,268 intervals, America/Chicago); ERCOT South: HB_SOUTH, 2018-01-01 to 2026-10-28 (274,268 intervals, America/Chicago); SPP North: SPPNORTH_HUB, 2024-09-01 to 2026-10-27 (74,784 intervals, America/Chicago). An hour is the local clock hour; its price is the mean of its held intervals; it counts as negative when that mean is below 0 USD/MWh (the threshold input); the share is of the year's held hours; the interval count is of intervals below the same threshold. The ERCOT hubs' history runs from 2015 (ercot_all_hub_prices_history, ERCOT NP6-785-ER and NP6-905-CD) and the live table from 2026-08-26; SPP North from 2024-09-01 (iso_hub_prices_history, SPP's RTBM settlement prices). A year a hub does not cover is not held and not filled. No cap, no exclusion.",
  "numbers": {
   "first_year": 2019,
   "last_full_year": 2025,
@@ -208,8 +208,8 @@
   "ercot_west_last_hours": 8760,
   "ercot_west_last_intervals": 2650,
   "ercot_west_this": 936,
-  "ercot_west_this_share": 13.045296167247386,
-  "ercot_west_this_hours": 7175,
+  "ercot_west_this_share": 13.001805806361993,
+  "ercot_west_this_hours": 7199,
   "ercot_west_this_intervals": 3844,
   "ercot_west_peak_year": 2022,
   "ercot_west_peak": 1014,
@@ -223,8 +223,8 @@
   "ercot_houston_last_hours": 8760,
   "ercot_houston_last_intervals": 591,
   "ercot_houston_this": 117,
-  "ercot_houston_this_share": 1.6306620209059233,
-  "ercot_houston_this_hours": 7175,
+  "ercot_houston_this_share": 1.6252257257952492,
+  "ercot_houston_this_hours": 7199,
   "ercot_houston_this_intervals": 464,
   "ercot_houston_peak_year": 2021,
   "ercot_houston_peak": 150,
@@ -238,8 +238,8 @@
   "ercot_north_last_hours": 8760,
   "ercot_north_last_intervals": 949,
   "ercot_north_this": 238,
-  "ercot_north_this_share": 3.3170731707317076,
-  "ercot_north_this_hours": 7175,
+  "ercot_north_this_share": 3.3060147242672597,
+  "ercot_north_this_hours": 7199,
   "ercot_north_this_intervals": 1049,
   "ercot_north_peak_year": 2025,
   "ercot_north_peak": 224,
@@ -253,8 +253,8 @@
   "ercot_south_last_hours": 8760,
   "ercot_south_last_intervals": 992,
   "ercot_south_this": 154,
-  "ercot_south_this_share": 2.1463414634146343,
-  "ercot_south_this_hours": 7175,
+  "ercot_south_this_share": 2.1391859980552854,
+  "ercot_south_this_hours": 7199,
   "ercot_south_this_intervals": 650,
   "ercot_south_peak_year": 2021,
   "ercot_south_peak": 286,
@@ -267,10 +267,10 @@
   "spp_north_last_share": 11.917808219178081,
   "spp_north_last_hours": 8760,
   "spp_north_last_intervals": 4481,
-  "spp_north_this": 742,
-  "spp_north_this_share": 10.625805527710153,
-  "spp_north_this_hours": 6983,
-  "spp_north_this_intervals": 3166,
+  "spp_north_this": 743,
+  "spp_north_this_share": 10.603682032253461,
+  "spp_north_this_hours": 7007,
+  "spp_north_this_intervals": 3170,
   "spp_north_peak_year": 2025,
   "spp_north_peak": 1044,
   "west_over_houston_last": 4.492957746478873
@@ -281,11 +281,11 @@
   "iso_rtm_hub_prices",
   "iso_hub_prices_history"
  ],
- "computed_at": "2026-10-28T18:12:23Z",
+ "computed_at": "2026-10-29T18:12:57Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding negative_prices_west, NEGATIVE PRICES MARCH WEST",
-  "Computed 2026-10-28T18:12:23Z by warehouse/analysis/findings/negative_prices_west.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-29T18:12:57Z by warehouse/analysis/findings/negative_prices_west.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per hub and local year: held hours, hours with a negative mean real-time price, their share, negative 15-minute intervals and held intervals, first and last day held",
   "A blank is a year the warehouse does not hold for that hub. Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history"
  ],
@@ -296,36 +296,36 @@
   "spans": {
    "ercot_west": {
     "first": "2018-01-01",
-    "last": "2026-10-27",
-    "n_intervals": 274172,
+    "last": "2026-10-28",
+    "n_intervals": 274268,
     "node": "HB_WEST",
     "tz": "America/Chicago"
    },
    "ercot_houston": {
     "first": "2018-01-01",
-    "last": "2026-10-27",
-    "n_intervals": 274172,
+    "last": "2026-10-28",
+    "n_intervals": 274268,
     "node": "HB_HOUSTON",
     "tz": "America/Chicago"
    },
    "ercot_north": {
     "first": "2018-01-01",
-    "last": "2026-10-27",
-    "n_intervals": 274172,
+    "last": "2026-10-28",
+    "n_intervals": 274268,
     "node": "HB_NORTH",
     "tz": "America/Chicago"
    },
    "ercot_south": {
     "first": "2018-01-01",
-    "last": "2026-10-27",
-    "n_intervals": 274172,
+    "last": "2026-10-28",
+    "n_intervals": 274268,
     "node": "HB_SOUTH",
     "tz": "America/Chicago"
    },
    "spp_north": {
     "first": "2024-09-01",
-    "last": "2026-10-26",
-    "n_intervals": 74688,
+    "last": "2026-10-27",
+    "n_intervals": 74784,
     "node": "SPPNORTH_HUB",
     "tz": "America/Chicago"
    }
@@ -337,11 +337,11 @@
   "python": "negative_prices_west.py",
   "stata": "negative_prices_west.do"
  },
- "csv_sha256": "3bee59e11fa2f0bdf0f47708f184a1344629d7b18bf6775fbf45ddb9a61064bd",
+ "csv_sha256": "e021c58bd9f3f11e434f8fd28d05a7a5cd2e7561b395e1232f02fd40d2426a6b",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-28",
+   "name": "the findings library's cards as computed by 2026-10-29",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,
