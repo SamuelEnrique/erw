@@ -73,11 +73,12 @@ const STORIES: Record<string, { label: string; file: string }> = {
   east_heat_2025: { label: "The June 2025 heat", file: "/network/story_east_heat_2025.json" },
 };
 
-/** Green (low) to cardinal (high) for carbon intensity, kg CO2/MWh, over the held BAs' range; grey where not held. */
+/** Light cardinal (the lowest held) to cardinal (the highest) for carbon intensity, kg CO2/MWh, over the held BAs' range;
+ * grey where not held. The fallbacks are the tokens' values, for a color asked before readPalette has run. */
 function colorOf(v: number | null, lo: number, hi: number): string {
   if (v === null) return PAL.none;
   const t = Math.max(0, Math.min(1, (v - lo) / (hi - lo || 1)));
-  const a = rgbOf(PAL.low, [0x17, 0x5e, 0x54]), b = rgbOf(PAL.high, [0x8c, 0x15, 0x15]);
+  const a = rgbOf(PAL.low, [0xe9, 0xa9, 0xa9]), b = rgbOf(PAL.high, [0x8c, 0x15, 0x15]);
   return `rgb(${a.map((c, i) => Math.round(c + (b[i] - c) * t)).join(",")})`;
 }
 const localTime = (ts: string, tz: string) => new Intl.DateTimeFormat("en-US", { timeZone: tz, weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(ts));
@@ -104,7 +105,7 @@ const priceOf = (view: View, v3on: boolean, id: string, h: number) => (v3on && P
  * a var() as it stands); no color is written in this file. */
 type Palette = { ink: string; ground: string; muted: string; accent: string; rule: string; low: string; high: string; none: string };
 const TOKENS: Record<keyof Palette, string> = { ink: "--color-ink", ground: "--color-panel", muted: "--color-muted", accent: "--color-accent", rule: "--color-rule",
-  low: "--color-down", high: "--color-up", none: "--color-not-held" };
+  low: "--color-intensity-low", high: "--color-intensity-high", none: "--color-not-held" };
 let PAL: Palette = Object.fromEntries((Object.keys(TOKENS) as (keyof Palette)[]).map((k) => [k, `var(${TOKENS[k]})`])) as Palette;
 function readPalette(el: Element | null) {
   if (!el || typeof window === "undefined") return;
@@ -665,7 +666,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-muted">
         <span>{shape === "map" ? "Hover a region for its name, click it for its panel. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger." : shape === "gravity" ? "Hover a circle for its name, click it for its panel." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
         <span className="flex items-center gap-1">Carbon intensity of generation:
-          <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, var(--color-down), var(--color-up))" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
+          <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, var(--color-intensity-low), var(--color-intensity-high))" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
           {view.kind === "live" ? <> The color updates daily (latest hour {ciTs.slice(0, 13).replace("T", " ")}:00 UTC); the links and demand, hourly.</> : <> In a story, each day&apos;s own.</>}</span>
         {shape === "gravity" ? <span data-gravity-key="1">Circle: the grid&apos;s net generation in the hour shown (EIA-930), its area to scale with the Lower 48&apos;s at the center. Nearer the center: a net importer; farther out: a net exporter, by its net imports as a share of its generation (a quarter or more is the full pull); on the dashed ring: neither. The other {snap.nodes.length - GRAVITY_GRIDS.length} balancing authorities are drawn in the Network and Map shapes: their generation is not in the live set. A dashed outline: generation not held for the hour.</span>
           : shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.</span>
