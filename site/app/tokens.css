@@ -38,10 +38,13 @@
   --color-not-reported: #B8B2A7;
   /* Session 237 (the grid network): a balancing authority whose carbon intensity is not held, the grey it has always had */
   --color-not-held: #9a958c;
-  /* The grid network's carbon intensity, a magnitude, so one hue (docs/brand.md, "Heat maps"): the light cardinal of the
-     lowest held to the cardinal of the highest. Until 29 October 2026 the ramp read --color-down and --color-up, which
-     session 319 gave both the ink, so every grid drew near-black and the legend's swatch was a solid bar */
-  --color-intensity-low: #E9A9A9;
+  /* The grid network's carbon intensity, clean to dirty (docs/brand.md, "Heat maps": the exception to the one hue): a
+     muted green near Stanford's palo verde at the lowest held, the fog at the middle of the held range, the cardinal at
+     the highest. Until 29 October 2026 the ramp read --color-down and --color-up, which session 319 gave both the ink,
+     so every grid drew near-black and the legend's swatch was a solid bar; the same day it ran light cardinal to
+     cardinal, then these three, by the owner's instruction */
+  --color-intensity-low: #2E7D4F;
+  --color-intensity-mid: #F7F3EA;
   --color-intensity-high: #8C1515;
   --color-surface: #FFFFFF;
 
