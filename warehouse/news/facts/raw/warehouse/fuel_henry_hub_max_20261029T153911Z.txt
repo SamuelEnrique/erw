@@ -1,0 +1,8 @@
+# table: eia_fuel_spot_prices
+# source reports: U.S. Energy Information Administration (EIA): Natural Gas Spot and Futures Prices (NYMEX), daily (https://www.eia.gov/dnav/ng/ng_pri_fut_s1_d.htm); U.S. Energy Information Administration (EIA): Spot Prices for Crude Oil and Petroleum Products (https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm)
+# table retrieved: 20261029T143653Z
+# computed by: warehouse/news/funfact.py
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20261029T153911Z
+
+eia_fuel_spot_prices eia:henry_hub: max 30.72 USD/MMBtu on 2026-01-23; series starts 1997-01-07; latest 2.76 on 2026-10-27; ratio of the max to the latest 11.1

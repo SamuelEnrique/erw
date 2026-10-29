@@ -1,0 +1,35 @@
+{
+ "date": "2026-10-29",
+ "fact_id": "ff_a8b09aadfc",
+ "kind": "history",
+ "fact": "The unit name watt was proposed by C. William Siemens in August 1882, honoring James Watt.",
+ "second": "Siemens picked Watt's name because units in the practical system were named after leading physicists.",
+ "structure": "etymology",
+ "conjecture": "False",
+ "sources": [
+  {
+   "label": "Wikipedia, Watt",
+   "url": "https://en.wikipedia.org/wiki/Watt",
+   "raw": "warehouse/news/facts/raw/wikipedia/watt_20260928T104236Z.txt",
+   "retrieved_at": "20260928T104236Z",
+   "part": "fact",
+   "span": "The unit name was proposed by C. William Siemens in August 1882"
+  },
+  {
+   "label": "Wikipedia, Watt",
+   "url": "https://en.wikipedia.org/wiki/Watt",
+   "raw": "warehouse/news/facts/raw/wikipedia/watt_20260928T104236Z.txt",
+   "retrieved_at": "20260928T104236Z",
+   "part": "fact",
+   "span": "The watt is named after the Scottish inventor James Watt."
+  },
+  {
+   "label": "Wikipedia, Watt",
+   "url": "https://en.wikipedia.org/wiki/Watt",
+   "raw": "warehouse/news/facts/raw/wikipedia/watt_20260928T104236Z.txt",
+   "retrieved_at": "20260928T104236Z",
+   "part": "second",
+   "span": "Noting that units in the practical system of units were named after leading physicists, Siemens proposed that watt might be an appropriate name for a unit of power."
+  }
+ ]
+}
