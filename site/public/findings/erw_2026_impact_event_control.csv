@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): analysis impact_study: IMPACT OF AN EVENT ON A SERIES
-# Computed 2026-10-29T18:13:29Z by warehouse/analysis/findings/impact_study.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
+# Computed 2026-10-30T18:19:04Z by warehouse/analysis/findings/impact_study.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
 # Rows: one per day from 3 windows before the date to the window's last day: t (days from the date); period (lead or before or after); after; in_window; series_value; control_value; diff (series minus control)
 # Series: ERCOT North Hub real-time price (ercot_hub_prices_daily); control: NYISO New York City real-time price (iso_zone_prices_history); date 2021-02-07; window 14 days
 day,t,period,after,in_window,series_value,control_value,diff

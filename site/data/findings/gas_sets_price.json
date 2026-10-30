@@ -37,7 +37,7 @@
      33.15068493150685,
      32.673041894353375,
      40.89041095890411,
-     38.50534796499514
+     38.37740551017583
     ],
     "sensitivity": {
      "6.5": [
@@ -48,7 +48,7 @@
       28.51598173515982,
       27.88023679417122,
       35.3310502283105,
-      34.54646478677594
+      34.43167658867507
      ],
      "7": [
       38.75570776255708,
@@ -58,7 +58,7 @@
       33.15068493150685,
       32.673041894353375,
       40.89041095890411,
-      38.50534796499514
+      38.37740551017583
      ],
      "8": [
       58.94977168949772,
@@ -68,7 +68,7 @@
       43.04794520547945,
       41.58697632058288,
       52.84246575342466,
-      48.201139047089875
+      48.040980202132076
      ]
     },
     "hours": [
@@ -79,7 +79,7 @@
      8760,
      8784,
      8760,
-     7199
+     7223
     ]
    },
    {
@@ -94,7 +94,7 @@
      null,
      null,
      null,
-     15.41005291005291
+     15.169270833333334
     ],
     "sensitivity": {
      "6.5": [
@@ -105,7 +105,7 @@
       null,
       null,
       null,
-      14.219576719576722
+      13.997395833333334
      ],
      "7": [
       null,
@@ -115,7 +115,7 @@
       null,
       null,
       null,
-      15.41005291005291
+      15.169270833333334
      ],
      "8": [
       null,
@@ -125,7 +125,7 @@
       null,
       null,
       null,
-      18.51851851851852
+      18.229166666666664
      ]
     },
     "hours": [
@@ -136,7 +136,7 @@
      null,
      null,
      null,
-     1512
+     1536
     ]
    },
    {
@@ -151,7 +151,7 @@
      null,
      null,
      null,
-     1.5211640211640212
+     1.4973958333333335
     ],
     "sensitivity": {
      "6.5": [
@@ -162,7 +162,7 @@
       null,
       null,
       null,
-      1.3227513227513228
+      1.3020833333333335
      ],
      "7": [
       null,
@@ -172,7 +172,7 @@
       null,
       null,
       null,
-      1.5211640211640212
+      1.4973958333333335
      ],
      "8": [
       null,
@@ -182,7 +182,7 @@
       null,
       null,
       null,
-      3.7037037037037033
+      3.7109375
      ]
     },
     "hours": [
@@ -193,7 +193,7 @@
      null,
      null,
      null,
-     1512
+     1536
     ]
    },
    {
@@ -265,7 +265,7 @@
      null,
      null,
      null,
-     41.506410256410255
+     41.66666666666667
     ],
     "sensitivity": {
      "6.5": [
@@ -276,7 +276,7 @@
       null,
       null,
       null,
-      36.378205128205124
+      36.41975308641975
      ],
      "7": [
       null,
@@ -286,7 +286,7 @@
       null,
       null,
       null,
-      41.506410256410255
+      41.66666666666667
      ],
      "8": [
       null,
@@ -296,7 +296,7 @@
       null,
       null,
       null,
-      54.96794871794872
+      54.93827160493827
      ]
     },
     "hours": [
@@ -307,7 +307,7 @@
      null,
      null,
      null,
-     624
+     648
     ]
    }
   ],
@@ -363,8 +363,8 @@
    "unit": ""
   }
  ],
- "why": "At 7 MMBtu per MWh, ERCOT's hub average sat below a gas plant's fuel cost in 38.8 percent of 2019's hours and 40.9 percent of 2025's (8,760 hours). ISO-NE's zones went from 18.6 to 5.5 percent. The heat rate matters: at 6.5 ERCOT's 2025 share is 35.3 percent and at 8.0 it is 52.8. CAISO, NYISO and SPP are held from CAISO 2026-08-26, NYISO 2026-08-26, SPP 2026-09-24 only, so their 2026 bars cover weeks, not a year, and their earlier years are not held: CAISO 15.4 percent, NYISO 1.5 percent, SPP 41.5 percent. An hour below fuel cost is an hour when something cheaper than gas set the price, or gas sold below its cost; the share says how often, not which. Henry Hub is the national benchmark; New England's gas is dearer at Algonquin, so ISO-NE's share reads low.",
- "footnote": "Data: real-time prices by local hour, 2019 to 2026: ERCOT: HB_HUBAVG, the mean of the four 15-minute settlement point prices in the local hour, 2019-01-01 00:00 to 2026-10-28 23:00 (68,567 hours, America/Chicago); CAISO: TH_SP15_GEN-APND, the mean of the four 15-minute interval means in the local hour, 2026-08-26 00:00 to 2026-10-28 23:00 (1,512 hours, America/Los_Angeles); NYISO: the simple mean of the eleven zones' 15-minute means in the local hour, 2026-08-26 00:00 to 2026-10-28 23:00 (1,512 hours, America/New_York); ISO-NE: the simple mean of the eight load zones' hourly real-time LMP, 2019-01-01 00:00 to 2026-08-31 23:00 (67,189 hours, America/New_York); SPP: SPPSOUTH_HUB, the mean of the four 15-minute interval means in the local hour, 2026-09-24 00:00 to 2026-10-27 23:00 (624 hours, America/Chicago). Gas: Henry Hub daily spot (EIA), the calendar month's mean applied to every hour of the month. An hour counts when its price is below heat rate x Henry Hub; shares are percent of the year's held hours; 7 MMBtu/MWh on the card, 6.5 and 8.0 in the hover. A year a grid's history does not cover is not held and not filled. ISO-NE's hourly history is an internal table: only these aggregates are published. MISO paused, PJM licensed: placeholders.",
+ "why": "At 7 MMBtu per MWh, ERCOT's hub average sat below a gas plant's fuel cost in 38.8 percent of 2019's hours and 40.9 percent of 2025's (8,760 hours). ISO-NE's zones went from 18.6 to 5.5 percent. The heat rate matters: at 6.5 ERCOT's 2025 share is 35.3 percent and at 8.0 it is 52.8. CAISO, NYISO and SPP are held from CAISO 2026-08-26, NYISO 2026-08-26, SPP 2026-09-24 only, so their 2026 bars cover weeks, not a year, and their earlier years are not held: CAISO 15.2 percent, NYISO 1.5 percent, SPP 41.7 percent. An hour below fuel cost is an hour when something cheaper than gas set the price, or gas sold below its cost; the share says how often, not which. Henry Hub is the national benchmark; New England's gas is dearer at Algonquin, so ISO-NE's share reads low.",
+ "footnote": "Data: real-time prices by local hour, 2019 to 2026: ERCOT: HB_HUBAVG, the mean of the four 15-minute settlement point prices in the local hour, 2019-01-01 00:00 to 2026-10-29 23:00 (68,591 hours, America/Chicago); CAISO: TH_SP15_GEN-APND, the mean of the four 15-minute interval means in the local hour, 2026-08-26 00:00 to 2026-10-29 23:00 (1,536 hours, America/Los_Angeles); NYISO: the simple mean of the eleven zones' 15-minute means in the local hour, 2026-08-26 00:00 to 2026-10-29 23:00 (1,536 hours, America/New_York); ISO-NE: the simple mean of the eight load zones' hourly real-time LMP, 2019-01-01 00:00 to 2026-08-31 23:00 (67,189 hours, America/New_York); SPP: SPPSOUTH_HUB, the mean of the four 15-minute interval means in the local hour, 2026-09-24 00:00 to 2026-10-28 23:00 (648 hours, America/Chicago). Gas: Henry Hub daily spot (EIA), the calendar month's mean applied to every hour of the month. An hour counts when its price is below heat rate x Henry Hub; shares are percent of the year's held hours; 7 MMBtu/MWh on the card, 6.5 and 8.0 in the hover. A year a grid's history does not cover is not held and not filled. ISO-NE's hourly history is an internal table: only these aggregates are published. MISO paused, PJM licensed: placeholders.",
  "numbers": {
   "heat_rate": 7.0,
   "first_year": 2019,
@@ -380,10 +380,10 @@
   "n_cells_held": 19,
   "n_cells": 40,
   "this_year": 2026,
-  "caiso_this": 15.41005291005291,
-  "nyiso_this": 1.5211640211640212,
-  "spp_this": 41.506410256410255,
-  "ercot_this": 38.50534796499514
+  "caiso_this": 15.169270833333334,
+  "nyiso_this": 1.4973958333333335,
+  "spp_this": 41.66666666666667,
+  "ercot_this": 38.37740551017583
  },
  "placeholders": [
   {
@@ -405,11 +405,11 @@
   "isone_zone_prices_history",
   "eia_fuel_spot_prices"
  ],
- "computed_at": "2026-10-29T18:12:33Z",
+ "computed_at": "2026-10-30T18:18:07Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding gas_sets_price, GAS SETS THE PRICE LESS OFTEN?",
-  "Computed 2026-10-29T18:12:33Z by warehouse/analysis/findings/gas_sets_price.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-30T18:18:07Z by warehouse/analysis/findings/gas_sets_price.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per grid and local year: held hours and the percent of them with the real-time price below heat rate x Henry Hub (6.5, 7.0, 8.0)",
   "A blank is a year the warehouse does not hold for that grid. Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, nyiso_rtm_zone_prices, isone_zone_prices_history, eia_fuel_spot_prices"
  ],
@@ -419,22 +419,22 @@
   "spans": {
    "ercot": {
     "first_hour": "2019-01-01 00:00",
-    "last_hour": "2026-10-28 23:00",
-    "n_hours": 68567,
+    "last_hour": "2026-10-29 23:00",
+    "n_hours": 68591,
     "how": "HB_HUBAVG, the mean of the four 15-minute settlement point prices in the local hour",
     "tz": "America/Chicago"
    },
    "caiso": {
     "first_hour": "2026-08-26 00:00",
-    "last_hour": "2026-10-28 23:00",
-    "n_hours": 1512,
+    "last_hour": "2026-10-29 23:00",
+    "n_hours": 1536,
     "how": "TH_SP15_GEN-APND, the mean of the four 15-minute interval means in the local hour",
     "tz": "America/Los_Angeles"
    },
    "nyiso": {
     "first_hour": "2026-08-26 00:00",
-    "last_hour": "2026-10-28 23:00",
-    "n_hours": 1512,
+    "last_hour": "2026-10-29 23:00",
+    "n_hours": 1536,
     "how": "the simple mean of the eleven zones' 15-minute means in the local hour",
     "tz": "America/New_York"
    },
@@ -447,8 +447,8 @@
    },
    "spp": {
     "first_hour": "2026-09-24 00:00",
-    "last_hour": "2026-10-27 23:00",
-    "n_hours": 624,
+    "last_hour": "2026-10-28 23:00",
+    "n_hours": 648,
     "how": "SPPSOUTH_HUB, the mean of the four 15-minute interval means in the local hour",
     "tz": "America/Chicago"
    }
@@ -460,11 +460,11 @@
   "python": "gas_sets_price.py",
   "stata": "gas_sets_price.do"
  },
- "csv_sha256": "dc260204cd8f9a945aa0d5a9ab8f8ca43d28c897bb59167ac0a5a7967edf4ead",
+ "csv_sha256": "0371b4144b2f22da27c5aca66fb3e2af4af6d2d51d84e46be44bde7a2c32b40a",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-29",
+   "name": "the findings library's cards as computed by 2026-10-30",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,
