@@ -1,0 +1,27 @@
+{
+ "date": "2026-10-30",
+ "fact_id": "ff_0b80819e05",
+ "kind": "history",
+ "fact": "In 1902, the Edison Electric Company of Los Angeles surveyed the river in the hope of building a 40-foot rock dam, but the limit of transmission of electric power was 80 miles, with few customers within that limit.",
+ "second": "That early plan, it seems, lacked the current to go anywhere.",
+ "structure": "pun",
+ "conjecture": "False",
+ "sources": [
+  {
+   "label": "Wikipedia, Hoover Dam",
+   "url": "https://en.wikipedia.org/wiki/Hoover_Dam",
+   "raw": "warehouse/news/facts/raw/wikipedia/hoover_dam_20261014T161820Z.txt",
+   "retrieved_at": "20261014T161820Z",
+   "part": "fact",
+   "span": "In 1902, the Edison Electric Company of Los Angeles surveyed the river in the hope of building a 40-foot (12 m) rock dam"
+  },
+  {
+   "label": "Wikipedia, Hoover Dam",
+   "url": "https://en.wikipedia.org/wiki/Hoover_Dam",
+   "raw": "warehouse/news/facts/raw/wikipedia/hoover_dam_20261014T161820Z.txt",
+   "retrieved_at": "20261014T161820Z",
+   "part": "fact",
+   "span": "the limit of transmission of electric power was 80 miles (130 km), and there were few customers (mostly mines) within that limit"
+  }
+ ]
+}
