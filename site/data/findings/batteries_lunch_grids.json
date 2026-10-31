@@ -4604,11 +4604,11 @@
   "eia930_daily_demand",
   "eia_fuel_spot_prices"
  ],
- "computed_at": "2026-10-30T18:18:46Z",
+ "computed_at": "2026-10-31T17:54:34Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding batteries_lunch_grids, BATTERIES ATE THEIR OWN LUNCH? FIVE GRIDS",
-  "Computed 2026-10-30T18:18:46Z by warehouse/analysis/findings/batteries_lunch_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-31T17:54:34Z by warehouse/analysis/findings/batteries_lunch_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per grid and local month and one per grid and local year (kind): the spike measures, the grid's battery fleet, its mean load and Henry Hub; share_of_year_pct is the share of the year's intervals held and full_year whether it is at least 90 percent. MISO and PJM are not in the file: paused, and licensed",
   "Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history, iso_zone_prices_history, storage_buildout_monthly, ercot_zone_load_hourly, eia930_daily_demand, eia_fuel_spot_prices"
  ],
@@ -4669,11 +4669,11 @@
   "python": "batteries_lunch_grids.py",
   "stata": "batteries_lunch_grids.do"
  },
- "csv_sha256": "554aeffd7d11af29e60203205dc06202cf077808fd195fff0358fe7aa8f006ec",
+ "csv_sha256": "a738007642c7f1cfb3381d360eadf80556405c8542191d62358598fa305800eb",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-30",
+   "name": "the findings library's cards as computed by 2026-10-31",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,

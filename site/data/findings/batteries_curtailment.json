@@ -2710,11 +2710,11 @@
   "caiso_battery_storage",
   "caiso_fuel_supply"
  ],
- "computed_at": "2026-10-30T18:18:33Z",
+ "computed_at": "2026-10-31T17:54:22Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding batteries_curtailment, BY HOW MUCH DO BATTERIES CUT CURTAILMENT",
-  "Computed 2026-10-30T18:18:33Z by warehouse/analysis/findings/batteries_curtailment.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-31T17:54:22Z by warehouse/analysis/findings/batteries_curtailment.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per Pacific day: curtailed MWh (as counted), solar and wind curtailed, battery charging and discharging MWh, solar generation MWh, intervals and hours held",
   "Sources: caiso_curtailment_daily, caiso_battery_storage, caiso_fuel_supply. Pearson r of curtailed_mwh with charging_mwh over these rows: 0.284993 (r squared 0.081221, the R2 of the charging-alone fit)"
  ],
@@ -2731,11 +2731,11 @@
   "python": "batteries_curtailment.py",
   "stata": "batteries_curtailment.do"
  },
- "csv_sha256": "bf620881ca469ea67d43e5cb467dea12857b4964350abee31dd0567749463519",
+ "csv_sha256": "3aeccf860ec8240f04c88ad9405a4414291ffde0b1d12005fb84298328c13ff4",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-30",
+   "name": "the findings library's cards as computed by 2026-10-31",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,

@@ -281,11 +281,11 @@
   "iso_rtm_hub_prices",
   "iso_hub_prices_history"
  ],
- "computed_at": "2026-10-30T18:18:31Z",
+ "computed_at": "2026-10-31T17:54:20Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding negative_prices_west, NEGATIVE PRICES MARCH WEST",
-  "Computed 2026-10-30T18:18:31Z by warehouse/analysis/findings/negative_prices_west.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-31T17:54:20Z by warehouse/analysis/findings/negative_prices_west.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per hub and local year: held hours, hours with a negative mean real-time price, their share, negative 15-minute intervals and held intervals, first and last day held",
   "A blank is a year the warehouse does not hold for that hub. Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history"
  ],
@@ -337,11 +337,11 @@
   "python": "negative_prices_west.py",
   "stata": "negative_prices_west.do"
  },
- "csv_sha256": "4680c6ec9161cd3c651b7013a7951b8a5b5e1fa2f93ea1ac2d1e11ec35858810",
+ "csv_sha256": "bca0693df15dc3d4d7a089dc39e9f4479282a1d64c0ecbef609a84022429910f",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-30",
+   "name": "the findings library's cards as computed by 2026-10-31",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,

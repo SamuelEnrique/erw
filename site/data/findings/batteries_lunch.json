@@ -541,11 +541,11 @@
   "ercot_zone_load_hourly",
   "eia_fuel_spot_prices"
  ],
- "computed_at": "2026-10-30T18:18:00Z",
+ "computed_at": "2026-10-31T17:53:49Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding batteries_lunch, BATTERIES ATE THEIR OWN LUNCH?",
-  "Computed 2026-10-30T18:18:00Z by warehouse/analysis/findings/batteries_lunch.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-31T17:53:49Z by warehouse/analysis/findings/batteries_lunch.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per local month and one per local year (kind), the thesis's spike measures, the fleet, the load and the gas price",
   "Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, storage_buildout_monthly, ercot_zone_load_hourly, eia_fuel_spot_prices"
  ],
@@ -565,11 +565,11 @@
   "python": "batteries_lunch.py",
   "stata": "batteries_lunch.do"
  },
- "csv_sha256": "5ee4d671edb1824aaa0f98e4d7b983bf79471a655d4a7ef07e59cfadcdd91c2f",
+ "csv_sha256": "1bb0edff31cb369a91d9ba5e2e0279d2623586199a8b87f20ad17ce691f8cc03",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-30",
+   "name": "the findings library's cards as computed by 2026-10-31",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,

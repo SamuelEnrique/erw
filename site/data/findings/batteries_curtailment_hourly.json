@@ -600,11 +600,11 @@
   "caiso_fuel_supply",
   "storage_buildout_monthly"
  ],
- "computed_at": "2026-10-30T18:19:01Z",
+ "computed_at": "2026-10-31T17:54:50Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding batteries_curtailment_hourly, BY HOW MUCH DO BATTERIES CUT CURTAILMENT, HOUR BY HOUR",
-  "Computed 2026-10-30T18:19:01Z by warehouse/analysis/findings/batteries_curtailment_hourly.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-31T17:54:50Z by warehouse/analysis/findings/batteries_curtailment_hourly.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per hour held (day and hour are Pacific): curtailed MW (solar plus wind), battery charging MW, net load MW (demand less solar and wind), the fleet's EIA-860M MW of the month, the largest charging hour of the 30 days before the day; a blank is not held",
   "Sources: caiso_curtailment_intervals, caiso_fuel_supply_history, caiso_fuel_supply, storage_buildout_monthly"
  ],
@@ -635,11 +635,11 @@
   "python": "batteries_curtailment_hourly.py",
   "stata": "batteries_curtailment_hourly.do"
  },
- "csv_sha256": "30da31009bc489bc3c7dc6eb0dffd76bedccebe193bf8206ea05ad4ab8dfb123",
+ "csv_sha256": "baf27c77614ab0525d77d6f687e02a184e27d1abff451a01f0b781a307257009",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-30",
+   "name": "the findings library's cards as computed by 2026-10-31",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,

@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): finding batteries_curtailment, BY HOW MUCH DO BATTERIES CUT CURTAILMENT
-# Computed 2026-10-30T18:18:33Z by warehouse/analysis/findings/batteries_curtailment.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
+# Computed 2026-10-31T17:54:22Z by warehouse/analysis/findings/batteries_curtailment.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
 # Rows: one per Pacific day: curtailed MWh (as counted), solar and wind curtailed, battery charging and discharging MWh, solar generation MWh, intervals and hours held
 # Sources: caiso_curtailment_daily, caiso_battery_storage, caiso_fuel_supply. Pearson r of curtailed_mwh with charging_mwh over these rows: 0.284993 (r squared 0.081221, the R2 of the charging-alone fit)
 day,month,curtailed_mwh,curtailed_solar_mwh,curtailed_wind_mwh,charging_mwh,discharging_mwh,solar_mwh,battery_intervals,solar_hours

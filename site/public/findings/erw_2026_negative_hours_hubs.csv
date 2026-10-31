@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): finding negative_prices_west, NEGATIVE PRICES MARCH WEST
-# Computed 2026-10-30T18:18:31Z by warehouse/analysis/findings/negative_prices_west.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
+# Computed 2026-10-31T17:54:20Z by warehouse/analysis/findings/negative_prices_west.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
 # Rows: one per hub and local year: held hours, hours with a negative mean real-time price, their share, negative 15-minute intervals and held intervals, first and last day held
 # A blank is a year the warehouse does not hold for that hub. Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history
 hub,words,year,n_hours,negative_hours,share_pct,negative_intervals,n_intervals,first_day,last_day

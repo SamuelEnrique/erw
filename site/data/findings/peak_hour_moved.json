@@ -283,11 +283,11 @@
   "eia860m_operating_generators",
   "eia860m_retired_generators_all"
  ],
- "computed_at": "2026-10-30T18:18:13Z",
+ "computed_at": "2026-10-31T17:54:02Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding peak_hour_moved, THE PEAK HOUR MOVED",
-  "Computed 2026-10-30T18:18:13Z by warehouse/analysis/findings/peak_hour_moved.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-31T17:54:02Z by warehouse/analysis/findings/peak_hour_moved.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per grid, local year and hour of the day: the percent of the year's days whose highest hourly real-time price fell in that hour; the year's days, median peak hour, percent of days peaking 17:00 to 21:59 and 10:00 to 15:59 (repeated on each hour row); solar MW at year end",
   "A blank is a year the warehouse does not hold for that grid. Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history, eia860m_operating_generators, eia860m_retired_generators_all"
  ],
@@ -318,11 +318,11 @@
   "python": "peak_hour_moved.py",
   "stata": "peak_hour_moved.do"
  },
- "csv_sha256": "661d734f7474407c9aeebdab8ec95b2f85e09d9d6612ef7c80ff1f1aebcb2600",
+ "csv_sha256": "9a1039be2387a3a179c2507887a5004b95806a6e0d8a47c677108818d25ccc89",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-30",
+   "name": "the findings library's cards as computed by 2026-10-31",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,
