@@ -8370,3 +8370,10 @@ run_id,runner,connector,table,market,status,detail
 20261030T154721Z,github,news_brief,digest,brief,failed,"anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will regain access on 2026-11-01 at 00:00 UTC.'}, 'request_id': 'req_011CgYgajfDRaoXmdB4eZYeV'}"
 20261030T154723Z,github,news_email,email,daily,skipped,"the newest digest is the issue of 2026-10-23, not today's (2026-10-30 UTC): today's brief was not written, so nothing is sent (session 206: a day without a brief sends no email)"
 20261030T154725Z,github,news_shadow_digest,digest,shadow,skipped,SHADOW_MODEL is not set (the kill switch): no shadow call
+20261101T100119Z,github,supabase_vacuum,catalogue,all,ok,0.2 MB -> 0.1 MB
+20261101T100119Z,github,supabase_vacuum,entities,all,ok,103.1 MB -> 77.8 MB
+20261101T100119Z,github,supabase_vacuum,events,all,ok,48.5 MB -> 45.5 MB
+20261101T100119Z,github,supabase_vacuum,headers,all,ok,0.8 MB -> 0.5 MB
+20261101T100119Z,github,supabase_vacuum,series,all,ok,1573.0 MB -> 1223.4 MB
+20261101T100119Z,github,supabase_vacuum,sources,all,ok,0.6 MB -> 0.3 MB
+20261101T100119Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 1766.8 MB -> 1388.2 MB
