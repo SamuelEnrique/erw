@@ -8377,3 +8377,10 @@ run_id,runner,connector,table,market,status,detail
 20261101T100119Z,github,supabase_vacuum,series,all,ok,1573.0 MB -> 1223.4 MB
 20261101T100119Z,github,supabase_vacuum,sources,all,ok,0.6 MB -> 0.3 MB
 20261101T100119Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 1766.8 MB -> 1388.2 MB
+20261101T164200Z,github,supabase_vacuum,catalogue,all,ok,0.1 MB -> 0.1 MB
+20261101T164200Z,github,supabase_vacuum,entities,all,ok,77.8 MB -> 77.8 MB
+20261101T164200Z,github,supabase_vacuum,events,all,ok,45.5 MB -> 45.5 MB
+20261101T164200Z,github,supabase_vacuum,headers,all,ok,0.5 MB -> 0.5 MB
+20261101T164200Z,github,supabase_vacuum,series,all,ok,1223.4 MB -> 1223.4 MB
+20261101T164200Z,github,supabase_vacuum,sources,all,ok,0.3 MB -> 0.3 MB
+20261101T164200Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 1388.3 MB -> 1388.3 MB
