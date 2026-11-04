@@ -153,3 +153,14 @@ day,card,status,computed_at,numbers,numbers_moved,detail
 2026-11-03,peak_hour_grids,recomputed,2026-11-03T18:03:20Z,231,0,
 2026-11-03,batteries_curtailment_hourly,recomputed,2026-11-03T18:03:24Z,197,70,before_curtailment_coef; before_curtailment_p; before_curtailment_r2; before_curtailment_se; charging_coef; charging_hours; charging_hours_pct; charging_n; charging_netload_coef; charging_netload_fe_coef; charging_netload_fe_n; charging_netload_fe_p; ...
 2026-11-03,impact_study,recomputed,2026-11-03T18:03:26Z,39,0,
+2026-11-04,batteries_lunch,recomputed,2026-11-04T17:55:35Z,33,0,
+2026-11-04,gas_sets_price,recomputed,2026-11-04T17:55:42Z,18,0,
+2026-11-04,queue_divorce,recomputed,2026-11-04T17:55:42Z,19,0,
+2026-11-04,peak_hour_moved,recomputed,2026-11-04T17:55:48Z,59,0,
+2026-11-04,who_rescues_whom,recomputed,2026-11-04T17:55:50Z,27,0,
+2026-11-04,negative_prices_west,recomputed,2026-11-04T17:56:06Z,79,0,
+2026-11-04,batteries_curtailment,recomputed,2026-11-04T17:56:07Z,34,0,
+2026-11-04,batteries_lunch_grids,recomputed,2026-11-04T17:56:20Z,243,0,
+2026-11-04,peak_hour_grids,recomputed,2026-11-04T17:56:31Z,231,0,
+2026-11-04,batteries_curtailment_hourly,recomputed,2026-11-04T17:56:35Z,197,70,before_curtailment_coef; before_curtailment_p; before_curtailment_r2; before_curtailment_se; charging_coef; charging_hours; charging_hours_pct; charging_n; charging_netload_coef; charging_netload_fe_coef; charging_netload_fe_n; charging_netload_fe_p; ...
+2026-11-04,impact_study,recomputed,2026-11-04T17:56:37Z,39,0,

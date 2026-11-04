@@ -2,7 +2,7 @@
 # Balancing authority: eia930:ERCO (ERCOT). Variable intensity_demand: kg CO2 per MWh of consumed electricity (generation plus imports less exports), the ERW's from EIA-930's hourly CO2 estimates (docs/methods/emissions.md)
 # Rows: kind month, one per month held of carbon_intensity_monthly (87 rows, 2018-08 to 2026-09); kind hour, one per hour of carbon_intensity_hourly the live set holds (10160 rows, 2025-08-26T16 to 2026-10-27T23 UTC, its rolling window of 430 days (session 245; 35 until then)). ts_utc is the month's or the hour's start
 # A month or an hour not in the table is not a row: nothing is filled
-# Source tables (ERW, the live set in Supabase, read with the public key at 2026-11-03T18:04:53Z): carbon_intensity_monthly, carbon_intensity_hourly (warehouse/derived/carbon_intensity.py on eia930_all_emissions)
+# Source tables (ERW, the live set in Supabase, read with the public key at 2026-11-04T17:58:04Z): carbon_intensity_monthly, carbon_intensity_hourly (warehouse/derived/carbon_intensity.py on eia930_all_emissions)
 # The page's arithmetic (docs/methods/datacenter_pays_algorithm.md, 4.16): the load's carbon over the last twelve months is each month's energy times the month's intensity, over the months whose intensity is held; its own hours' intensity over the hourly window is the sum of weight x intensity over the sum of weights, over the hours the price and the intensity are both held
 # Written by site/scripts/write-datacenter-carbon.py; read by erw_2026_datacenter_replication.do and erw_2026_datacenter_replication.py beside erw_2026_datacenter_hourly.csv
 kind,ts_utc,kg_co2_per_mwh
