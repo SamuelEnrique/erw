@@ -59,6 +59,7 @@ import io
 import os
 import re
 import sys
+import time
 
 import pandas as pd
 import yaml
@@ -197,8 +198,44 @@ def description(name, header, license_):
 def account():
     os.environ["REDIVIS_API_TOKEN"] = secret(CONFIG["token_env"])
     import redivis
+    if TARGET:  # session 661: the target names its owner itself
+        t = CONFIG["targets"][TARGET]
+        return redivis.user(t["owner"]) if t["owner_kind"] == "user" else redivis.organization(t["owner"])
     owner = secret(CONFIG["owner_env"])
     return redivis.user(owner) if CONFIG["owner_kind"] == "user" else redivis.organization(owner)
+
+
+# Session 661 (chain 043, the owner's instruction of 22 October 2026): a second target, the Stanford dataset
+# datapages.erw:b9wm (config.yaml, targets). --target stanford uploads there with its own manifest, and only a table whose
+# ERW verdict in docs/licenses.md ("Every table", session 378's one word a table) is public, whatever coverage.csv's flag
+# says; an internal or unsettled table is never routed there. The default target, the daily run's, is unchanged.
+TARGET = None
+
+
+def use_target(name):
+    global TARGET, PUBLIC, INTERNAL, MANIFEST
+    t = CONFIG["targets"][name]
+    TARGET, PUBLIC, INTERNAL = name, t["dataset"], None
+    MANIFEST = os.path.join(ROOT, t["manifest"])
+
+
+def erw_verdicts(path=os.path.join(ROOT, "docs", "licenses.md")):
+    """{table: ERW verdict} from docs/licenses.md's "Every table" (its last column: public, internal or unsettled)."""
+    out, on = {}, False
+    with open(path, encoding="utf-8") as f:
+        for ln in f:
+            if ln.startswith("## "):
+                on = ln.strip() == "## Every table"
+                continue
+            if on and ln.startswith("| `"):
+                cells = [c.strip() for c in ln.strip().strip("|").split("|")]
+                out[cells[0].strip("`")] = cells[-1]
+    return out
+
+
+def allowed(name, verdicts=None):
+    """Session 661: under a target, only a table whose ERW verdict is public; without one, every table (routed by license)."""
+    return not TARGET or (verdicts if verdicts is not None else erw_verdicts()).get(name) == "public"
 
 
 def open_draft(dataset=None, create=False):
@@ -322,10 +359,13 @@ def read_frame(table):
     return df
 
 
-def push(ds, name, header, data_text, license_, events=False, dataset=PUBLIC, data_path=None, expected=None):
+def push(ds, name, header, data_text, license_, events=False, dataset=PUBLIC, data_path=None, expected=None,
+         present=None, wait=True):
     """Replace one draft table with this data; return (expected, actual). Session 29: data_path (a file
     holding the data, column row first, which push removes) with its expected row count, instead of
-    data_text, for a table too large to hold as text."""
+    data_text, for a table too large to hold as text. Session 661: present, the draft's table names from one listing,
+    stands in for the table's own existence check (a table the listing missed makes create fail, never a wrong delete);
+    wait=False sends the upload and returns (expected, None), and prove_by_listing gives the proof."""
     if dataset == PUBLIC and license_ != "public":  # session 28: never, whatever the caller asked
         raise RuntimeError(f"refused: license {license_!r} may not be uploaded to the public dataset {PUBLIC}")
     os.makedirs(TMP, exist_ok=True)
@@ -340,7 +380,7 @@ def push(ds, name, header, data_text, license_, events=False, dataset=PUBLIC, da
         os.remove(tmp)
         raise RuntimeError("no data rows; an empty table is never uploaded")
     table = ds.table(name)
-    if table.exists():
+    if (name in present) if present is not None else table.exists():
         table.delete()  # the only true replace (see the module docstring)
         table = ds.table(name)
     table = table.create(description=description(name, header, license_))
@@ -349,7 +389,7 @@ def push(ds, name, header, data_text, license_, events=False, dataset=PUBLIC, da
             table.upload(f"{name}.csv").create(
                 fh, type="delimited", delimiter=",",
                 has_header_row=True, has_quoted_newlines=True, null_markers=[""],
-                remove_on_fail=True, wait_for_finish=True, raise_on_fail=True, progress=False)
+                remove_on_fail=wait, wait_for_finish=wait, raise_on_fail=wait, progress=False)
     except Exception:
         try:
             table.delete()  # never leave an empty table in the draft
@@ -358,7 +398,44 @@ def push(ds, name, header, data_text, license_, events=False, dataset=PUBLIC, da
         raise
     finally:
         os.remove(tmp)
+    if not wait:
+        return expected, None
     return expected, count_rows(table)
+
+
+PROOF_EVERY_S = int(os.environ.get("ERW_PROOF_EVERY_S") or 60)
+PROOF_TIMEOUT_S = int(os.environ.get("ERW_PROOF_MINUTES") or 45) * 60  # session 661: the largest tables take longer
+
+
+def prove_by_listing(ds, pending, every=PROOF_EVERY_S, timeout=PROOF_TIMEOUT_S):
+    """Session 661: the proof of uploads sent without waiting. The client waits on each upload by asking every two
+    seconds (about 13 requests a table; 2,400 for the Stanford draft's 186 tables against chain 043's ceilings of 400 a
+    session). Instead the draft is listed (two requests for 186 tables) every minute until each table's numRows equals its
+    CSV's data rows or the time is up. A table that still does not match is asked for its upload's status once: a failed
+    upload's table is removed (never an empty table left in the draft). Returns {name: (expected, actual, problem)}."""
+    left, out, listed = dict(pending), {}, {}
+    deadline = time.time() + timeout
+    while left:
+        listed = {t.name: int(t.properties.get("numRows") or 0) for t in ds.list_tables()}
+        for n in [n for n in left if listed.get(n) == left[n]]:
+            out[n] = (left.pop(n), listed[n], "")
+        if not left or time.time() >= deadline:
+            break
+        time.sleep(every)
+    for n, exp in left.items():
+        why = "row count mismatch"
+        try:
+            up = ds.table(n).upload(f"{n}.csv").get()
+            status = up.properties.get("status")
+            if status == "failed":
+                why = f"upload failed: {up.properties.get('errorMessage') or ''}"
+                ds.table(n).delete()
+            elif status != "completed":
+                why = f"upload still {status} when the proof stopped"
+        except Exception as exc:
+            why = f"{type(exc).__name__}: {exc}"
+        out[n] = (exp, listed.get(n), why)
+    return out
 
 
 def read_manifest():
@@ -423,16 +500,23 @@ def merge_headers(drafts, names, lic, now, results):
             log(f"FAIL {label}: {type(exc).__name__}: {exc}")
 
 
-def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, only=False):
+def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, only=False, listing=False):
     import erw_validate
     drafts = Drafts(create_internal)
     lic = licenses()
+    verdicts = erw_verdicts() if TARGET else {}
     man = read_manifest().set_index("table")
     now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     results = []
+    if listing and not TARGET:  # session 661: one dataset to list and prove; the default target routes to two
+        raise SystemExit("--prove-by-listing needs --target")
+    present, pending = None, {}
     for name in names:
         path = os.path.join(OUT, name + ".csv")
         try:
+            if not allowed(name, verdicts):  # session 661: before the validator, so nothing is read or sent
+                raise RuntimeError(f"refused: the ERW verdict of {name} is {verdicts.get(name) or 'missing'} "
+                                   f"(docs/licenses.md, Every table), not public; never uploaded to {PUBLIC}")
             rep = erw_validate.validate(path)
             if rep["errors"]:
                 raise RuntimeError(f"validator blocked it: {rep['errors'][0]['check']}: {rep['errors'][0]['detail'][:200]}")
@@ -449,8 +533,14 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
                 os.remove(tmp)
                 raise RuntimeError(why)
             target = dataset_for(lic[name])
+            if listing and present is None:  # session 661: the draft's tables, listed once for the whole run
+                present = {t.name for t in drafts(target).list_tables()}
             expected, actual = push(drafts(target), name, header, None, lic[name], events=first == "event_id",
-                                    dataset=target, data_path=tmp, expected=n_rows)
+                                    dataset=target, data_path=tmp, expected=n_rows, present=present, wait=not listing)
+            if listing:
+                pending[name] = (expected, digest, newest, target)
+                log(f"sent {name}: CSV {expected:,} rows; its proof follows from the draft's listing")
+                continue
             ok = expected == actual
             results.append((name, expected, actual, "" if ok else "row count mismatch"))
             if ok:
@@ -469,15 +559,32 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
                 continue
             results.append((name, None, None, f"{type(exc).__name__}: {exc}"))
             log(f"FAIL {name}: {type(exc).__name__}: {exc}")
+    if pending:  # session 661: one proof for every upload sent without waiting
+        log(f"proving {len(pending)} uploads from listings of the draft, every {PROOF_EVERY_S} s for at most "
+            f"{PROOF_TIMEOUT_S // 60} minutes")
+        proof = prove_by_listing(drafts(PUBLIC), {n: p[0] for n, p in pending.items()})
+        for name, (expected, digest, newest, target) in pending.items():
+            _, actual, why = proof[name]
+            if why and storage_full(why):
+                results.append((name, None, None, STORAGE_SKIP))
+                log(f"{name}: {STORAGE_SKIP}: not uploaded ({' '.join(why.split())[:160]}); its rows are in the archive")
+                continue
+            results.append((name, expected, actual, why))
+            if not why:
+                man.loc[name, ["data_sha256", "rows", "uploaded_at", "redivis_table", "dataset", "migrated_to", "newest_ts_utc"]] = [
+                    digest, str(expected), now, name, target, "", newest]
+            log(f"{'ok  ' if not why else 'FAIL'} {name}: CSV {expected:,} rows, Redivis numRows "
+                f"{'none' if actual is None else f'{actual:,}'}" + (f" ({why})" if why else ""))
     if only:  # session 49, --tables: the named tables' header lines only, merged into the drafts' erw_headers
         merge_headers(drafts, [r[0] for r in results if not r[3]], lic, now, results)
     if include_metadata:
         # every header line of every table on disk, in full (descriptions stop at 2,000 characters)
         # session 28: each dataset gets the header lines of its own tables only
-        for target in (PUBLIC, INTERNAL):
+        verdicts = erw_verdicts() if TARGET else {}
+        for target in ((PUBLIC,) if TARGET else (PUBLIC, INTERNAL)):  # session 661: a target has no internal dataset
             hrows = []
             for name in tables_on_disk():
-                if dataset_for(lic.get(name, "")) != target:
+                if dataset_for(lic.get(name, "")) != target or not allowed(name, verdicts):
                     continue
                 for i, line in enumerate(split_header(os.path.join(OUT, name + ".csv"))[0], 1):
                     hrows.append((name, i, line))
@@ -531,8 +638,9 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
     failed = [r for r in results if r[3] and r[3] not in (CAP_SKIP, STORAGE_SKIP)]
     skipped = [r[0] for r in results if r[3] == CAP_SKIP]
     full = [r[0] for r in results if r[3] == STORAGE_SKIP]
-    log(f"uploaded {len(results) - len(failed) - len(skipped)} of {len(results)} tables to the drafts of "
-        f"{PUBLIC} and {INTERNAL} (by license); nothing released"
+    log(f"uploaded {len(results) - len(failed) - len(skipped)} of {len(results)} tables to the "
+        + (f"draft of {PUBLIC} (target {TARGET})" if TARGET else f"drafts of {PUBLIC} and {INTERNAL} (by license)")
+        + "; nothing released"
         + (f"; {len(skipped)} {CAP_SKIP}: {', '.join(skipped)}" if skipped else "")
         + (f"; {len(full)} {STORAGE_SKIP}: {', '.join(full)}" if full else ""))
     if failed:
@@ -552,8 +660,11 @@ def changed_tables():
     another dataset (session 28)."""
     man = read_manifest().set_index("table")
     lic = licenses()
+    verdicts = erw_verdicts() if TARGET else {}
     out = []
     for name in tables_on_disk():
+        if not allowed(name, verdicts):  # session 661: a target's change list holds its own tables only
+            continue
         if name not in man.index or man.loc[name, "data_sha256"] != data_sha(os.path.join(OUT, name + ".csv")) \
                 or man.loc[name, "dataset"] != dataset_for(lic.get(name, "")):
             out.append(name)
@@ -567,6 +678,16 @@ def reconcile():
     ds = drafts(PUBLIC)
     rows, bad = [], 0
     names = tables_on_disk()
+    listed = {}
+    if TARGET:
+        # session 661: a target's own tables only, and their counts from one listing of the draft (two requests for 186
+        # tables, against two a table); a table the listing does not show is still asked for by name (session 28: the
+        # listing is never trusted to say a table is absent)
+        verdicts = erw_verdicts()
+        names = [n for n in names if allowed(n, verdicts)]
+        listed = {t.name: int(t.properties.get("numRows") or 0) for t in ds.list_tables()}
+        uploaded = set(read_manifest()["table"])  # a table never uploaded to the target is not asked for (one request each)
+    not_up = 0
     for name in names + list(CONFIG["metadata_tables"]):
         if name in CONFIG["metadata_tables"]:
             with open(os.path.join(ROOT, CONFIG["metadata_tables"][name]), encoding="utf-8") as f:
@@ -575,23 +696,33 @@ def reconcile():
             import csv
             with open(os.path.join(OUT, name + ".csv"), encoding="utf-8", newline="") as f:
                 expected = sum(1 for _ in csv.reader(ln for ln in f if not ln.startswith("#"))) - 1
-        t = drafts(PUBLIC if name in CONFIG["metadata_tables"] else dataset_for(lic.get(name, ""))).table(name)
-        actual = count_rows(t) if t.exists() else None
+        if name in listed:
+            actual = listed[name]
+        elif TARGET and name not in uploaded:
+            not_up += 1
+            rows.append((name, expected, None, "not uploaded"))
+            continue
+        else:
+            t = drafts(PUBLIC if name in CONFIG["metadata_tables"] else dataset_for(lic.get(name, ""))).table(name)
+            actual = count_rows(t) if t.exists() else None
         ok = actual == expected
         bad += not ok
         rows.append((name, expected, actual, "match" if ok else "MISMATCH"))
         log(f"{'match   ' if ok else 'MISMATCH'} {name}: CSV {expected:,}, Redivis {actual if actual is None else f'{actual:,}'}")
-    extra = sorted({t.name for t in ds.list_tables()} - {n for n in names if dataset_for(lic.get(n, "")) == PUBLIC}
+    extra = sorted((set(listed) if TARGET else {t.name for t in ds.list_tables()})
+                   - {n for n in names if dataset_for(lic.get(n, "")) == PUBLIC}
                    - set(CONFIG["metadata_tables"]) - {HEADERS_TABLE})
     if extra:
         log(f"Redivis tables with no CSV here: {extra}")
     total_csv = sum(r[1] for r in rows)
     total_rv = sum(r[2] or 0 for r in rows)
-    log(f"reconciled {len(rows)} tables: {len(rows) - bad} match, {bad} mismatch; "
-        f"rows CSV {total_csv:,}, Redivis {total_rv:,}")
+    absent = sum(1 for r in rows if r[2] is None and r[3] != "not uploaded")
+    log(f"reconciled {len(rows)} tables: {len(rows) - bad - not_up} match, {bad} mismatch ({absent} not in the draft)"
+        + (f", {not_up} not yet uploaded to the target (not asked)" if not_up else "")
+        + f"; rows CSV {total_csv:,}, Redivis {total_rv:,}")
     os.makedirs(os.path.join(ROOT, "runs"), exist_ok=True)
     pd.DataFrame(rows, columns=["table", "csv_rows", "redivis_rows", "result"]).to_csv(
-        os.path.join(ROOT, "runs", "redivis_reconcile.csv"), index=False)
+        os.path.join(ROOT, "runs", f"redivis_reconcile{'_' + TARGET if TARGET else ''}.csv"), index=False)
     return 1 if bad else 0
 
 
@@ -899,7 +1030,18 @@ def main(argv=None):
                     help="--check-license only: move internal tables out of the public dataset (a human, once)")
     ap.add_argument("--dry-run", action="store_true",
                     help="list the tables that would be uploaded, upload nothing (session 14, CI tests)")
+    ap.add_argument("--target", choices=sorted(CONFIG.get("targets") or {}),
+                    help="session 661: upload to this target of config.yaml (its own owner, dataset and manifest; only "
+                         "tables whose ERW verdict is public) instead of the default; with any mode but --restore, "
+                         "--check-license and --remove-migrated")
+    ap.add_argument("--prove-by-listing", action="store_true",
+                    help="session 661, with --target: send each upload without waiting on it, then prove every table's "
+                         "rows from listings of the draft (about 6 requests a table against 13)")
     args = ap.parse_args(argv)
+    if args.target:
+        if args.restore or args.check_license or args.remove_migrated:
+            ap.error("--target does not take --restore, --check-license or --remove-migrated (the default target's)")
+        use_target(args.target)
     if args.reconcile:
         return reconcile()
     if args.restore:
@@ -919,9 +1061,11 @@ def main(argv=None):
         if args.dry_run:
             log(f"dry run, nothing uploaded; --tables would upload {', '.join(args.only_tables)} and merge their header lines")
             return 0
-        return run_upload(args.only_tables, include_metadata=False, allow_shrink=args.allow_shrink, only=True)
+        return run_upload(args.only_tables, include_metadata=False, allow_shrink=args.allow_shrink, only=True,
+                          listing=args.prove_by_listing)
     if args.all:
-        names = tables_on_disk()
+        verdicts = erw_verdicts() if TARGET else {}
+        names = [n for n in tables_on_disk() if allowed(n, verdicts)]  # session 661: a target's own tables
     elif args.changed:
         names = changed_tables()
         log(f"tables changed since their last upload: {len(names)}")
@@ -943,7 +1087,8 @@ def main(argv=None):
         log(f"dry run, nothing uploaded; would upload {len(names)} tables"
             + (f" and the metadata tables: {chr(44).join(names)}" if names else ""))
         return 0
-    return run_upload(names, include_metadata=bool(names) or args.all, allow_shrink=args.allow_shrink)
+    return run_upload(names, include_metadata=bool(names) or args.all, allow_shrink=args.allow_shrink,
+                      listing=args.prove_by_listing)
 
 
 if __name__ == "__main__":

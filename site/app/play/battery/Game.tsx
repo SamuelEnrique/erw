@@ -48,8 +48,8 @@ const clock = (tz: string, ts: string) => {
 };
 /** Session 56: what the game says about each grid's prices. */
 const GRIDS: Record<GameLevel["grid"], { name: string; hub: string; prices: string; href: string; page: string; zone: string }> = {
-  ERCOT: { name: "ERCOT (Texas)", hub: "ERCOT's hub average (HB_HUBAVG)", prices: "ERCOT real-time, hub average (HB_HUBAVG)", href: "/grid/ercot", page: "ERCOT's grid page", zone: "Central" },
-  CAISO: { name: "CAISO SP15 (Southern California)", hub: "CAISO's SP15 trading hub (TH_SP15_GEN-APND)", prices: "CAISO SP15 real-time (TH_SP15_GEN-APND), 15-minute means of its 5-minute prices", href: "/grid/caiso", page: "CAISO's grid page", zone: "Pacific" },
+  ERCOT: { name: "ERCOT (Texas)", hub: "ERCOT's hub average (HB_HUBAVG)", prices: "ERCOT real-time, hub average (HB_HUBAVG)", href: "/grid?grid=ercot", page: "ERCOT's grid page", zone: "Central" },
+  CAISO: { name: "CAISO SP15 (Southern California)", hub: "CAISO's SP15 trading hub (TH_SP15_GEN-APND)", prices: "CAISO SP15 real-time (TH_SP15_GEN-APND), 15-minute means of its 5-minute prices", href: "/grid?grid=caiso", page: "CAISO's grid page", zone: "Pacific" },
 };
 const usd = (v: number) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 // session 291: the brand's tokens are scoped to its wrapper (.brand-a, app/tokens.css), so the canvas reads them there

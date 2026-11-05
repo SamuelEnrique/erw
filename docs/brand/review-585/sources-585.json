@@ -1,0 +1,433 @@
+{
+ "/cost-of-power/seller": [
+  {
+   "heading": "(top)",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  },
+  {
+   "heading": "H2 Your plant",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  },
+  {
+   "heading": "H2 What did it earn?",
+   "figures": 9,
+   "keys": [
+    "cap|ercot|HB_HUBAVG|rt|solar|l12|price",
+    "cap|ercot|HB_HUBAVG|rt|solar|l12|flat",
+    "cap|ercot|HB_HUBAVG|rt|solar|l12|rate"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H3 The last twelve months beside the long-run averages",
+   "figures": 15,
+   "keys": [
+    "ms|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|twelve|revenue",
+    "ms|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|three|revenue",
+    "ms|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|every|revenue"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H3 What it earned per MWh against the hub average",
+   "figures": 154,
+   "keys": [
+    "cap|ercot|HB_HUBAVG|rt|solar|l12|price",
+    "cap|ercot|HB_HUBAVG|rt|solar|l12|flat",
+    "cap|ercot|HB_HUBAVG|rt|solar|l12|rate"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H3 Your plant's own year",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  },
+  {
+   "heading": "H2 Is it worth building?",
+   "figures": 2,
+   "keys": [
+    "series|price_years_by_window|ercot:HB_HUBAVG|generator_solar_year_2021|2021-01-01T00:00:00+00:00",
+    "series|price_years_by_window|ercot:HB_HUBAVG|generator_solar_year_2024|2024-01-01T00:00:00+00:00"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 What matters most",
+   "figures": 0,
+   "keys": [],
+   "sources": [
+    "Source: ERW tables merchant_revenue_monthly, eia_fuel_spot_prices, eia860m_operating_generators, ercot_all_hub_prices_history, ercot_zone_prices_history, battery_stack_monthly, price_years_by_window. "
+   ]
+  }
+ ],
+ "/cost-of-power/seller?iso=caiso&asset=wind": [
+  {
+   "heading": "(top)",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  },
+  {
+   "heading": "H2 Your plant",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  },
+  {
+   "heading": "H2 What did it earn?",
+   "figures": 9,
+   "keys": [
+    "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|price",
+    "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|flat",
+    "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|rate"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H3 The last twelve months beside the long-run averages",
+   "figures": 10,
+   "keys": [
+    "ms|iso=caiso&asset=wind&mw=100&mwh=0&ds=11192257&hr=10.725&vom=4.25&fom=32.25|twelve|revenue",
+    "ms|iso=caiso&asset=wind&mw=100&mwh=0&ds=11192257&hr=10.725&vom=4.25&fom=32.25|every|revenue",
+    "ms|iso=caiso&asset=wind&mw=100&mwh=0&ds=11192257&hr=10.725&vom=4.25&fom=32.25|twelve|energy"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H3 What it earned per MWh against the hub average",
+   "figures": 20,
+   "keys": [
+    "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|price",
+    "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|flat",
+    "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|rate"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H3 Your plant's own year",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  },
+  {
+   "heading": "H2 Is it worth building?",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  },
+  {
+   "heading": "H2 What matters most",
+   "figures": 0,
+   "keys": [],
+   "sources": [
+    "Source: ERW tables merchant_revenue_monthly, eia_fuel_spot_prices, eia860m_operating_generators, iso_hub_prices_history, iso_rtm_hub_prices, iso_zone_prices_history, iso_dam_hub_prices, battery_stack_"
+   ]
+  }
+ ],
+ "/cost-of-power/battery": [
+  {
+   "heading": "(top)",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  },
+  {
+   "heading": "H2 Assumptions",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  },
+  {
+   "heading": "H2 What did it earn?",
+   "figures": 10,
+   "keys": [
+    "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|l12_kw:total",
+    "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|l12_share:ancillary",
+    "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|cover"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H3 Income by streamiFor 100 MW, 4-hour, in US dollars, one column for each span: the last twe",
+   "figures": 176,
+   "keys": [
+    "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|l12:energy",
+    "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2018:energy",
+    "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2019:energy"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Is it worth building?",
+   "figures": 2,
+   "keys": [
+    "series|price_years_by_window|ercot:HB_HUBAVG|battery_foresight_4h_year_2021|2021-01-01T00:00:00+00:00",
+    "series|price_years_by_window|ercot:HB_HUBAVG|battery_foresight_4h_year_2025|2025-01-01T00:00:00+00:00"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 What matters most",
+   "figures": 0,
+   "keys": [],
+   "sources": [
+    "Source: ERW tables battery_stack_monthly, ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_dam_hub_prices, ercot_as_prices. Derived by the ERW from ERCOT's public prices; the first table is what "
+   ]
+  }
+ ],
+ "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead&mw=100": [
+  {
+   "heading": "(top)",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  },
+  {
+   "heading": "H2 Assumptions",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  },
+  {
+   "heading": "H2 What did it earn?",
+   "figures": 9,
+   "keys": [
+    "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12_kw:total",
+    "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12_share:ancillary",
+    "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|cover"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H3 Income by streamiFor 100 MW, 4-hour, in US dollars, one column for each span: the last twe",
+   "figures": 51,
+   "keys": [
+    "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12:energy",
+    "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2023:energy",
+    "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2024:energy"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Is it worth building?",
+   "figures": 2,
+   "keys": [
+    "series|price_years_by_window|caiso:TH_SP15_GEN-APND|battery_dayahead_4h_year_2024|2024-01-01T00:00:00+00:00",
+    "series|price_years_by_window|caiso:TH_SP15_GEN-APND|battery_dayahead_4h_year_2025|2025-01-01T00:00:00+00:00"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 What matters most",
+   "figures": 0,
+   "keys": [],
+   "sources": [
+    "Source: ERW tables battery_stack_monthly, iso_hub_prices_history, iso_rtm_hub_prices, iso_dam_hub_prices, caiso_as_prices. Derived by the ERW from CAISO's public prices; the first table is what this p"
+   ]
+  }
+ ],
+ "/board": [
+  {
+   "heading": "(top)",
+   "figures": 44,
+   "keys": [
+    "top|ercot-hb-hubavg-da|last",
+    "top|ercot-hb-hubavg-da|d",
+    "top|ercot-hb-hubavg-da|w"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Power, by hub and zone",
+   "figures": 55,
+   "keys": [
+    "fold|power|last",
+    "ercot-hb-hubavg-da|last",
+    "ercot-hb-hubavg-da|d"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Power, on-peak and off-peak",
+   "figures": 136,
+   "keys": [
+    "fold|peak|last",
+    "ercot-hb-hubavg-da-peak|last",
+    "ercot-hb-hubavg-da-peak|d"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Spark and dark spreads, by grid",
+   "figures": 115,
+   "keys": [
+    "fold|spark|last",
+    "ercot-hb-hubavg-spark|last",
+    "ercot-hb-hubavg-spark|d"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Day-ahead minus real time, by hub",
+   "figures": 46,
+   "keys": [
+    "fold|da_rt|last",
+    "ercot-hb-hubavg-da-minus-rt|last",
+    "ercot-hb-hubavg-da-minus-rt|d"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Battery spread, by hub",
+   "figures": 46,
+   "keys": [
+    "fold|battery|last",
+    "ercot-hb-hubavg-da-battery|last",
+    "ercot-hb-hubavg-da-battery|d"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Ancillary services, day-ahead",
+   "figures": 46,
+   "keys": [
+    "fold|as|last",
+    "ercot-ecrs-mcpc-dam|last",
+    "ercot-ecrs-mcpc-dam|d"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 The week, by hub",
+   "figures": 184,
+   "keys": [
+    "week|ercot-hb-hubavg|last",
+    "week|ercot-hb-hubavg|da_mean_usd",
+    "week|ercot-hb-hubavg|da_onpeak_mean_usd"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H3 The week's highest real-time intervals",
+   "figures": 30,
+   "keys": [
+    "spike|nyiso-n-y-c|2026-10-16T22:00:00Z",
+    "spike|nyiso-dunwod|2026-10-16T22:00:00Z",
+    "spike|nyiso-millwd|2026-10-16T22:00:00Z"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Natural gas",
+   "figures": 10,
+   "keys": [
+    "fold|gas|last",
+    "eia-henry-hub-spot|last",
+    "eia-henry-hub-spot|d"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Crude oil",
+   "figures": 28,
+   "keys": [
+    "fold|crude|last",
+    "eia-wti-cushing-spot|last",
+    "eia-wti-cushing-spot|d"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Refined products, spot",
+   "figures": 82,
+   "keys": [
+    "fold|products|last",
+    "eia-eer-epmru-pf4-y35ny-dpg-spot|last",
+    "eia-eer-epmru-pf4-y35ny-dpg-spot|d"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Oil spreads",
+   "figures": 28,
+   "keys": [
+    "fold|oilspreads|last",
+    "erw-brent-minus-wti|last",
+    "erw-brent-minus-wti|d"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Retail gasoline and diesel, weekly",
+   "figures": 61,
+   "keys": [
+    "fold|retailfuel|last",
+    "eia-emm-epmr-pte-nus-dpg-retail|last",
+    "eia-emm-epmr-pte-nus-dpg-retail|w"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Retail electricity by state, monthly",
+   "figures": 256,
+   "keys": [
+    "fold|retailpower|last",
+    "eia-retail-price-al-all|last",
+    "eia-retail-price-al-all|m"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Coal and gas delivered to power plants, monthly",
+   "figures": 193,
+   "keys": [
+    "fold|plantfuel|last",
+    "eia-plant-fuel-cost-us-cow-cost-per-mmbtu|last",
+    "eia-plant-fuel-cost-us-cow-cost-per-mmbtu|m"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Uranium and battery metals, monthly",
+   "figures": 26,
+   "keys": [
+    "fold|metals|last",
+    "imf-pcps-puran|last",
+    "imf-pcps-puran|m"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 US Treasury yields",
+   "figures": 28,
+   "keys": [
+    "fold|rates|last",
+    "fred-dgs2|last",
+    "fred-dgs2|d"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Carbon and credits",
+   "figures": 13,
+   "keys": [
+    "fold|carbon|last",
+    "carb-lcfs-avg|last",
+    "carb-lcfs-avg|w"
+   ],
+   "sources": []
+  },
+  {
+   "heading": "H2 Capacity and equities",
+   "figures": 0,
+   "keys": [],
+   "sources": []
+  }
+ ]
+}

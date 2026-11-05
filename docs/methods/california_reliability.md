@@ -1,5 +1,7 @@
 # California reliability v1: method
 
+Tables: `caiso_reliability_daily`
+
 Energy Research Warehouse (ERW), session 58. The "Reliability" section of `/grid/caiso` answers two questions:
 - When has California's grid operator, CAISO, told the public the grid was short?
 - How tight were its evenings, day by day?
@@ -38,6 +40,8 @@ The connector is `warehouse/connectors/caiso_emergencies.py`. It reads every tab
 ## 2. How tight was it: `caiso_reliability_daily` (derived)
 
 `warehouse/derived/caiso_reliability.py` writes one row per variable and local day, 2018-07-01 to the latest complete day held: **2,980 days**.
+
+Session 2536: that window is the demand rows' (`eia930:CISO`), and their count grows with each run (2,999 days on 24 October 2026). The `notices_<type>` rows are written for every day of `caiso_grid_emergencies` that holds a notice, so they reach back to its first, 1998-05-30; the table's first day is that one, not 2018-07-01.
 
 | Variable | Entity | What it is |
 |---|---|---|

@@ -13,7 +13,7 @@ import { useEffect, useMemo, useState } from "react";
 import { TimeChart, type TimeSeries } from "@/components/TimeChart";   // session 318: the three charts through the shared SVG set
 import { CategoryChart } from "@/components/svgchart";
 import {
-  FREQ_WORDS, SLOTS, WINDOWS, csv, dateWords, distribution, fmt, histogram, hourlyOf, isoDay, isoHour, joined, localHour, pointsOf, seasonal, slotLabel, summary, volatility, windowed,
+  FREQ_WORDS, SLOTS, WINDOWS, chartFreq, csv, dateWords, distribution, fmt, histogram, hourlyOf, isoDay, isoHour, joined, localHour, pointsOf, seasonal, slotLabel, summary, volatility, windowed,
   type Bench, type BoardFile, type HourlyFile, type Point, type Row, type SeriesFile,
 } from "@/lib/board";
 
@@ -100,7 +100,7 @@ function HistChart({ p, name, unit }: { p: Point[]; name: string; unit: string }
 }
 
 function Stat({ label, value, title }: { label: string; value: React.ReactNode; title?: string }) {
-  return <div className="bg-white px-2 py-1" title={title}><div className="text-xs uppercase tracking-wide text-muted">{label}</div><div className="text-sm tabular-nums">{value}</div></div>;
+  return <div className="bg-white px-2 py-1" title={title}><div className="text-xs text-muted">{label}</div><div className="text-sm tabular-nums">{value}</div></div>;
 }
 const NOT = <span className="text-xs text-muted">not held yet</span>;
 
@@ -126,11 +126,11 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
       return { hourly: true, freq: "H", a, b, nameA: nameOf(row), nameB: over ? nameOf(over) : "", unitA: row.unit, unitB: over?.unit ?? "", fileA: hA.data, fileB: hB.data, note: "" };
     }
     let a = pointsOf(sA.data!), b = over ? pointsOf(sB.data!) : null;
-    let freq: "D" | "W" | "M" = sA.data!.freq, nameA = nameOf(row), nameB = over ? nameOf(over) : "";
-    if (b && sA.data!.freq !== sB.data!.freq) {
+    let freq: "D" | "W" | "M" = chartFreq(sA.data!.freq), nameA = nameOf(row), nameB = over ? nameOf(over) : "";
+    if (b && chartFreq(sA.data!.freq) !== chartFreq(sB.data!.freq)) {
       // two series of different steps are set side by side by the month: the finer one as its monthly mean
-      if (sA.data!.freq !== "M") { a = monthly(a); nameA += " (monthly mean)"; }
-      if (sB.data!.freq !== "M") { b = monthly(b); nameB += " (monthly mean)"; }
+      if (chartFreq(sA.data!.freq) !== "M") { a = monthly(a); nameA += " (monthly mean)"; }
+      if (chartFreq(sB.data!.freq) !== "M") { b = monthly(b); nameB += " (monthly mean)"; }
       freq = "M";
     }
     a = windowed(a, bench.w, bench.from, bench.to);
@@ -151,11 +151,11 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
     if (!sA.data) return null;
     if (!over || bench.m === "none" || !sB.data) return pointsOf(sA.data);
     let a = pointsOf(sA.data), b = pointsOf(sB.data);
-    if (sA.data.freq !== sB.data.freq) { if (sA.data.freq !== "M") a = monthly(a); if (sB.data.freq !== "M") b = monthly(b); }
+    if (chartFreq(sA.data.freq) !== chartFreq(sB.data.freq)) { if (chartFreq(sA.data.freq) !== "M") a = monthly(a); if (chartFreq(sB.data.freq) !== "M") b = monthly(b); }
     const j = joined(a, b);
     return bench.m === "ratio" ? j.filter((x) => x.ratio !== null).map((x) => ({ t: x.t, v: x.ratio as number })) : j.map((x) => ({ t: x.t, v: x.spread }));
   }, [sA.data, sB.data, over, bench.m]);
-  const wholeFreq: "D" | "W" | "M" = sA.data && sB.data && over && sA.data.freq !== sB.data.freq ? "M" : sA.data?.freq ?? "D";
+  const wholeFreq: "D" | "W" | "M" = sA.data && sB.data && over && chartFreq(sA.data.freq) !== chartFreq(sB.data.freq) ? "M" : (sA.data ? chartFreq(sA.data.freq) : "D");
   const tz = hourly ? hA.data?.tz ?? null : null;
   const when = (t: number) => (hourly ? (tz ? `${localHour(t, tz)} local` : isoHour(t)) : dateWords(isoDay(t), lines?.freq === "M" ? "M" : "D"));
   const sumA = lines ? summary(lines.a) : null, sumB = lines?.b ? summary(lines.b) : null, sumC = calc ? summary(calc) : null;
@@ -197,7 +197,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
     <div className="border border-accent bg-paper/40 p-3 text-sm" data-workbench={row.id}>
       <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
-          <div className="text-xs uppercase tracking-wide text-muted">Markets workbench</div>
+          <div className="text-xs text-muted">Markets workbench</div>
           <h2 className="font-serif text-xl leading-tight text-accent" title={row.code ? `Code: ${row.code}` : undefined}>{row.label}</h2>
           <div className="text-xs text-muted">{row.at}{row.at ? " · " : ""}{row.last ? <>{fmt(row.last.v, row.unit)} {row.unit} on {dateWords(row.last.t, row.freq)}</> : null}{row.formula ? <span className="ml-1 cursor-help border-b border-dotted border-muted" title={row.formula}>formula</span> : null}</div>
         </div>
@@ -255,7 +255,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
 
           <div className="mt-2 overflow-x-auto">
             <table className="w-full border-collapse text-xs tabular-nums" data-stats="1">
-              <thead><tr className="border-b border-rule text-xs uppercase tracking-wide text-muted">
+              <thead><tr className="border-b border-rule text-xs text-muted">
                 <th className="py-0.5 text-left font-normal">In the window</th><th className="px-2 text-right font-normal">Mean</th><th className="px-2 text-right font-normal">Low</th><th className="px-2 text-right font-normal">High</th>
                 {hourly ? <><th className="px-2 text-right font-normal">On-peak</th><th className="px-2 text-right font-normal">Off-peak</th><th className="px-2 text-right font-normal">Hours below 0</th></> : null}
                 <th className="px-2 text-right font-normal">{hourly ? "Hours" : "Values"}</th>
@@ -299,7 +299,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
 
           {(bench.v === "dist" || hourly) && (top || dist) ? (
             <div className="mt-3" data-spikes="1">
-              <h3 className="mb-1 text-xs uppercase tracking-wide text-muted">The ten highest {hourly ? "hours" : "values"} in the window{rtLine && hourly ? `, ${rtLine.name}` : ""}</h3>
+              <h3 className="mb-1 text-xs text-muted">The ten highest {hourly ? "hours" : "values"} in the window{rtLine && hourly ? `, ${rtLine.name}` : ""}</h3>
               <ol className="grid gap-x-6 text-xs tabular-nums sm:grid-cols-2">
                 {(hourly && top ? top : dist!.top).map((p) => <li key={p.t} className="flex justify-between border-b border-rule/60 py-0.5"><span className="text-muted">{when(p.t)}</span><span>{p.v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></li>)}
               </ol>
@@ -322,7 +322,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
               ) : null}
               {spikes.length ? (
                 <>
-                  <h3 className="mb-1 mt-2 text-xs uppercase tracking-wide text-muted">The week&apos;s highest real-time intervals at this hub</h3>
+                  <h3 className="mb-1 mt-2 text-xs text-muted">The week&apos;s highest real-time intervals at this hub</h3>
                   <ol className="grid gap-x-6 text-xs tabular-nums sm:grid-cols-2">
                     {spikes.map((s) => <li key={s.t} className="flex justify-between border-b border-rule/60 py-0.5"><span className="text-muted">{localHour(Date.parse(s.t), s.tz)} local</span><span>{s.v.toFixed(2)}</span></li>)}
                   </ol>

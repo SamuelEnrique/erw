@@ -112,6 +112,13 @@ def load(log):
         frames.append(d[["node", "ts_utc", "value", "source", "table"]])
         log(f"  input {n}: {len(d)} rows, {d['ts_utc'].min()} to {d['ts_utc'].max()}")
     d = pd.concat(frames, ignore_index=True)
+    # session 452: the daily append step (dm_ercot_hub_append_stores) writes the live days into the year's history too,
+    # so the rolling table's intervals are also in ercot_rtm_hub_prices_<year>: the same interval at the same price is
+    # one row (the history's, read first); the same interval at two prices is still refused below
+    same = d.duplicated(["node", "ts_utc", "value"], keep="first")
+    if same.any():
+        log(f"  {int(same.sum())} intervals in both the history and the rolling table at the same price: read once")
+        d = d[~same].reset_index(drop=True)
     dup = d.duplicated(["node", "ts_utc"], keep=False)
     if dup.any():
         raise RuntimeError(f"{int(dup.sum())} rows repeat a (hub, interval) across the input tables")

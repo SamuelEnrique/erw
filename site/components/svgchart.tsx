@@ -22,6 +22,7 @@
 // What the canvas had and these do not: the range slider and the PNG download (the table stands in for both; a
 // slider is the next ruling's).
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { emptyCell, scrollRegion } from "@/lib/cells";   // session 412: an empty header cell is a plain cell
 import { stackNames, wrapName } from "@/lib/chartwrap";   // session 370: the names at the right in lines that fit
 
 export const tokenColor = (c: string) => (c.startsWith("var(") ? c : c.startsWith("--") ? `var(${c})` : c.startsWith("series-") ? `var(--chart-${c})` : /^#|^rgb/.test(c) ? c : `var(--color-${c})`);
@@ -51,7 +52,7 @@ export function bounds(values: number[], scale = false): Bounds {
 }
 export function ticksOf(b: Bounds): number[] {
   const step = nice(b.hi - b.lo), out: number[] = [];
-  for (let t = Math.ceil(b.lo / step) * step; t <= b.hi + 1e-9; t += step) out.push(Math.round(t * 1e6) / 1e6);
+  for (let t = Math.ceil(b.lo / step) * step; t <= b.hi + 1e-9; t += step) out.push(Math.round(t * 1e6) / 1e6 || 0);  // session 416: || 0, so a tick at minus zero reads "0", not "-0" (as session 404 did in GroupedBars)
   return out;
 }
 /** The width of the element, measured, and measured again when it changes. */
@@ -84,10 +85,10 @@ export function Toggle({ label, table, setTable, id }: { label: string; table: b
 /** A table of rows by columns, the shape every chart's table takes. */
 export function DataTable({ label, head, rows, id }: { label: string; head: ReactNode[]; rows: { key: string; cells: ReactNode[] }[]; id?: string }) {
   return (
-    <div className="overflow-x-auto" data-chart-as-table={id ?? "1"}>
+    <div className="overflow-x-auto" data-chart-as-table={id ?? "1"} {...scrollRegion(`${label}, as a table`)}>
       <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: 320 }}>
         <caption className="sr-only">{label}, as a table</caption>
-        <thead><tr>{head.map((h, i) => <th key={i} scope="col" className={`px-3 py-1.5 font-normal ${i ? "text-right" : ""}`}>{h}</th>)}</tr></thead>
+        <thead><tr>{head.map((h, i) => (emptyCell(h) ? <td key={i} data-empty-head="1" className="px-3 py-1.5" /> : <th key={i} scope="col" className={`px-3 py-1.5 font-normal ${i ? "text-right" : ""}`}>{h}</th>))}</tr></thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.key} className="border-b border-rule">
@@ -230,10 +231,17 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
             {refLines?.map((r) => (
               <g key={r.name}>
                 <line x1={L} x2={plotR} y1={py(r.value, b1)} y2={py(r.value, b1)} stroke="var(--color-accent)" strokeWidth="1" strokeDasharray={r.dashed ? "4 3" : undefined} />
-                <text x={plotR - 2} y={py(r.value, b1) - 3} textAnchor="end" fontSize="11" fill="var(--color-accent)">{r.name}</text>
+                {/* session 584: a name wider than the plot is drawn in lines that fit it, the last on the line (a
+                    reference's long name ran 120 px past the drawing's left edge on /research at 390 px) */}
+                {(() => { const ls = wrapName(r.name, Math.max(40, plotR - L - 4), 11); return (
+                  <text x={plotR - 2} y={py(r.value, b1) - 3 - 13 * (ls.length - 1)} textAnchor="end" fontSize="11" fill="var(--color-accent)">
+                    {ls.length === 1 ? r.name : ls.map((ln, j) => <tspan key={j} x={plotR - 2} dy={j ? 13 : 0}>{ln}</tspan>)}
+                  </text>); })()}
               </g>
             ))}
-            {x.map((c, i) => (labelled(i) ? <text key={`x${i}`} x={cx(i)} y={height - BOT + 16} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{c}</text> : null))}
+            {/* session 584: a category's name stays inside the drawing (the last month of a small example ran 3 px past
+                its right edge at 390 px); one that fits is drawn at its category's middle as before */}
+            {x.map((c, i) => (labelled(i) ? <text key={`x${i}`} x={Math.max(Math.min(cx(i), W - 1 - textWidth(c, 11) * 0.55), textWidth(c, 11) * 0.55 + 1)} y={height - BOT + 16} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{c}</text> : null))}
             {series.map((s, k) => {
               const b = s.axis === 1 && two ? b2 : b1, color = tokenColor(s.color), kind = s.kind ?? "bar";
               if (kind === "bar") {
@@ -258,7 +266,11 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
               let area = "";
               if (kind === "area") {
                 const held = pts.map((p, i) => (p ? i : -1)).filter((i) => i >= 0);
-                if (held.length) area = `M${cx(held[0]).toFixed(1)},${py(stacked[k].from[held[0]], b).toFixed(1)} ` + held.map((i) => `L${pts[i]![0].toFixed(1)},${pts[i]![1].toFixed(1)}`).join(" ") + " " + [...held].reverse().map((i) => `L${cx(i).toFixed(1)},${py(stacked[k].from[i], b).toFixed(1)}`).join(" ") + " Z";
+                // session 588: the area's base is held inside the plot; on an axis whose floor is above zero (the right
+                // scale of the five-grid cards, 12k on CAISO's) the shading ran from zero, below the axis and out of
+                // its panel. The top line is the series' own; no value moves, only the shading below the floor is not drawn
+                const base = (i: number) => Math.min(height - BOT, Math.max(TOP, py(stacked[k].from[i], b)));
+                if (held.length) area = `M${cx(held[0]).toFixed(1)},${base(held[0]).toFixed(1)} ` + held.map((i) => `L${pts[i]![0].toFixed(1)},${pts[i]![1].toFixed(1)}`).join(" ") + " " + [...held].reverse().map((i) => `L${cx(i).toFixed(1)},${base(i).toFixed(1)}`).join(" ") + " Z";
               }
               const dash = s.dash === true || s.dash === "dashed" ? "4 3" : s.dash === "dotted" ? "1.5 3" : undefined;
               return (
@@ -278,8 +290,65 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
             })() : null}
             {marks?.map((m) => (
               <g key={`${m.i}-${m.label}`} data-mark={m.label}>
-                <circle cx={cx(m.i)} cy={py(m.value, b1)} r={small ? 3 : 6} fill="none" stroke="var(--color-accent)" strokeWidth="2" />
-                {small ? null : <text x={cx(m.i) + 9} y={py(m.value, b1) - 8} fontSize="11" fill="var(--color-accent)">{m.label}</text>}
+                {/* session 533: a named mark's ring is filled with the page, as the PNG's is, so it holds on an ink bar */}
+                <circle cx={cx(m.i)} cy={py(m.value, b1)} r={small ? 3 : 6} fill={m.label ? "var(--color-surface)" : "none"} stroke="var(--color-accent)" strokeWidth="2" />
+                {small || !m.label ? null : (() => {
+                  // session 533: a mark's label is its figure and, after the first ", ", its key (the chart of the
+                  // week's "28.08 USD/MWh, week of ..."): two lines, the figure in bold, at the brand's 12 px. Its
+                  // place is chosen as the PNG's is (warehouse/analysis/style.py): left or right of the ring, above
+                  // or below, the one that crosses the fewest bars and points of the left axis and stays inside the
+                  // chart, beside the ring first on the side away from the nearer edge
+                  const [fig, ...rest] = m.label.split(", ");
+                  const key = rest.join(", ");
+                  const mx = cx(m.i), my = py(m.value, b1);
+                  const w = Math.max(textWidth(fig, 12), key ? textWidth(key, 12) : 0) + 4, h = key ? 30 : 16;
+                  const zeroY = py(Math.min(Math.max(0, b1.lo), b1.hi), b1);
+                  const spans: [number, number, number, number][] = [];
+                  series.forEach((s) => {
+                    if (s.axis === 1 && two) return;
+                    const bar = (s.kind ?? "bar") === "bar";
+                    s.values.forEach((v, i) => {
+                      if (v === null || v === undefined || (i === m.i && v === m.value)) return;
+                      const y = py(v, b1);
+                      if (bar) { spans.push([cx(i) - bw / 2, cx(i) + bw / 2, Math.min(y, zeroY), Math.max(y, zeroY)]); return; }
+                      const nxt = s.values[i + 1];
+                      const y2 = nxt === null || nxt === undefined ? y : py(nxt, b1);
+                      spans.push([cx(i), cx(i + 1), Math.min(y, y2), Math.max(y, y2)]);   // the segment to the next point
+                    });
+                  });
+                  const place = (left: boolean, up: boolean, lift = 0) => {
+                    const x0 = left ? mx - 9 - w : mx + 9, top = up ? my - 9 - h - lift : my + 9 + lift;
+                    const out = x0 < 2 || x0 + w > W - 2 || top < 2 || top + h > height - BOT ? 1000 : 0;
+                    const hits = spans.filter(([a0, a1, b0, b1_]) => a1 >= x0 && a0 <= x0 + w && b1_ >= top && b0 <= top + h).length;
+                    return { left, up, x0, top, lift, score: out + hits };
+                  };
+                  // how far past the ring the label must sit to clear what is drawn under it (then a hairline joins them)
+                  const clear = (left: boolean, up: boolean) => {
+                    const x0 = left ? mx - 9 - w : mx + 9;
+                    const under = spans.filter(([a0, a1]) => a1 >= x0 && a0 <= x0 + w);
+                    return up ? Math.max(0, ...under.map(([, , b0]) => my - 9 - (b0 - 4)))
+                      : Math.max(0, ...under.map(([, , , b1_]) => b1_ + 4 - (my + 9)));
+                  };
+                  const first = mx > L + (plotR - L) * 0.5;
+                  const near = [place(first, true), place(first, false), place(!first, true), place(!first, false)];
+                  const tries = [...near, ...near.map((t) => place(t.left, t.up, clear(t.left, t.up))).filter((t) => t.lift > 0)];
+                  const best = tries.reduce((a, b) => (b.score < a.score || (b.score === a.score && b.lift < a.lift) ? b : a));
+                  const x0 = Math.max(2, Math.min(W - 2 - w, best.x0));
+                  const tx = best.left ? x0 + w : x0;
+                  const y0 = best.top + 12;
+                  return (
+                    <>
+                      {best.lift > 0 ? <line x1={mx} y1={my + (best.up ? -7 : 7)} x2={best.left ? x0 + w - 4 : x0 + 4} y2={best.up ? best.top + h : best.top}
+                        stroke="var(--color-accent)" strokeWidth="1" data-mark-leader="1" /> : null}
+                      <text x={tx} y={y0} textAnchor={best.left ? "end" : "start"} fontSize="12" fill="var(--color-accent)" data-mark-label="1"
+                        data-mark-place={`${best.left ? "left" : "right"} ${best.up ? "above" : "below"}${best.lift > 0 ? " apart" : ""}`}
+                        stroke="var(--color-surface)" strokeWidth="3" strokeLinejoin="round" paintOrder="stroke">
+                        <tspan fontWeight="600">{fig}</tspan>
+                        {key ? <tspan x={tx} dy={15} fill="var(--color-muted)">{key}</tspan> : null}
+                      </text>
+                    </>
+                  );
+                })()}
               </g>
             ))}
             {small ? null : <g data-direct-labels="1">
@@ -325,7 +394,17 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
   const lo = loGiven ?? (held.length ? Math.min(...held) : 0), hi = hiGiven ?? (held.length ? Math.max(...held) : 1);
   const L = Math.min(110, Math.max(44, Math.max(0, ...rows.map((r) => textWidth(r, 11))) + 10)), R = 10, TOP = 8, BOT = 48;
   const cw = (W - L - R) / Math.max(1, cols.length), ch = 18;
-  const height = TOP + rows.length * ch + BOT;
+  // session 584: the legend's words are measured before the height; where the scale and "no value held" do not fit on one
+  // line even from the left edge (a phone's 390 px: "no value held" ran past the drawing), the key for a blank cell is
+  // drawn on a line of its own below the scale, and the drawing is that line taller
+  const w0 = legend?.[0] ?? `${num(lo)} ${unit}`, w1 = legend?.[1] ?? `${num(hi)} ${unit}`;
+  const span = textWidth(w0, 11) + 8 + 8 * 12 + 6 + textWidth(w1, 11) + 30 + textWidth("no value held", 11);
+  const split = 4 + span > W - 4;
+  // on its own line the scale may still be wider than the drawing (the face's figures run wider than textWidth's
+  // estimate): there the words are measured with a margin and the ramp's eight cells narrow to the room left, 6 px at least
+  const tw = (s: string) => textWidth(s, 11) * (split ? 1.12 : 1);
+  const cell = split ? Math.max(6, Math.min(12, (W - 8 - tw(w0) - 8 - 6 - tw(w1)) / 8)) : 12;
+  const height = TOP + rows.length * ch + BOT + (split ? 16 : 0);
   const strength = (v: number) => (hi > lo ? 0.08 + 0.92 * ((v - lo) / (hi - lo)) : 0.6);
   // session 351 (the owner's ruling of 20 October 2026): one color for a magnitude; where the figure is signed (its values
   // cross zero) a two-hue ramp, the accent above zero and the blue below, each cell's strength its distance from zero
@@ -359,18 +438,17 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
             {/* session 331: the scale starts after its first word (it stood 110 px past the row labels whatever that word's
                 width, and ran past a phone's drawing); the whole legend starts at the left edge where it would not fit */}
             {(() => {
-              const w0 = legend?.[0] ?? `${num(lo)} ${unit}`, w1 = legend?.[1] ?? `${num(hi)} ${unit}`;
-              const span = textWidth(w0, 11) + 8 + 8 * 12 + 6 + textWidth(w1, 11) + 30 + textWidth("no value held", 11);
-              const x0 = L + span <= W - 4 ? L : 4, sx = x0 + textWidth(w0, 11) + 8, hx = sx + 8 * 12 + 6;
+              const x0 = L + span <= W - 4 ? L : 4, sx = x0 + tw(w0) + 8, hx = sx + 8 * cell + 6;
+              const ly = split ? height - 24 : height - 8, bx = split ? 4 : hx + textWidth(w1, 11) + 14, by = split ? height - 8 : ly;
               return (
-                <g data-direct-labels="1">
-                  <text x={x0} y={height - 8} fontSize="11" fill="var(--color-muted)">{w0}</text>
+                <g data-direct-labels="1" data-legend-split={split ? "1" : undefined}>
+                  <text x={x0} y={ly} fontSize="11" fill="var(--color-muted)">{w0}</text>
                   {signed
-                    ? Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * 12} y={height - 17} width="12" height="10" fill={k < 4 ? "var(--chart-blue)" : "var(--color-accent)"} fillOpacity={0.08 + 0.92 * (Math.abs(k - 3.5) - 0.5) / 3} data-diverging="1" />)
-                    : Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * 12} y={height - 17} width="12" height="10" fill="var(--color-accent)" fillOpacity={0.08 + 0.92 * (k / 7)} />)}
-                  <text x={hx} y={height - 8} fontSize="11" fill="var(--color-muted)">{w1}</text>
-                  <rect x={hx + textWidth(w1, 11) + 14} y={height - 17} width="12" height="10" fill={`url(#${id}-blank)`} />
-                  <text x={hx + textWidth(w1, 11) + 30} y={height - 8} fontSize="11" fill="var(--color-muted)">no value held</text>
+                    ? Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * cell} y={ly - 9} width={cell} height="10" fill={k < 4 ? "var(--chart-blue)" : "var(--color-accent)"} fillOpacity={0.08 + 0.92 * (Math.abs(k - 3.5) - 0.5) / 3} data-diverging="1" />)
+                    : Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * cell} y={ly - 9} width={cell} height="10" fill="var(--color-accent)" fillOpacity={0.08 + 0.92 * (k / 7)} />)}
+                  <text x={hx} y={ly} fontSize="11" fill="var(--color-muted)">{w1}</text>
+                  <rect x={bx} y={by - 9} width="12" height="10" fill={`url(#${id}-blank)`} />
+                  <text x={bx + 16} y={by} fontSize="11" fill="var(--color-muted)">no value held</text>
                 </g>
               );
             })()}
@@ -605,9 +683,17 @@ export function ShareSegments({ id, parts, unit, label }: { id: string; parts: {
   const segs = pos.map((p, i) => ({ ...p, x0: widths.slice(0, i).reduce((a, w) => a + w, 0), w: widths[i], share: (100 * p.value) / total }));
   const fits = (s: { name: string; share: number; w: number }) => s.w > textWidth(`${s.name} ${s.share.toFixed(0)}%`, 11) + 6;
   const narrow = segs.filter((s) => !fits(s));
+  // session 584: the parts too narrow for their names are named below the bar in as many lines as the width needs, the
+  // parts kept whole (on a phone's 390 px the one line ran up to 150 px past the drawing); the drawing grows by a line each
+  const notes: string[] = [];
+  for (const t of narrow.map((s) => `${s.name} ${s.share.toFixed(1)}%`)) {
+    const last = notes.length - 1, joined = last >= 0 ? `${notes[last]}; ${t}` : t;
+    if (last >= 0 && textWidth(joined, 10) * 1.1 <= W - 2) notes[last] = joined; else if (last >= 0) { notes[last] += "; "; notes.push(t); } else notes.push(t);
+  }
+  const tall = TOP + H + BOT + 13 * Math.max(0, notes.length - 1);
   return (
     <div ref={wrap} className="relative w-full min-w-0" data-chart={id} data-svg-chart="shares" data-chart-width={W}>
-      <svg viewBox={`0 0 ${W} ${TOP + H + BOT}`} width={W} height={TOP + H + BOT} className="block max-w-full" role="img" aria-label={label} onMouseLeave={() => setHover(null)}>
+      <svg viewBox={`0 0 ${W} ${tall}`} width={W} height={tall} className="block max-w-full" role="img" aria-label={label} onMouseLeave={() => setHover(null)}>
         <title>{label}</title>
         {segs.map((s, i) => (
           <g key={s.name} data-part={s.name} onMouseEnter={() => setHover(i)}>
@@ -616,7 +702,7 @@ export function ShareSegments({ id, parts, unit, label }: { id: string; parts: {
           </g>
         ))}
         <g data-direct-labels="1">
-          {narrow.length ? <text x={0} y={TOP + H + 14} fontSize="10" fill="var(--color-muted)">{narrow.map((s) => `${s.name} ${s.share.toFixed(1)}%`).join("; ")}</text> : null}
+          {notes.length ? <text x={0} y={TOP + H + 14} fontSize="10" fill="var(--color-muted)">{notes.map((ln, j) => <tspan key={j} x={0} dy={j ? 13 : 0}>{ln}</tspan>)}</text> : null}
         </g>
       </svg>
       {hover !== null && segs[hover] ? <Card left={segs[hover].x0 + 8} width={W}><div className="text-ink">{segs[hover].name}: <span className="font-mono">{num(segs[hover].value)} {unit}</span> ({segs[hover].share.toFixed(1)}%)</div></Card> : null}

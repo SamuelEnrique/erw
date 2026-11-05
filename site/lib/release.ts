@@ -61,15 +61,19 @@ export const RELEASE: Record<string, Status> = {
   "/supply": "review",  // session 134: supply and trade (storage, stocks, production, refining, trade and positioning against last week, last year and the five-year average)
   "/prices": "review",
   "/explorer/ercot-peak-premium": "review",
+  // session 403: the signature explorers (platform tool 5), each at /explore/<name>, in review and not in the menu (lib/pages.ts)
+  "/explore/ercot-peak-premium": "review",  // session 403: the thesis chart live, by hub, year and month (the ERCOT tab of /prices is the older view)
   "/grid": "review",
   "/mix": "review",
   "/prices/compare": "review",  // session 96: where power is cheap (hub and zone prices compared)
   "/demand": "review",  // session 97: the demand growth explorer; session 152: one page, two views (as metered, and with the weather taken out)
   // session 152: /demand/weather (sessions 126 and 129, never on main as a page) is the second view of /demand and redirects to it (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
+  "/explore/demand-growth": "review",  // session 404: the second signature explorer (platform tool 5), growth since 2019 by grid and by window, not in the menu (lib/pages.ts)
   "/demand/weather": "review",  // session 126: demand growth with the weather taken out (NOAA station temperatures)
   // session 144: /curtailment/v2 is retired and redirects to /curtailment (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
   "/curtailment/v2": "review",  // session 98: curtailment, version 2 (California by hour, month and reason, against battery charging)
   "/queues": "review",  // session 95: the interconnection queue explorer
+  "/explore/interconnection": "review",  // session 405: the third signature explorer, the six ISO queues by entry year and status (iso_queue_statistics)
   // session 133: /mix/v2, /mix/clean and /mix/stress are retired and redirect to /mix (next.config.ts); their lines stay so that an address typed by hand never reads as a page with no status
   "/mix/clean": "review",  // session 122: how clean each grid's generation is, and when (hourly against annual matching, the cleanest hours, load moved into them)
   "/mix/stress": "review",  // session 123: how hard each grid works (evening ramp, lowest net load, fuels in the tightest hours, dark and calm stretches)

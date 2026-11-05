@@ -15,6 +15,8 @@ in every row and no empty cell; no em dash in any file this session wrote. Nothi
 warehouse table or makes a request.
 """
 
+import csv
+import json
 import os
 import re
 import shutil
@@ -72,9 +74,15 @@ class TheResearchReplication(unittest.TestCase):
         for card in ("batteries_lunch_grids", "batteries_curtailment", "batteries_curtailment_hourly", "impact_study", "gas_sets_price",
                      "negative_prices_west", "peak_hour_grids", "queue_divorce", "who_rescues_whom"):
             self.assertIn(f"== {card} (", p.stdout)
-        self.assertIn("batteries_lunch_grids.ercot_reg_multiple_coef = -10.757", p.stdout)
-        self.assertIn("batteries_curtailment.charging_solar_month_coef = 1081.24", p.stdout)
-        self.assertIn("impact_study.reg_did = 3016.40", p.stdout)
+        # session 534: three of its figures, each set against the card's own JSON beside it, not against the figures of the
+        # day this was written (the data machine recomputes the cards: 21 October 2026, c8aa37ff)
+        for card, key in (("batteries_lunch_grids", "ercot_reg_multiple_coef"), ("batteries_curtailment", "charging_solar_month_coef"),
+                          ("impact_study", "reg_did")):
+            m = re.search(r"^" + re.escape(f"{card}.{key} = ") + r"(\S+)$", p.stdout, re.M)
+            self.assertIsNotNone(m, f"{card}.{key}")
+            with open(os.path.join(CARDS_JSON, card + ".json"), encoding="utf-8") as f:
+                want = json.load(f)["numbers"][key]
+            self.assertAlmostEqual(float(m.group(1)), want, delta=abs(want) * 1e-9, msg=f"{card}.{key}")
 
     def test_a_planted_change_is_caught(self):
         with tempfile.TemporaryDirectory() as d:
@@ -84,9 +92,13 @@ class TheResearchReplication(unittest.TestCase):
             path = os.path.join(d, "erw_2026_queue_outcomes_technology.csv")
             with open(path, encoding="utf-8") as f:
                 text = f.read()
-            self.assertIn(",75.1796387567233,", text)
+            # session 534: the figure planted on is the file's own (all technologies' withdrawn_pct), read here, not the one
+            # the file held before the recompute of 21 October 2026 (75.1796387567233; c8aa37ff)
+            rows = list(csv.DictReader(ln for ln in text.splitlines() if not ln.startswith("#")))
+            cell = next(r["withdrawn_pct"] for r in rows if r["technology"] == "All technologies")
+            self.assertEqual(text.count(f",{cell},"), 1, cell)
             with open(path, "w", encoding="utf-8", newline="\n") as f:
-                f.write(text.replace(",75.1796387567233,", ",75.2796387567233,"))
+                f.write(text.replace(f",{cell},", f",{float(cell) + 0.1!r},"))
             p = run([d, "--json", CARDS_JSON], d)
             self.assertEqual(p.returncode, 1, p.stdout[-1000:])
             self.assertIn("DIFFERENT  queue_divorce.withdrawn_pct", p.stdout)

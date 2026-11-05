@@ -1,0 +1,77 @@
+{
+ "base": "https://erw-flame.vercel.app",
+ "when": "2026-10-22T21:39:34.273Z",
+ "addresses": 3,
+ "widths": [
+  1280,
+  390
+ ],
+ "results": [
+  {
+   "addr": "/cost-of-power?view=allgrids&rows=nodes&ncls=storage&nsort=swing&ndir=desc",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&rows=nodes&ncls=storage&nsort=swing&ndir=desc",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&rows=nodes&ncls=storage&nsort=swing&ndir=desc",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&rows=nodes&ncls=storage&nsort=swing&ndir=desc",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/research/card/siting_battery_swing",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/research/card/siting_battery_swing#a11y-scan-2",
+   "h1": "WHERE A BATTERY'S DAY SWINGS MOST",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/research/card/siting_battery_swing",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/research/card/siting_battery_swing#a11y-scan-5",
+   "h1": "WHERE A BATTERY'S DAY SWINGS MOST",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&rows=nodes",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&rows=nodes",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&rows=nodes",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&rows=nodes",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  }
+ ]
+}

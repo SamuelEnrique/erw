@@ -94,7 +94,7 @@ export async function EventWindow({ event, title, crumb, framing, caveat, grids,
                 const ci = pickOf(rows, g.entity, "intensity_generation", "max", inWin);
                 return (
                   <div key={g.entity}>
-                    {multi ? <h3 className="mb-1 text-base">{g.slug ? <Link href={`/grid/${g.slug}`}>{g.name}</Link> : g.name}</h3> : null}
+                    {multi ? <h3 className="mb-1 text-base">{g.slug ? <Link href={`/grid?grid=${g.slug}`}>{g.name}</Link> : g.name}</h3> : null}
                     <LineChart
                       lines={[
                         { label: yr, color: "accent", points: pts(g.entity, "demand_max_mw", inWin) },

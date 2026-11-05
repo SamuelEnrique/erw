@@ -2,17 +2,19 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
+import { CopyLine } from "@/components/CopyLine";  // session 1015
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { catalogue } from "@/lib/data";
-import { count, day } from "@/lib/format";
+import { count, day, utc } from "@/lib/format";
 import { DOCS, render } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
 import site from "@/data/site.json";
 import { PAGES } from "@/lib/pages";
 import { TIER_LABEL, TIER_TITLE, isModelExtracted } from "@/lib/tiers";
 import { LICENSE_NEEDED, licenseNeeded, licensePublishers } from "@/lib/license";  // session 207: "license needed" from 20 October 2026
+import { PACKAGES_CITATION, PACKAGES_HELD, PACKAGES_LEAD, PANELS, oneLineCalls, refusal, shapeOf, verdictOf } from "@/lib/packages";  // sessions 1007, 1008
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Data" };
@@ -52,30 +54,39 @@ export default async function Data() {
                   <th className="py-1 pr-3 font-normal">Freq</th>
                   <th className="py-1 pr-3 font-normal">First (UTC)</th>
                   <th className="py-1 pr-3 font-normal">Last (UTC)</th>
+                  <th className="py-1 pr-3 font-normal">Refreshed (UTC)</th>
                   <th className="py-1 pr-3 text-right font-normal">Rows</th>
                   <th className="py-1 pr-3 font-normal">Source report</th>
                   <th className="py-1 pr-3 font-normal">License</th>
                   <th className="py-1 pr-3 font-normal">Tier</th>
                   <th className="py-1 pr-3 font-normal">Download</th>
+                  <th className="py-1 pr-3 font-normal">In your tools</th>
                 </tr>
               </thead>
               <tbody>
                 {cat.data.map((r) => (
                   <tr key={r.table_name} id={r.table_name} className="border-b border-rule/60 align-top target:bg-panel">
-                    <td className="py-1 pr-3 font-mono text-xs">
+                    {/* session 416: the table's name is the row's header, a th, so that it stays in place beside its column's
+                        head when the figures scroll sideways on a phone (tokens.css keeps a first th in place, not a td) */}
+                    <th scope="row" className="py-1 pr-3 text-left align-top font-mono text-xs font-normal">
                       {r.table_name}
                       {r.derived === "yes" ? <span className="ml-1 font-sans text-muted">(derived)</span> : null}
-                    </td>
+                    </th>
                     <td className="py-1 pr-3 text-xs">{(r.sector ?? "").split(";").join(", ")}</td>
                     <td className="py-1 pr-3 text-xs">{r.interval}</td>
                     <td className="py-1 pr-3 text-xs whitespace-nowrap">{day(r.ts_min)}</td>
                     <td className="py-1 pr-3 text-xs whitespace-nowrap">{day(r.ts_max)}</td>
+                    {/* session 410: the table's last run, coverage.csv's last_run as the loader put it in the catalogue */}
+                    <td className="py-1 pr-3 text-xs whitespace-nowrap" title={r.last_run ? utc(r.last_run) : undefined}>
+                      {r.last_run ? day(r.last_run) : <span className="text-muted" title="coverage.csv records no run for this table">not recorded</span>}
+                    </td>
                     <td className="py-1 pr-3 text-right tabular-nums">
                       <Num check={`catalogue|${r.table_name}|n_rows`} raw={r.n_rows ?? ""}>
                         {count(r.n_rows)}
                       </Num>
                     </td>
-                    <td className="py-1 pr-3 font-mono text-xs break-all">{r.source_report}</td>
+                    {/* session 1008: a floor to the column's width, so the column added after it does not squeeze it to a few letters */}
+                    <td className="min-w-[9rem] py-1 pr-3 font-mono text-xs break-all">{r.source_report}</td>
                     <td className="py-1 pr-3 text-xs">
                       {licenseNeeded(r.table_name) ? (
                         <span title={`${licensePublishers(r.table_name).join("; ")}: the publisher's own page asks for permission; none is recorded yet`}>{LICENSE_NEEDED}</span>
@@ -97,13 +108,29 @@ export default async function Data() {
                         </a>
                       )}
                     </td>
+                    {/* session 1008: the three one-line calls (lib/packages.ts), or the packages' refusal of a table not public */}
+                    <td className="py-1 pr-3 text-xs whitespace-nowrap" data-tool-lines={r.table_name}>
+                      {refusal(r.table_name) ? (
+                        <details>
+                          <summary className="cursor-pointer text-muted">Not public ({verdictOf(r.table_name)})</summary>
+                          <p className="mt-1 w-64 whitespace-normal break-words">{refusal(r.table_name)}</p>
+                        </details>
+                      ) : (
+                        <details>
+                          <summary className="cursor-pointer">Python, Stata, R ({shapeOf(r.interval)})</summary>
+                          <pre className="mt-1 overflow-x-auto border border-rule bg-panel p-1 font-mono text-xs">
+                            {[oneLineCalls(r.table_name).python, oneLineCalls(r.table_name).stata, oneLineCalls(r.table_name).r].join("\n")}
+                          </pre>
+                        </details>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         )}
-        <Cite tables={["catalogue"]} note="Freq is the interval between rows (ISO 8601 duration); snapshot means an entities table. Dates are the first and last row" />
+        <Cite tables={["catalogue"]} note="Freq is the interval between rows (ISO 8601 duration); snapshot means an entities table. First and Last are the first and last row; Refreshed is the day of the table's last run" />
         <p className="mt-2 max-w-3xl text-xs text-muted">
           Tier (session 28) is where a table&apos;s numbers come from: <strong className="font-normal">source</strong>, as the publisher published them;{" "}
           <strong className="font-normal">derived</strong>, computed by the ERW from other tables, with a method in the methods pages; or{" "}
@@ -178,6 +205,39 @@ export default async function Data() {
             <pre className="mt-1 overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs">{site.package.clone_install.join("\n")}</pre>
           </div>
         </div>
+      </Section>
+
+      {/* session 1007 (chain 070): the three packages, every line the specification's or a package README's (lib/packages.ts) */}
+      <Section title="Use the ERW in your tools" id="tools">
+        <p className="mb-3 max-w-3xl text-sm">
+          {PACKAGES_LEAD} The specification: <Link href="/data/methods/packages">the packages&apos; method note</Link>.
+        </p>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 [&>*]:min-w-0" data-tools="1">
+          {PANELS.map((p) => (
+            <div key={p.name}>
+              <h3 className="mb-1 text-lg">{p.name}</h3>
+              {/* session 1015: each line with a control that copies it (components/CopyLine.tsx) */}
+              <div className="grid grid-cols-1 gap-1 border border-rule bg-panel p-2">
+                {p.install.map((ln) => <CopyLine key={ln} line={ln} />)}
+              </div>
+              <div className="mt-2 grid grid-cols-1 gap-1 border border-rule bg-panel p-2">
+                {p.calls.map((ln) => <CopyLine key={ln} line={ln} />)}
+              </div>
+              <p className="mt-2 text-xs text-muted">
+                <a href={p.readme}>The {p.name} package&apos;s README</a>
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-3 max-w-3xl text-xs text-muted">
+          The citation each package writes: <code className="font-mono">{PACKAGES_CITATION}</code> {PACKAGES_HELD.replace(/`/g, "")}
+        </p>
+        <p className="mt-2 max-w-3xl text-xs text-muted">
+          The site&apos;s own download (Download CSV, above) opens with the table&apos;s provenance header, each line beginning with{" "}
+          <code className="font-mono">#</code> (the source report, its address, when it was retrieved), then the line{" "}
+          <code className="font-mono"># Downloaded from the ERW site&apos;s live set (Supabase) at</code> the time, with the rows counted, and then the
+          table&apos;s columns in their CSV order. The three packages skip the <code className="font-mono">#</code> lines as they read.
+        </p>
       </Section>
 
       <Section title="Data dictionary" id="dictionary">

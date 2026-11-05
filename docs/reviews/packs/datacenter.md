@@ -16,6 +16,8 @@ Roadmap item 2 (`docs/roadmap.md`, "Five tools sellable") is done for a tool whe
 | A cross-check table against published figures | 6 rows: EIA's industrial retail prices of Texas, California and New York, and three ICE day-ahead peak indexes in EIA's wholesale file, each with its gap and reason | `docs/methods/datacenter_pays_algorithm.md#cross-checks`; part 4 below | `check-cross-checks.mjs`: not run on 21 October (no local build: it stopped twice on Supabase statement timeouts) | Listed, not fetched: a price a datacenter's own filing or release states (none read; for Samuel's ruling in the note); ERCOT's hubs against ICE (EIA's 2026 file holds none); a published cost of capital of a datacenter's owner |
 | A decisions block | Scenarios A and B in the shared block (the load, its flexibility, the tariff, the finance), Resets, the four summer peaks shown and not counted by default (session 354) | `site/app/cost-of-power/LoadScenarios.tsx`, `site/components/decisions/ScenarioBlock.tsx` | `check-decisions-face.mjs`: not run on 21 October (no local build) | Nothing that needs no ruling |
 
+**On a built site (session 422, 21 October 2026).** A build at 15:22 UTC of `wip/422-tool-checks`, which is main with chain 019's branches not yet landed (`wip/461-combined`), served on localhost; outputs in `runs/chain_021/s422/` (git ignores `runs/`). `check-cross-checks.mjs` exit 0, 18 of 18 for the three decision pages (this page's line: 8 published figures); `check-decisions-face.mjs` exit 0, 144 of 144; the mirror, `erw_2026_datacenter_replication.py`, exit 0, and its headline figures equal the page's default headline to the digit shown: USD 33.73 per MWh for a flat load at `LZ_NORTH`, a bad month USD 37.88 per MWh, USD 0.0684 per GPU-hour.
+
 ## 1. What it is for, and for whom
 
 - For: a buyer of power for a large load (a datacenter developer, an AI company's energy lead), an investor testing a site's power cost, an operator asking what flexibility is worth.
@@ -189,7 +191,7 @@ Tonight: `check-values` 682 of 682 on the cost-of-power pages, twice; the Python
 
 ## 8. What Samuel's Stata run must reproduce
 
-The files: `site/public/datacenter/erw_2026_datacenter_hourly.csv` (exported 2026-10-11T17:27:06Z), `erw_2026_datacenter_carbon.csv` (rewritten by session 265 from the live set at 2026-10-14, so its hourly window is the page's, 10,160 hours), `erw_2026_datacenter_replication.do` and `.py`. Their defaults are the page's: 100 MW, 1.3 kW per GPU, an overhead ratio of 1.56, the level USD 1,000. The `.py` was run tonight (`runs/session265/replication_py3.out`, exit 0).
+The files: `site/public/datacenter/erw_2026_datacenter_hourly.csv` (exported 2026-10-11T17:27:06Z), `erw_2026_datacenter_carbon.csv` (rewritten by session 265 from the live set at 2026-10-14, so its hourly window is the page's, 10,160 hours), `erw_2026_datacenter_replication.do` and `.py`. Their defaults are the page's: 100 MW, 1.3 kW per GPU, an overhead ratio of 1.56, the level USD 1,000. The `.py` was run tonight (`runs/session265/replication_py3.out`, exit 0). Session 582 (22 October 2026): that carbon file had fallen behind the page (265,548 tonnes a year against 265,549; 10,160 hours against 10,141), was rewritten from the live set, and the data machine's run now rewrites it every day (`dm_datacenter_carbon`); the run in a clean environment, figure by figure: `docs/reviews/replications-2026-10-22.md`.
 
 | Name | The page shows | The .py printed tonight | The do-file's display line |
 |---|---|---|---|

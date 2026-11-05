@@ -204,7 +204,8 @@ await test("a follow-up question that fails its check is left out, and only then
   assert.equal(profile.tailOnly(["follow-up questions contain numbers in no tool result: 200", "premise contains numbers in no tool result and not in the question: 5"]), false);
   assert.equal(profile.tailOnly([]), false);
   const loop = read("../lib/chat/ask.ts");
-  assert.ok(loop.includes("if (!c.bad.length && !c.uncited.length && !c.noCite && profile?.mend && profile.tailOnly?.(c.more))"));
+  // session 1110: a figure in the wrong unit is never mended away either
+  assert.ok(loop.includes("if (!c.bad.length && !c.units.length && !c.uncited.length && !c.noCite && profile?.mend && profile.tailOnly?.(c.more))"));
 });
 
 await test("a call made twice with the same arguments is known as one", () => {

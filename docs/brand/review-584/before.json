@@ -1,0 +1,2917 @@
+{
+ "base": "http://localhost:3584",
+ "at": "2026-10-22T02:51:48.175Z",
+ "pages": [
+  {
+   "page": "/",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/board",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/emissions",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section.mb-8 > div > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT, carbon-free share of generation, 2024",
+     "cut": [
+      {
+       "text": "65.84 % carbon-free",
+       "by": 12,
+       "side": "right"
+      },
+      {
+       "text": "no value held",
+       "by": 118,
+       "side": "right"
+      }
+     ],
+     "count": 2
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/storage",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/prices",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/prices/ercot%3AHB_HUBAVG",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/data",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/prices?tab=ercot",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/deals",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/deals?tab=tracker",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/deals?view=comparables",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/deals?tab=companies",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "US48 generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Nuclear 16.7%; Wind 7.6%; Solar 4.7%; Hy",
+       "by": 72,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div.min-w-0 > div.mt-4 > div.relative.w-full.min-w-0 > svg",
+     "label": "US Lower 48 generation by fuel, 2026-10-20",
+     "cut": [
+      {
+       "text": "Nuclear 18.3%; Wind 9.9%; Solar 9.3%; Hy",
+       "by": 72,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "US Lower 48 generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Nuclear 17.1%; Wind 10.8%; Solar 0.4%; H",
+       "by": 105,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 3
+  },
+  {
+   "page": "/map",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/datacenters",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/datacenters?view=grids",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#years-ercot > figure.mb-10 > svg",
+     "label": "ERCOT: a flat load's price by year at the cheapest load zone",
+     "cut": [
+      {
+       "text": "Oct 2025 to Sep 2026",
+       "by": 9,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/roundup",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/mix",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "US48 generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Nuclear 16.7%; Wind 7.6%; Solar 4.7%; Hy",
+       "by": 72,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div.min-w-0 > div.mt-4 > div.relative.w-full.min-w-0 > svg",
+     "label": "US Lower 48 generation by fuel, 2026-10-20",
+     "cut": [
+      {
+       "text": "Nuclear 18.3%; Wind 9.9%; Solar 9.3%; Hy",
+       "by": 72,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "US Lower 48 generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Nuclear 17.1%; Wind 10.8%; Solar 0.4%; H",
+       "by": 105,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 3
+  },
+  {
+   "page": "/mix?ba=erco&state=TX",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Coal 13.5%; Nuclear 6.5%; Wind 14.5%; So",
+       "by": 148,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Coal 14.7%; Nuclear 7.0%; Solar 0.0%; Hy",
+       "by": 95,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 2
+  },
+  {
+   "page": "/curtailment",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/demand?view=consumption",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/explore/demand-growth",
+   "W": 390,
+   "scrollWidth": 398,
+   "wide": [
+    {
+     "sel": "div > section.mb-4.bg-paper.px-4 > form.flex.flex-wrap.items-end > label.flex.flex-col.text-xs",
+     "right": 398,
+     "width": 365,
+     "text": "WindowWhole year, average hourWhole year, highest hourThe ye"
+    }
+   ],
+   "wideCount": 1,
+   "tables": [],
+   "labels": [],
+   "findings": 1
+  },
+  {
+   "page": "/explore/demand-growth?grid=us48&window=peak",
+   "W": 390,
+   "scrollWidth": 398,
+   "wide": [
+    {
+     "sel": "div > section.mb-4.bg-paper.px-4 > form.flex.flex-wrap.items-end > label.flex.flex-col.text-xs",
+     "right": 398,
+     "width": 365,
+     "text": "WindowWhole year, average hourWhole year, highest hourThe ye"
+    }
+   ],
+   "wideCount": 1,
+   "tables": [],
+   "labels": [],
+   "findings": 1
+  },
+  {
+   "page": "/explore/demand-growth?grid=pjm&window=ytd",
+   "W": 390,
+   "scrollWidth": 398,
+   "wide": [
+    {
+     "sel": "div > section.mb-4.bg-paper.px-4 > form.flex.flex-wrap.items-end > label.flex.flex-col.text-xs",
+     "right": 398,
+     "width": 365,
+     "text": "WindowWhole year, average hourWhole year, highest hourThe ye"
+    }
+   ],
+   "wideCount": 1,
+   "tables": [],
+   "labels": [],
+   "findings": 1
+  },
+  {
+   "page": "/explore/demand-growth?grid=caiso&window=m08",
+   "W": 390,
+   "scrollWidth": 398,
+   "wide": [
+    {
+     "sel": "div > section.mb-4.bg-paper.px-4 > form.flex.flex-wrap.items-end > label.flex.flex-col.text-xs",
+     "right": 398,
+     "width": 365,
+     "text": "WindowWhole year, average hourWhole year, highest hourThe ye"
+    }
+   ],
+   "wideCount": 1,
+   "tables": [],
+   "labels": [],
+   "findings": 1
+  },
+  {
+   "page": "/explore/demand-growth?grid=ercot&window=h17",
+   "W": 390,
+   "scrollWidth": 398,
+   "wide": [
+    {
+     "sel": "div > section.mb-4.bg-paper.px-4 > form.flex.flex-wrap.items-end > label.flex.flex-col.text-xs",
+     "right": 398,
+     "width": 365,
+     "text": "WindowWhole year, average hourWhole year, highest hourThe ye"
+    }
+   ],
+   "wideCount": 1,
+   "tables": [],
+   "labels": [],
+   "findings": 1
+  },
+  {
+   "page": "/policy",
+   "W": 390,
+   "scrollWidth": 429,
+   "wide": [
+    {
+     "sel": "section.mb-10 > div > div.mb-3.flex.flex-wrap > span",
+     "right": 429,
+     "width": 413,
+     "text": "TagAllAny tag (24)Large loads, interconnection or tariffsLar"
+    }
+   ],
+   "wideCount": 1,
+   "tables": [],
+   "labels": [],
+   "findings": 1
+  },
+  {
+   "page": "/data/licenses",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid/ercot",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Coal 13.5%; Nuclear 6.5%; Wind 14.5%; So",
+       "by": 148,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Coal 14.7%; Nuclear 7.0%; Solar 0.0%; Hy",
+       "by": 95,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 2
+  },
+  {
+   "page": "/grid/caiso",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid/pjm",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid/nyiso",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid/isone",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "ISO-NE generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Nuclear 18.6%; Wind 16.0%; Solar 0.0%; H",
+       "by": 105,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/grid/miso",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "MISO generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Nuclear 12.1%; Wind 9.2%; Solar 0.1%; Hy",
+       "by": 72,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/grid/spp",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "SPP generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Natural gas 24.9%; Nuclear 3.5%; Solar 0",
+       "by": 106,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div.min-w-0 > div.mt-4 > div.relative.w-full.min-w-0 > svg",
+     "label": "SPP generation by fuel, 2026-10-20",
+     "cut": [
+      {
+       "text": "Natural gas 18.6%; Nuclear 3.8%; Solar 2",
+       "by": 106,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "SPP generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Natural gas 16.4%; Nuclear 3.6%; Solar 0",
+       "by": 132,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div.mt-10 > section.mb-10 > div.relative.w-full.min-w-0 > svg",
+     "label": "SPP generation by fuel, 30 days",
+     "cut": [
+      {
+       "text": "Natural gas 27.0%; Nuclear 3.9%; Solar 2",
+       "by": 106,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 4
+  },
+  {
+   "page": "/events/uri-2021",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "div.brand-a.source_serif_4_5da7b7b9-module__3y8mdG__variable.ibm_plex_sans_7437aee1-module__gs8oIa__variable > div > section.mb-10 > svg",
+     "label": "ERCOT: the estimated effect of each event day, with its 95 p",
+     "cut": [
+      {
+       "text": "2021-02-24",
+       "by": 2,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/events/covid-2020",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "div.brand-a.source_serif_4_5da7b7b9-module__3y8mdG__variable.ibm_plex_sans_7437aee1-module__gs8oIa__variable > div > section.mb-10 > svg",
+     "label": "the Lower 48: the estimated effect of each event day, with i",
+     "cut": [
+      {
+       "text": "-2,582,449",
+       "by": 2,
+       "side": "left"
+      },
+      {
+       "text": "2020-05-31",
+       "by": 9,
+       "side": "right"
+      }
+     ],
+     "count": 2
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/cost-of-power?view=grids",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "div.border.border-rule.bg-white > section.mb-10 > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT HB_HUBAVG monthly load-weighted and simple mean real-t",
+     "cut": [
+      {
+       "text": "Real-time,load-weighted",
+       "by": 2,
+       "side": "bottom"
+      },
+      {
+       "text": "Day-ahead,load-weighted",
+       "by": 28,
+       "side": "bottom"
+      }
+     ],
+     "count": 2
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/cost-of-power",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power?run=hours",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power?grid=caiso",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/map?tab=queues",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/map?tab=queues&iso=ercot",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/map?tab=queues&iso=spp",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/explore/interconnection",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/explore/interconnection?queue=ercot&measure=mw&from=2018&to=2025",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/explore/interconnection?queue=spp",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/explore/interconnection?queue=nyiso",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/impact",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#matters > div.mt-8 > figure.mb-10.min-w-0 > svg",
+     "label": "The same project in other states, job-years, stacked: On sit",
+     "cut": [
+      {
+       "text": "Columbia",
+       "by": 5,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/impact?tech=utility_pv&state=la&mw=200&life=30",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#matters > div.mt-8 > figure.mb-10.min-w-0 > svg",
+     "label": "The same project in other states, job-years, stacked: On sit",
+     "cut": [
+      {
+       "text": "Columbia",
+       "by": 5,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/impact?tech=natural_gas&state=nm&capex=120&local=80",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/impact?tech=geothermal&state=us&life=25",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/seller",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/seller?asset=battery",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/seller?asset=peaker",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/seller?iso=spp&asset=wind",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/play/battery",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/play/battery?mode=hard",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/events",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/events/caiso-heat-2020",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/events/elliott-2022",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "div > section.mb-10 > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT hub average real-time and day-ahead prices per day, 20",
+     "cut": [
+      {
+       "text": "Real-time mean, 364days earlier",
+       "by": 18,
+       "side": "bottom"
+      },
+      {
+       "text": "Day-ahead, daily mean",
+       "by": 31,
+       "side": "bottom"
+      },
+      {
+       "text": "Real-time, daily mean",
+       "by": 44,
+       "side": "bottom"
+      }
+     ],
+     "count": 3
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/events/ercot-heat-2023",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "div > section.mb-10 > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT hub average real-time and day-ahead prices per day, 20",
+     "cut": [
+      {
+       "text": "Real-time mean, 364days earlier",
+       "by": 16,
+       "side": "bottom"
+      },
+      {
+       "text": "Day-ahead, daily mean",
+       "by": 29,
+       "side": "bottom"
+      },
+      {
+       "text": "Real-time, daily mean",
+       "by": 42,
+       "side": "bottom"
+      }
+     ],
+     "count": 3
+    },
+    {
+     "sel": "div.brand-a.source_serif_4_5da7b7b9-module__3y8mdG__variable.ibm_plex_sans_7437aee1-module__gs8oIa__variable > div > section.mb-10 > svg",
+     "label": "ERCOT: the estimated effect of each event day, with its 95 p",
+     "cut": [
+      {
+       "text": "2023-09-10",
+       "by": 7,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 2
+  },
+  {
+   "page": "/events/caiso-heat-2022",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/events/cold-2025",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/events/east-heat-2025",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "div > section.mb-10 > div.relative.w-full.min-w-0 > svg",
+     "label": "Each hub's daily mean real-time price, 2025-06-20 to 2025-06",
+     "cut": [
+      {
+       "text": "ISO-NE InternalHub",
+       "by": 20,
+       "side": "bottom"
+      },
+      {
+       "text": "MISO Indiana Hub",
+       "by": 33,
+       "side": "bottom"
+      }
+     ],
+     "count": 2
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/events/cold-2026",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "div > section.mb-10 > div.relative.w-full.min-w-0 > svg",
+     "label": "Carbon intensity of generation per day, 2026-01-23 to 2026-0",
+     "cut": [
+      {
+       "text": "SPP",
+       "by": 77,
+       "side": "bottom"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div > section.mb-10 > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT hub average real-time and day-ahead prices per day, 20",
+     "cut": [
+      {
+       "text": "Real-time mean, 364days earlier",
+       "by": 13,
+       "side": "bottom"
+      },
+      {
+       "text": "Day-ahead, daily mean",
+       "by": 26,
+       "side": "bottom"
+      },
+      {
+       "text": "Real-time, daily mean",
+       "by": 39,
+       "side": "bottom"
+      }
+     ],
+     "count": 3
+    },
+    {
+     "sel": "div > section.mb-10 > div.relative.w-full.min-w-0 > svg",
+     "label": "Each hub's daily mean real-time price, 2026-01-23 to 2026-02",
+     "cut": [
+      {
+       "text": "NYISO New YorkCity",
+       "by": 7,
+       "side": "bottom"
+      },
+      {
+       "text": "ISO-NE InternalHub",
+       "by": 33,
+       "side": "bottom"
+      }
+     ],
+     "count": 2
+    }
+   ],
+   "findings": 3
+  },
+  {
+   "page": "/learn/bill",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [
+    {
+     "sel": "div > div.grid.gap-6.lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] > div.text-sm > table.w-full",
+     "width": 358,
+     "frame": 358,
+     "wider": false,
+     "caption": ""
+    }
+   ],
+   "labels": [],
+   "findings": 1
+  },
+  {
+   "page": "/learn/problems/know-your-grid",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/learn/problems/prices-and-your-bill",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/learn/problems/when-the-grid-broke",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/learn/problems/storage-and-taxes",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/learn/problems/networks-and-money",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/network",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/storage?tab=buildout",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/storage?tab=buildout&grid=ercot&measure=mwh",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/storage?tab=buildout&grid=caiso",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/storage?tab=owners",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/severance",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [
+    {
+     "sel": "section.mb-10 > div.grid.gap-6.lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] > div.text-sm > table.w-full",
+     "width": 358,
+     "frame": 358,
+     "wider": false,
+     "caption": ""
+    }
+   ],
+   "labels": [],
+   "findings": 1
+  },
+  {
+   "page": "/severance?tab=lease",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/map?tab=resources",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/shoulder",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "div.min-w-0 > section.mb-10 > figure.mb-10 > svg",
+     "label": "ERCOT, the average day of August 2026, MW by local hour",
+     "cut": [
+      {
+       "text": "24:00",
+       "by": 4,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/shoulder?grid=caiso&month=2025-07",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "div.min-w-0 > section.mb-10 > figure.mb-10 > svg",
+     "label": "CAISO, the average day of July 2025, MW by local hour",
+     "cut": [
+      {
+       "text": "24:00",
+       "by": 4,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/research",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "div > div.mb-2 > div.relative.w-full.min-w-0 > svg",
+     "label": "Example: Small multiples: ERCOT",
+     "cut": [
+      {
+       "text": "2026-07",
+       "by": 3,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div > div.mb-2 > div.relative.w-full.min-w-0 > svg",
+     "label": "Example: Small multiples: CAISO",
+     "cut": [
+      {
+       "text": "2026-07",
+       "by": 3,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div > div.mb-2 > div.relative.w-full.min-w-0 > svg",
+     "label": "Example: Small multiples: NYISO",
+     "cut": [
+      {
+       "text": "2026-07",
+       "by": 3,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div > div.mb-2 > div.relative.w-full.min-w-0 > svg",
+     "label": "Example: Small multiples: ISO-NE",
+     "cut": [
+      {
+       "text": "2026-07",
+       "by": 3,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div > div.mb-2 > div.relative.w-full.min-w-0 > svg",
+     "label": "Example: Small multiples: SPP",
+     "cut": [
+      {
+       "text": "2026-07",
+       "by": 3,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div.min-w-0.border.bg-panel > div > div.relative.w-full.min-w-0 > svg",
+     "label": "Example: Lines",
+     "cut": [
+      {
+       "text": "2026-07",
+       "by": 3,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div > div > div.relative.w-full.min-w-0 > svg",
+     "label": "TILL QUEUE DO US PART",
+     "cut": [
+      {
+       "text": "US divorce rate over marriage rate (CDC,",
+       "by": 120,
+       "side": "left"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 7
+  },
+  {
+   "page": "/research/card/batteries_lunch_grids",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/research/card/gas_sets_price",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery?grid=caiso&dur=4&strat=foresight",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery?grid=caiso&dur=8&strat=foresight&mw=250",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery?ai=30",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery?ao=1",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery?ao=1&am=5",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery?ax=2",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid/caiso/alerts",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "div.brand-a.source_serif_4_5da7b7b9-module__3y8mdG__variable.ibm_plex_sans_7437aee1-module__gs8oIa__variable > div > section.mb-10 > svg",
+     "label": "Estimated demand reduction by year, MW, with 90 percent inte",
+     "cut": [
+      {
+       "text": "1,151",
+       "by": 2,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2018-07-24 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "47 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2018-07-25 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "47 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2019-06-11 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "43 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2019-07-28 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "40 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2020-08-14 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "49 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2020-08-15 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "47 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2020-08-16 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "49 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2020-08-17 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "48 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2020-08-18 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "52 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2020-08-19 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "47 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2020-09-05 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "46 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2020-09-06 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "51 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2020-09-07 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "48 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2020-10-01 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "44 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2020-10-15 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "40 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2021-06-17 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "42 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2021-06-18 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "42 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2021-07-09 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "47 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2021-07-10 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "44 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2021-07-28 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "43 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2021-07-29 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "43 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2021-09-08 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "45 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2021-09-09 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "45 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2022-08-17 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "43 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2022-08-31 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "47 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2022-09-01 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "50 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2022-09-02 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "46 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2022-09-03 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "45 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2022-09-04 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "48 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2022-09-05 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "50 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2022-09-06 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "53 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2022-09-07 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "50 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2022-09-08 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "55 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2022-09-09 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "53 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2023-07-20 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "43 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2023-07-25 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "43 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2023-07-26 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "43 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div#d2024-07-24 > svg",
+     "label": "Actual and predicted demand through the evening",
+     "cut": [
+      {
+       "text": "45 GW",
+       "by": 3,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div.brand-a.source_serif_4_5da7b7b9-module__3y8mdG__variable.ibm_plex_sans_7437aee1-module__gs8oIa__variable > div > section.mb-10 > svg",
+     "label": "Model error on the hottest non-alert days against temperatur",
+     "cut": [
+      {
+       "text": "4,704",
+       "by": 2,
+       "side": "top"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 40
+  },
+  {
+   "page": "/grid?grid=ercot",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Coal 13.5%; Nuclear 6.5%; Wind 14.5%; So",
+       "by": 148,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Coal 14.7%; Nuclear 7.0%; Solar 0.0%; Hy",
+       "by": 95,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 2
+  },
+  {
+   "page": "/grid?grid=ercot&view=clean",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section.mb-8 > div > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT, carbon-free share of generation, 2024",
+     "cut": [
+      {
+       "text": "65.84 % carbon-free",
+       "by": 12,
+       "side": "right"
+      },
+      {
+       "text": "no value held",
+       "by": 118,
+       "side": "right"
+      }
+     ],
+     "count": 2
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/grid?grid=ercot&view=exchange",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=caiso",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=caiso&view=clean",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section.mb-8 > div > div.relative.w-full.min-w-0 > svg",
+     "label": "CAISO, carbon-free share of generation, 2024",
+     "cut": [
+      {
+       "text": "77.41 % carbon-free",
+       "by": 6,
+       "side": "right"
+      },
+      {
+       "text": "no value held",
+       "by": 112,
+       "side": "right"
+      }
+     ],
+     "count": 2
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/grid?grid=caiso&view=exchange",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=pjm",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=pjm&view=clean",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section.mb-8 > div > div.relative.w-full.min-w-0 > svg",
+     "label": "PJM, carbon-free share of generation, 2025",
+     "cut": [
+      {
+       "text": "48.89 % carbon-free",
+       "by": 12,
+       "side": "right"
+      },
+      {
+       "text": "no value held",
+       "by": 118,
+       "side": "right"
+      }
+     ],
+     "count": 2
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/grid?grid=pjm&view=exchange",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=miso",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "MISO generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Nuclear 12.1%; Wind 9.2%; Solar 0.1%; Hy",
+       "by": 72,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/grid?grid=miso&view=clean",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=miso&view=exchange",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=nyiso",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=nyiso&view=clean",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=nyiso&view=exchange",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=isone",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "ISO-NE generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Nuclear 18.6%; Wind 16.0%; Solar 0.0%; H",
+       "by": 105,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/grid?grid=isone&view=clean",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=isone&view=exchange",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=spp",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "SPP generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Natural gas 24.9%; Nuclear 3.5%; Solar 0",
+       "by": 106,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div.min-w-0 > div.mt-4 > div.relative.w-full.min-w-0 > svg",
+     "label": "SPP generation by fuel, 2026-10-20",
+     "cut": [
+      {
+       "text": "Natural gas 18.6%; Nuclear 3.8%; Solar 2",
+       "by": 106,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "SPP generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Natural gas 16.4%; Nuclear 3.6%; Solar 0",
+       "by": 132,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div.mt-10 > section.mb-10 > div.relative.w-full.min-w-0 > svg",
+     "label": "SPP generation by fuel, 30 days",
+     "cut": [
+      {
+       "text": "Natural gas 27.0%; Nuclear 3.9%; Solar 2",
+       "by": 106,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 4
+  },
+  {
+   "page": "/grid?grid=spp&view=clean",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section.mb-8 > div > div.relative.w-full.min-w-0 > svg",
+     "label": "SPP, carbon-free share of generation, 2025",
+     "cut": [
+      {
+       "text": "67.04 % carbon-free",
+       "by": 12,
+       "side": "right"
+      },
+      {
+       "text": "no value held",
+       "by": 118,
+       "side": "right"
+      }
+     ],
+     "count": 2
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/grid?grid=spp&view=exchange",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=us48",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "US48 generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Nuclear 16.7%; Wind 7.6%; Solar 4.7%; Hy",
+       "by": 72,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div.min-w-0 > div.mt-4 > div.relative.w-full.min-w-0 > svg",
+     "label": "US Lower 48 generation by fuel, 2026-10-20",
+     "cut": [
+      {
+       "text": "Nuclear 18.3%; Wind 9.9%; Solar 9.3%; Hy",
+       "by": 72,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "US Lower 48 generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Nuclear 17.1%; Wind 10.8%; Solar 0.4%; H",
+       "by": 105,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 3
+  },
+  {
+   "page": "/grid?grid=us48&view=clean",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section.mb-8 > div > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT, carbon-free share of generation, 2024",
+     "cut": [
+      {
+       "text": "65.84 % carbon-free",
+       "by": 12,
+       "side": "right"
+      },
+      {
+       "text": "no value held",
+       "by": 118,
+       "side": "right"
+      }
+     ],
+     "count": 2
+    }
+   ],
+   "findings": 1
+  },
+  {
+   "page": "/grid?grid=us48&view=exchange",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=ercot&view=mix",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Coal 13.5%; Nuclear 6.5%; Wind 14.5%; So",
+       "by": 148,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "ERCOT generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Coal 14.7%; Nuclear 7.0%; Solar 0.0%; Hy",
+       "by": 95,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 2
+  },
+  {
+   "page": "/grid?grid=us48&view=mix",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [
+    {
+     "sel": "section#now-mix > div.relative.w-full.min-w-0 > svg",
+     "label": "US48 generation by fuel, the latest hour",
+     "cut": [
+      {
+       "text": "Nuclear 16.7%; Wind 7.6%; Solar 4.7%; Hy",
+       "by": 72,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "div.min-w-0 > div.mt-4 > div.relative.w-full.min-w-0 > svg",
+     "label": "US Lower 48 generation by fuel, 2026-10-20",
+     "cut": [
+      {
+       "text": "Nuclear 18.3%; Wind 9.9%; Solar 9.3%; Hy",
+       "by": 72,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    },
+    {
+     "sel": "section#today > div > div.relative.w-full.min-w-0 > svg",
+     "label": "US Lower 48 generation by fuel so far on 2026-10-21",
+     "cut": [
+      {
+       "text": "Nuclear 17.1%; Wind 10.8%; Solar 0.4%; H",
+       "by": 105,
+       "side": "right"
+      }
+     ],
+     "count": 1
+    }
+   ],
+   "findings": 3
+  },
+  {
+   "page": "/grid?grid=pjm&view=mix&mix=stress",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=ercot&view=network",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=us48&view=network",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=ercot&view=gravity&shape=gravity",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/grid?grid=us48&view=gravity&shape=gravity",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/explore/ercot-peak-premium",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/explore/ercot-peak-premium?hub=ercot%3AHB_WEST&from=2018&to=2024",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/explore/ercot-peak-premium?month=8",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/explore/ercot-peak-premium?hub=ercot%3AHB_HOUSTON&month=2&from=2020&to=2021",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-10-21",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-10-20",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-10-14",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-10-13",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-10-12",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-10-09",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-10-08",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-10-07",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-10-02",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-09-28",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-09-27",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-09-26",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/digest/2026-09-25",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/contracts",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power/battery/awards",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/reports/draft/shape-premium",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [
+    {
+     "sel": "div.brand-a.source_serif_4_5da7b7b9-module__3y8mdG__variable.ibm_plex_sans_7437aee1-module__gs8oIa__variable > article.max-w-3xl > section.mb-10 > table.mt-2.w-full.text-left",
+     "width": 358,
+     "frame": 358,
+     "wider": false,
+     "caption": "ISO hub"
+    },
+    {
+     "sel": "div.brand-a.source_serif_4_5da7b7b9-module__3y8mdG__variable.ibm_plex_sans_7437aee1-module__gs8oIa__variable > article.max-w-3xl > section.mb-10 > table.w-full.text-left.text-sm",
+     "width": 358,
+     "frame": 358,
+     "wider": false,
+     "caption": "ISO hub"
+    },
+    {
+     "sel": "div.brand-a.source_serif_4_5da7b7b9-module__3y8mdG__variable.ibm_plex_sans_7437aee1-module__gs8oIa__variable > article.max-w-3xl > section.mb-10 > table.w-full.text-left.text-sm",
+     "width": 358,
+     "frame": 358,
+     "wider": false,
+     "caption": "Year"
+    },
+    {
+     "sel": "div.brand-a.source_serif_4_5da7b7b9-module__3y8mdG__variable.ibm_plex_sans_7437aee1-module__gs8oIa__variable > article.max-w-3xl > section.mb-10 > table.w-full.text-left.text-sm",
+     "width": 358,
+     "frame": 358,
+     "wider": false,
+     "caption": "ISO"
+    }
+   ],
+   "labels": [],
+   "findings": 4
+  },
+  {
+   "page": "/reports/draft/ai-gigawatts",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  }
+ ]
+}

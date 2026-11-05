@@ -50,6 +50,10 @@ DIGITS = 6             # decimals kept in returned values
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity", "metals",
            "equities", "news", "deals", "datacenters"]
 
+# Session 1122: the board's measures, and the derived table each is in
+BOARD_MEASURES = {m: "price_board_latest" for m in ("da_latest_day_mean", "rt_latest_day_mean", "da_day_change", "rt_day_change", "da_day_change_pct", "rt_day_change_pct", "da_minus_rt")}
+BOARD_MEASURES.update({"spark_spread_7": "price_board_spreads", "implied_heat_rate": "price_board_spreads"})
+
 QUERY_PROPS = {
     "table": {"type": "string", "description": "ERW table name, exactly as list_tables gives it."},
     "entity": {"type": "string", "description": "Series: an entity (\"ercot:HB_NORTH\", \"eia:henry_hub\") or a node as the ISO writes it (\"HB_NORTH\", \"N.Y.C.\"). Entities tables: an entity_id or name. Exact string."},
@@ -122,6 +126,19 @@ TOOLS = [
             "additionalProperties": False,
         },
     },
+    {
+        "name": "board_rank",
+        "description": "The price board's questions (session 1122): rank every hub of the board's own derived tables by one measure on its newest day, highest first, lowest first or by the size of the move. For 'which hub is highest', 'what moved most today', 'where is the spark spread widest'. Each hub's value carries its own date. Built on query (latest by entity), so it agrees with the board.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "measure": {"type": "string", "enum": list(BOARD_MEASURES), "description": "da_ or rt_latest_day_mean: the day's mean price; da_ or rt_day_change and _day_change_pct: the move on the day before; da_minus_rt: day-ahead less real time; spark_spread_7 and implied_heat_rate: the spreads against Henry Hub."},
+                "order": {"type": "string", "enum": ["highest", "lowest", "largest_move"], "description": "highest (default) or lowest by value; largest_move by the size of the value whatever its sign (for a change)."},
+            },
+            "required": ["measure"],
+            "additionalProperties": False,
+        },
+    },
 ]
 
 
@@ -177,6 +194,8 @@ def scope_rows(name, df):
         return df[df["ba"] == g["ba"]]
     if by == "entity" and "entity" in df.columns:
         return df[df["entity"].fillna("").str.startswith(g["slug"] + ":")]
+    if by == "isoentity" and "entity" in df.columns:   # session 1142: storage_buildout_monthly's iso:<slug>
+        return df[df["entity"] == "iso:" + g["slug"]]
     if by == "market" and "market" in df.columns and g.get("market_prefix"):
         return df[df["market"].fillna("").str.startswith(g["market_prefix"])]  # as the site: market like <prefix>*
     if by == "queue" and "source_table" in df.columns:
@@ -551,7 +570,53 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
             if len(res) > cap:
                 out["result_note"] = f"{len(res)} groups; the first {cap} (sorted by {group_by}) are shown"
             out["result"] = res[:cap]
+    per_kw(out, table)
     out.update(provenance(table))
+    return out
+
+
+# Session 1109: USD per kW beside USD per MW, prepared for session 320's open ruling 1 and off until it is ruled (as
+# site/lib/chat/tools.ts perKw). With ASK_PER_KW=on, a query of a table whose method names the conversion, all of whose
+# rows are in USD/MW, carries each value divided by 1,000 as value_usd_per_kw. Off, the result is what it was.
+PER_KW_TABLES = {
+    "battery_stack_monthly": "docs/methods/battery_stack.md: USD per kW of rated power is the USD/MW value divided by 1,000",
+}
+
+
+def per_kw(out, table, env=None):
+    env = os.environ if env is None else env
+    if env.get("ASK_PER_KW") != "on" or table not in PER_KW_TABLES or out.get("units") != ["USD/MW"]:
+        return out
+    for r in out.get("result") or []:
+        if isinstance(r.get("value"), (int, float)) and not isinstance(r.get("value"), bool):
+            r["value_usd_per_kw"] = round(r["value"] / 1000, DIGITS)
+    out["per_kw"] = {"unit": "USD/kW", "rule": PER_KW_TABLES[table]}
+    return out
+
+
+def holds_line(c):
+    """Session 1146, as site/lib/chat/tools.ts holdsLine: what a table holds, from its catalogue row, never a figure."""
+    span = f"{str(c.get('ts_min') or '')[:10]} to {str(c.get('ts_max') or '')[:10]}" if c.get("ts_min") and c.get("ts_max") else ""
+    iso = ", ".join(str(c.get("iso")).split(";")) if c.get("iso") and c.get("iso") != "none" else ""
+    parts = [f"{c['sector']} data" if c.get("sector") else "", iso, f"step {c['interval']}" if c.get("interval") else "", span,
+             f"from {c['source_report']}" if c.get("source_report") else ""]
+    return "; ".join(p for p in parts if p)
+
+
+def nearest_for(tables):
+    """Session 1146, as site/lib/chat/tools.ts nearestFor: up to three tables looked at, with what each holds."""
+    out = []
+    for t in list(dict.fromkeys(tables)):
+        try:
+            row = _cov_row(t)
+        except Exception:  # noqa: BLE001: a table the catalogue does not hold is left out
+            row = None
+        if row is None:
+            continue
+        row = {k: (None if isinstance(v, float) and v != v else v) for k, v in dict(row).items()}   # a blank of the coverage file is no value
+        out.append({"table": t, "holds": holds_line(row)})
+        if len(out) == 3:
+            break
     return out
 
 
@@ -570,8 +635,25 @@ def compare(a, b):
     return out
 
 
+def board_rank(measure, order="highest"):
+    """Session 1122: every hub's newest value of one board measure, ranked (as site/lib/chat/tools.ts boardRank)."""
+    if measure not in BOARD_MEASURES:
+        raise ToolError(f"measure must be one of {sorted(BOARD_MEASURES)}")
+    if order not in ("highest", "lowest", "largest_move"):
+        raise ToolError("order must be highest, lowest or largest_move")
+    table = BOARD_MEASURES[measure]
+    q = query(table, "latest", variable=measure, group_by="entity")
+    rows = [r for r in q.get("result", []) if isinstance(r.get("value"), (int, float))]
+    key = (lambda r: -abs(r["value"])) if order == "largest_move" else (lambda r: -r["value"]) if order == "highest" else (lambda r: r["value"])
+    ranked = [{"rank": i + 1, "entity": r.get("entity"), "value": r["value"], "at": r.get("at")} for i, r in enumerate(sorted(rows, key=key))]
+    out = {"table": table, "measure": measure, "order": order, "units": q.get("units"), "n": len(ranked), "ranked": ranked,
+           "note": "each hub's newest value of the measure, with its own date; a hub whose rows are held is not in the table read"}
+    out.update(provenance(table))
+    return out
+
+
 FUNCTIONS = {"list_tables": list_tables, "describe_table": describe_table, "query": query, "compare": compare,
-             "grid_notes": grid_notes}
+             "grid_notes": grid_notes, "board_rank": board_rank}
 
 
 def run(name, args):

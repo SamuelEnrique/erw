@@ -28,3 +28,9 @@ words (every default home uses 600 kWh a month, an assumption the file says is o
 
 At the foot of the page, `cost_of_power_monthly` as the live set's CSV with a Python and a Stata reader of that CSV
 (session 328's shared line). The rates are the site's own file, not a table of the warehouse.
+
+## The figures on the page and their keys
+
+Each number `/learn/bill` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `cost_of_power_monthly`, `rt_load_weighted`: the wholesale price each default bill is set against, USD/MWh, the load-weighted real-time price of the bill's zone (`wholesale_entity` in `site/data/bill_rules.json`) in the latest complete month (one whose `rt_hours` equal its `hours_in_month`), else the latest month held, marked "a partial month". It stands beside the bill's wholesale energy in USD and its share of the bill.

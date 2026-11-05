@@ -80,7 +80,7 @@ class TheRoutePagesByKey(unittest.TestCase):
         self.assertIn("async pull(ctl)", c)
         self.assertNotIn("async start(ctl)", c)
         self.assertIn("async cancel()", c)
-        self.assertIn("if (n > MAX_ROWS) throw new Error(", c)                        # past the limit: an error, never a short file
+        self.assertIn("if (n > ROW_CAP) throw new Error(", c)  # session 1009: the cap, MAX_ROWS or lower from the environment                      # past the limit: an error, never a short file
 
     def test_a_small_table_keeps_its_count_line(self):
         c = self.c
@@ -89,8 +89,8 @@ class TheRoutePagesByKey(unittest.TestCase):
 
     def test_the_checks_before_the_rows_stand(self):
         r = self.r
-        self.assertLess(r.index("if (licenseNeeded(table)) return text("), r.index('const lim = await limited(req, "download", 60, 3600);'))
-        self.assertLess(r.index('const lim = await limited(req, "download", 60, 3600);'), r.index("const it = pages("))
+        self.assertLess(r.index("if (licenseNeeded(table)) return text("), r.index('const lim = await limited(req, "download", PER_HOUR, 3600);'))
+        self.assertLess(r.index('const lim = await limited(req, "download", PER_HOUR, 3600);'), r.index("const it = pages("))
         self.assertIn("export const maxDuration = 300;", r)
 
 

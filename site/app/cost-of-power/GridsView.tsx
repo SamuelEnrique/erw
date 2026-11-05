@@ -21,20 +21,19 @@ import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 // mean and shape premium are defined, the calculator's assumptions) is in the Method note, with a short hover here.
 
 const M = "cost_of_power_monthly", P = "cost_of_power_hourly_profile", C = "cost_of_power_carbon";
-const METHOD = "/data/methods/cost_of_power";
 const ISO: Record<string, { name: string; hub: string; grid: string }> = {
-  ercot: { name: "ERCOT", hub: "HB_HUBAVG", grid: "/grid/ercot" },
-  caiso: { name: "CAISO", hub: "SP15", grid: "/grid/caiso" },
-  isone: { name: "ISO-NE", hub: "Internal Hub", grid: "/grid/isone" },
-  miso: { name: "MISO", hub: "Indiana Hub", grid: "/grid/miso" },
-  nyiso: { name: "NYISO", hub: "N.Y.C. (zone J)", grid: "/grid/nyiso" },
-  spp: { name: "SPP", hub: "SPP North Hub", grid: "/grid/spp" },
+  ercot: { name: "ERCOT", hub: "HB_HUBAVG", grid: "/grid?grid=ercot" },
+  caiso: { name: "CAISO", hub: "SP15", grid: "/grid?grid=caiso" },
+  isone: { name: "ISO-NE", hub: "Internal Hub", grid: "/grid?grid=isone" },
+  miso: { name: "MISO", hub: "Indiana Hub", grid: "/grid?grid=miso" },
+  nyiso: { name: "NYISO", hub: "N.Y.C. (zone J)", grid: "/grid?grid=nyiso" },
+  spp: { name: "SPP", hub: "SPP North Hub", grid: "/grid?grid=spp" },
 };
 const { mw: MW, loadFactor: LF, days: DAYS, share: SHARE } = DEFAULTS;
 
 function Tier() {
   return (
-    <Link href="/data/standard" title={TIER_TITLE.derived} className="ml-1 rounded border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
+    <Link href="/data/standard" title={TIER_TITLE.derived} className="ml-1 inline-flex min-h-6 items-center border border-rule px-1 text-xs text-muted no-underline">
       {TIER_LABEL.derived}
     </Link>
   );
@@ -143,12 +142,12 @@ export async function GridsView() {
             <div className="overflow-x-auto">
               <table className="w-full min-w-[560px] text-sm">
                 <thead className="text-left text-xs text-muted">
-                  <tr><th className="py-1">ISO</th><th>Hub</th><th title="Each hour's price times the balancing authority's demand that hour, over the month's demand" className="cursor-help">Load-weighted, USD/MWh</th><th title="The plain mean of the same hours: what a flat load pays" className="cursor-help">Simple mean</th><th title="Load-weighted less simple mean: what the grid's own load shape paid above a flat load" className="cursor-help">Shape premium</th><th>Hours held</th></tr>
+                  <tr><th scope="col" className="py-1">ISO</th><th scope="col">Hub</th><th scope="col" title="Each hour's price times the balancing authority's demand that hour, over the month's demand" className="cursor-help">Load-weighted, USD/MWh</th><th scope="col" title="The plain mean of the same hours: what a flat load pays" className="cursor-help">Simple mean</th><th scope="col" title="Load-weighted less simple mean: what the grid's own load shape paid above a flat load" className="cursor-help">Shape premium</th><th scope="col">Hours held</th></tr>
                 </thead>
                 <tbody>
                   {rank.map((r) => (
                     <tr key={r.e} className="border-t border-rule">
-                      <td className="py-1"><Link href={ISO[isoOf(r.e)].grid}>{ISO[isoOf(r.e)].name}</Link></td>
+                      <th scope="row" className="py-1 text-left font-normal"><Link href={ISO[isoOf(r.e)].grid}>{ISO[isoOf(r.e)].name}</Link></th>
                       <td className="font-mono text-xs">{r.e.split(":")[1]}</td>
                       <td><N t={M} r={r.lw} /></td>
                       <td><N t={M} r={r.sm} /></td>
@@ -198,10 +197,10 @@ export async function GridsView() {
               label={`Load-weighted real-time price against carbon intensity of generation, one point per ISO, ${cm}`} />
             <div className="overflow-x-auto">
               <table className="w-full min-w-[420px] text-sm">
-                <thead className="text-left text-xs text-muted"><tr><th className="py-1">ISO</th><th>Load-weighted, USD/MWh</th><th title="CO2 generated over net generation, EIA's estimates, over the same hours as the price" className="cursor-help">kg CO2 per MWh generated</th></tr></thead>
+                <thead className="text-left text-xs text-muted"><tr><th scope="col" className="py-1">ISO</th><th scope="col">Load-weighted, USD/MWh</th><th scope="col" title="CO2 generated over net generation, EIA's estimates, over the same hours as the price" className="cursor-help">kg CO2 per MWh generated</th></tr></thead>
                 <tbody>
                   {cc.map((c) => (
-                    <tr key={c.e} className="border-t border-rule"><td className="py-1">{ISO[isoOf(c.e)].name}</td><td><N t={C} r={c.price} /></td><td><N t={C} r={c.ci} /></td></tr>
+                    <tr key={c.e} className="border-t border-rule"><th scope="row" className="py-1 text-left font-normal">{ISO[isoOf(c.e)].name}</th><td><N t={C} r={c.price} /></td><td><N t={C} r={c.ci} /></td></tr>
                   ))}
                 </tbody>
               </table>
@@ -219,12 +218,12 @@ export async function GridsView() {
             <div className="overflow-x-auto">
               <table className="w-full min-w-[560px] text-sm">
                 <thead className="text-left text-xs text-muted">
-                  <tr><th className="py-1">ISO</th><th>Flat load, USD</th><th>USD/MWh</th><th>Cheapest 80% of hours, USD</th><th>USD/MWh</th><th>Month</th></tr>
+                  <tr><th scope="col" className="py-1">ISO</th><th scope="col">Flat load, USD</th><th scope="col">USD/MWh</th><th scope="col">Cheapest 80% of hours, USD</th><th scope="col">USD/MWh</th><th scope="col">Month</th></tr>
                 </thead>
                 <tbody>
                   {calc.map((c) => (
                     <tr key={c.e} className="border-t border-rule">
-                      <td className="py-1">{ISO[isoOf(c.e)].name}</td>
+                      <th scope="row" className="py-1 text-left font-normal">{ISO[isoOf(c.e)].name}</th>
                       <td>{c.flat === null ? "not held" : <Usd check={`cop|flat_cost|${c.e}|${MW}|${LF}|${DAYS}|${common}`} v={eFlat * c.flat} />}</td>
                       <td>{c.flat === null ? "" : <Num check={`cop|flat_price|${c.e}|${common}`} raw={c.flat}>{shown(c.flat)}</Num>}</td>
                       <td>{c.c80 === null ? "not held" : <Usd check={`cop|cheap_cost|${c.e}|${MW}|${LF}|${DAYS}|${SHARE}|${common}`} v={e80 * c.c80} />}</td>
@@ -235,7 +234,7 @@ export async function GridsView() {
                 </tbody>
               </table>
             </div>
-            <h3 className="mb-2 text-base">Your own inputs</h3>
+            <h3 className="mb-3 mt-8 text-base">Your own inputs</h3>
             <Calculator hubs={calc.map((c) => ({ iso: ISO[isoOf(c.e)].name, flat: c.flat, cells: cells(d.profile, c.e).filter((x) => !common || x.month === common), months: span(c.months) }))} />
             <Cite tables={[M, P]} note="Flat: the hub's real-time simple mean in the ranked month; cheapest 80 percent: the hourly profile's cheapest hour-of-day cells of that month" />
           </Section>

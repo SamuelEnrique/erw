@@ -276,7 +276,8 @@ class Page(unittest.TestCase):
         self.assertIn('`${NY_HELD_WORDS}: ${NY_HELD_WHY}`', tables)
         self.assertIn('words = "not held yet"', self.page)
         self.assertIn('"Delivery charges"', self.page)
-        for link in ("/mix?view=clean&grid=", "/mix?view=stress&grid=", "/demand?area=", "/queues?grid=", "/datacenters"):
+        # session 581: the two Grid links name the view they land on (/mix redirects there, site/next.config.ts)
+        for link in ("/grid?view=clean&grid=", "/grid?view=mix&grid=", "&mix=stress", "/demand?area=", "/queues?grid=", "/datacenters"):
             self.assertIn(link, self.page)
 
     def test_no_method_on_the_face_and_no_em_dash(self):

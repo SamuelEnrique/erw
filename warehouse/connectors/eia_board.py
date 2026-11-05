@@ -30,7 +30,8 @@ sector 98), every location EIA lists (the US, census divisions, states), from Fo
 both fuels), and the same cost per physical unit, cost_per_short_ton (coal) and cost_per_mcf (gas). The entity is
 eia:plant_fuel_cost:<location>:<fueltypeid>. EIA withholds a state's cost when few plants report, and writes a cost of
 exactly 0 where a state took no deliveries that month (California's coal, for one, in every month): no row is written
-for either. A negative cost is kept as EIA reports it (gas delivered in New Mexico and Arizona in 2024 to 2026).
+for either. A negative cost is kept as EIA reports it (gas delivered in New Mexico and Arizona in 2024 to 2026, and in
+Wyoming in February 2022: session 2004).
 
 Ceiling: 1,500,000 rows for session 132's pulls in all (the rows the API returns, the session's probes included).
 The source ids of the retail and first purchase routes carry a suffix (:regional, :streams) so the registry rows of the older tables

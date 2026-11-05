@@ -12,6 +12,7 @@ import { node, price, utc } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { Tabs } from "@/components/tool/Tabs";
 import { TableDownloads } from "@/components/tool/TableDownloads";
+import { TableLicenses } from "@/components/tool/TableLicenses";
 import { ToolPage } from "@/components/tool/ToolPage";
 import { one, tabOf } from "@/lib/tabs";
 import { PeakPremiumView } from "../explorer/ercot-peak-premium/view";
@@ -36,6 +37,10 @@ function daNow(rows: SeriesRow[], now: number): SeriesRow | null {
   return null;
 }
 
+// Session 502: each tab's ERW tables, one list for its downloads line (session 328) and its license line under the title
+const NOW_TABLES = MARKETS.flatMap((m) => [m.rt?.table, m.da.table]).filter((t): t is string => Boolean(t));
+const ERCOT_TABLES = ["ercot_peak_premium_annual", "ercot_peak_premium_monthly"];
+
 // Session 239: one page, two tabs (lib/tabs.ts): every hub and zone (what this page drew, below) and ERCOT, the peak
 // premium explorer (what /explorer/ercot-peak-premium drew; it redirects to its tab). The tab is in the address,
 // ?tab=ercot.
@@ -47,10 +52,10 @@ export default async function Prices({ searchParams }: { searchParams: Promise<R
       <ToolPage>
         <div data-prices={tab}>
           <Tabs page="/prices" active={tab} />
-          {tab === "ercot" ? <PeakPremiumView /> : <NowView />}
+          {tab === "ercot" ? <PeakPremiumView under={<TableLicenses tables={ERCOT_TABLES} />} /> : <NowView />}
           {/* session 328: each tab's public tables, as CSV with a Python and a Stata reader (latest_prices is the live set's
               own table, refreshed every 15 minutes, and is not an ERW table: its intervals reach the real-time tables) */}
-          <TableDownloads tables={tab === "ercot" ? ["ercot_peak_premium_annual", "ercot_peak_premium_monthly"] : MARKETS.flatMap((m) => [m.rt?.table, m.da.table]).filter((t): t is string => Boolean(t))} />
+          <TableDownloads tables={tab === "ercot" ? ERCOT_TABLES : NOW_TABLES} />
           <Related href="/prices" />
         </div>
       </ToolPage>
@@ -68,6 +73,7 @@ async function NowView() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Power prices</h1>
+      <TableLicenses tables={NOW_TABLES} />
       <p className="mb-2 max-w-3xl">
         The newest real-time and day-ahead power prices at every public hub and zone of six <Term t="ISO" first />s, refreshed every 15 minutes, from each ISO&apos;s
         market data.

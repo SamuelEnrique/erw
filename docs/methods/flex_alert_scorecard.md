@@ -1,5 +1,7 @@
 # The Flex Alert scorecard: method
 
+Tables: `flex_alert_model`, `flex_alert_effects`
+
 Energy Research Warehouse (ERW), session 60. The page is `/grid/caiso/alerts`; the code is `warehouse/derived/flex_alert_scorecard.py`; `notebooks/flex_alert_scorecard.ipynb` reproduces every number from the warehouse's inputs and asserts each equal to the tables `flex_alert_effects` and `flex_alert_model`. Tier: derived. License: public (EIA, NOAA, CAISO; credit the California ISO).
 
 ## 1. Question
@@ -170,3 +172,21 @@ The pipeline, in order:
     python -m unittest tests.test_session60                    # a synthetic panel's known effect is recovered
 
 Then run `notebooks/flex_alert_scorecard.ipynb`. It re-implements the panel, the 24 regressions, the per-day, yearly and pooled estimates, the five-fold check for all five variants and the value. It asserts each equal to the tables, and re-runs the bootstrap with the published seed to reproduce the intervals.
+
+## 11. The figures on the page and their keys
+
+Each number `/grid/caiso/alerts` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `flex_alert_model`, `pooled_days`, `pooled_hours`, `pooled_reduction_mw`, `pooled_reduction_mw_lo`, `pooled_reduction_mw_hi`: the alert days and alert hours pooled, and the estimated cut in MW averaged over those hours with its 90 percent interval (a positive number is a cut), in the page's first sentence, "The answer, pooled".
+- `flex_alert_model`, `pooled_reduction_pct`, `pooled_reduction_mwh`, `pooled_reduction_mwh_lo`, `pooled_reduction_mwh_hi`: the same cut as a percent of predicted demand in those hours, and its total in MWh with its interval, in the line below it.
+- `flex_alert_model`, `oos_bias_mw`, `oos_rmse_mw`, `oos_mape_pct`, `oos_days`: the model's mean error in the evening hours of the hottest non-alert days it did not see (actual less predicted, MW), its root mean square error, its mean absolute percentage error and the number of those days, under "How to read it".
+- `flex_alert_model`, `variant_<minimal, base, base_prev24sq, base_cdh_dew, chosen>_oos_bias_mw`, `variant_<minimal, base, base_prev24sq, base_cdh_dew, chosen>_oos_rmse_mw`: each of the five specifications' error on the hot days it did not see (bias) and its root mean square error, MW, in the table of models. `VARIANTS` in `site/lib/flexalerts.ts` names the five.
+- `flex_alert_model`, `variant_<minimal, base, base_prev24sq, base_cdh_dew, chosen>_pooled_reduction_mw`, `variant_<minimal, base, base_prev24sq, base_cdh_dew, chosen>_pooled_reduction_mw_lo`, `variant_<minimal, base, base_prev24sq, base_cdh_dew, chosen>_pooled_reduction_mw_hi`: each specification's pooled estimate in MW and its 90 percent interval, in the same table.
+- `flex_alert_model`, `heldout_threshold_temp_f`, `alert_days_hotter_than_threshold`: the daily high, population-weighted across the three airports, from which a non-alert day is in the hottest tenth held out, and the number of alert days at least that hot, under the table of models.
+- `flex_alert_model`, `pooled_value_hours`, `pooled_value_usd`, `pooled_value_usd_lo`, `pooled_value_usd_hi`, `heldout_price_mean_usd_mwh`: the alert hours with a price, their value in USD with its 90 percent interval, and the mean evening day-ahead price of the hottest non-alert days with a price, USD/MWh, under "What it was worth, at the day-ahead price".
+- `flex_alert_effects`, `alert_first_hour`, `alert_last_hour`, `temp_max_f`, `train_days_as_hot`, `reduction_mw_lo`, `reduction_mw_hi`, `value_usd`: for each alert day (freq P1D) in the ranked table, its alert hours from the first to the last, its high in F, the training days at least as hot, the 90 percent interval of its cut in MW, and its value in USD where a price is held ("no price" where not).
+- `flex_alert_effects`, `year_days`, `year_hours`, `year_reduction_mw`, `year_reduction_mw_lo`, `year_reduction_mw_hi`, `year_reduction_mwh`: the yearly rows (freq P1Y), each year's alert days, alert hours, cut in MW with its 90 percent interval, and cut in MWh, in the bars and the table under "Year by year".
+
+## Checks against the table (session 2424)
+
+Counted from `warehouse/output` by `runs/c115/s2424/check_tables.py`: `flex_alert_model` 881 rows, entity `erw:flex_alert_model`, 587 variables: 297 daily rows (`freq P1D`) and 584 rows with no freq, the model's coefficients and pooled figures, all dated 1 July 2018, the sample's first day (section 2). `flex_alert_effects` 2,973 rows, entity `eia930:CISO`, 37 variables: 2,280 hourly (`PT1H`), 624 daily (`P1D`) and 69 yearly (`P1Y`), 1 January 2018 to 25 July 2024. Both geo US-CA, no key given twice, every value a number. The Tables line was added so that the finder of held tables with no note sees them.

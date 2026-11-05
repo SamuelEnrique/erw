@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
-"""Hourly interchange between balancing authorities, from EIA-930 (every BA pair EIA reports).
+"""Hourly interchange of every directed pair EIA-930 reports, from EIA-930: balancing authorities, EIA's regions and the
+Lower 48, and neighbours abroad.
 
-Energy Research Warehouse (ERW) connector, session 46 (Part A, session 42's prompt A1). Writes one series table,
+Energy Research Warehouse (ERW) connector, written in session 46 (Part A, session 42's prompt A1) and first run in
+session 49, whose pull asked for 18 days and wrote 16 (2026-09-13 to 2026-09-28; docs/methods/eia930_all_interchange.md,
+session 2298). Writes one series table,
 
     warehouse/output/eia930_all_interchange.csv    interchange_mw, partition column ba (the reporting BA)
 
 from the EIA API v2 route electricity/rto/interchange-data, hourly. One entity per BA pair, eia930:<FROM>-<TO>, where
 FROM is the reporting BA (EIA's fromba) and TO its neighbour (toba); x_to_ba repeats TO, lowercase, for filtering.
 EIA's sign convention (docs/methods/grid_network.md): the value is the reporting BA's net flow with the neighbour,
-positive when the reporting BA exports. Each pair is reported by both BAs, so the table holds both directions as EIA
-publishes them; grid_network_links keeps one of each pair (its method records the rule).
+positive when the reporting BA exports. Both ends report most pairs, so the table holds both directions as EIA
+publishes them; twelve neighbours (AESO, BCHA, CAN, CEN, HQT, IESO, MEX, MHEB, NBSO, SPC, WAUW, WWA) never report
+themselves, and 14 reporting codes are EIA's regions and US48 (session 2298); grid_network_links keeps one of each
+pair (its method records the rule).
 
     python warehouse/connectors/eia930_interchange.py --days 30      # the approved pull (last 30 days)
     python warehouse/connectors/eia930_interchange.py --days 3       # the daily run
@@ -177,7 +182,8 @@ def main(argv=None):
             raise RuntimeError(f"{len(s)} rows, over the {CEILING} ceiling: not written")
         pairs = s["entity"].nunique()
         header = [
-            "Energy Research Warehouse (ERW): EIA-930 hourly interchange between balancing authorities, every pair EIA reports",
+            "Energy Research Warehouse (ERW): EIA-930 hourly interchange, every directed pair EIA reports (balancing "
+            "authorities, EIA's regions and the Lower 48, and neighbours abroad)",
             "Shape: series (docs/datastandard.md v0), partition column ba (the reporting BA). One entity per pair, "
             "eia930:<FROM>-<TO>; x_to_ba is the neighbour. interchange_mw, MW, as EIA publishes it: positive when the "
             "reporting BA exports to the neighbour (docs/methods/grid_network.md). ts_utc is the hour's start.",

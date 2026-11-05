@@ -188,6 +188,32 @@ above says otherwise, this section is the newer one.
   The next sync brings a new daily table and leaves the monthly ones again: the two commands are needed after each.
 - **Other checkouts.** Seven worktrees beside the main one (`git worktree list`): `erw-184`, `erw-185`, `erw-185n`,
   `erw-191`, `erw-192`, `erw-193` (all merged) and `erw-200`.
+  A fresh worktree (session 503, 21 October 2026) has no `.venv`, no `site/node_modules`, no `.env`, no
+  `site/.env.local` and none of the files the build generates. Python: the main checkout's interpreter
+  (`.venv\Scripts\python.exe` of the main checkout). The site's packages: `npm ci` in `site/` (a junction to another
+  checkout's `node_modules` is refused by Turbopack). Keys: copy the main checkout's `.env` and, for a build or a
+  check against a local server, `site/.env.local` (never printed, never committed). Without `site/node_modules` every
+  test that runs node skips; with it, the generated `site/content/docs.json` and `site/content/waits.json` write
+  themselves: the alias loader (`site/scripts/alias-loader.mjs`) runs the script `npm run content` runs for a missing
+  one, once, and stops with an error naming `npm run content` if that script fails. `tsc --noEmit` needs the types
+  `next build` writes (`.next/types`): run it after a build. Tests that read `warehouse/output` skip where it is absent.
+  The whole suite in a fresh worktree of `wip/429-combined`, with `npm ci` done and nothing else, is session 503's
+  record.
+- **The build lock** (session 504). One heavy process at a time on a machine (a site build, the whole suite, a browser
+  check, Lighthouse): `python scripts/buildlock.py acquire <who>` waits until it is free (180 minutes by default, then
+  exit 1), `release <who>` frees it only for its holder, `status` says who holds it (exit 1 when held). The lock is
+  `runs/build.lock` in the main checkout, found from any worktree of it, holding "<who> <UTC time>" (the format of
+  chain 019's helper, so either honours the other); a lock older than 3 hours is taken as stale. It takes no path, so
+  Git Bash's `MSYS_NO_PATHCONV=1` cannot hide it.
+- **The landing gate** (session 579). `python scripts/land_check.py [--ref <branch>] [--task <name>] [--port 3700]`
+  runs the gate of a landing for one commit, each step its own process with its exit code read: freeze status,
+  origin/main merged, a trial merge with every remote `task/` branch in flight, the database probe, the build lock,
+  the whole suite in a clean worktree of the commit (no keys in its environment), `npm ci` and the build (stopped after
+  30 minutes, built once more if its log holds "statement timeout"), the page checks against it (check-values resumed
+  with `CHECK_VALUES_RESUME=1` on exit 3, at most three tries; the license holds' ten floors pass only when each page
+  shows "license needed"; check-routes, check-cross-checks, check-csp), and the server stopped by PID. One line a step
+  in `runs/land_check/<sha>.txt`. It ends by printing the snapshot, push and compare commands; it never pushes, never
+  takes a snapshot and never deletes a branch. Exit 0 every step passed, 1 one failed or the site is frozen, 2 bad input.
 - **A test's residue.** `warehouse/output/raw/madeup_as_prices/` (untracked, two files, 112 bytes) was made on
   11 October at 20:22 UTC, while session 198 ran the suite; session 200's run of the suite in a clean worktree made
   the same folder there. `scripts/raw_handover.py` names `tests/test_session85.py` as the writer of a folder of that
@@ -933,6 +959,18 @@ python scripts/duty.py check --dry-run
   words: it can list a line that no longer waits and miss one worded another way. The report is the record.
 - The page checks the internal cookie as the other `/internal` pages do (open `/internal/open` first), is linked from
   nothing, and answers 404 to a visitor.
+- **Each ruling once (session 414).** At the top of the page, the ledger of one run of sessions (`LEDGER` in
+  `build-waits.mjs`, 351 to the newest report present at the build since session 425, 351 to 413 before): every item of a section for him in those reports, listed once, under what it
+  blocks (money, a data pull, a ruling on a figure, a public page, or none of the four), with a count at the top and the
+  three that the state notes rank highest first. Fixed rules, no model, each printed on the page: two items of
+  different reports are one when they match one subject (`SUBJECTS`), or when one names the other's session and they
+  share three words, or when they share five words, 60 percent of the shorter's; an item that restates two items of
+  another report is kept beside each. The first rule of `BLOCK_RULES` that an item's words match places it. The rank
+  comes only from a note of `docs/state/` whose "Waiting for you" list says it is ranked by value ("highest value
+  first", "in the order of their value"), newest note first; a numbered list that does not say so is shown beside each
+  item and puts nothing first, and where no note ranks by value the page says so. A report that lands later joins at
+  the next build; the page names the sessions of the run whose reports it did not read. Its test:
+  `node site/scripts/test-waits-ledger.mjs` (`tests/test_session414.py`).
 
 ### The planner: the next chain, drafted from the roadmap (session 197)
 

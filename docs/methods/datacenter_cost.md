@@ -1,5 +1,7 @@
 # What a datacenter pays
 
+Tables: `texas_delivery_charges`, `texas_transmission_matrix`, `large_load_rules`, `large_load_rules_internal`
+
 The method of the page `/cost-of-power` ("What a datacenter pays", in review), the first tab of the cost of power
 beside "What a generator earns" and "What a battery earns". It answers four questions for a load the reader describes:
 what the power will cost, whether it will be there, how clean it is, and how soon it can be had.
@@ -10,6 +12,13 @@ The page's face carries no method. Everything about how a figure is made, and wh
 each figure of the page in page order with its inputs, formula, edge cases and a worked example, and offers the default
 case hour by hour as CSV with a Stata do-file. Where that note and this one differ, that note is the newer and is
 written from the code; its section 9 lists the differences.
+
+**The page as it stands, 21 October 2026** (session 462): one page in the battery page's layout (session 213), its
+sections in order "What will it pay?", "Will the power be there?", "How clean?", "How soon?", "Which option is
+better?" (scenarios A and B) and "What matters most", then the block "Decisions on this page" (every modelling choice
+with the session that made it: `datacenter_pays_algorithm.md`, section 12) and the source line. Passages below that
+name "With your contract" or the folds describe the page before session 213; the contract is two assumptions of each
+scenario, and the folds are the two CSV downloads.
 
 ## The reader's load
 
@@ -199,7 +208,7 @@ shape, a settlement point, collateral and a term that are not here.
 
 ### Scenarios A and B (session 194)
 
-After "With your contract" the page sets two scenarios side by side, as the battery page (session 179) and the
+After "What will it pay?" and the three answers (since session 213 there is no "With your contract"; the contract is two assumptions of each scenario) the page sets two scenarios side by side, as the battery page (session 179) and the
 generator page (session 186) do. Every formula is in
 [`datacenter_pays_algorithm.md`](datacenter_pays_algorithm.md), section 4.14; this is what the block is.
 
@@ -209,9 +218,10 @@ change of prices, an upfront cost per kW of the load's size, the years counted a
 defaults to "Your load"; power per GPU and the overhead ratio default to the two the page cites, 1.3 kW and 1.56
 (session 195: "Your load" no longer holds those two fields, scenario A does, and scenario A sets the page's three
 headline numbers; an older link's `gpu` and `pue` are read as the scenarios'). A scenario at its defaults shows the
-page's own headline numbers. Four defaults have no
-source in the repository and the page says so beside each: no change of prices, no upfront cost, 20 years, and a
-hurdle rate of 8 percent set equal to the interest rate of Lazard's cost cases. They are the owner's to confirm.
+page's own headline numbers. Three defaults have no
+source in the repository and the page says so beside each: no change of prices, no upfront cost and 20 years. The
+fourth, the cost of capital, was 8 percent here until the owner's ruling of 11 October 2026 (session 196): it is
+9.6 percent, Lazard's weighted cost of a power plant's builder, labelled "a generator's WACC, Lazard" (session 265).
 
 **The rows.** Market energy over the last twelve months; a year's cost; power per GPU-hour; a bad month; the hours off
 with the breakeven value of a GPU-hour (what the power not bought would have cost, per GPU-hour not run); the present
@@ -549,6 +559,12 @@ it. A row is what a document said on its date; a later order may have changed it
      under the nearest topic by the pass (Indiana 6, California 4, Arizona 2): kept, flagged, never among the ten
      rules of the month. 4 California rows are draft resolutions as posted for the agenda: their status reads
      "DRAFT" as the document words it and their status class is "not stated", since no adopted text was read.
+   - **Session 2564: as held on 25 October 2026** the two tables hold 117 rows (43 public, 74 internal; 49
+     proceedings, 68 orders): the 116 above and one order of the Public Utility Commission of Texas dated 15 October
+     2026, added by the daily refresh (`warehouse/connectors/policy_monitor_refresh.py`, session 157), whose sentence
+     is the docket list's own title line (`sentence_kind` `docket list`, and `row_flag` says so). The counts above
+     (87 document sentences, 29 records, the 4 untied docket numbers, the 12 single-customer rows, the 4 drafts)
+     were counted again from the tables that day and stand.
 2. The federal policy actions held in `policy_actions` that the tags' rule marks (`policy_action_tags`; method and
    the rule's measurement: [`policy_action_tags.md`](policy_action_tags.md)): large loads, interconnection,
    transmission cost, tax credits. The rule is a list of terms that code applies to the title and the abstract, with
@@ -738,3 +754,45 @@ zones' hours still stop at 3 October 2026. Since session 190 the same run export
 after it rebuilds these files.) New York's load queue is refreshed with the interconnection queues on Mondays. A build is merged into the kept files: an hour the new build holds is
 the new build's, an hour only the kept file holds is kept, so a machine with a shorter history (the scheduled runner
 holds no ERCOT price history) adds hours and never thins a file. A file is rewritten only when its content changes.
+
+## The figures on the page and their keys
+
+Each number `/cost-of-power` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `dc|` `sbg`: under "Will the power be there?", the two counts at the grid's hub (`HB_HUBAVG` in ERCOT, `TH_SP15_GEN-APND` in CAISO) over the page's twelve months, side by side: the hours whose real-time price was at or above the scarcity level and the hours the grid's own signal was in force, each with the hours held (`sbg:rt:hours`, `sbg:rt:held`, `sbg:own:hours`, `sbg:own:held`), from `scarcity_hours_by_grid` (`site/app/cost-of-power/LoadAnswers.tsx`, `site/lib/datacenter/answers.ts`).
+- `dcll|` `statements`, `mws`, `waits`, `entities`, `documents`: under "How soon?", the count of statements on large loads that public documents make for the load's grid, how many state megawatts and how many a wait, and the entities and documents they come from, counted from `large_load_public` and never summed across rows (`site/lib/datacenter/statements.ts`).
+- `dcll|` `wait` and `mw` (`wait:newest`, `mw:newest`): the newest wait as the table writes it (the key holds its first number) and the newest megawatt figure, each with who stated it, the day and the document.
+- `dcll|` `row` (`row:<statement_id>:mw` or `:wait`): each row's figure in the fold "Every public figure on large loads", its megawatts or the first number of its wait, one row a statement, under the grid's operator, its other entities and elsewhere in the state.
+- `ercot_4cp_intervals`, `cp4_load_mw`: in the fold of ERCOT's four summer peaks, each summer's four 15-minute intervals with ERCOT's load in MW, beside the flexible way's share of load in that interval's hour.
+- `node_basis_summary`, `dam_all_basis_p10`, `dam_all_basis_p50`, `dam_all_basis_p90`: in the fold "At a node" (ERCOT), each month's 10th percentile, median and 90th percentile of the resource nodes' day-ahead basis to the hub average, in USD per MWh. Not added to any figure.
+- `price_years_by_window`, `datacenter_flat_rt_year_<year>` (and `datacenter_flat_da_year_<year>` for a day-ahead buyer): the line under the scenarios that gives what a flat load paid at the site in its cheapest and its dearest whole year held, in USD per MWh.
+
+The view "Grid by grid" (`/cost-of-power?view=grids`, `site/app/cost-of-power/GridsView.tsx`):
+
+- `cost_of_power_monthly`, `rt_load_weighted`, `rt_simple_mean`, `rt_shape_premium`, `rt_hours`, `hours_in_month`: the table of the ranked month by ISO, each main hub's load-weighted real-time price, its simple mean, the shape premium (load-weighted less simple mean), and the hours held of the month's hours; and under the ERCOT chart the latest complete month's load-weighted price and shape premium and the dearest month since July 2018.
+- `cost_of_power_hourly_profile`, `rt_mean_h<hour>`: under each hub's heat grid, the cheapest and the dearest local hour of the newest month and its mean real-time price.
+- `cost_of_power_carbon`, `rt_load_weighted`: the load-weighted real-time price in the table "Cost against carbon", beside the carbon intensity of generation.
+- `cop|` `energy`: the calculator's energy in MWh at its defaults (MW times load factor times 24 times the days, times the share of hours run), for a flat load and for the cheapest 80 percent of hours.
+- `cop|` `flat_price`, `flat_cost`: a flat load's price, the hub's real-time simple mean in the ranked month, and its cost, that price times the flat energy.
+- `cop|` `cheap_price`, `cheap_cost`: the mean price of the cheapest 80 percent of the ranked month's hours (the hourly profile's hour-of-day cells ranked by price and taken by their hours, the last in part), and its cost, that price times the energy of those hours.
+
+## Cross-checks of the tool's defaults (session 426)
+
+Session 426, 21 October 2026. Roadmap item 2 asks each of the five tools for a table of its figures against published figures for the same quantity. Session 381's pack (`docs/reviews/packs/datacenter.md`, "Against roadmap item 2") found eight rows for this page, all in [`datacenter_pays_algorithm.md`](datacenter_pays_algorithm.md#cross-checks): EIA's industrial retail prices of Texas, California and New York (`eia_retail_electricity_prices`), three ICE day-ahead peak indexes in EIA's wholesale file, and, since session 462, the default cost of capital and years counted against the Annual Technology Baseline 2025 and Lazard's *Levelized Cost of Energy+* of June 2025. They are not repeated here. This table adds the figures of "Delivery and transmission charges, Texas" at the page's defaults (ERCOT, a flat load of 100 MW), each against the published figure it rests on and against the Commission's rate that a utility's transmission factor recovers.
+
+Every published figure below is one the page's own file holds with its document, address, page and the sentence it was read from (`site/data/datacenter/texas_delivery.json`, built 19 October 2026 at 09:38 UTC; the tariffs and the matrix as filed with the Public Utility Commission of Texas). No publisher was asked for anything by this session: the figures were in the repository with their pages, so the ten requests the session could have spent were not spent. "Gap" is ours less theirs, each rounded to the cent as the page shows it. A flat load's four summer peaks equal its megawatts, so a charge per 4CP kW a month becomes USD per MWh as the charge times 12 times 1,000 over 8,760 hours; a charge per 4CP kVA is read as per kW (a power factor of 1, the page's assumption).
+
+| The page's figure at its defaults | Key | Published figure | Source, page and date | Gap | Reason |
+|---|---|---|---|---|---|
+| Oncor, transmission: USD 8.58 per MWh | `dcd\|100\|oncor:transmission` | Transmission Cost Recovery Factor, transmission service: USD 6.260839 per 4CP kW a month, so 8.58 per MWh for a flat load | Oncor Electric Delivery, [Tariff for Retail Delivery Service](https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf.coredownload.pdf), page 98, effective 4 October 2026 | 0.00 | The page converts the tariff's own figure and adds nothing |
+| CenterPoint Energy Houston Electric, transmission: USD 6.92 per MWh | `dcd\|100\|centerpoint_energy_houston_electric:transmission` | Transmission Cost Recovery Factor: USD 5.04821 per 4CP kVA a month, so 6.92 per MWh | CenterPoint Energy Houston Electric, [Tariff for Retail Delivery Service](https://assets.centerpointenergy.com/api/public/content/houston-electric-tariff-for-retail-delivery-service.pdf), page 147, effective 1 September 2026 | 0.00 | The same; kVA read as kW |
+| AEP Texas, transmission: USD 8.16 per MWh | `dcd\|100\|aep_texas:transmission` | Transmission Cost Recovery Factor: USD 5.956038 per average 4CP kW a month, so 8.16 per MWh | AEP Texas, [Tariff for Retail Delivery Service](https://www.aeptexas.com/lib/docs/ratesandtariffs/Texas/AEP_TEXAS_TARIFF_Eff_Sept_29_2026v1.pdf), page 166, effective 29 September 2026 | 0.00 | The same |
+| Texas-New Mexico Power, transmission: USD 7.06 per MWh | `dcd\|100\|texas_new_mexico_power:transmission` | Transmission Cost Recovery Factor: USD 5.156858 per 4CP kVA a month, so 7.06 per MWh | Texas-New Mexico Power, [Retail Tariff](https://tnmp.com/sites/default/files/inline-images/TNMP%20Retail%20Tariff%20%2820251229%29_0.pdf), page 131, effective 1 September 2025 | 0.00 | The same; kVA read as kW; the oldest of the four factors |
+| Oncor, transmission: USD 8.58 per MWh | `dcd\|100\|oncor:transmission` | The Commission's ERCOT postage stamp rate for 2025: USD 68.547301 per kW a year, so 7.83 per MWh for a flat load | Public Utility Commission of Texas, [Docket No. 57491, item 51](https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF) (Commission Staff's Final Transmission Charge Matrix, filed 20 March 2025), attachment page 2, page 6 of the filed scan; approved by the Commission's order of 5 June 2025 (item 58) | +0.75 | A utility's factor recovers, over its own customers' four peaks, the wholesale transmission charges its area owes at the Commission's rate and the utility's own transmission costs, as its tariff sets them; the rate is ERCOT's average over all of ERCOT's four peaks. The two measure different things (the pack, part 4) |
+| CenterPoint Energy Houston Electric, transmission: USD 6.92 per MWh | `dcd\|100\|centerpoint_energy_houston_electric:transmission` | The same rate, 7.83 per MWh | the same | -0.91 | The same |
+| AEP Texas, transmission: USD 8.16 per MWh | `dcd\|100\|aep_texas:transmission` | The same rate, 7.83 per MWh | the same | +0.33 | The same |
+| Texas-New Mexico Power, transmission: USD 7.06 per MWh | `dcd\|100\|texas_new_mexico_power:transmission` | The same rate, 7.83 per MWh | the same | -0.77 | The same; the oldest factor of the four (effective 1 September 2025) |
+
+- Not compared: power per GPU (1.3 kW) and the facility overhead ratio (1.56). `site/lib/datacenter.ts` names their sources (NVIDIA's DGX H100 datasheet, 10.2 kW for 8 GPUs; the Uptime Institute's Global Data Center Survey 2024, 1.56) but the repository holds neither document's address or page, and this session read neither. A later session that reads them can add two rows: 1.3 against 10.2 / 8 = 1.275 (+0.025), and 1.56 against 1.56 (0).
+- Not compared, as session 381 found: a price stated by a datacenter's own filing or press release (none held); ERCOT's hubs and zones against ICE (EIA's 2026 file holds no ERCOT hub); a datacenter owner's own cost of capital (none held). The Commission's 2026 rate is filed but not approved (session 354), so the 2025 rate is the newest compared.
+- Distribution and the other riders are not compared: each is the tariff's own line converted the same way, and no published figure for the same quantity is held beside it.

@@ -92,7 +92,7 @@ HISTORIES="ercot_all_hub_prices_history ercot_zone_prices_history iso_zone_price
 ZONES=ercot_zone_prices_history
 PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtailment/shares.json
             site/data/curtailment/free_energy.json site/data/curtailment/worth.json
-            site/public/datacenter/erw_2026_datacenter_hourly.csv
+            site/public/datacenter/erw_2026_datacenter_hourly.csv site/public/datacenter/erw_2026_datacenter_carbon.csv
             site/public/battery/erw_2026_battery_dispatch.csv site/data/battery_scenario_steps.json
             site/data/merchant_snapshot.json site/data/seller/hubs site/public/seller/erw_2026_generator_hourly.csv
             site/data/seller/hybrid.json site/public/seller/prices
@@ -316,6 +316,11 @@ soft_step dm_publisher_figure "$PYTHON" warehouse/analysis/findings/publisher_fi
 # with their Newey-West errors and the round's line; one record line a card in warehouse/metadata/findings_recompute.csv.
 # A finding whose table is not here keeps its card; a step that fails puts the cards back as committed (below).
 soft_step dm_findings_recompute "$PYTHON" warehouse/analysis/findings/card_statistics.py --recompute
+# Session 489 (the landing, 21 October 2026): the cards' own tests, after the recompute. Its first committed run (c8aa37ff) moved
+# numbers that tests a landing must pass hold to the cards as built (sessions 173, 174, 182, 274 and 381), and every
+# task/ branch then failed its checks. A failing test puts the cards back as committed (below), as a page file's own
+# test does, until a person rules which gives way: the tests or the recompute.
+PYTHONPATH=tests soft_step dm_test_findings "$PYTHON" -m unittest test_session173 test_session174 test_session182 test_session274 test_session381
 
 # a file whose builder failed, or whose own test fails, is put back as the last commit has it: never a half-built file
 put_back() {  # put_back <step> <path...>
@@ -327,6 +332,7 @@ put_back() {  # put_back <step> <path...>
 }
 put_back dm_datacenter_page site/data/datacenter
 put_back dm_findings_recompute site/data/findings site/public/findings
+put_back dm_test_findings site/data/findings site/public/findings
 put_back dm_capture_price site/data/seller/capture.json
 put_back dm_curtailment_shares site/data/curtailment/shares.json
 put_back dm_free_energy site/data/curtailment/free_energy.json
@@ -356,6 +362,11 @@ fi
 # and its do-file (tests/test_session190_replication.py holds the CSV to those files). After the files are final:
 # a datacenter file put back above is the one exported. It reads no table and writes nothing but the CSV.
 soft_step dm_datacenter_export "$PYTHON" warehouse/derived/datacenter_hourly_export.py
+# Session 582: the carbon file beside it (the answer "How clean"), read from the live set with the public key. Until
+# now only a session wrote it, so its months and its hourly window fell behind the page's (on 22 October 2026 the
+# tonnes a year read 265,548 against the page's 265,549, and the window 10,160 hours against 10,141). It writes
+# nothing when a read fails.
+soft_step dm_datacenter_carbon "$PYTHON" site/scripts/write-datacenter-carbon.py
 
 # ---- 3b. the battery page's downloads, the generator page's builders and its hourly CSV (session 204) -----------------
 # Each through warehouse/scheduled.py (it skips with the reason where an input is not here), each a soft step. After

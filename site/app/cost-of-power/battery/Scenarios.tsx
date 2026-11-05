@@ -342,7 +342,7 @@ function StressRepeats({ peak }: { peak: Peak }) {
     <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2 border border-rule bg-paper px-3 py-2 text-sm" data-stress-repeats={s.view}>
       <span className="font-semibold">Stress test<Tip id="stress" label="the stress test">{SPECS.stress.source}. The peak event of this grid is {peak.label}: USD {num(peak.kw)} per kW in its window, from the stress table. A repeat is added to the market revenue of every year, {num(peak.kw / a.life)} per kW a year each at a life of {plain(a.life)} years, before the contract&apos;s share and after the degradation; coverage, which reads the last twelve months, does not move.</Tip></span>
       <label className="inline-flex items-center gap-2">scenario {s.view.toUpperCase()} repeats {peak.label}
-        <input type="number" inputMode="numeric" min={0} max={SPECS.stress.max} step={1} value={a.stress} data-assumption="stress" aria-label="Repeats of the peak stress event over the life" className="w-16 border border-muted bg-white px-2 py-1 text-sm"
+        <input type="number" autoComplete="off" inputMode="numeric" min={0} max={SPECS.stress.max} step={1} value={a.stress} data-assumption="stress" aria-label="Repeats of the peak stress event over the life" className="w-16 border border-muted bg-white px-2 py-1 text-sm"
           onChange={(e) => { const v = Number(e.target.value); if (e.target.value !== "" && Number.isFinite(v)) set(v); }} />
         {a.stress === 1 ? "time" : "times"} over its life
       </label>

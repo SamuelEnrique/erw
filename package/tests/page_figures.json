@@ -1,0 +1,65 @@
+{
+ "recorded_by": "session 1012 (chain 070), from a local build of wip/1011-packages in the internal view, 23 October 2026",
+ "figures": [
+  {
+   "page": "/grid/ercot",
+   "key": "series|eia930_all_demand|eia930:ERCO|demand_mw|2026-10-21T23:00:00+00:00",
+   "raw": "61145",
+   "backend": "live"
+  },
+  {
+   "page": "/grid/ercot",
+   "key": "series_max|eia930_all_demand|demand_mw|2026-10-21T00:00:00Z|2026-10-22T00:00:00Z|eia930:ERCO",
+   "raw": "63026",
+   "backend": "live"
+  },
+  {
+   "page": "/grid/ercot",
+   "key": "series_sum|eia930_all_generation|net_generation_mw|2026-10-21T00:00:00Z|2026-10-22T00:00:00Z|eia930:ERCO",
+   "raw": "1263288",
+   "backend": "live"
+  },
+  {
+   "page": "/grid/ercot",
+   "key": "series|carbon_intensity_hourly|eia930:ERCO|intensity_demand|2026-10-19T23:00:00+00:00",
+   "raw": "327.4974",
+   "backend": "live"
+  },
+  {
+   "page": "/grid/ercot",
+   "key": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-10-20T00:00:00+00:00",
+   "raw": "31650",
+   "backend": "live"
+  },
+  {
+   "page": "/grid/ercot",
+   "key": "series|price_board_latest|ercot:HB_HUBAVG|da_avg_30d|2026-10-22T00:00:00+00:00",
+   "raw": "38.8049",
+   "backend": "local"
+  },
+  {
+   "page": "/grid/ercot",
+   "key": "series|price_board_peak_offpeak|ercot:HB_HUBAVG|da_peak_mean|2026-10-22T00:00:00+00:00",
+   "raw": "35.3575",
+   "backend": "local"
+  },
+  {
+   "page": "/grid/ercot",
+   "key": "series|state_generation_mix_monthly|eia:US|net_generation_solar_mwh|2026-07-01T00:00:00+00:00",
+   "raw": "41411776.3",
+   "backend": "live"
+  },
+  {
+   "page": "/cost-of-power/battery",
+   "key": "series|node_basis_summary|ercot:HB_HUBAVG|dam_storage_hub_spread_4h|2026-09-01T00:00:00+00:00",
+   "raw": "52.3975",
+   "backend": "local"
+  },
+  {
+   "page": "/cost-of-power/battery",
+   "key": "series|price_years_by_window|ercot:HB_HUBAVG|battery_foresight_4h_year_2025|2025-01-01T00:00:00+00:00",
+   "raw": "87.439609",
+   "backend": "local"
+  }
+ ]
+}

@@ -30,6 +30,23 @@ class ERWDataNotFound(FileNotFoundError):
     """The data directory, or a table in it, does not exist."""
 
 
+class ERWLicenseHeld(PermissionError):
+    """Session 1001 (docs/methods/packages.md): a table whose ERW verdict is not public, asked for where the ERW would
+    be serving it (Redivis, the live set). The message is the license's words."""
+
+
+class ERWLicenseWarning(UserWarning):
+    """Session 1001: a table whose ERW verdict is not public, read from local files (the reader's own copy, under its
+    own license). The message is the license's words."""
+
+
+def not_found(name: str, names) -> str:
+    """Session 1013: errors.WORDS["not_found"], with the tables of a close name (difflib)."""
+    import difflib
+    from . import errors
+    return errors.say("not_found", table=name, near=errors.near(difflib.get_close_matches(name, list(names), n=3, cutoff=0.6)))
+
+
 class Backend(ABC):
     """What any ERW storage backend must provide.
 
@@ -63,6 +80,15 @@ class Backend(ABC):
     @abstractmethod
     def describe(self) -> str:
         """One line saying where the data comes from."""
+
+    def columns(self, name: str) -> List[str]:
+        """Session 1001: the table's column names in its own order. A backend that can say them without reading the
+        rows overrides this."""
+        return list(self.read_table(name)[1].columns)
+
+    def titles(self) -> Dict[str, str]:
+        """Session 1001: {table: its provenance header's title}, where the backend can say them cheaply; else {}."""
+        return {}
 
 
 def _default_data_dir() -> Path:
@@ -102,9 +128,7 @@ class LocalBackend(Backend):
     def _path(self, name: str) -> Path:
         path = self.data_dir / f"{name}.csv"
         if not path.is_file():
-            raise ERWDataNotFound(
-                f"No ERW table named {name!r} in {self.data_dir}. "
-                f"Available: {', '.join(self.list_tables())}")
+            raise ERWDataNotFound(not_found(name, self.list_tables()))   # session 1013: the one sentence
         return path
 
     def list_tables(self) -> List[str]:
@@ -143,6 +167,35 @@ class LocalBackend(Backend):
                          na_values=[], encoding="utf-8")
         self._cache[name] = (mtime, header, df)
         return list(header), df.copy()
+
+    def header(self, name: str) -> List[str]:
+        """The table's provenance header lines, without reading its rows."""
+        out = []
+        with open(self._path(name), encoding="utf-8") as f:
+            for line in f:
+                if not line.startswith("#"):
+                    break
+                out.append(line.rstrip("\r\n")[1:].lstrip(" ") if line.startswith("# ") else line.rstrip("\r\n")[1:])
+        return out
+
+    def columns(self, name: str) -> List[str]:
+        """Session 1001: the header row, without reading the rows."""
+        import csv
+        with open(self._path(name), encoding="utf-8") as f:
+            for line in f:
+                if not line.startswith("#"):
+                    return next(csv.reader([line]))
+        return []
+
+    def titles(self) -> Dict[str, str]:
+        """Session 1001: each table's title, from the first lines of each file."""
+        out = {}
+        for t in self.list_tables():
+            for h in self.header(t):
+                if h.startswith("Energy Research Warehouse (ERW):"):
+                    out[t] = h.split(":", 1)[1].strip()
+                    break
+        return out
 
     def _coverage_csv(self) -> Path:
         env = os.environ.get("ERW_COVERAGE_CSV")

@@ -80,7 +80,7 @@ export default async function LearnBill() {
         </p>
         <p className="text-muted">
           For learning, not a bill: the rates are the tariffs&apos; as read on 2026-09-30 (PG&amp;E, Oncor) and 2026-10-01 (SCE, SDG&amp;E, CenterPoint), taxes and local fees are not included, and your usage and plan
-          differ. Wholesale prices: <Link href="/cost-of-power">cost of power</Link>. The grids: <Link href="/grid/caiso">CAISO</Link>, <Link href="/grid/ercot">ERCOT</Link>.
+          differ. Wholesale prices: <Link href="/cost-of-power">cost of power</Link>. The grids: <Link href="/grid?grid=caiso">CAISO</Link>, <Link href="/grid?grid=ercot">ERCOT</Link>.
         </p>
       </div>
 

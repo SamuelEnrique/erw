@@ -1,0 +1,310 @@
+# Energy Research Warehouse (ERW): 30 questions for Ask (/api/ask) a lab's energy team would ask, session 1114 (the chain of 23 October 2026).
+# Ten from a power trading lead (t), ten from an infrastructure-finance lead (f), ten from a policy lead (p); grids ERCOT, CAISO and SPP and
+# national series only (no ISO-NE, NYISO or MISO row is a key: they are held for a license; PJM is not held). Every expected number was computed
+# before any model call from the live set (Supabase, the series view, the anon key, reads only) on 2026-10-23 by expected_s1114.py, which
+# writes this file; each note names the table, the entity, the variable, the period and the aggregation. A difference lists the difference first
+# and its two parts after. Monthly and daily rows are the publisher's local months and days as the tables write them; an hourly aggregate is over
+# ts_utc (UTC hour starts), as its note says. `via` as in questions_s302.yaml (grid: the grid's scoped chat; general: no grid). tolerance:
+# 0.01 under 1,000, 0.5 from 1,000. `tables` lists every live-set table found holding the figure (checked, see each note).
+today: '2026-10-23'
+questions:
+- id: t01
+  grid: SPP
+  via: grid
+  question: "What was the simple average day-ahead price at SPP's North hub in September 2026 (the local calendar month), in USD per MWh?"
+  expected: [36.2065]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly", "price_board_spreads"]
+  refuse: false
+  note: "cost_of_power_monthly, spp:SPPNORTH_HUB, da_simple_mean: 2026-09; price_board_spreads (spp:SPPNORTH_HUB, da_daily_mean, the mean of the 30 daily values (each the publisher's local operating day, ts_utc the day at 00:00Z) 2026-09-01 to 2026-09-30) holds the same figure, 36.2065; checked whole: da_hours = hours_in_month"
+- id: t02
+  grid: ERCOT
+  via: grid
+  question: "What was the average of the daily indicative spark spreads at ERCOT's hub average (the day-ahead daily mean less 7.0 MMBtu/MWh times Henry Hub) over the 30 operating days of September 2026, in USD per MWh?"
+  expected: [18.1495]
+  tolerance: 0.01
+  text: []
+  tables: ["price_board_spreads"]
+  refuse: false
+  note: "price_board_spreads, ercot:HB_HUBAVG, spark_spread_7: the mean of the 30 daily values (each the publisher's local operating day, ts_utc the day at 00:00Z) 2026-09-01 to 2026-09-30"
+- id: t03
+  grid: ERCOT
+  via: grid
+  question: "What was the mean day-ahead clearing price of ERCOT's Regulation Up service in September 2026 (the Central-time month), in USD per MW per hour?"
+  expected: [1.8383]
+  tolerance: 0.01
+  text: []
+  tables: ["ercot_as_prices_monthly", "ercot_as_prices", "ercot_as_prices_daily"]
+  refuse: false
+  note: "ercot_as_prices_monthly, ercot:REGUP, mcpc_dam_mean: 2026-09; ercot_as_prices (ercot:REGUP, mcpc_dam, the mean of the 720 hourly values whose hour starts in 2026-09 on the America/Chicago clock) holds the same figure, 1.8382; ercot_as_prices_daily (ercot:REGUP, mcpc_dam_mean, the mean of the 30 daily values (each the publisher's local operating day, ts_utc the day at 00:00Z) 2026-09-01 to 2026-09-30) holds the same figure, 1.8383; checked whole: mcpc_dam_hours = mcpc_dam_hours_in_month"
+- id: t04
+  grid: ERCOT
+  via: grid
+  question: "Which calendar month of 2025 (Central time) had the highest single 15-minute real-time price at ERCOT's hub average, and what was that price, in USD per MWh?"
+  expected: [3553.1]
+  tolerance: 0.5
+  text: ["April"]
+  tables: ["ercot_peak_premium_monthly"]
+  refuse: false
+  note: "ercot_peak_premium_monthly, ercot:HB_HUBAVG, all_max: the largest of the 12 monthly values 2025-01 to 2025-12, April 2025"
+- id: t05
+  grid: ERCOT
+  via: grid
+  question: "How many 15-minute real-time intervals at ERCOT's hub average had a price at or below zero from January to September 2026 (the nine Central-time months summed)?"
+  expected: [609.0]
+  tolerance: 0.01
+  text: []
+  tables: ["ercot_peak_premium_monthly"]
+  refuse: false
+  note: "ercot_peak_premium_monthly, ercot:HB_HUBAVG, n_negative: the sum of the 9 monthly values 2026-01 to 2026-09"
+- id: t06
+  grid: ERCOT
+  via: general
+  question: "In September 2026, how much higher or lower was the simple average day-ahead price at ERCOT's hub average than at CAISO's SP15 hub, in USD per MWh?"
+  expected: [-1.9709, 38.7972, 40.7681]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly: ercot:HB_HUBAVG da_simple_mean 2026-09 (38.7972) less caiso:TH_SP15_GEN-APND da_simple_mean 2026-09 (40.7681), the difference first and its two parts after; checked whole: da_hours = hours_in_month, da_hours = hours_in_month"
+- id: t07
+  grid: CAISO
+  via: grid
+  question: "What was the mean of the hourly day-ahead prices at CAISO's SP15 hub over the 336 hours starting 1 October 2026 00:00 UTC through the hour starting 14 October 2026 23:00 UTC, in USD per MWh?"
+  expected: [51.2609]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  note: "iso_dam_hub_prices, caiso:TH_SP15_GEN-APND, lmp_dam: the mean of the 336 hourly values whose ts_utc (the hour's start, UTC) falls from 2026-10-01T00:00 to 2026-10-14T23:00, both included"
+- id: t08
+  grid: CAISO
+  via: grid
+  question: "On which operating day of September 2026 was the daily indicative spark spread at CAISO's SP15 hub (day-ahead daily mean less 7.0 MMBtu/MWh times Henry Hub) lowest, and what was it, in USD per MWh?"
+  expected: [8.5077]
+  tolerance: 0.01
+  text: ["September 3"]
+  tables: ["price_board_spreads"]
+  refuse: false
+  note: "price_board_spreads, caiso:TH_SP15_GEN-APND, spark_spread_7: the smallest of the 30 daily values (each the publisher's local operating day, ts_utc the day at 00:00Z) 2026-09-01 to 2026-09-30, September 3, 2026"
+- id: t09
+  grid: ERCOT
+  via: grid
+  question: "Which month of 2025 had the highest mean day-ahead price for ERCOT Contingency Reserve Service (ECRS), and what was that monthly mean, in USD per MW per hour?"
+  expected: [5.6428]
+  tolerance: 0.01
+  text: ["May"]
+  tables: ["ercot_as_prices_monthly"]
+  refuse: false
+  note: "ercot_as_prices_monthly, ercot:ECRS, mcpc_dam_mean: the largest of the 12 monthly values 2025-01 to 2025-12, May 2025; checked whole: mcpc_dam_hours = mcpc_dam_hours_in_month"
+- id: t10
+  grid: ERCOT
+  via: grid
+  question: "In September 2026, by how much did the simple average real-time price at ERCOT's hub average differ from the simple average day-ahead price (real-time less day-ahead), in USD per MWh?"
+  expected: [-0.4098, 38.3874, 38.7972]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly: ercot:HB_HUBAVG rt_simple_mean 2026-09 (38.3874) less ercot:HB_HUBAVG da_simple_mean 2026-09 (38.7972), the difference first and its two parts after; checked whole: rt_hours = hours_in_month, da_hours = hours_in_month"
+- id: f01
+  grid: ERCOT
+  via: grid
+  question: "For a 4-hour battery at ERCOT's hub average with perfect foresight, what was the total revenue (energy plus ancillary services) summed over January to September 2026, in USD per MW?"
+  expected: [60185.5515]
+  tolerance: 0.5
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, ercot:HB_HUBAVG, foresight_4h_revenue_total_usd_per_mw: the sum of the 9 monthly values 2026-01 to 2026-09; checked whole: foresight_4h_days_left_out = 0"
+- id: f02
+  grid: CAISO
+  via: grid
+  question: "What did a 4-hour battery at CAISO's SP15 hub earn in total on the day-ahead strategy in September 2026, in USD per MW?"
+  expected: [6321.4755]
+  tolerance: 0.5
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, caiso:TH_SP15_GEN-APND, dayahead_4h_revenue_total_usd_per_mw: 2026-09; checked whole: dayahead_4h_days_left_out = 0"
+- id: f03
+  grid: ERCOT
+  via: grid
+  question: "How much did solar at ERCOT's hub average earn per MW over the twelve months from October 2025 to September 2026 (the monthly revenues per MW summed), in USD per MW?"
+  expected: [59852.2646]
+  tolerance: 0.5
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, ercot:HB_HUBAVG, solar_revenue_per_mw: the sum of the 12 monthly values 2025-10 to 2026-09"
+- id: f04
+  grid: SPP
+  via: grid
+  question: "Which month of 2025 was best for wind at SPP's North hub by revenue per MW, and how much did wind earn that month, in USD per MW?"
+  expected: [8181.9118]
+  tolerance: 0.5
+  text: ["December"]
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, spp:SPPNORTH_HUB, wind_revenue_per_mw: the largest of the 12 monthly values 2025-01 to 2025-12, December 2025"
+- id: f05
+  grid: ERCOT
+  via: grid
+  question: "How many MW of battery storage were operating in ERCOT as of August 2026?"
+  expected: [18204.5]
+  tolerance: 0.5
+  text: []
+  tables: ["storage_buildout_monthly", "storage_owners_monthly"]
+  refuse: false
+  note: "storage_buildout_monthly, iso:ercot, battery_operating_mw: 2026-08; storage_owners_monthly (iso:ercot, ercot_operating_mw, 2026-08) holds the same figure, 18204.5"
+- id: f06
+  grid: ERCOT
+  via: grid
+  question: "By how many MW did ERCOT's operating battery storage capacity change from August 2025 to August 2026?"
+  expected: [7158.9, 18204.5, 11045.6]
+  tolerance: 0.5
+  text: []
+  tables: ["storage_buildout_monthly"]
+  refuse: false
+  note: "storage_buildout_monthly: iso:ercot battery_operating_mw 2026-08 (18204.5) less iso:ercot battery_operating_mw 2025-08 (11045.6), the difference first and its two parts after; the same table's battery_operating_mw_net_added_12m for 2026-08 holds the same figure, 7158.9"
+- id: f07
+  grid: CAISO
+  via: grid
+  question: "What was the average duration of CAISO's operating battery fleet in August 2026, in MWh of energy per MW of power?"
+  expected: [3.4584]
+  tolerance: 0.01
+  text: []
+  tables: ["storage_buildout_monthly"]
+  refuse: false
+  note: "storage_buildout_monthly, iso:caiso, battery_operating_mwh_per_mw: 2026-08"
+- id: f08
+  grid: CAISO
+  via: grid
+  question: "Over calendar year 2025, how much did a 4-hour battery at CAISO's SP15 hub earn per MW on the generator page's rule (the twelve monthly revenues per MW summed), in USD per MW?"
+  expected: [53372.6944]
+  tolerance: 0.5
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, caiso:TH_SP15_GEN-APND, battery_4h_revenue_per_mw: the sum of the 12 monthly values 2025-01 to 2025-12"
+- id: f09
+  grid: ERCOT
+  via: general
+  question: "In August 2026, how much more or less did a 4-hour battery with perfect foresight earn in total at ERCOT's hub average than at CAISO's SP15 hub, in USD per MW?"
+  expected: [-3369.6241, 7503.0147, 10872.6388]
+  tolerance: 0.5
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly: ercot:HB_HUBAVG foresight_4h_revenue_total_usd_per_mw 2026-08 (7503.0147) less caiso:TH_SP15_GEN-APND foresight_4h_revenue_total_usd_per_mw 2026-08 (10872.6388), the difference first and its two parts after; checked whole: foresight_4h_days_left_out = 0, foresight_4h_days_left_out = 0"
+- id: f10
+  grid: ERCOT
+  via: grid
+  question: "Over the twelve months from October 2025 to September 2026, which month had the lowest solar capture rate at ERCOT's hub average, and what was that rate, as a percent of the flat price?"
+  expected: [41.9635]
+  tolerance: 0.01
+  text: ["January", "2026"]
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, ercot:HB_HUBAVG, solar_capture_rate: the smallest of the 12 monthly values 2025-10 to 2026-09, January 2026"
+- id: p01
+  grid: ERCOT
+  via: grid
+  question: "What was the carbon intensity of ERCOT's generation in September 2026, in kg of CO2 per MWh?"
+  expected: [340.3504]
+  tolerance: 0.01
+  text: []
+  tables: ["carbon_intensity_monthly"]
+  refuse: false
+  note: "carbon_intensity_monthly, eia930:ERCO, intensity_generation: 2026-09"
+- id: p02
+  grid: US48
+  via: general
+  question: "What was the average of the nine monthly carbon intensities of US Lower 48 demand from January to September 2026, in kg of CO2 per MWh?"
+  expected: [328.4324]
+  tolerance: 0.01
+  text: []
+  tables: ["carbon_intensity_monthly"]
+  refuse: false
+  note: "carbon_intensity_monthly, eia930:US48, intensity_demand: the mean of the 9 monthly values 2026-01 to 2026-09"
+- id: p03
+  grid: CAISO
+  via: grid
+  question: "How many MWh of solar did CAISO curtail in total from January to September 2026 (the nine monthly totals summed)?"
+  expected: [4790395.31]
+  tolerance: 0.5
+  text: []
+  tables: ["iso_curtailment_monthly"]
+  refuse: false
+  note: "iso_curtailment_monthly, caiso:ISO, curtailed_solar_mwh: the sum of the 9 monthly values 2026-01 to 2026-09"
+- id: p04
+  grid: SPP
+  via: grid
+  question: "Which month of 2025 had the most wind curtailment in SPP, and how many MWh of wind were curtailed that month?"
+  expected: [2381248.284]
+  tolerance: 0.5
+  text: ["March"]
+  tables: ["iso_curtailment_monthly"]
+  refuse: false
+  note: "iso_curtailment_monthly, spp:SPP, curtailed_wind_mwh: the largest of the 12 monthly values 2025-01 to 2025-12, March 2025"
+- id: p05
+  grid: ERCOT
+  via: general
+  question: "How many MWh did wind generate in Texas in August 2026, by EIA's monthly state net generation figures?"
+  expected: [11224948.95]
+  tolerance: 0.5
+  text: []
+  tables: ["state_generation_mix_monthly"]
+  refuse: false
+  note: "state_generation_mix_monthly, eia:TX, net_generation_wind_mwh: 2026-08"
+- id: p06
+  grid: CAISO
+  via: general
+  question: "How many MWh of solar did California generate over calendar year 2025, by EIA's monthly state net generation figures (the twelve months summed)?"
+  expected: [54887978.4]
+  tolerance: 0.5
+  text: []
+  tables: ["state_generation_mix_monthly"]
+  refuse: false
+  note: "state_generation_mix_monthly, eia:CA, net_generation_solar_mwh: the sum of the 12 monthly values 2025-01 to 2025-12"
+- id: p07
+  grid: ERCOT
+  via: general
+  question: "What were total retail electricity sales in Texas, all sectors, in August 2026, in MWh?"
+  expected: [54795756.05]
+  tolerance: 0.5
+  text: []
+  tables: ["eia_retail_sales_monthly"]
+  refuse: false
+  note: "eia_retail_sales_monthly, eia:retail_sales:TX:ALL, retail_sales: 2026-08"
+- id: p08
+  grid: ERCOT
+  via: general
+  question: "By how many MWh did Texas commercial-sector retail electricity sales change from August 2025 to August 2026?"
+  expected: [1313585.62, 18258307.58, 16944721.96]
+  tolerance: 0.5
+  text: []
+  tables: ["eia_retail_sales_monthly"]
+  refuse: false
+  note: "eia_retail_sales_monthly: eia:retail_sales:TX:COM retail_sales 2026-08 (18258307.58) less eia:retail_sales:TX:COM retail_sales 2025-08 (16944721.96), the difference first and its two parts after"
+- id: p09
+  grid: US48
+  via: general
+  question: "What was the highest hourly demand in the US Lower 48 over the hours starting 1 October 2026 00:00 UTC through 21 October 2026 23:00 UTC, in MW, and on which day (UTC) did it occur?"
+  expected: [590310.0]
+  tolerance: 0.5
+  text: ["October 13"]
+  tables: ["eia930_all_demand"]
+  refuse: false
+  note: "eia930_all_demand, eia930:US48, demand_mw: the largest of the 504 hourly values whose ts_utc (the hour's start, UTC) falls from 2026-10-01T00:00 to 2026-10-21T23:00, both included, October 13, 2026, hour starting 21:00 UTC"
+- id: p10
+  grid: US48
+  via: general
+  question: "What was the average Henry Hub natural gas spot price over the trading days of September 2026, in USD per MMBtu?"
+  expected: [2.9486]
+  tolerance: 0.01
+  text: []
+  tables: ["eia_fuel_spot_prices", "price_board_spreads"]
+  refuse: false
+  note: "eia_fuel_spot_prices, eia:henry_hub, spot_price: the mean of the 22 trading-day (Monday to Friday) values 2026-09-01 to 2026-09-30; price_board_spreads (eia:henry_hub, henry_hub, the mean of the 22 trading-day (Monday to Friday) values 2026-09-01 to 2026-09-30) holds the same figure, 2.9486"

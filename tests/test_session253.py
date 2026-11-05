@@ -157,7 +157,8 @@ class TheNote(unittest.TestCase):
         page = src("site", "app", "cost-of-power", "seller", "page.tsx")
         # session 257 edited the page's count, as this session's list said (10 to 20); the peaker's rule is as it was
         # session 298 (the owner's rulings 1a and 6a of 18 October 2026): 21 with Potomac Economics; the peaker's rule counts the carbon cost of the fuel
-        self.assertIn('<span data-checked-against="21">Checked against: 21 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab, Potomac Economics).', page)
+        # session 463: 34, with thirteen rows of session 448 (Lazard, the ATB)
+        self.assertIn('<span data-checked-against="34">Checked against: 34 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab, Potomac Economics).', page)
         self.assertIn("const c = (g + (s.co2?.[i] ?? 0)) * hr + vom;", src("site", "lib", "merchant.ts"))
 
     def test_no_em_dash_in_what_the_session_wrote(self):

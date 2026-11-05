@@ -181,7 +181,7 @@ export function Monthly({ rows, st }: { rows: SeriesRow[]; st: string }) {
             {present.map((f) => (
               <tr key={f.key} className="border-b border-rule/60">
                 <td className="py-1 pr-3">
-                  <span className="mr-1 inline-block h-2.5 w-2.5 rounded-sm" style={{ background: f.color }} />
+                  <span className="mr-1 inline-block h-2.5 w-2.5" style={{ background: f.color }} />
                   {f.label}
                 </td>
                 {cols.map((c) => {

@@ -17,6 +17,18 @@ dataset: energy_research_warehouse
 dataset_internal: energy_research_warehouse_internal
 token_env: REDIVIS_API_TOKEN
 
+# Session 661 (chain 043, the owner's instruction of 22 October 2026): the Stanford dataset, Datapages's `erw` (Redivis
+# reference b9wm, https://stanford.redivis.com/datasets/b9wm-3hb080mtm). upload.py --target stanford writes its draft with
+# the same token (REDIVIS_API_TOKEN; Redivis answers accessLevel edit for it, session 660), its own manifest, and only the
+# tables whose ERW verdict in docs/licenses.md is public. It has no internal dataset. The default above, the daily run's,
+# is unchanged until the owner rules (docs/reviews/redivis-v1-plan-2026-10-23.md).
+targets:
+  stanford:
+    owner: datapages
+    owner_kind: organization
+    dataset: erw:b9wm
+    manifest: warehouse/metadata/redivis_uploads_stanford.csv
+
 # Session 305: Redivis allows 100 GB of exports (downloads) in 30 days, and from 15 October 2026 refused every one: the
 # daily run's restore took about 2.5 GB a run. A scheduled job now takes its tables from GitHub's cache and the archive
 # (warehouse/restore_tables.py) and asks Redivis only last, and only while the day's exports, all machines together

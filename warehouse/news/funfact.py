@@ -150,6 +150,10 @@ def coverage(text, spans, extra=""):
     return 1 - len(missing) / max(1, len(words)), missing
 
 
+GRAVE = re.compile(r"\b(?:killed|killing|kills|deaths?|dead|died|dies|fatal\w*|disasters?|catastroph\w*|"
+                   r"casualt\w*|injur\w*|lives\s+of|lost\s+(?:their|his|her)\s+lives|massacre\w*|tragedy|tragic)\b", re.I)
+
+
 def check_record(r):
     """The reasons a bank row or an item fails, [] if it passes. r has fact, second, structure,
     conjecture and sources: [{part: fact|second, label, url, raw, span, retrieved_at}]."""
@@ -160,6 +164,11 @@ def check_record(r):
         return ["no fact"]
     if EM in fact + second:
         problems.append("em dash")
+    # session 470 (digest audit fix 11): on 14 October the second half was a colliery disaster that killed 439 miners,
+    # under the heading "Fun Fact"; deaths and disasters are not a fun fact, whatever the structure
+    grave = GRAVE.search(fact + " " + second)
+    if grave:
+        problems.append(f"deaths or a disaster are not a fun fact ({grave.group(0)!r})")
     srcs = r["sources"] if isinstance(r["sources"], list) else json.loads(r["sources"] or "[]")
     by_part = {"fact": [], "second": []}
     for s in srcs:

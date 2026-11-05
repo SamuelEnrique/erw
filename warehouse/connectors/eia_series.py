@@ -23,9 +23,11 @@ domain (credit: U.S. Energy Information Administration).
 | eia_state_generation_monthly | electricity/electric-power-operational-data | monthly | MWh, from thousand MWh x 1000 (session 18) |
 | eia_retail_sales_monthly     | electricity/retail-sales | monthly | MWh, from million kWh x 1000; count (session 18) |
 | eia_sector_energy_consumption_monthly | total-energy (MER tables 2.3, 2.4) | monthly | TBtu (session 18) |
+| eia_primary_energy_monthly   | total-energy (MER tables 1.1, 1.2, 1.3) | monthly | TBtu (session 953) |
 
 Session 18 (tools 21 and 23): generation by state and energy source (Form EIA-923, every
-state, EIA's census regions and the US, all sectors, sectorid 99) for the energy mix
+state, DC, Puerto Rico from 2016, EIA's census regions and the US, all sectors, sectorid 99)
+for the energy mix
 explorer, with the energy sources that partition EIA's "all fuels" total (ALL = COW + PET +
 NG + OOG + NUC + HYC + HPS + WND + SUN + GEO + BIO + OTH, checked for Texas, July 2026, to
 the published digit) and DPV, EIA's estimate of small-scale solar, which ALL leaves out; retail
@@ -55,8 +57,12 @@ lists must carry a number; a date listed without a value is an omitted
 observation and is logged; a table is written only if its newest date is
 recent (daily 10 days, weekly 21 days, monthly 150 days: EIA's monthly trade
 data lag about three months). A series whose unit is not the expected one
-fails the table. Every run replaces each table's full history, so EIA
-revisions are picked up. The key comes from EIA_API_KEY.
+fails the table. Every run asks for each table's full history and merges it on
+(entity, variable, ts_utc) (ip.write_csv), so EIA revisions are picked up and a row EIA
+stops giving is kept from an earlier run (session 865 corrected the tables' header line;
+session 2004 this description). A part asked by series id stops the table when EIA returns
+nothing for one of them; a part asked by facet (the MER's msn) stops it only when the whole
+route returns nothing. The key comes from EIA_API_KEY.
 """
 
 import argparse
@@ -90,6 +96,20 @@ GEN_FUELS = ["ALL", "COW", "PET", "NG", "OOG", "NUC", "HYC", "HPS", "WND", "SUN"
              "OTH", "DPV"]
 MER_SERIES = ["TEICBUS", "TNICBUS", "ESICBUS", "LOICBUS", "NNICBUS", "PAICBUS", "CLICBUS", "REICBUS",
               "TECCBUS", "TNCCBUS", "ESCCBUS", "NNCCBUS", "PACCBUS", "RECCBUS"]
+# session 953: the two MER tables share the source row eia:total-energy, so one report names both (a run of either
+# would otherwise write its own over the other's)
+MER_REPORT = ("Monthly Energy Review, tables 1.1 to 1.3 (primary energy: eia_primary_energy_monthly) and 2.3 and 2.4 "
+              "(commercial and industrial energy consumption: eia_sector_energy_consumption_monthly)")
+# session 953: the Monthly Energy Review's Tables 1.1 (the primary energy overview), 1.2 (production by source) and 1.3
+# (consumption by source), each series with its variable; nuclear, hydro, geothermal, solar and wind are one series each,
+# EIA's "Consumption/Production", in both tables
+MER_PRIMARY = {"FFPRBUS": "production", "REPRBUS": "production", "TEPRBUS": "production", "CLPRBUS": "production",
+               "NGPRBUS": "production", "PAPRBUS": "production", "NLPRBUS": "production", "BMPRBUS": "production",
+               "TEIMBUS": "imports", "TEEXBUS": "exports", "TENIBUS": "net_imports", "TEAJBUS": "stock_change_and_other",
+               "FFTCBUS": "consumption", "RETCBUS": "consumption", "TETCBUS": "consumption", "CLTCBUS": "consumption",
+               "NNTCBUS": "consumption", "PMTCBUS": "consumption", "BMTCBUS": "consumption",
+               "NUETBUS": "consumption_production", "HVTCBUS": "consumption_production", "GETCBUS": "consumption_production",
+               "SOTCBUS": "consumption_production", "WYTCBUS": "consumption_production"}
 STALE = {"daily": 10, "weekly": 21, "monthly": 150}
 FREQ = {"daily": "P1D", "weekly": "P1W", "monthly": "P1M"}
 LNG_TERMINALS = ["SPL", "CRP", "CAM", "FPT", "CCPL", "PLAQ", "CPT", "ELBA", "GPT"]
@@ -186,7 +206,7 @@ TABLES = {
         note="Conversion: EIA reports thousand megawatthours; value = EIA value x 1000 (MWh), exact. "
              "Sector 99 (all sectors). Energy sources: ALL (all fuels) = COW + PET + NG + OOG + NUC + "
              "HYC + HPS + WND + SUN + GEO + BIO + OTH; DPV (estimated small-scale solar) is not in ALL. "
-             "Locations: states, DC, EIA's census regions (geo empty) and US."),
+             "Locations: states, DC, Puerto Rico (from 2016), EIA's census regions (geo empty) and US."),
     # session 18: consumption by sector (tool 23)
     "eia_retail_sales_monthly": dict(
         parts=[dict(route="electricity/retail-sales", data="sales", facets=[],
@@ -212,10 +232,22 @@ TABLES = {
                     units_col="unit", sort=("msn",))],
         freq="monthly", geo="US",
         title="EIA Monthly Energy Review: industrial and commercial sector energy consumption, monthly, TBtu",
-        report="Monthly Energy Review, tables 2.3 (commercial) and 2.4 (industrial) energy consumption",
+        report=MER_REPORT,
         page="https://www.eia.gov/totalenergy/data/monthly/",
         variable=lambda unit: "energy_consumption",
         note="Units: trillion British thermal units (TBtu), as EIA publishes them."),
+    "eia_primary_energy_monthly": dict(
+        parts=[dict(route="total-energy", facets=[("msn", m) for m in MER_PRIMARY],
+                    series_of=lambda r: r["msn"], describe=lambda r: r["seriesDescription"],
+                    units_col="unit", sort=("msn",))],
+        freq="monthly", geo="US",
+        title="EIA Monthly Energy Review: U.S. primary energy production, imports, exports and consumption, in all and by source, monthly, TBtu (session 953)",
+        report=MER_REPORT,
+        page="https://www.eia.gov/totalenergy/data/monthly/",
+        variable_of=MER_PRIMARY,
+        note="Units: trillion British thermal units (TBtu), as EIA publishes them. Variables: production, imports, exports, net_imports, "
+             "stock_change_and_other, consumption; consumption_production for nuclear, hydro, geothermal, solar and wind, which EIA gives "
+             "as one series in both tables. Totals hold their parts: a sum takes one level."),
 }
 
 
@@ -296,7 +328,8 @@ def build(name, cfg, key, run_id, log):
         raise RuntimeError(f"{name}: EIA lists a (series, period) more than once")
     value = pd.to_numeric(df["value"], errors="coerce")
     text = df["value"].astype(str).str.strip()
-    nonnum = df[value.isna() & df["value"].notna() & (text != "") & (text.str.lower() != "none")]
+    # session 953: the Monthly Energy Review marks a month it has no figure for "Not Available": omitted, as "none"
+    nonnum = df[value.isna() & df["value"].notna() & (text != "") & ~text.str.lower().isin(["none", "not available"])]
     if len(nonnum):
         raise RuntimeError(f"{name}: non-numeric values {nonnum['value'].unique()[:5]}")
     empty = df[value.isna()]
@@ -314,7 +347,7 @@ def build(name, cfg, key, run_id, log):
         geo = cfg["geo"]
     s = pd.DataFrame({
         "entity": "eia:" + d["series"],
-        "variable": d["unit"].map(cfg["variable"]),
+        "variable": d["series"].map(cfg["variable_of"]).values if "variable_of" in cfg else d["unit"].map(cfg["variable"]),
         "ts_utc": ts_of(d["period"], cfg["freq"]).values,
         "value": (value[keep].values * scale).round(6),
         "unit": d["unit"].values,
@@ -338,7 +371,8 @@ def build(name, cfg, key, run_id, log):
         f"Energy Research Warehouse (ERW): {cfg['title']}",
         f"Shape: series (docs/datastandard.md v0). freq {FREQ[cfg['freq']]}: ts_utc is the date EIA "
         "reports at 00:00:00Z (weekly: week-ending date; monthly: first of the month).",
-        "Window: the full history the EIA API v2 offers; every run replaces all of it.",
+        "Window: the full history the EIA API v2 offers; each run asks for all of it and merges it on (entity, variable, ts_utc), "
+        "so a row EIA stops giving is kept from an earlier run (session 865: this line once said every run replaces it).",
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_series.py via the EIA API v2",
         f"Run log: warehouse/output/logs/eia_series_{run_id}.log (every API request, key removed)",
         f"Raw files: warehouse/raw/eia_series/{run_id}/ (not in git; manifest.csv lists each file and URL)",

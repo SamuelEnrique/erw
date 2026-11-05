@@ -1,0 +1,41 @@
+{
+  "about": "Session 1032 (chain 071): five figures of the All grids tab of /cost-of-power, each with the check key the page writes and the value production showed on 23 October 2026 at about 06:30 UTC (the page column of warehouse/replication/siting.py's run, runs/repl1020.out), and how the Python package computes it from the warehouse's tables. The tab reads its own files (site/data/siting/, site/data/datacenter/); the package reads the tables those files were built from.",
+  "figures": [
+    {
+      "key": "allgrids|energy|ercot:HB_HUBAVG|da",
+      "raw": 34.302056,
+      "what": "HB_HUBAVG's twelve-month day-ahead price, October 2025 to September 2026 in Central standard time (UTC-6): the mean of the hours held. An hour is the first table's that holds it: ercot_all_hub_prices_history, then iso_dam_hub_prices (the order of warehouse/derived/datacenter_page.py's TABLES).",
+      "tables": ["ercot_all_hub_prices_history", "iso_dam_hub_prices"],
+      "entity": "ercot:HB_HUBAVG", "variable": "spp_dam", "start": "2025-10-01T06:00:00Z", "end": "2026-10-01T06:00:00Z", "hours": 8760
+    },
+    {
+      "key": "allgrids|nodespread|ercot:7RNCHSLR_ALL",
+      "raw": 7.8679,
+      "what": "The node's basis spread: the 90th percentile of its daily day-ahead basis to HB_HUBAVG less the 10th (pandas' linear quantile), each rounded to four decimals as the tab's file writes them, over the node file's twelve months (nodes.json's pct_from to pct_to).",
+      "tables": ["node_basis_daily"],
+      "entity": "ercot:7RNCHSLR_ALL", "variable": "dam_basis", "months_from_file": "site/data/siting/nodes.json"
+    },
+    {
+      "key": "allgrids|nodeswing|ercot:7RNCHSLR_ALL",
+      "raw": 48.1828,
+      "what": "The node's intraday swing: the mean of its daily dam_spread_4h (each day's four dearest day-ahead hours' mean less its four cheapest), rounded to four decimals, over the same twelve months.",
+      "tables": ["node_basis_daily"],
+      "entity": "ercot:7RNCHSLR_ALL", "variable": "dam_spread_4h", "months_from_file": "site/data/siting/nodes.json"
+    },
+    {
+      "key": "allgrids|zonegrowth|nyiso:N.Y.C.",
+      "raw": 1.0759,
+      "what": "NYISO's New York City zone's demand growth: the mean hourly demand of EIA-930 sub-region NYIS:ZONJ in 2025 over 2024, less one, in percent, rounded to four decimals.",
+      "tables": ["eia930_subba_demand_hourly_2024", "eia930_subba_demand_hourly_2025"],
+      "entity": "eia930_subba:NYIS:ZONJ", "variable": "demand_mw"
+    }
+  ],
+  "not_reproduced": [
+    {
+      "key": "card|siting_flexible|hub_flat",
+      "raw": 42.12709,
+      "why": "The second card's HB_HUBAVG all-in: the day-ahead energy above (the first figure) plus ERCOT's four-peak transmission charge, whose rate is texas_delivery_charges's postage stamp rate. That table is internal (the record holds it), so the package refuses it on the live set and Redivis and warns on a local file; the charge's part cannot be reproduced from a public table.",
+      "held_table": "texas_delivery_charges"
+    }
+  ]
+}

@@ -36,7 +36,7 @@ export function GroupedBars({ id, groups, series, unit, label, partialWords = "I
   const hi = (Math.max(0, ...all) * 1.12) || 1, lo = Math.min(0, ...all) * 1.12;
   const step = nice(hi - lo);
   const ticks: number[] = [];
-  for (let t = Math.ceil(lo / step) * step; t <= hi; t += step) ticks.push(Math.round(t * 100) / 100);
+  for (let t = Math.ceil(lo / step) * step; t <= hi; t += step) ticks.push(Math.round(t * 100) / 100 || 0);  // session 404: || 0, so a tick at minus zero reads "0", not "-0"
   const y = (v: number) => top + ((hi - v) / (hi - lo)) * (H - top - bot);
   const gw = (W - L - R) / Math.max(1, groups.length);
   const n = series.length;
@@ -47,6 +47,9 @@ export function GroupedBars({ id, groups, series, unit, label, partialWords = "I
   const names: { text: string; tone: Tone; hatch?: boolean }[] = [...series.map((s) => ({ text: s.name, tone: s.tone })), ...(anyPartial ? [{ text: partialWords, tone: "muted" as Tone, hatch: true }] : [])];
   let at = L - 46 + unit.length * 6.6 + 28;
   const placed = names.map((t) => { const x = at; at += t.text.length * 6.6 + (t.hatch ? 38 : 24); return { ...t, x }; });
+  // session 584: a group's name and its second line stay inside the drawing (the last group's months, "Oct 2025 to Sep
+  // 2026", ran 9 px past the right edge on a phone); one that fits is drawn under its group's middle as before
+  const inside = (cx: number, t: string) => Math.max(Math.min(cx, W - 2 - t.length * 3.6), t.length * 3.6 + 2);
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={label} data-bars={id}>
       <defs>
@@ -85,8 +88,8 @@ export function GroupedBars({ id, groups, series, unit, label, partialWords = "I
             {g.over !== undefined
               ? <text x={x0 + (bw * n) / 2} y={Math.min(...tops) - 6} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{g.over}</text>
               : g.values.map((v, k) => (v === null ? null : <text key={k} x={x0 + k * bw + bw / 2} y={tops[k] - 6} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{fmt(v)}</text>))}
-            <text x={x0 + (bw * n) / 2} y={H - bot + 16} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{g.label}</text>
-            {g.sub ? <text x={x0 + (bw * n) / 2} y={H - bot + 31} textAnchor="middle" style={{ fill: "var(--color-muted)" }}>{g.sub}</text> : null}
+            <text x={inside(x0 + (bw * n) / 2, g.label)} y={H - bot + 16} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{g.label}</text>
+            {g.sub ? <text x={inside(x0 + (bw * n) / 2, g.sub)} y={H - bot + 31} textAnchor="middle" style={{ fill: "var(--color-muted)" }}>{g.sub}</text> : null}
             {g.title ? <title>{g.title}</title> : null}
           </g>
         );

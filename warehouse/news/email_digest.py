@@ -123,7 +123,42 @@ def top_stories(lines, n=5):
 def md_inline_text(s):
     s = IMAGE.sub(lambda m: m.group(1), s)
     s = LINK.sub(lambda m: f"{m.group(1)} ({m.group(2)})", s)
-    return s.replace("**", "").replace("`", "")
+    s = s.replace("**", "").replace("`", "")
+    # session 470 (roundup audit fix 5): single-star emphasis is markdown, not text
+    return re.sub(r"(?<![\w*])\*(?=\S)([^*\n]+?)(?<=\S)\*(?![\w*])", r"\1", s)
+
+
+RELEASE_TS = os.path.join(ROOT, "site", "lib", "release.ts")
+
+
+def release():
+    """Session 470: {route: live or review} as site/lib/release.ts lists them (scripts/license_state.py reads it so)."""
+    try:
+        with open(RELEASE_TS, encoding="utf-8") as f:
+            src = f.read()
+    except OSError:
+        return {}
+    return {m.group(1): m.group(2) for m in re.finditer(r'^\s*"(/[^"]*)":\s*"(live|review)"', src, re.M)}
+
+
+def live(path, rel=None):
+    """Session 470 (digest audit fix 17): whether a site path is open to a visitor, as statusOf in site/lib/release.ts
+    decides it (a path without its own line takes its nearest parent's; no parent, review). While every page is in
+    review an email links no page of the site: a reader would meet the in-review page."""
+    rel = release() if rel is None else rel
+    p = re.split(r"[?#]", str(path))[0].rstrip("/") or "/"
+    while True:
+        if p in rel:
+            return rel[p] == "live"
+        i = p.rfind("/")
+        if i <= 0:
+            return False
+        p = p[:i]
+
+
+def gate_links(s, rel=None):
+    """A site link to a page in review written as its text alone."""
+    return re.sub(r"\[([^\]]+)\]\((/[^)]*)\)", lambda m: m.group(0) if live(m.group(2), rel) else m.group(1), s)
 
 
 def md_inline_html(s):
@@ -188,11 +223,12 @@ def story_list(stories):
         t.append(f"{i}. {s['head']}")
         if s["why"]:
             t.append(f"   {md_inline_text(s['why'])}")
+        via = " (via Google News)" if s["src"] and "news.google.com" in s["src"][1] else ""  # session 470
         if s["src"]:
-            t.append(f"   {s['src'][0]}: {s['src'][1]}")
+            t.append(f"   {s['src'][0]}{via}: {s['src'][1]}")
         li.append(f"<li style=\"margin:0 0 8px\"><strong>{html.escape(s['head'])}</strong><br>"
                   + (f"<span style=\"color:#6B665E\">{md_inline_html(s['why'])}</span><br>" if s["why"] else "")
-                  + (f"<a href=\"{html.escape(s['src'][1])}\">{html.escape(s['src'][0])}</a>" if s["src"] else "") + "</li>")
+                  + (f"<a href=\"{html.escape(s['src'][1])}\">{html.escape(s['src'][0])}</a>{via}" if s["src"] else "") + "</li>")
     return t, ("<ol style=\"padding-left:20px;font-size:14px;font-family:system-ui,sans-serif\">" + "".join(li) + "</ol>")
 
 
@@ -222,8 +258,14 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     label = title.split(", ")[-1]
     site = env("SITE_URL").rstrip("/")
     name, rel, _ = KINDS[kind]
-    page = f"{site}/{rel}/{label}" if site else f"{REPO}/docs/{rel}/{label}.md"
-    how = f"{site or SITE_DEFAULT}/about#digest"  # session 21: the method is on /about#digest
+    gates = release()
+    # session 470 (digest audit fix 17): the issue's page only when it is open to a visitor; else its markdown on GitHub
+    page = f"{site}/{rel}/{label}" if site and live(f"/{rel}/{label}", gates) else f"{REPO}/docs/{rel}/{label}.md"
+    how = f"{site or SITE_DEFAULT}/about#digest" if live("/about", gates) else None  # session 21: /about#digest
+    # session 470 (roundup audit fix 5): the line under the title (the period, the story count, and the model line when
+    # the issue was written without the model) goes with the email, as on the page
+    first = next((i for i, x in enumerate(lines) if x.startswith("## ")), len(lines))
+    intro = [x for x in lines[1:first] if x.strip()]
     if stories is None:
         stories = top_stories(lines)
         if len(stories) < 5:
@@ -235,6 +277,9 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     if note:  # session 23: a subscriber's topic filter
         head = "Top stories in your topics" if kind == "daily" else "Stories of the week in your topics"
     t, h = [title, ""], [WORDMARK_HTML, f"<h1 style=\"font-size:22px;margin:0 0 12px\">{html.escape(title)}</h1>"]
+    for x in intro:
+        t += [md_inline_text(gate_links(x, gates)), ""]
+        h.append(SMALL.format(f"<p style=\"color:#6B665E\">{md_inline_html(gate_links(x, gates))}</p>"))
     if kind == "roundup":  # session 23: the weekend's stories open the Roundup
         wk = numbered(lines, ("## Weekend",), 5)
         wt, wh = story_list(wk)
@@ -251,19 +296,19 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     # session 232: the Digest's chart of the day, its picture inline at 600 px (1200 px drawn), before the fun fact
     for heading, old in (("## ERW's Policy of the Week", "## Policy of the week"), ("## ERW's Chart of the Week", "## Chart of the week"),
                          ("## ERW's Chart of the Day", "## Chart of the day"), ("## ERW's Fun Fact", "## Fun fact")):
-        body = [site_links(x, site or SITE_DEFAULT) for x in section(lines, (heading, old))]
+        body = [site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in section(lines, (heading, old))]
         if any(x.strip() for x in body):
             bt, bh = block(body, img_base=f"docs/{rel}")
             t += ["", heading[3:], ""] + bt
             h += [H2.format(heading[3:]), SMALL.format(bh)]
-    t += ["", "ERW", "", f"All of {name}: {page}", f"How this is made: {how}",
+    t += ["", "ERW", "", f"All of {name}: {page}"] + ([f"How this is made: {how}"] if how else []) + [
           "ERW, the live, citable record of the US energy system. Every number names the table it came from."]
     if unsubscribe:
         t.append(f"Stop these emails: {unsubscribe}")
     h.append("<p style=\"font-family:Georgia,serif;font-size:15px;margin:16px 0 4px\">ERW</p>")
     h.append(f"<p style=\"font-size:13px;font-family:system-ui,sans-serif;margin-top:16px\"><a href=\"{html.escape(page)}\">"
-             f"All of {html.escape(name)}</a>. <a href=\"{html.escape(how)}\">How this is made</a>. "
-             "ERW, the live, citable record of the US energy system. Every number names the table it came from.</p>")
+             f"All of {html.escape(name)}</a>. " + (f"<a href=\"{html.escape(how)}\">How this is made</a>. " if how else "")
+             + "ERW, the live, citable record of the US energy system. Every number names the table it came from.</p>")
     if unsubscribe:
         h.append("<p style=\"font-size:12px;font-family:system-ui,sans-serif;color:#6B665E\">"
                  + (f"<a href=\"{html.escape(unsubscribe)}\">Stop these emails</a> (one click)."

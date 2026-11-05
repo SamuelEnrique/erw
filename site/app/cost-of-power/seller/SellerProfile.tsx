@@ -83,7 +83,7 @@ export function SellerProfile({ grid, gridName, hub, zone, years, battery, hybri
       <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_200px]">
         {/* no form and no field names: nothing here can be submitted */}
         <label className="block text-sm"><span className="mb-1 block font-semibold"><span className={hint} title={accepted}>{need.toLocaleString("en-US")} hourly values, MW</span>, one a line</span>
-          <textarea rows={5} value={text} onChange={(e) => setText(e.target.value)} spellCheck={false} autoComplete="off" className={`${field} font-mono text-xs`} data-profile="text"
+          <textarea rows={5} value={text} onChange={(e) => setText(e.target.value)} spellCheck={false} autoComplete="off" className={`${field} font-mono text-base sm:text-xs sm:leading-normal`} data-profile="text"
             placeholder={`${need.toLocaleString("en-US")} lines, one number each`} />
         </label>
         <div className="space-y-2 text-sm">
@@ -95,11 +95,11 @@ export function SellerProfile({ grid, gridName, hub, zone, years, battery, hybri
           <label className="block"><span className="mb-1 block font-semibold">Or a file</span>
             <input ref={file} type="file" accept=".csv,.txt,text/csv,text/plain" onChange={upload} className="w-full text-xs" data-profile="file" />
           </label>
-          {text ? <button type="button" onClick={clear} className="border border-rule bg-white px-2 py-0.5 text-xs" data-profile="clear">Clear</button> : null}
+          {text ? <button type="button" onClick={clear} className="border border-rule bg-white px-2 py-1 text-xs" data-profile="clear">Clear</button> : null}
         </div>
       </div>
       <p className="mt-1 text-xs leading-snug text-muted" data-profile="promise">Computed on this device. Nothing you paste or upload is sent or stored.</p>
-      <p className="mt-1 text-xs leading-snug text-muted">
+      <p className="mt-1 text-xs leading-snug text-muted" aria-live="polite">
         Priced at {hub}, {gridName}, day-ahead, hour by hour. <span className={hint} title={accepted}>Hour 1 is 00:00 on 1 January {year}, {zone}</span>.
         {prices ? <> <span className={hint} data-profile="prices" data-profile-held={prices.held} title={`The static file /seller/prices/${grid}_${year}.json: ${prices.held.toLocaleString("en-US")} of ${prices.hours.toLocaleString("en-US")} hours of ${year} hold a price. From ${prices.tables.join(", ")}; built ${prices.built.slice(0, 10)}.`}>{prices.held.toLocaleString("en-US")} of {prices.hours.toLocaleString("en-US")} hours priced</span>.</> : failed ? <> <span className="italic" data-profile="prices-failed" title={failed}>The prices of {year} could not be read.</span></> : <> Reading the prices of {year}.</>}
       </p>

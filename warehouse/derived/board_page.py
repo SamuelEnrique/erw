@@ -55,7 +55,7 @@ HEAT_RATE = 7.0                  # MMBtu/MWh: the spark spread's stated assumpti
 COAL_HEAT_RATE = 10.5            # MMBtu/MWh: the dark spread's stated assumption, about the US coal fleet's average
 GAS_BACK = 4                     # days: the newest gas trading day up to this many days before the operating day
 SLACK = 6                        # days: how much older than asked the value compared with may be
-RANGE_MIN = {"D": 180, "W": 26, "M": 9}     # values held of the 365 days for a range to be written
+RANGE_MIN = {"D": 180, "W": 26, "M": 9, "Q": 4}     # values held of the 365 days for a range to be written (Q: session 1135)
 SPARK_POINTS = 30
 ISO = {"ercot": ("ERCOT", "America/Chicago"), "caiso": ("CAISO", "America/Los_Angeles"), "nyiso": ("NYISO", "America/New_York"),
        "isone": ("ISO-NE", "America/New_York"), "spp": ("SPP", "America/Chicago")}
@@ -120,7 +120,8 @@ def day_of(ts_utc):
 # ---------------------------------------------------------------------------
 
 def stats(series, freq="D"):
-    """The figures of one series, {date: value}, freq D, W or M. None for an empty series."""
+    """The figures of one series, {date: value}, freq D, W, M or Q (session 1135: a quarterly series has a move over a
+    year only). None for an empty series."""
     if not series:
         return None
     days = sorted(series)
@@ -138,7 +139,7 @@ def stats(series, freq="D"):
         return dict(t=d.isoformat(), v=round(v, 4), ch=round(v0 - v, 4), pct=round(100 * (v0 - v) / v, 2) if v > 0 and v0 >= 0 else None)
     prev = days[-2] if freq == "D" and len(days) > 1 and (d0 - days[-2]).days <= 1 + SLACK else None
     moves = {"d": move(prev), "w": move(back(7)) if freq in ("D", "W") else None,
-             "m": move(back(30) if freq != "M" else back(28)), "y": move(back(365))}
+             "m": None if freq == "Q" else move(back(30) if freq != "M" else back(28)), "y": move(back(365))}
     window = [series[d] for d in days if d0 - dt.timedelta(days=365) < d <= d0]
     rng = None
     if len(window) >= RANGE_MIN[freq]:
@@ -267,6 +268,35 @@ def dark(da, coal, heat_rate=COAL_HEAT_RATE):
 
 def crack(gasoline, diesel, crude):
     return {d: (2 * gasoline[d] + diesel[d]) * 42 / 3 - crude[d] for d in gasoline if d in diesel and d in crude}
+
+
+# Session 1118: what the newest value of a spread was made of, for its hover: each input's value and its own date, and
+# the stated heat rate. The same rules as the spreads themselves (gas_on, month_means), on the spread's newest date.
+def spark_inputs(da, gas, heat_rate=HEAT_RATE):
+    gas_days = sorted(gas)
+    days = [d for d in sorted(da) if gas_on(d, gas, gas_days) is not None]
+    if not days:
+        return None
+    d = days[-1]
+    g = max(x for x in gas_days if d - dt.timedelta(days=GAS_BACK) <= x <= d)
+    return dict(t=d.isoformat(), hub=round(da[d], 4), gas=round(gas[g], 4), gas_t=g.isoformat(), heat_rate=heat_rate)
+
+
+def dark_inputs(da, coal, heat_rate=COAL_HEAT_RATE):
+    mm = month_means(da)
+    months = [m for m in sorted(mm) if m in coal]
+    if not months:
+        return None
+    m = months[-1]
+    return dict(t=m.isoformat(), hub=round(mm[m], 4), coal=round(coal[m], 4), coal_t=m.isoformat(), heat_rate=heat_rate)
+
+
+def crack_inputs(gasoline, diesel, crude):
+    days = [d for d in sorted(gasoline) if d in diesel and d in crude]
+    if not days:
+        return None
+    d = days[-1]
+    return dict(t=d.isoformat(), gasoline=round(gasoline[d], 4), diesel=round(diesel[d], 4), crude=round(crude[d], 4))
 
 
 def minus(a, b):
@@ -461,8 +491,8 @@ def build_fuels(b, log):
     b.grey("gas", "nymex|ng", "Henry Hub futures, contracts 1 to 4", "licensed", FUT_NOTE, at="NYMEX", unit="USD/MMBtu")
     for name, where in (("Waha", "West Texas"), ("SoCal Citygate", "Southern California"), ("Algonquin Citygate", "New England"), ("Chicago Citygate", "Illinois")):
         b.grey("gas", f"gashub|{name}", name, "licensed", "Source that would supply it: S&P Global Commodity Insights (Platts) or Natural Gas Intelligence, daily indices.", at=where, unit="USD/MMBtu")
-    b.grey("gas", "ttf", "TTF, the Dutch gas benchmark", "licensed", "Source that would supply the daily price: ICE Endex or LSEG.", at="Netherlands, daily", unit="EUR/MWh")
-    b.grey("gas", "jkm", "JKM, the Japan-Korea LNG marker", "licensed", "Source that would supply the daily price: S&P Global Commodity Insights (Platts).", at="Northeast Asia, daily", unit="USD/MMBtu")
+    b.grey("gas", "ttf", "TTF, the Dutch gas benchmark", "licensed", "Source that would supply the daily price: ICE Endex or LSEG. The World Bank's monthly average for Europe is under World energy benchmarks, monthly.", at="Netherlands, daily", unit="EUR/MWh")
+    b.grey("gas", "jkm", "JKM, the Japan-Korea LNG marker", "licensed", "Source that would supply the daily price: S&P Global Commodity Insights (Platts). The World Bank's monthly price of LNG in Japan is under World energy benchmarks, monthly.", at="Northeast Asia, daily", unit="USD/MMBtu")
     # crude
     wti, brent = fuels.get("eia:wti_cushing", {}), fuels.get("eia:brent", {})
     b.add("crude", "eia:wti_cushing|spot", "WTI crude oil", "USD/bbl", "D", wti, at="Cushing, Oklahoma, spot", code="RWTC", tags=dict(kind="daily"), source=spot, curve=CURVE)
@@ -537,7 +567,16 @@ def build_fuels(b, log):
               source="Board of Governors of the Federal Reserve System, release H.15, the Board's Data Download Program (frb_treasury_yields)")
     # carbon and credits
     build_lcfs(b, log)
-    b.grey("carbon", "cca|auction", "California carbon allowance, quarterly auction", "not_held", "The auction results are held internal while the publisher's terms are reviewed; not shown.", unit="USD/t CO2e")
+    # session 1135: CARB's auction settlement prices, public (carb_auction_allowance_prices, docs/licenses.md), a quarterly
+    # row each; the current auction's row keeps the id of the grey row it replaces, so page_keep.py keeps no stale twin
+    if here("carb_auction_allowance_prices"):
+        s, meta = table_daily("carb_auction_allowance_prices")
+        src = "California Air Resources Board, Summary of California and Joint Auction Settlement Prices and Results (carb_auction_allowance_prices)"
+        for key, entity, at in (("cca|auction", "carb:current_auction", "current auction, settlement price, quarterly"),
+                                ("cca|advance", "carb:advance_auction", "advance auction, settlement price, quarterly")):
+            b.add("carbon", key, "California carbon allowance", "USD/t CO2e", "Q", s.get((entity, "settlement_price"), {}), at=at, code=entity.split(":")[1], source=src)
+    else:
+        log("  California carbon allowances: carb_auction_allowance_prices not on this machine, skipped (page_keep.py keeps the held rows)")
     b.grey("carbon", "rggi|auction", "RGGI carbon allowance, quarterly auction", "not_held", "The auction results are held internal while the publisher's terms are reviewed; not shown.", unit="USD/short ton CO2")
     b.grey("carbon", "eua", "European carbon allowance (EUA)", "licensed", "Source that would supply it: ICE Endex.", unit="EUR/t CO2e")
     b.grey("carbon", "rec", "Renewable energy credits", "licensed", "Source that would supply them: S&P Global Commodity Insights or ICE.", unit="USD/MWh")
@@ -547,21 +586,131 @@ def build_fuels(b, log):
     return fuels, us_coal
 
 
+# Session 1117 (chain 075, the owner's ruling of 5 October 2026: "pretty much all energy prices"): three public price
+# tables the warehouse held and the board did not draw. Each is built only when its table is on the machine (here()):
+# one that is absent is noted and page_keep.py keeps the rows held, as for every other table.
+WB_SOURCE = "World Bank Commodity Price Data (The Pink Sheet), monthly averages (wb_commodity_prices_monthly)"
+WB_ENERGY = [("crude_oil_average", "Crude oil, average", "Brent, Dubai and WTI, equally weighted", "crude"),
+             ("crude_oil_brent", "Brent crude oil", "World Bank, monthly", "crude"),
+             ("crude_oil_dubai", "Dubai crude oil", "World Bank, monthly", "crude"),
+             ("crude_oil_wti", "WTI crude oil", "World Bank, monthly", "crude"),
+             ("coal_australian", "Coal, Australian", "export, World Bank, monthly", "coal"),
+             ("coal_south_african", "Coal, South African", "export, World Bank, monthly", "coal"),
+             ("natural_gas_us", "Natural gas, United States", "World Bank, monthly", "gas"),
+             ("natural_gas_europe", "Natural gas, Europe", "World Bank, monthly", "gas"),
+             ("liquefied_natural_gas_japan", "Liquefied natural gas, Japan", "World Bank, monthly", "gas")]
+GAS_SECTORS = {"PG1": ("citygate", "citygate"), "PRS": ("residential", "delivered to homes"), "PCS": ("commercial", "sold to commercial consumers"),
+               "PIN": ("industrial", "industrial"), "PEU": ("electric_power", "electric power")}
+GAS_SOURCE = "EIA, Natural Gas Monthly, prices by state and sector (eia_gas_prices_state_monthly)"
+HEAT_PRODUCTS = {"EPD2F": ("heating_oil", "No. 2 heating oil"), "EPLLPA": ("propane", "Propane")}
+HEAT_PROCESSES = {"PRS": ("residential", "residential"), "PWR": ("wholesale", "wholesale and resale")}
+HEAT_SOURCE = "EIA, Heating Oil and Propane Update, weekly in the heating season (eia_heating_fuel_prices_weekly)"
+
+
+# EIA's area codes in these two tables: NUS the United States, S<state> a state, R<n> a PADD. A name is read from the
+# code, not from EIA's series names, which write the same area three ways ("Natural Gas Citygate Price in Alabama",
+# "Alabama Price of Natural Gas ...", "PADD 2" and "Midwest (PADD 2)")
+STATE_NAMES = {"AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "CA": "California", "CO": "Colorado", "CT": "Connecticut",
+               "DE": "Delaware", "DC": "District of Columbia", "FL": "Florida", "GA": "Georgia", "HI": "Hawaii", "ID": "Idaho", "IL": "Illinois",
+               "IN": "Indiana", "IA": "Iowa", "KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland",
+               "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri", "MT": "Montana",
+               "NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York",
+               "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma", "OR": "Oregon", "PA": "Pennsylvania",
+               "RI": "Rhode Island", "SC": "South Carolina", "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", "UT": "Utah",
+               "VT": "Vermont", "VA": "Virginia", "WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming"}
+PADD_CODES = {"R10": "East Coast (PADD 1)", "R1X": "New England (PADD 1A)", "R1Y": "Central Atlantic (PADD 1B)", "R1Z": "Lower Atlantic (PADD 1C)",
+              "R20": "Midwest (PADD 2)", "R30": "Gulf Coast (PADD 3)", "R40": "Rocky Mountain (PADD 4)", "R50": "West Coast (PADD 5)"}
+
+
+def area_name(code):
+    """The words for one of EIA's area codes; the code itself when it is none of the three kinds."""
+    if code == "NUS":
+        return "United States"
+    if code in PADD_CODES:
+        return PADD_CODES[code]
+    if code.startswith("S") and code[1:] in STATE_NAMES:
+        return STATE_NAMES[code[1:]]
+    return code
+
+
+def build_world(b, log):
+    """The World Bank's monthly energy benchmarks: crude oil, coal, natural gas and LNG, the prices the world trades
+    against (the daily TTF and JKM rows stay "licensed source needed": these are their months, published openly)."""
+    if not here("wb_commodity_prices_monthly"):
+        log("  the World Bank's monthly prices: wb_commodity_prices_monthly not on this machine, skipped (page_keep.py keeps the held rows)")
+        return
+    s, meta = table_daily("wb_commodity_prices_monthly")
+    for code, label, at, kind in WB_ENERGY:
+        key = (f"wb_pink:{code}", "price")
+        if key not in s:
+            continue
+        b.add("world", f"wb_pink:{code}", label, meta[key]["unit"], "M", s[key], at=at, code=code, tags=dict(kind=kind), source=WB_SOURCE)
+
+
+def build_gas_prices(b, log):
+    """Natural gas prices by sector and state, monthly: citygate, homes, commercial, industrial and electric power."""
+    if not here("eia_gas_prices_state_monthly"):
+        log("  natural gas by state: eia_gas_prices_state_monthly not on this machine, skipped (page_keep.py keeps the held rows)")
+        return
+    s, meta = table_daily("eia_gas_prices_state_monthly", since=START)
+    keys = [k for k in s if k[0].count(":") == 2 and k[0].split(":")[1] in GAS_SECTORS]
+
+    def where(k):
+        area = k[0].split(":")[2]
+        return ("us" if area == "NUS" else "state"), area_name(area)
+    for k in sorted(keys, key=lambda k: (list(GAS_SECTORS).index(k[0].split(":")[1]), where(k)[0] != "us", where(k)[1])):
+        process, area = k[0].split(":")[1], k[0].split(":")[2]
+        tag, words = GAS_SECTORS[process]
+        kind, name = where(k)
+        b.add("gasprices", k[0], f"Natural gas, {words}", meta[k]["unit"], "M", s[k], at=f"{name}, monthly", code=f"{process} {area}",
+              tags=dict(sector=tag, area=kind), source=GAS_SOURCE)
+
+
+def build_heating(b, log):
+    """Heating oil and propane, weekly in the heating season (EIA publishes no week from April to September)."""
+    if not here("eia_heating_fuel_prices_weekly"):
+        log("  heating oil and propane: eia_heating_fuel_prices_weekly not on this machine, skipped (page_keep.py keeps the held rows)")
+        return
+    s, meta = table_daily("eia_heating_fuel_prices_weekly", since=START)
+    pat = re.compile(r"^eia_heating_price:W_(EPD2F|EPLLPA)_(PRS|PWR)_([A-Z0-9]+)_DPG$")
+    keys = [k for k in s if pat.match(k[0])]
+
+    def kind(area):
+        return "us" if area == "NUS" else "region" if area.startswith("R") else "state"
+    korder = {"us": 0, "region": 1, "state": 2}
+    for k in sorted(keys, key=lambda k: (list(HEAT_PRODUCTS).index(pat.match(k[0]).group(1)), list(HEAT_PROCESSES).index(pat.match(k[0]).group(2)),
+                                         korder[kind(pat.match(k[0]).group(3))], list(PADD_CODES).index(pat.match(k[0]).group(3)) if pat.match(k[0]).group(3) in PADD_CODES else 0,
+                                         area_name(pat.match(k[0]).group(3)))):
+        product, process, area = pat.match(k[0]).groups()
+        ptag, pwords = HEAT_PRODUCTS[product]
+        qtag, qwords = HEAT_PROCESSES[process]
+        b.add("heating", k[0], pwords, meta[k]["unit"], "W", s[k], at=f"{area_name(area)}, {qwords}, weekly", code=k[0].split(":", 1)[1],
+              tags=dict(product=ptag, process=qtag, area=kind(area)), source=HEAT_SOURCE)
+
+
 def build_spreads(b, daily, fuels, us_coal):
     gas = fuels.get("eia:henry_hub", {})
     for iso, (grid, tz) in ISO.items():
         entity, words = f"{iso}:{MAIN[iso]}", HUB_WORDS[MAIN[iso]]
         d = daily.get((entity, "da"))
         da = col(d, "mean") if d is not None else {}
-        b.add("spark", f"{entity}|spark", f"{grid} {words}", "USD/MWh", "D", spark(da, gas), at="spark spread, indicative", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["spark"], source="the hub's day-ahead row and Henry Hub")
-        b.add("spark", f"{entity}|heat", f"{grid} {words}", "MMBtu/MWh", "D", implied_heat_rate(da, gas), at="implied heat rate", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["heat"], source="the hub's day-ahead row and Henry Hub")
-        b.add("spark", f"{entity}|dark", f"{grid} {words}", "USD/MWh", "M", dark(da, us_coal), at="dark spread, indicative, monthly", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["dark"], source="the hub's day-ahead row and eia_power_plant_fuel_costs")
+        si, di = spark_inputs(da, gas), dark_inputs(da, us_coal)   # session 1118: the newest value's inputs, for its hover
+        b.add("spark", f"{entity}|spark", f"{grid} {words}", "USD/MWh", "D", spark(da, gas), at="spark spread, indicative", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["spark"], source="the hub's day-ahead row and Henry Hub",
+              extra=dict(inputs=si) if si else None)
+        b.add("spark", f"{entity}|heat", f"{grid} {words}", "MMBtu/MWh", "D", implied_heat_rate(da, gas), at="implied heat rate", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["heat"], source="the hub's day-ahead row and Henry Hub",
+              extra=dict(inputs={k: v for k, v in si.items() if k != "heat_rate"}) if si else None)
+        b.add("spark", f"{entity}|dark", f"{grid} {words}", "USD/MWh", "M", dark(da, us_coal), at="dark spread, indicative, monthly", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["dark"], source="the hub's day-ahead row and eia_power_plant_fuel_costs",
+              extra=dict(inputs=di) if di else None)
     for grid, status, note in (("MISO", "paused", MISO_NOTE), ("PJM", "licensed", PJM_NOTE)):
         b.grey("spark", f"{grid}|spark", f"{grid} spark and dark spreads", status, note, tags=dict(grid=grid), unit="USD/MWh")
     g, d = fuels.get("eia:EER_EPMRU_PF4_RGC_DPG", {}), fuels.get("eia:EER_EPD2DXL0_PF4_RGC_DPG", {})
-    b.add("oilspreads", "erw:crack_321_gulf_coast", "3-2-1 crack spread", "USD/bbl", "D", crack(g, d, fuels.get("eia:wti_cushing", {})), at="Gulf Coast products, WTI", formula=FORMULAS["crack_gc"], source="EIA's daily spot prices")
+    ci = crack_inputs(g, d, fuels.get("eia:wti_cushing", {}))
+    b.add("oilspreads", "erw:crack_321_gulf_coast", "3-2-1 crack spread", "USD/bbl", "D", crack(g, d, fuels.get("eia:wti_cushing", {})), at="Gulf Coast products, WTI", formula=FORMULAS["crack_gc"], source="EIA's daily spot prices",
+          extra=dict(inputs=ci) if ci else None)
     g, d = fuels.get("eia:EER_EPMRU_PF4_Y35NY_DPG", {}), fuels.get("eia:EER_EPD2DXL0_PF4_Y35NY_DPG", {})
-    b.add("oilspreads", "erw:crack_321_new_york", "3-2-1 crack spread", "USD/bbl", "D", crack(g, d, fuels.get("eia:brent", {})), at="New York Harbor products, Brent", formula=FORMULAS["crack_ny"], source="EIA's daily spot prices")
+    ci = crack_inputs(g, d, fuels.get("eia:brent", {}))
+    b.add("oilspreads", "erw:crack_321_new_york", "3-2-1 crack spread", "USD/bbl", "D", crack(g, d, fuels.get("eia:brent", {})), at="New York Harbor products, Brent", formula=FORMULAS["crack_ny"], source="EIA's daily spot prices",
+          extra=dict(inputs=ci) if ci else None)
 
 
 def build_week(log):
@@ -636,14 +785,26 @@ GROUPS = [
     dict(id="as", title="Ancillary services, day-ahead", filters=[
         dict(key="grid", label="Grid", options=[["all", "All grids"], ["ERCOT", "ERCOT"], ["CAISO", "CAISO"], ["NYISO", "NYISO"], ["SPP", "SPP"]], default="ERCOT")]),
     dict(id="gas", title="Natural gas", curve=True, filters=[]),
+    # session 1117: natural gas prices by sector and state, monthly (EIA)
+    dict(id="gasprices", title="Natural gas by sector and state, monthly", filters=[
+        dict(key="sector", label="Sector", options=[["all", "All sectors"], ["citygate", "Citygate"], ["residential", "Homes"], ["commercial", "Commercial"], ["industrial", "Industrial"], ["electric_power", "Electric power"]], default="all"),
+        dict(key="area", label="Area", options=[["us", "United States"], ["state", "States"], ["all", "All"]], default="us")]),
     dict(id="crude", title="Crude oil", curve=True, filters=[
         dict(key="kind", label="Show", options=[["daily", "Daily benchmarks"], ["first_purchase_price", "First purchase, monthly"], ["landed_cost", "Landed cost, monthly"], ["fob_cost", "F.O.B. cost, monthly"],
                                                  ["refiner_acquisition_cost", "Refiner acquisition cost, monthly"], ["all", "Everything"]], default="daily")]),
     dict(id="products", title="Refined products, spot", curve=True, filters=[]),
     dict(id="oilspreads", title="Oil spreads", filters=[]),
+    # session 1117: the World Bank's monthly energy benchmarks
+    dict(id="world", title="World energy benchmarks, monthly", filters=[
+        dict(key="kind", label="Show", options=[["all", "All"], ["crude", "Crude oil"], ["coal", "Coal"], ["gas", "Natural gas and LNG"]], default="all")]),
     dict(id="retailfuel", title="Retail gasoline and diesel, weekly", filters=[
         dict(key="product", label="Fuel", options=[["gasoline", "Gasoline"], ["diesel", "Diesel"], ["all", "Both"]], default="gasoline"),
         dict(key="area", label="Area", options=[["region", "Regions"], ["state", "States"], ["city", "Cities"], ["all", "All"]], default="region")]),
+    # session 1117: heating oil and propane, weekly in the heating season (EIA)
+    dict(id="heating", title="Heating oil and propane, weekly", filters=[
+        dict(key="product", label="Fuel", options=[["heating_oil", "Heating oil"], ["propane", "Propane"], ["all", "Both"]], default="all"),
+        dict(key="process", label="Price", options=[["residential", "Residential"], ["wholesale", "Wholesale"], ["all", "Both"]], default="residential"),
+        dict(key="area", label="Area", options=[["us", "United States"], ["region", "Regions"], ["state", "States"], ["all", "All"]], default="us")]),
     dict(id="retailpower", title="Retail electricity by state, monthly", filters=[
         dict(key="sector", label="Sector", options=[["ALL", "All sectors"], ["RES", "Residential"], ["COM", "Commercial"], ["IND", "Industrial"]], default="ALL"),
         dict(key="area", label="Area", options=[["us", "United States"], ["division", "Census divisions"], ["state", "States"], ["all", "All"]], default="state")]),
@@ -665,6 +826,9 @@ def build(log):
     daily = build_power(b, store, holidays, log)
     build_as(b, holidays, log)
     fuels, us_coal = build_fuels(b, log)
+    build_world(b, log)          # session 1117
+    build_gas_prices(b, log)
+    build_heating(b, log)
     build_spreads(b, daily, fuels, us_coal)
     week, spikes = build_week(log)
     return b, week, spikes

@@ -80,7 +80,8 @@ def last_run(name, bucket):
     if not len(rl):
         return None
     r = rl.iloc[-1]
-    return {"run_id": r["run_id"], "archived_at": r["archived_at"], "runner": r.get("runner", ""), "table_rows": int(r["table_rows"])}
+    return {"run_id": r["run_id"], "archived_at": r["archived_at"], "runner": r.get("runner", ""), "table_rows": int(r["table_rows"]),
+            "data_sha256": r.get("data_sha256", "")}
 
 
 def rebuild_to(name, out, bucket):
@@ -120,8 +121,16 @@ def prove(name, bucket, log=print):
     only_arch = int(len(np.setdiff1d(ah, lh, assume_unique=False)))
     rec.update(local_rows=ln, local_newest=lnew, local_sha=sha(lh), only_local=only_local, only_archive=only_arch)
     who = f"run {run['run_id']} ({run['archived_at']})" if run else "its last run"
+    # session 460: the rebuild replays every key any run wrote, so it also holds the keys a later run no longer had (an
+    # events table's dropped rows, a window's old days). A copy whose data is the latest run's own (the run log's
+    # data_sha256, the test restore_tables.py makes) is the archive's latest state, whatever the replay holds beyond it.
+    # Session 454 took the replay for two such tables (policy_reads_evidence 5,143 rows against the latest run's 3,362)
+    latest_own = bool(run and run.get("data_sha256")) and A.data_sha256(local) == run["data_sha256"]
     if only_local == 0 and only_arch == 0 and an == ln:
         rec.update(status="equal", cause="")
+    elif latest_own:
+        rec.update(status="equal", cause=f"this copy is the latest run's own ({who}, {run['table_rows']:,} rows, its data SHA-256); "
+                                         f"the replay holds {only_arch:,} rows beyond it, keys an earlier run wrote and the latest no longer has")
     elif only_local == 0:
         rec.update(status="this machine behind", cause=f"the archive holds {only_arch:,} rows this copy lacks; {who} archived them after this copy was written")
     elif only_arch == 0:
