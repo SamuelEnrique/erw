@@ -1,0 +1,7 @@
+# Redivis version 1: what is ready, and the one click (session 2882, 5 November 2026)
+
+1. **The draft:** Stanford's `datapages` dataset `b9wm` (https://stanford.redivis.com/datasets/b9wm-3hb080mtm). It holds the tables whose ERW verdict in `docs/licenses.md` is public (467 reconciled on 5 November at 22:3x UTC: 393 match their CSV, 74 differ by the days since their last upload, 0 missing) and the three metadata tables. Chain 147 added `subregion_demand_growth` (3,918 rows, counted equal) and refreshed `erw_headers` (5,585 lines).
+2. **The package:** `docs/redivis/release-v1/` (README, `tables.csv`, `variables.csv`) describes 137 tables (10 entities, 10 events, 117 series), each with its license and its source. `release_v1.py --check` passes against the license record.
+3. **Not in it:** every internal or unsettled table, `utility_large_load_tariffs` among them (unsettled: the IURC's statewide terms are on record as "needs written permission", and the Georgia and Oregon commissions have no verdict). Nothing has been released.
+4. **What you click:** on the dataset's page, "Version 1 (draft)", read the diff, then "Release". Before you click, re-run `python warehouse/redivis/upload.py --reconcile --target stanford` if you want the 74 differing tables brought to today's rows (`upload.py --target stanford --changed`, under the data lock, never in the background).
+5. **After the release:** the next uploads write a version 2 draft. Nothing scheduled releases.
