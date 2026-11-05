@@ -1,0 +1,124 @@
+{
+ "base": "http://localhost:32403",
+ "at": "2026-10-23T20:47:09.778Z",
+ "pages": [
+  {
+   "page": "/policy",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/policy?view=week",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/play/battery",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/play/battery?mode=hard",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/play/ev",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/learn/bill",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [
+    {
+     "sel": "div > div.grid.gap-6.lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] > div.text-sm > table.w-full",
+     "width": 358,
+     "frame": 358,
+     "wider": false,
+     "caption": ""
+    }
+   ],
+   "labels": [],
+   "findings": 1
+  },
+  {
+   "page": "/learn/problems/know-your-grid",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/learn/problems/prices-and-your-bill",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/learn/problems/when-the-grid-broke",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/learn/problems/storage-and-taxes",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/learn/problems/networks-and-money",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  }
+ ]
+}

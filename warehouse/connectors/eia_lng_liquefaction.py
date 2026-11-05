@@ -198,6 +198,9 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results = []
     try:
+        # session 2066: the pause list first (CLAUDE.md), as boem_ogor.py asks it
+        if ip.paused(CONNECTOR) or ip.paused_host("www.eia.gov"):
+            raise RuntimeError("www.eia.gov is paused (warehouse/metadata/paused_sources.csv): no request made")
         url = BASE + args.file
         content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, headers=UA, timeout=120, pause=1)
         base = dict(source=SOURCE, source_url=url, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))

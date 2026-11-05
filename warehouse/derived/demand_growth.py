@@ -17,7 +17,9 @@ WEATHER IS NOT REMOVED. A year's demand is that year's: a hot summer or a cold s
 is the difference of what was metered, not of what a normal year would have been.
 
 An hour is used when its demand is held, above zero, and within 25 percent of the median of the four hours around it
-(the two before and the two after that are held). The last test leaves out EIA's faulty hours: PJM's file holds
+(the two hours on each side, those of them that are held and above zero), and within a third to three times the
+area's median hour (session 118's range test, impossible_hours.py; it removes no hour in the build of session 2298's
+check). The neighbour test leaves out EIA's faulty hours: PJM's file holds
 224,345 MW at 18:00 on 13 July 2020 between hours of about 140,000, and 155,276 MW on a December afternoon of 2019
 that would have been the year's peak; New York's holds hours of zero. A real hour does not stand a quarter away from
 its neighbours. An hour that is not used is used for nothing; nothing is filled.

@@ -168,6 +168,9 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results = []
     try:
+        # session 2066: the pause list first (CLAUDE.md), as boem_ogor.py asks it
+        if ip.paused(CONNECTOR) or ip.paused_host("www.eia.gov"):
+            raise RuntimeError("www.eia.gov is paused (warehouse/metadata/paused_sources.csv): no request made")
         rows, urls, latest, sheets = [], [], "", []
         for y in sorted(args.years):
             url = f"{BASE}ice_electric-{y}.xlsx"

@@ -7,7 +7,7 @@ number it did not fetch:
 1. The model (the newest Sonnet-class model in the API's models list, chosen at run
    time, never hardcoded) gets a system prompt built from package/llms.txt and the
    rules below, and the four tools of warehouse/chat/tools.py. No SQL, no code.
-2. It may call tools at most MAX_TOOL_CALLS (8) times, then must answer.
+2. It may call tools at most MAX_TOOL_CALLS (12) times, then must answer.
 3. Its answer is JSON: the answer text, a citation per table used (table, source
    report, data version), and whether the answer is "not in the warehouse".
 4. Post-check: every number in the answer must appear in some tool result (or in
@@ -44,12 +44,13 @@ import tools  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
-MAX_TOOL_CALLS = 8
+MAX_TOOL_CALLS = 12      # session 1111: 8 until 23 October 2026; 11 of session 320's thirty used all 8
 MAX_TOKENS = 16000
 EFFORT = "high"
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
 PRICES = {m: (p["input"], p["output"]) for m, p in llm.prices()["models"].items()}  # session 30: warehouse/config/model_prices.yaml
-REFUSAL = ("I cannot give an answer I can verify: the numbers in my draft could not all be traced "
+# session 1110: the refusal begins with the words the chain of 23 October names
+REFUSAL = ("The warehouse does not hold that figure: the numbers in my draft could not all be traced "
            "to a warehouse query. Try asking for one value, one table and one period at a time.")
 
 BRIEFING = open(os.path.join(ROOT, "package", "llms.txt"), encoding="utf-8").read().strip()
@@ -62,9 +63,10 @@ Rules:
 3. If the warehouse does not hold what the question asks (a market, node, period, variable or kind of data it does not have), answer "not in the warehouse", say in one sentence what is missing, set not_in_warehouse to true, and state no numbers. Never use outside knowledge, never estimate.
 4. Prefer public tables. If you use a table whose license is internal, say in the answer that it is internal (licensed for internal use only).
 5. Times: series times are interval starts in UTC. Say which time zone you report. For an ISO's operating day, group or filter in its local time zone (tz), as the briefing says.
-6. You have at most 8 tool calls. Call list_tables (with a filter) to find the table, describe_table only when you need entity, variable or column names, then query or compare.
+6. You have at most 12 tool calls. Call list_tables (with a filter) to find the table, describe_table only when you need entity, variable or column names, then query or compare.
 7. Keep the answer short: the number or numbers with units, the time or period, and the table. Say what the number is (for example "mean of 96 fifteen-minute intervals").
 8. Provenance tier: every tool result gives the table's tier: source (as the publisher published it), derived (computed by the ERW from other tables) or model_extracted (at least one field written by a model reading news, filings or the web, not published by a source). When a number comes from a model_extracted table, say so next to it in the answer, for example "USD 1.2 billion (energy_deals, model-extracted from news)".
+9. The site's economics pages and the tables behind them: the battery page (/cost-of-power/battery) reads battery_stack_monthly; the generator page (/cost-of-power/seller) reads merchant_revenue_monthly, whose battery rows (battery_4h_revenue_per_mw and its kin) are the generator page's rule for a battery; the datacenter page (/cost-of-power) reads cost_of_power_monthly. A question that names one of these pages is answered from that page's table.
 
 Your final message is JSON with: answer (plain text), citations (one per table used: table, source_report, data_version, tier), not_in_warehouse (true or false)."""
 
@@ -113,12 +115,20 @@ def numbers(text):
     out = []
     for m in NUM.finditer(text):
         sign, whole, frac = m.group(1), m.group(2), m.group(3) or ""
+        if is_name(text, m.start(2)):
+            continue
         if sign:
             before = text[m.start() - 1] if m.start() > 0 else " "
             if not (before.isspace() or before in "([:,=" or m.start() == 0):
                 sign = ""
         out.append((float(sign + whole.replace(",", "") + frac), len(frac) - 1 if frac else 0))
     return out
+
+
+def is_name(text, at):
+    """Session 1110: digits after a letter and a hyphen are a name, not a figure (EIA-930, EIA-860M, COVID-19).
+    Session 320's run sent four right first drafts back for an untraced 930, the form EIA-930."""
+    return at >= 2 and text[at - 1] == "-" and text[at - 2].isalpha()
 
 
 def list_markers(text):
@@ -145,7 +155,166 @@ def unverified(answer, sources):
     return bad
 
 
+# Session 1110: a figure stated in a money unit (USD per MWh, per MW, per kW, per kWh) must be one a tool returned in
+# that unit. A tool result's number takes its unit from its own key (..._usd_per_mw, value_usd_per_kw), else from the
+# nearest unit or single units above it; a number no result places in a unit is not judged (the question's text, a
+# count). A draft is sent back only when every returned number it matches is in another unit: 81,402.19 written as
+# USD per kW when the tool gave it in USD/MW.
+UNIT_AFTER = re.compile(r"^\s*(USD|US dollars|dollars)?\s*(?:/|per\s+)(kWh|kW|MWh|MW)(?![\w-])", re.I)
+MONEY_BEFORE = re.compile(r"(?:\$|USD\s)\s*$")   # "$81.40/kW", "USD 81.40 per kW": the money is written before the figure
+UNIT_NAMES = {"kwh": "kWh", "kw": "kW", "mwh": "MWh", "mw": "MW"}
+# Session 1144: two units with no money in them, measured first on the 119 stored answers with their tool records
+# (sessions 267, 302, 1113, 1114): 19 figures in percent and 17 in MW were judged and no right answer was sent back;
+# MWh is not judged (four right answers wrote "MWh" before "per MW", a unit written apart).
+PHYS_AFTER = re.compile(r"^\s*(percent|pct|%|MW)(?![\w-])", re.I)
+PHYS_NAMES = {"percent": "pct", "pct": "pct", "%": "pct", "mw": "MW"}
+KNOWN_UNITS = {"pct", "MW", "USD/kW", "USD/MW", "USD/MWh", "USD/kWh"}
+
+
+def norm_unit(u):
+    """USD/kW, USD/MW, USD/MWh or USD/kWh for a money unit however written; other:<it> for any other unit."""
+    if not isinstance(u, str):
+        return None
+    t = u.strip().lower().replace(" per ", "/").replace(" ", "").replace("$", "usd")
+    m = re.fullmatch(r"usd/(kwh|kw|mwh|mw)", t)
+    if not m and t in PHYS_NAMES:
+        return PHYS_NAMES[t]
+    return f"USD/{UNIT_NAMES[m.group(1)]}" if m else f"other:{t}"
+
+
+def key_unit(key):
+    m = re.search(r"_usd_per_(kwh|kw|mwh|mw)$", key or "", re.I)
+    return f"USD/{UNIT_NAMES[m.group(1).lower()]}" if m else None
+
+
+def placed_numbers(sources):
+    """(value, unit or None, or "mixed") for every number of every source that parses as JSON."""
+    out = []
+
+    def walk(x, unit, key):
+        if isinstance(x, bool) or x is None:
+            return
+        if isinstance(x, (int, float)):
+            out.append((float(x), key_unit(key) or unit))
+        elif isinstance(x, dict):
+            own = None
+            if isinstance(x.get("unit"), str):
+                own = norm_unit(x["unit"])
+            elif isinstance(x.get("units"), list) and x["units"]:
+                own = norm_unit(x["units"][0]) if len(x["units"]) == 1 else "mixed"
+            for k, v in x.items():
+                walk(v, own or unit, k)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v, unit, key)
+
+    for s in sources:
+        try:
+            walk(json.loads(s), None, None)
+        except (ValueError, TypeError):
+            continue
+    return out
+
+
+def unit_mismatches(answer, sources):
+    """Figures stated in a money unit that every matching tool number gives in another unit."""
+    text = answer.replace("−", "-")
+    placed = placed_numbers(sources)
+    bad = []
+    for m in NUM.finditer(text):
+        if is_name(text, m.start(2)):
+            continue
+        u = UNIT_AFTER.match(text[m.end():m.end() + 40])
+        p = PHYS_AFTER.match(text[m.end():m.end() + 12])
+        if u and (u.group(1) or MONEY_BEFORE.search(text[max(0, m.start() - 5):m.start()])):
+            said = f"USD/{UNIT_NAMES[u.group(2).lower()]}"
+        elif p and not MONEY_BEFORE.search(text[max(0, m.start() - 5):m.start()]):
+            said = PHYS_NAMES[p.group(1).lower()]   # session 1144: percent and MW
+        else:
+            continue   # no unit judged here (MWh, MWh per MW, USD per MW-month)
+        whole, frac = m.group(2), m.group(3) or ""
+        v, d = float(whole.replace(",", "") + frac), (len(frac) - 1 if frac else 0)
+        tol = 0.5 * 10 ** (-d) + 1e-9
+        hits = [unit for p, unit in placed if abs(abs(p) - abs(v)) <= tol]
+        # session 1144: a percent or an MW figure is judged only against tool numbers in a unit the check knows
+        if said in ("pct", "MW") and not all(h in KNOWN_UNITS for h in hits):
+            continue
+        if hits and all(h not in (None, "mixed") for h in hits) and said not in hits:
+            gave = ", ".join(sorted({h.replace("other:", "") for h in hits}))
+            s = f"{v:.{d}f} {said} (the tools gave it in {gave})"
+            if s not in bad:
+                bad.append(s)
+    return bad
+
+
 # ------------------------------------------------------------------ the loop
+
+def why_refused(bad=(), units=(), uncited=(), no_cite=False, more=()):
+    """Session 1111: why a draft was refused, in one sentence with no figure in it (the reader is told what failed,
+    never the untraced number). The same words as site/lib/chat/ask.ts whyRefused."""
+    parts = []
+    if bad:
+        parts.append("a figure in it was in no tool result" if len(bad) == 1 else "figures in it were in no tool result")
+    if units:
+        parts.append("a figure was stated in a unit no tool gave it in" if len(units) == 1 else "figures were stated in a unit no tool gave them in")
+    if uncited:
+        parts.append("it cited a table no tool read")
+    if no_cite:
+        parts.append("it was empty or cited nothing")
+    if more and not parts:
+        parts.append("it failed this chat's own checks")
+    if not parts:
+        return ""
+    body = parts[0] if len(parts) == 1 else ", ".join(parts[:-1]) + " and " + parts[-1]
+    return f"Why: the draft was checked twice and {body}."
+
+
+# Session 1146: the general chat's conversation, read lines and refusal's nearest tables, as the site's
+# (site/lib/chat/history.ts, ask.ts readsOf, tools.ts nearestFor), so the CLI and the evaluation's own loop answer as
+# the site does. The conversation's words are Ask ERCOT's (warehouse/chat/ercot.py HISTORY_HEAD, HISTORY_TURN).
+GENERAL_HISTORY_HEAD = "The conversation so far, oldest first. The new question continues it."
+GENERAL_HISTORY_TURN = "Earlier question {n}: {question}\nYour answer: {answer}\nQueries you ran: {queries}"
+GENERAL_MAX_HISTORY, GENERAL_MAX_ANSWER = 3, 1500
+READ_KEYS = ("entity", "variable", "start", "end", "aggregation", "group_by", "tz")
+
+
+def clean_turns(raw):
+    """As site/lib/chat/history.ts cleanTurns: the last three turns with a question and an answer, their reads as
+    compact queries, their cited tables."""
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for h in raw[-GENERAL_MAX_HISTORY:]:
+        if not isinstance(h, dict):
+            continue
+        q, a = str(h.get("question") or "").strip()[:500], str(h.get("answer") or "").strip()[:GENERAL_MAX_ANSWER]
+        if not q or not a:
+            continue
+        queries = []
+        for x in (h.get("reads") if isinstance(h.get("reads"), list) else [])[:8]:
+            if isinstance(x, dict) and isinstance(x.get("table"), str):
+                j = json.dumps(x, sort_keys=True, separators=(",", ":"))
+                if len(j) <= 1200:
+                    queries.append(f"query {j}")
+        tables = [str((c or {}).get("table") or "") for c in (h.get("citations") or []) if isinstance(c, dict)]
+        out.append({"question": q, "answer": a, "queries": queries, "tables": [t for t in tables if re.fullmatch(r"[a-z][a-z0-9_]*", t)]})
+    return out
+
+
+def reads_of(name, args):
+    """As site/lib/chat/ask.ts readsOf: what one query or compare read, never a figure."""
+    def one(a):
+        if not isinstance(a, dict) or not isinstance(a.get("table"), str):
+            return []
+        r = {"table": a["table"]}
+        r.update({k: a[k] for k in READ_KEYS if isinstance(a.get(k), str) and a[k]})
+        return [r]
+    if name == "query":
+        return one(args)
+    if name == "compare":
+        return one((args or {}).get("a")) + one((args or {}).get("b"))
+    return []
+
 
 def nodash(text):
     return text.replace(chr(0x2014), " - ").replace("  -  ", " - ")
@@ -186,9 +355,15 @@ class Asker:
         return tools.TOOLS
 
     def opening(self, question, today, context=None, history=None):
-        """The first message. `context` is the view a reader opened the chat from, `history` the conversation so far
-        (only a profile uses either)."""
-        return f"Today is {today} (UTC).\n\nQuestion: {question}"
+        """The first message. `context` is the view a reader opened the chat from (a profile's), `history` the
+        conversation so far (session 1146: the general chat's too, as the site's); with none, as it always was."""
+        now = f"Today is {today} (UTC).\n\nQuestion: {question}"
+        past = clean_turns(history)
+        if not past:
+            return now
+        parts = [GENERAL_HISTORY_HEAD] + [GENERAL_HISTORY_TURN.format(n=i + 1, question=t["question"], answer=t["answer"], queries="; ".join(t["queries"]) or "none")
+                                          for i, t in enumerate(past)]
+        return "\n\n".join(parts) + "\n\n" + now
 
     def tag(self, name, args, out, n):
         """Called with every tool result before the model sees it; a profile may mark it (a result id)."""
@@ -199,12 +374,13 @@ class Asker:
         return []
 
     def extra_sources(self, context, history=None):
-        """Texts whose numbers count as given, beside the question and the tool results."""
-        return []
+        """Texts whose numbers count as given, beside the question and the tool results (session 1146: an earlier
+        answer's, checked when it was written)."""
+        return [x for t in clean_turns(history) for x in [t["answer"], *t["queries"]]]
 
     def known_tables(self, history):
         """Tables an earlier answer of the conversation read and cited: citing one again is not citing a table unread."""
-        return set()
+        return {x for t in clean_turns(history) for x in t["tables"]}
 
     def finish(self, record, results):
         """Called once with the final record; a profile adds to it (the series behind a chart)."""
@@ -213,7 +389,8 @@ class Asker:
         """Further texts of one tool call whose numbers count as fetched (a profile spells out the names it asked by)."""
         return []
 
-    def __init__(self, model=None, client=None, grid=None):
+    def __init__(self, model=None, client=None, grid=None, record_tools=False):
+        self.record_tools = record_tools   # session 1111: an evaluation's record holds every tool call and its result
         self.client = client or llm.client(os.environ.get("ERW_STEP") or ("chat_grid" if grid else "chat"), api_key=api_key())
         self.model = model or pick_model(self.client)
         self.grid = grid
@@ -308,25 +485,28 @@ class Asker:
             except json.JSONDecodeError:
                 raise RuntimeError(f"final message is not JSON: {text[:200]}")
             bad = unverified(draft["answer"], sources)
+            units = unit_mismatches(draft["answer"], sources)   # session 1110
             cited = [c["table"] for c in draft.get("citations", [])]
             uncited_tables = [t for t in cited if t not in tables_read]
             # session 35: an answer that is empty, or cites nothing, is not an answer (the grid check's CAISO question
             # came back empty and uncited after eight tool calls, and passed); "not in the warehouse" needs no citation
             no_cite = not draft.get("not_in_warehouse") and (not cited or not draft["answer"].strip())
             more = self.extra_problems(draft, results)
-            if not bad and not uncited_tables and not no_cite and not more:
+            if not bad and not units and not uncited_tables and not no_cite and not more:
                 final = draft
                 record["status"] = "not_in_warehouse" if draft.get("not_in_warehouse") else "answered"
                 break
             attempts += 1
             if attempts == 1:
                 record["retried"] = True
-                record["first_violations"] = bad + [f"cited table not read: {t}" for t in uncited_tables] \
+                record["first_violations"] = bad + [f"unit: {u}" for u in units] + [f"cited table not read: {t}" for t in uncited_tables] \
                     + (["empty or uncited answer"] if no_cite else []) + more
                 record["first_answer"] = draft["answer"]
                 problems = []
                 if bad:
                     problems.append("numbers in no tool result: " + ", ".join(bad))
+                if units:
+                    problems.append("numbers stated in a unit no tool result gives them in: " + ", ".join(units))
                 if uncited_tables:
                     problems.append("cited tables no tool read: " + ", ".join(uncited_tables))
                 if no_cite:
@@ -334,9 +514,11 @@ class Asker:
                 problems += more
                 messages.append({"role": "user", "content": self.retry.format(problems="; ".join(problems))})
                 continue
-            final = {"answer": REFUSAL, "citations": [], "not_in_warehouse": False}
+            why = why_refused(bad, units, uncited_tables, no_cite, more)
+            final = {"answer": (REFUSAL + " " + why).strip(), "citations": [], "not_in_warehouse": False}
             record["status"] = "refused_unverified"
-            record["second_violations"] = bad + [f"cited table not read: {t}" for t in uncited_tables] + more
+            record["why"] = why
+            record["second_violations"] = bad + [f"unit: {u}" for u in units] + [f"cited table not read: {t}" for t in uncited_tables] + more
             record["second_answer"] = draft["answer"]
             break
         # session 28: each citation's tier is the warehouse's, whatever the model copied
@@ -348,6 +530,22 @@ class Asker:
         for k in ("answer", "first_answer", "second_answer"):
             if isinstance(record.get(k), str):
                 record[k] = nodash(record[k])
+        if self.record_tools:
+            record["trace"] = results
+        # session 1146: what each query read, and on a refusal the tables it looked at with what each holds, as the site
+        reads = []
+        for r in results:
+            if not r.get("is_error") and not (isinstance(r.get("out"), dict) and r["out"].get("held")):
+                for x in reads_of(r["tool"], r["input"]):
+                    if x not in reads:
+                        reads.append(x)
+        if reads:
+            record["reads"] = reads
+        if record.get("status") in ("not_in_warehouse", "refused_unverified") and type(self) is Asker:
+            looked = list(dict.fromkeys([x["table"] for x in reads] + [r["input"].get("table") for r in results if r["tool"] == "describe_table" and isinstance(r.get("input"), dict)]))
+            near = tools.nearest_for([t for t in looked if t])
+            if near:
+                record["nearest"] = near
         record.update({"tool_calls": len(calls), "calls": calls, "usage": usage,
                        "cost_usd": cost_usd(self.model, usage), "seconds": round(time.time() - t0, 1), "seconds_first": seconds_first})
         self.finish(record, results)

@@ -143,7 +143,8 @@ class TheEvaluationsOwnLedgerStep(unittest.TestCase):
         r = src("site", "app", "api", "ask", "route.ts")
         self.assertIn('const evaluation = evalToken !== null && sameSecret(req.headers.get("x-erw-ask-eval") ?? "", evalToken);', r)
         self.assertIn('? await admitEvaluation(now, readEvalCap(), () => rpc("internal_ask_spend", { p_token: process.env.INTERNAL_COSTS_TOKEN ?? "" }, { privileged: true }))', r)
-        self.assertIn("const ledgerOpts = evaluation ? { step: EVAL_STEP, strictLedger: true } : {};", r)
+        # session 1111: an evaluation also records its tool calls (record: true); a visitor's request gets none of these
+        self.assertIn("const ledgerOpts = evaluation ? { step: EVAL_STEP, strictLedger: true, record: true } : {};", r)
         self.assertEqual(r.count("...ledgerOpts"), 3)          # the stream, Ask ERCOT and the general chat
         self.assertIn("if (gate.ok && !evaluation) {", r)       # the hourly limit is the visitor's, not the runner's
         lim = src("site", "lib", "chat", "limits.ts")
@@ -194,7 +195,7 @@ class TheGridsTablesByRule(unittest.TestCase):
         hand = {g["slug"]: g for g in json.load(open(os.path.join(ROOT, "docs", "grids", "grids.json"), encoding="utf-8"))["grids"]}
         self.assertEqual(sorted(ruled["grids"]), sorted(hand))
         self.assertEqual(ruled["errors"], {})                      # an unread table is never a finding
-        self.assertEqual(ruled["rules"], ["name", "entity", "ba", "queue", "iso"])   # the market rule is a fallback in the tools, not asked
+        self.assertEqual(ruled["rules"], ["name", "entity", "ba", "isoentity", "queue", "iso"])   # the market rule is a fallback in the tools, not asked; isoentity: session 1142
         for slug, g in ruled["grids"].items():
             self.assertEqual(g["tables"], sorted(g["by"]), slug)
             self.assertEqual(sorted(set(hand[slug]["tables"]) - set(g["tables"])), g["grids_json_not_found"], slug)

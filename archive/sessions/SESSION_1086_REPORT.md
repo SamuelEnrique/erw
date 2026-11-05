@@ -17,7 +17,7 @@
 
 ## The push
 
-This session's records (the report, the note's addendum, the merge of `wip/1041-records` and the queue move `fcb88fa3`) go to main in one push, documents only. Before snapshot `s1086-before` taken as its own command just before the push. The push's time, the after snapshot `s1086-after` and its comparison are recorded on `wip/1086-records` once taken (as chain 072's `wip/1041-records`), for this machine's next chain to land first.
+This session's records (the report, the note's addendum, the merge of `wip/1041-records` and the queue move `fcb88fa3`) go to main in one push, documents only. Before snapshot `s1086-before` taken as its own command just before the push. **Recorded on `wip/1086-records`:** `s1086-before` at 10:58:31 UTC; the first try at 10:58:40 not pushed (main had gained the data machine's queue moves of 053 and 054, merged, documents only); the push at 10:58:51 (`115e024a`); Vercel's status "Deployment rate limited, retry in 24 hours" at 10:58:52; `s1086-after` at 10:59:07, `compare s1086-before s1086-after`: **0 differences** on 25 pages, expected (documents only; production serves chain 073's build or a later one, every page in review). Merged `wip/1063-records` and `wip/1041-records` deleted on GitHub.
 
 ## Clean-up
 

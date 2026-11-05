@@ -16,8 +16,9 @@ generation, imports and exports too (four rows an hour); only the load row is ke
 
 REQUESTS. OASIS refuses a request of 31 days ("Data can be requested for period of 31 days only": a whole August,
 asked on 6 October 2026, was refused). The connector asks by half month (UTC: the 1st to the 16th, the 16th to the
-next 1st), newest first: the halves of this month and the last from CAISO each run, an earlier half once (its raw
-file is kept). Six seconds between requests, as the ERW's other OASIS connectors wait.
+next 1st), newest first, from the 1st of the month that --days (14) days back falls in: the halves of this month and
+the last asked again each run, an earlier half once (its raw file is kept); session 2060: so the last month is asked
+only in a month's first 14 days. Six seconds between requests, as the ERW's other OASIS connectors wait.
 
 License: public, with credit. CAISO's terms of use (https://www.caiso.com/privacy-terms-of-use, read 6 October 2026):
 its materials "may be used by you provided that you keep intact all copyright, trademark and other proprietary notices
@@ -47,7 +48,7 @@ PAUSE = 6
 
 
 def parse(content):
-    """One month's zip as ({hour start UTC: MW of the load schedule}, rows read). A zip that holds OASIS's error XML
+    """One half month's zip as ({hour start UTC: MW of the load schedule}, rows read). A zip that holds OASIS's error XML
     for "no data" gives no hour; any other error is raised."""
     z = zipfile.ZipFile(io.BytesIO(content))
     names = z.namelist()

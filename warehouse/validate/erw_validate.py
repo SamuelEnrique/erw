@@ -74,9 +74,51 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          # session 954: a quantity in metric tons and a price per kilogram, as the USGS's Mineral Commodity Summaries give
          # them (usgs_mcs_critical_minerals; Decision 56)
          "t", "USD/kg",
+         # session 2030: a volume in U.S. gallons, as EPA's Renewable Fuel Standard data give batch volumes (epa_rfs_rins_monthly;
+         # Decision 59)
+         "gal",
          # session 2045: precipitation in inches, as NOAA's nClimDiv gives a state's month (noaa_climdiv_state_monthly;
          # Decision 60)
-         "in"}
+         "in",
+         # session 2072: metric tons of CO2 equivalent, as EPA's GHGRP reports a facility's total (AR4 global warming
+         # potentials; epa_ghgrp_facility_emissions; Decision 61)
+         "tCO2e",
+         # session 2092: degrees Celsius, the Oceanic Nino Index and the Nino 3.4 sea surface temperature as NOAA CPC gives them
+         # (noaa_cpc_oni_monthly; Decision 62)
+         "degC",
+         # session 2106: an area in acres (43,560 square feet), as BLM counts federal land under oil and gas lease
+         # (blm_oil_gas_statistics_annual; Decision 63)
+         "acre",
+         # session 2107: solar radiation in megajoules per square meter a day, as NOAA's USCRN gives a month's average daily
+         # total (noaa_uscrn_solar_monthly; Decision 64)
+         "MJ/m2-day",
+         # session 2113: a river's discharge in cubic feet a second, as the USGS gives a gauge's daily mean
+         # (usgs_streamflow_daily; Decision 65)
+         "ft3/s",
+         # session 2121: a mass in grams, as EPA's Toxics Release Inventory reports dioxins (epa_tri_energy_releases_annual;
+         # Decision 66)
+         "g",
+         # session 2137: parts per million of dry air, carbon dioxide at Mauna Loa as the Scripps CO2 Program gives it
+         # (scripps_co2_mlo_monthly; Decision 67)
+         "ppm",
+         # session 2150: electricity used a person in a year, in kWh, as the World Bank republishes the IEA's figure
+         # (wb_iea_electricity_annual; Decision 68)
+         "kWh/person",
+         # session 2169: a volume a day in cubic metres, as the CER gives a pipeline's throughput and capacity
+         # (cer_pipeline_throughput; Decision 69)
+         "m3/d",
+         # session 2179: a volume in cubic metres, as Statistics Canada gives crude oil (and natural gas in thousands, written
+         # times 1,000) a month (statcan_oil_gas_supply_monthly; Decision 70)
+         "m3",
+         # session 2211: a reservoir's pool elevation in feet above mean sea level and its storage in acre-feet, as
+         # Reclamation gives Lake Mead's and Lake Powell's (usbr_mead_powell_daily; Decisions 71 and 72)
+         "ft", "acre-ft",
+         # session 2244: a crude oil's API gravity in degrees, as EIA gives the crude run at refineries
+         # (eia_crude_quality_monthly; Decision 73)
+         "degAPI",
+         # session 2245: natural gas heat content in Btu a cubic foot, as EIA gives the gas delivered to consumers
+         # (eia_gas_heat_content_monthly; Decision 74)
+         "Btu/ft3"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")

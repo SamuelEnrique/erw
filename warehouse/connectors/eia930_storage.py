@@ -6,14 +6,17 @@ Energy Research Warehouse (ERW) connector, session 31 (Part B1). Writes one seri
     warehouse/output/eia930_all_storage.csv    net_generation_battery_mw, column ba (the partition column)
 
 from the EIA API v2 route electricity/rto/fuel-type-data, facet fueltype BAT, hourly. The value is net generation
-as EIA publishes it: positive while the batteries discharge, negative while they charge. MW.
+as EIA publishes it: positive while the batteries discharge, negative while they charge, where the BA reports charging
+(ISNE and SWPP are never negative, and ERCO has no negative hour before 2025-12-15, session 2298). MW.
 
     python warehouse/connectors/eia930_storage.py --since 2024-07-01      # the history (session 31)
     python warehouse/connectors/eia930_storage.py --days 3                # the daily run
 
-Why a table of its own: eia930_all_generation carries the same series, but only for the rolling 30 days of that
-table; this one keeps it from EIA's first BAT hour. Which BAs report BAT (checked 2026-09-29): ERCO from 2024-11-06,
-ISNE from 2024-11-06, MISO from 2025-01-15, SWPP from 2026-02-04 and US48 from 2024-07-15. CISO, NYIS and PJM report
+Why a table of its own: eia930_all_generation carries the same series, but only from 2026-08-26 (session 5's first
+window, never trimmed since); this one keeps it from the history pull. Which BAs report BAT (checked 2026-09-29): ERCO
+from 2024-11-06, ISNE from 2024-11-06, MISO from 2025-01-15, SWPP from 2026-02-04 and US48 from 2024-07-15. The first
+days held (session 2298): US48 2024-11-01, ERCO and ISNE 2024-11-07, MISO 2025-01-16, SWPP 2026-02-05 (a first day
+with a missing hour is not written; US48's days from 2024-07-15 to 2024-10-31 are not held). CISO, NYIS and PJM report
 no BAT series in EIA-930 (the API returns 0 rows); CAISO's own battery output is caiso_battery_storage.
 
 Time: EIA's hourly period is the END of the hour in UTC (see eia930.py), so ts_utc = period minus one hour.
@@ -147,7 +150,8 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): EIA-930 hourly battery storage net generation (fuel type BAT) by "
             "balancing authority",
             "Shape: series (docs/datastandard.md v0), partition column ba. net_generation_battery_mw, MW, as EIA "
-            "publishes it: positive while discharging, negative while charging. ts_utc is the hour's start (EIA's "
+            "publishes it: positive while discharging, negative while charging where the BA reports charging (ISNE and SWPP "
+            "never do; ERCO from 2025-12-15). ts_utc is the hour's start (EIA's "
             "period, the hour's end, minus one hour).",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia930_storage.py via the EIA API v2",
             f"Run log: warehouse/output/logs/eia930_storage_{run_id}.log (every API request, key removed)",

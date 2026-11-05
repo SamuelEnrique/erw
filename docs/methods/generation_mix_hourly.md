@@ -1,5 +1,7 @@
 # The energy mix by hour: the average day of each month, and the records
 
+Tables: `generation_mix_hourly_profile`, `generation_mix_records`
+
 Two derived tables behind the page `/mix/v2` ("The energy mix", version 2, in review), built by
 `warehouse/derived/mix_profile.py` for the seven ISO grids (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP) from
 January 2019. No request is made: the builder reads files the warehouse already holds.
