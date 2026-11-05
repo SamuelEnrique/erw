@@ -1,5 +1,7 @@
 # The node: ERCOT's settlement points against the hub, by day and by month
 
+Tables: `node_basis_daily`, `node_basis_summary`, `ercot_node_prices_hourly` (session 2340, the third added by session 2389; as held on 24 October 2026, 965,943 rows over 888 points, and 1,260 rows of 168 variables, October 2025 to October 2026)
+
 Two derived public tables, `node_basis_daily` and `node_basis_summary`, built by `warehouse/derived/node_basis.py`
 (session 358, the chain of 20 October 2026), and one internal table of hourly prices behind them,
 `ercot_node_prices_hourly`. They answer the node item of three packs: the battery's item 4, the generator's item 5 and
@@ -66,6 +68,8 @@ The hourly prices the daily table is computed from, within the owner's ceiling o
 real-time rows for the storage settlement points over the newest days that fit, `variable` `spp_dam` or `spp_rtm`,
 `USD/MWh`, `PT1H`, `ts_utc` the hour's start in UTC. The rest of the hours are kept only in the saved files they were
 read from, and `node_basis_daily` holds every point's day. Not loaded, not in the live set.
+
+Session 2389: as held on 24 October 2026, 499,728 rows over 236 storage settlement points (`x_class` `storage` in every row, as in the daily table's classes), 19 July to 23 October 2026, under the ceiling of 500,000.
 
 ## The hub
 

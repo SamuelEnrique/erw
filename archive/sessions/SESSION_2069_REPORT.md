@@ -23,3 +23,9 @@
 
 - New: `docs/state/note_2026-11-08_data.md`, this report.
 - On the data machine only: `runs/c066/` (the resolvers, the suite halves, the snapshots' outputs).
+
+## Addendum (written in session 2107, chain 069, 21:30 UTC)
+
+- **The check run passed and the branch merged:** run 40025102613 (`success`), merged to main as `363f63f8` ("Merge task/2056-2069-data: checks passed"); its commit status: the deployment completed.
+- **Rule 8's snapshot after:** `c066-land-after` (21:29:23 UTC) against `c066-land-before` (21:12:15 UTC): **0 differences** in all 25 pages, 0 checked number keys. Against `q069-before` (chain 069's queue move): 0 differences.
+- **Chain 067** (still unlanded) was told its reads now come after 222 at its merge.

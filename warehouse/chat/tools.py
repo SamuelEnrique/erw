@@ -194,6 +194,8 @@ def scope_rows(name, df):
         return df[df["ba"] == g["ba"]]
     if by == "entity" and "entity" in df.columns:
         return df[df["entity"].fillna("").str.startswith(g["slug"] + ":")]
+    if by == "isoentity" and "entity" in df.columns:   # session 1142: storage_buildout_monthly's iso:<slug>
+        return df[df["entity"] == "iso:" + g["slug"]]
     if by == "market" and "market" in df.columns and g.get("market_prefix"):
         return df[df["market"].fillna("").str.startswith(g["market_prefix"])]  # as the site: market like <prefix>*
     if by == "queue" and "source_table" in df.columns:
@@ -589,6 +591,32 @@ def per_kw(out, table, env=None):
         if isinstance(r.get("value"), (int, float)) and not isinstance(r.get("value"), bool):
             r["value_usd_per_kw"] = round(r["value"] / 1000, DIGITS)
     out["per_kw"] = {"unit": "USD/kW", "rule": PER_KW_TABLES[table]}
+    return out
+
+
+def holds_line(c):
+    """Session 1146, as site/lib/chat/tools.ts holdsLine: what a table holds, from its catalogue row, never a figure."""
+    span = f"{str(c.get('ts_min') or '')[:10]} to {str(c.get('ts_max') or '')[:10]}" if c.get("ts_min") and c.get("ts_max") else ""
+    iso = ", ".join(str(c.get("iso")).split(";")) if c.get("iso") and c.get("iso") != "none" else ""
+    parts = [f"{c['sector']} data" if c.get("sector") else "", iso, f"step {c['interval']}" if c.get("interval") else "", span,
+             f"from {c['source_report']}" if c.get("source_report") else ""]
+    return "; ".join(p for p in parts if p)
+
+
+def nearest_for(tables):
+    """Session 1146, as site/lib/chat/tools.ts nearestFor: up to three tables looked at, with what each holds."""
+    out = []
+    for t in list(dict.fromkeys(tables)):
+        try:
+            row = _cov_row(t)
+        except Exception:  # noqa: BLE001: a table the catalogue does not hold is left out
+            row = None
+        if row is None:
+            continue
+        row = {k: (None if isinstance(v, float) and v != v else v) for k, v in dict(row).items()}   # a blank of the coverage file is no value
+        out.append({"table": t, "holds": holds_line(row)})
+        if len(out) == 3:
+            break
     return out
 
 

@@ -25,7 +25,7 @@ export { keySeconds };
 
 type Citation = { table: string; source_report: string; data_version: string; tier?: string };
 type Row = { key: string; value: number | null; n?: number; at?: string };
-type Series = {
+export type Series = {
   result_id: string; table: string; title: string; group_by: string; kind: "line" | "bar"; unit: string | null; rows: Row[];
   rows_matched: number | null; note: string | null; source_report: string | null; license: string | null; tier: string | null; chosen_by: string;
   check?: { rows_fetched: number; rows: number; same: boolean; points: number; not_drawn: number };
@@ -63,7 +63,8 @@ export function sourceHref(table: string): { href: string; what: string } {
   return { href: `/data#${table}`, what: "ERW table" };
 }
 
-function SeriesBlock({ s, form }: { s: Series; form: Form }) {
+// session 1145: exported, so the general chat's form (app/ask/AskForm.tsx) draws a series as this panel does
+export function SeriesBlock({ s, form }: { s: Series; form: Form }) {
   const drawn = chartPoints(s.rows, s.group_by);
   const hours = s.group_by === HOUR_GROUP;   // session 161: the average day by hour is one line over the 24 local hours
   const points = drawn.points;

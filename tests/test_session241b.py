@@ -245,7 +245,7 @@ class TheWordsStay(unittest.TestCase):
 
     def test_ask_keeps_its_form(self):
         form = src(*APP, "ask", "AskForm.tsx")
-        self.assertIn('{busy ? "Querying the warehouse" : "Ask"}', form)
+        self.assertIn('{busy ? "Querying the warehouse" : turns.length ? "Ask next" : "Ask"}', form)   # session 1145: "Ask next" once a conversation has begun
         self.assertNotIn("<Brand", form)                                         # the page wraps it
 
     def test_no_em_dash_in_what_the_session_wrote(self):
