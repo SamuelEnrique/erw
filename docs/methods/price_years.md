@@ -1,5 +1,7 @@
 # The price years: what each economics page's figure is under every window of years held
 
+Tables: `price_years_by_window`
+
 One derived table, `price_years_by_window`, built by `warehouse/derived/price_years.py` (session 357, the chain of
 20 October 2026). No request is made. It answers the first weakness each economics pack ranks (section 6, item 1,
 "the years ahead"): every page prices its project on the last twelve months, and a reader could not see what the same

@@ -28,7 +28,7 @@ Totals hold their parts: a sum takes one level.
 ## Reading the API
 
 - EIA marks a month it has no figure for "Not Available" (solar's 132 months and wind's 120 before EIA counts them): omitted, as "none" is; any other non-number stops the table.
-- Units must be EIA's "Trillion Btu"; a series EIA returns nothing for stops the table.
+- Units must be EIA's "Trillion Btu"; the route returning no rows stops the table. The series are asked by their msn facet, so one series EIA leaves out is not caught by the code (session 2004 corrected this line, which said it stopped the table).
 
 ## License
 

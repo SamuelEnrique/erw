@@ -16,8 +16,8 @@ GridTracker. (emp.lbl.gov answers automated requests with HTTP 403; the same fil
 
 Resumable: a file an earlier run saved (warehouse/raw/lbnl_queues/*/manifest.csv, status 200, an xlsx) is read, not
 downloaded again. Every row keeps Berkeley Lab's own fields (q_status, IA_phase_clean, dates, region, entity, type,
-MW); status maps q_status to the ERW vocabulary (active, withdrawn, suspended, operational to operating), and a value
-outside that map fails the run. capacity_mw is mw_1 plus mw_2 plus mw_3, as Berkeley Lab adds them for a hybrid request.
+MW); status maps q_status to the ERW vocabulary (active, withdrawn, suspended, operational to operating; unknown to an
+empty status, q_status keeping it), and a value outside that map fails the run. capacity_mw is mw_1 plus mw_2 plus mw_3, as Berkeley Lab adds them for a hybrid request.
 """
 
 import datetime as dt

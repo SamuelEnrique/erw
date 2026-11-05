@@ -26,7 +26,8 @@ domain (credit: U.S. Energy Information Administration).
 | eia_primary_energy_monthly   | total-energy (MER tables 1.1, 1.2, 1.3) | monthly | TBtu (session 953) |
 
 Session 18 (tools 21 and 23): generation by state and energy source (Form EIA-923, every
-state, EIA's census regions and the US, all sectors, sectorid 99) for the energy mix
+state, DC, Puerto Rico from 2016, EIA's census regions and the US, all sectors, sectorid 99)
+for the energy mix
 explorer, with the energy sources that partition EIA's "all fuels" total (ALL = COW + PET +
 NG + OOG + NUC + HYC + HPS + WND + SUN + GEO + BIO + OTH, checked for Texas, July 2026, to
 the published digit) and DPV, EIA's estimate of small-scale solar, which ALL leaves out; retail
@@ -56,8 +57,12 @@ lists must carry a number; a date listed without a value is an omitted
 observation and is logged; a table is written only if its newest date is
 recent (daily 10 days, weekly 21 days, monthly 150 days: EIA's monthly trade
 data lag about three months). A series whose unit is not the expected one
-fails the table. Every run replaces each table's full history, so EIA
-revisions are picked up. The key comes from EIA_API_KEY.
+fails the table. Every run asks for each table's full history and merges it on
+(entity, variable, ts_utc) (ip.write_csv), so EIA revisions are picked up and a row EIA
+stops giving is kept from an earlier run (session 865 corrected the tables' header line;
+session 2004 this description). A part asked by series id stops the table when EIA returns
+nothing for one of them; a part asked by facet (the MER's msn) stops it only when the whole
+route returns nothing. The key comes from EIA_API_KEY.
 """
 
 import argparse
@@ -201,7 +206,7 @@ TABLES = {
         note="Conversion: EIA reports thousand megawatthours; value = EIA value x 1000 (MWh), exact. "
              "Sector 99 (all sectors). Energy sources: ALL (all fuels) = COW + PET + NG + OOG + NUC + "
              "HYC + HPS + WND + SUN + GEO + BIO + OTH; DPV (estimated small-scale solar) is not in ALL. "
-             "Locations: states, DC, EIA's census regions (geo empty) and US."),
+             "Locations: states, DC, Puerto Rico (from 2016), EIA's census regions (geo empty) and US."),
     # session 18: consumption by sector (tool 23)
     "eia_retail_sales_monthly": dict(
         parts=[dict(route="electricity/retail-sales", data="sales", facets=[],

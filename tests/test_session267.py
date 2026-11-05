@@ -358,7 +358,8 @@ class TheFixes(unittest.TestCase):
 
     def test_the_trace_is_off_unless_asked(self):
         ts = src("site", "lib", "chat", "ask.ts")
-        self.assertIn('const tracing = process.env.ASK_RECORD_TOOLS === "1";', ts)
+        # session 1111: or an evaluation admitted by its own token (the route sets opts.record); a visitor never
+        self.assertIn('const tracing = process.env.ASK_RECORD_TOOLS === "1" || opts.record === true;', ts)
         self.assertIn("...(tracing ? { trace: traced } : {})", ts)
 
 

@@ -21,7 +21,7 @@ OWN = {
     "components/board/BoardView.tsx": 0,
     "components/board/Workbench.tsx": 0,
     "components/grid/Conditions.tsx": 3,
-    "components/grid/Emissions.tsx": 3,
+    "components/grid/Emissions.tsx": 4,  # session 1151: one more, the last 24 hours' figures (F, grid_clean24_<grid>)
     "components/grid/YourGrid.tsx": 17,
     "components/mix/Now.tsx": 2,
     "components/mix/views.tsx": 0,

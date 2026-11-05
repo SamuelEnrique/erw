@@ -174,6 +174,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // in the list: each is read through its redirect, as a visitor's old link is
   ...["ercot", "caiso", "pjm", "miso", "nyiso", "isone", "spp", "us48"].flatMap((g) => [`/grid?grid=${g}`, `/grid?grid=${g}&view=clean`, `/grid?grid=${g}&view=exchange`]),
   "/grid?grid=ercot&view=mix", "/grid?grid=us48&view=mix", "/grid?grid=pjm&view=mix&mix=stress", "/grid?grid=ercot&view=network", "/grid?grid=us48&view=network",
+  // session 1151: CAISO's Network tab (the keyed panel of a grid other than ERCOT under the network component); /grid?view=network
+  // is the Lower 48's, read as /grid?grid=us48&view=network above
+  "/grid?grid=caiso&view=network",
   // session 299: the Gravity tab (the network's gravity shape with the exchange blocks under it)
   "/grid?grid=ercot&view=gravity&shape=gravity", "/grid?grid=us48&view=gravity&shape=gravity",
   // session 403: the ERCOT peak premium explorer (the thesis's default; another hub and two years; one month across the

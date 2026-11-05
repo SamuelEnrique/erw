@@ -167,7 +167,7 @@ class ThePage(unittest.TestCase):
         page = src("site", "app", "grid", "page.tsx")
         self.assertIn("<Brand>", page)
         for words in ("<ToolPicker label=\"Grid\"", "<ToolTabs label=\"Views\"", '<div data-grid-now="1"><NowView', '{view === "network" ? <NetworkView', "<MixView c={mix} />",
-                      "<EmissionsParts focus={`eia930:${grid.ba}`} />", "<MixClean c={mix} />", '<div className="mt-10"><ExchangeView grid={grid} /></div>', "<AskView grid={grid} question={one(sp.q) ?? \"\"} tab={view} compact />",
+                      "<EmissionsParts focus={`eia930:${grid.ba}`} grid={grid.slug} />",  # session 1151: grid names the keyed panel "<MixClean c={mix} />", '<div className="mt-10"><ExchangeView grid={grid} /></div>', "<AskView grid={grid} question={one(sp.q) ?? \"\"} tab={view} compact />",
                       "<GridMixParts", "<GridCleanParts", "<MixTable />", '{view === "gravity" ? (', '<aside className="min-w-0 lg:border-l lg:border-rule lg:pl-6" aria-label="Ask"', '<details className="mt-10 border-t border-rule pt-3 text-sm" data-decisions="299">'):
             self.assertIn(words, page)
 

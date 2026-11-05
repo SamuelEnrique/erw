@@ -1,5 +1,7 @@
 # Method: datacenter facilities (the datacenter power tracker)
 
+Tables: `datacenter_facilities`, `datacenter_queue_positions`
+
 Energy Research Warehouse (ERW), session 22. Table: `datacenter_facilities` (entities shape, derived, public). Code: `warehouse/derived/datacenter_facilities.py`. Pages that read it: `/datacenters` and the datacenter points on `/map` (platform tool 4).
 
 ## What it is

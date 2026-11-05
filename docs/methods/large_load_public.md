@@ -1,5 +1,7 @@
 # The large-load statements, public where it is safe
 
+Tables: `large_load_document_verdicts` (session 2389; as held on 24 October 2026, 427 rows; `large_load_public` has this note by its name)
+
 Energy Research Warehouse (ERW), session 255 (13 October 2026). Tables: `large_load_document_verdicts` and `large_load_public` (events, both **internal until the owner rules**). Code: `warehouse/derived/large_load_public.py`. No request was made to anyone: a verdict rests on a document's address, on its type as the statements table holds it, and on the terms session 205 read ([`docs/licenses.md`](../licenses.md)).
 
 ## The rule

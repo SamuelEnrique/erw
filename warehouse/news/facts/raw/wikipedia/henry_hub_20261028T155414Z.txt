@@ -1,0 +1,35 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: Henry Hub
+# url: https://en.wikipedia.org/wiki/Henry_Hub
+# revision: 1372903094
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20261028T155414Z
+
+The Henry Hub is a distribution hub on the natural gas pipeline system in Erath, Louisiana, owned by Sabine Pipe Line LLC, a subsidiary of EnLink Midstream Partners LP who purchased the asset from Chevron Corporation in 2014. Due to its importance, it lends its name to the pricing point for natural gas futures contracts traded on the New York Mercantile Exchange (NYMEX) and the OTC swaps traded on Intercontinental Exchange (ICE).
+It interconnects with nine interstate and four intrastate pipelines: Acadian, Columbia Gulf Transmission, Gulf South Pipeline, Bridgeline, NGPL, Sea Robin, Southern Natural Pipeline, Texas Gas Transmission, Transcontinental Pipeline, Trunkline Pipeline, Jefferson Island, and Sabine. The two compressor stations can compress 520,000 decatherm/d (6.3 GW). The transportation capacity is 1.8 billion ft3/d (bcf) (590 m3/s) (20.4 GW).
+Spot and future natural gas prices set at Henry Hub are denominated in US$ per millions of British thermal units and are generally seen to be the primary price set for the North American natural gas market. North American unregulated wellhead prices are closely correlated to those set at Henry Hub.
+
+
+== History ==
+The "Henry" hub is so named for its location in the Henry hamlet of Erath, which was named after the Henry High School that stood there until damaged by the flooding and storm surge from Hurricanes Ike (2008) and Rita (2005), though the natural gas facilities suffered minimal damage.
+This school was named for its benefactor, William Henry, who originally immigrated from Germany as Ludwig Wilhelm Kattentidt circa 1840, and replaced his surname with Henry, taken from his father's middle name 'Heinrich'. There are Henry descendants in the area to this day. It was customary for benefactors to sponsor schools; there were other similarly sponsored schools in Vermilion Parish around that time.
+Henry Hub began operations during the early 1950s when Stone and Webster, Inc. built the original facility with unionized labor for The Texas Company (Texaco). The facility was staffed by the International Union of Operating Engineers. In the 1960s, the Texas Company built and operated an adjoining facility, Sea Robin Plant, without utilizing union labor based on right-to-work laws implemented in Louisiana. By the 2000s, all of the unionized labor were replaced by contract laborers when Texaco and Chevron merged in October 2000.
+NYMEX began offering standardized natural gas contracts with delivery at the Henry Hub in April 1990.
+In 2011, the Henry Hub was the site of a land dispute, in which Sabine sued to condemn land near the site of their hub, and expropriate it from the Broussard family, who had owned it for generations, arguing that it was acting in the national interest. The lawsuit was settled in 2012, and in 2013 a second, older, lawsuit was settled with Texaco (like Sabine, a Chevron company) for contamination of Broussard land which Texaco had leased for many decades.
+
+
+== See also ==
+Petroleum in the United States
+LNG Price Assessment and Benchmark
+National Balancing Point (UK)
+Title Transfer Facility
+
+
+== References ==
+
+
+== External links ==
+Official website (enlink.com)
+NG Futures traded at CME/NYMEX
+Henry Hub Derivatives traded at ICE
+Energy Information Administration, Natural Gas Weekly Update Shows Henry Hub natural gas prices

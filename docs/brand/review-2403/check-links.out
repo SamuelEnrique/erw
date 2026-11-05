@@ -1,0 +1,18 @@
+check-links: 11 pages at http://localhost:32403, in the internal view
+read /policy: 63 links, 2 ids
+read /policy?view=week: 97 links, 2 ids
+read /play/battery: 51 links, 2 ids
+read /play/battery?mode=hard: 51 links, 2 ids
+read /play/ev: 40 links, 3 ids
+read /learn/bill: 65 links, 2 ids
+read /learn/problems/know-your-grid: 53 links, 2 ids
+read /learn/problems/prices-and-your-bill: 52 links, 2 ids
+read /learn/problems/when-the-grid-broke: 53 links, 2 ids
+read /learn/problems/storage-and-taxes: 53 links, 2 ids
+read /learn/problems/networks-and-money: 52 links, 2 ids
+67 internal addresses linked from 11 pages: asking for each (8 under /api/ not asked)
+1 pages linked with a fragment and not on the list: reading their anchors
+read /data: 384 links, 111 ids
+alias | /ask | "Ask" | on /policy (and 10 more pages) | the Ask panel's own address, a redirect to the Grid tool's panel (the owner's merge of 18 October 2026) (/ask -> /grid?grid=us48&ask=1)
+alias | /internal/lock | "lock" | on /policy (and 10 more pages) | an action, not a page: it closes the internal view and returns to the home page (/internal/lock -> /)
+check-links: 11 pages, 630 links, 67 addresses; 0 findings, 0 waiting for a ruling, 2 aliases, 8 addresses under /api/ not asked, 0 pages not read cleanly (detail in C:/Users/samen/Documents/erw/runs/s2403/links.json)
