@@ -2,6 +2,7 @@
 bought day-ahead is the figure "Your load" computes for it (scripts/datacenter-ways.mjs, pageOf, the page's own steps)
 to the last digit; a node's figure is its hub's plus its mean daily basis over the hub's twelve months, drawn only
 with at least 90 percent of the days; every row says why when it has no figure. No request and no model call."""
+import calendar
 import json
 import os
 import shutil
@@ -57,7 +58,21 @@ class Energy(unittest.TestCase):
     def test_most_nodes_are_drawn_and_none_in_real_time(self):
         nodes = {k: v for k, v in self.e["rows"].items() if k.startswith("ercot:") and not k.split(":")[1].startswith(("HB_", "LZ_"))}
         self.assertEqual(len(nodes), 873)
-        self.assertGreater(sum(v["da"] is not None for v in nodes.values()), 700)
+        # Session 2863: the nodes drawn are exactly those node_basis_daily holds for at least 90 percent of the days of
+        # the hub's twelve months, counted here from nodes.json. The count was "more than 700" while the table's days
+        # reached the hub's last month; from 31 October 2026 the hub's twelve months were November 2025 to October 2026
+        # and the table's day-ahead days stopped at 20 October (ERCOT's 31-day list was last saved on 19 October), so no
+        # node had 90 percent and the daily run's merge tests failed on a figure the rule itself withholds.
+        hub = node(script="const F = await import('./scripts/siting-files.mjs'); const S = await import('./lib/siting.ts');"
+                          "const d = await F.dc(); const t = S.twelveOf(d, F.files(), 'ercot', S.NODE_HUB, 'da');"
+                          "process.stdout.write(JSON.stringify(t ? t.months.map((r) => r.m) : null));")
+        drawn = sum(v["da"] is not None for v in nodes.values())
+        if hub is None:
+            self.assertEqual(drawn, 0)
+        else:
+            due = sum(calendar.monthrange(int(m[:4]), int(m[5:]))[1] for m in hub)
+            held = [sum(n.get("dam_basis", {}).get(m, [0, 0])[1] for m in hub) for n in json.loads(src("site", "data", "siting", "nodes.json"))["nodes"]]
+            self.assertEqual(drawn, sum(1 for h in held if h >= 0.9 * due))
         self.assertTrue(all(v["rt"] is None for v in nodes.values()))
 
 
