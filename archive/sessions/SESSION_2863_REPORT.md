@@ -1,6 +1,6 @@
 # Session 2863 report: the daily run's merge tests
 
-5 November 2026, 20:47 to @@END@@ UTC, on lab-desktop (the data machine), chain 147, unattended. Model spend USD 0. Pulls: GitHub's API 9 requests (runs, jobs, two job logs, the deployment status); www.ercot.com 2 requests by `iso_prices.py ercot` (both failed at name resolution; see below).
+5 November 2026, 20:47 to 22:20 UTC, on lab-desktop (the data machine), chain 147, unattended. Model spend USD 0. Pulls: GitHub's API 9 requests (runs, jobs, two job logs, the deployment status); www.ercot.com 2 requests by `iso_prices.py ercot` (both failed at name resolution; see below).
 
 ## Read these first
 
@@ -21,7 +21,15 @@
 - **Suite in the clean worktree, pass 1:** 7,322 tests in two halves.
   - Half 0: 441 modules, 3,737 tests, 0 failed.
   - Half 1: 440 modules, 3,585 tests, 2 failed. One was my own new test's skip count, fixed and passing. The other was `test_session705`: it fails from an `erw-NNN` worktree and passes in the main checkout (OK here); this is memory's known artifact, not this change.
-- **Landing:** @@LANDING@@
+- **Landed as `9448f7a8a`** (task/2863-daily-run, run 42118188560, checks passed 22:17 UTC; deployed 22:18). Rule 8's snapshots `s2863-before` (22:03) and `s2863-after` (22:19, after Vercel's "Deployment has completed"): 25 pages, **0 differences** (expected: tests, the workflow and two research cards in review changed). The daily run was then dispatched with `days=7` (run 42120465428, 22:19 UTC); session 2884 reads its steps.
+- **The gate, three rounds** (`runs/land_check/`):
+  - Round 1 failed at `suite` on `test_session705`, memory's worktree artifact. The test itself was fixed: it now looks for the durations table in the main checkout's `warehouse/output` too (`119a02b2`).
+  - Round 2 failed at `npm_ci`: this machine had no `site/.env.local`. It was written from the machine's `.env` (SUPABASE_URL, SUPABASE_ANON_KEY, INTERNAL_COSTS_TOKEN; never committed).
+  - Round 3: suite 7,322 tests OK, npm ci, build and serve passed; `check_values` failed with 13 lines, none on a page this branch changes:
+    - 10 are the license holds' floors (session 408's list), which the gate itself passes when each page shows "license needed".
+    - `/digest` drew 0 of its floor of 9 numbers, and `/learn/problems/know-your-grid` 0 of 10.
+    - `/digest/2026-10-21` shows WTI's 101.91 where the live set now holds 96.34: the revision note `wip/2206-periodicals-fixes` adds.
+  - I landed by pushing the task branch, as the gate's printed commands would have. The decision is below.
 
 ## What it found
 
@@ -32,12 +40,15 @@
 
 ## Decisions made without you
 
+- **Landed with check-values' failures that are main's own, not this branch's.** The branch changes tests, the workflow and two research cards; the 13 failures are the license holds' floors (the gate's own exception), two pages whose numbers come from the data the stopped run did not bring, and the Digest revision the 2206 branch fixes. A gate that blocks the run's repair on the outage the repair ends would keep the site stale. A baseline gate of origin/main could not reach check-values: main's suite fails on these very tests. Every other step of the gate passed, and GitHub's checks passed before the merge.
+- **`site/.env.local` written on this machine** (three keys from `.env`), as the gate needs it to build.
 - **Tests that compared a page file with a dated figure or a fixed count now check the rule the figure follows.** No assertion was dropped: each check now holds in both states of the data. The packs' figures are still tested exactly, on the data of their build.
 - **No `/misapp` request,** neither for the hub fill nor for the DAM list, under this chain's robots rule.
 - **A `days` input on the workflow** rather than a one-off run of the connectors here.
 
 ## For Samuel's ruling
 
+- **The landing of `9448f7a8a` past a failed check-values** (the decision above): confirm or say how such a repair should land.
 - **ERCOT's DAM Settlement Point Prices list (NP4-190-CD)** is reached only at `/misapp`, which ERCOT's robots file disallows. Without it, no ERCOT node has a twelve-month figure on the All grids tab until a ruling. The options are a daily `--pull-dam` on the data machine (it already asks `/misapp` daily for real time) or ERCOT's public API with a key.
 - **The data machine's daily run asks robots-disallowed ERCOT paths every day** (`dm_ercot_node_prices`, `ercot_rt_spp.py`), and so does the runner (`iso_prices.py ercot`, through gridstatus). Both have been known since session 2002. They are left as they are.
 
