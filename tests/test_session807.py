@@ -47,7 +47,9 @@ class TheWindow(unittest.TestCase):
     def test_the_window_ends_at_now_and_takes_nothing_after_it(self):
         import inspect
         src = inspect.getsource(brief.main)
-        self.assertIn("(when <= now)", src)
+        # session 2865: the window's filter moved into window_rows (session 2206) when the two branches met; main calls it
+        self.assertIn("(when <= now)", inspect.getsource(brief.window_rows))
+        self.assertIn("window_rows(df, now, args.hours)", src)
         self.assertIn('ap.add_argument("--now"', src)
         t = pd.Timestamp("2026-10-21T15:45Z")
         self.assertEqual(t.tz_convert("UTC").strftime("%Y-%m-%d %H:%M"), "2026-10-21 15:45")
