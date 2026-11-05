@@ -8,6 +8,7 @@ files. The full account is in `docs/machines.md`.
 ```
 queue/next/NNN-<slug>.md    a whole prompt file (a chain of sessions, or one session), waiting
 queue/done/NNN-<slug>.md    taken: the file as it was run
+queue/parked/NNN-<slug>.md  parked (session 2862): kept, never run, until the owner moves one back to queue/next/
 queue/CHAIN_TEMPLATE.md     the shape of a prompt file: copy it, fill it in, save it in queue/next/
 ```
 
