@@ -79,7 +79,8 @@ export const DOCS = docs as unknown as Docs;
 /** Session 238: one day's chart of the Digest, as warehouse/analysis/findings/daily_chart.py recorded it. */
 export type DigestChart = { date: string; title: string; fact: string; table: string; source: string; unit: string; rule: string; rendered_at: string; image: string; proof: boolean;
   numbers: Record<string, number | string>;   // session 315: the record's own figures
-  width?: number; height?: number };   // session 411: the picture's own size in pixels (absent in a bundle built before)
+  width?: number; height?: number;   // session 411: the picture's own size in pixels (absent in a bundle built before)
+  image_600?: string };   // session 815: the phone picture (<date>-600.png), when the day has one
 /** The days with a chart of the Digest, newest first (session 238). */
 export function digestChartDays(): string[] {
   return Object.keys(DOCS.digest_charts ?? {}).sort().reverse();
@@ -105,7 +106,7 @@ function sitePath(repoPath: string): string {
   m = file.match(/^docs\/analysis\/(.+\.(?:png|svg|json))$/);
   if (m) return `/analysis-files/${m[1]}${tail}`;
   // session 232: the Digest's chart of the day (docs/digest/charts/<date>.png), copied into public/digest-charts at build
-  m = file.match(/^docs\/digest\/charts\/(\d{4}-\d{2}-\d{2}\.png)$/);
+  m = file.match(/^docs\/digest\/charts\/(\d{4}-\d{2}-\d{2}(?:-600)?\.png)$/);
   if (m) return `/digest-charts/${m[1]}${tail}`;
   return `${site.repository}/blob/main/${p}`;
 }
@@ -170,6 +171,16 @@ export function render(md: string, repoPath: string): string {
     renderer: {
       html(token) {
         return safeHtml(token.raw ?? token.text);   // session 177: a tag in a document is text, not markup
+      },
+      // session 815: the Digest's chart of the day offers its phone picture under 640 px when the day has one (the markdown
+      // names the 1200 px picture; the build records the 600 px one beside it in digest_charts). Any other image as marked draws it.
+      image({ href, title, text }) {
+        const m = /^\/digest-charts\/(\d{4}-\d{2}-\d{2})\.png$/.exec(href);
+        const phone = m ? DOCS.digest_charts?.[m[1]]?.image_600 : undefined;
+        if (!safeHref(href)) return escapeHtml(text);
+        const alt = escapeHtml(text), t = title ? ` title="${escapeHtml(title)}"` : "";
+        if (!phone) return `<img src="${escapeHtml(href)}" alt="${alt}"${t}>`;
+        return `<img src="${escapeHtml(href)}" srcset="/digest-charts/${phone} 600w, ${escapeHtml(href)} 1200w" sizes="(max-width: 640px) 100vw, 640px" alt="${alt}"${t}>`;
       },
       // session 581: each heading carries the id GitHub gives it, so a link to a place in a document (the documents'
       // own links, docs/methods/x.md#y, and the pages' links to /data/methods/x#y) lands where it names
