@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { DOCS, archiveDays, digestDates, renderDigest } from "@/lib/markdown";
+import { digestRevisions } from "@/lib/digestLive";
 import { dayKind, dayWords } from "@/lib/digest";
 import { utcDay } from "@/lib/license";
 
@@ -12,18 +13,20 @@ export const metadata: Metadata = { title: "ERW's Energy Digest" };
 
 const KIND_WORDS = { weekend: "no weekend issue", pending: "not written yet", missed: "no Digest" } as const;
 
-export default function DigestIndex() {
+export default async function DigestIndex() {
   const dates = digestDates();
   const newest = dates[0];
   const today = utcDay();
   // session 402: the page is today's Digest, or one line saying today has none; until this session it showed the newest
   // Digest whatever its day, so on a day without one a visitor read the day before's as today's
   const kind = dayKind(today, dates, today);
+  // session 2207: a figure the warehouse revised after the issue was written is said in one line under the numbers
+  const revisions = kind === "digest" ? await digestRevisions(DOCS.digests[today], today) : {};
   return (
     <Brand>
     <div className="grid gap-8 lg:grid-cols-[1fr_14rem]">
       {kind === "digest" ? (
-        <article className="prose-erw min-w-0" data-digest-today={today} dangerouslySetInnerHTML={{ __html: renderDigest(DOCS.digests[today], today) }} />
+        <article className="prose-erw min-w-0" data-digest-today={today} dangerouslySetInnerHTML={{ __html: renderDigest(DOCS.digests[today], today, new Date(), revisions) }} />
       ) : (
         <article className="prose-erw min-w-0" data-digest-today="none">
           <h1>ERW&apos;s Energy Digest</h1>

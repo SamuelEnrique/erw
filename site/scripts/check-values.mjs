@@ -1256,6 +1256,18 @@ async function main() {
         if (d.pass === false) pass = false;
         of = ` of ${d.label}${d.why ? ` (${d.why})` : ""} |`;
       }
+      // session 2207 (Samuel's ruling of 23 October 2026, item 7): a stored Digest issue keeps the figure it printed; when
+      // the page says in its own line that the publisher revised it (lib/digest.ts, data-revised with the value held
+      // now) and that value is the live set's, the figure is a note, not a failure
+      if (!pass && /^digest_(dam|rt|fuel)\|/.test(check) && t !== undefined && t !== null) {
+        const rv = new RegExp(`data-revised="${check.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}" data-revised-value="([^"]+)"`).exec(html);
+        if (rv && Math.abs(Number(rv[1]) - Number(t)) < 1e-9 * Math.max(1, Math.abs(Number(t)))) {
+          out.ok++;
+          out.n++;
+          out.lines.push(`note | ${page} | ${check} | revised: page shows "${text}" as the issue printed it, its note says ${rv[1]} | page read ${raw} | Supabase ${t}`);
+          continue;
+        }
+      }
       pass ? out.ok++ : out.bad++;
       out.n++;
       out.lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | Supabase ${t}`);
