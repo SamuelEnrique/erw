@@ -22,7 +22,9 @@ months the mix reads California's generation here (docs/methods/generation_mix_h
 Ceiling: 800,000 rows (the approved pull). The window is 2,557 Pacific days, at most 312 rows a day (13 sources, 24
 hours; 325 on the day the clocks go back): 797,784 rows if every day is complete. The run refuses a window that could
 exceed the ceiling and writes nothing if the rows read exceed it. A day that falls short of an interval is logged and
-skipped, never filled. License: public (CAISO's public system data; cite "California ISO, Today's Outlook").
+skipped, never filled. (Session 2124: no day the clocks change on is written, neither the 23-hour nor the 25-hour day,
+because the local times of those days fail to convert; the table lacks all 14 of them, and in the hydro months it also
+lacks 2020-02-18, so "hydro throughout" holds for the days written. docs/methods/caiso_fuel_supply_history.md) License: public (CAISO's public system data; cite "California ISO, Today's Outlook").
 """
 
 import argparse
@@ -100,7 +102,7 @@ def main(argv=None):
     ap.add_argument("--out-dir", help="a trial: the table under this folder, not warehouse/output")
     args = ap.parse_args(argv)
     days = window(args.start, args.end)
-    most = len(days) * 24 * len(cfs.SOURCES) + 8 * len(cfs.SOURCES)      # eight days in the window have a 25th hour
+    most = len(days) * 24 * len(cfs.SOURCES) + 8 * len(cfs.SOURCES)      # seven days in the window have a 25th hour (session 2124: the bound allows eight)
     print(f"{len(days)} days, {days[0]} to {days[-1]}: at most {most:,} rows (ceiling {CEILING:,})")
     if most > CEILING:
         print(f"refused: the window could exceed the approved ceiling of {CEILING:,} rows", file=sys.stderr)

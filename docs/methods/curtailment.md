@@ -1,5 +1,7 @@
 # Method: wind and solar curtailment by ISO
 
+Tables: `iso_curtailment_monthly`
+
 Energy Research Warehouse (ERW), session 18. Tables: `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily` (series, daily, public) and `iso_curtailment_monthly` (derived, series, public). Code: `warehouse/connectors/curtailment.py`, `warehouse/derived/iso_curtailment_monthly.py`. The page that reads them: the site's `/curtailment` (platform tool 22, the curtailment tracker).
 
 **The three ISOs' figures do not mean the same thing.** CAISO and SPP publish curtailment. ERCOT does not; the ERW's ERCOT figure is an estimate built from ERCOT's reported limits. MISO publishes nothing usable. Compare them with care, and never add them up as if they were one measure.

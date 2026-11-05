@@ -33,3 +33,9 @@
 - New: `docs/state/note_2026-11-11_data.md`, this report.
 - Changed by the merge: the files above.
 - On the data machine only: `runs/c069/` (the resolvers, the suite halves, the snapshots' outputs).
+
+## Addendum (written in session 2148, chain 092, 23:36 UTC)
+
+- **The check run passed and the branch merged:** run 40039174871 (`success`), merged to main as `00106df7` ("Merge task/2106-2119-data: checks passed"). Its commit status: Vercel's deployment rate limited, so nothing deployed.
+- **Rule 8's snapshot after:** `c069-land-after` (23:36 UTC) against `c069-land-before` (23:20 UTC): **0 differences** in all 25 pages, 0 checked number keys.
+- **The queue step** handed this machine `092-day-30-october-data-bpa-snowpack-access-outlook-permits.md` (written by chain 090's session 2134), taken under the owner's instruction for this run with chain 090's agent's agreement (`388d41d1`, between snapshots `q092-before` and `q092-after`: 0 differences).

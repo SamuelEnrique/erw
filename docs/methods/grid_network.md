@@ -1,5 +1,7 @@
 # The grid network: method
 
+Tables: `grid_network_nodes`
+
 Energy Research Warehouse (ERW), session 49 (the plan of session 42). Three derived products from EIA-930's hourly interchange:
 
 - `grid_network_nodes`: one entity per balancing authority (BA).

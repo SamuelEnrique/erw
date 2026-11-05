@@ -1,5 +1,7 @@
 # Emissions and carbon intensity: method
 
+Tables: `carbon_intensity_hourly`, `carbon_intensity_daily`, `carbon_intensity_monthly` (session 2312; `eia930_all_emissions` has a note of its own on chain 105's branch)
+
 Built in session 32 for the site's `/emissions`; extended in session 34 (the other six CO2 columns, intensity from 2018, the monthly table). Four tables:
 
 | Table | Tier | What |
@@ -88,7 +90,7 @@ These are the Grid Monitor's "download data by balancing authority" files. The a
 - **The denominators, since session 34,** are the Demand and Net generation columns of the same EIA workbooks (sheet `Published Hourly Data`), from the emissions connector's extracts (the newest per BA). Session 32 used `eia930_all_generation` and `eia930_all_demand`, which keep about 30 days.
 - **Which hours:** an hour is written when its CO2 value and a denominator above zero are both present.
 - **Daily values** are energy-weighted, the day's CO2 over the day's MWh, over UTC days with all 24 hours.
-- **Monthly values** (session 34) are the same over UTC calendar months whose every day is complete. A month with a missing day is left out, so SPP, whose file often leaves one CO2 column empty, has 45 months, and US48 has 97.
+- **Monthly values** (session 34) are the same over UTC calendar months whose every day is complete. A month with a missing day is left out, so SPP, whose file often leaves one CO2 column empty, has 45 months, and US48 has 97. (Session 2312, as held on 24 October 2026: SPP 46, US48 98, of 1,275 monthly rows, to September 2026; 1,127,945 hourly and 46,980 daily rows, from 2018-07-02 to 2026-10-20.)
 - **All three tables are rewritten whole each run.** If a BA has no extract, the run fails and writes nothing.
 
 **Why the two differ: trade.** Demand is net generation minus net interchange. A BA that imports power made with more CO2 per MWh than its own has a higher demand intensity than generation intensity; one that exports its higher-CO2 power has the reverse. Without trade the two would be the same.

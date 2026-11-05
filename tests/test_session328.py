@@ -57,7 +57,7 @@ class TheBoard(unittest.TestCase):
         page = src("site", "app", "board", "page.tsx")
         self.assertIn("<TableDownloads tables={TABLES} /></>} />", page)  # session 502: `under` (the license line) before it; session 1137: the rows' CSV in the footer too
         tables = re.findall(r'"([a-z0-9_]+)"', page[page.index("const TABLES"):page.index("export default")])
-        self.assertEqual(len(tables), 18)   # session 1117: wb_commodity_prices_monthly, eia_gas_prices_state_monthly, eia_heating_fuel_prices_weekly
+        self.assertEqual(len(tables), 19)   # session 1117: wb_commodity_prices_monthly, eia_gas_prices_state_monthly, eia_heating_fuel_prices_weekly; session 2503: carb_auction_allowance_prices
         view = src("site", "components", "board", "BoardView.tsx")
         self.assertIn("export function BoardView({ file, footer, under }: { file: BoardFile; footer?: ReactNode; under?: ReactNode }) {", view)
         self.assertIn("      </div>\n      {footer}\n    </div>\n  );\n}", view)

@@ -1,5 +1,7 @@
 # Who owns the batteries: method
 
+Tables: `storage_owners_monthly`
+
 Built in session 87 for the review page `/storage/owners` ("Who owns the batteries"), since session 239 the owners tab of `/storage` (`/storage?tab=owners`; the old address redirects). One table:
 
 | Table | Tier | What |
@@ -45,3 +47,7 @@ The table is public (EIA-860M is in the public domain). It was first held out of
 ## Checks
 
 `tests/test_session87.py`: the builder on made-up units (sums, grids, ranks and ties, shares, a company with planned units only, the omitted duration, an Entity ID with two names); the table against `storage_buildout_monthly`; each grid's companies summing to the grid; the snapshot against the table; the page's model.
+
+## Checks against the table (session 2424)
+
+Counted from `warehouse/output` by `runs/c115/s2424/check_tables.py`: `storage_owners_monthly` 9,540 rows, one inventory month (August 2026, `freq P1M`), 948 entities (9,450 rows of companies `eia860:utility:<id>`, 70 of grids `iso:<grid>`, 20 of `us:outside_isos` and `us:total`), 108 variables over 9 grids (`x_grid`), units MW, MWh, MWh/MW, count and pct, no key given twice, every value a number. As the table section above describes. The Tables line was added so that the finder of held tables with no note sees it.

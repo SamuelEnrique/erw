@@ -5,6 +5,8 @@ each operator procures day-ahead, how long each product must be sustained by the
 model earns when one battery cannot sell more than its share of what the market buys. Nothing here changes the page or
 its tables.
 
+Tables: `spp_as_quantities`
+
 ## The quantities
 
 ### SPP: `spp_as_quantities`, an approved pull

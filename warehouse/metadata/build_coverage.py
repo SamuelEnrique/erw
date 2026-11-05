@@ -95,6 +95,7 @@ TIER_RULES = [
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
+    ("derived", r"^eia930_demand_growth$"),  # session 2298: ERW code (warehouse/derived/demand_growth.py) over EIA-930's workbooks
     ("derived", r"^interconnection_durations$"),  # session 671: ERW code over the Queued Up file (an entities table)
     ("derived", r"^interconnection_agreements_signed$"),  # session 854: the same, the requests with a signed agreement
     # session 345: NLR's JEDI workbooks' own formulas, evaluated by ERW code for each state the model lists, per MW
@@ -239,6 +240,12 @@ SECTOR_RULES = [
     (r"^irs_soi_energy_credits_annual$", "power"),  # session 2087: the IRS's residential energy credits by state
     (r"^eia_state_to_state_capacity$", "gas"),  # session 2090: EIA's state-to-state pipeline capacity
     (r"^noaa_cpc_oni_monthly$", "power;gas"),  # session 2092: NOAA CPC's Oceanic Nino Index
+    (r"^wfigs_wildfires$", "power"),  # session 2134: NIFC's WFIGS wildfires of 1,000 acres or more
+    (r"^gfz_kp_index_3h$", "power"),  # session 2135: GFZ Potsdam's planetary Kp, every three hours from 1932
+    (r"^epa_ghg_inventory_annual$", "carbon;power;oil;gas"),  # session 2136: EPA's Inventory of U.S. Greenhouse Gas Emissions and Sinks, 1990 to 2022
+    (r"^scripps_co2_mlo_monthly$", "carbon"),  # session 2137: the Scripps CO2 Program's Mauna Loa CO2, a month from 1958
+    (r"^doe_lead_energy_burden$", "power;gas"),  # session 2140: DOE's LEAD Tool, households' energy burden by county and income
+    (r"^afdc_station_counts_annual$", "power"),  # session 2141: AFDC's alternative fueling station counts by state, a year from 2007
     (r"^noaa_ncei_storm_events$", "power"),  # session 2042: NOAA's storm events
     (r"^nrc_event_notifications$", "power;uranium"),  # session 2043: the NRC's event reports
     (r"^doe_lng_export_applications$", "gas;lng"),  # session 2044: DOE's LNG export applications
@@ -251,20 +258,220 @@ SECTOR_RULES = [
     (r"^eia_lng_liquefaction_projects$", "gas"),  # session 2021: EIA's U.S. liquefaction capacity (LNG export projects)
     (r"^eia_mecs_manufacturing$", "power;gas;oil;coal"),  # session 2016: EIA's manufacturing survey (MECS)
     (r"^eia_recs_households$", "power;gas;oil"),  # session 2017: EIA's residential survey (RECS 2020)
+    (r"^cer_pipeline_throughput$", "oil;gas"),  # session 2169: the CER's pipeline throughput and capacity, the cross-border lines
+    (r"^desnz_uk_electricity_quarterly$", "power"),  # session 2168: DESNZ's Energy Trends 5.1, UK electricity by fuel
+    (r"^desnz_uk_renewables_quarterly$", "power"),  # session 2174: DESNZ's Energy Trends 6.1, UK renewable capacity and generation
+    (r"^ieso_generation_fuel_hourly$", "power"),  # session 2224: the IESO's Ontario generation by fuel, an hour, from 2020
+    (r"^eurostat_electricity_monthly$", "power"),  # session 2225: Eurostat's monthly electricity, net production by fuel and the flows, from 2016
+    (r"^eurostat_electricity_trade_annual$", "power"),  # session 2432: Eurostat's annual electricity imports and exports by partner, European countries
+    (r"^desnz_uk_gas_quarterly$", "gas"),  # session 2226: DESNZ's Energy Trends 4.1, the UK's natural gas supply and consumption
+    (r"^ssb_norway_electricity_monthly$", "power"),  # session 2227: Statistics Norway's table 14091, Norway's electricity balance, a month from 1993
+    (r"^smard_germany_monthly$", "power"),  # session 2230: SMARD's Germany generation by source and grid load, a month from 2015
+    (r"^cbs_netherlands_electricity_monthly$", "power"),  # session 2231: CBS's table 84575NED, the Netherlands' electricity balance, a month from 1976
+    (r"^scb_sweden_electricity_monthly$", "power"),  # session 2236: SCB's table TAB1011, Sweden's electricity supply by type of production, a month from 1974
+    (r"^statfi_finland_electricity_monthly$", "power"),  # session 2273: Statistics Finland's table 12su, Finland's electricity supply and consumption, a month from 1992
+    (r"^energy_charts_central_europe$", "power"),  # session 2272: Energy-Charts, Austria's, Switzerland's and Czechia's public net production and load, hourly
+    (r"^statee_estonia_electricity_monthly$", "power"),  # session 2278: Statistics Estonia table KE21, Estonia's electricity production, imports and exports, monthly
+    (r"^singstat_singapore_electricity$", "power"),  # session 2308: SingStat Table Builder M890831 and M890841, Singapore's electricity generation and consumption
+    (r"^csp_latvia_electricity_monthly$", "power"),  # session 2314: CSP table ENB010m, Latvia's electricity production, imports and exports, monthly
+    (r"^cso_ireland_electricity_monthly$", "power"),  # session 2320: CSO table MSM01, Ireland's gross and net electricity output, monthly
+    (r"^eia_petroleum_stocks_state_monthly$", "products"),  # session 2342: EIA petroleum/stoc/st, product stocks at refineries, bulk terminals and gas plants by state, monthly
+    (r"^bfe_switzerland_electricity_monthly$", "power"),  # session 2343: SFOE ENSTAT electricity balance of Switzerland, monthly
+    (r"^ens_denmark_electricity_monthly$", "power"),  # session 2348: the Danish Energy Agency's monthly electricity supply statistics, Denmark and its two areas
+    (r"^cence_costarica_generation_monthly$", "power"),  # session 2387: CENCE EnergiaMensualOficial, Costa Rica's official monthly generation by plant
+    (r"^econtrol_austria_electricity_monthly$", "power"),  # session 2391: E-Control's monthly electricity statistics (el_dataset_mn), Austria
+    (r"^ilr_luxembourg_electricity$", "power"),  # session 2392: ILR's electricity sector statistics, Luxembourg
+    (r"^hagstofa_iceland_power_annual$", "power"),  # session 2397: Statistics Iceland's public power plants, capacity and generation
+    (r"^eehc_egypt_electricity_annual$", "power"),  # session 2435: EEHC's annual reports, Egypt's capacity, peak load and generation by fiscal year
+    (r"^statcan_generation_class_annual$", "power"),  # session 2440: Statistics Canada 25-10-0020-01, generation by class of producer
+    (r"^statcan_power_disposition_annual$", "power"),  # session 2441: Statistics Canada 25-10-0021-01, annual supply and disposition of electric power
+    (r"^epe_brazil_consumption_monthly$", "power"),  # session 2446: EPE's yearbook raw data, Brazil's monthly consumption by state, class and sector
+    (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
+    (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
+    (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^eurostat_supply_diversity_annual$", "power;gas;oil;coal"),  # session 2832: Eurostat's nrg_ind_di, the diversity index of energy supply a year
+    (r"^eurostat_import_concentration_annual$", "power;gas;oil;coal"),  # session 2827: Eurostat's nrg_ind_ioc, the EU's energy import origin concentration by fuel a year
+    (r"^eurostat_fossil_share_annual$", "power"),  # session 2826: Eurostat's nrg_ind_ffgae, the share of fossil fuels in gross available energy a year
+    (r"^hops_croatia_annual$", "power"),  # session 2823: HOPS, Croatia's transmission network a year: production, exchange, load, losses
+    (r"^eles_slovenia_hourly$", "power"),  # session 2822: ELES, production and take-over on Slovenia's transmission network an hour from 2021
+    (r"^eurostat_gas_import_origin_annual$", "gas"),  # session 2821: Eurostat's nrg_ind_idogas, European natural gas import dependency by country of origin, 2015 to 2020
+    (r"^eurostat_nonhousehold_bands_annual$", "power"),  # session 2820: Eurostat's nrg_pc_205_v, non-household electricity by consumption band a year
+    (r"^eurostat_industry_electricity_annual$", "power"),  # session 2818: Eurostat's nrg_d_indq_n, European industry's electricity by NACE activity a year
+    (r"^eurostat_ev_recharging_power_annual$", "power"),  # session 2813: Eurostat's road_if_rchevpow, European EV recharging points by power category a year
+    (r"^eurostat_nuclear_fuel_cycle_annual$", "power;uranium"),  # session 2812: Eurostat's nrg_inf_nuc, Europe's nuclear fuel cycle facilities and nuclear heat a year
+    (r"^czso_cz_regional_electricity_annual$", "power"),  # session 2809: the CZSO's Comparison of Regions, Czech regions' electricity capacity, production and consumption
+    (r"^bfe_ch_electricity_wednesdays$", "power"),  # session 2808: the SFOE's weekly electricity balance (ogd51), Switzerland's balance on each Wednesday from 2003
+    (r"^destatis_de_electricity_monthly$", "power"),  # session 2807: Destatis's monthly report, Germany's general supply plants' electricity and heat by energy source
+    (r"^eurostat_electrification_rate_annual$", "power"),  # session 2806: Eurostat's nrg_ind_re, electricity's share of final energy consumption by sector a year
+    (r"^eurostat_ev_recharging_annual$", "power"),  # session 2804: Eurostat's road_if_rchev, European EV recharging pools, stations, points and power output a year
+    (r"^eurostat_data_centre_electricity_annual$", "power"),  # session 2799: Eurostat's isoc_env_ict_nrg, European data centres' electricity consumption a year
+    (r"^eurostat_household_electricity_annual$", "power"),  # session 2798: Eurostat's nrg_d_hhq, European households' electricity by end use a year
+    (r"^statat_austria_electricity_monthly$", "power"),  # session 2795: Statistics Austria's monthly electricity statistics from 2023
+    (r"^eurostat_import_dependency_annual$", "power"),  # session 2790: Eurostat's nrg_ind_id, European energy import dependency by product a year
+    (r"^statec_lu_supplier_mix_annual$", "power"),  # session 2785: STATEC's LUSTAT DF_A4209, the mix of electricity provided to Luxembourg's end users (CC0 1.0)
+    (r"^statec_lu_power_capacity_annual$", "power"),  # session 2784: STATEC's LUSTAT DF_A4201, Luxembourg's power stations' net maximum power and number (CC0 1.0)
+    (r"^statec_lu_electricity_trade_annual$", "power"),  # session 2776: STATEC's LUSTAT DF_A4208, Luxembourg's electricity imports and exports by country (CC0 1.0)
+    (r"^statec_lu_electricity_generation_annual$", "power"),  # session 2771: STATEC's LUSTAT DF_A4203, Luxembourg's electricity generation a year from 1928 (CC0 1.0)
+    (r"^statbel_be_electricity_production_annual$", "power"),  # session 2770: Statbel's beSTAT, Belgium's gross electricity production by product (CC BY 4.0)
+    (r"^ine_es_dwellings_electricity_2021$", "power"),  # session 2765: INE's 2021 census, Spain's dwellings by electricity consumption (CC BY 4.0)
+    (r"^statat_austria_electricity_annual$", "power"),  # session 2764: Statistics Austria's energy balances, Austria's electricity balance a year from 1970
+    (r"^eurostat_renewable_shares_annual$", "power"),  # session 2762: Eurostat's nrg_ind_ren, European renewable energy shares a year
+    (r"^eurostat_electricity_consumption_annual$", "power"),  # session 2757: Eurostat's nrg_cb_e, European electricity consumption by sector a year
+    (r"^dst_dk_electricity_supply_annual$", "power"),  # session 2756: Statistics Denmark's ENE1HT, Denmark's electricity supply a year from 1966 (CC BY 4.0)
+    (r"^wapa_energy_sales_annual$", "power"),  # session 2751: WAPA's energy sold and power rate by project, each fiscal year (DOE, public domain)
+    (r"^desnz_uk_fuel_used_generation_annual$", "power"),  # session 2748: DESNZ's DUKES 5.3, the fuel used in UK electricity generation (OGL v3.0)
+    (r"^desnz_uk_mpp_capacity_countries_annual$", "power"),  # session 2743: DESNZ's DUKES 5.8, the major power producers' capacity by UK country (OGL v3.0)
+    (r"^desnz_uk_capacity_by_connection_annual$", "power"),  # session 2742: DESNZ's DUKES 5.12, the UK's installed capacity by connection (OGL v3.0)
+    (r"^desnz_uk_derated_capacity_annual$", "power"),  # session 2734: DESNZ's DUKES 5.7, the UK's de-rated plant capacity a year (OGL v3.0)
+    (r"^desnz_uk_co2_intensity_annual$", "carbon"),  # session 2729: DESNZ's DUKES 5.14, the CO2 intensity of the UK's electricity supplied (OGL v3.0)
+    (r"^desnz_uk_plant_loads_annual$", "power"),  # session 2728: DESNZ's DUKES 5.10, the UK's maximum load, load factors and efficiency (OGL v3.0)
+    (r"^desnz_uk_storage_annual$", "power"),  # session 2720: DESNZ's DUKES 5.16, the UK's electricity storage a year (OGL v3.0)
+    (r"^desnz_uk_interconnector_flows_annual$", "power"),  # session 2715: DESNZ's DUKES 5.13, the UK's interconnector flows a year (OGL v3.0)
+    (r"^desnz_uk_power_stations$", "power"),  # session 2714: DESNZ's DUKES 5.11, the major power producers' power stations in the UK (OGL v3.0)
+    (r"^nspower_ns_load_hourly$", "power"),  # session 2708: NS Power's OASIS hourly total net Nova Scotia load (internal)
+    (r"^desnz_gb_regional_gas_consumption_annual$", "gas"),  # session 2698: DESNZ's gas consumption and meters by GB country and region, weather corrected (OGL v3.0)
+    (r"^desnz_gb_regional_consumption_annual$", "power"),  # session 2693: DESNZ's electricity consumption and meters by GB country and region (OGL v3.0)
+    (r"^desnz_regional_renewable_capacity_annual$", "power"),  # session 2692: DESNZ's installed renewable capacity by UK region and technology (OGL v3.0)
+    (r"^desnz_regional_renewables_annual$", "power"),  # session 2684: DESNZ's renewable generation by UK region and technology (OGL v3.0)
+    (r"^bchydro_ba_load_hourly$", "power"),  # session 2679: BC Hydro's balancing authority load an hour (internal)
+    (r"^desnz_uk_nations_electricity_annual$", "power"),  # session 2678: DESNZ's electricity generation and supply for each UK nation (OGL v3.0)
+    (r"^asub_aland_electricity_sales_annual$", "power"),  # session 2670: ASUB's PxWeb table MI010, Aland's electricity sales by distributor and sector (CC BY 4.0)
+    (r"^aedg_alaska_generation_monthly$", "power"),  # session 2665: the Alaska Energy Data Gateway's monthly generation by service area and fuel (CC BY 4.0)
+    (r"^stat_kz_kazakhstan_electricity_annual$", "power"),  # session 2664: the Bureau of National Statistics of Kazakhstan's fuel and energy balance, the electricity column
+    (r"^cosit_iraq_electricity_annual$", "power"),  # session 2661: COSIT's electricity projects statistics, Iraq's production, purchases, sales and losses
+    (r"^stat_tj_tajikistan_electricity_annual$", "power"),  # session 2659: the Agency on Statistics of Tajikistan's electricity output, trade and consumption (CC BY 4.0)
+    (r"^edf_sei_islands_electricity_annual$", "power"),  # session 2656: EDF SEI's annual production by source on the French island grids (Licence Ouverte)
+    (r"^asub_aland_electricity_annual$", "power"),  # session 2651: ASUB's PxWeb table MI009, Aland's electricity supply by origin (CC BY 4.0)
+    (r"^statai_anguilla_electricity_monthly$", "power"),  # session 2642: the Anguilla Statistics Department's Energy Statistics, Table 2.4.2-1, electricity generation a month (ANGLEC)
+    (r"^eso_cayman_electricity_annual$", "power"),  # session 2633: ESO's Compendium of Statistics 2024, Table 20.01, Grand Cayman's electricity capacity, production and consumption by class
+    (r"^asli_liechtenstein_electricity_annual$", "power"),  # session 2622: the Amt fuer Statistik Liechtenstein's Energie 2025, Tabelle 5, electricity production, trade and consumption since 1985
+    (r"^nawec_gambia_electricity_monthly$", "power"),  # session 2617: NAWEC's Annual Activity Report 2022, Table 3, the Gambia's electricity a month by source
+    (r"^ope_pf_electricity_annual$", "power"),  # session 2609: the Observatoire Polynesien de l'Energie's energy balance, edition 2024, French Polynesia's electricity a year
+    (r"^enercal_nc_electricity_annual$", "power"),  # session 2608: Enercal's activity report 2024-2025, New Caledonia's net production by plant, public purchases by source and transmission sales
+    (r"^cisos_cook_electricity_quarterly$", "power"),  # session 2603: the Cook Islands Statistics Office's Energy Statistics tables, electricity and renewable energy generated by island a quarter
+    (r"^siea_solomon_electricity_annual$", "power"),  # session 2602: Solomon Power's Annual Report 2025, Energy Produced, the Solomon Islands' production by station
+    (r"^je_jersey_electricity_annual$", "power"),  # session 2594: the Government of Jersey's Energy Trends 2025, the electricity column of its energy balances
+    (r"^cbs_curacao_electricity_annual$", "power"),  # session 2591: CBS Curacao's Manufacturing page, Curacao's electricity production (Aqualectra)
+    (r"^dbedt_hawaii_electricity_annual$", "power"),  # session 2580: DBEDT's State of Hawaii Data Book 2025, tables 17.07, 17.10 and 17.13, Hawaii's electricity by island
+    (r"^sbs_samoa_electricity_annual$", "power"),  # session 2574: SBS's Electricity Statistics 2025, tables E1 and E3, Samoa's production by source and EPC's sales by category
+    (r"^vmme_paraguay_electricity_annual$", "power"),  # session 2572: VMME's Balance Energetico Nacional 2024, cuadro 3, Paraguay's electricity balance
+    (r"^bcrp_peru_hydrocarbons_monthly$", "oil;gas"),  # session 2567: BCRPData's Produccion minera e hidrocarburos (INEI, MINEM), Peru's crude oil, natural gas liquids and natural gas a month
+    (r"^bcrp_peru_electricity_monthly$", "power"),  # session 2566: BCRPData's Produccion de electricidad por departamento (MINEM), Peru's production a month by department
+    (r"^abs_suriname_electricity_annual$", "power"),  # session 2563: ABS's Milieustatistieken 2024, tables 7.1, 7.4, 7.8 and 7.9, Suriname's demand, generation and capacity (EBS, Staatsolie)
+    (r"^nbs_maldives_electricity$", "power"),  # session 2562: NBS's Statistical Yearbook 2026, tables 12.2 and 12.1, the Maldives' production by island and Male's use by sector
+    (r"^arse_burkina_electricity_annual$", "power"),  # session 2561: ARSE's activity report 2024, table 15, Burkina Faso's production by producer and imports
+    (r"^eec_eswatini_electricity_annual$", "power"),  # session 2560: EEC's Integrated Annual Report 2025, Eswatini's energy sold, sent out, generated and imported
+    (r"^gastat_saudi_electricity_annual$", "power"),  # session 2552: GASTAT's Electrical Energy Statistics 2024, Saudi Arabia's capacity, peak load, energy and sales
+    (r"^derk_bih_electricity_annual$", "power"),  # session 2547: DERK's report on activities 2025, Annex C, Bosnia and Herzegovina's balance by utility
+    (r"^dfe_ni_electricity_monthly$", "power"),  # session 2544: DfE's Electricity Consumption and Renewable Generation in Northern Ireland, figures 6 to 9
+    (r"^nsi_bulgaria_electricity_monthly$", "power"),  # session 2539: NSI's Production and deliveries of electricity, Bulgaria a month
+    (r"^eru_czech_electricity$", "power"),  # session 2538: ERU's annual report on the Czech electricity system 2025, tables 3.1 to 3.3
+    (r"^inseed_togo_electricity_annual$", "power"),  # session 2535: INSEED's Annuaire Statistique National 2024, tables 25.2 and 25.7, Togo's purchases, production and sales
+    (r"^arsel_cameroon_electricity_annual$", "power"),  # session 2533: ARSEL's activity report 2025, Cameroon's production, purchases and transmission flows
+    (r"^instat_madagascar_electricity_monthly$", "power"),  # session 2532: INSTAT TBE 63 table 21, JIRAMA's electricity production and consumption a month
+    (r"^sors_serbia_electricity_annual$", "power"),  # session 2525: SORS's Energy Balances 2024, Serbia's balance of electricity
+    (r"^ask_kosovo_electricity_monthly$", "power"),  # session 2524: ASK's tab01, Kosovo's electricity production and consumption a month
+    (r"^nve_norway_reservoirs_weekly$", "power"),  # session 2516: NVE's reservoir statistics, Norway's hydropower reservoirs a week
+    (r"^statgl_greenland_electricity_annual$", "power"),  # session 2510: Statistics Greenland ENX3VVE and ENX4NUK, renewable electricity and Nukissiorfiit's sales
+    (r"^ncsi_oman_electricity_annual$", "power"),  # session 2504: NCSI's Energy Statistics 2026, Oman's electricity by governorate and by source
+    (r"^hagstova_faroe_electricity_annual$", "power"),  # session 2502: Statistics Faroe Islands UO03020 and UO03030, SEV's production by source and sales
+    (r"^slu_cso_electricity_annual$", "power"),  # session 2497: CSO Saint Lucia, LUCELEC's electricity output and consumption
+    (r"^grenada_cso_electricity_annual$", "power"),  # session 2496: CSO Grenada, electricity produced and consumed by category
+    (r"^nso_malawi_electricity_sales_annual$", "power"),  # session 2493: NSO Malawi's Statistical Year Book 2023, table 10.1, ESCOM's units sold by type of user
+    (r"^fbos_fiji_electricity_annual$", "power"),  # session 2492: FBoS table 3.7[A] and Electricity 2024 Appendix III, Energy Fiji Ltd's production and sales
+    (r"^zimstat_zimbabwe_generation_monthly$", "power"),  # session 2491: ZIMSTAT's Index of Electricity Generation, Appendix A, Zimbabwe's generation a month
+    (r"^ewa_bahrain_electricity_annual$", "power"),  # session 2490: EWA's Statistical Book 2024, Bahrain's electricity sent out, capacity, load and consumption
     (r"^epa_ghgrp_facility_emissions$", "carbon;power;oil;gas"),  # session 2072: EPA's GHGRP, every sector
+    (r"^epa_lmop_landfill_projects$", "power;gas"),  # session 2127: EPA's LMOP, landfills and landfill gas energy projects
+    (r"^epa_tri_energy_releases_annual$", "power;oil;gas;coal"),  # session 2121: EPA's Toxics Release Inventory, the energy industries
+    (r"^eurostat_gas_imports_monthly$", "gas;lng"),  # session 2213: Eurostat's gas and LNG imports by partner, a month
+    (r"^eurostat_renewable_capacity_annual$", "power"),  # session 2123: Eurostat's renewable and waste capacity by European country
+    (r"^eurostat_oil_monthly$", "oil"),  # session 2363: Eurostat's monthly oil supply, seven products by European country
+    (r"^eurostat_crude_imports_monthly$", "oil"),  # session 2369: Eurostat's monthly crude oil imports by partner, European countries
+    (r"^eurostat_crude_imports_by_field_monthly$", "oil"),  # session 2427: Eurostat's monthly crude oil imports by field of production, the EU
+    (r"^eurostat_solid_fuels_monthly$", "coal"),  # session 2364: Eurostat's monthly solid fuels supply by European country
+    (r"^eurostat_hard_coal_imports_annual$", "coal"),  # session 2426: Eurostat's annual hard coal imports by partner, European countries
+    (r"^makstat_macedonia_electricity_monthly$", "power"),  # session 2357: MakStat's electricity in MWh by months, North Macedonia
+    (r"^statbank_moldova_electricity_monthly$", "power"),  # session 2358: StatBank's electricity by months, Moldova
+    (r"^eurostat_electricity_capacity_annual$", "power"),  # session 2356: Eurostat's electricity capacity by fuel group and operator by European country
     (r"^fema_disaster_declarations$", "power;gas;oil"),  # session 2056: FEMA's disaster declarations (OpenFEMA)
     (r"^ieso_ontario_demand_hourly$", "power"),  # session 2070: the IESO's Ontario demand
     (r"^lbnl_tracking_the_sun$", "power"),  # session 2015: Berkeley Lab's Tracking the Sun, summarised (written in session 2020)
     (r"^nhc_hurdat2_track_points$", "power;oil;gas"),  # session 2059: NHC's HURDAT2 best tracks
     (r"^noaa_ncei_billion_disasters$", "power"),  # session 2073: NOAA's billion-dollar disasters
     (r"^nrc_license_actions$", "power;uranium"),  # session 2064: the NRC's renewed licenses and power uprates
+    (r"^owid_ember_electricity_annual$", "power;carbon"),  # session 2126: Ember's electricity demand and emissions through Our World in Data
+    (r"^cea_india_psp_annual$", "power"),  # session 2295: CEA's energy power supply position, India, a fiscal year by state and region
+    (r"^kpx_korea_generation_annual$", "power"),  # session 2297: KPX's EPSIS, South Korea's generation by source a year
+    (r"^kpx_korea_demand_monthly$", "power"),  # session 2297: KPX's EPSIS, South Korea's mean daily peak and base demand a month
+    (r"^statnett_norway_daily$", "power"),  # session 2350: Statnett's operational data, Norway's production and consumption a day
+    (r"^svk_sweden_production_hourly$", "power"),  # session 2351: Svenska kraftnat's Mimer, Sweden's production an hour by type, 2020 to 18 March 2025
+    (r"^eia_shale_gas_reserves_annual$", "gas"),  # session 2250: EIA's shale gas proved reserves and their changes, 2007 to 2021
+    (r"^eia_gas_heat_content_monthly$", "gas"),  # session 2245: EIA's heat content of gas delivered to consumers by state, a month
+    (r"^eia_crude_quality_monthly$", "oil"),  # session 2244: EIA's crude oil input qualities (API gravity, sulfur), a month
+    (r"^ons_brazil_balance_hourly$", "power"),  # session 2240: ONS's open data, Brazil's balance an hour by subsystem
+    (r"^ree_spain_balance_monthly$", "power"),  # session 2239: REE's REData, Spain's electrical energy balance a month
+    (r"^dosm_malaysia_electricity_monthly$", "power"),  # session 2322: DOSM (data.gov.my), Malaysia's electricity supply and consumption a month by sector
+    (r"^censtatd_hk_electricity$", "power"),  # session 2323: C&SD's Hong Kong Energy Statistics, electricity consumption by user a month, generation and trade a quarter
+    (r"^aneel_siga_plants$", "power"),  # session 2324: ANEEL's SIGA, Brazil's generation plants (central generation; operating, under construction, planned)
+    (r"^epra_kenya_electricity_annual$", "power"),  # session 2325: EPRA's statistics reports, Kenya's capacity by technology and consumption by customer category, a fiscal year
+    (r"^statcan_electricity_trade_monthly$", "power"),  # session 2328: Statistics Canada 25-10-0016-01, electricity receipts, deliveries and availability by province, a month (the U.S. trade among them)
+    (r"^eurostat_gas_balance_monthly$", "gas"),  # session 2329: Eurostat's supply, transformation and consumption of natural gas, a month (nrg_cb_gasm)
+    (r"^eia_refinery_utilization_monthly$", "oil;products"),  # session 2334: EIA's refinery utilization and capacity by PADD and refining district, a month (petroleum/pnp/unc)
+    (r"^ceb_srilanka_electricity_annual$", "power"),  # session 2371: CEB's Statistical Digest, Sri Lanka's stations, capacity, generation and maximum demand (internal)
+    (r"^erb_zambia_electricity_annual$", "power"),  # session 2420: ERB's Statistical Bulletin 2025, Zambia's generation by station, consumption, trade and capacity
+    (r"^statsbots_botswana_electricity_monthly$", "power"),  # session 2421: Statistics Botswana's electricity stats brief, generation, imports and distribution a month
+    (r"^erc_mongolia_electricity_annual$", "power"),  # session 2422: ERC Mongolia's Statistics on Energy Performance 2020, generation, imports, capacity and sales by grid
+    (r"^esco_georgia_electricity_monthly$", "power"),  # session 2423: ESCO's actual electricity balance of Georgia a month (in place of Cambodia)
+    (r"^energycom_ghana_electricity_annual$", "power"),  # session 2373: Ghana's Energy Commission bulletin, generation by source, imports and exports, peak load, a year (internal)
+    (r"^eia_gas_for_others_annual$", "gas"),  # session 2377: EIA's natural gas delivered for the account of others by state and sector, a year (natural-gas/cons/acct)
+    (r"^statcan_petroleum_products_monthly$", "oil;products"),  # session 2378: Statistics Canada 25-10-0081-01, petroleum products by supply and disposition, a month
+    (r"^statcan_energy_balance_annual$", "power;gas;oil;coal"),  # session 2383: Statistics Canada 25-10-0029-01, supply and demand of primary and secondary energy, a year
+    (r"^sne_panama_electricity_annual$", "power"),  # session 2407: Panama's Secretaria Nacional de Energia, gross generation by plant type, net production, maximum demand and load factor, a year (internal)
+    (r"^sne_panama_generation_monthly$", "power"),  # session 2407: Panama's Secretaria Nacional de Energia, total gross generation a month (internal)
+    (r"^amm_guatemala_generation_monthly$", "power"),  # session 2408: Guatemala's AMM, generation by fuel, imports, exports and the SNI's demand, a month (internal)
+    (r"^statsmu_mauritius_electricity_annual$", "power"),  # session 2409: Statistics Mauritius, Energy and Water Statistics, generation by source, capacity, peak demand and sales, a year (internal)
+    (r"^eia_net_imports_monthly$", "oil;products"),  # session 2412: EIA's U.S. net imports of crude oil and petroleum products by country, a month (petroleum/move/neti)
+    (r"^eurostat_electricity_production_annual$", "power"),  # session 2413: Eurostat's gross electricity production by fuel, all producers, a year (nrg_bal_peh, GEP)
+    (r"^statcan_generating_capacity_annual$", "power"),  # session 2418: Statistics Canada 25-10-0022-01, installed generating capacity by type and class of producer, by province, a year
+    (r"^eia_lng_storage_annual$", "gas;lng"),  # session 2292: EIA's LNG peak-shaving storage additions and withdrawals by state
+    (r"^eia_gas_plant_processing_annual$", "gas;products"),  # session 2287: EIA's gas plant processing (gas processed, liquids extracted), a year
+    (r"^eia_crude_tank_farm_stocks_monthly$", "oil"),  # session 2286: EIA's crude stocks at tank farms and pipelines, Cushing among them
+    (r"^eia_gas_storage_type_monthly$", "gas"),  # session 2283: EIA's underground gas storage by type (salt, non-salt), a month
+    (r"^energy_charts_portugal_power$", "power"),  # session 2282: Energy-Charts, Portugal's production by type and load
+    (r"^energy_charts_italy_power$", "power"),  # session 2281: Energy-Charts, Italy's production by type and load
+    (r"^ren_portugal_balance_annual$", "power"),  # session 2280: REN's Data Hub, Portugal's electricity balance a year (internal)
+    (r"^rte_eco2mix_france_halfhourly$", "power"),  # session 2238: RTE's eco2mix, France every half hour
+    (r"^pse_poland_balance_15min$", "power"),  # session 2252: PSE's power balance of Poland, a quarter hour
+    (r"^energy_charts_belgium_hourly$", "power"),  # session 2253: Energy-Charts' Belgian public net production by type and load, an hour
+    (r"^usbr_crsp_reservoirs_daily$", "power"),  # session 2221: Reclamation's CRSP power reservoirs above Lake Powell, a day
+    (r"^usbr_mead_powell_daily$", "power"),  # session 2211: Reclamation's Lake Mead and Lake Powell, a day
     (r"^usdm_drought_state_weekly$", "power"),  # session 2058: the U.S. Drought Monitor by state
     (r"^blm_oil_gas_statistics_annual$", "oil;gas"),  # session 2106: BLM's federal onshore leases, permits and wells by state and fiscal year
-    (r"^noaa_uscrn_solar_monthly$", "power"),  # session 2107: NOAA USCRN's monthly solar radiation near CAISO's and ERCOT's solar
-    (r"^eia_seds_residential_annual$", "power;gas;oil"),  # session 2108: SEDS's residential expenditures by source and state
     (r"^cec_total_system_generation_annual$", "power"),  # session 2109: the Energy Commission's in-state generation, imports and total system power
+    (r"^eia_seds_residential_annual$", "power;gas;oil"),  # session 2108: SEDS's residential expenditures by source and state
+    (r"^noaa_uscrn_solar_monthly$", "power"),  # session 2107: NOAA USCRN's monthly solar radiation near CAISO's and ERCOT's solar
     (r"^treasury_1603_awards$", "power;deals"),  # session 2112: the Treasury's Section 1603 awards
+    (r"^usaspending_doe_obligations$", "power;deals"),  # session 2188: USAspending.gov, DOE's budget, obligations and award obligations by category, a fiscal year
+    (r"^usgs_comcat_earthquakes_south_central$", "oil;gas"),  # session 2120: the USGS earthquake catalog, OK, KS, TX and NM
     (r"^usgs_streamflow_daily$", "power"),  # session 2113: the USGS's daily mean discharge below large hydropower plants
+    (r"^bpa_ba_hourly$", "power"),  # session 2148: BPA's balancing authority load and generation, five-minute values to the hour
+    (r"^nrcs_snotel_swe_daily$", "power"),  # session 2149: NRCS SNOTEL's daily snow water equivalent above the West's reservoirs
+    (r"^wb_electricity_access_annual$", "power"),  # session 2150: the World Bank's access to electricity by country
+    (r"^census_bps_state_annual$", "power"),  # session 2154: the Census Bureau's building permits by state, a year
+    (r"^afdc_ev_charging_state_annual$", "power"),  # session 2155: AFDC's EV charging stations and ports by state, each December
+    (r"^census_cbp_hosting_annual$", "power;datacenters"),  # session 2160: CBP's data processing and hosting (NAICS 518210) by state
+    (r"^statcan_electricity_generation_monthly$", "power"),  # session 2176: Statistics Canada's monthly generation by province, class and type
+    (r"^emi_nz_generation_demand_monthly$", "power"),  # session 2254: EMI's New Zealand grid generation and demand, nationally and by island, a month
+    (r"^census_c30_construction_monthly$", "power;datacenters"),  # session 2258: the Census Bureau's construction spending by type and owner, a month (data centers, power)
+    (r"^energy_charts_southeast_europe_daily$", "power"),  # session 2259: Energy-Charts' Hungary, Romania, Greece and Bulgaria, production by type and load, a day
+    (r"^census_qss_utilities_hosting_quarterly$", "power;gas;datacenters"),  # session 2264: the Census Bureau's QSS benchmark, utilities' and hosting's revenue, a quarter
+    (r"^statcan_oil_gas_supply_monthly$", "oil;gas"),  # session 2179: Statistics Canada's crude oil and natural gas supply and disposition, by province, a month
+    (r"^ntd_transit_energy_annual$", "power;products"),  # session 2182: the FTA's National Transit Database fuel and energy, an agency, mode and year
+    (r"^epa_needs_units$", "power"),  # session 2183: EPA's NEEDS for the 2025 reference case, one row a generating unit
+    (r"^bsee_offshore_incidents$", "oil;gas"),  # session 2177: BSEE's offshore incidents, one row an incident
+    (r"^nrc_rop_findings$", "power;uranium"),  # session 2178: the NRC's ROP findings and violations, one row a finding
+    (r"^wb_iea_electricity_annual$", "power"),  # session 2150: the IEA's electricity per person and renewable share, via the World Bank
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
@@ -505,6 +712,8 @@ def iso_of(table):
     if table in ("eia930_all_history", "noaa_isd_hourly", "noaa_grid_weather_stations", "noaa_grid_weather_hourly", "noaa_grid_weather_daily",
                  "eia930_demand_weather", "noaa_station_weather_hourly"):  # session 49: the seven ISO BAs, and their weather stations; session 126: their weighted weather and demand with it taken out
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
+    if table == "eia930_demand_growth":  # session 2298: the seven ISO BAs and the Lower 48 (it was read as "DEMAND")
+        return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48"
     if table == "census_metro_population":  # session 129: metropolitan areas, no ISO
         return "none"
     if table == "rrc_lease_production_monthly":  # session 49: Texas leases, no ISO
@@ -982,6 +1191,9 @@ def main():
                 elif n in gone_for_good and n not in {r["table"] for r in carried}:  # session 207: a retired table's line goes with its row
                     continue
             out_doc.append(ln)
+        last = max((i for i, ln in enumerate(out_doc) if name_of(ln) is not None), default=None)
+        if last is not None and todo:  # session 2134: a table after the alphabet's last goes in after the last line
+            out_doc[last + 1:last + 1] = [todo.pop(k) for k in sorted(todo)]
         if todo:
             raise ValueError(f"--only: no place in {os.path.relpath(DOC, ROOT)} for {sorted(todo)}")
         with open(DOC, "w", encoding="utf-8", newline="\n") as f:

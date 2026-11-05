@@ -4,6 +4,8 @@ The deal tracker (`/deals`: the deals, the tracker and the companies tabs). Writ
 from the builders' own descriptions, `warehouse/deals/extract.py` (session 15) and
 `warehouse/companies/seed_from_deals.py` (session 27); until then the page's lead paragraphs were its only note.
 
+Tables: `energy_deals`, `energy_deals_evidence`, `energy_companies`
+
 ## Where a deal comes from
 
 - **The stories.** The news stories the ERW scores (`news_stories`, `warehouse/news/`) that are scored, of the sectors
