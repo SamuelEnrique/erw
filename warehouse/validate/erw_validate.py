@@ -500,6 +500,14 @@ def validate(path):
             err("geo_format", f"{len(bad)} value(s) not ISO 3166-2 codes separated by commas "
                 f"(no spaces): {examples(bad.unique())}")
 
+    if stem == "utility_large_load_tariffs" and not missing:
+        # session 2871: every figure of a filed tariff carries its filing, the document's address and the page it is on
+        no_url = int((df["source_url"].str.strip() == "").sum()) if "source_url" in cols else len(df)
+        filed = df["entity"].str.startswith("filed:")
+        no_page = int((filed & (df["x_page"].str.strip() == "")).sum()) if "x_page" in cols else int(filed.sum())
+        if no_url or no_page:
+            err("filing_cited", f"{no_url} row(s) without source_url and {no_page} filed row(s) without x_page: "
+                "every row of utility_large_load_tariffs cites the filed document and its page")
     return {"file": path, "standard": STANDARD, "shape": "series",
             "errors": errors, "warnings": warnings, "info": info}
 
