@@ -279,7 +279,16 @@ def event_figures(r):
 
 
 def party_words(r):
-    return {w for p in str(r.get("parties") or "").split(";") for w in re.findall(r"[a-z]{4,}", p.lower())} - GENERIC_PARTY
+    """The words of a cluster's parties that may name one event in common with another cluster, lower case, the generic
+    words taken out. Session 2206 (digest audit, one-event matching): a whole word of two or more letters that is
+    capitalized or all capitals ("Eni", "DOE", "SPP", "NextEra"), as the scorer writes a party's name; until then only
+    runs of four or more letters counted, so a short name was never matched. A word of four or more letters still counts
+    whatever its case, as before."""
+    out = set()
+    for p in str(r.get("parties") or "").split(";"):
+        out |= {w.lower() for w in re.findall(r"\b(?:[A-Z][A-Za-z]+|[A-Z]{2,})\b", p)}
+        out |= set(re.findall(r"[a-z]{4,}", p.lower()))
+    return out - GENERIC_PARTY
 
 
 def same_event(a, b):
@@ -436,20 +445,28 @@ def an_word(word):
     return w[:1] in "aeiou"
 
 
-# Session 470 (digest audit fix 8): the why lines are the scorer's reasons; docs/voice.md cuts these adjectives
-HYPE = r"(?:major|massive|significant|significantly|huge)"
+# Session 470 (digest audit fix 8): the why lines are the scorer's reasons; docs/voice.md cuts these adjectives.
+# Session 2206: unprecedented, critical and key join the list. "key" and "critical" are also plain words of the trade
+# ("the key to", "critical minerals"): TERM says where they stand, and plain() leaves those.
+HYPE = r"(?:major|massive|significant|significantly|huge|unprecedented|critical|key)"
+TERM = r"(?!\s+(?:to|of|for|in|on|is|was|are|were|minerals?|infrastructure|mass|path|peak)\b)"
 
 
 def plain(text):
     """The why line without the adjectives docs/voice.md cuts: 'a major 2 GW deal' to 'a 2 GW deal', 'Massive outage' to
-    'Outage'; 'a' and 'an' follow the next word."""
+    'Outage'; 'a' and 'an' follow the next word. Session 2206: an adjective at the end of a sentence or a clause ("The
+    deal is significant.", "Prices rose, significantly") goes too; until then only one followed by a space did."""
     def article(m):
         an = an_word(m.group(2))
         cap = m.group(1)[0] == "A"
         return ("An" if cap else "an") + " " + m.group(2) if an else ("A" if cap else "a") + " " + m.group(2)
-    t = re.sub(rf"\b(an|a)\s+{HYPE}\s+(\w+)", article, str(text), flags=re.I)
-    t = re.sub(rf"(^|(?<=[.!?] )){HYPE}\s+(\w)", lambda m: m.group(1) + m.group(2).upper(), t, flags=re.I)
-    return re.sub(rf"\b{HYPE}\s+", "", t, flags=re.I)
+    t = re.sub(rf"\b(an|a)\s+{HYPE}{TERM}\s+(\w+)", article, str(text), flags=re.I)
+    t = re.sub(rf"(^|(?<=[.!?] )){HYPE}{TERM}\s+(\w)", lambda m: m.group(1) + m.group(2).upper(), t, flags=re.I)
+    t = re.sub(rf"\b{HYPE}{TERM}\s+", "", t, flags=re.I)
+    # at a stop, a comma, a semicolon or the end: the word and the space before it go, the mark stays; between two
+    # commas (", significantly,") the comma before it goes too
+    t = re.sub(rf",\s*\b{HYPE}\b(?=\s*[.,;:!?])", "", t, flags=re.I)
+    return re.sub(rf"\s*\b{HYPE}\b(?=\s*(?:[.,;:!?]|$))", "", t, flags=re.I)
 
 
 def why_line(text):
@@ -816,6 +833,28 @@ def select(clusters, digest_date, log, folder=None):
     return top10, by_group, ai
 
 
+def window_rows(df, now, hours):
+    """Session 2206 (digest audit, the window): the scored energy stories of the window, (rows, start, bounds). The window
+    is the `hours` before `now` and ends at `now`: a story dated after the run (a feed's clock ahead, an item dated for
+    its print edition) is left for the next issue, where until now it was taken and the stamp "the 24 hours to <the
+    run>" was false. bounds is the earliest and the latest publish time among the rows, or None when there are none."""
+    when = pd.to_datetime(df["event_date"], utc=True, format="ISO8601")
+    start = now - pd.Timedelta(hours=hours)
+    s = df[(df["scored_at"] != "") & (when >= start) & (when <= now)].copy()
+    s["sig"] = s["significance"].astype(int)
+    s["ai"] = s["ai_power_relevance"].astype(int)
+    s = s[s["sig"] > 0]  # 0 = not about energy (rubric)
+    held = when[s.index]
+    return s, start, ((held.min(), held.max()) if len(s) else None)
+
+
+def stamp_line(hours, start, now, n):
+    """The issue's first line: the window's real bounds, both ends written (session 2206; the form "for the N hours to
+    <time> UTC" stays first, as tests/test_session470.py reads it)."""
+    return (f"ERW's weekday brief of energy news for the {hours} hours to {now:%Y-%m-%d %H:%M} UTC, "
+            f"from {start:%Y-%m-%d %H:%M} UTC, from {n} scored stories.")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW Energy Digest")
     ap.add_argument("--hours", type=int, default=24)
@@ -845,12 +884,9 @@ def main(argv=None):
     try:
         now = pd.Timestamp.now(tz="UTC")
         df = ip.read_series(args.stories or os.path.join(ip.OUT_DIR, NAME + ".csv"), NEWS_COLS)
-        when = pd.to_datetime(df["event_date"], utc=True, format="ISO8601")
-        s = df[(df["scored_at"] != "") & (when >= now - pd.Timedelta(hours=args.hours))].copy()
-        s["sig"] = s["significance"].astype(int)
-        s["ai"] = s["ai_power_relevance"].astype(int)
-        s = s[s["sig"] > 0]  # 0 = not about energy (rubric)
-        log(f"digest {digest_date}: {len(s)} scored energy stories in the last {args.hours} hours")
+        s, start, bounds = window_rows(df, now, args.hours)   # session 2206: the window ends at the run, and is said so
+        log(f"digest {digest_date}: {len(s)} scored energy stories in the {args.hours} hours from {start:%Y-%m-%d %H:%M} to "
+            f"{now:%Y-%m-%d %H:%M} UTC" + (f"; the stories run from {bounds[0]:%Y-%m-%d %H:%M} to {bounds[1]:%Y-%m-%d %H:%M} UTC" if bounds else ""))
         if s.empty:
             raise RuntimeError("no scored stories in the window; not writing an empty digest")
         clusters = build_clusters(s)
@@ -884,8 +920,7 @@ def main(argv=None):
             f"out {u.output_tokens}; cost {cost or 'unknown'}")
         L = [f"# ERW's Energy Digest, {digest_date}", "",
              # session 21: one sentence (what, the period, the story count); the method is on /about#digest
-             f"ERW's weekday brief of energy news for the {args.hours} hours to {now:%Y-%m-%d %H:%M} UTC, "
-             f"from {len(s)} scored stories.", "",
+             stamp_line(args.hours, start, now, len(s)), "",
              *([NO_MODEL_LINE, ""] if args.no_model else []),
              "## Top of the industry", ""]
         for i, r in enumerate(top10.to_dict("records"), 1):
