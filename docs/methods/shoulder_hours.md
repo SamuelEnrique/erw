@@ -1,5 +1,7 @@
 # Method: the shoulder hours
 
+Tables: `shoulder_hours_monthly`
+
 Energy Research Warehouse (ERW), session 75. Table: `shoulder_hours_monthly` (series, derived, public). Code: `warehouse/derived/shoulder_hours.py`. Page: `/shoulder`, "The shoulder hours" (in review). Tests: `tests/test_session75.py`.
 
 **The question.** Solar floods the middle of the day and demand peaks in the evening. Does a 4-hour battery cover the stretch between them, or does the grid need longer storage? This table answers it as arithmetic, for ERCOT and CAISO, month by month, from data already held. "Shoulder" is this table's term, defined here, not an industry standard.
@@ -95,3 +97,7 @@ Each number `/shoulder` shows carries its key (`site/components/Num.tsx`), which
 - `shoulder_hours_monthly`, `year_worst10_mean_shoulder_hours_needed`, `year_days_ranked`, `year_worst10_mean_battery_hours`: the mean hours needed on the ten worst days of the selected month's year, the complete days ranked that year, and the mean hours the batteries ran at rated power in those days' shoulders, in the third headline. The first also closes the page's sentence on the hours needed.
 - `shoulder_hours_monthly`, `day_shoulder_mwh_above_mean`, `day_shoulder_hours`, `day_shoulder_start_hour`, `day_shoulder2_hours`, `day_shoulder2_hours_needed`: for each of the ten worst days (freq P1D), its shoulder energy above the day's own mean in MWh, the shoulder's length in hours and its first hour, and the second measure's length and hours needed, in the table of the ten days.
 - `shoulder_hours_monthly`, `year_mean_shoulder2_hours`, `year_mean_shoulder2_hours_needed`, `year_worst10_mean_shoulder_mwh_above_mean`, `year_worst10_mean_shoulder2_hours_needed`: by year (freq P1Y), the second measure's length and hours needed, each the mean over the months held, and the ten worst days' mean energy above the mean and mean hours needed by the second measure, in the table "By year: the second measure and the ten worst days", beside `year_days_ranked`, `year_worst10_mean_shoulder_hours_needed` and `year_worst10_mean_battery_hours`.
+
+## Checks against the table (session 2424)
+
+Counted from `warehouse/output` by `runs/c115/s2424/check_tables.py`: `shoulder_hours_monthly` 27,197 rows, January 2019 to 6 October 2026, 192 variables. By entity and freq: `iso:ercot` 11,891 monthly, 1,192 daily, 210 yearly; `iso:caiso` (EIA-930) 10,011, 995 and 189; `iso:caiso_own` (CAISO's own supply by fuel) 2,345, 312 and 52, the two California entities kept apart as the section on California's two sources says. Units MW, MWh, count, hour and ratio; geo US-TX and US-CA; no key given twice, every value a number. The table section's "`iso:ercot` or `iso:caiso`" predates `iso:caiso_own`, which the later section names. The Tables line was added so that the finder of held tables with no note sees it.

@@ -33,7 +33,17 @@ def near(a, b, key=""):
     made its moves and means from the values before rounding, so a figure may differ in its last place (2 in 10,000),
     and a percent by its last place or, over a base near zero, by a thousandth of itself."""
     if isinstance(a, dict) and isinstance(b, dict):
-        return a.keys() == b.keys() and all(near(a[k], b[k], k) for k in a)
+        if a.keys() != b.keys():
+            return False
+        if {"v", "ch", "pct"} <= a.keys() and all(isinstance(b[k], (int, float)) and not isinstance(b[k], bool) for k in ("v", "ch", "pct")) \
+                and isinstance(a["pct"], (int, float)) and b["v"]:
+            # session 2699: a move's percent is its change over its base, both held to 4 decimals, so over a small base the
+            # rounding (5 in 100,000 on each) moves the percent by 100 * (5e-5 / |base| + 5e-5 * |change| / base ** 2), beyond a
+            # thousandth of itself (caiso-as-caiso-as-price-dam-rd on 24 October 2026: base 0.0146, 2215.75 against 2218.13)
+            v, ch = abs(b["v"]), abs(b["ch"])
+            tol = 100 * (5e-5 / v + 5e-5 * ch / v ** 2)
+            return all(near(a[k], b[k], k) for k in a if k != "pct") and (near(a["pct"], b["pct"], "pct") or abs(a["pct"] - b["pct"]) <= tol)
+        return all(near(a[k], b[k], k) for k in a)
     if isinstance(a, (int, float)) and isinstance(b, (int, float)) and not isinstance(a, bool):
         if key == "pct":
             return abs(a - b) <= 0.011 or abs(a - b) <= 1e-3 * abs(b)
@@ -49,6 +59,17 @@ def history(rid):
         s = json.load(f)
     t0 = dt.date.fromisoformat(s["t0"])
     return {t0 + dt.timedelta(days=d): v for d, v in zip(s["d"], s["v"])}, s
+
+
+class ThePercentsRounding(unittest.TestCase):
+    def test_a_small_base_allows_its_rounding_and_no_more(self):
+        file = {"t": "2026-10-24", "v": 0.0146, "ch": 0.3235, "pct": 2218.13}
+        self.assertTrue(near({"t": "2026-10-24", "v": 0.0146, "ch": 0.3235, "pct": 2215.75}, file))
+        self.assertFalse(near({"t": "2026-10-24", "v": 0.0146, "ch": 0.3235, "pct": 2200.0}, file))
+        self.assertFalse(near({"t": "2026-10-24", "v": 0.0150, "ch": 0.3235, "pct": 2215.75}, file))
+        big = {"t": "2026-10-24", "v": 41.25, "ch": 3.1, "pct": 7.52}
+        self.assertTrue(near({"t": "2026-10-24", "v": 41.25, "ch": 3.1, "pct": 7.515}, big))
+        self.assertFalse(near({"t": "2026-10-24", "v": 41.25, "ch": 3.1, "pct": 7.6}, big))
 
 
 class TheFiguresAreTheFunctions(unittest.TestCase):

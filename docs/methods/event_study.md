@@ -1,5 +1,7 @@
 # Event studies: method
 
+Tables: `event_study_estimates`, `event_window_daily`
+
 Energy Research Warehouse (ERW), session 47; session 49 restored COVID-19's second baseline year and added a temperature-controlled estimate and a linear-trend robustness row. The table `event_study_estimates` (tier derived, public) holds, for each event of the Historical Event Analyzer and each grid in it, the estimated effect of the event on:
 
 - the grid's daily demand served;

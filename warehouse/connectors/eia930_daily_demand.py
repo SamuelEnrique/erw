@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Demand of every balancing authority, EIA-930, daily, 2019 to today (session 109, approved pull, ceiling 300,000
-rows).
+"""Demand of every EIA-930 respondent, daily, 2019 to today (session 109, approved pull, ceiling 300,000 rows): the
+balancing authorities, and EIA's regions and US48, five of which repeat a balancing authority's values, so a sum over
+entities double counts (session 2284).
 
 Energy Research Warehouse (ERW) connector. Writes one series table, history (not in the Supabase live set):
 
@@ -116,7 +117,7 @@ def rows_of(x):
 
 def header_of(rows_line, retrieved_line, run_id):
     return [
-        "Energy Research Warehouse (ERW): demand of every balancing authority, EIA-930, daily, from 2019 (session 109)",
+        "Energy Research Warehouse (ERW): demand of every EIA-930 respondent (balancing authorities, EIA's regions and US48: a sum over entities double counts), daily, from 2019 (session 109)",
         "Shape: series (docs/datastandard.md v0), partition column ba; entity eia930:<BA>; demand_mwh, MWh over the day, "
         "the balancing authority's demand as EIA sums it over the day's hours (EIA type D), its faulty hours included; ts_utc the "
         f"day at 00:00:00Z (Decision 11); EIA's {TZ} day (x_timezone). Nothing filled: a day EIA does not report is absent.",

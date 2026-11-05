@@ -42,9 +42,11 @@ the run, so a new EIA code is noticed, not mislabeled.
 Every row carries the vintage (the inventory month, YYYY-MM) and the workbook
 URL. Each table is a snapshot of one vintage: a new vintage replaces the
 table's rows (a generator that retired must leave the operating table), and
-earlier vintages remain in git history and in the raw files. The monthly
-cadence: run_daily.sh runs this every day; it reads EIA's page and writes only
-when the newest published vintage differs from the one in the tables.
+earlier vintages remain in the raw files and the archive (the tables left git
+in session 9). The monthly cadence: run_daily.sh runs this every day; it reads
+EIA's page and writes only when the newest published vintage differs from the
+one in the tables on the machine that runs it. The GitHub runner holds no
+tables, so every run there writes (session 2242).
 """
 
 import argparse
@@ -352,7 +354,7 @@ def main(argv=None):
                         f"Labels: prime_mover_label and energy_source_label from the EIA-860 instructions, "
                         f"{INSTRUCTIONS}; technology_group is an ERW grouping of EIA's technology text.",
                         "Snapshot: the table holds one vintage; a new vintage replaces its rows. Earlier "
-                        "vintages are in git history. Dates are EIA months, written as the first of the month.",
+                        "vintages are in the raw files and the archive. Dates are EIA months, written as the first of the month.",
                         "energy_capacity_mwh: EIA's Nameplate Energy Capacity (MWh), the energy a storage unit holds "
                         "(session 34); empty where EIA gives none. EIA's Planned sheet carries no such column, so it "
                         "is empty in the planned table.",
