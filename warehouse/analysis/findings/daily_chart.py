@@ -500,11 +500,58 @@ def how_words(c):
                else f"(larger than {common.fmt(float(c['score']), 1)} percent of the measure's own earlier changes)."))
 
 
+def _ymd(day):
+    y, m, d = (int(x) for x in str(day)[:10].split("-"))
+    return y, m, d
+
+
+def periods_held(c):
+    """Session 2206 (digest audit, the caption): how many periods of the chart's series the table holds and the last one
+    held, (count, last period, unit word), or None when the card does not say. A scanner flag counts its history (the
+    periods before its fresh window) and the periods from the end of that history to the flagged one; a watch card
+    counts the periods its engine ordered ("History held"). Nothing is read here: the numbers are the card's own."""
+    import datetime as _dt
+    if c.get("source") == "scanner" and c.get("flag"):
+        fl = c["flag"]
+        h, date, stat = fl.get("history") or {}, str(fl.get("date", ""))[:10], str(fl.get("statistic", ""))
+        if not h.get("last") or not date or h.get("points") is None:
+            return None
+        ly, lm, ld = _ymd(h["last"])
+        y, m, d = _ymd(date)
+        if "monthly" in stat:
+            return int(h["points"]) + (y - ly) * 12 + (m - lm), date, "months"
+        days = (_dt.date(y, m, d) - _dt.date(ly, lm, ld)).days
+        if "week" in stat or fl.get("rule") == "weekly":
+            return int(h["points"]) + days // 7, date, "weeks"
+        return int(h["points"]) + days, date, "days"
+    n = (c.get("card") or {}).get("numbers", {}).get("periods")
+    x = ((c.get("card") or {}).get("chart") or {}).get("x") or []
+    if n is None or not x:
+        return None
+    weekly = "week" in str(c["card"]["chart"].get("x_label", ""))
+    return int(n), str(x[-1])[:10], ("weeks" if weekly else "months")
+
+
+def held_words(c):
+    """One sentence for the caption: "The table holds 307 months of this series; the last is July 2026." ("" when the
+    card does not say how much it holds)."""
+    got = periods_held(c)
+    if not got:
+        return ""
+    n, last, unit = got
+    when = day_words(last, monthly=unit == "months")
+    if unit == "weeks":
+        when = f"the week starting {when}"
+    return f"The table holds {common.fmt(n, 0)} {unit} of this series; the last is {when}."
+
+
 def markdown(day, c):
-    """The section's lines. The image sits beside the Digest (docs/digest/charts/<date>.png)."""
+    """The section's lines. The image sits beside the Digest (docs/digest/charts/<date>.png). Session 2206: a line after
+    the fact says how many periods the table holds and the last one (held_words); the fact's own line is as it was."""
     alt = c["fact"].replace("[", "(").replace("]", ")")
     series = ", ".join(part for part in str(c["series_key"]).split("|") if part and not part.endswith("="))
-    return ["", HEADING, "", f"![{alt}](charts/{day}.png)", "", c["fact"], "",
+    held = held_words(c)
+    return ["", HEADING, "", f"![{alt}](charts/{day}.png)", "", c["fact"], *([held] if held else []), "",
             f"Table `{c['table']}`, series `{series}`: [the table and its download](/data#{c['table']}). {how_words(c)} "
             f"[How the chart is chosen](/data/methods/automated_analysis_scanner)."]
 
