@@ -603,6 +603,7 @@ storage_buildout_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,9,P1M,2015-01-01
 storage_capacity,none,,1648,snapshot,2026-10-30T14:59:13Z,2026-10-30T14:59:13Z,1648,erw:storage_capacity,2026-10-30T14:59:13Z,pass,public,power,no,derived
 storage_daily_cycle,CAISO;ERCOT;ISO-NE;MISO;SPP;US48,,6,P1D,2024-11-01T00:00:00Z,2026-10-29T00:00:00Z,14685,erw:storage_daily_cycle;erw:storage_daily_cycle_caiso,2026-10-30T14:58:45Z,pass,public,power,yes,derived
 storage_owners_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,967,P1M,2026-08-01T00:00:00Z,2026-09-01T00:00:00Z,19180,erw:storage_owners,2026-11-03T17:31:49Z,pass,public,power,yes,derived
+subregion_demand_growth,subregion,,90,P1Y,2019-01-01T00:00:00Z,2026-01-01T00:00:00Z,3918,erw:subregion_demand_growth,2026-11-05T22:06:29Z,pass,public,power,yes,derived
 svk_sweden_production_hourly,svk,,1,PT1H,2019-12-31T23:00:00Z,2025-03-18T22:00:00Z,274176,svk:mimer_production_statistics,2026-10-24T07:10:46Z,pass,internal,power,no,source
 texas_delivery_charges,none,,5,event,2020-09-01T00:00:00Z,2026-10-07T00:00:00Z,73,5 outlets,2026-10-07T02:03:00Z,pass,internal,power,no,model_extracted
 texas_transmission_matrix,none,,1,event,2025-03-20T00:00:00Z,2026-03-16T00:00:00Z,855,1 outlets,2026-10-07T09:49:32Z,pass,internal,power,no,model_extracted
@@ -618,6 +619,7 @@ usgs_mcs_critical_minerals,usgs,,653,P1Y;P4Y,2021-01-01T00:00:00Z,2025-01-01T00:
 usgs_streamflow_daily,usgs,,8,P1D,2015-01-01T00:00:00Z,2026-10-22T00:00:00Z,33421,usgs:nwis_daily_values,2026-10-23T23:00:29Z,pass,public,power,no,source
 uspvdb_solar_facilities,uspvdb,,6611,snapshot,2026-10-23T05:19:06Z,2026-10-23T05:19:06Z,6611,usgs:uspvdb,2026-10-23T05:35:32Z,pass,public,power,no,source
 uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:33:12Z,77839,usgs:uswtdb,2026-10-21T18:33:12Z,pass,public,power,no,source
+utility_large_load_tariffs,utility,,4,,2024-05-28T00:00:00Z,2026-05-07T00:00:00Z,10,filed:large_load_tariffs,2026-11-05T22:07:00Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
 vmme_paraguay_electricity_annual,vmme,,19,P1Y,2023-01-01T00:00:00Z,2024-01-01T00:00:00Z,38,vmme_py:ben_2024_cuadro_3,2026-10-25T01:31:16Z,pass,internal,power,no,source
 wapa_energy_sales_annual,wapa,,12,P1Y,2007-10-01T00:00:00Z,2024-10-01T00:00:00Z,307,wapa:rates_and_sales_data,2026-10-25T22:04:40Z,pass,public,power,no,source

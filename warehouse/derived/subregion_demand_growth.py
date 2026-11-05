@@ -145,7 +145,7 @@ def main(argv=None):
             + ", ".join(f"{k} ({u})" for k, u in UNITS.items()) + "; x_at the peak hour's start (UTC).",
             f"Years {years[0]} to {years[-1]}; {t['entity'].nunique()} sub-regions; {len(written)} sub-region years with figures (at least 95 percent of the hours used). "
             "An hour is used as warehouse/derived/demand_growth.py uses one (impossible_hours.screen); nothing is filled. Weather is not removed.",
-            f"Derived from: {', '.join(sorted(os.path.splitext(os.path.basename(p))[0] for p in paths))}",
+            f"Derived from: {'; '.join(sorted(os.path.splitext(os.path.basename(p))[0] for p in paths))}",
             f"Built by warehouse/derived/subregion_demand_growth.py; method docs/methods/subregion_demand_growth.md",
             f"Retrieved: {run_id} (UTC), computed from the tables held; no request was made.",
             f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
