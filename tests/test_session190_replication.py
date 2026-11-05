@@ -495,10 +495,15 @@ class TheMirrorAndThePage(unittest.TestCase):
         n, f = self.n, self.facts
         self.assertAlmostEqual(n["gpu_hour"], f["s12"]["per"] * GPU_KW * PUE / 1000, delta=1e-12)
         self.assertAlmostEqual(n["gpus"], MW * 1000 / (GPU_KW * PUE), delta=1e-9)
-        self.assertIsNotNone(f["hub12"])
-        self.assertEqual(n["hub_months"], 12)
-        self.assertAlmostEqual(n["hub_usd_mwh"], f["hub12"]["per"], delta=1e-9)
-        self.assertAlmostEqual(n["zone_less_hub"], f["s12"]["per"] - f["hub12"]["per"], delta=1e-9)
+        # session 2863: when the hub lacks a whole month of the zone's twelve (on 5 November 2026 HB_NORTH held 671 of
+        # October's 744 hours, the runner's daily run having stopped on 30 October), the page draws no hub figure and the
+        # mirror says fewer than twelve months count at the hub: the two agree on that, and on the figure otherwise.
+        if f["hub12"] is None:
+            self.assertLess(n["hub_months"], 12)
+        else:
+            self.assertEqual(n["hub_months"], 12)
+            self.assertAlmostEqual(n["hub_usd_mwh"], f["hub12"]["per"], delta=1e-9)
+            self.assertAlmostEqual(n["zone_less_hub"], f["s12"]["per"] - f["hub12"]["per"], delta=1e-9)
         self.assertIsNotNone(f["da12"], "the zone's day-ahead last twelve months are no longer the real-time ones: the do-file's day-ahead line needs a word")
         self.assertEqual(n["da_months"], 12)
         self.assertAlmostEqual(n["da_usd_mwh"], f["da12"]["per"], delta=1e-9)
@@ -603,8 +608,14 @@ class ThePagesOwnLibrary(unittest.TestCase):
         n, lib = self.n, self.lib
         self.assertEqual([n["l12_first"], n["l12_last"]], lib["l12"])
         self.assertEqual((n["l12_months"], n["l12_hours"]), (lib["s12"]["months"], lib["s12"]["held"]))
-        for mine, theirs in ((n["l12_usd_mwh"], lib["s12"]["per"]), (n["l12_usd_mwh"], lib["s12"]["flat"]), (n["gpu_hour"], lib["gpuHour"]), (n["gpus"], lib["gpus"]),
-                             (n["bad_usd_mwh"], lib["bad"]["per"]), (n["hub_usd_mwh"], lib["ref12"]["flat"]), (n["da_usd_mwh"], lib["da12"]["flat"])):
+        pairs = [(n["l12_usd_mwh"], lib["s12"]["per"]), (n["l12_usd_mwh"], lib["s12"]["flat"]), (n["gpu_hour"], lib["gpuHour"]), (n["gpus"], lib["gpus"]),
+                 (n["bad_usd_mwh"], lib["bad"]["per"]), (n["da_usd_mwh"], lib["da12"]["flat"])]
+        # session 2863: the hub's figure only where the page has twelve whole months of it; else the mirror counts fewer
+        if lib["ref12"] is None:
+            self.assertLess(n["hub_months"], 12)
+        else:
+            pairs.append((n["hub_usd_mwh"], lib["ref12"]["flat"]))
+        for mine, theirs in pairs:
             self.assertAlmostEqual(mine, theirs, delta=1e-9)
         self.assertAlmostEqual(n["l12_usd_per_mw"], lib["s12"]["cost"], delta=1e-6)
         # as the page prints them
