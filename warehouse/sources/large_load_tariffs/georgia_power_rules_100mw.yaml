@@ -1,0 +1,23 @@
+# Session 2872 (chain 147): read from the copy the data machine saved on 8 October 2026 (warehouse/raw/large_load_rules/C/raw/ga_220667_101841.pdf);
+# no request was made for it. The Commission approved the revisions as requested, with Staff's conditions, on 23 January 2025
+# (Docket 44280, order document 221165). The pages are the PDF's own page numbers.
+utility: Georgia Power Company
+eia_id: 7140
+state: GA
+grid: SOCO
+sector: all classes (Rules and Regulations for Electric Service)
+schedule: Rules and Regulations for Electric Service, A1, D13 and D14 (customers of 100 MW or more)
+tariff_sheet: Rules and Regulations, Page Number 1.10 (A1) and Page Number 1.41 (D13, D14)
+effective: 2025-02-01
+commission: Georgia Public Service Commission
+docket: "44280"
+document: Georgia Power Company's request of 11 December 2024 for approval of revisions to its Rules and Regulations (the revised pages), approved by the Commission's order of 23 January 2025
+document_url: https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/220667/101841
+retrieved_at: 2026-10-08T04:10:32Z
+license: public
+terms:
+  min_bill: {text: "the Company may require additional terms and conditions of electric service, including, without limitation, minimum billing requirements and a longer term of contract, when the Company deems it appropriate to ensure the Company recovers all costs associated with serving or preparing to serve a customer with an expected peak demand of 100 MW or greater at one or more premises located on one tract or contiguous tracts of land", page: 4}
+  collateral: {text: "As a condition of serving or preparing to serve a customer or prospective customer with an expected peak demand of 100 MW or greater at one or more premises located on one tract or contiguous tracts of land, the Company may require and call upon those performance and credit provisions it deems appropriate to protect the Company and ensure the recovery of costs incurred by the Company in serving or preparing to serve the Customer", page: 16}
+  exit_fee: {text: "A customer with an expected peak demand of 100 MW or greater at one or more premises located on one tract or contiguous tracts of land may be required by the Company, upon termination of its contract for electric service, to pay any costs the Company incurred in serving or preparing to serve the customer, including, but not limited to, distribution, transmission, and generation costs associated with the provision of electric service to the customer", page: 16}
+figures:
+  - {variable: min_demand_mw, value: 100, printed: "an expected peak demand of 100 MW or greater at one or more premises located on one tract or contiguous tracts of land", page: 16}
