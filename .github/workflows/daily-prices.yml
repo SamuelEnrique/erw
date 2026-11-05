@@ -440,6 +440,7 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          GH_TOKEN: ${{ github.token }}  # session 2864: the "Stale on main" line reads main's commits through GitHub's API
         run: |
           set -uo pipefail
           day="$(date -u -d yesterday +%F)"
