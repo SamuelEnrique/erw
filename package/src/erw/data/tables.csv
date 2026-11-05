@@ -603,6 +603,7 @@ storage_buildout_monthly,public,,,,EIA,"Public: every publisher's terms the ERW 
 storage_capacity,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_daily_cycle,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_owners_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+subregion_demand_growth,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 svk_sweden_production_hourly,internal,,,,Svenska kraftnat,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 texas_delivery_charges,internal,,,"AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC","AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 texas_transmission_matrix,internal,,,,Public Utility Commission of Texas,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
@@ -618,6 +619,7 @@ usgs_mcs_critical_minerals,public,,,,U.S. Geological Survey (USGS),"Public: ever
 usgs_streamflow_daily,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 uspvdb_solar_facilities,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 uswtdb_wind_turbines,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+utility_large_load_tariffs,unsettled,,,,"the state commissions (filed tariffs), read into the ERW's registry","The terms of the state commissions (filed tariffs), read into the ERW's registry have not been read or settled, so the ERW does not redistribute it until they are.",none
 utility_service_territories,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 vmme_paraguay_electricity_annual,internal,,,,"Viceministerio de Minas y Energia (VMME), Paraguay",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 wapa_energy_sales_annual,public,,,,Western Area Power Administration (WAPA),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none

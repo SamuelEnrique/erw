@@ -1,5 +1,7 @@
 # Large loads' filed tariffs (`utility_large_load_tariffs`)
 
+Tables: `utility_large_load_tariffs`
+
 Energy Research Warehouse (ERW). Started by session 2871 (chain 147, 5 November 2026). The table records what a load
 of 100 MW to 1 GW pays a utility to connect and take delivery, figure by figure, from the tariffs the utilities file
 with their state commissions. Nobody publishes this in one table. The All grids tab of `/cost-of-power` reads it
