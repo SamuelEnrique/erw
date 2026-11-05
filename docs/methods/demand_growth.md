@@ -208,3 +208,15 @@ chain 015, 21 October 2026). The keys of a month's or an hour's window, which th
   table "Every grid".
 - `eia930_demand_growth`, `growth_mw_m<month>` and `growth_mw_h<hour>`: the change since 2019 of the same window, in MW,
   on the last whole year's row only: the column "Change, MW" of the table "Every grid".
+
+## Decisions of the explorer (each dated, and reversible unless said)
+
+The choices made on `/explore/demand-growth`, one line each with its session; session 404's are gathered here from "The explorer" above.
+
+1. 2026-10-21, session 404: two filters in the address, `grid` and `window`; the default ERCOT and the whole year's average hour, the table's headline figure; a value the table does not hold falls back to the default and the page says so.
+2. 2026-10-21, 404: no document names a thesis chart for demand growth, so the first chart is the table's own headline figure for every grid in the window chosen, each grid at its own latest year, largest first.
+3. 2026-10-21, 404: the table is held for review in the live set, so the explorer reads the catalogue's own row of it for its age and says the table is not in the site's live set; weather is not removed, and the page says so.
+4. 2026-10-21, 404: a growth is written with its sign outside the number; a MW figure whole.
+5. 2026-10-23, session 2201: every figure carries its source in its hover (the table, the grid's name, the variable, the year, EIA-930 and this note), read from the figure's key by `site/lib/explore/source.ts`; the three headline numbers carry the same words in the brand's tip, the table figures the title alone.
+6. 2026-10-23, 2201: the brand's bar chart (`site/components/tool/GroupedBars.tsx`, drawn on the server) is wrapped in `BarsHover.tsx`, a client component that draws the brand's hover card for the group under the pointer or the keyboard's arrows; the SVG, its `<title>` a group and every figure are as before, and the card's words are written on the server. The seller page and the datacenter grids view, which draw the same chart, gain the card the same way.
+7. 2026-10-23, session 2204: on reading, nothing of the page's type, color, tables or charts stood outside `docs/brand.md` (`site/app/tokens.css` carries the explorer's frame to the brand); no change.
