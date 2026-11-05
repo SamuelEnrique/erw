@@ -222,7 +222,10 @@ def reason_of(lines, failed):
     """The line that says why: for a failure the last line naming an error, else the last line written."""
     lines = [ln.strip() for ln in lines if ln.strip()]
     if failed:
-        hits = [ln for ln in lines if any(w in ln for w in ("FAILED", "Error", "error", "refused", "Traceback"))]
+        # session 2864: a library's warning is not why ("Warning: ... will raise an error in the future" was the reason
+        # recorded for the merge tests from 31 October to 5 November 2026, not their "FAILED (failures=5, errors=2)")
+        hits = [ln for ln in lines if any(w in ln for w in ("FAILED", "Error", "error", "refused", "Traceback"))
+                and not ln.startswith(("Warning:", "::warning"))]
         if hits:
             return hits[-1][:400]
     return lines[-1][:400] if lines else ""
@@ -453,19 +456,123 @@ def fetch(day, get=requests.get):
         start += 1000
 
 
-def render(day, rows):
-    """The day's summary, Markdown."""
+def whole_day_failures(rows):
+    """Session 2864: {workflow: the first step} for each workflow every one of whose runs that day failed at its first
+    recorded step (the daily run stopped at "merge tests" from 31 October to 5 November 2026, and the summary counted
+    two failed steps among 658, which read as a quiet day). A run is a run_id; rows without one are a machine's own."""
+    runs = {}
+    for r in rows:
+        if r.get("run_id") and r.get("workflow") != MEMORY:
+            runs.setdefault((r["workflow"], str(r["run_id"])), []).append(r)
+    first = {}
+    for (wf, _), rs in runs.items():
+        first.setdefault(wf, []).append(min(rs, key=lambda r: str(r["at"])))
+    return {wf: fs[0]["step"] for wf, fs in sorted(first.items())
+            if all(f["status"] == "failed" and not is_stale(f) for f in fs) and all(f["step"] == fs[0]["step"] for f in fs)}
+
+
+# Session 2864: how old a scheduled job's last success may be before the summary's first line names it: the daily run's
+# commit on main ("Daily prices <day>: ..."), the Roundup's ("Energy Roundup <week>"), in days; the hourly network
+# commits nothing, so its last ok row of erw_health. (workflow, where it is read, the commit's first words, days allowed)
+STALE_RULES = (("daily prices", "commit", "Daily prices ", 1.0), ("energy roundup", "commit", "Energy Roundup ", 8.0),
+               ("hourly network", "health", None, 3 / 24))
+STALE_LOOKBACK_DAYS = 30
+REPO = "SamuelEnrique/erw"
+
+
+def main_commits(since, run=subprocess.run, get=requests.get):
+    """[(commit time UTC, subject)] of main since a time: git's own log when this checkout holds main's history, else
+    GitHub's API (the runner's checkout is shallow)."""
+    try:
+        shallow = run(["git", "rev-parse", "--is-shallow-repository"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        if shallow == "false":
+            for ref in ("origin/main", "main"):
+                p = run(["git", "log", ref, f"--since={since.isoformat()}", "--format=%cI%x09%s"], cwd=ROOT, capture_output=True, text=True)
+                if p.returncode == 0 and p.stdout.strip():
+                    return [(dt.datetime.fromisoformat(a).astimezone(dt.timezone.utc), b) for a, b in
+                            (ln.split("\t", 1) for ln in p.stdout.splitlines() if "\t" in ln)]
+    except OSError:
+        pass
+    tok = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or env("GH_TOKEN")
+    headers = {"Accept": "application/vnd.github+json", **({"Authorization": f"Bearer {tok}"} if tok else {})}
+    out = []
+    for page in range(1, 6):
+        r = get(f"https://api.github.com/repos/{os.environ.get('GITHUB_REPOSITORY') or REPO}/commits", headers=headers, timeout=60,
+                params={"sha": "main", "since": since.strftime("%Y-%m-%dT%H:%M:%SZ"), "per_page": 100, "page": page})
+        r.raise_for_status()
+        batch = r.json()
+        out += [(dt.datetime.fromisoformat(c["commit"]["committer"]["date"].replace("Z", "+00:00")), c["commit"]["message"].split("\n", 1)[0])
+                for c in batch]
+        if len(batch) < 100:
+            break
+    return out
+
+
+def last_ok(wf, get=requests.get):
+    """The time of a workflow's newest ok row of erw_health, or None."""
+    url, headers = rest()
+    if not url:
+        raise RuntimeError("SUPABASE_URL or SUPABASE_SERVICE_KEY is not set")
+    r = get(url, headers=headers, timeout=60, params={"select": "at", "workflow": f"eq.{wf}", "status": "eq.ok", "order": "at.desc", "limit": 1})
+    r.raise_for_status()
+    rows = r.json()
+    return dt.datetime.fromisoformat(str(rows[0]["at"]).replace("Z", "+00:00")) if rows else None
+
+
+def stale_on_main(now=None, commits=None, oks=None):
+    """What the line "Stale on main" names: [(workflow, what was read, its time or None, days since, days allowed)] for
+    each rule above whose last success is older than it allows. commits and oks are given by a test; else read."""
+    now = now or dt.datetime.now(dt.timezone.utc)
+    since = now - dt.timedelta(days=STALE_LOOKBACK_DAYS)
+    out, cs = [], commits
+    for wf, where, prefix, allowed in STALE_RULES:
+        if where == "commit":
+            cs = main_commits(since) if cs is None else cs
+            hits = [t for t, subj in cs if subj.startswith(prefix)]
+            at, what = (max(hits) if hits else None), f"its last commit on main, '{prefix.strip()} ...'"
+        else:
+            at, what = (last_ok(wf) if oks is None else oks.get(wf)), "its last ok step in erw_health"
+        age = (now - at).total_seconds() / 86400 if at else None
+        if age is None or age > allowed:
+            out.append((wf, what, at, age, allowed))
+    return out
+
+
+def stale_line(stale):
+    """The summary's first line, from stale_on_main's list or the words of the error that kept it from being read."""
+    if isinstance(stale, str):
+        return f"**Stale on main:** not read ({stale})."
+    if not stale:
+        return ("**Stale on main:** none (the daily run's commit within 1 day, the Roundup's within 8 days, the hourly "
+                "network's last ok step within 3 hours).")
+
+    def one(wf, what, at, age, allowed):
+        lim = f"{allowed:g} day{'s' if allowed != 1 else ''}" if allowed >= 1 else f"{allowed * 24:g} hours"
+        if at is None:
+            return f"{wf}, none in {STALE_LOOKBACK_DAYS} days ({what}; allowed {lim})"
+        return f"{wf}, {age:.1f} days ({what}, {at.strftime('%Y-%m-%d %H:%M')} UTC; allowed {lim})"
+    return "**Stale on main:** " + "; ".join(one(*x) for x in stale) + "."
+
+
+def render(day, rows, stale=None):
+    """The day's summary, Markdown. stale: stale_on_main's list (or an error's words) for the first line; None leaves the
+    line out."""
     weekday = dt.date.fromisoformat(day).weekday()
     expected = dict(EXPECTED, **({"energy roundup": 1, "weekly vacuum": 1} if weekday == 6 else {}))
     by = {}
     for r in rows:
         by.setdefault(r["workflow"], []).append(r)
     fails = [r for r in rows if r["status"] == "failed" and not is_stale(r)]
-    lines = [f"# Health of the scheduled jobs, {day} (UTC)", "",
+    whole = whole_day_failures(rows)
+    total = f"**{len(fails)} failure{'s' if len(fails) != 1 else ''}** over {len(rows)} recorded steps."
+    if whole:  # session 2864: a job whose every run stopped at its first step failed for the day, whatever the count
+        total += (f" **{len(whole)} job{'s' if len(whole) != 1 else ''} failed for the whole day**, every run stopped at its first step: "
+                  + "; ".join(f"{wf} ({step})" for wf, step in whole.items()) + ".")
+    lines = [f"# Health of the scheduled jobs, {day} (UTC)", ""] + ([stale_line(stale), ""] if stale is not None else []) + [
              "Written by `warehouse/health.py summary` from the Supabase table erw_health (session 61). A skip is a run that should not have "
              "done anything (the data lock held, the day's work done, nothing new at the source, a duplicate start); a retry failed once "
              "and then passed; a failure failed twice. No job fails on GitHub for any of these, so this file is where they are read.", "",
-             f"**{len(fails)} failure{'s' if len(fails) != 1 else ''}** over {len(rows)} recorded steps.", "",
+             total, "",
              "| Workflow | Runs started | Expected | ok | skipped | retried | failed |", "|---|---|---|---|---|---|---|"]
     names = sorted(set(by) | {k for k, v in expected.items() if v})
     flags = []
@@ -516,14 +623,20 @@ def kept_causes(path):
     return text[i + 1:j + 1 if j >= 0 else len(text)].rstrip("\n") + "\n"
 
 
-def summary(day, out_dir=None, rows=None):
+def summary(day, out_dir=None, rows=None, stale=None):
     rows = fetch(day) if rows is None else rows
     out_dir = out_dir or os.path.join(ROOT, "queue", "summary")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, f"{day}-health.md")
     causes = kept_causes(path)
+    own = out_dir == os.path.join(ROOT, "queue", "summary")
+    if stale is None and own:  # session 2864: the first line, the jobs whose last success is older than allowed
+        try:
+            stale = stale_on_main()
+        except Exception as exc:
+            stale = f"{type(exc).__name__}: {str(exc)[:160]}"
     with open(path, "w", encoding="utf-8", newline="\n") as f:
-        f.write(render(day, rows) + ("\n" + causes if causes else ""))
+        f.write(render(day, rows, stale) + ("\n" + causes if causes else ""))
     if out_dir == os.path.join(ROOT, "queue", "summary"):  # the repository's own summary: the record of days follows it
         try:
             write_days({day: rows})

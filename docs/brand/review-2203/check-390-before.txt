@@ -1,0 +1,5 @@
+ok   /explore/ercot-peak-premium  scroll 390/390  wide 0  tables 0  labels 0
+ok   /explore/demand-growth  scroll 390/390  wide 0  tables 0  labels 0
+ok   /explore/interconnection  scroll 390/390  wide 0  tables 0  labels 0
+ok   /prices?tab=ercot  scroll 390/390  wide 0  tables 0  labels 0
+4 pages read, 0 not read, 0 with a finding
