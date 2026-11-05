@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-04T20:54Z",
+ "written": "2026-11-05T14:22Z",
  "green_days": 0,
- "counted_to": "2026-11-03",
+ "counted_to": "2026-11-04",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -2813,6 +2813,76 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 50 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-04": {
+   "rows": 657,
+   "failed": 3,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 475,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "daily prices": {
+     "ok": 0,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 2,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 23,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 25
+    },
+    "latest prices": {
+     "ok": 97,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 49,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 51
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-04T14:21",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    },
+    {
+     "at": "2026-11-04T17:57",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_findings",
+     "reason": "FAILED (failures=1)"
+    },
+    {
+     "at": "2026-11-04T20:54",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-04T17:22",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 51 days old (limit 28)"
     }
    ]
   }
