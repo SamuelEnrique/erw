@@ -1,0 +1,412 @@
+{
+ "_about": "Session 539: the expected numbers of questions_s320.yaml computed again from the live set (Supabase, the anon key, reads only, no model call) by warehouse/chat/eval/regrade_s539.py --keys; each key by the aggregation its note names over the months its question names. table_unit_value is the figure in the table's own unit (USD per MW for the battery revenues asked per kW).",
+ "computed_at_utc": "2026-10-21T19:35:37Z",
+ "source": "the live set's series view, read with the anon key: table_name in (battery_stack_monthly, merchant_revenue_monthly, cost_of_power_monthly)",
+ "keys": {
+  "b01": {
+   "table": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2025-10",
+    "2026-09"
+   ],
+   "table_unit_value": 81402.1896,
+   "expected": [
+    81.4022
+   ]
+  },
+  "b02": {
+   "table": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2025-10",
+    "2026-09"
+   ],
+   "table_unit_value": 54598.584,
+   "expected": [
+    54.5986
+   ]
+  },
+  "b03": {
+   "table": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2025-10",
+    "2026-09"
+   ],
+   "table_unit_value": 26803.6056,
+   "expected": [
+    26.8036
+   ]
+  },
+  "b04": {
+   "table": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2025-10",
+    "2026-09"
+   ],
+   "table_unit_value": 51067.1416,
+   "expected": [
+    51.0671
+   ]
+  },
+  "b05": {
+   "table": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2021-01",
+    "2021-12"
+   ],
+   "table_unit_value": 3430556.5577,
+   "expected": [
+    3430.5566
+   ]
+  },
+  "b06": {
+   "table": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2025-01",
+    "2025-12"
+   ],
+   "table_unit_value": 87439.609,
+   "expected": [
+    87.4396
+   ]
+  },
+  "b07": {
+   "table": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "aggregation": "max",
+   "period": [
+    "2025-01",
+    "2025-12"
+   ],
+   "table_unit_value": 12926.2516,
+   "expected": [
+    12926.2516
+   ],
+   "month": "2025-05",
+   "month_name": "May"
+  },
+  "b08": {
+   "table": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2025-10",
+    "2026-09"
+   ],
+   "table_unit_value": 79308.3067,
+   "expected": [
+    79.3083
+   ]
+  },
+  "b09": {
+   "table": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2025-01",
+    "2025-12"
+   ],
+   "table_unit_value": 42503.7732,
+   "expected": [
+    42.5038
+   ]
+  },
+  "b10": {
+   "table": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_8h_discharged_mwh_per_mw",
+   "aggregation": "month",
+   "period": [
+    "2026-07",
+    "2026-07"
+   ],
+   "table_unit_value": 200.337,
+   "expected": [
+    200.337
+   ]
+  },
+  "g01": {
+   "table": "merchant_revenue_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "solar_capture_price",
+   "aggregation": "month",
+   "period": [
+    "2026-07",
+    "2026-07"
+   ],
+   "table_unit_value": 24.9462,
+   "expected": [
+    24.9462
+   ]
+  },
+  "g02": {
+   "table": "merchant_revenue_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "wind_capture_rate",
+   "aggregation": "month",
+   "period": [
+    "2026-06",
+    "2026-06"
+   ],
+   "table_unit_value": 90.7867,
+   "expected": [
+    90.7867
+   ]
+  },
+  "g03": {
+   "table": "merchant_revenue_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "peaker_revenue_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2025-01",
+    "2025-12"
+   ],
+   "table_unit_value": 50424.0741,
+   "expected": [
+    50424.0741
+   ]
+  },
+  "g04": {
+   "table": "merchant_revenue_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "solar_energy_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2025-01",
+    "2025-12"
+   ],
+   "table_unit_value": 2596.6548,
+   "expected": [
+    2596.6548
+   ]
+  },
+  "g05": {
+   "table": "merchant_revenue_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "solar_capture_rate",
+   "aggregation": "mean",
+   "period": [
+    "2025-01",
+    "2025-12"
+   ],
+   "table_unit_value": 38.3296,
+   "expected": [
+    38.3296
+   ]
+  },
+  "g06": {
+   "table": "merchant_revenue_monthly",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "wind_revenue_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2025-01",
+    "2025-12"
+   ],
+   "table_unit_value": 66963.0112,
+   "expected": [
+    66963.0112
+   ]
+  },
+  "g07": {
+   "table": "merchant_revenue_monthly",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "solar_capture_price",
+   "aggregation": "month",
+   "period": [
+    "2026-08",
+    "2026-08"
+   ],
+   "table_unit_value": 54.5475,
+   "expected": [
+    54.5475
+   ]
+  },
+  "g08": {
+   "table": "merchant_revenue_monthly",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "flat_price",
+   "aggregation": "month",
+   "period": [
+    "2026-07",
+    "2026-07"
+   ],
+   "table_unit_value": 73.8689,
+   "expected": [
+    73.8689
+   ]
+  },
+  "g09": {
+   "table": "merchant_revenue_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "battery_4h_revenue_per_mw",
+   "aggregation": "sum",
+   "period": [
+    "2025-10",
+    "2026-09"
+   ],
+   "table_unit_value": 58533.7042,
+   "expected": [
+    58533.7042
+   ]
+  },
+  "d01": {
+   "table": "cost_of_power_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "rt_load_weighted",
+   "aggregation": "month",
+   "period": [
+    "2026-08",
+    "2026-08"
+   ],
+   "table_unit_value": 36.6951,
+   "expected": [
+    36.6951
+   ]
+  },
+  "d02": {
+   "table": "cost_of_power_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "da_load_weighted",
+   "aggregation": "month",
+   "period": [
+    "2026-01",
+    "2026-01"
+   ],
+   "table_unit_value": 90.7806,
+   "expected": [
+    90.7806
+   ]
+  },
+  "d03": {
+   "table": "cost_of_power_monthly",
+   "entity": "caiso:TH_NP15_GEN-APND",
+   "variable": "rt_shape_premium",
+   "aggregation": "month",
+   "period": [
+    "2026-07",
+    "2026-07"
+   ],
+   "table_unit_value": 0.9321,
+   "expected": [
+    0.9321
+   ]
+  },
+  "d04": {
+   "table": "cost_of_power_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "rt_simple_mean",
+   "aggregation": "mean",
+   "period": [
+    "2025-01",
+    "2025-12"
+   ],
+   "table_unit_value": 32.3934,
+   "expected": [
+    32.3934
+   ]
+  },
+  "d05": {
+   "table": "cost_of_power_monthly",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "rt_load_weighted",
+   "aggregation": "month",
+   "period": [
+    "2026-01",
+    "2026-01"
+   ],
+   "table_unit_value": 159.4187,
+   "expected": [
+    159.4187
+   ]
+  },
+  "d06": {
+   "table": "cost_of_power_monthly",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "rt_hours",
+   "aggregation": "month",
+   "period": [
+    "2026-07",
+    "2026-07"
+   ],
+   "table_unit_value": 744.0,
+   "expected": [
+    744.0
+   ]
+  },
+  "d07": {
+   "table": "cost_of_power_monthly",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "da_shape_premium",
+   "aggregation": "month",
+   "period": [
+    "2026-06",
+    "2026-06"
+   ],
+   "table_unit_value": 2.6811,
+   "expected": [
+    2.6811
+   ]
+  },
+  "d08": {
+   "table": "cost_of_power_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "rt_load_weighted",
+   "aggregation": "max",
+   "period": [
+    "2025-01",
+    "2025-12"
+   ],
+   "table_unit_value": 37.9939,
+   "expected": [
+    37.9939
+   ],
+   "month": "2025-05",
+   "month_name": "May"
+  },
+  "d09": {
+   "table": "cost_of_power_monthly",
+   "entity": "ercot:HB_HUBAVG less caiso:TH_SP15_GEN-APND",
+   "variable": "rt_load_weighted",
+   "aggregation": "difference",
+   "period": [
+    "2026-06",
+    "2026-06"
+   ],
+   "table_unit_value": 15.7097,
+   "expected": [
+    15.7097,
+    29.4033,
+    13.6936
+   ]
+  }
+ },
+ "extra": {
+  "b08_days_left_out": 0.0,
+  "b09_days_left_out": 3.0,
+  "b01_days_left_out": 0.0,
+  "g08_cost_of_power_rt_simple_mean": 73.8689,
+  "g08_cost_of_power_rt_hours": 696.0
+ }
+}

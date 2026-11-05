@@ -10,11 +10,13 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
-import { runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
+import { nearestFor, runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 import { readerEffort, rulePlanOn } from "./switches";
 import { plainTimes } from "./plaintime";
+import { cleanTurns, generalOpening } from "./history";  // session 1129: the general chat's conversation
+import { answerSeries } from "./generalseries";  // session 1142: the general chat's chart
 
 export type Citation = { table: string; source_report: string; data_version: string; tier: string };
 export type AskResult = {
@@ -35,6 +37,8 @@ export type AskResult = {
   stages_ms?: StageMs;
   steps?: Step[];
   seconds_words?: number | null;
+  /** session 1111: why a refused_unverified answer was refused, one sentence with no figure in it */
+  why?: string;
 };
 /** Session 121: what a reader can be shown before the answer: the table a tool call has gone to read. */
 export type AskEvent = { type: "reading"; tool: string; table: string | null }
@@ -48,7 +52,9 @@ export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void; /
   thinking?: (text: string) => void;
   /** session 314: the ledger step the calls are written under (an evaluation's own, site_ask_eval) and whether a refused
    * write fails the question (an evaluation never spends unrecorded) */
-  step?: string; strictLedger?: boolean };
+  step?: string; strictLedger?: boolean;
+  /** session 1111: record every tool call and its result in the answer (an evaluation only; the route sets it) */
+  record?: boolean };
 
 const PRICES = spec.prices as unknown as Record<string, [number, number]>;
 const TOOLS = spec.tools as unknown as Anthropic.Tool[];
@@ -130,6 +136,7 @@ export function numbers(text: string): [number, number][] {
     let sign = m[1];
     const whole = m[2], frac = m[3] ?? "";
     const at = m.index ?? 0;
+    if (isName(t, at + sign.length)) continue;
     if (sign) {
       const before = at > 0 ? t[at - 1] : " ";
       if (!(/\s/.test(before) || "([:,=".includes(before) || at === 0)) sign = "";
@@ -137,6 +144,11 @@ export function numbers(text: string): [number, number][] {
     out.push([parseFloat(sign + whole.replace(/,/g, "") + frac), frac ? frac.length - 1 : 0]);
   }
   return out;
+}
+
+/** Session 1110, as ask.py is_name: digits after a letter and a hyphen are a name, not a figure (EIA-930, EIA-860M). */
+export function isName(text: string, at: number): boolean {
+  return at >= 2 && text[at - 1] === "-" && /[A-Za-z]/.test(text[at - 2]);
 }
 
 function listMarkers(text: string): Set<number> {
@@ -156,6 +168,104 @@ export function unverified(answer: string, sources: string[]): string[] {
     }
   }
   return bad;
+}
+
+// Session 1110, as ask.py unit_mismatches: a figure stated in a money unit (USD per MWh, per MW, per kW, per kWh) must be
+// one a tool returned in that unit. A tool number takes its unit from its own key (..._usd_per_mw, value_usd_per_kw),
+// else from the nearest unit or single units above it; a number no result places in a unit is not judged. A draft is
+// sent back only when every returned number it matches is in another unit.
+const UNIT_AFTER = /^\s*(USD|US dollars|dollars)?\s*(?:\/|per\s+)(kWh|kW|MWh|MW)(?![\w-])/i;
+const MONEY_BEFORE = /(?:\$|USD\s)\s*$/;  // "$81.40/kW", "USD 81.40 per kW": the money is written before the figure
+const UNIT_NAMES: Record<string, string> = { kwh: "kWh", kw: "kW", mwh: "MWh", mw: "MW" };
+// Session 1144, as ask.py PHYS_AFTER: percent and MW judged too (measured on the stored answers first); MWh is not
+const PHYS_AFTER = /^\s*(percent|pct|%|MW)(?![\w-])/i;
+const PHYS_NAMES: Record<string, string> = { percent: "pct", pct: "pct", "%": "pct", mw: "MW" };
+const KNOWN_UNITS = new Set(["pct", "MW", "USD/kW", "USD/MW", "USD/MWh", "USD/kWh"]);
+export function normUnit(u: unknown): string | null {
+  if (typeof u !== "string") return null;
+  const t = u.trim().toLowerCase().replace(/ per /g, "/").replace(/ /g, "").replace(/\$/g, "usd");
+  const m = /^usd\/(kwh|kw|mwh|mw)$/.exec(t);
+  if (!m && t in PHYS_NAMES) return PHYS_NAMES[t];
+  return m ? `USD/${UNIT_NAMES[m[1]]}` : `other:${t}`;
+}
+const keyUnit = (key: string | null): string | null => {
+  const m = /_usd_per_(kwh|kw|mwh|mw)$/i.exec(key ?? "");
+  return m ? `USD/${UNIT_NAMES[m[1].toLowerCase()]}` : null;
+};
+export function placedNumbers(sources: string[]): [number, string | null][] {
+  const out: [number, string | null][] = [];
+  const walk = (x: unknown, unit: string | null, key: string | null) => {
+    if (x === null || x === undefined || typeof x === "boolean") return;
+    if (typeof x === "number") { out.push([x, keyUnit(key) ?? unit]); return; }
+    if (Array.isArray(x)) { for (const v of x) walk(v, unit, key); return; }
+    if (typeof x === "object") {
+      const o = x as Record<string, unknown>;
+      let own: string | null = null;
+      if (typeof o.unit === "string") own = normUnit(o.unit);
+      else if (Array.isArray(o.units) && o.units.length) own = o.units.length === 1 ? normUnit(o.units[0]) : "mixed";
+      for (const [k, v] of Object.entries(o)) walk(v, own ?? unit, k);
+    }
+  };
+  for (const s of sources) {
+    try { walk(JSON.parse(s), null, null); } catch { /* not JSON: its numbers are placed in no unit */ }
+  }
+  return out;
+}
+export function unitMismatches(answer: string, sources: string[]): string[] {
+  const t = answer.replace(/−/g, "-");
+  const placed = placedNumbers(sources);
+  const bad: string[] = [];
+  for (const m of t.matchAll(NUM)) {
+    const at = (m.index ?? 0) + m[1].length;
+    if (isName(t, at)) continue;
+    const after = t.slice((m.index ?? 0) + m[0].length, (m.index ?? 0) + m[0].length + 40);
+    const u = UNIT_AFTER.exec(after), p = PHYS_AFTER.exec(after.slice(0, 12));
+    const money = MONEY_BEFORE.test(t.slice(Math.max(0, (m.index ?? 0) - 5), m.index ?? 0));
+    let said: string;
+    if (u && (u[1] || money)) said = `USD/${UNIT_NAMES[u[2].toLowerCase()]}`;
+    else if (p && !money) said = PHYS_NAMES[p[1].toLowerCase()];   // session 1144: percent and MW
+    else continue;   // no unit judged here (MWh, MWh per MW, USD per MW-month)
+    const frac = m[3] ?? "";
+    const v = parseFloat(m[2].replace(/,/g, "") + frac), d = frac ? frac.length - 1 : 0;
+    const tol = 0.5 * 10 ** -d + 1e-9;
+    const hits = placed.filter(([p]) => Math.abs(Math.abs(p) - Math.abs(v)) <= tol).map(([, unit]) => unit);
+    // session 1144: a percent or an MW figure is judged only against tool numbers in a unit the check knows
+    if ((said === "pct" || said === "MW") && !hits.every((h) => h !== null && KNOWN_UNITS.has(h))) continue;
+    if (hits.length && hits.every((h) => h !== null && h !== "mixed") && !hits.includes(said)) {
+      const gave = Array.from(new Set(hits.map((h) => h!.replace("other:", "")))).sort().join(", ");
+      const s = `${v.toFixed(d)} ${said} (the tools gave it in ${gave})`;
+      if (!bad.includes(s)) bad.push(s);
+    }
+  }
+  return bad;
+}
+
+/** Session 1115: what one query or compare read, for the line under an answer: the table, the rows asked for and the
+ * window, never a figure (the figures are the answer's own, checked). A failed call reads nothing and is not listed. */
+export type Read = { table: string; entity?: string; variable?: string; start?: string; end?: string; aggregation?: string; group_by?: string; tz?: string };
+export function readsOf(name: string, input: Record<string, unknown>): Read[] {
+  const one = (a: Record<string, unknown> | undefined): Read[] => {
+    if (!a || typeof a.table !== "string") return [];
+    const r: Read = { table: a.table };
+    for (const k of ["entity", "variable", "start", "end", "aggregation", "group_by", "tz"] as const) if (typeof a[k] === "string" && a[k]) r[k] = a[k] as string;
+    return [r];
+  };
+  if (name === "query") return one(input);
+  if (name === "compare") return [...one(input.a as Record<string, unknown>), ...one(input.b as Record<string, unknown>)];
+  return [];
+}
+
+/** Session 1111, as ask.py why_refused: why a draft was refused, in one sentence with no figure in it. */
+export function whyRefused(c: { bad: string[]; units: string[]; uncited: string[]; noCite: boolean; more: string[] }): string {
+  const parts: string[] = [];
+  if (c.bad.length) parts.push(c.bad.length === 1 ? "a figure in it was in no tool result" : "figures in it were in no tool result");
+  if (c.units.length) parts.push(c.units.length === 1 ? "a figure was stated in a unit no tool gave it in" : "figures were stated in a unit no tool gave them in");
+  if (c.uncited.length) parts.push("it cited a table no tool read");
+  if (c.noCite) parts.push("it was empty or cited nothing");
+  if (c.more.length && !parts.length) parts.push("it failed this chat's own checks");
+  if (!parts.length) return "";
+  const body = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+  return `Why: the draft was checked twice and ${body}.`;
 }
 
 // ------------------------------------------------------------------ the loop
@@ -210,15 +320,18 @@ export async function ask(question: string, today = new Date().toISOString().sli
   // price would close the tool: lib/chat/limits.ts). ASK_PLANNER=off on the server leaves every call to the writer.
   const named = profile?.planner ? (process.env.ASK_PLANNER || profile.planner) : null;   // ASK_PLANNER names another model for a trial
   const planner = named === "writer" ? writer : named && named !== "off" && PRICES[named] ? named : null;
-  const opening = profile ? profile.opening(question, today, context, opts.history) : `Today is ${today} (UTC).\n\nQuestion: ${question}`;
+  // session 1129: the general chat holds the last turns too (lib/chat/history.ts); with none, its first message is as it was
+  const past = profile ? [] : cleanTurns(opts.history);
+  const opening = profile ? profile.opening(question, today, context, opts.history) : generalOpening(question, today, past);
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: opening }];
   const usage = { input: 0, output: 0, cache_write: 0, cache_read: 0, requests: 0 };
   let spent: number | null = 0; // session 143: the calls of one answer may be two models': each is priced as its own
   // session 137: the date the opening line gives the model counts as given, as the question's own numbers do
-  const given: string[] = [question, `Today is ${today} (UTC).`, ...(profile ? profile.extraSources(context, opts.history) : []), ...(profile?.preSources ?? [])];
+  const given: string[] = [question, `Today is ${today} (UTC).`, ...(profile ? profile.extraSources(context, opts.history) : []), ...(profile?.preSources ?? []),
+    ...past.flatMap((t) => [t.answer, ...t.queries])];   // session 1129: an earlier answer's numbers were checked when it was written
   const sources: string[] = [...given];
   const records: ToolRecord[] = []; // session 92: every tool result, in order, for a profile's checks and its result
-  const tablesRead = new Set<string>([...(profile?.knownTables ? profile.knownTables(opts.history) : []), ...(profile?.preRead ?? [])]);
+  const tablesRead = new Set<string>([...(profile?.knownTables ? profile.knownTables(opts.history) : []), ...(profile?.preRead ?? []), ...past.flatMap((t) => t.tables)]);
   // session 137: a profile's own tool is run by the profile; every other name goes to the warehouse's tools as before
   // session 143: each tool call's own milliseconds are kept (they overlap within a turn, so the stage is the turn's wall
   // time). A call already made for this question, with the same arguments, is not made again: the model is told that
@@ -303,24 +416,32 @@ export async function ask(question: string, today = new Date().toISOString().sli
   // session 267: the evaluation's record of every tool call and its result (ASK_RECORD_TOOLS=1 on a local server only;
   // off by default, so a visitor's answer never carries it). The offline fixtures of warehouse/chat/eval are made from it.
   const traced: { tool: string; input: unknown; out: unknown; isError: boolean }[] = [];
-  const tracing = process.env.ASK_RECORD_TOOLS === "1";
-  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(tracing ? { trace: traced } : {}) });
+  // session 1111: an evaluation admitted by its own token records them too (opts.record, set by the route); a visitor never
+  const tracing = process.env.ASK_RECORD_TOOLS === "1" || opts.record === true;
+  // session 1115: what each query read, shown under the answer (readsOf); every answer carries it when there is one
+  const readsLog: Read[] = [];
+  // session 1132: the tables a question queried or described, the nearest a refusal of the general chat names
+  const looked = new Set<string>();
+  // session 1142: the general chat's query results, for the series an answer rests on (lib/chat/generalseries.ts)
+  const generalResults: { tool: string; input: Record<string, unknown>; out: Record<string, unknown> }[] = [];
+  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(tracing ? { trace: traced } : {}), ...(readsLog.length ? { reads: readsLog } : {}) });
   const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
   // The check of a whole draft, as it always was: every number in a tool result, every cited table read, an answer and
   // a citation, and the profile's own reasons.
   const check = (draft: Draft) => {
     const tCheck = Date.now();
     const bad = unverified(draft.answer, sources);
+    const units = unitMismatches(draft.answer, sources);  // session 1110
     const uncited = draft.citations.map((c) => c.table).filter((t) => !tablesRead.has(t));
     // session 35, as ask.py: an empty or uncited answer is sent back; "not in the warehouse" needs no citation
     const noCite = !draft.not_in_warehouse && (!draft.citations.length || !draft.answer.trim());
     const more = profile ? profile.extraProblems(draft, records, given) : [];
     clock.add("writing", "check", Date.now() - tCheck);
-    const ok = !bad.length && !uncited.length && !noCite && !more.length;
-    return { ok, bad, uncited, noCite, more };
+    const ok = !bad.length && !units.length && !uncited.length && !noCite && !more.length;
+    return { ok, bad, units, uncited, noCite, more };
   };
   // session 137: what a draft is sent back for goes to the server's log, never to the reader
-  const logCheck = (c: ReturnType<typeof check>, where: string) => console.log(JSON.stringify({ erw_ask_check: { question_id: opts.questionId ?? null, attempt: attempts + 1, where, untraced_numbers: c.bad.slice(0, 12), uncited_tables: c.uncited.slice(0, 6), no_citation: c.noCite, problems: c.more.slice(0, 6) } }));
+  const logCheck = (c: ReturnType<typeof check>, where: string) => console.log(JSON.stringify({ erw_ask_check: { question_id: opts.questionId ?? null, attempt: attempts + 1, where, untraced_numbers: c.bad.slice(0, 12), unit_mismatches: c.units.slice(0, 6), uncited_tables: c.uncited.slice(0, 6), no_citation: c.noCite, problems: c.more.slice(0, 6) } }));
   const accept = (draft: Draft) => {
     // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
     const answer = plain(nodash(draft.answer));
@@ -331,6 +452,14 @@ export async function ask(question: string, today = new Date().toISOString().sli
     const drawn: Record<string, unknown> = profile ? profile.finish(status, { ...draft, citations }, records) : {};
     if (typeof drawn.premise === "string") drawn.premise = plain(drawn.premise);
     clock.add("drawing", "series", Date.now() - tDraw);
+    // session 1132: the general chat's "not in the warehouse" names what it did look at, as Ask ERCOT's does
+    // session 1142: an answer of the general chat that rests on a series carries it, as Ask ERCOT's does
+    if (!profile && status === "answered") {
+      const series = answerSeries(generalResults, citations.map((c) => c.table));
+      if (series.length) return done({ ...draft, answer, citations, status, ...base(), ...drawn, series });
+    }
+    if (!profile && status === "not_in_warehouse" && looked.size)
+      return nearestFor([...looked]).then((nearest) => done({ ...draft, answer, citations, status, ...base(), ...drawn, ...(nearest.length ? { nearest } : {}) }));
     return done({ ...draft, answer, citations, status, ...base(), ...drawn });
   };
 
@@ -341,7 +470,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
     const c = check(draft);
     if (c.ok) return { c, answer: accept(draft) };
     logCheck(c, where);
-    if (!c.bad.length && !c.uncited.length && !c.noCite && profile?.mend && profile.tailOnly?.(c.more)) return { c, answer: accept(profile.mend(draft, records)) };
+    if (!c.bad.length && !c.units.length && !c.uncited.length && !c.noCite && profile?.mend && profile.tailOnly?.(c.more)) return { c, answer: accept(profile.mend(draft, records)) };
     return { c, answer: null };
   };
 
@@ -357,6 +486,10 @@ export async function ask(question: string, today = new Date().toISOString().sli
       else if (v && typeof v === "object") words(v); } };
     if (profile?.zone) words(out);
     if (tracing) traced.push({ tool: name, input, out, isError });
+    if (!isError && !out.held) for (const r of readsOf(name, input)) if (!readsLog.some((x) => JSON.stringify(x) === JSON.stringify(r))) readsLog.push(r);
+    if (!isError && name === "describe_table" && typeof input.table === "string") looked.add(input.table);
+    for (const r of readsOf(name, input)) looked.add(r.table);
+    if (!profile && !isError && !out.held && (name === "query" || name === "compare")) generalResults.push({ tool: name, input, out });
     if (profile) {
       out = profile.tag(name, input, out, n);
       records.push({ tool: name, input, out, isError });
@@ -401,6 +534,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       retried = true;
       const problems: string[] = [];
       if (s.c.bad.length) problems.push(`numbers in no tool result: ${s.c.bad.join(", ")}`);
+      if (s.c.units.length) problems.push(`numbers stated in a unit no tool result gives them in: ${s.c.units.join(", ")}`);
       if (s.c.uncited.length) problems.push(`cited tables no tool read: ${s.c.uncited.join(", ")}`);
       if (s.c.noCite) problems.push("an empty answer, or no citations");
       problems.push(...s.c.more);
@@ -515,6 +649,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       retried = true;
       const problems: string[] = [];
       if (c.bad.length) problems.push(`numbers in no tool result: ${c.bad.join(", ")}`);
+      if (c.units.length) problems.push(`numbers stated in a unit no tool result gives them in: ${c.units.join(", ")}`);
       if (c.uncited.length) problems.push(`cited tables no tool read: ${c.uncited.join(", ")}`);
       if (c.noCite) problems.push("an empty answer, or no citations");
       problems.push(...c.more);
@@ -522,7 +657,9 @@ export async function ask(question: string, today = new Date().toISOString().sli
       forceWrite = false; // the retry may read again
       continue;
     }
-    return done({ answer: spec.refusal, citations: [], not_in_warehouse: false, status: "refused_unverified" as const, ...base(), retried: true,
+    const why = whyRefused(c);  // session 1111: the refusal says why in one sentence, with no figure in it
+    const nearest = profile ? [] : await nearestFor([...looked]);   // session 1132
+    return done({ answer: `${spec.refusal} ${why}`.trim(), why, ...(nearest.length ? { nearest } : {}), citations: [], not_in_warehouse: false, status: "refused_unverified" as const, ...base(), retried: true,
       ...(profile ? profile.finish("refused_unverified", null, records) : {}) });
   }
 }

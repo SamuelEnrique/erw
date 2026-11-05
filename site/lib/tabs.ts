@@ -24,6 +24,7 @@ export const TABBED = {
   "/demand": { param: "view", name: "Demand", tabs: [["metered", "As metered"], ["weather", "With the weather taken out"], ["consumption", "Consumption"]] },
   "/deals": { param: "tab", name: "Deals", tabs: [["deals", "Deals"], ["tracker", "Tracker"], ["companies", "Companies"]] },
   "/map": { param: "tab", name: "Project map", tabs: [["projects", "Projects"], ["resources", "Resources"], ["queues", "Queues"]] },  // session 349: Queues
+  "/datacenters": { param: "view", name: "Datacenter tracker", tabs: [["facilities", "Facilities"], ["grids", "By grid"]] },  // session 468: the view by grid
 } as const satisfies Record<string, Tabbed>;
 export type TabbedPage = keyof typeof TABBED;
 

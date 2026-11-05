@@ -1,0 +1,3 @@
+v 3
+d Energy Research Warehouse (ERW): US power prices, demand, generation, fuel and project tables
+p erw The ERW in Stata: erw tables, coverage, fetch, cite, license, standard

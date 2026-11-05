@@ -1,8 +1,10 @@
 """Energy Research Warehouse (ERW), session 381: Research's replication, for a reader without Stata.
 
-Reruns the figures of the nine cards of the findings library on /research (their default inputs) from the CSVs the
+Reruns the figures of the ten cards of the findings library on /research (their default inputs) from the CSVs the
 cards download, and nothing else: no table of the warehouse, no request, no file written. Each card's do-file in this
-folder does the same in Stata; this file is its Python mirror, standard library and numpy only.
+folder does the same in Stata; this file is its Python mirror, standard library and numpy only. Session 582 added the
+tenth, peak_hour_moved (ERCOT and CAISO, erw_2026_peak_hour_solar.csv): /research shows its six callouts and until then
+no mirror rebuilt them.
 
     python erw_2026_research_replication.py [folder]                (default: this file's folder)
     python erw_2026_research_replication.py [folder] --json <dir>   (compare with the cards' JSON in <dir>)
@@ -35,6 +37,7 @@ CARDS = [
     ("gas_sets_price", "erw_2026_gas_share_hours.csv"),
     ("negative_prices_west", "erw_2026_negative_hours_hubs.csv"),
     ("peak_hour_grids", "erw_2026_grids_peak_hour_solar.csv"),
+    ("peak_hour_moved", "erw_2026_peak_hour_solar.csv"),   # session 582
     ("queue_divorce", "erw_2026_queue_outcomes_technology.csv"),
     ("who_rescues_whom", "erw_2026_event_interchange_flips.csv"),
 ]
@@ -306,6 +309,35 @@ def peak_hour_grids(rows):
             if r:
                 top = max((at[(grid, y, h)] for h in range(24)), key=lambda x: x["share_days_pct"] or 0)
                 n[f"{grid}_{tag}_modal_hour"], n[f"{grid}_{tag}_modal_pct"] = top["hour"], top["share_days_pct"]
+    return n
+
+
+def peak_hour_moved(rows):
+    """Session 582: the card's numbers_from_rows (warehouse/analysis/findings/peak_hour_moved.py), grid by grid in the
+    file's order: the first year held, the last full year held and this year, each with its median peak hour, its
+    shares of days peaking in the evening and at midday, its days, its solar MW at year end and its modal hour."""
+    years = sorted({r["year"] for r in rows})
+    first, this = years[0], years[-1]
+    last_full = max(y for y in years if y < this)
+    at = {(r["grid"], r["year"], r["hour"]): r for r in rows}
+    n = {"first_year": first, "last_full_year": last_full, "this_year": this}
+    for grid in dict.fromkeys(r["grid"] for r in rows):
+        held = [y for y in years if (at.get((grid, y, 0)) or {}).get("n_days")]
+        n[f"{grid}_first_held_year"] = held[0] if held else None
+        n[f"{grid}_last_full_held_year"] = max((y for y in held if y < this), default=None)
+        for tag, y in (("first", n[f"{grid}_first_held_year"]), ("last", n[f"{grid}_last_full_held_year"]), ("this", this if this in held else None)):
+            r = at.get((grid, y, 0)) if y is not None else None
+            n[f"{grid}_{tag}_year"] = y
+            for col, short in (("median_peak_hour", "median_hour"), ("share_evening_pct", "evening_pct"), ("share_midday_pct", "midday_pct"),
+                               ("n_days", "days"), ("solar_mw_yearend", "solar_mw")):
+                n[f"{grid}_{tag}_{short}"] = r[col] if r else None
+            if r:
+                top = max((x for x in rows if x["grid"] == grid and x["year"] == y), key=lambda x: x["share_days_pct"] or 0)
+                n[f"{grid}_{tag}_modal_hour"], n[f"{grid}_{tag}_modal_pct"] = top["hour"], top["share_days_pct"]
+            else:
+                n[f"{grid}_{tag}_modal_hour"] = n[f"{grid}_{tag}_modal_pct"] = None
+        n[f"{grid}_solar_mw_first_year"] = (at.get((grid, first, 0)) or {}).get("solar_mw_yearend")
+        n[f"{grid}_solar_mw_last_full_year"] = (at.get((grid, last_full, 0)) or {}).get("solar_mw_yearend")
     return n
 
 

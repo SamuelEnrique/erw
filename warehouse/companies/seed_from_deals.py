@@ -46,33 +46,17 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "thesis"))
+sys.path.insert(0, os.path.join(ROOT, "warehouse", "deals"))
 import iso_prices as ip  # noqa: E402
 from build import ENT_COLS, company_id, confidence, domain, name_key  # noqa: E402
+from deal_parties import COUNTRIES, PUBLIC_BODIES  # noqa: E402,F401  session 531: one list for the seeder and the extraction
 
 NAME = "energy_companies"
 DEAL_NOTE = "from deals; not yet researched"
 
 
-# Session 28: parties that are not company names (see the module docstring)
-COUNTRIES = {
-    "afghanistan", "albania", "algeria", "angola", "argentina", "armenia", "australia", "austria", "azerbaijan",
-    "bahrain", "bangladesh", "belarus", "belgium", "bolivia", "bosnia", "botswana", "brazil", "brunei", "bulgaria",
-    "cambodia", "cameroon", "canada", "chad", "chile", "china", "colombia", "congo", "costa rica", "croatia", "cuba",
-    "cyprus", "czech republic", "czechia", "denmark", "ecuador", "egypt", "estonia", "ethiopia", "eu", "european union",
-    "finland", "france", "gabon", "georgia", "germany", "ghana", "greece", "guatemala", "guyana", "hungary", "iceland",
-    "india", "indonesia", "iran", "iraq", "ireland", "israel", "italy", "ivory coast", "jamaica", "japan", "jordan",
-    "kazakhstan", "kenya", "korea", "south korea", "north korea", "kuwait", "kyrgyzstan", "latvia", "lebanon", "libya",
-    "lithuania", "luxembourg", "malaysia", "mali", "malta", "mauritania", "mexico", "moldova", "mongolia", "montenegro",
-    "morocco", "mozambique", "myanmar", "namibia", "nepal", "netherlands", "new zealand", "nicaragua", "niger",
-    "nigeria", "norway", "oman", "pakistan", "panama", "paraguay", "peru", "philippines", "poland", "portugal", "qatar",
-    "romania", "russia", "rwanda", "saudi arabia", "senegal", "serbia", "singapore", "slovakia", "slovenia", "somalia",
-    "south africa", "spain", "sri lanka", "sudan", "suriname", "sweden", "switzerland", "syria", "taiwan",
-    "tajikistan", "tanzania", "thailand", "trinidad and tobago", "tunisia", "turkey", "turkiye", "turkmenistan",
-    "uae", "united arab emirates", "uganda", "uk", "united kingdom", "britain", "great britain", "ukraine", "uruguay",
-    "us", "u.s.", "usa", "united states", "uzbekistan", "venezuela", "vietnam", "yemen", "zambia", "zimbabwe",
-}
-PUBLIC_BODIES = {"doe", "pentagon", "white house", "congress", "treasury", "fed", "federal reserve", "nrc", "ferc",
-                 "epa", "blm", "british nuclear fund"}
+# Session 28: parties that are not company names (see the module docstring). Session 531: the two lists live in
+# warehouse/deals/deal_parties.py, which the deal extraction reads too, so that both read one list.
 GENERIC_WORDS = {"investors", "investor", "lenders", "lender", "allies", "banks", "buyers", "sellers", "shareholders",
                  "owners", "customers", "developers", "operators", "utilities", "governments"}
 GENERIC_END = re.compile(r"(?i)\b(firms?|investors?|hyperscalers?|startups?|joint venture|jv|refinery|refineries|"

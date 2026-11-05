@@ -1,0 +1,21 @@
+{
+ "date": "2026-10-21",
+ "fact_id": "ff_f3252c9717",
+ "kind": "warehouse",
+ "fact": "California's grid operator curtailed 1,459,998 MWh of wind and solar output in April 2026, its most in any month since 2022.",
+ "second": "",
+ "structure": "none",
+ "conjecture": "False",
+ "sources": [
+  {
+   "part": "fact",
+   "label": "ERW table iso_curtailment_monthly",
+   "table": "iso_curtailment_monthly",
+   "publisher": "Energy Research Warehouse (ERW), derived",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/curtailment_record_20260928T083059Z.txt",
+   "span": "iso_curtailment_monthly caiso:ISO: wind and solar curtailed (local and system), most in one month 1,459,998 MWh in 2026-04; months 56 from 2022-01",
+   "retrieved_at": "20260928T083059Z"
+  }
+ ]
+}

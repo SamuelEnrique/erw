@@ -116,7 +116,7 @@ class OneTracker(unittest.TestCase):
         self.assertIn("r.status === 308 && where === to", c)
         self.assertIn("k(m[2]) + k(m[4]) === k(m[1]) && k(m[3]) <= k(m[2])", c)        # the sentence's sum, as it was asked of /datacenters/v2
         self.assertIn('"/seller/v2", "/datacenters/v2",', src("site", "scripts", "check-routes.mjs"))
-        self.assertIn('"/datacenters", "/roundup",', src("site", "scripts", "check-values.mjs"))
+        self.assertIn('"/datacenters", "/datacenters?view=grids", "/roundup",', src("site", "scripts", "check-values.mjs"))   # session 468's view, merged by 461
 
 
 class NoColorLiteral(unittest.TestCase):

@@ -40,15 +40,18 @@ const baseline = (process.argv[3] ?? env("SITE_URL") ?? "").replace(/\/$/, "");
 const PAGES = [
   "/", "/privacy", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/prices/caiso%3ATH_SP15_GEN-APND", "/prices/miso%3AINDIANA.HUB",
   "/prices/spp%3ASPPSOUTH_HUB", "/prices/nyiso%3AN.Y.C.", "/board?s=ercot-hb-hubavg-da", "/grid", "/mix", "/mix?ba=erco&state=TX",
-  "/mix?ba=ciso&state=CA", "/curtailment", "/consumption", "/data", "/data/standard", "/explorer/ercot-peak-premium",
+  "/mix?ba=ciso&state=CA", "/curtailment", "/consumption", "/data", "/data/standard", "/explorer/ercot-peak-premium", "/explore/ercot-peak-premium",  /* session 403 */
   "/deals", "/map", "/datacenters", "/companies", "/policy", "/digest", "/roundup", "/analysis", "/research", "/research?grid=ERCOT&topic=batteries", "/analysis/card/gas_sets_price", "/analysis/2026-W40", "/about", "/terms",
   "/subscribe", "/ask",
+  "/data/licenses",  // session 471: the licensing record, in review
   "/ask/ercot", "/ask/ercot?from=%2Fshoulder&title=The+shoulder+hours&s_grid=ERCOT&s_month=2025-01",  // session 92: Ask ERCOT, the reference version (the page only: the check never asks the model)
   "/mix/v2", "/mix/v2?grid=caiso&period=2026-04&vs=ercot", "/mix/v2?grid=pjm&period=2024", "/data/methods/generation_mix_hourly",  // session 94: the energy mix, version 2, in review
   "/queues", "/queues?grid=ercot&tech=battery", "/queues?grid=miso&tech=offshore_wind", "/data/methods/interconnection_queue_summary",  // session 95: the interconnection queue explorer, in review
+  "/explore/interconnection", "/explore/interconnection?queue=ercot&measure=mw", "/explore/interconnection?queue=isone",  // session 405: the interconnection explorer, in review
   "/prices/compare", "/prices/compare?period=month&market=rtm&sort=spread", "/data/methods/hub_price_comparison",  // session 96: where power is cheap, in review
   "/data/methods/price_board",  // session 132: the one price board (/board/v3, /board/v4 and /markets redirect to it)
   "/demand", "/demand?area=caiso&rank=peak", "/demand?area=us48&rank=ytd", "/data/methods/demand_growth",  // session 97: the demand growth explorer, in review
+  "/explore/demand-growth", "/explore/demand-growth?grid=us48&window=peak", "/explore/demand-growth?grid=caiso&window=m08",  // session 404: the demand growth explorer, in review
   "/demand?view=weather", "/demand?view=weather&figure=night&year=2026", "/demand?view=weather&figure=winter&year=2023", "/data/methods/demand_weather",  // session 152: the second view of the one demand page (demand growth with the weather taken out, sessions 126 and 129), in review
   "/demand/weather", "/demand/weather?figure=night&year=2026",  // session 126: the address the view was built at (since session 152 these redirect to /demand?view=weather)
   "/curtailment/v2", "/curtailment/v2?period=2026-05", "/curtailment/v2?period=2019", "/data/methods/caiso_curtailment_intervals",  // session 98: curtailment, version 2 (since session 144 these redirect to /curtailment)
@@ -79,6 +82,7 @@ const PAGES = [
   // would read those three as new; ask it by its own address once the baseline holds the view)
   "/severance?tab=lease", "/prices?tab=ercot", "/deals?tab=tracker", "/deals?tab=tracker&party=Constellation", "/deals?tab=companies",
   "/map?tab=resources", "/map?tab=resources&on=oil_gas_basins,plants_operating&z=2&c=-101,32", "/deals/v2", "/deals/v2?view=ai", "/seller/v2", "/datacenters/v2",  // session 241: /datacenters/v2 redirects to /datacenters, which draws its blocks
+  "/datacenters?view=grids",  // session 468: the tracker by grid (in review)
   "/shoulder", "/shoulder?grid=caiso&month=2025-07", "/data/methods/shoulder_hours",  // session 75
   "/contracts", "/contracts?product=capacity",  // session 83
   "/storage/owners", "/storage/owners?grid=caiso", "/storage/owners?grid=isone",  // session 87
@@ -166,7 +170,8 @@ for (const page of PAGES) {
   if (now.status !== 200) msgs.push(`status ${now.status}${now.error ? ` (${now.error})` : ""}`);
   if (inReview(now.html)) msgs.push("the in-review page, although the internal cookie was sent");
   const text = visible(now.html);
-  const undef = text.match(/.{0,60}\bundefined\b.{0,60}/);
+  // session 2777: not a URL's path (a host's redirect to /undefined, as lustat.statec.lu's, recorded on /data/licenses)
+  const undef = text.match(/.{0,60}(?<!\/)\bundefined\b.{0,60}/);
   if (undef) msgs.push(`"undefined" in the page: ...${undef[0].replace(/\s+/g, " ").trim()}...`);
   let before = null;
   if (baseline) {

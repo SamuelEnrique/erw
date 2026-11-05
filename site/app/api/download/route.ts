@@ -15,8 +15,12 @@
 // before (the same line, the same bytes); a larger one is streamed a page at a time as the reader takes it, its line
 // saying the count was not taken.
 import site from "@/data/site.json";
+import citations from "@/data/table_citations.json";
+import { downloadFilter, type Shape } from "@/lib/downloadfilter";
 import { limited } from "@/lib/guard";
 import { licenseNeeded, licensePublishers } from "@/lib/license";
+import { refusal, verdictOf } from "@/lib/packages";
+import { COOKIE, cookieOpens } from "@/lib/release";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -26,6 +30,10 @@ export const maxDuration = 300;
 // session 368: no count is taken, so the limit is kept as the rows are streamed: a table that passes it ends in an error,
 // never in a file that looks whole. 200,000 until session 368; ercot_as_prices, whole in the live set, holds 338,132.
 const MAX_ROWS = 500_000;
+// session 1009 (chain 070): the cap and the hourly limit may be set lower on the server (ERW_DOWNLOAD_MAX_ROWS,
+// ERW_DOWNLOAD_PER_HOUR); never higher than the cap above, and 60 an hour when the variable is not set
+const ROW_CAP = Math.min(Number(process.env.ERW_DOWNLOAD_MAX_ROWS) || MAX_ROWS, MAX_ROWS);
+const PER_HOUR = Number(process.env.ERW_DOWNLOAD_PER_HOUR) || 60;
 const PAGE = 1000;
 // the rows read before the answer starts: a table that ends within them carries its count on the "Downloaded" line
 const FIRST_ROWS = 50_000;
@@ -62,9 +70,32 @@ const text = (msg: string, status: number) => new Response(msg + "\n", { status,
 
 /** Session 328: a reader of one table's CSV from this route, in Python or Stata. It fetches the CSV, keeps the lines that
  *  begin with "#" (the table's provenance: the source report, its address, when it was retrieved) and loads the rows that
- *  follow as they are: no number is computed, so what it loads is what the page read. */
-function readerText(table: string, as: "py" | "do", origin: string): string {
+ *  follow as they are: no number is computed, so what it loads is what the page read. Session 535: and in R (as=r), base R
+ *  only, so nothing is installed: readLines and read.csv, as the Python reader does with urllib and pandas. */
+function readerText(table: string, as: Reader, origin: string): string {
   const url = `${origin}/api/download?table=${table}`;
+  if (as === "r") {
+    // an R name begins with a letter: a table name that does not (none does on 21 October 2026) is read into erw_<table>
+    const name = /^[a-z]/.test(table) ? table : `erw_${table}`;
+    return [
+      `# Energy Research Warehouse (ERW): read the table ${table} from the ERW site's live set.`,
+      "# The CSV opens with its provenance, lines that begin with \"#\" (the source report, its address, when it was",
+      "# retrieved); they are printed and skipped, and the rows are loaded as they are. Base R only: no package to install.",
+      "# An empty cell is NA; no comment character is set, so a value that holds \"#\" (an address) is read whole.",
+      `URL <- "${url}"`,
+      "old <- options(timeout = max(300, getOption(\"timeout\")))",
+      "lines <- readLines(URL, warn = FALSE, encoding = \"UTF-8\")",
+      "options(old)",
+      "n <- 0L",
+      "while (n < length(lines) && startsWith(lines[n + 1L], \"#\")) n <- n + 1L",
+      "writeLines(lines[seq_len(n)])",
+      `${name} <- read.csv(text = lines[seq_along(lines) > n], stringsAsFactors = FALSE, check.names = FALSE,`,
+      "  na.strings = \"\", encoding = \"UTF-8\")",
+      `print(dim(${name}))`,
+      `print(head(${name}))`,
+      "",
+    ].join("\n");
+  }
   if (as === "py") {
     return [
       `# Energy Research Warehouse (ERW): read the table ${table} from the ERW site's live set.`,
@@ -112,7 +143,9 @@ function readerText(table: string, as: "py" | "do", origin: string): string {
   ].join("\n");
 }
 
-const reader = (table: string, as: "py" | "do", origin: string) => new Response(readerText(table, as, origin), {
+type Reader = "py" | "do" | "r";
+
+const reader = (table: string, as: Reader, origin: string) => new Response(readerText(table, as, origin), {
   headers: { "Content-Type": "text/plain; charset=utf-8", "Content-Disposition": `attachment; filename="erw_${table}.${as}"`, "Cache-Control": "public, max-age=3600" },
 });
 
@@ -125,11 +158,12 @@ const enc = (v: unknown) => encodeURIComponent(String(v));
  *  primary key's index: the rest of the last row's (entity, variable), then the rest of its entity, then the entities
  *  after it. A single-column key (entities, events) has one. A short page of the last range ends the table. The key's
  *  values are read as k0, k1, ... so that a column the CSV does not carry (event) adds nothing to the row's bytes. */
-async function* pages(shape: string, table: string, select: string): AsyncGenerator<Record<string, unknown>[]> {
+async function* pages(shape: string, table: string, select: string, filters = ""): AsyncGenerator<Record<string, unknown>[]> {
   const key = KEY[shape];
   const sel = `${select},${key.map((k, i) => `k${i}:${k}`).join(",")}`;
   const order = key.join(",");
-  const base = `${shape}?select=${sel}&table_name=eq.${table}&order=${order}&limit=${PAGE}`;
+  // session 1009: the reader's filters (lib/downloadfilter.ts) hold in every range read below
+  const base = `${shape}?select=${sel}&table_name=eq.${table}${filters}&order=${order}&limit=${PAGE}`;
   // with retries: one page is a short read, and a busy database can refuse one now and then
   const read = async (filter: string) => {
     for (let attempt = 1; ; attempt += 1) {
@@ -166,12 +200,21 @@ async function* pages(shape: string, table: string, select: string): AsyncGenera
 export async function GET(req: Request) {
   const table = new URL(req.url).searchParams.get("table") ?? "";
   if (!/^[a-z0-9_]{3,64}$/.test(table)) return text("table must be an ERW table name", 400);
+  // session 1009 (chain 070): whether the downloads are public or the owner's is his to rule (the rule of 12 October
+  // 2026); until he does, the route answers only a request that carries the internal view's cookie
+  const cookie = (req.headers.get("cookie") ?? "").split(/;\s*/).find((c) => c.startsWith(`${COOKIE}=`))?.slice(COOKIE.length + 1);
+  if (!(await cookieOpens(cookie, process.env.INTERNAL_COSTS_TOKEN))) {
+    return text("the download is open to the internal view only, until the owner rules whether it is public", 403);
+  }
   // session 282: the download refuses what /data holds back, a table marked "license
   // needed" on the day (lib/license.ts, the rule of session 207 from 20 October 2026); until now only the link was hidden
   if (licenseNeeded(table)) return text(`${table} is held: license needed (${licensePublishers(table).join("; ")}). It is not downloaded from this site.`, 403);
+  // session 1009: any table whose license verdict is not public is refused with the packages' own words
+  const refused = refusal(table);
+  if (refused) return text(refused, 403);
   // session 177 (lib/guard.ts): a download reads up to MAX_ROWS rows from the database; sixty an hour a visitor
-  const lim = await limited(req, "download", 60, 3600);
-  if (!lim.ok) return new Response("limit reached: 60 downloads per hour; try again later\n", { status: 429, headers: { "Content-Type": "text/plain; charset=utf-8", "Retry-After": String(lim.retryAfter) } });
+  const lim = await limited(req, "download", PER_HOUR, 3600);
+  if (!lim.ok) return new Response(`limit reached: ${PER_HOUR} downloads per hour; try again later\n`, { status: 429, headers: { "Content-Type": "text/plain; charset=utf-8", "Retry-After": String(lim.retryAfter) } });
   try {
     const cat = (await (await get(`catalogue?select=table_name,in_live_set,columns,license&table_name=eq.${table}`)).json()) as {
       in_live_set: string; columns: string | null; license: string;
@@ -183,14 +226,20 @@ export async function GET(req: Request) {
     // session 328: ?as=py or ?as=do answers a Python or a Stata reader of this table's CSV, never the rows themselves
     const as = new URL(req.url).searchParams.get("as");
     if (as === "py" || as === "do") return reader(table, as, new URL(req.url).origin);
+    // session 535: ?as=r answers an R reader of the same CSV, after the same checks
+    if (as === "r") return reader(table, as, new URL(req.url).origin);
     const columns = JSON.parse(cat[0].columns) as string[];
     const shape = columns[0] === "entity_id" ? "entities" : columns[0] === "event_id" ? "events" : "series";
+    // session 1009: the reader's filters, checked before any row is read
+    const params = new URL(req.url).searchParams;
+    const filter = downloadFilter(shape as Shape, { entity: params.get("entity"), variable: params.get("variable"), start: params.get("start"), end: params.get("end") });
+    if ("error" in filter) return text(filter.error, 400);
     const hdr = (await (await get(`headers?select=line&table_name=eq.${table}&order=line_no`)).json()) as { line: string }[];
     const std = STD[shape];
     const select = shape === "series" ? std.join(",") : [...std, "extra"].join(",");
     const csv = (rows: Record<string, unknown>[]) => rows.map((r) => columns.map((c) => cell(c in r ? r[c] : (r.extra as Record<string, unknown> | null)?.[c])).join(",") + "\n").join("");
     // the first pages, read before the answer starts: a failure here is a plain 502, as before
-    const it = pages(shape, table, select);
+    const it = pages(shape, table, select, filter.query);
     const first: string[] = [];
     let n = 0, done = false;
     while (n < FIRST_ROWS) {
@@ -201,7 +250,12 @@ export async function GET(req: Request) {
     }
     const at = new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
     const counted = done ? `${n} rows` : `${n} rows or more, read page by page (the count is not taken on a table this large)`;
-    const top = hdr.map((h) => `# ${h.line}\n`).join("") + `# Downloaded from the ERW site's live set (Supabase) at ${at}: ${counted}.\n` + columns.join(",") + "\n";
+    // session 1009: the citation in the release's words (the packages' cite), the license verdict, and the filters
+    const head = (citations as Record<string, string>)[table];
+    const cite = head ? `# Cite: ${head} Via the Energy Research Warehouse (ERW), table \`${table}\`, the live set, fetched ${at}.\n` : "";
+    const verdict = `# ERW license verdict: ${verdictOf(table) || "not in the record"}.\n`;
+    const only = filter.words.length ? `# Rows: ${filter.words.join("; ")}.\n` : "";
+    const top = hdr.map((h) => `# ${h.line}\n`).join("") + cite + verdict + only + `# Downloaded from the ERW site's live set (Supabase) at ${at}: ${counted}.\n` + columns.join(",") + "\n";
     const encoder = new TextEncoder();
     let started = false;
     // pulled: the next page is read only when the reader has taken the last, so no table is held whole in the server
@@ -218,7 +272,7 @@ export async function GET(req: Request) {
           const step = await it.next();
           if (step.done) { ctl.close(); return; }
           n += step.value.length;
-          if (n > MAX_ROWS) throw new Error(`${table} holds more than the ${MAX_ROWS} rows a download allows; every table is on Redivis (${site.redivis.url})`);
+          if (n > ROW_CAP) throw new Error(`${table} holds more than the ${ROW_CAP} rows a download allows; narrow it with entity, variable, start or end, or read it on Redivis (${site.redivis.url})`);
           ctl.enqueue(encoder.encode(csv(step.value)));
         } catch (e) {
           ctl.error(e);

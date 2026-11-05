@@ -4,6 +4,7 @@
 // Georgia in cardinal for the title and headings, Stanford black for text, fog beige for the input panel and
 // highlighted rows, thin grey rules. Colors and typefaces come from app/tokens.css.
 import type { ReactNode } from "react";
+import { emptyCell, scrollRegion } from "@/lib/cells";  // session 412: an empty header cell is a plain cell
 
 // ---- Session 296 (the owner's rulings of 15 October 2026): two pieces for every tool page.
 
@@ -40,12 +41,14 @@ export function ToolPage({ children }: { children: ReactNode }) {
   return <div className="border border-rule bg-white px-4 py-6 text-ink sm:px-8 sm:py-8">{children}</div>;
 }
 
-export function ToolHeader({ title, lead, crumb }: { title: string; lead?: ReactNode; crumb?: ReactNode }) {
+/** Session 502: `under`, when given, is drawn below the lead (a page's license line); no page without it changes. */
+export function ToolHeader({ title, lead, crumb, under }: { title: string; lead?: ReactNode; crumb?: ReactNode; under?: ReactNode }) {
   return (
     <header className="mb-8 border-b border-rule pb-5">
       {crumb ? <div className="mb-2 text-xs text-muted">{crumb}</div> : null}
       <h1 className="font-serif text-3xl text-accent sm:text-4xl">{title}</h1>
       {lead ? <p className="mt-3 max-w-3xl text-base leading-relaxed">{lead}</p> : null}
+      {under}
     </header>
   );
 }
@@ -121,12 +124,12 @@ export function ToolTable({ head, rows, minWidth = 520, caption, words }: {
 }) {
   const side = words ? "text-left" : "text-right";
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto" {...scrollRegion(caption)}>
       <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth }}>
         {caption ? <caption className="sr-only">{caption}</caption> : null}
         <thead>
           <tr className="bg-accent text-white">
-            {head.map((h, i) => <th key={i} scope="col" className={`px-3 py-1.5 font-normal ${i ? side : ""}`}>{h}</th>)}
+            {head.map((h, i) => (emptyCell(h) ? <td key={i} data-empty-head="1" className="px-3 py-1.5" /> : <th key={i} scope="col" className={`px-3 py-1.5 font-normal ${i ? side : ""}`}>{h}</th>))}
           </tr>
         </thead>
         <tbody>
@@ -134,7 +137,7 @@ export function ToolTable({ head, rows, minWidth = 520, caption, words }: {
             <tr key={r.key} className={`border-b border-rule ${r.highlight ? "bg-paper font-semibold" : ""} ${r.muted ? "text-muted" : ""}`}>
               {r.wide !== undefined
                 ? <><th scope="row" className="px-3 py-1.5 font-normal">{r.cells[0]}</th><td colSpan={head.length - 1} className="px-3 py-1.5 text-left text-muted">{r.wide}</td></>
-                : r.cells.map((c, i) => (i === 0 ? <th key={i} scope="row" className="px-3 py-1.5 font-normal">{c}</th> : <td key={i} className={`px-3 py-1.5 ${side}`}>{c}</td>))}
+                : r.cells.map((c, i) => (i === 0 ? (emptyCell(c) ? <td key={i} data-empty-head="1" className="px-3 py-1.5" /> : <th key={i} scope="row" className="px-3 py-1.5 font-normal">{c}</th>) : <td key={i} className={`px-3 py-1.5 ${side}`}>{c}</td>))}
             </tr>
           ))}
         </tbody>

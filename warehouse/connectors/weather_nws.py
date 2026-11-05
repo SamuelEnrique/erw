@@ -17,7 +17,8 @@ Stations, one airport per ISO's load center (a choice, documented here and in th
 Tables (series shape):
   weather_obs_hourly       entity nws:<station>, node the ISO; variables temperature_f (degF) and wind_speed_mph (mph,
                            both converted from the API's metric values, docs/datastandard.md decision 27): the mean of
-                           the station's quality-controlled observations whose time falls in the UTC hour (ts_utc the
+                           the station's observations whose time falls in the UTC hour (every non-null value the API
+                           returns; its qualityControl flag is not read, session 2074) (ts_utc the
                            hour start); an hour with no observation is not written. freq PT1H.
   weather_forecast_hourly  the NWS hourly gridpoint forecast at the station's point (units=si): temperature_f and
                            wind_speed_mph (the lower number when NWS gives a range) for each hour it covers (about 156);
@@ -155,7 +156,7 @@ def main(argv=None):
             ip.write_csv(s[ip.SERIES_COLS], OBS, [
                 "Energy Research Warehouse (ERW): NWS observed temperature and wind, hourly, at one airport per ISO",
                 "Shape: series (docs/datastandard.md v0). freq PT1H: ts_utc is the UTC hour start; the value is the mean "
-                "of the station's observations in the hour (NWS quality-controlled values; an hour with none is absent).",
+                "of the station's observations in the hour (every non-null value the NWS API returns, its qualityControl flag not read; an hour with none is absent).",
                 f"Window: the last {args.days} days asked each run; the NWS API serves about the last 7 days of "
                 "observations, so the table reaches back further only as daily runs merge.",
                 f"Source: {SOURCE_OBS} National Weather Service API, {API}/stations/<station>/observations"] + common, log)

@@ -59,6 +59,8 @@ ENTITY_COLS = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capacit
 EXTRA_COLS = ["source_url", "retrieved_at", "vintage", "queue_id", "county", "state", "poi", "zone",
               "transmission_owner", "fuel_technology", "iso_status", "queue_date",
               "proposed_in_service_date", "actual_in_service_date", "withdrawn_date"]
+US_CODES = set("AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR "
+               "PA RI SC SD TN TX UT VT VA WA WV WI WY".split())  # session 2222: the states and DC, the codes a geo may carry
 STATES = {"Alabama": "AL", "Arizona": "AZ", "Arkansas": "AR", "California": "CA", "Colorado": "CO",
           "Connecticut": "CT", "Illinois": "IL", "Indiana": "IN", "Iowa": "IA", "Kansas": "KS",
           "Kentucky": "KY", "Louisiana": "LA", "Maine": "ME", "Massachusetts": "MA", "Michigan": "MI",
@@ -169,7 +171,9 @@ def build(iso, df, url, got, log):
         raise RuntimeError(f"{iso}: non-numeric capacity {bad.unique()[:5].tolist()}")
     state = text(pick(df, "State"))
     state = state.map(lambda s: STATES.get(s, s))
-    geo = state.map(lambda s: f"US-{s}" if re.fullmatch(r"[A-Z]{2}", s) else "")
+    # session 2222: only a U.S. state's or DC's code is a geo; ISO-NE's "NB" (New Brunswick) and CAISO's "MX" were
+    # written US-NB and US-MX before, and now leave geo blank (the state column keeps the ISO's word)
+    geo = state.map(lambda s: f"US-{s}" if s in US_CODES else "")
     withdrawn = dates(pick(df, "Withdrawn Date"), "withdrawn date", iso)
     actual = dates(pick(df, "Actual Completion Date", "In-Service Date", "Op Date"), "in-service date", iso) \
         if iso != "spp" else dates(pick(df, "Commercial Operation Date"), "in-service date", iso)

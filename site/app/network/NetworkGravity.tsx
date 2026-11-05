@@ -60,9 +60,11 @@ export function NetworkGravity({ gen, net, names, colorOf, pick, neighbours, onP
             const dim = pick !== null && pick !== p.id && !neighbours.has(p.id);
             const hollow = p.state === "no-generation" || p.state === "zero-generation";
             const fill = hollow ? "none" : colorOf(p.id);
+            // session 583: a circle's name begins with the label drawn under it ("CAISO, California Independent System
+            // Operator"), so a voice command that says what is seen reaches it (AccessLint, label-content-mismatch, WCAG 2.5.3)
             return (
               <g key={p.id} data-gravity-grid={p.id} data-gravity-state={p.state} data-gen={p.gen ?? ""} data-net={p.net ?? ""} data-share={p.share ?? ""}
-                data-d={Math.round(p.d * 10) / 10} data-r={Math.round(p.r * 10) / 10} data-dim={dim ? "1" : "0"} className="cursor-pointer" tabIndex={0} role="button" aria-label={nameOf(p.id)}
+                data-d={Math.round(p.d * 10) / 10} data-r={Math.round(p.r * 10) / 10} data-dim={dim ? "1" : "0"} className="cursor-pointer" tabIndex={0} role="button" aria-label={nameOf(p.id).includes(p.label) ? nameOf(p.id) : `${p.label}, ${nameOf(p.id)}`}
                 onClick={() => onPick(p.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(p.id); } }}
                 onPointerMove={hoverAt(p.id)} onPointerLeave={() => setHover(null)} onFocus={() => setHover({ id: p.id, x: -1, y: -1, right: false })} onBlur={() => setHover(null)}>
                 <circle cx={p.x} cy={p.y} r={p.r} fill={fill} fillOpacity={dim ? 0.22 : 0.9} stroke={pick === p.id ? "var(--color-ink)" : hollow ? "var(--color-muted)" : "var(--color-panel)"}
@@ -73,7 +75,7 @@ export function NetworkGravity({ gen, net, names, colorOf, pick, neighbours, onP
           })}
         </svg>
         {hover ? (
-          <div className="pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-0.5 text-xs shadow-sm" data-gravity-hover={hover.id}
+          <div className="pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-0.5 text-xs" data-gravity-hover={hover.id}
             style={hover.x < 0 ? { left: 8, top: 8 } : hover.right ? { right: `calc(100% - ${hover.x - 12}px)`, top: hover.y + 12 } : { left: hover.x + 12, top: hover.y + 12 }}>{nameOf(hover.id)}</div>
         ) : null}
       </div>

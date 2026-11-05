@@ -1,0 +1,44 @@
+---
+title: "The Energy Research Warehouse in R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The Energy Research Warehouse in R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(eval = nzchar(Sys.getenv("ERW_LIVE_KEY")), fig.width = 8, fig.height = 4)
+library(erw)
+```
+
+The six calls of the ERW packages (`docs/methods/packages.md`) are `erw_tables()`, `erw_coverage()`, `erw_fetch()`,
+`erw_cite()`, `erw_license()` and `erw_standard()`. This vignette reproduces two of the site's charts from the live
+set, as `packages/stata/examples.do` does in Stata, and prints the figures each shows so they can be checked against
+the page at the same time. It runs when `ERW_LIVE_URL` and `ERW_LIVE_KEY` are set (the ERW gives them on request).
+
+## The Grid tool, ERCOT: hourly demand, the last nine days
+
+```{r ercot}
+since <- format(Sys.Date() - 9, "%Y-%m-%d")
+d <- erw_fetch("eia930_all_demand", entity = "eia930:ERCO", variable = "demand_mw", start = since)
+d <- d[order(d$ts_utc), ]
+cat(sprintf("ERCOT demand, last hour %s UTC: %s MW; the window's peak %s MW\n",
+            format(d$ts_utc[nrow(d)], "%Y-%m-%d %H:%M", tz = "UTC"),
+            format(d$value[nrow(d)], big.mark = ","), format(max(d$value), big.mark = ",")))
+plot(d$ts_utc, d$value, type = "l", xlab = "Hour (UTC)", ylab = "MW", main = "ERCOT demand, last nine days",
+     sub = attr(d, "erw_version"))
+```
+
+## The price board: Henry Hub, the last twelve months
+
+```{r henry}
+since <- format(Sys.Date() - 365, "%Y-%m-%d")
+h <- erw_fetch("eia_fuel_spot_prices", entity = "eia:henry_hub", start = since)
+h <- h[order(h$ts_utc), ]
+cat(sprintf("Henry Hub, latest %s: USD %.2f per MMBtu\n", format(h$ts_utc[nrow(h)], "%Y-%m-%d", tz = "UTC"),
+            h$value[nrow(h)]))
+plot(h$ts_utc, h$value, type = "l", xlab = "Day (UTC)", ylab = "USD per MMBtu",
+     main = "Henry Hub spot price, last twelve months", sub = attr(h, "erw_version"))
+erw_cite("eia_fuel_spot_prices", h)
+```

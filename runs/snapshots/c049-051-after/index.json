@@ -1,0 +1,211 @@
+{
+ "name": "c049-051-after",
+ "base": "https://erw-flame.vercel.app",
+ "taken_utc": "2026-10-23T06:10:37.956Z",
+ "complete": true,
+ "pages": [
+  {
+   "page": "/",
+   "file": "01",
+   "status": 200,
+   "bytes": 23418,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/about",
+   "file": "02",
+   "status": 200,
+   "bytes": 23416,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/storage",
+   "file": "03",
+   "status": 200,
+   "bytes": 23428,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/seller",
+   "file": "04",
+   "status": 200,
+   "bytes": 23532,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/network",
+   "file": "05",
+   "status": 200,
+   "bytes": 23497,
+   "numbers": 0,
+   "lines": 45,
+   "via": [
+    "308 /grid?view=network"
+   ]
+  },
+  {
+   "page": "/cost-of-power/battery",
+   "file": "06",
+   "status": 200,
+   "bytes": 23532,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight",
+   "file": "07",
+   "status": 200,
+   "bytes": 23709,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=ercot&dur=2&strat=dayahead",
+   "file": "08",
+   "status": 200,
+   "bytes": 23706,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=ercot&dur=4&strat=foresight",
+   "file": "09",
+   "status": 200,
+   "bytes": 23709,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead",
+   "file": "10",
+   "status": 200,
+   "bytes": 23706,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=ercot&dur=8&strat=foresight",
+   "file": "11",
+   "status": 200,
+   "bytes": 23709,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead",
+   "file": "12",
+   "status": 200,
+   "bytes": 23706,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=caiso&dur=2&strat=foresight",
+   "file": "13",
+   "status": 200,
+   "bytes": 23709,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead",
+   "file": "14",
+   "status": 200,
+   "bytes": 23706,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=caiso&dur=4&strat=foresight",
+   "file": "15",
+   "status": 200,
+   "bytes": 23709,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead",
+   "file": "16",
+   "status": 200,
+   "bytes": 23706,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=caiso&dur=8&strat=foresight",
+   "file": "17",
+   "status": 200,
+   "bytes": 23709,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/battery?grid=caiso&dur=8&strat=dayahead",
+   "file": "18",
+   "status": 200,
+   "bytes": 23706,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/seller?iso=caiso&asset=solar",
+   "file": "19",
+   "status": 200,
+   "bytes": 23650,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/cost-of-power/seller?iso=caiso&asset=wind",
+   "file": "20",
+   "status": 200,
+   "bytes": 23647,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/terms",
+   "file": "21",
+   "status": 200,
+   "bytes": 23416,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/data/methods/battery_stack",
+   "file": "22",
+   "status": 200,
+   "bytes": 23567,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/data/methods/cost_of_power",
+   "file": "23",
+   "status": 200,
+   "bytes": 23567,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/data/methods/grid_network",
+   "file": "24",
+   "status": 200,
+   "bytes": 23563,
+   "numbers": 0,
+   "lines": 44
+  },
+  {
+   "page": "/data/methods/storage",
+   "file": "25",
+   "status": 200,
+   "bytes": 23543,
+   "numbers": 0,
+   "lines": 44
+  }
+ ]
+}

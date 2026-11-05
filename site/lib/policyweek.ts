@@ -483,6 +483,14 @@ export function emptyWhy(c: Chosen, today: string, bodies: Body[], topics: Topic
 export type TagChip = { key: string; label: string; why: string };
 /** The filter's choice for "every tagged action", whatever the tag. */
 export const ANY_TAG = "any";
+// Session 469: one choice of the Tag filter for what a large load's cost turns on: an action that carries any of three
+// of the written rule's tags (/policy?tag=loads_interconnection_tariffs). "Tariffs" are the rule's transmission_cost tag
+// (transmission rates, formula rates, transmission service rates, network upgrades, cost allocation): the charges a
+// tariff sets. Tax credits are left out: they are not a grid charge. Not chosen, the page is as it was.
+export const LOAD_GROUP = "loads_interconnection_tariffs";
+export const LOAD_GROUP_TAGS = ["large_load", "interconnection", "transmission_cost"] as const;
+export const LOAD_GROUP_LABEL = "Large loads, interconnection or tariffs";
+export const LOAD_GROUP_WHY = "Every action tagged large loads, interconnection or transmission cost by the written rule: the tariff charges are the transmission cost tag. Tax credits are not in it.";
 /** The chips of an action's tags, in the rule's order, worded as the second view words them. */
 export function chipsOf(hits: TagHit[], topics: Topic[], rules: TagRules): TagChip[] {
   const by = new Map(topics.filter((t) => t.kind === "tag").map((t) => [t.key, t]));
@@ -492,7 +500,7 @@ export function chipsOf(hits: TagHit[], topics: Topic[], rules: TagRules): TagCh
 /** The tag an address chooses in the first view: one of the rule's tags, "any", or none. */
 export function tagOf(q: Record<string, string | undefined>, tags: string[]): string {
   const s = (q.tag ?? "").trim().toLowerCase();
-  return s === ANY_TAG || tags.includes(s) ? s : "";
+  return s === ANY_TAG || (s === LOAD_GROUP && LOAD_GROUP_TAGS.some((t) => tags.includes(t))) || tags.includes(s) ? s : "";
 }
 /** The address of the first view with a tag chosen; with none, the page's own address. */
 export const tagHref = (tag: string): string => (tag ? `/policy?tag=${encodeURIComponent(tag)}` : "/policy");
@@ -500,7 +508,9 @@ export const tagHref = (tag: string): string => (tag ? `/policy?tag=${encodeURIC
 export function hasTag(chips: TagChip[] | undefined, tag: string): boolean {
   if (!tag) return true;
   const mine = chips ?? [];
-  return tag === ANY_TAG ? mine.length > 0 : mine.some((c) => c.key === tag);
+  if (tag === ANY_TAG) return mine.length > 0;
+  if (tag === LOAD_GROUP) return mine.some((c) => (LOAD_GROUP_TAGS as readonly string[]).includes(c.key));
+  return mine.some((c) => c.key === tag);
 }
 
 // ---- the first view's method, off the face (session 164) ---------------------------------------------------------------

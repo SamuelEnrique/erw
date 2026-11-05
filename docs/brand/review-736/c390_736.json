@@ -1,0 +1,66 @@
+{
+ "base": "http://localhost:3793",
+ "at": "2026-10-22T16:37:11.472Z",
+ "pages": [
+  {
+   "page": "/cost-of-power?view=allgrids&rows=nodes&nsort=spread&ndir=desc",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&node=ercot%3ABBREEZE_1_2",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nq=SOLAR",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power?view=allgrids&mw=1000&sort=utility&a=ercot%3ALZ_HOUSTON&b=pjm%3Agrid",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power?view=allgrids&mw=1000&sort=headroom&grid=nyiso",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/research/card/siting_flexible",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  }
+ ]
+}

@@ -309,3 +309,9 @@ Session 381, 21 October 2026 (roadmap item 2, "a cross-check table against publi
 - Not compared: the share of hours a fuel set the price, as a market monitor publishes it (Potomac Economics for ERCOT, ISO-NE's internal market monitor), beside the card `gas_sets_price`. Not held.
 - Not compared: Berkeley Lab's report's own summary of withdrawn capacity. The ERW holds the edition's data file, not the report's figures.
 - Not compared: a hunt draft against a publisher's own site. None is held (the pack's section 9, question 4).
+
+## The figures on the page and their keys
+
+Each number `/research` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against its file and `site/scripts/check-methods.mjs` against the notes of the page (session 409). The keys the sections above and the scanner's note do not name:
+
+- `finding|<card>|effect|<row>|coef_per_gw|<grid>`: in a card's table of estimates, the column "Per GW of batteries" (or the card's own first column of estimates), the row's coefficient, read by `check-values` from the card's own file `site/data/findings/<card>.json` (`effect_table`), beside its `se`, `p`, `n` and `r2`.

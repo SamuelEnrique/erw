@@ -56,7 +56,10 @@ class TheSharedChartLabels(unittest.TestCase):
 
     def test_the_heat_legend_is_measured_from_its_words(self):
         s = src("site", "components", "svgchart.tsx")
-        self.assertIn("const x0 = L + span <= W - 4 ? L : 4, sx = x0 + textWidth(w0, 11) + 8, hx = sx + 8 * 12 + 6;", s)
+        # session 584: the same measure, its words through tw() (with a margin only where the legend takes two lines) and
+        # the ramp's cells through `cell` (12 px, narrower only on its own line at a phone's width)
+        self.assertIn("const x0 = L + span <= W - 4 ? L : 4, sx = x0 + tw(w0) + 8, hx = sx + 8 * cell + 6;", s)
+        self.assertIn("const cell = split ? Math.max(6, Math.min(12, (W - 8 - tw(w0) - 8 - 6 - tw(w1)) / 8)) : 12;", s)
         self.assertNotIn("x={L + 110 + k * 12}", s)
 
 

@@ -1,0 +1,165 @@
+{
+ "base": "http://localhost:3793",
+ "when": "2026-10-22T16:36:49.274Z",
+ "addresses": 7,
+ "widths": [
+  1280,
+  390
+ ],
+ "results": [
+  {
+   "addr": "/cost-of-power?view=allgrids&rows=nodes&nsort=spread&ndir=desc",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "http://localhost:3793/cost-of-power?view=allgrids&rows=nodes&nsort=spread&ndir=desc",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&rows=nodes&nsort=spread&ndir=desc",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "http://localhost:3793/cost-of-power?view=allgrids&rows=nodes&nsort=spread&ndir=desc",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&node=ercot%3ABBREEZE_1_2",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "http://localhost:3793/cost-of-power?view=allgrids&mw=1000&rows=nodes&node=ercot%3ABBREEZE_1_2",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&node=ercot%3ABBREEZE_1_2",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "http://localhost:3793/cost-of-power?view=allgrids&mw=1000&rows=nodes&node=ercot%3ABBREEZE_1_2",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nq=SOLAR",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "http://localhost:3793/cost-of-power?view=allgrids&mw=1000&rows=nodes&nq=SOLAR",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nq=SOLAR",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "http://localhost:3793/cost-of-power?view=allgrids&mw=1000&rows=nodes&nq=SOLAR",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&sort=utility&a=ercot%3ALZ_HOUSTON&b=pjm%3Agrid",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "http://localhost:3793/cost-of-power?view=allgrids&mw=1000&sort=utility&a=ercot%3ALZ_HOUSTON&b=pjm%3Agrid#a11y-scan-7",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&sort=utility&a=ercot%3ALZ_HOUSTON&b=pjm%3Agrid",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "http://localhost:3793/cost-of-power?view=allgrids&mw=1000&sort=utility&a=ercot%3ALZ_HOUSTON&b=pjm%3Agrid#a11y-scan-9",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&sort=headroom&grid=nyiso",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "http://localhost:3793/cost-of-power?view=allgrids&mw=1000&sort=headroom&grid=nyiso#a11y-scan-8",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&sort=headroom&grid=nyiso",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "http://localhost:3793/cost-of-power?view=allgrids&mw=1000&sort=headroom&grid=nyiso#a11y-scan-10",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "isone",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "about:blank",
+   "h1": "",
+   "code": 2,
+   "error": "Error: ENOENT: no such file or directory, open 'C:\\Users\\lossa\\Documents\\erw-736\\about:blank'",
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "isone",
+   "width": 390,
+   "innerWidth": 980,
+   "finalUrl": "about:blank",
+   "h1": "",
+   "code": 2,
+   "error": "Error: ENOENT: no such file or directory, open 'C:\\Users\\lossa\\Documents\\erw-736\\about:blank'",
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/research/card/siting_flexible",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "http://localhost:3793/research/card/siting_flexible#a11y-scan-13",
+   "h1": "WHAT STEPPING OFF SAVES",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/research/card/siting_flexible",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "http://localhost:3793/research/card/siting_flexible#a11y-scan-14",
+   "h1": "WHAT STEPPING OFF SAVES",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  }
+ ]
+}

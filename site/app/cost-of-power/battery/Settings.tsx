@@ -9,6 +9,7 @@
 import { useScenarios } from "@/components/decisions/ScenarioBlock";
 import { SCALES } from "@/components/tool/SeriesChart";
 import { SettingsFold, Tip } from "@/components/tool/ToolPage";
+import { OpenFoldOnHash } from "@/components/tool/OpenFoldOnHash";
 import type { Assumptions } from "@/lib/battery/finance";
 import { CHARTS, CHARTS_MAX, HEADS, HEADS_MAX, type ChartKey, type HeadKey } from "@/lib/battery/view";
 import { STRATEGIES, type Inputs } from "@/lib/batterystack";
@@ -100,6 +101,8 @@ export function Settings({ x, internal, gridName, costs, defaultDs, stepMeta, ye
         </div>
       </SettingsFold>
 
+      {/* session 419: the "#financing" links (below and in the scenarios) open this fold */}
+      <OpenFoldOnHash />
       <div id="financing">
         <SettingsFold id="financing" title="Financing" open={false}
           summary={`Scenario ${s.view.toUpperCase()}: ${plain(a.share)}% debt at ${plain(a.rate)}%, ${plain(a.hurdle)}% hurdle, ${contract}${more}`}>
@@ -117,7 +120,7 @@ export function Settings({ x, internal, gridName, costs, defaultDs, stepMeta, ye
           {v.mode === "pct" ? (
             <label className="flex items-center gap-2">
               <span className="font-semibold">Percent</span>
-              <input type="number" inputMode="numeric" min={1} max={100} step={1} value={v.pct} data-pct="1" aria-label="Percent step" className="w-20 border border-muted bg-white px-2 py-1 text-sm"
+              <input type="number" autoComplete="off" inputMode="numeric" min={1} max={100} step={1} value={v.pct} data-pct="1" aria-label="Percent step" className="w-20 border border-muted bg-white px-2 py-1 text-sm"
                 onChange={(e) => { const p = Number(e.target.value); if (Number.isFinite(p) && e.target.value !== "") set({ pct: Math.min(100, Math.max(1, Math.round(p))) }); }} />
               <span className="text-xs text-muted">of each assumption&apos;s value, 1 to 100</span>
             </label>

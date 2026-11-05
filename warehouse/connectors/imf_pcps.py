@@ -13,12 +13,14 @@ monthly averages, not daily prices, and the board labels them monthly.
 A month the IMF lists with no value is not written and is counted. Nothing is filled. The table is written only if its
 newest month is within 150 days.
 
-License: public, with attribution, on the IMF's terms as session 132 could read them. The IMF's "Copyright and Usage"
-page (https://www.imf.org/en/about/copyright-and-terms) answered this machine HTTP 403, so its words were read through
-a web search's quotation of the page, not on the page: "You may download, extract, copy, create derivative works,
+License: public, with attribution. The IMF's "Copyright and Usage" page (https://www.imf.org/en/about/copyright-and-terms)
+answered this machine HTTP 403 in session 132, whose words were read through a web search's quotation of the page; the
+page itself was read on 12 October 2026 (license_reads.csv, read 13; license_verdicts.csv, IMF: may be public, and a
+commercial reuse needs written permission). It also says "The IMF prohibits bulk download of information by automated
+technology without explicit permission". Session 132's quotation: "You may download, extract, copy, create derivative works,
 publish, distribute, and use Data obtained from IMF Sites", subject to conditions that include citing the source,
 saying so when the data are materially transformed, and not altering the data in a way that affects their nature or
-accuracy. A person should read the page before this table is opened to visitors (docs/methods/price_board.md).
+accuracy. Read 13 is that reading; the bulk-download sentence is for a person to weigh against this pull's 500 rows a month.
 Cite: International Monetary Fund, Primary Commodity Price System. Ceiling: session 132's 1,500,000 rows in all; this
 pull reads about 500.
 """
@@ -100,7 +102,7 @@ def build(run_id, log):
         f"Source: {SOURCE_ENTRY['source']} International Monetary Fund, {SOURCE_ENTRY['report']}, {PAGE}",
         f"  access: {API}",
         f"Rows read: {len(table) + empty:,}. Months the IMF lists with no value, not written: {empty}. Nothing is filled. These are monthly averages, not daily prices.",
-        "License: public with attribution, on the IMF's Copyright and Usage terms as read through a search result's quotation (the page itself answered HTTP 403): a person should confirm before the table is opened. Cite: International Monetary Fund, Primary Commodity Price System.",
+        "License: public with attribution, on the IMF's Copyright and Usage terms (read 13 of license_reads.csv, 12 October 2026; a commercial reuse needs written permission, and the page prohibits bulk download by automated technology without explicit permission). Cite: International Monetary Fund, Primary Commodity Price System.",
     ]
     return table, header, f"{len(table) + empty} rows read"
 

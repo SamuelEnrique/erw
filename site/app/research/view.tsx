@@ -1,5 +1,6 @@
 import { EChartOption } from "@/components/EChartOption";
 import type { ChartOfWeek } from "@/lib/markdown";
+import { ordinal } from "@/lib/ordinal";
 
 // Session 23: the chart of the week, as on /research and /research/<week>
 export function ChartOfWeekView({ c }: { c: ChartOfWeek }) {
@@ -22,7 +23,7 @@ export function ChartOfWeekView({ c }: { c: ChartOfWeek }) {
         ) : (
           <>
             {c.source_line} Headline: {c.headline.label}, {c.headline.period}: {c.headline.value.toLocaleString("en-US")} {c.headline.unit}; robust z{" "}
-            {c.notability_z} against {c.history_n} earlier values ({c.percentile}th percentile). Picked by rule: {c.rule}. Note: {c.note_by}.
+            {c.notability_z} against {c.history_n} earlier values ({ordinal(c.percentile)} percentile). Picked by rule: {c.rule}. Note: {c.note_by}.
           </>
         )}
       </figcaption>
@@ -41,7 +42,7 @@ export function ChartOfWeekView({ c }: { c: ChartOfWeek }) {
         <a href={`${base}/${c.files.social_square}`}>1080 by 1080</a>.
       </p>
       <details className="mt-2 text-xs text-muted">
-        <summary>Citations</summary>
+        <summary className="cursor-pointer py-1">Citations</summary>
         <ul className="list-disc pl-5">
           {c.citations.map((x) => (
             <li key={x}>{x}</li>

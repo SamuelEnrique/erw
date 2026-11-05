@@ -12,6 +12,7 @@ import { KINDS, KIND_LABELS, conditionOf, deliveryStat, kindOf, slugOf, type Uti
 import { KEYS as SCENARIO_KEYS, SPECS, held as heldWays } from "@/lib/datacenter/finance";
 import { DELIVERY, INDEX, type MatrixRow } from "@/lib/datacenterdata";
 import { shown } from "@/lib/format";
+import { AllGridsView } from "./AllGridsView";
 import { GridsView } from "./GridsView";
 import { YearCost } from "./LoadCharts";
 import { LoadForm } from "./LoadForm";
@@ -21,6 +22,8 @@ import { LoadDecisions, LoadScenarios, LoadSensitivity } from "./LoadScenarios";
 import { LoadSiteB } from "./LoadSiteB";
 import { FORESEEN, FORESEEN_WHY, NY_SHOWN, NYLOAD, day, inputsFrom, loadModel } from "./model";
 import { CostTabs } from "./Tabs";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { DATACENTER_DECISIONS } from "@/lib/decisions";
 import { largeLoadStatements } from "@/lib/largeloadpublic";
 import { GRID_STATE, listsOf, statedOf, type Stated, type Statement } from "@/lib/datacenter/statements";
 
@@ -89,11 +92,11 @@ function Sub({ children }: { children: ReactNode }) {
 }
 
 function ViewNav({ x }: { x: Inputs }) {
-  const item = (view: "load" | "grids", label: string) => (
+  const item = (view: Inputs["view"], label: string) => (
     <Link href={hrefOf(x, { view })} scroll={false} aria-current={x.view === view ? "page" : undefined} data-view={view} style={{ color: x.view === view ? "var(--color-surface)" : "var(--color-ink)" }}
       className={`border px-2 py-1 no-underline ${x.view === view ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{label}</Link>
   );
-  return <nav aria-label="Views" className="mb-6 flex flex-wrap gap-1 text-xs" data-views="1">{item("load", "Your load")}{item("grids", "Grid by grid")}</nav>;
+  return <nav aria-label="Views" className="mb-6 flex flex-wrap gap-1 text-xs" data-views="1">{item("load", "Your load")}{item("allgrids", "All grids")}{item("grids", "Grid by grid")}</nav>;
 }
 
 export default async function CostOfPower({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
@@ -109,7 +112,8 @@ export default async function CostOfPower({ searchParams }: { searchParams: Prom
         lead={<>What a buyer of power pays at a site, whether the power is there when it is needed, how clean it is and how soon it can be had, each computed for a load you describe; then two sites or two contracts side by side, and what moves the figure most. <Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
       />
       <ViewNav x={x} />
-      {x.view === "grids" ? <GridsView /> : <LoadView asked={x} buyGiven={typeof sp.buy === "string"} gridAsked={typeof sp.grid === "string" ? sp.grid : undefined} q={q} />}
+      {/* session 700: the All grids tab, every grid, hub, zone and ERCOT node in one table (AllGridsView.tsx, lib/siting.ts) */}
+      {x.view === "grids" ? <GridsView /> : x.view === "allgrids" ? <AllGridsView q={q} /> : <LoadView asked={x} buyGiven={typeof sp.buy === "string"} gridAsked={typeof sp.grid === "string" ? sp.grid : undefined} q={q} />}
     </ToolPage>
     </Brand>
   );
@@ -261,7 +265,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                       Not added to any figure.
                     </p>
                     <details className="mt-1">
-                      <summary className="cursor-pointer">Each month, USD per MWh: 10th percentile, median, 90th</summary>
+                      <summary className="cursor-pointer py-1">Each month, USD per MWh: 10th percentile, median, 90th</summary>
                       <ul className="mt-1 grid grid-cols-1 gap-x-4 sm:grid-cols-2">
                         {M.nodeBand.months.map((r) => <li key={r.m}>{monthName(r.m)}: <Num check={`series|node_basis_summary|ercot:HB_HUBAVG|dam_all_basis_p10|${r.ts}`} raw={r.p10}>{two(r.p10)}</Num>, <Num check={`series|node_basis_summary|ercot:HB_HUBAVG|dam_all_basis_p50|${r.ts}`} raw={r.p50}>{two(r.p50)}</Num>, <Num check={`series|node_basis_summary|ercot:HB_HUBAVG|dam_all_basis_p90|${r.ts}`} raw={r.p90}>{two(r.p90)}</Num></li>)}
                       </ul>
@@ -275,7 +279,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                   {" "}<Link href={`${ALGORITHM}#cannot-see`}>What else the model cannot see</Link>.
                 </p>
                 <p className="mt-2 max-w-3xl text-xs text-muted" data-grid-links="1">
-                  The grid&apos;s own figures, on their pages: <Link href={`/demand?area=${x.grid}`}>demand growth</Link>, <Link href={`/mix?view=stress&grid=${x.grid}`}>how hard the grid works</Link>, <Link href={`/mix?view=clean&grid=${x.grid}`}>how clean, and when</Link>, <Link href={`/queues?grid=${x.grid}&tech=all`}>interconnection queues</Link>, <Link href="/datacenters">the datacenter tracker</Link>.
+                  The grid&apos;s own figures, on their pages: <Link href={`/demand?area=${x.grid}`}>demand growth</Link>, <Link href={`/grid?view=mix&grid=${x.grid}&mix=stress`}>how hard the grid works</Link>, <Link href={`/grid?view=clean&grid=${x.grid}`}>how clean, and when</Link>, <Link href={`/queues?grid=${x.grid}&tech=all`}>interconnection queues</Link>, <Link href="/datacenters">the datacenter tracker</Link>.
                 </p>
                 <p className="mt-2 max-w-3xl text-xs text-muted" data-months-csv="1">
                   <a href={`${MONTHS_CSV}${suffix}`} download>Every month, CSV</a>: a flat load&apos;s price, this load&apos;s, the foreseen price, the hours off and the cost for {size}, each month and each year held, and the hours at or above the scarcity level and the grid&apos;s carbon intensity in each.
@@ -327,7 +331,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                         : <> {M.cpWhy || "The flexible way's hours are not held for every interval of a summer held."}</>}
                     </p>
                     <details className="mt-1 text-xs">
-                      <summary className="cursor-pointer">Each summer held, its four intervals and the flexible way&apos;s load in each</summary>
+                      <summary className="cursor-pointer py-1">Each summer held, its four intervals and the flexible way&apos;s load in each</summary>
                       <ul className="mt-1 space-y-1">
                         {M.cp.summers.map((k) => (
                           <li key={k.year}>{k.year}: {k.intervals.map((iv, i) => <span key={iv.ts}>{i ? "; " : ""}{iv.ts.slice(5, 10)} {iv.ts.slice(11, 16)} UTC, ERCOT <Num check={`series|ercot_4cp_intervals|ercot:system|cp4_load_mw|${iv.ts}`} raw={iv.mw}>{whole(iv.mw)}</Num> MW, the load {iv.w === null ? "not held" : iv.w === 0 ? "off" : iv.w === 1 ? "on" : `${two(100 * iv.w)} percent on`}</span>)}{k.avoided === null ? "" : `: avoided ${two(100 * k.avoided)} percent`}</li>
@@ -354,8 +358,11 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
           )}
         </div>
       </div>
+      {/* session 462 (chain 019): every modelling choice of the page, one line each, with the session that made it and the
+          ruling where one exists (lib/decisions.ts; docs/methods/datacenter_pays_algorithm.md, section 12). Words only */}
+      <DecisionsBlock id="462" title="Decisions on this page (each with the session that made it, and the ruling where one exists)" items={DATACENTER_DECISIONS} />
       <SourceLine tables={[...INDEX.tables, "carbon_intensity_monthly", "carbon_intensity_hourly", ...(x.grid === "caiso" || M.bSite?.grid === "caiso" ? ["caiso_grid_emergencies"] : []), ...(x.grid === "ercot" ? ["ercot_large_load_status", "ercot_rtm_price_adders"] : []), ...(x.grid === "ercot" || x.grid === "caiso" ? ["scarcity_hours_by_grid"] : []), "large_load_public", "large_load_rules", "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !M.withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table, ...(DELIVERY.matrix_table ? [DELIVERY.matrix_table] : [])] : []), ...(x.grid === "nyiso" ? ["nyiso_load_queue"] : []), ...(M.cFile?.clean ? ["clean_energy_hourly"] : [])]}
-        note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. <Link href={METHOD}>Method note</Link>. <span data-checked-against="6">Checked against: 6 published figures (EIA). <Link href="/data/methods/datacenter_pays_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
+        note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. <Link href={METHOD}>Method note</Link>. <span data-checked-against="8">Checked against: 8 published figures (EIA, Lazard, the Annual Technology Baseline). <Link href="/data/methods/datacenter_pays_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
      </LoadDecisions>
   );
 }

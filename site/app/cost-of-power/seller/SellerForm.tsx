@@ -79,20 +79,20 @@ export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grid
       </fieldset>
 
       <label className="block"><span className="mb-1 block font-semibold">Size, MW</span>
-        <input name="mw" type="number" min={1} max={5000} step="any" defaultValue={x.mw} className={field} />
+        <input name="mw" type="number" autoComplete="off" min={1} max={5000} step="any" defaultValue={x.mw} className={field} />
       </label>
       {x.asset === "battery" ? (
         <label className="block"><span className="mb-1 block font-semibold">Energy, MWh</span>
-          <input name="mwh" type="number" min={x.mw} max={x.mw * 8} step="any" defaultValue={x.mwh} className={field} />
+          <input name="mwh" type="number" autoComplete="off" min={x.mw} max={x.mw * 8} step="any" defaultValue={x.mwh} className={field} />
         </label>
       ) : null}
       {x.asset === "peaker" ? (
         <>
           <label className="block"><span className="mb-1 block font-semibold">Heat rate, MMBtu per MWh</span>
-            <input name="hr" type="number" min={6} max={16} step="any" defaultValue={x.hr} className={field} />
+            <input name="hr" type="number" autoComplete="off" min={6} max={16} step="any" defaultValue={x.hr} className={field} />
           </label>
           <label className="block"><span className="mb-1 block font-semibold">Variable O&amp;M, USD per MWh</span>
-            <input name="vom" type="number" min={0} max={50} step="any" defaultValue={x.vom} className={field} />
+            <input name="vom" type="number" autoComplete="off" min={0} max={50} step="any" defaultValue={x.vom} className={field} />
           </label>
         </>
       ) : null}
@@ -100,7 +100,7 @@ export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grid
         <fieldset className="border-t border-rule pt-3" data-hybrid-inputs="1">
           <legend className="mb-1 font-semibold">A battery beside it</legend>
           <label className="mb-2 block"><span className="mb-1 block">Battery size, MW</span>
-            <input name="bmw" type="number" min={1} max={5000} step="any" defaultValue={x.bmw} className={field} />
+            <input name="bmw" type="number" autoComplete="off" min={1} max={5000} step="any" defaultValue={x.bmw} className={field} />
           </label>
           <label className="mb-2 block"><span className="mb-1 block">Duration</span>
             <select name="dur" defaultValue={String(x.dur)} className={field} data-duration="1">

@@ -1,0 +1,1702 @@
+{
+ "head": [
+  "Table",
+  "Sector",
+  "Freq",
+  "First (UTC)",
+  "Last (UTC)",
+  "Refreshed (UTC)",
+  "Rows",
+  "Source report",
+  "License",
+  "Tier",
+  "Download"
+ ],
+ "rows": [
+  {
+   "id": "ai_power_regions",
+   "cells": [
+    "ai_power_regions(derived)",
+    "power, carbon",
+    "",
+    "2018-07-01",
+    "2026-09-30",
+    "2026-10-02",
+    "187",
+    "erw:ai_power_regions",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "ba_supply_monthly",
+   "cells": [
+    "ba_supply_monthly(derived)",
+    "power",
+    "P1M",
+    "2019-01-01",
+    "2026-09-01",
+    "2026-10-02",
+    "158,503",
+    "erw:ba_supply",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=ba_supply_monthly"
+  },
+  {
+   "id": "battery_stack_monthly",
+   "cells": [
+    "battery_stack_monthly(derived)",
+    "power",
+    "P1M",
+    "2018-01-01",
+    "2026-10-01",
+    "2026-10-20",
+    "11,556",
+    "erw:battery_stack",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=battery_stack_monthly"
+  },
+  {
+   "id": "battery_stack_stress_daily",
+   "cells": [
+    "battery_stack_stress_daily(derived)",
+    "power",
+    "P1D",
+    "2021-02-07",
+    "2026-10-08",
+    "2026-10-14",
+    "1,890",
+    "erw:battery_stack",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=battery_stack_stress_daily"
+  },
+  {
+   "id": "caiso_as_prices",
+   "cells": [
+    "caiso_as_prices",
+    "power",
+    "PT1H",
+    "2023-07-14",
+    "2026-10-20",
+    "2026-10-20",
+    "228,672",
+    "caiso:PRC_AS",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "caiso_battery_storage",
+   "cells": [
+    "caiso_battery_storage",
+    "power",
+    "PT5M",
+    "2025-08-24",
+    "2026-10-19",
+    "2026-10-20",
+    "362,016",
+    "caiso:todays_outlook_storage",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=caiso_battery_storage"
+  },
+  {
+   "id": "caiso_curtailment_daily",
+   "cells": [
+    "caiso_curtailment_daily",
+    "power",
+    "P1D",
+    "2014-05-01",
+    "2026-10-18",
+    "2026-10-20",
+    "25,096",
+    "caiso:daily_renewable_report;caiso:production_curtailments",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=caiso_curtailment_daily"
+  },
+  {
+   "id": "caiso_dam_alert_day_hub_prices",
+   "cells": [
+    "caiso_dam_alert_day_hub_prices",
+    "power",
+    "PT1H",
+    "2023-07-14",
+    "2025-08-25",
+    "2026-10-19",
+    "3,024",
+    "caiso:PRC_LMP",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "caiso_fuel_supply",
+   "cells": [
+    "caiso_fuel_supply",
+    "power",
+    "PT1H",
+    "2025-06-01",
+    "2026-10-19",
+    "2026-10-20",
+    "156,000",
+    "caiso:todays_outlook_fuelsource",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "caiso_grid_emergencies",
+   "cells": [
+    "caiso_grid_emergencies",
+    "power",
+    "event",
+    "1998-05-30",
+    "2026-10-08",
+    "2026-10-20",
+    "1,906",
+    "1 outlets",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=caiso_grid_emergencies"
+  },
+  {
+   "id": "caiso_interconnection_queue",
+   "cells": [
+    "caiso_interconnection_queue",
+    "power",
+    "snapshot",
+    "2026-10-19",
+    "2026-10-19",
+    "2026-10-19",
+    "2,278",
+    "caiso:interconnection_queue",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=caiso_interconnection_queue"
+  },
+  {
+   "id": "caiso_reliability_daily",
+   "cells": [
+    "caiso_reliability_daily(derived)",
+    "power",
+    "P1D",
+    "1998-05-30",
+    "2026-10-17",
+    "2026-10-20",
+    "20,624",
+    "erw:caiso_reliability",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=caiso_reliability_daily"
+  },
+  {
+   "id": "carb_auction_allowance_prices",
+   "cells": [
+    "carb_auction_allowance_prices",
+    "carbon",
+    "P3M",
+    "2012-11-01",
+    "2026-08-01",
+    "2026-10-20",
+    "336",
+    "carb:auction-results-summary",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "carbon_intensity_daily",
+   "cells": [
+    "carbon_intensity_daily(derived)",
+    "power, carbon",
+    "P1D",
+    "2018-07-02",
+    "2026-10-17",
+    "2026-10-20",
+    "46,932",
+    "erw:carbon_intensity;erw:carbon_intensity_caiso",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=carbon_intensity_daily"
+  },
+  {
+   "id": "carbon_intensity_hourly",
+   "cells": [
+    "carbon_intensity_hourly(derived)",
+    "power, carbon",
+    "PT1H",
+    "2018-07-02",
+    "2026-10-17",
+    "2026-10-20",
+    "1,126,793",
+    "erw:carbon_intensity;erw:carbon_intensity_caiso",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=carbon_intensity_hourly"
+  },
+  {
+   "id": "carbon_intensity_monthly",
+   "cells": [
+    "carbon_intensity_monthly(derived)",
+    "power, carbon",
+    "P1M",
+    "2018-08-01",
+    "2026-09-01",
+    "2026-10-20",
+    "1,275",
+    "erw:carbon_intensity;erw:carbon_intensity_caiso",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=carbon_intensity_monthly"
+  },
+  {
+   "id": "cost_of_power_carbon",
+   "cells": [
+    "cost_of_power_carbon(derived)",
+    "power, carbon",
+    "P1M",
+    "2018-07-01",
+    "2026-10-01",
+    "2026-10-04",
+    "712",
+    "erw:cost_of_power",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "cost_of_power_hourly_profile",
+   "cells": [
+    "cost_of_power_hourly_profile(derived)",
+    "power",
+    "P1M",
+    "2025-10-01",
+    "2026-10-01",
+    "2026-10-04",
+    "4,368",
+    "erw:cost_of_power",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "cost_of_power_monthly",
+   "cells": [
+    "cost_of_power_monthly(derived)",
+    "power",
+    "P1M",
+    "2018-07-01",
+    "2026-10-01",
+    "2026-10-04",
+    "2,304",
+    "erw:cost_of_power",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "datacenter_facilities",
+   "cells": [
+    "datacenter_facilities",
+    "power, datacenters",
+    "snapshot",
+    "2026-10-20",
+    "2026-10-20",
+    "2026-10-20",
+    "420",
+    "Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;WSJ;aws:locations;digitalrealty:data-centers;equinix:us-data-centers;ercot:interconnection_queue;google:datacenter-locations;meta:datacenter-locations;microsoft:azure-geographies;nyiso:interconnection_queue;oracle:public-cloud-regions;switch:locations;vantage:data-center-locations",
+    "license needed",
+    "model-extracted",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "datacenter_operator_sites",
+   "cells": [
+    "datacenter_operator_sites",
+    "power, datacenters",
+    "snapshot",
+    "2026-10-19",
+    "2026-10-19",
+    "2026-10-19",
+    "275",
+    "aws:locations;digitalrealty:data-centers;equinix:us-data-centers;google:datacenter-locations;meta:datacenter-locations;microsoft:azure-geographies;oracle:public-cloud-regions;switch:locations;vantage:data-center-locations",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "datacenter_projects",
+   "cells": [
+    "datacenter_projects",
+    "power, datacenters",
+    "snapshot",
+    "2026-09-27",
+    "2026-10-20",
+    "2026-10-20",
+    "143",
+    "Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;WSJ",
+    "license needed",
+    "model-extracted",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "datacenter_queue_positions",
+   "cells": [
+    "datacenter_queue_positions",
+    "power, datacenters",
+    "snapshot",
+    "2026-09-26",
+    "2026-10-19",
+    "not recorded",
+    "3",
+    "ercot:interconnection_queue;nyiso:interconnection_queue",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "eia_crude_first_purchase_prices",
+   "cells": [
+    "eia_crude_first_purchase_prices",
+    "oil",
+    "P1M",
+    "1977-07-01",
+    "2026-07-01",
+    "2026-10-20",
+    "860",
+    "eia:petroleum/pri/dfp1;eia:petroleum/pri/dfp2",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia_crude_imports_by_country",
+   "cells": [
+    "eia_crude_imports_by_country",
+    "oil",
+    "P1M",
+    "1920-01-01",
+    "2026-07-01",
+    "2026-10-20",
+    "22,633",
+    "eia:petroleum/move/impcus",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia_fuel_spot_prices",
+   "cells": [
+    "eia_fuel_spot_prices",
+    "oil, gas",
+    "P1D",
+    "1986-01-02",
+    "2026-10-14",
+    "2026-10-20",
+    "27,754",
+    "eia:natural-gas/pri/fut;eia:petroleum/pri/spt",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=eia_fuel_spot_prices"
+  },
+  {
+   "id": "eia_lng_exports_monthly",
+   "cells": [
+    "eia_lng_exports_monthly",
+    "lng",
+    "P1M",
+    "2013-11-01",
+    "2026-07-01",
+    "2026-10-20",
+    "1,083",
+    "eia:natural-gas/move/poe2",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia_padd_crude_pipeline_flows",
+   "cells": [
+    "eia_padd_crude_pipeline_flows",
+    "oil",
+    "P1M",
+    "1986-01-01",
+    "2026-07-01",
+    "2026-10-20",
+    "4,558",
+    "eia:petroleum/move/pipe",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia_petroleum_stocks_weekly",
+   "cells": [
+    "eia_petroleum_stocks_weekly",
+    "oil, products",
+    "P1W",
+    "1982-08-20",
+    "2026-10-09",
+    "2026-10-20",
+    "16,823",
+    "eia:petroleum/stoc/wstk",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia_petroleum_trade_weekly",
+   "cells": [
+    "eia_petroleum_trade_weekly",
+    "oil, products",
+    "P1W",
+    "1990-01-05",
+    "2026-10-09",
+    "2026-10-20",
+    "12,586",
+    "eia:petroleum/move/wkly",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia_product_spot_prices",
+   "cells": [
+    "eia_product_spot_prices",
+    "products",
+    "P1D",
+    "1986-06-02",
+    "2026-10-14",
+    "2026-10-20",
+    "72,052",
+    "eia:petroleum/pri/spt",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia_retail_electricity_prices",
+   "cells": [
+    "eia_retail_electricity_prices",
+    "power",
+    "P1M",
+    "2001-01-01",
+    "2026-07-01",
+    "2026-10-20",
+    "114,202",
+    "eia:electricity/retail-sales",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia_retail_fuel_prices",
+   "cells": [
+    "eia_retail_fuel_prices",
+    "products",
+    "P1W",
+    "1990-08-20",
+    "2026-10-12",
+    "2026-10-20",
+    "5,331",
+    "eia:petroleum/pri/gnd",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia_retail_sales_monthly",
+   "cells": [
+    "eia_retail_sales_monthly",
+    "power",
+    "P1M",
+    "2001-01-01",
+    "2026-07-01",
+    "2026-10-19",
+    "228,203",
+    "eia:electricity/retail-sales",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=eia_retail_sales_monthly"
+  },
+  {
+   "id": "eia_sector_energy_consumption_monthly",
+   "cells": [
+    "eia_sector_energy_consumption_monthly",
+    "power, gas, oil, coal",
+    "P1M",
+    "1973-01-01",
+    "2026-06-01",
+    "2026-10-19",
+    "8,988",
+    "eia:total-energy",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=eia_sector_energy_consumption_monthly"
+  },
+  {
+   "id": "eia_state_generation_monthly",
+   "cells": [
+    "eia_state_generation_monthly",
+    "power",
+    "P1M",
+    "2001-01-01",
+    "2026-07-01",
+    "2026-10-14",
+    "200,030",
+    "eia:electricity/electric-power-operational-data",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia860m_operating_generators",
+   "cells": [
+    "eia860m_operating_generators",
+    "power",
+    "snapshot",
+    "2026-10-20",
+    "2026-10-20",
+    "2026-10-20",
+    "28,605",
+    "eia:860m",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia860m_planned_generators",
+   "cells": [
+    "eia860m_planned_generators",
+    "power",
+    "snapshot",
+    "2026-10-20",
+    "2026-10-20",
+    "2026-10-20",
+    "2,316",
+    "eia:860m",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia860m_retired_generators",
+   "cells": [
+    "eia860m_retired_generators",
+    "power",
+    "snapshot",
+    "2026-09-26",
+    "2026-09-26",
+    "2026-10-20",
+    "249",
+    "eia:860m",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=eia860m_retired_generators"
+  },
+  {
+   "id": "eia930_all_demand",
+   "cells": [
+    "eia930_all_demand",
+    "power",
+    "PT1H",
+    "2026-08-26",
+    "2026-10-19",
+    "2026-10-20",
+    "20,640",
+    "eia:electricity/rto/region-data",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=eia930_all_demand"
+  },
+  {
+   "id": "eia930_all_emissions",
+   "cells": [
+    "eia930_all_emissions",
+    "power, carbon",
+    "PT1H",
+    "2018-07-02",
+    "2026-10-17",
+    "2026-10-20",
+    "4,345,896",
+    "eia:gridmonitor/knownissues/xls",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=eia930_all_emissions"
+  },
+  {
+   "id": "eia930_all_generation",
+   "cells": [
+    "eia930_all_generation",
+    "power",
+    "PT1H",
+    "2026-08-26",
+    "2026-10-18",
+    "2026-10-20",
+    "107,208",
+    "eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=eia930_all_generation"
+  },
+  {
+   "id": "eia930_all_history",
+   "cells": [
+    "eia930_all_history",
+    "power",
+    "PT1H",
+    "2018-01-01",
+    "2018-07-01",
+    "2026-10-01",
+    "60,084",
+    "eia:gridmonitor/sixMonthFiles",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia930_all_interchange",
+   "cells": [
+    "eia930_all_interchange",
+    "power",
+    "PT1H",
+    "2026-09-13",
+    "2026-10-17",
+    "2026-10-20",
+    "262,512",
+    "eia:electricity/rto/interchange-data",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia930_all_storage",
+   "cells": [
+    "eia930_all_storage",
+    "power",
+    "PT1H",
+    "2024-11-01",
+    "2026-10-18",
+    "2026-10-20",
+    "72,744",
+    "eia:electricity/rto/fuel-type-data",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=eia930_all_storage"
+  },
+  {
+   "id": "eia930_daily_interchange",
+   "cells": [
+    "eia930_daily_interchange",
+    "power",
+    "P1D",
+    "2019-01-01",
+    "2026-10-17",
+    "2026-10-20",
+    "951,150",
+    "eia930:daily_interchange",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia930_daily_total_interchange",
+   "cells": [
+    "eia930_daily_total_interchange",
+    "power",
+    "P1D",
+    "2019-01-01",
+    "2026-10-19",
+    "2026-10-20",
+    "212,238",
+    "eia930:daily_total_interchange",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia930_event_hourly_interchange",
+   "cells": [
+    "eia930_event_hourly_interchange",
+    "power",
+    "PT1H",
+    "2021-02-07",
+    "2025-06-29",
+    "2026-10-02",
+    "266,833",
+    "eia:electricity/rto/interchange-data;eia:electricity/rto/region-data",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "eia930_generation_latest",
+   "cells": [
+    "eia930_generation_latest",
+    "power",
+    "PT1H",
+    "2026-10-18",
+    "2026-10-19",
+    "2026-10-20",
+    "1,906",
+    "eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=eia930_generation_latest"
+  },
+  {
+   "id": "energy_companies",
+   "cells": [
+    "energy_companies",
+    "deals",
+    "snapshot",
+    "2026-09-28",
+    "2026-10-20",
+    "2026-10-20",
+    "469",
+    "erw:energy_deals;erw:thesis_builder",
+    "public",
+    "model-extracted",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=energy_companies"
+  },
+  {
+   "id": "energy_deals",
+   "cells": [
+    "energy_deals",
+    "deals",
+    "event",
+    "2025-01-05",
+    "2026-10-19",
+    "2026-10-20",
+    "492",
+    "24 outlets",
+    "license needed",
+    "model-extracted",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "energy_projects",
+   "cells": [
+    "energy_projects",
+    "power",
+    "snapshot",
+    "2026-09-26",
+    "2026-10-19",
+    "2026-10-19",
+    "39,786",
+    "erw:energy_projects",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "ercot_all_hub_prices_history",
+   "cells": [
+    "ercot_all_hub_prices_history",
+    "power",
+    "PT15M;PT1H",
+    "2015-01-01",
+    "2026-10-21",
+    "2026-09-26",
+    "3,102,738",
+    "ercot:NP4-180-ER;ercot:NP4-190-CD;ercot:NP6-785-ER;ercot:NP6-905-CD",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "ercot_as_prices",
+   "cells": [
+    "ercot_as_prices",
+    "power",
+    "PT1H",
+    "2018-01-01",
+    "2026-10-21",
+    "2026-10-20",
+    "338,132",
+    "ercot:NP4-181-ER;ercot:NP4-188-CD",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=ercot_as_prices"
+  },
+  {
+   "id": "ercot_as_quantities",
+   "cells": [
+    "ercot_as_quantities",
+    "power",
+    "PT1H",
+    "2026-09-03",
+    "2026-10-13",
+    "2026-10-11",
+    "4,800",
+    "ercot:np4-33-cd",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "ercot_interconnection_queue",
+   "cells": [
+    "ercot_interconnection_queue",
+    "power",
+    "snapshot",
+    "2026-10-19",
+    "2026-10-19",
+    "2026-10-19",
+    "1,758",
+    "ercot:interconnection_queue",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=ercot_interconnection_queue"
+  },
+  {
+   "id": "ercot_peak_premium_annual",
+   "cells": [
+    "ercot_peak_premium_annual(derived)",
+    "power",
+    "P1Y",
+    "2015-01-01",
+    "2026-01-01",
+    "2026-10-21",
+    "2,016",
+    "erw:ercot_peak_premium",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=ercot_peak_premium_annual"
+  },
+  {
+   "id": "ercot_peak_premium_monthly",
+   "cells": [
+    "ercot_peak_premium_monthly(derived)",
+    "power",
+    "P1M",
+    "2015-01-01",
+    "2026-10-01",
+    "2026-10-21",
+    "23,856",
+    "erw:ercot_peak_premium",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=ercot_peak_premium_monthly"
+  },
+  {
+   "id": "ercot_wind_solar_hsl_daily",
+   "cells": [
+    "ercot_wind_solar_hsl_daily",
+    "power",
+    "P1D",
+    "2026-09-19",
+    "2026-10-19",
+    "2026-10-20",
+    "180",
+    "ercot:np4_732_745",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=ercot_wind_solar_hsl_daily"
+  },
+  {
+   "id": "event_study_estimates",
+   "cells": [
+    "event_study_estimates(derived)",
+    "power",
+    "P1D;PT1H",
+    "2020-03-01",
+    "2026-02-02",
+    "2026-10-19",
+    "3,040",
+    "erw:event_study",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "event_window_daily",
+   "cells": [
+    "event_window_daily(derived)",
+    "power, carbon",
+    "P1D;P1W",
+    "2018-03-04",
+    "2026-02-02",
+    "2026-10-19",
+    "29,953",
+    "erw:event_window",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "flex_alert_effects",
+   "cells": [
+    "flex_alert_effects(derived)",
+    "power",
+    "P1D;P1Y;PT1H",
+    "2018-01-01",
+    "2024-07-25",
+    "2026-10-19",
+    "2,973",
+    "erw:flex_alert_scorecard",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=flex_alert_effects"
+  },
+  {
+   "id": "flex_alert_model",
+   "cells": [
+    "flex_alert_model(derived)",
+    "power",
+    ";P1D",
+    "2018-07-01",
+    "2025-08-24",
+    "2026-10-19",
+    "881",
+    "erw:flex_alert_scorecard",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=flex_alert_model"
+  },
+  {
+   "id": "grid_network_links",
+   "cells": [
+    "grid_network_links(derived)",
+    "power",
+    "PT1H",
+    "2026-10-11",
+    "2026-10-17",
+    "2026-10-20",
+    "18,744",
+    "erw:grid_network",
+    "public",
+    "derived",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "grid_network_nodes",
+   "cells": [
+    "grid_network_nodes(derived)",
+    "power",
+    "PT168H;PT1H",
+    "2026-10-11",
+    "2026-10-18",
+    "2026-10-20",
+    "84",
+    "erw:grid_network",
+    "public",
+    "derived",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "iso_curtailment_monthly",
+   "cells": [
+    "iso_curtailment_monthly(derived)",
+    "power",
+    "P1M",
+    "2014-03-01",
+    "2026-09-01",
+    "2026-10-20",
+    "3,232",
+    "erw:iso_curtailment_monthly",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=iso_curtailment_monthly"
+  },
+  {
+   "id": "iso_dam_hub_prices",
+   "cells": [
+    "iso_dam_hub_prices",
+    "power",
+    "PT1H",
+    "2026-08-26",
+    "2026-10-21",
+    "2026-10-20",
+    "22,224",
+    "caiso:PRC_LMP;ercot:NP4-190-CD;miso:da_expost_lmp;spp:DA-LMP-SL",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "iso_hub_prices_history",
+   "cells": [
+    "iso_hub_prices_history",
+    "power",
+    "PT15M;PT1H",
+    "2023-07-06",
+    "2026-10-21",
+    "2026-10-19",
+    "595,512",
+    "caiso:PRC_INTVL_LMP;caiso:PRC_LMP;isone:da_lmp_hourly;isone:rt_lmp_5min;miso:da_expost_lmp;miso:rt_lmp_final;miso:rt_lmp_prelim;nyiso:damlbmp;nyiso:realtime;spp:DA-LMP-SL;spp:RTBM-LMP-SL",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "iso_rt_top_intervals",
+   "cells": [
+    "iso_rt_top_intervals(derived)",
+    "power",
+    "PT15M;PT1H",
+    "2026-09-28",
+    "2026-10-18",
+    "2026-10-20",
+    "50",
+    "erw:trader_view",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "iso_rtm_hub_prices",
+   "cells": [
+    "iso_rtm_hub_prices",
+    "power",
+    "PT15M;PT1H",
+    "2026-08-26",
+    "2026-10-20",
+    "2026-10-20",
+    "57,312",
+    "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "iso_trader_daily",
+   "cells": [
+    "iso_trader_daily(derived)",
+    "power",
+    "P1D",
+    "2026-08-26",
+    "2026-10-20",
+    "2026-10-20",
+    "15,693",
+    "erw:trader_view",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "isone_dam_zone_prices",
+   "cells": [
+    "isone_dam_zone_prices",
+    "power",
+    "PT1H",
+    "2026-08-26",
+    "2026-10-21",
+    "2026-10-20",
+    "12,096",
+    "isone:da_lmp_hourly",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "isone_interconnection_queue",
+   "cells": [
+    "isone_interconnection_queue",
+    "power",
+    "snapshot",
+    "2026-10-19",
+    "2026-10-19",
+    "2026-10-19",
+    "1,751",
+    "isone:interconnection_queue",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "isone_rtm_zone_prices",
+   "cells": [
+    "isone_rtm_zone_prices",
+    "power",
+    "PT15M",
+    "2026-08-27",
+    "2026-10-20",
+    "2026-10-20",
+    "38,880",
+    "isone:rt_lmp_5min",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "isone_rtm_zone_prices_hourly",
+   "cells": [
+    "isone_rtm_zone_prices_hourly",
+    "power",
+    "PT1H",
+    "2026-08-26",
+    "2026-10-20",
+    "2026-10-20",
+    "11,016",
+    "isone:rt_lmp_hourly_final;isone:rt_lmp_hourly_prelim",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "large_load_public",
+   "cells": [
+    "large_load_public",
+    "power, datacenters",
+    "event",
+    "2024-05-01",
+    "2026-09-30",
+    "2026-10-14",
+    "341",
+    "1 outlets",
+    "public",
+    "model-extracted",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=large_load_public"
+  },
+  {
+   "id": "lbnl_interconnection_queue",
+   "cells": [
+    "lbnl_interconnection_queue",
+    "power",
+    "snapshot",
+    "2026-10-02",
+    "2026-10-02",
+    "not recorded",
+    "38,201",
+    "lbnl:queued_up",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=lbnl_interconnection_queue"
+  },
+  {
+   "id": "merchant_revenue_monthly",
+   "cells": [
+    "merchant_revenue_monthly(derived)",
+    "power, gas",
+    "P1M",
+    "2018-06-01",
+    "2026-10-01",
+    "2026-10-19",
+    "8,853",
+    "erw:merchant_revenue",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "miso_interconnection_queue",
+   "cells": [
+    "miso_interconnection_queue",
+    "power",
+    "snapshot",
+    "2026-09-30",
+    "2026-09-30",
+    "2026-09-26",
+    "3,881",
+    "miso:interconnection_queue",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "news_index",
+   "cells": [
+    "news_index",
+    "news",
+    "event",
+    "2025-01-01",
+    "2026-12-01",
+    "2026-10-20",
+    "15,847",
+    "77 outlets",
+    "license needed",
+    "model-extracted",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "noaa_isd_hourly",
+   "cells": [
+    "noaa_isd_hourly",
+    "power",
+    "",
+    "2018-03-04",
+    "2025-08-27",
+    "2026-10-01",
+    "412,435",
+    "noaa:isd_global_hourly",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "nyiso_dam_zone_prices",
+   "cells": [
+    "nyiso_dam_zone_prices",
+    "power",
+    "PT1H",
+    "2026-08-26",
+    "2026-10-21",
+    "2026-10-20",
+    "14,784",
+    "nyiso:damlbmp",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "nyiso_interconnection_queue",
+   "cells": [
+    "nyiso_interconnection_queue",
+    "power",
+    "snapshot",
+    "2026-09-26",
+    "2026-09-26",
+    "2026-09-26",
+    "1,814",
+    "nyiso:interconnection_queue",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "nyiso_rtm_zone_prices",
+   "cells": [
+    "nyiso_rtm_zone_prices",
+    "power",
+    "PT15M",
+    "2026-08-26",
+    "2026-10-20",
+    "2026-10-20",
+    "57,024",
+    "nyiso:realtime",
+    "license needed",
+    "source",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "policy_actions",
+   "cells": [
+    "policy_actions",
+    "news",
+    "event",
+    "2025-10-01",
+    "2026-10-19",
+    "2026-10-20",
+    "1,926",
+    "5 outlets",
+    "public",
+    "model-extracted",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=policy_actions"
+  },
+  {
+   "id": "policy_reads",
+   "cells": [
+    "policy_reads",
+    "news",
+    "event",
+    "2025-10-01",
+    "2026-10-19",
+    "2026-10-20",
+    "385",
+    "1 outlets",
+    "public",
+    "model-extracted",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=policy_reads"
+  },
+  {
+   "id": "price_board_latest",
+   "cells": [
+    "price_board_latest(derived)",
+    "power",
+    "P1D;PT15M;PT1H",
+    "2026-09-03",
+    "2026-10-21",
+    "2026-10-20",
+    "3,237",
+    "erw:price_board",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "price_board_peak_offpeak",
+   "cells": [
+    "price_board_peak_offpeak(derived)",
+    "power",
+    "P1D;P1Y",
+    "2015-01-01",
+    "2026-10-20",
+    "2026-10-20",
+    "3,717",
+    "erw:price_board",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "price_board_spreads",
+   "cells": [
+    "price_board_spreads(derived)",
+    "power, gas, oil",
+    "P1D",
+    "2025-09-29",
+    "2026-10-18",
+    "2026-10-20",
+    "2,408",
+    "erw:price_board",
+    "license needed",
+    "derived",
+    "Held: license needed"
+   ],
+   "link": null
+  },
+  {
+   "id": "rrc_lease_production_monthly",
+   "cells": [
+    "rrc_lease_production_monthly",
+    "oil, gas",
+    "P1M",
+    "2024-08-01",
+    "2026-07-01",
+    "2026-10-01",
+    "212,252",
+    "rrc:pdq_dump",
+    "public",
+    "source",
+    "Redivis"
+   ],
+   "link": "https://redivis.com/datasets/05yh-65frzyhaz"
+  },
+  {
+   "id": "shoulder_hours_monthly",
+   "cells": [
+    "shoulder_hours_monthly(derived)",
+    "power",
+    "P1D;P1M;P1Y",
+    "2019-01-01",
+    "2026-10-06",
+    "2026-10-19",
+    "27,197",
+    "erw:shoulder_hours",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=shoulder_hours_monthly"
+  },
+  {
+   "id": "spp_curtailment_daily",
+   "cells": [
+    "spp_curtailment_daily",
+    "power",
+    "P1D",
+    "2014-03-01",
+    "2026-10-19",
+    "2026-10-20",
+    "38,392",
+    "spp:ver_curtailments",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=spp_curtailment_daily"
+  },
+  {
+   "id": "spp_interconnection_queue",
+   "cells": [
+    "spp_interconnection_queue",
+    "power",
+    "snapshot",
+    "2026-10-19",
+    "2026-10-19",
+    "2026-10-19",
+    "3,078",
+    "spp:interconnection_queue",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=spp_interconnection_queue"
+  },
+  {
+   "id": "state_generation_mix_monthly",
+   "cells": [
+    "state_generation_mix_monthly(derived)",
+    "power",
+    "P1M",
+    "2001-01-01",
+    "2026-07-01",
+    "2026-10-10",
+    "107,560",
+    "erw:generation_mix",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=state_generation_mix_monthly"
+  },
+  {
+   "id": "storage_buildout_monthly",
+   "cells": [
+    "storage_buildout_monthly(derived)",
+    "power",
+    "P1M",
+    "2015-01-01",
+    "2026-08-01",
+    "2026-10-20",
+    "21,229",
+    "erw:storage_buildout",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=storage_buildout_monthly"
+  },
+  {
+   "id": "storage_capacity",
+   "cells": [
+    "storage_capacity",
+    "power",
+    "snapshot",
+    "2026-09-29",
+    "2026-09-29",
+    "2026-10-20",
+    "1,627",
+    "erw:storage_capacity",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=storage_capacity"
+  },
+  {
+   "id": "storage_daily_cycle",
+   "cells": [
+    "storage_daily_cycle(derived)",
+    "power",
+    "P1D",
+    "2024-11-01",
+    "2026-10-18",
+    "2026-10-20",
+    "14,389",
+    "erw:storage_daily_cycle;erw:storage_daily_cycle_caiso",
+    "public",
+    "derived",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=storage_daily_cycle"
+  },
+  {
+   "id": "weather_forecast_hourly",
+   "cells": [
+    "weather_forecast_hourly",
+    "power",
+    "PT1H",
+    "2026-09-28",
+    "2026-10-26",
+    "2026-10-20",
+    "9,480",
+    "nws:forecast_hourly",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=weather_forecast_hourly"
+  },
+  {
+   "id": "weather_obs_hourly",
+   "cells": [
+    "weather_obs_hourly",
+    "power",
+    "PT1H",
+    "2026-09-21",
+    "2026-10-20",
+    "2026-10-20",
+    "9,624",
+    "nws:observations",
+    "public",
+    "source",
+    "Download CSV"
+   ],
+   "link": "/api/download?table=weather_obs_hourly"
+  }
+ ],
+ "aside": "99",
+ "noData": false
+}

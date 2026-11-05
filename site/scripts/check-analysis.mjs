@@ -16,6 +16,9 @@
 // still checked, number by number, on its own address (/research/card/<id>), and /research must link it. The count of
 // the list is the count of the current cards. "Ask for a finding" is the request flow (scripts/check-analysis-flow.mjs).
 //   visitor    without the cookie /research is the in-review page
+// Session 474: from 21 October 2026 a callout figure whose words name a grid held under its publisher's terms
+// (lib/license.ts, data/license_status.json) is drawn as "license needed" (components/Num.tsx, data-license-held), not
+// as its number; the check expects the words there and the number nowhere in that callout, as the card draws it.
 // Exit 1 on a failure.
 import fs from "node:fs";
 import path from "node:path";
@@ -27,6 +30,29 @@ const base = (process.argv[2] ?? "http://localhost:3170").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
 const dir = path.join(here, "..", "data", "findings");
+// session 474: the grids held today, as lib/license.ts reads them (a grid operator deciding a "license needed" table
+// on or after its day), and the grid a callout's words name, as components/analysis/FindingCard.tsx reads them
+const LICENSE = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "license_status.json"), "utf-8"));
+const GRID_PREFIX = { "ISO-NE": "isone", MISO: "miso", NYISO: "nyiso", PJM: "pjm", SPP: "spp", CAISO: "caiso", ERCOT: "ercot" };
+function heldGrids(status = LICENSE, day = new Date().toISOString().slice(0, 10)) {
+  const out = new Set();
+  for (const r of Object.values(status.tables)) if (r.status === "license needed" && day >= r.from) for (const p of r.publishers) if (p in GRID_PREFIX) out.add(GRID_PREFIX[p]);
+  return out;
+}
+const GRID_WORD = [[/\bERCOT\b/i, "ercot"], [/\bCAISO\b/i, "caiso"], [/\bPJM\b/i, "pjm"], [/\bMISO\b/i, "miso"], [/\bSPP\b/i, "spp"], [/\bNYISO\b/i, "nyiso"], [/\bISO-NE\b/i, "isone"]];
+const gridOfWords = (s) => GRID_WORD.find(([re]) => re.test(s))?.[1] ?? "-";
+const HELD = heldGrids();
+/** The markup of callout i of the card drawn in html: from its data-callout to the next one, or the callouts' end. */
+function calloutBlock(html, cardId, i) {
+  const at = html.indexOf(`data-card="${cardId}"`);
+  if (at < 0) return "";
+  const from = html.indexOf(`data-callout="${i}"`, at);
+  if (from < 0) return "";
+  const next = html.indexOf(`data-callout="${i + 1}"`, from);
+  const end = next > 0 ? next : html.indexOf("finding-why", from) > 0 ? html.indexOf("finding-why", from) : from + 3000;
+  return html.slice(from, end);
+}
+
 const cards = fs.readdirSync(dir).filter((f) => f.endsWith(".json") && f !== "catalogue.json").map((f) => JSON.parse(fs.readFileSync(path.join(dir, f), "utf-8")));
 
 const token = env("INTERNAL_COSTS_TOKEN");
@@ -60,8 +86,15 @@ for (const c of cards) {
   check(t.includes(c.title), `${tag} title ${JSON.stringify(c.title)}`);
   check(t.includes(c.subtitle.replace(/\s+/g, " ")), `${tag} subtitle`);
   c.callouts.forEach((co, i) => {
-    check(html.includes(`data-callout-before="${i}">${esc(co.before.text)}<`), `${tag} callout ${i} before ${co.before.text}`);
-    check(html.includes(`data-callout-after="${i}">${esc(co.after.text)}<`), `${tag} callout ${i} after ${co.after.text}`);
+    for (const side of ["before", "after"]) {
+      const g = gridOfWords(`${co[side].period} ${co.label}`);
+      const drawn = html.includes(`data-callout-${side}="${i}">${esc(co[side].text)}<`);
+      if (g !== "-" && HELD.has(g)) {
+        // session 474: held under its publisher's terms: the words, and not the number, in this callout's place
+        const block = calloutBlock(html, c.card_id, i);
+        check(!drawn && block.includes(`data-license-held="finding ${c.card_id}"`) && block.includes("license needed"), `${tag} callout ${i} ${side} held for ${g}: "license needed" in place of ${co[side].text}`);
+      } else check(drawn, `${tag} callout ${i} ${side} ${co[side].text}`);
+    }
   });
   check(t.includes(c.why.replace(/\s+/g, " ")), `${tag} why paragraph`);
   check(t.includes(c.footnote.replace(/\s+/g, " ").slice(0, 120)), `${tag} footnote`);

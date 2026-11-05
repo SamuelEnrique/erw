@@ -283,7 +283,7 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
                     note={ps ? <>Curtailed over curtailed plus CAISO&apos;s own wind and solar output{period.length === 4 ? `, the ${ps.months} months of ${period} with a share` : ""}.</> : undefined} />
                   <HeadlineNumber label="The highest month held" value={marks && sg ? <N k="head|highest">{two(sg.months[marks.highest].share_pct)}</N> : <Blank why="no share is held" />} unit="percent" note={marks ? <>{monthName(marks.highest)}. <Link href={link({ ...keep, period: marks.highest })} className="text-ink">Open that month</Link>.</> : undefined} />
                   <HeadlineNumber label={`Hours under USD ${free.threshold_usd_per_mwh}, ${top ? placeName(top.id) : "California"}`} value={top ? <N k="head|cheap">{whole(top.win.under5)}</N> : <Blank why="no place holds the window" />} unit={top ? "hours" : undefined}
-                    note={top ? <>{fc.win === "year" ? "The last twelve months" : monthName(free.end_month)}, {basisName(top.win.basis)}. <a href="#free-energy" className="text-ink">Where free energy is</a>.</> : undefined} />
+                    note={top ? <>{fc.win === "year" ? "The last twelve months" : monthName(free.end_month)}, {basisName(top.win.basis)}. <a href="#free-energy" className="text-ink underline">Where free energy is</a>.</> : undefined} />
                 </HeadlineRow>
               </>
             );

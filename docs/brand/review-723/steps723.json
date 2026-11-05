@@ -1,0 +1,15 @@
+[
+  { "name": "t01_nodes_cheapest", "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=energy&ndir=asc" },
+  { "name": "t02_nodes_dearest", "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=energy&ndir=desc" },
+  { "name": "t03_basis_lowest", "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=basis&ndir=asc" },
+  { "name": "t04_basis_highest", "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=basis&ndir=desc" },
+  { "name": "t05_hubs_energy", "path": "/cost-of-power?view=allgrids&mw=1000&sort=energy&dir=asc" },
+  { "name": "t06_ab_hubs", "path": "/cost-of-power?view=allgrids&mw=1000&a=ercot%3AHB_WEST&b=ercot%3AHB_HOUSTON" },
+  { "name": "t07_ab_node", "path": "/cost-of-power?view=allgrids&mw=1000&a=ercot%3ABBREEZE_1_2&b=ercot%3AHB_WEST" },
+  { "name": "t08_flexible_hubs", "path": "/cost-of-power?view=allgrids&mw=1000&profile=flexible&sort=allin&dir=asc" },
+  { "name": "t09_flexible_nodes", "path": "/cost-of-power?view=allgrids&mw=1000&profile=flexible&rows=nodes&nsort=allin&ndir=asc" },
+  { "name": "t10_transmission", "path": "/cost-of-power?view=allgrids&mw=1000&sort=transmission&dir=asc" },
+  { "name": "t11_flexible_strike", "path": "/cost-of-power?view=allgrids&mw=1000&profile=flexible&strike=100&sort=allin&dir=asc" },
+  { "name": "t12_nodes_390", "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=basis&ndir=asc", "w": 390, "h": 844 },
+  { "name": "t13_hubs_390", "path": "/cost-of-power?view=allgrids&mw=1000&sort=energy&dir=asc", "w": 390, "h": 844 }
+]

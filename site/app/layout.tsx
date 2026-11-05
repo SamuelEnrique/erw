@@ -5,6 +5,7 @@ import { Wordmark } from "@/components/Wordmark";
 import { Nav } from "@/components/Nav";
 import { GateRestore } from "@/components/GateRestore";
 import { Usage } from "@/components/Usage";  // session 177: the usage counts, with no cookie (docs/methods/usage_counts.md)
+import { ScrollRegions } from "@/components/ScrollRegions";  // session 412: a scrolling table is one stop of the keyboard (WCAG 2.1.1)
 import "./globals.css";
 
 const body = Inter({ variable: "--font-body", subsets: ["latin"] });
@@ -25,7 +26,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               inside the header, the page's chrome, where it stood outside it on every page */}
           <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-50 focus:bg-paper focus:px-3 focus:py-2 focus:text-ink focus:underline">Skip to content</a>
           <div className="mx-auto max-w-6xl px-4 py-3 flex flex-wrap items-baseline gap-x-6 gap-y-2">
-            <Link href="/" className="self-center no-underline" aria-label="ERW, home">
+            {/* session 411: not prefetched. A prefetch of the home page carries React's preload of its chart of the day (a
+                156 KB picture), so every page that shows this link fetched that picture too (Lighthouse, internal view) */}
+            <Link href="/" prefetch={false} className="self-center no-underline" aria-label="ERW, home">
               <Wordmark />
             </Link>
             <Nav />
@@ -34,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="content" tabIndex={-1} className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 focus:outline-none">{children}</main>
         <GateRestore />
         <Usage />
+        <ScrollRegions />
         <footer className="border-t border-rule">
           <div className="mx-auto max-w-6xl px-4 py-4 text-xs text-muted">
             Every number on this site is read from the ERW tables and names the table it came from. Public tables only.{" "}

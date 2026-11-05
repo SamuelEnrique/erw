@@ -1,110 +1,112 @@
-# ERW's Energy Digest, 2026-10-20
+# ERW's Energy Digest, 2026-10-23
 
-ERW's weekday brief of energy news for the 24 hours to 2026-10-20 06:55 UTC, from 335 scored stories.
+ERW's weekday brief of energy news for the 24 hours to 2026-10-23 15:45 UTC, from 276 scored stories.
 
 ## Top of the industry
 
-1. **Nscale and Anthropic are in talks on a $45 Billion cloud computing deal, Bloomberg reports** (deal)  
-   Major AI datacenter infrastructure deal signals massive power demand and capital commitment. $45 Billion; parties: Nscale; Anthropic. Sources: [Bloomberg](https://news.google.com/rss/articles/CBMisgFBVV95cUxOWElPM1lSczhESmRndWxlZjZIbWhtVS0zZXBjS2Z2Qi12ZVIwcXR0c2lZTWNSYjQxc2lTUnBGaEVBQWZpbUFhNUxQcUhNeVByZVFPQ0hJbm52TVVrX2c0WFFaMDJHSjktNHV3VFVhcDZoY2Ewc1Q4Yks2N0FTek1HR0lYYVoxV0ZYb0Y0c2RmUUtRdVlSbDRNYWJvcm5PeFdqQkVOeFVfQ1RMZTZTeGtzcDFR?oc=5), [Reuters](https://news.google.com/rss/articles/CBMiwgFBVV95cUxPcGMyclR5X0JrXzBKem90Uk1sZnBQNkcyRnlyc3ZnWTM4Q0ZoUWtKUzRrd1Y3aHlqaDRjT1pfaFdmV0pHYUFROFI3TFhTWVhtczJsM01PSF8tSEtXejB4emlhVjZGMmQzeWh0RXJoaS0tNDQ1SDhlZDRJZU5hZG5ibE85N3dxU21DS2ZKYm1NV2pVUUF4ZjF3XzQ1ZncwaHVMdXlWZ2FsWjRtQ1d0eFN2YUVQc2x4cTd6YjNwSTVuVUFQZw?oc=5), [Financial Times](https://news.google.com/rss/articles/CBMihAFBVV95cUxNU1NLVUZHTjRBSTloV1dqSi0wVmZXTUkwSmpzT2NpVG5ia29za0NIdkpGbWJDMnVVSmY2M2FvQTF5NnlrdWRkM0duNUZtNEdRQmVTLWxTZm1DN3V5NFBmQmxCOEJWZG4yNWRyN295NjYtc3A5Z1pzQ1QwUVJDY0VaZmNqbFI?oc=5)
-2. **AEP, Amazon and X-energy plan a 960 MW, 12-SMR nuclear plant in Indiana** (nuclear)  
-   Major datacenter power deal: 960 MW of small modular reactors for Amazon in Indiana. 960 MW; parties: AEP; Amazon; X-energy. Sources: [Financial Times](https://news.google.com/rss/articles/CBMimAFBVV95cUxON1U3dDJrZmhleVQ1ZzBwVkZhT3BPMlhEYUwzSUNOaU1adXJfMHo1ZDZMb1lzOEI1X1RhZmlUazA4RnFrNGNWdzV0elBjdHM4WU5KQjFPSE9vTkFoLW9aUHlQQWszZ0NkVmUyd3ZIdW5NM0pZZEhMaHpucHFxeFRrTUlmQWoya3BRQW9IUmFKMU1KcG1Sb0Y5WQ?oc=5), [World Nuclear News](https://www.world-nuclear-news.org/articles/aep-amazon-and-x-energy-plan-12-smr-plant), [Utility Dive](https://www.utilitydive.com/news/aep-signs-advanced-960-mw-nuclear-amazon-x-energy/833341/)
-3. **Iran war tilts balance of global oil power towards the Americas, Financial Times reports** (geopolitics)  
-   Major geopolitical shift affecting global oil supply and market structure. Sources: [Financial Times](https://news.google.com/rss/articles/CBMihAFBVV95cUxOcC1WUldmLXZleGpod29MTXNuME9vc2tYVkhmbjc5NkNFRGY0eV9OdUtac3R6UG9lTndqTjFpQi1kQkJnNHZZNDQzMkRYd09LM3A0MkFRcnpNaV9aaF9iT2NKX0xteHVscFRVQXotRHBoSVlzclIxWW90V2U0VDRBOGpDS24?oc=5)
-4. **Voters in Texas, Georgia and Iowa decide Nov. 3 on state data center moratoriums** (policy)  
-   State-level votes on data center moratoriums could reshape natural gas demand outlook. Sources: [Natural Gas Intelligence](https://naturalgasintel.com/news/november-races-put-data-centers-on-ballot-clouding-natural-gas-demand/)
-5. **Data centers and the green shift are reviving Europe's power demand, Bloomberg reports** (generation)  
-   Data center and renewable growth driving material increase in European electricity demand and investment. Sources: [Bloomberg.com](https://news.google.com/rss/articles/CBMitAFBVV95cUxPWmpvaFl6RHdyUDQ0RjhMYmR2QVpBLTBMSi1NZ3dmSVljcWZqZFd0dXZVMUFEbjk4aEZVek9POE55MFVORWpPaEE0LVBkdVY5NGhmdmMtUWl3bXNwaUFEUl9Gd2FDaTVWc3lNQV9QQVUtRXF6ZWtpX1VIbmdOZkFHSkFyTFhkUzJTb1VuR19lZkFIUWxlVDUtZmxDa1RjUjlQeW9HUGtDQ3o5LW5ZejBwRHY4Y28?oc=5)
-6. **Woodside resumes work at its $12.5 Billion Scarborough gas project after a Greenpeace protest** (lng)  
-   Major LNG project resumes operations after activist disruption; significant counterparty and asset. $12.5 Billion; parties: Woodside; Greenpeace. Sources: [Bloomberg](https://news.google.com/rss/articles/CBMiwgFBVV95cUxPc3RzTWlvckREcEp1ZHA5YUEwTjVTQ0tKSU9EcVBaX0lOaWFWeWdVTWcwamJjRkhHMVNCT0dPdFo4WHYwclpweEllTmRlR1pLSWQySEx1anExZkdIOXRONWR0cWpRSUREUzRiR3IyUmFmckM1UWktaFR4MUNZenJmdzhBbzBvYXpxMFhoNFdtVXhyTVRQbTFGc3hLbXU2ZV8wU28yWFZCQzZfRmc4TWtyWGh3ZWFHX2lNTHhITVloQWNuQQ?oc=5), [OilPrice.com](https://oilprice.com/Latest-Energy-News/World-News/Greenpeace-Protest-Forces-Shutdown-at-Woodsides-125-Billion-Gas-Project.html), [LNG Prime](https://lngprime.com/lng-terminals/woodside-resumes-scarborough-commissioning-work-after-protests/198616/)
-7. **Blackstone announces $8.7 Billion final close for Blackstone Energy Transition Partners V** (capital)  
-   Major capital commitment to energy transition infrastructure and projects. $8.7 Billion; parties: Blackstone. Sources: [Financial Times](https://news.google.com/rss/articles/CBMipgFBVV95cUxOeDF5eUNYYzNlVlJqb0VXN2pJTFNnbVhmcklucWFSQkFPZU9XLUlsQ3VTUHR5VVdzSnpFWG15Z1cyelNzRFgzcWpjM2Nody11andWem1RbzJ6NlNjS2lTSHJZOEIzSmM3akZTYVBhUEw2N0VSUGgtV0trVnRjSDBaa2RFRDZHTmh2X2JKdUZ2RjFpWjhOcjZKY1BVUUxmdjBkSkxCY2hR?oc=5), [Bloomberg](https://news.google.com/rss/articles/CBMirgFBVV95cUxPamg1MDY0VmlNSExrbE55R2RlSXlhajFmaDZFUDdTSjdzdFBKTVMybUFQaGVLc3VhQnpXM0lYTjY3ZDlVcjU1VDBDa21Lc0tEZGo0ZEJ6TDZCRE5SNURMYlVmd1hvX19Dbng3LWtoNnJmODluajBOV2JadVFKcG15SWZBbU1DZE41M2ZMWTZGNTB2TExNTFpKMmlRLUZ5TG5ON0t0TkRvT2toMFA4TUE?oc=5)
-8. **Iran's main oil-loading terminals have stayed empty for weeks as US blockade bites** (oil)  
-   Major supply disruption affecting global oil markets and prices parties: Iran. Sources: [Rigzone](https://www.rigzone.com/news/wire/irans_main_oil_terminals_remain_empty-19-oct-2026-184877-article/?rss=true), [Bloomberg.com](https://news.google.com/rss/articles/CBMirwFBVV95cUxOenB5TFdsTXhmTGFUbGdfNE9KemRReTJPZlp1WUdsaGh6VkZOMUZtMWhGRXRJd0tVLUh2WU9OMzhwQ21NOFRRaHBROFg1SVIyUHItRl9GNE1nYUJrQW4xNXd3REZVbURTem9SQ2VFcHJzeHVtV3VJTk9oYnh6ajlINU5XZU1tMDdXV0xNLXFkY1JXcTZyVGNiWGk4QVZtODR0MmNHZGN1Z1JjMkFNakRN?oc=5)
-9. **Middle East tensions push global natural gas prices to four-year highs** (gas)  
-   Geopolitical conflict threatens LNG supply and raises gas prices materially across global markets. Sources: [Natural Gas Intelligence](https://naturalgasintel.com/news/middle-east-tensions-rise-pushing-global-natural-gas-prices-to-four-year-highs/)
-10. **Qatar offers Lebanon two gas plants and 20 years of LNG piped through Syria** (deal)  
-   Major energy infrastructure deal to solve Lebanon power crisis with Qatari gas and generation. parties: Qatar; QatarEnergy; Lebanon. Sources: [OilPrice.com](https://oilprice.com/Latest-Energy-News/World-News/Qatar-Offers-Lebanon-2-Gas-Plants-and-20-Years-of-LNG-Piped-Through-Syria.html)
+1. **Kinder Morgan's project backlog reaches $14.4 billion, one of its largest quarterly increases, on gas power demand** (deal)  
+   Largest quarterly backlog increase in KMI history driven by AI data center gas pipeline needs. USD 14.4 billion; parties: Kinder Morgan. Sources: [Natural Gas Intelligence](https://naturalgasintel.com/news/kinder-morgan-backlog-surges-on-ai-data-centers-southeast-power-demand/), [Hart Energy](https://news.google.com/rss/articles/CBMiogFBVV95cUxQYzJxZTNiMTVKWDBJejIxeHRuUlJPMkRHazI0enJNZDFNc0xlVHEyWThMMVh1RENuajh2QklkWGVtRUsxWGxBekpXWjJZUnl3UXo5Z0U1Vkh0UUhhV1hVY2dvMS1BcjFnY0lMQzJFQWlwVDcwX2x2NnNlOHZIWE1IMjM5UVdiRllMSW8tRlY0b2hDNDM5TkpnNXdRTkt2RmxTVlE?oc=5) (via Google News)
+2. **Brent climbed above $113 amid Saudi attacks and renewed Iran tensions; diesel supplies stayed tight** (geopolitics)  
+   Middle East escalation triggers large oil price move and supply shock fears. parties: Saudi Arabia; Iran. Sources: [Rigzone](https://www.rigzone.com/news/wire/oil_surges_4_after_deadly_saudi_attacks-22-oct-2026-184912-article/?rss=true)
+3. **European gas prices rose 3% at opening in Amsterdam as Qatari LNG flows stay restricted** (gas)  
+   TTF benchmark hits multi-year high; Middle East escalation and LNG supply fears roil European gas. Sources: [OilPrice.com](https://oilprice.com/Latest-Energy-News/World-News/European-Natural-Gas-Prices-Surge-to-Highest-Level-Since-2022.html)
+4. **US and Israeli militaries prepare for possible new attacks on Iran in early November, New York Times reports** (geopolitics)  
+   Geopolitical event; threatens Middle East oil and LNG flows, Strait of Hormuz. parties: US; Israel; Iran. Sources: [Natural Gas Intelligence](https://naturalgasintel.com/news/us-israel-prep-for-possible-iran-war-escalation-raising-stakes-for-global-energy-flows/)
+5. **SK data center arm is in talks to fund a $350 Billion AI buildout** (datacenter power)  
+   AI infrastructure funding signals power demand wave and datacenter capital acceleration globally. USD 350 billion; parties: SK Data Center. Sources: [Bloomberg.com](https://news.google.com/rss/articles/CBMirwFBVV95cUxPM0Jxa0ItbDlOQTU1RVRBUHhvNjViZFM2WDJpb2Y0VzF6WW52Nzdqajg3NzhVQVNuZ2EyRXo3Mzk2TXh4LTd3UlF6WWxHcV93ODlQYUI3c3pzM2h2a25paGZTNmpQVnc4OHNfc1NlYWlzOWdqU29jWXByNERzUGpOV2luSTEyR1hxMjZzRFpXaW5RQUNYQmZfSlA3NVFxVWk0Z1EtVExKaFp5dHJqaG9N?oc=5) (via Google News)
+6. **India's Welspun wins $580 million US gas pipeline order tied to data centre buildout** (gas)  
+   Gas infrastructure deal directly serving AI data center power demand expansion. USD 580 million; parties: Welspun. Sources: [Reuters](https://news.google.com/rss/articles/CBMiywFBVV95cUxNcWphMFNwdGZkOGo5TGZxMXk3SFhidGZOWXpKWV8xN2hYeXY2MlRITjRIZDM0ZE1RYnpPRTNzdzlaVEwwMGZnR0pqWG9Kd0xJbC1KX1gtUVZfRTZ2T0ZOZUw0bjJ2a3hBYWU4bDl0eWRQQXpUYllPTndTVEJxYzhXLWtETldoYmdOYkVLNUE4RWRPRGcyc1hBWFZUQmNsSXkxdTJkWnlQcURjOVJHZWhYZmc0X2x5OVlQSGpYMTRhb1lWOXBWNU8wLTh0UQ?oc=5) (via Google News)
+7. **Westinghouse to invest $1 billion in new fuel plant in Hopkins, South Carolina** (nuclear)  
+   Nuclear fuel fabrication expansion to produce 600 metric tons uranium annually. USD 1 billion; parties: Westinghouse. Sources: [ANS Nuclear Newswire](https://www.ans.org/news/2026-10-23/article-8513/westinghouse-to-fabricate-leu-fuel-at-expanded-sc-facility/)
+8. **Eni adds an extraordinary dividend and more buybacks after third-quarter earnings more than double** (company)  
+   Refiner earnings strength signals sustained energy price support and capital return capacity. parties: Eni. Sources: [OilPrice.com](https://oilprice.com/Latest-Energy-News/World-News/Enis-Profits-Soar-125-as-Refining-Boom-Fuels-Massive-Investor-Payouts.html), [Rigzone](https://www.rigzone.com/news/eni_further_boosts_shareholder_returns-23-oct-2026-184917-article/?rss=true)
+9. **European Parliament votes to delay methane reporting rules for fossil fuel importers by three years** (policy)  
+   Regulatory delay affects LNG suppliers and carbon accounting across Europe. parties: European Parliament. Sources: [Natural Gas Intelligence](https://naturalgasintel.com/news/european-parliament-backs-longer-methane-rule-delay-for-lng-importers/)
+10. **Brent crude reaches more than a five-month high on Houthi-Saudi attacks and a UAE oil spill** (oil)  
+   Escalating Middle East conflict and supply disruption drives oil price move at market-sensitive levels. Sources: [Reuters](https://news.google.com/rss/articles/CBMixAFBVV95cUxPR2dZUC10TmJYRUk2RmM5WWpxaUx2XzBPZ0ZTV3hIR3BkaGFvZ3B2T1hhd0xEcXZOWk5LdXhLLUF5QU9XdTRQdnRyTk9jcmVNMEZvZlZBRW8xcG1TVW1fTkY2UnFrcXlVWlUwbDhRYk9pcW1fdEdzMVNRR2ZhYVl2T0RZa09uZTktZGFWRVRWSEpGeFhYVXVPR09zNDVaTVdiNDdRRHg3VFNyZWNNWVBmdkxGMWFOa05yN2NBRnRVZjF3eF9i?oc=5) (via Google News)
 
 ## By sector
 
 **Power**
 
-- Microsoft signs 20-year power deal with NiSource for a planned Indiana data center (datacenter power): Major datacenter power commitment from utility signals AI demand growth and grid planning. [Data Center Dynamics](https://www.datacenterdynamics.com/en/news/microsoft-signs-20-year-power-deal-with-indiana-utility-nisource-for-planned-data-center-in-the-state/)
-- Israel to cap capacity of new data centers at 200 MW, report says (datacenter power): Government limits AI datacenter power demand growth amid capacity constraints. [Data Center Dynamics](https://www.datacenterdynamics.com/en/news/israel-to-cap-capacity-of-new-data-centers-at-200mw-report/)
-- 5C Data Centers plans to expand Memphis site power from 20 MW to 84 MW (datacenter power): Major AI infrastructure expansion; fuel cell power addresses grid constraints amid data center zoning pressure. [Data Center Frontier](https://www.datacenterfrontier.com/hyperscale/article/55411657/beyond-colossus-5c-advances-575m-memphis-ai-factory-expansion)
+- Net Power, once aimed at low-emission power, turns to data center demand (generation): Clean tech firm abandons emissions targets to build conventional gas plant for AI datacenter demand. [Heatmap News](https://heatmap.news/energy/net-power-data-center-boom)
+- Steep bill for AI buildout weighs on Meta and other tech stocks, Reuters reports (datacenter power): Rising capital costs for AI datacenters may pressure power demand growth and investment returns. [Reuters](https://news.google.com/rss/articles/CBMipAFBVV95cUxOaG4yYUM1ZzJnZmtpWnhIUVEzU01PRmxZM1BDRDJLazA1dkdaX3k0Z2pPMHJJUi1HUEM2OF9oV1JzSFh3d1dEU0dzc3JMQWRCeDhRa2JvNGVBbVluUlY4UGY3REoyWVZkTFBZT3BGa0swX2s1RzY3MDM5ZWlBTm1wYVBYNEt5M2VlTFoyRVNTTXJUaUVVYzVNcUtQQ2hfUW9nalZGbQ?oc=5) (via Google News)
+- Nebius secures $3.5bn senior secured financing from Citi (datacenter power): Capital raise for datacenter and AI infrastructure; substantial funding signals sector strength. [Data Center Dynamics](https://www.datacenterdynamics.com/en/news/neocloud-nebius-secures-35bn-in-financing-from-citi/)
 
 **Oil and gas**
 
-- Brent tops $110 as tanker attacks threaten Persian Gulf supply (oil): Oil prices surge on Middle East supply disruption; significant market move. [OilPrice.com](https://oilprice.com/Latest-Energy-News/World-News/Brent-Tops-110-as-Tanker-Attacks-Threaten-Persian-Gulf-Supply.html)
-- Gas-fired generation rose as much as 71% year on year as three power markets set demand records (gas): 71% surge in gas-fired generation amid peak demand records; regional price divergence signals infrastructure constraints. [Natural Gas Intelligence](https://naturalgasintel.com/news/record-power-demand-exposes-a-natural-gas-market-divide/)
-- Qatari LNG cargo takes a rare Red Sea route to Europe (lng): LNG routing around Houthi attacks shows supply chain stress and geopolitical risk to European gas. [Bloomberg.com](https://news.google.com/rss/articles/CBMitAFBVV95cUxQeWpKMENJOFNXdE1Zdy1yYzJtVHIta2FnaXBWZUpHU3U3cVBOY3MxblRmRldiRkdOTzkwM0pDOXJDTTYtNzFMMl9rUUJLZF9xeTFTQjlmNVBseEdZZTlyaWpTNnZTdnRpaEdiMkpZRjBtT0hpVkg1bThTbjRCc0wySUFzQldIblpZbWVSMXR3MWU1UVk5UXBtVV9wYlkyTEZfYkNKRzg1T2FVVmM3QWdUdHFkVVI?oc=5)
+- Brent trades at $114.00 per barrel as Houthi attacks threaten Saudi energy infrastructure (oil): Price move driven by geopolitical risk to crude supply. [OilPrice.com](https://oilprice.com/Latest-Energy-News/World-News/Brent-Hits-114-as-Houthi-Attacks-Threaten-Saudi-Energy-Infrastructure.html)
+- Oil holds its biggest gain in a week as Saudi attacks raise supply risks (oil): Escalating Middle East conflict drives notable oil price move and supply risk reassessment. [Bloomberg.com](https://news.google.com/rss/articles/CBMingFBVV95cUxPZjR5Ukt1bFQ2cG5CR2xEckxfejgwaHhOLWwyTGFRM0xFOUowbGEyUEphdVZFQ2hjaEFLZ3g0ZndDWUxLNzNUN0ZzQUx6a3NtMjZtTG05WDI5cjh1NzlkLVdBQzNqR05ZQURMeE9GWlRuUXA0MDR5alI0N1JrNmtsenhPcGtZcnJwRk1xWlpTQVpuamwwaHdBenB0cTJTZw?oc=5) (via Google News)
+- Tanker with Russian diesel signals a US port after the Trump-Putin deal (oil): Sanctions relief enables Russian fuel imports; impacts US refining and markets. [Reuters](https://news.google.com/rss/articles/CBMixwFBVV95cUxOb3Zka2dCZ1RzeXJfN1BWOGlIbHpxODVFbTdvdjFuengzUlVHTkpLVGlOa05wUXNvdWpyNl9MTGRVMTJmWFdMTTFyU3pka3FrZ0hzMGhHVEJTRGpVQXV1TEhPYXBsSjU2UllWZHlfVzBCMnBvT01NbVNUdkJiMER4YWhKZDljRUVMY2N1REdxMEpZVkg1RFhOMGFkT3NnNWljS29Jd05ZLXdNMnhmaUlUZXJWY3hGTzN4b3hEM2ExUGxNcDRLMDVr?oc=5) (via Google News)
 
 **Nuclear and renewables**
 
-- Germany plans to let renewable hydrogen count triple toward its green gas mandate from 2028 (hydrogen): Policy change accelerates hydrogen blending in gas networks, affecting energy transition targets. [Hydrogen Insight](https://news.google.com/rss/articles/CBMi6wFBVV95cUxNOWlDeHNoNFVpaER3WVdyNjAtTnVDaExiTWJSWnA1cVhITHFSV3pzRGJkZjJUU0IxWWhqXzdhQ3pMQ2hxbFBwaGZDVGNfbTJlQmRZNngzRFFxLTBmU2lqbGdQYUpHUXFZWmRCVVF1Zng1eEtsbkRFM2F1NWRaNnRvSk1OTHhoY252am82Y3RSWnEwdWk5ODhWd3BrX2EzSU85RkVqSEZoVWp3U2R3dWYwVmptNnBENE01NFZzVl9XT0xLQVIxeUxlNmM3SVpnQ09kQXhFT05FQkNuZkJ1ajh2bFlGSXlWX2VyOGNF?oc=5)
-- Rosatom signs floating nuclear power deal to supply an East Indonesian island (nuclear): Major nuclear technology deployment to island grid; new generation capacity for region. [World Nuclear News](https://www.world-nuclear-news.org/articles/rosatom-signs-floating-nuclear-power-deal-for-indonesia)
-- Geothermal lease sale collides with planned Nevada solar farms, Reuters reports (renewables): Land-use conflict between geothermal and solar development affects renewable capacity. [Reuters](https://news.google.com/rss/articles/CBMivgFBVV95cUxObmVVLWhZQi1mVVJXZ3haU2hJNk55bGdjd3VMVEZ3R0VwMUlDcERKVmc0N0VSQjkzYmtpaDh1d09zZS1MenF2R09mWGZQNHFGLTBNU3R3UXNFNmgtSGlLUjR4R1o5MVdwRllua3UxY2E5UDRlYUlfT05fVXZKaVk4ZTVJZW0wZm5QRWlxblRqUEJuc19ZYTNkWENpTFk0WWttNkpFQkNyYUR4Y0dTV2xqVkJ4MlV6eU9jS091eWpR?oc=5)
+- Posiva receives licence to operate Finnish used fuel repository at Olkiluoto, a world first (nuclear): World's first used fuel repository operational license; milestone for nuclear waste management. [World Nuclear News](https://www.world-nuclear-news.org/articles/posiva-given-go-ahead-to-operate-finnish-used-fuel-repository)
+- NRC finalizes rule easing licensing for reactor designs already authorized by DOE or Defense Department (nuclear): Expedites commercial nuclear licensing for designs already approved by DOE or DOD, potentially accelerating reactor deployment. [ANS Nuclear Newswire](https://www.ans.org/news/2026-10-22/article-8512/nrc-finalizes-rule-on-licensing-reactors-with-prior-doe-or-dod-authorization/)
+- WSJ reports on the US push to put nuclear reactors in ports and on cargo ships (nuclear): Novel nuclear applications for maritime and port power, early-stage policy and development focus. [WSJ](https://news.google.com/rss/articles/CBMijgFBVV95cUxOOE9KM2tuaTcxbTA2SXJENWFXU1Ixd1g2X0hNZXkzR2RjU2lQMUNmX1RETjB6UFNOMGxpcmVMSWlBMzdZdWlOc094TFpjVGRMMnI5TnFUc1ZqTUJ2TmpxZW93aE00TENZZ3NxOGpoZjBuUWpVdTF0WHhwOVhNNW9RMjNBU3NzOVE3RUNCVFVn?oc=5) (via Google News)
 
 **Policy**
 
-- Virginia wants a 6-year rate freeze in the NextEra-Dominion deal (policy): Major utility merger condition affecting Virginia ratepayers and utility investment climate. [Bloomberg.com](https://news.google.com/rss/articles/CBMitgFBVV95cUxQd1QtS3dmaFBGbUhxMkZUVXladUlxYk1XMXUzbGtNMFkwVTcwOFM5OS1OYkNxXzhyc1IwczdsQWZ2THpwRmhKTjA4YXpVSzFYUWR6aERwZDFxdUlibGV5dlctRndoMHZncUF2dFhrRURsbVRoNGJydjVHSFI5U29VNFFyUXBYQzlpNTE1bzVReHl1Q3hyUE1VdEIzWEdZblljQUxnY2Q4cjY3QUR5cThqM1pIN1l1QQ?oc=5)
-- Energy Department commits up to $42 million in Defense Production Act funds to Constitution Pipeline (policy): Federal support for 125-mile natural gas pipeline infrastructure [DOE newsroom](https://www.energy.gov/articles/energy-department-advances-constitution-pipeline-project-42-million-defense-production-act)
-- US uses wartime law to help build stalled New York pipeline (policy): Defense Production Act use signals federal commitment to gas infrastructure amid energy demand surge. [Bloomberg](https://news.google.com/rss/articles/CBMisgFBVV95cUxOLTZ2aWZTNmM4MUNieWNrd21yeFR6ZC00YWc3T1Q0SVpIdlN1NjIwRF82dkh2LU56dWlIeW0tMktENUp5UFg3OWw5cE10Q0pPb1lYeHpzbWg1R0JwQUR0OGx3bTJycnFQVjFCaDF0TG5MUmtWaGJKek4zWEdxVHk2Y3RGQ1hCVEhvdXI0UnhJdG1Xb2piTG9kWjNhdWRNQmhzMHJQT1d0SVJlTjhmaVhGVW9B?oc=5)
-- Moraga Storage, LLC, River Mill Storage, LLC, Hecate Energy Medway Energy Center LLC, Brough Storage, LLC, Partridge Storage, LLC v. ISO New England Inc.; Notice on Comment Periods (FERC notice, policy action): Five storage projects face an October 20 decision on signing an LGIA or leaving the ISO-NE queue. [FERC](https://www.federalregister.gov/documents/2026/10/19/2026-21364/moraga-storage-llc-river-mill-storage-llc-hecate-energy-medway-energy-center-llc-brough-storage-llc)
+- Trump invokes the Defense Production Act for oil production and refining; $150 million listed (policy): Executive action to boost domestic oil production and refining capacity signals supply priorities. [Reuters](https://news.google.com/rss/articles/CBMiwwFBVV95cUxOdm9ka0hnal9OOUFnN19HQmRZd0ljY2tJOVNoN2tIWURrMHExZ0p0NWN0UEpTMmFORG1TTU1CeXZkb3RhenhtelltYVY2SmRyZEctMnRIcUNEQlFXODdsZGxBMXhpem81NjJwRjRCbVl1N2tyWVkxeXU0T2k3ZEttNk5lbzZCVzRrUEtwT3JPTlJiUUVmSjU4b25EaXNIQ3dyS3c3NlJUSkFBdWZSMDFZVmZ1dmhncGFIYjNQU0tOd1I5dFk?oc=5) (via Google News)
+- Trump says wind turbine imports threaten national security (policy): Trade restriction threatens renewable energy supply chains and could raise deployment costs significantly. [Reuters](https://news.google.com/rss/articles/CBMisAFBVV95cUxQbXBnbGtXTC1kdE85WW5oRjI1dW9WU1d6RGdZLXoyRS12V0l0NXZyT21Rcnk5eERXeDhacVlpSWRDNVc2VlhoOUJyWWFvOVV3ck5oeU45eXZHQVpCaklMLTh4QXJkcXVWX192VUQ3QmNEa2VyMVdWNUtTaGlYdm1qb3pNRGtDazdsdjFQb3lISUNBNDNEWkJjUkFhLXJXcGpjWndUaVJLaDJFaHRIQk9KZQ?oc=5) (via Google News)
+- Japan weighs phasing out gasoline subsidies from December as payments become hard to sustain (policy): Policy shift on fuel price support amid sustained high oil prices. [OilPrice.com](https://oilprice.com/Latest-Energy-News/World-News/Japan-Weighs-Gasoline-Subsidy-Cuts-as-Energy-Costs-Soar.html)
+- Energy Department to Use Defense Production Act Funding to Restart American Refinery and Expand Refining Capacity (DOE news release, policy action): Federal use of Defense Production Act funds for refining signals direct government support for domestic refining capacity. [DOE](https://www.energy.gov/articles/energy-department-use-defense-production-act-funding-restart-american-refinery-and-expand)
+- SMR, LLC; Palisades SMR, LLC; Pioneer Units 1 and 2; Phased Construction Permit Application-Limited Work Authorization (NRC notice, policy action): A dual-unit SMR-300 construction permit application with limited work authorization request advances new nuclear at the Palisades site in Michigan. [NRC](https://www.federalregister.gov/documents/2026/10/22/2026-21588/smr-llc-palisades-smr-llc-pioneer-units-1-and-2-phased-construction-permit-application-limited-work)
+- Energy Department Announces Over $125 Million for 63 Projects Across 16 States to Lower Energy Costs, Expand Electricity Access, and Advance Economic Development for America’s Tribal Communities (DOE news release, policy action): Federal funding for tribal energy cost reduction, electricity access and economic development; mid-size program with real dollars. [DOE](https://www.energy.gov/articles/energy-department-announces-over-125-million-63-projects-across-16-states-lower-energy)
 
 **Capital and companies**
 
-- EnCap's record $3.5B deal extends its hold on Permian minerals (deal): Major oil and gas deal extending consolidation in key US production basin. [Hart Energy](https://news.google.com/rss/articles/CBMiowFBVV95cUxOVTR0dG5lY1UwakFlR2NBVzZnbm5YcEZpTFJ4OUlSRGJJekZEa3FOV2JWdVBJZ0ljUDlkSFVoeXdaUlY1akRIdzREcFhfTDYyZkl3VkIwR2xJZjVZS0F0QTFsdmptZFRfak5jNjBVSHdCN2t0VjdhQTBNV3JmOVB3Z2FQX0dsbndXQlphaEdBNHdWeUV0bkE4YnEwMkllRmN5LWk4?oc=5)
-- LNG Canada awards Tecnicas Reunidas EPCM contract for second phase of Coastal GasLink pipeline (deal): Engineering contract for LNG Canada phase two; incremental project progress. [LNG Prime](https://lngprime.com/americas/tecnicas-reunidas-scores-lng-canada-pipeline-gig/198610/)
-- Mozambique pitches Sasol and ROMPCO on a $250 million offshore gas project (deal): Regional gas development deal with FSRU infrastructure for southern Africa [OilPrice.com](https://oilprice.com/Latest-Energy-News/World-News/Mozambique-Pitches-Sasol-and-ROMPCO-on-250-Million-Gas-Project.html)
+- Commerce Department commits up to $389m in R&D funding for fusion and advanced computing semiconductors (capital): Federal support for fusion and semiconductor cooling to power AI datacenters; capital directed to frontier energy solutions. [Data Center Dynamics](https://www.datacenterdynamics.com/en/news/us-department-of-commerce-commits-up-to-389m-in-rd-funding-to-power-semiconductors-for-fusion-and-advanced-computing/)
+- Meta's credit risk indicator hits a record high on its increased AI spending plan (capital): USD 25 billion AI spending commitment raises default risk; signals datacenter power demand and capital intensity. [Reuters](https://news.google.com/rss/articles/CBMipwFBVV95cUxOMXV0RkI1VFVXRm4xc0tyNDBnc2NENDA3aF9XdjNxZVVGeU9IMkVlN0s0N3dvbTlYdzFFM0JwbUZjQ01tNFJpWE1GVG5wZXZjOWZMbnk1dUFrWWJlTjNrVU5kZjZxblBOUWFRX2hicTlFUEUyaTV0TjEyZUtUeHliMzZBTHFkS3BOb2FOWmF2S0RoTDBMSm1rdE84YmVQUnZ6bU9CazJmNA?oc=5) (via Google News)
+- Eni raises its payout after profit doubles; shares near 20-year highs (company): Oil company profit surge likely supports upstream investment and shareholder returns. [WSJ](https://news.google.com/rss/articles/CBMiqgFBVV95cUxNaWJNOEkxeFNGUzRFN0JzSng3Z2FyWi1BeC0wVkdPT3ZtY0Nta3BzX2JZbGowU3VZX1JsZUxibXRjbmtuNGZ6Y1R2aUhfNjVaRGVGMlQ2bTVXWDZMd25xcTA4Y2R3cTg1MGhiWXJvamFUbGpfcVRKQVlGWWxSbFdKMU9HY3FzdzZXSExhZDdIbXllc19PcXJLWVVpdHJWcGhtTTh2S2NuM1hHQQ?oc=5) (via Google News)
 
 ## AI and power
 
-- Microsoft pulls out of Nscale's delayed Loughton data center deal over power supply (datacenter power): Major tech firm abandons project due to grid capacity limits, signaling datacenter power bottleneck. [WSJ](https://news.google.com/rss/articles/CBMirgFBVV95cUxPOFBSano2YWNRY1dzTTFvSmc4NjZ0NEtuRVZDa2ZDMGFmYzVFekJMVzR2aTd5aWZmVEFvLWFKQ052cFJYU3NfUGFpMGhla0c3VUYzR1VfUEQ4bHlfdDFCTnZuN2pvUzJNTDd2UWN0MmlqbVhYQ0V4dmdiT1VkUmUzb2preEF0ZHpnRlc2dGJwTnhTYm5zSTljbzZGMC1EdXF4OFRTUjBHa2E4Q2t5eHc?oc=5)
-- Canada issues advance procurement notice for Ontario data center costing CA$1.5bn and $1.85bn (datacenter power): CA$1.5-1.85 billion data center procurement; AI infrastructure investment signal. [Data Center Dynamics](https://www.datacenterdynamics.com/en/news/canada-puts-out-advanced-procurement-notice-for-data-center-in-ontario/)
-- Korea data center IPO set to test investor resolve after tumult (datacenter power): Data center IPO signals capital market stress for AI infrastructure. [Bloomberg.com](https://news.google.com/rss/articles/CBMiswFBVV95cUxPMWs2eVQ1a0VzdkhIdktZZ1dPZGJCN3pKMW1hQU5lTFlCQXFEZ2x5QkRXUm11a2l3cGwwZ0dQWHJ4VXdaNmZJbXlkV3ZHYVAwdHVUS0pVREV1eU00NC1ZV3RXcms0MGlLcXYwRFVFVk10LUJOY3dxTS1xR1pLeDlPcm90WV9lbE9WSjR5ZFczbi10SzNZZ2ZwTEg5bmpNWUl6ZkxQU2FiSVBsZVFxOHNkdHM0Yw?oc=5)
-- Alcoa sells New York aluminum smelter to a data center developer for $315 million (datacenter power): Industrial power asset repurposed for AI datacenter, signals demand shift. [Data Center Dynamics](https://www.datacenterdynamics.com/en/news/alcoa-sells-new-york-aluminum-smelter-to-data-center-developer-for-315-million/)
-- Schneider Electric reports record-high Q3 revenue on data center demand (datacenter power): Energy management supplier benefits from surge in datacenter power demand. [Utility Dive](https://www.utilitydive.com/news/schneider-electric-data-center-earnings/833358/)
+- Innio signs 620 MW gas engine order with an undisclosed US data center developer (generation): Data center power demand drives gas engine procurement for backup and primary power. [Data Center Dynamics](https://www.datacenterdynamics.com/en/news/innio-signs-620mw-gas-engine-order-with-undisclosed-us-data-center-developer/)
+- Krolmap plans a 225 MW off-grid data center in Zaragoza, Spain (datacenter power): Mid-scale datacenter project with novel off-grid power model; incremental but real generation deal. [Data Center Dynamics](https://www.datacenterdynamics.com/en/news/krolmap-plans-a-225mw-off-grid-data-center-in-zaragoza-spain/)
+- Data center backlash threatens Australia's $70 Billion plan; NextDC outlook darkens (datacenter power): Political and community opposition to AI data center buildout in Australia. [Bloomberg.com](https://news.google.com/rss/articles/CBMiswFBVV95cUxOTlVoS0NUczZuM0VxNENQTjNJbnU0RDRhLURoSGU5ZjEzWTdUMWsxLU10aHoxdlNOVDFaQl9mcjJhRGRxUlh6azhEbWI3dnVfTTVpZU9mdjBpRFl0aGktaVRPWG9lZHRid2ppZVZEQ2diQzN1ZUpBOC03bDVFbi1CY2RrWnZJcm9mVFg3TkRSWFVJUENCNlV6c1ZQQnVxSjJlYW1ibjEwYjdSY1BuOG9jMzBsQQ?oc=5) (via Google News)
+- Sodium-ion storage maker Peak Energy raises $108 million in a GM-led round (storage): Storage startup capital raise for datacenter support; emerging but unproven market. [Hart Energy](https://news.google.com/rss/articles/CBMirwFBVV95cUxQY2RrSjMyZ1d5eDlFYzhVR0tOalJEWWZzaDJob25KNmpINWVFRDBmYnNSb2xjMmJhLTVCdXplMm9ub3JNY3NmSUdsOFdoNGNvQzdvaXM0VTY3QjRHQ0RkVjNOS2NXXzQ4dm16cFNNX0sybG5Ybm9zTkc3OG85S3k1ZTg0WTRZOTE1c1NOZTJxY29fcC1keHU5ZmNZMlZOV0JOS2FRZ2pSS2pVLWt0NmJZ?oc=5) (via Google News)
+- Reuters Breakingviews commentary says data centres fail as an AI pick-and-shovel trade (datacenter power): Commentary on datacenter economics and AI capex returning diminishing power returns; strategic insight. [Reuters](https://news.google.com/rss/articles/CBMipgFBVV95cUxOLWtTX2NYLUhOZFo0blFUbTdMeV9CV2tydlRTOWdLWHo5cTF5cG5sb1ZRTjZjVWphWHFkbFlnSWZ3aEpUWmtzRmNUTWQtVnNGMXdUczhhUWJMVjRPWGFMY1JYZUZ5VjVRWUJfVTdtaWcwV1JhNUlOd3YtSGlfcFJ4X09FT3Vzd3ZnN3VLS01UOF9qMGNYengxLVJNUkFvTDNsVUhKdmJn?oc=5) (via Google News)
 
 ## ERW's Numbers Today
 
-Day-ahead power on 2026-10-19 was dearest at NYISO's N.Y.C., 52.53 USD/MWh, and cheapest at SPP's SPPSOUTH_HUB, 21.85; MISO has no prices in the warehouse for that day and PJM has no price table. The highest real-time price was 192.89 USD/MWh at N.Y.C. in the interval starting 2026-10-19 08:00 local. The latest EIA spot closes, from 2026-10-14, were 3.22 USD/MMBtu for Henry Hub gas, 101.91 USD/bbl for WTI and 126.55 USD/bbl for Brent.
+Day-ahead power on 2026-10-22 was dearest at NYISO's N.Y.C., 52.60 USD/MWh, and cheapest at SPP's SPPSOUTH_HUB, 23.36. The highest real-time price was 129.51 USD/MWh at LONGIL (NYISO), in the interval starting 2026-10-22 21:00 local. MISO is paused by the ERW and PJM has no price table, so neither is in the comparison; the latest EIA closes, on 2026-10-20, were 3.10 USD/MMBtu for Henry Hub, 107.89 USD/bbl for WTI and 115.22 USD/bbl for Brent.
 
 **Day-ahead average, yesterday, main hub** (mean of the 24 hourly prices of the operating day):
 
 | ISO | Hub or zone | Operating day | Average USD/MWh | Table |
 |---|---|---|---|---|
-| ERCOT | HB_NORTH | 2026-10-19 | 23.41 | [1] |
-| CAISO | TH_SP15_GEN-APND | 2026-10-19 | 44.78 | [1] |
-| NYISO | N.Y.C. | 2026-10-19 | 52.53 | [2] |
-| MISO | INDIANA.HUB | 2026-10-19 | not in the warehouse (0 of 24 hours) | [1] |
-| SPP | SPPSOUTH_HUB | 2026-10-19 | 21.85 | [1] |
-| ISO-NE | .H.INTERNAL_HUB | 2026-10-19 | 42.50 | [3] |
+| ERCOT | HB_NORTH | 2026-10-22 | 30.48 | [1] |
+| CAISO | TH_SP15_GEN-APND | 2026-10-22 | 43.02 | [1] |
+| NYISO | N.Y.C. | 2026-10-22 | 52.60 | [2] |
+| MISO | INDIANA.HUB | 2026-10-22 | not requested: paused by the ERW since 2026-10-04 (MISO's terms forbid automated access) | [1] |
+| SPP | SPPSOUTH_HUB | 2026-10-22 | 23.36 | [1] |
+| ISO-NE | .H.INTERNAL_HUB | 2026-10-22 | 40.92 | [3] |
 | PJM | | | no PJM price table (no API key) | |
 
-**Highest real-time price, yesterday:** 192.89 USD/MWh at N.Y.C. (NYISO), interval starting 2026-10-19 08:00 local (2026-10-19 12:00 UTC), PT15M `lmp_rtm_15m_mean` (a 15-minute mean of 5-minute prices) [4].
+**Highest real-time price, yesterday:** 129.51 USD/MWh at LONGIL (NYISO), interval starting 2026-10-22 21:00 local (2026-10-23 01:00 UTC), PT15M `lmp_rtm_15m_mean`, NYISO's real-time locational marginal price (a 15-minute mean of 5-minute prices) [4].
 
 **Latest fuel spot closes** (EIA, trading dates):
 
-- Henry Hub natural gas: 3.22 USD/MMBtu on 2026-10-14 [5]
-- WTI Cushing crude: 101.91 USD/bbl on 2026-10-14 [5]
-- Brent crude: 126.55 USD/bbl on 2026-10-14 [5]
+- Henry Hub natural gas: 3.10 USD/MMBtu on 2026-10-20 [5]
+- WTI Cushing crude: 107.89 USD/bbl on 2026-10-20 [5]
+- Brent crude: 115.22 USD/bbl on 2026-10-20 [5]
 
 Tables: [1] `iso_dam_hub_prices` (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expost_lmp, spp:DA-LMP-SL); [2] `nyiso_dam_zone_prices` (nyiso:damlbmp); [3] `isone_dam_zone_prices` (isone:da_lmp_hourly); [4] `nyiso_rtm_zone_prices` (nyiso:realtime); real-time tables read: iso_rtm_hub_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices; [5] `eia_fuel_spot_prices` (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
 
 ## ERW's Chart of the Day
 
-![Retail electricity sales in Utah, residential: 1,658,263 MWh in July 2026, the highest monthly value held since January 2001. The record until now was 1,484,757 MWh, in July 2024.](charts/2026-10-20.png)
+![eia_padd_movements:MGAMT1XP31 tanker_barge_receipts: 251.0 kbbl in June 2026, the highest monthly value held since January 1986. The record until now was 100.0 kbbl, in July 2004.](charts/2026-10-23.png)
 
-Retail electricity sales in Utah, residential: 1,658,263 MWh in July 2026, the highest monthly value held since January 2001. The record until now was 1,484,757 MWh, in July 2024.
+eia_padd_movements:MGAMT1XP31 tanker_barge_receipts: 251.0 kbbl in June 2026, the highest monthly value held since January 1986. The record until now was 100.0 kbbl, in July 2004.
 
-Table `eia_retail_sales_monthly`, series `entity=eia:retail_sales:UT:RES, variable=retail_sales, freq=P1M`: [the table and its download](/data#eia_retail_sales_monthly). Chosen by rule, not by a person or a model: the strongest flag of the day's scan that no Digest has shown (rule: record; 1.01 robust standard deviations past its threshold). [How the chart is chosen](/data/methods/automated_analysis_scanner).
+Table `eia_padd_rail_barge_movements_monthly`, series `entity=eia_padd_movements:MGAMT1XP31, variable=tanker_barge_receipts, node=New England (PADD 1A) Receipts by Tanker and Barge from Gulf Coast (PADD 3) of Aviation Gasoline (Thousand Barrels), freq=P1M`: [the table and its download](/data#eia_padd_rail_barge_movements_monthly). Chosen by rule, not by a person or a model: the strongest flag of the day's scan that no Digest has shown (rule: record; 8.64 robust standard deviations past its threshold). [How the chart is chosen](/data/methods/automated_analysis_scanner).
 
 ## ERW's Fun Fact
 
-US oil extraction peaked at 10.2 million barrels per day in 1970 before declining for the next 35 years.
+The term duck curve was coined in 2012 by the California Independent System Operator, and the curve is named for its visual similarity to the outline of a duck. Grid operators hope batteries help the duck keep its neck in check.
 
-Sources: [Wikipedia, Hubbert peak theory](https://en.wikipedia.org/wiki/Hubbert_peak_theory).
+Sources: [Wikipedia, Duck curve](https://en.wikipedia.org/wiki/Duck_curve).
 
 ERW
 
@@ -112,4 +114,4 @@ ERW
 
 [How this is made.](/about#digest)
 
-<!-- Generated by warehouse/news/brief.py at 2026-10-20 06:55 UTC; run log warehouse/output/logs/news_brief_20261020T065542Z.log; model claude-sonnet-5-5; story data warehouse/output/news_stories.csv. -->
+<!-- Generated by warehouse/news/brief.py at 2026-10-23 15:45 UTC; run log warehouse/output/logs/news_brief_20261023T154552Z.log; model claude-sonnet-5-5; story data warehouse/output/news_stories.csv. -->
