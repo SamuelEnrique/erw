@@ -1,6 +1,6 @@
 # Session 2864 report: the model calls, the health summary's blind spot
 
-5 November 2026, about 21:20 to @@END@@ UTC, on lab-desktop (the data machine), chain 147, unattended. Model spend: USD 0.0209 (one scoring call, 5 stories) plus the key probe of session 2862. Pulls: GitHub's API 3 requests (run 41067951705's jobs and log); the Claude API 2 requests (the model list, one scoring call); Supabase 3 reads (erw_health).
+5 November 2026, about 21:20 to 22:56 UTC, on lab-desktop (the data machine), chain 147, unattended. Model spend: USD 0.0209 (one scoring call, 5 stories) plus the key probe of session 2862. Pulls: GitHub's API 3 requests (run 41067951705's jobs and log); the Claude API 2 requests (the model list, one scoring call); Supabase 3 reads (erw_health).
 
 ## Read these first
 
@@ -14,7 +14,7 @@
 - **A job whose every run stopped at its first step now fails the whole day in the headline.** 4 November reads "**3 failures** over 658 recorded steps. **1 job failed for the whole day**, every run stopped at its first step: daily prices (merge tests)."
 - **A library's warning is no longer a failed step's reason.** The merge tests were recorded as "Warning: The 'generic' unit for NumPy timedelta is deprecated ...", not as "FAILED (failures=5, errors=2)".
 - **Tests:** `tests/test_session2864.py`, 13 tests, none of which makes a request. With the health tests of sessions 61, 202, 271 and 377: 85 pass. The chain watch's one-email rule is unchanged.
-- **Landing:** @@LANDING@@
+- **Landed as `3b8590e99`** (task/2864-health, run 42123164481, checks passed 22:54 UTC; deployed 22:55). Rule 8's snapshots `s2864-before` (22:38) and `s2864-after` (22:55): 25 pages, **0 differences** (expected: the health script, the workflow's summary step and a test). The gate (`runs/land_check/78c488ca...`): suite, npm ci, build and serve passed; check-values failed on the same 13 lines as session 2863's gate, none new (`runs/c147/cv_diff.py`), and the landing followed session 2863's decision. The next summary (yesterday's, written after the next daily run) is the first with the "Stale on main" line; session 2884 quotes it.
 
 ## Decisions made without you
 
