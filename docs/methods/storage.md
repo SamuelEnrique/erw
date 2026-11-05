@@ -1,5 +1,7 @@
 # Battery storage: method
 
+Tables: `storage_daily_cycle`, `storage_capacity` (session 2312; as held on 24 October 2026, 14,503 and 1,627 rows)
+
 Built in session 31 for the site's `/storage`. Three tables:
 
 | Table | Tier | What |

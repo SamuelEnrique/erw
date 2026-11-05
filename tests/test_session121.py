@@ -425,7 +425,7 @@ console.log(JSON.stringify({{ text: historyText(cleanHistory(h)), opening: p.ope
         route = src("site", "app", "api", "ask", "route.ts")
         self.assertIn('if (profile === "ercot" && stream === true)', route)
         # session 128: the same call, with the question's number for the ledger; session 314: and the evaluation's ledger step when the request is one
-        self.assertIn('await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid, ...ledgerOpts })', route)
+        self.assertIn('await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid, history, ...ledgerOpts })', route)   # session 1129: and the general chat's turns
         self.assertIn("The answer itself is never sent in pieces: it is checked whole first.", route)
         self.assertIn("cost_usd: r.cost_usd ?? null, seconds: r.seconds ?? null", route)       # the cost and the time of each question, in its log line
         loop = src("site", "lib", "chat", "ask.ts")

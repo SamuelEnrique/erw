@@ -13,7 +13,7 @@ import { useEffect, useMemo, useState } from "react";
 import { TimeChart, type TimeSeries } from "@/components/TimeChart";   // session 318: the three charts through the shared SVG set
 import { CategoryChart } from "@/components/svgchart";
 import {
-  FREQ_WORDS, SLOTS, WINDOWS, csv, dateWords, distribution, fmt, histogram, hourlyOf, isoDay, isoHour, joined, localHour, pointsOf, seasonal, slotLabel, summary, volatility, windowed,
+  FREQ_WORDS, SLOTS, WINDOWS, chartFreq, csv, dateWords, distribution, fmt, histogram, hourlyOf, isoDay, isoHour, joined, localHour, pointsOf, seasonal, slotLabel, summary, volatility, windowed,
   type Bench, type BoardFile, type HourlyFile, type Point, type Row, type SeriesFile,
 } from "@/lib/board";
 
@@ -126,11 +126,11 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
       return { hourly: true, freq: "H", a, b, nameA: nameOf(row), nameB: over ? nameOf(over) : "", unitA: row.unit, unitB: over?.unit ?? "", fileA: hA.data, fileB: hB.data, note: "" };
     }
     let a = pointsOf(sA.data!), b = over ? pointsOf(sB.data!) : null;
-    let freq: "D" | "W" | "M" = sA.data!.freq, nameA = nameOf(row), nameB = over ? nameOf(over) : "";
-    if (b && sA.data!.freq !== sB.data!.freq) {
+    let freq: "D" | "W" | "M" = chartFreq(sA.data!.freq), nameA = nameOf(row), nameB = over ? nameOf(over) : "";
+    if (b && chartFreq(sA.data!.freq) !== chartFreq(sB.data!.freq)) {
       // two series of different steps are set side by side by the month: the finer one as its monthly mean
-      if (sA.data!.freq !== "M") { a = monthly(a); nameA += " (monthly mean)"; }
-      if (sB.data!.freq !== "M") { b = monthly(b); nameB += " (monthly mean)"; }
+      if (chartFreq(sA.data!.freq) !== "M") { a = monthly(a); nameA += " (monthly mean)"; }
+      if (chartFreq(sB.data!.freq) !== "M") { b = monthly(b); nameB += " (monthly mean)"; }
       freq = "M";
     }
     a = windowed(a, bench.w, bench.from, bench.to);
@@ -151,11 +151,11 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
     if (!sA.data) return null;
     if (!over || bench.m === "none" || !sB.data) return pointsOf(sA.data);
     let a = pointsOf(sA.data), b = pointsOf(sB.data);
-    if (sA.data.freq !== sB.data.freq) { if (sA.data.freq !== "M") a = monthly(a); if (sB.data.freq !== "M") b = monthly(b); }
+    if (chartFreq(sA.data.freq) !== chartFreq(sB.data.freq)) { if (chartFreq(sA.data.freq) !== "M") a = monthly(a); if (chartFreq(sB.data.freq) !== "M") b = monthly(b); }
     const j = joined(a, b);
     return bench.m === "ratio" ? j.filter((x) => x.ratio !== null).map((x) => ({ t: x.t, v: x.ratio as number })) : j.map((x) => ({ t: x.t, v: x.spread }));
   }, [sA.data, sB.data, over, bench.m]);
-  const wholeFreq: "D" | "W" | "M" = sA.data && sB.data && over && sA.data.freq !== sB.data.freq ? "M" : sA.data?.freq ?? "D";
+  const wholeFreq: "D" | "W" | "M" = sA.data && sB.data && over && chartFreq(sA.data.freq) !== chartFreq(sB.data.freq) ? "M" : (sA.data ? chartFreq(sA.data.freq) : "D");
   const tz = hourly ? hA.data?.tz ?? null : null;
   const when = (t: number) => (hourly ? (tz ? `${localHour(t, tz)} local` : isoHour(t)) : dateWords(isoDay(t), lines?.freq === "M" ? "M" : "D"));
   const sumA = lines ? summary(lines.a) : null, sumB = lines?.b ? summary(lines.b) : null, sumC = calc ? summary(calc) : null;

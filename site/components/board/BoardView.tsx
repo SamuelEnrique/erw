@@ -16,7 +16,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
 import { GroupFold, NumberTile, NumberTileGrid } from "@/components/tool/ToolPage";
 import {
-  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, dateWords, fmt, gridExtremes, leadRow, noMove, pct, rangeExtremes, rowsOf, shortDate, signed, sparkOf, topRows,
+  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, fmt, gridExtremes, heldNote, inputsWords, leadRow, noMove, pct, rangeExtremes, rowsOf, shortDate, signed, sparkOf, topRows,
   type Bench, type BoardFile, type Group, type Row, type WeekRow,
 } from "@/lib/board";
 
@@ -152,13 +152,17 @@ function PriceRow({ row, group, open, onOpen, file }: { row: Row; group: Group; 
     );
   }
   const last = row.last!;
+  // session 1116: the close's age in its tip, and "stale" past the method's threshold (lib/board.ts, closeAge)
+  const age = closeAge(row, file.built);
   return (
     <tr className={`cursor-pointer border-b border-rule/70 hover:bg-paper ${open ? "bg-paper outline outline-1 -outline-offset-1 outline-accent" : ""}`} data-row={row.id}
       onClick={() => onOpen(row.id)}>
       {name}
-      <td className="py-1 pr-3 text-right font-semibold"><span data-n={`${row.id}|last`}>{fmt(last.v, row.unit)}</span><span className="ml-1 text-xs font-normal text-muted">{row.unit}</span></td>
-      <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted" title={`${dateWords(last.t, row.freq)}${row.freq !== "D" ? `, a ${FREQ_WORDS[row.freq]} series` : ""}`}>
+      <td className="py-1 pr-3 text-right font-semibold" title={inputsWords(row) ?? undefined} {...(row.inputs ? { "data-inputs": row.id } : {})}><span data-n={`${row.id}|last`}>{fmt(last.v, row.unit)}</span><span className="ml-1 text-xs font-normal text-muted">{row.unit}</span></td>
+      <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted" title={`${dateWords(last.t, row.freq)}${row.freq !== "D" ? `, a ${FREQ_WORDS[row.freq]} series` : ""}${age ? `: ${age.words}` : ""}`}
+        {...(age?.stale ? { "data-stale": row.id } : {})}>
         {shortDate(last.t, row.freq)}{row.freq !== "D" ? <span className="ml-1 border border-rule px-0.5 text-xs">{FREQ_WORDS[row.freq]}</span> : null}
+        {age?.stale ? <span className="ml-1 border border-accent px-0.5 text-xs text-accent">stale</span> : null}
       </td>
       {MOVES.map(([k]) => <td key={k} className="py-1 pr-3 text-right text-xs"><MoveCell row={row} k={k} /></td>)}
       <td className="py-1 pr-3 text-right text-xs">{row.avg7 ? <span title={`the mean of the ${row.avg7.n} values held in the 7 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg7`}>{fmt(row.avg7.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 7-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
@@ -261,6 +265,8 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
                 <td className="pr-2 text-right">{w.vol ? <span title={`as of ${dateWords(w.vol.t)}`}>{two(w.vol.v)}</span> : <span className="text-xs text-muted" title="Needs 31 days of day-ahead prices.">not held yet</span>}</td>
               </tr>
             ))}
+            {/* session 1116: a grid held for a license on the day is one line, as MISO's and PJM's are (lib/board.ts, holdRows) */}
+            {(file.held ?? []).filter((g) => grid === "all" || grid === g).map((g) => <tr key={g} className="border-b border-rule/70" data-held-grid={g}><th scope="row" className="py-1 pl-2 pr-3 text-left font-normal text-muted">{g} hubs</th><td colSpan={8} className="text-left text-xs italic text-muted"><span className="cursor-help border-b border-dotted border-muted" title={heldNote(g)}>{PLACEHOLDER.license}</span></td></tr>)}
             {(grid === "all" || grid === "MISO") ? <tr className="border-b border-rule/70"><th scope="row" className="py-1 pl-2 pr-3 text-left font-normal text-muted">MISO hubs</th><td colSpan={8} className="text-left text-xs italic text-muted"><span className="cursor-help border-b border-dotted border-muted" title="MISO's prices are paused while its terms are reviewed; no MISO value is shown.">{PLACEHOLDER.paused}</span></td></tr> : null}
             {(grid === "all" || grid === "PJM") ? <tr className="border-b border-rule/70"><th scope="row" className="py-1 pl-2 pr-3 text-left font-normal text-muted">PJM hubs</th><td colSpan={8} className="text-left text-xs italic text-muted"><span className="cursor-help border-b border-dotted border-muted" title="PJM publishes its prices under a license the ERW does not hold.">{PLACEHOLDER.licensed}</span></td></tr> : null}
           </tbody>
@@ -294,7 +300,7 @@ function TopTwelve({ file, onOpen }: { file: BoardFile; onOpen: (id: string) => 
           ? <NumberTile key={r.id} id={r.id} label={r.label} sub={r.at} blank={<span title={r.note}>{PLACEHOLDER[r.status as Exclude<Row["status"], "ok">] ?? PLACEHOLDER.not_held}</span>} />
           : <NumberTile key={r.id} id={r.id} label={r.label} sub={r.at} unit={r.unit} onOpen={() => onOpen(r.id)} openTitle={`${r.label}${r.at ? `, ${r.at}` : ""}. Open in the workbench.`}
               value={<span data-n={`top|${r.id}|last`}>{fmt(r.last.v, r.unit)}</span>}
-              time={<time dateTime={r.last.t}>{dateWords(r.last.t, r.freq)}</time>}
+              time={<time dateTime={r.last.t} title={closeAge(r, file.built)?.words}>{dateWords(r.last.t, r.freq)}{closeAge(r, file.built)?.stale ? " (stale)" : ""}</time>}
               moves={(["d", "w"] as const).map((k) => {
                 const m = r.moves?.[k];
                 return {

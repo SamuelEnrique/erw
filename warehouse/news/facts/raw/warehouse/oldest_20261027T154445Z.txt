@@ -1,0 +1,8 @@
+# table: eia860m_operating_generators
+# source reports: U.S. Energy Information Administration (EIA): Form EIA-860M, Monthly Update to the Annual Electric Generator Report (https://www.eia.gov/electricity/data/eia860m/)
+# table retrieved: 20261027T145055Z
+# computed by: warehouse/news/funfact.py
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20261027T154445Z
+
+eia860m_operating_generators: earliest operating_year 1891: plant Whiting, state WI, technology Conventional Hydroelectric, 9 generators with that year; inventory vintage 2026-09; 28712 operating generators with a year

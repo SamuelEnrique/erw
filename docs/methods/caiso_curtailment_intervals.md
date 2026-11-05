@@ -1,5 +1,7 @@
 # CAISO curtailment by interval and by reason, and its profile
 
+Tables: `caiso_curtailment_profile`
+
 Two tables behind the page `/curtailment` (until session 144 its own page, `/curtailment/v2`, "Curtailment", version 2, which now redirects there; what that page said on its face is in [`curtailment.md`](curtailment.md)):
 
 | Table | Built by | What it is |

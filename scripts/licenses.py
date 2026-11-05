@@ -57,7 +57,8 @@ CANON = [
     (r"St\. Louis|FRED", "FRED"),  # a name "through FRED" is FRED's: this rule goes before the Board's
     (r"Board of Governors|Federal Reserve System", "FRB"),  # session 207: the Board's own H.15 download (frb_treasury_yields)
     (r"PortWatch", "IMF PortWatch"), (r"International Monetary Fund", "IMF"), (r"Berkeley", "Berkeley Lab"), (r"Nuclear Regulatory", "NRC"),
-    (r"Census", "Census Bureau"), (r"Commodity Futures", "CFTC"), (r"Regional Greenhouse", "RGGI"), (r"Railroad Commission", "RRC"),
+    (r"Census Bureau", "Census Bureau"),  # session 2323: not "Census", which also matched Hong Kong's Census and Statistics Department
+    (r"Commodity Futures", "CFTC"), (r"Regional Greenhouse", "RGGI"), (r"Railroad Commission", "RRC"),
     (r"Federal Energy Regulatory|^FERC$", "FERC"), (r"Energy Research Warehouse|^ERW$", "ERW"),
     (r"(?i)bloomberg", "Bloomberg"), (r"(?i)^ft\.com$|\.ft\.com$|^FT Channels$|Financial Times", "Financial Times"), (r"(?i)hart ?energy", "Hart Energy"),
     (r"(?i)^WSJ$|wsj\.com$", "WSJ"), (r"(?i)reuters", "Reuters"), (r"(?i)hydrogen ?insight", "Hydrogen Insight"), (r"(?i)^JPT Homepage$|jpt\.spe\.org", "JPT"),
@@ -72,6 +73,11 @@ BY_HAND = {
     # session 991: the hybrid plants file carries its own notice (the DOE contract notice, no CC BY), read 167
     "lbnl_hybrid_plants": (["Berkeley Lab, hybrid plants file"], "its own file's notice (session 991): the Department of Energy's contract notice, without the CC BY 4.0 statement of LBNL's other data files"),
     "eia930_demand_growth": (["EIA"], "its header: EIA publications"),
+    # session 2014: EIA's page says the wholesale market data are "republished, with permission, from data collected by the
+    # Intercontinental Exchange (ICE)": ICE's data, so ICE's verdict as well as EIA's (as the NYMEX futures EIA republished)
+    "eia_ice_electricity_daily": (["EIA", "ICE, whose prices EIA republishes"], "its header: EIA republishes these prices with ICE's permission"),
+    # session 2020: Tracking the Sun as OEDI publishes it, by its own record's license (read 193), not Berkeley Lab's other files' (read 14)
+    "lbnl_tracking_the_sun": (["Berkeley Lab, Tracking the Sun on OEDI"], "its submission on the Open Energy Data Initiative states CC BY 4.0 (session 2019, read 193)"),
     "eia_all_futures_prices": (["EIA", "CME Group (NYMEX), whose prices EIA republished"], "its header: EIA names the New York Mercantile Exchange as the source of these prices"),
     "ercot_peak_premium_annual": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),
     "ercot_peak_premium_monthly": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),
