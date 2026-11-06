@@ -616,14 +616,17 @@ The news index and scores, the cost ledger, the known faults: the platform's rec
 | Family | State | Session | Drafts kept |
 |---|---|---|---:|
 | prices | hunted: ERCOT hourly shape, spreads, volatility, reserves (not drafted), Henry Hub, gas by state, world gas, carbon, Brent and WTI | 3001 to 3003 | 33 |
-| markets_operations | not hunted | | 0 |
+| markets_operations | not hunted on its own tables (node basis, scarcity, stress days, battery awards): chain 166 | | 0 |
 | demand | hunted: EIA-930 daily by authority and hourly by sub-region | 3004 | 12 |
 | generation_pipeline | hunted: the mix, nuclear, heat rates, the build-out (the planned pipeline cannot be: two months held) | 3005 to 3007 | 35 |
 | gas | hunted: the US balance, states, flaring, Mexico, storage | 3008 | 11 |
 | queues_deals_datacenters | hunted: the queues (Queued Up, by region and type); the Census datacenter series; deals and facilities not drafted (begun 2025, partial) | 3009 to 3011 | 27 |
 | tariffs_policy | hunted: retail sales and prices, reliability, meters, net metering; large-load tariffs and policy actions not drafted (levels, recent) | 3012 | 12 |
 | oil_products_world | hunted: cracks, the pump, net imports, origins, state crude, the world shares, refining, demand, regions, propane; chokepoints fail the tests | 3013 to 3015 | 18 |
-| coal_uranium_metals | not hunted | | 0 |
-| emissions_climate | not hunted | | 0 |
-| other_us | not hunted | | 0 |
+| coal_uranium_metals | not hunted: chain 166 | | 0 |
+| emissions_climate | not hunted: chain 166 | | 0 |
+| other_us | not hunted: chain 166 | | 0 |
 | cross_family | hunted: batteries against peaks, built against asked, storage beside solar | 3016 | 8 |
+| outside_us | not hunted: US first (no finding about another country) | | 0 |
+| platform_news | not hunted: the platform's records | | 0 |
+| all | 156 drafts on the review list, all still drafts | 3001 to 3016 | 156 |
