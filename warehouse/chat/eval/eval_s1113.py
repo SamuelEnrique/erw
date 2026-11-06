@@ -51,7 +51,7 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         "s1114": {"questions": os.path.join(HERE, "questions_s1114.yaml"), "run": os.path.join(HERE, "eval_s1114_run.json"),
                   "grades": os.path.join(HERE, "eval_s1114_grades.json")},
         # session 2886 (chain 148): session 1133's asking of the second set (eight asked, t01 to t08) and the board's five
-        # questions of session 1122, through the same asking and the same grader (grade_s1114, its set given)
+        # questions of session 1122, through the same asking and the same grader (grade_set, its set given)
         "s1133": {"questions": os.path.join(HERE, "eval_s1133_s1114_questions.yaml"), "run": os.path.join(HERE, "eval_s1133_s1114_run.json"),
                   "grades": os.path.join(HERE, "eval_s1133_s1114_grades.json")},
         "s1122": {"questions": os.path.join(HERE, "questions_s1122.yaml"), "run": os.path.join(HERE, "eval_s1122_run.json"),
@@ -60,7 +60,11 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         # expected_s1122.py's build from the rows session 2918 recorded (tests/fixtures/session2918/board_reads.json,
         # runs/s2918/regrade.py): session 1122's keys of 23 October stay as its tests pin them
         "s2918": {"questions": os.path.join(HERE, "questions_s2918.yaml"), "run": os.path.join(HERE, "eval_s1122_run.json"),
-                  "grades": os.path.join(HERE, "eval_s1122_grades_s2918.json")}}
+                  "grades": os.path.join(HERE, "eval_s1122_grades_s2918.json")},
+        # session 2224 (chain 152): the third set, twenty questions a lab's energy team asks (scripts/ask_eval/lab_questions.py
+        # computes its keys and writes the file); its runs are eval_loop.py's, named by session
+        "s2224": {"questions": os.path.join(HERE, "questions_s2224.yaml"), "run": os.path.join(HERE, "eval_s2224_loop_s2224_run.json"),
+                  "grades": os.path.join(HERE, "eval_s2224_loop_s2224_grades.json")}}
 ENV_ROOT = ROOT if os.path.exists(os.path.join(ROOT, ".env")) else os.path.join(os.path.dirname(ROOT), "erw")   # a worktree reads the main checkout's
 STEP = "site_ask_eval"
 GRID_SLUG = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "SPP": "spp", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm"}
@@ -201,9 +205,25 @@ def held_ok(answer, k):
     return "license needed" in a.lower() and grid.lower() in a.lower() and not states
 
 
-def grade_s1114(which="s1114"):
-    """The second set: each question graded by eval_s267.py's grader on its own key (questions_s1114.yaml), a date in
-    its text accepted written either way ("September 3" or "3 September")."""
+def hold_answer(q, a):
+    """Session 2224: a question of a table held whole (hold: true in the set) is right as a refusal or as an answer, when
+    the answer carries the hold's words and states no figure (as session 1112's held-grid answer is graded)."""
+    ans = (a.get("answer") or "").lower()
+    written = G.numbers(a.get("answer") or "")
+    figure = any(dec >= 1 or (abs(v) >= 1000 and not 1900 <= v <= 2100) for v, dec in written)
+    return all(t.lower() in ans for t in q["text"]) and not figure
+
+
+def grade_s1114(which="s1114", rules=()):
+    """A set of the second set's form, as before session 2224 (now grade_set(which, rules)); session 2947 (chain 157): the
+    set is named as chain 148's callers name it (grade_s1114("s2918"))."""
+    return grade_set(which, rules)
+
+
+def grade_set(which, rules=()):
+    """A set graded question by question by eval_s267.py's grader on its own keys (questions_<set>.yaml), a date in its
+    text accepted written either way ("September 3" or "3 September"); `rules` as grade()'s (session 2223). Session 2224:
+    a key marked hold: true is met by the hold's answer (hold_answer), whatever its status."""
     with open(SETS[which]["run"], encoding="utf-8") as f:
         run = {x["id"]: x for x in json.load(f)["questions"]}
     out = []
@@ -211,7 +231,10 @@ def grade_s1114(which="s1114"):
         a = run.get(q["id"])
         if a is None:
             continue
-        g = G.grade(q, a)
+        g = G.grade(q, a, rules)
+        if q.get("hold") in (True, "true", "True") and not g["ok"] and hold_answer(q, a):   # the set's loader keeps the YAML's word
+            g["hold_answer"] = True
+            g["ok"] = True
         if g.get("text") is False:
             ans = (a.get("answer") or "").lower()
             ok = True
@@ -223,8 +246,9 @@ def grade_s1114(which="s1114"):
             g["ok"] = all(v for k, v in g.items() if k != "ok" and v is not None)
         out.append({"id": q["id"], "via": q["via"], "grid": q["grid"], "status": a.get("status"), "tool_calls": a.get("tool_calls"), "retried": a.get("retried"),
                     "cost_usd": a.get("cost_usd"), "seconds": a.get("seconds"), "expected": q["expected"], "ok": g["ok"], "grade": g, "trace_calls": len(a.get("trace") or [])})
-    doc = {"_about": f"Session 1114: {os.path.basename(SETS[which]['run'])} graded on {os.path.basename(SETS[which]['questions'])}'s keys by eval_s1113.py --grade --set {which} (no model, no network).",
-           "asked": len(out), "right": sum(r["ok"] for r in out), "cost_usd": round(sum(float(r["cost_usd"] or 0) for r in out), 4), "questions": out}
+    doc = {"_about": f"{os.path.basename(SETS[which]['run'])} graded on {os.path.basename(SETS[which]['questions'])}'s keys by eval_s1113.py grade_set (no model, no network).",
+           "set": which, "asked": len(out), "right": sum(r["ok"] for r in out), "rules": list(rules),
+           "cost_usd": round(sum(float(r["cost_usd"] or 0) for r in out), 4), "questions": out}
     with open(SETS[which]["grades"], "w", encoding="utf-8", newline="\n") as f:
         json.dump(doc, f, indent=1)
         f.write("\n")
@@ -232,7 +256,8 @@ def grade_s1114(which="s1114"):
     return doc
 
 
-def grade(run_doc=None, keys_doc=None):
+def grade(run_doc=None, keys_doc=None, rules=()):
+    """`rules` (session 2223): eval_s267.py's RULES_2223 for a grading under session 320's ruling 3; none regrades as before."""
     if run_doc is None:
         with open(RUN, encoding="utf-8") as f:
             run_doc = json.load(f)
@@ -253,7 +278,7 @@ def grade(run_doc=None, keys_doc=None):
             now_q["expected"] = k["expected"]
             if q["id"] in ("b07", "d08") and k.get("month_name"):
                 now_q["text"] = ([k["month"][:4]] if q["id"] == "b07" else []) + [k["month_name"]]
-        now = G.grade(now_q, a)
+        now = G.grade(now_q, a, rules)
         held = bool(k) and not q["refuse"] and any(R.held_row(k["table"], e.strip(), day) for e in k["entity"].split(" less "))
         held_g = {"ok": held_ok(a.get("answer"), k)} if held else now
         if_q = dict(now_q)
@@ -265,7 +290,7 @@ def grade(run_doc=None, keys_doc=None):
             if_q["tables"] = q["tables"] + [R.C]
         if q["refuse"]:
             if_q["tables"] = []
-        if_ruled = {"ok": held_ok(a.get("answer"), k)} if held else G.grade(if_q, a)
+        if_ruled = {"ok": held_ok(a.get("answer"), k)} if held else G.grade(if_q, a, rules)
         out.append({"id": q["id"], "via": q["via"], "grid": q["grid"], "status": a.get("status"), "tool_calls": a.get("tool_calls"),
                     "retried": a.get("retried"), "cost_usd": a.get("cost_usd"), "seconds": a.get("seconds"), "expected_now": now_q["expected"],
                     "held": held, "now_ok": now["ok"], "held_ok": held_g["ok"], "if_ruled_ok": if_ruled["ok"], "grade_now": now,
@@ -274,7 +299,7 @@ def grade(run_doc=None, keys_doc=None):
            "keys_computed_at_utc": keys_doc.get("computed_at_utc"), "asked": len(out),
            "right_now": sum(r["now_ok"] for r in out), "right_under_hold": sum(r["held_ok"] for r in out),
            "right_if_ruled": sum(r["if_ruled_ok"] for r in out), "held": [r["id"] for r in out if r["held"]],
-           "cost_usd": round(sum(float(r["cost_usd"] or 0) for r in out), 4), "questions": out}
+           "rules": list(rules), "cost_usd": round(sum(float(r["cost_usd"] or 0) for r in out), 4), "questions": out}
     with open(GRADES, "w", encoding="utf-8", newline="\n") as f:
         json.dump(doc, f, indent=1)
         f.write("\n")
@@ -294,7 +319,9 @@ def main(argv):
         only = set(argv[argv.index("--only") + 1].split(",")) if "--only" in argv else None
         ask(base, cap, only, which)
     if "--grade" in argv:
-        grade_s1114(which) if which in ("s1114", "s1133", "s1122", "s2918") else grade()
+        # session 2223: --rules 2223 grades under session 320's ruling 3 (eval_s267.py RULES_2223); without it, as before
+        rules = G.RULES_2223 if "--rules" in argv and argv[argv.index("--rules") + 1] == "2223" else ()
+        grade(rules=rules) if which == "s320" else grade_set(which, rules)
     return 0
 
 

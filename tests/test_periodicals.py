@@ -28,6 +28,7 @@ import re
 import sys
 import tempfile
 import unittest
+from types import SimpleNamespace
 from unittest import mock
 
 import pandas as pd
@@ -281,8 +282,8 @@ class TheFiveNumbers(unittest.TestCase):
         facts = {"dam": [dict(label="ERCOT", node="HB_NORTH", table="iso_dam_hub_prices", m1=41.94, m0=32.82, ref="[1]")],
                  "us48": dict(top={"value": 612345.0, "ts_utc": pd.Timestamp("2026-10-07T21:00:00Z")}, ref="[6]")}
         deals = pd.DataFrame([{"event_id": "deal:a", "event_date": "2026-10-09T21:45:00Z", "deal_type": "m_and_a", "buyer": "Shell", "seller": "Equinor",
-                               "asset": "Bay du Nord", "mw": "", "dollars": "12000000000"}])
-        dcs = pd.DataFrame([{"entity_id": "dc:a", "first_story_at": "2026-10-07T10:00:00Z", "capacity_mw": "1200", "operator": "Crusoe", "site_name": "Spark", "city": "Abilene", "state": "TX"}])
+                               "asset": "Bay du Nord", "mw": "", "dollars": "12000000000", "confidence": "0.9"}])
+        dcs = pd.DataFrame([{"entity_id": "dc:a", "first_story_at": "2026-10-07T10:00:00Z", "capacity_mw": "1200", "operator": "Crusoe", "site_name": "Spark", "city": "Abilene", "state": "TX", "confidence": "0.9"}])
         with tempfile.TemporaryDirectory() as d, mock.patch.object(roundup, "read_table", lambda n: {"energy_deals": deals, "datacenter_projects": dcs}.get(n)), \
                 mock.patch.object(roundup, "ANALYSIS_DIR", d):
             L = roundup.five_numbers("2026-W41", pd.Timestamp("2026-10-05", tz="UTC"), pd.Timestamp("2026-10-12", tz="UTC"), facts, quiet)
@@ -1032,7 +1033,10 @@ class V2RTheOpeningNumber(unittest.TestCase):
         self.assertIn("persistent", roundup.opening_number.__doc__)
         op = roundup.opening_number({"move": move})
         self.assertEqual(roundup.opening_lines(op)[2], "**WTI moved.** Status: calculated from observed prices (the warehouse's tables).")
-        self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | Six reactors eyed; WTI up 12.0% on the week")   # session 1446 (fault 34)
+        # session 1446 (fault 34); session 1475 (fault 53): the move leads when the opening number is the move
+        self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | WTI up 12.0% on the week; Six reactors eyed")
+        self.assertEqual(roundup.subject_line(None, "AEP and Google advance a $4 Billion fuel-cell project"),
+                         "ERW Weekly | AEP and Google advance a USD 4 billion fuel-cell project")
         long = "Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery in Western Australia to EPBC Act"
         self.assertEqual(roundup.subject_line(None, long), "ERW Weekly | Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery...")
         self.assertLessEqual(len(roundup.subject_line(op, long)), 120)   # a 70-character headline and a move of up to 35
@@ -1422,6 +1426,127 @@ class Session1469CountsReadTheFiveKeys(unittest.TestCase):
         self.assertEqual(pc.no_key(five + ["Tables: the deal of the week, `energy_deals` deal:a."]), 1)
 
 
+class Session1472DealWords(unittest.TestCase):
+    """Session 1472 (chain 154, fault 50 of docs/reviews/periodicals-faults-2026-11-05.md): the deal of the week prints no
+    kind "other" and no party its asset already names; the tracer still reads the row."""
+
+    def test_the_w45_row(self):
+        r = {"buyer": "", "seller": "TeraWulf", "asset": "TeraWulf data center in Kentucky", "deal_type": "other",
+             "event_date": "2026-11-05T12:00:00Z"}
+        self.assertEqual(roundup.deal_words(r), "TeraWulf data center in Kentucky (2026-11-05)")
+        import check_roundup as cr
+        row = f"- **Deal of the week, by US dollars:** USD 19 billion, {roundup.deal_words(r)}."
+        text = "## The week in five numbers\n\n" + row + "\n\nTables: the deal of the week, `energy_deals` deal:35a62f0ede4aa8ea.\n"
+        self.assertEqual(cr.five_keyed(text)[0], ("USD 19 billion", "deal:35a62f0ede4aa8ea"))
+
+    def test_other_rows(self):
+        self.assertEqual(roundup.deal_words({"buyer": "Shell", "seller": "Equinor", "asset": "Bay du Nord Oil Project",
+                                             "deal_type": "m_and_a", "event_date": "2026-10-09T21:45:00Z"}),
+                         "Shell and Equinor, Bay du Nord Oil Project (acquisition, 2026-10-09)")
+        self.assertEqual(roundup.deal_words({"buyer": "Acme", "seller": "Acme", "asset": "", "deal_type": "ppa", "event_date": ""}),
+                         "Acme (power purchase agreement)")
+        self.assertEqual(roundup.deal_words({"buyer": "", "seller": "", "asset": "", "deal_type": "other", "event_date": ""}),
+                         "parties not stated")
+
+
+class Session1473LoadWords(unittest.TestCase):
+    """Session 1473 (chain 154, fault 51): the largest new datacenter load leaves out a part its row does not state."""
+
+    def test_the_w45_row(self):
+        dcs = pd.DataFrame([{"entity_id": "datacenter:8954976fefde08c3", "first_story_at": "2026-11-04T10:00:00Z", "capacity_mw": "702",
+                             "operator": "Google", "site_name": "", "city": "Cheyenne", "state": "", "confidence": "0.9"}])
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(roundup, "read_table", lambda n: {"datacenter_projects": dcs}.get(n)), \
+                mock.patch.object(roundup, "ANALYSIS_DIR", d):
+            L = roundup.five_numbers("2026-W45", pd.Timestamp("2026-11-02", tz="UTC"), pd.Timestamp("2026-11-09", tz="UTC"), {}, quiet)
+        row = next(x for x in L if x.startswith("- **Largest new datacenter load"))
+        self.assertEqual(row, "- **Largest new datacenter load first reported this week:** 702 MW, Google, Cheyenne.")
+        import check_roundup as cr
+        self.assertEqual(cr.five_keyed("\n".join(["## The week in five numbers", ""] + L))[2], ("702", "datacenter:8954976fefde08c3"))
+        self.assertNotIn("not stated", row)
+
+
+class Session1474FiveReadTheFloor(unittest.TestCase):
+    """Session 1474 (chain 154, fault 52): the five numbers' deal and load are read with the tables' own floor, so they
+    never state a row the tables below refuse (W45: both rows at confidence 0.55)."""
+
+    def five(self, deals, dcs):
+        with tempfile.TemporaryDirectory() as d, \
+                mock.patch.object(roundup, "read_table", lambda n: {"energy_deals": deals, "datacenter_projects": dcs}.get(n)), \
+                mock.patch.object(roundup, "ANALYSIS_DIR", d):
+            return roundup.five_numbers("2026-W45", pd.Timestamp("2026-11-02", tz="UTC"), pd.Timestamp("2026-11-09", tz="UTC"), {}, quiet)
+
+    def test_rows_under_the_floor_are_not_the_five(self):
+        deals = pd.DataFrame([{"event_id": "deal:35a62f0ede4aa8ea", "event_date": "2026-11-05T12:00:00Z", "deal_type": "other", "buyer": "",
+                               "seller": "TeraWulf", "asset": "TeraWulf data center in Kentucky", "mw": "", "dollars": "19000000000", "confidence": "0.55"},
+                              {"event_id": "deal:b", "event_date": "2026-11-05T13:00:00Z", "deal_type": "project_finance", "buyer": "Deutsche Bank and Rabobank",
+                               "seller": "Return", "asset": "Germany BESS portfolio", "mw": "", "dollars": "938000000", "confidence": "0.8"}])
+        dcs = pd.DataFrame([{"entity_id": "datacenter:8954976fefde08c3", "first_story_at": "2026-11-04T10:00:00Z", "capacity_mw": "702",
+                             "operator": "Google", "site_name": "", "city": "Cheyenne", "state": "", "confidence": "0.55"}])
+        L = self.five(deals, dcs)
+        deal = next(x for x in L if x.startswith("- **Deal of the week"))
+        self.assertIn("USD 938 million, Deutsche Bank and Rabobank and Return, Germany BESS portfolio", deal)
+        self.assertNotIn("TeraWulf", deal)
+        load = next(x for x in L if x.startswith("- **Largest new datacenter load"))
+        self.assertIn("passes the datacenter table's floor (1 under it)", load)
+        self.assertNotIn("702 MW", load)
+
+    def test_a_week_whose_every_deal_is_under_the_floor_says_so(self):
+        deals = pd.DataFrame([{"event_id": "deal:a", "event_date": "2026-11-05T12:00:00Z", "deal_type": "other", "buyer": "", "seller": "X",
+                               "asset": "Y", "mw": "", "dollars": "19000000000", "confidence": "0.5"}])
+        L = self.five(deals, None)
+        deal = next(x for x in L if x.startswith("- **Deal of the week"))
+        self.assertIn("no deal of the week passes the Deals table's floor (1 under it)", deal)
+
+
+class Session1476DealsTableDollars(unittest.TestCase):
+    """Session 1476 (chain 154, fault 54): the Deals table's dollars cell is in the issue's money style."""
+
+    def test_the_cell(self):
+        self.assertEqual(roundup.usd_cell("938000000"), "USD 938 million")
+        self.assertEqual(roundup.usd_cell("19000000000"), "USD 19 billion")
+        self.assertEqual(roundup.usd_cell(""), "not stated")
+        import inspect
+        self.assertIn("usd_cell(r['dollars'])", inspect.getsource(roundup))
+
+
+class Session1479HeadlineMoney(unittest.TestCase):
+    """Session 1479 (chain 154, fault 56): a headline the model writes is in the issue's money style."""
+
+    def test_the_forms(self):
+        cases = [("AEP and Google advance a 4 billion USD fuel-cell project, 702 MW, for Cheyenne data centers",
+                  "AEP and Google advance a USD 4 billion fuel-cell project, 702 MW, for Cheyenne data centers"),
+                 ("AEP and Google advance a $4 Billion, 702 MW Bloom Energy fuel-cell project",
+                  "AEP and Google advance a USD 4 billion, 702 MW Bloom Energy fuel-cell project"),
+                 ("Brattle says distributed energy could avoid 614 billion USD in costs", "Brattle says distributed energy could avoid USD 614 billion in costs"),
+                 ("Six reactors eyed for Kentucky in 2026", "Six reactors eyed for Kentucky in 2026")]
+        for raw, want in cases:
+            with self.subTest(raw[:30]):
+                self.assertEqual(brief.headline_style(raw), want)
+
+    def test_the_model_call_returns_them_styled(self):
+        resp = SimpleNamespace(stop_reason="end_turn", usage=SimpleNamespace(input_tokens=1, output_tokens=1),
+                               content=[SimpleNamespace(type="text", text=json.dumps({"headlines": [
+                                   {"cluster_id": "a", "headline": "EQT unveils a 12 billion USD plan"}]}))])
+        client = SimpleNamespace(messages=SimpleNamespace(create=lambda **k: resp))
+        heads, _u, _c = brief._headline_call(client, "m", [{"cluster_id": "a"}], quiet)
+        self.assertEqual(heads, {"a": "EQT unveils a USD 12 billion plan"})
+        # the publisher's own titles (the no-model path) are not rewritten
+        c = pd.DataFrame([{"cluster_id": "b", "titles": ["EQT unveils a 12 billion USD plan"]}])
+        self.assertEqual(brief.own_titles(c), {"b": "EQT unveils a 12 billion USD plan"})
+
+
+class Session1480HeadlineAdjectives(unittest.TestCase):
+    """Session 1480 (chain 154, fault 57): the voice's adjectives go from a headline the model writes; the trade's terms
+    stay ("critical minerals", "the key to")."""
+
+    def test_the_forms(self):
+        self.assertEqual(brief.headline_style("Orsted's Revolution Wind, 704 MW, enters commercial operation as third major US offshore wind farm"),
+                         "Orsted's Revolution Wind, 704 MW, enters commercial operation as third US offshore wind farm")
+        self.assertEqual(brief.headline_style("A massive outage hits Texas"), "An outage hits Texas")
+        self.assertEqual(brief.headline_style("Critical minerals deal signed"), "Critical minerals deal signed")
+        self.assertEqual(brief.headline_style("The key to grid reliability"), "The key to grid reliability")
+
+
 class Session1438OneTopic(unittest.TestCase):
     """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
     story of the sector that is not about the price keeps the sector-and-region key."""
@@ -1771,7 +1896,7 @@ class Session1446TheRoundupsNumbers(unittest.TestCase):
 
     def test_the_datacenter_row_needs_an_operator_or_a_site(self):
         dc = pd.DataFrame([{"first_story_at": "2026-10-20T00:00:00Z", "capacity_mw": "1000", "operator": "", "site_name": "", "city": "Newport", "state": "", "entity_id": "datacenter:a"},
-                           {"first_story_at": "2026-10-21T00:00:00Z", "capacity_mw": "400", "operator": "Crusoe", "site_name": "Spark", "city": "Abilene", "state": "TX", "entity_id": "datacenter:b"}])
+                           {"first_story_at": "2026-10-21T00:00:00Z", "capacity_mw": "400", "operator": "Crusoe", "site_name": "Spark", "city": "Abilene", "state": "TX", "entity_id": "datacenter:b"}]).assign(confidence="0.9")
         empty = pd.DataFrame(columns=["event_date", "dollars", "mw", "buyer", "seller", "asset", "deal_type", "event_id"])
         with mock.patch.object(roundup, "read_table", side_effect=lambda n: empty if n == "energy_deals" else dc), \
                 mock.patch.object(roundup, "ANALYSIS_DIR", tempfile.mkdtemp()):

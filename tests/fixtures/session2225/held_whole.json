@@ -1,0 +1,25 @@
+{
+ "_about": "Session 2225 (chain 152): the catalogue row of energy_deals, a table held whole for a license (site/data/license_status.json, since 21 October 2026), with no rows: both loops refuse it by name before reading, so the scenario a_table_held_whole of tests/fixtures/session1300/turns.json needs no row. The row is the live set's catalogue row as read on 6 November 2026 (table_name, interval, license, sector, tier, in_live_set; columns as the loader lists them).",
+ "catalogue": [
+  {
+   "table_name": "energy_deals",
+   "iso": "none",
+   "market": null,
+   "n_nodes": 0,
+   "interval": "event",
+   "ts_min": "2025-01-05T08:00:00+00:00",
+   "ts_max": "2026-11-05T17:30:45+00:00",
+   "n_rows": 529,
+   "source_report": "erw:energy_deals",
+   "last_run": null,
+   "validator_status": "pass",
+   "license": "public",
+   "sector": "deals",
+   "derived": "no",
+   "in_live_set": "yes",
+   "columns": "[\"event_id\", \"event_date\", \"event_type\", \"parties\", \"entity_ids\", \"mw\", \"price\", \"currency\", \"status\", \"source\", \"source_url\", \"deal_type\", \"buyer\", \"seller\", \"technology\", \"price_value\", \"price_unit\", \"term_years\"]",
+   "tier": "model_extracted"
+  }
+ ],
+ "rows": []
+}
