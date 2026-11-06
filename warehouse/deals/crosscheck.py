@@ -26,7 +26,7 @@ every run, so a record's flags follow its stories. No model; nothing is estimate
 import math
 import re
 
-import fields
+import deal_fields as fields  # noqa: E402  session 3233: by its own name (deal_fields.py)
 
 NUM = r"(\d[\d,]*(?:\.\d+)?)"
 MW_RE = re.compile(NUM + r"\s*-?\s*(gw|gigawatts?|mw|megawatts?)(?:dc|ac)?(?![a-z])", re.I)

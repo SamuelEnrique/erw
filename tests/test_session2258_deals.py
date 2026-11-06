@@ -16,7 +16,7 @@ import unittest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "deals"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "deals", "eval"))
-import fields  # noqa: E402
+import deal_fields as fields  # noqa: E402  session 3233: by its own name (deal_fields.py)
 import fixture  # noqa: E402
 
 

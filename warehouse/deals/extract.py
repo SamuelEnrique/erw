@@ -75,7 +75,7 @@ import iso_prices as ip  # noqa: E402
 from ingest import NAME as NEWS, NEWS_COLS  # noqa: E402
 sys.path.insert(0, HERE)
 import deal_parties  # noqa: E402  session 531: one deal across days, two parties
-import fields  # noqa: E402  session 2232: the tracker's fields, one vocabulary each
+import deal_fields as fields  # noqa: E402  session 3233: by its own name (deal_fields.py)  session 2232: the tracker's fields, one vocabulary each
 import dedupe  # noqa: E402  session 2233: one record a deal
 import counterparties  # noqa: E402  session 2234: one name a party
 import crosscheck  # noqa: E402  session 2235: the figures read again against the headlines

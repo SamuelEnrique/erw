@@ -50,7 +50,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 import deal_parties as dp  # noqa: E402
-import fields  # noqa: E402
+import deal_fields as fields  # noqa: E402  session 3233: by its own name (deal_fields.py)
 
 ALIASES = os.path.join(HERE, "aliases.yaml")
 NAME = "deal_counterparties"

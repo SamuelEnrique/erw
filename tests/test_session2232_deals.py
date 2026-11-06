@@ -19,7 +19,7 @@ for p in (os.path.join(ROOT, "warehouse", "deals"), os.path.join(ROOT, "warehous
     if p not in sys.path:
         sys.path.insert(0, p)
 
-import fields  # noqa: E402
+import deal_fields as fields  # noqa: E402  session 3233: by its own name (deal_fields.py)
 import fixture  # noqa: E402
 
 

@@ -31,7 +31,7 @@ import datetime as dt
 import re
 
 import deal_parties as dp
-import fields
+import deal_fields as fields  # noqa: E402  session 3233: by its own name (deal_fields.py)
 
 STAGE_WINDOW_DAYS = 365
 MW_RATIO = 1.10
