@@ -1,1 +1,0 @@
-{"id":"ercot-nodes-all-basis-p50","label":"ERCOT nodes against the hub average","at":"every point, median day-ahead basis, monthly","unit":"USD/MWh","freq":"M","t0":"2025-10-01","d":[0,31,61,92,123,151,182,212,243,273,304,335,365],"v":[0.1291,-0.4188,-1.0206,3.2294,0.2126,0.0584,0.2422,0.5366,0.0462,0.1755,0.007,0.4722,0.3866]}
