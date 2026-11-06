@@ -1,7 +1,8 @@
 """Session 1491 (chain 158): the datacenter's replication a reader can run (replication/datacenter/). It reads only the
 page's public hourly and carbon files and its own assumptions, recomputes the page's headline figures with the page's
-published mirror, and meets the page's figures for the same months to half of the last shown digit, but for the one
-difference page_figures.json names (the flat load's carbon over the hourly window: 309.84 against the page's 311.68).
+published mirror, and meets the page's figures for the same months to half of the last shown digit: all 14 since
+session 1523, which found the one difference session 1491 named (the window's carbon, 311.68 read on a local build) to be
+the live set's moving window, the page's own code giving 309.84 on the file (tests/test_session1523.py).
 
 No network, no warehouse table, no model. Nothing here sets the environment at import.
 """
@@ -34,17 +35,18 @@ class TheReplication(unittest.TestCase):
         cls.page = cls.r.load(os.path.join(REP, "page_figures.json"))
         cls.n = cls.r.numbers_of(cls.r.mirror(cls.a), CSV)
 
-    def test_every_figure_inside_its_tolerance_but_the_known_one(self):
+    def test_every_figure_inside_its_tolerance(self):
+        # session 1523: the window's carbon, the one known difference until then, is the page's code on the file (309.84)
         rows = self.r.compare(self.n, self.page)
         self.assertEqual(len(rows), 14)
-        self.assertEqual([r[0] for r in rows if not r[6]], ["a flat load's own hours over the window, kg CO2 per MWh"])
+        self.assertEqual([r[0] for r in rows if not r[6]], [])
         self.assertEqual([r[0] for r in rows if not r[5]], [])
-        self.assertEqual(list(self.page["known_differences"]), ["window_kg_mwh"])
+        self.assertEqual(list(self.page["known_differences"]), [])
 
     def test_the_script_exits_0(self):
         p = subprocess.run([sys.executable, os.path.join(REP, "replicate.py")], capture_output=True, text=True, timeout=300)
         self.assertEqual(p.returncode, 0, p.stdout[-2000:] + p.stderr[-2000:])
-        self.assertIn("13 of 14 inside the tolerance, 1 a known difference (window_kg_mwh)", p.stdout)
+        self.assertIn("14 of 14 inside the tolerance, 0 a known difference", p.stdout)
 
     def test_the_assumptions_drive_the_figures(self):
         a = copy.deepcopy(self.a)
