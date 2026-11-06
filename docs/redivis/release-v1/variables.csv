@@ -4943,6 +4943,18 @@ ercot_wind_solar_hsl_hourly,solar_generation_mw,series variable,MW
 ercot_wind_solar_hsl_hourly,solar_hsl_mw,series variable,MW
 ercot_wind_solar_hsl_hourly,wind_generation_mw,series variable,MW
 ercot_wind_solar_hsl_hourly,wind_hsl_mw,series variable,MW
+ercot_wind_solar_hsl_monthly,solar_below_hsl_mwh,series variable,MWh
+ercot_wind_solar_hsl_monthly,solar_below_hsl_share_pct,series variable,pct
+ercot_wind_solar_hsl_monthly,solar_generation_mwh,series variable,MWh
+ercot_wind_solar_hsl_monthly,solar_hours_held,series variable,count
+ercot_wind_solar_hsl_monthly,solar_hours_in_month,series variable,count
+ercot_wind_solar_hsl_monthly,solar_hsl_mwh,series variable,MWh
+ercot_wind_solar_hsl_monthly,wind_below_hsl_mwh,series variable,MWh
+ercot_wind_solar_hsl_monthly,wind_below_hsl_share_pct,series variable,pct
+ercot_wind_solar_hsl_monthly,wind_generation_mwh,series variable,MWh
+ercot_wind_solar_hsl_monthly,wind_hours_held,series variable,count
+ercot_wind_solar_hsl_monthly,wind_hours_in_month,series variable,count
+ercot_wind_solar_hsl_monthly,wind_hsl_mwh,series variable,MWh
 ercot_wind_solar_output_hourly,solar_generation_mw,series variable,MW
 ercot_wind_solar_output_hourly,wind_generation_mw,series variable,MW
 ercot_zone_load_hourly,load,series variable,MW
@@ -6314,6 +6326,32 @@ known_data_faults,x_recorded_in,column,
 known_data_faults,x_resolution,column,
 known_data_faults,x_resolution_reason,column,
 known_data_faults,retrieved_at,column,
+large_load_connection_rules,event_id,column,
+large_load_connection_rules,event_date,column,
+large_load_connection_rules,event_type,column,
+large_load_connection_rules,parties,column,
+large_load_connection_rules,entity_ids,column,
+large_load_connection_rules,mw,column,
+large_load_connection_rules,price,column,
+large_load_connection_rules,currency,column,
+large_load_connection_rules,status,column,
+large_load_connection_rules,source,column,
+large_load_connection_rules,source_url,column,
+large_load_connection_rules,x_body,column,
+large_load_connection_rules,x_grid,column,
+large_load_connection_rules,x_utility,column,
+large_load_connection_rules,x_eia_id,column,
+large_load_connection_rules,x_state,column,
+large_load_connection_rules,x_document,column,
+large_load_connection_rules,x_document_date,column,
+large_load_connection_rules,x_section,column,
+large_load_connection_rules,x_page,column,
+large_load_connection_rules,x_step,column,
+large_load_connection_rules,x_duration,column,
+large_load_connection_rules,x_duration_unit,column,
+large_load_connection_rules,x_date_kind,column,
+large_load_connection_rules,x_printed,column,
+large_load_connection_rules,x_retrieved_at,column,
 large_load_public,event_id,column,
 large_load_public,event_date,column,
 large_load_public,event_type,column,
@@ -8755,6 +8793,7 @@ usgs_comcat_earthquakes_south_central,x_horizontal_error_km,column,
 usgs_comcat_earthquakes_south_central,x_depth_error_km,column,
 usgs_comcat_earthquakes_south_central,x_magnitude_error,column,
 usgs_comcat_earthquakes_south_central,x_updated_utc,column,
+usgs_mcs_critical_minerals,capacity,series variable,t
 usgs_mcs_critical_minerals,consumption,series variable,t
 usgs_mcs_critical_minerals,employment,series variable,count
 usgs_mcs_critical_minerals,export,series variable,t
@@ -8766,7 +8805,9 @@ usgs_mcs_critical_minerals,price,series variable,USD/lb
 usgs_mcs_critical_minerals,price,series variable,USD/t
 usgs_mcs_critical_minerals,production,series variable,t
 usgs_mcs_critical_minerals,reserves,series variable,t
+usgs_mcs_critical_minerals,shipment,series variable,t
 usgs_mcs_critical_minerals,stock,series variable,t
+usgs_mcs_critical_minerals,supply,series variable,t
 usgs_streamflow_daily,discharge,series variable,ft3/s
 uspvdb_solar_facilities,entity_id,column,
 uspvdb_solar_facilities,entity_type,column,
@@ -8849,6 +8890,8 @@ uswtdb_wind_turbines,faa_asn,column,
 uswtdb_wind_turbines,usgs_project_id,column,
 utility_large_load_tariffs,collateral_months,series variable,month
 utility_large_load_tariffs,demand_charge,series variable,USD/kW-month
+utility_large_load_tariffs,demand_charge_distribution,series variable,USD/kW-month
+utility_large_load_tariffs,demand_charge_transmission,series variable,USD/kW-month
 utility_large_load_tariffs,fixed_charge,series variable,USD
 utility_large_load_tariffs,min_bill_pct,series variable,pct
 utility_large_load_tariffs,min_contract_years,series variable,year
