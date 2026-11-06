@@ -1379,6 +1379,33 @@ class Session1466ScaleAndSectorFolds(unittest.TestCase):
         self.assertEqual(it["also"], "Lambda to develop a campus ([DCD](https://example.org/d)).")
 
 
+class Session1467SectorLine(unittest.TestCase):
+    """Session 1467 (chain 150, fault 46): a by-sector line with no why line has no colon that introduces nothing; the
+    email and the counts read both forms."""
+
+    R = {"why": "", "sector": "generation", "links": [("Utility Dive", "https://www.utilitydive.com/a")]}
+    HEAD = "APS expects peak demand to grow about 3.4% annually and plans coal use to 2038"
+
+    def test_the_two_forms(self):
+        self.assertEqual(brief.sector_line(self.R, self.HEAD), f"- {self.HEAD} (generation). [Utility Dive](https://www.utilitydive.com/a)")
+        r = dict(self.R, why="Arizona's utility keeps coal units at Cholla open past their planned date.")
+        self.assertEqual(brief.sector_line(r, self.HEAD), f"- {self.HEAD} (generation): Arizona's utility keeps coal units at Cholla open past "
+                                                          "their planned date. [Utility Dive](https://www.utilitydive.com/a)")
+
+    def test_the_readers(self):
+        import email_digest
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import periodicals_counts as pc
+        ln = brief.sector_line(self.R, self.HEAD)
+        m = pc.BULLET.match(ln)
+        self.assertEqual(m.group("sector"), "generation")
+        self.assertEqual(pc.read_items(["### By sector", ln])[0][2], "")
+        md = ["# ERW Daily Digest, 2026-11-06", "", "## By sector", "", "**Power**", "", ln, ""]
+        got = email_digest.items(md, "daily")
+        self.assertEqual([(x["head"], x["sector"], x["why"], x["src"]) for x in got],
+                         [(self.HEAD, "generation", "", ("Utility Dive", "https://www.utilitydive.com/a"))])
+
+
 class Session1438OneTopic(unittest.TestCase):
     """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
     story of the sector that is not about the price keeps the sector-and-region key."""

@@ -1608,6 +1608,18 @@ def also_line(recs):
     return " ".join(out)
 
 
+def sector_line(r, head):
+    """Session 1467 (chain 150, fault 46): a by-sector or AI and power line: "- headline (sector): why [Outlet](url)", or,
+    when the story has no why line that passes the check, "- headline (sector). [Outlet](url)": no colon that introduces
+    nothing (the dry run of 6 November: "... plans coal use to 2038 (generation): [Utility Dive](...)")."""
+    why = why_line(r["why"], head)
+    link = link_text(r["links"][:1])
+    lead = f"- {head} ({r['sector'].replace('_', ' ')})"
+    if why:
+        return f"{lead}: " + " ".join(x for x in (why, link) if x)
+    return f"{lead}." + (f" {link}" if link else "")
+
+
 def item_lines(r, head, why, sources):
     """A top item's lines: the headline, the why line with its figures and sources, and the "also" line when the item
     carries folded stories (the line before it ends with two spaces, markdown's line break)."""
@@ -2164,8 +2176,7 @@ def main(argv=None):
                 if c.empty:
                     M.append("- no scored story in this group today")
                 for r in c.to_dict("records"):
-                    M.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
-                             + " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), link_text(r['links'][:1])) if x))
+                    M.append(sector_line(r, heads[r['cluster_id']]))   # session 1467 (fault 46)
                 if g == "Policy":
                     M += without_repeats(policy_lines, L + M, log)
                 M.append("")
@@ -2173,8 +2184,7 @@ def main(argv=None):
             if ai.empty:
                 M.append("- no further story on AI and power today (any such story is listed above)")
             for r in ai.to_dict("records"):
-                M.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
-                         + " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), link_text(r['links'][:1])) if x))
+                M.append(sector_line(r, heads[r['cluster_id']]))   # session 1467 (fault 46)
             M += ["", "### ERW's Numbers Today", ""] + ([summary, ""] if summary else []) + nums
             return M
 

@@ -29,7 +29,7 @@ import sys
 ADJ = re.compile(r"\b(massive|unprecedented|significant|significantly|major|critical|critically|key|huge)\b", re.I)
 TRADE = re.compile(r"\b(critical minerals?|the key to|key to)\b", re.I)
 ITEM = re.compile(r"^\d+\. \*\*(?P<head>.+?)\*\*\s*\((?P<sector>[^)]*)\)\s*$")
-BULLET = re.compile(r"^- (?P<head>.+?) \((?P<sector>[^)]*)\): (?P<why>.*)$")
+BULLET = re.compile(r"^- (?P<head>.+?) \((?P<sector>[^)]*)\)(?::|\.) (?P<why>.*)$")   # session 1467: or "). " with no line
 LINK = re.compile(r"\]\((https?://[^)\s]+)\)")
 FIG = re.compile(r"(?:(?:USD|US\$|\$|€|£)\s?[\d][\d,.]*\s?(?:billion|million|trillion|bn|mn|b|m|mm|k)?"
                  r"|[\d][\d,.]*\s?(?:billion|million|trillion|bn|mn)?\s?(?:MW|GW|GWh|MWh|TWh|kV|bcf|Bcf|mtpa|tonnes|tons|barrels|bpd|b/d|%|percent)"

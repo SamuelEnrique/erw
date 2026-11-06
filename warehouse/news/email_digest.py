@@ -446,7 +446,7 @@ def items(lines, kind):
     for hd in heads:
         out += numbered(lines, hd, 100)
         for ln in section(lines, hd):
-            m = re.match(r"^- (.+?) \(([a-z_ ]+)\): (.*?)\s*(?:\[([^\]]+)\]\(([^)]+)\))?$", ln)
+            m = re.match(r"^- (.+?) \(([a-z_ ]+)\)(?::|\.) (.*?)\s*(?:\[([^\]]+)\]\(([^)]+)\))?$", ln)   # 1467: or "). "
             if m and not ln.startswith("- no "):
                 out.append({"head": m.group(1), "sector": m.group(2), "why": m.group(3).strip(),
                             "src": (m.group(4), m.group(5)) if m.group(4) else None})
