@@ -626,3 +626,4 @@ The news index and scores, the cost ledger, the known faults: the platform's rec
 | coal_uranium_metals | not hunted | | 0 |
 | emissions_climate | not hunted | | 0 |
 | other_us | not hunted | | 0 |
+| cross_family | hunted: batteries against peaks, built against asked, storage beside solar | 3016 | 8 |

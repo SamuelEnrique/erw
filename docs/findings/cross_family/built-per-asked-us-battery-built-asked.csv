@@ -1,0 +1,20 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate built_per_asked, region us_battery_built_asked (US battery)
+# Computed 2026-11-06T12:50:44Z by warehouse/analysis/findings/deep/cross_family.py (built_per_asked); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the US MW of a type that entered service in the year (and still operate) as a percent of the MW of the type requested in the year (percent of MW requested), the observations it rests on, and whether the year is full
+# Tables: eia860m_operating_generators, lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+us_battery_built_asked,2010,0.0,1.0,1
+us_battery_built_asked,2011,1.3310483669700348,1.0,1
+us_battery_built_asked,2012,18.242848803269116,1.0,1
+us_battery_built_asked,2013,2.041742286751361,1.0,1
+us_battery_built_asked,2014,1.3377828802708647,1.0,1
+us_battery_built_asked,2015,1.7189126384693285,1.0,1
+us_battery_built_asked,2016,3.2192525371294383,1.0,1
+us_battery_built_asked,2017,2.7469960570328706,1.0,1
+us_battery_built_asked,2018,1.0352097522218158,1.0,1
+us_battery_built_asked,2019,0.47416861046441455,1.0,1
+us_battery_built_asked,2020,1.1105540543731396,1.0,1
+us_battery_built_asked,2021,2.2858799286961093,1.0,1
+us_battery_built_asked,2022,2.848542813188454,1.0,1
+us_battery_built_asked,2023,3.037219242363744,1.0,1
+us_battery_built_asked,2024,7.02920664507735,1.0,1
