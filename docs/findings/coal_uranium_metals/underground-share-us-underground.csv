@@ -1,0 +1,29 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate underground_share, region us_underground (the United States)
+# Computed 2026-11-06T14:08:47Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (underground_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: underground mines' share of US coal production (percent of US coal production), the observations it rests on, and whether the year is full
+# Tables: eia_coal_production_annual
+region,year,value,n_observations,full_year
+us_underground,2001,33.75282533397782,1.0,1
+us_underground,2002,32.65927982778123,1.0,1
+us_underground,2003,32.91661666017759,1.0,1
+us_underground,2004,33.05077137610975,1.0,1
+us_underground,2005,32.57729733048363,1.0,1
+us_underground,2006,30.87696583878336,1.0,1
+us_underground,2007,30.68019275125345,1.0,1
+us_underground,2008,30.47249781013525,1.0,1
+us_underground,2009,30.89165092799469,1.0,1
+us_underground,2010,31.09226461712706,1.0,1
+us_underground,2011,31.544069279397885,1.0,1
+us_underground,2012,33.68427384109676,1.0,1
+us_underground,2013,34.69436007750845,1.0,1
+us_underground,2014,35.46866971860186,1.0,1
+us_underground,2015,34.207540015112464,1.0,1
+us_underground,2016,34.61264994274886,1.0,1
+us_underground,2017,35.2602066489109,1.0,1
+us_underground,2018,36.41541397672164,1.0,1
+us_underground,2019,37.854938057070335,1.0,1
+us_underground,2020,36.517975833877856,1.0,1
+us_underground,2021,38.20318043110924,1.0,1
+us_underground,2022,37.38803806510635,1.0,1
+us_underground,2023,37.70720067510146,1.0,1
+us_underground,2024,40.22463391582825,1.0,1

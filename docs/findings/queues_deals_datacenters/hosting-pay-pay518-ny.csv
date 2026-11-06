@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate hosting_pay, region pay518_NY (New York)
+# Computed 2026-11-06T12:16:31Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (hosting_pay); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: annual payroll per mid-March employee in NAICS 518210 (USD thousand a year), the observations it rests on, and whether the year is full
+# Tables: census_cbp_hosting_annual
+region,year,value,n_observations,full_year
+pay518_NY,2012,101.09377794336811,1.0,1
+pay518_NY,2013,109.11151091347296,1.0,1
+pay518_NY,2014,95.76962170287392,1.0,1
+pay518_NY,2015,105.78489636642784,1.0,1
+pay518_NY,2016,106.87191128311997,1.0,1
+pay518_NY,2017,137.4925489220048,1.0,1
+pay518_NY,2018,156.65866967442994,1.0,1
+pay518_NY,2019,172.41330004539265,1.0,1
+pay518_NY,2020,175.07619208277103,1.0,1
+pay518_NY,2021,258.35541994447016,1.0,1
+pay518_NY,2022,238.88313980954274,1.0,1
+pay518_NY,2023,247.17231311351622,1.0,1

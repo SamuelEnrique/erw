@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate home_electric_spend, region home_elec_US (the United States)
+# Computed 2026-11-06T14:15:27Z by warehouse/analysis/findings/deep/other_us.py (home_electric_spend); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: electricity's share of the residential sector's energy expenditures (percent of home energy spending), the observations it rests on, and whether the year is full
+# Tables: eia_seds_residential_annual
+region,year,value,n_observations,full_year
+home_elec_US,1990,65.25897240542965,1.0,1
+home_elec_US,1991,66.228522366393,1.0,1
+home_elec_US,1992,66.02181299587194,1.0,1
+home_elec_US,1993,66.17396057072722,1.0,1
+home_elec_US,1994,66.59659315117369,1.0,1
+home_elec_US,1995,68.46559316669467,1.0,1
+home_elec_US,1996,65.89697102082422,1.0,1
+home_elec_US,1997,65.63167956330399,1.0,1
+home_elec_US,1998,69.36026810954095,1.0,1
+home_elec_US,1999,68.23592615409771,1.0,1
+home_elec_US,2000,63.23891332204328,1.0,1
+home_elec_US,2001,61.682109432364754,1.0,1
+home_elec_US,2002,66.5454525069094,1.0,1
+home_elec_US,2003,62.26933530955302,1.0,1
+home_elec_US,2004,61.12596665330373,1.0,1
+home_elec_US,2005,59.66602783829401,1.0,1
+home_elec_US,2006,62.41343823892156,1.0,1
+home_elec_US,2007,62.32331489065727,1.0,1
+home_elec_US,2008,59.88447235778369,1.0,1
+home_elec_US,2009,65.226326509591,1.0,1
+home_elec_US,2010,66.77214961817147,1.0,1
+home_elec_US,2011,66.902001354783,1.0,1
+home_elec_US,2012,69.72315347041364,1.0,1
+home_elec_US,2013,68.06509564413909,1.0,1
+home_elec_US,2014,66.54911462004473,1.0,1
+home_elec_US,2015,71.60492234558814,1.0,1
+home_elec_US,2016,74.22595324365244,1.0,1
+home_elec_US,2017,72.18323349935987,1.0,1
+home_elec_US,2018,70.79137304922362,1.0,1
+home_elec_US,2019,70.90526054569919,1.0,1
+home_elec_US,2020,73.83782851558384,1.0,1
+home_elec_US,2021,71.22418603397544,1.0,1
+home_elec_US,2022,68.3096440483173,1.0,1
+home_elec_US,2023,70.34379184374454,1.0,1
+home_elec_US,2024,73.32461362165392,1.0,1

@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate withdrawn_share, region pjm_lbnl_wd (PJM)
+# Computed 2026-11-06T12:13:04Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (withdrawn_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the MW withdrawn in the year as a percent of the MW withdrawn or brought online in it (percent of MW leaving the queue), the observations it rests on, and whether the year is full
+# Tables: lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+pjm_lbnl_wd,2005,72.10566882659312,1.0,1
+pjm_lbnl_wd,2006,77.19798052319469,1.0,1
+pjm_lbnl_wd,2007,89.72955296203126,1.0,1
+pjm_lbnl_wd,2008,89.56019228689009,1.0,1
+pjm_lbnl_wd,2009,95.48258401778416,1.0,1
+pjm_lbnl_wd,2010,88.47140648824406,1.0,1
+pjm_lbnl_wd,2011,74.46923086982704,1.0,1
+pjm_lbnl_wd,2012,90.17617881260031,1.0,1
+pjm_lbnl_wd,2013,97.12256135839581,1.0,1
+pjm_lbnl_wd,2014,84.53513293213591,1.0,1
+pjm_lbnl_wd,2015,77.89720798546705,1.0,1
+pjm_lbnl_wd,2016,76.74539397160933,1.0,1
+pjm_lbnl_wd,2017,73.78169123397903,1.0,1
+pjm_lbnl_wd,2018,70.90356195974861,1.0,1
+pjm_lbnl_wd,2019,88.54358806647363,1.0,1
+pjm_lbnl_wd,2020,89.3800820489952,1.0,1
+pjm_lbnl_wd,2021,77.85529622886993,1.0,1
+pjm_lbnl_wd,2022,86.98064014147732,1.0,1
+pjm_lbnl_wd,2023,82.63450445268901,1.0,1
+pjm_lbnl_wd,2024,93.39006393249666,1.0,1

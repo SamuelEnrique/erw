@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate mean_day, region ercot_ba (ERCOT)
+# Computed 2026-11-06T11:36:35Z by warehouse/analysis/findings/deep/demand.py (mean_day); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean day of demand (GWh a day), the observations it rests on, and whether the year is full
+# Tables: eia930_daily_demand
+region,year,value,n_observations,full_year
+ercot_ba,2019,1051.1418,365.0,1
+ercot_ba,2020,1041.0218360655738,366.0,1
+ercot_ba,2021,1075.4120273972603,365.0,1
+ercot_ba,2022,1179.7557452054793,365.0,1
+ercot_ba,2023,1224.1599917808219,365.0,1
+ercot_ba,2024,1267.1552240437156,366.0,1
+ercot_ba,2025,1339.1719780821916,365.0,1
+ercot_ba,2026,1432.064690553746,307.0,0

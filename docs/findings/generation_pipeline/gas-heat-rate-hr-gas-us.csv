@@ -1,0 +1,29 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate gas_heat_rate, region hr_gas_US (the United States)
+# Computed 2026-11-06T11:50:06Z by warehouse/analysis/findings/deep/generation_pipeline.py (gas_heat_rate); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the gas-fired fleet's fuel consumed over its net generation, EIA-923 (MMBtu per MWh), the observations it rests on, and whether the year is full
+# Tables: eia923_plant_fuel_annual
+region,year,value,n_observations,full_year
+hr_gas_US,2001,10.840893032449788,1.0,1
+hr_gas_US,2002,10.326368592314893,1.0,1
+hr_gas_US,2003,9.9991899667766,1.0,1
+hr_gas_US,2004,9.73477088188635,1.0,1
+hr_gas_US,2005,9.488695816823476,1.0,1
+hr_gas_US,2006,9.324007550560273,1.0,1
+hr_gas_US,2007,9.125674305345054,1.0,1
+hr_gas_US,2008,8.94808509881222,1.0,1
+hr_gas_US,2009,8.836670460567044,1.0,1
+hr_gas_US,2010,8.802480688756622,1.0,1
+hr_gas_US,2011,8.792948690899069,1.0,1
+hr_gas_US,2012,8.651367739367316,1.0,1
+hr_gas_US,2013,8.640259815608175,1.0,1
+hr_gas_US,2014,8.598433752202952,1.0,1
+hr_gas_US,2015,8.486427738325435,1.0,1
+hr_gas_US,2016,8.485805213431645,1.0,1
+hr_gas_US,2017,8.501597543078121,1.0,1
+hr_gas_US,2018,8.453638400992142,1.0,1
+hr_gas_US,2019,8.333827394039371,1.0,1
+hr_gas_US,2020,8.393177843236694,1.0,1
+hr_gas_US,2021,8.332776807312868,1.0,1
+hr_gas_US,2022,8.321816811481279,1.0,1
+hr_gas_US,2023,8.270402832477185,1.0,1
+hr_gas_US,2024,8.297601653773732,1.0,1

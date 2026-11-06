@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate storage_outside, region stor_salt (the South Central salt storage region)
+# Computed 2026-11-06T12:02:14Z by warehouse/analysis/findings/deep/gas.py (storage_outside); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the percent of the year's weeks on which a region's working gas lay outside its five-year minimum to maximum (percent of weeks), the observations it rests on, and whether the year is full
+# Tables: gas_balance_weekly
+region,year,value,n_observations,full_year
+stor_salt,2015,67.3076923076923,52.0,1
+stor_salt,2016,76.92307692307693,52.0,1
+stor_salt,2017,17.307692307692307,52.0,1
+stor_salt,2018,48.07692307692308,52.0,1
+stor_salt,2019,0.0,52.0,1
+stor_salt,2020,36.53846153846153,52.0,1
+stor_salt,2021,7.6923076923076925,52.0,1
+stor_salt,2022,30.76923076923077,52.0,1
+stor_salt,2023,13.461538461538462,52.0,1
+stor_salt,2024,32.69230769230769,52.0,1
+stor_salt,2025,13.461538461538462,52.0,1
+stor_salt,2026,16.666666666666664,42.0,0

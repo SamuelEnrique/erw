@@ -1,0 +1,33 @@
+* Expected: 2019 17.693, 2025 20.562, change 2.869 (percent of wind capacity); tolerance 0.5 percent of the change.
+
+* ERW findings hunt (chain 166): reproduce candidate tight_wind for ercot_tight_wind from the ERW's public table.
+
+* Input: the table's CSV as the public download holds it (Redivis: the variable names on its first line). From the ERW's own file, delete its lines that begin with # first.
+
+clear all
+
+import delimited "grid_stress_yearly.csv", varnames(1) stringcols(_all) clear
+
+keep if entity == "iso:ercot" & (variable == "tight_wind_share_of_capacity_pct")
+
+destring value, replace force
+
+drop if missing(value)
+
+duplicates drop entity variable ts_utc, force
+
+generate int year = real(substr(ts_utc, 1, 4))
+
+keep year variable value
+
+reshape wide value, i(year) j(variable) string
+
+drop if missing(valuetight_wind_share_of_capacity_pct)
+
+generate double measure = valuetight_wind_share_of_capacity_pct * 1.0
+
+generate byte n = 1
+
+sort year
+
+list year measure n, noobs

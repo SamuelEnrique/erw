@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate hydro_share, region state_hyc_VT (Vermont)
+# Computed 2026-11-06T11:50:08Z by warehouse/analysis/findings/deep/generation_pipeline.py (hydro_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: conventional hydro's share of the state's net generation over the year (percent of net generation), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+state_hyc_VT,2001,16.133466067852982,12.0,1
+state_hyc_VT,2002,20.434090375501885,12.0,1
+state_hyc_VT,2003,19.144729180442745,12.0,1
+state_hyc_VT,2004,21.703368186684564,12.0,1
+state_hyc_VT,2005,21.180048967747982,12.0,1
+state_hyc_VT,2006,21.436916087052403,12.0,1
+state_hyc_VT,2007,11.103210627343328,12.0,1
+state_hyc_VT,2008,21.88939403646276,12.0,1
+state_hyc_VT,2009,20.40310730481937,12.0,1
+state_hyc_VT,2010,20.345755658241174,12.0,1
+state_hyc_VT,2011,21.025486926388083,12.0,1
+state_hyc_VT,2012,17.413161725201114,12.0,1
+state_hyc_VT,2013,18.677252253584648,12.0,1
+state_hyc_VT,2014,16.715334304165957,12.0,1
+state_hyc_VT,2015,57.490955047610434,12.0,1
+state_hyc_VT,2016,56.37887205619356,12.0,1
+state_hyc_VT,2017,59.79148864158869,12.0,1
+state_hyc_VT,2018,58.202770542870276,12.0,1
+state_hyc_VT,2019,58.3901719715014,12.0,1
+state_hyc_VT,2020,52.3868065842566,12.0,1
+state_hyc_VT,2021,51.84653967925498,12.0,1
+state_hyc_VT,2022,52.23331073968048,12.0,1
+state_hyc_VT,2023,62.061357228171154,12.0,1
+state_hyc_VT,2024,56.83967039307547,12.0,1
+state_hyc_VT,2025,49.72611402750467,12.0,1
+state_hyc_VT,2026,48.65916024397743,8.0,0

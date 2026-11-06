@@ -1,0 +1,42 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate pump_over_spot, region us_pump_spot (US regular gasoline)
+# Computed 2026-11-06T12:32:46Z by warehouse/analysis/findings/deep/oil_products_world.py (pump_over_spot); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean retail regular gasoline price less the year's mean Gulf Coast conventional gasoline spot price (USD per gallon), the observations it rests on, and whether the year is full
+# Tables: eia_retail_fuel_prices, eia_product_spot_prices
+region,year,value,n_observations,full_year
+us_pump_spot,1990,0.5898157114624506,16.0,0
+us_pump_spot,1991,0.4623223346303499,50.0,1
+us_pump_spot,1992,0.5118346303501946,52.0,1
+us_pump_spot,1993,0.5585406240345997,52.0,1
+us_pump_spot,1994,0.5948363858363857,52.0,1
+us_pump_spot,1995,0.6011733846153844,52.0,1
+us_pump_spot,1996,0.6023392512256724,53.0,1
+us_pump_spot,1997,0.6137170329670332,52.0,1
+us_pump_spot,1998,0.6164178461538463,52.0,1
+us_pump_spot,1999,0.6133614771682501,52.0,1
+us_pump_spot,2000,0.6460396923076923,52.0,1
+us_pump_spot,2001,0.6795846037735853,53.0,1
+us_pump_spot,2002,0.62316,52.0,1
+us_pump_spot,2003,0.6898201538461537,52.0,1
+us_pump_spot,2004,0.6824243898671611,52.0,1
+us_pump_spot,2005,0.6741547655531714,52.0,1
+us_pump_spot,2006,0.7463134074760576,52.0,1
+us_pump_spot,2007,0.7565795896975147,53.0,1
+us_pump_spot,2008,0.7741985405898446,52.0,1
+us_pump_spot,2009,0.7173730158730158,52.0,1
+us_pump_spot,2010,0.7273503677597302,52.0,1
+us_pump_spot,2011,0.7727533577533579,52.0,1
+us_pump_spot,2012,0.8025144905660375,53.0,1
+us_pump_spot,2013,0.8104010989010999,52.0,1
+us_pump_spot,2014,0.8735887395736794,52.0,1
+us_pump_spot,2015,0.8779831920048455,52.0,1
+us_pump_spot,2016,0.8096476377952757,52.0,1
+us_pump_spot,2017,0.8122847073245483,52.0,1
+us_pump_spot,2018,0.8312682853491693,53.0,1
+us_pump_spot,2019,0.9021162013662012,52.0,1
+us_pump_spot,2020,1.0440073260073262,52.0,1
+us_pump_spot,2021,0.9426072632546734,52.0,1
+us_pump_spot,2022,0.9979574898785426,52.0,1
+us_pump_spot,2023,1.0335257444168735,52.0,1
+us_pump_spot,2024,1.067417056603774,53.0,1
+us_pump_spot,2025,1.0803839950372205,52.0,1
+us_pump_spot,2026,0.830170616113743,44.0,0

@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate ev_share, region ev_CA (California)
+# Computed 2026-11-06T14:15:28Z by warehouse/analysis/findings/deep/other_us.py (ev_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: battery electric vehicles' share of the light-duty vehicles registered (percent of registered light-duty vehicles), the observations it rests on, and whether the year is full
+# Tables: afdc_vehicle_registrations_annual
+region,year,value,n_observations,full_year
+ev_CA,2016,0.46096160173569145,1.0,1
+ev_CA,2017,0.5928199102488781,1.0,1
+ev_CA,2018,0.8334730073595514,1.0,1
+ev_CA,2019,1.0385514330940635,1.0,1
+ev_CA,2020,1.2385154122803186,1.0,1
+ev_CA,2021,1.608834159512007,1.0,1
+ev_CA,2022,2.5016749815890456,1.0,1
+ev_CA,2023,3.410012944263683,1.0,1
+ev_CA,2024,4.098192029111351,1.0,1
+ev_CA,2025,4.817932296431839,1.0,1

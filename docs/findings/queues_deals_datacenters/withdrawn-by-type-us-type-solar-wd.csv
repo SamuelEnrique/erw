@@ -1,0 +1,22 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate withdrawn_by_type, region us_type_solar_wd (solar projects in the United States)
+# Computed 2026-11-06T12:19:15Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (withdrawn_by_type); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the MW of the type withdrawn in the year as a percent of the MW of the type withdrawn or brought online in it (percent of MW leaving the queue), the observations it rests on, and whether the year is full
+# Tables: lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+us_type_solar_wd,2008,99.98327377784535,1.0,1
+us_type_solar_wd,2009,99.95181465080266,1.0,1
+us_type_solar_wd,2010,99.47547139320902,1.0,1
+us_type_solar_wd,2011,99.13601958820338,1.0,1
+us_type_solar_wd,2012,99.34023451494609,1.0,1
+us_type_solar_wd,2013,92.13773189733702,1.0,1
+us_type_solar_wd,2014,77.73941494882146,1.0,1
+us_type_solar_wd,2015,78.59821606161675,1.0,1
+us_type_solar_wd,2016,78.86976181702728,1.0,1
+us_type_solar_wd,2017,93.80183416849515,1.0,1
+us_type_solar_wd,2018,94.13650180889803,1.0,1
+us_type_solar_wd,2019,93.78868147830622,1.0,1
+us_type_solar_wd,2020,88.91866175920875,1.0,1
+us_type_solar_wd,2021,79.94494281358187,1.0,1
+us_type_solar_wd,2022,80.29106301985505,1.0,1
+us_type_solar_wd,2023,85.29751684471194,1.0,1
+us_type_solar_wd,2024,76.03161952754687,1.0,1

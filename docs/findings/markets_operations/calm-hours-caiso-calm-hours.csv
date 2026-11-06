@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate calm_hours, region caiso_calm_hours (CAISO)
+# Computed 2026-11-06T14:13:17Z by warehouse/analysis/findings/deep/markets_operations.py (calm_hours); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's calm hours (wind and solar together far below their usual output, as docs/methods/grid_stress.md defines them) (hours), the observations it rests on, and whether the year is full
+# Tables: grid_stress_yearly
+region,year,value,n_observations,full_year
+caiso_calm_hours,2019,2180.0,1.0,1
+caiso_calm_hours,2020,2359.0,1.0,1
+caiso_calm_hours,2021,2167.0,1.0,1
+caiso_calm_hours,2022,2605.0,1.0,1
+caiso_calm_hours,2023,2811.0,1.0,1
+caiso_calm_hours,2024,2520.0,1.0,1
+caiso_calm_hours,2025,2776.0,1.0,1
+caiso_calm_hours,2026,1522.0,1.0,0

@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate requested_by_type, region us_req_gas (gas requests, the United States)
+# Computed 2026-11-06T12:13:04Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (requested_by_type); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the US MW requested in the year, by type (MW), the observations it rests on, and whether the year is full
+# Tables: lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+us_req_gas,2005,28602.39998512268,1.0,1
+us_req_gas,2006,26626.19999961853,1.0,1
+us_req_gas,2007,83300.46500038147,1.0,1
+us_req_gas,2008,81017.81000591278,1.0,1
+us_req_gas,2009,14525.875,1.0,1
+us_req_gas,2010,30030.64,1.0,1
+us_req_gas,2011,42740.985,1.0,1
+us_req_gas,2012,45933.59597549057,1.0,1
+us_req_gas,2013,32829.94500076294,1.0,1
+us_req_gas,2014,62038.10999876022,1.0,1
+us_req_gas,2015,57205.032003372195,1.0,1
+us_req_gas,2016,39867.949,1.0,1
+us_req_gas,2017,29742.98,1.0,1
+us_req_gas,2018,29229.434000125886,1.0,1
+us_req_gas,2019,29256.969999542238,1.0,1
+us_req_gas,2020,24532.004999464152,1.0,1
+us_req_gas,2021,14097.52,1.0,1
+us_req_gas,2022,18676.51,1.0,1
+us_req_gas,2023,31737.46,1.0,1
+us_req_gas,2024,77929.4,1.0,1

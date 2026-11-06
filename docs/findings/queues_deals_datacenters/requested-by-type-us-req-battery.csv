@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate requested_by_type, region us_req_battery (battery requests, the United States)
+# Computed 2026-11-06T12:13:04Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (requested_by_type); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the US MW requested in the year, by type (MW), the observations it rests on, and whether the year is full
+# Tables: lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+us_req_battery,2005,0.0,1.0,1
+us_req_battery,2006,0.0,1.0,1
+us_req_battery,2007,0.0,1.0,1
+us_req_battery,2008,201.0,1.0,1
+us_req_battery,2009,74.0,1.0,1
+us_req_battery,2010,104.4,1.0,1
+us_req_battery,2011,60.103,1.0,1
+us_req_battery,2012,342.6,1.0,1
+us_req_battery,2013,220.4,1.0,1
+us_req_battery,2014,1644.512,1.0,1
+us_req_battery,2015,5869.990000762939,1.0,1
+us_req_battery,2016,5970.33,1.0,1
+us_req_battery,2017,4281.04,1.0,1
+us_req_battery,2018,21290.37130175476,1.0,1
+us_req_battery,2019,43149.208,1.0,1
+us_req_battery,2020,52676.40937389649,1.0,1
+us_req_battery,2021,137006.32131567877,1.0,1
+us_req_battery,2022,151270.3260084343,1.0,1
+us_req_battery,2023,238326.55539106127,1.0,1
+us_req_battery,2024,157428.8615878105,1.0,1

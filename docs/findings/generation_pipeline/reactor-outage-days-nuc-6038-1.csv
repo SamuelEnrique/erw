@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate reactor_outage_days, region nuc_6038_1 (McGuire, reactor 1)
+# Computed 2026-11-06T11:50:09Z by warehouse/analysis/findings/deep/generation_pipeline.py (reactor_outage_days); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the days of the year on which at least half the reactor's capacity was out (days), the observations it rests on, and whether the year is full
+# Tables: eia_nuclear_outages_generator_daily
+region,year,value,n_observations,full_year
+nuc_6038_1,2007,85.0,365.0,1
+nuc_6038_1,2008,59.0,366.0,1
+nuc_6038_1,2009,0.0,365.0,1
+nuc_6038_1,2010,45.0,365.0,1
+nuc_6038_1,2011,36.0,365.0,1
+nuc_6038_1,2012,0.0,366.0,1
+nuc_6038_1,2013,46.0,365.0,1
+nuc_6038_1,2014,69.0,365.0,1
+nuc_6038_1,2015,7.0,365.0,1
+nuc_6038_1,2016,30.0,366.0,1
+nuc_6038_1,2017,24.0,365.0,1
+nuc_6038_1,2018,1.0,365.0,1
+nuc_6038_1,2019,37.0,365.0,1
+nuc_6038_1,2020,34.0,366.0,1
+nuc_6038_1,2021,0.0,365.0,1
+nuc_6038_1,2022,39.0,365.0,1
+nuc_6038_1,2023,41.0,365.0,1
+nuc_6038_1,2024,0.0,366.0,1
+nuc_6038_1,2025,26.0,365.0,1
+nuc_6038_1,2026,34.0,294.0,0

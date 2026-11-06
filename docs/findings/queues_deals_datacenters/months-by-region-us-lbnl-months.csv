@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate months_by_region, region us_lbnl_months (the United States)
+# Computed 2026-11-06T12:13:02Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (months_by_region); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the median months from request to online of the projects that came online in the year (months), the observations it rests on, and whether the year is full
+# Tables: lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+us_lbnl_months,2005,17.626283367556468,1.0,1
+us_lbnl_months,2006,21.831622176591374,1.0,1
+us_lbnl_months,2007,24.837782340862425,1.0,1
+us_lbnl_months,2008,21.48665297741273,1.0,1
+us_lbnl_months,2009,31.080082135523615,1.0,1
+us_lbnl_months,2010,33.445585215605746,1.0,1
+us_lbnl_months,2011,34.496919917864474,1.0,1
+us_lbnl_months,2012,31.474332648870636,1.0,1
+us_lbnl_months,2013,35.02258726899384,1.0,1
+us_lbnl_months,2014,44.4517453798768,1.0,1
+us_lbnl_months,2015,37.81519507186859,1.0,1
+us_lbnl_months,2016,43.9917864476386,1.0,1
+us_lbnl_months,2017,39.68788501026694,1.0,1
+us_lbnl_months,2018,42.71047227926078,1.0,1
+us_lbnl_months,2019,46.32443531827516,1.0,1
+us_lbnl_months,2020,46.06160164271047,1.0,1
+us_lbnl_months,2021,49.97125256673511,1.0,1
+us_lbnl_months,2022,55.162217659137575,1.0,1
+us_lbnl_months,2023,55.75359342915811,1.0,1
+us_lbnl_months,2024,62.751540041067756,1.0,1

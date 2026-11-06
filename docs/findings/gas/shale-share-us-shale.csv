@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate shale_share, region us_shale (the United States)
+# Computed 2026-11-06T12:02:12Z by warehouse/analysis/findings/deep/gas.py (shale_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: shale gas as a percent of US gross withdrawals (percent of gross withdrawals), the observations it rests on, and whether the year is full
+# Tables: eia_gas_production_state_monthly
+region,year,value,n_observations,full_year
+us_shale,2007,8.069148385786763,12.0,1
+us_shale,2008,11.194930336161411,12.0,1
+us_shale,2009,15.191059041459779,12.0,1
+us_shale,2010,21.692656541499495,12.0,1
+us_shale,2011,29.849980111677983,12.0,1
+us_shale,2012,35.65346762117103,12.0,1
+us_shale,2013,40.41834663948925,12.0,1
+us_shale,2014,44.49853849891079,12.0,1
+us_shale,2015,48.061633590563275,12.0,1
+us_shale,2016,54.76119935033523,12.0,1
+us_shale,2017,59.8568255490422,12.0,1
+us_shale,2018,64.23818286991113,12.0,1
+us_shale,2019,68.27044372085274,12.0,1
+us_shale,2020,70.95528972971863,12.0,1
+us_shale,2021,72.8472022670485,12.0,1
+us_shale,2022,74.31936914474677,12.0,1
+us_shale,2023,76.12444151852995,12.0,1
+us_shale,2024,76.54504114753023,12.0,1

@@ -1,0 +1,32 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate japan_lng_premium, region us_japan_lng (Japan's LNG against US gas (World Bank Pink Sheet))
+# Computed 2026-11-06T11:29:30Z by warehouse/analysis/findings/deep/prices.py (japan_lng_premium); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean of the World Bank's Japan LNG import price less its US gas price, from 2000 (USD per MMBtu), the observations it rests on, and whether the year is full
+# Tables: wb_commodity_prices_monthly
+region,year,value,n_observations,full_year
+us_japan_lng,2000,0.40416666666666684,12.0,1
+us_japan_lng,2001,0.6783333333333332,12.0,1
+us_japan_lng,2002,0.9266666666666664,12.0,1
+us_japan_lng,2003,-0.7624999999999998,12.0,1
+us_japan_lng,2004,-0.7683333333333332,12.0,1
+us_japan_lng,2005,-2.9258333333333333,12.0,1
+us_japan_lng,2006,0.3558333333333332,12.0,1
+us_japan_lng,2007,0.7016666666666668,12.0,1
+us_japan_lng,2008,3.670833333333334,12.0,1
+us_japan_lng,2009,4.985833333333333,12.0,1
+us_japan_lng,2010,6.461666666666667,12.0,1
+us_japan_lng,2011,10.659166666666666,12.0,1
+us_japan_lng,2012,13.799166666666666,12.0,1
+us_japan_lng,2013,12.229999999999999,12.0,1
+us_japan_lng,2014,11.667499999999999,12.0,1
+us_japan_lng,2015,8.322499999999998,12.0,1
+us_japan_lng,2016,4.88,12.0,1
+us_japan_lng,2017,5.645833333333333,12.0,1
+us_japan_lng,2018,7.509999999999999,12.0,1
+us_japan_lng,2019,7.998333333333335,12.0,1
+us_japan_lng,2020,6.298333333333333,12.0,1
+us_japan_lng,2021,6.910833333333333,12.0,1
+us_japan_lng,2022,12.059166666666664,12.0,1
+us_japan_lng,2023,11.85,12.0,1
+us_japan_lng,2024,10.6525,12.0,1
+us_japan_lng,2025,8.510833333333336,12.0,1
+us_japan_lng,2026,9.578888888888889,9.0,0

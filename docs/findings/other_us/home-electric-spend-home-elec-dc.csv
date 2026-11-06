@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate home_electric_spend, region home_elec_DC (the District of Columbia)
+# Computed 2026-11-06T14:15:28Z by warehouse/analysis/findings/deep/other_us.py (home_electric_spend); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: electricity's share of the residential sector's energy expenditures (percent of home energy spending), the observations it rests on, and whether the year is full
+# Tables: eia_seds_residential_annual
+region,year,value,n_observations,full_year
+home_elec_DC,1990,42.91825095057034,1.0,1
+home_elec_DC,1991,46.3664734730272,1.0,1
+home_elec_DC,1992,41.64198053322048,1.0,1
+home_elec_DC,1993,43.98200224971878,1.0,1
+home_elec_DC,1994,45.447500968616815,1.0,1
+home_elec_DC,1995,46.527514231499055,1.0,1
+home_elec_DC,1996,41.427155599603566,1.0,1
+home_elec_DC,1997,42.71742926999651,1.0,1
+home_elec_DC,1998,49.534522885958104,1.0,1
+home_elec_DC,1999,49.52883528081417,1.0,1
+home_elec_DC,2000,41.70131116085705,1.0,1
+home_elec_DC,2001,42.6361585562359,1.0,1
+home_elec_DC,2002,44.73684210526316,1.0,1
+home_elec_DC,2003,37.875034406826316,1.0,1
+home_elec_DC,2004,38.580814717477004,1.0,1
+home_elec_DC,2005,39.81042654028436,1.0,1
+home_elec_DC,2006,45.76659038901602,1.0,1
+home_elec_DC,2007,48.48084544253633,1.0,1
+home_elec_DC,2008,50.599173553719005,1.0,1
+home_elec_DC,2009,55.786096256684495,1.0,1
+home_elec_DC,2010,58.45942228335626,1.0,1
+home_elec_DC,2011,62.291384754172306,1.0,1
+home_elec_DC,2012,59.41048562454699,1.0,1
+home_elec_DC,2013,57.55460481873452,1.0,1
+home_elec_DC,2014,55.82575597377881,1.0,1
+home_elec_DC,2015,63.93927444794953,1.0,1
+home_elec_DC,2016,70.93425605536332,1.0,1
+home_elec_DC,2017,67.23090277777777,1.0,1
+home_elec_DC,2018,66.3676236044657,1.0,1
+home_elec_DC,2019,67.96136457048911,1.0,1
+home_elec_DC,2020,69.66494265797166,1.0,1
+home_elec_DC,2021,65.02259775987424,1.0,1
+home_elec_DC,2022,62.00971884762235,1.0,1
+home_elec_DC,2023,67.20661726693089,1.0,1
+home_elec_DC,2024,69.76481958762886,1.0,1

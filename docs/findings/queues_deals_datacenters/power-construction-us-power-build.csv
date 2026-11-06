@@ -1,0 +1,39 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate power_construction, region us_power_build (US private electric power construction)
+# Computed 2026-11-06T12:16:29Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (power_construction); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the value of private electric power construction put in place over the year (USD billion), the observations it rests on, and whether the year is full
+# Tables: census_c30_construction_monthly
+region,year,value,n_observations,full_year
+us_power_build,1993,16.386,12.0,1
+us_power_build,1994,14.988,12.0,1
+us_power_build,1995,14.397,12.0,1
+us_power_build,1996,11.26,12.0,1
+us_power_build,1997,11.324,12.0,1
+us_power_build,1998,12.994,12.0,1
+us_power_build,1999,15.488,12.0,1
+us_power_build,2000,23.375,12.0,1
+us_power_build,2001,25.271,12.0,1
+us_power_build,2002,24.999,12.0,1
+us_power_build,2003,25.593,12.0,1
+us_power_build,2004,20.929,12.0,1
+us_power_build,2005,22.679,12.0,1
+us_power_build,2006,26.298,12.0,1
+us_power_build,2007,41.46,12.0,1
+us_power_build,2008,52.801,12.0,1
+us_power_build,2009,60.395,12.0,1
+us_power_build,2010,48.972,12.0,1
+us_power_build,2011,50.29,12.0,1
+us_power_build,2012,68.97,12.0,1
+us_power_build,2013,54.411,12.0,1
+us_power_build,2014,69.971,12.0,1
+us_power_build,2015,67.123,12.0,1
+us_power_build,2016,71.356,12.0,1
+us_power_build,2017,65.135,12.0,1
+us_power_build,2018,70.424,12.0,1
+us_power_build,2019,78.743,12.0,1
+us_power_build,2020,88.479,12.0,1
+us_power_build,2021,89.126,12.0,1
+us_power_build,2022,91.002,12.0,1
+us_power_build,2023,109.822,12.0,1
+us_power_build,2024,123.041,12.0,1
+us_power_build,2025,128.041,12.0,1
+us_power_build,2026,89.7,8.0,0

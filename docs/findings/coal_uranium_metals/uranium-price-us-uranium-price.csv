@@ -1,0 +1,28 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate uranium_price, region us_uranium_price (the United States)
+# Computed 2026-11-06T14:08:46Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (uranium_price); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the weighted average price of the uranium the owners and operators of US reactors bought (USD per pound U3O8e), the observations it rests on, and whether the year is full
+# Tables: eia_uranium_marketing_annual
+region,year,value,n_observations,full_year
+us_uranium_price,2003,10.81,1.0,1
+us_uranium_price,2004,12.61,1.0,1
+us_uranium_price,2005,14.36,1.0,1
+us_uranium_price,2006,18.61,1.0,1
+us_uranium_price,2007,32.78,1.0,1
+us_uranium_price,2008,45.88,1.0,1
+us_uranium_price,2009,45.86,1.0,1
+us_uranium_price,2010,49.29,1.0,1
+us_uranium_price,2011,55.64,1.0,1
+us_uranium_price,2012,54.99,1.0,1
+us_uranium_price,2013,51.99,1.0,1
+us_uranium_price,2014,46.16,1.0,1
+us_uranium_price,2015,44.13,1.0,1
+us_uranium_price,2016,42.43,1.0,1
+us_uranium_price,2017,38.8,1.0,1
+us_uranium_price,2018,38.81,1.0,1
+us_uranium_price,2019,35.59,1.0,1
+us_uranium_price,2020,33.27,1.0,1
+us_uranium_price,2021,33.91,1.0,1
+us_uranium_price,2022,39.08,1.0,1
+us_uranium_price,2023,43.8,1.0,1
+us_uranium_price,2024,52.71,1.0,1
+us_uranium_price,2025,58.46,1.0,1

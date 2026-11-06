@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate state_crude_share, region crude_AK (Alaska)
+# Computed 2026-11-06T12:32:44Z by warehouse/analysis/findings/deep/oil_products_world.py (state_crude_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: a state's share of US crude field production over the year (percent of US crude production), the observations it rests on, and whether the year is full
+# Tables: eia_crude_production_state_monthly
+region,year,value,n_observations,full_year
+crude_AK,2001,32.65147815094665,24.0,1
+crude_AK,2002,33.74628273010807,24.0,1
+crude_AK,2003,34.009321258959915,24.0,1
+crude_AK,2004,32.98973809159136,24.0,1
+crude_AK,2005,32.96846368984473,24.0,1
+crude_AK,2006,28.827057319830892,24.0,1
+crude_AK,2007,28.169754302982525,24.0,1
+crude_AK,2008,27.064648417964193,24.0,1
+crude_AK,2009,23.968446601941746,24.0,1
+crude_AK,2010,21.68945609237314,24.0,1
+crude_AK,2011,19.62567394849344,24.0,1
+crude_AK,2012,15.952730756946663,24.0,1
+crude_AK,2013,13.551443441128063,24.0,1
+crude_AK,2014,11.105836782744085,24.0,1
+crude_AK,2015,10.044254432068122,24.0,1
+crude_AK,2016,10.887438150245517,24.0,1
+crude_AK,2017,10.405590426572308,24.0,1
+crude_AK,2018,8.59956086702172,24.0,1
+crude_AK,2019,7.44134501027138,24.0,1
+crude_AK,2020,7.779979451049464,24.0,1
+crude_AK,2021,7.653779011954656,24.0,1
+crude_AK,2022,7.204934506895834,24.0,1
+crude_AK,2023,6.520300442696788,24.0,1
+crude_AK,2024,6.291966859920981,24.0,1
+crude_AK,2025,6.125549048316252,24.0,1
+crude_AK,2026,6.038868010713618,14.0,0

@@ -1,0 +1,28 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate us_enrichment_share, region us_enrich_origin (the United States)
+# Computed 2026-11-06T14:08:47Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (us_enrichment_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: enrichment of US origin as a percent of the enrichment services bought for US reactors (percent of enrichment services), the observations it rests on, and whether the year is full
+# Tables: eia_uranium_marketing_annual
+region,year,value,n_observations,full_year
+us_enrich_origin,2003,13.883098474109897,1.0,1
+us_enrich_origin,2004,11.864406779661017,1.0,1
+us_enrich_origin,2005,9.232929612076532,1.0,1
+us_enrich_origin,2006,12.130683932425393,1.0,1
+us_enrich_origin,2007,10.371778622729193,1.0,1
+us_enrich_origin,2008,15.001190570680214,1.0,1
+us_enrich_origin,2009,23.82528895858745,1.0,1
+us_enrich_origin,2010,16.34001161440186,1.0,1
+us_enrich_origin,2011,16.413783802009576,1.0,1
+us_enrich_origin,2012,20.917254650416933,1.0,1
+us_enrich_origin,2013,31.359987024572217,1.0,1
+us_enrich_origin,2014,29.159904165700596,1.0,1
+us_enrich_origin,2015,31.782945736434108,1.0,1
+us_enrich_origin,2016,33.56643356643357,1.0,1
+us_enrich_origin,2017,43.41085271317829,1.0,1
+us_enrich_origin,2018,33.333333333333336,1.0,1
+us_enrich_origin,2019,39.849624060150376,1.0,1
+us_enrich_origin,2020,29.078014184397162,1.0,1
+us_enrich_origin,2021,19.014084507042252,1.0,1
+us_enrich_origin,2022,27.464788732394368,1.0,1
+us_enrich_origin,2023,28.289473684210527,1.0,1
+us_enrich_origin,2024,19.07894736842105,1.0,1
+us_enrich_origin,2025,22.834645669291337,1.0,1

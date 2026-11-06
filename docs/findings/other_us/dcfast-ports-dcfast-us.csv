@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate dcfast_ports, region dcfast_US (the United States)
+# Computed 2026-11-06T14:15:27Z by warehouse/analysis/findings/deep/other_us.py (dcfast_ports); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: public DC fast charging ports at the year's end (ports), the observations it rests on, and whether the year is full
+# Tables: afdc_ev_charging_state_annual
+region,year,value,n_observations,full_year
+dcfast_US,2014,1494.0,1.0,1
+dcfast_US,2015,3456.0,1.0,1
+dcfast_US,2016,4764.0,1.0,1
+dcfast_US,2017,5400.0,1.0,1
+dcfast_US,2018,9279.0,1.0,1
+dcfast_US,2019,12511.0,1.0,1
+dcfast_US,2020,17539.0,1.0,1
+dcfast_US,2021,21945.0,1.0,1
+dcfast_US,2022,28165.0,1.0,1
+dcfast_US,2023,37920.0,1.0,1
+dcfast_US,2024,51393.0,1.0,1
+dcfast_US,2025,68599.0,1.0,1

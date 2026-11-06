@@ -1,0 +1,45 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate brent_wti_spread, region us_brent_wti (Brent against WTI at Cushing)
+# Computed 2026-11-06T13:53:10Z by warehouse/analysis/findings/deep/prices.py (brent_wti_spread); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean of the daily Brent spot close less the WTI Cushing close, days with both (USD per barrel), the observations it rests on, and whether the year is full
+# Tables: eia_fuel_spot_prices
+region,year,value,n_observations,full_year
+us_brent_wti,1987,-1.0858860759493671,158.0,0
+us_brent_wti,1988,-1.0434251968503936,254.0,1
+us_brent_wti,1989,-1.3906692913385827,254.0,1
+us_brent_wti,1990,-0.7911328125,256.0,1
+us_brent_wti,1991,-1.5026171875,256.0,1
+us_brent_wti,1992,-1.2574609375,256.0,1
+us_brent_wti,1993,-1.4012653061224492,245.0,1
+us_brent_wti,1994,-1.3569635627530363,247.0,1
+us_brent_wti,1995,-1.401290322580645,248.0,1
+us_brent_wti,1996,-1.47296,250.0,1
+us_brent_wti,1997,-1.4918852459016394,244.0,1
+us_brent_wti,1998,-1.6610931174089072,247.0,1
+us_brent_wti,1999,-1.4029268292682926,246.0,1
+us_brent_wti,2000,-1.8151417004048582,247.0,1
+us_brent_wti,2001,-1.523734939759036,249.0,1
+us_brent_wti,2002,-1.1433739837398373,246.0,1
+us_brent_wti,2003,-2.23436,250.0,1
+us_brent_wti,2004,-3.1722088353413653,249.0,1
+us_brent_wti,2005,-2.067791164658634,249.0,1
+us_brent_wti,2006,-0.921821862348178,247.0,1
+us_brent_wti,2007,0.15144000000000005,250.0,1
+us_brent_wti,2008,-2.727154150197628,253.0,1
+us_brent_wti,2009,-0.21166666666666648,252.0,1
+us_brent_wti,2010,0.13373015873015903,252.0,1
+us_brent_wti,2011,16.52092741935484,248.0,1
+us_brent_wti,2012,17.62252,250.0,1
+us_brent_wti,2013,10.572460317460319,252.0,1
+us_brent_wti,2014,5.756064257028112,249.0,1
+us_brent_wti,2015,3.6157874015748033,254.0,1
+us_brent_wti,2016,0.40964426877470383,253.0,1
+us_brent_wti,2017,3.3713654618473896,249.0,1
+us_brent_wti,2018,6.116370967741936,248.0,1
+us_brent_wti,2019,7.3602734375,256.0,1
+us_brent_wti,2020,2.4944578313253007,249.0,1
+us_brent_wti,2021,2.724552845528455,246.0,1
+us_brent_wti,2022,6.041975308641977,243.0,1
+us_brent_wti,2023,4.8859504132231395,242.0,1
+us_brent_wti,2024,3.89569105691057,246.0,1
+us_brent_wti,2025,3.5819262295081966,244.0,1
+us_brent_wti,2026,9.944190476190474,210.0,0

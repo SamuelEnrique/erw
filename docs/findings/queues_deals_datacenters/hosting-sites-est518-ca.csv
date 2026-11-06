@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate hosting_sites, region est518_CA (California)
+# Computed 2026-11-06T12:16:30Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (hosting_sites); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the number of NAICS 518210 establishments (establishments), the observations it rests on, and whether the year is full
+# Tables: census_cbp_hosting_annual
+region,year,value,n_observations,full_year
+est518_CA,2012,2097.0,1.0,1
+est518_CA,2013,2157.0,1.0,1
+est518_CA,2014,2098.0,1.0,1
+est518_CA,2015,2226.0,1.0,1
+est518_CA,2016,2297.0,1.0,1
+est518_CA,2017,2658.0,1.0,1
+est518_CA,2018,2619.0,1.0,1
+est518_CA,2019,2528.0,1.0,1
+est518_CA,2020,2534.0,1.0,1
+est518_CA,2021,2566.0,1.0,1
+est518_CA,2022,2532.0,1.0,1
+est518_CA,2023,2698.0,1.0,1

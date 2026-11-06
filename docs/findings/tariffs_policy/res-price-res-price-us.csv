@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate res_price, region res_price_US (the United States)
+# Computed 2026-11-06T12:22:26Z by warehouse/analysis/findings/deep/tariffs_policy.py (res_price); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the mean of the year's monthly average residential retail price (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: eia_retail_electricity_prices
+region,year,value,n_observations,full_year
+res_price_US,2001,85.84166666666668,12.0,1
+res_price_US,2002,84.30000000000001,12.0,1
+res_price_US,2003,87.20833333333333,12.0,1
+res_price_US,2004,89.43333333333332,12.0,1
+res_price_US,2005,94.29166666666667,12.0,1
+res_price_US,2006,103.7,12.0,1
+res_price_US,2007,106.38333333333334,12.0,1
+res_price_US,2008,112.51666666666665,12.0,1
+res_price_US,2009,115.07499999999999,12.0,1
+res_price_US,2010,115.4833333333333,12.0,1
+res_price_US,2011,117.19166666666666,12.0,1
+res_price_US,2012,118.66666666666667,12.0,1
+res_price_US,2013,121.19999999999999,12.0,1
+res_price_US,2014,125.26666666666667,12.0,1
+res_price_US,2015,126.51666666666667,12.0,1
+res_price_US,2016,125.425,12.0,1
+res_price_US,2017,128.8166666666667,12.0,1
+res_price_US,2018,128.69166666666666,12.0,1
+res_price_US,2019,130.125,12.0,1
+res_price_US,2020,131.57500000000002,12.0,1
+res_price_US,2021,136.69166666666663,12.0,1
+res_price_US,2022,150.30833333333334,12.0,1
+res_price_US,2023,160.18333333333334,12.0,1
+res_price_US,2024,165.0583333333333,12.0,1
+res_price_US,2025,172.63333333333335,12.0,1
+res_price_US,2026,182.275,8.0,0
