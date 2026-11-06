@@ -28,3 +28,6 @@ site/public/datacenter/erw_2026_datacenter_replication.py text eol=lf
 docs/methods/figures/** text eol=lf
 # Session 534: session 182's check of the daily card reads the CSV of 10 October 2026 by its sha256
 tests/fixtures/session182/*.csv -text
+# Session 1488 (chain 158): the replication packages a reader runs (replication/<tool>/): the do-files are held to
+# have no carriage return (tests/test_session1488.py), and their CSVs are read by line
+replication/** text eol=lf

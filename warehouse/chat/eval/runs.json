@@ -182,7 +182,8 @@
     "what": "the board's five questions, first asking, graded on the keys of their own day (session 2918, from the rows of 6 November 2026, 05:16 UTC)",
     "where": "session 2918's report"
    }
-  }
+  },
+  {"file": "eval_s1486_run.json", "grades": "eval_s1486_grades.json", "right": "ok", "label": "session 1486, the board's five again", "limit": 12, "replay": true, "history": {"kind": "right", "set": "`questions_s2918.yaml`", "what": "the board's five questions asked again on the build of main of 6 November 2026, 08:30 UTC, after session 2918's k03 failed in the route; graded on session 2918's keys", "where": "session 1486's report"}}
  ],
  "left_out": {
   "eval_s1113_keys.json": "the keys of an asking, read by eval_s1113.py --grade, not a run",

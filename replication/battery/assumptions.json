@@ -1,0 +1,14 @@
+{
+ "_about": "What a battery earns (/cost-of-power/battery): the page's default inputs, as scenario A holds them (docs/methods/battery_earns_algorithm.md, sections 2 and 11.1; the owner's rulings of 12 October 2026). replicate.py and replicate.do read these and nothing else of the page. Change one to see what it moves; the page's figures in page_figures.json are at these values.",
+ "case": {"grid": "ercot", "duration_hours": 4, "strategy": "foresight", "mw": 100},
+ "mw": {"value": 100, "unit": "MW", "source": "the page's default size"},
+ "fom_usd_kw_year": {"value": 22, "unit": "USD per kW a year", "source": "Lazard LCOE+ June 2025, its 4-hour storage case"},
+ "capex_usd_kw": {"value": 1110, "unit": "USD per kW", "source": "Lazard LCOE+ June 2025, its 4-hour storage case"},
+ "debt_share": {"value": 0.2, "unit": "share of the capital cost", "source": "the owner's ruling of 12 October 2026"},
+ "debt_rate": {"value": 0.08, "unit": "a year", "source": "the page's default"},
+ "debt_years": {"value": 20, "unit": "years", "source": "the page's default"},
+ "life_years": {"value": 20, "unit": "years", "source": "the page's default"},
+ "degradation": {"value": 0.026, "unit": "a year", "source": "the page's default"},
+ "hurdle_pct": {"value": 12, "unit": "percent a year", "source": "the owner's ruling of 12 October 2026"},
+ "toll_target": {"value": 1.25, "unit": "debt coverage the toll is set to", "source": "the page's default"}
+}

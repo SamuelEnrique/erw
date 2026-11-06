@@ -1,0 +1,23 @@
+field,name,key,page,tolerance
+l12_kw_total,"last twelve months, all streams, USD per kW",bs|l12_kw:total,81.4,0.005
+l12_total_usd,"last twelve months, total, USD for 100 MW",bs|l12:total,8140219,0.5
+l12_energy_usd,"last twelve months, energy, USD for 100 MW",bs|l12:energy,5459858,0.5
+l12_ancillary_usd,"last twelve months, ancillary services, USD for 100 MW",bs|l12:ancillary,2680361,0.5
+l12_regup_usd,"last twelve months, Regulation Up, USD for 100 MW",bs|l12:regup,664224,0.5
+l12_regdn_usd,"last twelve months, Regulation Down, USD for 100 MW",bs|l12:regdn,998971,0.5
+l12_rrs_usd,"last twelve months, Responsive Reserve, USD for 100 MW",bs|l12:rrs,402471,0.5
+l12_ecrs_usd,"last twelve months, ECRS, USD for 100 MW",bs|l12:ecrs,194068,0.5
+l12_nspin_usd,"last twelve months, Non-Spin, USD for 100 MW",bs|l12:nspin,420627,0.5
+l12_share_ancillary,"share from ancillary services, percent",bs|l12_share:ancillary,33,0.5
+debt_service,"annual debt payments, USD",scenario A's debt payment,2261119,0.5
+cover,"debt coverage, last twelve months, times",bs|cover,2.63,0.005
+npv_kw,"scenario A, NPV at the hurdle rate, USD per kW",scenario A's NPV,-697.8,0.005
+irr,"scenario A, IRR, percent a year",scenario A's IRR,-8.8,0.05
+toll,"scenario A, breakeven toll, USD per kW-month",scenario A's breakeven toll,4.19,0.005
+tail_years,"scenario A, merchant tail, years",scenario A's merchant tail,0,0
+p10_36_usd,"a bad month, USD for 100 MW",bs|p10_36,475477,0.5
+n36,months held of the 36,bs|n36,36,0
+year_2024_energy_kw,"calendar year 2024, energy, USD per kW",bs|year:2024:energy,62.7,0.005
+year_2024_ancillary_kw,"calendar year 2024, ancillary services, USD per kW",bs|year:2024:ancillary,84.98,0.005
+year_2025_energy_kw,"calendar year 2025, energy, USD per kW",bs|year:2025:energy,57.39,0.005
+year_2025_ancillary_kw,"calendar year 2025, ancillary services, USD per kW",bs|year:2025:ancillary,30.05,0.005

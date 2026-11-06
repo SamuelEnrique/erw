@@ -1,0 +1,97 @@
+{
+ "_about": "What a generator earns: the figures the page shows for the months of the public hourly file (site/public/seller/erw_2026_generator_hourly.csv: ERCOT solar at HB_HUBAVG in real time, 2018-07 to 2026-10-03; the last twelve months 2025-10 to 2026-09), each with its check key (the page's check-values key, or the scenario's named cell) and the tolerance to which the replication must meet it (half of the page's last shown digit). Read from a built page's data cells by session 582 (docs/reviews/replications-2026-10-22.md); the NPV is at solar's 0.7 percent degradation (since session 298).",
+ "figures": [
+  {
+   "name": "revenue, last twelve months, USD per kW",
+   "key": "ms|G|twelve|revenue",
+   "page": 59.85,
+   "tolerance": 0.005,
+   "field": "l12_kw"
+  },
+  {
+   "name": "long-run average, last three full years, USD per kW a year",
+   "key": "ms|G|three|revenue",
+   "page": 102.24,
+   "tolerance": 0.005,
+   "field": "three_kw"
+  },
+  {
+   "name": "long-run average, every full year held, USD per kW a year",
+   "key": "ms|G|every|revenue",
+   "page": 130.8,
+   "tolerance": 0.005,
+   "field": "every_kw"
+  },
+  {
+   "name": "price received, USD per MWh",
+   "key": "cap|ercot|HB_HUBAVG|rt|solar|l12|price",
+   "page": 23.27,
+   "tolerance": 0.005,
+   "field": "price_received"
+  },
+  {
+   "name": "flat average over the same hours, USD per MWh",
+   "key": "cap|ercot|HB_HUBAVG|rt|solar|l12|flat",
+   "page": 32.17,
+   "tolerance": 0.005,
+   "field": "flat_average"
+  },
+  {
+   "name": "capture rate, percent of the flat average",
+   "key": "cap|ercot|HB_HUBAVG|rt|solar|l12|rate",
+   "page": 72,
+   "tolerance": 0.5,
+   "field": "capture_rate"
+  },
+  {
+   "name": "annual debt payments, USD",
+   "key": "mr|G|ds",
+   "page": 7078769,
+   "tolerance": 0.5,
+   "field": "debt_service"
+  },
+  {
+   "name": "debt coverage, last twelve months, times",
+   "key": "mr|G|ttm_last",
+   "page": 0.67,
+   "tolerance": 0.005,
+   "field": "cover"
+  },
+  {
+   "name": "energy sold, last twelve months, MWh per MW",
+   "key": "ms|G|twelve|energy",
+   "page": 2580,
+   "tolerance": 0.5,
+   "field": "l12_energy"
+  },
+  {
+   "name": "contract price at which coverage reaches 1.25 times, USD per MWh",
+   "key": "scenario A's contract price",
+   "page": 39.14,
+   "tolerance": 0.005,
+   "field": "contract_price"
+  },
+  {
+   "name": "NPV at the hurdle rate, USD million for 100 MW",
+   "key": "scenario A's NPV",
+   "page": -76.66,
+   "tolerance": 0.005,
+   "field": "npv_million"
+  },
+  {
+   "name": "breakeven PPA price over the PPA term, USD per MWh",
+   "key": "scenario A's breakeven PPA price",
+   "page": 58.36,
+   "tolerance": 0.005,
+   "field": "breakeven_ppa"
+  },
+  {
+   "name": "the worst month (2024-02), USD for 100 MW",
+   "key": "scenario A's worst month",
+   "page": 139298.97,
+   "tolerance": 0.005,
+   "field": "worst_1_usd"
+  }
+ ],
+ "not_replicated": "the other grids and technologies, the day-ahead market, and the windows the reader sets: check-values.mjs recomputes them from the live set."
+}

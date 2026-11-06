@@ -61,6 +61,10 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         # runs/s2918/regrade.py): session 1122's keys of 23 October stay as its tests pin them
         "s2918": {"questions": os.path.join(HERE, "questions_s2918.yaml"), "run": os.path.join(HERE, "eval_s1122_run.json"),
                   "grades": os.path.join(HERE, "eval_s1122_grades_s2918.json")},
+        # session 1486 (chain 158): the board's five asked again on the build of main of 6 November 08:30 UTC (session
+        # 2918's k03 had failed in the route), graded on session 2918's keys; its own run and grades files
+        "s1486": {"questions": os.path.join(HERE, "questions_s2918.yaml"), "run": os.path.join(HERE, "eval_s1486_run.json"),
+                  "grades": os.path.join(HERE, "eval_s1486_grades.json")},
         # session 2224 (chain 152): the third set, twenty questions a lab's energy team asks (scripts/ask_eval/lab_questions.py
         # computes its keys and writes the file); its runs are eval_loop.py's, named by session
         "s2224": {"questions": os.path.join(HERE, "questions_s2224.yaml"), "run": os.path.join(HERE, "eval_s2224_loop_s2224_run.json"),

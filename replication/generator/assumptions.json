@@ -1,0 +1,60 @@
+{
+ "_about": "What a generator earns (/cost-of-power/seller): the page's default inputs, as scenario A holds them (docs/methods/generator_earns_algorithm.md; the do-file's scalars and site/lib/seller/finance.ts). replicate.py and replicate.do read these and nothing else of the page; the page's figures in page_figures.json are at these values.",
+ "case": {
+  "grid": "ercot",
+  "technology": "solar",
+  "hub": "HB_HUBAVG",
+  "market": "real time",
+  "mw": 100
+ },
+ "mw": {
+  "value": 100,
+  "unit": "MW",
+  "source": "the page's default size"
+ },
+ "fom_usd_kw_year": {
+  "value": 12.5,
+  "unit": "USD per kW a year",
+  "source": "Lazard LCOE+ June 2025, solar"
+ },
+ "capex_usd_kw": {
+  "value": 1375,
+  "unit": "USD per kW",
+  "source": "Lazard LCOE+ June 2025, solar"
+ },
+ "debt_share": {
+  "value": 0.6,
+  "unit": "share of the capital cost",
+  "source": "Lazard LCOE+ June 2025, solar"
+ },
+ "debt_rate": {
+  "value": 0.08,
+  "unit": "a year",
+  "source": "Lazard LCOE+ June 2025"
+ },
+ "debt_years": {
+  "value": 35,
+  "unit": "years",
+  "source": "the asset's life"
+ },
+ "hurdle": {
+  "value": 0.12,
+  "unit": "a year",
+  "source": "the owner's ruling of 12 October 2026 (the hurdle at 12 percent)"
+ },
+ "life_years": {
+  "value": 35,
+  "unit": "years",
+  "source": "Lazard LCOE+ June 2025, solar"
+ },
+ "ppa_years": {
+  "value": 35,
+  "unit": "years",
+  "source": "the asset's life (session 264's default)"
+ },
+ "degradation": {
+  "value": 0.007,
+  "unit": "a year",
+  "source": "NREL ATB 2025, utility-scale PV (the owner's ruling 7a of 18 October 2026)"
+ }
+}
