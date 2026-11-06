@@ -24,11 +24,18 @@ Long end 0:45. The next file. Then chain 178's note read against main: every bra
 
 Long end 1:00 each. Every step of chain 178 its note says did not finish, in chain 178's order, one a session (session 3145 writes the list here). A push and landing request after session 3149 and after session 3152.
 
-The list (session 3145 replaces this paragraph): until then, every step of chain 178 from session 3135 on is listed as unfinished.
+The list, written by session 3145 (chain 178's note, `docs/state/note_2026-11-09_portable_window2.md`, has the why of each). Steps 1 to 4 wait on the desktop or the owner: **a session whose step still waits says so in a few lines and goes to step 5 at once; if every one of steps 1 to 4 still waits when step 5 and its fixes are done, the chain ends at session 3157 without writing a successor file** (as chain 182 did), since nothing would be left but waiting.
 
-## Sessions 3153 to 3156: the fresh audit's open rows
+1. **What the build found**: when row 10 (`wip/3144-policy`) or a later row has landed, the gate's output read and every type or build error fixed with a test.
+2. **The page at 390 and 1280**, from the desktop's snapshot of `/policy?view=monitor`.
+3. **The trace on the data machine's copy**: `scripts/sync.py --tables ^policy`, then `python scripts/check_policy.py`, every FAIL fixed at its rule.
+4. **Your rulings**, if any: their code, never a run that writes warehouse data.
+5. **A third sample**: every fifth row of rows 801 to 1200 of the newest actions, never used to write a rule, read against their documents with the code as it stands (the measure of sessions 3140 to 3142's fixes, as chain 178's fresh audit measured chains 166 and 169's).
+6. **The third sample's largest class**, fixed with its test. Then the push and request.
 
-Long end 1:00 each. The open rows of chain 178's fresh audit, one fault class a session, largest count first: a fixture of stored actions with answers written from their own text, the test, the fix, the row's count before and after. A push and landing request after session 3156.
+## Sessions 3153 to 3156: the third sample's open rows
+
+Long end 1:00 each. The open rows of the third sample, one fault class a session, largest count first, each with its test; when none is open, the session says so and the chain goes to session 3157. A push and landing request after the last fix.
 
 ## Session 3157: the note, the next file, the push, the queue
 
