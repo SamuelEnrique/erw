@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate storage_share, region us_req_battery_share (requests in the United States)
+# Computed 2026-11-06T12:13:02Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (storage_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: batteries' share of the US MW requested in the year (percent of requested MW), the observations it rests on, and whether the year is full
+# Tables: lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+us_req_battery_share,2005,0.0,1.0,1
+us_req_battery_share,2006,0.0,1.0,1
+us_req_battery_share,2007,0.0,1.0,1
+us_req_battery_share,2008,0.07626094339372086,1.0,1
+us_req_battery_share,2009,0.06843190960093196,1.0,1
+us_req_battery_share,2010,0.08763504957526938,1.0,1
+us_req_battery_share,2011,0.04820145025549879,1.0,1
+us_req_battery_share,2012,0.38264868919835615,1.0,1
+us_req_battery_share,2013,0.26292968663827526,1.0,1
+us_req_battery_share,2014,1.309290143737233,1.0,1
+us_req_battery_share,2015,4.070705363665567,1.0,1
+us_req_battery_share,2016,2.858214738298072,1.0,1
+us_req_battery_share,2017,1.8101891754528832,1.0,1
+us_req_battery_share,2018,6.896792101338575,1.0,1
+us_req_battery_share,2019,12.66019909020135,1.0,1
+us_req_battery_share,2020,14.899693495211526,1.0,1
+us_req_battery_share,2021,26.750736235887807,1.0,1
+us_req_battery_share,2022,23.29753101175682,1.0,1
+us_req_battery_share,2023,29.799293952607087,1.0,1
+us_req_battery_share,2024,29.698266330497656,1.0,1

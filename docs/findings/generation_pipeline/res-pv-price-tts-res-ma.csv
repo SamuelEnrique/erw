@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): findings hunt (chain 164), candidate res_pv_price, region tts_res_MA (residential systems in Massachusetts)
-# Computed 2026-11-06T11:55:07Z by warehouse/analysis/findings/deep/generation_pipeline.py (res_pv_price); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Computed 2026-11-06T12:13:12Z by warehouse/analysis/findings/deep/generation_pipeline.py (res_pv_price); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
 # Rows: one per year held: the median installed price of the year's residential systems over their DC size (USD per kW DC), the observations it rests on, and whether the year is full
 # Tables: lbnl_tracking_the_sun
 region,year,value,n_observations,full_year

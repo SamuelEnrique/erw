@@ -274,12 +274,12 @@ CANDIDATES = [
     C("added_mw", FAMILY, added_mw, "MW", 0, 1, 500.0, "WHAT ENTERED SERVICE",
       "the nameplate MW of today's operating generators that entered service in the year",
       lambda w: f"the nameplate capacity of {w} that entered service in the year and operates today",
-      LIMIT_860M, reproduce("added_mw"), consequence=3),
+      LIMIT_860M, reproduce("added_mw"), first_words="the first year this measure counts", consequence=3),
     C("battery_hours", FAMILY, battery_hours, "MWh per MW", 2, 1, 0.2, "HOW LONG NEW BATTERIES RUN",
       "the MWh per MW of the batteries that entered service in the year (their summed MWh over their summed MW)",
       lambda w: "the energy capacity per MW of the US batteries that entered service in the year",
       LIMIT_860M + " A battery's MWh is its reported energy capacity, not what it delivers in a cycle; a year with less than 100 MW entering service is left out.",
-      reproduce("battery_hours"), consequence=3),
+      reproduce("battery_hours"), first_words="the first year this measure counts", consequence=3),
     C("coal_retired", FAMILY, coal_retired, "MW", 0, 1, 1000.0, "COAL RETIRED",
       "the nameplate MW of coal-fired generators retired in the year",
       lambda w: "the nameplate capacity of US coal-fired generators retired in the year",
@@ -289,17 +289,17 @@ CANDIDATES = [
       "the mean rated capacity of the onshore turbines of the year's projects",
       lambda w: "the mean rated capacity of the US onshore wind turbines of the year's projects",
       "The US Wind Turbine Database's project year and turbine rating; turbines without a rating are left out, and repowered turbines keep their project's year.",
-      reproduce("turbine_kw"), consequence=2),
+      reproduce("turbine_kw"), first_words="the first year this measure counts", consequence=2),
     C("turbine_rotor", FAMILY, turbine_rotor, "m", 1, 1, 5.0, "THE ROTOR OF A WIND TURBINE",
       "the mean rotor diameter of the onshore turbines of the year's projects",
       lambda w: "the mean rotor diameter of the US onshore wind turbines of the year's projects",
       "The US Wind Turbine Database's project year and rotor diameter; turbines without a diameter are left out.",
-      reproduce("turbine_rotor"), consequence=2),
+      reproduce("turbine_rotor"), first_words="the first year this measure counts", consequence=2),
     C("res_pv_price", FAMILY, res_pv_price, "USD per kW DC", 0, 1, 200.0, "WHAT A HOME SOLAR SYSTEM COSTS",
       "the median installed price of the year's residential systems over their DC size",
       lambda w: f"the median installed price of {w}",
       "Nominal dollars; the ERW's unscreened median over the systems Berkeley Lab lists with a price, not Berkeley Lab's reported figure; a year with fewer than 500 priced systems is left out.",
-      reproduce("res_pv_price"), consequence=2),
+      reproduce("res_pv_price"), first_words="the first year this measure counts", consequence=2),
     C("battery_fleet_mw", FAMILY, battery_fleet_mw, "MW", 0, 1, 500.0, "THE BATTERY FLEET",
       "the battery fleet in operation at the year's end",
       lambda w: f"the battery fleet in operation in {w} at the year's end",
@@ -327,12 +327,13 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="The findings hunt, family generation, the build-out (chain 164)")
     ap.add_argument("--in-dir", default=None)
     ap.add_argument("--only", default=None)
+    ap.add_argument("--replace", action="store_true", help="session 3009: correct the open drafts of the same claims in place")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--dry-run", action="store_true")
     g.add_argument("--load", action="store_true")
     a = ap.parse_args(argv)
     cands = [P for P in CANDIDATES if not a.only or P["name"] == a.only]
-    builder.run(FAMILY + "_buildout", cands, a.in_dir, dry_run=not a.load, max_drafts=13)
+    builder.run(FAMILY + "_buildout", cands, a.in_dir, dry_run=not a.load, max_drafts=13, replace=a.replace)
     return 0
 
 

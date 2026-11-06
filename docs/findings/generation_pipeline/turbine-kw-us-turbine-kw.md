@@ -2,11 +2,11 @@
 
 Draft `scan-deep-ca16b8ec9d96` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The mean rated capacity of the US onshore wind turbines of the year's projects was 3,804 kW in 2025, against 1,512 kW in 2005, the first full year the ERW holds.
+**The finding.** The mean rated capacity of the US onshore wind turbines of the year's projects was 3,804 kW in 2025, against 1,512 kW in 2005, the first year this measure counts.
 
 ![The size of a wind turbine, US onshore wind turbines](turbine-kw-us-turbine-kw.png)
 
-**The figure by full year** (kW): 2005: 1,512, 2006: 1,577, 2007: 1,660, 2008: 1,669, 2009: 1,741, 2010: 1,773, 2011: 1,984, 2012: 1,957, 2013: 1,847, 2014: 1,923, 2015: 2,004, 2016: 2,149, 2017: 2,111, 2018: 2,443, 2019: 2,550, 2020: 2,760, 2021: 3,011, 2022: 3,255, 2023: 3,339, 2024: 3,496, 2025: 3,804.
+**The figure by full year** (kW): 2005: 1,512, 2006: 1,577, 2007: 1,660, 2008: 1,669, 2009: 1,741, 2010: 1,774, 2011: 1,984, 2012: 1,957, 2013: 1,847, 2014: 1,923, 2015: 2,004, 2016: 2,149, 2017: 2,111, 2018: 2,443, 2019: 2,550, 2020: 2,760, 2021: 3,011, 2022: 3,255, 2023: 3,339, 2024: 3,496, 2025: 3,804.
 
 **The tables and rows.** `uswtdb_wind_turbines`; the rows for US onshore wind turbines, region key `us_turbine_kw` (the card's `hunt.region`), years 2005 to 2025. The yearly values: `turbine-kw-us-turbine-kw.csv`.
 

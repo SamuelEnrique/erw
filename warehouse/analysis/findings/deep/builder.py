@@ -107,10 +107,11 @@ def check_text(text, name):
     return text
 
 
-def build(P, region, words, series, c, tables, out_dir, why, docs_root=None):
-    """One draft: the row of public.scanner_drafts with its card and files, and its document under docs/findings/."""
+def build(P, region, words, series, c, tables, out_dir, why, docs_root=None, did=None):
+    """One draft: the row of public.scanner_drafts with its card and files, and its document under docs/findings/.
+    did: the id to build under (session 3009: a correction keeps its open draft's id)."""
     import card_image
-    did, s = draft_id(P, region, c), slug(P, region)
+    did, s = did or draft_id(P, region, c), slug(P, region)
     fact = sentence(P, words, c)
     tests_words = " ".join(f"{t['name'].capitalize()}: {t['words']} ({'passed' if t['passed'] else 'failed'})." for t in c["tests"])
     source_line = f"Source: the ERW tables {', '.join(tables)}, the rows for {words}; computed by warehouse/analysis/findings/deep/{P['family']}.py ({P['name']})."
@@ -210,7 +211,45 @@ def document(P, s, did, region, words, fact, c, tables, texts, files, out_dir, d
         f.write(text)
 
 
-def run(family, candidates, in_dir=None, dry_run=True, load=None, log=print, now=None, out_root=None, max_drafts=MAX_DRAFTS):
+def _rest():
+    import urllib.parse
+    sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+    import lock
+    url, key = lock.env("SUPABASE_URL"), lock.env("SUPABASE_SERVICE_KEY")
+    if not url or not key:
+        raise RuntimeError("a correction needs SUPABASE_URL and SUPABASE_SERVICE_KEY (.env or the environment)")
+    u = urllib.parse.urlparse(url)
+    return f"{u.scheme}://{u.netloc}/rest/v1/scanner_drafts", {"apikey": key, "Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+
+
+def open_rows():
+    """{flag_key: id} of this chain's rows still in state draft (session 3009): the rows a correction may update."""
+    import requests
+    base, h = _rest()
+    r = requests.get(base, params={"select": "id,flag_key,state", "rule": "eq.hunt", "state": "eq.draft", "id": "like.scan-deep-*", "limit": "5000"},
+                     headers=h, timeout=60)
+    r.raise_for_status()
+    return {x["flag_key"]: x["id"] for x in r.json()}
+
+
+def patch_rows(rows, log=print):
+    """Update each row in place (its id kept), only while it is still in state draft. Returns the ids updated."""
+    import requests
+    base, h = _rest()
+    done = []
+    for d in rows:
+        body = {k: d[k] for k in ("flag_key", "table_name", "series_key", "flag_date", "value", "strength", "scanner_version", "flag", "card", "files")}
+        w = requests.patch(base, params={"id": f"eq.{d['id']}", "state": "eq.draft"}, data=json.dumps(body, default=common.round6, allow_nan=False),
+                           headers={**h, "Prefer": "return=representation"}, timeout=120)
+        w.raise_for_status()
+        if w.json():
+            done.append(d["id"])
+    log(f"{len(done)} draft(s) corrected in place; {len(rows) - len(done)} no longer in state draft, left as they are")
+    return done
+
+
+def run(family, candidates, in_dir=None, dry_run=True, load=None, log=print, now=None, out_root=None, max_drafts=MAX_DRAFTS,
+        replace=False, open_drafts=None, patch=None):
     """Every candidate of a family: test each region, keep the strongest passing claims, build their drafts and (not a
     dry run) add them to the review list. Returns the summary (also runs/deep/<day>/<family>.json)."""
     now = now or dt.datetime.now(dt.timezone.utc)
@@ -253,6 +292,9 @@ def run(family, candidates, in_dir=None, dry_run=True, load=None, log=print, now
     passing.sort(key=lambda x: (-x[0]["consequence"], -(x[0]["rank_region"](x[1]) if x[0].get("rank_region") else 0.0),
                                 -(x[0]["rank"](x[4]) if x[0].get("rank") else x[4]["strength"]), x[1]))
     built, per, seen = [], {}, set()
+    # session 3009: a correction rebuilds a claim under the id of its open draft (state draft only, never a row the owner
+    # acted on) and updates that row in place; a claim with no open draft is added as before
+    opened = (open_drafts or open_rows)() if replace and not dry_run else {}
     for P, region, words, series, c, tables, row in passing:
         same = (round(c["first"], 6), round(c["last"], 6), c["first_year"], c["last_year"])
         story = (P["name"], P.get("area", lambda r: r)(region))
@@ -262,8 +304,9 @@ def run(family, candidates, in_dir=None, dry_run=True, load=None, log=print, now
         if story in seen:
             row["reason"] = "passes; folded into the draft of the same candidate and area (a hub and its load zone of one name tell one story)"
             continue
-        if per.get(P["name"], 0) >= MAX_PER_CANDIDATE:
-            row["reason"] = f"passes; beyond the {MAX_PER_CANDIDATE} strongest regions of its candidate"
+        cap = P.get("max_per", MAX_PER_CANDIDATE)          # session 3009: a candidate may keep more regions (three types of request)
+        if per.get(P["name"], 0) >= cap:
+            row["reason"] = f"passes; beyond the {cap} strongest regions of its candidate"
             continue
         if len(built) >= max_drafts:
             row["reason"] = f"passes; beyond the {max_drafts} kept this session"
@@ -272,13 +315,18 @@ def run(family, candidates, in_dir=None, dry_run=True, load=None, log=print, now
         seen.add(story)
         per[P["name"]] = per.get(P["name"], 0) + 1
         # session 3004: a dry run writes its documents beside its run, so that only loaded drafts reach docs/findings/
+        key = f"hunt|{P['module']}|{P['name']}|{region}"
         d = build(P, region, words, series, c, tables, out_dir, "new: the findings hunt over the whole warehouse (chain 164)",
-                  docs_root=os.path.join(out_dir, "docs") if dry_run else None)
-        row.update(drafted=True, draft_id=d["id"], fact=d["card"]["subtitle"])
+                  docs_root=os.path.join(out_dir, "docs") if dry_run else None, did=opened.get(key))
+        row.update(drafted=True, draft_id=d["id"], fact=d["card"]["subtitle"], replaces=bool(opened.get(key)))
         built.append(d)
     loaded = []
     if built and not dry_run:
-        loaded = (load or hunt.load_drafts)(built, log)
+        fresh = [d for d in built if d["flag_key"] not in opened]
+        again = [d for d in built if d["flag_key"] in opened]
+        loaded = list((load or hunt.load_drafts)(fresh, log)) if fresh else []
+        if again:
+            loaded += (patch or patch_rows)(again, log)
     summary = {"deep_version": VERSION, "family": family, "computed_at": common.now_iso(), "candidates": [P["name"] for P in candidates],
                "claims": len(results), "passed": len(passing), "drafts": [d["id"] for d in built], "loaded": list(loaded), "dry_run": bool(dry_run),
                "failed": failed, "results": results}

@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): findings hunt (chain 164), candidate fleet_hours, region us_fleet_battery_operating_mwh_per_mw (the United States)
-# Computed 2026-11-06T11:55:06Z by warehouse/analysis/findings/deep/generation_pipeline.py (fleet_hours); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Computed 2026-11-06T12:13:11Z by warehouse/analysis/findings/deep/generation_pipeline.py (fleet_hours); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
 # Rows: one per year held: the battery fleet's MWh per MW at the year's end (MWh per MW), the observations it rests on, and whether the year is full
 # Tables: storage_buildout_monthly
 region,year,value,n_observations,full_year

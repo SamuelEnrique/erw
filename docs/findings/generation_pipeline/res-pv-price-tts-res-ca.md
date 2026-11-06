@@ -2,7 +2,7 @@
 
 Draft `scan-deep-af2dc7748c3c` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The median installed price of residential systems in California was 4,150 USD per kW DC in 2023, against 8,308 USD per kW DC in 2001, the first full year the ERW holds.
+**The finding.** The median installed price of residential systems in California was 4,150 USD per kW DC in 2023, against 8,308 USD per kW DC in 2001, the first year this measure counts.
 
 ![What a home solar system costs, residential systems in California](res-pv-price-tts-res-ca.png)
 

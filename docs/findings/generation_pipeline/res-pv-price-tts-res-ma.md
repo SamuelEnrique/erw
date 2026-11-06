@@ -2,7 +2,7 @@
 
 Draft `scan-deep-1684caf0fa14` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The median installed price of residential systems in Massachusetts was 3,916 USD per kW DC in 2023, against 8,025 USD per kW DC in 2009, the first full year the ERW holds.
+**The finding.** The median installed price of residential systems in Massachusetts was 3,916 USD per kW DC in 2023, against 8,025 USD per kW DC in 2009, the first year this measure counts.
 
 ![What a home solar system costs, residential systems in Massachusetts](res-pv-price-tts-res-ma.png)
 

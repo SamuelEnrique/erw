@@ -2,7 +2,7 @@
 
 Draft `scan-deep-4dd4f313b2f6` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The mean rotor diameter of the US onshore wind turbines of the year's projects was 141.0 m in 2025, against 80.6 m in 2005, the first full year the ERW holds.
+**The finding.** The mean rotor diameter of the US onshore wind turbines of the year's projects was 141.0 m in 2025, against 80.6 m in 2005, the first year this measure counts.
 
 ![The rotor of a wind turbine, US onshore wind turbines](turbine-rotor-us-turbine-rotor.png)
 

@@ -1,4 +1,4 @@
-* Expected: 2011 1.625, 2025 2.855958, change 1.230958 (MWh per MW); tolerance 0.5 percent of the change.
+* Expected: 2015 0.534192, 2025 2.855958, change 2.321766 (MWh per MW); tolerance 0.5 percent of the change.
 
 * ERW findings hunt (chain 164): reproduce candidate battery_hours for us_battery_hours from the ERW's public table.
 
@@ -18,7 +18,7 @@ keep if inrange(operating_year, 2010, 2025)
 
 collapse (sum) mwh = energy_capacity_mwh (sum) mw = nameplate_mw, by(operating_year)
 
-keep if mw > 0
+keep if mw >= 100
 
 generate double measure = mwh / mw
 

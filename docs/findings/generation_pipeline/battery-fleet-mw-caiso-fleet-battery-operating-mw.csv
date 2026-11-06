@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): findings hunt (chain 164), candidate battery_fleet_mw, region caiso_fleet_battery_operating_mw (CAISO)
-# Computed 2026-11-06T11:55:05Z by warehouse/analysis/findings/deep/generation_pipeline.py (battery_fleet_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Computed 2026-11-06T12:13:11Z by warehouse/analysis/findings/deep/generation_pipeline.py (battery_fleet_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
 # Rows: one per year held: the battery fleet in operation at the year's end (MW), the observations it rests on, and whether the year is full
 # Tables: storage_buildout_monthly
 region,year,value,n_observations,full_year

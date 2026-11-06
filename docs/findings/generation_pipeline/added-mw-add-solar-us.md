@@ -2,11 +2,11 @@
 
 Draft `scan-deep-a222729a0c70` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The nameplate capacity of solar photovoltaic, the United States that entered service in the year and operates today was 29,709 MW in 2025, against 243 MW in 2010, the first full year the ERW holds.
+**The finding.** The nameplate capacity of solar photovoltaic, the United States that entered service in the year and operates today was 29,709 MW in 2025, against 243 MW in 2010, the first year this measure counts.
 
 ![What entered service, solar photovoltaic, the United States](added-mw-add-solar-us.png)
 
-**The figure by full year** (MW): 2010: 243, 2011: 763, 2012: 1,626, 2013: 2,756, 2014: 3,423, 2015: 3,447, 2016: 8,179, 2017: 5,247, 2018: 4,951, 2019: 5,841, 2020: 10,638, 2021: 13,769, 2022: 11,288, 2023: 19,822, 2024: 31,173, 2025: 29,709.
+**The figure by full year** (MW): 2010: 243, 2011: 763, 2012: 1,631, 2013: 2,756, 2014: 3,427, 2015: 3,456, 2016: 8,179, 2017: 5,253, 2018: 4,952, 2019: 5,855, 2020: 10,661, 2021: 13,775, 2022: 11,302, 2023: 19,822, 2024: 31,173, 2025: 29,709.
 
 **The tables and rows.** `eia860m_operating_generators`; the rows for solar photovoltaic, the United States, region key `add_solar_US` (the card's `hunt.region`), years 2010 to 2025. The yearly values: `added-mw-add-solar-us.csv`.
 
