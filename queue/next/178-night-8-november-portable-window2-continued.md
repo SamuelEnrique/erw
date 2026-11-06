@@ -24,11 +24,18 @@ Long end 0:45. The next file. Then chain 169's note read against main: every bra
 
 Long end 1:00 each. Every step of chain 169 its note says did not finish, in chain 169's order, one a session (session 3133 writes the list here). A push and landing request after session 3137 and after session 3140.
 
-The list (session 3133 replaces this paragraph): until then, every step of chain 169 from session 3123 on is listed as unfinished.
+The list, written by session 3133 (chain 169's note, `docs/state/note_2026-11-08_portable_window2.md`, has the why of each):
+
+1. **Session 3135: what the build found.** When the desktop lands row 7 (`wip/3132-policy`), its gate is the monitor's first compile: read its output and fix every type or build error with a test. If not landed, re-read the monitor's components against any change main has made since to `components/svgchart.tsx`, `site/lib/policyweek.ts` or `site/app/policy/page.tsx` (other chains' edits), and merge.
+2. **Session 3136: the monitor at 390 and 1280, from the built page.** Once landed, read `/policy?view=monitor` in the desktop's snapshot (never building here) and fix what it shows wrong, with a test.
+3. **Session 3137: the tracer on the data machine's copy.** Once the desktop's connector run has written the new fields, restore `policy_actions` (`scripts/sync.py --tables ^policy`) and run `python scripts/check_policy.py`: every FAIL fixed at its rule. Then the push and request.
+4. **Session 3138: your rulings.** Whatever you have ruled on chain 166's and 169's questions (a rescoring under the note, the records as a table, the impact read daily, the monitor as the first view, dropping out-of-scope rows): its code, never a run that writes warehouse data. With no ruling, the session says so and does step 5 instead.
+5. **Session 3139: a fresh audit.** The newest 400 actions after the data machine's run (or, if none has run, the 400 before the audit's own window), every fifth: 80 actions never used to write a rule, read against their documents with the chain's code; each class counted again. This is the honest measure of the rules of chains 166 and 169, which were written against the first 80.
+6. **Session 3140: the fresh audit's largest class**, fixed with its fixture and test. Then the push and request.
 
 ## Sessions 3141 to 3144: the faults file's open rows
 
-Long end 1:00 each. The open rows of `docs/reviews/policy-audit-2026-11-06.md`, one fault class a session, largest count first: a fixture of stored actions with answers written from their own text, the test, the fix, the audit row's count before and after. A push and landing request after session 3144.
+Long end 1:00 each. The open rows of the fresh audit of session 3139 (and of `docs/reviews/policy-audit-2026-11-06.md`, whose rows left after chain 169 are only those waiting for a rescoring and three by design), one fault class a session, largest count first: a fixture of stored actions with answers written from their own text, the test, the fix, the audit row's count before and after. A push and landing request after session 3144.
 
 ## Session 3145: the note, the next file, the push, the queue
 
