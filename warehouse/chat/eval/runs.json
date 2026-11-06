@@ -126,6 +126,20 @@
     "what": "asked through the Python loop (eval_loop.py) after USD per kW on by default (chain 152), graded under the hold",
     "where": "`docs/reviews/ask-faults-2026-11-05.md`"
    }
+  },
+  {
+   "file": "eval_s2222_loop_run.json",
+   "grades": "eval_s2222_loop_grades.json",
+   "right": "held_ok",
+   "label": "session 2222, Python loop",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "held",
+    "set": "`questions_s320.yaml`",
+    "what": "asked through the Python loop after a repeated call is counted and not read and a figure is written as returned (chain 152), graded under the hold",
+    "where": "`docs/reviews/ask-faults-2026-11-05.md`"
+   }
   }
  ],
  "left_out": {
@@ -136,6 +150,7 @@
   "keys_s1114.json": "the keys of questions_s1114.yaml, written by expected_s1114.py, not a run",
   "expected_s1122.json": "the keys of the board's five questions, not yet asked",
   "runs.json": "this list",
-  "eval_s2221_loop_keys.json": "the keys of session 2221's asking through the Python loop, not a run"
+  "eval_s2221_loop_keys.json": "the keys of session 2221's asking through the Python loop, not a run",
+  "eval_s2222_loop_keys.json": "the keys of session 2222's asking through the Python loop, not a run"
  }
 }
