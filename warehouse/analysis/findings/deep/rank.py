@@ -43,7 +43,7 @@ def score(card):
     return cons, nov, strength, why
 
 
-def main():
+def main(append=None):
     import lock
     import psycopg
     with psycopg.connect(lock.env("SUPABASE_DB_URL")) as c:
@@ -73,14 +73,19 @@ def main():
     lines += ["", "## Every draft", "", "| Rank | Score | C | N | S | Moves | Family | Candidate | Region | Draft |", "|---:|---:|---:|---:|---:|---:|---|---|---|---|"]
     for i, (tot, s, did, card, cons, nov, st, why) in enumerate(ranked, 1):
         lines.append(f"| {i} | {tot} | {cons} | {nov} | {st} | {s:.1f} | {card['hunt']['family']} | {card['hunt']['pattern']} | {card['hunt']['region']} | `{did}` |")
+    if append:
+        # session 3184 (chain 166): a later ranking is a dated section added to the file; the earlier ones are kept
+        first = lines.index("## The drafts by family")
+        lines = ["", f"## {append}", "", f"Every draft still a draft on the review list, {len(ranked)} in all, ranked by the same rubric (above)."] + [
+            ("#" + ln if ln.startswith("## ") else ln) for ln in lines[first:]]
     text = "\n".join(lines) + "\n"
     if chr(0x2014) in text or chr(0x2013) in text:
         raise SystemExit("a dash the repository forbids")
-    with open(OUT, "w", encoding="utf-8", newline="\n") as f:
+    with open(OUT, "a" if append else "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
-    print(f"{len(ranked)} drafts ranked; {OUT}")
+    print(f"{len(ranked)} drafts ranked; {OUT}{' (appended)' if append else ''}")
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[2] if len(sys.argv) > 2 and sys.argv[1] == "--append" else None))
