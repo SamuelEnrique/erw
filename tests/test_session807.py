@@ -39,7 +39,10 @@ class WhatTheDryRunShowed(unittest.TestCase):
     def test_a_bullet_without_a_why_line_still_reads(self):
         import inspect
         src = inspect.getsource(brief.main)
-        self.assertEqual(src.count('" ".join(x for x in (why_line(r[\'why\'], heads[r[\'cluster_id\']]), link_text(r[\'links\'][:1])) if x)'), 2)
+        # session 1467 (fault 46): both lines are sector_line's, which drops the colon when there is no why line
+        self.assertEqual(src.count("sector_line(r, heads[r['cluster_id']])"), 2)
+        line = brief.sector_line({"why": "", "sector": "nuclear", "links": [("ANS", "https://example.org/a")]}, "A reactor uprate")
+        self.assertEqual(line, "- A reactor uprate (nuclear). [ANS](https://example.org/a)")
 
 
 class TheWindow(unittest.TestCase):

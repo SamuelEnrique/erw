@@ -145,7 +145,9 @@ class WhereTheRuleLives(unittest.TestCase):
 
     def test_every_why_line_goes_with_its_headline(self):
         src = inspect.getsource(brief.main)
-        self.assertGreaterEqual(src.count("why_line(r['why'], heads[r['cluster_id']])"), 3)
+        # session 1467: two of them are sector_line(r, heads[r['cluster_id']]), which calls why_line(r["why"], head)
+        self.assertGreaterEqual(src.count("why_line(r['why'], heads[r['cluster_id']])") + src.count("sector_line(r, heads[r['cluster_id']])"), 3)
+        self.assertIn('why_line(r["why"], head)', inspect.getsource(brief.sector_line))
         self.assertNotIn("why_line(r['why'])", src)
         self.assertIn("why_line(r['why'], r['title'])", inspect.getsource(brief.policy_actions_lines))
         rsrc = inspect.getsource(roundup)
