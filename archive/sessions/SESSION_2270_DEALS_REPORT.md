@@ -1,6 +1,6 @@
 # Session 2270 (chain 174, deals and datacenters) report: deals' AI-power tag
 
-6 November 2026, about 13:30 to 13:36 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2270-deals`, cut from `wip/2269-deals`. Model spend **USD 0** (code; the answers replayed). Nothing deployed; no warehouse data written.
+6 November 2026, about 13:29 to 13:32 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2270-deals`, cut from `wip/2269-deals`. Model spend **USD 0** (code; the answers replayed). Nothing deployed; no warehouse data written.
 
 - **The class**: AI-power tag wrong, 2 of 106 on the second read (D005 a motive, D104 a market).
 - **The fix**: `fields.DATACENTER_GENERIC` (a datacenter, hyperscale or AI word followed by buildout, boom, demand, market, growth, sector, industry, race, frenzy or spending) is taken out of the words before `DATACENTER_WORDS` reads a load; a named AI party is read first, as before.
