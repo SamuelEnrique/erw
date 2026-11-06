@@ -25,6 +25,17 @@ import sys
 
 import pandas as pd
 
+
+def _hdr(path):
+    """The number of "#" header lines before a table's column row (iso_prices.header_rows: never comment="#")."""
+    n = 0
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    return n
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
@@ -79,7 +90,7 @@ def main(argv=None):
     args = ap.parse_args(argv)
     import iso_prices as ip
     src = os.path.join(ip.OUT_DIR, "datacenter_projects.csv")
-    fac = pd.read_csv(src, comment="#", dtype=str, keep_default_na=False)
+    fac = pd.read_csv(src, skiprows=_hdr(src), dtype=str, keep_default_na=False)
     day = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
     rows = pd.DataFrame(rollups(fac, day), columns=ip.SERIES_COLS)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")

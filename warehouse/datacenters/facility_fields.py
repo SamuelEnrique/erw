@@ -14,6 +14,17 @@ import sys
 
 import pandas as pd
 
+
+def _hdr(path):
+    """The number of "#" header lines before a table's column row (iso_prices.header_rows: never comment="#")."""
+    n = 0
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    return n
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 
@@ -119,7 +130,7 @@ def utilities(path=None):
     path = path or territories_path()
     out = {}
     if path:
-        t = pd.read_csv(path, comment="#", dtype=str, keep_default_na=False,
+        t = pd.read_csv(path, skiprows=_hdr(path), dtype=str, keep_default_na=False,
                         usecols=["name", "x_utility_number", "x_state", "x_county"])
         for r in t.itertuples():
             out.setdefault((r.x_state.upper(), county_key(r.x_county)), []).append((r.name, r.x_utility_number))

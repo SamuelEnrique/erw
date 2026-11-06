@@ -32,6 +32,17 @@ import tempfile
 
 import pandas as pd
 
+
+def _hdr(path):
+    """The number of "#" header lines before a table's column row (iso_prices.header_rows: never comment="#")."""
+    n = 0
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    return n
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SITE = os.path.join(ROOT, "site")
 FORM_KIND = {"ppa": "ppa", "offtake": "offtake", "project_finance": "project_finance", "m_and_a": "m_and_a",
@@ -74,7 +85,7 @@ def quarter(date):
 
 
 def deals_of(path):
-    d = pd.read_csv(path, comment="#", dtype=str, keep_default_na=False)
+    d = pd.read_csv(path, skiprows=_hdr(path), dtype=str, keep_default_na=False)
     with open(os.path.join(SITE, "data", "deal_duplicates.json"), encoding="utf-8") as f:
         pairs = json.load(f)["pairs"]
     ids = set(d["event_id"])

@@ -32,6 +32,17 @@ import sys
 
 import pandas as pd
 
+
+def _hdr(path):
+    """The number of "#" header lines before a table's column row (iso_prices.header_rows: never comment="#")."""
+    n = 0
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    return n
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "warehouse", "output")
 DEAL_SECTORS = ["deal", "ppa", "capital", "nuclear", "generation", "datacenter_power", "lng", "oil", "gas"]
@@ -39,7 +50,7 @@ DEAL_BATCH, DC_BATCH, SCORE_BATCH = 12, 10, 25
 
 
 def read(path, **kw):
-    return pd.read_csv(path, comment="#", dtype=str, keep_default_na=False, **kw)
+    return pd.read_csv(path, skiprows=_hdr(path), dtype=str, keep_default_na=False, **kw)
 
 
 def step_costs(status_path):

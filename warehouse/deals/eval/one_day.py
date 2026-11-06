@@ -19,6 +19,17 @@ import sys
 
 import pandas as pd
 
+
+def _hdr(path):
+    """The number of "#" header lines before a table's column row (iso_prices.header_rows: never comment="#")."""
+    n = 0
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    return n
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, HERE)
@@ -44,7 +55,7 @@ def run(step, day, cap, keep, src_out, src_root):
     with box(ex, rec, model) as tmp:
         for t in TABLES[step] + ["news_stories"]:
             shutil.copyfile(os.path.join(src_out, t + ".csv"), os.path.join(tmp, t + ".csv"))
-        news = pd.read_csv(os.path.join(tmp, "news_stories.csv"), comment="#", dtype=str, keep_default_na=False,
+        news = pd.read_csv(os.path.join(tmp, "news_stories.csv"), skiprows=_hdr(os.path.join(tmp, "news_stories.csv")), dtype=str, keep_default_na=False,
                            usecols=["event_id", "event_date"])
         todays = set(news.loc[news["event_date"].str[:10] == day, "event_id"])
         chk = pd.read_csv(os.path.join(src_root, "warehouse", step, "checked.csv"), dtype=str, keep_default_na=False)
@@ -54,7 +65,7 @@ def run(step, day, cap, keep, src_out, src_root):
             p = os.path.join(tmp, TABLES[step][0] + ".csv")
             with open(p, encoding="utf-8") as f:
                 head = [x for x in f if x.startswith("#")]
-            t0 = pd.read_csv(p, comment="#", dtype=str, keep_default_na=False)
+            t0 = pd.read_csv(p, skiprows=_hdr(p), dtype=str, keep_default_na=False)
             only = t0["story_ids"].apply(lambda s: set(s.split(";")) <= todays)
             t0[~only].to_csv(p + ".body", index=False, lineterminator="\n")
             with open(p, "w", encoding="utf-8", newline="") as f:
@@ -62,11 +73,11 @@ def run(step, day, cap, keep, src_out, src_root):
                 f.write(open(p + ".body", encoding="utf-8").read())
             os.remove(p + ".body")
             print(f"{step}: --fresh: {int(only.sum())} rows of {day} taken out")
-        before = {t: pd.read_csv(os.path.join(tmp, t + ".csv"), comment="#", dtype=str, keep_default_na=False)
+        before = {t: pd.read_csv(os.path.join(tmp, t + ".csv"), skiprows=_hdr(os.path.join(tmp, t + ".csv")), dtype=str, keep_default_na=False)
                   for t in TABLES[step]}
         rc = ex.main(["--max-calls", "20"])
         log = dfx.log_of(tmp)
-        after = {t: pd.read_csv(os.path.join(tmp, t + ".csv"), comment="#", dtype=str, keep_default_na=False)
+        after = {t: pd.read_csv(os.path.join(tmp, t + ".csv"), skiprows=_hdr(os.path.join(tmp, t + ".csv")), dtype=str, keep_default_na=False)
                  for t in TABLES[step]}
         os.makedirs(keep, exist_ok=True)
         main_t = TABLES[step][0]

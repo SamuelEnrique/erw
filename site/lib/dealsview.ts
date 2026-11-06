@@ -139,7 +139,7 @@ export const CSV_COLUMNS: [string, (d: Row) => string | number | null][] = [
 const cell = (v: string | number | null): string => {
   if (v === null || v === undefined) return "";
   const s = String(v);
-  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  return /[",\n\r#]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;   // session 2242: a "#" quoted, so a reader's comment="#" spares it
 };
 
 /** The filtered rows as CSV, with the header comment lines the ERW's own files carry. */
