@@ -156,7 +156,7 @@ class TheSection(unittest.TestCase):
             self.assertTrue(L[6].startswith("The table holds ") and L[6].endswith("; the last is July 2026."))   # session 2206: what is held
             self.assertIn(f"`{c[0]['table']}`", L[8])
             self.assertIn(f"(/data#{c[0]['table']})", L[8])
-            self.assertIn("not by a person or a model", L[8])
+            self.assertIn("not by a person or a model", L[10])   # session 2703: the reading of the choice on its own line
             self.assertNotIn(EM, "\n".join(L))
             with open(os.path.join(d, "2026-10-13.png"), "rb") as f:
                 head = f.read(24)
@@ -302,8 +302,9 @@ class TheCandidatesAcrossTwoMachines(unittest.TestCase):
 class TheDigestAndTheEmail(unittest.TestCase):
     def test_the_section_sits_after_the_numbers_and_before_the_fun_fact(self):
         text = src("warehouse", "news", "brief.py")
-        # session 805: the day's top ten go with the call, so the chart follows the day
-        a, b, c = text.index('"## ERW\'s Numbers Today"'), text.index("L += daily_chart_section(digest_date, log, args.out, stories="), text.index("L += fun_fact_section(digest_date, log)")
+        # session 805: the day's top ten go with the call, so the chart follows the day; session 2703: in the v2 order the
+        # full numbers sit in the fold ("### "), still before the chart and the fun fact
+        a, b, c = text.index('"### ERW\'s Numbers Today"'), text.index("L += daily_chart_section(digest_date, log, args.out, stories="), text.index("L += fun_fact_section(digest_date, log)")
         self.assertLess(a, b)
         self.assertLess(b, c)
 

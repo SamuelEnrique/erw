@@ -3,7 +3,7 @@ import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { notFound } from "next/navigation";
 import { DOCS, digestDates, isoWeek, renderDigest, weeklyWeeks } from "@/lib/markdown";
-import { dayKind, dayWords } from "@/lib/digest";
+import { ISSUE_NOTES, dayKind, dayWords } from "@/lib/digest";
 import { digestRevisions } from "@/lib/digestLive";
 import { utcDay } from "@/lib/license";
 
@@ -65,6 +65,8 @@ export default async function DigestDay({ params }: PageProps<"/digest/[date]">)
   return (
     <Brand>
       {nav}
+      {/* session 2701 (rulings item 8): an issue kept as written says so in one line */}
+      {ISSUE_NOTES[date] ? <p className="mb-4 max-w-prose text-sm text-muted" data-issue-note={date}>{ISSUE_NOTES[date]}</p> : null}
       <article className="prose-erw" data-digest-day={date} dangerouslySetInnerHTML={{ __html: renderDigest(DOCS.digests[date], date, new Date(), revisions) }} />
     </Brand>
   );
