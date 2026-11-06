@@ -1,0 +1,32 @@
+# Roadmap item 2: the ground, before chain 208 (written 6 November 2026, about 22:00 UTC, session 3700)
+
+Energy Research Warehouse (ERW). Chain 208 (`queue/done/208-night-6-november-portable-sellable.md`), session 3700, the portable laptop. Read from `origin/main` at `0f544a79d`. `docs/roadmap.md` is not edited (only a person writes there). Item 2's `done:` line: "each of the five has a method note signed by Samuel, a replication a reader can run, a cross-check table against published figures, and a decisions block; Automated Analysis in its final form; the Grid tool one page". Chain 158's table of the same date is `docs/state/roadmap_item2_state_2026-11-07.md`; this file takes it as its start and reads the last two tools item by item. Session 3710 rewrites this file with the after state.
+
+What each column means here:
+
+- **Method note:** a note under `docs/methods/` that states the tool's method; "signed" is a filled "Sign-off" block.
+- **Replication (Python and Stata):** a package a reader runs from the tool's public downloads that prints each figure beside the page's with the difference. Chain 158's form is `replication/<tool>/` (`replicate.py`, `replicate.do`, `assumptions.json`, `page_figures.json`).
+- **Cross-check table:** a table of the tool's figures against a published figure from a named source, the gap and its reason.
+- **Decisions block:** every assumption, its default, its source and how to change it.
+
+## The five tools
+
+| Tool | Method note | Replication (Python and Stata) | Cross-check table | Decisions block |
+|---|---|---|---|---|
+| What a battery earns (`/cost-of-power/battery`) | yes: `docs/methods/battery_earns_algorithm.md`; not signed (its "Sign-off" block is empty) | yes: `replication/battery/` (`replicate.py`, 22 of 22; `replicate.do`, not run: no Stata on the code machines) | yes: the note's "Cross-checks" | in part: the note's section 6 ("Assumptions, their defaults and sources") and the shared scenario block on the page (`site/components/decisions/ScenarioBlock.tsx`); no "decisions on the page" list of its own as the other two have (`site/lib/decisions.ts` holds `DATACENTER_DECISIONS` and `GENERATOR_DECISIONS` only) |
+| What a generator earns (`/cost-of-power/seller`) | yes: `docs/methods/generator_earns_algorithm.md`; not signed | yes: `replication/generator/` (13 of 13; `replicate.do` not run) | yes: the note's "Cross-checks" | yes: the note's section 13 and `GENERATOR_DECISIONS` on the page (`data-decisions="463"`) |
+| What a datacenter pays (`/cost-of-power`) | yes: `docs/methods/datacenter_pays_algorithm.md`; not signed | yes: `replication/datacenter/` (14 of 14 since session 1523; `replicate.do` not run) | yes: the note's "Cross-checks" | yes: the note's section 12 and `DATACENTER_DECISIONS` on the page (`data-decisions="462"`) |
+| Automated Analysis (`/research`; `/analysis` redirects there since session 238) | yes, three notes: `docs/methods/automated_analysis.md` (the templates, the rule, the watch list), `automated_analysis_findings.md` (the finding cards), `automated_analysis_scanner.md` (the daily scanner and its chart); none signed, none has a "Sign-off" block | **no package under `replication/`**. What exists: each finding card's own `.py` and `.do` under `site/public/findings/` with its CSV, and `site/public/findings/erw_2026_research_replication.py` (session 381, ten cards' figures from their CSVs, numpy; `--json` compares with `site/data/findings/<card>.json`). No one package prints the page's keyed figures beside a recomputation with the difference; the weekly chart's finding (the rule's change and rank, `site/public/analysis-files/<week>/chart_of_the_week.json`) has no replication | in part: `automated_analysis_findings.md`, "Cross-checks" (session 381, four rows: two against the owner's thesis, one against a figure quoted from CDC, one against an earlier edition); none for the weekly chart | **no**: no list of every assumption with its default, source and how to change it in any of the three notes; no block on the page |
+| The Grid tool (`/grid`: tabs Network, Mix, Clean, Gravity and the Ask panel; `/network`, `/mix` and `/ask` redirect into it since session 299) | yes: `docs/methods/grid_network.md` (the network, the gravity shape, the one page), `grid_network_v3.md` (the replay), `generation_mix_hourly.md` (Mix), `emissions.md` (carbon intensity), `clean_energy.md` (Clean), `ask.md` and `ask_limits.md` (Ask); none signed, none has a "Sign-off" block | **in part**: `site/public/grid/erw_2026_grid_replication.{csv,do,py}` (session 266) rebuilds the Network and Gravity figures of one hour (2026-10-12 03:00 UTC: ties, net imports, the share of demand, the gravity circles); nothing for the network's carbon intensity, the Mix and Clean tabs or the Ask panel's figures; no package under `replication/` | in part: `grid_network.md`, "Cross-checks" (session 381, eleven rows: Form EIA-923, EIA-930's own balance, CAISO's own generation, the ties' two sides); `grid_network_links.md`, "Cross-checks" (session 2228); none for the Mix tab, carbon intensity or Ask | in part: "Decisions on this page" on the page (`site/app/grid/page.tsx`, `data-decisions="299"`: the owner's rulings 4b, 1a, 2c, 3c and 6a of 18 October 2026), repeated in `grid_network.md` ("One page, four tabs, and the Ask panel"); no list of every assumption with its default, source and how to change it; `ask.md`, "Decisions", lists dated decisions, not assumptions |
+
+## The rest of item 2's line
+
+- **Signed by Samuel:** none of the five notes is signed. Signing is the owner's act; no session writes in a "Sign-off" block.
+- **Automated Analysis in its final form:** the owner's clause; no session can say it is met.
+- **The Grid tool one page:** one page with four tabs and the Ask panel since session 299 (13 October 2026). Its design waits for the brand's mockups (the roadmap's hold "The Grid merge's design").
+
+## What chain 208 adds (its plan, sessions 3701 to 3710)
+
+- `replication/analysis/` and `replication/grid/`, each with `replicate.py` (standard library and pandas), `replicate.do` (the owner's Stata rules), `assumptions.json`, `page_figures.json` and a test.
+- The notes' "Replication" and "Cross-checks" sections, and a decisions block in each note (every assumption, its default, its source, how to change it) where missing. No page is changed.
+- One cross-check table a tool under `docs/methods/crosschecks/` (five files).

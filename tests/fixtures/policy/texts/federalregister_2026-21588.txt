@@ -1,0 +1,116 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 203 (Thursday, October 22, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 203 (Thursday, October 22, 2026)]
+[Notices]
+[Pages 66740-66741]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-21588]
+
+
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket Nos. 50-616 and 50-617; NRC-2026-0265]
+
+
+SMR, LLC; Palisades SMR, LLC; Pioneer Units 1 and 2; Phased 
+Construction Permit Application--Limited Work Authorization
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice; receipt.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) is providing 
+public notice each week, for four consecutive weeks, beginning October 
+1, 2026, of receipt and availability of the first part of a phased 
+construction permit application, including a limited work authorization 
+(LWA) request, from SMR, LLC, on behalf of Palisades SMR, LLC, a 
+wholly-owned subsidiary of Holtec International (collectively, Holtec), 
+for a dual-unit SMR-300 plant located at the Palisades Energy Center 
+(PEC) in Covert, Michigan. The units are individually named Pioneer 
+Unit 1 and Pioneer Unit 2. This is the fourth of four consecutive 
+weekly notifications.
+
+DATES: October 22, 2026.
+
+ADDRESSES: Please refer to Docket ID NRC-2026-0265 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2026-0265. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email: [email protected]. For technical 
+questions, contact the individual(s) listed in the For Further 
+Information Contact section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to [email protected]. The Pioneer Units 1 and 2 LWA application is 
+available in ADAMS under Package Accession No. ML25365A983.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+[email protected] or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+FOR FURTHER INFORMATION CONTACT: Victoria Huckabay, telephone: 301-415-
+5183, email: [email protected] and Jason Lising, telephone 301-
+415-1119; email: [email protected]. Both are staff of the Office of 
+Advanced Reactors at the U.S. Nuclear Regulatory Commission, 
+Washington, DC 20555-0001.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Discussion
+
+    On December 31, 2025, SMR, LLC, on behalf of Palisades SMR, LLC, a 
+wholly-owned subsidiary of Holtec
+
+[[Page 66741]]
+
+International (collectively, Holtec), filed with the NRC, the first 
+part (Part 1) of a phased construction permit application for a 
+utilization facility pursuant to Section 103 of the Atomic Energy Act 
+and part 50 of title 10 of the Code of Federal Regulations (10 CFR), 
+``Domestic Licensing of Production and Utilization Facilities.'' Part 1 
+of the application includes a LWA request pursuant to 10 CFR 50.10(d), 
+``Request for limited work authorization''; three exemption requests; 
+and a comprehensive environmental report (ER). In its LWA request, 
+Holtec seeks NRC approval to conduct certain early construction 
+activities of a dual-unit SMR-300 plant at the PEC in Covert, Michigan. 
+Holtec also states that the comprehensive ER addresses the 
+environmental impacts associated with LWA activities (including the 
+requested exemptions), the remainder of construction to complete the 
+plant, and plant operations. Holtec submitted Part 1 of its application 
+as part of a phased application approach for a construction permit for 
+a utilization facility, as described in 10 CFR 2.101(a)(9) and 10 CFR 
+2.600(d).
+    On February 27, 2026, the NRC issued a Federal Register notice (91 
+FR 9892) stating that the NRC staff accepted Part 1 of the phased 
+construction permit application for docketing and will perform a 
+detailed technical review. These weekly notices of receipt and 
+availability of the application are being provided in accordance with 
+the requirements in 10 CFR 50.43(a)(3).
+    Authority: 42 U.S.C. 2011 et seq.
+
+    Dated: October 5, 2026.
+
+    For the Nuclear Regulatory Commission.
+Michelle Hayes,
+Chief, Advanced Reactor Licensing Branch 2, Division of Advanced 
+Reactor Licensing, Office of Advanced Reactors.
+[FR Doc. 2026-21588 Filed 10-21-26; 8:45 am]
+BILLING CODE 7590-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
