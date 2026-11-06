@@ -27,4 +27,4 @@
 
 ## For Samuel's ruling
 
-- None new. Each month's workbook is kept from now on, so the deltas grow monthly (the next month's pull).
+- **Keeping each month's EIA-860M workbook on this machine:** the table can only give the moves between months whose workbooks are held, and the daily pull keeps only the current snapshot. Whether to keep each month's file is a question for the owner.
