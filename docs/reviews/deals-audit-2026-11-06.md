@@ -547,3 +547,7 @@ D005 ("gas pipeline order tied to data centre buildout") and D104 ("manufacturin
 ## Session 2271 (chain 174): a figure of another thing (2)
 
 D045 (a PPA) kept "$7 Billion" from "Over $7 Billion Texas Power Plant"; D053 (a lease) kept "$3.8 Billion" from "Funded by $3.8 Billion of Junk Bonds". `fields.sum_of_other` refuses such a sum on a contract; `crosscheck.stated` takes the deal's type and reads the headline the same way. **2 to 0**; every replayed row's sum and flags diffed against the committed code: only the two sums changed, no flag (2249 and 2232 fixtures).
+
+## Session 2272 (chain 174): facilities' state (2)
+
+F034 ("Hutto, Texas") and F015 ("Western Kentucky") had no state. `facility_state` reads the one US state a one-facility cluster names in full. **2 to 0**; the only other fill across both facility fixtures is the 2236 fixture's F028 ("Columbus, Georgia"), which its written answer gives as GA.

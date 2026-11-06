@@ -212,6 +212,24 @@ def facility_country(site_name, raw):
     return F.country_of(raw)
 
 
+def facility_state(raw):
+    """Session 2272 (chain 174): (state code, words) where the story's words name exactly one US state by its full name,
+    written with a capital ("Hutto, Texas", "Western Kentucky"); ("", "") when none or several. Longer names are read
+    first and blanked, so "West Virginia" is not also Virginia; "Washington" alone (the capital, a person) is not
+    read, "Washington state" is."""
+    t = " ".join(str(raw or "").replace("’", "'").split())
+    found = {}
+    for code, name in sorted(deals.US_STATES.items(), key=lambda kv: len(kv[1]), reverse=True):
+        pat = r"washington state" if name == "washington" else re.escape(name)
+        for m in list(re.finditer(r"(?<![A-Za-z])" + pat + r"(?![A-Za-z])", t, re.I)):
+            if m.group(0)[0].isupper():
+                found.setdefault(code, m.group(0))
+                t = t[:m.start()] + " " * (m.end() - m.start()) + t[m.end():]
+    if len(found) == 1:
+        return next(iter(found.items()))
+    return "", ""
+
+
 def checked_fields(d, text):
     """The facility's text fields kept only as the story states them, and the reasons for any dropped."""
     why = []
@@ -454,6 +472,12 @@ def main(argv=None):
                         if c and not (vals.get("state") and c != "United States"):
                             new_f["country"] = c
                             log(f"  {cid}: facility {n}: country {c} from the words {c_words!r}")
+                    if not vals.get("state") and len(facs) == 1 and new_f["country"] in ("", "United States"):
+                        # session 2272: the one US state the cluster's words name, for a cluster of one facility
+                        s_code, s_words = facility_state(" ".join(g["title"]) + " " + " ".join(g["summary"]))
+                        if s_code:
+                            vals["state"] = s_code
+                            log(f"  {cid}: facility {n}: state {s_code} from the words {s_words!r}")
                     for f in ("operator", "developer"):   # session 2236: "TikTok owner" is a description, not a name
                         if vals.get(f) and ff.description(vals[f]):
                             dropped.append(f"{cid}: {f} {vals[f]!r} is a description, not a name; not kept")
