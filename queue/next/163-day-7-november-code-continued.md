@@ -32,7 +32,11 @@ Long end 1:30 each. One step a session, in chain 158's order, as session 1508 li
 
 ### Unfinished steps (written by session 1508 of chain 158)
 
-(To be filled by session 1508. One line a step, in chain 158's order: the session that owned it, what remains, and the exact commands where the step was a landing.)
+Every landing of chain 158 is on main (`task/1493-replication`, `task/1500-security`, `task/1506-packages`); no step is a landing here. Three steps remain:
+
+1. Session 1491 (the datacenter replication): 13 of 14 figures met. A flat load's carbon over the hourly window is 309.84 kg CO2 per MWh from the public file and 311.68 on `/cost-of-power`, over the same 10,160 hours (`replication/datacenter/page_figures.json`, `known_differences`). Find which is right: either the live hourly intensity was revised after the file's export, or the page's flat-load figure is the grid's mean under another name. Then fix the page's code or the package, with a test, and remove the known difference.
+2. Session 1504 (AccessLint): it ran on ten pages, one call a page. Run it on the rest of the 25 snapshot addresses and the three explorers at 390 and 1280, and list each finding by owning file.
+3. Session 1505 (the packages): `package/README.md` says 150 of 801 local tests fail on this clone, each an older table against the record. These fail until `scripts/sync.py` restores the tables, which is a warehouse write. Leave it to the data machine, or to a chain allowed to run sync, and say which in the report.
 
 ## Sessions 1530 to 1534: the faults chain 158's reads left open
 
@@ -40,7 +44,13 @@ Long end 1:30 each. One fault a session, as session 1508 lists them below: the f
 
 ### Open faults (written by session 1508 of chain 158)
 
-(To be filled by session 1508: the faults chain 158's reads left open, one a line, by owning file. When fewer than five are open, the free sessions take the next item of `docs/roadmap.md` that needs no ruling and no design, saying which.)
+- `site/app/cost-of-power/` (the datacenter tool; `figure > details > div`): a scrolling region not reachable by keyboard. The fix is `tabIndex={0}` and an `aria-label` on the scrolling div. Check first that the desktop's chains 155 and 157 have not changed that file.
+- `site/app/board/` (`#other > details > div > div`): the same fault and the same fix.
+- `site/app/research/card/` and `site/public/findings/` (the siting cards, the desktop's): 6 picture downloads answer 404 (`/findings/siting_*_1080x1350.png`, `_1600x900.png` for the battery swing, flexible and gigawatt cards), and 2 links ("Python", "Stata do-file") answer 404. Write a ruling line if the files are the desktop's to make; otherwise drop the dead links.
+- `site/app/digest/` and `docs/digest/` (the periodicals, chain 161's): 3 anchors `/data#<table>` that `/data` does not hold (`eia_padd_rail_barge_movements_monthly`, `eia861m_utility_sales_monthly`, `onrr_revenue_monthly`). Leave them to chain 161 unless it has finished, and say so.
+- `replication/datacenter/`: the known difference of step 1, if step 1 does not settle it.
+
+Fewer than five are this chain's to fix, so the free sessions take the next item of `docs/roadmap.md` that needs no ruling and no design, and say which.
 
 ## Session 1535: the records and the clean-up
 
