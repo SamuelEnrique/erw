@@ -8,9 +8,11 @@ not session 95's `interconnection_queue_summary`, which summarizes Berkeley Lab'
 
 ## Sources
 
-The six ISO queue snapshots the warehouse holds, as `warehouse/connectors/iso_queues.py` reads them through gridstatus:
-`caiso_`, `ercot_`, `isone_` (19 October 2026), `spp_` (26 October), `miso_` (30 September) and `nyiso_interconnection_queue`
-(26 September). MISO's table is held as it was before the MISO pause; nothing is asked of MISO. Each table holds one
+The ISO queue snapshots the warehouse holds whose license allows them out, as `warehouse/connectors/iso_queues.py`
+reads them through gridstatus: `caiso_` and `ercot_interconnection_queue` (19 October 2026) and `spp_` (26 October).
+**ISO-NE's, MISO's and NYISO's queue tables are held whole for a license since 21 October 2026** (release v1: "license
+needed ... needs written permission"), so their figures are not summarized here (session 2957; the first build of
+session 2953 took all six, and was rebuilt). Each table holds one
 snapshot, which its next pull replaces, so the moves between two snapshots cannot be counted: the queues' own dates stand
 for them. NYISO's large-load queue (`nyiso_load_queue`) is not an input.
 
@@ -28,7 +30,6 @@ for them. NYISO's large-load queue (`nyiso_load_queue`) is not an input.
 - **An in-service date counts only on a completed request, on or before the snapshot's day.** SPP's
   `actual_in_service_date` holds the requested dates of active and withdrawn requests too: 1,321 of its 1,969 dated
   rows lie after its snapshot. ERCOT gives dates to 6 active requests, which are not counted.
-- **ISO-NE and MISO give no in-service date,** so they have no median.
 - **A recent request year's median counts only the requests already in service**, the fastest; it understates that
   year's wait until the rest connect.
 - **Fuel groups:** each queue's own label, by the first of these rules that matches (case ignored): solar and storage;
@@ -38,4 +39,4 @@ for them. NYISO's large-load queue (`nyiso_load_queue`) is not an input.
 
 ## License
 
-Public, as its six inputs are in the ERW's record.
+Public, as its three inputs are (CAISO, ERCOT, SPP).

@@ -3,9 +3,10 @@
 each snapshot; MW entered, withdrawn and completed by year from the queues' own dates; and the median months from request
 to in-service by grid and request year (session 2953, chain 157).
 
-Energy Research Warehouse (ERW). One derived table, iso_queue_snapshot_summary, from the six ISO queue snapshots the
-warehouse holds (caiso_, ercot_, isone_, miso_, nyiso_ and spp_interconnection_queue, warehouse/connectors/iso_queues.py
-via gridstatus; MISO's table is held as it was before the pause and no request is made to MISO). It is not session 95's
+Energy Research Warehouse (ERW). One derived table, iso_queue_snapshot_summary, from the ISO queue snapshots the warehouse
+holds whose license allows them out: caiso_, ercot_ and spp_interconnection_queue (warehouse/connectors/iso_queues.py via
+gridstatus). ISO-NE's, MISO's and NYISO's queue tables are held whole for a license since 21 October 2026 (session 2957),
+so they are not summarized. It is not session 95's
 interconnection_queue_summary, which summarizes Berkeley Lab's queue file. Method: docs/methods/iso_queue_snapshot_summary.md.
 
     python warehouse/derived/iso_queue_snapshot_summary.py               # the table (data lock)
@@ -39,7 +40,10 @@ import iso_prices as ip  # noqa: E402
 NAME = "iso_queue_snapshot_summary"
 SOURCE = "erw:iso_queue_snapshot_summary"
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/iso_queue_snapshot_summary.md"
-GRIDS = ("caiso", "ercot", "isone", "miso", "nyiso", "spp")
+# session 2957: the grids whose queue tables are public in release v1; ISO-NE's, MISO's and NYISO's are held whole for a
+# license since 21 October 2026 (needs written permission), so their figures are not summarized here
+GRIDS = ("caiso", "ercot", "spp")
+HELD = ("isone", "miso", "nyiso")
 MIN_DATED = 5
 # the queues' fuel labels to one group, the first rule that matches (case ignored); the method note lists the labels
 FUEL_RULES = [("solar_storage", r"(solar|photovoltaic|\bsun\b|pv).*(stor|batt|\bbat\b)|(stor|batt|\bbat\b).*(solar|photovoltaic|\bsun\b|pv)"),
@@ -135,13 +139,14 @@ def main(argv=None):
             "Shape: series (docs/datastandard.md v0). entity iso_queue:<grid>:<fuel group> (the snapshot, ts_utc its day) or iso_queue:<grid> (by year, freq P1Y); "
             "variables <status>_mw and _count; entered_, completed_, withdrawn_ (mw and count); in_service_dated; median_months_to_in_service (at 5 or more dated requests).",
             "Snapshots: " + "; ".join(f"{g} {s}" for g, s in snaps.items()) + ". One snapshot a grid: withdrawals between snapshots are not counted; the queues' own withdrawn dates stand for them.",
-            "Fuel groups: the queues' labels by the first matching rule of FUEL_RULES (docs/methods/iso_queue_snapshot_summary.md lists them). MISO's table is held as it was before the MISO pause; no request was made.",
+            "Fuel groups: the queues' labels by the first matching rule of FUEL_RULES (docs/methods/iso_queue_snapshot_summary.md lists them). "
+            "ISO-NE's, MISO's and NYISO's queue tables are held whole for a license since 21 October 2026, so they are not summarized.",
             "Derived from: " + "; ".join(f"{g}_interconnection_queue" for g in GRIDS),
             "Built by warehouse/derived/iso_queue_snapshot_summary.py; method docs/methods/iso_queue_snapshot_summary.md",
             f"Retrieved: {run_id} (UTC), computed from the tables held; no request was made.",
             f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
-            "Source: the ISOs' interconnection queues as gridstatus reads them (CAISO, ERCOT, ISO-NE, MISO, NYISO, SPP)",
-            "License: public, as its six inputs are in the ERW's record.",
+            "Source: the ISOs' interconnection queues as gridstatus reads them (CAISO, ERCOT, SPP)",
+            "License: public, as its three inputs are (CAISO: free with credit; ERCOT: public; SPP: copy with citation).",
         ]
         ip.write_snapshot(t, NAME, header, log, cols=COLS)
         if not a.out_dir:
