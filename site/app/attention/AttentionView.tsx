@@ -252,7 +252,7 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
             <ol className="space-y-1 text-sm" data-attention-stories={list.length}>
               {list.slice(0, 200).map((s) => (
                 <li key={s.id}>
-                  <span className="text-muted">{s.date}</span> <a href={s.url} rel="noopener">{s.headline || s.outlet}</a> <span className="text-muted">({s.outlet}{s.state ? `, ${s.state}` : ""}{s.place ? `, ${s.place}` : ""})</span>
+                  <span className="text-muted">{s.date}</span> <a href={s.url} rel="noopener">{s.headline || `A ${s.outlet} story of ${s.date} (no ERW headline yet)`}</a> <span className="text-muted">({s.outlet}{s.state ? `, ${s.state}` : ""}{s.place ? `, ${s.place}` : ""})</span>
                   {s.opposition === 1 && <span className="ml-1 border border-rule px-1 text-xs" data-attention-kind={s.kind}>{KIND_NAME[s.kind] ?? s.kind}</span>}
                 </li>
               ))}
