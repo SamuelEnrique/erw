@@ -1445,6 +1445,22 @@ class Session1472DealWords(unittest.TestCase):
                          "parties not stated")
 
 
+class Session1473LoadWords(unittest.TestCase):
+    """Session 1473 (chain 154, fault 51): the largest new datacenter load leaves out a part its row does not state."""
+
+    def test_the_w45_row(self):
+        dcs = pd.DataFrame([{"entity_id": "datacenter:8954976fefde08c3", "first_story_at": "2026-11-04T10:00:00Z", "capacity_mw": "702",
+                             "operator": "Google", "site_name": "", "city": "Cheyenne", "state": "", "confidence": "0.9"}])
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(roundup, "read_table", lambda n: {"datacenter_projects": dcs}.get(n)), \
+                mock.patch.object(roundup, "ANALYSIS_DIR", d):
+            L = roundup.five_numbers("2026-W45", pd.Timestamp("2026-11-02", tz="UTC"), pd.Timestamp("2026-11-09", tz="UTC"), {}, quiet)
+        row = next(x for x in L if x.startswith("- **Largest new datacenter load"))
+        self.assertEqual(row, "- **Largest new datacenter load first reported this week:** 702 MW, Google, Cheyenne.")
+        import check_roundup as cr
+        self.assertEqual(cr.five_keyed("\n".join(["## The week in five numbers", ""] + L))[2], ("702", "datacenter:8954976fefde08c3"))
+        self.assertNotIn("not stated", row)
+
+
 class Session1438OneTopic(unittest.TestCase):
     """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
     story of the sector that is not about the price keeps the sector-and-region key."""

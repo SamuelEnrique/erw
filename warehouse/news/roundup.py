@@ -599,9 +599,12 @@ def five_numbers(label, start, cut, facts, log, picked=None):
         cw = cw[named]
         if cw["_m"].notna().any():
             r = cw.sort_values(["_m", "first_story_at"], ascending=[False, True]).iloc[0]
-            place = ", ".join(x for x in (r.get("city", ""), r.get("state", "")) if x) or "place not stated"
-            L.append(f"- **Largest new datacenter load first reported this week:** {float(r['_m']):,.0f} MW, {r['operator'] or 'operator not stated'}, "
-                     f"{r['site_name'] or 'site not stated'}, {place}.")
+            # session 1473 (fault 51): a part the row does not state is left out of the sentence ("702 MW, Google, site not
+            # stated, Cheyenne" was the W45 dry run's); the row has an operator or a site (session 1446)
+            parts = [str(r.get(k) or "").strip() for k in ("operator", "site_name")]
+            place = ", ".join(x for x in (str(r.get("city") or "").strip(), str(r.get("state") or "").strip()) if x)
+            words = ", ".join(x for x in (*parts, place) if x)
+            L.append(f"- **Largest new datacenter load first reported this week:** {float(r['_m']):,.0f} MW, {words}.")
             keys.append(f"the datacenter load, `datacenter_projects` {r['entity_id']}")
             picked["dc"] = {"mw": float(r["_m"]), "text": L[-1].split(":** ", 1)[1].rstrip(".")}
         else:
