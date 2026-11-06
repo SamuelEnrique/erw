@@ -350,6 +350,17 @@ def _num(x):
         return None
     if isinstance(x, (np.integer, int)):
         return int(x)
+    if isinstance(x, str):
+        # session 3282: a text value (a blank, or a date of a text column such as price_board_spreads.x_gas_date asked as
+        # the value column of `latest`) is no figure: None, as the site's loop gives null (Number("") is read as null,
+        # Number of a date is NaN, written null). It raised ValueError here and ended the question with no answer
+        # (the trader set's tr13 and tr14, 6 November 2026)
+        try:
+            x = float(x.strip()) if x.strip() else None
+        except ValueError:
+            return None
+        if x is None:
+            return None
     x = float(x)
     if math.isnan(x):
         return None
