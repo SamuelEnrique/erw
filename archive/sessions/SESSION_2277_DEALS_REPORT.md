@@ -1,6 +1,6 @@
 # Session 2277 (chain 174, deals and datacenters) report: a non-deal kept, a non-facility kept
 
-6 November 2026, about 13:48 to 13:56 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2277-deals`, cut from `wip/2276-deals`. Model spend **USD 0** (code; the answers replayed). Nothing deployed; no warehouse data written.
+6 November 2026, about 13:48 to 13:54 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2277-deals`, cut from `wip/2276-deals`. Model spend **USD 0** (code; the answers replayed). Nothing deployed; no warehouse data written.
 
 - **The classes**: the last two open for code, one record each.
 - **D055, fixed**: `fields.project_led` refuses a record whose one named party leads a project with no counterparty. Across the three deal fixtures only D055 is gone. Tests 2258 (its kind) and 2270 (the count of AI-tagged rows, 35 to 34) changed with notes.
