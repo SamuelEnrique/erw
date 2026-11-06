@@ -407,6 +407,11 @@ STORAGE_HELD["utility_large_load_tariffs"] = ("held: not on Redivis (session 288
 STORAGE_HELD["ercot_wind_solar_hsl_monthly"] = ("held: not yet on Redivis (first written by the daily run of 6 November 2026, "
                                                "session 2885). In v1 by its license once uploaded: python "
                                                "warehouse/redivis/upload.py ercot_wind_solar_hsl_monthly")
+# Session 2926 (chain 153): large_load_connection_rules, written by session 2924, is not on Redivis, and its ERW verdict is
+# unsettled (its publishers, ERCOT and PG&E, read into the ERW's registry, have no verdict row), as the tariffs' is.
+STORAGE_HELD["large_load_connection_rules"] = ("held: not on Redivis (session 2926: written by session 2924; the uploader refuses it "
+                                              "while its ERW verdict is unsettled). In v1 once its license is settled and it is "
+                                              "uploaded: python warehouse/redivis/upload.py --target stanford --tables large_load_connection_rules")
 
 
 def plan(day=PUBLIC_DAY):

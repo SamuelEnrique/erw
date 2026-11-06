@@ -755,6 +755,9 @@ catalogue_hold:
   # (utility_large_load_tariffs is also unsettled: release_v1.STORAGE_HELD)
   - subregion_demand_growth
   - utility_large_load_tariffs
+  # session 2926 (chain 153): large_load_connection_rules (session 2924), not yet on Redivis's public draft and unsettled
+  # (release_v1.STORAGE_HELD), so not in the catalogue until uploaded
+  - large_load_connection_rules
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's
