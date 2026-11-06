@@ -45,7 +45,11 @@ def turn(stop, content):
 
 
 class FakeClient:
-    """Nine turns of one list_tables call each, then the answer."""
+    """Nine turns of one list_tables call each, then the answer. Each call has filters of its own: since session 2222
+    (chain 152) a call that repeats one already made is answered with a note and not read, so nine equal calls would be
+    one read."""
+    ISOS, SECTORS = ("ERCOT", "CAISO", "SPP"), ("power", "gas", "oil")
+
     def __init__(self, calls=9):
         self.calls, self.n = calls, 0
         self.messages = self
@@ -53,7 +57,8 @@ class FakeClient:
     def create(self, **kw):
         self.n += 1
         if self.n <= self.calls:
-            b = types.SimpleNamespace(type="tool_use", name="list_tables", input={"sector": "power", "iso": "ERCOT"}, id=f"t{self.n}")
+            b = types.SimpleNamespace(type="tool_use", name="list_tables", id=f"t{self.n}",
+                                      input={"sector": self.SECTORS[(self.n - 1) // 3 % 3], "iso": self.ISOS[(self.n - 1) % 3]})
             return turn("tool_use", [b])
         answer = {"answer": "Not in the warehouse: it holds no such table.", "citations": [], "not_in_warehouse": True}
         return turn("end_turn", [types.SimpleNamespace(type="text", text=json.dumps(answer))])

@@ -47,7 +47,7 @@ class TheSets(unittest.TestCase):
 
     def test_grading_reads_the_set_it_is_given(self):
         import inspect
-        src = inspect.getsource(E.grade_s1114)
+        src = inspect.getsource(E.grade_set)   # session 2947: grade_s1114 calls grade_set since session 2224
         self.assertIn('SETS[which]["run"]', src)
         self.assertNotIn('SETS["s1114"]', src)
 

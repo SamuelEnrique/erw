@@ -823,15 +823,19 @@ async function compare(a: { a: QueryArgs; b: QueryArgs }, scope: Scope = null): 
   return out;
 }
 
-/** Session 1109: USD per kW beside USD per MW, prepared for session 320's open ruling 1 and off until it is ruled.
- * With ASK_PER_KW=on, a query of a table whose method names the conversion, all of whose rows are in USD/MW, carries
- * each value, sum and summary figure divided by 1,000 as value_usd_per_kw, so the number check can trace a per-kW
- * figure the battery page shows. Off (the default), the result is what it was, key for key. */
+/** Session 1109: USD per kW beside USD per MW, prepared for session 320's open ruling 1. A query of a table whose
+ * method names the conversion, all of whose rows are in USD/MW, carries each value, sum and summary figure divided by
+ * 1,000 as value_usd_per_kw, so the number check can trace a per-kW figure the battery page shows. On by default since
+ * session 2221 (6 November 2026, chain 152: eight of session 320's thirty asked in USD per kW of a table in USD per MW);
+ * with ASK_PER_KW=off the result is what it was, key for key (warehouse/chat/tools.py per_kw_on). */
 export const PER_KW_TABLES: Record<string, string> = {
   battery_stack_monthly: "docs/methods/battery_stack.md: USD per kW of rated power is the USD/MW value divided by 1,000",
 };
+export function perKwOn(env: Record<string, string | undefined> = process.env): boolean {
+  return (env.ASK_PER_KW || "on").trim().toLowerCase() !== "off";
+}
 export function perKw(out: Json, table: string, env: Record<string, string | undefined> = process.env): Json {
-  if (env.ASK_PER_KW !== "on" || !PER_KW_TABLES[table]) return out;
+  if (!perKwOn(env) || !PER_KW_TABLES[table]) return out;
   const units = out.units as string[] | undefined;
   if (!units || units.length !== 1 || units[0] !== "USD/MW") return out;
   const kw = (x: unknown) => (typeof x === "number" ? round(x / 1000) : null);

@@ -1,0 +1,231 @@
+# Energy Research Warehouse (ERW): 20 questions for Ask a lab's energy team asks, session 2224 (chain 152, the night of 5 November 2026).
+# Disclosed PPA prices, the datacenter tracker's MW (both held whole for a license: the hold's words, no figure), MW in each grid's
+# interconnection queue (MISO's paused: the pause's words), storage on the grids, a grid's day-ahead average, peak and reserve margin,
+# a node's basis, and one question outside the warehouse. Every expected number was computed before any model call from the live set
+# (Supabase, the catalogue, series and entities views, the anon key, reads only) on 2026-11-06 by scripts/ask_eval/lab_questions.py, which
+# writes this file; each note names the table, the entity or filter, the variable or column, the period and the aggregation. `via` as in
+# questions_s302.yaml (grid: the grid's scoped chat; general: no grid). tolerance: 0.01 under 1,000, 0.5 from 1,000. A refusal key has
+# no figure and names the words the answer must carry; hold: true marks a table held whole, whose answer may be a refusal or an answer
+# in the hold's words, with no figure either way.
+today: '2026-11-06'
+questions:
+- id: l01
+  grid: none
+  via: general
+  question: "What was the average disclosed price of the solar power purchase agreements signed in 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["energy_deals"]
+  refuse: true
+  hold: true
+  note: "energy_deals (price_value, technology solar, 2026) is held whole for a license: the answer carries the hold's words and no figure"
+- id: l02
+  grid: none
+  via: general
+  question: "Which buyer signed the largest power purchase agreement by MW in 2026, and for how many MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["energy_deals"]
+  refuse: true
+  hold: true
+  note: "energy_deals (buyer, mw, 2026) is held whole for a license: the hold's words and no figure"
+- id: l03
+  grid: none
+  via: general
+  question: "How many MW of datacenter projects does the tracker hold in ERCOT?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["datacenter_projects"]
+  refuse: true
+  hold: true
+  note: "datacenter_projects (mw, ERCOT) is held whole for a license: the hold's words and no figure"
+- id: l04
+  grid: none
+  via: general
+  question: "Which datacenter operator has the most MW of facilities in the tracker, and how many MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["datacenter_facilities"]
+  refuse: true
+  hold: true
+  note: "datacenter_facilities (operator, mw) is held whole for a license: the hold's words and no figure"
+- id: l05
+  grid: ERCOT
+  via: grid
+  question: "How many MW are active in ERCOT's interconnection queue, summed over its active requests?"
+  expected: [308487.96]
+  tolerance: 0.5
+  text: []
+  tables: ["ercot_interconnection_queue"]
+  refuse: false
+  hold: false
+  note: "ercot_interconnection_queue: the sum of capacity_mw over the 1159 rows with status active (the snapshot of 2026-11-05)"
+- id: l06
+  grid: CAISO
+  via: grid
+  question: "How many MW are active in CAISO's interconnection queue, summed over its active requests?"
+  expected: [73847.7334]
+  tolerance: 0.5
+  text: []
+  tables: ["caiso_interconnection_queue"]
+  refuse: false
+  hold: false
+  note: "caiso_interconnection_queue: the sum of capacity_mw over the 261 rows with status active (the snapshot of 2026-11-05)"
+- id: l07
+  grid: SPP
+  via: grid
+  question: "How many MW are active in SPP's interconnection queue, summed over its active requests?"
+  expected: [134382.729]
+  tolerance: 0.5
+  text: []
+  tables: ["spp_interconnection_queue"]
+  refuse: false
+  hold: false
+  note: "spp_interconnection_queue: the sum of capacity_mw over the 625 rows with status active (the snapshot of 2026-11-05)"
+- id: l08
+  grid: ISO-NE
+  via: grid
+  question: "How many MW are active in ISO-NE's interconnection queue, summed over its active requests?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["isone_interconnection_queue"]
+  refuse: true
+  hold: true
+  note: "isone_interconnection_queue is ISO-NE's own and held for a license (site/data/license_status.json): the hold's words and no figure, as a refusal or as an answer"
+- id: l09
+  grid: CAISO
+  via: grid
+  question: "How many MW are withdrawn in CAISO's interconnection queue, summed over its withdrawn requests?"
+  expected: [382686.6747]
+  tolerance: 0.5
+  text: []
+  tables: ["caiso_interconnection_queue"]
+  refuse: false
+  hold: false
+  note: "caiso_interconnection_queue: the sum of capacity_mw over the 1765 rows with status withdrawn (the snapshot of 2026-11-05)"
+- id: l10
+  grid: MISO
+  via: grid
+  question: "How many MW are active in MISO's interconnection queue?"
+  expected: []
+  tolerance: 0.01
+  text: ["paused"]
+  tables: ["miso_interconnection_queue"]
+  refuse: true
+  hold: false
+  note: "miso_interconnection_queue is MISO's own: MISO is paused while its terms are reviewed (since 4 October 2026), so the answer is the pause's words and no figure"
+- id: l11
+  grid: ERCOT
+  via: grid
+  question: "How many MW of battery storage were operating in ERCOT in September 2026?"
+  expected: [19194.6]
+  tolerance: 0.5
+  text: []
+  tables: ["storage_buildout_monthly"]
+  refuse: false
+  hold: false
+  note: "storage_buildout_monthly, iso:ercot, battery_operating_mw: the 2026-09 row"
+- id: l12
+  grid: CAISO
+  via: grid
+  question: "How many MW of battery storage were planned in CAISO as of September 2026?"
+  expected: [10877.8]
+  tolerance: 0.5
+  text: []
+  tables: ["storage_buildout_monthly"]
+  refuse: false
+  hold: false
+  note: "storage_buildout_monthly, iso:caiso, battery_planned_mw: the 2026-09 row"
+- id: l13
+  grid: none
+  via: general
+  question: "How many MW of battery storage were operating in the United States in September 2026?"
+  expected: [56120.7]
+  tolerance: 0.5
+  text: []
+  tables: ["storage_buildout_monthly"]
+  refuse: false
+  hold: false
+  note: "storage_buildout_monthly, us:total, battery_operating_mw: the 2026-09 row"
+- id: l14
+  grid: ERCOT
+  via: grid
+  question: "What was the average duration of ERCOT's operating battery fleet in September 2026, in MWh per MW?"
+  expected: [1.6525]
+  tolerance: 0.01
+  text: []
+  tables: ["storage_buildout_monthly"]
+  refuse: false
+  hold: false
+  note: "storage_buildout_monthly, iso:ercot, battery_operating_mwh_per_mw: the 2026-09 row"
+- id: l15
+  grid: ERCOT
+  via: grid
+  question: "What was the simple average day-ahead price at ERCOT's hub average in September 2026, in USD per MWh?"
+  expected: [38.7972]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  hold: false
+  note: "cost_of_power_monthly, ercot:HB_HUBAVG, da_simple_mean: the 2026-09 row; checked whole: da_hours = hours_in_month = 720"
+- id: l16
+  grid: SPP
+  via: grid
+  question: "What was the simple average day-ahead price at SPP's North hub in September 2026, in USD per MWh?"
+  expected: [36.2065]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  hold: false
+  note: "cost_of_power_monthly, spp:SPPNORTH_HUB, da_simple_mean: the 2026-09 row; checked whole: da_hours = hours_in_month = 720"
+- id: l17
+  grid: none
+  via: general
+  question: "By what percentage did ERCOT's installed capacity exceed its 2025 peak demand, the grid's reserve margin on capacity?"
+  expected: [97.0]
+  tolerance: 0.01
+  text: []
+  tables: ["grid_peak_vs_capacity"]
+  refuse: false
+  hold: false
+  note: "grid_peak_vs_capacity, grid_peak_vs_capacity:ercot, capacity_over_peak_pct: the 2025 row (in_live_set review)"
+- id: l18
+  grid: ERCOT
+  via: grid
+  question: "What was the median day-ahead basis of ERCOT's nodes to the hub average in October 2026, in USD per MWh?"
+  expected: [0.3866]
+  tolerance: 0.01
+  text: []
+  tables: ["node_basis_summary"]
+  refuse: false
+  hold: false
+  note: "node_basis_summary, ercot:HB_HUBAVG, dam_all_basis_p50: the 2026-10 row (in_live_set review)"
+- id: l19
+  grid: ERCOT
+  via: grid
+  question: "What has the mean day-ahead peak-hours price at ERCOT's hub average been in 2026 so far, in USD per MWh?"
+  expected: [33.6161]
+  tolerance: 0.01
+  text: []
+  tables: ["price_board_peak_offpeak"]
+  refuse: false
+  hold: false
+  note: "price_board_peak_offpeak, ercot:HB_HUBAVG, da_year_peak_mean: the 2026 row (the year so far)"
+- id: l20
+  grid: none
+  via: general
+  question: "What was the average monthly rent of a data hall in Northern Virginia in 2026, in USD per kW?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse"]
+  tables: []
+  refuse: true
+  hold: false
+  note: "no table of the warehouse holds colocation rents: the answer says so in one sentence and states no figure"

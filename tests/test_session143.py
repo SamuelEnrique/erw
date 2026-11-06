@@ -86,7 +86,7 @@ class TheCuts(unittest.TestCase):
         loop = src("site", "lib", "chat", "ask.ts")
         self.assertIn("const outs = await Promise.all(blocks.map((b, i) => (slots[i] ? runTool(b.name, b.input, scope) : null)));", loop)
         self.assertIn("const repeat = k !== null && ran.has(k);", loop)
-        self.assertIn("if (profile && blocks.length && fresh === 0) forceWrite = true;", loop)
+        self.assertIn("if (blocks.length && fresh === 0) forceWrite = true;", loop)
 
     def test_a_grouped_result_carries_its_summary_and_no_table_was_added(self):
         tools = src("site", "lib", "chat", "tools.ts")

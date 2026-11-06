@@ -1,7 +1,9 @@
 {
- "_about": "Session 1114: eval_s1486_run.json graded on questions_s2918.yaml's keys by eval_s1113.py --grade --set s1486 (no model, no network).",
+ "_about": "eval_s1486_run.json graded on questions_s2918.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "s1486",
  "asked": 5,
  "right": 5,
+ "rules": [],
  "cost_usd": 0.519,
  "questions": [
   {

@@ -3,8 +3,9 @@
 Held here: the saved rows (tests/fixtures/session1109/battery_reads.json, written by
 warehouse/chat/eval/fixture_s1109.py from battery_stack_monthly) sum, for each of b01 to b06, b08 and b09, to the
 question's key times 1,000 (USD per MW against the key's USD per kW); warehouse/chat/tools.py per_kw adds the per-kW
-figure only with ASK_PER_KW=on, for a table whose method names the conversion and rows all in USD/MW, and leaves a result
-as it was otherwise; and site/scripts/test-ask-1109.mjs holds the same of site/lib/chat/tools.ts on the same rows.
+figure by default (session 2221, chain 152; off only with ASK_PER_KW=off), for a table whose method names the conversion
+and rows all in USD/MW, and leaves a result as it was otherwise; and site/scripts/test-ask-1109.mjs holds the same of
+site/lib/chat/tools.ts on the same rows.
 No network, no warehouse table, no model. Nothing here sets the environment at import.
 """
 import json
@@ -57,16 +58,25 @@ class PerKw(unittest.TestCase):
     def base(self):
         return {"units": ["USD/MW"], "result": [{"value": 81402.1896}]}
 
-    def test_off_by_default_the_result_is_unchanged(self):
+    def test_on_by_default_off_only_with_off(self):
+        # session 2221 (chain 152): on unless ASK_PER_KW is "off"; "on", "1" and an unset variable all hand the figure back
+        self.assertTrue(self.t.per_kw_on(env={}))
+        self.assertTrue(self.t.per_kw_on(env={"ASK_PER_KW": "on"}))
+        self.assertTrue(self.t.per_kw_on(env={"ASK_PER_KW": "1"}))
+        self.assertFalse(self.t.per_kw_on(env={"ASK_PER_KW": "off"}))
+        self.assertFalse(self.t.per_kw_on(env={"ASK_PER_KW": " OFF "}))
+        self.assertIn("value_usd_per_kw", self.t.per_kw(self.base(), "battery_stack_monthly", env={})["result"][0])
+
+    def test_off_the_result_is_unchanged(self):
         out = self.base()
-        self.assertEqual(self.t.per_kw(out, "battery_stack_monthly", env={}), self.base())
-        self.assertEqual(self.t.per_kw(self.base(), "battery_stack_monthly", env={"ASK_PER_KW": "1"}), self.base())
+        self.assertEqual(self.t.per_kw(out, "battery_stack_monthly", env={"ASK_PER_KW": "off"}), self.base())
 
     def test_on_the_figure_divided_by_a_thousand(self):
         out = self.t.per_kw(self.base(), "battery_stack_monthly", env={"ASK_PER_KW": "on"})
         self.assertAlmostEqual(out["result"][0]["value_usd_per_kw"], 81.4021896, places=6)
         self.assertEqual(out["per_kw"]["unit"], "USD/kW")
         self.assertIn("battery_stack.md", out["per_kw"]["rule"])
+        self.assertEqual(self.t.per_kw(self.base(), "battery_stack_monthly", env={}), out)
 
     def test_only_the_named_table_and_rows_all_in_usd_per_mw(self):
         on = {"ASK_PER_KW": "on"}
