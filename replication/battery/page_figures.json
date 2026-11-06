@@ -1,0 +1,29 @@
+{
+ "_about": "What a battery earns: the figures the page shows for the months of the public dispatch file (site/public/battery/erw_2026_battery_dispatch.csv: local months 2023-10 to 2026-09, the last twelve 2025-10 to 2026-09), each with its check key (its stat: the page keys a figure bs|<inputs>|<stat>, docs/methods/battery_earns_algorithm.md, section 4; a scenario figure carries no key and is named) and the tolerance to which the replication must meet it (half of the page's last shown digit). Read from the page's library on the file's months and from the page on 14 October 2026 (docs/reviews/packs/battery.md, part 8); check-values.mjs recomputes the page's own keys from battery_stack_monthly on every landing.",
+ "window": {"first_month": "2023-10", "last_month": "2026-09", "last_twelve": ["2025-10", "2026-09"]},
+ "figures": [
+  {"name": "last twelve months, all streams, USD per kW", "key": "bs|l12_kw:total", "page": 81.40, "tolerance": 0.005, "field": "l12_kw_total"},
+  {"name": "last twelve months, total, USD for 100 MW", "key": "bs|l12:total", "page": 8140219, "tolerance": 0.5, "field": "l12_total_usd"},
+  {"name": "last twelve months, energy, USD for 100 MW", "key": "bs|l12:energy", "page": 5459858, "tolerance": 0.5, "field": "l12_energy_usd"},
+  {"name": "last twelve months, ancillary services, USD for 100 MW", "key": "bs|l12:ancillary", "page": 2680361, "tolerance": 0.5, "field": "l12_ancillary_usd"},
+  {"name": "last twelve months, Regulation Up, USD for 100 MW", "key": "bs|l12:regup", "page": 664224, "tolerance": 0.5, "field": "l12_regup_usd"},
+  {"name": "last twelve months, Regulation Down, USD for 100 MW", "key": "bs|l12:regdn", "page": 998971, "tolerance": 0.5, "field": "l12_regdn_usd"},
+  {"name": "last twelve months, Responsive Reserve, USD for 100 MW", "key": "bs|l12:rrs", "page": 402471, "tolerance": 0.5, "field": "l12_rrs_usd"},
+  {"name": "last twelve months, ECRS, USD for 100 MW", "key": "bs|l12:ecrs", "page": 194068, "tolerance": 0.5, "field": "l12_ecrs_usd"},
+  {"name": "last twelve months, Non-Spin, USD for 100 MW", "key": "bs|l12:nspin", "page": 420627, "tolerance": 0.5, "field": "l12_nspin_usd"},
+  {"name": "share from ancillary services, percent", "key": "bs|l12_share:ancillary", "page": 33, "tolerance": 0.5, "field": "l12_share_ancillary"},
+  {"name": "annual debt payments, USD", "key": "scenario A's debt payment", "page": 2261119, "tolerance": 0.5, "field": "debt_service"},
+  {"name": "debt coverage, last twelve months, times", "key": "bs|cover", "page": 2.63, "tolerance": 0.005, "field": "cover"},
+  {"name": "scenario A, NPV at the hurdle rate, USD per kW", "key": "scenario A's NPV", "page": -697.80, "tolerance": 0.005, "field": "npv_kw"},
+  {"name": "scenario A, IRR, percent a year", "key": "scenario A's IRR", "page": -8.8, "tolerance": 0.05, "field": "irr"},
+  {"name": "scenario A, breakeven toll, USD per kW-month", "key": "scenario A's breakeven toll", "page": 4.19, "tolerance": 0.005, "field": "toll"},
+  {"name": "scenario A, merchant tail, years", "key": "scenario A's merchant tail", "page": 0, "tolerance": 0, "field": "tail_years"},
+  {"name": "a bad month, USD for 100 MW", "key": "bs|p10_36", "page": 475477, "tolerance": 0.5, "field": "p10_36_usd"},
+  {"name": "months held of the 36", "key": "bs|n36", "page": 36, "tolerance": 0, "field": "n36"},
+  {"name": "calendar year 2024, energy, USD per kW", "key": "bs|year:2024:energy", "page": 62.70, "tolerance": 0.005, "field": "year_2024_energy_kw"},
+  {"name": "calendar year 2024, ancillary services, USD per kW", "key": "bs|year:2024:ancillary", "page": 84.98, "tolerance": 0.005, "field": "year_2024_ancillary_kw"},
+  {"name": "calendar year 2025, energy, USD per kW", "key": "bs|year:2025:energy", "page": 57.39, "tolerance": 0.005, "field": "year_2025_energy_kw"},
+  {"name": "calendar year 2025, ancillary services, USD per kW", "key": "bs|year:2025:ancillary", "page": 30.05, "tolerance": 0.005, "field": "year_2025_ancillary_kw"}
+ ],
+ "not_replicated": "The figures that need months before October 2023 (the last three full years, every year held, the column without February 2021, the stress days, the sensitivity chart) are not in the public file: check-values.mjs recomputes them from battery_stack_monthly."
+}
