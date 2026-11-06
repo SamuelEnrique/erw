@@ -586,6 +586,9 @@ export type HeadroomFile = {
   /** session 2923 (chain 153): generation with a signed interconnection agreement and no operation date, by grid, at the
    * queue's end (interconnection_agreements_by_grid, Berkeley Lab's Queued Up) */
   signed?: { table: string; queue_end: string; grids: Record<string, { mw_signed: number; projects_signed: number; active_mw: number; active_projects: number; signed_share_pct: number }> };
+  /** session 2958 (chain 157): the active interconnection queue at each ISO's own snapshot (iso_queue_snapshot_summary),
+   * CAISO, ERCOT and SPP; `held` the grids whose queue tables are held whole for a license */
+  queue?: { table: string; grids: Record<string, { active_mw: number; active_count: number; snapshot: string }>; held: string[] };
 };
 export type ReserveAt = { label: string; x_hour: number; pct: number; capacity_mw: number; firm_peak_mw: number };
 export const BA_OF: Record<string, string> = { ercot: "ERCO", caiso: "CISO", nyiso: "NYIS", isone: "ISNE", spp: "SWPP", miso: "MISO", pjm: "PJM" };
@@ -635,6 +638,13 @@ export function signedGeneration(h: HeadroomFile | undefined, grid: string) {
   const s = h?.signed, g = s?.grids[grid];
   if (!s || !g) return { why: `No count of ${GRID_NAMES[grid]}'s generation with a signed interconnection agreement is in the page's files (interconnection_agreements_by_grid).` };
   return { ...g, table: s.table, queue_end: s.queue_end };
+}
+/** Session 2958 (chain 157): the grid's active interconnection queue at its ISO's own snapshot; else why and its words. */
+export function queueCell(h: HeadroomFile | undefined, grid: string) {
+  const q = h?.queue, g = q?.grids[grid];
+  if (q && g) return { ...g, table: q.table };
+  if (q?.held.includes(grid)) return { why: `${GRID_NAMES[grid]}'s interconnection queue is held whole for a license (it needs the publisher's written permission), so its active MW is not drawn.`, words: "license needed" };
+  return { why: `No interconnection queue of ${GRID_NAMES[grid]}'s own is in the page's files (iso_queue_snapshot_summary).`, words: "not held" };
 }
 /** Session 2923: a county row's delivery-only company (the wires utility EIA files apart, eia861_delivery_only), the
  * largest by energy delivered to industry, and its industrial delivery revenue per MWh across the state; else null. */
@@ -1058,6 +1068,7 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   allgrids|signed|<row>                                  MW with a signed interconnection agreement, not yet operating (2923)
  *   allgrids|wiresrev|<row>                                the county's delivery-only company's industrial delivery revenue per MWh (2923)
+ *   allgrids|queue|<row>                                   the grid's active interconnection queue MW at its ISO's snapshot (2958)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
 export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
@@ -1145,6 +1156,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   if (p[1] === "capratio") { const c = capacityOverPeak(f.demand, f.headroom, row.grid); return "pct" in c ? c.pct : undefined; }
   if (p[1] === "signed") { const g = signedGeneration(f.headroom, row.grid); return "mw_signed" in g ? g.mw_signed : undefined; }
   if (p[1] === "wiresrev") return wiresUtility(f, row)?.rev;
+  if (p[1] === "queue") { const q = queueCell(f.headroom, row.grid); return "active_mw" in q ? q.active_mw : undefined; }
   if (p[1] === "reservemargin") { const m = reserveMargin(f.headroom, row.grid); return "peak" in m ? m.peak.pct : undefined; }
   if (p[1] === "connect" || p[1] === "llapproved") {
     const c = connectCell(f, row);

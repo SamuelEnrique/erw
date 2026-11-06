@@ -758,6 +758,11 @@ catalogue_hold:
   # session 2926 (chain 153): large_load_connection_rules (session 2924), not yet on Redivis's public draft and unsettled
   # (release_v1.STORAGE_HELD), so not in the catalogue until uploaded
   - large_load_connection_rules
+  # session 2957 (chain 157): the four derived tables of sessions 2951 to 2956, not yet on Redivis's public draft
+  - generator_pipeline_by_grid
+  - iso_queue_snapshot_summary
+  - nuclear_fleet_status
+  - gas_balance_weekly
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's

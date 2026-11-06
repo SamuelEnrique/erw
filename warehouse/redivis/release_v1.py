@@ -412,6 +412,10 @@ STORAGE_HELD["ercot_wind_solar_hsl_monthly"] = ("held: not yet on Redivis (first
 STORAGE_HELD["large_load_connection_rules"] = ("held: not on Redivis (session 2926: written by session 2924; the uploader refuses it "
                                               "while its ERW verdict is unsettled). In v1 once its license is settled and it is "
                                               "uploaded: python warehouse/redivis/upload.py --target stanford --tables large_load_connection_rules")
+# Session 2957 (chain 157): the four public derived tables of sessions 2951 to 2956; session 2959 uploaded them to the Stanford draft
+for _t in ("generator_pipeline_by_grid", "iso_queue_snapshot_summary", "nuclear_fleet_status", "gas_balance_weekly"):
+    STORAGE_HELD[_t] = ("held: in the Stanford draft since 6 November 2026 (session 2959, counted equal), written by chain 157 after "
+                        "the v1 package was prepared: in v1 when the owner adds it to the package's list")
 
 
 def plan(day=PUBLIC_DAY):

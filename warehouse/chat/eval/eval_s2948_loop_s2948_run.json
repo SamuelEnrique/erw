@@ -1,0 +1,3039 @@
+{
+ "_about": "Session 2948 (chain 152, s2948): the questions asked through the Python loop (warehouse/chat/ask.py Asker; a grid question through the grid's scoped chat), the hold on as the site's (ASK_HOLD=on), the Supabase live set as the backend, every tool call recorded (trace), by eval_loop.py under the ledger step chat_eval.",
+ "base": "python loop",
+ "questions": [
+  {
+   "id": "k01",
+   "grid": "ERCOT",
+   "via": "general",
+   "question": "On the price board's newest day for each hub, which hub had the highest day-ahead daily mean, and what was it in USD per MWh?",
+   "asked_at_utc": "2026-11-06T09:34:51Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "Among the hubs the board can show, SPP North Hub (spp:SPPNORTH_HUB) had the highest day-ahead daily mean: 51.7155 USD/MWh (price_board_latest, derived). Its newest day is 2026-11-06 (UTC date label). The next highest was CAISO TH_NP15_GEN-APND at 51.3024 USD/MWh (price_board_latest). The board ranks 11 hubs across CAISO, ERCOT and SPP. NYISO and ISO-NE rows are held for a license (\"license needed\"). MISO is paused while terms are reviewed. I state no figures for those three, so the ranking covers only the public hubs.",
+   "why": null,
+   "citations": [
+    {
+     "table": "price_board_latest",
+     "source_report": "erw:price_board",
+     "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.2048698,
+   "seconds": 37.2,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": [
+    {
+     "table": "price_board_latest",
+     "aggregation": "count"
+    },
+    {
+     "table": "price_board_latest",
+     "variable": "da_latest_day_mean",
+     "aggregation": "latest",
+     "group_by": "entity"
+    },
+    {
+     "table": "price_board_latest",
+     "entity": "spp:SPPNORTH_HUB",
+     "variable": "da_latest_day_mean",
+     "aggregation": "latest"
+    },
+    {
+     "table": "price_board_latest",
+     "variable": "da_latest_day_mean",
+     "aggregation": "count"
+    },
+    {
+     "table": "price_board_latest",
+     "variable": "da_latest_day_mean",
+     "aggregation": "max"
+    },
+    {
+     "table": "price_board_latest",
+     "entity": "caiso:TH_NP15_GEN-APND",
+     "variable": "da_latest_day_mean",
+     "aggregation": "latest"
+    },
+    {
+     "table": "price_board_latest",
+     "entity": "spp:SPPSOUTH_HUB",
+     "variable": "da_latest_day_mean",
+     "aggregation": "latest"
+    }
+   ],
+   "nearest": null,
+   "trace": [
+    {
+     "tool": "board_rank",
+     "input": {
+      "measure": "da_latest_day_mean",
+      "order": "highest"
+     },
+     "out": {
+      "table": "price_board_latest",
+      "measure": "da_latest_day_mean",
+      "order": "highest",
+      "units": [
+       "USD/MWh"
+      ],
+      "n": 11,
+      "ranked": [
+       {
+        "rank": 1,
+        "entity": "spp:SPPNORTH_HUB",
+        "value": 51.7155,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 2,
+        "entity": "caiso:TH_NP15_GEN-APND",
+        "value": 51.3024,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 3,
+        "entity": "ercot:HB_WEST",
+        "value": 45.0142,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 4,
+        "entity": "caiso:TH_SP15_GEN-APND",
+        "value": 43.7352,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 5,
+        "entity": "caiso:TH_ZP26_GEN-APND",
+        "value": 43.2475,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 6,
+        "entity": "ercot:HB_SOUTH",
+        "value": 43.0154,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 7,
+        "entity": "ercot:HB_HUBAVG",
+        "value": 40.6387,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 8,
+        "entity": "spp:SPPSOUTH_HUB",
+        "value": 39.8787,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 9,
+        "entity": "ercot:HB_HOUSTON",
+        "value": 38.8646,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 10,
+        "entity": "ercot:HB_BUSAVG",
+        "value": 38.8004,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 11,
+        "entity": "ercot:HB_NORTH",
+        "value": 35.6571,
+        "at": "2026-11-06T00:00:00Z"
+       }
+      ],
+      "note": "each hub's newest value of the measure, with its own date; a hub whose rows are held is not in the table read",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_latest",
+      "aggregation": "count"
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {},
+      "rows_matched": 908,
+      "units": [
+       "USD/MWh",
+       "count",
+       "pct"
+      ],
+      "variables": [
+       "da_avg_30d",
+       "da_avg_7d",
+       "da_daily_mean",
+       "da_day_change",
+       "da_day_change_pct",
+       "da_days_30d",
+       "da_days_7d",
+       "da_intervals_30d",
+       "da_latest_day_mean",
+       "da_latest_interval"
+      ],
+      "time_span": {
+       "first": "2026-10-02T00:00:00Z",
+       "last": "2026-11-07T07:00:00Z"
+      },
+      "result": [
+       {
+        "count": 908
+       }
+      ],
+      "table": "price_board_latest",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "compare",
+     "input": {
+      "a": {
+       "table": "price_board_latest",
+       "aggregation": "latest",
+       "variable": "da_latest_day_mean",
+       "group_by": "entity"
+      },
+      "b": {
+       "table": "price_board_latest",
+       "aggregation": "latest",
+       "variable": "da_latest_day_mean",
+       "entity": "spp:SPPNORTH_HUB"
+      }
+     },
+     "out": {
+      "a": {
+       "aggregation": "latest",
+       "value_column": "value",
+       "filters": {
+        "variable": "da_latest_day_mean"
+       },
+       "rows_matched": 11,
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "da_latest_day_mean"
+       ],
+       "time_span": {
+        "first": "2026-11-06T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z"
+       },
+       "n_groups": 11,
+       "result": [
+        {
+         "entity": "caiso:TH_NP15_GEN-APND",
+         "value": 51.3024,
+         "at": "2026-11-06T00:00:00Z",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        },
+        {
+         "entity": "caiso:TH_SP15_GEN-APND",
+         "value": 43.7352,
+         "at": "2026-11-06T00:00:00Z",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        },
+        {
+         "entity": "caiso:TH_ZP26_GEN-APND",
+         "value": 43.2475,
+         "at": "2026-11-06T00:00:00Z",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        },
+        {
+         "entity": "ercot:HB_BUSAVG",
+         "value": 38.8004,
+         "at": "2026-11-06T00:00:00Z",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        },
+        {
+         "entity": "ercot:HB_HOUSTON",
+         "value": 38.8646,
+         "at": "2026-11-06T00:00:00Z",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        },
+        {
+         "entity": "ercot:HB_HUBAVG",
+         "value": 40.6387,
+         "at": "2026-11-06T00:00:00Z",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        },
+        {
+         "entity": "ercot:HB_NORTH",
+         "value": 35.6571,
+         "at": "2026-11-06T00:00:00Z",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        },
+        {
+         "entity": "ercot:HB_SOUTH",
+         "value": 43.0154,
+         "at": "2026-11-06T00:00:00Z",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        },
+        {
+         "entity": "ercot:HB_WEST",
+         "value": 45.0142,
+         "at": "2026-11-06T00:00:00Z",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        },
+        {
+         "entity": "spp:SPPNORTH_HUB",
+         "value": 51.7155,
+         "at": "2026-11-06T00:00:00Z",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        },
+        {
+         "entity": "spp:SPPSOUTH_HUB",
+         "value": 39.8787,
+         "at": "2026-11-06T00:00:00Z",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        }
+       ],
+       "table": "price_board_latest",
+       "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+       "source_report": "erw:price_board",
+       "license": "public",
+       "tier": "derived",
+       "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+      },
+      "b": {
+       "aggregation": "latest",
+       "value_column": "value",
+       "filters": {
+        "entity": "spp:SPPNORTH_HUB",
+        "variable": "da_latest_day_mean"
+       },
+       "rows_matched": 1,
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "da_latest_day_mean"
+       ],
+       "time_span": {
+        "first": "2026-11-06T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z"
+       },
+       "result": [
+        {
+         "value": 51.7155,
+         "at": "2026-11-06T00:00:00Z",
+         "entity": "spp:SPPNORTH_HUB",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        }
+       ],
+       "table": "price_board_latest",
+       "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+       "source_report": "erw:price_board",
+       "license": "public",
+       "tier": "derived",
+       "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+      }
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_latest",
+      "aggregation": "count",
+      "variable": "da_latest_day_mean"
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {
+       "variable": "da_latest_day_mean"
+      },
+      "rows_matched": 11,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "da_latest_day_mean"
+      ],
+      "time_span": {
+       "first": "2026-11-06T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "result": [
+       {
+        "count": 11
+       }
+      ],
+      "table": "price_board_latest",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_latest",
+      "aggregation": "latest",
+      "variable": "da_latest_day_mean",
+      "group_by": "entity"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "variable": "da_latest_day_mean"
+      },
+      "rows_matched": 11,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "da_latest_day_mean"
+      ],
+      "time_span": {
+       "first": "2026-11-06T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "n_groups": 11,
+      "result": [
+       {
+        "entity": "caiso:TH_NP15_GEN-APND",
+        "value": 51.3024,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "caiso:TH_SP15_GEN-APND",
+        "value": 43.7352,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "caiso:TH_ZP26_GEN-APND",
+        "value": 43.2475,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "ercot:HB_BUSAVG",
+        "value": 38.8004,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "ercot:HB_HOUSTON",
+        "value": 38.8646,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "ercot:HB_HUBAVG",
+        "value": 40.6387,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "ercot:HB_NORTH",
+        "value": 35.6571,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "ercot:HB_SOUTH",
+        "value": 43.0154,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "ercot:HB_WEST",
+        "value": 45.0142,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "spp:SPPNORTH_HUB",
+        "value": 51.7155,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "spp:SPPSOUTH_HUB",
+        "value": 39.8787,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       }
+      ],
+      "table": "price_board_latest",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_latest",
+      "aggregation": "max",
+      "variable": "da_latest_day_mean"
+     },
+     "out": {
+      "aggregation": "max",
+      "value_column": "value",
+      "filters": {
+       "variable": "da_latest_day_mean"
+      },
+      "rows_matched": 11,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "da_latest_day_mean"
+      ],
+      "time_span": {
+       "first": "2026-11-06T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 51.7155,
+        "n": 11,
+        "at": "2026-11-06T00:00:00Z",
+        "entity": "spp:SPPNORTH_HUB"
+       }
+      ],
+      "table": "price_board_latest",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_latest",
+      "aggregation": "latest",
+      "variable": "da_latest_day_mean",
+      "entity": "nyiso:N.Y.C."
+     },
+     "out": {
+      "held": true,
+      "grid": "NYISO",
+      "grid_license": "license needed",
+      "title": "ISO-NE; MISO; NYISO: the publisher's own page asks for permission; none is recorded yet",
+      "words": "NYISO's rows of price_board_latest are held for a license: license needed",
+      "note": "State no figure of NYISO. Answer with not_in_warehouse false: say first that NYISO's rows are held for a license (\"license needed\"), then give the same figure for each grid under public_grids, in the same sentence structure, with this table cited",
+      "public_grids": [
+       {
+        "grid": "CAISO",
+        "entity": "caiso:TH_NP15_GEN-APND",
+        "value": 51.3024,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "CAISO",
+        "entity": "caiso:TH_SP15_GEN-APND",
+        "value": 43.7352,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "CAISO",
+        "entity": "caiso:TH_ZP26_GEN-APND",
+        "value": 43.2475,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_BUSAVG",
+        "value": 38.8004,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_HOUSTON",
+        "value": 38.8646,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_HUBAVG",
+        "value": 40.6387,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_NORTH",
+        "value": 35.6571,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_SOUTH",
+        "value": 43.0154,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_WEST",
+        "value": 45.0142,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "SPP",
+        "entity": "spp:SPPNORTH_HUB",
+        "value": 51.7155,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "SPP",
+        "entity": "spp:SPPSOUTH_HUB",
+        "value": 39.8787,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       }
+      ],
+      "public_query": {
+       "aggregation": "latest",
+       "filters": {
+        "variable": "da_latest_day_mean"
+       },
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "da_latest_day_mean"
+       ],
+       "rows_matched": 11
+      },
+      "table": "price_board_latest",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_latest",
+      "aggregation": "latest",
+      "variable": "da_latest_day_mean",
+      "entity": "spp:SPPNORTH_HUB"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "entity": "spp:SPPNORTH_HUB",
+       "variable": "da_latest_day_mean"
+      },
+      "rows_matched": 1,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "da_latest_day_mean"
+      ],
+      "time_span": {
+       "first": "2026-11-06T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 51.7155,
+        "at": "2026-11-06T00:00:00Z",
+        "entity": "spp:SPPNORTH_HUB",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       }
+      ],
+      "table": "price_board_latest",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_latest",
+      "aggregation": "latest",
+      "variable": "da_latest_day_mean",
+      "entity": "caiso:TH_NP15_GEN-APND"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "entity": "caiso:TH_NP15_GEN-APND",
+       "variable": "da_latest_day_mean"
+      },
+      "rows_matched": 1,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "da_latest_day_mean"
+      ],
+      "time_span": {
+       "first": "2026-11-06T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 51.3024,
+        "at": "2026-11-06T00:00:00Z",
+        "entity": "caiso:TH_NP15_GEN-APND",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       }
+      ],
+      "table": "price_board_latest",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_latest",
+      "aggregation": "latest",
+      "variable": "da_latest_day_mean",
+      "entity": "miso:INDIANA.HUB"
+     },
+     "out": {
+      "error": "MISO is paused while its terms are reviewed (since 4 October 2026): this site shows no figure of MISO's own data. State no MISO figure: answer with not_in_warehouse true and say that MISO is 'paused while terms are reviewed'"
+     },
+     "is_error": true,
+     "isError": true
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_latest",
+      "aggregation": "latest",
+      "variable": "da_latest_day_mean",
+      "entity": "isone:.H.INTERNAL_HUB"
+     },
+     "out": {
+      "held": true,
+      "grid": "ISO-NE",
+      "grid_license": "license needed",
+      "title": "ISO-NE; MISO; NYISO: the publisher's own page asks for permission; none is recorded yet",
+      "words": "ISO-NE's rows of price_board_latest are held for a license: license needed",
+      "note": "State no figure of ISO-NE. Answer with not_in_warehouse false: say first that ISO-NE's rows are held for a license (\"license needed\"), then give the same figure for each grid under public_grids, in the same sentence structure, with this table cited",
+      "public_grids": [
+       {
+        "grid": "CAISO",
+        "entity": "caiso:TH_NP15_GEN-APND",
+        "value": 51.3024,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "CAISO",
+        "entity": "caiso:TH_SP15_GEN-APND",
+        "value": 43.7352,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "CAISO",
+        "entity": "caiso:TH_ZP26_GEN-APND",
+        "value": 43.2475,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_BUSAVG",
+        "value": 38.8004,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_HOUSTON",
+        "value": 38.8646,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_HUBAVG",
+        "value": 40.6387,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_NORTH",
+        "value": 35.6571,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_SOUTH",
+        "value": 43.0154,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "ERCOT",
+        "entity": "ercot:HB_WEST",
+        "value": 45.0142,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "SPP",
+        "entity": "spp:SPPNORTH_HUB",
+        "value": 51.7155,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       },
+       {
+        "grid": "SPP",
+        "entity": "spp:SPPSOUTH_HUB",
+        "value": 39.8787,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       }
+      ],
+      "public_query": {
+       "aggregation": "latest",
+       "filters": {
+        "variable": "da_latest_day_mean"
+       },
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "da_latest_day_mean"
+       ],
+       "rows_matched": 11
+      },
+      "table": "price_board_latest",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_latest",
+      "aggregation": "latest",
+      "variable": "da_latest_day_mean",
+      "entity": "spp:SPPSOUTH_HUB"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "entity": "spp:SPPSOUTH_HUB",
+       "variable": "da_latest_day_mean"
+      },
+      "rows_matched": 1,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "da_latest_day_mean"
+      ],
+      "time_span": {
+       "first": "2026-11-06T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 39.8787,
+        "at": "2026-11-06T00:00:00Z",
+        "entity": "spp:SPPSOUTH_HUB",
+        "variable": "da_latest_day_mean",
+        "unit": "USD/MWh"
+       }
+      ],
+      "table": "price_board_latest",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  },
+  {
+   "id": "k02",
+   "grid": "ERCOT",
+   "via": "general",
+   "question": "What moved most on the price board: which hub's day-ahead daily mean changed most, in percent, on its newest day against the day before, and by how much?",
+   "asked_at_utc": "2026-11-06T09:35:29Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "ERCOT HB_WEST had the largest day-ahead move on the price board. Its day-ahead daily mean rose 132.19 percent on its newest day, 2026-11-06 (UTC date label). That is up from 19.39 USD/MWh on 2026-11-05 to 45.01 USD/MWh on 2026-11-06, a change of 25.63 USD/MWh (price_board_latest, derived). The next largest moves were SPPNORTH_HUB at 82.96 percent and ERCOT HB_NORTH at 79.56 percent (price_board_latest). The figures are means of complete local operating days.",
+   "why": null,
+   "citations": [
+    {
+     "table": "price_board_latest",
+     "source_report": "erw:price_board",
+     "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.057169300000000006,
+   "seconds": 11.3,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": [
+    {
+     "table": "price_board_latest",
+     "entity": "ercot:HB_WEST",
+     "variable": "da_previous_day_mean",
+     "aggregation": "latest"
+    },
+    {
+     "table": "price_board_latest",
+     "entity": "ercot:HB_WEST",
+     "variable": "da_latest_day_mean",
+     "aggregation": "latest"
+    },
+    {
+     "table": "price_board_latest",
+     "entity": "ercot:HB_WEST",
+     "variable": "da_day_change_pct",
+     "aggregation": "latest"
+    }
+   ],
+   "nearest": null,
+   "trace": [
+    {
+     "tool": "board_rank",
+     "input": {
+      "measure": "da_day_change_pct",
+      "order": "largest_move"
+     },
+     "out": {
+      "table": "price_board_latest",
+      "measure": "da_day_change_pct",
+      "order": "largest_move",
+      "units": [
+       "pct"
+      ],
+      "n": 11,
+      "ranked": [
+       {
+        "rank": 1,
+        "entity": "ercot:HB_WEST",
+        "value": 132.1864,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 2,
+        "entity": "spp:SPPNORTH_HUB",
+        "value": 82.9609,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 3,
+        "entity": "ercot:HB_NORTH",
+        "value": 79.561,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 4,
+        "entity": "spp:SPPSOUTH_HUB",
+        "value": 65.6944,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 5,
+        "entity": "ercot:HB_BUSAVG",
+        "value": 54.9666,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 6,
+        "entity": "ercot:HB_HUBAVG",
+        "value": 50.558,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 7,
+        "entity": "ercot:HB_HOUSTON",
+        "value": 20.8429,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 8,
+        "entity": "ercot:HB_SOUTH",
+        "value": 17.6517,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 9,
+        "entity": "caiso:TH_NP15_GEN-APND",
+        "value": 4.732,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 10,
+        "entity": "caiso:TH_ZP26_GEN-APND",
+        "value": 1.063,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 11,
+        "entity": "caiso:TH_SP15_GEN-APND",
+        "value": 0.767,
+        "at": "2026-11-06T00:00:00Z"
+       }
+      ],
+      "note": "each hub's newest value of the measure, with its own date; a hub whose rows are held is not in the table read",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "board_rank",
+     "input": {
+      "measure": "da_day_change",
+      "order": "largest_move"
+     },
+     "out": {
+      "table": "price_board_latest",
+      "measure": "da_day_change",
+      "order": "largest_move",
+      "units": [
+       "USD/MWh"
+      ],
+      "n": 11,
+      "ranked": [
+       {
+        "rank": 1,
+        "entity": "ercot:HB_WEST",
+        "value": 25.6271,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 2,
+        "entity": "spp:SPPNORTH_HUB",
+        "value": 23.4496,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 3,
+        "entity": "spp:SPPSOUTH_HUB",
+        "value": 15.8111,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 4,
+        "entity": "ercot:HB_NORTH",
+        "value": 15.7992,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 5,
+        "entity": "ercot:HB_BUSAVG",
+        "value": 13.7625,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 6,
+        "entity": "ercot:HB_HUBAVG",
+        "value": 13.6467,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 7,
+        "entity": "ercot:HB_HOUSTON",
+        "value": 6.7033,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 8,
+        "entity": "ercot:HB_SOUTH",
+        "value": 6.4537,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 9,
+        "entity": "caiso:TH_NP15_GEN-APND",
+        "value": 2.318,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 10,
+        "entity": "caiso:TH_ZP26_GEN-APND",
+        "value": 0.4549,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 11,
+        "entity": "caiso:TH_SP15_GEN-APND",
+        "value": 0.3329,
+        "at": "2026-11-06T00:00:00Z"
+       }
+      ],
+      "note": "each hub's newest value of the measure, with its own date; a hub whose rows are held is not in the table read",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "compare",
+     "input": {
+      "a": {
+       "table": "price_board_latest",
+       "aggregation": "latest",
+       "entity": "ercot:HB_WEST",
+       "variable": "da_previous_day_mean"
+      },
+      "b": {
+       "table": "price_board_latest",
+       "aggregation": "latest",
+       "entity": "ercot:HB_WEST",
+       "variable": "da_latest_day_mean"
+      }
+     },
+     "out": {
+      "a": {
+       "aggregation": "latest",
+       "value_column": "value",
+       "filters": {
+        "entity": "ercot:HB_WEST",
+        "variable": "da_previous_day_mean"
+       },
+       "rows_matched": 1,
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "da_previous_day_mean"
+       ],
+       "time_span": {
+        "first": "2026-11-05T00:00:00Z",
+        "last": "2026-11-05T00:00:00Z"
+       },
+       "result": [
+        {
+         "value": 19.3871,
+         "at": "2026-11-05T00:00:00Z",
+         "entity": "ercot:HB_WEST",
+         "variable": "da_previous_day_mean",
+         "unit": "USD/MWh"
+        }
+       ],
+       "table": "price_board_latest",
+       "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+       "source_report": "erw:price_board",
+       "license": "public",
+       "tier": "derived",
+       "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+      },
+      "b": {
+       "aggregation": "latest",
+       "value_column": "value",
+       "filters": {
+        "entity": "ercot:HB_WEST",
+        "variable": "da_latest_day_mean"
+       },
+       "rows_matched": 1,
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "da_latest_day_mean"
+       ],
+       "time_span": {
+        "first": "2026-11-06T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z"
+       },
+       "result": [
+        {
+         "value": 45.0142,
+         "at": "2026-11-06T00:00:00Z",
+         "entity": "ercot:HB_WEST",
+         "variable": "da_latest_day_mean",
+         "unit": "USD/MWh"
+        }
+       ],
+       "table": "price_board_latest",
+       "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+       "source_report": "erw:price_board",
+       "license": "public",
+       "tier": "derived",
+       "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+      },
+      "difference_b_minus_a": 25.6271,
+      "ratio_b_over_a": 2.321864
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_latest",
+      "aggregation": "latest",
+      "entity": "ercot:HB_WEST",
+      "variable": "da_day_change_pct"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "entity": "ercot:HB_WEST",
+       "variable": "da_day_change_pct"
+      },
+      "rows_matched": 1,
+      "units": [
+       "pct"
+      ],
+      "variables": [
+       "da_day_change_pct"
+      ],
+      "time_span": {
+       "first": "2026-11-06T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 132.1864,
+        "at": "2026-11-06T00:00:00Z",
+        "entity": "ercot:HB_WEST",
+        "variable": "da_day_change_pct",
+        "unit": "pct"
+       }
+      ],
+      "table": "price_board_latest",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  },
+  {
+   "id": "k03",
+   "grid": "ERCOT",
+   "via": "general",
+   "question": "Where is the spark spread widest on the price board (each hub's newest day, at the board's stated heat rate), and what is it in USD per MWh?",
+   "asked_at_utc": "2026-11-06T09:35:40Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "SPP North hub (spp:SPPNORTH_HUB) has the widest spark spread on the price board. On its newest day, 2026-11-06 (UTC operating-day label), it is 33.31 USD/MWh (33.3055, price_board_spreads). The board defines the spread as the day-ahead daily mean minus an assumed 7.0 MMBtu/MWh heat rate times Henry Hub. The 7.0 is an assumption, not a measured heat rate. For SPP North the day-ahead daily mean is 51.72 USD/MWh and the Henry Hub spot used is 2.63 USD/MMBtu, dated 2026-11-03 (all price_board_spreads). Next are CAISO SP15 (caiso:TH_SP15_GEN-APND) at 25.33 USD/MWh and ERCOT HB_HUBAVG at 22.23 USD/MWh, both for 2026-11-06 (price_board_spreads). The table is derived (computed by the ERW from other tables) and public.",
+   "why": null,
+   "citations": [
+    {
+     "table": "price_board_spreads",
+     "source_report": "erw:price_board",
+     "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.12605370000000002,
+   "seconds": 23.0,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": [
+    {
+     "table": "price_board_spreads",
+     "entity": "eia:henry_hub",
+     "aggregation": "latest"
+    },
+    {
+     "table": "price_board_spreads",
+     "entity": "spp:SPPNORTH_HUB",
+     "variable": "spark_spread_7",
+     "aggregation": "latest"
+    },
+    {
+     "table": "price_board_spreads",
+     "entity": "spp:SPPNORTH_HUB",
+     "variable": "spark_spread_7",
+     "aggregation": "latest",
+     "group_by": "entity"
+    },
+    {
+     "table": "price_board_spreads",
+     "entity": "spp:SPPNORTH_HUB",
+     "variable": "da_daily_mean",
+     "aggregation": "latest"
+    },
+    {
+     "table": "price_board_spreads",
+     "entity": "spp:SPPNORTH_HUB",
+     "variable": "implied_heat_rate",
+     "aggregation": "latest"
+    },
+    {
+     "table": "price_board_spreads",
+     "entity": "eia:henry_hub",
+     "variable": "henry_hub",
+     "aggregation": "latest"
+    },
+    {
+     "table": "price_board_spreads",
+     "variable": "spark_spread_7",
+     "aggregation": "latest",
+     "group_by": "entity"
+    }
+   ],
+   "nearest": null,
+   "trace": [
+    {
+     "tool": "board_rank",
+     "input": {
+      "measure": "spark_spread_7",
+      "order": "highest"
+     },
+     "out": {
+      "table": "price_board_spreads",
+      "measure": "spark_spread_7",
+      "order": "highest",
+      "units": [
+       "USD/MWh"
+      ],
+      "n": 3,
+      "ranked": [
+       {
+        "rank": 1,
+        "entity": "spp:SPPNORTH_HUB",
+        "value": 33.3055,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 2,
+        "entity": "caiso:TH_SP15_GEN-APND",
+        "value": 25.3252,
+        "at": "2026-11-06T00:00:00Z"
+       },
+       {
+        "rank": 3,
+        "entity": "ercot:HB_HUBAVG",
+        "value": 22.2287,
+        "at": "2026-11-06T00:00:00Z"
+       }
+      ],
+      "note": "each hub's newest value of the measure, with its own date; a hub whose rows are held is not in the table read",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "price_board_spreads"
+     },
+     "out": {
+      "shape": "series",
+      "rows": 2142,
+      "columns": [
+       "entity",
+       "variable",
+       "ts_utc",
+       "value",
+       "unit",
+       "freq",
+       "geo",
+       "market",
+       "node",
+       "source",
+       "source_url",
+       "retrieved_at",
+       "vintage",
+       "x_gas_date"
+      ],
+      "source_reports": [
+       {
+        "source": "erw:price_board",
+        "publisher": "Energy Research Warehouse (ERW), derived",
+        "report": "Price board v2 metrics (docs/methods/price_board.md)",
+        "report_url": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/price_board.md"
+       }
+      ],
+      "entities": [
+       "caiso:TH_SP15_GEN-APND",
+       "eia:henry_hub",
+       "ercot:HB_HUBAVG",
+       "erw:brent_minus_wti",
+       "spp:SPPNORTH_HUB"
+      ],
+      "n_entities": 5,
+      "nodes": [
+       "HB_HUBAVG",
+       "SPPNORTH_HUB",
+       "TH_SP15_GEN-APND"
+      ],
+      "variables": [
+       "brent_minus_wti",
+       "da_daily_mean",
+       "henry_hub",
+       "implied_heat_rate",
+       "spark_spread_7"
+      ],
+      "units": [
+       "MMBtu/MWh",
+       "USD/MMBtu",
+       "USD/MWh",
+       "USD/bbl"
+      ],
+      "freq": [
+       "P1D"
+      ],
+      "first": "2025-09-29T00:00:00Z",
+      "last": "2026-11-06T00:00:00Z",
+      "notes": [
+       "Derived from: iso_dam_hub_prices; iso_rtm_hub_prices; isone_dam_zone_prices; isone_rtm_zone_prices_hourly; nyiso_dam_zone_prices; nyiso_rtm_zone_prices; ercot_all_hub_prices_history; eia_fuel_spot_prices",
+       "Spark spread: day-ahead daily mean at the ISO's main hub minus 7.0 MMBtu/MWh (an assumed heat rate, the one assumption of the board) times Henry Hub. Implied heat rate: the same daily mean over Henry Hub. Henry Hub of the operating day, else of the latest trading day up to 4 days before it (x_gas_date).",
+       "price_board_peak_offpeak: 696 ERCOT rows built from ercot_all_hub_prices_history are carried from the last run (the history is not on this machine)",
+       "price_board_spreads: 993 ERCOT rows built from ercot_all_hub_prices_history are carried from the last run (the history is not on this machine)"
+      ],
+      "table": "price_board_spreads",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_spreads",
+      "aggregation": "latest",
+      "entity": "eia:henry_hub"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "entity": "eia:henry_hub"
+      },
+      "rows_matched": 248,
+      "units": [
+       "USD/MMBtu"
+      ],
+      "variables": [
+       "henry_hub"
+      ],
+      "time_span": {
+       "first": "2025-11-05T00:00:00Z",
+       "last": "2026-11-03T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 2.63,
+        "at": "2026-11-03T00:00:00Z",
+        "entity": "eia:henry_hub",
+        "variable": "henry_hub",
+        "unit": "USD/MMBtu"
+       }
+      ],
+      "table": "price_board_spreads",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_spreads",
+      "aggregation": "latest",
+      "entity": "spp:SPPNORTH_HUB",
+      "variable": "spark_spread_7"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "entity": "spp:SPPNORTH_HUB",
+       "variable": "spark_spread_7"
+      },
+      "rows_matched": 72,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "spark_spread_7"
+      ],
+      "time_span": {
+       "first": "2026-08-26T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 33.3055,
+        "at": "2026-11-06T00:00:00Z",
+        "entity": "spp:SPPNORTH_HUB",
+        "variable": "spark_spread_7",
+        "unit": "USD/MWh"
+       }
+      ],
+      "table": "price_board_spreads",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_spreads",
+      "aggregation": "latest",
+      "entity": "spp:SPPNORTH_HUB",
+      "variable": "spark_spread_7",
+      "group_by": "entity"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "entity": "spp:SPPNORTH_HUB",
+       "variable": "spark_spread_7"
+      },
+      "rows_matched": 72,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "spark_spread_7"
+      ],
+      "time_span": {
+       "first": "2026-08-26T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "n_groups": 1,
+      "result": [
+       {
+        "entity": "spp:SPPNORTH_HUB",
+        "value": 33.3055,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "spark_spread_7",
+        "unit": "USD/MWh"
+       }
+      ],
+      "table": "price_board_spreads",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "compare",
+     "input": {
+      "a": {
+       "table": "price_board_spreads",
+       "aggregation": "latest",
+       "entity": "spp:SPPNORTH_HUB",
+       "variable": "spark_spread_7"
+      },
+      "b": {
+       "table": "price_board_spreads",
+       "aggregation": "latest",
+       "entity": "spp:SPPNORTH_HUB",
+       "variable": "da_daily_mean"
+      }
+     },
+     "out": {
+      "a": {
+       "aggregation": "latest",
+       "value_column": "value",
+       "filters": {
+        "entity": "spp:SPPNORTH_HUB",
+        "variable": "spark_spread_7"
+       },
+       "rows_matched": 72,
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "spark_spread_7"
+       ],
+       "time_span": {
+        "first": "2026-08-26T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z"
+       },
+       "result": [
+        {
+         "value": 33.3055,
+         "at": "2026-11-06T00:00:00Z",
+         "entity": "spp:SPPNORTH_HUB",
+         "variable": "spark_spread_7",
+         "unit": "USD/MWh"
+        }
+       ],
+       "table": "price_board_spreads",
+       "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+       "source_report": "erw:price_board",
+       "license": "public",
+       "tier": "derived",
+       "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+      },
+      "b": {
+       "aggregation": "latest",
+       "value_column": "value",
+       "filters": {
+        "entity": "spp:SPPNORTH_HUB",
+        "variable": "da_daily_mean"
+       },
+       "rows_matched": 72,
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "da_daily_mean"
+       ],
+       "time_span": {
+        "first": "2026-08-26T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z"
+       },
+       "result": [
+        {
+         "value": 51.7155,
+         "at": "2026-11-06T00:00:00Z",
+         "entity": "spp:SPPNORTH_HUB",
+         "variable": "da_daily_mean",
+         "unit": "USD/MWh"
+        }
+       ],
+       "table": "price_board_spreads",
+       "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+       "source_report": "erw:price_board",
+       "license": "public",
+       "tier": "derived",
+       "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+      },
+      "difference_b_minus_a": 18.41,
+      "ratio_b_over_a": 1.552762
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_spreads",
+      "aggregation": "latest",
+      "entity": "spp:SPPNORTH_HUB",
+      "variable": "spark_spread_7",
+      "value_column": "value"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "entity": "spp:SPPNORTH_HUB",
+       "variable": "spark_spread_7"
+      },
+      "rows_matched": 72,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "spark_spread_7"
+      ],
+      "time_span": {
+       "first": "2026-08-26T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 33.3055,
+        "at": "2026-11-06T00:00:00Z",
+        "entity": "spp:SPPNORTH_HUB",
+        "variable": "spark_spread_7",
+        "unit": "USD/MWh"
+       }
+      ],
+      "table": "price_board_spreads",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_spreads",
+      "aggregation": "latest",
+      "entity": "spp:SPPNORTH_HUB",
+      "variable": "implied_heat_rate"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "entity": "spp:SPPNORTH_HUB",
+       "variable": "implied_heat_rate"
+      },
+      "rows_matched": 72,
+      "units": [
+       "MMBtu/MWh"
+      ],
+      "variables": [
+       "implied_heat_rate"
+      ],
+      "time_span": {
+       "first": "2026-08-26T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 19.6637,
+        "at": "2026-11-06T00:00:00Z",
+        "entity": "spp:SPPNORTH_HUB",
+        "variable": "implied_heat_rate",
+        "unit": "MMBtu/MWh"
+       }
+      ],
+      "table": "price_board_spreads",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_spreads",
+      "aggregation": "latest",
+      "entity": "spp:SPPNORTH_HUB",
+      "variable": "da_daily_mean"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "entity": "spp:SPPNORTH_HUB",
+       "variable": "da_daily_mean"
+      },
+      "rows_matched": 72,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "da_daily_mean"
+      ],
+      "time_span": {
+       "first": "2026-08-26T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 51.7155,
+        "at": "2026-11-06T00:00:00Z",
+        "entity": "spp:SPPNORTH_HUB",
+        "variable": "da_daily_mean",
+        "unit": "USD/MWh"
+       }
+      ],
+      "table": "price_board_spreads",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_spreads",
+      "aggregation": "latest",
+      "entity": "eia:henry_hub",
+      "variable": "henry_hub"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "entity": "eia:henry_hub",
+       "variable": "henry_hub"
+      },
+      "rows_matched": 248,
+      "units": [
+       "USD/MMBtu"
+      ],
+      "variables": [
+       "henry_hub"
+      ],
+      "time_span": {
+       "first": "2025-11-05T00:00:00Z",
+       "last": "2026-11-03T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 2.63,
+        "at": "2026-11-03T00:00:00Z",
+        "entity": "eia:henry_hub",
+        "variable": "henry_hub",
+        "unit": "USD/MMBtu"
+       }
+      ],
+      "table": "price_board_spreads",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "price_board_spreads",
+      "aggregation": "latest",
+      "variable": "spark_spread_7",
+      "group_by": "entity"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "variable": "spark_spread_7"
+      },
+      "rows_matched": 549,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "spark_spread_7"
+      ],
+      "time_span": {
+       "first": "2025-09-29T00:00:00Z",
+       "last": "2026-11-06T00:00:00Z"
+      },
+      "n_groups": 3,
+      "result": [
+       {
+        "entity": "caiso:TH_SP15_GEN-APND",
+        "value": 25.3252,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "spark_spread_7",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "ercot:HB_HUBAVG",
+        "value": 22.2287,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "spark_spread_7",
+        "unit": "USD/MWh"
+       },
+       {
+        "entity": "spp:SPPNORTH_HUB",
+        "value": 33.3055,
+        "at": "2026-11-06T00:00:00Z",
+        "variable": "spark_spread_7",
+        "unit": "USD/MWh"
+       }
+      ],
+      "table": "price_board_spreads",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_spreads`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  },
+  {
+   "id": "k04",
+   "grid": "ERCOT",
+   "via": "general",
+   "question": "Which hub on the price board had the lowest real-time daily mean on its newest day, and what was it in USD per MWh?",
+   "asked_at_utc": "2026-11-06T09:36:04Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "ERCOT's HB_NORTH had the lowest real-time daily mean on the price board. It was 21.72 USD/MWh on its newest day, 2026-11-04 (UTC date label of the local operating day). The figure is the day's mean price (price_board_latest, derived). Not every hub's newest day is the same: the SPP hubs' newest day is 2026-10-31. The table covers 11 hubs, and a hub whose rows are held is not in it.",
+   "why": null,
+   "citations": [
+    {
+     "table": "price_board_latest",
+     "source_report": "erw:price_board",
+     "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0254778,
+   "seconds": 5.7,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": null,
+   "nearest": null,
+   "trace": [
+    {
+     "tool": "board_rank",
+     "input": {
+      "measure": "rt_latest_day_mean",
+      "order": "lowest"
+     },
+     "out": {
+      "table": "price_board_latest",
+      "measure": "rt_latest_day_mean",
+      "order": "lowest",
+      "units": [
+       "USD/MWh"
+      ],
+      "n": 11,
+      "ranked": [
+       {
+        "rank": 1,
+        "entity": "ercot:HB_NORTH",
+        "value": 21.7156,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 2,
+        "entity": "ercot:HB_BUSAVG",
+        "value": 25.3266,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 3,
+        "entity": "ercot:HB_SOUTH",
+        "value": 27.5313,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 4,
+        "entity": "ercot:HB_HUBAVG",
+        "value": 27.737,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 5,
+        "entity": "ercot:HB_HOUSTON",
+        "value": 29.4819,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 6,
+        "entity": "ercot:HB_WEST",
+        "value": 32.2207,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 7,
+        "entity": "spp:SPPSOUTH_HUB",
+        "value": 35.2069,
+        "at": "2026-10-31T00:00:00Z"
+       },
+       {
+        "rank": 8,
+        "entity": "spp:SPPNORTH_HUB",
+        "value": 37.6388,
+        "at": "2026-10-31T00:00:00Z"
+       },
+       {
+        "rank": 9,
+        "entity": "caiso:TH_SP15_GEN-APND",
+        "value": 43.5754,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 10,
+        "entity": "caiso:TH_ZP26_GEN-APND",
+        "value": 45.1413,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 11,
+        "entity": "caiso:TH_NP15_GEN-APND",
+        "value": 52.1221,
+        "at": "2026-11-04T00:00:00Z"
+       }
+      ],
+      "note": "each hub's newest value of the measure, with its own date; a hub whose rows are held is not in the table read",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  },
+  {
+   "id": "k05",
+   "grid": "ERCOT",
+   "via": "general",
+   "question": "On the price board, which hub's day-ahead price ran furthest from real time (day-ahead minus real time, either sign) on its newest day, and by how much in USD per MWh?",
+   "asked_at_utc": "2026-11-06T09:36:10Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "On the price board (price_board_latest, derived), ERCOT's HB_WEST had the widest gap between day-ahead and real time on its newest day. Its day-ahead minus real-time mean was 16.44 USD/MWh (16.4397), so day-ahead was above real time. The day is 2026-11-04, a complete local operating day, with the date taken at 00:00Z. The next-widest were ERCOT HB_SOUTH at 15.28 USD/MWh and ERCOT HB_HUBAVG at 14.77 USD/MWh. The widest gap with real time above day-ahead was SPP's SPPNORTH_HUB at -9.02 USD/MWh, on 2026-10-31. The board ranked 11 hubs: the 6 ERCOT hubs, 2 SPP hubs and 3 CAISO hubs. Hubs whose rows are held for a license are not in the table.",
+   "why": null,
+   "citations": [
+    {
+     "table": "price_board_latest",
+     "source_report": "erw:price_board",
+     "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.049934400000000004,
+   "seconds": 8.2,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": null,
+   "nearest": null,
+   "trace": [
+    {
+     "tool": "board_rank",
+     "input": {
+      "measure": "da_minus_rt",
+      "order": "largest_move"
+     },
+     "out": {
+      "table": "price_board_latest",
+      "measure": "da_minus_rt",
+      "order": "largest_move",
+      "units": [
+       "USD/MWh"
+      ],
+      "n": 11,
+      "ranked": [
+       {
+        "rank": 1,
+        "entity": "ercot:HB_WEST",
+        "value": 16.4397,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 2,
+        "entity": "ercot:HB_SOUTH",
+        "value": 15.2804,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 3,
+        "entity": "ercot:HB_HUBAVG",
+        "value": 14.7705,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 4,
+        "entity": "ercot:HB_BUSAVG",
+        "value": 14.3538,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 5,
+        "entity": "ercot:HB_HOUSTON",
+        "value": 13.7206,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 6,
+        "entity": "ercot:HB_NORTH",
+        "value": 13.6423,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 7,
+        "entity": "spp:SPPNORTH_HUB",
+        "value": -9.0185,
+        "at": "2026-10-31T00:00:00Z"
+       },
+       {
+        "rank": 8,
+        "entity": "spp:SPPSOUTH_HUB",
+        "value": -7.4517,
+        "at": "2026-10-31T00:00:00Z"
+       },
+       {
+        "rank": 9,
+        "entity": "caiso:TH_SP15_GEN-APND",
+        "value": -7.3313,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 10,
+        "entity": "caiso:TH_ZP26_GEN-APND",
+        "value": -5.3375,
+        "at": "2026-11-04T00:00:00Z"
+       },
+       {
+        "rank": 11,
+        "entity": "caiso:TH_NP15_GEN-APND",
+        "value": -2.6698,
+        "at": "2026-11-04T00:00:00Z"
+       }
+      ],
+      "note": "each hub's newest value of the measure, with its own date; a hub whose rows are held is not in the table read",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T23:44:58Z",
+      "source_report": "erw:price_board",
+      "license": "public",
+      "tier": "derived",
+      "citation": "Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research Warehouse (ERW), table `price_board_latest`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "list_tables",
+     "input": {
+      "sector": "power",
+      "iso": "ERCOT"
+     },
+     "out": {
+      "n_tables": 58,
+      "tables": [
+       {
+        "table": "ai_power_regions",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "",
+        "first": "2018-07-01T00:00:00Z",
+        "last": "2026-09-30T00:00:00Z",
+        "rows": 187,
+        "source_report": "erw:ai_power_regions",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ba_supply_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "P1M",
+        "first": "2019-01-01T00:00:00Z",
+        "last": "2026-09-01T00:00:00Z",
+        "rows": 158503,
+        "source_report": "erw:ba_supply",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "battery_stack_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT",
+        "interval": "P1M",
+        "first": "2018-01-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 11556,
+        "source_report": "erw:battery_stack",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "battery_stack_stress_daily",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT",
+        "interval": "P1D",
+        "first": "2021-02-07T00:00:00Z",
+        "last": "2026-10-08T00:00:00Z",
+        "rows": 1890,
+        "source_report": "erw:battery_stack",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "carbon_intensity_daily",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "P1D",
+        "first": "2018-07-02T00:00:00Z",
+        "last": "2026-11-02T00:00:00Z",
+        "rows": 47171,
+        "source_report": "erw:carbon_intensity;erw:carbon_intensity_caiso",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "carbon_intensity_hourly",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "PT1H",
+        "first": "2018-07-02T00:00:00Z",
+        "last": "2026-11-02T23:00:00Z",
+        "rows": 1132545,
+        "source_report": "erw:carbon_intensity;erw:carbon_intensity_caiso",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "carbon_intensity_monthly",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "P1M",
+        "first": "2018-08-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 1285,
+        "source_report": "erw:carbon_intensity;erw:carbon_intensity_caiso",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "cost_of_power_carbon",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1M",
+        "first": "2018-07-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 712,
+        "source_report": "erw:cost_of_power",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "cost_of_power_hourly_profile",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1M",
+        "first": "2025-10-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 4368,
+        "source_report": "erw:cost_of_power",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "cost_of_power_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1M",
+        "first": "2018-07-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 2304,
+        "source_report": "erw:cost_of_power",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "eia930_all_demand",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "PT1H",
+        "first": "2026-08-26T00:00:00Z",
+        "last": "2026-11-04T23:00:00Z",
+        "rows": 26208,
+        "source_report": "eia:electricity/rto/region-data",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "eia930_all_emissions",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "PT1H",
+        "first": "2018-07-02T00:00:00Z",
+        "last": "2026-11-02T23:00:00Z",
+        "rows": 4367376,
+        "source_report": "eia:gridmonitor/knownissues/xls",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "eia930_all_generation",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "PT1H",
+        "first": "2026-08-26T00:00:00Z",
+        "last": "2026-11-04T23:00:00Z",
+        "rows": 141000,
+        "source_report": "eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "eia930_all_history",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "PT1H",
+        "first": "2018-01-01T05:00:00Z",
+        "last": "2018-07-01T06:00:00Z",
+        "rows": 60084,
+        "source_report": "eia:gridmonitor/sixMonthFiles",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "eia930_all_interchange",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "PT1H",
+        "first": "2026-09-13T00:00:00Z",
+        "last": "2026-11-03T23:00:00Z",
+        "rows": 395016,
+        "source_report": "eia:electricity/rto/interchange-data",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "eia930_all_storage",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT;ISO-NE;MISO;SPP;US48",
+        "interval": "PT1H",
+        "first": "2024-11-01T00:00:00Z",
+        "last": "2026-11-04T23:00:00Z",
+        "rows": 74784,
+        "source_report": "eia:electricity/rto/fuel-type-data",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "eia930_daily_interchange",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "P1D",
+        "first": "2019-01-01T00:00:00Z",
+        "last": "2026-11-03T00:00:00Z",
+        "rows": 956116,
+        "source_report": "eia930:daily_interchange",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "eia930_daily_total_interchange",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "P1D",
+        "first": "2019-01-01T00:00:00Z",
+        "last": "2026-11-04T00:00:00Z",
+        "rows": 213373,
+        "source_report": "eia930:daily_total_interchange",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "eia930_demand_growth",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "P1Y",
+        "first": "2019-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 24116,
+        "source_report": "erw:demand_growth",
+        "derived": "no",
+        "tier": "derived"
+       },
+       {
+        "table": "eia930_event_hourly_interchange",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "PT1H",
+        "first": "2021-02-07T06:00:00Z",
+        "last": "2025-06-29T03:00:00Z",
+        "rows": 266833,
+        "source_report": "eia:electricity/rto/interchange-data;eia:electricity/rto/region-data",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_4cp_intervals",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "PT15M",
+        "first": "2018-06-27T21:45:00Z",
+        "last": "2025-09-04T22:15:00Z",
+        "rows": 28,
+        "source_report": "ercot:NP9-83-M",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_all_hub_prices_history",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "PT15M;PT1H",
+        "first": "2015-01-01T06:00:00Z",
+        "last": "2026-10-31T04:00:00Z",
+        "rows": 3109938,
+        "source_report": "ercot:NP4-180-ER;ercot:NP4-190-CD;ercot:NP6-785-ER;ercot:NP6-905-CD",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_as_prices",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "PT1H",
+        "first": "2018-01-01T06:00:00Z",
+        "last": "2026-10-31T04:00:00Z",
+        "rows": 339332,
+        "source_report": "ercot:NP4-181-ER;ercot:NP4-188-CD",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_as_prices_daily",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1D",
+        "first": "2018-01-01T00:00:00Z",
+        "last": "2026-10-30T00:00:00Z",
+        "rows": 70695,
+        "source_report": "erw:ercot_as_prices_rollup",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_as_prices_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2018-01-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 2325,
+        "source_report": "erw:ercot_as_prices_rollup",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_as_quantities",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "PT1H",
+        "first": "2026-09-03T05:00:00Z",
+        "last": "2026-10-13T04:00:00Z",
+        "rows": 4800,
+        "source_report": "ercot:np4-33-cd",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_hub_prices_daily",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1D",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z",
+        "rows": 347814,
+        "source_report": "erw:ercot_hub_prices_daily",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_interconnection_queue",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "snapshot",
+        "first": "2026-11-05T23:21:53Z",
+        "last": "2026-11-05T23:21:53Z",
+        "rows": 1736,
+        "source_report": "ercot:interconnection_queue",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_large_load_status",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2025-05-28T00:00:00Z",
+        "last": "2026-06-19T00:00:00Z",
+        "rows": 38,
+        "source_report": "ercot:large_load_status_update",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_node_prices_hourly",
+        "sector": "power",
+        "license": "internal",
+        "iso": "ERCOT",
+        "interval": "PT1H",
+        "first": "2026-08-01T05:00:00Z",
+        "last": "2026-11-05T05:00:00Z",
+        "rows": 496176,
+        "source_report": "erw:node_basis_hourly",
+        "derived": "no",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_peak_premium_annual",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1Y",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 2016,
+        "source_report": "erw:ercot_peak_premium",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_peak_premium_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 23856,
+        "source_report": "erw:ercot_peak_premium",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_rtm_price_adders",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "PT1H",
+        "first": "2014-06-01T06:00:00Z",
+        "last": "2026-11-01T03:00:00Z",
+        "rows": 602482,
+        "source_report": "ercot:NP6-792-ER",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_storage_dam_awards_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2025-12-01T00:00:00Z",
+        "last": "2026-08-01T00:00:00Z",
+        "rows": 252,
+        "source_report": "erw:ercot_storage_dam_awards",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_storage_dam_offers_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2025-12-01T00:00:00Z",
+        "last": "2026-08-01T00:00:00Z",
+        "rows": 819,
+        "source_report": "erw:ercot_storage_dam_offers",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_storage_node_basis",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1W",
+        "first": "2026-09-28T00:00:00Z",
+        "last": "2026-09-28T00:00:00Z",
+        "rows": 2064,
+        "source_report": "erw:ercot_storage_realtime",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_storage_rt_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2026-02-01T00:00:00Z",
+        "last": "2026-08-01T00:00:00Z",
+        "rows": 329,
+        "source_report": "erw:ercot_storage_realtime",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_wind_solar_hsl_daily",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1D",
+        "first": "2026-09-19T00:00:00Z",
+        "last": "2026-11-04T00:00:00Z",
+        "rows": 258,
+        "source_report": "ercot:np4_732_745",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_wind_solar_hsl_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2026-10-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 45,
+        "source_report": "erw:ercot_wind_solar_hsl_monthly",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "event_study_estimates",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "P1D;PT1H",
+        "first": "2020-03-01T00:00:00Z",
+        "last": "2026-02-02T00:00:00Z",
+        "rows": 3040,
+        "source_report": "erw:event_study",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "event_window_daily",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "P1D;P1W",
+        "first": "2018-03-04T00:00:00Z",
+        "last": "2026-02-02T00:00:00Z",
+        "rows": 29953,
+        "source_report": "erw:event_window",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "grid_network_links",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "PT1H",
+        "first": "2026-10-28T00:00:00Z",
+        "last": "2026-11-03T23:00:00Z",
+        "rows": 25488,
+        "source_report": "erw:grid_network",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "grid_network_nodes",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "PT168H;PT1H",
+        "first": "2026-10-28T00:00:00Z",
+        "last": "2026-11-02T23:00:00Z",
+        "rows": 84,
+        "source_report": "erw:grid_network",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "iso_dam_hub_prices",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;MISO;SPP",
+        "interval": "PT1H",
+        "first": "2026-08-26T05:00:00Z",
+        "last": "2026-11-07T07:00:00Z",
+        "rows": 26723,
+        "source_report": "caiso:PRC_LMP;ercot:NP4-190-CD;miso:da_expost_lmp;spp:DA-LMP-SL",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "iso_rtm_hub_prices",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;MISO;SPP",
+        "interval": "PT15M;PT1H",
+        "first": "2026-08-26T05:00:00Z",
+        "last": "2026-11-05T07:45:00Z",
+        "rows": 73380,
+        "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "iso_trader_daily",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1D",
+        "first": "2026-08-26T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z",
+        "rows": 20100,
+        "source_report": "erw:trader_view",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "lbnl_interconnection_queue",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "snapshot",
+        "first": "2026-10-02T09:16:25Z",
+        "last": "2026-10-02T09:16:25Z",
+        "rows": 38201,
+        "source_report": "lbnl:queued_up",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "merchant_revenue_monthly",
+        "sector": "power, gas",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1M",
+        "first": "2018-06-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 8853,
+        "source_report": "erw:merchant_revenue",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "noaa_isd_hourly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "",
+        "first": "2018-03-04T05:51:00Z",
+        "last": "2025-08-27T06:53:00Z",
+        "rows": 412435,
+        "source_report": "noaa:isd_global_hourly",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "node_basis_summary",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2025-10-01T00:00:00Z",
+        "last": "2026-11-01T00:00:00Z",
+        "rows": 1344,
+        "source_report": "erw:node_basis",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "price_board_latest",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1D;PT15M;PT1H",
+        "first": "2026-09-03T00:00:00Z",
+        "last": "2026-11-07T07:00:00Z",
+        "rows": 3250,
+        "source_report": "erw:price_board",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "price_board_peak_offpeak",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1D;P1Y",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z",
+        "rows": 4572,
+        "source_report": "erw:price_board",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "price_board_spreads",
+        "sector": "power, gas, oil",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1D",
+        "first": "2025-09-29T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z",
+        "rows": 2697,
+        "source_report": "erw:price_board",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "price_years_by_window",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;SPP",
+        "interval": "P105M;P12M;P141M;P25M;P36M;P38M;P39M;P4M;P5M;P6M;P84M;P93M;P9M",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 2754,
+        "source_report": "erw:price_years",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "shoulder_hours_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT",
+        "interval": "P1D;P1M;P1Y",
+        "first": "2019-01-01T00:00:00Z",
+        "last": "2026-10-17T00:00:00Z",
+        "rows": 27489,
+        "source_report": "erw:shoulder_hours",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "storage_buildout_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "P1M",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-09-01T00:00:00Z",
+        "rows": 21382,
+        "source_report": "erw:storage_buildout",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "storage_daily_cycle",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;SPP;US48",
+        "interval": "P1D",
+        "first": "2024-11-01T00:00:00Z",
+        "last": "2026-11-04T00:00:00Z",
+        "rows": 14836,
+        "source_report": "erw:storage_daily_cycle;erw:storage_daily_cycle_caiso",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "storage_owners_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "P1M",
+        "first": "2026-08-01T00:00:00Z",
+        "last": "2026-09-01T00:00:00Z",
+        "rows": 19180,
+        "source_report": "erw:storage_owners",
+        "derived": "yes",
+        "tier": "derived"
+       }
+      ],
+      "backend": "supabase",
+      "note": "Only public tables may be shown publicly; internal tables are licensed for internal use only. first and last are interval starts, UTC."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  }
+ ]
+}

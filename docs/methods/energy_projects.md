@@ -1,6 +1,6 @@
 # Method: energy projects for the project map
 
-Tables: `iso_queue_statistics`
+Tables: `iso_queue_statistics` Also: `energy_projects` (session 2960).
 
 > **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's interconnection queue stays as of its last weekly pull. What is held stays as it is. [`miso_pause.md`](miso_pause.md)
 

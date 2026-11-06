@@ -256,3 +256,10 @@ Read again by session 2940 at about 07:18 UTC, after chain 153's section, main a
 - **Transmission and 4CP (every grid but ERCOT):** open. SCE's and National Grid's terms bar this use; Evergy and NYSEG are closed at their robots files (session 2937). No tab row's utility has a readable site.
 - **ERCOT, the four peaks of summer 2026, and the node prices in them:** open. Not posted on an allowed page at 07:12 UTC (sessions 2935, 2936).
 - **All but ERCOT, CAISO, SPP, an interruptible load's capacity charge:** open (session 2938).
+## State on 6 November 2026, late morning (chain 157)
+Read again by session 2969 at about 09:55 UTC, after chain 155's section. Chain 157's derived tables against the open rows:
+- **Headroom, the interconnection queue:** drawn since session 2958 (on the tab once `wip/c157-data` lands): each grid's active queue MW at its ISO's snapshot (`iso_queue_snapshot_summary`), ERCOT 298,606 MW, SPP 134,797, CAISO 73,848; ISO-NE, MISO and NYISO "license needed" (their queues held whole), PJM "not held".
+- **Headroom, generation with a signed interconnection agreement:** stays filled from Berkeley Lab's file; the ISO snapshots carry no agreement date, and EIA-860M records none (`generator_pipeline_by_grid`, session 2951).
+- **Time to connect, a large load's own wait:** open. The new queue table is the generators' queue; its request-to-in-service medians are not drawn (a recent year counts only the requests already in service, session 2958).
+- **Headroom, reserve margins by zone, and demand growth from the utilities' own forecasts:** open. FERC-714's forecasts (Part 3, Schedule 2) are not held (session 2949).
+- **No other row moved:** the reactor fleet and the gas balance fill no cell of the tab.

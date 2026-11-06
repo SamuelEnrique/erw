@@ -2,6 +2,8 @@
 
 Energy Research Warehouse (ERW), session 322 (the owner's default of 19 October 2026 for the morning note's item 9). The table is `ercot_grid_notices` (events); the code is `warehouse/connectors/ercot_grid_notices.py`. Tier: source. License: public (ERCOT's terms, read 2 of `warehouse/metadata/license_reads.csv`). Credit: Electric Reliability Council of Texas (ERCOT).
 
+Tables: `ercot_grid_notices` (named here by session 2960).
+
 ## 1. Question
 
 On which days did ERCOT call on supply or demand across its grid: an Energy Emergency Alert, rotating outages, a conservation appeal, a watch? `grid_stress_days` counts a CAISO day by its notices as well as its price (session 297's rule). Until this table, ERCOT was judged by price alone, so 24 December 2022 (Winter Storm Elliott) was not a stress day (session 306).

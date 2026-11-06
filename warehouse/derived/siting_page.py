@@ -617,6 +617,24 @@ def signed_by_grid(spath):
     return {"table": SIGNED_TABLE, "queue_end": at[:10], "grids": grids}
 
 
+QUEUE_TABLE = "iso_queue_snapshot_summary"
+# session 2958: the grids whose queue tables are held whole for a license (release v1, 21 October 2026)
+QUEUE_HELD = ("isone", "miso", "nyiso")
+
+
+def queue_by_grid(qpath):
+    """Session 2958 (chain 157): each grid's active interconnection queue MW at its snapshot, summed over the fuel groups
+    of iso_queue_snapshot_summary (CAISO, ERCOT and SPP; ISO-NE's, MISO's and NYISO's queues are held for a license)."""
+    q = pd.read_csv(qpath, skiprows=header_rows(qpath), dtype=str, usecols=["entity", "variable", "ts_utc", "value", "x_grid", "x_snapshot"])
+    q = q[q["variable"].isin(["active_mw", "active_count"]) & (q["entity"].str.count(":") == 2)]
+    q["v"] = pd.to_numeric(q["value"], errors="coerce")
+    grids = {}
+    for g, x in q.groupby("x_grid"):
+        grids[g] = {"active_mw": round(float(x[x["variable"] == "active_mw"]["v"].sum()), 1), "active_count": int(x[x["variable"] == "active_count"]["v"].sum()),
+                    "snapshot": str(x["x_snapshot"].iloc[0])}
+    return {"table": QUEUE_TABLE, "grids": grids, "held": list(QUEUE_HELD)}
+
+
 def utility_file(path):
     """utility.json's content (session 708)."""
     keep = []
@@ -852,6 +870,12 @@ def main(argv=None):
             print(f"{RESERVE_TABLE}: ERCOT {e['peak']['label']} {e['peak']['pct']:.2f} % at the peak load hour")
         except FileNotFoundError:
             print(f"{RESERVE_TABLE} is not on this machine: no grid's reserve margin is drawn")
+        try:   # session 2958: the active interconnection queue by grid (the ISOs' own snapshots)
+            qpath = find(QUEUE_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {qpath}")
+            hr["queue"] = queue_by_grid(qpath)
+        except FileNotFoundError:
+            print(f"{QUEUE_TABLE} is not on this machine: no grid's queue is drawn")
         try:   # session 2923: generation with a signed interconnection agreement, by grid (Queued Up)
             gpath = find(SIGNED_TABLE, a.in_dir, a.in_dir_first)
             print(f"reading {gpath}")

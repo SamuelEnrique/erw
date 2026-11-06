@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), method note written in session 2284 (chain 104) for a table first written on 29 September 2026 (session 29, `archive/sessions/SESSION_29_REPORT.md`, the consolidation of four tables into one, commit `5dc81a19`); its four members were first written on 24 and 25 September 2026 (ERCOT's in session 1, the other three in session 2, `archive/sessions/SESSION_2_REPORT.md`, commit `7b4b5177`). The real-time prices at the same hubs are `iso_rtm_hub_prices`; NYISO's and ISO-NE's day-ahead prices are their zone tables.
 
-Tables: `iso_dam_hub_prices`
+Tables: `iso_dam_hub_prices` Also: `iso_rtm_hub_prices`, `ercot_all_hub_prices_history`, `iso_hub_prices_history` (session 2960).
 
 ## Publisher and address
 
