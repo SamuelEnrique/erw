@@ -94,7 +94,9 @@ ERW_REMOTE_TESTS=1 python -m pytest package/tests -m remote -v      # Redivis an
 The first line expects the clone's `warehouse/output` to hold the tables `docs/coverage.md` describes (the data
 machine's; `python scripts/sync.py` restores a table that is missing or behind): its row-count and partition tests
 compare each file with that page, so on a clone whose files are older they fail by the difference, not by a fault of
-the package (session 1035: 108 of 799 on the code machine, all of that kind).
+the package (session 1035: 108 of 799 on the code machine, all of that kind; session 1505, 6 November 2026: 150 of
+801, of that kind too: 87 row counts, 30 partitions, and the license verdicts and the source registry newer than the
+copy's tables; `python scripts/sync.py` on that machine brings its files to the record).
 
 `package/tests/test_backends_three.py` reads five tables through the three backends and writes what it found to
 `package/tests/three_backends.json`. The repository's own suite (`python -m unittest discover -s tests`) holds the

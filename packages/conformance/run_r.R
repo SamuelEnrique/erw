@@ -25,7 +25,7 @@ t <- if ("event_date" %in% names(d)) d$event_date else if ("ts_utc" %in% names(d
 report(nrow(d) == 40 && stamp(min(t)) == "2022-09-01T00:00:00Z" && stamp(max(t)) == "2022-09-09T00:00:00Z", "05 fetch caiso_grid_emergencies")
 d <- erw_fetch("eia860m_retired_generators", variable = c("generator"), backend = "live")
 t <- if ("event_date" %in% names(d)) d$event_date else if ("ts_utc" %in% names(d)) d$ts_utc else as.POSIXct(d$status_date, tz = "UTC")
-report(nrow(d) == 249 && stamp(min(t)) == "2025-01-01T00:00:00Z" && stamp(max(t)) == "2026-08-01T00:00:00Z", "06 fetch eia860m_retired_generators")
+report(nrow(d) == 260 && stamp(min(t)) == "2025-01-01T00:00:00Z" && stamp(max(t)) == "2026-09-01T00:00:00Z", "06 fetch eia860m_retired_generators")
 d <- erw_fetch("carbon_intensity_hourly", entity = c("eia930:ERCO"), variable = c("intensity_demand"), start = "2026-10-18", end = "2026-10-19", backend = "live")
 t <- if ("event_date" %in% names(d)) d$event_date else if ("ts_utc" %in% names(d)) d$ts_utc else as.POSIXct(d$status_date, tz = "UTC")
 report(nrow(d) == 24 && stamp(min(t)) == "2026-10-18T00:00:00Z" && stamp(max(t)) == "2026-10-18T23:00:00Z", "07 fetch carbon_intensity_hourly")
