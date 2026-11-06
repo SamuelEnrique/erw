@@ -22,11 +22,15 @@ Read first: chain 180's note (`docs/state/note_<its day>_data_c180.md`), chain 1
 
 ## Session 3191: the next file, the ground, chain 180's first unfinished step
 
-Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 180's first unfinished step, as session 3159 of chain 180 writes it here; if it left none, session 3195's.
+Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 180's first unfinished step, written by session 3159 of chain 180: **if `wip/c180-data` (which holds chains 176, 177 and 180's reports) is not an ancestor of origin's main** (chain 181 lands it with its own after 16:15 UTC), land it by `archive/sessions/SESSION_3121_REPORT.md`, "To finish", with `wip/c180-data` in its place (never between 14:00 and 16:15 UTC). If it landed, session 3192's step.
 
 ## Sessions 3192 to 3194: chain 180's other unfinished steps
 
-Long end 2:00 each. Session 3192 begins with the landing request file (the rules). Session 3159 of chain 180 writes the steps here in its order; a session it does not name takes the next of the passes below.
+Long end 2:00 each. Session 3192 begins with the landing request file (the rules). Written by session 3159 of chain 180, in chain 180's order (its note, "What did not, and why"):
+
+- **Session 3192: the laptops' rows and the deals backfill.** `docs/state/landing_request_portable.md` on origin's main: each waiting row (at 14:14 UTC on 6 November, row 6 `wip/3128-policy` and row 7 `wip/2281-deals`, each holding the earlier rows) whose branch is not an ancestor of main and that the desktop's second window is not landing (no `land/` worktree in use for it, no `task/` branch, the build lock free) is landed as the file says, never between 14:00 and 16:15 UTC, and its row marked. The backfill only once the deals extraction is on main **and** the owner's approval is written.
+- **Session 3193: the owner's rulings, if any are written** (chains 153 to 181's notes): carried out where written; with none, say so.
+- **Session 3194: the stale inputs** (chains 162, 170, 176 and 180): after Saturday 7 November's supply refresh, `eia_gas_storage_weekly`'s newest week (it ended at 16 October); if it moved, `gas_balance_weekly` rebuilt with the locked write script and its method note's figures checked. `eia_nuclear_outages_generator_daily`: its age named; pulled only if the owner's ruling allows.
 
 ## Session 3195: FERC-714 forecast growth, second pass
 
