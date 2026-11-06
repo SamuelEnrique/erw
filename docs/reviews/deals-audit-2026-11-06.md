@@ -453,3 +453,19 @@ The three left: D024 ("Ohio, Pennsylvania") and D058 ("Texas, Louisiana") name t
 | D080 | capital | nuclear_restart_uprate | another story of the cluster: "May Restart Abandoned US Nuclear Project" |
 
 Kind wrong: **8 to 0** on the replayed answers; no other row of the 82 (or of the 2232 fixture's 29, beyond D007 and D020 there) changed kind. A first form of the data-center rule also turned D034 ("optical fiber for data centers"), D046 ("local energy infrastructure for Louisiana data center") and D055 (a one-party project) into compute capacity; narrowed before the commit (`DC_SUPPLY`, two named parties), and the test holds the three as "other".
+
+## Session 2259 (chain 159): deals' status missed (7) and unsupported (1)
+
+| Row | Before (stage / status) | After | The words |
+|---|---|---|---|
+| D001 | - / - | announced / announced | "to serve as credit backstop" |
+| D020 | - / - | announced / announced | "will become independent" |
+| D047 | - / - | signed / signed | "Joins Mercuria to Develop" |
+| D051 | - / - | announced / announced | "Partner to Develop" |
+| D063 | - / - | signed / signed | "partners with" |
+| D074 | - / - | signed / signed | "lease deal with" |
+| D081 | - / - | rumored / rumored | "source says" |
+
+Status missed: **7 to 0**. Two more rows of the 82 had a stage and no status (D012, and D062 below) and now carry the stage as status; on the 2232 fixture, D043, D047 and D059 the same way. No stage or status the model gave changed.
+
+**Unsupported (D062), left open**: "Woodside Divests ... to Perenco", read as closed by the model. A check that a closed stage's words say so was tried and taken out: it also turned D100 ("takes 5% stakes") and D026 ("Seals Acquisition") from closed, both read as right by the second read, and the raises the prompt itself calls closed ("money raised or received"). No word rule tells these present-tense headlines apart; the row stays with its status now closed too (it had none).

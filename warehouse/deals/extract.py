@@ -551,6 +551,10 @@ def main(argv=None):
                         per_mwh_usd = vals["price_value"] is not None and re.fullmatch(r"(?i)(usd|\$|us\$)\s*/\s*mwh", pu)
                         extra, notes = fields.finish(d, text, vals, ev)
                         dropped.extend(f"{cid}: {x}" for x in notes)
+                        # session 2259: an empty status takes the stage the deal's words give, where it is one of the
+                        # five words the Roundup prints
+                        if not st_status and extra.get("stage") in STATUSES:
+                            st_status = extra["stage"]
                         extra["usd_per_mwh"] = clean(vals["price_value"]) if per_mwh_usd else ""
                         extra["usd"] = clean(vals["dollars"])
                         by_id[did] = {

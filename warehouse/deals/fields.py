@@ -58,6 +58,31 @@ STAGES = [
     ("cancelled", "cancelled, terminated, scrapped, withdrawn, called off"),
 ]
 STAGE_IDS = [s for s, _ in STAGES]
+# Session 2259 (chain 159): the stage read from the deal's own evidence words where the model gave none, in this order
+# (the first that matches wins: a cancelled or rumored deal says so over its other verbs; "Meta picks Morgan Stanley
+# ... source says" is rumored). The second read found 7 of 106 with the stage stated and left empty.
+STAGE_WORDS = [
+    ("cancelled", r"\bcancel\w*|\bterminat\w*|\bscrap(?:s|ped|ping)?\b|\bwithdr[ae]w\w*|called off|\bend(?:s|ed)? plans\b|"
+                  r"\bdrop(?:s|ped)? (?:\w+ ){0,4}(?:plan|deal)\b|\babandon(?:s|ed)\b"),
+    ("rumored", r"\bin talks\b|\btalks\b|\bconsider\w*|\bexplor\w*|\blooks? to\b|\bweigh(?:s|ing)?\b|\breportedly\b|"
+                r"\bnear(?:s|ing)? (?:a )?deal\b|\bsources? (?:say|says|said)\b|people familiar|\bmull\w*|\bsaid to\b"),
+    ("closed", r"\bcomplet(?:es|ed|ion)\b|\bclos(?:es|ed)\b(?! (?:in|to|on|down|up)\b)(?! (?:a |its |the )?(?:loan|financing|debt)\b)|"
+               r"\bfinaliz\w*|\braised\b|\bsold\b|\bacquired\b"),
+    ("financed", r"financial close|\bclos(?:es|ed) (?:a |its |the )?(?:loan|financing|debt)\b|\bfunded\b"),
+    ("signed", r"\bsign(?:s|ed|ing)?\b|\bagree(?:s|d|ment)?\b|\bsecur(?:es|ed)\b|\bawarded?\b|entered into|\bink(?:s|ed)\b|"
+               r"\bstr(?:uck|ikes?)\b|\bseal(?:s|ed)?\b|locked in|\bpartners? with\b|\bjoins?\b|\bpicks?\b|\bselects?\b|"
+               r"\bdeal with\b|\bteams? up\b"),
+    ("announced", r"\bannounc\w*|\bplans? to\b|\bpropos\w*|\bwill\b|\bunveil\w*|letter of intent|\boffers? to\b|"
+                  r"\bto (?:buy|acquire|sell|serve|develop|build|supply|invest|lease|form|merge|partner|take)\b"),
+]
+def stage_from_words(evidence):
+    """(stage, span) from the deal's own evidence sentence, by STAGE_WORDS in order; ("", "") when none says."""
+    t = " ".join(str(evidence or "").replace("’", "'").split())
+    for s, pat in STAGE_WORDS:
+        m = re.search(pat, t, flags=re.I)
+        if m:
+            return s, m.group(0)
+    return "", ""
 
 # GRID: the US grid operators, kept only where the story's words name one. Never read from a state: a state split
 # between grids would be a guess (the site reads a state's main grid on the page and says so, lib/deals2.ts).
@@ -352,6 +377,8 @@ def finish(d, text, vals, evidence):
     stage, stage_text = stage_of(d, text)
     if d.get("stage") and not stage:
         notes.append(f"stage {d.get('stage')!r}: span {d.get('stage_text')!r} not in the story, not kept")
+    if not stage:   # session 2259: the deal's own words, where the model gave no stage
+        stage, stage_text = stage_from_words(evidence)
     grid, _ = grid_of(text)
     ai, ai_basis = ai_of(d, text)
     if bool(d.get("ai_power")) != ai:
