@@ -1,0 +1,541 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 166 (Friday, August 28, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 166 (Friday, August 28, 2026)]
+[Notices]
+[Pages 55628-55631]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-17626]
+
+
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket Nos. 50-616 and 50-617; NRC-2026-0265]
+
+
+SMR, LLC; Palisades SMR, LLC; Pioneer Units 1 and 2; Exemption
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice; issuance.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) has issued an 
+exemption in response to a request dated December 31, 2025, from SMR, 
+LLC, on behalf of Palisades SMR, LLC, a wholly-owned subsidiary of 
+Holtec International (collectively, Holtec) for approval to allow 
+construction of permanent support of excavation walls prior to the 
+issuance of a limited work authorization for Pioneer Units 1 and 2. The 
+support of excavation walls will remain in place after construction is 
+complete.
+
+DATES: The exemption was issued on August 28, 2026.
+
+ADDRESSES: Please refer to Docket ID NRC-2026-0265 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2026-0265. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email: [email protected]. For technical 
+questions, contact the individual(s) listed in the For Further 
+Information Contact section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to [email protected]. The ADAMS Accession number for each document 
+referenced (if it is available in ADAMS) is provided the first time 
+that it is mentioned in this document.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+[email protected] or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+FOR FURTHER INFORMATION CONTACT: Victoria Huckabay, telephone: 301-415-
+5183, email: [email protected] and Jason Lising, telephone 301-
+415-1119; email: [email protected]. Both are staff of the Office of 
+Advanced Reactors at the U.S. Nuclear Regulatory Commission, 
+Washington, DC 20555-0001.
+
+SUPPLEMENTARY INFORMATION: The text of the exemption is attached.
+
+(Authority: 42 U.S.C. 2011 et seq.)
+
+    Dated: August 26, 2026.
+
+    For the Nuclear Regulatory Commission.
+Victoria Huckabay,
+Senior Project Manager, Advanced Reactor Licensing Branch 2, Division 
+of Advanced Reactor Licensing, Office of Advanced Reactors.
+
+Attachment--Exemption
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket Nos. 50-616 and 50-617; NRC-2026-0265] SMR, LLC; Palisades SMR, 
+LLC; Pioneer Units 1 and 2; Exemption
+
+1.0 Background
+
+    By letter dated December 31, 2025 (Agency wide Documents Access 
+and Management System (ADAMS) Accession Number ML25365A983), SMR, 
+LLC, on behalf of Palisades SMR, LLC, a wholly-owned subsidiary of 
+Holtec International (collectively, Holtec) submitted to the U.S. 
+Nuclear Regulatory Commission (NRC) the first part of a phased 
+construction permit (CP) application, including a limited work 
+authorization (LWA) request, for a dual-unit
+
+[[Page 55629]]
+
+SMR-300 plant located at the Palisades Energy Center (PEC) in 
+Covert, Michigan. The units are individually named Pioneer Unit 1 
+and Pioneer Unit 2. Part 1 of the phased CP application included a 
+request for an exemption from Title 10 of the Code of Federal 
+Regulations (10 CFR) Part 50, Section 50.10(c). The NRC staff has 
+reviewed this request for an exemption, pursuant to 10 CFR 50.12, as 
+it relates to Holtec's request to allow for construction of support 
+of excavation (SOE) walls, which will remain in place after 
+construction is complete, during the excavation for the Pioneer 
+Units 1 and 2 plant and prior to issuance of an LWA, which is 
+currently under review by the NRC.
+    The NRC staff reviewed relevant information provided in the 
+application to support the LWA request and the exemption request to 
+determine whether the requested exemption meets the criteria of 10 
+CFR 50.12(a) and (b). Granting this exemption would not constitute a 
+commitment by the NRC to issue an LWA or CP for Pioneer Units 1 and 
+2. Holtec would construct SOE walls, assuming the risk that its LWA 
+request or Part 2 of the phased CP application (not yet submitted) 
+may later be denied.
+
+2.0 Request/Action
+
+    The proposed action, as described in Holtec's request for an 
+exemption from 10 CFR 50.10(c), would allow Holtec to construct 
+permanent retaining walls within an excavation at the Pioneer Units 
+1 and 2 site which would otherwise be prohibited prior to issuance 
+of an LWA or a CP. This exemption would authorize Holtec to install 
+and abandon in place SOE walls including diaphragm walls, soldier 
+pile soil-mix walls, and perimeter cutoff walls needed to maintain 
+excavation stability, protect adjacent structures and utilities, 
+manage groundwater pressures, and ensure personnel safety and 
+constructability during deep excavations. According to Holtec, these 
+SOE walls will serve no function in the completed SMR-300 plant and, 
+because removal would be unnecessary and costly, the SOE walls will 
+be retired in place and the space between the SOE walls and the 
+permanent structures will be backfilled to bring the area to grade.
+
+3.0 Discussion
+
+    Pursuant to 10 CFR 50.12(a), the Commission may, upon 
+application by any interested person or upon its own initiative, 
+grant exemptions from the requirements of 10 CFR part 50 when (1) 
+the exemption is authorized by law, will not present an undue risk 
+to public health or safety, and is consistent with the common 
+defense and security; and (2) when special circumstances are 
+present.
+    Under 10 CFR 50.12(b), to issue an exemption from 10 CFR 50.10 
+that would allow for construction of permanent SOE walls prior to 
+the issuance of an LWA, the Commission may grant such an exemption 
+upon considering and balancing the following factors: (1) whether 
+conduct of the proposed activities will give rise to a significant 
+adverse impact on the environment and the nature and extent of such 
+impact, if any; (2) whether redress of any adverse environmental 
+impact from conduct of the proposed activities can reasonably be 
+effected should such redress be necessary; (3) whether conduct of 
+the proposed activities would foreclose subsequent adoption of 
+alternatives; and (4) the effect of delay in conducting such 
+activities on the public interest, including the power needs to be 
+used by the proposed facility, the availability of alternative 
+sources, if any, to meet those needs on a timely basis, and delay 
+costs to the applicant and to consumers.
+
+10 CFR 50.12(a)(1): Authorized by Law
+
+    This exemption would authorize the Holtec to construct and 
+abandon in place permanent SOE walls prior to issuance of an LWA for 
+Pioneer Units 1 and 2. Granting Holtec's proposed exemption will not 
+otherwise result in a violation of the Atomic Energy Act of 1954, as 
+amended, the Commission's regulations, or any other law. Therefore, 
+the NRC staff finds that the exemption is authorized by law.
+
+10 CFR 50.12(a)(1): No Undue Risk to Public Health and Safety
+
+    To determine whether the proposed exemption would pose an undue 
+risk to public health and safety, the NRC staff identified specific 
+portions from its ongoing safety review of Part 1 of the phased CP 
+application that could be impacted if the exemption is granted. The 
+NRC staff identified that Holtec would need to perform certain 
+actions and gather data related to Geologic Mapping and Geotechnical 
+Engineering prior to and during the construction of SOE walls, such 
+that its ability to demonstrate compliance with NRC regulations in 
+the technically relevant portions of its phased CP application or a 
+future Operating License (OL) application, would not be foreclosed. 
+Therefore, the NRC staff evaluated Holtec's proposed methods 
+relating to these technical areas.
+
+Geologic Mapping
+
+    The excavation support structures that Holtec proposes to leave 
+in place would cover the excavation walls and floor. The NRC staff 
+reviewed the exemption request to determine whether the proposed 
+activities would affect Holtec's ability to meet the relevant 
+regulatory requirements in 10 CFR 50.34 (as referenced in 10 CFR 
+50.10(d)(3)), 10 CFR 100.21, and 10 CFR 100.23, in its phased CP 
+application or a future OL application, specifically with respect to 
+geologic mapping of the foundation-bearing rock unit, including the 
+floor and walls of the open excavation. Once the excavation support 
+activities described in the exemption request are completed, direct 
+geologic mapping of the foundation-bearing rock unit within the open 
+excavation would no longer be possible. Therefore, the NRC staff 
+evaluated how Holtec proposes to conduct its activities under the 
+requested exemption, such that it would not foreclose Holtec's 
+ability to demonstrate that it meets the technically relevant NRC 
+requirements in its phased CP application or a future OL 
+application.
+    In Section 1.3.4 of Enclosure IV of Part 1 of the phased CP 
+application (ML25365A989), Holtec stated that geologic mapping of 
+the excavation is required and acknowledged the need to notify the 
+NRC staff when the excavation is open for inspection. In a 
+supplement to the application submitted by letter dated July 23, 
+2026 (ML26204A398), Holtec further clarified that the statement in 
+Section 2.5.4.5.1, Excavation, of the Preliminary Safety Analysis 
+Report (PSAR or LWA PSAR) provided in Enclosure II to the 
+application (ML25365A987), regarding geologic mapping of exposed 
+surfaces within the excavation lifts, as well as geologic mapping 
+conducted when final grades of various excavation areas have been 
+reached, applies to the activities covered by this exemption 
+request.
+    The NRC staff reviewed Holtec's explanation of how geologic 
+mapping will be performed on exposed surfaces within each excavation 
+lift and at final grades, consistent with Regulatory Guide (RG) 
+1.132, ``Geologic and Geotechnical Site Characterization 
+Investigations for Nuclear Power Plants.'' Based on this review, the 
+NRC staff concludes that Holtec's approach to conducting geologic 
+mapping during the progression of excavation activities provides 
+reasonable assurance that the activities conducted under this 
+exemption will not foreclose Holtec's ability to demonstrate that 
+the requirements of 10 CFR 50.34, 10 CFR 100.21, and 10 CFR 100.23 
+related to geologic mapping would be met for the technically 
+relevant potions of the NRC staff's review of the phased CP 
+application, or a future OL application. As a result, the NRC staff 
+determined that, regarding geologic mapping, approving this 
+exemption request would not pose an undue risk to public health and 
+safety.
+
+Geotechnical Engineering
+
+    The NRC staff evaluated the geotechnical engineering aspects of 
+Holtec's exemption request using the criteria in NUREG-0800, Section 
+2.5.4, ``Stability of Subsurface Materials and Foundations,'' and 
+the guidance in RG 1.132, and RG 1.138, ``Laboratory Investigations 
+of Soils and Rocks for Engineering Analysis and Design of Nuclear 
+Power Plants.'' In performing this evaluation, the NRC staff 
+reviewed information relevant to this exemption provided in the 
+application, to determine whether the proposed excavation support 
+activities would pose an undue risk to public health and safety.
+    This exemption request describes the installation of SOE walls 
+to maintain excavation stability, protect adjacent structures and 
+utilities, control groundwater pressures, and ensure personnel 
+safety and constructability during excavation. Holtec stated that 
+the SOE walls will serve no function in the completed SMR-300 plant. 
+The NRC staff evaluated PSAR Figures 2.532 through 2.537, which 
+depict the SOE walls relative to safety related structures, and 
+determined that based on the preliminary design presented in Part 1 
+of the phased CP application, following backfilling to plant grade, 
+the SOE walls will remain structurally isolated from safety related 
+structures and will serve no function after construction is 
+complete. Further, Holtec stated that the
+
+[[Page 55630]]
+
+presence of retired SOE wall elements will be included in future 
+soil-structure interaction (SSI) analyses to ensure a conservative 
+and technically justified representation of subsurface conditions in 
+the design of safety related structures, systems and components 
+(SSCs).
+    As part of its review, the NRC staff examined the LWA PSAR 
+Section 2.5.4.10.3, ``Lateral Earth Pressures,'' and Table 2.553, 
+``Lateral Earth Pressure Design Parameters,'' which describe the 
+development of at rest (K<INF>0</INF>), active (K<INF>a</INF>), and 
+passive (K<INF>p</INF>) lateral earth pressure coefficients for each 
+soil stratum. These coefficients were derived from site specific 
+laboratory and field data, including effective friction angle 
+([oslash]'), unit weight, and, where applicable, undrained shear 
+strength. These parameters form the basis for calculating lateral 
+forces acting on the SOE walls and are directly incorporated into 
+the stability analyses. The NRC staff found that the coefficients 
+were developed using state of the practice geotechnical engineering 
+methods, are consistent with the site's stratigraphy, and are 
+technically justified based on measured soil parameters and 
+validated against industry standards and regulatory guidance. In 
+validating these coefficients, the NRC staff confirmed that (1) the 
+coefficients were developed from site specific, measured soil 
+parameters obtained through standard laboratory and field 
+investigation methods; (2) the analytical methods used to compute 
+K<INF>0</INF>, K<INF>a</INF>, and K<INF>p</INF>, were applied in 
+accordance with the applicable NRC regulatory guidance including 
+NUREG-0800, Section 2.5.4; RGs 1.132; and RG 1.138; and (3) the 
+resulting values were evaluated for consistency with the site's 
+stratigraphy and found to be technically justified through 
+comparison with published data and accepted geotechnical practice.
+    The NRC staff also reviewed Holtec's proposed SOE system design 
+description, which includes diaphragm walls, soldier pile soil mix 
+walls, and perimeter cutoff walls. The NRC staff noted that the 
+design incorporates groundwater conditions (including hydrostatic 
+pressures below the water table), construction surcharges, and 
+staged excavation using tiebacks or struts as necessary. As 
+described in the LWA PSAR Section 2.5.4.5, the construction sequence 
+specifies staged excavation with the installation of bracing 
+elements at successive levels, consistent with accepted engineering 
+practice for deep excavations. The NRC staff also noted that Holtec 
+developed the lateral pressures through layer-by-layer analysis 
+using site specific geotechnical parameters, ensuring that the SOE 
+walls are designed to resist all anticipated loading scenarios.
+    Section 2.5.4.10.3 of the LWA PSAR specifies the monitoring and 
+quality control measures to be used during excavation, including 
+inclinometers, piezometers, load cells, and extensometers. The NRC 
+staff determined that these measures provide reasonable assurance 
+that deviations from design assumptions will be promptly detected 
+and addressed.
+
+Conclusion
+
+    Based on the evaluation of the exemption request and supporting 
+technical information in the application, the NRC staff finds that 
+there is reasonable assurance that the proposed exemption to allow 
+installation and retirement in place of the SOE walls prior to 
+issuance of an LWA would not pose an undue risk to public health and 
+safety and would not adversely affect the safe design or siting of 
+the plant. This determination is supported by the following:
+    1. The SOE walls are designed to provide support for the 
+excavation during construction and will serve no safety related 
+design function after construction is complete.
+    2. The area between the SOE walls and safety related structures 
+will be backfilled to plant grade, providing structural and 
+functional separation.
+    3. Holtec stated that it will include the presence of retired 
+SOE walls in future SSI analyses, ensuring a conservative 
+representation of subsurface conditions in safety related design, in 
+the OL application.
+    4. Holtec stated it will perform comprehensive geologic mapping 
+and data collection during excavation and will use this information 
+to demonstrate the structural integrity of the Reactor Building in 
+the OL application.
+    For these reasons, the NRC staff has reasonable assurance that 
+construction of permanent SOE walls prior to issuance of LWA, if 
+approved, will not adversely affect the performance or safety 
+function of Pioneer Units 1 and 2 safety related structures and 
+therefore, the exemption request does not pose an undue risk to 
+public health and safety in accordance with the criteria of 10 CFR 
+50.12(a)(1). The NRC staff notes that in order to demonstrate that 
+Holtec has met the regulatory requirements for the technically 
+relevant portions of the phased CP application, or future OL 
+application, Holtec must provide the information provided by this 
+geologic mapping, and the presence of the retired SOE walls must be 
+included in future SSI analyses, as technically relevant. Deviations 
+from the commitments described in this exemption request or failure 
+to notify the NRC when the excavations are open for inspection could 
+result the NRC staff being unable to make its required safety 
+findings pursuant to the Atomic Energy Act to issue an LWA, CP, or 
+OL.
+
+10 CFR 50.12(a): Consistent With Common Defense and Security
+
+    The proposed exemption would allow Holtec to install and abandon 
+in place SOE walls needed to maintain excavation stability, protect 
+adjacent structures and utilities, manage groundwater pressures, and 
+ensure personnel safety and constructability during deep excavations 
+and prior to issuance of an LWA. Because the exemption would allow 
+for excavation wall support only, the exemption has no relation to 
+defense and security issues. Therefore, the common defense and 
+security is not impacted by this exemption.
+
+10 CFR 50.12(a)(2): Special Circumstances
+
+    Special circumstances, in accordance with 10 CFR 
+50.12(a)(2)(iii), are present whenever ``compliance [with a 
+regulation] would result in undue hardship or other costs that are 
+significantly in excess of those contemplated when the regulation 
+was adopted''. Holtec cited undue hardship or other costs as a 
+special circumstance that would warrant granting this exemption. 
+Holtec stated that removal of the excavation supports, which would 
+make them temporary and therefore not ``construction'' as defined in 
+10 CFR 50.10(a), would not be practical because of the high 
+unnecessary cost associated with removal that would be added to the 
+project. Holtec stated that the delaying of the SOE walls 
+construction and associated excavation activities until LWA approval 
+would result in substantial costs by negatively impacting the 
+construction schedule for the Pioneer Units 1 and 2.
+    In 2007, the NRC issued a final rule to allow certain 
+construction activities on production and utilization facilities to 
+commence before a construction permit or combined license is issued 
+and modified the scope of activities that are considered 
+construction for which a construction permit, combined license or 
+LWA is necessary (2007 LWA rule) (72 FR 57416). The Commission 
+issued a regulatory analysis associated with the 2007 LWA rule 
+(ML071870012). In Section 3.2.2 of the regulatory analysis, the 
+Commission noted that ``[a]pplicants' ability to perform pre-
+construction site preparation activities without obtaining prior 
+permission from the NRC will lower the cost of construction by 
+reducing the time interval between the outlay of capital for new 
+plant construction and cost recovery realized through plant 
+operation. The definition of construction in the final rule will 
+minimize the time interval by allowing pre-construction, site 
+preparation activities to proceed in parallel with the NRC's 
+licensing process.'' The staff noted in the associated SECY to the 
+2007 LWA rule, SECY-07-0030, that the LWA process allows for certain 
+construction activities to proceed after a safety review is 
+performed for the requested foundation activities, including related 
+site characteristics, and an environmental review is conducted 
+(ML070310298). The Commission further explained in the preamble to 
+the 2007 LWA rule, that retaining walls fall within the definition 
+of construction if they are permanent, but do not if they are 
+temporary and are removed from the excavation before fuel load (72 
+FR at 57429).
+    The NRC staff has conducted safety (Section 3.0 of this 
+exemption) and environmental (Section 4.0 of this exemption) reviews 
+for the limited exemption request to install SOE walls and abandon 
+them in place instead of removing them as temporary retaining walls. 
+The staff notes that the SOE walls are not intended to serve a 
+structural purpose in the SMR-300 design and are designed to support 
+the excavation during construction. Further, the space between the 
+SOE walls and the SSCs are intended to be backfilled to bring the 
+area back to planned grade and the SOE walls are planned to be 
+abandoned in place. Based on the staff's analysis of the preliminary 
+design for the Pioneer Units 1 and 2, the staff found that the SOE 
+walls will remain structurally isolated from safety-related 
+structures and will serve no function after construction is 
+complete. In the staff's analysis of this
+
+[[Page 55631]]
+
+exemption request, the staff concluded that it has reasonable 
+assurance that the exemption to allow installation and retirement in 
+place of the SOE walls prior to issuance of an LWA would not 
+adversely affect the safe design or siting of the plant. However, 
+removal of the SOE walls, which would cause the SOE walls to 
+therefore not be defined as ``construction,'' is not practical for 
+Holtec to complete for Pioneer Units 1 and 2 because of the high 
+unnecessary cost and schedule delays that removal would add to the 
+project. Furthermore, delaying SOE wall construction would also 
+delay the associated pre-construction excavation activities until 
+LWA approval, negatively impacting Holtec's construction schedule 
+and potentially delaying plant operations. Therefore, removal of the 
+SOE walls or delaying installation of permanent SOE walls until a 
+LWA is issued, if approved, would not result in the cost benefits 
+associated with allowing pre-construction and site preparation to 
+proceed in parallel with the NRC's review of the phased CP 
+application because it would either delay excavation activities or 
+require costly removal of the SOE walls at a later date.
+    Therefore, the NRC staff has determined that special 
+circumstances exist in this case because compliance with a 
+regulation, 10 CFR 50.12(a)(2)(iii), would result in undue hardship 
+and other costs that are significantly in excess of those 
+contemplated when the regulation was adopted.
+
+10 CFR 50.12(b): Balancing Factors
+
+    Pursuant to 10 CFR 50.12(b), the Commission may grant the 
+exemption upon considering and balancing the following four factors: 
+(1) whether conduct of the proposed activities will give rise to a 
+significant adverse impact on the environment and the nature and 
+extent of such impact, if any; (2) whether redress of any adverse 
+environment impact from conduct of the proposed activities can 
+reasonably be effected should such redress be necessary; (3) whether 
+conduct of the proposed activities would foreclose subsequent 
+adoption of alternatives; and (4) the effect of delay in conducting 
+such activities on the public interest, including the power needs to 
+be used by the proposed facility, the availability of alternative 
+sources, if any, to meet those needs on a timely basis and delay 
+costs to the applicant and to consumers. With respect to factor (1), 
+the NRC staff has prepared an environmental assessment (EA) 
+(ML26230A249) as discussed in Section 4.0 below and determined that 
+the proposed action of granting of this exemption will not have a 
+significant effect on the quality of the human environment.
+    With respect to factor (2), Holtec stated that should redress be 
+necessary, the below-grade SOE walls will be retired in place, 
+backfilled, and graded to conform to the adjacent land surface, 
+allow stormwater runoff, and prevent soil erosion. The NRC staff 
+reviewed the redress plan to the extent it discusses construction of 
+the SOE walls included as Enclosure VIII and found that redress of 
+the SOE walls can reasonably be effected. Therefore, the NRC staff 
+determined that redress of any adverse environment impact from 
+conduct of the proposed activities can reasonably be effected should 
+redress be necessary.
+    Additionally, the NRC staff determined that issuance of an LWA 
+will not foreclose subsequent adoption of alternatives as identified 
+in factor (3). According to Holtec, retiring the SOE walls in place 
+includes grading the impacted areas to conform to the adjacent land 
+surface which will support adoption of subsequent alternatives. 
+Also, although not anticipated to be necessary for adoption of 
+subsequent alternatives, Holtec states that the removal of the SOE 
+walls could be performed but would be costly.
+    Finally, the NRC staff considered factor (4) and the effect of 
+delay in conducting construction activities authorized by the 
+exemption on the public interest and finds that without the 
+requested exemption, a significant time delay and increased 
+construction costs could delay construction of Pioneer Units 1 and 
+2, which could delay 680 mega-watts of clean energy and a reliable 
+lower cost energy supply for working families and small businesses 
+in the state of Michigan. Further, the NRC staff reviewed the 
+exemption request and Holtec's discussion of alternative energy 
+sources in Chapter 9 of the Environmental Report (ER), (Enclosure 
+III of the application), as a preliminary assessment of the 
+information provided, and did not identify any alternative sources 
+available that would outweigh the potential costs and time delay 
+from not granting the exemption. Upon consideration and balancing of 
+the four factors described above, the Commission has determined that 
+the exemption should be granted.
+
+4.0 Environmental Considerations
+
+    In accordance with 10 CFR 51.30, 51.31, and 51.32, the 
+Commission has determined that the granting of this exemption will 
+not have a significant effect on the quality of the human 
+environment as discussed in the NRC staff's Environmental Assessment 
+and Finding of No Significant Impact issued on August 25, 2026 (91 
+FR 54890). The ADAMS Accession number for the associated EA is 
+ML26230A249.
+
+5.0 Conclusion
+
+    Accordingly, the Commission has determined that, pursuant to 10 
+CFR 50.12(a), the exemption is authorized by law, will not present 
+an undue risk to the public health and safety, and is consistent 
+with the common defense and security. Also, special circumstances 
+are present. Further, the Commission considered and balanced the 
+factors of 10 CFR 50.12(b) and determined that the exemption should 
+be granted. Therefore, the Commission hereby grants Palisades SMR, 
+LLC, and SMR, LLC an exemption from the requirements in 10 CFR 
+50.10(c) for the construction of permanent SOE walls during 
+excavation activities and prior to issuance of an LWA. Issuance of 
+this exemption shall not be deemed to constitute a commitment to 
+issue a construction permit or LWA.
+
+    This exemption is effective upon issuance.
+
+    Dated at Rockville, Maryland, this 28th day of August 2026.
+
+    For the Commission
+
+/RA/
+
+Ravi Penmetsa,
+Director, Division of Advanced Reactor Science, Office of Advanced 
+Reactors.
+
+[FR Doc. 2026-17626 Filed 8-27-26; 8:45 am]
+BILLING CODE 7590-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
