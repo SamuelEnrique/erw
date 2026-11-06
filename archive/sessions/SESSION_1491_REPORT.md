@@ -1,6 +1,6 @@
 # Session 1491 report: the datacenter's replication, in Python; one figure the page and the file do not share
 
-Energy Research Warehouse (ERW), session 1491, chain 158, samueloldlaptop, 6 November 2026, 08:58 to 09:10 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (a local build's reads) only. Branch `wip/1487-replication`.
+Energy Research Warehouse (ERW), session 1491, chain 158, samueloldlaptop, 6 November 2026, 08:55 to 09:00 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (a local build's reads) only. Branch `wip/1487-replication`.
 
 ## What it did, with commits
 

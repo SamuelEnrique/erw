@@ -1,6 +1,6 @@
 # Session 1492 report: the datacenter's replication, in Stata, and the method note
 
-Energy Research Warehouse (ERW), session 1492, chain 158, samueloldlaptop, 6 November 2026, 09:00 to 09:06 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1487-replication`.
+Energy Research Warehouse (ERW), session 1492, chain 158, samueloldlaptop, 6 November 2026, 09:00 to 09:01 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1487-replication`.
 
 ## What it did, with commits
 

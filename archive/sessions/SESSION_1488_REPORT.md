@@ -1,6 +1,6 @@
 # Session 1488 report: the battery's replication, in Stata, and the method note
 
-Energy Research Warehouse (ERW), session 1488, chain 158, samueloldlaptop, 6 November 2026, 08:48 to 08:58 UTC (while session 1486's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1487-replication` (sessions 1487 and 1488 on one branch).
+Energy Research Warehouse (ERW), session 1488, chain 158, samueloldlaptop, 6 November 2026, 08:46 to 08:48 UTC (while session 1486's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1487-replication` (sessions 1487 and 1488 on one branch).
 
 ## What it did, with commits
 

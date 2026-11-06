@@ -1,6 +1,6 @@
 # Session 1490 report: the generator's replication, in Stata, and the method note
 
-Energy Research Warehouse (ERW), session 1490, chain 158, samueloldlaptop, 6 November 2026, 08:56 to 09:02 UTC (while session 1486's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1487-replication`.
+Energy Research Warehouse (ERW), session 1490, chain 158, samueloldlaptop, 6 November 2026, 08:52 to 08:55 UTC (while session 1486's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1487-replication`.
 
 ## What it did, with commits
 
