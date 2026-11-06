@@ -1,6 +1,6 @@
 # Session 1442 report: the sources, and the landing deferred again
 
-Energy Research Warehouse (ERW), session 1442 (chain 149's "1439"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 02:12 to 02:25 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to GitHub (fetch) only; no request to Google. Branch `wip/1442-periodicals` over `wip/1441-periodicals`.
+Energy Research Warehouse (ERW), session 1442 (chain 149's "1439"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 01:56 to 02:00 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to GitHub (fetch) only; no request to Google. Branch `wip/1442-periodicals` over `wip/1441-periodicals`.
 
 ## What it did, with commits
 

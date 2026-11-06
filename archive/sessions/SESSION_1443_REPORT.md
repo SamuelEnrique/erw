@@ -1,6 +1,6 @@
 # Session 1443 report: commentary under news, the AI tie-break, and a sector put right
 
-Energy Research Warehouse (ERW), session 1443 (chain 149's "1440"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 02:25 to 02:33 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1443-periodicals` over `wip/1442-periodicals`.
+Energy Research Warehouse (ERW), session 1443 (chain 149's "1440"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 02:00 to 02:04 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1443-periodicals` over `wip/1442-periodicals`.
 
 ## What it did, with commits
 

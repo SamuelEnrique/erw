@@ -1,6 +1,6 @@
 # Session 1444 report: the fold and the two-minute form
 
-Energy Research Warehouse (ERW), session 1444 (chain 149's "1441"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 02:33 to 02:50 UTC. Model Fable 5.1, high effort. Model spend USD 0 (every render ran with `--no-model`). No warehouse data written; nothing sent or posted; web requests to the ERW's own database (reads). Branch `wip/1444-periodicals` over `wip/1443-periodicals`.
+Energy Research Warehouse (ERW), session 1444 (chain 149's "1441"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 02:04 to 02:16 UTC. Model Fable 5.1, high effort. Model spend USD 0 (every render ran with `--no-model`). No warehouse data written; nothing sent or posted; web requests to the ERW's own database (reads). Branch `wip/1444-periodicals` over `wip/1443-periodicals`.
 
 ## What it did, with commits
 
