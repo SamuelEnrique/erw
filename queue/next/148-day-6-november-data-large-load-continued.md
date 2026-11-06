@@ -2,7 +2,7 @@
 
 machine: data
 
-Written by session 2862, the first session of `queue/done/147-day-5-november-data-daily-run-landings-large-load.md`, at the owner's instruction in that file ("at least fourteen sessions numbered from the first free numbers after 2885"). The next free number in `queue/next`, `queue/todo`, `queue/parked` and `queue/done`, on origin's main and on every branch, was 148 (147 taken by this machine at 20:41 UTC on 5 November 2026). This file takes sessions 2886 to 2903, the first eighteen numbers after 2885; no commit message and no file on origin's main or on any of its 216 remote branches named a session from 2862 to 2905 when this was written. The first session checks again, skips a taken one upward and says so. Session 2885 of chain 147 updates this file at chain 147's end (its step 2): the steps chain 147's note says did not finish go into sessions 2886 to 2888, in chain 147's order. Model: Opus 5.5, high effort. This machine runs one Claude Code session, this chain, and nothing else.
+Written by session 2862, the first session of `queue/done/147-day-5-november-data-daily-run-landings-large-load.md`, at the owner's instruction in that file ("at least fourteen sessions numbered from the first free numbers after 2885"). The next free number in `queue/next`, `queue/todo`, `queue/parked` and `queue/done`, on origin's main and on every branch, was 148 (147 taken by this machine at 20:41 UTC on 5 November 2026). This file takes sessions 2886 to 2903, the first eighteen numbers after 2885; no commit message and no file on origin's main or on any of its 216 remote branches named a session from 2862 to 2905 when this was written. The first session checks again, skips a taken one upward and says so. Session 2885 of chain 147 updated this file at chain 147's end (6 November 2026, its step 2): sessions 2886 to 2888 below hold the steps chain 147's note (`docs/state/note_2026-11-06_data_c147.md`) says did not finish, in chain 147's order. Numbers 149 and 150 were taken by the code machine's chains on 5 and 6 November, so this file's successor takes the first free number after them (151 when this was updated). Model: Opus 5.5, high effort. This machine runs one Claude Code session, this chain, and nothing else.
 
 ## Why this chain
 
@@ -26,27 +26,29 @@ The rules of `queue/next/146-day-16-december-data-mepso-cges-kostt-ost.md` (park
 Read first: `docs/state/review_2026-10-31_portable.md`, `docs/state/review_2026-10-30_code_ask_board.md`, `docs/state/review_2026-10-29_portable.md`, `docs/state/review_2026-10-29_code.md`, `docs/reviews/siting-gaps.md` (its table and its last state section), `queue/summary/2026-11-04-health.md`, `docs/machines.md` ("The landing gate", "The chain worker"), `CLAUDE.md`.
 In the rules above, read "Session 2862" as session 2886 and "session 2885" as session 2903 (the rules are chain 147's, carried word for word).
 
-Also read first: `docs/state/note_2026-11-06_data.md` (chain 147's note), and chain 147's session reports under `archive/sessions/`.
+Also read first: `docs/state/note_2026-11-06_data_c147.md` (chain 147's note; `note_2026-11-06_data.md` is chain 058's), and chain 147's session reports under `archive/sessions/`.
 
 ## Session 2886: the next file, the ground, chain 147's first unfinished step
 
 Long end 1:30. Pulls: GitHub only.
 
-1. Write `queue/next/149-...` for this machine in this file's form: `machine: data`, Opus 5.5 high effort, at least fourteen sessions numbered from the first free numbers after 2903; its content: every step of this chain that its note says did not finish, then the siting gaps rows still open that a public US source can close without a ruling, then the daily run's seven days and the records; it carries these rules word for word. Commit it alone, push it to main, `git status -sb`.
+1. Write `queue/next/<the first free number, 151 or later>-...` for this machine in this file's form: `machine: data`, Opus 5.5 high effort, at least fourteen sessions numbered from the first free numbers after 2903; its content: every step of this chain that its note says did not finish, then the siting gaps rows still open that a public US source can close without a ruling, then the daily run's seven days and the records; it carries these rules word for word. Commit it alone, push it to main, `git status -sb`.
 2. `scripts/precheck.py` from the main checkout; memory and disk free; `scripts/freeze.py status`; the Anthropic key's state as chain 147's session 2862 read it.
-3. The first step chain 147's note lists as not finished (session 2885 writes it here). If none, the next session's work.
+3. **Chain 147's first unfinished step, the Ask evaluation's rest** (chain 147's session 2867, "To finish"; cap USD 3.50 in all, the Claude API only): in `warehouse/chat/eval/eval_s1113.py` a set `s1133` whose questions are `eval_s1133_s1114_questions.yaml` and whose run is `eval_s1133_s1114_run.json`, with its test; then on a served build of main with `ASK_EVAL_DAILY_USD` and `ASK_EVAL_TOKEN` in its `site/.env.local` (never committed), t09 to t11 asked (cap USD 2.50). An asking script for the board's five questions (`questions_s1122.yaml`, cap USD 1), modelled on `eval_s1113.py --ask`, with its test. Each run added to `runs.json`; the branch landed through the gate.
 
 ## Sessions 2887 and 2888: chain 147's other unfinished steps
 
 Long end 2:30 each. Pulls: as the step of chain 147 says.
 
-Each the next step chain 147's note lists as not finished, in chain 147's order (session 2885 writes them here, with their pull caps). A step that waits on a ruling is not done: its question goes to this chain's note. If none is left, each session takes the next siting gaps row below.
+**Session 2887, the tariff registry continued** (chain 147's sessions 2872 to 2874; at most 25 requests, robots and terms first): first the utilities the tab's rows sit in, so `tariffs.json` can be wired (chain 147's session 2880): Duquesne Light (Pennsylvania PUC, `puc.pa.gov`, read before by the data machine), AES Indiana (the IURC's terms need written permission: say so and skip), Oncor and CenterPoint (the PUCT is restricted: say so). Then the named utilities not reached: Ameren Missouri and Evergy (EFIS runs its search in the page's script; try the case's own address if a filing names it), Entergy Louisiana, Xcel Colorado, APS (the ACC's eDocket API), SRP. Each figure into `warehouse/sources/large_load_tariffs/` with its page; the table written with `runs/c147/write_table.sh` (VALIDATOR=branch while the `filing_cited` check is on a branch). If a held tab row's utility gets a schedule, session 2888 wires it.
+
+**Session 2888, the wiring and the run's catch-up** (no pulls but GitHub's API, 20 requests): if session 2887 filled a tab row's utility, `tariffs.json` written by `siting_page.py` and read by `lib/sitingdata.ts`, the Transmission cell drawn from `tariffFor` and `tariffParts` (a branch, the gate). Then the daily run dispatched by chain 147 with `days=7` (run 42120465428): its steps read; if any table still lacks the days 30 October to 5 November, say which. A step that waits on a ruling (the ERCOT DAM list at `/misapp`, the tariff table's license) is not done: its question goes to this chain's note.
 
 ## Session 2889: ERCOT nodes, the wires utility (TSP)
 
 Long end 1:30. Pulls: at most 15 requests, through ERCOT's public API and its public reports pages as chain 147's session 2879 reached them; never `/misapp` or `/misdownload`.
 
-Siting gaps row "ERCOT nodes | Utility | a node's wires utility (TSP)": ERCOT's public resource lists (the Resource Asset Registration summaries ERCOT posts publicly, or the settlement point list's own TSP field if NP4-160 carries one) joined to `ercot_node_places` and chain 147's settlement point mapping. One column added where the mapping table is, not a new table, if the mapping carries it. ERCOT: public (licenses.md #2). A source reachable only through a path the robots file closes: said, and the row left open.
+Siting gaps row "ERCOT nodes | Utility | a node's wires utility (TSP)". **First:** `ercot_node_wires_utilities` is already held on this machine (chain 147's session 2881); wire it into `nodes.json` if it holds what the row needs, and pull nothing. ERCOT's public resource lists (the Resource Asset Registration summaries ERCOT posts publicly, or the settlement point list's own TSP field if NP4-160 carries one) joined to `ercot_node_places` and chain 147's settlement point mapping. One column added where the mapping table is, not a new table, if the mapping carries it. ERCOT: public (licenses.md #2). A source reachable only through a path the robots file closes: said, and the row left open.
 
 ## Session 2890: ERCOT nodes, the county
 
@@ -76,7 +78,7 @@ Siting gaps row "ERCOT | Time to connect | the faster path for a controllable lo
 
 Long end 1:30. Pulls: at most 10 requests, EIA only.
 
-Siting gaps row "ERCOT | Utility | a Texas wires utility's own revenue": EIA-861's delivery-only rows for Texas (the Sales to Ultimate Customers file's delivery-only sheet, if `eia861_sales.py` does not read it yet), for CenterPoint, Oncor, AEP Texas and TNMP. EIA: public domain. The tab's Utility cell for Harris County read after.
+Siting gaps row "ERCOT | Utility | a Texas wires utility's own revenue". **First:** `eia861_delivery_only` is already held on this machine (chain 147's session 2881). EIA-861's delivery-only rows for Texas (the Sales to Ultimate Customers file's delivery-only sheet, if `eia861_sales.py` does not read it yet), for CenterPoint, Oncor, AEP Texas and TNMP. EIA: public domain. The tab's Utility cell for Harris County read after.
 
 ## Session 2895: CAISO's utilities, the large-load delivery charge
 
@@ -106,7 +108,7 @@ Siting gaps row "All but ERCOT, CAISO, SPP | Capacity, heavy industry | an inter
 
 Long end 1:30. Pulls: none if `lbnl_interconnection_queue` holds `ia_date`, else at most 5 requests to eta-publications.lbl.gov (emp.lbl.gov answers 403).
 
-Siting gaps row "All | Headroom | generation with a signed interconnection agreement": for each grid and each zone the warehouse can place, the MW with an `ia_date` and no operation date, by year of agreement, derived from Berkeley Lab's queue file. `warehouse/derived/` with its test and method note. Berkeley Lab's license as `license_verdicts.csv` records it; if it is not public, the table is internal and the row says "held".
+Siting gaps row "All | Headroom | generation with a signed interconnection agreement". **First:** `interconnection_agreements_signed` and `interconnection_agreements_by_grid` are already held (session 854, chain 147's session 2881). for each grid and each zone the warehouse can place, the MW with an `ia_date` and no operation date, by year of agreement, derived from Berkeley Lab's queue file. `warehouse/derived/` with its test and method note. Berkeley Lab's license as `license_verdicts.csv` records it; if it is not public, the table is internal and the row says "held".
 
 ## Session 2900: the daily run's seven days
 
@@ -131,6 +133,6 @@ As chain 147's session 2882: `--reconcile`; this chain's public tables into the 
 Long end 1:00.
 
 1. `docs/state/note_2026-11-07_data.md` in session 683's form: what landed, what did not and why, the decisions made without the owner, the questions for his ruling, the cost of any model calls.
-2. `queue/next/149-...` (written by session 2886) updated with what this chain did not finish, first in its order; pushed to main alone.
+2. The successor file (written by session 2886) updated with what this chain did not finish, first in its order; pushed to main alone.
 3. Land this chain's own data branch: merge origin/main, the whole suite, `scripts/freeze.py status`, rule 8's snapshots and a `task/` branch, not between 14:00 and 16:15 UTC.
 4. Then `python scripts/chain_queue.py next`, and run the file it prints the same way.
