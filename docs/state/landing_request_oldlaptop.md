@@ -4,8 +4,9 @@ Energy Research Warehouse (ERW). Written by chain 165 (`queue/done/165-day-6-nov
 
 | # | Branch | Head | Task | Port | Requested (UTC) | Tests on this machine | State |
 |---:|---|---|---|---:|---|---|---|
-| 1 | `wip/1605-board` | `19fd5c0c0` | `1600-1605-board` | 3600 | 2026-11-06 | the board's and the page's test files: 127 run, 1 skipped, 1 failure (below); the whole suite not run to the end (below) | held in row 2: land row 2 in its place |
-| 2 | `wip/1610-board` | `edd783ea6` | `1600-1610-board` | 3600 | 2026-11-06 | the board's and the page's test files: 134 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | waiting |
+| 1 | `wip/1605-board` | `19fd5c0c0` | `1600-1605-board` | 3600 | 2026-11-06 | the board's and the page's test files: 127 run, 1 skipped, 1 failure (below); the whole suite not run to the end (below) | held in row 3: land row 3 in its place |
+| 2 | `wip/1610-board` | `edd783ea6` | `1600-1610-board` | 3600 | 2026-11-06 | the board's and the page's test files: 134 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | held in row 3: land row 3 in its place |
+| 3 | `wip/1615-board` | `93600319f` | `1600-1615-board` | 3600 | 2026-11-06 | the board's and the page's test files: 151 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | waiting |
 
 ## Row 1: what it holds
 
@@ -27,6 +28,15 @@ Sessions 1606 to 1609, stacked on row 1 (`wip/1606-board` to `wip/1609-board` ar
 - The trend line over 90 days (daily), a year (weekly), three years (monthly, quarterly), up to 90 points; the column named "Trend".
 - `tests/test_session132.py` and `tests/test_session1139.py` take a file built before YTD as it is (both are daily-run board tests); `test_session132`'s trend cap 30 to 90.
 - More TypeScript not built here: `site/lib/board.ts` (`MoveKey`, `shownMove`, the moves typed partial, `inputsWords` for a product crack, `hubspread` among the power groups), `BoardView.tsx` (the column count from `MOVES`).
+
+## Row 3: what it adds to row 2
+
+Sessions 1611 to 1614 (`wip/1611-board` to `wip/1614-board` are its ancestors):
+
+- The power group's column "Day's high / low" (`ext`: the latest day's highest and lowest hour with their local times, and under them the last 7 and 30 days' peak hour and the hours above 100, 250 and 1,000 USD/MWh), a group flag `extremes`.
+- A column "12-month avg" on every group (`avg365`: the trailing twelve-month mean and the latest less it).
+- The rows' CSV widened to the board as shown; two new routes, `/board/rows/python` and `/board/rows/stata` (dynamic, like `/api/download`'s readers), linked from the footer.
+- `ext` and `avg365` among the figures `holdRows` drops from a held grid's rows. `site/scripts/check-board.mjs` expects every new number.
 
 ## Known on this machine
 
