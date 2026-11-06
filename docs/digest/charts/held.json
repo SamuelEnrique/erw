@@ -71,6 +71,24 @@
   "table": "onrr_revenue_monthly",
   "value": 407768.47
  },
+ "scan-record-481f89593ad5": {
+  "fact": "eurostat_oil:AT:O4630 flow:STATDIFF: -516.0 t in June 2026, the lowest monthly value held since October 2019. The record until now was -35.00 t, in March 2021.",
+  "held_on": "2026-11-06",
+  "jump_pct": 1374.3,
+  "old_record": -35.0,
+  "series_key": "entity=eurostat_oil:AT:O4630|variable=flow:STATDIFF|market=|node=Liquefied petroleum gases: Statistical differences|freq=P1M",
+  "table": "eurostat_oil_monthly",
+  "value": -516.0
+ },
+ "scan-record-4c5014cb85e5": {
+  "fact": "eurostat_oil:MT:O4630 flow:STATDIFF: 1,201.0 t in June 2026, the highest monthly value held since February 2020. The record until now was -2.00 t, in June 2020.",
+  "held_on": "2026-11-06",
+  "jump_pct": 60150.0,
+  "old_record": -2.0,
+  "series_key": "entity=eurostat_oil:MT:O4630|variable=flow:STATDIFF|market=|node=Liquefied petroleum gases: Statistical differences|freq=P1M",
+  "table": "eurostat_oil_monthly",
+  "value": 1201.0
+ },
  "scan-record-4d79e82c7ab1": {
   "fact": "eia_product_supplied:MGAUPP12 product_supplied_per_day: 19.00 kbbl/d in June 2026, the highest monthly value held since January 2017. The record until now was 10.00 kbbl/d, in June 2018.",
   "held_on": "2026-10-22",
@@ -188,6 +206,24 @@
   "table": "eia_petroleum_snd_monthly",
   "value": 1253.0
  },
+ "scan-record-814e626fc703": {
+  "fact": "eurostat_gas_balance:AT statistical_differences: 3,937,542 MWh in September 2026, the highest monthly value held since January 2020. The record until now was 376,175 MWh, in February 2023.",
+  "held_on": "2026-11-06",
+  "jump_pct": 946.7,
+  "old_record": 376174.722,
+  "series_key": "entity=eurostat_gas_balance:AT|variable=statistical_differences|market=|node=AT natural gas STATDIFF|freq=P1M",
+  "table": "eurostat_gas_balance_monthly",
+  "value": 3937541.944
+ },
+ "scan-record-83124e413737": {
+  "fact": "eurostat_gas_imports:IT:G3000:SI imports: 703,739 MWh in September 2026, the highest monthly value held since July 2015. The record until now was 222,222 MWh, in December 2017.",
+  "held_on": "2026-11-06",
+  "jump_pct": 216.7,
+  "old_record": 222222.222,
+  "series_key": "entity=eurostat_gas_imports:IT:G3000:SI|variable=imports|market=|node=IT G3000 from SI|freq=P1M",
+  "table": "eurostat_gas_imports_monthly",
+  "value": 703738.889
+ },
  "scan-record-87071d13c5fa": {
   "fact": "eia_petroleum_snd:MGFSCP21 stock_change: 3,958.0 kbbl in June 2026, the highest monthly value held since January 2015. The record until now was 821.0 kbbl, in June 2015.",
   "held_on": "2026-10-22",
@@ -215,6 +251,33 @@
   "table": "boem_ogor_lease_production_monthly",
   "value": 125.592
  },
+ "scan-record-9ae3c418d640": {
+  "fact": "eia_petroleum_stocks_state:E_EPOBGC0_STR_SCT_MBBL stocks_refineries_terminals_gas_plants: 304.0 kbbl in July 2026, the highest monthly value held since May 2017. The record until now was 99.00 kbbl, in November 2018.",
+  "held_on": "2026-11-06",
+  "jump_pct": 207.1,
+  "old_record": 99.0,
+  "series_key": "entity=eia_petroleum_stocks_state:E_EPOBGC0_STR_SCT_MBBL|variable=stocks_refineries_terminals_gas_plants|market=|node=Connecticut Conventional Gasoline Blending Components Stocks at Refineries, Bulk Terminals, and Natural Gas Plants (Thousand Barrels)|freq=P1M",
+  "table": "eia_petroleum_stocks_state_monthly",
+  "value": 304.0
+ },
+ "scan-record-a419e289c024": {
+  "fact": "eurostat_crude_imp:DE:AR imports: 10,016 t in July 2026, the highest monthly value held since January 2016. The record until now was 3,766.0 t, in April 2020.",
+  "held_on": "2026-11-06",
+  "jump_pct": 166.0,
+  "old_record": 3766.0,
+  "series_key": "entity=eurostat_crude_imp:DE:AR|variable=imports|market=|node=Crude oil imports from Argentina|freq=P1M",
+  "table": "eurostat_crude_imports_monthly",
+  "value": 10016.0
+ },
+ "scan-record-a9bb95ae6ed0": {
+  "fact": "eurostat_oil:SK:O4630 flow:TO_RPI_RO: 53,240 t in June 2026, the highest monthly value held since January 2016. The record until now was 20,000 t, in January 2018.",
+  "held_on": "2026-11-06",
+  "jump_pct": 166.2,
+  "old_record": 20000.0,
+  "series_key": "entity=eurostat_oil:SK:O4630|variable=flow:TO_RPI_RO|market=|node=Liquefied petroleum gases: Transformation output - refineries and petrochemical industry - refinery output|freq=P1M",
+  "table": "eurostat_oil_monthly",
+  "value": 53240.0
+ },
  "scan-record-c042c99bf3cf": {
   "fact": "eia_petroleum_exports:NUS-NDR:EPLLPA exports_per_day: 105.0 kbbl/d in July 2026, the highest monthly value held since January 2015. The record until now was 60.00 kbbl/d, in December 2020.",
   "held_on": "2026-10-23",
@@ -223,6 +286,15 @@
   "series_key": "entity=eia_petroleum_exports:NUS-NDR:EPLLPA|variable=exports_per_day|market=|node=DOM, Propane|freq=P1M",
   "table": "eia_petroleum_exports_by_destination",
   "value": 105.0
+ },
+ "scan-record-c5301cbcf246": {
+  "fact": "eurostat_crude_imp:BE:OM imports: 111,500 t in August 2026, the highest monthly value held since January 2016. The record until now was 24,500 t, in June 2023.",
+  "held_on": "2026-11-06",
+  "jump_pct": 355.1,
+  "old_record": 24500.0,
+  "series_key": "entity=eurostat_crude_imp:BE:OM|variable=imports|market=|node=Crude oil imports from Oman|freq=P1M",
+  "table": "eurostat_crude_imports_monthly",
+  "value": 111500.0
  },
  "scan-record-c6e083697d3b": {
   "fact": "eia_petroleum_snd:MGFSCP22 stock_change_per_day: 132.0 kbbl/d in June 2026, the highest monthly value held since January 2015. The record until now was 27.00 kbbl/d, in June 2015.",
@@ -269,6 +341,15 @@
   "table": "onrr_revenue_monthly",
   "value": 987691.47
  },
+ "scan-record-dffebc9da8ac": {
+  "fact": "eurostat_gas_imports:NO:G3000:SE imports: 40,616 MWh in July 2026, the highest monthly value held since June 2021. The record until now was 15,379 MWh, in February 2022.",
+  "held_on": "2026-11-06",
+  "jump_pct": 164.1,
+  "old_record": 15378.611,
+  "series_key": "entity=eurostat_gas_imports:NO:G3000:SE|variable=imports|market=|node=NO G3000 from SE|freq=P1M",
+  "table": "eurostat_gas_imports_monthly",
+  "value": 40615.833
+ },
  "scan-record-e2ab5adc1817": {
   "fact": "onrr_revenue:federal:onshore:39155_trumbull:royalties:oil_gas:gas:unprocessed_gas revenue: USD 65,332 in June 2026, the highest monthly value held since January 2005. The record until now was USD 23,871, in July 2008.",
   "held_on": "2026-10-23",
@@ -277,6 +358,15 @@
   "series_key": "entity=onrr_revenue:federal:onshore:39155_trumbull:royalties:oil_gas:gas:unprocessed_gas|variable=revenue|market=|node=Trumbull, Ohio: Royalties, Gas, Unprocessed Gas|freq=P1M",
   "table": "onrr_revenue_monthly",
   "value": 65332.43
+ },
+ "scan-record-e6c68a515379": {
+  "fact": "Net generation from natural gas in Wyoming: 1,060,504 MWh in August 2026, the highest monthly value held since January 2001. The record until now was 765,381 MWh, in July 2024.",
+  "held_on": "2026-11-06",
+  "jump_pct": 38.6,
+  "old_record": 765381.4,
+  "series_key": "entity=eia:generation:WY:NG|variable=net_generation|market=|node=|freq=P1M",
+  "table": "eia_state_generation_monthly",
+  "value": 1060503.7
  },
  "scan-record-fb374da4cb65": {
   "fact": "eia_product_supplied:MGAUPP31 product_supplied: -338.0 kbbl in June 2026, the lowest monthly value held since January 2017. The record until now was -18.00 kbbl, in November 2023.",
