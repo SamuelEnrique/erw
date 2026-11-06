@@ -6,6 +6,16 @@ deals and derived tables, every row traceable to the report it came from. The sa
 (`packages/stata/`, `packages/r/`); all three follow one specification,
 [`docs/methods/packages.md`](../docs/methods/packages.md). For AI assistants, read [`llms.txt`](llms.txt) first.
 
+## The tables
+
+`erw.tables()` lists every table of the warehouse, the held ones too, each with its license verdict; the list it reads
+is `warehouse/metadata/coverage.csv` in a clone and the copy the package ships, `erw/data/tables.csv`, once installed.
+The same list, written out for a reader, is the last section of [`llms.txt`](llms.txt), "Every table: the catalogue":
+each public table with its one-line description, unit, period, granularity, license, method note and download address;
+each held table by name with "license needed" and no figure; and the site's periodicals, Ask and tools' pages with the
+question each answers. `python scripts/build_llms.py` writes it from the repository's record (never by hand), and
+`warehouse/metadata/build_coverage.py` runs it after every build of coverage (session 3298).
+
 ## Install
 
 ```bash
@@ -96,7 +106,10 @@ machine's; `python scripts/sync.py` restores a table that is missing or behind):
 compare each file with that page, so on a clone whose files are older they fail by the difference, not by a fault of
 the package (session 1035: 108 of 799 on the code machine, all of that kind; session 1505, 6 November 2026: 150 of
 801, of that kind too: 87 row counts, 30 partitions, and the license verdicts and the source registry newer than the
-copy's tables; `python scripts/sync.py` on that machine brings its files to the record).
+copy's tables; `python scripts/sync.py` on that machine brings its files to the record). Session 3298 (6 November
+2026, the personal laptop) could not read this machine's failures one by one: Claude Code stopped the run at about 74%
+for low memory, and its output went with it, so no test was scoped or skipped; the reading waits for a machine with
+the memory to run the line to its end (archive/sessions/SESSION_3298_PACKAGE_REPORT.md).
 
 `package/tests/test_backends_three.py` reads five tables through the three backends and writes what it found to
 `package/tests/three_backends.json`. The repository's own suite (`python -m unittest discover -s tests`) holds the
