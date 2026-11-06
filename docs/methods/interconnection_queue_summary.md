@@ -4,6 +4,8 @@ One derived table, `interconnection_queue_summary`, behind the page `/queues` ("
 review), built by `warehouse/derived/queue_summary.py`. No request is made: the builder reads
 `lbnl_interconnection_queue`, which the warehouse already holds.
 
+Tables: `interconnection_queue_summary` (named here by session 2960).
+
 ## Input and license
 
 `lbnl_interconnection_queue`: Lawrence Berkeley National Laboratory and GridTracker, *Queued Up: 2026 Edition* data

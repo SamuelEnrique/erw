@@ -6,6 +6,8 @@ No request is made: the builder reads price tables the warehouse already holds. 
 `ercot_all_hub_prices_history`, is 3,063,570 rows and is not in the site's database; this table is its summary by
 day, small enough to be there whole.
 
+Tables: `ercot_hub_prices_daily` (named here by session 2960).
+
 ## What a row is
 
 For each of ERCOT's six trading hubs (`HB_HUBAVG`, `HB_BUSAVG`, `HB_NORTH`, `HB_SOUTH`, `HB_WEST`, `HB_HOUSTON`),

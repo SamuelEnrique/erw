@@ -6,6 +6,8 @@ the year before. The All grids tab has shown a grid's demand growth for every ro
 whose zone is an EIA-930 sub-region (an ERCOT weather zone, a MISO local resource zone, a PJM transmission zone, a
 NYISO zone, an ISO-NE load zone, CAISO's three utility areas, SPP's members), this table is the zone's own growth.
 
+Tables: `subregion_demand_growth` (named here by session 2960).
+
 ## Inputs
 
 `eia930_subba_demand_hourly_<year>` (2019 to 2025, the data machine's sessions 609 to 612) and the rolling
