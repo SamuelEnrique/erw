@@ -11,7 +11,7 @@
   - the package tests, which failed one test (below; the job stays green by design, and the failure is a row of `erw_health`);
   - yesterday's health summary.
   - Its first scheduled run, at 14:00 UTC on 6 November, is session 2886's (chain 148) to read.
-- **The newest summary's first line** (`queue/summary/2026-11-05-health.md`): "**Stale on main:** hourly network, 0.2 days (its last ok step in erw_health, 2026-11-05 22:05 UTC; allowed 3 hours)." The hourly network skips while the daily run holds the data lock, and the run held it from 22:3x to 01:4x. The daily run itself is no longer named. A job allowed hours is now said in hours (`wip/c147-data`).
+- **The newest summary's first line** (`queue/summary/2026-11-05-health.md`): "**Stale on main:** hourly network, 0.2 days (its last ok step in erw_health, 2026-11-05 22:05 UTC; allowed 3 hours)." The hourly network skips while the daily run holds the data lock, and the run held it from about 22:30 to 01:45 UTC. The daily run itself is no longer named. A job allowed hours is now said in hours (`wip/c147-data`).
 - **Failed steps by day** (`runs/s2884_seven.out`):
 
   | Day | Rows | Failed | A job failed for the whole day |
@@ -23,7 +23,7 @@
   | 3 November | 671 | 3 | daily prices (merge tests) |
   | 4 November | 658 | 3 | daily prices (merge tests) |
   | 5 November | 687 | 7 | none |
-  | 6 November (to 01:4x) | 51 | 0 | none |
+  | 6 November (to about 01:45) | 51 | 0 | none |
 
 - **Every failed step was opened:**
   - **30 October:** the account's spending limit, so every model step failed (session 2864). Then the three-run failure streak rows.
