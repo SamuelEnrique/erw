@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate wind_solar_cf, region ercot_wind_solar_cf (ERCOT)
+# Computed 2026-11-06T14:13:17Z by warehouse/analysis/findings/deep/markets_operations.py (wind_solar_cf); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: wind and solar's mean output over the year as a percent of their capacity (percent of capacity), the observations it rests on, and whether the year is full
+# Tables: grid_stress_yearly
+region,year,value,n_observations,full_year
+ercot_wind_solar_cf,2019,32.588279382857465,1.0,1
+ercot_wind_solar_cf,2020,33.25616216050706,1.0,1
+ercot_wind_solar_cf,2021,31.308365929849156,1.0,1
+ercot_wind_solar_cf,2022,32.005063892329716,1.0,1
+ercot_wind_solar_cf,2023,30.853063890558357,1.0,1
+ercot_wind_solar_cf,2024,29.873403973466342,1.0,1
+ercot_wind_solar_cf,2025,29.71165455541875,1.0,1
+ercot_wind_solar_cf,2026,32.95596748073961,1.0,0

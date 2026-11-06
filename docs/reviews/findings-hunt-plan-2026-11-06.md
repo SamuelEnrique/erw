@@ -616,7 +616,7 @@ The news index and scores, the cost ledger, the known faults: the platform's rec
 | Family | State | Session | Drafts kept |
 |---|---|---|---:|
 | prices | hunted: ERCOT hourly shape, spreads, volatility, reserves (not drafted), Henry Hub, gas by state, world gas, carbon, Brent and WTI | 3001 to 3003 | 33 |
-| markets_operations | not hunted on its own tables (node basis, scarcity, stress days, battery awards): chain 166 | | 0 |
+| markets_operations | hunted: the grids' stress (tightest hours, capacity factor, calm hours); node basis and scarcity too short | 3177 | 7 |
 | demand | hunted: EIA-930 daily by authority and hourly by sub-region | 3004 | 12 |
 | generation_pipeline | hunted: the mix, nuclear, heat rates, the build-out (the planned pipeline cannot be: two months held) | 3005 to 3007 | 35 |
 | gas | hunted: the US balance, states, flaring, Mexico, storage | 3008 | 11 |
