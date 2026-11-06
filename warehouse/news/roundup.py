@@ -651,7 +651,7 @@ def opening_number(picked, stories=None):
     Returns {key, text, status} or None when the week holds none of them."""
     deal, dc, us48, story = (picked.get(k) for k in ("deal", "dc", "us48", "story"))
     moves = picked.get("moves") or ([picked["move"]] if picked.get("move") else [])
-    named = {m["label"]: bool(brief.price_reason(m["label"], stories)) if stories is not None and len(stories) else False for m in moves}
+    named = {m["label"]: brief.price_named(m["label"], stories) if stories is not None and len(stories) else False for m in moves}
     fuel = [m for m in moves if not is_hub(m)]
     hubs = [m for m in moves if is_hub(m)]
 

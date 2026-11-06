@@ -1586,5 +1586,22 @@ class Session1446TheRoundupsNumbers(unittest.TestCase):
             self.skipTest("no v2 Roundup fixture here")
 
 
+class Session1446Naming(unittest.TestCase):
+    """Session 1446: a story names a price for the opening number's choice even when its why line fails the check and
+    no reason prints beside the mover (the W44 render opened with a story's figure though the oil stories named Brent)."""
+
+    def test_named_without_a_printable_reason(self):
+        c = frame(rec("o", "Oil Prices Dip but Hold Above $100 as Middle East Supply Threats Mount", sector="oil",
+                      why="Sustained USD 100+ crude driven by ongoing conflict signals a material price regime."))
+        self.assertEqual(brief.price_reason("Brent crude", c), "")   # the why line says "signals": no reason prints
+        self.assertTrue(brief.price_named("Brent crude", c))
+        self.assertFalse(brief.price_named("Henry Hub natural gas", c))
+        move = {"pct": -6.4, "text": "Brent closed lower", "label": "Brent crude"}
+        self.assertEqual(roundup.opening_number({"moves": [move], "story": {"text": "1,000 MW: x", "fig": "1,000 MW"}}, c)["key"], "move")
+        brent = cand("Brent crude", "Brent crude", 120.15, 128.30, -6.4, unit="USD/bbl")
+        brent["named"] = True
+        self.assertEqual(brief.opening_number([brent], [rec("g", "G plans 1,000 MW", mw="1000")])["key"], "Brent_crude")
+
+
 if __name__ == "__main__":
     unittest.main()

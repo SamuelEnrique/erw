@@ -968,6 +968,20 @@ def day_move(newest, newest_day, prev, prev_day):
     return {"ch": round(v0 - v, 4), "pct": round(100 * (v0 - v) / v, 2) if v > 0 and v0 >= 0 else None}
 
 
+def price_named(label, clusters):
+    """Session 1446: whether a story of the day or the week names the price (PRICE_WORDS in its title or why line),
+    whatever its why line prints: a move is "named" for the opening number's choice even when the story's why line
+    fails the check and no reason is printed beside the mover."""
+    words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
+    if clusters is None or not len(clusters) or not words:
+        return False
+    for r in clusters.to_dict("records"):
+        text = f" {str((r.get('titles') or [''])[0])} {r.get('why') or ''} ".lower()
+        if any(w in text for w in words):
+            return True
+    return False
+
+
 def price_reason(label, clusters):
     """The why line of the day's highest-ranked scored story that names the price (PRICE_WORDS), with its outlet, as
     the reason beside a mover; "" when no story of the day names it (the figure then stands with no reason)."""
@@ -1176,6 +1190,7 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     if facts is not None:   # session 2703
         for c in cands:
             c["reason"] = price_reason(c["key"], clusters)
+            c["named"] = price_named(c["key"], clusters)   # session 1446: named, whether or not a reason prints
         facts.update(cands=cands, demand=store)
     return lines + notes.lines()
 
@@ -1656,7 +1671,7 @@ def opening_number(cands, stories, prev_key=None):
         if c.get("pct") is None:
             continue
         kind = cand_kind(c)
-        named = bool(c.get("reason"))
+        named = bool(c.get("reason")) or bool(c.get("named"))
         again = str(c["key"]).replace(" ", "_") == prev_key   # the opening's key is written with underscores
         # session 1440: a move no story names must be larger (UNNAMED_FACTOR), and an unnamed hub is the last resort
         bar = MATERIAL_PCT[kind] * (2 if again else 1) * (1 if named else UNNAMED_FACTOR)
