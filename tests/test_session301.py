@@ -126,10 +126,10 @@ class M4(unittest.TestCase):
     def test_the_full_policy_is_enforced_with_the_report_only_header_beside_it(self):
         c = src("site", "next.config.ts")
         self.assertIn("const CSP_ENFORCED = CSP_FULL;", c)
-        self.assertIn("const CSP_REPORT_ONLY = CSP_FULL;", c)
+        self.assertNotIn("CSP_REPORT_ONLY", c)   # session 1501: the report-only header's week is over (M4)
         self.assertIn('const CSP_MINIMAL = "base-uri \'self\'; object-src \'none\'; frame-ancestors \'none\'; form-action \'self\'";', c)
         self.assertIn('{ key: "Content-Security-Policy", value: CSP_ENFORCED },', c)
-        self.assertIn('{ key: "Content-Security-Policy-Report-Only", value: CSP_REPORT_ONLY },', c)
+        self.assertNotIn("Content-Security-Policy-Report-Only", c.split("const SECURITY_HEADERS")[1])
         full = c[c.index("const CSP_FULL = ["):c.index("].join(\"; \");")]
         for d in ("default-src 'self'", "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com", "connect-src 'self' https://*.supabase.co", "worker-src 'self' blob:", "frame-ancestors 'none'"):
             self.assertIn(d, full)

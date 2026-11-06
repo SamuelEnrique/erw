@@ -44,9 +44,11 @@ class TheViews(unittest.TestCase):
 
 
 class TheHeaderWaits(unittest.TestCase):
-    def test_the_report_only_header_is_still_sent(self):
+    def test_the_report_only_header_is_dropped(self):
+        # session 1501 (chain 158): the week of session 301 is over (due on or after 26 October 2026); the enforced
+        # policy is the one header
         c = src("site", "next.config.ts")
-        self.assertIn('{ key: "Content-Security-Policy-Report-Only", value: CSP_REPORT_ONLY },', c)
+        self.assertNotIn("Content-Security-Policy-Report-Only", c.split("const SECURITY_HEADERS")[1])
         self.assertIn("const CSP_ENFORCED = CSP_FULL;", c)
 
     def test_m4_names_this_session_and_the_day(self):

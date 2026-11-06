@@ -50,7 +50,7 @@ for (const p of ["/", "/terms", "/api/play/top", "/in-review", "/internal/open"]
   const h = (k) => r.headers.get(k) ?? "";
   ok(h("x-content-type-options") === "nosniff" && h("x-frame-options") === "DENY" && h("referrer-policy") !== "" && h("permissions-policy").includes("camera=()")
     && h("strict-transport-security").includes("max-age=63072000") && h("content-security-policy").includes("frame-ancestors 'none'")
-    && h("content-security-policy").includes("form-action 'self'") && h("content-security-policy-report-only").includes("default-src 'self'") && !h("x-powered-by"),
+    && h("content-security-policy").includes("form-action 'self'") && h("content-security-policy").includes("default-src 'self'") && h("content-security-policy-report-only") === "" && !h("x-powered-by"),
   `${p}: the security headers`, `HTTP ${r.status}`);
 }
 {

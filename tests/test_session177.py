@@ -307,7 +307,7 @@ class Site(unittest.TestCase):
         c = src("site", "next.config.ts")
         for word in ('"Strict-Transport-Security"', "max-age=63072000; includeSubDomains; preload", '"X-Content-Type-Options", value: "nosniff"',
                      '"X-Frame-Options", value: "DENY"', '"Referrer-Policy", value: "strict-origin-when-cross-origin"', '"Permissions-Policy"',
-                     '"Content-Security-Policy", value: CSP_ENFORCED', '"Content-Security-Policy-Report-Only", value: CSP_REPORT_ONLY',
+                     '"Content-Security-Policy", value: CSP_ENFORCED',
                      "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'", 'source: "/:path*", headers: SECURITY_HEADERS',
                      'source: "/internal/:path*"', '{ source: "/internal/open", headers: [{ key: "Referrer-Policy", value: "same-origin" }] }'):
             self.assertIn(word, c)
