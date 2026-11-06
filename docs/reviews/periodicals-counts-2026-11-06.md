@@ -69,3 +69,39 @@ No adjective of the list and no repeated figure in any regenerated issue; no day
 - Links to Google: 45 percent of the stored issues' links; 36 to 48 percent in the regenerated (the resolver, not the brief, decides; the outlet's own page now comes first in each item).
 - Words above the fold: the stored issues have no fold (810 to 1,135 words to the footer); the chain's issues stand at 350 to 450 where the model's lines are held, under 350 without them.
 - Figures without a key in the opening number and the block: 2 in the first dry run of 26 October (the story rows); 0 in the second.
+
+## Chain 150's count (session 1469, 6 November 2026)
+
+`scripts/periodicals_counts.py` as session 1469 left it (fault 55: a five-numbers row is keyed when its key is on the five's Tables line) over the 16 stored Digests (25 September to 6 November), the five stored Roundups (W39 to W44) and every dry run of chains 149 and 150 (`runs/periodicals_dryrun/s1435`, `s1436`, `s1451`, `s1463`, `s1468`; not in git). A dry run is counted by the code it was written with; the stored issues are as their runs wrote them (no past issue rewritten). The dry runs' words above the fold stand at 176 to 220, under the brandbook's 350: most top items print the headline alone while the scorer's lines are the old prompt's (rows 42 and 49).
+
+| issue | kind | items | adjectives | repeated | top sector | links to Google News / all links | words above the fold | figures without a key |
+|---|---|---|---|---|---|---|---|---|
+| 2026-09-25 | stored | 27 | 12 | 4 | 3 datacenter power | 15 / 31 | 1042 | 0 |
+| 2026-09-26 | stored | 27 | 16 | 4 | 3 datacenter power | 13 / 28 | 983 | 0 |
+| 2026-09-27 | stored | 25 | 3 | 0 | 3 policy | 18 / 30 | 810 | 0 |
+| 2026-09-28 | stored | 30 | 6 | 1 | 3 lng | 16 / 36 | 1006 | 0 |
+| 2026-10-02 | stored | 31 | 2 | 9 | 4 oil | 15 / 43 | 1073 | 0 |
+| 2026-10-07 | stored | 33 | 1 | 10 | 2 deal | 14 / 43 | 1123 | 0 |
+| 2026-10-08 | stored | 33 | 5 | 7 | 3 deal | 19 / 38 | 1078 | 0 |
+| 2026-10-09 | stored | 33 | 3 | 7 | 3 oil | 11 / 37 | 1135 | 0 |
+| 2026-10-12 | stored | 30 | 3 | 1 | 5 oil | 22 / 37 | 941 | 0 |
+| 2026-10-13 | stored | 32 | 18 | 2 | 5 datacenter power | 18 / 36 | 981 | 0 |
+| 2026-10-14 | stored | 32 | 14 | 8 | 2 oil | 21 / 44 | 980 | 0 |
+| 2026-10-20 | stored | 31 | 14 | 5 | 2 deal | 18 / 40 | 946 | 0 |
+| 2026-10-21 | stored | 33 | 11 | 9 | 3 datacenter power | 17 / 39 | 1031 | 0 |
+| 2026-10-22 | stored | 33 | 4 | 3 | 3 datacenter power | 15 / 41 | 1018 | 0 |
+| 2026-10-23 | stored | 33 | 1 | 0 | 2 geopolitics | 15 / 36 | 1117 | 0 |
+| 2026-11-06 | stored | 32 | 0 | 4 | 2 oil | 12 / 36 | 1035 | 0 |
+| 2026-W39 | stored | 8 | 4 | 3 | 0  | 21 / 44 | 513 | 0 |
+| 2026-W40 | stored | 10 | 1 | 0 | 0  | 27 / 80 | 554 | 0 |
+| 2026-W41 | stored | 10 | 1 | 0 | 0  | 32 / 79 | 496 | 0 |
+| 2026-W43 | stored | 10 | 0 | 2 | 0  | 26 / 88 | 489 | 0 |
+| 2026-W44 | stored | 7 | 0 | 0 | 0  | 2 / 9 | 380 | 0 |
+| 2026-10-26 | dry run, session 1435 | 30 | 0 | 0 | 2 oil | 15 / 37 | 176 | 1 |
+| 2026-W43 | dry run, session 1436 | 11 | 0 | 1 | 0  | 20 / 56 | 195 | 2 |
+| 2026-W44 | dry run, session 1436 | 11 | 0 | 1 | 0  | 8 / 18 | 213 | 1 |
+| 2026-10-26 | dry run, session 1451 | 30 | 0 | 0 | 2 oil | 15 / 40 | 220 | 0 |
+| 2026-W44 | dry run, session 1451 | 11 | 0 | 0 | 0  | 7 / 18 | 195 | 1 |
+| 2026-11-06 | dry run, session 1463 | 30 | 0 | 0 | 2 deal | 8 / 40 | 214 | 0 |
+| 2026-11-06 | dry run, session 1468 | 30 | 0 | 0 | 2 deal | 8 / 37 | 187 | 0 |
+| 2026-W45 | dry run, session 1468 | 11 | 0 | 1 | 0  | 6 / 26 | 193 | 0 |

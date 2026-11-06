@@ -106,8 +106,24 @@ def fold_words(lines):
     return len(" ".join(out).split())
 
 
+# Session 1469 (chain 150, fault 55): since session 1460 the Roundup's five numbers keep the deal's, the load's and the
+# chart's keys on one Tables line under the five; a row whose key is there is keyed
+FIVE_TABLE_KEYS = {"the deal of the week, `energy_deals` ": "- **Deal of the week",
+                   "the datacenter load, `datacenter_projects` ": "- **Largest new datacenter load",
+                   "the chart's figure, template `": "- **From the chart of the week"}
+
+
 def no_key(lines):
     n, section = 0, ""
+    five = [ln.strip() for ln in lines]
+    keyed_rows = set()
+    on = False
+    for s in five:
+        if s.startswith("## "):
+            on = s == "## The week in five numbers"
+            continue
+        if on and s.startswith("Tables:"):
+            keyed_rows |= {row for key, row in FIVE_TABLE_KEYS.items() if key in s}
     for ln in lines:
         s = ln.strip()
         if s.startswith("## "):
@@ -116,6 +132,8 @@ def no_key(lines):
         if section not in ("## The opening number", "## The numbers", "## The week in five numbers"):
             continue
         if s.startswith("Tables:") or not s:
+            continue
+        if section == "## The week in five numbers" and any(s.startswith(r) for r in keyed_rows):
             continue
         if UNIT_FIG.search(s) and not KEY.search(s):
             n += 1
