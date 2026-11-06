@@ -1,0 +1,107 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 171 (Friday, September 4, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 171 (Friday, September 4, 2026)]
+[Notices]
+[Page 56879]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-18151]
+
+
+-----------------------------------------------------------------------
+
+DEPARTMENT OF ENERGY
+
+Federal Energy Regulatory Commission
+
+[Project No. 15423-000]
+
+
+DeepGreen Cook Inlet SPV, LLC; Notice of Preliminary Permit 
+Application Accepted for Filing and Soliciting Comments, Motions To 
+Intervene, and Competing Applications
+
+    On February 11, 2026, as supplemented on June 26, 2026, DeepGreen 
+Cook Inlet SPV, LLC filed an application for a preliminary permit, 
+pursuant to section 4(f) of the Federal Power Act (FPA), proposing to 
+study the feasibility of the DeepGreen Cook Inlet Subsea-Compute & 
+Infrastructure Hub Project (DeepGreen Project or project) to be located 
+in the Upper Cook Inlet, East Foreland Corridor, Kenai Peninsula 
+Borough, Alaska. The sole purpose of a preliminary permit, if issued, 
+is to grant the permit holder priority to file a license application 
+during the permit term. A preliminary permit does not authorize the 
+permit holder to perform any land-disturbing activities or otherwise 
+enter upon lands or waters owned by others without the owners' express 
+permission.
+    The proposed project would consist of the following: (1) 
+approximately 330-350 marine hydrokinetic turbines utilizing a 
+proprietary universal docking cradle system; (2) 66 modular subsea-
+compute hives (data center pods) integrated within the turbine array to 
+utilize direct-coupled power and passive subsea cooling; (3) an 
+approximately 3.5-mile long, 115 kV hybrid power/fiber-optic armored 
+subsea cable; (4) a subsea cable landing site within the Nikiski 
+Industrial Corridor, positioned between the Agrium Kenai Nitrogen 
+Operations and the Kenai Liquefied Natural Gas Plant; and (5) 
+appurtenant facilities. The estimated annual generation of the 
+DeepGreen Project would be 100 megawatts, which would primarily be 
+utilized to power the subsea data center. Spare electricity could be 
+diverted to the grid via an interconnect with the Alaska Railbelt Grid 
+at a dedicated terrestrial substation.
+    Applicant Contact: Louis Wolfson, Managing Member, DeepGreen Cook 
+Inlet SPV, LLC 100 Crescent Road, Needham, MA 02494; phone: (617) 799-
+32326.
+    FERC Contact: Christopher Brosman; phone: (202) 502-8573. Email: 
+[email protected].
+    Deadline for filing comments, motions to intervene, competing 
+applications (without notices of intent), or notices of intent to file 
+competing applications: by 5:00 p.m. Eastern Time on November 2, 
+2026.\1\ Competing applications and notices of intent must meet the 
+requirements of 18 CFR 4.36.
+---------------------------------------------------------------------------
+
+    \1\ The Commission's Rules of Practice and Procedure provide 
+that if a filing deadline falls on a Saturday, Sunday, holiday, or 
+other day when the Commission is closed for business, the filing 
+deadline does not end until the close of business on the next 
+business day. 18 CFR 385.2007(a)(2) (2025). Because the 60-day 
+filing deadline falls on a Saturday (i.e., October 31, 2026), the 
+filing deadline is extended until 5:00 p.m. Eastern Time on November 
+2, 2026.
+---------------------------------------------------------------------------
+
+    The Commission strongly encourages electronic filing. Please file 
+comments, motions to intervene, notices of intent, and competing 
+applications using the Commission's eFiling system at <a href="https://ferconline.ferc.gov/eFiling.aspx">https://ferconline.ferc.gov/eFiling.aspx</a>. Commenters can submit brief comments 
+up to 10,000 characters, without prior registration, using the eComment 
+system at <a href="https://ferconline.ferc.gov/QuickComment.aspx">https://ferconline.ferc.gov/QuickComment.aspx</a>. For 
+assistance, please contact FERC Online Support at 
+[email protected], (866) 208-3676 (toll free), or (202) 502-
+8659 (TTY). In lieu of electronic filing, you may submit a paper copy. 
+Submissions sent via the U.S. Postal Service must be addressed to: 
+Debbie-Anne A. Reese, Secretary, Federal Energy Regulatory Commission, 
+888 First Street NE, Room 1A, Washington, DC 20426. Submissions sent 
+via any other carrier must be addressed to: Debbie-Anne A. Reese, 
+Secretary, Federal Energy Regulatory Commission, 12225 Wilkins Avenue, 
+Rockville, Maryland 20852. The first page of any filing should include 
+docket number P-15423-000.
+    For public inquiries and assistance with making filings such as 
+interventions, comments, or requests for rehearing, contact the Office 
+of Public Participation at (202) 502-6595 or [email protected].
+    More information about this project, including a copy of the 
+application, can be viewed on the Commission's website (<a href="http://www.ferc.gov">http://www.ferc.gov</a>) using the ``eLibrary'' link. Enter the docket number, 
+excluding the last three digits (P-15423), in the docket number field 
+to access the document. For assistance, contact FERC Online Support.
+
+(Authority: 18 CFR 2.1.)
+
+    Dated: September 1, 2026.
+Carlos D. Clay,
+Deputy Secretary.
+[FR Doc. 2026-18151 Filed 9-3-26; 8:45 am]
+BILLING CODE 6717-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

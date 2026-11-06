@@ -415,3 +415,143 @@ The table `policy_action_tags` is not in the live set and the page does not need
   sentence also stands in this note (session 164's rule), and whether the spans should take focus is left to the owner
   (session 2403's report).
 - `docs/reviews/policy-figures-2026-10-23.md` has one row a figure, with its key or why none, and its hover before and after.
+
+## 14. The precise fields of an action (session 3056, chain 166)
+
+Since session 3056 each action carries, beside its own columns, fields read by `warehouse/policy/fields.py` from the
+Register's record of the document (its agencies, `effective_on` and `comments_close_on`) and the document's text (the
+printed text of a Register document, read once; a release's title and feed summary). No model is called. A field the
+record and the text do not state is empty: a date or a figure is never estimated.
+
+- **body**: the issuing body at the level a reader filters by. The record's most specific agency (a bureau before its
+  department: BOEM, OSMRE, BSEE and BLM, not "Interior"); without the record, the docket's own prefix (`BOEM-`,
+  `SATS No.`, `BSEE-`); a governor's release listed on a commission's page is "Texas Governor" (or California's).
+- **instrument**: rule, proposed_rule, order, guidance, approval, lease_sale, award, application, complaint,
+  environmental_review, meeting, decision, notice or announcement, by written rules over the title and the Register's
+  action line (a release's opening words too). A Register rule is a rule, or an approval of a state's program or plan.
+- **action_status**: proposed, final, effective, stayed, vacated, withdrawn, filed, open, scheduled, issued or announced,
+  as of the document's date (a final rule is effective once its effective date has come).
+- **dates** and **dates_evidence**: every dated step the text states, as kind and date (effective, expires,
+  comments_due, intervention_due, review_due, decision_due, meeting), each with the sentence it stands in or the record's
+  field. A date counts only where a deadline's or an effective date's words stand right before it; the date of a
+  filing, a signature or a past docket is not a step.
+- **next_step**, **next_step_date**, **next_step_evidence**: the first of those steps on or after the document's date.
+- **figure_value**, **figure_unit**, **figure_evidence**: the action's own figure, from the title or the document's
+  opening paragraph only (a summary and the opening of its supplementary information; a notice's first paragraphs), in
+  MW, GW, kW, MWh, kV, Dth/d, Bcf/d, MMcf/d or USD; a size before a voltage, a voltage before a sum of money.
+- **docket_ids**: the docket and project numbers, one form each ("050-616" and "50-616" are both "50-616").
+- **fields_from**: what the fields were read from (record and text, text, record and summary, summary, record, title).
+
+Tested on 30 stored actions whose answers were written from their own texts (`tests/fixtures/policy/`, 30 of 30 on
+each field) and checked on the other 50 of the audit's sample (`docs/reviews/policy-audit-2026-11-06.md`, "Session
+3056"). The scorer's policy note gained one sentence the same session: the sector is the part of the energy system the
+action applies to, and "policy" only when the summary and the title name none.
+
+## 15. The impact read: one sentence, and the table it bears on (session 3058, chain 166)
+
+`warehouse/policy/impact.py` writes an action's impact read as one sentence in two parts, kept apart so that a model
+never chooses where an action shows:
+
+- **What changes** (the model's clause): from the action's own text only, who must, may or may no longer do what, and
+  from or by which date, in at most 40 words. The clause is kept only when the words of the text it rests on (its
+  quotation) stand in the text word for word, every number in it stands in the text, it is one sentence (a stop in
+  "p.m.", "Inc." or an initial is not a sentence's end), it holds no em or en dash and no word of opinion (an adjective
+  of size or importance, a verb that asserts nothing, a word that judges). Terms of art are not opinions: "no
+  significant impact", "significant adverse comments", a "major license". A clause that fails is dropped and the
+  reason kept.
+- **Where it bears** (written rules, `TABLE_RULES`, every table one that `coverage.csv` holds; the first rule that
+  holds names it): the Renewable Fuel Standard to `epa_rfs_rins_monthly`; the NRC's biweekly notices and license
+  transfers to `nrc_license_actions`; non-light-water and advanced reactors to `nrc_advanced_reactor_preapplicants`;
+  construction permits, early site permits, design certifications, combined licenses, limited work authorizations and
+  SMRs to `nrc_new_reactor_applications`; any other NRC action to `nrc_license_actions`; a DOE LNG docket to
+  `doe_lng_export_applications`; a FERC hydro project's preliminary permit to `ornl_hydropower_pipeline`, its
+  relicensing to `ornl_hydropower_relicensing`, anything else of it to `ornl_eha_hydropower_plants`; gas storage to
+  `eia_gas_storage_capacity_monthly`; a FERC LNG terminal (its title) to `eia_lng_liquefaction_projects`; a FERC CP or
+  PF docket, or a gas pipeline, to `eia_gas_pipeline_projects`; ISO New England's interconnection to
+  `isone_interconnection_queue`, any other interconnection queue or agreement to `interconnection_queue_summary`;
+  reconductoring, dynamic line rating and transmission lines or projects to `grid_network_links`; large loads and
+  datacenters to `large_load_rules`; DOE's emergency orders keeping plants online to `eia860m_retired_generators`;
+  EPA's rules for power plants (generating units, steam electric, coal ash) to `epa_needs_units`; OSMRE and coal
+  mining to `eia_coal_mine_production_annual`; BOEM's wind to `boem_renewable_leases`, its oil and gas to
+  `boem_ogor_lease_production_monthly`; BLM's oil and gas to `blm_oil_gas_statistics_annual`; capacity markets to
+  `iso_all_capacity_prices`; batteries to `storage_capacity`; a reliability grant to `eia861_utility_reliability`;
+  solar, wind and geothermal to `eia860m_planned_generators`; anything else to `policy_actions` itself. The page is the
+  one whose own list of tables in `site/lib/pages.ts` names the table, else the table's row of the data catalogue
+  (`/data#<table>`).
+
+The sentence is the clause, then "; it bears on <table> (<page>)", written by code. The map was graded on the 30
+actions of `tests/fixtures/policy/actions_3056.json` against tables written from their texts (30 of 30) and read
+against 30 more of the audit's sample, where four of its rules were found wrong and fixed. On those 60 actions the
+model (Claude Sonnet 5.5, under the owner's key, 63 calls, USD 0.45 in all) wrote 60 clauses; 54 were kept and 6
+dropped (a quotation not in the text 3, over 45 words 2, a number not in the text 1). The reads are
+`docs/reviews/policy-impact-2026-11-06.csv`, for the owner's reading; no table of the warehouse holds them yet.
+
+## 16. The monitor (sessions 3057 to 3064, chain 166): one record a proceeding, its page, its tracer, its limits
+
+**The record.** `warehouse/policy/records.py` groups the documents of `policy_actions` that name one proceeding into
+one record: a FERC docket with its amendments (CP25-539-000 and -001), a hydro project's numbered proceeding
+(15249-002), an NRC docket ID (NRC-2026-0265), an EPA, DOE, BOEM, OSM or IRS docket, a RIN, a DOE LNG docket, an
+OSMRE program amendment (WV-124-FOR). Ids are joined across documents. A bureau's billing code (BLM's
+A2407-014-004-065516 stood on 52 rows of unrelated matters), an NRC plant's license docket (50-261, which spans
+exemptions, a renewal and a transfer) and a document number make no record. A document that names no proceeding joins
+only a repeat of its own title from its own body within 45 days. The record keeps every source of every document (the
+Register's pages, the releases folded into them, the linked news stories) and a history in which a repeated notice is
+one step with every date (the NRC's four weekly notices of one application). Its status is its newest document's; its
+next step the first dated step of any document on or after that document's date; its significance the highest. On
+the archive's copy of 6 November: 2,020 documents, 1,495 records, 301 of them with more than one document.
+
+**The file and the page.** `warehouse/policy/monitor_site.py` writes `site/data/policy/monitor.json` (a daily soft
+step, `policy_monitor_records`, after `policy_monitor_site`; never a file with fewer records than the one held), one
+row a record, with its body, instrument, status, sector, grids (those the reads of `policy_reads` name and those a
+title names by `rules_in_motion.OPERATOR_WORDS`), states, next step, every dated step with its words and document,
+figure, impact sentence (`warehouse/policy/impact_reads.csv`, section 15), plain read, the table it bears on, sources
+and history. The monitor is a view of `/policy` (`?view=monitor`, in review with the page): filters at the left (body,
+instrument, status, sector, grid, state, date range, significance, each choice with its count) and the results at
+the right; a sort on every column (an empty value last either way); "N shown of M records held"; a row opens to its
+proceeding, history and sources; the evidence of each date and figure and the quotation of each impact sentence as
+hovers. Above the table, the calendar: the actions of the past seven days and every dated step of the thirty days
+ahead (comment and intervention deadlines, effective dates and ends, hearings and sessions, environmental documents
+and decisions due), of the records the filters leave. Below it, the charts of every record of the file: records by
+month and body, records by sector and band of significance, and the MW and USD the records state as their own summed
+by month (only what is stated; a figure in another unit is shown in its row and never added). The filtered records
+download as CSV with every source, with a Python and a Stata reader of that CSV.
+
+**The tracer.** Each date, figure and sum the page shows carries a key (`policycal|<record>|<document>|<kind>|<date>`,
+`policyfig|<record>|<document>|<value>|<unit>`, `policysum|<unit>|<month>|<value>|<records>`, as `data-check`), which
+`site/scripts/policy-figures.mjs` prints as the page makes them and `scripts/check_policy.py` traces: a step to its
+document's row of `policy_actions` (the connector's own columns, or what `fields.derive` reads from the row's summary
+where the copy holds no text), a figure the same way, a sum to its records' figures, each traced, added. ok, FAIL, or
+"not here"; exit 1 on a FAIL. On this laptop's copy of 6 November: 287 keys, 287 ok.
+
+**The limits: what the monitor cannot see without a document feed, and the feeds that would close it** (named for the
+owner, not pulled):
+
+| What is missed | Why | The feed that would close it |
+|---|---|---|
+| FERC's own orders, filings and eLibrary documents not printed in the Register (most orders on rates, tariffs and complaints) | FERC's pages answer a Cloudflare challenge (session 24) | FERC eLibrary's RSS or its daily "Issuances" list, if its terms allow an automated reader |
+| An action's text beyond its Register summary on the GitHub runner | the runner holds no store of printed texts; the data machine's store has them | none needed: the data machine's daily run derives the fields from its store |
+| State commissions beyond the ten read for large loads, and every state's orders outside that topic | the refresh reads ten open-docket lists for one topic (section 7) | each commission's docket search or order list, one by one, under its own terms |
+| Congress: bills and their votes | not a source of this table | the Congress.gov API (api.congress.gov, a free key) |
+| Treasury's and the IRS's guidance not printed in the Register (notices, revenue procedures in the Internal Revenue Bulletin) | only Register documents are listed | the Internal Revenue Bulletin's index on irs.gov |
+| ISO and RTO board and committee decisions, and their tariff filings | the grid operators' sites are not read; MISO is paused (its terms) | each operator's own filings page, under its terms; for MISO, only after the owner lifts its pause |
+| Court rulings that stay or vacate an action | no court source | CourtListener's API (Free Law Project), with its terms |
+| BOEM lease sales' results (the bids) | the Register prints the notices of sale, not the results | BOEM's lease sale statistics pages |
+| Virginia's commission | paused: its robots file disallows every automated request | none while the pause stands |
+
+## 17. What chains 169 and 178 changed in the fields, and how well they hold (sessions 3122 to 3145)
+
+Section 14 describes the fields as session 3056 wrote them. Since then:
+
+- **The dates** (sessions 3125, 3141). Kinds added: `filing_due` (a filing the action asks of someone: "Final amendments to the application must be filed ... on or before", a reporting deadline extended "from March 31, 2026, to October 30, 2026") and `review_petition_due` (a court petition's deadline: "petitions for judicial review ... must be filed in the D.C. Circuit by"). Read as well: a water quality certification's deadline ("Reasonable Period of Time to Act ...: One year, August 27, 2027", a `decision_due`); abbreviated months and weekdays ("Tue., Oct. 13, 2026"); an event's date under its own heading ("Evening Scoping Session" / "Date: Tuesday, ..."); a list of meetings; "answers" and "commenting" as comment words; a schedule's "--" before its dates; an hour without minutes or "p.m." and a city's time; a meeting someone "will hold". A date being replaced ("June 4, 2026'' to read") is left out.
+- **The figure** (sessions 3126, 3142). Where the title and the opening paragraph state none, a figure of the text's first 9,000 characters, only after the words of a stated total ("total installed capacity", "total planned funding", "project will receive up to"); a notice without a summary is read over 4,000 characters, not 1,800; inside any read, a figure after a stated total's words comes before the units listed ahead of it. "$1.2 million," keeps its scale (it lost it until session 3126: 13 records of the archive's copy read a million times too small, never landed).
+- **The instrument** (session 3140). An order on a petition; a scoping period before its sessions; a hearing's notice, a technical conference, an open house and meetings in the plural; an environmental review's schedule; a general permit proposed or issued as an approval; an award only with its words in the title or beside a sum of money; the NRC's "order imposing procedures" stays an application's notice.
+- **The status** (session 3060). "Withdrawn", "vacated" and "stayed" only where the action itself is (not a reinstatement of a terminated lease, a land order's withdrawal of land, a motion to vacate, "Stay Informed").
+- **`scope`** (sessions 3129, 3142), a new column: "out of scope: <why>" by a written list (an agency's personnel board, a laboratory's security boundary, electronic reporting rules, a fellowship or scholarship, an inventory under the Native American Graves Protection and Repatriation Act); marked, never dropped.
+- **The place** (sessions 3127, 3131, in `warehouse/connectors/policy_sources.py`). A public body named with its postal code ("City of Pelican, AK"); Alaska's census areas; a plant or site "located at" a place; a part of a state ("in southwestern Colorado"), a venue's address passed over for the next sentence; a water within one state (Cook Inlet, the Beaufort and Chukchi Seas, Norton Sound, Puget Sound). Session 157's test of 87 documents stays at 85.
+
+**How well they hold.** On the 80 actions the rules were written against (`docs/reviews/policy-audit-2026-11-06.md`), 206 faults before and 21 held after, 18 of them the held scores waiting for a rescoring and 3 left by design. On 80 others never used to write a rule (`docs/reviews/policy-audit-2026-11-06-fresh.md`, session 3139): before that sample's own fixes, the instrument held for 71 of 80, the dates for 47 of 60 rows that state a step, the figure for 10 of 12, the scope for 79 of 80, the places and bodies with no fault found; after sessions 3140 to 3142, every class on all 80. The first numbers of the fresh sample are the honest measure of rules written elsewhere; a third sample would measure the rules of sessions 3140 to 3142 the same way.
+
+**The scorer's policy note** (sessions 3056, 3130, 3131) has three sentences of this work: the sector is the part of the energy system the action applies to; a procedural notice is 1 to 3, an EA, a scoping notice or an accepted application 4 to 6 unless it decides the project; coal ash and wastewater are generation, mining other. They apply to actions scored after the landing. Three trials in memory on the first sample (no score written) put class 4's and class 10's rows right and showed the cost: at 5 or more, 20 of 80 against 28 held, so a rescoring of the held actions would show about 29% fewer on the page's default view. Whether to rescore is the owner's ruling.
+
+**The third sample** (sessions 3151 to 3154, chain 186; `docs/reviews/policy-audit-2026-11-06-third.md`): 80 more actions never used to write a rule (rows 801 to 1200 of the newest), read with the rules as chain 178 left them. Before that sample's own fixes: the dates held for 43 of 52 rows that state a step (83%; 86% on the fresh sample), the instrument for 74 of 80 (93%; 89%), the status for 78 of 80, the figure for 13 of 15 rows with an own figure (two per-acre rates taken wrongly), the scope for 78 of 80; the places and bodies with no fault found. Each sample brought wordings the last did not hold (hearings EPA "will hold", compliance and payment dates, releases that announce a decision or a meeting, rates and ranges), and each was fixed with its own words as a test: the rules now read `filing_due` from compliance filings, a payment's "due date" and an extended deadline; an agency's own deadline for its final rule as `decision_due`; objections and hearing requests as interventions; a release's title for the meeting or decision it announces; no figure from a rate, a range or a change; and a pesticide's tolerance or an official sworn in as out of scope. Two guards keep a filing deadline from restating a comment deadline and keep a date a party asks for, expects or plans out of the steps. The honest rate of a fresh sample has stayed near 85% to 93% by class; a fourth sample would measure these fixes the same way.
+

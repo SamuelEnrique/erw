@@ -1,0 +1,359 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 203 (Thursday, October 22, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 203 (Thursday, October 22, 2026)]
+[Rules and Regulations]
+[Pages 66643-66651]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-21622]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+ENVIRONMENTAL PROTECTION AGENCY
+
+40 CFR Part 257
+
+[EPA-HQ-OLEM-2025-3325; FRL-12983-02-OLEM]
+
+
+Virginia: Approval of State Coal Combustion Residuals Permit 
+Program
+
+AGENCY: Environmental Protection Agency (EPA).
+
+ACTION: Availability of final decision.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The Environmental Protection Agency (EPA or the Agency) is 
+approving Virginia's coal combustion residuals (CCR) permit program 
+under the Resource Conservation and Recovery Act (RCRA). After 
+reviewing the CCR permit program application submitted by the Virginia 
+Department of Environmental Quality (VADEQ), EPA has determined that 
+Virginia's partial CCR permit program meets the standard for approval 
+under RCRA. Virginia's CCR permit program will operate in lieu of the 
+Federal CCR program with the exception of the specific provisions noted 
+below.
+
+DATES: This action is effective on November 23, 2026.
+
+ADDRESSES: EPA has established a docket for this action under Docket ID 
+No. EPA-HQ-OLEM-2025-3325. All documents in the docket are listed on 
+the <a href="https://www.regulations.gov">https://www.regulations.gov</a> website. Although listed in the index, 
+some information is not publicly available, e.g., Confidential Business 
+Information or other information whose disclosure is restricted by 
+statute. Certain other material, such as copyrighted material, is not 
+placed on the internet and will be publicly available only in hard copy 
+form.
+
+FOR FURTHER INFORMATION CONTACT: Michelle Lloyd, Office of Resource 
+Conservation and Recovery, Materials Recovery and Waste Management 
+Division, U.S. Environmental Protection Agency, 1200 Pennsylvania 
+Avenue NW, Washington, DC 20460; telephone number: (202) 566-0560; 
+email address: [email protected]. For more information on this 
+document please visit <a href="https://www.epa.gov/coal-combustion-residuals">https://www.epa.gov/coal-combustion-residuals</a>.
+
+SUPPLEMENTARY INFORMATION:
+
+List of Acronyms
+
+DCR Virginia Department of Conservation and Recreation
+CCR coal combustion residuals
+CFR Code of Federal Regulations
+EPA Environmental Protection Agency
+MSWLF municipal solid waste landfill
+NOI Notice of Intent
+OLEM Office of Land and Emergency Management
+PEEP Permitting Enhancement and Evaluation Platform
+RCRA Resource Conservation and Recovery Act
+SHWD Solid and Hazardous Waste Division
+STAG State and Tribal Assistance Grant
+VAC Virginia Administrative Code
+VADEQ Virginia Department of Environmental Quality
+VPDES Virginia Pollutant Discharge Elimination System
+VSWMR Virginia Solid Waste Management Regulations
+VWMA Virginia Waste Management Act
+WIIN Water Infrastructure Improvements for the Nation
+
+I. General Information
+
+A. Summary of Final Action
+
+    EPA is taking final action to approve of Virginia's partial CCR 
+permit program because the Agency finds that the State's program 
+requires each CCR unit in the State to achieve compliance with the 
+minimum requirements in the Federal CCR regulations or with alternative 
+requirements that EPA has determined to be at least as protective as 
+the requirements of the Federal CCR regulations in 40 CFR part 257, 
+subpart D, for the reasons set forth in the Proposed Approval (91 FR 
+23924, May 4, 2026) and this final action. See, 42 U.S.C. 
+6945(d)(1)(B).
+
+B. Background
+
+    CCR are generated from the combustion of coal, including solid 
+fuels classified as anthracite, bituminous coal, subbituminous coal, 
+and lignite, for the purpose of generating steam to power a generator 
+to produce electricity or electricity and other thermal energy by 
+electric utilities and independent power producers. CCR, commonly known 
+as coal ash, include fly ash, bottom ash, boiler slag, and flue gas 
+desulfurization materials. CCR can be sent offsite for disposal or 
+beneficial use or disposed of in on-site landfills or surface 
+impoundments.
+    On April 17, 2015, EPA published a final rule creating 40 CFR part 
+257, subpart D, which established a comprehensive set of minimum 
+Federal requirements for the disposal of CCR in landfills and surface 
+impoundments (80 FR 21302). The rule created a self-implementing 
+program that regulates the location, design, operating criteria, and 
+groundwater monitoring and corrective action for CCR units, as well as 
+the closure and post-closure care of CCR units. It also requires 
+recordkeeping and notifications for CCR units. EPA has since amended 40 
+CFR part 257, subpart D on August 5, 2016 (81 FR 51802), July 30, 2018 
+(83 FR 36435), August 28, 2020 (85 FR 53516), November 12, 2020 (85 FR 
+72506), May 8, 2024 (89 FR 38950), November 8, 2024 (89 FR 88650), and 
+February 10, 2026 (91 FR 5806). More information on these rules is 
+provided in the Technical Support Document in the docket for this 
+document.\1\
+---------------------------------------------------------------------------
+
+    \1\ Technical Support Document for the Approval of Virginia's 
+Coal Combustion Residuals Permit Program. U.S. Environmental 
+Protection Agency, Office of Land and Emergency Management (5304T), 
+1200 Pennsylvania Avenue NW, Washington, DC 20460. April 2026. EPA-
+HQ-OLEM-2025-3325-0026.
+
+---------------------------------------------------------------------------
+
+[[Page 66644]]
+
+C. Statutory Authority
+
+    EPA is issuing this final action pursuant to RCRA sections 4005(d) 
+and 7004(b)(1). See 42 U.S.C. 6945(d) and 6974(b)(1). As amended by 
+section 2301 of the 2016 WIIN Act, RCRA section 4005(d) instructs EPA 
+to establish a Federal permit program similar to those under RCRA 
+subtitle C and other environmental statutes and authorizes States to 
+develop their own CCR permitting programs that go into effect in lieu 
+of the Federal permit program upon approval by EPA. See 42 U.S.C. 
+6945(d).
+    Under RCRA section 4005(d)(1)(A), 42 U.S.C. 6945(d)(1)(A), States 
+seeking approval of a State CCR program must submit to the 
+Administrator ``in such form as the Administrator may establish, 
+evidence of a permit program or other system of prior approval and 
+conditions under state law for regulation by the State of coal 
+combustion residuals units that are located in the state.'' The statute 
+provides that EPA shall approve a State CCR permit program if the 
+Administrator determines that the State program will require each CCR 
+unit located in the State to achieve compliance with either: (1) The 
+Federal CCR requirements at 40 CFR part 257, subpart D; or (2) Other 
+State criteria that the Administrator, after consultation with the 
+State, determines to be ``at least as protective as'' the Federal 
+requirements. 42 U.S.C. 6945(d)(1)(B). The Administrator must make a 
+final determination, after providing for public notice and an 
+opportunity for public comment, within 180 days of receiving a State's 
+complete submittal of the information specified in RCRA section 
+4005(d)(1)(A).\2\ 42 U.S.C. 6945(d)(1)(B). EPA may approve a State CCR 
+permit program in whole or in part. Id. Once approved, the State permit 
+program operates in lieu of the Federal requirements. 42 U.S.C. 
+6945(d)(1)(A). In a State with a partial program, only the State 
+requirements that have been approved by EPA operate in lieu of the 
+Federal requirements, and facilities remain responsible for compliance 
+with all remaining Federal requirements in 40 CFR part 257.
+---------------------------------------------------------------------------
+
+    \2\ USEPA 2017. Coal Combustion Residuals State Permit Program 
+Guidance Document; Interim Final. Office of Land and Emergency 
+Management, Washington, DC 20460. August. (providing that the 180-
+day deadline does not start until EPA determines the application is 
+complete).
+---------------------------------------------------------------------------
+
+    As noted above, the Federal CCR regulations are self-implementing, 
+meaning that CCR landfills and surface impoundments must comply with 
+the terms of the regulations prior to obtaining a Federal permit or a 
+permit issued by an approved State. Noncompliance with the Federal CCR 
+regulations can be the subject of an enforcement action brought 
+directly against the facility. Once a final CCR permit is issued by an 
+approved State or pursuant to a Federal CCR permit program, however, 
+the terms of the permit apply in lieu of the terms of the Federal CCR 
+regulations and/or requirements in an approved State program, and RCRA 
+section 4005(d)(3) provides a permit shield against direct enforcement 
+of the applicable Federal or State CCR regulations (meaning the 
+permit's terms become the enforceable requirements for the permittee).
+    RCRA section 7004(b), which applies to all RCRA programs, directs 
+that ``public participation in the development, revision, 
+implementation, and enforcement of any . . . program under this chapter 
+shall be provided for, encouraged, and assisted by the Administrator 
+and the States.'' 42 U.S.C. 6974(b)(1). Accordingly, EPA considers 
+permitting requirements, requirements for compliance monitoring 
+authority, requirements for enforcement authority, and requirements for 
+intervention in civil enforcement proceedings in evaluating State CCR 
+permit program applications.
+    Once a State CCR permit program is approved, the Administrator must 
+review the approved program no less frequently than every 12 years, no 
+later than three years after a revision to an applicable section of 40 
+CFR part 257, subpart D, and no later than one year after any 
+unauthorized significant release from a CCR unit located in the State. 
+EPA also must review an approved State CCR permit program at the 
+request of another State alleging that the soil, groundwater, or 
+surface water of the requesting State is or is likely to be adversely 
+affected by a release from a CCR unit in the approved State. See 42 
+U.S.C. 6945(d)(1)(D)(i)(I) through (IV).
+    In a State with an approved State CCR permit program, EPA may 
+commence administrative or judicial enforcement actions under RCRA 
+section 3008, 42 U.S.C. 6928, if the State requests assistance or if 
+EPA determines that an EPA enforcement action is likely to be necessary 
+to ensure that a CCR unit is operating in accordance with the criteria 
+of the State's permit program. 42 U.S.C. 6945(d)(4). EPA can enforce 
+any Federal requirements that remain in effect (i.e., those for which 
+there is no corresponding approved State provision). EPA may also 
+exercise its inspection and information gathering authorities under 
+RCRA section 3007 in a State with an approved program. 42 U.S.C. 6927.
+
+II. The Virginia Application
+
+    EPA began working with VADEQ in 2019 as Virginia developed its 
+application for a partial CCR permit program. EPA discussed with VADEQ 
+the process for EPA to review and approve a State's CCR permit program, 
+VADEQ's anticipated timeline for submitting a CCR permit program 
+application to EPA, and VADEQ's regulations for issuing permits. In 
+2016, 2017, and 2025, the Commonwealth incorporated by reference 40 CFR 
+part 257, subpart D promulgated through December 14, 2020. See Virginia 
+Register Volume 32, Issue 9, eff. January 27, 2016; amended, Virginia 
+Register Volume 33, Issue 16, eff. May 3, 2017; Volume 41, Issue 9, 
+eff. January 15, 2025.
+    On June 6, 2025, VADEQ submitted its CCR permit program application 
+to EPA Region 3 requesting approval of Virginia's partial CCR permit 
+program. On September 25, 2025, EPA sent questions to VADEQ and a 
+request to supplement the application. On March 4, 2026, VADEQ 
+submitted an updated application to EPA Region 3.\3\ On May 4, 2026, 
+EPA proposed to approve the Virginia CCR permit program (91 FR 23924).
+---------------------------------------------------------------------------
+
+    \3\ The revised Narrative Description, dated March 2026, shall 
+be substituted for the original Narrative Description, dated June 
+2025, as well as the 40 CFR part 257 Checklist, the Commonwealth of 
+Virginia Attorney General certification, and copies of the Virginia 
+Statutes, Regulations, and Guidance. All other documents submitted 
+as part of the original June 6, 2025 application remain unchanged 
+and are available in the docket for this action.
+---------------------------------------------------------------------------
+
+III. EPA Analysis of the Virginia Application--Basis for Approval
+
+    RCRA section 4005(d) requires EPA to evaluate two components of a 
+State CCR permitting program to determine whether it meets the standard 
+for approval: the program itself, and the technical criteria that will 
+be included in each permit issued under the State program. This section 
+discusses EPA's review of both requirements under RCRA section 4005(d) 
+and the criteria EPA uses to conduct this review.
+    First, EPA must evaluate the permit program itself (or other system 
+of prior approval and conditions). See 42 U.S.C. 6945(d)(1)(A) through 
+(B). RCRA section 4005(d)(1)(A) directs the State to provide evidence 
+of a State permit program's compliance with RCRA requirements in such 
+form as determined by the Administrator. In turn, RCRA section 
+4005(d)(1)(B) directs EPA to approve the State program based
+
+[[Page 66645]]
+
+upon a determination that the program ``requires each coal combustion 
+residuals unit located in the state to achieve compliance with the 
+applicable [Federal or State] criteria.'' In other words, the statute 
+directs EPA to determine that the State has sufficient authority to 
+require compliance at all CCR units located within the State. See also 
+42 U.S.C. 6945(d)(1)(D)(ii)(I). To make this determination, EPA 
+evaluates the State's authority to issue permits and impose conditions 
+in those permits, as well as the State's authority to conduct 
+compliance monitoring and enforcement.
+    During this review of the State permit program, EPA also determines 
+whether the program contains procedures consistent with the public 
+participation directive in RCRA section 7004(b). RCRA section 7004(b), 
+which applies to all RCRA programs, directs that ``public participation 
+in the development, revision, implementation, and enforcement of any . 
+. . program under this chapter shall be provided for, encouraged, and 
+assisted by the Administrator and the States.'' 42 U.S.C. 6974(b)(1). 
+To make this determination, EPA evaluates the State's public 
+participation procedures for issuing permits and for intervention in 
+civil enforcement proceedings.
+    Although 40 CFR part 239 applies to the approval of State Municipal 
+Solid Waste Landfill (MSWLF) programs under RCRA section 4005(c)(1) 
+rather than EPA's evaluation of CCR permit programs under RCRA section 
+4005(d), the specific criteria outlined in that regulation provide a 
+helpful framework to examine the relevant aspects of a State's CCR 
+permit program. States are familiar with these criteria because all 
+States have MSWLF programs that have been approved pursuant to these 
+regulations, and the regulations are generally regarded as protective 
+and appropriate.
+    Consequently, EPA relied on the four categories of criteria 
+outlined in 40 CFR part 239 as guidelines to evaluate the Virginia CCR 
+permit program: permitting requirements, requirements for compliance 
+monitoring authority, requirements for enforcement authority, and 
+requirements for intervention in civil enforcement proceedings.
+    Second, EPA must evaluate the technical criteria that will be 
+included in each permit issued under the State CCR permit program to 
+determine whether they are the same as the Federal criteria, or to the 
+extent they differ, whether the modified criteria are ``at least as 
+protective as'' the Federal requirements. See 42 U.S.C. 6945(d)(1)(B). 
+Only if both components meet the statutory requirements may EPA approve 
+the program. See 42 U.S.C. 6945(d)(1). EPA makes this determination by 
+comparing the State's technical criteria to the corresponding Federal 
+criteria and, where necessary, evaluating whether different State 
+criteria are at least as protective as the Federal criteria.
+    Upon careful review, and as discussed in more detail below, EPA 
+concludes that Virginia's partial CCR permit program includes all the 
+necessary elements to be approved as a partial State CCR permit 
+program. It also contains all the technical criteria in 40 CFR part 
+257, subpart D, except for the provisions specifically discussed below 
+that Virginia has not included in its partial CCR permit program. 
+Consequently, EPA is approving the majority of Virginia's partial CCR 
+permit program application. The State's CCR permit program does not 
+encompass the full scope of Federal CCR requirements as presently 
+constituted, and the provisions of the Federal CCR regulations that are 
+not part of Virginia's approved CCR permit program will remain directly 
+applicable to affected CCR units. 42 U.S.C. 6945(d)(1)(B).
+    EPA's full analysis of the Virginia CCR permit program, and how the 
+Virginia regulations differ from the Federal requirements, can be found 
+in the Technical Support Document. EPA determined that the Virginia CCR 
+permit program application was complete and notified Virginia of its 
+determination by letter.\4\
+---------------------------------------------------------------------------
+
+    \4\ Letter to Michael S. Rolband, Director, Virginia Department 
+of Environmental Quality from Lee M. Zeldin, Administrator, USEPA 
+regarding a review of the Virginia Coal Combustion Residuals Permit 
+Program Application. April 30, 2026. EPA-HQ-OLEM-2025-3325-0048.
+---------------------------------------------------------------------------
+
+A. Adequacy of the Virginia Permit Program
+
+    Section 4005(d)(1)(A) of RCRA, 42 U.S.C. 6945(d)(1)(A), requires a 
+State seeking State CCR permit program approval to submit to EPA, ``in 
+such form as the Administrator may establish, evidence of a permit 
+program or other system of prior approval and conditions under State 
+law for regulation by the State of coal combustion residuals units that 
+are located in the State.'' Although the statute directs EPA to 
+establish the form of such evidence, the statute does not require EPA 
+to promulgate regulations governing the process or standard for 
+determining the adequacy of such State programs. EPA, therefore, 
+developed the Coal Combustion Residuals State Permit Program Guidance 
+Document; Interim Final (82 FR 38685, August 15, 2017) (the ``Guidance 
+Document''). The Guidance Document provides recommendations on a 
+process and standards that States may choose to use to apply for EPA 
+approval of its CCR permit programs, based on the standards in RCRA 
+section 4005(d), existing regulations at 40 CFR part 239, and the 
+Agency's experience in reviewing and approving State programs.
+    EPA evaluated the Virginia CCR permit program using the process and 
+statutory and regulatory standards discussed in sections II.C. and 
+IV.A. of this preamble. EPA's findings are summarized below and 
+provided in more detail in the Technical Support Document located in 
+the docket supporting this proposed determination.
+1. Guidelines for Permitting
+    In EPA's judgment, an adequate State CCR permit program must ensure 
+that: (1) Existing and new facilities are permitted or otherwise 
+approved and in compliance with either 40 CFR part 257 or other State 
+criteria; (2) The State has the authority to collect all information 
+necessary to issue permits that are adequate to ensure compli
