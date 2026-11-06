@@ -1030,7 +1030,7 @@ class V2RTheOpeningNumber(unittest.TestCase):
         self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | Six reactors eyed; WTI up 12.0% on the week")   # session 1446 (fault 34)
         long = "Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery in Western Australia to EPBC Act"
         self.assertEqual(roundup.subject_line(None, long), "ERW Weekly | Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery...")
-        self.assertLessEqual(len(roundup.subject_line(op, long)), 110)
+        self.assertLessEqual(len(roundup.subject_line(op, long)), 120)   # a 70-character headline and a move of up to 35
         self.assertEqual(roundup.subject_line(None, "Six reactors eyed."), "ERW Weekly | Six reactors eyed")
 
     def test_w40_and_w41(self):
