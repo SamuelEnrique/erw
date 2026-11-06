@@ -232,3 +232,11 @@ Read again by session 2881 at about 22:30 UTC, after main's newest section (chai
 - **ERCOT nodes, a node's load zone and hub:** the hub is open, and the zone is filled for 569 of 873 nodes (`ercot_node_places`). NP4-160 is reachable only through `/misapp` and `/misdownload`, which ERCOT's robots file disallows (session 2879).
 - **ERCOT nodes, energy:** no node has a twelve-month figure since 31 October. `node_basis_daily`'s day-ahead days stop at 20 October (the DAM list is at `/misapp`), under 90 percent of the hub's November 2025 to October 2026 (session 2863). This waits on a ruling.
 - **Held, not yet in the tab's files, for chain 148's sessions:** `ercot_node_wires_utilities` (a node's TSP), `ercot_node_transmission` (TPIT projects by county, already in `nodes.json`), `eia861_delivery_only` (Texas wires utilities' revenue), `interconnection_agreements_signed` and `_by_grid` (signed agreements not yet operating, Queued Up).
+## State on 6 November 2026, early morning (chain 148)
+Read again by session 2901 at about 03:30 UTC, after chain 147's section, with main at `a41dd2e4` or later. **No row changed state on the tab.** Chain 148's sessions 2887 to 2899 found:
+- The tariffs of the four utilities under the tab's rows (Duquesne Light, AES Indiana, Oncor, CenterPoint) were not readable here: the PA PUC's search runs in its pages' script, the IURC's terms need written permission, and the PUCT is restricted.
+- The row "ERCOT nodes | Node panel | transmission projects by county" has been filled for the 569 placed nodes since session 1048 (`ercot_transmission_projects` in `nodes.json`). The table above is older than that.
+- The wires utility at a node stays "not held". `ercot_node_wires_utilities` names a county's utilities, not a node's TSP.
+- The four peak intervals of summer 2026 wait on ERCOT's NP9-83-M (due by 1 December).
+- The controllable load's faster path: Nodal Protocols Section 3 states no connection step or duration (session 2893).
+- `eia861_delivery_only` (CenterPoint's and the other Texas wires companies' revenue) and `interconnection_agreements_signed` / `_by_grid` (signed agreements not yet operating) are held and not yet drawn. Both are for chain 151's wiring session (2909).
