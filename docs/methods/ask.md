@@ -105,9 +105,9 @@ Under every chat's answer, the sources and the reads are one component in the br
 
 On "not in the warehouse" and on the fixed refusal, the general chat names up to three of the tables the question queried or described, each with what the catalogue says it holds (its sector, its grids, its step, its span, its source report; never a figure of its rows). A table only listed is not one it looked at.
 
-## Prepared and off
+## USD per kW (6 November 2026, session 2221)
 
-- **USD per kW** (session 1109, for session 320's open ruling 1): with `ASK_PER_KW=on` a query of `battery_stack_monthly` whose rows are all USD/MW carries each value divided by 1,000 as `value_usd_per_kw`, the method note's own conversion (`battery_stack.md`), so the number check traces a per-kW figure. Off by default: every result is what it was.
+- **USD per kW** (prepared in session 1109 for session 320's open ruling 1, on by default since session 2221, chain 152): a query of `battery_stack_monthly` whose rows are all USD/MW carries each value divided by 1,000 as `value_usd_per_kw`, the method note's own conversion (`battery_stack.md`, USD per kW of rated power), done by the tool, so a per-kW figure an answer states is one the tool returned and the number check traces it; rule 10 of the system prompt says a question asked in USD per kW is answered with that key. Eight of session 320's thirty (b01 to b06, b08, b09) asked in USD per kW and were answered in USD per MW while this was off (`docs/reviews/ask-faults-2026-11-05.md`). `ASK_PER_KW=off` (both loops, `per_kw_on` and `perKwOn`) leaves every result what it was before.
 
 ## The evaluations
 
@@ -145,3 +145,4 @@ Each dated, with the session that made it; the reports in `archive/sessions/` ca
 - 23 October 2026, session 1304: a refusal is classed from its record alone, the first class it shows.
 - 23 October 2026, session 1308: the replay a step of the gate beside the suite's own run of it.
 - 24 October 2026, session 1317: the series in the base loop's `finish`, so a grid's chat carries it too; Ask ERCOT's profile keeps its own.
+- 6 November 2026, session 2221 (chain 152): USD per kW handed back by default, through the tool's own conversion and never by the model; `ASK_PER_KW=off` is the way back.

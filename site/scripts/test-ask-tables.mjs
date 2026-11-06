@@ -445,5 +445,34 @@ await test("the judge's added rules: a number at its own precision, a source, a 
   assert.deepEqual(judge(OLD.questions.find((x) => x.id === "s01"), { status: "answered", answer: "It was 31.2 USD/MWh.", series: [], citations: [{ table: "ercot_hub_prices_daily" }] }), []);
 });
 
+await test("USD per kW is a fetched figure by default (session 2221): a battery result carries value_usd_per_kw, the number check traces it, and ASK_PER_KW=off takes it away", async () => {
+  // chain 152, session 2221: eight of session 320's thirty asked in USD per kW of battery_stack_monthly, a table in USD
+  // per MW; the tool's own conversion (the method note's) is on by default, so an answer in USD per kW states a number the
+  // tool returned. The rows are session 1109's saved twelve months behind b01 (tests/fixtures/session1109/battery_reads.json).
+  const { perKw, perKwOn } = await import("../lib/chat/tools.ts");
+  const { unverified, unitMismatches: units } = await import("../lib/chat/ask.ts");
+  const battery = JSON.parse(read("../../tests/fixtures/session1109/battery_reads.json"));
+  const q = battery.questions.b01;
+  const sum = battery.rows.filter((r) => r.entity === q.entity && r.variable === q.variable && r.ts_utc >= q.start && r.ts_utc < q.end).reduce((a, r) => a + r.value, 0);
+  assert.ok(Math.abs(sum - q.sum_usd_per_mw) < 1e-4);
+  const result = () => ({ table: "battery_stack_monthly", aggregation: "sum", units: ["USD/MW"], rows_matched: q.months, result: [{ value: Math.round(sum * 1e6) / 1e6, n: q.months }] });
+  const saved = process.env.ASK_PER_KW;
+  try {
+    delete process.env.ASK_PER_KW;
+    assert.equal(perKwOn(), true);
+    const out = perKw(result(), "battery_stack_monthly");
+    assert.ok(Math.abs(out.result[0].value_usd_per_kw - q.key_usd_per_kw) <= 0.01, `${out.result[0].value_usd_per_kw} against the key ${q.key_usd_per_kw}`);
+    assert.equal(out.per_kw.unit, "USD/kW");
+    const said = `The battery earned ${q.key_usd_per_kw.toFixed(2)} USD per kW over the twelve months (${q.sum_usd_per_mw.toFixed(2)} USD per MW; battery_stack_monthly).`;
+    assert.deepEqual(unverified(said, [JSON.stringify(out)]), []);
+    assert.deepEqual(units ? units(said, [JSON.stringify(out)]) : [], []);
+    process.env.ASK_PER_KW = "off";
+    assert.equal(perKwOn(), false);
+    const off = perKw(result(), "battery_stack_monthly");
+    assert.equal(off.per_kw, undefined);
+    assert.deepEqual(unverified(said, [JSON.stringify(off)]), [q.key_usd_per_kw.toFixed(2)]);
+  } finally { if (saved === undefined) delete process.env.ASK_PER_KW; else process.env.ASK_PER_KW = saved; }
+});
+
 console.log(`${n - failed} of ${n} passed`);
 process.exit(failed ? 1 : 0);

@@ -1,5 +1,5 @@
 {
- "_about": "Session 1300 (chain 093): scripted model turns for the general chat, run through both loops (warehouse/chat/ask.py and site/lib/chat/ask.ts) over the rows of tests/fixtures/session1112/held_reads.json, by tests/test_session1300.py and site/scripts/test-ask-1300.mjs. Each turn is what the model returns: tool calls, or the answer as JSON text. The figures are the fixture's rows (cost_of_power_monthly, January 2026, rt_load_weighted: ERCOT's hub average 54.481, CAISO SP15 32.694), and the wrong ones are written wrong on purpose. Session 1317 added the scenario a_series, over the twelve yearly rows of ercot_peak_premium_annual recorded from the live set in tests/fixtures/session143/tool_reads.json (named under extra, read from there at run time).",
+ "_about": "Session 1300 (chain 093): scripted model turns for the general chat, run through both loops (warehouse/chat/ask.py and site/lib/chat/ask.ts) over the rows of tests/fixtures/session1112/held_reads.json, by tests/test_session1300.py and site/scripts/test-ask-1300.mjs. Each turn is what the model returns: tool calls, or the answer as JSON text. The figures are the fixture's rows (cost_of_power_monthly, January 2026, rt_load_weighted: ERCOT's hub average 54.481, CAISO SP15 32.694), and the wrong ones are written wrong on purpose. Session 1317 added the scenario a_series, over the twelve yearly rows of ercot_peak_premium_annual recorded from the live set in tests/fixtures/session143/tool_reads.json (named under extra, read from there at run time). Session 2221 (chain 152) added a_per_kw_question, over the twelve monthly rows of battery_stack_monthly behind session 320's b01 (tests/fixtures/session1109/battery_reads.json, read from there): the question asked in USD per kW is answered with the tool's own value_usd_per_kw (81.4022), so the number check passes it at the first draft; extra became a list.",
  "today": "2026-10-23",
  "scenarios": [
   {
@@ -284,10 +284,51 @@
      }
     }
    ]
+  },
+  {
+   "id": "a_per_kw_question",
+   "question": "For a 4-hour battery at ERCOT's hub average with perfect foresight, what was the total revenue over the last twelve complete months (2025-10 to 2026-09), in USD per kW?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "battery_stack_monthly",
+        "aggregation": "sum",
+        "entity": "ercot:HB_HUBAVG",
+        "variable": "foresight_4h_revenue_total_usd_per_mw",
+        "start": "2025-10-01",
+        "end": "2026-10-01"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "A 4-hour battery at ERCOT's hub average with perfect foresight earned 81.40 USD per kW of rated power over the twelve months from October 2025 to September 2026, the sum of 12 monthly values (81,402.19 USD per MW; battery_stack_monthly, derived). This is an upper bound: perfect foresight, a price-taking battery, no capacity payment.",
+      "citations": [
+       {
+        "table": "battery_stack_monthly",
+        "source_report": "erw:battery_stack",
+        "data_version": "fixture",
+        "tier": "derived"
+       }
+      ],
+      "not_in_warehouse": false
+     }
+    }
+   ]
   }
  ],
- "extra": {
-  "fixture": "tests/fixtures/session143/tool_reads.json",
-  "table": "ercot_peak_premium_annual"
- }
+ "extra": [
+  {
+   "fixture": "tests/fixtures/session143/tool_reads.json",
+   "table": "ercot_peak_premium_annual"
+  },
+  {
+   "fixture": "tests/fixtures/session1109/battery_reads.json",
+   "table": "battery_stack_monthly"
+  }
+ ]
 }

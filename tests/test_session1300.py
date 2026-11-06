@@ -73,12 +73,18 @@ class Frames:
         """The frames, after an Asker is made: making one sets its scope, which drops the frames read so far."""
         fx = load(FIX)
         turns = load(TURNS)
-        if turns.get("extra"):
-            # session 1317: a scenario's extra rows, recorded from the live set in another fixture and read from there
-            other, t = load(os.path.join(ROOT, turns["extra"]["fixture"])), turns["extra"]["table"]
-            rows = next(v for k, v in other["reads"].items() if f"table_name=eq.{t}&" in k)
-            fx["rows"] += [{"table_name": t, "entity": r["entity"], "variable": r["variable"], "ts_utc": r["t"], "value": r["v"], "unit": r["unit"]} for r in rows]
-            fx["catalogue"].append(next(c for c in next(v for k, v in other["reads"].items() if "/catalogue?" in k) if c["table_name"] == t))
+        extras = turns.get("extra") or []
+        for extra in (extras if isinstance(extras, list) else [extras]):
+            # session 1317: a scenario's extra rows, recorded from the live set in another fixture and read from there;
+            # session 2221: a list of them, and a fixture that holds plain rows (session 1109's) beside one of recorded reads
+            other, t = load(os.path.join(ROOT, extra["fixture"])), extra["table"]
+            if "reads" in other:
+                rows = next(v for k, v in other["reads"].items() if f"table_name=eq.{t}&" in k)
+                fx["rows"] += [{"table_name": t, "entity": r["entity"], "variable": r["variable"], "ts_utc": r["t"], "value": r["v"], "unit": r["unit"]} for r in rows]
+                fx["catalogue"].append(next(c for c in next(v for k, v in other["reads"].items() if "/catalogue?" in k) if c["table_name"] == t))
+            else:
+                fx["rows"] += [r for r in other["rows"] if r["table_name"] == t]
+                fx["catalogue"].append(next(c for c in other["catalogue"] if c["table_name"] == t))
         tools._frames.clear()
         tools._backend_ready = True
         tools._frames["_coverage"] = pd.DataFrame([{"table": c["table_name"], "source_report": c["source_report"], "license": c["license"],
@@ -139,7 +145,11 @@ class ThePythonLoop(unittest.TestCase):
         self.assertEqual({k: v["status"] for k, v in got.items()},
                          {"answered": "answered", "a_figure_in_no_result": "refused_unverified", "a_compare": "answered",
                           "not_in_the_warehouse": "not_in_warehouse", "a_table_cited_unread": "refused_unverified", "a_held_grid": "answered",
-                          "a_series": "answered"})
+                          "a_series": "answered", "a_per_kw_question": "answered"})
+        # session 2221 (chain 152): a question in USD per kW answered with the tool's own value_usd_per_kw passes the number
+        # check at the first draft (before, the per-kW figure was in no result and the draft was sent back)
+        self.assertFalse(got["a_per_kw_question"]["retried"])
+        self.assertIn("81.40 USD per kW", got["a_per_kw_question"]["answer"])
         # session 1317: the general chat's answer that rests on a series carries it, the tool's twelve rows; the others none
         s = got["a_series"]["series"]
         self.assertEqual(len(s), 1)

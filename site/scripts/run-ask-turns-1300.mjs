@@ -11,12 +11,18 @@ import fs from "node:fs";
 const read = (p) => JSON.parse(fs.readFileSync(new URL(p, import.meta.url), "utf8"));
 const FIX = read("../../tests/fixtures/session1112/held_reads.json");
 const SET = read("../../tests/fixtures/session1300/turns.json");
-// session 1317: a scenario's extra rows, recorded from the live set in another fixture and read from there
-if (SET.extra) {
-  const other = read(`../../${SET.extra.fixture}`), t = SET.extra.table;
-  const rows = Object.entries(other.reads).find(([k]) => k.includes(`table_name=eq.${t}&`))[1];
-  FIX.rows.push(...rows.map((r) => ({ table_name: t, entity: r.entity, variable: r.variable, ts_utc: r.t, value: r.v, unit: r.unit })));
-  FIX.catalogue.push(Object.entries(other.reads).find(([k]) => k.includes("/catalogue?"))[1].find((c) => c.table_name === t));
+// session 1317: a scenario's extra rows, recorded from the live set in another fixture and read from there; session 2221:
+// a list of them, and a fixture that holds plain rows (session 1109's) beside one of recorded reads
+for (const extra of SET.extra ? (Array.isArray(SET.extra) ? SET.extra : [SET.extra]) : []) {
+  const other = read(`../../${extra.fixture}`), t = extra.table;
+  if (other.reads) {
+    const rows = Object.entries(other.reads).find(([k]) => k.includes(`table_name=eq.${t}&`))[1];
+    FIX.rows.push(...rows.map((r) => ({ table_name: t, entity: r.entity, variable: r.variable, ts_utc: r.t, value: r.v, unit: r.unit })));
+    FIX.catalogue.push(Object.entries(other.reads).find(([k]) => k.includes("/catalogue?"))[1].find((c) => c.table_name === t));
+  } else {
+    FIX.rows.push(...other.rows.filter((r) => r.table_name === t));
+    FIX.catalogue.push(other.catalogue.find((c) => c.table_name === t));
+  }
 }
 process.env.SUPABASE_URL = "https://fixture.invalid";
 process.env.SUPABASE_ANON_KEY = "fixture";
