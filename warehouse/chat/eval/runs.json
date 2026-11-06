@@ -140,6 +140,20 @@
     "what": "asked through the Python loop after a repeated call is counted and not read and a figure is written as returned (chain 152), graded under the hold",
     "where": "`docs/reviews/ask-faults-2026-11-05.md`"
    }
+  },
+  {
+   "file": "eval_s2223_loop_run.json",
+   "grades": "eval_s2223_loop_grades.json",
+   "right": "held_ok",
+   "label": "session 2223, Python loop",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "held",
+    "set": "`questions_s320.yaml`",
+    "what": "asked through the Python loop and graded under the grader's two rules of session 2223 (session 320's ruling 3; chain 152), under the hold",
+    "where": "`docs/reviews/ask-faults-2026-11-05.md`"
+   }
   }
  ],
  "left_out": {
@@ -151,6 +165,8 @@
   "expected_s1122.json": "the keys of the board's five questions, not yet asked",
   "runs.json": "this list",
   "eval_s2221_loop_keys.json": "the keys of session 2221's asking through the Python loop, not a run",
-  "eval_s2222_loop_keys.json": "the keys of session 2222's asking through the Python loop, not a run"
+  "eval_s2222_loop_keys.json": "the keys of session 2222's asking through the Python loop, not a run",
+  "eval_s2223_loop_keys.json": "the keys of session 2223's asking through the Python loop, not a run",
+  "eval_s2223_regrade_s1114_grades.json": "session 2223's regrade of eval_s1114_run.json (session 1114's thirty, 23 October 2026) under eval_s267.py's RULES_2223: 29 of 30; a regrade of a stored run, not a run"
  }
 }

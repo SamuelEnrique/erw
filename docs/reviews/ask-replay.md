@@ -12,5 +12,6 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/replay.p
 | session 1149, second set | 8 | 8 | 0 | 0 |
 | session 2221, Python loop | 30 | 26 | 0 | 0 |
 | session 2222, Python loop | 30 | 29 | 0 | 0 |
+| session 2223, Python loop | 30 | 30 | 0 | 0 |
 
-In all: 217 answers, 0 would now be sent back.
+In all: 247 answers, 0 would now be sent back.
