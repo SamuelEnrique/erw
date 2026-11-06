@@ -22,11 +22,15 @@ Read first: chain 170's note (`docs/state/note_<its day>_data_c170.md`), chain 1
 
 ## Session 3094: the next file, the ground, chain 170's first unfinished step
 
-Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 170's first unfinished step, as session 3079 of chain 170 writes it here; if it left none, session 3098's.
+Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 170's first unfinished step, written by session 3079 of chain 170: **the personal laptop's landing request, row 1** (`docs/state/landing_request_portable.md`, `wip/2252-deals`, task `2230-2252-deals`, port 3230). If the row is marked landed, or its branch is an ancestor of origin's main, session 3095's step. If not, and the desktop's second window is not landing it (no `task/2230-2252-deals` branch, the build lock free, its chain's landing session passed), land it here exactly as the file says, never between 14:00 and 16:15 UTC, and mark the row landed with the commit.
 
 ## Sessions 3095 to 3097: chain 170's other unfinished steps
 
-Long end 2:00 each. Session 3095 begins with the landing request file (the rules). Session 3079 of chain 170 writes the steps here in its order; a session it does not name takes the next of the passes below.
+Long end 2:00 each. Session 3095 begins with the landing request file (the rules). Written by session 3079 of chain 170, in chain 170's order (its note, "What did not, and why"):
+
+- **Session 3095: the deals backfill** (chain 157's session 2964, carried by chains 162 and 170; cap USD 15): only once `wip/2252-deals` is an ancestor of origin's main **and** the owner's approval is written in `docs/` or a queue file (the request file: "the backfill only after the owner approves it"; these rules: no backfill without him). Then `scripts/deals_backfill.py --from 2026-10-27 --to 2026-11-05`, one day a run under the data lock. If either is missing, say which and take session 3096's step.
+- **Session 3096: the owner's rulings, if any are written** (chains 153 to 170's notes; among them the deals backfill, FERC-714 Part 3 Schedule 2, the four derived tables in Redivis v1, the per-reactor outages on a schedule, the pace of the data machine's chains): carried out where written; with none, say so and take session 3097's step.
+- **Session 3097: the stale inputs** (chain 162's session 2991, chain 170's 3069): after Saturday 7 November's supply refresh, `eia_gas_storage_weekly`'s newest week (it ended at 16 October); if it moved, `gas_balance_weekly` rebuilt with the locked write script and its method note's figures checked. `eia_nuclear_outages_generator_daily` (written 21 October, on no schedule): its age named; pulled only if the owner's ruling allows.
 
 ## Session 3098: FERC-714 forecast growth, second pass
 
