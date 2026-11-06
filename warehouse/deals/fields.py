@@ -384,6 +384,27 @@ def flags_of(row):
     return out
 
 
+# Session 2275 (chain 174): the provider of credit is the buyer (the prompt's rule for debt and project finance: "the
+# investors or lenders are the buyer"). "Google to serve as credit backstop for TeraWulf data center in Kentucky" was
+# stored with Google as the seller and no buyer.
+CREDIT_VERB = r"(?:to\s+)?(?:serve[sd]?\s+as|provid\w*|offer\w*|extend\w*|give[sn]?)\s+(?:a\s+|an\s+|its\s+)?"
+CREDIT_WHAT = r"(?:credit|backstop|guarantee|loan|financing|debt)"
+FINANCED = r"\bfor\s+((?:[A-Z][\w&.'-]*\s+){0,3}[A-Z][\w&.'-]*)(?:'s)?\s+(?:data\s?cent\w*|project|campus|plant|facility)"
+
+
+def credit_parties(d):
+    """(buyer, seller) where the evidence says the stored seller provides credit and no buyer is named: the seller
+    becomes the buyer, and the company the credit is for ("for TeraWulf data center") the seller; None otherwise."""
+    seller = " ".join(str(d.get("seller") or "").split())
+    ev = " ".join(str(d.get("evidence") or "").replace("’", "'").split())
+    if (d.get("buyer") or "").strip() or not seller or not ev:
+        return None
+    if not re.match(re.escape(seller) + r"\s+" + CREDIT_VERB + r"(?:\S+\s+){0,3}?" + CREDIT_WHAT, ev, re.I):
+        return None
+    m = re.search(FINANCED, ev)
+    return seller, (m.group(1) if m and m.group(1) != seller else "")
+
+
 def named_party(d, text=""):
     """A deal is kept only where the story names a party to it: the buyer, the seller, a partner of a joint venture
     (other_parties, as the model gives them), or, for an acquisition, the company or asset sold ("Oryx Energies Sold

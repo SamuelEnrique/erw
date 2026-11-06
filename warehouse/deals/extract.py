@@ -489,6 +489,12 @@ def main(argv=None):
                     if norm(ev) not in text:
                         dropped.append(f"{cid}: evidence not verbatim in the story, not kept: {ev[:100]!r}")
                         ev = ""
+                    cp = fields.credit_parties({**d, "evidence": ev})   # session 2275: the provider of credit is the buyer
+                    if cp:
+                        log(f"  {cid}: buyer {cp[0]!r} (provides the credit), seller {cp[1]!r}, from the words {ev[:90]!r}")
+                        d["buyer"], d["seller"] = cp[0], cp[1] or None
+                        d["other_parties"] = [p for p in (d.get("other_parties") or [])
+                                              if " ".join(str(p).split()).lower() not in {cp[0].lower(), cp[1].lower()}]
                     src_story = d.get("story_id") if d.get("story_id") in story_ids else story_ids[0]
                     target = None
                     same = d.get("same_as")

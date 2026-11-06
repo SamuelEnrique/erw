@@ -235,3 +235,7 @@ A deal is AI power where a named AI lab, hyperscaler or datacenter operator is a
 ### A contract's sum that is another thing's (session 2271)
 
 For a power purchase, an offtake, a lease or a fuel supply, a USD figure is not the deal's when the story's next words are what funds something ("Funded by $3.8 Billion of Junk Bonds") or an asset's cost that no deal word follows ("Over $7 Billion Texas Power Plant"); it is not kept, and the log says why. "$7.5 billion AI data center lease" and "$19 billion data center lease deal" are the contract's own and stay; for a debt deal or an acquisition, the sum is read as before. The cross-check reads the headline the same way, so such a row is not flagged for a figure it refused. On the audit's sample, figures of another thing went from 2 to 0, no other row's sum or flag changing (`tests/test_session2271_deals.py`).
+
+### The provider of credit (session 2275)
+
+In debt and project finance the investors or lenders are the buyer and the company raising the money the seller. Where a deal names no buyer and its evidence says the stored seller provides credit ("Google to serve as credit backstop for TeraWulf data center in Kentucky"; "provides ... financing", "extends a loan", "offers a guarantee"), that party becomes the buyer, and the company the credit is for ("for TeraWulf data center") the seller, taken out of the other parties. The log says so. On the audit's sample, parties wrong went from 1 to 0, no other row changing (`tests/test_session2275_deals.py`).

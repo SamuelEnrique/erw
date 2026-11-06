@@ -559,3 +559,11 @@ F060 ("Gas-Powered Data Center on Federal Lands", no answer) and F032 ("unpermit
 ## Session 2274 (chain 174): facilities' MW basis (1), a decision
 
 F049, "India's Lodha Developers to invest $11 billion in 2.5 GW data centre park in Maharashtra", is stored with MW basis `total`. The second read graded it wrong ("does not say total"). The vocabulary of session 2236 (`facility_fields.MW_BASES`) defines `total` as "the facility's total power ... a campus of N GW", and a 2.5 GW park is that form; the model's basis is the vocabulary's reading. Kept as `total`, no code: the class is closed by this decision. If the owner reads a park's GW as unstated, the vocabulary's line changes, not the code.
+
+## Session 2275 (chain 174): a party wrong (1)
+
+D001, "Google to serve as credit backstop for TeraWulf data center in Kentucky": stored with Google as seller, no buyer. `fields.credit_parties` makes the provider of credit the buyer and the company financed the seller: Google buyer, TeraWulf seller, Anthropic the other party. **1 to 0**; every replayed row's buyer, seller and parties diffed on the three deal fixtures: only D001 changed.
+
+### What is left of the audit after chain 174's sessions 2269 to 2275
+
+By rulings or written decisions only: deals' stated deals with no row (6: two by ruling 2, one by a scope ruling, three by the prompt's rules), place (3: decisions of session 2269), status unsupported (1, D062), parties incomplete (2, a ruling); facilities' MW basis (1, the vocabulary), operator (2, the rule). Still open for code: a non-deal kept (1, D055, a one-party project), stated facilities with no row (2, F017 and F028), a non-facility kept (1, F052, a state only).
