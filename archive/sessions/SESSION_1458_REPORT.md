@@ -1,6 +1,6 @@
 # Session 1458 report: fault 7, a why line that names nothing the headline lacks
 
-Energy Research Warehouse (ERW), session 1458, chain 150 (`queue/done/150-day-6-november-code-periodicals-continued.md`, its first fault session: chain 149 left no unfinished step beyond its landing, which session 1457 finished), samueloldlaptop, 6 November 2026, about 04:30 to 05:10 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1458-periodicals`, cut from `origin/main` at `c4f6e3489` (every branch of chain 149 an ancestor of main).
+Energy Research Warehouse (ERW), session 1458, chain 150 (`queue/done/150-day-6-november-code-periodicals-continued.md`, its first fault session: chain 149 left no unfinished step beyond its landing, which session 1457 finished), samueloldlaptop, 6 November 2026, 04:23 to 04:30 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1458-periodicals`, cut from `origin/main` at `c4f6e3489` (every branch of chain 149 an ancestor of main).
 
 ## The fault
 

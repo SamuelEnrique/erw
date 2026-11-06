@@ -1,6 +1,6 @@
 # Session 1459 report: fault 16, the stored fun facts in the issue's style
 
-Energy Research Warehouse (ERW), session 1459, chain 150, samueloldlaptop, 6 November 2026, about 05:10 to 05:35 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written (the fact bank untouched); nothing sent or posted; no web request. Branch `wip/1459-periodicals`, cut from `wip/1458-periodicals`.
+Energy Research Warehouse (ERW), session 1459, chain 150, samueloldlaptop, 6 November 2026, 04:30 to 04:34 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written (the fact bank untouched); nothing sent or posted; no web request. Branch `wip/1459-periodicals`, cut from `wip/1458-periodicals`.
 
 ## The fault
 
