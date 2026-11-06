@@ -7,7 +7,7 @@ Energy Research Warehouse (ERW), session 1527, chain 163, samueloldlaptop, 6 Nov
 - **`docs/methods/battery_earns_algorithm.md`, "Sign-off"**: an empty block in the generator's form (session 463), placed before "Checks". Signing it accepts, as the tool's rules: the model of section 3 (each local day from empty, one full cycle at most, perfect foresight within the day, a price taker, reserves never called, the hub, the required durations); the assumptions of section 6 at their defaults; the 90 percent month; scenarios A and B as section 11.1 describes them; and the owner's rulings the note records (11, 12, 15 and 19 October 2026). It leaves open section 10's differences.
 - **`docs/state/roadmap_item2_state_2026-11-07.md`** says the battery's block exists and is empty.
 
-- **A fault this session made, found by session 1543's gate**: the block broke `tests/test_session178.py`, which pinned section 11 as the note's third-last section. Main failed that test from `16b834e71` until `23e222e32` (session 1543), which pins the new order: 11, Sign-off, Checks, Cross-checks. This session ran the tests that read the state document, but not those that read the battery note.
+- **A fault this session made, found by session 1543's gate**: the block broke `tests/test_session178.py`, which pinned section 11 as the note's third-last section. Main failed that test from `16b834e71` until `23e222e32` (session 1543), which pins the new order: 11, Sign-off, Checks, Cross-checks. This session ran no test; the tests that read the battery note would have shown it.
 
 ## Decisions made without you
 
