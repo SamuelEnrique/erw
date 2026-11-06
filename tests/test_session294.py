@@ -65,10 +65,14 @@ class ThePage(unittest.TestCase):
     def setUpClass(cls):
         cls.g = src("site", "app", "play", "ev", "EvGame.tsx")
 
-    def test_five_screens(self):
-        self.assertIn('const SCREENS = ["Where do you live?", "Your car", "The money", "The verdict", "Show your parents"];', self.g)
-        for s in range(5):
-            self.assertIn(f"step === {s} ", self.g)
+    def test_one_screen(self):
+        # sessions 3275 to 3278 (chain 198, the owner's ruling of 14 October 2026): the five screens became one, the
+        # inputs on the left and the results on the right, every default's source in a hover tip
+        self.assertNotIn("const SCREENS", self.g)
+        self.assertIn('lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]" data-ev-one-screen', self.g)
+        for a in ("data-ev-inputs", "data-ev-results", "data-ev-chart", "data-ev-cross", "<Tip id=", 'check={ck("payback")}', 'check={ck("npv")}'):
+            self.assertIn(a, self.g)
+        self.assertNotIn('<p className="max-w-3xl text-xs text-muted">', self.g)   # no visible grey note
 
     def test_the_credit_is_off_by_default_and_says_why(self):
         self.assertIn("const [creditOn, setCreditOn] = useState(false);", self.g)

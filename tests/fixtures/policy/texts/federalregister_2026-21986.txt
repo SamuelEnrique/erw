@@ -1,0 +1,138 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 207 (Wednesday, October 28, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 207 (Wednesday, October 28, 2026)]
+[Notices]
+[Pages 67831-67832]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-21986]
+
+
+-----------------------------------------------------------------------
+
+DEPARTMENT OF ENERGY
+
+Federal Energy Regulatory Commission
+
+[Docket No. CP26-550-000]
+
+
+MountainWest Overthrust Pipeline, LLC; Notice of Schedule for the 
+Preparation of an Environmental Assessment for the Green River West 
+Expansion Project
+
+    On July 1, 2026, MountainWest Overthrust Pipeline, LLC (Overthrust)
+
+[[Page 67832]]
+
+filed an application in Docket No. CP26-550-000 requesting a 
+Certificate of Public Convenience and Necessity pursuant to Section 
+7(c) of the Natural Gas Act to construct and operate certain natural 
+gas pipeline facilities. The proposed project is known as the Green 
+River West Expansion Project (Project), and it would allow the delivery 
+of up to 64,000 dekatherms per day of firm natural gas transportation 
+service from receipt points near Opal, Wyoming, to the new WE Soda 
+delivery meter station in Sweetwater County, Wyoming.
+    On July 15, 2026, the Federal Energy Regulatory Commission 
+(Commission or FERC) issued its Notice of Application for the Project. 
+Among other things, that notice alerted agencies issuing federal 
+authorizations of the requirement to complete all necessary reviews and 
+to reach a final decision on a request for a federal authorization 
+within 90 days of the date of issuance of the Commission staff's 
+environmental document for the Project.
+    This notice identifies Commission staff's intention to prepare an 
+environmental assessment (EA) for the Project and the planned schedule 
+for the completion of the environmental review.\1\
+---------------------------------------------------------------------------
+
+    \1\ For tracking purposes under the National Environmental 
+Policy Act, the unique identification number for documents relating 
+to this environmental review is EAXX-019-20-000-1789542496.
+---------------------------------------------------------------------------
+
+Schedule for Environmental Review
+
+Issuance of EA February 5, 2027
+90-day Federal Authorization Decision Deadline \2\ May 6, 2027
+---------------------------------------------------------------------------
+
+    \2\ The Commission's deadline applies to the decisions of other 
+federal agencies, and state agencies acting under federally 
+delegated authority, that are responsible for federal 
+authorizations, permits, and other approvals necessary for proposed 
+projects under the Natural Gas Act. Per 18 CFR 157.22(a), the 
+Commission's deadline for other agency's decisions applies unless a 
+schedule is otherwise established by federal law.
+
+    If a schedule change becomes necessary, additional notice will be 
+provided so that the relevant agencies are kept informed of the 
+Project's progress.
+
+Project Description
+
+    Overthrust proposes to construct, own, operate, and maintain the 
+following facilities in Sweetwater County, Wyoming: two new 12-inch-
+diameter delivery taps on Overthrust's existing ML116 and ML133 
+mainline pipelines; a 6.78-mile-long, 12-inch-diameter tap line 
+(JTL150), extending north from the new taps to WE Soda's Westvaco Trona 
+Processing Plant; and a new meter and regulator station (JTL150 Meter 
+Station) at the existing Westvaco Plant site. The Project would also 
+involve construction of new permanent access roads, use of existing 
+access roads, and use of temporary workspaces during construction.
+
+Background
+
+    On September 1, 2026, the Commission issued a Notice of Scoping 
+Period Requesting Comments on Environmental Issues for the Proposed 
+Green River West Expansion Project (Notice of Scoping). The Notice of 
+Scoping was sent to federal, state, and local government 
+representatives and agencies; elected officials; Native American 
+Tribes; environmental and public interest groups; other interested 
+parties; and local libraries and media outlets. In response to the 
+Notice of Scoping, the Commission received comments from the Wyoming 
+Department of Environmental Quality, Water Quality Division and the 
+U.S. Bureau of Land Management, Kemmerer Field Office. The primary 
+issues raised to date are the identification of surface waters of the 
+state in proximity to the Project, their designated uses, and 
+compliance with Wyoming water quality permitting requirements; and 
+effects on wildlife and special status species, vegetation and soils, 
+cultural, paleontological, and land resources on BLM-administered 
+public lands. A letter of support for the project was also filed by the 
+Sweetwater County Board of County Commissioners. All substantive 
+comments will be addressed in the EA.
+    The U.S. Bureau of Land Management, Kemmerer Field Office is a 
+cooperating agency in the preparation of the EA.
+
+Additional Information
+
+    In order to receive notification of the issuance of the EA and to 
+keep track of formal issuances and submittals in specific dockets, the 
+Commission offers a free service called eSubscription. This service 
+provides automatic notification of filings made to subscribed dockets, 
+document summaries, and direct links to the documents. Go to <a href="https://www.ferc.gov/ferc-online/overview">https://www.ferc.gov/ferc-online/overview</a> to register for eSubscription.
+    For public inquiries and assistance with making filings such as 
+interventions, comments, or requests for rehearing, contact the Office 
+of Public Participation at (202) 502-6595 or [email protected].
+    Additional information about the Project is available from the FERC 
+website (<a href="http://www.ferc.gov">www.ferc.gov</a>). Using the ``eLibrary'' link, select ``General 
+Search'' from the eLibrary menu, enter the selected date range and 
+``Docket Number'' excluding the last three digits (i.e., CP26-550), and 
+follow the instructions. For assistance with access to eLibrary, the 
+helpline can be reached at (866) 208-3676, TTY (202) 502-8659, or at 
+[email protected]. The eLibrary link on the FERC website also 
+provides access to the texts of formal documents issued by the 
+Commission, such as orders, notices, and rule makings.
+
+(Authority: 18 CFR 2.1)
+
+    Dated: October 23, 2026.
+Debbie-Anne A. Reese,
+Secretary.
+[FR Doc. 2026-21986 Filed 10-27-26; 8:45 am]
+BILLING CODE 6717-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

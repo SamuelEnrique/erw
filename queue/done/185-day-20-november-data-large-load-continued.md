@@ -40,7 +40,19 @@ Long end 1:30. Pulls: GitHub only.
 
 Long end 2:30 each. Pulls: as the step of chain 181 says. Written by session 3173 of chain 181, in chain 181's order:
 
-- **Session 3206: the first daily runs with the guards** (chains 168 to 181). This machine's run from 17:00 UTC on 6 November (`runs/data_machine_status.txt`, the `dm_` rows of `erw_health`; `dm_test_findings` expected to pass), and the runner's run from 14:00 UTC on 7 November. That is the first runner run with chain 151's board guard, since 6 November's was gated (chain 177's session 3109). Read its `board_tests` and `package tests` lines; the latter should pass after sessions 2884 and 3161. Each failed step opened, a fault of this repository's code fixed with its test. If a run has not happened when this session starts, say so, take the next row and come back to it.
+- **Session 3206, first: the data machine's page files, before its next run at 17:00 UTC** (chain 184's session 3202). This machine's run of 6 November committed page files (`e475f7069`) that broke 7 tests on main, all passing on the commit before:
+  - `test_session190_replication`: the GPU hour's hub figure, 32.7887 against 32.7901;
+  - `test_session1491`: four carbon and hours figures outside their tolerance;
+  - `test_session538`;
+  - `test_session720`: "the files differ from the tab's figures: siting_gigawatt, siting_flexible".
+  Chain 184 put those files back to their earlier build (`a96634458`). Find why the run's steps wrote files that disagree, and fix the cause in the builders or in `warehouse/run_data_machine.sh`. Session 3202's guesses, not checked:
+  - the findings code landed at 16:32 UTC (`e9cefb7ab`) recomputed the siting cards while the siting tab's figures were not rebuilt;
+  - the datacenter exports were rebuilt on newer hub rows than the page file they are checked against.
+  Also:
+  - Put tests 190, 1491, 538 and 720 in the run's test groups, so that a build that breaks them is put back, not committed.
+  - The board group's put-back restores tracked files but left the failed build's new `site/public/board/s/` files to be committed. Make it remove them too.
+  Each with its test, on a branch, gated and landed before 17:00 UTC when the window allows.
+- **Session 3206, then: the first daily runs with the guards** (chains 168 to 181). This machine's run from 17:00 UTC on 6 November (`runs/data_machine_status.txt`, the `dm_` rows of `erw_health`; `dm_test_findings` expected to pass), and the runner's run from 14:00 UTC on 7 November. That is the first runner run with chain 151's board guard, since 6 November's was gated (chain 177's session 3109). Read its `board_tests` and `package tests` lines; the latter should pass after sessions 2884 and 3161. Each failed step opened, a fault of this repository's code fixed with its test. If a run has not happened when this session starts, say so, take the next row and come back to it.
 - **Session 3207: the owner's rulings, if any are written** (chains 153 to 184's notes, among them ERCOT `/misapp` in the daily run, the deals backfill, the four old wip branches, the pace of the chains): carried out where written in `docs/` or a queue file; with none, say so and take the next row below.
 
 ## Session 3208: ERCOT's four coincident peaks of summer 2026, again
