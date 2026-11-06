@@ -283,7 +283,7 @@ def stated_words(d, text):
     span = d.get("country_text") or ""
     if country:
         c = norm(country)
-        names = US_NAMES if c in US_NAMES else {c}
+        names = (US_NAMES if c in US_NAMES else {c}) | fields.country_names(country)   # session 2257: or its adjective
         sp = norm(span)
         if not span or sp not in text:
             why.append(f"country {country}: span {span!r} not in the story")
@@ -477,6 +477,10 @@ def main(argv=None):
                             dropped.append(f"{cid}: {why}")
                     st_state, st_country, st_status, why_words = stated_words(d, text)
                     dropped.extend(f"{cid}: {w}" for w in why_words)
+                    if not st_country:   # session 2257: the country the headline names before the asset, when one
+                        st_country, c_span = fields.country_of(" ".join(g["title"]) + " " + " ".join(g["summary"]))
+                        if st_country:
+                            log(f"  {cid}: country {st_country} from the words {c_span!r}")
                     ev = d.get("evidence") or ""
                     if norm(ev) not in text:
                         dropped.append(f"{cid}: evidence not verbatim in the story, not kept: {ev[:100]!r}")

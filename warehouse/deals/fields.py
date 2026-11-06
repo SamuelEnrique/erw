@@ -176,6 +176,70 @@ def grid_of(text):
     return "", ""
 
 
+# Session 2257 (chain 159): a country as the story's words name it, by its name or its adjective. The second read
+# found 12 of 106 deals with a place missed: two where the model gave "Indonesia" for the span "Indonesian", which the
+# check refused (the span must name the country), and ten where the model left the country empty though the headline
+# names it before the asset ("US Shale", "US power deal", "Venezuela's energy infrastructure").
+COUNTRIES = {
+    "United States": ["United States", "U.S.", "US", "USA", "America", "American"],
+    "Canada": ["Canada", "Canadian"], "Mexico": ["Mexico", "Mexican"], "Brazil": ["Brazil", "Brazilian"],
+    "Argentina": ["Argentina", "Argentine", "Argentinian"], "Chile": ["Chile", "Chilean"],
+    "Colombia": ["Colombia", "Colombian"], "Venezuela": ["Venezuela", "Venezuelan"], "Guyana": ["Guyana", "Guyanese"],
+    "United Kingdom": ["United Kingdom", "UK", "U.K.", "Britain", "British"], "Ireland": ["Ireland", "Irish"],
+    "Norway": ["Norway", "Norwegian"], "Germany": ["Germany", "German"], "France": ["France", "French"],
+    "Spain": ["Spain", "Spanish"], "Italy": ["Italy", "Italian"], "Netherlands": ["Netherlands", "Dutch"],
+    "Poland": ["Poland", "Polish"], "Romania": ["Romania", "Romanian"], "Turkey": ["Turkey", "Turkish"],
+    "Israel": ["Israel", "Israeli"], "Saudi Arabia": ["Saudi Arabia", "Saudi"], "Qatar": ["Qatar", "Qatari"],
+    "United Arab Emirates": ["United Arab Emirates", "UAE", "Emirati"], "Egypt": ["Egypt", "Egyptian"],
+    "Nigeria": ["Nigeria", "Nigerian"], "Mozambique": ["Mozambique", "Mozambican"], "South Africa": ["South Africa", "South African"],
+    "India": ["India", "Indian"], "China": ["China", "Chinese"], "Japan": ["Japan", "Japanese"],
+    "South Korea": ["South Korea", "Korea", "Korean"], "Taiwan": ["Taiwan", "Taiwanese"],
+    "Vietnam": ["Vietnam", "Vietnamese"], "Indonesia": ["Indonesia", "Indonesian"], "Malaysia": ["Malaysia", "Malaysian"],
+    "Philippines": ["Philippines", "Philippine"], "Australia": ["Australia", "Australian"],
+    "New Zealand": ["New Zealand"], "Kazakhstan": ["Kazakhstan", "Kazakh"],
+}
+# the words that make a country word the asset's: what is bought, built or sold there
+ASSET_WORDS = (r"(?:shale|power|nuclear|gas|oil|lng|utility|utilities|solar|wind|grid|pipelines?|electrical|electricity|"
+               r"energy|fleet|plants?|projects?|assets?|offshore|onshore|blocks?|refiner(?:y|ies)|reactors?|storage|"
+               r"batter(?:y|ies)|transmission|upstream|midstream|coal|hydro|geothermal|hydrogen|data ?cent(?:er|re)s?)")
+
+
+def country_names(country):
+    """The lower-case words that name a country (its name and adjectives), for the span check."""
+    c0 = " ".join(str(country).split()).lower()
+    for c, words in COUNTRIES.items():
+        if c.lower() == c0 or any(w.lower() == c0 for w in words):
+            return {w.lower() for w in words} | {c.lower()}
+    return {c0}
+
+
+def country_of(raw):
+    """(country, span) where the story's own words name one country just before an asset word ("US shale",
+    "Venezuela's energy infrastructure", "Indonesian offshore blocks"); ("", "") when none or more than one. Read on
+    the text as written (not lower-cased), so the pronoun "us" is never the United States; a country named only as a
+    party's home ("Japan's Jera") is not the asset's and is not taken. The United States by any of its words; another
+    country only by its name ("Venezuela's energy", "Venezuela gas infrastructure"), since its adjective often
+    describes a party ("the Italian oil and gas group" is Eni, not where its renewables arm's assets are); the model's
+    own "Indonesian" is kept by the span check instead (country_names). Where the United States and one other country
+    are both found, the other is taken: "US energy services firm Baker Hughes ... Venezuela's natural gas" describes
+    the party by the one and the asset by the other."""
+    raw = " ".join(str(raw or "").replace("’", "'").split())
+    found = {}
+    for c, words in COUNTRIES.items():
+        forms = [(w, r"(?:'s)?") for w in words] if c == "United States" else [(words[0], r"(?:'s)?")]
+        for w, poss in sorted(forms, key=lambda f: len(f[0]), reverse=True):
+            pat = r"(?<![A-Za-z.])" + re.escape(w) + poss + r"\s+(?i:" + ASSET_WORDS + r")(?![A-Za-z])"
+            m = re.search(pat, raw)
+            if m:
+                found.setdefault(c, m.group(0))
+                break
+    if len(found) == 2 and "United States" in found:
+        found.pop("United States")
+    if len(found) == 1:
+        return next(iter(found.items()))
+    return "", ""
+
+
 def ai_of(d, text):
     """(ai_power, basis) by the rule: a named AI party, or a datacenter load in the story's words."""
     names = [d.get("buyer"), d.get("seller")] + list(d.get("other_parties") or [])

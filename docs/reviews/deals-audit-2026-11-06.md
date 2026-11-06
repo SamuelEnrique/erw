@@ -428,3 +428,13 @@ The recorded answers of session 2249 (`tests/fixtures/deals/recorded_2249.json`)
 | D092 | Crescent Sells Non-Op D-J Assets Ahead of Closing Vital Deal | one party named | a row, Crescent the seller, no buyer |
 
 So the ruling asked (chain 156's ruling 2) is about D031 and D092 only; D084 asks another (whether a sale of an asset that is not an energy asset by an energy company is a deal); D022 is a plan by the prompt's own rule; D061 and D071 stay out under either answer. The switch is the one change: its default is the answer. The row "New" above: the six read again, open for the ruling.
+
+## Session 2257 (chain 159): deals' place missed (12)
+
+The twelve, read in the 2249 recording and its log: two (D017, D029) were answered "Indonesia" by the model and refused by the code's span check, the span being the adjective ("Indonesian"); ten were left empty by the model though the headline names the country before the asset. The fix is code, no model call: the span check takes a country's adjective (`fields.country_names`), and an empty country is read from the words (`fields.country_of`; the rule in `docs/methods/energy_deals.md`, "A deal's country from the words"). Replayed on the same answers:
+
+| | Before | After |
+|---|---|---|
+| Place missed (of 106) | 12 | **3** |
+
+The three left: D024 ("Ohio, Pennsylvania") and D058 ("Texas, Louisiana") name two states for the one `state` field, so the state stays empty (the country is now the United States for both); D087 names Japan as the buyer's home ("Japan's Jera"), not the asset's country, which the rule leaves empty. Two rows outside the twelve gained a country by the same words (D010 "US utility American Electric Power", for a project in Indiana; D033 "US LNG terminal developer"); each read and right. A first form of the rule took any country's adjective and gave D028 "Italy" from "the Italian oil and gas group" (Eni, the party): narrowed before commit.
