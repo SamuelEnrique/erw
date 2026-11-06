@@ -1,6 +1,6 @@
 # Session 3109 report: the first daily runs with the guards
 
-6 November 2026, about 14:01 to 14:12 UTC, on lab-desktop (the data machine, its first window), chain 177, unattended. Model spend USD 0. Pulls: GitHub's API (about 30 requests); Supabase reads of `erw_health` over `SUPABASE_DB_URL`.
+6 November 2026, about 14:01 to 14:04 UTC, on lab-desktop (the data machine, its first window), chain 177, unattended. Model spend USD 0. Pulls: GitHub's API (about 30 requests); Supabase reads of `erw_health` over `SUPABASE_DB_URL`.
 
 ## Read these first
 

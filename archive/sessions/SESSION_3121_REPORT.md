@@ -1,10 +1,10 @@
 # Session 3121 report: the next file, the landing, the queue
 
-6 November 2026, about 14:14 to 14:20 UTC, on lab-desktop (the data machine, its first window), chain 177, unattended. Model spend USD 0. Pulls: GitHub only.
+6 November 2026, about 14:04 to 14:08 UTC, on lab-desktop (the data machine, its first window), chain 177, unattended. Model spend USD 0. Pulls: GitHub only.
 
 ## Read these first
 
-- **Chains 181 and 180 updated** in one commit from the detached queue worktree, pushed alone, with snapshots before and after (the commit and the comparison are in chain 180's first report).
+- **Chains 181 and 180 updated** in one commit from the detached queue worktree, pushed alone (`c4b75b1d4`, 14:05 UTC, a queue file only). Snapshots `s3121-before` and `s3121-after`: 0 differences.
   - 181's session 3160 lands this branch if chain 180 did not.
   - 181's session 3161 fixes the four old derived tables' publishers.
   - 181's session 3162 reads 7 November's runs and the rulings.
