@@ -70,6 +70,9 @@ cftc_cot_positions,cftc,nymex,9,P1W,2015-01-06T00:00:00Z,2026-10-20T00:00:00Z,98
 cisos_cook_electricity_quarterly,cisos,,12,P3M,2014-01-01T00:00:00Z,2025-10-01T00:00:00Z,1049,cisos_ck:energy_statistics_tables_2025q4,2026-10-25T05:01:09Z,pass,internal,power,no,source
 clean_energy_hourly,clean,,7,PT1H,2019-01-01T05:00:00Z,2026-11-02T05:00:00Z,476129,erw:clean_energy,2026-11-02T17:47:17Z,pass,public,power;carbon,yes,derived
 clean_energy_summary,clean,,7,P1M;P1Y,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,27834,erw:clean_energy,2026-11-02T17:47:17Z,pass,public,power;carbon,yes,derived
+company_aliases,company,,25877,snapshot,2026-11-06T19:32:07Z,2026-11-06T19:32:07Z,25877,erw:companies,2026-11-06T19:32:07Z,pass,public,power;deals,no,source
+company_directory,company,,13964,snapshot,2026-11-06T19:32:07Z,2026-11-06T19:32:07Z,13964,erw:companies,2026-11-06T19:32:07Z,pass,public,power;deals,no,source
+company_links,company,,96964,snapshot,2026-11-06T19:32:07Z,2026-11-06T19:32:07Z,96964,erw:companies,2026-11-06T19:32:07Z,pass,public,power;deals,no,source
 cosit_iraq_electricity_annual,cosit,,14,P1Y,2021-01-01T00:00:00Z,2024-01-01T00:00:00Z,56,cosit_iq:electricity_projects_2024_tables_1_3,2026-10-25T10:20:43Z,pass,internal,power,no,source
 cost_of_power_carbon,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,7,P1M,2018-07-01T00:00:00Z,2026-10-01T00:00:00Z,712,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power;carbon,yes,derived
 cost_of_power_hourly_profile,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,7,P1M,2025-10-01T00:00:00Z,2026-10-01T00:00:00Z,4368,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power,yes,derived
