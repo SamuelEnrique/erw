@@ -16,7 +16,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
 import { GroupFold, NumberTile, NumberTileGrid } from "@/components/tool/ToolPage";
 import {
-  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, fmt, gridExtremes, heldLines, heldNote, inputsWords, leadRow, noMove, pct, rangeExtremes, rowsOf, shortDate, signed, sparkOf, topRows,
+  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, fmt, gridExtremes, heldLines, heldNote, inputsWords, leadRow, nameTitle, noMove, pct, rangeExtremes, rowsOf, shortDate, signed, sparkOf, topRows,
   type Bench, type BoardFile, type Group, type Row, type WeekRow,
 } from "@/lib/board";
 
@@ -132,7 +132,7 @@ function MoveCell({ row, k }: { row: Row; k: "d" | "w" | "m" | "y" }) {
 // its series is in the workbench; a click anywhere on the row still opens it (the button's click reaches the row).
 function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row; group: Group; open: boolean; onOpen: (id: string) => void; file: BoardFile; hidden?: boolean; domId?: string }) {
   const words = (
-    <span className={row.status === "ok" ? "text-ink" : "text-muted"} title={[row.code ? `Code: ${row.code}` : "", row.formula ? `Formula: ${row.formula}` : "", row.source !== undefined ? `Source: ${file.sources[row.source]}` : ""].filter(Boolean).join("\n") || undefined}>
+    <span className={row.status === "ok" ? "text-ink" : "text-muted"} title={nameTitle(row, file.sources)}>
       {row.label}{row.formula ? <sup className="ml-0.5 text-xs text-muted">f</sup> : null}
     </span>
   );
@@ -140,6 +140,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
     <th scope="row" className="whitespace-nowrap py-1 pl-2 pr-3 text-left font-normal">
       {row.status === "ok" ? <button type="button" aria-pressed={open} data-row-open={row.id} className="text-left">{words}</button> : words}
       {row.at ? <span className="ml-1.5 text-xs text-muted">{row.at}</span> : null}
+      {row.link ? <span className="ml-1.5 text-xs" onClick={(e) => e.stopPropagation()} data-row-link={row.id}><SiteLink href={row.link.href}>{row.link.words}</SiteLink></span> : null}
     </th>
   );
   const cols = 11 + (group.curve ? 1 : 0);

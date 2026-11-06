@@ -19,7 +19,16 @@ export type Row = {
   spark?: { t0: string; d: number[]; v: number[] };
   /** session 1118: what a spread's newest value was made of (the builder's spark_inputs, dark_inputs, crack_inputs) */
   inputs?: { t: string; hub?: number; gas?: number; gas_t?: string; coal?: number; coal_t?: string; heat_rate?: number; gasoline?: number; diesel?: number; crude?: number };
+  /** session 1601: the row's time base and granularity in words (the builder's basis_of), in the name's hover */
+  basis?: string;
+  /** session 1601: a page that draws what the row summarizes (the node basis rows: the node view) */
+  link?: { href: string; words: string };
 };
+/** Session 1601: the hover of a row's name: its code, formula, interval and source, one a line. Pure. */
+export function nameTitle(row: Pick<Row, "code" | "formula" | "basis" | "source">, sources: string[]): string | undefined {
+  return [row.code ? `Code: ${row.code}` : "", row.formula ? `Formula: ${row.formula}` : "", row.basis ? `Interval: ${row.basis}` : "",
+    row.source !== undefined ? `Source: ${sources[row.source]}` : ""].filter(Boolean).join("\n") || undefined;
+}
 export type Filter = { key: string; label: string; options: [string, string][]; default: string };
 export type Group = { id: string; title: string; filters: Filter[]; curve?: boolean; extra?: string };
 export type WeekRow = {

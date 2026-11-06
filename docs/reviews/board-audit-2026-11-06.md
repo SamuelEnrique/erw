@@ -87,12 +87,12 @@ State: **open** until a session closes it; each closing session writes its numbe
 
 | # | Gap | Group | Session | State |
 |---:|---|---|---|---|
-| 1 | ERCOT's load zones: 8 day-ahead, 4 real time (`ercot_zone_prices_history`), with on-peak, off-peak, battery spread and day-ahead less real time as the hubs have | power | 1601 | open |
-| 2 | The real-time row's interval is not stated: "real time" says nothing of ERCOT's 15-minute, CAISO's 15-minute mean of 5-minute or SPP's 5-minute prices, nor that the row is a daily mean of complete hours | power, peak, da_rt, battery | 1601 | open |
+| 1 | ERCOT's load zones: 8 day-ahead, 4 real time (`ercot_zone_prices_history`), with on-peak, off-peak, battery spread and day-ahead less real time as the hubs have | power | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
+| 2 | The real-time row's interval is not stated: "real time" says nothing of ERCOT's 15-minute, CAISO's 15-minute mean of 5-minute or SPP's 5-minute prices, nor that the row is a daily mean of complete hours | power, peak, da_rt, battery | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
 | 3 | No hub-to-hub spread: ERCOT North less Houston, West less North, South less Houston; CAISO NP15 less SP15; SPP North less South; across grids where both are public (ERCOT hub average less SPP North, CAISO SP15 less ERCOT hub average). Asked in `docs/reviews/trader-path.md`, step 15 | spreads | 1606 | open |
-| 4 | ERCOT's node basis: no row summarizes it (`node_basis_summary`, `ercot_storage_node_basis`); the node view is `/cost-of-power` | power | 1601 | open |
-| 5 | Capacity prices: one placeholder for four operators; none of `iso_all_capacity_prices`' rows is public (the table is internal), so a placeholder for each operator with its auction and publisher | other | 1601 | open |
-| 6 | ERCOT's real-time price adders (`ercot_rtm_price_adders`, public): no row; three of the four end on 5 December 2025 in this machine's copy, so their rows must say when they stop | power | 1601 | open |
+| 4 | ERCOT's node basis: no row summarizes it (`node_basis_summary`, `ercot_storage_node_basis`); the node view is `/cost-of-power` | power | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
+| 5 | Capacity prices: one placeholder for four operators; none of `iso_all_capacity_prices`' rows is public (the table is internal), so a placeholder for each operator with its auction and publisher | other | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
+| 6 | ERCOT's real-time price adders (`ercot_rtm_price_adders`, public): no row; three of the four end on 5 December 2025 in this machine's copy, so their rows must say when they stop | power | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
 | 7 | ERCOT's 4CP: the year's four peaks are held (`ercot_4cp_intervals`) and drawn nowhere on the board; the Texas delivery charges (`texas_delivery_charges`) are internal | cost group | 1604 | open |
 | 8 | Gas in storage, weekly (`eia_gas_storage_weekly`): no row; the week's position is what a gas trader reads first | gas | 1602 | open |
 | 9 | LNG: the export price by terminal and the export volumes (`eia_lng_exports_monthly`, `eia_gas_trade_monthly`) are not drawn; LNG feedgas by the day is not held | gas | 1602 | open |
@@ -112,7 +112,7 @@ State: **open** until a session closes it; each closing session writes its numbe
 | 23 | The trend line: the last 30 points; the chain asks for the last ninety days (or the step's equivalent) | all | 1609 | open |
 | 24 | CFTC positions: not a price; not drawn | | | out of scope: for a ruling |
 | 25 | EIA's STEO price forecasts: not a market price; not drawn | | | out of scope: for a ruling |
-| 26 | `iso_zone_prices_history` is not read by the builder: its CAISO ZP26 and SPP South day-ahead reach back further than the rolling tables (ZP26 and SPP South have no one-year range on the board) | power | 1601 | open |
+| 26 | `iso_zone_prices_history` is not read by the builder: its CAISO ZP26 and SPP South day-ahead reach back further than the rolling tables (ZP26 and SPP South have no one-year range on the board) | power | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
 | 27 | The spark spread uses Henry Hub for every grid; no regional gas price is held to replace it (licensed); the heat rate is stated, its source is not | spark | 1606 | open |
 | 28 | The ERCOT 4CP exposure: needs the year's peaks and a load shape; the peaks are held (gap 7) | spark | 1606 | open |
 | 29 | The LNG netback: needs a destination price and shipping and regasification costs; only the World Bank's monthly Japan LNG and Europe gas are held, no freight | oilspreads | 1607 | open |

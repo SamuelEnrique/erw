@@ -60,11 +60,19 @@ SPARK_POINTS = 30
 ISO = {"ercot": ("ERCOT", "America/Chicago"), "caiso": ("CAISO", "America/Los_Angeles"), "nyiso": ("NYISO", "America/New_York"),
        "isone": ("ISO-NE", "America/New_York"), "spp": ("SPP", "America/Chicago")}
 MAIN = {"ercot": "HB_HUBAVG", "caiso": "TH_SP15_GEN-APND", "nyiso": "N.Y.C.", "isone": ".H.INTERNAL_HUB", "spp": "SPPNORTH_HUB"}
-# the price tables, oldest reading first: a later table's hour replaces an earlier one's for the same hub and market
-PRICE_TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history", "isone_rtm_zone_prices", "isone_rtm_zone_prices_hourly",
+# the price tables, oldest reading first: a later table's hour replaces an earlier one's for the same hub and market.
+# Session 1601 (chain 165): ERCOT's load zones (ercot_zone_prices_history, public: 8 zones day-ahead, 4 in real time) and
+# the zone history (iso_zone_prices_history: CAISO ZP26 and SPP South from before the rolling tables began), first, so
+# every later table's hour of the same zone replaces theirs. A table not on the machine is skipped, as before.
+PRICE_TABLES = ["ercot_zone_prices_history", "iso_zone_prices_history",
+                "ercot_all_hub_prices_history", "iso_hub_prices_history", "isone_rtm_zone_prices", "isone_rtm_zone_prices_hourly",
                 "nyiso_dam_zone_prices", "nyiso_rtm_zone_prices", "isone_dam_zone_prices", "iso_dam_hub_prices", "iso_rtm_hub_prices"]
 PRICE_VARIABLES = {"lmp_dam", "spp_dam", "lmp_rtm", "spp_rtm", "lmp_rtm_15m_mean"}
 PER_HOUR = {"PT1H": 1, "PT15M": 4, "PT5M": 12}
+# Session 1601: the interval each hub's hours are made of, {(entity, kind): (freq, variable)}, as the newest table read
+# holds it (to_hourly fills it); a row's "basis" says it in words (basis_of)
+INTERVALS = {}
+MINUTES = {"PT15M": 15, "PT5M": 5}
 HUB_WORDS = {
     "HB_HUBAVG": "Hub average", "HB_BUSAVG": "Bus average", "HB_NORTH": "North hub", "HB_SOUTH": "South hub", "HB_WEST": "West hub", "HB_HOUSTON": "Houston hub",
     "TH_NP15_GEN-APND": "Northern California (NP15)", "TH_SP15_GEN-APND": "Southern California (SP15)", "TH_ZP26_GEN-APND": "Central California (ZP26)",
@@ -73,6 +81,9 @@ HUB_WORDS = {
     ".H.INTERNAL_HUB": "Internal hub", ".Z.MAINE": "Maine", ".Z.NEWHAMPSHIRE": "New Hampshire", ".Z.VERMONT": "Vermont", ".Z.CONNECTICUT": "Connecticut",
     ".Z.RHODEISLAND": "Rhode Island", ".Z.SEMASS": "Southeast Massachusetts", ".Z.WCMASS": "Western and Central Massachusetts", ".Z.NEMASSBOST": "Northeast Massachusetts and Boston",
     "SPPNORTH_HUB": "North hub", "SPPSOUTH_HUB": "South hub",
+    # session 1601: ERCOT's load zones, as ERCOT names them in its settlement point list
+    "LZ_AEN": "Austin Energy load zone", "LZ_CPS": "CPS Energy load zone", "LZ_HOUSTON": "Houston load zone", "LZ_LCRA": "LCRA load zone",
+    "LZ_NORTH": "North load zone", "LZ_RAYBN": "Rayburn load zone", "LZ_SOUTH": "South load zone", "LZ_WEST": "West load zone",
 }
 # listed, never read: MISO is paused, PJM needs a license the ERW does not hold
 MISO_HUBS = [("INDIANA.HUB", "Indiana hub"), ("ARKANSAS.HUB", "Arkansas hub"), ("ILLINOIS.HUB", "Illinois hub"), ("LOUISIANA.HUB", "Louisiana hub"),
@@ -82,6 +93,25 @@ PAUSED = "paused while terms are reviewed"
 LICENSED = "licensed source needed"
 MISO_NOTE = "MISO's terms forbid automated access to its site, so the ERW stopped asking for its prices on 4 October 2026 until a person has reviewed the terms. No MISO value is shown."
 PJM_NOTE = "PJM publishes its prices under a license and an account the ERW does not hold. Source that would supply them: PJM Data Miner, under PJM's data license."
+# Session 1601 (chain 165): the sources of the rows this session adds
+ZONE_SOURCE = "ERCOT, settlement point prices at the load zones, day-ahead and real time (ercot_zone_prices_history)"
+NODE_SOURCE = "ERW, ERCOT's nodes against the hub average by month, from ERCOT's day-ahead settlement point prices (node_basis_summary; docs/methods/node_basis.md)"
+ADDER_SOURCE = "ERCOT, Historical Real-Time ORDC and Reliability Deployment Price Adders, report NP6-792-ER (ercot_rtm_price_adders)"
+NODE_CLASSES = [("all", "every point"), ("gas", "gas plants' points"), ("solar", "solar plants' points"), ("wind", "wind plants' points"), ("storage", "storage points")]
+ADDERS = [("rtrdpa", "Reliability deployment price adder (RTRDPA)"), ("rtorpa", "On-line reserve price adder (RTORPA, the ORDC adder)"),
+          ("rtoffpa", "Off-line reserve price adder (RTOFFPA)"), ("rtordpa", "On-line reliability deployment price adder (RTORDPA)")]
+ENDED_DAYS = 90   # days: a series whose newest hour is this much older than its table's newest is ended, and drawn as no row
+# Session 1601: the capacity auctions, one placeholder each, the publisher and the hold named (iso_all_capacity_prices
+# and pjm_rpm_capacity_prices are internal). PJM's keeps the id of the one row it replaces, so page_keep.py keeps no twin.
+CAPACITY = [
+    ("capacity", "PJM capacity price, Base Residual Auction", "PJM", "licensed", "USD/MW-day",
+     "PJM's auction results are held internal (iso_all_capacity_prices, pjm_rpm_capacity_prices) while PJM's terms are reviewed. Source that would supply them openly: PJM, under its data license."),
+    ("capacity|nyiso", "NYISO capacity price, ICAP spot auction", "NYISO", "licensed", "USD/kW-month",
+     "NYISO's ICAP spot auction results are held internal (iso_all_capacity_prices) while NYISO's terms are reviewed. Source that would supply them openly: NYISO, under its terms."),
+    ("capacity|isone", "ISO-NE capacity price, Forward Capacity Auction", "ISO-NE", "licensed", "USD/kW-month",
+     "ISO-NE's auction results are held internal (iso_all_capacity_prices) while ISO-NE's terms are reviewed. Source that would supply them openly: ISO-NE, under its terms."),
+    ("capacity|miso", "MISO capacity price, Planning Resource Auction", "MISO", "paused", "USD/MW-day", MISO_NOTE),
+]
 AS_WORDS = {
     "ercot": {"REGUP": "Regulation up", "REGDN": "Regulation down", "RRS": "Responsive reserve", "NSPIN": "Non-spinning reserve", "ECRS": "Contingency reserve (ECRS)"},
     "caiso": {"as_price_dam_ru": "Regulation up", "as_price_dam_rd": "Regulation down", "as_price_dam_sr": "Spinning reserve", "as_price_dam_nr": "Non-spinning reserve"},
@@ -171,13 +201,40 @@ def series_file(row, series):
 def to_hourly(df):
     """One table's price rows as hourly values: a Series indexed by (entity, kind, hour), kind da or rt. An hour of a
     sub-hourly market is the mean of its intervals when every one of them is held; MISO's rows are dropped unread."""
-    df = df[df["variable"].isin(PRICE_VARIABLES) & ~df["entity"].str.startswith("miso:") & df["value"].notna()]
+    df = df[df["variable"].isin(PRICE_VARIABLES) & ~df["entity"].str.startswith("miso:") & df["value"].notna()].reset_index(drop=True)
     if df.empty:
         return pd.Series(dtype=float)
     kind = np.where(df["market"].str.endswith("_dam"), "da", "rt")
+    # session 1601: the interval of each hub's newest row in this table, for the row's basis (a later table's replaces it)
+    newest = df.assign(kind=kind).groupby(["entity", "kind"])["ts"].idxmax()
+    for (entity, k), i in newest.items():
+        INTERVALS[(entity, k)] = (df.at[i, "freq"], df.at[i, "variable"])
     g = (df.assign(kind=kind, hour=df["ts"].dt.floor("h"), per=df["freq"].map(PER_HOUR))
          .groupby(["entity", "kind", "hour"]).agg(v=("value", "mean"), n=("value", "size"), per=("per", "first")))
     return g.loc[g["n"] == g["per"], "v"]
+
+
+def hour_words(entity, kind):
+    """Session 1601: what one hour of a hub's row is, in words, from the interval its newest table holds."""
+    freq, variable = INTERVALS.get((entity, kind), ("PT1H", ""))
+    if kind == "da":
+        return "the hour's day-ahead price"
+    if freq == "PT1H":
+        return "the hour's real-time price as the grid operator publishes it by the hour"
+    n, m = PER_HOUR.get(freq, 1), MINUTES.get(freq, 60)
+    if variable == "lmp_rtm_15m_mean":
+        return f"the mean of the hour's {n} {m}-minute real-time prices, each the mean of the 5-minute prices within it"
+    return f"the mean of the hour's {n} {m}-minute real-time prices, every one of them held"
+
+
+def basis_of(entity, kind, what="mean"):
+    """Session 1601 (the chain's rule: a series' time base and granularity are stated): a power row's basis in words,
+    from its own table's interval. what: mean (a daily mean), range (the battery spread), peak or offpeak."""
+    day = "the complete local operating day's hours (24; 23 or 25 on the daylight saving days; a day short of an hour is not a day)"
+    lead = {"mean": f"A daily mean of {day}", "range": f"The highest less the lowest of {day}",
+            "peak": "A daily mean of the on-peak hours (ending 7 to 22 local, Monday to Friday, in CAISO Monday to Saturday; NERC holidays off-peak) of a complete local operating day",
+            "offpeak": "A daily mean of the off-peak hours of a complete local operating day"}[what]
+    return f"{lead}, each hour {hour_words(entity, kind)}."
 
 
 def hourly_store(log, tables=PRICE_TABLES):
@@ -382,7 +439,8 @@ def build_power(b, store, holidays, log):
         daily[(entity, kind)] = daily_of(h, ISO[iso][1], iso, holidays)
     held = ls.held_grids()  # session 207: from 20 October 2026, a grid whose terms ask for permission is shown as PJM is
     for iso, (grid, tz) in ISO.items():
-        nodes = sorted({e.split(":", 1)[1] for (e, k) in daily if e.startswith(iso + ":")}, key=lambda n: (n != MAIN[iso], HUB_WORDS.get(n, n)))
+        # the main hub first, then the hubs, then (session 1601) ERCOT's load zones, each set by its words
+        nodes = sorted({e.split(":", 1)[1] for (e, k) in daily if e.startswith(iso + ":")}, key=lambda n: (n != MAIN[iso], n.startswith("LZ_"), HUB_WORDS.get(n, n)))
         if grid in held:
             for node in nodes or [MAIN[iso]]:
                 for kind, name in (("da", "day-ahead"), ("rt", "real time")):
@@ -399,21 +457,25 @@ def build_power(b, store, holidays, log):
             for kind, name in (("da", "day-ahead"), ("rt", "real time")):
                 d = daily.get((entity, kind))
                 tags = dict(grid=grid, market=kind, scope=scope)
-                src = "the grid operator's published prices (iso_hub_prices_history, ercot_all_hub_prices_history and the rolling hub and zone tables)"
-                b.add("power", f"{entity}|{kind}", f"{grid} {words}", "USD/MWh", "D", col(d, "mean") if d is not None else {}, at=name, code=node, tags=tags, source=src, hourly=hid)
+                src = ZONE_SOURCE if node.startswith("LZ_") else "the grid operator's published prices (iso_hub_prices_history, ercot_all_hub_prices_history and the rolling hub and zone tables)"
+                b.add("power", f"{entity}|{kind}", f"{grid} {words}", "USD/MWh", "D", col(d, "mean") if d is not None else {}, at=name, code=node, tags=tags, source=src, hourly=hid,
+                      extra=dict(basis=basis_of(entity, kind)))
                 if d is not None:
                     b.add("battery", f"{entity}|{kind}|battery", f"{grid} {words}", "USD/MWh", "D", {x: float(r["max"] - r["min"]) for x, r in d.iterrows()},
-                          at=name, code=node, tags=tags, formula=FORMULAS["battery"], source=src, extra=dict(hub=hid))
+                          at=name, code=node, tags=tags, formula=FORMULAS["battery"], source=src, extra=dict(hub=hid, basis=basis_of(entity, kind, "range")))
                     if scope == "main":
                         for measure, title in (("peak", "on-peak"), ("offpeak", "off-peak")):
-                            b.add("peak", f"{entity}|{kind}|{measure}", f"{grid} {words}", "USD/MWh", "D", col(d, measure), at=f"{name}, {title}", code=node, tags=dict(tags, measure=measure), source=src, extra=dict(hub=hid))
+                            b.add("peak", f"{entity}|{kind}|{measure}", f"{grid} {words}", "USD/MWh", "D", col(d, measure), at=f"{name}, {title}", code=node, tags=dict(tags, measure=measure), source=src,
+                                  extra=dict(hub=hid, basis=basis_of(entity, kind, measure)))
                         both = d.dropna(subset=["peak", "offpeak"])
                         b.add("peak", f"{entity}|{kind}|peak_less_off", f"{grid} {words}", "USD/MWh", "D", {x: float(r["peak"] - r["offpeak"]) for x, r in both.iterrows()},
-                              at=f"{name}, on-peak less off-peak", code=node, tags=dict(tags, measure="spread"), formula=FORMULAS["peak_less_off"], source=src, extra=dict(hub=hid))
+                              at=f"{name}, on-peak less off-peak", code=node, tags=dict(tags, measure="spread"), formula=FORMULAS["peak_less_off"], source=src,
+                              extra=dict(hub=hid, basis=f"The two means of one complete local operating day; each hour {hour_words(entity, kind)}."))
             da, rt = daily.get((entity, "da")), daily.get((entity, "rt"))
             if da is not None and rt is not None:
                 b.add("da_rt", f"{entity}|da_minus_rt", f"{grid} {words}", "USD/MWh", "D", minus(col(da, "mean"), col(rt, "mean")), code=node,
-                      tags=dict(grid=grid, scope=scope), formula=FORMULAS["da_rt"], source="the day-ahead and real-time rows above", extra=dict(hub=hid))
+                      tags=dict(grid=grid, scope=scope), formula=FORMULAS["da_rt"], source="the day-ahead and real-time rows above",
+                      extra=dict(hub=hid, basis=f"Two daily means of the same complete local operating day: day-ahead, each hour {hour_words(entity, 'da')}; real time, each hour {hour_words(entity, 'rt')}."))
         log(f"  {grid}: {len(nodes)} hubs and zones")
     for code, words in MISO_HUBS:
         for kind, name in (("da", "day-ahead"), ("rt", "real time")):
@@ -453,12 +515,64 @@ def build_as(b, holidays, log):
             hid = slug(f"{entity}|{variable}")
             b.hourly[hid] = hourly_file(hid, tz, iso, h, None, holidays)
             b.add("as", f"{entity}|{variable}", f"{grid} {product}", "USD/MW-hour", "D", col(d, "mean"), at=region, code=f"{node} {variable}", tags=dict(grid=grid),
-                  source=f"the grid operator's day-ahead ancillary service prices ({table})", hourly=hid)
+                  source=f"the grid operator's day-ahead ancillary service prices ({table})", hourly=hid,
+                  extra=dict(basis="A daily mean of the complete local operating day's hourly day-ahead prices (24; 23 or 25 on the daylight saving days)."))
             n += 1
         log(f"  {grid} ancillary services: {n} rows")
     b.grey("as", "isone|as", "ISO-NE reserves and regulation", "not_held", "Held internal while ISO-NE's terms are reviewed; not shown.", tags=dict(grid="ISO-NE"), unit="USD/MW-hour")
     b.grey("as", "miso|as", "MISO reserves and regulation", "paused", MISO_NOTE, tags=dict(grid="MISO"), unit="USD/MW-hour")
     b.grey("as", "pjm|as", "PJM reserves and regulation", "licensed", PJM_NOTE, tags=dict(grid="PJM"), unit="USD/MW-hour")
+
+
+# Session 1601 (chain 165): ERCOT's node basis, summarized. A row a class of points: the month's median, across the
+# class's points, of each point's mean daily day-ahead basis to the hub average (node less hub), with its link to the
+# node view (/cost-of-power, which draws the month's p10 to p90). The thousands of nodes stay off the board.
+NODE_LINK = dict(href="/cost-of-power", words="node view")
+
+
+def build_nodes(b, log):
+    if not here("node_basis_summary"):
+        log("  ERCOT's node basis: node_basis_summary not on this machine, skipped (page_keep.py keeps the held rows)")
+        return
+    s, _ = table_daily("node_basis_summary")
+    n = 0
+    for cls, words in NODE_CLASSES:
+        key = ("ercot:HB_HUBAVG", f"dam_{cls}_basis_p50")
+        if key not in s:
+            continue
+        b.add("power", f"ercot:nodes|{cls}|basis_p50", "ERCOT nodes against the hub average", "USD/MWh", "M", s[key], at=f"{words}, median day-ahead basis, monthly",
+              code=f"HB_HUBAVG dam_{cls}_basis_p50", tags=dict(grid="ERCOT", market="da", scope="all"), source=NODE_SOURCE,
+              extra=dict(link=NODE_LINK, basis=("The month's median, across ERCOT's " + ("points" if cls == "all" else words) + ", of each point's mean daily day-ahead basis to the hub average "
+                                                 "(the point's price less HB_HUBAVG's, over the days of the month it holds). A negative basis: the points sell below the hub.")))
+        n += 1
+    log(f"  ERCOT's node basis: {n} rows")
+
+
+def build_adders(b, holidays, log):
+    """Session 1601: ERCOT's real-time price adders, a daily row each of the complete local days. An adder whose newest
+    hour is ENDED_DAYS older than the table's newest has ended (RTORPA, RTOFFPA and RTORDPA end on 4 December 2025 and
+    RTRDPA begins on 5 December, as docs/methods/ercot_rtm_price_adders.md says) and is drawn as no row: a stale price is
+    never shown as current. The board's method note says which ended and when."""
+    if not here("ercot_rtm_price_adders"):
+        log("  ERCOT's real-time adders: ercot_rtm_price_adders not on this machine, skipped (page_keep.py keeps the held rows)")
+        return
+    t = pb.read_table("ercot_rtm_price_adders", since=START)
+    t = t[t["value"].notna()]
+    newest = t["ts"].max()
+    for stem, words in ADDERS:
+        g = t[t["variable"] == f"{stem}_mean"]
+        if g.empty:
+            continue
+        h = g.set_index("ts")["value"].sort_index()
+        h = h[~h.index.duplicated(keep="last")]
+        if (newest - h.index[-1]).days > ENDED_DAYS:
+            log(f"  ERCOT's {stem.upper()}: ended {h.index[-1]:%Y-%m-%d} (the table's newest hour is {newest:%Y-%m-%d}); no row")
+            continue
+        d = daily_of(h, "America/Chicago", "ercot", holidays)
+        b.add("power", f"ercot:system|{stem}", f"ERCOT {words}", "USD/MWh", "D", col(d, "mean"), at="real time, system-wide", code=stem.upper(),
+              tags=dict(grid="ERCOT", market="rt", scope="all"), source=ADDER_SOURCE,
+              extra=dict(basis=f"A daily mean of the complete local operating day's hours (24; 23 or 25 on the daylight saving days), each the hour's mean of the adder over its SCED intervals ({stem}_mean)."))
+        log(f"  ERCOT's {stem.upper()}: a row to {h.index[-1]:%Y-%m-%d}")
 
 
 def build_lcfs(b, log):
@@ -581,7 +695,9 @@ def build_fuels(b, log):
     b.grey("carbon", "eua", "European carbon allowance (EUA)", "licensed", "Source that would supply it: ICE Endex.", unit="EUR/t CO2e")
     b.grey("carbon", "rec", "Renewable energy credits", "licensed", "Source that would supply them: S&P Global Commodity Insights or ICE.", unit="USD/MWh")
     # capacity and equities
-    b.grey("other", "capacity", "Capacity prices (PJM, NYISO, ISO-NE, MISO)", "licensed", "Auction results are held internal while each operator's terms are reviewed. Source that would supply them openly: each operator, under its data license.", unit="USD/MW-day")
+    # session 1601: one row an auction, the publisher and the hold named (CAPACITY)
+    for key, label, grid, status, unit, note in CAPACITY:
+        b.grey("other", key, label, status, note, unit=unit, tags=dict(grid=grid))
     b.grey("other", "equities", "Energy equities", "licensed", "Source that would supply them: an exchange data vendor (for example Nasdaq Data Link or LSEG).", unit="USD")
     return fuels, us_coal
 
@@ -824,6 +940,8 @@ def build(log):
     log("hourly prices:")
     store = hourly_store(log)
     daily = build_power(b, store, holidays, log)
+    build_nodes(b, log)          # session 1601
+    build_adders(b, holidays, log)
     build_as(b, holidays, log)
     fuels, us_coal = build_fuels(b, log)
     build_world(b, log)          # session 1117
