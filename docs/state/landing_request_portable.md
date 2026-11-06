@@ -13,7 +13,8 @@ Energy Research Warehouse (ERW). Written by chain 156 (`queue/done/156-night-6-n
 | 7 | `wip/2281-deals` | `2fb4487a9` (or its one later commit, session 2281's report) | `2230-2281-deals` | 3230 | 2026-11-06 | the deals and datacenter tests: 279 passed, 1 skipped (session 2277); the chain's tests and tests 166 and 215 on the head with origin/main merged: 188 passed (2278); the site built on `wip/2254-deals` (2255); the whole suite not run whole on the head (a second window; stopped for memory in 2264) | held in row 8: land row 8 in its place (it holds rows 1, 4 and 7) |
 | 8 | `wip/2295-deals` | `c03caad91` (or its one later commit, session 2295's report) | `2230-2295-deals` | 3230 | 2026-11-06 | the deals and datacenter tests: 290 passed, 1 skipped (session 2288); the chain's tests and tests 166, 215 and 531 on the head with origin/main merged: 209 passed (2292); the whole suite not run whole on the head (a second window) | waiting (holds rows 1, 4 and 7) |
 | 9 | `wip/3133-policy` | `ae75e7695` | `3054-3133-policy` | 3260 | 2026-11-06 | on `wip/3132-policy` (its parent, `origin/main` merged): the 224 related test files, 3,186 passed, 131 skipped, 1 failed, `test_session178.py::TheNote::test_the_sections_asked_for`, which fails on `origin/main` too (not this chain's); Node monitor, week and reads tests pass; `check_policy.py` 288 of 288; not built | waiting, or landed with row 10, which holds it |
-| 10 | `wip/3144-policy` | `2bbbe02b1` | `3054-3144-policy` | 3260 | 2026-11-06 | on `wip/3140-policy` (its ancestor, `origin/main` merged): the 224 related test files, 3,188 passed, 131 skipped, 0 failed; on the head: the policy test files and the older ones they touch, 209 passed, 8 skipped; Node monitor, week and reads tests pass; `check_policy.py` 299 of 299; not built | waiting (holds rows 2, 3, 5, 6 and 9) |
+| 10 | `wip/3144-policy` | `2bbbe02b1` | `3054-3144-policy` | 3260 | 2026-11-06 | on `wip/3140-policy` (its ancestor, `origin/main` merged): the 224 related test files, 3,188 passed, 131 skipped, 0 failed; on the head: the policy test files and the older ones they touch, 209 passed, 8 skipped; Node monitor, week and reads tests pass; `check_policy.py` 299 of 299; not built | waiting, or landed with row 11, which holds it |
+| 11 | `wip/3157-policy` | `ca2412524` | `3054-3157-policy` | 3260 | 2026-11-06 | on `wip/3154-policy` (its ancestor, `origin/main` merged): the 225 related test files, 3,193 passed, 131 skipped, 0 failed; sessions 3155 to 3157 add only the method note and reports; Node monitor, week and reads tests pass; not built | waiting (holds rows 2, 3, 5, 6, 9 and 10) |
 
 ## Row 1: what it holds
 
@@ -113,3 +114,10 @@ Written by session 3059 of `queue/done/166-night-6-november-portable-window2-pol
 - **A fresh audit** (3139): 80 actions never used to write a rule, `docs/reviews/policy-audit-2026-11-06-fresh.md`.
 - **Its faults fixed in `warehouse/policy/fields.py`** (3140 to 3142): the instrument rules; the date rules with two new kinds (`filing_due`, `review_petition_due`, shown on the page by `site/lib/policymonitor.ts`); a notice's figure read over 4,000 characters with a stated total first; NAGPRA inventories marked out of scope.
 - **The method note's section 17** (3143). `site/data/policy/monitor.json` rebuilt.
+
+## Row 11: what it adds to row 10 (chain 186, sessions 3146 to 3157)
+
+- **A third audit** (3151): 80 actions never used to write a rule, `docs/reviews/policy-audit-2026-11-06-third.md`.
+- **Its faults fixed in `warehouse/policy/fields.py`** (3152 to 3154): a filing deadline that restates a comment deadline, and a date a party asks for, expects or plans, are no step; release titles for meetings, orders and approvals; no figure from a range, a rate or a change; a money figure keeps its scale before a comma; more out-of-scope kinds.
+- **The method note's third sample** (3156). `site/data/policy/monitor.json` rebuilt.
+- **No successor chain**: what is left waits on this landing or on the owner's rulings (`docs/state/note_2026-11-10_portable_window2.md`).
