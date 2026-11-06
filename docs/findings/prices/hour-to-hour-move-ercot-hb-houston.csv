@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate hour_to_hour_move, region ercot_HB_HOUSTON (ERCOT's Houston hub (HB_HOUSTON))
+# Computed 2026-11-06T11:16:11Z by warehouse/analysis/findings/deep/prices.py (hour_to_hour_move); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the median absolute change of the real-time price from one hour to the next (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: ercot_all_hub_prices_history
+region,year,value,n_observations,full_year
+ercot_HB_HOUSTON,2015,1.0549999999999997,8759.0,1
+ercot_HB_HOUSTON,2016,1.0800000000000018,8784.0,1
+ercot_HB_HOUSTON,2017,1.0824999999999996,8760.0,1
+ercot_HB_HOUSTON,2018,1.2874999999999996,8760.0,1
+ercot_HB_HOUSTON,2019,1.4250000000000007,8760.0,1
+ercot_HB_HOUSTON,2020,1.1850000000000023,8784.0,1
+ercot_HB_HOUSTON,2021,2.3724999999999987,8760.0,1
+ercot_HB_HOUSTON,2022,4.247500000000009,8760.0,1
+ercot_HB_HOUSTON,2023,2.48125,8760.0,1
+ercot_HB_HOUSTON,2024,2.37,8784.0,1
+ercot_HB_HOUSTON,2025,3.1137500000000014,8760.0,1
+ercot_HB_HOUSTON,2026,2.887500000000001,7222.0,0

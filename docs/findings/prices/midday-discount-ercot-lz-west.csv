@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate midday_discount, region ercot_LZ_WEST (ERCOT's West load zone (LZ_WEST))
+# Computed 2026-11-06T11:16:10Z by warehouse/analysis/findings/deep/prices.py (midday_discount); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the mean real-time price from 11 AM to 4 PM local as a percent of the year's all-hours mean (percent of the all-hours mean), the observations it rests on, and whether the year is full
+# Tables: ercot_zone_prices_history
+region,year,value,n_observations,full_year
+ercot_LZ_WEST,2015,128.9492687087624,8760.0,1
+ercot_LZ_WEST,2016,130.30186279907096,8784.0,1
+ercot_LZ_WEST,2017,120.69792999597487,8760.0,1
+ercot_LZ_WEST,2018,110.31078710958226,8760.0,1
+ercot_LZ_WEST,2019,138.5667308940999,8760.0,1
+ercot_LZ_WEST,2020,94.39795241480424,8784.0,1
+ercot_LZ_WEST,2021,87.14121403749449,8760.0,1
+ercot_LZ_WEST,2022,100.9697224901827,8760.0,1
+ercot_LZ_WEST,2023,71.55609036325669,8760.0,1
+ercot_LZ_WEST,2024,52.639119169962434,8784.0,1
+ercot_LZ_WEST,2025,48.93153754885483,8760.0,1
+ercot_LZ_WEST,2026,50.32692489718477,7295.0,0

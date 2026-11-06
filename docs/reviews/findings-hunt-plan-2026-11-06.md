@@ -615,7 +615,7 @@ The news index and scores, the cost ledger, the known faults: the platform's rec
 
 | Family | State | Session | Drafts kept |
 |---|---|---|---:|
-| prices | not hunted | | 0 |
+| prices | hunted in part: ERCOT hourly shape, spread and volatility | 3001 | 10 |
 | markets_operations | not hunted | | 0 |
 | demand | not hunted | | 0 |
 | generation_pipeline | not hunted | | 0 |

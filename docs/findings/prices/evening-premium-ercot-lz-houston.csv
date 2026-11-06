@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate evening_premium, region ercot_LZ_HOUSTON (ERCOT's Houston load zone (LZ_HOUSTON))
+# Computed 2026-11-06T11:16:11Z by warehouse/analysis/findings/deep/prices.py (evening_premium); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the mean real-time price from 5 PM to 10 PM local as a percent of the year's all-hours mean (percent of the all-hours mean), the observations it rests on, and whether the year is full
+# Tables: ercot_zone_prices_history
+region,year,value,n_observations,full_year
+ercot_LZ_HOUSTON,2015,109.56189739277785,8760.0,1
+ercot_LZ_HOUSTON,2016,109.30533540014012,8784.0,1
+ercot_LZ_HOUSTON,2017,102.39494537483432,8760.0,1
+ercot_LZ_HOUSTON,2018,110.22275108811822,8760.0,1
+ercot_LZ_HOUSTON,2019,90.44821406372012,8760.0,1
+ercot_LZ_HOUSTON,2020,120.37290724380266,8784.0,1
+ercot_LZ_HOUSTON,2021,105.87755329927963,8760.0,1
+ercot_LZ_HOUSTON,2022,127.20146749057552,8760.0,1
+ercot_LZ_HOUSTON,2023,222.7630670736106,8760.0,1
+ercot_LZ_HOUSTON,2024,183.90309540981792,8784.0,1
+ercot_LZ_HOUSTON,2025,156.9187240050985,8760.0,1
+ercot_LZ_HOUSTON,2026,149.39697321515106,7295.0,0
