@@ -36,7 +36,8 @@ class TheFixture(unittest.TestCase):
         self.assertEqual(self.g["two_places_one_row"], [])
 
     def test_no_facility_without_a_place(self):
-        self.assertEqual(sorted(self.before["found_wrongly"]), ["F017", "F057"])
+        # session 2276: F017 ("to enter US market with proposed 6MW data center acquisition") is either, two reads disagreeing
+        self.assertEqual(sorted(self.before["found_wrongly"]), ["F057"])
         self.assertEqual(self.g["found_wrongly"], [])
         self.assertIn("no site, city, county, state or country stated", self.log)
 

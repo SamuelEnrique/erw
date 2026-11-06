@@ -567,3 +567,10 @@ D001, "Google to serve as credit backstop for TeraWulf data center in Kentucky":
 ### What is left of the audit after chain 174's sessions 2269 to 2275
 
 By rulings or written decisions only: deals' stated deals with no row (6: two by ruling 2, one by a scope ruling, three by the prompt's rules), place (3: decisions of session 2269), status unsupported (1, D062), parties incomplete (2, a ruling); facilities' MW basis (1, the vocabulary), operator (2, the rule). Still open for code: a non-deal kept (1, D055, a one-party project), stated facilities with no row (2, F017 and F028), a non-facility kept (1, F052, a state only).
+
+## Session 2276 (chain 174): stated facilities with no row (2)
+
+- **F017, done**: "Gorilla Technology Group to enter US market with proposed 6MW data center acquisition": answered by the model, refused for no place. `facility_country` reads "enter <country> market"; the facility is kept (Gorilla Technology Group, United States, 6 MW). The 2236 fixture's written answer called it no facility ("no place stated"); it now accepts either, with the reason, and `tests/test_session2236_deals.py` counts the stored rows found wrongly as F057 alone.
+- **F028, by the human ruling**: "Axe Compute acquires full ownership of AI cluster in Columbus, Georgia": no answer from the model under the 2249 prompt; the prompt's ruling of session 23 makes a purchase of chips or servers no facility, and an AI cluster bought outright reads as one.
+
+Stated facilities with no row: **2 to 1**, the one by a ruling.

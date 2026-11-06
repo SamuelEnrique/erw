@@ -209,6 +209,17 @@ def facility_country(site_name, raw):
         return next(iter(found.items()))
     if found:
         return "", ""
+    # session 2276 (chain 174): the market a company enters with the facility ("Gorilla Technology Group to enter US
+    # market with proposed 6MW data center acquisition")
+    for c, words in F.COUNTRIES.items():
+        for w in nouns(words):
+            m = re.search(r"(?<![A-Za-z])(?:enter|enters|entering|entry into|into) (?:the )?" + re.escape(w) + r" market\b", raw)
+            if m:
+                found.setdefault(c, m.group(0))
+    if len(found) == 1:
+        return next(iter(found.items()))
+    if found:
+        return "", ""
     return F.country_of(raw)
 
 

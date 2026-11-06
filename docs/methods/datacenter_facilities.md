@@ -205,3 +205,7 @@ Where the model gives a facility no state, and its story is about one facility i
 ### A facility's power source from the words (session 2273)
 
 Where the model gives a facility no power source and its story is about one facility, the source is read from words that say how the facility itself is powered: a fuel with "-powered" or "-fired" ("Gas-Powered Data Center"), a generator fleet, on-site or behind-the-meter generation, fuel cells, small modular reactors. Its kind follows as for any power source. A company's line of business ("Another Solar Company") is not the facility's power. On the audit's sample, facilities with the power source missed went from 2 to 0, nothing else changing (`tests/test_session2273_deals.py`).
+
+### The market a company enters with a facility (session 2276)
+
+The country of a facility is also read from the market its company enters with it ("Gorilla Technology Group to enter US market with proposed 6MW data center acquisition"), after the site's name and "in <country>", and only where one country is so named. A facility is kept where a place is stated, a country included; this one was refused before for no place (`tests/test_session2276_deals.py`).

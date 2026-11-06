@@ -190,8 +190,8 @@
  {
   "n": "F017",
   "cluster_id": "news:89042444b5a57d83",
-  "is_facility": false,
-  "why": "a proposed 6MW data center acquisition with no place stated",
+  "is_facility": null,
+  "why": "a proposed 6MW data center acquisition with no place stated (session 2276: either: the second read, session 2249, reads it as a stated facility, its words naming the country, 'to enter US market', which has_place counts as a place)",
   "stored": {
    "operator": "Gorilla Technology Group",
    "state": "",
