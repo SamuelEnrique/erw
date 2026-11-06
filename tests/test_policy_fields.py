@@ -142,6 +142,18 @@ class Rules(unittest.TestCase):
         # a date under "Date:" with no session, meeting, hearing or forum above it is no step
         self.assertEqual(F.dates("Receipt\n\n    Date: Tuesday, September 15, 2026.\n"), [])
 
+    def test_the_figures_of_session_3126(self):
+        # a total in a sentence of its own, past the opening paragraph (r31 of the audit's sample, its words)
+        t = ("Take notice that the following application has been filed. " + "x " * 900 +
+             "(b) five 596-kilowatt (kW) horizontal Kaplan turbine-generator units (Units 1 to 5), for a total installed capacity of 2,980 kW; (2) a section.")
+        self.assertEqual(F.figure("Acme Hydro; Notice of Scoping Period", t, "notice")[:2], (2980, "kW"), "the total, not the first unit's 596")
+        # "$100 million," keeps its scale (r29)
+        self.assertEqual(F.figure("A Fellowship", "Fellows will train. Total planned funding is up to $100 million, with $20 million in Fiscal Year 2027.", "press_release")[:2],
+                         (100000000, "USD"))
+        # a figure of context, in no sentence of the action's own total, is never taken (the coal orders' 17 gigawatts)
+        t = "Secretary Wright issued an emergency order. " + "y " * 500 + "Since 2021 the region has lost 17 gigawatts of dispatchable power."
+        self.assertEqual(F.figure("Keeping a Plant Online", t, "press_release"), (None, "", ""))
+
     def test_a_past_date_that_is_no_step_is_left(self):
         t = ("If you submitted comments on this project to the Commission before the opening of this docket on "
              "September 9, 2026, you will need to file those comments in Docket No. CP26-578-000.")

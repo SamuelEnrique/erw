@@ -301,7 +301,8 @@ def next_step(steps, event_date):
 
 SCALE = {"thousand": 1e3, "million": 1e6, "billion": 1e9}
 FIGURE = re.compile(
-    r"\$\s?(?P<usd>\d[\d,]*(?:\.\d+)?)(?:\s*(?P<scale>thousand|million|billion))?(?![\d,])"
+    # session 3126: "$100 million," keeps its scale (the guard against a cut number stood after the scale as well)
+    r"\$\s?(?P<usd>\d[\d,]*(?:\.\d+)?)(?:\s*(?P<scale>thousand|million|billion)\b|(?![\d,]))"
     r"|(?P<num>\d[\d,]*(?:\.\d+)?)[\s-]?(?P<unit>megawatts?|MW|gigawatts?|GW|kilowatts?|kW|MWh|megawatt-hours|kilovolts?|kV|"
     r"dekatherms per day|Dth/d|Bcf/d|billion cubic feet per day|MMcf/d|million cubic feet per day)\b", re.I)
 UNIT_OF = {"megawatt": "MW", "mw": "MW", "gigawatt": "GW", "gw": "GW", "kilowatt": "kW", "kw": "kW", "mwh": "MWh",
@@ -347,7 +348,31 @@ def figure(title, text, action_type):
             # a size (capacity, energy, flow) before a voltage, a voltage before a sum of money; then the first
             _, _, v, unit, m = min(found, key=lambda x: (x[0], x[1]))
             return (int(v) if v == int(v) else v), unit, _sentence_at(src, m.start(), m.end())
+    # session 3126: where neither states one, a figure of the text's first 9,000 characters, only in a sentence that
+    # states the action's own total ("for a total installed capacity of 2,980 kW", "Total planned funding is up to $100
+    # million", "the ... project will receive up to $50 million"), never a figure of context
+    body_ = re.sub(r"\s*\[\[Page \d+\]\]\s*", " ", (text or "")[:9000])
+    body_ = re.sub(r"[ \t]*\n[ \t]*", " ", body_)
+    for s in OWN_TOTAL.finditer(body_):
+        sent = _sentence_at(body_, s.start(), s.end())
+        hits = []
+        for m in FIGURE.finditer(sent):
+            if m.start() < sent.lower().find(s.group(0).lower()):
+                continue   # the figure stands after the words that make it the action's own
+            if m.group("usd"):
+                v, unit = float(m.group("usd").replace(",", "")) * SCALE.get((m.group("scale") or "").lower(), 1), "USD"
+            else:
+                u = m.group("unit").lower()
+                v, unit = float(m.group("num").replace(",", "")), UNIT_OF.get(u) or UNIT_OF.get(u.rstrip("s"))
+            if v:
+                hits.append((m.start(), v, unit))
+        if hits:
+            _, v, unit = hits[0]
+            return (int(v) if v == int(v) else v), unit, sent
     return None, "", ""
+
+
+OWN_TOTAL = re.compile(r"\btotal (?:installed |nameplate |generating |planned |authorized )?(?:capacity|funding)\b|\bproject will receive up to\b", re.I)
 
 
 UNIT_RANK = {"MW": 0, "GW": 0, "kW": 0, "MWh": 0, "Dth/d": 0, "Bcf/d": 0, "MMcf/d": 0, "kV": 1, "USD": 2}
