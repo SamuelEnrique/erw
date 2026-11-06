@@ -64,7 +64,9 @@ class TheSample(unittest.TestCase):
                 "D013": "project_finance", "D020": "m_and_a", "D050": "compute_capacity", "D053": "compute_capacity",
                 "D080": "nuclear_restart_uprate",
                 # read and left: supplies to a data center, a one-party project
-                "D034": "other", "D046": "other", "D055": "other"}
+                "D034": "other", "D046": "other",
+                # session 2277: D055 (a project one party leads) is no deal and has no row
+                "D055": None}
         for n, k in want.items():
             self.assertEqual(got.get(n), k, n)
 

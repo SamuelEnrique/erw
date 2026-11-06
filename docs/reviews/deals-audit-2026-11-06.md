@@ -574,3 +574,12 @@ By rulings or written decisions only: deals' stated deals with no row (6: two by
 - **F028, by the human ruling**: "Axe Compute acquires full ownership of AI cluster in Columbus, Georgia": no answer from the model under the 2249 prompt; the prompt's ruling of session 23 makes a purchase of chips or servers no facility, and an AI cluster bought outright reads as one.
 
 Stated facilities with no row: **2 to 1**, the one by a ruling.
+
+## Session 2277 (chain 174): a non-deal kept (1), a non-facility kept (1)
+
+- **D055, done**: "Abu Dhabi's G42 Leads $1 Billion Data Center Project in Vietnam", one party, no counterparty: `fields.project_led` refuses it. Across the three deal fixtures only D055 is gone (82 to 81 on 2249). Tests 2258 and 2270, which counted its row, changed with notes.
+- **F052, by decision**: "Huge AI Data Center Planned for Pennsylvania Coal Plant Site", only a state. Refusing a facility with no operator, developer or site would also drop F050 (TikTok owner's project in Brazil) and F036 (the Balearic government's data center), which the same read keeps; no word rule separates them. Kept.
+
+### The audit after chain 174's sessions 2269 to 2277
+
+Every class of the second read is now closed in code or by a written decision or ruling: deals' place 3 (decisions), status unsupported 1 (D062, decision), parties incomplete 2 (ruling), stated deals with no row 6 (two by ruling 2, one by a scope ruling, three by the prompt's rules); facilities' operator 2 (the rule), MW basis 1 (the vocabulary), stated facilities with no row 1 (F028, the human ruling of session 23), a non-facility kept 1 (F052, decision). No class is open for code.

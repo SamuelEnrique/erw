@@ -522,6 +522,11 @@ def main(argv=None):
                             dropped.append(f"{cid}: deal not kept: neither buyer nor seller is named in the story")
                             n_refused += 1
                             continue
+                        led = fields.project_led({**d, "evidence": ev})   # session 2277: a project led is not a deal
+                        if led:
+                            dropped.append(f"{cid}: deal not kept: {led!r} is a project one party leads, no counterparty")
+                            n_refused += 1
+                            continue
                         ad0 = d.get("announced_date") or ""
                         first0 = stories_here.sort_values("event_date").iloc[0]
                         target = dedupe.find_record(   # session 2233: session 531's rule and dedupe's four

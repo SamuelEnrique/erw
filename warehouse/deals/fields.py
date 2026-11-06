@@ -405,6 +405,18 @@ def credit_parties(d):
     return seller, (m.group(1) if m and m.group(1) != seller else "")
 
 
+def project_led(d):
+    """Session 2277 (chain 174): the words where the deal's one named party leads a project and no counterparty is
+    named ("Abu Dhabi's G42 Leads $1 Billion Data Center Project in Vietnam"): a project led is neither a sale nor an
+    award, so it is not a transaction (and not chain 156's ruling 2, which is about those). "" otherwise."""
+    parties = [p for p in [d.get("buyer"), d.get("seller")] + list(d.get("other_parties") or []) if (p or "").strip()]
+    if len(parties) != 1:
+        return ""
+    ev = " ".join(str(d.get("evidence") or "").replace("’", "'").split())
+    m = re.search(r"\b(?:leads?|led|to lead|spearhead\w*)\s+(?:\S+\s+){0,5}?projects?\b", ev, re.I)
+    return m.group(0) if m else ""
+
+
 def named_party(d, text=""):
     """A deal is kept only where the story names a party to it: the buyer, the seller, a partner of a joint venture
     (other_parties, as the model gives them), or, for an acquisition, the company or asset sold ("Oryx Energies Sold

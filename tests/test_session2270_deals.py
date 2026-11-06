@@ -45,7 +45,7 @@ class TheSample(unittest.TestCase):
                 if fx.get(sid) in ("D005", "D104"):
                     got[fx[sid]] = r["ai_power"]
         self.assertEqual(got, {"D005": "false", "D104": "false"})
-        self.assertEqual(int((rows["ai_power"] == "true").sum()), 35)
+        self.assertEqual(int((rows["ai_power"] == "true").sum()), 34)   # 35 until session 2277 refused D055, a project led
 
 
 if __name__ == "__main__":

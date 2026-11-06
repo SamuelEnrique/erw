@@ -239,3 +239,7 @@ For a power purchase, an offtake, a lease or a fuel supply, a USD figure is not 
 ### The provider of credit (session 2275)
 
 In debt and project finance the investors or lenders are the buyer and the company raising the money the seller. Where a deal names no buyer and its evidence says the stored seller provides credit ("Google to serve as credit backstop for TeraWulf data center in Kentucky"; "provides ... financing", "extends a loan", "offers a guarantee"), that party becomes the buyer, and the company the credit is for ("for TeraWulf data center") the seller, taken out of the other parties. The log says so. On the audit's sample, parties wrong went from 1 to 0, no other row changing (`tests/test_session2275_deals.py`).
+
+### A project one party leads (session 2277)
+
+A record whose only named party leads a project, with no counterparty ("Abu Dhabi's G42 Leads $1 Billion Data Center Project in Vietnam"), is not a transaction and is not kept: leading a project is neither a sale nor an award (chain 156's ruling 2 is about those). The log says so (`tests/test_session2277_deals.py`).
