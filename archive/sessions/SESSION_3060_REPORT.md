@@ -18,6 +18,8 @@ Personal laptop, second window, 6 November 2026, 12:25 to 13:05 UTC (begun while
 - Tests: Node `test-policy-monitor.mjs` 37 of 37, `test-policy-week.mjs` 90 of 90; Python, every test file that names policy: 1,034 passed, 24 skipped, then the one failure (the wrapper count) fixed and its file 17 passed.
 - Not built, not type-checked: this laptop's `site/` has no `node_modules`, and this window never builds. The gate's build is the first.
 
+- **Five files of this chain held the em and en dash characters** (`impact.py`, `monitor_site.py`, `test_policy_impact.py`, `test_policy_monitor_site.py`, `test-policy-monitor.mjs`): the editing tool wrote the escapes `—` and `–` that their dash checks name as the characters themselves. Each is now the escape, written as text; the tests pass the same.
+
 ## Decisions made without you
 
 - **A third view of `/policy`, not a new address**, so `site/lib/release.ts` stays untouched and the monitor is in review with the page.
