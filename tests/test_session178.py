@@ -498,9 +498,11 @@ class TheNote(unittest.TestCase):
                      "## 9. Beside ERCOT's real awards", "## 10. Where the notes and the code differ",
                      "## 11. What the browser has, for session 179"):
             self.assertIn(head, self.note)
-        # session 196: "Cross-checks" is the note's last section, after "Checks"; section 11 is still the last numbered one
-        self.assertTrue(self.note.rstrip().split("\n## ")[-3].startswith("11. What the browser has, for session 179"))
-        self.assertTrue(self.note.rstrip().split("\n## ")[-1].startswith("Cross-checks"))
+        # session 196: "Cross-checks" is the note's last section, after "Checks"; section 11 is still the last numbered one.
+        # Session 1527 (chain 163) put the "Sign-off" block between section 11 and "Checks", as the generator's note has it
+        parts = self.note.rstrip().split("\n## ")
+        self.assertTrue(parts[-4].startswith("11. What the browser has, for session 179"))
+        self.assertEqual([x.split("\n", 1)[0] for x in parts[-3:]], ["Sign-off", "Checks", "Cross-checks"])
         self.assertIn("Stata is not installed on the machine that wrote it, so the do-file has not been run.", self.note)
 
     def test_every_check_key_the_page_prints_is_explained(self):
