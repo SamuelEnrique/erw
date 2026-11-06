@@ -565,3 +565,7 @@ Tests: `tests/test_board_1616.py` (the site's file, a file the builder writes fr
 ## The 4CP exposure (session 1626, chain 167, 6 November 2026)
 
 **ERCOT hub average, real time, at the month's 4CP interval** (the cost group, beside the coincident peak load): the hub average's 15-minute real-time settlement point price in the interval ERCOT names as each summer month's coincident peak, June to September, dated the month as the load row is. It is what energy cost in the interval that also sets a load's transmission charge for the next year. Read from `ercot_all_hub_prices_history` and `iso_rtm_hub_prices`, each filtered to `ercot_rtm` and `HB_HUBAVG` as it is streamed (the history is never in memory whole a second time), the later table's price for an interval winning (`cp4_price`). On the old laptop's tables all 28 intervals ERCOT published for 2018 to 2025 (2021 not held) are priced, from USD 19.40 per MWh (1 July 2024) to USD 2,847.82 (10 August 2023), figures of the fixture `tests/fixtures/board_1626/`. A month whose interval is not priced is no point. Tests: `tests/test_board_1626.py`.
+
+## The rows' CSV: the week and the month (session 1631, chain 167)
+
+The rows' CSV carries a power row's week and month as its cells show them: `week_peak`, `week_hours_over_100`, `week_hours_over_250`, `week_hours_over_1000` and the same four of the month, between `latest` and `source` (a held row's are empty as its other figures are; the Stata reader destrings them). Tests: `tests/test_board_1631.py`.

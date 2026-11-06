@@ -351,7 +351,10 @@ export function csv(head: string[], rows: (string | number | null)[][]): string 
 // day's high and low hour with their local times (between "latest" and "source", so a held row's are empty as its other
 // figures are), and the row's interval and the words of its status (before "hold", which stays last).
 export const ROWS_HEAD = ["id", "group", "label", "at", "code", "unit", "freq", "status", "latest_date", "latest", "day_move", "week_move", "month_move", "year_move",
-  "ytd_move", "avg_7d", "avg_30d", "avg_12m", "vs_12m", "low_365d", "high_365d", "day_high", "day_high_local", "day_low", "day_low_local", "source", "basis", "status_words", "hold"];
+  "ytd_move", "avg_7d", "avg_30d", "avg_12m", "vs_12m", "low_365d", "high_365d", "day_high", "day_high_local", "day_low", "day_low_local",
+  // session 1631 (chain 167): the week's and the month's peak hour and the hours above 100, 250 and 1,000, as the power rows' cells show them
+  "week_peak", "week_hours_over_100", "week_hours_over_250", "week_hours_over_1000", "month_peak", "month_hours_over_100", "month_hours_over_250", "month_hours_over_1000",
+  "source", "basis", "status_words", "hold"];
 export function rowsCsv(file: BoardFile): string {
   const header = [
     "# Energy Research Warehouse (ERW): the price board's rows as /board draws them, one line a row (site/lib/board.ts rowsCsv)",
@@ -365,6 +368,7 @@ export function rowsCsv(file: BoardFile): string {
   const rows = file.rows.map((r) => [r.id, r.group, r.label, r.at, r.code, r.unit, r.freq, r.status, r.last?.t ?? null, n(r.last?.v),
     n(r.moves?.d?.ch), n(r.moves?.w?.ch), n(r.moves?.m?.ch), n(r.moves?.y?.ch), n(r.moves?.ytd?.ch), n(r.avg7?.v), n(r.avg30?.v), n(r.avg365?.v), n(r.avg365?.ch),
     n(r.range?.lo), n(r.range?.hi), n(r.ext?.hi.v), r.ext?.hi.local ?? null, n(r.ext?.lo.v), r.ext?.lo.local ?? null,
+    ...(["w", "m"] as const).flatMap((k) => [n(r.ext?.[k]?.peak.v), ...THRESHOLDS.map((x) => n(r.ext?.[k]?.above[x]))]),
     r.source !== undefined ? file.sources[r.source] ?? null : null, r.basis ?? null, r.status === "ok" ? null : PLACEHOLDER[r.status],
     r.status === "license" ? heldNote(gridOfRow(r)) : null]);
   return `${header.join("\n")}\n${csv(ROWS_HEAD, rows)}`;
