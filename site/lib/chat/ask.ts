@@ -354,7 +354,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   };
   const tiers = new Map<string, string>(); // session 28: each table's tier, from the tool results
   let calls = 0, attempts = 0, retried = false, turn = 0, forceWrite = false, wordsOut = false;
-  const nodash = (t: string) => t.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ");
+  // session 2226 (chain 152): an en dash becomes "-" too (a span of years), as warehouse/chat/ask.py nodash; the stored runs hold every answer
+  const nodash = (t: string) => t.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ").split(String.fromCharCode(0x2013)).join("-");
   // session 168: the local words the tool results gave for each stamp, and a profile's text with no UTC stamp left in it.
   // Applied to what the reader is shown, after the number check has run on the text as the model wrote it
   const localWords = new Map<string, string>();

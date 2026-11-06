@@ -319,7 +319,9 @@ def reads_of(name, args):
 
 
 def nodash(text):
-    return text.replace(chr(0x2014), " - ").replace("  -  ", " - ")
+    """An em dash becomes " - "; since session 2226 (chain 152) an en dash becomes "-" too (a span of years, "2015-2025"),
+    as the site's nodash: the repository writes neither in any file, and a stored run holds every answer."""
+    return text.replace(chr(0x2014), " - ").replace("  -  ", " - ").replace(chr(0x2013), "-")
 
 
 def pick_model(client):
