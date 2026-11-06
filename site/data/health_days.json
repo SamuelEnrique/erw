@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-05T21:12Z",
+ "written": "2026-11-06T01:41Z",
  "green_days": 0,
- "counted_to": "2026-11-04",
+ "counted_to": "2026-11-05",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -2883,6 +2883,106 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 51 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-05": {
+   "rows": 686,
+   "failed": 7,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 485,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "daily prices": {
+     "ok": 12,
+     "skipped": 2,
+     "retried": 1,
+     "failed": 6,
+     "runs": 3
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 49,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 51
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-05T14:22",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    },
+    {
+     "at": "2026-11-05T17:58",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_findings",
+     "reason": "FAILED (failures=1)"
+    },
+    {
+     "at": "2026-11-05T21:12",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    },
+    {
+     "at": "2026-11-05T23:03",
+     "workflow": "daily prices",
+     "step": "eia930",
+     "reason": "eia930_ciso_demand eia930_pjm_demand: eia930 eia930_ciso_demand FAILED, no output file written: RuntimeError: incomplete data, no file written for eia930_ciso_demand: demand_forecast_mw: 143 of 168 ho"
+    },
+    {
+     "at": "2026-11-05T23:18",
+     "workflow": "daily prices",
+     "step": "portwatch",
+     "reason": "portwatch_chokepoint_transits: portwatch portwatch_chokepoint_transits FAILED, no output file written: RuntimeError: PortWatch chokepoint6 offset 0 failed after 4 attempts: RuntimeError(\"PortWatch err"
+    },
+    {
+     "at": "2026-11-05T23:47",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices ercot_as_prices FAILED, no output file written: RuntimeError: https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13091 failed after 4 attempts: RuntimeError('HTTP 503 "
+    },
+    {
+     "at": "2026-11-05T23:48",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices_rollup",
+     "reason": "ercot_as_prices_rollup FAILED: RuntimeError: ercot_as_prices is not at /home/runner/work/erw/erw/warehouse/output/ercot_as_prices.csv: nothing is written"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-05T17:22",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 52 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-05T23:51",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 52 days old (limit 28)"
     }
    ]
   }
