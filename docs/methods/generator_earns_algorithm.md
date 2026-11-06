@@ -414,6 +414,15 @@ The largest difference before rounding is 0.0000006 USD per MWh in the flat aver
 
 **When the files go stale.** The CSV is written once. When the snapshot or the capture file is rebuilt, `tests/test_session183_replication.py` fails on the data machine, which is the alarm: run `python warehouse/derived/generator_hourly_export.py` and commit the CSV.
 
+### 8.1 Run it (sessions 1489 and 1490, chain 158)
+
+The package a reader runs is `replication/generator/` in the repository:
+
+- `replicate.py` (Python, standard library): `python replication/generator/replicate.py [the CSV's path or its address]`. It reads only the public hourly file (`site/public/seller/erw_2026_generator_hourly.csv`, or the page's link) and `assumptions.json`, the page's eleven defaults with their sources. It recomputes the figures with the mirror above and prints each beside the figure the page shows for the same months (`page_figures.json`, read from a built page's data cells by session 582), with the difference and the tolerance. Exit 0 when every figure is inside it. On 6 November 2026: **13 of 13**.
+- `replicate.do` (Stata): `cd replication/generator` then `do replicate.do`. The do-file of this section, reading the same public file and `assumptions.csv`, and ending with the headline figures beside the page's and the difference. Stata is not on the machine that wrote it, so the do-file has not been run; `tests/test_session1490.py` holds it to the house rules and to its two inputs.
+- Change an assumption to see what it moves: at no degradation, NPV is USD -74.16 million, the figure before ruling 7a.
+- The cross-check table against published figures is the section "Cross-checks" below; the decisions block is section 13.
+
 ## 9. Where the notes and the code differ
 
 1. **Two capture prices on one page.** The headline's "price received" (4.3) is the capture file's; the spans table's "capture price" (4.9) is the model's. `cost_of_power.md` says so; the page face does not. They differ by the weights (edge case 7): 23.27 and 23.20 at the default.
