@@ -1726,10 +1726,25 @@ def subject_line(op, digest_date):
     return f"ERW Daily | {day_words(digest_date)}"
 
 
-def masthead_lines(digest_date, now, op):
+STORIES_SHORT_HOURS = 2   # session 1444 (fault 21): the newest story more than this before the cutoff is said
+
+
+def masthead_lines(digest_date, now, op, newest=None):
     """The masthead: the title with the issue's date (as the email and the archive read it), the date in words and the
-    cutoff, and two comments: the subject line and the opening number's key (the next issue's novelty)."""
-    return [f"# {V2_TITLE}, {digest_date}", "", f"**{day_words(digest_date)}.** {cutoff_words(now)}", "",
+    cutoff, and two comments: the subject line and the opening number's key (the next issue's novelty). Session 1444
+    (fault 21): when the newest story held (`newest`) is more than STORIES_SHORT_HOURS before the cutoff, the line says
+    so ("Stories through 03:55 ET, 07:55 UTC; prices through 11:45 ET, 15:45 UTC."), since the scorer or the ingest
+    stopped short of the cutoff and the stories do not cover the hours the cutoff claims."""
+    cut = cutoff_words(now)
+    if newest is not None:
+        newest = pd.Timestamp(newest)
+        if newest.tzinfo is None:
+            newest = newest.tz_localize("UTC")
+        if pd.Timestamp(now) - newest > pd.Timedelta(hours=STORIES_SHORT_HOURS):
+            et = newest.tz_convert(EASTERN)
+            cut = (f"Stories through {et:%H:%M} ET, {newest.tz_convert('UTC'):%H:%M} UTC; prices through "
+                   f"{pd.Timestamp(now).tz_convert(EASTERN):%H:%M} ET, {pd.Timestamp(now).tz_convert('UTC'):%H:%M} UTC.")
+    return [f"# {V2_TITLE}, {digest_date}", "", f"**{day_words(digest_date)}.** {cut}", "",
             f"<!-- subject: {subject_line(op, digest_date)} -->", "", f"<!-- opening: {op['key']} -->", ""]
 
 
@@ -1842,6 +1857,27 @@ def moved_count(recs):
     return min(2, len(recs))
 
 
+# Session 1444 (chain 149, fault 22; the brandbook: 350 to 450 words of prose above the fold). The dry run of 26 October
+# stood at 295 words with three stories: a fourth is lifted from the rest while the count is under FOLD_MIN, up to
+# MOVED_LIFT_MAX stories; a count past FOLD_MAX with three drops to two. The also lines, the source lines and the block
+# are not counted (above_fold_words).
+FOLD_MIN, FOLD_MAX, MOVED_LIFT_MAX = 350, 450, 5
+
+
+def lift_count(words, n0, n_recs):
+    """The number of stories above the fold: from n0 (moved_count), up while words(n) is under FOLD_MIN and a story is
+    left (to MOVED_LIFT_MAX), down to two while words(n) is past FOLD_MAX. words(n) gives the prose count with n."""
+    n = n0
+    w = words(n)
+    while w < FOLD_MIN and n < min(MOVED_LIFT_MAX, n_recs):
+        n += 1
+        w = words(n)
+    while w > FOLD_MAX and n > 2:
+        n -= 1
+        w = words(n)
+    return n
+
+
 def no_chart_lines(facts, n=3):
     """When no valid chart can be built: the issue says no chart is shown, and a small table of the day's largest moves
     (numbers_today's candidates, at most n) stands in its place."""
@@ -1949,7 +1985,8 @@ def main(argv=None):
         recs = top10.to_dict("records")
         op = opening_number(facts.get("cands", []), recs, previous_opening(digest_date))
         log(f"  opening number: {op['kind'] or 'none'} {op['key']}")
-        L = masthead_lines(digest_date, now, op) + [
+        newest = pd.to_datetime(s["event_date"], utc=True, format="ISO8601").max() if len(s) else None
+        L = masthead_lines(digest_date, now, op, newest) + [
              # session 21: one sentence (what, the period, the story count); the method is on /about#digest
              stamp_line(hours, start, now, len(s)), "",
              *([NO_MODEL_LINE, ""] if args.no_model else [])]
@@ -1963,46 +2000,55 @@ def main(argv=None):
                     seen.add(r["cluster_id"])
                     pool.append(r)
         L += numbers_block(facts, op, pool, heads)
-        n_moved = moved_count(recs)
-        L += ["## What moved", ""]
-        for i, r in enumerate(recs[:n_moved], 1):
-            L += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
-                            " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), limitation(r)) if x),
-                            f"Sources: {link_text(r['links'])}")
-        # rulings items 5 and 14: the rest folds under "More", not cut
-        L += ["", FOLD_HEADING, "", "### The rest of the top ten", ""]
-        if len(recs) <= n_moved:
-            L.append("- no further story in the top ten today")
-        for i, r in enumerate(recs[n_moved:], n_moved + 1):
-            L += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
-                            (why_line(r['why'], heads[r['cluster_id']]) + " " + detail(r, heads[r['cluster_id']])).strip(),
-                            f"Sources: {link_text(r['links'])}")
-        L += ["", "### By sector", ""]
-        for g, c in by_group.items():
-            L.append(f"**{g}**")
-            L.append("")
-            if c.empty:
-                L.append("- no scored story in this group today")
-            for r in c.to_dict("records"):
-                L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
+        policy_lines = policy_actions_lines(start, now, log)
+
+        def middle(n_moved):
+            """What moved with n_moved stories, then the fold: the rest of the top ten, the sectors, AI and power, the
+            numbers in full (session 1444: built again when the fold's count asks for another story)."""
+            M = ["## What moved", ""]
+            for i, r in enumerate(recs[:n_moved], 1):
+                M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
+                                " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), limitation(r)) if x),
+                                f"Sources: {link_text(r['links'])}")
+            # rulings items 5 and 14: the rest folds under "More", not cut
+            M += ["", FOLD_HEADING, "", "### The rest of the top ten", ""]
+            if len(recs) <= n_moved:
+                M.append("- no further story in the top ten today")
+            for i, r in enumerate(recs[n_moved:], n_moved + 1):
+                M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
+                                (why_line(r['why'], heads[r['cluster_id']]) + " " + detail(r, heads[r['cluster_id']])).strip(),
+                                f"Sources: {link_text(r['links'])}")
+            M += ["", "### By sector", ""]
+            for g, c in by_group.items():
+                M.append(f"**{g}**")
+                M.append("")
+                if c.empty:
+                    M.append("- no scored story in this group today")
+                for r in c.to_dict("records"):
+                    M.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
+                             + " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), link_text(r['links'][:1])) if x))
+                if g == "Policy":
+                    M += without_repeats(policy_lines, L + M, log)
+                M.append("")
+            M += ["### AI and power", ""]
+            if ai.empty:
+                M.append("- no further story on AI and power today (any such story is listed above)")
+            for r in ai.to_dict("records"):
+                M.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
                          + " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), link_text(r['links'][:1])) if x))
-            if g == "Policy":
-                L += without_repeats(policy_actions_lines(start, now, log), L, log)
-            L.append("")
-        L += ["### AI and power", ""]
-        if ai.empty:
-            L.append("- no further story on AI and power today (any such story is listed above)")
-        for r in ai.to_dict("records"):
-            L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
-                     + " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), link_text(r['links'][:1])) if x))
-        L += ["", "### ERW's Numbers Today", ""] + ([summary, ""] if summary else []) + nums
+            M += ["", "### ERW's Numbers Today", ""] + ([summary, ""] if summary else []) + nums
+            return M
+
         # session 232: the chart of the day, chosen and drawn by code; omitted, with the reason logged, when there is none
-        L += daily_chart_section(digest_date, log, args.out, stories=recs) or no_chart_lines(facts)   # 805; 2703: the stand-in
+        tail = daily_chart_section(digest_date, log, args.out, stories=recs) or no_chart_lines(facts)   # 805; 2703: the stand-in
         # session 23: the Fun fact, last; re-verified from its stored sources, omitted if it fails
-        L += fun_fact_section(digest_date, log)
+        tail += fun_fact_section(digest_date, log)
         # session 21: the method is on /about#digest; the generation record stays in the file, not on the page
-        L += footer_lines(now, run_id, model)   # session 25: signed ERW; session 2703: corrections, preferences, unsubscribe
-        log(f"  words of prose above the fold: {above_fold_words(chr(10).join(L))}")
+        tail += footer_lines(now, run_id, model)   # session 25: signed ERW; session 2703: corrections, preferences, unsubscribe
+        # session 1444 (fault 22): the stories above the fold are as many as bring the prose to 350 words, at most five
+        n_moved = lift_count(lambda n: above_fold_words(chr(10).join(L + middle(n) + tail)), moved_count(recs), len(recs))
+        L += middle(n_moved) + tail
+        log(f"  words of prose above the fold: {above_fold_words(chr(10).join(L))} with {n_moved} stories under What moved")
         L = drop_repeated_items(L, log)  # session 470: a repeat the sections did not see is dropped, not the issue
         n_items = assert_unique(L)  # ruling 5: the hard check; a failure writes nothing
         log(f"  {n_items} items, no two sharing a normalized headline or a source URL")

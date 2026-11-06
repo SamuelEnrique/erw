@@ -20,6 +20,7 @@ No model, no network. The fixtures are frames and files the tests write; the nam
 and docs/digest/ as the repository holds them, and skip where they are absent.
 """
 
+import inspect
 import io
 import json
 import os
@@ -1460,6 +1461,34 @@ class Session1443RankingAndSectors(unittest.TestCase):
         com = self.row("com", "Why the grid cannot keep up, an analysis", "generation", source="D", when="2026-10-26T00:00:00Z")
         c = brief.build_clusters(pd.DataFrame(rows + [com]))
         self.assertEqual(list(c["cluster_id"]), ["deal", "ai", "com"])   # commentary last at the same score, though earliest
+
+
+class Session1444TheFold(unittest.TestCase):
+    """Session 1444 (chain 149, faults 21 and 22): the stories above the fold are as many as bring the prose to 350 words
+    (at most five, never past 450); the masthead says when the stories stop short of the cutoff."""
+
+    def test_a_fourth_story_is_lifted_while_the_count_is_under_350(self):
+        counts = {2: 230, 3: 295, 4: 362, 5: 430}
+        self.assertEqual(brief.lift_count(lambda n: counts[n], 3, 10), 4)
+        self.assertEqual(brief.lift_count(lambda n: counts[n], 3, 3), 3)        # no story left to lift
+        self.assertEqual(brief.lift_count(lambda n: {2: 300, 3: 340, 4: 345, 5: 349}[n], 3, 10), 5)   # the lift stops at five
+        self.assertEqual(brief.lift_count(lambda n: {2: 420, 3: 470}[n], 3, 10), 2)   # past 450 with three: two
+        self.assertEqual(brief.lift_count(lambda n: {2: 300, 3: 400}[n], 3, 10), 3)
+        self.assertEqual((brief.FOLD_MIN, brief.FOLD_MAX, brief.MOVED_LIFT_MAX), (350, 450, 5))
+
+    def test_the_masthead_says_when_the_stories_stop_short(self):
+        op = {"kind": None, "key": ""}
+        now = pd.Timestamp("2026-10-26 15:45", tz="UTC")
+        L = brief.masthead_lines("2026-10-26", now, op, pd.Timestamp("2026-10-26 07:55", tz="UTC"))
+        self.assertEqual(L[2], "**26 October 2026.** Stories through 03:55 ET, 07:55 UTC; prices through 11:45 ET, 15:45 UTC.")
+        L = brief.masthead_lines("2026-10-26", now, op, pd.Timestamp("2026-10-26 15:02", tz="UTC"))
+        self.assertEqual(L[2], "**26 October 2026.** Data through 11:45 ET, 15:45 UTC.")
+        self.assertEqual(brief.masthead_lines("2026-10-26", now, op)[2], "**26 October 2026.** Data through 11:45 ET, 15:45 UTC.")
+
+    def test_main_reads_the_fold_count(self):
+        src = inspect.getsource(brief.main)
+        self.assertIn("n_moved = lift_count(lambda n: above_fold_words(chr(10).join(L + middle(n) + tail)), moved_count(recs), len(recs))", src)
+        self.assertIn("masthead_lines(digest_date, now, op, newest)", src)
 
 
 if __name__ == "__main__":
