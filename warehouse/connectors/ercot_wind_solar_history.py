@@ -620,7 +620,9 @@ def write(out_dir=None):
             f"Derived from: {NAME_H}", f"input sources: {SRC_REGION}",
         ] + common[:2] + ["License: public. A derived table inherits the most restrictive license of its inputs (Decision 23)."]
         ip.write_csv(m, NAME_M, header, log)
-        registered.append(dict(source="erw:" + NAME_M, publisher="Energy Research Warehouse (ERW)",
+        # session 2884: a derived table's publisher is "Energy Research Warehouse (ERW), derived" (the package's test of
+        # derived tables failed on this one in the run of 6 November 2026, its first run with the table in the package)
+        registered.append(dict(source="erw:" + NAME_M, publisher="Energy Research Warehouse (ERW), derived",
                                report="ERW derived table: ERCOT output below HSL by month, the ERW's estimate (docs/methods/curtailment.md)",
                                report_url="https://github.com/SamuelEnrique/erw/blob/main/docs/methods/curtailment.md", document_list="",
                                license="public", tables=[NAME_M]))
