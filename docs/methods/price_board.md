@@ -4,6 +4,92 @@ Tables: `price_board_latest`, `price_board_peak_offpeak`, `price_board_spreads` 
 
 > **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's hub prices stop at the last day pulled. What is held stays as it is. [`miso_pause.md`](miso_pause.md)
 
+## The board as it stands, part by part (chain 165, sessions 1600 to 1617, 6 November 2026)
+
+This part says what `/board` draws today, group by group and column by column: the table, the computation, the window, the step, the limits, the assumptions with their sources, the tracers, and what the board cannot show and why, publisher by publisher. The sections after it are the board's history, session by session, and stay as they were written. The code: `warehouse/derived/board_page.py` (the builder; the daily run's `board` step and the data machine's `dm_board_page`, through `warehouse/derived/page_keep.py board`), `site/lib/board.ts` (every rule of the page, pure), `site/components/board/BoardView.tsx` and `Workbench.tsx` (the page), `site/app/board/page.tsx` (the page's hold of the day, `holdRows`, on the server), `site/app/board/rows/` (the CSV and its readers). The audit of 6 November 2026: `docs/reviews/board-audit-2026-11-06.md`.
+
+### The columns of every row
+
+| Column | What it is | Window and step | Limits |
+|---|---|---|---|
+| Latest, its date | the newest value held and its date; a day-ahead price may be tomorrow's | the row's own step | "stale" beside the date past 3 days (a power market's daily row), 10 (another daily row), 17 (weekly), 132 (monthly), 135 (quarterly): `closeAge` |
+| Day, Week, Month, Year | the latest less the value held at least 1, 7, 30 (28 for a monthly row) and 365 days before, no more than 6 days older than that; the base's date on hover | daily rows have a day; weekly rows no day; monthly rows no day or week; quarterly rows a year only | "not held yet" when no base is held; blank ("stale") on a stale row (`shownMove`) |
+| YTD | the latest less the last value held of the year before, no older than 6 days (daily), a week and 6 days (weekly), December (monthly), the fourth quarter (quarterly) before 31 December | every step | as the other moves |
+| Percent beside a move | 100 x the move over the base | | only for a price that cannot be negative: not power, ancillary services, spreads, rates or a row with a formula |
+| 7-day and 30-day avg | the mean of the values held in the 7 and 30 days ending on the latest; the count on hover | daily rows only | |
+| 12-month avg | the mean of the values held in the 365 days ending on the latest, and the latest less it | every step, when 180 daily, 26 weekly, 9 monthly or 4 quarterly values of the year are held | "not held yet" below that; "stale" on a stale row |
+| 30-day low to high | the lowest and highest of the last 30 days | daily rows only | |
+| Trend | the series' own points, the mouse reading each date and value | the last 90 days (daily, at most 90 points), a year (weekly), three years (monthly, quarterly) | no point is filled |
+| One-year range | the lowest and highest of the 365 days ending on the latest, and where the latest sits | as the 12-month avg | |
+| Futures 1 to 4 | "licensed source needed" (CME Group) | gas, crude and products | EIA's NYMEX series end on 5 April 2024 |
+| Day's high / low | the latest complete local day's highest and lowest hour, each with the hour it began in local time; under them the last 7 and 30 days' peak hour and the hours above 100, 250 and 1,000 USD/MWh | power group only | hours, not intervals; a single interval's spike is in the week's spikes |
+| The name's hover | the code, the formula, the interval (`basis`) and the source | | |
+
+### The groups
+
+| Group | Rows (default view first) | Tables | Computation | Step |
+|---|---|---|---|---|
+| Power, by hub and zone | the main hub of ERCOT, CAISO and SPP in both markets; every hub, ERCOT's eight load zones, the node basis by class (monthly, linking `/cost-of-power`) and ERCOT's reliability deployment adder behind Show; NYISO and ISO-NE "license needed", MISO "paused", PJM "licensed source needed" | `ercot_zone_prices_history`, `iso_zone_prices_history`, `ercot_all_hub_prices_history`, `iso_hub_prices_history`, the rolling hub and zone tables; `node_basis_summary`; `ercot_rtm_price_adders` | a daily mean of a complete local operating day's hours (24; 23 or 25 on the daylight saving days), each hour the day-ahead price or the mean of every one of its real-time intervals; an adder that ended is no row | daily (node basis monthly) |
+| Power, on-peak and off-peak | the main hubs | the same | the on-peak hours (ending 7 to 22 local, Monday to Friday; CAISO Monday to Saturday; NERC holidays off-peak) and the others, and their difference | daily |
+| Spark and dark spreads | the main hubs' spark spread, implied heat rate and dark spread; every public hub's spark spread behind Show | the hub rows, `eia_fuel_spot_prices`, `eia_power_plant_fuel_costs` | day-ahead mean - 7.0 x Henry Hub (the day's, else the newest trading day's up to 4 days before); the month's day-ahead mean - 10.5 x US coal delivered | daily; dark monthly |
+| Hub spreads | ERCOT North less Houston, West less North, South less Houston; CAISO NP15 less SP15; SPP North less South; ERCOT hub average less SPP North; CAISO SP15 less ERCOT hub average; day-ahead by default | the hub rows | the first hub's daily mean less the second's on the same date (across grids each on its own local day) | daily |
+| Day-ahead minus real time | every hub and zone with both markets | the hub rows | the two daily means of the same day | daily |
+| Battery spread | every hub and zone | the hub rows | the day's highest hour less its lowest | daily |
+| Ancillary services | ERCOT by default; CAISO and SPP; NYISO and ISO-NE held, MISO paused, PJM licensed | `ercot_as_prices`, `caiso_as_prices`, `spp_as_prices` | a daily mean of a complete local day's hourly day-ahead prices | daily |
+| Natural gas | Henry Hub; NYMEX contracts, seven regional hubs, TTF and JKM as placeholders | `eia_fuel_spot_prices` | EIA's spot close | daily |
+| Natural gas in storage and LNG exports | working gas, Lower 48 and the regions; LNG export price and volume by terminal; US LNG exports and the pipeline trade; daily feedgas a placeholder | `eia_gas_storage_weekly`, `eia_lng_exports_monthly`, `eia_gas_trade_monthly` | as EIA reports | weekly; monthly |
+| Natural gas by sector and state | citygate, homes, commercial, industrial, electric power | `eia_gas_prices_state_monthly` | as EIA reports | monthly |
+| Crude oil | WTI, Brent, Brent less WTI by default; first purchase (with North Dakota), landed, F.O.B. and refiner acquisition behind Show | `eia_fuel_spot_prices`, `eia_crude_stream_prices`, `eia_crude_first_purchase_prices` | EIA's closes and monthly prices | daily; monthly |
+| Refined products, spot | EIA's nine daily product spots | `eia_product_spot_prices` | EIA's closes | daily |
+| Oil spreads | the two 3-2-1 cracks; six cracks by product; Brent less WTI | the product and crude rows | (2 x gasoline + diesel) x 42 / 3 - crude; a product x 42 - crude | daily |
+| Gas spreads, monthly | Europe less the United States, Japan LNG less the United States, Japan LNG less Europe; the regional basis and the LNG netback as placeholders | `wb_commodity_prices_monthly` | the World Bank's monthly averages, the same month | monthly |
+| World energy benchmarks | crude (4), coal (2), gas US and Europe, LNG Japan | `wb_commodity_prices_monthly` | as published | monthly |
+| Retail gasoline and diesel | regions by default (US regular and all grades first); states, cities | `eia_regional_retail_fuel_prices`, `eia_retail_fuel_prices` | as EIA's weekly survey reports | weekly |
+| Heating oil and propane | residential, United States by default | `eia_heating_fuel_prices_weekly` | as EIA reports, October to March | weekly |
+| Retail electricity by state | all sectors, states by default | `eia_retail_electricity_prices` | as EIA-861M reports | monthly |
+| Coal and gas delivered to power plants | coal, every area by default; coal spot by basin as placeholders | `eia_power_plant_fuel_costs` | as EIA-923 reports; a cost of exactly 0 is no delivery and no row | monthly |
+| Uranium and battery metals | uranium, lithium, cobalt, nickel, copper; daily uranium and lithium as placeholders | `imf_commodity_prices` | the IMF's monthly averages | monthly |
+| US Treasury yields | 2, 10, 30 years | `frb_treasury_yields` | the Board's H.15 | daily |
+| Carbon and credits | California's LCFS credit (all and Type 1), California's current and advance auctions; RGGI, EUA, RECs and RINs as placeholders | `carb_lcfs_credit_prices`, `carb_auction_allowance_prices` | as CARB publishes | weekly; quarterly |
+| Delivery charges and transmission peaks | ERCOT's coincident peak load; the Texas delivery charges as a placeholder | `ercot_4cp_intervals` | ERCOT's load in each summer month's 4CP interval, dated the month | monthly, four months a year |
+| Capacity and equities | a placeholder an auction (PJM, NYISO, ISO-NE, MISO); energy equities | none | | |
+
+Beside the groups: the top twelve tiles (`TOP_TWELVE`), the week's table by hub and the week's spikes (`iso_trader_daily`, `iso_rt_top_intervals`), the workbench (any row, by the hour for a power hub; overlays, spreads and ratios, prior years, the distribution with a threshold the reader sets).
+
+### The assumptions, each with its source
+
+- **The spark spread's heat rate, 7.0 MMBtu/MWh**: the board's assumption, about a combined-cycle gas plant, no plant's own; beside it, where `eia_heat_rates_annual` is on the machine that builds, EIA's average operating heat rate of the US natural gas fleet (combined-cycle and peaking plants together), EIA's Electric Power Annual, Table 8.1, its value and year (`heat_ref`).
+- **The dark spread's heat rate, 10.5 MMBtu/MWh**: about the US coal fleet's average; beside it EIA's coal fleet average from the same table.
+- **The gas of every spark spread is Henry Hub**, in Louisiana: no regional gas price is held. The spread is labeled indicative.
+- **The 3-2-1 yields**: two barrels of gasoline and one of diesel from three of crude, before any cost.
+- **The thresholds of the hours above**: 100, 250 and 1,000 USD/MWh, the board's own round numbers (the workbench's threshold is the reader's).
+
+### The tracers
+
+Every number on the page carries a key (`data-n`, the row's id and the figure's name). `site/scripts/check-board.mjs` checks the file first (`boardFileChecks`: a key per cell, the numbers and sources, a floor a group, the placeholders' words with no digit, the new figures' consistency; `--file` alone, with no server) and then every marked number of the served page against the file; `check-board-v4.mjs` the same for the earlier marks. The daily run refuses a board its tests refuse (`tests.test_session132`, `240`, `1118`, `1139`), and `page_keep.py` takes a row only where it is no older and no shorter than the one held. The rows' CSV (`/board/rows`) carries every figure with its source, and its Python and Stata readers (`/board/rows/python`, `/board/rows/stata`) read it as it is. The tests: `tests/test_board_1601.py` to `test_board_1616.py`, each on real rows of the tables (`tests/fixtures/board_16NN/`) or, where a rule needs dates placed around a year's end, on series made in memory and said so.
+
+### What the board cannot show, and why, publisher by publisher
+
+| Publisher | What | Why | What would supply it |
+|---|---|---|---|
+| MISO | every hub, both markets; spreads; reserves; capacity | paused since 4 October 2026: MISO's terms forbid automated access (`miso_pause.md`) | a person's review of the terms |
+| PJM | every hub; spreads; reserves; capacity | PJM publishes under a license and an account the ERW does not hold | PJM Data Miner, under PJM's data license |
+| NYISO, ISO-NE | every hub and zone and every row built from them; reserves; capacity | their terms ask for written permission (`license_status.csv`, from 21 October 2026) | a permission recorded there |
+| CME Group | NYMEX futures, contracts 1 to 4 | EIA's copy ends on 5 April 2024 | CME Group, under license |
+| S&P Global Commodity Insights (Platts), Natural Gas Intelligence | regional gas hubs and their basis; JKM by the day | licensed indices | either, under license |
+| ICE Endex, LSEG | TTF by the day; EUA | licensed | either, under license |
+| S&P Global | coal spot by basin | EIA shows the week's prices by permission and may not release the history | S&P Global |
+| UxC, TradeTech; Fastmarkets, Benchmark Mineral Intelligence | uranium and lithium by the day | licensed | any of them, under license |
+| OPIS, Argus Media | RIN prices | the ERW holds EPA's RINs generated, not their prices | either, under license |
+| S&P Global Commodity Insights, ICE | renewable energy credits | licensed | either, under license |
+| RGGI, Inc. | the auctions' clearing prices | held internal while RGGI's terms are reviewed | RGGI, Inc., under its terms |
+| Data vendors (for example S&P Global Commodity Insights, Wood Mackenzie) | LNG feedgas by the day | compiled from pipeline nominations | such a vendor, under license |
+| Shipping assessments (for example Spark Commodities, the Baltic Exchange) | the LNG netback's freight | not held | either, under license |
+| The Texas utilities, at the PUCT | delivery charges | the ERW's copy is a model's reading of news reports, internal | each utility's tariff as the PUCT posts it |
+| An exchange data vendor | energy equities | licensed | for example Nasdaq Data Link or LSEG |
+
+Not on the board by its rule: annual tables, contracts by signing date (PPAs), tariffs as events, positions (CFTC) and forecasts (EIA's STEO), each named in the audit.
+
 Built in session 30 (Part A) for the site's `/board` (platform tool 2, the real-time price board). Four derived tables, tier `derived`, computed by `warehouse/derived/price_board.py` from the ERW's own tables. The site reads them as they are and computes nothing: every number on `/board` is a value of one of these tables, or of a source table the page names.
 
 ## Common rules
@@ -419,3 +505,71 @@ Tests: `tests/test_board_1608.py`.
 The column "Last 30" is named "Trend" from this session, and its line is no longer the last 30 values: it is the last **90 days** of a daily row (at most 90 points; a fuel's trading days only, so about 63), a **year** of a weekly row (about 53 weeks), and **three years** of a monthly or a quarterly row (36 months, 12 quarters), each ending on the row's latest value (`SPARK_DAYS` and `SPARK_POINTS` in the builder). The points are the series' own, none filled; the mouse reads each point's date and value as before, and the line is drawn by the page's own SVG (no image). The top block's twelve tiles draw the same line. The column header's hover says the spans. Up to 90 points a row make `board.json` larger: session 1618 measures it.
 
 Tests: `tests/test_board_1609.py`.
+
+## The day's extremes (session 1611, chain 165, 6 November 2026)
+
+- **"Day's high / low"**, a column of the power group only (the group's `extremes` flag): each hub's and zone's latest complete local operating day, its highest and its lowest hour, each with the hour it began in the grid's local time (`ext` of the row: the day, the time zone, the two hours' values in UTC and local time, and the count of hours). The hour is the row's own: the day-ahead price, or the mean of the hour's real-time intervals as the row's interval says. The board's hourly store keeps hours, not intervals, so a single interval's spike is in the week's spikes table (`iso_rt_top_intervals`, under "The week, by hub"), not in this column. The hover names the day and the hours. On a stale row the cell reads "stale". A held grid's rows lose `ext` with their other figures (`holdRows`).
+- **The price duration above a threshold the reader sets** is the workbench's: a row opened there shows "Hours above" a threshold the reader types in place (a power row by the hour), with its default (USD 100 per MWh for a power price) and a reset beside it (session 328). Nothing is added for it on the wall.
+
+Tests: `tests/test_board_1611.py`.
+
+## The week and the month in one row (session 1612, chain 165, 6 November 2026)
+
+Under each power row's day high and low, two lines: the last **7** and **30** days, each of the complete local operating days among the 7 or 30 ending on the row's latest day: its **peak hour** (value, day and local time, on hover) and the **hours above 100, 250 and 1,000 USD/MWh** (`h>100/250/1000`), from the row's own hours (`ext.w`, `ext.m`: the days counted, the first, the hours, the peak, the counts). A window short of days says how many it holds on hover; the mean of the week and of the month are the row's 7-day and 30-day averages, already columns. Hours, not intervals (session 1611's note): a count of 15-minute intervals above a price is not held on the board.
+
+Tests: `tests/test_board_1612.py`.
+
+## The comparison: a year before and the twelve-month mean (session 1613, chain 165, 6 November 2026)
+
+- **Against the same date a year before**: the Year move, as since session 132 (the newest value held at least 365 days before and no more than 6 days older than that; its date on hover).
+- **Against the trailing twelve-month mean**: a column "12-month avg", the mean of the values held in the 365 days ending on the row's latest (`avg365`: the mean, the count, and the latest less it, drawn beside the mean). Written only when as many values are held as the one-year range needs (180 daily, 26 weekly, 9 monthly, 4 quarterly), so a zone with six weeks of history reads "not held yet". On a stale row it reads "stale". A held grid's rows lose it (`holdRows`).
+
+Tests: `tests/test_board_1613.py`.
+
+## The downloads of the board as shown (session 1614, chain 165, 6 November 2026)
+
+- **The rows' CSV** (`/board/rows`, session 1137) carries the board as the page shows it: beside its earlier columns, `ytd_move`, `avg_12m` and `vs_12m` (the twelve-month mean and the latest less it), `day_high`, `day_high_local`, `day_low`, `day_low_local` (the power rows' day extremes and the hours they began, local time), `basis` (the row's interval) and `status_words` (the page's words for a row with no figure: "licensed source needed", "license needed", "paused while terms are reviewed", "not held yet"). `hold` stays the last column. A held row carries no figure in any of the columns from `latest` to `source`, and no digit after `latest`.
+- **Readers**: `/board/rows/python` and `/board/rows/stata`, each a script that reads the CSV at the address of the site that served it, prints the `#` header and skips it, loads the rows as they are, and counts the rows by their status words (`rowsReader` in `site/lib/board.ts`). The Stata reader is in the owner's form: no line continuation, one empty line between the commands outside a loop and none inside one, every figure column destrung with force. The footer of `/board` links both beside the CSV.
+- The rows are only the board's own: every public row with its figures and source, every held row with its words. The tables behind them keep their own downloads (CSV, Python, Stata, R) under the board.
+
+Tests: `tests/test_board_1614.py`.
+
+## The checks (session 1616, chain 165, 6 November 2026)
+
+`site/scripts/check-board.mjs` begins with the file's own checks (`boardFileChecks` in `site/lib/board.ts`, on the file as the page draws it, after the day's hold), and with `--file` runs them alone, with no served page:
+
+- a key per cell: every row has its own id (each number's key is the row's id and the figure's name);
+- every row with a value has its date, numbers that are numbers and a source;
+- a floor a group (`GROUP_FLOORS`): about two thirds of the rows with values after the hold on the file of 5 November 2026, and of what this chain's builder adds to its new groups; a group the file does not hold yet is named, not judged;
+- every row with no value shows its words ("licensed source needed", "license needed", "paused while terms are reviewed", "not held yet"), with no digit and no figure;
+- the figures this chain added hold together: a day's high above its low, a week's and a month's peak at least the day's high, the hours above 100, 250 and 1,000 in order; a twelve-month mean's difference the latest less the mean; a year-to-date move measured from the year before;
+- every row of the groups this chain added (hub spreads, gas storage and LNG, gas spreads, costs) says its interval or its formula.
+
+On the served page the script then checks every marked number against the file as before, now with the YTD move, the twelve-month mean and its difference, and the day's high and low with the week's and month's peaks and counts; a stale row's cells are expected blank.
+
+Tests: `tests/test_board_1616.py` (the site's file, a file the builder writes from this chain's fixtures, and a file broken on purpose).
+
+## The file's size and the build's time (session 1618, chain 165, 6 November 2026)
+
+- **Measured**: the site's `board.json` of 5 November 2026 is 992,915 bytes (176,261 compressed), 1,200 rows. Its 1,106 rows with values, their figures made again from their own series files by this chain's `stats()` (the YTD move, the twelve-month mean, the trend over 90 days, a year or three years) and each row given an interval of about 250 characters: 1,483,180 bytes (242,795 compressed). With the rows this chain adds (about 98 with values and 12 placeholders, at the 1,047 bytes a row with values measures) and the day extremes of about 34 power rows (564 bytes each): about 1.54 MB, 265 KB compressed, **about 55 percent more**. The series files (1,106, 4.8 MB) and the hourly files (74, 12.4 MB) grow by the new rows' own files only (the trend's longer span is in `board.json`, not in them).
+- **Decided: not paged, not summarized.** The file does not double; the page sends it in its payload compressed, about 90 KB more than today. The budget for a file not paged is 2.5 MB as written and 400 KB compressed (`tests/test_board_1618.py`, run on the site's file); a build past it is a decision to page the monthly state rows (about 700 of the 1,200) behind their groups' filters, which this note will say when it is made.
+- **The build's time**: the builder took 65 to 112 seconds on the old laptop on 6, 9 and 12 October 2026 (its logs), most of it the ERCOT history's 805,000 hours. This chain's builder reads two more large tables, `ercot_zone_prices_history` (about 560 MB here) and `iso_zone_prices_history` (about 360 MB), so the step's reading roughly doubles: about 3 to 4 minutes on the old laptop, less on the data machine, which holds the tables and builds the board (`dm_board_page`). The runner holds neither table and skips them (`here()`), as it skips the ERCOT history. Not measured whole here: a full build on this machine would take the memory the first window's build needs.
+- **Not done**: dropping a held grid's rows before they are made into hours would save memory, but `build_power` lists a held grid's zones from the hours read and the spark rows of a held grid's main hub would turn from "license needed" to "not held yet"; tried and left out.
+
+## The keys other readers take from the board (session 1621, chain 165, 6 November 2026)
+
+- **The Digest** (`warehouse/news/brief.py`, `day_move`) takes the board's day move from `board_page.stats` on a two-point series; this chain's `stats` gives the same move and percent (`tests/test_board_1621.py`).
+- **Ask's board panel** (`site/lib/chat/panel.ts`) reads each row's latest value and date, its moves `d`, `w`, `m` and `y`, its one-year range and its trend; every one is written under the same name. The trend is now up to 90 points (session 1609), which the panel draws as it is given.
+- **Offered, not wired** (Ask's code and the periodicals belong to other chains): a row's `moves.ytd` (the year to date), `avg365` (`v`, `n`, `ch`: the twelve-month mean, its count, the latest less it), `ext` (a power row's day high and low and the week's and month's peaks and hours above 100, 250 and 1,000) and `basis` (its interval in words). The Roundup's "week in five numbers" could take a hub's `ext.w.peak` as the week's highest hour, and its hours above 100, from the board's file rather than computing them again.
+
+## The 4CP exposure (session 1626, chain 167, 6 November 2026)
+
+**ERCOT hub average, real time, at the month's 4CP interval** (the cost group, beside the coincident peak load): the hub average's 15-minute real-time settlement point price in the interval ERCOT names as each summer month's coincident peak, June to September, dated the month as the load row is. It is what energy cost in the interval that also sets a load's transmission charge for the next year. Read from `ercot_all_hub_prices_history` and `iso_rtm_hub_prices`, each filtered to `ercot_rtm` and `HB_HUBAVG` as it is streamed (the history is never in memory whole a second time), the later table's price for an interval winning (`cp4_price`). On the old laptop's tables all 28 intervals ERCOT published for 2018 to 2025 (2021 not held) are priced, from USD 19.40 per MWh (1 July 2024) to USD 2,847.82 (10 August 2023), figures of the fixture `tests/fixtures/board_1626/`. A month whose interval is not priced is no point. Tests: `tests/test_board_1626.py`.
+
+## The rows' CSV: the week and the month (session 1631, chain 167)
+
+The rows' CSV carries a power row's week and month as its cells show them: `week_peak`, `week_hours_over_100`, `week_hours_over_250`, `week_hours_over_1000` and the same four of the month, between `latest` and `source` (a held row's are empty as its other figures are; the Stata reader destrings them). Tests: `tests/test_board_1631.py`.
+
+## A row with no figure prints its words and no digit (session 1632, chain 167)
+
+A held grid's row (`holdRows`) loses its interval's words (`basis`) and the fleet heat rate beside a spark spread (`heat_ref`) with its figures, and a row the builder holds no value for ("not held yet") is written without them: an interval's words carry digits ("24; 23 or 25", "4 15-minute"), and a row with no figure shows its status words and no digit, in its hover and in its line of the rows' CSV. `boardFileChecks` counts a kept `basis` on such a row as a fault. Tests: `tests/test_board_1632.py`.

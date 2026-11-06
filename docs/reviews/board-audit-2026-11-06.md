@@ -114,7 +114,7 @@ State: **open** until a session closes it; each closing session writes its numbe
 | 25 | EIA's STEO price forecasts: not a market price; not drawn | | | out of scope: for a ruling |
 | 26 | `iso_zone_prices_history` is not read by the builder: its CAISO ZP26 and SPP South day-ahead reach back further than the rolling tables (ZP26 and SPP South have no one-year range on the board) | power | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
 | 27 | The spark spread uses Henry Hub for every grid; no regional gas price is held to replace it (licensed); the heat rate is stated, its source is not | spark | 1606 | closed in 1606: the assumption and EIA's fleet average in the hover; the gas stays Henry Hub (licensed) |
-| 28 | The ERCOT 4CP exposure: needs the year's peaks and a load shape; the peaks are held (gap 7) | spark | 1606 | open: needs the 15-minute price at each interval; for the next chain |
+| 28 | The ERCOT 4CP exposure: needs the year's peaks and a load shape; the peaks are held (gap 7) | spark | 1606 | closed in 1626 (chain 167): the hub average's 15-minute real-time price at each interval, a row of the cost group (`tests/test_board_1626.py`) |
 | 29 | The LNG netback: needs a destination price and shipping and regasification costs; only the World Bank's monthly Japan LNG and Europe gas are held, no freight | oilspreads | 1607 | closed in 1607 (`tests/test_board_1607.py`) |
 
 ## 4. Not drawn, by the board's rule
@@ -155,3 +155,28 @@ The page (`site/app/board/page.tsx`, `site/components/board/BoardView.tsx`, `sit
 - The data machine: `warehouse/run_data_machine.sh`, step `dm_board_page` (`page_keep.py board`, on the machine that holds ERCOT's history), then the group `dm_test_board`.
 - Last built: the file on main says `2026-11-05T17:41:31Z` (the data machine's run of 5 November, commit `3709610b6`); the runner's run of 6 November (`e2794ff06`) built it again, and session 2885 (`06434e862`) put back the rows that run had thinned.
 - A new group or row reaches the page only through a daily run's build: this chain changes the builder, and its rows appear on the page the first day a data machine runs it after the branch lands.
+
+## 8. The trader's questions (sessions 1611 to 1614)
+
+Asked in `docs/reviews/trader-path.md` and the chain file; each answered by a column or a row.
+
+| # | Question | Session | State |
+|---:|---|---|---|
+| 30 | The day's extremes: each grid's highest and lowest real-time interval of the day, with its time; the time above a threshold the reader sets | 1611 | closed in 1611: the day's highest and lowest hour with their local times (the store keeps hours; intervals are in the week's spikes); the threshold is the workbench's (`tests/test_board_1611.py`) |
+| 31 | The week and the month in one row: the mean, the peak hour, the count of intervals above 100, 250 and 1,000 USD/MWh | 1612 | closed in 1612: hours, not intervals; the means are the 7-day and 30-day columns (`tests/test_board_1612.py`) |
+| 32 | The comparison: a hub against the same date a year before and against its trailing twelve-month mean | 1613 | closed in 1613: the Year move and a 12-month column (`tests/test_board_1613.py`) |
+| 33 | The downloads: the board as shown in CSV, Stata and Python, public rows only, every key, the held rows' words and no digit | 1614 | closed in 1614 (`tests/test_board_1614.py`) |
+
+## 9. The second read (sessions 1620 and 1621)
+
+The board's file read as a trader reads the page: every cell a trader wants (level, change, when, against what, how often) present or marked; every figure's key traced. Read on the site's file of 5 November 2026 with its rows' figures made again by this chain's builder from their own series files (session 1618's way), and on the files the builder writes from this chain's fixtures.
+
+| # | Fault | Session | State |
+|---:|---|---|---|
+| 34 | A row outside the power groups (a fuel, a rate, a credit, a retail price) states no time base or step in its hover: "how often" and "when" are the date badge alone | 1620 | closed in 1620: every row without an interval of its own takes its step's (`STEP_BASIS`), "a daily value as the publisher reports it, dated its trading or operating day" and the others (`tests/test_board_1620.py`) |
+| 35 | The day's high and low cell reads "not held yet" on the node basis rows, which are monthly and have no hours: a reader would look for a figure the board could hold | 1620 | closed in 1620: a row that is not daily reads its step ("monthly"), as its 7-day cell does |
+| 36 | ERCOT's reliability deployment adder is a daily row of hours with no day extremes, while every other daily power row has them | 1620 | closed in 1620: `build_adders` writes its `ext` |
+| 37 | The Digest's day move and the board's must agree: `warehouse/news/brief.py` calls `board_page.stats(...)["moves"]["d"]` on a two-point series; this chain changed `stats` (YTD, twelve-month mean, trend span) | 1621 | closed in 1621: the same move and percent on four cases, the fallback formula equal (`tests/test_board_1621.py`) |
+| 38 | Ask's board panel (`site/lib/chat/panel.ts`) reads the moves `d`, `w`, `m`, `y` and the range of each row; this chain renamed no key and added `ytd`, `avg365` and `ext` | 1621 | closed in 1621: every key the panel reads is written as before; the new keys offered in the method note |
+| 39 | The rows' CSV is "the board as shown" but lacks the week's and month's peak hour and the hours above 100, 250 and 1,000 that the power rows' cells show (`rowsCsv`) | 1631 | closed in 1631: eight columns between `latest` and `source` (`tests/test_board_1631.py`) |
+| 40 | A held grid's row keeps its `basis` (`holdRows` drops the figures, not the words): its hover and its CSV line carry the interval's words, digits among them ("24; 23 or 25", "4 15-minute"), where a held row should print its status words and no digit | 1632 | closed in 1632: `holdRows` drops `basis` and `heat_ref`, the builder drops them from a row with no value, the file's checks catch one kept (`tests/test_board_1632.py`) |
