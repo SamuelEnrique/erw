@@ -24,11 +24,18 @@ Long end 0:45. The next file. Then chain 166's note read against main: every bra
 
 Long end 1:00 each. Every step of chain 166 its note says did not finish, in chain 166's order, one a session (session 3065 writes the list here). A push and landing request after session 3069 and after session 3072, as chain 166's sessions 3059 and 3063 do.
 
-The list (session 3065 replaces this paragraph): until then, every step of chain 166 from session 3055 on is listed as unfinished.
+The list, written by session 3065 (chain 166's note, `docs/state/note_2026-11-07_portable_window2.md`, has the why of each):
+
+1. **Session 3067: what the build found.** Rows 3 and 4 of the request are the first build of the monitor's TSX (`site/app/policy/MonitorView.tsx`, `MonitorCalendar.tsx`, `MonitorCharts.tsx`, `site/lib/policymonitor.ts`): read the desktop's landing report or gate output, and fix every type or build error with a test; if the rows are not landed yet, read the code against `components/svgchart.tsx` and `tsconfig.json` and fix what a compile would refuse, with `npx tsc` only if `node_modules` is present.
+2. **Session 3068: the monitor at 390 and 1280, from the built page.** Once landed, read `/policy?view=monitor` as the desktop's snapshot holds it (never by building here): the filters stack above the results at 390, nothing wider than the screen, every hover reachable; fix in the components with a Node test.
+3. **Session 3069: the remaining dates (class 1, 6 of 62 left).** A release's own dates of a forum or a hearing (r38, r58), the water-quality "reasonable period" written as "One year, August 27, 2027" (r50, r72), FERC's procedural schedule given by month (r57: kept as words, no date), r78's sessions. Each a rule with its fixture case; push and request.
+4. **Session 3070: the remaining figures (class 3, 4 of 16 left).** A figure outside the opening paragraph (r6, r22, r29, r31) only where its sentence names the action (its project's name or "the project"), with the sentence kept; tested against the 50 held-out rows for a context figure taken by mistake.
+5. **Session 3071: the tracer on the data machine's copy.** When the desktop has run `policy_sources.py` with the new fields, read its `site/data/policy/monitor.json` on main and run `python scripts/check_policy.py` against the restored `policy_actions` (`scripts/sync.py --tables ^policy`): every FAIL fixed at its rule.
+6. **Session 3072: the owner's rulings.** Whatever the owner has ruled on chain 166's seven questions (the note's list): a rescoring of the 507 "policy" sectors (an estimate printed, never run here), `policy_action_records` as a table, the impact read as a daily step, the monitor as the first view. With no ruling, the session says so in its report and does the faults row of session 3073 instead; push and request.
 
 ## Sessions 3073 to 3076: the faults file's open rows
 
-Long end 1:00 each. The open rows of `docs/reviews/policy-audit-2026-11-06.md`, one fault class a session, largest count first: a fixture of stored stories with answers written from their own text, the test, the fix, the audit row's count before and after. A push and landing request after session 3076.
+Long end 1:00 each. The open rows of `docs/reviews/policy-audit-2026-11-06.md`, one fault class a session, largest count first (after chain 166: class 4, sector "policy", 16 of 80 and 507 of the table, needing a rescoring under the owner's ruling; class 6, places, 6; class 9, scope, 4; class 10, significance, 2): a fixture of stored stories with answers written from their own text, the test, the fix, the audit row's count before and after. A push and landing request after session 3076.
 
 ## Session 3077: the note, the next file, the push, the queue
 
