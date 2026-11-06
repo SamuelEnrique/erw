@@ -1193,5 +1193,51 @@ class Session1437WhyLines(unittest.TestCase):
             self.assertIn("one fact the story", text)
 
 
+class Session1438OneTopic(unittest.TestCase):
+    """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
+    story of the sector that is not about the price keeps the sector-and-region key."""
+
+    def rec(self, title, sector, region):
+        return {"cluster_id": title[:12], "titles": [title], "sector": sector, "region": region, "parties": "", "mw": "", "price": ""}
+
+    def test_two_oil_price_stories_are_one_topic(self):
+        a = self.rec("Oil Prices Rise on Fears of Middle East Conflict Escalation", "oil", "global")
+        b = self.rec("Oil Prices Dip but Hold Above $100 as Middle East Supply Threats Mount", "oil", "Middle East")
+        self.assertEqual(brief.price_commodity(a), "oil")
+        self.assertTrue(brief.same_topic(a, b))
+        c = self.rec("Brent tops $116 as Middle East risks grow", "geopolitics", "Saudi Arabia")
+        self.assertTrue(brief.same_topic(a, c))
+
+    def test_a_field_is_not_a_price_story(self):
+        a = self.rec("Oil Prices Rise on Fears of Middle East Conflict Escalation", "oil", "global")
+        b = self.rec("Eni advances Venezuelan heavy oil project, eyes year-end approval", "oil", "Venezuela")
+        self.assertEqual(brief.price_commodity(b), "")
+        self.assertFalse(brief.same_topic(a, b))
+        g = self.rec("European gas prices reach their highest since 2022 on LNG supply fears", "gas", "Europe")
+        h = self.rec("Henry Hub falls as forecasts turn cooler", "gas", "United States")
+        self.assertTrue(brief.same_topic(g, h))
+        self.assertFalse(brief.same_topic(a, g))
+
+    def test_the_26_october_top_ten_holds_one_oil_price_item(self):
+        path = os.path.join(ROOT, "warehouse", "output", "news_stories.csv")
+        if not os.path.exists(path):
+            self.skipTest("news_stories.csv is not here")
+        with open(path, encoding="utf-8") as f:
+            body = "".join(ln for ln in f if not ln.startswith("#"))
+        s = pd.read_csv(io.StringIO(body), dtype=str, keep_default_na=False)
+        when = pd.to_datetime(s["event_date"], utc=True, format="ISO8601")
+        now = pd.Timestamp("2026-10-26 15:45", tz="UTC")
+        s = s[(s["scored_at"] != "") & (when >= now - pd.Timedelta(hours=72)) & (when <= now)].copy()
+        if len(s) < 200:
+            self.skipTest("the stories of 23 to 26 October are not scored here")
+        s["sig"] = s["significance"].astype(int)
+        s["ai"] = s["ai_power_relevance"].astype(int)
+        c = brief.build_clusters(s[s["sig"] > 0])
+        top10, _ = brief.one_per_topic(c, 10, lambda *a, **k: None)
+        oil_price = [r for r in top10.to_dict("records") if brief.price_commodity(r) == "oil"]
+        self.assertEqual(len(oil_price), 1)
+        self.assertEqual(len(top10), 10)
+
+
 if __name__ == "__main__":
     unittest.main()

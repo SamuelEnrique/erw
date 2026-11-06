@@ -1307,11 +1307,34 @@ def region_key(r):
     return re.sub(r"\s+", " ", str(r.get("region") or "").strip().lower())
 
 
+# Session 1438 (chain 149, fault 12): a price story's topic is its commodity, whatever region the scorer gave. On
+# 26 October "Oil prices rise on fears of Middle East conflict escalation" (oil, global) and "Oil prices dip but hold
+# above $100" (oil, Middle East) were two of the top ten; a reader counts them as one story. A story of the oil sector
+# that is not about the price (a Venezuelan field, a refinery) keeps the sector-and-region key.
+PRICE_STORY = {"oil": r"\b(?:brent|wti|crude|oil prices?|a barrel|per barrel)\b",
+               "gas": r"\b(?:henry hub|ttf|jkm|gas prices?|natural gas prices?|mmbtu)\b",
+               "power": r"\b(?:power prices?|electricity prices?|per mwh|usd/mwh)\b"}
+
+
+def price_commodity(r):
+    """The commodity a price story is about ("oil", "gas", "power") from its lead title's words, "" for a story that is
+    not about a price."""
+    title = str((r.get("titles") or [""])[0] if isinstance(r, dict) else "").lower()
+    for k, pat in PRICE_STORY.items():
+        if re.search(pat, title):
+            return k
+    return ""
+
+
 def same_topic(a, b):
     """Two clusters are one topic: one sector in one region, or a party in common and TOPIC_WORDS or more content words
     shared by their lead titles. Session 2701 (rulings item 13, the 24-hour default): the key is the sector with the
     region, so Mexico's 8,200 MW and India's coal stocks are two topics though both are "generation"; a cluster whose
-    region is not given is of every region (the sector alone decides, as before)."""
+    region is not given is of every region (the sector alone decides, as before). Session 1438: two price stories of one
+    commodity (price_commodity) are one topic whatever their regions."""
+    pa, pb = price_commodity(a), price_commodity(b)
+    if pa and pa == pb:
+        return True
     if a.get("sector") == b.get("sector"):
         ra, rb = region_key(a), region_key(b)
         if not ra or not rb or ra == rb:
