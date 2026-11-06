@@ -44,7 +44,7 @@ One step a session, in chain 154's order, as session 1484 lists them under "Unfi
 
 ### Unfinished steps (written by session 1484 of chain 154)
 
-(To be filled by session 1484. One line a step, in chain 154's order: the session of chain 154 that owned it, the step's number, what remains, and the exact commands where the step was a landing.)
+- None: every branch of chain 154 is on main (`f03182f51`, sessions 1472 to 1480); sessions 1481 to 1484 worked on main (`docs/state/note_2026-11-08_code.md`). Sessions 1486 to 1489 take the open faults below, or run the dry runs the free sessions run.
 
 ## Sessions 1490 to 1495: the faults still open
 
@@ -54,7 +54,8 @@ One fault a session, from `docs/reviews/periodicals-faults-2026-11-05.md`, in th
 
 ### Open faults (written by session 1484 of chain 154)
 
-(To be filled by session 1484: the faults file's open rows, one a line with its number, in the file's order. When fewer than six are open, the free sessions run one more dry run of each periodical on the newest stories held, read it as a reader, send the previews to the fixed recipients, and append the faults.)
+- None open (56 rows: 49 fixed, 5 the owner's, 1 "not fixed, for the owner", 1 the data machine's). The free sessions run one more dry run of each periodical on the newest stories held, read it as a reader, send the previews to the fixed recipients, and append the faults; the first such run after Monday 9 November's scheduled Digest reads the scorer's new prompt's lines (every story held on 6 November was scored with the old one), and its faults are the first sessions' work.
+- The owner's, not to be decided here: rows 19, 20, 39, 40, 47, 49, and the scorer's model for the why line (chain 150's note, question 1).
 
 ## Session 1496: the fifth dry runs, read, the previews sent
 
