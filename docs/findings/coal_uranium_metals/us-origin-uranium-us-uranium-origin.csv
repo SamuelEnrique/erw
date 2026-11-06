@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate us_origin_uranium, region us_uranium_origin (the United States)
+# Computed 2026-11-06T14:08:46Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (us_origin_uranium); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the uranium of US origin as a percent of all the uranium the owners and operators of US reactors bought (percent of uranium purchased), the observations it rests on, and whether the year is full
+# Tables: eia_uranium_marketing_annual
+region,year,value,n_observations,full_year
+us_uranium_origin,2003,18.036497382939597,1.0,1
+us_uranium_origin,2004,19.253689432467002,1.0,1
+us_uranium_origin,2005,16.740939025688604,1.0,1
+us_uranium_origin,2006,16.241602669111348,1.0,1
+us_uranium_origin,2007,7.79279367632348,1.0,1
+us_uranium_origin,2008,14.469664311285214,1.0,1
+us_uranium_origin,2009,14.15412402167369,1.0,1
+us_uranium_origin,2010,7.915074492293161,1.0,1
+us_uranium_origin,2011,9.492805164961426,1.0,1
+us_uranium_origin,2012,17.049721835883172,1.0,1
+us_uranium_origin,2013,16.52178457571904,1.0,1
+us_uranium_origin,2014,6.215674145719695,1.0,1
+us_uranium_origin,2015,6.017699115044247,1.0,1
+us_uranium_origin,2016,10.671936758893281,1.0,1
+us_uranium_origin,2017,6.744186046511628,1.0,1
+us_uranium_origin,2018,9.67741935483871,1.0,1
+us_uranium_origin,2021,5.353319057815845,1.0,1
+us_uranium_origin,2023,4.651162790697675,1.0,1
+us_uranium_origin,2024,7.6923076923076925,1.0,1
+us_uranium_origin,2025,7.249466950959488,1.0,1
