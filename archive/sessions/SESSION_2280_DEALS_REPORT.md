@@ -1,6 +1,6 @@
 # Session 2280 (chain 174, deals and datacenters) report: the records and the clean-up
 
-6 November 2026, about 13:59 to 14:01 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2280-deals`, cut from `wip/2279-deals`. Model spend **USD 0**. Nothing deployed; no warehouse data written.
+6 November 2026, about 13:55 to 13:56 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2280-deals`, cut from `wip/2279-deals`. Model spend **USD 0**. Nothing deployed; no warehouse data written.
 
 - **The records**: no table written by this chain (a code machine); nothing to rebuild.
 - **Worktrees**: no branch of chains 156, 159 or 174 has landed, so none removed; `erw-2254` (this chain's, with the site's packages) kept for the next chain; the four kept since session 2230 for your ruling stay.
