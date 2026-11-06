@@ -1,6 +1,6 @@
 # Session 3702 report: Research's method note, its replication, cross-checks and decisions
 
-Energy Research Warehouse (ERW). Chain 208, session 3 of 20, portable laptop, 6 November 2026, about 23:10 to 23:30 UTC. Branch `wip/3701-sellable`, head `2fccf0785`.
+Energy Research Warehouse (ERW). Chain 208, session 3 of 20, portable laptop, 6 November 2026, about 22:02 to 22:05 UTC. Branch `wip/3701-sellable`, head `2fccf0785`.
 
 - **`docs/methods/automated_analysis.md`** gains three sections:
   - **Replication:** the package, its files, what it found on 6 November, and the test.

@@ -1,6 +1,6 @@
 # Session 3701 report: Research's replication a reader can run
 
-Energy Research Warehouse (ERW). Chain 208, session 2 of 20, portable laptop, 6 November 2026, about 22:15 to 23:10 UTC. Branch `wip/3701-sellable` (worktree `Documents\erw-3701`, cut from `origin/main` at `0f544a79d`), head `29f9038ea`.
+Energy Research Warehouse (ERW). Chain 208, session 2 of 20, portable laptop, 6 November 2026, about 21:50 to 22:02 UTC. Branch `wip/3701-sellable` (worktree `Documents\erw-3701`, cut from `origin/main` at `0f544a79d`), head `29f9038ea`.
 
 - **`replication/analysis/`**, in chain 158's form:
   - `figures_of_the_page.py` writes `page_figures.json` and `.csv`: the 78 figures `/research` prints (the twelve current cards' callouts, each with its Num check key, and the four figures of the weekly chart's finding sentence). It reads the cards' own files, as `check-values.mjs` does, and refuses when a callout's text is not the card figure `FIELDS` names.
