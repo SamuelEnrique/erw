@@ -203,7 +203,7 @@ class TheMenu(unittest.TestCase):
     def test_the_groups_of_the_merged_site(self):
         group = lambda label: re.search(r'label: "%s",\s*pages: \[(.*?)\n    \],' % label, self.pages, flags=re.S).group(1)
         hrefs = lambda label: re.findall(r'\{ href: "([^"]+)"', code(group(label)))
-        self.assertEqual(hrefs("Infrastructure"), ["/map", "/datacenters", "/storage", "/deals", "/companies", "/capital"])   # sessions 3304 and 3306 (chain 200): the company database and capital flows
+        self.assertEqual(hrefs("Infrastructure"), ["/map", "/datacenters", "/storage", "/deals", "/companies", "/deals/capital"])   # sessions 3304 and 3306 (chain 200): the company database and capital flows
         self.assertEqual(hrefs("Economics"), ["/board", "/prices", "/supply", "/contracts", "/severance", "/impact"])   # Power contracts stays (the owner's ruling); session 288: the bill moved to Games; session 347: the economic impact tool
         self.assertIn("/thesis", hrefs("Analysis"))   # Thesis Builder stays (the owner's ruling)
         # session 288 (Samuel's ruling 14 of 14 October 2026): the battery game, the tour, the bill and the problem sets' index

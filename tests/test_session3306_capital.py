@@ -1,4 +1,4 @@
-"""Session 3306 (chain 200): /capital, capital flows' first view (warehouse/derived/capital_page.py).
+"""Session 3306 (chain 200): /deals/capital, capital flows' first view (warehouse/derived/capital_page.py).
 
 Energy Research Warehouse (ERW). The committed file (site/data/capital.json) holds nothing of a held row; the
 computation on deals written here (test fixtures, not the warehouse's): the quarters, the USD summed only where stated,

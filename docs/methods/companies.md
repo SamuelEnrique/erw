@@ -87,7 +87,7 @@ Written by `check_companies.py --crosscheck` to `docs/reviews/companies-crossche
 
 ## Capital
 
-`/capital` (platform tool 11, its first view; `warehouse/derived/capital_page.py`, `site/data/capital.json`) draws the capital rows of `energy_deals` (deal types project_finance, m_and_a, debt, equity_raise): by quarter and type, the rows, the USD stated summed and the rows with no USD; the same by segment (the deal's technology) and by the kind of the company that brings the money (the buyer: the acquirer of an M&A, the lender or the investor of a financing, its kind from `company_directory`; "not named" when no buyer is named; a deal with buyers of two kinds counts once in each); the share of deals that state a USD amount; the twenty largest by USD with their stories. Nothing is filled in. While `energy_deals` is held, the file holds the hold and the table's row count only and the page says so.
+`/deals/capital` (platform tool 11, its first view; `warehouse/derived/capital_page.py`, `site/data/capital.json`) draws the capital rows of `energy_deals` (deal types project_finance, m_and_a, debt, equity_raise): by quarter and type, the rows, the USD stated summed and the rows with no USD; the same by segment (the deal's technology) and by the kind of the company that brings the money (the buyer: the acquirer of an M&A, the lender or the investor of a financing, its kind from `company_directory`; "not named" when no buyer is named; a deal with buyers of two kinds counts once in each); the share of deals that state a USD amount; the twenty largest by USD with their stories. Nothing is filled in. While `energy_deals` is held, the file holds the hold and the table's row count only and the page says so.
 
 ## What it cannot say
 
@@ -102,4 +102,4 @@ Written by `check_companies.py --crosscheck` to `docs/reviews/companies-crossche
 - Session 3302: the three tables written under the data lock and archived; coverage's tier (model_extracted) and iso (none) rules.
 - Session 3303: this note, the tracers and the cross-checks.
 - Session 3304: the pages, their files and tracers; the NRC's several licensees in one field split.
-- Session 3306: `/capital`.
+- Session 3306: `/capital`, moved to `/deals/capital` by session 3307 (the `/deals` line of `site/lib/release.ts` covers it; that file is not changed).

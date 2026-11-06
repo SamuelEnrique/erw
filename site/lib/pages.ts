@@ -100,7 +100,7 @@ export const GROUPS: Group[] = [
       // session 3304 (chain 200): the company database (platform tool 10), its own page again (until then /companies redirected to the deals page's Companies tab, which stays)
       { href: "/companies", label: "Companies", line: "Every company the warehouse names: EIA's operators, owners and utilities, ERCOT's queue, the NRC's licensees and the policy agencies, each with its plants, plans, queue positions and the rows that name it.", tables: "company_directory, company_aliases, company_links", related: ["/deals", "/map", "/storage"] },
       // session 3306 (chain 200): capital flows (platform tool 11), its first view, from the deal tracker's capital rows and the company database
-      { href: "/capital", label: "Capital flows", line: "Project finance, acquisitions, debt and equity raises in the deal tracker, by quarter, segment and the kind of company that brings the money, with the share that discloses its size.", tables: "energy_deals, company_links, company_directory", related: ["/deals", "/companies"] },
+      { href: "/deals/capital", label: "Capital flows", line: "Project finance, acquisitions, debt and equity raises in the deal tracker, by quarter, segment and the kind of company that brings the money, with the share that discloses its size.", tables: "energy_deals, company_links, company_directory", related: ["/deals", "/companies"] },  // under /deals: its release line covers it (site/lib/release.ts is not changed)
     ],
   },
   {

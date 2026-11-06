@@ -88,10 +88,10 @@ export default async function Capital({ searchParams }: { searchParams: Promise<
       {head}
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Choose" reset={{ href: "/capital", defaults: "every kind of capital deal." }}>
+          <InputPanel title="Choose" reset={{ href: "/deals/capital", defaults: "every kind of capital deal." }}>
             <nav aria-label="Deal type" className="text-sm">
-              <div><Link href="/capital" aria-current={!pick ? "true" : undefined}>Every type</Link></div>
-              {types.map((t) => <div key={t}><Link href={`/capital?type=${t}`} aria-current={t === pick ? "true" : undefined}>{words[t] ?? t}</Link></div>)}
+              <div><Link href="/deals/capital" aria-current={!pick ? "true" : undefined}>Every type</Link></div>
+              {types.map((t) => <div key={t}><Link href={`/deals/capital?type=${t}`} aria-current={t === pick ? "true" : undefined}>{words[t] ?? t}</Link></div>)}
             </nav>
           </InputPanel>
         </aside>
