@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW). Written by chain 165 (`queue/done/165-day-6-nov
 
 | # | Branch | Head | Task | Port | Requested (UTC) | Tests on this machine | State |
 |---:|---|---|---|---:|---|---|---|
-| 1 | `wip/1605-board` | `19fd5c0c0` | `1600-1605-board` | 3600 | 2026-11-06 | the board's and the page's test files: 127 run, 1 skipped, 1 failure (below); the whole suite not run to the end (below) | held in row 2: land row 3 in its place |
+| 1 | `wip/1605-board` | `19fd5c0c0` | `1600-1605-board` | 3600 | 2026-11-06 | the board's and the page's test files: 127 run, 1 skipped, 1 failure (below); the whole suite not run to the end (below) | held in row 3: land row 3 in its place |
 | 2 | `wip/1610-board` | `edd783ea6` | `1600-1610-board` | 3600 | 2026-11-06 | the board's and the page's test files: 134 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | held in row 3: land row 3 in its place |
 | 3 | `wip/1615-board` | `93600319f` | `1600-1615-board` | 3600 | 2026-11-06 | the board's and the page's test files: 151 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | waiting |
 
