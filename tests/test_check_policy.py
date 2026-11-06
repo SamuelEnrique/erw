@@ -41,5 +41,16 @@ class Trace(unittest.TestCase):
         self.assertEqual(C.check(self.k(date="2026-12-09"), self.rows)[0], "not here", "a summary-only row: its text may state it")
 
 
+class Sums(unittest.TestCase):
+    def test_a_sum_is_its_records_figures_each_traced(self):
+        figs = {"a": ("ok", 100.0, "MW"), "b": ("ok", 24.0, "MW"), "c": ("FAIL", 5.0, "MW"), "d": ("ok", 1e6, "USD")}
+        k = {"key": "s", "kind": "sum", "record": "a;b", "unit": "MW", "value": 124, "event_id": ""}
+        self.assertEqual(C.check_sum(k, figs)[0], "ok")
+        self.assertEqual(C.check_sum(dict(k, value=125), figs)[0], "FAIL")
+        self.assertEqual(C.check_sum(dict(k, record="a;c", value=105), figs)[0], "FAIL", "a figure of it fails")
+        self.assertEqual(C.check_sum(dict(k, record="a;d", value=1000100), figs)[0], "FAIL", "another unit")
+        self.assertEqual(C.check_sum(dict(k, record="a;z"), figs)[0], "FAIL", "a record with no figure key")
+
+
 if __name__ == "__main__":
     unittest.main()

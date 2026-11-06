@@ -12,6 +12,8 @@ its calendar and each figure of its table carries a key (site/lib/policymonitor.
                 summary; and the record holds the document (its proceeding id is the row's, or the record is that
                 document's own)
     policyfig   the figure (value and unit) is the row's figure_value and figure_unit, or what derive reads, the same way
+    policysum   (session 3062) a chart's sum of MW or USD in a month: every record it names has its figure traced, in
+                that unit, and the figures add to the sum
 
     python scripts/check_policy.py                    # the local CSVs (warehouse/output), read only
     python scripts/check_policy.py --in-dir DIR       # the CSVs of another copy
@@ -89,6 +91,24 @@ def check(k, rows):
     return "FAIL", f"{pair} is not in the row's dates ({'; '.join(have) or 'none'})"
 
 
+def check_sum(k, figures):
+    """A sum of the charts (policysum|<unit>|<month>|<value>|<n>): every record it names has its figure traced, in the
+    sum's unit, and the figures add to the sum."""
+    recs = [r for r in k["record"].split(";") if r]
+    missing = [r for r in recs if r not in figures]
+    if missing:
+        return "FAIL", f"records with no figure key: {missing[:3]}"
+    bad = [r for r in recs if figures[r][0] == "FAIL" or figures[r][2] != k["unit"]]
+    if bad:
+        return "FAIL", f"records whose figure fails or is in another unit: {bad[:3]}"
+    total = sum(figures[r][1] for r in recs)
+    if abs(total - float(k["value"])) > 1e-6 * max(1.0, abs(total)):
+        return "FAIL", f"the {len(recs)} figures add to {total:g}, not {k['value']}"
+    if any(figures[r][0] == "not here" for r in recs):
+        return "not here", "a figure of the sum is not traced on this copy"
+    return "ok", f"{len(recs)} figures, each traced"
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW: trace the policy monitor's dates and figures (session 3061)")
     ap.add_argument("--in-dir", default=os.path.join(ROOT, "warehouse", "output"))
@@ -102,8 +122,19 @@ def main(argv=None):
         got = keys_from_site(args.file)
     rows = read_actions(args.in_dir)
     n = {"ok": 0, "FAIL": 0, "not here": 0}
+    figures = {}   # record: (verdict, value, unit) of its figure, for the sums
     for k in got["keys"]:
+        if k["kind"] == "sum":
+            continue
         verdict, why = check(k, rows)
+        if k["kind"] == "figure":
+            figures[k["record"]] = (verdict, float(k["value"]), k["unit"])
+        n[verdict] += 1
+        print(f"{verdict:8s} {k['key']}  {why}")
+    for k in got["keys"]:   # session 3062: a chart's sum is its records' figures, each traced, added
+        if k["kind"] != "sum":
+            continue
+        verdict, why = check_sum(k, figures)
         n[verdict] += 1
         print(f"{verdict:8s} {k['key']}  {why}")
     print(f"check_policy: {len(got['keys'])} keys of monitor.json (built {got['built']}, {got['records']} records): "

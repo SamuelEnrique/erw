@@ -60,7 +60,19 @@ ok(c.ahead.map((x) => `${x.row.id}:${x.step.date}`).join() === "q:2026-11-07,p:2
 ok(M.stepKey(withSteps[0], withSteps[0].steps[0]) === "policycal|p|federalregister:9|comments_due|2026-11-20", "a step's key names its record, document, kind and date");
 ok(M.figureKey(rows[0]) === "policyfig|a|e|750000|Dth/d" && M.figureKey(rows[1]) === "", "a figure's key; none without one");
 const keys = M.keysOf({ rows: withSteps.concat(rows) });
-ok(keys.length === 5 && keys.every((k) => k.key.startsWith("policycal|") || k.key.startsWith("policyfig|")), "every step and figure has its key");
+ok(keys.filter((k) => k.kind !== "sum").length === 5 && keys.every((k) => /^policy(cal|fig|sum)\|/.test(k.key)), "every step and figure has its key (and since session 3062 each sum)");
+
+// session 3062: the charts' data, the sums and the readers
+const bm = M.byBodyMonth(rows, 1);
+ok(bm.months.join() === "2026-08,2026-09,2026-10,2026-11" && bm.series.map((x) => x.name).join() === "FERC,Other", "records by month and body: the top bodies, the rest as Other");
+ok(bm.series[0].values.join() === "1,0,0,1" && bm.series[1].values.join() === "0,1,1,0", "each month's count of each body");
+const ss = M.sigBySector(rows);
+ok(ss.sectors.join() === "gas,nuclear,oil" && ss.series.map((x) => x.values.join("")).join("|") === "001|010|100", "records by sector and band of significance; the unscored left out");
+const sums = M.figureSums(rows);
+ok(sums.length === 1 && sums[0].unit === "USD" && sums[0].value === 42000000 && sums[0].records.join() === "c", "only MW and USD are summed (Dth/d is not), each with its records");
+ok(M.sumKey(sums[0]) === "policysum|USD|2026-09|42000000|1", "a sum's key");
+ok(M.pythonReader("x.csv").includes('pd.read_csv("x.csv", comment="#"') && M.stataReader("x.csv").includes('import delimited using "x.csv"'), "a Python and a Stata reader of the CSV");
+ok(M.keysOf({ rows }).some((k) => k.kind === "sum" && k.record === "c"), "the sums are among the keys");
 
 // the data file the view reads
 ok(file.records === file.rows.length && file.rows.length > 1000, `the file holds its ${file.records} records`);

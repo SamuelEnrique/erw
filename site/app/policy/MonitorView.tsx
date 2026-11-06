@@ -7,9 +7,10 @@ import { Fragment, useMemo, useState } from "react";
 import {
   INSTRUMENT_WORDS, OPEN_FILTERS, SORT_KEYS, STATUS_WORDS, GRID_WORDS, figureText, filterRows, hrefOf, options, sortRows, toCsv,
   type Filters, type MonitorRow, type Option, type SortKey,
-  figureKey,
+  figureKey, pythonReader, stataReader,
 } from "@/lib/policymonitor";
 import { MonitorCalendar } from "./MonitorCalendar";
+import { MonitorCharts } from "./MonitorCharts";
 
 const tip = "cursor-help border-b border-dotted border-muted";
 const HEAD: Record<SortKey, [string, string]> = {
@@ -49,6 +50,9 @@ export function MonitorView({ rows, built, held, opened, today }: { rows: Monito
   const shown = useMemo(() => sortRows(filterRows(rows, f), sort[0], sort[1]), [rows, f, sort]);
   const put = (next: Filters) => { setF(next); window.history.replaceState(null, "", hrefOf(next)); };
   const csvHref = useMemo(() => `data:text/csv;charset=utf-8,${encodeURIComponent(toCsv(shown, built))}`, [shown, built]);
+  // session 3062: a Python and a Stata reader of that CSV, as the site's TableDownloads gives for a whole table
+  const pyHref = `data:text/x-python;charset=utf-8,${encodeURIComponent(pythonReader("erw-policy-monitor.csv"))}`;
+  const doHref = `data:text/plain;charset=utf-8,${encodeURIComponent(stataReader("erw-policy-monitor.csv"))}`;
   const head = (k: SortKey) => (
     <th key={k} className="py-1 pr-3" aria-sort={sort[0] === k ? (sort[1] === "asc" ? "ascending" : "descending") : "none"}>
       <button type="button" className={tip} title={HEAD[k][1]} data-sort={k}
@@ -87,7 +91,9 @@ export function MonitorView({ rows, built, held, opened, today }: { rows: Monito
         <p className="mb-2 text-xs text-muted" data-monitor-shown={shown.length} data-monitor-held={held}>
           <span className={tip} title="The records the filters leave, counted on this page.">{shown.length}</span> shown of{" "}
           <span className={tip} title={`Every record of data/policy/monitor.json, built ${built} from policy_actions: the documents that name one proceeding, grouped.`}>{held}</span> records held
-          {" · "}<a href={csvHref} download="erw-policy-monitor.csv" data-monitor-csv="1" className={tip} title="The records shown, with every source, as CSV.">CSV of these</a>
+          {" · "}<a href={csvHref} download="erw-policy-monitor.csv" data-monitor-csv="1" className={tip} title="The records shown, with every source, as CSV.">CSV of these</a>,{" "}
+          <a href={pyHref} download="erw-policy-monitor.py" data-download="python" className={tip} title="A Python reader of that CSV (pandas).">Python</a>,{" "}
+          <a href={doHref} download="erw-policy-monitor.do" data-download="stata" className={tip} title="A Stata reader of that CSV.">Stata</a>
         </p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -128,6 +134,7 @@ export function MonitorView({ rows, built, held, opened, today }: { rows: Monito
           </table>
         </div>
         {shown.length > 300 ? <p className="mt-2 text-xs text-muted">The first 300 are listed; narrow the filters, or take the CSV, for the rest.</p> : null}
+        <MonitorCharts rows={rows} />
       </section>
     </div>
   );

@@ -184,5 +184,69 @@ export function keysOf(file: MonitorFile): { key: string; record: string; event_
     for (const s of ((r as MonitorRow & { steps?: CalStep[] }).steps ?? [])) out.push({ key: stepKey(r, s), record: r.id, event_id: s.event_id, kind: s.kind, date: s.date });
     if (r.figure) out.push({ key: figureKey(r), record: r.id, event_id: r.figure.event_id, kind: "figure", value: r.figure.value, unit: r.figure.unit });
   }
+  // session 3062: the charts' sums, each with the records whose figures it adds
+  for (const s of figureSums(file.rows)) out.push({ key: sumKey(s), record: s.records.join(";"), event_id: "", kind: "sum", date: s.month, value: s.value, unit: s.unit });
   return out;
+}
+
+// Session 3062 (chain 166): the monitor's charts and downloads. The charts describe every record of the file (not the
+// filtered set), so each summed figure has one value that scripts/check_policy.py can trace; the counts and sums are
+// of the records' own fields, nothing estimated.
+export const monthOf = (iso: string) => iso.slice(0, 7);
+export function monthsOf(rows: MonitorRow[]): string[] {
+  return [...new Set(rows.map((r) => monthOf(r.date)))].sort();
+}
+
+/** Records by month of their newest document, one series a body: the `top` bodies by count, the rest as "Other". */
+export function byBodyMonth(rows: MonitorRow[], top = 6): { months: string[]; series: { name: string; values: number[] }[] } {
+  const months = monthsOf(rows);
+  const count = new Map<string, number>();
+  for (const r of rows) count.set(r.body, (count.get(r.body) ?? 0) + 1);
+  const named = [...count.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).slice(0, top).map(([b]) => b);
+  const names = [...named, ...(count.size > named.length ? ["Other"] : [])];
+  const series = names.map((name) => ({ name, values: months.map((m) => rows.filter((r) => monthOf(r.date) === m && (name === "Other" ? !named.includes(r.body) : r.body === name)).length) }));
+  return { months, series };
+}
+
+export const SIG_BANDS = [["0 to 4", 0, 4], ["5 to 6", 5, 6], ["7 to 10", 7, 10]] as const;
+/** Records by sector, one series a band of significance (the scorer's sector and significance; a record unscored is left out). */
+export function sigBySector(rows: MonitorRow[], top = 12): { sectors: string[]; series: { name: string; values: number[] }[] } {
+  const scored = rows.filter((r) => r.sector && r.significance !== undefined && r.significance !== null);
+  const count = new Map<string, number>();
+  for (const r of scored) count.set(r.sector!, (count.get(r.sector!) ?? 0) + 1);
+  const sectors = [...count.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).slice(0, top).map(([s]) => s);
+  return { sectors, series: SIG_BANDS.map(([name, lo, hi]) => ({ name, values: sectors.map((s) => scored.filter((r) => r.sector === s && r.significance! >= lo && r.significance! <= hi).length) })) };
+}
+
+export const SUM_UNITS = ["MW", "USD"] as const;
+export type Sum = { unit: string; month: string; value: number; records: string[] };
+/** The figures a record states as its own, in MW or USD, summed by month: only where disclosed, each with its records. */
+export function figureSums(rows: MonitorRow[]): Sum[] {
+  const out = new Map<string, Sum>();
+  for (const r of rows) {
+    if (!r.figure || !(SUM_UNITS as readonly string[]).includes(r.figure.unit)) continue;
+    const k = `${r.figure.unit}|${monthOf(r.date)}`;
+    const s = out.get(k) ?? { unit: r.figure.unit, month: monthOf(r.date), value: 0, records: [] };
+    s.value += r.figure.value;
+    s.records.push(r.id);
+    out.set(k, s);
+  }
+  return [...out.values()].sort((a, b) => (a.unit !== b.unit ? (a.unit < b.unit ? -1 : 1) : a.month < b.month ? -1 : 1));
+}
+/** A sum's check key: scripts/check_policy.py adds the figures of its records, each traced, and compares. */
+export const sumKey = (s: Sum) => `policysum|${s.unit}|${s.month}|${s.value}|${s.records.length}`;
+
+/** A Python and a Stata reader of the CSV the page hands out (toCsv), with its provenance line skipped. */
+export function pythonReader(csvName: string): string {
+  return [`# ERW policy monitor: a reader of ${csvName}, the records as filtered on /policy?view=monitor.`,
+    "# Method: docs/methods/policy_monitor.md. Every source of a record is in its sources column.",
+    "import pandas as pd", "", `df = pd.read_csv("${csvName}", comment="#", dtype=str, keep_default_na=False)`,
+    'df["significance"] = pd.to_numeric(df["significance"], errors="coerce")',
+    'df["figure_value"] = pd.to_numeric(df["figure_value"], errors="coerce")', "print(df.shape)", ""].join("\n");
+}
+export function stataReader(csvName: string): string {
+  return [`* ERW policy monitor: a reader of ${csvName}, the records as filtered on /policy?view=monitor.`,
+    "* Method: docs/methods/policy_monitor.md. Every source of a record is in its sources column.",
+    `import delimited using "${csvName}", varnames(2) rowrange(3) stringcols(_all) clear`,
+    "destring significance figure_value documents, replace force", "describe", ""].join("\n");
 }
