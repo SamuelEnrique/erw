@@ -1,6 +1,11 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 9, session 2923, 6 November 2026 (chain 153, `queue/done/153-day-8-november-data-large-load-continued.md`); version 8 was session 1081's, 23 October 2026 (chain 073, `queue/done/073-evening-23-october-code-allgrids-packages-3.md`); version 7 was session 1059's (chain 072), version 6 was session 1038's (chain 071), version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+Version 10, session 2958, 6 November 2026 (chain 157); version 9 was session 2923's (chain 153, `queue/done/153-day-8-november-data-large-load-continued.md`); version 8 was session 1081's, 23 October 2026 (chain 073, `queue/done/073-evening-23-october-code-allgrids-packages-3.md`); version 7 was session 1059's (chain 072), version 6 was session 1038's (chain 071), version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+
+## What version 10 changed (chain 157, session 2958, 6 November 2026)
+
+- **The active interconnection queue** (decision 35): the Headroom column's last line, each grid's active queue MW at its ISO's own snapshot (`iso_queue_snapshot_summary`, chain 157's session 2953), keyed `allgrids|queue|<row>`, written whole, replicated: ERCOT 298,606 MW (19 October 2026), SPP 134,797 (26 October), CAISO 73,848 (19 October). ISO-NE's, MISO's and NYISO's queue tables are held whole for a license, so their rows read "license needed"; PJM's queue is not held ("not held").
+- **No figure the tab drew before moved:** the `queue` key was added to the committed `headroom.json`, every other key left as it was.
 
 ## What version 9 changed (chain 153, session 2923, 6 November 2026)
 
@@ -174,6 +179,7 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 32. 2026-10-23, 1069 (chain 073): a placed node's panel counts ERCOT's generators due to operate in its county (`eia860m_planned_generators`, public: state TX and balancing authority ERCO, the county as EIA-860M writes it, matched case aside to `ercot_node_places`' county) in the twelve months after the table's vintage (August 2026: September 2026 to August 2027), nameplate MW and count by EIA's status as the Headroom column counts them (under construction or complete, U, V and TS; approvals received, T; the rest), keyed `allgrids|nodeplanned|<node>|construction|approved|other` and written whole, beside "generation in the county is not generation at the node". A county with none says so; an unplaced node says "not placed". 65 of the 148 counties hold some (FAYETTE 200.5 MW under construction, one generator). Only `nodes.json`'s new `planned` key was written; every other value of the file is as built before (checked equal).
 33. 2026-11-06, 2923 (chain 153): the Headroom column's signed line is Berkeley Lab's queue at the end of its edition's year (2025 in the 2026 edition), not the vintage of EIA-860M above it: the two count different things (an agreement signed; a generator's status) and are not added. Nameplate MW; a signed agreement is not a commitment to build.
 34. 2026-11-06, 2923 (chain 153): a wires company's delivery revenue per MWh is drawn beside the county's largest seller, not in its place. It is the charge for the wires alone and the company's figure across the state, so it is not comparable with a bundled seller's revenue per MWh; the cell's main figure stays the largest seller's.
+35. 2026-11-06, 2958 (chain 157): the queue line is the ISO's own snapshot of active requests, nameplate MW, not Berkeley Lab's annual file (the signed line above it); a request in the queue is not a plant that will be built, and the line is not added to anything.
 
 ## The limits
 

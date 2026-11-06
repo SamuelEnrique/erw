@@ -7,6 +7,8 @@ Grant County PUD, ERCOT) and session 165 (Bonneville Power Administration, the A
 ISO New England). Approved pulls: session 165's ceilings are 1,500,000 rows of requests (the owner's), 1,500 requests
 and 3 GB, counted across all three sessions. No model call.
 
+Tables: `large_load_waits` (named here by session 2960).
+
 This note was first written in session 165. The rule, the labels and the terms of the Internet Archive, NYISO, Grant
 County PUD and ERCOT are written out on the one-page summary and are not repeated here: this note points to them and
 adds each source of session 165, its terms word for word, what was pulled and what could not be followed.

@@ -136,6 +136,10 @@ SECTOR_RULES = [
     (r"^utility_service_territories$", "power"),  # session 667: EIA-861 service territories, utility by county
     (r"^utility_large_load_tariffs$", "power"),  # session 2871: large loads' filed tariffs, a figure a row (the registry)
     (r"^large_load_connection_rules$", "power;datacenters"),  # session 2924: the steps a document states to connect a large load (the registry)
+    (r"^generator_pipeline_by_grid$", "power"),  # session 2951: EIA-860M's pipeline by grid and its monthly moves (derived)
+    (r"^iso_queue_snapshot_summary$", "power"),  # session 2953: the ISO queues summarized from their own snapshots (derived)
+    (r"^nuclear_fleet_status$", "power"),  # session 2955: the reactor fleet by reactor and year, and by grid (derived)
+    (r"^gas_balance_weekly$", "gas"),  # session 2956: weekly gas storage by region and the monthly U.S. gas balance (derived)
     (r"^subregion_demand_growth$", "power"),  # session 2877: every EIA-930 sub-region's peak and average demand by year
     (r"^interconnection_agreements_(signed|by_grid)$", "power"),  # session 854: signed agreements, not yet operating (Queued Up)
     (r"^interconnection_durations(_summary)?$", "power"),  # session 671: request to operation, completed projects (Queued Up)

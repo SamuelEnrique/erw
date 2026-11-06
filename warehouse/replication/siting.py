@@ -364,6 +364,19 @@ def wires_figures(delivery_rows, utility, row_ids=("ercot:HB_HOUSTON",)):
     return out
 
 
+QUEUE_GRIDS = ("ercot", "caiso")   # the replication's rows' grids whose queues are public (nyiso's is held)
+
+
+def queue_figures(rows, row_ids=None):
+    """Session 2958 (chain 157): each row's grid's active queue MW at its snapshot, summed again from
+    iso_queue_snapshot_summary's fuel rows, rounded to one decimal as the tab's file writes it."""
+    by = {}
+    for r in rows:
+        if r["variable"] == "active_mw" and r["entity"].count(":") == 2 and r["value"] not in ("", None):
+            by[r["x_grid"]] = by.get(r["x_grid"], 0.0) + float(r["value"])
+    return {f"allgrids|queue|{rid}": round(by[rid.split(":")[0]], 1) for rid in (row_ids or ROWS) if rid.split(":")[0] in QUEUE_GRIDS and rid.split(":")[0] in by}
+
+
 def table_figures(repo, tables, chosen):
     """Session 735: the node spread and the zone growth from the warehouse's own tables (--tables)."""
     out = {}
@@ -379,6 +392,9 @@ def table_figures(repo, tables, chosen):
     sp = os.path.join(tables, "interconnection_agreements_by_grid.csv")
     if os.path.exists(sp):
         out.update(signed_figures(list(table_rows(sp))))
+    qp = os.path.join(tables, "iso_queue_snapshot_summary.csv")
+    if os.path.exists(qp):
+        out.update(queue_figures(list(table_rows(qp))))
     dp = os.path.join(tables, "eia861_delivery_only.csv")
     if os.path.exists(dp):
         out.update(wires_figures(list(table_rows(dp)), read_json(repo, "siting", "utility.json")))

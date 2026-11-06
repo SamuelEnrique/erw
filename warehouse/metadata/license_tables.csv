@@ -412,9 +412,11 @@ flex_alert_effects,CAISO; EIA; NOAA NCEI,"the source registry and the tables its
 flex_alert_model,CAISO; EIA; NOAA NCEI,"the source registry and the tables its header derives it from: caiso_dam_alert_day_hub_prices, caiso_grid_emergencies, eia930_all_demand, noaa_isd_hourly"
 frb_treasury_yields,FRB,the source registry
 frb_utility_output_monthly,FRB,the source registry
+gas_balance_weekly,EIA,"the source registry and the tables its header derives it from: eia_gas_consumption_state_monthly, eia_gas_production_state_monthly, eia_gas_storage_weekly, eia_gas_trade_monthly"
 gastat_saudi_electricity_annual,"Ministry of Energy, Saudi Arabia, as published by GASTAT",the source registry
 generation_mix_hourly_profile,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
 generation_mix_records,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
+generator_pipeline_by_grid,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators"
 gfz_kp_index_3h,GFZ Helmholtz Centre for Geosciences (Potsdam),the source registry
 grenada_cso_electricity_annual,Central Statistical Office of Grenada (CSO),the source registry
 grid_network_links,EIA,"the source registry and the tables its header derives it from: carbon_intensity_hourly, eia930_all_demand, eia930_all_interchange"
@@ -445,6 +447,7 @@ iso_all_capacity_prices,ISO-NE; MISO; NYISO; PJM,the source registry
 iso_curtailment_monthly,CAISO; ERCOT; SPP,"the source registry and the tables its header derives it from: caiso_curtailment_daily, ercot_wind_solar_hsl_daily, spp_curtailment_daily"
 iso_dam_hub_prices,CAISO; ERCOT; MISO; SPP,the grids its coverage row lists (a table of several operators' own prices)
 iso_hub_prices_history,CAISO; ISO-NE; MISO; NYISO; SPP,the source registry
+iso_queue_snapshot_summary,CAISO; ERCOT; SPP,"the source registry and the tables its header derives it from: caiso_interconnection_queue, ercot_interconnection_queue, spp_interconnection_queue"
 iso_queue_statistics,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: the six ISOs' interconnection queues it counts (session 348)
 iso_rt_top_intervals,ISO-NE; NYISO,"the source registry and the tables its header derives it from: isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices"
 iso_rtm_hub_prices,CAISO; ERCOT; MISO; SPP,the grids its coverage row lists (a table of several operators' own prices)
@@ -520,6 +523,7 @@ nsi_bulgaria_electricity_monthly,"National Statistical Institute, Bulgaria (NSI)
 nso_malawi_electricity_sales_annual,National Statistical Office of Malawi (NSO),the source registry
 nspower_ns_load_hourly,Nova Scotia Power (NS Power),the source registry
 ntd_transit_energy_annual,"U.S. Department of Transportation, Federal Transit Administration (FTA)",the source registry
+nuclear_fleet_status,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia_nuclear_outages_generator_daily"
 nve_norway_reservoirs_weekly,Norwegian Water Resources and Energy Directorate (NVE),the source registry
 nyiso_as_prices,NYISO,the source registry
 nyiso_dam_cleared_energy,NYISO,the source registry

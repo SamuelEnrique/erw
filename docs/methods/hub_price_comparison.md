@@ -4,6 +4,8 @@ One derived table, `hub_price_comparison`, behind the page `/prices/compare` ("W
 built by `warehouse/derived/price_compare.py`. No request is made: the builder reads price tables the warehouse
 already holds.
 
+Tables: `hub_price_comparison` (named here by session 2960).
+
 **A hub is not a site.** A hub or zone price is an average over many points of a grid. The price at one substation
 differs from it by congestion and losses, and what a buyer pays adds delivery, capacity and other charges. The table
 compares markets; it does not price a location.
