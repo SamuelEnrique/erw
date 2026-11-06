@@ -189,6 +189,25 @@ class Rules(unittest.TestCase):
         for text, want in cases:
             self.assertEqual([x[:2] for x in F.dates(text)], want, text[:60])
 
+    def test_the_dates_of_the_third_sample(self):
+        # session 3152: the third sample's class 1, each by its document's words
+        cases = [
+            ("Compliance date: Compliance filings required by this final rule are due on September 1, 2026.", [("filing_due", "2026-09-01")]),
+            ("Final rules and guidance to conclude the revision process must be issued no later than November 23, 2026.", [("decision_due", "2026-11-23")]),
+            ("Objections and requests for hearings must be received on or before July 13, 2026.", [("intervention_due", "2026-07-13")]),
+            ("This document announces that the public hearing scheduled for Wednesday, May 27, 2026, Thursday, May 28, 2026, will be telephonic.",
+             [("meeting", "2026-05-27"), ("meeting", "2026-05-28")]),
+            ("DATES: The due date to pay additional royalties based on the major portion prices is July 31, 2026.", [("filing_due", "2026-07-31")]),
+            ("Public hearing: EPA will hold an online (i.e., virtual) public hearing on May 28, 2026.", [("meeting", "2026-05-28")]),
+            ("If anyone contacts us requesting a public hearing on or before April 27, 2026, we will hold one.", [("intervention_due", "2026-04-27")]),
+            # a date a party asks for is no step; a filing deadline on a step's date is that step
+            ("In the Request, Texas LNG asks DOE to extend the deadline to February 10, 2032.", []),
+            ("Comments are due by 5:00 p.m. Eastern Time on November 2, 2026. Because the 60-day filing deadline falls on a Saturday, "
+             "the filing deadline is extended until 5:00 p.m. Eastern Time on November 2, 2026.", [("comments_due", "2026-11-02")]),
+        ]
+        for text, want in cases:
+            self.assertEqual([x[:2] for x in F.dates(text)], want, text[:60])
+
     def test_the_instruments_of_the_fresh_audit(self):
         # session 3140: the nine rows of the fresh audit's class 5, by their titles and the Register's action lines
         cases = [

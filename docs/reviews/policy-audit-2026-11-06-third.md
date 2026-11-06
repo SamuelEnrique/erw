@@ -21,3 +21,5 @@ Sample: FERC 35, NRC 21, EPA 11, PUCT 4, BLM 4, Interior 2, DOE 1, IRS 1, CPUC 1
 ## The rows closed by later sessions
 
 (Sessions 3152 to 3156 write their counts here.)
+
+- **Session 3152, class 1 (the dates)**: 52 of 52 rows right (43 before; r38's third hearing day, "and Friday, May 29", is still not taken). The rules: an agency's own deadline for its final rule ("must be issued no later than"); a hearing already scheduled, or one someone "will hold"; objections and "requests for hearings", and "requesting a public hearing", as a party's like interventions; compliance filings, a compliance date and a payment's "due date" as filings due. Two guards: a filing deadline on a date another step holds is that step; a date a party asks, seeks, expects or plans for is no step. On the fresh sample nothing changed; on the first sample four true dates were gained (a compliance deadline, a hearing, a filing deadline; r18's requested 2032 date, which session 3141's rule had added, is gone); on the archive's copy, filings due 8 and meetings 3, each read; `check_policy.py` 303 of 303.

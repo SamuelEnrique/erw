@@ -223,17 +223,26 @@ CLAUSE_RULES = [
     # session 3125: a water quality certification's deadline ("Reasonable Period of Time to Act on the Certification
     # Request: One year, August 27, 2027")
     ("decision_due", re.compile(r"reasonable period of time to act on the certification request:\s*(?:[a-z]+ )?(?:years?|months?)?\W*$", re.I)),
+    # session 3152 (the third sample): an agency's own deadline for its final rule ("Final rules ... must be issued no
+    # later than"); a hearing already scheduled ("the public hearing scheduled for Wednesday, May 27, 2026, ...")
+    ("decision_due", re.compile(r"\bmust be issued\b.{0,40}(?:no later than|by|before)\s*$", re.I)),
+    ("meeting", re.compile(r"\bhearings? (?:is |are |was )?scheduled for\s*$", re.I)),
     # session 3125: an event's date under its own heading ("When: Tue., Oct. 13, 2026"; "Scoping Session / Date:")
     ("meeting", re.compile(r"^\W*when:\s*$", re.I)),
     # session 3141: "commenting on the PAD", and the answers a notice asks for, are comments
     ("comments_due", re.compile(r"\bcomment(?:s|ing)?\b|\banswers?\b", re.I)),
-    ("intervention_due", re.compile(r"\bintervene\b|\bintervention\b|\bprotests?\b|\brequest for a hearing\b|\bhearing request", re.I)),
+    # session 3152: objections, and requests for hearings, are a party's like interventions
+    ("intervention_due", re.compile(r"\bintervene\b|\bintervention\b|\bprotests?\b|\brequests? for (?:a )?hearings?\b|\bhearing request|"
+                                    r"\brequesting a (?:public )?hearing\b|\bobjections?\b", re.I)),
     # session 3141: a filing the action asks of someone ("Final amendments to the application must be filed ... on or
-    # before"; a reporting deadline extended "to" a date)
-    ("filing_due", re.compile(r"\bmust be filed\b|\bshall be filed\b|\breporting deadline\b|\bdeadline\b[^.]{0,120}\bto\s*$", re.I)),
+    # before"; a reporting deadline extended "to" a date); session 3152: compliance filings and a compliance date, a
+    # payment's due date
+    ("filing_due", re.compile(r"\bmust be filed\b|\bshall be filed\b|\breporting deadline\b|\bdeadline\b[^.]{0,120}\bto\s*$|"
+                              r"\bfilings?\b|\bcompliance\b|\bdue date\b", re.I)),
     ("effective", re.compile(r"\b(?:is|are|will be|becomes?|shall be) effective(?: on| as of)?\s*$|\beffective date is\s*$|\bfor a period effective\s*$|\bin effect beginning(?: on)?\s*$|\btakes? effect(?: on)?\s*$", re.I)),
     ("meeting", re.compile(r"\b(?:scoping|public) (?:session|meeting)s?\b[^.]{0,120}$|\bhearing (?:will be held|is scheduled)\b[^.]{0,60}$"
-                           r"|\b(?:will|to) (?:also )?hold\b[^.]{0,120}\bmeetings?\b[^.]{0,100}$", re.I)),
+                           # session 3152: a hearing someone will hold too ("EPA will hold an online (i.e., virtual) public hearing on")
+                           r"|\b(?:will|to) (?:also )?hold\b.{0,120}\b(?:meetings?|hearings?)\b.{0,100}$", re.I)),
 ]
 # A date in these words is not a step of the action: a filing's or a signature's own date.
 NOT_A_STEP = re.compile(r"(?:\bdated|\bdate filed|\bfiled on|\bsigned on|\bsubmitted on|\bopening of this docket on|\bas of)\W*$", re.I)
@@ -304,6 +313,11 @@ def dates(text, record=None):
             continue
         last = (kind, m.end())
         d = iso(m)
+        # session 3152: a filing's deadline is no step of its own on a date another step already holds ("the filing
+        # deadline is extended until ... November 2", the comments' deadline), nor a date a party asks for ("In the
+        # Request, Texas LNG asks ... to February 10, 2032")
+        if kind == "filing_due" and (any(x == d for _, x in seen) or re.search(r"\b(?:requested|requests that|asks|seeks|in the request|anticipates|expects|plans to)\b", whole, re.I)):
+            continue
         if (kind, d) in seen:
             continue
         seen.add((kind, d))
