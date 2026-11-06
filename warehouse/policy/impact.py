@@ -142,7 +142,7 @@ def check(clause, quote, text):
     left = [n for n in numbers(clause) if n not in have]
     if left:
         why.append(f"numbers not in the text: {left}")
-    if re.search("[—–]", clause or ""):
+    if re.search(f"[{chr(0x2014)}{chr(0x2013)}]", clause or ""):
         why.append("an em or en dash")
     if UNSAID.search(clause or ""):
         why.append(f"a word of opinion: {UNSAID.search(clause).group(0)}")

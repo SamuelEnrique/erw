@@ -14,6 +14,8 @@ Personal laptop, second window, 6 November 2026, 13:05 to 13:25 UTC. Opus 5.5. B
 
 - `python scripts/check_policy.py` on this laptop's tables: 262 keys (steps and figures), 262 ok, 0 FAIL, 0 not here. On this copy both sides read the rows' summaries, so the run proves the keys and their tracing, not the texts; the data machine's copy, with the fields read from the printed texts, is the real trace (its first run after the landing).
 
+- **The dash checks of five files are now written by code point** (chr(0x2014) in Python, String.fromCharCode(0x2014) in JavaScript): session 3060 wrote their escapes back as text, and this session's edit of monitor_site.py turned them into the characters again (the editing tool decodes the escape). A code point survives any edit. The 71 files this chain changed hold no dash character.
+
 ## Decisions made without you
 
 - **The calendar is of the records the filters leave**, with the date filters set aside (the calendar has its own window: seven days back, thirty ahead, from the page's day).

@@ -71,7 +71,7 @@ ok(file.rows.every((r) => !r.next || /^\d{4}-\d{2}-\d{2}$/.test(r.next.date)), "
 ok(file.rows.every((r) => (r.steps ?? []).every((x) => M.KIND_WORDS[x.kind] && x.event_id && x.words)), "every step has its kind's words, its document and its words");
 ok(file.rows.every((r) => !r.next || (r.steps ?? []).some((x) => x.date === r.next.date)), "a record's next step is one of its steps");
 ok(file.rows.every((r) => !r.impact || (r.impact.quote && r.impact.text.includes("; it bears on "))), "every impact sentence has its quotation and its table");
-ok(!/[—–]/.test(JSON.stringify(file)), "no em or en dash in the file");
+ok(!new RegExp("[" + String.fromCharCode(0x2014, 0x2013) + "]").test(JSON.stringify(file)), "no em or en dash in the file");
 const sorted = file.rows.every((r, i, a) => i === 0 || a[i - 1].date >= r.date);
 ok(sorted, "the file is newest first");
 

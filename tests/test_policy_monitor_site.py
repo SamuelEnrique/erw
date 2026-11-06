@@ -66,7 +66,7 @@ class Build(unittest.TestCase):
         path = os.path.join(ROOT, "site", "data", "policy", "monitor.json")
         with open(path, encoding="utf-8") as f:
             s = f.read()
-        self.assertNotRegex(s, "[—–]")
+        self.assertNotRegex(s, f"[{chr(0x2014)}{chr(0x2013)}]")
         doc = json.loads(s)
         self.assertEqual(doc["records"], len(doc["rows"]))
         self.assertGreater(doc["records"], 1000)

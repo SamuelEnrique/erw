@@ -160,7 +160,7 @@ def write(doc, out, daily=False, log=print):
         except (OSError, ValueError):
             pass
     s = json.dumps(doc, ensure_ascii=False, separators=(",", ":"))
-    s = s.replace("—", ": ").replace("–", "-")   # the repository's rule: no em or en dash in any file
+    s = s.replace(chr(0x2014), ": ").replace(chr(0x2013), "-")   # the repository's rule: no em or en dash in any file
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     with open(out + ".tmp", "w", encoding="utf-8", newline="\n") as f:
         f.write(s)

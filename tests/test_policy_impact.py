@@ -66,7 +66,7 @@ class TheCheck(unittest.TestCase):
     def test_an_opinion_a_dash_and_a_second_sentence_are_refused(self):
         q = "Forza would lease 750,000 Dth/d of natural gas transportation"
         self.assertTrue(any("opinion" in w for w in I.check("FERC took a major step on the Forza pipeline", q, self.TEXT)))
-        self.assertIn("an em or en dash", I.check("FERC reviewed the Forza pipeline — at last", q, self.TEXT))
+        self.assertIn("an em or en dash", I.check("FERC reviewed the Forza pipeline " + chr(0x2014) + " at last", q, self.TEXT))
         self.assertIn("not one sentence", I.check("FERC reviewed the Forza pipeline. Comments are due", q, self.TEXT))
 
     def test_terms_of_art_and_abbreviations_are_not_faults(self):
