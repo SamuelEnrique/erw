@@ -363,7 +363,9 @@ def lead_of(text, action_type):
     m = re.search(r"\[(?:Docket|Project)[^\]]*\]", t)
     body_ = t[m.end():] if m else t
     body_ = re.sub(r"\[\[Page \d+\]\]", " ", body_)
-    return body_[:1800]
+    # session 3142 (the fresh audit): a FERC notice describes its project in the paragraphs after its first, so 4,000
+    # characters, not 1,800 ("one 120,000 Dth/d vaporization system" stood at 3,863)
+    return body_[:4000]
 
 
 def figure(title, text, action_type):
@@ -383,8 +385,12 @@ def figure(title, text, action_type):
             if v:
                 found.append((UNIT_RANK[unit], m.start(), v, unit, m))
         if found:
+            # session 3142: a figure that follows the words of a stated total ("for a total installed capacity of
+            # 2,980 kW") comes before the units listed ahead of it ("five 596-kilowatt units")
+            totals = [t.end() for t in OWN_TOTAL.finditer(src)]
+            after_total = [f for f in found if any(0 <= f[1] - e <= 80 for e in totals)]
             # a size (capacity, energy, flow) before a voltage, a voltage before a sum of money; then the first
-            _, _, v, unit, m = min(found, key=lambda x: (x[0], x[1]))
+            _, _, v, unit, m = min(after_total or found, key=lambda x: (x[0], x[1]))
             return (int(v) if v == int(v) else v), unit, _sentence_at(src, m.start(), m.end())
     # session 3126: where neither states one, a figure of the text's first 9,000 characters, only in a sentence that
     # states the action's own total ("for a total installed capacity of 2,980 kW", "Total planned funding is up to $100
@@ -468,6 +474,8 @@ OUT_OF_SCOPE = [
     (re.compile(r"\b229 boundary\b", re.I), "a laboratory's security boundary"),
     (re.compile(r"\bcross-media electronic reporting\b", re.I), "electronic reporting rules"),
     (re.compile(r"\bfellowships?\b|\bscholarships?\b", re.I), "a fellowship or scholarship"),
+    # session 3142 (the fresh audit, r28): an inventory of Native American remains held by an agency's office
+    (re.compile(r"\bnotice of inventory completion\b|\bnative american graves\b|\bnagpra\b", re.I), "an inventory under the Native American Graves Protection and Repatriation Act"),
 ]
 
 

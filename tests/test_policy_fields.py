@@ -142,6 +142,12 @@ class Rules(unittest.TestCase):
         # a date under "Date:" with no session, meeting, hearing or forum above it is no step
         self.assertEqual(F.dates("Receipt\n\n    Date: Tuesday, September 15, 2026.\n"), [])
 
+    def test_the_figures_of_the_fresh_audit(self):
+        # session 3142: a FERC notice's capacity past its first 1,800 characters (r72 stood at 2,188)
+        t = ("[Docket No. CP26-1-000] Take notice that Acme filed an application. " + "z " * 1000 +
+             "The pipeline expansion will add approximately 1,900 million cubic feet per day of incremental firm transportation capacity.")
+        self.assertEqual(F.figure("Acme; Notice of Application", t, "notice")[:2], (1900, "MMcf/d"))
+
     def test_the_figures_of_session_3126(self):
         # a total in a sentence of its own, past the opening paragraph (r31 of the audit's sample, its words)
         t = ("Take notice that the following application has been filed. " + "x " * 900 +
@@ -214,7 +220,10 @@ class Rules(unittest.TestCase):
         for t, why in [("Notice of 229 Boundary for the SLAC National Accelerator Laboratory", "a laboratory's security boundary"),
                        ("Cross-Media Electronic Reporting: Announcement of Determination To Approve Authorized Program Revisions", "electronic reporting rules"),
                        ("Senior Executive Service Performance Review Board", "an agency's personnel board"),
-                       ("Energy Department Launches Genesis Mission Graduate Fellowship to Advance American Scientific Leadership", "a fellowship or scholarship")]:
+                       ("Energy Department Launches Genesis Mission Graduate Fellowship to Advance American Scientific Leadership", "a fellowship or scholarship"),
+                       # session 3142: the fresh audit's r28
+                       ("Notice of Inventory Completion: U.S. Department of Energy, Idaho Operations Office, Idaho Falls, ID",
+                        "an inventory under the Native American Graves Protection and Repatriation Act")]:
             self.assertEqual(F.scope(t), f"out of scope: {why}")
         # and no other action of the fixture (its r26 is the personnel board above)
         for it, text in items():
