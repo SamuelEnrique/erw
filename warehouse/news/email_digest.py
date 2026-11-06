@@ -66,6 +66,7 @@ RESEND = "https://api.resend.com/emails"
 SITE_DEFAULT = "https://erw-flame.vercel.app"  # the deployed site README.md links; SITE_URL overrides it
 TOP_HEADS = ("## Top of the industry", "## The five stories of the week")
 ALSO_LABEL = "Also on this topic:"   # session 802: the line under an item for the stories folded under it (brief.ALSO_LABEL)
+ALSO_RE = re.compile(r"^(Also (?:on this topic|in [a-z][a-z ]*):)")   # session 1466: or "Also in <sector>:" (brief.ALSO_RE)
 NUM_HEADS = ("## ERW's Numbers Today", "## ERW's Numbers This Week", "## Numbers today", "## Numbers of the week")
 LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 IMAGE = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
@@ -133,8 +134,10 @@ def numbered(lines, heads, n=5):
         if m:
             cur = {"head": m.group(1), "sector": (m.group(2) or "").strip(), "why": "", "src": None, "also": ""}
             items.append(cur)
-        elif cur is not None and ln.startswith("   ") and ln.strip().startswith(ALSO_LABEL):
-            cur["also"] = ln.strip()[len(ALSO_LABEL):].strip()   # session 817: the stories folded under the item (802)
+        elif cur is not None and ln.startswith("   ") and ALSO_RE.match(ln.strip()):
+            label = ALSO_RE.match(ln.strip()).group(1)   # session 1466: the line's own label
+            cur["also"] = ln.strip()[len(label):].strip()   # session 817: the stories folded under the item (802)
+            cur["also_label"] = label
         elif cur is not None and ln.startswith("   ") and ln.strip():
             text = ln.strip()
             after = text.split("Sources:", 1)[1].strip() if "Sources:" in text else ""
@@ -275,12 +278,12 @@ def story_list(stories):
         # never an address (session 803's rule for the text part)
         also = s.get("also") or ""
         if also:
-            t.append(f"   {ALSO_LABEL} {LINK.sub(lambda m: m.group(1), also)}")
+            t.append(f"   {s.get('also_label') or ALSO_LABEL} {LINK.sub(lambda m: m.group(1), also)}")
         li.append(f"<li style=\"margin:0 0 8px\"><strong>{html.escape(s['head'])}</strong><br>"
                   + (f"<span style=\"color:#6B665E\">{md_inline_html(s['why'])}</span><br>" if s["why"] else "")
                   + ((f"<a href=\"{html.escape(url)}\">{html.escape(s['src'][0])}</a>{via}" if url else html.escape(s["src"][0]))
                      if s["src"] else "")
-                  + (f"<br><span style=\"color:#6B665E;font-size:13px\">{html.escape(ALSO_LABEL)} {md_inline_html(also)}</span>" if also else "")
+                  + (f"<br><span style=\"color:#6B665E;font-size:13px\">{html.escape(s.get('also_label') or ALSO_LABEL)} {md_inline_html(also)}</span>" if also else "")
                   + "</li>")
     return t, ("<ol style=\"padding-left:20px;font-size:14px;font-family:'IBM Plex Sans',system-ui,sans-serif\">" + "".join(li) + "</ol>")
 

@@ -414,7 +414,7 @@ def assert_unique(lines):
         if m and not ln.startswith("- no "):  # "- no scored story in this group today" is not an item
             heads.append(norm_headline(m.group(1) or m.group(2)))
             urls += re.findall(r"\]\((https?://[^)]+)\)", ln)
-        elif ln.startswith("   ") and ("Sources:" in ln or ln.strip().startswith(ALSO_LABEL)):  # 802: the also line too
+        elif ln.startswith("   ") and ("Sources:" in ln or ALSO_RE.match(ln.strip())):  # 802: the also line too (1466: either label)
             urls += re.findall(r"\]\((https?://[^)]+)\)", ln)
     dh = sorted({h for h in heads if heads.count(h) > 1})
     du = sorted({u for u in urls if urls.count(u) > 1})
@@ -655,9 +655,28 @@ def why_check(text, head=""):
         out.append(f"restates the headline: {share:.2f}")
     # session 1458 (chain 150, fault 7): a line that names nothing the headline lacks, and leans on the headline's words or
     # strings two clauses on a semicolon, fails; named last, so a line with another fault is named by that one
+    if head and scale_against(t, head):   # session 1466 (fault 44)
+        out.append(f"scale word against the headline's figure: {scale_against(t, head)}")
     if head and not out and not new_things(t, head) and (share >= NOTHING_NEW_SHARE or ";" in t):
         out.append("names nothing the headline lacks")
     return out
+
+
+# Session 1466 (chain 150, fault 44): "Gigawatt-scale hyperscale power deal ..." under "AEP and Google advance a 702 MW
+# Bloom Energy fuel-cell project": a scale word that the headline's own capacity contradicts. why_line takes the word out
+# (as plain() takes an adjective out) and why_check names it in a raw line.
+SCALE_WORD = re.compile(r"\b(?:multi-?)?(?:gigawatt|GW)[- ]scale\s*", re.I)
+HEAD_MW = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s?(MW|GW)\b", re.I)
+
+
+def scale_against(text, head):
+    """The scale word of a line ("gigawatt-scale") when every capacity the headline states is under 1,000 MW; "" when the
+    line has none, or the headline states no capacity or one of a gigawatt or more."""
+    m = SCALE_WORD.search(str(text or ""))
+    caps = [float(v.replace(",", "")) * (1000 if u.upper() == "GW" else 1) for v, u in HEAD_MW.findall(str(head or ""))]
+    if not m or not caps or max(caps) >= 1000:
+        return ""
+    return m.group(0).strip().lower()
 
 
 # Session 1458 (chain 150, fault 7 of docs/reviews/periodicals-faults-2026-11-05.md): "LNG or gas project faces executive
@@ -803,6 +822,9 @@ def why_line(text, head=""):
     short, is replaced by the headline's own clause (why_fallback), never by an invented fact."""
     t = money_style(plain(text)).strip()
     t = HOLLOW_TAIL.sub("", t)   # session 1462: a trailing ", signaling ..." clause is cut, its fact kept
+    if head and scale_against(t, head):   # session 1466 (fault 44): the scale word goes, as an adjective does
+        t = SCALE_WORD.sub("", t, count=1).strip()
+        t = t[:1].upper() + t[1:]
     # "an $800MM loan" was right as written; as "USD 800 million" the article follows the code as it is said
     t = re.sub(r"\b([Aa])n? (USD|CAD|EUR|GBP|AUD)\b",
                lambda m: m.group(1) + ("n " if m.group(2) == "AUD" else " ") + m.group(2), t)
@@ -1453,6 +1475,11 @@ ALSO_MAX = 3
 # were "lets a sector hold two items": a third item of a sector folds under the sector's first, as one topic did before
 SECTOR_MAX = 2
 ALSO_LABEL = "Also on this topic:"
+# Session 1466 (chain 150, fault 45): a story folded because its sector holds SECTOR_MAX items already is not of the item's
+# topic ("Also on this topic: Lambda to develop four-building data center campus in Lowndes County, Alabama" under AEP and
+# Google's Wyoming fuel cells, the dry run of 6 November); it is said to be of the sector. Either label opens the line.
+ALSO_SECTOR = "Also in {sector}:"
+ALSO_RE = re.compile(r"^Also (?:on this topic|in [a-z][a-z ]*):")
 
 
 def region_key(r):
@@ -1520,12 +1547,15 @@ def one_per_topic(clusters, n, log, what="the top ten"):
                 top.append(dict(r, also=[]))
                 continue
             twin = same_sector[0]   # session 2701: the sector holds SECTOR_MAX items already
+            kind = "sector"   # session 1466: said so on the line
+        else:
+            kind = "topic"
         if len(twin["also"]) >= ALSO_MAX:
             log(f"  {what}: left for the sections below, the topic of {twin['cluster_id']} is full: "
                 f"{str((r.get('titles') or [''])[0])[:80]!r} ({r['cluster_id']})")
             continue
         twin["also"].append({"cluster_id": r["cluster_id"], "title": str((r.get("titles") or [""])[0]), "sector": r.get("sector"),
-                             "links": list(r.get("links") or [])[:1], "parties": r.get("parties", "")})
+                             "links": list(r.get("links") or [])[:1], "parties": r.get("parties", ""), "kind": kind})
         folded.add(r["cluster_id"])
         log(f"  {what}: folded under {twin['cluster_id']} (one topic, {r.get('sector')}): "
             f"{str((r.get('titles') or [''])[0])[:80]!r} ({r['cluster_id']})")
@@ -1555,7 +1585,7 @@ def above_fold_words(md):
             break
         if skip:
             continue
-        if (not t or t.startswith(("#", "|", "![", "<!--", "Tables: ", "Sources: ", "Source: ", "Table `")) or t.startswith(ALSO_LABEL)
+        if (not t or t.startswith(("#", "|", "![", "<!--", "Tables: ", "Sources: ", "Source: ", "Table `")) or ALSO_RE.match(t)
                 or re.match(r"^\[\d+\] ", t) or re.match(r"^\*\*\d{1,2} [A-Z][a-z]+ \d{4}\.\*\* Data through", t)):
             continue
         t = re.sub(r"^\d+\.\s+", "", t.split(" Sources: ")[0].split(" Source: ")[0])   # a list's number is not a word
@@ -1564,10 +1594,18 @@ def above_fold_words(md):
 
 
 def also_line(recs):
-    """The line under an item for the stories folded under it: each its publisher's own title and its first outlet."""
-    parts = [f"{nodash(x['title']).strip().rstrip('.')} ({link_text(x['links'])})" if x.get("links") else nodash(x["title"]).strip()
-             for x in recs]
-    return f"{ALSO_LABEL} " + "; ".join(parts) + "."
+    """The line under an item for the stories folded under it: each its publisher's own title and its first outlet.
+    Session 1466: the stories of the item's topic under ALSO_LABEL, then those folded because the sector was full under
+    ALSO_SECTOR, one line."""
+    def part(x):
+        return f"{nodash(x['title']).strip().rstrip('.')} ({link_text(x['links'])})" if x.get("links") else nodash(x["title"]).strip()
+    topic = [part(x) for x in recs if x.get("kind") != "sector"]
+    sector = [x for x in recs if x.get("kind") == "sector"]
+    out = [f"{ALSO_LABEL} " + "; ".join(topic) + "."] if topic else []
+    if sector:
+        label = ALSO_SECTOR.format(sector=str(sector[0].get("sector") or "this sector").replace("_", " "))
+        out.append(f"{label} " + "; ".join(part(x) for x in sector) + ".")
+    return " ".join(out)
 
 
 def item_lines(r, head, why, sources):

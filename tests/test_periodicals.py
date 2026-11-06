@@ -1336,6 +1336,49 @@ class Session1462HollowForms(unittest.TestCase):
         self.assertIn("nor their -ing forms", score.RUBRIC)
 
 
+class Session1466ScaleAndSectorFolds(unittest.TestCase):
+    """Session 1466 (chain 150, faults 44 and 45, session 1463's dry run of 6 November): a scale word the headline's
+    capacity contradicts goes; a story folded because its sector is full is said to be of the sector, not the topic."""
+
+    def test_gigawatt_scale_for_702_mw(self):
+        head = "AEP and Google advance a 702 MW Bloom Energy fuel-cell project for Cheyenne data centers"
+        why = "Gigawatt-scale hyperscale power deal combining fuel cells, natural gas, and private microgrid infrastructure for datacenter demand."
+        self.assertEqual(brief.why_check(why, head), ["scale word against the headline's figure: gigawatt-scale"])
+        self.assertEqual(brief.why_line(why, head),
+                         "Hyperscale power deal combining fuel cells, natural gas, and private microgrid infrastructure for datacenter demand.")
+        for ok_head in ("Meta plans a 2 GW campus in Louisiana", "Crusoe plans 1,200 MW in Abilene", "A campus with no figure"):
+            self.assertEqual(brief.scale_against(why, ok_head), "", ok_head)
+
+    def test_a_sector_fold_is_said_so(self):
+        def c(cid, title, sector, parties="", sig=8, region="us"):
+            return {"cluster_id": cid, "titles": [title], "sector": sector, "parties": parties, "region": region, "sig": sig, "ai": 0,
+                    "why": "", "mw": "", "price": "", "links": [("Outlet", f"https://example.org/{cid}")], "summary": "", "n": 1}
+        clusters = pd.DataFrame([c("a", "AEP and Google advance a 702 MW fuel-cell project in Wyoming", "datacenter_power", "AEP; Google", region="wyoming"),
+                                 c("b", "Poll asks Americans about data centers near their homes", "datacenter_power", "Heatmap"),
+                                 c("d", "Lambda to develop four-building data center campus in Alabama", "datacenter_power", "Lambda", 7, "alabama")])
+        top, folded = brief.one_per_topic(clusters, 10, quiet)
+        self.assertEqual(list(top["cluster_id"]), ["a", "b"])
+        self.assertEqual(folded, {"d"})
+        also = brief.also_of(top.to_dict("records")[0])
+        self.assertEqual(also[0]["kind"], "sector")
+        line = brief.also_line(also)
+        self.assertEqual(line, "Also in datacenter power: Lambda to develop four-building data center campus in Alabama ([Outlet](https://example.org/d)).")
+        self.assertTrue(brief.ALSO_RE.match(line))
+        mixed = brief.also_line([dict(also[0], kind="topic", title="Same topic story"), also[0]])
+        self.assertTrue(mixed.startswith("Also on this topic: Same topic story ("), mixed)
+        self.assertIn(". Also in datacenter power: Lambda", mixed)
+
+    def test_the_email_reads_either_label(self):
+        import email_digest
+        md = ["## What moved", "", "1. **AEP and Google advance a fuel-cell project** (datacenter power)  ",
+              "   Sources: [Data Center Frontier](https://example.org/a)  ",
+              "   Also in datacenter power: Lambda to develop a campus ([DCD](https://example.org/d))."]
+        it = email_digest.numbered(md, ("## What moved",))[0]
+        self.assertEqual(it["why"], "")
+        self.assertEqual(it["also_label"], "Also in datacenter power:")
+        self.assertEqual(it["also"], "Lambda to develop a campus ([DCD](https://example.org/d)).")
+
+
 class Session1438OneTopic(unittest.TestCase):
     """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
     story of the sector that is not about the price keeps the sector-and-region key."""
