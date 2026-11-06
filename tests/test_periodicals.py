@@ -1535,6 +1535,18 @@ class Session1479HeadlineMoney(unittest.TestCase):
         self.assertEqual(brief.own_titles(c), {"b": "EQT unveils a 12 billion USD plan"})
 
 
+class Session1480HeadlineAdjectives(unittest.TestCase):
+    """Session 1480 (chain 154, fault 57): the voice's adjectives go from a headline the model writes; the trade's terms
+    stay ("critical minerals", "the key to")."""
+
+    def test_the_forms(self):
+        self.assertEqual(brief.headline_style("Orsted's Revolution Wind, 704 MW, enters commercial operation as third major US offshore wind farm"),
+                         "Orsted's Revolution Wind, 704 MW, enters commercial operation as third US offshore wind farm")
+        self.assertEqual(brief.headline_style("A massive outage hits Texas"), "An outage hits Texas")
+        self.assertEqual(brief.headline_style("Critical minerals deal signed"), "Critical minerals deal signed")
+        self.assertEqual(brief.headline_style("The key to grid reliability"), "The key to grid reliability")
+
+
 class Session1438OneTopic(unittest.TestCase):
     """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
     story of the sector that is not about the price keeps the sector-and-region key."""

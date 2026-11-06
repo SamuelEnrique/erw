@@ -558,9 +558,12 @@ TRAILING_CODE = re.compile(r"(?<![\w.])(\d[\d,]*(?:\.\d+)?)\s?(billion|million|t
 
 def headline_style(head):
     """A headline the model wrote, its sums in the one money style (money_style), "4 billion USD" read as "USD 4
-    billion". The publisher's own titles (own_titles, the no-model path) are not passed through it."""
+    billion", and the voice's adjectives out (plain, session 1480). The publisher's own titles (own_titles, the no-model
+    path) are not passed through it."""
     h = TRAILING_CODE.sub(lambda m: f"{m.group(3).upper()} {m.group(1)} {SCALE[m.group(2).lower()]}", str(head or ""))
-    return money_style(h)
+    # session 1480 (chain 154, fault 57): an adjective of the voice's list goes from the ERW's own headline as from its why
+    # line ("... as third major US offshore wind farm" to "... as third US offshore wind farm")
+    return plain(money_style(h))
 
 
 def an_word(word):
