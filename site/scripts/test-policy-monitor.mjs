@@ -47,12 +47,29 @@ const csv = M.toCsv(rows, "2026-11-06").trim().split("\n");
 ok(csv.length === 2 + rows.length && csv[1] === M.CSV_COLS.join(","), "the CSV: a provenance line, the header, one line a row");
 ok(M.figureText({ value: 42000000, unit: "USD" }) === "USD 42 million" && M.figureText({ value: 750000, unit: "Dth/d" }) === "750,000 Dth/d", "a figure in its unit");
 
+// session 3061: the calendar and the keys
+const withSteps = [
+  R({ id: "p", date: "2026-11-03", steps: [{ kind: "comments_due", date: "2026-11-20", words: "w", event_id: "federalregister:9" }, { kind: "effective", date: "2027-01-01", words: "w", event_id: "federalregister:9" }] }),
+  R({ id: "q", date: "2026-10-01", steps: [{ kind: "meeting", date: "2026-11-07", words: "w", event_id: "federalregister:8" }] }),
+  R({ id: "s", date: "2026-10-29" }),
+];
+const c = M.calendarOf(withSteps, "2026-11-06");
+ok(c.weekFrom === "2026-10-30" && c.aheadTo === "2026-12-06", "the week is the seven days to today, the month the thirty days on");
+ok(c.week.map((r) => r.id).join() === "p", "the past week: records whose newest document is in it");
+ok(c.ahead.map((x) => `${x.row.id}:${x.step.date}`).join() === "q:2026-11-07,p:2026-11-20", "the month ahead: every step in it, soonest first, none after it");
+ok(M.stepKey(withSteps[0], withSteps[0].steps[0]) === "policycal|p|federalregister:9|comments_due|2026-11-20", "a step's key names its record, document, kind and date");
+ok(M.figureKey(rows[0]) === "policyfig|a|e|750000|Dth/d" && M.figureKey(rows[1]) === "", "a figure's key; none without one");
+const keys = M.keysOf({ rows: withSteps.concat(rows) });
+ok(keys.length === 5 && keys.every((k) => k.key.startsWith("policycal|") || k.key.startsWith("policyfig|")), "every step and figure has its key");
+
 // the data file the view reads
 ok(file.records === file.rows.length && file.rows.length > 1000, `the file holds its ${file.records} records`);
 ok(file.rows.every((r) => r.id && r.date && r.body && r.instrument && r.status && r.title && r.n >= 1 && r.bears_on?.table), "every row has its record id, date, body, instrument, status, title, documents and table");
 ok(file.rows.every((r) => M.INSTRUMENT_WORDS[r.instrument] && M.STATUS_WORDS[r.status]), "every instrument and status has its words");
 ok(file.rows.every((r) => !r.figure || (r.figure.words && r.figure.event_id)), "every figure has its words and its document");
 ok(file.rows.every((r) => !r.next || /^\d{4}-\d{2}-\d{2}$/.test(r.next.date)), "every next step has its date");
+ok(file.rows.every((r) => (r.steps ?? []).every((x) => M.KIND_WORDS[x.kind] && x.event_id && x.words)), "every step has its kind's words, its document and its words");
+ok(file.rows.every((r) => !r.next || (r.steps ?? []).some((x) => x.date === r.next.date)), "a record's next step is one of its steps");
 ok(file.rows.every((r) => !r.impact || (r.impact.quote && r.impact.text.includes("; it bears on "))), "every impact sentence has its quotation and its table");
 ok(!/[—–]/.test(JSON.stringify(file)), "no em or en dash in the file");
 const sorted = file.rows.every((r, i, a) => i === 0 || a[i - 1].date >= r.date);

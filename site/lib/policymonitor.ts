@@ -10,7 +10,7 @@ export type Impact = { text: string; quote: string; model: string; event_id: str
 export type MonitorRow = {
   id: string; date: string; first: string; body: string; instrument: string; title: string; status: string;
   sector?: string; significance?: number; grids?: string[]; states?: string[]; n: number;
-  next?: Step; figure?: Figure; impact?: Impact; plain?: string; bears_on: { table: string; page: string };
+  next?: Step; steps?: { kind: string; date: string; words: string; event_id: string }[]; figure?: Figure; impact?: Impact; plain?: string; bears_on: { table: string; page: string };
   sources?: string[]; news?: string[]; history?: string[]; docket?: string;
 };
 export type MonitorFile = { built: string; documents: number; records: number; fields_from: Record<string, number>; about: string; rows: MonitorRow[] };
@@ -141,4 +141,48 @@ export function figureText(f: Figure): string {
       : v >= 1e6 ? `USD ${(v / 1e6).toLocaleString("en-US", { maximumFractionDigits: 2 })} million` : `USD ${v.toLocaleString("en-US")}`;
   }
   return `${f.value.toLocaleString("en-US")} ${f.unit}`;
+}
+
+// Session 3061 (chain 166): the calendar. A record's steps are every dated step its documents state (the file's
+// `steps`, warehouse/policy/monitor_site.py), each with the words it stands in and its document; the calendar shows the
+// actions of the past week and the steps of the month ahead. Each date and each figure the page shows carries a key
+// that scripts/check_policy.py traces to its row of policy_actions.
+export type CalStep = { kind: string; date: string; words: string; event_id: string };
+export const KIND_WORDS: Record<string, string> = {
+  effective: "takes effect", expires: "ends", comments_due: "comments due", intervention_due: "interventions or hearing requests due",
+  review_due: "environmental document due", decision_due: "decision due", meeting: "meeting or session",
+};
+
+const day = (iso: string, plus: number) => {
+  const d = new Date(`${iso}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + plus);
+  return d.toISOString().slice(0, 10);
+};
+
+export type Calendar = { today: string; weekFrom: string; aheadTo: string; week: MonitorRow[]; ahead: { row: MonitorRow; step: CalStep }[] };
+
+/** The past week's actions (a record whose newest document is dated in the seven days to today, newest first) and the
+ *  month ahead's steps (every step dated from today to thirty days on, soonest first). */
+export function calendarOf(rows: MonitorRow[], today: string): Calendar {
+  const weekFrom = day(today, -7), aheadTo = day(today, 30);
+  const week = rows.filter((r) => r.date >= weekFrom && r.date <= today).sort((a, b) => (a.date !== b.date ? (a.date < b.date ? 1 : -1) : a.id < b.id ? -1 : 1));
+  const ahead: { row: MonitorRow; step: CalStep }[] = [];
+  for (const r of rows) for (const s of ((r as MonitorRow & { steps?: CalStep[] }).steps ?? [])) if (s.date >= today && s.date <= aheadTo) ahead.push({ row: r, step: s });
+  ahead.sort((a, b) => (a.step.date !== b.step.date ? (a.step.date < b.step.date ? -1 : 1) : a.row.id < b.row.id ? -1 : a.row.id > b.row.id ? 1 : a.step.kind < b.step.kind ? -1 : 1));
+  return { today, weekFrom, aheadTo, week, ahead };
+}
+
+/** The check key of a step the page shows: scripts/check_policy.py finds the step in its document's row. */
+export const stepKey = (r: MonitorRow, s: { kind: string; date: string; event_id?: string }) => `policycal|${r.id}|${s.event_id ?? ""}|${s.kind}|${s.date}`;
+/** The check key of a figure the page shows. */
+export const figureKey = (r: MonitorRow) => (r.figure ? `policyfig|${r.id}|${r.figure.event_id}|${r.figure.value}|${r.figure.unit}` : "");
+
+/** Every key the monitor's page can show, with the values a check needs, as scripts/policy-figures.mjs prints them. */
+export function keysOf(file: MonitorFile): { key: string; record: string; event_id: string; kind: string; date?: string; value?: number; unit?: string }[] {
+  const out: { key: string; record: string; event_id: string; kind: string; date?: string; value?: number; unit?: string }[] = [];
+  for (const r of file.rows) {
+    for (const s of ((r as MonitorRow & { steps?: CalStep[] }).steps ?? [])) out.push({ key: stepKey(r, s), record: r.id, event_id: s.event_id, kind: s.kind, date: s.date });
+    if (r.figure) out.push({ key: figureKey(r), record: r.id, event_id: r.figure.event_id, kind: "figure", value: r.figure.value, unit: r.figure.unit });
+  }
+  return out;
 }

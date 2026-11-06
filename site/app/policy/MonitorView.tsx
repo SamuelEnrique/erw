@@ -7,7 +7,9 @@ import { Fragment, useMemo, useState } from "react";
 import {
   INSTRUMENT_WORDS, OPEN_FILTERS, SORT_KEYS, STATUS_WORDS, GRID_WORDS, figureText, filterRows, hrefOf, options, sortRows, toCsv,
   type Filters, type MonitorRow, type Option, type SortKey,
+  figureKey,
 } from "@/lib/policymonitor";
+import { MonitorCalendar } from "./MonitorCalendar";
 
 const tip = "cursor-help border-b border-dotted border-muted";
 const HEAD: Record<SortKey, [string, string]> = {
@@ -39,7 +41,7 @@ function Multi({ label, opts, chosen, set, why }: { label: string; opts: Option[
   );
 }
 
-export function MonitorView({ rows, built, held, opened }: { rows: MonitorRow[]; built: string; held: number; opened: Filters }) {
+export function MonitorView({ rows, built, held, opened, today }: { rows: MonitorRow[]; built: string; held: number; opened: Filters; today: string }) {
   const [f, setF] = useState<Filters>(opened);
   const [sort, setSort] = useState<[SortKey, "asc" | "desc"]>(["date", "desc"]);
   const [open, setOpen] = useState<string | null>(null);
@@ -80,6 +82,8 @@ export function MonitorView({ rows, built, held, opened }: { rows: MonitorRow[];
           title="Every body, instrument, status, sector, grid and state, any date, significance 5 or more">Reset the filters</button>
       </aside>
       <section aria-label="Records">
+        {/* session 3061: the calendar of the records the filters leave */}
+        <MonitorCalendar rows={filterRows(rows, { ...f, from: "", to: "" })} today={today} />
         <p className="mb-2 text-xs text-muted" data-monitor-shown={shown.length} data-monitor-held={held}>
           <span className={tip} title="The records the filters leave, counted on this page.">{shown.length}</span> shown of{" "}
           <span className={tip} title={`Every record of data/policy/monitor.json, built ${built} from policy_actions: the documents that name one proceeding, grouped.`}>{held}</span> records held
@@ -105,7 +109,7 @@ export function MonitorView({ rows, built, held, opened }: { rows: MonitorRow[];
                     <td className="py-1 pr-3">{r.sector?.replace(/_/g, " ") ?? ""}</td>
                     <td className="py-1 pr-3 text-right tabular-nums">{r.significance ?? ""}</td>
                     <td className="py-1 pr-3 tabular-nums">{r.next ? <span className={tip} title={`"${r.next.words}"`}>{r.next.date} {r.next.step}</span> : ""}</td>
-                    <td className="py-1 pr-3 tabular-nums">{r.figure ? <span className={tip} title={`"${r.figure.words}" (${r.figure.event_id})`}>{figureText(r.figure)}</span> : ""}</td>
+                    <td className="py-1 pr-3 tabular-nums">{r.figure ? <span className={tip} title={`"${r.figure.words}" (${r.figure.event_id})`} data-check={figureKey(r)}>{figureText(r.figure)}</span> : ""}</td>
                     <td className="py-1 text-right tabular-nums">{r.n}</td>
                   </tr>
                   {open === r.id ? (

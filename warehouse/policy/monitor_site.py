@@ -107,12 +107,25 @@ def build(actions, reads=None, impacts=None, today=None):
                     states.append(s)
             if eid in impacts:
                 impact = {"text": impacts[eid][0], "quote": impacts[eid][1], "model": impacts[eid][2], "event_id": eid}
+        # session 3061: every dated step of every document, with the document it stands in, for the calendar
+        steps, seen = [], set()
+        for eid, d in docs.iterrows():
+            pairs = [p for p in (d.get("dates") or "").split("; ") if p]
+            words = (d.get("dates_evidence") or "").split(" | ")
+            for k, pair in enumerate(pairs):
+                kind, date = pair.split("=")
+                if (kind, date) in seen:
+                    continue
+                seen.add((kind, date))
+                steps.append({"kind": kind, "date": date, "words": words[k] if k < len(words) else "", "event_id": eid})
+        steps.sort(key=lambda s: (s["date"], s["kind"]))
         table, page = pi.bears_on(newest.to_dict() | {"body": r["body"]})
         row = {"id": r["event_id"], "date": r["event_date"], "first": r["first_date"], "body": r["body"],
                "instrument": newest["instrument"], "title": r["title"], "status": r["status"],
                "sector": r["sector"], "significance": int(r["significance"]) if r["significance"] else None,
                "grids": grids, "states": states, "n": int(r["n_documents"]),
                "next": {"step": r["next_step"], "date": r["next_step_date"], "words": r["next_step_evidence"]} if r["next_step_date"] else None,
+               "steps": steps,
                "figure": {"value": float(r["figure_value"]), "unit": r["figure_unit"], "words": r["figure_evidence"],
                           "event_id": r["figure_event_id"]} if r["figure_value"] else None,
                "impact": impact, "plain": plain or None, "bears_on": {"table": table, "page": page},

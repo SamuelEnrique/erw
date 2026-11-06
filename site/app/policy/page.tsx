@@ -81,7 +81,7 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
         <Views view={view} />
         <PausedLine file={pausedSources().file} names={pausedSources().names} />
         <Section title="The monitor">
-          <MonitorView rows={m.rows} built={m.built} held={m.records} opened={filtersOf(q)} />
+          <MonitorView rows={m.rows} built={m.built} held={m.records} opened={filtersOf(q)} today={new Date(renderTime()).toISOString().slice(0, 10)} />
           <Cite tables={["policy_actions", "policy_reads"]} note="One row a proceeding: the documents of policy_actions that name it, grouped by warehouse/policy/records.py; body, instrument, status, dates, next step and figure by the written rules of warehouse/policy/fields.py; the impact sentence's clause a model's, kept only when its words stand in the text" />
         </Section>
         <TableDownloads tables={["policy_actions", "policy_reads"]} />
