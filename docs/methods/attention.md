@@ -108,6 +108,19 @@ and on tone for 73.3. Agreement is not accuracy; it says where a second reading 
 - Stories the news scorer gave significance 0 are not sent and count as not about energy in the denominators.
 - A story is classified once; a later run classifies only the stories not yet in the link table or the raw files.
 
+## Cross-checks
+
+- **The tracer** (`warehouse/derived/attention_trace.py`) walks from any value of the two weekly tables to the rows of
+  the link table behind it and checks by code that the rows add up to the value (stories, the Attention Index against
+  the week's judged stories, the Friction Index against the cell's stories, each kind's count, the mean tone); `--all`
+  checks every cell. It runs after every write of the tables.
+- **Against the Digest's counts.** Each weekday Energy Digest states "from N scored stories" for its 24 hours. The
+  corpus holds more scored stories for those same hours than the issue counted (for the 13 issues held on 6 November
+  2026, the Digest's N is 60 to 75 percent of the corpus's count of scored stories published in its window; the gap is
+  smallest on a Monday issue, whose window holds a weekend). The Digest counts the stories scored by the time of its
+  issue; the scorer's later runs and backfills score stories of the same hours after the issue is written, and those
+  are in the corpus the indices read. The two counts agree in direction week by week and are not the same measure.
+
 ## Limits, said plainly
 
 - **One corpus.** The indices count the 43 feeds the ERW reads (the outlets' own feeds and Google News searches,
