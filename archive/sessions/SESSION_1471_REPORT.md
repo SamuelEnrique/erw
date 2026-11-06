@@ -1,6 +1,6 @@
 # Session 1471 report: the next file, the ground
 
-Energy Research Warehouse (ERW), session 1471, the first session of chain 154 (`queue/done/154-day-7-november-code-periodicals-continued.md`, written by session 1457 and updated by session 1470), samueloldlaptop, 6 November 2026, 07:14 to 07:20 UTC. Model: Claude Opus 5.5 (this window's; the file names Fable 5.1). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to GitHub only. On main directly (a queue file and this report).
+Energy Research Warehouse (ERW), session 1471, the first session of chain 154 (`queue/done/154-day-7-november-code-periodicals-continued.md`, written by session 1457 and updated by session 1470), samueloldlaptop, 6 November 2026, 07:08 to 07:11 UTC. Model: Claude Opus 5.5 (this window's; the file names Fable 5.1). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to GitHub only. On main directly (a queue file and this report).
 
 ## The session numbers
 
