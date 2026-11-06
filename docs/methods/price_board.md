@@ -419,3 +419,10 @@ Tests: `tests/test_board_1608.py`.
 The column "Last 30" is named "Trend" from this session, and its line is no longer the last 30 values: it is the last **90 days** of a daily row (at most 90 points; a fuel's trading days only, so about 63), a **year** of a weekly row (about 53 weeks), and **three years** of a monthly or a quarterly row (36 months, 12 quarters), each ending on the row's latest value (`SPARK_DAYS` and `SPARK_POINTS` in the builder). The points are the series' own, none filled; the mouse reads each point's date and value as before, and the line is drawn by the page's own SVG (no image). The top block's twelve tiles draw the same line. The column header's hover says the spans. Up to 90 points a row make `board.json` larger: session 1618 measures it.
 
 Tests: `tests/test_board_1609.py`.
+
+## The day's extremes (session 1611, chain 165, 6 November 2026)
+
+- **"Day's high / low"**, a column of the power group only (the group's `extremes` flag): each hub's and zone's latest complete local operating day, its highest and its lowest hour, each with the hour it began in the grid's local time (`ext` of the row: the day, the time zone, the two hours' values in UTC and local time, and the count of hours). The hour is the row's own: the day-ahead price, or the mean of the hour's real-time intervals as the row's interval says. The board's hourly store keeps hours, not intervals, so a single interval's spike is in the week's spikes table (`iso_rt_top_intervals`, under "The week, by hub"), not in this column. The hover names the day and the hours. On a stale row the cell reads "stale". A held grid's rows lose `ext` with their other figures (`holdRows`).
+- **The price duration above a threshold the reader sets** is the workbench's: a row opened there shows "Hours above" a threshold the reader types in place (a power row by the hour), with its default (USD 100 per MWh for a power price) and a reset beside it (session 328). Nothing is added for it on the wall.
+
+Tests: `tests/test_board_1611.py`.

@@ -16,7 +16,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
 import { GroupFold, NumberTile, NumberTileGrid } from "@/components/tool/ToolPage";
 import {
-  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, fmt, gridExtremes, heldLines, heldNote, inputsWords, leadRow, nameTitle, noMove, pct, rangeExtremes, rowsOf, shortDate, shownMove, signed, sparkOf, topRows,
+  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, extremeWords, fmt, gridExtremes, heldLines, heldNote, inputsWords, leadRow, nameTitle, noMove, pct, rangeExtremes, rowsOf, shortDate, shownMove, signed, sparkOf, topRows,
   type Bench, type BoardFile, type Group, type MoveKey, type Row, type WeekRow,
 } from "@/lib/board";
 
@@ -111,6 +111,19 @@ function Curve({ row }: { row: Row }) {
   );
 }
 
+/** Session 1611: the latest complete day's highest and lowest hour, with their local times; blank on a stale row. */
+function ExtCell({ row, built }: { row: Row; built: string }) {
+  const e = row.ext;
+  if (!e) return <span className="text-xs text-muted" title="The day's hours are not held for this row.">not held yet</span>;
+  if (closeAge(row, built)?.stale) return <span className="text-xs text-muted" title={`Not shown: the series is stale (${closeAge(row, built)!.words}).`}>stale</span>;
+  return (
+    <span title={extremeWords(row) ?? undefined} data-ext={row.id}>
+      <span data-n={`${row.id}|ext|hi`}>{fmt(e.hi.v, row.unit)}</span> <span className="text-muted">{e.hi.local}</span>
+      {" / "}<span data-n={`${row.id}|ext|lo`}>{fmt(e.lo.v, row.unit)}</span> <span className="text-muted">{e.lo.local}</span>
+    </span>
+  );
+}
+
 function MoveCell({ row, k, built }: { row: Row; k: MoveKey; built: string }) {
   // session 1608: a stale row's moves are blank, with its status (lib/board.ts, shownMove)
   if (row.moves?.[k] && closeAge(row, built)?.stale) {
@@ -148,7 +161,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
       {row.link ? <span className="ml-1.5 text-xs" onClick={(e) => e.stopPropagation()} data-row-link={row.id}><SiteLink href={row.link.href}>{row.link.words}</SiteLink></span> : null}
     </th>
   );
-  const cols = 7 + MOVES.length + (group.curve ? 1 : 0);   // session 1608: the moves are MOVES, the year to date among them
+  const cols = 7 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; session 1611: the day's extremes
   if (row.status !== "ok") {
     return (
       <tr className="border-b border-rule/70" data-row={row.id} data-status={row.status} hidden={hidden} id={domId}>
@@ -177,6 +190,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
       <td className="py-0.5 pr-3 text-right" onClick={(e) => e.stopPropagation()}><Spark row={row} /></td>
       <td className="py-1 pr-2 text-right"><RangeBar row={row} /></td>
       {group.curve ? <td className="py-1 pr-2 text-left"><Curve row={row} /></td> : null}
+      {group.extremes ? <td className="whitespace-nowrap py-1 pr-2 text-right text-xs"><ExtCell row={row} built={file.built} /></td> : null}
     </tr>
   );
 }
@@ -188,7 +202,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
   // its rows' names behind a toggle; the held rows stay in the page, blank, as they were (lib/board.ts, heldLines)
   const { shown, held } = heldLines(rows);
   const [named, setNamed] = useState<Record<string, boolean>>({});
-  const cols = 7 + MOVES.length + (group.curve ? 1 : 0);   // session 1608: the moves are MOVES, the year to date among them
+  const cols = 7 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; session 1611: the day's extremes
   return (
     <section id={group.id} className="scroll-mt-4" aria-label={group.title} data-group={group.id}>
       <GroupFold title={group.title} open={unfolded} onToggle={fold} meta={<>
@@ -221,6 +235,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
               <th className="pr-3 text-right font-normal" title="The last 90 days of a daily row, a year of a weekly one, three years of a monthly or quarterly one (session 1609)">Trend</th>
               <th className="pr-2 text-right font-normal">One-year range</th>
               {group.curve ? <th className="pr-2 text-left font-normal">Futures 1 to 4</th> : null}
+              {group.extremes ? <th className="pr-2 text-right font-normal" title="The latest complete day's highest and lowest hour, each with the hour it began in the grid's local time (session 1611)">Day&apos;s high / low</th> : null}
             </tr>
           </thead>
           <tbody>

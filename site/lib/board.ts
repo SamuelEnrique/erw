@@ -21,6 +21,8 @@ export type Row = {
   inputs?: { t: string; hub?: number; gas?: number; gas_t?: string; coal?: number; coal_t?: string; heat_rate?: number; gasoline?: number; diesel?: number; crude?: number; product?: number };
   /** session 1601: the row's time base and granularity in words (the builder's basis_of), in the name's hover */
   basis?: string;
+  /** session 1611: the latest complete day's highest and lowest hour, each with the hour it began in the grid's local time */
+  ext?: { t: string; tz: string; hi: Extreme; lo: Extreme; hours: number } | null;
   /** session 1601: a page that draws what the row summarizes (the node basis rows: the node view) */
   link?: { href: string; words: string };
 };
@@ -29,8 +31,15 @@ export function nameTitle(row: Pick<Row, "code" | "formula" | "basis" | "source"
   return [row.code ? `Code: ${row.code}` : "", row.formula ? `Formula: ${row.formula}` : "", row.basis ? `Interval: ${row.basis}` : "",
     row.source !== undefined ? `Source: ${sources[row.source]}` : ""].filter(Boolean).join("\n") || undefined;
 }
+export type Extreme = { v: number; utc: string; local: string };
+/** Session 1611: the words of a row's day extremes, for the cell's hover. Pure. */
+export function extremeWords(row: Pick<Row, "ext" | "unit">): string | null {
+  const e = row.ext;
+  if (!e) return null;
+  return `On ${dateWords(e.t)}, of its ${e.hours} hours: the highest began at ${e.hi.local}, the lowest at ${e.lo.local} (local time, ${e.tz}); each hour as the row's interval says`;
+}
 export type Filter = { key: string; label: string; options: [string, string][]; default: string };
-export type Group = { id: string; title: string; filters: Filter[]; curve?: boolean; extra?: string };
+export type Group = { id: string; title: string; filters: Filter[]; curve?: boolean; extra?: string; extremes?: boolean };   // extremes: session 1611
 export type WeekRow = {
   hub: string; grid: string; label: string; code: string; last_da?: { t: string; v: number };
   means: Record<string, { v: number; ch: number | null; end: string }>;
@@ -99,7 +108,7 @@ export function localHour(ms: number, tz: string): string {
 // says more than its license) and PJM's "licensed source needed". Pure: the held grids are given (lib/license.ts).
 const GRID_OF_ID: Record<string, string> = { isone: "ISO-NE", nyiso: "NYISO", miso: "MISO", pjm: "PJM", ercot: "ERCOT", caiso: "CAISO", spp: "SPP" };
 export const gridOfRow = (r: { id: string; tags?: Record<string, string> }): string => r.tags?.grid ?? GRID_OF_ID[r.id.split("-")[0]] ?? "";
-const FIGURES = ["last", "moves", "range", "avg7", "avg30", "lo30", "hi30", "spark", "hourly", "inputs"] as const;
+const FIGURES = ["last", "moves", "range", "avg7", "avg30", "lo30", "hi30", "ext", "spark", "hourly", "inputs"] as const;   // ext: session 1611
 export function heldNote(grid: string): string {
   return `${grid}'s own terms ask for permission to republish its prices, and none is recorded yet (docs/licenses.md, site/data/license_status.json): license needed. This row is held, not shown, until a permission is recorded.`;
 }

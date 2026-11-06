@@ -283,6 +283,23 @@ def daily_of(hourly, tz, iso, holidays):
     return g
 
 
+# Session 1611 (chain 165): the day's extremes. Of a power row's latest complete local day, its highest and lowest hour
+# (each hour as the row's basis says: the day-ahead price, or the mean of the hour's real-time intervals), with the hour
+# it began in the grid's local time. The board's hourly store keeps hours, not intervals, so an interval's own spike is
+# in the week's spikes table (iso_rt_top_intervals), not here.
+def extremes(hourly, tz, daily):
+    day = max(daily.index)
+    near = hourly[hourly.index >= pd.Timestamp(day, tz="UTC") - pd.Timedelta(days=1)]
+    mask = np.array([t.date() == day for t in near.index.tz_convert(tz)], dtype=bool)
+    h = near[mask]
+    if h.empty:
+        return None
+
+    def at(ts):
+        return dict(v=round(float(h[ts]), 4), utc=ts.strftime("%Y-%m-%dT%H:%M:%SZ"), local=ts.tz_convert(tz).strftime("%H:%M"))
+    return dict(t=day.isoformat(), tz=tz, hi=at(h.idxmax()), lo=at(h.idxmin()), hours=int(len(h)))
+
+
 def col(frame, name):
     return {d: float(v) for d, v in frame[name].items() if pd.notna(v)}
 
@@ -474,8 +491,9 @@ def build_power(b, store, holidays, log):
                 d = daily.get((entity, kind))
                 tags = dict(grid=grid, market=kind, scope=scope)
                 src = ZONE_SOURCE if node.startswith("LZ_") else "the grid operator's published prices (iso_hub_prices_history, ercot_all_hub_prices_history and the rolling hub and zone tables)"
+                h = store.get((entity, kind))
                 b.add("power", f"{entity}|{kind}", f"{grid} {words}", "USD/MWh", "D", col(d, "mean") if d is not None else {}, at=name, code=node, tags=tags, source=src, hourly=hid,
-                      extra=dict(basis=basis_of(entity, kind)))
+                      extra=dict(basis=basis_of(entity, kind), **({"ext": extremes(h, tz, d)} if d is not None and h is not None and len(d) else {})))
                 if d is not None:
                     b.add("battery", f"{entity}|{kind}|battery", f"{grid} {words}", "USD/MWh", "D", {x: float(r["max"] - r["min"]) for x, r in d.iterrows()},
                           at=name, code=node, tags=tags, formula=FORMULAS["battery"], source=src, extra=dict(hub=hid, basis=basis_of(entity, kind, "range")))
@@ -1137,7 +1155,8 @@ def build_week(log):
 
 
 GROUPS = [
-    dict(id="power", title="Power, by hub and zone", filters=[
+    # session 1611: extremes, a column of the day's high and low hour (the rows' "ext")
+    dict(id="power", title="Power, by hub and zone", extremes=True, filters=[
         dict(key="grid", label="Grid", options=[["all", "All grids"], ["ERCOT", "ERCOT"], ["CAISO", "CAISO"], ["NYISO", "NYISO"], ["ISO-NE", "ISO-NE"], ["SPP", "SPP"], ["MISO", "MISO"], ["PJM", "PJM"]], default="all"),
         dict(key="market", label="Market", options=[["all", "Both"], ["da", "Day-ahead"], ["rt", "Real time"]], default="all"),
         dict(key="scope", label="Show", options=[["main", "Main hubs"], ["all", "Every hub and zone"]], default="main", inclusive=True)]),

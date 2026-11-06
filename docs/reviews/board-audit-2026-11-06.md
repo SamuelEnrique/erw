@@ -155,3 +155,14 @@ The page (`site/app/board/page.tsx`, `site/components/board/BoardView.tsx`, `sit
 - The data machine: `warehouse/run_data_machine.sh`, step `dm_board_page` (`page_keep.py board`, on the machine that holds ERCOT's history), then the group `dm_test_board`.
 - Last built: the file on main says `2026-11-05T17:41:31Z` (the data machine's run of 5 November, commit `3709610b6`); the runner's run of 6 November (`e2794ff06`) built it again, and session 2885 (`06434e862`) put back the rows that run had thinned.
 - A new group or row reaches the page only through a daily run's build: this chain changes the builder, and its rows appear on the page the first day a data machine runs it after the branch lands.
+
+## 8. The trader's questions (sessions 1611 to 1614)
+
+Asked in `docs/reviews/trader-path.md` and the chain file; each answered by a column or a row.
+
+| # | Question | Session | State |
+|---:|---|---|---|
+| 30 | The day's extremes: each grid's highest and lowest real-time interval of the day, with its time; the time above a threshold the reader sets | 1611 | closed in 1611: the day's highest and lowest hour with their local times (the store keeps hours; intervals are in the week's spikes); the threshold is the workbench's (`tests/test_board_1611.py`) |
+| 31 | The week and the month in one row: the mean, the peak hour, the count of intervals above 100, 250 and 1,000 USD/MWh | 1612 | open |
+| 32 | The comparison: a hub against the same date a year before and against its trailing twelve-month mean | 1613 | open |
+| 33 | The downloads: the board as shown in CSV, Stata and Python, public rows only, every key, the held rows' words and no digit | 1614 | open |
