@@ -185,3 +185,7 @@ Written by session 2247 (6 November 2026). Each field of the news facilities is 
 ### What the tracker cannot see
 
 A facility no source names; a facility's load beyond the MW a source states (most state none: 48 of 428 rows on 6 November 2026); whether a stated MW is IT load or the facility's total, where the words do not say; a facility's point of interconnection; the operating utility where its county is served by several.
+
+### Two companies in one field (session 2261)
+
+A facility's operator or developer is kept only where its name is in the story. Where the model joins two names in the field ("Colt DCS, RMZ" for "Colt DCS and RMZ start work on third facility at Mumbai campus"), the field is kept when each name is in the story; before, the joined string was refused and the facility had no company. A description ("TikTok owner") is still not a name, and a site, a power source or a utility takes no joined names (`tests/test_session2261_deals.py`).

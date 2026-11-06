@@ -172,13 +172,20 @@ def named(value, text):
     return bool(value) and norm(value) in text
 
 
+def names_named(value, text):
+    """Session 2261 (chain 159): True when a company field holds several names the model joined ("Colt DCS, RMZ" from
+    "Colt DCS and RMZ start work") and each name appears in the story's text."""
+    parts = [p for p in re.split(r"\s*(?:,|;|&|\band\b)\s*", str(value or "")) if p.strip()]
+    return len(parts) > 1 and all(len(p.strip()) > 1 and named(p.strip(), text) for p in parts)
+
+
 def checked_fields(d, text):
     """The facility's text fields kept only as the story states them, and the reasons for any dropped."""
     why = []
     out = {}
     for f in ("operator", "developer", "site_name", "power_source", "utility", "phase"):
         v = " ".join((d.get(f) or "").split())
-        if v and not named(v, text):
+        if v and not named(v, text) and not (f in ("operator", "developer") and names_named(v, text)):
             why.append(f"{f} {v!r}: not in the story")
             v = ""
         out[f] = v

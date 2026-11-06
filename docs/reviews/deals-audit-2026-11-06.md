@@ -476,3 +476,13 @@ Status missed: **7 to 0**. Two more rows of the 82 had a stage and no status (D0
 - **D104, D105, left for the owner's ruling**: "Eaton signs agreement to acquire COL Group", "ESR to acquire Aquila Clean Energy APAC": no seller named; the second read wanted the company acquired as seller. The same read graded D068 (Calpine), D089 (Coterra) and D037 (Dominion), with the same empty seller, as right, and `seller` is a field the Roundup prints as the party selling. Unchanged.
 
 Parties incomplete: **3 to 2**, the two by the ruling.
+
+## Session 2261 (chain 159): facilities' operator (3)
+
+- **F014, done**: the model gave the developer as "Colt DCS, RMZ"; the check refused the joined string, not in the story as one piece. A company field now passes when each of its names is in the story. Replayed: F014's developer is "Colt DCS, RMZ"; no operator or developer refusal is left on either facility fixture.
+- **F050, by the rule**: "TikTok owner weighs data center project in Brazil" names the company only by a description, which the rule refuses (session 2236).
+- **F036, left**: "Balearic Islands launches new data center for critical government systems": the operator is a regional government named by its place; the model left it empty, and no word rule makes a place an operator.
+
+Operator missed: **3 to 2**, both by the rule's reading.
+
+The second read's facilities also show a country missed three times (F035 "Japan's AI infrastructure", F044 "Stargate Norway", F053 "Stargate UK"), which the 2249 tally counted under no class; it is the next class by count.
