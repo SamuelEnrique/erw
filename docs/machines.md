@@ -841,6 +841,26 @@ product, not alerts, and are not touched by this.
 - **What GitHub itself sends is outside this.** A failed "code branch" check emails the pusher from GitHub. No
   scheduled job fails on GitHub (session 61), so those send nothing.
 
+### The green streak, as counted (session 3716)
+
+`/internal/health` prints the streak from `site/data/health_days.json`, which `python warehouse/health.py summary`
+writes each morning from `erw_health`, beside the day's `queue/summary/<day>-health.md`. The rule, as
+`warehouse/health.py` counts it (`counted`, `day_record`, `green_streak`):
+
+- **The rows that count:** every step of a scheduled workflow on GitHub, and a machine's own daily run (steps named
+  `dm_...`). The alerts' memory rows (workflow `alerts`) and a machine's other rows (a session's checks, an idle row) do
+  not.
+- **A red day:** a counted step failed (it failed twice; a step that passed at its second try is `retried`, not a
+  failure), or a job that runs every day (latest prices, hourly network, daily prices, chain watch: `EXPECTED`) recorded
+  no run that day.
+- **Not a failure:** a publisher's lag, "stale at source" (session 271): a yellow row, listed apart.
+- **A short day** (a job that ran, but fewer than its share of the expected runs, session 479) is shown and does not end
+  the streak while `SHORT_ENDS_STREAK` is off (Samuel's ruling, open).
+- **The count:** back from the newest day recorded (`counted_to`); a red day stops it, and a missing day ends the count.
+- **Held to the summaries:** `tests/test_session3716.py` recomputes the last fourteen days from the summary files alone and
+  holds `health_days.json` and the streak to them. On 6 November 2026 all fourteen days (23 October to 5 November) were
+  red, with 1 to 10 failures each, and the streak was 0, as the page says.
+
 ## Continuous work (session 188)
 
 Four pieces keep a machine working without a person at it, and tell a person when it is not: a precheck every session
