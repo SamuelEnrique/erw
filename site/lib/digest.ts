@@ -22,11 +22,19 @@ import { LICENSE_FROM, LICENSE_NEEDED, licenseHeldRow, licenseNeeded, licenseTit
 const GRID: Record<string, string> = { ERCOT: "ercot", CAISO: "caiso", NYISO: "nyiso", MISO: "miso", SPP: "spp", "ISO-NE": "isone", ISONE: "isone", PJM: "pjm" };
 /** The fuel lines' labels (brief.py FUELS) and their entities in eia_fuel_spot_prices. */
 const FUEL: Record<string, string> = { "Henry Hub natural gas": "eia:henry_hub", "WTI Cushing crude": "eia:wti_cushing", "Brent crude": "eia:brent" };
+/** The US48 row of eia930_all_demand (session 804: the demand line). */
+const US48 = "eia930:US48";
+/** The day before a YYYY-MM-DD day, in UTC arithmetic. */
+function dayBefore(day: string): string {
+  const d = new Date(`${day}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
 /** The sections of stories: the news index's (news_index), held whole since 21 October when it is held. */
 export const STORY_SECTIONS = ["Top of the industry", "By sector", "AI and power"];
 
 export type Figure = {
-  part: "dam" | "rt" | "fuel" | "chart";
+  part: "dam" | "rt" | "fuel" | "chart" | "demand";
   key: string;
   raw: string;          // the value as the Digest wrote it (a chart figure: as its record holds it)
   text: string;         // the figure as written on the page
@@ -79,7 +87,14 @@ const isChart = (t: string) => /^ERW's Chart of the Day$/i.test(t);
 const NUM = "-?\\d[\\d,]*\\.\\d+|-?\\d[\\d,]*";
 const plain = (s: string) => s.replace(/,/g, "");
 
-type Place = { line: number; from: string; unit: string };   // where a figure sits: its line, the text replaced, the unit kept after it
+type Place = { line: number; from: string; unit: string; cell?: number; label?: string };   // where a figure sits: its line, the text replaced, the unit kept after it; a table figure's cell; the row's name
+
+/** Session 2207 (Samuel's ruling of 23 October 2026, item 7 of docs/reviews/deals-rulings-2026-10-23.md): a figure the
+ *  warehouse holds at another value than the stored issue printed. The issue keeps its figure; the page adds one line
+ *  under the numbers saying the publisher revised it after the issue was written, with the value held now
+ *  (lib/digestLive.ts reads them). Every check reads the note as a note: scripts/check-values.mjs passes a figure whose
+ *  page carries its revision at the live value, scripts/check_digest.py marks it "revised". */
+export type Revision = { key: string; value: number; retrieved: string | null };
 
 /** The figures of one Digest, with where each sits in its markdown. chart: the day's chart record (docs.json
  *  digest_charts), when the Digest has one. */
@@ -106,11 +121,18 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
       if (!seenTable && l.trim() && !l.startsWith("Every number below")) summary.push(i);
       if (l.startsWith("| ")) {
         const c = l.split("|").slice(1, -1).map((x) => x.trim());
-        if (c.length >= 5 && GRID[c[0]] && /^-?[\d,]+\.\d{2}$/.test(c[3]) && /^\d{4}-\d{2}-\d{2}$/.test(c[2])) {
+        if (c.length >= 5 && GRID[c[0]] && /^\d{4}-\d{2}-\d{2}$/.test(c[2])) {
           const table = tableOf(c[4]), entity = `${GRID[c[0]]}:${c[1]}`;
           if (!table) continue;
-          figs.push({ part: "dam", key: `digest_dam|${c[0]}|${table}|${c[1]}|${c[2]}`, raw: plain(c[3]), text: c[3], table, entity, ...hold(table, entity, now),
-            line: i, from: c[3], unit: "" });
+          if (/^-?[\d,]+\.\d{2}$/.test(c[3])) {
+            figs.push({ part: "dam", key: `digest_dam|${c[0]}|${table}|${c[1]}|${c[2]}`, raw: plain(c[3]), text: c[3], table, entity, ...hold(table, entity, now),
+              line: i, from: c[3], unit: "", cell: 4 });
+          }
+          // session 804: the day before, in the sixth cell, is the same figure of the operating day before
+          if (c.length >= 7 && /^-?[\d,]+\.\d{2}$/.test(c[5])) {
+            figs.push({ part: "dam", key: `digest_dam|${c[0]}|${table}|${c[1]}|${dayBefore(c[2])}`, raw: plain(c[5]), text: c[5], table, entity, ...hold(table, entity, now),
+              line: i, from: c[5], unit: "", cell: 6 });
+          }
         }
         continue;
       }
@@ -126,11 +148,42 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
         }
         continue;
       }
+      // session 804: a mover line, "<label>: <newest> <unit> on <day>, up|down <change> (<pct>%) from <previous> on <day> [n]":
+      // two figures of the label's table (a fuel's closes; a hub's day-ahead averages)
+      const mv = /^- (.+?): (-?[\d,]+\.\d{2}) (\S+) on (\d{4}-\d{2}-\d{2}), (?:up|down) [\d,.]+ \S+ \([\d.]+%\) from (-?[\d,]+\.\d{2}) \S+ on (\d{4}-\d{2}-\d{2}) \[(\d+)\]/.exec(l);
+      if (mv) {
+        const hub = /^(ERCOT|CAISO|NYISO|MISO|SPP|ISO-NE) (\S+) day-ahead$/.exec(mv[1]);
+        if (FUEL[mv[1]]) {
+          const table = "eia_fuel_spot_prices", entity = FUEL[mv[1]];
+          for (const [v, d] of [[mv[2], mv[4]], [mv[5], mv[6]]]) {
+            figs.push({ part: "fuel", key: `digest_fuel|${table}|${entity}|${d}`, raw: plain(v), text: v, table, entity, ...hold(table, entity, now),
+              line: i, from: v, unit: "" });
+          }
+        } else if (hub && GRID[hub[1]]) {
+          const table = foot[mv[7]] ?? "", entity = `${GRID[hub[1]]}:${hub[2]}`;
+          if (table) {
+            for (const [v, d] of [[mv[2], mv[4]], [mv[5], mv[6]]]) {
+              figs.push({ part: "dam", key: `digest_dam|${hub[1]}|${table}|${hub[2]}|${d}`, raw: plain(v), text: v, table, entity, ...hold(table, entity, now),
+                line: i, from: v, unit: "" });
+            }
+          }
+        }
+        continue;
+      }
+      // session 804: US48 demand's peak hour, and the same weekday a year before where held
+      if (/^\*\*US48 demand/.test(l)) {
+        for (const m of l.matchAll(/peaked at (-?[\d,]+) MW in the hour starting (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) UTC/g)) {
+          const table = "eia930_all_demand", entity = US48;
+          figs.push({ part: "demand", key: `digest_demand|${table}|${entity}|demand_mw|${m[2]}T${m[3]}:00Z`, raw: plain(m[1]), text: m[1], table, entity,
+            ...hold(table, entity, now), line: i, from: `${m[1]} MW`, unit: " MW" });
+        }
+        continue;
+      }
       const fu = /^- (.+?): (-?[\d,]+\.\d{2}) (\S+) on (\d{4}-\d{2}-\d{2})\b/.exec(l);
       if (fu && FUEL[fu[1]]) {
         const table = "eia_fuel_spot_prices", entity = FUEL[fu[1]];
         figs.push({ part: "fuel", key: `digest_fuel|${table}|${entity}|${fu[4]}`, raw: plain(fu[2]), text: fu[2], table, entity, ...hold(table, entity, now),
-          line: i, from: `${fu[2]} ${fu[3]}`, unit: ` ${fu[3]}` });
+          line: i, from: `${fu[2]} ${fu[3]}`, unit: ` ${fu[3]}`, label: fu[1] });
       }
     }
   }
@@ -181,16 +234,17 @@ const day = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en
  * among the others, is the held table's); and, while news_index is held, the sections of stories, but for the policy
  * actions (policy_actions, the Federal Register and agency news) that brief.py adds under Policy.
  */
-export function digestMarkdown(md: string, date: string, chart: { table: string; numbers: Record<string, number | string> } | null = null, now: Date = new Date()) {
+export function digestMarkdown(md: string, date: string, chart: { table: string; numbers: Record<string, number | string> } | null = null, now: Date = new Date(),
+                               revisions: Record<string, Revision> = {}) {
   const { lines, figs, secs, summary } = read(md, date, chart, now);
   const out = [...lines];
   const spans: string[] = [];
   const token = (html: string) => { spans.push(html); return `ERWDIGESTFIG${spans.length - 1}Z`; };
   for (const f of figs) {
     const at = out[f.line];
-    if (f.part === "dam") {
+    if (f.part === "dam" && f.cell) {   // a table cell (session 804: the day before sits in its own cell)
       const c = at.split("|");
-      c[4] = ` ${token(figureSpan(f))} `;
+      c[f.cell] = ` ${token(figureSpan(f))} `;
       out[f.line] = c.join("|");
     } else {
       const i = at.indexOf(f.from);
@@ -216,6 +270,22 @@ export function digestMarkdown(md: string, date: string, chart: { table: string;
       if (re.test(s)) s = s.replace(re, token(figureSpan(f)));
     }
     out[i] = s;
+  }
+  // session 2207: the revision notes, one line a revised figure, at the end of the numbers section (before any splice
+  // of the sections above it moves the lines); the figure keeps its span and its key, and the note names the value held
+  const num = secs.find((s) => isNumbers(s.title));
+  const revised = figs.filter((f) => f.part !== "chart" && revisions[f.key] && !f.held);
+  if (num && revised.length) {
+    const notes = revised.map((f) => {
+      const r = revisions[f.key];
+      const who = f.part === "fuel" ? "EIA" : "The publisher";
+      const when = /\|(\d{4}-\d{2}-\d{2})(?:T|$)/.exec(f.key.slice(f.key.lastIndexOf("|")))?.[1] ?? "";
+      const what = f.label ?? `${currentTable(f.table)} ${f.entity}`;
+      const words = `${who} revised the ${what} ${f.part === "fuel" ? "close" : "price"}${when ? ` for ${day(when)}` : ""} after this issue was written: `
+        + `the warehouse now holds ${shownTwo(r.value)}${f.unit}; the issue printed ${f.text}${f.unit} and keeps it as its record.`;
+      return token(`<span data-revised="${esc(f.key)}" data-revised-value="${r.value}" data-revised-printed="${esc(f.raw)}" class="text-muted">${esc(words)}</span>`);
+    });
+    out.splice(num.end, 0, "", ...notes.flatMap((n, i) => (i ? ["", n] : [n])));
   }
   if (licenseNeeded("news_index", now)) {
     for (const s of [...secs].reverse()) {
@@ -290,6 +360,11 @@ export function archiveOf(have: string[], today: string = utcDay()): { date: str
 }
 
 /** "Wednesday 21 October 2026". */
+/** A revised value as the Digest writes a close: two decimals, thousands separated. */
+function shownTwo(v: number): string {
+  return v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 export function dayWords(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
   return `${d.toLocaleDateString("en-GB", { weekday: "long", timeZone: "UTC" })} ${day(date)}`;

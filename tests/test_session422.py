@@ -11,11 +11,13 @@ and the ten callouts check-analysis.mjs failed in that build each name NYISO or 
     python -m unittest tests.test_session422 -v
 """
 
+import csv
 import json
 import os
 import re
 import subprocess
 import sys
+import tempfile
 import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -59,6 +61,36 @@ def run_mirror(folder, script, args=()):
                           capture_output=True, text=True, timeout=600)
 
 
+# Session 2863: the packs quote the build of 21 October, whose last twelve whole months were October 2025 to September
+# 2026; the data machine writes the CSVs again every day, so from 1 November their own last twelve are newer (the
+# datacenter's 34.07, not 33.73, and the daily run's merge tests failed on it from 2 November). Each mirror is run on
+# its CSV as of that build: the rows of the months to September 2026, in_last_twelve set on October 2025 to September
+# 2026. The CSV's rows are the files' own; only the later months are left out.
+PACK_TWELVE = ("2025-10", "2026-09")
+CSV_OF = {"battery": "erw_2026_battery_dispatch.csv", "seller": "erw_2026_generator_hourly.csv",
+          "datacenter": "erw_2026_datacenter_hourly.csv"}
+
+
+def csv_as_of_the_packs(folder, out_dir):
+    with open(os.path.join(PUBLIC, folder, CSV_OF[folder]), encoding="utf-8", newline="") as f:
+        lines = f.read().splitlines()
+    rows = list(csv.reader([ln for ln in lines if not ln.startswith("#")]))
+    cols = rows[0]
+    month = cols.index("std_month") if "std_month" in cols else cols.index("local_month")
+    flag = cols.index("in_last_twelve")
+    kept = [cols]
+    for r in rows[1:]:
+        if r[month] > PACK_TWELVE[1]:
+            continue
+        r[flag] = "1" if PACK_TWELVE[0] <= r[month] <= PACK_TWELVE[1] else "0"
+        kept.append(r)
+    path = os.path.join(out_dir, CSV_OF[folder])
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        f.write("\n".join(ln for ln in lines if ln.startswith("#")) + "\n")
+        csv.writer(f, lineterminator="\n").writerows(kept)
+    return path
+
+
 class ThePacks(unittest.TestCase):
     def test_each_pack_has_the_paragraph_inside_its_item_2_section(self):
         for name in ("battery", "generator", "datacenter", "grid", "research"):
@@ -83,7 +115,8 @@ class ThePacks(unittest.TestCase):
 class TheMirrors(unittest.TestCase):
     def test_the_three_economics_mirrors_print_the_headlines(self):
         for folder, (script, args, figures) in MIRRORS.items():
-            r = run_mirror(folder, script, args)
+            with tempfile.TemporaryDirectory() as tmp:
+                r = run_mirror(folder, script, [*args, csv_as_of_the_packs(folder, tmp)])
             self.assertEqual(r.returncode, 0, f"{folder}: {r.stderr[-800:]}")
             lines = r.stdout.splitlines()
             for label, value in figures:

@@ -126,7 +126,9 @@ await test("each file a view reads is named as a source with its page, and may b
     assert.ok(pf.PAGES_HOLDS[f], f);
     assert.ok(pf.PAGES_NEAR.includes(f));
   }
-  assert.ok(read("../components/ask/AskPanel.tsx").includes("if (PAGE_FILE_HREF[table]) return PAGE_FILE_HREF[table];"));
+  // session 1317: sourceHref moved to the answer's sources in session 1194 (components/ask/AnswerSources.tsx), the panel imports it
+  assert.ok(read("../components/ask/AnswerSources.tsx").includes("if (PAGE_FILE_HREF[table]) return PAGE_FILE_HREF[table];"));
+  assert.ok(read("../components/ask/AskPanel.tsx").includes('import { AnswerSources, sourceHref } from "@/components/ask/AnswerSources";'));
   // a refusal that names one of them as nearest passes the profile's own check, and the reader is shown what it holds
   const draft = { answer: "held, not shown", citations: [], not_in_warehouse: true, form: "words", series: [], followups: ["What did California curtail last month?", "What share did SPP curtail last year?"], nearest: ["iso_curtailment_monthly", links.PAGE_FILES.shares], premise: "" };
   assert.deepEqual(profile.extraProblems(draft, [], []), []);

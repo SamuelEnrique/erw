@@ -8,6 +8,8 @@ import fs from "node:fs";
 const { readsOf } = await import("../lib/chat/ask.ts");
 const panel = fs.readFileSync(new URL("../components/ask/AskPanel.tsx", import.meta.url), "utf8");
 const loop = fs.readFileSync(new URL("../lib/chat/ask.ts", import.meta.url), "utf8");
+// session 1194: the reads are drawn by the answer's sources (components/ask/AnswerSources.tsx), under every chat's answer
+const sources = fs.readFileSync(new URL("../components/ask/AnswerSources.tsx", import.meta.url), "utf8");
 
 let n = 0, failed = 0;
 const test = (name, f) => {
@@ -34,7 +36,7 @@ test("the loop lists a read only when the call answered and was not a held grid'
 });
 
 test("the panel draws the reads, the time it took, and the refusal in its own words", () => {
-  assert.ok(panel.includes("data-reads={res.reads!.length}"));
+  assert.ok(panel.includes("<AnswerSources citations={res.citations} reads={res.reads} />") && sources.includes("data-reads={rs.length}"));
   assert.ok(panel.includes("Answered in {res.seconds.toFixed(1)} seconds"));
   assert.ok(panel.includes('refused_unverified: "The warehouse does not hold that figure"'));
 });
