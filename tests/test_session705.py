@@ -54,8 +54,13 @@ class Connect(unittest.TestCase):
         cls.f = json.loads(src("site", "data", "siting", "connect.json"))
 
     def test_the_file_is_the_table_s_where_it_is_here(self):
-        # session 718: from the data machine's interconnection_durations where it is held, else Berkeley Lab's file
-        for d in (os.path.join(ROOT, "runs", "archive_restore"), os.path.join(os.path.dirname(ROOT), "erw", "runs", "archive_restore"), os.path.join(ROOT, "warehouse", "output")):
+        # session 718: from the data machine's interconnection_durations where it is held, else Berkeley Lab's file.
+        # Session 2863: the main checkout's warehouse/output too, as the Berkeley Lab file below is looked for there: from
+        # a worktree beside it (the landing gate's) the durations table was missed and the file rebuilt from the other
+        # table, so the test failed in every gate on the data machine and passed in its main checkout.
+        main = os.path.join(os.path.dirname(ROOT), "erw")
+        for d in (os.path.join(ROOT, "runs", "archive_restore"), os.path.join(main, "runs", "archive_restore"), os.path.join(ROOT, "warehouse", "output"),
+                  os.path.join(main, "warehouse", "output")):
             q = os.path.join(d, "interconnection_durations.csv")
             if os.path.exists(q) and self.f["table"] == "interconnection_durations":
                 again = sp.connect_from_durations(q)

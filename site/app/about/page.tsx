@@ -47,6 +47,14 @@ export default function About() {
           scored fields; a headline&apos;s numbers are checked against them. The line under each headline is the story&apos;s own scored reason, with its
           sources linked.
         </p>
+        {/* Session 811: the rules of sessions 801 to 806 (docs/reviews/periodicals-plan-2026-10-23.md), each with the function that holds it. */}
+        <p>
+          <strong>The line under the headline.</strong> It says the consequence in one sentence: no adjective of the list (massive, unprecedented,
+          significant, major, critical, key, huge), no figure the headline already gives, a stop before the figures and the sources. The scorer is asked
+          for that and the brief checks it: an adjective is cut, a second sentence is dropped, a figure the headline holds is taken out where the sentence
+          still reads, and a line that cannot be mended is left out rather than invented.{/* brief.py why_check, why_line, why_fallback, detail */} Sums of
+          money are written one way, &ldquo;USD 45 billion&rdquo;.{/* brief.py money_style */}
+        </p>
         {/* Session 532: the four paragraphs below say what warehouse/news/brief.py does since session 470 (tests/test_session470.py);
             each claim names, in a comment beside it, the function that does it. */}
         <p>
@@ -63,6 +71,13 @@ export default function About() {
           names each story dropped.{/* brief.py unique_items, without_repeats, drop_repeated_items */}
         </p>
         <p>
+          <strong>One topic, one item.</strong> The top 10 holds at most one item a topic: a topic is the scorer&apos;s sector, or two sectors whose
+          stories name a party in common and share two words of their titles.{/* brief.py same_topic, TOPIC_WORDS = 2 */} A later story of a topic
+          already in the ten folds under that item as &ldquo;Also on this topic&rdquo;, with its publisher&apos;s title and its outlet, at most three an
+          item; past three it waits for the sections below, so no story is lost.{/* brief.py one_per_topic, ALSO_MAX = 3, also_line */} The Roundup&apos;s
+          weekend stories and its five of the week follow the same rule.{/* roundup.py main: brief.one_per_topic */}
+        </p>
+        <p>
           <strong>Not the same story twice in a week.</strong> A story that a digest of the seven days before printed is left out: a link in common,
           or a party named again with either an amount that issue printed or most of its headline&apos;s words.{/* brief.py earlier_issues (days=7), repeat_of, not_shown_before */}{" "}
           It comes back only when it brings a sum of money none of those issues printed, such as a price disclosed after the deal.{/* brief.py not_shown_before */}{" "}
@@ -72,12 +87,20 @@ export default function About() {
           <strong>Links.</strong> A top story links up to three of its sources and a story in the other sections its first, each address
           once.{/* brief.py build_clusters (links[:3]), main (links[:1]) */} The ERW follows a Google News link once to reach the outlet; when it
           cannot, the link stays a Google News address and says so, &ldquo;(via Google News)&rdquo;, in the digest, the Roundup and the digest&apos;s
-          email.{/* ingest.py resolves the address; brief.py link_text; email_digest.py story_list */}
+          email.{/* ingest.py resolves the address; brief.py link_text; email_digest.py story_list */} The link&apos;s text is the outlet&apos;s name from
+          the feed, never the address; the email&apos;s text part names the outlet alone where the address is Google&apos;s. An outlet whose stories ask for
+          a license (the news index&apos;s hold since 21 October 2026, read from the license file) is named with no link, so the item shows the outlet and
+          the title only.{/* brief.py licensed_outlets, source_text */}
         </p>
         <p>
           <strong>Numbers.</strong> Every number in the numbers section is read from the ERW&apos;s tables through its Python package, and each names its
           table in the section&apos;s footnotes. A day-ahead average is the mean of the 24 hourly prices of the grid&apos;s own operating day, rounded half
-          up to cents. The short summary above them is written by the model under a literal check: every number in it must appear
+          up to cents. The section opens with what moved most: the five largest moves in percent among the main hubs&apos; day-ahead averages
+          against the day before and EIA&apos;s spot closes against the close before them, each with its level and its change, and a reason only when
+          a scored story of the day names that price; the move is the price board&apos;s.{/* brief.py numbers_today, MOVERS_N = 5, day_move, price_reason */}
+          A price held for a license or paused is not ranked and says so, as are TTF and JKM, which are not held.{/* brief.py held_grids, NOT_HELD */}
+          The table carries the day before and the change; the closes say how old they are; US48 demand&apos;s peak is set against the same weekday a
+          year before where the warehouse holds it.{/* brief.py demand_lines */} The short summary above them is written by the model under a literal check: every number in it must appear
           in the section, or the summary is regenerated once and otherwise left out. On this site each figure carries the table and key it came from:
           scripts/check-values.mjs compares it with the live set, and scripts/check_digest.py traces every Digest of the archive to the warehouse. Since
           21 October 2026 a figure from a table whose publisher asks for permission reads &ldquo;license needed&rdquo;, as it does on every page; so does the
@@ -92,14 +115,25 @@ export default function About() {
         <p>
           <strong>Chart of the day.</strong> Since 13 October 2026 each digest carries a chart drawn by code, with no model and no person choosing it: the
           strongest flag of the day&apos;s scan of the warehouse that no digest has shown (<Link href="/data/methods/automated_analysis_scanner">how the chart
-          is chosen</Link>). Its figures are its table&apos;s, as its record holds them.
+          is chosen</Link>). Since 22 October 2026 the candidates are ordered first by how much each belongs to the day&apos;s top ten stories (the sector
+          the candidate&apos;s table belongs to, and the words its fact, table and series share with a story&apos;s title, reason and parties; the top story
+          weighs ten times the tenth), and the sentence under the chart says which story it follows.{/* daily_chart.py relevance, choose */} Its figures
+          are its table&apos;s, as its record holds them.
         </p>
         <p>
           <strong>Fun fact and chart of the week.</strong> Each digest ends with a fun fact: always an energy fact first (a number from the warehouse,
           a piece of energy history, or a quirk of how the system works), sometimes with a second half. A number must match the warehouse exactly, and
           a history or word-origin claim must be found, word for word, in a stored copy of its source (Wikipedia or EIA), in the source's own words; a fact that
           fails is dropped and the digest ships without one. The Roundup carries the chart of the week, picked by a fixed rule from the Automated
-          Analysis templates (<a href="/research">/research</a>).
+          Analysis templates (<a href="/research">/research</a>); since 22 October 2026 the section says which of the measures that moved in the week
+          is most related to the week&apos;s top stories, with its finding, when it is not the one drawn.{/* roundup.py chart_relevance */}
+        </p>
+        <p>
+          <strong>The week in five numbers.</strong> The Roundup opens with five figures, each traced to its table: the week&apos;s biggest price move in
+          percent among the main hubs&apos; weekly means and EIA&apos;s closes a week apart; the US48 peak with its hour; the week&apos;s largest deal by US
+          dollars from the deals table, by MW when none states dollars; the largest datacenter load first reported in the week; and the headline figure
+          of the week&apos;s chart. A figure the warehouse does not hold is said missing. The highest real-time price of the week says its interval
+          length, since the grids&apos; series differ in it.{/* roundup.py five_numbers, interval_words */}
         </p>
       </div>
 

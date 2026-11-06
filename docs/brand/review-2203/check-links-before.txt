@@ -1,0 +1,12 @@
+check-links: 4 pages at https://erw-flame.vercel.app, in the internal view
+read /explore/ercot-peak-premium: 51 links, 2 ids
+read /explore/demand-growth: 52 links, 7 ids
+read /explore/interconnection: 45 links, 6 ids
+read /prices?tab=ercot: 58 links, 2 ids
+55 internal addresses linked from 4 pages: asking for each (8 under /api/ not asked)
+2 pages linked with a fragment and not on the list: reading their anchors
+read /about: 80 links, 19 ids
+read /data: 361 links, 111 ids
+alias | /ask | "Ask" | on /explore/ercot-peak-premium (and 3 more pages) | the Ask panel's own address, a redirect to the Grid tool's panel (the owner's merge of 18 October 2026) (/ask -> /grid?grid=us48&ask=1)
+alias | /internal/lock | "lock" | on /explore/ercot-peak-premium (and 3 more pages) | an action, not a page: it closes the internal view and returns to the home page (/internal/lock -> /)
+check-links: 4 pages, 206 links, 55 addresses; 0 findings, 0 waiting for a ruling, 2 aliases, 8 addresses under /api/ not asked, 0 pages not read cleanly (detail in C:/Users/samen/Documents/erw/runs/s2203/links_before.json)

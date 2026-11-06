@@ -18,7 +18,7 @@ import { useState } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { LineChart } from "@/components/LineChart";
 import { HOUR_GROUP, chartPoints, isDrawn, keySeconds } from "@/lib/chat/series";
-import { PAGE_FILE_HREF } from "@/lib/chat/pagelinks";
+import { AnswerSources, sourceHref } from "@/components/ask/AnswerSources";
 import { cleanQuestion } from "@/lib/chat/plaintime";
 
 export { keySeconds };
@@ -55,13 +55,8 @@ const SHOWN = 24; // rows of a table shown before the fold
 const shown = (v: number | null) => (v === null ? "not held" : Number.isInteger(v) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { maximumFractionDigits: 4 }));
 
 /** Where a cited source is on this site: the grid's written page, a page built from the tables, or the table's entry. */
-export function sourceHref(table: string): { href: string; what: string } {
-  if (table.startsWith("docs/grids/")) return { href: `/grid?grid=${table.slice(11, -3)}`, what: "Written page" };
-  if (table === "site/data/board.json") return { href: "/board", what: "Price board" };
-  if (table === "site/data/supply.json") return { href: "/supply", what: "Supply and trade" };
-  if (PAGE_FILE_HREF[table]) return PAGE_FILE_HREF[table];   // session 153: a page's own file, read by the tool page_file
-  return { href: `/data#${table}`, what: "ERW table" };
-}
+// session 1194: sourceHref lives with the answer's sources (components/ask/AnswerSources.tsx), exported here as before
+export { sourceHref };
 
 // session 1145: exported, so the general chat's form (app/ask/AskForm.tsx) draws a series as this panel does
 export function SeriesBlock({ s, form }: { s: Series; form: Form }) {
@@ -139,29 +134,8 @@ function Answer({ turn, n, last, busy, onAsk }: { turn: Turn; n: number; last: b
         </div>
       ) : null}
       {(res.series ?? []).map((s) => <SeriesBlock key={s.result_id} s={s} form={form} />)}
-      {res.citations.length ? (
-        <ul className="mt-3 text-xs text-muted" data-sources={res.citations.length}>
-          {res.citations.map((c) => {
-            const src = sourceHref(c.table);
-            return (
-              <li key={c.table} className="py-0.5">
-                Source: {src.what} <Link href={src.href} className="font-mono" gate="plain">{c.table}</Link>{c.tier ? ` (${c.tier})` : ""}, <span title={c.data_version}>{c.source_report}</span>
-              </li>
-            );
-          })}
-        </ul>
-      ) : null}
-      {(res.reads ?? []).length ? (
-        <ul className="mt-1 text-xs text-muted" data-reads={res.reads!.length}>
-          {res.reads!.map((r, i) => (
-            <li key={i} className="py-0.5">
-              Read: <span className="font-mono">{r.table}</span>{r.entity ? <>, <span className="font-mono">{r.entity}</span></> : null}{r.variable ? <>, <span className="font-mono">{r.variable}</span></> : null}
-              {r.start || r.end ? `, ${r.start ?? "the first row"} to ${r.end ?? "the newest row"}${r.end ? " (the end not included)" : ""}${r.tz && r.tz !== "UTC" ? `, ${r.tz} time` : ""}` : ", every row held"}
-              {r.aggregation ? `, ${r.aggregation}${r.group_by ? ` by ${r.group_by}` : ""}` : ""}
-            </li>
-          ))}
-        </ul>
-      ) : null}
+      {/* session 1194: the sources and the reads in the brand's source line, as under every chat's answer */}
+      <AnswerSources citations={res.citations} reads={res.reads} />
       {typeof res.seconds === "number" ? <p className="mt-1 text-xs text-muted" data-answered-in={res.seconds.toFixed(1)}>Answered in {res.seconds.toFixed(1)} seconds{res.tool_calls ? `, ${res.tool_calls} ${res.tool_calls === 1 ? "read" : "reads"} of the warehouse` : ""}.</p> : null}
       {last && (res.followups ?? []).length ? (
         <div className="mt-4" data-followups={res.followups!.length}>

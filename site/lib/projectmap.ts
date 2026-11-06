@@ -159,6 +159,41 @@ export function dateOf(d: number): string {
 }
 export const yearOf = (d: number) => (d ? String(d).slice(0, 4) : "");
 
+// Session 2300 (chain 087): where a figure the page computes in the browser comes from. A figure read from the live set
+// carries a check key (components/Num.tsx, data-check) that scripts/check-values.mjs reads back; a figure summed here
+// from the page's own copy of the tables cannot be, so it carries data-source="<tables>|<vintage>|<rule>" and sits
+// beside a hover tip (components/tool/ToolPage.tsx, Tip) whose words name the same three things. The kinds: `units`
+// (EIA's operating and planned generators, one vintage), `queue` (energy_projects), `datacenter` (datacenter_facilities),
+// `all` (every table of the file, dated by its build).
+export type SourceKind = "units" | "queue" | "datacenter" | "all";
+export const SOURCE_RULE = {
+  chosen: "summed over the rows chosen",
+  file: "counted over the whole file",
+  row: "the row's own fields",
+} as const;
+type SourceFace = Pick<MapFile, "tables" | "vintage" | "vintages" | "built">;
+/** The tables a kind is read from, in the file's own order (the two EIA tables carry "eia860m" in their names). */
+export function sourceTables(f: SourceFace, kind: SourceKind): string[] {
+  if (kind === "all") return f.tables;
+  if (kind === "units") return f.tables.filter((t) => t.startsWith("eia860m"));
+  return f.tables.filter((t) => (kind === "queue" ? t === "energy_projects" : t === "datacenter_facilities"));
+}
+/** The vintage of a kind's rows: EIA's month for the units, the day of the queue's and the tracker's rows, the build day for all. */
+export function sourceVintage(f: SourceFace, kind: SourceKind): string {
+  if (kind === "units") return f.vintage;
+  if (kind === "all") return f.built.slice(0, 10);
+  return f.vintages[kind] ?? "";
+}
+/** The data-source attribute: tables with commas between them, the vintage, the rule. */
+export const sourceOf = (f: SourceFace, kind: SourceKind, rule: string): string => `${sourceTables(f, kind).join(",")}|${sourceVintage(f, kind)}|${rule}`;
+/** The tip's words for the same figure. */
+export function sourceWords(f: SourceFace, kind: SourceKind, rule: string): string {
+  const what = kind === "units" ? "EIA-860M's operating and planned generators" : kind === "queue" ? "the interconnection queue positions" : kind === "datacenter" ? "the datacenter tracker's facilities" : "the four tables";
+  const tables = sourceTables(f, kind).join(" and ");
+  const when = kind === "units" ? `EIA's inventory of ${f.vintage}` : kind === "all" ? `built ${f.built.slice(0, 10)}` : `vintage ${sourceVintage(f, kind)}`;
+  return `Computed in your browser from the page's own copy of ${what} (${tables}, ${when}, the copy built ${f.built.slice(0, 10)}), ${rule}. Nothing is read from the live set for this figure.`;
+}
+
 /** The fuel color of a technology of the map: the site's eight, the rest share "other" (a ninth hue is never made). */
 export const COLOR: Record<string, string> = {
   solar: "--color-fuel-solar", wind: "--color-fuel-wind", battery: "--color-fuel-storage", storage: "--color-fuel-storage", queue_storage: "--color-fuel-storage",

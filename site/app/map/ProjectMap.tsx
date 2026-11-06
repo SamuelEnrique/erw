@@ -9,12 +9,18 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { geoAlbersUsa } from "d3-geo";
 import { baseStyle, token, useEChart } from "@/components/echarts";
-import { InputPanel, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { InputPanel, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { STATES } from "@/lib/regions";
 import {
-  COLOR, COLOR_KEY, EVERYTHING, KIND, cardOf, clickState, dateOf, one, optionsOf, parseChoice, queryOf, select, sizeOf, tidy, toggle, totals, whole,
-  type CardPart, type Choice, type Filter, type MapFace, type MapFile,
+  COLOR, COLOR_KEY, EVERYTHING, KIND, SOURCE_RULE, cardOf, clickState, dateOf, one, optionsOf, parseChoice, queryOf, select, sizeOf, sourceOf, sourceWords, tidy, toggle, totals, whole,
+  type CardPart, type Choice, type Filter, type MapFace, type MapFile, type SourceKind,
 } from "@/lib/projectmap";
+
+// Session 2300 (chain 087): every figure this component computes carries data-source (lib/projectmap.ts, sourceOf) and
+// sits beside a hover tip with the same words: the tables, the vintage and the rule. The kind of a status group or a
+// kind index, for the source: EIA's units, the queue or the tracker.
+const SOURCE_KIND: SourceKind[] = ["units", "units", "queue", "datacenter"];
+const srcOf = (f: MapFace, k: number) => sourceOf(f, SOURCE_KIND[k], SOURCE_RULE.chosen);
 
 const NAME_TO_CODE: Record<string, string> = Object.fromEntries(Object.entries(STATES).map(([code, name]) => [name, code]));
 const never = () => () => {};
@@ -172,10 +178,15 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
             if (!tiles.length) return null;
             return (
               <div key={group}>
-                <h3 className="mb-2 text-xs uppercase tracking-wide text-muted">{group === 0 ? "Generating units, by EIA's status" : group === KIND.queue ? "Queue positions, by status (MW requested)" : "Datacenters, by status (MW where stated)"}</h3>
+                <h3 className="mb-2 text-xs uppercase tracking-wide text-muted">
+                  {group === 0 ? "Generating units, by EIA's status" : group === KIND.queue ? "Queue positions, by status (MW requested)" : "Datacenters, by status (MW where stated)"}
+                  <Tip id={`map-totals-${group}`} label={`the totals of ${KIND_WORD[group].toLowerCase()}`}>
+                    {sourceWords(f, SOURCE_KIND[group], SOURCE_RULE.chosen)} {group === KIND.datacenter ? "The MW is summed over the facilities that state one; the count under it says how many do." : group === KIND.queue ? "The MW is what each position asks to connect, not a load." : "The MW is nameplate capacity, summed over the units of the status."}
+                  </Tip>
+                </h3>
                 <div className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3 xl:grid-cols-4">
                   {tiles.map(({ s, t }) => (
-                    <Tile key={s.slug} label={s.name} value={<span data-map-total={s.slug}>{t.withMw ? whole(t.mw) : "not stated"}</span>} unit={t.withMw ? "MW" : undefined}
+                    <Tile key={s.slug} label={s.name} value={<span data-map-total={s.slug} data-source={srcOf(f, s.kind)}>{t.withMw ? whole(t.mw) : "not stated"}</span>} unit={t.withMw ? "MW" : undefined}
                       note={s.kind === KIND.queue ? count(t.rows, "position") : s.kind === KIND.datacenter ? <>{count(t.rows, "facility", "facilities")}, {t.withMw ? `MW stated at ${whole(t.withMw)}` : "no MW stated"}</> : count(t.rows, "unit")} />
                   ))}
                 </div>
@@ -185,7 +196,8 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
         </div>
 
         <ToolSection title="The map" id="map"
-          note={<>Drag to move, scroll or pinch to zoom, hover for a row, click a unit for its card, click a state to choose it.{notDrawn ? <> {whole(notDrawn)} of the rows chosen have no place on the drawing (Puerto Rico, or no location in the source); they are in the totals and the table.</> : null}</>}>
+          note={<>Drag to move, scroll or pinch to zoom, hover for a row, click a unit for its card, click a state to choose it.{notDrawn ? <> <span data-map-not-drawn="1" data-source={sourceOf(f, "all", "the rows chosen whose source gives no place on the drawing")}>{whole(notDrawn)}</span> of the rows chosen have no place on the drawing (Puerto Rico, or no location in the source); they are in the totals and the table.</> : null}
+            <Tip id="map-drawn" label="the rows on the map">{sourceWords(f, "all", "every row chosen that has a place on the drawing is a mark")} A mark&apos;s hover names its table, its vintage and its row.</Tip></>}>
           <div ref={box} role="img" aria-label={`Map of ${whole(drawn.length)} rows chosen`} className="w-full border border-rule bg-panel"
             style={{ aspectRatio: "975 / 640", minHeight: 240 }} data-map-drawn={drawn.length} />
           <Key f={f} picked={picked} />
@@ -269,13 +281,15 @@ function Sentence({ f, choice, sum, sized }: { f: MapFace; choice: Choice; sum: 
   const units = op.rows + pl.rows;
   const unitWord = op.rows && pl.rows ? "generating units" : op.rows ? "operating units" : "planned units";
   const parts: ReactNode[] = [];
-  if (units) parts.push(<span key="u"><strong>{whole(units)}</strong> {unitWord} of EIA&apos;s inventory of {f.vintage}, <strong>{whole(op.mw + pl.mw)} MW</strong></span>);
-  if (q.rows) parts.push(<span key="q"><strong>{whole(q.rows)}</strong> queue positions, <strong>{whole(q.mw)} MW</strong> requested</span>);
-  if (dc.rows) parts.push(<span key="d"><strong>{whole(dc.rows)}</strong> datacenters, {dc.withMw ? <><strong>{whole(dc.mw)} MW</strong> stated at {whole(dc.withMw)} of them</> : <>no MW stated</>}</span>);
+  const su = srcOf(f, KIND.operating), sq = srcOf(f, KIND.queue), sd = srcOf(f, KIND.datacenter);
+  if (units) parts.push(<span key="u"><strong data-source={su}>{whole(units)}</strong> {unitWord} of EIA&apos;s inventory of {f.vintage}, <strong data-source={su}>{whole(op.mw + pl.mw)} MW</strong></span>);
+  if (q.rows) parts.push(<span key="q"><strong data-source={sq}>{whole(q.rows)}</strong> queue positions, <strong data-source={sq}>{whole(q.mw)} MW</strong> requested</span>);
+  if (dc.rows) parts.push(<span key="d"><strong data-source={sd}>{whole(dc.rows)}</strong> datacenters, {dc.withMw ? <><strong data-source={sd}>{whole(dc.mw)} MW</strong> stated at <span data-source={sd}>{whole(dc.withMw)}</span> of them</> : <>no MW stated</>}</span>);
   return (
     <>
       In {grids} and {states}{narrowed.length ? `, of the ${and(narrowed)} chosen` : ""}, the map holds{" "}
       {parts.map((p, i) => <span key={i}>{i ? (i === parts.length - 1 ? "; and " : "; ") : ""}{p}</span>)}.
+      <Tip id="map-sentence" label="the figures of this sentence">{sourceWords(f, "all", SOURCE_RULE.chosen)} MW is never added across kinds: a unit&apos;s nameplate, a queue position&apos;s request and a datacenter&apos;s stated load are different things.</Tip>
     </>
   );
 }
@@ -337,7 +351,7 @@ function UnitCard({ f, part, i, close }: { f: MapFace; part: CardPart | { error:
         <button type="button" onClick={close} className="px-1 text-muted hover:text-accent" aria-label="Close">x</button>
       </div>
       <div className="mb-2 break-all font-mono text-xs text-muted">{c.id}</div>
-      <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+      <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1" data-source={`${c.table}|${c.vintage || c.built.slice(0, 10)}|${SOURCE_RULE.row}`}>
         {c.rows.map((r) => (
           <div key={r.key} className="contents">
             <dt className="text-xs text-muted">{r.label}</dt>
@@ -366,7 +380,8 @@ function ByTechnology({ f, sum, kindOn }: { f: MapFace; sum: ReturnType<typeof t
   const head: ReactNode[] = ["Technology group"];
   for (const k of kinds) head.push(<span key={`n${k}`}>{f.kinds[k].name}</span>, <span key={`m${k}`}>{k === KIND.queue ? "MW requested" : "MW"}</span>);
   return (
-    <ToolSection title="By technology" id="by-technology">
+    <ToolSection title="By technology" id="by-technology"
+      note={<>Count and MW of what is chosen, by technology group and kind.<Tip id="map-by-technology" label="the figures of this table">{sourceWords(f, "all", SOURCE_RULE.chosen)} A unit&apos;s MW is its nameplate; a queue position&apos;s is what it asks to connect. Datacenters have no technology and are not in this table.</Tip></>}>
       {rows.length ? (
         <ToolTable caption="Count and MW by technology group and kind, of what is chosen" minWidth={kinds.length > 2 ? 640 : 420} head={head}
           rows={rows.map((r) => ({
@@ -374,8 +389,8 @@ function ByTechnology({ f, sum, kindOn }: { f: MapFace; sum: ReturnType<typeof t
             cells: [
               <span key="t" className="inline-flex items-center gap-2"><span aria-hidden="true" className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: `var(${COLOR[r.t.slug] ?? "--color-fuel-other"})` }} />{r.t.name}</span>,
               ...r.cells.flatMap((c, j) => [
-                <span key={`n${j}`} data-tech-count={`${r.t.slug}|${f.kinds[kinds[j]].slug}`}>{c.rows ? whole(c.rows) : <span className="text-muted">0</span>}</span>,
-                <span key={`m${j}`} className="text-muted">{c.rows ? whole(c.mw) : ""}</span>,
+                <span key={`n${j}`} data-tech-count={`${r.t.slug}|${f.kinds[kinds[j]].slug}`} data-source={srcOf(f, kinds[j])}>{c.rows ? whole(c.rows) : <span className="text-muted">0</span>}</span>,
+                <span key={`m${j}`} className="text-muted" data-tech-mw={`${r.t.slug}|${f.kinds[kinds[j]].slug}`} data-source={srcOf(f, kinds[j])}>{c.rows ? whole(c.mw) : ""}</span>,
               ]),
             ],
           }))} />
