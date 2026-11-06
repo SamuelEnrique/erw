@@ -4,7 +4,7 @@ import { InlineSpark } from "@/components/InlineSpark";
 import { LineChart } from "@/components/LineChart";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, signedGeneration, wiresUtility, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, signedGeneration, wiresUtility, queueCell, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -222,6 +222,17 @@ function HeadroomTd({ r }: { r: Row }) {
             {"mw_signed" in sg
               ? <Tp dotted={false} tip={`Requests in ${GRID_NAMES[r.grid]}'s queue at the end of ${sg.queue_end.slice(0, 4)} with a signed interconnection agreement and no operation date: ${sg.projects_signed.toLocaleString("en-US")} requests, ${sg.signed_share_pct.toFixed(1)}% of the ${Math.round(sg.active_mw).toLocaleString("en-US")} MW still in the queue (${sg.active_projects.toLocaleString("en-US")} requests). Berkeley Lab and GridTracker's Queued Up, read through ${sg.table}; nameplate MW, a signed agreement is not a commitment to build.`}><Num check={`allgrids|signed|${r.id}`} raw={sg.mw_signed}>{Math.round(sg.mw_signed).toLocaleString("en-US")}</Num> MW signed</Tp>
               : <Words words="signed not held" why={sg.why} />}
+          </span>
+        );
+      })()}
+      {/* session 2958 (chain 157): the active interconnection queue at the ISO's own snapshot */}
+      {(() => {
+        const qc = queueCell(h, r.grid);
+        return (
+          <span className="block text-xs" data-headroom-queue={"active_mw" in qc ? "1" : "0"}>
+            {"active_mw" in qc
+              ? <Tp dotted={false} tip={`${GRID_NAMES[r.grid]}'s interconnection queue as its ISO published it on ${qc.snapshot}: ${qc.active_count.toLocaleString("en-US")} active requests, nameplate MW (${qc.table}, from the ISO's own queue file). A request in the queue is not a plant that will be built.`}><Num check={`allgrids|queue|${r.id}`} raw={qc.active_mw}>{Math.round(qc.active_mw).toLocaleString("en-US")}</Num> MW in queue</Tp>
+              : <Words words={qc.words} why={qc.why} />}
           </span>
         );
       })()}
