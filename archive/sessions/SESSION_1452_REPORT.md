@@ -1,6 +1,6 @@
 # Session 1452 report: the method and the rubric
 
-Energy Research Warehouse (ERW), session 1452 (chain 149's "1449"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 03:14 to 03:24 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1452-periodicals` over `wip/1451-periodicals`.
+Energy Research Warehouse (ERW), session 1452 (chain 149's "1449"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 03:08 to 03:11 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1452-periodicals` over `wip/1451-periodicals`.
 
 ## What it did, with commits
 

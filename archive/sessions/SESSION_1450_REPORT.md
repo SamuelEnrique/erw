@@ -1,6 +1,6 @@
 # Session 1450 report: the tracers
 
-Energy Research Warehouse (ERW), session 1450 (chain 149's "1447"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 03:10 to 03:22 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the tracer's reads). Branch `wip/1450-periodicals` over `wip/1449-periodicals`.
+Energy Research Warehouse (ERW), session 1450 (chain 149's "1447"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 03:00 to 03:04 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the tracer's reads). Branch `wip/1450-periodicals` over `wip/1449-periodicals`.
 
 ## What it did, with commits
 

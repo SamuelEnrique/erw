@@ -1,6 +1,6 @@
 # Session 1451 report: the second dry runs, the previews sent, the before and after
 
-Energy Research Warehouse (ERW), session 1451 (chain 149's "1448"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 03:00 to 03:14 UTC. Model Fable 5.1, high effort. **Model spend USD 0.080** (the Digest twice, USD 0.0315 and 0.0260 with the summary's second call not priced in the log line; the Roundup twice, USD 0.0115 and 0.0117; cap USD 4; the ledger off as session 2705 ran it, the costs from the run logs). No warehouse data written; two preview emails to the fixed recipient; web requests to the Claude API, the ERW's own database (reads) and Resend. Branch `wip/1451-periodicals` over `wip/1450-periodicals`.
+Energy Research Warehouse (ERW), session 1451 (chain 149's "1448"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 03:02 to 03:08 UTC. Model Fable 5.1, high effort. **Model spend USD 0.080** (the Digest twice, USD 0.0315 and 0.0260 with the summary's second call not priced in the log line; the Roundup twice, USD 0.0115 and 0.0117; cap USD 4; the ledger off as session 2705 ran it, the costs from the run logs). No warehouse data written; two preview emails to the fixed recipient; web requests to the Claude API, the ERW's own database (reads) and Resend. Branch `wip/1451-periodicals` over `wip/1450-periodicals`.
 
 ## What is in your inbox
 

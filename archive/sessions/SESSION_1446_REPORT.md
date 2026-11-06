@@ -1,6 +1,6 @@
 # Session 1446 report: the Roundup's five numbers, its opening number and its chart
 
-Energy Research Warehouse (ERW), session 1446 (chain 149's "1443"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 02:22 to 02:32 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (reads for the render). Branch `wip/1446-periodicals` over `wip/1445-periodicals`.
+Energy Research Warehouse (ERW), session 1446 (chain 149's "1443"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 02:24 to 02:30 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (reads for the render). Branch `wip/1446-periodicals` over `wip/1445-periodicals`.
 
 ## What it did, with commits
 

@@ -1,6 +1,6 @@
 # Session 1454 report: Friday's scheduled issue, read
 
-Energy Research Warehouse (ERW), session 1454 (chain 149's "1451"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 03:32 to 03:40 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to GitHub (pull) only. Branch `wip/1454-periodicals` over `wip/1453-periodicals`.
+Energy Research Warehouse (ERW), session 1454 (chain 149's "1451"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 03:13 to 03:15 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to GitHub (pull) only. Branch `wip/1454-periodicals` over `wip/1453-periodicals`.
 
 ## Which issue, which code
 

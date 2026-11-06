@@ -1,6 +1,6 @@
 # Session 1449 report: the pages
 
-Energy Research Warehouse (ERW), session 1449 (chain 149's "1446"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 02:52 to 03:10 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the build's reads) only; a local build and server, stopped at the end. Branch `wip/1449-periodicals` over `wip/1448-periodicals`.
+Energy Research Warehouse (ERW), session 1449 (chain 149's "1446"), `queue/done/149-day-5-november-code-periodicals-excellent.md`, samueloldlaptop, 6 November 2026, about 02:52 to 03:00 UTC. Model Fable 5.1, high effort. Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the build's reads) only; a local build and server, stopped at the end. Branch `wip/1449-periodicals` over `wip/1448-periodicals`.
 
 ## What it did, with commits
 
