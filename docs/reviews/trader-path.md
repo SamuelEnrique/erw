@@ -254,3 +254,28 @@ To be filled when each user has walked the path: one row a remark, with the step
 |---|---|---|---|---|
 | | Pirro Prifti | | | |
 | | Christian Mira | | | |
+
+## Walked again on a build, 6 November 2026 (session 1497, chain 158)
+
+Session 1497 walked twelve of the sixteen steps again on 6 November 2026, about 10:00 UTC. It used a local production build of main at `04623251` (sessions 1486 to 1493 landed), in the internal view (the form at `/internal/open`), in a real browser: `site/scripts/walk-paths-1497.mjs`, the steps in `docs/reviews/paths/trader-1497.json`. Each step has its screenshot of the first screen at 1280 px, and the first step also at 390 px (`docs/brand/review-1497/trader-<step>-1280.png`, `trader-01-390.png`). Steps 04, 08, 12 and 16 are the same addresses as 03, 07, 11 and 15, read further down the same page, and were read from those pages' figures. No step's page failed to load or threw an error.
+
+| Step | What the page showed first (1280) | Against 22 October (session 585) | Broken |
+|---|---|---|---|
+| 01 | solar at the hub average: 23.27 against 32.17, 72 percent; 59.85 USD per kW | the same | none (at 390 px the page fits: scroll width 390) |
+| 02 | wind: 27.60 against 32.17, 86 percent; 83.57 | the same | none |
+| 03 | the West hub: 23.86 against 30.63, 78 percent; 72.23; the premium -6.76 | the same | none |
+| 05 | CAISO wind at SP15: 25.89 against 28.54, 91 percent; 64.04 | the same | none |
+| 06 | B as a PPA at 100.32: the same first figures (the scenario's are further down) | the same | none |
+| 07 | 81.40 per kW, 33 percent ancillary, 2.63 times; 8.14 million; a bad month 475,477 of 36 | the same | the window is still October 2025 to September 2026 (row 2 below) |
+| 09 | 2 hours: 58.63, 46 percent, 3.82 times; a bad month 364,767 | the same | none |
+| 10 | 4 hours, day-ahead: 73.00, 35 percent, 2.26 times; 411,520 | the same | none |
+| 11 | CAISO: 65.22, 51 percent, 1.91 times; 459,656 | the same | none |
+| 13 | the board: its rows, 7 cells "license needed" (the held grids) | the same holds | none |
+| 14 | a row in the workbench: mean 30.75, peak 36.11, off-peak 25.88 | read on today's rows | none |
+| 15 | every ERCOT hub: 3 cells "license needed" | the same holds | none |
+
+What the walk found:
+
+1. **At 390 px the pages fit** (scroll width 390, measured with the device metrics of a phone, as `check-explorers.mjs` does). A first measurement with a headless window alone read 481 px; a headless window does not go under about 480 px, so that reading was the script's, not the page's, and was corrected the same session.
+2. **Not fixed, for the data machine**: every figure of the generator and battery pages is what it was on 22 October, and the battery page's last twelve months are still October 2025 to September 2026 on 6 November. October 2026 is over, but the page takes a month only when the table holds it whole, so `battery_stack_monthly` (and the generator's capture table) do not yet hold October whole. The pages are right to wait; the tables are the data machine's.
+3. Nothing else: no figure missing, no hover or link broken in the steps read, no error in a page.

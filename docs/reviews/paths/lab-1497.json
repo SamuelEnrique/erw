@@ -1,0 +1,8 @@
+{"name": "the lab's path", "steps": [
+ {"id": "01", "what": "What a datacenter pays, as it opens (ERCOT's LZ_NORTH, a flat load, 100 MW)", "url": "/cost-of-power"},
+ {"id": "02", "what": "bought day-ahead", "url": "/cost-of-power?buy=da"},
+ {"id": "03", "what": "the All grids tab: every grid, hub, zone and ERCOT node in one table", "url": "/cost-of-power?view=allgrids"},
+ {"id": "04", "what": "the datacenter tracker, the facilities", "url": "/datacenters"},
+ {"id": "05", "what": "the tracker by grid", "url": "/datacenters?view=grids"},
+ {"id": "06", "what": "Ask the warehouse (the page, no question asked)", "url": "/ask"}
+]}

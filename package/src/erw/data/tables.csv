@@ -412,9 +412,11 @@ flex_alert_effects,public,,,,CAISO; EIA; NOAA NCEI,"Public: every publisher's te
 flex_alert_model,public,,,,CAISO; EIA; NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 frb_treasury_yields,public,,,,FRB,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 frb_utility_output_monthly,public,,,,FRB,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+gas_balance_weekly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 gastat_saudi_electricity_annual,internal,,,,"Ministry of Energy, Saudi Arabia, as published by GASTAT",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 generation_mix_hourly_profile,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 generation_mix_records,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+generator_pipeline_by_grid,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 gfz_kp_index_3h,public,,,,GFZ Helmholtz Centre for Geosciences (Potsdam),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 grenada_cso_electricity_annual,internal,,,,Central Statistical Office of Grenada (CSO),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 grid_network_links,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -445,6 +447,7 @@ iso_all_capacity_prices,internal,,,PJM,ISO-NE; MISO; NYISO; PJM,The ERW holds it
 iso_curtailment_monthly,public,,,,CAISO; ERCOT; SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 iso_dam_hub_prices,unsettled,license needed,2026-10-21,MISO,CAISO; ERCOT; MISO; SPP,"MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",35 days
 iso_hub_prices_history,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
+iso_queue_snapshot_summary,public,,,,CAISO; ERCOT; SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 iso_queue_statistics,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 iso_rt_top_intervals,unsettled,license needed,2026-10-21,ISO-NE; NYISO,ISO-NE; NYISO,"ISO-NE; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 iso_rtm_hub_prices,unsettled,license needed,2026-10-21,MISO,CAISO; ERCOT; MISO; SPP,"MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",35 days
@@ -520,6 +523,7 @@ nsi_bulgaria_electricity_monthly,internal,,,"National Statistical Institute, Bul
 nso_malawi_electricity_sales_annual,internal,,,National Statistical Office of Malawi (NSO),National Statistical Office of Malawi (NSO),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 nspower_ns_load_hourly,internal,,,Nova Scotia Power (NS Power),Nova Scotia Power (NS Power),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 ntd_transit_energy_annual,public,,,,"U.S. Department of Transportation, Federal Transit Administration (FTA)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+nuclear_fleet_status,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nve_norway_reservoirs_weekly,public,,,,Norwegian Water Resources and Energy Directorate (NVE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nyiso_as_prices,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 nyiso_dam_cleared_energy,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none

@@ -2,6 +2,8 @@
 
 Built in session 83 for the review page `/contracts` ("Where power contracts are being struck"), after the scope of session 81 (`archive/sessions/SESSION_81_REPORT.md`). One table:
 
+Tables: `ferc_eqr_contracts` (named here by session 2960).
+
 | Table | Tier | License | What |
 |---|---|---|---|
 | `ferc_eqr_contracts` | source | internal | The contracts in force that sellers of wholesale power filed with FERC for one quarter: one row per product of an agreement, as filed |

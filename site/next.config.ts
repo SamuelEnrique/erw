@@ -16,6 +16,8 @@ import type { NextConfig } from "next";
 // allows what the site is known to use: its own files, inline scripts and styles (Next writes both), the chart
 // library from cdnjs (components/echarts.ts), the database's storage for the network's hourly file, blob: for the
 // map's worker and the pages' own downloads, and data: images. To go back: CSP_ENFORCED = CSP_MINIMAL.
+// Session 1501 (chain 158, the review's M4): the report-only header is dropped, its week over (it was due on or after
+// 26 October 2026); the enforced policy is the one header, and scripts/check-csp.mjs proves it on a build.
 const CSP_MINIMAL = "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'";
 const CSP_FULL = [
   "default-src 'self'",
@@ -29,7 +31,6 @@ const CSP_FULL = [
   "base-uri 'self'", "object-src 'none'", "frame-ancestors 'none'", "form-action 'self'",
 ].join("; ");
 const CSP_ENFORCED = CSP_FULL;          // session 301; until then CSP_MINIMAL
-const CSP_REPORT_ONLY = CSP_FULL;       // beside it for a week (session 301)
 void CSP_MINIMAL;
 const SECURITY_HEADERS = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
@@ -38,7 +39,6 @@ const SECURITY_HEADERS = [
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=(), browsing-topics=()" },
   { key: "Content-Security-Policy", value: CSP_ENFORCED },
-  { key: "Content-Security-Policy-Report-Only", value: CSP_REPORT_ONLY },
 ];
 
 const nextConfig: NextConfig = {

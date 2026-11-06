@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), method note written in session 2152 (chain 092) for a table first written on 7 October 2026 (session 144).
 
-Tables: `ercot_wind_solar_hsl_hourly`
+Tables: `ercot_wind_solar_hsl_hourly` Also: `ercot_wind_solar_hsl_monthly` (session 2960).
 
 ## Publisher and address
 

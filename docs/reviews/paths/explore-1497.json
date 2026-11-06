@@ -1,0 +1,5 @@
+{"name": "the explorers", "steps": [
+ {"id": "pp", "what": "ERCOT peak premium, the thesis view", "url": "/explore/ercot-peak-premium"},
+ {"id": "dg", "what": "demand growth", "url": "/explore/demand-growth"},
+ {"id": "ic", "what": "interconnection", "url": "/explore/interconnection"}
+]}

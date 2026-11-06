@@ -1,6 +1,6 @@
 # Cost of power: method
 
-Tables: `merchant_revenue_monthly`, `cost_of_power_hourly_profile`, `cost_of_power_carbon`
+Tables: `merchant_revenue_monthly`, `cost_of_power_hourly_profile`, `cost_of_power_carbon` Also: `cost_of_power_monthly` (session 2960).
 
 > **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's hub prices stop at the last day pulled, and so do the months built on them. What is held stays as it is. [`miso_pause.md`](miso_pause.md)
 

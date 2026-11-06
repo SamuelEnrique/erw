@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ExploreFrame, FilterForm } from "@/components/explore/Explore";
+import { ExploreFrame, FilterForm, type DrawnRows } from "@/components/explore/Explore";
 import { HeldFreshness } from "@/components/explore/HeldFreshness";
 import { GroupedBars } from "@/components/tool/GroupedBars";
 import { ChartFrame, HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
@@ -64,8 +64,9 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
       note={asked.length ? <span data-asked-unknown="1">The address asked for a {asked.join(" and a ")} the table does not hold; the page shows the default in its place.</span> : undefined}
     />
   );
-  const frame = (body: ReactNode) => (
+  const frame = (body: ReactNode, rows?: DrawnRows) => (
     <ExploreFrame
+      rows={rows}
       id="demand-growth"
       title="Demand growth"
       definition={<>Demand growth is how much more power a grid used than in {BASE}: the change in its average hour (or its highest hour) of metered demand, in percent, over the whole year, the year so far, one month or one hour of the day, from EIA&apos;s hourly demand of the seven grid operators and the Lower 48. Weather is not removed.</>}
@@ -219,5 +220,6 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
       </p>
     </>
   );
-  return frame(body);
+  // session 1496 (chain 158): the window's rows of the table, every grid and year, as a download of their own
+  return frame(body, { table: TABLE, variable: variablesOf(win).join(","), words: `${TABLE}, the window drawn (${variablesOf(win).join(", ")}), every grid and year` });
 }
