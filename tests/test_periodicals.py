@@ -1153,5 +1153,45 @@ class TheCharacterInTheEmails(unittest.TestCase):
         self.assertTrue(all(m["subject"].startswith("PREVIEW v2: ERW Daily | ") for m in sent))
 
 
+class Session1437WhyLines(unittest.TestCase):
+    """Session 1437 (chain 149, faults 7 to 11, 32 and 33 of docs/reviews/periodicals-faults-2026-11-05.md): a hollow verb
+    or a restatement fails the why line's check, and a failing line prints nothing (the headline alone, rulings item 16),
+    a publisher's suffix or the money style notwithstanding. The lines are the dry run of 26 October's."""
+
+    def test_a_hollow_verb_fails_and_the_item_prints_the_headline_alone(self):
+        head = "Singapore plans 26% more power capacity in early 2030s and 1,000 MW of storage"
+        why = "Generation capacity expansion signals rising electricity demand in city-state."
+        self.assertEqual(brief.why_check(why, head), ["hollow verb: signals"])
+        self.assertEqual(brief.why_line(why, head), "")
+        for verb in brief.HOLLOW_VERBS:
+            self.assertEqual(brief.why_check(f"Capacity growth {verb} demand.", head), [f"hollow verb: {verb}"])
+
+    def test_a_restatement_fails(self):
+        head = "AI's nuclear power push runs into cost and regulatory hurdles"
+        why = "Cost and regulatory hurdles threaten AI sector's plans to use nuclear power for datacenters."
+        self.assertEqual(brief.why_check(why, head), ["restates the headline: 0.50"])
+        self.assertEqual(brief.why_line(why, head), "")
+
+    def test_a_line_that_adds_a_fact_passes(self):
+        head = "Maryland's first bulk storage procurement nets 440 MW, short of its target"
+        why = "Awards fell short of the 800-MW target, showing PJM capacity strain and limits on storage."
+        self.assertEqual(brief.why_check(why, head), [])
+        self.assertLess(brief.restates(why, head), brief.RESTATES_SHARE)
+        self.assertEqual(brief.why_line(why, head), why)
+
+    def test_the_headline_in_the_money_style_is_the_headline(self):
+        head = "Oil dips but holds above $100; Brent trades at $114.42 per barrel"
+        why = "Oil dips but holds above USD 100; Brent trades at USD 114.42 per barrel."
+        self.assertEqual(brief.norm_headline(why), brief.norm_headline(head))
+        self.assertEqual(brief.why_line(why, head), "")
+        self.assertEqual(brief.why_line("Brent reaches USD 114.42.", head + ", Bloomberg reports"), "")
+
+    def test_the_prompt_and_the_rubric_name_the_hollow_verbs(self):
+        for text in (score.SYSTEM, score.RUBRIC):
+            for verb in brief.HOLLOW_VERBS:
+                self.assertIn(verb, text)
+            self.assertIn("one fact the story", text)
+
+
 if __name__ == "__main__":
     unittest.main()

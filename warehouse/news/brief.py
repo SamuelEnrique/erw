@@ -265,7 +265,10 @@ def own_titles(clusters):
 
 
 def norm_headline(h):
-    return re.sub(r"[^a-z0-9 ]+", "", h.lower()).strip()
+    """A headline for comparison: money in the one style and the publisher's suffix off (why_fallback), then letters,
+    digits and spaces only. Session 1437 (faults 10 and 33): "$100" and "USD 100" are one, so a fallback that is the
+    headline in the money style prints nothing, as item 16 says."""
+    return re.sub(r"[^a-z0-9 ]+", "", why_fallback(h).lower()).strip()
 
 
 # Session 470 (docs/reviews/digest-audit-2026-10-21.md, fix 5; roundup-audit fix 1): one event, one item. The scorer joins
@@ -535,6 +538,13 @@ WHY_ADJECTIVES = ("massive", "unprecedented", "significant", "major", "critical"
 # Session 2206: unprecedented, critical and key join the list. "key" and "critical" are also plain words of the trade
 # ("the key to", "critical minerals"): TERM says where they stand, and plain() leaves those.
 HYPE = r"(?:major|massive|significant|significantly|huge|unprecedented|critical|critically|key)"
+# Session 1437 (chain 149, faults 7 to 11 of docs/reviews/periodicals-faults-2026-11-05.md): a verb that asserts nothing
+# in place of a fact ("capacity expansion signals rising demand"), and a line whose content words are the headline's
+# (half or more of them: "Major oil company nearing deal to invest in Venezuela's oil fields" under "Exxon nears
+# preliminary deal to invest in Venezuela's oil fields"). Either fails the check and the item prints the headline alone.
+HOLLOW_VERBS = ("signals", "demonstrates", "reflects", "underscores", "highlights")
+HOLLOW = re.compile(r"\b(?:signals?|demonstrates?|reflects?|underscores?|highlights?)\b", re.I)
+RESTATES_SHARE = 0.5
 TERM = r"(?!\s+(?:to|of|for|in|on|is|was|are|were|minerals?|infrastructure|mass|path|peak)\b)"
 
 
@@ -598,11 +608,38 @@ def why_check(text, head=""):
     if not t:
         return ["empty"]
     out = [f"adjective: {m.lower()}" for m in re.findall(rf"\b{HYPE}\b", t, flags=re.I)]
+    out += [f"hollow verb: {m.lower()}" for m in HOLLOW.findall(t)]
     if sentence_end(t):
         out.append("two sentences")
     for n in sorted(figures_of(t) & figures_of(head)):
         out.append(f"figure of the headline: {n}")
+    share = restates(t, head)
+    if head and share >= RESTATES_SHARE:
+        out.append(f"restates the headline: {share:.2f}")
     return out
+
+
+def content_words(text):
+    """The content words of a line for restates(): lower case, money in the one style, STOP words and words under three
+    letters out, a plural's s off (so "executives" and "executive" are one)."""
+    out = set()
+    for w in re.findall(r"[a-z0-9]+", money_style(str(text or "")).lower()):
+        if w in STOP or len(w) < 3:
+            continue
+        out.add(w[:-1] if w.endswith("s") and len(w) > 4 else w)
+    return out
+
+
+def restates(text, head):
+    """The share of the line's content words that the headline holds: 1.0 when the line is the headline, 0 when nothing
+    of it is. Over the 13 issues of 25 September to 23 October the lines at 0.5 and above restate ("Cost and regulatory
+    hurdles threaten AI sector's plans to use nuclear power" under "AI's nuclear power push runs into cost and
+    regulatory hurdles"); those under it add a fact (0.46: "Awards fell short of the 800-MW target, showing PJM
+    capacity strain" under "Maryland's first bulk storage procurement nets 440 MW")."""
+    ww = content_words(text)
+    if not ww or not head:
+        return 0.0
+    return len(ww & content_words(head)) / len(ww)
 
 
 def why_fallback(title):

@@ -29,8 +29,9 @@ class WhatTheDryRunShowed(unittest.TestCase):
         head = "Crusoe plans Spark Liquid modular data center with 3.5MW deployments for Nvidia GPUs"
         self.assertEqual(brief.why_line("Crusoe plans 3.5MW modular units for Nvidia GPUs.", head), "")
         self.assertEqual(brief.why_line("A 3.5MW unit adds load.", "Crusoe plans 3.5MW units, Reuters reports"), "A unit adds load.")
-        # the fallback prints only when the headline's clause is not the headline itself (a publisher's suffix off)
-        self.assertEqual(brief.why_line("Totaling 3.5MW of units.", "Crusoe plans 3.5MW units, Reuters reports"), "Crusoe plans 3.5MW units.")
+        # session 1437 (chain 149, fault 10): the headline's clause with the publisher's suffix off is still the headline, so
+        # nothing is printed (rulings item 16: the headline alone, nothing said twice)
+        self.assertEqual(brief.why_line("Totaling 3.5MW of units.", "Crusoe plans 3.5MW units, Reuters reports"), "")
         self.assertEqual(brief.why_line("Totaling 3.5MW of units.", "Crusoe plans 3.5MW units"), "")
 
     def test_a_bullet_without_a_why_line_still_reads(self):
