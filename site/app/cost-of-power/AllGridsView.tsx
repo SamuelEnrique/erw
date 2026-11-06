@@ -4,7 +4,7 @@ import { InlineSpark } from "@/components/InlineSpark";
 import { LineChart } from "@/components/LineChart";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, signedGeneration, wiresUtility, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -214,6 +214,17 @@ function HeadroomTd({ r }: { r: Row }) {
           ? <Tp dotted={false} tip={`ERCOT's planning reserve margin for ${m.peak.label.toLowerCase()} at the report's peak load hour (hour ending ${m.peak.x_hour}): total capacity, ${Math.round(m.peak.capacity_mw).toLocaleString("en-US")} MW, less firm peak load, ${Math.round(m.peak.firm_peak_mw).toLocaleString("en-US")} MW, over firm peak load. ${m.net ? `At the peak net load hour (hour ending ${m.net.x_hour}), ${m.net.pct.toFixed(1)}%. ` : ""}Wind, solar and storage at ERCOT's ELCCs, not at nameplate. ${m.first_below_zero ? `The report's first season below zero at the peak load hour: ${m.first_below_zero.label.toLowerCase()}, ${m.first_below_zero.pct.toFixed(1)}%. ` : ""}A forecast: ERCOT's Capacity, Demand and Reserves report posted ${m.vintage} (${m.table}).`}>reserve margin <Num check={`allgrids|reservemargin|${r.id}`} raw={m.peak.pct}>{two(m.peak.pct)}</Num>%, {m.peak.label.toLowerCase()}</Tp>
           : <Words words="reserve margin not held" why={m.why} />}
       </span>
+      {/* session 2923 (chain 153): generation with a signed interconnection agreement, not yet operating (Queued Up) */}
+      {(() => {
+        const sg = signedGeneration(h, r.grid);
+        return (
+          <span className="block text-xs" data-headroom-signed={"mw_signed" in sg ? "1" : "0"}>
+            {"mw_signed" in sg
+              ? <Tp dotted={false} tip={`Requests in ${GRID_NAMES[r.grid]}'s queue at the end of ${sg.queue_end.slice(0, 4)} with a signed interconnection agreement and no operation date: ${sg.projects_signed.toLocaleString("en-US")} requests, ${sg.signed_share_pct.toFixed(1)}% of the ${Math.round(sg.active_mw).toLocaleString("en-US")} MW still in the queue (${sg.active_projects.toLocaleString("en-US")} requests). Berkeley Lab and GridTracker's Queued Up, read through ${sg.table}; nameplate MW, a signed agreement is not a commitment to build.`}><Num check={`allgrids|signed|${r.id}`} raw={sg.mw_signed}>{Math.round(sg.mw_signed).toLocaleString("en-US")}</Num> MW signed</Tp>
+              : <Words words="signed not held" why={sg.why} />}
+          </span>
+        );
+      })()}
     </span>
   );
 }
@@ -268,6 +279,13 @@ function CountyUtilityTd({ r, c }: { r: Row; c: Extract<ReturnType<typeof utilit
       <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u?.utility ?? cu.utilities[0]?.name ?? cu.county}{others.length ? ` and ${others.length} more` : ""}</span></Tp>
       {u && c.rev !== null ? <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} />{SERVICE_WORDS[u.service] ? <span className="ml-1 text-xs" data-util-kind={u.service}>{SERVICE_WORDS[u.service]}</span> : null}</span> : <Words words="no sales row" why={tip} />}
       {u && c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
+      {/* session 2923 (chain 153): the county's wires company, which files no sales row (eia861_delivery_only) */}
+      {(() => {
+        const w = wiresUtility(SITING_FILES, r);
+        return w ? (
+          <span className="block text-xs" data-util-wires="1">wires <Tp dotted={false} tip={`${w.utility} (EIA utility ${w.number}), a delivery-only company among this county's utilities: EIA files it apart from the utilities that sell energy, so it is not ranked above. In ${w.year} it delivered ${Math.round(w.sales_mwh).toLocaleString("en-US")} MWh to industry across ${cu.state} for USD ${Math.round(w.revenue_usd).toLocaleString("en-US")} of delivery revenue (${w.table}): the charge for the wires, not the energy, and the company's figure across the state, not the county's.`}>USD <Num check={`allgrids|wiresrev|${r.id}`} raw={w.rev}>{two(w.rev)}</Num></Tp> {w.utility}</span>
+        ) : null;
+      })()}
     </span>
   );
 }

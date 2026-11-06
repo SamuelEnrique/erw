@@ -583,6 +583,9 @@ export type HeadroomFile = {
    * peak load and peak net load hours, and the report's first season below zero (ercot_cdr_reserve_margins) */
   reserve?: { table: string; as_of: string; report: string; vintage: string; retrieved: string; first: string; last: string;
     grids: Record<string, { start: string; peak: ReserveAt; net: ReserveAt | null; first_below_zero: (ReserveAt & { start: string }) | null }> };
+  /** session 2923 (chain 153): generation with a signed interconnection agreement and no operation date, by grid, at the
+   * queue's end (interconnection_agreements_by_grid, Berkeley Lab's Queued Up) */
+  signed?: { table: string; queue_end: string; grids: Record<string, { mw_signed: number; projects_signed: number; active_mw: number; active_projects: number; signed_share_pct: number }> };
 };
 export type ReserveAt = { label: string; x_hour: number; pct: number; capacity_mw: number; firm_peak_mw: number };
 export const BA_OF: Record<string, string> = { ercot: "ERCO", caiso: "CISO", nyiso: "NYIS", isone: "ISNE", spp: "SWPP", miso: "MISO", pjm: "PJM" };
@@ -624,6 +627,21 @@ export function capacityOverPeak(d: DemandYears | undefined, h: HeadroomFile | u
   const peak = a?.years[String(d!.last_year)]?.peak_demand_mw;
   if (!peak) return { why: `${GRID_NAMES[grid]}'s peak demand of ${d?.last_year} is not held.` };
   return { pct: (100 * c.mw) / peak - 100, mw: c.mw, peak, year: c.year, peakYear: d!.last_year, states: c.states, table: "eia_state_capacity_annual" };
+}
+
+/** Session 2923 (chain 153): the grid's generation with a signed interconnection agreement, not yet operating, at the
+ * queue's end (interconnection_agreements_by_grid); else why. */
+export function signedGeneration(h: HeadroomFile | undefined, grid: string) {
+  const s = h?.signed, g = s?.grids[grid];
+  if (!s || !g) return { why: `No count of ${GRID_NAMES[grid]}'s generation with a signed interconnection agreement is in the page's files (interconnection_agreements_by_grid).` };
+  return { ...g, table: s.table, queue_end: s.queue_end };
+}
+/** Session 2923: a county row's delivery-only company (the wires utility EIA files apart, eia861_delivery_only), the
+ * largest by energy delivered to industry, and its industrial delivery revenue per MWh across the state; else null. */
+export function wiresUtility(f: Files, r: Row) {
+  const dl = f.utility?.county?.[r.id]?.delivery, c = dl?.companies[0];
+  if (!dl || !c || !(c.sales_mwh > 0)) return null;
+  return { ...c, year: dl.year, table: dl.table, rev: c.revenue_usd / c.sales_mwh };
 }
 
 /** Session 1047 (chain 072): the NERC assessment area EIA-411 reports each grid under, named so where it is not the grid
@@ -722,7 +740,10 @@ export type UtilityFile = { built: string; table: string; year: number; prior: n
    * with the grids its sales rows name, and the largest seller to industry among them inside the row's grid */
   territory_table?: string;
   county?: Record<string, { state: string; county: string; ba: string; territory_year: number | null; utilities: { name: string; number: string; ba: string[] }[];
-    top: { utility: string; number: string; service: string; sales_mwh: number; revenue_usd: number; sales_prior_mwh: number | null; year: number } | null }> };
+    top: { utility: string; number: string; service: string; sales_mwh: number; revenue_usd: number; sales_prior_mwh: number | null; year: number } | null;
+    /** session 2923 (chain 153): the delivery-only companies among the county's utilities (eia861_delivery_only, Texas's
+     * wires utilities), each one's industrial delivery revenue and energy delivered across the state in the newest year */
+    delivery?: { table: string; year: number; companies: { utility: string; number: string; sales_mwh: number; revenue_usd: number }[] } }> };
 /** The state a row's utility is read in: the grid's one state, the zone's own, or a hub's (MISO's hubs by their names;
  * SPP's North hub Kansas, South hub Oklahoma; ISO-NE's hub Massachusetts, its largest state). PJM spans thirteen states
  * and the District of Columbia: no one state. */
@@ -1035,6 +1056,8 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|nodediff|<a>|<b>|spread or swing             B's basis spread or intraday swing less A's, two nodes (794)
  *   allgrids|zonegrowth|<row>                              its zone's mean demand, newest whole year over the one before, percent (728)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
+ *   allgrids|signed|<row>                                  MW with a signed interconnection agreement, not yet operating (2923)
+ *   allgrids|wiresrev|<row>                                the county's delivery-only company's industrial delivery revenue per MWh (2923)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
 export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
@@ -1120,6 +1143,8 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   if (p[1] === "demand") { const g = demandGrowth(f.demand, row.grid); return "pct" in g ? g.pct : undefined; }
   if (p[1] === "planned") return f.headroom?.planned[row.grid]?.construction_mw;
   if (p[1] === "capratio") { const c = capacityOverPeak(f.demand, f.headroom, row.grid); return "pct" in c ? c.pct : undefined; }
+  if (p[1] === "signed") { const g = signedGeneration(f.headroom, row.grid); return "mw_signed" in g ? g.mw_signed : undefined; }
+  if (p[1] === "wiresrev") return wiresUtility(f, row)?.rev;
   if (p[1] === "reservemargin") { const m = reserveMargin(f.headroom, row.grid); return "peak" in m ? m.peak.pct : undefined; }
   if (p[1] === "connect" || p[1] === "llapproved") {
     const c = connectCell(f, row);
