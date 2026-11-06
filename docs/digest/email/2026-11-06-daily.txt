@@ -1,0 +1,56 @@
+ERW's Energy Digest, 2026-11-06
+
+ERW's weekday brief of energy news for the 24 hours to 2026-11-06 00:48 UTC, from 221 scored stories.
+
+Top 5 of the day
+
+1. IEA publishes World Energy Outlook 2026
+   Annual forecast of global energy trends shapes investment and policy decisions. parties: IEA.
+   IEA - International Energy Agency (via Google News): https://news.google.com/rss/articles/CBMiYkFVX3lxTE1rel9yc0pyRWJ2WXd2c3lPRXlhQmNwZjgxUXhGamd4RHNQUksyekhmdEE4V05TdnNCZ0JaVUtxUGdLRXR0cnduWWY2RmZnOXNFVXlWLW1ta3ZFeC1zaGRuQUFR?oc=5
+2. Lambda plans four-building data center campus in Lowndes County, Alabama, and says it will invest $33.1bn
+   Hyperscale data center expansion; AI power demand commitment. USD 33.1 billion; parties: Lambda.
+   Data Center Dynamics: https://www.datacenterdynamics.com/en/news/lambda-to-develop-four-building-data-center-campus-in-lowndes-county-alabama/
+3. EQT's Zelestra unveils $12 billion plan to chase US AI demand
+   Large capital commitment to power infrastructure for datacenter AI load. USD 12 billion; parties: EQT; Zelestra.
+   Bloomberg.com (via Google News): https://news.google.com/rss/articles/CBMisAFBVV95cUxQRHlEdFRkMlJHUlhvRDdZQVBmemZNcWVULWRITjNrVlBnNl9XVWlacTlyV28zb01jYlFCNjJSbXBFVUJwb3M5clVUbEhOVnBKY091XzlmTXBtRFBPYkhTUXVINE9sTkJFV3lURFFWeTlCVTZlcF85TXRPM0JTQ1R5ZHRNaGY1X0lLbkZmdU9EMnNtb2JzVURTYlRsZGc0VHZJbWFwS2xyeUZtVFpQX0tkLQ?oc=5
+4. AI data center demand is reviving nuclear energy; whether SMRs, restarts and fusion deliver quickly is uncertain
+   AI datacenter demand reviving nuclear energy investment; analyzes feasibility of SMRs, restarts, and fusion.
+   Data Center Knowledge: https://www.datacenterknowledge.com/energy-power-supply/ai-data-centers-are-fueling-a-nuclear-comeback
+5. Brattle and Pew report: distributed energy resources could avoid $614 Billion in US power system costs through 2050
+   Quadrupling DER capacity to 400 GW by 2050 reshapes power infrastructure investment priorities. 400,000 MW; USD 614 billion; parties: Brattle; Pew.
+   T&D World: https://www.tdworld.com/distributed-energy-resources/news/55416974/brattle-pew-report-finds-distributed-energy-resources-could-avoid-614-billion-in-us-power-system-costs-through-2050
+
+ERW's Numbers Today
+
+Day-ahead power on 2026-11-05 was dearest at CAISO's TH_SP15_GEN-APND, 43.40 USD/MWh, and cheapest at ERCOT's HB_NORTH, 19.86. MISO is paused and PJM has no price table, so neither is included, and no real-time table covers yesterday. The latest fuel closes, on 2026-11-03, were Henry Hub at 2.63 USD/MMBtu, WTI at 99.64 USD/bbl and Brent at 107.03 USD/bbl.
+Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the operating day):
+  ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-11-05; Average USD/MWh: 19.86; Table: [1]
+  ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; Operating day: 2026-11-05; Average USD/MWh: 43.40; Table: [1]
+  ISO: NYISO; Hub or zone: N.Y.C.; Operating day: 2026-11-05; Average USD/MWh: 38.55; Table: [2]
+  ISO: MISO; Hub or zone: INDIANA.HUB; Operating day: 2026-11-05; Average USD/MWh: not requested: paused by the ERW since 2026-10-04 (MISO's terms forbid automated access); Table: [1]
+  ISO: SPP; Hub or zone: SPPSOUTH_HUB; Operating day: 2026-11-05; Average USD/MWh: 24.07; Table: [1]
+  ISO: ISO-NE; Hub or zone: .H.INTERNAL_HUB; Operating day: 2026-11-05; Average USD/MWh: 41.55; Table: [3]
+  ISO: PJM; Average USD/MWh: no PJM price table (no API key)
+Highest real-time price, yesterday: no real-time table covers yesterday.
+Latest fuel spot closes (EIA, trading dates):
+- Henry Hub natural gas: 2.63 USD/MMBtu on 2026-11-03 [4]
+- WTI Cushing crude: 99.64 USD/bbl on 2026-11-03 [4]
+- Brent crude: 107.03 USD/bbl on 2026-11-03 [4]
+Tables: [1] iso_dam_hub_prices (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expost_lmp, spp:DA-LMP-SL); [2] nyiso_dam_zone_prices (nyiso:damlbmp); [3] isone_dam_zone_prices (isone:da_lmp_hourly); [4] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
+
+ERW's Chart of the Day
+
+[chart: onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -29,834 in August 2026, the lowest monthly value held since August 2010. The record until now was USD -1,720.2, in January 2022.] https://raw.githubusercontent.com/SamuelEnrique/erw/main/docs/digest/charts/2026-11-06.png
+onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -29,834 in August 2026, the lowest monthly value held since August 2010. The record until now was USD -1,720.2, in January 2022.
+Table onrr_revenue_monthly, series entity=onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none, variable=revenue, node=Red River, Louisiana: Other revenues, Oil & gas (pre-production), freq=P1M: the table and its download. Chosen by rule, not by a person or a model: the strongest flag of the day's scan that no Digest has shown (rule: record; 552.53 robust standard deviations past its threshold). How the chart is chosen.
+
+ERW's Fun Fact
+
+In 2002, GE acquired the wind power assets of Enron during its bankruptcy proceedings, and Enron Wind was the only surviving U.S. manufacturer of large wind turbines at the time.
+Sources: Wikipedia, General Electric (https://en.wikipedia.org/wiki/General_Electric).
+
+ERW
+
+All of ERW's Energy Digest: https://github.com/SamuelEnrique/erw/blob/main/docs/digest/2026-11-06.md
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.
