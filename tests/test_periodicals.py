@@ -1497,6 +1497,17 @@ class Session1474FiveReadTheFloor(unittest.TestCase):
         self.assertIn("no deal of the week passes the Deals table's floor (1 under it)", deal)
 
 
+class Session1476DealsTableDollars(unittest.TestCase):
+    """Session 1476 (chain 154, fault 54): the Deals table's dollars cell is in the issue's money style."""
+
+    def test_the_cell(self):
+        self.assertEqual(roundup.usd_cell("938000000"), "USD 938 million")
+        self.assertEqual(roundup.usd_cell("19000000000"), "USD 19 billion")
+        self.assertEqual(roundup.usd_cell(""), "not stated")
+        import inspect
+        self.assertIn("usd_cell(r['dollars'])", inspect.getsource(roundup))
+
+
 class Session1438OneTopic(unittest.TestCase):
     """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
     story of the sector that is not about the price keeps the sector-and-region key."""

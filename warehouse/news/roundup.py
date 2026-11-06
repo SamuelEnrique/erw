@@ -477,6 +477,12 @@ def num(v, fmt="{:,.0f}"):
     return fmt.format(float(v)) if v not in ("", None) else "not stated"
 
 
+def usd_cell(v):
+    """Session 1476 (chain 154, fault 54): a Deals table's US dollars cell in the issue's style ("938,000,000" was the W45
+    dry run's; "USD 938 million" is the five numbers'), "not stated" when the row states none."""
+    return usd_words(v) if str(v or "").strip() not in ("", "nan") else "not stated"
+
+
 def usd_words(d):
     """A sum of US dollars in the voice's form: 'USD 12 billion', 'USD 4.3 billion', 'USD 834 million', 'USD 250,000'."""
     from decimal import Decimal, ROUND_HALF_UP
@@ -983,7 +989,7 @@ def main(argv=None):
                     L.append(f"| {r['event_date'][:10]} | {DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))} | "
                              f"{r['buyer'] or 'not stated'} | "
                              f"{r['seller'] or 'not stated'} | {r['asset'] or 'not stated'} | {num(r['mw'])} | "
-                             f"{num(r['dollars'])} | {r['status'] or 'not stated'} | [1]({first}) |")
+                             f"{usd_cell(r['dollars'])} | {r['status'] or 'not stated'} | [1]({first}) |")   # session 1476 (fault 54)
                 L.append("")
                 L.append(floor_note("energy_deals", "deals", shown_d, rest_d, under_d) + " Extracted from the scored stories by "
                          "`warehouse/deals/extract.py`, every number checked against its story.")
