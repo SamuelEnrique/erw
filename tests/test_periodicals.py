@@ -1301,7 +1301,7 @@ class Session1458NothingNew(unittest.TestCase):
         now = [brief.why_line(w, h) for _, h, w in items]
         with mock.patch.object(brief, "new_things", lambda t, h: ["(the rule off)"]):
             was = [brief.why_line(w, h) for _, h, w in items]
-        self.assertEqual((len(items), sum(1 for a in was if a), sum(1 for b in now if b)), (463, 324, 224))
+        self.assertEqual((len(items), sum(1 for a in was if a), sum(1 for b in now if b)), (463, 323, 224))   # 324 before session 1462 cut a hollow tail
         for (_f, h, _w), out in zip(items, now):
             if out:
                 self.assertEqual(brief.why_check(out, h), [], out)
@@ -1312,6 +1312,28 @@ class Session1458NothingNew(unittest.TestCase):
                     fh.write(f"{f}\t{h}\t{a}\t{b}\n")
             with open(path, encoding="utf-8") as fh:
                 self.assertEqual(sum(1 for _ in fh), 463)
+
+
+class Session1462HollowForms(unittest.TestCase):
+    """Session 1462 (chain 150): the hollow verbs' -ing and past forms fail the check; a trailing clause led by a comma and
+    one of them is cut and the fact before it kept. The lines are the scorer's new prompt on 26 October's top ten."""
+
+    def test_the_trailing_clause_is_cut(self):
+        head = "Woodfibre LNG moves up completion target after construction reaches the 75% mark"
+        why = "Woodfibre LNG accelerates timeline while AECO spot curve softens, signaling weaker 2027 North American gas pricing."
+        self.assertEqual(brief.why_line(why, head), "Woodfibre LNG accelerates timeline while AECO spot curve softens.")
+
+    def test_the_forms_fail_the_check(self):
+        head = "A deal in Texas"
+        for verb in ("signaling", "signalling", "signaled", "demonstrating", "reflecting", "underscoring", "highlighting", "highlighted"):
+            with self.subTest(verb):
+                self.assertEqual(brief.why_check(f"Ohio regulators, {verb} demand.", head), [f"hollow verb: {verb}"])
+        # a hollow form that leads no trailing clause is not cut: the line fails and prints nothing
+        self.assertEqual(brief.why_line("Reflecting demand, Ohio adds a plant.", head), "")
+
+    def test_the_prompt_and_the_rubric_name_the_forms(self):
+        self.assertIn("signaling, demonstrating, reflecting, underscoring or highlighting", score.SYSTEM)
+        self.assertIn("nor their -ing forms", score.RUBRIC)
 
 
 class Session1438OneTopic(unittest.TestCase):

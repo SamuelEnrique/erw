@@ -573,7 +573,14 @@ HYPE = r"(?:major|massive|significant|significantly|huge|unprecedented|critical|
 # (half or more of them: "Major oil company nearing deal to invest in Venezuela's oil fields" under "Exxon nears
 # preliminary deal to invest in Venezuela's oil fields"). Either fails the check and the item prints the headline alone.
 HOLLOW_VERBS = ("signals", "demonstrates", "reflects", "underscores", "highlights")
-HOLLOW = re.compile(r"\b(?:signals?|demonstrates?|reflects?|underscores?|highlights?)\b", re.I)
+HOLLOW = re.compile(r"\b(?:signals?|demonstrates?|reflects?|underscores?|highlights?"
+                    # session 1462 (chain 150): their -ing and past forms, which the scorer's new prompt still writes
+                    # ("Woodfibre LNG accelerates timeline while AECO spot curve softens, signaling weaker 2027 North
+                    # American gas pricing.", the probe of 26 October's top ten, runs/s1462/)
+                    r"|signal(?:l)?(?:ing|ed)|demonstrat(?:ing|ed)|reflect(?:ing|ed)|underscor(?:ing|ed)|highlight(?:ing|ed))\b", re.I)
+# Session 1462: a trailing clause led by a comma and one of those -ing forms is the line's inference, not its fact; why_line
+# cuts it and keeps what comes before ("..., signaling weaker 2027 North American gas pricing" goes), then the check runs
+HOLLOW_TAIL = re.compile(r",\s*(?:signal(?:l)?ing|demonstrating|reflecting|underscoring|highlighting)\b[^.;!?]*", re.I)
 RESTATES_SHARE = 0.5
 TERM = r"(?!\s+(?:to|of|for|in|on|is|was|are|were|minerals?|infrastructure|mass|path|peak)\b)"
 
@@ -795,6 +802,7 @@ def why_line(text, head=""):
     no figure the headline already gives (the phrase is taken out); what fails the check after that, or is left too
     short, is replaced by the headline's own clause (why_fallback), never by an invented fact."""
     t = money_style(plain(text)).strip()
+    t = HOLLOW_TAIL.sub("", t)   # session 1462: a trailing ", signaling ..." clause is cut, its fact kept
     # "an $800MM loan" was right as written; as "USD 800 million" the article follows the code as it is said
     t = re.sub(r"\b([Aa])n? (USD|CAD|EUR|GBP|AUD)\b",
                lambda m: m.group(1) + ("n " if m.group(2) == "AUD" else " ") + m.group(2), t)

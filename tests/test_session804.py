@@ -86,7 +86,7 @@ class Section(unittest.TestCase):
                         "iso_dam_hub_prices,license needed,2026-10-21,MISO,needs written permission,,,n\n")
             held = brief.held_grids(p)
         clusters = pd.DataFrame([{"cluster_id": "c1", "titles": ["Brent crude trades at $110.30 per barrel as Middle East supply worries persist"],
-                                  "sector": "oil", "parties": "", "sig": 7, "ai": 0, "why": "Geopolitical supply risk drives crude prices higher.",
+                                  "sector": "oil", "parties": "", "sig": 7, "ai": 0, "why": "Houthi attacks on Red Sea tankers drive crude prices higher.",
                                   "mw": "", "price": "", "links": [("OilPrice.com", "https://oilprice.com/x")], "summary": "", "n": 1}])
         with mock.patch.object(brief.erw, "fetch", side_effect=fake_fetch), mock.patch.object(brief, "held_grids", return_value=held), \
                 mock.patch.object(brief, "rt_parts", return_value=[]), mock.patch.object(brief, "cite_short", side_effect=lambda t: f"`{t}`"), \
@@ -111,10 +111,11 @@ class Section(unittest.TestCase):
 
     def test_a_reason_only_when_a_story_names_the_price(self):
         brent = next(ln for ln in self.movers() if ln.startswith("- Brent"))
-        self.assertIn("Reason, from the day's stories: Geopolitical supply risk drives crude prices higher. ([OilPrice.com](https://oilprice.com/x))", brent)
+        # session 1462: the story's line names a party the headline lacks (Houthi, the Red Sea), so it passes fault 7's rule
+        self.assertIn("Reason, from the day's stories: Houthi attacks on Red Sea tankers drive crude prices higher. ([OilPrice.com](https://oilprice.com/x))", brent)
         wti = next(ln for ln in self.movers() if ln.startswith("- WTI"))
         # session 1440: a story that says "crude prices" names WTI too (PRICE_WORDS); Henry Hub is not named
-        self.assertIn("Reason, from the day's stories: Geopolitical supply risk drives crude prices higher.", wti)
+        self.assertIn("Reason, from the day's stories: Houthi attacks on Red Sea tankers drive crude prices higher.", wti)
         hh = next(ln for ln in self.movers() if ln.startswith("- Henry Hub"))
         self.assertNotIn("Reason", hh)
 
