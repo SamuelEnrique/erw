@@ -327,3 +327,95 @@ Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `si
 - `price_board_latest`, `da_latest_day_mean`, `rt_latest_day_mean`: a grid's block "What it costs" (`components/grid/YourGrid.tsx`): the day-ahead and the real-time daily mean at the grid's hub, each on its own latest day, USD per MWh.
 - `price_board_peak_offpeak`, `da_peak_mean`, `da_offpeak_mean`: the same block: the day-ahead peak mean on its latest day, and the off-peak mean of the same day.
 - `price_board_latest`, `da_avg_30d`: the same block: the average written beside the 30-day line of the day-ahead daily mean.
+
+## The power rows made complete (session 1601, chain 165, 6 November 2026)
+
+- **ERCOT's load zones** are rows of "Power, by hub and zone" (Show: every hub and zone), after the hubs: Austin Energy, CPS Energy, Houston, LCRA, North, Rayburn, South and West, day-ahead from `ercot_zone_prices_history` (ERCOT's settlement point prices at the load zones); Houston, North, South and West in real time too. A zone whose real-time price the warehouse does not hold has its real-time row "not held yet". Each zone has its battery spread and, where both markets are held, its day-ahead less real time, as a hub has; on-peak and off-peak stay the main hub's. The builder reads the table first of its price tables, so no later table's hour is replaced by it.
+- **The zone history** (`iso_zone_prices_history`) is read too, first with it: CAISO ZP26 and SPP South reach back before the rolling tables began on 26 August 2026, so their moves over a year and their one-year range can be drawn once the table is on the machine that builds.
+- **Every power row states its interval** (`basis`, in the hover of the row's name, "Interval: ..."): a daily mean of the complete local operating day's hours (24; 23 or 25 on the daylight saving days), each hour the hour's day-ahead price, or the mean of the hour's four 15-minute real-time prices (ERCOT), of four 15-minute means of the 5-minute prices (CAISO's `lmp_rtm_15m_mean`), of twelve 5-minute prices, or the hourly real-time price as published, read from the interval of the newest table that holds the hub. The battery spread, the on-peak and off-peak means and day-ahead less real time say theirs; an ancillary row says it is a daily mean of hourly day-ahead prices.
+- **ERCOT's node basis**, summarized: five monthly rows, "ERCOT nodes against the hub average", one a class of point (every point, gas, solar, wind and storage plants' points), each the month's median across the class's points of each point's mean daily day-ahead basis to the hub average (the point's price less HB_HUBAVG's), from `node_basis_summary` (`docs/methods/node_basis.md`). Each row links to the node view (`/cost-of-power`), which draws the month's 10th to 90th percentiles; the nodes themselves are not rows.
+- **ERCOT's real-time price adders** (`ercot_rtm_price_adders`, report NP6-792-ER): a daily row, the mean of the complete local day's hours, each the hour's mean of the adder over its SCED intervals. An adder whose newest hour is more than 90 days older than the table's newest has ended and is drawn as no row: RTORPA (the ORDC on-line reserve adder), RTOFFPA and RTORDPA end on 4 December 2025 and RTRDPA, the reliability deployment adder, begins on 5 December 2025 (`docs/methods/ercot_rtm_price_adders.md`). So one row today, RTRDPA.
+- **Capacity**: one placeholder an auction in place of the one row for four: PJM's Base Residual Auction (licensed; the row keeps the id `capacity`, so `page_keep.py` keeps no twin), NYISO's ICAP spot auction and ISO-NE's Forward Capacity Auction (licensed; the page makes them "license needed" with the two grids' hold), MISO's Planning Resource Auction (paused). Each names the publisher and why it is held: `iso_all_capacity_prices` and `pjm_rpm_capacity_prices` are internal.
+- Tests: `tests/test_board_1601.py`, on real rows cut from the tables (`tests/fixtures/board_1601/`).
+
+## Natural gas in storage and LNG exports (session 1602, chain 165, 6 November 2026)
+
+A group of its own, after "Natural gas": volumes beside the prices.
+
+| Rows | Table | Step | Unit | What a row is |
+|---|---|---|---|---|
+| Working gas in storage: Lower 48, East, Midwest, Mountain, Pacific, South Central, and South Central's salt and nonsalt | `eia_gas_storage_weekly` (EIA, Weekly Natural Gas Storage Report) | weekly | Bcf | the working gas at the end of the week EIA reports, dated the week's last day. The week's move is the week's net injection or withdrawal; the year's move is against the same week a year before (within the board's six days' slack) |
+| LNG export price, a terminal: Sabine Pass, Corpus Christi, Cameron, Freeport, Calcasieu Pass, Plaquemines, Cove Point, Elba Island | `eia_lng_exports_monthly` (EIA, exports by point of exit) | monthly | USD/Mcf | the month's average price of the LNG exported there, as EIA reports it |
+| LNG exports, a terminal (the same and Golden Pass) | the same | monthly | MMcf | the month's volume exported there |
+| LNG exports, United States; pipeline exports to Mexico and to Canada; pipeline imports from Canada | `eia_gas_trade_monthly` | monthly | MMcf | the month's volume |
+| LNG feedgas, daily | none | | Bcf/d | "licensed source needed": daily feedgas is compiled from pipeline nominations by data vendors (for example S&P Global Commodity Insights or Wood Mackenzie) |
+
+The group opens on the storage rows (Show: gas in storage); the five-year average of storage is not held, so no row compares the week with it; the year's move and the one-year range stand beside it. A terminal's price is EIA's average for the month, not a spot price; EIA publishes it about two months after the month, so a row is a monthly series with the board's monthly stale rule.
+
+Natural gas: the placeholders of the regional hubs are seven from this session, Houston Ship Channel, Transco Zone 6 New York and Eastern Gas South (formerly Dominion South) added to Waha, SoCal Citygate, Algonquin Citygate and Chicago Citygate: none is held (S&P Global Commodity Insights or Natural Gas Intelligence would supply them). TTF and JKM stay placeholders by the day; their notes name the World Bank's monthly Europe gas and Japan LNG rows of the world group.
+
+Tests: `tests/test_board_1602.py`, on real rows (`tests/fixtures/board_1602/`).
+
+## Oil and products: the series held and not drawn (session 1603, chain 165, 6 November 2026)
+
+- **North Dakota crude oil, first purchase price, monthly** (`eia_crude_first_purchase_prices`, series F002038__3, EIA's first purchase price by area; the table's method note calls it a proxy for Bakken crude): a row of the crude group (Show: first purchase, monthly). The table's other series, Mars Blend (F003075793), is not drawn again: it is the crude stream row `eia_crude_stream_prices` already draws (every one of the 91 months both hold is equal, checked on 6 November 2026).
+- **Gasoline, all grades, United States, weekly** (`eia_retail_fuel_prices`, EMM_EPM0_PTE_NUS_DPG): a row of the retail group, beside the US regular row. The table's US regular and diesel rows are the regional table's (406 of 406 weeks equal), so they are not drawn twice.
+- **Coal by basin** stays five placeholders (S&P Global; EIA may not release the history); each now names the World Bank's monthly Australian and South African coal rows of the world group.
+- **The PADD series and the spot products**: unchanged. The retail and heating groups draw every PADD EIA publishes; the spot products are EIA's nine daily series (New York Harbor, the Gulf Coast and Los Angeles), the inputs of the two 3-2-1 cracks among them.
+
+Tests: `tests/test_board_1603.py` (`tests/fixtures/board_1603/`).
+
+## Carbon, the held rows' words, and the costs (session 1604, chain 165, 6 November 2026)
+
+- **A held series says "licensed source needed" and names its publisher** (the chain's rule): RGGI's quarterly auction (RGGI, Inc.; `rggi_auction_allowance_prices` is internal while RGGI's terms are reviewed) and ISO-NE's reserves and regulation (ISO-NE; `isone_as_prices` internal) were "not held yet" with no publisher until this session. Both keep their ids. ISO-NE's row is then "license needed" on the page with the grid's hold, as every ISO-NE row is.
+- **RINs**: a placeholder, "Renewable fuel credits (RINs), D4 and D6", daily: no RIN price is held (the ERW holds EPA's RINs generated by month, `epa_rfs_rins_monthly`, not their prices); OPIS or Argus Media would supply daily prices, under license.
+- **A cost group**, "Delivery charges and transmission peaks", before "Capacity and equities":
+  - **ERCOT coincident peak load** (`ercot_4cp_intervals`, ERCOT's Four Coincident Peak Calculations, NP9-83-M): ERCOT's load in the 15-minute interval it names as each summer month's coincident peak, June to September, MW. One value a summer month, dated the month's first day, so the row is a monthly series holding four months a year: its month's move is the month before in the same summer, its year's move the same month a year before, and it never holds the nine months of a year a one-year range needs. A transmission customer's share of the four sets its transmission charge for the next year. 2021 is not held (on neither of ERCOT's lists); ERCOT publishes a summer's calculation by December, so the row is stale by the board's monthly rule from January to November.
+  - **Texas delivery charges, by utility**: a placeholder. The charges the ERW holds (`texas_delivery_charges`) were read by a model from five news outlets' reports and are internal; each transmission and distribution utility's tariff, as the Public Utility Commission of Texas posts it, would supply them openly.
+- **Uranium** is unchanged: the IMF's monthly price is drawn, the daily spot a placeholder (UxC, TradeTech). **Retail electricity** by state and sector is drawn as it was.
+
+Tests: `tests/test_board_1604.py` (`tests/fixtures/board_1604/`).
+
+## The power spreads (session 1606, chain 165, 6 November 2026)
+
+- **Hub spreads, within and across grids** (a group after the spark spreads): the first hub's daily mean less the second's, day-ahead and real time, from the two hubs' rows of "Power, by hub and zone".
+
+  | Pair | Scope |
+  |---|---|
+  | ERCOT North hub less Houston hub; West hub less North hub; South hub less Houston hub | within ERCOT |
+  | CAISO NP15 less SP15 | within CAISO |
+  | SPP North hub less South hub | within SPP |
+  | ERCOT hub average less SPP North hub | across grids |
+  | CAISO SP15 less ERCOT hub average | across grids |
+
+  Within a grid both means are of the same local operating day. Across two grids they are of the same date, each on its own grid's local operating day (America/Chicago for ERCOT and SPP, America/Los_Angeles for CAISO), so a cross-grid spread compares days that begin two hours apart. A pair with a grid held for a license on the day is not built; a market with either hub not held is "not held yet". A positive spread: the first hub priced above the second.
+- **The spark spread at every public hub**: ERCOT's, CAISO's and SPP's hubs other than the main one each have a spark spread row, behind the group's new Show filter (main hubs by default, as the other power groups); the load zones have none. The implied heat rate and the dark spread stay the main hub's. The gas is Henry Hub for every hub (no regional gas price is held: the gas group's placeholders).
+- **The stated heat rate's source**, in every spark and dark row's hover: 7.0 MMBtu/MWh (spark) and 10.5 (dark) are the board's assumptions, about a combined-cycle gas plant and about the US coal fleet's average, no plant's own; beside each, when `eia_heat_rates_annual` is on the machine that builds, EIA's newest average operating heat rate of the US natural gas fleet (combined-cycle and peaking plants together) or of the coal fleet, from EIA's Electric Power Annual, Table 8.1, its value and year, also written as the row's `heat_ref` and the file's `heat_ref` so a check can key it.
+- **Not built: the ERCOT 4CP exposure** (gap 28 of the audit). It needs the hub's 15-minute real-time price in each coincident-peak interval, which the board's hourly store does not keep; offered for the next chain.
+- `hubspread` is a power group for the stale rule (`POWER_GROUPS`, past 3 days).
+
+Tests: `tests/test_board_1606.py` (`tests/fixtures/board_1606/`).
+
+## The gas and oil spreads (session 1607, chain 165, 6 November 2026)
+
+- **Cracks by product** (oil spreads, daily): a product's price a gallon times 42 less the crude's a barrel, on the trading days EIA publishes both, before any cost: gasoline, diesel and jet fuel at the Gulf Coast against WTI; gasoline, diesel and No. 2 heating oil at New York Harbor against Brent. Each row's newest inputs are in the hover of its value. They stand beside the two 3-2-1 cracks.
+- **Gas spreads, monthly** (a group after the oil spreads): from the World Bank's monthly averages (`wb_commodity_prices_monthly`, the Pink Sheet), Europe less the United States (the TTF-to-Henry Hub spread by the month), Japan LNG less the United States (the JKM-to-Henry Hub spread by the month) and Japan LNG less Europe, USD per MMBtu, the same month. The daily TTF and JKM are licensed (the gas group's placeholders), so these are months, not days, and are labeled so.
+- **Placeholders**: the regional basis to Henry Hub (no regional hub's daily price is held; S&P Global Commodity Insights or Natural Gas Intelligence would supply them) and the LNG netback to the US Gulf (the destination price, the shipping and the regasification on the same days; no freight is held; a shipping assessment, for example Spark Commodities or the Baltic Exchange, would supply it).
+- Brent less WTI is unchanged (the crude group, also under oil spreads).
+
+Tests: `tests/test_board_1607.py` (`tests/fixtures/board_1607/`).
+
+## The moves: the year to date, and none on a stale row (session 1608, chain 165, 6 November 2026)
+
+- **Five moves a row**: day, week, month and year as before (the method's table above), and **YTD**, the latest value less the last value held of the year before, when that value is no older than a step's slack before 31 December: 6 days for a daily series (a fuel has no holiday close), a week and 6 days for a weekly one, December for a monthly one, the fourth quarter for a quarterly one. A year before that ends earlier has no YTD move ("not held yet"). The move's own date is on its hover ("against 11.00 on 30 Dec 2025"), so the window's two ends are stated. The builder writes it as `moves.ytd`; the page draws it as a fifth column from the same list as the four (`MOVES` in `site/lib/board.ts`).
+- **A stale row's moves are blank**, each cell reading "stale" with the row's age on hover (`shownMove`): a move measured from a series past the board's stale threshold (`closeAge`) is not shown as current. The latest value and its date stay, with the "stale" mark beside the date, as before. `site/scripts/check-board.mjs` and `check-board-v4.mjs` expect no number in those cells.
+- The rows' CSV (`/board/rows`) keeps its four moves until session 1614's downloads.
+- `tests/test_session132.py` and `tests/test_session1139.py` take a file built before the YTD move as it is (four moves), so a landing before the first rebuild passes.
+
+Tests: `tests/test_board_1608.py`.
+
+## The trend line (session 1609, chain 165, 6 November 2026)
+
+The column "Last 30" is named "Trend" from this session, and its line is no longer the last 30 values: it is the last **90 days** of a daily row (at most 90 points; a fuel's trading days only, so about 63), a **year** of a weekly row (about 53 weeks), and **three years** of a monthly or a quarterly row (36 months, 12 quarters), each ending on the row's latest value (`SPARK_DAYS` and `SPARK_POINTS` in the builder). The points are the series' own, none filled; the mouse reads each point's date and value as before, and the line is drawn by the page's own SVG (no image). The top block's twelve tiles draw the same line. The column header's hover says the spans. Up to 90 points a row make `board.json` larger: session 1618 measures it.
+
+Tests: `tests/test_board_1609.py`.
