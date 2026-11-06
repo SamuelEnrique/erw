@@ -11,7 +11,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { baseStyle, token, useEChart } from "@/components/echarts";
 import { Num } from "@/components/Num";
 import { SeriesChart } from "@/components/tool/SeriesChart";
-import { HeadlineNumber, HeadlineRow, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { STATES } from "@/lib/regions";
 
 export type AttentionFile = {
@@ -45,7 +45,12 @@ const geoName = (g: string) => (g === "all" ? "every story" : g === "US" ? "the 
 const select = "border border-rule bg-white px-2 py-1 text-sm";
 
 export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; statesGeo: unknown }) {
-  const lastWeekWithStories = useMemo(() => Math.max(...f.cells.map((c) => c[2])), [f]);
+  // the week the page opens on: the latest with at least fifty classified stories (a feed dates a few stories after the
+  // day they were read, so the very last week may hold one story), else the latest with any
+  const lastWeekWithStories = useMemo(() => {
+    const full = f.denominators.filter((d) => d[3] >= 50).map((d) => d[0]);
+    return full.length ? Math.max(...full) : Math.max(...f.cells.map((c) => c[2]));
+  }, [f]);
   const [sector, setSector] = useState(0);
   const [geo, setGeo] = useState("all");
   const [week, setWeek] = useState(lastWeekWithStories);
@@ -70,16 +75,20 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
   const entity = `attention:${f.sectors[sector]}:${geo}`;
   const partial = (i: number) => { const x = denom.get(i); return !x || x.judged < x.week * 0.9 || i === f.weeks.length - 1; };
 
-  // the two series over every week: a week without a row is null (no story of the sector in that place)
+  // the charts' span: the weeks with a classified story, the first to the last (the weeks before the classification
+  // reached are not zero, they are not yet read, so they are not drawn; the note under the chart says so)
+  const span = useMemo(() => f.denominators.filter((d) => d[3] > 0).map((d) => d[0]).sort((a, b) => a - b), [f]);
+  // the two series over the span: a week without a row is null (no story of the sector in that place)
   const series = useMemo(() => {
     const att: (number | null)[] = [], fri: (number | null)[] = [], n: number[] = [], opp: number[] = [];
-    for (let i = 0; i < f.weeks.length; i++) {
+    for (const i of span) {
       const c = cellOf.get(`${sector}|${gi}|${i}`);
       att.push(c ? c.attention : null); fri.push(c ? c.friction : null); n.push(c ? c.stories : 0); opp.push(c ? c.opposition : 0);
     }
     return { att, fri, n, opp };
-  }, [f, cellOf, sector, gi]);
-  const categories = useMemo(() => f.weeks.map((w, i) => ({ label: day(w), partial: partial(i) })), [f]);  // eslint-disable-line react-hooks/exhaustive-deps
+  }, [span, cellOf, sector, gi]);
+  const categories = useMemo(() => span.map((i) => ({ label: day(f.weeks[i]), partial: partial(i) })), [f, span]);  // eslint-disable-line react-hooks/exhaustive-deps
+  const firstDrawn = span.length ? day(f.weeks[span[0]]) : "";
 
   // the stories of the chosen week, fetched once a week is opened
   const load = useCallback((w: string) => {
@@ -157,7 +166,7 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
 
   const rising = useMemo(() => {
     const rows = f.rising.filter((r) => r[0] === week);
-    const sectors = rows.filter((r) => r[1] === "sector").map((r) => ({ name: SECTOR_NAME[f.sectors[r[2] as number]], this: r[3] as number, before: r[4] as number, change: r[5] as number }))
+    const sectors = rows.filter((r) => r[1] === "sector").map((r) => ({ name: SECTOR_NAME[f.sectors[r[2] as number]], sectorKey: f.sectors[r[2] as number], this: r[3] as number, before: r[4] as number, change: r[5] as number }))
       .filter((r) => r.name !== "All energy").sort((a, b) => b.change - a.change);
     const states = rows.filter((r) => r[1] === "state").map((r) => ({ name: STATES[r[2] as string] ?? (r[2] as string), code: r[2] as string, this: r[3] as number, before: r[4] as number, change: r[5] as number }))
       .sort((a, b) => b.change - a.change).slice(0, 8);
@@ -206,21 +215,21 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
           note={cell ? `${whole(cell.opposition)} ${cell.opposition === 1 ? "story" : "stories"}${rising.kinds.length ? ": " + rising.kinds.map(([k, n]) => `${n} ${KIND_NAME[k] ?? k}`).join(", ") : ""}` : undefined} />
         <HeadlineNumber label="Tone" unit="mean, -1 to +1"
           value={cell ? <Num check={`series|${ATT}|${entity}|tone_mean|${wk}`} raw={cell.tone}>{tone(cell.tone)}</Num> : "none"}
-          tip="The model's reading of each story's tone toward what it covers: -1 negative, 0 neutral or mixed, +1 positive, averaged over the cell's stories. The least reliable field of the classification (0.87 against the hand labels)." />
+          tip={<Tip id="attention-tone" label="what the tone is">The model&apos;s reading of each story&apos;s tone toward what it covers: -1 negative, 0 neutral or mixed, +1 positive, averaged over the cell&apos;s stories. The least reliable field of the classification (0.87 against the hand labels).</Tip>} />
       </HeadlineRow>
 
       <ToolSection title={`Attention Index over time: ${SECTOR_NAME[f.sectors[sector]]}, ${geoName(geo)}`} id="attention-over-time"
-        note="Percent of each week's judged stories. A hatched week is partly classified (fewer than nine in ten of its stories judged) or the current one; its value is a share of the stories judged so far.">
+        note={`Percent of each week's judged stories, from the first classified week (${firstDrawn}); the weeks before it are not yet classified and are not drawn. A hatched week is partly classified (fewer than nine in ten of its stories judged) or the current one; its value is a share of the stories judged so far.`}>
         <SeriesChart id="attention-line" title="Attention Index" unit="%" kind="line" scale="linear" fmt={pct}
           categories={categories} series={[{ name: "Attention Index", color: "var(--color-accent)", values: series.att }]}
-          says={(i) => `Week of ${day(f.weeks[i])}: ${series.att[i] === null ? "no story" : `${pct(series.att[i] as number)} of the week's judged stories (${whole(series.n[i])} stories)`}`}
+          says={(i) => `Week of ${day(f.weeks[span[i]])}: ${series.att[i] === null ? "no story" : `${pct(series.att[i] as number)} of the week's judged stories (${whole(series.n[i])} stories)`}`}
           partialWords="partly classified" />
       </ToolSection>
       <ToolSection title={`Friction Index over time: ${SECTOR_NAME[f.sectors[sector]]}, ${geoName(geo)}`} id="friction-over-time"
         note="Percent of the cell's stories that report opposition. A week with few stories swings widely; the hover gives the counts.">
         <SeriesChart id="friction-line" title="Friction Index" unit="%" kind="line" scale="linear" fmt={pct}
           categories={categories} series={[{ name: "Friction Index", color: "var(--chart-blue)", values: series.fri }]}
-          says={(i) => `Week of ${day(f.weeks[i])}: ${series.fri[i] === null ? "no story" : `${pct(series.fri[i] as number)} (${whole(series.opp[i])} of ${whole(series.n[i])} stories report opposition)`}`}
+          says={(i) => `Week of ${day(f.weeks[span[i]])}: ${series.fri[i] === null ? "no story" : `${pct(series.fri[i] as number)} (${whole(series.opp[i])} of ${whole(series.n[i])} stories report opposition)`}`}
           partialWords="partly classified" />
       </ToolSection>
 
@@ -233,12 +242,22 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
       <ToolSection title={`What rose in the week of ${day(wk)}`} id="attention-rising"
         note="Each sector's and state's Attention Index this week against the mean of the four weeks before (a week without a row counts as zero). Places are the counties, cities and metros the week's stories named.">
         <div className="grid gap-6 md:grid-cols-3">
-          <ToolTable caption="Sectors, every story" head={["Sector", "This week %", "Four weeks before %", "Change"]}
-            rows={rising.sectors.map((r) => ({ key: r.name, cells: [r.name, pct(r.this), pct(r.before), (r.change >= 0 ? "+" : "") + pct(r.change)] }))} minWidth={0} />
-          <ToolTable caption="States, all energy" head={["State", "This week %", "Four weeks before %", "Change"]}
-            rows={rising.states.map((r) => ({ key: r.code, cells: [r.name, pct(r.this), pct(r.before), (r.change >= 0 ? "+" : "") + pct(r.change)] }))} minWidth={0} />
-          <ToolTable caption={`Places named, ${SECTOR_NAME[f.sectors[sector]].toLowerCase()}`} head={["Place", "State", "Stories", "Reporting opposition"]}
-            rows={rising.places.map((p) => ({ key: `${p.place}|${p.state}`, cells: [p.place, p.state, whole(p.stories), whole(p.opposition)] }))} minWidth={0} />
+          {rising.sectors.length ? (
+            <ToolTable caption="Sectors, every story" head={["Sector", "This week %", "Four weeks before %", "Change"]}
+              rows={rising.sectors.map((r) => ({ key: r.name, cells: [r.name,
+                <Num key="v" check={`series|${ATT}|attention:${r.sectorKey}:all|attention_index|${wk}`} raw={r.this}>{pct(r.this)}</Num>,
+                pct(r.before), (r.change >= 0 ? "+" : "") + pct(r.change)] }))} minWidth={0} />
+          ) : <p className="text-sm text-muted" data-attention-rising="sectors-none">No sector has a story this week.</p>}
+          {rising.states.length ? (
+            <ToolTable caption="States, all energy" head={["State", "This week %", "Four weeks before %", "Change"]}
+              rows={rising.states.map((r) => ({ key: r.code, cells: [r.name,
+                <Num key="v" check={`series|${ATT}|attention:energy:US-${r.code}|attention_index|${wk}`} raw={r.this}>{pct(r.this)}</Num>,
+                pct(r.before), (r.change >= 0 ? "+" : "") + pct(r.change)] }))} minWidth={0} />
+          ) : <p className="text-sm text-muted" data-attention-rising="states-none">No energy story named a state this week.</p>}
+          {rising.places.length ? (
+            <ToolTable caption={`Places named, ${SECTOR_NAME[f.sectors[sector]].toLowerCase()}`} head={["Place", "State", "Stories", "Reporting opposition"]}
+              rows={rising.places.map((p) => ({ key: `${p.place}|${p.state}`, cells: [p.place, p.state, whole(p.stories), whole(p.opposition)] }))} minWidth={0} />
+          ) : <p className="text-sm text-muted" data-attention-rising="places-none">No story of {SECTOR_NAME[f.sectors[sector]].toLowerCase()} named a county, city or metro this week.</p>}
         </div>
       </ToolSection>
 
