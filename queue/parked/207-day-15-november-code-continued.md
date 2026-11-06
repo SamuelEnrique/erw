@@ -32,7 +32,11 @@ Long end 1:30 each. One step a session, in chain 195's order, as session 1755 li
 
 ### Unfinished steps (written by session 1755 of chain 195)
 
-- To be written by session 1755.
+- `wip/1743-records` (`84ffcbb1f`, sessions 1743 to 1745): a "Replication" section and an empty "Sign-off" block in `docs/methods/grid_network.md` and `docs/methods/automated_analysis_findings.md`, two tests (`tests/test_session1743.py`, `tests/test_session1744.py`), and item 2's state note of 7 November corrected. Its gate passed (session 1750) and it was **not landed**, by decision: the portable laptop's chain 208 (`queue/done/208-night-6-november-portable-sellable.md`, the owner's prompt) plans the same notes' sections and `replication/grid/` and `replication/analysis/`. The step here:
+  - read `origin/main` and chain 208's branches;
+  - if chain 208 has landed its sections in those two notes, delete `wip/1743-records` on origin and record it;
+  - if chain 208 has finished (its note or its last report) and either note still lacks a "Replication" section or a "Sign-off" block, merge `origin/main` into the branch, keep chain 208's text where both wrote, and land through the gate;
+  - if chain 208 is still running, leave the branch and say so.
 
 ## Sessions 1777 to 1781: the faults chain 195 left open
 
@@ -40,7 +44,8 @@ Long end 1:30 each. One fault a session, as session 1755 lists them below: the f
 
 ### Open faults (written by session 1755 of chain 195)
 
-- To be written by session 1755.
+- None of chain 195's. Still not this chain's: `site/public/findings/` and `site/app/research/card/` (the desktop's), where the siting cards' six pictures answer 404; a line in the report only.
+- For Samuel's ruling, not changed: `site/app/internal/open/page.tsx` line 31 (`autocomplete="off"`), the battery page's decisions block, and Research's cards' `.py` downloads (they import `findings_common`, which is not served).
 
 When none of these is this chain's to fix, the free sessions take the next item of `docs/roadmap.md` that needs no ruling and no design, saying which. If none is found, the chain records that in one report and goes to its note.
 

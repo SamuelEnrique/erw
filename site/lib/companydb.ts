@@ -1,0 +1,264 @@
+// Energy Research Warehouse (ERW) site, sessions 3304 to 3306 (chain 200): the company database's pages (/companies and
+// /companies/<id>), the pure part: the files' types, the index's filters, its order and its pages, a company's MW by
+// year in spans, its rows as a CSV, and the Python and Stata readers of that CSV. No file is read here and nothing is
+// fetched (lib/companydata.ts reads the files); scripts/test-companies.mjs tests this on rows written for the test.
+// The files: site/data/companies/ (warehouse/derived/companies_page.py); the method: docs/methods/companies.md.
+
+export type CompanyIndex = {
+  built: string; method: string; tables: string[]; held_tables: string[]; held_links: Record<string, number>;
+  held_only: number; n_directory: number; n_listed: number; sources: Record<string, string>;
+  columns: string[]; link_columns: string[]; rules: string[]; confidence: Record<string, number>;
+  kinds: Record<string, number>; segments: Record<string, number>; states: Record<string, number>; grids: Record<string, number>;
+  rows: (string | number)[][];
+};
+/** One listed company, as the index holds it (a figure the hold leaves out is undefined). */
+export type IndexRow = {
+  id: string; name: string; kind: string; segment: string; hq_state: string; states: string; grids: string;
+  n_plants: number; plants_mw: number; planned_mw: number; n_queue: number; queue_mw: number; n_reactors: number;
+  n_policy_actions: number; n_deals?: number; deals_mw?: number; n_facilities?: number; facilities_mw?: number;
+  footprint_mw: number; n_links: number; aka: string; first_seen: string; last_seen: string;
+};
+export type Figures = Record<string, number>;
+/** A link as a shard holds it: [link id, table position, row, role, name as written ("" = the company's own), rule
+ *  position, mw, usd, date, fuel, state, grid, detail]. */
+export type ShardLink = [string, number, string, string, string, number, string, string, string, string, string, string, string];
+export type Company = {
+  id: string; entity_id: string; name: string; kind: string; kind_basis: string; segment: string; segment_basis: string;
+  parent: string; parent_id: string; parent_basis: string; eia_utility_id: string; hq_state: string; hq_basis: string;
+  states: string[]; grids: string[]; first_seen: string; last_seen: string; figures: Figures; fuel: Record<string, number>;
+  years: [string, number, number, number][]; quarters: [string, number, number, number][]; held: Record<string, number>;
+  min_confidence: number; names: [string, string, string, number, string][]; links: ShardLink[];
+};
+/** A link with its table and rule named. */
+export type Link = {
+  link: string; table: string; row: string; role: string; name: string; rule: string; confidence: number; mw: string;
+  usd: string; date: string; fuel: string; state: string; grid: string; detail: string;
+};
+
+export const KIND_ORDER = ["regulator", "lab or hyperscaler", "OEM", "utility", "IPP", "lender or investor", "developer", "operator", "other"];
+export const PAGE_SIZE = 50;
+/** The tables' names as a reader knows them. */
+export const TABLE_WORDS: Record<string, string> = {
+  energy_deals: "Deals (energy_deals)", datacenter_projects: "Datacenter projects", datacenter_facilities: "Datacenter facilities",
+  eia860m_operating_generators: "EIA-860M operating generators", eia860m_planned_generators: "EIA-860M planned generators",
+  eia860_plants_annual: "EIA-860 plants", eia860_generator_owners: "EIA-860 generator owners", eia861_utility_data: "EIA-861 utility data",
+  utility_service_territories: "EIA-861 service territories", ercot_interconnection_queue: "ERCOT interconnection queue",
+  nyiso_interconnection_queue: "NYISO interconnection queue", policy_actions: "Policy actions", nrc_power_reactors: "NRC power reactors",
+};
+export const ROLE_WORDS: Record<string, string> = {
+  buyer: "buyer", seller: "seller", party: "party", operator: "operator", developer: "developer", utility: "utility",
+  owner: "owner", service_territory: "service territory", interconnection_customer: "interconnection customer",
+  agency: "agency", licensee: "licensee", parent: "parent",
+};
+
+export function indexRows(ix: CompanyIndex): IndexRow[] {
+  return ix.rows.map((r) => Object.fromEntries(ix.columns.map((c, i) => [c, r[i]])) as unknown as IndexRow);
+}
+
+export function linksOf(c: Company, ix: Pick<CompanyIndex, "tables" | "rules" | "confidence">): Link[] {
+  return c.links.map(([link, t, row, role, name, rule, mw, usd, date, fuel, state, grid, detail]) => {
+    const r = ix.rules[rule] ?? "";
+    return { link, table: ix.tables[t] ?? "", row, role, name: name || c.name, rule: r, confidence: ix.confidence[r] ?? 0, mw, usd, date, fuel, state, grid, detail };
+  });
+}
+
+// ---- the index's query, kept in the address so a view can be shared and works without script
+
+export type Query = {
+  q: string; kind: string; segment: string; state: string; grid: string;
+  has: "" | "plants" | "queue" | "reactors" | "policy" | "deals" | "facilities"; page: number;
+};
+export const NO_QUERY: Query = { q: "", kind: "", segment: "", state: "", grid: "", has: "", page: 1 };
+const HAS = ["plants", "queue", "reactors", "policy", "deals", "facilities"] as const;
+
+/** The query an address asks for; a value the index does not hold is no filter. `deals` and `facilities` are
+ *  filters only while their tables are not held (index.columns names their figures). */
+export function queryOf(sp: Record<string, string | string[] | undefined>, ix: Pick<CompanyIndex, "kinds" | "segments" | "states" | "grids" | "columns">): Query {
+  const one = (k: string) => { const v = sp[k]; return (Array.isArray(v) ? v[0] : v ?? "").trim(); };
+  const pick = (v: string, have: Record<string, number>) => (v in have ? v : "");
+  const has = one("has");
+  const hasOk = (HAS as readonly string[]).includes(has) && (has === "deals" ? ix.columns.includes("n_deals") : has === "facilities" ? ix.columns.includes("n_facilities") : true);
+  const page = Math.max(1, Math.floor(Number(one("page")) || 1));
+  return {
+    q: one("q").slice(0, 80), kind: pick(one("kind"), ix.kinds), segment: pick(one("segment"), ix.segments),
+    state: pick(one("state").toUpperCase(), ix.states), grid: pick(one("grid"), ix.grids),
+    has: hasOk ? (has as Query["has"]) : "", page,
+  };
+}
+
+/** The address of a query (only what differs from no query); `page` 1 is left out. */
+export function hrefOf(base: string, q: Query, over: Partial<Query> = {}): string {
+  const v = { ...q, ...over };
+  const p = new URLSearchParams();
+  for (const k of ["q", "kind", "segment", "state", "grid", "has"] as const) if (v[k]) p.set(k, String(v[k]));
+  if (v.page > 1) p.set("page", String(v.page));
+  const s = p.toString();
+  return s ? `${base}?${s}` : base;
+}
+
+const fold = (s: string) => s.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+/** The rows a query keeps, in the index's order (the footprint, largest first). The search reads the name and the
+ *  other names; every word typed must be in one of them. */
+export function filterRows(rows: IndexRow[], q: Query): IndexRow[] {
+  const words = fold(q.q).split(/[^a-z0-9&]+/).filter(Boolean);
+  return rows.filter((r) => {
+    if (q.kind && r.kind !== q.kind) return false;
+    if (q.segment && r.segment !== q.segment) return false;
+    if (q.state && !r.states.split(";").includes(q.state)) return false;
+    if (q.grid && !r.grids.split(";").includes(q.grid)) return false;
+    if (q.has === "plants" && !(r.n_plants > 0)) return false;
+    if (q.has === "queue" && !(r.n_queue > 0)) return false;
+    if (q.has === "reactors" && !(r.n_reactors > 0)) return false;
+    if (q.has === "policy" && !(r.n_policy_actions > 0)) return false;
+    if (q.has === "deals" && !((r.n_deals ?? 0) > 0)) return false;
+    if (q.has === "facilities" && !((r.n_facilities ?? 0) > 0)) return false;
+    if (words.length) {
+      const hay = fold(`${r.name} | ${r.aka}`);
+      if (!words.every((w) => hay.includes(w))) return false;
+    }
+    return true;
+  });
+}
+
+/** One page of rows, and the page shown (a page past the last is the last). */
+export function pageOf<T>(rows: T[], page: number, size = PAGE_SIZE): { rows: T[]; page: number; pages: number } {
+  const pages = Math.max(1, Math.ceil(rows.length / size));
+  const p = Math.min(Math.max(1, page), pages);
+  return { rows: rows.slice((p - 1) * size, p * size), page: p, pages };
+}
+
+// ---- a company's MW by year, in spans when its years are many
+
+export type YearGroup = { label: string; operating: number; planned: number; queue: number; years: string[] };
+/** The years of a company's MW (operating generators by the month they began, planned by the month planned, queue
+ *  positions by the date they entered), one group a year; past `most` years, one group a span of `span` years (the
+ *  first span starts at a multiple of `span`). Sums, not rounded. */
+export function yearGroups(years: [string, number, number, number][], most = 30, span = 5): YearGroup[] {
+  if (!years.length) return [];
+  const first = Number(years[0][0]), last = Number(years[years.length - 1][0]);
+  const by = new Map(years.map((y) => [y[0], y]));
+  const width = last - first + 1 > most ? span : 1;
+  const start = width > 1 ? Math.floor(first / width) * width : first;
+  const out: YearGroup[] = [];
+  for (let a = start; a <= last; a += width) {
+    const ys: string[] = [];
+    let o = 0, p = 0, q = 0;
+    for (let y = a; y < a + width && y <= last; y++) {
+      const v = by.get(String(y));
+      if (!v) continue;
+      ys.push(String(y)); o += v[1]; p += v[2]; q += v[3];
+    }
+    const b = Math.min(a + width - 1, last);
+    out.push({ label: width > 1 ? `${a} to ${b}` : String(a), operating: o, planned: p, queue: q, years: ys });
+  }
+  return out;
+}
+
+// ---- the downloads: a company's public rows, and the index's rows of a query
+
+const CSV_SAFE = /[",\n\r]/;
+export const csvCell = (v: unknown): string => {
+  const s = v === null || v === undefined ? "" : String(v);
+  return CSV_SAFE.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+};
+
+export const LINK_HEAD = ["company_id", "company_name", "input_table", "input_row", "role", "name_as_written", "match_rule", "confidence", "mw", "usd", "date", "fuel", "state", "grid", "detail", "link_id"];
+
+/** A company's public rows as a CSV, its provenance first on lines that begin with "#". */
+export function linksCsv(c: Company, links: Link[], ix: Pick<CompanyIndex, "built" | "held_tables" | "sources">, url: string): string {
+  const held = Object.entries(c.held);
+  const head = [
+    `# Energy Research Warehouse (ERW): ${c.name} (${c.entity_id}), every public row of the company database's links (company_links) that names it.`,
+    `# From ${url}, built ${ix.built} by warehouse/derived/companies_page.py; method docs/methods/companies.md.`,
+    "# One row a company named in a row of an input table: input_table and input_row name the row; role is what the company is in it; match_rule and confidence how the name was matched; mw, usd, date, fuel, state and grid as the row states them.",
+    held.length
+      ? `# Held, not in this file (license needed: the publishers ask for permission): ${held.map(([t, n]) => `${n} rows of ${t}`).join(", ")}.`
+      : "# No row of this company is held.",
+    ...Array.from(new Set(links.map((l) => l.table))).map((t) => `# Source of ${t}: ${ix.sources[t] ?? ""}`),
+  ];
+  const rows = links.map((l) => [c.entity_id, c.name, l.table, l.row, l.role, l.name, l.rule, l.confidence, l.mw, l.usd, l.date, l.fuel, l.state, l.grid, l.detail, l.link].map(csvCell).join(","));
+  return [...head, LINK_HEAD.join(","), ...rows, ""].join("\n");
+}
+
+/** The index's rows of a query as a CSV. */
+export function indexCsv(rows: IndexRow[], ix: Pick<CompanyIndex, "built" | "columns" | "held_tables" | "held_only">, q: Query, url: string): string {
+  const cols = ix.columns;
+  const head = [
+    "# Energy Research Warehouse (ERW): the company database (company_directory), the companies listed on /companies, as filtered.",
+    `# From ${url}, built ${ix.built} by warehouse/derived/companies_page.py; method docs/methods/companies.md.`,
+    `# Filters: ${(["q", "kind", "segment", "state", "grid", "has"] as const).map((k) => `${k}=${q[k] || "(any)"}`).join(", ")}.`,
+    "# Every figure is from public rows alone; MW are nameplate (EIA-860M) or as the queue states them; footprint_mw is a sort key (plants, owned, planned and queue MW summed).",
+    ix.held_tables.length
+      ? `# Held (license needed): ${ix.held_tables.join(", ")}; ${ix.held_only} companies named only in them are not listed, and their rows add nothing here.`
+      : "# No table is held.",
+  ];
+  return [...head, cols.join(","), ...rows.map((r) => cols.map((c) => csvCell((r as unknown as Record<string, unknown>)[c])).join(",")), ""].join("\n");
+}
+
+/** A reader of one of the CSVs above, in Python or in Stata: the "#" lines printed (Python) or counted (Stata) and
+ *  skipped, the rows loaded as they are. The Stata reader keeps the owner's rules (no line continuation, one empty line
+ *  between commands outside a loop and none inside one, every figure column destrung with force). Pure: the address
+ *  and the figure columns are given. */
+export function reader(as: "py" | "do", url: string, what: string, figures: string[]): string {
+  if (as === "py") {
+    return [
+      `# Energy Research Warehouse (ERW): read ${what} (site/lib/companydb.ts reader).`,
+      "# The CSV opens with its provenance, lines that begin with \"#\"; they are printed and skipped, and the rows are",
+      "# loaded as they are. Needs pandas.",
+      "import io",
+      "import urllib.request",
+      "",
+      "import pandas as pd",
+      "",
+      `URL = "${url}"`,
+      "text = urllib.request.urlopen(URL, timeout=300).read().decode(\"utf-8\")",
+      "lines = text.splitlines()",
+      "n = 0",
+      "while n < len(lines) and lines[n].startswith(\"#\"):",
+      "    n += 1",
+      "print(\"\\n\".join(lines[:n]))",
+      "rows = pd.read_csv(io.StringIO(\"\\n\".join(lines[n:])), dtype=str, keep_default_na=False)",
+      ...figures.map((c) => `rows["${c}"] = pd.to_numeric(rows["${c}"], errors="coerce")`),
+      "print(rows.shape)",
+      "print(rows.head(20))",
+      "",
+    ].join("\n");
+  }
+  return [
+    `* Energy Research Warehouse (ERW): read ${what} (site/lib/companydb.ts reader).`,
+    "* The CSV opens with its provenance, lines that begin with \"#\"; they are counted and skipped, the column names are",
+    "* the first line after them.",
+    "clear",
+    "",
+    "tempfile raw",
+    "",
+    `copy "${url}" \`raw'`,
+    "",
+    "tempname fh",
+    "",
+    "local n 0",
+    "",
+    "file open `fh' using `raw', read text",
+    "",
+    "file read `fh' line",
+    "",
+    "while r(eof) == 0 {",
+    "    if substr(`\"`macval(line)'\"', 1, 1) != \"#\" continue, break",
+    "    local n = `n' + 1",
+    "    file read `fh' line",
+    "}",
+    "",
+    "file close `fh'",
+    "",
+    "import delimited using `raw', varnames(`=`n' + 1') encoding(\"utf-8\") bindquote(strict) stringcols(_all) clear",
+    "",
+    ...figures.flatMap((c) => [`destring ${c}, replace force`, ""]),
+    "describe",
+    "",
+  ].join("\n");
+}
+
+/** A number as the pages write it: whole MW with thousands commas, a share with one decimal. */
+export const mw = (v: number): string => Math.round(v).toLocaleString("en-US");
+export const count = (v: number): string => Math.round(v).toLocaleString("en-US");

@@ -67,7 +67,10 @@ const nextConfig: NextConfig = {
   // grid (lib/datacenterdata.ts); the file names are built at request time, so the folder is named for the server trace
   // session 183: the seller page reads one hub's model by a name taken from data/seller/hubs/index.json
   // session 467: /datacenters reads the same price files for its power-side section (app/datacenters/PowerSide.tsx)
-  outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"], "/datacenters": ["./data/datacenter/*.json"], "/cost-of-power/seller": ["./data/seller/hubs/**/*.json"] },
+  // session 3304: the company pages read site/data/companies (lib/companydata.ts): the index, and one shard a company
+  outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"], "/datacenters": ["./data/datacenter/*.json"], "/cost-of-power/seller": ["./data/seller/hubs/**/*.json"],
+    "/companies": ["./data/companies/index.json"], "/companies/rows": ["./data/companies/index.json"], "/companies/rows/python": ["./data/companies/index.json"], "/companies/rows/stata": ["./data/companies/index.json"],
+    "/companies/[id]": ["./data/companies/**/*.json"], "/companies/[id]/rows": ["./data/companies/**/*.json"], "/companies/[id]/rows/python": ["./data/companies/**/*.json"], "/companies/[id]/rows/stata": ["./data/companies/**/*.json"] },
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [
@@ -81,7 +84,7 @@ const nextConfig: NextConfig = {
       { source: "/severance/lease", destination: "/severance?tab=lease", permanent: true },
       { source: "/consumption", destination: "/demand?view=consumption", permanent: true },
       { source: "/deals/v2", destination: "/deals?tab=tracker", permanent: true },
-      { source: "/companies", destination: "/deals?tab=companies", permanent: true },
+      // session 3304: /companies is the company database (tool 10); the deals page's Companies tab (energy_companies) keeps /deals?tab=companies
       { source: "/resources", destination: "/map?tab=resources", permanent: true },
       // session 239: the versioned addresses. /board/v3, /board/v4, /map/v2, /network/v3, /curtailment/v2 and
       // /cost-of-power/seller/v2 redirect already (below); /deals/v2 is the tracker tab (above). /seller/v2 never was

@@ -763,6 +763,11 @@ catalogue_hold:
   - iso_queue_snapshot_summary
   - nuclear_fleet_status
   - gas_balance_weekly
+  # session 3307 (chain 200): the company database's three tables, not on Redivis's public draft and "license needed" by
+  # their inputs' publishers; the company pages read the site's own files (site/data/companies/)
+  - company_directory
+  - company_aliases
+  - company_links
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's
