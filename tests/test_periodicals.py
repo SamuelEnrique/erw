@@ -1491,5 +1491,41 @@ class Session1444TheFold(unittest.TestCase):
         self.assertIn("masthead_lines(digest_date, now, op, newest)", src)
 
 
+class Session1445TheEmail(unittest.TestCase):
+    """Session 1445 (chain 149, faults 17 and 18): the v2 Digest email at 390 and in a plain client: a table name wraps,
+    one Tables line for the opening number and the block, the brand's fonts with their fallbacks named, no script and
+    no stylesheet, the character once and only in the fun fact, alt text on every image."""
+
+    def render(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "2026-10-23.md")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(V2_MD)
+            with mock.patch.dict(os.environ, {"SITE_URL": "https://example.org", "EMAIL_ASSET_REF": "main"}):
+                return email_digest.render(p, "daily", unsubscribe="https://x/unsub")
+
+    def test_one_tables_line_and_it_wraps(self):
+        title, label, text, body = self.render()
+        self.assertEqual(text.count("Tables: "), 1, [ln for ln in text.splitlines() if ln.startswith("Tables")])
+        self.assertEqual(body.count("Tables: "), 1)
+        self.assertIn('<code style="overflow-wrap:anywhere;word-break:break-word">', body)
+        self.assertIn('font-size:12px;color:#6B665E">Tables: ', body)
+        self.assertLess(body.index("The numbers"), body.index("Tables: "))   # the one line comes after the block
+
+    def test_a_plain_client_reads_it(self):
+        title, label, text, body = self.render()
+        self.assertNotIn("<script", body); self.assertNotIn("<link", body); self.assertNotIn("@import", body)
+        self.assertIn("font-family:'Source Serif 4',Georgia,serif", body)
+        self.assertIn("font-family:'IBM Plex Sans',system-ui,sans-serif", body)
+        imgs = re.findall(r"<img [^>]*>", body)
+        self.assertTrue(imgs)
+        for im in imgs:
+            self.assertIn(' alt="', im)
+        self.assertEqual(body.count("erw-character-48.png"), 1)
+        fun = body.index("Fun Fact")
+        self.assertGreater(body.index("erw-character-48.png"), fun)
+        self.assertNotIn("erw-character-48.png", body[:body.index("What moved")])
+
+
 if __name__ == "__main__":
     unittest.main()
