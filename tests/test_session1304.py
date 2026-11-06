@@ -33,8 +33,8 @@ class TheRefusals(unittest.TestCase):
         for r in rows:
             by.setdefault(r["class"], []).append(r)
         self.assertEqual(sorted(by), ["held", "lacks", "pause"])   # session 2224 (chain 152): the twenty's four questions of tables held whole
-        self.assertEqual(len(by["held"]), 5)
-        self.assertEqual(len(by["pause"]), 7)   # session 2221 (chain 152): the Python loop's g10
+        self.assertEqual(len(by["held"]), 9)   # session 2968 (chain 157): the weekly twenty's l01 to l04 again
+        self.assertEqual(len(by["pause"]), 9)   # session 2221 (chain 152): the Python loop's g10; session 2968: its g10 and l10
         self.assertEqual(sorted((r["run"], r["id"]) for r in rows if r["right"] is False),
                          [("session 1113", "d10"), ("session 1149, first set", "d10"), ("session 2221, Python loop", "d10"), ("session 2222, Python loop", "d10")])
 
