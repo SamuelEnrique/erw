@@ -132,7 +132,8 @@ def build(actions, reads=None, impacts=None, today=None):
                "sources": [u for u in r["source_urls"].split(";") if u][::-1],
                "news": [u for u in r["news_story_urls"].split(";") if u],
                "history": [h for h in r["history"].split(" | ") if h],
-               "docket": r["proceeding_ids"]}
+               "docket": r["proceeding_ids"],
+               "scope": newest.get("scope", "")}
         rows.append({k: v for k, v in row.items() if v not in (None, "", [])})
     rows.sort(key=lambda x: (x["date"], x["id"]), reverse=True)
     today = today or dt.date.today().isoformat()

@@ -12,6 +12,8 @@ export type MonitorRow = {
   sector?: string; significance?: number; grids?: string[]; states?: string[]; n: number;
   next?: Step; steps?: { kind: string; date: string; words: string; event_id: string }[]; figure?: Figure; impact?: Impact; plain?: string; bears_on: { table: string; page: string };
   sources?: string[]; news?: string[]; history?: string[]; docket?: string;
+  /** session 3129: "out of scope: <why>" for a document that is no energy action (marked, never dropped) */
+  scope?: string;
 };
 export type MonitorFile = { built: string; documents: number; records: number; fields_from: Record<string, number>; about: string; rows: MonitorRow[] };
 

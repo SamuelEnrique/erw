@@ -26,6 +26,7 @@ The columns, added beside the table's own (no column the Digest or the page read
   figure_unit         MW, GW, kW, MWh, kV, Dth/d, Bcf/d, MMcf/d or USD
   figure_evidence     the sentence it stands in
   docket_ids          the docket and project numbers, one form each ("50-616", never "050-616"), joined by ";"
+  scope               "" for an energy action, or "out of scope: <why>" (session 3129, OUT_OF_SCOPE below)
   fields_from         what the fields were read from: "record and text", "text", "record and summary", "summary",
                       "record", or "title" (a release: its title and its feed's summary are its text)
 """
@@ -33,7 +34,7 @@ The columns, added beside the table's own (no column the Digest or the page read
 import re
 
 FIELD_COLS = ["body", "instrument", "action_status", "dates", "dates_evidence", "next_step", "next_step_date",
-              "next_step_evidence", "figure_value", "figure_unit", "figure_evidence", "docket_ids", "fields_from"]
+              "next_step_evidence", "figure_value", "figure_unit", "figure_evidence", "docket_ids", "fields_from", "scope"]
 
 INSTRUMENTS = ["rule", "proposed_rule", "order", "guidance", "approval", "lease_sale", "award", "application",
                "complaint", "environmental_review", "meeting", "decision", "notice", "announcement"]
@@ -419,4 +420,23 @@ def derive(row, text="", record=None):
             "dates_evidence": " | ".join(e.replace("|", "/") for _, _, e in steps),
             "next_step": nxt[0], "next_step_date": nxt[1], "next_step_evidence": nxt[2],
             "figure_value": "" if v is None else str(v), "figure_unit": unit, "figure_evidence": ev,
-            "docket_ids": docket_ids(row.get("docket", "")), "fields_from": src}
+            "docket_ids": docket_ids(row.get("docket", "")), "fields_from": src, "scope": scope(title)}
+
+
+# Session 3129 (chain 169, the audit's class 9): documents the connector keeps that are no energy action, by a written
+# list: an agency's personnel boards, a laboratory's security boundary, electronic reporting rules, a fellowship. They are
+# marked, never dropped (whether to leave them out is the owner's ruling); the monitor shows the mark.
+OUT_OF_SCOPE = [
+    (re.compile(r"\bperformance review boards?\b|\bsenior executive service\b", re.I), "an agency's personnel board"),
+    (re.compile(r"\b229 boundary\b", re.I), "a laboratory's security boundary"),
+    (re.compile(r"\bcross-media electronic reporting\b", re.I), "electronic reporting rules"),
+    (re.compile(r"\bfellowships?\b|\bscholarships?\b", re.I), "a fellowship or scholarship"),
+]
+
+
+def scope(title):
+    """"" for an energy action, else "out of scope: <why>" by OUT_OF_SCOPE."""
+    for pat, why in OUT_OF_SCOPE:
+        if pat.search(title or ""):
+            return f"out of scope: {why}"
+    return ""

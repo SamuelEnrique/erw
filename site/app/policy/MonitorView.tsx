@@ -118,7 +118,7 @@ export function MonitorView({ rows, built, held, opened, today }: { rows: Monito
                       {r.impact ? <div className="mt-0.5 text-xs text-muted"><span className={tip} title={`Its words in the document: "${r.impact.quote}" (the clause is ${r.impact.model}'s, kept only because these words stand in the text; where it bears is a written rule's)`}>{r.impact.text}</span></div>
                         : r.plain ? <div className="mt-0.5 text-xs text-muted"><span className={tip} title="The impact read of policy_reads, a model's, each field kept only when its words stand in the action's text.">{r.plain}</span></div> : null}
                     </td>
-                    <td className="py-1 pr-3">{STATUS_WORDS[r.status] ?? r.status}</td>
+                    <td className="py-1 pr-3">{STATUS_WORDS[r.status] ?? r.status}{r.scope ? <div className={`text-xs italic text-muted ${tip}`} title="A document the connector keeps that is no energy action, by a written list (warehouse/policy/fields.py, OUT_OF_SCOPE): marked, never dropped." data-scope="1">{r.scope}</div> : null}</td>
                     <td className="py-1 pr-3">{r.sector?.replace(/_/g, " ") ?? ""}</td>
                     <td className="py-1 pr-3 text-right tabular-nums">{r.significance ?? ""}</td>
                     <td className="py-1 pr-3 tabular-nums">{r.next ? <span className={tip} title={`"${r.next.words}"`}>{r.next.date} {r.next.step}</span> : ""}</td>

@@ -92,7 +92,7 @@ The periodicals' faults file (`docs/reviews/periodicals-faults-2026-11-05.md`) h
 | 6 | The place is missing or short where the text states it | 6 | not counted | 3127: 4 of 6 right (the connector's place rule; it applies when a row's text is next read); r27 and r68 left |
 | 7 | One action held as several rows (repeated notices, one exemption's two documents, a docket spelled two ways) | 3 | 406 docket ids stand on more than one row | 3057: one record a proceeding (`warehouse/policy/records.py`): r16's four weekly notices one step of the Pioneer record, r66 and r71 in it too; 2,020 documents make 1,495 records |
 | 8 | The body at its parent's level (a bureau as "Interior", a governor's release as the PUCT's) | 3 | at least 45 of Interior's 85 rows carry a BOEM (33) or OSMRE (12) docket | 3056: `body` right on 3 of 3 (OSMRE, BOEM, Texas Governor) |
-| 9 | Out of scope: not an energy action, or routine paperwork the connector means to leave out | 4 | not counted | open (the faults rows, 3073 on) |
+| 9 | Out of scope: not an energy action, or routine paperwork the connector means to leave out | 4 | 12 documents by session 3129's list | 3129: marked (`scope`), never dropped; 4 of 4, and 12 documents (10 records) of the table |
 | 10 | Significance above the rubric's band for what the document does | 2, and 1 borderline | not counted | open (the faults rows, 3073 on): the scorer must run again |
 
 No fault was found in the title, the docket's presence or the event date of the 80. The impact reads (`policy_reads`) of the sampled actions that have one carry a `timeline` sentence that names the next step, so for the 5-or-more rows the date stands in prose; it is in no field of the action.
@@ -211,7 +211,7 @@ The audit's 80 actions read again with the chain's code (`warehouse/policy/field
 | 6 | The place missing or short | 6 | 2 (session 3127) | r27 (a lease sale placed by its water, Cook Inlet) and r68 (states named only in company names, which the rule leaves out) |
 | 7 | One action, several rows | 3 | 0 | r16, r66 and r71 are documents of one record, `nrc:NRC-2026-0265` |
 | 8 | The body at its parent's level | 3 | 0 | OSMRE, BOEM, Texas Governor |
-| 9 | Out of scope | 4 | 4 | not addressed (the faults rows) |
+| 9 | Out of scope | 4 | 0 (session 3129: marked) | each carries its `scope`; whether to leave such rows out is your ruling |
 | 10 | Significance above its band | 2 | 2 | needs the scorer again (the faults rows) |
 
 Of the 80 rows' 206 faults before (each row counted once a class), 38 are left: 6 of class 1, 4 of class 3, and the 28 of classes 4, 6, 9 and 10, which wait for a rescoring or the next chain's rows.
@@ -237,3 +237,7 @@ No ruling has come on chain 166's questions, so this session took the next open 
 - Of the 16 rows the table holds as "policy", 8 now name a part of the energy system (r19 gas, r29 other, r38 power prices, r49 generation, r51 generation, r56 capital, r64 oil, r79 grid conditions). Of the 8 left, 6 name none in their summaries (r9 electronic reporting, r28, r53 and r80 state air plans, r48 a commission's consultation rules, r52 FERC's collaborative): "policy" is right for them by the note's own rule. Left as faults: r17 (coal ash at power plants, which is generation) and r14 (a coal mining program; the scorer's vocabulary has no coal sector).
 - Of the 64 other rows, 9 changed sector; significance changed on 33 of 80, by 0.46 on average; at 5 or more, 28 before and 27 after. Class 10's rows: r78 5 to 4 (still above the band 1 to 3 of a meeting's notice), r21 5 to 5, r63 7 to 6 (now in the band of an EA).
 - The 507 rows held change only if they are scored again: the owner's ruling (chain 166's note, question 1). From this trial, about half would leave "policy".
+
+## Session 3129: out of scope, marked (class 9)
+
+`warehouse/policy/fields.py` gains a field, `scope`: empty for an energy action, else "out of scope: <why>" by a written list (`OUT_OF_SCOPE`): an agency's personnel board ("Senior Executive Service Performance Review Board"), a laboratory's security boundary ("Notice of 229 Boundary"), electronic reporting rules ("Cross-Media Electronic Reporting"), a fellowship or scholarship. Marked, never dropped: whether the connector should leave them out is your ruling (chain 166's question 6). The monitor shows the mark under the row's status, with its rule as the hover. Tested on the audit's four titles and the fixture's thirty (only r26, the personnel board, marked). On the archive's copy of the table, 12 documents (10 records) are marked, every one scored 0 to 2, so none reached the page's default view. The second read's totals: 206 faults before, 22 left.

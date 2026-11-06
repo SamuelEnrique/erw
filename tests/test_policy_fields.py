@@ -159,6 +159,18 @@ class Rules(unittest.TestCase):
              "September 9, 2026, you will need to file those comments in Docket No. CP26-578-000.")
         self.assertEqual(F.dates(t), [])
 
+    def test_out_of_scope_is_marked_by_a_written_list(self):
+        # session 3129: the audit's four (r3, r9, r26, r29), by their titles
+        for t, why in [("Notice of 229 Boundary for the SLAC National Accelerator Laboratory", "a laboratory's security boundary"),
+                       ("Cross-Media Electronic Reporting: Announcement of Determination To Approve Authorized Program Revisions", "electronic reporting rules"),
+                       ("Senior Executive Service Performance Review Board", "an agency's personnel board"),
+                       ("Energy Department Launches Genesis Mission Graduate Fellowship to Advance American Scientific Leadership", "a fellowship or scholarship")]:
+            self.assertEqual(F.scope(t), f"out of scope: {why}")
+        # and no other action of the fixture (its r26 is the personnel board above)
+        for it, text in items():
+            want = "out of scope: an agency's personnel board" if it["r"] == 26 else ""
+            self.assertEqual(derive(it, text)["scope"], want, it["row"]["title"])
+
     def test_the_connector_keeps_its_columns_and_adds_these_beside(self):
         import policy_sources as ps
         for c in ("agency", "action_type", "title", "significance", "why", "source_url", "event_date", "status"):
