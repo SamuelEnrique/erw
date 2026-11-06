@@ -20,3 +20,4 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/history.
 | 2026-11-06 | `questions_s2948.yaml` | the board's five questions through the Python loop (eval_loop.py), keyed on the rows of the asking hour (chain 157) | 5 of 5 | USD 0.46 | session 2948's report |
 | 2026-11-06 | `questions_s320.yaml` | the weekly run through the Python loop on main as landed (chain 157), graded under the hold | 30 of 30 (26 on the figure keys; 29 if session 320's rulings went the answers' way) | USD 1.95 | session 2968's report |
 | 2026-11-06 | `questions_s2224.yaml` | the twenty, the weekly run through the Python loop on main as landed (chain 157) | 20 of 20 | USD 1.31 | session 2968's report |
+| 2026-11-06 | `questions_s2918.yaml` | the board's five questions asked again on the build of main of 6 November 2026, 08:30 UTC, after session 2918's k03 failed in the route; graded on session 2918's keys | 5 of 5 | USD 0.52 | session 1486's report |
