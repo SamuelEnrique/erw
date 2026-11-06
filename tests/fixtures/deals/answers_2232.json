@@ -1,0 +1,1517 @@
+[
+ {
+  "n": "D002",
+  "cluster_id": "news:98afc77e393c2780",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "fuel_supply",
+     "offtake"
+    ],
+    "kind": [
+     "fuel_supply",
+     "offtake"
+    ],
+    "buyer": "AxDo",
+    "seller": "Excelerate",
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": 11,
+    "usd_per_mwh": "",
+    "stage": "signed",
+    "country": [
+     "Bahamas"
+    ],
+    "state": "",
+    "ai_power": false
+   }
+  ],
+  "why": "Excelerate has signed an 11-year LNG supply agreement with AxDo ... the Bahamas LNG hub",
+  "stored": {
+   "event_id": "deal:659b6089d572ed2c",
+   "deal_type": "fuel_supply",
+   "buyer": "AxDo",
+   "seller": "Excelerate",
+   "asset": "LNG supply agreement for Bahamas LNG hub",
+   "mw": "",
+   "dollars": "",
+   "status": "signed",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.9"
+  },
+  "story_ids": [
+   "news:98afc77e393c2780"
+  ]
+ },
+ {
+  "n": "D004",
+  "cluster_id": "news:a2bee152339ebbd2",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "lease",
+     "other",
+     "offtake"
+    ],
+    "kind": "compute_capacity",
+    "buyer": "Neysa",
+    "seller": "STTGDC",
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "",
+     "announced"
+    ],
+    "country": [
+     "India"
+    ],
+    "state": null,
+    "ai_power": true
+   }
+  ],
+  "why": "STTGDC to host Neysa GPUs at data center in Noida, India: datacenter capacity, AI load",
+  "stored": {
+   "event_id": "deal:b66945982ccee061",
+   "deal_type": "lease",
+   "buyer": "Neysa",
+   "seller": "STTGDC",
+   "asset": "Noida 2 data center facility",
+   "mw": "",
+   "dollars": "",
+   "status": "",
+   "state": "",
+   "country": "India",
+   "ai_power": "false",
+   "confidence": "0.5"
+  },
+  "story_ids": [
+   "news:a2bee152339ebbd2"
+  ]
+ },
+ {
+  "n": "D005",
+  "cluster_id": "news:e688c79b99f71a7d",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "other",
+     "offtake",
+     "fuel_supply"
+    ],
+    "kind": [
+     "other",
+     "offtake"
+    ],
+    "buyer": "",
+    "seller": "Welspun",
+    "mw": "",
+    "mwh": "",
+    "usd": 580000000,
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "",
+     "signed"
+    ],
+    "country": null,
+    "state": null,
+    "ai_power": true
+   }
+  ],
+  "why": "Welspun bags $580 million US gas pipeline order tied to data centre buildout: the buyer is not named",
+  "stored": {
+   "event_id": "deal:339c7169038b8512",
+   "deal_type": "other",
+   "buyer": "",
+   "seller": "Welspun",
+   "asset": "US gas pipeline order tied to data centre buildout",
+   "mw": "",
+   "dollars": "580000000",
+   "status": "signed",
+   "state": "",
+   "country": "US",
+   "ai_power": "true",
+   "confidence": "0.6"
+  },
+  "story_ids": [
+   "news:e688c79b99f71a7d"
+  ]
+ },
+ {
+  "n": "D006",
+  "cluster_id": "news:add7dd58c1b5ca3e",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": "joint_venture",
+    "kind": "smr",
+    "buyer": null,
+    "seller": null,
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "announced",
+     "signed"
+    ],
+    "country": [
+     "UK",
+     "United Kingdom"
+    ],
+    "state": null,
+    "ai_power": false
+   }
+  ],
+  "why": "signed a letter of intent to establish a joint venture ... 14 BWRX-300 small modular reactors",
+  "stored": {
+   "event_id": "deal:2eafe13b10e3f733",
+   "deal_type": "joint_venture",
+   "buyer": "",
+   "seller": "",
+   "asset": "planned UK BWRX-300 fleet",
+   "mw": "",
+   "dollars": "",
+   "status": "signed",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.8"
+  },
+  "story_ids": [
+   "news:add7dd58c1b5ca3e"
+  ]
+ },
+ {
+  "n": "D010",
+  "cluster_id": "news:89a25920bbf1b233",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "ppa",
+     "smr",
+     "other",
+     "joint_venture"
+    ],
+    "kind": [
+     "smr",
+     "ppa",
+     "other"
+    ],
+    "buyer": "Amazon",
+    "seller": "AEP",
+    "mw": 960,
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "signed",
+     ""
+    ],
+    "country": null,
+    "state": "IN",
+    "ai_power": true
+   }
+  ],
+  "why": "AEP signs 960-MW Indiana nuclear pact with Amazon, X-energy; Amazon would purchase the power",
+  "stored": {
+   "event_id": "deal:d6eda0ffd6db76cd",
+   "deal_type": "smr",
+   "buyer": "Amazon",
+   "seller": "AEP",
+   "asset": "960 MW project at a former coal plant site in Sullivan County, Indiana",
+   "mw": "960",
+   "dollars": "",
+   "status": "signed",
+   "state": "IN",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.8"
+  },
+  "story_ids": [
+   "news:c9a091768991ffeb"
+  ]
+ },
+ {
+  "n": "D015",
+  "cluster_id": "news:0176b5cf0eec668a",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "debt",
+     "project_finance"
+    ],
+    "kind": [
+     "capital",
+     "project_finance"
+    ],
+    "buyer": "",
+    "seller": "DayOne",
+    "mw": "",
+    "mwh": "",
+    "usd": 3670000000,
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "financed",
+     "signed",
+     "closed"
+    ],
+    "country": [
+     "Malaysia"
+    ],
+    "state": null,
+    "ai_power": null
+   }
+  ],
+  "why": "DayOne secures $3.67bn in funding for Malaysia expansion; lenders not named",
+  "stored": {
+   "event_id": "deal:b3005daccd02ba9b",
+   "deal_type": "debt",
+   "buyer": "",
+   "seller": "DayOne",
+   "asset": "Malaysia expansion",
+   "mw": "",
+   "dollars": "3670000000",
+   "status": "closed",
+   "state": "",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.7"
+  },
+  "story_ids": [
+   "news:3abb2b65d0cac5aa"
+  ]
+ },
+ {
+  "n": "D019",
+  "cluster_id": "news:a7ad96182316fc4f",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": "m_and_a",
+    "kind": "m_and_a",
+    "buyer": null,
+    "seller": null,
+    "mw": "",
+    "mwh": "",
+    "usd": 1000000000,
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "closed",
+     ""
+    ],
+    "country": null,
+    "state": null,
+    "ai_power": false
+   }
+  ],
+  "why": "Oryx Energies Sold for About $1 Billion in Management Buyout: the buyer is the management, not a name",
+  "stored": {
+   "event_id": "deal:2663cbb6f04644cc",
+   "deal_type": "m_and_a",
+   "buyer": "",
+   "seller": "Oryx Energies",
+   "asset": "Oryx Energies",
+   "mw": "",
+   "dollars": "",
+   "status": "closed",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.6"
+  },
+  "story_ids": [
+   "news:a7ad96182316fc4f"
+  ]
+ },
+ {
+  "n": "D020",
+  "cluster_id": "news:fbd963ff6edd35b6",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "m_and_a",
+     "other"
+    ],
+    "kind": [
+     "m_and_a",
+     "other"
+    ],
+    "buyer": null,
+    "seller": null,
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": null,
+    "country": null,
+    "state": null,
+    "ai_power": false
+   }
+  ],
+  "why": "Chevron Exits Hess Midstream ... through a swap transaction",
+  "stored": {
+   "event_id": "deal:1c72f10bdf69e42c",
+   "deal_type": "other",
+   "buyer": "",
+   "seller": "Chevron",
+   "asset": "Hess Midstream stake and Bakken, DJ assets",
+   "mw": "",
+   "dollars": "",
+   "status": "announced",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.6"
+  },
+  "story_ids": [
+   "news:cc77290f29787f96"
+  ]
+ },
+ {
+  "n": "D021",
+  "cluster_id": "news:9bbab8044c1133da",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "other",
+     "project_finance",
+     "offtake",
+     "ppa"
+    ],
+    "kind": "gas_buildout",
+    "buyer": "",
+    "seller": "BKV",
+    "mw": 1200,
+    "mwh": "",
+    "usd": 800000000,
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "signed",
+     ""
+    ],
+    "country": null,
+    "state": "TX",
+    "ai_power": true
+   }
+  ],
+  "why": "BKV has locked in about 1,200 MW of natural gas-fired generation equipment with financial backing from an unnamed hyperscaler; $800MM Texas Power Deal",
+  "stored": {
+   "event_id": "deal:a2aca5279840a842",
+   "deal_type": "ppa",
+   "buyer": "",
+   "seller": "BKV",
+   "asset": "Texas power deal",
+   "mw": "1200",
+   "dollars": "800000000",
+   "status": "",
+   "state": "TX",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.5"
+  },
+  "story_ids": [
+   "news:9bbab8044c1133da",
+   "news:053c59b00fedc181"
+  ]
+ },
+ {
+  "n": "D022",
+  "cluster_id": "news:da70551560f8939a",
+  "is_deal": false,
+  "deals": [],
+  "why": "Black Hills plans $1.8 billion investment: a plan",
+  "stored": {
+   "event_id": "deal:468cbffc921e97d3",
+   "deal_type": "other",
+   "buyer": "",
+   "seller": "Black Hills",
+   "asset": "power for Google's data center",
+   "mw": "",
+   "dollars": "1800000000",
+   "status": "announced",
+   "state": "",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.4"
+  },
+  "story_ids": [
+   "news:da70551560f8939a"
+  ]
+ },
+ {
+  "n": "D023",
+  "cluster_id": "news:7021b56b362206bf",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": "ppa",
+    "kind": "storage",
+    "buyer": "EDP",
+    "seller": "Zelestra",
+    "mw": 181,
+    "mwh": 462,
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "signed"
+    ],
+    "country": [
+     "Spain"
+    ],
+    "state": null,
+    "ai_power": false
+   }
+  ],
+  "why": "have agreed two new hybrid PPAs in Spain, adding 181MWdc of solar and 462MWh BESS",
+  "stored": {
+   "event_id": "deal:36ca228d7079e592",
+   "deal_type": "ppa",
+   "buyer": "EDP",
+   "seller": "Zelestra",
+   "asset": "two hybrid solar-plus-storage PPAs",
+   "mw": "",
+   "dollars": "",
+   "status": "signed",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.85"
+  },
+  "story_ids": [
+   "news:7021b56b362206bf"
+  ]
+ },
+ {
+  "n": "D030",
+  "cluster_id": "news:58178dc94e0f06be",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "other",
+     "offtake",
+     "joint_venture"
+    ],
+    "kind": "gas_buildout",
+    "buyer": null,
+    "seller": null,
+    "mw": 1700,
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "signed",
+     ""
+    ],
+    "country": null,
+    "state": null,
+    "ai_power": false
+   }
+  ],
+  "why": "Siemens Energy, Dynamis Strike 1.7-GW Mobile Gas Power Deal",
+  "stored": {
+   "event_id": "deal:0645c551b80339d4",
+   "deal_type": "other",
+   "buyer": "Dynamis",
+   "seller": "Siemens Energy",
+   "asset": "Mobile Gas Power",
+   "mw": "1700",
+   "dollars": "",
+   "status": "",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.6"
+  },
+  "story_ids": [
+   "news:58178dc94e0f06be"
+  ]
+ },
+ {
+  "n": "D032",
+  "cluster_id": "news:1d8b82b2d4333c8d",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "fuel_supply",
+     "offtake"
+    ],
+    "kind": [
+     "fuel_supply",
+     "offtake"
+    ],
+    "buyer": "Petrobras",
+    "seller": "Cheniere",
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": [
+     22,
+     ""
+    ],
+    "usd_per_mwh": "",
+    "stage": "signed",
+    "country": null,
+    "state": null,
+    "ai_power": false
+   }
+  ],
+  "extra_ok": true,
+  "why": "Cheniere ... signed a long-term LNG SPA with Petrobras; 22-Year LNG Contract; the summary states Sempra's 20-year agreement too (a second deal is right)",
+  "stored": {
+   "event_id": "deal:f2dc6da3fa975d52",
+   "deal_type": "fuel_supply",
+   "buyer": "Petrobras",
+   "seller": "Cheniere",
+   "asset": "LNG",
+   "mw": "",
+   "dollars": "",
+   "status": "signed",
+   "state": "",
+   "country": "Brazil",
+   "ai_power": "false",
+   "confidence": "0.93"
+  },
+  "story_ids": [
+   "news:1d8b82b2d4333c8d",
+   "news:25f4e8896157d60d"
+  ]
+ },
+ {
+  "n": "D040",
+  "cluster_id": "news:6d73f51a477100f8",
+  "is_deal": "either",
+  "deals": [
+   {
+    "deal_type": "debt",
+    "kind": "capital",
+    "buyer": "",
+    "seller": null,
+    "mw": "",
+    "mwh": "",
+    "usd": 14000000000,
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": null,
+    "country": null,
+    "state": null,
+    "ai_power": true
+   }
+  ],
+  "why": "Investors push for higher yield on $14bn of Oracle-backed data centre debt: a debt sale in the market, its borrower unnamed",
+  "stored": {
+   "event_id": "deal:d95b872e9057aff4",
+   "deal_type": "debt",
+   "buyer": "Investors",
+   "seller": "",
+   "asset": "Oracle-backed data centre debt",
+   "mw": "",
+   "dollars": "14000000000",
+   "status": "",
+   "state": "",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.6"
+  },
+  "story_ids": [
+   "news:6d73f51a477100f8"
+  ]
+ },
+ {
+  "n": "D041",
+  "cluster_id": "news:d2344a36ee8bac9e",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "lease",
+     "other"
+    ],
+    "kind": "compute_capacity",
+    "buyer": "",
+    "seller": "Applied Digital",
+    "mw": "",
+    "mwh": "",
+    "usd": 7500000000,
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": "signed",
+    "country": null,
+    "state": null,
+    "ai_power": true
+   }
+  ],
+  "why": "Applied Digital signs $7.5 billion AI data center lease with US hyperscaler",
+  "stored": {
+   "event_id": "deal:56515d0b03437e3a",
+   "deal_type": "lease",
+   "buyer": "US hyperscaler",
+   "seller": "Applied Digital",
+   "asset": "AI data center",
+   "mw": "",
+   "dollars": "7500000000",
+   "status": "signed",
+   "state": "",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.85"
+  },
+  "story_ids": [
+   "news:d2344a36ee8bac9e"
+  ]
+ },
+ {
+  "n": "D042",
+  "cluster_id": "news:1f085813e60ef9de",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": "m_and_a",
+    "kind": "m_and_a",
+    "buyer": "AirTrunk",
+    "seller": [
+     "Lumina CloudInfra",
+     ""
+    ],
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "announced"
+    ],
+    "country": [
+     "India"
+    ],
+    "state": null,
+    "ai_power": true
+   }
+  ],
+  "why": "AirTrunk to Acquire Lumina CloudInfra to Expand in India",
+  "stored": {
+   "event_id": "deal:b7d98d30694db89a",
+   "deal_type": "m_and_a",
+   "buyer": "AirTrunk",
+   "seller": "Lumina CloudInfra",
+   "asset": "Lumina CloudInfra",
+   "mw": "",
+   "dollars": "",
+   "status": "announced",
+   "state": "",
+   "country": "India",
+   "ai_power": "false",
+   "confidence": "0.85"
+  },
+  "story_ids": [
+   "news:1f085813e60ef9de"
+  ]
+ },
+ {
+  "n": "D046",
+  "cluster_id": "news:783e61540f658c2e",
+  "is_deal": "either",
+  "deals": [
+   {
+    "deal_type": null,
+    "kind": null,
+    "buyer": "Meta",
+    "seller": "",
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "signed",
+     ""
+    ],
+    "country": null,
+    "state": "LA",
+    "ai_power": true
+   }
+  ],
+  "why": "Meta Agrees to Fund Local Energy Infrastructure for Louisiana Data Center: the utility is not named",
+  "stored": {
+   "event_id": "deal:d1743a1260aaa8d2",
+   "deal_type": "other",
+   "buyer": "",
+   "seller": "Meta",
+   "asset": "local energy infrastructure for Louisiana data center",
+   "mw": "",
+   "dollars": "",
+   "status": "signed",
+   "state": "LA",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.5"
+  },
+  "story_ids": [
+   "news:783e61540f658c2e"
+  ]
+ },
+ {
+  "n": "D047",
+  "cluster_id": "news:6392221d240026a9",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": "joint_venture",
+    "kind": "gas_buildout",
+    "buyer": null,
+    "seller": null,
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "signed",
+     "announced",
+     ""
+    ],
+    "country": null,
+    "state": "",
+    "ai_power": false
+   }
+  ],
+  "why": "Continental Joins Mercuria to Develop Half-GW, Gas-Fired Permian Power Plant: Half-GW has no digits, so no MW by the rule; Permian names no state",
+  "stored": {
+   "event_id": "deal:2339b303a618a9ae",
+   "deal_type": "joint_venture",
+   "buyer": "Continental",
+   "seller": "",
+   "asset": "Gas-Fired Permian Power Plant",
+   "mw": "",
+   "dollars": "",
+   "status": "announced",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.6"
+  },
+  "story_ids": [
+   "news:6392221d240026a9"
+  ]
+ },
+ {
+  "n": "D048",
+  "cluster_id": "news:de229662d7854a20",
+  "is_deal": false,
+  "deals": [],
+  "why": "DayOne Seeks to Boost Loan: seeking",
+  "stored": {
+   "event_id": "deal:ed8521af85c8a52c",
+   "deal_type": "debt",
+   "buyer": "",
+   "seller": "DayOne",
+   "asset": "data center loan",
+   "mw": "",
+   "dollars": "7000000000",
+   "status": "rumored",
+   "state": "",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.6"
+  },
+  "story_ids": [
+   "news:de229662d7854a20"
+  ]
+ },
+ {
+  "n": "D054",
+  "cluster_id": "news:9ed072e862ff4ba2",
+  "is_deal": false,
+  "deals": [],
+  "why": "Fusion Startup Raises $450 Million: the company is not named",
+  "stored": {
+   "event_id": "deal:5ac7930b22b1601a",
+   "deal_type": "equity_raise",
+   "buyer": "",
+   "seller": "Fusion Startup",
+   "asset": "Fusion Startup",
+   "mw": "",
+   "dollars": "450000000",
+   "status": "closed",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.75"
+  },
+  "story_ids": [
+   "news:9ed072e862ff4ba2"
+  ]
+ },
+ {
+  "n": "D059",
+  "cluster_id": "news:282ac344e143a493",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": null,
+    "kind": "compute_capacity",
+    "buyer": "OpenAI",
+    "seller": "Cerebras",
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "signed",
+     ""
+    ],
+    "country": null,
+    "state": null,
+    "ai_power": true
+   }
+  ],
+  "why": "OpenAI Forges Multibillion-Dollar Computing Partnership With Cerebras",
+  "stored": {
+   "event_id": "deal:7096cc91f56fe7fc",
+   "deal_type": "offtake",
+   "buyer": "OpenAI",
+   "seller": "Cerebras",
+   "asset": "computing partnership",
+   "mw": "",
+   "dollars": "",
+   "status": "",
+   "state": "",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.6"
+  },
+  "story_ids": [
+   "news:282ac344e143a493"
+  ]
+ },
+ {
+  "n": "D066",
+  "cluster_id": "news:fee229ae140f6024",
+  "is_deal": false,
+  "deals": [],
+  "why": "France, UAE agree to develop 1 gigawatt AI data centre: two governments",
+  "stored": {
+   "event_id": "deal:ad1f71bb7cc60e26",
+   "deal_type": "joint_venture",
+   "buyer": "",
+   "seller": "",
+   "asset": "1 gigawatt AI data centre",
+   "mw": "",
+   "dollars": "",
+   "status": "signed",
+   "state": "",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.4"
+  },
+  "story_ids": [
+   "news:fee229ae140f6024"
+  ]
+ },
+ {
+  "n": "D069",
+  "cluster_id": "news:cb7185a11651c282",
+  "is_deal": "either",
+  "deals": [
+   {
+    "deal_type": [
+     "ppa",
+     "offtake"
+    ],
+    "kind": null,
+    "buyer": "Google",
+    "seller": "",
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "announced",
+     ""
+    ],
+    "country": [
+     "Finland"
+    ],
+    "state": null,
+    "ai_power": true
+   }
+  ],
+  "why": "Google to invest $15 billion in AI infrastructure and buy nuclear power in Finland: the $15 billion is the investment, not the purchase",
+  "stored": {
+   "event_id": "deal:a5afffa17eb98c67",
+   "deal_type": "ppa",
+   "buyer": "Google",
+   "seller": "",
+   "asset": "nuclear power in Finland",
+   "mw": "",
+   "dollars": "15000000000",
+   "status": "",
+   "state": "",
+   "country": "Finland",
+   "ai_power": "true",
+   "confidence": "0.5"
+  },
+  "story_ids": [
+   "news:cb7185a11651c282"
+  ]
+ },
+ {
+  "n": "D071",
+  "cluster_id": "news:3af2a975e7eaa4a7",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": "equity_raise",
+    "kind": "capital",
+    "buyer": null,
+    "seller": "Volta",
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": null,
+    "country": null,
+    "state": null,
+    "ai_power": true
+   }
+  ],
+  "why": "Nvidia, Dell Back AI Cloud Startup Volta at $2.4 Billion Value: a valuation, not the sum",
+  "stored": {
+   "event_id": "deal:db835cd9b54140ca",
+   "deal_type": "equity_raise",
+   "buyer": "Nvidia, Dell",
+   "seller": "Volta",
+   "asset": "Volta",
+   "mw": "",
+   "dollars": "2400000000",
+   "status": "announced",
+   "state": "",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.55"
+  },
+  "story_ids": [
+   "news:427dbd7a9b89fae0",
+   "news:3af2a975e7eaa4a7"
+  ]
+ },
+ {
+  "n": "D077",
+  "cluster_id": "news:3eabfd36dc8dc6e4",
+  "is_deal": false,
+  "deals": [],
+  "why": "Putin Allows TotalEnergies to Sell 10% Stake: a permission",
+  "stored": {
+   "event_id": "deal:48a6a74d68d4b404",
+   "deal_type": "m_and_a",
+   "buyer": "",
+   "seller": "TotalEnergies",
+   "asset": "Arctic LNG 2",
+   "mw": "",
+   "dollars": "",
+   "status": "announced",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.4"
+  },
+  "story_ids": [
+   "news:3eabfd36dc8dc6e4"
+  ]
+ },
+ {
+  "n": "D085",
+  "cluster_id": "news:211205458d737b72",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "m_and_a",
+     "equity_raise"
+    ],
+    "kind": [
+     "m_and_a",
+     "capital"
+    ],
+    "buyer": "",
+    "seller": "LS Power",
+    "mw": "",
+    "mwh": "",
+    "usd": 2100000000,
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "rumored",
+     "announced",
+     ""
+    ],
+    "country": null,
+    "state": null,
+    "ai_power": false
+   }
+  ],
+  "why": "LS Power looks to raise $2.1 billion stake sale in NRG Energy",
+  "stored": {
+   "event_id": "deal:d15fd09aa175af10",
+   "deal_type": "equity_raise",
+   "buyer": "",
+   "seller": "LS Power",
+   "asset": "NRG Energy",
+   "mw": "",
+   "dollars": "2100000000",
+   "status": "rumored",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.4"
+  },
+  "story_ids": [
+   "news:211205458d737b72"
+  ]
+ },
+ {
+  "n": "D086",
+  "cluster_id": "news:56b33c9c55327f70",
+  "is_deal": false,
+  "deals": [],
+  "why": "Amazon Pledges Nearly $40 Billion: a pledge",
+  "stored": {
+   "event_id": "deal:0213fdd16caee260",
+   "deal_type": "other",
+   "buyer": "Amazon",
+   "seller": "",
+   "asset": "AI Data-Center Infrastructure in Spain",
+   "mw": "",
+   "dollars": "40000000000",
+   "status": "announced",
+   "state": "",
+   "country": "Spain",
+   "ai_power": "true",
+   "confidence": "0.6"
+  },
+  "story_ids": [
+   "news:56b33c9c55327f70"
+  ]
+ },
+ {
+  "n": "D094",
+  "cluster_id": "news:12ff1559835f9e90",
+  "is_deal": false,
+  "deals": [],
+  "why": "Energy Transfer seeks 80% equity selldown: seeking; a percentage is never a price",
+  "stored": {
+   "event_id": "deal:7e51c91e399619ae",
+   "deal_type": "equity_raise",
+   "buyer": "",
+   "seller": "Energy Transfer",
+   "asset": "Lake Charles LNG",
+   "mw": "",
+   "dollars": "",
+   "status": "announced",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.4"
+  },
+  "story_ids": [
+   "news:12ff1559835f9e90"
+  ]
+ },
+ {
+  "n": "D097",
+  "cluster_id": "news:2154f82cf091242a",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": null,
+    "kind": "compute_capacity",
+    "buyer": "OpenAI",
+    "seller": "Amazon",
+    "mw": "",
+    "mwh": "",
+    "usd": 38000000000,
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "signed"
+    ],
+    "country": null,
+    "state": null,
+    "ai_power": true
+   }
+  ],
+  "why": "OpenAI, Amazon Sign $38 Billion Cloud Deal",
+  "stored": {
+   "event_id": "deal:320000c88b81ec0a",
+   "deal_type": "offtake",
+   "buyer": "OpenAI",
+   "seller": "Amazon",
+   "asset": "Cloud computing",
+   "mw": "",
+   "dollars": "38000000000",
+   "status": "signed",
+   "state": "",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.8"
+  },
+  "story_ids": [
+   "news:2154f82cf091242a",
+   "news:4f6f61d3cad882aa"
+  ]
+ },
+ {
+  "n": "D100",
+  "cluster_id": "news:a3a1e93cf12d9949",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "m_and_a",
+     "equity_raise",
+     "joint_venture"
+    ],
+    "kind": [
+     "m_and_a",
+     "capital"
+    ],
+    "buyer": null,
+    "seller": "Lithium Americas",
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "closed",
+     "signed",
+     ""
+    ],
+    "country": null,
+    "state": null,
+    "ai_power": false
+   }
+  ],
+  "extra_ok": true,
+  "why": "US government takes 5% stakes in Lithium Americas and joint venture with GM",
+  "stored": {
+   "event_id": "deal:ba60780d44728a0e",
+   "deal_type": "joint_venture",
+   "buyer": "US government",
+   "seller": "Lithium Americas",
+   "asset": "Lithium Americas",
+   "mw": "",
+   "dollars": "",
+   "status": "closed",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.6"
+  },
+  "story_ids": [
+   "news:a3a1e93cf12d9949"
+  ]
+ },
+ {
+  "n": "D007",
+  "cluster_id": "news:a9699a5252c527d6",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "lease",
+     "joint_venture",
+     "other"
+    ],
+    "kind": [
+     "compute_capacity",
+     "capital",
+     "other"
+    ],
+    "buyer": null,
+    "seller": null,
+    "mw": 50,
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "announced",
+     ""
+    ],
+    "country": null,
+    "state": "TX",
+    "ai_power": true
+   }
+  ],
+  "why": "Soluna and Applied Digital to build 50MW data center in Texas ... lease capacity to ChronoScale",
+  "stored": {
+   "event_id": "deal:1484d8a08b093107",
+   "deal_type": "lease",
+   "buyer": "ChronoScale",
+   "seller": "Soluna",
+   "asset": "Dorothy 3 data center",
+   "mw": "50",
+   "dollars": "",
+   "status": "announced",
+   "state": "TX",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.6"
+  },
+  "story_ids": [
+   "news:a9699a5252c527d6"
+  ]
+ },
+ {
+  "n": "D011",
+  "cluster_id": "news:b1641dad100a42bb",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": [
+     "debt",
+     "project_finance"
+    ],
+    "kind": [
+     "capital",
+     "project_finance"
+    ],
+    "buyer": null,
+    "seller": "Pivot Energy",
+    "mw": 135,
+    "mwh": "",
+    "usd": 173000000,
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "financed",
+     "closed"
+    ],
+    "country": null,
+    "state": null,
+    "ai_power": false
+   }
+  ],
+  "why": "Pivot Energy Closes $173-Million Loan for 135 MW of Solar Capacity",
+  "stored": {
+   "event_id": "deal:69803a9d2dbc9ab3",
+   "deal_type": "debt",
+   "buyer": "First Citizens Bank, Huntington Bank, BankUnited",
+   "seller": "Pivot Energy",
+   "asset": "portfolio of 51 community-scale solar projects",
+   "mw": "135",
+   "dollars": "173000000",
+   "status": "closed",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.9"
+  },
+  "story_ids": [
+   "news:b1641dad100a42bb"
+  ]
+ },
+ {
+  "n": "D018",
+  "cluster_id": "news:f3ec679f1ae51fa5",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": "ppa",
+    "kind": "storage",
+    "buyer": "Tesla",
+    "seller": "ContourGlobal",
+    "mw": 509,
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "under_construction",
+     "signed",
+     ""
+    ],
+    "country": null,
+    "state": "AZ",
+    "ai_power": false
+   }
+  ],
+  "why": "breaks ground on 509 MW solar-plus-storage project in Arizona ... to Tesla under a long-term corporate power purchase agreement; 1 TWh a year is energy, not storage MWh",
+  "stored": {
+   "event_id": "deal:2f48b82f84ab121d",
+   "deal_type": "ppa",
+   "buyer": "Tesla",
+   "seller": "ContourGlobal",
+   "asset": "509 MW solar-plus-storage project",
+   "mw": "509",
+   "dollars": "",
+   "status": "signed",
+   "state": "AZ",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.85"
+  },
+  "story_ids": [
+   "news:f3ec679f1ae51fa5"
+  ]
+ },
+ {
+  "n": "D043",
+  "cluster_id": "news:e6080e9b34141d43",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": "ppa",
+    "kind": "ppa",
+    "buyer": [
+     "Alphabet",
+     "Google",
+     "Amazon"
+    ],
+    "seller": "NiSource",
+    "mw": "",
+    "mwh": "",
+    "usd": "",
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "signed",
+     ""
+    ],
+    "country": null,
+    "state": null,
+    "ai_power": true
+   }
+  ],
+  "extra_ok": true,
+  "why": "NiSource signs long-term power deal with Alphabet, expands Amazon agreement",
+  "stored": {
+   "event_id": "deal:8de0945a262e0ec4",
+   "deal_type": "ppa",
+   "buyer": "Alphabet",
+   "seller": "NiSource",
+   "asset": "",
+   "mw": "",
+   "dollars": "",
+   "status": "signed",
+   "state": "",
+   "country": "",
+   "ai_power": "true",
+   "confidence": "0.75"
+  },
+  "story_ids": [
+   "news:e6080e9b34141d43"
+  ]
+ },
+ {
+  "n": "D062",
+  "cluster_id": "news:119ef94096b2367d",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": "m_and_a",
+    "kind": "m_and_a",
+    "buyer": "Perenco",
+    "seller": "Woodside",
+    "mw": "",
+    "mwh": "",
+    "usd": 206000000,
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": [
+     "closed",
+     "signed",
+     ""
+    ],
+    "country": null,
+    "state": null,
+    "ai_power": false
+   }
+  ],
+  "why": "Woodside Divests Greater Angostura Assets to Perenco for $206MM",
+  "stored": {
+   "event_id": "deal:0046c6c22995488c",
+   "deal_type": "m_and_a",
+   "buyer": "Perenco",
+   "seller": "Woodside",
+   "asset": "Greater Angostura Assets",
+   "mw": "",
+   "dollars": "206000000",
+   "status": "announced",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.85"
+  },
+  "story_ids": [
+   "news:119ef94096b2367d"
+  ]
+ },
+ {
+  "n": "D083",
+  "cluster_id": "news:7662b91d07565428",
+  "is_deal": true,
+  "deals": [
+   {
+    "deal_type": "offtake",
+    "kind": "offtake",
+    "buyer": "Trafigura",
+    "seller": "Nth Cycle",
+    "mw": "",
+    "mwh": "",
+    "usd": 1100000000,
+    "term_years": "",
+    "usd_per_mwh": "",
+    "stage": "signed",
+    "country": null,
+    "state": null,
+    "ai_power": false
+   }
+  ],
+  "why": "Nth Cycle signs $1.1 billion lithium offtake deal with Trafigura",
+  "stored": {
+   "event_id": "deal:894a59a0280447cd",
+   "deal_type": "offtake",
+   "buyer": "Trafigura",
+   "seller": "Nth Cycle",
+   "asset": "lithium",
+   "mw": "",
+   "dollars": "1100000000",
+   "status": "signed",
+   "state": "",
+   "country": "",
+   "ai_power": "false",
+   "confidence": "0.8"
+  },
+  "story_ids": [
+   "news:7662b91d07565428"
+  ]
+ }
+]

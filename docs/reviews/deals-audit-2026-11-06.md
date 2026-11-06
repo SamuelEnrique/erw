@@ -163,3 +163,34 @@ The Roundup of 2026-W44 (26 October to 1 November) prints the rows of `energy_de
 | A14 | Facilities: state (5), operator (3 missed, 2 wrong), site (1), power source (2), timeline (2), a year of another event (1) | 2236 | open |
 | A15 | Facilities: confidence too low (6) | 2236 | open |
 | A16 | The step's failure line hides the API's words; a failed day is not a plain health line | 2237 | open |
+
+## Session 2232: the schema and the prompt, on the fixture
+
+The fixture: `tests/fixtures/deals/stories_2232.json`, 40 stored stories in 36 clusters (30 rows the audit found faulty, 6 clean), with answers written from the stories' own words (`answers_2232.json`, each with the words it rests on). The new prompt's answers recorded once (`recorded_2232.json`, claude-sonnet-5-5, 3 calls, USD 0.1227) and replayed through the extractor by `tests/test_session2232_deals.py`, offline. The same answers graded against the stored rows give the count before.
+
+| Class on the fixture | Before (the stored rows) | After (the new prompt and code) |
+|---|---|---|
+| A deal kept where the story reports none (of 9) | 7 | **0** |
+| A stated deal missed (of 25 deals, 2 either way) | 0 | 2 (Volta's raise at a valuation; the US government's stakes in Lithium Americas: the model returned no deal) |
+| A figure invented or of another sum | 2 (a valuation, a company-wide investment) | **0** |
+| A percentage kept as a price | 1 (graded on the audit's sample) | **0** |
+| AI-power tag wrong | 3 (Amazon and AEP, STTGDC and Neysa, AirTrunk) | **0**: the rule in code, every tagged row with its basis |
+| Country missed | 4 | 1 (the UK fleet of BWRX-300s) |
+| A party a description or wrong (rows) | 3 (D040 "Investors", D041 "US hyperscaler", D046 Meta) | 1 (D046: Meta as the seller of what it pays for) |
+| MW missed | 1 | 0 |
+| Kind wrong or no word for it | not a field before | 0 (gas buildouts and compute capacity now have their kinds) |
+| Stage wrong | not a field before | 0 |
+
+"Half-GW" stays without MW: a figure with no digits is not converted (session 16's ruling); the audit's reader counted it missed.
+
+**Correction to the duplicates (pair 3).** The Cheniere story's own summary says "Earlier Sempra announced a 20-year agreement to also supply about 0.8 MMtpa of LNG to the Brazilian state-owned company": Sempra's row is a second deal the story states, not a misread of Cheniere's. Pair 3 is not a duplicate; session 2233 marks it so.
+
+| Row | State after session 2232 |
+|---|---|
+| A1 place missed | fixed on the fixture (4 to 1); the UK case open |
+| A2 status missed or unsupported | `stage` added with its span; 0 wrong on the fixture; `status` unchanged for the Roundup |
+| A3 not a deal | fixed on the fixture (7 to 0) |
+| A4 kind | fixed: `kind` (tool 6's kinds, power kinds first, `compute_capacity` for the ruling) |
+| A6 AI-power tag | fixed: the rule in code (`fields.ai_of`), its basis on the row |
+| A8 a share kept as a price | fixed in code (`fields.energy_price`); the sum of another figure fixed by the prompt on the fixture |
+| A9 confidence | the prompt gives the bands and asks for the words (`confidence_basis`, in the evidence table); graded again in session 2249 |

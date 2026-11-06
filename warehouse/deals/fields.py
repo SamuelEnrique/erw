@@ -1,0 +1,268 @@
+#!/usr/bin/env python3
+"""The deal tracker's fields: one vocabulary each, with its reasoning, and the checks that keep a field only where a
+story states it.
+
+Energy Research Warehouse (ERW), session 2232 (chain 156, `docs/reviews/deals-audit-2026-11-06.md` rows A1 to A4, A6,
+A9). `warehouse/deals/extract.py` asks the model for these fields and passes every deal through `finish()` before it is
+written; `upgrade()` gives a row extracted before this session the fields that can be read from its own stored values,
+with no model. `tests/test_session2232_deals.py` grades the whole path on the fixture of 40 stored stories
+(`tests/fixtures/deals/`). Nothing here calls a model or reads a file.
+
+A field the Roundup reads (`deal_type`, `buyer`, `seller`, `asset`, `mw`, `dollars`, `status`, `event_date`,
+`story_urls`, `confidence`) keeps its name and meaning; every field below is new and sits beside them (the chain's
+rule). `usd` is `dollars` and `usd_per_mwh` is `price` under the names the chain's prompt gives the units; the old two
+stay for their readers.
+"""
+
+import re
+
+# ---------------------------------------------------------------- the vocabularies
+
+# KIND: what master plan tool 6 calls a deal ("nuclear restarts, SMR offtakes, gas buildouts, PPAs, behind-the-meter").
+# deal_type stays the transaction's form (a PPA, an acquisition, a loan); kind is what a reader filters on. A deal is
+# often both a form and a power kind (a PPA for a restarted reactor): the power kinds come first, in this order,
+# because they are what tool 6 asks for and the form is still in deal_type. compute_capacity is the audit's class 4
+# (a cloud, GPU or datacenter capacity contract stored as an offtake): kept, labelled, filterable, for Samuel's ruling.
+KINDS = [
+    ("nuclear_restart_uprate", "a reactor brought back into service or uprated: restart, recommission, reopen, uprate"),
+    ("smr", "a small modular, micro or advanced reactor: SMR, small modular, microreactor, advanced reactor"),
+    ("behind_the_meter", "power delivered to a load on its site, not through the grid: behind the meter, co-located, "
+                         "on-site, off-grid"),
+    ("gas_buildout", "new gas-fired generation: a gas plant, gas turbines or generation equipment, combined cycle, "
+                     "peakers, to be built or ordered (buying a running plant is m_and_a)"),
+    ("transmission", "a line, an interconnector or a substation"),
+    ("storage", "a battery or other storage asset, alone or with solar or wind: battery, storage, BESS, pumped hydro"),
+    ("compute_capacity", "cloud, GPU or datacenter capacity contracted, leased or hosted: not energy, kept apart"),
+    ("ppa", "a power purchase agreement of none of the kinds above"),
+    ("offtake", "an offtake of a product (LNG, hydrogen, fuel, minerals) or of power not called a PPA"),
+    ("project_finance", "debt or equity raised for one named project"),
+    ("m_and_a", "an acquisition, a merger, a sale or a stake bought or sold"),
+    ("capital", "a company's debt, equity raise, tax equity or joint venture, no one project named"),
+    ("fuel_supply", "a contract to supply fuel (gas, LNG, uranium, coal, oil)"),
+    ("other", "a transaction of none of the kinds above"),
+]
+KIND_IDS = [k for k, _ in KINDS]
+POWER_KINDS = KIND_IDS[:7]
+
+# STAGE: where the deal stands, as its words say. status keeps the five words the Roundup prints (rumored, announced,
+# signed, closed, cancelled); stage adds the three a power deal reaches after signing (financed, under_construction,
+# operating). Read only from the stated words, with the span (stage_text); empty when the words do not say.
+STAGES = [
+    ("rumored", "in talks, considering, exploring, looks to, weighs, reportedly, nears a deal"),
+    ("announced", "announces, plans to, proposes, will acquire, to buy, offers, unveils, letter of intent"),
+    ("signed", "signed, agreed, secured, awarded, entered into, inked, struck, sealed, locked in"),
+    ("financed", "financial close, closes a loan or financing, raised, funded"),
+    ("closed", "completed, closed, finalized, sold (an acquisition or a sale)"),
+    ("under_construction", "broke ground, under construction, construction began"),
+    ("operating", "online, operational, began commercial operation, energized, delivering"),
+    ("cancelled", "cancelled, terminated, scrapped, withdrawn, called off"),
+]
+STAGE_IDS = [s for s, _ in STAGES]
+
+# GRID: the US grid operators, kept only where the story's words name one. Never read from a state: a state split
+# between grids would be a guess (the site reads a state's main grid on the page and says so, lib/deals2.ts).
+GRIDS = {
+    "ERCOT": [r"ercot", r"electric reliability council of texas"],
+    "PJM": [r"pjm"],
+    "MISO": [r"miso", r"midcontinent independent system operator"],
+    "SPP": [r"spp", r"southwest power pool"],
+    "CAISO": [r"caiso", r"california independent system operator", r"california iso"],
+    "NYISO": [r"nyiso", r"new york independent system operator"],
+    "ISO-NE": [r"iso-ne", r"iso new england"],
+}
+
+# AI_POWER: true only where a named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party, or the load
+# the deal serves is a datacenter (the chain's rule). ai_power_basis says which: "party <name>" or "datacenter load:
+# <words>". A party list in code, not the model's sense, so the tag is the same on every run (the audit's row A6:
+# Amazon's 960 MW nuclear pact was tagged false, a story that merely says "as AI demand booms" true).
+AI_PARTIES = [
+    "openai", "anthropic", "xai", "mistral", "meta", "facebook", "google", "alphabet", "microsoft", "amazon", "aws",
+    "oracle", "apple", "nvidia", "coreweave", "crusoe", "lambda", "nebius", "equinix", "digital realty", "qts",
+    "vantage data centers", "aligned data centers", "stack infrastructure", "switch", "cyrusone", "compass datacenters",
+    "edgecore", "related digital", "tract", "stargate", "iren", "core scientific", "applied digital", "terawulf",
+    "cipher mining", "galaxy digital", "fermi america", "poolside", "humain", "g42", "bytedance", "tencent", "alibaba",
+    "airtrunk", "dayone", "sttgdc", "st telemedia", "neysa", "cerebras", "firmus", "nscale", "fluidstack", "volta",
+    "chronoscale", "soluna", "hut 8", "bitdeer", "cologix", "flexential", "ntt data", "princeton digital",
+]
+DATACENTER_WORDS = re.compile(r"data ?cent(?:er|re)s?|datacent(?:er|re)s?|\bhyperscal\w*|\bai (?:campus|factory|"
+                              r"compute|cloud|infrastructure)|\bgpus?\b|\bcomputing (?:deal|partnership|capacity)",
+                              re.I)
+
+# Prices: an energy price only (the audit's row A8: "80% equity selldown" was kept as a price of 80 "%").
+ENERGY_PRICE_UNIT = re.compile(r"(?i)^\s*(?:usd|us\$|\$|eur|€|gbp|£|cad|aud)?\s*/\s*(?:mwh|kwh|mw-?month|kw-?month|"
+                               r"mw-?day|kw-?year|mmbtu)\s*$")
+
+# Sanity bounds: a figure above is flagged on the row (flags), never dropped (session 2235 reads them on the page).
+BOUNDS = {"mw": 20000.0, "mwh": 200000.0, "usd": 5e11, "usd_per_mwh": 1000.0, "term_years": 40.0}
+
+# energy_deals' new columns hold no outlet text: words copied from a story (the stage's span, the confidence's basis, the
+# figures' spans) go to the internal energy_deals_evidence beside its evidence sentence (EVIDENCE_NEW_COLS), as the
+# evidence sentence always has (the site never shows outlet text: site/app/deals/page.tsx).
+NEW_COLS = ["kind", "kind_basis", "stage", "grid", "usd", "usd_per_mwh", "ai_power_basis", "flags", "fields_version"]
+EVIDENCE_NEW_COLS = ["stage_text", "confidence_basis", "spans"]
+VERSION = "2232"
+
+
+def plain(s):
+    return " ".join(str(s or "").replace("’", "'").replace(" ", " ").split()).lower()
+
+
+def in_text(span, text):
+    return bool(span) and plain(span) in text
+
+
+def _words(pat, s):
+    return re.search(pat, s) is not None
+
+
+KIND_WORDS = [
+    ("nuclear_restart_uprate", r"\brestart\w*|recommission\w*|\breopen\w*|\buprat\w*"),
+    ("smr", r"\bsmrs?\b|small modular|micro-?reactors?|advanced (?:nuclear|reactors?)|bwrx-?300"),
+    ("behind_the_meter", r"behind[- ]the[- ]meter|co-?locat\w*|\bon-?site\b|\boff-?grid\b"),
+    ("transmission", r"\btransmission\b|interconnector|\bhvdc\b|power lines?\b|\bsubstations?\b"),
+    ("storage", r"batter(?:y|ies)|\bstorage\b|\bbess\b|pumped hydro"),
+    ("compute_capacity", r"\bcloud\b|\bgpus?\b|computing|\bcompute\b|data ?cent(?:er|re) (?:capacity|lease)|"
+                         r"ai capacity|\bhost\b"),
+]
+GAS = r"\bgas\b|natural gas|natgas|gas-fired"
+GAS_BUILD = r"plant|turbines?|generat\w*|combined[- ]cycle|peakers?|power station|power (?:deal|push|project)"
+
+
+def kind_of(d, text=""):
+    """(kind, basis). The power kinds from the deal's own words (its asset, technology and evidence, and the story's
+    text when given), then the model's kind when it is a form, then the form read from deal_type."""
+    own = plain(" ".join(str(d.get(f) or "") for f in ("asset", "technology", "evidence")))
+    words = own   # the deal's own words: a company's description in the summary is not the deal's kind (D011)
+    t = d.get("deal_type") or ""
+    for kid, pat in KIND_WORDS:
+        if kid == "compute_capacity":
+            if t in ("offtake", "lease", "other", "joint_venture", "ppa", "") and _words(pat, words) \
+                    and not _words(r"\bpower purchase|\bppa\b|\bmw\b|\bgw\b", own):
+                return kid, "the deal's words name cloud, GPU or computing capacity"
+            continue
+        if _words(pat, words):
+            if kid == "storage" and t == "m_and_a":
+                continue   # buying a storage developer is an acquisition
+            return kid, f"the deal's words: {re.search(pat, words).group(0)}"
+        if kid == "behind_the_meter" and t == "behind_the_meter":
+            return kid, "deal_type behind_the_meter"
+        if kid == "nuclear_restart_uprate" and t == "nuclear_restart":
+            return kid, "deal_type nuclear_restart"
+        if kid == "smr" and t == "smr":
+            return kid, "deal_type smr"
+    if _words(GAS, words) and _words(GAS_BUILD, words) and t not in ("m_and_a", "fuel_supply"):
+        return "gas_buildout", "the words name gas and a plant, turbines or generation"
+    k = (d.get("kind") or "").strip()
+    if k in KIND_IDS and k not in POWER_KINDS:
+        return k, "the model's kind"
+    form = {"ppa": "ppa", "offtake": "offtake", "project_finance": "project_finance", "m_and_a": "m_and_a",
+            "debt": "capital", "equity_raise": "capital", "tax_equity": "capital", "joint_venture": "capital",
+            "lease": "other", "fuel_supply": "fuel_supply"}.get(t)
+    if form:
+        return form, f"deal_type {t}"
+    return "other", "no kind's words and no form"
+
+
+def grid_of(text):
+    """(grid, the words) where the story names a US grid operator; ("", "") otherwise."""
+    for name, pats in GRIDS.items():
+        for p in pats:
+            m = re.search(r"(?<![a-z])" + p + r"(?![a-z])", text)
+            if m:
+                return name, m.group(0)
+    return "", ""
+
+
+def ai_of(d, text):
+    """(ai_power, basis) by the rule: a named AI party, or a datacenter load in the story's words."""
+    names = [d.get("buyer"), d.get("seller")] + list(d.get("other_parties") or [])
+    for n in names:
+        p = plain(n)
+        for a in AI_PARTIES:
+            if re.search(r"(?<![a-z])" + re.escape(a) + r"(?![a-z])", p):
+                return True, f"party {' '.join(str(n).split())}"
+    m = DATACENTER_WORDS.search(text or "")
+    if m:
+        return True, f"datacenter load: {m.group(0)}"
+    return False, ""
+
+
+def stage_of(d, text):
+    """(stage, span): the model's stage only when its span is in the story."""
+    s = (d.get("stage") or "").strip()
+    span = " ".join(str(d.get("stage_text") or "").split())
+    if s in STAGE_IDS and in_text(span, text):
+        return s, span
+    return "", ""
+
+
+def energy_price(unit):
+    return bool(unit) and ENERGY_PRICE_UNIT.match(unit) is not None
+
+
+def flags_of(row):
+    out = []
+    for f, b in BOUNDS.items():
+        v = row.get(f)
+        try:
+            if v not in (None, "") and float(v) > b:
+                out.append(f"{f} {v} above the bound {b:g}")
+        except (TypeError, ValueError):
+            pass
+    return out
+
+
+def named_party(d, text=""):
+    """A deal is kept only where the story names a party to it: the buyer, the seller, a partner of a joint venture
+    (other_parties, as the model gives them), or, for an acquisition, the company or asset sold ("Oryx Energies Sold
+    for About $1 Billion")."""
+    if any((d.get(r) or "").strip() for r in ("buyer", "seller")):
+        return True
+    t = plain(text)
+    if any(plain(p) and plain(p) in t for p in d.get("other_parties") or []):
+        return True
+    asset = plain(d.get("asset"))
+    return d.get("deal_type") == "m_and_a" and bool(asset) and asset in t and len(asset.split()) <= 6
+
+
+def finish(d, text, vals, evidence):
+    """The new fields of one deal the extractor keeps. d is the model's deal (after the party checks), text the plain
+    text of its cluster, vals the checked numbers, evidence the verified sentence. Returns (fields, notes)."""
+    notes = []
+    kind, kind_basis = kind_of({**d, "evidence": evidence}, text)
+    stage, stage_text = stage_of(d, text)
+    if d.get("stage") and not stage:
+        notes.append(f"stage {d.get('stage')!r}: span {d.get('stage_text')!r} not in the story, not kept")
+    grid, _ = grid_of(text)
+    ai, ai_basis = ai_of(d, text)
+    if bool(d.get("ai_power")) != ai:
+        notes.append(f"ai_power {bool(d.get('ai_power'))} from the model; the rule says {ai} ({ai_basis or 'no AI party or datacenter load'})")
+    basis = " ".join(str(d.get("confidence_basis") or "").split())
+    if basis and not in_text(basis, text):
+        basis = ""
+    spans = "; ".join(f"{f}: {' '.join(str(d.get(t) or '').split())}" for f, t in
+                      (("mw", "mw_text"), ("mwh", "mwh_text"), ("dollars", "dollars_text"), ("price", "price_text"),
+                       ("term_years", "term_text")) if vals.get(f if f != "price" else "price_value") is not None)
+    row = {"kind": kind, "kind_basis": kind_basis, "stage": stage, "grid": grid,
+           "usd": vals.get("dollars"), "usd_per_mwh": None, "ai_power": ai, "ai_power_basis": ai_basis,
+           "fields_version": VERSION,
+           # to energy_deals_evidence (internal): the story's own words
+           "stage_text": stage_text, "confidence_basis": basis, "spans": spans}
+    flags = flags_of({"mw": vals.get("mw"), "mwh": vals.get("mwh"), "usd": vals.get("dollars"),
+                      "term_years": vals.get("term_years")})
+    row["flags"] = "; ".join(flags)
+    return row, notes
+
+
+def upgrade(row):
+    """The new fields of a row extracted before session 2232, read from its own stored values: no model, nothing
+    guessed (stage, grid and the bases stay empty: they need the story's spans). ai_power is left as extracted."""
+    out = dict(row)
+    if (out.get("fields_version") or "") != "":
+        return out
+    k, kb = kind_of(out)   # from the row's asset, technology and deal_type
+    out.update(kind=k, kind_basis=kb, stage="", grid="", usd=out.get("dollars", ""),
+               usd_per_mwh=out.get("price", ""), ai_power_basis="", flags="; ".join(flags_of({"mw": out.get("mw"), "mwh": out.get("mwh"),
+                                                              "usd": out.get("dollars"), "term_years": out.get("term_years")})),
+               fields_version="upgraded")
+    return out
