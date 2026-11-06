@@ -93,6 +93,13 @@ def read_classified(raw_dir, in_dir):
         c[col] = c[col].map(lambda v: v if isinstance(v, bool) else str(v).lower() == "true")
     c["tone"] = c["tone"].astype(int)
     c = c.sort_values("classified_at").drop_duplicates("event_id", keep="last")
+    # session 3403: a story classified before prompt version 3 with no headline takes the one the backfill wrote
+    # (attention_classify.py --headlines, the jsonl files headlines_*.jsonl); the headline is the model's text either way
+    c["headline"] = c["headline"].fillna("")
+    backfilled = ac.read_headlines(raw_dir)
+    if backfilled:
+        empty = c["headline"] == ""
+        c.loc[empty, "headline"] = c.loc[empty, "event_id"].map(backfilled).fillna("")
     return c.reset_index(drop=True)
 
 

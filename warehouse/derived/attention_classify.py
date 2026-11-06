@@ -50,7 +50,7 @@ STEP = "attention_classify"
 RAW_DIR = os.path.join(ip.RAW_DIR, "attention")
 LINKS = "attention_story_links"
 BATCH = 40
-PROMPT_VERSION = 2
+PROMPT_VERSION = 3
 
 SECTORS = ["datacenters", "transmission", "gas", "nuclear", "solar_wind", "storage", "oil_lng", "other_energy", "not_energy"]
 INDEX_SECTORS = SECTORS[:7]
@@ -87,13 +87,18 @@ Fields, one result per story, in the input's order; i is the story's number in t
 - pk (place kind): county, city or metro for a named place; "" when pl is "".
 - op (opposition): true when the story reports opposition to an energy or data center project, plant, line, pipeline, policy, permit, lease or rate: a moratorium or ban, a lawsuit or court challenge, a protest or residents' organized resistance, a permit or approval denied, withdrawn or revoked, a fight over rates or who pays, a vote or official stand against, a regulator's rejection. Opposition anywhere in the world counts (then us is false). A story about prices, markets, earnings, a deal, a technology, or a project moving ahead with no one against it is false. A government acting against a foreign state (sanctions, tariffs) is not opposition to a project.
 - k (kind): when op is true, its main kind. moratorium: a moratorium, ban or pause imposed by a government. lawsuit: a suit, appeal, court ruling or legal challenge. protest: protests, petitions, organized residents' resistance, hearings packed against. permit_denied: a permit, rezoning, license or approval denied, withdrawn, revoked or recommended against. rate_case: a fight over rates, bills, tariffs or cost allocation before a regulator or legislature. political_opposition: elected officials or a government opposing, vetoing or blocking a project or policy, a bill against it. other_opposition: any other. "none" when opposition is false.
-- t (tone): the story's tone toward the project, sector or actor it is mainly about: -1 negative (setback, harm, failure, conflict, delay, cancellation, loss), 0 neutral or mixed (a report, a price move, a filing, a forecast), 1 positive (approval, completion, growth, a deal done, a record, a success)."""
+- t (tone): the story's tone toward the project, sector or actor it is mainly about: -1 negative (setback, harm, failure, conflict, delay, cancellation, loss), 0 neutral or mixed (a report, a price move, a filing, a forecast), 1 positive (approval, completion, growth, a deal done, a record, a success).
+- h (headline): when the story's need_h is true, one neutral headline in your own words, at most fourteen words, plain and factual (who did what, where, with the figure if the text gives one), no opinion, no quotation of the title; "" when need_h is false."""
 
 # Session 3401: the answer's keys are short and the story is named by its place in the batch (i), because the output
 # tokens were three quarters of a call's cost with the long keys and the 22-character ids (the trial of 6 November
 # 2026: 67 output tokens a story on Sonnet 5.5). KEYS maps them back; nothing else about the answer changed.
 KEYS = {"i": "i", "s": "sector", "us": "us", "st": "state", "pl": "place", "pk": "place_kind", "op": "opposition",
-        "k": "kind", "t": "tone"}
+        "k": "kind", "t": "tone", "h": "headline"}
+# Session 3403 (prompt version 3): a story the news scorer never read has no ERW headline, and the public link table
+# carries no outlet title (the news index's rule), so the page would show a bare link. For such a story (need_h true
+# in the input) the model also writes h, a neutral headline of at most fourteen words in the ERW's own words; for a
+# story that has one, h is "". The headline is the model's text, as news_index's headline is.
 SCHEMA = {
     "type": "object",
     "properties": {
@@ -111,8 +116,9 @@ SCHEMA = {
                     "op": {"type": "boolean"},
                     "k": {"type": "string", "enum": KINDS},
                     "t": {"type": "integer", "enum": TONES},
+                    "h": {"type": "string"},
                 },
-                "required": ["i", "s", "us", "st", "pl", "pk", "op", "k", "t"],
+                "required": ["i", "s", "us", "st", "pl", "pk", "op", "k", "t", "h"],
                 "additionalProperties": False,
             },
         }
@@ -120,6 +126,14 @@ SCHEMA = {
     "required": ["results"],
     "additionalProperties": False,
 }
+# the headline backfill (--headlines): only h, for link rows written before version 3 whose story has no headline
+HEADLINE_SCHEMA = {
+    "type": "object",
+    "properties": {"results": {"type": "array", "items": {"type": "object", "properties": {"i": {"type": "integer"}, "h": {"type": "string"}},
+                                                           "required": ["i", "h"], "additionalProperties": False}}},
+    "required": ["results"], "additionalProperties": False,
+}
+HEADLINE_SYSTEM = """You write one neutral headline for each energy news story given by its title and summary, for the Energy Research Warehouse (ERW), whose public tables carry no outlet text. The headline is in your own words, at most fourteen words, plain and factual: who did what, where, with the figure if the text gives one. No opinion, no adjective of judgement, no quotation of the title, no em dash. Return one result per story, in the input's order, with i the story's number in the input."""
 
 FIELDS = ["sector", "us", "state", "place", "place_kind", "opposition", "kind", "tone"]
 
@@ -189,8 +203,9 @@ def norm_row(r):
     if tone not in TONES:
         fixed.append(f"tone:{tone}")
         tone = 0
+    headline = nodash(r.get("headline", ""))[:160]
     return {"sector": sector, "us": us, "state": state, "place": place, "place_kind": place_kind,
-            "opposition": opposition, "kind": kind, "tone": tone, "fixed": ";".join(fixed)}
+            "opposition": opposition, "kind": kind, "tone": tone, "model_headline": headline, "fixed": ";".join(fixed)}
 
 
 def read_stories(in_dir):
@@ -221,7 +236,8 @@ def draw_sample(d, n, seed):
 
 def items_of(rows):
     """The batch as the model sees it: each story numbered by its place in the batch (i), its title and summary."""
-    return [{"i": k, "title": nodash(r.title)[:300], "summary": nodash(r.summary)[:600]} for k, r in enumerate(rows.itertuples())]
+    return [{"i": k, "title": nodash(r.title)[:300], "summary": nodash(r.summary)[:600], "need_h": not getattr(r, "headline", "")}
+            for k, r in enumerate(rows.itertuples())]
 
 
 def classify_batch(client, model, rows, log):
@@ -356,9 +372,12 @@ def run_batches(client, model, todo, log, out_path=None, cap_usd=None, max_calls
         got = []
         for r in batch.itertuples():
             if r.event_id in out:
+                o = dict(out[r.event_id])
+                model_headline = o.pop("model_headline", "")
+                own = nodash(getattr(r, "headline", ""))
                 row = dict(event_id=r.event_id, event_date=r.event_date, source=r.source, source_url=r.source_url,
-                           headline=nodash(getattr(r, "headline", "")), significance=getattr(r, "significance", ""),
-                           scorer_sector=getattr(r, "sector", ""), **out[r.event_id],
+                           headline=own or model_headline, headline_by="scorer" if own else ("classifier" if model_headline else ""),
+                           significance=getattr(r, "significance", ""), scorer_sector=getattr(r, "sector", ""), **o,
                            model_id=model_id, prompt_version=PROMPT_VERSION, classified_at=now)
                 got.append(row)
         rows.extend(got)
@@ -372,8 +391,75 @@ def run_batches(client, model, todo, log, out_path=None, cap_usd=None, max_calls
     return rows, total, usd, failed
 
 
+def headline_batches(client, model, todo, log, out_path, cap_usd=None, max_calls=None, size=60):
+    """The headline backfill: for stories classified before prompt version 3 with no headline, one neutral headline each,
+    appended to out_path (jsonl: event_id, headline, model_id, headlined_at). Returns (n, usd, failed)."""
+    batches = [todo.iloc[i:i + size] for i in range(0, len(todo), size)]
+    if max_calls:
+        batches = batches[:max_calls]
+    log(f"headlines: {len(todo)} stories in {len(batches)} calls of up to {size}")
+    n, usd, failed = 0, 0.0, 0
+    now = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
+    import llm
+    for bi, batch in enumerate(batches, 1):
+        if cap_usd is not None and usd >= cap_usd:
+            log(f"cap USD {cap_usd} reached after {bi - 1} calls")
+            break
+        items = [{"i": k, "title": nodash(r.title)[:300], "summary": nodash(r.summary)[:600]} for k, r in enumerate(batch.itertuples())]
+        order = [r.event_id for r in batch.itertuples()]
+        try:
+            resp = client.messages.create(
+                model=model, max_tokens=6000,
+                system=[{"type": "text", "text": HEADLINE_SYSTEM, "cache_control": {"type": "ephemeral"}}],
+                output_config={"format": {"type": "json_schema", "schema": HEADLINE_SCHEMA}},
+                messages=[{"role": "user", "content": "Stories (JSON):\n" + json.dumps(items, ensure_ascii=False)}])
+            if resp.stop_reason != "end_turn":
+                raise RuntimeError(f"stop_reason {resp.stop_reason}")
+            results = json.loads("".join(b.text for b in resp.content if b.type == "text"))["results"]
+        except Exception as exc:
+            if type(exc).__name__ == "SpendCapReached":
+                log(f"the session's spend cap stopped the headlines before call {bi}: {ip.redact(str(exc))[:200]}")
+                break
+            failed += 1
+            log(f"  headline call {bi} FAILED ({len(batch)} stories): {ip.redact(repr(exc))[:300]}")
+            continue
+        usage = llm.usage_numbers(resp.usage)
+        c = llm.usd(getattr(resp, "model", model), usage) or 0.0
+        usd += c
+        got = 0
+        with open(out_path, "a", encoding="utf-8", newline="\n") as f:
+            seen = set()
+            for r in results:
+                try:
+                    k = int(r.get("i"))
+                except (TypeError, ValueError):
+                    continue
+                h = nodash(r.get("h", ""))[:160]
+                if 0 <= k < len(order) and order[k] not in seen and h:
+                    seen.add(order[k])
+                    f.write(json.dumps(dict(event_id=order[k], headline=h, model_id=getattr(resp, "model", model), headlined_at=now), ensure_ascii=False) + "\n")
+                    got += 1
+        n += got
+        log(f"  headline call {bi}: {len(batch)} stories, {got} headlines; tokens in {usage['input']} (cache read {usage['cache_read']}), out {usage['output']}; USD {c:.4f}; run USD {usd:.4f}")
+    return n, usd, failed
+
+
+def read_headlines(raw_dir=None):
+    """The backfilled headlines: {event_id: headline}, the newest kept."""
+    out = {}
+    for p in sorted(glob.glob(os.path.join(raw_dir or RAW_DIR, "headlines_*.jsonl"))):
+        with open(p, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    r = json.loads(line)
+                    out[r["event_id"]] = r["headline"]
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW: the classification behind the Attention and Friction indices")
+    ap.add_argument("--headlines", action="store_true", help="the headline backfill: a neutral headline for every classified story without one")
     ap.add_argument("--in-dir", default=ip.OUT_DIR, help="where news_stories.csv (and attention_story_links.csv) are read")
     ap.add_argument("--sample", type=int, default=0, help="draw this many stories for hand labeling and write them to --out")
     ap.add_argument("--seed", type=int, default=3400)
@@ -402,6 +488,32 @@ def main(argv=None):
         return 0
     import llm
     client = llm.client(STEP, log)
+    if args.headlines:
+        # the stories classified without a headline (the link table's rows and the jsonl rows), not yet backfilled
+        have = read_headlines()
+        rows = []
+        for p in glob.glob(os.path.join(RAW_DIR, "classified_*.jsonl")):
+            with open(p, encoding="utf-8") as f:
+                for line in f:
+                    if line.strip():
+                        r = json.loads(line)
+                        if not r.get("headline"):
+                            rows.append(r["event_id"])
+        path = os.path.join(args.in_dir, LINKS + ".csv")
+        if os.path.exists(path):
+            t = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False, usecols=["story_event_id", "headline"])
+            rows.extend(t.loc[t["headline"] == "", "story_event_id"].tolist())
+        want = [i for i in dict.fromkeys(rows) if i not in have]
+        todo = d[d["event_id"].isin(set(want))].sort_values("_when", ascending=False)
+        log(f"{len(want)} classified stories without a headline ({len(have)} already backfilled)")
+        os.makedirs(RAW_DIR, exist_ok=True)
+        out_path = os.path.join(RAW_DIR, f"headlines_{run_id}.jsonl")
+        n, usd, failed = headline_batches(client, args.model, todo, log, out_path, cap_usd=args.cap_usd, max_calls=args.max_calls)
+        line = f"{n} headlines written for {len(todo)} stories by {args.model}; USD {usd:.4f}; failed calls {failed}; rows in {out_path}"
+        log(line)
+        print(line)
+        log.close()
+        return 0 if failed == 0 else 1
     if args.ids:
         want = pd.read_csv(args.ids, dtype=str, keep_default_na=False)["event_id"]
         todo = d[d["event_id"].isin(set(want))].set_index("event_id").loc[[i for i in want if i in set(d["event_id"])]].reset_index()
