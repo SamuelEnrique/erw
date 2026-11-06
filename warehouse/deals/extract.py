@@ -122,11 +122,22 @@ EVIDENCE_COLS_V1 = list(EVIDENCE_COLS)
 EVIDENCE_COLS = EVIDENCE_COLS_V1 + fields.EVIDENCE_NEW_COLS   # session 2232: the story's words of the new fields
 CHECKED_COLS = ["story_id", "cluster_id", "checked_at", "model_id", "n_deals"]
 
+# Session 2256 (chain 159): chain 156's ruling 2 in one switch. The prompt above returns no deal for a sale, award or
+# raise the story states with one named party and the other unnamed ("Crescent Sells Non-Op D-J Assets",
+# "Sellafield selects partners"); ERW_DEALS_ONE_PARTY=on adds the sentence that returns them. Off (the default) leaves
+# the prompt as it was, character for character. The owner's answer is this default; the fixture of session 2256
+# (tests/fixtures/deals/stories_2256.json) holds what each setting returns.
+ONE_PARTY = os.environ.get("ERW_DEALS_ONE_PARTY", "off").strip().lower() == "on"
+ONE_PARTY_RULE = (" A sale, an award or a raise that the story states with one party named and the other not named "
+                  "(\"Crescent Sells Non-Op D-J Assets\", \"Sellafield selects partners for asset care framework\") is a "
+                  "transaction: return it, with the named party in its field and the other field empty."
+                  if ONE_PARTY else "")
+
 SYSTEM = f"""You extract energy transactions from news stories for the Energy Research Warehouse (ERW), the live, citable record of the US energy system.
 
 Each item is one cluster: one or more stories (title and summary) about the same event. Decide whether the stories report a specific transaction: a named deal between named parties (a power purchase agreement, an offtake, an acquisition or merger, project finance, tax equity, debt, an equity raise, a joint venture, a lease, a behind-the-meter supply deal, a nuclear restart deal, a small modular reactor deal, a fuel supply contract). Market commentary, policy, earnings, forecasts, generic plans and prices are not transactions: return no deals for them.
 
-Not transactions either (session 2232, the audit of 6 November 2026): a company's plan or pledge to invest ("plans $1.8 billion investment", "pledges $40 billion"), a company that seeks, looks for or weighs a deal with no counterparty named ("seeks to boost loan", "seeks 80% equity selldown"), a government's permission ("allows X to sell"), and an agreement between two governments. Talks between two named companies are a transaction with status rumored. A raise or a deal whose company the story does not name ("a fusion startup raises") is not returned.
+Not transactions either (session 2232, the audit of 6 November 2026): a company's plan or pledge to invest ("plans $1.8 billion investment", "pledges $40 billion"), a company that seeks, looks for or weighs a deal with no counterparty named ("seeks to boost loan", "seeks 80% equity selldown"), a government's permission ("allows X to sell"), and an agreement between two governments. Talks between two named companies are a transaction with status rumored. A raise or a deal whose company the story does not name ("a fusion startup raises") is not returned.{ONE_PARTY_RULE}
 
 For each transaction, return:
 - deal_type: one of {", ".join(DEAL_TYPES)}

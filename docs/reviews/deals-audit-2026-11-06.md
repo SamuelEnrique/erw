@@ -413,3 +413,18 @@ Read from the pages' code (no build: the machine's memory held the landing's bui
 | A15 | Facilities: confidence too low (6) | done: 0 | 2236 |
 | A16 | The step's failure line, a failed day | done | 2237 |
 | New | Stated deals with no row (6), a story's second deal (2); stated facilities with no row (2) | open, from the stricter prompt | next file; ruling asked |
+
+## Session 2256 (chain 159): the six stated deals with no row
+
+The recorded answers of session 2249 (`tests/fixtures/deals/recorded_2249.json`) show that all six clusters were sent and the model returned no deal for each: the stricter prompt's reading, not the story selection and not the code's party check (which keeps a deal with one named party). Four reasons, not one:
+
+| Row | Headline | Why no row | With `ERW_DEALS_ONE_PARTY=on` |
+|---|---|---|---|
+| D022 | Black Hills plans $1.8 billion investment to power Google's data center | a plan: the prompt names this headline as not a deal (the first read, session 2231, graded it not a deal; the second read counted it a miss) | no row |
+| D031 | Sellafield selects partners for asset care framework | one party named | a row, Sellafield the buyer |
+| D061 | ONEOK, MPLX's "Wellhead-to-Water" Deal Dominates Permian NGL Race | a commentary headline that names a deal | no row |
+| D071 | Nvidia, Dell Back AI Cloud Startup Volta at $2.4 Billion Value | a valuation of an AI cloud, not a sum raised, and not an energy company | no row |
+| D084 | Shell to offload Jiffy Lube to Monomoy Capital for $1.3 billion | two parties named; an asset that is not an energy asset | a row, USD 1.3 billion |
+| D092 | Crescent Sells Non-Op D-J Assets Ahead of Closing Vital Deal | one party named | a row, Crescent the seller, no buyer |
+
+So the ruling asked (chain 156's ruling 2) is about D031 and D092 only; D084 asks another (whether a sale of an asset that is not an energy asset by an energy company is a deal); D022 is a plan by the prompt's own rule; D061 and D071 stay out under either answer. The switch is the one change: its default is the answer. The row "New" above: the six read again, open for the ruling.
