@@ -86,6 +86,7 @@ TIERS = ["source", "derived", "model_extracted"]
 TIER_RULES = [
     ("model_extracted", r"^(energy_deals|datacenter_projects|policy_reads)(_evidence)?$"),  # extraction from news
     ("model_extracted", r"^energy_companies$"),           # the Thesis Builder's research and the deal parties
+    ("model_extracted", r"^company_(directory|aliases|links)$"),  # session 3302: names from the deals, datacenter and policy extractions
     ("model_extracted", r"^news_(stories|index)$"),       # the scores and headlines are the model's
     ("model_extracted", r"^policy_actions$"),             # significance, sector and why are the model's
     ("derived", r"^(energy_projects|datacenter_queue_positions|storage_capacity)$"),  # ERW code over source tables
@@ -614,6 +615,8 @@ SECTOR_RULES = [
     (r"^weather_(obs|forecast)_hourly$", "power"),
     # session 25: companies found by the Thesis Builder (tool 27), the seed of the company database (tool 10)
     (r"^energy_companies$", "deals"),
+    # session 3302: the company database (tool 10): every company the warehouse names, its names and its rows
+    (r"^company_(directory|aliases|links)$", "power;deals"),
     (r"^eia_retail_sales_monthly$", "power"),
     (r"^eia_sector_energy_consumption_monthly$", "power;gas;oil;coal"),
     # session 19: the trader view (24)
@@ -693,6 +696,8 @@ def iso_of(table):
         return ";".join(sorted({iso_of(m) for m in members}))
     parts = table.split("_")
     if table == "price_board_carbon":  # session 30: CARB and RGGI, no ISO
+        return "none"
+    if table in ("company_directory", "company_aliases", "company_links"):  # session 3302: companies, no one ISO
         return "none"
     if table == "shoulder_hours_monthly":  # session 75
         return "CAISO;ERCOT"

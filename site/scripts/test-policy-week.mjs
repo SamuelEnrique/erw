@@ -87,8 +87,8 @@ const REFRESH = {
 const TODAY = "2026-10-08";
 
 // 1. the two views and the address
-ok(W.viewOf({}) === "all" && W.viewOf({ view: "week" }) === "week" && W.viewOf({ view: "WEEK" }) === "all" && W.viewOf({ view: "anything" }) === "all", "anything but view=week is the page as it was");
-ok(W.viewHref("all") === "/policy" && W.viewHref("week") === "/policy?view=week" && same(W.VIEWS.map((v) => v[0]), ["all", "week"]), "two views, each with its address");
+ok(W.viewOf({}) === "all" && W.viewOf({ view: "week" }) === "week" && W.viewOf({ view: "monitor" }) === "monitor" && W.viewOf({ view: "WEEK" }) === "all" && W.viewOf({ view: "anything" }) === "all", "anything but view=week or view=monitor is the page as it was");
+ok(W.viewHref("all") === "/policy" && W.viewHref("week") === "/policy?view=week" && W.viewHref("monitor") === "/policy?view=monitor" && same(W.VIEWS.map((v) => v[0]), ["all", "week", "monitor"]), "three views (session 3060: the monitor), each with its address");
 {
   const known = { bodies: ["mufed", "mucc"], topics: ["large_load", "large-load-tariff"], grids: ["ercot", "pjm", "miso"] };
   ok(same(W.chosenOf({}, known), { days: 7, agency: "", topic: "", grid: "", large: false }), "an address with no choice: seven days and no filter");

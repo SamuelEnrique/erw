@@ -250,12 +250,14 @@ def _table(name):
     """A table's frame, kept for the session. Session 1191: with ASK_HOLD=on, read as the site reads it (lib/chat/tools.ts
     tableInfo, lib/supabase.ts): a table held whole is refused by name, a table held by grid comes without the held
     grids' rows, a table held by row with its public rows only."""
+    # session 3307 (chain 200): a table held whole is refused by name before any row is read, so a held table that is
+    # not on the machine (company_directory in a clean checkout) is refused with the hold's words, not a read error
+    if hold.on() and hold.held_whole(name):
+        raise ToolError(f"table {name} is {hold.LICENSE_NEEDED}: {hold.title(name)}. State no figure of it: answer with "
+                        f"not_in_warehouse true and say that it is \"{hold.LICENSE_NEEDED}\"")
     df = _table_read(name)
     if not hold.on():
         return df
-    if hold.held_whole(name):
-        raise ToolError(f"table {name} is {hold.LICENSE_NEEDED}: {hold.title(name)}. State no figure of it: answer with "
-                        f"not_in_warehouse true and say that it is \"{hold.LICENSE_NEEDED}\"")
     key = ("_held", name)
     if key not in _frames:
         kept = df

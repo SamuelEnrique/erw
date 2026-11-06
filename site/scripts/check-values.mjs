@@ -138,6 +138,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/impact", "/impact?tech=utility_pv&state=la&mw=200&life=30", "/impact?tech=natural_gas&state=nm&capex=120&local=80", "/impact?tech=geothermal&state=us&life=25",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
+  "/play/ev",  // session 3276: the EV game's four figures at the defaults (ev|US|...)
   "/play/battery", "/play/battery?mode=hard",  // session 63: the simple page and the full game; session 289: one page, three modes (?more=1 redirects)
   // session 39: three more events
   "/events", "/events/caiso-heat-2020", "/events/elliott-2022", "/events/ercot-heat-2023",
@@ -927,6 +928,15 @@ async function truth(check) {
     return stats(rows.map((r) => ({ ...r, value: Number(r.value) })), entity, market, start, end)[stat];
   }
   if (p[0] === "spotmean") return spotMean(p[1], p[2]);
+  // session 3276: the EV game's figures at the defaults (ev|<state or US>|power_cents, gas, payback or npv), recomputed by
+  // lib/ev.ts keyed() from data/ev_prices.json, the file the page is built from (the two EIA tables are not in the live
+  // set: docs/methods/ev_game.md)
+  if (p[0] === "ev") {
+    const { keyed } = await import("../lib/ev.ts");
+    const E = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "ev_prices.json"), "utf-8"));
+    const s = p[1] === "US" ? E.us : E.states.find((x) => x.code === p[1]);
+    return s?.power && s?.gas ? keyed(s.power.value, s.gas.value)[p[2]] ?? undefined : undefined;
+  }
   if (p[0] === "sev" || p[0] === "sevcert" || p[0] === "sevcredit") {
     const S = await import("../lib/severance.ts");
     const R = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "severance_rules.json"), "utf-8"));
