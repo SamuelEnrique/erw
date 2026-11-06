@@ -803,9 +803,10 @@ def short_title(title, n=NEXT_TITLE_MAX):
 def event_kind(sentence):
     """The kind of a dated sentence: comments, effective, hearing, auction, release, deadline, or other."""
     s = str(sentence or "").lower()
-    for word in ("comment", "effective", "hearing", "auction", "release", "deadline"):
+    for word, kind in (("comment", "comment"), ("effect", "effective"), ("hearing", "hearing"), ("auction", "auction"),
+                       ("release", "release"), ("deadline", "deadline")):
         if word in s:
-            return word
+            return kind
     return "other"
 
 
