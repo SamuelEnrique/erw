@@ -127,3 +127,58 @@ export function timelineCells(rows: TimelineRow[], dim: "grid" | "year"): Timeli
 
 /** The check key: dctime|<count|median>|<grid|year>|<value> ("-" for none). */
 export const timeKey = (stat: "count" | "median", dim: string, value: string) => `dctime|${stat}|${dim}|${value === "" ? "-" : value}`;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 2246 (chain 156): the tracker's three charts. 1. The MW the counted facilities state that are planned or
+// under construction, by the quarter they were first reported, stacked by grid (the four grids with the most, the
+// rest together); 2. the operators with the most MW stated; 3. the share of the counted facilities by the kind of
+// power their sources state (power_kind, session 2236), with the facilities that state none as their own bar. Every
+// figure has its key, dcchart|<chart>|<x>|<series>, which scripts/check_datacenters.py recomputes with its own Python.
+
+const quarterOfDate = (d: string): string => `${d.slice(0, 4)}-Q${Math.floor((Number(d.slice(5, 7)) - 1) / 3) + 1}`;
+const ahead = (r: FacRow) => ["planned", "under_construction"].includes((r.status ?? "").toLowerCase());
+
+export function chartGrids(rows: FacRow[]): string[] {
+  const mw = new Map<string, number>();
+  for (const r of rows.filter((x) => counted(x) && ahead(x))) {
+    const m = num(r.capacity_mw), g = gridOf(r);
+    if (m !== null && g) mw.set(g, (mw.get(g) ?? 0) + m);
+  }
+  return [...mw.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 4).map(([g]) => g);
+}
+
+export function plannedByQuarter(rows: FacRow[]): { quarter: string; parts: { grid: string; mw: number }[]; without: number }[] {
+  const top = chartGrids(rows);
+  const c = rows.filter((x) => counted(x) && ahead(x) && /^\d{4}-\d{2}/.test(x.extra?.first_story_at ?? ""));
+  const qs = [...new Set(c.map((r) => quarterOfDate(r.extra!.first_story_at!)))].sort();
+  return qs.map((q) => {
+    const inQ = c.filter((r) => quarterOfDate(r.extra!.first_story_at!) === q);
+    const parts = [...top, "other"].map((g) => ({ grid: g, mw: inQ.filter((r) => (top.includes(gridOf(r)) ? gridOf(r) : "other") === g)
+      .reduce((a, r) => a + (num(r.capacity_mw) ?? 0), 0) }));
+    return { quarter: q, parts, without: inQ.filter((r) => num(r.capacity_mw) === null).length };
+  });
+}
+
+export function operatorMw(rows: FacRow[], n = 10): { operator: string; mw: number; withMw: number; facilities: number }[] {
+  return rollups(rows, "operator").filter((r) => r.value && r.mw !== null).slice(0, n)
+    .map((r) => ({ operator: r.value, mw: r.mw!, withMw: r.withMw, facilities: r.counted }));
+}
+
+export function powerShares(rows: FacRow[]): { kind: string; facilities: number; pct: number }[] {
+  const c = rows.filter(counted);
+  const by = new Map<string, number>();
+  for (const r of c) { const k = r.extra?.power_kind || "none"; by.set(k, (by.get(k) ?? 0) + 1); }
+  return [...by.entries()].map(([kind, n]) => ({ kind, facilities: n, pct: c.length ? Math.round((1000 * n) / c.length) / 10 : 0 }))
+    .sort((a, b) => (a.kind === "none" ? 1 : 0) - (b.kind === "none" ? 1 : 0) || b.facilities - a.facilities || a.kind.localeCompare(b.kind));
+}
+
+export function dcFigures(rows: FacRow[]): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const s of plannedByQuarter(rows)) {
+    for (const p of s.parts) out[`dcchart|planned|${s.quarter}|${p.grid}`] = p.mw;
+    out[`dcchart|planned|${s.quarter}|without`] = s.without;
+  }
+  for (const o of operatorMw(rows)) out[`dcchart|operator|${o.operator}|mw`] = o.mw;
+  for (const p of powerShares(rows)) { out[`dcchart|power|${p.kind}|facilities`] = p.facilities; out[`dcchart|power|${p.kind}|pct`] = p.pct; }
+  return out;
+}

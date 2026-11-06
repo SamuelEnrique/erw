@@ -654,6 +654,12 @@ async function truth(check) {
   // function (lib/dcrollups.ts gridLoads) on datacenter_facilities; the peak and capacity from grid_peak_vs_capacity in
   // the live set; ERCOT's reserve margin from the file the page reads (data/siting/headroom.json, its build's table)
   // session 2245: the timeline, dctime|<count|median>|<grid|year>|<value>, the page's own function on the live set
+  // session 2246: the tracker's charts, dcchart|<planned|operator|power>|<x>|<series>, the page's own functions
+  if (p[0] === "dcchart") {
+    const R = await import("../lib/dcrollups.ts");
+    const rows = await all("entities", { select: "entity_id,capacity_mw,status,operator,extra", table_name: "eq.datacenter_facilities", order: "entity_id" });
+    return R.dcFigures(rows)[check] ?? undefined;
+  }
   if (p[0] === "dctime") {
     const R = await import("../lib/dcrollups.ts");
     const [, stat, dim, value] = p;

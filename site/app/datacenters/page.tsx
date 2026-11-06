@@ -20,6 +20,7 @@ import { PowerSide } from "./PowerSide";
 import { Rollups } from "./Rollups";
 import { FacilitiesVsGrid } from "./FacilitiesVsGrid";
 import { Timeline } from "./Timeline";
+import { DcCharts } from "./DcCharts";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Datacenter tracker" };  // session 203: renamed (the roadmap's ruling of 12 October 2026); "Datacenters" is the cost-of-power page's name in the menu now
@@ -104,6 +105,8 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
             <Rollups rows={res.data} />
             {/* session 2245: from first reported to energized, where both are stated */}
             <Timeline rows={res.data} />
+            {/* session 2246: the three charts, every figure traced by scripts/check_datacenters.py */}
+            <DcCharts rows={res.data} />
           </>
         )}
         {/* session 467: on the power side, drawn whether or not the facilities table can be read (it is held since 21 October 2026) */}
