@@ -181,7 +181,9 @@ class TheRoundupTakesIt(unittest.TestCase):
         src = inspect.getsource(roundup.main)
         self.assertIn('brief.one_per_topic(wk_c, WEEKEND_N, log, "the weekend")', src)
         self.assertIn('brief.one_per_topic(rest, 5, log, "the five of the week")', src)
-        self.assertEqual(src.count("brief.item_lines("), 2)
+        # session 2704: what mattered is a third list, one topic one item too
+        self.assertIn('brief.one_per_topic(clusters, WHAT_MATTERED_N, log, "what mattered")', src)
+        self.assertEqual(src.count("brief.item_lines("), 3)
 
 
 def stories():
@@ -219,8 +221,9 @@ class TheNamedDays(unittest.TestCase):
             self.skipTest("the 13 October clusters are not as scored on 21 October")
         top10, _, _ = brief.select(c, "2026-10-13", Quiet())
         self.assertEqual(len(top10), 10)
-        self.assertLessEqual(int((top10["sector"] == "datacenter_power").sum()), 1)
-        self.assertEqual(top10["sector"].nunique(), 10)
+        # session 2701 (rulings item 13): the key is the sector with the region, two items a sector at most
+        self.assertLessEqual(int((top10["sector"] == "datacenter_power").sum()), brief.SECTOR_MAX)
+        self.assertLessEqual(int(top10["sector"].value_counts().max()), brief.SECTOR_MAX)
 
 
 if __name__ == "__main__":

@@ -3,20 +3,22 @@
 // chart records beside them (docs/digest/charts/<date>.json, where its picture is held, as scripts/build-content.mjs
 // reads them); needs no build and no network.
 //
-//   node --import ./scripts/alias-register.mjs scripts/digest-figures.mjs [out.json] [--now YYYY-MM-DD]
+//   node --import ./scripts/alias-register.mjs scripts/digest-figures.mjs [out.json] [--now YYYY-MM-DD] [--dir FOLDER]
 //
 // --now: the day the holds are read for (lib/license.ts), today (UTC) when not given.
+// --dir (session 2703): read the issues and their charts/ from FOLDER instead of docs/digest (a regeneration's issues).
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const { digestFigures } = await import("../lib/digest.ts");
-const dir = path.join(here, "..", "..", "docs", "digest");
 const args = process.argv.slice(2);
 const at = args.indexOf("--now");
+const di = args.indexOf("--dir");
+const dir = di >= 0 ? path.resolve(args[di + 1]) : path.join(here, "..", "..", "docs", "digest");
 const now = at >= 0 ? new Date(`${args[at + 1]}T12:00:00Z`) : new Date();
-const outFile = args.find((a, i) => !a.startsWith("--") && (at < 0 || i !== at + 1));
+const outFile = args.find((a, i) => !a.startsWith("--") && (at < 0 || i !== at + 1) && (di < 0 || i !== di + 1));
 
 const out = { written_utc: new Date().toISOString(), holds_on: now.toISOString().slice(0, 10), digests: {} };
 for (const f of fs.readdirSync(dir).sort()) {

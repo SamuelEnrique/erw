@@ -149,3 +149,45 @@ What changes against today's mark: the bars are slightly heavier against the squ
 - Dark mode. None is proposed.
 - The emails and the weekly charts (`warehouse/news/`, `warehouse/analysis/style.py`), which draw the mark and the palette themselves.
 - The base link color's place in the stylesheet: `site/app/globals.css` sets it outside a cascade layer, so it wins over every color class a link carries. Moving it changes links across the site and is its own landing.
+
+## 10. The periodicals: the Daily Digest and the Weekly Roundup (v2)
+
+Session 2706 (chain 131, 25 October 2026), from the owner's rulings of 24 October 2026 on the brandbook's v2 pages. Built by sessions 2703 (`warehouse/news/brief.py`) and 2704 (`warehouse/news/roundup.py`); the page (`site/lib/digest.ts`, `site/lib/markdown.ts` `foldMore`) and the email (`warehouse/news/email_digest.py`) read the same order. Where the warehouse holds no figure for a slot, the slot says so in the brand's words ("not held", "licensed source needed") or is left out and the run log says why; no figure is ever invented.
+
+### The Daily Digest
+
+The promise: a two-minute read on what changed since the last issue, with the source trail close at hand. Order, fixed:
+
+1. **Masthead**: the mark, "ERW Daily Digest", the issue date as "26 October 2026", the data cutoff as a time in Eastern Time with its UTC equivalent ("Data through 11:45 ET, 15:45 UTC"). Never "real-time".
+2. **The opening number**: one verified finding in one sentence, with metric, value, unit, geography, period and the comparison basis. Chosen among the day's movers and the day's top story's figure by: consequence for the system or the market first, novelty since the last issue second, source quality third; never the largest percentage move by default; yesterday's metric again only if it moved materially. When no defensible move exists, the opening number is a structural figure from the day's top story (a MW, a USD sum) with its source. (The rule as code: `brief.opening_number`'s docstring.)
+3. **The numbers block**: four rows, five at most, each with metric and geography, value and unit, change against a stated reference, period, status and source. The default mix: a market price; a physical measure (US48 demand, a flow, storage); a project, queue or capacity figure; a policy, capital or reliability figure. A held or restricted value prints its status, never a zero.
+4. **What moved**: two or three stories (not ten), each with its headline, one why line (the consequence), one limitation if material, and its source. The rest of the top ten and the sector sections fold under a "More" heading (fold, do not cut).
+5. **The one chart**: the chart of the day, which deepens the opening finding where a relevant candidate exists; its source line carries publisher, table, period, vintage, ERW retrieval time; if no valid chart can be built, a small table stands in its place and the issue says no chart is shown.
+6. **The fun fact**: one, sourced, separate module at the end; no joke beside a figure; a pun held to its source. The character appears here and nowhere else in the email.
+7. **Footer**: methods, corrections, preferences, unsubscribe.
+
+Length: 350 to 450 words of prose above the fold, excluding source lines, the numbers block, the fold and the footer. Subject line: `ERW Daily | <metric or market>: <value and unit>, <comparison period>`, no figure unless verified with a unit. Send: weekdays 09:00 Eastern; cutoff 08:30 Eastern, named on every issue (open: see below).
+
+### The Weekly Roundup
+
+The promise: a one-page executive read on the week's most consequential changes, the evidence behind them, and what merits attention next week. Order, fixed:
+
+1. **Masthead**: the mark, "ERW Weekly Roundup", the week ending date, the source cutoff in Eastern Time with UTC, a one-line note when the previous ISO week has no issue.
+2. **The opening number**: the number that best explains the week (system scale, persistence, relevance to capital or infrastructure decisions, source strength), said as observed, calculated, estimated or forecast. (The rule as code: `roundup.opening_number`'s docstring.)
+3. **The week in five numbers**: exactly five, from five different parts of the system where evidence exists (markets; physical flows or demand; infrastructure and capacity; projects or capital; policy or reliability), each with period, unit, status, source vintage; a category with no new comparable observation is replaced by one that mattered, said so.
+4. **What mattered**: three developments ordered by consequence, each with what happened, why it matters to the system, and what the evidence does not establish; sources linked.
+5. **The chart of the week**, with a one-sentence reading note that says what the picture shows, never what to do.
+6. **Next week**: two or three dated items (filings, auctions, hearings, data releases, project milestones) the warehouse or the policy monitor holds with a date; what is scheduled, never a prediction. Where nothing dated is held, the section says "no dated events held this week".
+7. **The fun fact**, as the Digest's. The character appears here only.
+8. **Footer**, as the Digest's. The deals and datacenter tables (under "More") print rows of confidence 0.7 or more with at least one of operator, site or MW, US rows first, at most 15 a section with a count of the rest and a link.
+
+Length: 500 to 650 words, each development 60 to 90 words, each next-week item one line. Subject line: `ERW Weekly | <plain description of the week>`, with an optional second clause of one verified metric and unit. Send: Fridays 10:00 Eastern with a Thursday 18:00 Eastern cutoff is the brandbook's recommendation; the run is Sunday 23:00 UTC (open: see below).
+
+### The character in the emails
+
+ERW, direction 5 (no antenna), is part of the brand (the owner's ruling of 24 October 2026). A still PNG, 48 px tall at 2x (`site/public/brand/erw-character-48.png`, 77 by 96, from `site/public/brand/erw-character.svg`), in the fun-fact module only: left of the fact's text, never in the masthead, never in the numbers block, never beside a figure or in a chart. Alt text "ERW". Its chest is the current mark's E; it changes with the mark the owner chooses (the brandbook canvas, board 18). The masthead keeps the current mark.
+
+### Open, for the owner
+
+- **The Digest's send time.** The brandbook's weekdays 09:00 Eastern with an 08:30 Eastern cutoff; today the Digest is written and sent by the daily run, started at 14:00 UTC (`.github/workflows/daily-prices.yml`, its `schedule` line, and the pg_cron job of migration 015 that starts it).
+- **The Roundup's send time.** The brandbook's Fridays 10:00 Eastern with a Thursday 18:00 Eastern cutoff; today Sundays at 23:00 UTC (`.github/workflows/roundup.yml`, its `schedule` line, and the pg_cron job of migration 022).

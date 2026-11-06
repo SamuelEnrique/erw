@@ -61,16 +61,17 @@ class TheSourceText(unittest.TestCase):
         self.assertEqual(brief.source_text("T&D World", "https://www.tdworld.com/x", self.lic), "[T&D World](https://www.tdworld.com/x)")
 
     def test_a_licensed_outlet_is_named_with_no_link(self):
-        self.assertEqual(brief.source_text("Reuters", GN, self.lic), "Reuters")
-        self.assertEqual(brief.source_text("Bloomberg.com", GN, {"Bloomberg"}), "Bloomberg.com")   # the feed's field, the list's name
+        # session 2701 (rulings item 15, the 24-hour default): a held outlet keeps its link; the name is the link's text
+        self.assertEqual(brief.source_text("Reuters", GN, self.lic), f"[Reuters]({GN}) (via Google News)")
+        self.assertEqual(brief.source_text("Bloomberg.com", GN, {"Bloomberg"}), f"[Bloomberg.com]({GN}) (via Google News)")
         self.assertEqual(brief.outlet_key("OilPrice.com"), "oilprice")
-        self.assertEqual(brief.source_text("Utility Dive", "https://www.utilitydive.com/news/x", self.lic), "Utility Dive")
+        self.assertEqual(brief.source_text("Utility Dive", "https://www.utilitydive.com/news/x", self.lic),
+                         "[Utility Dive](https://www.utilitydive.com/news/x)")
 
     def test_link_text_joins_them(self):
         t = brief.link_text([("Reuters", GN), ("POWER Magazine", "https://www.powermag.com/x"), ("Bloomberg.com", GN)], self.lic)
-        # Bloomberg.com is the feed's name for the list's Bloomberg: named, no link
-        self.assertEqual(t, "Reuters, [POWER Magazine](https://www.powermag.com/x), Bloomberg.com")
-        self.assertNotIn("news.google.com", t)
+        # session 2701 (rulings item 15): every outlet keeps its link, the held ones too
+        self.assertEqual(t, f"[Reuters]({GN}) (via Google News), [POWER Magazine](https://www.powermag.com/x), [Bloomberg.com]({GN}) (via Google News)")
 
     def test_the_session_470_form_holds_without_a_hold(self):
         t = brief.link_text([("Reuters", GN), ("POWER", "https://www.powermag.com/x")], set())
@@ -82,7 +83,8 @@ class TheSourceText(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             brief._LICENSED[brief.LICENSE_FILE] = brief.licensed_outlets(status_file(d))
             try:
-                self.assertEqual(brief.also_line(recs), "Also on this topic: Nextdc cuts outlook (Reuters).")
+                # session 2701 (rulings item 15): the held outlet keeps its link
+                self.assertEqual(brief.also_line(recs), f"Also on this topic: Nextdc cuts outlook ([Reuters]({GN}) (via Google News)).")
             finally:
                 brief._LICENSED.pop(brief.LICENSE_FILE, None)
 
@@ -136,7 +138,8 @@ class ThePrintedIssue(unittest.TestCase):
                                      f"Sources: {brief.link_text(r['links'])}")
             finally:
                 brief._LICENSED.pop(brief.LICENSE_FILE, None)
-        self.assertEqual(L[1], "   Why. parties: Iran. Sources: Reuters, [OilPrice.com](https://oilprice.com/x)")
+        # session 2701 (rulings item 15): the held outlet keeps its link
+        self.assertEqual(L[1], f"   Why. parties: Iran. Sources: [Reuters]({GN}) (via Google News), [OilPrice.com](https://oilprice.com/x)")
         self.assertEqual(brief.assert_unique(L), 1)
 
 
