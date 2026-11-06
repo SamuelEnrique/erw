@@ -57,7 +57,9 @@ POLICY_NOTE = ("\n\nPolicy actions: the summary of an item is the document's own
                " A notice of a meeting, a session or a hearing, or of a procedural step (a comment period set, "
                "shortened or extended, a deadline moved), is 1 to 3 whatever the size of the project it concerns; an "
                "environmental assessment, a scoping notice or an application accepted for filing is 4 to 6 unless it "
-               "decides the project.")
+               "decides the project."
+               # session 3131 (the audit's class 4): coal ash at power plants was scored "policy"
+               " A rule on power plants' coal ash or wastewater is generation; a rule on mining is other.")
 ON_TEXT = "scored on the source text"
 
 

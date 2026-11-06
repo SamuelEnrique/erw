@@ -1,6 +1,6 @@
 # Session 3130: chain 169's ninth session (its 3074): a procedural notice's band (class 10)
 
-Personal laptop, second window, 6 November 2026, 13:54 to 14:00 UTC. Opus 5.5. Branch `wip/3130-policy` cut from `wip/3129-policy`.
+Personal laptop, second window, 6 November 2026, 13:54 to 13:57 UTC (the commits' times). Opus 5.5. Branch `wip/3130-policy` cut from `wip/3129-policy`.
 
 ## What it did
 

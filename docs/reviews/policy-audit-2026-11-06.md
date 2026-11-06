@@ -206,9 +206,9 @@ The audit's 80 actions read again with the chain's code (`warehouse/policy/field
 | 1 | A stated date held in no field | 61 | 1 (session 3125) | r57, a schedule given by month only ("May 2027"), kept as words; the five other rows of session 3064 held since session 3125, and r58, which states no date, out of the class |
 | 2 | No status | 80 | 0 | `action_status` on every row; the fixture's 30 right |
 | 3 | A stated figure held in no field | 17 | 1 (session 3126) | r6, a program's per-driver incentives ("Up to $20,300 toward the purchase"), not a total of the action |
-| 4 | Sector "policy" | 16 | 16 | the scorer's note is changed; the rows change when they are scored again |
+| 4 | Sector "policy" | 16 | 16 held; 0 in the trial of session 3131 | 7 rows left "policy" in that trial, each naming no part of the energy system; the rows held change when scored again |
 | 5 | The instrument not held | 14 | 0 | `instrument` names all 14 |
-| 6 | The place missing or short | 6 | 2 (session 3127) | r27 (a lease sale placed by its water, Cook Inlet) and r68 (states named only in company names, which the rule leaves out) |
+| 6 | The place missing or short | 6 | 1 (session 3131) | r68: states named only in companies' names, which the rule leaves out by design |
 | 7 | One action, several rows | 3 | 0 | r16, r66 and r71 are documents of one record, `nrc:NRC-2026-0265` |
 | 8 | The body at its parent's level | 3 | 0 | OSMRE, BOEM, Texas Governor |
 | 9 | Out of scope | 4 | 0 (session 3129: marked) | each carries its `scope`; whether to leave such rows out is your ruling |
@@ -249,3 +249,10 @@ One sentence added to the scorer's policy note (`warehouse/policy/score.py`): "A
 - r78 (two added scoping sessions): held 5, 4 in 3128's trial, **3** now; r21 (a comment period shortened): held 5, 5, **3**; r63 (an EA): held 7, 6, **6**. All three in their bands.
 - At 5 or more: 28 held, 27 in 3128's trial, 24 now (the procedural notices); of the other rows only r21 moved by more than one step from 3128's trial. "policy" sectors: 9 (8 in 3128's).
 - The rows held change only when scored again: your ruling (chain 166's question 1), now with both sentences of the note.
+
+## Session 3131: a water within one state (class 6) and coal ash (class 4)
+
+- **The place**: `place_states` reads a water that lies within one state (`ONE_STATE_WATERS`: Cook Inlet, the Beaufort and Chukchi Seas and Norton Sound for Alaska, Puget Sound for Washington) when nothing else places the action; a water shared by several states (the Gulf, the Atlantic) places nothing. r27 now AK; no other of the 68 Register documents changes; session 157's test stays at 85. Class 6: 5 of 6; r68 stays by design.
+- **The sector**: one sentence more in the scorer's note: "A rule on power plants' coal ash or wastewater is generation; a rule on mining is other." A first wording with "emissions" moved a building's air plan (r80) to generation in its trial and was narrowed. Its trial, in memory on the 80 (two calls each, USD 0.1891 and 0.1888, the ledger's rows of session 3131; no score written; the last in `docs/reviews/policy-audit-2026-11-06/rescore-trial-3131.json`): r17 generation, r14 other, r80 other; "policy" on 7 rows, each naming no part of the energy system (r9, r26, r28, r38, r41, r48, r52); class 10's rows in their bands (r78 3, r21 4, r63 5).
+- **What the note does to the page's default view, for your ruling**: at 5 or more, 20 of the 80 in this trial against 28 held. The eight that fall are scoping notices, EAs, an exemption, a state program's approval and a release of awards moving from 5 to 4 (r12, r17, r21, r56, r60, r66, r71, r78), each inside the band the note names. A rescoring would show about 29% fewer actions on the default view.
+- The second read's totals: 206 before; 22 held as faults today, of which 18 are the held scores waiting for a rescoring (classes 4 and 10) and 1 is by design (r68); the trial leaves none of classes 4 and 10.

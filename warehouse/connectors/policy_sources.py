@@ -317,7 +317,18 @@ def place_states(title, abstract, first_paragraph, place_words=""):
     for m in re.finditer(r"\b(?:City|Town|Village|Borough|County) of [A-Z][A-Za-z .'-]{1,40}?, ([A-Z]{2})\b", title or ""):
         if m.group(1) in codes and m.group(1) not in got.split(";"):
             got = ";".join(sorted(set(filter(None, got.split(";"))) | {m.group(1)}))
+    # session 3131: a water that lies within one state places an offshore action there ("Cook Inlet Outer Continental
+    # Shelf Oil and Gas Lease Sale"); a water shared by several states (the Gulf, the Atlantic) places nothing
+    if not got:
+        for water, code in ONE_STATE_WATERS:
+            if re.search(water, f"{title or ''} {abstract or ''}", re.I):
+                got = code
+                break
     return got or states(not_a_place(place_words, parties))
+
+
+ONE_STATE_WATERS = [(r"\bCook Inlet\b", "AK"), (r"\bBeaufort Sea\b", "AK"), (r"\bChukchi Sea\b", "AK"), (r"\bNorton Sound\b", "AK"),
+                    (r"\bPuget Sound\b", "WA")]
 
 
 def county_sentence(text):

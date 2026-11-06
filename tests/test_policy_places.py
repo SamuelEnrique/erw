@@ -37,6 +37,12 @@ class Places(unittest.TestCase):
              "for the Tribe within an area on the Southern Ute Indian Reservation in southwestern Colorado is proposed.")
         self.assertEqual(ps.place_states("Intent To Prepare a Programmatic Environmental Impact Statement", "", "", ps.county_sentence(t)), "CO")
 
+    def test_a_water_within_one_state(self):
+        # r27 (session 3131); a water shared by several states places nothing
+        t = "Notice of Availability of the Proposed Notice of Sale for the Cook Inlet Outer Continental Shelf Oil and Gas Lease Sale 2"
+        self.assertEqual(ps.place_states(t, "", ""), "AK")
+        self.assertEqual(ps.place_states("Gulf of America Outer Continental Shelf Oil and Gas Lease Sale", "", ""), "")
+
 
 if __name__ == "__main__":
     unittest.main()
