@@ -43,6 +43,8 @@ export const KEY_TABLE = {
   deals: "energy_deals", event: "", es: "event_window_daily", griddc: "datacenter_facilities", datacenters: "datacenter_facilities",
   bill: "cost_of_power_monthly", cop: "cost_of_power_monthly", mr: "merchant_revenue_monthly", ms: "merchant_revenue_monthly", projects: "energy_projects",
   gridnews: "news_index",
+  // session 3178 (chain 166): Num.tsx's keys of session 2248, the datacenter page's charts, grids view and timeline
+  dcchart: "datacenter_facilities", dcgrid: "datacenter_facilities", dctime: "datacenter_facilities",
 };
 // the grid a card's words name, as components/analysis/FindingCard.tsx and scripts/check-analysis.mjs read it
 export const GRID_WORD = [[/\bERCOT\b/i, "ercot"], [/\bCAISO\b/i, "caiso"], [/\bPJM\b/i, "pjm"], [/\bMISO\b/i, "miso"], [/\bSPP\b/i, "spp"], [/\bNYISO\b/i, "nyiso"], [/\bISO-NE\b/i, "isone"]];
