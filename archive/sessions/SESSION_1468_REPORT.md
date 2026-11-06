@@ -1,6 +1,6 @@
 # Session 1468 report: the third dry runs, read, the previews sent
 
-Energy Research Warehouse (ERW), session 1468, chain 150, samueloldlaptop, 6 November 2026, 06:15 to 06:35 UTC. Model: Claude Opus 5.5 (this window's). **Model spend USD 0.0428** (the Digest USD 0.0266 + summary 0.0047; the Roundup's headline USD 0.0073 + summary 0.0042; `ERW_SPEND_CAP_USD=4`, the ledger off as session 1451 ran it). No warehouse data written; **two preview emails to the one fixed recipient** (06:18 UTC: "[preview, dry run 1468] ERW Daily ..." Resend id `01a1af81-de0e-773f-ba4e-4911d2140355`, and "[preview, dry run 1468] ERW Weekly ..." `01a1af81-e3e3-716c-82a1-379127fba166`); nothing posted. Branch `wip/1468-periodicals` (the landed commit `5aa739c9c`, then main).
+Energy Research Warehouse (ERW), session 1468, chain 150, samueloldlaptop, 6 November 2026, 06:15 to 06:24 UTC. Model: Claude Opus 5.5 (this window's). **Model spend USD 0.0428** (the Digest USD 0.0266 + summary 0.0047; the Roundup's headline USD 0.0073 + summary 0.0042; `ERW_SPEND_CAP_USD=4`, the ledger off as session 1451 ran it). No warehouse data written; **two preview emails to the one fixed recipient** (06:18 UTC: "[preview, dry run 1468] ERW Daily ..." Resend id `01a1af81-de0e-773f-ba4e-4911d2140355`, and "[preview, dry run 1468] ERW Weekly ..." `01a1af81-e3e3-716c-82a1-379127fba166`); nothing posted. Branch `wip/1468-periodicals` (the landed commit `5aa739c9c`, then main).
 
 ## What it did
 
