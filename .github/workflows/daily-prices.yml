@@ -391,6 +391,9 @@ jobs:
           for p in "${paths[@]}"; do
             [ -e "$p" ] && git add -- "$p"
           done
+          # session 3714 (docs/state/main_red_2026-11-06.md): a page file rebuilt here from a table shorter than its history
+          # (the runner holds only what it restored) is put back as main has it, each one named in the log
+          python scripts/never_thinner.py --staged
           if git diff --cached --quiet; then
             echo "No tracked file changed today; nothing to commit."
             exit 0
