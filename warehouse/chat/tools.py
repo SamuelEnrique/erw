@@ -68,6 +68,10 @@ QUERY_PROPS = {
     "percentile": {"type": "number", "description": "Required when aggregation is percentile: 0 to 100 (numpy linear interpolation)."},
     "value_column": {"type": "string", "description": "Numeric column to aggregate. Default: value (series), capacity_mw (entities). For EIA-860M, nameplate_mw is the nameplate capacity."},
     "group_by": {"type": "string", "description": "One of year, month, day, hour (of the row time, in tz), entity, or one of the table's own text columns (for example state, technology_group, status, sector). Omit for one overall result."},
+    # session 3297 (the trader set's tr15, "how many 15-minute intervals above 100 USD/MWh"): a value threshold, the same
+    # argument in site/lib/chat/tools.ts. Rows are kept when their value column is above and/or below the figures, before
+    # the aggregation, so count with a threshold is the number of intervals (rows) past it
+    "threshold": {"type": "object", "description": "Keep only rows whose value column (value_column, or the default) is strictly above and/or strictly below a figure, before the aggregation: {\"above\": 100} for rows over 100, {\"below\": 0} for negative rows, both for a band. With aggregation count it is the number of intervals (rows) past the figure, for example the 15-minute intervals above 100 USD/MWh; the result's threshold field gives the rows in the window before the threshold beside the rows kept. Rows with no value are never kept.", "properties": {"above": {"type": "number"}, "below": {"type": "number"}}, "additionalProperties": False},
     "tz": {"type": "string", "description": "IANA time zone, default UTC: for year/month/day/hour grouping, and for reading a start or end given without Z or an offset (a local operating day is start and end dates with its tz). ISO operating days are local: ERCOT and SPP America/Chicago, CAISO America/Los_Angeles, NYISO and ISO-NE America/New_York, MISO EST (use Etc/GMT+5)."},
 }
 
@@ -584,9 +588,35 @@ def held_answer(args, grid):
     out.update(provenance(table))
     return out
 
+THRESHOLD_NONE = "rows match these filters, and none of them is past the threshold (threshold.rows_kept is 0)"
+
+
+def _threshold(threshold):
+    """Session 3297: the threshold argument read as (above, below), each a float or None. As tools.ts readThreshold."""
+    if threshold is None:
+        return None, None
+    if not isinstance(threshold, dict) or not threshold or set(threshold) - {"above", "below"}:
+        raise ToolError('threshold is an object with above, below or both, for example {"above": 100}')
+    vals = []
+    for k in ("above", "below"):
+        v = threshold.get(k)
+        if v is None:
+            vals.append(None)
+            continue
+        if isinstance(v, bool) or not isinstance(v, (int, float)) or math.isnan(float(v)):
+            raise ToolError(f"threshold {k} must be a number")
+        vals.append(float(v))
+    above, below = vals
+    if above is None and below is None:
+        raise ToolError('threshold is an object with above, below or both, for example {"above": 100}')
+    if above is not None and below is not None and above >= below:
+        raise ToolError("threshold above must be less than below (rows strictly between the two)")
+    return above, below
+
 
 def query(table, aggregation, entity=None, variable=None, start=None, end=None, where=None,
-          percentile=None, value_column=None, group_by=None, tz="UTC"):
+          percentile=None, value_column=None, group_by=None, tz="UTC", threshold=None):
+    above, below = _threshold(threshold)
     if aggregation not in AGGREGATIONS:
         raise ToolError(f"aggregation must be one of {AGGREGATIONS}")
     held_on = hold.on()
@@ -600,7 +630,7 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
             raise ToolError(str(exc))
         if grid:
             return held_answer(dict(table=table, aggregation=aggregation, entity=entity, variable=variable, start=start, end=end, where=where,
-                                    percentile=percentile, value_column=value_column, group_by=group_by, tz=tz), grid)
+                                    percentile=percentile, value_column=value_column, group_by=group_by, tz=tz, threshold=threshold), grid)
     shape = _shape(df)
     sel, tcol = _select(df, shape, entity, variable, start, end, where, tz or "UTC")
     if held_on and "entity" in sel.columns and len(sel):
@@ -610,10 +640,10 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
             raise ToolError(hold.MISO_PAUSED)
         sel = sel[~own]
     vcol = value_column or {"series": "value", "entities": "capacity_mw", "events": "mw"}[shape]
-    if aggregation not in ("count",) and vcol not in df.columns:
+    if (aggregation not in ("count",) or threshold is not None) and vcol not in df.columns:
         raise ToolError(f"no column {vcol!r}; numeric columns: "
                         f"{[c for c in df.columns if pd.api.types.is_numeric_dtype(df[c])]}")
-    if aggregation not in ("count", "latest") and not pd.api.types.is_numeric_dtype(df[vcol]):
+    if (aggregation not in ("count", "latest") or threshold is not None) and not pd.api.types.is_numeric_dtype(df[vcol]):
         # session 20: an events or entities column of numbers with blanks ("not stated"), such as
         # energy_deals.dollars, arrives as text; it is numeric when every non-blank value is a
         # number (the evaluation's s20q14 was refused with "not numeric")
@@ -623,10 +653,25 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
             raise ToolError(f"column {vcol!r} is not numeric")
         df = df.assign(**{vcol: num})
         sel = sel.assign(**{vcol: num.loc[sel.index]})
+    thr = None
+    if threshold is not None:
+        v = pd.to_numeric(sel[vcol], errors="coerce")
+        keep = v.notna()
+        if above is not None:
+            keep &= v > above
+        if below is not None:
+            keep &= v < below
+        thr = {"column": vcol, "above": _num(above), "below": _num(below), "rows_in_window": int(len(sel)),
+               "rows_kept": int(keep.sum()),
+               "note": "rows_kept of rows_in_window have a value strictly past the threshold; the aggregation is over those rows"}
+        thr = {k: x for k, x in thr.items() if x is not None}
+        sel = sel[keep]
     out = {"aggregation": aggregation, "value_column": None if aggregation == "count" else vcol,
            "filters": {k: v for k, v in dict(entity=entity, variable=variable, start=start, end=end,
-                                              where=where, percentile=percentile, tz=tz if (group_by in TIME_GROUPS or start or end) and tz != "UTC" else None).items() if v},
+                                              where=where, percentile=percentile, threshold=threshold, tz=tz if (group_by in TIME_GROUPS or start or end) and tz != "UTC" else None).items() if v},
            "rows_matched": int(len(sel))}
+    if thr is not None:
+        out["threshold"] = thr
     if shape == "series" and len(sel):
         out["units"] = sorted(sel["unit"].unique())
         out["variables"] = sorted(sel["variable"].unique())[:10]
@@ -636,6 +681,10 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
     if len(sel) == 0:
         out["result"] = []
         out["note"] = "no rows match these filters"
+        if thr is not None and thr["rows_in_window"]:
+            # session 3297, as tools.ts: rows were held and none is past the threshold: a count of none is an answer
+            out["result"] = [{"count": 0}] if aggregation == "count" and not group_by else []
+            out["note"] = THRESHOLD_NONE
     else:
         # session 92, under a scope that asks for it (Ask ERCOT): rows of a day or longer are labelled with their local
         # period at 00:00Z, so they are grouped by that label whatever tz says. Read in America/Chicago, a month's row

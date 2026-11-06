@@ -15,6 +15,7 @@ import { LIFE_MS, keep, within, type Summary } from "./summaries";
 import { hourlyRefusal } from "./rollup";
 import { HOUR_OF_DAY, NEWEST, THIS_WEEK, NEWEST_READ, NEWEST_READ_DATED, dateColumns, dateLabel, hourFamily, newestWholeDay, stepsPerHour } from "./forms";
 import { addLocalTimes, zoneOfEntity } from "./plaintime";
+import { THRESHOLD_NONE, ThresholdError, applyThreshold, readThreshold, type Threshold } from "./threshold";   // session 3297
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
 // warehouse/chat/tools.py set_scope does. null: the whole live set.
@@ -382,6 +383,8 @@ type QueryArgs = {
   /** session 156 (lib/chat/forms.ts): a date column of an entities or events table to group and bound by; "newest" for the newest whole day held */
   date_column?: string;
   day?: string;
+  /** session 3297 (lib/chat/threshold.ts): keep rows whose value is strictly above and/or below a figure, before the aggregation */
+  threshold?: Threshold;
 };
 
 type Row = { t: string | null; v: number | null; g: string | null; entity?: string; variable?: string; unit?: string; id?: string };
@@ -496,7 +499,10 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (held) return heldAnswer(a, held);
   const tcol = TIME_COL[shape];
   const vcol = a.value_column ?? DEFAULT_VALUE[shape];
-  if (a.aggregation !== "count" && !columns.includes(vcol)) throw new ToolError(`no column ${JSON.stringify(vcol)} in ${a.table}`);
+  // session 3297: a value threshold (lib/chat/threshold.ts), as tools.py; with one, the value column is read for a count too
+  let thr: [number | null, number | null] | null;
+  try { thr = readThreshold(a.threshold); } catch (e) { if (e instanceof ThresholdError) throw new ToolError(e.message); throw e; }
+  if ((a.aggregation !== "count" || thr) && !columns.includes(vcol)) throw new ToolError(`no column ${JSON.stringify(vcol)} in ${a.table}`);
   const tz = a.tz ?? "UTC";
   const g = a.group_by;
   // session 156: the average day by hour (lib/chat/forms.ts): 24 rows, "00" to "23", as one series
@@ -516,7 +522,7 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   }
 
   const sel = [`t:${dcol ? colRef(shape, dcol) : tcol}`];
-  if (a.aggregation !== "count") sel.push(`v:${colRef(shape, vcol)}`);
+  if (a.aggregation !== "count" || thr) sel.push(`v:${colRef(shape, vcol)}`);
   if (g && !timed && !hod) {
     const gc = g === "entity" ? { series: "entity", entities: "entity_id", events: "source" }[shape] : g;
     sel.push(`g:${colRef(shape, gc)}`);
@@ -694,15 +700,18 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
     id: r.id as string | undefined,
   }));
   // of a family of hours, the rows of the answer are the 24 variables; the counts of days read beside them are set apart
-  const rows = family ? all.filter((r) => family.names.includes(r.variable ?? "")) : all;
+  let rows = family ? all.filter((r) => family.names.includes(r.variable ?? "")) : all;
+  let thrField: Record<string, unknown> | null = null;
+  if (thr) ({ kept: rows, field: thrField } = applyThreshold(rows, thr, vcol, round));
 
   const out: Json = {
     aggregation: a.aggregation,
     value_column: a.aggregation === "count" ? null : vcol,
-    filters: Object.fromEntries(Object.entries({ entity: a.entity, variable: a.variable, start: a.start, end: a.end, where: a.where, percentile: a.percentile, date_column: dcol, day: a.day,
+    filters: Object.fromEntries(Object.entries({ entity: a.entity, variable: a.variable, start: a.start, end: a.end, where: a.where, percentile: a.percentile, threshold: a.threshold, date_column: dcol, day: a.day,
       tz: (((g && TIME_GROUPS.includes(g)) || a.start || a.end || a.day || (hod && !family)) && tz !== "UTC") ? tz : undefined }).filter(([, v]) => v !== undefined)),
     rows_matched: rows.length,
   };
+  if (thrField) out.threshold = thrField;
   if (newest) out.newest = newest;
   if (week) out.week = week;
   if (dcol) out.date_column = { column: dcol, rows_without_a_date: undated, note: "rows are grouped and bounded by this column's date as the source writes it; a row whose date is empty is in no group and is counted in rows_without_a_date" };
@@ -716,6 +725,11 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (!rows.length) {
     out.result = [];
     out.note = "no rows match these filters (this site holds only the live set: see list_tables)";
+    // session 3297, as tools.py: rows were held and none is past the threshold: a count of none is an answer
+    if (thrField && thrField.rows_in_window) {
+      out.result = a.aggregation === "count" && !g ? [{ count: 0 }] : [];
+      out.note = THRESHOLD_NONE;
+    }
   } else if (!g) {
     if (a.aggregation === "latest" && shape === "series") {
       const pairs = new Map<string, Row[]>();
