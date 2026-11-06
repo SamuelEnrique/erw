@@ -16,11 +16,15 @@ export type Row = {
   last?: { t: string; v: number }; moves?: Partial<Record<MoveKey, Move | null>>;
   range?: { lo: number; hi: number; n: number; pos: number | null } | null;
   avg7?: { v: number; n: number }; avg30?: { v: number; n: number }; lo30?: number; hi30?: number;
+  /** session 1613: the trailing twelve-month mean (the values held of the 365 days ending on the latest) and the latest less it */
+  avg365?: { v: number; n: number; ch: number };
   spark?: { t0: string; d: number[]; v: number[] };
   /** session 1118: what a spread's newest value was made of (the builder's spark_inputs, dark_inputs, crack_inputs) */
   inputs?: { t: string; hub?: number; gas?: number; gas_t?: string; coal?: number; coal_t?: string; heat_rate?: number; gasoline?: number; diesel?: number; crude?: number; product?: number };
   /** session 1601: the row's time base and granularity in words (the builder's basis_of), in the name's hover */
   basis?: string;
+  /** session 1611: the latest complete day's highest and lowest hour, each with the hour it began in the grid's local time */
+  ext?: { t: string; tz: string; hi: Extreme; lo: Extreme; hours: number; w?: ExtWindow; m?: ExtWindow } | null;   // w, m: session 1612
   /** session 1601: a page that draws what the row summarizes (the node basis rows: the node view) */
   link?: { href: string; words: string };
 };
@@ -29,8 +33,24 @@ export function nameTitle(row: Pick<Row, "code" | "formula" | "basis" | "source"
   return [row.code ? `Code: ${row.code}` : "", row.formula ? `Formula: ${row.formula}` : "", row.basis ? `Interval: ${row.basis}` : "",
     row.source !== undefined ? `Source: ${sources[row.source]}` : ""].filter(Boolean).join("\n") || undefined;
 }
+export type Extreme = { v: number; utc: string; local: string; day?: string };
+/** Session 1612: a week's or a month's hours of a power row: its complete days, its peak hour, the hours above each threshold. */
+export type ExtWindow = { days: number; first: string; hours: number; peak: Extreme; above: Record<string, number> };
+export const THRESHOLDS = ["100", "250", "1000"] as const;
+/** Session 1612: the hover of a week's or a month's line. Pure. */
+export function windowWords(row: Pick<Row, "ext" | "unit">, k: "w" | "m"): string | null {
+  const e = row.ext, x = e?.[k];
+  if (!e || !x) return null;
+  return `${x.days} complete days, ${dateWords(x.first)} to ${dateWords(e.t)}, ${x.hours} hours: the peak hour began at ${x.peak.local} on ${dateWords(x.peak.day ?? e.t)} (local time); hours above ${THRESHOLDS.map((n) => `${Number(n).toLocaleString("en-US")} USD/MWh: ${x.above[n]}`).join(", ")}`;
+}
+/** Session 1611: the words of a row's day extremes, for the cell's hover. Pure. */
+export function extremeWords(row: Pick<Row, "ext" | "unit">): string | null {
+  const e = row.ext;
+  if (!e) return null;
+  return `On ${dateWords(e.t)}, of its ${e.hours} hours: the highest began at ${e.hi.local}, the lowest at ${e.lo.local} (local time, ${e.tz}); each hour as the row's interval says`;
+}
 export type Filter = { key: string; label: string; options: [string, string][]; default: string };
-export type Group = { id: string; title: string; filters: Filter[]; curve?: boolean; extra?: string };
+export type Group = { id: string; title: string; filters: Filter[]; curve?: boolean; extra?: string; extremes?: boolean };   // extremes: session 1611
 export type WeekRow = {
   hub: string; grid: string; label: string; code: string; last_da?: { t: string; v: number };
   means: Record<string, { v: number; ch: number | null; end: string }>;
@@ -99,7 +119,8 @@ export function localHour(ms: number, tz: string): string {
 // says more than its license) and PJM's "licensed source needed". Pure: the held grids are given (lib/license.ts).
 const GRID_OF_ID: Record<string, string> = { isone: "ISO-NE", nyiso: "NYISO", miso: "MISO", pjm: "PJM", ercot: "ERCOT", caiso: "CAISO", spp: "SPP" };
 export const gridOfRow = (r: { id: string; tags?: Record<string, string> }): string => r.tags?.grid ?? GRID_OF_ID[r.id.split("-")[0]] ?? "";
-const FIGURES = ["last", "moves", "range", "avg7", "avg30", "lo30", "hi30", "spark", "hourly", "inputs"] as const;
+// ext: session 1611; basis and heat_ref: session 1632 (a held row prints its status words and no digit, its interval's words included)
+const FIGURES = ["last", "moves", "range", "avg7", "avg30", "avg365", "lo30", "hi30", "ext", "basis", "heat_ref", "spark", "hourly", "inputs"] as const;
 export function heldNote(grid: string): string {
   return `${grid}'s own terms ask for permission to republish its prices, and none is recorded yet (docs/licenses.md, site/data/license_status.json): license needed. This row is held, not shown, until a permission is recorded.`;
 }
@@ -327,8 +348,14 @@ export function csv(head: string[], rows: (string | number | null)[][]): string 
 // the license), then one line a row. Every figure is the file's, as the page shows it; nothing is read again.
 // Session 1311: a held row's line carries the hold's words (heldNote) in `hold`, as the page says them on the grid's
 // line (session 1193), and the header counts the held rows by grid.
+// Session 1614 (chain 165): the board as shown: the year to date's move, the twelve-month mean and the latest less it, the
+// day's high and low hour with their local times (between "latest" and "source", so a held row's are empty as its other
+// figures are), and the row's interval and the words of its status (before "hold", which stays last).
 export const ROWS_HEAD = ["id", "group", "label", "at", "code", "unit", "freq", "status", "latest_date", "latest", "day_move", "week_move", "month_move", "year_move",
-  "avg_7d", "avg_30d", "low_365d", "high_365d", "source", "hold"];
+  "ytd_move", "avg_7d", "avg_30d", "avg_12m", "vs_12m", "low_365d", "high_365d", "day_high", "day_high_local", "day_low", "day_low_local",
+  // session 1631 (chain 167): the week's and the month's peak hour and the hours above 100, 250 and 1,000, as the power rows' cells show them
+  "week_peak", "week_hours_over_100", "week_hours_over_250", "week_hours_over_1000", "month_peak", "month_hours_over_100", "month_hours_over_250", "month_hours_over_1000",
+  "source", "basis", "status_words", "hold"];
 export function rowsCsv(file: BoardFile): string {
   const header = [
     "# Energy Research Warehouse (ERW): the price board's rows as /board draws them, one line a row (site/lib/board.ts rowsCsv)",
@@ -340,9 +367,126 @@ export function rowsCsv(file: BoardFile): string {
   ];
   const n = (v: number | null | undefined) => (typeof v === "number" ? v : null);
   const rows = file.rows.map((r) => [r.id, r.group, r.label, r.at, r.code, r.unit, r.freq, r.status, r.last?.t ?? null, n(r.last?.v),
-    n(r.moves?.d?.ch), n(r.moves?.w?.ch), n(r.moves?.m?.ch), n(r.moves?.y?.ch), n(r.avg7?.v), n(r.avg30?.v), n(r.range?.lo), n(r.range?.hi),
-    r.source !== undefined ? file.sources[r.source] ?? null : null, r.status === "license" ? heldNote(gridOfRow(r)) : null]);
+    n(r.moves?.d?.ch), n(r.moves?.w?.ch), n(r.moves?.m?.ch), n(r.moves?.y?.ch), n(r.moves?.ytd?.ch), n(r.avg7?.v), n(r.avg30?.v), n(r.avg365?.v), n(r.avg365?.ch),
+    n(r.range?.lo), n(r.range?.hi), n(r.ext?.hi.v), r.ext?.hi.local ?? null, n(r.ext?.lo.v), r.ext?.lo.local ?? null,
+    ...(["w", "m"] as const).flatMap((k) => [n(r.ext?.[k]?.peak.v), ...THRESHOLDS.map((x) => n(r.ext?.[k]?.above[x]))]),
+    r.source !== undefined ? file.sources[r.source] ?? null : null, r.basis ?? null, r.status === "ok" ? null : PLACEHOLDER[r.status],
+    r.status === "license" ? heldNote(gridOfRow(r)) : null]);
   return `${header.join("\n")}\n${csv(ROWS_HEAD, rows)}`;
+}
+
+/** Session 1616 (chain 165): the least rows with values a group holds when the board is whole, for the groups it has; a
+ *  group not in the file (a file built before the group) is not judged. The counts are about two thirds of the rows with
+ *  values after the day's hold on the file of 5 November 2026 (power 22, peak 18, spark 9, da_rt 11, battery 22, as 27,
+ *  gasprices 255, crude 44, products 9, oilspreads 2, world 9, retailfuel 40, heating 140, retailpower 248, plantfuel 143,
+ *  metals 5, rates 3, carbon 4), and of what chain 165's builder adds to a new group, so a thinner build is caught and a
+ *  day's gap is not. */
+export const GROUP_FLOORS: Record<string, number> = {
+  power: 14, peak: 12, spark: 6, hubspread: 4, da_rt: 7, battery: 14, as: 18, gas: 1, gasflows: 12, gasprices: 170, crude: 29,
+  products: 6, oilspreads: 2, gasspreads: 1, world: 6, retailfuel: 27, heating: 93, retailpower: 165, plantfuel: 95, metals: 3, rates: 2, carbon: 3, costs: 1,
+};
+const FIGURE_KEYS = ["last", "moves", "range", "avg7", "avg30", "avg365", "lo30", "hi30", "ext", "basis", "spark", "inputs"] as const;   // basis: session 1632
+const near = (a: number, b: number) => Math.abs(a - b) <= 0.0002 + 1e-9 * Math.abs(b);
+/** Session 1616: the checks of the board's file alone, as the page draws it (after holdRows): a key per cell (unique ids,
+ *  every figure a number), a floor a group, every placeholder's words with no digit and no figure, and the figures this
+ *  chain added consistent with each other. Pure: scripts/check-board.mjs prints them, with or without a served page. */
+export function boardFileChecks(file: BoardFile): { ok: boolean; what: string }[] {
+  const out: { ok: boolean; what: string }[] = [];
+  const add = (ok: boolean, what: string) => out.push({ ok, what });
+  const ids = file.rows.map((r) => r.id);
+  const dup = ids.filter((id, i) => ids.indexOf(id) !== i);
+  add(dup.length === 0, `every row has its own id, so every cell's key is its own (${ids.length} rows)${dup.length ? `: repeated ${dup.slice(0, 5).join(", ")}` : ""}`);
+  const ok = file.rows.filter((r) => r.status === "ok");
+  const badNum = ok.filter((r) => !r.last || typeof r.last.v !== "number" || !Number.isFinite(r.last.v) || !/^\d{4}-\d{2}-\d{2}$/.test(r.last.t)
+    || Object.values(r.moves ?? {}).some((m) => m && !Number.isFinite(m.ch)) || (r.source !== undefined && !file.sources[r.source]));
+  add(badNum.length === 0, `every row with a value has its date, numbers that are numbers and a source (${ok.length} rows)${badNum.length ? `: ${badNum.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  const groups = new Set(file.groups.map((g) => g.id));
+  const thin = Object.entries(GROUP_FLOORS).filter(([g]) => groups.has(g)).map(([g, floor]) => [g, ok.filter((r) => r.group === g).length, floor] as const).filter(([, n, floor]) => n < floor);
+  const absent = Object.keys(GROUP_FLOORS).filter((g) => !groups.has(g));
+  add(thin.length === 0, `every group holds its floor of rows with values${thin.length ? `: ${thin.map(([g, n, f]) => `${g} ${n} of ${f}`).join(", ")}` : ""}${absent.length ? ` (not in this file yet: ${absent.join(", ")})` : ""}`);
+  const grey = file.rows.filter((r) => r.status !== "ok");
+  const leaky = grey.filter((r) => FIGURE_KEYS.some((k) => (r as Record<string, unknown>)[k] !== undefined) || !PLACEHOLDER[r.status as Exclude<Status, "ok">] || /\d/.test(PLACEHOLDER[r.status as Exclude<Status, "ok">] ?? "0"));
+  add(leaky.length === 0, `every row with no value shows its words ("licensed source needed" and the others), no digit and no figure (${grey.length} rows; ${grey.filter((r) => r.status === "licensed").length} licensed)${leaky.length ? `: ${leaky.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  const extBad = ok.filter((r) => r.ext && (r.ext.hi.v < r.ext.lo.v || (["w", "m"] as const).some((k) => {
+    const x = r.ext![k];
+    return x && (x.peak.v < r.ext!.hi.v - 1e-9 || x.above["100"] < x.above["250"] || x.above["250"] < x.above["1000"] || x.above["100"] > x.hours);
+  })));
+  add(extBad.length === 0, `every day's high is above its low, every week's and month's peak at least the day's high, and the hours above 100, 250 and 1,000 in order (${ok.filter((r) => r.ext).length} rows)${extBad.length ? `: ${extBad.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  const avgBad = ok.filter((r) => r.avg365 && r.last && !near(r.avg365.ch, r.last.v - r.avg365.v));
+  add(avgBad.length === 0, `every twelve-month mean's difference is the latest less the mean (${ok.filter((r) => r.avg365).length} rows)${avgBad.length ? `: ${avgBad.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  const ytdBad = ok.filter((r) => r.moves?.ytd && r.last && Number(r.moves.ytd.t.slice(0, 4)) !== Number(r.last.t.slice(0, 4)) - 1);
+  add(ytdBad.length === 0, `every year-to-date move is measured from the year before the latest (${ok.filter((r) => r.moves?.ytd).length} rows)${ytdBad.length ? `: ${ytdBad.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  const added = new Set(["hubspread", "gasflows", "gasspreads", "costs"]);
+  const said = ok.filter((r) => added.has(r.group) && !r.basis && !r.formula);
+  add(said.length === 0, `every row of the groups chain 165 added says its interval or its formula${said.length ? `: ${said.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  return out;
+}
+
+/** Session 1614: a reader of the rows' CSV (/board/rows), in Python or in Stata, for a reader who wants the board as it is
+ *  shown in a session of their own: the "#" header printed and skipped, the rows loaded as they are, the held rows counted
+ *  by their status words. The Stata reader keeps the owner's rules (no line continuation, one empty line between commands
+ *  outside a loop and none inside one, every figure column destrung with force). Pure: the address is given. */
+export function rowsReader(as: "py" | "do", url: string): string {
+  const figures = ROWS_HEAD.slice(ROWS_HEAD.indexOf("latest"), ROWS_HEAD.indexOf("source")).filter((c) => !c.endsWith("_local"));
+  if (as === "py") {
+    return [
+      "# Energy Research Warehouse (ERW): read the price board's rows as /board draws them (site/lib/board.ts rowsReader).",
+      "# The CSV opens with its provenance, lines that begin with \"#\"; they are printed and skipped, and the rows are",
+      "# loaded as they are. A held row carries no figure: its status_words say why, and its hold column the hold's words.",
+      "# Needs pandas.",
+      "import io",
+      "import urllib.request",
+      "",
+      "import pandas as pd",
+      "",
+      `URL = "${url}"`,
+      "text = urllib.request.urlopen(URL, timeout=300).read().decode(\"utf-8\")",
+      "lines = text.splitlines()",
+      "n = 0",
+      "while n < len(lines) and lines[n].startswith(\"#\"):",
+      "    n += 1",
+      "print(\"\\n\".join(lines[:n]))",
+      "board = pd.read_csv(io.StringIO(\"\\n\".join(lines[n:])), dtype={\"latest_date\": str, \"day_high_local\": str, \"day_low_local\": str})",
+      "print(board.shape)",
+      "print(board[\"status_words\"].fillna(\"shown\").value_counts())",
+      "print(board[board[\"status\"] == \"ok\"][[\"id\", \"label\", \"at\", \"latest_date\", \"latest\", \"unit\"]].head(20))",
+      "",
+    ].join("\n");
+  }
+  return [
+    "* Energy Research Warehouse (ERW): read the price board's rows as /board draws them (site/lib/board.ts rowsReader).",
+    "* The CSV opens with its provenance, lines that begin with \"#\"; they are counted and skipped, the column names are",
+    "* the first line after them. A held row carries no figure: its status_words say why, its hold column the hold's words.",
+    "clear",
+    "",
+    "tempfile raw",
+    "",
+    `copy "${url}" \`raw'`,
+    "",
+    "tempname fh",
+    "",
+    "local n 0",
+    "",
+    "file open `fh' using `raw', read text",
+    "",
+    "file read `fh' line",
+    "",
+    "while r(eof) == 0 {",
+    "    if substr(`\"`macval(line)'\"', 1, 1) != \"#\" continue, break",
+    "    local n = `n' + 1",
+    "    file read `fh' line",
+    "}",
+    "",
+    "file close `fh'",
+    "",
+    "import delimited using `raw', varnames(`=`n' + 1') encoding(\"utf-8\") bindquote(strict) stringcols(_all) clear",
+    "",
+    ...figures.flatMap((c) => [`destring ${c}, replace force`, ""]),
+    "tabulate status_words, missing",
+    "",
+    "describe",
+    "",
+  ].join("\n");
 }
 
 // The workbench's state, kept in the address so a view can be shared.

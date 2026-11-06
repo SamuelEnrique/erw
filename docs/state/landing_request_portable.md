@@ -4,8 +4,13 @@ Energy Research Warehouse (ERW). Written by chain 156 (`queue/done/156-night-6-n
 
 | # | Branch | Head | Task | Port | Requested (UTC) | Tests on this machine | State |
 |---:|---|---|---|---:|---|---|---|
-| 1 | `wip/2252-deals` | `9a5d15d11` | `2230-2252-deals` | 3230 | 2026-11-06 | the chain's tests and the older tests they touch: 173 passed, 6 skipped, on `a1ff82330`; the whole suite passed on `wip/2241-deals` (7,884 tests), not run whole on the head | waiting |
-| 2 | `wip/3059-policy` | `44bf41ab0` | `3054-3059-policy` | 3260 | 2026-11-06 | the 221 test files that touch policy, dashes, the method notes, coverage or the daily run: 3,167 passed, 131 skipped, 0 failed, on the head's tree; Node `test-policy-reads.mjs` 25 of 25, `test-policy-week.mjs` 90 of 90; the whole suite not run (stopped at 7% under the chain's 20-minute rule); not built (this window never builds) | waiting |
+| 1 | `wip/2252-deals` | `9a5d15d11` | `2230-2252-deals` | 3230 | 2026-11-06 | the chain's tests and the older tests they touch: 173 passed, 6 skipped, on `a1ff82330`; the whole suite passed on `wip/2241-deals` (7,884 tests), not run whole on the head | held in row 4: land row 4 in its place |
+| 2 | `wip/3059-policy` | `44bf41ab0` | `3054-3059-policy` | 3260 | 2026-11-06 | the 221 test files that touch policy, dashes, the method notes, coverage or the daily run: 3,167 passed, 131 skipped, 0 failed, on the head's tree; Node `test-policy-reads.mjs` 25 of 25, `test-policy-week.mjs` 90 of 90; the whole suite not run (stopped at 7% under the chain's 20-minute rule); not built (this window never builds) | waiting, or landed with row 3, which holds it |
+| 3 | `wip/3063-policy` | `4f8fef90d` | `3054-3063-policy` | 3260 | 2026-11-06 | the 223 test files that touch policy, dashes, the method notes, coverage or the daily run: 3,174 passed, 131 skipped, 0 failed, on the head's tree; Node `test-policy-monitor.mjs` 52 of 52, `test-policy-reads.mjs` 25 of 25, `test-policy-week.mjs` 90 of 90; `scripts/check_policy.py` 287 of 287 ok; the whole suite not run; not built, not type-checked (no `node_modules` on this machine) | waiting, or landed with row 5, which holds it |
+| 4 | `wip/2266-deals` | `c5ed68a47` | `2230-2266-deals` | 3230 | 2026-11-06 | the deals tests and the older tests that load the extractor: 237 passed, 1 skipped (session 2260); the datacenter tests: 54 passed (2263); the site built on `wip/2254-deals` (session 2255, the datacenter pages' first build: passed); the whole suite stopped by Claude Code for memory (2264), not run whole on the head | held in row 7: land row 7 in its place (it holds rows 1 and 4) |
+| 5 | `wip/3065-policy` | `07dfadcca` | `3054-3065-policy` | 3260 | 2026-11-06 | this chain's 9 test files and the older ones they touch: 105 passed, 2 skipped; Node `test-policy-monitor.mjs`, `test-policy-week.mjs`, `test-policy-reads.mjs` pass; row 3's 223 files passed on its head; not built | waiting, or landed with row 6, which holds it |
+| 6 | `wip/3128-policy` | `2721aea1e` | `3054-3128-policy` | 3260 | 2026-11-06 | on the head: this chain's and chain 166's test files and the older ones they touch, 204 passed, 8 skipped; Node monitor, week and reads tests pass; `check_policy.py` 288 of 288; on `wip/3125-policy` (with `origin/main` merged) the 224 related files: 3,179 passed, 131 skipped, 1 failed, `test_session178.py::TheNote::test_the_sections_asked_for`, which fails on `origin/main` too (the battery note's sections, not this chain's); not built | waiting (holds chain 166's rows) |
+| 7 | `wip/2281-deals` | `2fb4487a9` (or its one later commit, session 2281's report) | `2230-2281-deals` | 3230 | 2026-11-06 | the deals and datacenter tests: 279 passed, 1 skipped (session 2277); the chain's tests and tests 166 and 215 on the head with origin/main merged: 188 passed (2278); the site built on `wip/2254-deals` (2255); the whole suite not run whole on the head (a second window; stopped for memory in 2264) | waiting (holds rows 1 and 4) |
 
 ## Row 1: what it holds
 
@@ -38,3 +43,45 @@ Written by session 3059 of `queue/done/166-night-6-november-portable-window2-pol
 - **The scorer** `warehouse/policy/score.py`: one sentence added to the policy note on the sector; it applies to actions scored after the landing.
 - **Tests**: `tests/test_policy_fields.py`, `test_policy_records.py`, `test_policy_impact.py` and `tests/fixtures/policy/`. Method note: `docs/methods/policy_monitor.md` sections 14 and 15.
 - **No page changes in this row**: `/policy` is as on main. The monitor view (`/policy?view=monitor`) is the next row's.
+
+## Row 3: what it adds to row 2 (chain 166, sessions 3060 to 3063)
+
+`wip/3063-policy` holds row 2 (`wip/3059-policy` is its ancestor) and `origin/main` merged (49bf6a05c). Land it with `scripts/land_check.py --ref wip/3063-policy --task 3054-3063-policy --port 3260`; row 2 is then landed too. Reports: `archive/sessions/SESSION_3060_REPORT.md` to `SESSION_3063_REPORT.md`.
+
+- **The monitor view** `/policy?view=monitor` (a third view of `/policy`, in review with the page; `site/lib/release.ts` not changed): `site/app/policy/MonitorView.tsx`, `MonitorCalendar.tsx`, `MonitorCharts.tsx`, `site/lib/policymonitor.ts`; `site/lib/policyweek.ts`'s `VIEWS` gains `monitor`; `page.tsx` draws it from `site/data/policy/monitor.json` alone.
+- **Its data file and daily step**: `warehouse/policy/monitor_site.py` writes `site/data/policy/monitor.json` (1.24 MB, 1,495 records on the archive's copy; committed); `warehouse/run_daily.sh` gains `soft_step policy_monitor_records` after `policy_monitor_site` (the workflow's commit step already adds `site/data/policy`). `warehouse/policy/impact_reads.csv` (session 3058's reads) is read by it.
+- **The tracer**: `scripts/check_policy.py` with `site/scripts/policy-figures.mjs` (the keys `policycal|`, `policyfig|`, `policysum|`, shown as `data-check`, not `<Num check>`): **for the landing**, the gate's `check-values.mjs` does not know these families and need not; if it asks every `data-check` of a page to be a known family, add the three, traced by `check_policy.py`.
+- **Older tests edited** for the third view: `tests/test_session157_page.py` (the views), `test_session332.py` (three views offer the downloads), `test_session241a.py` (`/policy` opens the wrapper four times; `MonitorView.tsx` among its files), `site/scripts/test-policy-week.mjs`.
+- **The build is the gate's first**: `MonitorCharts.tsx` calls `components/svgchart.tsx`'s `CategoryChart` as its other callers do; nothing here was compiled. A type error there is this row's to fix, in the next chain (`queue/next/169-night-7-november-portable-window2-continued.md`).
+
+## Row 4: what it adds to row 1 (chain 159, sessions 2254 to 2266)
+
+`wip/2266-deals` holds row 1 (`wip/2252-deals` is its ancestor) and `origin/main` merged (`71464cf34`). Land it with `scripts/land_check.py --ref wip/2266-deals --task 2230-2266-deals --port 3230`; row 1 is then landed too. Reports: `archive/sessions/SESSION_2254_DEALS_REPORT.md` to `SESSION_2266_DEALS_REPORT.md`. No page file changes in this row beyond a script option (`site/scripts/shots-2241.mjs --set datacenters`).
+
+- **The extraction, on the audit's sample** (`docs/reviews/deals-audit-2026-11-06.md`, sessions 2256 to 2263): a deal's country from its words (`fields.country_of`, place missed 12 to 3); a kind the rule would call "other" read again (`fields.other_of`, 8 to 0); a stage from the deal's words and the status from it (`fields.stage_from_words`, status missed 7 to 0); a party a later story names joins the folded record (`dedupe.merge`); a facility's company field with two names, its country and its status from its words, and a pause not read as cancelled (`warehouse/datacenters/extract.py`, `facility_fields.py`).
+- **`ERW_DEALS_ONE_PARTY`** (`warehouse/deals/extract.py`): off by default, the prompt unchanged character for character; on adds one sentence (chain 156's ruling 2). Nothing to set for the landing.
+- **Tests**: `tests/test_session2256_deals.py` to `test_session2263_deals.py` with `tests/fixtures/deals/stories_2256.json` and `recorded_2256.json`. No older test edited in this row.
+- **After the landing, for the data machine**: new stories are extracted with these rules. A stored row takes only the new kind rule, when the daily run upgrades it to the new shape (`fields.upgrade`); its country, stage and status change only on a re-extraction, such as the backfill the owner is asked to approve.
+
+## Row 5: what it adds to row 3 (chain 166, sessions 3064 and 3065)
+
+`wip/3065-policy` holds rows 2 and 3 and `origin/main` merged. Land it with `scripts/land_check.py --ref wip/3065-policy --task 3054-3065-policy --port 3260`; rows 2 and 3 are then landed too. It adds documents only: `docs/methods/policy_monitor.md` section 16, the audit's second read, the reports of sessions 3060 to 3065 with their times from the commits. Chain 166's note is `docs/state/note_2026-11-07_portable_window2.md` on main.
+
+## Row 6: what it adds (chain 169, the personal laptop's second window: sessions 3122 to 3128)
+
+`wip/3128-policy` holds chain 166's rows (`wip/3065-policy` is its ancestor) and `origin/main` as merged in session 3125. Land it with `scripts/land_check.py --ref wip/3128-policy --task 3054-3128-policy --port 3260`. Reports: `archive/sessions/SESSION_3122_REPORT.md` to `SESSION_3128_REPORT.md`.
+
+- **Two faults a strict compile would refuse, fixed** (session 3123): `sortRows` compared `string | number` with `<`; the monitor's chart series are typed `CatSeries`. Still not compiled anywhere: the gate's build is the first.
+- **The monitor at 390** (3124): the filters fold behind one button below `lg`.
+- **The fields** (3125, 3126): four date rules (a certification's deadline, abbreviated months, a heading's date, a period extended to a date); a figure of the action's own total past the opening paragraph; **the money pattern fixed**: "$1.2 million," had lost its scale, so 13 records of the monitor's file read a million times too small (since session 3056, never landed).
+- **The places** (3127): the connector's place rule widened four ways (a public body's postal code, Alaska's census areas, "located at", a part of a state); session 157's 87-document test stays at 85.
+- **A scorer trial in memory** (3128, USD 0.19): no score written; its answers in `docs/reviews/policy-audit-2026-11-06/rescore-trial-3128.json`.
+
+## Row 7: what it adds to row 4 (chain 174, sessions 2268 to 2281)
+
+`wip/2281-deals` holds rows 1 and 4 (`wip/2266-deals` is its ancestor) and `origin/main` merged (session 2278). Land it with `scripts/land_check.py --ref wip/2281-deals --task 2230-2281-deals --port 3230`; rows 1 and 4 are then landed too. Reports: `archive/sessions/SESSION_2268_DEALS_REPORT.md` to `SESSION_2281_DEALS_REPORT.md`. No page file changes in this row.
+
+- **The extraction, on the audit's sample** (`docs/reviews/deals-audit-2026-11-06.md`, sessions 2269 to 2277): a datacenter word naming a motive or a market is not an AI-power load (`fields.DATACENTER_GENERIC`, 2 to 0); a contract's sum that is its funding or an asset's cost is not kept, nor flagged by the cross-check (`fields.sum_of_other`, `crosscheck.stated(title, deal_type)`, 2 to 0); the provider of credit is the buyer (`fields.credit_parties`, 1 to 0); a project one party leads is no deal (`fields.project_led`); a facility's state, power source and the market its company enters read from its words (`warehouse/datacenters/extract.py`, `facility_fields.power_from_words`).
+- **Fixture answers changed**: `tests/fixtures/deals/answers_2232.json` (D005's AI tag either way) and `tests/fixtures/datacenters/answers_2236.json` (F017 either a facility or not), where two reads disagree; tests 2236, 2258, 2262 and 2270 count accordingly, with notes.
+- **Tests**: `tests/test_session2270_deals.py` to `test_session2277_deals.py`.
+- **After the landing, for the data machine**: new stories are extracted with these rules; a stored row takes them only on a re-extraction, such as the backfill the owner is asked to approve.
