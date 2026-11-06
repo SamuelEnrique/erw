@@ -4,8 +4,8 @@ Energy Research Warehouse (ERW). Written by chain 165 (`queue/done/165-day-6-nov
 
 | # | Branch | Head | Task | Port | Requested (UTC) | Tests on this machine | State |
 |---:|---|---|---|---:|---|---|---|
-| 1 | `wip/1605-board` | `19fd5c0c0` | `1600-1605-board` | 3600 | 2026-11-06 | the board's and the page's test files: 127 run, 1 skipped, 1 failure (below); the whole suite not run to the end (below) | held in row 7: land row 7 in its place |
-| 2 | `wip/1610-board` | `edd783ea6` | `1600-1610-board` | 3600 | 2026-11-06 | the board's and the page's test files: 134 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | held in row 7: land row 7 in its place |
+| 1 | `wip/1605-board` | `19fd5c0c0` | `1600-1605-board` | 3600 | 2026-11-06 | the board's and the page's test files: 127 run, 1 skipped, 1 failure (below); the whole suite not run to the end (below) | landed at 0aa1dbd02 (row 2's branch, merged with main and three board tests updated to chain 165's changes; chain 164, session 3008) |
+| 2 | `wip/1610-board` | `edd783ea6` | `1600-1610-board` | 3600 | 2026-11-06 | the board's and the page's test files: 134 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | landed at 0aa1dbd02 (row 2's branch, merged with main and three board tests updated to chain 165's changes; chain 164, session 3008) |
 | 3 | `wip/1615-board` | `93600319f` | `1600-1615-board` | 3600 | 2026-11-06 | the board's and the page's test files: 151 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | held in row 7: land row 7 in its place |
 | 4 | `wip/1619-board` | `643726a99` | `1600-1619-board` | 3600 | 2026-11-06 | every test file naming the board's code (40 files): 330 run, 1 failure (the same, below); this chain's 57 tests passed; the whole suite not run here | held in row 7: land row 7 in its place |
 | 5 | `wip/1623-board` | `56766d6f1` | `1600-1623-board` | 3600 | 2026-11-06 | every test file naming the board's code and this chain's 63 tests (41 files): 334 run, 1 failure (the same, below); the whole suite not run here | held in row 7: land row 7 in its place |
