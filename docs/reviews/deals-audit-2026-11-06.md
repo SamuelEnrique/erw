@@ -79,3 +79,87 @@ The step's own line hides the cause. The cause is in the same run's other model 
 - Session 531 (chain 024, the Roundup audit's fix 8): one deal across days, matched in code (`deal_parties.same_deal`), two governments not a deal, an unnamed party dropped; the rules change later extractions, not the stored rows; folding the stored rows is the register's.
 - The comparables (session 466, chain 019, beside it): nothing computed from fewer than three disclosed deals; a median is of stated figures only; a deal stating none is left out, never zero; the chart shows the median price where a group has three prices, else the median size, and says so. On the 492 rows of 20 October no group stated three prices; on the 529 of 5 November no deal states a price in USD per MWh at all.
 - The rulings of 23 October (`docs/reviews/deals-rulings-2026-10-23.md`): items 1 to 6 and 9 open, 7 ruled and done (a revised figure is a note), 8 answered in practice, 10 done.
+
+## The audit of the stored records (session 2231)
+
+**The sample.** `energy_deals` sorted newest first (`extracted_at`, then `event_date`), every fifth row of the newest 600: the table holds 529, so **106 deals** (D001 to D106). `datacenter_projects` sorted the same way, **60 facilities** spread evenly over its 163 rows (F001 to F060). Each row was read against its stories' stored title and summary (the only text the warehouse holds of a story: the median summary is 77 characters, so most rows rest on a headline), by three readers working from one rubric, the rows' own fields and the stories' words only; six of their calls were read again by the session (D010, D021, D046, D094, F006, F051), all confirmed. The sample with every row's grade and note: `docs/reviews/deals-audit-2026-11-06/` (`sample_deals.csv`, `sample_facilities.csv`, the rubric in its README).
+
+**What the extraction cannot see.** Of 18,358 scored stories, 6 state a price per MWh, kWh or "per megawatt-hour" in their title or summary (3 gas, 1 storage, 1 grid conditions, 1 power prices). A disclosed price is therefore almost never in the stored text, whatever the extractor does: the comparables (session 2239) can only be as full as the stories are. Terms in years, MWh and points of delivery are as rare.
+
+### The deals: fault classes (106 rows)
+
+| # | Class | Rows | Share | Three examples (the story's words) |
+|---|---|---|---|---|
+| 1 | Place missed (a country or US state the story names, row empty) | 17 | 16% | D002 "supporting development of the Bahamas LNG hub"; D006 "planned UK BWRX-300 fleet"; D024 "Perry plants in Ohio" (only PA kept) |
+| 2 | Status missed (the words state it, row empty) | 14 | 13% | D026 "Seals Acquisition"; D030 "Strike ... 1.7-GW Mobile Gas Power Deal"; D058 "to Buy" |
+| 3 | Not a deal (a plan, a pledge, a seeking, a permission, government talks) | 12 | 11% | D022 "Black Hills plans $1.8 billion investment"; D035 "SoftBank pledges 75bn euros to build"; D048 "DayOne Seeks to Boost Loan to Record $7 Billion" |
+| 4 | Kind wrong, or the vocabulary has no word for it (gas buildout, pipeline, compute capacity) | 11 | 10% | D021 stored ppa: "Big Step Toward Hyperscaler PPA", "1.2 GW Natural Gas Power Push" (a gas buildout, not yet a PPA); D005 stored other: "$580 million US gas pipeline order"; D059 stored offtake: "OpenAI, Amazon Sign $38 Billion Cloud Deal" (compute, not energy) |
+| 5 | A party is a description, not a name | 7 | 7% | D040 "Investors push for higher yield"; D041 "lease with US hyperscaler"; D054 "Fusion Startup Raises $450 Million" |
+| 6 | AI-power tag wrong | 6 | 6% | D010 false on "AEP signs 960-MW Indiana nuclear pact with Amazon, X-energy"; D042 false with AirTrunk (a datacenter operator) buying; D037 true on "as AI demand booms" with no AI party |
+| 7 | A party wrong (not a party, or the roles swapped) | 4 | 4% | D046 Meta as seller: "Meta Agrees to Fund Local Energy Infrastructure"; D070 Nvidia as a party: "Nvidia-backed Firmus"; D103 a rival bidder: "outbidding Norway's DNO" |
+| 8 | MW missed | 3 | 3% | D023 "adding 181MWdc of solar"; D047 "Half-GW, Gas-Fired Permian Power Plant"; D066 "1 gigawatt AI data centre" |
+| 9 | Confidence too low on a clean deal | 3 | 3% | D004 0.5 on "STTGDC to host Neysa GPUs at data center"; D080 0.4 on "Brookfield, Nuclear Company to form joint venture"; D095 0.55 on "Deutsche Telekom, Nvidia to launch $1.2 billion AI cloud" |
+| 10 | USD missed | 2 | 2% | D019 "Sold for About $1 Billion"; D031 "GBP3.6 billion (USD4.8 billion)" |
+| 11 | USD wrong (another sum of the story) | 2 | 2% | D069 "$15 billion in AI infrastructure" kept as the nuclear purchase; D071 "valued at $2.4 billion" kept as the sum raised |
+| 12 | Price wrong (not an energy price) | 1 | 1% | D094 "seeks 80% equity selldown" kept as price 80 "%" |
+| 13 | Term missed | 1 | 1% | D032 "22-Year LNG Contract to Supply Petrobras" |
+| 14 | Status unsupported | 1 | 1% | D077 "Putin Allows TotalEnergies to Sell 10% Stake" kept as announced |
+| 15 | A party missed | 1 | 1% | D026 the seller of "Acquisition of EnCap Delaware Basin Assets" |
+| 16 | Confidence too high on a faulty row | 1 | 1% | D054 0.75 with no party named |
+| - | MW wrong, MWh, price missed, place wrong | 0 | 0% | no figure in the sample is invented or of the wrong value: every figure fault is a figure missed or a figure of another sum |
+
+The readers' calls to note: debt deals put the lender as buyer in some rows and the borrower in others (D011, D024 against D027), a fault the rubric did not count; fund closes and IPOs with no investor named were counted as deals (D008, D009, D016, D036, D038); a sum stated only in euros was correct as empty (D036).
+
+### The facilities: fault classes (60 rows)
+
+| # | Class | Rows | Share | Three examples (the story's words) |
+|---|---|---|---|---|
+| 1 | MW stated without saying whether it is IT load or total | 14 | 23% | F003 "1GW data centre complex"; F005 "225MW off-grid data center in Zaragoza, Spain"; F006 "Nebius signs on for 50MW" (a tenant's share, not the facility) |
+| 2 | Status missed | 9 | 15% | F010 "planned data center in the state"; F013 "launches first phase"; F041 "on track to go live in mid-2026" |
+| 3 | Confidence too low on a clean row | 6 | 10% | F042 0.5 on "Amazon's Chile data center moves ahead"; F039 0.5 on "Pauses Wyoming Site"; F019 0.4 on "AI supercomputer in Sweden" |
+| 4 | Not a facility (a company-wide plan, no site) | 5 | 8% | F017 "proposed 6MW data center acquisition" (no place); F040 "Plow $52 Billion Into French Data Centers"; F057 "$19 billion data center lease deal with Anthropic" |
+| 5 | State missed | 5 | 8% | F010 "Indiana utility NiSource for planned data center in the state"; F032 "NJ data center"; F046 "rent Texas data center" |
+| 6 | Operator missed | 3 | 5% | F002 "the Sky Data Centers site in Santa Rosa"; F015 "Brookfield, NextEra to Build $100 Billion AI Hub"; F036 "Balearic Islands launches new data center" |
+| 7 | Status wrong | 3 | 5% | F035 under_construction on "First project planned"; F051 announced on "increased Tennessee gas turbines"; F053 cancelled from "OpenAI halts Stargate UK" applied to other sites |
+| 8 | Two or more facilities folded into one row | 3 | 5% | F051 xAI's Memphis site and "Mississippi data center"; F053 several Stargate sites; F056 AWS Mexico with a UAE data center |
+| 9 | Operator wrong | 2 | 3% | F028 "Duos still owns facility"; F050 "TikTok owner weighs" (the row says TikTok) |
+| 10 | Power source missed | 2 | 3% | F010 "20-year power deal"; F032 "unpermitted generator fleet" |
+| 11 | Timeline missed | 2 | 3% | F018 "due to be delivered next year"; F027 "Fit Energy on October 6 said" |
+| 12 | Site missed | 1 | 2% | F027 "Newport Township, Luzerne County" |
+| 13 | A year of another event kept as the facility's | 1 | 2% | F010 planned_year 2028 from "Will commence in 2028" (the power deal's start) |
+| - | MW missed or wrong, utility, confidence too high | 0 | 0% | |
+
+### Duplicates (the whole tables, in code: `deal_parties.same_deal` and two looser tests)
+
+| # | Pair | Why one deal | State |
+|---|---|---|---|
+| 1 | `deal:29c1d07b7456f089` (2026-10-02, "US" lends Vistra USD 4.0 billion) and `deal:70bf30d372e1d674` (2026-10-05, "Department of Energy", USD 4.2 billion, 433 MW) | the Roundup audit's fix 8 pair: the code's rule matches it, the register does not fold it | open: not in `duplicates.csv` |
+| 2 | `deal:6d416fb10be3a6f0` (2026-09-30, Amazon and Constellation, 190 MW) and `deal:3768a40d6f7e3242` (2026-10-06, "nuclear expansions") | the audit's second pair | open: not in the register |
+| 3 | `deal:a56c03853279fd07` (Petrobras and Sempra, LNG, 2026-09-29) beside `deal:f2dc6da3fa975d52` (Petrobras and Cheniere, the same day and story) | one story, one LNG deal: Sempra is read from a story whose link is "cheniere-petrobras-seal-long-term-lng-spa" (the Roundup audit's W40 note) | open |
+
+The looser tests found no other repeat: Google and SpaceX (a lease of 5 June and the orbital project of 12 May), Anthropic and Google (the cloud contract of 6 May and the equity of 24 April), Japex's two acquisitions of one story (Verdad and Fundare) and Google's two PPAs of one story (AES and Xcel) are each two deals. Facilities: no two rows share an operator and a place; one pair shares an operator and a state (Google in Texas, `datacenter:0ae5b4f73b7c8038` at Amarillo and `datacenter:f2eedf98a66d7f0a` with no place), not enough to fold. The register holds 3 folds and 3 doubtful pairs (session 113). None of the six rows of the three open pairs fell in the sample; 3 of the 60 sampled facilities fold several facilities into one (class 8), the opposite fault.
+
+### Why the Roundup of W44 printed empty tables
+
+The Roundup of 2026-W44 (26 October to 1 November) prints the rows of `energy_deals` whose `event_date`, and of `datacenter_projects` whose `first_story_at`, falls in the week. No story of the week was sent to either extractor: the step failed on 26, 27, 28, 29 and 30 October (`RuntimeError: all 1 calls failed`: the API's spending limit, "You will regain access on 2026-11-01 at 00:00 UTC", which only the digest's line printed), and the daily run did not run from 31 October to 4 November. The scorer had stopped too (0 of 400 scored on 30 October, 1,092 left unscored), and only scored stories are eligible. So W44 holds 0 deals and 1 facility (dated in W44 by a story that reached the table on 5 November), and the tables printed were empty, not wrong: the week's deals were never extracted. Session 2237 makes a failed day a plain health line with the API's words; the backfill (the desktop's) fills the days.
+
+### Rows for the sessions that follow
+
+| Row | Class (from the tables above) | Session | State |
+|---|---|---|---|
+| A1 | Deals: place missed (17) | 2232 | open |
+| A2 | Deals: status missed (14), unsupported (1) | 2232 | open |
+| A3 | Deals: not a deal (12) | 2232 | open |
+| A4 | Deals: kind wrong or no word for it (11) | 2232 | open |
+| A5 | Deals: a party a description (7), wrong (4), missed (1); the lender and borrower roles | 2234 | open |
+| A6 | Deals: AI-power tag wrong (6) | 2232 | open |
+| A7 | Deals: MW missed (3), USD missed (2), term missed (1) | 2235 | open |
+| A8 | Deals: USD of another sum (2), a share kept as a price (1) | 2235 | open |
+| A9 | Deals: confidence too low (3) or too high (1) | 2232 | open |
+| A10 | Deals: the three open duplicate pairs | 2233 | open |
+| A11 | Facilities: MW basis unstated (14) | 2236 | open |
+| A12 | Facilities: status missed (9) or wrong (3) | 2236 | open |
+| A13 | Facilities: not a facility (5); several folded into one (3) | 2236 | open |
+| A14 | Facilities: state (5), operator (3 missed, 2 wrong), site (1), power source (2), timeline (2), a year of another event (1) | 2236 | open |
+| A15 | Facilities: confidence too low (6) | 2236 | open |
+| A16 | The step's failure line hides the API's words; a failed day is not a plain health line | 2237 | open |
