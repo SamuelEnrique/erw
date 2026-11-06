@@ -199,7 +199,7 @@ def main():
         df.to_csv(os.path.join(ROOT, "runs", f"{NAME}_dry_run.csv"), index=False)
     else:
         ip.write_snapshot(df, NAME, header, log, COLS)
-        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW)", report="ERW derived stress days of six grids by one rule (session 306)",
+        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived", report="ERW derived stress days of six grids by one rule (session 306)",
                                 report_url=METHOD_URL, document_list="", license="public", tables=[NAME])])
     log.close()
     return 0
