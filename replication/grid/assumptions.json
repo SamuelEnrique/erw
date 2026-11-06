@@ -1,9 +1,157 @@
 {
- "_about": "The Grid tool (/grid): the assumptions the page's figures rest on (session 3705 completes this file).",
+ "_about": "The Grid tool (/grid): every assumption its figures rest on, its default, its unit, its source and how to change it. The network's and the gravity shape's are the page's own code's (site/lib/); the carbon intensity's and the mix's are the warehouse's builders' (warehouse/derived/); the Ask panel's are its stored file's and the chats' (warehouse/chat/). replicate.py and replicate.do read the values marked so below; the others are rules the page follows, listed so a reader sees every choice. A change here changes the replication, not the page.",
+ "network_window_hours": {
+  "value": 168,
+  "unit": "hours",
+  "source": "warehouse/derived/grid_network.py: the snapshot holds the last week of EIA-930's hourly interchange (hours, links' mw arrays of 168)",
+  "change": "the window of grid_network.py and network_hourly.py; the page draws whatever the snapshot holds"
+ },
+ "network_snapshot": {
+  "value": "the hourly copy in public Storage, else the committed one",
+  "unit": "",
+  "source": "site/lib/network.ts pickSnapshot: Storage's erw-public/network/grid_network.json when it is whole and its newest hour is not older than site/data/grid_network.json's",
+  "change": "site/lib/network.ts"
+ },
+ "network_pair_rule": {
+  "value": "each pair once, read from the BA whose code sorts first",
+  "unit": "",
+  "source": "warehouse/derived/grid_network.py (the snapshot's rule): a pair's flow is the one the first BA in code order reported, positive when it exported",
+  "change": "warehouse/derived/grid_network.py"
+ },
  "network_quiet_hours": {
   "value": 48,
   "unit": "hours",
   "source": "site/lib/networkV3.ts completeHour, quiet = 48: a pair that held no flow in the snapshot's last 48 hours is silent and does not hold back the hour shown",
   "change": "the default argument of completeHour in site/lib/networkV3.ts"
+ },
+ "network_hour_shown": {
+  "value": "the newest hour every reporting pair holds",
+  "unit": "",
+  "source": "site/lib/networkV3.ts completeHour and site/lib/gridKeys.ts shownHour; the newest hour of all when no hour is whole",
+  "change": "site/lib/networkV3.ts"
+ },
+ "network_sign": {
+  "value": "positive: power left the grid",
+  "unit": "",
+  "source": "site/lib/gridKeys.ts tiesOf and site/lib/network.ts netValue: a tie's flow is signed from the grid's side; net export is the sum over its reporting ties, net import the same sum from the other side",
+  "change": "site/lib/gridKeys.ts"
+ },
+ "network_top_exporter_tie": {
+  "value": "the first in code order",
+  "unit": "",
+  "source": "site/lib/network.ts topExporter: of equal net exports, the balancing authority whose code sorts first",
+  "change": "site/lib/network.ts"
+ },
+ "network_lag_rounding": {
+  "value": "half up",
+  "unit": "",
+  "source": "site/lib/network.ts netValue, net|lag: the hours from the hour shown to the snapshot's refresh, by JavaScript's Math.round",
+  "change": "site/lib/network.ts"
+ },
+ "gravity_source": {
+  "value": "EIA-930 net generation for every circle, CAISO's included",
+  "unit": "",
+  "source": "the owner's ruling 1a of 18 October 2026 (docs/methods/grid_network.md, \"One page, four tabs, and the Ask panel\"); the line under the frame names California's break of December 2025",
+  "change": "a ruling"
+ },
+ "gravity_pull": {
+  "value": "sign(share) x sqrt(|share| / 0.25), held to one",
+  "unit": "",
+  "source": "the owner's ruling 2c of 18 October 2026; site/lib/networkGravity.ts",
+  "change": "site/lib/networkGravity.ts GRAVITY.S_FULL and the pull's formula"
+ },
+ "gravity_full_pull_share": {
+  "value": 0.25,
+  "unit": "share of the grid's net generation",
+  "source": "site/lib/networkGravity.ts GRAVITY.S_FULL",
+  "change": "site/lib/networkGravity.ts"
+ },
+ "gravity_others": {
+  "value": "the 63 other balancing authorities are not drawn",
+  "unit": "",
+  "source": "the owner's ruling 6a of 18 October 2026: their net generation is not in the live set; the line under the frame counts them",
+  "change": "a ruling"
+ },
+ "grid_opening": {
+  "value": "US48, the Lower 48",
+  "unit": "",
+  "source": "the owner's ruling 4b of 18 October 2026; site/lib/gridtool.ts gridPick",
+  "change": "site/lib/gridtool.ts"
+ },
+ "carbon_intensity": {
+  "value": "CO2 generated x 1,000 over net generation",
+  "unit": "kg CO2 per MWh",
+  "source": "warehouse/derived/carbon_intensity.py; docs/methods/emissions.md: EIA's CO2 Emissions Generated over the Net generation column of the same EIA-930 workbook row",
+  "change": "warehouse/derived/carbon_intensity.py"
+ },
+ "carbon_daily_monthly": {
+  "value": "energy-weighted over whole UTC days and months",
+  "unit": "",
+  "source": "docs/methods/emissions.md: a day is its CO2 over its MWh over UTC days with all 24 hours; a month the same over months whose every day is complete",
+  "change": "warehouse/derived/carbon_intensity.py"
+ },
+ "carbon_left_out": {
+  "value": "months computed on an impossible hour, and California's months without hydro, are not shown",
+  "unit": "",
+  "source": "site/data/carbon_left_out.json (warehouse/derived/carbon_left_out.py, docs/methods/impossible_hours.md); held until a person approves the rebuilt table",
+  "change": "a person's approval of the rebuilt carbon tables"
+ },
+ "mix_latest_hour": {
+  "value": "the latest hour that holds the total net generation",
+  "unit": "",
+  "source": "components/grid/NowView.tsx: its sources largest first; demand's latest hour and the same hour a week earlier",
+  "change": "components/grid/NowView.tsx"
+ },
+ "mix_caiso": {
+  "value": "EIA-930's generation for California is not drawn; CAISO's own supply from 2025-12-16",
+  "unit": "",
+  "source": "components/grid/NowView.tsx (session 118) and docs/methods/eia930_caiso_break.md (the one join of the warehouse)",
+  "change": "docs/methods/eia930_caiso_break.md"
+ },
+ "mix_sources": {
+  "value": "natural gas, coal, nuclear, wind, solar, hydro, storage, other",
+  "unit": "",
+  "source": "docs/methods/generation_mix_hourly.md, \"The sources\": EIA's codes grouped as the site groups them",
+  "change": "warehouse/derived/mix_profile.py"
+ },
+ "clean_sources": {
+  "value": "nuclear, wind, solar, hydro",
+  "unit": "",
+  "source": "site/data/clean/<grid>.json clean (docs/methods/clean_energy.md, \"Carbon-free\")",
+  "change": "warehouse/derived/mix_clean.py"
+ },
+ "clean_levels": {
+  "value": "50, 75 and 90",
+  "unit": "percent carbon-free in an hour",
+  "source": "site/data/clean/<grid>.json levels",
+  "change": "warehouse/derived/mix_clean.py"
+ },
+ "ask_examples_per_grid": {
+  "value": 5,
+  "unit": "stored answers",
+  "source": "site/data/grid_ask_examples.json max_examples: answers a recorded evaluation graded right, each figure traced to its tool result",
+  "change": "site/scripts/build-grid-ask-examples.mjs"
+ },
+ "ask_scope": {
+  "value": "a grid's own chat and the Grid panel's profile read only that grid's rows",
+  "unit": "",
+  "source": "warehouse/chat/tools.py scope_rows with docs/grids/grids.json and docs/grids/grid_tables.json; the general chat reads every row",
+  "change": "docs/grids/grid_tables.json"
+ },
+ "license_held_grids": {
+  "value": [
+   "isone",
+   "miso",
+   "nyiso"
+  ],
+  "unit": "",
+  "source": "site/data/license_status.json, read by site/lib/license.ts on 6 November 2026 (from 21 October 2026): a figure of a table held for a grid prints \"license needed\"",
+  "change": "a publisher's permission recorded in site/data/license_status.json"
+ },
+ "tolerance": {
+  "value": "half of the last digit the page shows",
+  "unit": "",
+  "source": "site/lib/format.ts shown(): a whole number as a count, any other with two decimals; a stored answer's figure as its text has it",
+  "change": "page_figures.json, written by figures_of_the_page.py"
  }
 }
