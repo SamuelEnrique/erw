@@ -36,7 +36,7 @@ export const MERGED: Record<string, string> = {
   "/explorer/ercot-peak-premium": "/prices?tab=ercot",
   "/consumption": "/demand?view=consumption",
   "/deals/v2": "/deals?tab=tracker",
-  "/companies": "/deals?tab=companies",
+  // session 3304: "/companies" left this list: it is the company database's own page (tool 10)
   "/resources": "/map?tab=resources",
 };
 
