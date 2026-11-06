@@ -34,7 +34,7 @@ function dayBefore(day: string): string {
 export const STORY_SECTIONS = ["Top of the industry", "By sector", "AI and power", "What moved", "The rest of the top ten"];   // session 2703: the v2 order's
 
 export type Figure = {
-  part: "dam" | "rt" | "fuel" | "chart" | "demand";
+  part: "dam" | "rt" | "fuel" | "chart" | "demand" | "story";   // session 1450: the block's story rows
   key: string;
   raw: string;          // the value as the Digest wrote it (a chart figure: as its record holds it)
   text: string;         // the figure as written on the page
