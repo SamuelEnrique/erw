@@ -18,7 +18,7 @@ export type Row = {
   avg7?: { v: number; n: number }; avg30?: { v: number; n: number }; lo30?: number; hi30?: number;
   spark?: { t0: string; d: number[]; v: number[] };
   /** session 1118: what a spread's newest value was made of (the builder's spark_inputs, dark_inputs, crack_inputs) */
-  inputs?: { t: string; hub?: number; gas?: number; gas_t?: string; coal?: number; coal_t?: string; heat_rate?: number; gasoline?: number; diesel?: number; crude?: number };
+  inputs?: { t: string; hub?: number; gas?: number; gas_t?: string; coal?: number; coal_t?: string; heat_rate?: number; gasoline?: number; diesel?: number; crude?: number; product?: number };
   /** session 1601: the row's time base and granularity in words (the builder's basis_of), in the name's hover */
   basis?: string;
   /** session 1601: a page that draws what the row summarizes (the node basis rows: the node view) */
@@ -164,6 +164,9 @@ export function inputsWords(row: Row): string | null {
     return `Made of: the hub's day-ahead mean ${two(i.hub)} USD/MWh over ${dateWords(i.t, "M")}, less ${i.heat_rate} MMBtu/MWh (the stated heat rate) times US coal delivered to power plants, ${two(i.coal)} USD/MMBtu in ${dateWords(i.coal_t, "M")}`;
   if (i.gasoline !== undefined && i.diesel !== undefined && i.crude !== undefined)
     return `Made of, on ${dateWords(i.t)}: gasoline ${two(i.gasoline)} and diesel ${two(i.diesel)} USD/gal, crude ${two(i.crude)} USD/bbl`;
+  // session 1607: a crack of one product, its gallon and the crude's barrel
+  if (i.product !== undefined && i.crude !== undefined)
+    return `Made of, on ${dateWords(i.t)}: the product ${two(i.product)} USD/gal, crude ${two(i.crude)} USD/bbl`;
   return null;
 }
 

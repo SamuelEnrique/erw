@@ -978,6 +978,50 @@ def build_hubspreads(b, daily):
                   extra=dict(basis=f"Two daily means of complete local operating days, on {when}; each hour {hour_words(a, kind)}."))
 
 
+# Session 1607 (chain 165): the gas spreads the world trades on, by the month (the World Bank's monthly averages: the
+# daily TTF and JKM are licensed), and the cracks by product (each product's barrel less the crude's).
+GAS_SPREADS = [("natural_gas_europe", "natural_gas_us", "Europe less United States", "the TTF-to-Henry Hub spread, by the month"),
+               ("liquefied_natural_gas_japan", "natural_gas_us", "Japan LNG less United States", "the JKM-to-Henry Hub spread, by the month"),
+               ("liquefied_natural_gas_japan", "natural_gas_europe", "Japan LNG less Europe", "Asia against Europe, by the month")]
+PRODUCT_CRACKS = [("eia:EER_EPMRU_PF4_RGC_DPG", "eia:wti_cushing", "Gasoline crack", "Gulf Coast conventional gasoline, WTI"),
+                  ("eia:EER_EPD2DXL0_PF4_RGC_DPG", "eia:wti_cushing", "Diesel crack", "Gulf Coast ultra-low sulfur diesel, WTI"),
+                  ("eia:EER_EPJK_PF4_RGC_DPG", "eia:wti_cushing", "Jet fuel crack", "Gulf Coast kerosene-type jet fuel, WTI"),
+                  ("eia:EER_EPMRU_PF4_Y35NY_DPG", "eia:brent", "Gasoline crack", "New York Harbor conventional gasoline, Brent"),
+                  ("eia:EER_EPD2DXL0_PF4_Y35NY_DPG", "eia:brent", "Diesel crack", "New York Harbor ultra-low sulfur diesel, Brent"),
+                  ("eia:EER_EPD2F_PF4_Y35NY_DPG", "eia:brent", "Heating oil crack", "New York Harbor No. 2 heating oil, Brent")]
+NETBACK_NOTE = ("An LNG netback needs the destination price, the shipping and the regasification costs on the same days. The ERW holds the World Bank's monthly "
+                "Japan LNG and US gas (rows above) and no freight. Source that would supply the freight: a shipping assessment (for example Spark Commodities "
+                "or the Baltic Exchange), under license.")
+BASIS_NOTE = ("A regional hub's basis to Henry Hub needs the hub's daily price, which no free source publishes (the gas group's placeholders). "
+              "Source that would supply them: S&P Global Commodity Insights (Platts) or Natural Gas Intelligence, under license.")
+
+
+def product_crack(product, crude):
+    """A product's barrel less the crude's: USD/gal x 42 - USD/bbl, on the days both are published."""
+    return {d: product[d] * 42 - crude[d] for d in product if d in crude}
+
+
+def build_fuel_spreads(b, fuels, log):
+    if here("wb_commodity_prices_monthly"):
+        s, _ = table_daily("wb_commodity_prices_monthly")
+        for a, z, label, at in GAS_SPREADS:
+            sa, sz = s.get((f"wb_pink:{a}", "price"), {}), s.get((f"wb_pink:{z}", "price"), {})
+            b.add("gasspreads", f"erw:wb:{a}|less|{z}", f"Natural gas, {label}", "USD/MMBtu", "M", minus(sa, sz), at=f"{at}, monthly",
+                  formula=f"the World Bank's monthly average price of {a.replace('_', ' ')} - its {z.replace('_', ' ')}, the same month", source=WB_SOURCE,
+                  extra=dict(basis="Two monthly averages of the World Bank's Commodity Price Data (the Pink Sheet), the same month, in USD per MMBtu."))
+    else:
+        log("  the gas spreads: wb_commodity_prices_monthly not on this machine, skipped (page_keep.py keeps the held rows)")
+    b.grey("gasspreads", "gasbasis|regional", "Regional gas basis to Henry Hub", "licensed", BASIS_NOTE, at="Waha, SoCal, Algonquin, Chicago and the rest, daily", unit="USD/MMBtu")
+    b.grey("gasspreads", "lng|netback", "LNG netback to the US Gulf", "licensed", NETBACK_NOTE, at="Japan and Europe less shipping and regasification", unit="USD/MMBtu")
+    for product, crude, label, at in PRODUCT_CRACKS:
+        p, c = fuels.get(product, {}), fuels.get(crude, {})
+        days = [d for d in sorted(p) if d in c]
+        inputs = dict(t=days[-1].isoformat(), product=round(p[days[-1]], 4), crude=round(c[days[-1]], 4)) if days else None
+        b.add("oilspreads", f"{product}|less|{crude}", label, "USD/bbl", "D", product_crack(p, c), at=at, code=f"{product.split(':', 1)[1]} less {crude.split(':', 1)[1]}",
+              formula=f"{at.split(',')[0]} x 42 - {at.split(', ')[1]}: a barrel of the product less a barrel of crude, before any cost", source="EIA's daily spot prices",
+              extra=dict(dict(inputs=inputs) if inputs else {}, basis="Two daily spot closes of the same trading day, as EIA publishes them; the product's price per gallon times 42 gallons a barrel."))
+
+
 def build_spreads(b, daily, fuels, us_coal):
     gas = fuels.get("eia:henry_hub", {})
     for iso, (grid, tz) in ISO.items():
@@ -1115,6 +1159,8 @@ GROUPS = [
                                                  ["refiner_acquisition_cost", "Refiner acquisition cost, monthly"], ["all", "Everything"]], default="daily")]),
     dict(id="products", title="Refined products, spot", curve=True, filters=[]),
     dict(id="oilspreads", title="Oil spreads", filters=[]),
+    # session 1607: the gas spreads, by the month
+    dict(id="gasspreads", title="Gas spreads, monthly", filters=[]),
     # session 1117: the World Bank's monthly energy benchmarks
     dict(id="world", title="World energy benchmarks, monthly", filters=[
         dict(key="kind", label="Show", options=[["all", "All"], ["crude", "Crude oil"], ["coal", "Coal"], ["gas", "Natural gas and LNG"]], default="all")]),
@@ -1158,6 +1204,7 @@ def build(log):
     build_gasflows(b, log)       # session 1602
     build_heating(b, log)
     build_spreads(b, daily, fuels, us_coal)
+    build_fuel_spreads(b, fuels, log)    # session 1607
     week, spikes = build_week(log)
     return b, week, spikes
 

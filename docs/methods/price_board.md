@@ -395,3 +395,12 @@ Tests: `tests/test_board_1604.py` (`tests/fixtures/board_1604/`).
 - `hubspread` is a power group for the stale rule (`POWER_GROUPS`, past 3 days).
 
 Tests: `tests/test_board_1606.py` (`tests/fixtures/board_1606/`).
+
+## The gas and oil spreads (session 1607, chain 165, 6 November 2026)
+
+- **Cracks by product** (oil spreads, daily): a product's price a gallon times 42 less the crude's a barrel, on the trading days EIA publishes both, before any cost: gasoline, diesel and jet fuel at the Gulf Coast against WTI; gasoline, diesel and No. 2 heating oil at New York Harbor against Brent. Each row's newest inputs are in the hover of its value. They stand beside the two 3-2-1 cracks.
+- **Gas spreads, monthly** (a group after the oil spreads): from the World Bank's monthly averages (`wb_commodity_prices_monthly`, the Pink Sheet), Europe less the United States (the TTF-to-Henry Hub spread by the month), Japan LNG less the United States (the JKM-to-Henry Hub spread by the month) and Japan LNG less Europe, USD per MMBtu, the same month. The daily TTF and JKM are licensed (the gas group's placeholders), so these are months, not days, and are labeled so.
+- **Placeholders**: the regional basis to Henry Hub (no regional hub's daily price is held; S&P Global Commodity Insights or Natural Gas Intelligence would supply them) and the LNG netback to the US Gulf (the destination price, the shipping and the regasification on the same days; no freight is held; a shipping assessment, for example Spark Commodities or the Baltic Exchange, would supply it).
+- Brent less WTI is unchanged (the crude group, also under oil spreads).
+
+Tests: `tests/test_board_1607.py` (`tests/fixtures/board_1607/`).

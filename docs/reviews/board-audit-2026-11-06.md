@@ -100,7 +100,7 @@ State: **open** until a session closes it; each closing session writes its numbe
 | 11 | TTF and JKM by the day: placeholders as they should be; their World Bank months are in the world group, and the two placeholders' notes already say so | gas | 1602 | no gap: checked in 1602 |
 | 12 | US retail gasoline, all grades (`eia_retail_fuel_prices`, EMM_EPM0): no row | retailfuel | 1603 | closed in 1603 (`tests/test_board_1603.py`) |
 | 13 | `eia_crude_first_purchase_prices`: two series not checked against the crude stream rows | crude | 1603 | closed in 1603: Mars Blend is the stream row (91 of 91 months equal), North Dakota drawn |
-| 14 | Crack spreads by product: only the two 3-2-1 cracks; no gasoline crack, no diesel crack, no heating oil crack | oilspreads | 1607 | open |
+| 14 | Crack spreads by product: only the two 3-2-1 cracks; no gasoline crack, no diesel crack, no heating oil crack | oilspreads | 1607 | closed in 1607 (`tests/test_board_1607.py`) |
 | 15 | Coal by basin: placeholders (S&P Global) as they should be; the coal rows of the world group are not named beside them | plantfuel | 1603 | closed in 1603 |
 | 16 | The PADD series: drawn in retail fuel and heating; the spot products are New York Harbor, Gulf Coast and Los Angeles only (EIA's daily set) | products | 1603 | no gap: noted |
 | 17 | RGGI's row says "held internal while the publisher's terms are reviewed" with status `not_held`, and names no publisher: a held series must print "licensed source needed" and name the publisher (RGGI, Inc.) | carbon | 1604 | closed in 1604 |
@@ -115,7 +115,7 @@ State: **open** until a session closes it; each closing session writes its numbe
 | 26 | `iso_zone_prices_history` is not read by the builder: its CAISO ZP26 and SPP South day-ahead reach back further than the rolling tables (ZP26 and SPP South have no one-year range on the board) | power | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
 | 27 | The spark spread uses Henry Hub for every grid; no regional gas price is held to replace it (licensed); the heat rate is stated, its source is not | spark | 1606 | closed in 1606: the assumption and EIA's fleet average in the hover; the gas stays Henry Hub (licensed) |
 | 28 | The ERCOT 4CP exposure: needs the year's peaks and a load shape; the peaks are held (gap 7) | spark | 1606 | open: needs the 15-minute price at each interval; for the next chain |
-| 29 | The LNG netback: needs a destination price and shipping and regasification costs; only the World Bank's monthly Japan LNG and Europe gas are held, no freight | oilspreads | 1607 | open |
+| 29 | The LNG netback: needs a destination price and shipping and regasification costs; only the World Bank's monthly Japan LNG and Europe gas are held, no freight | oilspreads | 1607 | closed in 1607 (`tests/test_board_1607.py`) |
 
 ## 4. Not drawn, by the board's rule
 
