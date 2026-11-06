@@ -15,6 +15,8 @@ ask_kosovo_electricity_monthly,Kosovo Agency of Statistics (ASK),the source regi
 asli_liechtenstein_electricity_annual,Amt fuer Statistik Liechtenstein,the source registry
 asub_aland_electricity_annual,Statistics and Research Aland (ASUB),the source registry
 asub_aland_electricity_sales_annual,Statistics and Research Aland (ASUB),the source registry
+attention_index_weekly,ERW,the source registry
+attention_story_links,ERW,the source registry
 ba_supply_monthly,EIA,"the source registry and the tables its header derives it from: eia930_daily_interchange, eia930_daily_total_interchange"
 battery_sourced_ranges,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 battery_stack_monthly,CAISO; ERCOT,"the source registry and the tables its header derives it from: caiso_as_prices, ercot_all_hub_prices_history, ercot_as_prices, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
@@ -339,7 +341,7 @@ ercot_transmission_projects,ERCOT,the source registry
 ercot_wind_solar_forecast,ERCOT,the source registry
 ercot_wind_solar_hsl_daily,ERCOT,the source registry
 ercot_wind_solar_hsl_hourly,ERCOT,the source registry
-ercot_wind_solar_hsl_monthly,ERW,the source registry
+ercot_wind_solar_hsl_monthly,ERCOT,the source registry and the tables its header derives it from: ercot_wind_solar_hsl_hourly
 ercot_wind_solar_output_hourly,ERCOT,the source registry
 ercot_zone_load_hourly,ERCOT,the source registry
 ercot_zone_prices_history,ERCOT,the source registry
@@ -412,6 +414,7 @@ flex_alert_effects,CAISO; EIA; NOAA NCEI,"the source registry and the tables its
 flex_alert_model,CAISO; EIA; NOAA NCEI,"the source registry and the tables its header derives it from: caiso_dam_alert_day_hub_prices, caiso_grid_emergencies, eia930_all_demand, noaa_isd_hourly"
 frb_treasury_yields,FRB,the source registry
 frb_utility_output_monthly,FRB,the source registry
+friction_index_weekly,ERW,the source registry
 gas_balance_weekly,EIA,"the source registry and the tables its header derives it from: eia_gas_consumption_state_monthly, eia_gas_production_state_monthly, eia_gas_storage_weekly, eia_gas_trade_monthly"
 gastat_saudi_electricity_annual,"Ministry of Energy, Saudi Arabia, as published by GASTAT",the source registry
 generation_mix_hourly_profile,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"

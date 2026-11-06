@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-10-20",
+ "written": "2026-11-06",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -86,6 +86,7 @@
     "Microsoft",
     "NYISO",
     "Natural Gas Intelligence",
+    "OilPrice.com",
     "Oracle",
     "POWER Magazine",
     "Reuters",
@@ -122,6 +123,7 @@
     "Heatmap News",
     "Latitude Media",
     "Natural Gas Intelligence",
+    "OilPrice.com",
     "POWER Magazine",
     "Reuters",
     "WSJ"
@@ -147,6 +149,7 @@
     "Data Center Frontier",
     "Financial Times",
     "Hart Energy",
+    "Heatmap News",
     "JPT",
     "LNG Prime",
     "Latitude Media",
@@ -329,6 +332,7 @@
     "POWER Magazine",
     "Reuters",
     "Rigzone",
+    "T&D World",
     "Utility Dive",
     "WSJ",
     "pv magazine USA"
@@ -421,6 +425,42 @@
   }
  },
  "all": {
+  "abs_suriname_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "aedg_alaska_generation_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "aeso_alberta_load_hourly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "afdc_ev_charging_state_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "afdc_station_counts_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "afdc_vehicle_registrations_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
   "ai_power_regions": {
    "status": "license needed",
    "hold": "by grid",
@@ -429,24 +469,66 @@
     "MISO",
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "aneel_siga_plants": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "asli_liechtenstein_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "asub_aland_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "asub_aland_electricity_sales_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "attention_index_weekly": {
+   "status": "public",
+   "pages": [
+    "/attention"
+   ]
+  },
+  "attention_story_links": {
+   "status": "public",
+   "pages": [
+    "/attention"
+   ]
   },
   "ba_supply_monthly": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid"
    ]
   },
   "battery_sourced_ranges": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "battery_stack_monthly": {
    "status": "public",
    "pages": [
     "/",
     "/cost-of-power/battery",
-    "/cost-of-power/seller"
+    "/cost-of-power/seller",
+    "/data"
    ]
   },
   "battery_stack_review_monthly": {
@@ -458,7 +540,8 @@
    "pages": [
     "/",
     "/cost-of-power/battery",
-    "/cost-of-power/seller"
+    "/cost-of-power/seller",
+    "/data"
    ]
   },
   "battery_stack_stress_daily": {
@@ -466,20 +549,90 @@
    "pages": [
     "/",
     "/cost-of-power/battery",
-    "/cost-of-power/seller"
+    "/cost-of-power/seller",
+    "/data"
+   ]
+  },
+  "bcrp_peru_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "bcrp_peru_hydrocarbons_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "bfe_ch_electricity_wednesdays": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "bfe_switzerland_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "blm_ca_renewable_rows": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "blm_oil_gas_statistics_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "boem_offshore_platforms": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "boem_ogor_lease_production_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "boem_renewable_leases": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "bpa_ba_hourly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "bsee_offshore_incidents": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "caiso_area_load_hourly": {
    "status": "public",
    "pages": [
-    "/cost-of-power"
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
    ]
   },
   "caiso_as_prices": {
    "status": "public",
    "pages": [
     "/board",
-    "/cost-of-power/battery"
+    "/cost-of-power/battery",
+    "/data"
    ]
   },
   "caiso_battery_storage": {
@@ -487,6 +640,7 @@
    "pages": [
     "/",
     "/curtailment",
+    "/data",
     "/grid",
     "/shoulder",
     "/storage"
@@ -497,6 +651,7 @@
    "pages": [
     "/",
     "/curtailment",
+    "/data",
     "/shoulder"
    ]
   },
@@ -504,28 +659,35 @@
    "status": "public",
    "pages": [
     "/",
-    "/curtailment"
+    "/curtailment",
+    "/data"
    ]
   },
   "caiso_curtailment_profile": {
    "status": "public",
    "pages": [
-    "/curtailment"
+    "/curtailment",
+    "/data"
    ]
   },
   "caiso_dam_alert_day_hub_prices": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "caiso_dam_cleared_energy": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "caiso_fuel_supply": {
    "status": "public",
    "pages": [
     "/",
     "/curtailment",
+    "/data",
     "/shoulder"
    ]
   },
@@ -533,40 +695,55 @@
    "status": "public",
    "pages": [
     "/",
-    "/curtailment"
+    "/curtailment",
+    "/data"
    ]
   },
   "caiso_grid_emergencies": {
    "status": "public",
    "pages": [
-    "/cost-of-power"
+    "/cost-of-power",
+    "/data",
+    "/grid"
    ]
   },
   "caiso_interconnection_queue": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "caiso_reliability_daily": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data",
+    "/grid"
+   ]
   },
   "caiso_wind_solar_forecast": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "carb_auction_allowance_prices": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/board",
+    "/data"
+   ]
   },
   "carb_lcfs_credit_prices": {
    "status": "public",
    "pages": [
-    "/board"
+    "/board",
+    "/data"
    ]
   },
   "carbon_intensity_daily": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid",
     "/learn/problems"
    ]
@@ -575,6 +752,8 @@
    "status": "public",
    "pages": [
     "/cost-of-power",
+    "/data",
+    "/datacenters",
     "/grid",
     "/learn/problems"
    ]
@@ -583,16 +762,86 @@
    "status": "public",
    "pages": [
     "/cost-of-power",
+    "/data",
     "/grid"
+   ]
+  },
+  "cbs_curacao_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "cbs_netherlands_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "cec_total_system_generation_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "censtatd_hk_electricity": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "census_bps_state_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "census_c30_construction_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "census_cbp_hosting_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "census_metro_population": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "census_qss_utilities_hosting_quarterly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "cer_electricity_trade": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "cer_gas_trade": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "cer_pipeline_throughput": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "cftc_cot_positions": {
    "status": "public",
    "pages": [
+    "/data",
     "/supply"
    ]
   },
@@ -606,6 +855,7 @@
    ],
    "pages": [
     "/cost-of-power",
+    "/data",
     "/grid"
    ]
   },
@@ -619,6 +869,7 @@
    ],
    "pages": [
     "/cost-of-power",
+    "/data",
     "/grid"
    ]
   },
@@ -631,7 +882,8 @@
     "NYISO"
    ],
    "pages": [
-    "/cost-of-power"
+    "/cost-of-power",
+    "/data"
    ]
   },
   "cost_of_power_hourly_profile": {
@@ -644,6 +896,7 @@
    ],
    "pages": [
     "/cost-of-power",
+    "/data",
     "/learn/problems"
    ]
   },
@@ -657,8 +910,22 @@
    ],
    "pages": [
     "/cost-of-power",
+    "/data",
+    "/grid",
     "/learn/bill",
     "/learn/problems"
+   ]
+  },
+  "cso_ireland_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "czso_cz_regional_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "datacenter_facilities": {
@@ -683,6 +950,7 @@
     "Microsoft",
     "NYISO",
     "Natural Gas Intelligence",
+    "OilPrice.com",
     "Oracle",
     "POWER Magazine",
     "Reuters",
@@ -691,6 +959,7 @@
     "WSJ"
    ],
    "pages": [
+    "/data",
     "/datacenters",
     "/grid",
     "/map"
@@ -711,6 +980,7 @@
     "Vantage Data Centers"
    ],
    "pages": [
+    "/data",
     "/datacenters"
    ]
   },
@@ -727,11 +997,13 @@
     "Heatmap News",
     "Latitude Media",
     "Natural Gas Intelligence",
+    "OilPrice.com",
     "POWER Magazine",
     "Reuters",
     "WSJ"
    ],
    "pages": [
+    "/data",
     "/datacenters",
     "/roundup"
    ]
@@ -744,38 +1016,391 @@
     "MISO",
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_gb_regional_consumption_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_gb_regional_gas_consumption_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_regional_renewable_capacity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_regional_renewables_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_capacity_by_connection_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_co2_intensity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_derated_capacity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_electricity_quarterly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_fuel_used_generation_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_gas_quarterly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_interconnector_flows_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_mpp_capacity_countries_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_nations_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_plant_loads_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_power_stations": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_renewables_quarterly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "desnz_uk_storage_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "destatis_de_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "dfe_ni_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "doe_grip_selections": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "doe_lead_energy_burden": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "doe_lng_export_applications": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "doe_oe417_events": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "doe_useer_employment": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "dosm_malaysia_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "dst_dk_electricity_supply_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "edf_sei_islands_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "egrid_power_plants": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "egrid_subregions_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia411_capacity_margins_annual": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data"
+   ]
+  },
+  "eia860_boilers": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia860_cooling_systems": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia860_emission_controls": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia860_generator_owners": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia860_multifuel_generators": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia860_plants_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia860_solar_generators": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia860_storage_generators": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia860_wind_generators": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "eia860m_operating_generators": {
    "status": "public",
    "pages": [
     "/",
     "/cost-of-power/seller",
+    "/data",
     "/map"
    ]
   },
   "eia860m_planned_generators": {
    "status": "public",
    "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters",
     "/map"
    ]
   },
   "eia860m_retired_generators": {
    "status": "public",
    "pages": [
-    "/cost-of-power/seller"
+    "/cost-of-power/seller",
+    "/data"
    ]
   },
   "eia860m_retired_generators_all": {
    "status": "public",
    "pages": [
-    "/"
+    "/",
+    "/data"
+   ]
+  },
+  "eia861_advanced_meters": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia861_delivery_only": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "eia861_demand_response": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia861_distributed_generation": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia861_distribution_systems": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia861_dynamic_pricing": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia861_energy_efficiency": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia861_net_metering": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia861_operational_data": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia861_short_form": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia861_utility_data": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia861_utility_reliability": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia861_utility_sales": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "eia861m_utility_sales_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia923_fuel_receipts": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia923_plant_fuel_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia923_plant_fuel_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "eia930_all_demand": {
    "status": "public",
    "pages": [
     "/",
+    "/data",
+    "/digest",
     "/grid",
     "/learn/problems"
    ]
@@ -783,6 +1408,7 @@
   "eia930_all_emissions": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid"
    ]
   },
@@ -790,6 +1416,7 @@
    "status": "public",
    "pages": [
     "/curtailment",
+    "/data",
     "/grid",
     "/learn/problems",
     "/play/battery"
@@ -797,11 +1424,14 @@
   },
   "eia930_all_history": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_all_interchange": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid",
     "/learn/problems"
    ]
@@ -809,6 +1439,7 @@
   "eia930_all_storage": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid",
     "/storage"
    ]
@@ -817,6 +1448,7 @@
    "status": "public",
    "pages": [
     "/",
+    "/data",
     "/grid"
    ]
   },
@@ -824,64 +1456,265 @@
    "status": "public",
    "pages": [
     "/",
+    "/data",
     "/grid"
    ]
   },
   "eia930_daily_total_interchange": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_demand_growth": {
    "status": "public",
    "pages": [
     "/cost-of-power",
+    "/data",
+    "/datacenters",
     "/demand"
    ]
   },
   "eia930_demand_weather": {
    "status": "public",
    "pages": [
+    "/data",
     "/demand"
    ]
   },
   "eia930_event_hourly_interchange": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid"
    ]
   },
   "eia930_generation_latest": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid"
+   ]
+  },
+  "eia930_subba_demand_hourly": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "eia930_subba_demand_hourly_2019": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia930_subba_demand_hourly_2020": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia930_subba_demand_hourly_2021": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia930_subba_demand_hourly_2022": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia930_subba_demand_hourly_2023": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia930_subba_demand_hourly_2024": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia930_subba_demand_hourly_2025": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_aeo_electricity": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_aeo_emm_regions": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "eia_annual_crosscheck_ba": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia_annual_generation_ba": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia_basin_production_monthly": {
    "status": "public",
    "pages": [
+    "/data",
     "/supply"
+   ]
+  },
+  "eia_biofuel_plants": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_capacity_factors_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_capacity_factors_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_cbecs_commercial_buildings": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_co2_state_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_coal_delivered_price_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_coal_distribution_quarterly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_coal_mine_production_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_coal_price_rank_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_coal_prices_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_coal_production_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_coal_receipts_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_coal_trade_price_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "eia_crude_first_purchase_prices": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/board",
+    "/data"
+   ]
   },
   "eia_crude_imports_by_country": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_crude_imports_detail_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_crude_production_state_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_crude_quality_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_crude_reserves_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "eia_crude_stream_prices": {
    "status": "public",
    "pages": [
-    "/board"
+    "/board",
+    "/data"
+   ]
+  },
+  "eia_crude_tank_farm_stocks_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_drilling_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_energy_efficiency_state_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "eia_fuel_spot_prices": {
@@ -890,61 +1723,370 @@
     "/",
     "/board",
     "/cost-of-power/seller",
+    "/data",
+    "/digest",
     "/learn/problems",
     "/prices",
     "/severance"
    ]
   },
+  "eia_gas_balance_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_consumers_state_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_consumption_state_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_for_others_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_heat_content_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_interstate_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_other_uses_state_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_pipeline_projects": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_plant_processing_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_prices_state_monthly": {
+   "status": "public",
+   "pages": [
+    "/board",
+    "/data"
+   ]
+  },
+  "eia_gas_production_state_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_reserves_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_storage_capacity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_storage_state_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_gas_storage_type_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
   "eia_gas_storage_weekly": {
    "status": "public",
    "pages": [
+    "/board",
+    "/data",
     "/supply"
+   ]
+  },
+  "eia_gas_trade_country_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "eia_gas_trade_monthly": {
    "status": "public",
    "pages": [
+    "/board",
+    "/data",
     "/supply"
+   ]
+  },
+  "eia_gas_wells_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_heat_rates_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_heating_fuel_prices_weekly": {
+   "status": "public",
+   "pages": [
+    "/board",
+    "/data"
+   ]
+  },
+  "eia_ieo_projections": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_international_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "eia_lng_exports_monthly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/board",
+    "/data"
+   ]
+  },
+  "eia_lng_liquefaction_projects": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_lng_storage_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_mecs_manufacturing": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_meters_state_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_net_imports_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_net_metering_state_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_ngl_production_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_nuclear_outages_daily": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_nuclear_outages_facility_daily": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_nuclear_outages_generator_daily": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_oxygenate_production_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "eia_padd_crude_pipeline_flows": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_padd_rail_barge_movements_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_petroleum_exports_by_destination": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_petroleum_snd_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_petroleum_stocks_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_petroleum_stocks_state_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "eia_petroleum_stocks_weekly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia_petroleum_supply_weekly": {
    "status": "public",
    "pages": [
+    "/data",
     "/supply"
    ]
   },
   "eia_petroleum_trade_weekly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_power_co2_state_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_power_costs_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_power_fuel_stocks_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "eia_power_plant_fuel_costs": {
    "status": "public",
    "pages": [
-    "/board"
+    "/board",
+    "/data"
+   ]
+  },
+  "eia_primary_energy_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "eia_product_spot_prices": {
    "status": "public",
    "pages": [
-    "/board"
+    "/board",
+    "/data"
+   ]
+  },
+  "eia_product_supplied_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_recs_households": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_refinery_capacity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_refinery_inputs_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_refinery_production_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_refinery_utilization_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_refinery_weekly": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "eia_regional_retail_fuel_prices": {
    "status": "public",
    "pages": [
     "/board",
+    "/data",
     "/play/ev"
    ]
   },
@@ -952,6 +2094,7 @@
    "status": "public",
    "pages": [
     "/board",
+    "/data",
     "/learn/bill",
     "/learn/problems",
     "/play/ev"
@@ -959,27 +2102,181 @@
   },
   "eia_retail_fuel_prices": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/board",
+    "/data"
+   ]
   },
   "eia_retail_sales_monthly": {
    "status": "public",
    "pages": [
+    "/data",
     "/demand"
    ]
   },
   "eia_sector_energy_consumption_monthly": {
    "status": "public",
    "pages": [
+    "/data",
     "/demand"
+   ]
+  },
+  "eia_seds_residential_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_seds_state_energy": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_shale_gas_reserves_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_state_capacity_annual": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
    ]
   },
   "eia_state_generation_monthly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_state_source_disposition_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_state_to_state_capacity": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_steo_forecasts": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_uranium_facilities": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_uranium_marketing_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_uranium_production_quarterly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_wood_pellets_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_world_coal_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_world_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_world_energy_co2_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_world_oil_gas_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_world_oil_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "elexon_gb_demand_daily": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "emi_nz_generation_demand_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "energinet_dk_production_hourly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "energy_charts_belgium_hourly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "energy_charts_central_europe": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "energy_charts_italy_power": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "energy_charts_portugal_power": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "energy_charts_southeast_europe_daily": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "energy_companies": {
    "status": "public",
    "pages": [
+    "/data",
     "/deals"
    ]
   },
@@ -994,6 +2291,7 @@
     "Data Center Frontier",
     "Financial Times",
     "Hart Energy",
+    "Heatmap News",
     "JPT",
     "LNG Prime",
     "Latitude Media",
@@ -1007,6 +2305,7 @@
     "pv magazine USA"
    ],
    "pages": [
+    "/data",
     "/deals",
     "/roundup"
    ]
@@ -1018,8 +2317,78 @@
     "ISO-NE"
    ],
    "pages": [
+    "/data",
     "/grid",
     "/map"
+   ]
+  },
+  "epa_ghg_inventory_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "epa_ghgrp_facility_emissions": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "epa_ghgrp_power_co2": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "epa_lmop_landfill_projects": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "epa_needs_units": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "epa_rfs_fuel_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "epa_rfs_rins_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "epa_tri_energy_releases_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "epe_brazil_consumption_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "epra_kenya_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ercot_4cp_intervals": {
+   "status": "public",
+   "pages": [
+    "/board",
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
    ]
   },
   "ercot_all_hub_prices_history": {
@@ -1031,6 +2400,8 @@
     "/cost-of-power/battery",
     "/cost-of-power/seller",
     "/curtailment",
+    "/data",
+    "/datacenters",
     "/play/battery"
    ]
   },
@@ -1038,131 +2409,394 @@
    "status": "public",
    "pages": [
     "/board",
-    "/cost-of-power/battery"
+    "/cost-of-power/battery",
+    "/data"
    ]
   },
   "ercot_as_prices_daily": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_as_prices_monthly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_as_quantities": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "ercot_cdr_reserve_margins": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "ercot_cdr_units": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_dam_cleared_energy": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_dam_esr_awards": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_grid_notices": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_hub_prices_daily": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data",
+    "/grid"
+   ]
   },
   "ercot_interconnection_queue": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_large_load_status": {
    "status": "public",
    "pages": [
     "/cost-of-power",
+    "/data",
     "/datacenters"
+   ]
+  },
+  "ercot_node_places": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "ercot_node_planned_generation": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ercot_node_transmission": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ercot_node_wires_utilities": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "ercot_peak_premium_annual": {
    "status": "public",
    "pages": [
+    "/data",
+    "/grid",
     "/prices"
    ]
   },
   "ercot_peak_premium_monthly": {
    "status": "public",
    "pages": [
+    "/data",
     "/prices"
    ]
   },
   "ercot_rtm_node_prices": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_rtm_price_adders": {
    "status": "public",
    "pages": [
-    "/cost-of-power"
+    "/board",
+    "/cost-of-power",
+    "/data"
    ]
   },
   "ercot_sced_esr_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_storage_dam_awards_monthly": {
    "status": "public",
    "pages": [
-    "/cost-of-power/battery"
+    "/cost-of-power/battery",
+    "/data"
    ]
   },
   "ercot_storage_dam_offers_daily": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_storage_dam_offers_monthly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_storage_node_basis": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_storage_rt_monthly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "ercot_transmission_projects": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
   },
   "ercot_wind_solar_forecast": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_wind_solar_hsl_daily": {
    "status": "public",
    "pages": [
-    "/curtailment"
+    "/curtailment",
+    "/data"
    ]
   },
   "ercot_wind_solar_hsl_hourly": {
    "status": "public",
    "pages": [
-    "/curtailment"
+    "/curtailment",
+    "/data"
+   ]
+  },
+  "ercot_wind_solar_hsl_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "ercot_wind_solar_output_hourly": {
    "status": "public",
    "pages": [
-    "/curtailment"
+    "/curtailment",
+    "/data"
    ]
   },
   "ercot_zone_load_hourly": {
    "status": "public",
    "pages": [
     "/",
-    "/cost-of-power"
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
    ]
   },
   "ercot_zone_prices_history": {
    "status": "public",
    "pages": [
+    "/board",
     "/cost-of-power",
     "/cost-of-power/seller",
-    "/curtailment"
+    "/curtailment",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "eurostat_crude_imports_by_field_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_crude_imports_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_data_centre_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_electricity_capacity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_electricity_consumption_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_electricity_production_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_electricity_trade_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_electrification_rate_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_ev_recharging_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_ev_recharging_power_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_fossil_share_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_gas_balance_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_gas_import_origin_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_gas_imports_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_hard_coal_imports_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_household_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_import_concentration_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_import_dependency_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_industry_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_nonhousehold_bands_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_nuclear_fuel_cycle_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_oil_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_renewable_capacity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_renewable_shares_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_solid_fuels_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eurostat_supply_diversity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "event_study_estimates": {
@@ -1173,7 +2807,10 @@
     "MISO",
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/data",
+    "/events"
+   ]
   },
   "event_window_daily": {
    "status": "license needed",
@@ -1185,46 +2822,112 @@
    ],
    "pages": [
     "/",
+    "/data",
     "/events",
     "/learn/problems"
    ]
   },
+  "fbos_fiji_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "fema_disaster_declarations": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "fhwa_motor_fuel_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
   "flex_alert_effects": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "flex_alert_model": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "frb_treasury_yields": {
    "status": "public",
    "pages": [
-    "/board"
+    "/board",
+    "/data"
+   ]
+  },
+  "frb_utility_output_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "friction_index_weekly": {
+   "status": "public",
+   "pages": [
+    "/attention"
+   ]
+  },
+  "gas_balance_weekly": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "generation_mix_hourly_profile": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid"
    ]
   },
   "generation_mix_records": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid"
+   ]
+  },
+  "generator_pipeline_by_grid": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "gfz_kp_index_3h": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "grid_network_links": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid"
    ]
   },
   "grid_network_nodes": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid"
+   ]
+  },
+  "grid_peak_vs_capacity": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
    ]
   },
   "grid_stress_days": {
@@ -1235,13 +2938,28 @@
     "MISO",
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "grid_stress_yearly": {
    "status": "public",
    "pages": [
     "/cost-of-power",
+    "/data",
     "/grid"
+   ]
+  },
+  "hagstofa_iceland_power_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "hagstova_faroe_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "hub_price_comparison": {
@@ -1252,30 +2970,95 @@
     "MISO",
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "ieso_generation_fuel_hourly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ieso_ontario_demand_hourly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ilr_luxembourg_electricity": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "imf_commodity_prices": {
    "status": "public",
    "pages": [
-    "/board"
+    "/board",
+    "/data"
    ]
   },
   "impact_tax_rules": {
    "status": "public",
    "pages": [
+    "/data",
     "/impact"
+   ]
+  },
+  "ine_es_dwellings_electricity_2021": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "interconnection_agreements_by_grid": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "interconnection_agreements_signed": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "interconnection_durations": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "interconnection_durations_summary": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "interconnection_queue_summary": {
    "status": "public",
    "pages": [
-    "/cost-of-power"
+    "/cost-of-power",
+    "/data"
+   ]
+  },
+  "irs_soi_energy_credits_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "iso_curtailment_monthly": {
    "status": "public",
    "pages": [
-    "/curtailment"
+    "/curtailment",
+    "/data",
+    "/grid"
    ]
   },
   "iso_dam_hub_prices": {
@@ -1289,6 +3072,8 @@
     "/cost-of-power/battery",
     "/cost-of-power/seller",
     "/curtailment",
+    "/data",
+    "/datacenters",
     "/prices"
    ]
   },
@@ -1307,7 +3092,17 @@
     "/cost-of-power/battery",
     "/cost-of-power/seller",
     "/curtailment",
+    "/data",
+    "/datacenters",
     "/play/battery"
+   ]
+  },
+  "iso_queue_snapshot_summary": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
    ]
   },
   "iso_queue_statistics": {
@@ -1318,7 +3113,10 @@
     "MISO",
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/data",
+    "/map"
+   ]
   },
   "iso_rt_top_intervals": {
    "status": "license needed",
@@ -1327,7 +3125,9 @@
     "ISO-NE",
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "iso_rtm_hub_prices": {
    "status": "license needed",
@@ -1341,6 +3141,8 @@
     "/cost-of-power/battery",
     "/cost-of-power/seller",
     "/curtailment",
+    "/data",
+    "/datacenters",
     "/play/battery",
     "/prices"
    ]
@@ -1353,7 +3155,9 @@
     "MISO",
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "iso_zone_prices_history": {
    "status": "license needed",
@@ -1363,9 +3167,12 @@
    ],
    "pages": [
     "/",
+    "/board",
     "/cost-of-power",
     "/cost-of-power/seller",
-    "/curtailment"
+    "/curtailment",
+    "/data",
+    "/datacenters"
    ]
   },
   "isone_dam_zone_prices": {
@@ -1378,6 +3185,8 @@
     "/cost-of-power",
     "/cost-of-power/seller",
     "/curtailment",
+    "/data",
+    "/datacenters",
     "/prices"
    ]
   },
@@ -1387,7 +3196,9 @@
    "publishers": [
     "ISO-NE"
    ],
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "isone_rtm_zone_prices": {
    "status": "license needed",
@@ -1398,7 +3209,9 @@
    "pages": [
     "/cost-of-power",
     "/cost-of-power/seller",
-    "/curtailment"
+    "/curtailment",
+    "/data",
+    "/datacenters"
    ]
   },
   "isone_rtm_zone_prices_hourly": {
@@ -1411,36 +3224,93 @@
     "/cost-of-power",
     "/cost-of-power/seller",
     "/curtailment",
+    "/data",
+    "/datacenters",
     "/prices"
    ]
   },
   "known_data_faults": {
    "status": "public",
    "pages": [
+    "/data",
     "/data/faults",
     "/grid"
+   ]
+  },
+  "large_load_connection_rules": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "large_load_public": {
    "status": "public",
    "pages": [
-    "/cost-of-power"
+    "/cost-of-power",
+    "/data"
    ]
   },
   "large_load_rule_reads": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "large_load_rules": {
    "status": "public",
    "pages": [
-    "/cost-of-power"
+    "/cost-of-power",
+    "/data"
+   ]
+  },
+  "lbnl_hybrid_ppa_prices": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "lbnl_interconnection_queue": {
    "status": "public",
    "pages": [
-    "/"
+    "/",
+    "/cost-of-power",
+    "/data"
+   ]
+  },
+  "lbnl_ppa_prices": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "lbnl_solar_projects": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "lbnl_tracking_the_sun": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "lbnl_wind_capacity_factors": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "lbnl_wind_costs": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "lbnl_wind_turbine_orders": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "merchant_revenue_monthly": {
@@ -1453,6 +3323,8 @@
    ],
    "pages": [
     "/cost-of-power/seller",
+    "/data",
+    "/grid",
     "/learn/problems"
    ]
   },
@@ -1462,7 +3334,27 @@
    "publishers": [
     "MISO"
    ],
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "msha_coal_mines": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "msha_coal_production_quarterly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ncsi_oman_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "news_index": {
    "status": "license needed",
@@ -1490,49 +3382,182 @@
     "POWER Magazine",
     "Reuters",
     "Rigzone",
+    "T&D World",
     "Utility Dive",
     "WSJ",
     "pv magazine USA"
    ],
    "pages": [
+    "/data",
     "/digest",
     "/grid",
     "/roundup"
    ]
   },
+  "nhc_hurdat2_track_points": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "nlr_atb_electricity_costs": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
   "nlr_jedi_multipliers": {
    "status": "public",
    "pages": [
+    "/data",
     "/impact"
+   ]
+  },
+  "noaa_climdiv_state_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "noaa_cpc_degree_days_daily": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "noaa_cpc_oni_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "noaa_grid_weather_daily": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_grid_weather_hourly": {
    "status": "public",
    "pages": [
+    "/data",
     "/demand"
    ]
   },
   "noaa_grid_weather_stations": {
    "status": "public",
    "pages": [
+    "/data",
     "/demand"
    ]
   },
   "noaa_isd_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "noaa_ncei_billion_disasters": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "noaa_ncei_storm_events": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_station_weather_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "noaa_uscrn_solar_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "node_basis_daily": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "node_basis_summary": {
+   "status": "public",
+   "pages": [
+    "/board",
+    "/cost-of-power",
+    "/cost-of-power/battery",
+    "/cost-of-power/seller",
+    "/data"
+   ]
+  },
+  "nrc_advanced_reactor_preapplicants": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "nrc_event_notifications": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "nrc_license_actions": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "nrc_new_reactor_applications": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "nrc_power_reactors": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "nrc_reactor_status": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "nrc_rop_findings": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ntd_transit_energy_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "nuclear_fleet_status": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "nve_norway_reservoirs_weekly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "nyiso_as_prices": {
    "status": "license needed",
@@ -1542,7 +3567,8 @@
    ],
    "pages": [
     "/board",
-    "/cost-of-power/battery"
+    "/cost-of-power/battery",
+    "/data"
    ]
   },
   "nyiso_dam_cleared_energy": {
@@ -1551,7 +3577,9 @@
    "publishers": [
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "nyiso_dam_zone_prices": {
    "status": "license needed",
@@ -1564,6 +3592,8 @@
     "/cost-of-power/battery",
     "/cost-of-power/seller",
     "/curtailment",
+    "/data",
+    "/datacenters",
     "/prices"
    ]
   },
@@ -1573,7 +3603,10 @@
    "publishers": [
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/data",
+    "/grid"
+   ]
   },
   "nyiso_load_queue": {
    "status": "license needed",
@@ -1582,7 +3615,8 @@
     "NYISO"
    ],
    "pages": [
-    "/cost-of-power"
+    "/cost-of-power",
+    "/data"
    ]
   },
   "nyiso_rtm_zone_prices": {
@@ -1597,6 +3631,8 @@
     "/cost-of-power/battery",
     "/cost-of-power/seller",
     "/curtailment",
+    "/data",
+    "/datacenters",
     "/prices"
    ]
   },
@@ -1607,22 +3643,88 @@
     "NYISO"
    ],
    "pages": [
-    "/cost-of-power"
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "onrr_production_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "onrr_production_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "onrr_revenue_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ons_brazil_balance_hourly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ornl_eha_hydropower_plants": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ornl_eha_hydropower_units": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ornl_hydropower_pipeline": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ornl_hydropower_relicensing": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "ornl_npd_potential": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "owid_ember_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "policy_action_tags": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "policy_actions": {
    "status": "public",
    "pages": [
+    "/data",
     "/policy"
    ]
   },
   "policy_reads": {
    "status": "public",
    "pages": [
+    "/data",
     "/policy"
    ]
   },
@@ -1635,6 +3737,7 @@
     "NYISO"
    ],
    "pages": [
+    "/data",
     "/grid"
    ]
   },
@@ -1647,6 +3750,7 @@
     "NYISO"
    ],
    "pages": [
+    "/data",
     "/grid"
    ]
   },
@@ -1658,11 +3762,36 @@
     "MISO",
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "price_years_by_window": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/cost-of-power/battery",
+    "/cost-of-power/seller",
+    "/data"
+   ]
+  },
+  "ree_spain_balance_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "rrc_lease_production_monthly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "rte_eco2mix_france_halfhourly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "scarcity_hours_by_grid": {
    "status": "license needed",
@@ -1673,50 +3802,244 @@
     "NYISO"
    ],
    "pages": [
-    "/cost-of-power"
+    "/cost-of-power",
+    "/data"
+   ]
+  },
+  "scb_sweden_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "scripps_co2_mlo_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "shoulder_hours_monthly": {
    "status": "public",
    "pages": [
+    "/data",
     "/shoulder"
+   ]
+  },
+  "singstat_singapore_electricity": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "smard_germany_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "sne_panama_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "sne_panama_generation_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "sors_serbia_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "spp_as_prices": {
    "status": "public",
    "pages": [
     "/board",
-    "/cost-of-power/battery"
+    "/cost-of-power/battery",
+    "/data"
    ]
   },
   "spp_as_quantities": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "spp_curtailment_daily": {
    "status": "public",
    "pages": [
-    "/curtailment"
+    "/curtailment",
+    "/data",
+    "/grid"
    ]
   },
   "spp_dam_cleared_energy": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "spp_interconnection_queue": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data",
+    "/grid"
+   ]
+  },
+  "ssb_norway_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "stat_kz_kazakhstan_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "stat_tj_tajikistan_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statat_austria_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statat_austria_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statbank_moldova_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statbel_be_electricity_production_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statcan_electricity_generation_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statcan_electricity_trade_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statcan_energy_balance_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statcan_generating_capacity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statcan_generation_class_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statcan_oil_gas_supply_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statcan_petroleum_products_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statcan_power_disposition_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   },
   "state_generation_mix_monthly": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid"
+   ]
+  },
+  "statec_lu_electricity_generation_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statec_lu_electricity_trade_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statec_lu_power_capacity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statec_lu_supplier_mix_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statee_estonia_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statfi_finland_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statsbots_botswana_electricity_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "statsmu_mauritius_electricity_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "storage_buildout_monthly": {
    "status": "public",
    "pages": [
     "/",
+    "/data",
     "/shoulder",
     "/storage"
    ]
@@ -1725,6 +4048,7 @@
    "status": "public",
    "pages": [
     "/",
+    "/data",
     "/grid",
     "/play/battery",
     "/storage"
@@ -1733,6 +4057,7 @@
   "storage_daily_cycle": {
    "status": "public",
    "pages": [
+    "/data",
     "/grid",
     "/learn/problems",
     "/storage"
@@ -1741,19 +4066,129 @@
   "storage_owners_monthly": {
    "status": "public",
    "pages": [
+    "/data",
     "/storage"
+   ]
+  },
+  "subregion_demand_growth": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "usace_nid_dams": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "usbr_crsp_reservoirs_daily": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "usbr_hydropower_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "usbr_mead_powell_daily": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "usdm_drought_state_weekly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "usgs_comcat_earthquakes_south_central": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "usgs_mcs_critical_minerals": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "usgs_streamflow_daily": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "uspvdb_solar_facilities": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "uswtdb_wind_turbines": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "utility_large_load_tariffs": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "utility_service_territories": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "wapa_energy_sales_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "wb_commodity_prices_monthly": {
+   "status": "public",
+   "pages": [
+    "/board",
+    "/data"
+   ]
+  },
+  "wb_electricity_access_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "weather_forecast_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "weather_obs_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
+  },
+  "wfigs_wildfires": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
   }
  },
- "internal_tables": 32,
+ "internal_tables": 114,
  "pages": {
   "/": {
    "label": "Home",
@@ -1769,6 +4204,56 @@
    "internal": 1,
    "public": 18
   },
+  "/data": {
+   "label": "Data and methods",
+   "dark": "part",
+   "license_needed": [
+    "ai_power_regions",
+    "battery_stack_review_monthly",
+    "clean_energy_hourly",
+    "clean_energy_summary",
+    "cost_of_power_carbon",
+    "cost_of_power_hourly_profile",
+    "cost_of_power_monthly",
+    "datacenter_facilities",
+    "datacenter_operator_sites",
+    "datacenter_projects",
+    "datacenter_queue_positions",
+    "energy_deals",
+    "energy_projects",
+    "event_study_estimates",
+    "event_window_daily",
+    "grid_stress_days",
+    "hub_price_comparison",
+    "iso_dam_hub_prices",
+    "iso_hub_prices_history",
+    "iso_queue_statistics",
+    "iso_rt_top_intervals",
+    "iso_rtm_hub_prices",
+    "iso_trader_daily",
+    "iso_zone_prices_history",
+    "isone_dam_zone_prices",
+    "isone_interconnection_queue",
+    "isone_rtm_zone_prices",
+    "isone_rtm_zone_prices_hourly",
+    "merchant_revenue_monthly",
+    "miso_interconnection_queue",
+    "news_index",
+    "nyiso_as_prices",
+    "nyiso_dam_cleared_energy",
+    "nyiso_dam_zone_prices",
+    "nyiso_interconnection_queue",
+    "nyiso_load_queue",
+    "nyiso_rtm_zone_prices",
+    "nyiso_zone_load_hourly",
+    "price_board_latest",
+    "price_board_peak_offpeak",
+    "price_board_spreads",
+    "scarcity_hours_by_grid"
+   ],
+   "internal": 0,
+   "public": 481
+  },
   "/data/faults": {
    "label": "Known faults in source data",
    "dark": "none",
@@ -1778,12 +4263,12 @@
   },
   "/digest": {
    "label": "ERW's Energy Digest",
-   "dark": "all",
+   "dark": "part",
    "license_needed": [
     "news_index"
    ],
-   "internal": 0,
-   "public": 0
+   "internal": 1,
+   "public": 2
   },
   "/roundup": {
    "label": "ERW's Roundup",
@@ -1801,10 +4286,11 @@
    "dark": "part",
    "license_needed": [
     "iso_hub_prices_history",
+    "iso_zone_prices_history",
     "nyiso_as_prices"
    ],
    "internal": 0,
-   "public": 13
+   "public": 26
   },
   "/prices": {
    "label": "Prices",
@@ -1861,7 +4347,7 @@
     "nyiso_rtm_zone_prices"
    ],
    "internal": 0,
-   "public": 7
+   "public": 9
   },
   "/cost-of-power/seller": {
    "label": "What a generator earns",
@@ -1880,7 +4366,7 @@
     "nyiso_rtm_zone_prices"
    ],
    "internal": 0,
-   "public": 7
+   "public": 9
   },
   "/cost-of-power": {
    "label": "Cost of power",
@@ -1904,8 +4390,8 @@
     "nyiso_zone_load_hourly",
     "scarcity_hours_by_grid"
    ],
-   "internal": 3,
-   "public": 14
+   "internal": 7,
+   "public": 34
   },
   "/shoulder": {
    "label": "The shoulder hours",
@@ -1920,14 +4406,17 @@
    "license_needed": [
     "clean_energy_hourly",
     "clean_energy_summary",
+    "cost_of_power_monthly",
     "datacenter_facilities",
     "energy_projects",
+    "merchant_revenue_monthly",
     "news_index",
+    "nyiso_interconnection_queue",
     "price_board_latest",
     "price_board_peak_offpeak"
    ],
    "internal": 0,
-   "public": 23
+   "public": 30
   },
   "/demand": {
    "label": "Demand growth",
@@ -1958,7 +4447,8 @@
    "dark": "part",
    "license_needed": [
     "datacenter_facilities",
-    "energy_projects"
+    "energy_projects",
+    "iso_queue_statistics"
    ],
    "internal": 0,
    "public": 2
@@ -1969,10 +4459,20 @@
    "license_needed": [
     "datacenter_facilities",
     "datacenter_operator_sites",
-    "datacenter_projects"
+    "datacenter_projects",
+    "iso_dam_hub_prices",
+    "iso_hub_prices_history",
+    "iso_rtm_hub_prices",
+    "iso_zone_prices_history",
+    "isone_dam_zone_prices",
+    "isone_rtm_zone_prices",
+    "isone_rtm_zone_prices_hourly",
+    "nyiso_dam_zone_prices",
+    "nyiso_rtm_zone_prices",
+    "nyiso_zone_load_hourly"
    ],
-   "internal": 1,
-   "public": 1
+   "internal": 7,
+   "public": 23
   },
   "/storage": {
    "label": "Storage",
@@ -1994,6 +4494,7 @@
    "label": "Events",
    "dark": "part",
    "license_needed": [
+    "event_study_estimates",
     "event_window_daily"
    ],
    "internal": 0,
@@ -2005,6 +4506,13 @@
    "license_needed": [],
    "internal": 1,
    "public": 2
+  },
+  "/attention": {
+   "label": "Attention",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 3
   },
   "/play/battery": {
    "label": "Home battery game",
