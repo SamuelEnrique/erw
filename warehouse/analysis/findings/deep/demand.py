@@ -278,12 +278,12 @@ def reproduce_do(name, region):
         if name == "mean_day":
             lines += ["collapse (mean) measure = value (count) n = value, by(year)", "replace measure = measure / 1000"]
         elif name in ("top_days", "peak_to_mean"):
-            lines += ["gsort year -value", "by year: generate long rank = _n", "by year: egen double top = mean(cond(rank <= 10, value, .))",
+            lines += ["generate double neg_value = -value", "bysort year (neg_value): generate long rank = _n", "by year: egen double top = mean(cond(rank <= 10, value, .))",
                       "by year: egen double avg = mean(value)", "by year: generate long n = _N", "by year: keep if _n == 1",
                       "generate double measure = " + ("top / 1000" if name == "top_days" else "100 * top / avg")]
         else:
             lines += ["generate byte season = cond(inlist(month, 1, 2, 12), 1, cond(inlist(month, 6, 7, 8), 2, 0))", "bysort year: generate long n = _N",
-                      "gsort year season -value", "by year season: generate long rank = _n", "keep if season > 0 & rank <= 5",
+                      "generate double neg_value = -value", "bysort year season (neg_value): generate long rank = _n", "keep if season > 0 & rank <= 5",
                       "collapse (mean) top = value (count) k = value (firstnm) n, by(year season)", "keep if k == 5",
                       "reshape wide top k, i(year) j(season)", "drop if missing(top1) | missing(top2)", "generate double measure = 100 * top1 / top2"]
     else:

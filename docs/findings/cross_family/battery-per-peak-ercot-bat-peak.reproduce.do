@@ -36,9 +36,9 @@ bysort year: egen double med = median(value)
 
 keep if value >= med / 3 & value <= med * 3
 
-gsort year -value
+generate double neg_value = -value
 
-by year: generate long rank = _n
+bysort year (neg_value): generate long rank = _n
 
 by year: generate long n = _N
 

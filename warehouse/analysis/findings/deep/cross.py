@@ -163,7 +163,7 @@ def reproduce_do(name, region):
                         "destring value, replace force", "generate int year = real(substr(ts_utc, 1, 4))", "keep year value", "rename value fleet", "save fleet_years, replace",
                         f'import delimited "{DD}.csv", varnames(1) stringcols(_all) clear', f'keep if entity == "{ba}" & variable == "demand_mwh"',
                         "destring value, replace force", "keep if value > 0 & !missing(value)", "duplicates drop entity ts_utc, force", "generate int year = real(substr(ts_utc, 1, 4))",
-                        "bysort year: egen double med = median(value)", "keep if value >= med / 3 & value <= med * 3", "gsort year -value", "by year: generate long rank = _n",
+                        "bysort year: egen double med = median(value)", "keep if value >= med / 3 & value <= med * 3", "generate double neg_value = -value", "bysort year (neg_value): generate long rank = _n",
                         "by year: generate long n = _N", "by year: egen double top = mean(cond(rank <= 10, value, .))", "by year: keep if _n == 1",
                         "merge 1:1 year using fleet_years, keep(match) nogenerate", "generate double measure = 100 * fleet / (top / 24)"]
     elif name == "built_per_asked":

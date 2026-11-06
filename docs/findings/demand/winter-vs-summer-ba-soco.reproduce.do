@@ -28,9 +28,9 @@ generate byte season = cond(inlist(month, 1, 2, 12), 1, cond(inlist(month, 6, 7,
 
 bysort year: generate long n = _N
 
-gsort year season -value
+generate double neg_value = -value
 
-by year season: generate long rank = _n
+bysort year season (neg_value): generate long rank = _n
 
 keep if season > 0 & rank <= 5
 

@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): findings hunt (chain 164), candidate winter_vs_summer, region ba_tva (the Tennessee Valley Authority)
-# Computed 2026-11-06T11:36:36Z by warehouse/analysis/findings/deep/demand.py (winter_vs_summer); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Computed 2026-11-06T13:55:54Z by warehouse/analysis/findings/deep/demand.py (winter_vs_summer); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
 # Rows: one per year held: the mean of the year's five highest winter days (January, February, December) as a percent of its five highest summer days (June to August) (percent of the summer top days), the observations it rests on, and whether the year is full
 # Tables: eia930_daily_demand
 region,year,value,n_observations,full_year

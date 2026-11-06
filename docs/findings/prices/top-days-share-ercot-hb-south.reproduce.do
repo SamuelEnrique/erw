@@ -48,9 +48,9 @@ keep if hours >= 20
 
 generate double spread = pmax - pmin
 
-gsort year -spread
+generate double neg_spread = -spread
 
-by year: generate long rank = _n
+bysort year (neg_spread): generate long rank = _n
 
 by year: generate long n = _N
 

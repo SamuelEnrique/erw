@@ -340,7 +340,7 @@ def reproduce_do(name, region):
                 lines += ["bysort day: generate long hours = _N", "keep if hours >= 20", "bysort day (rt hour_utc): keep if _n == 1",
                           "collapse (mean) measure = lhour (count) n = lhour, by(year)"]
             elif name == "winter_top_share":
-                lines += ["generate byte winter = inlist(month(day), 12, 1, 2)", "gsort year -rt hour_utc", "by year: generate long rank = _n",
+                lines += ["generate byte winter = inlist(month(day), 12, 1, 2)", "generate double neg_rt = -rt", "bysort year (neg_rt hour_utc): generate long rank = _n",
                           "by year: generate long n = _N", "by year: egen double top_winter = mean(cond(rank <= ceil(0.01 * n), winter, .))",
                           "by year: keep if _n == 1", "generate double measure = 100 * top_winter"]
             elif name == "morning_shoulder":

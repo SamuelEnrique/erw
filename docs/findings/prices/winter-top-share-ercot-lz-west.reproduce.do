@@ -44,9 +44,9 @@ generate long day = dofc(t_local)
 
 generate byte winter = inlist(month(day), 12, 1, 2)
 
-gsort year -rt hour_utc
+generate double neg_rt = -rt
 
-by year: generate long rank = _n
+bysort year (neg_rt hour_utc): generate long rank = _n
 
 by year: generate long n = _N
 
