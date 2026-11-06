@@ -430,3 +430,64 @@ export function dayWords(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
   return `${d.toLocaleDateString("en-GB", { weekday: "long", timeZone: "UTC" })} ${day(date)}`;
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// session 1461 (chain 150, fault 41): the chart of the day drawn on the page from its record's points, a hover on each
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** The plotted series a chart record keeps since session 1461 (daily_chart.chart_points): the x labels, each series'
+ *  values (null where the series has none), the unit and the chart's count of decimals. */
+export type ChartPoints = { x: string[]; series: { name: string; values: (number | null)[] }[]; unit?: string; decimals?: number };
+
+const SVG_COLORS = ["var(--chart-ink, #2E2D29)", "var(--chart-blue, #3C6E9E)", "var(--chart-grey, #6B675F)", "var(--chart-light, #8F8A80)"];
+
+function svgEscape(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+/** A number with the chart's own decimals and a thousands separator, as the picture prints it. */
+export function chartNumber(v: number, decimals = 2): string {
+  return v.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+}
+
+/** The chart of the day as an inline SVG (role img, named by the alt text): one line a series, and on each point a
+ *  circle whose title is the hover ("2026-06: 251.00 kbbl", the series' name first when there are two or more). The
+ *  axis shows the lowest and highest value and the first and last label. "" when the points cannot be drawn (no x, no
+ *  value), so the caller draws the picture instead. No script and no style attribute: the page's CSP holds. */
+export function chartSvg(p: ChartPoints | undefined | null, alt: string): string {
+  if (!p || !Array.isArray(p.x) || !p.x.length || !Array.isArray(p.series) || !p.series.length) return "";
+  const vals = p.series.flatMap((s) => (s.values || []).filter((v): v is number => typeof v === "number" && Number.isFinite(v)));
+  if (!vals.length) return "";
+  const nd = typeof p.decimals === "number" ? p.decimals : 2, unit = p.unit ? ` ${p.unit}` : "";
+  const W = 640, H = 300, L = 64, R = 16, T = 16, B = 36;
+  let lo = Math.min(...vals), hi = Math.max(...vals);
+  if (lo === hi) { lo -= 1; hi += 1; }
+  const n = p.x.length;
+  const X = (i: number) => L + (n === 1 ? (W - L - R) / 2 : (i * (W - L - R)) / (n - 1));
+  const Y = (v: number) => T + ((hi - v) * (H - T - B)) / (hi - lo);
+  const f = (v: number) => v.toFixed(1);
+  const parts: string[] = [
+    `<svg class="digest-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${svgEscape(alt)}" xmlns="http://www.w3.org/2000/svg">`,
+    `<title>${svgEscape(alt)}</title>`,
+    `<line x1="${L}" y1="${H - B}" x2="${W - R}" y2="${H - B}" stroke="var(--color-rule, #E3DED1)"/>`,
+    `<text x="${L - 6}" y="${f(Y(hi)) }" text-anchor="end" dominant-baseline="middle" font-size="12" fill="var(--color-muted, #6B675F)">${svgEscape(chartNumber(hi, nd))}</text>`,
+    `<text x="${L - 6}" y="${f(Y(lo))}" text-anchor="end" dominant-baseline="middle" font-size="12" fill="var(--color-muted, #6B675F)">${svgEscape(chartNumber(lo, nd))}</text>`,
+    `<text x="${L}" y="${H - 12}" font-size="12" fill="var(--color-muted, #6B675F)">${svgEscape(String(p.x[0]))}</text>`,
+    `<text x="${W - R}" y="${H - 12}" text-anchor="end" font-size="12" fill="var(--color-muted, #6B675F)">${svgEscape(String(p.x[n - 1]))}</text>`,
+  ];
+  p.series.forEach((s, k) => {
+    const color = SVG_COLORS[k % SVG_COLORS.length];
+    const pts: string[] = [];
+    const dots: string[] = [];
+    (s.values || []).slice(0, n).forEach((v, i) => {
+      if (typeof v !== "number" || !Number.isFinite(v)) return;
+      pts.push(`${f(X(i))},${f(Y(v))}`);
+      const hover = `${p.series.length > 1 ? `${s.name}, ` : ""}${p.x[i]}: ${chartNumber(v, nd)}${unit}`;
+      dots.push(`<circle cx="${f(X(i))}" cy="${f(Y(v))}" r="3" fill="${color}"><title>${svgEscape(hover)}</title></circle>`);
+    });
+    if (pts.length > 1) parts.push(`<polyline points="${pts.join(" ")}" fill="none" stroke="${color}" stroke-width="1.8"${k ? ' stroke-dasharray="5 3"' : ""}/>`);
+    parts.push(...dots);
+  });
+  parts.push("</svg>");
+  return parts.join("");
+}

@@ -763,6 +763,34 @@ def markdown(day, c):
             f"{how_words(c)} [How the chart is chosen](/data/methods/automated_analysis_scanner)."]
 
 
+POINTS_MAX = 400   # session 1461: the last points of a long series are the ones the page draws
+
+
+def chart_points(ch, unit=""):
+    """Session 1461 (chain 150, fault 41 of docs/reviews/periodicals-faults-2026-11-05.md): the series the card draws, as
+    the record keeps them for the page ({x, series: [{name, values}], unit, decimals}; the last POINTS_MAX points), or
+    None when the chart is not of that shape (a scatter, a chart with no x). The picture stays the email's."""
+    x = ch.get("x")
+    series = ch.get("series")
+    if not isinstance(x, list) or not x or not isinstance(series, list) or not series:
+        return None
+    out = []
+    for s in series:
+        vals = s.get("values")
+        if not isinstance(vals, list) or len(vals) != len(x):
+            return None
+        clean = []
+        for v in vals[-POINTS_MAX:]:
+            try:
+                f = float(v)
+                clean.append(f if f == f and abs(f) != float("inf") else None)
+            except (TypeError, ValueError):
+                clean.append(None)
+        out.append({"name": str(s.get("name", "")), "values": clean})
+    return {"x": [str(v)[:10] for v in x[-POINTS_MAX:]], "series": out, "unit": str(unit or ch.get("unit", "") or ""),
+            "decimals": int(ch.get("decimals", 2))}
+
+
 def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candidates=None, proof=False, used=None, waited=None,
             stories=None, dismissed=None):
     """The Digest's section for `day`: [] when there is nothing to show (the reason is logged). Writes the picture and
@@ -805,6 +833,9 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
             record["image_phone"] = os.path.basename(phone)
         except Exception as exc:
             log(f"  daily chart: the phone picture was not drawn ({type(exc).__name__}: {str(exc)[:120]})")
+        pts = chart_points(c["card"].get("chart") or {}, (c.get("flag") or {}).get("unit", ""))
+        if pts:   # session 1461 (fault 41): the plotted series, for the page's chart with a hover on each point
+            record["points"] = pts
         if c.get("_relevance", (0,))[0]:   # session 805: what of the day the chart follows
             record["relevance"] = {"score": c["_relevance"][0], "story": c["_relevance"][1], "shared": c["_relevance"][2]}
         if c["source"] == "scanner":

@@ -56,3 +56,18 @@ New in the after: three of the five What moved items print the headline alone wi
 | first links reaching Google, top ten | 5 | 4 |
 | figures in the block without a key | 2 | 0 |
 | oil price items in the top ten | 2 | 1 |
+
+## Friday 6 November, the scheduled issue and chain 150's code (session 1463)
+
+The before is the issue the scheduled run wrote at 00:48 UTC with the old code (`docs/digest/2026-11-06.md`, v1); the after is session 1463's dry run of the same day at the same hour with the code of sessions 1434 to 1462 (`runs/periodicals_dryrun/s1463/digest/2026-11-06.md`), the same stories.
+
+| # | Before | After |
+|---|---|---|
+| 1, 25 (the opening) | none: the old shape opens on "Top of the industry" | "**Henry Hub natural gas: 2.63 USD/MMBtu on 2026-11-03, up 0.09 USD/MMBtu (3.5%) from 2.54 USD/MMBtu on 2026-11-02 [1].**" with a reason that names nothing (row 43) |
+| 7 to 11 | "Offshore wind project completion signals continued momentum despite political opposition." (Revolution Wind) | the headline and its sources alone |
+| 7 to 11 | "Oil producer signals strong cash generation and shareholder returns amid elevated prices." (ConocoPhillips) | the headline and its sources alone |
+| 4, 5 | "Hyperscale data center expansion; AI power demand commitment. USD 33.1 billion; parties: Lambda." (top item 2) | "Datacenter load, Wyoming: 702 MW (AEP, Google; Data Center Frontier, 2026-11-04) [2]." in the block; Lambda folded under AEP and Google (row 45) |
+| 32, 33 | "Quadrupling DER capacity to 400 GW by 2050 reshapes power infrastructure investment priorities. 400,000 MW; USD 614 billion" | "... 400,000 MW; parties: Brattle; Pew." (the headline's USD 614 billion not printed again) |
+| repeated figures (counts) | 4 | 0 |
+| first links reaching Google, of all links | 12 of 36 | 8 of 40 |
+| words above the fold | 1,035 (no fold) | 214 (row 49) |

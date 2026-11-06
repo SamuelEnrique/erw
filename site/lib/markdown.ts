@@ -7,7 +7,7 @@ import { Marked, type Tokens } from "marked";
 import docs from "@/content/docs.json";
 import site from "@/data/site.json";
 import { gated } from "@/lib/release";
-import { archiveOf, dedupeOpening, digestMarkdown, fillDigest, sourceTrail, type DayKind, type Revision } from "@/lib/digest";
+import { archiveOf, chartSvg, dedupeOpening, digestMarkdown, fillDigest, sourceTrail, type ChartPoints, type DayKind, type Revision } from "@/lib/digest";
 
 export type Docs = {
   built_at: string;
@@ -80,7 +80,8 @@ export const DOCS = docs as unknown as Docs;
 export type DigestChart = { date: string; title: string; fact: string; table: string; source: string; unit: string; rule: string; rendered_at: string; image: string; proof: boolean;
   numbers: Record<string, number | string>;   // session 315: the record's own figures
   width?: number; height?: number;   // session 411: the picture's own size in pixels (absent in a bundle built before)
-  image_600?: string };   // session 815: the phone picture (<date>-600.png), when the day has one
+  image_600?: string;   // session 815: the phone picture (<date>-600.png), when the day has one
+  points?: ChartPoints };   // session 1461: the plotted series, when the record keeps it (charts drawn since that session)
 /** The days with a chart of the Digest, newest first (session 238). */
 export function digestChartDays(): string[] {
   return Object.keys(DOCS.digest_charts ?? {}).sort().reverse();
@@ -178,6 +179,10 @@ export function render(md: string, repoPath: string): string {
         const m = /^\/digest-charts\/(\d{4}-\d{2}-\d{2})\.png$/.exec(href);
         const phone = m ? DOCS.digest_charts?.[m[1]]?.image_600 : undefined;
         if (!safeHref(href)) return escapeHtml(text);
+        // session 1461 (fault 41): a chart whose record keeps its points is drawn on the page, a hover on each point; the
+        // picture stays the email's (and the page's for a chart drawn before)
+        const drawn = m ? chartSvg(DOCS.digest_charts?.[m[1]]?.points, text) : "";
+        if (drawn) return drawn;
         const alt = escapeHtml(text), t = title ? ` title="${escapeHtml(title)}"` : "";
         // session 1449 (fault 41, in part): a hover on the chart answers with its figures (the caption's values); the
         // point-by-point hover needs the series on the page, which the record does not hold

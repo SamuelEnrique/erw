@@ -71,3 +71,6 @@ code { overflow-wrap: anywhere; }
 .prose-erw details.digest-tables { margin: 0 0 0.9rem; font-size: 0.85rem; }
 .prose-erw details.digest-tables summary { color: var(--color-muted); cursor: pointer; }
 .prose-erw details.digest-tables p { margin: 0.25rem 0 0; }
+/* session 1461 (fault 41): the chart of the day drawn from its record, a hover on each point */
+.prose-erw svg.digest-chart { display: block; width: 100%; height: auto; max-width: 640px; margin: 0.5rem 0 1rem; }
+.prose-erw svg.digest-chart circle { cursor: help; }

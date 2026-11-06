@@ -28,7 +28,9 @@ class WhatTheDryRunShowed(unittest.TestCase):
     def test_the_fallback_is_not_the_headline_again(self):
         head = "Crusoe plans Spark Liquid modular data center with 3.5MW deployments for Nvidia GPUs"
         self.assertEqual(brief.why_line("Crusoe plans 3.5MW modular units for Nvidia GPUs.", head), "")
-        self.assertEqual(brief.why_line("A 3.5MW unit adds load.", "Crusoe plans 3.5MW units, Reuters reports"), "A unit adds load.")
+        # session 1458: the line names a place the headline lacks (fault 7's rule)
+        self.assertEqual(brief.why_line("A 3.5MW unit adds load in Abilene.", "Crusoe plans 3.5MW units, Reuters reports"),
+                         "A unit adds load in Abilene.")
         # session 1437 (chain 149, fault 10): the headline's clause with the publisher's suffix off is still the headline, so
         # nothing is printed (rulings item 16: the headline alone, nothing said twice)
         self.assertEqual(brief.why_line("Totaling 3.5MW of units.", "Crusoe plans 3.5MW units, Reuters reports"), "")
@@ -37,7 +39,10 @@ class WhatTheDryRunShowed(unittest.TestCase):
     def test_a_bullet_without_a_why_line_still_reads(self):
         import inspect
         src = inspect.getsource(brief.main)
-        self.assertEqual(src.count('" ".join(x for x in (why_line(r[\'why\'], heads[r[\'cluster_id\']]), link_text(r[\'links\'][:1])) if x)'), 2)
+        # session 1467 (fault 46): both lines are sector_line's, which drops the colon when there is no why line
+        self.assertEqual(src.count("sector_line(r, heads[r['cluster_id']])"), 2)
+        line = brief.sector_line({"why": "", "sector": "nuclear", "links": [("ANS", "https://example.org/a")]}, "A reactor uprate")
+        self.assertEqual(line, "- A reactor uprate (nuclear). [ANS](https://example.org/a)")
 
 
 class TheWindow(unittest.TestCase):

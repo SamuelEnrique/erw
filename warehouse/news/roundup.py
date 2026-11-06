@@ -510,6 +510,10 @@ def five_numbers(label, start, cut, facts, log, picked=None):
     headline figure of the week's chart (docs/analysis/<week>/chart_of_the_week.json). A number the warehouse does not
     hold is said missing, never filled."""
     L = []
+    # session 1460 (chain 150, faults 28 and 29): a row's table key (the row id, the chart's template and path) is the
+    # tracer's, not the reader's: it goes to one Tables line under the five (small and grey in the email, closed under
+    # Sources on the page), and scripts/check_roundup.py reads it there
+    keys = []
     # 1. the price move of the week
     moves = []
     for h in facts.get("dam", []):
@@ -559,14 +563,16 @@ def five_numbers(label, start, cut, facts, log, picked=None):
             r = dw.sort_values(["_d", "event_date"], ascending=[False, True]).iloc[0]
             who = " and ".join(x for x in (r["buyer"], r["seller"]) if x) or "parties not stated"
             L.append(f"- **Deal of the week, by US dollars:** {usd_words(r['_d'])}, {who}, {r['asset'] or 'asset not stated'} "
-                     f"({DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))}, {r['event_date'][:10]}; `energy_deals` {r['event_id']}).")
+                     f"({DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))}, {r['event_date'][:10]}).")
+            keys.append(f"the deal of the week, `energy_deals` {r['event_id']}")
             picked["deal"] = {"usd": float(r["_d"]), "text": L[-1].split(":** ", 1)[1].rstrip(".")}
         elif dw["_m"].notna().any():
             r = dw.sort_values(["_m", "event_date"], ascending=[False, True]).iloc[0]
             who = " and ".join(x for x in (r["buyer"], r["seller"]) if x) or "parties not stated"
             L.append(f"- **Deal of the week, by MW (no deal of the week states dollars):** {float(r['_m']):,.0f} MW, {who}, "
                      f"{r['asset'] or 'asset not stated'} ({DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))}, "
-                     f"{r['event_date'][:10]}; `energy_deals` {r['event_id']}).")
+                     f"{r['event_date'][:10]}).")
+            keys.append(f"the deal of the week, `energy_deals` {r['event_id']}")
         else:
             L.append("- **Deal of the week:** " + stand_in(1, "no deal in `energy_deals` is dated this week"))
     # 4. the largest new datacenter load
@@ -585,7 +591,8 @@ def five_numbers(label, start, cut, facts, log, picked=None):
             r = cw.sort_values(["_m", "first_story_at"], ascending=[False, True]).iloc[0]
             place = ", ".join(x for x in (r.get("city", ""), r.get("state", "")) if x) or "place not stated"
             L.append(f"- **Largest new datacenter load first reported this week:** {float(r['_m']):,.0f} MW, {r['operator'] or 'operator not stated'}, "
-                     f"{r['site_name'] or 'site not stated'}, {place} (`datacenter_projects` {r['entity_id']}).")
+                     f"{r['site_name'] or 'site not stated'}, {place}.")
+            keys.append(f"the datacenter load, `datacenter_projects` {r['entity_id']}")
             picked["dc"] = {"mw": float(r["_m"]), "text": L[-1].split(":** ", 1)[1].rstrip(".")}
         else:
             L.append("- **Largest new datacenter load first reported this week:** "
@@ -602,12 +609,12 @@ def five_numbers(label, start, cut, facts, log, picked=None):
         ends = re.findall(r"\d{4}-\d{2}-\d{2}", str(h.get("period", "")))
         if ends and pd.Timestamp(ends[-1], tz="UTC") < start:
             whose = " (the week before: the chart's latest period ends before this week)"
-        L.append(f"- **From the chart of the week:** {h['label']}: {chart_figure(h['value'])} {h['unit']} in {h['period']}{whose} "
-                 f"(template `{m['template']}`, `docs/analysis/{label}/chart_of_the_week.json`).")
+        L.append(f"- **From the chart of the week:** {h['label']}: {chart_figure(h['value'])} {h['unit']} in {h['period']}{whose}.")
+        keys.append(f"the chart's figure, template `{m['template']}`, `docs/analysis/{label}/chart_of_the_week.json`")
     except (OSError, KeyError, ValueError):
         L.append("- **From the chart of the week:** no chart of the week was picked for this week, so no figure.")
     log(f"  five numbers: {len(L)} lines")
-    return L
+    return L + (["", "Tables: " + "; ".join(keys) + "."] if keys else [])
 
 
 # ---------------------------------------------------------------------------------------------------------------------
