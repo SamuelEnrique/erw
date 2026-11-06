@@ -1,0 +1,8 @@
+{"name": "the On.Energy walkthrough", "steps": [
+ {"id": "01", "what": "a merchant battery in ERCOT, as the page opens (4 hours, perfect foresight, 100 MW)", "url": "/cost-of-power/battery"},
+ {"id": "02", "what": "the same on the day-ahead schedule", "url": "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead&mw=100"},
+ {"id": "03", "what": "a merchant battery in CAISO", "url": "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead&mw=100"},
+ {"id": "04", "what": "ERCOT, scenario B with half the power contracted at USD 10 per kW-month", "url": "/cost-of-power/battery?grid=ercot&dur=4&strat=foresight&mw=100&bn=50&bp=10&v=b"},
+ {"id": "05", "what": "CAISO, the same contract in B", "url": "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead&mw=100&bn=50&bp=10&v=b"},
+ {"id": "06", "what": "the saved comparison: step 04's address opened again", "url": "/cost-of-power/battery?grid=ercot&dur=4&strat=foresight&mw=100&bn=50&bp=10&v=b"}
+]}
