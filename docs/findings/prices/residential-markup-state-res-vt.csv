@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate residential_markup, region state_res_VT (Vermont)
+# Computed 2026-11-06T11:29:29Z by warehouse/analysis/findings/deep/prices.py (residential_markup); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean of the residential gas price less the citygate price, months with both (USD per Mcf), the observations it rests on, and whether the year is full
+# Tables: eia_gas_prices_state_monthly
+region,year,value,n_observations,full_year
+state_res_VT,2001,6.544999999999999,12.0,1
+state_res_VT,2002,6.4049999999999985,12.0,1
+state_res_VT,2003,5.900833333333334,12.0,1
+state_res_VT,2004,6.586666666666666,12.0,1
+state_res_VT,2005,6.602499999999999,12.0,1
+state_res_VT,2006,6.815,12.0,1
+state_res_VT,2007,7.849166666666666,12.0,1
+state_res_VT,2008,9.773333333333332,12.0,1
+state_res_VT,2009,9.541666666666666,12.0,1
+state_res_VT,2010,9.843333333333334,12.0,1
+state_res_VT,2011,10.176666666666668,12.0,1
+state_res_VT,2012,12.366666666666667,12.0,1
+state_res_VT,2013,11.953333333333335,12.0,1
+state_res_VT,2014,10.282499999999999,12.0,1
+state_res_VT,2015,10.616666666666667,12.0,1
+state_res_VT,2016,11.535833333333334,12.0,1
+state_res_VT,2017,11.569166666666668,12.0,1
+state_res_VT,2018,11.778333333333334,12.0,1
+state_res_VT,2019,11.860833333333334,12.0,1
+state_res_VT,2020,12.404166666666667,12.0,1
+state_res_VT,2021,12.616666666666669,12.0,1
+state_res_VT,2022,12.26,12.0,1
+state_res_VT,2023,14.8175,12.0,1
+state_res_VT,2024,16.318333333333335,12.0,1
+state_res_VT,2025,16.98,12.0,1
+state_res_VT,2026,15.558571428571428,7.0,0

@@ -48,15 +48,18 @@ MAX_DRAFTS = 12                    # a session keeps the ten best by consequence
 
 
 def candidate(name, family, fn, unit, decimals, n_floor, change_threshold, title, label, subject, limits, reproduce,
-              consequence=2, context=None):
+              consequence=2, context=None, first_words=None):
     """One candidate as a pattern the weekly hunt's functions accept, with this chain's own keys.
 
     subject(words) -> the sentence's subject ("the real-time price at ERCOT's West hub"); label: what the measure is;
     limits: the one sentence that says what the figure does not show; reproduce(region) -> {"py": text, "do": text}
     that recompute the yearly values from the tables; consequence: the rubric's first count (1 to 3), set by the
-    candidate's author from its scale and checked in session 3020."""
+    candidate's author from its scale and checked in session 3020; first_words: what the first year is, when it is
+    not the first full year the ERW holds (a comparison counted from a chosen year, session 3003)."""
     P = hunt.family(name, name, unit, decimals, n_floor, change_threshold, title, label, context=context)
     P.update(module=f"deep.{family}", family=family, _fn=fn, subject=subject, limits=limits, reproduce=reproduce, consequence=consequence)
+    if first_words:
+        P["first_words"] = first_words
     return P
 
 
@@ -68,7 +71,7 @@ def sentence(P, words, c):
     """The one sentence: the fact with its figure, unit, geography, period and comparison basis. No cause."""
     s = P["subject"](words)
     return (f"{s[0].upper()}{s[1:]} was {val(c['last'], P)} in {c['last_year']}, against {val(c['first'], P)} in {c['first_year']}, "
-            f"the first full year the ERW holds.")
+            f"{P.get('first_words', 'the first full year the ERW holds')}.")
 
 
 def draft_id(P, region, c):

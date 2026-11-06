@@ -1,0 +1,28 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate power_vs_citygate, region state_pow_NE (Nebraska)
+# Computed 2026-11-06T11:29:30Z by warehouse/analysis/findings/deep/prices.py (power_vs_citygate); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean of the gas price power plants paid less the citygate price, months with both (USD per Mcf), the observations it rests on, and whether the year is full
+# Tables: eia_gas_prices_state_monthly
+region,year,value,n_observations,full_year
+state_pow_NE,2002,-0.22916666666666655,12.0,1
+state_pow_NE,2003,-0.0272727272727275,11.0,1
+state_pow_NE,2004,-0.17833333333333345,12.0,1
+state_pow_NE,2005,0.0666666666666665,12.0,1
+state_pow_NE,2006,-0.18833333333333338,12.0,1
+state_pow_NE,2007,1.0191666666666668,12.0,1
+state_pow_NE,2010,1.9400000000000004,1.0,0
+state_pow_NE,2011,2.225,12.0,1
+state_pow_NE,2012,2.4658333333333338,12.0,1
+state_pow_NE,2013,1.1941666666666666,12.0,1
+state_pow_NE,2014,1.2474999999999998,12.0,1
+state_pow_NE,2015,-0.29750000000000004,12.0,1
+state_pow_NE,2016,-0.45916666666666667,12.0,1
+state_pow_NE,2017,0.3833333333333333,12.0,1
+state_pow_NE,2018,0.08249999999999998,12.0,1
+state_pow_NE,2019,-0.15666666666666673,12.0,1
+state_pow_NE,2020,-0.6283333333333334,12.0,1
+state_pow_NE,2021,5.188333333333333,12.0,1
+state_pow_NE,2022,0.6399999999999997,12.0,1
+state_pow_NE,2023,-0.8975000000000003,12.0,1
+state_pow_NE,2024,1.8241666666666665,12.0,1
+state_pow_NE,2025,2.341818181818182,11.0,1
+state_pow_NE,2026,6.524285714285713,7.0,0

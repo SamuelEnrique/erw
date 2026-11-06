@@ -1,0 +1,32 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate europe_gas_premium, region us_europe_gas (European gas against US gas (World Bank Pink Sheet))
+# Computed 2026-11-06T11:29:28Z by warehouse/analysis/findings/deep/prices.py (europe_gas_premium); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean of the World Bank's Europe gas price less its US gas price, from 2000 (USD per MMBtu), the observations it rests on, and whether the year is full
+# Tables: wb_commodity_prices_monthly
+region,year,value,n_observations,full_year
+us_europe_gas,2000,-0.4499999999999999,12.0,1
+us_europe_gas,2001,0.10166666666666675,12.0,1
+us_europe_gas,2002,-0.3033333333333334,12.0,1
+us_europe_gas,2003,-1.5866666666666667,12.0,1
+us_europe_gas,2004,-1.6183333333333332,12.0,1
+us_europe_gas,2005,-2.589166666666667,12.0,1
+us_europe_gas,2006,1.7516666666666667,12.0,1
+us_europe_gas,2007,1.5733333333333335,12.0,1
+us_europe_gas,2008,4.550833333333333,12.0,1
+us_europe_gas,2009,4.76,12.0,1
+us_europe_gas,2010,3.9008333333333334,12.0,1
+us_europe_gas,2011,6.518333333333334,12.0,1
+us_europe_gas,2012,8.719166666666668,12.0,1
+us_europe_gas,2013,8.06,12.0,1
+us_europe_gas,2014,5.683333333333334,12.0,1
+us_europe_gas,2015,4.206666666666667,12.0,1
+us_europe_gas,2016,2.0716666666666668,12.0,1
+us_europe_gas,2017,2.7566666666666664,12.0,1
+us_europe_gas,2018,4.5225,12.0,1
+us_europe_gas,2019,2.2366666666666664,12.0,1
+us_europe_gas,2020,1.2275,12.0,1
+us_europe_gas,2021,12.265,12.0,1
+us_europe_gas,2022,33.97,12.0,1
+us_europe_gas,2023,10.577499999999999,12.0,1
+us_europe_gas,2024,8.771666666666667,12.0,1
+us_europe_gas,2025,8.436666666666666,12.0,1
+us_europe_gas,2026,13.393333333333333,9.0,0

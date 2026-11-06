@@ -1,0 +1,20 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate carb_allowance_price, region us_ca_allowance (California's cap-and-trade allowance auctions)
+# Computed 2026-11-06T11:29:30Z by warehouse/analysis/findings/deep/prices.py (carb_allowance_price); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean settlement price of California's quarterly current-vintage allowance auctions (USD per tCO2), the observations it rests on, and whether the year is full
+# Tables: carb_auction_allowance_prices
+region,year,value,n_observations,full_year
+us_ca_allowance,2012,10.09,1.0,0
+us_ca_allowance,2013,12.829999999999998,4.0,1
+us_ca_allowance,2014,11.645000000000001,4.0,1
+us_ca_allowance,2015,12.4375,4.0,1
+us_ca_allowance,2016,12.73,4.0,1
+us_ca_allowance,2017,14.295000000000002,4.0,1
+us_ca_allowance,2018,14.905000000000001,4.0,1
+us_ca_allowance,2019,16.835,4.0,1
+us_ca_allowance,2020,17.04,4.0,1
+us_ca_allowance,2021,22.040000000000003,4.0,1
+us_ca_allowance,2022,28.45,4.0,1
+us_ca_allowance,2023,33.027499999999996,4.0,1
+us_ca_allowance,2024,35.2325,4.0,1
+us_ca_allowance,2025,28.055,4.0,1
+us_ca_allowance,2026,29.74333333333333,3.0,0
