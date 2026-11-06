@@ -192,8 +192,31 @@ def site_files(links, att, fri, weeks, c, site_dir, now, header_note):
             places.append([si[sector] if sector in si else si["energy"], place, state, wi[week], len(g), int(g["opposition"].sum())])
     denominators = [[wi[w], int(r.stories_week), int(r.stories_judged), int(r.stories_classified), int(r.stories_unsent_zero)]
                     for w, r in weeks.iterrows()]
+    # what rose: for each week with classified stories, each sector (geo all) and each state (sector energy), the
+    # attention index against the mean of the four weeks before (0 where a week before holds no row), so the page's
+    # "rising this week" lists are read, not computed, on the page. rows: [week_i, kind, sector_i or state, this, mean_before, change]
+    att_i = {(r.entity, r.ts_utc): float(r.value) for r in att[att["variable"] == "attention_index"].itertuples()}
+    rising = []
+    for w_i, week in enumerate(week_list):
+        before = week_list[max(0, w_i - 4):w_i]
+        for sector in SECTORS:
+            e = f"attention:{sector}:all"
+            this = att_i.get((e, week))
+            if this is None:
+                continue
+            prev = [att_i.get((e, b), 0.0) for b in before]
+            mean = round(sum(prev) / len(prev), 4) if prev else 0.0
+            rising.append([w_i, "sector", si[sector], this, mean, round(this - mean, 4)])
+        for st_code in states:
+            e = f"attention:energy:US-{st_code}"
+            this = att_i.get((e, week))
+            if this is None:
+                continue
+            prev = [att_i.get((e, b), 0.0) for b in before]
+            mean = round(sum(prev) / len(prev), 4) if prev else 0.0
+            rising.append([w_i, "state", st_code, this, mean, round(this - mean, 4)])
     data = dict(built=now, note=header_note, weeks=week_list, sectors=SECTORS, geos=geos, states=states,
-                denominators=denominators, cells=cells, kinds=kinds, places=places,
+                denominators=denominators, cells=cells, kinds=kinds, places=places, rising=rising,
                 counts=dict(stories=int(len(c)), opposition=int(c["opposition"].sum()), weeks_with_stories=int(c["week"].nunique())),
                 model=sorted(c["model_id"].unique().tolist()), tables=[LINKS, ATT, FRI])
     os.makedirs(os.path.join(site_dir, "data"), exist_ok=True)
