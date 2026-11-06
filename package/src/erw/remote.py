@@ -282,9 +282,17 @@ class SupabaseBackend(Backend):
             self._cache["_catalogue"] = cat
         return self._cache["_catalogue"].copy()
 
+    # session 2224 (chain 152): the published live set is the tables marked yes; with ERW_LIVE_REVIEW=on the tables marked
+    # review (loaded, their pages in review) are read too, as the site's own tools read them (site/lib/chat/tools.ts admits
+    # yes and review), so Ask's Python loop reads what the site's reads. Off by default: a reader of the package sees the
+    # published set.
+    @staticmethod
+    def admitted() -> List[str]:
+        return ["yes", "review"] if (os.environ.get("ERW_LIVE_REVIEW") or "").strip().lower() == "on" else ["yes"]
+
     def list_tables(self) -> List[str]:
         cat = self._catalogue()
-        return sorted(cat.loc[cat["in_live_set"] == "yes", "table_name"])
+        return sorted(cat.loc[cat["in_live_set"].isin(self.admitted()), "table_name"])
 
     def read_table(self, name: str) -> Tuple[List[str], pd.DataFrame]:
         if name not in self.list_tables():

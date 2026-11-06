@@ -1,0 +1,24 @@
+# Session 2225 (chain 152, Ask) report: the rule proved
+
+6 November 2026, 02:18 to 02:35 UTC, on portable-laptop (code role), unattended. Chain `queue/done/152-night-5-november-portable-ask-quality.md`. Worktree `erw-2225` on `wip/2225-ask`, cut from `wip/2224-ask` and merged with its last commits (`ca789f1e2`). Model spend **USD 0** (no model call: every proof is a test on the stored answers and the tools). Chain so far: USD 9.36 of 15. Nothing of the warehouse written; no page changed for a visitor.
+
+- **The proofs** (`tests/test_session2225_ask.py`, 9 tests, `f357729c1` and after):
+  1. **Strip the fetched rows and no digit survives.** Every stored answer the loop let through (247 before this chain's fourth run, 266 with it, across twelve runs), with its sources built as `replay.py` builds them: every number the loop reads as a figure is in a tool result, the question or a tool argument (`unverified` is empty), and once those figures are struck out of the text the only numbers left, by the loop's own pattern, are names (EIA-930, CO2, HB_2015, a table's name). The strip is shown not blind on a moved figure.
+  2. **Each held table is refused with the hold's words and no digit.** Every table held whole for a license in `site/data/license_status.json` (the "license needed" rows `docs/licenses.md` counts; on 6 November 2026 five: `energy_deals`, `datacenter_facilities`, `datacenter_operator_sites`, `datacenter_projects`, `news_index`) is refused by name by the Python tools with `ASK_HOLD=on`, on `query` and `describe_table`, before any row is read: "license needed", the table's name, and not one digit in the refusal. MISO's rows are refused with the pause's words and no figure but the pause's date. The twenty's four held-table answers carry "license needed" and no figure; MISO's queue "paused".
+  3. **A question outside the warehouse says so in one sentence.** Every stored refusal of the class "the warehouse lacks the figure" (ten) says "not in the warehouse" in its first sentence.
+  4. **The sources line carries table and row for every figure.** Every answered record of this chain's four runs lists what each query read (table, entity, variable, window, aggregation, or the column and filter of an entities table), every cited table is among the reads or is a held grid's table (whose read is the hold's answer, named with its hold), and `site/components/ask/AnswerSources.tsx` draws the table and the read.
+  5. **Both loops give the same answers.** Session 1300's turn-by-turn test runs eleven kinds of answer through the Python loop and the site's over the same rows and compares status, retry, tool calls, model calls, what each model call allowed, reads, citations, answer, reason and series: this session added **a table held whole** (`a_table_held_whole`, over a fixture of `energy_deals`' catalogue row alone, `tests/fixtures/session2225/held_whole.json`: both loops refuse it by name before reading, one call counted, nothing read, the answer says license needed) and **MISO's pause** (`misos_pause`); session 1309 holds both loops' checks equal on every stored answer. The test holds that the scenario list is whole.
+- **Checked on the way**: no run of this chain read a row of a NYISO or ISO-NE table (the tables held by grid) with rows returned; the held grids' questions (g07, g08, d05, d07) were answered with the hold's words and the public grids' figures in all three runs of the thirty.
+- **Tests**: 11 (this file and the two-loop test), 31 with 1309, 1315 and 153: pass. `check_spec.py` unchanged (no prompt change this session). `docs/methods/ask.md` carries the proof's section and decision.
+- Pushed to `wip/2225-ask`.
+
+## Decisions made without you
+
+1. **The rule is proved on what is stored, not by asking again**: the stored runs are the evidence, the tests read them, and no model call was spent.
+2. **"No digit survives" is read by the loop's own number pattern**: a digit glued to letters (CO2, HB_2015) or after a hyphen in a form's name (EIA-930) is a name, as the number check has held since session 1110; a stricter reading would call "kgCO2/MWh" a figure.
+3. **The pause's date is the one figure a MISO refusal may carry** ("since 4 October 2026"): it is the pause's own words, not a figure of MISO's data.
+4. **A held grid's cited table counts as sourced** though the reads line leaves it out: the read was the hold's answer, and the sources line names the table with its hold.
+
+## For Samuel's ruling
+
+1. Whether the hold by grid should also hold an unprefixed entity in a single-grid table (a query of `nyiso_rtm_zone_prices` with entity `N.Y.C.`): both loops read the grid from the entity's prefix or, with none, from the chat's grid; in the general chat such a query would reach the table's rows. No run of this chain did (the site's data layer also drops the held grids' rows), but the rule as written leaves the gap open.
