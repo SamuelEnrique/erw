@@ -622,7 +622,7 @@ The news index and scores, the cost ledger, the known faults: the platform's rec
 | gas | hunted: the US balance, states, flaring, Mexico, storage | 3008 | 11 |
 | queues_deals_datacenters | hunted: the queues (Queued Up, by region and type); the Census datacenter series; deals and facilities not drafted (begun 2025, partial) | 3009 to 3011 | 27 |
 | tariffs_policy | hunted: retail sales and prices, reliability, meters, net metering; large-load tariffs and policy actions not drafted (levels, recent) | 3012 | 12 |
-| oil_products_world | hunted in part: cracks, the pump, net imports, import origins, state crude | 3013 | 8 |
+| oil_products_world | hunted in part: cracks, the pump, net imports, origins, state crude, the world shares, refining, demand | 3013, 3014 | 14 |
 | coal_uranium_metals | not hunted | | 0 |
 | emissions_climate | not hunted | | 0 |
 | other_us | not hunted | | 0 |

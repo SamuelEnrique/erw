@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate supplied_gasoline, region us_supplied_gasoline (US finished motor gasoline)
+# Computed 2026-11-06T12:35:13Z by warehouse/analysis/findings/deep/oil_products_world.py (supplied_gasoline); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: US product supplied of finished motor gasoline, the year's mean of its months (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_product_supplied_monthly
+region,year,value,n_observations,full_year
+us_supplied_gasoline,2017,9324.666666666666,12.0,1
+us_supplied_gasoline,2018,9325.083333333334,12.0,1
+us_supplied_gasoline,2019,9308.166666666666,12.0,1
+us_supplied_gasoline,2020,8050.5,12.0,1
+us_supplied_gasoline,2021,8810.0,12.0,1
+us_supplied_gasoline,2022,8809.5,12.0,1
+us_supplied_gasoline,2023,8943.75,12.0,1
+us_supplied_gasoline,2024,8964.833333333334,12.0,1
+us_supplied_gasoline,2025,8933.416666666666,12.0,1
+us_supplied_gasoline,2026,8766.42857142857,7.0,0

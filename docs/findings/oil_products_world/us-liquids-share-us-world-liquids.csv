@@ -1,0 +1,39 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate us_liquids_share, region us_world_liquids (the United States)
+# Computed 2026-11-06T12:35:12Z by warehouse/analysis/findings/deep/oil_products_world.py (us_liquids_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: US total petroleum and other liquids production as a percent of the world's, the months that hold both (percent of world production), the observations it rests on, and whether the year is full
+# Tables: eia_world_oil_monthly
+region,year,value,n_observations,full_year
+us_world_liquids,1993,14.47344002744652,12.0,1
+us_world_liquids,1994,13.760325870760903,12.0,1
+us_world_liquids,1995,13.481376910638241,12.0,1
+us_world_liquids,1996,13.22613938797624,12.0,1
+us_world_liquids,1997,12.828242187723944,12.0,1
+us_world_liquids,1998,12.41172487648859,12.0,1
+us_world_liquids,1999,12.243992402515916,12.0,1
+us_world_liquids,2000,11.97922275264018,12.0,1
+us_world_liquids,2001,11.822447158764076,12.0,1
+us_world_liquids,2002,11.903527183100154,12.0,1
+us_world_liquids,2003,11.087184307666226,12.0,1
+us_world_liquids,2004,10.45407691851514,12.0,1
+us_world_liquids,2005,9.833324293832375,12.0,1
+us_world_liquids,2006,9.754576615958172,12.0,1
+us_world_liquids,2007,9.908579214431251,12.0,1
+us_world_liquids,2008,9.852911145160004,12.0,1
+us_world_liquids,2009,10.639196951092957,12.0,1
+us_world_liquids,2010,11.098804230626444,12.0,1
+us_world_liquids,2011,11.460799075294906,12.0,1
+us_world_liquids,2012,12.270464332469077,12.0,1
+us_world_liquids,2013,13.563600530363058,12.0,1
+us_world_liquids,2014,15.064780655678838,12.0,1
+us_world_liquids,2015,15.681109160188727,12.0,1
+us_world_liquids,2016,15.293967573240607,12.0,1
+us_world_liquids,2017,15.94657086193443,12.0,1
+us_world_liquids,2018,17.748428667810632,12.0,1
+us_world_liquids,2019,19.371580801409696,12.0,1
+us_world_liquids,2020,19.794641995950734,12.0,1
+us_world_liquids,2021,19.887919449858362,12.0,1
+us_world_liquids,2022,20.317242461321804,12.0,1
+us_world_liquids,2023,21.460917816269045,12.0,1
+us_world_liquids,2024,22.174749238691845,12.0,1
+us_world_liquids,2025,22.322313812134357,12.0,1
+us_world_liquids,2026,24.012268961603464,6.0,0
