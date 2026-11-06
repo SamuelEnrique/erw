@@ -1648,5 +1648,48 @@ class Session1447TablesAndArchive(unittest.TestCase):
         self.assertIn("summary_check(text)", inspect.getsource(brief.numbers_summary))
 
 
+class Session1448FunFact(unittest.TestCase):
+    """Session 1448 (chain 149, faults 16 and 24; rulings items 7 and 8; the character): every verified fact of the bank
+    passes its check; a warehouse fact's numbers carry the issue's thousands separator; a warehouse source links its
+    table; the 14 October issue keeps its one line on the page."""
+
+    def test_every_verified_fact_of_the_bank_passes(self):
+        import funfact
+        bank = funfact.read_bank()
+        kept = bank[bank["status"] == "verified"]
+        self.assertGreater(len(kept), 30)
+        bad = [(r["fact_id"], funfact.check_record(r)) for r in kept.to_dict("records") if funfact.check_record(r)]
+        self.assertEqual(bad, [])
+        puns = bank[(bank["structure"] == "pun") & (bank["status"] == "verified")]
+        for r in puns.to_dict("records"):   # item 7: a pun that states a claim has its verified span, or is dropped
+            self.assertEqual(funfact.check_record(r), [])
+
+    def test_a_warehouse_fact_carries_the_thousands_separator(self):
+        import funfact
+        a = pd.DataFrame([{"entity": "ercot:HB_WEST", "variable": "all_max", "ts_utc": pd.Timestamp("2021-02-01", tz="UTC"), "value": 9310.49},
+                          {"entity": "ercot:HB_WEST", "variable": "all_max", "ts_utc": pd.Timestamp("2015-01-01", tz="UTC"), "value": 100.0},
+                          {"entity": "ercot:HB_WEST", "variable": "n_negative", "ts_utc": pd.Timestamp("2022-01-01", tz="UTC"), "value": 4266},
+                          {"entity": "ercot:HB_WEST", "variable": "n_negative", "ts_utc": pd.Timestamp("2015-01-01", tz="UTC"), "value": 10}])
+        with mock.patch.object(funfact, "_wsource", side_effect=lambda key, table, ev, part="fact": {"part": part, "table": table, "span": ev, "url": "", "label": f"ERW table {table}", "publisher": "ERW"}), \
+                mock.patch.dict(sys.modules, {"erw": mock.MagicMock(fetch=lambda t: a)}):
+            got = funfact.w_peak_premium("peak_premium:HB_WEST")
+        self.assertIn("reached 9,310.49 USD/MWh in a 15-minute interval in 2021", got["fact"])
+        self.assertIn("with 4,266.", got["fact"])
+        self.assertIn("highest all_max 9,310.49 USD/MWh", got["sources"][0]["span"])
+        self.assertEqual(funfact.unverified(got["fact"], [got["sources"][0]["span"]]), [])   # the literal check reads one form
+
+    def test_a_warehouse_source_links_its_table(self):
+        import funfact
+        item = {"fact": "F.", "second": "", "sources": [{"url": "", "label": "ERW table ercot_peak_premium_annual", "table": "ercot_peak_premium_annual", "publisher": "Energy Research Warehouse (ERW), derived"}]}
+        self.assertEqual(funfact.item_markdown(item)[-1], "Sources: [`ercot_peak_premium_annual`](/data#ercot_peak_premium_annual) (Energy Research Warehouse (ERW), derived).")
+        web = {"fact": "F.", "second": "S.", "sources": [{"url": "https://en.wikipedia.org/wiki/Hoover_Dam", "label": "Wikipedia, Hoover Dam"}]}
+        self.assertEqual(funfact.item_markdown(web), ["F. S.", "", "Sources: [Wikipedia, Hoover Dam](https://en.wikipedia.org/wiki/Hoover_Dam)."])
+
+    def test_the_14_october_issue_keeps_its_line(self):
+        with open(os.path.join(ROOT, "site", "lib", "digest.ts"), encoding="utf-8") as f:
+            ts = f.read()
+        self.assertIn('"2026-10-14"', ts[ts.index("ISSUE_NOTES"):])
+
+
 if __name__ == "__main__":
     unittest.main()
