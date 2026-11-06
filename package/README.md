@@ -108,8 +108,9 @@ the package (session 1035: 108 of 799 on the code machine, all of that kind; ses
 801, of that kind too: 87 row counts, 30 partitions, and the license verdicts and the source registry newer than the
 copy's tables; `python scripts/sync.py` on that machine brings its files to the record). Session 3298 (6 November
 2026, the personal laptop) could not read this machine's failures one by one: Claude Code stopped the run at about 74%
-for low memory, and its output went with it, so no test was scoped or skipped; the reading waits for a machine with
-the memory to run the line to its end (archive/sessions/SESSION_3298_PACKAGE_REPORT.md).
+for low memory, and its output went with it, so none of those was scoped; the reading waits for a machine with the
+memory to run the line to its end (archive/sessions/SESSION_3298_PACKAGE_REPORT.md). On a checkout without the local
+tables, five tests that stopped on a table it lacks now skip with the tables named (49 passed, 84 skipped).
 
 `package/tests/test_backends_three.py` reads five tables through the three backends and writes what it found to
 `package/tests/three_backends.json`. The repository's own suite (`python -m unittest discover -s tests`) holds the
