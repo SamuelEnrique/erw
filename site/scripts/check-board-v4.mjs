@@ -56,7 +56,7 @@ else {
       if (r.status !== "ok") continue;
       shown += 1;
       want(`${r.id}|last`, b.fmt(r.last.v, r.unit));
-      for (const [k] of b.MOVES) { const mv = r.moves[k]; if (mv) want(`${r.id}|${k}`, b.signed(mv.ch, r.unit)); else if (`${r.id}|${k}` in got) wrong.push(`${r.id}|${k}: on the page, not in the file`); }
+      for (const [k] of b.MOVES) { const mv = b.shownMove(r, k, file.built);   /* session 1608: blank on a stale row */ if (mv) want(`${r.id}|${k}`, b.signed(mv.ch, r.unit)); else if (`${r.id}|${k}` in got) wrong.push(`${r.id}|${k}: on the page, not in the file`); }
       if (r.range && r.range.pos !== null) { ranges += 1; want(`${r.id}|lo`, b.fmt(r.range.lo, r.unit)); want(`${r.id}|hi`, b.fmt(r.range.hi, r.unit)); }
     }
   }

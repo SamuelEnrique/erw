@@ -10,7 +10,7 @@ Energy Research Warehouse (ERW), session 1499, chain 158 (`queue/done/158-day-6-
 - What the reader sees first: the last twelve months (November 2025 to October 2026) cost **USD 34.07 per MWh**, USD 29.84 million for 100 MW, **USD 0.0691 a GPU-hour**. Beside them, the hub average's day-ahead basis band of November 2025: p10 -6.93, median -0.42, p90 8.66.
 - Shots: [lab-01-1280.png](../brand/review-1497/lab-01-1280.png), [lab-01-390.png](../brand/review-1497/lab-01-390.png).
 - Broken: none (at 390 px the page fits: scroll width 390).
-- The replication a reader runs: `replication/datacenter/` (13 of 14 of the page's figures; the one difference is the carbon over the hourly window, session 1491).
+- The replication a reader runs: `replication/datacenter/` (14 of 14 of the page's figures since session 1523; the carbon over the hourly window, which session 1491 left open, was the live set's moving window).
 
 ## Step 2: bought day-ahead
 
