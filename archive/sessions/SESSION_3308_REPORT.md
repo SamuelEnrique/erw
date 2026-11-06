@@ -1,6 +1,6 @@
 # Session 3308 report (chain 200, session 11 of the plan): the pages at 390 and 1280, screenshots, AccessLint, check-values
 
-lab-desktop, 6 and 7 November 2026, 22:30 to 23:58 UTC. Branch `wip/3300-companies`. A local build of the branch (`runs/c200/local_checks.py`, under the build lock, run detached; `npm ci` in the worktree: Turbopack refuses a `node_modules` junction), served on 3330 with the internal cookie.
+lab-desktop, 6 November 2026, 22:30 to 23:50 UTC. Branch `wip/3300-companies`. A local build of the branch (`runs/c200/local_checks.py`, under the build lock, run detached; `npm ci` in the worktree: Turbopack refuses a `node_modules` junction), served on 3330 with the internal cookie.
 
 ## Found on the gate's build of session 3307 and fixed
 
