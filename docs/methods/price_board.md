@@ -439,3 +439,11 @@ Tests: `tests/test_board_1612.py`.
 - **Against the trailing twelve-month mean**: a column "12-month avg", the mean of the values held in the 365 days ending on the row's latest (`avg365`: the mean, the count, and the latest less it, drawn beside the mean). Written only when as many values are held as the one-year range needs (180 daily, 26 weekly, 9 monthly, 4 quarterly), so a zone with six weeks of history reads "not held yet". On a stale row it reads "stale". A held grid's rows lose it (`holdRows`).
 
 Tests: `tests/test_board_1613.py`.
+
+## The downloads of the board as shown (session 1614, chain 165, 6 November 2026)
+
+- **The rows' CSV** (`/board/rows`, session 1137) carries the board as the page shows it: beside its earlier columns, `ytd_move`, `avg_12m` and `vs_12m` (the twelve-month mean and the latest less it), `day_high`, `day_high_local`, `day_low`, `day_low_local` (the power rows' day extremes and the hours they began, local time), `basis` (the row's interval) and `status_words` (the page's words for a row with no figure: "licensed source needed", "license needed", "paused while terms are reviewed", "not held yet"). `hold` stays the last column. A held row carries no figure in any of the columns from `latest` to `source`, and no digit after `latest`.
+- **Readers**: `/board/rows/python` and `/board/rows/stata`, each a script that reads the CSV at the address of the site that served it, prints the `#` header and skips it, loads the rows as they are, and counts the rows by their status words (`rowsReader` in `site/lib/board.ts`). The Stata reader is in the owner's form: no line continuation, one empty line between the commands outside a loop and none inside one, every figure column destrung with force. The footer of `/board` links both beside the CSV.
+- The rows are only the board's own: every public row with its figures and source, every held row with its words. The tables behind them keep their own downloads (CSV, Python, Stata, R) under the board.
+
+Tests: `tests/test_board_1614.py`.

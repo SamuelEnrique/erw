@@ -347,8 +347,11 @@ export function csv(head: string[], rows: (string | number | null)[][]): string 
 // the license), then one line a row. Every figure is the file's, as the page shows it; nothing is read again.
 // Session 1311: a held row's line carries the hold's words (heldNote) in `hold`, as the page says them on the grid's
 // line (session 1193), and the header counts the held rows by grid.
+// Session 1614 (chain 165): the board as shown: the year to date's move, the twelve-month mean and the latest less it, the
+// day's high and low hour with their local times (between "latest" and "source", so a held row's are empty as its other
+// figures are), and the row's interval and the words of its status (before "hold", which stays last).
 export const ROWS_HEAD = ["id", "group", "label", "at", "code", "unit", "freq", "status", "latest_date", "latest", "day_move", "week_move", "month_move", "year_move",
-  "avg_7d", "avg_30d", "low_365d", "high_365d", "source", "hold"];
+  "ytd_move", "avg_7d", "avg_30d", "avg_12m", "vs_12m", "low_365d", "high_365d", "day_high", "day_high_local", "day_low", "day_low_local", "source", "basis", "status_words", "hold"];
 export function rowsCsv(file: BoardFile): string {
   const header = [
     "# Energy Research Warehouse (ERW): the price board's rows as /board draws them, one line a row (site/lib/board.ts rowsCsv)",
@@ -360,9 +363,78 @@ export function rowsCsv(file: BoardFile): string {
   ];
   const n = (v: number | null | undefined) => (typeof v === "number" ? v : null);
   const rows = file.rows.map((r) => [r.id, r.group, r.label, r.at, r.code, r.unit, r.freq, r.status, r.last?.t ?? null, n(r.last?.v),
-    n(r.moves?.d?.ch), n(r.moves?.w?.ch), n(r.moves?.m?.ch), n(r.moves?.y?.ch), n(r.avg7?.v), n(r.avg30?.v), n(r.range?.lo), n(r.range?.hi),
-    r.source !== undefined ? file.sources[r.source] ?? null : null, r.status === "license" ? heldNote(gridOfRow(r)) : null]);
+    n(r.moves?.d?.ch), n(r.moves?.w?.ch), n(r.moves?.m?.ch), n(r.moves?.y?.ch), n(r.moves?.ytd?.ch), n(r.avg7?.v), n(r.avg30?.v), n(r.avg365?.v), n(r.avg365?.ch),
+    n(r.range?.lo), n(r.range?.hi), n(r.ext?.hi.v), r.ext?.hi.local ?? null, n(r.ext?.lo.v), r.ext?.lo.local ?? null,
+    r.source !== undefined ? file.sources[r.source] ?? null : null, r.basis ?? null, r.status === "ok" ? null : PLACEHOLDER[r.status],
+    r.status === "license" ? heldNote(gridOfRow(r)) : null]);
   return `${header.join("\n")}\n${csv(ROWS_HEAD, rows)}`;
+}
+
+/** Session 1614: a reader of the rows' CSV (/board/rows), in Python or in Stata, for a reader who wants the board as it is
+ *  shown in a session of their own: the "#" header printed and skipped, the rows loaded as they are, the held rows counted
+ *  by their status words. The Stata reader keeps the owner's rules (no line continuation, one empty line between commands
+ *  outside a loop and none inside one, every figure column destrung with force). Pure: the address is given. */
+export function rowsReader(as: "py" | "do", url: string): string {
+  const figures = ROWS_HEAD.slice(ROWS_HEAD.indexOf("latest"), ROWS_HEAD.indexOf("source")).filter((c) => !c.endsWith("_local"));
+  if (as === "py") {
+    return [
+      "# Energy Research Warehouse (ERW): read the price board's rows as /board draws them (site/lib/board.ts rowsReader).",
+      "# The CSV opens with its provenance, lines that begin with \"#\"; they are printed and skipped, and the rows are",
+      "# loaded as they are. A held row carries no figure: its status_words say why, and its hold column the hold's words.",
+      "# Needs pandas.",
+      "import io",
+      "import urllib.request",
+      "",
+      "import pandas as pd",
+      "",
+      `URL = "${url}"`,
+      "text = urllib.request.urlopen(URL, timeout=300).read().decode(\"utf-8\")",
+      "lines = text.splitlines()",
+      "n = 0",
+      "while n < len(lines) and lines[n].startswith(\"#\"):",
+      "    n += 1",
+      "print(\"\\n\".join(lines[:n]))",
+      "board = pd.read_csv(io.StringIO(\"\\n\".join(lines[n:])), dtype={\"latest_date\": str, \"day_high_local\": str, \"day_low_local\": str})",
+      "print(board.shape)",
+      "print(board[\"status_words\"].fillna(\"shown\").value_counts())",
+      "print(board[board[\"status\"] == \"ok\"][[\"id\", \"label\", \"at\", \"latest_date\", \"latest\", \"unit\"]].head(20))",
+      "",
+    ].join("\n");
+  }
+  return [
+    "* Energy Research Warehouse (ERW): read the price board's rows as /board draws them (site/lib/board.ts rowsReader).",
+    "* The CSV opens with its provenance, lines that begin with \"#\"; they are counted and skipped, the column names are",
+    "* the first line after them. A held row carries no figure: its status_words say why, its hold column the hold's words.",
+    "clear",
+    "",
+    "tempfile raw",
+    "",
+    `copy "${url}" \`raw'`,
+    "",
+    "tempname fh",
+    "",
+    "local n 0",
+    "",
+    "file open `fh' using `raw', read text",
+    "",
+    "file read `fh' line",
+    "",
+    "while r(eof) == 0 {",
+    "    if substr(`\"`macval(line)'\"', 1, 1) != \"#\" continue, break",
+    "    local n = `n' + 1",
+    "    file read `fh' line",
+    "}",
+    "",
+    "file close `fh'",
+    "",
+    "import delimited using `raw', varnames(`=`n' + 1') encoding(\"utf-8\") bindquote(strict) stringcols(_all) clear",
+    "",
+    ...figures.flatMap((c) => [`destring ${c}, replace force`, ""]),
+    "tabulate status_words, missing",
+    "",
+    "describe",
+    "",
+  ].join("\n");
 }
 
 // The workbench's state, kept in the address so a view can be shared.
