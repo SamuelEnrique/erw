@@ -493,6 +493,21 @@ The same script also holds the default case's headline (81.40, 8,140,219, 33, 47
 
 For ERCOT at `HB_HUBAVG`, under "Income by stream": over the battery's own last twelve months, the day-ahead four-hour spread of ERCOT's storage nodes at the 10th percentile, the median and the 90th, the hub's own spread over the same days and the share of storage nodes wider than the hub, from `node_basis_summary` (`dam_storage_*`, `docs/methods/node_basis.md`), each month's figures with their keys in a fold and the twelve months' means weighted by the days held (`days`). The median node's spread over the hub's is the one ratio written: the energy this page counts at the hub would scale about with it, the reserves not at all. Added to no figure. Read in `site/lib/nodebasisread.ts`, so the page's own reads stay `read.ts`'s.
 
+## Sign-off
+
+Session 1527 (chain 163) added this block, which the note lacked. The generator's and the datacenter's notes have one (session 463), and `docs/state/roadmap_item2_state_2026-11-07.md` lists the battery's signature as one of what roadmap item 2 still needs. Signing this note accepts, as the tool's rules:
+- the model of section 3: each local day from empty, at most one full cycle, perfect foresight within the day, a price taker, reserves never called, energy priced at the hub, the required durations of section 3.3;
+- the assumptions of section 6 at their defaults and sources;
+- the 90 percent month;
+- scenarios A and B as section 11.1 describes them;
+- the owner's rulings this note records (11, 12, 15 and 19 October 2026).
+
+It leaves open the differences section 10 lists.
+
+- Signed off by:
+- Date:
+- Items of section 10 ruled, and how:
+
 ## Checks
 
 `tests/test_session178.py`: the do-file's rules, parsed; the mirror against the CSV and against `battery_stack_monthly` through the page's own library (skipped without the tables or without node); the optimizer check on five days of the committed CSV; the awards snapshot against the two tables; the page's new line and links. `site/scripts/check-values.mjs` checks the new line's three numbers (`bsa|...`).

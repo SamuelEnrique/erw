@@ -54,7 +54,8 @@ One fault a session, from `docs/reviews/periodicals-faults-2026-11-05.md`, in th
 
 ### Open faults (written by session 1522 of chain 161)
 
-- None open (56 rows: 49 fixed, 5 the owner's, 1 "not fixed, for the owner", 1 the data machine's). Session 1538's dry run's faults, appended to the file, are the first sessions' work. If it opens none, the free sessions run one dry run each only when the stories have moved since the last one.
+- Row 58, open (added by chain 163's session 1530 from session 1504's link check): the Digest's chart section links its table to `/data#<table>` when `/data` does not list it (`warehouse/analysis/findings/daily_chart.py`, line 761). This is the first fault session's work.
+- Otherwise none open (57 rows before it: 49 fixed, 5 the owner's, 1 "not fixed, for the owner", 1 the data machine's). Session 1538's dry run's faults, appended to the file, come next. If it opens none, the free sessions run one dry run each only when the stories have moved since the last one.
 - The owner's, not to be decided here: rows 19, 20, 39, 40, 47, 49, and the scorer's model for the why line (chain 150's note, question 1).
 
 ## Session 1548: the dry runs, read, the previews sent

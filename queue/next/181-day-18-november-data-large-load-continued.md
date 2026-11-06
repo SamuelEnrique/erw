@@ -1,12 +1,12 @@
-# Chain of 16 November 2026: sessions 3108 to 3121, data machine (lab-desktop), unattended: chain 171's unfinished steps, the siting gaps still open, the daily run's week, the records
+# Chain of 18 November 2026: sessions 3160 to 3173, data machine (lab-desktop), unattended: chain 177's unfinished steps, the siting gaps still open, the daily run's week, the records
 
 machine: data
 
-Written by session 3080, the first session of `queue/done/171-day-14-november-data-large-load-continued.md`, at that file's instruction ("at least fourteen sessions numbered from the first free numbers after 3093"). Sessions 3094 to 3107 are chain 176's, so this file takes 3108 to 3121; none was named by a commit or a file on origin's main or its branches when this was written. The first free file number on origin's main and every branch was 177. It runs after chain 176. The first session checks again, skips a taken one upward and says so. Session 3093 of chain 171 updates this file at chain 171's end: sessions 3108 to 3110 then hold the steps chain 171's note says did not finish, in chain 171's order. Model: Opus 5.5, high effort. This machine runs this chain in its first window; its second window runs its own chains (`machine: lab-desktop-window2`): each works in its own worktrees and takes the data lock for every write, and queue commits are made in a detached worktree and pushed with `HEAD:main`.
+Written by session 3108, the first session of `queue/done/177-day-16-november-data-large-load-continued.md`, at that file's instruction ("at least fourteen sessions numbered from the first free numbers after 3121"). Sessions 3122 to 3145 are the portable laptop's second window's and 3146 to 3159 chain 180's, so this file takes 3160 to 3173; none was named by a commit or a file on origin's main or its branches when this was written. The first free file number on origin's main and every branch was 181. It runs after chain 180. The first session checks again, skips a taken one upward and says so. Session 3121 of chain 177 updates this file at chain 177's end: sessions 3160 to 3162 then hold the steps chain 177's note says did not finish, in chain 177's order. Model: Opus 5.5, high effort. This machine runs this chain in its first window; its second window runs its own chains (`machine: lab-desktop-window2`): each works in its own worktrees and takes the data lock for every write, and queue commits are made in a detached worktree and pushed with `HEAD:main`.
 
 ## Why this chain
 
-Chains 147 to 171 repaired the daily run, landed the stuck branches, built the large-load dataset and its derived tables, and wired them to the All grids tab where a public source allowed. This chain finishes what chain 171 did not, takes the siting gaps rows still open that a public US source can close without a ruling, reads the daily run's week, and brings the records up to date. The owner's rule of 24 October and 5 November holds first: no new foreign country's or foreign operator's source.
+Chains 147 to 177 repaired the daily run, landed the stuck branches, built the large-load dataset and its derived tables, and wired them to the All grids tab where a public source allowed. This chain finishes what chain 177 did not, takes the siting gaps rows still open that a public US source can close without a ruling, reads the daily run's week, and brings the records up to date. The owner's rule of 24 October and 5 November holds first: no new foreign country's or foreign operator's source.
 
 ## Rules for every session
 
@@ -24,86 +24,86 @@ The rules of `queue/next/146-day-16-december-data-mepso-cges-kostt-ost.md` (park
 - **The weekly Claude limit:** stop at it and resume at its reset, nothing else stops the chain.
 
 Read first: `docs/state/review_2026-10-31_portable.md`, `docs/state/review_2026-10-30_code_ask_board.md`, `docs/reviews/siting-gaps.md` (its table and its last state section), the newest `queue/summary/*-health.md`, `docs/machines.md` ("The landing gate", "The chain worker"), `CLAUDE.md`.
-In the rules above, read "Session 2862" as session 3108 and "session 2885" as session 3121 (the rules are chain 147's, carried word for word).
+In the rules above, read "Session 2862" as session 3160 and "session 2885" as session 3173 (the rules are chain 147's, carried word for word).
 
-Also read first: chain 171's note (`docs/state/note_<its day>_data_c171.md`), chain 170's (`docs/state/note_2026-11-06_data_c170.md`), chain 168's (`docs/state/note_2026-11-06_data_c168.md`), the owner's chain 157's (`docs/state/note_2026-11-07_data_c157.md`), and the chains' session reports under `archive/sessions/`.
+Also read first: chain 177's note (`docs/state/note_<its day>_data_c177.md`), chain 176's (`docs/state/note_2026-11-06_data_c176.md`), chain 171's (`docs/state/note_2026-11-06_data_c171.md`), the owner's chain 157's (`docs/state/note_2026-11-07_data_c157.md`), and the chains' session reports under `archive/sessions/`.
 
-## Session 3108: the next file, the ground, chain 171's first unfinished step
+## Session 3160: the next file, the ground, chain 177's first unfinished step
 
 Long end 1:30. Pulls: GitHub only.
 
-1. Write the successor file for this machine in this file's form (`machine: data`, Opus 5.5 high effort, at least fourteen sessions numbered from the first free numbers after 3121, the first free file number on origin's main and every branch): every step of this chain that its note says did not finish, then the siting gaps rows still open that a public US source can close without a ruling, then the daily run's seven days and the records; these rules word for word. Commit it alone, push it to main, `git status -sb`.
+1. Write the successor file for this machine in this file's form (`machine: data`, Opus 5.5 high effort, at least fourteen sessions numbered from the first free numbers after 3173, the first free file number on origin's main and every branch): every step of this chain that its note says did not finish, then the siting gaps rows still open that a public US source can close without a ruling, then the daily run's seven days and the records; these rules word for word. Commit it alone, push it to main, `git status -sb`.
 2. `scripts/precheck.py` from the main checkout; memory and disk free; `scripts/freeze.py status`.
-3. Chain 171's first unfinished step, as session 3093 of chain 171 writes it here. If chain 171 left none, the first of the rows below.
+3. Chain 177's first unfinished step, as session 3121 of chain 177 writes it here. If chain 177 left none, the first of the rows below.
 
-## Sessions 3109 and 3110: chain 171's other unfinished steps
+## Sessions 3161 and 3162: chain 177's other unfinished steps
 
-Long end 2:30 each. Pulls: as the step of chain 171 says. Session 3093 of chain 171 writes them here in chain 171's order; a step it does not name leaves the session to the next row of the siting gaps below.
+Long end 2:30 each. Pulls: as the step of chain 177 says. Session 3121 of chain 177 writes them here in chain 177's order; a step it does not name leaves the session to the next row of the siting gaps below.
 
-## Session 3111: ERCOT's four coincident peaks of summer 2026, again
+## Session 3163: ERCOT's four coincident peaks of summer 2026, again
 
 Long end 1:30. Pulls: at most 10 requests to www.ercot.com, robots first, never `/misapp` or `/misdownload`.
 
 Siting gaps row "ERCOT | Transmission and 4CP | the four peaks of summer 2026", if chains 153 and 155 did not close it: ERCOT's NP9-83-M is due by 1 December 2026. If posted on an allowed page, `ercot_4cp.py` takes it under the data lock; if not, say so and the row waits.
 
-## Session 3112: the four peak intervals' node prices
+## Session 3164: the four peak intervals' node prices
 
 Long end 2:00. Pulls: at most 10 requests, only once the four intervals are known.
 
 Siting gaps row "ERCOT nodes | Node panel | a node's price in the four peak intervals": the 15-minute real-time settlement point prices of those four intervals only, from a page ERCOT's robots file allows (NP6-905-CD's own listing is under `/misapp`: if no allowed route holds them, say so and the row waits).
 
-## Session 3113: the tariff registry, the next utilities
+## Session 3165: the tariff registry, the next utilities
 
 Long end 2:00. Pulls: at most 25 requests, robots and terms first.
 
 `utility_large_load_tariffs`: the next utilities under the All grids tab's rows that chains 147 to 155 did not read, each through a commission's public filed copy; each figure with its page; the table written with `runs/c147/write_table.sh`.
 
-## Session 3114: the connection rules and the interruptible riders, continued
+## Session 3166: the connection rules and the interruptible riders, continued
 
 Long end 2:00. Pulls: at most 25 requests.
 
 `large_load_connection_rules` and the interruptible riders (chain 153's sessions 2924 and 2925, and chain 160's): the grids and utilities not yet reached, only stated figures.
 
-## Session 3115: the tab wired to what chains 147 to 176 hold
+## Session 3167: the tab wired to what chains 147 to 180 hold
 
 Long end 2:00. Pulls: none.
 
 As chain 153's session 2923: every held table that fills a cell of the All grids tab, on a branch, every figure keyed to its table and row, `docs/methods/siting.md` extended, `siting_page.py` and `gaps.json` rebuilt; the gate; the push.
 
-## Session 3116: the siting gaps file and the records
+## Session 3168: the siting gaps file and the records
 
 Long end 1:30. Pulls: none.
 
 As chain 153's session 2926: a new dated state section in `docs/reviews/siting-gaps.md`; `package/tools/build_tables.py --check` and the tests of sessions 1001, 1008 and 1009; `scripts/licenses.py tables/write/check` and `warehouse/redivis/release_v1.py --check` after every new table.
 
-## Session 3117: the daily run's seven days
+## Session 3169: the daily run's seven days
 
 Long end 1:00. Pulls: GitHub's API, at most 30 requests.
 
 As chain 153's session 2927: each scheduled job's last seven days, each failed step with its first error line, a fault of this repository's code fixed with its test; the page files the runner rebuilds compared with the data machine's own build, a thinned file put back and its builder fixed.
 
-## Session 3118: the data machine's own run
+## Session 3170: the data machine's own run
 
 Long end 1:00. Pulls: none.
 
 As chain 153's session 2928: `runs/data_machine_status.txt` and the `dm_` rows of `erw_health` for the week, each failed step opened.
 
-## Session 3119: the Stanford draft
+## Session 3171: the Stanford draft
 
 Long end 2:00. Pulls: Redivis's API only, at most 150 requests, the branch merged with main first.
 
 As chain 153's session 2929. Nothing released.
 
-## Session 3120: the note
+## Session 3172: the note
 
 Long end 1:00. Pulls: none.
 
-`docs/state/note_<the day>_data_c177.md` in chain 147's note's form.
+`docs/state/note_<the day>_data_c181.md` in chain 147's note's form.
 
-## Session 3121: the next file, the landing, the queue
+## Session 3173: the next file, the landing, the queue
 
 Long end 1:00.
 
-1. The successor file (written by session 3108) updated with what this chain did not finish, first in its order; pushed to main alone.
+1. The successor file (written by session 3160) updated with what this chain did not finish, first in its order; pushed to main alone.
 2. Land this chain's own data branch: merge origin/main, the whole suite, `scripts/freeze.py status`, rule 8's snapshots and a `task/` branch, not between 14:00 and 16:15 UTC.
 3. Then `python scripts/chain_queue.py next`, and run the file it prints the same way.
