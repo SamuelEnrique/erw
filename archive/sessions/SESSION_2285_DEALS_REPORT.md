@@ -1,6 +1,6 @@
 # Session 2285 (chain 179, deals and datacenters) report: USD missed beside another currency
 
-6 November 2026, about 14:08 to 14:13 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2285-deals`, cut from `wip/2284-deals`. Model spend **USD 0** (code; the answers replayed). Nothing deployed; no warehouse data written.
+6 November 2026, about 14:08 to 14:11 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2285-deals`, cut from `wip/2284-deals`. Model spend **USD 0** (code; the answers replayed). Nothing deployed; no warehouse data written.
 
 - **The class** (the third read, session 2284): T024's USD empty though its evidence states "US$938 million" beside the euros.
 - **The fix**: `fields.usd_stated`, used by `extract.py` where the model gave no USD: exactly one figure stated explicitly in US dollars in the evidence (US$ or USD), not a contract's funding or an asset's cost. Logged.
