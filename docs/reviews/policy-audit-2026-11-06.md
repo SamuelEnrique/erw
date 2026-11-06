@@ -75,3 +75,98 @@ Every page is `review` (`site/lib/release.ts`: `"/policy": "review"`). The site 
 `warehouse/news/brief.py`, `policy_actions_lines`: the window's actions scored 5 or more, most significant first, three at most, as the Policy group's last lines. It reads `event_date`, `significance`, `title`, `agency`, `action_type` (and its four names: rule, proposed_rule, notice, press_release), `why` and `source_url`. The Roundup and `site/lib/digest.ts` read the line's text (", policy action): "). Every one of these keys keeps its name and meaning in this chain; a new field is added beside them.
 
 The periodicals' faults file (`docs/reviews/periodicals-faults-2026-11-05.md`) has no open row on the policy actions: its row 5 ("the policy row takes a policy or capital story") and row 9 (a why line that restates the headline) are fixed in the Digest's code (f93754995, 41f12b20f), which this chain does not touch.
+
+## The audit of the stored actions (session 3055)
+
+**The sample.** Every fifth row of the newest 400 actions of the live set (ordered by `event_date` descending, then `event_id`), 80 rows from 14 August to 5 November 2026: FERC 33, NRC 20, DOE 10, EPA 8, BLM 3, CPUC 3, Interior 2, PUCT 1; notice 58, press_release 12, rule 8, proposed_rule 2. Each was read against its own document, fetched on 6 November 2026 into the session's scratch folder only (one request every two seconds, the connector's User-Agent): for a Register document its API record (`action`, `dates`, `effective_on`, `comments_close_on`, `agencies`, `type`) and its printed text; for a release its page. All 80 answered. Nothing was written to the warehouse. Row numbers below (r1 to r80) are the sample's order, newest first; the event ids are in `docs/reviews/policy-audit-2026-11-06-sample.csv`.
+
+**The fault classes, largest first.** "Table" counts are of all 2,020 rows where a field can be counted without reading the document.
+
+| # | Fault | Sample (of 80) | Table | Open |
+|---|---|---|---|---|
+| 1 | A date the document states (an effective date, a comment, protest or intervention deadline, a hearing or a session) is held in no field | 59 | every row: no date field but `event_date` | open (3056) |
+| 2 | No status: `status` is blank, or is the Register's action line, never a status (proposed, final, effective, stayed, vacated, withdrawn) | 80 (35 blank, 33 of them FERC) | 917 blank, 901 of FERC's 935 | open (3056) |
+| 3 | A figure the document states (MW, kV, Dth/d, USD) is held in no field: `mw` and `price` are empty | 17 | 2,020 empty | open (3056) |
+| 4 | Sector "policy", which names no sector: every row is policy; the action's sector stands in its text | 16 | 507 | open (3056) |
+| 5 | The instrument is not held: `action_type` is the Register's category, so an order, a guidance, a lease sale or an award stands as a notice or a news release | 14 | the four types only | open (3056) |
+| 6 | The place is missing or short where the text states it | 6 | not counted | open (3056) |
+| 7 | One action held as several rows (repeated notices, one exemption's two documents, a docket spelled two ways) | 3 | 406 docket ids stand on more than one row | open (3057) |
+| 8 | The body at its parent's level (a bureau as "Interior", a governor's release as the PUCT's) | 3 | at least 45 of Interior's 85 rows carry a BOEM (33) or OSMRE (12) docket | open (3056) |
+| 9 | Out of scope: not an energy action, or routine paperwork the connector means to leave out | 4 | not counted | open (3056) |
+| 10 | Significance above the rubric's band for what the document does | 2, and 1 borderline | not counted | open (3058) |
+
+No fault was found in the title, the docket's presence or the event date of the 80. The impact reads (`policy_reads`) of the sampled actions that have one carry a `timeline` sentence that names the next step, so for the 5-or-more rows the date stands in prose; it is in no field of the action.
+
+### 1. Dates held in no field (59 of 80)
+
+24 Register documents carry the date in the Register's own record (`effective_on` or `comments_close_on`), two more in their DATES line only, 29 FERC notices in their text (FERC's record has neither field), four releases in their page.
+
+1. r13, FERC, Sandy Hollow Power Company: "Deadline for filing comments, motions to intervene and protests: November 20, 2026 5:00 p.m." The row holds no date but 2026-10-26.
+2. r25, NRC, AP1000 Design Certification Renewal: "The final rule is effective December 28, 2026, unless significant adverse comments are received by November 13, 2026". No date held.
+3. r54, NRC, North Anna early site permit renewal: "A request for a hearing or petition for leave to intervene must be filed by November 10, 2026".
+
+Four FERC blanket-authorization notices (r23, r37, r43, r59) state their deadline as a period ("within 30 days after the allowed time for filing a protest"), not a date: by the chain's rule the date stays empty and the words are kept.
+
+### 2. No status (80 of 80)
+
+1. r2, r4 and every FERC notice of the sample: `status` blank (the Register's record has no action line for FERC).
+2. r15, BLM, termination of an EIS: "The EIS effort described in the NOI is terminated immediately"; the row's status "Notice of termination." (the status word is withdrawn).
+3. r25 (above): "Direct final rule and issuance of environmental assessment"; the status is final, effective on a date unless comments arrive.
+
+### 3. Figures held in no field (17 of 80)
+
+1. r63, FERC, Forza Pipeline EA: "Forza would lease 750,000 Dth/d of natural gas transportation".
+2. r22, DOE release: "West Virginia Large Load Growth project will receive up to $50 million in DPA funding".
+3. r61, FERC, DeepGreen Cook Inlet preliminary permit: "The estimated annual generation of the DeepGreen Project would be 100 megawatts".
+
+Not every figure of a text is the action's: the DOE coal orders (r40, r46) state "17 gigawatts" of context. Session 3056's rule keeps a figure only where its sentence says what the action does, with that sentence as the evidence.
+
+### 4. Sector "policy" (16 of 80)
+
+1. r49, EPA, "Partial Repeal of the Carbon Pollution Standards for Fossil Fuel-Fired Electric Generating Units": sector policy (the text's sector: generation).
+2. r64, EPA, small refinery exemptions under the Renewable Fuel Standard: sector policy (oil, fuels).
+3. r17, EPA, Virginia's coal combustion residuals permit program: sector policy (generation, coal).
+
+### 5. The instrument not held (14 of 80)
+
+Orders 4 (r21, r40, r46, r66), guidance 4 (r19, r45, r73, r76), a lease sale 1 (r27), awards 5 (r20, r22, r41, r56, r79). Beyond these, "notice" covers at least six instruments in the sample (an application received, an environmental review step, a permit or license issued, a meeting or session, a decision on petitions, a board's appointment).
+
+1. r40, DOE release, kept as press_release: "Secretary of Energy Chris Wright today issued an emergency order to prevent a Colorado coal plant from going offline".
+2. r19, FERC, kept as notice: the Commission "has prepared a draft policy statement concerning the Commission's review of operational air emissions".
+3. r27, Interior, kept as notice: "Notice of Availability of the Proposed Notice of Sale for the Cook Inlet Outer Continental Shelf Oil and Gas" lease sale.
+
+### 6. Place missing or short (6 of 80)
+
+1. r27, BOEM, Cook Inlet lease sale: `states` empty; the text says "Alaska".
+2. r60, BLM, Southern Ute Mancos Shale programmatic EIS: `states` empty; the text: "the Southern Ute Indian Reservation in southwestern Colorado".
+3. r68, NRC, NextEra and Dominion indirect transfer: `states` CT only; the text names "Dominion Energy South Carolina, Inc" and Virginia's plants (Surry, North Anna) beside Millstone.
+
+The others: r8 (`states` empty; "issued to the City of Pelican, AK": the public-body rule reads "City of Chignik, Alaska", not a postal abbreviation), r39 ("in Valdez, Alaska"), r66 (the Pioneer exemption, empty, where r71 of the same project holds MI).
+
+### 7. One action, several rows (3 of 80)
+
+1. r16, NRC, Pioneer Units 1 and 2: "This is the fourth of four consecutive weekly notifications"; the table holds the four weekly notices as four rows (1, 8, 15 and 22 October), each scored 6.
+2. r66 and r71: the Pioneer exemption (issued 28 August) and its environmental assessment (25 August), two rows of one decision.
+3. The same docket spelled "Docket Nos. 50-616 and 50-617" (six rows) and "Docket Nos. 050-616 and 050-617" (two rows): a docket match misses them.
+
+### 8. The body at its parent's level (3 of 80)
+
+1. r14, kept as Interior: the document's agency is the "Office of Surface Mining Reclamation and Enforcement" (Wyoming Regulatory Program).
+2. r27, kept as Interior: the Bureau of Ocean Energy Management's lease sale (docket BOEM-2026-0925).
+3. r79, kept as PUCT: "Governor Abbott Announces More Than $795,000 In Grant Funding To Strengthen Electric Reliability In Northwest Texas" (the Governor's release on the commission's page).
+
+### 9. Out of scope (4 of 80)
+
+1. r26, DOE, "Senior Executive Service Performance Review Board" (a personnel appointment; scored 0).
+2. r9, EPA, "Cross-Media Electronic Reporting: Announcement of Determination To Approve Authorized Program Revisions" (electronic reporting, no energy subject; scored 1, with 17 states).
+3. r29, DOE release, "Genesis Mission Graduate Fellowship to Advance American Scientific Leadership" (a fellowship; scored 2).
+
+The fourth: r3, DOE's "229 Boundary" for the SLAC laboratory (a security boundary). All four score 0 to 2, so none reaches a page's default view (5 or more).
+
+### 10. Significance above its band (2 of 80, 1 borderline)
+
+1. r78, FERC, PG&E Potter Valley: scored 5 for "notice of two additional public scoping sessions" (a meeting; the rubric's 1 to 3).
+2. r21, FERC, storage developers against ISO New England: scored 5 for an order on the comment period ("request a shortened 10-day comment period"); the complaint itself is the action of weight, the shortening is procedural (3 to 4).
+3. Borderline: r63, the Forza Pipeline EA, 7 (an EA is a review step, the rubric's 4 to 6; the 750,000 Dth/d it reviews is the 7 to 8 band's size).
+
+None scored clearly below its band.
