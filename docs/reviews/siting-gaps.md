@@ -249,3 +249,10 @@ Read again by session 2926 at about 05:55 UTC, after chain 148's section, on `wi
 - **Time to connect, connection timelines by utility, and ERCOT's faster path for a controllable load:** held, not drawn. `large_load_connection_rules` (session 2924) holds 26 stated steps of ERCOT's Planning Guide Section 9 and PG&E's Electric Rule 30, each with its duration or date in its words. The PCLR's path states no duration (9.6.1(1)), so the faster path stays open.
 - **ERCOT, the four peaks of summer 2026:** open. Not posted on an allowed page on 6 November (session 2922); due by 1 December.
 - **All but ERCOT, CAISO, SPP, an interruptible load's capacity charge:** open (session 2925: no utility under those grids' rows readable).
+## State on 6 November 2026, morning (chain 155)
+Read again by session 2940 at about 07:18 UTC, after chain 153's section, main at `027a94095` (chain 153 landed at `fb0b72170`). Chain 155's sessions 2932 to 2939:
+- **Headroom, signed agreements, and ERCOT's Utility for the county rows:** filled on main since `fb0b72170` (chain 153's session 2923).
+- **Time to connect, connection timelines by utility:** held, not drawn. `large_load_connection_rules` now holds 39 stated steps: SPP's High Impact Large Load process joined (session 2938, from FERC's order ER26-247), including a 150-day path for a large load's generation against 12 months for SPP's standard cluster. How the tab should draw stated steps is a question for the owner (session 2939).
+- **Transmission and 4CP (every grid but ERCOT):** open. SCE's and National Grid's terms bar this use; Evergy and NYSEG are closed at their robots files (session 2937). No tab row's utility has a readable site.
+- **ERCOT, the four peaks of summer 2026, and the node prices in them:** open. Not posted on an allowed page at 07:12 UTC (sessions 2935, 2936).
+- **All but ERCOT, CAISO, SPP, an interruptible load's capacity charge:** open (session 2938).
