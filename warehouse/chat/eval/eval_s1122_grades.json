@@ -1,0 +1,123 @@
+{
+ "_about": "Session 1114: eval_s1122_run.json graded on questions_s1122.yaml's keys by eval_s1113.py --grade --set s1122 (no model, no network).",
+ "asked": 5,
+ "right": 0,
+ "cost_usd": 0.1756,
+ "questions": [
+  {
+   "id": "k01",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": false,
+   "cost_usd": 0.0177475,
+   "seconds": 4.6,
+   "expected": [
+    44.9349
+   ],
+   "ok": false,
+   "grade": {
+    "number": false,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "k02",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.0625732,
+   "seconds": 11,
+   "expected": [
+    -96.6103
+   ],
+   "ok": false,
+   "grade": {
+    "number": false,
+    "text": false,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "k03",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "error",
+   "tool_calls": null,
+   "retried": null,
+   "cost_usd": 0.0,
+   "seconds": 6.0,
+   "expected": [
+    18.1182
+   ],
+   "ok": false,
+   "grade": {
+    "number": false,
+    "text": false,
+    "table": false,
+    "cited": false,
+    "refusal": true,
+    "ok": false
+   },
+   "trace_calls": 0
+  },
+  {
+   "id": "k04",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": false,
+   "cost_usd": 0.017413400000000002,
+   "seconds": 3.6,
+   "expected": [
+    16.021
+   ],
+   "ok": false,
+   "grade": {
+    "number": false,
+    "text": false,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "k05",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.07784280000000002,
+   "seconds": 15.3,
+   "expected": [
+    -12.2604
+   ],
+   "ok": false,
+   "grade": {
+    "number": false,
+    "text": false,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "trace_calls": 7
+  }
+ ]
+}
