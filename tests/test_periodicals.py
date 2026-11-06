@@ -1691,5 +1691,43 @@ class Session1448FunFact(unittest.TestCase):
         self.assertIn('"2026-10-14"', ts[ts.index("ISSUE_NOTES"):])
 
 
+class Session1450TheTracers(unittest.TestCase):
+    """Session 1450 (chain 149, fault 6 and session 1434's note): the block's story rows are traced to their story's
+    scored field; a revised figure stays revised when the warehouse re-reads the row after the publisher's window."""
+
+    def setUp(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("check_digest", os.path.join(ROOT, "scripts", "check_digest.py"))
+        self.cd = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.cd)
+
+    def test_a_story_row_is_traced_to_news_stories(self):
+        cd = self.cd
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "news_stories.csv"), "w", encoding="utf-8", newline="") as f:
+                f.write("# provenance\nevent_id,mw,price_mentioned\nnews:f43900b681794577,1000,\nnews:ca99c1cbd4a165c7,,$1.6 Trillion\n")
+            src = cd.Csv(d)
+            st, got = cd.check_figure(src, "2026-10-26", {"key": "digest_story|news_stories|news:f43900b681794577|mw", "raw": "1,000", "text": "1,000", "table": "news_stories", "entity": "news:f43900b681794577", "held": False}, {}, written="2026-10-26T15:45:00Z")
+            self.assertEqual((st, got), ("ok", "1,000"))
+            st, got = cd.check_figure(src, "2026-10-26", {"key": "digest_story|news_stories|news:ca99c1cbd4a165c7|price", "raw": "1.6", "text": "USD 1.6 trillion", "table": "news_stories", "entity": "news:ca99c1cbd4a165c7", "held": False}, {}, written="2026-10-26T15:45:00Z")
+            self.assertEqual(st, "ok")
+            st, _ = cd.check_figure(src, "2026-10-26", {"key": "digest_story|news_stories|news:f43900b681794577|mw", "raw": "900", "text": "900", "table": "news_stories", "entity": "x", "held": False}, {}, written="2026-10-26T15:45:00Z")
+            self.assertEqual(st, "FAIL")
+            st, _ = cd.check_figure(src, "2026-10-26", {"key": "digest_story|news_stories|news:nothere|mw", "raw": "1", "text": "1", "table": "news_stories", "entity": "x", "held": False}, {}, written="2026-10-26T15:45:00Z")
+            self.assertEqual(st, "not here")
+
+    def test_a_revision_re_read_after_the_window_stays_revised(self):
+        cd = self.cd
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "eia_fuel_spot_prices.csv"), "w", encoding="utf-8", newline="") as f:
+                f.write("# provenance\nentity,variable,ts_utc,value,retrieved_at\neia:wti_cushing,close,2026-10-14T00:00:00Z,96.34,2026-11-05T23:10:05Z\n")
+            src = cd.Csv(d)
+            st, why = cd.compare(src, "101.91", "96.34", "2026-10-21T15:45:00Z", "eia_fuel_spot_prices", "eia:wti_cushing", "2026-10-14T00:00:00Z", "close", period="2026-10-14")
+            self.assertEqual(st, "revised")
+            # an issue written after the window printed a settled figure: a difference is a fault
+            st, _ = cd.compare(src, "101.91", "96.34", "2026-11-01T15:45:00Z", "eia_fuel_spot_prices", "eia:wti_cushing", "2026-10-14T00:00:00Z", "close", period="2026-10-14")
+            self.assertEqual(st, "FAIL")
+
+
 if __name__ == "__main__":
     unittest.main()

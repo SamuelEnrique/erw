@@ -332,4 +332,42 @@ test("the five numbers' row that is the opening number says so", () => {
   assert.equal(D.dedupeOpening("<p>nothing</p>"), "<p>nothing</p>");
 });
 
+// session 1450 (chain 149, fault 6): the block's story rows carry a key to their story's scored field
+test("a story row of the v2 block is keyed to its story", () => {
+  const md = `# ERW Daily Digest, 2026-10-26
+
+**26 October 2026.** Data through 11:45 ET, 15:45 UTC.
+
+## The opening number
+
+**Brent crude: 128.12 USD/bbl on 2026-10-26, down 0.18 USD/bbl (0.1%) from 128.30 USD/bbl on 2026-10-23 [1].** EIA's close.
+
+Tables: [1] \`eia_fuel_spot_prices\` (eia:petroleum/pri/spt).
+
+## The numbers
+
+- **Market price.** Brent crude: 128.12 USD/bbl on 2026-10-26, down 0.18 USD/bbl (0.1%) from 128.30 USD/bbl on 2026-10-23 [1]. Status: observed.
+- **Physical.** US48 demand peaked at 470,627 MW in the hour starting 2026-10-25 23:00 UTC [2]; x. Status: observed.
+- **Project or capacity.** Datacenter load, Australia: 1,000 MW (Gingerah Energy; Energy-Storage.news, 2026-10-26) [3]. Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.
+- **Policy, capital or reliability.** Policy sum, USA: USD 1.6 trillion (EPA; EPA (.gov), 2026-10-23) [3]. Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.
+
+Tables: [1] \`eia_fuel_spot_prices\` (eia:petroleum/pri/spt); [2] \`eia930_all_demand\` (eia:x); balancing authority us48; [3] \`news_stories\`; story news:f43900b681794577 (mw); story news:ca99c1cbd4a165c7 (price).
+
+## What moved
+
+1. **A story** (gas)
+   Why. Sources: [Outlet](https://example.com/a)
+
+## More
+
+### The rest of the top ten
+
+- no further story in the top ten today
+`;
+  const f = D.digestFigures(md, "2026-10-26", null, BEFORE);
+  const story = f.filter((x) => x.part === "story");
+  assert.deepEqual(story.map((x) => [x.key, x.raw]), [["digest_story|news_stories|news:f43900b681794577|mw", "1000"], ["digest_story|news_stories|news:ca99c1cbd4a165c7|price", "1.6 trillion"]]);   // the tracer reads the digits
+  assert.ok(f.some((x) => x.key === "digest_demand|eia930_all_demand|eia930:US48|demand_mw|2026-10-25T23:00:00Z"));
+});
+
 console.log(`${n} passed`);

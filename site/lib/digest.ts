@@ -110,8 +110,13 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
   let summary: number[] = [];
   for (const num of secs.filter((s) => isNumbers(s.title))) {   // session 2703: every numbers section, each with its own tables
     const foot: Record<string, string> = {};
+    // session 1450: the stories a block row reads ("[3] `news_stories`; story news:abc (mw); story news:def (price)")
+    const stories: Record<string, string> = {};
     for (let i = num.start; i < num.end; i++) {
-      if (lines[i].startsWith("Tables: ")) for (const m of lines[i].matchAll(/\[(\d+)\] `([a-z0-9_]+)`/g)) foot[m[1]] = m[2];
+      if (lines[i].startsWith("Tables: ")) {
+        for (const m of lines[i].matchAll(/\[(\d+)\] `([a-z0-9_]+)`/g)) foot[m[1]] = m[2];
+        for (const m of lines[i].matchAll(/story (news:[0-9a-f]+) \((mw|price)\)/g)) if (!stories[m[2]]) stories[m[2]] = m[1];
+      }
     }
     const tableOf = (cell: string) => {
       const mk = /\[(\d+)\]/.exec(cell);
@@ -180,6 +185,18 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
           const table = "eia930_all_demand", entity = US48;
           figs.push({ part: "demand", key: `digest_demand|${table}|${entity}|demand_mw|${m[2]}T${m[3]}:00Z`, raw: plain(m[1]), text: m[1], table, entity,
             ...hold(table, entity, now), line: i, from: `${m[1]} MW`, unit: " MW" });
+        }
+        continue;
+      }
+      // session 1450 (chain 149, fault 6): a story row of the v2 block, keyed to its story's scored field
+      // read on the line as written (asOld takes the bold label off the v2 rows)
+      const st = /^- \*\*(Project or capacity|Policy, capital or reliability)\.\*\* [^:]+: (?:(USD [\d,.]+(?: (?:billion|million|trillion|thousand))?)|([\d,]+) MW) \(.*?\) \[(\d+)\]\./.exec(lines[i]);
+      if (st && foot[st[4]] === "news_stories") {
+        const field = st[3] ? "mw" : "price", id = stories[field];
+        if (id) {
+          const text = st[3] ?? st[2];
+          figs.push({ part: "story", key: `digest_story|news_stories|${id}|${field}`, raw: plain(st[3] ?? st[2].replace(/^USD /, "")), text, table: "news_stories", entity: id,
+            held: false, line: i, from: text, unit: "" });
         }
         continue;
       }
