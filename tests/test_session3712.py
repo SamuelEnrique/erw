@@ -117,3 +117,14 @@ class ThePushGuard(unittest.TestCase):
         calls, run, record, push = self.stand_ins(1, ["a.b.c"])
         self.assertEqual(self.p.guard("HEAD", "x", "commit", "wip/red-x", dry_run=True, run=run, record=record, push=push), 1)
         self.assertEqual(calls, {"push": [], "record": []})
+
+
+class TheDetails(unittest.TestCase):
+    def test_the_tracebacks_are_printed_with_the_names(self):
+        g = module()
+        lines = ["..F", "=" * 70, "FAIL: test_bad (test_pair.Pair.test_bad)", "-" * 70, "Traceback (most recent call last):",
+                 "AssertionError: 1 != 2", "", "Ran 2 tests in 0.1s", "", "FAILED (failures=1)"]
+        out = g.details(lines)
+        self.assertEqual(out[0], "=" * 70)
+        self.assertIn("AssertionError: 1 != 2", out)
+        self.assertEqual(g.details(["Ran 2 tests in 0.1s", "OK"]), [])

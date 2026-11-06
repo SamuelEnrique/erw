@@ -102,10 +102,25 @@ def run_suite(root, log, python=sys.executable, env=None, timeout=None):
         return code, f.read().splitlines()
 
 
+MAX_DETAIL_LINES = 400
+
+
+def details(lines):
+    """unittest's report of the failures (from its first line of '=' to the end), at most MAX_DETAIL_LINES: the
+    tracebacks, which a run's log should show beside the names, since the suite's own output goes to a file."""
+    for i, line in enumerate(lines):
+        if line.startswith("=" * 20):
+            out = lines[i:]
+            return out[:MAX_DETAIL_LINES] + ([f"... ({len(out) - MAX_DETAIL_LINES} more lines in the log)"] if len(out) > MAX_DETAIL_LINES else [])
+    return []
+
+
 def report(code, lines, summary=None, names=None, label=""):
     """Print the failing tests and the verdict; append them to a step summary. The exit code: 0 or 1."""
     bad = failing(lines)
     ran, ok = verdict(lines)
+    if bad:
+        print("\n".join(details(lines)))
     for kind, name in bad:
         print(f"{kind} {name}")
     passed = code == 0 and ok == "OK" and not bad
