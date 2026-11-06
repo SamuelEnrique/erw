@@ -1,6 +1,6 @@
 # Session 3129: chain 169's eighth session (its 3073): out of scope, marked (class 9)
 
-Personal laptop, second window, 6 November 2026, 13:51 to 13:58 UTC. Opus 5.5. Branch `wip/3129-policy` cut from `wip/3128-policy`.
+Personal laptop, second window, 6 November 2026, 13:51 to 13:54 UTC (the commits' times). Opus 5.5. Branch `wip/3129-policy` cut from `wip/3128-policy`.
 
 ## What it did
 
@@ -11,7 +11,7 @@ Personal laptop, second window, 6 November 2026, 13:51 to 13:58 UTC. Opus 5.5. B
 ## What it found
 
 - 12 documents (10 records) of the archive's copy marked, every one scored 0 to 2. The second read's totals: 206 before, 22 left.
-- **The backspace trap again**: the regular expressions of the list, written through a Python heredoc whose string was not raw, got backspace characters for `\\b`; the test caught it (nothing marked), they were replaced, and every file this chain changed was scanned for control and dash characters (none).
+- **The backspace trap again**: the regular expressions of the list, written through a Python heredoc whose string was not raw, got backspace characters where each word-boundary escape stood; the test caught it (nothing marked), they were replaced, and every file this chain changed was scanned for control and dash characters (none).
 - Tests: 60 passed, 1 skipped (fields, monitor site and page, session 157, check_policy); Node 52 of 52; `check_policy.py` 288 of 288.
 
 ## Decisions made without you

@@ -51,7 +51,13 @@ POLICY_NOTE = ("\n\nPolicy actions: the summary of an item is the document's own
                # sector no reader can filter by, since every action is policy
                " Every item here is a policy action, so the sector is the part of the energy system the action applies "
                "to (generation, gas, oil, nuclear, transmission and the others); choose policy only when the summary "
-               "and the title name no part of it.")
+               "and the title name no part of it."
+               # session 3130 (chain 169, the audit's class 10): a meeting's notice and a comment period shortened
+               # were scored 5, above the rubric's band for what they decide
+               " A notice of a meeting, a session or a hearing, or of a procedural step (a comment period set, "
+               "shortened or extended, a deadline moved), is 1 to 3 whatever the size of the project it concerns; an "
+               "environmental assessment, a scoping notice or an application accepted for filing is 4 to 6 unless it "
+               "decides the project.")
 ON_TEXT = "scored on the source text"
 
 
