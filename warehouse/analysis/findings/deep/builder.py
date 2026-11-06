@@ -107,7 +107,7 @@ def check_text(text, name):
     return text
 
 
-def build(P, region, words, series, c, tables, out_dir, why):
+def build(P, region, words, series, c, tables, out_dir, why, docs_root=None):
     """One draft: the row of public.scanner_drafts with its card and files, and its document under docs/findings/."""
     import card_image
     did, s = draft_id(P, region, c), slug(P, region)
@@ -168,7 +168,7 @@ def build(P, region, words, series, c, tables, out_dir, why):
     with open(os.path.join(out_dir, did + ".json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(row, f, indent=1, ensure_ascii=False, default=common.round6)
         f.write("\n")
-    document(P, s, did, region, words, fact, c, tables, texts, files, out_dir)
+    document(P, s, did, region, words, fact, c, tables, texts, files, out_dir, docs_root)
     return row
 
 
@@ -181,9 +181,9 @@ def expected_header(text, c, P, mark):
     return head[0] + "\n\n" + text
 
 
-def document(P, s, did, region, words, fact, c, tables, texts, files, out_dir):
+def document(P, s, did, region, words, fact, c, tables, texts, files, out_dir, docs_root=None):
     """docs/findings/<family>/<slug>.md, its chart, its reproduction scripts and its CSV."""
-    d = os.path.join(DOCS, P["family"])
+    d = os.path.join(docs_root or DOCS, P["family"])
     os.makedirs(d, exist_ok=True)
     for src, dst in ((files[0], f"{s}.csv"), (files[3], f"{s}.reproduce.py"), (files[4], f"{s}.reproduce.do")):
         with open(os.path.join(d, dst), "w", encoding="utf-8", newline="\n") as f:
@@ -247,7 +247,9 @@ def run(family, candidates, in_dir=None, dry_run=True, load=None, log=print, now
                     row["reason"] = "failed: " + "; ".join(t["name"] for t in c["tests"] if not t["passed"])
             results.append(row)
         log(f"  {P['name']}: {len(rows)} rows, {len({r['region'] for r in rows})} regions, {sum(1 for x in passing if x[0] is P)} pass")
-    passing.sort(key=lambda x: (-x[0]["consequence"], -x[4]["strength"], x[1]))
+    # session 3004: a candidate may rank its passing regions by the size of the change (a MW or GWh measure) instead
+    # of by strength, so that a large region's change is kept before a small region's steadier one
+    passing.sort(key=lambda x: (-x[0]["consequence"], -(x[0]["rank"](x[4]) if x[0].get("rank") else x[4]["strength"]), x[1]))
     built, per, seen = [], {}, set()
     for P, region, words, series, c, tables, row in passing:
         same = (round(c["first"], 6), round(c["last"], 6), c["first_year"], c["last_year"])
@@ -267,7 +269,9 @@ def run(family, candidates, in_dir=None, dry_run=True, load=None, log=print, now
         seen.add(same)
         seen.add(story)
         per[P["name"]] = per.get(P["name"], 0) + 1
-        d = build(P, region, words, series, c, tables, out_dir, "new: the findings hunt over the whole warehouse (chain 164)")
+        # session 3004: a dry run writes its documents beside its run, so that only loaded drafts reach docs/findings/
+        d = build(P, region, words, series, c, tables, out_dir, "new: the findings hunt over the whole warehouse (chain 164)",
+                  docs_root=os.path.join(out_dir, "docs") if dry_run else None)
         row.update(drafted=True, draft_id=d["id"], fact=d["card"]["subtitle"])
         built.append(d)
     loaded = []

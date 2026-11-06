@@ -617,7 +617,7 @@ The news index and scores, the cost ledger, the known faults: the platform's rec
 |---|---|---|---:|
 | prices | hunted: ERCOT hourly shape, spreads, volatility, reserves (not drafted), Henry Hub, gas by state, world gas, carbon, Brent and WTI | 3001 to 3003 | 33 |
 | markets_operations | not hunted | | 0 |
-| demand | not hunted | | 0 |
+| demand | hunted: EIA-930 daily by authority and hourly by sub-region | 3004 | 12 |
 | generation_pipeline | not hunted | | 0 |
 | gas | not hunted | | 0 |
 | queues_deals_datacenters | not hunted | | 0 |

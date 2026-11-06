@@ -118,8 +118,13 @@ class Builder(unittest.TestCase):
         P = self.candidate([("ercot_A", 3.0), ("ercot_B", 0.0)])
         with tempfile.TemporaryDirectory() as d, mock.patch.object(builder, "DOCS", os.path.join(d, "docs")), \
                 mock.patch.object(hunt, "blocked_grids", lambda meta_dir=None: set()):
-            s = builder.run("testfam", [P], d, dry_run=True, log=lambda m: None, out_root=os.path.join(d, "runs"))
+            dry = builder.run("testfam", [P], d, dry_run=True, log=lambda m: None, out_root=os.path.join(d, "dry"))
+            self.assertFalse(os.path.exists(os.path.join(d, "docs")))       # session 3004: a dry run writes no document under docs/findings/
+            self.assertEqual(len(dry["drafts"]), 1)
+            s = builder.run("testfam", [P], d, dry_run=False, log=lambda m: None, out_root=os.path.join(d, "runs"),
+                            load=lambda built, log: [x["id"] for x in built])
             self.assertEqual(len(s["drafts"]), 1)
+            self.assertEqual(s["loaded"], s["drafts"])
             did = s["drafts"][0]
             self.assertTrue(did.startswith("scan-deep-"))
             row = json.load(open(os.path.join(d, "runs", os.listdir(os.path.join(d, "runs"))[0], "testfam", did + ".json"), encoding="utf-8"))
