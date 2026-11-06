@@ -3,8 +3,8 @@
 //   npm run build && npx next start -p 3226          (the site on http://localhost:3226)
 //   node scripts/shots-2226.mjs [base-url] [--out <dir>] [--ask "question"] [--board "question"]
 //
-// Opens the internal view (/internal/unlock?token=<INTERNAL_COSTS_TOKEN>, the token read from the environment or
-// site/.env.local, never printed), then captures /ask, each grid's chat (/ask?grid=<slug>, docs/grids/grids.json) and the
+// Opens the internal view through the form at /internal/open (browser.mjs's unlockForm; the token read from the
+// environment or site/.env.local, never printed, never in an address: session 2947, test 301), then captures /ask, each grid's chat (/ask?grid=<slug>, docs/grids/grids.json) and the
 // board (/board, "Ask the board") at 390 and 1280 CSS px wide, full page, to <out>/<name>-<width>.png (default
 // runs/s2226/shots/ in the repository). With --ask, types the question into /ask at each width, submits it (one model call
 // on the server a width), waits for the answer, moves the pointer onto the chart under it and captures the answer with
@@ -15,6 +15,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn } from "node:child_process";
+import { unlockForm } from "./browser.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..", "..");
@@ -148,7 +149,9 @@ async function main() {
   const written = [];
   try {
     await viewport(page, 1280);
-    await goto(page, `${base}/internal/unlock?token=${encodeURIComponent(token())}`, "/internal/unlock");
+    // session 2947 (chain 157): the form, not a GET with the token in its address (test 301)
+    const evaluate = async (expression) => (await page.send("Runtime.evaluate", { expression, returnByValue: true })).result.value;
+    await unlockForm({ go: (url) => goto(page, url, url.replace(base, "")), evaluate, sleep }, base, token());
     const cookies = await page.send("Network.getCookies", { urls: [base] });
     if (!cookies.cookies.some((c) => c.name === "erw_internal")) throw new Error("the internal cookie was not set: is INTERNAL_COSTS_TOKEN the server's?");
     written.push("internal view opened (erw_internal and erw_view set for this browser)");
