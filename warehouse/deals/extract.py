@@ -530,6 +530,11 @@ def main(argv=None):
                             n_refused += 1
                             continue
                         led = fields.project_led({**d, "evidence": ev})   # session 2277: a project led is not a deal
+                        talks = fields.one_party_talks({**d, "evidence": ev})   # session 2288: talks need two parties
+                        if talks:
+                            dropped.append(f"{cid}: deal not kept: {talks!r} with one party named, no counterparty")
+                            n_refused += 1
+                            continue
                         if led:
                             dropped.append(f"{cid}: deal not kept: {led!r} is a project one party leads, no counterparty")
                             n_refused += 1

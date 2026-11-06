@@ -420,6 +420,18 @@ def usd_stated(evidence):
     return float(m.group(1).replace(",", "")) * scale, m.group(0)
 
 
+def one_party_talks(d):
+    """Session 2288 (chain 179): the words where talks name one party only ("Qatar in Talks to Buy More US LNG"): the
+    prompt makes talks a transaction between two named companies, so these are not one. "" otherwise. "Looks to" or
+    "weighs" with one party ("LS Power looks to raise $2.1 billion stake sale") is left as the model reads it."""
+    parties = [p for p in [d.get("buyer"), d.get("seller")] + list(d.get("other_parties") or []) if (p or "").strip()]
+    if len(parties) != 1:
+        return ""
+    m = re.search(r"\b(?:in|holds?|held|enters?|opens?)\s+talks\b|\btalks\s+(?:to|on|over|with|about)\b",
+                  " ".join(str(d.get("evidence") or "").split()), re.I)
+    return m.group(0) if m else ""
+
+
 def project_led(d):
     """Session 2277 (chain 174): the words where the deal's one named party leads a project and no counterparty is
     named ("Abu Dhabi's G42 Leads $1 Billion Data Center Project in Vietnam"): a project led is neither a sale nor an

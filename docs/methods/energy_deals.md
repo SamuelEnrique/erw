@@ -247,3 +247,7 @@ A record whose only named party leads a project, with no counterparty ("Abu Dhab
 ### A figure stated in US dollars beside another currency (session 2285)
 
 The model is told not to convert currencies, and leaves a deal's USD empty when its story gives the sum in euros or pounds, even where the story itself adds the US-dollar figure ("EUR 835 million (US$938 million) portfolio financing"). Where the model gives no USD and the deal's evidence states exactly one figure explicitly in US dollars (US$ or USD; never a bare $), that figure is the deal's USD, with the words as its span, unless it is a contract's funding or an asset's cost (session 2271). The log says so (`tests/test_session2285_deals.py`).
+
+### Talks with one party named (session 2288)
+
+Talks are a transaction (status rumored) between two named companies. A record whose evidence speaks of talks and which names one party only ("Qatar in Talks to Buy More US LNG") is not kept; a company that "looks to" or "weighs" a deal is left as the model reads it (`tests/test_session2288_deals.py`).

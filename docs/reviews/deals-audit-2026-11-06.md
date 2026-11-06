@@ -617,3 +617,9 @@ U009 "in Newport, Wales": `facility_country` reads "in <place>, <country>" and c
 ## Session 2287 (chain 179): an AI-power tag from another deal's words (1, the third read), a decision
 
 T039, Entergy's firm pipeline contracts, is tagged AI power because its story also says "Entergy sees progress on Arkansas data center deal", another deal. Two word rules were measured on all four deal fixtures and neither is taken: reading only the deal's asset would also untag D013 (Project Matador) and D021 (gas generation for a hyperscaler), both right; reading "data center deal" as another deal would also untag D039 ("CDC Signs Monster Data Center Deal"), a datacenter deal itself. The tag would need to know which sentence each deal comes from, which the extraction keeps only as one evidence sentence. Left as it is, by this decision.
+
+## Session 2288 (chain 179): a non-deal kept (1, the third read)
+
+T040 "Qatar in Talks to Buy More US LNG": one party, talks. `fields.one_party_talks` refuses it. A first form keyed on the stage rumored also dropped D085 ("LS Power looks to raise $2.1 billion stake sale"), a deal by the 2232 answer; narrowed to the word "talks". **1 to 0**; on the four deal fixtures only T040 is gone.
+
+The third read's four classes are closed: three in code (sessions 2285, 2286, 2288), one by decision (2287). No class is open for code.
