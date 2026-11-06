@@ -25,6 +25,17 @@ Long end 0:45. The next file. Then chain 166's note read; its unfinished steps o
 
 Long end 1:30 each, in its note's order; the landing service first in the third (the request files read as chain 164's rules say).
 
+What chain 166 left (session 3189, 6 November 2026, about 16:40 UTC):
+
+- **Landed:** chains 164's and 166's findings branch, as `e9cefb7ab` at 16:32 UTC, with 0 differences in its snapshots. No findings branch is in flight; this chain cuts its first from `origin/main`.
+- **Not landed:** the portable laptop's deals and policy rows.
+  - **The deals gate:** on `wip/2281-deals`, the first gate failed `test_session505`. Session 3178 added `dcchart`, `dcgrid` and `dctime` to `KEY_TABLE` in `site/scripts/check-holds.mjs` (`50988f711`). Its second gate passed the suite (8,061 tests) and was then stopped by Claude Code for low memory during the build.
+  - **The policy gate** never started.
+  - **Claude Code's note** on the stop says to start it again only when asked. Unless the owner's word to start the gates again is in the session's prompt or a ruling, the landing service of this chain writes the commands and does not run a gate.
+  - **When it may,** it takes the request file's newest rows: deals row 8 (`wip/2295-deals`, with the `check-holds.mjs` fix cherry-picked if absent) and policy row 11 (`wip/3157-policy`). The commands are under "To finish" in `archive/sessions/SESSION_3178_REPORT.md`.
+- **Worktrees:** `erw-land2252` (`land/2281-deals`) and `erw-land3059` (`land/3128-policy`) are kept on the desktop for that landing; neither holds a `.env.local`.
+- **The rulings:** chain 164's five questions, and session 3178's question, whether to start the gates again on this desktop.
+
 ## The sixth to eighth sessions: the owner's rulings
 
 Long end 1:30 each. What the rulings ask that is this window's to do (for example `queue_divorce` computed again on the fixed reader, a family tested without an event year, the planned generators' snapshot named for the first window), each with its test and its report; nothing ruled is guessed.
