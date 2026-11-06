@@ -438,3 +438,18 @@ The twelve, read in the 2249 recording and its log: two (D017, D029) were answer
 | Place missed (of 106) | 12 | **3** |
 
 The three left: D024 ("Ohio, Pennsylvania") and D058 ("Texas, Louisiana") name two states for the one `state` field, so the state stays empty (the country is now the United States for both); D087 names Japan as the buyer's home ("Japan's Jera"), not the asset's country, which the rule leaves empty. Two rows outside the twelve gained a country by the same words (D010 "US utility American Electric Power", for a project in Indiana; D033 "US LNG terminal developer"); each read and right. A first form of the rule took any country's adjective and gave D028 "Italy" from "the Italian oil and gas group" (Eni, the party): narrowed before commit.
+
+## Session 2258 (chain 159): deals' kind (8)
+
+| Row | Before | After | Why |
+|---|---|---|---|
+| D007 | other | compute_capacity | a lease of a data center |
+| D053 | other | compute_capacity | a lease of a data center (the junk bonds fund the building) |
+| D050 | other | compute_capacity | a data center expansion between OpenAI and Oracle |
+| D001 | other | project_finance | a credit backstop for a named data center |
+| D013 | other | project_finance | credit support for a named campus |
+| D020 | other | m_and_a | a stake exited |
+| D012 | other | nuclear_restart_uprate | "Illinois Nuclear Upgrades" |
+| D080 | capital | nuclear_restart_uprate | another story of the cluster: "May Restart Abandoned US Nuclear Project" |
+
+Kind wrong: **8 to 0** on the replayed answers; no other row of the 82 (or of the 2232 fixture's 29, beyond D007 and D020 there) changed kind. A first form of the data-center rule also turned D034 ("optical fiber for data centers"), D046 ("local energy infrastructure for Louisiana data center") and D055 (a one-party project) into compute capacity; narrowed before the commit (`DC_SUPPLY`, two named parties), and the test holds the three as "other".

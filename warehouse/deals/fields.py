@@ -119,7 +119,8 @@ def _words(pat, s):
 
 
 KIND_WORDS = [
-    ("nuclear_restart_uprate", r"\brestart\w*|recommission\w*|\breopen\w*|\buprat\w*"),
+    ("nuclear_restart_uprate", r"\brestart\w*|recommission\w*|\breopen\w*|\buprat\w*|"
+                               r"nuclear (?:plant |fleet |reactor )?upgrad\w*"),   # session 2258: "Illinois Nuclear Upgrades"
     ("smr", r"\bsmrs?\b|small modular|micro-?reactors?|advanced (?:nuclear|reactors?)|bwrx-?300"),
     ("behind_the_meter", r"behind[- ]the[- ]meter|co-?locat\w*|\bon-?site\b|\boff-?grid\b"),
     ("transmission", r"\btransmission\b|interconnector|\bhvdc\b|power lines?\b|\bsubstations?\b"),
@@ -128,12 +129,53 @@ KIND_WORDS = [
                          r"ai capacity|\bhost\b"),
 ]
 GAS = r"\bgas\b|natural gas|natgas|gas-fired"
+# session 2258 (chain 159): the words that refine a deal the rule would call "other" (the second read's kind faults)
+NUCLEAR = r"\bnuclear\b|\breactors?\b"
+DC_ASSET = r"data ?cent(?:er|re)s?\b"
+# what is sold to a data center rather than its capacity ("optical fiber for data centers", "local energy
+# infrastructure for Louisiana data center")
+DC_SUPPLY = r"\bfor\b|\benergy\b|\bpower\b|\bfib(?:er|re)\b|infrastructure|equipment|\bsuppl\w*|cool\w*"
+FINANCE = r"\bcredit\b|backstop|\bloans?\b|\bbonds?\b|\bfinanc\w*|guarantee\w*"
+STAKE = r"\bstakes?\b|\bacqui\w*|\bmerg\w*|\bdivest\w*|\bexits?\b|\bsells?\b|\bsale\b|\bbuys?\b"
 GAS_BUILD = r"plant|turbines?|generat\w*|combined[- ]cycle|peakers?|power station|power (?:deal|push|project)"
 
 
 def kind_of(d, text=""):
     """(kind, basis). The power kinds from the deal's own words (its asset, technology and evidence, and the story's
-    text when given), then the model's kind when it is a form, then the form read from deal_type."""
+    text when given), then the model's kind when it is a form, then the form read from deal_type. Session 2258: a
+    deal that would be "other" is read once more (other_of)."""
+    k, basis = _kind_of(d, text)
+    if k == "other":
+        k2 = other_of(d)
+        if k2:
+            return k2
+    return k, basis
+
+
+def other_of(d):
+    """(kind, basis) for a deal the rule would call "other", from its own words (asset and evidence), or None. In
+    order: a lease of a data center is compute capacity (a lease is a lease, whatever funds the building); a credit
+    backstop, credit support, loan, bond or guarantee is project finance where the deal names its asset, else capital;
+    a data center as the asset of a deal of no other form is compute capacity; a stake bought, sold or exited is
+    m_and_a."""
+    t = d.get("deal_type") or ""
+    asset = plain(d.get("asset"))
+    own = plain(" ".join(str(d.get(f) or "") for f in ("asset", "evidence")))
+    if t == "lease" and _words(DC_ASSET, own):
+        return "compute_capacity", "a lease of a data center"
+    m = re.search(FINANCE, own)
+    if m:
+        return ("project_finance", f"finance for a named asset: {m.group(0)}") if asset else ("capital", f"finance: {m.group(0)}")
+    if t in ("other", "") and _words(DC_ASSET, asset) and not _words(DC_SUPPLY, asset) \
+            and (d.get("buyer") or "").strip() and (d.get("seller") or "").strip():
+        return "compute_capacity", "a data center between two named parties as the deal's asset"
+    m = re.search(STAKE, own)
+    if m and t in ("other", ""):
+        return "m_and_a", f"the deal's words: {m.group(0)}"
+    return None
+
+
+def _kind_of(d, text=""):
     own = plain(" ".join(str(d.get(f) or "") for f in ("asset", "technology", "evidence")))
     words = own   # the deal's own words: a company's description in the summary is not the deal's kind (D011)
     t = d.get("deal_type") or ""
@@ -155,6 +197,10 @@ def kind_of(d, text=""):
             return kid, "deal_type smr"
     if _words(GAS, words) and _words(GAS_BUILD, words) and t not in ("m_and_a", "fuel_supply"):
         return "gas_buildout", "the words name gas and a plant, turbines or generation"
+    tx = plain(text)
+    m = re.search(KIND_WORDS[0][1], tx) if tx else None
+    if m and _words(NUCLEAR, own) and t != "m_and_a":   # session 2258: "May Restart Abandoned US Nuclear Project"
+        return "nuclear_restart_uprate", f"a nuclear deal whose stories say: {m.group(0)}"
     k = (d.get("kind") or "").strip()
     if k in KIND_IDS and k not in POWER_KINDS:
         return k, "the model's kind"
