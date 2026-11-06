@@ -1,0 +1,80 @@
+{
+ "date": "2026-11-06",
+ "source": "scanner",
+ "key": "scan-record-6e2a43b7de22",
+ "fact": "onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -29,834 in August 2026, the lowest monthly value held since August 2010. The record until now was USD -1,720.2, in January 2022.",
+ "table": "onrr_revenue_monthly",
+ "series_key": "entity=onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none|variable=revenue|market=|node=Red River, Louisiana: Other revenues, Oil & gas (pre-production)|freq=P1M",
+ "why": "the strongest of the scanner's 25 flag(s) of the day that no Digest has shown (rank 1; rule record, strength 552.5288); 10 record(s) more than 25 percent past the old one held a day by the guard",
+ "candidates_from": "the scan of 2026-11-05 (computed 2026-11-05T17:55:37+00:00): the scan of 2026-11-06 was not there after 420 seconds",
+ "title": "RECORD LOW",
+ "numbers": {
+  "sigma": 50.882832,
+  "value": -29834.4,
+  "margin": -28114.230000000003,
+  "strength": 552.5288,
+  "threshold": -1720.17,
+  "old_record": -1720.17,
+  "stood_points": 48,
+  "history_years": 15.75,
+  "margin_sigmas": 552.5288,
+  "history_points": 127
+ },
+ "image": "2026-11-06.png",
+ "rendered_at": "2026-11-06T00:55:33Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "flag": {
+  "id": "scan-record-6e2a43b7de22",
+  "geo": "US-LA",
+  "date": "2026-08-01",
+  "note": "",
+  "rule": "record",
+  "unit": "USD",
+  "label": "onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none revenue",
+  "table": "onrr_revenue_monthly",
+  "value": -29834.4,
+  "series": {
+   "freq": "P1M",
+   "node": "Red River, Louisiana: Other revenues, Oil & gas (pre-production)",
+   "entity": "onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none",
+   "market": "",
+   "variable": "revenue"
+  },
+  "source": "onrr:revenue_data",
+  "window": [
+   "2026-08-01",
+   "2026-08-01"
+  ],
+  "history": {
+   "last": "2026-05-01",
+   "first": "2010-08-01",
+   "years": 15.75,
+   "points": 127
+  },
+  "compared": {
+   "sigma": 50.882832,
+   "margin": -28114.230000000003,
+   "old_record": -1720.17,
+   "stood_points": 48,
+   "margin_sigmas": 552.5288,
+   "old_record_date": "2022-01-01"
+  },
+  "flag_key": "record|onrr_revenue_monthly|entity=onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none|variable=revenue|market=|node=Red River, Louisiana: Other revenues, Oil & gas (pre-production)|freq=P1M",
+  "strength": 552.5288,
+  "direction": "low",
+  "scan_date": "2026-11-05",
+  "statistic": "monthly value",
+  "threshold": {
+   "name": "record low",
+   "value": -1720.17,
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   },
+   "statistic": "the lowest monthly value of the held history"
+  },
+  "series_key": "entity=onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none|variable=revenue|market=|node=Red River, Louisiana: Other revenues, Oil & gas (pre-production)|freq=P1M",
+  "scanner_version": "1.1.0"
+ }
+}
