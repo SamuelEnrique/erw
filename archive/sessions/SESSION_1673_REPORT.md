@@ -1,6 +1,6 @@
 # Session 1673 report: sessions 1673 to 1684: the dry run cannot run today
 
-Energy Research Warehouse (ERW), session 1673, chain 188, samueloldlaptop, 6 November 2026, 16:40 UTC. Model: Claude Opus 5.5 (the file names Fable 5.1). Model spend USD 0. No warehouse data written; no preview sent; nothing posted. On main.
+Energy Research Warehouse (ERW), session 1673, chain 188, samueloldlaptop, 6 November 2026, 16:38 UTC. Model: Claude Opus 5.5 (the file names Fable 5.1). Model spend USD 0. No warehouse data written; no preview sent; nothing posted. On main.
 
 ## What it found
 
