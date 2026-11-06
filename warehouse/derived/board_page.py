@@ -60,6 +60,11 @@ SPARK_POINTS = 90               # session 1609 (chain 165): the trend line's mos
 # session 1609: the trend line's span by step: the last ninety days of a daily series, and a span long enough to show a
 # trend at a coarser step (a year of weeks, three years of months or quarters)
 SPARK_DAYS = {"D": 90, "W": 365, "M": 1095, "Q": 1095}
+# session 1620 (the second read): the time base and step of a row that states none of its own (a fuel, a rate, a credit)
+STEP_BASIS = {"D": "A daily value as the publisher reports it, dated its trading or operating day (a fuel or a rate has no weekend or holiday value).",
+              "W": "A weekly value as the publisher reports it, dated the day the publisher gives the week.",
+              "M": "A monthly value as the publisher reports it, dated the first day of its month.",
+              "Q": "A quarterly value as the publisher reports it, dated the first day of its auction's month."}
 ISO = {"ercot": ("ERCOT", "America/Chicago"), "caiso": ("CAISO", "America/Los_Angeles"), "nyiso": ("NYISO", "America/New_York"),
        "isone": ("ISO-NE", "America/New_York"), "spp": ("SPP", "America/Chicago")}
 MAIN = {"ercot": "HB_HUBAVG", "caiso": "TH_SP15_GEN-APND", "nyiso": "N.Y.C.", "isone": ".H.INTERNAL_HUB", "spp": "SPPNORTH_HUB"}
@@ -191,6 +196,11 @@ def stats(series, freq="D"):
         lo, hi = min(window), max(window)
         rng = dict(lo=round(lo, 4), hi=round(hi, 4), n=len(window), pos=round((v0 - lo) / (hi - lo), 4) if hi > lo else None)
     out = dict(last=dict(t=d0.isoformat(), v=round(v0, 4)), moves=moves, range=rng)
+    # session 1613 (chain 165): the trailing twelve-month mean, of the values held in the 365 days ending on the latest,
+    # when as many are held as the one-year range needs, and the latest value less it
+    if len(window) >= RANGE_MIN[freq]:
+        mean = sum(window) / len(window)
+        out["avg365"] = dict(v=round(mean, 4), n=len(window), ch=round(v0 - mean, 4))
     if freq == "D":
         for n in (7, 30):
             vals = [series[d] for d in days[-n:] if d0 - dt.timedelta(days=n) < d <= d0]
@@ -281,6 +291,39 @@ def daily_of(hourly, tz, iso, holidays):
     g["peak"] = full[full["peak"]].groupby("day")["v"].mean()
     g["offpeak"] = full[~full["peak"]].groupby("day")["v"].mean()
     return g
+
+
+# Session 1611 (chain 165): the day's extremes. Of a power row's latest complete local day, its highest and lowest hour
+# (each hour as the row's basis says: the day-ahead price, or the mean of the hour's real-time intervals), with the hour
+# it began in the grid's local time. The board's hourly store keeps hours, not intervals, so an interval's own spike is
+# in the week's spikes table (iso_rt_top_intervals), not here.
+def extremes(hourly, tz, daily):
+    day = max(daily.index)
+    near = hourly[hourly.index >= pd.Timestamp(day, tz="UTC") - pd.Timedelta(days=1)]
+    mask = np.array([t.date() == day for t in near.index.tz_convert(tz)], dtype=bool)
+    h = near[mask]
+    if h.empty:
+        return None
+
+    def at(ts, s=h):
+        return dict(v=round(float(s[ts]), 4), utc=ts.strftime("%Y-%m-%dT%H:%M:%SZ"), local=ts.tz_convert(tz).strftime("%H:%M"),
+                    day=ts.tz_convert(tz).date().isoformat())
+    out = dict(t=day.isoformat(), tz=tz, hi=at(h.idxmax()), lo=at(h.idxmin()), hours=int(len(h)))
+    # session 1612: the week and the month in the same cell: of the complete local days among the last 7 and 30 ending on
+    # the latest, the peak hour with its day and time, and the count of hours above each of THRESHOLDS
+    complete = set(daily.index)
+    for key, n in (("w", 7), ("m", 30)):
+        days = {d for d in complete if day - dt.timedelta(days=n) < d <= day}
+        near = hourly[hourly.index >= pd.Timestamp(day - dt.timedelta(days=n), tz="UTC") - pd.Timedelta(days=1)]
+        s = near[np.array([t.date() in days for t in near.index.tz_convert(tz)], dtype=bool)]
+        if s.empty:
+            continue
+        out[key] = dict(days=len(days), first=min(days).isoformat(), hours=int(len(s)), peak=at(s.idxmax(), s),
+                        above={str(x): int((s > x).sum()) for x in THRESHOLDS})
+    return out
+
+
+THRESHOLDS = (100, 250, 1000)   # USD/MWh: session 1612, the counts of hours above each, over the week and the month
 
 
 def col(frame, name):
@@ -399,9 +442,14 @@ class Board:
             row["hourly"] = hourly
         if extra:
             row.update(extra)
+        if not row.get("basis"):
+            # session 1620 (the second read): every row states its time base and step, the fuels' and the rest's too
+            row["basis"] = STEP_BASIS[freq]
         s = stats(series, freq)
         if s is None:
             row.update(status="not_held", note="The warehouse holds no value of this series yet.")
+            for k in ("basis", "ext", "inputs", "heat_ref"):   # session 1632: a row with no value prints its status words and no digit
+                row.pop(k, None)
         else:
             row.update(s)
             self.series[rid] = series_file(row, series)
@@ -474,8 +522,9 @@ def build_power(b, store, holidays, log):
                 d = daily.get((entity, kind))
                 tags = dict(grid=grid, market=kind, scope=scope)
                 src = ZONE_SOURCE if node.startswith("LZ_") else "the grid operator's published prices (iso_hub_prices_history, ercot_all_hub_prices_history and the rolling hub and zone tables)"
+                h = store.get((entity, kind))
                 b.add("power", f"{entity}|{kind}", f"{grid} {words}", "USD/MWh", "D", col(d, "mean") if d is not None else {}, at=name, code=node, tags=tags, source=src, hourly=hid,
-                      extra=dict(basis=basis_of(entity, kind)))
+                      extra=dict(basis=basis_of(entity, kind), **({"ext": extremes(h, tz, d)} if d is not None and h is not None and len(d) else {})))
                 if d is not None:
                     b.add("battery", f"{entity}|{kind}|battery", f"{grid} {words}", "USD/MWh", "D", {x: float(r["max"] - r["min"]) for x, r in d.iterrows()},
                           at=name, code=node, tags=tags, formula=FORMULAS["battery"], source=src, extra=dict(hub=hid, basis=basis_of(entity, kind, "range")))
@@ -587,9 +636,10 @@ def build_adders(b, holidays, log):
             log(f"  ERCOT's {stem.upper()}: ended {h.index[-1]:%Y-%m-%d} (the table's newest hour is {newest:%Y-%m-%d}); no row")
             continue
         d = daily_of(h, "America/Chicago", "ercot", holidays)
+        # session 1620 (the second read): the adder's day extremes too, as the power group's other daily rows have them
         b.add("power", f"ercot:system|{stem}", f"ERCOT {words}", "USD/MWh", "D", col(d, "mean"), at="real time, system-wide", code=stem.upper(),
               tags=dict(grid="ERCOT", market="rt", scope="all"), source=ADDER_SOURCE,
-              extra=dict(basis=f"A daily mean of the complete local operating day's hours (24; 23 or 25 on the daylight saving days), each the hour's mean of the adder over its SCED intervals ({stem}_mean)."))
+              extra=dict(**({"ext": extremes(h, "America/Chicago", d)} if len(d) else {}), basis=f"A daily mean of the complete local operating day's hours (24; 23 or 25 on the daylight saving days), each the hour's mean of the adder over its SCED intervals ({stem}_mean)."))
         log(f"  ERCOT's {stem.upper()}: a row to {h.index[-1]:%Y-%m-%d}")
 
 
@@ -849,9 +899,42 @@ def build_costs(b, log):
               tags=dict(grid="ERCOT"), source=CP_SOURCE,
               extra=dict(basis="ERCOT's load in the 15-minute interval it names as the month's coincident peak, June to September; a transmission customer's share of the four sets its "
                                 "transmission charge for the next year. One value a summer month, dated the month: the row holds four months a year."))
+        cp4_price(b, log)
     else:
         log("  ERCOT's coincident peaks: ercot_4cp_intervals not on this machine, skipped (page_keep.py keeps the held rows)")
     b.grey("costs", "texas|delivery", "Texas delivery charges, by utility", "licensed", DELIVERY_NOTE, at="transmission and distribution", unit="USD/kWh", tags=dict(grid="ERCOT"))
+
+
+# Session 1626 (chain 167): the 4CP exposure. ERCOT's hub average's 15-minute real-time price in each interval ERCOT names
+# as a summer month's coincident peak: what a load paid for energy in the interval that also sets its transmission charge.
+# Read from the history and the rolling table, filtered to the hub and the market as each is streamed (never the whole
+# history in memory), the later table's price for an interval winning.
+CP4_PRICE_TABLES = ["ercot_all_hub_prices_history", "iso_rtm_hub_prices"]
+CP4_PRICE_SOURCE = "ERCOT, the hub average's real-time settlement point price (ercot_all_hub_prices_history, iso_rtm_hub_prices) at the 4CP intervals of ercot_4cp_intervals"
+
+
+def cp4_price(b, log):
+    if not here("ercot_4cp_intervals"):
+        return
+    cp = pb.read_table("ercot_4cp_intervals")
+    cp = cp[(cp["variable"] == "cp4_load_mw") & cp["value"].notna()]
+    want = set(cp["ts_utc"])
+    if not want:
+        return
+    price = {}
+    for name in CP4_PRICE_TABLES:
+        if not here(name):
+            continue
+        t = pb.read_table(name, market="ercot_rtm", node="HB_HUBAVG", since=min(want))
+        t = t[t["ts_utc"].isin(want) & t["value"].notna() & (t["freq"] == "PT15M")]
+        price.update({ts: float(v) for ts, v in zip(t["ts_utc"], t["value"])})
+    by_month = {day_of(ts).replace(day=1): price[ts] for ts in sorted(want) if ts in price}
+    missing = len(want) - len(by_month)
+    b.add("costs", "ercot:HB_HUBAVG|cp4_rt", "ERCOT hub average, real time", "USD/MWh", "M", by_month, at="at the month's 4CP interval, June to September", code="HB_HUBAVG 4CP",
+          tags=dict(grid="ERCOT"), source=CP4_PRICE_SOURCE,
+          extra=dict(basis="The hub average's 15-minute real-time price in the interval ERCOT names as the month's coincident peak (the interval of the row above), "
+                           "June to September, dated the month: what energy cost in the interval that also sets a load's transmission charge."))
+    log(f"  ERCOT's 4CP exposure: {len(by_month)} of {len(want)} intervals priced" + (f"; {missing} not held" if missing else ""))
 
 
 # Session 1603 (chain 165): the two oil series the warehouse held and the board did not draw. eia_crude_first_purchase_prices'
@@ -975,7 +1058,7 @@ def heat_basis(kind, ref):
 
 
 def build_hubspreads(b, daily):
-    held = ls.held_grids()
+    held = ls.held_grids()   # session 1606 (test_session207 counts four since session 3008)
     for a, z, scope in HUB_PAIRS:
         ga, gz = ISO[a.split(":")[0]][0], ISO[z.split(":")[0]][0]
         if ga in held or gz in held:
@@ -1052,7 +1135,7 @@ def build_spreads(b, daily, fuels, us_coal):
               extra=dict(inputs=di) if di else None)
     # session 1606 (chain 165): the spark spread at every other public hub (not the load zones), behind the group's Show
     # filter; the stated heat rate's source in every spark and dark row's hover (heat_basis)
-    held = ls.held_grids()
+    held = ls.held_grids()   # session 1606 (test_session207 counts four since session 3008)
     ref = fleet_heat_rates()
     if ref:
         b.heat_ref = ref
@@ -1137,7 +1220,8 @@ def build_week(log):
 
 
 GROUPS = [
-    dict(id="power", title="Power, by hub and zone", filters=[
+    # session 1611: extremes, a column of the day's high and low hour (the rows' "ext")
+    dict(id="power", title="Power, by hub and zone", extremes=True, filters=[
         dict(key="grid", label="Grid", options=[["all", "All grids"], ["ERCOT", "ERCOT"], ["CAISO", "CAISO"], ["NYISO", "NYISO"], ["ISO-NE", "ISO-NE"], ["SPP", "SPP"], ["MISO", "MISO"], ["PJM", "PJM"]], default="all"),
         dict(key="market", label="Market", options=[["all", "Both"], ["da", "Day-ahead"], ["rt", "Real time"]], default="all"),
         dict(key="scope", label="Show", options=[["main", "Main hubs"], ["all", "Every hub and zone"]], default="main", inclusive=True)]),

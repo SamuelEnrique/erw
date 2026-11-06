@@ -29,6 +29,13 @@ const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${w
 // session 1116: the page holds the rows of the grids held for a license on the day (lib/board.ts, holdRows), on the server
 const rawFile = JSON.parse(fs.readFileSync(new URL("../data/board.json", import.meta.url), "utf-8"));
 const file = b.holdRows(rawFile, licenseHeldGrids().map(gridName));
+// session 1616 (chain 165): the file's own checks (lib/board.ts, boardFileChecks), first; with --file, these alone, with
+// no served page (node --import ./scripts/alias-register.mjs scripts/check-board.mjs --file)
+for (const c of b.boardFileChecks(file)) check(c.ok, `the file: ${c.what}`);
+if (process.argv[2] === "--file") {
+  console.log(bad ? `FAILED: ${bad} of ${n} checks of the file` : `${n} of ${n} checks of the file passed`);
+  process.exit(bad ? 1 : 0);
+}
 const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
@@ -55,6 +62,12 @@ for (const g of file.groups) {
     for (const [k] of b.MOVES) { const mv = b.shownMove(r, k, file.built);   /* session 1608: blank on a stale row */ if (mv) want(`${r.id}|${k}`, b.signed(mv.ch, r.unit)); else if (`${r.id}|${k}` in got) wrong.push(`${r.id}|${k}: on the page, not in the file`); }
     if (r.avg7) want(`${r.id}|avg7`, b.fmt(r.avg7.v, r.unit));
     if (r.avg30) want(`${r.id}|avg30`, b.fmt(r.avg30.v, r.unit));
+    // session 1613: the twelve-month mean and the latest less it, unless the row is stale
+    if (r.avg365 && !b.closeAge(r, file.built)?.stale) { want(`${r.id}|avg365`, b.fmt(r.avg365.v, r.unit)); want(`${r.id}|vs365`, b.signed(r.avg365.ch, r.unit)); }
+    // session 1611: the day's high and low hour, in a group that draws them, unless the row is stale
+    if (g.extremes && r.ext && !b.closeAge(r, file.built)?.stale) { want(`${r.id}|ext|hi`, b.fmt(r.ext.hi.v, r.unit)); want(`${r.id}|ext|lo`, b.fmt(r.ext.lo.v, r.unit));
+      for (const k of ["w", "m"]) { const x = r.ext[k]; if (x) { want(`${r.id}|ext|${k}|peak`, b.fmt(x.peak.v, r.unit)); for (const n of b.THRESHOLDS) want(`${r.id}|ext|${k}|${n}`, String(x.above[n])); } }   // session 1612
+    }
     if (r.range && r.range.pos !== null) { ranges += 1; want(`${r.id}|lo`, b.fmt(r.range.lo, r.unit)); want(`${r.id}|hi`, b.fmt(r.range.hi, r.unit)); }
     if (r.spark && r.spark.v.length > 1) sparks += 1;
   }
