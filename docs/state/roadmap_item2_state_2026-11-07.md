@@ -4,7 +4,7 @@ A draft for Samuel; `docs/roadmap.md` is not edited (only a person writes there)
 
 | Tool | Method note | Signed | Replication a reader can run | Cross-check table | Decisions block |
 |---|---|---|---|---|---|
-| What a battery earns (`/cost-of-power/battery`) | `docs/methods/battery_earns_algorithm.md` | **no** (no sign-off block in the note) | **yes**: `replication/battery/` (`replicate.py`, 22 of 22 of the page's figures; `replicate.do`, not yet run in Stata) | **yes**: the note's "Cross-checks" (Lazard, the ATB, Modo Energy's ERCOT 2025 nowcast, ERCOT's fleet) | the shared scenario block (section 11.1, `components/decisions/ScenarioBlock.tsx`); no "decisions on the page" section of its own |
+| What a battery earns (`/cost-of-power/battery`) | `docs/methods/battery_earns_algorithm.md` | **no**: its "Sign-off" block is empty (added by session 1527) | **yes**: `replication/battery/` (`replicate.py`, 22 of 22 of the page's figures; `replicate.do`, not yet run in Stata) | **yes**: the note's "Cross-checks" (Lazard, the ATB, Modo Energy's ERCOT 2025 nowcast, ERCOT's fleet) | the shared scenario block (section 11.1, `components/decisions/ScenarioBlock.tsx`); no "decisions on the page" section of its own |
 | What a generator earns (`/cost-of-power/seller`) | `docs/methods/generator_earns_algorithm.md` | **no**: its "Sign-off" block is empty | **yes**: `replication/generator/` (13 of 13; `replicate.do` not yet run) | **yes**: the note's "Cross-checks" | **yes**: section 13 |
 | What a datacenter pays (`/cost-of-power`) | `docs/methods/datacenter_pays_algorithm.md` | **no**: its "Sign-off" block is empty | **yes**: `replication/datacenter/` (14 of 14 since session 1523: the one difference was the live set's moving window, the page's own code giving 309.84 on the file); `replicate.do` not yet run | **yes**: the note's "Cross-checks" | **yes**: section 12 |
 | Automated Analysis (`/analysis`) | `docs/methods/automated_analysis.md` and the scanner's and findings' notes | no | **no** | **no** | **no** (its "final form" is item 2's own clause) |
@@ -14,6 +14,6 @@ A draft for Samuel; `docs/roadmap.md` is not edited (only a person writes there)
 **What would close the first three, in order:**
 
 1. Your Stata run of the three `replication/<tool>/replicate.do`, from their folders. Their closing lines print the differences.
-2. Your signature in the generator's and the datacenter's "Sign-off" blocks; a block of the same form for the battery's note (a session can add the empty block).
+2. Your signature in the three notes' "Sign-off" blocks (the battery's added by session 1527).
 
 **What item 2 still asks beyond the three:** Automated Analysis's final form, and the Grid tool as one page, which waits on the brand's mockups.
