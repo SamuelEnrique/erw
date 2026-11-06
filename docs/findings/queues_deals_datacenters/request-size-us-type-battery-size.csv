@@ -1,0 +1,19 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate request_size, region us_type_battery_size (battery requests in the United States)
+# Computed 2026-11-06T12:19:19Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (request_size); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the median MW of the requests of the type that entered a queue in the year (MW), the observations it rests on, and whether the year is full
+# Tables: lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+us_type_battery_size,2008,20.0,1.0,1
+us_type_battery_size,2012,12.0,1.0,1
+us_type_battery_size,2013,6.0,1.0,1
+us_type_battery_size,2014,20.0,1.0,1
+us_type_battery_size,2015,20.0,1.0,1
+us_type_battery_size,2016,20.0,1.0,1
+us_type_battery_size,2017,52.0,1.0,1
+us_type_battery_size,2018,74.1,1.0,1
+us_type_battery_size,2019,56.3,1.0,1
+us_type_battery_size,2020,79.95,1.0,1
+us_type_battery_size,2021,102.686,1.0,1
+us_type_battery_size,2022,150.0,1.0,1
+us_type_battery_size,2023,199.9,1.0,1
+us_type_battery_size,2024,152.75520324707,1.0,1

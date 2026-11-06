@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate nuclear_share, region state_nuc_VT (Vermont)
+# Computed 2026-11-06T11:50:07Z by warehouse/analysis/findings/deep/generation_pipeline.py (nuclear_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: nuclear's share of the state's net generation over the year (percent of net generation), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+state_nuc_VT,2001,76.10680117227741,12.0,1
+state_nuc_VT,2002,72.62604993116993,12.0,1
+state_nuc_VT,2003,73.72561406326052,12.0,1
+state_nuc_VT,2004,70.52564636022215,12.0,1
+state_nuc_VT,2005,71.22130060705439,12.0,1
+state_nuc_VT,2006,72.08180786621578,12.0,1
+state_nuc_VT,2007,80.77036442264954,12.0,1
+state_nuc_VT,2008,71.7726977320739,12.0,1
+state_nuc_VT,2009,73.6109805766761,12.0,1
+state_nuc_VT,2010,72.24290369018685,12.0,1
+state_nuc_VT,2011,72.4202558624284,12.0,1
+state_nuc_VT,2012,75.46127339037396,12.0,1
+state_nuc_VT,2013,70.3905641898143,12.0,1
+state_nuc_VT,2014,71.97124801133673,12.0,1
+state_nuc_VT,2015,0.0,12.0,1
+state_nuc_VT,2016,0.0,12.0,1
+state_nuc_VT,2017,0.0,12.0,1
+state_nuc_VT,2018,0.0,12.0,1
+state_nuc_VT,2019,0.0,12.0,1
+state_nuc_VT,2020,0.0,12.0,1
+state_nuc_VT,2021,0.0,12.0,1
+state_nuc_VT,2022,0.0,12.0,1
+state_nuc_VT,2023,0.0,12.0,1
+state_nuc_VT,2024,0.0,12.0,1
+state_nuc_VT,2025,0.0,12.0,1
+state_nuc_VT,2026,0.0,8.0,0

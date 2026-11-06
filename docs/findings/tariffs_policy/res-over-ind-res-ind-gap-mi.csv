@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate res_over_ind, region res_ind_gap_MI (Michigan)
+# Computed 2026-11-06T12:22:28Z by warehouse/analysis/findings/deep/tariffs_policy.py (res_over_ind); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the mean residential retail price less the mean industrial retail price over the year (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: eia_retail_electricity_prices
+region,year,value,n_observations,full_year
+res_ind_gap_MI,2001,31.425,12.0,1
+res_ind_gap_MI,2002,32.10833333333333,12.0,1
+res_ind_gap_MI,2003,33.708333333333336,12.0,1
+res_ind_gap_MI,2004,33.966666666666676,12.0,1
+res_ind_gap_MI,2005,30.41666666666667,12.0,1
+res_ind_gap_MI,2006,36.93333333333333,12.0,1
+res_ind_gap_MI,2007,37.14166666666667,12.0,1
+res_ind_gap_MI,2008,39.9,12.0,1
+res_ind_gap_MI,2009,46.375,12.0,1
+res_ind_gap_MI,2010,53.541666666666664,12.0,1
+res_ind_gap_MI,2011,59.35833333333333,12.0,1
+res_ind_gap_MI,2012,64.65833333333335,12.0,1
+res_ind_gap_MI,2013,69.00000000000001,12.0,1
+res_ind_gap_MI,2014,68.21666666666665,12.0,1
+res_ind_gap_MI,2015,73.9,12.0,1
+res_ind_gap_MI,2016,82.96666666666668,12.0,1
+res_ind_gap_MI,2017,82.00833333333334,12.0,1
+res_ind_gap_MI,2018,83.38333333333333,12.0,1
+res_ind_gap_MI,2019,86.54166666666667,12.0,1
+res_ind_gap_MI,2020,89.91666666666667,12.0,1
+res_ind_gap_MI,2021,98.42500000000001,12.0,1
+res_ind_gap_MI,2022,95.35833333333333,12.0,1
+res_ind_gap_MI,2023,106.64999999999999,12.0,1
+res_ind_gap_MI,2024,110.24166666666667,12.0,1
+res_ind_gap_MI,2025,115.19166666666666,12.0,1
+res_ind_gap_MI,2026,123.5375,8.0,0

@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate hydro_share, region state_hyc_ID (Idaho)
+# Computed 2026-11-06T11:50:08Z by warehouse/analysis/findings/deep/generation_pipeline.py (hydro_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: conventional hydro's share of the state's net generation over the year (percent of net generation), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+state_hyc_ID,2001,77.27796962899738,12.0,1
+state_hyc_ID,2002,89.60234933685041,12.0,1
+state_hyc_ID,2003,80.1504873482865,12.0,1
+state_hyc_ID,2004,77.89399516730066,12.0,1
+state_hyc_ID,2005,78.91116696677567,12.0,1
+state_hyc_ID,2006,83.98551018940694,12.0,1
+state_hyc_ID,2007,78.55815746030905,12.0,1
+state_hyc_ID,2008,78.2127675883283,12.0,1
+state_hyc_ID,2009,79.64994595055013,12.0,1
+state_hyc_ID,2010,76.12952757586486,12.0,1
+state_hyc_ID,2011,80.90393027475602,12.0,1
+state_hyc_ID,2012,70.58740369307546,12.0,1
+state_hyc_ID,2013,55.79730832524032,12.0,1
+state_hyc_ID,2014,59.2858485808224,12.0,1
+state_hyc_ID,2015,55.891803871295274,12.0,1
+state_hyc_ID,2016,57.680273451761835,12.0,1
+state_hyc_ID,2017,61.33820578707011,12.0,1
+state_hyc_ID,2018,60.66624041699784,12.0,1
+state_hyc_ID,2019,56.135054189096515,12.0,1
+state_hyc_ID,2020,53.76026235565156,12.0,1
+state_hyc_ID,2021,47.4874844614054,12.0,1
+state_hyc_ID,2022,51.35475558354217,12.0,1
+state_hyc_ID,2023,46.95399962635393,12.0,1
+state_hyc_ID,2024,45.67043961104187,12.0,1
+state_hyc_ID,2025,43.63082355204995,12.0,1
+state_hyc_ID,2026,48.58143329854027,8.0,0

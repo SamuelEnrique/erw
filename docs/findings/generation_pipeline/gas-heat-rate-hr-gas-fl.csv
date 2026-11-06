@@ -1,0 +1,29 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate gas_heat_rate, region hr_gas_FL (Florida)
+# Computed 2026-11-06T11:50:07Z by warehouse/analysis/findings/deep/generation_pipeline.py (gas_heat_rate); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the gas-fired fleet's fuel consumed over its net generation, EIA-923 (MMBtu per MWh), the observations it rests on, and whether the year is full
+# Tables: eia923_plant_fuel_annual
+region,year,value,n_observations,full_year
+hr_gas_FL,2001,9.387254028496052,1.0,1
+hr_gas_FL,2002,8.830764739630197,1.0,1
+hr_gas_FL,2003,8.299446212705808,1.0,1
+hr_gas_FL,2004,8.134553792235666,1.0,1
+hr_gas_FL,2005,7.981012034314598,1.0,1
+hr_gas_FL,2006,8.084444643746036,1.0,1
+hr_gas_FL,2007,8.070806433871255,1.0,1
+hr_gas_FL,2008,8.101874102941615,1.0,1
+hr_gas_FL,2009,8.087447824330576,1.0,1
+hr_gas_FL,2010,7.984526015288523,1.0,1
+hr_gas_FL,2011,7.939342293805944,1.0,1
+hr_gas_FL,2012,7.906447192560789,1.0,1
+hr_gas_FL,2013,7.772415621956265,1.0,1
+hr_gas_FL,2014,7.7526851519339495,1.0,1
+hr_gas_FL,2015,7.809140085480102,1.0,1
+hr_gas_FL,2016,7.8302781838416715,1.0,1
+hr_gas_FL,2017,7.7366784326338705,1.0,1
+hr_gas_FL,2018,7.730845580132925,1.0,1
+hr_gas_FL,2019,7.63912008259958,1.0,1
+hr_gas_FL,2020,7.5801470964828646,1.0,1
+hr_gas_FL,2021,7.643435517286804,1.0,1
+hr_gas_FL,2022,7.556269468765916,1.0,1
+hr_gas_FL,2023,7.4573887734982405,1.0,1
+hr_gas_FL,2024,7.4791199184808255,1.0,1

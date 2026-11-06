@@ -1,0 +1,47 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate refining_capacity, region us_refining_capacity (the United States)
+# Computed 2026-11-06T12:35:13Z by warehouse/analysis/findings/deep/oil_products_world.py (refining_capacity); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: US operable crude distillation capacity, the year's mean of its months (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_refinery_utilization_monthly
+region,year,value,n_observations,full_year
+us_refining_capacity,1985,15670.75,12.0,1
+us_refining_capacity,1986,15458.833333333334,12.0,1
+us_refining_capacity,1987,15642.416666666666,12.0,1
+us_refining_capacity,1988,15927.583333333334,12.0,1
+us_refining_capacity,1989,15701.083333333334,12.0,1
+us_refining_capacity,1990,15623.5,12.0,1
+us_refining_capacity,1991,15706.666666666666,12.0,1
+us_refining_capacity,1992,15460.25,12.0,1
+us_refining_capacity,1993,15142.666666666666,12.0,1
+us_refining_capacity,1994,15149.166666666666,12.0,1
+us_refining_capacity,1995,15346.5,12.0,1
+us_refining_capacity,1996,15238.833333333334,12.0,1
+us_refining_capacity,1997,15593.333333333334,12.0,1
+us_refining_capacity,1998,15801.916666666666,12.0,1
+us_refining_capacity,1999,16281.5,12.0,1
+us_refining_capacity,2000,16524.916666666668,12.0,1
+us_refining_capacity,2001,16581.416666666668,12.0,1
+us_refining_capacity,2002,16744.583333333332,12.0,1
+us_refining_capacity,2003,16747.833333333332,12.0,1
+us_refining_capacity,2004,16974.416666666668,12.0,1
+us_refining_capacity,2005,17195.333333333332,12.0,1
+us_refining_capacity,2006,17384.75,12.0,1
+us_refining_capacity,2007,17449.666666666668,12.0,1
+us_refining_capacity,2008,17607.083333333332,12.0,1
+us_refining_capacity,2009,17678.25,12.0,1
+us_refining_capacity,2010,17574.833333333332,12.0,1
+us_refining_capacity,2011,17735.833333333332,12.0,1
+us_refining_capacity,2012,17328.083333333332,12.0,1
+us_refining_capacity,2013,17817.75,12.0,1
+us_refining_capacity,2014,17873.833333333332,12.0,1
+us_refining_capacity,2015,18057.083333333332,12.0,1
+us_refining_capacity,2016,18401.5,12.0,1
+us_refining_capacity,2017,18564.916666666668,12.0,1
+us_refining_capacity,2018,18599.75,12.0,1
+us_refining_capacity,2019,18808.0,12.0,1
+us_refining_capacity,2020,18662.916666666668,12.0,1
+us_refining_capacity,2021,18108.166666666668,12.0,1
+us_refining_capacity,2022,17963.0,12.0,1
+us_refining_capacity,2023,18246.0,12.0,1
+us_refining_capacity,2024,18348.416666666668,12.0,1
+us_refining_capacity,2025,18181.0,12.0,1
+us_refining_capacity,2026,18064.571428571428,7.0,0

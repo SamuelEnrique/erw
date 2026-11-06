@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate hosting_jobs, region jobs518_US (the United States)
+# Computed 2026-11-06T12:16:29Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (hosting_jobs); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: mid-March employment in NAICS 518210 establishments (employees), the observations it rests on, and whether the year is full
+# Tables: census_cbp_hosting_annual
+region,year,value,n_observations,full_year
+jobs518_US,2012,433438.0,1.0,1
+jobs518_US,2013,478933.0,1.0,1
+jobs518_US,2014,525043.0,1.0,1
+jobs518_US,2015,539171.0,1.0,1
+jobs518_US,2016,462391.0,1.0,1
+jobs518_US,2017,525528.0,1.0,1
+jobs518_US,2018,546889.0,1.0,1
+jobs518_US,2019,552937.0,1.0,1
+jobs518_US,2020,557409.0,1.0,1
+jobs518_US,2021,552789.0,1.0,1
+jobs518_US,2022,570188.0,1.0,1
+jobs518_US,2023,629527.0,1.0,1

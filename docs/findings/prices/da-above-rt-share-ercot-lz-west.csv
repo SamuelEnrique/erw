@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate da_above_rt_share, region ercot_LZ_WEST (ERCOT's West load zone (LZ_WEST))
+# Computed 2026-11-06T11:24:49Z by warehouse/analysis/findings/deep/prices.py (da_above_rt_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the share of the year's hours in which the day-ahead price was above the hour's real-time price (percent of hours), the observations it rests on, and whether the year is full
+# Tables: ercot_zone_prices_history
+region,year,value,n_observations,full_year
+ercot_LZ_WEST,2015,66.18721461187215,8760.0,1
+ercot_LZ_WEST,2016,65.98360655737704,8784.0,1
+ercot_LZ_WEST,2017,65.83333333333333,8760.0,1
+ercot_LZ_WEST,2018,68.25342465753424,8760.0,1
+ercot_LZ_WEST,2019,67.72831050228311,8760.0,1
+ercot_LZ_WEST,2020,69.43306010928961,8784.0,1
+ercot_LZ_WEST,2021,67.12328767123287,8760.0,1
+ercot_LZ_WEST,2022,68.88127853881278,8760.0,1
+ercot_LZ_WEST,2023,67.8082191780822,8760.0,1
+ercot_LZ_WEST,2024,61.13387978142077,8784.0,1
+ercot_LZ_WEST,2025,59.33789954337899,8760.0,1
+ercot_LZ_WEST,2026,57.46401644962303,7295.0,0

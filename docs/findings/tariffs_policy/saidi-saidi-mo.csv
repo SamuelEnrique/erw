@@ -1,0 +1,16 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate saidi, region saidi_MO (Missouri)
+# Computed 2026-11-06T12:22:26Z by warehouse/analysis/findings/deep/tariffs_policy.py (saidi); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the customer-weighted mean of the utilities' IEEE SAIDI with major event days (minutes a customer), the observations it rests on, and whether the year is full
+# Tables: eia861_utility_reliability
+region,year,value,n_observations,full_year
+saidi_MO,2015,164.93927860204292,1.0,1
+saidi_MO,2016,215.44506926842465,1.0,1
+saidi_MO,2017,307.15688901371095,1.0,1
+saidi_MO,2018,151.20055675351415,1.0,1
+saidi_MO,2019,260.9642519617483,1.0,1
+saidi_MO,2020,154.1175455428753,1.0,1
+saidi_MO,2021,267.94399450297874,1.0,1
+saidi_MO,2022,149.53266476851357,1.0,1
+saidi_MO,2023,378.95554292492255,1.0,1
+saidi_MO,2024,212.5754861853385,1.0,1
+saidi_MO,2025,465.9953321127141,1.0,1

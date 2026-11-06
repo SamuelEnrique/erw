@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate top_days_share, region ercot_HB_HOUSTON (ERCOT's Houston hub (HB_HOUSTON))
+# Computed 2026-11-06T13:56:42Z by warehouse/analysis/findings/deep/prices.py (top_days_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the share of the sum of the year's daily price spreads that falls on its top tenth of days (percent), the observations it rests on, and whether the year is full
+# Tables: ercot_all_hub_prices_history
+region,year,value,n_observations,full_year
+ercot_HB_HOUSTON,2015,61.490238517568514,365.0,1
+ercot_HB_HOUSTON,2016,56.450003563169304,366.0,1
+ercot_HB_HOUSTON,2017,56.005133810882874,365.0,1
+ercot_HB_HOUSTON,2018,66.01910962213279,365.0,1
+ercot_HB_HOUSTON,2019,75.87149089250147,365.0,1
+ercot_HB_HOUSTON,2020,62.27632135133234,366.0,1
+ercot_HB_HOUSTON,2021,73.15986598846831,365.0,1
+ercot_HB_HOUSTON,2022,64.95562306855507,365.0,1
+ercot_HB_HOUSTON,2023,75.15375504238192,365.0,1
+ercot_HB_HOUSTON,2024,55.54882491737733,366.0,1
+ercot_HB_HOUSTON,2025,36.90339241911489,365.0,1
+ercot_HB_HOUSTON,2026,41.946064862093934,301.0,0

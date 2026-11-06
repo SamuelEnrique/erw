@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate lcfs_credit_price, region us_ca_lcfs (California's Low Carbon Fuel Standard credits)
+# Computed 2026-11-06T11:29:30Z by warehouse/analysis/findings/deep/prices.py (lcfs_credit_price); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean of the weekly average Low Carbon Fuel Standard credit price (USD per tCO2), the observations it rests on, and whether the year is full
+# Tables: carb_lcfs_credit_prices
+region,year,value,n_observations,full_year
+us_ca_lcfs,2019,191.6026923076923,52.0,1
+us_ca_lcfs,2020,199.1378846153846,52.0,1
+us_ca_lcfs,2021,187.11344904324162,52.0,1
+us_ca_lcfs,2022,121.05017811601776,52.0,1
+us_ca_lcfs,2023,75.16134615384615,52.0,1
+us_ca_lcfs,2024,62.02321051187119,53.0,1
+us_ca_lcfs,2025,59.25826923076923,52.0,1
+us_ca_lcfs,2026,68.61054054054054,37.0,0

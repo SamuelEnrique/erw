@@ -7,6 +7,7 @@ import { series, type SeriesRow } from "@/lib/data";
 import { count, price } from "@/lib/format";
 import { STATES } from "@/lib/regions";
 import { attempt } from "@/lib/supabase";
+import { scrollRegion } from "@/lib/cells";   // session 1587: the states table reachable by keyboard (AccessLint)
 
 // Session 239: the consumption view of /demand (lib/demandpage.ts, lib/tabs.ts). What /consumption drew is drawn here,
 // block for block; the page (app/demand/page.tsx) carries the brand, the sheet, the tabs and the Related line, and
@@ -106,7 +107,7 @@ export async function ConsumptionView() {
           {["IND", "COM"].map((sec) => (
             <div key={sec} className="min-w-0">{/* session 241: a grid item is as wide as its widest content unless told otherwise, and the frame below then never scrolls */}
               <h3 className="mb-2 text-base">{sec === "IND" ? "Industrial" : "Commercial"}</h3>
-              <div className="overflow-x-auto">{/* session 241: a table wider than a phone scrolls inside its own frame */}
+              <div className="overflow-x-auto" {...scrollRegion(sec === "IND" ? "Industrial load growing fastest" : "Commercial load growing fastest")}>{/* session 241: a table wider than a phone scrolls inside its own frame */}
               <table className="w-full border-collapse text-sm">
                 <thead>
                   <tr className="border-b border-rule text-left text-xs text-muted">
@@ -140,7 +141,7 @@ export async function ConsumptionView() {
       </Section>
 
       <Section title="Sector shares and growth, by state" id="states">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" {...scrollRegion("Sector shares and growth, by state")}>
           <table className="w-full border-collapse text-sm">
             <thead>
               <tr className="border-b border-rule text-left text-xs text-muted">
@@ -196,7 +197,7 @@ export async function ConsumptionView() {
             const mp: Window = { from: monthsBack(ml, 23), to: mc.from };
             return (
               <>
-                <div className="overflow-x-auto">{/* session 241: a table wider than a phone scrolls inside its own frame */}
+                <div className="overflow-x-auto" {...scrollRegion("Industrial and commercial energy, all fuels")}>{/* session 241: a table wider than a phone scrolls inside its own frame */}
                 <table className="w-full border-collapse text-sm">
                   <thead>
                     <tr className="border-b border-rule text-left text-xs text-muted">

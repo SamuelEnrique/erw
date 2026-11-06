@@ -176,8 +176,9 @@ class APhone(unittest.TestCase):
         self.assertEqual(len(tables), 3)
         for at in tables:
             before = v[:at].rstrip()
-            self.assertTrue(before.endswith('<div className="overflow-x-auto">') or before.endswith("*/}"), v[at - 120:at])
-        self.assertEqual(v.count('<div className="overflow-x-auto">'), 3)
+            # session 1587: each frame also carries lib/cells.ts's scrollRegion (a region with a name, reachable by keyboard)
+            self.assertTrue(before.endswith(")}>") or before.endswith("*/}"), v[at - 120:at])
+        self.assertEqual(v.count('<div className="overflow-x-auto" {...scrollRegion('), 3)
         # the pair of tables stands in a grid: an item of a grid takes the width of its content, so the frame scrolls only
         # when the item may be narrower (measured on the build before this line: 448 px of page in a window of 390)
         self.assertIn('<div key={sec} className="min-w-0">', v)

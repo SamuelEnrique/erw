@@ -1,0 +1,29 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate wyoming_share, region wy_coal (Wyoming)
+# Computed 2026-11-06T14:08:48Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (wyoming_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: Wyoming's coal production as a percent of the US (percent of US coal production), the observations it rests on, and whether the year is full
+# Tables: eia_coal_production_annual
+region,year,value,n_observations,full_year
+wy_coal,2001,32.69955062407527,1.0,1
+wy_coal,2002,34.10098806235656,1.0,1
+wy_coal,2003,35.10791543488088,1.0,1
+wy_coal,2004,35.65268365033048,1.0,1
+wy_coal,2005,35.7330281294622,1.0,1
+wy_coal,2006,38.421189767039955,1.0,1
+wy_coal,2007,39.55645192500149,1.0,1
+wy_coal,2008,39.90789455407246,1.0,1
+wy_coal,2009,40.10580048852449,1.0,1
+wy_coal,2010,40.80923741777041,1.0,1
+wy_coal,2011,40.03855083832066,1.0,1
+wy_coal,2012,39.494149872838186,1.0,1
+wy_coal,2013,39.389456892648745,1.0,1
+wy_coal,2014,39.564580810168856,1.0,1
+wy_coal,2015,41.89491695449166,1.0,1
+wy_coal,2016,40.8062354516351,1.0,1
+wy_coal,2017,40.85342400530801,1.0,1
+wy_coal,2018,40.22756398835366,1.0,1
+wy_coal,2019,39.20547577471032,1.0,1
+wy_coal,2020,40.818420104586714,1.0,1
+wy_coal,2021,41.35081006124507,1.0,1
+wy_coal,2022,41.18964493191192,1.0,1
+wy_coal,2023,41.05196763430403,1.0,1
+wy_coal,2024,37.21286015341887,1.0,1

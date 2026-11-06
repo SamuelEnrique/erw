@@ -1,0 +1,47 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate sulfur_content, region us_sulfur (the United States)
+# Computed 2026-11-06T12:35:13Z by warehouse/analysis/findings/deep/oil_products_world.py (sulfur_content); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the weighted average sulfur content of the crude oil US refineries ran, the year's mean of its months (percent sulfur by weight), the observations it rests on, and whether the year is full
+# Tables: eia_crude_quality_monthly
+region,year,value,n_observations,full_year
+us_sulfur,1985,0.9116666666666667,12.0,1
+us_sulfur,1986,0.9575,12.0,1
+us_sulfur,1987,0.9891666666666666,12.0,1
+us_sulfur,1988,1.0416666666666667,12.0,1
+us_sulfur,1989,1.0600000000000003,12.0,1
+us_sulfur,1990,1.0991666666666668,12.0,1
+us_sulfur,1991,1.135,12.0,1
+us_sulfur,1992,1.1641666666666666,12.0,1
+us_sulfur,1993,1.1475,12.0,1
+us_sulfur,1994,1.1441666666666668,12.0,1
+us_sulfur,1995,1.1258333333333332,12.0,1
+us_sulfur,1996,1.1483333333333332,12.0,1
+us_sulfur,1997,1.2541666666666667,12.0,1
+us_sulfur,1998,1.305,12.0,1
+us_sulfur,1999,1.3266666666666669,12.0,1
+us_sulfur,2000,1.3416666666666668,12.0,1
+us_sulfur,2001,1.4166666666666667,12.0,1
+us_sulfur,2002,1.4141666666666666,12.0,1
+us_sulfur,2003,1.4266666666666665,12.0,1
+us_sulfur,2004,1.4324999999999999,12.0,1
+us_sulfur,2005,1.42,12.0,1
+us_sulfur,2006,1.4141666666666666,12.0,1
+us_sulfur,2007,1.4299999999999997,12.0,1
+us_sulfur,2008,1.455,12.0,1
+us_sulfur,2009,1.41,12.0,1
+us_sulfur,2010,1.3925,12.0,1
+us_sulfur,2011,1.3991666666666667,12.0,1
+us_sulfur,2012,1.4216666666666666,12.0,1
+us_sulfur,2013,1.4375,12.0,1
+us_sulfur,2014,1.4525,12.0,1
+us_sulfur,2015,1.3966666666666665,12.0,1
+us_sulfur,2016,1.4316666666666666,12.0,1
+us_sulfur,2017,1.4091666666666667,12.0,1
+us_sulfur,2018,1.4016666666666666,12.0,1
+us_sulfur,2019,1.2841666666666667,12.0,1
+us_sulfur,2020,1.3358333333333332,12.0,1
+us_sulfur,2021,1.2666666666666668,12.0,1
+us_sulfur,2022,1.2925,12.0,1
+us_sulfur,2023,1.3325000000000002,12.0,1
+us_sulfur,2024,1.3083333333333333,12.0,1
+us_sulfur,2025,1.2991666666666668,12.0,1
+us_sulfur,2026,1.3257142857142858,7.0,0

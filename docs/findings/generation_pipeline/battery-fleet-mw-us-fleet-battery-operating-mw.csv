@@ -1,0 +1,16 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate battery_fleet_mw, region us_fleet_battery_operating_mw (the United States)
+# Computed 2026-11-06T12:13:10Z by warehouse/analysis/findings/deep/generation_pipeline.py (battery_fleet_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the battery fleet in operation at the year's end (MW), the observations it rests on, and whether the year is full
+# Tables: storage_buildout_monthly
+region,year,value,n_observations,full_year
+us_fleet_battery_operating_mw,2015,250.2,1.0,1
+us_fleet_battery_operating_mw,2016,461.4,1.0,1
+us_fleet_battery_operating_mw,2017,579.0,1.0,1
+us_fleet_battery_operating_mw,2018,799.4,1.0,1
+us_fleet_battery_operating_mw,2019,1004.0,1.0,1
+us_fleet_battery_operating_mw,2020,1589.0,1.0,1
+us_fleet_battery_operating_mw,2021,5020.8,1.0,1
+us_fleet_battery_operating_mw,2022,9329.8,1.0,1
+us_fleet_battery_operating_mw,2023,16568.3,1.0,1
+us_fleet_battery_operating_mw,2024,27634.3,1.0,1
+us_fleet_battery_operating_mw,2025,43678.3,1.0,1

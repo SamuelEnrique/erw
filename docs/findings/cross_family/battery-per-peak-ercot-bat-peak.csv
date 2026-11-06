@@ -1,0 +1,12 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate battery_per_peak, region ercot_bat_peak (ERCOT)
+# Computed 2026-11-06T13:55:46Z by warehouse/analysis/findings/deep/cross_family.py (battery_per_peak); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the battery fleet at the year's end as a percent of the grid's peak days (the mean of its ten highest days of demand, as average GW) (percent of peak-day demand), the observations it rests on, and whether the year is full
+# Tables: storage_buildout_monthly, eia930_daily_demand
+region,year,value,n_observations,full_year
+ercot_bat_peak,2019,0.18135263776523475,365.0,1
+ercot_bat_peak,2020,0.3696024024156157,366.0,1
+ercot_bat_peak,2021,1.3800756654349033,365.0,1
+ercot_bat_peak,2022,3.2788151213924857,365.0,1
+ercot_bat_peak,2023,5.948139591132803,365.0,1
+ercot_bat_peak,2024,11.753511831324865,366.0,1
+ercot_bat_peak,2025,19.923571139663064,365.0,1

@@ -750,6 +750,33 @@ def source_words(c, meta_dir=None):
     return f"Source: {pub} (`{rep}`){period}{vintage}{when}. "
 
 
+LIVE_SET = os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml")
+
+
+def on_data_page(table, meta_dir=None, live_set=None):
+    """Session 1542 (fault 58 of docs/reviews/periodicals-faults-2026-11-05.md): whether /data lists the table. /data
+    shows the live catalogue's public rows (site/lib/data.ts, catalogue), and the catalogue holds every coverage.csv
+    table but those live_set.yaml keeps out of it (catalogue_hold) or holds for a page in review (review_hold). False
+    when either file cannot be read, so the line names the table without a link rather than link to nothing."""
+    import yaml
+    try:
+        with open(live_set or LIVE_SET, encoding="utf-8") as f:
+            live = yaml.safe_load(f) or {}
+    except (OSError, yaml.YAMLError):
+        return False
+    held = set(live.get("catalogue_hold") or []) | set(live.get("review_hold") or [])
+    row = next((r for r in _csv(os.path.join(meta_dir or META_DIR, "coverage.csv")) if r.get("table") == table), None)
+    return bool(row) and row.get("license") == "public" and table not in held
+
+
+def table_words(table, meta_dir=None, live_set=None):
+    """Session 1542: the link to the table's row on /data where /data lists it, else the plain words that it is not
+    there yet (the Digests of 22 and 23 October and 6 November had linked three held tables to nothing)."""
+    if on_data_page(table, meta_dir, live_set):
+        return "[the table and its download](/data#" + table + ")"
+    return "not yet among the tables /data lists"
+
+
 def markdown(day, c):
     """The section's lines. The image sits beside the Digest (docs/digest/charts/<date>.png). Session 2206: a line after
     the fact says how many periods the table holds and the last one (held_words); the fact's own line is as it was.
@@ -758,7 +785,7 @@ def markdown(day, c):
     series = ", ".join(part for part in str(c["series_key"]).split("|") if part and not part.endswith("="))
     held = held_words(c)
     return ["", HEADING, "", f"![{alt}](charts/{day}.png)", "", c["fact"], *([held] if held else []), "",
-            f"{source_words(c)}Table `{c['table']}`, series `{series}`: [the table and its download](/data#{c['table']}).", "",
+            f"{source_words(c)}Table `{c['table']}`, series `{series}`: {table_words(c['table'])}.", "",   # session 1542: fault 58
             # session 2703: the reading of the choice on its own line, so the source line is the source trail alone
             f"{how_words(c)} [How the chart is chosen](/data/methods/automated_analysis_scanner)."]
 

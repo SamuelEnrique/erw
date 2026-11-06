@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate request_size, region us_type_wind_size (wind requests in the United States)
+# Computed 2026-11-06T12:19:18Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (request_size); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the median MW of the requests of the type that entered a queue in the year (MW), the observations it rests on, and whether the year is full
+# Tables: lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+us_type_wind_size,2005,81.0,1.0,1
+us_type_wind_size,2006,100.0,1.0,1
+us_type_wind_size,2007,150.0,1.0,1
+us_type_wind_size,2008,150.0,1.0,1
+us_type_wind_size,2009,104.0,1.0,1
+us_type_wind_size,2010,100.8,1.0,1
+us_type_wind_size,2011,111.0,1.0,1
+us_type_wind_size,2012,99.0,1.0,1
+us_type_wind_size,2013,120.0,1.0,1
+us_type_wind_size,2014,149.5,1.0,1
+us_type_wind_size,2015,197.8,1.0,1
+us_type_wind_size,2016,151.2,1.0,1
+us_type_wind_size,2017,200.0,1.0,1
+us_type_wind_size,2018,200.0,1.0,1
+us_type_wind_size,2019,200.0,1.0,1
+us_type_wind_size,2020,199.25,1.0,1
+us_type_wind_size,2021,200.0,1.0,1
+us_type_wind_size,2022,200.0,1.0,1
+us_type_wind_size,2023,250.0,1.0,1
+us_type_wind_size,2024,200.0,1.0,1

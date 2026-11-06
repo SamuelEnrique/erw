@@ -1,0 +1,39 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate us_ngpl_share, region us_world_ngpl (the United States)
+# Computed 2026-11-06T12:35:12Z by warehouse/analysis/findings/deep/oil_products_world.py (us_ngpl_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: US natural gas plant liquids production as a percent of the world's, the months that hold both (percent of world NGPL), the observations it rests on, and whether the year is full
+# Tables: eia_world_oil_monthly
+region,year,value,n_observations,full_year
+us_world_ngpl,1993,28.39403522163459,12.0,1
+us_world_ngpl,1994,27.744981428583117,12.0,1
+us_world_ngpl,1995,27.29155158083893,12.0,1
+us_world_ngpl,1996,27.072374817793822,12.0,1
+us_world_ngpl,1997,26.389703328017596,12.0,1
+us_world_ngpl,1998,25.525001722874176,12.0,1
+us_world_ngpl,1999,26.020347520054003,12.0,1
+us_world_ngpl,2000,26.557940003206543,12.0,1
+us_world_ngpl,2001,25.359768596551806,12.0,1
+us_world_ngpl,2002,24.862594118073893,12.0,1
+us_world_ngpl,2003,26.246523565992913,12.0,1
+us_world_ngpl,2004,26.809416714065126,12.0,1
+us_world_ngpl,2005,24.85707633078216,12.0,1
+us_world_ngpl,2006,24.733923104520258,12.0,1
+us_world_ngpl,2007,25.31222799691102,12.0,1
+us_world_ngpl,2008,21.628967725446316,12.0,1
+us_world_ngpl,2009,22.709852517000915,12.0,1
+us_world_ngpl,2010,25.638901260983637,12.0,1
+us_world_ngpl,2011,26.326228743156836,12.0,1
+us_world_ngpl,2012,26.996157788971363,12.0,1
+us_world_ngpl,2013,28.697705789805916,12.0,1
+us_world_ngpl,2014,31.36684637109167,12.0,1
+us_world_ngpl,2015,33.601601843077844,12.0,1
+us_world_ngpl,2016,34.25204275672435,12.0,1
+us_world_ngpl,2017,34.0962718949121,12.0,1
+us_world_ngpl,2018,37.44827092714991,12.0,1
+us_world_ngpl,2019,39.79100528330773,12.0,1
+us_world_ngpl,2020,42.072529508454245,12.0,1
+us_world_ngpl,2021,43.40814955700158,12.0,1
+us_world_ngpl,2022,45.33906355954749,12.0,1
+us_world_ngpl,2023,47.64750840471094,12.0,1
+us_world_ngpl,2024,49.1910604747075,12.0,1
+us_world_ngpl,2025,50.54500941418823,12.0,1
+us_world_ngpl,2026,55.25319057107545,6.0,0

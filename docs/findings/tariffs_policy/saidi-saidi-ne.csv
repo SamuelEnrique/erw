@@ -1,0 +1,16 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate saidi, region saidi_NE (Nebraska)
+# Computed 2026-11-06T12:22:26Z by warehouse/analysis/findings/deep/tariffs_policy.py (saidi); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the customer-weighted mean of the utilities' IEEE SAIDI with major event days (minutes a customer), the observations it rests on, and whether the year is full
+# Tables: eia861_utility_reliability
+region,year,value,n_observations,full_year
+saidi_NE,2015,67.93331269921154,1.0,1
+saidi_NE,2016,63.09708448933251,1.0,1
+saidi_NE,2017,160.7413609322149,1.0,1
+saidi_NE,2018,185.7200134144147,1.0,1
+saidi_NE,2019,78.9063779487959,1.0,1
+saidi_NE,2020,115.38176043558721,1.0,1
+saidi_NE,2021,556.9412468717077,1.0,1
+saidi_NE,2022,73.02856774955472,1.0,1
+saidi_NE,2023,69.44610694453351,1.0,1
+saidi_NE,2024,697.7815848357995,1.0,1
+saidi_NE,2025,542.7849137593639,1.0,1

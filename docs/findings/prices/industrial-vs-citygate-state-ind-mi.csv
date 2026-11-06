@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate industrial_vs_citygate, region state_ind_MI (Michigan)
+# Computed 2026-11-06T11:29:29Z by warehouse/analysis/findings/deep/prices.py (industrial_vs_citygate); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean of the industrial gas price less the citygate price, months with both (USD per Mcf), the observations it rests on, and whether the year is full
+# Tables: eia_gas_prices_state_monthly
+region,year,value,n_observations,full_year
+state_ind_MI,2001,0.9474999999999999,12.0,1
+state_ind_MI,2002,1.0008333333333332,12.0,1
+state_ind_MI,2003,0.5466666666666667,12.0,1
+state_ind_MI,2004,0.8108333333333335,12.0,1
+state_ind_MI,2005,0.6141666666666663,12.0,1
+state_ind_MI,2006,1.7025,12.0,1
+state_ind_MI,2007,1.5250000000000001,12.0,1
+state_ind_MI,2008,1.5675000000000001,12.0,1
+state_ind_MI,2009,2.1649999999999996,12.0,1
+state_ind_MI,2010,2.2675,12.0,1
+state_ind_MI,2011,2.2158333333333338,12.0,1
+state_ind_MI,2012,2.1199999999999997,12.0,1
+state_ind_MI,2013,2.405,12.0,1
+state_ind_MI,2014,2.6508333333333334,12.0,1
+state_ind_MI,2015,2.5549999999999997,12.0,1
+state_ind_MI,2016,2.4783333333333335,12.0,1
+state_ind_MI,2017,2.758333333333333,12.0,1
+state_ind_MI,2018,2.815,12.0,1
+state_ind_MI,2019,3.3525000000000005,12.0,1
+state_ind_MI,2020,3.435833333333333,12.0,1
+state_ind_MI,2021,3.2933333333333334,12.0,1
+state_ind_MI,2022,3.0775000000000006,12.0,1
+state_ind_MI,2023,4.611666666666666,12.0,1
+state_ind_MI,2024,4.578333333333334,12.0,1
+state_ind_MI,2025,4.563333333333333,12.0,1
+state_ind_MI,2026,4.256666666666667,6.0,0

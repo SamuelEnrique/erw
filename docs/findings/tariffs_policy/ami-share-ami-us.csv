@@ -1,0 +1,12 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate ami_share, region ami_US (the United States)
+# Computed 2026-11-06T12:22:28Z by warehouse/analysis/findings/deep/tariffs_policy.py (ami_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: advanced metering infrastructure as a percent of all meters (percent of meters), the observations it rests on, and whether the year is full
+# Tables: eia_meters_state_annual
+region,year,value,n_observations,full_year
+ami_US,2013,38.63337478838398,1.0,1
+ami_US,2014,40.58110152749962,1.0,1
+ami_US,2015,42.929656984559735,1.0,1
+ami_US,2016,46.79992989473062,1.0,1
+ami_US,2017,51.87130883742935,1.0,1
+ami_US,2018,56.367218641525355,1.0,1
+ami_US,2019,60.54290339998853,1.0,1

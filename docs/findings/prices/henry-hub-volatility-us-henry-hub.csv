@@ -1,0 +1,35 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate henry_hub_volatility, region us_henry_hub (Henry Hub, Louisiana)
+# Computed 2026-11-06T11:24:49Z by warehouse/analysis/findings/deep/prices.py (henry_hub_volatility); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the median absolute change of Henry Hub's spot close from one trading day to the next (percent a day), the observations it rests on, and whether the year is full
+# Tables: eia_fuel_spot_prices
+region,year,value,n_observations,full_year
+us_henry_hub,1997,2.0134454917063502,248.0,1
+us_henry_hub,1998,1.904761904761898,251.0,1
+us_henry_hub,1999,1.6807909604519777,250.0,1
+us_henry_hub,2000,2.0050125313283207,249.0,1
+us_henry_hub,2001,2.609881884459353,250.0,1
+us_henry_hub,2002,2.5902732595966205,250.0,1
+us_henry_hub,2003,2.36487455197133,250.0,1
+us_henry_hub,2004,2.028081123244929,249.0,1
+us_henry_hub,2005,2.1582733812949506,241.0,1
+us_henry_hub,2006,2.9792746113989743,249.0,1
+us_henry_hub,2007,2.1852790808730593,252.0,1
+us_henry_hub,2008,1.8922852983988325,253.0,1
+us_henry_hub,2009,3.078502606223349,252.0,1
+us_henry_hub,2010,1.7241797709182771,252.0,1
+us_henry_hub,2011,1.477108097257862,252.0,1
+us_henry_hub,2012,2.05732079692838,252.0,1
+us_henry_hub,2013,1.1918968064552726,252.0,1
+us_henry_hub,2014,1.3020833333333481,253.0,1
+us_henry_hub,2015,1.3606071825249921,256.0,1
+us_henry_hub,2016,1.8348623853211121,261.0,1
+us_henry_hub,2017,1.4285714285714346,259.0,1
+us_henry_hub,2018,1.135313956735623,248.0,1
+us_henry_hub,2019,1.5564437984496138,256.0,1
+us_henry_hub,2020,3.3333333333333215,251.0,1
+us_henry_hub,2021,2.348993288590595,251.0,1
+us_henry_hub,2022,3.647447334648002,250.0,1
+us_henry_hub,2023,2.7027027027026973,249.0,1
+us_henry_hub,2024,4.324324324324325,251.0,1
+us_henry_hub,2025,3.1884057971014568,247.0,1
+us_henry_hub,2026,2.6810924585451037,212.0,0

@@ -1,0 +1,27 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate power_co2_per_mwh, region co2mwh_US (the United States)
+# Computed 2026-11-06T14:11:08Z by warehouse/analysis/findings/deep/emissions_climate.py (power_co2_per_mwh); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the electric power sector's CO2 over the state's net generation (kg CO2 per MWh), the observations it rests on, and whether the year is full
+# Tables: eia_co2_state_annual, eia_state_generation_monthly
+region,year,value,n_observations,full_year
+co2mwh_US,2001,604.4624214044233,1.0,1
+co2mwh_US,2002,589.0093491272286,1.0,1
+co2mwh_US,2003,593.295854039312,1.0,1
+co2mwh_US,2004,588.0333734675514,1.0,1
+co2mwh_US,2005,591.9344621241219,1.0,1
+co2mwh_US,2006,576.8564460103858,1.0,1
+co2mwh_US,2007,580.0207566672317,1.0,1
+co2mwh_US,2008,572.8199304675413,1.0,1
+co2mwh_US,2009,543.1735960679475,1.0,1
+co2mwh_US,2010,547.780800123811,1.0,1
+co2mwh_US,2011,526.546693126229,1.0,1
+co2mwh_US,2012,500.0084887988152,1.0,1
+co2mwh_US,2013,501.41895874614016,1.0,1
+co2mwh_US,2014,497.80231416846,1.0,1
+co2mwh_US,2015,466.0860014056156,1.0,1
+co2mwh_US,2016,443.7044569908885,1.0,1
+co2mwh_US,2017,429.27234138875576,1.0,1
+co2mwh_US,2018,419.55471116521375,1.0,1
+co2mwh_US,2019,389.19952455362636,1.0,1
+co2mwh_US,2020,359.0779911665027,1.0,1
+co2mwh_US,2021,375.075200588762,1.0,1
+co2mwh_US,2022,362.1274990553904,1.0,1

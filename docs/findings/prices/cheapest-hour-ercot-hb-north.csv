@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate cheapest_hour, region ercot_HB_NORTH (ERCOT's North hub (HB_NORTH))
+# Computed 2026-11-06T11:24:47Z by warehouse/analysis/findings/deep/prices.py (cheapest_hour); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the mean local clock hour (0 to 23) at which the day's lowest real-time price fell (hours after local midnight), the observations it rests on, and whether the year is full
+# Tables: ercot_all_hub_prices_history
+region,year,value,n_observations,full_year
+ercot_HB_NORTH,2015,6.035616438356165,365.0,1
+ercot_HB_NORTH,2016,6.095628415300546,366.0,1
+ercot_HB_NORTH,2017,7.487671232876712,365.0,1
+ercot_HB_NORTH,2018,7.726027397260274,365.0,1
+ercot_HB_NORTH,2019,8.082191780821917,365.0,1
+ercot_HB_NORTH,2020,7.748633879781421,366.0,1
+ercot_HB_NORTH,2021,8.356164383561644,365.0,1
+ercot_HB_NORTH,2022,8.706849315068494,365.0,1
+ercot_HB_NORTH,2023,8.64931506849315,365.0,1
+ercot_HB_NORTH,2024,9.12295081967213,366.0,1
+ercot_HB_NORTH,2025,10.673972602739726,365.0,1
+ercot_HB_NORTH,2026,11.043189368770765,301.0,0

@@ -1,0 +1,16 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate storage_per_solar, region us_bat_solar (the United States)
+# Computed 2026-11-06T12:50:42Z by warehouse/analysis/findings/deep/cross_family.py (storage_per_solar); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the battery fleet's MWh per MW of solar in operation at the year's end (MWh per MW of solar), the observations it rests on, and whether the year is full
+# Tables: storage_buildout_monthly
+region,year,value,n_observations,full_year
+us_bat_solar,2015,0.0111,1.0,1
+us_bat_solar,2016,0.0172,1.0,1
+us_bat_solar,2017,0.0239,1.0,1
+us_bat_solar,2018,0.0358,1.0,1
+us_bat_solar,2019,0.0448,1.0,1
+us_bat_solar,2020,0.0645,1.0,1
+us_bat_solar,2021,0.2139,1.0,1
+us_bat_solar,2022,0.3412,1.0,1
+us_bat_solar,2023,0.4799,1.0,1
+us_bat_solar,2024,0.6048,1.0,1
+us_bat_solar,2025,0.7828,1.0,1

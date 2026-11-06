@@ -905,6 +905,13 @@ def fix_source_lines(in_dir=None, dry_run=False, log=print, get=None, patch=None
     reads_of, out = {}, []
     for row in rows:
         hunt_part = row["card"]["hunt"]
+        if str(hunt_part.get("module", "")).startswith("deep."):
+            # session 3001: a draft of the findings hunt over the whole warehouse (chain 164, deep/builder.py) names
+            # its own region's tables, as a measure's draft does; it is not a pattern of this library
+            line = row["card"].get("source_line", "")
+            log(f"{row['id']} ({row.get('state')}, {hunt_part['pattern']}, {hunt_part['region']}): left as it is, a draft of deep/{hunt_part['module'][5:]}.py")
+            out.append({"id": row["id"], "state": row.get("state"), "old": line, "new": line, "changed": False, "written": False})
+            continue
         P = next((p for p in PATTERNS if p["name"] == hunt_part["pattern"]), None)
         if P is None:
             raise ValueError(f"{row['id']}: pattern {hunt_part['pattern']} is not in the library")
