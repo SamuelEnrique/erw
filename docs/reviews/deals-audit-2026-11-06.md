@@ -605,3 +605,7 @@ Kinds, parties, stages and places of the other rows read right (T007 an EPC cont
 | Country missed | 1 | U009 Era4 "in Newport, Wales": no country (the country words know the United Kingdom, not Wales) |
 
 These four one-record classes are the audit's open rows for sessions 2288 to 2291.
+
+## Session 2285 (chain 179): USD missed beside another currency (1, the third read)
+
+T024: the evidence "EUR 835 million (US$938 million) portfolio financing" and USD empty. `fields.usd_stated` takes a figure the evidence states explicitly in US dollars when the model gave none. **1 to 0**; on the four deal fixtures, only T024 changed.

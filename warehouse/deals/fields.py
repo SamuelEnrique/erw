@@ -405,6 +405,21 @@ def credit_parties(d):
     return seller, (m.group(1) if m and m.group(1) != seller else "")
 
 
+USD_EXPLICIT = re.compile(r"(?:\bUS\$|\bUSD\s?)\s?(\d[\d,]*(?:\.\d+)?)\s*(billion|bn|million|mn|m)\b", re.I)
+
+
+def usd_stated(evidence):
+    """Session 2285 (chain 179): (value, span) where the deal's evidence states exactly one figure explicitly in US
+    dollars, US$ or USD and never a bare $ ("EUR 835 million (US$938 million) portfolio financing"); (None, "")
+    otherwise. The model is told not to convert other currencies, and leaves such a stated figure empty."""
+    ms = list(USD_EXPLICIT.finditer(" ".join(str(evidence or "").split())))
+    if len(ms) != 1:
+        return None, ""
+    m = ms[0]
+    scale = 1e9 if m.group(2).lower() in ("billion", "bn") else 1e6
+    return float(m.group(1).replace(",", "")) * scale, m.group(0)
+
+
 def project_led(d):
     """Session 2277 (chain 174): the words where the deal's one named party leads a project and no counterparty is
     named ("Abu Dhabi's G42 Leads $1 Billion Data Center Project in Vietnam"): a project led is neither a sale nor an

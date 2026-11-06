@@ -243,3 +243,7 @@ In debt and project finance the investors or lenders are the buyer and the compa
 ### A project one party leads (session 2277)
 
 A record whose only named party leads a project, with no counterparty ("Abu Dhabi's G42 Leads $1 Billion Data Center Project in Vietnam"), is not a transaction and is not kept: leading a project is neither a sale nor an award (chain 156's ruling 2 is about those). The log says so (`tests/test_session2277_deals.py`).
+
+### A figure stated in US dollars beside another currency (session 2285)
+
+The model is told not to convert currencies, and leaves a deal's USD empty when its story gives the sum in euros or pounds, even where the story itself adds the US-dollar figure ("EUR 835 million (US$938 million) portfolio financing"). Where the model gives no USD and the deal's evidence states exactly one figure explicitly in US dollars (US$ or USD; never a bare $), that figure is the deal's USD, with the words as its span, unless it is a contract's funding or an asset's cost (session 2271). The log says so (`tests/test_session2285_deals.py`).

@@ -479,6 +479,13 @@ def main(argv=None):
                     if other:   # session 2271: a contract's sum that is its funding or an asset's cost
                         dropped.append(f"{cid}: dollars {vals['dollars']:g}: {other!r} is another thing's sum, not kept")
                         vals["dollars"] = None
+                    if vals["dollars"] is None and d.get("dollars") is None and norm(d.get("evidence") or "") in text:
+                        # session 2285: a figure the evidence states in US dollars beside another currency
+                        usd_v, usd_span = fields.usd_stated(d.get("evidence"))
+                        if usd_v is not None and not fields.sum_of_other(d.get("deal_type"), usd_span, text):
+                            vals["dollars"] = usd_v
+                            d["dollars_text"] = usd_span
+                            log(f"  {cid}: dollars {usd_v:g} from the words {usd_span!r}")
                     st_state, st_country, st_status, why_words = stated_words(d, text)
                     dropped.extend(f"{cid}: {w}" for w in why_words)
                     if not st_country:   # session 2257: the country the headline names before the asset, when one
