@@ -50,3 +50,24 @@ No item answered: no "Answer:" line under items 1 to 9, and no `docs/reviews/pac
 ## State (session 1076, chain 073, 23 October 2026 at about 09:45 UTC)
 
 The conformance file's version 2: 20 of 20 against today's live set. The earliest call to leave the live set's window is call 10 (the daily intensity of 1 to 7 October), about 9 January 2027; the file is made again before then. Items 1 to 9: none answered.
+
+## State (session 1505, chain 158, 6 November 2026 at about 10:55 UTC)
+
+**Items 1 to 9, yours, in plain words, each with a recommendation.** None has an "Answer:" line, and there is no `docs/reviews/packages-owner-run.md`.
+
+1. **Run the Stata and R packages once on your laptop.** No machine of the project has Stata or R, so the two packages and their conformance runners have never run. *Recommendation*: run `packages/conformance/run_stata.do` and `run_r.R` once (the commands are in session 1033's report), and the three replication do-files of chain 158 (`replication/<tool>/replicate.do`) in the same sitting. Write what differs in `docs/reviews/packages-owner-run.md`. This is the one item that unblocks the most.
+2. **Choose the Python package's license.** `pyproject.toml` says "not yet chosen". *Recommendation*: the license the repository's code will carry (MIT is the usual choice for a research client); the data keep their own licenses, which `docs/licenses.md` records per table.
+3. **The R package's license and maintainer.** *Recommendation*: the same license as the Python package, and you as maintainer with the project's address, not a personal one.
+4. **The PyPI upload of `erw-energy`.** *Recommendation*: after items 1 and 2, and not before; the wheel is built and its example runs (state below).
+5. **The Redivis click** that releases the Stanford draft. *Recommendation*: release version 1 after reading the release note's diff (`docs/reviews/redivis-v1-release-note-2026-10-23.md`); nothing in the packages waits on anything else.
+6. **Whether the downloads are public.** `/api/download` answers the internal view only. *Recommendation*: public for the tables whose license verdict is public, the license filter kept (the route already refuses a held table by name, session 1502). The explorers' and the tools' download lines then work for every reader.
+7. **Whether `/llms.txt` may be public.** *Recommendation*: public with the downloads (6): it describes them.
+8. **The guide's account of the downloads.** *Recommendation*: write it once 6 is ruled; a session can draft it from the route's own words.
+9. **The price board's ERCOT figures in the package while the record holds the board's tables whole for the held grids.** *Recommendation*: hold the held grids' rows by row, as the live set's hold does since session 499, so the package and the page agree.
+
+**The items that are not yours:**
+
+- **The README's local test line.** `python -m pytest package/tests` on this code machine's clone: 150 failed, 597 passed, 54 skipped (801 tests, 7 min 18 s). Every failure compares the clone's older files with the record: 87 row counts against `docs/coverage.md`, 30 partition tests (a partitioned table missing or behind), 10 entities tables, 8 citations naming the commit, 6 types, and five that read the record's newer license verdicts and source registry. None is a fault of the package. The README's line now says so with today's count. The fix is `python scripts/sync.py` on this machine, a warehouse write this chain does not make, for a session that may.
+- **The wheel's example.** **Runs.** `pip wheel ./package --no-deps` builds `erw_energy-0.1.0-py3-none-any.whl`. Installed into a folder of its own and run from inside the clone, the README's six calls each answer: 633 tables; Henry Hub's 2025 closes, 247 rows, the version line naming local files and the ERW commit; the citation; the verdict `public`; the standard's 13 columns; no request made.
+- **The conformance file on today's live set.** **Made again, version 3, and 20 of 20.** On today's live set, call 06 (`eia860m_retired_generators`, the generators retired by month) had grown from 249 to 260 rows, now to September 2026, so version 2 passed 19 of 20. `packages/conformance/make.py` wrote version 3 (call 06's expectation and the file's date the only changes), `write_runners.py` wrote the Stata and R runners from it, and `run_python.py` passes 20 of 20 (21 reads of the live set). The Stata and R runners wait for item 1.
+- Item 11 (`ferc_eqr_contracts_history`'s partition test) is the data machine's copy of that table, and item 12 (`node_basis_daily`) waits on item 5. Both are unchanged.
