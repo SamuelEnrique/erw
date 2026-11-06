@@ -335,12 +335,14 @@ export async function ask(question: string, today = new Date().toISOString().sli
   // session 137: a profile's own tool is run by the profile; every other name goes to the warehouse's tools as before
   // session 143: each tool call's own milliseconds are kept (they overlap within a turn, so the stage is the turn's wall
   // time). A call already made for this question, with the same arguments, is not made again: the model is told that
-  // its result is above (the tool as it stood asked the same query up to eight times, a model call each)
+  // its result is above (the tool as it stood asked the same query up to eight times, a model call each). Session 2222
+  // (chain 152): for every chat, not Ask ERCOT's alone (g03 and g06 of session 320's thirty asked the same sum six and
+  // seven times over through the grids' chats); warehouse/chat/ask.py holds the same.
   const toolMs: { tool: string; table: string | null; ms: number; args?: unknown; repeat?: boolean }[] = [];
   const ran = new Set<string>();
   type Ran = { out: Record<string, unknown>; isError: boolean; repeat?: boolean };
   const runTool = async (name: string, input: unknown, sc: Scope): Promise<Ran> => {
-    const t = Date.now(), k = profile ? callKey(name, input) : null;
+    const t = Date.now(), k = callKey(name, input);   // session 2222 (chain 152): every chat, not Ask ERCOT's alone
     const repeat = k !== null && ran.has(k);
     if (k !== null) ran.add(k);
     try {
@@ -352,7 +354,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   };
   const tiers = new Map<string, string>(); // session 28: each table's tier, from the tool results
   let calls = 0, attempts = 0, retried = false, turn = 0, forceWrite = false, wordsOut = false;
-  const nodash = (t: string) => t.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ");
+  // session 2226 (chain 152): an en dash becomes "-" too (a span of years), as warehouse/chat/ask.py nodash; the stored runs hold every answer
+  const nodash = (t: string) => t.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ").split(String.fromCharCode(0x2013)).join("-");
   // session 168: the local words the tool results gave for each stamp, and a profile's text with no UTC stamp left in it.
   // Applied to what the reader is shown, after the number check has run on the text as the model wrote it
   const localWords = new Map<string, string>();
@@ -610,7 +613,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       }
       messages.push({ role: "user", content: results });
       // session 143: a turn that only repeated calls already made has nothing new to read: the next call must write
-      if (profile && blocks.length && fresh === 0) forceWrite = true;
+      if (blocks.length && fresh === 0) forceWrite = true;   // session 2222: every chat
       // session 143, the fast path: after the planner's one reading turn the writer writes from what was read, in a
       // call that can ask for no tool, so its words arrive as they are written. A draft that passes the whole check is
       // the answer. One that does not (the results do not hold what the question needs, a number is untraced, the writer

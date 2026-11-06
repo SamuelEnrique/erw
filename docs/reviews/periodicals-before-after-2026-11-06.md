@@ -84,3 +84,16 @@ The before is session 1463's dry run; the after is session 1468's, the same stor
 | 46 | "- APS expects peak demand ... (generation): [Utility Dive](...)" | "- APS expects peak demand ... (generation). [Utility Dive](...)" |
 | words above the fold | 214 | 187 (the opening's reason gone) |
 
+## W45 so far and Friday's Digest, after chain 154 (sessions 1477 and 1482)
+
+The before is session 1468's dry run (the code landed at `2a56797cf`); the after is session 1482's (the code landed at `f03182f51`), the same stories.
+
+| # | Before (session 1468) | After (session 1482) |
+|---|---|---|
+| 50, 52 | "**Deal of the week, by US dollars:** USD 19 billion, TeraWulf, TeraWulf data center in Kentucky (other, 2026-11-05)." (a row under the Deals table's floor) | "**Deal of the week, by US dollars:** USD 938 million, Deutsche Bank and Rabobank and Return, Germany BESS portfolio (project finance, 2026-11-05)." |
+| 51, 52 | "**Largest new datacenter load first reported this week:** 702 MW, Google, site not stated, Cheyenne." (under the floor) | "... no facility first reported this week with its MW passes the datacenter table's floor (3 under it); in its place, the week's next price move: ..." |
+| 53 | "ERW Weekly \| AEP and Google advance a $4 Billion, 702 MW Bloom Energy fuel-cell...; Brent down 13.1% on the week" | "ERW Weekly \| Brent down 13.1% on the week; AEP and Google advance a USD 4 billion ..." |
+| 54 | "938,000,000" (the Deals table) | "USD 938 million" |
+| 56 | "AEP and Google advance a $4 Billion, 702 MW Bloom Energy fuel-cell project" | "AEP and Google advance a USD 4 billion fuel-cell project, 702 MW from Bloom Energy, ..." |
+| 57 | (session 1477's run) "... as third major US offshore wind farm" | no adjective of the list in any headline |
+

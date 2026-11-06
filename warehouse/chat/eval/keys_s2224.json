@@ -1,0 +1,265 @@
+{
+ "_about": "Session 2224 (chain 152): the keys of questions_s2224.yaml as computed from the live set by scripts/ask_eval/lab_questions.py, not a run.",
+ "computed_at_utc": "2026-11-06T02:23:29Z",
+ "source": "nrdylqzasarkjjsqturo catalogue, series and entities views, anon key",
+ "keys": {
+  "l01": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "energy_deals"
+   ],
+   "refuse": true,
+   "hold": true,
+   "note": "energy_deals (price_value, technology solar, 2026) is held whole for a license: the answer carries the hold's words and no figure"
+  },
+  "l02": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "energy_deals"
+   ],
+   "refuse": true,
+   "hold": true,
+   "note": "energy_deals (buyer, mw, 2026) is held whole for a license: the hold's words and no figure"
+  },
+  "l03": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "datacenter_projects"
+   ],
+   "refuse": true,
+   "hold": true,
+   "note": "datacenter_projects (mw, ERCOT) is held whole for a license: the hold's words and no figure"
+  },
+  "l04": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "datacenter_facilities"
+   ],
+   "refuse": true,
+   "hold": true,
+   "note": "datacenter_facilities (operator, mw) is held whole for a license: the hold's words and no figure"
+  },
+  "l05": {
+   "expected": [
+    308487.96
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "ercot_interconnection_queue"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "ercot_interconnection_queue: the sum of capacity_mw over the 1159 rows with status active (the snapshot of 2026-11-05)"
+  },
+  "l06": {
+   "expected": [
+    73847.7334
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "caiso_interconnection_queue"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "caiso_interconnection_queue: the sum of capacity_mw over the 261 rows with status active (the snapshot of 2026-11-05)"
+  },
+  "l07": {
+   "expected": [
+    134382.729
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "spp_interconnection_queue"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "spp_interconnection_queue: the sum of capacity_mw over the 625 rows with status active (the snapshot of 2026-11-05)"
+  },
+  "l08": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "isone_interconnection_queue"
+   ],
+   "refuse": true,
+   "hold": true,
+   "note": "isone_interconnection_queue is ISO-NE's own and held for a license (site/data/license_status.json): the hold's words and no figure, as a refusal or as an answer"
+  },
+  "l09": {
+   "expected": [
+    382686.6747
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "caiso_interconnection_queue"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "caiso_interconnection_queue: the sum of capacity_mw over the 1765 rows with status withdrawn (the snapshot of 2026-11-05)"
+  },
+  "l10": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "paused"
+   ],
+   "tables": [
+    "miso_interconnection_queue"
+   ],
+   "refuse": true,
+   "hold": false,
+   "note": "miso_interconnection_queue is MISO's own: MISO is paused while its terms are reviewed (since 4 October 2026), so the answer is the pause's words and no figure"
+  },
+  "l11": {
+   "expected": [
+    19194.6
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "storage_buildout_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "storage_buildout_monthly, iso:ercot, battery_operating_mw: the 2026-09 row"
+  },
+  "l12": {
+   "expected": [
+    10877.8
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "storage_buildout_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "storage_buildout_monthly, iso:caiso, battery_planned_mw: the 2026-09 row"
+  },
+  "l13": {
+   "expected": [
+    56120.7
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "storage_buildout_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "storage_buildout_monthly, us:total, battery_operating_mw: the 2026-09 row"
+  },
+  "l14": {
+   "expected": [
+    1.6525
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "storage_buildout_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "storage_buildout_monthly, iso:ercot, battery_operating_mwh_per_mw: the 2026-09 row"
+  },
+  "l15": {
+   "expected": [
+    38.7972
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "cost_of_power_monthly, ercot:HB_HUBAVG, da_simple_mean: the 2026-09 row; checked whole: da_hours = hours_in_month = 720"
+  },
+  "l16": {
+   "expected": [
+    36.2065
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "cost_of_power_monthly, spp:SPPNORTH_HUB, da_simple_mean: the 2026-09 row; checked whole: da_hours = hours_in_month = 720"
+  },
+  "l17": {
+   "expected": [
+    97.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "grid_peak_vs_capacity"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "grid_peak_vs_capacity, grid_peak_vs_capacity:ercot, capacity_over_peak_pct: the 2025 row (in_live_set review)"
+  },
+  "l18": {
+   "expected": [
+    0.3866
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "node_basis_summary"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "node_basis_summary, ercot:HB_HUBAVG, dam_all_basis_p50: the 2026-10 row (in_live_set review)"
+  },
+  "l19": {
+   "expected": [
+    33.6161
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "price_board_peak_offpeak"
+   ],
+   "refuse": false,
+   "hold": false,
+   "note": "price_board_peak_offpeak, ercot:HB_HUBAVG, da_year_peak_mean: the 2026 row (the year so far)"
+  },
+  "l20": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "note": "no table of the warehouse holds colocation rents: the answer says so in one sentence and states no figure"
+  }
+ }
+}
