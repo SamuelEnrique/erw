@@ -609,3 +609,7 @@ These four one-record classes are the audit's open rows for sessions 2288 to 229
 ## Session 2285 (chain 179): USD missed beside another currency (1, the third read)
 
 T024: the evidence "EUR 835 million (US$938 million) portfolio financing" and USD empty. `fields.usd_stated` takes a figure the evidence states explicitly in US dollars when the model gave none. **1 to 0**; on the four deal fixtures, only T024 changed.
+
+## Session 2286 (chain 179): a facility's country as a UK nation (1, the third read)
+
+U009 "in Newport, Wales": `facility_country` reads "in <place>, <country>" and counts the four UK nations as the United Kingdom. **1 to 0**; on the three facility fixtures only U009 changed.

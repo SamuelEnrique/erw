@@ -209,3 +209,7 @@ Where the model gives a facility no power source and its story is about one faci
 ### The market a company enters with a facility (session 2276)
 
 The country of a facility is also read from the market its company enters with it ("Gorilla Technology Group to enter US market with proposed 6MW data center acquisition"), after the site's name and "in <country>", and only where one country is so named. A facility is kept where a place is stated, a country included; this one was refused before for no place (`tests/test_session2276_deals.py`).
+
+### A place and its country (session 2286)
+
+A facility's country is also read from a place and its country ("in Newport, Wales", "in San Mateo, Zaragoza, Spain"), and for facilities England, Scotland, Wales and Northern Ireland are the United Kingdom (`tests/test_session2286_deals.py`).

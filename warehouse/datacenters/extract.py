@@ -189,7 +189,9 @@ def facility_country(site_name, raw):
     raw = " ".join(str(raw or "").replace("’", "'").split())
 
     def nouns(words):   # the name and its capital letters (UK, UAE, U.S.), not an adjective
-        return [w for w in words if w == words[0] or w.replace(".", "").isupper()]
+        out = [w for w in words if w == words[0] or w.replace(".", "").isupper()]
+        # session 2286 (chain 179): a facility "in Newport, Wales" is in the United Kingdom
+        return out + (["England", "Scotland", "Wales", "Northern Ireland"] if words[0] == "United Kingdom" else [])
 
     found = {}
     for c, words in F.COUNTRIES.items():
@@ -203,6 +205,8 @@ def facility_country(site_name, raw):
     for c, words in F.COUNTRIES.items():
         for w in nouns(words):
             m = re.search(r"(?<![A-Za-z])in (?:the )?" + re.escape(w) + r"(?![A-Za-z])", raw)
+            # session 2286: or a place and its country, "in Newport, Wales", "San Mateo de Gallego, Zaragoza, Spain"
+            m = m or re.search(r"\bin (?:[A-Z][\w'-]*\s?){1,4}(?:, [A-Z][\w'-]*(?:\s[A-Z][\w'-]*)*)?, " + re.escape(w) + r"(?![A-Za-z])", raw)
             if m:
                 found.setdefault(c, m.group(0))
     if len(found) == 1:
