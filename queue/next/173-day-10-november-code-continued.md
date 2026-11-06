@@ -32,7 +32,13 @@ Long end 1:30 each. One step a session, in chain 163's order, as session 1536 li
 
 ### Unfinished steps (written by session 1536 of chain 163)
 
-(To be filled by session 1536. One line a step, in chain 163's order: the session that owned it, what remains, and the exact commands where the step was a landing.)
+1. Session 1526 (the scenario block's two scrolling tables reachable by keyboard; landing of session 1531): **the landing of `wip/1526-a11y`** (`47ca0b302` on origin). Its gate passed at 13:36 UTC on 6 November: suite 7867 tests OK; `check_values` 7812 of 7812, with only the `/deals` and know-your-grid floors failing; routes, cross-checks and CSP passed by hand. It was held only by the 14:00 to 16:15 UTC window. Not between 14:00 and 16:15 UTC:
+   - `git -C ../erw-1526 fetch origin`, then `git -C ../erw-1526 merge --no-edit origin/main`, then `git -C ../erw-1526 push origin wip/1526-a11y`.
+   - If main brought code since `47ca0b302`, run the gate again: `.venv/Scripts/python.exe scripts/land_check.py --ref wip/1526-a11y --task 1526-a11y --port 3526 --lock-as s1551 --keep-worktree`. If the gate fails only on those two floors, run `node scripts/check-routes.mjs`, `check-cross-checks.mjs` and `check-csp.mjs` against the kept build. If main brought documents only, the earlier gate holds.
+   - `node site/scripts/snapshot-live.mjs take s1551-before`.
+   - Push `task/1526-a11y` only after `git merge-base --is-ancestor origin/main <sha>`, after trial-merging the other `task/` branches.
+   - Wait by sha (`runs/s1523/wait_merge.sh` with the branch name changed), then `take s1551-after` and `compare s1551-before s1551-after`.
+   - Delete `wip/1526-a11y` on origin, and remove `../erw-1526`.
 
 ## Sessions 1558 to 1562: the faults chain 163 left open
 
@@ -40,7 +46,12 @@ Long end 1:30 each. One fault a session, as session 1536 lists them below: the f
 
 ### Open faults (written by session 1536 of chain 163)
 
-(To be filled by session 1536: the faults chain 163 left open, one a line, by owning file. When fewer than five are open, the free sessions take the next item of `docs/roadmap.md` that needs no ruling and no design, saying which.)
+- `site/components/board/` (the price board; the second window's chains 165, 175 and 177 own it today): `/board`'s scrolling region not reachable by keyboard (`#other > details > div > div`, session 1504's AccessLint). The fix is `lib/cells.ts`'s `scrollRegion` on that div. Take it only once the board's stack has landed (no `wip/16xx-board` or `task/1600-*-board` branch on origin); otherwise leave it and say so.
+- `site/app/research/card/` and `site/public/findings/` (the siting cards, the desktop's): 6 picture downloads and 2 links ("Python", "Stata do-file") answer 404 (session 1504). Not this machine's; a line in the report only.
+- `site/app/internal/open/page.tsx` line 31: the token field's `autocomplete="off"` (AccessLint, WCAG 3.3.8). For Samuel's ruling (chain 163's note, question 3); not changed until he rules.
+- The battery page's decisions block (roadmap item 2): for Samuel's ruling (chain 163's note, question 2); a page change, not made until he rules.
+
+Fewer than five are this chain's to fix, so the free sessions take the next item of `docs/roadmap.md` that needs no ruling and no design, saying which. Session 1529 of chain 163 found none left on 6 November (its report).
 
 ## Session 1563: the records and the clean-up
 

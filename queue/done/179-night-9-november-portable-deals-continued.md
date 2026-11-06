@@ -2,7 +2,7 @@
 
 machine: portable-laptop
 
-Written by session 2268 of chain 174 (`queue/done/174-night-8-november-portable-deals-continued.md`) on 6 November 2026, as that chain's rules say: that chain's unfinished steps first, then the audit's open rows. Numbered 179: 178 was taken by the other window's chain the same minute (`178-night-8-november-portable-window2-continued.md`). **Session 2281 updates this file** with what chain 174 did not finish; until it does, the steps below are chain 174's plan for its own tail. For the personal laptop only (named by its machine name, so no other code machine takes it). Model: as the owner sets for the night; the model under the owner's key at USD 3 a session and USD 25 the chain, every call's cost in the report.
+Written by session 2268 of chain 174 (`queue/done/174-night-8-november-portable-deals-continued.md`) on 6 November 2026, as that chain's rules say: that chain's unfinished steps first, then the audit's open rows. Numbered 179: 178 was taken by the other window's chain the same minute (`178-night-8-november-portable-window2-continued.md`). **Updated by session 2281** (6 November 2026, about 14:00 UTC) with what chain 174 did not finish, below under sessions 2283 to 2287. For the personal laptop only (named by its machine name, so no other code machine takes it). Model: as the owner sets for the night; the model under the owner's key at USD 3 a session and USD 25 the chain, every call's cost in the report.
 
 ## Rules for every session
 
@@ -18,7 +18,11 @@ Long end 0:45. The next file (above), committed alone, pushed. The machine (the 
 
 ## Sessions 2283 to 2287: chain 174's unfinished steps
 
-Long end 1:15 each. Each session takes the next unfinished step of chain 174 in its order (session 2281 lists them here), or, if none is left, the next open row of `docs/reviews/deals-audit-2026-11-06.md` in order of count.
+Long end 1:15 each. Each session takes the next unfinished step of chain 174 in this order, or, if none is left, the next open row of `docs/reviews/deals-audit-2026-11-06.md` in order of count. Chain 174's state at its end: nothing of chains 156, 159 and 174 on main; `wip/2281-deals` (sessions 2230 to 2281 stacked, origin/main merged in session 2278) requested of the desktop as row 7 of `docs/state/landing_request_portable.md` (rows 1 and 4 held in it). Every class of the audit's second read is closed in code, by a written decision or by a ruling (the audit file, "The audit after chain 174's sessions 2269 to 2277"). The worktree `erw-2254` holds the site's packages and the newest branch.
+
+1. **The landing of row 7.** If the desktop has landed it, delete the `wip/22NN-deals` branches of the three chains that are ancestors of `origin/main`, remove `erw-2254`, and cut the next branch from `origin/main`. If it still waits: the whole suite on the newest branch with origin/main merged (the gate's environment, `scripts/land_check.py`'s `suite_env`), only when this is the only Claude Code window and 3 GB is free; then, outside 14:00 to 16:15 UTC, the gate (`--ref <the newest branch> --task 2230-<its number>-deals --port 3230`) and its printed commands each on its own, marking the row. If Claude Code stops either for memory, leave the row waiting and go on.
+2. **The owner's rulings**, any answered (the three notes: chain 156's nine, chain 159's six, chain 174's three): each in its own session, with a fixture where it changes the extraction; ruling 2 of chain 156 is the default of `ERW_DEALS_ONE_PARTY`, one line.
+3. **A third read on newer stories**, since no class is open for code: from the main checkout's `warehouse/output/news_stories.csv` (read only), the eligible stories scored after 6 November (or, if none, the latest 200 not in the 2232, 2236 or 2249 fixtures), a fixture of about 50 deal clusters and 30 facility clusters; the model's answers recorded under the cap (`warehouse/deals/eval/fixture.py record`, `dc_fixture.py`), read against the stories' own words in the audit file's form, and any new class taken in order of count in sessions 2288 to 2291.
 
 ## Sessions 2288 to 2291: the audit's open rows
 
