@@ -92,7 +92,7 @@ class TheAddress(unittest.TestCase):
         self.assertIn('{ href: "/research", label: "Research", line: "', group)
         self.assertNotIn('href: "/analysis"', pages)
         self.assertNotIn("Automated Analysis", group)
-        self.assertEqual(re.findall(r'href: "([^"]+)"', group), ["/research", "/ask", "/events", "/policy", "/thesis"])   # nothing else moved in the group
+        self.assertEqual(re.findall(r'href: "([^"]+)"', group), ["/research", "/ask", "/events", "/policy", "/attention", "/thesis"])   # nothing else moved in the group; session 3405 (chain 202) added /attention
 
     def test_no_source_of_the_site_links_the_old_address(self):
         allowed = {os.path.join("lib", "release.ts"), os.path.join("lib", "markdown.ts"), "next.config.ts"}
