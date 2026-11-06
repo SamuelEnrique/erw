@@ -33,7 +33,7 @@ import hunt_measures as hm  # noqa: E402
 
 FAMILY = "generation_pipeline"
 STATES = dict(fuels_carbon.STATES, US="the United States")
-SOURCES = {"SUN": "utility-scale solar", "WND": "wind", "COW": "coal", "NG": "natural gas", "DPV": "small-scale solar"}
+SOURCES = {"SUN": "utility-scale solar", "WND": "wind", "COW": "coal", "NG": "natural gas", "DPV": "small-scale solar", "NUC": "nuclear", "HYC": "conventional hydro"}
 GRIDS = {"iso:ercot": ("ercot_mix", "ERCOT"), "iso:caiso": ("caiso_mix", "CAISO"), "iso:pjm": ("pjm_mix", "PJM")}
 MIX = ("natural_gas", "coal", "nuclear", "wind", "solar", "hydro", "storage", "other")
 MIDDAY, EVENING = (11, 15), (17, 21)
@@ -203,12 +203,13 @@ for y, s in share.groupby(share.index.str[:4].astype(int)):
 
 
 def _state_src(name, region):
-    return region.rsplit("_", 1)[1], {"solar_share": "SUN", "wind_share": "WND", "coal_share": "COW", "gas_share": "NG", "small_solar_ratio": "DPV"}[name]
+    return region.rsplit("_", 1)[1], {"solar_share": "SUN", "wind_share": "WND", "coal_share": "COW", "gas_share": "NG", "small_solar_ratio": "DPV",
+                                      "nuclear_share": "NUC", "hydro_share": "HYC"}[name]   # the last two: nuclear_fleet.py, session 3006
 
 
 def reproduce_py(name, region):
-    P = next(p for p in CANDIDATES if p["name"] == name)
-    label = P["label"][0].upper() + P["label"][1:]
+    P = next((p for p in CANDIDATES if p["name"] == name), None)
+    label = (P["label"][0].upper() + P["label"][1:]) if P else f"{SOURCES[_state_src(name, region)[1]][0].upper()}{SOURCES[_state_src(name, region)[1]][1:]}'s share of the state's net generation over the year"
     if name in ("solar_midday_share", "gas_evening_share"):
         ent = next(k for k, v in GRIDS.items() if v[0] == region)
         src, (h0, h1) = ("solar", MIDDAY) if name == "solar_midday_share" else ("natural_gas", EVENING)

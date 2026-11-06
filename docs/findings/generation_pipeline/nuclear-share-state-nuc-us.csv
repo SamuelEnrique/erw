@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate nuclear_share, region state_nuc_US (the United States)
+# Computed 2026-11-06T11:50:07Z by warehouse/analysis/findings/deep/generation_pipeline.py (nuclear_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: nuclear's share of the state's net generation over the year (percent of net generation), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+state_nuc_US,2001,20.575317857932564,12.0,1
+state_nuc_US,2002,20.21702061488074,12.0,1
+state_nuc_US,2003,19.66768657372542,12.0,1
+state_nuc_US,2004,19.85939836411187,12.0,1
+state_nuc_US,2005,19.28248701242031,12.0,1
+state_nuc_US,2006,19.367190804027814,12.0,1
+state_nuc_US,2007,19.40039157018728,12.0,1
+state_nuc_US,2008,19.571074199776543,12.0,1
+state_nuc_US,2009,20.222472493204734,12.0,1
+state_nuc_US,2010,19.562583824961266,12.0,1
+state_nuc_US,2011,19.272614801261906,12.0,1
+state_nuc_US,2012,19.006320730473348,12.0,1
+state_nuc_US,2013,19.40539709429448,12.0,1
+state_nuc_US,2014,19.473640924645004,12.0,1
+state_nuc_US,2015,19.544835002098658,12.0,1
+state_nuc_US,2016,19.759150598261453,12.0,1
+state_nuc_US,2017,19.94699605421884,12.0,1
+state_nuc_US,2018,19.303679761481717,12.0,1
+state_nuc_US,2019,19.595564336343834,12.0,1
+state_nuc_US,2020,19.698872612682,12.0,1
+state_nuc_US,2021,18.970842415611582,12.0,1
+state_nuc_US,2022,18.23677150148379,12.0,1
+state_nuc_US,2023,18.523142906724775,12.0,1
+state_nuc_US,2024,18.146476495240265,12.0,1
+state_nuc_US,2025,17.74687750348639,12.0,1
+state_nuc_US,2026,17.279944782914946,8.0,0
