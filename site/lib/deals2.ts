@@ -27,9 +27,20 @@ export type Deal = {
   source: string; links: string[];
   /** the ids of the rows folded into this one (warehouse/deals/duplicates.csv) */
   folded: string[];
+  /** session 2240: the kind of warehouse/deals/fields.py (session 2232) where the row has it, else read from the type;
+   * the buyer and seller as one name a company (session 2234) where held, else as extracted; the AI tag's basis */
+  kind: string; buyerName: string; sellerName: string; aiBasis: string;
 };
 
 export type Pair = { duplicate: string; kept: string; ruling: string; reason: string; found: string };
+
+/** Session 2240: the kind of a row extracted before session 2232, read from its type (fields.kind_of's last step;
+ * lib/dealsview.ts reads it the same way). */
+const FORM_KIND: Record<string, string> = {
+  ppa: "ppa", offtake: "offtake", project_finance: "project_finance", m_and_a: "m_and_a", debt: "capital",
+  equity_raise: "capital", tax_equity: "capital", joint_venture: "capital", fuel_supply: "fuel_supply",
+  behind_the_meter: "behind_the_meter", nuclear_restart: "nuclear_restart_uprate", smr: "smr",
+};
 
 /** The six deal types of the panel, and the extraction's own types each one holds. Tolling is not a type the
  * extraction has (warehouse/deals/extract.py, DEAL_TYPES), so it holds none until a later extraction names one. */
@@ -114,6 +125,8 @@ export function toDeal(r: DealRow): Deal {
     termYears: num(x.term_years), ai: String(x.ai_power ?? "").toLowerCase() === "true", storage: isStorage(technology, asset),
     kinds: kindsOf(type, technology, asset),
     source: r.source, links: links.length ? links : [r.source_url].filter(Boolean), folded: [],
+    kind: x.kind || FORM_KIND[type] || "other", buyerName: x.buyer_name || buyer, sellerName: x.seller_name || seller,
+    aiBasis: x.ai_power_basis ?? "",
   };
 }
 
