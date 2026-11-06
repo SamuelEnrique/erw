@@ -32,7 +32,7 @@ Long end 1:30 each. One step a session, in chain 191's order, as session 1727 li
 
 ### Unfinished steps (written by session 1727 of chain 191)
 
-(To be filled by session 1727. One line a step, in chain 191's order: the session that owned it, what remains, and the exact commands where the step was a landing.)
+- None: chain 191's one branch landed (chain 191's note).
 
 ## Sessions 1749 to 1753: the faults chain 191 left open
 
@@ -40,7 +40,10 @@ Long end 1:30 each. One fault a session, as session 1727 lists them below: the f
 
 ### Open faults (written by session 1727 of chain 191)
 
-(To be filled by session 1727: the faults chain 191 left open, one a line, by owning file. When fewer than five are open, the free sessions take the next item of `docs/roadmap.md` that needs no ruling and no design, saying which.)
+- `site/public/findings/` and `site/app/research/card/` (the desktop's): the siting cards' six pictures answer 404. A line in the report only.
+- For Samuel's ruling, not changed: `site/app/internal/open/page.tsx` line 31 (`autocomplete="off"`) and the battery page's decisions block.
+
+None of these is this chain's to fix, so the free sessions take the next item of `docs/roadmap.md` that needs no ruling and no design, saying which. Sessions 1529 (chain 163) and 1687 (chain 189) found none on 6 November. If none is found again, the chain records that in one report and goes to its note.
 
 ## Session 1754: the records and the clean-up
 

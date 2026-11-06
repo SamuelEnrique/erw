@@ -26,7 +26,11 @@ export function regionName(el: HTMLElement): string {
   if (caption) return caption;
   const fig = pick(el.closest("figure")?.querySelector("figcaption"));
   if (fig) return fig;
-  const heading = pick(el.closest("section, details")?.querySelector("h2, h3, summary"));
+  // session 1715: a heading first, the summary only where its fold has none. A selector list returns the first match in
+  // the page's order, and a fold's summary comes before the heading inside it, so the name took the summary's whole text,
+  // its notes run in ("Capacity and equities2 rows" on /board)
+  const box = el.closest("section, details");
+  const heading = pick(box?.querySelector("h2, h3") ?? box?.querySelector("summary"));
   if (heading) return heading;
   return el.tagName === "PRE" ? "Code" : "Table";
 }
