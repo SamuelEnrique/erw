@@ -308,3 +308,51 @@ The shares are those of the 14 days before (0.106 of scored stories reach the de
 | Row | State after session 2237 |
 |---|---|
 | A16 the failure line and a failed day | done: the API's words, a stop at the limit, retries, no table rewritten |
+
+## Session 2249: the second read
+
+The audit's 106 deals and 60 facilities read again: their stories (172 and 82, stored text only) extracted afresh with the code of sessions 2232 to 2237 in a temporary folder (claude-sonnet-5-5: 10 calls, USD 0.4258; 7 calls, USD 0.2254; recorded as `tests/fixtures/deals/recorded_2249.json` and `tests/fixtures/datacenters/recorded_2249.json`), and the new rows graded on the first read's rubric by three readers of this session. Each record's grade and note: `docs/reviews/deals-audit-2026-11-06/second_read_deals.csv` and `second_read_facilities.csv`; the counts by `second_read_tally.py`. The two reads had different readers; where one reader's call differs from the other's (a fund close with no investor named: a deal in the first read, not one in the second), the count moves without the extraction moving, and the notes say so.
+
+### Deals (106)
+
+| Class | Before | After |
+|---|---|---|
+| Not a deal, and a row kept | 12 | **1** (D055, G42's Vietnam project with no counterparty) |
+| A stated deal with no row | 0 | **6** (D022 Black Hills and Google; D031 Sellafield's unnamed partners; D061 ONEOK and MPLX; D071 Volta's raise; D084 Shell and Monomoy; D092 Crescent's sale) |
+| Place missed | 17 | 12 |
+| Status missed | 14 | 7 |
+| Status unsupported | 1 | 1 (D062 "Divests" kept as closed) |
+| Kind wrong or no word for it | 11 | 8 (capacity leases kept as other: D007, D050, D053; "Illinois Nuclear Upgrades" not an uprate: D012) |
+| A party a description | 7 | **0** |
+| A party wrong | 4 | 1 (D001: Google, the credit backstop, as seller) |
+| A party missed or incomplete | 1 | 3 (D045 Engine No. 1; D104 and D105, the company acquired left out of seller) |
+| AI-power tag wrong | 6 | 2 (D005 a motive; D104 Eaton, a supplier to datacenters) |
+| MW missed | 3 | **0** |
+| A figure wrong or invented | 3 | 2 (D045 a plant's cost as the deal's; D053 the bonds funding a building as the lease's) |
+| USD missed | 2 | 1 |
+| Term missed | 1 | 0 |
+| Confidence too low | 3 | 0 |
+| Confidence too high | 1 | 0 |
+
+Two distinct deals the stories state got no row of their own: Sempra's 20-year agreement with Petrobras (D032) and NiSource's expanded Amazon agreement (D043).
+
+### Facilities (60)
+
+| Class | Before | After |
+|---|---|---|
+| Not a facility, and a row kept | 5 | 1 (F052, a state only) |
+| A stated facility with no row | 0 | 2 (F017 Gorilla's acquisition, F028 the Columbus cluster) |
+| Two places in one row | 3 (counted as class 8 in the first read) | **0** (xAI's Tennessee and Mississippi, Maine and Alaska, each split) |
+| MW basis unstated or wrong | 14 unstated | 1 wrong (F049 "total" on "2.5 GW data centre park") |
+| Status missed | 9 | 2 |
+| Status wrong | 3 | 1 (F039 "Pauses" as cancelled) |
+| State missed | 5 | 2 (F015 "Western Kentucky", F034 "Hutto, Texas") |
+| Operator missed or wrong | 5 | 3 |
+| Site missed | 1 | 0 |
+| Power source missed | 2 | 2 (F032 "generator fleet", F060 "Gas-Powered Data Center") |
+| Timeline missed or wrong | 2 | 0 |
+| Confidence too low | 6 | 0 |
+
+### Into the next file (`queue/next/159-night-7-november-portable-deals-continued.md`)
+
+The classes still above zero, in order of count: deals' place missed (12), kind (8, capacity leases and the uprate words), status missed (7), stated deals with no row (6) and a second deal of one story with no row (2), parties incomplete (3); facilities' operator (3), state (2), power source (2), stated facilities with no row (2).
