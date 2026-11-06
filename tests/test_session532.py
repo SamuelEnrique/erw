@@ -78,7 +78,7 @@ class ThePageSaysWhatTheBriefDoes(unittest.TestCase):
         self.assertRegex(sel, r"AI_MIN_SIG[^\n]*\.head\(5\)")
         self.assertRegex(sel, r"by_group\[g\] = [^\n]*\.head\(3\)")
         self.assertIn("top10, folded = one_per_topic(clusters, 10, log)", sel)   # session 802: one topic, one item
-        self.assertIn(".values())[:3]", inspect.getsource(brief.build_clusters))
+        self.assertIn(".values()))[:3]", inspect.getsource(brief.build_clusters))   # session 1442: the outlet's own page first, then three
         same = inspect.getsource(brief.same_event)
         self.assertIn("len(both) >= 4", same)
         ev = inspect.getsource(brief.event_figures)
