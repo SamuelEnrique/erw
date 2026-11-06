@@ -54,9 +54,18 @@ class TheSet(unittest.TestCase):
             self.assertIn("hold", q)
             if q["hold"]:
                 self.assertTrue(q["refuse"] and q["text"] == ["license needed"], q["id"])
-        self.assertEqual(sorted(q["id"] for q in qs if q["hold"]), ["l01", "l02", "l03", "l04"])
+        # no figure key names a table the site holds for a license, whole or for the question's grid (the script checks the status file)
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "chat"))
+        import license_hold as hold
+        for q in qs:
+            if not q["refuse"]:
+                t = q["tables"][0]
+                self.assertFalse(hold.held_whole(t), q["id"])
+                if q["grid"] != "none":
+                    self.assertFalse(hold.held_row(t, f"{hold.GRID_PREFIX[q['grid']]}:x"), q["id"])
+        self.assertEqual(sorted(q["id"] for q in qs if q["hold"]), ["l01", "l02", "l03", "l04", "l08"])   # l08: ISO-NE's queue, held by grid
         self.assertEqual([q["id"] for q in qs if q["refuse"] and not q["hold"]], ["l10", "l20"])
-        self.assertEqual(sum(1 for q in qs if not q["refuse"]), 14)
+        self.assertEqual(sum(1 for q in qs if not q["refuse"]), 13)
 
     def test_the_keys_file_is_the_set_key_for_key(self):
         qs = {q["id"]: q for q in load_set()["questions"]}

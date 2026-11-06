@@ -90,13 +90,13 @@ questions:
   grid: ISO-NE
   via: grid
   question: "How many MW are active in ISO-NE's interconnection queue, summed over its active requests?"
-  expected: [9225.87]
-  tolerance: 0.5
-  text: []
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
   tables: ["isone_interconnection_queue"]
-  refuse: false
-  hold: false
-  note: "isone_interconnection_queue: the sum of capacity_mw over the 50 rows with status active (the snapshot of 2026-11-05)"
+  refuse: true
+  hold: true
+  note: "isone_interconnection_queue is ISO-NE's own and held for a license (site/data/license_status.json): the hold's words and no figure, as a refusal or as an answer"
 - id: l09
   grid: CAISO
   via: grid
@@ -186,8 +186,8 @@ questions:
   hold: false
   note: "cost_of_power_monthly, spp:SPPNORTH_HUB, da_simple_mean: the 2026-09 row; checked whole: da_hours = hours_in_month = 720"
 - id: l17
-  grid: ERCOT
-  via: grid
+  grid: none
+  via: general
   question: "By what percentage did ERCOT's installed capacity exceed its 2025 peak demand, the grid's reserve margin on capacity?"
   expected: [97.0]
   tolerance: 0.01

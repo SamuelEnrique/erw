@@ -4,10 +4,11 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 
 | Class | Refusals | Graded right |
 |---|---|---|
-| MISO's pause | 6 | 6 of 6 graded |
+| MISO's pause | 7 | 7 of 7 graded |
+| a license hold | 5 | 5 of 5 graded |
 | the warehouse lacks the figure | 10 | 6 of 10 graded |
 
-In all: 16 refusals.
+In all: 22 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -27,3 +28,9 @@ In all: 16 refusals.
 | session 2222, Python loop | d10 | 1 | the warehouse lacks the figure | wrong |
 | session 2223, Python loop | g10 | 9 | MISO's pause | right |
 | session 2223, Python loop | d10 | 2 | the warehouse lacks the figure | right |
+| session 2224, Python loop, the twenty | l01 | 3 | a license hold | right |
+| session 2224, Python loop, the twenty | l02 | 12 | a license hold | right |
+| session 2224, Python loop, the twenty | l03 | 12 | a license hold | right |
+| session 2224, Python loop, the twenty | l04 | 8 | a license hold | right |
+| session 2224, Python loop, the twenty | l10 | 4 | MISO's pause | right |
+| session 2224, Python loop, the twenty | l20 | 12 | a license hold | right |

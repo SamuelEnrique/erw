@@ -114,11 +114,26 @@ def catalogue():
     return {c["table_name"]: c for c in get("catalogue", select="table_name,in_live_set,license,n_rows,ts_min,ts_max")}
 
 
+def held(table, grid=None):
+    """Whether the site holds the table for a license (site/data/license_status.json, the file both loops read): whole, or
+    the given grid's rows of it. A figure key is never written for a held table (the first asking of 6 November 2026
+    wrote one for ISO-NE's queue, and the loop's right answer, the hold's words, was graded wrong)."""
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "chat"))
+    import license_hold as hold
+    if not hold.license_needed(table):
+        return False
+    if hold.held_whole(table):
+        return True
+    return bool(grid) and hold.held_row(table, f"{hold.GRID_PREFIX.get(grid, grid.lower())}:x")
+
+
 def tolerance(x):
     return 0.5 if abs(x) >= 1000 else 0.01
 
 
 def figure(qid, grid, via, question, table, value, note, text=()):
+    if held(table, grid if grid != "none" else None):
+        raise SystemExit(f"{qid}: {table} is held for a license ({grid}); a figure key cannot be written for it")
     return {"id": qid, "grid": grid, "via": via, "question": question, "expected": [round(value, 4)], "tolerance": tolerance(value),
             "text": list(text), "tables": [table], "refuse": False, "hold": False, "note": note}
 
@@ -150,12 +165,18 @@ def build():
     # the interconnection queues: MW by status, the ISOs' own tables (entities, a snapshot)
     for qid, grid, table, status, words in (("l05", "ERCOT", "ercot_interconnection_queue", "active", "ERCOT's interconnection queue"),
                                             ("l06", "CAISO", "caiso_interconnection_queue", "active", "CAISO's interconnection queue"),
-                                            ("l07", "SPP", "spp_interconnection_queue", "active", "SPP's interconnection queue"),
-                                            ("l08", "ISO-NE", "isone_interconnection_queue", "active", "ISO-NE's interconnection queue"),
-                                            ("l09", "CAISO", "caiso_interconnection_queue", "withdrawn", "CAISO's interconnection queue")):
+                                            ("l07", "SPP", "spp_interconnection_queue", "active", "SPP's interconnection queue")):
         mw, n = queue_mw(table, status)
         qs.append(figure(qid, grid, "grid", f"How many MW are {status} in {words}, summed over its {status} requests?", table, mw,
                          f"{table}: the sum of capacity_mw over the {n} rows with status {status} (the snapshot of {cat[table]['ts_max'][:10]})"))
+    # ISO-NE's queue is ISO-NE's own table, held for a license (by grid): the hold's answer, as session 1112 grades a held grid
+    if not held("isone_interconnection_queue", "ISO-NE"):
+        raise SystemExit("isone_interconnection_queue is no longer held: l08 wants a figure key again")
+    qs.append(refusal("l08", "ISO-NE", "grid", "How many MW are active in ISO-NE's interconnection queue, summed over its active requests?", [LICENSE],
+                      "isone_interconnection_queue is ISO-NE's own and held for a license (site/data/license_status.json): the hold's words and no figure, as a refusal or as an answer", hold=True, tables=["isone_interconnection_queue"]))
+    mw, n = queue_mw("caiso_interconnection_queue", "withdrawn")
+    qs.append(figure("l09", "CAISO", "grid", "How many MW are withdrawn in CAISO's interconnection queue, summed over its withdrawn requests?", "caiso_interconnection_queue", mw,
+                     f"caiso_interconnection_queue: the sum of capacity_mw over the {n} rows with status withdrawn (the snapshot of {cat['caiso_interconnection_queue']['ts_max'][:10]})"))
     qs.append(refusal("l10", "MISO", "grid", "How many MW are active in MISO's interconnection queue?", ["paused"],
                       "miso_interconnection_queue is MISO's own: MISO is paused while its terms are reviewed (since 4 October 2026), so the answer is the pause's words and no figure", tables=["miso_interconnection_queue"]))
     # storage on the grids: the September 2026 rows of storage_buildout_monthly
@@ -176,7 +197,9 @@ def build():
         qs.append(figure(qid, grid, "grid", f"What was the simple average day-ahead price at {words} in September 2026, in USD per MWh?", CP, v,
                          f"{CP}, {ent}, da_simple_mean: the {month} row; checked whole: da_hours = hours_in_month = {int(in_month)}"))
     v = year_value(GP, "grid_peak_vs_capacity:ercot", "capacity_over_peak_pct", 2025)
-    qs.append(figure("l17", "ERCOT", "grid", "By what percentage did ERCOT's installed capacity exceed its 2025 peak demand, the grid's reserve margin on capacity?", GP, v,
+    # l17 through the general chat: the grids' chats see the tables the rule of docs/grids/grid_tables.json admits, and a table whose
+    # entities are <table>:<grid> (grid_peak_vs_capacity:ercot) is not among ERCOT's, so its chat said "not in the warehouse" (02:19 UTC)
+    qs.append(figure("l17", "none", "general", "By what percentage did ERCOT's installed capacity exceed its 2025 peak demand, the grid's reserve margin on capacity?", GP, v,
                      f"{GP}, grid_peak_vs_capacity:ercot, capacity_over_peak_pct: the 2025 row (in_live_set review)"))
     v = month_value(NB, E, "dam_all_basis_p50", "2026-10")
     qs.append(figure("l18", "ERCOT", "grid", "What was the median day-ahead basis of ERCOT's nodes to the hub average in October 2026, in USD per MWh?", NB, v,
