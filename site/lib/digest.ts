@@ -91,7 +91,7 @@ const isChart = (t: string) => /^ERW's Chart of the Day$/i.test(t);
 const NUM = "-?\\d[\\d,]*\\.\\d+|-?\\d[\\d,]*";
 const plain = (s: string) => s.replace(/,/g, "");
 
-type Place = { line: number; from: string; unit: string; label?: string; cell?: number };   // where a figure sits: its line, the text replaced, the unit kept after it, the row's name; a table figure's cell
+type Place = { line: number; from: string; unit: string; cell?: number; label?: string };   // where a figure sits: its line, the text replaced, the unit kept after it; a table figure's cell; the row's name
 
 /** Session 2207 (Samuel's ruling of 23 October 2026, item 7 of docs/reviews/deals-rulings-2026-10-23.md): a figure the
  *  warehouse holds at another value than the stored issue printed. The issue keeps its figure; the page adds one line

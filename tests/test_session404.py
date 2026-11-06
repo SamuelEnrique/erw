@@ -54,7 +54,7 @@ class ThePage(unittest.TestCase):
         self.assertIn('export const TABLE = "eia930_demand_growth";', src(*LIB))
         self.assertIn("const key = (entity: string, variable: string, y: number) => `series|${TABLE}|${entity}|${variable}|${isoKey(yearTs(y))}`;", p)
         self.assertEqual(p.count("<Num "), 1)                     # one figure writer, N, keyed by the row it shows
-        self.assertIn("<Num check={key(entity, v, y)} raw={x}>{text}</Num>", p)
+        self.assertIn("<Num check={key(entity, v, y)} raw={x} source={sourceOf(key(entity, v, y), gridName(entity))}>{text}</Num>", p)  # session 2201: the source words in the hover
         # a sign is written outside the number, so the text check-values reads is the number as stored
         self.assertIn('{(pct || v.startsWith("growth_")) && x > 0 ? "+" : ""}<Num', p)
 

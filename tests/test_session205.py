@@ -198,7 +198,21 @@ class TheFiles(unittest.TestCase):
         # chain 128's sessions from 2588 add their reads from 1139, so the bound is raised by 40
         # chain 129's sessions from 2602 add their reads from 1169, so the bound is raised by 40
         # chain 130's sessions from 2616 add their reads from 1222, so the bound is raised by 40
-        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 40 + 20 + 20 + 20 + 40 + 20 + 20 + 40 + 20 + 40 + 20 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40)
+        # chain 131's sessions from 2630 add their reads from 1267, so the bound is raised by 40
+        # chain 132's sessions from 2644 add their reads from 1296, so the bound is raised by 40
+        # chain 133's sessions from 2658 add their reads from 1335, so the bound is raised by 40
+        # chain 134's sessions from 2672 add their reads from 1373, so the bound is raised by 40
+        # chain 135's sessions from 2686 add their reads from 1401, so the bound is raised by 40
+        # chain 136's sessions from 2708 add their reads from 1425, so the bound is raised by 40
+        # chain 137's sessions from 2722 add their reads from 1450, so the bound is raised by 40
+        # chain 138's sessions from 2736 add their reads from 1467, so the bound is raised by 40
+        # chain 139's sessions from 2750 add their reads from 1481, so the bound is raised by 40
+        # chain 140's sessions from 2764 add their reads from 1509, so the bound is raised by 40
+        # chain 141's sessions from 2778 add their reads from 1566, so the bound is raised by 40
+        # chain 142's sessions from 2792 add their reads from 1588, so the bound is raised by 40
+        # chain 143's sessions from 2806 add their reads from 1600, so the bound is raised by 40
+        # chain 144's sessions from 2820 add their reads from 1629, so the bound is raised by 40
+        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 40 + 20 + 20 + 20 + 40 + 20 + 20 + 40 + 20 + 40 + 20 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40 + 40)
         self.assertEqual(len({r["publisher"] for r in reads}), len(reads))          # one page a publisher
         miso = [r for r in reads if "MISO" in r["publisher"]]
         self.assertEqual(len(miso), 1)

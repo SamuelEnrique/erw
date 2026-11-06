@@ -86,6 +86,19 @@ const FIGURES = ["last", "moves", "range", "avg7", "avg30", "lo30", "hi30", "spa
 export function heldNote(grid: string): string {
   return `${grid}'s own terms ask for permission to republish its prices, and none is recorded yet (docs/licenses.md, site/data/license_status.json): license needed. This row is held, not shown, until a permission is recorded.`;
 }
+/** Session 1193: a group's rows split for drawing: the rows shown in place (every row but a held grid's), and the held
+ *  grids' rows by grid, in the order each grid first appears. The rows themselves are not changed. Pure. */
+export function heldLines(rows: Row[]): { shown: Row[]; held: { grid: string; rows: Row[] }[] } {
+  const shown: Row[] = [];
+  const held = new Map<string, Row[]>();
+  for (const r of rows) {
+    if (r.status !== "license") { shown.push(r); continue; }
+    const g = gridOfRow(r) || "Held";
+    held.set(g, [...(held.get(g) ?? []), r]);
+  }
+  return { shown, held: [...held].map(([grid, rs]) => ({ grid, rows: rs })) };
+}
+
 export function holdRows(file: BoardFile, heldGrids: string[]): BoardFile {
   const held = new Set(heldGrids.filter((g) => g !== "MISO" && g !== "PJM"));
   if (!held.size) return { ...file, held: [] };
@@ -292,8 +305,10 @@ export function csv(head: string[], rows: (string | number | null)[][]): string 
 // Session 1137: the rows the board draws, as a CSV, from the file the page draws (after holdRows, so a held row carries
 // no figure): a "#" header as the data standard writes one (what it is, where each row comes from, when it was built,
 // the license), then one line a row. Every figure is the file's, as the page shows it; nothing is read again.
+// Session 1311: a held row's line carries the hold's words (heldNote) in `hold`, as the page says them on the grid's
+// line (session 1193), and the header counts the held rows by grid.
 export const ROWS_HEAD = ["id", "group", "label", "at", "code", "unit", "freq", "status", "latest_date", "latest", "day_move", "week_move", "month_move", "year_move",
-  "avg_7d", "avg_30d", "low_365d", "high_365d", "source"];
+  "avg_7d", "avg_30d", "low_365d", "high_365d", "source", "hold"];
 export function rowsCsv(file: BoardFile): string {
   const header = [
     "# Energy Research Warehouse (ERW): the price board's rows as /board draws them, one line a row (site/lib/board.ts rowsCsv)",
@@ -301,11 +316,12 @@ export function rowsCsv(file: BoardFile): string {
     "# Source: each row's source column names the publisher and the ERW table; the method: docs/methods/price_board.md",
     "# License: every row with a value is public; a row whose status is license, licensed, paused or not_held carries no figure",
     ...(file.held?.length ? [`# Held for a license on the day the page was built: ${file.held.join(", ")} (license needed)`] : []),
+    ...(file.held?.length ? [`# Held rows by grid: ${file.held.map((g) => `${g} ${file.rows.filter((r) => r.status === "license" && gridOfRow(r) === g).length}`).join(", ")}; each carries no figure, and its hold column the hold's words`] : []),
   ];
   const n = (v: number | null | undefined) => (typeof v === "number" ? v : null);
   const rows = file.rows.map((r) => [r.id, r.group, r.label, r.at, r.code, r.unit, r.freq, r.status, r.last?.t ?? null, n(r.last?.v),
     n(r.moves?.d?.ch), n(r.moves?.w?.ch), n(r.moves?.m?.ch), n(r.moves?.y?.ch), n(r.avg7?.v), n(r.avg30?.v), n(r.range?.lo), n(r.range?.hi),
-    r.source !== undefined ? file.sources[r.source] ?? null : null]);
+    r.source !== undefined ? file.sources[r.source] ?? null : null, r.status === "license" ? heldNote(gridOfRow(r)) : null]);
   return `${header.join("\n")}\n${csv(ROWS_HEAD, rows)}`;
 }
 

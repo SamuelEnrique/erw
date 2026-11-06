@@ -289,6 +289,61 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^eurostat_supply_diversity_annual$", "power;gas;oil;coal"),  # session 2832: Eurostat's nrg_ind_di, the diversity index of energy supply a year
+    (r"^eurostat_import_concentration_annual$", "power;gas;oil;coal"),  # session 2827: Eurostat's nrg_ind_ioc, the EU's energy import origin concentration by fuel a year
+    (r"^eurostat_fossil_share_annual$", "power"),  # session 2826: Eurostat's nrg_ind_ffgae, the share of fossil fuels in gross available energy a year
+    (r"^hops_croatia_annual$", "power"),  # session 2823: HOPS, Croatia's transmission network a year: production, exchange, load, losses
+    (r"^eles_slovenia_hourly$", "power"),  # session 2822: ELES, production and take-over on Slovenia's transmission network an hour from 2021
+    (r"^eurostat_gas_import_origin_annual$", "gas"),  # session 2821: Eurostat's nrg_ind_idogas, European natural gas import dependency by country of origin, 2015 to 2020
+    (r"^eurostat_nonhousehold_bands_annual$", "power"),  # session 2820: Eurostat's nrg_pc_205_v, non-household electricity by consumption band a year
+    (r"^eurostat_industry_electricity_annual$", "power"),  # session 2818: Eurostat's nrg_d_indq_n, European industry's electricity by NACE activity a year
+    (r"^eurostat_ev_recharging_power_annual$", "power"),  # session 2813: Eurostat's road_if_rchevpow, European EV recharging points by power category a year
+    (r"^eurostat_nuclear_fuel_cycle_annual$", "power;uranium"),  # session 2812: Eurostat's nrg_inf_nuc, Europe's nuclear fuel cycle facilities and nuclear heat a year
+    (r"^czso_cz_regional_electricity_annual$", "power"),  # session 2809: the CZSO's Comparison of Regions, Czech regions' electricity capacity, production and consumption
+    (r"^bfe_ch_electricity_wednesdays$", "power"),  # session 2808: the SFOE's weekly electricity balance (ogd51), Switzerland's balance on each Wednesday from 2003
+    (r"^destatis_de_electricity_monthly$", "power"),  # session 2807: Destatis's monthly report, Germany's general supply plants' electricity and heat by energy source
+    (r"^eurostat_electrification_rate_annual$", "power"),  # session 2806: Eurostat's nrg_ind_re, electricity's share of final energy consumption by sector a year
+    (r"^eurostat_ev_recharging_annual$", "power"),  # session 2804: Eurostat's road_if_rchev, European EV recharging pools, stations, points and power output a year
+    (r"^eurostat_data_centre_electricity_annual$", "power"),  # session 2799: Eurostat's isoc_env_ict_nrg, European data centres' electricity consumption a year
+    (r"^eurostat_household_electricity_annual$", "power"),  # session 2798: Eurostat's nrg_d_hhq, European households' electricity by end use a year
+    (r"^statat_austria_electricity_monthly$", "power"),  # session 2795: Statistics Austria's monthly electricity statistics from 2023
+    (r"^eurostat_import_dependency_annual$", "power"),  # session 2790: Eurostat's nrg_ind_id, European energy import dependency by product a year
+    (r"^statec_lu_supplier_mix_annual$", "power"),  # session 2785: STATEC's LUSTAT DF_A4209, the mix of electricity provided to Luxembourg's end users (CC0 1.0)
+    (r"^statec_lu_power_capacity_annual$", "power"),  # session 2784: STATEC's LUSTAT DF_A4201, Luxembourg's power stations' net maximum power and number (CC0 1.0)
+    (r"^statec_lu_electricity_trade_annual$", "power"),  # session 2776: STATEC's LUSTAT DF_A4208, Luxembourg's electricity imports and exports by country (CC0 1.0)
+    (r"^statec_lu_electricity_generation_annual$", "power"),  # session 2771: STATEC's LUSTAT DF_A4203, Luxembourg's electricity generation a year from 1928 (CC0 1.0)
+    (r"^statbel_be_electricity_production_annual$", "power"),  # session 2770: Statbel's beSTAT, Belgium's gross electricity production by product (CC BY 4.0)
+    (r"^ine_es_dwellings_electricity_2021$", "power"),  # session 2765: INE's 2021 census, Spain's dwellings by electricity consumption (CC BY 4.0)
+    (r"^statat_austria_electricity_annual$", "power"),  # session 2764: Statistics Austria's energy balances, Austria's electricity balance a year from 1970
+    (r"^eurostat_renewable_shares_annual$", "power"),  # session 2762: Eurostat's nrg_ind_ren, European renewable energy shares a year
+    (r"^eurostat_electricity_consumption_annual$", "power"),  # session 2757: Eurostat's nrg_cb_e, European electricity consumption by sector a year
+    (r"^dst_dk_electricity_supply_annual$", "power"),  # session 2756: Statistics Denmark's ENE1HT, Denmark's electricity supply a year from 1966 (CC BY 4.0)
+    (r"^wapa_energy_sales_annual$", "power"),  # session 2751: WAPA's energy sold and power rate by project, each fiscal year (DOE, public domain)
+    (r"^desnz_uk_fuel_used_generation_annual$", "power"),  # session 2748: DESNZ's DUKES 5.3, the fuel used in UK electricity generation (OGL v3.0)
+    (r"^desnz_uk_mpp_capacity_countries_annual$", "power"),  # session 2743: DESNZ's DUKES 5.8, the major power producers' capacity by UK country (OGL v3.0)
+    (r"^desnz_uk_capacity_by_connection_annual$", "power"),  # session 2742: DESNZ's DUKES 5.12, the UK's installed capacity by connection (OGL v3.0)
+    (r"^desnz_uk_derated_capacity_annual$", "power"),  # session 2734: DESNZ's DUKES 5.7, the UK's de-rated plant capacity a year (OGL v3.0)
+    (r"^desnz_uk_co2_intensity_annual$", "carbon"),  # session 2729: DESNZ's DUKES 5.14, the CO2 intensity of the UK's electricity supplied (OGL v3.0)
+    (r"^desnz_uk_plant_loads_annual$", "power"),  # session 2728: DESNZ's DUKES 5.10, the UK's maximum load, load factors and efficiency (OGL v3.0)
+    (r"^desnz_uk_storage_annual$", "power"),  # session 2720: DESNZ's DUKES 5.16, the UK's electricity storage a year (OGL v3.0)
+    (r"^desnz_uk_interconnector_flows_annual$", "power"),  # session 2715: DESNZ's DUKES 5.13, the UK's interconnector flows a year (OGL v3.0)
+    (r"^desnz_uk_power_stations$", "power"),  # session 2714: DESNZ's DUKES 5.11, the major power producers' power stations in the UK (OGL v3.0)
+    (r"^nspower_ns_load_hourly$", "power"),  # session 2708: NS Power's OASIS hourly total net Nova Scotia load (internal)
+    (r"^desnz_gb_regional_gas_consumption_annual$", "gas"),  # session 2698: DESNZ's gas consumption and meters by GB country and region, weather corrected (OGL v3.0)
+    (r"^desnz_gb_regional_consumption_annual$", "power"),  # session 2693: DESNZ's electricity consumption and meters by GB country and region (OGL v3.0)
+    (r"^desnz_regional_renewable_capacity_annual$", "power"),  # session 2692: DESNZ's installed renewable capacity by UK region and technology (OGL v3.0)
+    (r"^desnz_regional_renewables_annual$", "power"),  # session 2684: DESNZ's renewable generation by UK region and technology (OGL v3.0)
+    (r"^bchydro_ba_load_hourly$", "power"),  # session 2679: BC Hydro's balancing authority load an hour (internal)
+    (r"^desnz_uk_nations_electricity_annual$", "power"),  # session 2678: DESNZ's electricity generation and supply for each UK nation (OGL v3.0)
+    (r"^asub_aland_electricity_sales_annual$", "power"),  # session 2670: ASUB's PxWeb table MI010, Aland's electricity sales by distributor and sector (CC BY 4.0)
+    (r"^aedg_alaska_generation_monthly$", "power"),  # session 2665: the Alaska Energy Data Gateway's monthly generation by service area and fuel (CC BY 4.0)
+    (r"^stat_kz_kazakhstan_electricity_annual$", "power"),  # session 2664: the Bureau of National Statistics of Kazakhstan's fuel and energy balance, the electricity column
+    (r"^cosit_iraq_electricity_annual$", "power"),  # session 2661: COSIT's electricity projects statistics, Iraq's production, purchases, sales and losses
+    (r"^stat_tj_tajikistan_electricity_annual$", "power"),  # session 2659: the Agency on Statistics of Tajikistan's electricity output, trade and consumption (CC BY 4.0)
+    (r"^edf_sei_islands_electricity_annual$", "power"),  # session 2656: EDF SEI's annual production by source on the French island grids (Licence Ouverte)
+    (r"^asub_aland_electricity_annual$", "power"),  # session 2651: ASUB's PxWeb table MI009, Aland's electricity supply by origin (CC BY 4.0)
+    (r"^statai_anguilla_electricity_monthly$", "power"),  # session 2642: the Anguilla Statistics Department's Energy Statistics, Table 2.4.2-1, electricity generation a month (ANGLEC)
+    (r"^eso_cayman_electricity_annual$", "power"),  # session 2633: ESO's Compendium of Statistics 2024, Table 20.01, Grand Cayman's electricity capacity, production and consumption by class
     (r"^asli_liechtenstein_electricity_annual$", "power"),  # session 2622: the Amt fuer Statistik Liechtenstein's Energie 2025, Tabelle 5, electricity production, trade and consumption since 1985
     (r"^nawec_gambia_electricity_monthly$", "power"),  # session 2617: NAWEC's Annual Activity Report 2022, Table 3, the Gambia's electricity a month by source
     (r"^ope_pf_electricity_annual$", "power"),  # session 2609: the Observatoire Polynesien de l'Energie's energy balance, edition 2024, French Polynesia's electricity a year

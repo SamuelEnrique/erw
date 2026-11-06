@@ -122,7 +122,7 @@ A rule is information. There are three, and nothing else is ruled:
 - A value off the scale is broken and written, as the battery page's 2021 is. An incomplete period is hatched and says how much of it is held.
 - **The hover card** is fog with a rule-colored edge: the period in sans 12 px, each series named in sans with its figure in mono. Whatever the card says is also reachable by keyboard and as a table under the chart.
 - Colors are tokens. No hex value is written in a component (session 201 found them in five files of the battery page).
-- **Heat maps** (the owner's ruling of 20 October 2026): one color, the accent, for a magnitude; where the figure is signed, a two-hue ramp, the accent above zero and the blue (`--chart-blue`) below, each cell as strong as its distance from zero. No range slider on any chart (the same ruling).
+- **Heat maps** (the owner's ruling of 20 October 2026): one color, the accent, for a magnitude; where the figure is signed, a two-hue ramp, the accent above zero and the blue (`--chart-blue`) below, each cell as strong as its distance from zero. No range slider on any chart (the same ruling). The one exception is carbon intensity on the grid network (the owner's instruction of 29 October 2026): clean to dirty is read as a signed scale, so it runs green (`--color-intensity-low`) through fog (`--color-intensity-mid`, the middle of the held range) to cardinal (`--color-intensity-high`).
 
 ## 7. Assumptions
 

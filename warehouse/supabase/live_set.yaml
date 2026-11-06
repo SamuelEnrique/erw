@@ -417,6 +417,61 @@ catalogue_hold:
   - eia_gas_other_uses_state_annual
   - elexon_gb_demand_daily
   - energinet_dk_production_hourly
+  - eurostat_supply_diversity_annual
+  - eurostat_import_concentration_annual
+  - eurostat_fossil_share_annual
+  - hops_croatia_annual
+  - eles_slovenia_hourly
+  - eurostat_gas_import_origin_annual
+  - eurostat_nonhousehold_bands_annual
+  - eurostat_industry_electricity_annual
+  - eurostat_ev_recharging_power_annual
+  - eurostat_nuclear_fuel_cycle_annual
+  - czso_cz_regional_electricity_annual
+  - bfe_ch_electricity_wednesdays
+  - destatis_de_electricity_monthly
+  - eurostat_electrification_rate_annual
+  - eurostat_ev_recharging_annual
+  - eurostat_data_centre_electricity_annual
+  - eurostat_household_electricity_annual
+  - statat_austria_electricity_monthly
+  - eurostat_import_dependency_annual
+  - statec_lu_supplier_mix_annual
+  - statec_lu_power_capacity_annual
+  - statec_lu_electricity_trade_annual
+  - statec_lu_electricity_generation_annual
+  - statbel_be_electricity_production_annual
+  - ine_es_dwellings_electricity_2021
+  - statat_austria_electricity_annual
+  - eurostat_renewable_shares_annual
+  - eurostat_electricity_consumption_annual
+  - dst_dk_electricity_supply_annual
+  - wapa_energy_sales_annual
+  - desnz_uk_fuel_used_generation_annual
+  - desnz_uk_mpp_capacity_countries_annual
+  - desnz_uk_capacity_by_connection_annual
+  - desnz_uk_derated_capacity_annual
+  - desnz_uk_co2_intensity_annual
+  - desnz_uk_plant_loads_annual
+  - desnz_uk_storage_annual
+  - desnz_uk_interconnector_flows_annual
+  - desnz_uk_power_stations
+  - nspower_ns_load_hourly
+  - desnz_gb_regional_gas_consumption_annual
+  - desnz_gb_regional_consumption_annual
+  - desnz_regional_renewable_capacity_annual
+  - desnz_regional_renewables_annual
+  - bchydro_ba_load_hourly
+  - desnz_uk_nations_electricity_annual
+  - asub_aland_electricity_sales_annual
+  - aedg_alaska_generation_monthly
+  - stat_kz_kazakhstan_electricity_annual
+  - cosit_iraq_electricity_annual
+  - stat_tj_tajikistan_electricity_annual
+  - edf_sei_islands_electricity_annual
+  - asub_aland_electricity_annual
+  - statai_anguilla_electricity_monthly
+  - eso_cayman_electricity_annual
   - asli_liechtenstein_electricity_annual
   - nawec_gambia_electricity_monthly
   - ope_pf_electricity_annual

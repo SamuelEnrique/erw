@@ -39,20 +39,20 @@
     "type": "bar",
     "unit": "USD per MWh",
     "values": [
-     42.265250114155265,
-     43.3081850456621,
-     43.04616906392695,
-     42.374707876712336,
-     42.12709029680367,
-     42.22352979452056,
-     42.25699440639271,
-     43.430343721461185,
-     43.151433904109595,
-     46.57294874429223,
-     40.830431621004564,
-     45.20621130136986,
-     46.605199885844755,
-     46.68956289954336
+     42.68970270186543,
+     43.73464390519915,
+     43.41205439507519,
+     42.56381398294009,
+     42.38332400011241,
+     42.49680997607118,
+     42.570622225641884,
+     43.80044365402891,
+     43.52110583007641,
+     46.46364721607938,
+     40.98680310715304,
+     45.02716930764234,
+     46.832643676862574,
+     46.81530722292945
     ]
    },
    {
@@ -60,20 +60,20 @@
     "type": "bar",
     "unit": "USD per MWh",
     "values": [
-     33.66054711593377,
-     34.17870871900354,
-     33.9059296080448,
-     33.22905496514684,
-     32.24862451406358,
-     32.31910930711183,
-     32.24533844042992,
-     33.37874342556597,
-     33.07735879259089,
-     36.40564943974387,
-     30.643360393322663,
-     34.97051223416419,
-     36.24152201257861,
-     35.91117324185247
+     34.08515307288097,
+     34.60545714285714,
+     34.26842424936971,
+     33.41457254182902,
+     32.49938309826856,
+     32.58686733172802,
+     32.5532014677216,
+     33.749181246426524,
+     33.4473653516295,
+     36.29590508862207,
+     30.793211787639038,
+     34.79090794739851,
+     36.46906564501373,
+     36.036795516925885
     ]
    }
   ],
@@ -109,31 +109,31 @@
    "label": "All-in at HB_HUBAVG, USD per MWh, flat and flexible",
    "before": {
     "period": "flat",
-    "text": "42.13"
+    "text": "42.38"
    },
    "after": {
     "period": "flexible",
-    "text": "32.25"
+    "text": "32.50"
    },
    "unit": ""
   }
  ],
- "why": "A 1 GW load that steps off in ERCOT's four summer peak intervals and in every hour at or above USD 1,000 per MWh gave up 5 to 15 hours of the last twelve whole months, row by row, and paid USD 8.60 (LZ_SOUTH) to USD 10.78 (LZ_CPS) per MWh less all-in than a flat load at the same row. At HB_HUBAVG: USD 32.25 against 42.13. Most of the saving is the four-peak transmission charge, which a load off at the four peaks does not pay; the rest is the dearest hours' energy. All-in is energy over the hours the load runs, the four-peak charge at the Commission's rate, and capacity, of which ERCOT has none.",
+ "why": "A 1 GW load that steps off in ERCOT's four summer peak intervals and in every hour at or above USD 1,000 per MWh gave up 5 to 15 hours of the last twelve whole months, row by row, and paid USD 8.60 (LZ_SOUTH) to USD 10.78 (LZ_CPS) per MWh less all-in than a flat load at the same row. At HB_HUBAVG: USD 32.50 against 42.38. Most of the saving is the four-peak transmission charge, which a load off at the four peaks does not pay; the rest is the dearest hours' energy. All-in is energy over the hours the load runs, the four-peak charge at the Commission's rate, and capacity, of which ERCOT has none.",
  "footnote": "Data: the All grids tab of \"What a datacenter pays\" (/cost-of-power?view=allgrids&profile=flexible&mw=1000), computed by site/lib/siting.ts from the page's own files: the hourly hub and zone prices (ercot_all_hub_prices_history, ercot_zone_prices_history), ercot_4cp_intervals and the Commission's approved rate (texas_transmission_matrix). Method: docs/methods/siting.md. The replication: warehouse/replication/siting.py.",
  "numbers": {
   "rows": 14,
   "strike": 1000,
-  "saved_least": 8.604702998221498,
+  "saved_least": 8.604549628984458,
   "saved_least_row": "ercot:LZ_SOUTH",
-  "saved_most": 10.778389657690894,
+  "saved_most": 10.778511706003563,
   "saved_most_row": "ercot:LZ_CPS",
   "lost_fewest": 5,
   "lost_fewest_row": "ercot:LZ_SOUTH",
   "lost_most": 15,
   "lost_most_row": "ercot:LZ_CPS",
   "hub_row": "ercot:HB_HUBAVG",
-  "hub_flat": 42.12709029680367,
-  "hub_flex": 32.24862451406358
+  "hub_flat": 42.38332400011241,
+  "hub_flex": 32.49938309826856
  },
  "source_line": "Source: ERW, the All grids tab (/cost-of-power?view=allgrids&profile=flexible), from ERCOT's hourly prices and four-peak intervals and the PUCT's transmission matrix.",
  "tables": [
@@ -142,7 +142,7 @@
   "ercot_4cp_intervals",
   "texas_transmission_matrix"
  ],
- "computed_at": "2026-10-22T15:36:45Z",
+ "computed_at": "2026-11-05T21:02:21Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/siting.md",
  "downloads": {
   "csv": "siting_flexible.csv",
@@ -158,7 +158,7 @@
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-24",
+   "name": "the findings library's cards as computed by 2026-10-31",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,

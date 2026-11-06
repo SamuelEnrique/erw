@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-10-24T16:28Z",
+ "written": "2026-11-05T21:12Z",
  "green_days": 0,
- "counted_to": "2026-10-23",
+ "counted_to": "2026-11-04",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -1810,6 +1810,1079 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 39 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-24": {
+   "rows": 714,
+   "failed": 2,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 103
+    },
+    "daily prices": {
+     "ok": 36,
+     "skipped": 2,
+     "retried": 1,
+     "failed": 1,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 22,
+     "skipped": 8,
+     "retried": 0,
+     "failed": 0,
+     "runs": 30
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 8,
+     "retried": 0,
+     "failed": 0,
+     "runs": 104
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 50,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 1,
+     "runs": 53
+    },
+    "local:lab-desktop": {
+     "ok": 34,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 34
+    },
+    "local:samueloldlaptop": {
+     "ok": 6,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 6
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-24T16:28",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "1 error in 0.49s"
+    },
+    {
+     "at": "2026-10-24T18:18",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_board",
+     "reason": "its tests exited 1 (tests.test_session132 tests.test_session240); the group was put back as committed"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-24T15:14",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 40 days old (limit 28)"
+    },
+    {
+     "at": "2026-10-24T17:32",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 40 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-25": {
+   "rows": 708,
+   "failed": 1,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 103
+    },
+    "daily prices": {
+     "ok": 21,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 1,
+     "runs": 2
+    },
+    "energy roundup": {
+     "ok": 9,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 9,
+     "retried": 0,
+     "failed": 0,
+     "runs": 30
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 103
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 51,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 53
+    },
+    "local:lab-desktop": {
+     "ok": 1,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "local:samueloldlaptop": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    },
+    "weekly vacuum": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-25T16:04",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_coverage_has_one_row_per_table_and_the_documented_columns - AssertionError: assert np.False_"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-25T14:56",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-21, 34 days old (limit 28)"
+    },
+    {
+     "at": "2026-10-25T17:31",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 41 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-26": {
+   "rows": 719,
+   "failed": 4,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "daily prices": {
+     "ok": 22,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 4,
+     "runs": 2
+    },
+    "energy roundup": {
+     "ok": 1,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 22,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 28
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 72,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 74
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-26T15:04",
+     "workflow": "daily prices",
+     "step": "policy_score",
+     "reason": "policy_score: 0 newly scored, 1959 of 1960 scored; 388 at significance 5 or more; cost USD 0.0000"
+    },
+    {
+     "at": "2026-10-26T15:04",
+     "workflow": "daily prices",
+     "step": "deals",
+     "reason": "extract: deals extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-26T15:04",
+     "workflow": "daily prices",
+     "step": "datacenters",
+     "reason": "extract: datacenters extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-26T15:49",
+     "workflow": "daily prices",
+     "step": "news_brief",
+     "reason": "digest: news_brief digest FAILED: anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-26T15:07",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 42 days old (limit 28)"
+    },
+    {
+     "at": "2026-10-26T17:35",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 42 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-27": {
+   "rows": 697,
+   "failed": 6,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "daily prices": {
+     "ok": 21,
+     "skipped": 3,
+     "retried": 1,
+     "failed": 6,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 28
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 50,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 52
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-27T14:48",
+     "workflow": "daily prices",
+     "step": "portwatch",
+     "reason": "portwatch_chokepoint_transits: portwatch portwatch_chokepoint_transits FAILED, no output file written: RuntimeError: PortWatch chokepoint6 offset 0 failed after 4 attempts: RuntimeError(\"PortWatch err"
+    },
+    {
+     "at": "2026-10-27T14:53",
+     "workflow": "daily prices",
+     "step": "news_score",
+     "reason": "news score: model claude-haiku-4-5; calls 0 (16 failed); stories scored 0 of 400; tokens input 0, output 0, cache write 0, cache read 0; cost USD 0.0000; duplicate links rejected 0; clusters 16350 amo"
+    },
+    {
+     "at": "2026-10-27T14:55",
+     "workflow": "daily prices",
+     "step": "policy_score",
+     "reason": "policy_score: 0 newly scored, 1959 of 1970 scored; 388 at significance 5 or more; cost USD 0.0000"
+    },
+    {
+     "at": "2026-10-27T14:56",
+     "workflow": "daily prices",
+     "step": "deals",
+     "reason": "extract: deals extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-27T14:56",
+     "workflow": "daily prices",
+     "step": "datacenters",
+     "reason": "extract: datacenters extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-27T15:44",
+     "workflow": "daily prices",
+     "step": "news_brief",
+     "reason": "digest: news_brief digest FAILED: anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-27T15:00",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 43 days old (limit 28)"
+    },
+    {
+     "at": "2026-10-27T17:35",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 43 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-28": {
+   "rows": 693,
+   "failed": 9,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 475,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "daily prices": {
+     "ok": 22,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 9,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 28
+    },
+    "latest prices": {
+     "ok": 95,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 50,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 52
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-28T15:02",
+     "workflow": "daily prices",
+     "step": "news_score",
+     "reason": "news score: model claude-haiku-4-5; calls 0 (16 failed); stories scored 0 of 400; tokens input 0, output 0, cache write 0, cache read 0; cost USD 0.0000; duplicate links rejected 0; clusters 16350 amo"
+    },
+    {
+     "at": "2026-10-28T15:04",
+     "workflow": "daily prices",
+     "step": "policy_score",
+     "reason": "policy_score: 0 newly scored, 1959 of 1977 scored; 388 at significance 5 or more; cost USD 0.0000"
+    },
+    {
+     "at": "2026-10-28T15:04",
+     "workflow": "daily prices",
+     "step": "deals",
+     "reason": "extract: deals extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-28T15:04",
+     "workflow": "daily prices",
+     "step": "datacenters",
+     "reason": "extract: datacenters extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-28T15:54",
+     "workflow": "daily prices",
+     "step": "news_brief",
+     "reason": "digest: news_brief digest FAILED: anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits"
+    },
+    {
+     "at": "2026-10-28T16:28",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "datacenters datacenter_projects: failed the last 3 runs (20261026T150417Z, 20261027T145608Z, 20261028T150424Z); latest: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-28T16:28",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "deals energy_deals: failed the last 3 runs (20261026T150410Z, 20261027T145600Z, 20261028T150416Z); latest: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-28T16:28",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "news_brief digest: failed the last 3 runs (20261026T154937Z, 20261027T154449Z, 20261028T155417Z); latest: anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_requ"
+    },
+    {
+     "at": "2026-10-28T16:28",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "policy_score policy_actions: failed the last 3 runs (20261026T150403Z, 20261027T145554Z, 20261028T150410Z); latest: 0 newly scored, 1959 of 1977 scored; 388 at significance 5 or more; cost USD 0.0000"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-28T15:08",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-21, 37 days old (limit 28)"
+    },
+    {
+     "at": "2026-10-28T17:36",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 44 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-29": {
+   "rows": 699,
+   "failed": 10,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "daily prices": {
+     "ok": 21,
+     "skipped": 3,
+     "retried": 1,
+     "failed": 10,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 50,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 52
+    },
+    "local:portable-laptop": {
+     "ok": 4,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 4
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-29T14:51",
+     "workflow": "daily prices",
+     "step": "news_score",
+     "reason": "news score: model claude-haiku-4-5; calls 0 (16 failed); stories scored 0 of 400; tokens input 0, output 0, cache write 0, cache read 0; cost USD 0.0000; duplicate links rejected 0; clusters 16350 amo"
+    },
+    {
+     "at": "2026-10-29T14:52",
+     "workflow": "daily prices",
+     "step": "policy_score",
+     "reason": "policy_score: 0 newly scored, 1959 of 1980 scored; 388 at significance 5 or more; cost USD 0.0000"
+    },
+    {
+     "at": "2026-10-29T14:52",
+     "workflow": "daily prices",
+     "step": "deals",
+     "reason": "extract: deals extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-29T14:52",
+     "workflow": "daily prices",
+     "step": "datacenters",
+     "reason": "extract: datacenters extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-29T15:39",
+     "workflow": "daily prices",
+     "step": "news_brief",
+     "reason": "digest: news_brief digest FAILED: anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits"
+    },
+    {
+     "at": "2026-10-29T16:09",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "datacenters datacenter_projects: failed the last 3 runs (20261027T145608Z, 20261028T150424Z, 20261029T145217Z); latest: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-29T16:09",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "deals energy_deals: failed the last 3 runs (20261027T145600Z, 20261028T150416Z, 20261029T145212Z); latest: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-29T16:09",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "news_brief digest: failed the last 3 runs (20261027T154449Z, 20261028T155417Z, 20261029T153913Z); latest: anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_requ"
+    },
+    {
+     "at": "2026-10-29T16:09",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "news_score news_stories: failed the last 3 runs (20261027T145353Z, 20261028T150230Z, 20261029T145105Z); latest: model claude-haiku-4-5; calls 0 (16 failed); stories scored 0 of 400; tokens input 0, ou"
+    },
+    {
+     "at": "2026-10-29T16:09",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "policy_score policy_actions: failed the last 3 runs (20261027T145554Z, 20261028T150410Z, 20261029T145208Z); latest: 0 newly scored, 1959 of 1980 scored; 388 at significance 5 or more; cost USD 0.0000"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-29T17:35",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 45 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-30": {
+   "rows": 699,
+   "failed": 10,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "daily prices": {
+     "ok": 21,
+     "skipped": 3,
+     "retried": 1,
+     "failed": 10,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 50,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 52
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-30T15:01",
+     "workflow": "daily prices",
+     "step": "news_score",
+     "reason": "news score: model claude-haiku-4-5; calls 0 (16 failed); stories scored 0 of 400; tokens input 0, output 0, cache write 0, cache read 0; cost USD 0.0000; duplicate links rejected 0; clusters 16350 amo"
+    },
+    {
+     "at": "2026-10-30T15:03",
+     "workflow": "daily prices",
+     "step": "policy_score",
+     "reason": "policy_score: 0 newly scored, 1959 of 1991 scored; 388 at significance 5 or more; cost USD 0.0000"
+    },
+    {
+     "at": "2026-10-30T15:03",
+     "workflow": "daily prices",
+     "step": "deals",
+     "reason": "extract: deals extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-30T15:03",
+     "workflow": "daily prices",
+     "step": "datacenters",
+     "reason": "extract: datacenters extract FAILED: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-30T15:47",
+     "workflow": "daily prices",
+     "step": "news_brief",
+     "reason": "digest: news_brief digest FAILED: anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits"
+    },
+    {
+     "at": "2026-10-30T16:27",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "datacenters datacenter_projects: failed the last 3 runs (20261028T150424Z, 20261029T145217Z, 20261030T150315Z); latest: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-30T16:27",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "deals energy_deals: failed the last 3 runs (20261028T150416Z, 20261029T145212Z, 20261030T150309Z); latest: RuntimeError: all 1 calls failed"
+    },
+    {
+     "at": "2026-10-30T16:27",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "news_brief digest: failed the last 3 runs (20261028T155417Z, 20261029T153913Z, 20261030T154721Z); latest: anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_requ"
+    },
+    {
+     "at": "2026-10-30T16:27",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "news_score news_stories: failed the last 3 runs (20261028T150230Z, 20261029T145105Z, 20261030T150136Z); latest: model claude-haiku-4-5; calls 0 (16 failed); stories scored 0 of 400; tokens input 0, ou"
+    },
+    {
+     "at": "2026-10-30T16:27",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "policy_score policy_actions: failed the last 3 runs (20261028T150410Z, 20261029T145208Z, 20261030T150304Z); latest: 0 newly scored, 1959 of 1991 scored; 388 at significance 5 or more; cost USD 0.0000"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-30T15:07",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 46 days old (limit 28)"
+    },
+    {
+     "at": "2026-10-30T17:41",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 46 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-31": {
+   "rows": 672,
+   "failed": 2,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 485,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 102
+    },
+    "daily prices": {
+     "ok": 0,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 2,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 23,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 28
+    },
+    "latest prices": {
+     "ok": 97,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 50,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 0,
+     "runs": 51
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-31T14:14",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    },
+    {
+     "at": "2026-10-31T18:16",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-31T17:21",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 47 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-01": {
+   "rows": 662,
+   "failed": 3,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 460,
+     "skipped": 9,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "daily prices": {
+     "ok": 0,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 2,
+     "runs": 2
+    },
+    "energy roundup": {
+     "ok": 9,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 22,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 28
+    },
+    "latest prices": {
+     "ok": 91,
+     "skipped": 9,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 50,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 52
+    },
+    "weekly vacuum": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-01T14:21",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    },
+    {
+     "at": "2026-11-01T18:00",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_findings",
+     "reason": "FAILED (failures=1)"
+    },
+    {
+     "at": "2026-11-01T18:58",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-01T17:21",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 48 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-02": {
+   "rows": 682,
+   "failed": 3,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "daily prices": {
+     "ok": 0,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 2,
+     "runs": 2
+    },
+    "energy roundup": {
+     "ok": 1,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 24,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 26
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 65,
+     "skipped": 3,
+     "retried": 1,
+     "failed": 1,
+     "runs": 70
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-02T14:14",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    },
+    {
+     "at": "2026-11-02T18:38",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_findings",
+     "reason": "FAILED (failures=1)"
+    },
+    {
+     "at": "2026-11-02T22:48",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-02T17:25",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 49 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-03": {
+   "rows": 670,
+   "failed": 3,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "daily prices": {
+     "ok": 0,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 2,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 23,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 57,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 59
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-03T14:21",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    },
+    {
+     "at": "2026-11-03T18:04",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_findings",
+     "reason": "FAILED (failures=1)"
+    },
+    {
+     "at": "2026-11-03T20:35",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-03T17:22",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 50 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-04": {
+   "rows": 657,
+   "failed": 3,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 475,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "daily prices": {
+     "ok": 0,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 2,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 23,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 25
+    },
+    "latest prices": {
+     "ok": 97,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 49,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 51
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-04T14:21",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    },
+    {
+     "at": "2026-11-04T17:57",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_findings",
+     "reason": "FAILED (failures=1)"
+    },
+    {
+     "at": "2026-11-04T20:54",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "Warning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instea"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-04T17:22",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 51 days old (limit 28)"
     }
    ]
   }

@@ -1,8 +1,8 @@
 {
- "built_at_utc": "2026-10-24T15:35:35Z",
- "as_of": "2026-10-24",
+ "built_at_utc": "2026-10-29T15:25:56Z",
+ "as_of": "2026-10-29",
  "tables": {
-  "large_load_rules": 43,
+  "large_load_rules": 44,
   "large_load_rules_internal": 74
  },
  "topics": [
@@ -12,6 +12,43 @@
   "interconnection reform"
  ],
  "rows": [
+  {
+   "id": "papuc:M-2026-3065062:order:40f2281a90",
+   "date": "2026-10-28",
+   "regulator": "Pennsylvania Public Utility Commission",
+   "jurisdiction": "state",
+   "state": "PA",
+   "docket": "M-2026-3065062",
+   "title": "POSTPONEMENT CLCA TECH CONF. SEC LTR (3065062) (1).PDF",
+   "row_kind": "order",
+   "status_as_worded": "",
+   "status_class": "decided",
+   "url": "https://www.puc.pa.gov/pcdocs/1956499.pdf",
+   "page": null,
+   "sentence": "POSTPONEMENT CLCA TECH CONF. SEC LTR (3065062) (1).PDF Secretarial Letter",
+   "sentence_withheld": null,
+   "sentence_from": "docket page's document list",
+   "sentence_kind": "docket list",
+   "flags": [
+    "cut from the docket list: the list's own title line, not the document's text"
+   ],
+   "terms_class": "public record",
+   "read": null,
+   "read_by": null,
+   "read_model": null,
+   "read_from": null,
+   "regulator_key": "papuc",
+   "topics": [
+    "transmission cost allocation"
+   ],
+   "large_load": true,
+   "grids": [
+    "pjm"
+   ],
+   "all_grids": false,
+   "why_here": "A statewide rule. Pennsylvania's utilities (PECO, PPL Electric, FirstEnergy's Pennsylvania company, Duquesne Light) are in PJM.",
+   "in_motion": true
+  },
   {
    "id": "txpuc:58796:order:065fadc476",
    "date": "2026-10-15",

@@ -303,7 +303,7 @@ def check_figure(src, date, f, chart, written=None):
         if not rows:
             return "not here", f"no row at {ts}"
         got = f"{rows[0][1]:.0f}"
-        return ("ok" if got == f["raw"] else "FAIL"), got
+        return compare(src, f["raw"], got, written, table, entity, ts, variable)
     if head == "digest_chart":
         k = p[3]
         at = {"value": chart.get("date"), "old_record": chart.get("old_record_date")}.get(k)

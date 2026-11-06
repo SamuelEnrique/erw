@@ -43,7 +43,11 @@ export function heldBy(check: string): { table: string; title: string } | null {
   return licenseHeldRow(table, entity ?? (head.startsWith("series") || head === "es" ? undefined : null)) ? { table, title: licenseTitle(table) } : null;
 }
 
-export function Num({ check, raw, children, className }: { check: string; raw: number | string; children: React.ReactNode; className?: string }) {
+// Session 2200 (chain 086): `source`, when given, is the words of where the figure came from (the table, the entity,
+// the variable, the period and the source report: lib/explore/source.ts reads them from the key), drawn as the span's
+// title, so the figure's source is in its hover; the attribute is absent when the prop is, and no page without it
+// changes. The snapshot's number list and check-values read data-check and data-raw as before.
+export function Num({ check, raw, children, className, source }: { check: string; raw: number | string; children: React.ReactNode; className?: string; source?: string }) {
   const held = heldBy(check);
   if (held) {
     return (
@@ -53,7 +57,7 @@ export function Num({ check, raw, children, className }: { check: string; raw: n
     );
   }
   return (
-    <span data-check={check} data-raw={String(raw)} className={className}>
+    <span data-check={check} data-raw={String(raw)} className={className} title={source}>
       {children}
     </span>
   );
