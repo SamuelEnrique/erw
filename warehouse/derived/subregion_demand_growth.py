@@ -67,7 +67,7 @@ def inputs(folder=None):
 
 def read_hours(path):
     """The demand rows of one input: entity, node, ts (UTC), value."""
-    d = pd.read_csv(path, comment="#", usecols=["entity", "variable", "ts_utc", "value", "node"], dtype=str, keep_default_na=False)
+    d = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "variable", "ts_utc", "value", "node"], dtype=str, keep_default_na=False)
     d = d[d["variable"] == "demand_mw"]
     d["ts"] = pd.to_datetime(d["ts_utc"], utc=True)
     d["v"] = pd.to_numeric(d["value"], errors="coerce")
