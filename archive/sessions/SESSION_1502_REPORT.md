@@ -1,6 +1,6 @@
 # Session 1502 report: security, what a visitor can spend and fetch
 
-Energy Research Warehouse (ERW), session 1502, chain 158, samueloldlaptop, 6 November 2026, 10:16 to 10:22 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1501-security`.
+Energy Research Warehouse (ERW), session 1502, chain 158, samueloldlaptop, 6 November 2026, 10:10 to 10:12 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1501-security`.
 
 ## What it found, and held by a test (`d6d0cb149`, `tests/test_session1502.py`)
 

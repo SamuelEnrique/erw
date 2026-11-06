@@ -1,6 +1,6 @@
 # Session 1501 report: security, the headers and the internal routes
 
-Energy Research Warehouse (ERW), session 1501, chain 158, samueloldlaptop, 6 November 2026, 10:08 to 10:16 UTC (during session 1500's gate). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1501-security`, cut from `wip/1497-paths`.
+Energy Research Warehouse (ERW), session 1501, chain 158, samueloldlaptop, 6 November 2026, 10:07 to 10:10 UTC (during session 1500's gate). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1501-security`, cut from `wip/1497-paths`.
 
 ## What it did, with commits
 

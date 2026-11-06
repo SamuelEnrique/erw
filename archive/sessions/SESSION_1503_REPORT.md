@@ -1,6 +1,6 @@
 # Session 1503 report: the dependency audit
 
-Energy Research Warehouse (ERW), session 1503, chain 158, samueloldlaptop, 6 November 2026, 10:22 to 10:35 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the npm registry and PyPI's advisory service (the audits) only. Branch `wip/1501-security`.
+Energy Research Warehouse (ERW), session 1503, chain 158, samueloldlaptop, 6 November 2026, 10:12 to 10:14 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the npm registry and PyPI's advisory service (the audits) only. Branch `wip/1501-security`.
 
 ## What it did, with commits
 
