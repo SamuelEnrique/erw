@@ -10,6 +10,7 @@ import { catalogue } from "@/lib/data";
 import { count, day, utc } from "@/lib/format";
 import { DOCS, render } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
+import { scrollRegion } from "@/lib/cells";   // session 1586: the scrolling <pre> blocks reachable by keyboard (AccessLint, 67 on /data)
 import site from "@/data/site.json";
 import { PAGES } from "@/lib/pages";
 import { TIER_LABEL, TIER_TITLE, isModelExtracted } from "@/lib/tiers";
@@ -118,7 +119,7 @@ export default async function Data() {
                       ) : (
                         <details>
                           <summary className="cursor-pointer">Python, Stata, R ({shapeOf(r.interval)})</summary>
-                          <pre className="mt-1 overflow-x-auto border border-rule bg-panel p-1 font-mono text-xs">
+                          <pre className="mt-1 overflow-x-auto border border-rule bg-panel p-1 font-mono text-xs" {...scrollRegion(`The calls for ${r.table_name} in Python, Stata and R`)}>
                             {[oneLineCalls(r.table_name).python, oneLineCalls(r.table_name).stata, oneLineCalls(r.table_name).r].join("\n")}
                           </pre>
                         </details>
@@ -197,12 +198,12 @@ export default async function Data() {
           </div>
           <div>
             <h3 className="mb-1 text-lg">The erw Python package</h3>
-            <pre className="overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs">{site.package.install.join("\n")}</pre>
+            <pre className="overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs" {...scrollRegion("The install lines")}>{site.package.install.join("\n")}</pre>
             <p className="mt-2 text-xs text-muted">
               {site.package.note} <a href={site.package.readme}>Package README</a>.
             </p>
             <p className="mt-2 text-xs text-muted">From a clone, which reads the clone&apos;s own tables:</p>
-            <pre className="mt-1 overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs">{site.package.clone_install.join("\n")}</pre>
+            <pre className="mt-1 overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs" {...scrollRegion("The install lines from a clone")}>{site.package.clone_install.join("\n")}</pre>
           </div>
         </div>
       </Section>

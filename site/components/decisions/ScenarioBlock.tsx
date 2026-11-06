@@ -16,6 +16,7 @@
 // the twelve Resets of a panel are not twelve controls called "Reset"; what is drawn is unchanged.
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { SettingsFold } from "@/components/tool/ToolPage";
+import { scrollRegion } from "@/lib/cells";   // session 1526: the two scrolling tables reachable by keyboard (WCAG 2.1.1, AccessLint's scrollable-region-focusable on /cost-of-power)
 
 export type View = "a" | "b";
 export type Values = Record<string, number>;
@@ -161,7 +162,7 @@ export function Sensitivity({ c, view }: { c: Chart; view: View }) {
       </p>
       <details className="mt-1 text-xs">
         <summary className="cursor-pointer text-accent">The chart as a table</summary>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" {...scrollRegion("The sensitivity chart, as a table")}>
           <table className="mt-2 w-full border-collapse text-left tabular-nums" style={{ minWidth: 480 }}>
             <thead><tr className="border-b border-rule"><th scope="col" className="py-1 pr-3 font-normal">Assumption</th><th scope="col" className="py-1 pr-3 font-normal">Step</th><th scope="col" className="py-1 pr-3 text-right font-normal">{c.heads[0]}</th><th scope="col" className="py-1 text-right font-normal">{c.heads[1]}</th></tr></thead>
             <tbody>
@@ -265,7 +266,7 @@ export function ScenarioBlock({ fields, defaults: d, bound, head, rows, differin
     <div data-scenarios="1">
       {panel ? <div className="mb-4">{fold ? <SettingsFold id={fold.id} title={fold.title} open={true} summary={fold.summary(s[s.view], s.view)}>{panelEl}</SettingsFold> : panelEl}</div> : null}
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto" {...scrollRegion("Scenarios A and B")}>
         <table className="block w-full border-collapse text-left text-sm tabular-nums sm:table" data-scenario-table="1">
           <caption className="sr-only">Scenarios A and B</caption>
           <thead className="block sm:table-header-group">
