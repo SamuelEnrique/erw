@@ -56,7 +56,10 @@ COAL_HEAT_RATE = 10.5            # MMBtu/MWh: the dark spread's stated assumptio
 GAS_BACK = 4                     # days: the newest gas trading day up to this many days before the operating day
 SLACK = 6                        # days: how much older than asked the value compared with may be
 RANGE_MIN = {"D": 180, "W": 26, "M": 9, "Q": 4}     # values held of the 365 days for a range to be written (Q: session 1135)
-SPARK_POINTS = 30
+SPARK_POINTS = 90               # session 1609 (chain 165): the trend line's most points (it was the last 30)
+# session 1609: the trend line's span by step: the last ninety days of a daily series, and a span long enough to show a
+# trend at a coarser step (a year of weeks, three years of months or quarters)
+SPARK_DAYS = {"D": 90, "W": 365, "M": 1095, "Q": 1095}
 ISO = {"ercot": ("ERCOT", "America/Chicago"), "caiso": ("CAISO", "America/Los_Angeles"), "nyiso": ("NYISO", "America/New_York"),
        "isone": ("ISO-NE", "America/New_York"), "spp": ("SPP", "America/Chicago")}
 MAIN = {"ercot": "HB_HUBAVG", "caiso": "TH_SP15_GEN-APND", "nyiso": "N.Y.C.", "isone": ".H.INTERNAL_HUB", "spp": "SPPNORTH_HUB"}
@@ -194,7 +197,7 @@ def stats(series, freq="D"):
             out[f"avg{n}"] = dict(v=round(sum(vals) / len(vals), 4), n=len(vals))
         last30 = [series[d] for d in days[-30:] if d0 - dt.timedelta(days=30) < d <= d0]
         out["lo30"], out["hi30"] = round(min(last30), 4), round(max(last30), 4)
-    tail = days[-SPARK_POINTS:]
+    tail = [d for d in days if d0 - dt.timedelta(days=SPARK_DAYS[freq]) < d <= d0][-SPARK_POINTS:]   # session 1609
     out["spark"] = dict(t0=tail[0].isoformat(), d=[(d - tail[0]).days for d in tail], v=[round(series[d], 4) for d in tail])
     return out
 

@@ -185,7 +185,7 @@ export function rowsOf(file: BoardFile, group: Group, chosen: Record<string, str
     return want === "all" || r.tags[f.key] === undefined || r.tags[f.key] === want;
   }));
 }
-/** The last 30 points of a row as [{t, v}]. */
+/** The trend line's points of a row as [{t, v}] (session 1609: up to 90, the span by step). */
 export function sparkOf(r: Row): { t: string; v: number }[] {
   if (!r.spark) return [];
   const t0 = Date.parse(`${r.spark.t0}T00:00:00Z`);

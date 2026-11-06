@@ -413,3 +413,9 @@ Tests: `tests/test_board_1607.py` (`tests/fixtures/board_1607/`).
 - `tests/test_session132.py` and `tests/test_session1139.py` take a file built before the YTD move as it is (four moves), so a landing before the first rebuild passes.
 
 Tests: `tests/test_board_1608.py`.
+
+## The trend line (session 1609, chain 165, 6 November 2026)
+
+The column "Last 30" is named "Trend" from this session, and its line is no longer the last 30 values: it is the last **90 days** of a daily row (at most 90 points; a fuel's trading days only, so about 63), a **year** of a weekly row (about 53 weeks), and **three years** of a monthly or a quarterly row (36 months, 12 quarters), each ending on the row's latest value (`SPARK_DAYS` and `SPARK_POINTS` in the builder). The points are the series' own, none filled; the mouse reads each point's date and value as before, and the line is drawn by the page's own SVG (no image). The top block's twelve tiles draw the same line. The column header's hover says the spans. Up to 90 points a row make `board.json` larger: session 1618 measures it.
+
+Tests: `tests/test_board_1609.py`.

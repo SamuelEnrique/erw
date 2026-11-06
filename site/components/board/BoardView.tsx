@@ -47,7 +47,8 @@ function BenchPlaceholder() {
   );
 }
 
-/** The last 30 points as a line that answers the mouse: the nearest point's value, date and series. */
+/** The trend line (session 1609: the last 90 days of a daily row, a year of a weekly one, three years of a monthly or quarterly one;
+ *  it was the last 30 points) that answers the mouse: the nearest point's value, date and series. */
 function Spark({ row, top }: { row: Row; top?: boolean }) {
   const pts = useMemo(() => sparkOf(row), [row]);
   const [at, setAt] = useState<number | null>(null);
@@ -217,7 +218,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
               <th className="pr-3 text-right font-normal">7-day avg</th>
               <th className="pr-3 text-right font-normal">30-day avg</th>
               <th className="pr-3 text-right font-normal">30-day low to high</th>
-              <th className="pr-3 text-right font-normal">Last 30</th>
+              <th className="pr-3 text-right font-normal" title="The last 90 days of a daily row, a year of a weekly one, three years of a monthly or quarterly one (session 1609)">Trend</th>
               <th className="pr-2 text-right font-normal">One-year range</th>
               {group.curve ? <th className="pr-2 text-left font-normal">Futures 1 to 4</th> : null}
             </tr>

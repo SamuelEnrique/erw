@@ -109,7 +109,7 @@ State: **open** until a session closes it; each closing session writes its numbe
 | 20 | Uranium: the IMF's month is drawn and the daily spot is a placeholder (UxC, TradeTech) | metals | 1604 | no gap: noted |
 | 21 | Retail electricity: drawn by state and sector, newest month August 2026 | retailpower | | no gap |
 | 22 | The moves: day, week, month and year are drawn; year to date is not | all | 1608 | closed in 1608 (`tests/test_board_1608.py`); a stale row's moves blank |
-| 23 | The trend line: the last 30 points; the chain asks for the last ninety days (or the step's equivalent) | all | 1609 | open |
+| 23 | The trend line: the last 30 points; the chain asks for the last ninety days (or the step's equivalent) | all | 1609 | closed in 1609 (`tests/test_board_1609.py`) |
 | 24 | CFTC positions: not a price; not drawn | | | out of scope: for a ruling |
 | 25 | EIA's STEO price forecasts: not a market price; not drawn | | | out of scope: for a ruling |
 | 26 | `iso_zone_prices_history` is not read by the builder: its CAISO ZP26 and SPP South day-ahead reach back further than the rolling tables (ZP26 and SPP South have no one-year range on the board) | power | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
