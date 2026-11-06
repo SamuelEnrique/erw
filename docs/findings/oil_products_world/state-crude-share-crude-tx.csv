@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate state_crude_share, region crude_TX (Texas)
+# Computed 2026-11-06T12:32:45Z by warehouse/analysis/findings/deep/oil_products_world.py (state_crude_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: a state's share of US crude field production over the year (percent of US crude production), the observations it rests on, and whether the year is full
+# Tables: eia_crude_production_state_monthly
+region,year,value,n_observations,full_year
+crude_TX,2001,20.04194558565806,12.0,1
+crude_TX,2002,19.35591499238413,12.0,1
+crude_TX,2003,19.43010530662812,12.0,1
+crude_TX,2004,19.721243682034004,12.0,1
+crude_TX,2005,20.749349021120647,12.0,1
+crude_TX,2006,21.14672434699964,12.0,1
+crude_TX,2007,21.127315727236894,12.0,1
+crude_TX,2008,22.185176541192945,12.0,1
+crude_TX,2009,20.435026138909635,12.0,1
+crude_TX,2010,21.3126709206928,12.0,1
+crude_TX,2011,25.56523527596997,12.0,1
+crude_TX,2012,30.396678377515173,12.0,1
+crude_TX,2013,33.923090609848316,12.0,1
+crude_TX,2014,36.18653400675958,12.0,1
+crude_TX,2015,36.67817929669903,12.0,1
+crude_TX,2016,36.103324365510886,12.0,1
+crude_TX,2017,37.3255214353029,12.0,1
+crude_TX,2018,40.274875971524736,12.0,1
+crude_TX,2019,41.41934263163585,12.0,1
+crude_TX,2020,42.719800381623365,12.0,1
+crude_TX,2021,42.224317376604816,12.0,1
+crude_TX,2022,42.67655416175757,12.0,1
+crude_TX,2023,42.40765370702339,12.0,1
+crude_TX,2024,42.76929454846957,12.0,1
+crude_TX,2025,42.166910688140554,12.0,1
+crude_TX,2026,41.85785769158898,7.0,0
