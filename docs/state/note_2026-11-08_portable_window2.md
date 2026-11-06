@@ -1,6 +1,6 @@
 # The personal laptop's second window, chain 169: the policy monitor continued (written 6 November 2026)
 
-Chain 169 (`queue/done/169-night-7-november-portable-window2-continued.md`) numbered its sessions 3066 to 3077; those were the desktop's second window's, so it ran as **sessions 3122 to 3133**, 13:19 to 14:22 UTC on 6 November. Nothing of chains 166 and 169 has landed yet: the request file's rows 2, 3, 5, 6 and 7 wait, and the newest (row 7, `wip/3133-policy`) holds all the others.
+Chain 169 (`queue/done/169-night-7-november-portable-window2-continued.md`) numbered its sessions 3066 to 3077; those were the desktop's second window's, so it ran as **sessions 3122 to 3133**, 13:19 to 14:22 UTC on 6 November. Nothing of chains 166 and 169 has landed yet: the request file's rows 2, 3, 5, 6 and 9 wait, and the newest (row 9, `wip/3133-policy`) holds all the others.
 
 ## Read these first
 
@@ -21,7 +21,7 @@ Chain 169 (`queue/done/169-night-7-november-portable-window2-continued.md`) numb
 | 3129 | out-of-scope documents marked (`scope`), never dropped (class 9) | `d342d8a3f` |
 | 3130 | the scorer's note names a procedural notice's band (class 10) | `4bddf453c` |
 | 3131 | a water within one state (class 6); coal ash and mining in the note (class 4) | `73dce12a1` |
-| 3132 | the push and request (row 7) | `9af161b9f` |
+| 3132 | the push and request (row 9) | `9af161b9f` |
 | 3133 | this note; the next file updated; the queue | `4ddb403f0` |
 
 ## The audit's 80, where they stand
@@ -43,7 +43,7 @@ Of 206 faults, 22 are held: 18 wait for a rescoring (your ruling), 3 are left by
 
 ## What was asked of the desktop
 
-- **Land row 7** (`wip/3133-policy`, task `3054-3133-policy`, port 3260): it holds rows 2, 3, 5 and 6. The gate's build is the monitor's first compile; session 3123's two fixes are the faults a reading found.
+- **Land row 9** (`wip/3133-policy`, task `3054-3133-policy`, port 3260): it holds rows 2, 3, 5 and 6. The gate's build is the monitor's first compile; session 3123's two fixes are the faults a reading found.
 - **After the landing, on the data machine**: the connector's next run derives the fields, the places and `scope` from its store of texts; then `python scripts/check_policy.py` on that copy.
 
 ## Decisions made without you
