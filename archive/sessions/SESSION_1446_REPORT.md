@@ -15,6 +15,7 @@ Energy Research Warehouse (ERW), session 1446 (chain 149's "1443"), `queue/done/
   - **The email's five do not print the opening number twice** (fault 26): the row that is the opening number word for word reads "the opening number, above"; the markdown keeps the row, since `scripts/check_roundup.py` traces the five by their form.
   - Tests: `Session1446TheRoundupsNumbers` (the stand-ins, the datacenter row, the scorer's refusal); `V2RTheOpeningNumber`, `V2RTheParts.test_the_evidence_gap` and `test_session806`'s two cases re-pinned to the rule.
 - The faults file: rows 25, 27, 30, 31, 34 fixed; 26, 28, 29, 35 fixed in part (the tracer's keys and the data machine's chart).
+- **`ffe0ab628`**: a story names a price for the opening number's choice whether or not its why line prints a reason (`brief.price_named`; `brief.opening_number` and `roundup.opening_number` read it): the first W44 render without the model opened with the top story's 1,000 MW because the oil stories' why lines said "signals" and `price_reason` printed nothing, so Brent counted as unnamed. The second render (`runs/s1446/2026-W44b.md`) opens with Brent: "closed at 120.15 USD/bbl on 2026-10-30, against 128.30 USD/bbl on 2026-10-23 (-8.15 USD/bbl, -6.3%)", subject "ERW Weekly | 1GW data centre with 5,000MWh battery storage system submitted to...; Brent down 6.3% on the week" (the publisher's title, since no model ran).
 
 ## Checks
 
