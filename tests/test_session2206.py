@@ -122,8 +122,9 @@ class TheWindowEndsAtTheRun(unittest.TestCase):
     def test_main_uses_them(self):
         b = src("warehouse", "news", "brief.py")
         body = b[b.index("def main(argv=None):"):]
-        self.assertIn("s, start, bounds = window_rows(df, now, args.hours)", body)
-        self.assertIn("stamp_line(args.hours, start, now, len(s)), \"\",", body)
+        # session 2701 (rulings item 3): the window opens at the previous issue's end; its hours are the stamp's
+        self.assertIn("s, start, bounds = window_rows(df, now, hours, start)", body)
+        self.assertIn("stamp_line(hours, start, now, len(s)), \"\",", body)
         self.assertNotIn("when >= now - pd.Timedelta(hours=args.hours)", body)
 
 
@@ -162,7 +163,9 @@ class TheCaptionSaysWhatIsHeld(unittest.TestCase):
         i = lines.index(c["fact"])
         self.assertEqual(lines[i + 1], "The table holds 307 months of this series; the last is July 2026.")
         self.assertEqual(lines[i + 2], "")
-        self.assertTrue(lines[i + 3].startswith("Table `"))
+        # session 2703: the chart's source trail (publisher, period, vintage, retrieval) opens the table line
+        self.assertTrue(lines[i + 3].startswith(("Table `", "Source: ")), lines[i + 3])
+        self.assertIn("Table `", lines[i + 3])
 
 
 class RevisedNotFailed(unittest.TestCase):

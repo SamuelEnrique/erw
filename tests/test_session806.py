@@ -213,7 +213,9 @@ class WhereItSits(unittest.TestCase):
     def test_the_five_numbers_open_the_roundup(self):
         import inspect
         src = inspect.getsource(roundup.main)
-        self.assertIn('L[at:at] = [FIVE_HEADING, ""] + five_numbers(label, start, cut, facts, log)', src)
+        # session 2704 (the v2 order): the five numbers follow the opening number and come before what mattered
+        self.assertIn("five = five_numbers(label, start, cut, facts, log, picked)", src)
+        self.assertIn('+ [FIVE_HEADING, ""] + five + [""] + W +', src)
         self.assertIn('chart_of_the_week(label, log, stories=shown.to_dict("records"))', src)
         self.assertEqual(roundup.FIVE_HEADING, "## The week in five numbers")
 

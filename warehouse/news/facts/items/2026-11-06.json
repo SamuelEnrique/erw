@@ -1,0 +1,27 @@
+{
+ "date": "2026-11-06",
+ "fact_id": "ff_d4207a1410",
+ "kind": "history",
+ "fact": "In 2002, GE acquired the wind power assets of Enron during its bankruptcy proceedings, and Enron Wind was the only surviving U.S. manufacturer of large wind turbines at the time.",
+ "second": "",
+ "structure": "none",
+ "conjecture": "False",
+ "sources": [
+  {
+   "label": "Wikipedia, General Electric",
+   "url": "https://en.wikipedia.org/wiki/General_Electric",
+   "raw": "warehouse/news/facts/raw/wikipedia/edison_electric_light_company_20261005T154144Z.txt",
+   "retrieved_at": "20261005T154144Z",
+   "part": "fact",
+   "span": "In 2002, GE acquired the wind power assets of Enron during its bankruptcy proceedings."
+  },
+  {
+   "label": "Wikipedia, General Electric",
+   "url": "https://en.wikipedia.org/wiki/General_Electric",
+   "raw": "warehouse/news/facts/raw/wikipedia/edison_electric_light_company_20261005T154144Z.txt",
+   "retrieved_at": "20261005T154144Z",
+   "part": "fact",
+   "span": "Enron Wind was the only surviving U.S. manufacturer of large wind turbines at the time"
+  }
+ ]
+}
