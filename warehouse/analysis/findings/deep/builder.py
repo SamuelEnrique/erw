@@ -99,7 +99,7 @@ def mirrors(P, region, c, csv_name, py_name):
 
 
 def check_text(text, name):
-    if "—" in text or "–" in text:
+    if chr(0x2014) in text or chr(0x2013) in text:
         raise ValueError(f"{name}: a dash the repository forbids")
     return text
 

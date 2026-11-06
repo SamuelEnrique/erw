@@ -66,7 +66,7 @@ class Reproduce(unittest.TestCase):
                 for region in regions[:2] + [r for r in regions if "LZ_" in r][:1]:
                     want = {r["year"]: r["value"] for r in got["rows"] if r["region"] == region}
                     text = P["reproduce"](region)["py"]
-                    self.assertNotIn("—", text)
+                    self.assertNotIn(chr(0x2014), text)
                     path = os.path.join(d, f"r_{P['name']}.py")
                     with open(path, "w", encoding="utf-8") as f:
                         f.write(text)
@@ -135,8 +135,8 @@ class Builder(unittest.TestCase):
                 self.assertIn(part, text)
             self.assertTrue(os.path.exists(doc[:-3] + ".png"))
             flat = json.dumps(row, ensure_ascii=False)
-            self.assertNotIn("—", flat)
-            self.assertNotIn("–", flat)
+            self.assertNotIn(chr(0x2014), flat)
+            self.assertNotIn(chr(0x2013), flat)
 
     def test_one_area_is_one_story(self):
         P = self.candidate([("ercot_HB_X", 3.0), ("ercot_LZ_X", 3.1), ("ercot_HB_Y", 2.0)], area=lambda r: r.split("_")[-1])
