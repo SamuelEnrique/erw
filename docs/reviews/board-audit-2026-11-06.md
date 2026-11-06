@@ -93,7 +93,7 @@ State: **open** until a session closes it; each closing session writes its numbe
 | 4 | ERCOT's node basis: no row summarizes it (`node_basis_summary`, `ercot_storage_node_basis`); the node view is `/cost-of-power` | power | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
 | 5 | Capacity prices: one placeholder for four operators; none of `iso_all_capacity_prices`' rows is public (the table is internal), so a placeholder for each operator with its auction and publisher | other | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
 | 6 | ERCOT's real-time price adders (`ercot_rtm_price_adders`, public): no row; three of the four end on 5 December 2025 in this machine's copy, so their rows must say when they stop | power | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
-| 7 | ERCOT's 4CP: the year's four peaks are held (`ercot_4cp_intervals`) and drawn nowhere on the board; the Texas delivery charges (`texas_delivery_charges`) are internal | cost group | 1604 | open |
+| 7 | ERCOT's 4CP: the year's four peaks are held (`ercot_4cp_intervals`) and drawn nowhere on the board; the Texas delivery charges (`texas_delivery_charges`) are internal | cost group | 1604 | closed in 1604 (`tests/test_board_1604.py`) |
 | 8 | Gas in storage, weekly (`eia_gas_storage_weekly`): no row; the week's position is what a gas trader reads first | gas | 1602 | closed in 1602 (`tests/test_board_1602.py`) |
 | 9 | LNG: the export price by terminal and the export volumes (`eia_lng_exports_monthly`, `eia_gas_trade_monthly`) are not drawn; LNG feedgas by the day is not held | gas | 1602 | closed in 1602 (`tests/test_board_1602.py`) |
 | 10 | Regional gas hubs: four placeholders (Waha, SoCal Citygate, Algonquin, Chicago); Houston Ship Channel, Transco Zone 6 New York, Dominion South and the Northwest are not named | gas | 1602 | closed in 1602 (`tests/test_board_1602.py`) |
@@ -103,9 +103,9 @@ State: **open** until a session closes it; each closing session writes its numbe
 | 14 | Crack spreads by product: only the two 3-2-1 cracks; no gasoline crack, no diesel crack, no heating oil crack | oilspreads | 1607 | open |
 | 15 | Coal by basin: placeholders (S&P Global) as they should be; the coal rows of the world group are not named beside them | plantfuel | 1603 | closed in 1603 |
 | 16 | The PADD series: drawn in retail fuel and heating; the spot products are New York Harbor, Gulf Coast and Los Angeles only (EIA's daily set) | products | 1603 | no gap: noted |
-| 17 | RGGI's row says "held internal while the publisher's terms are reviewed" with status `not_held`, and names no publisher: a held series must print "licensed source needed" and name the publisher (RGGI, Inc.) | carbon | 1604 | open |
-| 18 | ISO-NE's ancillary row: the same, status `not_held`, no publisher named | as | 1604 | open |
-| 19 | RIN prices: none held; EPA's RIN volumes are held. A placeholder that names the source | carbon | 1604 | open |
+| 17 | RGGI's row says "held internal while the publisher's terms are reviewed" with status `not_held`, and names no publisher: a held series must print "licensed source needed" and name the publisher (RGGI, Inc.) | carbon | 1604 | closed in 1604 |
+| 18 | ISO-NE's ancillary row: the same, status `not_held`, no publisher named | as | 1604 | closed in 1604 |
+| 19 | RIN prices: none held; EPA's RIN volumes are held. A placeholder that names the source | carbon | 1604 | closed in 1604 |
 | 20 | Uranium: the IMF's month is drawn and the daily spot is a placeholder (UxC, TradeTech) | metals | 1604 | no gap: noted |
 | 21 | Retail electricity: drawn by state and sector, newest month August 2026 | retailpower | | no gap |
 | 22 | The moves: day, week, month and year are drawn; year to date is not | all | 1608 | open |
