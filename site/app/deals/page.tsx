@@ -16,6 +16,7 @@ import { ToolPage } from "@/components/tool/ToolPage";
 import { one, tabOf } from "@/lib/tabs";
 import { CompaniesView } from "../companies/view";
 import { DealsTable, type Deal } from "./DealsTable";
+import { rowOf } from "@/lib/dealsview";
 import { TrackerView } from "./v2/view";
 import { ComparablesView } from "./comparables/view";
 import { DealsDecisions } from "./Decisions";
@@ -83,41 +84,15 @@ async function DealsView() {
         <>
           {/* session 500: held by row, the public rows are shown and the held ones counted (nothing here until the mark) */}
           <HeldRows shape="events" table="energy_deals" shown={res.data.length} method="/data/methods/energy_deals" />
-          <Body rows={res.data.map(toDeal)} month={month} companies={cos.ok ? cos.data.map((c) => c.name) : []} />
+          <Body rows={res.data.map(rowOf)} month={month} companies={cos.ok ? cos.data.map((c) => c.name) : []} />
         </>
       )}
     </>
   );
 }
 
-function toDeal(r: Awaited<ReturnType<typeof deals>>[number]): Deal {
-  const x = r.extra ?? {};
-  const num = (v: string | number | null | undefined) => (v === null || v === undefined || v === "" ? null : Number(v));
-  return {
-    id: r.event_id,
-    date: r.event_date,
-    dateBasis: x.date_basis ?? "",
-    type: x.deal_type ?? "",
-    status: r.status ?? "",
-    buyer: x.buyer ?? "",
-    seller: x.seller ?? "",
-    others: x.other_parties ?? "",
-    asset: x.asset ?? "",
-    technology: x.technology ?? "",
-    state: x.state ?? "",
-    country: x.country ?? "",
-    mw: num(r.mw),
-    mwh: num(x.mwh),
-    dollars: num(x.dollars),
-    priceValue: num(x.price_value),
-    priceUnit: x.price_unit ?? "",
-    termYears: num(x.term_years),
-    aiPower: String(x.ai_power ?? "").toLowerCase() === "true", // session 114: the table holds "True", "False" and "false"
-    confidence: num(x.confidence),
-    storyUrls: (x.story_urls ?? r.source_url).split(";").filter(Boolean),
-    source: r.source,
-  };
-}
+// Session 2238: a row of the live set as the table reads it is lib/dealsview.ts rowOf (the fields of sessions 2232 to
+// 2235 where the row has them, each older row's own columns where it does not).
 
 function Body({ rows, month: current, companies }: { rows: Deal[]; month: string; companies: string[] }) {
   // session 49: at the start of a month with no deals yet, the previous month, labeled
