@@ -918,7 +918,7 @@ class V2ThePageReadsIt(unittest.TestCase):
     def test_the_fold_is_drawn_closed(self):
         with open(os.path.join(ROOT, "site", "lib", "markdown.ts"), encoding="utf-8") as f:
             src = f.read()
-        self.assertIn("return foldMore(fillDigest(", src)
+        self.assertIn("return foldMore(sourceTrail(fillDigest(", src)   # session 1449: the source trail as a hover
         self.assertIn('<details class="digest-more" data-digest-fold="more">', src)
 
 
@@ -1095,7 +1095,7 @@ class V2RTheParts(unittest.TestCase):
         self.assertIn("- US48 peak.", sec)
         self.assertNotIn("Chart of the Week", sec)
         with open(os.path.join(ROOT, "site", "app", "roundup", "[week]", "page.tsx"), encoding="utf-8") as f:
-            self.assertIn("foldMore(render(md, DOCS.weekly_source[week]))", f.read())
+            self.assertIn("renderRoundup(md, DOCS.weekly_source[week])", f.read())   # session 1449: the fold, the source trail, the opening once
 
 
 class V2RTheEmail(unittest.TestCase):

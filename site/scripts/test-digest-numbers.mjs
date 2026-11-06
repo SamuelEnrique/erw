@@ -308,3 +308,28 @@ ERW
 });
 
 console.log(`\n${n} tests passed`);
+
+// session 1449 (chain 149): the source trail as a hover, and the Roundup's opening number not printed twice
+test("the Tables line folds under Sources and each mark gets its table as a hover", () => {
+  const html = "<p><strong>Brent crude: 128.12 USD/bbl on 2026-10-26 [1].</strong> EIA's close.</p>\n"
+    + "<p>Tables: [1] <code>eia_fuel_spot_prices</code> (eia:petroleum/pri/spt); [2] <code>eia930_all_demand</code> (eia:x); balancing authority us48.</p>\n"
+    + "<ul><li>US48 demand peaked at 470,627 MW in the hour starting 2026-10-25 23:00 UTC [2]; x.</li></ul>";
+  const out = D.sourceTrail(html);
+  assert.ok(out.includes('<details class="digest-tables"><summary>Sources</summary><p>Tables: [1] <code>eia_fuel_spot_prices</code>'));
+  assert.ok(out.includes('on 2026-10-26 <abbr class="digest-mark" title="eia_fuel_spot_prices">[1]</abbr>.'));
+  assert.ok(out.includes('23:00 UTC <abbr class="digest-mark" title="eia930_all_demand">[2]</abbr>;'));
+  assert.equal((out.match(/<abbr/g) || []).length, 2);   // the marks inside the Tables line are not wrapped
+  assert.equal(D.sourceTrail("<p>No marks here.</p>"), "<p>No marks here.</p>");
+});
+
+test("the five numbers' row that is the opening number says so", () => {
+  const html = '<h2 id="the-opening-number">The opening number</h2>\n<p><strong>Brent crude closed at 120.15 USD/bbl on 2026-10-30, against 128.30 USD/bbl on 2026-10-23 (-8.15 USD/bbl, -6.3%) [5].</strong> Status: calculated.</p>\n'
+    + '<h2 id="the-week-in-five-numbers">The week in five numbers</h2>\n<ul>\n<li><strong>Price move of the week:</strong> Brent crude closed at 120.15 USD/bbl on 2026-10-30, against 128.30 USD/bbl on 2026-10-23 (-8.15 USD/bbl, -6.3%) [5].</li>\n<li><strong>US48 peak demand:</strong> 500,538 MW [6].</li>\n</ul>';
+  const out = D.dedupeOpening(html);
+  assert.ok(out.includes("<li><strong>Price move of the week:</strong> the opening number, above.</li>"), out);
+  assert.ok(out.includes("<li><strong>US48 peak demand:</strong> 500,538 MW [6].</li>"));
+  assert.ok(out.includes("<p><strong>Brent crude closed at 120.15"));   // the opening itself stays
+  assert.equal(D.dedupeOpening("<p>nothing</p>"), "<p>nothing</p>");
+});
+
+console.log(`${n} passed`);

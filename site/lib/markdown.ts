@@ -7,7 +7,7 @@ import { Marked, type Tokens } from "marked";
 import docs from "@/content/docs.json";
 import site from "@/data/site.json";
 import { gated } from "@/lib/release";
-import { archiveOf, digestMarkdown, fillDigest, type DayKind, type Revision } from "@/lib/digest";
+import { archiveOf, dedupeOpening, digestMarkdown, fillDigest, sourceTrail, type DayKind, type Revision } from "@/lib/digest";
 
 export type Docs = {
   built_at: string;
@@ -179,8 +179,10 @@ export function render(md: string, repoPath: string): string {
         const phone = m ? DOCS.digest_charts?.[m[1]]?.image_600 : undefined;
         if (!safeHref(href)) return escapeHtml(text);
         const alt = escapeHtml(text), t = title ? ` title="${escapeHtml(title)}"` : "";
-        if (!phone) return `<img src="${escapeHtml(href)}" alt="${alt}"${t}>`;
-        return `<img src="${escapeHtml(href)}" srcset="/digest-charts/${phone} 600w, ${escapeHtml(href)} 1200w" sizes="(max-width: 640px) 100vw, 640px" alt="${alt}"${t}>`;
+        // session 1449 (fault 41, in part): a hover on the chart answers with its figures (the caption's values); the
+        // point-by-point hover needs the series on the page, which the record does not hold
+        if (!phone) return `<img src="${escapeHtml(href)}" alt="${alt}"${t || ` title="${alt}"`}>`;
+        return `<img src="${escapeHtml(href)}" srcset="/digest-charts/${phone} 600w, ${escapeHtml(href)} 1200w" sizes="(max-width: 640px) 100vw, 640px" alt="${alt}"${t || ` title="${alt}"`}>`;
       },
       // session 581: each heading carries the id GitHub gives it, so a link to a place in a document (the documents'
       // own links, docs/methods/x.md#y, and the pages' links to /data/methods/x#y) lands where it names
@@ -277,11 +279,17 @@ export function archiveDays(today: string = new Date().toISOString().slice(0, 10
 export function renderDigest(md: string, date: string, now: Date = new Date(), revisions: Record<string, Revision> = {}): string {
   const chart = DOCS.digest_charts?.[date] ?? null;
   const t = digestMarkdown(md, date, chart ? { table: chart.table, numbers: chart.numbers } : null, now, revisions);
-  return foldMore(fillDigest(render(t.md, `docs/digest/${date}.md`), t.spans));
+  return foldMore(sourceTrail(fillDigest(render(t.md, `docs/digest/${date}.md`), t.spans)));   // session 1449: the source trail as a hover
 }
 
 /** Session 2703 (the v2 Digest, rulings items 5 and 14: fold, do not cut): the "More" section, from its heading to the
  *  next h2, is drawn closed, a details element the reader opens; an issue without it is returned as it was. */
+/** Session 1449: a Roundup's page: rendered, the source trail as a hover, the opening number not printed twice among
+ *  the five numbers, the fold (session 2704). */
+export function renderRoundup(md: string, repoPath: string): string {
+  return foldMore(dedupeOpening(sourceTrail(render(md, repoPath))));
+}
+
 export function foldMore(html: string): string {
   const head = /<h2 id="more">More<\/h2>\n?/.exec(html);
   if (!head) return html;

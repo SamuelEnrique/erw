@@ -328,6 +328,40 @@ export function fillDigest(html: string, spans: string[]): string {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// session 1449 (chain 149, faults 18 and 26 on the page): the source trail close at hand, not in the way
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** The "Tables: [1] `iso_dam_hub_prices` (...); [2] `eia930_all_demand` ..." paragraphs of a rendered issue become a
+ *  closed <details class="digest-tables"> (its summary "Sources"), and each [n] mark in the text gets a hover naming
+ *  its table (an <abbr title>): the owner's rule that explanatory text is a hover tip, never visible grey text, with the
+ *  trail one click away for a reader without a hover. The markdown keeps every line: the parser and the tracer read it. */
+export function sourceTrail(html: string): string {
+  const tables: Record<string, string> = {};
+  const out = html.replace(/<p>(Tables: (?:.|\n)*?)<\/p>/g, (all, body: string) => {
+    for (const m of body.matchAll(/\[(\d+)\] <code>([a-z0-9_]+)<\/code>/g)) tables[m[1]] = m[2];
+    return `<details class="digest-tables"><summary>Sources</summary><p>${body}</p></details>`;
+  });
+  if (!Object.keys(tables).length) return out;
+  // the marks outside the details and outside tags: "[n]" as text, after a space or a quote
+  return out.split(/(<details class="digest-tables">(?:.|\n)*?<\/details>)/).map((part, i) => {
+    if (i % 2) return part;
+    return part.replace(/(^|[\s>(])\[(\d+)\](?=[\s.,;:)<]|$)/g, (all, before: string, n: string) =>
+      tables[n] ? `${before}<abbr class="digest-mark" title="${tables[n]}">[${n}]</abbr>` : all);
+  }).join("");
+}
+
+/** The Roundup's five numbers: the row that is the opening number word for word says so instead (the markdown keeps
+ *  both; scripts/check_roundup.py traces the five by their form). */
+export function dedupeOpening(html: string): string {
+  const op = /<h2 id="the-opening-number">(?:.|\n)*?<p><strong>([^<]+?)\.?<\/strong>/.exec(html);
+  if (!op) return html;
+  const text = op[1].trim();
+  if (text.length < 20) return html;
+  const esc = text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return html.replace(new RegExp(`(<li><strong>[^<]+:<\\/strong> )${esc}\\.?((?:\\s*<abbr[^>]*>\\[\\d+\\]<\\/abbr>|\\s*\\[\\d+\\])?\\.?)(</li>)`), "$1the opening number, above.$3");
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the days of the archive
 // ---------------------------------------------------------------------------------------------------------------------
 
