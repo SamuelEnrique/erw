@@ -62,7 +62,8 @@ CHART = {"week": "2026-W41", "template": "watch_battery_discharge_us", "title": 
 
 
 def table(name):
-    return {"energy_deals": DEALS, "datacenter_projects": DC}.get(name)
+    # session 1474 (fault 52): the five read the tables' own floor (confidence 0.7 or more); the fixture's rows pass it
+    return {"energy_deals": DEALS.assign(confidence="0.9"), "datacenter_projects": DC.assign(confidence="0.9")}.get(name)
 
 
 class TheFiveNumbers(unittest.TestCase):

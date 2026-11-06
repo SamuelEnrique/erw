@@ -213,7 +213,7 @@ await test("a call made twice with the same arguments is known as one", () => {
   assert.notEqual(st.callKey("query", { table: "t", aggregation: "mean" }), st.callKey("query", { table: "t", aggregation: "max" }));
   const loop = read("../lib/chat/ask.ts");
   assert.ok(loop.includes("const outs = await Promise.all(blocks.map((b, i) => (slots[i] ? runTool(b.name, b.input, scope) : null)));"));
-  assert.ok(loop.includes("if (profile && blocks.length && fresh === 0) forceWrite = true;"));
+  assert.ok(loop.includes("if (blocks.length && fresh === 0) forceWrite = true;"));
 });
 
 await test("the planner is the writer's own model unless a priced model is named, and the model's own setting of thought is not changed", () => {

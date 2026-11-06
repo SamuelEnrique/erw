@@ -488,6 +488,7 @@ async function heldAnswer(a: QueryArgs, grid: string): Promise<Json> {
 }
 
 async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
+  if (!a || typeof a !== "object") throw new ToolError("query needs its arguments as an object (table, aggregation and the rest)");   // session 1486
   if (!AGGREGATIONS.includes(a.aggregation)) throw new ToolError(`aggregation must be one of ${AGGREGATIONS.join(", ")}`);
   if (misoOwn(a.table) || misoOwn(a.entity) || Object.values(a.where ?? {}).flat().some(misoOwn)) throw new ToolError(MISO_PAUSED);
   const { c, columns, shape } = await tableInfo(a.table, scope);
@@ -798,6 +799,13 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
 }
 
 async function compare(a: { a: QueryArgs; b: QueryArgs }, scope: Scope = null): Promise<Json> {
+  // session 1486 (chain 158): a compare call without one of its two queries threw a TypeError ("Cannot read properties
+  // of undefined (reading 'aggregation')"), which is not a tool error, so the route answered 502 (the board's k03 of
+  // session 2918); it is now an error the model sees and can correct
+  for (const side of ["a", "b"] as const) {
+    const q = (a as Record<string, unknown> | null)?.[side];
+    if (!q || typeof q !== "object" || Array.isArray(q)) throw new ToolError(`compare needs ${side}: the arguments of a query (table, aggregation and the rest), as an object`);
+  }
   const [ra, rb] = await Promise.all([query(a.a, scope), query(a.b, scope)]);
   const single = (r: Json) => {
     // session 1126: a held grid's side (session 1112's heldAnswer) has no result: no difference is made with it
@@ -815,15 +823,19 @@ async function compare(a: { a: QueryArgs; b: QueryArgs }, scope: Scope = null): 
   return out;
 }
 
-/** Session 1109: USD per kW beside USD per MW, prepared for session 320's open ruling 1 and off until it is ruled.
- * With ASK_PER_KW=on, a query of a table whose method names the conversion, all of whose rows are in USD/MW, carries
- * each value, sum and summary figure divided by 1,000 as value_usd_per_kw, so the number check can trace a per-kW
- * figure the battery page shows. Off (the default), the result is what it was, key for key. */
+/** Session 1109: USD per kW beside USD per MW, prepared for session 320's open ruling 1. A query of a table whose
+ * method names the conversion, all of whose rows are in USD/MW, carries each value, sum and summary figure divided by
+ * 1,000 as value_usd_per_kw, so the number check can trace a per-kW figure the battery page shows. On by default since
+ * session 2221 (6 November 2026, chain 152: eight of session 320's thirty asked in USD per kW of a table in USD per MW);
+ * with ASK_PER_KW=off the result is what it was, key for key (warehouse/chat/tools.py per_kw_on). */
 export const PER_KW_TABLES: Record<string, string> = {
   battery_stack_monthly: "docs/methods/battery_stack.md: USD per kW of rated power is the USD/MW value divided by 1,000",
 };
+export function perKwOn(env: Record<string, string | undefined> = process.env): boolean {
+  return (env.ASK_PER_KW || "on").trim().toLowerCase() !== "off";
+}
 export function perKw(out: Json, table: string, env: Record<string, string | undefined> = process.env): Json {
-  if (env.ASK_PER_KW !== "on" || !PER_KW_TABLES[table]) return out;
+  if (!perKwOn(env) || !PER_KW_TABLES[table]) return out;
   const units = out.units as string[] | undefined;
   if (!units || units.length !== 1 || units[0] !== "USD/MW") return out;
   const kw = (x: unknown) => (typeof x === "number" ? round(x / 1000) : null);

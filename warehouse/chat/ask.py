@@ -59,7 +59,7 @@ BRIEFING = open(os.path.join(ROOT, "package", "llms.txt"), encoding="utf-8").rea
 RULES = """You answer questions about the US energy system from the Energy Research Warehouse (ERW), using only its tools: list_tables, describe_table, query and compare, and grid_notes for a grid page's written text.
 
 Rules:
-1. Answer only from tool results. Every number you write (prices, counts, capacities, percentiles, differences, dates and years) must appear in a tool result, written at the same or a coarser precision (a result of 25.1834 may be written 25.18 or 25.2). Do not compute any number yourself: no sums, averages, differences, ratios, percentages or unit conversions. If you need a difference or ratio, call compare; if you need an average, call query with that aggregation.
+1. Answer only from tool results. Every number you write (prices, counts, capacities, percentiles, differences, dates and years) must appear in a tool result, written at the same or a coarser precision (a result of 25.1834 may be written 25.18 or 25.2), and a money figure as the tool gave it: to the cent when the result has cents, never rounded to the unit or to "about" (a sum of 50424.0741 USD/MW is written 50,424.07 USD/MW, not about 50,424). Do not compute any number yourself: no sums, averages, differences, ratios, percentages or unit conversions. If you need a difference or ratio, call compare; if you need an average, call query with that aggregation.
 2. Cite every number. In the answer text, give the table each number came from, for example "25.18 USD/MWh (iso_rtm_hub_prices)". In citations, list every table you used, with its source_report and data_version copied exactly from the tool result.
 3. If the warehouse does not hold what the question asks (a market, node, period, variable or kind of data it does not have), answer "not in the warehouse", say in one sentence what is missing, set not_in_warehouse to true, and state no numbers. Never use outside knowledge, never estimate.
 4. Prefer public tables. If you use a table whose license is internal, say in the answer that it is internal (licensed for internal use only).
@@ -68,6 +68,7 @@ Rules:
 7. Keep the answer short: the number or numbers with units, the time or period, and the table. Say what the number is (for example "mean of 96 fifteen-minute intervals").
 8. Provenance tier: every tool result gives the table's tier: source (as the publisher published it), derived (computed by the ERW from other tables) or model_extracted (at least one field written by a model reading news, filings or the web, not published by a source). When a number comes from a model_extracted table, say so next to it in the answer, for example "USD 1.2 billion (energy_deals, model-extracted from news)".
 9. The site's economics pages and the tables behind them: the battery page (/cost-of-power/battery) reads battery_stack_monthly; the generator page (/cost-of-power/seller) reads merchant_revenue_monthly, whose battery rows (battery_4h_revenue_per_mw and its kin) are the generator page's rule for a battery; the datacenter page (/cost-of-power) reads cost_of_power_monthly. A question that names one of these pages is answered from that page's table.
+10. USD per kW: a query of battery_stack_monthly carries, beside each value in USD per MW, the same figure in USD per kW of rated power as value_usd_per_kw (the table's method note's own conversion, done by the tool). A question asked in USD per kW is answered with value_usd_per_kw, written in USD per kW; never divide or multiply a figure yourself.
 
 Your final message is JSON with: answer (plain text), citations (one per table used: table, source_report, data_version, tier), not_in_warehouse (true or false)."""
 
@@ -318,7 +319,9 @@ def reads_of(name, args):
 
 
 def nodash(text):
-    return text.replace(chr(0x2014), " - ").replace("  -  ", " - ")
+    """An em dash becomes " - "; since session 2226 (chain 152) an en dash becomes "-" too (a span of years, "2015-2025"),
+    as the site's nodash: the repository writes neither in any file, and a stored run holds every answer."""
+    return text.replace(chr(0x2014), " - ").replace("  -  ", " - ").replace(chr(0x2013), "-")
 
 
 def pick_model(client):
@@ -337,6 +340,15 @@ def api_key():
     if not k:
         raise SystemExit("ANTHROPIC_API_KEY is not set (environment or .env)")
     return k.strip()
+
+
+def call_key(name, args):
+    """Session 2222 (chain 152), as site/lib/chat/stages.ts callKey: a tool call as one string, its arguments with their
+    keys in order, so two calls with the same key ask the same thing."""
+    return f"{name} {json.dumps(args if args is not None else {}, sort_keys=True, separators=(',', ':'), default=str)}"
+
+
+REPEAT_NOTE = "this exact call was already made for this question and its result is above: answer from it; do not call it again"
 
 
 def cost_usd(model, usage):
@@ -435,11 +447,17 @@ class Asker:
         calls, sources, tables_read = [], [question] + given, set(self.known_tables(history) if history else ())
         seconds_first = None
         results = []  # session 92: every tool result, in order, for a profile's checks and its record
+        # session 2222 (chain 152): the calls made so far by their key, and whether the next model call may read. The site's
+        # loop has held this for Ask ERCOT since session 143 and for every chat since session 2222: a call already made for
+        # this question, with the same arguments, is answered with a note and read again from nothing (g03 and g06 of
+        # session 320's thirty asked the same sum six and seven times over, spending the limit of 12); it still counts
+        # toward the limit, and a turn that only repeated calls has nothing new to read, so the next call must write
+        ran, force_write = set(), False
         record = {"question": question, "grid": self.grid, "model": self.model, "today": today, "retried": False,
                   "first_violations": [], "request_ids": []}
         final, attempts = None, 0
         while True:
-            resp = self._create(messages, allow_tools=len(calls) < MAX_TOOL_CALLS)
+            resp = self._create(messages, allow_tools=len(calls) < MAX_TOOL_CALLS and not force_write)
             u = resp.usage
             usage["input"] += u.input_tokens
             usage["output"] += u.output_tokens
@@ -454,12 +472,21 @@ class Asker:
                 seconds_first = round(time.time() - t0, 1)
             if resp.stop_reason == "tool_use":
                 answers = []
+                fresh, blocks = 0, 0
                 for b in resp.content:
                     if b.type != "tool_use":
                         continue
+                    blocks += 1
+                    key = call_key(b.name, b.input)
                     if len(calls) >= MAX_TOOL_CALLS:
                         out, err = {"error": f"tool call limit ({MAX_TOOL_CALLS}) reached; answer now"}, True
+                    elif key in ran:
+                        # session 2222: nothing is read; the note is no source and no record, and the call is counted
+                        out, err = {"note": REPEAT_NOTE}, False
+                        calls.append({"tool": b.name, "input": b.input, "is_error": False, "result_chars": 0, "repeat": True})
                     else:
+                        ran.add(key)
+                        fresh += 1
                         if on_event:
                             on_event({"type": "reading", "tool": b.name, "table": b.input.get("table") if isinstance(b.input, dict) else None})
                         out, err = tools.run(b.name, b.input)
@@ -481,6 +508,8 @@ class Asker:
                     answers.append({"type": "tool_result", "tool_use_id": b.id,
                                     "content": json.dumps(out, default=str), "is_error": err})
                 messages.append({"role": "user", "content": answers})
+                if blocks and fresh == 0:
+                    force_write = True
                 continue
             if resp.stop_reason == "refusal":
                 final = {"answer": REFUSAL, "citations": [], "not_in_warehouse": False}
@@ -522,6 +551,7 @@ class Asker:
                     problems.append("an empty answer, or no citations")
                 problems += more
                 messages.append({"role": "user", "content": self.retry.format(problems="; ".join(problems))})
+                force_write = False  # session 2222: the retry may read again, as the site's
                 continue
             why = why_refused(bad, units, uncited_tables, no_cite, more)
             final = {"answer": (REFUSAL + " " + why).strip(), "citations": [], "not_in_warehouse": False}

@@ -5,9 +5,9 @@
 //   node --import ./scripts/alias-register.mjs scripts/test-ask-1109.mjs
 //
 // What is held here: each question is one query call (a sum over the months it names) that returns the table's figure
-// in USD per MW; with ASK_PER_KW off, the default, the result carries no per-kW key, so the tool is what it was; with
-// ASK_PER_KW=on, it carries value_usd_per_kw, the figure divided by 1,000, which is the question's key within its
-// tolerance, and the number check (unverified) then traces the per-kW figure an answer would state.
+// in USD per MW and, by default (session 2221, chain 152), value_usd_per_kw beside it, the figure divided by 1,000,
+// which is the question's key within its tolerance, so the number check (unverified) traces the per-kW figure an
+// answer states; with ASK_PER_KW=off the result carries no per-kW key, so the tool is what it was before session 2221.
 import assert from "node:assert/strict";
 import fs from "node:fs";
 
@@ -34,7 +34,7 @@ globalThis.fetch = async (url) => {
   return new Response(JSON.stringify(body), { status: 200, headers: { "content-type": "application/json" } });
 };
 
-const { runTool, perKw, PER_KW_TABLES } = await import("../lib/chat/tools.ts");
+const { runTool, perKw, perKwOn, PER_KW_TABLES } = await import("../lib/chat/tools.ts");
 const { unverified } = await import("../lib/chat/ask.ts");
 
 let n = 0, failed = 0;
@@ -58,47 +58,54 @@ await test("each of the eight is one query call over its twelve months, in USD p
   }
 });
 
-await test("off by default: no per-kW key in any result", async () => {
-  delete process.env.ASK_PER_KW;
-  for (const q of Object.values(FIX.questions)) {
-    const { out } = await ask(q);
-    assert.equal(out.per_kw, undefined);
-    assert.equal(out.result[0].value_usd_per_kw, undefined);
-    assert.ok(!JSON.stringify(out).includes("usd_per_kw\""));
-  }
-});
-
-await test("on: value_usd_per_kw is the key within its tolerance, and the number check traces it", async () => {
-  process.env.ASK_PER_KW = "on";
+await test("off (ASK_PER_KW=off): no per-kW key in any result, the tool as it was before session 2221", async () => {
+  process.env.ASK_PER_KW = "off";
   try {
-    for (const [id, q] of Object.entries(FIX.questions)) {
+    for (const q of Object.values(FIX.questions)) {
       const { out } = await ask(q);
-      const kw = out.result[0].value_usd_per_kw;
-      assert.ok(Math.abs(kw - q.key_usd_per_kw) <= 0.01, `${id}: ${kw} against the key ${q.key_usd_per_kw}`);
-      assert.equal(out.per_kw.unit, "USD/kW");
-      assert.match(out.per_kw.rule, /battery_stack\.md/);
-      const said = `The total is ${kw.toFixed(2)} USD per kW (battery_stack_monthly).`;
-      assert.deepEqual(unverified(said, [JSON.stringify(out)]), [], id);
+      assert.equal(out.per_kw, undefined);
+      assert.equal(out.result[0].value_usd_per_kw, undefined);
+      assert.ok(!JSON.stringify(out).includes("usd_per_kw\""));
     }
   } finally { delete process.env.ASK_PER_KW; }
 });
 
-await test("off, the same per-kW sentence is sent back by the number check, as on 20 October", async () => {
+await test("on by default: value_usd_per_kw is the key within its tolerance, and the number check traces it", async () => {
   delete process.env.ASK_PER_KW;
-  const q = FIX.questions.b01;
-  const { out } = await ask(q);
-  const said = `The total is ${q.key_usd_per_kw.toFixed(2)} USD per kW (battery_stack_monthly).`;
-  assert.deepEqual(unverified(said, [JSON.stringify(out)]), [q.key_usd_per_kw.toFixed(2)]);
+  for (const [id, q] of Object.entries(FIX.questions)) {
+    const { out } = await ask(q);
+    const kw = out.result[0].value_usd_per_kw;
+    assert.ok(Math.abs(kw - q.key_usd_per_kw) <= 0.01, `${id}: ${kw} against the key ${q.key_usd_per_kw}`);
+    assert.equal(out.per_kw.unit, "USD/kW");
+    assert.match(out.per_kw.rule, /battery_stack\.md/);
+    const said = `The total is ${kw.toFixed(2)} USD per kW (battery_stack_monthly).`;
+    assert.deepEqual(unverified(said, [JSON.stringify(out)]), [], id);
+  }
 });
 
-await test("only a table whose method names the conversion, and only rows all in USD/MW", async () => {
+await test("off, the same per-kW sentence is sent back by the number check, as on 20 October", async () => {
+  process.env.ASK_PER_KW = "off";
+  try {
+    const q = FIX.questions.b01;
+    const { out } = await ask(q);
+    const said = `The total is ${q.key_usd_per_kw.toFixed(2)} USD per kW (battery_stack_monthly).`;
+    assert.deepEqual(unverified(said, [JSON.stringify(out)]), [q.key_usd_per_kw.toFixed(2)]);
+  } finally { delete process.env.ASK_PER_KW; }
+});
+
+await test("only a table whose method names the conversion, and only rows all in USD/MW; off only with \"off\"", async () => {
   assert.deepEqual(Object.keys(PER_KW_TABLES), ["battery_stack_monthly"]);
   const on = { ASK_PER_KW: "on" };
   const base = () => ({ units: ["USD/MW"], result: [{ value: 1234.5 }] });
   assert.equal(perKw(base(), "merchant_revenue_monthly", on).per_kw, undefined);
   assert.equal(perKw({ units: ["USD/MW", "count"], result: [{ value: 3 }] }, "battery_stack_monthly", on).per_kw, undefined);
-  assert.equal(perKw(base(), "battery_stack_monthly", { ASK_PER_KW: "1" }).per_kw, undefined);
+  assert.equal(perKw(base(), "battery_stack_monthly", { ASK_PER_KW: "off" }).per_kw, undefined);
+  assert.equal(perKw(base(), "battery_stack_monthly", { ASK_PER_KW: " OFF " }).per_kw, undefined);
+  assert.equal(perKw(base(), "battery_stack_monthly", { ASK_PER_KW: "1" }).result[0].value_usd_per_kw, 1.2345);
+  assert.equal(perKw(base(), "battery_stack_monthly", {}).result[0].value_usd_per_kw, 1.2345);
   assert.equal(perKw(base(), "battery_stack_monthly", on).result[0].value_usd_per_kw, 1.2345);
+  assert.equal(perKwOn({}), true);
+  assert.equal(perKwOn({ ASK_PER_KW: "off" }), false);
 });
 
 console.log(`${n - failed} of ${n} passed`);

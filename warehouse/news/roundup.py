@@ -477,6 +477,12 @@ def num(v, fmt="{:,.0f}"):
     return fmt.format(float(v)) if v not in ("", None) else "not stated"
 
 
+def usd_cell(v):
+    """Session 1476 (chain 154, fault 54): a Deals table's US dollars cell in the issue's style ("938,000,000" was the W45
+    dry run's; "USD 938 million" is the five numbers'), "not stated" when the row states none."""
+    return usd_words(v) if str(v or "").strip() not in ("", "nan") else "not stated"
+
+
 def usd_words(d):
     """A sum of US dollars in the voice's form: 'USD 12 billion', 'USD 4.3 billion', 'USD 834 million', 'USD 250,000'."""
     from decimal import Decimal, ROUND_HALF_UP
@@ -499,6 +505,21 @@ def chart_figure(v):
 
 
 FIVE_HEADING = "## The week in five numbers"
+
+
+def deal_words(r):
+    """Session 1472 (chain 150's faults file, row 50): the deal of the week after its sum: the parties, the asset, and in
+    brackets the deal's kind and date. A party the asset already names is not printed again ("TeraWulf, TeraWulf data
+    center in Kentucky" was the W45 dry run's), and the kind "other" is not printed ("(other, 2026-11-05)"); with neither
+    a party nor an asset the row says "parties not stated", as before."""
+    asset = str(r.get("asset") or "").strip()
+    parties = [str(x).strip() for x in (r.get("buyer"), r.get("seller")) if str(x or "").strip()]
+    parties = [x for i, x in enumerate(parties) if x not in parties[:i] and x.lower() not in asset.lower()]
+    words = ", ".join(x for x in (" and ".join(parties), asset) if x) or "parties not stated"
+    kind = DEAL_LABEL.get(r.get("deal_type"), str(r.get("deal_type") or "").replace("_", " "))
+    when = str(r.get("event_date") or "")[:10]
+    inside = ", ".join(x for x in (kind if kind and kind != "other" else "", when) if x)
+    return words + (f" ({inside})" if inside else "")
 
 
 def five_numbers(label, start, cut, facts, log, picked=None):
@@ -557,24 +578,25 @@ def five_numbers(label, start, cut, facts, log, picked=None):
     else:
         when = pd.to_datetime(deals["event_date"], utc=True, format="ISO8601")
         dw = deals[(when >= start) & (when < cut)].copy()
+        # session 1474 (fault 52): the deal of the week is read with the Deals table's own floor (row_passes), so the five
+        # never state a deal the table below refuses (W45: USD 19 billion at confidence 0.55, not in the table)
+        under = len(dw)
+        dw = dw[[row_passes(r, "energy_deals") for r in dw.to_dict("records")]] if len(dw) else dw
+        under -= len(dw)
         dw["_d"] = pd.to_numeric(dw["dollars"], errors="coerce")
         dw["_m"] = pd.to_numeric(dw["mw"], errors="coerce")
         if dw["_d"].notna().any():
             r = dw.sort_values(["_d", "event_date"], ascending=[False, True]).iloc[0]
-            who = " and ".join(x for x in (r["buyer"], r["seller"]) if x) or "parties not stated"
-            L.append(f"- **Deal of the week, by US dollars:** {usd_words(r['_d'])}, {who}, {r['asset'] or 'asset not stated'} "
-                     f"({DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))}, {r['event_date'][:10]}).")
+            L.append(f"- **Deal of the week, by US dollars:** {usd_words(r['_d'])}, {deal_words(r)}.")   # session 1472
             keys.append(f"the deal of the week, `energy_deals` {r['event_id']}")
             picked["deal"] = {"usd": float(r["_d"]), "text": L[-1].split(":** ", 1)[1].rstrip(".")}
         elif dw["_m"].notna().any():
             r = dw.sort_values(["_m", "event_date"], ascending=[False, True]).iloc[0]
-            who = " and ".join(x for x in (r["buyer"], r["seller"]) if x) or "parties not stated"
-            L.append(f"- **Deal of the week, by MW (no deal of the week states dollars):** {float(r['_m']):,.0f} MW, {who}, "
-                     f"{r['asset'] or 'asset not stated'} ({DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))}, "
-                     f"{r['event_date'][:10]}).")
+            L.append(f"- **Deal of the week, by MW (no deal of the week states dollars):** {float(r['_m']):,.0f} MW, {deal_words(r)}.")
             keys.append(f"the deal of the week, `energy_deals` {r['event_id']}")
         else:
-            L.append("- **Deal of the week:** " + stand_in(1, "no deal in `energy_deals` is dated this week"))
+            L.append("- **Deal of the week:** " + stand_in(1, "no deal in `energy_deals` is dated this week" if not under else
+                                                       f"no deal of the week passes the Deals table's floor ({under} under it)"))
     # 4. the largest new datacenter load
     dc = read_table("datacenter_projects")
     if dc is None:
@@ -587,16 +609,25 @@ def five_numbers(label, start, cut, facts, log, picked=None):
         # a figure with no subject ("1,000 MW, operator not stated, site not stated, Newport")
         named = cw["operator"].astype(str).str.strip().ne("") | cw["site_name"].astype(str).str.strip().ne("")
         cw = cw[named]
+        # session 1474 (fault 52): and with the datacenter table's own floor (W45: 702 MW at confidence 0.55, "not stated"
+        # in the table below)
+        dc_under = len(cw)
+        cw = cw[[row_passes(r, "datacenter_projects") for r in cw.to_dict("records")]] if len(cw) else cw
+        dc_under -= len(cw)
         if cw["_m"].notna().any():
             r = cw.sort_values(["_m", "first_story_at"], ascending=[False, True]).iloc[0]
-            place = ", ".join(x for x in (r.get("city", ""), r.get("state", "")) if x) or "place not stated"
-            L.append(f"- **Largest new datacenter load first reported this week:** {float(r['_m']):,.0f} MW, {r['operator'] or 'operator not stated'}, "
-                     f"{r['site_name'] or 'site not stated'}, {place}.")
+            # session 1473 (fault 51): a part the row does not state is left out of the sentence ("702 MW, Google, site not
+            # stated, Cheyenne" was the W45 dry run's); the row has an operator or a site (session 1446)
+            parts = [str(r.get(k) or "").strip() for k in ("operator", "site_name")]
+            place = ", ".join(x for x in (str(r.get("city") or "").strip(), str(r.get("state") or "").strip()) if x)
+            words = ", ".join(x for x in (*parts, place) if x)
+            L.append(f"- **Largest new datacenter load first reported this week:** {float(r['_m']):,.0f} MW, {words}.")
             keys.append(f"the datacenter load, `datacenter_projects` {r['entity_id']}")
             picked["dc"] = {"mw": float(r["_m"]), "text": L[-1].split(":** ", 1)[1].rstrip(".")}
         else:
             L.append("- **Largest new datacenter load first reported this week:** "
-                     + stand_in(2, "no facility with an operator or a site first reported this week states its MW"))
+                     + stand_in(2, "no facility with an operator or a site first reported this week states its MW" if not dc_under else
+                                f"no facility first reported this week with its MW passes the datacenter table's floor ({dc_under} under it)"))
     # 5. the chart's figure
     meta = os.path.join(ANALYSIS_DIR, label, "chart_of_the_week.json")
     try:
@@ -707,12 +738,15 @@ def subject_line(op, first_head):
     """ERW Weekly | <plain description of the week>, with a second clause of one verified metric and unit when the
     opening number is a warehouse figure (the price move of the week). Session 1446 (fault 34): the headline is cut at a
     word to SUBJECT_HEAD_MAX characters, the move said in plain words ("Brent down 6.4% on the week")."""
-    head = short_head(brief.nodash(str(first_head or "the week's energy news")).rstrip("."))
+    # session 1475 (chain 154, fault 53): the headline's sums in the issue's money style ("$4 Billion" to "USD 4 billion"),
+    # and when the opening number is the week's move, the move leads ("ERW Weekly | Brent down 13.1% on the week; AEP and
+    # Google advance ..."): the subject opens on what the issue opens on
+    head = short_head(brief.money_style(brief.nodash(str(first_head or "the week's energy news"))).rstrip("."))
     mv = (op or {}).get("move")
     if mv and mv.get("label"):
         label = str(mv["label"]).replace(" day-ahead", " day-ahead power").replace("WTI Cushing crude", "WTI").replace("Brent crude", "Brent").replace("Henry Hub natural gas", "Henry Hub gas")
         pct = float(mv["pct"])
-        return f"ERW Weekly | {head}; {label} {'up' if pct >= 0 else 'down'} {abs(pct):.1f}% on the week"
+        return f"ERW Weekly | {label} {'up' if pct >= 0 else 'down'} {abs(pct):.1f}% on the week; {head}"
     return f"ERW Weekly | {head}"
 
 
@@ -955,7 +989,7 @@ def main(argv=None):
                     L.append(f"| {r['event_date'][:10]} | {DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))} | "
                              f"{r['buyer'] or 'not stated'} | "
                              f"{r['seller'] or 'not stated'} | {r['asset'] or 'not stated'} | {num(r['mw'])} | "
-                             f"{num(r['dollars'])} | {r['status'] or 'not stated'} | [1]({first}) |")
+                             f"{usd_cell(r['dollars'])} | {r['status'] or 'not stated'} | [1]({first}) |")   # session 1476 (fault 54)
                 L.append("")
                 L.append(floor_note("energy_deals", "deals", shown_d, rest_d, under_d) + " Extracted from the scored stories by "
                          "`warehouse/deals/extract.py`, every number checked against its story.")

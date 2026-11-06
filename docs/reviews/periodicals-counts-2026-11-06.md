@@ -105,3 +105,43 @@ No adjective of the list and no repeated figure in any regenerated issue; no day
 | 2026-11-06 | dry run, session 1463 | 30 | 0 | 0 | 2 deal | 8 / 40 | 214 | 0 |
 | 2026-11-06 | dry run, session 1468 | 30 | 0 | 0 | 2 deal | 8 / 37 | 187 | 0 |
 | 2026-W45 | dry run, session 1468 | 11 | 0 | 1 | 0  | 6 / 26 | 193 | 0 |
+
+## Chain 154's count (session 1483, 6 November 2026)
+
+The same count over the 16 stored Digests, the five stored Roundups and the twelve dry runs of chains 149, 150 and 154 (sessions 1435, 1436, 1451, 1463, 1468, 1477 and 1482; not in git). Chain 154's two runs (1477, 1482) read the same stories as session 1468's: the stories on main were scored to 5 November 23:39 UTC all day.
+
+| issue | kind | items | adjectives | repeated | top sector | links to Google News / all links | words above the fold | figures without a key |
+|---|---|---|---|---|---|---|---|---|
+| 2026-09-25 | stored | 27 | 12 | 4 | 3 datacenter power | 15 / 31 | 1042 | 0 |
+| 2026-09-26 | stored | 27 | 16 | 4 | 3 datacenter power | 13 / 28 | 983 | 0 |
+| 2026-09-27 | stored | 25 | 3 | 0 | 3 policy | 18 / 30 | 810 | 0 |
+| 2026-09-28 | stored | 30 | 6 | 1 | 3 lng | 16 / 36 | 1006 | 0 |
+| 2026-10-02 | stored | 31 | 2 | 9 | 4 oil | 15 / 43 | 1073 | 0 |
+| 2026-10-07 | stored | 33 | 1 | 10 | 2 deal | 14 / 43 | 1123 | 0 |
+| 2026-10-08 | stored | 33 | 5 | 7 | 3 deal | 19 / 38 | 1078 | 0 |
+| 2026-10-09 | stored | 33 | 3 | 7 | 3 oil | 11 / 37 | 1135 | 0 |
+| 2026-10-12 | stored | 30 | 3 | 1 | 5 oil | 22 / 37 | 941 | 0 |
+| 2026-10-13 | stored | 32 | 18 | 2 | 5 datacenter power | 18 / 36 | 981 | 0 |
+| 2026-10-14 | stored | 32 | 14 | 8 | 2 lng | 21 / 44 | 980 | 0 |
+| 2026-10-20 | stored | 31 | 14 | 5 | 2 deal | 18 / 40 | 946 | 0 |
+| 2026-10-21 | stored | 33 | 11 | 9 | 3 datacenter power | 17 / 39 | 1031 | 0 |
+| 2026-10-22 | stored | 33 | 4 | 3 | 3 datacenter power | 15 / 41 | 1018 | 0 |
+| 2026-10-23 | stored | 33 | 1 | 0 | 2 gas | 15 / 36 | 1117 | 0 |
+| 2026-11-06 | stored | 32 | 0 | 4 | 2 renewables | 12 / 36 | 1035 | 0 |
+| 2026-W39 | stored | 8 | 4 | 3 | 0  | 21 / 44 | 513 | 0 |
+| 2026-W40 | stored | 10 | 1 | 0 | 0  | 27 / 80 | 554 | 0 |
+| 2026-W41 | stored | 10 | 1 | 0 | 0  | 32 / 79 | 496 | 0 |
+| 2026-W43 | stored | 10 | 0 | 2 | 0  | 26 / 88 | 489 | 0 |
+| 2026-W44 | stored | 7 | 0 | 0 | 0  | 2 / 9 | 380 | 0 |
+| 2026-10-26 | dry run, session 1435 | 30 | 0 | 0 | 2 lng | 15 / 37 | 176 | 1 |
+| 2026-W43 | dry run, session 1436 | 11 | 0 | 1 | 0  | 20 / 56 | 195 | 2 |
+| 2026-W44 | dry run, session 1436 | 11 | 0 | 1 | 0  | 8 / 18 | 213 | 1 |
+| 2026-10-26 | dry run, session 1451 | 30 | 0 | 0 | 2 lng | 15 / 40 | 220 | 0 |
+| 2026-W44 | dry run, session 1451 | 11 | 0 | 0 | 0  | 7 / 18 | 195 | 1 |
+| 2026-11-06 | dry run, session 1463 | 30 | 0 | 0 | 2 deal | 8 / 40 | 214 | 0 |
+| 2026-11-06 | dry run, session 1468 | 30 | 0 | 0 | 2 deal | 8 / 37 | 187 | 0 |
+| 2026-W45 | dry run, session 1468 | 11 | 0 | 1 | 0  | 6 / 26 | 193 | 0 |
+| 2026-11-06 | dry run, session 1477 | 30 | 0 | 0 | 2 deal | 8 / 37 | 191 | 0 |
+| 2026-W45 | dry run, session 1477 | 11 | 0 | 1 | 0  | 6 / 26 | 193 | 0 |
+| 2026-11-06 | dry run, session 1482 | 30 | 0 | 0 | 2 deal | 8 / 37 | 192 | 0 |
+| 2026-W45 | dry run, session 1482 | 11 | 0 | 1 | 0  | 6 / 26 | 192 | 0 |
