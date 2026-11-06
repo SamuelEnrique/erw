@@ -32,6 +32,11 @@ export default function About() {
       </p>
       <h2 id="digest" className="mb-2 mt-6 text-xl">How the digest and ERW&apos;s Roundup are made</h2>
       <div className="mb-6 space-y-2 text-sm leading-relaxed">
+        {/* session 1452 (chain 149): the v2 method, part by part, each rule with its ruling and each figure's key, is one document; a link, not prose */}
+        <p>
+          <Link href="/data/methods/periodicals">The periodicals&apos; method</Link>: how each part of the Daily Digest and the Weekly Roundup is chosen,
+          each rule with its ruling, each figure&apos;s key and its tracer, and when and to whom each issue is sent.
+        </p>
         <p>
           <strong>Stories.</strong> The ERW reads energy news feeds (the outlets are listed in the source registry) and keeps each story&apos;s title,
           summary and link, never its body. Titles and summaries are the outlets&apos; text, kept for scoring and linking; they are not republished.

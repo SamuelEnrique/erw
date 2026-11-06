@@ -1729,5 +1729,33 @@ class Session1450TheTracers(unittest.TestCase):
             self.assertEqual(st, "FAIL")
 
 
+class Session1452TheMethod(unittest.TestCase):
+    """Session 1452 (chain 149): the periodicals' method is one document in the v2 shape, each rulings item named, each
+    figure's key and tracer named, the send hours and the recipients as they are; the about page links it; the rubric
+    carries the why line's rule."""
+
+    def setUp(self):
+        with open(os.path.join(ROOT, "docs", "methods", "periodicals.md"), encoding="utf-8") as f:
+            self.md = f.read()
+
+    def test_every_rulings_item_and_every_key(self):
+        for item in ("item 1)", "item 2)", "item 3", "item 4", "item 5", "item 6b", "item 7", "item 8", "item 9", "item 10", "item 11", "item 12", "item 13", "item 14", "item 15", "item 16", "item 17", "item 18"):
+            self.assertIn(item, self.md, item)
+        for key in ("digest_dam", "digest_rt", "digest_fuel", "digest_demand", "digest_story", "digest_chart", "rdp_five_dam", "rdp_five_fuel", "rdp_five_us48", "rdp_five_deal"):
+            self.assertIn(key, self.md, key)
+        for part in ("The masthead", "The opening number", "The numbers block", "What moved", "The chart of the day", "The fun fact", "The footer",
+                     "The week in five numbers", "What mattered", "The chart of the week", "Next week"):
+            self.assertIn(part, self.md, part)
+        self.assertIn("14:00 UTC", self.md); self.assertIn("23:00 UTC", self.md); self.assertIn("DIGEST_RECIPIENTS", self.md)
+        self.assertNotIn(chr(0x2014), self.md); self.assertNotIn(chr(0x2013), self.md)
+
+    def test_the_about_page_links_it_and_the_rubric_carries_the_rule(self):
+        with open(os.path.join(ROOT, "site", "app", "about", "page.tsx"), encoding="utf-8") as f:
+            self.assertIn('href="/data/methods/periodicals"', f.read())
+        self.assertIn("one fact the story gives that the title does not", score.RUBRIC)
+        for word in ("signals", "demonstrates", "reflects", "underscores", "highlights"):
+            self.assertIn(word, score.RUBRIC)
+
+
 if __name__ == "__main__":
     unittest.main()
