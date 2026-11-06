@@ -8,7 +8,7 @@
 // action is hidden by it; the count beside the filters says how many are listed.
 import { Fragment, useMemo, useState } from "react";
 import type { PolicyAction, PolicyRead } from "@/lib/data";
-import { ANY_TAG, LOAD_GROUP, LOAD_GROUP_LABEL, LOAD_GROUP_TAGS, hasTag, tagHref, type TagChip } from "@/lib/policyweek";
+import { ANY_TAG, LOAD_GROUP, LOAD_GROUP_LABEL, LOAD_GROUP_TAGS, actionsCountKey, hasTag, tagHref, type TagChip } from "@/lib/policyweek";
 import { CITE_WORDS, type ReadCite } from "@/lib/policyreads";
 import { Num } from "@/components/Num";
 
@@ -19,7 +19,9 @@ const TYPE: Record<string, string> = { rule: "Final rule", proposed_rule: "Propo
 const split = (s: string | null | undefined) => (s ? s.split(";").filter(Boolean) : []);
 const uniq = (xs: string[]) => Array.from(new Set(xs)).sort();
 
-export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = [] }: { rows: Row[]; tags?: TagChoice[]; tag?: string; missing?: { what: string; why: string }[] }) {
+// session 2401: pausedAgencies maps an agency code of the table to the paused record's words when that regulator is paused
+// (data/policy/paused.json through lib/policyweekdata.ts); its option reads "(paused)" and choosing it says so beside the count.
+export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = [], pausedAgencies = {} }: { rows: Row[]; tags?: TagChoice[]; tag?: string; missing?: { what: string; why: string }[]; pausedAgencies?: Record<string, string> }) {
   // session 304 (the ruling of 18 October 2026, item 5): a date after today is shown as the filing wrote it, with the words "as filed"
   const today = new Date().toISOString().slice(0, 10);
   const [agency, setAgency] = useState("");
@@ -60,7 +62,8 @@ export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = []
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-end gap-3">
-        {sel("Agency", agency, setAgency, [["", "All"], ...uniq(rows.map((r) => r.agency)).map((a) => [a, a] as [string, string])])}
+        {sel("Agency", agency, setAgency, [["", "All"], ...uniq(rows.map((r) => r.agency)).map((a) => [a, pausedAgencies[a] ? `${a} (paused)` : a] as [string, string])])}
+        {agency && pausedAgencies[agency] ? <span className="cursor-help border-b border-dotted border-muted text-xs italic text-muted" title={pausedAgencies[agency]} data-policy-paused-filter={agency}>paused: the rows held stay, nothing new is read</span> : null}
         {sel("Type", type, setType, [["", "All"], ...Object.entries(TYPE)])}
         {sel("Sector", sector, setSector, [["", "All"], ...sectors.map((s) => [s, s] as [string, string])])}
         {sel("State", state, setState, [["", "All"], ...states.map((s) => [s, s] as [string, string])])}
@@ -76,8 +79,11 @@ export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = []
           From
           <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink" />
         </label>
+        {/* session 2400: the total is the live table's count and carries its check key (event_count|policy_actions|all); the
+            filtered count is this page's own and changes with every filter, so it carries a hover and no key */}
         <span className="text-xs text-muted" data-policy-shown={shown.length}>
-          {shown.length} of {rows.length} actions
+          <span className="cursor-help border-b border-dotted border-muted" title="The actions the filters above leave, counted on this page.">{shown.length}</span> of{" "}
+          <span className="cursor-help border-b border-dotted border-muted" title="Every action of the live table policy_actions, as this page read it (the count is checked against the table)."><Num check={actionsCountKey(null)} raw={rows.length}>{rows.length}</Num></span> actions
         </span>
         {/* session 282: every filter back to the page's default: all agencies, types, sectors, states and tags, from any
             date, significance 5 or more (the actions read are those of 5 or more) */}
@@ -85,6 +91,8 @@ export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = []
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
+          {/* session 2403: the table's name for a screen reader (the accessibility pass found it had none) */}
+          <caption className="sr-only">Every action of the live table policy_actions that the filters leave: date, agency, type, title, sector and significance; a row opens to its read and sources</caption>
           <thead>
             <tr className="border-b border-rule text-left text-xs text-muted">
               <th className="py-1 pr-3">Date</th>

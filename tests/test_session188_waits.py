@@ -53,7 +53,8 @@ class TheReader(unittest.TestCase):
     def test_it_runs_before_every_build_and_its_file_is_not_in_git(self):
         scripts = json.loads(src("site", "package.json"))["scripts"]
         for name in ("prebuild", "predev", "content"):
-            self.assertEqual(scripts[name], "node scripts/build-content.mjs && node scripts/build-waits.mjs", name)
+            # session 2401: the paused sources' file is built after it (scripts/build-paused.mjs)
+            self.assertEqual(scripts[name], "node scripts/build-content.mjs && node scripts/build-waits.mjs && node scripts/build-paused.mjs", name)
         self.assertIn("/content/waits.json", src("site", ".gitignore").splitlines())
         self.assertIn('import waits from "@/content/waits.json";', src("site", "lib", "waits.ts"))
         self.assertIn('import "server-only";', src("site", "lib", "waits.ts"))

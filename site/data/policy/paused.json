@@ -1,0 +1,27 @@
+{
+ "from": "warehouse/metadata/paused_sources.csv",
+ "sources": [
+  {
+   "key": "miso",
+   "publisher": "Midcontinent Independent System Operator (MISO)",
+   "paused_on": "2026-10-04",
+   "reason": "MISO's terms forbid automated access",
+   "terms_url": "https://www.misoenergy.org/meet-miso/legal-and-privacy/",
+   "terms_quoted": "You agree not use any automated means, including, without limitation, agents, robots, scripts, or spiders, to access, monitor, or copy any part of this Website or the App.",
+   "ruled_by": "Samuel, 4 October 2026 (the closing ruling of session 89)",
+   "until": "a review of MISO's terms by a person",
+   "note": "Every pull of MISO's own servers is paused: hub prices (iso_prices.py miso), the latest real-time price (latest_prices.py), the interconnection queue (iso_queues.py), the Planning Resource Auction results (iso_capacity_prices.py), the reserve prices (miso_as_prices.py), the hub price history (hub_history.py) and the MISO newsroom feed. Every MISO table and page stays as it is; nothing is deleted. EIA's figures for the MISO balancing authority come from EIA and are not paused. To lift the pause, delete this row."
+  },
+  {
+   "key": "vascc",
+   "publisher": "Virginia State Corporation Commission (SCC)",
+   "paused_on": "2026-10-10",
+   "reason": "The commission's robots file disallows every automated request of its site (every path, every agent not named)",
+   "terms_url": "https://www.scc.virginia.gov/robots.txt",
+   "terms_quoted": "User-agent: * Disallow: /",
+   "ruled_by": "Samuel, 9 October 2026 (CHAIN_OCT9_PROMPT.md, session 172 part D, on session 171's reading of the robots file at 07:44 UTC on 9 October 2026)",
+   "until": "the commission's written permission (the draft to send is docs/reviews/scc-permission-email.md), or a person's ruling",
+   "note": "Every request of the commission's own servers is paused: the policy monitor's daily refresh (policy_monitor_refresh.py, the docket search's case and document lists), the large-load waits connector's Virginia stage (session 171's branch wip/171-virginia, which stopped after the robots file and lands later) and any reading of a filing. Every row held from the commission stays as it is (large_load_rules, large_load_rules_internal, large_load_statements; the saved lists and documents under warehouse/raw/); nothing is deleted. Link-outs to the commission's own pages stay: a visitor's click is not our request. To lift the pause, delete this row."
+  }
+ ]
+}
