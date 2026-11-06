@@ -897,9 +897,42 @@ def build_costs(b, log):
               tags=dict(grid="ERCOT"), source=CP_SOURCE,
               extra=dict(basis="ERCOT's load in the 15-minute interval it names as the month's coincident peak, June to September; a transmission customer's share of the four sets its "
                                 "transmission charge for the next year. One value a summer month, dated the month: the row holds four months a year."))
+        cp4_price(b, log)
     else:
         log("  ERCOT's coincident peaks: ercot_4cp_intervals not on this machine, skipped (page_keep.py keeps the held rows)")
     b.grey("costs", "texas|delivery", "Texas delivery charges, by utility", "licensed", DELIVERY_NOTE, at="transmission and distribution", unit="USD/kWh", tags=dict(grid="ERCOT"))
+
+
+# Session 1626 (chain 167): the 4CP exposure. ERCOT's hub average's 15-minute real-time price in each interval ERCOT names
+# as a summer month's coincident peak: what a load paid for energy in the interval that also sets its transmission charge.
+# Read from the history and the rolling table, filtered to the hub and the market as each is streamed (never the whole
+# history in memory), the later table's price for an interval winning.
+CP4_PRICE_TABLES = ["ercot_all_hub_prices_history", "iso_rtm_hub_prices"]
+CP4_PRICE_SOURCE = "ERCOT, the hub average's real-time settlement point price (ercot_all_hub_prices_history, iso_rtm_hub_prices) at the 4CP intervals of ercot_4cp_intervals"
+
+
+def cp4_price(b, log):
+    if not here("ercot_4cp_intervals"):
+        return
+    cp = pb.read_table("ercot_4cp_intervals")
+    cp = cp[(cp["variable"] == "cp4_load_mw") & cp["value"].notna()]
+    want = set(cp["ts_utc"])
+    if not want:
+        return
+    price = {}
+    for name in CP4_PRICE_TABLES:
+        if not here(name):
+            continue
+        t = pb.read_table(name, market="ercot_rtm", node="HB_HUBAVG", since=min(want))
+        t = t[t["ts_utc"].isin(want) & t["value"].notna() & (t["freq"] == "PT15M")]
+        price.update({ts: float(v) for ts, v in zip(t["ts_utc"], t["value"])})
+    by_month = {day_of(ts).replace(day=1): price[ts] for ts in sorted(want) if ts in price}
+    missing = len(want) - len(by_month)
+    b.add("costs", "ercot:HB_HUBAVG|cp4_rt", "ERCOT hub average, real time", "USD/MWh", "M", by_month, at="at the month's 4CP interval, June to September", code="HB_HUBAVG 4CP",
+          tags=dict(grid="ERCOT"), source=CP4_PRICE_SOURCE,
+          extra=dict(basis="The hub average's 15-minute real-time price in the interval ERCOT names as the month's coincident peak (the interval of the row above), "
+                           "June to September, dated the month: what energy cost in the interval that also sets a load's transmission charge."))
+    log(f"  ERCOT's 4CP exposure: {len(by_month)} of {len(want)} intervals priced" + (f"; {missing} not held" if missing else ""))
 
 
 # Session 1603 (chain 165): the two oil series the warehouse held and the board did not draw. eia_crude_first_purchase_prices'

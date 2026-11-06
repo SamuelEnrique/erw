@@ -114,7 +114,7 @@ State: **open** until a session closes it; each closing session writes its numbe
 | 25 | EIA's STEO price forecasts: not a market price; not drawn | | | out of scope: for a ruling |
 | 26 | `iso_zone_prices_history` is not read by the builder: its CAISO ZP26 and SPP South day-ahead reach back further than the rolling tables (ZP26 and SPP South have no one-year range on the board) | power | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
 | 27 | The spark spread uses Henry Hub for every grid; no regional gas price is held to replace it (licensed); the heat rate is stated, its source is not | spark | 1606 | closed in 1606: the assumption and EIA's fleet average in the hover; the gas stays Henry Hub (licensed) |
-| 28 | The ERCOT 4CP exposure: needs the year's peaks and a load shape; the peaks are held (gap 7) | spark | 1606 | open: needs the 15-minute price at each interval; for the next chain |
+| 28 | The ERCOT 4CP exposure: needs the year's peaks and a load shape; the peaks are held (gap 7) | spark | 1606 | closed in 1626 (chain 167): the hub average's 15-minute real-time price at each interval, a row of the cost group (`tests/test_board_1626.py`) |
 | 29 | The LNG netback: needs a destination price and shipping and regasification costs; only the World Bank's monthly Japan LNG and Europe gas are held, no freight | oilspreads | 1607 | closed in 1607 (`tests/test_board_1607.py`) |
 
 ## 4. Not drawn, by the board's rule
