@@ -153,11 +153,17 @@ def instrument(action_type, title, status_line="", lead=""):
 def status(inst, action_type, title, status_line, event_date, dates):
     """The action's status as of its document (STATUSES)."""
     hay = f"{title} ; {status_line}".lower()
-    if re.search(r"\bwithdraw(?:al|n|s)?\b|\bterminat(?:ion|ed|es|e)\b", hay):
+    # session 3060, on the whole table: a reinstatement of a terminated lease, a land order's "withdrawal" of land from
+    # entry, a meeting on a termination plan and a request ("motion to vacate", "partial vacatur" asked for) are not
+    # an action withdrawn or vacated; a termination still proposed is proposed
+    if re.search(r"\bproposed termination\b", hay):
+        return "proposed"
+    if inst != "meeting" and not re.search(r"\breinstatement\b|\bpublic land order\b|\barea withdrawal\b", hay) and re.search(
+            r"\bwithdraw(?:al|n|s)?\b|\bterminat(?:ion|ed|es|e)\b", hay):
         return "withdrawn"
-    if re.search(r"\bvacat(?:ur|ed|es|e)\b", hay):
+    if re.search(r"\bvacat(?:ur|ed|es|e)\b", hay) and not re.search(r"\bmotion to vacate\b|\bvacate in part\b|\bpartial vacatur\b", hay):
         return "vacated"
-    if re.search(r"\bstay(?:ed)?\b(?! of the)", hay) and "stay" in hay:
+    if re.search(r"\bstay of\b|\bstayed\b|;\s*stay\b|\badministrative stay\b", hay):
         return "stayed"
     eff = [d for k, d, _ in dates if k == "effective"]
     if inst in ("rule", "approval", "proposed_rule"):

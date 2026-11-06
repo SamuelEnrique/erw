@@ -193,7 +193,7 @@ class ThePage(unittest.TestCase):
         got = node("import * as W from './lib/policyweek.ts';"
                    "console.log(JSON.stringify({ views: W.VIEWS, windows: W.WINDOWS, paused: W.PAUSED_WORDS, why: W.PAUSE_WHY, none: W.NO_READ, municipal: W.MUNICIPAL, method: W.METHOD,"
                    " miso: W.shownRows([{ id: 'x', date: '2026-10-08', body: 'a', topics: [], grids: ['miso'], allGrids: true, largeLoad: true, link: { words: '' } }], { days: 30, agency: '', topic: '', grid: 'miso', large: false }, '2026-10-08') }));")
-        self.assertEqual([v[0] for v in got["views"]], ["all", "week"])
+        self.assertEqual([v[0] for v in got["views"]], ["all", "week", "monitor"])   # session 3060: the monitor, a third view
         self.assertEqual(got["views"][1][1], "What changed this week")
         self.assertEqual(got["windows"], [7, 30])
         self.assertEqual(got["paused"], "paused while terms are reviewed")

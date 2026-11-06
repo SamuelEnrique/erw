@@ -13,6 +13,9 @@ import { attempt } from "@/lib/supabase";
 import { PolicyTable, type Row } from "./PolicyTable";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import { WeekView } from "./WeekView";
+import { MonitorView } from "./MonitorView";
+import { filtersOf, type MonitorFile } from "@/lib/policymonitor";
+import monitorFile from "@/data/policy/monitor.json";
 import { citeOf } from "@/lib/policyreads";
 import status from "@/data/license_status.json";
 
@@ -68,6 +71,25 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
   const sp = await searchParams;
   const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
   const view = viewOf(q);
+  if (view === "monitor") {
+    // session 3060 (chain 166): the monitor, from data/policy/monitor.json alone (warehouse/policy/monitor_site.py)
+    const m = monitorFile as unknown as MonitorFile;
+    return (
+      <Brand>
+      <div data-policy="monitor">
+        <h1 className="mb-1 text-3xl">Policy</h1>
+        <Views view={view} />
+        <PausedLine file={pausedSources().file} names={pausedSources().names} />
+        <Section title="The monitor">
+          <MonitorView rows={m.rows} built={m.built} held={m.records} opened={filtersOf(q)} />
+          <Cite tables={["policy_actions", "policy_reads"]} note="One row a proceeding: the documents of policy_actions that name it, grouped by warehouse/policy/records.py; body, instrument, status, dates, next step and figure by the written rules of warehouse/policy/fields.py; the impact sentence's clause a model's, kept only when its words stand in the text" />
+        </Section>
+        <TableDownloads tables={["policy_actions", "policy_reads"]} />
+        <Related href="/policy" />
+      </div>
+      </Brand>
+    );
+  }
   if (view === "week") {
     return (
       <Brand>
