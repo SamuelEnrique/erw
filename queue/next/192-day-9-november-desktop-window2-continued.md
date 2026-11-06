@@ -26,6 +26,14 @@ Long end 0:45. The next file. Then chain 183's note read; its unfinished steps o
 
 Long end 1:30 each, in its note's order; the landing service first in the third (the request files read as chain 164's rules say, and the rule on stopped gates above).
 
+What chain 183 left (session 3232, 6 November 2026, about 16:55 UTC):
+
+- **It ran on 6 November,** the day its file was written. Every draft was checked again and holds: 185 reproduce, 185 cards and 185 do-files. No data had moved under a draft, and no ruling had come in.
+- **Not landed:** the portable laptop's deals row 8 (`wip/2295-deals`, with the `check-holds.mjs` fix of `50988f711` if absent) and policy row 11 (`wip/3157-policy`). They wait for the owner's word to start a gate on this desktop. The commands are under "To finish" in `archive/sessions/SESSION_3178_REPORT.md`.
+- **No findings branch is in flight;** this chain cuts its first from `origin/main`.
+- **This file was not taken by chain 183's queue step,** so that it runs when there may be data and rulings to act on. Take it by name: `chain_queue.take(who='lab-desktop-window2', file='192-day-9-november-desktop-window2-continued.md')`.
+- **A worktree has no `.env`:** pass `SUPABASE_DB_URL` from the main checkout's `.env` in the environment, never printed, when a check tool reads the database from a worktree (session 3230).
+
 ## The sixth to eighth sessions: the owner's rulings
 
 Long end 1:30 each. What the rulings ask that is this window's to do, each with its test and its report; nothing ruled is guessed.
