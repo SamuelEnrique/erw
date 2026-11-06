@@ -69,6 +69,8 @@ EXPECTED = {  # runs a day, as migration 015 schedules them (the weekly jobs on 
     "latest prices": 96, "hourly network": 23, "daily prices": 1, "energy roundup": 0, "weekly vacuum": 0,
     "chain watch": 96,  # session 91: every 15 minutes, whether or not a chain is marked (migration 022)
 }
+SHORT_SHARE = 0.5          # session 479: a job with fewer than half its expected runs in a day is "short"
+SHORT_ENDS_STREAK = False  # session 479: off until Samuel rules; on, a short day ends the green streak as a missing one does
 # Session 176: the daily cap for all scheduled model steps together (docs/methods/api_cost_ledger.md, "The daily cap").
 MODEL_CAP_DEFAULT = 1.50  # USD a UTC day; DAILY_MODEL_USD in the environment replaces it (session 206: 1.50, was 1.00)
 CAP_MARK = "daily model cap"  # a capped step's reason begins with it: the summary and the same-day email read it
@@ -121,8 +123,12 @@ def day_record(rows):
     stale = [line(r) for r in rows if counted(r) and is_stale(r)]
     # a job that runs every day and recorded nothing that day did not run: the day is not green, whatever else passed
     missing = sorted(w for w, n in EXPECTED.items() if n and w not in jobs)
-    return {"rows": sum(1 for r in rows if counted(r)), "failed": len(failures), "missing": missing, "jobs": dict(sorted(jobs.items())),
-            "failures": failures, "stale": stale}
+    # session 479: a job that ran, but fewer than SHORT_SHARE of its expected runs (pg_cron's six hours of startup
+    # timeouts on 20 and 21 October 2026 left the 15-minute jobs short and the day green); shown, and counted against
+    # the streak only when SHORT_ENDS_STREAK is set (Samuel's ruling)
+    short = sorted(w for w, n in EXPECTED.items() if n > 1 and w in jobs and jobs[w]["runs"] < SHORT_SHARE * n)
+    return {"rows": sum(1 for r in rows if counted(r)), "failed": len(failures), "missing": missing, "short": short,
+            "jobs": dict(sorted(jobs.items())), "failures": failures, "stale": stale}
 
 
 def green_streak(days):
@@ -135,7 +141,7 @@ def green_streak(days):
     n, d = 0, dt.date.fromisoformat(newest)
     while True:
         rec = days.get(d.isoformat())
-        if not rec or not rec.get("rows") or rec.get("failed") or rec.get("missing"):
+        if not rec or not rec.get("rows") or rec.get("failed") or rec.get("missing") or (SHORT_ENDS_STREAK and rec.get("short")):
             return n, newest
         n += 1
         d -= dt.timedelta(days=1)
