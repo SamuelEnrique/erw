@@ -415,3 +415,34 @@ The table `policy_action_tags` is not in the live set and the page does not need
   sentence also stands in this note (session 164's rule), and whether the spans should take focus is left to the owner
   (session 2403's report).
 - `docs/reviews/policy-figures-2026-10-23.md` has one row a figure, with its key or why none, and its hover before and after.
+
+## 14. The precise fields of an action (session 3056, chain 166)
+
+Since session 3056 each action carries, beside its own columns, fields read by `warehouse/policy/fields.py` from the
+Register's record of the document (its agencies, `effective_on` and `comments_close_on`) and the document's text (the
+printed text of a Register document, read once; a release's title and feed summary). No model is called. A field the
+record and the text do not state is empty: a date or a figure is never estimated.
+
+- **body**: the issuing body at the level a reader filters by. The record's most specific agency (a bureau before its
+  department: BOEM, OSMRE, BSEE and BLM, not "Interior"); without the record, the docket's own prefix (`BOEM-`,
+  `SATS No.`, `BSEE-`); a governor's release listed on a commission's page is "Texas Governor" (or California's).
+- **instrument**: rule, proposed_rule, order, guidance, approval, lease_sale, award, application, complaint,
+  environmental_review, meeting, decision, notice or announcement, by written rules over the title and the Register's
+  action line (a release's opening words too). A Register rule is a rule, or an approval of a state's program or plan.
+- **action_status**: proposed, final, effective, stayed, vacated, withdrawn, filed, open, scheduled, issued or announced,
+  as of the document's date (a final rule is effective once its effective date has come).
+- **dates** and **dates_evidence**: every dated step the text states, as kind and date (effective, expires,
+  comments_due, intervention_due, review_due, decision_due, meeting), each with the sentence it stands in or the record's
+  field. A date counts only where a deadline's or an effective date's words stand right before it; the date of a
+  filing, a signature or a past docket is not a step.
+- **next_step**, **next_step_date**, **next_step_evidence**: the first of those steps on or after the document's date.
+- **figure_value**, **figure_unit**, **figure_evidence**: the action's own figure, from the title or the document's
+  opening paragraph only (a summary and the opening of its supplementary information; a notice's first paragraphs), in
+  MW, GW, kW, MWh, kV, Dth/d, Bcf/d, MMcf/d or USD; a size before a voltage, a voltage before a sum of money.
+- **docket_ids**: the docket and project numbers, one form each ("050-616" and "50-616" are both "50-616").
+- **fields_from**: what the fields were read from (record and text, text, record and summary, summary, record, title).
+
+Tested on 30 stored actions whose answers were written from their own texts (`tests/fixtures/policy/`, 30 of 30 on
+each field) and checked on the other 50 of the audit's sample (`docs/reviews/policy-audit-2026-11-06.md`, "Session
+3056"). The scorer's policy note gained one sentence the same session: the sector is the part of the energy system the
+action applies to, and "policy" only when the summary and the title name none.

@@ -1,0 +1,103 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 201 (Tuesday, October 20, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 201 (Tuesday, October 20, 2026)]
+[Notices]
+[Page 66328]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-21442]
+
+
+-----------------------------------------------------------------------
+
+DEPARTMENT OF ENERGY
+
+Federal Energy Regulatory Commission
+
+[Docket No. PL26-3-000]
+
+
+Environmental Review of Natural Gas Act Applications; Notice of 
+Availability of Draft Policy Statement on Efficient Environmental 
+Reviews of Natural Gas Project Applications
+
+    The Federal Energy Regulatory Commission (FERC or Commission) has 
+prepared a draft policy statement concerning the Commission's review of 
+operational air emissions and associated air quality effects of 
+proposed natural gas projects under the Natural Gas Act (NGA) and the 
+National Environmental Policy Act (NEPA). Pursuant to the policy 
+described in the draft statement, the Commission would no longer 
+ordinarily ask applicants to prepare or submit air dispersion modeling 
+for compressor stations or liquefied natural gas facilities, nor 
+require use of the results of such modeling in assessing the air 
+quality effects of such facilities under the NGA and NEPA. Instead, the 
+Commission would use other information submitted by applicants and 
+identified by Commission staff, including but not limited to 
+information on governing state and federal air quality regulations and 
+applicants' compliance therewith, to analyze the air quality effects of 
+proposed projects.
+    The draft policy statement, for which the Commission seeks comment, 
+can be found in Docket Number PL26-3-000. Any person wishing to comment 
+on the draft policy statement may do so. To ensure consideration of 
+your comments before issuance of the final version, it is important 
+that the Commission receive your comments on or before 5:00 p.m. 
+Eastern Time on November 16, 2026.
+    The Commission specifically seeks comment on the optimal 
+implementation of its new policy, as opposed to its legal 
+justification. Instructions for filing comments are provided below.
+    For your convenience, there are three methods you can use to submit 
+your comments to the Commission. In all instances, please reference the 
+docket number (PL26-3-000) with your submission. The Commission 
+encourages electronic filing of comments and has staff available to 
+assist you at (866) 208-3676 or [email protected]. Please 
+carefully follow these instructions so that your comments are properly 
+recorded.
+    (1) You can file your comments electronically using the eComment 
+feature on the Commission's website (<a href="http://www.ferc.gov">www.ferc.gov</a>) under the link to 
+FERC Online. This is an easy method for submitting brief, text-only 
+comments;
+    (2) You can file your comments electronically by using the eFiling 
+feature on the Commission's website (<a href="http://www.ferc.gov">www.ferc.gov</a>) under the link to 
+FERC Online. With eFiling, you can provide comments in a variety of 
+formats by attaching them as a file with your submission. New eFiling 
+users must first create an account by clicking on ``eRegister.'' If you 
+are filing a comment on a particular project, please select ``Comment 
+on a Filing'' as the filing type; or
+    (3) You can file a paper copy of your comments by mailing them to 
+the Commission. Be sure to reference the docket number (PL26-3-000) on 
+your letter. Submissions sent via the U.S. Postal Service must be 
+addressed to: Debbie-Anne A. Reese, Secretary, Federal Energy 
+Regulatory Commission, 888 First Street NE, Room 1A, Washington, DC 
+20426. Submissions sent via any other carrier must be addressed to: 
+Debbie-Anne A. Reese, Secretary, Federal Energy Regulatory Commission, 
+12225 Wilkins Avenue, Rockville, Maryland 20852.
+    All of the information related to the draft policy statement and 
+submitted comments can be found on the FERC website (<a href="http://www.ferc.gov">www.ferc.gov</a>) 
+using the eLibrary link. Click on the eLibrary link, click on ``General 
+Search'' and enter the docket number, excluding the last three digits 
+in the Docket Number field (i.e., PL26-3). Be sure you have selected an 
+appropriate date range. For assistance, contact the Office of Public 
+Participation at (202)502-6595 or [email protected]. The eLibrary link also 
+provides access to the texts of all formal documents issued by the 
+Commission, such as orders, notices, and rulemakings.
+    In addition, the Commission offers a free service called 
+eSubscription that allows you to keep track of all formal issuances and 
+submittals in specific dockets. This can reduce the amount of time you 
+spend researching proceedings by automatically providing you with 
+notification of these filings, document summaries, and direct links to 
+the documents. Go to <a href="https://www.ferc.gov/ferc-online/overview">https://www.ferc.gov/ferc-online/overview</a> to 
+register for eSubscription.
+
+(Authority: 18 CFR 2.1)
+
+    Dated: October 15, 2026.
+Carlos D. Clay,
+Deputy Secretary.
+[FR Doc. 2026-21442 Filed 10-19-26; 8:45 am]
+BILLING CODE 6717-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

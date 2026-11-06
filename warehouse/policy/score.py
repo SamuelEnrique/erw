@@ -46,7 +46,12 @@ SCORE_COLS = ["significance", "sector", "why", "model_id", "scored_at", "model_r
 POLICY_NOTE = ("\n\nPolicy actions: the summary of an item is the document's own summary or the first paragraph of its "
                "printed text. When the summary is empty, say what the title says and no more: do not infer what the "
                "document decides, whom it affects or why it matters from a company's name, an agency's name or a "
-               "docket number, and choose the sector only from words the title itself holds.")
+               "docket number, and choose the sector only from words the title itself holds."
+               # session 3056 (chain 166, the audit's class 4): "policy" was the sector of 507 of 2,020 actions, a
+               # sector no reader can filter by, since every action is policy
+               " Every item here is a policy action, so the sector is the part of the energy system the action applies "
+               "to (generation, gas, oil, nuclear, transmission and the others); choose policy only when the summary "
+               "and the title name no part of it.")
 ON_TEXT = "scored on the source text"
 
 

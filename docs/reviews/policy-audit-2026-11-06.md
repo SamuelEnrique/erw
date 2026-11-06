@@ -84,28 +84,28 @@ The periodicals' faults file (`docs/reviews/periodicals-faults-2026-11-05.md`) h
 
 | # | Fault | Sample (of 80) | Table | Open |
 |---|---|---|---|---|
-| 1 | A date the document states (an effective date, a comment, protest or intervention deadline, a hearing or a session) is held in no field | 59 | every row: no date field but `event_date` | open (3056) |
-| 2 | No status: `status` is blank, or is the Register's action line, never a status (proposed, final, effective, stayed, vacated, withdrawn) | 80 (35 blank, 33 of them FERC) | 917 blank, 901 of FERC's 935 | open (3056) |
-| 3 | A figure the document states (MW, kV, Dth/d, USD) is held in no field: `mw` and `price` are empty | 17 | 2,020 empty | open (3056) |
-| 4 | Sector "policy", which names no sector: every row is policy; the action's sector stands in its text | 16 | 507 | open (3056) |
-| 5 | The instrument is not held: `action_type` is the Register's category, so an order, a guidance, a lease sale or an award stands as a notice or a news release | 14 | the four types only | open (3056) |
-| 6 | The place is missing or short where the text states it | 6 | not counted | open (3056) |
-| 7 | One action held as several rows (repeated notices, one exemption's two documents, a docket spelled two ways) | 3 | 406 docket ids stand on more than one row | open (3057) |
-| 8 | The body at its parent's level (a bureau as "Interior", a governor's release as the PUCT's) | 3 | at least 45 of Interior's 85 rows carry a BOEM (33) or OSMRE (12) docket | open (3056) |
-| 9 | Out of scope: not an energy action, or routine paperwork the connector means to leave out | 4 | not counted | open (3056) |
+| 1 | A date the document states (an effective date, a comment, protest or intervention deadline, a hearing or a session) is held in no field | 62 (59 first counted) | every row: no date field but `event_date` | 3056: held for 56 of 62 (`dates`, `next_step`), none kept that the text does not state |
+| 2 | No status: `status` is blank, or is the Register's action line, never a status (proposed, final, effective, stayed, vacated, withdrawn) | 80 (35 blank, 33 of them FERC) | 917 blank, 901 of FERC's 935 | 3056: `action_status` on 80 of 80 (the fixture's 30 right) |
+| 3 | A figure the document states as the action's own (MW, kV, Dth/d, USD) is held in no field: `mw` and `price` are empty | 16 (17 first counted) | 2,020 empty | 3056: `figure_value` and `figure_unit` for 12 of 16, none on another row; 4 stand outside the opening paragraph |
+| 4 | Sector "policy", which names no sector: every row is policy; the action's sector stands in its text | 16 | 507 | 3056: the scorer's policy note names it; the rows held change when they are scored again (the desktop's, with the owner's approval) |
+| 5 | The instrument is not held: `action_type` is the Register's category, so an order, a guidance, a lease sale or an award stands as a notice or a news release | 14 | the four types only | 3056: `instrument` names 14 of 14 (and the fixture's 30) |
+| 6 | The place is missing or short where the text states it | 6 | not counted | open (the faults rows, 3073 on) |
+| 7 | One action held as several rows (repeated notices, one exemption's two documents, a docket spelled two ways) | 3 | 406 docket ids stand on more than one row | 3056: `docket_ids` gives one form ("50-616"); the grouping is 3057's |
+| 8 | The body at its parent's level (a bureau as "Interior", a governor's release as the PUCT's) | 3 | at least 45 of Interior's 85 rows carry a BOEM (33) or OSMRE (12) docket | 3056: `body` right on 3 of 3 (OSMRE, BOEM, Texas Governor) |
+| 9 | Out of scope: not an energy action, or routine paperwork the connector means to leave out | 4 | not counted | open (the faults rows, 3073 on) |
 | 10 | Significance above the rubric's band for what the document does | 2, and 1 borderline | not counted | open (3058) |
 
 No fault was found in the title, the docket's presence or the event date of the 80. The impact reads (`policy_reads`) of the sampled actions that have one carry a `timeline` sentence that names the next step, so for the 5-or-more rows the date stands in prose; it is in no field of the action.
 
-### 1. Dates held in no field (59 of 80)
+### 1. Dates held in no field (62 of 80)
 
-24 Register documents carry the date in the Register's own record (`effective_on` or `comments_close_on`), two more in their DATES line only, 29 FERC notices in their text (FERC's record has neither field), four releases in their page.
+24 Register documents carry the date in the Register's own record (`effective_on` or `comments_close_on`), three more in their DATES line or text only, 31 FERC notices in their text (FERC's record has neither field), four releases in their page. Session 3055 counted 59; reading the texts again in session 3056 found three it missed (r39 and r42, FERC comment deadlines of 23 November and 21 October; r66, an exemption "effective upon issuance", issued 28 August).
 
 1. r13, FERC, Sandy Hollow Power Company: "Deadline for filing comments, motions to intervene and protests: November 20, 2026 5:00 p.m." The row holds no date but 2026-10-26.
 2. r25, NRC, AP1000 Design Certification Renewal: "The final rule is effective December 28, 2026, unless significant adverse comments are received by November 13, 2026". No date held.
 3. r54, NRC, North Anna early site permit renewal: "A request for a hearing or petition for leave to intervene must be filed by November 10, 2026".
 
-Four FERC blanket-authorization notices (r23, r37, r43, r59) state their deadline as a period ("within 30 days after the allowed time for filing a protest"), not a date: by the chain's rule the date stays empty and the words are kept.
+Session 3055 wrote here that four FERC blanket-authorization notices (r23, r37, r43, r59) state their deadline only as a period. That was wrong: each also states the date ("The deadline for filing protests, motions to intervene, and comments is 5:00 p.m. Eastern Time on December 8, 2026", r23); the period is the authorization's, which follows the deadline.
 
 ### 2. No status (80 of 80)
 
@@ -113,13 +113,13 @@ Four FERC blanket-authorization notices (r23, r37, r43, r59) state their deadlin
 2. r15, BLM, termination of an EIS: "The EIS effort described in the NOI is terminated immediately"; the row's status "Notice of termination." (the status word is withdrawn).
 3. r25 (above): "Direct final rule and issuance of environmental assessment"; the status is final, effective on a date unless comments arrive.
 
-### 3. Figures held in no field (17 of 80)
+### 3. Figures held in no field (16 of 80)
 
 1. r63, FERC, Forza Pipeline EA: "Forza would lease 750,000 Dth/d of natural gas transportation".
 2. r22, DOE release: "West Virginia Large Load Growth project will receive up to $50 million in DPA funding".
 3. r61, FERC, DeepGreen Cook Inlet preliminary permit: "The estimated annual generation of the DeepGreen Project would be 100 megawatts".
 
-Not every figure of a text is the action's: the DOE coal orders (r40, r46) state "17 gigawatts" of context. Session 3056's rule keeps a figure only where its sentence says what the action does, with that sentence as the evidence.
+Not every figure of a text is the action's: the DOE coal orders (r40, r46) state "17 gigawatts" of context, and session 3055 counted them (17); without them, and with r30's "79,303 dekatherms per day of incremental firm service" that it missed, the class is 16. Session 3056's rule keeps a figure only from the title or the document's opening paragraph, with its sentence as the evidence.
 
 ### 4. Sector "policy" (16 of 80)
 
@@ -170,3 +170,12 @@ The fourth: r3, DOE's "229 Boundary" for the SLAC laboratory (a security boundar
 3. Borderline: r63, the Forza Pipeline EA, 7 (an EA is a review step, the rubric's 4 to 6; the 750,000 Dth/d it reviews is the 7 to 8 band's size).
 
 None scored clearly below its band.
+
+## Session 3056: the fields made precise
+
+`warehouse/policy/fields.py` reads, for each action, from the Register's record (its `agencies`, `effective_on`, `comments_close_on`, now asked for in the listing) and the document's text: `body`, `instrument`, `action_status`, `dates` with `dates_evidence`, `next_step` with its date and evidence, `figure_value`, `figure_unit` and `figure_evidence`, `docket_ids`, `fields_from`. No model is called; a field neither states is empty. The connector adds the columns beside its own (`agency`, `action_type`, `status` and every key the Digest reads keep their names). The scorer's policy note gains one sentence on the sector (class 4).
+
+- **The fixture** (`tests/fixtures/policy/actions_3056.json`, 30 of the 80, answers written from each text): body, instrument, status, dates, next step and figure each 30 of 30 (`tests/test_policy_fields.py`). Writing the answers found two of session 3055's readings wrong (r23's dated deadline, r8's end date), and they were corrected before the rules were graded.
+- **Held out** (the other 50 of the 80, never used to write the rules): three faults found and fixed (the plural "emergency orders", an accepted application whose title names environmental issues, a rescheduled scoping session); after them, on all 80: dates held for 56 of the 62 rows that state one and on no other row; a figure for 12 of 16 and on no other row; the instrument named for 14 of 14; the body right for 3 of 3.
+- **What is left of classes 1 and 3:** six rows whose dates the rules do not read (a CPUC forum's and the NRC hearing's dates in a release, r38 and r58; the water-quality "reasonable period" of r50 and r72 written as "One year, August 27, 2027"; FERC's procedural schedule of r57 by month only; r78's sessions), and four figures outside the opening paragraph (r6, r22, r29, r31).
+- **The rows held** gain the fields when the connector next reads their text: on the data machine, every Register row whose printed text is in its store (`warehouse/raw/policy_sources/fr_text/`) is derived on its next run; a row read on the runner before this session keeps its text fields empty until then (`fields_from` says what each row's fields were read from).
