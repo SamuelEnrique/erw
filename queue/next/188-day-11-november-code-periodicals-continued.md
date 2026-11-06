@@ -44,7 +44,15 @@ One step a session, in chain 181's order, as session 1578 lists them under "Unfi
 
 ### Unfinished steps (written by session 1578 of chain 181)
 
-(To be filled by session 1578: one line a step, in chain 181's order, with the exact commands where the step was a landing.)
+1. Session 1566 (the landing of sessions 1526 and 1542), **only if `wip/1542-periodicals` is not yet an ancestor of `origin/main`** (chain 187 runs first and lands it):
+   - The branch is `wip/1542-periodicals` at `3737ef1fd`: session 1526's scrolling tables and session 1542's fault 58. Its gate passed at 14:25 UTC on 6 November (suite 7903 tests OK; `check_values` 7815 of 7815 but the `/deals` and know-your-grid floors; routes, cross-checks and CSP by hand). Main checked whole at 14:56 (session 1558) with the same result.
+   - Not between 14:00 and 16:15 UTC: `git -C ../erw-1542 fetch origin`, then `git -C ../erw-1542 merge --no-edit origin/main`, then `git -C ../erw-1542 push origin wip/1542-periodicals`.
+   - If main brought code since `3737ef1fd`, run the gate again: `.venv/Scripts/python.exe scripts/land_check.py --ref wip/1542-periodicals --task 1544-periodicals --port 3542 --lock-as s<N> --keep-worktree`. If it fails only on those two floors, run `check-routes`, `check-cross-checks` and `check-csp` against the kept build.
+   - `node site/scripts/snapshot-live.mjs take s<N>-before`.
+   - Push `task/1544-periodicals` only after `git merge-base --is-ancestor origin/main <sha>`, after trial-merging the other `task/` branches.
+   - Wait by sha (`runs/s1523/wait_merge.sh` with the branch name changed), then `take s<N>-after` and `compare`.
+   - Delete `wip/1542-periodicals` and `wip/1526-a11y` on origin; remove `../erw-1542` and `../erw-1526`.
+2. Session 1567 (the dry runs): each periodical once on the newest stories, into `runs/periodicals_dryrun/s1673/`. Check first that `news_stories.csv`'s retrieval line is later than 20261105T232645Z; if it is not, record that and take the next session's work. Read it as a reader, the new prompt's why lines first; the previews go to the fixed recipients as "[preview, dry run 1673]".
 
 ## Sessions 1677 to 1682: the faults still open
 
@@ -54,7 +62,8 @@ One fault a session, from `docs/reviews/periodicals-faults-2026-11-05.md`, in th
 
 ### Open faults (written by session 1578 of chain 181)
 
-(To be filled by session 1578: the faults file's rows still open, one a line, in the file's order; the owner's rows named, not to be decided here.)
+- None open of a session's (58 is fixed on `wip/1542-periodicals` and lands with it). The dry run's faults, appended to the file, are the first sessions' work.
+- The owner's, not to be decided here: rows 19, 20, 39, 40, 47, 49, and the scorer's model for the why line; row 48 is the data machine's.
 
 ## Session 1683: the dry runs, read, the previews sent
 
