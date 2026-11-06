@@ -424,6 +424,19 @@ def main(argv=None):
                     if norm(ev) not in text:
                         dropped.append(f"{cid}: evidence not verbatim in the story, not kept: {ev[:100]!r}")
                         ev = ""
+                    # session 2263 (chain 159): "Pauses" is not cancelled; an empty status from the facility's own
+                    # words (its evidence, or the cluster's words when the cluster gives one facility)
+                    if vals["status"] == "cancelled" and ff.paused_only(d.get("status_text")):
+                        dropped.append(f"{cid}: status cancelled: {d.get('status_text')!r} says paused, not kept")
+                        vals["status"] = ""
+                    if not vals["status"]:
+                        words = ev if ev else ""
+                        s_new, s_span = ff.status_from_words(words)
+                        if not s_new and len(facs) == 1:
+                            s_new, s_span = ff.status_from_words(" ".join(g["title"]) + " " + " ".join(g["summary"]))
+                        if s_new:
+                            vals["status"] = s_new
+                            log(f"  {cid}: facility {n}: status {s_new} from the words {s_span!r}")
                     src_story = d.get("story_id") if d.get("story_id") in story_ids else story_ids[0]
                     same = d.get("same_as")
                     target = same if same in by_id else keys.get(same) if same else None

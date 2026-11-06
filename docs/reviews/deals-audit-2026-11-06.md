@@ -496,3 +496,17 @@ The second read's facilities also show a country missed three times (F035 "Japan
 | F035 | the Chiba row: "AI infrastructure in Japan" | Japan |
 
 Country missed: **3 to 0**; the three fills are the only ones across both facility fixtures (the 2236 fixture's one fill is the same Stargate UK cluster). F053's other row ("OpenAI's First Stargate Site") names no place at all and stays as it is.
+
+## Session 2263 (chain 159): facilities' status (2 missed, 1 wrong)
+
+| Row | Words | Before | After |
+|---|---|---|---|
+| F018 | "due to be delivered next year" | - | under_construction |
+| F041 | "on track to go live in mid-2026" | - | under_construction |
+| F039 | "Pauses Wyoming Site" | cancelled | - (paused is not cancelled) |
+
+Status faults: **3 to 0**; no other facility of either fixture changed status.
+
+### The audit's open classes after chain 159's sessions 2256 to 2263
+
+Deals (106): not a deal kept 1; stated deals with no row 6 (two by ruling 2, one by a scope ruling, three by the prompt's rules: session 2256); place missed 3 (two states in one field, a buyer's country); status unsupported 1 (D062); kind 0; parties incomplete 2 (by a ruling); a party wrong 1 (D001, Google the credit backstop as seller); AI-power tag 2; a figure of another thing 2 (D045 the plant's cost, D053 the building's bonds); USD missed 1. Facilities (60): not a facility 1; stated facilities with no row 2; MW basis 1 (F049); operator 2 (by the rule); state 2 (F015 "Western Kentucky", F034 "Hutto, Texas"); power source 2 (F032, F060); country 0; status 0.

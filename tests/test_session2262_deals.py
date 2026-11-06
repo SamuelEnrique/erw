@@ -48,12 +48,12 @@ class TheWords(unittest.TestCase):
 class TheSample(unittest.TestCase):
     def test_country_missed_three_to_none(self):
         rows, log = dc_fixture.replay("2249")
-        fills = [l for l in log.splitlines() if "from the words" in l]
+        fills = [l for l in log.splitlines() if "from the words" in l and ": country " in l]
         self.assertEqual(len(fills), 3)
         for c in ("United Kingdom", "Norway", "Japan"):
             self.assertTrue(any(f"country {c} " in l for l in fills), c)
         _, log2236 = dc_fixture.replay("2236")
-        self.assertEqual([l for l in log2236.splitlines() if "from the words" in l][0].split("country ")[1][:14], "United Kingdom")
+        self.assertEqual([l for l in log2236.splitlines() if "from the words" in l and ": country " in l][0].split("country ")[1][:14], "United Kingdom")
 
 
 if __name__ == "__main__":

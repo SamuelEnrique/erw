@@ -189,6 +189,40 @@ def has_place(vals):
     return any((vals.get(f) or "").strip() for f in ("site_name", "city", "county", "state", "country"))
 
 
+# Session 2263 (chain 159): a facility's status from its own words where the model gave none, the first that matches
+# in this order. The second read found 2 of 60 with the status stated and left empty ("due to be delivered next year",
+# "on track to go live in mid-2026") and 1 cancelled for "Pauses Wyoming Site". A bare "building" is not read as
+# under construction ("teams up ... building data centre near Tokyo" was a first project planned).
+STATUS_WORDS = [
+    ("cancelled", r"\bcancel\w*|\bscrap(?:s|ped)\b|\bwithdr[ae]w\w*|\babandon(?:s|ed)\b|paused indefinitely"),
+    ("operating", r"\bopened\b|\bis (?:now )?operational\b|\bwent live\b|\bcame online\b|\bis (?:now )?online\b|"
+                  r"\benergized\b|\bbegan (?:commercial )?operations?\b"),
+    ("under_construction", r"\bbr(?:oke|eaks) ground\b|\bunder construction\b|\bconstruction (?:began|begins|starts|started|is underway)\b|"
+                           r"\bstart(?:s|ed)? work\b|\bon track to (?:go live|open|be completed|come online)\b|"
+                           r"\bdue to be (?:delivered|completed|online)\b|\bnearing completion\b"),
+    ("permitted", r"\bapprov(?:ed|es)\b|\bpermitted\b|\bgranted\b|\brezon\w*|\bcleared\b"),
+    ("applied", r"\bfil(?:ed|es)\b|\bappl(?:ied|ies)\b|\bsubmitted\b|\bs(?:eeks?|ought) approval\b|\brequests? (?:a )?permit\b"),
+    ("announced", r"\bannounc\w*|\bunveil\w*|\breveals?\b|\bplans?\b|\bpropos(?:es|ed)\b|\bwill build\b"),
+]
+
+
+def status_from_words(words):
+    """(status, span) from a facility's own words by STATUS_WORDS in order; ("", "") when none says."""
+    t = " ".join(str(words or "").replace("’", "'").split())
+    for s, pat in STATUS_WORDS:
+        m = re.search(pat, t, flags=re.I)
+        if m:
+            return s, m.group(0)
+    return "", ""
+
+
+def paused_only(span):
+    """True when the words the model gave for "cancelled" say only that the facility is paused ("Pauses Wyoming
+    Site"): the prompt's cancelled is "paused indefinitely", and the vocabulary has no paused."""
+    s = " ".join(str(span or "").split()).lower()
+    return bool(re.search(r"\bpaus\w*", s)) and "indefinitely" not in s
+
+
 def place_conflict(row, vals):
     """True when two facilities name different places: two states, two countries, or two cities in one state. The audit's
     class 8: xAI's Memphis site took its Mississippi story; AWS Mexico took a UAE data center."""
