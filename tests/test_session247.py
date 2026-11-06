@@ -151,7 +151,7 @@ class TheBoardWithoutATable(unittest.TestCase):
         # every function that reads a table whole asks first whether the table is on the machine
         bodies = ["def " + b for b in text.split("\ndef ")[1:]]
         readers = [b for b in bodies if "pb.read_table(" in b]
-        # session 1601 (chain 165): build_adders, ERCOT's real-time adders, reads its table whole too, behind here()
+        # session 3008 (the landing of chain 165): session 1601's ERCOT adders (build_adders) read a table whole too
         # session 1626 (chain 167): cp4_price, the hub's price at the 4CP intervals, behind here() too
         self.assertEqual(sorted(b.split("(", 1)[0][4:] for b in readers), ["build_adders", "build_as", "build_week", "cp4_price", "hourly_store", "table_daily"])
         for b in readers:

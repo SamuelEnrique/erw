@@ -5,6 +5,7 @@ Energy Research Warehouse (ERW). Written by chain 156 (`queue/done/156-night-6-n
 | # | Branch | Head | Task | Port | Requested (UTC) | Tests on this machine | State |
 |---:|---|---|---|---:|---|---|---|
 | 1 | `wip/2252-deals` | `9a5d15d11` | `2230-2252-deals` | 3230 | 2026-11-06 | the chain's tests and the older tests they touch: 173 passed, 6 skipped, on `a1ff82330`; the whole suite passed on `wip/2241-deals` (7,884 tests), not run whole on the head | waiting |
+| 2 | `wip/3059-policy` | `44bf41ab0` | `3054-3059-policy` | 3260 | 2026-11-06 | the 221 test files that touch policy, dashes, the method notes, coverage or the daily run: 3,167 passed, 131 skipped, 0 failed, on the head's tree; Node `test-policy-reads.mjs` 25 of 25, `test-policy-week.mjs` 90 of 90; the whole suite not run (stopped at 7% under the chain's 20-minute rule); not built (this window never builds) | waiting |
 
 ## Row 1: what it holds
 
@@ -25,3 +26,15 @@ Sessions 2230 to 2252, stacked: `wip/2230-deals` to `wip/2251-deals` are ancesto
 - **`/deals` is a held floor page** (`HELD_FLOOR_PAGES`): its figures read "license needed", as on main.
 - **Not built at the head**: the site was last built by the gate on `wip/2241-deals` (the deals pages, sessions 2238 to 2241: the build passed); **the datacenter pages of sessions 2243 to 2246 have not been built anywhere**, for memory. `npx tsc --noEmit` in `site/` on the head (session 2252) leaves only the 15 errors of a build's generated files, as on main. The gate's build is the first.
 - **After the landing, for the data machine**: the license rows of `deal_counterparties` and `datacenter_tracker_rollups` at their first build (held as their parents are, this chain assumes: `license_status.csv` and test 207's count), and the backfill only after the owner approves it (`docs/state/note_2026-11-07_portable.md`).
+
+## Row 2: what it holds (chain 166, the personal laptop's second window: the policy monitor)
+
+Written by session 3059 of `queue/done/166-night-6-november-portable-window2-policy-monitor.md` (its sessions 2260 to 2271 run as 3054 to 3065: every number to 3053 was taken). Sessions 3054 to 3059, stacked: `wip/3054-policy` to `wip/3058-policy` are ancestors of `wip/3059-policy`, which has `origin/main` merged (cda8db883). Reports: `archive/sessions/SESSION_3054_REPORT.md` to `SESSION_3059_REPORT.md`. This window never builds the site and never lands: the desktop lands it through `scripts/land_check.py --ref wip/3059-policy --task 3054-3059-policy --port 3260`.
+
+- **The audit** `docs/reviews/policy-audit-2026-11-06.md` (80 actions read against their documents, ten fault classes, each row's state) with `policy-audit-2026-11-06-sample.csv`.
+- **The fields** `warehouse/policy/fields.py` (body, instrument, action_status, dates with evidence, next step, figure with unit and evidence, docket ids; written rules, no model), wired into `warehouse/connectors/policy_sources.py` as new columns beside the old (no column the Digest or the page reads changes); the listing asks the Register for `effective_on` and `comments_close_on`; `widen_held` widens any earlier shape. **After the landing, for the data machine:** the next run of `policy_sources.py` on the desktop (its store `warehouse/raw/policy_sources/fr_text/` holds the printed texts) derives the fields of every Register row from its text; on the runner a row read before keeps them empty until then. No new request to the Register is made for rows already read.
+- **The records** `warehouse/policy/records.py` (one record a proceeding, every source, a status history); not a warehouse table and not a daily step (the owner's ruling is asked).
+- **The impact read** `warehouse/policy/impact.py` (the model's clause, kept only when its words stand in the text; the table it bears on by written rules) and its 60 reads, `docs/reviews/policy-impact-2026-11-06.csv` (USD 0.45, session 3058's ledger rows). Not a daily step.
+- **The scorer** `warehouse/policy/score.py`: one sentence added to the policy note on the sector; it applies to actions scored after the landing.
+- **Tests**: `tests/test_policy_fields.py`, `test_policy_records.py`, `test_policy_impact.py` and `tests/fixtures/policy/`. Method note: `docs/methods/policy_monitor.md` sections 14 and 15.
+- **No page changes in this row**: `/policy` is as on main. The monitor view (`/policy?view=monitor`) is the next row's.
