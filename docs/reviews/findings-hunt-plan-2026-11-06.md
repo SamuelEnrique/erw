@@ -621,7 +621,7 @@ The news index and scores, the cost ledger, the known faults: the platform's rec
 | generation_pipeline | hunted: the mix, nuclear, heat rates, the build-out (the planned pipeline cannot be: two months held) | 3005 to 3007 | 35 |
 | gas | hunted: the US balance, states, flaring, Mexico, storage | 3008 | 11 |
 | queues_deals_datacenters | hunted: the queues (Queued Up, by region and type); the Census datacenter series; deals and facilities not drafted (begun 2025, partial) | 3009 to 3011 | 27 |
-| tariffs_policy | not hunted | | 0 |
+| tariffs_policy | hunted: retail sales and prices, reliability, meters, net metering; large-load tariffs and policy actions not drafted (levels, recent) | 3012 | 12 |
 | oil_products_world | not hunted | | 0 |
 | coal_uranium_metals | not hunted | | 0 |
 | emissions_climate | not hunted | | 0 |

@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate res_price, region res_price_HI (Hawaii)
+# Computed 2026-11-06T12:22:27Z by warehouse/analysis/findings/deep/tariffs_policy.py (res_price); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the mean of the year's monthly average residential retail price (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: eia_retail_electricity_prices
+region,year,value,n_observations,full_year
+res_price_HI,2001,163.35833333333332,12.0,1
+res_price_HI,2002,156.12500000000003,12.0,1
+res_price_HI,2003,167.425,12.0,1
+res_price_HI,2004,180.5,12.0,1
+res_price_HI,2005,206.61666666666667,12.0,1
+res_price_HI,2006,233.32500000000002,12.0,1
+res_price_HI,2007,240.86666666666665,12.0,1
+res_price_HI,2008,324.82500000000005,12.0,1
+res_price_HI,2009,241.51666666666668,12.0,1
+res_price_HI,2010,280.93333333333334,12.0,1
+res_price_HI,2011,346.99166666666673,12.0,1
+res_price_HI,2012,373.5916666666667,12.0,1
+res_price_HI,2013,369.78333333333336,12.0,1
+res_price_HI,2014,370.5,12.0,1
+res_price_HI,2015,296.71666666666664,12.0,1
+res_price_HI,2016,274.5,12.0,1
+res_price_HI,2017,295.2583333333333,12.0,1
+res_price_HI,2018,324.54999999999995,12.0,1
+res_price_HI,2019,321.9916666666667,12.0,1
+res_price_HI,2020,304.40833333333336,12.0,1
+res_price_HI,2021,334.65833333333336,12.0,1
+res_price_HI,2022,429.3083333333332,12.0,1
+res_price_HI,2023,424.3666666666666,12.0,1
+res_price_HI,2024,429.8,12.0,1
+res_price_HI,2025,404.74999999999994,12.0,1
+res_price_HI,2026,464.42499999999995,8.0,0
