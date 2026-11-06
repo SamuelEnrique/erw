@@ -765,17 +765,48 @@ def next_week(end, log, n=NEXT_WEEK_N):
                               str(r.get("source_url") or "")))
                 break
     items.sort(key=lambda x: (x[1], x[0], x[2]))
-    out, seen = [], set()
+    out, seen, kinds = [], set(), set()
     for day, _sig, title, agency, sent, url in items:
         if title in seen:
             continue
         seen.add(title)
+        # session 1447 (fault 36): one item of a kind (the agency and the sentence's kind of date) a day, so three FERC
+        # comment deadlines on one Monday are one line, and the others wait for a different day or kind
+        kind = (day, agency, event_kind(sent))
+        if kind in kinds:
+            continue
+        kinds.add(kind)
         src = f" ([source]({url}))" if url.startswith("http") else ""
-        out.append(f"- **{brief.day_words(day)}**: {title[:TITLE_MAX].rstrip('.')} ({agency}). {sent.rstrip('.')}.{src}")
+        out.append(f"- **{brief.day_words(day)}**: {short_title(title)} ({agency}). {sent.rstrip('.')}.{src}")
         if len(out) >= n:
             break
     log(f"  next week: {len(out)} dated item(s) of {len(items)} found in policy_reads")
     return sorted(out, key=lambda x: pd.Timestamp(re.search(r"\*\*(.+?)\*\*", x).group(1)))
+
+
+NEXT_TITLE_MAX = 90
+
+
+def short_title(title, n=NEXT_TITLE_MAX):
+    """Session 1447 (fault 36): a filing's title cut at a word, never mid-word ("...Capacity Repl"), the docket's short
+    name kept: the part before the first semicolon (the company) and the first clause after it, to n characters with an
+    ellipsis of three stops when cut."""
+    t = " ".join(str(title or "").split()).rstrip(".")
+    parts = [p.strip() for p in t.split(";") if p.strip()]
+    if len(parts) >= 2:
+        t = f"{parts[0]}, {parts[1]}"
+    if len(t) <= n:
+        return t
+    return t[:n].rsplit(" ", 1)[0].rstrip(",;:") + "..."
+
+
+def event_kind(sentence):
+    """The kind of a dated sentence: comments, effective, hearing, auction, release, deadline, or other."""
+    s = str(sentence or "").lower()
+    for word in ("comment", "effective", "hearing", "auction", "release", "deadline"):
+        if word in s:
+            return word
+    return "other"
 
 
 NO_NEXT_WEEK = ("No dated events held this week: the warehouse and the policy monitor hold no filing, auction, hearing, data "
@@ -882,7 +913,7 @@ def main(argv=None):
         # session 2704: the lines below are the fold ("More"); the page's order is assembled after the numbers
         L = ["### Weekend", ""]
         if weekend.empty:
-            L.append(f"- no scored story was published on {wk_start:%Y-%m-%d} or "
+            L.append(f"- no story of {wk_start:%Y-%m-%d} or "
                      f"{wk_start + pd.Timedelta(days=1):%Y-%m-%d} (UTC).")
         for i, r in enumerate(weekend.to_dict("records"), 1):
             L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "

@@ -802,8 +802,12 @@ class Notes:
 SUMMARY_SYSTEM = """You write the summary above the numbers section of the ERW's energy brief: two or three plain sentences
 saying what the numbers say (for example where power was dearest or cheapest, how prices moved, what stands out).
 Use only numbers written in the section, exactly as they are written there: do not compute new numbers (no sums,
-differences, ratios or percentages that are not already in the section) and do not round them. No hype, no advice,
-no em dashes. Return JSON with the field summary.""" + VOICE_NOTE
+differences, ratios or percentages that are not already in the section) and do not round them. One number a clause:
+never "each rose 7.46 and 7.47" or two figures joined by "and" for two things; say each thing in its own clause.
+No hype, no advice, no em dashes. Return JSON with the field summary.""" + VOICE_NOTE
+# session 1447 (chain 149, fault 38): a summary sentence that pairs two figures under "each" or "respectively" is not
+# one number a clause; the summary is left out rather than printed so
+PAIRED = re.compile(r"\beach\b[^.;]*\d[\d,.]*\s+and\s+\d[\d,.]*|\brespectively\b", re.I)
 SUMMARY_SCHEMA = {"type": "object", "properties": {"summary": {"type": "string"}}, "required": ["summary"],
                   "additionalProperties": False}
 
@@ -811,6 +815,12 @@ SUMMARY_SCHEMA = {"type": "object", "properties": {"summary": {"type": "string"}
 def section_pool(lines):
     """The section's text for the literal check: without footnote markers and the footnote list."""
     return "\n".join(re.sub(r"\[\d+\]", "", ln) for ln in lines if not ln.startswith("Tables: "))
+
+
+def summary_check(text):
+    """Session 1447 (fault 38): the problems of a numbers summary: a clause pairing two figures ("each rose about 7.46
+    and 7.47"); [] when it passes."""
+    return ["two figures in one clause"] if PAIRED.search(str(text or "")) else []
 
 
 def numbers_summary(client, model, lines, log):
@@ -827,15 +837,15 @@ def numbers_summary(client, model, lines, log):
         resp = client.messages.create(**kwargs)
         usages.append(resp.usage)
         text = nodash(json.loads(next(b.text for b in resp.content if b.type == "text"))["summary"]).strip()
-        bad = chat_ask.unverified(text, [pool])
+        bad = chat_ask.unverified(text, [pool]) + summary_check(text)   # session 1447 (fault 38): one number a clause
         if not bad:
             log(f"  numbers summary: attempt {attempt} passed the literal check")
             return text, usages
-        log(f"  numbers summary: attempt {attempt} has numbers not in the section: {bad}")
+        log(f"  numbers summary: attempt {attempt} has numbers not in the section, or two in one clause: {bad}")
         msgs = msgs + [{"role": "assistant", "content": json.dumps({"summary": text})},
-                       {"role": "user", "content": "These numbers are not in the section as written: " + ", ".join(bad)
-                        + ". Rewrite the summary using only numbers written in the section."}]
-    log("  numbers summary: omitted (failed the literal check twice)")
+                       {"role": "user", "content": "These numbers are not in the section as written, or two figures share one clause: " + ", ".join(bad)
+                        + ". Rewrite the summary using only numbers written in the section, one number a clause."}]
+    log("  numbers summary: omitted (failed the checks twice)")
     return None, usages
 
 

@@ -1078,7 +1078,8 @@ class V2RTheParts(unittest.TestCase):
             {"title": "Earlier", "agency": "DOE", "significance": "9", "source_url": "https://e/z", "timeline": "It took effect on October 20, 2026."}])
         with mock.patch.object(roundup, "read_table", return_value=reads):
             got = roundup.next_week(pd.Timestamp("2026-10-27", tz="UTC"), quiet)
-        self.assertEqual(got, ["- **2 November 2026**: Northern Natural Gas Company; Notice (Federal Energy Regulatory Commission). Comments on the EA "
+        # session 1447 (fault 36): the docket's short name, the company and the first clause joined by a comma
+        self.assertEqual(got, ["- **2 November 2026**: Northern Natural Gas Company, Notice (Federal Energy Regulatory Commission). Comments on the EA "
                                "are due to FERC by 5:00 p.m. Eastern Time on November 2, 2026. ([source](https://www.federalregister.gov/x))"])
         with mock.patch.object(roundup, "read_table", return_value=reads.iloc[1:]):
             self.assertEqual(roundup.next_week(pd.Timestamp("2026-10-27", tz="UTC"), quiet), [])
@@ -1601,6 +1602,50 @@ class Session1446Naming(unittest.TestCase):
         brent = cand("Brent crude", "Brent crude", 120.15, 128.30, -6.4, unit="USD/bbl")
         brent["named"] = True
         self.assertEqual(brief.opening_number([brent], [rec("g", "G plans 1,000 MW", mw="1000")])["key"], "Brent_crude")
+
+
+class Session1447TablesAndArchive(unittest.TestCase):
+    """Session 1447 (chain 149, faults 36 to 38): next week's titles cut at a word with one item a kind a day; the
+    weekend line says no story of those days is scored; the numbers summary has one number a clause."""
+
+    def test_a_filing_title_is_cut_at_a_word(self):
+        t = ("Northern Natural Gas Company; Notice of Availability of the Environmental Assessment for the Proposed Ventura "
+             "to Farmington A-Line Abandonment and Capacity Replacement Project")
+        self.assertEqual(roundup.short_title(t), "Northern Natural Gas Company, Notice of Availability of the Environmental Assessment for...")
+        self.assertEqual(roundup.short_title("Ohio Regulatory Program"), "Ohio Regulatory Program")
+        self.assertNotIn("Repl...", roundup.short_title(t))
+        self.assertEqual(roundup.event_kind("Comments on the EA are due by 5:00 p.m. Eastern Time on November 2, 2026."), "comment")
+        self.assertEqual(roundup.event_kind("The final rule takes effect on November 25, 2026."), "effective")
+
+    def test_one_item_a_kind_a_day(self):
+        reads = pd.DataFrame([
+            {"title": "A Pipeline; Notice of Availability of the EA", "agency": "FERC", "significance": "6", "source_url": "https://x/a",
+             "timeline": "Comments on the EA are due by 5:00 p.m. Eastern Time on November 2, 2026."},
+            {"title": "B Pipeline; Notice of Availability of the EA", "agency": "FERC", "significance": "6", "source_url": "https://x/b",
+             "timeline": "Comments are due by 5:00 p.m. Eastern Time on November 2, 2026."},
+            {"title": "C Rule", "agency": "NRC", "significance": "8", "source_url": "https://x/c",
+             "timeline": "The final rule takes effect on November 4, 2026."},
+            {"title": "D Pipeline; Notice of Scoping", "agency": "FERC", "significance": "5", "source_url": "https://x/d",
+             "timeline": "Comments are due by 5:00 p.m. Eastern Time on November 5, 2026."}])
+        with mock.patch.object(roundup, "read_table", return_value=reads):
+            out = roundup.next_week(pd.Timestamp("2026-11-02", tz="UTC"), quiet)
+        self.assertEqual(len(out), 3)
+        self.assertTrue(out[0].startswith("- **2 November 2026**: A Pipeline, Notice of Availability of the EA (FERC)."), out[0])
+        self.assertFalse(any("B Pipeline" in x for x in out))   # the second FERC comment deadline of the same day waits
+        self.assertTrue(any("C Rule (NRC)" in x for x in out))
+        self.assertTrue(any("D Pipeline" in x for x in out))
+
+    def test_the_weekend_line_says_scored(self):
+        src = inspect.getsource(roundup.main)
+        self.assertIn('f"- no story of {wk_start:%Y-%m-%d} or "', src)
+        self.assertNotIn("no scored story was published on", src)
+
+    def test_the_summary_has_one_number_a_clause(self):
+        self.assertEqual(brief.summary_check("ERCOT's HB_NORTH and SPP each rose about 7.46 and 7.47 USD/MWh on the week before."), ["two figures in one clause"])
+        self.assertEqual(brief.summary_check("ERCOT's HB_NORTH rose 7.46 USD/MWh on the week before; SPP's hub rose 7.47."), [])
+        self.assertEqual(brief.summary_check("Prices were 33.19 and 27.62 USD/MWh respectively."), ["two figures in one clause"])
+        self.assertIn("One number a clause", brief.SUMMARY_SYSTEM)
+        self.assertIn("summary_check(text)", inspect.getsource(brief.numbers_summary))
 
 
 if __name__ == "__main__":
