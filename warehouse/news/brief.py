@@ -1076,7 +1076,10 @@ def price_reason(label, clusters):
         text = f" {title} {r.get('why') or ''} ".lower()
         if any(w in text for w in words):
             why = why_line(r.get("why") or "", title)
-            if not why:
+            # session 1465 (chain 150, fault 43): a price's reason names something (a party, a place, a date, a quantity
+            # or a rule the title does not), whatever its share of the title's words: "Commodity price movement driven
+            # by fundamentals, impacts market sentiment and producer economics." beside Henry Hub named nothing
+            if not why or not new_things(why, title):
                 continue
             return f" Reason, from the day's stories: {why} ({link_text(list(r.get('links') or [])[:1])})"
     return ""

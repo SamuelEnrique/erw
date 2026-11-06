@@ -198,6 +198,19 @@ class TheReason(unittest.TestCase):
         self.assertEqual(brief.price_reason("CAISO", c), "")
         self.assertEqual(brief.price_reason("ERCOT", None), "")
 
+    def test_a_reason_that_names_nothing_is_passed_over(self):
+        # session 1465 (chain 150, fault 43): the dry run of 6 November's reasons beside Henry Hub and WTI named nothing
+        filler = {"cluster_id": "a", "titles": ["Natural gas futures climb as storage report looms"], "sector": "gas", "parties": "",
+                  "sig": 8, "ai": 0, "why": "Commodity price movement driven by fundamentals, impacts market sentiment and producer economics.",
+                  "mw": "", "price": "", "links": [("Natural Gas Intelligence", "https://naturalgasintel.com/a")], "summary": "", "n": 1}
+        named = dict(filler, cluster_id="b", titles=["Natural gas prices rise"], sig=7,
+                     why="Cold forecasts for the Northeast lift heating demand into December.", links=[("Reuters", "https://reuters.com/b")])
+        with mock.patch.object(brief, "licensed_outlets", return_value=set()):
+            self.assertEqual(brief.price_reason("Henry Hub natural gas", pd.DataFrame([filler])), "")
+            r = brief.price_reason("Henry Hub natural gas", pd.DataFrame([filler, named]))
+        self.assertEqual(r, " Reason, from the day's stories: Cold forecasts for the Northeast lift heating demand into December. "
+                            "([Reuters](https://reuters.com/b))")
+
 
 if __name__ == "__main__":
     unittest.main()
