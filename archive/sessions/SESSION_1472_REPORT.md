@@ -1,6 +1,6 @@
 # Session 1472 report: fault 50, the deal of the week's words
 
-Energy Research Warehouse (ERW), session 1472, chain 154, samueloldlaptop, 6 November 2026, 07:11 to 07:18 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1472-periodicals`, cut from `origin/main` (every branch of chain 150 an ancestor of main).
+Energy Research Warehouse (ERW), session 1472, chain 154, samueloldlaptop, 6 November 2026, 07:11 to 07:14 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1472-periodicals`, cut from `origin/main` (every branch of chain 150 an ancestor of main).
 
 ## The fault
 
