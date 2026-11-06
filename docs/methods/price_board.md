@@ -426,3 +426,9 @@ Tests: `tests/test_board_1609.py`.
 - **The price duration above a threshold the reader sets** is the workbench's: a row opened there shows "Hours above" a threshold the reader types in place (a power row by the hour), with its default (USD 100 per MWh for a power price) and a reset beside it (session 328). Nothing is added for it on the wall.
 
 Tests: `tests/test_board_1611.py`.
+
+## The week and the month in one row (session 1612, chain 165, 6 November 2026)
+
+Under each power row's day high and low, two lines: the last **7** and **30** days, each of the complete local operating days among the 7 or 30 ending on the row's latest day: its **peak hour** (value, day and local time, on hover) and the **hours above 100, 250 and 1,000 USD/MWh** (`h>100/250/1000`), from the row's own hours (`ext.w`, `ext.m`: the days counted, the first, the hours, the peak, the counts). A window short of days says how many it holds on hover; the mean of the week and of the month are the row's 7-day and 30-day averages, already columns. Hours, not intervals (session 1611's note): a count of 15-minute intervals above a price is not held on the board.
+
+Tests: `tests/test_board_1612.py`.

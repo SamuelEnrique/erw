@@ -295,9 +295,25 @@ def extremes(hourly, tz, daily):
     if h.empty:
         return None
 
-    def at(ts):
-        return dict(v=round(float(h[ts]), 4), utc=ts.strftime("%Y-%m-%dT%H:%M:%SZ"), local=ts.tz_convert(tz).strftime("%H:%M"))
-    return dict(t=day.isoformat(), tz=tz, hi=at(h.idxmax()), lo=at(h.idxmin()), hours=int(len(h)))
+    def at(ts, s=h):
+        return dict(v=round(float(s[ts]), 4), utc=ts.strftime("%Y-%m-%dT%H:%M:%SZ"), local=ts.tz_convert(tz).strftime("%H:%M"),
+                    day=ts.tz_convert(tz).date().isoformat())
+    out = dict(t=day.isoformat(), tz=tz, hi=at(h.idxmax()), lo=at(h.idxmin()), hours=int(len(h)))
+    # session 1612: the week and the month in the same cell: of the complete local days among the last 7 and 30 ending on
+    # the latest, the peak hour with its day and time, and the count of hours above each of THRESHOLDS
+    complete = set(daily.index)
+    for key, n in (("w", 7), ("m", 30)):
+        days = {d for d in complete if day - dt.timedelta(days=n) < d <= day}
+        near = hourly[hourly.index >= pd.Timestamp(day - dt.timedelta(days=n), tz="UTC") - pd.Timedelta(days=1)]
+        s = near[np.array([t.date() in days for t in near.index.tz_convert(tz)], dtype=bool)]
+        if s.empty:
+            continue
+        out[key] = dict(days=len(days), first=min(days).isoformat(), hours=int(len(s)), peak=at(s.idxmax(), s),
+                        above={str(x): int((s > x).sum()) for x in THRESHOLDS})
+    return out
+
+
+THRESHOLDS = (100, 250, 1000)   # USD/MWh: session 1612, the counts of hours above each, over the week and the month
 
 
 def col(frame, name):

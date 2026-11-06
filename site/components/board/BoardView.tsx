@@ -16,7 +16,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
 import { GroupFold, NumberTile, NumberTileGrid } from "@/components/tool/ToolPage";
 import {
-  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, extremeWords, fmt, gridExtremes, heldLines, heldNote, inputsWords, leadRow, nameTitle, noMove, pct, rangeExtremes, rowsOf, shortDate, shownMove, signed, sparkOf, topRows,
+  FREQ_WORDS, MOVES, PLACEHOLDER, THRESHOLDS, windowWords, benchOf, benchQuery, closeAge, dateWords, extremeWords, fmt, gridExtremes, heldLines, heldNote, inputsWords, leadRow, nameTitle, noMove, pct, rangeExtremes, rowsOf, shortDate, shownMove, signed, sparkOf, topRows,
   type Bench, type BoardFile, type Group, type MoveKey, type Row, type WeekRow,
 } from "@/lib/board";
 
@@ -120,6 +120,17 @@ function ExtCell({ row, built }: { row: Row; built: string }) {
     <span title={extremeWords(row) ?? undefined} data-ext={row.id}>
       <span data-n={`${row.id}|ext|hi`}>{fmt(e.hi.v, row.unit)}</span> <span className="text-muted">{e.hi.local}</span>
       {" / "}<span data-n={`${row.id}|ext|lo`}>{fmt(e.lo.v, row.unit)}</span> <span className="text-muted">{e.lo.local}</span>
+      {(["w", "m"] as const).map((k) => {
+        const x = e[k];
+        if (!x) return null;
+        // session 1612: the week and the month, each its peak hour and its hours above 100, 250 and 1,000
+        return (
+          <span key={k} className="block text-muted" title={windowWords(row, k) ?? undefined} data-ext-window={`${row.id}|${k}`}>
+            {k === "w" ? "7d" : "30d"} <span className="text-ink" data-n={`${row.id}|ext|${k}|peak`}>{fmt(x.peak.v, row.unit)}</span>{", h>"}
+            {THRESHOLDS.map((n, i) => <Fragment key={n}>{i ? "/" : ""}<span data-n={`${row.id}|ext|${k}|${n}`}>{x.above[n]}</span></Fragment>)}
+          </span>
+        );
+      })}
     </span>
   );
 }
@@ -235,7 +246,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
               <th className="pr-3 text-right font-normal" title="The last 90 days of a daily row, a year of a weekly one, three years of a monthly or quarterly one (session 1609)">Trend</th>
               <th className="pr-2 text-right font-normal">One-year range</th>
               {group.curve ? <th className="pr-2 text-left font-normal">Futures 1 to 4</th> : null}
-              {group.extremes ? <th className="pr-2 text-right font-normal" title="The latest complete day's highest and lowest hour, each with the hour it began in the grid's local time (session 1611)">Day&apos;s high / low</th> : null}
+              {group.extremes ? <th className="pr-2 text-right font-normal" title="The latest complete day's highest and lowest hour, each with the hour it began in the grid's local time (session 1611); under them the last 7 and 30 days' peak hour and the hours above 100, 250 and 1,000 USD/MWh (h>100/250/1000, session 1612)">Day&apos;s high / low</th> : null}
             </tr>
           </thead>
           <tbody>

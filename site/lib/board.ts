@@ -22,7 +22,7 @@ export type Row = {
   /** session 1601: the row's time base and granularity in words (the builder's basis_of), in the name's hover */
   basis?: string;
   /** session 1611: the latest complete day's highest and lowest hour, each with the hour it began in the grid's local time */
-  ext?: { t: string; tz: string; hi: Extreme; lo: Extreme; hours: number } | null;
+  ext?: { t: string; tz: string; hi: Extreme; lo: Extreme; hours: number; w?: ExtWindow; m?: ExtWindow } | null;   // w, m: session 1612
   /** session 1601: a page that draws what the row summarizes (the node basis rows: the node view) */
   link?: { href: string; words: string };
 };
@@ -31,7 +31,16 @@ export function nameTitle(row: Pick<Row, "code" | "formula" | "basis" | "source"
   return [row.code ? `Code: ${row.code}` : "", row.formula ? `Formula: ${row.formula}` : "", row.basis ? `Interval: ${row.basis}` : "",
     row.source !== undefined ? `Source: ${sources[row.source]}` : ""].filter(Boolean).join("\n") || undefined;
 }
-export type Extreme = { v: number; utc: string; local: string };
+export type Extreme = { v: number; utc: string; local: string; day?: string };
+/** Session 1612: a week's or a month's hours of a power row: its complete days, its peak hour, the hours above each threshold. */
+export type ExtWindow = { days: number; first: string; hours: number; peak: Extreme; above: Record<string, number> };
+export const THRESHOLDS = ["100", "250", "1000"] as const;
+/** Session 1612: the hover of a week's or a month's line. Pure. */
+export function windowWords(row: Pick<Row, "ext" | "unit">, k: "w" | "m"): string | null {
+  const e = row.ext, x = e?.[k];
+  if (!e || !x) return null;
+  return `${x.days} complete days, ${dateWords(x.first)} to ${dateWords(e.t)}, ${x.hours} hours: the peak hour began at ${x.peak.local} on ${dateWords(x.peak.day ?? e.t)} (local time); hours above ${THRESHOLDS.map((n) => `${Number(n).toLocaleString("en-US")} USD/MWh: ${x.above[n]}`).join(", ")}`;
+}
 /** Session 1611: the words of a row's day extremes, for the cell's hover. Pure. */
 export function extremeWords(row: Pick<Row, "ext" | "unit">): string | null {
   const e = row.ext;

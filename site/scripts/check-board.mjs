@@ -56,7 +56,9 @@ for (const g of file.groups) {
     if (r.avg7) want(`${r.id}|avg7`, b.fmt(r.avg7.v, r.unit));
     if (r.avg30) want(`${r.id}|avg30`, b.fmt(r.avg30.v, r.unit));
     // session 1611: the day's high and low hour, in a group that draws them, unless the row is stale
-    if (g.extremes && r.ext && !b.closeAge(r, file.built)?.stale) { want(`${r.id}|ext|hi`, b.fmt(r.ext.hi.v, r.unit)); want(`${r.id}|ext|lo`, b.fmt(r.ext.lo.v, r.unit)); }
+    if (g.extremes && r.ext && !b.closeAge(r, file.built)?.stale) { want(`${r.id}|ext|hi`, b.fmt(r.ext.hi.v, r.unit)); want(`${r.id}|ext|lo`, b.fmt(r.ext.lo.v, r.unit));
+      for (const k of ["w", "m"]) { const x = r.ext[k]; if (x) { want(`${r.id}|ext|${k}|peak`, b.fmt(x.peak.v, r.unit)); for (const n of b.THRESHOLDS) want(`${r.id}|ext|${k}|${n}`, String(x.above[n])); } }   // session 1612
+    }
     if (r.range && r.range.pos !== null) { ranges += 1; want(`${r.id}|lo`, b.fmt(r.range.lo, r.unit)); want(`${r.id}|hi`, b.fmt(r.range.hi, r.unit)); }
     if (r.spark && r.spark.v.length > 1) sparks += 1;
   }
