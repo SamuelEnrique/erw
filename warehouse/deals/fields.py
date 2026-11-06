@@ -93,7 +93,9 @@ ENERGY_PRICE_UNIT = re.compile(r"(?i)^\s*(?:usd|us\$|\$|eur|€|gbp|£|cad|aud)?
                                r"mw-?day|kw-?year|mmbtu)\s*$")
 
 # Sanity bounds: a figure above is flagged on the row (flags), never dropped (session 2235 reads them on the page).
-BOUNDS = {"mw": 20000.0, "mwh": 200000.0, "usd": 5e11, "usd_per_mwh": 1000.0, "term_years": 40.0}
+# mw: 20 GW (the chain's example of a figure to flag is a 50 GW PPA); mwh: an energy contract can run
+# to TWh (TotalEnergies and Airbus, 3.3 TWh), so 50 TWh (session 2235); usd: USD 500 billion; usd_per_mwh: USD 1,000.
+BOUNDS = {"mw": 20000.0, "mwh": 5e7, "usd": 5e11, "usd_per_mwh": 1000.0, "term_years": 40.0}
 
 # energy_deals' new columns hold no outlet text: words copied from a story (the stage's span, the confidence's basis, the
 # figures' spans) go to the internal energy_deals_evidence beside its evidence sentence (EVIDENCE_NEW_COLS), as the
@@ -201,13 +203,19 @@ def energy_price(unit):
     return bool(unit) and ENERGY_PRICE_UNIT.match(unit) is not None
 
 
+def num(v):
+    """A figure in plain digits, as a flag writes it: 50000, 4200000000, 1.5."""
+    x = float(v)
+    return str(int(x)) if x.is_integer() else f"{x:f}".rstrip("0").rstrip(".")
+
+
 def flags_of(row):
     out = []
     for f, b in BOUNDS.items():
         v = row.get(f)
         try:
             if v not in (None, "") and float(v) > b:
-                out.append(f"{f} {v} above the bound {b:g}")
+                out.append(f"{f} {num(v)} above the bound {num(b)}")
         except (TypeError, ValueError):
             pass
     return out

@@ -227,3 +227,22 @@ Twelve stories make **four records**, each with its three sources; the earliest 
 | Row | State after session 2234 |
 |---|---|
 | A5 a party a description, wrong or missed | the descriptions are out of the directory and the prompt (session 2232) no longer returns them; the lender and borrower roles follow the extractor's rule (the lender is the buyer); a party wrong stays a fault of the extraction (session 2249 reads it again) |
+
+## Session 2235: the figures cross-checked
+
+`warehouse/deals/crosscheck.py` (new) reads every record's headlines again after it is built and writes what it finds to the record's `flags` (never changing or dropping a figure): a headline's MW, MWh or US dollars against the record's (a valuation, a combined company's value, a company-wide investment not compared); MW against MWh and USD against USD per MWh; a term the words state in months (left empty, flagged); the sanity bounds (MWh raised to 50 TWh: TotalEnergies and Airbus's 3.3 TWh contract is a real figure). The extractor flags every record on every run, so a record's flags follow its stories.
+
+Over the stored 529 deals (read only, the stories' headlines of `news_stories`): **14 records flagged**.
+
+| Flag | Records | Examples |
+|---|---|---|
+| A headline's MW the record lacks | 6 | "Liberty Inks 1.2-GW 'Critical Milestone' Deal"; "Google is purchasing a gigawatt of distributed capacity in PJM"; "Constellation-Google deal will bring $4.3B investment, 890 MW new nuclear to PJM" |
+| A headline's USD the record lacks | 4 | "Oryx Energies Sold for About $1 Billion"; "Meta and AMD Agree to AI Chips Deal Worth More Than $100 Billion" |
+| A headline's USD the record contradicts | 2 | Volta: the record holds the USD 2.4 billion valuation, the second headline "$10 billion AI partnership"; NIO and Geely: "more than $2 billion" against USD 2.4 billion |
+| A headline's MW the record contradicts | 1 | "TotalEnergies, KKR Add 700 MW to US Solar JV": the record holds 2,100 MW |
+| Above a bound | 1 | "SpaceX buys xAI in $1.25tn deal": USD 1.25 trillion |
+
+| Row | State after session 2235 |
+|---|---|
+| A7 MW, USD and term missed | every such record now carries a flag naming the headline's figure; the figure itself is filled only by a later extraction whose span checks (the prompt of session 2232) |
+| A8 a sum of another figure, a share as a price | the prompt (2232) and `fields.energy_price` stop them at extraction; the cross-check flags a stored record that holds one (Volta) |

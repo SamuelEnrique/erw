@@ -78,6 +78,7 @@ import deal_parties  # noqa: E402  session 531: one deal across days, two partie
 import fields  # noqa: E402  session 2232: the tracker's fields, one vocabulary each
 import dedupe  # noqa: E402  session 2233: one record a deal
 import counterparties  # noqa: E402  session 2234: one name a party
+import crosscheck  # noqa: E402  session 2235: the figures read again against the headlines
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
@@ -586,6 +587,15 @@ def main(argv=None):
         out_deals = pd.DataFrame(list(by_id.values()), columns=DEAL_COLS).fillna("")
         if len(out_deals):   # session 2234: every row's canonical names, parents and EIA-861 numbers, from today's names
             out_deals = counterparties.annotate(out_deals)[DEAL_COLS]
+            # session 2235: every record's figures read again against its headlines (warehouse/deals/crosscheck.py)
+            def _flags(r):
+                ids = [x for x in str(r["story_ids"]).split(";") if x in news_by_id.index]
+                titles = [str(news_by_id.loc[x, "title"]) for x in ids]
+                text = " ".join(str(news_by_id.loc[x, "summary"]) for x in ids)
+                return "; ".join(crosscheck.flags(r, titles, text))
+            out_deals["flags"] = [_flags(r) for r in out_deals.to_dict("records")]
+            n_flagged = int((out_deals["flags"] != "").sum())
+            log(f"cross-check: {n_flagged} of {len(out_deals)} records flagged (warehouse/deals/crosscheck.py)")
         if len(out_deals):
             ip.write_csv(out_deals, DEALS, [
                 "Energy Research Warehouse (ERW): Energy deals extracted from scored news stories (platform tool 6)",
