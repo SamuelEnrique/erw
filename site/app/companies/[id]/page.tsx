@@ -13,7 +13,7 @@ import { ROLE_WORDS, TABLE_WORDS, count, linksOf, mw, yearGroups, type Company, 
 import { company, companyIndex } from "@/lib/companydata";
 
 export const dynamic = "force-dynamic";
-const SHOWN = 100;   // rows a table shows on the page; every public row is in the download
+const SHOWN = 50;   // rows a table shows on the page, folded (session 3308: the page ran to 14,000 px open); every public row is in the download
 const FUEL_ORDER = ["solar", "wind", "gas", "coal", "nuclear", "hydro", "storage", "oil", "geothermal", "other"];
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -45,6 +45,8 @@ function rowsTable(c: Company, table: string, rows: Row[], ix: CompanyIndex) {
     <section key={table} id={`rows-${table}`} className="mb-8" data-rows-table={table} data-rows={rows.length}>
       <h3 className="mb-2 font-serif text-lg text-accent">{TABLE_WORDS[table] ?? table} <span className="font-sans text-xs text-muted">{count(rows.length)} rows</span>
         <Tip id={`src-${table}`} label={`Source of ${table}`}>{`${table}. Source: ${src}`}</Tip></h3>
+      <details data-rows-fold={table}>
+      <summary className="cursor-pointer py-1 text-sm">{rows.length > SHOWN ? `Show the newest ${SHOWN} of its ${count(rows.length)} rows` : `Show its ${count(rows.length)} rows`}</summary>
       <div className="overflow-x-auto" role="region" aria-label={`${TABLE_WORDS[table] ?? table} rows`} tabIndex={0}>
         <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: 640 }}>
           <caption className="sr-only">{`Rows of ${table} that name ${c.name}`}</caption>
@@ -77,6 +79,7 @@ function rowsTable(c: Company, table: string, rows: Row[], ix: CompanyIndex) {
         </table>
       </div>
       {rows.length > SHOWN ? <p className="mt-1 text-xs text-muted" data-rows-more={rows.length - SHOWN}>The newest {SHOWN} of {count(rows.length)} by date; every row is in the download.</p> : null}
+      </details>
     </section>
   );
 }
