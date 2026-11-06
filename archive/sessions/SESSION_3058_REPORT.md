@@ -1,6 +1,6 @@
 # Session 3058: chain 166's fifth session (its 2264): the impact read
 
-Personal laptop, second window, 6 November 2026, about 15:00 to 16:00 UTC. Opus 5.5. Branch `wip/3058-policy` cut from `wip/3057-policy`.
+Personal laptop, second window, 6 November 2026, 12:09 to 12:21 UTC (the commits' times). Opus 5.5. Branch `wip/3058-policy` cut from `wip/3057-policy`.
 
 ## What it did
 

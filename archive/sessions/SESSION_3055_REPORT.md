@@ -1,6 +1,6 @@
 # Session 3055: chain 166's second session (its 2261): the audit of the stored actions
 
-Personal laptop, second window, 6 November 2026, about 11:45 to 12:45 UTC. Opus 5.5. Branch `wip/3055-policy` cut from `wip/3054-policy`.
+Personal laptop, second window, 6 November 2026, 11:30 to 11:44 UTC (the commits' times). Opus 5.5. Branch `wip/3055-policy` cut from `wip/3054-policy`.
 
 ## What it did
 

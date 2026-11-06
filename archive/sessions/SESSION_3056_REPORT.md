@@ -1,6 +1,6 @@
 # Session 3056: chain 166's third session (its 2262): the schema and the rules of the precise fields
 
-Personal laptop, second window, 6 November 2026, about 12:45 to 14:15 UTC. Opus 5.5. Branch `wip/3056-policy` cut from `wip/3055-policy`.
+Personal laptop, second window, 6 November 2026, 11:44 to 12:03 UTC (the commits' times). Opus 5.5. Branch `wip/3056-policy` cut from `wip/3055-policy`.
 
 ## What it did
 

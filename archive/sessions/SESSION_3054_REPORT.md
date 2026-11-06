@@ -1,6 +1,6 @@
 # Session 3054: chain 166's first session (its 2260): the next file, the ground
 
-Personal laptop, second window (portable-laptop-window2), 6 November 2026, about 11:00 to 11:45 UTC. Opus 5.5. Branch `wip/3054-policy`, worktree `$HOME\Documents\erw-3054`, cut from `origin/main` at 5a14a2b4e.
+Personal laptop, second window (portable-laptop-window2), 6 November 2026, 11:07 to 11:30 UTC (the commits' times). Opus 5.5. Branch `wip/3054-policy`, worktree `$HOME\Documents\erw-3054`, cut from `origin/main` at 5a14a2b4e.
 
 ## What it did
 

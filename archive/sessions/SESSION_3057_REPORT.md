@@ -1,6 +1,6 @@
 # Session 3057: chain 166's fourth session (its 2263): one record an action
 
-Personal laptop, second window, 6 November 2026, about 14:15 to 15:00 UTC. Opus 5.5. Branch `wip/3057-policy` cut from `wip/3056-policy`.
+Personal laptop, second window, 6 November 2026, 12:03 to 12:09 UTC (the commits' times). Opus 5.5. Branch `wip/3057-policy` cut from `wip/3056-policy`.
 
 ## What it did
 
