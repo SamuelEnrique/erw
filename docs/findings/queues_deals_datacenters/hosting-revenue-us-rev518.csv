@@ -1,0 +1,27 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate hosting_revenue, region us_rev518 (US data processing and hosting (NAICS 518))
+# Computed 2026-11-06T12:16:30Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (hosting_revenue); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the revenue of NAICS 518 over the year, the Quarterly Services Survey (USD billion), the observations it rests on, and whether the year is full
+# Tables: census_qss_utilities_hosting_quarterly
+region,year,value,n_observations,full_year
+us_rev518,2003,14.574,1.0,0
+us_rev518,2004,55.394,4.0,1
+us_rev518,2005,59.369,4.0,1
+us_rev518,2006,66.023,4.0,1
+us_rev518,2007,66.652,4.0,1
+us_rev518,2008,74.284,4.0,1
+us_rev518,2009,77.278,4.0,1
+us_rev518,2010,85.201,4.0,1
+us_rev518,2011,95.168,4.0,1
+us_rev518,2012,107.994,4.0,1
+us_rev518,2013,116.292,4.0,1
+us_rev518,2014,120.992,4.0,1
+us_rev518,2015,130.825,4.0,1
+us_rev518,2016,138.132,4.0,1
+us_rev518,2017,157.477,4.0,1
+us_rev518,2018,182.66,4.0,1
+us_rev518,2019,201.552,4.0,1
+us_rev518,2020,219.948,4.0,1
+us_rev518,2021,271.238,4.0,1
+us_rev518,2022,308.328,4.0,1
+us_rev518,2023,329.628,4.0,1
+us_rev518,2024,374.936,4.0,1

@@ -1,0 +1,18 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate dc_share, region us_dc_share (US private nonresidential construction)
+# Computed 2026-11-06T12:16:29Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (dc_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: data centers' share of the value of private nonresidential construction put in place over the year (percent of private nonresidential construction), the observations it rests on, and whether the year is full
+# Tables: census_c30_construction_monthly
+region,year,value,n_observations,full_year
+us_dc_share,2014,0.49681232824448585,12.0,1
+us_dc_share,2015,0.6751455436704797,12.0,1
+us_dc_share,2016,0.943547426938611,12.0,1
+us_dc_share,2017,1.0504447565543071,12.0,1
+us_dc_share,2018,1.4895006638622603,12.0,1
+us_dc_share,2019,1.6961250849762066,12.0,1
+us_dc_share,2020,1.8624254505249735,12.0,1
+us_dc_share,2021,2.003616942435032,12.0,1
+us_dc_share,2022,2.109592164515664,12.0,1
+us_dc_share,2023,2.6668427223002467,12.0,1
+us_dc_share,2024,4.365460708720885,12.0,1
+us_dc_share,2025,6.346093484845778,12.0,1
+us_dc_share,2026,9.05869745921423,8.0,0

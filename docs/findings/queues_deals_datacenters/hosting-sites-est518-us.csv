@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate hosting_sites, region est518_US (the United States)
+# Computed 2026-11-06T12:16:29Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (hosting_sites); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the number of NAICS 518210 establishments (establishments), the observations it rests on, and whether the year is full
+# Tables: census_cbp_hosting_annual
+region,year,value,n_observations,full_year
+est518_US,2012,13950.0,1.0,1
+est518_US,2013,14276.0,1.0,1
+est518_US,2014,13903.0,1.0,1
+est518_US,2015,13599.0,1.0,1
+est518_US,2016,13566.0,1.0,1
+est518_US,2017,17597.0,1.0,1
+est518_US,2018,17526.0,1.0,1
+est518_US,2019,17297.0,1.0,1
+est518_US,2020,17273.0,1.0,1
+est518_US,2021,17297.0,1.0,1
+est518_US,2022,17539.0,1.0,1
+est518_US,2023,18544.0,1.0,1
