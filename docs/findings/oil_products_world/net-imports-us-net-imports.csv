@@ -1,0 +1,22 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate net_imports, region us_net_imports (the United States)
+# Computed 2026-11-06T12:32:45Z by warehouse/analysis/findings/deep/oil_products_world.py (net_imports); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: US net imports of crude oil and petroleum products, the year's mean of its months (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_net_imports_monthly
+region,year,value,n_observations,full_year
+us_net_imports,2010,9439.916666666666,12.0,1
+us_net_imports,2011,8447.083333333334,12.0,1
+us_net_imports,2012,7393.916666666667,12.0,1
+us_net_imports,2013,6236.0,12.0,1
+us_net_imports,2014,5068.25,12.0,1
+us_net_imports,2015,4708.0,12.0,1
+us_net_imports,2016,4795.833333333333,12.0,1
+us_net_imports,2017,3765.0,12.0,1
+us_net_imports,2018,2343.0,12.0,1
+us_net_imports,2019,664.3333333333334,12.0,1
+us_net_imports,2020,-634.3333333333334,12.0,1
+us_net_imports,2021,-58.0,12.0,1
+us_net_imports,2022,-1187.1666666666667,12.0,1
+us_net_imports,2023,-1698.5833333333333,12.0,1
+us_net_imports,2024,-2274.25,12.0,1
+us_net_imports,2025,-2850.3333333333335,12.0,1
+us_net_imports,2026,-4227.857142857143,7.0,0

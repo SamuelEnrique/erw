@@ -1,0 +1,28 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate power_vs_citygate, region state_pow_WV (West Virginia)
+# Computed 2026-11-06T11:29:31Z by warehouse/analysis/findings/deep/prices.py (power_vs_citygate); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean of the gas price power plants paid less the citygate price, months with both (USD per Mcf), the observations it rests on, and whether the year is full
+# Tables: eia_gas_prices_state_monthly
+region,year,value,n_observations,full_year
+state_pow_WV,2002,-0.3908333333333333,12.0,1
+state_pow_WV,2003,1.9245454545454548,11.0,1
+state_pow_WV,2004,-0.16125,8.0,0
+state_pow_WV,2005,-0.5560000000000004,5.0,0
+state_pow_WV,2006,-0.14000000000000057,6.0,0
+state_pow_WV,2007,-0.3624999999999998,4.0,0
+state_pow_WV,2008,-2.7249999999999996,4.0,0
+state_pow_WV,2009,-1.73875,8.0,0
+state_pow_WV,2010,-1.1219999999999999,10.0,0
+state_pow_WV,2011,-1.143,10.0,0
+state_pow_WV,2012,-1.8775000000000002,12.0,1
+state_pow_WV,2013,-1.1499999999999997,10.0,0
+state_pow_WV,2014,-0.8549999999999996,6.0,0
+state_pow_WV,2015,-2.00375,8.0,0
+state_pow_WV,2016,-1.2918181818181818,11.0,1
+state_pow_WV,2017,-1.1908333333333334,12.0,1
+state_pow_WV,2018,0.23499999999999988,2.0,0
+state_pow_WV,2019,-1.11,4.0,0
+state_pow_WV,2022,-1.6733333333333336,12.0,1
+state_pow_WV,2023,-3.455833333333333,12.0,1
+state_pow_WV,2024,-3.1999999999999997,12.0,1
+state_pow_WV,2025,2.0699999999999994,1.0,0
+state_pow_WV,2026,-1.38,1.0,0

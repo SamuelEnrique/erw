@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate us_nuclear_capacity, region us_nuclear_cap (the US nuclear fleet)
+# Computed 2026-11-06T11:50:07Z by warehouse/analysis/findings/deep/generation_pipeline.py (us_nuclear_capacity); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean of EIA's daily US nuclear capacity (MW), the observations it rests on, and whether the year is full
+# Tables: eia_nuclear_outages_daily
+region,year,value,n_observations,full_year
+us_nuclear_cap,2007,101013.24630136987,365.0,1
+us_nuclear_cap,2008,101624.54999999999,366.0,1
+us_nuclear_cap,2009,101744.36520547942,365.0,1
+us_nuclear_cap,2010,102073.0619178082,365.0,1
+us_nuclear_cap,2011,102282.61972602742,365.0,1
+us_nuclear_cap,2012,102871.90983606558,366.0,1
+us_nuclear_cap,2013,99464.71589041095,365.0,1
+us_nuclear_cap,2014,100151.52904109587,365.0,1
+us_nuclear_cap,2015,99468.5890410959,365.0,1
+us_nuclear_cap,2016,100645.15464480873,366.0,1
+us_nuclear_cap,2017,100537.26,365.0,1
+us_nuclear_cap,2018,100735.12301369864,365.0,1
+us_nuclear_cap,2019,99810.98191780824,365.0,1
+us_nuclear_cap,2020,98102.89398907105,366.0,1
+us_nuclear_cap,2021,96958.84219178084,365.0,1
+us_nuclear_cap,2022,96406.00876712329,365.0,1
+us_nuclear_cap,2023,96737.98082191776,365.0,1
+us_nuclear_cap,2024,97697.87185792353,366.0,1
+us_nuclear_cap,2025,98275.9079452055,365.0,1
+us_nuclear_cap,2026,98529.17210884353,294.0,0

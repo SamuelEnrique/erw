@@ -1,0 +1,38 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate diesel_premium, region us_diesel_premium (the United States)
+# Computed 2026-11-06T13:52:27Z by warehouse/analysis/findings/deep/oil_products_world.py (diesel_premium); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the US retail diesel price less the retail regular gasoline price, the year's mean of the weeks with both (USD per gallon), the observations it rests on, and whether the year is full
+# Tables: eia_retail_fuel_prices
+region,year,value,n_observations,full_year
+us_diesel_premium,1994,0.020780487804878078,41.0,0
+us_diesel_premium,1995,-0.001711538461538431,52.0,1
+us_diesel_premium,1996,0.0362075471698113,53.0,1
+us_diesel_premium,1997,-0.0007307692307692613,52.0,1
+us_diesel_premium,1998,0.014230769230769222,52.0,1
+us_diesel_premium,1999,-0.015288461538461544,52.0,1
+us_diesel_premium,2000,0.006961538461538468,52.0,1
+us_diesel_premium,2001,-0.01954716981132076,53.0,1
+us_diesel_premium,2002,-0.025750000000000012,52.0,1
+us_diesel_premium,2003,-0.051769230769230776,52.0,1
+us_diesel_premium,2004,-0.042269230769230774,52.0,1
+us_diesel_premium,2005,0.13105769230769232,52.0,1
+us_diesel_premium,2006,0.13257692307692306,52.0,1
+us_diesel_premium,2007,0.0890188679245283,53.0,1
+us_diesel_premium,2008,0.5574230769230769,52.0,1
+us_diesel_premium,2009,0.11457692307692308,52.0,1
+us_diesel_premium,2010,0.20988461538461542,52.0,1
+us_diesel_premium,2011,0.3186923076923077,52.0,1
+us_diesel_premium,2012,0.349377358490566,53.0,1
+us_diesel_premium,2013,0.4168653846153847,52.0,1
+us_diesel_premium,2014,0.46696153846153854,52.0,1
+us_diesel_premium,2015,0.2774230769230769,52.0,1
+us_diesel_premium,2016,0.16069230769230772,52.0,1
+us_diesel_premium,2017,0.235423076923077,52.0,1
+us_diesel_premium,2018,0.4590943396226415,53.0,1
+us_diesel_premium,2019,0.45192307692307687,52.0,1
+us_diesel_premium,2020,0.38328846153846163,52.0,1
+us_diesel_premium,2021,0.27901923076923074,52.0,1
+us_diesel_premium,2022,1.0376730769230769,52.0,1
+us_diesel_premium,2023,0.6954807692307691,52.0,1
+us_diesel_premium,2024,0.45577358490566033,53.0,1
+us_diesel_premium,2025,0.5626346153846153,52.0,1
+us_diesel_premium,2026,1.278181818181818,44.0,0

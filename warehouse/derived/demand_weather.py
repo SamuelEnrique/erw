@@ -585,7 +585,7 @@ def main(argv=None):
             f.write("\n")
         log(f"  the site's copy: {os.path.relpath(SITE_FILE, ROOT)}")
     if not args.out_dir:
-        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW)", report="ERW derived table, demand growth with the weather taken out (docs/methods/demand_weather.md)",
+        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived", report="ERW derived table, demand growth with the weather taken out (docs/methods/demand_weather.md)",
                                 report_url=METHOD_URL, document_list="", license="public", tables=[NAME])])
         ip.write_status("demand_weather", run_id, [dict(table=NAME, market="all", status="ok", detail=f"{len(t)} rows")])
     print(f"{NAME}: {len(t):,} rows; summary {os.path.relpath(out_json, ROOT)}")

@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate hosting_pay, region pay518_US (the United States)
+# Computed 2026-11-06T12:16:31Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (hosting_pay); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: annual payroll per mid-March employee in NAICS 518210 (USD thousand a year), the observations it rests on, and whether the year is full
+# Tables: census_cbp_hosting_annual
+region,year,value,n_observations,full_year
+pay518_US,2012,89.98303794314296,1.0,1
+pay518_US,2013,88.2488594438053,1.0,1
+pay518_US,2014,91.72639002900715,1.0,1
+pay518_US,2015,94.4430356973947,1.0,1
+pay518_US,2016,95.2852672305473,1.0,1
+pay518_US,2017,102.36884618897565,1.0,1
+pay518_US,2018,105.48558116912207,1.0,1
+pay518_US,2019,112.59645131362163,1.0,1
+pay518_US,2020,120.2836588573202,1.0,1
+pay518_US,2021,151.83119960780695,1.0,1
+pay518_US,2022,145.9061046532021,1.0,1
+pay518_US,2023,147.6651851310587,1.0,1

@@ -1,0 +1,29 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate tons_per_employee, region us_tons_employee (the United States)
+# Computed 2026-11-06T14:08:48Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (tons_per_employee); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: US coal production over EIA's average employees at the mines (short tons per employee), the observations it rests on, and whether the year is full
+# Tables: eia_coal_production_annual
+region,year,value,n_observations,full_year
+us_tons_employee,2001,14628.590779369033,1.0,1
+us_tons_employee,2002,14500.345334322741,1.0,1
+us_tons_employee,2003,15090.2182814018,1.0,1
+us_tons_employee,2004,15046.255953025218,1.0,1
+us_tons_employee,2005,14271.635773116557,1.0,1
+us_tons_employee,2006,14015.95558046746,1.0,1
+us_tons_employee,2007,14107.573328575998,1.0,1
+us_tons_employee,2008,13490.929771238443,1.0,1
+us_tons_employee,2009,12249.1412683038,1.0,1
+us_tons_employee,2010,12580.406612912582,1.0,1
+us_tons_employee,2011,11959.563109233608,1.0,1
+us_tons_employee,2012,11314.34824907055,1.0,1
+us_tons_employee,2013,12249.885305239066,1.0,1
+us_tons_employee,2014,13346.262001040957,1.0,1
+us_tons_employee,2015,13595.982522623577,1.0,1
+us_tons_employee,2016,14062.44807413843,1.0,1
+us_tons_employee,2017,14601.220655595558,1.0,1
+us_tons_employee,2018,14112.070899352406,1.0,1
+us_tons_employee,2019,13376.056037421407,1.0,1
+us_tons_employee,2020,12700.357076780758,1.0,1
+us_tons_employee,2021,14611.854800344146,1.0,1
+us_tons_employee,2022,13633.043045293929,1.0,1
+us_tons_employee,2023,12708.98973084704,1.0,1
+us_tons_employee,2024,11632.780844303223,1.0,1

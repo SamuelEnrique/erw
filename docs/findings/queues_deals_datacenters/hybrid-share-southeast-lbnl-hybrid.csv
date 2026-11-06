@@ -1,0 +1,21 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate hybrid_share, region southeast_lbnl_hybrid (the Southeast)
+# Computed 2026-11-06T12:13:03Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (hybrid_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the percent of the solar MW requested in the year whose request also lists a battery (percent of solar MW requested), the observations it rests on, and whether the year is full
+# Tables: lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+southeast_lbnl_hybrid,2009,0.0,1.0,1
+southeast_lbnl_hybrid,2010,0.0,1.0,1
+southeast_lbnl_hybrid,2011,0.0,1.0,1
+southeast_lbnl_hybrid,2012,0.0,1.0,1
+southeast_lbnl_hybrid,2013,0.0,1.0,1
+southeast_lbnl_hybrid,2014,0.0,1.0,1
+southeast_lbnl_hybrid,2015,0.0,1.0,1
+southeast_lbnl_hybrid,2016,0.5240901441336991,1.0,1
+southeast_lbnl_hybrid,2017,1.2925183706249257,1.0,1
+southeast_lbnl_hybrid,2018,2.387088345569505,1.0,1
+southeast_lbnl_hybrid,2019,13.996575522244028,1.0,1
+southeast_lbnl_hybrid,2020,33.404266887654366,1.0,1
+southeast_lbnl_hybrid,2021,39.53673299566419,1.0,1
+southeast_lbnl_hybrid,2022,28.528205962642687,1.0,1
+southeast_lbnl_hybrid,2023,19.538523433074346,1.0,1
+southeast_lbnl_hybrid,2024,13.59570627805094,1.0,1

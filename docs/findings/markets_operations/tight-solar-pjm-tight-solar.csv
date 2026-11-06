@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate tight_solar, region pjm_tight_solar (PJM)
+# Computed 2026-11-06T14:13:16Z by warehouse/analysis/findings/deep/markets_operations.py (tight_solar); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: solar's output in the year's tightest hours as a percent of its capacity (percent of solar capacity), the observations it rests on, and whether the year is full
+# Tables: grid_stress_yearly
+region,year,value,n_observations,full_year
+pjm_tight_solar,2019,19.33,1.0,1
+pjm_tight_solar,2020,20.916,1.0,1
+pjm_tight_solar,2021,25.688,1.0,1
+pjm_tight_solar,2022,21.357,1.0,1
+pjm_tight_solar,2023,21.387,1.0,1
+pjm_tight_solar,2024,24.913,1.0,1
+pjm_tight_solar,2025,34.355,1.0,1
+pjm_tight_solar,2026,33.273,1.0,0

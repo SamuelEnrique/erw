@@ -1,0 +1,46 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate gasoline_crack, region crack_gasoline (Gulf Coast conventional gasoline)
+# Computed 2026-11-06T12:32:45Z by warehouse/analysis/findings/deep/oil_products_world.py (gasoline_crack); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: Gulf Coast conventional gasoline in dollars a barrel less WTI, the year's mean of the days with both (USD per barrel), the observations it rests on, and whether the year is full
+# Tables: eia_product_spot_prices, eia_fuel_spot_prices
+region,year,value,n_observations,full_year
+crack_gasoline,1986,2.230721088435374,147.0,0
+crack_gasoline,1987,2.036968253968255,252.0,1
+crack_gasoline,1988,4.260525896414343,251.0,1
+crack_gasoline,1989,3.7859841269841272,252.0,1
+crack_gasoline,1990,5.248434782608696,253.0,1
+crack_gasoline,1991,5.1619375000000005,256.0,1
+crack_gasoline,1992,3.5603813229571983,257.0,1
+crack_gasoline,1993,2.9243614457831324,249.0,1
+crack_gasoline,1994,2.9559047619047623,252.0,1
+crack_gasoline,1995,2.9776239999999996,250.0,1
+crack_gasoline,1996,2.943748031496063,254.0,1
+crack_gasoline,1997,3.975246031746032,252.0,1
+crack_gasoline,1998,2.919592,250.0,1
+crack_gasoline,1999,2.597760956175299,251.0,1
+crack_gasoline,2000,4.807736000000001,250.0,1
+crack_gasoline,2001,5.1167039999999995,250.0,1
+crack_gasoline,2002,4.11132,250.0,1
+crack_gasoline,2003,5.518352,250.0,1
+crack_gasoline,2004,7.6250361445783135,249.0,1
+crack_gasoline,2005,10.40763346613546,251.0,1
+crack_gasoline,2006,10.6354859437751,249.0,1
+crack_gasoline,2007,13.32457142857143,252.0,1
+crack_gasoline,2008,4.1247747035573115,253.0,1
+crack_gasoline,2009,6.735396825396825,252.0,1
+crack_gasoline,2010,6.772669322709164,251.0,1
+crack_gasoline,2011,20.546293650793647,252.0,1
+crack_gasoline,2012,24.143328,250.0,1
+crack_gasoline,2013,15.184960317460316,252.0,1
+crack_gasoline,2014,11.132867469879518,249.0,1
+crack_gasoline,2015,16.567692913385823,254.0,1
+crack_gasoline,2016,12.74510671936759,253.0,1
+crack_gasoline,2017,16.476792,250.0,1
+crack_gasoline,2018,14.030578313253011,249.0,1
+crack_gasoline,2019,14.415372549019608,255.0,1
+crack_gasoline,2020,8.027063492063492,252.0,1
+crack_gasoline,2021,18.60008764940239,251.0,1
+crack_gasoline,2022,28.988445344129556,247.0,1
+crack_gasoline,2023,26.866072874493927,247.0,1
+crack_gasoline,2024,17.350624,250.0,1
+crack_gasoline,2025,19.329959677419353,248.0,1
+crack_gasoline,2026,40.69562085308056,211.0,0

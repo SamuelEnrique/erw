@@ -1,0 +1,47 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate api_gravity, region us_api_gravity (the United States)
+# Computed 2026-11-06T12:35:13Z by warehouse/analysis/findings/deep/oil_products_world.py (api_gravity); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the weighted average API gravity of the crude oil US refineries ran, the year's mean of its months (degrees API), the observations it rests on, and whether the year is full
+# Tables: eia_crude_quality_monthly
+region,year,value,n_observations,full_year
+us_api_gravity,1985,32.46333333333333,12.0,1
+us_api_gravity,1986,32.343333333333334,12.0,1
+us_api_gravity,1987,32.22416666666667,12.0,1
+us_api_gravity,1988,31.929166666666664,12.0,1
+us_api_gravity,1989,32.14833333333334,12.0,1
+us_api_gravity,1990,31.858333333333334,12.0,1
+us_api_gravity,1991,31.636666666666667,12.0,1
+us_api_gravity,1992,31.317499999999995,12.0,1
+us_api_gravity,1993,31.3,12.0,1
+us_api_gravity,1994,31.39333333333333,12.0,1
+us_api_gravity,1995,31.299166666666665,12.0,1
+us_api_gravity,1996,31.144166666666667,12.0,1
+us_api_gravity,1997,31.089166666666667,12.0,1
+us_api_gravity,1998,30.98,12.0,1
+us_api_gravity,1999,31.306666666666672,12.0,1
+us_api_gravity,2000,31.0,12.0,1
+us_api_gravity,2001,30.492499999999993,12.0,1
+us_api_gravity,2002,30.4275,12.0,1
+us_api_gravity,2003,30.61583333333333,12.0,1
+us_api_gravity,2004,30.178333333333327,12.0,1
+us_api_gravity,2005,30.200833333333332,12.0,1
+us_api_gravity,2006,30.438333333333336,12.0,1
+us_api_gravity,2007,30.4275,12.0,1
+us_api_gravity,2008,30.212499999999995,12.0,1
+us_api_gravity,2009,30.33666666666667,12.0,1
+us_api_gravity,2010,30.48,12.0,1
+us_api_gravity,2011,30.444166666666664,12.0,1
+us_api_gravity,2012,30.752499999999998,12.0,1
+us_api_gravity,2013,30.486666666666668,12.0,1
+us_api_gravity,2014,31.50583333333333,12.0,1
+us_api_gravity,2015,31.460000000000008,12.0,1
+us_api_gravity,2016,31.315833333333334,12.0,1
+us_api_gravity,2017,31.810000000000002,12.0,1
+us_api_gravity,2018,32.181666666666665,12.0,1
+us_api_gravity,2019,32.934999999999995,12.0,1
+us_api_gravity,2020,33.02666666666667,12.0,1
+us_api_gravity,2021,33.215,12.0,1
+us_api_gravity,2022,33.11,12.0,1
+us_api_gravity,2023,33.07833333333333,12.0,1
+us_api_gravity,2024,33.18583333333333,12.0,1
+us_api_gravity,2025,33.75333333333333,12.0,1
+us_api_gravity,2026,33.392857142857146,7.0,0

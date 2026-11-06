@@ -131,23 +131,23 @@ export function BillCalc({ rules, wholesale }: { rules: any; wholesale: Record<s
             <tbody>
               {Object.entries(groups).map(([g, ls]) => (
                 <Fragment key={g}>
-                  <tr><td colSpan={2} className="pt-2 text-xs uppercase tracking-wide text-muted">{g}</td></tr>
+                  <tr><th scope="rowgroup" colSpan={2} className="pt-2 text-left text-xs font-normal uppercase tracking-wide text-muted">{g}</th></tr>
                   {ls.map((l) => (
                     <tr key={l.id} className="border-t border-rule align-top">
-                      <td className="py-1 pr-2">
+                      <th scope="row" className="py-1 pr-2 text-left font-normal">
                         <details>
                           <summary className="cursor-pointer">{l.name}</summary>
                           <p className="text-xs">{l.what} <span className="text-muted">Why: {l.why}</span></p>
                           <p className="text-xs text-muted">{l.detail}. Effective {l.effective}. &quot;{l.quote}&quot; (<a href={src(l.cite)?.url}>{src(l.cite)?.title}</a>)</p>
                         </details>
-                      </td>
+                      </th>
                       <td className="py-1 text-right font-mono">{usd(l.amount)}</td>
                     </tr>
                   ))}
                 </Fragment>
               ))}
-              <tr className="border-t-2 border-ink font-semibold"><td className="py-1">Total</td><td className="text-right font-mono">{usd(bill.total)}</td></tr>
-              <tr><td className="text-xs text-muted">Per kWh, all in</td><td className="text-right font-mono text-xs text-muted">{bill.kwh ? usd(bill.total / bill.kwh) : ""}</td></tr>
+              <tr className="border-t-2 border-ink font-semibold"><th scope="row" className="py-1 text-left">Total</th><td className="text-right font-mono">{usd(bill.total)}</td></tr>
+              <tr><th scope="row" className="text-left text-xs font-normal text-muted">Per kWh, all in</th><td className="text-right font-mono text-xs text-muted">{bill.kwh ? usd(bill.total / bill.kwh) : ""}</td></tr>
             </tbody>
           </table>
           </div>

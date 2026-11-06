@@ -1,0 +1,41 @@
+* Expected: 2019 2.542085, 2025 32.39481, change 29.852725 (percent of generation); tolerance 0.5 percent of the change.
+
+* ERW findings hunt (chain 164): reproduce candidate solar_midday_share for ercot_mix from the ERW's public table.
+
+* Input: the table's CSV as the public download holds it (Redivis: the variable names on its first line). From the ERW's own file, delete its lines that begin with # first.
+
+clear all
+
+import delimited "generation_mix_hourly_profile.csv", varnames(1) stringcols(_all) clear
+
+keep if entity == "iso:ercot" & regexm(variable, "^avg_[a-z_]+_mw_h[0-9][0-9]$")
+
+destring value, replace force
+
+drop if missing(value)
+
+generate int hour = real(substr(variable, -2, 2))
+
+generate str20 src = regexs(1) if regexm(variable, "^avg_([a-z_]+)_mw_h[0-9][0-9]$")
+
+keep if inrange(hour, 11, 15)
+
+keep if src == "natural_gas" | src == "coal" | src == "nuclear" | src == "wind" | src == "solar" | src == "hydro" | src == "storage" | src == "other"
+
+replace value = max(value, 0)
+
+collapse (sum) value, by(ts_utc src)
+
+bysort ts_utc: egen double gen = total(value)
+
+keep if src == "solar"
+
+generate double share = 100 * value / gen
+
+generate int year = real(substr(ts_utc, 1, 4))
+
+collapse (mean) measure = share (count) n = share, by(year)
+
+sort year
+
+list year measure n, noobs

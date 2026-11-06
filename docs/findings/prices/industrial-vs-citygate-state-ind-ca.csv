@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate industrial_vs_citygate, region state_ind_CA (California)
+# Computed 2026-11-06T11:29:29Z by warehouse/analysis/findings/deep/prices.py (industrial_vs_citygate); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean of the industrial gas price less the citygate price, months with both (USD per Mcf), the observations it rests on, and whether the year is full
+# Tables: eia_gas_prices_state_monthly
+region,year,value,n_observations,full_year
+state_ind_CA,2001,0.47083333333333344,12.0,1
+state_ind_CA,2002,1.7358333333333336,12.0,1
+state_ind_CA,2003,1.9783333333333335,12.0,1
+state_ind_CA,2004,1.8541666666666667,12.0,1
+state_ind_CA,2005,1.8725000000000005,12.0,1
+state_ind_CA,2006,2.5441666666666665,12.0,1
+state_ind_CA,2007,2.31,12.0,1
+state_ind_CA,2008,2.8158333333333334,12.0,1
+state_ind_CA,2009,2.4033333333333338,12.0,1
+state_ind_CA,2010,2.2083333333333335,12.0,1
+state_ind_CA,2011,2.526666666666667,12.0,1
+state_ind_CA,2012,2.299166666666667,12.0,1
+state_ind_CA,2013,2.4216666666666664,12.0,1
+state_ind_CA,2014,2.7899999999999996,12.0,1
+state_ind_CA,2015,3.09,12.0,1
+state_ind_CA,2016,3.804166666666666,12.0,1
+state_ind_CA,2017,3.640833333333333,12.0,1
+state_ind_CA,2018,3.864166666666667,12.0,1
+state_ind_CA,2019,4.711666666666667,12.0,1
+state_ind_CA,2020,4.540833333333333,12.0,1
+state_ind_CA,2021,5.070833333333333,12.0,1
+state_ind_CA,2022,5.732499999999999,12.0,1
+state_ind_CA,2023,6.517500000000001,12.0,1
+state_ind_CA,2024,7.854166666666667,12.0,1
+state_ind_CA,2025,9.092222222222222,9.0,0
+state_ind_CA,2026,8.836666666666666,6.0,0

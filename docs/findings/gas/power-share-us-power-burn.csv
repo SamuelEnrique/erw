@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate power_share, region us_power_burn (the United States)
+# Computed 2026-11-06T12:02:12Z by warehouse/analysis/findings/deep/gas.py (power_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: gas burned for power as a percent of US gas consumption over the year (percent of consumption), the observations it rests on, and whether the year is full
+# Tables: gas_balance_weekly
+region,year,value,n_observations,full_year
+us_power_burn,2001,24.022624961986182,12.0,1
+us_power_burn,2002,24.631479686408415,12.0,1
+us_power_burn,2003,23.052167081902454,12.0,1
+us_power_burn,2004,24.38903258536028,12.0,1
+us_power_burn,2005,26.660433181208912,12.0,1
+us_power_burn,2006,28.67449815365376,12.0,1
+us_power_burn,2007,29.611617035712836,12.0,1
+us_power_burn,2008,28.647923423154435,12.0,1
+us_power_burn,2009,29.997859457309573,12.0,1
+us_power_burn,2010,30.669018826746406,12.0,1
+us_power_burn,2011,30.94223759239381,12.0,1
+us_power_burn,2012,35.67476300963037,12.0,1
+us_power_burn,2013,31.316118392490694,12.0,1
+us_power_burn,2014,30.63162535781938,12.0,1
+us_power_burn,2015,35.28638033887786,12.0,1
+us_power_burn,2016,36.38387245110264,12.0,1
+us_power_burn,2017,34.13673201060728,12.0,1
+us_power_burn,2018,35.133755577918656,12.0,1
+us_power_burn,2019,36.25876954228603,12.0,1
+us_power_burn,2020,38.044187190885665,12.0,1
+us_power_burn,2021,36.64000104941292,12.0,1
+us_power_burn,2022,37.44450003455974,12.0,1
+us_power_burn,2023,39.70578556792395,12.0,1
+us_power_burn,2024,40.768654286567475,12.0,1
+us_power_burn,2025,38.94970118481786,12.0,1
+us_power_burn,2026,38.647046360316295,7.0,0

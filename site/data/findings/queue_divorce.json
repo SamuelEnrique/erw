@@ -29,22 +29,22 @@
     "type": "bar",
     "unit": "percent of MW",
     "values": [
-     75.17963875672332,
-     77.49642774468852,
-     79.51545371950155,
-     70.63283641632002,
-     84.00875549962676,
-     51.54616194845809,
-     63.984693376941216
+     75.2141195848057,
+     77.39141525501205,
+     79.44978254195402,
+     70.86663828189789,
+     83.92781211146371,
+     53.23596506930892,
+     63.95506614918607
     ],
     "gw": [
-     2638.1190478236344,
-     709.9611129269796,
-     661.7403605110321,
-     503.7409053438517,
-     533.0783199102702,
-     143.67157445913023,
-     85.92677467237061
+     2700.684660724201,
+     716.274382922707,
+     672.895963514267,
+     520.4274953426882,
+     545.6473699098888,
+     158.53451435899865,
+     86.90493467565125
     ]
    },
    {
@@ -52,22 +52,22 @@
     "type": "bar",
     "unit": "percent of MW",
     "values": [
-     12.933980797014764,
-     14.831780248196742,
-     16.939367076415607,
-     10.69944367074241,
-     10.314816398774669,
-     9.178650597247074,
-     7.202960202215465
+     12.827730499632588,
+     14.785353817444374,
+     16.925914832267598,
+     10.585953839209953,
+     10.29392936023879,
+     8.723535863679206,
+     7.183828761938195
     ],
     "gw": [
-     453.86465895645557,
-     135.87706579700844,
-     140.97212996505604,
-     76.30654119009726,
-     65.45276100496613,
-     25.583110999327662,
-     9.673050000000002
+     460.60041895724356,
+     136.84166579700843,
+     143.35318996505606,
+     77.74069119009728,
+     66.92484100494349,
+     25.97833099937534,
+     9.76170000076294
     ]
    },
    {
@@ -75,22 +75,22 @@
     "type": "bar",
     "unit": "percent of MW",
     "values": [
-     10.563623759650893,
-     6.071138962825016,
-     2.8167986267832035,
-     16.77587760039626,
-     4.9754252424850325,
-     37.54336733147724,
-     26.63534058206558
+     10.648730159298568,
+     6.206405611873948,
+     2.9085890936012126,
+     16.710162750131868,
+     5.094063216493634,
+     36.31885003674281,
+     26.709599263700767
     ],
     "gw": [
-     370.68676459801543,
-     55.61898399990463,
-     23.44185,
-     119.64259399908065,
-     31.571605999030112,
-     104.64241159999999,
-     35.769319
+     382.3598860980154,
+     57.44163399990463,
+     24.63415,
+     122.71540399908066,
+     33.11848749903012,
+     108.1560416,
+     36.294169
     ]
    },
    {
@@ -98,21 +98,21 @@
     "type": "bar",
     "unit": "percent of MW",
     "values": [
-     1.319336993834744,
-     1.5902832359978434,
-     0.7283805772996476,
-     1.8890379805656103,
-     0.7002149002680914,
-     1.7318201228175882,
-     2.1770058387777427
+     1.3060777539622261,
+     1.6065608351513778,
+     0.7157135321771797,
+     1.8345217277518546,
+     0.6834262453999956,
+     1.7216490302690628,
+     2.151505825174976
     ],
     "gw": [
-     46.296685,
-     14.56892,
+     46.89683499999999,
+     14.869069999999999,
      6.0617,
      13.472285,
      4.44322,
-     4.827,
+     5.127,
      2.9235600000000006
     ]
    },
@@ -121,11 +121,11 @@
     "type": "bar",
     "unit": "percent of MW",
     "values": [
-     0.003419692776279107,
-     0.010369808291884034,
+     0.003342002300911504,
+     0.01026448051824229,
      0.0,
-     0.0028043319757051015,
-     0.000787958845463528,
+     0.002723401008443415,
+     0.000769066403869261,
      0.0,
      0.0
     ],
@@ -141,22 +141,22 @@
    }
   ],
   "requested_gw": [
-   3509.087156378105,
-   916.1210827238925,
-   832.2160404760882,
-   713.1823255330296,
-   634.5509069142664,
-   278.7240970584579,
-   134.2927036723706
+   3590.66180077946,
+   925.5217527196202,
+   846.945003479323,
+   734.3758755318661,
+   650.1389184138624,
+   297.795886958374,
+   135.88436367641418
   ],
   "projects": [
-   21758,
-   5370,
-   2607,
-   8379,
-   2801,
-   1201,
-   1400
+   22348,
+   5432,
+   2677,
+   8616,
+   2930,
+   1260,
+   1433
   ],
   "reference": {
    "name": "US divorce rate over marriage rate (CDC, provisional 2023)",
@@ -169,7 +169,7 @@
    "label": "Requested capacity withdrawn",
    "before": {
     "period": "2000 to 2020",
-    "text": "75% of 3,509 GW"
+    "text": "75% of 3,591 GW"
    },
    "after": {
     "period": "operating",
@@ -185,7 +185,7 @@
    },
    "after": {
     "period": "Solar and battery",
-    "text": "52%"
+    "text": "53%"
    },
    "unit": ""
   },
@@ -202,28 +202,28 @@
    "unit": ""
   }
  ],
- "why": "Of the 3,509 GW that asked to connect in 2000 to 2020 (21,758 requests in Berkeley Lab's Queued Up, 2026 edition), 75.2 percent was withdrawn, 12.9 percent is operating, 10.6 percent is still active and 1.3 percent suspended. Other fared worst (84.0 percent withdrawn) and Solar and battery best (51.5 percent). The CDC's FastStats give a marriage rate of 6.1 and a divorce rate of 2.4 per 1,000 population (provisional 2023; divorces from 45 reporting states and D.C.): the divorce rate is 39 percent of the marriage rate, a crude ratio of two rates in one year, not the share of marriages that end in divorce, which the CDC does not publish there. On that ratio the queue's 75 percent is 1.9 times the altar's.",
- "footnote": "Data: Berkeley Lab, Queued Up, 2026 edition (through 2025) (ERW table lbnl_interconnection_queue, retrieved 2026-10-02): every request with a queue year 2000 to 2020 and a capacity in MW (21,758 requests; 0 without a MW figure left out). Shares are percent of requested MW by Berkeley Lab's status (withdrawn, operational, active, suspended; unknown kept as its own share) and by its type_clean, grouped: Solar, Wind, Battery, Solar and battery, Gas, and Other (hydro, coal, nuclear, offshore wind, geothermal, wind and battery, other). Marriage: CDC/NCHS FastStats, Marriage and Divorce, retrieved 2026-10-09, provisional 2023: 2,041,926 marriages, 6.1 per 1,000 total population; 672,502 divorces, 2.4 per 1,000 population, 45 reporting states and D.C. Definition: crude rates per 1,000 total population in the year, marriages for the U.S. and divorces for 45 reporting States and D.C.; not the share of marriages that end in divorce, which the CDC does not publish here. Source: CDC (public domain, attribution required).",
+ "why": "Of the 3,591 GW that asked to connect in 2000 to 2020 (22,348 requests in Berkeley Lab's Queued Up, 2026 edition), 75.2 percent was withdrawn, 12.8 percent is operating, 10.6 percent is still active and 1.3 percent suspended. Other fared worst (83.9 percent withdrawn) and Solar and battery best (53.2 percent). The CDC's FastStats give a marriage rate of 6.1 and a divorce rate of 2.4 per 1,000 population (provisional 2023; divorces from 45 reporting states and D.C.): the divorce rate is 39 percent of the marriage rate, a crude ratio of two rates in one year, not the share of marriages that end in divorce, which the CDC does not publish there. On that ratio the queue's 75 percent is 1.9 times the altar's.",
+ "footnote": "Data: Berkeley Lab, Queued Up, 2026 edition (through 2025) (ERW table lbnl_interconnection_queue, retrieved 2026-10-02): every request with a queue year 2000 to 2020 and a capacity in MW (22,348 requests; 0 without a MW figure left out). Shares are percent of requested MW by Berkeley Lab's status (withdrawn, operational, active, suspended; unknown kept as its own share) and by its type_clean, grouped: Solar, Wind, Battery, Solar and battery, Gas, and Other (hydro, coal, nuclear, offshore wind, geothermal, wind and battery, other). Marriage: CDC/NCHS FastStats, Marriage and Divorce, retrieved 2026-10-09, provisional 2023: 2,041,926 marriages, 6.1 per 1,000 total population; 672,502 divorces, 2.4 per 1,000 population, 45 reporting states and D.C. Definition: crude rates per 1,000 total population in the year, marriages for the U.S. and divorces for 45 reporting States and D.C.; not the share of marriages that end in divorce, which the CDC does not publish here. Source: CDC (public domain, attribution required).",
  "numbers": {
-  "requested_gw": 3509.087156378105,
-  "projects": 21758,
-  "withdrawn_pct": 75.17963875672332,
-  "operational_pct": 12.933980797014764,
-  "active_pct": 10.563623759650893,
-  "suspended_pct": 1.319336993834744,
-  "withdrawn_gw": 2638.1190478236344,
-  "operational_gw": 453.86465895645557,
+  "requested_gw": 3590.66180077946,
+  "projects": 22348,
+  "withdrawn_pct": 75.2141195848057,
+  "operational_pct": 12.827730499632588,
+  "active_pct": 10.648730159298568,
+  "suspended_pct": 1.3060777539622261,
+  "withdrawn_gw": 2700.684660724201,
+  "operational_gw": 460.60041895724356,
   "worst_tech": "Other",
-  "worst_withdrawn_pct": 84.00875549962676,
+  "worst_withdrawn_pct": 83.92781211146371,
   "best_tech": "Solar and battery",
-  "best_withdrawn_pct": 51.54616194845809,
+  "best_withdrawn_pct": 53.23596506930892,
   "cdc_marriage_rate": 6.1,
   "cdc_divorce_rate": 2.4,
   "cdc_ratio_pct": 39.34426229508197,
-  "gas_withdrawn_pct": 79.51545371950155,
-  "solar_withdrawn_pct": 70.63283641632002,
-  "wind_withdrawn_pct": 77.49642774468852,
-  "queue_over_cdc": 1.910815818400051
+  "gas_withdrawn_pct": 79.44978254195402,
+  "solar_withdrawn_pct": 70.86663828189789,
+  "wind_withdrawn_pct": 77.39141525501205,
+  "queue_over_cdc": 1.9116922061138115
  },
  "cdc": {
   "source": "CDC/NCHS FastStats, Marriage and Divorce",
@@ -241,11 +241,11 @@
  "tables": [
   "lbnl_interconnection_queue"
  ],
- "computed_at": "2026-10-31T17:53:56Z",
+ "computed_at": "2026-11-06T18:00:19Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding queue_divorce, TILL QUEUE DO US PART",
-  "Computed 2026-10-31T17:53:56Z by warehouse/analysis/findings/queue_divorce.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-11-06T18:00:19Z by warehouse/analysis/findings/queue_divorce.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per technology (and all), requests of 2000 to 2020 in Berkeley Lab's Queued Up: requested GW and the GW and percent of MW by status",
   "CDC/NCHS FastStats marriage and divorce rates per 1,000 population (provisional 2023), https://www.cdc.gov/nchs/fastats/marriage-divorce.htm; sources: lbnl_interconnection_queue"
  ],
@@ -261,11 +261,11 @@
   "python": "queue_divorce.py",
   "stata": "queue_divorce.do"
  },
- "csv_sha256": "f387e4a662f8373ec1048e452d00acf852f3691197f06602f53e5a0640dcae9e",
+ "csv_sha256": "d0c81b63d7291dd75ac4ccb27974d8efb8c14277dee51a242a316d8ade588693",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-31",
+   "name": "the findings library's cards as computed by 2026-11-06",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,

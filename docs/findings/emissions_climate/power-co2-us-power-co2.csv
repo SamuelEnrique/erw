@@ -1,0 +1,27 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate power_co2, region us_power_co2 (the United States)
+# Computed 2026-11-06T14:11:54Z by warehouse/analysis/findings/deep/emissions_climate.py (power_co2); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the US electric power sector's energy-related CO2 over the year (million tCO2), the observations it rests on, and whether the year is full
+# Tables: eia_co2_state_annual
+region,year,value,n_observations,full_year
+us_power_co2,2001,2258.660668,1.0,1
+us_power_co2,2002,2272.664449,1.0,1
+us_power_co2,2003,2303.877682,1.0,1
+us_power_co2,2004,2334.819006,1.0,1
+us_power_co2,2005,2400.544484,1.0,1
+us_power_co2,2006,2344.749681,1.0,1
+us_power_co2,2007,2410.99822,1.0,1
+us_power_co2,2008,2359.66741,1.0,1
+us_power_co2,2009,2145.715455,1.0,1
+us_power_co2,2010,2259.628612,1.0,1
+us_power_co2,2011,2158.915646,1.0,1
+us_power_co2,2012,2023.916994,1.0,1
+us_power_co2,2013,2038.751469,1.0,1
+us_power_co2,2014,2037.785703,1.0,1
+us_power_co2,2015,1901.031393,1.0,1
+us_power_co2,2016,1809.237669,1.0,1
+us_power_co2,2017,1732.30402,1.0,1
+us_power_co2,2018,1754.153088,1.0,1
+us_power_co2,2019,1607.61739,1.0,1
+us_power_co2,2020,1439.819024,1.0,1
+us_power_co2,2021,1541.446323,1.0,1
+us_power_co2,2022,1532.041064,1.0,1

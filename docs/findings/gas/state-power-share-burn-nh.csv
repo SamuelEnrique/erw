@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate state_power_share, region burn_NH (New Hampshire)
+# Computed 2026-11-06T12:02:13Z by warehouse/analysis/findings/deep/gas.py (state_power_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: gas delivered to a state's power plants as a percent of its gas delivered to the four consuming sectors (percent of delivered gas), the observations it rests on, and whether the year is full
+# Tables: eia_gas_consumption_state_monthly
+region,year,value,n_observations,full_year
+burn_NH,2001,2.2506525180779597,12.0,1
+burn_NH,2002,4.407857660413815,12.0,1
+burn_NH,2003,52.89161523964377,12.0,1
+burn_NH,2004,61.704632794230676,12.0,1
+burn_NH,2005,65.18530083885712,12.0,1
+burn_NH,2006,66.121756934003,12.0,1
+burn_NH,2007,62.8167970888481,12.0,1
+burn_NH,2008,68.42097866719132,12.0,1
+burn_NH,2009,63.55335202991453,12.0,1
+burn_NH,2010,64.78477179320787,12.0,1
+burn_NH,2011,67.12601812550189,12.0,1
+burn_NH,2012,70.04502000889285,12.0,1
+burn_NH,2013,54.993599139130595,12.0,1
+burn_NH,2014,54.93361470148598,12.0,1
+burn_NH,2015,62.2654448886684,12.0,1
+burn_NH,2016,58.684794672586015,12.0,1
+burn_NH,2017,50.06649576932714,12.0,1
+burn_NH,2018,43.34881289829725,12.0,1
+burn_NH,2019,47.61824608651742,12.0,1
+burn_NH,2020,50.321447188061086,12.0,1
+burn_NH,2021,55.38724314625352,12.0,1
+burn_NH,2022,55.121421554264835,12.0,1
+burn_NH,2023,53.60767412762408,12.0,1
+burn_NH,2024,55.35375015251608,12.0,1
+burn_NH,2025,56.50821267435345,12.0,1
+burn_NH,2026,61.22454162222561,7.0,0

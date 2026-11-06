@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate solar_share, region state_sun_NV (Nevada)
+# Computed 2026-11-06T11:44:25Z by warehouse/analysis/findings/deep/generation_pipeline.py (solar_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: utility-scale solar's share of the state's net generation over the year (percent of net generation), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+state_sun_NV,2001,0.0,12.0,1
+state_sun_NV,2002,0.0,12.0,1
+state_sun_NV,2003,0.0,12.0,1
+state_sun_NV,2004,0.0,12.0,1
+state_sun_NV,2005,0.0,12.0,1
+state_sun_NV,2006,0.0,12.0,1
+state_sun_NV,2007,0.13458024311730046,12.0,1
+state_sun_NV,2008,0.44460845685384764,12.0,1
+state_sun_NV,2009,0.46229525595230914,12.0,1
+state_sun_NV,2010,0.617183523690923,12.0,1
+state_sun_NV,2011,0.9119027385425792,12.0,1
+state_sun_NV,2012,1.3459556966292763,12.0,1
+state_sun_NV,2013,2.045287551430867,12.0,1
+state_sun_NV,2014,2.815741386631055,12.0,1
+state_sun_NV,2015,4.244664556845778,12.0,1
+state_sun_NV,2016,7.851960759549505,12.0,1
+state_sun_NV,2017,10.852687241026594,12.0,1
+state_sun_NV,2018,11.904304091371069,12.0,1
+state_sun_NV,2019,12.059544382446928,12.0,1
+state_sun_NV,2020,13.691660852210317,12.0,1
+state_sun_NV,2021,15.771133077084155,12.0,1
+state_sun_NV,2022,21.200289561957725,12.0,1
+state_sun_NV,2023,22.996770571371176,12.0,1
+state_sun_NV,2024,27.356010671511118,12.0,1
+state_sun_NV,2025,30.786025395251478,12.0,1
+state_sun_NV,2026,31.75838427892185,8.0,0

@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate net_metered, region nem_US (the United States)
+# Computed 2026-11-06T12:22:27Z by warehouse/analysis/findings/deep/tariffs_policy.py (net_metered); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: net-metered capacity, every technology and sector (MW), the observations it rests on, and whether the year is full
+# Tables: eia_net_metering_state_annual
+region,year,value,n_observations,full_year
+nem_US,2013,5461.602,1.0,1
+nem_US,2014,7470.501,1.0,1
+nem_US,2015,10105.297,1.0,1
+nem_US,2016,13582.045,1.0,1
+nem_US,2017,16903.148,1.0,1
+nem_US,2018,20771.507,1.0,1
+nem_US,2019,24147.345,1.0,1
+nem_US,2020,28283.355,1.0,1
+nem_US,2021,33580.468,1.0,1
+nem_US,2022,40574.8,1.0,1
+nem_US,2023,48925.862,1.0,1
+nem_US,2024,55808.76,1.0,1

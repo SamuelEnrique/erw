@@ -1,0 +1,29 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate appalachia_share, region app_coal (Appalachia)
+# Computed 2026-11-06T14:08:48Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (appalachia_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: Appalachia's coal production as a percent of the US (percent of US coal production), the observations it rests on, and whether the year is full
+# Tables: eia_coal_production_annual
+region,year,value,n_observations,full_year
+app_coal,2001,38.23442360214401,1.0,1
+app_coal,2002,36.20877468741153,1.0,1
+app_coal,2003,35.08938419875387,1.0,1
+app_coal,2004,35.058413646261506,1.0,1
+app_coal,2005,35.056752932291054,1.0,1
+app_coal,2006,33.64089397681776,1.0,1
+app_coal,2007,32.948610615173386,1.0,1
+app_coal,2008,33.30045726091142,1.0,1
+app_coal,2009,31.7644374977003,1.0,1
+app_coal,2010,30.916411517465562,1.0,1
+app_coal,2011,30.668924790513845,1.0,1
+app_coal,2012,28.72024441239858,1.0,1
+app_coal,2013,27.382216184392803,1.0,1
+app_coal,2014,26.696576528321632,1.0,1
+app_coal,2015,24.609224970462172,1.0,1
+app_coal,2016,24.661485354273815,1.0,1
+app_coal,2017,25.541373495182295,1.0,1
+app_coal,2018,26.472561596984065,1.0,1
+app_coal,2019,27.354155908896807,1.0,1
+app_coal,2020,25.873405575317268,1.0,1
+app_coal,2021,26.86751565265919,1.0,1
+app_coal,2022,27.01488009324808,1.0,1
+app_coal,2023,28.62487449412433,1.0,1
+app_coal,2024,30.77026618494899,1.0,1

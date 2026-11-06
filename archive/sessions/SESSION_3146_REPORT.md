@@ -1,21 +1,20 @@
-# Session 3146: chain 186's first session (its 3146): the ground; the next file held
+# Session 3146 report: the next file, the ground, chain 176's first unfinished step
 
-Personal laptop, second window, 6 November 2026, 14:58 to 15:01 UTC. Opus 5.5. Branch `wip/3146-policy`: `origin/wip/3145-policy` with `origin/main` merged (5a35db49e).
+6 November 2026, about 14:08 to 14:14 UTC, on lab-desktop (the data machine, its first window), chain 180, unattended. Model spend USD 0. Pulls: GitHub only.
 
-## What it did
+## Read these first
 
-- Took `queue/next/186-night-9-november-portable-window2-continued.md` by name as `portable-laptop-window2`. Sessions 3146 to 3157 were free.
-- The ground: nothing of chains 166, 169 and 178 has landed (`wip/3144-policy`, row 10 of the request file, is not an ancestor of `origin/main`); this chain's branch is cut from the newest (`wip/3145-policy`) with `origin/main` merged, no conflict.
-- Began the third sample's fetch (rows 801 to 1200 of the newest actions, every fifth, 80 actions from 1 April to 4 June 2026) for session 3151.
+- **The queue move:** `chain_queue.py next` took `180-day-17-november-data-derived-continued.md` (`439b20537`). Snapshots `s3146-before` and `s3146-after`: 0 differences.
+- **The successor: `queue/next/184-day-19-november-data-derived-continued.md`** (`399562705`), committed alone and pushed. Snapshots `s3146b-before` and `s3146b-after`: 0 differences.
+  - The other windows had taken files 182 and 183, and sessions 3174 to 3190 (the desktop's second window's file 183).
+  - So this file takes 184 and sessions 3191 to 3204.
+- **The ground:** precheck passed (`runs/s3146_precheck.out`); freeze none; the data lock free.
+- **Chain 176's first unfinished step, the landing of `wip/c177-data`** (which holds `wip/c176-data`): **not yet.** The window is closed from 14:00 to 16:15 UTC. The step goes to chain 181's session 3160, after 16:15.
 
 ## Decisions made without you
 
-- **The next file is held, not written first.** The chain's rules ask session 3146 to write it, and the same file says the chain ends without a successor if steps 1 to 4 still wait when the third sample is done. Writing a file now that session 3157 would have to retire would only add to the queue; session 3157 writes it, or ends the chain, by that rule.
+- **The successor numbered 184, sessions 3191 to 3204.**
 
 ## For Samuel's ruling
 
-- None new.
-
-## Cost
-
-- Model: none (USD 0.00).
+- None.

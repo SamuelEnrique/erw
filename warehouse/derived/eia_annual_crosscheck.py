@@ -143,7 +143,7 @@ def main(argv=None):
     if os.path.exists(path):
         os.remove(path)
     ip.write_csv(out[cols], NAME, header, log, cols=cols)
-    ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW)",
+    ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived",
                             report="Cross-check of EIA-930's hourly sums against EIA-923's annual net generation by balancing authority (session 323)",
                             report_url=METHOD_URL, document_list="", license="public", tables=[NAME])])
     print(f"{NAME}: {len(out)} rows, {len(BAS)} BAs, years {years}")

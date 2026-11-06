@@ -1,0 +1,29 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate flared_share, region flare_LA (Louisiana)
+# Computed 2026-11-06T12:02:14Z by warehouse/analysis/findings/deep/gas.py (flared_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: a state's vented and flared gas as a percent of its gross withdrawals (percent of gross withdrawals), the observations it rests on, and whether the year is full
+# Tables: eia_gas_production_state_monthly
+region,year,value,n_observations,full_year
+flare_LA,2001,0.770657052364671,12.0,1
+flare_LA,2002,0.7926438484385104,12.0,1
+flare_LA,2003,0.6735939280038893,12.0,1
+flare_LA,2004,0.36426500079140695,12.0,1
+flare_LA,2005,0.39888114792268803,12.0,1
+flare_LA,2006,0.48351661108837674,12.0,1
+flare_LA,2007,0.4696896504843697,12.0,1
+flare_LA,2008,0.28968317164160284,12.0,1
+flare_LA,2009,0.2781914221317444,12.0,1
+flare_LA,2010,0.20642091202970947,12.0,1
+flare_LA,2011,0.20733275163516277,12.0,1
+flare_LA,2012,0.0,12.0,1
+flare_LA,2013,0.1653609740496497,12.0,1
+flare_LA,2014,0.23386952985824072,12.0,1
+flare_LA,2015,0.2088535829943438,12.0,1
+flare_LA,2016,0.2847098117826146,12.0,1
+flare_LA,2017,0.24852178405132394,12.0,1
+flare_LA,2018,0.21004120187934938,12.0,1
+flare_LA,2019,0.15849893862872633,12.0,1
+flare_LA,2020,0.13977931122958154,12.0,1
+flare_LA,2021,0.1014921374041153,12.0,1
+flare_LA,2022,0.09247193197050492,12.0,1
+flare_LA,2023,0.045708340383192464,12.0,1
+flare_LA,2024,0.05108754547565601,12.0,1

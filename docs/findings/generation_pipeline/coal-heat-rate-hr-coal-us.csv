@@ -1,0 +1,29 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate coal_heat_rate, region hr_coal_US (the United States)
+# Computed 2026-11-06T11:50:08Z by warehouse/analysis/findings/deep/generation_pipeline.py (coal_heat_rate); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the coal-fired fleet's fuel consumed over its net generation, EIA-923 (MMBtu per MWh), the observations it rests on, and whether the year is full
+# Tables: eia923_plant_fuel_annual
+region,year,value,n_observations,full_year
+hr_coal_US,2001,10.626453349293909,1.0,1
+hr_coal_US,2002,10.56212986586373,1.0,1
+hr_coal_US,2003,10.530066449870212,1.0,1
+hr_coal_US,2004,10.584967735706122,1.0,1
+hr_coal_US,2005,10.6069192760988,1.0,1
+hr_coal_US,2006,10.580182851043677,1.0,1
+hr_coal_US,2007,10.594623620485871,1.0,1
+hr_coal_US,2008,10.601114386325138,1.0,1
+hr_coal_US,2009,10.651653710166967,1.0,1
+hr_coal_US,2010,10.657364666782385,1.0,1
+hr_coal_US,2011,10.703702870025841,1.0,1
+hr_coal_US,2012,10.757993004880412,1.0,1
+hr_coal_US,2013,10.696450603998233,1.0,1
+hr_coal_US,2014,10.662840434174335,1.0,1
+hr_coal_US,2015,10.742975612287564,1.0,1
+hr_coal_US,2016,10.755570211597023,1.0,1
+hr_coal_US,2017,10.706607608563287,1.0,1
+hr_coal_US,2018,10.7190976204618,1.0,1
+hr_coal_US,2019,10.794266360701686,1.0,1
+hr_coal_US,2020,10.906669330926775,1.0,1
+hr_coal_US,2021,10.811642583252025,1.0,1
+hr_coal_US,2022,10.937413396230026,1.0,1
+hr_coal_US,2023,10.996103371459713,1.0,1
+hr_coal_US,2024,11.019346102653657,1.0,1

@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate solar_share, region state_sun_US (the United States)
+# Computed 2026-11-06T11:44:23Z by warehouse/analysis/findings/deep/generation_pipeline.py (solar_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: utility-scale solar's share of the state's net generation over the year (percent of net generation), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+state_sun_US,2001,0.014525200982043124,12.0,1
+state_sun_US,2002,0.01437962592011353,12.0,1
+state_sun_US,2003,0.013751632794900812,12.0,1
+state_sun_US,2004,0.014485505725622969,12.0,1
+state_sun_US,2005,0.013569345885024998,12.0,1
+state_sun_US,2006,0.012490607714756456,12.0,1
+state_sun_US,2007,0.014718079666757929,12.0,1
+state_sun_US,2008,0.020981632476674623,12.0,1
+state_sun_US,2009,0.0225596137787839,12.0,1
+state_sun_US,2010,0.029385793169003176,12.0,1
+state_sun_US,2011,0.04433251643669969,12.0,1
+state_sun_US,2012,0.10689046807201479,12.0,1
+state_sun_US,2013,0.22222578065395338,12.0,1
+state_sun_US,2014,0.43216694736072564,12.0,1
+state_sun_US,2015,0.6103125884728331,12.0,1
+state_sun_US,2016,0.884205238796711,12.0,1
+state_sun_US,2017,1.3204712956885203,12.0,1
+state_sun_US,2018,1.5265606858512772,12.0,1
+state_sun_US,2019,1.7415696784553154,12.0,1
+state_sun_US,2020,2.2245362027883266,12.0,1
+state_sun_US,2021,2.8045420702843114,12.0,1
+state_sun_US,2022,3.3987990247784574,12.0,1
+state_sun_US,2023,3.9569602171545353,12.0,1
+state_sun_US,2024,5.102171542962039,12.0,1
+state_sun_US,2025,6.786461538199749,12.0,1
+state_sun_US,2026,8.309318239597879,8.0,0

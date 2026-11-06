@@ -1,0 +1,21 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate added_mw, region add_battery_US (batteries, the United States)
+# Computed 2026-11-06T12:13:11Z by warehouse/analysis/findings/deep/generation_pipeline.py (added_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the nameplate MW of today's operating generators that entered service in the year (MW), the observations it rests on, and whether the year is full
+# Tables: eia860m_operating_generators
+region,year,value,n_observations,full_year
+add_battery_US,2010,0.0,1.0,1
+add_battery_US,2011,0.8,1.0,1
+add_battery_US,2012,62.5,1.0,1
+add_battery_US,2013,4.5,1.0,1
+add_battery_US,2014,22.0,1.0,1
+add_battery_US,2015,100.9,1.0,1
+add_battery_US,2016,192.2,1.0,1
+add_battery_US,2017,117.6,1.0,1
+add_battery_US,2018,220.4,1.0,1
+add_battery_US,2019,204.6,1.0,1
+add_battery_US,2020,585.0,1.0,1
+add_battery_US,2021,3131.8,1.0,1
+add_battery_US,2022,4309.0,1.0,1
+add_battery_US,2023,7238.5,1.0,1
+add_battery_US,2024,11066.0,1.0,1
+add_battery_US,2025,16372.5,1.0,1
