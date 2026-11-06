@@ -1,0 +1,56 @@
+PREVIEW v2: ERW Daily | Brent crude: 115.22 USD/bbl, down 3.0% on the close before
+
+ERW Daily Digest, 2026-10-23
+
+23 October 2026. Data through 11:45 ET, 15:45 UTC.
+
+ERW's weekday brief of energy news for the 24 hours to 2026-10-23 15:45 UTC, from 2026-10-22 15:39 UTC, from 308 scored stories.
+
+
+The opening number
+
+Brent crude: 115.22 USD/bbl on 2026-10-20, down 3.60 USD/bbl (3.0%) from 118.82 USD/bbl on 2026-10-19 [1]. EIA's spot close of Brent, the North Sea crude benchmark, against the close before it. Reason, from the day's stories: Escalating Middle East conflict and supply disruption drives oil price move at market-sensitive levels. (Reuters (https://news.google.com/rss/articles/CBMixAFBVV95cUxPR2dZUC10TmJYRUk2RmM5WWpxaUx2XzBPZ0ZTV3hIR3BkaGFvZ3B2T1hhd0xEcXZOWk5LdXhLLUF5QU9XdTRQdnRyTk9jcmVNMEZvZlZBRW8xcG1TVW1fTkY2UnFrcXlVWlUwbDhRYk9pcW1fdEdzMVNRR2ZhYVl2T0RZa09uZTktZGFWRVRWSEpGeFhYVXVPR09zNDVaTVdiNDdRRHg3VFNyZWNNWVBmdkxGMWFOa05yN2NBRnRVZjF3eF9i?oc=5) (via Google News))
+Tables: [1] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
+
+The numbers
+
+- Market price. WTI Cushing crude: 107.89 USD/bbl on 2026-10-20, down 2.12 USD/bbl (1.9%) from 110.01 USD/bbl on 2026-10-19 [1]. Status: observed, EIA's spot close, published about a week after the trading day.
+- Physical. US48 demand peaked at 495,741 MW in the hour starting 2026-10-22 22:00 UTC [2]; the same weekday a year before (2025-10-23) is not held, so no change is shown. Status: observed, EIA-930 hourly demand.
+- Project or capacity. No story of the day states a capacity figure in MW.
+- Policy, capital or reliability. USD 14.4 billion: Kinder Morgan's project backlog reaches $14.4 billion, one of its largest quarterly increases, as power demand grows (deal, ranked 1 of the day's top ten), reported on 2026-10-22 by Natural Gas Intelligence. Change: a new report, no earlier figure held. Status: reported by the outlet, not a warehouse table's figure.
+Tables: [1] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt); [2] eia930_all_demand (eia:electricity/rto/region-data); balancing authority us48.
+
+What moved
+
+1. Kinder Morgan's project backlog reaches $14.4 billion, one of its largest quarterly increases, as power demand grows
+   Largest quarterly backlog increase in KMI history driven by AI data center gas pipeline needs.
+   Natural Gas Intelligence: https://naturalgasintel.com/news/kinder-morgan-backlog-surges-on-ai-data-centers-southeast-power-demand/
+2. Brent climbed above $113 amid Saudi attacks and renewed Iran tensions; diesel supplies remain tight
+   Middle East escalation triggers large oil price move and supply shock fears. One outlet has reported it so far.
+   Rigzone: https://www.rigzone.com/news/wire/oil_surges_4_after_deadly_saudi_attacks-22-oct-2026-184912-article/?rss=true
+   Also on this topic: US, Israel Prep for Possible Iran War Escalation, Raising Stakes for Global Energy Flows (Natural Gas Intelligence).
+3. European natural gas prices rose 3% at opening in Amsterdam, highest since 2022, as Qatari LNG flows stay restricted
+   TTF benchmark hits multi-year high; Middle East escalation and LNG supply fears roil European gas. One outlet has reported it so far.
+   OilPrice.com: https://oilprice.com/Latest-Energy-News/World-News/European-Natural-Gas-Prices-Surge-to-Highest-Level-Since-2022.html
+
+ERW's Chart of the Day
+
+[chart: onrr_revenue:federal:onshore:56013_fremont:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -2,344,195 in June 2026, the lowest monthly value held since January 2003. The record until now was USD -1,995,113, in February 2023.] https://raw.githubusercontent.com/SamuelEnrique/erw/main/docs/digest/preview/charts/2026-10-23.png
+onrr_revenue:federal:onshore:56013_fremont:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -2,344,195 in June 2026, the lowest monthly value held since January 2003. The record until now was USD -1,995,113, in February 2023.
+The table holds 282 months of this series; the last is June 2026.
+Source: ONRR (onrr:revenue_data), period June 2026, newest period held 2026-08-01, retrieved by the ERW 2026-10-23 12:16 UTC. Table onrr_revenue_monthly, series entity=onrr_revenue:federal:onshore:56013_fremont:other_revenues:oil_gas:oil_gas_pre_production:none, variable=revenue, node=Fremont, Wyoming: Other revenues, Oil & gas (pre-production), freq=P1M: the table and its download.
+Chosen by rule, not by a person or a model: the strongest flag of the day's scan that no Digest has shown (rule: record; 7.77 robust standard deviations past its threshold). It is the candidate most related to the day's top stories: it shares gas with 'European Natural Gas Prices Surge to Highest Level Since 2022'. How the chart is chosen.
+
+More on the site: the rest of the top ten, the sectors, AI and power, and the numbers in full: https://github.com/SamuelEnrique/erw/blob/main/docs/digest/2026-10-23.md
+
+ERW's Fun Fact
+
+The term duck curve was coined in 2012 by the California Independent System Operator, and the curve is named for its visual similarity to the outline of a duck. Grid operators hope batteries help the duck keep its neck in check.
+Sources: Wikipedia, Duck curve (https://en.wikipedia.org/wiki/Duck_curve).
+
+ERW
+
+All of ERW's Energy Digest: https://github.com/SamuelEnrique/erw/blob/main/docs/digest/2026-10-23.md
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Corrections: https://github.com/SamuelEnrique/erw/issues
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.

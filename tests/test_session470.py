@@ -427,8 +427,8 @@ class TheNamedDays(unittest.TestCase):
             self.skipTest("the 2 October clusters are not as scored on 21 October")
         top10, _, _ = brief.select(c, "2026-10-02", Quiet())
         ids = set(top10["cluster_id"])
-        self.assertIn("news:8470c320a7225474", ids)
-        self.assertNotIn("news:ec41f0a2f9b34be4", ids)
+        # once: since session 2701 (rulings item 4: outlets, then time, break a tie) either twin may be the one kept
+        self.assertEqual(len({"news:8470c320a7225474", "news:ec41f0a2f9b34be4"} & ids), 1)
         self.assertEqual(len(top10), 10)
 
     def test_9_october_leaves_out_voltus_shown_on_8_october(self):
