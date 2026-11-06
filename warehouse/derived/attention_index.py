@@ -117,6 +117,9 @@ def build(stories, classified, now):
 
     c = classified.merge(stories[["event_id", "week"]], on="event_id", how="inner")
     c["geo"] = ["US-" + s if s else ("US" if u else "") for s, u in zip(c["state"], c["us"])]
+    # session 3403: no em or en dash in any file the ERW writes (an outlet's name carries one: "IEA" with a dash)
+    for col in ("source", "headline", "place"):
+        c[col] = c[col].fillna("").map(ac.nodash)
     links = pd.DataFrame({
         "event_id": "attn:" + c["event_id"].str.replace("^news:", "", regex=True),
         "event_date": c["event_date"], "event_type": "attention_link", "parties": "", "entity_ids": "", "mw": "", "price": "",
