@@ -46,6 +46,11 @@ export function MonitorView({ rows, built, held, opened, today }: { rows: Monito
   const [f, setF] = useState<Filters>(opened);
   const [sort, setSort] = useState<[SortKey, "asc" | "desc"]>(["date", "desc"]);
   const [open, setOpen] = useState<string | null>(null);
+  // session 3124: below the lg width the filters fold behind one button, so the records are the first thing at 390;
+  // at 1280 they stand at the left, open, as before
+  const [showFilters, setShowFilters] = useState(false);
+  const chosen = f.bodies.length + f.instruments.length + f.statuses.length + f.sectors.length + f.grids.length + f.states.length
+    + (f.from ? 1 : 0) + (f.to ? 1 : 0) + (f.minSig !== OPEN_FILTERS.minSig ? 1 : 0);
   const opts = useMemo(() => options(rows), [rows]);
   const shown = useMemo(() => sortRows(filterRows(rows, f), sort[0], sort[1]), [rows, f, sort]);
   const put = (next: Filters) => { setF(next); window.history.replaceState(null, "", hrefOf(next)); };
@@ -63,7 +68,9 @@ export function MonitorView({ rows, built, held, opened, today }: { rows: Monito
   );
   return (
     <div className="grid gap-4 lg:grid-cols-[14rem_1fr]" data-policy-monitor="1">
-      <aside aria-label="Filters" data-monitor-filters="1">
+      <button type="button" className="border border-rule px-2 py-1 text-left text-xs lg:hidden" aria-expanded={showFilters} aria-controls="monitor-filters"
+        onClick={() => setShowFilters(!showFilters)} data-monitor-filters-toggle="1">{showFilters ? "Hide the filters" : "Filters"}{chosen ? ` (${chosen} chosen)` : ""}</button>
+      <aside aria-label="Filters" id="monitor-filters" data-monitor-filters="1" className={`${showFilters ? "" : "hidden"} lg:block`}>
         <Multi label="Body" opts={opts.bodies} chosen={f.bodies} set={(v) => put({ ...f, bodies: v })} why="The issuing body (a bureau, not its department)." />
         <Multi label="Instrument" opts={opts.instruments} chosen={f.instruments} set={(v) => put({ ...f, instruments: v })} why="What the newest document is." />
         <Multi label="Status" opts={opts.statuses} chosen={f.statuses} set={(v) => put({ ...f, statuses: v })} why="As of the newest document." />

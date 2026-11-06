@@ -1,6 +1,6 @@
 # Session 3123: chain 169's second session (its 3067): what a build would find
 
-Personal laptop, second window, 6 November 2026, 13:25 to 13:35 UTC. Opus 5.5. Branch `wip/3123-policy` cut from `wip/3122-policy`.
+Personal laptop, second window, 6 November 2026, 13:25 to 13:26 UTC (the commits' times). Opus 5.5. Branch `wip/3123-policy` cut from `wip/3122-policy`.
 
 ## What it did
 
