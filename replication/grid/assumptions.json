@@ -1,0 +1,9 @@
+{
+ "_about": "The Grid tool (/grid): the assumptions the page's figures rest on (session 3705 completes this file).",
+ "network_quiet_hours": {
+  "value": 48,
+  "unit": "hours",
+  "source": "site/lib/networkV3.ts completeHour, quiet = 48: a pair that held no flow in the snapshot's last 48 hours is silent and does not hold back the hour shown",
+  "change": "the default argument of completeHour in site/lib/networkV3.ts"
+ }
+}
