@@ -55,7 +55,12 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         "s1133": {"questions": os.path.join(HERE, "eval_s1133_s1114_questions.yaml"), "run": os.path.join(HERE, "eval_s1133_s1114_run.json"),
                   "grades": os.path.join(HERE, "eval_s1133_s1114_grades.json")},
         "s1122": {"questions": os.path.join(HERE, "questions_s1122.yaml"), "run": os.path.join(HERE, "eval_s1122_run.json"),
-                  "grades": os.path.join(HERE, "eval_s1122_grades.json")}}
+                  "grades": os.path.join(HERE, "eval_s1122_grades.json")},
+        # session 2918 (chain 153): the same asking of the board's five graded on the keys of its own day, computed by
+        # expected_s1122.py's build from the rows session 2918 recorded (tests/fixtures/session2918/board_reads.json,
+        # runs/s2918/regrade.py): session 1122's keys of 23 October stay as its tests pin them
+        "s2918": {"questions": os.path.join(HERE, "questions_s2918.yaml"), "run": os.path.join(HERE, "eval_s1122_run.json"),
+                  "grades": os.path.join(HERE, "eval_s1122_grades_s2918.json")}}
 ENV_ROOT = ROOT if os.path.exists(os.path.join(ROOT, ".env")) else os.path.join(os.path.dirname(ROOT), "erw")   # a worktree reads the main checkout's
 STEP = "site_ask_eval"
 GRID_SLUG = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "SPP": "spp", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm"}
@@ -289,7 +294,7 @@ def main(argv):
         only = set(argv[argv.index("--only") + 1].split(",")) if "--only" in argv else None
         ask(base, cap, only, which)
     if "--grade" in argv:
-        grade_s1114(which) if which in ("s1114", "s1133", "s1122") else grade()
+        grade_s1114(which) if which in ("s1114", "s1133", "s1122", "s2918") else grade()
     return 0
 
 

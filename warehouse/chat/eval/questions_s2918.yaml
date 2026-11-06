@@ -1,0 +1,55 @@
+# Energy Research Warehouse (ERW): five price-board questions for Ask, session 1122 (chain 075, 23 October 2026), keyed again by session 2918 (chain 153, 6 November 2026), answered
+# by the tool board_rank over the board's own derived tables. Keys from the rows recorded at 2026-11-06T05:16:23Z by
+# expected_s1122.py (tests/fixtures/session2918/board_reads.json): each hub's newest value, the held grids left out.
+today: '2026-11-06'
+questions:
+- id: k01
+  grid: ERCOT
+  via: general
+  question: "On the price board's newest day for each hub, which hub had the highest day-ahead daily mean, and what was it in USD per MWh?"
+  expected: [51.7155]
+  tolerance: 0.01
+  text: ["SPP"]
+  tables: ["price_board_latest"]
+  refuse: false
+  note: "price_board_latest, da_latest_day_mean, highest of each public hub newest row: spp:SPPNORTH_HUB on 2026-11-06"
+- id: k02
+  grid: ERCOT
+  via: general
+  question: "What moved most on the price board: which hub's day-ahead daily mean changed most, in percent, on its newest day against the day before, and by how much?"
+  expected: [132.1864]
+  tolerance: 0.01
+  text: ["HB_WEST"]
+  tables: ["price_board_latest"]
+  refuse: false
+  note: "price_board_latest, da_day_change_pct, largest_move of each public hub newest row: ercot:HB_WEST on 2026-11-06"
+- id: k03
+  grid: ERCOT
+  via: general
+  question: "Where is the spark spread widest on the price board (each hub's newest day, at the board's stated heat rate), and what is it in USD per MWh?"
+  expected: [33.3055]
+  tolerance: 0.01
+  text: ["SPP"]
+  tables: ["price_board_spreads"]
+  refuse: false
+  note: "price_board_spreads, spark_spread_7, highest of each public hub newest row: spp:SPPNORTH_HUB on 2026-11-06"
+- id: k04
+  grid: ERCOT
+  via: general
+  question: "Which hub on the price board had the lowest real-time daily mean on its newest day, and what was it in USD per MWh?"
+  expected: [21.7156]
+  tolerance: 0.01
+  text: ["HB_NORTH"]
+  tables: ["price_board_latest"]
+  refuse: false
+  note: "price_board_latest, rt_latest_day_mean, lowest of each public hub newest row: ercot:HB_NORTH on 2026-11-04"
+- id: k05
+  grid: ERCOT
+  via: general
+  question: "On the price board, which hub's day-ahead price ran furthest from real time (day-ahead minus real time, either sign) on its newest day, and by how much in USD per MWh?"
+  expected: [16.4397]
+  tolerance: 0.01
+  text: ["HB_WEST"]
+  tables: ["price_board_latest"]
+  refuse: false
+  note: "price_board_latest, da_minus_rt, largest_move of each public hub newest row: ercot:HB_WEST on 2026-11-04"
