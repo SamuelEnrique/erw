@@ -86,6 +86,18 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, send, sleep 
   check(!!s && s.canvas, "opens: the map is a canvas");
   check(await evaluate(`document.querySelector('[data-map-units]')?.innerText === ${JSON.stringify(whole(f.counts.units))}`), `opens: the header counts the file's ${whole(f.counts.units)} units`);
   check(await evaluate(`document.querySelector('[data-map-card]')?.getAttribute('data-map-card') === 'empty'`), "opens: no card until a unit is clicked");
+  // session 2300 (chain 087): every figure the page computes carries data-source (tables|vintage|rule) and stands by a tip
+  const src = await evaluate(`(() => {
+    const figs = [...document.querySelectorAll('[data-map-summary] strong, [data-map-total], [data-tech-count], [data-tech-mw], [data-map-units], [data-map-not-drawn]')];
+    const bare = figs.filter((e) => !e.getAttribute('data-source') && !e.closest('[data-check]'));
+    const sources = [...new Set(figs.map((e) => e.getAttribute('data-source')).filter(Boolean))];
+    const tips = [...document.querySelectorAll('[data-tip]')].map((e) => e.getAttribute('data-tip'));
+    return { figures: figs.length, bare: bare.map((e) => e.outerHTML.slice(0, 80)), sources, tips, keyed: document.querySelectorAll('[data-check]').length };
+  })()`);
+  check(src.figures > 0 && src.bare.length === 0, `opens: every figure of the page carries data-source or a check key (${src.figures} figures, ${src.keyed} keyed; bare: ${src.bare.join(" | ") || "none"})`);
+  check(src.sources.every((s) => s.split("|").length === 3 && f.tables.some((t) => s.startsWith(t))) && src.sources.some((s) => s.includes(`|${f.vintages.queue}|`)),
+    `opens: each data-source names a table of the file, a vintage and a rule (${src.sources.length} distinct)`);
+  check(["map-sentence", "map-totals-0", "map-drawn", "map-by-technology", "map-units"].every((id) => src.tips.includes(id)), `opens: the source tips stand by the sentence, the totals, the map, the table and the unit count (${src.tips.join(", ")})`);
   check(await evaluate(`!document.querySelector('#queue') && !document.querySelector('#table')`), "opens: no queue beside the map and no table of what is selected (both deleted)");
   check(await evaluate(`[...document.querySelectorAll('details')].every((d) => !/What the inventory leaves out|How to read it/.test(d.innerText))`), "opens: the two note blocks are gone from the face");
   if (f.held.length) check(await evaluate(`(document.querySelector('[data-map-held]')?.innerText ?? '').includes('MISO queue positions: paused while terms are reviewed')`), "opens: MISO's queue reads \"paused while terms are reviewed\"");
