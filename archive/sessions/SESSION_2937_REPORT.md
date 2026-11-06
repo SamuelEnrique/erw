@@ -1,6 +1,6 @@
 # Session 2937 report: the tariff registry, the next utilities
 
-6 November 2026, about 07:17 to 07:24 UTC, on lab-desktop (the data machine), chain 155, unattended. Model spend USD 0. Pulls: 7 requests of the 25 allowed (`runs/s2937/probe.csv`; bodies in `runs/license_reads/s2937/`), robots first at each host and terms before any tariff.
+6 November 2026, about 07:12 to 07:13 UTC, on lab-desktop (the data machine), chain 155, unattended. Model spend USD 0. Pulls: 7 requests of the 25 allowed (`runs/s2937/probe.csv`; bodies in `runs/license_reads/s2937/`), robots first at each host and terms before any tariff.
 
 ## Read these first
 

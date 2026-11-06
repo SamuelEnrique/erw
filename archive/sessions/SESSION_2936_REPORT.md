@@ -1,6 +1,6 @@
 # Session 2936 report: the four peak intervals' node prices
 
-6 November 2026, about 07:16 UTC, on lab-desktop (the data machine), chain 155, unattended. Model spend USD 0. Pulls: none (the step asks only once the four intervals are known).
+6 November 2026, about 07:12 UTC, on lab-desktop (the data machine), chain 155, unattended. Model spend USD 0. Pulls: none (the step asks only once the four intervals are known).
 
 ## Read these first
 

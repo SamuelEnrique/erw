@@ -1,6 +1,6 @@
 # Session 2935 report: ERCOT's four coincident peaks of summer 2026, again
 
-6 November 2026, about 07:14 to 07:16 UTC, on lab-desktop (the data machine), chain 155, unattended. Model spend USD 0. Pulls: www.ercot.com, 4 attempts of the 10 allowed (`runs/s2935/probe_try1.csv`, `probe.csv`). The first two (robots and the page) failed in this machine's name resolution and reached nothing. Robots was then read first and answered. The page followed.
+6 November 2026, about 07:11 to 07:12 UTC, on lab-desktop (the data machine), chain 155, unattended. Model spend USD 0. Pulls: www.ercot.com, 4 attempts of the 10 allowed (`runs/s2935/probe_try1.csv`, `probe.csv`). The first two (robots and the page) failed in this machine's name resolution and reached nothing. Robots was then read first and answered. The page followed.
 
 ## Read these first
 
