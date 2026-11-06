@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate coal_share, region state_cow_US (the United States)
+# Computed 2026-11-06T11:44:22Z by warehouse/analysis/findings/deep/generation_pipeline.py (coal_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: coal's share of the state's net generation over the year (percent of net generation), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+state_cow_US,2001,50.95363970577008,12.0,1
+state_cow_US,2002,50.10118638889436,12.0,1
+state_cow_US,2003,50.82777785017539,12.0,1
+state_cow_US,2004,49.82427942737525,12.0,1
+state_cow_US,2005,49.63411141202773,12.0,1
+state_cow_US,2006,48.97065081673752,12.0,1
+state_cow_US,2007,48.510450304062644,12.0,1
+state_cow_US,2008,48.206222928188424,12.0,1
+state_cow_US,2009,44.449548294936875,12.0,1
+state_cow_US,2010,44.78214435103575,12.0,1
+state_cow_US,2011,42.27732745201908,12.0,1
+state_cow_US,2012,37.40441564180838,12.0,1
+state_cow_US,2013,38.8865885081864,12.0,1
+state_cow_US,2014,38.63895360957767,12.0,1
+state_cow_US,2015,33.15746757963871,12.0,1
+state_cow_US,2016,30.389361785971236,12.0,1
+state_cow_US,2017,29.88111360658434,12.0,1
+state_cow_US,2018,27.493200658116866,12.0,1
+state_cow_US,2019,23.36132556084027,12.0,1
+state_cow_US,2020,19.287727363234904,12.0,1
+state_cow_US,2021,21.850716433231536,12.0,1
+state_cow_US,2022,19.65438313567456,12.0,1
+state_cow_US,2023,16.138456279580193,12.0,1
+state_cow_US,2024,15.13602398513754,12.0,1
+state_cow_US,2025,16.60844641938748,12.0,1
+state_cow_US,2026,14.923296937807892,8.0,0

@@ -249,7 +249,9 @@ def run(family, candidates, in_dir=None, dry_run=True, load=None, log=print, now
         log(f"  {P['name']}: {len(rows)} rows, {len({r['region'] for r in rows})} regions, {sum(1 for x in passing if x[0] is P)} pass")
     # session 3004: a candidate may rank its passing regions by the size of the change (a MW or GWh measure) instead
     # of by strength, so that a large region's change is kept before a small region's steadier one
-    passing.sort(key=lambda x: (-x[0]["consequence"], -(x[0]["rank"](x[4]) if x[0].get("rank") else x[4]["strength"]), x[1]))
+    # session 3005: and a candidate may put a region first by its name (rank_region: the United States before its states)
+    passing.sort(key=lambda x: (-x[0]["consequence"], -(x[0]["rank_region"](x[1]) if x[0].get("rank_region") else 0.0),
+                                -(x[0]["rank"](x[4]) if x[0].get("rank") else x[4]["strength"]), x[1]))
     built, per, seen = [], {}, set()
     for P, region, words, series, c, tables, row in passing:
         same = (round(c["first"], 6), round(c["last"], 6), c["first_year"], c["last_year"])

@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate wind_share, region state_wnd_US (the United States)
+# Computed 2026-11-06T11:44:23Z by warehouse/analysis/findings/deep/generation_pipeline.py (wind_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: wind's share of the state's net generation over the year (percent of net generation), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+state_wnd_US,2001,0.18030434884533458,12.0,1
+state_wnd_US,2002,0.2683531459360802,12.0,1
+state_wnd_US,2003,0.2881002170196773,12.0,1
+state_wnd_US,2004,0.3562156882902002,12.0,1
+state_wnd_US,2005,0.4391786042906901,12.0,1
+state_wnd_US,2006,0.6541472293009025,12.0,1
+state_wnd_US,2007,0.828771784380646,12.0,1
+state_wnd_US,2008,1.3439642808938543,12.0,1
+state_wnd_US,2009,1.8703782815899495,12.0,1
+state_wnd_US,2010,2.294566586156056,12.0,1
+state_wnd_US,2011,2.9310358057308097,12.0,1
+state_wnd_US,2012,3.4789990387918586,12.0,1
+state_wnd_US,2013,4.127920037307707,12.0,1
+state_wnd_US,2014,4.437582397787768,12.0,1
+state_wnd_US,2015,4.675948309885653,12.0,1
+state_wnd_US,2016,5.566853556422506,12.0,1
+state_wnd_US,2017,6.301729496567269,12.0,1
+state_wnd_US,2018,6.521603819896729,12.0,1
+state_wnd_US,2019,7.163229423516885,12.0,1
+state_wnd_US,2020,8.427872792464196,12.0,1
+state_wnd_US,2021,9.202541085265224,12.0,1
+state_wnd_US,2022,10.265456968225573,12.0,1
+state_wnd_US,2023,10.067274811517155,12.0,1
+state_wnd_US,2024,10.48834329912541,12.0,1
+state_wnd_US,2025,10.431043083903644,12.0,1
+state_wnd_US,2026,10.847881689838754,8.0,0

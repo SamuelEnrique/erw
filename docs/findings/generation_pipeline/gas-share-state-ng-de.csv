@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate gas_share, region state_ng_DE (Delaware)
+# Computed 2026-11-06T11:44:24Z by warehouse/analysis/findings/deep/generation_pipeline.py (gas_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: natural gas's share of the state's net generation over the year (percent of net generation), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+state_ng_DE,2001,23.142757045897394,12.0,1
+state_ng_DE,2002,24.0380908589602,12.0,1
+state_ng_DE,2003,19.801449808428703,12.0,1
+state_ng_DE,2004,21.875220393471025,12.0,1
+state_ng_DE,2005,19.551445232363182,12.0,1
+state_ng_DE,2006,16.301010872692814,12.0,1
+state_ng_DE,2007,22.28670298218937,12.0,1
+state_ng_DE,2008,18.434854817673227,12.0,1
+state_ng_DE,2009,28.42884848963832,12.0,1
+state_ng_DE,2010,50.90909136786509,12.0,1
+state_ng_DE,2011,71.79406886152431,12.0,1
+state_ng_DE,2012,78.93176700618324,12.0,1
+state_ng_DE,2013,76.425642236827,12.0,1
+state_ng_DE,2014,81.7471295488726,12.0,1
+state_ng_DE,2015,85.64996031667368,12.0,1
+state_ng_DE,2016,89.19065507764437,12.0,1
+state_ng_DE,2017,89.69063065083583,12.0,1
+state_ng_DE,2018,86.5320144504127,12.0,1
+state_ng_DE,2019,91.3987724508242,12.0,1
+state_ng_DE,2020,92.56002856280011,12.0,1
+state_ng_DE,2021,86.73852704891794,12.0,1
+state_ng_DE,2022,89.47463705530203,12.0,1
+state_ng_DE,2023,91.83959842141694,12.0,1
+state_ng_DE,2024,87.63243165915236,12.0,1
+state_ng_DE,2025,86.05179096200227,12.0,1
+state_ng_DE,2026,86.9712305054433,8.0,0
