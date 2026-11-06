@@ -37,6 +37,12 @@ fails. The validator refuses a row without `source_url`, or a filed row without 
 Public, row by row. A filed tariff is a public regulatory record, and each row cites the commission's copy. A utility
 site whose terms bar the reader is not read; the commission's docket copy is.
 
+Session 2921 (chain 153): PG&E's Schedule B-20 rows cite PG&E's own filed tariff book (`www.pge.com/tariffs/`), whose
+sheets are the CPUC-filed sheets themselves ("Cal. P.U.C. Sheet No."). PG&E's site states no terms of use on its tariff
+pages or in its sitemap, and its robots file is open to this reader. Whether such a book may stand public without a
+commission's copy is a question for the owner (session 2921's report). Con Edison's and Eversource's sites bar
+automated reading in their terms, and Duquesne Light's answers with a bot challenge: none of them was read.
+
 ## The OpenEI rows
 
 `warehouse/connectors/openei_large_load_tariffs.py` (session 670) writes the same table from OpenEI's Utility Rate

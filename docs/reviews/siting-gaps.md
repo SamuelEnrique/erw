@@ -232,3 +232,27 @@ Read again by session 2881 at about 22:30 UTC, after main's newest section (chai
 - **ERCOT nodes, a node's load zone and hub:** the hub is open, and the zone is filled for 569 of 873 nodes (`ercot_node_places`). NP4-160 is reachable only through `/misapp` and `/misdownload`, which ERCOT's robots file disallows (session 2879).
 - **ERCOT nodes, energy:** no node has a twelve-month figure since 31 October. `node_basis_daily`'s day-ahead days stop at 20 October (the DAM list is at `/misapp`), under 90 percent of the hub's November 2025 to October 2026 (session 2863). This waits on a ruling.
 - **Held, not yet in the tab's files, for chain 148's sessions:** `ercot_node_wires_utilities` (a node's TSP), `ercot_node_transmission` (TPIT projects by county, already in `nodes.json`), `eia861_delivery_only` (Texas wires utilities' revenue), `interconnection_agreements_signed` and `_by_grid` (signed agreements not yet operating, Queued Up).
+## State on 6 November 2026, early morning (chain 148)
+Read again by session 2901 at about 03:30 UTC, after chain 147's section, with main at `a41dd2e4` or later. **No row changed state on the tab.** Chain 148's sessions 2887 to 2899 found:
+- The tariffs of the four utilities under the tab's rows (Duquesne Light, AES Indiana, Oncor, CenterPoint) were not readable here: the PA PUC's search runs in its pages' script, the IURC's terms need written permission, and the PUCT is restricted.
+- The row "ERCOT nodes | Node panel | transmission projects by county" has been filled for the 569 placed nodes since session 1048 (`ercot_transmission_projects` in `nodes.json`). The table above is older than that.
+- The wires utility at a node stays "not held". `ercot_node_wires_utilities` names a county's utilities, not a node's TSP.
+- The four peak intervals of summer 2026 wait on ERCOT's NP9-83-M (due by 1 December).
+- The controllable load's faster path: Nodal Protocols Section 3 states no connection step or duration (session 2893).
+- `eia861_delivery_only` (CenterPoint's and the other Texas wires companies' revenue) and `interconnection_agreements_signed` / `_by_grid` (signed agreements not yet operating) are held and not yet drawn. Both are for chain 151's wiring session (2909).
+## State on 6 November 2026, early morning (chain 153)
+Read again by session 2926 at about 05:55 UTC, after chain 148's section, on `wip/c153-data` (main at `536a8fc90` merged). Chain 153's sessions 2918 to 2925:
+- **Headroom, generation with a signed interconnection agreement: filled** (session 2923). Every grid's row draws "<MW> MW signed" from `interconnection_agreements_by_grid` (Queued Up, the queue at the end of 2025), keyed `allgrids|signed|<row>`: ERCOT 132,566 MW, CAISO 94,096, MISO 67,073, PJM 44,066, SPP 34,181, ISO-NE 8,609, NYISO 6,931. On the tab once `wip/c153-data` lands.
+- **ERCOT, Utility, a Texas wires utility's own revenue: filled for the county rows** (session 2923). Harris County's two rows draw CenterPoint Energy's industrial delivery revenue per MWh (USD 10.57, 2025, `eia861_delivery_only`), Travis County's Oncor's (USD 9.67), beside the county's largest seller, keyed `allgrids|wiresrev|<row>`. The rows named for no place stay as they are.
+- **ERCOT nodes, transmission projects by county:** filled since session 1048, now on ERCOT's October TPIT ("future projects as of 10/1/2026", 2,203 phases; session 2920).
+- **Transmission and 4CP (every grid but ERCOT):** open. `utility_large_load_tariffs` holds PG&E's Schedule B-20 at transmission voltage (session 2921), but no tab row is in PG&E's territory. Con Edison's and Eversource's sites bar automated reading in their terms; Duquesne Light's answers with a bot challenge.
+- **Time to connect, connection timelines by utility, and ERCOT's faster path for a controllable load:** held, not drawn. `large_load_connection_rules` (session 2924) holds 26 stated steps of ERCOT's Planning Guide Section 9 and PG&E's Electric Rule 30, each with its duration or date in its words. The PCLR's path states no duration (9.6.1(1)), so the faster path stays open.
+- **ERCOT, the four peaks of summer 2026:** open. Not posted on an allowed page on 6 November (session 2922); due by 1 December.
+- **All but ERCOT, CAISO, SPP, an interruptible load's capacity charge:** open (session 2925: no utility under those grids' rows readable).
+## State on 6 November 2026, morning (chain 155)
+Read again by session 2940 at about 07:18 UTC, after chain 153's section, main at `027a94095` (chain 153 landed at `fb0b72170`). Chain 155's sessions 2932 to 2939:
+- **Headroom, signed agreements, and ERCOT's Utility for the county rows:** filled on main since `fb0b72170` (chain 153's session 2923).
+- **Time to connect, connection timelines by utility:** held, not drawn. `large_load_connection_rules` now holds 39 stated steps: SPP's High Impact Large Load process joined (session 2938, from FERC's order ER26-247), including a 150-day path for a large load's generation against 12 months for SPP's standard cluster. How the tab should draw stated steps is a question for the owner (session 2939).
+- **Transmission and 4CP (every grid but ERCOT):** open. SCE's and National Grid's terms bar this use; Evergy and NYSEG are closed at their robots files (session 2937). No tab row's utility has a readable site.
+- **ERCOT, the four peaks of summer 2026, and the node prices in them:** open. Not posted on an allowed page at 07:12 UTC (sessions 2935, 2936).
+- **All but ERCOT, CAISO, SPP, an interruptible load's capacity charge:** open (session 2938).

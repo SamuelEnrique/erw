@@ -38,10 +38,10 @@ class TheRule(unittest.TestCase):
     def test_the_21_october_top_1(self):
         why = "Massive AI compute capex signals unprecedented power demand growth and infrastructure investment scale."
         head = "Anthropic may spend $750 Billion on computing costs, Bloomberg reports"
-        self.assertEqual(brief.why_check(why, head), ["adjective: massive", "adjective: unprecedented"])
+        # session 1437 (chain 149, fault 11): "signals" is a hollow verb; the line fails and the item prints the headline alone
+        self.assertEqual(brief.why_check(why, head), ["adjective: massive", "adjective: unprecedented", "hollow verb: signals"])
         out = brief.why_line(why, head)
-        self.assertEqual(out, "AI compute capex signals power demand growth and infrastructure investment scale.")
-        self.assertEqual(brief.why_check(out, head), [])
+        self.assertEqual(out, "")
         # the figures line prints no USD 750 billion again: the headline holds it
         self.assertEqual(brief.detail({"mw": "", "price": "$750 Billion", "parties": "Anthropic"}, head), "parties: Anthropic. ")
 
@@ -56,7 +56,8 @@ class TheRule(unittest.TestCase):
         self.assertEqual(brief.why_line("A 600 MW load adds demand to the grid.", "Sesterce plans a 600MW campus"),
                          "A load adds demand to the grid.")
         # a year is not a figure the headline gives
-        self.assertEqual(brief.why_check("Capacity arrives by 2032.", "A plan to 2032"), [])
+        # (session 1458: the line names a place, so the rule of fault 7, a line naming nothing the headline lacks, is not met)
+        self.assertEqual(brief.why_check("Capacity arrives in Texas by 2032.", "A plan to 2032"), [])
 
     def test_two_sentences_keep_the_first(self):
         self.assertEqual(brief.why_check("The U.S. Department of Energy funds it. Prices will rise.", "DOE"), ["two sentences"])
@@ -72,7 +73,9 @@ class TheRule(unittest.TestCase):
         # session 807: the fallback is the headline's own clause, and when that is the headline itself nothing is printed
         self.assertEqual(brief.why_line(why, head), "")
         self.assertEqual(brief.why_fallback(head), head + ".")
-        self.assertEqual(brief.why_line(why, head + ", Reuters reports"), head + ".")
+        # session 1437 (fault 10): the headline with its publisher's suffix is still the headline; nothing is printed twice
+        self.assertEqual(brief.why_line(why, head + ", Reuters reports"), "")
+        self.assertEqual(brief.norm_headline(head + ", Reuters reports"), brief.norm_headline(head))
 
     def test_the_fallback_is_the_title_s_own_clause(self):
         self.assertEqual(brief.why_fallback("NTT to build $6.3bn data center for Anthropic in Japan - report"),
@@ -83,7 +86,9 @@ class TheRule(unittest.TestCase):
         self.assertEqual(brief.why_fallback(""), "")
 
     def test_an_article_follows_its_noun_once_the_figure_is_gone(self):
-        self.assertEqual(brief.why_line("Adds a 1,200 MW uprate to the fleet.", "BKV adds 1,200 MW"), "Adds an uprate to the fleet.")
+        # session 1458: the line names a place the headline lacks (fault 7's rule), so its article is what is tested
+        self.assertEqual(brief.why_line("Adds a 1,200 MW uprate to the Texas fleet.", "BKV adds 1,200 MW"),
+                         "Adds an uprate to the Texas fleet.")
         self.assertEqual(brief.why_line("An $800MM loan funds the plant.", "DOE lends $800 million"), "A loan funds the plant.")
 
     def test_without_a_headline_the_session_577_behaviour_holds(self):
@@ -124,7 +129,8 @@ class TheTwentySavedItems(unittest.TestCase):
     def test_the_fixture_holds_each_kind_of_fault(self):
         kinds = {p.split(":")[0] for it in items() for p in it["problems"]}
         # no saved why line of the twenty has two sentences; that fault is pinned by TheRule above
-        self.assertEqual(kinds, {"adjective", "figure of the headline"})
+        # session 1437: the hollow verb; session 1458 (fault 7): a line that names nothing the headline lacks
+        self.assertEqual(kinds, {"adjective", "figure of the headline", "hollow verb", "names nothing the headline lacks"})
 
 
 class WhereTheRuleLives(unittest.TestCase):
@@ -139,7 +145,9 @@ class WhereTheRuleLives(unittest.TestCase):
 
     def test_every_why_line_goes_with_its_headline(self):
         src = inspect.getsource(brief.main)
-        self.assertGreaterEqual(src.count("why_line(r['why'], heads[r['cluster_id']])"), 3)
+        # session 1467: two of them are sector_line(r, heads[r['cluster_id']]), which calls why_line(r["why"], head)
+        self.assertGreaterEqual(src.count("why_line(r['why'], heads[r['cluster_id']])") + src.count("sector_line(r, heads[r['cluster_id']])"), 3)
+        self.assertIn('why_line(r["why"], head)', inspect.getsource(brief.sector_line))
         self.assertNotIn("why_line(r['why'])", src)
         self.assertIn("why_line(r['why'], r['title'])", inspect.getsource(brief.policy_actions_lines))
         rsrc = inspect.getsource(roundup)

@@ -33,7 +33,7 @@ UTAH = flag("utah", "eia_retail_sales_monthly", "eia:retail_sales:UT:RES",
 WYO = flag("wyo", "eia_state_generation_monthly", "eia:generation:WY:NG",
            "Net generation from natural gas in Wyoming: 1,028,747 MWh in July 2026, the highest monthly value held since January 2001.", 2.5, old=90.0)
 PJM = flag("pjm", "storage_buildout_monthly", "iso:pjm",
-           "iso:pjm battery_operating_mw_net_added_12m: 223.0 MW in July 2026, the highest monthly value held since January 2020.", 1.9)
+           "PJM battery operating MW net added over 12 months: 223.0 MW in July 2026, the highest monthly value held since January 2020.", 1.9)   # session 1441: the plain name
 
 
 def story(title, sector, why="", parties=""):

@@ -50,6 +50,17 @@ GRADES = os.path.join(HERE, "eval_s1113_grades.json")
 SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         "s1114": {"questions": os.path.join(HERE, "questions_s1114.yaml"), "run": os.path.join(HERE, "eval_s1114_run.json"),
                   "grades": os.path.join(HERE, "eval_s1114_grades.json")},
+        # session 2886 (chain 148): session 1133's asking of the second set (eight asked, t01 to t08) and the board's five
+        # questions of session 1122, through the same asking and the same grader (grade_set, its set given)
+        "s1133": {"questions": os.path.join(HERE, "eval_s1133_s1114_questions.yaml"), "run": os.path.join(HERE, "eval_s1133_s1114_run.json"),
+                  "grades": os.path.join(HERE, "eval_s1133_s1114_grades.json")},
+        "s1122": {"questions": os.path.join(HERE, "questions_s1122.yaml"), "run": os.path.join(HERE, "eval_s1122_run.json"),
+                  "grades": os.path.join(HERE, "eval_s1122_grades.json")},
+        # session 2918 (chain 153): the same asking of the board's five graded on the keys of its own day, computed by
+        # expected_s1122.py's build from the rows session 2918 recorded (tests/fixtures/session2918/board_reads.json,
+        # runs/s2918/regrade.py): session 1122's keys of 23 October stay as its tests pin them
+        "s2918": {"questions": os.path.join(HERE, "questions_s2918.yaml"), "run": os.path.join(HERE, "eval_s1122_run.json"),
+                  "grades": os.path.join(HERE, "eval_s1122_grades_s2918.json")},
         # session 2224 (chain 152): the third set, twenty questions a lab's energy team asks (scripts/ask_eval/lab_questions.py
         # computes its keys and writes the file); its runs are eval_loop.py's, named by session
         "s2224": {"questions": os.path.join(HERE, "questions_s2224.yaml"), "run": os.path.join(HERE, "eval_s2224_loop_s2224_run.json"),
@@ -203,9 +214,10 @@ def hold_answer(q, a):
     return all(t.lower() in ans for t in q["text"]) and not figure
 
 
-def grade_s1114(rules=()):
-    """The second set, as before session 2224 (now grade_set("s1114", rules))."""
-    return grade_set("s1114", rules)
+def grade_s1114(which="s1114", rules=()):
+    """A set of the second set's form, as before session 2224 (now grade_set(which, rules)); session 2947 (chain 157): the
+    set is named as chain 148's callers name it (grade_s1114("s2918"))."""
+    return grade_set(which, rules)
 
 
 def grade_set(which, rules=()):

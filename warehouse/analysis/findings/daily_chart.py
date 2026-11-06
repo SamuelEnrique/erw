@@ -69,6 +69,12 @@ RECORD_JUMP = 0.25
 # Session 2701 (rulings item 6(b), the default of 24 October 2026): no scanner flag weaker than this many robust standard
 # deviations past its threshold is the chart of the day (the weakest shown before the ruling was 1.01)
 STRENGTH_FLOOR = 1.5
+# Session 1441 (chain 149, faults 14 and 15): a flag past STRENGTH_CAP robust standard deviations is a degenerate series
+# (a line item at zero most months, then one entry: ONRR's Red River pre-production revenue at 552), not a finding; and
+# a series whose name is its id ("onrr_revenue:federal:onshore:22081_red_river:...", "eia_padd_movements:MGAMT1XP31")
+# is never the chart of the day: a reader cannot read it, and its id's tokens ("oil_gas") matched the day's stories.
+STRENGTH_CAP = 50.0
+UNREADABLE = re.compile(r"[:_]|\b[A-Z0-9]{6,}\b")
 HELD_FILE = "held.json"
 WATCH_MAX_AGE = {"week": 14, "month": 100}   # days since the period ended: older is not "the latest period"
 # Roadmap, Rulings, 12 October 2026: "NYISO and SPP tables stay held until their licenses are answered." Their tables and
@@ -110,6 +116,9 @@ def plain_name(table, series, label):
     m = re.fullmatch(r"as_price_dam_(nr|sr|ru|rd)", var)
     if table == "caiso_as_prices" and m:
         return f"CAISO day-ahead {CAISO_AS[m.group(1)]} price ({p[-1]})"
+    if table == "storage_buildout_monthly" and p[0] == "iso" and len(p) == 2:   # session 1441: "iso:pjm battery_operating_mw_net_added_12m"
+        words = var.replace("_mw_", " MW ").replace("_12m", " over 12 months").replace("_", " ")
+        return f"{p[1].upper()} {words}"
     if table in ("eia_regional_retail_fuel_prices", "eia_retail_fuel_prices") and var == "retail_price" and series.get("node"):
         fuel = "Regular gasoline" if "_EPMR_" in ent else ("On-highway diesel" if "_EPD2D_" in ent else None)
         if fuel:
@@ -563,6 +572,26 @@ def ranked(candidates, stories):
     return flags, watch_c
 
 
+def series_name(c):
+    """The name a candidate's fact gives its series: the text before the first ': '."""
+    return str(c.get("fact", "")).split(": ")[0]
+
+
+def readable(c):
+    """Session 1441: a candidate whose series has a plain name (no id: no colon, no underscore, no code of six capitals
+    or digits in its name; a node's code in parentheses, "(AS_CAISO_EXP)", is not the name). Only such a series can be
+    the chart of the day."""
+    return not UNREADABLE.search(re.sub(r"\s*\([^)]*\)", "", series_name(c)))
+
+
+def degenerate(c):
+    """Session 1441: a scanner flag past STRENGTH_CAP is a step from zero, not a finding."""
+    try:
+        return float((c.get("flag") or {}).get("strength", 0)) > STRENGTH_CAP
+    except (TypeError, ValueError):
+        return False
+
+
 def choose(candidates, used, day=None, waited=None, stories=None, dismissed=None):
     """(candidate, why) by the rule: among the candidates most related to the day's top stories (session 805, when
     `stories` is given), the strongest scanner flag not shown before; else the watch list's largest change not shown
@@ -575,6 +604,11 @@ def choose(candidates, used, day=None, waited=None, stories=None, dismissed=None
     waited = set() if waited is None else set(waited)
     dismissed = set() if dismissed is None else set(dismissed)
     flags, watch_c = ranked(list(candidates), stories)
+    # session 1441: an unreadable series or a degenerate flag is never the chart, whatever its relevance or strength
+    unreadable = [c for c in flags if not readable(c)] + [c for c in watch_c if not readable(c)]
+    broken = [c for c in flags if readable(c) and degenerate(c)]
+    flags = [c for c in flags if c not in unreadable and c not in broken]
+    watch_c = [c for c in watch_c if c not in unreadable]
     weak = [c for c in flags if float(c["flag"].get("strength", 0)) < STRENGTH_FLOOR]
     out = [c for c in flags if c["key"] in dismissed]
     flags = [c for c in flags if c not in weak and c not in out]
@@ -585,6 +619,10 @@ def choose(candidates, used, day=None, waited=None, stories=None, dismissed=None
         note += f"; {len(weak)} flag(s) under the floor of {STRENGTH_FLOOR} robust standard deviations passed over"
     if out:
         note += f"; {len(out)} flag(s) whose draft was dismissed passed over"
+    if unreadable:
+        note += f"; {len(unreadable)} candidate(s) whose series has no plain name passed over"
+    if broken:
+        note += f"; {len(broken)} flag(s) past {round(STRENGTH_CAP)} robust standard deviations passed over as a step from zero"
 
     def related(c):
         score, title, shared = c.get("_relevance", (0, "", []))
@@ -602,7 +640,7 @@ def choose(candidates, used, day=None, waited=None, stories=None, dismissed=None
                        + f": the watch list's largest change of the latest period not shown before (rank {c.get('rank', '?')}, "
                        f"larger than {c['score']} percent of its own earlier changes)" + related(c) + note)
     return None, (("the scanner flagged nothing and the watch list has no change" if not candidates
-                   else f"every candidate ({len(flags)} flag(s), {len(watch_c)} watch change(s)) was shown in an earlier Digest or held")
+                   else f"every candidate ({len(flags)} flag(s), {len(watch_c)} watch change(s)) was shown in an earlier Digest, held or passed over")
                   + note)
 
 
@@ -725,6 +763,34 @@ def markdown(day, c):
             f"{how_words(c)} [How the chart is chosen](/data/methods/automated_analysis_scanner)."]
 
 
+POINTS_MAX = 400   # session 1461: the last points of a long series are the ones the page draws
+
+
+def chart_points(ch, unit=""):
+    """Session 1461 (chain 150, fault 41 of docs/reviews/periodicals-faults-2026-11-05.md): the series the card draws, as
+    the record keeps them for the page ({x, series: [{name, values}], unit, decimals}; the last POINTS_MAX points), or
+    None when the chart is not of that shape (a scatter, a chart with no x). The picture stays the email's."""
+    x = ch.get("x")
+    series = ch.get("series")
+    if not isinstance(x, list) or not x or not isinstance(series, list) or not series:
+        return None
+    out = []
+    for s in series:
+        vals = s.get("values")
+        if not isinstance(vals, list) or len(vals) != len(x):
+            return None
+        clean = []
+        for v in vals[-POINTS_MAX:]:
+            try:
+                f = float(v)
+                clean.append(f if f == f and abs(f) != float("inf") else None)
+            except (TypeError, ValueError):
+                clean.append(None)
+        out.append({"name": str(s.get("name", "")), "values": clean})
+    return {"x": [str(v)[:10] for v in x[-POINTS_MAX:]], "series": out, "unit": str(unit or ch.get("unit", "") or ""),
+            "decimals": int(ch.get("decimals", 2))}
+
+
 def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candidates=None, proof=False, used=None, waited=None,
             stories=None, dismissed=None):
     """The Digest's section for `day`: [] when there is nothing to show (the reason is logged). Writes the picture and
@@ -767,6 +833,9 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
             record["image_phone"] = os.path.basename(phone)
         except Exception as exc:
             log(f"  daily chart: the phone picture was not drawn ({type(exc).__name__}: {str(exc)[:120]})")
+        pts = chart_points(c["card"].get("chart") or {}, (c.get("flag") or {}).get("unit", ""))
+        if pts:   # session 1461 (fault 41): the plotted series, for the page's chart with a hover on each point
+            record["points"] = pts
         if c.get("_relevance", (0,))[0]:   # session 805: what of the day the chart follows
             record["relevance"] = {"score": c["_relevance"][0], "story": c["_relevance"][1], "shared": c["_relevance"][2]}
         if c["source"] == "scanner":

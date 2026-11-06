@@ -1,0 +1,30 @@
+# Session 2921 (chain 153): read from PG&E's filed tariff book, www.pge.com/tariffs/ (its robots file read first: every path
+# but /mobile/ is open to this reader; it disallows GPTBot by name, not ClaudeBot). PG&E's site links no terms of use on its
+# tariff pages or in its sitemap (privacy pages only); each sheet is the CPUC-filed sheet itself ("Cal. P.U.C. Sheet No."),
+# and the CPUC's documents are "in general ... in the public domain" (rules.json sources). Kept on this machine at
+# runs/license_reads/s2921/07_*.bin. Pages are the PDF's, each one tariff sheet. Schedule B-20 is the schedule a new
+# customer above 999 kW is placed on (Sheet 1); E-20 is kept only for solar legacy TOU customers. The totals of Sheet 4
+# bundle generation, distribution and transmission, and the generation and summer demand charges are by time of use: only
+# the two components printed as one figure a month for transmission voltage are written. The customer charge is printed
+# per meter per day, a unit the registry does not take, so no fixed_charge is written.
+utility: Pacific Gas and Electric Company
+eia_id: 14328
+state: CA
+grid: CAISO
+sector: customers with maximum demands of 1,000 kW or more (Schedule B-20)
+schedule: Schedule B-20, transmission voltage
+tariff_sheet: Revised Cal. P.U.C. Sheet No. 61082-E (Schedule B-20 Sheet 5); Sheet No. 57687-E (Sheet 1)
+effective: 2026-03-01
+voltage: {text: "Secondary Primary Transmission Voltage Voltage Voltage", page: 5}
+commission: California Public Utilities Commission
+docket: Advice 7846-E (the rates of Sheet 5); Advice 7202-E (Sheet 1)
+document: PG&E Electric Schedule B-20, "Service to Customers with Maximum Demands of 1000 Kilowatts or More", as filed in PG&E's tariff book
+document_url: https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-20.pdf
+retrieved_at: 2026-11-06T05:27:32Z
+license: public
+terms:
+  term: {text: "Assignment of New Customers: If a customer is new and PG&E believes that the customer's maximum demand will exceed 999 kilowatts and that the customer should not be served under a time-of-use agricultural schedule, PG&E will serve the customer's account under Schedule B-20.", page: 1}
+figures:
+  - {variable: min_demand_mw, value: 1, printed: "SERVICE TO CUSTOMERS WITH MAXIMUM DEMANDS of 1000 KILOWATTS or MORE", page: 1}
+  - {variable: demand_charge_transmission, value: 11.03, printed: "Transmission Maximum Demand* $11.03 $11.03 $11.03", page: 5}
+  - {variable: demand_charge_distribution, value: 6.13, printed: "Distribution**: ... Maximum Demand Summer $28.02 (R) $23.22 (R) $6.13 (R)", page: 5}

@@ -44,6 +44,9 @@ Files:
                   Session 1027: "reserve", ERCOT's planning reserve margin from ercot_cdr_reserve_margins (public): the
                   first summer after the build's day at the report's peak load and peak net load hours, and the
                   report's first season below zero at the peak load hour. No other grid's margin is held.
+                  Session 2923: "signed", each grid's generation with a signed interconnection agreement and not yet
+                  operating, from interconnection_agreements_by_grid (public; Berkeley Lab's Queued Up, the queue at
+                  the end of the edition's year): MW and requests signed, MW and requests active, the signed share.
     carbon.json   (session 707) from egrid_power_plants (public): each eGRID subregion's CO2 (tons, CHP-adjusted as eGRID
                   gives it) and net generation (MWh) summed over its plants, and PJM's over the plants eGRID places in PJM
                   (ISORTO); and from carbon_intensity_hourly (public), intensity_demand in kg CO2 per MWh, each priced
@@ -53,6 +56,10 @@ Files:
                   the utility with the most industrial sales in the newest year, among the rows of EIA's service types
                   Bundled and Energy (Delivery rows are wires charges), with its industrial sales and revenue that year
                   and its sales the year before.
+                  Session 2923: a county row's "delivery", the delivery-only companies among its county's utilities
+                  (Texas's wires utilities, CenterPoint in Harris) from eia861_delivery_only (public): each company's
+                  industrial delivery revenue and energy delivered in the newest year, across the state, not the
+                  county (EIA files them by state).
     facilities.json (session 719) where a place sits on the tab, for the datacenter tracker's link: each state whose
                   retail sales are 85 percent or more inside one grid (eia861_utility_sales, Bundled and Energy rows, by
                   balancing authority), and every county whose utilities (utility_service_territories) bill inside one
@@ -554,6 +561,62 @@ def county_utilities(tpath, spath):
     return out
 
 
+DELIVERY_TABLE = "eia861_delivery_only"
+SIGNED_TABLE = "interconnection_agreements_by_grid"
+# the tab's grid ids against interconnection_agreements_by_grid's (Berkeley Lab's region names)
+SIGNED_GRIDS = {"ercot": "ercot", "caiso": "caiso", "nyiso": "nyiso", "isone": "iso_ne", "spp": "spp", "miso": "miso", "pjm": "pjm"}
+
+
+def county_delivery(dpath, county):
+    """Session 2923: for each county row (county_utilities' entries), the delivery-only companies among the county's
+    utilities, from eia861_delivery_only: each company's industrial delivery revenue (USD) and industrial energy
+    delivered (MWh) in the newest year held, inside the row's balancing authority. EIA files these companies by state,
+    so the figures are the company's across the state, not the county's. A row with none is left without the key.
+    Returns {row: {"table", "year", "companies": [...]}} (largest delivered first)."""
+    keep = []
+    for ch in pd.read_csv(dpath, skiprows=header_rows(dpath), dtype=str, chunksize=500_000,
+                          usecols=["variable", "ts_utc", "value", "node", "x_utility_number", "x_state", "x_ba_code"]):
+        keep.append(ch[ch["variable"].isin(["industrial_sales", "industrial_revenue"])])
+    d = pd.concat(keep, ignore_index=True)
+    d["v"] = pd.to_numeric(d["value"], errors="coerce")
+    d["y"] = d["ts_utc"].str[:4].astype(int)
+    year = int(d["y"].max())
+    d = d[d["y"] == year]
+    out = {}
+    for row, entry in county.items():
+        nums = {u["number"] for u in entry["utilities"]}
+        x = d[(d["x_state"] == entry["state"]) & d["x_utility_number"].isin(nums) & (d["x_ba_code"] == entry["ba"])]
+        cos = []
+        for num, g in x.groupby("x_utility_number"):
+            sales = g[g["variable"] == "industrial_sales"]["v"].sum()
+            rev = g[g["variable"] == "industrial_revenue"]["v"].sum()
+            if sales > 0 and rev > 0:
+                cos.append({"utility": str(g["node"].dropna().iloc[0]), "number": str(num), "sales_mwh": float(sales), "revenue_usd": float(rev)})
+        if cos:
+            cos.sort(key=lambda c: (-c["sales_mwh"], c["number"]))
+            out[row] = {"table": DELIVERY_TABLE, "year": year, "companies": cos}
+    return out
+
+
+def signed_by_grid(spath):
+    """Session 2923: each tab grid's generation with a signed interconnection agreement and no operation date, from
+    interconnection_agreements_by_grid's grid rows at the queue's end (its newest ts_utc): mw_signed, projects_signed,
+    active_mw, active_projects, signed_share_pct. A grid the table does not hold is left out."""
+    s = pd.read_csv(spath, skiprows=header_rows(spath), dtype=str, usecols=["entity", "variable", "ts_utc", "value"])
+    want = {"mw_signed", "projects_signed", "active_mw", "active_projects", "signed_share_pct"}
+    s = s[s["variable"].isin(want) & (s["entity"].str.count(":") == 1)]
+    at = s["ts_utc"].max()
+    s = s[s["ts_utc"] == at]
+    grids = {}
+    for g, name in SIGNED_GRIDS.items():
+        x = s[s["entity"] == f"interconnection_agreements:{name}"]
+        v = {r.variable: float(r.value) for r in x.itertuples()}
+        if want <= set(v):
+            grids[g] = {"mw_signed": round(v["mw_signed"], 1), "projects_signed": int(v["projects_signed"]), "active_mw": round(v["active_mw"], 1),
+                        "active_projects": int(v["active_projects"]), "signed_share_pct": round(v["signed_share_pct"], 2)}
+    return {"table": SIGNED_TABLE, "queue_end": at[:10], "grids": grids}
+
+
 def utility_file(path):
     """utility.json's content (session 708)."""
     keep = []
@@ -789,6 +852,13 @@ def main(argv=None):
             print(f"{RESERVE_TABLE}: ERCOT {e['peak']['label']} {e['peak']['pct']:.2f} % at the peak load hour")
         except FileNotFoundError:
             print(f"{RESERVE_TABLE} is not on this machine: no grid's reserve margin is drawn")
+        try:   # session 2923: generation with a signed interconnection agreement, by grid (Queued Up)
+            gpath = find(SIGNED_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {gpath}")
+            hr["signed"] = signed_by_grid(gpath)
+            print(f"{SIGNED_TABLE}: " + "; ".join(f"{g} {v['mw_signed']}" for g, v in hr["signed"]["grids"].items()))
+        except FileNotFoundError:
+            print(f"{SIGNED_TABLE} is not on this machine: no grid's signed generation is drawn")
     except Exception as e:
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
@@ -814,6 +884,13 @@ def main(argv=None):
             print(f"reading {tpath}")
             ut["county"] = county_utilities(tpath, upath)
             ut["territory_table"] = TERRITORY_TABLE
+            try:   # session 2923: the county's delivery-only companies (eia861_delivery_only)
+                dpath = find(DELIVERY_TABLE, a.in_dir, a.in_dir_first)
+                print(f"reading {dpath}")
+                for row, dl in county_delivery(dpath, ut["county"]).items():
+                    ut["county"][row]["delivery"] = dl
+            except FileNotFoundError:
+                print(f"{DELIVERY_TABLE} is not on this machine: no county's delivery-only company is priced")
         except FileNotFoundError:
             print(f"{TERRITORY_TABLE} is not on this machine: the state's largest seller stands in")
     except Exception as e:

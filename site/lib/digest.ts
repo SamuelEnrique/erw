@@ -34,7 +34,7 @@ function dayBefore(day: string): string {
 export const STORY_SECTIONS = ["Top of the industry", "By sector", "AI and power", "What moved", "The rest of the top ten"];   // session 2703: the v2 order's
 
 export type Figure = {
-  part: "dam" | "rt" | "fuel" | "chart" | "demand";
+  part: "dam" | "rt" | "fuel" | "chart" | "demand" | "story";   // session 1450: the block's story rows
   key: string;
   raw: string;          // the value as the Digest wrote it (a chart figure: as its record holds it)
   text: string;         // the figure as written on the page
@@ -110,8 +110,13 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
   let summary: number[] = [];
   for (const num of secs.filter((s) => isNumbers(s.title))) {   // session 2703: every numbers section, each with its own tables
     const foot: Record<string, string> = {};
+    // session 1450: the stories a block row reads ("[3] `news_stories`; story news:abc (mw); story news:def (price)")
+    const stories: Record<string, string> = {};
     for (let i = num.start; i < num.end; i++) {
-      if (lines[i].startsWith("Tables: ")) for (const m of lines[i].matchAll(/\[(\d+)\] `([a-z0-9_]+)`/g)) foot[m[1]] = m[2];
+      if (lines[i].startsWith("Tables: ")) {
+        for (const m of lines[i].matchAll(/\[(\d+)\] `([a-z0-9_]+)`/g)) foot[m[1]] = m[2];
+        for (const m of lines[i].matchAll(/story (news:[0-9a-f]+) \((mw|price)\)/g)) if (!stories[m[2]]) stories[m[2]] = m[1];
+      }
     }
     const tableOf = (cell: string) => {
       const mk = /\[(\d+)\]/.exec(cell);
@@ -180,6 +185,18 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
           const table = "eia930_all_demand", entity = US48;
           figs.push({ part: "demand", key: `digest_demand|${table}|${entity}|demand_mw|${m[2]}T${m[3]}:00Z`, raw: plain(m[1]), text: m[1], table, entity,
             ...hold(table, entity, now), line: i, from: `${m[1]} MW`, unit: " MW" });
+        }
+        continue;
+      }
+      // session 1450 (chain 149, fault 6): a story row of the v2 block, keyed to its story's scored field
+      // read on the line as written (asOld takes the bold label off the v2 rows)
+      const st = /^- \*\*(Project or capacity|Policy, capital or reliability)\.\*\* [^:]+: (?:(USD [\d,.]+(?: (?:billion|million|trillion|thousand))?)|([\d,]+) MW) \(.*?\) \[(\d+)\]\./.exec(lines[i]);
+      if (st && foot[st[4]] === "news_stories") {
+        const field = st[3] ? "mw" : "price", id = stories[field];
+        if (id) {
+          const text = st[3] ?? st[2];
+          figs.push({ part: "story", key: `digest_story|news_stories|${id}|${field}`, raw: plain(st[3] ?? st[2].replace(/^USD /, "")), text, table: "news_stories", entity: id,
+            held: false, title: "", line: i, from: text, unit: "" });
         }
         continue;
       }
@@ -328,6 +345,40 @@ export function fillDigest(html: string, spans: string[]): string {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// session 1449 (chain 149, faults 18 and 26 on the page): the source trail close at hand, not in the way
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** The "Tables: [1] `iso_dam_hub_prices` (...); [2] `eia930_all_demand` ..." paragraphs of a rendered issue become a
+ *  closed <details class="digest-tables"> (its summary "Sources"), and each [n] mark in the text gets a hover naming
+ *  its table (an <abbr title>): the owner's rule that explanatory text is a hover tip, never visible grey text, with the
+ *  trail one click away for a reader without a hover. The markdown keeps every line: the parser and the tracer read it. */
+export function sourceTrail(html: string): string {
+  const tables: Record<string, string> = {};
+  const out = html.replace(/<p>(Tables: (?:.|\n)*?)<\/p>/g, (all, body: string) => {
+    for (const m of body.matchAll(/\[(\d+)\] <code>([a-z0-9_]+)<\/code>/g)) tables[m[1]] = m[2];
+    return `<details class="digest-tables"><summary>Sources</summary><p>${body}</p></details>`;
+  });
+  if (!Object.keys(tables).length) return out;
+  // the marks outside the details and outside tags: "[n]" as text, after a space or a quote
+  return out.split(/(<details class="digest-tables">(?:.|\n)*?<\/details>)/).map((part, i) => {
+    if (i % 2) return part;
+    return part.replace(/(^|[\s>(])\[(\d+)\](?=[\s.,;:)<]|$)/g, (all, before: string, n: string) =>
+      tables[n] ? `${before}<abbr class="digest-mark" title="${tables[n]}">[${n}]</abbr>` : all);
+  }).join("");
+}
+
+/** The Roundup's five numbers: the row that is the opening number word for word says so instead (the markdown keeps
+ *  both; scripts/check_roundup.py traces the five by their form). */
+export function dedupeOpening(html: string): string {
+  const op = /<h2 id="the-opening-number">(?:.|\n)*?<p><strong>([^<]+?)\.?<\/strong>/.exec(html);
+  if (!op) return html;
+  const text = op[1].trim();
+  if (text.length < 20) return html;
+  const esc = text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return html.replace(new RegExp(`(<li><strong>[^<]+:<\\/strong> )${esc}\\.?((?:\\s*<abbr[^>]*>\\[\\d+\\]<\\/abbr>|\\s*\\[\\d+\\])?\\.?)(</li>)`), "$1the opening number, above.$3");
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the days of the archive
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -378,4 +429,65 @@ export const ISSUE_NOTES: Record<string, string> = {
 export function dayWords(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
   return `${d.toLocaleDateString("en-GB", { weekday: "long", timeZone: "UTC" })} ${day(date)}`;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// session 1461 (chain 150, fault 41): the chart of the day drawn on the page from its record's points, a hover on each
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** The plotted series a chart record keeps since session 1461 (daily_chart.chart_points): the x labels, each series'
+ *  values (null where the series has none), the unit and the chart's count of decimals. */
+export type ChartPoints = { x: string[]; series: { name: string; values: (number | null)[] }[]; unit?: string; decimals?: number };
+
+const SVG_COLORS = ["var(--chart-ink, #2E2D29)", "var(--chart-blue, #3C6E9E)", "var(--chart-grey, #6B675F)", "var(--chart-light, #8F8A80)"];
+
+function svgEscape(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+/** A number with the chart's own decimals and a thousands separator, as the picture prints it. */
+export function chartNumber(v: number, decimals = 2): string {
+  return v.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+}
+
+/** The chart of the day as an inline SVG (role img, named by the alt text): one line a series, and on each point a
+ *  circle whose title is the hover ("2026-06: 251.00 kbbl", the series' name first when there are two or more). The
+ *  axis shows the lowest and highest value and the first and last label. "" when the points cannot be drawn (no x, no
+ *  value), so the caller draws the picture instead. No script and no style attribute: the page's CSP holds. */
+export function chartSvg(p: ChartPoints | undefined | null, alt: string): string {
+  if (!p || !Array.isArray(p.x) || !p.x.length || !Array.isArray(p.series) || !p.series.length) return "";
+  const vals = p.series.flatMap((s) => (s.values || []).filter((v): v is number => typeof v === "number" && Number.isFinite(v)));
+  if (!vals.length) return "";
+  const nd = typeof p.decimals === "number" ? p.decimals : 2, unit = p.unit ? ` ${p.unit}` : "";
+  const W = 640, H = 300, L = 64, R = 16, T = 16, B = 36;
+  let lo = Math.min(...vals), hi = Math.max(...vals);
+  if (lo === hi) { lo -= 1; hi += 1; }
+  const n = p.x.length;
+  const X = (i: number) => L + (n === 1 ? (W - L - R) / 2 : (i * (W - L - R)) / (n - 1));
+  const Y = (v: number) => T + ((hi - v) * (H - T - B)) / (hi - lo);
+  const f = (v: number) => v.toFixed(1);
+  const parts: string[] = [
+    `<svg class="digest-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${svgEscape(alt)}" xmlns="http://www.w3.org/2000/svg">`,
+    `<title>${svgEscape(alt)}</title>`,
+    `<line x1="${L}" y1="${H - B}" x2="${W - R}" y2="${H - B}" stroke="var(--color-rule, #E3DED1)"/>`,
+    `<text x="${L - 6}" y="${f(Y(hi)) }" text-anchor="end" dominant-baseline="middle" font-size="12" fill="var(--color-muted, #6B675F)">${svgEscape(chartNumber(hi, nd))}</text>`,
+    `<text x="${L - 6}" y="${f(Y(lo))}" text-anchor="end" dominant-baseline="middle" font-size="12" fill="var(--color-muted, #6B675F)">${svgEscape(chartNumber(lo, nd))}</text>`,
+    `<text x="${L}" y="${H - 12}" font-size="12" fill="var(--color-muted, #6B675F)">${svgEscape(String(p.x[0]))}</text>`,
+    `<text x="${W - R}" y="${H - 12}" text-anchor="end" font-size="12" fill="var(--color-muted, #6B675F)">${svgEscape(String(p.x[n - 1]))}</text>`,
+  ];
+  p.series.forEach((s, k) => {
+    const color = SVG_COLORS[k % SVG_COLORS.length];
+    const pts: string[] = [];
+    const dots: string[] = [];
+    (s.values || []).slice(0, n).forEach((v, i) => {
+      if (typeof v !== "number" || !Number.isFinite(v)) return;
+      pts.push(`${f(X(i))},${f(Y(v))}`);
+      const hover = `${p.series.length > 1 ? `${s.name}, ` : ""}${p.x[i]}: ${chartNumber(v, nd)}${unit}`;
+      dots.push(`<circle cx="${f(X(i))}" cy="${f(Y(v))}" r="3" fill="${color}"><title>${svgEscape(hover)}</title></circle>`);
+    });
+    if (pts.length > 1) parts.push(`<polyline points="${pts.join(" ")}" fill="none" stroke="${color}" stroke-width="1.8"${k ? ' stroke-dasharray="5 3"' : ""}/>`);
+    parts.push(...dots);
+  });
+  parts.push("</svg>");
+  return parts.join("");
 }

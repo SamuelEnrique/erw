@@ -1,0 +1,143 @@
+# Session 2924 (chain 153): read from the copy session 2905 fetched (runs/license_reads/s2905/03_*.bin, ERCOT's
+# 09-071126.docx, linked from www.ercot.com/mktrules/guides/planning/current; its robots file allows /files/ and
+# /mktrules/), read again by session 2919. The document is a Word file without pages: each step is placed by its section
+# and paragraph. ERCOT's terms: "raw data provided in public portions of this website may be used, reproduced, and
+# redistributed in compilations, charts, and analyses" (licenses.md #2). Sections 9.8 and 9.9 are the legacy process
+# (a study a TSP began before Batch Zero); 9.2 to 9.6 the Batch Zero process.
+body: Electric Reliability Council of Texas (ERCOT)
+grid: ERCOT
+utility: ""
+eia_id: ""
+state: TX
+document: ERCOT Planning Guide, Section 9, Large Load Interconnection or Modification
+document_date: 2026-07-11
+document_url: https://www.ercot.com/files/docs/2011/04/28/09-071126.docx
+retrieved_at: 2026-11-06T04:18:20Z
+license: public
+steps:
+  - section: "9.2.1(1)(b)"
+    step: a modification of a Load Facility enters the ERCOT interconnection process
+    party: ILLE
+    mw: 75
+    printed: "A modification of any existing Load Facility that increases the aggregate peak Demand of the Facility by 75 MW or more"
+  - section: "9.2.2.1(2)"
+    step: a Large Load asks to be studied as a Provisional Controllable Load Resource (Form W, Part A, to the DSP or TSP)
+    party: ILLE
+    date: 2026-07-10
+    printed: "Part A ... submitted to the Interconnecting DSP or Interconnecting TSP on or before July 10, 2026."
+  - section: "9.2.2.1(2), second sentence"
+    step: the DSP or TSP sends Form W to ERCOT
+    party: DSP or TSP
+    date: 2026-07-24
+    printed: "The Interconnecting DSP or Interconnecting TSP must submit the form to ERCOT on or before July 24, 2026."
+  - section: "9.2.3(1)"
+    step: the TSP updates a Large Load's information after a material change
+    party: TSP
+    duration: 10
+    unit: business days
+    printed: "The Interconnecting TSP shall update any project information ... within ten Business Days of being notified by the ILLE of a material change."
+  - section: "9.3.1(2)(a)(i)"
+    step: the DSP or TSP tells the ILLE that ERCOT classified its load as studied, not base load
+    party: DSP or TSP
+    duration: 2
+    unit: business days
+    printed: "the Interconnecting DSP or Interconnecting TSP, as applicable, shall notify the ILLE within two Business Days of receipt of ERCOT's classification notice."
+  - section: "9.3.1(2)(a)(i), second sentence"
+    step: the ILLE disputes the classification
+    party: ILLE
+    duration: 3
+    unit: business days
+    printed: "the ILLE must notify ERCOT through its Interconnecting DSP or Interconnecting TSP no later than three Business Days after receiving notification."
+  - section: "9.3.1(2)(a)(ii)"
+    step: the ILLE posts its financial security
+    party: ILLE
+    duration: 7
+    unit: business days
+    printed: "The ILLE shall have seven Business Days from the date of notification to post the financial security required by paragraph (1)(c) of Section 9.2.1.2."
+  - section: "9.3.1(2)(a)(ii), second sentence"
+    step: the DSP or TSP tells ERCOT the security is posted
+    party: DSP or TSP
+    duration: 2
+    unit: business days
+    printed: "The Interconnecting DSP or Interconnecting TSP, as applicable, must inform ERCOT within two Business Days of the ILLE posting the required financial security."
+  - section: "9.3.1(2)(b)"
+    step: ERCOT gives the Batch Zero Interconnection Study report
+    party: ERCOT
+    date: 2027-04-09
+    printed: "ERCOT shall provide the Batch Zero Interconnection Study report to all Interconnecting DSPs and Interconnecting TSPs on or before April 9, 2027."
+  - section: "9.3.1(2)(d)"
+    step: ERCOT completes the refinement study and gives the Batch Zero transmission plan to the RPG
+    party: ERCOT
+    duration: 90
+    unit: days
+    printed: "ERCOT shall complete the Batch Zero Refinement Study and provide a Batch Zero transmission plan to the Regional Planning Group (RPG) ... on or before 90 days following the deadline in paragraph (c) above."
+  - section: "9.3.1(3)"
+    step: the TSP gives ERCOT its short-circuit study report (before the transmission plan's date)
+    party: TSP
+    duration: 60
+    unit: days
+    printed: "The Interconnecting TSP must complete the short-circuit study ... and provide a study report to ERCOT at least 60 days prior to the date specified in paragraph (2)(d) above."
+  - section: "9.3.2(f)"
+    step: a TSP gives ERCOT its transmission improvement cost estimates
+    party: TSP
+    duration: 10
+    unit: business days
+    printed: "Each TSP shall provide any Transmission Facility improvement cost estimates within 10 Business Days of ERCOT's request."
+  - section: "9.6.1(1)"
+    step: a PCLR is energized, its consumption capped at its Low Power Consumption until it qualifies (no duration stated)
+    party: ILLE
+    printed: "The Large Load shall not consume at a level greater than the maximum Low Power Consumption (LPC) amount documented in the updated LCP attested to by the ILLE per paragraph (4) of Section 9.4"
+  - section: "9.8.2(1)"
+    step: "legacy process: the lead TSP schedules the kick-off meeting"
+    party: TSP
+    duration: 10
+    unit: business days
+    printed: "Within ten Business Days of this notification, the lead TSP shall schedule a kick-off meeting with ERCOT and the certificated DSP to occur soon thereafter."
+  - section: "9.8.2(6)"
+    step: "legacy process: the lead TSP drafts the preliminary study scope"
+    party: TSP
+    duration: 10
+    unit: business days
+    printed: "The lead TSP will develop a preliminary LLIS study scope within ten Business Days following the kickoff meeting."
+  - section: "9.8.2(8)"
+    step: "legacy process: the lead TSP submits the final study scope"
+    party: TSP
+    duration: 10
+    unit: business days
+    printed: "Upon closing of the comment period described in paragraph (7) above, the lead TSP shall, within ten Business Days, submit a final study scope"
+  - section: "9.8.2(9)"
+    step: "legacy process: ERCOT approves or returns the final study scope"
+    party: ERCOT
+    duration: 5
+    unit: business days
+    printed: "Within five Business Days of the lead TSP submitting the final study scope, ERCOT shall approve the final study scope or return the scope to the lead TSP with comments."
+  - section: "9.9(3)"
+    step: "legacy process: ERCOT reviews the preliminary study report (extendable by 20 Business Days)"
+    party: ERCOT
+    duration: 10
+    unit: business days
+    printed: "ERCOT shall review the preliminary study report within ten Business Days ... ERCOT may extend this review period by an additional 20 Business Days"
+  - section: "9.9(5)"
+    step: "legacy process: the lead TSP prepares the final study report"
+    party: TSP
+    duration: 10
+    unit: business days
+    printed: "the lead TSP shall prepare a final LLIS study report that incorporates all relevant feedback received in paragraph (2) above within ten Business Days."
+  - section: "9.9(7)"
+    step: "legacy process: ERCOT acts on the completed study"
+    party: ERCOT
+    duration: 10
+    unit: business days
+    printed: "Within ten Business Days following the completion of the LLIS, ERCOT shall:"
+  - section: "9.9(10)"
+    step: "legacy process: a project not meeting Section 9.10 may be cancelled"
+    party: ERCOT
+    duration: 180
+    unit: days
+    printed: "If the requirements of Section 9.10 have not been satisfied within 180 days after the communication of the completion of the LLIS by ERCOT ... ERCOT may notify the lead TSP that the project is subject to cancellation."
+  - section: "9.9(11)"
+    step: "legacy process: a load not energized a year after its study's date may need parts restudied"
+    party: TSP
+    duration: 365
+    unit: days
+    printed: "If the Large Load has not met the requirements for Initial Energization ... within 365 days after the Initial Energization date identified in the LLIS study report, the lead TSP shall provide an opinion to ERCOT on whether any of the completed LLIS elements require restudy."

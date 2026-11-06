@@ -203,7 +203,8 @@ class RevisedNotFailed(unittest.TestCase):
             self.assertEqual(cd.check_figure(src, "2026-10-14", fig("2026-10-13", "101.91"), {}, written=written)[0], "ok")
             st, why = cd.check_figure(src, "2026-10-14", fig("2026-10-12", "99.10"), {}, written=written)
             self.assertEqual(st, "revised")
-            self.assertIn("99.50 (row retrieved 2026-10-21T06:00:00Z, after the issue was written 2026-10-14T15:30:00Z, both within 14 days of 2026-10-12", why)
+            # session 1450: the window is the issue's (written within 14 days of the period), not the retrieval's
+            self.assertIn("99.50 (row retrieved 2026-10-21T06:00:00Z, after the issue was written 2026-10-14T15:30:00Z, which was within 14 days of 2026-10-12", why)
             self.assertEqual(cd.check_figure(src, "2026-10-14", fig("2026-10-11", "97.00"), {}, written=written)[0], "FAIL")
             self.assertEqual(cd.check_figure(src, "2026-10-14", fig("2026-09-01", "79.00"), {}, written=written)[0], "FAIL")
             # a table with no revision window: a differing row retrieved later is still a fault

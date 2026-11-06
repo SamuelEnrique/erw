@@ -14,9 +14,9 @@
     "adjective: massive",
     "adjective: major"
    ],
-   "expected_why": "AI data center capex; power demand commitment in final negotiation stages.",
+   "expected_why": "",
    "expected_detail": "parties: NTT; Anthropic. ",
-   "fallback": false
+   "fallback": true
   },
   {
    "event_id": "news:0379248ddb71fb36",
@@ -27,11 +27,12 @@
    "price": "€16bn",
    "parties": "Amazon",
    "problems": [
-    "adjective: major"
+    "adjective: major",
+    "hollow verb: signals"
    ],
-   "expected_why": "Datacenter and AI infrastructure expansion signals sustained power demand growth in Europe.",
+   "expected_why": "",
    "expected_detail": "parties: Amazon. ",
-   "fallback": false
+   "fallback": true
   },
   {
    "event_id": "news:083d61aa6c00a439",
@@ -87,11 +88,12 @@
    "price": "",
    "parties": "Dominion Energy",
    "problems": [
-    "adjective: major"
+    "adjective: major",
+    "hollow verb: signals"
    ],
-   "expected_why": "Utility storage commitment signals grid modernization and renewable integration strategy.",
+   "expected_why": "",
    "expected_detail": "3,500 MW; parties: Dominion Energy. ",
-   "fallback": false
+   "fallback": true
   },
   {
    "event_id": "news:01ca78f26cff8730",
@@ -116,10 +118,12 @@
    "mw": "",
    "price": "",
    "parties": "OPEC",
-   "problems": [],
-   "expected_why": "OPEC's lower demand outlook, with pent-up demand expected in 2027, shifts the supply-demand balance view.",
+   "problems": [
+    "names nothing the headline lacks"
+   ],
+   "expected_why": "",
    "expected_detail": "parties: OPEC. ",
-   "fallback": false
+   "fallback": true
   },
   {
    "event_id": "news:248636440bc09223",
@@ -156,11 +160,12 @@
    "price": "",
    "parties": "OPEC",
    "problems": [
-    "adjective: significantly"
+    "adjective: significantly",
+    "hollow verb: signaling"
    ],
-   "expected_why": "OPEC raises 2027 demand forecast, signaling stronger market outlook and inventory rebuilding.",
+   "expected_why": "",
    "expected_detail": "parties: OPEC. ",
-   "fallback": false
+   "fallback": true
   },
   {
    "event_id": "news:d75107a7a0153bfa",
@@ -198,10 +203,12 @@
    "mw": "",
    "price": "",
    "parties": "Iran; United States",
-   "problems": [],
-   "expected_why": "Hormuz status drives oil, LNG and tanker pricing; stalled talks keep supply risk elevated.",
+   "problems": [
+    "names nothing the headline lacks"
+   ],
+   "expected_why": "",
    "expected_detail": "parties: Iran; United States. ",
-   "fallback": false
+   "fallback": true
   },
   {
    "event_id": "news:053c59b00fedc181",
@@ -224,10 +231,12 @@
    "mw": "",
    "price": "$42 per barrel",
    "parties": "Shell",
-   "problems": [],
-   "expected_why": "Record refining margins confirm tight fuel supply and windfall earnings for majors.",
+   "problems": [
+    "names nothing the headline lacks"
+   ],
+   "expected_why": "",
    "expected_detail": "parties: Shell. ",
-   "fallback": false
+   "fallback": true
   },
   {
    "event_id": "news:668c2eadedb72ff2",
@@ -239,11 +248,12 @@
    "parties": "Anthropic",
    "problems": [
     "adjective: massive",
-    "adjective: unprecedented"
+    "adjective: unprecedented",
+    "hollow verb: signals"
    ],
-   "expected_why": "AI compute capex signals power demand growth and infrastructure investment scale.",
+   "expected_why": "",
    "expected_detail": "parties: Anthropic. ",
-   "fallback": false
+   "fallback": true
   },
   {
    "event_id": "news:3f3d7ac27b366845",
@@ -288,5 +298,10 @@
    "expected_detail": "parties: Toyo. ",
    "fallback": false
   }
+ ],
+ "notes": [
+  "Session 1437 (chain 149): a hollow verb (signals, demonstrates, reflects, underscores, highlights) and a line that restates the headline (half or more of its content words) fail the check; a failing line prints nothing, the headline alone (rulings item 16). Three of the twenty changed: their lines said 'signals'.",
+  "Session 1458 (chain 150, fault 7): a line that names nothing the headline lacks (no party, place, date, quantity or rule) and shares a quarter of its content words with the headline, or strings two clauses on a semicolon, fails; five of the twenty changed, each to the headline alone: three by the new rule on the scorer's line, two whose adjectives were cut and whose line then named nothing new.",
+  "Session 1462 (chain 150): the hollow verbs' -ing and past forms fail the check ('signaling'); one saved item's problems name it."
  ]
 }
