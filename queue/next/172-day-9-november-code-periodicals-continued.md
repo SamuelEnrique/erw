@@ -44,7 +44,7 @@ One step a session, in chain 161's order, as session 1522 lists them under "Unfi
 
 ### Unfinished steps (written by session 1522 of chain 161)
 
-(To be filled by session 1522: one line a step, in chain 161's order, with the exact commands where the step was a landing.)
+- Session 1538 (chain 161's 1510 to 1520, the dry runs): not run, because `news_stories` on main held the same 287 stories (retrieved 5 November 23:26 UTC) as session 1482's run, on unchanged code. Run each periodical once on the newest stories, into `runs/periodicals_dryrun/s1538/`. Check first that `news_stories.csv`'s retrieval line is later than 20261105T232645Z; if it is not, record that and take the next session's work. Read it as a reader against the faults file, with the new prompt's why lines first, and send the previews to the fixed recipients as "[preview, dry run 1538]". No step was a landing.
 
 ## Sessions 1542 to 1547: the faults still open
 
@@ -54,7 +54,8 @@ One fault a session, from `docs/reviews/periodicals-faults-2026-11-05.md`, in th
 
 ### Open faults (written by session 1522 of chain 161)
 
-(To be filled by session 1522: the faults file's rows still open, one a line, in the file's order; the owner's rows named, not to be decided here.)
+- None open (56 rows: 49 fixed, 5 the owner's, 1 "not fixed, for the owner", 1 the data machine's). Session 1538's dry run's faults, appended to the file, are the first sessions' work. If it opens none, the free sessions run one dry run each only when the stories have moved since the last one.
+- The owner's, not to be decided here: rows 19, 20, 39, 40, 47, 49, and the scorer's model for the why line (chain 150's note, question 1).
 
 ## Session 1548: the dry runs, read, the previews sent
 
