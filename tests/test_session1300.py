@@ -148,7 +148,14 @@ class ThePythonLoop(unittest.TestCase):
         self.assertEqual({k: v["status"] for k, v in got.items()},
                          {"answered": "answered", "a_figure_in_no_result": "refused_unverified", "a_compare": "answered",
                           "not_in_the_warehouse": "not_in_warehouse", "a_table_cited_unread": "refused_unverified", "a_held_grid": "answered",
-                          "a_series": "answered", "a_per_kw_question": "answered", "a_repeated_call": "answered"})
+                          "a_series": "answered", "a_per_kw_question": "answered", "a_repeated_call": "answered",
+                          "a_table_held_whole": "not_in_warehouse", "misos_pause": "not_in_warehouse"})
+        # session 2225 (chain 152): a table held whole is refused by name with the hold's words, MISO's rows with the pause's,
+        # and the answer is a refusal that carries those words and no figure
+        self.assertIn("license needed", got["a_table_held_whole"]["answer"])
+        self.assertIn("paused while terms are reviewed", got["misos_pause"]["answer"])
+        for sid in ("a_table_held_whole", "misos_pause"):
+            self.assertEqual((got[sid]["tool_calls"], got[sid]["reads"], got[sid]["retried"]), (1, 0, False), sid)
         # session 2222 (chain 152): the second, identical call is counted and not read (one read in the record), and the turn of only
         # repeats makes the third model call one that may not read
         r = got["a_repeated_call"]
