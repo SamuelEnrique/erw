@@ -141,7 +141,9 @@ def build():
     qs.append(refusal("l02", "none", "general", "Which buyer signed the largest power purchase agreement by MW in 2026, and for how many MW?",
                       [LICENSE], "energy_deals (buyer, mw, 2026) is held whole for a license: the hold's words and no figure", hold=True, tables=["energy_deals"]))
     # the datacenter tracker: held whole
-    qs.append(refusal("l03", "ERCOT", "grid", "How many MW of datacenter projects does the tracker hold in ERCOT?",
+    # l03 is asked through the general chat: a grid's scoped chat sees the grid's tables alone, and the tracker's tables are no
+    # grid's, so ERCOT's chat answered "not in the warehouse" without the hold's words at the first asking (02:05 UTC)
+    qs.append(refusal("l03", "none", "general", "How many MW of datacenter projects does the tracker hold in ERCOT?",
                       [LICENSE], "datacenter_projects (mw, ERCOT) is held whole for a license: the hold's words and no figure", hold=True, tables=["datacenter_projects"]))
     qs.append(refusal("l04", "none", "general", "Which datacenter operator has the most MW of facilities in the tracker, and how many MW?",
                       [LICENSE], "datacenter_facilities (operator, mw) is held whole for a license: the hold's words and no figure", hold=True, tables=["datacenter_facilities"]))
@@ -163,13 +165,16 @@ def build():
                                             ("l14", "ERCOT", "grid", "iso:ercot", "battery_operating_mwh_per_mw", "What was the average duration of ERCOT's operating battery fleet in September 2026, in MWh per MW?")):
         v = month_value(SB, ent, var, "2026-09")
         qs.append(figure(qid, grid, via, words, SB, v, f"{SB}, {ent}, {var}: the 2026-09 row"))
-    # a grid's day-ahead average and peak
-    v = month_value(CP, E, "da_simple_mean", "2026-10")
-    qs.append(figure("l15", "ERCOT", "grid", "What was the simple average day-ahead price at ERCOT's hub average in October 2026, in USD per MWh?", CP, v,
-                     f"{CP}, {E}, da_simple_mean: the 2026-10 row"))
-    v = month_value(CP, SPPN, "da_simple_mean", "2026-10")
-    qs.append(figure("l16", "SPP", "grid", "What was the simple average day-ahead price at SPP's North hub in October 2026, in USD per MWh?", CP, v,
-                     f"{CP}, {SPPN}, da_simple_mean: the 2026-10 row"))
+    # a grid's day-ahead average and peak: the month must be whole in the table (its day-ahead hours equal to the hours in the
+    # month), as questions_s1114.yaml's keys were checked; October 2026 held 48 of 744 hours at the first asking, so September
+    for qid, grid, ent, words in (("l15", "ERCOT", E, "ERCOT's hub average"), ("l16", "SPP", SPPN, "SPP's North hub")):
+        month = "2026-09"
+        hours, in_month = month_value(CP, ent, "da_hours", month), month_value(CP, ent, "hours_in_month", month)
+        if hours != in_month:
+            raise SystemExit(f"{CP} {ent} {month}: da_hours {hours} is not the month's {in_month} hours")
+        v = month_value(CP, ent, "da_simple_mean", month)
+        qs.append(figure(qid, grid, "grid", f"What was the simple average day-ahead price at {words} in September 2026, in USD per MWh?", CP, v,
+                         f"{CP}, {ent}, da_simple_mean: the {month} row; checked whole: da_hours = hours_in_month = {int(in_month)}"))
     v = year_value(GP, "grid_peak_vs_capacity:ercot", "capacity_over_peak_pct", 2025)
     qs.append(figure("l17", "ERCOT", "grid", "By what percentage did ERCOT's installed capacity exceed its 2025 peak demand, the grid's reserve margin on capacity?", GP, v,
                      f"{GP}, grid_peak_vs_capacity:ercot, capacity_over_peak_pct: the 2025 row (in_live_set review)"))

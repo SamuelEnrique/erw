@@ -1,6 +1,6 @@
 {
  "_about": "Session 2224 (chain 152): the keys of questions_s2224.yaml as computed from the live set by scripts/ask_eval/lab_questions.py, not a run.",
- "computed_at_utc": "2026-11-06T02:04:17Z",
+ "computed_at_utc": "2026-11-06T02:17:02Z",
  "source": "nrdylqzasarkjjsqturo catalogue, series and entities views, anon key",
  "keys": {
   "l01": {
@@ -187,7 +187,7 @@
   },
   "l15": {
    "expected": [
-    41.9473
+    38.7972
    ],
    "tolerance": 0.01,
    "text": [],
@@ -196,11 +196,11 @@
    ],
    "refuse": false,
    "hold": false,
-   "note": "cost_of_power_monthly, ercot:HB_HUBAVG, da_simple_mean: the 2026-10 row"
+   "note": "cost_of_power_monthly, ercot:HB_HUBAVG, da_simple_mean: the 2026-09 row; checked whole: da_hours = hours_in_month = 720"
   },
   "l16": {
    "expected": [
-    33.0084
+    36.2065
    ],
    "tolerance": 0.01,
    "text": [],
@@ -209,7 +209,7 @@
    ],
    "refuse": false,
    "hold": false,
-   "note": "cost_of_power_monthly, spp:SPPNORTH_HUB, da_simple_mean: the 2026-10 row"
+   "note": "cost_of_power_monthly, spp:SPPNORTH_HUB, da_simple_mean: the 2026-09 row; checked whole: da_hours = hours_in_month = 720"
   },
   "l17": {
    "expected": [

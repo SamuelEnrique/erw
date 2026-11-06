@@ -220,7 +220,7 @@ def grade_set(which, rules=()):
         if a is None:
             continue
         g = G.grade(q, a, rules)
-        if q.get("hold") and not g["ok"] and hold_answer(q, a):
+        if q.get("hold") in (True, "true", "True") and not g["ok"] and hold_answer(q, a):   # the set's loader keeps the YAML's word
             g["hold_answer"] = True
             g["ok"] = True
         if g.get("text") is False:

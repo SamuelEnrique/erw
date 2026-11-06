@@ -32,8 +32,8 @@ questions:
   hold: true
   note: "energy_deals (buyer, mw, 2026) is held whole for a license: the hold's words and no figure"
 - id: l03
-  grid: ERCOT
-  via: grid
+  grid: none
+  via: general
   question: "How many MW of datacenter projects does the tracker hold in ERCOT?"
   expected: []
   tolerance: 0.01
@@ -166,25 +166,25 @@ questions:
 - id: l15
   grid: ERCOT
   via: grid
-  question: "What was the simple average day-ahead price at ERCOT's hub average in October 2026, in USD per MWh?"
-  expected: [41.9473]
+  question: "What was the simple average day-ahead price at ERCOT's hub average in September 2026, in USD per MWh?"
+  expected: [38.7972]
   tolerance: 0.01
   text: []
   tables: ["cost_of_power_monthly"]
   refuse: false
   hold: false
-  note: "cost_of_power_monthly, ercot:HB_HUBAVG, da_simple_mean: the 2026-10 row"
+  note: "cost_of_power_monthly, ercot:HB_HUBAVG, da_simple_mean: the 2026-09 row; checked whole: da_hours = hours_in_month = 720"
 - id: l16
   grid: SPP
   via: grid
-  question: "What was the simple average day-ahead price at SPP's North hub in October 2026, in USD per MWh?"
-  expected: [33.0084]
+  question: "What was the simple average day-ahead price at SPP's North hub in September 2026, in USD per MWh?"
+  expected: [36.2065]
   tolerance: 0.01
   text: []
   tables: ["cost_of_power_monthly"]
   refuse: false
   hold: false
-  note: "cost_of_power_monthly, spp:SPPNORTH_HUB, da_simple_mean: the 2026-10 row"
+  note: "cost_of_power_monthly, spp:SPPNORTH_HUB, da_simple_mean: the 2026-09 row; checked whole: da_hours = hours_in_month = 720"
 - id: l17
   grid: ERCOT
   via: grid
