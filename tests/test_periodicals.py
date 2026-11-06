@@ -28,6 +28,7 @@ import re
 import sys
 import tempfile
 import unittest
+from types import SimpleNamespace
 from unittest import mock
 
 import pandas as pd
@@ -1506,6 +1507,32 @@ class Session1476DealsTableDollars(unittest.TestCase):
         self.assertEqual(roundup.usd_cell(""), "not stated")
         import inspect
         self.assertIn("usd_cell(r['dollars'])", inspect.getsource(roundup))
+
+
+class Session1479HeadlineMoney(unittest.TestCase):
+    """Session 1479 (chain 154, fault 56): a headline the model writes is in the issue's money style."""
+
+    def test_the_forms(self):
+        cases = [("AEP and Google advance a 4 billion USD fuel-cell project, 702 MW, for Cheyenne data centers",
+                  "AEP and Google advance a USD 4 billion fuel-cell project, 702 MW, for Cheyenne data centers"),
+                 ("AEP and Google advance a $4 Billion, 702 MW Bloom Energy fuel-cell project",
+                  "AEP and Google advance a USD 4 billion, 702 MW Bloom Energy fuel-cell project"),
+                 ("Brattle says distributed energy could avoid 614 billion USD in costs", "Brattle says distributed energy could avoid USD 614 billion in costs"),
+                 ("Six reactors eyed for Kentucky in 2026", "Six reactors eyed for Kentucky in 2026")]
+        for raw, want in cases:
+            with self.subTest(raw[:30]):
+                self.assertEqual(brief.headline_style(raw), want)
+
+    def test_the_model_call_returns_them_styled(self):
+        resp = SimpleNamespace(stop_reason="end_turn", usage=SimpleNamespace(input_tokens=1, output_tokens=1),
+                               content=[SimpleNamespace(type="text", text=json.dumps({"headlines": [
+                                   {"cluster_id": "a", "headline": "EQT unveils a 12 billion USD plan"}]}))])
+        client = SimpleNamespace(messages=SimpleNamespace(create=lambda **k: resp))
+        heads, _u, _c = brief._headline_call(client, "m", [{"cluster_id": "a"}], quiet)
+        self.assertEqual(heads, {"a": "EQT unveils a USD 12 billion plan"})
+        # the publisher's own titles (the no-model path) are not rewritten
+        c = pd.DataFrame([{"cluster_id": "b", "titles": ["EQT unveils a 12 billion USD plan"]}])
+        self.assertEqual(brief.own_titles(c), {"b": "EQT unveils a 12 billion USD plan"})
 
 
 class Session1438OneTopic(unittest.TestCase):

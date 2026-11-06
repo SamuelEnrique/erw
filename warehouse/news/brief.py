@@ -278,7 +278,7 @@ def _headline_call(client, model, items, log):
         raise RuntimeError(f"headline call stop_reason {resp.stop_reason}")
     out = json.loads(next(b.text for b in resp.content if b.type == "text"))["headlines"]
     u = resp.usage
-    return {h["cluster_id"]: nodash(h["headline"]) for h in out}, SimpleNamespace(
+    return {h["cluster_id"]: headline_style(nodash(h["headline"])) for h in out}, SimpleNamespace(
         input_tokens=u.input_tokens, output_tokens=u.output_tokens), calls
 
 
@@ -548,6 +548,19 @@ def money_style(s):
         scale = SCALE.get((m.group(3) or "").lower())
         return f"{cur} {m.group(2)}" + (f" {scale}" if scale else "")
     return MONEY.sub(one, str(s))
+
+
+# Session 1479 (chain 154, fault 56 of docs/reviews/periodicals-faults-2026-11-05.md): the model's headline wrote a sum
+# three ways on the same stories ("a $4 Billion, 702 MW ..." in one run, "a 4 billion USD fuel-cell project" in the next);
+# the issue's form is "USD 4 billion". A code after the number is read as one before it.
+TRAILING_CODE = re.compile(r"(?<![\w.])(\d[\d,]*(?:\.\d+)?)\s?(billion|million|trillion|bn|mn)\s+(USD|CAD|AUD|EUR|GBP)\b", re.I)
+
+
+def headline_style(head):
+    """A headline the model wrote, its sums in the one money style (money_style), "4 billion USD" read as "USD 4
+    billion". The publisher's own titles (own_titles, the no-model path) are not passed through it."""
+    h = TRAILING_CODE.sub(lambda m: f"{m.group(3).upper()} {m.group(1)} {SCALE[m.group(2).lower()]}", str(head or ""))
+    return money_style(h)
 
 
 def an_word(word):
