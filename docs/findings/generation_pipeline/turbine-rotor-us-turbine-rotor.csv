@@ -1,0 +1,26 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate turbine_rotor, region us_turbine_rotor (US onshore wind turbines)
+# Computed 2026-11-06T11:55:06Z by warehouse/analysis/findings/deep/generation_pipeline.py (turbine_rotor); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the mean rotor diameter of the onshore turbines of the year's projects (m), the observations it rests on, and whether the year is full
+# Tables: uswtdb_wind_turbines
+region,year,value,n_observations,full_year
+us_turbine_rotor,2005,80.61823104693141,1.0,1
+us_turbine_rotor,2006,78.81745379876796,1.0,1
+us_turbine_rotor,2007,81.79626200274349,1.0,1
+us_turbine_rotor,2008,83.61480043149946,1.0,1
+us_turbine_rotor,2009,84.11072056239016,1.0,1
+us_turbine_rotor,2010,86.29595336076818,1.0,1
+us_turbine_rotor,2011,92.89592305483778,1.0,1
+us_turbine_rotor,2012,95.68463161066745,1.0,1
+us_turbine_rotor,2013,96.40724381625442,1.0,1
+us_turbine_rotor,2014,99.06608113759933,1.0,1
+us_turbine_rotor,2015,102.2922323303009,1.0,1
+us_turbine_rotor,2016,108.1335436382755,1.0,1
+us_turbine_rotor,2017,106.12672195346694,1.0,1
+us_turbine_rotor,2018,115.95039292730844,1.0,1
+us_turbine_rotor,2019,121.15022421524664,1.0,1
+us_turbine_rotor,2020,124.88298217179903,1.0,1
+us_turbine_rotor,2021,127.85568025652772,1.0,1
+us_turbine_rotor,2022,131.72806026365348,1.0,1
+us_turbine_rotor,2023,132.87018255578093,1.0,1
+us_turbine_rotor,2024,136.7079646017699,1.0,1
+us_turbine_rotor,2025,141.00682593856655,1.0,1

@@ -1,0 +1,21 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate added_mw, region add_solar_US (solar photovoltaic, the United States)
+# Computed 2026-11-06T11:55:05Z by warehouse/analysis/findings/deep/generation_pipeline.py (added_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the nameplate MW of today's operating generators that entered service in the year (MW), the observations it rests on, and whether the year is full
+# Tables: eia860m_operating_generators
+region,year,value,n_observations,full_year
+add_solar_US,2010,242.6,1.0,1
+add_solar_US,2011,763.3,1.0,1
+add_solar_US,2012,1625.8,1.0,1
+add_solar_US,2013,2756.5,1.0,1
+add_solar_US,2014,3423.3,1.0,1
+add_solar_US,2015,3446.7,1.0,1
+add_solar_US,2016,8178.9,1.0,1
+add_solar_US,2017,5247.1,1.0,1
+add_solar_US,2018,4950.8,1.0,1
+add_solar_US,2019,5840.9,1.0,1
+add_solar_US,2020,10638.4,1.0,1
+add_solar_US,2021,13768.9,1.0,1
+add_solar_US,2022,11287.6,1.0,1
+add_solar_US,2023,19821.8,1.0,1
+add_solar_US,2024,31172.9,1.0,1
+add_solar_US,2025,29709.2,1.0,1

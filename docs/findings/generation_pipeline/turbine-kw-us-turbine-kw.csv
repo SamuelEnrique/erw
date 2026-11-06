@@ -1,0 +1,26 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate turbine_kw, region us_turbine_kw (US onshore wind turbines)
+# Computed 2026-11-06T11:55:06Z by warehouse/analysis/findings/deep/generation_pipeline.py (turbine_kw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the mean rated capacity of the onshore turbines of the year's projects (kW), the observations it rests on, and whether the year is full
+# Tables: uswtdb_wind_turbines
+region,year,value,n_observations,full_year
+us_turbine_kw,2005,1512.3715058611363,1.0,1
+us_turbine_kw,2006,1576.7934224049332,1.0,1
+us_turbine_kw,2007,1659.537037037037,1.0,1
+us_turbine_kw,2008,1669.3462783171522,1.0,1
+us_turbine_kw,2009,1741.1348551360843,1.0,1
+us_turbine_kw,2010,1773.0808423913043,1.0,1
+us_turbine_kw,2011,1983.8426191843769,1.0,1
+us_turbine_kw,2012,1956.9465361445782,1.0,1
+us_turbine_kw,2013,1846.6872791519434,1.0,1
+us_turbine_kw,2014,1922.612296110414,1.0,1
+us_turbine_kw,2015,2004.076976906928,1.0,1
+us_turbine_kw,2016,2148.8753943217666,1.0,1
+us_turbine_kw,2017,2110.5828150195807,1.0,1
+us_turbine_kw,2018,2442.8821603927986,1.0,1
+us_turbine_kw,2019,2549.806614349776,1.0,1
+us_turbine_kw,2020,2760.4910858995136,1.0,1
+us_turbine_kw,2021,3011.497938616583,1.0,1
+us_turbine_kw,2022,3254.7612052730697,1.0,1
+us_turbine_kw,2023,3338.7379624936643,1.0,1
+us_turbine_kw,2024,3496.3185840707965,1.0,1
+us_turbine_kw,2025,3804.358171571697,1.0,1

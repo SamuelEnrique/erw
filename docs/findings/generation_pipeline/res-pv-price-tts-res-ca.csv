@@ -1,0 +1,28 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate res_pv_price, region tts_res_CA (residential systems in California)
+# Computed 2026-11-06T11:55:07Z by warehouse/analysis/findings/deep/generation_pipeline.py (res_pv_price); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the median installed price of the year's residential systems over their DC size (USD per kW DC), the observations it rests on, and whether the year is full
+# Tables: lbnl_tracking_the_sun
+region,year,value,n_observations,full_year
+tts_res_CA,2001,8308.188812,1.0,1
+tts_res_CA,2002,8441.786165,1.0,1
+tts_res_CA,2003,7842.761667,1.0,1
+tts_res_CA,2004,7479.72973,1.0,1
+tts_res_CA,2005,7289.118243,1.0,1
+tts_res_CA,2006,7597.286028,1.0,1
+tts_res_CA,2007,8023.931624,1.0,1
+tts_res_CA,2008,7999.637681,1.0,1
+tts_res_CA,2009,7641.550626,1.0,1
+tts_res_CA,2010,6723.677249,1.0,1
+tts_res_CA,2011,6500.0,1.0,1
+tts_res_CA,2012,5395.369157,1.0,1
+tts_res_CA,2013,4975.0,1.0,1
+tts_res_CA,2014,4799.151786,1.0,1
+tts_res_CA,2015,4560.323887,1.0,1
+tts_res_CA,2016,4392.126582,1.0,1
+tts_res_CA,2017,4047.988006,1.0,1
+tts_res_CA,2018,4044.776119,1.0,1
+tts_res_CA,2019,3975.0,1.0,1
+tts_res_CA,2020,4035.211232,1.0,1
+tts_res_CA,2021,4051.06901,1.0,1
+tts_res_CA,2022,4182.495678,1.0,1
+tts_res_CA,2023,4150.0,1.0,1
