@@ -289,7 +289,8 @@ def merge(ms, log):
 def facility(g, now):
     g = sorted(g, key=lambda m: PRIORITY[m["kind"]])
     head = g[0]
-    first = lambda f, order=None: next((m[f] for m in (order or g) if m[f]), "")  # noqa: E731
+    # session 2252: .get, so a member built without the fields of session 2236 (a test's, an older caller's) reads empty
+    first = lambda f, order=None: next((m.get(f, "") for m in (order or g) if m.get(f, "")), "")  # noqa: E731
     by_news_first = sorted(g, key=lambda m: {"news": 0, "operator": 1, "queue": 2}[m["kind"]])
     mw_member = next((m for m in g if m["mw"]), None)
     r = {c: "" for c in COLS}
