@@ -15,6 +15,7 @@ Energy Research Warehouse (ERW). Written by chain 156 (`queue/done/156-night-6-n
 | 9 | `wip/3133-policy` | `ae75e7695` | `3054-3133-policy` | 3260 | 2026-11-06 | on `wip/3132-policy` (its parent, `origin/main` merged): the 224 related test files, 3,186 passed, 131 skipped, 1 failed, `test_session178.py::TheNote::test_the_sections_asked_for`, which fails on `origin/main` too (not this chain's); Node monitor, week and reads tests pass; `check_policy.py` 288 of 288; not built | waiting, or landed with row 10, which holds it |
 | 10 | `wip/3144-policy` | `2bbbe02b1` | `3054-3144-policy` | 3260 | 2026-11-06 | on `wip/3140-policy` (its ancestor, `origin/main` merged): the 224 related test files, 3,188 passed, 131 skipped, 0 failed; on the head: the policy test files and the older ones they touch, 209 passed, 8 skipped; Node monitor, week and reads tests pass; `check_policy.py` 299 of 299; not built | waiting, or landed with row 11, which holds it |
 | 11 | `wip/3157-policy` | `ca2412524` | `3054-3157-policy` | 3260 | 2026-11-06 | on `wip/3154-policy` (its ancestor, `origin/main` merged): the 225 related test files, 3,193 passed, 131 skipped, 0 failed; sessions 3155 to 3157 add only the method note and reports; Node monitor, week and reads tests pass; not built | waiting (holds rows 2, 3, 5, 6, 9 and 10) |
+| 12 | `wip/3279-askeval` | `65f6d096c` | `2340-askeval` | 3340 | 2026-11-06 | on the head (`origin/main` merged): the 57 test files that touch Ask, its evaluation, its spec or its method note, with `tests/test_session3282_ask.py`: 429 passed, 79 skipped, 0 failed (before the merge); after the merge tests 1147, 1300, 1304, 1309, 1315, 2224, 2225 and 3282: 31 passed, 2 skipped; `replay.py --check`, `history.py --check` and `refusals.py --check` exit 0; the site half of the two-loop test skipped (no `node_modules` on this machine); not built (this window never builds) | waiting |
 
 ## Row 1: what it holds
 
@@ -121,3 +122,12 @@ Written by session 3059 of `queue/done/166-night-6-november-portable-window2-pol
 - **Its faults fixed in `warehouse/policy/fields.py`** (3152 to 3154): a filing deadline that restates a comment deadline, and a date a party asks for, expects or plans, are no step; release titles for meetings, orders and approvals; no figure from a range, a rate or a change; a money figure keeps its scale before a comma; more out-of-scope kinds.
 - **The method note's third sample** (3156). `site/data/policy/monitor.json` rebuilt.
 - **No successor chain**: what is left waits on this landing or on the owner's rulings (`docs/state/note_2026-11-10_portable_window2.md`).
+
+## Row 12: what it holds (the Ask evaluation chain, the personal laptop's second window: sessions 3279 to 3282)
+
+`wip/3279-askeval` holds `origin/main` as merged in session 3282. Land it with `scripts/land_check.py --ref wip/3279-askeval --task 2340-askeval --port 3340` (the task name as the chain's prompt gives it; its sessions are 3279 to 3282). Report: `archive/sessions/SESSION_3282_ASKEVAL_REPORT.md`.
+
+- **Two more sets for Ask, their keys computed** (`scripts/ask_eval/trader_questions.py`, `investor_questions.py`; `questions_trader.yaml`, `questions_investor.yaml`), the runs of sessions 3280 to 3282 and their grades, named in `runs.json`.
+- **A text value of `latest` is no figure** in the Python loop (`warehouse/chat/tools.py` `_num`), as the site's loop reads it; **rule 3 of the shared prompt** asks for `list_tables` before "not in the warehouse" (`warehouse/chat/ask.py`, `site/lib/chat/spec.json` exported): the site's answers read the new prompt once this lands.
+- **The grader** (`eval_s1113.py` `grade_set`): a text key's parts joined by "|", `count: true`, `first: true`.
+- The landing gate's site half of `tests/test_session1300.py` runs the two loops over the same turns; this chain could not run it (no `node_modules` here); its scenarios are unchanged.
