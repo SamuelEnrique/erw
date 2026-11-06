@@ -74,7 +74,8 @@ class Vacuum(unittest.TestCase):
 
     def test_the_flag_defaults_off_and_the_workflow_does_not_pass_it(self):
         src = open(os.path.join(ROOT, "warehouse", "supabase", "load.py"), encoding="utf-8").read()
-        self.assertIn("vacuum(url, full=args.vacuum_full)", src)
+        # session 455 (landed by session 2869): the load passes what it changed, so a small load only analyzes
+        self.assertIn("vacuum(url, full=args.vacuum_full, changed=changed)", src)
         for wf in ("daily-prices.yml", "roundup.yml"):
             text = open(os.path.join(ROOT, ".github", "workflows", wf), encoding="utf-8").read()
             self.assertNotIn("--vacuum-full", text, wf)
