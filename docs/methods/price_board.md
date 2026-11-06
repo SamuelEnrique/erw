@@ -569,3 +569,7 @@ Tests: `tests/test_board_1616.py` (the site's file, a file the builder writes fr
 ## The rows' CSV: the week and the month (session 1631, chain 167)
 
 The rows' CSV carries a power row's week and month as its cells show them: `week_peak`, `week_hours_over_100`, `week_hours_over_250`, `week_hours_over_1000` and the same four of the month, between `latest` and `source` (a held row's are empty as its other figures are; the Stata reader destrings them). Tests: `tests/test_board_1631.py`.
+
+## A row with no figure prints its words and no digit (session 1632, chain 167)
+
+A held grid's row (`holdRows`) loses its interval's words (`basis`) and the fleet heat rate beside a spark spread (`heat_ref`) with its figures, and a row the builder holds no value for ("not held yet") is written without them: an interval's words carry digits ("24; 23 or 25", "4 15-minute"), and a row with no figure shows its status words and no digit, in its hover and in its line of the rows' CSV. `boardFileChecks` counts a kept `basis` on such a row as a fault. Tests: `tests/test_board_1632.py`.

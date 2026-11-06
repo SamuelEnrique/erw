@@ -448,6 +448,8 @@ class Board:
         s = stats(series, freq)
         if s is None:
             row.update(status="not_held", note="The warehouse holds no value of this series yet.")
+            for k in ("basis", "ext", "inputs", "heat_ref"):   # session 1632: a row with no value prints its status words and no digit
+                row.pop(k, None)
         else:
             row.update(s)
             self.series[rid] = series_file(row, series)
