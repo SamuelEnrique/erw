@@ -34,11 +34,14 @@ Long end 1:30. Pulls: GitHub only.
 
 1. Write the successor file for this machine in this file's form (`machine: data`, Opus 5.5 high effort, at least fourteen sessions numbered from the first free numbers after 2945, the first free file number on origin's main and every branch): every step of this chain that its note says did not finish, then the siting gaps rows still open that a public US source can close without a ruling, then the daily run's seven days and the records; these rules word for word. Commit it alone, push it to main, `git status -sb`.
 2. `scripts/precheck.py` from the main checkout; memory and disk free; `scripts/freeze.py status`.
-3. Chain 153's first unfinished step, as session 2931 writes it here. If chain 153 left none, the first of the rows below.
+3. Chain 153's first unfinished step, written here by session 2931 of chain 153: **if chain 153's note says `wip/c153-data` did not land** (its "What landed" line), land it first, by the commands of `archive/sessions/SESSION_2931_REPORT.md`, "To finish" (merge origin/main, `scripts/land_check.py`, rule 8's snapshots, the push to `task/c153-data`), never between 14:00 and 16:15 UTC. If it landed, read the All grids tab on the live site's internal view for session 2923's two new lines (`data-headroom-signed`, `data-util-wires`): each a figure or "signed not held", never a blank.
 
 ## Sessions 2933 and 2934: chain 153's other unfinished steps
 
-Long end 2:30 each. Pulls: as the step of chain 153 says. Session 2931 writes them here in chain 153's order; a step it does not name leaves the session to the next row of the siting gaps below.
+Long end 2:30 each. Pulls: as the step of chain 153 says. Written by session 2931 of chain 153, in chain 153's order (its note, "What did not, and why"):
+
+- **Session 2933: the data machine's run of 6 November and after** (chain 151's item 9, chain 153's session 2928): `runs/data_machine_status.txt` and the `dm_` rows of `erw_health` from 6 November, each failed step opened; `dm_test_findings` expected to pass (chain 147's fix landed 6 November 03:03 UTC). Also the first daily run with chain 153's monthly guard: the `monthly_page_tests` line of the runner's status, if the monthly job ran.
+- **Session 2934: the board's k03 asked again** once the code machine has fixed the route's "Cannot read properties of undefined (reading 'aggregation')" (chain 153's session 2918): if a commit on main names the fix, ask k03 alone on a local build as chain 148's session 2886 did (its cap), grade it with `eval_s1113.py --grade --set s2918`, and write `runs.json` and `ask-history.md` again; if no fix is on main, say so and take the next row below.
 
 ## Session 2935: ERCOT's four coincident peaks of summer 2026, again
 
