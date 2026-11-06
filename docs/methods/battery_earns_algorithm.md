@@ -261,6 +261,15 @@ Each number `/cost-of-power/battery` shows carries its key (`site/components/Num
 - **Stata is not installed on the machine that wrote it, so the do-file has not been run.** `tests/test_session178.py` parses it and enforces each rule; the Python mirror follows it step for step and its output equals the page's library on the same months.
 - **Not in the CSV**: the columns that need years before October 2023 (the last three full years, every year held, the column without February 2021) and the stress days. They are sums of `battery_stack_monthly` rows by the formulas of section 4, and `check-values.mjs` recomputes them.
 
+### 7.1 Run it (sessions 1487 and 1488, chain 158)
+
+The package a reader runs is `replication/battery/` in the repository:
+
+- `replicate.py` (Python, standard library): `python replication/battery/replicate.py [the CSV's path or its address]`. It reads only the public dispatch file (by default the repository's copy, `site/public/battery/erw_2026_battery_dispatch.csv`, else the page's link) and `assumptions.json`, the page's ten defaults with their sources. It recomputes the figures with the mirror above and prints each beside the figure the page shows for the same months (`page_figures.json`), with the difference and the tolerance (half of the page's last shown digit). Exit 0 when every figure is inside it. On 6 November 2026: **22 of 22**.
+- `replicate.do` (Stata): `cd replication/battery` then `do replicate.do`. The do-file of this section, reading the same public file and `assumptions.csv` (the same values as the JSON), and ending with each headline figure beside the page's and the difference. Stata is not on the machine that wrote it, so the do-file has not been run; `tests/test_session1488.py` holds it to the house rules and to its two inputs.
+- Change an assumption in either file to see what it moves: at the old 60 percent debt share, the debt payment is 6,783,357 (section 4.3), and the revenue does not move.
+- The cross-check table against published figures is the section "Cross-checks" below (Lazard, the ATB, Modo Energy's ERCOT 2025 nowcast, ERCOT's fleet), each with its source and the difference.
+
 ## 8. The independent check of the optimizer
 
 `warehouse/derived/battery_optimizer_check.py` reads only the CSV and does not import the model.
