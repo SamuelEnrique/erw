@@ -524,6 +524,17 @@ async function truth(check) {
     const v = { comp_deals: cell.deals, comp_with_price: cell.withPrice, comp_with_mw: cell.withMw, comp_median_price: cell.medianPrice, comp_median_mw: cell.medianMw }[stat];
     return v ?? undefined;
   }
+  // session 2239: the disclosed prices, deals|price_<count|median|low|high>|<dimension>|<value>, the page's own functions
+  if (p[0] === "deals" && String(p[1]).startsWith("price_")) {
+    const D = await import("../lib/deals2.ts");
+    const [, stat, dim, value] = p;
+    const rows = await all("events", { select: "event_id,event_date,status,mw,price,currency,parties,source,source_url,extra", table_name: "eq.energy_deals", order: "event_date.desc,event_id" });
+    const pairs = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "deal_duplicates.json"), "utf-8")).pairs;
+    const cell = D.priceCells(D.fold(rows.map(D.toDeal), pairs), dim).find((c) => c.value === (value === "-" ? "" : value));
+    if (!cell) return undefined;
+    const v = { price_count: cell.count, price_median: cell.median, price_low: cell.low, price_high: cell.high }[stat];
+    return v ?? undefined;
+  }
   if (p[0] === "deals") {
     const [, what, month] = p;
     const rows = await all("events", { select: "event_date,mw,ai:extra->>ai_power", table_name: "eq.energy_deals" });

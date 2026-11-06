@@ -79,7 +79,7 @@ const COLS: [SortKey, string, string, boolean][] = [
   ["grid", "Grid", "A grid operator a story names, else the grid that serves most of the state (each cell's tip says which)", false],
   ["mw", "MW", "As stated; empty where no story states it. A sum is never estimated", true],
   ["usd", "US dollars", "As stated in US dollars; a sum in another currency, a valuation or a company-wide investment is not the deal's", true],
-  ["price", "Price", "A price per MWh as stated; almost no story states one (6 of 18,358 scored stories)", true],
+  ["price", "Price", "A price per MWh as stated; almost no story the ERW reads states one", true],
   ["stage", "Stage", "Where the deal stands, as its words say; each cell's tip shows how it moved", false],
   ["ai", "AI", "A named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party, or the load is a datacenter", false],
   ["sources", "Sources", "The stories the deal was read from; hover for the outlets and the flags", true],

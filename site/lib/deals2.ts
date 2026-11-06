@@ -318,6 +318,54 @@ export function shown(c: Cell): { what: "price" | "mw" | "none"; value: number |
   return { what: "none", value: null };
 }
 
+// Session 2239 (chain 156): the disclosed prices. The PPAs and offtakes whose stories state a price in US dollars per
+// MWh, by technology, grid or year: their count, and their median, lowest and highest where three or more state one
+// (the comparables' rule). Each figure's records are listed in its hover. A reader's own deal is placed against the
+// prices of its technology and grid in one line (place()): how many are below, equal and above it, nothing stored.
+export const PRICE_DIMENSIONS: { id: string; label: string }[] = [
+  { id: "technology", label: "Technology" }, { id: "grid", label: "Grid" }, { id: "year", label: "Year" },
+];
+export const PRICED_TYPES = ["ppa", "offtake"];
+export type PriceCell = { value: string; label: string; count: number; median: number | null; low: number | null; high: number | null; records: Deal[] };
+
+/** The PPAs and offtakes whose stories state a price in US dollars per MWh. */
+export const priced = (deals: Deal[]): Deal[] => deals.filter((d) => PRICED_TYPES.includes(d.type) && d.price !== null);
+
+/** The priced deals by one dimension, most first; "" (not stated) last. */
+export function priceCells(deals: Deal[], dim: string): PriceCell[] {
+  const by = new Map<string, Deal[]>();
+  for (const d of priced(deals)) { const v = valueOf(d, dim); by.set(v, [...(by.get(v) ?? []), d]); }
+  const cells = [...by.entries()].map(([value, ds]) => {
+    const ps = ds.map((d) => d.price!);
+    const enough = ps.length >= MIN_DISCLOSED;
+    return { value, label: value === "" ? NOT_STATED : value, count: ps.length, median: medianOf(ps),
+      low: enough ? Math.min(...ps) : null, high: enough ? Math.max(...ps) : null,
+      records: [...ds].sort((a, b) => a.price! - b.price! || a.id.localeCompare(b.id)) };
+  });
+  return cells.sort((a, b) => (a.value === "" ? 1 : 0) - (b.value === "" ? 1 : 0) || b.count - a.count || a.label.localeCompare(b.label));
+}
+
+export type Placement = { scope: string; count: number; below: number; equal: number; above: number; median: number | null };
+
+/** A reader's deal placed against the disclosed prices of its technology and grid, else of its technology, else of
+ * every priced deal: the first scope with three or more prices. The MW narrows nothing (it is said beside the line). */
+export function place(deals: Deal[], x: { technology: string; grid: string; price: number }): Placement {
+  const p = priced(deals);
+  const tech = (d: Deal) => d.technology.toLowerCase() === x.technology.toLowerCase();
+  const scopes: [string, Deal[]][] = [];
+  if (x.technology && x.grid) scopes.push([`${x.technology} in ${x.grid}`, p.filter((d) => tech(d) && d.grid === x.grid)]);
+  if (x.technology) scopes.push([x.technology, p.filter(tech)]);
+  scopes.push(["every PPA and offtake that states a price", p]);
+  const [scope, ds] = scopes.find(([, ds]) => ds.length >= MIN_DISCLOSED) ?? scopes[scopes.length - 1];
+  const ps = ds.map((d) => d.price!);
+  return { scope, count: ps.length, below: ps.filter((v) => v < x.price).length, equal: ps.filter((v) => v === x.price).length,
+    above: ps.filter((v) => v > x.price).length, median: medianOf(ps) };
+}
+
+/** The check key of a price figure: deals|price_<count|median|low|high>|<dimension>|<value> ("-" for not stated). */
+export const priceKey = (stat: "count" | "median" | "low" | "high", dim: string, value: string) =>
+  `deals|price_${stat}|${dim}|${value === "" ? "-" : value}`;
+
 /** The check key of a cell's figure: deals|comp_<stat>|<dimension>|<value> (the value "-" for not stated). */
 export const compKey = (stat: "deals" | "with_price" | "with_mw" | "median_price" | "median_mw", dim: string, value: string) =>
   `deals|comp_${stat}|${dim}|${value === "" ? "-" : value}`;
