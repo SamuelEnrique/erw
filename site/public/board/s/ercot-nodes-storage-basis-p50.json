@@ -1,1 +1,0 @@
-{"id":"ercot-nodes-storage-basis-p50","label":"ERCOT nodes against the hub average","at":"storage points, median day-ahead basis, monthly","unit":"USD/MWh","freq":"M","t0":"2025-10-01","d":[0,31,61,92,123,151,182,212,243,273,304,335,365],"v":[0.4968,0.6552,0.273,1.7013,0.6402,0.4591,1.4072,1.6791,0.9904,0.6996,0.3953,2.4762,3.6568]}
