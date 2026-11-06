@@ -613,3 +613,7 @@ T024: the evidence "EUR 835 million (US$938 million) portfolio financing" and US
 ## Session 2286 (chain 179): a facility's country as a UK nation (1, the third read)
 
 U009 "in Newport, Wales": `facility_country` reads "in <place>, <country>" and counts the four UK nations as the United Kingdom. **1 to 0**; on the three facility fixtures only U009 changed.
+
+## Session 2287 (chain 179): an AI-power tag from another deal's words (1, the third read), a decision
+
+T039, Entergy's firm pipeline contracts, is tagged AI power because its story also says "Entergy sees progress on Arkansas data center deal", another deal. Two word rules were measured on all four deal fixtures and neither is taken: reading only the deal's asset would also untag D013 (Project Matador) and D021 (gas generation for a hyperscaler), both right; reading "data center deal" as another deal would also untag D039 ("CDC Signs Monster Data Center Deal"), a datacenter deal itself. The tag would need to know which sentence each deal comes from, which the extraction keeps only as one evidence sentence. Left as it is, by this decision.
