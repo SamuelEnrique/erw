@@ -1,6 +1,6 @@
 # Sessions 3147 to 3150: chain 186's steps 1 to 4, each still waiting
 
-Personal laptop, second window, 6 November 2026, 15:01 to 15:03 UTC. Opus 5.5. Branch `wip/3150-policy` (with `wip/3147-policy` to `wip/3149-policy` at the same commits as their reports).
+Personal laptop, second window, 6 November 2026, 14:59 to 15:00 UTC (the commit's time). Opus 5.5. Branch `wip/3150-policy` (with `wip/3147-policy` to `wip/3149-policy` at the same commits as their reports).
 
 As chain 186's file asks, a step that still waits is said in a few lines and passed:
 
