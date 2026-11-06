@@ -1,1 +1,0 @@
-{"id":"ercot-nodes-wind-basis-p50","label":"ERCOT nodes against the hub average","at":"wind plants' points, median day-ahead basis, monthly","unit":"USD/MWh","freq":"M","t0":"2025-10-01","d":[0,31,61,92,123,151,182,212,243,273,304,335,365],"v":[-1.7296,-4.0094,-2.4637,3.8422,-2.1373,-8.843,-7.5482,-2.8915,-5.5474,-1.6197,-2.6324,-0.3211,-0.7486]}
