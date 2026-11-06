@@ -4,7 +4,7 @@
 // band of significance; the MW and USD the records state as their own, summed by month where stated. Drawn by the
 // site's CategoryChart (SVG, a hover card, a Chart | Table toggle); every count and sum is lib/policymonitor.ts's,
 // which adds the file's fields and computes nothing else.
-import { CategoryChart } from "@/components/svgchart";
+import { CategoryChart, type CatSeries } from "@/components/svgchart";
 import { byBodyMonth, figureSums, sigBySector, sumKey, type MonitorRow } from "@/lib/policymonitor";
 
 const COLORS = ["series-1", "series-2", "series-3", "series-4", "series-5", "series-6", "series-7", "series-8"];
@@ -20,12 +20,12 @@ export function MonitorCharts({ rows }: { rows: MonitorRow[] }) {
       <div data-chart="policy-body-month">
         <CategoryChart id="policy-body-month" x={bm.months} unit="records" height={280}
           label="Records by the month of their newest document, by body (every record of the monitor's file)"
-          series={bm.series.map((s, i) => ({ name: s.name, color: COLORS[i % COLORS.length], values: s.values, kind: "bar", stack: "body", digits: 0 }))} />
+          series={bm.series.map((s, i): CatSeries => ({ name: s.name, color: COLORS[i % COLORS.length], values: s.values, kind: "bar", stack: "body", digits: 0 }))} />
       </div>
       <div data-chart="policy-sig-sector">
         <CategoryChart id="policy-sig-sector" x={ss.sectors.map((s) => s.replace(/_/g, " "))} unit="records" height={280}
           label="Records by the scorer's sector, by band of significance (the news rubric, a model's score)"
-          series={ss.series.map((s, i) => ({ name: s.name, color: COLORS[i], values: s.values, kind: "bar", stack: "sig", digits: 0 }))} />
+          series={ss.series.map((s, i): CatSeries => ({ name: s.name, color: COLORS[i], values: s.values, kind: "bar", stack: "sig", digits: 0 }))} />
       </div>
       <div data-chart="policy-figures">
         <h3 className="mb-1 text-sm">The figures stated, summed <span className={`text-xs text-muted ${tip}`} title="Each record's own figure, read from a title or a document's opening paragraph only, in MW or USD; a record that states none adds nothing. A sum is not an estimate of all actions: it is what the documents state.">by month, where stated</span></h3>

@@ -69,7 +69,8 @@ export function sortRows(rows: MonitorRow[], k: SortKey, dir: "asc" | "desc"): M
     const x = keyOf(a, k), y = keyOf(b, k);
     if (x === null && y !== null) return 1;
     if (y === null && x !== null) return -1;
-    if (x !== null && y !== null && x !== y) return (x < y ? -1 : 1) * s;
+    // session 3123: two numbers compare as numbers, anything else as text (strict TypeScript refuses "<" on string | number)
+    if (x !== null && y !== null && x !== y) return (typeof x === "number" && typeof y === "number" ? (x < y ? -1 : 1) : String(x) < String(y) ? -1 : 1) * s;
     return a.date !== b.date ? (a.date < b.date ? 1 : -1) : a.id < b.id ? -1 : 1;
   });
 }
