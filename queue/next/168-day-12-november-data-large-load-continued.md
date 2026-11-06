@@ -34,11 +34,14 @@ Long end 1:30. Pulls: GitHub only.
 
 1. Write the successor file for this machine in this file's form (`machine: data`, Opus 5.5 high effort, at least fourteen sessions numbered from the first free numbers after 3053, the first free file number on origin's main and every branch): every step of this chain that its note says did not finish, then the siting gaps rows still open that a public US source can close without a ruling, then the daily run's seven days and the records; these rules word for word. Commit it alone, push it to main, `git status -sb`.
 2. `scripts/precheck.py` from the main checkout; memory and disk free; `scripts/freeze.py status`.
-3. Chain 160's first unfinished step, as session 2983 of chain 160 writes it here. If chain 160 left none, the first of the rows below.
+3. Chain 160's first unfinished step, written by session 2983 of chain 160: **if chain 160's note says `wip/c160-data` did not land** (its "What landed" line), land it first by `archive/sessions/SESSION_2983_REPORT.md`, "To finish" (never between 14:00 and 16:15 UTC). If it landed, session 3041's step.
 
 ## Sessions 3041 and 3042: chain 160's other unfinished steps
 
-Long end 2:30 each. Pulls: as the step of chain 160 says. Session 2983 of chain 160 writes them here in chain 160's order; a step it does not name leaves the session to the next row of the siting gaps below.
+Long end 2:30 each. Pulls: as the step of chain 160 says. Written by session 2983 of chain 160, in chain 160's order (its note, "What did not, and why"):
+
+- **Session 3041: the first daily runs with the guards** (chain 160's sessions 2971, 2979 and 2980): the runner's runs from 14:00 UTC on 6 November, the first with chain 151's board guard on main (its `board_tests` line in the status), and this machine's from 17:00 UTC (`dm_test_findings` expected to pass), each failed step opened. If chain 162's sessions 2987 and 2995 have read them, say so and take session 3042's step.
+- **Session 3042: the owner's rulings, if any are written** (chains 153, 155, 157 and 160's notes): carried out where written in `docs/` or a queue file; with none, say so and take the next row below.
 
 ## Session 3043: ERCOT's four coincident peaks of summer 2026, again
 
