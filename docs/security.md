@@ -67,3 +67,20 @@ Every read below is a read: nothing was written to the database, to Supabase Aut
 ## The usage counts (the roadmap's item 7, its second half)
 
 The counts are recording: `site_usage_daily` holds days from 10 October 2026 to 19 October, and `site_usage_events` the day in progress (read on 20 October). What is sent and kept is in [`docs/methods/usage_counts.md`](methods/usage_counts.md): no cookie, no storage in the browser, no address, a hash that stands for a visitor for one UTC day. Nothing is sent when the browser asks not to be tracked. Which pages may count, and what, is the owner's ruling of 12 October 2026 ("no usage count on tool pages", `docs/roadmap.md`, "Rulings"); session 371 turned nothing on and changed nothing in `site/components/Usage.tsx` or `site/lib/usage.ts`. Whether the counts as they run today match that ruling everywhere (every page view is counted under its path, and a page in review under "In review (not opened)") is for Samuel to read against the ruling.
+
+## Dependency audit, 6 November 2026 (session 1503, chain 158)
+
+`npm audit` on the site's lockfile and `pip-audit --local` on the code machine's `.venv` (Python 3.14, `requirements-py314.txt`; pip-audit installed into a folder of its own under `runs/`, not into the venv).
+
+| Package | Where | Advisory | State |
+|---|---|---|---|
+| `next` 16.3.8 | the site | GHSA-2464-fhr4-w9xw (remote code execution in the image optimizer with SVG files), GHSA-673q-mjm6-r5xr (remote code execution in `use cache` functions returning typed arrays), GHSA-p3m5-59mp-jv5r (denial of service through server actions): 16.0.0 to 16.4.0, critical | **closed, session 1503**: `next` and `eslint-config-next` 16.4.5 (`site/package.json`, the lockfile); the landing's gate builds and checks the site on it |
+| `zod` 4.6.5 (through `@anthropic-ai/sdk`) | the site's server | GHSA-mrhx-c7xc-m3w5 (memory exhaustion validating oversized constrained collections), high | **closed, session 1503**: 4.6.7 in the lockfile |
+| `@typescript-eslint/*`, `typescript-eslint`, `minimatch`, `eslint-config-next` (8) | the linter, a developer's machine only | moderate | **open: Samuel**, as L9: the fix `npm audit` offers is `eslint-config-next` 15, a major step back for the linter; none runs in the site |
+| `cryptography` 46.0.7 | the machines' Python | GHSA-537c-gmf6-5ccf and PYSEC-2026-3552 to 3554 (fixed in 48.0.1 to 50.0.0) | **open: Samuel** (M7): a major version; it is held by the packages the connectors use, so a change is the data machine's to test |
+| `pillow` 12.3.0 | the machines' Python (the charts' pictures) | 39 advisories, every one fixed in 13.0.0 | **open: Samuel** (M7): a major version under matplotlib and the card renderer; a change needs the charts drawn again and compared |
+| `setuptools` 84.0.0 | the machines' Python (packaging) | GHSA-xmj3-9gf7-h52w, fixed in 84.1.0 | **open: Samuel** (M7): a minor step, the least risk of the four; not pinned in `requirements-py314.txt`, so it moves when the venv is made again |
+| `virtualenv` 20.39.1 | the machines' Python (tooling) | 19 advisories, fixed in 21.7.11 to 21.14.9 | **open: Samuel** (M7): a major version, used by no run |
+
+The other 114 Python packages of the venv carry no advisory known to pip-audit on 6 November.
+
