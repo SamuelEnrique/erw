@@ -32,7 +32,14 @@ Long end 1:30 each. One step a session, in chain 173's order, as session 1564 li
 
 ### Unfinished steps (written by session 1564 of chain 173)
 
-(To be filled by session 1564. One line a step, in chain 173's order: the session that owned it, what remains, and the exact commands where the step was a landing.)
+1. Session 1551 (the landing of sessions 1526 and 1542), **only if `wip/1542-periodicals` is not yet an ancestor of `origin/main`** (chain 181 runs first and lands it if the window has closed):
+   - The branch is `wip/1542-periodicals` at `3737ef1fd`: session 1526's scrolling tables and session 1542's fault 58. Its gate passed at 14:25 UTC on 6 November (suite 7903 tests OK; `check_values` 7815 of 7815 but the `/deals` and know-your-grid floors; routes, cross-checks and CSP by hand).
+   - Not between 14:00 and 16:15 UTC: `git -C ../erw-1542 fetch origin`, then `git -C ../erw-1542 merge --no-edit origin/main`, then `git -C ../erw-1542 push origin wip/1542-periodicals`.
+   - If main brought code since `3737ef1fd`, run the gate again: `.venv/Scripts/python.exe scripts/land_check.py --ref wip/1542-periodicals --task 1544-periodicals --port 3542 --lock-as s<N> --keep-worktree`. If it fails only on those two floors, run `check-routes`, `check-cross-checks` and `check-csp` against the kept build.
+   - `node site/scripts/snapshot-live.mjs take s<N>-before`.
+   - Push `task/1544-periodicals` only after `git merge-base --is-ancestor origin/main <sha>`, after trial-merging the other `task/` branches.
+   - Wait by sha (`runs/s1523/wait_merge.sh` with the branch name changed), then `take s<N>-after` and `compare`.
+   - Delete `wip/1542-periodicals` and `wip/1526-a11y` on origin; remove `../erw-1542` and `../erw-1526`.
 
 ## Sessions 1586 to 1590: the faults chain 173 left open
 
@@ -40,7 +47,11 @@ Long end 1:30 each. One fault a session, as session 1564 lists them below: the f
 
 ### Open faults (written by session 1564 of chain 173)
 
-(To be filled by session 1564: the faults chain 173 left open, one a line, by owning file. When fewer than five are open, the free sessions take the next item of `docs/roadmap.md` that needs no ruling and no design, saying which.)
+- `site/components/board/` (the board's chain): `/board`'s scrolling region not reachable by keyboard (`#other > details > div > div`, still there on main at `9ee7e847b`). The fix is `lib/cells.ts`'s `scrollRegion`. Take it only once no `task/16xx-board` or `wip/16xx-board` branch is in flight; otherwise leave it and say so.
+- `site/public/findings/` and `site/app/research/card/` (the desktop's): the siting cards' six pictures answer 404 on main at `9ee7e847b`. A line in the report only.
+- `site/app/internal/open/page.tsx` line 31 (`autocomplete="off"`), and the battery page's decisions block: for Samuel's ruling, not changed until he rules.
+
+Fewer than five are this chain's to fix, so the free sessions take the next item of `docs/roadmap.md` that needs no ruling and no design, saying which. Session 1529 of chain 163 found none on 6 November.
 
 ## Session 1591: the records and the clean-up
 
