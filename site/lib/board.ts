@@ -16,6 +16,8 @@ export type Row = {
   last?: { t: string; v: number }; moves?: Partial<Record<MoveKey, Move | null>>;
   range?: { lo: number; hi: number; n: number; pos: number | null } | null;
   avg7?: { v: number; n: number }; avg30?: { v: number; n: number }; lo30?: number; hi30?: number;
+  /** session 1613: the trailing twelve-month mean (the values held of the 365 days ending on the latest) and the latest less it */
+  avg365?: { v: number; n: number; ch: number };
   spark?: { t0: string; d: number[]; v: number[] };
   /** session 1118: what a spread's newest value was made of (the builder's spark_inputs, dark_inputs, crack_inputs) */
   inputs?: { t: string; hub?: number; gas?: number; gas_t?: string; coal?: number; coal_t?: string; heat_rate?: number; gasoline?: number; diesel?: number; crude?: number; product?: number };
@@ -117,7 +119,7 @@ export function localHour(ms: number, tz: string): string {
 // says more than its license) and PJM's "licensed source needed". Pure: the held grids are given (lib/license.ts).
 const GRID_OF_ID: Record<string, string> = { isone: "ISO-NE", nyiso: "NYISO", miso: "MISO", pjm: "PJM", ercot: "ERCOT", caiso: "CAISO", spp: "SPP" };
 export const gridOfRow = (r: { id: string; tags?: Record<string, string> }): string => r.tags?.grid ?? GRID_OF_ID[r.id.split("-")[0]] ?? "";
-const FIGURES = ["last", "moves", "range", "avg7", "avg30", "lo30", "hi30", "ext", "spark", "hourly", "inputs"] as const;   // ext: session 1611
+const FIGURES = ["last", "moves", "range", "avg7", "avg30", "avg365", "lo30", "hi30", "ext", "spark", "hourly", "inputs"] as const;   // ext: session 1611
 export function heldNote(grid: string): string {
   return `${grid}'s own terms ask for permission to republish its prices, and none is recorded yet (docs/licenses.md, site/data/license_status.json): license needed. This row is held, not shown, until a permission is recorded.`;
 }

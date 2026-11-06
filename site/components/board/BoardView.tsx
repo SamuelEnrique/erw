@@ -111,6 +111,18 @@ function Curve({ row }: { row: Row }) {
   );
 }
 
+/** Session 1613: the trailing twelve-month mean, and the latest less it; blank on a stale row. */
+function Avg365Cell({ row, built }: { row: Row; built: string }) {
+  const a = row.avg365;
+  if (!a) return <span className="text-xs text-muted" title="A twelve-month mean is drawn once enough of the last 365 days are held, as the one-year range is.">not held yet</span>;
+  if (closeAge(row, built)?.stale) return <span className="text-xs text-muted" title={`Not shown: the series is stale (${closeAge(row, built)!.words}).`}>stale</span>;
+  return (
+    <span title={`the mean of the ${a.n} values held in the 365 days to ${dateWords(row.last!.t, row.freq)}; the latest is ${signed(a.ch, row.unit)} ${row.unit} from it`} data-avg365={row.id}>
+      <span data-n={`${row.id}|avg365`}>{fmt(a.v, row.unit)}</span> <span className="text-muted" data-n={`${row.id}|vs365`}>{signed(a.ch, row.unit)}</span>
+    </span>
+  );
+}
+
 /** Session 1611: the latest complete day's highest and lowest hour, with their local times; blank on a stale row. */
 function ExtCell({ row, built }: { row: Row; built: string }) {
   const e = row.ext;
@@ -172,7 +184,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
       {row.link ? <span className="ml-1.5 text-xs" onClick={(e) => e.stopPropagation()} data-row-link={row.id}><SiteLink href={row.link.href}>{row.link.words}</SiteLink></span> : null}
     </th>
   );
-  const cols = 7 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; session 1611: the day's extremes
+  const cols = 8 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
   if (row.status !== "ok") {
     return (
       <tr className="border-b border-rule/70" data-row={row.id} data-status={row.status} hidden={hidden} id={domId}>
@@ -197,6 +209,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
       {MOVES.map(([k]) => <td key={k} className="py-1 pr-3 text-right text-xs"><MoveCell row={row} k={k} built={file.built} /></td>)}
       <td className="py-1 pr-3 text-right text-xs">{row.avg7 ? <span title={`the mean of the ${row.avg7.n} values held in the 7 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg7`}>{fmt(row.avg7.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 7-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="py-1 pr-3 text-right text-xs">{row.avg30 ? <span title={`the mean of the ${row.avg30.n} values held in the 30 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg30`}>{fmt(row.avg30.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 30-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
+      <td className="whitespace-nowrap py-1 pr-3 text-right text-xs"><Avg365Cell row={row} built={file.built} /></td>
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted">{row.lo30 !== undefined ? <span title="the lowest and highest value of the last 30 days">{fmt(row.lo30, row.unit)} to {fmt(row.hi30!, row.unit)}</span> : null}</td>
       <td className="py-0.5 pr-3 text-right" onClick={(e) => e.stopPropagation()}><Spark row={row} /></td>
       <td className="py-1 pr-2 text-right"><RangeBar row={row} /></td>
@@ -213,7 +226,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
   // its rows' names behind a toggle; the held rows stay in the page, blank, as they were (lib/board.ts, heldLines)
   const { shown, held } = heldLines(rows);
   const [named, setNamed] = useState<Record<string, boolean>>({});
-  const cols = 7 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; session 1611: the day's extremes
+  const cols = 8 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
   return (
     <section id={group.id} className="scroll-mt-4" aria-label={group.title} data-group={group.id}>
       <GroupFold title={group.title} open={unfolded} onToggle={fold} meta={<>
@@ -242,6 +255,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
               {MOVES.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal">{n}</th>)}
               <th className="pr-3 text-right font-normal">7-day avg</th>
               <th className="pr-3 text-right font-normal">30-day avg</th>
+              <th className="pr-3 text-right font-normal" title="The mean of the values held in the 365 days ending on the latest, and the latest less it (session 1613)">12-month avg</th>
               <th className="pr-3 text-right font-normal">30-day low to high</th>
               <th className="pr-3 text-right font-normal" title="The last 90 days of a daily row, a year of a weekly one, three years of a monthly or quarterly one (session 1609)">Trend</th>
               <th className="pr-2 text-right font-normal">One-year range</th>

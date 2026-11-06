@@ -191,6 +191,11 @@ def stats(series, freq="D"):
         lo, hi = min(window), max(window)
         rng = dict(lo=round(lo, 4), hi=round(hi, 4), n=len(window), pos=round((v0 - lo) / (hi - lo), 4) if hi > lo else None)
     out = dict(last=dict(t=d0.isoformat(), v=round(v0, 4)), moves=moves, range=rng)
+    # session 1613 (chain 165): the trailing twelve-month mean, of the values held in the 365 days ending on the latest,
+    # when as many are held as the one-year range needs, and the latest value less it
+    if len(window) >= RANGE_MIN[freq]:
+        mean = sum(window) / len(window)
+        out["avg365"] = dict(v=round(mean, 4), n=len(window), ch=round(v0 - mean, 4))
     if freq == "D":
         for n in (7, 30):
             vals = [series[d] for d in days[-n:] if d0 - dt.timedelta(days=n) < d <= d0]

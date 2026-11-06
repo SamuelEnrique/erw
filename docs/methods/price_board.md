@@ -432,3 +432,10 @@ Tests: `tests/test_board_1611.py`.
 Under each power row's day high and low, two lines: the last **7** and **30** days, each of the complete local operating days among the 7 or 30 ending on the row's latest day: its **peak hour** (value, day and local time, on hover) and the **hours above 100, 250 and 1,000 USD/MWh** (`h>100/250/1000`), from the row's own hours (`ext.w`, `ext.m`: the days counted, the first, the hours, the peak, the counts). A window short of days says how many it holds on hover; the mean of the week and of the month are the row's 7-day and 30-day averages, already columns. Hours, not intervals (session 1611's note): a count of 15-minute intervals above a price is not held on the board.
 
 Tests: `tests/test_board_1612.py`.
+
+## The comparison: a year before and the twelve-month mean (session 1613, chain 165, 6 November 2026)
+
+- **Against the same date a year before**: the Year move, as since session 132 (the newest value held at least 365 days before and no more than 6 days older than that; its date on hover).
+- **Against the trailing twelve-month mean**: a column "12-month avg", the mean of the values held in the 365 days ending on the row's latest (`avg365`: the mean, the count, and the latest less it, drawn beside the mean). Written only when as many values are held as the one-year range needs (180 daily, 26 weekly, 9 monthly, 4 quarterly), so a zone with six weeks of history reads "not held yet". On a stale row it reads "stale". A held grid's rows lose it (`holdRows`).
+
+Tests: `tests/test_board_1613.py`.

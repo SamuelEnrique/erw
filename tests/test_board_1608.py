@@ -82,7 +82,7 @@ class ThePage(unittest.TestCase):
     def test_the_wiring(self):
         with open(os.path.join(SITE, "components", "board", "BoardView.tsx"), encoding="utf-8") as f:
             v = f.read()
-        self.assertEqual(v.count("const cols = 7 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);"), 2)   # session 1611: the extremes
+        self.assertEqual(v.count("const cols = 8 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);"), 2)   # session 1611: the extremes; 1613: the 12-month mean
         self.assertIn("<MoveCell row={row} k={k} built={file.built} />", v)
         self.assertIn(">stale</span>", v)
         for name in ("check-board.mjs", "check-board-v4.mjs"):
