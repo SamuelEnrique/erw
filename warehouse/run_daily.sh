@@ -318,6 +318,8 @@ model_step policy_reads "$PYTHON" warehouse/policy/reads.py
 model_step deals "$PYTHON" warehouse/deals/extract.py
 # Session 27: every party of energy_deals is a row of energy_companies (tool 10), merged with the Thesis Builder's rows
 run_other companies_from_deals "$PYTHON" warehouse/companies/seed_from_deals.py
+# Session 2234: the deals' counterparties, one row a canonical name (warehouse/deals/counterparties.py, no model)
+run_other deal_counterparties "$PYTHON" warehouse/deals/counterparties.py
 # Session 16: datacenter facilities from the newly scored datacenter_power stories (tool 4)
 model_step datacenters "$PYTHON" warehouse/datacenters/extract.py
 # Session 22: the tracker's one table: the news facilities, the operator sites and the queue rows that

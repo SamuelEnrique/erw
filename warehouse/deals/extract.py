@@ -77,6 +77,7 @@ sys.path.insert(0, HERE)
 import deal_parties  # noqa: E402  session 531: one deal across days, two parties
 import fields  # noqa: E402  session 2232: the tracker's fields, one vocabulary each
 import dedupe  # noqa: E402  session 2233: one record a deal
+import counterparties  # noqa: E402  session 2234: one name a party
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
@@ -112,6 +113,7 @@ DEAL_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "m
              "ai_power", "confidence", "n_stories", "story_ids", "story_urls", "model_id", "extracted_at"]
 DEAL_COLS_V1 = list(DEAL_COLS)   # the table's columns from session 15 to session 2231
 DEAL_COLS = DEAL_COLS_V1 + fields.NEW_COLS   # session 2232: the new fields beside the old (warehouse/deals/fields.py)
+DEAL_COLS = DEAL_COLS + counterparties.ROLE_COLS   # session 2234: the canonical name, parent and EIA-861 number a role
 EVIDENCE_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price", "currency",
                  "status", "source", "source_url", "deal_id", "story_id", "evidence"]
 EVIDENCE_COLS_V1 = list(EVIDENCE_COLS)
@@ -318,7 +320,9 @@ def upgrade_file(path, old_cols, new_cols, row_fn, log):
     cols = list(pd.read_csv(path, skiprows=len(head), nrows=0).columns)
     if cols == new_cols:
         return 0
-    old = ip.read_series(path, old_cols)
+    if cols[:len(old_cols)] != old_cols or not set(cols) <= set(new_cols):
+        raise RuntimeError(f"{path} has columns {cols}: neither the old shape nor a shape of this table; not upgraded")
+    old = ip.read_series(path, cols)   # the old shape, or an earlier new one (session 2234: any prefix of the new)
     new = pd.DataFrame([row_fn(r) for r in old.to_dict("records")], columns=new_cols).fillna("")
     tmp = path + ".upgrade"
     with open(tmp, "w", encoding="utf-8", newline="") as f:
@@ -580,6 +584,8 @@ def main(argv=None):
         header_common = [f"Retrieved: {run_id} (UTC) by warehouse/deals/extract.py from warehouse/output/{NEWS}.csv",
                          f"Run log: warehouse/output/logs/deals_extract_{run_id}.log"]
         out_deals = pd.DataFrame(list(by_id.values()), columns=DEAL_COLS).fillna("")
+        if len(out_deals):   # session 2234: every row's canonical names, parents and EIA-861 numbers, from today's names
+            out_deals = counterparties.annotate(out_deals)[DEAL_COLS]
         if len(out_deals):
             ip.write_csv(out_deals, DEALS, [
                 "Energy Research Warehouse (ERW): Energy deals extracted from scored news stories (platform tool 6)",

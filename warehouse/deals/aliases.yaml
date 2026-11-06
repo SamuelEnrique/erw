@@ -1,0 +1,20 @@
+# The deal tracker's aliases (session 2234, chain 156): names a party goes by that the rules of
+# warehouse/deals/counterparties.py cannot see (an acronym, a business line's name), each with the stored story
+# (news_stories event_id) whose words show it. An alias without such a story is not added: the rule is that a name is
+# normalized only where the match is exact or the session shows the alias.
+#
+#   name:     the canonical name
+#   aliases:  the other spellings
+#   parent:   the parent company, a second field (never in place of the name)
+#   eia861:   an EIA-861 utility number, only where the story or EIA's own file names the utility
+#   evidence: the story id, and the words of it that show the alias
+
+aliases:
+  - name: American Electric Power
+    aliases: [AEP]
+    evidence: "news:3d1287fe7d88000f (POWER Magazine, 2026-10-19): American Electric Power (AEP) and X-energy have agreed to evaluate a 960-MW small modular reactor (SMR) project in Indiana"
+
+  - name: Amazon Web Services
+    aliases: [AWS]
+    parent: Amazon
+    evidence: "news:3dde092ed86cf932: Amazon's AWS Shows Signs of Weakness as Competitors Charge Ahead"

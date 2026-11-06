@@ -213,3 +213,17 @@ Twelve stories make **four records**, each with its three sources; the earliest 
 | Row | State after session 2233 |
 |---|---|
 | A10 the open duplicate pairs | done: pairs 1 and 2 folded in the register; pair 3 not a duplicate; the extraction folds such pairs itself from now on |
+
+## Session 2234: the counterparties
+
+`warehouse/deals/counterparties.py` (new) gives every deal `buyer_name`, `seller_name` (canonical), `buyer_parent`, `seller_parent` (a second field) and `buyer_eia861`, `seller_eia861`, and builds the directory `deal_counterparties` (the seed of the company database, tool 10; method note `docs/methods/deal_counterparties.md`; held as `energy_deals` is). Run read only over the stored 529 deals (to the scratchpad, not `warehouse/output`):
+
+- **481 counterparties** from 505 spellings: 416 companies, 44 AI buyers, 21 governments; 109 with two or more deals. Joined: Constellation and Constellation Energy (5 deals, 3,790 MW stated by 2), NextEra and NextEra Energy, AES and AES Corp, Viper, Kairos, Glenfarne, MidOcean, Crescent, Ithaca, Singtel; AEP and American Electric Power (6 deals, by `aliases.yaml` and its story); the US government (16 deals, 8 spellings).
+- **Descriptions left out** (the audit's class 5): "investors" (10 fields), "banks" (3), "lenders", "owners", "a startup".
+- **Fields of several parties split** ("Nvidia, Dell", "Apollo and Blackstone", "BP, Woodside and Chevron"): each party counted.
+- **Parents** only where the words show them: 11 (ADNOC's XRG, BlackRock's GIP, Blackstone's QTS, EIG's MidOcean, MAIRE's Tecnimont, the units of Amazon, Constellation Energy, OGE Energy, Aditya Birla, Geely Holding, General Motors' venture arm), plus Amazon Web Services by alias. A first word shared (Related Digital and Related Companies, Golar LNG) gives none.
+- **EIA-861 numbers: 0 matched.** The deals name holding companies (Duke Energy, Entergy, Dominion Energy, AES, Black Hills, NiSource), each the first words of several operating utilities in EIA-861, and the stories do not say which. Session 2250 reads the names with two or more deals for aliases a story shows.
+
+| Row | State after session 2234 |
+|---|---|
+| A5 a party a description, wrong or missed | the descriptions are out of the directory and the prompt (session 2232) no longer returns them; the lender and borrower roles follow the extractor's rule (the lender is the buyer); a party wrong stays a fault of the extraction (session 2249 reads it again) |
