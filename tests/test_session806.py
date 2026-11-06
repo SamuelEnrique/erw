@@ -75,17 +75,20 @@ class TheFiveNumbers(unittest.TestCase):
 
     def test_five_lines_in_their_order(self):
         L = self.lines()
-        self.assertEqual(len(L), 5)
+        # session 1460 (chain 150, faults 28 and 29): five rows, then the Tables line that holds their keys
+        self.assertEqual(len(L), 7)
+        self.assertEqual(L[5], "")
+        self.assertEqual(L[6], "Tables: the deal of the week, `energy_deals` deal:1c055d98aed350fd; the datacenter load, "
+                               "`datacenter_projects` dc:a; the chart's figure, template `watch_battery_discharge_us`, "
+                               "`docs/analysis/2026-W41/chart_of_the_week.json`.")
         self.assertEqual(L[0], "- **Price move of the week:** ERCOT HB_NORTH day-ahead averaged 41.94 USD/MWh over the week, against 32.82 USD/MWh "
                                "the week before (+9.12 USD/MWh, +27.8%) [1].")
         self.assertEqual(L[1], "- **US48 peak demand:** 612,345 MW in the hour starting 2026-10-07 21:00 UTC [6].")
-        self.assertEqual(L[2], "- **Deal of the week, by US dollars:** USD 12 billion, Shell and Equinor, Bay du Nord Oil Project (acquisition, 2026-10-09; "
-                               "`energy_deals` deal:1c055d98aed350fd).")
-        self.assertEqual(L[3], "- **Largest new datacenter load first reported this week:** 1,200 MW, Crusoe, Spark, Abilene, TX (`datacenter_projects` dc:a).")
+        self.assertEqual(L[2], "- **Deal of the week, by US dollars:** USD 12 billion, Shell and Equinor, Bay du Nord Oil Project (acquisition, 2026-10-09).")
+        self.assertEqual(L[3], "- **Largest new datacenter load first reported this week:** 1,200 MW, Crusoe, Spark, Abilene, TX.")
         # session 1446 (fault 28): the chart's latest period is the week before W41, and the row says so
         self.assertEqual(L[4], "- **From the chart of the week:** Lower 48 battery discharge, daily mean of the week: 45,968 MWh a day in 2026-09-28 to "
-                               "2026-10-04 (the week before: the chart's latest period ends before this week) "
-                               "(template `watch_battery_discharge_us`, `docs/analysis/2026-W41/chart_of_the_week.json`).")
+                               "2026-10-04 (the week before: the chart's latest period ends before this week).")
 
     def test_a_fuel_move_wins_when_it_is_the_largest_in_percent(self):
         facts = {"dam": [dict(label="SPP", node="SPPSOUTH_HUB", table="iso_dam_hub_prices", m1=30.00, m0=29.50, ref="[1]")],

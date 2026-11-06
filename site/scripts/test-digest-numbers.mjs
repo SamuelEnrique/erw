@@ -370,4 +370,22 @@ Tables: [1] \`eia_fuel_spot_prices\` (eia:petroleum/pri/spt); [2] \`eia930_all_d
   assert.ok(f.some((x) => x.key === "digest_demand|eia930_all_demand|eia930:US48|demand_mw|2026-10-25T23:00:00Z"));
 });
 
+// session 1461 (chain 150, fault 41): the chart of the day drawn from its record's points, a hover on each
+test("the chart is drawn with a hover on each point", () => {
+  const p = { x: ["2026-04-01", "2026-05-01", "2026-06-01"], series: [{ name: "receipts", values: [100, null, 251] }], unit: "kbbl", decimals: 1 };
+  const svg = D.chartSvg(p, "Receipts by tanker & barge");
+  assert.ok(svg.startsWith('<svg class="digest-chart" viewBox="0 0 640 300" role="img" aria-label="Receipts by tanker &amp; barge"'), svg.slice(0, 120));
+  assert.equal((svg.match(/<circle /g) || []).length, 2);   // the missing value has no point
+  assert.ok(svg.includes("<title>2026-04-01: 100.0 kbbl</title>"));
+  assert.ok(svg.includes("<title>2026-06-01: 251.0 kbbl</title>"));
+  assert.ok(svg.includes(">251.0</text>") && svg.includes(">100.0</text>"));   // the axis: the highest and the lowest
+  assert.ok(!/style=|<script/.test(svg));   // the CSP: no style attribute, no script
+  const two = D.chartSvg({ x: ["a", "b"], series: [{ name: "A", values: [1, 2] }, { name: "B", values: [2, 3] }] }, "Two");
+  assert.ok(two.includes("<title>B, b: 3.00</title>"));   // two series: the series' name first
+  assert.ok(two.includes('stroke-dasharray="5 3"'));
+  assert.equal(D.chartSvg(undefined, "x"), "");
+  assert.equal(D.chartSvg({ x: [], series: [] }, "x"), "");
+  assert.equal(D.chartSvg({ x: ["a"], series: [{ name: "s", values: [null] }] }, "x"), "");
+});
+
 console.log(`${n} passed`);

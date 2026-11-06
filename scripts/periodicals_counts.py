@@ -29,7 +29,7 @@ import sys
 ADJ = re.compile(r"\b(massive|unprecedented|significant|significantly|major|critical|critically|key|huge)\b", re.I)
 TRADE = re.compile(r"\b(critical minerals?|the key to|key to)\b", re.I)
 ITEM = re.compile(r"^\d+\. \*\*(?P<head>.+?)\*\*\s*\((?P<sector>[^)]*)\)\s*$")
-BULLET = re.compile(r"^- (?P<head>.+?) \((?P<sector>[^)]*)\): (?P<why>.*)$")
+BULLET = re.compile(r"^- (?P<head>.+?) \((?P<sector>[^)]*)\)(?::|\.) (?P<why>.*)$")   # session 1467: or "). " with no line
 LINK = re.compile(r"\]\((https?://[^)\s]+)\)")
 FIG = re.compile(r"(?:(?:USD|US\$|\$|€|£)\s?[\d][\d,.]*\s?(?:billion|million|trillion|bn|mn|b|m|mm|k)?"
                  r"|[\d][\d,.]*\s?(?:billion|million|trillion|bn|mn)?\s?(?:MW|GW|GWh|MWh|TWh|kV|bcf|Bcf|mtpa|tonnes|tons|barrels|bpd|b/d|%|percent)"
@@ -69,7 +69,7 @@ def read_items(lines):
             if i + 1 < len(lines):
                 nxt = lines[i + 1].strip()
                 why = nxt.split("Sources:")[0].strip()
-                if why.startswith("Also on this topic") or why.startswith("What the evidence"):
+                if re.match(r"Also (?:on this topic|in [a-z][a-z ]*):", why) or why.startswith("What the evidence"):   # 1466
                     why = ""
             items.append((m.group("head"), sector_of(m.group("sector")), why, section))
         else:
@@ -97,7 +97,7 @@ def fold_words(lines):
             continue
         if in_numbers and s.startswith("- "):
             continue
-        if s.startswith("Also on this topic") or s.startswith("# "):
+        if re.match(r"Also (?:on this topic|in [a-z][a-z ]*):", s) or s.startswith("# "):   # session 1466: either label
             continue
         s = re.sub(r"\s*Sources?:.*$", "", s)
         s = re.sub(r"\[([^\]]+)\]\(https?://[^)]+\)", r"\1", s)

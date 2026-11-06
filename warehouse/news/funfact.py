@@ -664,6 +664,26 @@ def on_this_day(date, log):
     return None
 
 
+# Session 1459 (chain 150, fault 16 of docs/reviews/periodicals-faults-2026-11-05.md): a bank row keeps the text it was
+# verified with ("9310.49 USD/MWh", "with 4266.", "1700 MW"); the issue prints its numbers in the issue's style, with a
+# thousands separator ("470,627 MW" in the numbers block). A year (an integer from 1000 to 2100 with no unit after it), a
+# date's digits and an identifier's ("HB_WEST", "W44") are left as they are.
+STYLE_NUMBER = re.compile(r"(?<![\w.,/-])(-?)(\d{4,})(\.\d+)?(?![\w,/-]|\.\d)(\s*(?:%|[A-Za-z$/]+))?")
+UNIT_AFTER = re.compile(r"\s*(?:%|(?:USD|EUR|GBP|MW|MWh|GW|GWh|TWh|kW|kWh|kV|MMBtu|Bcf|bcf|barrels?|bbl|bpd|tons?|"
+                        r"tonnes?|miles?|km|units?|homes?|customers?|people|intervals?|plants?|generators?)\b)")
+
+
+def issue_style(text):
+    """The numbers of a fact as the issue prints them: 9310.49 to 9,310.49, 4266 to 4,266, 1700 MW to 1,700 MW; a year
+    such as 2021 or 1891 is left, as is a number already with its separator or inside a date or an identifier."""
+    def one(m):
+        sign, whole, frac, after = m.group(1), m.group(2), m.group(3) or "", m.group(4) or ""
+        if not frac and 1000 <= int(whole) <= 2100 and not UNIT_AFTER.match(after):
+            return m.group(0)
+        return f"{sign}{int(whole):,}{frac}{after}"
+    return STYLE_NUMBER.sub(one, str(text or ""))
+
+
 def write_item(date, log):
     bank = read_bank()
     ok = bank[(bank["status"] == "verified") & (bank["used_on"] == "")]
@@ -688,6 +708,7 @@ def write_item(date, log):
             item.update(second=otd[0], structure="on_this_day", sources=item["sources"] + [otd[1]])
     elif want != "none" and pick["structure"] == want and pick["second"]:
         item.update(second=pick["second"], structure=want, sources=srcs)
+    item.update(fact=issue_style(item["fact"]), second=issue_style(item["second"]))   # session 1459 (fault 16)
     problems = check_record(item)
     if problems and item["second"]:
         log(f"  item second half failed ({problems}); the fact runs alone")

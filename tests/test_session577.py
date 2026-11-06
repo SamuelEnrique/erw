@@ -106,7 +106,10 @@ class EveryWhyLineGoesThroughIt(unittest.TestCase):
             self.assertNotIn("plain(x['why'])}", src.replace("why_line(x['why'])}", ""))
             self.assertNotIn('brief.plain(top["why"])', src)
         # session 801: the printed headline goes with the why line, why_line(r['why'], heads[...])
-        self.assertGreaterEqual(inspect.getsource(brief.main).count("why_line(r['why'], heads["), 3)
+        # session 1467: the by-sector and AI lines are written by sector_line(r, heads[...]), which holds the call
+        main = inspect.getsource(brief.main)
+        self.assertGreaterEqual(main.count("why_line(r['why'], heads[") + main.count("sector_line(r, heads["), 3)
+        self.assertIn('why_line(r["why"], head)', inspect.getsource(brief.sector_line))
 
     def test_the_digest_s_policy_lines(self):
         with tempfile.TemporaryDirectory() as d:

@@ -289,8 +289,13 @@ class TheFiveNumbers(unittest.TestCase):
         text = "\n".join(L)
         self.assertTrue(cr.FIVE_DAM.search(text))
         self.assertTrue(cr.FIVE_US48.search(text))
-        self.assertTrue(cr.FIVE_DEAL.search(text))
-        self.assertTrue(cr.FIVE_LOAD.search(text))
+        # session 1460 (faults 28 and 29): the keys are on the five's Tables line; the tracer reads them there
+        deal, deal_mw, load, chart = cr.five_keyed(text)
+        self.assertEqual(deal, ("USD 12 billion", "deal:a"))
+        self.assertEqual(load, ("1,200", "dc:a"))
+        self.assertIsNone(deal_mw)
+        self.assertIsNone(chart)
+        self.assertNotIn("deal:a)", text.split("Tables:")[0])
         self.assertIn("no chart of the week was picked", text)
 
 
@@ -1218,6 +1223,189 @@ class Session1437WhyLines(unittest.TestCase):
             self.assertIn("one fact the story", text)
 
 
+class Session1458NothingNew(unittest.TestCase):
+    """Session 1458 (chain 150, fault 7 of docs/reviews/periodicals-faults-2026-11-05.md): a why line that names no party,
+    place, date, quantity or rule the headline lacks fails when it shares a quarter of its content words with the
+    headline or strings two clauses on a semicolon; it prints nothing (rulings item 16)."""
+
+    def test_the_faulted_line_fails_and_prints_nothing(self):
+        head = "US executives quit $25bn gas venture over claims of secret Russian control"
+        why = ("LNG or gas project faces executive departures and alleged Russian involvement claims; geopolitical risk to "
+               "US energy sector.")
+        self.assertLess(brief.restates(why, head), brief.RESTATES_SHARE)
+        self.assertEqual(brief.new_things(why, head), [])
+        self.assertEqual(brief.why_check(why, head), ["names nothing the headline lacks"])
+        self.assertEqual(brief.why_line(why, head), "")
+
+    def test_a_line_that_names_a_new_thing_passes(self):
+        # a figure, a party, a quantity in words, a month: each is a thing the headline lacks
+        cases = [
+            ("Maryland's first bulk storage procurement nets 440 MW, short of its target",
+             "Awards fell short of the 800-MW target, showing PJM capacity strain and limits on storage.", ["800", "PJM"]),
+            ("India's Coal Crisis Deepens as Power Demand Surges",
+             "Half of India's coal plants operating with low fuel stocks; supply squeeze threatens power generation.", ["Half"]),
+            ("Utility seeks rate rise for grid upgrades",
+             "Bills would climb from June for its customers.", ["June"]),
+        ]
+        for head, why, new in cases:
+            with self.subTest(head):
+                self.assertEqual(brief.new_things(why, head), new)
+                self.assertEqual(brief.why_check(why, head), [])
+                self.assertEqual(brief.why_line(why, head), why)
+
+    def test_a_demonym_and_a_generic_word_name_no_one_new(self):
+        head = "Qatar extends LNG force majeure as Hormuz disruptions continue"
+        self.assertEqual(brief.new_things("Extended force majeure on Qatari LNG keeps US supply short.", head), [])
+        self.assertEqual(brief.new_things("AI datacenter demand meets Qatari LNG.", head), [])
+
+    def test_the_semicolon_filler_fails_whatever_its_share(self):
+        head = "NTT in final talks to build $6.3bn data center for Anthropic in Japan, report says"
+        why = "AI data center capex; power demand commitment in final negotiation stages."
+        self.assertEqual(brief.why_check(why, head), ["names nothing the headline lacks"])
+        why = "Hormuz status drives oil, LNG and tanker pricing; stalled talks keep supply risk elevated."
+        head = "Iran says US response to its proposal to reopen Hormuz was 'insufficient'"
+        self.assertLess(brief.restates(why, head), brief.NOTHING_NEW_SHARE)
+        self.assertEqual(brief.why_check(why, head), ["names nothing the headline lacks"])
+
+    def test_a_consequence_with_little_of_the_headline_stays(self):
+        head = "Two more oil tankers attacked near Strait of Hormuz"
+        why = "Further attacks on crude and product tankers raise supply risk and shipping costs in a chokepoint."
+        self.assertLess(brief.restates(why, head), brief.NOTHING_NEW_SHARE)
+        self.assertEqual(brief.why_check(why, head), [])
+
+    def test_another_fault_is_named_by_itself(self):
+        # the rule is named last: a line with an adjective or a hollow verb is named by that alone
+        head = "A deal"
+        self.assertEqual(brief.why_check("A major deal for the grid.", head), ["adjective: major"])
+
+    def test_the_13_stored_issues_regenerated(self):
+        """The items of the stored issues of 25 September to 23 October, each line passed through why_line with and
+        without the rule, written to the test's own folder (no stored issue rewritten): 463 items, 324 printed a line
+        before, 224 with the rule; every line printed passes the check."""
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import periodicals_counts as pc
+        files = sorted(f for f in os.listdir(os.path.join(ROOT, "docs", "digest"))
+                       if re.fullmatch(r"2026-\d\d-\d\d\.md", f) and f <= "2026-10-23.md")
+        if len(files) < 15:
+            self.skipTest("the stored issues are not here")
+
+        def first(why):
+            m = brief.sentence_end(why)
+            return why[:m.start() + 1] if m else why
+        items = []
+        for f in files:
+            with open(os.path.join(ROOT, "docs", "digest", f), encoding="utf-8") as fh:
+                for head, _sector, why, _section in pc.read_items(fh.read().splitlines()):
+                    if why:
+                        items.append((f, head, first(why.split(" parties:")[0])))
+        now = [brief.why_line(w, h) for _, h, w in items]
+        with mock.patch.object(brief, "new_things", lambda t, h: ["(the rule off)"]):
+            was = [brief.why_line(w, h) for _, h, w in items]
+        self.assertEqual((len(items), sum(1 for a in was if a), sum(1 for b in now if b)), (463, 323, 224))   # 324 before session 1462 cut a hollow tail
+        for (_f, h, _w), out in zip(items, now):
+            if out:
+                self.assertEqual(brief.why_check(out, h), [], out)
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "why_lines_regenerated.tsv")
+            with open(path, "w", encoding="utf-8", newline="\n") as fh:
+                for (f, h, _w), a, b in zip(items, was, now):
+                    fh.write(f"{f}\t{h}\t{a}\t{b}\n")
+            with open(path, encoding="utf-8") as fh:
+                self.assertEqual(sum(1 for _ in fh), 463)
+
+
+class Session1462HollowForms(unittest.TestCase):
+    """Session 1462 (chain 150): the hollow verbs' -ing and past forms fail the check; a trailing clause led by a comma and
+    one of them is cut and the fact before it kept. The lines are the scorer's new prompt on 26 October's top ten."""
+
+    def test_the_trailing_clause_is_cut(self):
+        head = "Woodfibre LNG moves up completion target after construction reaches the 75% mark"
+        why = "Woodfibre LNG accelerates timeline while AECO spot curve softens, signaling weaker 2027 North American gas pricing."
+        self.assertEqual(brief.why_line(why, head), "Woodfibre LNG accelerates timeline while AECO spot curve softens.")
+
+    def test_the_forms_fail_the_check(self):
+        head = "A deal in Texas"
+        for verb in ("signaling", "signalling", "signaled", "demonstrating", "reflecting", "underscoring", "highlighting", "highlighted"):
+            with self.subTest(verb):
+                self.assertEqual(brief.why_check(f"Ohio regulators, {verb} demand.", head), [f"hollow verb: {verb}"])
+        # a hollow form that leads no trailing clause is not cut: the line fails and prints nothing
+        self.assertEqual(brief.why_line("Reflecting demand, Ohio adds a plant.", head), "")
+
+    def test_the_prompt_and_the_rubric_name_the_forms(self):
+        self.assertIn("signaling, demonstrating, reflecting, underscoring or highlighting", score.SYSTEM)
+        self.assertIn("nor their -ing forms", score.RUBRIC)
+
+
+class Session1466ScaleAndSectorFolds(unittest.TestCase):
+    """Session 1466 (chain 150, faults 44 and 45, session 1463's dry run of 6 November): a scale word the headline's
+    capacity contradicts goes; a story folded because its sector is full is said to be of the sector, not the topic."""
+
+    def test_gigawatt_scale_for_702_mw(self):
+        head = "AEP and Google advance a 702 MW Bloom Energy fuel-cell project for Cheyenne data centers"
+        why = "Gigawatt-scale hyperscale power deal combining fuel cells, natural gas, and private microgrid infrastructure for datacenter demand."
+        self.assertEqual(brief.why_check(why, head), ["scale word against the headline's figure: gigawatt-scale"])
+        self.assertEqual(brief.why_line(why, head),
+                         "Hyperscale power deal combining fuel cells, natural gas, and private microgrid infrastructure for datacenter demand.")
+        for ok_head in ("Meta plans a 2 GW campus in Louisiana", "Crusoe plans 1,200 MW in Abilene", "A campus with no figure"):
+            self.assertEqual(brief.scale_against(why, ok_head), "", ok_head)
+
+    def test_a_sector_fold_is_said_so(self):
+        def c(cid, title, sector, parties="", sig=8, region="us"):
+            return {"cluster_id": cid, "titles": [title], "sector": sector, "parties": parties, "region": region, "sig": sig, "ai": 0,
+                    "why": "", "mw": "", "price": "", "links": [("Outlet", f"https://example.org/{cid}")], "summary": "", "n": 1}
+        clusters = pd.DataFrame([c("a", "AEP and Google advance a 702 MW fuel-cell project in Wyoming", "datacenter_power", "AEP; Google", region="wyoming"),
+                                 c("b", "Poll asks Americans about data centers near their homes", "datacenter_power", "Heatmap"),
+                                 c("d", "Lambda to develop four-building data center campus in Alabama", "datacenter_power", "Lambda", 7, "alabama")])
+        top, folded = brief.one_per_topic(clusters, 10, quiet)
+        self.assertEqual(list(top["cluster_id"]), ["a", "b"])
+        self.assertEqual(folded, {"d"})
+        also = brief.also_of(top.to_dict("records")[0])
+        self.assertEqual(also[0]["kind"], "sector")
+        line = brief.also_line(also)
+        self.assertEqual(line, "Also in datacenter power: Lambda to develop four-building data center campus in Alabama ([Outlet](https://example.org/d)).")
+        self.assertTrue(brief.ALSO_RE.match(line))
+        mixed = brief.also_line([dict(also[0], kind="topic", title="Same topic story"), also[0]])
+        self.assertTrue(mixed.startswith("Also on this topic: Same topic story ("), mixed)
+        self.assertIn(". Also in datacenter power: Lambda", mixed)
+
+    def test_the_email_reads_either_label(self):
+        import email_digest
+        md = ["## What moved", "", "1. **AEP and Google advance a fuel-cell project** (datacenter power)  ",
+              "   Sources: [Data Center Frontier](https://example.org/a)  ",
+              "   Also in datacenter power: Lambda to develop a campus ([DCD](https://example.org/d))."]
+        it = email_digest.numbered(md, ("## What moved",))[0]
+        self.assertEqual(it["why"], "")
+        self.assertEqual(it["also_label"], "Also in datacenter power:")
+        self.assertEqual(it["also"], "Lambda to develop a campus ([DCD](https://example.org/d)).")
+
+
+class Session1467SectorLine(unittest.TestCase):
+    """Session 1467 (chain 150, fault 46): a by-sector line with no why line has no colon that introduces nothing; the
+    email and the counts read both forms."""
+
+    R = {"why": "", "sector": "generation", "links": [("Utility Dive", "https://www.utilitydive.com/a")]}
+    HEAD = "APS expects peak demand to grow about 3.4% annually and plans coal use to 2038"
+
+    def test_the_two_forms(self):
+        self.assertEqual(brief.sector_line(self.R, self.HEAD), f"- {self.HEAD} (generation). [Utility Dive](https://www.utilitydive.com/a)")
+        r = dict(self.R, why="Arizona's utility keeps coal units at Cholla open past their planned date.")
+        self.assertEqual(brief.sector_line(r, self.HEAD), f"- {self.HEAD} (generation): Arizona's utility keeps coal units at Cholla open past "
+                                                          "their planned date. [Utility Dive](https://www.utilitydive.com/a)")
+
+    def test_the_readers(self):
+        import email_digest
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import periodicals_counts as pc
+        ln = brief.sector_line(self.R, self.HEAD)
+        m = pc.BULLET.match(ln)
+        self.assertEqual(m.group("sector"), "generation")
+        self.assertEqual(pc.read_items(["### By sector", ln])[0][2], "")
+        md = ["# ERW Daily Digest, 2026-11-06", "", "## By sector", "", "**Power**", "", ln, ""]
+        got = email_digest.items(md, "daily")
+        self.assertEqual([(x["head"], x["sector"], x["why"], x["src"]) for x in got],
+                         [(self.HEAD, "generation", "", ("Utility Dive", "https://www.utilitydive.com/a"))])
+
+
 class Session1438OneTopic(unittest.TestCase):
     """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
     story of the sector that is not about the price keeps the sector-and-region key."""
@@ -1689,6 +1877,101 @@ class Session1448FunFact(unittest.TestCase):
         with open(os.path.join(ROOT, "site", "lib", "digest.ts"), encoding="utf-8") as f:
             ts = f.read()
         self.assertIn('"2026-10-14"', ts[ts.index("ISSUE_NOTES"):])
+
+
+class Session1459StoredFactsStyled(unittest.TestCase):
+    """Session 1459 (chain 150, fault 16): a bank row keeps the text it was verified with; the issue's item prints its
+    numbers with the issue's thousands separator, and still passes its check."""
+
+    def test_the_styles(self):
+        import funfact
+        cases = [
+            ("ERCOT's real-time price at HB_WEST reached 9310.49 USD/MWh in a 15-minute interval in 2021, the highest of "
+             "any year since 2015; the year with the most negative-price intervals there was 2024, with 4266.",
+             "ERCOT's real-time price at HB_WEST reached 9,310.49 USD/MWh in a 15-minute interval in 2021, the highest of "
+             "any year since 2015; the year with the most negative-price intervals there was 2024, with 4,266."),
+            ("California increased wind on the grid from 10 MW in 1981 to 1700 MW in the early 1990s.",
+             "California increased wind on the grid from 10 MW in 1981 to 1,700 MW in the early 1990s."),
+            ("The highest daily Brent crude spot price in EIA's series, which starts on 1987-05-20, was 143.95 USD/bbl on 2008-07-03.",
+             "The highest daily Brent crude spot price in EIA's series, which starts on 1987-05-20, was 143.95 USD/bbl on 2008-07-03."),
+            ("The oldest generators still operating entered service in 1891.", "The oldest generators still operating entered service in 1891."),
+            ("It curtailed 1,459,998 MWh in April 2026.", "It curtailed 1,459,998 MWh in April 2026."),
+        ]
+        for raw, want in cases:
+            with self.subTest(raw[:40]):
+                self.assertEqual(funfact.issue_style(raw), want)
+
+    def test_every_verified_fact_styled_passes_its_check_and_the_bank_is_not_rewritten(self):
+        import funfact
+        bank = funfact.read_bank()
+        kept = bank[bank["status"] == "verified"].to_dict("records")
+        changed = 0
+        for r in kept:
+            styled = dict(r, fact=funfact.issue_style(r["fact"]), second=funfact.issue_style(r["second"]))
+            changed += styled["fact"] != r["fact"] or styled["second"] != r["second"]
+            with self.subTest(r["fact_id"]):
+                self.assertEqual(funfact.check_record(styled), [])
+        self.assertGreaterEqual(changed, 4)   # the three hubs' peak rows and the 1700 MW history fact, on 6 November
+        self.assertIn("9310.49", " ".join(funfact.read_bank()["fact"]))   # the bank keeps its text
+
+    def test_the_days_item_prints_the_styled_numbers(self):
+        import funfact
+        bank = funfact.read_bank()
+        row = bank[bank["fact"].str.contains("HB_WEST reached 9310.49")].iloc[0]
+        one = bank[bank["fact_id"] == row["fact_id"]].assign(used_on="", structure="none")
+        with tempfile.TemporaryDirectory() as d, \
+                mock.patch.object(funfact, "read_bank", lambda: one.copy()), \
+                mock.patch.object(funfact, "write_bank", lambda df: None), \
+                mock.patch.object(funfact, "ITEMS", d):
+            item = funfact.write_item("2026-11-09", lambda *a: None)   # a Monday: the fact runs alone
+            self.assertTrue(os.path.exists(os.path.join(d, "2026-11-09.json")))
+        self.assertIn("9,310.49 USD/MWh", item["fact"])
+        self.assertIn(item["fact"], "\n".join(funfact.item_markdown(item)))
+
+
+class Session1460FiveKeys(unittest.TestCase):
+    """Session 1460 (chain 150, faults 28 and 29): the five numbers' rows print no row id, template or path; the keys sit on
+    one Tables line under the five, the email prints it small and grey, and scripts/check_roundup.py traces each row by it
+    (an issue written before keeps its keys in the rows and is read as it was)."""
+
+    MD = ("# ERW Weekly Roundup, 2026-W44\n\n## The week in five numbers\n\n"
+          "- **US48 peak demand:** 470,627 MW in the hour starting 2026-10-25 23:00 UTC [6].\n"
+          "- **Deal of the week, by US dollars:** USD 45 billion, Anthropic and Nscale, cloud computing deal (offtake, 2026-10-19).\n"
+          "- **Largest new datacenter load first reported this week:** 1,000 MW, Gingerah Energy, Gingerah, Western Australia.\n"
+          "- **From the chart of the week:** WTI spot price at Cushing, weekly mean: 107 USD/bbl in 2026-10-19 to 2026-10-25 "
+          "(the week before: the chart's latest period ends before this week).\n\n"
+          "Tables: the deal of the week, `energy_deals` deal:d7ed182372909e6d; the datacenter load, `datacenter_projects` "
+          "datacenter:8ea094c6d5fc3593; the chart's figure, template `watch_wti`, `docs/analysis/2026-W44/chart_of_the_week.json`.\n\n"
+          "## What mattered\n")
+    OLD = ("## The week in five numbers\n\n"
+           "- **Deal of the week, by US dollars:** USD 45 billion, Anthropic and Nscale, cloud computing deal (offtake, 2026-10-19; "
+           "`energy_deals` deal:d7ed182372909e6d).\n"
+           "- **From the chart of the week:** WTI spot price at Cushing, weekly mean: 107 USD/bbl in 2026-10-19 to 2026-10-25 "
+           "(template `watch_wti`, `docs/analysis/2026-W44/chart_of_the_week.json`).\n")
+
+    def checks(self, md, refs):
+        import check_roundup as cr
+        return {k: v for k, v, _f in cr.five_checks("2026-W44", md, refs, None)}
+
+    def test_the_tracer_reads_the_keys_on_the_tables_line(self):
+        got = self.checks(self.MD, {"6": "eia930_all_demand"})
+        self.assertEqual(got["rdp_five_deal|energy_deals|deal:d7ed182372909e6d|dollars"], "USD 45 billion")
+        self.assertEqual(got["rdp_five_load|datacenter_projects|datacenter:8ea094c6d5fc3593|capacity_mw"], "1,000")
+        self.assertEqual(got["rdp_five_chart|2026-W44|watch_wti|headline"], "107")
+
+    def test_an_issue_written_before_is_read_as_it_was(self):
+        got = self.checks(self.OLD, {})
+        self.assertEqual(got["rdp_five_deal|energy_deals|deal:d7ed182372909e6d|dollars"], "USD 45 billion")
+        self.assertEqual(got["rdp_five_chart|2026-W44|watch_wti|headline"], "107")
+
+    def test_no_key_in_the_rows_and_the_email_prints_the_line_small(self):
+        import email_digest
+        for ln in self.MD.splitlines():
+            if ln.startswith("- "):
+                self.assertNotRegex(ln, r"deal:|datacenter:|template|docs/analysis")
+        body = self.MD.split("## The week in five numbers\n\n")[1].split("\n## ")[0].splitlines()
+        _text, html = email_digest.block(body)
+        self.assertIn('font-size:12px;color:#6B665E">Tables: the deal of the week', html)
 
 
 class Session1450TheTracers(unittest.TestCase):
