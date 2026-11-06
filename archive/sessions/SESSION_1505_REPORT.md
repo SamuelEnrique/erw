@@ -1,6 +1,6 @@
 # Session 1505 report: the packages' open items
 
-Energy Research Warehouse (ERW), session 1505, chain 158, samueloldlaptop, 6 November 2026, 10:38 to 10:56 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's live set (the conformance file's reads, anon key) only. Branch `wip/1505-packages`, cut from `wip/1501-security`.
+Energy Research Warehouse (ERW), session 1505, chain 158, samueloldlaptop, 6 November 2026, 10:38 to 10:55 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's live set (the conformance file's reads, anon key) only. Branch `wip/1505-packages`, cut from `wip/1501-security`.
 
 ## What it did, with commits (`60ebeaf2a`)
 
