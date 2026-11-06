@@ -307,7 +307,7 @@ class Site(unittest.TestCase):
         c = src("site", "next.config.ts")
         for word in ('"Strict-Transport-Security"', "max-age=63072000; includeSubDomains; preload", '"X-Content-Type-Options", value: "nosniff"',
                      '"X-Frame-Options", value: "DENY"', '"Referrer-Policy", value: "strict-origin-when-cross-origin"', '"Permissions-Policy"',
-                     '"Content-Security-Policy", value: CSP_ENFORCED', '"Content-Security-Policy-Report-Only", value: CSP_REPORT_ONLY',
+                     '"Content-Security-Policy", value: CSP_ENFORCED',
                      "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'", 'source: "/:path*", headers: SECURITY_HEADERS',
                      'source: "/internal/:path*"', '{ source: "/internal/open", headers: [{ key: "Referrer-Policy", value: "same-origin" }] }'):
             self.assertIn(word, c)
@@ -347,10 +347,14 @@ class Site(unittest.TestCase):
     def test_next_is_the_patched_release(self):
         import json
         pkg = json.loads(src("site", "package.json"))
-        self.assertEqual(pkg["dependencies"]["next"], "16.3.8")
-        self.assertEqual(pkg["devDependencies"]["eslint-config-next"], "16.3.8")
+        # session 1503 (chain 158): 16.4.5, past GHSA-2464-fhr4-w9xw, GHSA-p3m5-59mp-jv5r and GHSA-673q-mjm6-r5xr (16.0.0 to
+        # 16.4.0; two are unauthenticated remote code execution); 16.3.8 until then (session 177)
+        self.assertEqual(pkg["dependencies"]["next"], "16.4.5")
+        self.assertEqual(pkg["devDependencies"]["eslint-config-next"], "16.4.5")
         lock = json.loads(src("site", "package-lock.json"))
-        self.assertEqual(lock["packages"]["node_modules/next"]["version"], "16.3.8")
+        self.assertEqual(lock["packages"]["node_modules/next"]["version"], "16.4.5")
+        major, minor, patch = (int(x) for x in lock["packages"]["node_modules/zod"]["version"].split("."))
+        self.assertGreaterEqual((major, minor, patch), (4, 6, 6))   # session 1503: GHSA-mrhx-c7xc-m3w5, fixed in 4.6.6
         self.assertEqual(pkg["dependencies"]["react"], "19.2.8")           # nothing else moved
 
     def test_the_usage_counts_send_no_identifier(self):
