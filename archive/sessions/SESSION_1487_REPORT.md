@@ -1,6 +1,6 @@
 # Session 1487 report: the battery's replication, in Python
 
-Energy Research Warehouse (ERW), session 1487, chain 158, samueloldlaptop, 6 November 2026, 08:46 to 09:00 UTC (while session 1486's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1487-replication`, cut from `wip/1486-ask`.
+Energy Research Warehouse (ERW), session 1487, chain 158, samueloldlaptop, 6 November 2026, 08:44 to 08:48 UTC (while session 1486's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1487-replication`, cut from `wip/1486-ask`.
 
 ## What it did, with commits
 
