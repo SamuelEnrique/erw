@@ -22,7 +22,7 @@ Read first: chain 176's note (`docs/state/note_<its day>_data_c176.md`), chain 1
 
 ## Session 3146: the next file, the ground, chain 176's first unfinished step
 
-Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 176's first unfinished step, written by session 3107 of chain 176: **if `wip/c176-data` is not an ancestor of origin's main** (chain 177's last session lands it after 16:15 UTC with its own branch), land it by `archive/sessions/SESSION_3107_REPORT.md`, "To finish" (never between 14:00 and 16:15 UTC). If it landed, session 3147's step.
+Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 176's first unfinished step, written by session 3107 of chain 176: **if `wip/c177-data` (which holds `wip/c176-data`, merged by chain 177's session 3121) is not an ancestor of origin's main**, land it by `archive/sessions/SESSION_3121_REPORT.md`, "To finish" (never between 14:00 and 16:15 UTC). If it landed, session 3147's step.
 
 ## Sessions 3147 to 3149: chain 176's other unfinished steps
 

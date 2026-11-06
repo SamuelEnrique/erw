@@ -34,11 +34,20 @@ Long end 1:30. Pulls: GitHub only.
 
 1. Write the successor file for this machine in this file's form (`machine: data`, Opus 5.5 high effort, at least fourteen sessions numbered from the first free numbers after 3173, the first free file number on origin's main and every branch): every step of this chain that its note says did not finish, then the siting gaps rows still open that a public US source can close without a ruling, then the daily run's seven days and the records; these rules word for word. Commit it alone, push it to main, `git status -sb`.
 2. `scripts/precheck.py` from the main checkout; memory and disk free; `scripts/freeze.py status`.
-3. Chain 177's first unfinished step, as session 3121 of chain 177 writes it here. If chain 177 left none, the first of the rows below.
+3. Chain 177's first unfinished step, written by session 3121 of chain 177: **if `wip/c177-data` is not an ancestor of origin's main** (chain 180's first session lands it), land it by `archive/sessions/SESSION_3121_REPORT.md`, "To finish" (never between 14:00 and 16:15 UTC). If it landed, session 3161's step.
 
 ## Sessions 3161 and 3162: chain 177's other unfinished steps
 
-Long end 2:30 each. Pulls: as the step of chain 177 says. Session 3121 of chain 177 writes them here in chain 177's order; a step it does not name leaves the session to the next row of the siting gaps below.
+Long end 2:30 each. Pulls: as the step of chain 177 says. Written by session 3121 of chain 177, in chain 177's order:
+
+- **Session 3161: four old derived tables' publishers** (chain 177's session 3109). On this machine's full warehouse, `package/tests/test_erw.py::test_derived_tables_flag_license_and_inputs` fails on `eia930_demand_weather`, `eia_annual_crosscheck_ba`, `grid_stress_days` and `iso_queue_statistics`: their `sources.csv` publisher is "Energy Research Warehouse (ERW)" without ", derived". Fix it as session 2884 did for `ercot_wind_solar_hsl_monthly`. On a branch:
+  - the publisher in each builder's `update_sources` (`warehouse/derived/demand_weather.py`, `eia_annual_crosscheck.py`, and the builders of the other two, found by their source ids);
+  - the four `sources.csv` rows;
+  - a test that every `erw:` source of a derived table in `coverage.csv` names that publisher;
+  - the package's records rebuilt and checked (`package/tools/build_tables.py --check`, `scripts/licenses.py tables/write/check`, `warehouse/redivis/release_v1.py --check`);
+  - the package test run from the main checkout's full warehouse (the main checkout read, not written).
+  Then the gate and the push, never between 14:00 and 16:15 UTC. No table is rebuilt: the rows' `source` ids do not change.
+- **Session 3162: the first daily runs with the guards, and the owner's rulings.** The runner's run of 7 November from 14:00 UTC (the first with chain 151's board guard, since 6 November's was gated: chain 177's session 3109), its `board_tests` and `package tests` lines, and this machine's 17:00 UTC runs (`dm_test_findings`), each failed step opened. Then any ruling written (chains 153 to 180's notes, among them ERCOT `/misapp` in the daily run, the deals backfill, the four old wip branches, the pace of the chains): carried out where written; with none, say so.
 
 ## Session 3163: ERCOT's four coincident peaks of summer 2026, again
 
