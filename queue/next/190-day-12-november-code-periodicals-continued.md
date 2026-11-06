@@ -44,7 +44,7 @@ One step a session, in chain 188's order, as session 1685 lists them under "Unfi
 
 ### Unfinished steps (written by session 1685 of chain 188)
 
-(To be filled by session 1685: one line a step, in chain 188's order, with the exact commands where the step was a landing.)
+1. Session 1673 (the dry runs): each periodical once on the newest stories, into `runs/periodicals_dryrun/s1701/`. Check first that `news_stories.csv`'s retrieval line is later than 20261105T232645Z. On 6 November the daily run skipped its afternoon start (chain 188's note), so the stories move with the run of 7 November, about 16:00 UTC; if they have not moved, record that and take the next session's work. Read it as a reader, the new prompt's why lines first; the previews go to the fixed recipients as "[preview, dry run 1701]". No step is a landing: the stack landed at `fade30ad2`.
 
 ## Sessions 1705 to 1710: the faults still open
 
@@ -54,7 +54,8 @@ One fault a session, from `docs/reviews/periodicals-faults-2026-11-05.md`, in th
 
 ### Open faults (written by session 1685 of chain 188)
 
-(To be filled by session 1685: the faults file's rows still open, one a line, in the file's order; the owner's rows named, not to be decided here.)
+- None open of a session's (58 fixed and landed at `fade30ad2`). The dry run's faults, appended to the file, are the first sessions' work.
+- The owner's, not to be decided here: rows 19, 20, 39, 40, 47, 49, and the scorer's model for the why line; row 48 is the data machine's.
 
 ## Session 1711: the dry runs, read, the previews sent
 
