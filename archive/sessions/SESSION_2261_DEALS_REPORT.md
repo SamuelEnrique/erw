@@ -1,6 +1,6 @@
 # Session 2261 (chain 159, deals and datacenters) report: facilities' operator
 
-6 November 2026, from about 13:01 to 13:06 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2261-deals`, cut from `wip/2260-deals`. Model spend **USD 0** (code; the 2249 and 2236 facility answers replayed). Nothing deployed; no warehouse data written.
+6 November 2026, from about 13:00 to 13:03 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2261-deals`, cut from `wip/2260-deals`. Model spend **USD 0** (code; the 2249 and 2236 facility answers replayed). Nothing deployed; no warehouse data written.
 
 - **The class**: facilities' operator missed, 3 of 60 on the second read.
 - **F014, fixed**: the model joined two companies in the developer field ("Colt DCS, RMZ"); `checked_fields` refused the joined string. `names_named` (`warehouse/datacenters/extract.py`) keeps an operator or developer when each of its names is in the story. Replayed: F014 keeps "Colt DCS, RMZ"; no company refusal is left on either facility fixture.
