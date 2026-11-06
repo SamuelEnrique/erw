@@ -1,6 +1,6 @@
 # Session 1504 report: every page read on a build; the links, the values and AccessLint
 
-Energy Research Warehouse (ERW), session 1504, chain 158, samueloldlaptop, 6 November 2026, 10:57 to 11:20 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the local build's reads) only. On main (this report; no code changed).
+Energy Research Warehouse (ERW), session 1504, chain 158, samueloldlaptop, 6 November 2026, 10:57 to 11:13 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the local build's reads) only. On main (this report; no code changed).
 
 ## What it did
 
