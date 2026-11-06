@@ -8,7 +8,7 @@ lab-desktop, 6 and 7 November 2026, 22:30 to 23:58 UTC. Branch `wip/3300-compani
 - **The year chart's labels and bar figures collided** at 390 and at 1280 on long histories: spans of five years past 15 years (was 30), labelled "1990" with "to 94" under it, and no figure written over the bars (each group's figures are in its hover card).
 - **check-companies.mjs** expected a figure on every company page; a small utility with EIA-861 rows alone has none.
 
-## Checked on the local build of the fixed branch (`2ebd1a4b9` and its fold, below)
+## Checked on the local build of the fixed branch (`07aa6a8d5`, before the fold below)
 
 - `check-companies.mjs`: **194 of 194**, 1,689 figures read back equal to the files (the index under four queries, twenty company pages: the ten largest and ten drawn with seed 3306), the downloads' row counts, the visitor's in-review page.
 - `check-390.mjs` on seven pages (the index twice, four companies, `/deals/capital`): **0 findings**, each 390 of 390.
