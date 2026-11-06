@@ -1,6 +1,6 @@
 # Session 1474 report: fault 52, the five numbers and the tables' floor
 
-Energy Research Warehouse (ERW), session 1474, chain 154, samueloldlaptop, 6 November 2026, 07:16 to 07:22 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1474-periodicals`, cut from `wip/1473-periodicals`.
+Energy Research Warehouse (ERW), session 1474, chain 154, samueloldlaptop, 6 November 2026, 07:16 to 07:19 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1474-periodicals`, cut from `wip/1473-periodicals`.
 
 ## The fault
 
