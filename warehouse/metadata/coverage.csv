@@ -415,6 +415,7 @@ frb_utility_output_monthly,frb,,19,P1M,1919-01-01T00:00:00Z,2026-09-01T00:00:00Z
 gastat_saudi_electricity_annual,gastat,,30,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,177,gastat:electrical_energy_statistics_2024,2026-10-24T23:16:34Z,pass,internal,power,no,source
 generation_mix_hourly_profile,generation,,7,P1M,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,164724,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-11-06T00:22:31Z,pass,public,power;carbon,yes,derived
 generation_mix_records,generation,,7,PT1H,2019-01-14T05:00:00Z,2026-10-31T06:00:00Z,306,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-11-06T00:22:31Z,pass,public,power;carbon,yes,derived
+generator_pipeline_by_grid,generator,,924,P1M,2026-08-01T00:00:00Z,2026-09-01T00:00:00Z,5147,erw:generator_pipeline_by_grid,2026-11-06T08:20:13Z,"pass, 1 warnings",public,power,yes,derived
 gfz_kp_index_3h,gfz,,1,PT3H,1932-01-01T00:00:00Z,2026-10-22T21:00:00Z,277032,gfz:kp_ap_since_1932,2026-10-23T23:18:55Z,pass,public,power,no,source
 grenada_cso_electricity_annual,grenada,,6,P1Y,2000-01-01T00:00:00Z,2023-01-01T00:00:00Z,144,grenada_cso:electricity_by_category,2026-10-24T16:29:52Z,pass,internal,power,no,source
 grid_network_links,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,159,PT1H,2026-10-28T00:00:00Z,2026-11-03T23:00:00Z,25488,erw:grid_network,2026-11-05T23:09:35Z,pass,public,power,yes,derived
