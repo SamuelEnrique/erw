@@ -81,7 +81,9 @@ class OnePage(unittest.TestCase):
         self.assertNotIn("keep charge for the house.", self.game)
 
     def test_the_fleet_beside_the_battery(self):
-        self.assertIn("fleet of {FLEET.toLocaleString(\"en-US\")} homes: <span className=\"font-mono\">{usd((money - START_MONEY) * FLEET)}</span>", self.game)
+        # session 2402: the words "fleet of ... homes" carry a hover that says the fleet is a game rule
+        self.assertIn(">fleet of {FLEET.toLocaleString(\"en-US\")} homes</span>: <span className=\"font-mono\">{usd((money - START_MONEY) * FLEET)}</span>", self.game)
+        self.assertIn("A fictional fleet of", self.game)
         self.assertIn("the perfect battery&apos;s fleet: {usd(perfect.score * FLEET)}", self.game)
 
     def test_easy_draws_the_whole_day(self):

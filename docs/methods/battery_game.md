@@ -273,3 +273,26 @@ Each number `/play/battery` shows carries its key (`site/components/Num.tsx`), w
 - `battery|fleet_mw`, `battery|fleet_mwh`: in "The fleet: fictional and real", the game's fleet: its 10,000 homes times each home's 5 kW and 13.5 kWh, in MW and MWh (`FLEET_MW` and `FLEET_MWH` of `site/lib/battery.ts`).
 - `storage|iso_mw|ERCOT|operating`, `storage|iso_n|ERCOT|operating`, `storage|iso_mwh|ERCOT|operating`, `storage|iso_n_mwh|ERCOT|operating`: beside it, ERCOT's real fleet: the sum of `capacity_mw` of the operating `storage_capacity` units whose balancing authority is ERCOT, the count of those units, the sum of their MWh where EIA gives it, and the count of the units that have it.
 - `calc|ratio|storage~iso_mw~ERCOT~operating|battery~fleet_mw`: the line under both: ERCOT's operating MW over the game fleet's MW, "times the power" of the 10,000 homes.
+
+## Session 2402 (23 October 2026): the open items, and where each figure says it comes from
+
+- **The dimmed reason** (session 583's open item, the accessibility review of 22 October): on Hard, when a level holds no
+  solar shape, the rooftop add-on cannot be chosen and a line says why. The whole option was dimmed to 70 percent, so
+  the reason read at 3 to 1. Now only the switch and its name are dimmed; the reason stays in the full muted grey
+  (4.5 to 1 or more). Session 583 asked which of two choices the owner wanted; no ruling was found, so the reversible
+  one, (b), was made and is said here. The switch stays disabled and the words unchanged.
+- **The end table's rows say what they are on hover.** "You": your play, scored by the game's own model (`simulate` in
+  `site/lib/battery.ts`) under the rules of the mode, on the day's real prices. "The perfect battery": the same battery
+  with every price known in advance, the exact dynamic programme (`optimum`) under the same rules, the most any play of
+  the day could earn. "No battery": nothing bought or sold, or with the roof its power sold as it is made. None is a
+  real battery's earnings, and each hover says so. The fleet lines (during the play and at the end) say on hover that
+  the fleet of 10,000 homes is fictional: your figure times 10,000, a game rule.
+- **No key on the game's own figures.** A check-values key names a value of the live set or of a file the checker can
+  read again; a score is the model's answer to a play that happens in the browser, so it carries its source in words
+  instead. The page's keyed figures are the section above: today's level's lowest and highest price, the two fleets and
+  their ratio.
+- **The demo note's figures are checked.** `site/scripts/check-battery-demo.mjs` recomputes every figure
+  `docs/battery_game_demo.md` quotes (the 2023-08-10 level: 24.90 and 3,842.89 USD per MWh at 08:45 and 15:30 Central;
+  the perfect battery 60.97 on Easy and Normal, 48.36 on Hard, 88.34 with the roof; the roof alone 34.32; the calm day's
+  0.44) from `data/battery_levels.json` with the game's model, and exits 1 on a difference. On 23 October 2026 all ten
+  match. When the rules change, the note and the script's list change in the same commit.
