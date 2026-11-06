@@ -4,12 +4,13 @@ Energy Research Warehouse (ERW). Written by chain 165 (`queue/done/165-day-6-nov
 
 | # | Branch | Head | Task | Port | Requested (UTC) | Tests on this machine | State |
 |---:|---|---|---|---:|---|---|---|
-| 1 | `wip/1605-board` | `19fd5c0c0` | `1600-1605-board` | 3600 | 2026-11-06 | the board's and the page's test files: 127 run, 1 skipped, 1 failure (below); the whole suite not run to the end (below) | held in row 6: land row 6 in its place |
-| 2 | `wip/1610-board` | `edd783ea6` | `1600-1610-board` | 3600 | 2026-11-06 | the board's and the page's test files: 134 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | held in row 6: land row 6 in its place |
-| 3 | `wip/1615-board` | `93600319f` | `1600-1615-board` | 3600 | 2026-11-06 | the board's and the page's test files: 151 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | held in row 6: land row 6 in its place |
-| 4 | `wip/1619-board` | `643726a99` | `1600-1619-board` | 3600 | 2026-11-06 | every test file naming the board's code (40 files): 330 run, 1 failure (the same, below); this chain's 57 tests passed; the whole suite not run here | held in row 6: land row 6 in its place |
-| 5 | `wip/1623-board` | `56766d6f1` | `1600-1623-board` | 3600 | 2026-11-06 | every test file naming the board's code and this chain's 63 tests (41 files): 334 run, 1 failure (the same, below); the whole suite not run here | held in row 6: land row 6 in its place |
-| 6 | `wip/1627-board` | `eb471805b` | `1600-1627-board` | 3600 | 2026-11-06 | every test file naming the board's code and every `test_board_16*` (336 run, 1 failure, the same, below); the whole suite not run here | waiting |
+| 1 | `wip/1605-board` | `19fd5c0c0` | `1600-1605-board` | 3600 | 2026-11-06 | the board's and the page's test files: 127 run, 1 skipped, 1 failure (below); the whole suite not run to the end (below) | landed at 0aa1dbd02 (row 2's branch, merged with main and three board tests updated to chain 165's changes; chain 164, session 3008) |
+| 2 | `wip/1610-board` | `edd783ea6` | `1600-1610-board` | 3600 | 2026-11-06 | the board's and the page's test files: 134 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | landed at 0aa1dbd02 (row 2's branch, merged with main and three board tests updated to chain 165's changes; chain 164, session 3008) |
+| 3 | `wip/1615-board` | `93600319f` | `1600-1615-board` | 3600 | 2026-11-06 | the board's and the page's test files: 151 run, 1 skipped, 1 failure (the same, below); the whole suite not run here | held in row 7: land row 7 in its place |
+| 4 | `wip/1619-board` | `643726a99` | `1600-1619-board` | 3600 | 2026-11-06 | every test file naming the board's code (40 files): 330 run, 1 failure (the same, below); this chain's 57 tests passed; the whole suite not run here | held in row 7: land row 7 in its place |
+| 5 | `wip/1623-board` | `56766d6f1` | `1600-1623-board` | 3600 | 2026-11-06 | every test file naming the board's code and this chain's 63 tests (41 files): 334 run, 1 failure (the same, below); the whole suite not run here | held in row 7: land row 7 in its place |
+| 6 | `wip/1627-board` | `eb471805b` | `1600-1627-board` | 3600 | 2026-11-06 | every test file naming the board's code and every `test_board_16*` (336 run, 1 failure, the same, below); the whole suite not run here | held in row 7: land row 7 in its place |
+| 7 | `wip/1633-board` | `a60601ae6` | `1600-1633-board` | 3600 | 2026-11-06 | every test file naming the board's code and every `test_board_16*` (338 run, 1 failure, the same, below); the whole suite not run here | waiting |
 
 ## Row 1: what it holds
 
@@ -57,6 +58,10 @@ Sessions 1620 to 1623: every row states its step (`STEP_BASIS`), a monthly row's
 ## Row 6: what it adds to row 5
 
 Chain 167's sessions 1624 to 1626: `cp4_price` in the builder, a row of the cost group, the hub average's 15-minute real-time price at each 4CP interval (read from `ercot_all_hub_prices_history` and `iso_rtm_hub_prices`, each filtered to the hub as it streams); `tests/test_session247.py`'s list of whole-table readers takes it. Once row 6 is an ancestor of main, `wip/1600-board` to `wip/1627-board` can be deleted on origin.
+
+## Row 7: what it adds to row 6
+
+Chain 167's sessions 1628 to 1632: the rows' CSV carries the week's and month's peak and hours above 100, 250 and 1,000 (eight columns inside the figures' span); `holdRows` drops `basis` and `heat_ref`, and the builder writes a row with no value without them, so a row with no figure prints its words and no digit; `boardFileChecks` catches a kept `basis`. Once row 7 is an ancestor of main, `wip/1600-board` to `wip/1633-board` can be deleted on origin.
 
 ## Known on this machine
 
