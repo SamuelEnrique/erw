@@ -360,7 +360,14 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     if v2 or v2r:   # session 2703: the opening number (and the Digest's block) come before the stories
         add_block("## The opening number", "## The opening number", drop_tables=v2)
     if v2r:   # session 2704: the Roundup's five numbers, then what mattered
-        add_block("## The week in five numbers", "## The week in five numbers")
+        # session 1446 (fault 26): the row that is the opening number, word for word, says so instead
+        opening = " ".join(x for x in section(lines, ("## The opening number",)) if x.strip())
+        opening = re.sub(r"\*\*|\s*Status:.*$", "", opening).strip().rstrip(".")
+        five_lines = section(lines, ("## The week in five numbers",))
+        five_lines = [re.sub(r":\*\* .*$", ":** the opening number, above.", x) if opening and opening in x else x for x in five_lines]
+        bt, bh = block([site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in five_lines], img_base=img_dir)
+        t.extend(["", "The week in five numbers", ""] + bt)
+        h.extend([H2.format("The week in five numbers"), SMALL.format(bh)])
     if v2:
         t.extend(["", "The numbers", ""] + num_text)
         h.extend([H2.format("The numbers"), SMALL.format(num_html)])

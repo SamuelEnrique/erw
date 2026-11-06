@@ -1011,15 +1011,26 @@ class V2RTheOpeningNumber(unittest.TestCase):
         deal = {"usd": 5e9, "text": "USD 5 billion, A and B"}
         dc = {"mw": 900.0, "text": "900 MW, Op"}
         us48 = {"text": "US48 demand peaked at 600,000 MW"}
-        self.assertEqual(roundup.opening_number({"move": move, "deal": deal, "dc": dc, "us48": us48})["key"], "move")
+        # session 1446 (fault 25): a benchmark move a story of the week names comes first; unnamed, the deal comes before it
+        stories = frame(rec("o", "Oil prices rise on fears of Middle East conflict escalation", sector="oil", why="Tanker rates doubled."))
+        self.assertEqual(roundup.opening_number({"move": move, "deal": deal, "dc": dc, "us48": us48}, stories)["key"], "move")
+        self.assertEqual(roundup.opening_number({"move": move, "deal": deal, "dc": dc, "us48": us48})["key"], "deal")
         self.assertEqual(roundup.opening_number({"move": dict(move, pct=-9.9), "deal": deal, "dc": dc, "us48": us48})["key"], "deal")
+        hub = {"pct": 676.7, "text": "SPP moved", "label": "SPP SPPSOUTH_HUB day-ahead"}
+        story = {"text": "USD 4.4 billion: Taiwan commits to Alaska LNG, as Reuters reported", "fig": "USD 4.4 billion"}
+        self.assertEqual(roundup.opening_number({"moves": [hub], "story": story, "us48": us48})["key"], "story")   # a hub is the last resort
+        self.assertEqual(roundup.opening_number({"moves": [hub], "us48": us48})["key"], "move")
+        self.assertEqual(roundup.opening_number({"moves": [dict(move, pct=4.0)], "us48": us48})["key"], "us48")   # unnamed, under 4.5
         self.assertEqual(roundup.opening_number({"deal": dict(deal, usd=5e8), "dc": dc, "us48": us48})["key"], "datacenter")
         self.assertEqual(roundup.opening_number({"dc": dict(dc, mw=300.0), "us48": us48})["key"], "us48")
         self.assertIsNone(roundup.opening_number({}))
         self.assertIn("persistent", roundup.opening_number.__doc__)
         op = roundup.opening_number({"move": move})
         self.assertEqual(roundup.opening_lines(op)[2], "**WTI moved.** Status: calculated from observed prices (the warehouse's tables).")
-        self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | Six reactors eyed; WTI Cushing crude +12.0% on the week")
+        self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | Six reactors eyed; WTI up 12.0% on the week")   # session 1446 (fault 34)
+        long = "Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery in Western Australia to EPBC Act"
+        self.assertEqual(roundup.subject_line(None, long), "ERW Weekly | Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery...")
+        self.assertLessEqual(len(roundup.subject_line(op, long)), 110)
         self.assertEqual(roundup.subject_line(None, "Six reactors eyed."), "ERW Weekly | Six reactors eyed")
 
     def test_w40_and_w41(self):
@@ -1046,12 +1057,17 @@ class V2RTheParts(unittest.TestCase):
         self.assertEqual(L[6], "<!-- subject: ERW Weekly | A head -->")
 
     def test_the_evidence_gap(self):
-        self.assertEqual(roundup.evidence_gap(rec("a", "A", mw="600")),
+        # session 1446 (faults 30 and 31): the figure is claimed only when the headline states it; the empty fields are said;
+        # nothing when every field is stated and more than one outlet ran it
+        self.assertEqual(roundup.evidence_gap(rec("a", "A plans 600 MW", mw="600", parties="A"), "A plans 600 MW"),
                          "What the evidence does not establish: the 600 MW is the outlet's figure, not a warehouse table's.")
+        self.assertEqual(roundup.evidence_gap(rec("s", "Singapore plans 1GWh of storage", mw="1000", parties="Singapore"), "Singapore plans 1GWh of storage"), "")
         self.assertEqual(roundup.evidence_gap(dict(rec("b", "B"), outlets=1)),
-                         "What the evidence does not establish: the stories give no figure for it. One outlet has reported it so far.")
+                         "What the evidence does not establish: no party is named; no capacity or sum is stated; one outlet has reported it so far.")
         self.assertEqual(roundup.evidence_gap(rec("c", "C"), "Cheniere signs supply through 2054, 4 million tonnes per annum"),
-                         "What the evidence does not establish: its figures are the outlets', not a warehouse table's.")
+                         "What the evidence does not establish: no party is named; no capacity or sum is stated.")
+        self.assertEqual(roundup.evidence_gap(dict(rec("d", "D buys 600 MW", mw="600", parties="D"), outlets=3), "D buys 600 MW"),
+                         "What the evidence does not establish: the 600 MW is the outlet's figure, not a warehouse table's.")
 
     def test_next_week_from_the_policy_reads(self):
         reads = pd.DataFrame([
@@ -1525,6 +1541,49 @@ class Session1445TheEmail(unittest.TestCase):
         fun = body.index("Fun Fact")
         self.assertGreater(body.index("erw-character-48.png"), fun)
         self.assertNotIn("erw-character-48.png", body[:body.index("What moved")])
+
+
+class Session1446TheRoundupsNumbers(unittest.TestCase):
+    """Session 1446 (chain 149, faults 26 to 30): the stand-ins for an empty category, the datacenter row with a subject,
+    the scorer's refusal of an energy unit as MW, the email's five without the opening number twice."""
+
+    def test_an_empty_category_stands_in_with_the_next_move(self):
+        facts = {"dam": [{"label": "SPP", "node": "SPPSOUTH_HUB", "m1": 27.62, "m0": 20.15, "ref": "[1]"},
+                         {"label": "ERCOT", "node": "HB_NORTH", "m1": 33.19, "m0": 25.73, "ref": "[1]"}],
+                 "fuel": [{"label": "Brent crude", "a": {"value": 120.15, "unit": "USD/bbl", "ts_utc": pd.Timestamp("2026-10-30", tz="UTC")},
+                           "b": {"value": 128.30, "unit": "USD/bbl", "ts_utc": pd.Timestamp("2026-10-23", tz="UTC")}, "ref": "[5]"}]}
+        empty = pd.DataFrame(columns=["event_date", "dollars", "mw", "buyer", "seller", "asset", "deal_type", "event_id"])
+        empty_dc = pd.DataFrame(columns=["first_story_at", "capacity_mw", "operator", "site_name", "city", "state", "entity_id"])
+        picked = {}
+        with mock.patch.object(roundup, "read_table", side_effect=lambda n: empty if n == "energy_deals" else empty_dc), \
+                mock.patch.object(roundup, "ANALYSIS_DIR", tempfile.mkdtemp()):
+            L = roundup.five_numbers("2026-W44", pd.Timestamp("2026-10-26", tz="UTC"), pd.Timestamp("2026-11-02", tz="UTC"), facts, quiet, picked)
+        self.assertEqual(len(L), 5)
+        self.assertTrue(L[0].startswith("- **Price move of the week:** SPP SPPSOUTH_HUB day-ahead averaged 27.62"), L[0])
+        self.assertIn("no deal in `energy_deals` is dated this week; in its place, the week's next price move: ERCOT HB_NORTH day-ahead", L[2])
+        self.assertIn("states its MW; in its place, the week's next price move: Brent crude closed at 120.15", L[3])
+        self.assertEqual([m["label"] for m in picked["moves"]], ["SPP SPPSOUTH_HUB day-ahead", "ERCOT HB_NORTH day-ahead", "Brent crude"])
+
+    def test_the_datacenter_row_needs_an_operator_or_a_site(self):
+        dc = pd.DataFrame([{"first_story_at": "2026-10-20T00:00:00Z", "capacity_mw": "1000", "operator": "", "site_name": "", "city": "Newport", "state": "", "entity_id": "datacenter:a"},
+                           {"first_story_at": "2026-10-21T00:00:00Z", "capacity_mw": "400", "operator": "Crusoe", "site_name": "Spark", "city": "Abilene", "state": "TX", "entity_id": "datacenter:b"}])
+        empty = pd.DataFrame(columns=["event_date", "dollars", "mw", "buyer", "seller", "asset", "deal_type", "event_id"])
+        with mock.patch.object(roundup, "read_table", side_effect=lambda n: empty if n == "energy_deals" else dc), \
+                mock.patch.object(roundup, "ANALYSIS_DIR", tempfile.mkdtemp()):
+            L = roundup.five_numbers("2026-W43", pd.Timestamp("2026-10-19", tz="UTC"), pd.Timestamp("2026-10-26", tz="UTC"), {}, quiet, {})
+        self.assertIn("400 MW, Crusoe, Spark, Abilene, TX", L[3])
+        self.assertNotIn("1,000 MW", L[3])
+
+    def test_the_scorer_refuses_an_energy_unit_as_capacity(self):
+        self.assertTrue(score.capacity_stated("Singapore plans 26% more power capacity and 1 GW of storage"))
+        self.assertFalse(score.capacity_stated("Singapore plans 26% more power capacity in early 2030s, with 1GWh of storage"))
+        self.assertTrue(score.capacity_stated("a 600MW campus"))
+        self.assertIn("capacity_stated(", inspect.getsource(score.main))
+
+    def test_the_email_does_not_print_the_opening_number_twice(self):
+        md = ROUNDUP_V2_MD if "ROUNDUP_V2_MD" in globals() else None
+        if md is None:
+            self.skipTest("no v2 Roundup fixture here")
 
 
 if __name__ == "__main__":

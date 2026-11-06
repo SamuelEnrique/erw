@@ -38,6 +38,8 @@ import sys
 import traceback
 
 import anthropic
+import re
+
 import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -114,6 +116,15 @@ SCHEMA = {
     "required": ["results"],
     "additionalProperties": False,
 }
+
+
+CAPACITY_UNIT = re.compile(r"\b\d[\d,.]*\s?(?:MW|GW|kW|megawatts?|gigawatts?|kilowatts?)\b", re.I)
+
+
+def capacity_stated(text):
+    """Session 1446 (chain 149, fault 30): whether a text states a capacity (MW, GW, kW); "1GWh of storage" does not,
+    and a model's mw_mentioned of 1000 for it is refused."""
+    return bool(CAPACITY_UNIT.search(str(text or "")))
 
 
 def nodash(text):
@@ -309,7 +320,12 @@ def main(argv=None):
                           "why", "model_id", "scored_at", "cluster_id"]] = [
                 str(sig), str(ai), r["sector"], nodash(r["region"]), nodash(r["price_mentioned"] or ""),
                 nodash(" ".join(r["one_line_why"].split())), model, now, cluster[eid]]
-            upd.loc[eid, "mw"] = "" if r["mw_mentioned"] is None else f"{float(r['mw_mentioned']):g}"
+            mw = r["mw_mentioned"]
+            if mw is not None and not capacity_stated(f"{upd.at[eid, 'title'] if 'title' in upd.columns else ''} "
+                                                      f"{upd.at[eid, 'summary'] if 'summary' in upd.columns else ''}"):
+                log(f"  {eid}: mw_mentioned {mw} refused, no capacity unit in the title or summary (session 1446)")
+                mw = None
+            upd.loc[eid, "mw"] = "" if mw is None else f"{float(mw):g}"
             upd.loc[eid, "parties"] = nodash("; ".join(p.replace(";", ",") for p in r["parties"]))
             upd.loc[eid, "headline"] = nodash(r["headline"])
         upd = upd.reset_index()
