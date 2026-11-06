@@ -87,7 +87,7 @@ export default async function Capital({ searchParams }: { searchParams: Promise<
     <ToolPage>
       {head}
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
-        <aside>
+        <aside className="min-w-0">
           <InputPanel title="Choose" reset={{ href: "/deals/capital", defaults: "every kind of capital deal." }}>
             <nav aria-label="Deal type" className="text-sm">
               <div><Link href="/deals/capital" aria-current={!pick ? "true" : undefined}>Every type</Link></div>
@@ -95,7 +95,7 @@ export default async function Capital({ searchParams }: { searchParams: Promise<
             </nav>
           </InputPanel>
         </aside>
-        <div>
+        <div className="min-w-0">
           <p className="mb-6 text-sm" data-capital-total="1">
             <K k="total|rows" raw={total.rows}>{count(total.rows)}</K> capital deals; <K k="total|usd_rows" raw={total.usd_rows}>{count(total.usd_rows)}</K> state a USD amount
             ({CAP.disclosed_share !== null && CAP.disclosed_share !== undefined ? `${(CAP.disclosed_share * 100).toFixed(1)}%` : "none"}), summing USD <K k="total|usd" raw={total.usd}>{bn(total.usd)}</K> billion;

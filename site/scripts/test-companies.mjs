@@ -69,9 +69,12 @@ t("years one a year, and in spans when they are many", () => {
   assert.deepEqual(few.map((g) => g.label), ["2020", "2021", "2022"]);
   assert.deepEqual([few[2].operating, few[2].planned, few[2].queue], [2, 3, 4]);
   const many = db.yearGroups([["1951", 10, 0, 0], ["1999", 5, 0, 0], ["2026", 1, 2, 3]]);
-  assert.equal(many[0].label, "1950 to 1954");
+  assert.equal(many[0].label, "1950");
+  assert.equal(many[0].sub, "to 54");
   assert.equal(many[0].operating, 10);
-  assert.equal(many[many.length - 1].label, "2025 to 2026");
+  assert.equal(many[many.length - 1].label, "2025");
+  assert.equal(many[many.length - 1].sub, "to 26");
+  assert.equal(few[0].sub, undefined);
   assert.equal(many.reduce((s, g) => s + g.operating, 0), 16);
   assert.deepEqual(db.yearGroups([]), []);
 });
