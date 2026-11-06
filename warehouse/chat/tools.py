@@ -232,6 +232,9 @@ def grid_notes(grid):
 def _ready():
     global _backend_ready
     if not _backend_ready:
+        # session 2224 (chain 152): the chat reads the live set's review tables as the site's tools do (lib/chat/tools.ts
+        # admits in_live_set yes and review); set at first use, never at import, and only where nothing set it
+        os.environ.setdefault("ERW_LIVE_REVIEW", "on")
         erw.set_backend()  # ERW_BACKEND=local|redivis|supabase
         _backend_ready = True
 
