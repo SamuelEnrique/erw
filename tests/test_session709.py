@@ -24,11 +24,11 @@ const d = await F.dc(); const f = F.files();
 const x = { profile: 'datacenter', lf: 0.9, strike: null };
 const rows = S.nodeTable(d, f, x);
 const byE = S.sortNodes(rows, 'energy', 'desc'), byB = S.sortNodes(rows, 'basis', 'asc');
-const r = rows.find((k) => k.per !== null);
-const out = { n: rows.length, held: rows.filter((k) => k.per !== null).length, first: r,
-  key: S.sitingStat(f, 'allgrids|energy|' + r.id + '|da', d), basis: S.sitingStat(f, 'allgrids|basis|' + r.id, d), allin: S.sitingStat(f, 'allgrids|allin|' + r.id + '|' + S.profileKey(x), d),
+const r = rows.find((k) => k.per !== null) ?? null;
+const out = { n: rows.length, held: rows.filter((k) => k.per !== null).length, first: r, whys: rows.filter((k) => k.per === null).map((k) => k.why),
+  key: r && S.sitingStat(f, 'allgrids|energy|' + r.id + '|da', d), basis: r && S.sitingStat(f, 'allgrids|basis|' + r.id, d), allin: r && S.sitingStat(f, 'allgrids|allin|' + r.id + '|' + S.profileKey(x), d),
   energyDesc: byE.slice(0, 3).map((k) => k.per), lastE: byE.at(-1).per, basisAsc: byB.slice(0, 3).map((k) => k.basis),
-  flex: S.nodeTable(d, f, { profile: 'flexible', lf: 0.9, strike: 1000 }).find((k) => k.id === r.id) };
+  flex: r && S.nodeTable(d, f, { profile: 'flexible', lf: 0.9, strike: 1000 }).find((k) => k.id === r.id) };
 process.stdout.write(JSON.stringify(out));
 """
 
@@ -50,10 +50,18 @@ class Nodes(unittest.TestCase):
     def setUpClass(cls):
         cls.o = run()
 
+    # Session 2863: from 31 October 2026 no node has a twelve-month figure (node_basis_daily's day-ahead days stopped at
+    # 20 October, under 90 percent of the hub's November 2025 to October 2026), and the script failed on the first drawn
+    # node, which did not exist. With none drawn, every row says why; with one drawn, its figures are checked as before.
+    # Which nodes are drawn is test_session701's count, from nodes.json and the rule.
     def test_every_node_a_row_and_its_figures_the_hub_table_s(self):
         self.assertEqual(self.o["n"], 873)
-        self.assertGreater(self.o["held"], 700)
         r = self.o["first"]
+        if r is None:
+            self.assertEqual(self.o["held"], 0)
+            self.assertEqual(len(self.o["whys"]), 873)
+            self.assertTrue(all("fewer than 90 percent" in w or "are not held" in w for w in self.o["whys"]), self.o["whys"][:3])
+            return
         self.assertEqual(r["per"], self.o["key"])
         self.assertEqual(r["basis"], self.o["basis"])
         self.assertEqual(r["allin"], self.o["allin"])
@@ -61,15 +69,20 @@ class Nodes(unittest.TestCase):
 
     def test_the_profile_moves_the_energy_not_the_basis(self):
         r, fl = self.o["first"], self.o["flex"]
+        if r is None:
+            self.assertIsNone(fl)
+            return
         self.assertEqual(fl["basis"], r["basis"])
         self.assertLessEqual(fl["per"], r["per"])
 
     def test_the_sort_and_a_node_with_no_figure_last(self):
-        e = self.o["energyDesc"]
+        e = [v for v in self.o["energyDesc"] if v is not None]
         self.assertEqual(e, sorted(e, reverse=True))
+        self.assertEqual(self.o["energyDesc"][:len(e)], e)                 # the figures first, a node with none after
         self.assertIsNone(self.o["lastE"])
-        b = self.o["basisAsc"]
+        b = [v for v in self.o["basisAsc"] if v is not None]
         self.assertEqual(b, sorted(b))
+        self.assertEqual(self.o["basisAsc"][:len(b)], b)
 
     def test_the_list_is_virtual_and_shared_figures_are_drawn_once(self):
         n = src("site", "app", "cost-of-power", "AllGridsNodes.tsx")

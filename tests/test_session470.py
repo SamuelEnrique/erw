@@ -91,6 +91,11 @@ class NoIssueLostToARepeat(unittest.TestCase):
         self.assertEqual(len(c.iloc[0]["links"]), 1)
 
 
+# session 802: one topic (sector) one item in the top ten, so a fixture of ten distinct stories gives each its own sector
+SECTORS = ["oil", "gas", "lng", "power_prices", "generation", "renewables", "storage", "transmission", "grid_conditions",
+           "interconnection", "ppa", "policy"]
+
+
 class OneEventOneItem(unittest.TestCase):
     """Digest audit fix 5, Roundup audit fix 1."""
 
@@ -124,8 +129,9 @@ class OneEventOneItem(unittest.TestCase):
         self.assertFalse(brief.same_event(n1, n2))
 
     def test_the_top_ten_keeps_ten_items_when_a_twin_is_left_out(self):
-        recs = [self.korea1, self.korea2] + [rec(f"x{i}", f"Distinct story number {i} about thing{i}", sector="oil",
-                                                 parties=f"Party{i}") for i in range(12)]
+        # session 802: a sector each, and a party of its own word each ("Party1" and "Party2" are both the word "party")
+        recs = [self.korea1, self.korea2] + [rec(f"x{i}", f"Distinct story number {i} about thing{i}", sector=SECTORS[i],
+                                                 parties=f"Owner{chr(97 + i)}corp") for i in range(12)]
         log = Quiet()
         with tempfile.TemporaryDirectory() as d:
             top10, by_group, ai = brief.select(frame(*recs), "2026-10-02", log, folder=d)
@@ -187,7 +193,8 @@ class TheAISection(unittest.TestCase):
     """Digest audit fix 16: 28 September listed two stories the scorer itself called commentary, at 3."""
 
     def test_commentary_under_5_is_left_out(self):
-        recs = [rec(f"t{i}", f"Top story {i} with words{i}", sector="oil", parties=f"P{i}", sig=8) for i in range(10)]
+        recs = [rec(f"t{i}", f"Top story {i} with words{i}", sector=SECTORS[i], parties=f"Owner{chr(97 + i)}corp", sig=8)
+                for i in range(10)]
         recs += [rec("ai3", "From data centers to AI factories", sector="datacenter_power", sig=3, ai=9),
                  rec("ai6", "Utility signs 300 MW data center contract", sector="datacenter_power", sig=6, ai=9,
                      parties="Utility Co")]
@@ -200,7 +207,7 @@ class TheAISection(unittest.TestCase):
 
 class Wording(unittest.TestCase):
     def test_a_google_news_address_says_where_it_goes(self):
-        t = brief.link_text([("Reuters", GN), ("POWER", "https://www.powermag.com/x")])
+        t = brief.link_text([("Reuters", GN), ("POWER", "https://www.powermag.com/x")], licensed=set())   # 803: no hold
         self.assertIn(f"[Reuters]({GN}) (via Google News)", t)
         self.assertNotIn("powermag.com/x) (via", t)
 

@@ -105,7 +105,8 @@ class EveryWhyLineGoesThroughIt(unittest.TestCase):
             self.assertNotIn("plain(r['why'])}", src.replace("why_line(r['why'])}", ""))
             self.assertNotIn("plain(x['why'])}", src.replace("why_line(x['why'])}", ""))
             self.assertNotIn('brief.plain(top["why"])', src)
-        self.assertGreaterEqual(inspect.getsource(brief.main).count("why_line(r['why'])"), 3)
+        # session 801: the printed headline goes with the why line, why_line(r['why'], heads[...])
+        self.assertGreaterEqual(inspect.getsource(brief.main).count("why_line(r['why'], heads["), 3)
 
     def test_the_digest_s_policy_lines(self):
         with tempfile.TemporaryDirectory() as d:

@@ -65,6 +65,7 @@ RAW = "https://raw.githubusercontent.com/SamuelEnrique/erw/main"  # images in th
 RESEND = "https://api.resend.com/emails"
 SITE_DEFAULT = "https://erw-flame.vercel.app"  # the deployed site README.md links; SITE_URL overrides it
 TOP_HEADS = ("## Top of the industry", "## The five stories of the week")
+ALSO_LABEL = "Also on this topic:"   # session 802: the line under an item for the stories folded under it (brief.ALSO_LABEL)
 NUM_HEADS = ("## ERW's Numbers Today", "## ERW's Numbers This Week", "## Numbers today", "## Numbers of the week")
 LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 IMAGE = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
@@ -106,13 +107,18 @@ def numbered(lines, heads, n=5):
     for ln in section(lines, heads):
         m = re.match(r"^\d+\. \*\*(.+?)\*\*(?: \(([a-z ]+)[,)])?", ln)
         if m:
-            cur = {"head": m.group(1), "sector": (m.group(2) or "").strip(), "why": "", "src": None}
+            cur = {"head": m.group(1), "sector": (m.group(2) or "").strip(), "why": "", "src": None, "also": ""}
             items.append(cur)
+        elif cur is not None and ln.startswith("   ") and ln.strip().startswith(ALSO_LABEL):
+            cur["also"] = ln.strip()[len(ALSO_LABEL):].strip()   # session 817: the stories folded under the item (802)
         elif cur is not None and ln.startswith("   ") and ln.strip():
             text = ln.strip()
-            src = LINK.search(text.split("Sources:", 1)[1]) if "Sources:" in text else None
+            after = text.split("Sources:", 1)[1].strip() if "Sources:" in text else ""
+            src = LINK.search(after) if after else None
             cur["why"] = text.split("Sources:", 1)[0].strip()
-            cur["src"] = (src.group(1), src.group(2)) if src else None
+            # session 803: an outlet named with no link (its stories ask for a license) is the source, with no address
+            bare = re.match(r"([^\[\],(]+?)\s*(?:,|$)", after) if after and not after.startswith("[") else None
+            cur["src"] = (src.group(1), src.group(2)) if src and after.startswith("[") else ((bare.group(1).strip(), None) if bare else None)
     return items[:n]
 
 
@@ -186,8 +192,11 @@ def block(body, img_base="docs"):
         for r in rows:
             text.append("  " + "; ".join(f"{h}: {md_inline_text(c)}" for h, c in zip(head, r) if c))
         cells = lambda r, tag: "".join(f"<{tag} style=\"text-align:left;padding:2px 8px;border-bottom:1px solid #D9D2C3\">{md_inline_html(c)}</{tag}>" for c in r)  # noqa: E731
-        parts.append("<table style=\"border-collapse:collapse;font-size:13px\"><tr>" + cells(head, "th") + "</tr>"
-                     + "".join(f"<tr>{cells(r, 'td')}</tr>" for r in rows) + "</table>")
+        # session 810: the table in a scroll container, so a seven-column numbers table at 390 px scrolls instead of
+        # pushing the whole email wider than the screen (the page does the same, .prose-erw table in globals.css)
+        parts.append("<div style=\"overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%\">"
+                     "<table style=\"border-collapse:collapse;font-size:13px\"><tr>" + cells(head, "th") + "</tr>"
+                     + "".join(f"<tr>{cells(r, 'td')}</tr>" for r in rows) + "</table></div>")
         table.clear()
 
     for ln in body:
@@ -223,12 +232,26 @@ def story_list(stories):
         t.append(f"{i}. {s['head']}")
         if s["why"]:
             t.append(f"   {md_inline_text(s['why'])}")
-        via = " (via Google News)" if s["src"] and "news.google.com" in s["src"][1] else ""  # session 470
-        if s["src"]:
-            t.append(f"   {s['src'][0]}{via}: {s['src'][1]}")
+        # session 470: a Google News address says so; session 803: the outlet's name, never the address, in the text part
+        # for a Google News address (it reaches Google's own page), and an outlet with no link is named alone
+        url = s["src"][1] if s["src"] else None
+        google = bool(url and "news.google.com" in url)
+        via = " (via Google News)" if google else ""
+        if s["src"] and url and not google:
+            t.append(f"   {s['src'][0]}: {url}")
+        elif s["src"]:
+            t.append(f"   {s['src'][0]}{via}")
+        # session 817: the stories folded under the item (session 802) go with it; in the text part each outlet by its name,
+        # never an address (session 803's rule for the text part)
+        also = s.get("also") or ""
+        if also:
+            t.append(f"   {ALSO_LABEL} {LINK.sub(lambda m: m.group(1), also)}")
         li.append(f"<li style=\"margin:0 0 8px\"><strong>{html.escape(s['head'])}</strong><br>"
                   + (f"<span style=\"color:#6B665E\">{md_inline_html(s['why'])}</span><br>" if s["why"] else "")
-                  + (f"<a href=\"{html.escape(s['src'][1])}\">{html.escape(s['src'][0])}</a>{via}" if s["src"] else "") + "</li>")
+                  + ((f"<a href=\"{html.escape(url)}\">{html.escape(s['src'][0])}</a>{via}" if url else html.escape(s["src"][0]))
+                     if s["src"] else "")
+                  + (f"<br><span style=\"color:#6B665E;font-size:13px\">{html.escape(ALSO_LABEL)} {md_inline_html(also)}</span>" if also else "")
+                  + "</li>")
     return t, ("<ol style=\"padding-left:20px;font-size:14px;font-family:system-ui,sans-serif\">" + "".join(li) + "</ol>")
 
 
@@ -281,6 +304,12 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
         t += [md_inline_text(gate_links(x, gates)), ""]
         h.append(SMALL.format(f"<p style=\"color:#6B665E\">{md_inline_html(gate_links(x, gates))}</p>"))
     if kind == "roundup":  # session 23: the weekend's stories open the Roundup
+        # session 810: the week in five numbers (session 806) opens the email as it opens the page
+        five = [site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in section(lines, ("## The week in five numbers",))]
+        if any(x.strip() for x in five):
+            ft, fh = block(five, img_base=f"docs/{rel}")
+            t += ["The week in five numbers", ""] + ft + [""]
+            h += [H2.format("The week in five numbers"), SMALL.format(fh)]
         wk = numbered(lines, ("## Weekend",), 5)
         wt, wh = story_list(wk)
         t += ["Weekend", ""] + (wt or ["No scored story was published on the weekend."]) + [""]
@@ -288,19 +317,25 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     st, sh = story_list(stories)
     t += [head, ""] + ([note, ""] if note else []) + st
     h += [H2.format(head)] + ([SMALL.format(f"<p style=\"color:#6B665E\">{html.escape(note)}</p>")] if note else []) + [sh]
-    nh = "ERW's Numbers Today" if kind == "daily" else "ERW's Numbers This Week"
-    t += ["", nh, ""] + num_text
-    h += [H2.format(nh), SMALL.format(num_html)]
     # session 23: the Fun fact (daily) and the Chart of the week (Roundup), as the brief wrote them
     # session 24: policy; session 25: the ERW's names (the old ones still read, for briefs written before)
     # session 232: the Digest's chart of the day, its picture inline at 600 px (1200 px drawn), before the fun fact
-    for heading, old in (("## ERW's Policy of the Week", "## Policy of the week"), ("## ERW's Chart of the Week", "## Chart of the week"),
-                         ("## ERW's Chart of the Day", "## Chart of the day"), ("## ERW's Fun Fact", "## Fun fact")):
+    def add_block(heading, old):
         body = [site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in section(lines, (heading, old))]
         if any(x.strip() for x in body):
             bt, bh = block(body, img_base=f"docs/{rel}")
-            t += ["", heading[3:], ""] + bt
-            h += [H2.format(heading[3:]), SMALL.format(bh)]
+            t.extend(["", heading[3:], ""] + bt)
+            h.extend([H2.format(heading[3:]), SMALL.format(bh)])
+    # session 817: the Roundup's blocks in the page's order (the policy of the week, then the numbers, then the chart);
+    # the Digest's as before (the numbers, the chart of the day, the fun fact)
+    if kind == "roundup":
+        add_block("## ERW's Policy of the Week", "## Policy of the week")
+    nh = "ERW's Numbers Today" if kind == "daily" else "ERW's Numbers This Week"
+    t += ["", nh, ""] + num_text
+    h += [H2.format(nh), SMALL.format(num_html)]
+    for heading, old in (("## ERW's Chart of the Week", "## Chart of the week"), ("## ERW's Chart of the Day", "## Chart of the day"),
+                         ("## ERW's Fun Fact", "## Fun fact")):
+        add_block(heading, old)
     t += ["", "ERW", "", f"All of {name}: {page}"] + ([f"How this is made: {how}"] if how else []) + [
           "ERW, the live, citable record of the US energy system. Every number names the table it came from."]
     if unsubscribe:
@@ -313,7 +348,10 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
         h.append("<p style=\"font-size:12px;font-family:system-ui,sans-serif;color:#6B665E\">"
                  + (f"<a href=\"{html.escape(unsubscribe)}\">Stop these emails</a> (one click)."
                     if unsubscribe.startswith("http") else html.escape(unsubscribe)) + "</p>")
-    body_html = ("<!doctype html><html><body style=\"margin:0;padding:16px;background:#F7F3EA;color:#2E2D29;"
+    # session 810: a head with the viewport, so a phone's mail client lays the email out at the screen's width (without it
+    # a 390 px screen rendered the email 980 px wide and scaled it down); the charset for the names and the euro sign
+    body_html = ("<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+                 "</head><body style=\"margin:0;padding:16px;background:#F7F3EA;color:#2E2D29;"
                  "font-family:Georgia,serif\"><div style=\"max-width:640px;margin:0 auto\">" + "".join(h)
                  + "</div></body></html>")
     return title, label, "\n".join(t) + "\n", body_html

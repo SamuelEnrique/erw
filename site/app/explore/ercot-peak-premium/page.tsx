@@ -5,12 +5,13 @@ import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ExploreFrame, FilterForm, Freshness } from "@/components/explore/Explore";
-import { ChartFrame, HeadlineNumber, HeadlineRow, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { ChartFrame, HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { headers } from "@/lib/data";
 import { MONTHS, choose, isoKey, longTime, type Params } from "@/lib/explore";
 import {
   ANNUAL, BLOCKS, FIGURES, MONTHLY, STATS, THESIS_HUB, fullYear, lastInput, partialMonth, periodTs, valueOf, type Row,
 } from "@/lib/explore/peakpremium";
+import { sourceOf } from "@/lib/explore/source";
 import { node, shown } from "@/lib/format";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 
@@ -21,6 +22,11 @@ import { HOURLY, attempt, rest } from "@/lib/supabase";
 // check key (scripts/check-values.mjs reads it again). Nothing is computed here. The same tables are drawn one year at a
 // time on the ERCOT tab of /prices (app/explorer/ercot-peak-premium/view.tsx), where /explorer/ercot-peak-premium
 // redirects; this page leaves that one as it is.
+// Session 2200 (chain 086): every figure carries its source in its hover (Num's `source`, the words of
+// lib/explore/source.ts read from the figure's own key: the table, the hub, the variable, the period and ERCOT's two
+// reports), and each headline number a Tip with the same words, reachable by keyboard. The thesis chart (BoxPlot) and the
+// two line charts (TimeChart) draw their hover cards on fog with every figure in mono; scripts/check-explorers.mjs reads
+// the page in a browser and proves the tips and the cards.
 export const metadata: Metadata = { title: "ERCOT peak premium explorer" };
 export const dynamic = "force-dynamic";
 
@@ -96,7 +102,7 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
   const key = (variable: string, y: number) => `series|${table}|${hub}|${variable}|${isoKey(periodTs(y, month))}`;
   const N = ({ v, y, unit }: { v: string; y: number; unit: string }) => {
     const x = valueOf(rows, v, periodTs(y, month));
-    return x === undefined ? <span className="text-muted">not held</span> : <Num check={key(v, y)} raw={x}>{fig(x, unit)}</Num>;
+    return x === undefined ? <span className="text-muted">not held</span> : <Num check={key(v, y)} raw={x} source={sourceOf(key(v, y), node(hub))}>{fig(x, unit)}</Num>;
   };
   const yearOpt = (y: number) => ({ value: String(y), label: `${y}${held(y) === undefined ? " (not held)" : partial(y) ? " (partial)" : ""}` });
   const asked = [badHub && "hub", badMonth && "month", badFrom && "first year", badTo && "second year"].filter(Boolean);
@@ -137,6 +143,7 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
       <HeadlineRow>
         {[["peak_iqr", "Peak-block IQR"], ["peak_minus_midday_median", "Peak median minus midday median"], ["all_median", "Median, all intervals"]].map(([v, label]) => (
           <HeadlineNumber key={v} label={`${label}, ${name}, ${when(to)}`} value={<N v={v} y={to} unit="USD/MWh" />} unit="USD/MWh"
+            tip={<Tip id={`source-${v}`} label={`where ${label.toLowerCase()} comes from`}>{sourceOf(key(v, to), name)}</Tip>}
             note={from !== to ? <>{when(from)}: <N v={v} y={from} unit="USD/MWh" /> USD/MWh</> : undefined} />
         ))}
       </HeadlineRow>

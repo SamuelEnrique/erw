@@ -1,8 +1,8 @@
 "use client";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { useState } from "react";
-import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 import { SeriesBlock, type Series } from "@/components/ask/AskPanel";
+import { AnswerSources } from "@/components/ask/AnswerSources";
 
 type Citation = { table: string; source_report: string; data_version: string; tier?: string };
 type Result = {
@@ -104,50 +104,8 @@ export function AskForm({ grid = null, initial = "", placeholder, examples = [] 
             </div>
           ) : null}
           {(res.series ?? []).map((s) => <SeriesBlock key={s.result_id} s={s} form="chart" />)}
-          {res.citations.length ? (
-            <>
-              <h2 className="mb-1 border-b border-rule pb-1 text-lg">Sources</h2>
-              <ul className="text-sm">
-                {res.citations.map((c) => (
-                  <li key={c.table} className="border-b border-rule/60 py-1">
-                    {c.table.startsWith("docs/grids/") ? (
-                      <>
-                        Written layer{" "}
-                        <Link href={`/grid?grid=${c.table.slice(11, -3)}`} className="font-mono">
-                          {c.table}
-                        </Link>
-                      </>
-                    ) : (
-                      <>
-                        ERW table{" "}
-                        <Link href={`/data#${c.table}`} className="font-mono">
-                          {c.table}
-                        </Link>
-                      </>
-                    )}
-                    {c.tier === "model_extracted" ? (
-                      <span className="ml-1 rounded border border-rule px-1 text-xs" title={TIER_TITLE.model_extracted}>
-                        {TIER_LABEL.model_extracted}
-                      </span>
-                    ) : null}
-                    , source report <code className="font-mono text-xs">{c.source_report}</code>
-                    <div className="text-xs text-muted">{c.data_version}</div>
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : null}
-          {(res.reads ?? []).length ? (
-            <ul className="mt-2 text-xs text-muted" data-reads={res.reads!.length}>
-              {res.reads!.map((r, i) => (
-                <li key={i} className="py-0.5">
-                  Read: <span className="font-mono">{r.table}</span>{r.entity ? <>, <span className="font-mono">{r.entity}</span></> : null}{r.variable ? <>, <span className="font-mono">{r.variable}</span></> : null}
-                  {r.start || r.end ? `, ${r.start ?? "the first row"} to ${r.end ?? "the newest row"}${r.end ? " (the end not included)" : ""}${r.tz && r.tz !== "UTC" ? `, ${r.tz} time` : ""}` : ", every row held"}
-                  {r.aggregation ? `, ${r.aggregation}${r.group_by ? ` by ${r.group_by}` : ""}` : ""}
-                </li>
-              ))}
-            </ul>
-          ) : null}
+          {/* session 1194: the sources and the reads in the brand's source line, as under every chat's answer (components/ask/AnswerSources.tsx) */}
+          <AnswerSources citations={res.citations} reads={res.reads} />
           <p className="mt-3 text-xs text-muted">
             {typeof res.seconds === "number" ? <span data-answered-in={res.seconds.toFixed(1)}>Answered in {res.seconds.toFixed(1)} seconds; </span> : null}
             {res.tool_calls} warehouse queries by {res.model}

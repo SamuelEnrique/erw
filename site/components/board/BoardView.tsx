@@ -10,13 +10,13 @@
 // Session 168: before any row is clicked, the workbench's place holds a quiet empty panel (BenchPlaceholder): the same
 // box the workbench takes, docked on the right on wide screens and above the tables on narrow ones, the faint outline of
 // a chart drawn in SVG, and one line. A click on a row puts the workbench in that box, exactly as before.
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
 import { GroupFold, NumberTile, NumberTileGrid } from "@/components/tool/ToolPage";
 import {
-  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, fmt, gridExtremes, heldNote, inputsWords, leadRow, noMove, pct, rangeExtremes, rowsOf, shortDate, signed, sparkOf, topRows,
+  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, fmt, gridExtremes, heldLines, heldNote, inputsWords, leadRow, noMove, pct, rangeExtremes, rowsOf, shortDate, signed, sparkOf, topRows,
   type Bench, type BoardFile, type Group, type Row, type WeekRow,
 } from "@/lib/board";
 
@@ -130,7 +130,7 @@ function MoveCell({ row, k }: { row: Row; k: "d" | "w" | "m" | "y" }) {
 // table row made a stop of the keyboard (tabindex 0, aria-selected), which a screen reader announces as a row with no
 // role to press (AccessLint, 218 rows of /board). The row's name is now a button, the stop of the keyboard, pressed while
 // its series is in the workbench; a click anywhere on the row still opens it (the button's click reaches the row).
-function PriceRow({ row, group, open, onOpen, file }: { row: Row; group: Group; open: boolean; onOpen: (id: string) => void; file: BoardFile }) {
+function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row; group: Group; open: boolean; onOpen: (id: string) => void; file: BoardFile; hidden?: boolean; domId?: string }) {
   const words = (
     <span className={row.status === "ok" ? "text-ink" : "text-muted"} title={[row.code ? `Code: ${row.code}` : "", row.formula ? `Formula: ${row.formula}` : "", row.source !== undefined ? `Source: ${file.sources[row.source]}` : ""].filter(Boolean).join("\n") || undefined}>
       {row.label}{row.formula ? <sup className="ml-0.5 text-xs text-muted">f</sup> : null}
@@ -145,7 +145,7 @@ function PriceRow({ row, group, open, onOpen, file }: { row: Row; group: Group; 
   const cols = 11 + (group.curve ? 1 : 0);
   if (row.status !== "ok") {
     return (
-      <tr className="border-b border-rule/70" data-row={row.id} data-status={row.status}>
+      <tr className="border-b border-rule/70" data-row={row.id} data-status={row.status} hidden={hidden} id={domId}>
         {name}
         <td colSpan={cols} className="py-1 pr-2 text-left text-xs italic text-muted"><span title={row.note} className="cursor-help border-b border-dotted border-muted">{PLACEHOLDER[row.status]}</span></td>
       </tr>
@@ -178,6 +178,11 @@ function PriceRow({ row, group, open, onOpen, file }: { row: Row; group: Group; 
 function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }: { file: BoardFile; group: Group; chosen: Record<string, string>; pick: (key: string, v: string) => void; open: string | null; onOpen: (id: string) => void; unfolded: boolean; fold: (open: boolean) => void }) {
   const rows = rowsOf(file, group, chosen);
   const lead = leadRow(file, group);
+  // session 1193: the public rows first, then one line for each grid held for a license (its count, the hold's words),
+  // its rows' names behind a toggle; the held rows stay in the page, blank, as they were (lib/board.ts, heldLines)
+  const { shown, held } = heldLines(rows);
+  const [named, setNamed] = useState<Record<string, boolean>>({});
+  const cols = 11 + (group.curve ? 1 : 0);
   return (
     <section id={group.id} className="scroll-mt-4" aria-label={group.title} data-group={group.id}>
       <GroupFold title={group.title} open={unfolded} onToggle={fold} meta={<>
@@ -212,7 +217,27 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
               {group.curve ? <th className="pr-2 text-left font-normal">Futures 1 to 4</th> : null}
             </tr>
           </thead>
-          <tbody>{rows.map((r) => <PriceRow key={r.id} row={r} group={group} open={open === r.id} onOpen={onOpen} file={file} />)}</tbody>
+          <tbody>
+            {shown.map((r) => <PriceRow key={r.id} row={r} group={group} open={open === r.id} onOpen={onOpen} file={file} />)}
+            {held.map(({ grid, rows: hs }) => {
+              const id = `held-${group.id}-${grid.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
+              return (
+                <Fragment key={grid}>
+                  <tr className="border-b border-rule/70" data-held-line={`${group.id}|${grid}`} data-held-count={hs.length}>
+                    <th scope="row" className="whitespace-nowrap py-1 pl-2 pr-3 text-left font-normal text-muted">{grid}: {hs.length} {hs.length === 1 ? "row" : "rows"}</th>
+                    <td colSpan={cols} className="py-1 pr-2 text-left text-xs text-muted">
+                      <span className="italic"><span title={heldNote(grid)} className="cursor-help border-b border-dotted border-muted">{PLACEHOLDER.license}</span><span className="sr-only">: {heldNote(grid)}</span></span>
+                      <button type="button" aria-expanded={!!named[grid]} aria-controls={hs.map((r) => `${id}-${r.id}`).join(" ")} data-held-toggle={`${group.id}|${grid}`}
+                        onClick={() => setNamed((n) => ({ ...n, [grid]: !n[grid] }))} className="ml-3 border border-rule bg-white px-1.5 py-px not-italic text-ink hover:border-accent">
+                        {named[grid] ? "Hide the rows' names" : "Show the rows' names"}
+                      </button>
+                    </td>
+                  </tr>
+                  {hs.map((r) => <PriceRow key={r.id} domId={`${id}-${r.id}`} row={r} group={group} open={false} onOpen={onOpen} file={file} hidden={!named[grid]} />)}
+                </Fragment>
+              );
+            })}
+          </tbody>
         </table>
       </div>
       </GroupFold>

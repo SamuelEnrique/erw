@@ -159,6 +159,15 @@ Session 232, Samuel's ruling of 12 October 2026: every weekday Digest carries on
 and drawn by code with no model and no approval (`warehouse/analysis/findings/daily_chart.py`). It is separate from the
 review list: a flag needs no ruling to be the day's chart, and being the day's chart does not approve its draft.
 
+- **The day's stories first** (session 805, 22 October 2026; `relevance`, `ranked` and `choose` in `daily_chart.py`).
+  Before the rule below, the candidates are ordered by how much each belongs to the day's top ten stories: two points
+  where the candidate's table belongs to the story's sector tag (`SECTOR_OF`, by the words of the table's and the
+  series' names) and one for each content word the candidate's fact, table or series shares with the story's title,
+  why line or parties (at most three), each times the story's weight (the top story ten, the tenth one). A candidate
+  related to no story ranks after every one related to some; among equals the rule below decides. The record of the
+  choice (`docs/digest/charts/<date>.json`, `relevance`) and the sentence under the chart say which story it follows.
+  The 13 issues to 21 October 2026 were chosen by strength alone, so each was a state's July record on a day whose
+  stories were elsewhere (`docs/reviews/periodicals-plan-2026-10-23.md`).
 - **The rule.** (1) The day's strongest scanner flag: records and first negative prices first, then by how far past
   its threshold (the flag's strength, in robust standard deviations of the series' own history), ties by the flag's id.
   (2) A flag a Digest has already shown is never shown again: a monthly record stays fresh to the scanner for 130 days
