@@ -44,7 +44,8 @@ One step a session, in chain 150's order, as session 1470 lists them under "Unfi
 
 ### Unfinished steps (written by session 1470 of chain 150)
 
-(To be filled by session 1470. One line a step, in chain 150's order: the session of chain 150 that owned it, the step's number, what remains, and the exact commands where the step was a landing.)
+- Session 1470, step 3 (the landing of `wip/1470-periodicals`: sessions 1468 to 1470, the third dry runs' faults file, the counts' fix of fault 55 and chain 150's note): done when `git merge-base --is-ancestor origin/wip/1470-periodicals origin/main` exits 0 (session 1470's report says which). If not: `python scripts/land_check.py --ref wip/1470-periodicals --task 1470-periodicals --port 3471 --keep-worktree`; on its only failures being the `/deals` and know-your-grid floors (main's since 6 November), `node scripts/check-routes.mjs`, `check-cross-checks.mjs` and `check-csp.mjs` against the kept build; `node site/scripts/snapshot-live.mjs take s1471-before`; the push of `task/1470-periodicals` only after `git merge-base --is-ancestor origin/main <sha>`; the merge and the deploy waited; `take s1471-after`; `compare`; the branch deleted once an ancestor.
+- No other step of chain 150 is unfinished (`docs/state/note_2026-11-07_code.md`).
 
 ## Sessions 1476 to 1481: the faults still open
 
@@ -54,7 +55,13 @@ One fault a session, from `docs/reviews/periodicals-faults-2026-11-05.md`, in th
 
 ### Open faults (written by session 1470 of chain 150)
 
-(To be filled by session 1470: the faults file's open rows, one a line with its number, in the file's order. When fewer than six are open, the free sessions run one more dry run of each periodical on the newest stories held, read it as a reader, send the previews to the fixed recipients, and append the faults.)
+- 50: the Roundup's deal row prints its type "other" and names one party twice ("USD 19 billion, TeraWulf, TeraWulf data center in Kentucky (other, 2026-11-05)").
+- 51: "site not stated" in the Roundup's load row ("702 MW, Google, site not stated, Cheyenne").
+- 52: the five numbers read the deal and the load under the tables' own floor (`roundup.ROW_CONFIDENCE` 0.7; both rows 0.55): they state what the tables below refuse.
+- 53: the Roundup's subject leads with a cut headline in the publisher's money style while the issue opens on Brent.
+- 54: a bare "938,000,000" in the Roundup's Deals table.
+- (Five are open: the sixth free session runs one more dry run of each periodical, as above.)
+- The owner's, not to be decided here: rows 19, 20, 39, 40, 47, 49 and session 1462's question on the scorer's model for the why line (the note's question 1).
 
 ## Session 1482: the fourth dry runs, read, the previews sent
 
