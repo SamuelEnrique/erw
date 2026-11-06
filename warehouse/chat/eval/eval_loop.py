@@ -4,7 +4,7 @@ tool call recorded, graded on keys computed the same hour from the live set, und
 
 Energy Research Warehouse (ERW). One command, three steps, each into files of its own so that no stored run is touched:
 
-    python warehouse/chat/eval/eval_loop.py --session 2221 --cap 3 [--only b01,b02] [--set s320] [--no-ask]
+    python warehouse/chat/eval/eval_loop.py --session 2221 --cap 3 [--only b01,b02] [--set s320] [--no-ask] [--rules none]
 
   keys     eval_s1113.py's --keys (session 539's code: the keys from the live set, the anon key, no model), written to
            eval_s<N>_loop_keys.json
@@ -17,7 +17,8 @@ Energy Research Warehouse (ERW). One command, three steps, each into files of it
            call's cost kept in the run file from the response's usage block. The cap is checked before each question: the run's own costs plus a reserve (USD 0.50
            for the first ten questions, then the dearest so far, at least USD 0.30) must stay
            under --cap (the reserve one question at the dearest cost seen, the costs being exact here).
-  grade    eval_s1113.py's grade (now, under the hold, if ruled), written to eval_s<N>_loop_grades.json.
+  grade    eval_s1113.py's grade (now, under the hold, if ruled), written to eval_s<N>_loop_grades.json; since session 2223
+           under eval_s267.py's RULES_2223 (session 320's ruling 3) unless --rules none.
 
 The run file has the shape of eval_s1113_run.json (so replay.py, refusals.py and history.py read it through runs.json),
 with "loop": "python" on every record and each trace entry carrying isError beside is_error (the site's key, which
@@ -163,16 +164,19 @@ def main(argv):
         run = ask_all(E, ask, qs, F["run"], cap, only, session, which)
     else:
         run = read_json(F["run"])
+    # session 2223: a grading from this session on is made under session 320's ruling 3 (eval_s267.py RULES_2223: a refusal
+    # graded on refusing and stating no figure, a key's table met by the record's own evidence); --rules none for the old way
+    rules = () if "--rules" in argv and argv[argv.index("--rules") + 1] == "none" else E.G.RULES_2223
     if which == "s320":
         E.GRADES = F["grades"]
-        doc = E.grade(run, keys_doc)
+        doc = E.grade(run, keys_doc, rules)
         doc["_about"] = (f"Session {session} (chain 152): {os.path.basename(F['run'])} graded on {os.path.basename(F['keys'])} by "
                          "eval_loop.py with eval_s1113.py's grade (no model, no network).")
         doc["loop"] = "python"
         write_json(F["grades"], doc)
     else:
         E.SETS[which]["run"], E.SETS[which]["grades"] = F["run"], F["grades"]
-        E.grade_s1114()
+        E.grade_s1114(rules)
     return 0
 
 

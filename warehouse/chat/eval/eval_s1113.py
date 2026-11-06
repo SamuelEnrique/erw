@@ -190,9 +190,9 @@ def held_ok(answer, k):
     return "license needed" in a.lower() and grid.lower() in a.lower() and not states
 
 
-def grade_s1114():
+def grade_s1114(rules=()):
     """The second set: each question graded by eval_s267.py's grader on its own key (questions_s1114.yaml), a date in
-    its text accepted written either way ("September 3" or "3 September")."""
+    its text accepted written either way ("September 3" or "3 September"). `rules` as grade()'s (session 2223)."""
     with open(SETS["s1114"]["run"], encoding="utf-8") as f:
         run = {x["id"]: x for x in json.load(f)["questions"]}
     out = []
@@ -200,7 +200,7 @@ def grade_s1114():
         a = run.get(q["id"])
         if a is None:
             continue
-        g = G.grade(q, a)
+        g = G.grade(q, a, rules)
         if g.get("text") is False:
             ans = (a.get("answer") or "").lower()
             ok = True
@@ -213,7 +213,8 @@ def grade_s1114():
         out.append({"id": q["id"], "via": q["via"], "grid": q["grid"], "status": a.get("status"), "tool_calls": a.get("tool_calls"), "retried": a.get("retried"),
                     "cost_usd": a.get("cost_usd"), "seconds": a.get("seconds"), "expected": q["expected"], "ok": g["ok"], "grade": g, "trace_calls": len(a.get("trace") or [])})
     doc = {"_about": "Session 1114: eval_s1114_run.json graded on questions_s1114.yaml's keys by eval_s1113.py --grade --set s1114 (no model, no network).",
-           "asked": len(out), "right": sum(r["ok"] for r in out), "cost_usd": round(sum(float(r["cost_usd"] or 0) for r in out), 4), "questions": out}
+           "asked": len(out), "right": sum(r["ok"] for r in out), "rules": list(rules),
+           "cost_usd": round(sum(float(r["cost_usd"] or 0) for r in out), 4), "questions": out}
     with open(SETS["s1114"]["grades"], "w", encoding="utf-8", newline="\n") as f:
         json.dump(doc, f, indent=1)
         f.write("\n")
@@ -221,7 +222,8 @@ def grade_s1114():
     return doc
 
 
-def grade(run_doc=None, keys_doc=None):
+def grade(run_doc=None, keys_doc=None, rules=()):
+    """`rules` (session 2223): eval_s267.py's RULES_2223 for a grading under session 320's ruling 3; none regrades as before."""
     if run_doc is None:
         with open(RUN, encoding="utf-8") as f:
             run_doc = json.load(f)
@@ -242,7 +244,7 @@ def grade(run_doc=None, keys_doc=None):
             now_q["expected"] = k["expected"]
             if q["id"] in ("b07", "d08") and k.get("month_name"):
                 now_q["text"] = ([k["month"][:4]] if q["id"] == "b07" else []) + [k["month_name"]]
-        now = G.grade(now_q, a)
+        now = G.grade(now_q, a, rules)
         held = bool(k) and not q["refuse"] and any(R.held_row(k["table"], e.strip(), day) for e in k["entity"].split(" less "))
         held_g = {"ok": held_ok(a.get("answer"), k)} if held else now
         if_q = dict(now_q)
@@ -254,7 +256,7 @@ def grade(run_doc=None, keys_doc=None):
             if_q["tables"] = q["tables"] + [R.C]
         if q["refuse"]:
             if_q["tables"] = []
-        if_ruled = {"ok": held_ok(a.get("answer"), k)} if held else G.grade(if_q, a)
+        if_ruled = {"ok": held_ok(a.get("answer"), k)} if held else G.grade(if_q, a, rules)
         out.append({"id": q["id"], "via": q["via"], "grid": q["grid"], "status": a.get("status"), "tool_calls": a.get("tool_calls"),
                     "retried": a.get("retried"), "cost_usd": a.get("cost_usd"), "seconds": a.get("seconds"), "expected_now": now_q["expected"],
                     "held": held, "now_ok": now["ok"], "held_ok": held_g["ok"], "if_ruled_ok": if_ruled["ok"], "grade_now": now,
@@ -263,7 +265,7 @@ def grade(run_doc=None, keys_doc=None):
            "keys_computed_at_utc": keys_doc.get("computed_at_utc"), "asked": len(out),
            "right_now": sum(r["now_ok"] for r in out), "right_under_hold": sum(r["held_ok"] for r in out),
            "right_if_ruled": sum(r["if_ruled_ok"] for r in out), "held": [r["id"] for r in out if r["held"]],
-           "cost_usd": round(sum(float(r["cost_usd"] or 0) for r in out), 4), "questions": out}
+           "rules": list(rules), "cost_usd": round(sum(float(r["cost_usd"] or 0) for r in out), 4), "questions": out}
     with open(GRADES, "w", encoding="utf-8", newline="\n") as f:
         json.dump(doc, f, indent=1)
         f.write("\n")
@@ -283,7 +285,9 @@ def main(argv):
         only = set(argv[argv.index("--only") + 1].split(",")) if "--only" in argv else None
         ask(base, cap, only, which)
     if "--grade" in argv:
-        grade_s1114() if which == "s1114" else grade()
+        # session 2223: --rules 2223 grades under session 320's ruling 3 (eval_s267.py RULES_2223); without it, as before
+        rules = G.RULES_2223 if "--rules" in argv and argv[argv.index("--rules") + 1] == "2223" else ()
+        grade_s1114(rules) if which == "s1114" else grade(rules=rules)
     return 0
 
 
