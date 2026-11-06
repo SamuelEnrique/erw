@@ -228,6 +228,103 @@ def ask_group(day):
     return out
 
 
+ASK_DO = os.path.join(HERE, "replicate_ask.do")
+PLAIN = ("mean", "sum", "min", "max", "count", "latest")
+
+
+def stata_str(s):
+    return '"' + str(s).replace('"', "'") + '"'
+
+
+def ask_do(figures):
+    """replicate_ask.do: each stored answer's plain query (one aggregation over the rows a filter keeps, no groups, no
+    compare) in Stata, its figures beside the result. The grouped queries and the compares are replicate.py's only."""
+    head = [
+        "* ERW, the Grid tool (/grid): the Ask panel's stored answers, the plain queries, rebuilt in Stata from the warehouse's tables.",
+        "* Written by figures_of_the_page.py from page_figures.json: do not edit by hand; write it again. Run from this folder, by replicate.do or alone, with the global tables set to the folder of the tables as CSV.",
+        "* Each block keeps the rows the query's filter keeps (and, for a grid's own chat, the rows of that grid, as warehouse/chat/tools.py scope_rows), computes the aggregation, and displays each figure the answer states beside it. A figure is met when it equals the value or the count of rows to its shown decimals. A figure whose table was held for its grid on the day prints \"license needed\" and is not computed.",
+        "* This do-file has not been run: Stata is not installed on the machine that wrote it.",
+        "capture program drop erw_read",
+        "program define erw_read",
+        "    args file",
+        "    import delimited using \"`file'\", varnames(nonames) stringcols(_all) clear",
+        "    drop if substr(v1, 1, 1) == \"#\"",
+        "    foreach v of varlist _all {",
+        "        local nm = strtoname(`v'[1])",
+        "        rename `v' `nm'",
+        "    }",
+        "    drop in 1",
+        "end",
+    ]
+    out = [head[0], "", head[1], "", head[2], "", head[3], "", head[4], "", "\n".join(head[5:]), ""]
+    seen = set()
+    n = 0
+    for f in figures:
+        if f["group"] != "ask":
+            continue
+        s = f["source"]
+        key = json.dumps(s, sort_keys=True)
+        if key in seen:
+            continue
+        seen.add(key)
+        figs = [g for g in figures if g["group"] == "ask" and json.dumps(g["source"], sort_keys=True) == key]
+        label = f["check"].rsplit("|", 1)[0]
+        if f["held"]:
+            out += [f"* {label}: license needed (the table {s['tables'][0]} is held for this grid on the day); not computed", ""]
+            continue
+        flt = {}
+        for part in s["filter"].split(", "):
+            if "=" in part:
+                k, v = part.split("=", 1)
+                flt[k.strip()] = json.loads(v) if k.strip() == "where" else v.strip()
+        agg = flt.get("aggregation")
+        if s["tool"] != "query" or agg not in PLAIN or flt.get("group_by") or (agg == "latest" and not (flt.get("entity") and flt.get("variable"))):
+            out += [f"* {label}: {s['tool']} with {('group_by ' + flt['group_by']) if flt.get('group_by') else 'its own rules'}; replicate.py only", ""]
+            continue
+        n += 1
+        t = s["tables"][0]
+        lines = [f"* {label}: {t}, {s['filter']}", f'erw_read "$tables/{t}.csv"']
+        sc = s.get("scope") or {}
+        if sc.get("by") == "entity":
+            lines.append(f'keep if substr(entity, 1, {len(sc["slug"]) + 1}) == {stata_str(sc["slug"] + ":")}')
+        elif sc.get("by") == "ba":
+            lines.append(f'keep if ba == {stata_str(sc["ba"])}')
+        elif sc.get("by") and sc["by"] != "name":
+            out += [f"* {label}: the grid's rows kept by {sc['by']}; replicate.py only", ""]
+            n -= 1
+            continue
+        if flt.get("entity"):
+            col = "entity" if "entity_id" not in t else "entity_id"
+            lines.append(f"keep if {col} == {stata_str(flt['entity'])}")
+        if flt.get("variable"):
+            lines.append(f"keep if variable == {stata_str(flt['variable'])}")
+        if flt.get("start"):
+            lines.append(f"keep if ts_utc >= {stata_str(flt['start'])}")
+        if flt.get("end"):
+            lines.append(f"keep if ts_utc < {stata_str(flt['end'])}")
+        for col, val in (flt.get("where") or {}).items():
+            vals = val if isinstance(val, list) else [val]
+            lines.append("keep if " + " | ".join(f"{col} == {stata_str(v)}" for v in vals))
+        vcol = "value" if "queue" not in t else "capacity_mw"
+        lines.append(f"destring {vcol}, replace force")
+        if agg == "count":
+            lines += ["scalar v_value = _N"]
+        elif agg == "latest":
+            lines += ["gsort -ts_utc", f"scalar v_value = {vcol}[1]"]
+        else:
+            stat = {"mean": "mean", "sum": "sum", "min": "min", "max": "max"}[agg]
+            lines += [f"summarize {vcol}", f"scalar v_value = r({stat})"]
+        lines.append("scalar v_n = _N")
+        for g in figs:
+            fig = g["raw"]
+            tol = float(f"{g['tolerance'] + 1e-9:.10g}")
+            lines.append(f'display "{g["check"]}: the answer states {g["page_text"]}; the query gives " v_value " over " v_n " rows; met: " '
+                         f'cond(min(abs(abs(v_value) - {fig!r}), abs(v_n - {fig!r})) <= {tol!r}, "yes", "no")')
+        out += ["\n\n".join(lines), ""]
+    out.append(f"* {n} plain queries above; the others are replicate.py's.")
+    return "\n".join(out) + "\n"
+
+
 def build(snapshot, tables_dir, day):
     net = network_group(snapshot, tables_dir)
     last_month, carbon = carbon_group(tables_dir)
@@ -273,7 +370,7 @@ def build(snapshot, tables_dir, day):
     w.writerow(cols)
     for f in figures:
         w.writerow(["" if f[c] is None else (int(f[c]) if c == "held" else f[c]) for c in cols])
-    return json.dumps(doc, indent=1, ensure_ascii=False) + "\n", buf.getvalue(), hour_csv(snap, net["hour"])
+    return json.dumps(doc, indent=1, ensure_ascii=False) + "\n", buf.getvalue(), hour_csv(snap, net["hour"]), ask_do(figures)
 
 
 def hour_csv(snap, hour):
@@ -282,6 +379,7 @@ def hour_csv(snap, hour):
     buf = io.StringIO()
     w = csv.writer(buf, lineterminator="\n")
     w.writerow(["kind", "id", "other", "ts_utc", "value"])
+    w.writerow(["built", "", "", snap["built"], ""])
     for l in snap["links"]:
         v = l["mw"][h]
         if v is not None:
@@ -302,7 +400,7 @@ def main(argv):
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args(argv)
     texts = build(os.path.abspath(a.snapshot), os.path.abspath(a.tables), a.day)
-    paths = (OUT_JSON, OUT_CSV, OUT_HOUR)
+    paths = (OUT_JSON, OUT_CSV, OUT_HOUR, ASK_DO)
     if a.check:
         same = True
         for p, t in zip(paths, texts):
@@ -311,7 +409,7 @@ def main(argv):
                 continue
             with open(p, encoding="utf-8") as f:
                 same = same and f.read() == t
-        print("the page's figures are current" if same else "page_figures.json, page_figures.csv or snapshot_hour.csv differs: write them again")
+        print("the page's figures are current" if same else "page_figures.json, page_figures.csv, snapshot_hour.csv or replicate_ask.do differs: write them again")
         return 0 if same else 1
     for p, t in zip(paths, texts):
         with open(p, "w", encoding="utf-8", newline="\n") as f:

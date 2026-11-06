@@ -190,3 +190,54 @@ class TheRules(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def do_file_faults(lines):
+    """The owner's Stata rules: no line continuation; one empty line between commands outside a loop or a program, none
+    inside; every destring with force. The faults found, as (line, why)."""
+    faults, depth = [], 0
+    text = "\n".join(lines)
+    if "///" in text:
+        faults.append((0, "a line continuation"))
+    if "\n\n\n" in text:
+        faults.append((0, "two empty lines in a row"))
+    for i, line in enumerate(lines):
+        s = line.strip()
+        if s.startswith("destring") and "force" not in s:
+            faults.append((i + 1, "destring without force"))
+        opens = s.endswith("{") or s.startswith("program define")
+        closes = s == "}" or s == "end"
+        if opens:
+            depth += 1
+            if i + 1 < len(lines) and lines[i + 1].strip() == "":
+                faults.append((i + 2, "an empty line inside a block"))
+            continue
+        if closes:
+            depth -= 1
+            if depth == 0 and i + 1 < len(lines) and lines[i + 1].strip() != "":
+                faults.append((i + 1, "no empty line after a block"))
+            continue
+        if depth and s == "":
+            faults.append((i + 1, "an empty line inside a block"))
+        elif not depth and s and i + 1 < len(lines) and lines[i + 1].strip() != "":
+            faults.append((i + 1, "two commands without an empty line between them"))
+    return faults
+
+
+class TheDoFiles(unittest.TestCase):
+    def test_the_owners_rules(self):
+        for name in ("replicate.do", "replicate_ask.do"):
+            with open(os.path.join(REP, name), encoding="utf-8") as f:
+                lines = f.read().splitlines()
+            self.assertEqual(do_file_faults(lines), [], name)
+
+    def test_the_ask_blocks_are_the_plain_queries(self):
+        with open(os.path.join(REP, "replicate_ask.do"), encoding="utf-8") as f:
+            text = f.read()
+        page = load(os.path.join(REP, "page_figures.json"))
+        held = {f["check"].rsplit("|", 1)[0] for f in page["figures"] if f["group"] == "ask" and f["held"]}
+        for label in held:
+            self.assertIn(f"* {label}: license needed", text)
+        self.assertGreaterEqual(text.count('erw_read "$tables/'), 20)
+        with open(os.path.join(REP, "replicate.do"), encoding="utf-8") as f:
+            self.assertIn("do replicate_ask.do", f.read())
