@@ -1,6 +1,6 @@
 # Session 2263 (chain 159, deals and datacenters) report: facilities' status
 
-6 November 2026, from about 13:06 to 13:12 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2263-deals`, cut from `wip/2262-deals`. Model spend **USD 0** (code; the facility answers replayed). Nothing deployed; no warehouse data written.
+6 November 2026, from about 13:05 to 13:09 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2263-deals`, cut from `wip/2262-deals`. Model spend **USD 0** (code; the facility answers replayed). Nothing deployed; no warehouse data written.
 
 - **The class**: facilities' status, 2 missed and 1 wrong of 60 on the second read, the last of sessions 2260 to 2263.
 - **The fix** (`warehouse/datacenters/facility_fields.py`, `extract.py`): `status_from_words` reads an empty status from the facility's evidence, or the cluster's words when the cluster gives one facility; `paused_only` refuses a cancelled whose words say only paused. Both logged.
