@@ -583,3 +583,25 @@ Stated facilities with no row: **2 to 1**, the one by a ruling.
 ### The audit after chain 174's sessions 2269 to 2277
 
 Every class of the second read is now closed in code or by a written decision or ruling: deals' place 3 (decisions), status unsupported 1 (D062, decision), parties incomplete 2 (ruling), stated deals with no row 6 (two by ruling 2, one by a scope ruling, three by the prompt's rules); facilities' operator 2 (the rule), MW basis 1 (the vocabulary), stated facilities with no row 1 (F028, the human ruling of session 23), a non-facility kept 1 (F052, decision). No class is open for code.
+
+## Session 2284 (chain 179): the third read, on newer stories
+
+The main checkout's news table was last scored on 5 November 2026, so the sample is the latest eligible clusters no earlier fixture holds: 50 deal clusters (54 stories, 26 October to 5 November; `tests/fixtures/deals/stories_2284.json`, T001 to T050) and 30 facility clusters (37 stories, 20 to 25 October; `tests/fixtures/datacenters/stories_2284.json`, U001 to U030; the newer datacenter stories went to the deals' sample). The model's answers under every rule of chains 156 to 174 were recorded (`recorded_2284.json` in each folder; USD 0.0868 and 0.0407) and read against the stories' own words.
+
+**Deals**: 9 rows from 50 clusters. The 41 with no row are commentary, market and price reports, plans, an operation start, government arrangements, and one-party financings or investments, each left out by the prompt's rules; one of them is a stated financing with its lenders unnamed (T021, "Neoen, Frontier Energy and Lightyears secure financing"), the class of chain 156's ruling 2. Faults among the 9 rows:
+
+| Class | Count | Row |
+|---|---|---|
+| Not a deal, and a row kept | 1 | T040 "Qatar in Talks to Buy More US LNG": no counterparty named (confidence 0.5) |
+| AI-power tag from another deal's words | 1 | T039 Entergy's pipeline contracts, tagged by "Arkansas data center deal", another deal of the story |
+| USD missed beside another currency | 1 | T024 Return's financing: "EUR 835 million (US$938 million)", USD empty |
+
+Kinds, parties, stages and places of the other rows read right (T007 an EPC contract, T009 an LNG heads of agreement, T012 AEP and Google's fuel cells, T020, T022, T029 talks extended, rumored).
+
+**Facilities**: 4 rows from 30 clusters. The 26 with no row are commentary, products, market reports, financings and plans with no site. One fault:
+
+| Class | Count | Row |
+|---|---|---|
+| Country missed | 1 | U009 Era4 "in Newport, Wales": no country (the country words know the United Kingdom, not Wales) |
+
+These four one-record classes are the audit's open rows for sessions 2288 to 2291.
