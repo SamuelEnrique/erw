@@ -206,7 +206,9 @@ class LicenseStatus(unittest.TestCase):
     def test_the_board_and_the_data_page_read_the_status(self):
         bp = src("warehouse", "derived", "board_page.py")
         self.assertIn("import license_status as ls", bp)
-        self.assertEqual(bp.count("held = ls.held_grids()"), 2)  # the power rows and the ancillary services
+        # the power rows and the ancillary services; session 3008 (the landing of chain 165): and the hub spreads and the
+        # spark spreads of sessions 1606 and 1607 (build_hubspreads, build_spreads), which grey a held grid the same way
+        self.assertEqual(bp.count("held = ls.held_grids()"), 4)
         self.assertIn('b.grey("power", f"{iso}:{node}|{kind}", f"{grid} {HUB_WORDS.get(node, node)}", "licensed", ls.note(grid)', bp)
         page = src("site", "app", "data", "page.tsx")
         self.assertIn('from "@/lib/license"', page)

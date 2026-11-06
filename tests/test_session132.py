@@ -316,9 +316,10 @@ class TheBoard(unittest.TestCase):
         self.assertGreater(len(ok), 600)
         for r in ok:
             self.assertIn("last", r, r["id"])
-            self.assertEqual(set(r["moves"]), {"d", "w", "m", "y"}, r["id"])
+            # session 1608: the year to date's move, "ytd", from the first build of chain 165's builder; a file before it has four
+            self.assertIn(set(r["moves"]), ({"d", "w", "m", "y"}, {"d", "w", "m", "y", "ytd"}), r["id"])
             self.assertIn("spark", r, r["id"])
-            self.assertLessEqual(len(r["spark"]["v"]), 30, r["id"])
+            self.assertLessEqual(len(r["spark"]["v"]), 90, r["id"])         # session 1609: up to 90 points (it was 30)
             self.assertIn(r["freq"], ("D", "W", "M", "Q"), r["id"])         # session 2503: "Q", the quarterly auctions of session 1135
             self.assertTrue(os.path.exists(os.path.join(SITE, "public", "board", "s", r["id"] + ".json")), r["id"])
             if r["freq"] != "D":
