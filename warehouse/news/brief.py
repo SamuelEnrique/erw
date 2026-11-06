@@ -141,6 +141,34 @@ def title_kind(title):
     return "event"
 
 
+def is_google(url):
+    """A Google News address: the link reaches Google's page, not the outlet's (the ingest's resolver, 22,619 of
+    22,624 by 6 November 2026, got no redirect from Google)."""
+    return "news.google.com" in str(url or "")
+
+
+def direct_first(links):
+    """The links with those reaching the outlet's own page first, each group in its order (session 1442)."""
+    return [l for l in links if not is_google(l[1])] + [l for l in links if is_google(l[1])]
+
+
+# Session 1443 (chain 149, fault 13): the scorer filed "CFTC looks into sale of futures equal to 6 million barrels in two
+# minutes" under power_prices, and the Digest printed it under Power. A title about a commodity's price or futures
+# (PRICE_STORY's words) is of that commodity's sector whatever the scorer's power tag.
+POWER_TAGS = {"power_prices", "grid_conditions", "generation", "transmission"}
+COMMODITY_SECTOR = {"oil": "oil", "gas": "gas"}
+
+
+def sector_of(lead):
+    """The cluster's sector: the scorer's, unless a power tag sits on a title about oil or gas prices (sector_of fixes it)."""
+    sector = str(lead.get("sector") or "")
+    if sector in POWER_TAGS:
+        commodity = price_commodity({"titles": [str(lead.get("title") or "")]})
+        if commodity in COMMODITY_SECTOR:
+            return COMMODITY_SECTOR[commodity]
+    return sector
+
+
 def build_clusters(stories):
     rows = []
     for cid, g in stories.groupby("cluster_id"):
@@ -149,12 +177,14 @@ def build_clusters(stories):
         rows.append({
             "cluster_id": cid, "sig": int(g["sig"].max()), "ai": int(g["ai"].max()),
             # session 21: the MW and price of the cluster are the first any of its stories' scored fields hold
-            "sector": lead["sector"], "region": str(lead.get("region", "") or ""), "why": lead["why"], "mw": next((x for x in g["mw"] if x), ""),
+            "sector": sector_of(lead), "region": str(lead.get("region", "") or ""), "why": lead["why"], "mw": next((x for x in g["mw"] if x), ""),
             "price": next((x for x in g["price_mentioned"] if x), ""), "parties": lead["parties"],
             "first": g["event_date"].min(), "n": len(g),
             "outlets": g["source"].astype(str).str.strip().str.lower().nunique(),   # session 2701: the outlets that ran it
-            # session 470: one link an address (two stories of a cluster at one address printed it twice)
-            "links": list({r.source_url: (r.source, r.source_url) for r in g.itertuples()}.values())[:3],
+            # session 470: one link an address (two stories of a cluster at one address printed it twice); session 1442
+            # (fault 23): a link that reaches the outlet's own page before one that reaches Google's, so the item's first
+            # source is the outlet's wherever one story of the cluster has it (the ingest's resolver reaches no outlet)
+            "links": direct_first(list({r.source_url: (r.source, r.source_url) for r in g.itertuples()}.values()))[:3],
             "titles": list(g["title"])[:4], "summary": lead["summary"][:300],
             "kind": title_kind(lead["title"]),   # session 814: event or commentary, by the title's form
         })
@@ -265,7 +295,10 @@ def own_titles(clusters):
 
 
 def norm_headline(h):
-    return re.sub(r"[^a-z0-9 ]+", "", h.lower()).strip()
+    """A headline for comparison: money in the one style and the publisher's suffix off (why_fallback), then letters,
+    digits and spaces only. Session 1437 (faults 10 and 33): "$100" and "USD 100" are one, so a fallback that is the
+    headline in the money style prints nothing, as item 16 says."""
+    return re.sub(r"[^a-z0-9 ]+", "", why_fallback(h).lower()).strip()
 
 
 # Session 470 (docs/reviews/digest-audit-2026-10-21.md, fix 5; roundup-audit fix 1): one event, one item. The scorer joins
@@ -535,6 +568,13 @@ WHY_ADJECTIVES = ("massive", "unprecedented", "significant", "major", "critical"
 # Session 2206: unprecedented, critical and key join the list. "key" and "critical" are also plain words of the trade
 # ("the key to", "critical minerals"): TERM says where they stand, and plain() leaves those.
 HYPE = r"(?:major|massive|significant|significantly|huge|unprecedented|critical|critically|key)"
+# Session 1437 (chain 149, faults 7 to 11 of docs/reviews/periodicals-faults-2026-11-05.md): a verb that asserts nothing
+# in place of a fact ("capacity expansion signals rising demand"), and a line whose content words are the headline's
+# (half or more of them: "Major oil company nearing deal to invest in Venezuela's oil fields" under "Exxon nears
+# preliminary deal to invest in Venezuela's oil fields"). Either fails the check and the item prints the headline alone.
+HOLLOW_VERBS = ("signals", "demonstrates", "reflects", "underscores", "highlights")
+HOLLOW = re.compile(r"\b(?:signals?|demonstrates?|reflects?|underscores?|highlights?)\b", re.I)
+RESTATES_SHARE = 0.5
 TERM = r"(?!\s+(?:to|of|for|in|on|is|was|are|were|minerals?|infrastructure|mass|path|peak)\b)"
 
 
@@ -598,11 +638,38 @@ def why_check(text, head=""):
     if not t:
         return ["empty"]
     out = [f"adjective: {m.lower()}" for m in re.findall(rf"\b{HYPE}\b", t, flags=re.I)]
+    out += [f"hollow verb: {m.lower()}" for m in HOLLOW.findall(t)]
     if sentence_end(t):
         out.append("two sentences")
     for n in sorted(figures_of(t) & figures_of(head)):
         out.append(f"figure of the headline: {n}")
+    share = restates(t, head)
+    if head and share >= RESTATES_SHARE:
+        out.append(f"restates the headline: {share:.2f}")
     return out
+
+
+def content_words(text):
+    """The content words of a line for restates(): lower case, money in the one style, STOP words and words under three
+    letters out, a plural's s off (so "executives" and "executive" are one)."""
+    out = set()
+    for w in re.findall(r"[a-z0-9]+", money_style(str(text or "")).lower()):
+        if w in STOP or len(w) < 3:
+            continue
+        out.add(w[:-1] if w.endswith("s") and len(w) > 4 else w)
+    return out
+
+
+def restates(text, head):
+    """The share of the line's content words that the headline holds: 1.0 when the line is the headline, 0 when nothing
+    of it is. Over the 13 issues of 25 September to 23 October the lines at 0.5 and above restate ("Cost and regulatory
+    hurdles threaten AI sector's plans to use nuclear power" under "AI's nuclear power push runs into cost and
+    regulatory hurdles"); those under it add a fact (0.46: "Awards fell short of the 800-MW target, showing PJM
+    capacity strain" under "Maryland's first bulk storage procurement nets 440 MW")."""
+    ww = content_words(text)
+    if not ww or not head:
+        return 0.0
+    return len(ww & content_words(head)) / len(ww)
 
 
 def why_fallback(title):
@@ -726,7 +793,8 @@ class Notes:
     def lines(self):
         if not self.tables:
             return []
-        items = [f"[{i}] {cite_short(t)}" + (f"; {self.extra[t]}" if t in self.extra else "")
+        # session 1439: news_stories is cited by name alone (cite_short would list its hundred outlets)
+        items = [f"[{i}] {'`news_stories`' if t == 'news_stories' else cite_short(t)}" + (f"; {self.extra[t]}" if t in self.extra else "")
                  for i, t in enumerate(self.tables, 1)]
         return ["", "Tables: " + "; ".join(items) + "."]
 
@@ -734,8 +802,12 @@ class Notes:
 SUMMARY_SYSTEM = """You write the summary above the numbers section of the ERW's energy brief: two or three plain sentences
 saying what the numbers say (for example where power was dearest or cheapest, how prices moved, what stands out).
 Use only numbers written in the section, exactly as they are written there: do not compute new numbers (no sums,
-differences, ratios or percentages that are not already in the section) and do not round them. No hype, no advice,
-no em dashes. Return JSON with the field summary.""" + VOICE_NOTE
+differences, ratios or percentages that are not already in the section) and do not round them. One number a clause:
+never "each rose 7.46 and 7.47" or two figures joined by "and" for two things; say each thing in its own clause.
+No hype, no advice, no em dashes. Return JSON with the field summary.""" + VOICE_NOTE
+# session 1447 (chain 149, fault 38): a summary sentence that pairs two figures under "each" or "respectively" is not
+# one number a clause; the summary is left out rather than printed so
+PAIRED = re.compile(r"\beach\b[^.;]*\d[\d,.]*\s+and\s+\d[\d,.]*|\brespectively\b", re.I)
 SUMMARY_SCHEMA = {"type": "object", "properties": {"summary": {"type": "string"}}, "required": ["summary"],
                   "additionalProperties": False}
 
@@ -743,6 +815,12 @@ SUMMARY_SCHEMA = {"type": "object", "properties": {"summary": {"type": "string"}
 def section_pool(lines):
     """The section's text for the literal check: without footnote markers and the footnote list."""
     return "\n".join(re.sub(r"\[\d+\]", "", ln) for ln in lines if not ln.startswith("Tables: "))
+
+
+def summary_check(text):
+    """Session 1447 (fault 38): the problems of a numbers summary: a clause pairing two figures ("each rose about 7.46
+    and 7.47"); [] when it passes."""
+    return ["two figures in one clause"] if PAIRED.search(str(text or "")) else []
 
 
 def numbers_summary(client, model, lines, log):
@@ -759,15 +837,15 @@ def numbers_summary(client, model, lines, log):
         resp = client.messages.create(**kwargs)
         usages.append(resp.usage)
         text = nodash(json.loads(next(b.text for b in resp.content if b.type == "text"))["summary"]).strip()
-        bad = chat_ask.unverified(text, [pool])
+        bad = chat_ask.unverified(text, [pool]) + summary_check(text)   # session 1447 (fault 38): one number a clause
         if not bad:
             log(f"  numbers summary: attempt {attempt} passed the literal check")
             return text, usages
-        log(f"  numbers summary: attempt {attempt} has numbers not in the section: {bad}")
+        log(f"  numbers summary: attempt {attempt} has numbers not in the section, or two in one clause: {bad}")
         msgs = msgs + [{"role": "assistant", "content": json.dumps({"summary": text})},
-                       {"role": "user", "content": "These numbers are not in the section as written: " + ", ".join(bad)
-                        + ". Rewrite the summary using only numbers written in the section."}]
-    log("  numbers summary: omitted (failed the literal check twice)")
+                       {"role": "user", "content": "These numbers are not in the section as written, or two figures share one clause: " + ", ".join(bad)
+                        + ". Rewrite the summary using only numbers written in the section, one number a clause."}]
+    log("  numbers summary: omitted (failed the checks twice)")
     return None, usages
 
 
@@ -819,7 +897,9 @@ def cite_short(table):
 MOVERS_N = 5
 LICENSED_NOTE = "licensed source needed"
 # the words a scored story must name, in its title or its why line, for its why line to be the reason beside a price
-PRICE_WORDS = {"Henry Hub natural gas": ("henry hub",), "WTI Cushing crude": ("wti",), "Brent crude": ("brent",),
+# session 1440: a story that says "oil prices" or "crude" names the crude benchmarks; "gas prices" names Henry Hub
+PRICE_WORDS = {"Henry Hub natural gas": ("henry hub", "natural gas price", "gas prices"), "WTI Cushing crude": ("wti", "oil price", "crude price"),
+               "Brent crude": ("brent", "oil price", "crude price"),
                "ERCOT": ("ercot",), "CAISO": ("caiso",), "NYISO": ("nyiso",), "MISO": ("miso",),
                "SPP": ("southwest power pool", " spp "), "ISO-NE": ("iso-ne", "iso new england", "new england")}
 NOT_HELD = (("TTF, the Dutch gas benchmark", "not held: its source asks for a license"),
@@ -898,6 +978,20 @@ def day_move(newest, newest_day, prev, prev_day):
     return {"ch": round(v0 - v, 4), "pct": round(100 * (v0 - v) / v, 2) if v > 0 and v0 >= 0 else None}
 
 
+def price_named(label, clusters):
+    """Session 1446: whether a story of the day or the week names the price (PRICE_WORDS in its title or why line),
+    whatever its why line prints: a move is "named" for the opening number's choice even when the story's why line
+    fails the check and no reason is printed beside the mover."""
+    words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
+    if clusters is None or not len(clusters) or not words:
+        return False
+    for r in clusters.to_dict("records"):
+        text = f" {str((r.get('titles') or [''])[0])} {r.get('why') or ''} ".lower()
+        if any(w in text for w in words):
+            return True
+    return False
+
+
 def price_reason(label, clusters):
     """The why line of the day's highest-ranked scored story that names the price (PRICE_WORDS), with its outlet, as
     the reason beside a mover; "" when no story of the day names it (the figure then stands with no reason)."""
@@ -947,21 +1041,39 @@ def demand_lines(digest_date, log, notes, store=None):
     except Exception as exc:
         log(f"  numbers: US48 demand a year before unavailable: {exc!r}")
         old = None
+    span = "year"
     if old is None:
-        out[-1] += f"the same weekday a year before ({before:%Y-%m-%d}) is not held: the hourly table's window does not reach it."
-        return out
+        # session 1439 (chain 149, fault 3): the year before is the data machine's (rulings item 18); until it is held the
+        # change is against the same weekday a week before, which the hourly table's window holds, said so
+        week = day - pd.Timedelta(days=7)
+        try:
+            old = peak(week)
+        except Exception as exc:
+            log(f"  numbers: US48 demand a week before unavailable: {exc!r}")
+            old = None
+        if old is None:
+            out[-1] += (f"the same weekday a year before ({before:%Y-%m-%d}) and a week before ({week:%Y-%m-%d}) are not held: "
+                        "the hourly table's window does not reach them.")
+            return out
+        span, before = "week", week
+        if store is not None:
+            store["before"] = week
     if store is not None:
-        store["old"] = old
+        store.update(old=old, span=span)
     pct = 100 * (float(top["value"]) / float(old["value"]) - 1) if float(old["value"]) > 0 else None
-    out[-1] += (f"the same weekday a year before ({before:%Y-%m-%d}) peaked at {old['value']:,.0f} MW in the hour starting "
-                f"{old['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}" + (f", so {pct:+.1f}% on the year." if pct is not None else "."))
+    out[-1] += (f"the same weekday a {span} before ({before:%Y-%m-%d}) peaked at {old['value']:,.0f} MW in the hour starting "
+                f"{old['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}" + (f", so {pct:+.1f}% on the {span}." if pct is not None else "."))
+    if span == "week":
+        out[-1] += " The same weekday a year before is not held (the hourly table's window does not reach it)."
     return out
 
 
-def numbers_today(digest_date, log, clusters=None, facts=None):
+def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     """The numbers section (session 804: what moved). clusters: the day's clusters (build_clusters), for the reasons.
     facts (session 2703): a dict filled with the candidates of the moves (each with its table and reason) and US48
-    demand's peak, for the opening number and the numbers block."""
+    demand's peak, for the opening number and the numbers block. now (session 1439, fault 1): the issue's cutoff; a
+    close dated after it is not read, so a dry run of a past day reproduces the day and no issue prints a row dated
+    after its own cutoff (the 26 October dry run opened with a Henry Hub close of 3 November)."""
     notes = Notes()
     held = held_grids()
     day = pd.Timestamp(digest_date) - pd.Timedelta(days=1)
@@ -1036,6 +1148,8 @@ def numbers_today(digest_date, log, clusters=None, facts=None):
     fuels = []
     try:
         fuel = erw.fetch("eia_fuel_spot_prices")
+        if now is not None:
+            fuel = fuel[fuel["ts_utc"] <= pd.Timestamp(now)]
         for label, entity in FUELS:
             s = fuel[fuel["entity"] == entity].sort_values("ts_utc")
             last = s.iloc[-1]
@@ -1086,6 +1200,7 @@ def numbers_today(digest_date, log, clusters=None, facts=None):
     if facts is not None:   # session 2703
         for c in cands:
             c["reason"] = price_reason(c["key"], clusters)
+            c["named"] = price_named(c["key"], clusters)   # session 1446: named, whether or not a reason prints
         facts.update(cands=cands, demand=store)
     return lines + notes.lines()
 
@@ -1270,11 +1385,34 @@ def region_key(r):
     return re.sub(r"\s+", " ", str(r.get("region") or "").strip().lower())
 
 
+# Session 1438 (chain 149, fault 12): a price story's topic is its commodity, whatever region the scorer gave. On
+# 26 October "Oil prices rise on fears of Middle East conflict escalation" (oil, global) and "Oil prices dip but hold
+# above $100" (oil, Middle East) were two of the top ten; a reader counts them as one story. A story of the oil sector
+# that is not about the price (a Venezuelan field, a refinery) keeps the sector-and-region key.
+PRICE_STORY = {"oil": r"\b(?:brent|wti|crude|oil prices?|oil futures|barrels?)\b",   # session 1443: "6 million barrels" of futures
+               "gas": r"\b(?:henry hub|ttf|jkm|gas prices?|natural gas prices?|mmbtu)\b",
+               "power": r"\b(?:power prices?|electricity prices?|per mwh|usd/mwh)\b"}
+
+
+def price_commodity(r):
+    """The commodity a price story is about ("oil", "gas", "power") from its lead title's words, "" for a story that is
+    not about a price."""
+    title = str((r.get("titles") or [""])[0] if isinstance(r, dict) else "").lower()
+    for k, pat in PRICE_STORY.items():
+        if re.search(pat, title):
+            return k
+    return ""
+
+
 def same_topic(a, b):
     """Two clusters are one topic: one sector in one region, or a party in common and TOPIC_WORDS or more content words
     shared by their lead titles. Session 2701 (rulings item 13, the 24-hour default): the key is the sector with the
     region, so Mexico's 8,200 MW and India's coal stocks are two topics though both are "generation"; a cluster whose
-    region is not given is of every region (the sector alone decides, as before)."""
+    region is not given is of every region (the sector alone decides, as before). Session 1438: two price stories of one
+    commodity (price_commodity) are one topic whatever their regions."""
+    pa, pb = price_commodity(a), price_commodity(b)
+    if pa and pa == pb:
+        return True
     if a.get("sector") == b.get("sector"):
         ra, rb = region_key(a), region_key(b)
         if not ra or not rb or ra == rb:
@@ -1456,6 +1594,12 @@ EASTERN = "America/New_York"
 # the move a price must make to lead the issue (percent against the day before): a hub's day-ahead mean swings more
 # from day to day than a benchmark's close; the metric that led the previous issue leads again only at twice the bar
 MATERIAL_PCT = {"hub": 10.0, "fuel": 3.0}
+# Session 1440 (chain 149, fault 2, and the survey of the 13 issues in runs/s1440): a move no story names needs
+# UNNAMED_FACTOR times the bar to open the issue (a fuel: 4.5 percent), and an unnamed hub never opens it while a top
+# story states a structural figure (14 October would have opened with SPP's day-ahead mean up 676.7 percent from a
+# near-zero day; it opens with Taiwan's USD 4.4 billion for Alaska LNG instead; 21 October with 6,600 MW of reactors
+# instead of WTI down 3.6 percent that no story named).
+UNNAMED_FACTOR = 1.5
 FUEL_PLACE = {"Henry Hub natural gas": "EIA's spot close at Henry Hub, Louisiana, the US natural gas benchmark",
               "WTI Cushing crude": "EIA's spot close of WTI at Cushing, Oklahoma, the US crude benchmark",
               "Brent crude": "EIA's spot close of Brent, the North Sea crude benchmark"}
@@ -1528,19 +1672,24 @@ def opening_number(cands, stories, prev_key=None):
       3. novelty since the last issue second: a metric other than the previous issue's opening number first;
       4. source quality third: every candidate is a warehouse table's figure, so this ties;
       5. only then the size of the move: the largest percentage move is never the choice by default.
+    Session 1440: a move no story names needs UNNAMED_FACTOR times the bar, and an unnamed single hub opens the issue
+    only when no named move and no unnamed benchmark passes and no top story states a structural figure.
     When no move is defensible, the opening number is a structural figure (a MW, a sum of money) of the day's
     highest-ranked story that states one, with its outlet. Returns {kind: "mover" | "story" | None, key, ...}."""
-    ok = []
+    ok, last = [], []
     for c in cands:
         if c.get("pct") is None:
             continue
         kind = cand_kind(c)
+        named = bool(c.get("reason")) or bool(c.get("named"))
         again = str(c["key"]).replace(" ", "_") == prev_key   # the opening's key is written with underscores
-        bar = MATERIAL_PCT[kind] * (2 if again else 1)
+        # session 1440: a move no story names must be larger (UNNAMED_FACTOR), and an unnamed hub is the last resort
+        bar = MATERIAL_PCT[kind] * (2 if again else 1) * (1 if named else UNNAMED_FACTOR)
         if abs(float(c["pct"])) < bar:
             continue
-        consequence = (2 if c.get("reason") else 0) + (1 if kind == "fuel" else 0)
-        ok.append(((-consequence, -(0 if again else 1), -1, -abs(float(c["pct"])), c["label"]), c))
+        consequence = (2 if named else 0) + (1 if kind == "fuel" else 0)
+        entry = ((-consequence, -(0 if again else 1), -1, -abs(float(c["pct"])), c["label"]), c)
+        (ok if named or kind == "fuel" else last).append(entry)
     if ok:
         ok.sort(key=lambda x: x[0])
         c = ok[0][1]
@@ -1549,6 +1698,10 @@ def opening_number(cands, stories, prev_key=None):
         fig = story_figure(r)
         if fig:
             return {"kind": "story", "key": f"story:{r['cluster_id']}", "rec": r, "figure": fig, "rank": rank}
+    if last:
+        last.sort(key=lambda x: x[0])
+        c = last[0][1]
+        return {"kind": "mover", "key": str(c["key"]).replace(" ", "_"), "cand": c}
     return {"kind": None, "key": ""}
 
 
@@ -1598,10 +1751,25 @@ def subject_line(op, digest_date):
     return f"ERW Daily | {day_words(digest_date)}"
 
 
-def masthead_lines(digest_date, now, op):
+STORIES_SHORT_HOURS = 2   # session 1444 (fault 21): the newest story more than this before the cutoff is said
+
+
+def masthead_lines(digest_date, now, op, newest=None):
     """The masthead: the title with the issue's date (as the email and the archive read it), the date in words and the
-    cutoff, and two comments: the subject line and the opening number's key (the next issue's novelty)."""
-    return [f"# {V2_TITLE}, {digest_date}", "", f"**{day_words(digest_date)}.** {cutoff_words(now)}", "",
+    cutoff, and two comments: the subject line and the opening number's key (the next issue's novelty). Session 1444
+    (fault 21): when the newest story held (`newest`) is more than STORIES_SHORT_HOURS before the cutoff, the line says
+    so ("Stories through 03:55 ET, 07:55 UTC; prices through 11:45 ET, 15:45 UTC."), since the scorer or the ingest
+    stopped short of the cutoff and the stories do not cover the hours the cutoff claims."""
+    cut = cutoff_words(now)
+    if newest is not None:
+        newest = pd.Timestamp(newest)
+        if newest.tzinfo is None:
+            newest = newest.tz_localize("UTC")
+        if pd.Timestamp(now) - newest > pd.Timedelta(hours=STORIES_SHORT_HOURS):
+            et = newest.tz_convert(EASTERN)
+            cut = (f"Stories through {et:%H:%M} ET, {newest.tz_convert('UTC'):%H:%M} UTC; prices through "
+                   f"{pd.Timestamp(now).tz_convert(EASTERN):%H:%M} ET, {pd.Timestamp(now).tz_convert('UTC'):%H:%M} UTC.")
+    return [f"# {V2_TITLE}, {digest_date}", "", f"**{day_words(digest_date)}.** {cut}", "",
             f"<!-- subject: {subject_line(op, digest_date)} -->", "", f"<!-- opening: {op['key']} -->", ""]
 
 
@@ -1613,20 +1781,41 @@ def best_price(cands, skip_key):
     return pool[0] if pool else None
 
 
-def story_row(label, recs, sectors, heads, skip_id, what, order):
+# Session 1439 (chain 149, faults 4 to 6): a story row names its measure by the story's sector, its place by the scorer's
+# region, its figure once, and who (the parties, else the outlet); the headline is the item's, not the row's. The row's
+# key is the story's row of news_stories (its cluster id and the field read), so scripts/check_digest.py can trace it.
+SECTOR_NOUN = {"datacenter_power": "Datacenter load", "generation": "Generation capacity", "storage": "Storage capacity",
+               "nuclear": "Nuclear capacity", "renewables": "Renewable capacity", "transmission": "Transmission",
+               "interconnection": "Interconnection queue", "lng": "LNG capacity", "gas": "Gas supply", "hydrogen": "Hydrogen capacity",
+               "capital": "Capital raised", "deal": "Deal value", "policy": "Policy sum", "company": "Company spending",
+               "grid_conditions": "Reliability", "geopolitics": "Supply at risk", "oil": "Oil supply"}
+
+
+def story_who(r):
+    """The parties of a story (the first two), else its outlet."""
+    parties = [p.strip() for p in str(r.get("parties") or "").split(";") if p.strip()]
+    return ", ".join(parties[:2]) if parties else outlet_of(r)
+
+
+def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
     """A block row from the day's top stories: the highest-ranked in `sectors` stating a figure of `order` (story_figure),
-    said as reported."""
-    for rank, r in enumerate(recs, 1):
-        if r["cluster_id"] == skip_id or str(r.get("sector")) not in sectors:
+    in the block's form (measure, place: figure (who; outlet, date) [n]. Change. Status.). A price story (price_commodity)
+    is never a row: its figure is a price, which the market row holds. Returns (line, key detail or "")."""
+    for r in recs:
+        if r["cluster_id"] == skip_id or str(r.get("sector")) not in sectors or price_commodity(r):
             continue
         fig = story_figure(r, order)
         if not fig:
             continue
-        head = heads.get(r["cluster_id"], str((r.get("titles") or [""])[0])).rstrip(".")
-        return (f"- **{label}.** {fig}: {head} ({str(r['sector']).replace('_', ' ')}, ranked {rank} of the day's top ten), "
-                f"reported on {pd.Timestamp(r['first']):%Y-%m-%d} by {outlet_of(r)}. Change: a new report, no earlier figure "
-                "held. Status: reported by the outlet, not a warehouse table's figure.")
-    return f"- **{label}.** No story of the day states {what}."
+        field = "mw" if fig.endswith(" MW") else "price"
+        noun = SECTOR_NOUN.get(str(r.get("sector")), str(r.get("sector")).replace("_", " ").capitalize())
+        region = str(r.get("region") or "").strip()
+        place = f", {region}" if region and region.lower() != "global" else ""
+        ref = f" {notes.ref('news_stories')}" if notes is not None else ""
+        line = (f"- **{label}.** {noun}{place}: {fig} ({story_who(r)}; {outlet_of(r)}, {pd.Timestamp(r['first']):%Y-%m-%d}){ref}. "
+                "Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.")
+        return line, f"story {r['cluster_id']} ({field})"
+    return f"- **{label}.** No story of the day states {what}.", ""
 
 
 def numbers_block(facts, op, recs, heads):
@@ -1649,19 +1838,28 @@ def numbers_block(facts, op, recs, heads):
         ref = notes.ref("eia930_all_demand", "balancing authority us48")
         line = f"- **Physical.** US48 demand peaked at {top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}; "
         old = d.get("old")
+        span = d.get("span", "year")
         if old is not None and float(old["value"]) > 0:
             pct = 100 * (float(top["value"]) / float(old["value"]) - 1)
-            line += (f"the same weekday a year before ({d['before']:%Y-%m-%d}) peaked at {old['value']:,.0f} MW in the hour "
-                     f"starting {old['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}, so {pct:+.1f}% on the year.")
+            line += (f"the same weekday a {span} before ({d['before']:%Y-%m-%d}) peaked at {old['value']:,.0f} MW in the hour "
+                     f"starting {old['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}, so {pct:+.1f}% on the {span}.")
+            if span == "week":   # session 1439 (fault 3): the year before is the data machine's (item 18)
+                line += " The same weekday a year before is not held."
         else:
             line += f"the same weekday a year before ({d['before']:%Y-%m-%d}) is not held, so no change is shown."
         L.append(line + " Status: observed, EIA-930 hourly demand.")
     else:
         L.append("- **Physical.** US48 demand for yesterday is not in the warehouse.")
     skip = op["rec"]["cluster_id"] if op.get("kind") == "story" else None
-    L.append(story_row("Project or capacity", recs, CAPACITY_SECTORS, heads, skip, "a capacity figure in MW", ("mw",)))
-    L.append(story_row("Policy, capital or reliability", recs, CAPITAL_SECTORS | CAPACITY_SECTORS, heads, skip,
-                       "a policy, capital or reliability figure", ("money",)))
+    details = []
+    for label, sectors, what, order in (("Project or capacity", CAPACITY_SECTORS, "a capacity figure in MW", ("mw",)),
+                                        ("Policy, capital or reliability", CAPITAL_SECTORS, "a policy or capital figure", ("money",))):
+        line, detail = story_row(label, recs, sectors, heads, skip, what, order, notes)
+        L.append(line)
+        if detail:
+            details.append(detail)
+    if details:
+        notes.extra["news_stories"] = "; ".join(details)
     return L + notes.lines() + [""]
 
 
@@ -1682,6 +1880,27 @@ def moved_count(recs):
     if len(recs) >= MOVED_MAX and recs[MOVED_MAX - 1].get("kind") != "commentary":
         return MOVED_MAX
     return min(2, len(recs))
+
+
+# Session 1444 (chain 149, fault 22; the brandbook: 350 to 450 words of prose above the fold). The dry run of 26 October
+# stood at 295 words with three stories: a fourth is lifted from the rest while the count is under FOLD_MIN, up to
+# MOVED_LIFT_MAX stories; a count past FOLD_MAX with three drops to two. The also lines, the source lines and the block
+# are not counted (above_fold_words).
+FOLD_MIN, FOLD_MAX, MOVED_LIFT_MAX = 350, 450, 5
+
+
+def lift_count(words, n0, n_recs):
+    """The number of stories above the fold: from n0 (moved_count), up while words(n) is under FOLD_MIN and a story is
+    left (to MOVED_LIFT_MAX), down to two while words(n) is past FOLD_MAX. words(n) gives the prose count with n."""
+    n = n0
+    w = words(n)
+    while w < FOLD_MIN and n < min(MOVED_LIFT_MAX, n_recs):
+        n += 1
+        w = words(n)
+    while w > FOLD_MAX and n > 2:
+        n -= 1
+        w = words(n)
+    return n
 
 
 def no_chart_lines(facts, n=3):
@@ -1782,7 +2001,7 @@ def main(argv=None):
         # session 2703 (the owner's rulings of 24 October 2026): the brandbook's v2 order. The numbers come first, so the
         # opening number and the block can be chosen from them
         facts = {}
-        nums = numbers_today(digest_date, log, clusters, facts)   # session 804: the day's clusters, for the reasons beside the movers
+        nums = numbers_today(digest_date, log, clusters, facts, now=now)   # session 804: the day's clusters, for the reasons beside the movers
         summary, su = (None, []) if args.no_model else numbers_summary(client, model, nums, log)
         if model in PRICES:
             scost = sum(x.input_tokens * PRICES[model][0] + x.output_tokens * PRICES[model][1] for x in su) / 1e6
@@ -1791,52 +2010,70 @@ def main(argv=None):
         recs = top10.to_dict("records")
         op = opening_number(facts.get("cands", []), recs, previous_opening(digest_date))
         log(f"  opening number: {op['kind'] or 'none'} {op['key']}")
-        L = masthead_lines(digest_date, now, op) + [
+        newest = pd.to_datetime(s["event_date"], utc=True, format="ISO8601").max() if len(s) else None
+        L = masthead_lines(digest_date, now, op, newest) + [
              # session 21: one sentence (what, the period, the story count); the method is on /about#digest
              stamp_line(hours, start, now, len(s)), "",
              *([NO_MODEL_LINE, ""] if args.no_model else [])]
         L += opening_lines(op, heads)
-        L += numbers_block(facts, op, recs, heads)
-        n_moved = moved_count(recs)
-        L += ["## What moved", ""]
-        for i, r in enumerate(recs[:n_moved], 1):
-            L += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
-                            " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), limitation(r)) if x),
-                            f"Sources: {link_text(r['links'])}")
-        # rulings items 5 and 14: the rest folds under "More", not cut
-        L += ["", FOLD_HEADING, "", "### The rest of the top ten", ""]
-        if len(recs) <= n_moved:
-            L.append("- no further story in the top ten today")
-        for i, r in enumerate(recs[n_moved:], n_moved + 1):
-            L += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
-                            (why_line(r['why'], heads[r['cluster_id']]) + " " + detail(r, heads[r['cluster_id']])).strip(),
-                            f"Sources: {link_text(r['links'])}")
-        L += ["", "### By sector", ""]
-        for g, c in by_group.items():
-            L.append(f"**{g}**")
-            L.append("")
-            if c.empty:
-                L.append("- no scored story in this group today")
-            for r in c.to_dict("records"):
-                L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
+        # session 1439 (fault 5): the story rows read the whole issue's items in rank (the top ten, then the sections,
+        # then AI and power), since the day's policy or capital figure is often in a section bullet
+        pool, seen = [], set()
+        for frame in [top10, *by_group.values(), ai]:
+            for r in (frame.to_dict("records") if frame is not None and len(frame) else []):
+                if r["cluster_id"] not in seen:
+                    seen.add(r["cluster_id"])
+                    pool.append(r)
+        L += numbers_block(facts, op, pool, heads)
+        policy_lines = policy_actions_lines(start, now, log)
+
+        def middle(n_moved):
+            """What moved with n_moved stories, then the fold: the rest of the top ten, the sectors, AI and power, the
+            numbers in full (session 1444: built again when the fold's count asks for another story)."""
+            M = ["## What moved", ""]
+            for i, r in enumerate(recs[:n_moved], 1):
+                M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
+                                " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), limitation(r)) if x),
+                                f"Sources: {link_text(r['links'])}")
+            # rulings items 5 and 14: the rest folds under "More", not cut
+            M += ["", FOLD_HEADING, "", "### The rest of the top ten", ""]
+            if len(recs) <= n_moved:
+                M.append("- no further story in the top ten today")
+            for i, r in enumerate(recs[n_moved:], n_moved + 1):
+                M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
+                                (why_line(r['why'], heads[r['cluster_id']]) + " " + detail(r, heads[r['cluster_id']])).strip(),
+                                f"Sources: {link_text(r['links'])}")
+            M += ["", "### By sector", ""]
+            for g, c in by_group.items():
+                M.append(f"**{g}**")
+                M.append("")
+                if c.empty:
+                    M.append("- no scored story in this group today")
+                for r in c.to_dict("records"):
+                    M.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
+                             + " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), link_text(r['links'][:1])) if x))
+                if g == "Policy":
+                    M += without_repeats(policy_lines, L + M, log)
+                M.append("")
+            M += ["### AI and power", ""]
+            if ai.empty:
+                M.append("- no further story on AI and power today (any such story is listed above)")
+            for r in ai.to_dict("records"):
+                M.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
                          + " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), link_text(r['links'][:1])) if x))
-            if g == "Policy":
-                L += without_repeats(policy_actions_lines(start, now, log), L, log)
-            L.append("")
-        L += ["### AI and power", ""]
-        if ai.empty:
-            L.append("- no further story on AI and power today (any such story is listed above)")
-        for r in ai.to_dict("records"):
-            L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
-                     + " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), link_text(r['links'][:1])) if x))
-        L += ["", "### ERW's Numbers Today", ""] + ([summary, ""] if summary else []) + nums
+            M += ["", "### ERW's Numbers Today", ""] + ([summary, ""] if summary else []) + nums
+            return M
+
         # session 232: the chart of the day, chosen and drawn by code; omitted, with the reason logged, when there is none
-        L += daily_chart_section(digest_date, log, args.out, stories=recs) or no_chart_lines(facts)   # 805; 2703: the stand-in
+        tail = daily_chart_section(digest_date, log, args.out, stories=recs) or no_chart_lines(facts)   # 805; 2703: the stand-in
         # session 23: the Fun fact, last; re-verified from its stored sources, omitted if it fails
-        L += fun_fact_section(digest_date, log)
+        tail += fun_fact_section(digest_date, log)
         # session 21: the method is on /about#digest; the generation record stays in the file, not on the page
-        L += footer_lines(now, run_id, model)   # session 25: signed ERW; session 2703: corrections, preferences, unsubscribe
-        log(f"  words of prose above the fold: {above_fold_words(chr(10).join(L))}")
+        tail += footer_lines(now, run_id, model)   # session 25: signed ERW; session 2703: corrections, preferences, unsubscribe
+        # session 1444 (fault 22): the stories above the fold are as many as bring the prose to 350 words, at most five
+        n_moved = lift_count(lambda n: above_fold_words(chr(10).join(L + middle(n) + tail)), moved_count(recs), len(recs))
+        L += middle(n_moved) + tail
+        log(f"  words of prose above the fold: {above_fold_words(chr(10).join(L))} with {n_moved} stories under What moved")
         L = drop_repeated_items(L, log)  # session 470: a repeat the sections did not see is dropped, not the issue
         n_items = assert_unique(L)  # ruling 5: the hard check; a failure writes nothing
         log(f"  {n_items} items, no two sharing a normalized headline or a source URL")

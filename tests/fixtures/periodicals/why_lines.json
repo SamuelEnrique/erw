@@ -27,11 +27,12 @@
    "price": "€16bn",
    "parties": "Amazon",
    "problems": [
-    "adjective: major"
+    "adjective: major",
+    "hollow verb: signals"
    ],
-   "expected_why": "Datacenter and AI infrastructure expansion signals sustained power demand growth in Europe.",
+   "expected_why": "",
    "expected_detail": "parties: Amazon. ",
-   "fallback": false
+   "fallback": true
   },
   {
    "event_id": "news:083d61aa6c00a439",
@@ -87,11 +88,12 @@
    "price": "",
    "parties": "Dominion Energy",
    "problems": [
-    "adjective: major"
+    "adjective: major",
+    "hollow verb: signals"
    ],
-   "expected_why": "Utility storage commitment signals grid modernization and renewable integration strategy.",
+   "expected_why": "",
    "expected_detail": "3,500 MW; parties: Dominion Energy. ",
-   "fallback": false
+   "fallback": true
   },
   {
    "event_id": "news:01ca78f26cff8730",
@@ -239,11 +241,12 @@
    "parties": "Anthropic",
    "problems": [
     "adjective: massive",
-    "adjective: unprecedented"
+    "adjective: unprecedented",
+    "hollow verb: signals"
    ],
-   "expected_why": "AI compute capex signals power demand growth and infrastructure investment scale.",
+   "expected_why": "",
    "expected_detail": "parties: Anthropic. ",
-   "fallback": false
+   "fallback": true
   },
   {
    "event_id": "news:3f3d7ac27b366845",
@@ -288,5 +291,8 @@
    "expected_detail": "parties: Toyo. ",
    "fallback": false
   }
+ ],
+ "notes": [
+  "Session 1437 (chain 149): a hollow verb (signals, demonstrates, reflects, underscores, highlights) and a line that restates the headline (half or more of its content words) fail the check; a failing line prints nothing, the headline alone (rulings item 16). Three of the twenty changed: their lines said 'signals'."
  ]
 }

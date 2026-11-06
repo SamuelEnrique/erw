@@ -382,12 +382,14 @@ def w_peak_premium(key):
     a = a[a["entity"] == f"ercot:{hub}"]
     mx = a[a["variable"] == "all_max"].sort_values("value").iloc[-1]
     neg = a[a["variable"] == "n_negative"].sort_values("value").iloc[-1]
+    # session 1448 (chain 149, fault 16): the numbers in the issue's style, with a thousands separator ("9,310.49 USD/MWh",
+    # "4,266"), in the evidence and the fact alike so the literal check reads one form
     ev = (f"ercot_peak_premium_annual ercot:{hub}: years {a['ts_utc'].min():%Y} to {a['ts_utc'].max():%Y}; "
-          f"highest all_max {mx['value']:.2f} USD/MWh in {mx['ts_utc']:%Y}; "
-          f"most negative 15-minute intervals {neg['value']:.0f} in {neg['ts_utc']:%Y}")
-    fact = (f"ERCOT's real-time price at {hub} reached {mx['value']:.2f} USD/MWh in a 15-minute interval in {mx['ts_utc']:%Y}, "
+          f"highest all_max {mx['value']:,.2f} USD/MWh in {mx['ts_utc']:%Y}; "
+          f"most negative 15-minute intervals {neg['value']:,.0f} in {neg['ts_utc']:%Y}")
+    fact = (f"ERCOT's real-time price at {hub} reached {mx['value']:,.2f} USD/MWh in a 15-minute interval in {mx['ts_utc']:%Y}, "
             f"the highest of any year since {a['ts_utc'].min():%Y}; the year with the most negative-price intervals there was "
-            f"{neg['ts_utc']:%Y}, with {neg['value']:.0f}.")
+            f"{neg['ts_utc']:%Y}, with {neg['value']:,.0f}.")
     return dict(kind="warehouse", fact=fact, second="", structure="none",
                 sources=[_wsource(key, "ercot_peak_premium_annual", ev)])
 
@@ -717,8 +719,11 @@ def item_markdown(item):
         if s["url"] in seen:
             continue
         seen.add(s["url"])
+        # session 1448 (fault 24): a warehouse table is linked (its page under /data), as a web source is
+        table = s.get("table")
         links.append(f"[{s['label']}]({s['url']})" if s["url"].startswith("http")
-                     else f"`{s.get('table', s['label'])}` ({s.get('publisher') or 'ERW'})")
+                     else (f"[`{table}`](/data#{table}) ({s.get('publisher') or 'ERW'})" if table
+                           else f"`{s['label']}` ({s.get('publisher') or 'ERW'})"))
     return [text, "", "Sources: " + ", ".join(links) + "."]
 
 

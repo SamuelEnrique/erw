@@ -325,14 +325,15 @@ class Site(unittest.TestCase):
         # every page that writes markdown into the page does it through render(); session 402: or renderDigest(), which
         # renders through render() and then puts in spans whose every attribute and text is escaped (lib/digest.ts)
         # session 2703 (chain 131, the v2 fold): foldMore wraps the filled HTML and puts in no markup of the issue's own
-        self.assertIn("return foldMore(fillDigest(render(t.md, `docs/digest/${date}.md`), t.spans));", m)
+        # session 1449: the source trail (lib/digest.ts sourceTrail, which escapes nothing of its own: it wraps the rendered text)
+        self.assertIn("return foldMore(sourceTrail(fillDigest(render(t.md, `docs/digest/${date}.md`), t.spans)));", m)
         for base, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             for f in files:
                 if f.endswith(".tsx"):
                     text = open(os.path.join(base, f), encoding="utf-8").read()
                     for use in re.findall(r"dangerouslySetInnerHTML=\{\{ __html: (\w+(?:\(render)?)", text):
                         # session 2704: the Roundup page folds render()'s own HTML (foldMore(render(...)), nothing else
-                        self.assertIn(use, ("render", "renderDigest", "foldMore(render"), os.path.join(base, f))
+                        self.assertIn(use, ("render", "renderDigest", "foldMore(render", "renderRoundup"), os.path.join(base, f))
 
     def test_the_chart_library_is_pinned_by_its_hash(self):
         e = src("site", "components", "echarts.ts")

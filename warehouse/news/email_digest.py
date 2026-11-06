@@ -195,7 +195,8 @@ def md_inline_html(s):
     s = html.escape(s, quote=False)
     s = LINK.sub(lambda m: f'<a href="{html.escape(m.group(2))}">{m.group(1)}</a>', s)
     s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
-    return re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
+    # session 1445 (chain 149, fault 17): a table name wraps at 390 px instead of pushing the email wider than the screen
+    return re.sub(r"`([^`]+)`", r'<code style="overflow-wrap:anywhere;word-break:break-word">\1</code>', s)
 
 
 def site_links(s, site):
@@ -241,6 +242,9 @@ def block(body, img_base="docs"):
                          "width=\"600\" style=\"max-width:100%;height:auto;border:1px solid #D9D2C3\"></p>")
             continue
         text.append(md_inline_text(ln))
+        if ln.startswith("Tables: "):   # session 1445 (fault 18): the source trail, close at hand and out of the way
+            parts.append(f"<p style=\"margin:6px 0;font-size:12px;color:#6B665E\">{md_inline_html(ln)}</p>")
+            continue
         parts.append(f"<p style=\"margin:6px 0\">{md_inline_html(ln.lstrip('- '))}</p>" if not ln.startswith("- ")
                      else f"<p style=\"margin:2px 0 2px 12px\">&bull; {md_inline_html(ln[2:])}</p>")
     flush()
@@ -278,7 +282,7 @@ def story_list(stories):
                      if s["src"] else "")
                   + (f"<br><span style=\"color:#6B665E;font-size:13px\">{html.escape(ALSO_LABEL)} {md_inline_html(also)}</span>" if also else "")
                   + "</li>")
-    return t, ("<ol style=\"padding-left:20px;font-size:14px;font-family:system-ui,sans-serif\">" + "".join(li) + "</ol>")
+    return t, ("<ol style=\"padding-left:20px;font-size:14px;font-family:'IBM Plex Sans',system-ui,sans-serif\">" + "".join(li) + "</ol>")
 
 
 H2 = "<h2 style=\"font-size:16px;margin:16px 0 8px\">{}</h2>"
@@ -293,9 +297,9 @@ WORDMARK_HTML = (
     "<div style=\"position:absolute;left:8px;top:7px;width:14px;height:3px;background:#FFFFFF\"></div>"
     "<div style=\"position:absolute;left:8px;top:14px;width:11px;height:3px;background:#FFFFFF\"></div>"
     "<div style=\"position:absolute;left:8px;top:22px;width:17px;height:3px;background:#FFFFFF\"></div>"
-    "</div></td><td style=\"padding-left:8px;font-family:Georgia,serif;font-size:20px;color:#8C1515;letter-spacing:1px\">ERW</td>"
+    "</div></td><td style=\"padding-left:8px;font-family:'Source Serif 4',Georgia,serif;font-size:20px;color:#8C1515;letter-spacing:1px\">ERW</td>"
     "</tr></table>")
-SMALL = "<div style=\"font-size:13px;font-family:system-ui,sans-serif\">{}</div>"
+SMALL = "<div style=\"font-size:13px;font-family:'IBM Plex Sans',system-ui,sans-serif\">{}</div>"
 
 
 def render(path, kind, stories=None, note=None, unsubscribe=None):
@@ -343,8 +347,10 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     # session 23: the Fun fact (daily) and the Chart of the week (Roundup), as the brief wrote them
     # session 24: policy; session 25: the ERW's names (the old ones still read, for briefs written before)
     # session 232: the Digest's chart of the day, its picture inline at 600 px (1200 px drawn), before the fun fact
-    def add_block(heading, old):
+    def add_block(heading, old, drop_tables=False):
         body = [site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in section(lines, (heading, old))]
+        if drop_tables:   # session 1445 (fault 18): one Tables line for the opening number and the block, the block's
+            body = [x for x in body if not x.startswith("Tables: ")]
         if any(x.strip() for x in body):
             bt, bh = block(body, img_base=img_dir)
             t.extend(["", heading[3:], ""] + bt)
@@ -352,9 +358,16 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
                 bh = fun_fact_html(bh)
             h.extend([H2.format(heading[3:]), SMALL.format(bh)])
     if v2 or v2r:   # session 2703: the opening number (and the Digest's block) come before the stories
-        add_block("## The opening number", "## The opening number")
+        add_block("## The opening number", "## The opening number", drop_tables=v2)
     if v2r:   # session 2704: the Roundup's five numbers, then what mattered
-        add_block("## The week in five numbers", "## The week in five numbers")
+        # session 1446 (fault 26): the row that is the opening number, word for word, says so instead
+        opening = " ".join(x for x in section(lines, ("## The opening number",)) if x.strip())
+        opening = re.sub(r"\*\*|\s*Status:.*$", "", opening).strip().rstrip(".")
+        five_lines = section(lines, ("## The week in five numbers",))
+        five_lines = [re.sub(r":\*\* .*$", ":** the opening number, above.", x) if opening and opening in x else x for x in five_lines]
+        bt, bh = block([site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in five_lines], img_base=img_dir)
+        t.extend(["", "The week in five numbers", ""] + bt)
+        h.extend([H2.format("The week in five numbers"), SMALL.format(bh)])
     if v2:
         t.extend(["", "The numbers", ""] + num_text)
         h.extend([H2.format("The numbers"), SMALL.format(num_html)])
@@ -402,20 +415,20 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
         t.append(f"Corrections: {CORRECTIONS}" + (f". Preferences: {prefs}" if prefs else ""))
     if unsubscribe:
         t.append(f"Stop these emails: {unsubscribe}")
-    h.append("<p style=\"font-family:Georgia,serif;font-size:15px;margin:16px 0 4px\">ERW</p>")
-    h.append(f"<p style=\"font-size:13px;font-family:system-ui,sans-serif;margin-top:16px\"><a href=\"{html.escape(page)}\">"
+    h.append("<p style=\"font-family:'Source Serif 4',Georgia,serif;font-size:15px;margin:16px 0 4px\">ERW</p>")
+    h.append(f"<p style=\"font-size:13px;font-family:'IBM Plex Sans',system-ui,sans-serif;margin-top:16px\"><a href=\"{html.escape(page)}\">"
              f"All of {html.escape(name)}</a>. " + (f"<a href=\"{html.escape(how)}\">How this is made</a>. " if how else "")
              + (f"<a href=\"{CORRECTIONS}\">Corrections</a>. " + (f"<a href=\"{html.escape(prefs)}\">Preferences</a>. " if prefs else "") if v2 or v2r else "")
              + "ERW, the live, citable record of the US energy system. Every number names the table it came from.</p>")
     if unsubscribe:
-        h.append("<p style=\"font-size:12px;font-family:system-ui,sans-serif;color:#6B665E\">"
+        h.append("<p style=\"font-size:12px;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#6B665E\">"
                  + (f"<a href=\"{html.escape(unsubscribe)}\">Stop these emails</a> (one click)."
                     if unsubscribe.startswith("http") else html.escape(unsubscribe)) + "</p>")
     # session 810: a head with the viewport, so a phone's mail client lays the email out at the screen's width (without it
     # a 390 px screen rendered the email 980 px wide and scaled it down); the charset for the names and the euro sign
     body_html = ("<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
                  "</head><body style=\"margin:0;padding:16px;background:#F7F3EA;color:#2E2D29;"
-                 "font-family:Georgia,serif\"><div style=\"max-width:640px;margin:0 auto\">" + "".join(h)
+                 "font-family:'Source Serif 4',Georgia,serif\"><div style=\"max-width:640px;margin:0 auto\">" + "".join(h)
                  + "</div></body></html>")
     return (subject if (v2 or v2r) and subject else title), label, "\n".join(t) + "\n", body_html
 

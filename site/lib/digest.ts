@@ -34,7 +34,7 @@ function dayBefore(day: string): string {
 export const STORY_SECTIONS = ["Top of the industry", "By sector", "AI and power", "What moved", "The rest of the top ten"];   // session 2703: the v2 order's
 
 export type Figure = {
-  part: "dam" | "rt" | "fuel" | "chart" | "demand";
+  part: "dam" | "rt" | "fuel" | "chart" | "demand" | "story";   // session 1450: the block's story rows
   key: string;
   raw: string;          // the value as the Digest wrote it (a chart figure: as its record holds it)
   text: string;         // the figure as written on the page
@@ -110,8 +110,13 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
   let summary: number[] = [];
   for (const num of secs.filter((s) => isNumbers(s.title))) {   // session 2703: every numbers section, each with its own tables
     const foot: Record<string, string> = {};
+    // session 1450: the stories a block row reads ("[3] `news_stories`; story news:abc (mw); story news:def (price)")
+    const stories: Record<string, string> = {};
     for (let i = num.start; i < num.end; i++) {
-      if (lines[i].startsWith("Tables: ")) for (const m of lines[i].matchAll(/\[(\d+)\] `([a-z0-9_]+)`/g)) foot[m[1]] = m[2];
+      if (lines[i].startsWith("Tables: ")) {
+        for (const m of lines[i].matchAll(/\[(\d+)\] `([a-z0-9_]+)`/g)) foot[m[1]] = m[2];
+        for (const m of lines[i].matchAll(/story (news:[0-9a-f]+) \((mw|price)\)/g)) if (!stories[m[2]]) stories[m[2]] = m[1];
+      }
     }
     const tableOf = (cell: string) => {
       const mk = /\[(\d+)\]/.exec(cell);
@@ -180,6 +185,18 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
           const table = "eia930_all_demand", entity = US48;
           figs.push({ part: "demand", key: `digest_demand|${table}|${entity}|demand_mw|${m[2]}T${m[3]}:00Z`, raw: plain(m[1]), text: m[1], table, entity,
             ...hold(table, entity, now), line: i, from: `${m[1]} MW`, unit: " MW" });
+        }
+        continue;
+      }
+      // session 1450 (chain 149, fault 6): a story row of the v2 block, keyed to its story's scored field
+      // read on the line as written (asOld takes the bold label off the v2 rows)
+      const st = /^- \*\*(Project or capacity|Policy, capital or reliability)\.\*\* [^:]+: (?:(USD [\d,.]+(?: (?:billion|million|trillion|thousand))?)|([\d,]+) MW) \(.*?\) \[(\d+)\]\./.exec(lines[i]);
+      if (st && foot[st[4]] === "news_stories") {
+        const field = st[3] ? "mw" : "price", id = stories[field];
+        if (id) {
+          const text = st[3] ?? st[2];
+          figs.push({ part: "story", key: `digest_story|news_stories|${id}|${field}`, raw: plain(st[3] ?? st[2].replace(/^USD /, "")), text, table: "news_stories", entity: id,
+            held: false, title: "", line: i, from: text, unit: "" });
         }
         continue;
       }
@@ -325,6 +342,40 @@ export function digestMarkdown(md: string, date: string, chart: { table: string;
 /** Puts the spans into the rendered HTML. */
 export function fillDigest(html: string, spans: string[]): string {
   return html.replace(/ERWDIGESTFIG(\d+)Z/g, (all, i: string) => spans[Number(i)] ?? all);
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// session 1449 (chain 149, faults 18 and 26 on the page): the source trail close at hand, not in the way
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** The "Tables: [1] `iso_dam_hub_prices` (...); [2] `eia930_all_demand` ..." paragraphs of a rendered issue become a
+ *  closed <details class="digest-tables"> (its summary "Sources"), and each [n] mark in the text gets a hover naming
+ *  its table (an <abbr title>): the owner's rule that explanatory text is a hover tip, never visible grey text, with the
+ *  trail one click away for a reader without a hover. The markdown keeps every line: the parser and the tracer read it. */
+export function sourceTrail(html: string): string {
+  const tables: Record<string, string> = {};
+  const out = html.replace(/<p>(Tables: (?:.|\n)*?)<\/p>/g, (all, body: string) => {
+    for (const m of body.matchAll(/\[(\d+)\] <code>([a-z0-9_]+)<\/code>/g)) tables[m[1]] = m[2];
+    return `<details class="digest-tables"><summary>Sources</summary><p>${body}</p></details>`;
+  });
+  if (!Object.keys(tables).length) return out;
+  // the marks outside the details and outside tags: "[n]" as text, after a space or a quote
+  return out.split(/(<details class="digest-tables">(?:.|\n)*?<\/details>)/).map((part, i) => {
+    if (i % 2) return part;
+    return part.replace(/(^|[\s>(])\[(\d+)\](?=[\s.,;:)<]|$)/g, (all, before: string, n: string) =>
+      tables[n] ? `${before}<abbr class="digest-mark" title="${tables[n]}">[${n}]</abbr>` : all);
+  }).join("");
+}
+
+/** The Roundup's five numbers: the row that is the opening number word for word says so instead (the markdown keeps
+ *  both; scripts/check_roundup.py traces the five by their form). */
+export function dedupeOpening(html: string): string {
+  const op = /<h2 id="the-opening-number">(?:.|\n)*?<p><strong>([^<]+?)\.?<\/strong>/.exec(html);
+  if (!op) return html;
+  const text = op[1].trim();
+  if (text.length < 20) return html;
+  const esc = text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return html.replace(new RegExp(`(<li><strong>[^<]+:<\\/strong> )${esc}\\.?((?:\\s*<abbr[^>]*>\\[\\d+\\]<\\/abbr>|\\s*\\[\\d+\\])?\\.?)(</li>)`), "$1the opening number, above.$3");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

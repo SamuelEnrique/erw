@@ -304,7 +304,7 @@ class TheDigestAndTheEmail(unittest.TestCase):
         text = src("warehouse", "news", "brief.py")
         # session 805: the day's top ten go with the call, so the chart follows the day; session 2703: in the v2 order the
         # full numbers sit in the fold ("### "), still before the chart and the fun fact
-        a, b, c = text.index('"### ERW\'s Numbers Today"'), text.index("L += daily_chart_section(digest_date, log, args.out, stories="), text.index("L += fun_fact_section(digest_date, log)")
+        a, b, c = text.index('"### ERW\'s Numbers Today"'), text.index("tail = daily_chart_section(digest_date, log, args.out, stories="), text.index("tail += fun_fact_section(digest_date, log)")   # session 1444: the tail is built once, the fold measured
         self.assertLess(a, b)
         self.assertLess(b, c)
 
