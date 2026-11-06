@@ -93,7 +93,7 @@ The periodicals' faults file (`docs/reviews/periodicals-faults-2026-11-05.md`) h
 | 7 | One action held as several rows (repeated notices, one exemption's two documents, a docket spelled two ways) | 3 | 406 docket ids stand on more than one row | 3057: one record a proceeding (`warehouse/policy/records.py`): r16's four weekly notices one step of the Pioneer record, r66 and r71 in it too; 2,020 documents make 1,495 records |
 | 8 | The body at its parent's level (a bureau as "Interior", a governor's release as the PUCT's) | 3 | at least 45 of Interior's 85 rows carry a BOEM (33) or OSMRE (12) docket | 3056: `body` right on 3 of 3 (OSMRE, BOEM, Texas Governor) |
 | 9 | Out of scope: not an energy action, or routine paperwork the connector means to leave out | 4 | not counted | open (the faults rows, 3073 on) |
-| 10 | Significance above the rubric's band for what the document does | 2, and 1 borderline | not counted | open (3058) |
+| 10 | Significance above the rubric's band for what the document does | 2, and 1 borderline | not counted | open (the faults rows, 3073 on): the scorer must run again |
 
 No fault was found in the title, the docket's presence or the event date of the 80. The impact reads (`policy_reads`) of the sampled actions that have one carry a `timeline` sentence that names the next step, so for the 5-or-more rows the date stands in prose; it is in no field of the action.
 
@@ -188,3 +188,11 @@ None scored clearly below its band.
 - **On the table** (this laptop's copy, 2,020 rows, run to the scratch folder, never the warehouse): 1,495 records; 301 hold more than one document (826 documents); the largest holds nine (Pioneer, `nrc:NRC-2026-0265`: the application and its four weekly notices, the notice of intent for the environmental impact statement, the exemption's EA and the exemption). The validator passes the table as events (0 errors, 0 warnings).
 - **"Across outlets"**: a row of this table is a government document, so outlets enter as sources: a release folded into its Register document (`related_urls`) and the news stories linked to it (`news_story_ids`, 40 rows hold one). The record carries all of them, once each.
 - **Not wired into the daily run.** `policy_action_records` is not yet a table of the warehouse (coverage, licenses, the live set are the owner's to register); the page's builder computes the records from `policy_actions` at build time, and the script can write the table on the data machine when the owner asks.
+
+## Session 3058: the impact read
+
+`warehouse/policy/impact.py`: an action's impact read is one sentence, the model's clause of what changes (kept only when its quotation stands in the text word for word, every number in it stands there too, it is one sentence and holds no word of opinion) and then the table and page it bears on, chosen by written rules (`TABLE_RULES`, the method note's section 15), never by the model.
+
+- **The map**: 30 of 30 on the fixture's actions (tables written from their texts, `tests/fixtures/policy/impact_tables_3058.json`). Read against 30 more of the audit's sample, four rules were wrong and are fixed: the NRC's biweekly notices and license transfers went to the new reactors' table (their texts name combined licenses), a reconductoring award to the large-load rules (its project is called "Large Load Growth"), a "new major license application" missed relicensing, an LNG terminal's scoping went to the pipelines.
+- **The reads**: 60 stored actions (the fixture's 30 and 30 of the sample, the most significant first), 63 calls of Claude Sonnet 5.5, USD 0.45 (the cap was USD 2). 54 kept, 6 dropped: a quotation not in the text (3: r25's AP1000 rule, the NRC's Belews Creek hearing release, a Florida Gas blanket request), over 45 words (2), a number the text does not state (1: "15" members of a DOE board, counted by the model, not stated). Every kept sentence is in `docs/reviews/policy-impact-2026-11-06.csv` with its quotation, for the owner's reading.
+- **Class 10** (significance above its band) is not changed by this session: it needs the scorer run again; it moves to the faults rows (3073 on).

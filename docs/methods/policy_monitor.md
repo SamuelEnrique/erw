@@ -446,3 +446,42 @@ Tested on 30 stored actions whose answers were written from their own texts (`te
 each field) and checked on the other 50 of the audit's sample (`docs/reviews/policy-audit-2026-11-06.md`, "Session
 3056"). The scorer's policy note gained one sentence the same session: the sector is the part of the energy system the
 action applies to, and "policy" only when the summary and the title name none.
+
+## 15. The impact read: one sentence, and the table it bears on (session 3058, chain 166)
+
+`warehouse/policy/impact.py` writes an action's impact read as one sentence in two parts, kept apart so that a model
+never chooses where an action shows:
+
+- **What changes** (the model's clause): from the action's own text only, who must, may or may no longer do what, and
+  from or by which date, in at most 40 words. The clause is kept only when the words of the text it rests on (its
+  quotation) stand in the text word for word, every number in it stands in the text, it is one sentence (a stop in
+  "p.m.", "Inc." or an initial is not a sentence's end), it holds no em or en dash and no word of opinion (an adjective
+  of size or importance, a verb that asserts nothing, a word that judges). Terms of art are not opinions: "no
+  significant impact", "significant adverse comments", a "major license". A clause that fails is dropped and the
+  reason kept.
+- **Where it bears** (written rules, `TABLE_RULES`, every table one that `coverage.csv` holds; the first rule that
+  holds names it): the Renewable Fuel Standard to `epa_rfs_rins_monthly`; the NRC's biweekly notices and license
+  transfers to `nrc_license_actions`; non-light-water and advanced reactors to `nrc_advanced_reactor_preapplicants`;
+  construction permits, early site permits, design certifications, combined licenses, limited work authorizations and
+  SMRs to `nrc_new_reactor_applications`; any other NRC action to `nrc_license_actions`; a DOE LNG docket to
+  `doe_lng_export_applications`; a FERC hydro project's preliminary permit to `ornl_hydropower_pipeline`, its
+  relicensing to `ornl_hydropower_relicensing`, anything else of it to `ornl_eha_hydropower_plants`; gas storage to
+  `eia_gas_storage_capacity_monthly`; a FERC LNG terminal (its title) to `eia_lng_liquefaction_projects`; a FERC CP or
+  PF docket, or a gas pipeline, to `eia_gas_pipeline_projects`; ISO New England's interconnection to
+  `isone_interconnection_queue`, any other interconnection queue or agreement to `interconnection_queue_summary`;
+  reconductoring, dynamic line rating and transmission lines or projects to `grid_network_links`; large loads and
+  datacenters to `large_load_rules`; DOE's emergency orders keeping plants online to `eia860m_retired_generators`;
+  EPA's rules for power plants (generating units, steam electric, coal ash) to `epa_needs_units`; OSMRE and coal
+  mining to `eia_coal_mine_production_annual`; BOEM's wind to `boem_renewable_leases`, its oil and gas to
+  `boem_ogor_lease_production_monthly`; BLM's oil and gas to `blm_oil_gas_statistics_annual`; capacity markets to
+  `iso_all_capacity_prices`; batteries to `storage_capacity`; a reliability grant to `eia861_utility_reliability`;
+  solar, wind and geothermal to `eia860m_planned_generators`; anything else to `policy_actions` itself. The page is the
+  one whose own list of tables in `site/lib/pages.ts` names the table, else the table's row of the data catalogue
+  (`/data#<table>`).
+
+The sentence is the clause, then "; it bears on <table> (<page>)", written by code. The map was graded on the 30
+actions of `tests/fixtures/policy/actions_3056.json` against tables written from their texts (30 of 30) and read
+against 30 more of the audit's sample, where four of its rules were found wrong and fixed. On those 60 actions the
+model (Claude Sonnet 5.5, under the owner's key, 63 calls, USD 0.45 in all) wrote 60 clauses; 54 were kept and 6
+dropped (a quotation not in the text 3, over 45 words 2, a number not in the text 1). The reads are
+`docs/reviews/policy-impact-2026-11-06.csv`, for the owner's reading; no table of the warehouse holds them yet.
