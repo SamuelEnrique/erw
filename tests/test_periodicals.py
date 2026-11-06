@@ -1406,6 +1406,22 @@ class Session1467SectorLine(unittest.TestCase):
                          [(self.HEAD, "generation", "", ("Utility Dive", "https://www.utilitydive.com/a"))])
 
 
+class Session1469CountsReadTheFiveKeys(unittest.TestCase):
+    """Session 1469 (chain 150, fault 55): the counts read a five-numbers row as keyed when its key is on the five's
+    Tables line (session 1460's form)."""
+
+    def test_the_keys_on_the_tables_line(self):
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import periodicals_counts as pc
+        five = ["## The week in five numbers", "",
+                "- **Deal of the week, by US dollars:** USD 19 billion, TeraWulf (2026-11-05).",
+                "- **Largest new datacenter load first reported this week:** 702 MW, Google, Cheyenne.", ""]
+        self.assertEqual(pc.no_key(five), 2)
+        tables = "Tables: the deal of the week, `energy_deals` deal:a; the datacenter load, `datacenter_projects` datacenter:b."
+        self.assertEqual(pc.no_key(five + [tables]), 0)
+        self.assertEqual(pc.no_key(five + ["Tables: the deal of the week, `energy_deals` deal:a."]), 1)
+
+
 class Session1438OneTopic(unittest.TestCase):
     """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
     story of the sector that is not about the price keeps the sector-and-region key."""
