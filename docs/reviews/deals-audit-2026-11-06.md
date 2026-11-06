@@ -510,3 +510,25 @@ Status faults: **3 to 0**; no other facility of either fixture changed status.
 ### The audit's open classes after chain 159's sessions 2256 to 2263
 
 Deals (106): not a deal kept 1; stated deals with no row 6 (two by ruling 2, one by a scope ruling, three by the prompt's rules: session 2256); place missed 3 (two states in one field, a buyer's country); status unsupported 1 (D062); kind 0; parties incomplete 2 (by a ruling); a party wrong 1 (D001, Google the credit backstop as seller); AI-power tag 2; a figure of another thing 2 (D045 the plant's cost, D053 the building's bonds); USD missed 1. Facilities (60): not a facility 1; stated facilities with no row 2; MW basis 1 (F049); operator 2 (by the rule); state 2 (F015 "Western Kentucky", F034 "Hutto, Texas"); power source 2 (F032, F060); country 0; status 0.
+
+## Every row's state (session 2266, chain 159)
+
+| Row | Class | State | Where |
+|---|---|---|---|
+| A1 | Deals: place missed | improved: 12 to 3 (two states in one field; a buyer's country) | 2257 |
+| A2 | Deals: status missed, unsupported | done for missed (7 to 0); 1 unsupported left open (D062, no word rule tells it apart) | 2259 |
+| A3 | Deals: not a deal | done: 1 | 2232 |
+| A4 | Deals: kind | done: 8 to 0 | 2258 |
+| A5 | Deals: parties | improved: incomplete 3 to 2 (both by a ruling); wrong 1 (D001) open | 2260 |
+| A6 | Deals: AI-power tag | open: 2 (a motive, a supplier to datacenters) | next file |
+| A7 | Deals: MW, USD, term missed | done | 2232, 2235 |
+| A8 | Deals: a sum of another figure | open: 2 (a plant's cost, a building's bonds) | next file |
+| A9 | Deals: confidence | done | 2232, 2251 |
+| A10 | Deals: duplicate pairs | done | 2233 |
+| A11 | Facilities: MW basis | open: 1 (F049 "2.5 GW data centre park" read as total) | next file |
+| A12 | Facilities: status | done: 3 to 0 | 2263 |
+| A13 | Facilities: not a facility, two places | done: 1 and 0 | 2236 |
+| A14 | Facilities: state, operator, site, power, timeline, country | operator 3 to 2 (both by the rule), country 3 to 0; open: state 2, power source 2 | 2261, 2262; next file |
+| A15 | Facilities: confidence | done | 2236 |
+| A16 | The step's failure line | done | 2237 |
+| New | Stated deals with no row (6), stated facilities with no row (2) | traced (2256): 2 by ruling 2, 1 by a scope ruling, 3 by the prompt's own rules; the switch `ERW_DEALS_ONE_PARTY` holds the answer | 2256; ruling |
