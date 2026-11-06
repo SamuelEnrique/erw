@@ -113,7 +113,10 @@ class Section(unittest.TestCase):
         brent = next(ln for ln in self.movers() if ln.startswith("- Brent"))
         self.assertIn("Reason, from the day's stories: Geopolitical supply risk drives crude prices higher. ([OilPrice.com](https://oilprice.com/x))", brent)
         wti = next(ln for ln in self.movers() if ln.startswith("- WTI"))
-        self.assertNotIn("Reason", wti)
+        # session 1440: a story that says "crude prices" names WTI too (PRICE_WORDS); Henry Hub is not named
+        self.assertIn("Reason, from the day's stories: Geopolitical supply risk drives crude prices higher.", wti)
+        hh = next(ln for ln in self.movers() if ln.startswith("- Henry Hub"))
+        self.assertNotIn("Reason", hh)
 
     def test_held_paused_and_not_held_prices_are_not_ranked_and_say_so(self):
         nr = next(ln for ln in self.movers() if ln.startswith("- Not ranked"))

@@ -64,3 +64,10 @@ code { overflow-wrap: anywhere; }
   font-family: var(--font-sans); font-size: 10px; line-height: 1.5; letter-spacing: 0.03em; white-space: nowrap; vertical-align: middle;
   width: fit-content; align-self: flex-start;  /* inside a column card the label keeps its own width */
 }
+
+/* session 1449 (chain 149): the periodicals' source trail: a hover on each [n] mark names its table, and the Tables line
+   sits closed under "Sources" (the owner's rule: explanatory text is a hover tip, never visible grey text) */
+.prose-erw abbr.digest-mark { text-decoration: none; border-bottom: 1px dotted var(--color-muted); cursor: help; font-size: 0.85em; }
+.prose-erw details.digest-tables { margin: 0 0 0.9rem; font-size: 0.85rem; }
+.prose-erw details.digest-tables summary { color: var(--color-muted); cursor: pointer; }
+.prose-erw details.digest-tables p { margin: 0.25rem 0 0; }

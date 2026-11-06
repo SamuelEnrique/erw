@@ -38,10 +38,10 @@ class TheRule(unittest.TestCase):
     def test_the_21_october_top_1(self):
         why = "Massive AI compute capex signals unprecedented power demand growth and infrastructure investment scale."
         head = "Anthropic may spend $750 Billion on computing costs, Bloomberg reports"
-        self.assertEqual(brief.why_check(why, head), ["adjective: massive", "adjective: unprecedented"])
+        # session 1437 (chain 149, fault 11): "signals" is a hollow verb; the line fails and the item prints the headline alone
+        self.assertEqual(brief.why_check(why, head), ["adjective: massive", "adjective: unprecedented", "hollow verb: signals"])
         out = brief.why_line(why, head)
-        self.assertEqual(out, "AI compute capex signals power demand growth and infrastructure investment scale.")
-        self.assertEqual(brief.why_check(out, head), [])
+        self.assertEqual(out, "")
         # the figures line prints no USD 750 billion again: the headline holds it
         self.assertEqual(brief.detail({"mw": "", "price": "$750 Billion", "parties": "Anthropic"}, head), "parties: Anthropic. ")
 
@@ -72,7 +72,9 @@ class TheRule(unittest.TestCase):
         # session 807: the fallback is the headline's own clause, and when that is the headline itself nothing is printed
         self.assertEqual(brief.why_line(why, head), "")
         self.assertEqual(brief.why_fallback(head), head + ".")
-        self.assertEqual(brief.why_line(why, head + ", Reuters reports"), head + ".")
+        # session 1437 (fault 10): the headline with its publisher's suffix is still the headline; nothing is printed twice
+        self.assertEqual(brief.why_line(why, head + ", Reuters reports"), "")
+        self.assertEqual(brief.norm_headline(head + ", Reuters reports"), brief.norm_headline(head))
 
     def test_the_fallback_is_the_title_s_own_clause(self):
         self.assertEqual(brief.why_fallback("NTT to build $6.3bn data center for Anthropic in Japan - report"),
@@ -124,7 +126,7 @@ class TheTwentySavedItems(unittest.TestCase):
     def test_the_fixture_holds_each_kind_of_fault(self):
         kinds = {p.split(":")[0] for it in items() for p in it["problems"]}
         # no saved why line of the twenty has two sentences; that fault is pinned by TheRule above
-        self.assertEqual(kinds, {"adjective", "figure of the headline"})
+        self.assertEqual(kinds, {"adjective", "figure of the headline", "hollow verb"})   # session 1437: the hollow verb
 
 
 class WhereTheRuleLives(unittest.TestCase):

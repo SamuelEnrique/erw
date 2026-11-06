@@ -82,8 +82,10 @@ class TheFiveNumbers(unittest.TestCase):
         self.assertEqual(L[2], "- **Deal of the week, by US dollars:** USD 12 billion, Shell and Equinor, Bay du Nord Oil Project (acquisition, 2026-10-09; "
                                "`energy_deals` deal:1c055d98aed350fd).")
         self.assertEqual(L[3], "- **Largest new datacenter load first reported this week:** 1,200 MW, Crusoe, Spark, Abilene, TX (`datacenter_projects` dc:a).")
+        # session 1446 (fault 28): the chart's latest period is the week before W41, and the row says so
         self.assertEqual(L[4], "- **From the chart of the week:** Lower 48 battery discharge, daily mean of the week: 45,968 MWh a day in 2026-09-28 to "
-                               "2026-10-04 (template `watch_battery_discharge_us`, `docs/analysis/2026-W41/chart_of_the_week.json`).")
+                               "2026-10-04 (the week before: the chart's latest period ends before this week) "
+                               "(template `watch_battery_discharge_us`, `docs/analysis/2026-W41/chart_of_the_week.json`).")
 
     def test_a_fuel_move_wins_when_it_is_the_largest_in_percent(self):
         facts = {"dam": [dict(label="SPP", node="SPPSOUTH_HUB", table="iso_dam_hub_prices", m1=30.00, m0=29.50, ref="[1]")],
@@ -190,7 +192,7 @@ class TheChart(unittest.TestCase):
             with mock.patch.object(roundup, "ANALYSIS_DIR", d), mock.patch("roundup_pick.chosen", return_value=None, create=True):
                 L = roundup.chart_of_the_week("2026-W41", quiet, stories=stories)
         text = "\n".join(L)
-        self.assertIn("The week's stories point elsewhere: US crude oil exports (", text)
+        self.assertIn("The week's stories point to US crude oil exports, whose chart is on", text)   # session 1446 (fault 35): one sentence
         self.assertIn("template `watch_crude_exports`", text)
         self.assertIn("![Batteries discharging, Lower 48]", text)
 

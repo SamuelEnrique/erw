@@ -20,6 +20,7 @@ No model, no network. The fixtures are frames and files the tests write; the nam
 and docs/digest/ as the repository holds them, and skip where they are absent.
 """
 
+import inspect
 import io
 import json
 import os
@@ -787,11 +788,15 @@ class V2TheOpeningNumber(unittest.TestCase):
         small = cand("Brent crude", "Brent crude", 126.55, 126.0, 0.44, unit="USD/bbl")
         # the largest move is not the choice by default: a benchmark named by a story comes first
         self.assertEqual(brief.opening_number([hub_big, hh, wti, small], [])["cand"]["key"], "WTI Cushing crude")
-        # without the reason, a benchmark before a hub, however large the hub's move
+        # session 1440: without the reason a benchmark needs the larger bar (4.5): WTI's 3.99 and Henry Hub's 3.01 fail, and
+        # the unnamed hub is the last resort when no story states a figure
         wti0 = dict(wti, reason="")
-        self.assertEqual(brief.opening_number([hub_big, hh, wti0], [])["cand"]["key"], "WTI Cushing crude")
-        # novelty: yesterday's metric leads again only at twice the bar (WTI's 3.99 is under 6)
-        self.assertEqual(brief.opening_number([hub_big, hh, wti0], [], prev_key="WTI_Cushing_crude")["cand"]["key"], "Henry Hub natural gas")
+        self.assertEqual(brief.opening_number([hub_big, hh, wti0], [])["cand"]["key"], "SPP")
+        wti5 = dict(wti0, pct=4.6)
+        self.assertEqual(brief.opening_number([hub_big, hh, wti5], [])["cand"]["key"], "WTI Cushing crude")
+        # novelty: yesterday's metric leads again only at twice the bar (WTI's 3.99 is under 6); Henry Hub named leads
+        hh_named = dict(hh, reason=" Reason, from the day's stories: y")
+        self.assertEqual(brief.opening_number([hub_big, hh_named, wti], [], prev_key="WTI_Cushing_crude")["cand"]["key"], "Henry Hub natural gas")
         # no defensible move: the structural figure of the highest-ranked story stating one
         recs = [rec("a", "A takes stock", sector="company"), rec("b", "B plans 600 MW", sector="gas", mw="600"), rec("c", "C raises $3bn", price="$3bn")]
         op = brief.opening_number([small], recs)
@@ -829,7 +834,7 @@ class V2TheOpeningNumber(unittest.TestCase):
 
 class V2TheNumbersBlock(unittest.TestCase):
     def test_four_rows_in_the_traced_forms(self):
-        facts = {"cands": [cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01),
+        facts = {"cands": [cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01, reason=" Reason: x"),
                            cand("ERCOT HB_NORTH day-ahead", "ERCOT", 28.38, 26.28, 7.99, table="iso_dam_hub_prices", unit="USD/MWh", node="HB_NORTH")],
                  "demand": {"top": {"value": 612000.0, "ts_utc": pd.Timestamp("2026-10-20 19:00", tz="UTC")}, "before": pd.Timestamp("2025-10-21"), "old": None}}
         op = brief.opening_number(facts["cands"], [])
@@ -841,13 +846,16 @@ class V2TheNumbersBlock(unittest.TestCase):
         self.assertTrue(MOVER.match(re.sub(r"^- \*\*[^*]+\*\* ", "- ", rows[0])), rows[0])
         self.assertIn("ERCOT HB_NORTH day-ahead", rows[0])            # the opening's own metric is not repeated
         self.assertEqual(len(DEMAND.findall(rows[1])), 1)
-        self.assertIn("600 MW: A plans 600 MW", rows[2])
-        self.assertIn("USD 3 billion: B raises USD 3 billion", rows[3])
+        # session 1439 (faults 4 to 6): the block's form, the figure once, no headline, a key to the story's row
+        self.assertTrue(rows[2].startswith("- **Project or capacity.** Gas supply: 600 MW (Outlet; Outlet, 2026-10-21) [3]. Change: first report"), rows[2])
+        self.assertEqual(rows[2].count("600"), 1)
+        self.assertTrue(rows[3].startswith("- **Policy, capital or reliability.** Capital raised: USD 3 billion (Outlet; Outlet, 2026-10-21) [3]."), rows[3])
+        self.assertNotIn("A plans", rows[2]); self.assertNotIn("B raises", rows[3])
         self.assertNotIn("](http", "\n".join(rows[2:]))                 # no story link: the item carries it (the hard check)
-        self.assertTrue(any(ln.startswith("Tables: [1] `iso_dam_hub_prices`; [2] `eia930_all_demand`") for ln in L))
+        self.assertTrue(any(ln.startswith("Tables: [1] `iso_dam_hub_prices`; [2] `eia930_all_demand`") and ln.endswith("[3] `news_stories`; story a (mw); story b (price).") for ln in L), [ln for ln in L if ln.startswith("Tables")])
 
     def test_the_masthead_and_the_subject(self):
-        op = brief.opening_number([cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01)], [])
+        op = brief.opening_number([cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01, reason=" Reason: x")], [])
         L = brief.masthead_lines("2026-10-26", pd.Timestamp("2026-10-26 15:45", tz="UTC"), op)
         self.assertEqual(L[0], "# ERW Daily Digest, 2026-10-26")
         self.assertEqual(L[2], "**26 October 2026.** Data through 11:45 ET, 15:45 UTC.")
@@ -910,7 +918,7 @@ class V2ThePageReadsIt(unittest.TestCase):
     def test_the_fold_is_drawn_closed(self):
         with open(os.path.join(ROOT, "site", "lib", "markdown.ts"), encoding="utf-8") as f:
             src = f.read()
-        self.assertIn("return foldMore(fillDigest(", src)
+        self.assertIn("return foldMore(sourceTrail(fillDigest(", src)   # session 1449: the source trail as a hover
         self.assertIn('<details class="digest-more" data-digest-fold="more">', src)
 
 
@@ -1003,15 +1011,26 @@ class V2RTheOpeningNumber(unittest.TestCase):
         deal = {"usd": 5e9, "text": "USD 5 billion, A and B"}
         dc = {"mw": 900.0, "text": "900 MW, Op"}
         us48 = {"text": "US48 demand peaked at 600,000 MW"}
-        self.assertEqual(roundup.opening_number({"move": move, "deal": deal, "dc": dc, "us48": us48})["key"], "move")
+        # session 1446 (fault 25): a benchmark move a story of the week names comes first; unnamed, the deal comes before it
+        stories = frame(rec("o", "Oil prices rise on fears of Middle East conflict escalation", sector="oil", why="Tanker rates doubled."))
+        self.assertEqual(roundup.opening_number({"move": move, "deal": deal, "dc": dc, "us48": us48}, stories)["key"], "move")
+        self.assertEqual(roundup.opening_number({"move": move, "deal": deal, "dc": dc, "us48": us48})["key"], "deal")
         self.assertEqual(roundup.opening_number({"move": dict(move, pct=-9.9), "deal": deal, "dc": dc, "us48": us48})["key"], "deal")
+        hub = {"pct": 676.7, "text": "SPP moved", "label": "SPP SPPSOUTH_HUB day-ahead"}
+        story = {"text": "USD 4.4 billion: Taiwan commits to Alaska LNG, as Reuters reported", "fig": "USD 4.4 billion"}
+        self.assertEqual(roundup.opening_number({"moves": [hub], "story": story, "us48": us48})["key"], "story")   # a hub is the last resort
+        self.assertEqual(roundup.opening_number({"moves": [hub], "us48": us48})["key"], "move")
+        self.assertEqual(roundup.opening_number({"moves": [dict(move, pct=4.0)], "us48": us48})["key"], "us48")   # unnamed, under 4.5
         self.assertEqual(roundup.opening_number({"deal": dict(deal, usd=5e8), "dc": dc, "us48": us48})["key"], "datacenter")
         self.assertEqual(roundup.opening_number({"dc": dict(dc, mw=300.0), "us48": us48})["key"], "us48")
         self.assertIsNone(roundup.opening_number({}))
         self.assertIn("persistent", roundup.opening_number.__doc__)
         op = roundup.opening_number({"move": move})
         self.assertEqual(roundup.opening_lines(op)[2], "**WTI moved.** Status: calculated from observed prices (the warehouse's tables).")
-        self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | Six reactors eyed; WTI Cushing crude +12.0% on the week")
+        self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | Six reactors eyed; WTI up 12.0% on the week")   # session 1446 (fault 34)
+        long = "Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery in Western Australia to EPBC Act"
+        self.assertEqual(roundup.subject_line(None, long), "ERW Weekly | Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery...")
+        self.assertLessEqual(len(roundup.subject_line(op, long)), 120)   # a 70-character headline and a move of up to 35
         self.assertEqual(roundup.subject_line(None, "Six reactors eyed."), "ERW Weekly | Six reactors eyed")
 
     def test_w40_and_w41(self):
@@ -1038,12 +1057,17 @@ class V2RTheParts(unittest.TestCase):
         self.assertEqual(L[6], "<!-- subject: ERW Weekly | A head -->")
 
     def test_the_evidence_gap(self):
-        self.assertEqual(roundup.evidence_gap(rec("a", "A", mw="600")),
+        # session 1446 (faults 30 and 31): the figure is claimed only when the headline states it; the empty fields are said;
+        # nothing when every field is stated and more than one outlet ran it
+        self.assertEqual(roundup.evidence_gap(rec("a", "A plans 600 MW", mw="600", parties="A"), "A plans 600 MW"),
                          "What the evidence does not establish: the 600 MW is the outlet's figure, not a warehouse table's.")
+        self.assertEqual(roundup.evidence_gap(rec("s", "Singapore plans 1GWh of storage", mw="1000", parties="Singapore"), "Singapore plans 1GWh of storage"), "")
         self.assertEqual(roundup.evidence_gap(dict(rec("b", "B"), outlets=1)),
-                         "What the evidence does not establish: the stories give no figure for it. One outlet has reported it so far.")
+                         "What the evidence does not establish: no party is named; no capacity or sum is stated; one outlet has reported it so far.")
         self.assertEqual(roundup.evidence_gap(rec("c", "C"), "Cheniere signs supply through 2054, 4 million tonnes per annum"),
-                         "What the evidence does not establish: its figures are the outlets', not a warehouse table's.")
+                         "What the evidence does not establish: no party is named; no capacity or sum is stated.")
+        self.assertEqual(roundup.evidence_gap(dict(rec("d", "D buys 600 MW", mw="600", parties="D"), outlets=3), "D buys 600 MW"),
+                         "What the evidence does not establish: the 600 MW is the outlet's figure, not a warehouse table's.")
 
     def test_next_week_from_the_policy_reads(self):
         reads = pd.DataFrame([
@@ -1054,7 +1078,8 @@ class V2RTheParts(unittest.TestCase):
             {"title": "Earlier", "agency": "DOE", "significance": "9", "source_url": "https://e/z", "timeline": "It took effect on October 20, 2026."}])
         with mock.patch.object(roundup, "read_table", return_value=reads):
             got = roundup.next_week(pd.Timestamp("2026-10-27", tz="UTC"), quiet)
-        self.assertEqual(got, ["- **2 November 2026**: Northern Natural Gas Company; Notice (Federal Energy Regulatory Commission). Comments on the EA "
+        # session 1447 (fault 36): the docket's short name, the company and the first clause joined by a comma
+        self.assertEqual(got, ["- **2 November 2026**: Northern Natural Gas Company, Notice (Federal Energy Regulatory Commission). Comments on the EA "
                                "are due to FERC by 5:00 p.m. Eastern Time on November 2, 2026. ([source](https://www.federalregister.gov/x))"])
         with mock.patch.object(roundup, "read_table", return_value=reads.iloc[1:]):
             self.assertEqual(roundup.next_week(pd.Timestamp("2026-10-27", tz="UTC"), quiet), [])
@@ -1070,7 +1095,7 @@ class V2RTheParts(unittest.TestCase):
         self.assertIn("- US48 peak.", sec)
         self.assertNotIn("Chart of the Week", sec)
         with open(os.path.join(ROOT, "site", "app", "roundup", "[week]", "page.tsx"), encoding="utf-8") as f:
-            self.assertIn("foldMore(render(md, DOCS.weekly_source[week]))", f.read())
+            self.assertIn("renderRoundup(md, DOCS.weekly_source[week])", f.read())   # session 1449: the fold, the source trail, the opening once
 
 
 class V2RTheEmail(unittest.TestCase):
@@ -1151,6 +1176,585 @@ class TheCharacterInTheEmails(unittest.TestCase):
         self.assertEqual(n, 2)
         self.assertEqual([m["to"] for m in sent], [["a@example.invalid"], ["b@example.invalid"]])
         self.assertTrue(all(m["subject"].startswith("PREVIEW v2: ERW Daily | ") for m in sent))
+
+
+class Session1437WhyLines(unittest.TestCase):
+    """Session 1437 (chain 149, faults 7 to 11, 32 and 33 of docs/reviews/periodicals-faults-2026-11-05.md): a hollow verb
+    or a restatement fails the why line's check, and a failing line prints nothing (the headline alone, rulings item 16),
+    a publisher's suffix or the money style notwithstanding. The lines are the dry run of 26 October's."""
+
+    def test_a_hollow_verb_fails_and_the_item_prints_the_headline_alone(self):
+        head = "Singapore plans 26% more power capacity in early 2030s and 1,000 MW of storage"
+        why = "Generation capacity expansion signals rising electricity demand in city-state."
+        self.assertEqual(brief.why_check(why, head), ["hollow verb: signals"])
+        self.assertEqual(brief.why_line(why, head), "")
+        for verb in brief.HOLLOW_VERBS:
+            self.assertEqual(brief.why_check(f"Capacity growth {verb} demand.", head), [f"hollow verb: {verb}"])
+
+    def test_a_restatement_fails(self):
+        head = "AI's nuclear power push runs into cost and regulatory hurdles"
+        why = "Cost and regulatory hurdles threaten AI sector's plans to use nuclear power for datacenters."
+        self.assertEqual(brief.why_check(why, head), ["restates the headline: 0.50"])
+        self.assertEqual(brief.why_line(why, head), "")
+
+    def test_a_line_that_adds_a_fact_passes(self):
+        head = "Maryland's first bulk storage procurement nets 440 MW, short of its target"
+        why = "Awards fell short of the 800-MW target, showing PJM capacity strain and limits on storage."
+        self.assertEqual(brief.why_check(why, head), [])
+        self.assertLess(brief.restates(why, head), brief.RESTATES_SHARE)
+        self.assertEqual(brief.why_line(why, head), why)
+
+    def test_the_headline_in_the_money_style_is_the_headline(self):
+        head = "Oil dips but holds above $100; Brent trades at $114.42 per barrel"
+        why = "Oil dips but holds above USD 100; Brent trades at USD 114.42 per barrel."
+        self.assertEqual(brief.norm_headline(why), brief.norm_headline(head))
+        self.assertEqual(brief.why_line(why, head), "")
+        self.assertEqual(brief.why_line("Brent reaches USD 114.42.", head + ", Bloomberg reports"), "")
+
+    def test_the_prompt_and_the_rubric_name_the_hollow_verbs(self):
+        for text in (score.SYSTEM, score.RUBRIC):
+            for verb in brief.HOLLOW_VERBS:
+                self.assertIn(verb, text)
+            self.assertIn("one fact the story", text)
+
+
+class Session1438OneTopic(unittest.TestCase):
+    """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
+    story of the sector that is not about the price keeps the sector-and-region key."""
+
+    def rec(self, title, sector, region):
+        return {"cluster_id": title[:12], "titles": [title], "sector": sector, "region": region, "parties": "", "mw": "", "price": ""}
+
+    def test_two_oil_price_stories_are_one_topic(self):
+        a = self.rec("Oil Prices Rise on Fears of Middle East Conflict Escalation", "oil", "global")
+        b = self.rec("Oil Prices Dip but Hold Above $100 as Middle East Supply Threats Mount", "oil", "Middle East")
+        self.assertEqual(brief.price_commodity(a), "oil")
+        self.assertTrue(brief.same_topic(a, b))
+        c = self.rec("Brent tops $116 as Middle East risks grow", "geopolitics", "Saudi Arabia")
+        self.assertTrue(brief.same_topic(a, c))
+
+    def test_a_field_is_not_a_price_story(self):
+        a = self.rec("Oil Prices Rise on Fears of Middle East Conflict Escalation", "oil", "global")
+        b = self.rec("Eni advances Venezuelan heavy oil project, eyes year-end approval", "oil", "Venezuela")
+        self.assertEqual(brief.price_commodity(b), "")
+        self.assertFalse(brief.same_topic(a, b))
+        g = self.rec("European gas prices reach their highest since 2022 on LNG supply fears", "gas", "Europe")
+        h = self.rec("Henry Hub falls as forecasts turn cooler", "gas", "United States")
+        self.assertTrue(brief.same_topic(g, h))
+        self.assertFalse(brief.same_topic(a, g))
+
+    def test_the_26_october_top_ten_holds_one_oil_price_item(self):
+        path = os.path.join(ROOT, "warehouse", "output", "news_stories.csv")
+        if not os.path.exists(path):
+            self.skipTest("news_stories.csv is not here")
+        with open(path, encoding="utf-8") as f:
+            body = "".join(ln for ln in f if not ln.startswith("#"))
+        s = pd.read_csv(io.StringIO(body), dtype=str, keep_default_na=False)
+        when = pd.to_datetime(s["event_date"], utc=True, format="ISO8601")
+        now = pd.Timestamp("2026-10-26 15:45", tz="UTC")
+        s = s[(s["scored_at"] != "") & (when >= now - pd.Timedelta(hours=72)) & (when <= now)].copy()
+        if len(s) < 200:
+            self.skipTest("the stories of 23 to 26 October are not scored here")
+        s["sig"] = s["significance"].astype(int)
+        s["ai"] = s["ai_power_relevance"].astype(int)
+        c = brief.build_clusters(s[s["sig"] > 0])
+        top10, _ = brief.one_per_topic(c, 10, lambda *a, **k: None)
+        oil_price = [r for r in top10.to_dict("records") if brief.price_commodity(r) == "oil"]
+        self.assertEqual(len(oil_price), 1)
+        self.assertEqual(len(top10), 10)
+
+
+class Session1439NumbersBlock(unittest.TestCase):
+    """Session 1439 (chain 149, faults 1, 3, 4, 5, 6): the fuel closes bounded by the cutoff; the demand row against the
+    same weekday a week before when the year before is not held; the story rows in the block's form with a key and no
+    headline; a price story never the policy row."""
+
+    def test_a_price_story_is_not_the_policy_row(self):
+        recs = [rec("p", "Oil dips but holds above $100; Brent trades at $114.42 per barrel", sector="oil", price="$114.42 per barrel"),
+                rec("c", "Trump targets $6.2 Billion offshore wind project nearing completion", sector="policy", price="$6.2 Billion", parties="Trump administration")]
+        notes = brief.Notes()
+        line, detail = brief.story_row("Policy, capital or reliability", recs, brief.CAPITAL_SECTORS, {}, None, "a policy or capital figure", ("money",), notes)
+        self.assertTrue(line.startswith("- **Policy, capital or reliability.** Policy sum: USD 6.2 billion (Trump administration; Outlet, 2026-10-21) [1]."), line)
+        self.assertEqual(detail, "story c (price)")
+        self.assertNotIn("114.42", line)
+        line, detail = brief.story_row("Policy, capital or reliability", recs[:1], brief.CAPITAL_SECTORS, {}, None, "a policy or capital figure", ("money",), notes)
+        self.assertEqual(line, "- **Policy, capital or reliability.** No story of the day states a policy or capital figure.")
+        self.assertEqual(detail, "")
+
+    def test_a_capacity_row_names_its_measure_place_and_who(self):
+        r = rec("g", "Gingerah Energy refers 1,000 MW data centre with 5GWh battery in Western Australia to EPBC Act",
+                sector="datacenter_power", mw="1000", parties="Gingerah Energy", links=[("Energy-Storage.news", "https://example.org/g")], first="2026-10-26T06:00:00Z")
+        r["region"] = "Australia"
+        notes = brief.Notes()
+        line, detail = brief.story_row("Project or capacity", [r], brief.CAPACITY_SECTORS, {}, None, "a capacity figure in MW", ("mw",), notes)
+        self.assertEqual(line, "- **Project or capacity.** Datacenter load, Australia: 1,000 MW (Gingerah Energy; Energy-Storage.news, 2026-10-26) [1]. "
+                               "Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.")
+        self.assertEqual(detail, "story g (mw)")
+        notes.extra["news_stories"] = detail
+        self.assertEqual(notes.lines()[-1], "Tables: [1] `news_stories`; story g (mw).")
+
+    def test_the_fuel_closes_stop_at_the_cutoff(self):
+        now = pd.Timestamp("2026-10-26 15:45", tz="UTC")
+        fuel = pd.DataFrame([{"entity": e, "ts_utc": pd.Timestamp(d, tz="UTC"), "value": v, "unit": "USD/bbl"}
+                             for e in ("eia:henry_hub", "eia:wti_cushing", "eia:brent")
+                             for d, v in (("2026-10-20", 100.0), ("2026-10-21", 101.0), ("2026-11-03", 107.0))])
+
+        def fetch(table, *a, **k):
+            if table == "eia_fuel_spot_prices":
+                return fuel.copy()
+            return pd.DataFrame(columns=["entity", "variable", "ts_utc", "value", "node", "freq"])
+        with mock.patch.object(brief.erw, "fetch", side_effect=fetch), mock.patch.object(brief, "held_grids", return_value=set()), \
+                mock.patch.object(brief, "held_rt", return_value=set()), mock.patch.object(brief, "cite_short", side_effect=lambda t: f"`{t}`"):
+            facts = {}
+            L = brief.numbers_today("2026-10-26", quiet, None, facts, now=now)
+            self.assertFalse(any("2026-11-03" in ln for ln in L), [ln for ln in L if "11-03" in ln])
+            self.assertTrue(any("101.00 USD/bbl on 2026-10-21" in ln for ln in L))
+            self.assertTrue(all(c["d"] <= now for c in facts["cands"]))
+            L2 = brief.numbers_today("2026-10-26", quiet, None, {})   # no bound: the newest row, as a scheduled run reads it
+            self.assertTrue(any("2026-11-03" in ln for ln in L2))
+
+    def test_demand_against_the_week_before_when_the_year_before_is_not_held(self):
+        day = pd.Timestamp("2026-10-25", tz="UTC")
+
+        def fetch(table, start=None, end=None, **k):
+            d = pd.Timestamp(start)
+            if d == day or d == day - pd.Timedelta(days=7):
+                v = 470627.0 if d == day else 455000.0
+                return pd.DataFrame([{"variable": "demand_mw", "ts_utc": d + pd.Timedelta(hours=23), "value": v}])
+            return pd.DataFrame(columns=["variable", "ts_utc", "value"])
+        store = {}
+        with mock.patch.object(brief.erw, "fetch", side_effect=fetch):
+            out = brief.demand_lines("2026-10-26", quiet, brief.Notes(), store)
+        line = out[-1]
+        self.assertIn("the same weekday a week before (2026-10-18) peaked at 455,000 MW", line)
+        self.assertIn("so +3.4% on the week.", line)
+        self.assertIn("The same weekday a year before is not held", line)
+        self.assertEqual(len(DEMAND.findall(line)), 2)   # both peaks keep the form the page keys
+        self.assertEqual(store["span"], "week")
+        self.assertEqual(store["before"], day - pd.Timedelta(days=7))
+        facts = {"cands": [], "demand": store}
+        L = brief.numbers_block(facts, {"kind": None, "key": ""}, [], {})
+        row = [ln for ln in L if ln.startswith("- **Physical.**")][0]
+        self.assertIn("a week before (2026-10-18) peaked at 455,000 MW", row)
+        self.assertIn("on the week. The same weekday a year before is not held.", row)
+
+
+class Session1440OpeningNumber(unittest.TestCase):
+    """Session 1440 (chain 149, fault 2): the opening number is the day's consequence, not the largest percentage move.
+    The cases are the survey's (runs/s1440): 14 October (SPP +676.7% from a near-zero day, no story naming it),
+    21 October (WTI -3.6% unnamed against 6,600 MW of reactors), 26 October (Henry Hub -9.3% unnamed, Brent -0.1% named)."""
+
+    def test_an_unnamed_hub_never_beats_a_story_figure(self):
+        cands = [cand("SPP SPPSOUTH_HUB day-ahead", "SPP", 19.4, 2.5, 676.7, table="iso_dam_hub_prices", unit="USD/MWh", node="SPPSOUTH_HUB"),
+                 cand("Brent crude", "Brent crude", 115.9, 115.2, 0.6, reason=" Reason: x")]
+        recs = [rec("t", "Taiwan commits up to $4.4 Billion to Alaska LNG", sector="lng", price="$4.4 Billion")]
+        op = brief.opening_number(cands, recs)
+        self.assertEqual(op["kind"], "story")
+        self.assertEqual(op["figure"], "USD 4.4 billion")
+        op = brief.opening_number(cands, [])   # no story figure: the hub is the last resort
+        self.assertEqual((op["kind"], op["key"]), ("mover", "SPP"))
+
+    def test_an_unnamed_benchmark_needs_the_larger_bar(self):
+        wti = cand("WTI Cushing crude", "WTI Cushing crude", 98.0, 101.7, -3.6)
+        recs = [rec("n", "The Nuclear Company proposes 6.6 GW Kentucky project", sector="nuclear", mw="6600")]
+        op = brief.opening_number([wti], recs)
+        self.assertEqual((op["kind"], op["figure"]), ("story", "6,600 MW"))
+        henry = cand("Henry Hub natural gas", "Henry Hub natural gas", 2.52, 2.78, -9.3)
+        op = brief.opening_number([henry, cand("Brent crude", "Brent crude", 128.1, 128.3, -0.1, reason=" Reason: y")], recs)
+        self.assertEqual((op["kind"], op["key"]), ("mover", "Henry_Hub_natural_gas"))
+        named = cand("WTI Cushing crude", "WTI Cushing crude", 98.0, 101.7, -3.6, reason=" Reason: z")
+        op = brief.opening_number([named], recs)
+        self.assertEqual((op["kind"], op["key"]), ("mover", "WTI_Cushing_crude"))
+
+    def test_a_story_that_says_oil_prices_names_the_crude_benchmarks(self):
+        c = frame(rec("o", "Oil prices rise on fears of Middle East conflict escalation", sector="oil", why="Tanker rates doubled after the attacks on Saudi ports."))
+        self.assertIn("Tanker rates doubled", brief.price_reason("Brent crude", c))
+        self.assertIn("Tanker rates doubled", brief.price_reason("WTI Cushing crude", c))
+        self.assertEqual(brief.price_reason("Henry Hub natural gas", c), "")
+
+
+class Session1441ChartOfTheDay(unittest.TestCase):
+    """Session 1441 (chain 149, faults 14 and 15): a candidate whose series name is an id, or whose strength is a step
+    from zero, is never the chart of the day; a readable, related one is; with none, choose says so."""
+
+    def flag(self, key, fact, strength, table="eia_state_generation_monthly", series_key="entity=eia:x|variable=y"):
+        return {"source": "scanner", "key": key, "fact": fact, "table": table, "series_key": series_key, "rank": 1,
+                "flag": {"rule": "record", "strength": strength}}
+
+    def test_the_two_ids_and_the_step_from_zero_are_passed_over(self):
+        onrr = self.flag("a", "onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -29,834 in August 2026, the lowest monthly value held since August 2010.",
+                         552.5288, table="onrr_revenue_monthly", series_key="entity=onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none|variable=revenue")
+        padd = self.flag("b", "eia_padd_movements:MGAMT1XP31 tanker_barge_receipts: 251.0 kbbl in June 2026, the highest monthly value held since January 1986.",
+                         8.6406, table="eia_padd_rail_barge_movements_monthly")
+        ok = self.flag("c", "Net generation from natural gas in Texas: 12,345 GWh in August 2026, the highest monthly value held since January 2001.", 3.2,
+                       series_key="entity=eia:gen:TX:NG|variable=net_generation")
+        self.assertFalse(dc.readable(onrr)); self.assertFalse(dc.readable(padd)); self.assertTrue(dc.readable(ok))
+        self.assertTrue(dc.degenerate(onrr)); self.assertFalse(dc.degenerate(ok))
+        stories = [{"titles": ["Oil prices rise on fears of Middle East conflict escalation"], "sector": "oil", "why": "", "parties": ""}]
+        c, why = dc.choose([onrr, padd, ok], set(), stories=stories)
+        self.assertEqual(c["key"], "c")
+        self.assertIn("2 candidate(s) whose series has no plain name passed over", why)
+        self.assertNotIn("step from zero", why)   # the ONRR flag is counted once, as unreadable
+        c, why = dc.choose([onrr, padd], set(), stories=stories)
+        self.assertIsNone(c)
+        self.assertIn("passed over", why)
+
+    def test_a_readable_step_from_zero_is_passed_over_too(self):
+        step = self.flag("s", "Net generation from solar in Vermont: 1 GWh in August 2026, the highest monthly value held since January 2001.", 61.0)
+        ok = self.flag("c", "Net generation from natural gas in Texas: 12,345 GWh in August 2026, the highest monthly value held since January 2001.", 3.2)
+        c, why = dc.choose([step, ok], set())
+        self.assertEqual(c["key"], "c")
+        self.assertIn("1 flag(s) past 50 robust standard deviations passed over as a step from zero", why)
+
+    def test_the_stored_charts_that_the_rule_refuses(self):
+        folder = os.path.join(ROOT, "docs", "digest", "charts")
+        if not os.path.isdir(folder):
+            self.skipTest("no chart records here")
+        refused = []
+        for f in sorted(os.listdir(folder)):
+            if f.endswith(".json") and f[:4] == "2026":
+                with open(os.path.join(folder, f), encoding="utf-8") as fh:
+                    d = json.load(fh)
+                if not dc.readable(d) or dc.degenerate(d):
+                    refused.append(f[:10])
+        # the five of 13 issues the session read (7, 22, 23 October, and 6 November's ONRR line item); a later issue
+        # written by this code adds none
+        for day in ("2026-10-07", "2026-10-22", "2026-10-23"):
+            if os.path.exists(os.path.join(folder, f"{day}.json")):
+                self.assertIn(day, refused)
+
+
+class Session1442Sources(unittest.TestCase):
+    """Session 1442 (chain 149, fault 23): a cluster's links reach the outlet's own page before Google's, so an item's
+    first source is the outlet's wherever one of its stories has it."""
+
+    def test_direct_links_come_first(self):
+        g = ("Reuters", "https://news.google.com/rss/articles/CBMi0?oc=5")
+        d = ("Rigzone", "https://www.rigzone.com/news/x")
+        self.assertEqual(brief.direct_first([g, d]), [d, g])
+        self.assertEqual(brief.direct_first([d, g]), [d, g])
+        self.assertTrue(brief.is_google(g[1])); self.assertFalse(brief.is_google(d[1]))
+        self.assertEqual(brief.link_text([d, g]), "[Rigzone](https://www.rigzone.com/news/x), [Reuters](https://news.google.com/rss/articles/CBMi0?oc=5) (via Google News)")
+
+    def test_build_clusters_puts_the_outlet_first(self):
+        rows = [{"cluster_id": "c", "sig": 7, "ai": 0, "sector": "oil", "region": "", "why": "w", "mw": "", "price_mentioned": "", "parties": "",
+                 "event_date": "2026-10-26T01:00:00Z", "source": "Reuters", "source_url": "https://news.google.com/rss/articles/A?oc=5",
+                 "title": "Oil prices rise", "summary": ""},
+                {"cluster_id": "c", "sig": 6, "ai": 0, "sector": "oil", "region": "", "why": "w", "mw": "", "price_mentioned": "", "parties": "",
+                 "event_date": "2026-10-26T02:00:00Z", "source": "OilPrice.com", "source_url": "https://oilprice.com/x",
+                 "title": "Brent tops 116", "summary": ""}]
+        c = brief.build_clusters(pd.DataFrame(rows))
+        self.assertEqual(c.iloc[0]["links"][0], ("OilPrice.com", "https://oilprice.com/x"))
+        self.assertEqual(c.iloc[0]["titles"][0], "Oil prices rise")   # the lead story is still the highest scored
+
+
+class Session1443RankingAndSectors(unittest.TestCase):
+    """Session 1443 (chain 149, fault 13, and the plan's tie-break fixture): a title about oil or gas prices is of that
+    commodity's sector whatever power tag the scorer gave; at one significance, an event before commentary, then the
+    outlets, then the time (rulings item 4), never AI relevance."""
+
+    def row(self, cid, title, sector, sig=7, ai=0, source="Outlet", when="2026-10-26T01:00:00Z"):
+        return {"cluster_id": cid, "sig": sig, "ai": ai, "sector": sector, "region": "", "why": "w", "mw": "", "price_mentioned": "",
+                "parties": "", "event_date": when, "source": source, "source_url": f"https://example.org/{cid}/{source}", "title": title, "summary": ""}
+
+    def test_an_oil_futures_story_is_not_power(self):
+        r = self.row("c", "CFTC looks into sale of futures equal to 6 million barrels in two minutes", "power_prices")
+        c = brief.build_clusters(pd.DataFrame([r, self.row("g", "ERCOT prices spike as demand peaks", "power_prices")]))
+        self.assertEqual(dict(zip(c["cluster_id"], c["sector"])), {"c": "oil", "g": "power_prices"})
+        self.assertEqual(brief.sector_of({"sector": "generation", "title": "Brent crude nears $120 as tensions rise"}), "oil")
+        self.assertEqual(brief.sector_of({"sector": "generation", "title": "Gas plant approved in Ohio"}), "generation")
+        self.assertEqual(brief.sector_of({"sector": "lng", "title": "Henry Hub falls"}), "lng")
+
+    def test_the_ai_tie_break_is_gone(self):
+        rows = [self.row("ai", "A 42 MW datacenter signs power", "datacenter_power", ai=9),
+                self.row("deal1", "A 600 MW gas deal is signed", "deal", source="A", when="2026-10-26T03:00:00Z"),
+                self.row("deal2", "A 600 MW gas deal is signed", "deal", source="B", when="2026-10-26T03:00:00Z"),
+                self.row("deal3", "A 600 MW gas deal is signed", "deal", source="C", when="2026-10-26T03:00:00Z")]
+        for r in rows[1:]:
+            r["cluster_id"] = "deal"
+        c = brief.build_clusters(pd.DataFrame(rows))
+        self.assertEqual(list(c["cluster_id"]), ["deal", "ai"])   # three outlets before one, at the same score
+        self.assertEqual(int(c.iloc[0]["outlets"]), 3)
+        com = self.row("com", "Why the grid cannot keep up, an analysis", "generation", source="D", when="2026-10-26T00:00:00Z")
+        c = brief.build_clusters(pd.DataFrame(rows + [com]))
+        self.assertEqual(list(c["cluster_id"]), ["deal", "ai", "com"])   # commentary last at the same score, though earliest
+
+
+class Session1444TheFold(unittest.TestCase):
+    """Session 1444 (chain 149, faults 21 and 22): the stories above the fold are as many as bring the prose to 350 words
+    (at most five, never past 450); the masthead says when the stories stop short of the cutoff."""
+
+    def test_a_fourth_story_is_lifted_while_the_count_is_under_350(self):
+        counts = {2: 230, 3: 295, 4: 362, 5: 430}
+        self.assertEqual(brief.lift_count(lambda n: counts[n], 3, 10), 4)
+        self.assertEqual(brief.lift_count(lambda n: counts[n], 3, 3), 3)        # no story left to lift
+        self.assertEqual(brief.lift_count(lambda n: {2: 300, 3: 340, 4: 345, 5: 349}[n], 3, 10), 5)   # the lift stops at five
+        self.assertEqual(brief.lift_count(lambda n: {2: 420, 3: 470}[n], 3, 10), 2)   # past 450 with three: two
+        self.assertEqual(brief.lift_count(lambda n: {2: 300, 3: 400}[n], 3, 10), 3)
+        self.assertEqual((brief.FOLD_MIN, brief.FOLD_MAX, brief.MOVED_LIFT_MAX), (350, 450, 5))
+
+    def test_the_masthead_says_when_the_stories_stop_short(self):
+        op = {"kind": None, "key": ""}
+        now = pd.Timestamp("2026-10-26 15:45", tz="UTC")
+        L = brief.masthead_lines("2026-10-26", now, op, pd.Timestamp("2026-10-26 07:55", tz="UTC"))
+        self.assertEqual(L[2], "**26 October 2026.** Stories through 03:55 ET, 07:55 UTC; prices through 11:45 ET, 15:45 UTC.")
+        L = brief.masthead_lines("2026-10-26", now, op, pd.Timestamp("2026-10-26 15:02", tz="UTC"))
+        self.assertEqual(L[2], "**26 October 2026.** Data through 11:45 ET, 15:45 UTC.")
+        self.assertEqual(brief.masthead_lines("2026-10-26", now, op)[2], "**26 October 2026.** Data through 11:45 ET, 15:45 UTC.")
+
+    def test_main_reads_the_fold_count(self):
+        src = inspect.getsource(brief.main)
+        self.assertIn("n_moved = lift_count(lambda n: above_fold_words(chr(10).join(L + middle(n) + tail)), moved_count(recs), len(recs))", src)
+        self.assertIn("masthead_lines(digest_date, now, op, newest)", src)
+
+
+class Session1445TheEmail(unittest.TestCase):
+    """Session 1445 (chain 149, faults 17 and 18): the v2 Digest email at 390 and in a plain client: a table name wraps,
+    one Tables line for the opening number and the block, the brand's fonts with their fallbacks named, no script and
+    no stylesheet, the character once and only in the fun fact, alt text on every image."""
+
+    def render(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "2026-10-23.md")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(V2_MD)
+            with mock.patch.dict(os.environ, {"SITE_URL": "https://example.org", "EMAIL_ASSET_REF": "main"}):
+                return email_digest.render(p, "daily", unsubscribe="https://x/unsub")
+
+    def test_one_tables_line_and_it_wraps(self):
+        title, label, text, body = self.render()
+        self.assertEqual(text.count("Tables: "), 1, [ln for ln in text.splitlines() if ln.startswith("Tables")])
+        self.assertEqual(body.count("Tables: "), 1)
+        self.assertIn('<code style="overflow-wrap:anywhere;word-break:break-word">', body)
+        self.assertIn('font-size:12px;color:#6B665E">Tables: ', body)
+        self.assertLess(body.index("The numbers"), body.index("Tables: "))   # the one line comes after the block
+
+    def test_a_plain_client_reads_it(self):
+        title, label, text, body = self.render()
+        self.assertNotIn("<script", body); self.assertNotIn("<link", body); self.assertNotIn("@import", body)
+        self.assertIn("font-family:'Source Serif 4',Georgia,serif", body)
+        self.assertIn("font-family:'IBM Plex Sans',system-ui,sans-serif", body)
+        imgs = re.findall(r"<img [^>]*>", body)
+        self.assertTrue(imgs)
+        for im in imgs:
+            self.assertIn(' alt="', im)
+        self.assertEqual(body.count("erw-character-48.png"), 1)
+        fun = body.index("Fun Fact")
+        self.assertGreater(body.index("erw-character-48.png"), fun)
+        self.assertNotIn("erw-character-48.png", body[:body.index("What moved")])
+
+
+class Session1446TheRoundupsNumbers(unittest.TestCase):
+    """Session 1446 (chain 149, faults 26 to 30): the stand-ins for an empty category, the datacenter row with a subject,
+    the scorer's refusal of an energy unit as MW, the email's five without the opening number twice."""
+
+    def test_an_empty_category_stands_in_with_the_next_move(self):
+        facts = {"dam": [{"label": "SPP", "node": "SPPSOUTH_HUB", "m1": 27.62, "m0": 20.15, "ref": "[1]"},
+                         {"label": "ERCOT", "node": "HB_NORTH", "m1": 33.19, "m0": 25.73, "ref": "[1]"}],
+                 "fuel": [{"label": "Brent crude", "a": {"value": 120.15, "unit": "USD/bbl", "ts_utc": pd.Timestamp("2026-10-30", tz="UTC")},
+                           "b": {"value": 128.30, "unit": "USD/bbl", "ts_utc": pd.Timestamp("2026-10-23", tz="UTC")}, "ref": "[5]"}]}
+        empty = pd.DataFrame(columns=["event_date", "dollars", "mw", "buyer", "seller", "asset", "deal_type", "event_id"])
+        empty_dc = pd.DataFrame(columns=["first_story_at", "capacity_mw", "operator", "site_name", "city", "state", "entity_id"])
+        picked = {}
+        with mock.patch.object(roundup, "read_table", side_effect=lambda n: empty if n == "energy_deals" else empty_dc), \
+                mock.patch.object(roundup, "ANALYSIS_DIR", tempfile.mkdtemp()):
+            L = roundup.five_numbers("2026-W44", pd.Timestamp("2026-10-26", tz="UTC"), pd.Timestamp("2026-11-02", tz="UTC"), facts, quiet, picked)
+        self.assertEqual(len(L), 5)
+        self.assertTrue(L[0].startswith("- **Price move of the week:** SPP SPPSOUTH_HUB day-ahead averaged 27.62"), L[0])
+        self.assertIn("no deal in `energy_deals` is dated this week; in its place, the week's next price move: ERCOT HB_NORTH day-ahead", L[2])
+        self.assertIn("states its MW; in its place, the week's next price move: Brent crude closed at 120.15", L[3])
+        self.assertEqual([m["label"] for m in picked["moves"]], ["SPP SPPSOUTH_HUB day-ahead", "ERCOT HB_NORTH day-ahead", "Brent crude"])
+
+    def test_the_datacenter_row_needs_an_operator_or_a_site(self):
+        dc = pd.DataFrame([{"first_story_at": "2026-10-20T00:00:00Z", "capacity_mw": "1000", "operator": "", "site_name": "", "city": "Newport", "state": "", "entity_id": "datacenter:a"},
+                           {"first_story_at": "2026-10-21T00:00:00Z", "capacity_mw": "400", "operator": "Crusoe", "site_name": "Spark", "city": "Abilene", "state": "TX", "entity_id": "datacenter:b"}])
+        empty = pd.DataFrame(columns=["event_date", "dollars", "mw", "buyer", "seller", "asset", "deal_type", "event_id"])
+        with mock.patch.object(roundup, "read_table", side_effect=lambda n: empty if n == "energy_deals" else dc), \
+                mock.patch.object(roundup, "ANALYSIS_DIR", tempfile.mkdtemp()):
+            L = roundup.five_numbers("2026-W43", pd.Timestamp("2026-10-19", tz="UTC"), pd.Timestamp("2026-10-26", tz="UTC"), {}, quiet, {})
+        self.assertIn("400 MW, Crusoe, Spark, Abilene, TX", L[3])
+        self.assertNotIn("1,000 MW", L[3])
+
+    def test_the_scorer_refuses_an_energy_unit_as_capacity(self):
+        self.assertTrue(score.capacity_stated("Singapore plans 26% more power capacity and 1 GW of storage"))
+        self.assertFalse(score.capacity_stated("Singapore plans 26% more power capacity in early 2030s, with 1GWh of storage"))
+        self.assertTrue(score.capacity_stated("a 600MW campus"))
+        self.assertIn("capacity_stated(", inspect.getsource(score.main))
+
+    def test_the_email_does_not_print_the_opening_number_twice(self):
+        md = ROUNDUP_V2_MD if "ROUNDUP_V2_MD" in globals() else None
+        if md is None:
+            self.skipTest("no v2 Roundup fixture here")
+
+
+class Session1446Naming(unittest.TestCase):
+    """Session 1446: a story names a price for the opening number's choice even when its why line fails the check and
+    no reason prints beside the mover (the W44 render opened with a story's figure though the oil stories named Brent)."""
+
+    def test_named_without_a_printable_reason(self):
+        c = frame(rec("o", "Oil Prices Dip but Hold Above $100 as Middle East Supply Threats Mount", sector="oil",
+                      why="Sustained USD 100+ crude driven by ongoing conflict signals a material price regime."))
+        self.assertEqual(brief.price_reason("Brent crude", c), "")   # the why line says "signals": no reason prints
+        self.assertTrue(brief.price_named("Brent crude", c))
+        self.assertFalse(brief.price_named("Henry Hub natural gas", c))
+        move = {"pct": -6.4, "text": "Brent closed lower", "label": "Brent crude"}
+        self.assertEqual(roundup.opening_number({"moves": [move], "story": {"text": "1,000 MW: x", "fig": "1,000 MW"}}, c)["key"], "move")
+        brent = cand("Brent crude", "Brent crude", 120.15, 128.30, -6.4, unit="USD/bbl")
+        brent["named"] = True
+        self.assertEqual(brief.opening_number([brent], [rec("g", "G plans 1,000 MW", mw="1000")])["key"], "Brent_crude")
+
+
+class Session1447TablesAndArchive(unittest.TestCase):
+    """Session 1447 (chain 149, faults 36 to 38): next week's titles cut at a word with one item a kind a day; the
+    weekend line says no story of those days is scored; the numbers summary has one number a clause."""
+
+    def test_a_filing_title_is_cut_at_a_word(self):
+        t = ("Northern Natural Gas Company; Notice of Availability of the Environmental Assessment for the Proposed Ventura "
+             "to Farmington A-Line Abandonment and Capacity Replacement Project")
+        self.assertEqual(roundup.short_title(t), "Northern Natural Gas Company, Notice of Availability of the Environmental Assessment for...")
+        self.assertEqual(roundup.short_title("Ohio Regulatory Program"), "Ohio Regulatory Program")
+        self.assertNotIn("Repl...", roundup.short_title(t))
+        self.assertEqual(roundup.event_kind("Comments on the EA are due by 5:00 p.m. Eastern Time on November 2, 2026."), "comment")
+        self.assertEqual(roundup.event_kind("The final rule takes effect on November 25, 2026."), "effective")
+
+    def test_one_item_a_kind_a_day(self):
+        reads = pd.DataFrame([
+            {"title": "A Pipeline; Notice of Availability of the EA", "agency": "FERC", "significance": "6", "source_url": "https://x/a",
+             "timeline": "Comments on the EA are due by 5:00 p.m. Eastern Time on November 2, 2026."},
+            {"title": "B Pipeline; Notice of Availability of the EA", "agency": "FERC", "significance": "6", "source_url": "https://x/b",
+             "timeline": "Comments are due by 5:00 p.m. Eastern Time on November 2, 2026."},
+            {"title": "C Rule", "agency": "NRC", "significance": "8", "source_url": "https://x/c",
+             "timeline": "The final rule takes effect on November 4, 2026."},
+            {"title": "D Pipeline; Notice of Scoping", "agency": "FERC", "significance": "5", "source_url": "https://x/d",
+             "timeline": "Comments are due by 5:00 p.m. Eastern Time on November 5, 2026."}])
+        with mock.patch.object(roundup, "read_table", return_value=reads):
+            out = roundup.next_week(pd.Timestamp("2026-11-02", tz="UTC"), quiet)
+        self.assertEqual(len(out), 3)
+        self.assertTrue(out[0].startswith("- **2 November 2026**: A Pipeline, Notice of Availability of the EA (FERC)."), out[0])
+        self.assertFalse(any("B Pipeline" in x for x in out))   # the second FERC comment deadline of the same day waits
+        self.assertTrue(any("C Rule (NRC)" in x for x in out))
+        self.assertTrue(any("D Pipeline" in x for x in out))
+
+    def test_the_weekend_line_says_scored(self):
+        src = inspect.getsource(roundup.main)
+        self.assertIn('f"- no story of {wk_start:%Y-%m-%d} or "', src)
+        self.assertNotIn("no scored story was published on", src)
+
+    def test_the_summary_has_one_number_a_clause(self):
+        self.assertEqual(brief.summary_check("ERCOT's HB_NORTH and SPP each rose about 7.46 and 7.47 USD/MWh on the week before."), ["two figures in one clause"])
+        self.assertEqual(brief.summary_check("ERCOT's HB_NORTH rose 7.46 USD/MWh on the week before; SPP's hub rose 7.47."), [])
+        self.assertEqual(brief.summary_check("Prices were 33.19 and 27.62 USD/MWh respectively."), ["two figures in one clause"])
+        self.assertIn("One number a clause", brief.SUMMARY_SYSTEM)
+        self.assertIn("summary_check(text)", inspect.getsource(brief.numbers_summary))
+
+
+class Session1448FunFact(unittest.TestCase):
+    """Session 1448 (chain 149, faults 16 and 24; rulings items 7 and 8; the character): every verified fact of the bank
+    passes its check; a warehouse fact's numbers carry the issue's thousands separator; a warehouse source links its
+    table; the 14 October issue keeps its one line on the page."""
+
+    def test_every_verified_fact_of_the_bank_passes(self):
+        import funfact
+        bank = funfact.read_bank()
+        kept = bank[bank["status"] == "verified"]
+        self.assertGreater(len(kept), 30)
+        bad = [(r["fact_id"], funfact.check_record(r)) for r in kept.to_dict("records") if funfact.check_record(r)]
+        self.assertEqual(bad, [])
+        puns = bank[(bank["structure"] == "pun") & (bank["status"] == "verified")]
+        for r in puns.to_dict("records"):   # item 7: a pun that states a claim has its verified span, or is dropped
+            self.assertEqual(funfact.check_record(r), [])
+
+    def test_a_warehouse_fact_carries_the_thousands_separator(self):
+        import funfact
+        a = pd.DataFrame([{"entity": "ercot:HB_WEST", "variable": "all_max", "ts_utc": pd.Timestamp("2021-02-01", tz="UTC"), "value": 9310.49},
+                          {"entity": "ercot:HB_WEST", "variable": "all_max", "ts_utc": pd.Timestamp("2015-01-01", tz="UTC"), "value": 100.0},
+                          {"entity": "ercot:HB_WEST", "variable": "n_negative", "ts_utc": pd.Timestamp("2022-01-01", tz="UTC"), "value": 4266},
+                          {"entity": "ercot:HB_WEST", "variable": "n_negative", "ts_utc": pd.Timestamp("2015-01-01", tz="UTC"), "value": 10}])
+        with mock.patch.object(funfact, "_wsource", side_effect=lambda key, table, ev, part="fact": {"part": part, "table": table, "span": ev, "url": "", "label": f"ERW table {table}", "publisher": "ERW"}), \
+                mock.patch.dict(sys.modules, {"erw": mock.MagicMock(fetch=lambda t: a)}):
+            got = funfact.w_peak_premium("peak_premium:HB_WEST")
+        self.assertIn("reached 9,310.49 USD/MWh in a 15-minute interval in 2021", got["fact"])
+        self.assertIn("with 4,266.", got["fact"])
+        self.assertIn("highest all_max 9,310.49 USD/MWh", got["sources"][0]["span"])
+        self.assertEqual(funfact.unverified(got["fact"], [got["sources"][0]["span"]]), [])   # the literal check reads one form
+
+    def test_a_warehouse_source_links_its_table(self):
+        import funfact
+        item = {"fact": "F.", "second": "", "sources": [{"url": "", "label": "ERW table ercot_peak_premium_annual", "table": "ercot_peak_premium_annual", "publisher": "Energy Research Warehouse (ERW), derived"}]}
+        self.assertEqual(funfact.item_markdown(item)[-1], "Sources: [`ercot_peak_premium_annual`](/data#ercot_peak_premium_annual) (Energy Research Warehouse (ERW), derived).")
+        web = {"fact": "F.", "second": "S.", "sources": [{"url": "https://en.wikipedia.org/wiki/Hoover_Dam", "label": "Wikipedia, Hoover Dam"}]}
+        self.assertEqual(funfact.item_markdown(web), ["F. S.", "", "Sources: [Wikipedia, Hoover Dam](https://en.wikipedia.org/wiki/Hoover_Dam)."])
+
+    def test_the_14_october_issue_keeps_its_line(self):
+        with open(os.path.join(ROOT, "site", "lib", "digest.ts"), encoding="utf-8") as f:
+            ts = f.read()
+        self.assertIn('"2026-10-14"', ts[ts.index("ISSUE_NOTES"):])
+
+
+class Session1450TheTracers(unittest.TestCase):
+    """Session 1450 (chain 149, fault 6 and session 1434's note): the block's story rows are traced to their story's
+    scored field; a revised figure stays revised when the warehouse re-reads the row after the publisher's window."""
+
+    def setUp(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("check_digest", os.path.join(ROOT, "scripts", "check_digest.py"))
+        self.cd = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.cd)
+
+    def test_a_story_row_is_traced_to_news_stories(self):
+        cd = self.cd
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "news_stories.csv"), "w", encoding="utf-8", newline="") as f:
+                f.write("# provenance\nevent_id,mw,price_mentioned\nnews:f43900b681794577,1000,\nnews:ca99c1cbd4a165c7,,$1.6 Trillion\n")
+            src = cd.Csv(d)
+            st, got = cd.check_figure(src, "2026-10-26", {"key": "digest_story|news_stories|news:f43900b681794577|mw", "raw": "1,000", "text": "1,000", "table": "news_stories", "entity": "news:f43900b681794577", "held": False}, {}, written="2026-10-26T15:45:00Z")
+            self.assertEqual((st, got), ("ok", "1,000"))
+            st, got = cd.check_figure(src, "2026-10-26", {"key": "digest_story|news_stories|news:ca99c1cbd4a165c7|price", "raw": "1.6", "text": "USD 1.6 trillion", "table": "news_stories", "entity": "news:ca99c1cbd4a165c7", "held": False}, {}, written="2026-10-26T15:45:00Z")
+            self.assertEqual(st, "ok")
+            st, _ = cd.check_figure(src, "2026-10-26", {"key": "digest_story|news_stories|news:f43900b681794577|mw", "raw": "900", "text": "900", "table": "news_stories", "entity": "x", "held": False}, {}, written="2026-10-26T15:45:00Z")
+            self.assertEqual(st, "FAIL")
+            st, _ = cd.check_figure(src, "2026-10-26", {"key": "digest_story|news_stories|news:nothere|mw", "raw": "1", "text": "1", "table": "news_stories", "entity": "x", "held": False}, {}, written="2026-10-26T15:45:00Z")
+            self.assertEqual(st, "not here")
+
+    def test_a_revision_re_read_after_the_window_stays_revised(self):
+        cd = self.cd
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "eia_fuel_spot_prices.csv"), "w", encoding="utf-8", newline="") as f:
+                f.write("# provenance\nentity,variable,ts_utc,value,retrieved_at\neia:wti_cushing,close,2026-10-14T00:00:00Z,96.34,2026-11-05T23:10:05Z\n")
+            src = cd.Csv(d)
+            st, why = cd.compare(src, "101.91", "96.34", "2026-10-21T15:45:00Z", "eia_fuel_spot_prices", "eia:wti_cushing", "2026-10-14T00:00:00Z", "close", period="2026-10-14")
+            self.assertEqual(st, "revised")
+            # an issue written after the window printed a settled figure: a difference is a fault
+            st, _ = cd.compare(src, "101.91", "96.34", "2026-11-01T15:45:00Z", "eia_fuel_spot_prices", "eia:wti_cushing", "2026-10-14T00:00:00Z", "close", period="2026-10-14")
+            self.assertEqual(st, "FAIL")
+
+
+class Session1452TheMethod(unittest.TestCase):
+    """Session 1452 (chain 149): the periodicals' method is one document in the v2 shape, each rulings item named, each
+    figure's key and tracer named, the send hours and the recipients as they are; the about page links it; the rubric
+    carries the why line's rule."""
+
+    def setUp(self):
+        with open(os.path.join(ROOT, "docs", "methods", "periodicals.md"), encoding="utf-8") as f:
+            self.md = f.read()
+
+    def test_every_rulings_item_and_every_key(self):
+        for item in ("item 1)", "item 2)", "item 3", "item 4", "item 5", "item 6b", "item 7", "item 8", "item 9", "item 10", "item 11", "item 12", "item 13", "item 14", "item 15", "item 16", "item 17", "item 18"):
+            self.assertIn(item, self.md, item)
+        for key in ("digest_dam", "digest_rt", "digest_fuel", "digest_demand", "digest_story", "digest_chart", "rdp_five_dam", "rdp_five_fuel", "rdp_five_us48", "rdp_five_deal"):
+            self.assertIn(key, self.md, key)
+        for part in ("The masthead", "The opening number", "The numbers block", "What moved", "The chart of the day", "The fun fact", "The footer",
+                     "The week in five numbers", "What mattered", "The chart of the week", "Next week"):
+            self.assertIn(part, self.md, part)
+        self.assertIn("14:00 UTC", self.md); self.assertIn("23:00 UTC", self.md); self.assertIn("DIGEST_RECIPIENTS", self.md)
+        self.assertNotIn(chr(0x2014), self.md); self.assertNotIn(chr(0x2013), self.md)
+
+    def test_the_about_page_links_it_and_the_rubric_carries_the_rule(self):
+        with open(os.path.join(ROOT, "site", "app", "about", "page.tsx"), encoding="utf-8") as f:
+            self.assertIn('href="/data/methods/periodicals"', f.read())
+        self.assertIn("one fact the story gives that the title does not", score.RUBRIC)
+        for word in ("signals", "demonstrates", "reflects", "underscores", "highlights"):
+            self.assertIn(word, score.RUBRIC)
 
 
 if __name__ == "__main__":
