@@ -144,7 +144,9 @@ class TheBoardBuilder(unittest.TestCase):
                 board_page.build_as(b, set(), lines.append)
             skipped = [ln for ln in lines if "not on this machine, skipped" in ln]
             self.assertEqual(len(skipped), 4, lines)
-            self.assertEqual([r["status"] for r in b.rows], ["not_held", "paused", "licensed"])
+            # session 3008 (the landing of chain 165): session 1604 shows ISO-NE's reserves as "licensed" (a licensed
+            # source needed, the publisher named), no longer "not_held"
+            self.assertEqual([r["status"] for r in b.rows], ["licensed", "paused", "licensed"])
         finally:
             board_page.ip.OUT_DIR = old
 

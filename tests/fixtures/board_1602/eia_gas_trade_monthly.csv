@@ -1,0 +1,126 @@
+# fixture for tests/test_board_1602.py: EIA's US LNG exports and pipeline trade with Canada and Mexico, from January 2024; cut from the old laptop's warehouse/output/eia_gas_trade_monthly.csv on 2026-11-06 (session 1602)
+entity,variable,ts_utc,value,unit,freq,geo,market,node
+eia:N9102CN2,import_volume,2024-01-01T00:00:00Z,318596.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2024-02-01T00:00:00Z,255471.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2024-03-01T00:00:00Z,238671.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2024-04-01T00:00:00Z,221816.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2024-05-01T00:00:00Z,238395.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2024-06-01T00:00:00Z,246680.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2024-07-01T00:00:00Z,271353.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2024-08-01T00:00:00Z,260737.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2024-09-01T00:00:00Z,244374.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2024-10-01T00:00:00Z,253851.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2024-11-01T00:00:00Z,270352.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2024-12-01T00:00:00Z,307282.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-01-01T00:00:00Z,333825.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-02-01T00:00:00Z,295189.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-03-01T00:00:00Z,262868.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-04-01T00:00:00Z,236043.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-05-01T00:00:00Z,240243.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-06-01T00:00:00Z,246214.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-07-01T00:00:00Z,257550.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-08-01T00:00:00Z,237504.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-09-01T00:00:00Z,222458.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-10-01T00:00:00Z,232337.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-11-01T00:00:00Z,264062.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2025-12-01T00:00:00Z,321035.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2026-01-01T00:00:00Z,328638.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2026-02-01T00:00:00Z,273577.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2026-03-01T00:00:00Z,238510.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2026-04-01T00:00:00Z,216483.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2026-05-01T00:00:00Z,223367.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2026-06-01T00:00:00Z,226812.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9102CN2,import_volume,2026-07-01T00:00:00Z,244017.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Imports From Canada
+eia:N9132CN2,export_volume,2024-01-01T00:00:00Z,92090.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2024-02-01T00:00:00Z,113960.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2024-03-01T00:00:00Z,115589.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2024-04-01T00:00:00Z,72527.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2024-05-01T00:00:00Z,66528.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2024-06-01T00:00:00Z,66541.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2024-07-01T00:00:00Z,66314.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2024-08-01T00:00:00Z,65952.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2024-09-01T00:00:00Z,69683.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2024-10-01T00:00:00Z,71800.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2024-11-01T00:00:00Z,85552.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2024-12-01T00:00:00Z,109960.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-01-01T00:00:00Z,85582.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-02-01T00:00:00Z,100856.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-03-01T00:00:00Z,108969.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-04-01T00:00:00Z,76545.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-05-01T00:00:00Z,75068.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-06-01T00:00:00Z,67133.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-07-01T00:00:00Z,70518.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-08-01T00:00:00Z,81393.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-09-01T00:00:00Z,71124.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-10-01T00:00:00Z,77860.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-11-01T00:00:00Z,94287.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2025-12-01T00:00:00Z,124150.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2026-01-01T00:00:00Z,105239.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2026-02-01T00:00:00Z,112754.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2026-03-01T00:00:00Z,120318.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2026-04-01T00:00:00Z,75373.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2026-05-01T00:00:00Z,89898.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2026-06-01T00:00:00Z,74364.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132CN2,export_volume,2026-07-01T00:00:00Z,80758.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Canada
+eia:N9132MX2,export_volume,2024-01-01T00:00:00Z,185566.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2024-02-01T00:00:00Z,169930.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2024-03-01T00:00:00Z,182425.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2024-04-01T00:00:00Z,190852.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2024-05-01T00:00:00Z,212089.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2024-06-01T00:00:00Z,203735.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2024-07-01T00:00:00Z,217872.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2024-08-01T00:00:00Z,220693.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2024-09-01T00:00:00Z,205539.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2024-10-01T00:00:00Z,201256.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2024-11-01T00:00:00Z,177899.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2024-12-01T00:00:00Z,174730.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-01-01T00:00:00Z,193771.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-02-01T00:00:00Z,173358.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-03-01T00:00:00Z,186277.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-04-01T00:00:00Z,200332.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-05-01T00:00:00Z,225312.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-06-01T00:00:00Z,218619.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-07-01T00:00:00Z,213356.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-08-01T00:00:00Z,229078.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-09-01T00:00:00Z,206046.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-10-01T00:00:00Z,202158.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-11-01T00:00:00Z,187241.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2025-12-01T00:00:00Z,187293.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2026-01-01T00:00:00Z,189050.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2026-02-01T00:00:00Z,177329.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2026-03-01T00:00:00Z,196867.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2026-04-01T00:00:00Z,194503.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2026-05-01T00:00:00Z,224156.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2026-06-01T00:00:00Z,226204.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9132MX2,export_volume,2026-07-01T00:00:00Z,227569.0,MMcf,P1M,US,,U.S. Natural Gas Pipeline Exports to Mexico
+eia:N9133US2,export_volume,2024-01-01T00:00:00Z,396260.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2024-02-01T00:00:00Z,359563.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2024-03-01T00:00:00Z,369898.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2024-04-01T00:00:00Z,303776.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2024-05-01T00:00:00Z,367723.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2024-06-01T00:00:00Z,356423.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2024-07-01T00:00:00Z,323873.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2024-08-01T00:00:00Z,363574.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2024-09-01T00:00:00Z,363030.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2024-10-01T00:00:00Z,376200.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2024-11-01T00:00:00Z,376065.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2024-12-01T00:00:00Z,410786.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-01-01T00:00:00Z,414951.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-02-01T00:00:00Z,409232.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-03-01T00:00:00Z,457660.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-04-01T00:00:00Z,448242.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-05-01T00:00:00Z,435298.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-06-01T00:00:00Z,406036.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-07-01T00:00:00Z,436840.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-08-01T00:00:00Z,451139.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-09-01T00:00:00Z,451755.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-10-01T00:00:00Z,503475.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-11-01T00:00:00Z,525089.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2025-12-01T00:00:00Z,569267.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2026-01-01T00:00:00Z,539203.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2026-02-01T00:00:00Z,493596.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2026-03-01T00:00:00Z,573089.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2026-04-01T00:00:00Z,537936.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2026-05-01T00:00:00Z,502812.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2026-06-01T00:00:00Z,521059.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports
+eia:N9133US2,export_volume,2026-07-01T00:00:00Z,518777.0,MMcf,P1M,US,,Liquefied U.S. Natural Gas Exports

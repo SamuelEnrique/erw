@@ -90,6 +90,9 @@ class TheFiguresAreTheFunctions(unittest.TestCase):
                 continue
             series, _ = h
             got = self.bp.stats(series, r["freq"])
+            # session 1608 (chain 165): a file built before the year-to-date move has no "ytd"; its four moves are judged
+            if "moves" in r and "ytd" not in r["moves"] and isinstance(got.get("moves"), dict):
+                got["moves"] = {k: v for k, v in got["moves"].items() if k != "ytd"}
             want = {k: r.get(k) for k in ("last", "moves", "range", "avg7", "avg30", "lo30", "hi30") if k in r}
             for k, v in want.items():
                 if not near(got.get(k), v):

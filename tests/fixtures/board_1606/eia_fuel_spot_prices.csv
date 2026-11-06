@@ -1,0 +1,13 @@
+# fixture for tests/test_board_1606.py: EIA's Henry Hub spot, 10 to 24 August 2026; cut from the old laptop's warehouse/output/eia_fuel_spot_prices.csv on 2026-11-06 (session 1606)
+entity,variable,ts_utc,value,unit,freq,geo,market,node
+eia:henry_hub,spot_price,2026-08-10T00:00:00Z,2.72,USD/MMBtu,P1D,US-LA,,
+eia:henry_hub,spot_price,2026-08-11T00:00:00Z,2.79,USD/MMBtu,P1D,US-LA,,
+eia:henry_hub,spot_price,2026-08-12T00:00:00Z,2.82,USD/MMBtu,P1D,US-LA,,
+eia:henry_hub,spot_price,2026-08-13T00:00:00Z,2.82,USD/MMBtu,P1D,US-LA,,
+eia:henry_hub,spot_price,2026-08-14T00:00:00Z,2.79,USD/MMBtu,P1D,US-LA,,
+eia:henry_hub,spot_price,2026-08-17T00:00:00Z,2.77,USD/MMBtu,P1D,US-LA,,
+eia:henry_hub,spot_price,2026-08-18T00:00:00Z,2.82,USD/MMBtu,P1D,US-LA,,
+eia:henry_hub,spot_price,2026-08-19T00:00:00Z,2.94,USD/MMBtu,P1D,US-LA,,
+eia:henry_hub,spot_price,2026-08-20T00:00:00Z,2.94,USD/MMBtu,P1D,US-LA,,
+eia:henry_hub,spot_price,2026-08-21T00:00:00Z,2.82,USD/MMBtu,P1D,US-LA,,
+eia:henry_hub,spot_price,2026-08-24T00:00:00Z,2.83,USD/MMBtu,P1D,US-LA,,

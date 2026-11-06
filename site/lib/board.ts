@@ -13,13 +13,22 @@ export type Row = {
   id: string; group: string; label: string; at: string; code: string; unit: string; freq: "D" | "W" | "M" | "Q" | "";
   tags: Record<string, string>; status: Status; note?: string; source?: number; formula?: string; also?: string[];
   curve?: { status: Status; note: string }; hourly?: string; hub?: string;
-  last?: { t: string; v: number }; moves?: Record<"d" | "w" | "m" | "y", Move | null>;
+  last?: { t: string; v: number }; moves?: Partial<Record<MoveKey, Move | null>>;
   range?: { lo: number; hi: number; n: number; pos: number | null } | null;
   avg7?: { v: number; n: number }; avg30?: { v: number; n: number }; lo30?: number; hi30?: number;
   spark?: { t0: string; d: number[]; v: number[] };
   /** session 1118: what a spread's newest value was made of (the builder's spark_inputs, dark_inputs, crack_inputs) */
-  inputs?: { t: string; hub?: number; gas?: number; gas_t?: string; coal?: number; coal_t?: string; heat_rate?: number; gasoline?: number; diesel?: number; crude?: number };
+  inputs?: { t: string; hub?: number; gas?: number; gas_t?: string; coal?: number; coal_t?: string; heat_rate?: number; gasoline?: number; diesel?: number; crude?: number; product?: number };
+  /** session 1601: the row's time base and granularity in words (the builder's basis_of), in the name's hover */
+  basis?: string;
+  /** session 1601: a page that draws what the row summarizes (the node basis rows: the node view) */
+  link?: { href: string; words: string };
 };
+/** Session 1601: the hover of a row's name: its code, formula, interval and source, one a line. Pure. */
+export function nameTitle(row: Pick<Row, "code" | "formula" | "basis" | "source">, sources: string[]): string | undefined {
+  return [row.code ? `Code: ${row.code}` : "", row.formula ? `Formula: ${row.formula}` : "", row.basis ? `Interval: ${row.basis}` : "",
+    row.source !== undefined ? `Source: ${sources[row.source]}` : ""].filter(Boolean).join("\n") || undefined;
+}
 export type Filter = { key: string; label: string; options: [string, string][]; default: string };
 export type Group = { id: string; title: string; filters: Filter[]; curve?: boolean; extra?: string };
 export type WeekRow = {
@@ -42,13 +51,21 @@ export type Point = { t: number; v: number };
 
 export const DAY = 86_400_000;
 export const HOUR = 3_600_000;
-export const MOVES = [["d", "Day"], ["w", "Week"], ["m", "Month"], ["y", "Year"]] as const;
+// session 1608: the year to date, against the last value held of the year before (the builder's year_end)
+export const MOVES = [["d", "Day"], ["w", "Week"], ["m", "Month"], ["y", "Year"], ["ytd", "YTD"]] as const;
+export type MoveKey = (typeof MOVES)[number][0];
 export const PLACEHOLDER: Record<Exclude<Status, "ok">, string> = {
   paused: "paused while terms are reviewed", licensed: "licensed source needed", license: "license needed", not_held: "not held yet", working: "working on it",
 };
 export const FREQ_WORDS: Record<string, string> = { D: "daily", W: "weekly", M: "monthly", Q: "quarterly", "": "" };
 /** Why a move is blank on a series that is not daily: a weekly series has no daily move, a monthly one no daily or weekly move. */
-export const noMove = (freq: string, k: string) => (freq === "W" && k === "d") || (freq === "M" && (k === "d" || k === "w")) || (freq === "Q" && k !== "y");
+export const noMove = (freq: string, k: string) => (freq === "W" && k === "d") || (freq === "M" && (k === "d" || k === "w")) || (freq === "Q" && k !== "y" && k !== "ytd");
+/** Session 1608 (the chain's rule: a move on a stale series is blank, with its status): the move a row shows, null when the
+ *  row is stale on the day the board was built or the move is not held. Pure; the page and scripts/check-board.mjs share it. */
+export function shownMove(row: Row, k: MoveKey, built: string): Move | null {
+  if (closeAge(row, built)?.stale) return null;
+  return row.moves?.[k] ?? null;
+}
 
 /** Decimals a unit is written with: gallons to a tenth of a cent, large prices whole, everything else to the cent. */
 export function places(unit: string, v = 0): number {
@@ -121,7 +138,7 @@ export const STALE_DAYS: Record<"D" | "W" | "M" | "Q", number> = { D: 10, W: 17,
 /** Session 1134: by the publisher's calendar. A power market posts every day, weekends and holidays included (its
  *  day-ahead prices the day before), so a daily row of the power groups is stale past 3 days; EIA's daily fuel closes
  *  are trading days, posted weekly and late, and keep the 10 days of session 304's ruling. */
-export const POWER_GROUPS = new Set(["power", "peak", "spark", "da_rt", "battery", "as"]);
+export const POWER_GROUPS = new Set(["power", "peak", "spark", "da_rt", "battery", "as", "hubspread"]);   // hubspread: session 1606
 export const STALE_POWER_DAYS = 3;
 export const staleDays = (row: Pick<Row, "freq" | "group">): number => (row.freq === "D" && POWER_GROUPS.has(row.group) ? STALE_POWER_DAYS : STALE_DAYS[row.freq as "D" | "W" | "M" | "Q"]);
 export function ageDays(t: string, built: string): number {
@@ -155,6 +172,9 @@ export function inputsWords(row: Row): string | null {
     return `Made of: the hub's day-ahead mean ${two(i.hub)} USD/MWh over ${dateWords(i.t, "M")}, less ${i.heat_rate} MMBtu/MWh (the stated heat rate) times US coal delivered to power plants, ${two(i.coal)} USD/MMBtu in ${dateWords(i.coal_t, "M")}`;
   if (i.gasoline !== undefined && i.diesel !== undefined && i.crude !== undefined)
     return `Made of, on ${dateWords(i.t)}: gasoline ${two(i.gasoline)} and diesel ${two(i.diesel)} USD/gal, crude ${two(i.crude)} USD/bbl`;
+  // session 1607: a crack of one product, its gallon and the crude's barrel
+  if (i.product !== undefined && i.crude !== undefined)
+    return `Made of, on ${dateWords(i.t)}: the product ${two(i.product)} USD/gal, crude ${two(i.crude)} USD/bbl`;
   return null;
 }
 
@@ -165,7 +185,7 @@ export function rowsOf(file: BoardFile, group: Group, chosen: Record<string, str
     return want === "all" || r.tags[f.key] === undefined || r.tags[f.key] === want;
   }));
 }
-/** The last 30 points of a row as [{t, v}]. */
+/** The trend line's points of a row as [{t, v}] (session 1609: up to 90, the span by step). */
 export function sparkOf(r: Row): { t: string; v: number }[] {
   if (!r.spark) return [];
   const t0 = Date.parse(`${r.spark.t0}T00:00:00Z`);
