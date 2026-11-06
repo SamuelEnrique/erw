@@ -370,6 +370,53 @@ export function rowsCsv(file: BoardFile): string {
   return `${header.join("\n")}\n${csv(ROWS_HEAD, rows)}`;
 }
 
+/** Session 1616 (chain 165): the least rows with values a group holds when the board is whole, for the groups it has; a
+ *  group not in the file (a file built before the group) is not judged. The counts are about two thirds of the rows with
+ *  values after the day's hold on the file of 5 November 2026 (power 22, peak 18, spark 9, da_rt 11, battery 22, as 27,
+ *  gasprices 255, crude 44, products 9, oilspreads 2, world 9, retailfuel 40, heating 140, retailpower 248, plantfuel 143,
+ *  metals 5, rates 3, carbon 4), and of what chain 165's builder adds to a new group, so a thinner build is caught and a
+ *  day's gap is not. */
+export const GROUP_FLOORS: Record<string, number> = {
+  power: 14, peak: 12, spark: 6, hubspread: 4, da_rt: 7, battery: 14, as: 18, gas: 1, gasflows: 12, gasprices: 170, crude: 29,
+  products: 6, oilspreads: 2, gasspreads: 1, world: 6, retailfuel: 27, heating: 93, retailpower: 165, plantfuel: 95, metals: 3, rates: 2, carbon: 3, costs: 1,
+};
+const FIGURE_KEYS = ["last", "moves", "range", "avg7", "avg30", "avg365", "lo30", "hi30", "ext", "spark", "inputs"] as const;
+const near = (a: number, b: number) => Math.abs(a - b) <= 0.0002 + 1e-9 * Math.abs(b);
+/** Session 1616: the checks of the board's file alone, as the page draws it (after holdRows): a key per cell (unique ids,
+ *  every figure a number), a floor a group, every placeholder's words with no digit and no figure, and the figures this
+ *  chain added consistent with each other. Pure: scripts/check-board.mjs prints them, with or without a served page. */
+export function boardFileChecks(file: BoardFile): { ok: boolean; what: string }[] {
+  const out: { ok: boolean; what: string }[] = [];
+  const add = (ok: boolean, what: string) => out.push({ ok, what });
+  const ids = file.rows.map((r) => r.id);
+  const dup = ids.filter((id, i) => ids.indexOf(id) !== i);
+  add(dup.length === 0, `every row has its own id, so every cell's key is its own (${ids.length} rows)${dup.length ? `: repeated ${dup.slice(0, 5).join(", ")}` : ""}`);
+  const ok = file.rows.filter((r) => r.status === "ok");
+  const badNum = ok.filter((r) => !r.last || typeof r.last.v !== "number" || !Number.isFinite(r.last.v) || !/^\d{4}-\d{2}-\d{2}$/.test(r.last.t)
+    || Object.values(r.moves ?? {}).some((m) => m && !Number.isFinite(m.ch)) || (r.source !== undefined && !file.sources[r.source]));
+  add(badNum.length === 0, `every row with a value has its date, numbers that are numbers and a source (${ok.length} rows)${badNum.length ? `: ${badNum.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  const groups = new Set(file.groups.map((g) => g.id));
+  const thin = Object.entries(GROUP_FLOORS).filter(([g]) => groups.has(g)).map(([g, floor]) => [g, ok.filter((r) => r.group === g).length, floor] as const).filter(([, n, floor]) => n < floor);
+  const absent = Object.keys(GROUP_FLOORS).filter((g) => !groups.has(g));
+  add(thin.length === 0, `every group holds its floor of rows with values${thin.length ? `: ${thin.map(([g, n, f]) => `${g} ${n} of ${f}`).join(", ")}` : ""}${absent.length ? ` (not in this file yet: ${absent.join(", ")})` : ""}`);
+  const grey = file.rows.filter((r) => r.status !== "ok");
+  const leaky = grey.filter((r) => FIGURE_KEYS.some((k) => (r as Record<string, unknown>)[k] !== undefined) || !PLACEHOLDER[r.status as Exclude<Status, "ok">] || /\d/.test(PLACEHOLDER[r.status as Exclude<Status, "ok">] ?? "0"));
+  add(leaky.length === 0, `every row with no value shows its words ("licensed source needed" and the others), no digit and no figure (${grey.length} rows; ${grey.filter((r) => r.status === "licensed").length} licensed)${leaky.length ? `: ${leaky.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  const extBad = ok.filter((r) => r.ext && (r.ext.hi.v < r.ext.lo.v || (["w", "m"] as const).some((k) => {
+    const x = r.ext![k];
+    return x && (x.peak.v < r.ext!.hi.v - 1e-9 || x.above["100"] < x.above["250"] || x.above["250"] < x.above["1000"] || x.above["100"] > x.hours);
+  })));
+  add(extBad.length === 0, `every day's high is above its low, every week's and month's peak at least the day's high, and the hours above 100, 250 and 1,000 in order (${ok.filter((r) => r.ext).length} rows)${extBad.length ? `: ${extBad.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  const avgBad = ok.filter((r) => r.avg365 && r.last && !near(r.avg365.ch, r.last.v - r.avg365.v));
+  add(avgBad.length === 0, `every twelve-month mean's difference is the latest less the mean (${ok.filter((r) => r.avg365).length} rows)${avgBad.length ? `: ${avgBad.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  const ytdBad = ok.filter((r) => r.moves?.ytd && r.last && Number(r.moves.ytd.t.slice(0, 4)) !== Number(r.last.t.slice(0, 4)) - 1);
+  add(ytdBad.length === 0, `every year-to-date move is measured from the year before the latest (${ok.filter((r) => r.moves?.ytd).length} rows)${ytdBad.length ? `: ${ytdBad.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  const added = new Set(["hubspread", "gasflows", "gasspreads", "costs"]);
+  const said = ok.filter((r) => added.has(r.group) && !r.basis && !r.formula);
+  add(said.length === 0, `every row of the groups chain 165 added says its interval or its formula${said.length ? `: ${said.slice(0, 5).map((r) => r.id).join(", ")}` : ""}`);
+  return out;
+}
+
 /** Session 1614: a reader of the rows' CSV (/board/rows), in Python or in Stata, for a reader who wants the board as it is
  *  shown in a session of their own: the "#" header printed and skipped, the rows loaded as they are, the held rows counted
  *  by their status words. The Stata reader keeps the owner's rules (no line continuation, one empty line between commands

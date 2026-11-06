@@ -29,6 +29,13 @@ const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${w
 // session 1116: the page holds the rows of the grids held for a license on the day (lib/board.ts, holdRows), on the server
 const rawFile = JSON.parse(fs.readFileSync(new URL("../data/board.json", import.meta.url), "utf-8"));
 const file = b.holdRows(rawFile, licenseHeldGrids().map(gridName));
+// session 1616 (chain 165): the file's own checks (lib/board.ts, boardFileChecks), first; with --file, these alone, with
+// no served page (node --import ./scripts/alias-register.mjs scripts/check-board.mjs --file)
+for (const c of b.boardFileChecks(file)) check(c.ok, `the file: ${c.what}`);
+if (process.argv[2] === "--file") {
+  console.log(bad ? `FAILED: ${bad} of ${n} checks of the file` : `${n} of ${n} checks of the file passed`);
+  process.exit(bad ? 1 : 0);
+}
 const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }

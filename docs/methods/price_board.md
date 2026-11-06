@@ -447,3 +447,18 @@ Tests: `tests/test_board_1613.py`.
 - The rows are only the board's own: every public row with its figures and source, every held row with its words. The tables behind them keep their own downloads (CSV, Python, Stata, R) under the board.
 
 Tests: `tests/test_board_1614.py`.
+
+## The checks (session 1616, chain 165, 6 November 2026)
+
+`site/scripts/check-board.mjs` begins with the file's own checks (`boardFileChecks` in `site/lib/board.ts`, on the file as the page draws it, after the day's hold), and with `--file` runs them alone, with no served page:
+
+- a key per cell: every row has its own id (each number's key is the row's id and the figure's name);
+- every row with a value has its date, numbers that are numbers and a source;
+- a floor a group (`GROUP_FLOORS`): about two thirds of the rows with values after the hold on the file of 5 November 2026, and of what this chain's builder adds to its new groups; a group the file does not hold yet is named, not judged;
+- every row with no value shows its words ("licensed source needed", "license needed", "paused while terms are reviewed", "not held yet"), with no digit and no figure;
+- the figures this chain added hold together: a day's high above its low, a week's and a month's peak at least the day's high, the hours above 100, 250 and 1,000 in order; a twelve-month mean's difference the latest less the mean; a year-to-date move measured from the year before;
+- every row of the groups this chain added (hub spreads, gas storage and LNG, gas spreads, costs) says its interval or its formula.
+
+On the served page the script then checks every marked number against the file as before, now with the YTD move, the twelve-month mean and its difference, and the day's high and low with the week's and month's peaks and counts; a stale row's cells are expected blank.
+
+Tests: `tests/test_board_1616.py` (the site's file, a file the builder writes from this chain's fixtures, and a file broken on purpose).
