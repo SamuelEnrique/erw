@@ -149,12 +149,17 @@ class TheSourcesLine(unittest.TestCase):
                     continue
                 n += 1
                 reads = q.get("reads") or []
-                self.assertTrue(reads, (name, q["id"]))
+                held_any = any(isinstance(t.get("out"), dict) and t["out"].get("held") for t in q.get("trace") or [])
+                self.assertTrue(reads or held_any, (name, q["id"]))   # an answer whose every query was a held grid's lists the hold alone
                 for r in reads:
                     self.assertIn("table", r)
                     self.assertTrue(set(r) & {"entity", "variable", "start", "end", "aggregation", "where", "value_column"}, (name, q["id"], r))
+                # a held grid's answer (session 1112) cites the table whose rows are held: that read is the hold's answer, not a
+                # read of rows, so the reads line leaves it out and the sources line names the table with its hold
+                held = {(t.get("out") or {}).get("table") or (t.get("input") or {}).get("table") for t in q.get("trace") or []
+                        if isinstance(t.get("out"), dict) and t["out"].get("held")}
                 cited = {c.get("table") for c in q.get("citations") or []}
-                self.assertTrue(cited <= {r["table"] for r in reads}, (name, q["id"], cited))
+                self.assertTrue(cited <= {r["table"] for r in reads} | held, (name, q["id"], cited, held))
         self.assertGreater(n, 90)
 
     def test_the_sites_component_draws_the_table_and_the_read(self):
