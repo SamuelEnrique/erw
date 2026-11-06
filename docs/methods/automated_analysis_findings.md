@@ -292,6 +292,46 @@ The cards are committed with the day's page files; a step that fails puts the ca
 
 A finding's card and downloads carry the most restrictive license of their inputs (Decision 23). Findings 1 and 3 read public tables: public. Findings 8, 9 and 10 (session 182) read public tables only: public. Finding 2 reads one internal table (ISO-NE's hourly history) and publishes only yearly aggregates of it; its hourly rows are not in any download.
 
+<a id="replication"></a>
+
+## Replication
+
+Session 1744 (chain 195, 6 November 2026) wrote this section, which the note lacked. The three decision tools' notes each have one ("Run it"). The mirror has been in the repository since session 381, but only the review pack named it (`docs/reviews/packs/research.md`). Roadmap item 2 asks for "a replication a reader can run".
+
+- **What it rebuilds.** Every figure of the findings library's ten current cards at their default inputs, from the CSVs the cards download and nothing else: no table of the warehouse, no request, no file written.
+  - The ten: `batteries_lunch_grids`, `batteries_curtailment`, `batteries_curtailment_hourly`, `impact_study`, `gas_sets_price`, `negative_prices_west`, `peak_hour_grids`, `peak_hour_moved`, `queue_divorce` and `who_rescues_whom`.
+  - The eleventh card, `batteries_lunch`, is the earlier one-hub card that `batteries_lunch_grids` superseded (`SUPERSEDED` in `site/lib/findings.ts`). Its own do-file rebuilds it; the mirror does not.
+- **The files** are in `site/public/findings/`, served under `/findings/`:
+  - each card's CSVs and do-file (`<card>.do`, Stata);
+  - `erw_2026_research_replication.py`, the do-files' Python mirror (standard library and numpy). It uses the do-files' rules: HC1 errors, errors clustered by day, and Newey-West errors with their lag.
+- **Run it.**
+  - Stata: `cd site/public/findings`, then `do <card>.do`.
+  - Python, from the same folder: `python erw_2026_research_replication.py`.
+  - To compare with the cards as the page draws them: `python erw_2026_research_replication.py . --json ../../data/findings`. Each figure is set beside the same key of the card's JSON; exit 1 when one differs.
+- **The cards' own `.py` downloads are not the replication.** Each is the card's generator and reads the warehouse's tables through `findings_common`, which is not served beside it. On 6 November 2026 `gas_sets_price.py`, run from the folder, still stops with `ModuleNotFoundError: No module named 'findings_common'`, as session 381 found. Whether to ship that module or to say on the card that the do-file and the mirror are the replication is for Samuel (the pack's "Against roadmap item 2").
+- **The record.**
+  - 21 October 2026 (session 381): nine cards, 304 figures, 0 different.
+  - 6 November 2026 (session 1744), with `--json`: ten cards, 363 figures, 0 different, exit 0.
+  - The do-files have not been run: Stata is not on the code machine.
+- **Tests.**
+  - `tests/test_session381.py` and `tests/test_session422.py` run the mirror against the cards' JSON.
+  - `tests/test_session1744.py` holds this section and the block below.
+- **The other parts of roadmap item 2.** The cross-check table is the section below. The page has no decisions block: it would be a page change, listed in the pack for Samuel's ruling.
+
+## Sign-off
+
+Session 1744 added this block, which the note lacked. The battery's (session 1527), the generator's and the datacenter's notes (session 463) have one, and the Research pack's "Against roadmap item 2" (session 381) lists "Samuel's signature, and a block to sign in". Signing this note accepts, as the tool's rules:
+- the cards' methods as their sections above give them, and the statistics a card carries (session 361);
+- the weekly hunt and its fourth test and floor (sessions 233 and 316);
+- that no card reaches the library without your approval at `/internal/findings` (the ruling of 12 October 2026, night, and 1b of 19 October);
+- the license rule above.
+
+It leaves open the pack's open items: the cards' `.py` downloads, the cross-check rows set against the thesis rather than a publisher, the decisions block, and whether the page's form is final.
+
+- Signed off by:
+- Date:
+- Items left open ruled, and how:
+
 <a id="cross-checks"></a>
 
 ## Cross-checks
