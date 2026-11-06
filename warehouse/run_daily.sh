@@ -435,6 +435,11 @@ soft_step policy_monitor_refresh "${BUDGET[@]}" policy_monitor_refresh -- "$PYTH
 # time is left as it is. No live page (/cost-of-power/battery, /network, /storage) reads any file under
 # site/data/policy. The commit step of the workflow adds site/data/policy.
 soft_step policy_monitor_site "$PYTHON" warehouse/derived/policy_monitor_site.py --daily
+# Session 3060 (chain 166): the monitor view's one file, site/data/policy/monitor.json (one row a proceeding, with the
+# fields of warehouse/policy/fields.py and the impact reads kept in warehouse/policy/impact_reads.csv), from
+# policy_actions and policy_reads as this run left them. No request, no model, no table written; never a file with
+# fewer records than the one held; a file that would only change its build day is left as it is.
+soft_step policy_monitor_records "$PYTHON" warehouse/policy/monitor_site.py --daily
 # Session 181, the scanner (docs/methods/automated_analysis_scanner.md): a daily look over every public table with a
 # time axis for a record, a first negative price, a spike, a weekly change outside its five-year range and a break
 # between two series. Its rules compare with years of history, which only the data machine holds, so this run does not

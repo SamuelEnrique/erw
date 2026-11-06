@@ -1,0 +1,1250 @@
+{
+ "about": "Session 3056 (chain 166): 30 stored policy_actions rows of the session 3055 audit sample (docs/reviews/policy-audit-2026-11-06-sample.csv, r numbers), each with its Federal Register record fields or none for a release, its own text as fetched on 2026-11-06 (a Register document's printed text to 20,000 characters, a release page's article to 6,000; US government publications), and the answers written by the session from that text alone: body, instrument, status, every dated step the text states (kind and date), and the action's own figure with its unit. A date or a figure the text does not state is absent. In the texts every em dash of the source is written as a colon and every en dash as a hyphen (the repository's rule: no em or en dash in any file).",
+ "items": [
+  {
+   "r": 1,
+   "row": {
+    "event_id": "federalregister:2026-22577",
+    "agency": "NRC",
+    "action_type": "notice",
+    "title": "Last Energy, Inc; Phased Construction Permit Application-Limited Work Authorization",
+    "abstract": "The U.S. Nuclear Regulatory Commission (NRC) has received the first part of a two-part phased construction permit application from Last Energy, Inc., (Last Energy), requesting a limited work authorization (LWA) for a proposed utilization facility at the Caldwell Site in Caldwell County, Texas.",
+    "status": "Notice; receipt.",
+    "docket": "Docket No. 99902140;NRC-2026-5116",
+    "states": "TX",
+    "source_url": "https://www.federalregister.gov/documents/2026/11/05/2026-22577/last-energy-inc-phased-construction-permit-application-limited-work-authorization",
+    "sector": "nuclear",
+    "significance": "6",
+    "event_date": "2026-11-05",
+    "first_paragraph": "The U.S. Nuclear Regulatory Commission (NRC) has received the first part of a two-part phased construction permit application from Last Energy, Inc., (Last Energy), requesting a limited work authorization (LWA) for a proposed utilization facility at the Caldwell Site in Caldwell County, Texas."
+   },
+   "record": {
+    "type": "Notice",
+    "action": "Notice; receipt.",
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": "November 5, 2026.",
+    "agencies": [
+     "Nuclear Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-22577.txt",
+   "answer": {
+    "body": "NRC",
+    "instrument": "application",
+    "status": "filed",
+    "dates": [],
+    "figure": null
+   }
+  },
+  {
+   "r": 2,
+   "row": {
+    "event_id": "federalregister:2026-22604",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "Erie Boulevard Hydropower, L.P.; Notice of Availability of Environmental Assessment",
+    "abstract": "",
+    "status": "",
+    "docket": "Project No. 2538-106",
+    "states": "NY",
+    "source_url": "https://www.federalregister.gov/documents/2026/11/05/2026-22604/erie-boulevard-hydropower-lp-notice-of-availability-of-environmental-assessment",
+    "sector": "generation",
+    "significance": "2",
+    "event_date": "2026-11-05",
+    "first_paragraph": "In accordance with the National Environmental Policy Act of 1969 and the Federal Energy Regulatory Commission's (Commission or FERC) regulations, 18 CFR part 380, Commission staff reviewed Erie Boulevard Hydropower, L.P.'s, application for its Beebee Island Project No. 2538 proposing to remove the remaining conventional wooden flashboard system and replace it with a pneumatic flashboard system, and for a temporary variance from the requirements of license Articles 401, 411, and 414 for 12 weeks to allow for a 1.0-foot reservoir drawdown, reduced fish attraction flows, and a suspension of veiling flow requirements, respectively, and have prepared an Environmental Assessment (EA) for the project. The project is located on the Black River in the town of Watertown, in Jefferson County, New York. The project does not occupy federal lands."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-22604.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "environmental_review",
+    "status": "issued",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-12-02"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 4,
+   "row": {
+    "event_id": "federalregister:2026-22515",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "PacifiCorp; Notice of Availability of Environmental Assessment",
+    "abstract": "",
+    "status": "",
+    "docket": "Project Nos. 2722-023 & 15373-000",
+    "states": "UT",
+    "source_url": "https://www.federalregister.gov/documents/2026/11/04/2026-22515/pacificorp-notice-of-availability-of-environmental-assessment",
+    "sector": "generation",
+    "significance": "3",
+    "event_date": "2026-11-04",
+    "first_paragraph": "In accordance with the National Environmental Policy Act of 1969 and the Federal Energy Regulatory Commission's (Commission or FERC) regulations, 18 CFR part 380, Commission staff reviewed PacifiCorp's, application seeking an exemption from the licensing requirements of Part 1 of the Federal Power Act for the Pioneer Project No. 15373, and an administrative surrender of the license for the Pioneer Project No. 2722, and have prepared an Environmental Assessment (EA) for the projects. The project is located along the Ogden Canyon Conduit, near Ogden, in Weber County, Utah, and occupies federal lands within the Uinta-Wasatch-Cache National Forest managed by the U.S. Forest Service."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-22515.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "environmental_review",
+    "status": "issued",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-11-30"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 5,
+   "row": {
+    "event_id": "federalregister:2026-22395",
+    "agency": "NRC",
+    "action_type": "notice",
+    "title": "Application for Amendments to Facility Operating Licenses Involving Proposed No Significant Hazards Consideration Determination and Containing Sensitive Unclassified Non-Safeguards Information and Order Imposing Procedures for Access to Sensitive Unclassified Non-Safeguards Information",
+    "abstract": "The U.S. Nuclear Regulatory Commission (NRC) received, and is considering approval of one amendment request. The license amendment request is for Calvert Cliffs Nuclear Power Plant, Units 1 and 2. For the license amendment request, the NRC proposes to determine that it involves no significant hazards consideration (NSHC). Because the amendment request contains sensitive unclassified non-safeguards information (SUNSI), the NRC is issuing an order imposing procedures to obtain access to SUNSI for contention preparation by persons who file a hearing request or petition for leave to intervene.",
+    "status": "License amendment request; notice of opportunity to comment, request a hearing, and petition for leave to intervene; order imposing procedures.",
+    "docket": "NRC-2026-4687",
+    "states": "",
+    "source_url": "https://www.federalregister.gov/documents/2026/11/03/2026-22395/application-for-amendments-to-facility-operating-licenses-involving-proposed-no-significant-hazards",
+    "sector": "nuclear",
+    "significance": "3",
+    "event_date": "2026-11-03",
+    "first_paragraph": "The U.S. Nuclear Regulatory Commission (NRC) received, and is considering approval of one amendment request. The license amendment request is for Calvert Cliffs Nuclear Power Plant, Units 1 and 2. For the license amendment request, the NRC proposes to determine that it involves no significant hazards consideration (NSHC). Because the amendment request contains sensitive unclassified non-safeguards information (SUNSI), the NRC is issuing an order imposing procedures to obtain access to SUNSI for contention preparation by persons who file a hearing request or petition for leave to intervene."
+   },
+   "record": {
+    "type": "Notice",
+    "action": "License amendment request; notice of opportunity to comment, request a hearing, and petition for leave to intervene; order imposing procedures.",
+    "effective_on": null,
+    "comments_close_on": "2026-12-03",
+    "dates": "Comments must be filed by December 3, 2026. A request for a hearing or petitions for leave to intervene must be filed by January 4, 2027. Any potential party as defined in section 2.4 of title 10 of the Code of Federal Regulations (10 CFR) who believes access to Sensitive Unclassified Non-Safeguards Information and Safeguards Information (SUNSI) is necessary to respond to this notice must request document access by November 13, 2026.",
+    "agencies": [
+     "Nuclear Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-22395.txt",
+   "answer": {
+    "body": "NRC",
+    "instrument": "application",
+    "status": "filed",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-12-03"
+     },
+     {
+      "kind": "intervention_due",
+      "date": "2027-01-04"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 8,
+   "row": {
+    "event_id": "federalregister:2026-22198",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "City of Pelican, AK; Notice of Authorization for Continued Project Operation",
+    "abstract": "",
+    "status": "",
+    "docket": "Project No. 10198-000",
+    "states": "",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/30/2026-22198/city-of-pelican-ak-notice-of-authorization-for-continued-project-operation",
+    "sector": "renewables",
+    "significance": "2",
+    "event_date": "2026-10-30",
+    "first_paragraph": "The license for the Pelican Hydroelectric Project No. 10198 was issued for a period ending September 16, 2026."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-22198.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "order",
+    "status": "issued",
+    "dates": [
+     {
+      "kind": "effective",
+      "date": "2026-09-17"
+     },
+     {
+      "kind": "expires",
+      "date": "2027-09-16"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 10,
+   "row": {
+    "event_id": "federalregister:2026-21986",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "MountainWest Overthrust Pipeline, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Green River West Expansion Project",
+    "abstract": "",
+    "status": "",
+    "docket": "Docket No. CP26-550-000",
+    "states": "WY",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/28/2026-21986/mountainwest-overthrust-pipeline-llc-notice-of-schedule-for-the-preparation-of-an-environmental",
+    "sector": "gas",
+    "significance": "4",
+    "event_date": "2026-10-28",
+    "first_paragraph": "On July 1, 2026, MountainWest Overthrust Pipeline, LLC (Overthrust) filed an application in Docket No. CP26-550-000 requesting a Certificate of Public Convenience and Necessity pursuant to Section 7(c) of the Natural Gas Act to construct and operate certain natural gas pipeline facilities. The proposed project is known as the Green River West Expansion Project (Project), and it would allow the delivery of up to 64,000 dekatherms per day of firm natural gas transportation service from receipt points near Opal, Wyoming, to the new WE Soda delivery meter station in Sweetwater County, Wyoming."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-21986.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "environmental_review",
+    "status": "scheduled",
+    "dates": [
+     {
+      "kind": "review_due",
+      "date": "2027-02-05"
+     },
+     {
+      "kind": "decision_due",
+      "date": "2027-05-06"
+     }
+    ],
+    "figure": {
+     "value": 64000,
+     "unit": "Dth/d"
+    }
+   }
+  },
+  {
+   "r": 12,
+   "row": {
+    "event_id": "federalregister:2026-21870",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "Florida Gas Transmission Company, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Phase IX Project",
+    "abstract": "",
+    "status": "",
+    "docket": "Docket No. CP26-578-000",
+    "states": "AL;FL;MS",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/27/2026-21870/florida-gas-transmission-company-llc-notice-of-scoping-period-requesting-comments-on-environmental",
+    "sector": "gas",
+    "significance": "5",
+    "event_date": "2026-10-27",
+    "first_paragraph": "The staff of the Federal Energy Regulatory Commission (FERC or Commission) will prepare an environmental document that will discuss the environmental impacts of the Phase IX Project (Project) involving construction and operation of facilities by Florida Gas Transmission Company, LLC (FGT) in Mississippi, Alabama, and Florida. The Commission will use this environmental document in its decision-making process to determine whether the project is in the public convenience and necessity."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-21870.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "environmental_review",
+    "status": "open",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-11-23"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 13,
+   "row": {
+    "event_id": "federalregister:2026-21721",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "Sandy Hollow Power Company, Inc.; Notice of Application for Surrender of License Accepted for Filing and Soliciting Comments, Motions To Intervene, and Protests",
+    "abstract": "",
+    "status": "",
+    "docket": "Project No. 5728-026",
+    "states": "NY",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/26/2026-21721/sandy-hollow-power-company-inc-notice-of-application-for-surrender-of-license-accepted-for-filing",
+    "sector": "generation",
+    "significance": "2",
+    "event_date": "2026-10-26",
+    "first_paragraph": "Take notice that the following hydroelectric proceeding has been initiated by the Commission: a. Application Type: Surrender of license. b. Project No: 5728-026. c. Date Filed: September 8, 2026. d. Licensee: Sandy Hollow Power Company, Inc. e. Name of Project: Sandy Hollow Hydroelectric Project. f. Location: The Sandy Hollow Hydroelectric Project is located on the Indian River, Jefferson County, New York. g. Filed Pursuant to: 18 CFR Part 6. h. Applicant Contact: Sandy Hollow Power Company, Inc., 32151 Sandy Hollow Power Road, Philadelphia, NY 13673. i. FERC Contact: David Rudisail, (202) 502-6376, [email protected]. j. Cooperating agencies: With this notice, the Commission is inviting federal, state, local, and Tribal agencies with jurisdiction and/or special expertise with respect to environmental issues affected by the proposal, that wish to cooperate in the preparation of any environmental document, if applicable, to follow the instructions for filing such requests described in item k below. Cooperating agencies should note the Commission's policy that agencies that cooperate in the preparation of any environmental document cannot also intervene. See 94 FERC ] 61,076 (2001). k. Deadline for filing comments, motions to intervene and protests: November 20, 2026 5:00 p.m. Eastern Time."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-21721.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "application",
+    "status": "filed",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-11-20"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 14,
+   "row": {
+    "event_id": "federalregister:2026-21835",
+    "agency": "Interior",
+    "action_type": "rule",
+    "title": "Wyoming Regulatory Program",
+    "abstract": "The Office of Surface Mining Reclamation and Enforcement (OSM), are approving an amendment to the Wyoming regulatory program (Wyoming program) under the Surface Mining Control and Reclamation Act of 1977 (SMCRA or the Act). The Wyoming Land Quality Division (WLQD) submitted this proposed amendment in response to our January 19, 2024 partial approval of an amendment to WLQD's regulations for coal exploration by drilling (SATS No. WY-050-FOR; Docket ID No. OSM-2021- 0004). In the final rule, under the heading \"Revisions to Wyoming's Rules That We Are Not Approving,\" OSM listed several provisions containing typographical errors that WLQD would need to correct through future rulemaking. WLQD now proposes those corrections with this amendment (SATS No. WY-055-FOR; Docket ID No. OSM-2025-0002).",
+    "status": "Final rule; approving",
+    "docket": "SATS No. WY-055-FOR;Docket ID No. OSM-2025-0002;S1D1S SS08009000 SX064A000 278S180110;S2D2S SS08009000 SX064A000 27XS501520;S2R2B SS08009000 SX064A000 22XS5015I",
+    "states": "WY",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/26/2026-21835/wyoming-regulatory-program",
+    "sector": "policy",
+    "significance": "3",
+    "event_date": "2026-10-26",
+    "first_paragraph": "The Office of Surface Mining Reclamation and Enforcement (OSM), are approving an amendment to the Wyoming regulatory program (Wyoming program) under the Surface Mining Control and Reclamation Act of 1977 (SMCRA or the Act). The Wyoming Land Quality Division (WLQD) submitted this proposed amendment in response to our January 19, 2024 partial approval of an amendment to WLQD's regulations for coal exploration by drilling (SATS No. WY-050-FOR; Docket ID No. OSM-2021- 0004). In the final rule, under the heading ``Revisions to Wyoming's Rules That We Are Not Approving,'' OSM listed several provisions containing typographical errors that WLQD would need to correct through future rulemaking. WLQD now proposes those corrections with this amendment (SATS No. WY-055-FOR; Docket ID No. OSM-2025-0002)."
+   },
+   "record": {
+    "type": "Rule",
+    "action": "Final rule; approving",
+    "effective_on": "2026-11-25",
+    "comments_close_on": null,
+    "dates": "The effective date is November 25, 2026.",
+    "agencies": [
+     "Interior Department",
+     "Surface Mining Reclamation and Enforcement Office"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-21835.txt",
+   "answer": {
+    "body": "OSMRE",
+    "instrument": "approval",
+    "status": "final",
+    "dates": [
+     {
+      "kind": "effective",
+      "date": "2026-11-25"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 16,
+   "row": {
+    "event_id": "federalregister:2026-21588",
+    "agency": "NRC",
+    "action_type": "notice",
+    "title": "SMR, LLC; Palisades SMR, LLC; Pioneer Units 1 and 2; Phased Construction Permit Application-Limited Work Authorization",
+    "abstract": "The U.S. Nuclear Regulatory Commission (NRC) is providing public notice each week, for four consecutive weeks, beginning October 1, 2026, of receipt and availability of the first part of a phased construction permit application, including a limited work authorization (LWA) request, from SMR, LLC, on behalf of Palisades SMR, LLC, a wholly-owned subsidiary of Holtec International (collectively, Holtec), for a dual-unit SMR-300 plant located at the Palisades Energy Center (PEC) in Covert, Michigan. The units are individually named Pioneer Unit 1 and Pioneer Unit 2. This is the fourth of four consecutive weekly notifications.",
+    "status": "Notice; receipt.",
+    "docket": "Docket Nos. 50-616 and 50-617;NRC-2026-0265",
+    "states": "MI",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/22/2026-21588/smr-llc-palisades-smr-llc-pioneer-units-1-and-2-phased-construction-permit-application-limited-work",
+    "sector": "nuclear",
+    "significance": "6",
+    "event_date": "2026-10-22",
+    "first_paragraph": "The U.S. Nuclear Regulatory Commission (NRC) is providing public notice each week, for four consecutive weeks, beginning October 1, 2026, of receipt and availability of the first part of a phased construction permit application, including a limited work authorization (LWA) request, from SMR, LLC, on behalf of Palisades SMR, LLC, a wholly-owned subsidiary of Holtec International (collectively, Holtec), for a dual-unit SMR-300 plant located at the Palisades Energy Center (PEC) in Covert, Michigan. The units are individually named Pioneer Unit 1 and Pioneer Unit 2. This is the fourth of four consecutive weekly notifications."
+   },
+   "record": {
+    "type": "Notice",
+    "action": "Notice; receipt.",
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": "October 22, 2026.",
+    "agencies": [
+     "Nuclear Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-21588.txt",
+   "answer": {
+    "body": "NRC",
+    "instrument": "application",
+    "status": "filed",
+    "dates": [],
+    "figure": null
+   }
+  },
+  {
+   "r": 17,
+   "row": {
+    "event_id": "federalregister:2026-21622",
+    "agency": "EPA",
+    "action_type": "rule",
+    "title": "Virginia: Approval of State Coal Combustion Residuals Permit Program",
+    "abstract": "The Environmental Protection Agency (EPA or the Agency) is approving Virginia's coal combustion residuals (CCR) permit program under the Resource Conservation and Recovery Act (RCRA). After reviewing the CCR permit program application submitted by the Virginia Department of Environmental Quality (VADEQ), EPA has determined that Virginia's partial CCR permit program meets the standard for approval under RCRA. Virginia's CCR permit program will operate in lieu of the Federal CCR program with the exception of the specific provisions noted below.",
+    "status": "Availability of final decision.",
+    "docket": "EPA-HQ-OLEM-2025-3325;FRL-12983-02-OLEM",
+    "states": "VA",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/22/2026-21622/virginia-approval-of-state-coal-combustion-residuals-permit-program",
+    "sector": "policy",
+    "significance": "5",
+    "event_date": "2026-10-22",
+    "first_paragraph": "The Environmental Protection Agency (EPA or the Agency) is approving Virginia's coal combustion residuals (CCR) permit program under the Resource Conservation and Recovery Act (RCRA). After reviewing the CCR permit program application submitted by the Virginia Department of Environmental Quality (VADEQ), EPA has determined that Virginia's partial CCR permit program meets the standard for approval under RCRA. Virginia's CCR permit program will operate in lieu of the Federal CCR program with the exception of the specific provisions noted below."
+   },
+   "record": {
+    "type": "Rule",
+    "action": "Availability of final decision.",
+    "effective_on": "2026-11-23",
+    "comments_close_on": null,
+    "dates": "This action is effective on November 23, 2026.",
+    "agencies": [
+     "Environmental Protection Agency"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-21622.txt",
+   "answer": {
+    "body": "EPA",
+    "instrument": "approval",
+    "status": "final",
+    "dates": [
+     {
+      "kind": "effective",
+      "date": "2026-11-23"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 18,
+   "row": {
+    "event_id": "federalregister:2026-21425",
+    "agency": "DOE",
+    "action_type": "notice",
+    "title": "Texas LNG Brownsville LLC; Request for Extension of Export Commencement Deadline",
+    "abstract": "The Hydrocarbons and Geothermal Energy Office (HGEO) of the Department of Energy (DOE) gives notice (Notice) of receipt of a request (Request), filed on September 28, 2026, by Texas LNG Brownsville LLC (Texas LNG). Texas LNG asks DOE to amend its existing authorization to export domestically produced liquefied natural gas (LNG) to non-free trade agreement countries set forth in DOE/FE Order No. 4489 (as amended)--specifically, to extend its current export commencement deadline. Texas LNG filed the Request under the Natural Gas Act (NGA).",
+    "status": "Notice of request.",
+    "docket": "Docket No. 15-62-LNG",
+    "states": "TX",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/20/2026-21425/texas-lng-brownsville-llc-request-for-extension-of-export-commencement-deadline",
+    "sector": "lng",
+    "significance": "6",
+    "event_date": "2026-10-20",
+    "first_paragraph": "The Hydrocarbons and Geothermal Energy Office (HGEO) of the Department of Energy (DOE) gives notice (Notice) of receipt of a request (Request), filed on September 28, 2026, by Texas LNG Brownsville LLC (Texas LNG). Texas LNG asks DOE to amend its existing authorization to export domestically produced liquefied natural gas (LNG) to non-free trade agreement countries set forth in DOE/FE Order No. 4489 (as amended)--specifically, to extend its current export commencement deadline. Texas LNG filed the Request under the Natural Gas Act (NGA)."
+   },
+   "record": {
+    "type": "Notice",
+    "action": "Notice of request.",
+    "effective_on": null,
+    "comments_close_on": "2026-11-19",
+    "dates": "Protests, motions to intervene, or notices of intervention, as applicable, and written comments are to be filed electronically as detailed in the Public Comment Procedures section no later than 4:30 p.m., Eastern time, November 19, 2026.",
+    "agencies": [
+     "Energy Department"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-21425.txt",
+   "answer": {
+    "body": "DOE",
+    "instrument": "application",
+    "status": "filed",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-11-19"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 19,
+   "row": {
+    "event_id": "federalregister:2026-21442",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "Environmental Review of Natural Gas Act Applications; Notice of Availability of Draft Policy Statement on Efficient Environmental Reviews of Natural Gas Project Applications",
+    "abstract": "",
+    "status": "",
+    "docket": "Docket No. PL26-3-000",
+    "states": "",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/20/2026-21442/environmental-review-of-natural-gas-act-applications-notice-of-availability-of-draft-policy",
+    "sector": "policy",
+    "significance": "7",
+    "event_date": "2026-10-20",
+    "first_paragraph": "The Federal Energy Regulatory Commission (FERC or Commission) has prepared a draft policy statement concerning the Commission's review of operational air emissions and associated air quality effects of proposed natural gas projects under the Natural Gas Act (NGA) and the National Environmental Policy Act (NEPA). Pursuant to the policy described in the draft statement, the Commission would no longer ordinarily ask applicants to prepare or submit air dispersion modeling for compressor stations or liquefied natural gas facilities, nor require use of the results of such modeling in assessing the air quality effects of such facilities under the NGA and NEPA. Instead, the Commission would use other information submitted by applicants and identified by Commission staff, including but not limited to information on governing state and federal air quality regulations and applicants' compliance therewith, to analyze the air quality effects of proposed projects."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-21442.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "guidance",
+    "status": "proposed",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-11-16"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 20,
+   "row": {
+    "event_id": "doe:c08b2874ffce",
+    "agency": "DOE",
+    "action_type": "press_release",
+    "title": "Energy Department Advances Constitution Pipeline Project with $42 Million in Defense Production Act Funding",
+    "abstract": "",
+    "status": "news release",
+    "docket": "",
+    "states": "NY;PA",
+    "source_url": "https://www.energy.gov/articles/energy-department-advances-constitution-pipeline-project-42-million-defense-production-act",
+    "sector": "gas",
+    "significance": "6",
+    "event_date": "2026-10-19",
+    "first_paragraph": ""
+   },
+   "record": {},
+   "text_file": "texts/doe_c08b2874ffce.txt",
+   "answer": {
+    "body": "DOE",
+    "instrument": "award",
+    "status": "announced",
+    "dates": [],
+    "figure": {
+     "value": 42000000,
+     "unit": "USD"
+    }
+   }
+  },
+  {
+   "r": 21,
+   "row": {
+    "event_id": "federalregister:2026-21364",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "Moraga Storage, LLC, River Mill Storage, LLC, Hecate Energy Medway Energy Center LLC, Brough Storage, LLC, Partridge Storage, LLC v. ISO New England Inc.; Notice on Comment Periods",
+    "abstract": "",
+    "status": "",
+    "docket": "Docket No. EL26-112-000",
+    "states": "",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/19/2026-21364/moraga-storage-llc-river-mill-storage-llc-hecate-energy-medway-energy-center-llc-brough-storage-llc",
+    "sector": "interconnection",
+    "significance": "5",
+    "event_date": "2026-10-19",
+    "first_paragraph": "On September 30, 2026, Moraga Storage, LLC; River Mill Storage, LLC; Hecate Energy Medway Energy Center LLC; Brough Storage, LLC; and Partridge Storage, LLC (collectively, Project Companies) filed a complaint and waiver request in the above-referenced docket. Project Companies request a shortened 10-day comment period because they must decide whether to execute a Large Generator Interconnection Agreement (LGIA), seek to file an unexecuted LGIA, or withdraw from the ISO New England Inc. (ISO-NE) interconnection queue by October 20, 2026."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-21364.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "complaint",
+    "status": "filed",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-10-13"
+     },
+     {
+      "kind": "comments_due",
+      "date": "2026-10-30"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 23,
+   "row": {
+    "event_id": "federalregister:2026-21070",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "Columbia Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Deadline",
+    "abstract": "",
+    "status": "",
+    "docket": "Docket No. CP27-1-000",
+    "states": "OH",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/15/2026-21070/columbia-gas-transmission-llc-notice-of-request-under-blanket-authorization-and-establishing",
+    "sector": "gas",
+    "significance": "2",
+    "event_date": "2026-10-15",
+    "first_paragraph": "Take notice that on October 1, 2026, Columbia Gas Transmission, LLC (Columbia), 700 Louisiana Street, Suite 1300, Houston, Texas 77002- 2700, filed in the above referenced docket, a prior notice request pursuant to sections 157.205 and 157.216(b) of the Commission's regulations under the Natural Gas Act (NGA), and Columbia's blanket certificate issued in Docket No. CP83-76-000, for authorization to plug and abandon one injection/withdrawal (I/W) well, associated connecting pipeline, and related appurtenant facilities located in the Holmes Storage Field in Holmes County, Ohio, (Holmes Well 10412 Abandonment Project). The project will allow Columbia to abandon the I/W well which will reduce integrity risks associated with aging storage infrastructure while having no adverse effect on certificated storage operations or customer service. The estimated cost for the project is $900,000, all as more fully set forth in the request which is on file with the Commission and open to public inspection."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-21070.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "application",
+    "status": "filed",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-12-08"
+     },
+     {
+      "kind": "intervention_due",
+      "date": "2026-12-08"
+     }
+    ],
+    "figure": {
+     "value": 900000,
+     "unit": "USD"
+    }
+   }
+  },
+  {
+   "r": 25,
+   "row": {
+    "event_id": "federalregister:2026-21030",
+    "agency": "NRC",
+    "action_type": "rule",
+    "title": "AP1000 Design Certification Renewal",
+    "abstract": "The U.S. Nuclear Regulatory Commission (NRC) is amending its regulations to renew the AP1000 design certification and incorporate Revision 20 of the AP1000 design control document. The purpose of this rulemaking action is to update the AP1000 design to be consistent with changes made to the design during the licensing, construction, and operation of Vogtle Electric Generating Plant, Units 3 and 4. This rulemaking incorporates AP1000 design control document Revision 20, which includes updates made to the AP1000 design to represent a current, construction-validated design. The NRC is also issuing an environmental assessment supporting this rule.",
+    "status": "Direct final rule and issuance of environmental assessment.",
+    "docket": "NRC-2026-2377;3150-AL70",
+    "states": "",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/14/2026-21030/ap1000-design-certification-renewal",
+    "sector": "nuclear",
+    "significance": "6",
+    "event_date": "2026-10-14",
+    "first_paragraph": "The U.S. Nuclear Regulatory Commission (NRC) is amending its regulations to renew the AP1000 design certification and incorporate Revision 20 of the AP1000 design control document. The purpose of this rulemaking action is to update the AP1000 design to be consistent with changes made to the design during the licensing, construction, and operation of Vogtle Electric Generating Plant, Units 3 and 4. This rulemaking incorporates AP1000 design control document Revision 20, which includes updates made to the AP1000 design to represent a current, construction-validated design. The NRC is also issuing an environmental assessment supporting this rule."
+   },
+   "record": {
+    "type": "Rule",
+    "action": "Direct final rule and issuance of environmental assessment.",
+    "effective_on": "2026-12-28",
+    "comments_close_on": "2026-11-13",
+    "dates": "The final rule is effective December 28, 2026, unless significant adverse comments are received by November 13, 2026. If the direct final rule is withdrawn as a result of such comments, timely notice of the withdrawal will be published in the Federal Register. (For more on NRC's consideration of comments received, see SUPPLEMENTARY INFORMATION.)",
+    "agencies": [
+     "Nuclear Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-21030.txt",
+   "answer": {
+    "body": "NRC",
+    "instrument": "rule",
+    "status": "final",
+    "dates": [
+     {
+      "kind": "effective",
+      "date": "2026-12-28"
+     },
+     {
+      "kind": "comments_due",
+      "date": "2026-11-13"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 26,
+   "row": {
+    "event_id": "federalregister:2026-20850",
+    "agency": "DOE",
+    "action_type": "notice",
+    "title": "Senior Executive Service Performance Review Board",
+    "abstract": "This notice provides the Performance Review Board Standing Register for the Department of Energy. This listing supersedes all previously published lists of PRB members.",
+    "status": "Designation of performance review board standing register.",
+    "docket": "",
+    "states": "",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/13/2026-20850/senior-executive-service-performance-review-board",
+    "sector": "other",
+    "significance": "0",
+    "event_date": "2026-10-13",
+    "first_paragraph": "This notice provides the Performance Review Board Standing Register for the Department of Energy. This listing supersedes all previously published lists of PRB members."
+   },
+   "record": {
+    "type": "Notice",
+    "action": "Designation of performance review board standing register.",
+    "effective_on": "2026-10-07",
+    "comments_close_on": null,
+    "dates": "This appointment is effective as of October 7, 2026.",
+    "agencies": [
+     "Energy Department"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-20850.txt",
+   "answer": {
+    "body": "DOE",
+    "instrument": "notice",
+    "status": "effective",
+    "dates": [
+     {
+      "kind": "effective",
+      "date": "2026-10-07"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 27,
+   "row": {
+    "event_id": "federalregister:2026-20892",
+    "agency": "Interior",
+    "action_type": "notice",
+    "title": "Notice of Availability of the Proposed Notice of Sale for the Cook Inlet Outer Continental Shelf Oil and Gas One Big Beautiful Bill Act Lease Sale 2",
+    "abstract": "The Bureau of Ocean Energy Management (BOEM) announces the availability of the Proposed Notice of Sale (NOS) for the Cook Inlet Outer Continental Shelf (OCS) Oil and Gas One Big Beautiful Bill Act (OBBBA) Lease Sale 2 (Lease Sale BBC2). BOEM is publishing this notice pursuant to its regulatory authority under 30 CFR part 556. Pursuant to Section 19 of the OCS Lands Act, the Secretary of the Interior provides the Governors of affected States and the executive of any affected local government with the opportunity to review and comment on the Proposed NOS. The Proposed NOS describes the proposed size, timing, and location of the sale, including lease stipulations, terms and conditions, minimum bids, royalty rates, and rental rates, which are required by Section 50102 of the OBBBA for this sale.",
+    "status": "Notice of availability for the proposed notice of sale.",
+    "docket": "Docket No. BOEM-2026-0925",
+    "states": "",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/13/2026-20892/notice-of-availability-of-the-proposed-notice-of-sale-for-the-cook-inlet-outer-continental-shelf-oil",
+    "sector": "oil",
+    "significance": "5",
+    "event_date": "2026-10-13",
+    "first_paragraph": "The Bureau of Ocean Energy Management (BOEM) announces the availability of the Proposed Notice of Sale (NOS) for the Cook Inlet Outer Continental Shelf (OCS) Oil and Gas One Big Beautiful Bill Act (OBBBA) Lease Sale 2 (Lease Sale BBC2). BOEM is publishing this notice pursuant to its regulatory authority under 30 CFR part 556. Pursuant to Section 19 of the OCS Lands Act, the Secretary of the Interior provides the Governors of affected States and the executive of any affected local government with the opportunity to review and comment on the Proposed NOS. The Proposed NOS describes the proposed size, timing, and location of the sale, including lease stipulations, terms and conditions, minimum bids, royalty rates, and rental rates, which are required by Section 50102 of the OBBBA for this sale."
+   },
+   "record": {
+    "type": "Notice",
+    "action": "Notice of availability for the proposed notice of sale.",
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": "Comments received from the Governor and the executive of any affected local government on the size, timing, and location of this sale must be submitted to BOEM no later than December 14, 2026. BOEM will publish the Final NOS in the Federal Register at least 30 days prior to the date of bid opening. Bid opening is currently scheduled for March 3, 2027.",
+    "agencies": [
+     "Interior Department",
+     "Ocean Energy Management Bureau"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-20892.txt",
+   "answer": {
+    "body": "BOEM",
+    "instrument": "lease_sale",
+    "status": "proposed",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-12-14"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 30,
+   "row": {
+    "event_id": "federalregister:2026-20580",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "Northern Natural Gas Company; Notice of Availability of the Environmental Assessment for the Proposed Ventura to Farmington A-Line Abandonment and Capacity Replacement Project and Northern Lights 2027 Expansion Project",
+    "abstract": "",
+    "status": "",
+    "docket": "Docket No. CP26-130-000",
+    "states": "IA;MN",
+    "source_url": "https://www.federalregister.gov/documents/2026/10/08/2026-20580/northern-natural-gas-company-notice-of-availability-of-the-environmental-assessment-for-the-proposed",
+    "sector": "gas",
+    "significance": "5",
+    "event_date": "2026-10-08",
+    "first_paragraph": "The staff of the Federal Energy Regulatory Commission (FERC or Commission) has prepared an environmental assessment (EA) for the Ventura to Farmington A-line Abandonment and Capacity Replacement Project and Northern Lights 2027 Expansion Project, collectively referred to as ``Project'', proposed by Northern Natural Gas Company (Northern) in the above-referenced docket. Northern requests authorization to construct, operate, and abandon certain natural gas facilities in Iowa and Minnesota. The Project would replace the capacity lost through the abandonment and provide an additional 79,303 dekatherms per day of incremental firm service."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-20580.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "environmental_review",
+    "status": "issued",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-11-02"
+     }
+    ],
+    "figure": {
+     "value": 79303,
+     "unit": "Dth/d"
+    }
+   }
+  },
+  {
+   "r": 40,
+   "row": {
+    "event_id": "doe:52f19d96fc84",
+    "agency": "DOE",
+    "action_type": "press_release",
+    "title": "Trump Administration Mitigates Blackout Risks by Keeping Colorado Coal Plant Online",
+    "abstract": "",
+    "status": "news release",
+    "docket": "",
+    "states": "CO",
+    "source_url": "https://www.energy.gov/articles/trump-administration-mitigates-blackout-risks-keeping-colorado-coal-plant-online",
+    "sector": "generation",
+    "significance": "6",
+    "event_date": "2026-09-25",
+    "first_paragraph": ""
+   },
+   "record": {},
+   "text_file": "texts/doe_52f19d96fc84.txt",
+   "answer": {
+    "body": "DOE",
+    "instrument": "order",
+    "status": "issued",
+    "dates": [
+     {
+      "kind": "effective",
+      "date": "2026-09-27"
+     },
+     {
+      "kind": "expires",
+      "date": "2026-12-25"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 45,
+   "row": {
+    "event_id": "federalregister:2026-19217",
+    "agency": "NRC",
+    "action_type": "notice",
+    "title": "Draft Interim Staff Guidance: Material Compatibility for Non-Light Water-Reactors",
+    "abstract": "The U.S. Nuclear Regulatory Commission (NRC) is soliciting public comment on its draft Interim Staff Guidance (ISG), \"Material Compatibility for non-Light-Water Reactors, DANU-ISG-2023-01, Revision 1.\" The purpose of this draft ISG is to assist the NRC staff in reviewing certain applications for non-light water reactor designs, including power and non-power reactors. This ISG has been updated to include an appendix to describe information the NRC staff generally have used to perform the review of materials of construction and passive structures, systems, and components (SSCs) performance for non- light water reactors (non-LWRs), as well as limited updates to technical information in the main body. It has also been updated to make it applicable to certain additional NRC regulations.",
+    "status": "Draft guidance; request for comment.",
+    "docket": "NRC-2022-0215",
+    "states": "",
+    "source_url": "https://www.federalregister.gov/documents/2026/09/21/2026-19217/draft-interim-staff-guidance-material-compatibility-for-non-light-water-reactors",
+    "sector": "nuclear",
+    "significance": "4",
+    "event_date": "2026-09-21",
+    "first_paragraph": "The U.S. Nuclear Regulatory Commission (NRC) is soliciting public comment on its draft Interim Staff Guidance (ISG), ``Material Compatibility for non-Light-Water Reactors, DANU-ISG-2023-01, Revision 1.'' The purpose of this draft ISG is to assist the NRC staff in reviewing certain applications for non-light water reactor designs, including power and non-power reactors. This ISG has been updated to include an appendix to describe information the NRC staff generally have used to perform the review of materials of construction and passive structures, systems, and components (SSCs) performance for non- light water reactors (non-LWRs), as well as limited updates to technical information in the main body. It has also been updated to make it applicable to certain additional NRC regulations."
+   },
+   "record": {
+    "type": "Notice",
+    "action": "Draft guidance; request for comment.",
+    "effective_on": null,
+    "comments_close_on": "2026-11-05",
+    "dates": "Submit comments by November 5, 2026. Comments received after this date will be considered if it is practical to do so, but the Commission is able to ensure consideration only for comments received on or before this date.",
+    "agencies": [
+     "Nuclear Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-19217.txt",
+   "answer": {
+    "body": "NRC",
+    "instrument": "guidance",
+    "status": "proposed",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-11-05"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 49,
+   "row": {
+    "event_id": "federalregister:2026-19071",
+    "agency": "EPA",
+    "action_type": "rule",
+    "title": "Partial Repeal of the Carbon Pollution Standards for Fossil Fuel-Fired Electric Generating Units",
+    "abstract": "In this final rule, the U.S. Environmental Protection Agency (EPA) is repealing most provisions of the 2024 Carbon Pollution Standards for greenhouse gas (GHG) emissions from fossil fuel-fired electric generating units (EGUs) based on a reevaluation of the best system of emission reduction for the relevant subcategories. Specifically, the EPA is repealing the emission guidelines for existing fossil fuel-fired steam generating units, the carbon capture and sequestration/storage (CCS)-based standards for coal-fired steam generating units undertaking a large modification, and the CCS-based standards for new base load stationary combustion turbines (i.e., Phase 2 standards). In a separate action published concurrently with this final rule, the EPA is issuing a supplemental proposal soliciting comment on additional reasons to rescind all GHG emission requirements for fossil fuel-fired EGUs to effectuate the best reading of Clean Air Act (CAA) section 111 and ensure consistency with applicable principles of administrative law beyond those reasons on which the EPA solicited comment in the June 2025 notice of proposed rulemaking.",
+    "status": "Final rule.",
+    "docket": "EPA-HQ-OAR-2025-0124;FRL-12674-02-OAR;2060-AW55",
+    "states": "",
+    "source_url": "https://www.federalregister.gov/documents/2026/09/17/2026-19071/partial-repeal-of-the-carbon-pollution-standards-for-fossil-fuel-fired-electric-generating-units",
+    "sector": "policy",
+    "significance": "9",
+    "event_date": "2026-09-17",
+    "first_paragraph": "In this final rule, the U.S. Environmental Protection Agency (EPA) is repealing most provisions of the 2024 Carbon Pollution Standards for greenhouse gas (GHG) emissions from fossil fuel-fired electric generating units (EGUs) based on a reevaluation of the best system of emission reduction for the relevant subcategories. Specifically, the EPA is repealing the emission guidelines for existing fossil fuel-fired steam generating units, the carbon capture and sequestration/storage (CCS)-based standards for coal-fired steam generating units undertaking a large modification, and the CCS-based standards for new base load stationary combustion turbines (i.e., Phase 2 standards). In a separate action published concurrently with this final rule, the EPA is issuing a supplemental proposal soliciting comment on additional reasons to rescind all GHG emission requirements for fossil fuel-fired EGUs to effectuate the best reading of Clean Air Act (CAA) section 111 and ensure consistency with applicable principles of administrative law beyond those reasons on which the EPA solicited comment in the June 2025 notice of proposed rulemaking."
+   },
+   "record": {
+    "type": "Rule",
+    "action": "Final rule.",
+    "effective_on": "2026-11-16",
+    "comments_close_on": null,
+    "dates": "This final rule is effective on November 16, 2026. The approval of the Director of the Federal Register (FR) for incorporation by reference (IBR) of certain material listed in this rule expires as of November 16, 2026.",
+    "agencies": [
+     "Environmental Protection Agency"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-19071.txt",
+   "answer": {
+    "body": "EPA",
+    "instrument": "rule",
+    "status": "final",
+    "dates": [
+     {
+      "kind": "effective",
+      "date": "2026-11-16"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 54,
+   "row": {
+    "event_id": "federalregister:2026-18516",
+    "agency": "NRC",
+    "action_type": "notice",
+    "title": "Virginia Electric and Power Company, (Doing Business as Dominion Energy Virginia); North Anna Site; Early Site Permit Renewal Application",
+    "abstract": "The U.S. Nuclear Regulatory Commission (NRC or Commission) is considering an application for the renewal of Early Site Permit (ESP) No. ESP-003, which allows Virginia Electric and Power Company (doing business as Dominion Energy Virginia) to reference ESP-003 in an application for a construction permit (CP) or combined license (COL) at the North Anna ESP site during the period ESP-003 remains valid. The renewed permit, if approved, would extend the expiration date by an additional 20 years beyond the period specified in the current permit. The location for the North Anna ESP site is in Louisa County, Virginia, and the current ESP-003 expires on November 27, 2027. This notice provides the public an opportunity to request a hearing and petition for leave to intervene with respect to the renewal application.",
+    "status": "License renewal application; acceptance for docketing; opportunity to request a hearing and petition for leave to intervene.",
+    "docket": "Docket No. 52-008;NRC-2008-0476",
+    "states": "VA",
+    "source_url": "https://www.federalregister.gov/documents/2026/09/11/2026-18516/virginia-electric-and-power-company-doing-business-as-dominion-energy-virginia-north-anna-site-early",
+    "sector": "nuclear",
+    "significance": "6",
+    "event_date": "2026-09-11",
+    "first_paragraph": "The U.S. Nuclear Regulatory Commission (NRC or Commission) is considering an application for the renewal of Early Site Permit (ESP) No. ESP-003, which allows Virginia Electric and Power Company (doing business as Dominion Energy Virginia) to reference ESP-003 in an application for a construction permit (CP) or combined license (COL) at the North Anna ESP site during the period ESP-003 remains valid. The renewed permit, if approved, would extend the expiration date by an additional 20 years beyond the period specified in the current permit. The location for the North Anna ESP site is in Louisa County, Virginia, and the current ESP-003 expires on November 27, 2027. This notice provides the public an opportunity to request a hearing and petition for leave to intervene with respect to the renewal application."
+   },
+   "record": {
+    "type": "Notice",
+    "action": "License renewal application; acceptance for docketing; opportunity to request a hearing and petition for leave to intervene.",
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": "A request for a hearing or petition for leave to intervene must be filed by November 10, 2026.",
+    "agencies": [
+     "Nuclear Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-18516.txt",
+   "answer": {
+    "body": "NRC",
+    "instrument": "application",
+    "status": "filed",
+    "dates": [
+     {
+      "kind": "intervention_due",
+      "date": "2026-11-10"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 61,
+   "row": {
+    "event_id": "federalregister:2026-18151",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "DeepGreen Cook Inlet SPV, LLC; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments, Motions To Intervene, and Competing Applications",
+    "abstract": "",
+    "status": "",
+    "docket": "Project No. 15423-000",
+    "states": "AK",
+    "source_url": "https://www.federalregister.gov/documents/2026/09/04/2026-18151/deepgreen-cook-inlet-spv-llc-notice-of-preliminary-permit-application-accepted-for-filing-and",
+    "sector": "generation",
+    "significance": "3",
+    "event_date": "2026-09-04",
+    "first_paragraph": "On February 11, 2026, as supplemented on June 26, 2026, DeepGreen Cook Inlet SPV, LLC filed an application for a preliminary permit, pursuant to section 4(f) of the Federal Power Act (FPA), proposing to study the feasibility of the DeepGreen Cook Inlet Subsea-Compute & Infrastructure Hub Project (DeepGreen Project or project) to be located in the Upper Cook Inlet, East Foreland Corridor, Kenai Peninsula Borough, Alaska. The sole purpose of a preliminary permit, if issued, is to grant the permit holder priority to file a license application during the permit term. A preliminary permit does not authorize the permit holder to perform any land-disturbing activities or otherwise enter upon lands or waters owned by others without the owners' express permission."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-18151.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "application",
+    "status": "filed",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-11-02"
+     }
+    ],
+    "figure": {
+     "value": 100,
+     "unit": "MW"
+    }
+   }
+  },
+  {
+   "r": 62,
+   "row": {
+    "event_id": "federalregister:2026-18056",
+    "agency": "BLM",
+    "action_type": "notice",
+    "title": "Intent To Prepare an Environmental Impact Statement for the Proposed Silver Rock Transmission Line Project in Millard, Beaver, and Iron Counties, UT and Lincoln and Clark Counties, NV",
+    "abstract": "In compliance with the National Environmental Policy Act (NEPA) of 1969, as amended, and the Federal Land Policy and Management Act (FLPMA) of 1976, as amended, the Bureau of Land Management (BLM) intends to prepare an Environmental Impact Statement (EIS) to consider the effects of a right-of-way (ROW) application for the proposed Silver Rock Transmission Line Project (Project). By this notice, BLM is initiating the scoping period to solicit public comments and identify issues to be analyzed in the EIS.",
+    "status": "Notice of intent.",
+    "docket": "A2407-014-004-065516, #O2509-014-004-125222;LLUT921000",
+    "states": "NV;UT",
+    "source_url": "https://www.federalregister.gov/documents/2026/09/03/2026-18056/intent-to-prepare-an-environmental-impact-statement-for-the-proposed-silver-rock-transmission-line",
+    "sector": "transmission",
+    "significance": "5",
+    "event_date": "2026-09-03",
+    "first_paragraph": "In compliance with the National Environmental Policy Act (NEPA) of 1969, as amended, and the Federal Land Policy and Management Act (FLPMA) of 1976, as amended, the Bureau of Land Management (BLM) intends to prepare an Environmental Impact Statement (EIS) to consider the effects of a right-of-way (ROW) application for the proposed Silver Rock Transmission Line Project (Project). By this notice, BLM is initiating the scoping period to solicit public comments and identify issues to be analyzed in the EIS."
+   },
+   "record": {
+    "type": "Notice",
+    "action": "Notice of intent.",
+    "effective_on": null,
+    "comments_close_on": "2026-10-05",
+    "dates": "This notice initiates the public scoping process for the EIS. The BLM requests the public submit comments concerning the scope of the analysis, potential alternatives, and identification of relevant information and studies by October 5, 2026. To afford the BLM the opportunity to consider issues raised by commenters, please ensure your comments are received prior to the close of the 30-day scoping period or 15 days after the last scoping meeting, whichever is later. The dates and times of the planned scoping meeting(s) are available on the Project's website on the BLM National NEPA Register at: https:// eplanning.blm.gov/Project-Home/?id=4e1e1343-925b-f111-bec6- 001dd8029ed0.",
+    "agencies": [
+     "Interior Department",
+     "Land Management Bureau"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-18056.txt",
+   "answer": {
+    "body": "BLM",
+    "instrument": "environmental_review",
+    "status": "open",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-10-05"
+     }
+    ],
+    "figure": {
+     "value": 600,
+     "unit": "kV"
+    }
+   }
+  },
+  {
+   "r": 63,
+   "row": {
+    "event_id": "federalregister:2026-17944",
+    "agency": "FERC",
+    "action_type": "notice",
+    "title": "Forza Pipeline LLC; Notice of Availability of the Environmental Assessment for the Proposed Forza Pipeline Project",
+    "abstract": "",
+    "status": "",
+    "docket": "Docket No. CP26-34-000;Docket No. CP26-35-000",
+    "states": "NM;TX",
+    "source_url": "https://www.federalregister.gov/documents/2026/09/02/2026-17944/forza-pipeline-llc-notice-of-availability-of-the-environmental-assessment-for-the-proposed-forza",
+    "sector": "gas",
+    "significance": "7",
+    "event_date": "2026-09-02",
+    "first_paragraph": "The staff of the Federal Energy Regulatory Commission (FERC or Commission) has prepared an environmental assessment (EA) for the Forza Pipeline Project (Project), proposed by Forza Pipeline LLC (Forza) and Bull Run Pipeline LLC (Bull Run) in the above-referenced dockets. Forza requests authorization to construct and operate a new interstate natural gas pipeline (Line FZA-A) and certain other facilities located in New Mexico and Texas. The Project would provide up to 750,000 dekatherms per day (Dth/d) of firm interstate natural gas transportation service from the Delaware Basin production areas in southeastern New Mexico to multiple delivery points at or near the Waha Hub in Texas. Forza also requests authorization to enter into a lease agreement pursuant to which Forza would lease 750,000 Dth/d of natural gas transportation from Bull Run."
+   },
+   "record": {
+    "type": "Notice",
+    "action": null,
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": null,
+    "agencies": [
+     "Energy Department",
+     "Federal Energy Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-17944.txt",
+   "answer": {
+    "body": "FERC",
+    "instrument": "environmental_review",
+    "status": "issued",
+    "dates": [
+     {
+      "kind": "comments_due",
+      "date": "2026-09-28"
+     }
+    ],
+    "figure": {
+     "value": 750000,
+     "unit": "Dth/d"
+    }
+   }
+  },
+  {
+   "r": 64,
+   "row": {
+    "event_id": "federalregister:2026-17985",
+    "agency": "EPA",
+    "action_type": "notice",
+    "title": "Notice of August 31, 2026 Decisions on Petitions for Small Refinery Exemptions Under the Renewable Fuel Standard Program",
+    "abstract": "The Environmental Protection Agency (EPA) is providing notification of its final action entitled August 31, 2026 Decision on Petitions for RFS Small Refinery Exemptions (\"August 31, 2026 SRE Decisions Action\") in which EPA issued decisions on 34 small refinery exemption (SRE) petitions under the Renewable Fuel Standard (RFS) program for the 2025 compliance year. EPA is also reissuing a decision for 1 petition for the 2024 compliance year that was originally issued in the August 3, 2026 Decision on Petitions for RFS Small Refinery Exemptions. EPA is providing this notification for public awareness of, and the basis for, EPA's decision announced on August 31, 2026.",
+    "status": "Decision on petitions.",
+    "docket": "FRL-13562-01-OAR",
+    "states": "",
+    "source_url": "https://www.federalregister.gov/documents/2026/09/02/2026-17985/notice-of-august-31-2026-decisions-on-petitions-for-small-refinery-exemptions-under-the-renewable",
+    "sector": "policy",
+    "significance": "6",
+    "event_date": "2026-09-02",
+    "first_paragraph": "The Environmental Protection Agency (EPA) is providing notification of its final action entitled August 31, 2026 Decision on Petitions for RFS Small Refinery Exemptions (``August 31, 2026 SRE Decisions Action'') in which EPA issued decisions on 34 small refinery exemption (SRE) petitions under the Renewable Fuel Standard (RFS) program for the 2025 compliance year. EPA is also reissuing a decision for 1 petition for the 2024 compliance year that was originally issued in the August 3, 2026 Decision on Petitions for RFS Small Refinery Exemptions. EPA is providing this notification for public awareness of, and the basis for, EPA's decision announced on August 31, 2026."
+   },
+   "record": {
+    "type": "Notice",
+    "action": "Decision on petitions.",
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": "September 2, 2026.",
+    "agencies": [
+     "Environmental Protection Agency"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-17985.txt",
+   "answer": {
+    "body": "EPA",
+    "instrument": "decision",
+    "status": "issued",
+    "dates": [],
+    "figure": null
+   }
+  },
+  {
+   "r": 66,
+   "row": {
+    "event_id": "federalregister:2026-17626",
+    "agency": "NRC",
+    "action_type": "notice",
+    "title": "SMR, LLC; Palisades SMR, LLC; Pioneer Units 1 and 2; Exemption",
+    "abstract": "The U.S. Nuclear Regulatory Commission (NRC) has issued an exemption in response to a request dated December 31, 2025, from SMR, LLC, on behalf of Palisades SMR, LLC, a wholly-owned subsidiary of Holtec International (collectively, Holtec) for approval to allow construction of permanent support of excavation walls prior to the issuance of a limited work authorization for Pioneer Units 1 and 2. The support of excavation walls will remain in place after construction is complete.",
+    "status": "Notice; issuance.",
+    "docket": "Docket Nos. 50-616 and 50-617;NRC-2026-0265",
+    "states": "",
+    "source_url": "https://www.federalregister.gov/documents/2026/08/28/2026-17626/smr-llc-palisades-smr-llc-pioneer-units-1-and-2-exemption",
+    "sector": "nuclear",
+    "significance": "5",
+    "event_date": "2026-08-28",
+    "first_paragraph": "The U.S. Nuclear Regulatory Commission (NRC) has issued an exemption in response to a request dated December 31, 2025, from SMR, LLC, on behalf of Palisades SMR, LLC, a wholly-owned subsidiary of Holtec International (collectively, Holtec) for approval to allow construction of permanent support of excavation walls prior to the issuance of a limited work authorization for Pioneer Units 1 and 2. The support of excavation walls will remain in place after construction is complete."
+   },
+   "record": {
+    "type": "Notice",
+    "action": "Notice; issuance.",
+    "effective_on": null,
+    "comments_close_on": null,
+    "dates": "The exemption was issued on August 28, 2026.",
+    "agencies": [
+     "Nuclear Regulatory Commission"
+    ]
+   },
+   "text_file": "texts/federalregister_2026-17626.txt",
+   "answer": {
+    "body": "NRC",
+    "instrument": "order",
+    "status": "issued",
+    "dates": [
+     {
+      "kind": "effective",
+      "date": "2026-08-28"
+     }
+    ],
+    "figure": null
+   }
+  },
+  {
+   "r": 79,
+   "row": {
+    "event_id": "puct:161533489d42",
+    "agency": "PUCT",
+    "action_type": "press_release",
+    "title": "Governor Abbott Announces More Than $795,000 In Grant Funding To Strengthen Electric Reliability In Northwest Texas",
+    "abstract": "",
+    "status": "news release",
+    "docket": "",
+    "states": "TX",
+    "source_url": "https://gov.texas.gov/news/post/governor-abbott-announces-more-than-795000-in-grant-funding-to-strengthen-electric-reliability-in-northwest-texas",
+    "sector": "policy",
+    "significance": "2",
+    "event_date": "2026-08-18",
+    "first_paragraph": ""
+   },
+   "record": {},
+   "text_file": "texts/puct_161533489d42.txt",
+   "answer": {
+    "body": "Texas Governor",
+    "instrument": "award",
+    "status": "announced",
+    "dates": [],
+    "figure": {
+     "value": 795000,
+     "unit": "USD"
+    }
+   }
+  }
+ ]
+}
