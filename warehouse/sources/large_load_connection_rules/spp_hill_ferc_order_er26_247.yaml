@@ -1,0 +1,107 @@
+# Session 2938 (chain 155): read from the copy the data machine saved on 8 October 2026 (00:30:01 UTC), no new request:
+# warehouse/raw/large_load_statements/W1/raw/spp/er26-247_order_20260114.pdf, reused by large_load_rules.py
+# (warehouse/raw/large_load_rules/A/text/ops__spp_er26-247_order_20260114.pdf.txt). The document is the Federal Energy
+# Regulatory Commission's order (a federal work), as SPP posts it. It accepts SPP's Tariff revisions adding the High
+# Impact Large Load (HILL) study process (Attachment BA) and the HILL Generation Assessment (HILLGA, Attachment BB),
+# effective 15 January 2026, subject to a compliance filing. Each step is as the order states SPP's Tariff; pages are the
+# order's own ("- 8 -"). A section named here is the Tariff's, as the order's footnote cites it.
+body: Southwest Power Pool (SPP), as the Federal Energy Regulatory Commission's order states its Tariff
+grid: SPP
+utility: ""
+eia_id: ""
+state: AR                                   # SPP spans fourteen states; AR is its seat (Little Rock), as the registry needs one
+document: FERC, Order Accepting Tariff Revisions, Subject to Condition, Southwest Power Pool, Inc., Docket No. ER26-247-000, 194 FERC 61,031 (issued 14 January 2026)
+document_date: 2026-01-14
+document_url: https://spp.org/documents/75725/20260114_order%20-%20revisions%20to%20add%20the%20high%20impact%20large%20load%20processes%20and%20generation%20assessment_er26-247-000.pdf
+retrieved_at: 2026-10-08T00:30:01Z
+license: public
+steps:
+  - section: "Attachment BA, the HILL definition, at 69 kV or below"
+    page: 5
+    step: a load at 69 kV or below becomes a High Impact Large Load
+    party: Transmission Customer
+    mw: 10
+    printed: "where such load is either (1) 10 MW or more if connected to the Transmission System at a voltage level less than or equal to 69 [kilovolts (kV)]"
+  - section: "Attachment BA, the HILL definition, above 69 kV"
+    page: 5
+    step: a load above 69 kV becomes a High Impact Large Load
+    party: Transmission Customer
+    mw: 50
+    printed: "or (2) 50 MW or more if connected to the Transmission System at a voltage level greater than 69 kV"
+  - section: "Attachment BA, 2.1.3.4, the HDPS Agreement returned"
+    page: 8
+    step: the customer returns the HILL Delivery Point Study Agreement with its fee and deposit
+    party: Transmission Customer
+    duration: 30
+    unit: calendar days
+    printed: "the Transmission Customer must return the HDPS Agreement, a $10,000 non-refundable application fee, and a $100,000 deposit to SPP within 30 calendar days, unless otherwise agreed upon"
+  - section: "Attachment BA, 2.1.3.4, the HDPS completed"
+    page: 8
+    step: SPP completes the HILL Delivery Point Study and issues its report
+    party: SPP
+    duration: 90
+    unit: calendar days
+    printed: "Within 90 calendar days of receiving an executed HDPS Agreement, the study data, and deposit, SPP will complete the HDPS and issue a study report."
+  - section: "Attachment BB, 8.3, a HILLGA Request validated"
+    page: 14
+    step: SPP validates a HILL Generation Assessment request
+    party: SPP
+    duration: 15
+    unit: calendar days
+    printed: "During the HILLGA Review Period, SPP will validate HILLGA Requests within 15 calendar days."
+  - section: "Attachment BB, 8.3, deficiencies cured"
+    page: 14
+    step: the customer cures a request's deficiencies
+    party: HILLGA Customer
+    duration: 10
+    unit: business days
+    printed: "the HILLGA Customer will then have 10 business days to cure any deficiencies."
+  - section: "Attachment BB, 8, the system impact study"
+    page: 14
+    step: SPP conducts the HILLGA system impact study
+    party: SPP
+    duration: 90
+    unit: calendar days
+    printed: "SPP proposes to conduct a system impact study for HILLGA Requests within 90 calendar days of the HILLGA Review Period."
+  - section: "Attachment BB, 8.8, a restudy noticed"
+    page: 14
+    step: SPP notifies the customer that a restudy is needed
+    party: SPP
+    duration: 30
+    unit: calendar days
+    printed: "SPP will notify the HILLGA Customer of the need for a restudy within 30 calendar days"
+  - section: "Attachment BB, 8.8, a restudy completed"
+    page: 14
+    step: SPP completes the restudy after its notice
+    party: SPP
+    duration: 60
+    unit: calendar days
+    printed: "and will complete the restudy within 60 calendar days after the notification."
+  - section: "Attachment BB, the HILLGIA negotiated"
+    page: 14
+    step: the customer, the transmission owner and SPP negotiate the HILL generator interconnection agreement
+    party: HILLGA Customer, transmission owner and SPP
+    duration: 45
+    unit: calendar days
+    printed: "the HILLGA Customer, the transmission owner, and SPP will then have 45 calendar days to negotiate the HILLGIA, unless the parties agree to a different timeline."
+  - section: "Attachment BB, the final HILLGIA tendered"
+    page: 14
+    step: SPP tenders the final HILLGIA after the negotiation
+    party: SPP
+    duration: 10
+    unit: business days
+    printed: "it will tender a final HILLGIA to the HILLGA Customer within 10 business days after the negotiation process concludes."
+  - section: "Attachment BB, the HILLGIA executed"
+    page: 14
+    step: the customer executes the HILLGIA or asks that it be filed unexecuted
+    party: HILLGA Customer
+    duration: 10
+    unit: business days
+    printed: "Within 10 business days of receiving the final HILLGIA, the HILLGA Customer must either execute the HILLGIA or request that it be filed unexecuted with the Commission."
+  - section: "the order, page 29, the whole HILLGA process"
+    page: 29
+    step: SPP completes the whole HILL Generation Assessment process (against 12 months for its standard DISIS cluster)
+    party: SPP
+    duration: 150
+    unit: days
+    printed: "SPP proposes to accept HILLGA Requests at any time and complete the entire HILLGA process within 150 days, which is a significantly faster timeline than the current DISIS process, which, as designed, takes 12 months to complete."
