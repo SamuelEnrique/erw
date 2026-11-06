@@ -1,6 +1,6 @@
 # Session 1466 report: faults 44 and 45, a scale word against the figure and a sector fold labelled as a topic
 
-Energy Research Warehouse (ERW), session 1466, chain 150, samueloldlaptop, 6 November 2026, 05:15 to 05:22 UTC (while session 1464's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1466-periodicals`, cut from `wip/1465-periodicals`.
+Energy Research Warehouse (ERW), session 1466, chain 150, samueloldlaptop, 6 November 2026, 05:10 to 05:14 UTC (while session 1464's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1466-periodicals`, cut from `wip/1465-periodicals`.
 
 ## The faults
 

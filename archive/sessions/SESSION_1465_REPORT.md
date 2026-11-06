@@ -1,6 +1,6 @@
 # Session 1465 report: fault 43, a price's reason that names nothing
 
-Energy Research Warehouse (ERW), session 1465, chain 150, samueloldlaptop, 6 November 2026, 05:10 to 05:15 UTC (while session 1464's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1465-periodicals`, cut from `wip/1464-periodicals` (the landing branch).
+Energy Research Warehouse (ERW), session 1465, chain 150, samueloldlaptop, 6 November 2026, 05:08 to 05:10 UTC (while session 1464's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1465-periodicals`, cut from `wip/1464-periodicals` (the landing branch).
 
 ## The fault
 
