@@ -1782,6 +1782,56 @@ class Session1448FunFact(unittest.TestCase):
         self.assertIn('"2026-10-14"', ts[ts.index("ISSUE_NOTES"):])
 
 
+class Session1459StoredFactsStyled(unittest.TestCase):
+    """Session 1459 (chain 150, fault 16): a bank row keeps the text it was verified with; the issue's item prints its
+    numbers with the issue's thousands separator, and still passes its check."""
+
+    def test_the_styles(self):
+        import funfact
+        cases = [
+            ("ERCOT's real-time price at HB_WEST reached 9310.49 USD/MWh in a 15-minute interval in 2021, the highest of "
+             "any year since 2015; the year with the most negative-price intervals there was 2024, with 4266.",
+             "ERCOT's real-time price at HB_WEST reached 9,310.49 USD/MWh in a 15-minute interval in 2021, the highest of "
+             "any year since 2015; the year with the most negative-price intervals there was 2024, with 4,266."),
+            ("California increased wind on the grid from 10 MW in 1981 to 1700 MW in the early 1990s.",
+             "California increased wind on the grid from 10 MW in 1981 to 1,700 MW in the early 1990s."),
+            ("The highest daily Brent crude spot price in EIA's series, which starts on 1987-05-20, was 143.95 USD/bbl on 2008-07-03.",
+             "The highest daily Brent crude spot price in EIA's series, which starts on 1987-05-20, was 143.95 USD/bbl on 2008-07-03."),
+            ("The oldest generators still operating entered service in 1891.", "The oldest generators still operating entered service in 1891."),
+            ("It curtailed 1,459,998 MWh in April 2026.", "It curtailed 1,459,998 MWh in April 2026."),
+        ]
+        for raw, want in cases:
+            with self.subTest(raw[:40]):
+                self.assertEqual(funfact.issue_style(raw), want)
+
+    def test_every_verified_fact_styled_passes_its_check_and_the_bank_is_not_rewritten(self):
+        import funfact
+        bank = funfact.read_bank()
+        kept = bank[bank["status"] == "verified"].to_dict("records")
+        changed = 0
+        for r in kept:
+            styled = dict(r, fact=funfact.issue_style(r["fact"]), second=funfact.issue_style(r["second"]))
+            changed += styled["fact"] != r["fact"] or styled["second"] != r["second"]
+            with self.subTest(r["fact_id"]):
+                self.assertEqual(funfact.check_record(styled), [])
+        self.assertGreaterEqual(changed, 4)   # the three hubs' peak rows and the 1700 MW history fact, on 6 November
+        self.assertIn("9310.49", " ".join(funfact.read_bank()["fact"]))   # the bank keeps its text
+
+    def test_the_days_item_prints_the_styled_numbers(self):
+        import funfact
+        bank = funfact.read_bank()
+        row = bank[bank["fact"].str.contains("HB_WEST reached 9310.49")].iloc[0]
+        one = bank[bank["fact_id"] == row["fact_id"]].assign(used_on="", structure="none")
+        with tempfile.TemporaryDirectory() as d, \
+                mock.patch.object(funfact, "read_bank", lambda: one.copy()), \
+                mock.patch.object(funfact, "write_bank", lambda df: None), \
+                mock.patch.object(funfact, "ITEMS", d):
+            item = funfact.write_item("2026-11-09", lambda *a: None)   # a Monday: the fact runs alone
+            self.assertTrue(os.path.exists(os.path.join(d, "2026-11-09.json")))
+        self.assertIn("9,310.49 USD/MWh", item["fact"])
+        self.assertIn(item["fact"], "\n".join(funfact.item_markdown(item)))
+
+
 class Session1450TheTracers(unittest.TestCase):
     """Session 1450 (chain 149, fault 6 and session 1434's note): the block's story rows are traced to their story's
     scored field; a revised figure stays revised when the warehouse re-reads the row after the publisher's window."""
