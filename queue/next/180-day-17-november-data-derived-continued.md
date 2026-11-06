@@ -22,11 +22,15 @@ Read first: chain 176's note (`docs/state/note_<its day>_data_c176.md`), chain 1
 
 ## Session 3146: the next file, the ground, chain 176's first unfinished step
 
-Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 176's first unfinished step, as session 3107 of chain 176 writes it here; if it left none, session 3150's.
+Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 176's first unfinished step, written by session 3107 of chain 176: **if `wip/c176-data` is not an ancestor of origin's main** (chain 177's last session lands it after 16:15 UTC with its own branch), land it by `archive/sessions/SESSION_3107_REPORT.md`, "To finish" (never between 14:00 and 16:15 UTC). If it landed, session 3147's step.
 
 ## Sessions 3147 to 3149: chain 176's other unfinished steps
 
-Long end 2:00 each. Session 3147 begins with the landing request file (the rules). Session 3107 of chain 176 writes the steps here in its order; a session it does not name takes the next of the passes below.
+Long end 2:00 each. Session 3147 begins with the landing request file (the rules). Written by session 3107 of chain 176, in chain 176's order (its note, "What did not, and why"):
+
+- **Session 3147: the personal laptop's row 1 and the deals backfill.** If `wip/2252-deals` is still not an ancestor of origin's main and the desktop's second window is not landing it (no `land/2252-deals` worktree in use, no `task/2230-2252-deals` branch, the build lock free), land it as the request file says, never between 14:00 and 16:15 UTC. The backfill (`scripts/deals_backfill.py --from 2026-10-27 --to 2026-11-05`, cap USD 15) only once that branch is an ancestor of main **and** the owner's approval is written; else say which is missing.
+- **Session 3148: the owner's rulings, if any are written** (chains 153 to 176's notes; among them the deals backfill, the four old wip branches in this machine's worktrees, FERC-714 Part 3 Schedule 2, the four derived tables in Redivis v1, the per-reactor outages, the pace of the chains): carried out where written; with none, say so and take session 3149's step.
+- **Session 3149: the stale inputs** (chain 162's session 2991, chains 170's 3069 and 176's 3097): after Saturday 7 November's supply refresh, `eia_gas_storage_weekly`'s newest week (it ended at 16 October); if it moved, `gas_balance_weekly` rebuilt with the locked write script and its method note's figures checked. `eia_nuclear_outages_generator_daily` (written 21 October, on no schedule): its age named; pulled only if the owner's ruling allows.
 
 ## Session 3150: FERC-714 forecast growth, second pass
 
