@@ -375,3 +375,19 @@ After: **475 names** (481 before), 109 with two or more deals, 13 with a parent 
 | Row | State after session 2250 |
 |---|---|
 | A5 a party a description | closed in the directory (the descriptions are out) and on the second read (0 of 106) |
+
+## Session 2251: the pages read as a reader at a fund reads them
+
+Read from the pages' code (no build: the machine's memory held the landing's build), cell by cell, for what a decision needs: what (the kind and the form), who (the parties as one name a company), how much (MW, MWh, US dollars), at what price (per MWh), when (the date and its basis, the stage and its history), where (the state, the country, the grid and its basis), how sure (the model's confidence, the flags).
+
+| Page | Found | Fixed |
+|---|---|---|
+| `/deals` table | an empty MW, US dollars, price, place, grid or stage cell was blank; "how sure" only in the opened row; an AI tag of false was blank | each empty cell says "not stated"; a column "Sure" (the confidence, sortable, its meaning as the header's tip); the AI cell says "no" |
+| `/deals?view=comparables` | every count shown, a median "fewer than three"; the priced section says when no deal states a price | none needed |
+| `/deals?view=ai`, `?view=charts` | "none stated" beside each sum with the count that state it; the empty chart says so | none needed |
+| `/datacenters` list | every empty cell already "not stated"; the confidence under the sources | none needed |
+| `/datacenters?view=grids` | held cells "license needed" with a footnote, a reserve margin not held "not held" with a footnote | none needed |
+
+| Row | State after session 2251 |
+|---|---|
+| A9 and A15 confidence | the model's bands (2232, 2236), on the second read 0 too low and 0 too high; shown in its own column |

@@ -103,12 +103,12 @@ export function filterRows(rows: Row[], f: Inputs): Row[] {
     (!f.price || (f.price === "yes") === priceDisclosed(d)));
 }
 
-export type SortKey = "date" | "kind" | "parties" | "asset" | "where" | "grid" | "mw" | "usd" | "price" | "stage" | "ai" | "sources";
+export type SortKey = "date" | "kind" | "parties" | "asset" | "where" | "grid" | "mw" | "usd" | "price" | "stage" | "ai" | "sure" | "sources";
 const KEY: Record<SortKey, (d: Row) => string | number | null> = {
   date: (d) => d.date, kind: (d) => KIND_LABEL[d.kind] ?? d.kind, parties: (d) => partiesOf(d).join(" / ").toLowerCase(),
   asset: (d) => d.asset.toLowerCase(), where: (d) => [d.state, d.country].filter(Boolean).join(", "), grid: (d) => d.grid,
   mw: (d) => d.mw, usd: (d) => d.dollars, price: (d) => d.usdPerMwh ?? d.priceValue, stage: (d) => STAGES.indexOf(stageOf(d)),
-  ai: (d) => (d.aiPower ? 1 : 0), sources: (d) => d.storyUrls.length,
+  ai: (d) => (d.aiPower ? 1 : 0), sure: (d) => d.confidence, sources: (d) => d.storyUrls.length,   // session 2251: how sure
 };
 
 /** Sorted by one column; a row with no value for it goes last whichever way, ties by date (newest first) then id. */

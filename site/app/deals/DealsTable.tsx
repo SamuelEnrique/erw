@@ -24,6 +24,8 @@ const n = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 })
 const day = (d: string) => d.slice(0, 10);
 const uniq = (xs: string[]) => Array.from(new Set(xs.filter(Boolean))).sort();
 const FILE = "erw_energy_deals.csv";
+// session 2251: an empty cell says so (what a reader deciding needs is present, or marked not stated)
+const NS = <span className="text-xs text-muted">not stated</span>;
 
 function Select({ label, tip, value, set, options, render }: { label: string; tip: string; value: string; set: (v: string) => void; options: string[]; render?: (v: string) => string }) {
   return (
@@ -82,6 +84,7 @@ const COLS: [SortKey, string, string, boolean][] = [
   ["price", "Price", "A price per MWh as stated; almost no story the ERW reads states one", true],
   ["stage", "Stage", "Where the deal stands, as its words say; each cell's tip shows how it moved", false],
   ["ai", "AI", "A named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party, or the load is a datacenter", false],
+  ["sure", "Sure", "The model's confidence, 0 to 1, that this is a real deal and its fields are right (0.8 or more: stated between named parties)", true],
   ["sources", "Sources", "The stories the deal was read from; hover for the outlets and the flags", true],
 ];
 
@@ -181,10 +184,10 @@ export function DealsTable({ rows, companies = [] }: { rows: Row[]; companies?: 
                         )) : d.others.split(";").filter(Boolean).join(", ")}
                       </td>
                       <td className="py-1 pr-3">{d.asset}</td>
-                      <td className="py-1 pr-3 whitespace-nowrap">{[d.state, d.country].filter(Boolean).join(", ")}</td>
-                      <td className="py-1 pr-3 whitespace-nowrap" title={d.gridBasis}>{d.grid}</td>
+                      <td className="py-1 pr-3 whitespace-nowrap">{[d.state, d.country].filter(Boolean).join(", ") || NS}</td>
+                      <td className="py-1 pr-3 whitespace-nowrap" title={d.gridBasis}>{d.grid || NS}</td>
                       <td className="py-1 pr-3 text-right tabular-nums">
-                        {d.mw !== null ? <Num check={`event|energy_deals|${d.id}|mw`} raw={d.mw}>{n(d.mw)}</Num> : ""}
+                        {d.mw !== null ? <Num check={`event|energy_deals|${d.id}|mw`} raw={d.mw}>{n(d.mw)}</Num> : NS}
                       </td>
                       <td className="py-1 pr-3 text-right tabular-nums whitespace-nowrap">
                         {d.dollars !== null ? (
@@ -192,16 +195,17 @@ export function DealsTable({ rows, companies = [] }: { rows: Row[]; companies?: 
                             <Num check={`event|energy_deals|${d.id}|dollars`} raw={d.dollars}>{usd(d.dollars)}</Num>
                           </span>
                         ) : (
-                          ""
+                          NS
                         )}
                       </td>
                       <td className="py-1 pr-3 text-right tabular-nums whitespace-nowrap">
-                        {d.usdPerMwh !== null ? `${n(d.usdPerMwh)}/MWh` : d.priceValue !== null && priceDisclosed(d) ? `${n(d.priceValue)} ${d.priceUnit}` : ""}
+                        {d.usdPerMwh !== null ? `${n(d.usdPerMwh)}/MWh` : d.priceValue !== null && priceDisclosed(d) ? `${n(d.priceValue)} ${d.priceUnit}` : NS}
                       </td>
                       <td className="py-1 pr-3 whitespace-nowrap" title={d.statusHistory || (d.stage ? "" : "the status as extracted before session 2232")}>
-                        {STAGE_LABEL[stageOf(d)] ?? stageOf(d)}
+                        {STAGE_LABEL[stageOf(d)] ?? (stageOf(d) || NS)}
                       </td>
-                      <td className="py-1 pr-3" title={d.aiBasis}>{d.aiPower ? "yes" : ""}</td>
+                      <td className="py-1 pr-3" title={d.aiBasis}>{d.aiPower ? "yes" : "no"}</td>
+                      <td className="py-1 pr-3 text-right tabular-nums" data-sure={d.confidence ?? ""}>{d.confidence !== null ? n(d.confidence) : NS}</td>
                       <td className="py-1 pr-3 text-right whitespace-nowrap" title={`${outlets}${d.flags.length ? `. Flags: ${d.flags.join("; ")}` : ""}`}>
                         {d.storyUrls.length}
                         {d.flags.length ? <span className="ml-1 text-accent" aria-label={`${d.flags.length} flags`} data-flags={d.flags.length}>!</span> : null}
