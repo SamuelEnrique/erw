@@ -92,6 +92,13 @@ moratorium, permit denied) has an accuracy that one story moves by twenty points
 Cost: USD 0.71 a thousand stories on Sonnet 5.5 (USD 0.29 on Haiku 4.5), measured on the 200, with the prompt cached;
 every call is a row of `api_cost_ledger`.
 
+A second measure, on 1,320 stories of the newest weeks that both models classified in session 3402 (Haiku's rows
+from a run stopped when the model was found to be the wrong one; they are kept in `runs/c202/haiku_rows/`, not in any
+table): the two agree on opposition for 98.9 percent of the stories (40 stories both call opposition, 6 only Sonnet, 8
+only Haiku), on the kind for 97.5, on the state for 98.1, on the sector for 86.7 (most of the disagreement is
+`other_energy` or `oil_lng` against `not_energy`), on the US field for 86.0 (Sonnet calls 678 stories US, Haiku 529)
+and on tone for 73.3. Agreement is not accuracy; it says where a second reading would differ.
+
 ## What is classified, and what is not
 
 - Stories are classified the newest first, under a cap of USD 3 a session (the owner's rule for this chain). The

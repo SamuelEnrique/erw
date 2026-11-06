@@ -340,6 +340,12 @@ def run_batches(client, model, todo, log, out_path=None, cap_usd=None, max_calls
         try:
             out, usage, model_id = classify_batch(client, model, batch, log)
         except Exception as exc:
+            if type(exc).__name__ == "SpendCapReached":
+                # session 3402: the ledger's cap for the session (ERW_SPEND_CAP_USD) refuses the call before it is sent;
+                # nothing more can be classified this session, so the run stops here instead of failing every batch left
+                log(f"the session's spend cap stopped the run before call {bi}: {ip.redact(str(exc))[:200]}; "
+                    f"{sum(len(b) for b in batches[bi - 1:])} stories left")
+                break
             failed += 1
             log(f"  call {bi} FAILED ({len(batch)} stories left unclassified): {ip.redact(repr(exc))[:300]}")
             continue
