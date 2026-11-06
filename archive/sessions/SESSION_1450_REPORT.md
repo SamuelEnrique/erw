@@ -18,7 +18,7 @@ Energy Research Warehouse (ERW), session 1450 (chain 149's "1447"), `queue/done/
 | `scripts/precheck.py --what "session 1450"` | 0 | |
 | `tests.test_session2206`, `2207`, `test_periodicals`, `402` | 0 | 137 passed, 1 skipped |
 | `node scripts/test-digest-numbers.mjs` | 0 | 14 passed |
-| `scripts/check_digest.py --supabase --then-csv` on this branch's code | see below | |
+| `scripts/check_digest.py --supabase --then-csv` on this branch's code (`runs/s1450/check_digest.out`) | 0 | 155 ok, 0 FAILED, 2 revised (the WTI close of 14 October in the issues of 20 and 21 October, as session 2207 proved it), 6 not held, 5 from charts, 10 fun facts |
 
 ## Decisions made without you
 
