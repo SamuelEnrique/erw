@@ -763,7 +763,8 @@ class Notes:
     def lines(self):
         if not self.tables:
             return []
-        items = [f"[{i}] {cite_short(t)}" + (f"; {self.extra[t]}" if t in self.extra else "")
+        # session 1439: news_stories is cited by name alone (cite_short would list its hundred outlets)
+        items = [f"[{i}] {'`news_stories`' if t == 'news_stories' else cite_short(t)}" + (f"; {self.extra[t]}" if t in self.extra else "")
                  for i, t in enumerate(self.tables, 1)]
         return ["", "Tables: " + "; ".join(items) + "."]
 
@@ -984,21 +985,39 @@ def demand_lines(digest_date, log, notes, store=None):
     except Exception as exc:
         log(f"  numbers: US48 demand a year before unavailable: {exc!r}")
         old = None
+    span = "year"
     if old is None:
-        out[-1] += f"the same weekday a year before ({before:%Y-%m-%d}) is not held: the hourly table's window does not reach it."
-        return out
+        # session 1439 (chain 149, fault 3): the year before is the data machine's (rulings item 18); until it is held the
+        # change is against the same weekday a week before, which the hourly table's window holds, said so
+        week = day - pd.Timedelta(days=7)
+        try:
+            old = peak(week)
+        except Exception as exc:
+            log(f"  numbers: US48 demand a week before unavailable: {exc!r}")
+            old = None
+        if old is None:
+            out[-1] += (f"the same weekday a year before ({before:%Y-%m-%d}) and a week before ({week:%Y-%m-%d}) are not held: "
+                        "the hourly table's window does not reach them.")
+            return out
+        span, before = "week", week
+        if store is not None:
+            store["before"] = week
     if store is not None:
-        store["old"] = old
+        store.update(old=old, span=span)
     pct = 100 * (float(top["value"]) / float(old["value"]) - 1) if float(old["value"]) > 0 else None
-    out[-1] += (f"the same weekday a year before ({before:%Y-%m-%d}) peaked at {old['value']:,.0f} MW in the hour starting "
-                f"{old['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}" + (f", so {pct:+.1f}% on the year." if pct is not None else "."))
+    out[-1] += (f"the same weekday a {span} before ({before:%Y-%m-%d}) peaked at {old['value']:,.0f} MW in the hour starting "
+                f"{old['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}" + (f", so {pct:+.1f}% on the {span}." if pct is not None else "."))
+    if span == "week":
+        out[-1] += " The same weekday a year before is not held (the hourly table's window does not reach it)."
     return out
 
 
-def numbers_today(digest_date, log, clusters=None, facts=None):
+def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     """The numbers section (session 804: what moved). clusters: the day's clusters (build_clusters), for the reasons.
     facts (session 2703): a dict filled with the candidates of the moves (each with its table and reason) and US48
-    demand's peak, for the opening number and the numbers block."""
+    demand's peak, for the opening number and the numbers block. now (session 1439, fault 1): the issue's cutoff; a
+    close dated after it is not read, so a dry run of a past day reproduces the day and no issue prints a row dated
+    after its own cutoff (the 26 October dry run opened with a Henry Hub close of 3 November)."""
     notes = Notes()
     held = held_grids()
     day = pd.Timestamp(digest_date) - pd.Timedelta(days=1)
@@ -1073,6 +1092,8 @@ def numbers_today(digest_date, log, clusters=None, facts=None):
     fuels = []
     try:
         fuel = erw.fetch("eia_fuel_spot_prices")
+        if now is not None:
+            fuel = fuel[fuel["ts_utc"] <= pd.Timestamp(now)]
         for label, entity in FUELS:
             s = fuel[fuel["entity"] == entity].sort_values("ts_utc")
             last = s.iloc[-1]
@@ -1673,20 +1694,41 @@ def best_price(cands, skip_key):
     return pool[0] if pool else None
 
 
-def story_row(label, recs, sectors, heads, skip_id, what, order):
+# Session 1439 (chain 149, faults 4 to 6): a story row names its measure by the story's sector, its place by the scorer's
+# region, its figure once, and who (the parties, else the outlet); the headline is the item's, not the row's. The row's
+# key is the story's row of news_stories (its cluster id and the field read), so scripts/check_digest.py can trace it.
+SECTOR_NOUN = {"datacenter_power": "Datacenter load", "generation": "Generation capacity", "storage": "Storage capacity",
+               "nuclear": "Nuclear capacity", "renewables": "Renewable capacity", "transmission": "Transmission",
+               "interconnection": "Interconnection queue", "lng": "LNG capacity", "gas": "Gas supply", "hydrogen": "Hydrogen capacity",
+               "capital": "Capital raised", "deal": "Deal value", "policy": "Policy sum", "company": "Company spending",
+               "grid_conditions": "Reliability", "geopolitics": "Supply at risk", "oil": "Oil supply"}
+
+
+def story_who(r):
+    """The parties of a story (the first two), else its outlet."""
+    parties = [p.strip() for p in str(r.get("parties") or "").split(";") if p.strip()]
+    return ", ".join(parties[:2]) if parties else outlet_of(r)
+
+
+def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
     """A block row from the day's top stories: the highest-ranked in `sectors` stating a figure of `order` (story_figure),
-    said as reported."""
-    for rank, r in enumerate(recs, 1):
-        if r["cluster_id"] == skip_id or str(r.get("sector")) not in sectors:
+    in the block's form (measure, place: figure (who; outlet, date) [n]. Change. Status.). A price story (price_commodity)
+    is never a row: its figure is a price, which the market row holds. Returns (line, key detail or "")."""
+    for r in recs:
+        if r["cluster_id"] == skip_id or str(r.get("sector")) not in sectors or price_commodity(r):
             continue
         fig = story_figure(r, order)
         if not fig:
             continue
-        head = heads.get(r["cluster_id"], str((r.get("titles") or [""])[0])).rstrip(".")
-        return (f"- **{label}.** {fig}: {head} ({str(r['sector']).replace('_', ' ')}, ranked {rank} of the day's top ten), "
-                f"reported on {pd.Timestamp(r['first']):%Y-%m-%d} by {outlet_of(r)}. Change: a new report, no earlier figure "
-                "held. Status: reported by the outlet, not a warehouse table's figure.")
-    return f"- **{label}.** No story of the day states {what}."
+        field = "mw" if fig.endswith(" MW") else "price"
+        noun = SECTOR_NOUN.get(str(r.get("sector")), str(r.get("sector")).replace("_", " ").capitalize())
+        region = str(r.get("region") or "").strip()
+        place = f", {region}" if region and region.lower() != "global" else ""
+        ref = f" {notes.ref('news_stories')}" if notes is not None else ""
+        line = (f"- **{label}.** {noun}{place}: {fig} ({story_who(r)}; {outlet_of(r)}, {pd.Timestamp(r['first']):%Y-%m-%d}){ref}. "
+                "Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.")
+        return line, f"story {r['cluster_id']} ({field})"
+    return f"- **{label}.** No story of the day states {what}.", ""
 
 
 def numbers_block(facts, op, recs, heads):
@@ -1709,19 +1751,28 @@ def numbers_block(facts, op, recs, heads):
         ref = notes.ref("eia930_all_demand", "balancing authority us48")
         line = f"- **Physical.** US48 demand peaked at {top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}; "
         old = d.get("old")
+        span = d.get("span", "year")
         if old is not None and float(old["value"]) > 0:
             pct = 100 * (float(top["value"]) / float(old["value"]) - 1)
-            line += (f"the same weekday a year before ({d['before']:%Y-%m-%d}) peaked at {old['value']:,.0f} MW in the hour "
-                     f"starting {old['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}, so {pct:+.1f}% on the year.")
+            line += (f"the same weekday a {span} before ({d['before']:%Y-%m-%d}) peaked at {old['value']:,.0f} MW in the hour "
+                     f"starting {old['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}, so {pct:+.1f}% on the {span}.")
+            if span == "week":   # session 1439 (fault 3): the year before is the data machine's (item 18)
+                line += " The same weekday a year before is not held."
         else:
             line += f"the same weekday a year before ({d['before']:%Y-%m-%d}) is not held, so no change is shown."
         L.append(line + " Status: observed, EIA-930 hourly demand.")
     else:
         L.append("- **Physical.** US48 demand for yesterday is not in the warehouse.")
     skip = op["rec"]["cluster_id"] if op.get("kind") == "story" else None
-    L.append(story_row("Project or capacity", recs, CAPACITY_SECTORS, heads, skip, "a capacity figure in MW", ("mw",)))
-    L.append(story_row("Policy, capital or reliability", recs, CAPITAL_SECTORS | CAPACITY_SECTORS, heads, skip,
-                       "a policy, capital or reliability figure", ("money",)))
+    details = []
+    for label, sectors, what, order in (("Project or capacity", CAPACITY_SECTORS, "a capacity figure in MW", ("mw",)),
+                                        ("Policy, capital or reliability", CAPITAL_SECTORS, "a policy or capital figure", ("money",))):
+        line, detail = story_row(label, recs, sectors, heads, skip, what, order, notes)
+        L.append(line)
+        if detail:
+            details.append(detail)
+    if details:
+        notes.extra["news_stories"] = "; ".join(details)
     return L + notes.lines() + [""]
 
 
@@ -1842,7 +1893,7 @@ def main(argv=None):
         # session 2703 (the owner's rulings of 24 October 2026): the brandbook's v2 order. The numbers come first, so the
         # opening number and the block can be chosen from them
         facts = {}
-        nums = numbers_today(digest_date, log, clusters, facts)   # session 804: the day's clusters, for the reasons beside the movers
+        nums = numbers_today(digest_date, log, clusters, facts, now=now)   # session 804: the day's clusters, for the reasons beside the movers
         summary, su = (None, []) if args.no_model else numbers_summary(client, model, nums, log)
         if model in PRICES:
             scost = sum(x.input_tokens * PRICES[model][0] + x.output_tokens * PRICES[model][1] for x in su) / 1e6

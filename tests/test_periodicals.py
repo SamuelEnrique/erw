@@ -841,10 +841,13 @@ class V2TheNumbersBlock(unittest.TestCase):
         self.assertTrue(MOVER.match(re.sub(r"^- \*\*[^*]+\*\* ", "- ", rows[0])), rows[0])
         self.assertIn("ERCOT HB_NORTH day-ahead", rows[0])            # the opening's own metric is not repeated
         self.assertEqual(len(DEMAND.findall(rows[1])), 1)
-        self.assertIn("600 MW: A plans 600 MW", rows[2])
-        self.assertIn("USD 3 billion: B raises USD 3 billion", rows[3])
+        # session 1439 (faults 4 to 6): the block's form, the figure once, no headline, a key to the story's row
+        self.assertTrue(rows[2].startswith("- **Project or capacity.** Gas supply: 600 MW (Outlet; Outlet, 2026-10-21) [3]. Change: first report"), rows[2])
+        self.assertEqual(rows[2].count("600"), 1)
+        self.assertTrue(rows[3].startswith("- **Policy, capital or reliability.** Capital raised: USD 3 billion (Outlet; Outlet, 2026-10-21) [3]."), rows[3])
+        self.assertNotIn("A plans", rows[2]); self.assertNotIn("B raises", rows[3])
         self.assertNotIn("](http", "\n".join(rows[2:]))                 # no story link: the item carries it (the hard check)
-        self.assertTrue(any(ln.startswith("Tables: [1] `iso_dam_hub_prices`; [2] `eia930_all_demand`") for ln in L))
+        self.assertTrue(any(ln.startswith("Tables: [1] `iso_dam_hub_prices`; [2] `eia930_all_demand`") and ln.endswith("[3] `news_stories`; story a (mw); story b (price).") for ln in L), [ln for ln in L if ln.startswith("Tables")])
 
     def test_the_masthead_and_the_subject(self):
         op = brief.opening_number([cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01)], [])
@@ -1237,6 +1240,81 @@ class Session1438OneTopic(unittest.TestCase):
         oil_price = [r for r in top10.to_dict("records") if brief.price_commodity(r) == "oil"]
         self.assertEqual(len(oil_price), 1)
         self.assertEqual(len(top10), 10)
+
+
+class Session1439NumbersBlock(unittest.TestCase):
+    """Session 1439 (chain 149, faults 1, 3, 4, 5, 6): the fuel closes bounded by the cutoff; the demand row against the
+    same weekday a week before when the year before is not held; the story rows in the block's form with a key and no
+    headline; a price story never the policy row."""
+
+    def test_a_price_story_is_not_the_policy_row(self):
+        recs = [rec("p", "Oil dips but holds above $100; Brent trades at $114.42 per barrel", sector="oil", price="$114.42 per barrel"),
+                rec("c", "Trump targets $6.2 Billion offshore wind project nearing completion", sector="policy", price="$6.2 Billion", parties="Trump administration")]
+        notes = brief.Notes()
+        line, detail = brief.story_row("Policy, capital or reliability", recs, brief.CAPITAL_SECTORS, {}, None, "a policy or capital figure", ("money",), notes)
+        self.assertTrue(line.startswith("- **Policy, capital or reliability.** Policy sum: USD 6.2 billion (Trump administration; Outlet, 2026-10-21) [1]."), line)
+        self.assertEqual(detail, "story c (price)")
+        self.assertNotIn("114.42", line)
+        line, detail = brief.story_row("Policy, capital or reliability", recs[:1], brief.CAPITAL_SECTORS, {}, None, "a policy or capital figure", ("money",), notes)
+        self.assertEqual(line, "- **Policy, capital or reliability.** No story of the day states a policy or capital figure.")
+        self.assertEqual(detail, "")
+
+    def test_a_capacity_row_names_its_measure_place_and_who(self):
+        r = rec("g", "Gingerah Energy refers 1,000 MW data centre with 5GWh battery in Western Australia to EPBC Act",
+                sector="datacenter_power", mw="1000", parties="Gingerah Energy", links=[("Energy-Storage.news", "https://example.org/g")], first="2026-10-26T06:00:00Z")
+        r["region"] = "Australia"
+        notes = brief.Notes()
+        line, detail = brief.story_row("Project or capacity", [r], brief.CAPACITY_SECTORS, {}, None, "a capacity figure in MW", ("mw",), notes)
+        self.assertEqual(line, "- **Project or capacity.** Datacenter load, Australia: 1,000 MW (Gingerah Energy; Energy-Storage.news, 2026-10-26) [1]. "
+                               "Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.")
+        self.assertEqual(detail, "story g (mw)")
+        notes.extra["news_stories"] = detail
+        self.assertEqual(notes.lines()[-1], "Tables: [1] `news_stories`; story g (mw).")
+
+    def test_the_fuel_closes_stop_at_the_cutoff(self):
+        now = pd.Timestamp("2026-10-26 15:45", tz="UTC")
+        fuel = pd.DataFrame([{"entity": e, "ts_utc": pd.Timestamp(d, tz="UTC"), "value": v, "unit": "USD/bbl"}
+                             for e in ("eia:henry_hub", "eia:wti_cushing", "eia:brent")
+                             for d, v in (("2026-10-20", 100.0), ("2026-10-21", 101.0), ("2026-11-03", 107.0))])
+
+        def fetch(table, *a, **k):
+            if table == "eia_fuel_spot_prices":
+                return fuel.copy()
+            return pd.DataFrame(columns=["entity", "variable", "ts_utc", "value", "node", "freq"])
+        with mock.patch.object(brief.erw, "fetch", side_effect=fetch), mock.patch.object(brief, "held_grids", return_value=set()), \
+                mock.patch.object(brief, "held_rt", return_value=set()), mock.patch.object(brief, "cite_short", side_effect=lambda t: f"`{t}`"):
+            facts = {}
+            L = brief.numbers_today("2026-10-26", quiet, None, facts, now=now)
+            self.assertFalse(any("2026-11-03" in ln for ln in L), [ln for ln in L if "11-03" in ln])
+            self.assertTrue(any("101.00 USD/bbl on 2026-10-21" in ln for ln in L))
+            self.assertTrue(all(c["d"] <= now for c in facts["cands"]))
+            L2 = brief.numbers_today("2026-10-26", quiet, None, {})   # no bound: the newest row, as a scheduled run reads it
+            self.assertTrue(any("2026-11-03" in ln for ln in L2))
+
+    def test_demand_against_the_week_before_when_the_year_before_is_not_held(self):
+        day = pd.Timestamp("2026-10-25", tz="UTC")
+
+        def fetch(table, start=None, end=None, **k):
+            d = pd.Timestamp(start)
+            if d == day or d == day - pd.Timedelta(days=7):
+                v = 470627.0 if d == day else 455000.0
+                return pd.DataFrame([{"variable": "demand_mw", "ts_utc": d + pd.Timedelta(hours=23), "value": v}])
+            return pd.DataFrame(columns=["variable", "ts_utc", "value"])
+        store = {}
+        with mock.patch.object(brief.erw, "fetch", side_effect=fetch):
+            out = brief.demand_lines("2026-10-26", quiet, brief.Notes(), store)
+        line = out[-1]
+        self.assertIn("the same weekday a week before (2026-10-18) peaked at 455,000 MW", line)
+        self.assertIn("so +3.4% on the week.", line)
+        self.assertIn("The same weekday a year before is not held", line)
+        self.assertEqual(len(DEMAND.findall(line)), 2)   # both peaks keep the form the page keys
+        self.assertEqual(store["span"], "week")
+        self.assertEqual(store["before"], day - pd.Timedelta(days=7))
+        facts = {"cands": [], "demand": store}
+        L = brief.numbers_block(facts, {"kind": None, "key": ""}, [], {})
+        row = [ln for ln in L if ln.startswith("- **Physical.**")][0]
+        self.assertIn("a week before (2026-10-18) peaked at 455,000 MW", row)
+        self.assertIn("on the week. The same weekday a year before is not held.", row)
 
 
 if __name__ == "__main__":
