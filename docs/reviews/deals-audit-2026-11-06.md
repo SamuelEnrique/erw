@@ -391,3 +391,25 @@ Read from the pages' code (no build: the machine's memory held the landing's bui
 | Row | State after session 2251 |
 |---|---|
 | A9 and A15 confidence | the model's bands (2232, 2236), on the second read 0 too low and 0 too high; shown in its own column |
+
+## Every row's state (session 2252)
+
+| Row | Class | State | Where |
+|---|---|---|---|
+| A1 | Deals: place missed (17) | improved, open: 12 on the second read | next file |
+| A2 | Deals: status missed (14), unsupported (1) | improved, open: 7 and 1 | next file |
+| A3 | Deals: not a deal (12) | done: 1 on the second read | 2232 |
+| A4 | Deals: kind (11) | improved, open: 8 (capacity leases kept as other, an uprate's words) | next file |
+| A5 | Deals: a party a description, wrong or missed | done for descriptions (0) and wrong (1); open for incomplete (3: the company acquired left out) | 2232, 2234, 2250; next file |
+| A6 | Deals: AI-power tag (6) | improved: 2 (a motive, a supplier to datacenters) | 2232; next file |
+| A7 | Deals: MW, USD, term missed | done: 0, 1, 0; every stored record flagged where its headline states a figure it lacks | 2232, 2235 |
+| A8 | Deals: a sum of another figure, a share as a price | improved: 2 (a plant's cost, a building's bonds) | 2232, 2235; next file |
+| A9 | Deals: confidence | done: 0 too low, 0 too high; shown as its own column | 2232, 2251 |
+| A10 | Deals: the open duplicate pairs | done: two folded, one two deals | 2233 |
+| A11 | Facilities: MW basis | done: 1 wrong on the second read | 2236 |
+| A12 | Facilities: status (9 missed, 3 wrong) | improved: 2 and 1 | 2236; next file |
+| A13 | Facilities: not a facility (5), several in one row (3) | done: 1 and 0 | 2236 |
+| A14 | Facilities: state, operator, site, power, timeline | improved: state 2, operator 3, site 0, power 2, timeline 0 | 2236; next file |
+| A15 | Facilities: confidence too low (6) | done: 0 | 2236 |
+| A16 | The step's failure line, a failed day | done | 2237 |
+| New | Stated deals with no row (6), a story's second deal (2); stated facilities with no row (2) | open, from the stricter prompt | next file; ruling asked |

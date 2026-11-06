@@ -28,11 +28,11 @@ export function FacilitiesVsGrid({ read, held }: { read: Read; held: boolean }) 
   const fig = (v: number | null, k: string) => (v === null ? none : <Num check={k} raw={v}>{whole(v)}</Num>);
   return (
     <ToolSection title="The facilities against each grid" id="facilities-vs-grid"
-      note={<>The MW the tracker&apos;s facilities state (a named US state, not cancelled), by the grid a story names, else the facility&apos;s queue&apos;s ISO, else the grid that serves most of its state; beside each grid&apos;s peak hour of {h.peak_capacity?.ercot?.year ?? "its last whole year"} and its operating generators&apos; net summer capacity (EIA-930 and EIA-860M, <code className="font-mono">grid_peak_vs_capacity</code>). The share is the planned and under-construction MW over the peak hour: what the facilities state, not what they will draw. <Link href="/data/methods/grid_peak_vs_capacity">Method</Link>.</>}>
+      note={<>The MW the tracker&apos;s facilities state (a named US state, not cancelled), by the grid a story names, else the facility&apos;s queue&apos;s ISO, else the grid that serves most of its state; beside each grid&apos;s peak hour of {h?.peak_capacity?.ercot?.year ?? "its last whole year"} and its operating generators&apos; net summer capacity (EIA-930 and EIA-860M, <code className="font-mono">grid_peak_vs_capacity</code>). The share is the planned and under-construction MW over the peak hour: what the facilities state, not what they will draw. <Link href="/data/methods/grid_peak_vs_capacity">Method</Link>.</>}>
       <ToolTable caption="The facilities' stated MW against each grid's peak and capacity" minWidth={900}
         head={["Grid", "Facilities", "Stating MW", "Planned MW", "Under construction MW", "Operating MW", "Peak hour MW", "Capacity MW", "Planned and building, % of peak", "Reserve margin"]}
         rows={ORDER.map((g) => {
-          const id = GRID_ID[g], pc = h.peak_capacity?.[id], l = byGrid.get(g) ?? null, rm = h.reserve?.grids?.[id];
+          const id = GRID_ID[g], pc = h?.peak_capacity?.[id], l = byGrid.get(g) ?? null, rm = h?.reserve?.grids?.[id];
           const share = l && pc ? shareOfPeak(l, pc.peak_mw) : null;
           return {
             key: g,
