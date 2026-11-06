@@ -1,6 +1,6 @@
 # Session 2276 (chain 174, deals and datacenters) report: stated facilities with no row
 
-6 November 2026, about 13:45 to 13:52 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2276-deals`, cut from `wip/2275-deals`. Model spend **USD 0** (code; the facility answers replayed). Nothing deployed; no warehouse data written.
+6 November 2026, about 13:45 to 13:48 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2276-deals`, cut from `wip/2275-deals`. Model spend **USD 0** (code; the facility answers replayed). Nothing deployed; no warehouse data written.
 
 - **The class**: stated facilities with no row, 2 of 60 on the second read.
 - **F017, fixed**: refused for no place; `facility_country` reads the market a company enters with the facility ("to enter US market"). Kept on both facility fixtures (61 and 24 rows, one more each).
