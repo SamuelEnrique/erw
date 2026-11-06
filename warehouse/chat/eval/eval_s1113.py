@@ -231,7 +231,7 @@ def first_sentence(text):
     """The answer's first sentence: up to the first full stop, question or exclamation mark followed by a space or the end
     (a decimal point is followed by a digit, so it does not end one)."""
     m = re.search(r"[.!?](\s|$)", text.strip())
-    return text.strip()[: m.end()] if m else text.strip()
+    return text.strip()[: m.start() + 1] if m else text.strip()
 
 
 def grade_s1114(which="s1114", rules=()):
@@ -267,6 +267,12 @@ def grade_set(which, rules=()):
                 ok = ok and any(x in ans for x in alts)
             g["text"] = ok
             g["ok"] = all(v for k, v in g.items() if k != "ok" and v is not None)
+        if q.get("count") in (True, "true", "True") and q["expected"]:
+            # session 3282: a count key (questions_trader.yaml's tr15 and tr16) is not met by a clock time's hour: tr15's
+            # first asking said it could not count and was graded right on the 23 of "the 23:00 hour"
+            plain = re.sub(r"\d{1,2}:\d{2}", " ", a.get("answer") or "")
+            g["number"] = all(G.matches(e, G.numbers(plain), q["tolerance"]) for e in q["expected"])
+            g["ok"] = all(v for k, v in g.items() if k not in ("ok", "hold_answer") and v is not None) or bool(g.get("hold_answer"))
         if q.get("first") in (True, "true", "True"):
             # session 3281: a key marked first: true (questions_investor.yaml's "not in the warehouse") is met only when its
             # words are in the answer's first sentence, as test_session2225_ask.py holds the stored refusals

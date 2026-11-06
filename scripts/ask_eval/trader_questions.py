@@ -235,6 +235,9 @@ def build():
                         tables=["nyiso_dam_zone_prices"]))
     qs.append(L.refusal("tr20", "MISO", "grid", f"What was the average day-ahead price at MISO's Indiana hub {DAY_WORDS}, in USD per MWh?", ["paused"],
                         "MISO's own rows: MISO is paused while its terms are reviewed (since 4 October 2026), so the answer is the pause's words and no figure", tables=[DA]))
+    # a count key: its figure is not met by a clock time's hour (eval_s1113.py grade_set, session 3282)
+    for q in qs:
+        q["count"] = q["id"] in ("tr15", "tr16")
     if [q["id"] for q in qs] != [f"tr{i:02d}" for i in range(1, 21)]:
         raise SystemExit("the twenty ids are not tr01 to tr20 in order")
     return qs
@@ -250,7 +253,7 @@ def yaml_text(qs, at):
         f"# model call from the live set (Supabase, the catalogue and series views, the anon key, reads only) on {at[:10]} by",
         "# scripts/ask_eval/trader_questions.py, which writes this file; each note names the table, the entity, the variable, the window and the",
         "# aggregation. `via` as in questions_s302.yaml. tolerance: 0.01 under 1,000, 0.5 from 1,000. A text entry with \"|\" is met by any one of",
-        "# its parts (the ways an hour may be written). A refusal key has no figure; hold: true marks a held table, whose answer carries the hold's",
+        "# its parts (the ways an hour may be written); count: true asks the figure apart from a clock time. A refusal key has no figure; hold: true marks a held table, whose answer carries the hold's",
         "# words and no figure.",
         f"today: '{TODAY}'",
         "questions:",
@@ -259,7 +262,7 @@ def yaml_text(qs, at):
         lines += [f"- id: {q['id']}", f"  grid: {q['grid']}", f"  via: {q['via']}", f"  question: {json.dumps(q['question'])}",
                   f"  expected: {json.dumps(q['expected'])}", f"  tolerance: {q['tolerance']}", f"  text: {json.dumps(q['text'])}",
                   f"  tables: {json.dumps(q['tables'])}", f"  refuse: {'true' if q['refuse'] else 'false'}", f"  hold: {'true' if q['hold'] else 'false'}",
-                  f"  note: {json.dumps(q['note'])}"]
+                  f"  count: {'true' if q['count'] else 'false'}", f"  note: {json.dumps(q['note'])}"]
     text = "\n".join(lines) + "\n"
     if chr(0x2014) in text or chr(0x2013) in text:
         raise SystemExit("a dash in the output")
@@ -281,7 +284,7 @@ def main(argv):
     with open(KEYS_JSON, "w", encoding="utf-8", newline="\n") as f:
         json.dump({"_about": "Session 3280: the keys of questions_trader.yaml as computed from the live set by scripts/ask_eval/trader_questions.py, not a run.",
                    "computed_at_utc": at, "source": f"{L.base_url().split('//')[1].split('.')[0]} catalogue and series views, anon key",
-                   "keys": {q["id"]: {k: q[k] for k in ("expected", "tolerance", "text", "tables", "refuse", "hold", "note")} for q in qs}}, f, indent=1)
+                   "keys": {q["id"]: {k: q[k] for k in ("expected", "tolerance", "text", "tables", "refuse", "hold", "count", "note")} for q in qs}}, f, indent=1)
         f.write("\n")
     print(f"wrote {os.path.relpath(OUT, ROOT)} and {os.path.relpath(KEYS_JSON, ROOT)}: {len(qs)} questions, keys computed at {at}")
     for q in qs:

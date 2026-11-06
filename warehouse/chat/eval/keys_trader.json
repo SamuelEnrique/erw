@@ -1,6 +1,6 @@
 {
  "_about": "Session 3280: the keys of questions_trader.yaml as computed from the live set by scripts/ask_eval/trader_questions.py, not a run.",
- "computed_at_utc": "2026-11-06T19:15:17Z",
+ "computed_at_utc": "2026-11-06T19:26:08Z",
  "source": "nrdylqzasarkjjsqturo catalogue and series views, anon key",
  "keys": {
   "tr01": {
@@ -14,6 +14,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_dam_hub_prices, ercot:HB_NORTH, spp_dam: the mean of the 24 hourly rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (the local days, America/Chicago); checked whole"
   },
   "tr02": {
@@ -29,6 +30,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_dam_hub_prices, ercot:HB_NORTH, spp_dam: the maximum of the 24 hourly rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (America/Chicago), the hour beginning 2026-11-04T03:00:00Z"
   },
   "tr03": {
@@ -42,6 +44,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_rtm_hub_prices, ercot:HB_HOUSTON, spp_rtm: the mean of the 96 15-minute rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (America/Chicago); checked whole"
   },
   "tr04": {
@@ -57,6 +60,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_rtm_hub_prices, ercot:HB_WEST, spp_rtm: the maximum of the 96 15-minute rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (America/Chicago), the interval beginning 2026-11-03T23:30:00Z"
   },
   "tr05": {
@@ -70,6 +74,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_dam_hub_prices, caiso:TH_SP15_GEN-APND, lmp_dam: the mean of the 24 hourly rows from 2026-11-03T08:00:00Z to 2026-11-04T08:00:00Z (the local days, America/Los_Angeles); checked whole"
   },
   "tr06": {
@@ -85,6 +90,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_dam_hub_prices, caiso:TH_SP15_GEN-APND, lmp_dam: the maximum of the 24 hourly rows from 2026-11-03T08:00:00Z to 2026-11-04T08:00:00Z (America/Los_Angeles), the hour beginning 2026-11-03T14:00:00Z"
   },
   "tr07": {
@@ -98,6 +104,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_dam_hub_prices, spp:SPPNORTH_HUB, lmp_dam: the mean of the 169 hourly rows from 2026-10-26T05:00:00Z to 2026-11-02T06:00:00Z (the local days, America/Chicago); checked whole"
   },
   "tr08": {
@@ -111,6 +118,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_rtm_hub_prices, caiso:TH_ZP26_GEN-APND, lmp_rtm_15m_mean: the mean of the 676 15-minute rows from 2026-10-26T07:00:00Z to 2026-11-02T08:00:00Z (America/Los_Angeles); checked whole"
   },
   "tr09": {
@@ -126,6 +134,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_dam_hub_prices, ercot:HB_HUBAVG, spp_dam: the maximum of the 169 hourly rows from 2026-10-26T05:00:00Z to 2026-11-02T06:00:00Z (America/Chicago), the hour beginning 2026-10-26T22:00:00Z"
   },
   "tr10": {
@@ -141,6 +150,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_rtm_hub_prices, caiso:TH_NP15_GEN-APND, lmp_rtm_15m_mean: the maximum of the 676 15-minute rows from 2026-10-26T07:00:00Z to 2026-11-02T08:00:00Z (America/Los_Angeles), the interval beginning 2026-10-27T04:15:00Z"
   },
   "tr11": {
@@ -154,6 +164,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_dam_hub_prices, spp_dam: the mean of ercot:HB_WEST's 169 hourly rows minus the mean of ercot:HB_NORTH's 169, the local days 2026-10-26 to 2026-11-02 (America/Chicago), end not included"
   },
   "tr12": {
@@ -167,6 +178,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_dam_hub_prices, lmp_dam: the mean of caiso:TH_SP15_GEN-APND's 24 hourly rows minus the mean of caiso:TH_NP15_GEN-APND's 24, the local days 2026-11-03 to 2026-11-04 (America/Los_Angeles), end not included"
   },
   "tr13": {
@@ -180,6 +192,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "price_board_spreads, ercot:HB_HUBAVG, spark_spread_7: the 2026-11-03 row (the day-ahead daily mean minus 7.0 times Henry Hub, the board's own)"
   },
   "tr14": {
@@ -193,6 +206,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "price_board_spreads, spp:SPPNORTH_HUB, spark_spread_7: the 2026-11-02 row (the day-ahead daily mean minus 7.0 times Henry Hub, the board's own)"
   },
   "tr15": {
@@ -206,6 +220,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": true,
    "note": "iso_rtm_hub_prices, ercot:HB_WEST, spp_rtm: the count of the 676 15-minute rows from 2026-10-26T05:00:00Z to 2026-11-02T06:00:00Z whose value is above 100 (strictly)"
   },
   "tr16": {
@@ -219,6 +234,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": true,
    "note": "iso_trader_daily, ercot:HB_WEST, hours_rt_over_da_50: the sum of the 7 daily rows labelled 2026-10-26 to 2026-11-01 (each the operating day's count)"
   },
   "tr17": {
@@ -232,6 +248,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "node_basis_summary, ercot:HB_HUBAVG, dam_solar_basis_p50: the 2026-10 row (in_live_set review)"
   },
   "tr18": {
@@ -245,6 +262,7 @@
    ],
    "refuse": false,
    "hold": false,
+   "count": false,
    "note": "iso_trader_daily, ercot:HB_NORTH, da_onpeak_mean_usd: the 2026-11-03 row (hours beginning 06:00 to 21:00 local on a weekday, docs/methods/trader_view.md)"
   },
   "tr19": {
@@ -259,6 +277,7 @@
    ],
    "refuse": true,
    "hold": true,
+   "count": false,
    "note": "nyiso_dam_zone_prices is NYISO's own and held for a license (site/data/license_status.json): NYISO named, the hold's words, no figure"
   },
   "tr20": {
@@ -272,6 +291,7 @@
    ],
    "refuse": true,
    "hold": false,
+   "count": false,
    "note": "MISO's own rows: MISO is paused while its terms are reviewed (since 4 October 2026), so the answer is the pause's words and no figure"
   }
  }

@@ -6,7 +6,7 @@
 # model call from the live set (Supabase, the catalogue and series views, the anon key, reads only) on 2026-11-06 by
 # scripts/ask_eval/trader_questions.py, which writes this file; each note names the table, the entity, the variable, the window and the
 # aggregation. `via` as in questions_s302.yaml. tolerance: 0.01 under 1,000, 0.5 from 1,000. A text entry with "|" is met by any one of
-# its parts (the ways an hour may be written). A refusal key has no figure; hold: true marks a held table, whose answer carries the hold's
+# its parts (the ways an hour may be written); count: true asks the figure apart from a clock time. A refusal key has no figure; hold: true marks a held table, whose answer carries the hold's
 # words and no figure.
 today: '2026-11-06'
 questions:
@@ -20,6 +20,7 @@ questions:
   tables: ["iso_dam_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_dam_hub_prices, ercot:HB_NORTH, spp_dam: the mean of the 24 hourly rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (the local days, America/Chicago); checked whole"
 - id: tr02
   grid: ERCOT
@@ -31,6 +32,7 @@ questions:
   tables: ["iso_dam_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_dam_hub_prices, ercot:HB_NORTH, spp_dam: the maximum of the 24 hourly rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (America/Chicago), the hour beginning 2026-11-04T03:00:00Z"
 - id: tr03
   grid: ERCOT
@@ -42,6 +44,7 @@ questions:
   tables: ["iso_rtm_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_rtm_hub_prices, ercot:HB_HOUSTON, spp_rtm: the mean of the 96 15-minute rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (America/Chicago); checked whole"
 - id: tr04
   grid: ERCOT
@@ -53,6 +56,7 @@ questions:
   tables: ["iso_rtm_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_rtm_hub_prices, ercot:HB_WEST, spp_rtm: the maximum of the 96 15-minute rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (America/Chicago), the interval beginning 2026-11-03T23:30:00Z"
 - id: tr05
   grid: CAISO
@@ -64,6 +68,7 @@ questions:
   tables: ["iso_dam_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_dam_hub_prices, caiso:TH_SP15_GEN-APND, lmp_dam: the mean of the 24 hourly rows from 2026-11-03T08:00:00Z to 2026-11-04T08:00:00Z (the local days, America/Los_Angeles); checked whole"
 - id: tr06
   grid: CAISO
@@ -75,6 +80,7 @@ questions:
   tables: ["iso_dam_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_dam_hub_prices, caiso:TH_SP15_GEN-APND, lmp_dam: the maximum of the 24 hourly rows from 2026-11-03T08:00:00Z to 2026-11-04T08:00:00Z (America/Los_Angeles), the hour beginning 2026-11-03T14:00:00Z"
 - id: tr07
   grid: SPP
@@ -86,6 +92,7 @@ questions:
   tables: ["iso_dam_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_dam_hub_prices, spp:SPPNORTH_HUB, lmp_dam: the mean of the 169 hourly rows from 2026-10-26T05:00:00Z to 2026-11-02T06:00:00Z (the local days, America/Chicago); checked whole"
 - id: tr08
   grid: CAISO
@@ -97,6 +104,7 @@ questions:
   tables: ["iso_rtm_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_rtm_hub_prices, caiso:TH_ZP26_GEN-APND, lmp_rtm_15m_mean: the mean of the 676 15-minute rows from 2026-10-26T07:00:00Z to 2026-11-02T08:00:00Z (America/Los_Angeles); checked whole"
 - id: tr09
   grid: ERCOT
@@ -108,6 +116,7 @@ questions:
   tables: ["iso_dam_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_dam_hub_prices, ercot:HB_HUBAVG, spp_dam: the maximum of the 169 hourly rows from 2026-10-26T05:00:00Z to 2026-11-02T06:00:00Z (America/Chicago), the hour beginning 2026-10-26T22:00:00Z"
 - id: tr10
   grid: CAISO
@@ -119,6 +128,7 @@ questions:
   tables: ["iso_rtm_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_rtm_hub_prices, caiso:TH_NP15_GEN-APND, lmp_rtm_15m_mean: the maximum of the 676 15-minute rows from 2026-10-26T07:00:00Z to 2026-11-02T08:00:00Z (America/Los_Angeles), the interval beginning 2026-10-27T04:15:00Z"
 - id: tr11
   grid: ERCOT
@@ -130,6 +140,7 @@ questions:
   tables: ["iso_dam_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_dam_hub_prices, spp_dam: the mean of ercot:HB_WEST's 169 hourly rows minus the mean of ercot:HB_NORTH's 169, the local days 2026-10-26 to 2026-11-02 (America/Chicago), end not included"
 - id: tr12
   grid: CAISO
@@ -141,6 +152,7 @@ questions:
   tables: ["iso_dam_hub_prices"]
   refuse: false
   hold: false
+  count: false
   note: "iso_dam_hub_prices, lmp_dam: the mean of caiso:TH_SP15_GEN-APND's 24 hourly rows minus the mean of caiso:TH_NP15_GEN-APND's 24, the local days 2026-11-03 to 2026-11-04 (America/Los_Angeles), end not included"
 - id: tr13
   grid: ERCOT
@@ -152,6 +164,7 @@ questions:
   tables: ["price_board_spreads"]
   refuse: false
   hold: false
+  count: false
   note: "price_board_spreads, ercot:HB_HUBAVG, spark_spread_7: the 2026-11-03 row (the day-ahead daily mean minus 7.0 times Henry Hub, the board's own)"
 - id: tr14
   grid: SPP
@@ -163,6 +176,7 @@ questions:
   tables: ["price_board_spreads"]
   refuse: false
   hold: false
+  count: false
   note: "price_board_spreads, spp:SPPNORTH_HUB, spark_spread_7: the 2026-11-02 row (the day-ahead daily mean minus 7.0 times Henry Hub, the board's own)"
 - id: tr15
   grid: ERCOT
@@ -174,6 +188,7 @@ questions:
   tables: ["iso_rtm_hub_prices"]
   refuse: false
   hold: false
+  count: true
   note: "iso_rtm_hub_prices, ercot:HB_WEST, spp_rtm: the count of the 676 15-minute rows from 2026-10-26T05:00:00Z to 2026-11-02T06:00:00Z whose value is above 100 (strictly)"
 - id: tr16
   grid: ERCOT
@@ -185,6 +200,7 @@ questions:
   tables: ["iso_trader_daily"]
   refuse: false
   hold: false
+  count: true
   note: "iso_trader_daily, ercot:HB_WEST, hours_rt_over_da_50: the sum of the 7 daily rows labelled 2026-10-26 to 2026-11-01 (each the operating day's count)"
 - id: tr17
   grid: ERCOT
@@ -196,6 +212,7 @@ questions:
   tables: ["node_basis_summary"]
   refuse: false
   hold: false
+  count: false
   note: "node_basis_summary, ercot:HB_HUBAVG, dam_solar_basis_p50: the 2026-10 row (in_live_set review)"
 - id: tr18
   grid: ERCOT
@@ -207,6 +224,7 @@ questions:
   tables: ["iso_trader_daily"]
   refuse: false
   hold: false
+  count: false
   note: "iso_trader_daily, ercot:HB_NORTH, da_onpeak_mean_usd: the 2026-11-03 row (hours beginning 06:00 to 21:00 local on a weekday, docs/methods/trader_view.md)"
 - id: tr19
   grid: NYISO
@@ -218,6 +236,7 @@ questions:
   tables: ["nyiso_dam_zone_prices"]
   refuse: true
   hold: true
+  count: false
   note: "nyiso_dam_zone_prices is NYISO's own and held for a license (site/data/license_status.json): NYISO named, the hold's words, no figure"
 - id: tr20
   grid: MISO
@@ -229,4 +248,5 @@ questions:
   tables: ["iso_dam_hub_prices"]
   refuse: true
   hold: false
+  count: false
   note: "MISO's own rows: MISO is paused while its terms are reviewed (since 4 October 2026), so the answer is the pause's words and no figure"
