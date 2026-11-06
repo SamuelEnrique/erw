@@ -142,9 +142,9 @@ quietly summarize `tvar'
 
 local t0 = cond("`tvar'" == "status_date", date("2025-01-01", "YMD"), clock("2025-01-01 00:00:00", "YMDhms"))
 
-local t1 = cond("`tvar'" == "status_date", date("2026-08-01", "YMD"), clock("2026-08-01 00:00:00", "YMDhms"))
+local t1 = cond("`tvar'" == "status_date", date("2026-09-01", "YMD"), clock("2026-09-01 00:00:00", "YMDhms"))
 
-local ok = (_N == 249) & (r(min) == `t0') & (r(max) == `t1')
+local ok = (_N == 260) & (r(min) == `t0') & (r(max) == `t1')
 
 display as text cond(`ok', "ok   ", "FAIL ") + "06 fetch eia860m_retired_generators"
 

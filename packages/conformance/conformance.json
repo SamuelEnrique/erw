@@ -1,6 +1,6 @@
 {
   "made_by": "session 1003's fixtures' calls and session 1006 (chain 070), the Python package on the live set; version 2, session 1055 (chain 072): call 7 on a table the live set keeps 430 days",
-  "made_at": "2026-10-23T07:56:19Z",
+  "made_at": "2026-11-06T10:42:42Z",
   "via": "Via the Energy Research Warehouse (ERW), table",
   "calls": [
     {
@@ -96,9 +96,9 @@
         ]
       },
       "expect": {
-        "rows": 249,
+        "rows": 260,
         "first": "2025-01-01T00:00:00Z",
-        "last": "2026-08-01T00:00:00Z"
+        "last": "2026-09-01T00:00:00Z"
       }
     },
     {
