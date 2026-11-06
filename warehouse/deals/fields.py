@@ -98,7 +98,8 @@ BOUNDS = {"mw": 20000.0, "mwh": 200000.0, "usd": 5e11, "usd_per_mwh": 1000.0, "t
 # energy_deals' new columns hold no outlet text: words copied from a story (the stage's span, the confidence's basis, the
 # figures' spans) go to the internal energy_deals_evidence beside its evidence sentence (EVIDENCE_NEW_COLS), as the
 # evidence sentence always has (the site never shows outlet text: site/app/deals/page.tsx).
-NEW_COLS = ["kind", "kind_basis", "stage", "grid", "usd", "usd_per_mwh", "ai_power_basis", "flags", "fields_version"]
+NEW_COLS = ["kind", "kind_basis", "stage", "grid", "usd", "usd_per_mwh", "ai_power_basis", "flags", "fields_version",
+            "status_history"]   # status_history: session 2233 (warehouse/deals/dedupe.py)
 EVIDENCE_NEW_COLS = ["stage_text", "confidence_basis", "spans"]
 VERSION = "2232"
 
@@ -245,7 +246,7 @@ def finish(d, text, vals, evidence):
                        ("term_years", "term_text")) if vals.get(f if f != "price" else "price_value") is not None)
     row = {"kind": kind, "kind_basis": kind_basis, "stage": stage, "grid": grid,
            "usd": vals.get("dollars"), "usd_per_mwh": None, "ai_power": ai, "ai_power_basis": ai_basis,
-           "fields_version": VERSION,
+           "fields_version": VERSION, "status_history": "",
            # to energy_deals_evidence (internal): the story's own words
            "stage_text": stage_text, "confidence_basis": basis, "spans": spans}
     flags = flags_of({"mw": vals.get("mw"), "mwh": vals.get("mwh"), "usd": vals.get("dollars"),

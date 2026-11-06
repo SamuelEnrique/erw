@@ -194,3 +194,22 @@ The fixture: `tests/fixtures/deals/stories_2232.json`, 40 stored stories in 36 c
 | A6 AI-power tag | fixed: the rule in code (`fields.ai_of`), its basis on the row |
 | A8 a share kept as a price | fixed in code (`fields.energy_price`); the sum of another figure fixed by the prompt on the fixture |
 | A9 confidence | the prompt gives the bands and asks for the words (`confidence_basis`, in the evidence table); graded again in session 2249 |
+
+## Session 2233: one record a deal
+
+`warehouse/deals/dedupe.py` (new), called by the extractor for every deal the model does not mark `same_as`: session 531's rule, and four more, each from a case of the fixture (`tests/test_session2233_deals.py`, twelve stored stories about four deals, each its own cluster on its own run, the fake model never marking `same_as`):
+
+| Rule | The case | Before | After |
+|---|---|---|---|
+| One party named on one side, a size both state agreeing, the assets sharing a word or the MW agreeing | the DOE's own release names no borrower ("Energy Department Announces $4.2 Billion Investment"); WNN names only "American Electric Power" | two records each | one |
+| A name and its initials | "AEP" and "American Electric Power" | two | one |
+| A later stage within a year | "Williams Closes $5.5B Momentum Deal", 32 days after the signing | two (the 30-day window) | one, stage closed |
+| The size within tolerance (USD a quarter, MW a tenth) | Devon and Coterra at USD 21.5 and 21.4 billion; the combined company's USD 58 billion is not the purchase | one (the model left the 58 out) | one; a stated 58 would keep two apart |
+
+Twelve stories make **four records**, each with its three sources; the earliest first-reported date; a later stage replaces the record's `stage` and `status`, and every change is in the new column `status_history` ("2026-10-19 rumored (first record); 2026-10-19 announced (news:...); 2026-10-19 signed (news:...)"); a figure the record lacks is filled, one it holds is never replaced.
+
+**The stored table** (529 rows, read only): the new rules find the same two pairs as the audit, and no other. Both are now folds in the register (`warehouse/deals/duplicates.csv`, 5 folded, 3 doubtful: 524 deals once the folds are one), and `site/data/deal_duplicates.json` is rebuilt from it. Pair 3 (Sempra and Cheniere) is two deals (session 2232's correction).
+
+| Row | State after session 2233 |
+|---|---|
+| A10 the open duplicate pairs | done: pairs 1 and 2 folded in the register; pair 3 not a duplicate; the extraction folds such pairs itself from now on |

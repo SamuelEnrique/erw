@@ -76,6 +76,7 @@ from ingest import NAME as NEWS, NEWS_COLS  # noqa: E402
 sys.path.insert(0, HERE)
 import deal_parties  # noqa: E402  session 531: one deal across days, two parties
 import fields  # noqa: E402  session 2232: the tracker's fields, one vocabulary each
+import dedupe  # noqa: E402  session 2233: one record a deal
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
@@ -469,6 +470,12 @@ def main(argv=None):
                     elif same and same in keys:
                         target = keys[same]
                     stories_here = news_by_id.loc[story_ids]
+                    cand = {"deal_type": d.get("deal_type"), "buyer": d.get("buyer"), "seller": d.get("seller"),
+                            "other_parties": d.get("other_parties") or [], "asset": d.get("asset"),
+                            "technology": d.get("technology"), "dollars": clean(vals["dollars"]), "mw": clean(vals["mw"]),
+                            "mwh": clean(vals["mwh"]), "term_years": clean(vals["term_years"]), "state": st_state,
+                            "country": st_country, "status": st_status,
+                            "stage": fields.stage_of(d, text)[0], "kind": fields.kind_of({**d, "evidence": ev}, text)[0]}
                     if not target:   # session 531: the checks the model's same_as cannot be trusted with
                         why_not = deal_parties.fault(d, text)
                         if why_not:
@@ -484,15 +491,13 @@ def main(argv=None):
                             continue
                         ad0 = d.get("announced_date") or ""
                         first0 = stories_here.sort_values("event_date").iloc[0]
-                        target = deal_parties.find_same(
-                            {"deal_type": d.get("deal_type"), "buyer": d.get("buyer"), "seller": d.get("seller"),
-                             "asset": d.get("asset"), "dollars": vals["dollars"],
-                             "event_date": ad0 if re.match(r"^\d{4}-\d{2}-\d{2}$", ad0) else first0["event_date"]},
+                        target = dedupe.find_record(   # session 2233: session 531's rule and dedupe's four
+                            {**cand, "buyer": d.get("buyer"), "seller": d.get("seller"), "event_date": ad0 if re.match(r"^\d{4}-\d{2}-\d{2}$", ad0) else first0["event_date"]},
                             by_id.values())
                         if target:
                             n_code += 1
-                            dropped.append(f"{cid}: deal {n} is {target} (same type, parties and asset, within "
-                                           f"{deal_parties.WINDOW_DAYS} days): merged, not a new row")
+                            dropped.append(f"{cid}: deal {n} is {target} (the same parties, kind and size; "
+                                           f"warehouse/deals/dedupe.py): merged, not a new row")
                     if target:   # add this cluster's stories to the existing deal
                         row = by_id[target]
                         ids = [x for x in row["story_ids"].split(";") if x]
@@ -502,9 +507,10 @@ def main(argv=None):
                                 ids.append(sid)
                                 urls.append(news_by_id.loc[sid, "source_url"])
                         row.update(story_ids=";".join(ids), story_urls=";".join(urls), n_stories=str(len(ids)))
-                        for f in ("mw", "mwh", "dollars", "price_value", "term_years"):   # fill a gap only
-                            if row.get(f, "") == "" and vals[f] is not None:
-                                row[f] = clean(vals[f])
+                        first_new = stories_here.sort_values("event_date").iloc[0]
+                        for x in dedupe.merge(row, {**cand, "buyer": clean(d.get("buyer")), "seller": clean(d.get("seller"))},
+                                              first_new["event_date"], first_new.name):   # session 2233: date, stage, history, gaps
+                            dropped.append(f"{cid}: {target}: {x}")
                         n_merged += 1
                         did = target
                     else:
@@ -546,6 +552,9 @@ def main(argv=None):
                             "model_id": model, "extracted_at": now,
                             **{c: clean(extra.get(c)) for c in fields.NEW_COLS}}
                         ev_extra = {c: clean(extra.get(c)) for c in fields.EVIDENCE_NEW_COLS}
+                        if by_id[did]["stage"] or by_id[did]["status"]:
+                            by_id[did]["status_history"] = dedupe.history_entry(
+                                by_id[did]["event_date"], by_id[did]["stage"] or by_id[did]["status"], first.name)
                         n_new += 1
                     keys[f"{cid}#{n}"] = did
                     if target:
