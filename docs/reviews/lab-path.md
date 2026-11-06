@@ -9,7 +9,7 @@ Energy Research Warehouse (ERW), session 1499, chain 158 (`queue/done/158-day-6-
 - Address: `/cost-of-power` (ERCOT's LZ_NORTH, a flat load bought in real time, 100 MW).
 - What the reader sees first: the last twelve months (November 2025 to October 2026) cost **USD 34.07 per MWh**, USD 29.84 million for 100 MW, **USD 0.0691 a GPU-hour**. Beside them, the hub average's day-ahead basis band of November 2025: p10 -6.93, median -0.42, p90 8.66.
 - Shots: [lab-01-1280.png](../brand/review-1497/lab-01-1280.png), [lab-01-390.png](../brand/review-1497/lab-01-390.png).
-- Broken: at 390 px the page scrolls to 481 px, as the generator and battery pages do.
+- Broken: none (at 390 px the page fits: scroll width 390).
 - The replication a reader runs: `replication/datacenter/` (13 of 14 of the page's figures; the one difference is the carbon over the hourly window, session 1491).
 
 ## Step 2: bought day-ahead
@@ -44,7 +44,7 @@ Energy Research Warehouse (ERW), session 1499, chain 158 (`queue/done/158-day-6-
 
 ## What the walk found
 
-1. **Not fixed, for a layout session**: the datacenter page is 481 px wide at 390 px, as the generator and battery pages are. One cause is likely shared by the three tools' frame; this chain changes no layout.
+1. At 390 px the page fits (scroll width 390, measured with a phone's device metrics; a first reading of 481 px with a headless window alone was the script's, and corrected).
 2. **For the owner's reading**: the Ask page's first heading is the data panel's ("The Lower 48 states"), not the page's own name. A reader arriving from the menu sees a grid's name first.
 3. Nothing else: every step loaded with no error, and every figure read is the page's keyed figure.
 

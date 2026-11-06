@@ -261,7 +261,7 @@ Session 1497 walked twelve of the sixteen steps again on 6 November 2026, about 
 
 | Step | What the page showed first (1280) | Against 22 October (session 585) | Broken |
 |---|---|---|---|
-| 01 | solar at the hub average: 23.27 against 32.17, 72 percent; 59.85 USD per kW | the same | at 390 px the page's scroll width is 481: wider than a phone (row 1 below) |
+| 01 | solar at the hub average: 23.27 against 32.17, 72 percent; 59.85 USD per kW | the same | none (at 390 px the page fits: scroll width 390) |
 | 02 | wind: 27.60 against 32.17, 86 percent; 83.57 | the same | none |
 | 03 | the West hub: 23.86 against 30.63, 78 percent; 72.23; the premium -6.76 | the same | none |
 | 05 | CAISO wind at SP15: 25.89 against 28.54, 91 percent; 64.04 | the same | none |
@@ -276,6 +276,6 @@ Session 1497 walked twelve of the sixteen steps again on 6 November 2026, about 
 
 What the walk found:
 
-1. **Not fixed, for a layout session**: at 390 px the generator page (step 01) scrolls to 481 px. A phone sees a sideways scroll on the page's first screen. This chain changes no layout; listed in chain 158's note for the brand's sessions.
+1. **At 390 px the pages fit** (scroll width 390, measured with the device metrics of a phone, as `check-explorers.mjs` does). A first measurement with a headless window alone read 481 px; a headless window does not go under about 480 px, so that reading was the script's, not the page's, and was corrected the same session.
 2. **Not fixed, for the data machine**: every figure of the generator and battery pages is what it was on 22 October, and the battery page's last twelve months are still October 2025 to September 2026 on 6 November. October 2026 is over, but the page takes a month only when the table holds it whole, so `battery_stack_monthly` (and the generator's capture table) do not yet hold October whole. The pages are right to wait; the tables are the data machine's.
 3. Nothing else: no figure missing, no hover or link broken in the steps read, no error in a page.

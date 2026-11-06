@@ -19,3 +19,8 @@ Energy Research Warehouse (ERW), session 1495, chain 158, samueloldlaptop, 6 Nov
 ## For Samuel's ruling
 
 - None.
+
+## Done later the same morning (during session 1499, on the local build of main at `04623251`)
+
+- `site/scripts/check-explorers.mjs http://localhost:3897`: **exit 0, 14 of 14 explorer views read, 0 findings**. Every figure has its source in its hover, every chart answers a hover with a card, and every view fits 390 px.
+- Screenshots of the three explorers' default views at 1280 and of the peak premium's at 390 (device metrics of a phone): `docs/brand/review-1497/explore-<pp|dg|ic>-1280.png`, `explore-pp-390.png`.

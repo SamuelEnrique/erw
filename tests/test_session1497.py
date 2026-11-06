@@ -11,7 +11,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 class ThePaths(unittest.TestCase):
     def test_every_step_has_its_screenshot(self):
         shots = set(os.listdir(os.path.join(ROOT, "docs", "brand", "review-1497")))
-        for name, prefix in (("trader-1497.json", "trader"), ("onenergy-1497.json", "onenergy"), ("lab-1497.json", "lab")):
+        for name, prefix in (("trader-1497.json", "trader"), ("onenergy-1497.json", "onenergy"), ("lab-1497.json", "lab"), ("explore-1497.json", "explore")):
             with open(os.path.join(ROOT, "docs", "reviews", "paths", name), encoding="utf-8") as f:
                 steps = json.load(f)["steps"]
             for s in steps:
@@ -34,6 +34,8 @@ class ThePaths(unittest.TestCase):
         self.assertIn('import { withBrowser } from "./browser.mjs";', js)
         self.assertIn("It reads only.", js)
         self.assertNotIn("method: \"POST\"", js)
+        # the phone's width by the device metrics (a headless window alone stays near 480 px wide)
+        self.assertIn('Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true }', js)
 
 
 if __name__ == "__main__":

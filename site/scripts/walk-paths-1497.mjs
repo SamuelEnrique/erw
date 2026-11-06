@@ -61,12 +61,15 @@ if (code === null) {
 if (spec.steps.length) {
   await withBrowser(async (h) => {
     await h.unlock(base);
+    // a phone by the device metrics, as check-explorers.mjs does: a headless window alone does not go under about
+    // 480 px, so its scroll width is no phone's (the first walk of session 1497 read 481 so, and was wrong)
+    await h.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
     await h.go(`${base}${spec.steps[0].url}`);
     await h.sleep(1500);
     const shot = await h.send("Page.captureScreenshot", { format: "png" });
     fs.writeFileSync(path.join(out, `${spec.steps[0].id}-390.png`), Buffer.from(shot.data, "base64"));
-    const w = await h.evaluate("document.documentElement.scrollWidth");
-    console.log(`ok   ${spec.steps[0].id} at 390: scroll width ${w}`);
+    const w = await h.evaluate("[document.documentElement.scrollWidth, document.documentElement.clientWidth]");
+    console.log(`ok   ${spec.steps[0].id} at 390: scroll width ${w[0]}, client width ${w[1]}`);
     return 0;
   }, { width: 390, height: 844 });
 }

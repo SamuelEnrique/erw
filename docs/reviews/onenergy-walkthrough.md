@@ -11,7 +11,7 @@ Energy Research Warehouse (ERW), session 1498, chain 158 (`queue/done/158-day-6-
 - Address: `/cost-of-power/battery` (ERCOT, 4 hours, perfect foresight, 100 MW; scenario A at the page's defaults).
 - What the reader sees first: the last twelve months (October 2025 to September 2026) earned **USD 81.40 per kW**, 33 percent of it from ancillary services, covering the debt **2.63 times**. USD 8.14 million for 100 MW; a bad month of USD 475,477 among 36.
 - Shots: [onenergy-01-1280.png](../brand/review-1497/onenergy-01-1280.png), [onenergy-01-390.png](../brand/review-1497/onenergy-01-390.png).
-- Broken: at 390 px the page scrolls to 481 px, wider than a phone.
+- Broken: none (at 390 px the page fits: scroll width 390).
 
 ## Step 2: the same battery on the day-ahead schedule
 
@@ -67,7 +67,7 @@ Energy Research Warehouse (ERW), session 1498, chain 158 (`queue/done/158-day-6-
 
 ## What the walk found
 
-1. **Not fixed, for a layout session**: the battery page, like the generator page, is 481 px wide at 390 px. This chain changes no layout.
+1. At 390 px the page fits (scroll width 390, measured with a phone's device metrics; a first reading of 481 px with a headless window alone was the script's, and corrected).
 2. **Not fixed, for the data machine**: the last twelve months are still October 2025 to September 2026 on 6 November (the trader path's row 2 of the same day).
 3. Nothing else: every step loaded with no error, every scenario figure is the page's keyed cell, and both downloads answer.
 
