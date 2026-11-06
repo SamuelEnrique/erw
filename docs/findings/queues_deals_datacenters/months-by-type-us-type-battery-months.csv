@@ -1,0 +1,10 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate months_by_type, region us_type_battery_months (battery projects in the United States)
+# Computed 2026-11-06T12:19:12Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (months_by_type); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the median months from request to online of the projects of the type that came online in the year (months), the observations it rests on, and whether the year is full
+# Tables: lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+us_type_battery_months,2015,22.258726899383984,1.0,1
+us_type_battery_months,2021,30.340862422997944,1.0,1
+us_type_battery_months,2022,43.26899383983573,1.0,1
+us_type_battery_months,2023,64.13141683778234,1.0,1
+us_type_battery_months,2024,49.64271047227926,1.0,1

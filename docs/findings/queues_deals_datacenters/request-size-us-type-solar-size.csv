@@ -1,0 +1,24 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate request_size, region us_type_solar_size (solar requests in the United States)
+# Computed 2026-11-06T12:19:18Z by warehouse/analysis/findings/deep/queues_deals_datacenters.py (request_size); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the median MW of the requests of the type that entered a queue in the year (MW), the observations it rests on, and whether the year is full
+# Tables: lbnl_interconnection_queue
+region,year,value,n_observations,full_year
+us_type_solar_size,2006,250.0,1.0,1
+us_type_solar_size,2007,250.0,1.0,1
+us_type_solar_size,2008,100.0,1.0,1
+us_type_solar_size,2009,20.0,1.0,1
+us_type_solar_size,2010,20.0,1.0,1
+us_type_solar_size,2011,15.0,1.0,1
+us_type_solar_size,2012,20.0,1.0,1
+us_type_solar_size,2013,20.0,1.0,1
+us_type_solar_size,2014,20.0,1.0,1
+us_type_solar_size,2015,20.0,1.0,1
+us_type_solar_size,2016,57.0,1.0,1
+us_type_solar_size,2017,74.0,1.0,1
+us_type_solar_size,2018,75.0,1.0,1
+us_type_solar_size,2019,80.0,1.0,1
+us_type_solar_size,2020,74.5,1.0,1
+us_type_solar_size,2021,74.9,1.0,1
+us_type_solar_size,2022,105.0,1.0,1
+us_type_solar_size,2023,80.0,1.0,1
+us_type_solar_size,2024,120.0,1.0,1

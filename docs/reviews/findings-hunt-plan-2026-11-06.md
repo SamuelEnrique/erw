@@ -620,7 +620,7 @@ The news index and scores, the cost ledger, the known faults: the platform's rec
 | demand | hunted: EIA-930 daily by authority and hourly by sub-region | 3004 | 12 |
 | generation_pipeline | hunted: the mix, nuclear, heat rates, the build-out (the planned pipeline cannot be: two months held) | 3005 to 3007 | 35 |
 | gas | hunted: the US balance, states, flaring, Mexico, storage | 3008 | 11 |
-| queues_deals_datacenters | hunted in part: the queues (Queued Up); the Census datacenter series; deals and projects hold under two years | 3009, 3010 | 20 |
+| queues_deals_datacenters | hunted: the queues (Queued Up, by region and type); the Census datacenter series; deals and facilities not drafted (begun 2025, partial) | 3009 to 3011 | 27 |
 | tariffs_policy | not hunted | | 0 |
 | oil_products_world | not hunted | | 0 |
 | coal_uranium_metals | not hunted | | 0 |

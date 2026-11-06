@@ -90,6 +90,55 @@ def months_by_region(in_dir=None):
     return {"rows": rows, "tables": tables}
 
 
+def _typed(d, typ):
+    return d[d["type_clean"] == typ]
+
+
+def months_by_type(in_dir=None):
+    """By type (solar, batteries, wind, gas), US: the median months from request to online of the projects that came
+    online in the year, years with at least ten such projects (session 3011)."""
+    d = lbnl(in_dir).dropna(subset=["q_date", "on_date"])
+    d = d[d["on_date"] >= d["q_date"]]
+    d = d.assign(months=(d["on_date"] - d["q_date"]).dt.days / 30.4375, year=d["on_date"].dt.year)
+    rows, tables = [], {}
+    for typ, key in TYPES.items():
+        region = f"us_type_{key}_months"
+        for y, s in _typed(d, typ).groupby("year"):
+            if FIRST <= y <= LAST and len(s) >= MIN_PROJECTS:
+                rows.append(hm._row(region, f"{key} projects in the United States", y, float(s["months"].median()), 1))
+        tables[region] = ["lbnl_interconnection_queue"]
+    return {"rows": rows, "tables": tables}
+
+
+def withdrawn_by_type(in_dir=None):
+    """By type, US: the MW withdrawn in the year as a percent of the MW withdrawn or brought online in it (session 3011)."""
+    d = lbnl(in_dir).dropna(subset=["mw"])
+    rows, tables = [], {}
+    for typ, key in TYPES.items():
+        g = _typed(d, typ)
+        ob = g.dropna(subset=["on_date"]).groupby(g["on_date"].dt.year)["mw"].sum()
+        wb = g.dropna(subset=["wd_date"]).groupby(g["wd_date"].dt.year)["mw"].sum()
+        region = f"us_type_{key}_wd"
+        for y in range(FIRST, LAST + 1):
+            if ob.get(y, 0.0) > 0 and wb.get(y, 0.0) > 0:
+                rows.append(hm._row(region, f"{key} projects in the United States", y, float(100 * wb[y] / (ob[y] + wb[y])), 1))
+        tables[region] = ["lbnl_interconnection_queue"]
+    return {"rows": rows, "tables": tables}
+
+
+def request_size(in_dir=None):
+    """By type, US: the median MW of the requests that entered a queue in the year, years with at least ten (session 3011)."""
+    d = lbnl(in_dir).dropna(subset=["mw", "q_year"])
+    rows, tables = [], {}
+    for typ, key in TYPES.items():
+        region = f"us_type_{key}_size"
+        for y, s in _typed(d, typ).groupby("q_year"):
+            if FIRST <= y <= LAST and len(s) >= MIN_PROJECTS:
+                rows.append(hm._row(region, f"{key} requests in the United States", y, float(s["mw"].median()), 1))
+        tables[region] = ["lbnl_interconnection_queue"]
+    return {"rows": rows, "tables": tables}
+
+
 def requested_by_type(in_dir=None):
     """The US MW requested in the year (Berkeley Lab's queue year), by type: solar, batteries, wind, gas."""
     d = lbnl(in_dir).dropna(subset=["mw", "q_year"])
@@ -184,7 +233,29 @@ def _lbnl_name(region):
     return "US" if key == "us_lbnl" else next(k for k, v in REGION.items() if v[0] == key)
 
 
+def _type_of(region):
+    key = region.split("_")[2]
+    return next(k for k, v in TYPES.items() if v == key)
+
+
 def reproduce_py(name, region):
+    if name == "request_size":
+        typ = _type_of(region)
+        P = next(p for p in CANDIDATES if p["name"] == name)
+        return (PY_HEAD.format(name=name, region=region, table="lbnl_interconnection_queue", label=P["label"][0].upper() + P["label"][1:]) + PY_LBNL
+                + f"d = d.dropna(subset=['mw', 'q_year'])\nd = d[d['type_clean'] == {typ!r}]\n"
+                + f"for y, s in d.groupby('q_year'):\n    if {FIRST} <= y <= {LAST} and len(s) >= {MIN_PROJECTS}:\n        print(int(y), round(float(s['mw'].median()), 6), 1)\n")
+    if name in ("months_by_type", "withdrawn_by_type"):
+        typ = _type_of(region)
+        alias = {"months_by_type": "months_by_region", "withdrawn_by_type": "withdrawn_share"}[name]
+        text = reproduce_py(alias, "us_lbnl_" + ("months" if name == "months_by_type" else "wd"))
+        P = next(p for p in CANDIDATES if p["name"] == name)
+        Q = next(p for p in CANDIDATES if p["name"] == alias)
+        text = text.replace(f"candidate {alias} for us_lbnl_", f"candidate {name} for {region} (us_lbnl_")
+        text = text.replace(Q["label"][0].upper() + Q["label"][1:], P["label"][0].upper() + P["label"][1:])
+        marker = "d['mw'], d['q_year'] = pd.to_numeric(d['mw_1'], errors='coerce'), pd.to_numeric(d['q_year'], errors='coerce')\n"
+        assert marker in text
+        return text.replace(marker, marker + f"d = d[d['type_clean'] == {typ!r}]\n", 1)
     P = next(p for p in CANDIDATES if p["name"] == name)
     label = P["label"][0].upper() + P["label"][1:]
     if name in ("entered_mw", "months_to_service"):
@@ -224,6 +295,22 @@ def reproduce_py(name, region):
 
 
 def reproduce_do(name, region):
+    if name == "request_size":
+        typ = _type_of(region)
+        return common.do_file([f"* ERW findings hunt (chain 164): reproduce candidate {name} for {region} from the ERW's public table.",
+                               "* Input: the table's CSV as the public download holds it (Redivis: the variable names on its first line). From the ERW's own file, delete its lines that begin with # first.",
+                               "clear all", 'import delimited "lbnl_interconnection_queue.csv", varnames(1) stringcols(_all) clear', "destring mw_1 q_year, replace force",
+                               f'keep if type_clean == "{typ}" & !missing(mw_1) & !missing(q_year)', f"keep if inrange(q_year, {FIRST}, {LAST})",
+                               "collapse (median) measure = mw_1 (count) k = mw_1, by(q_year)", f"keep if k >= {MIN_PROJECTS}", "rename q_year year", "generate byte n = 1",
+                               "sort year", "list year measure n, noobs"])
+    if name in ("months_by_type", "withdrawn_by_type"):
+        typ = _type_of(region)
+        alias = {"months_by_type": "months_by_region", "withdrawn_by_type": "withdrawn_share"}[name]
+        text = reproduce_do(alias, "us_lbnl_" + ("months" if name == "months_by_type" else "wd"))
+        text = text.replace(f"candidate {alias} for us_lbnl_", f"candidate {name} for {region} (us_lbnl_")
+        marker = 'generate long wd = daily(substr(wd_date, 1, 10), "YMD")'
+        assert marker in text
+        return text.replace(marker, marker + f'\n\nkeep if type_clean == "{typ}"', 1)
     head = [f"* ERW findings hunt (chain 164): reproduce candidate {name} for {region} from the ERW's public table.",
             "* Input: the table's CSV as the public download holds it (Redivis: the variable names on its first line). From the ERW's own file, delete its lines that begin with # first.",
             "clear all"]
@@ -283,6 +370,21 @@ CANDIDATES = [
       lambda w: f"the median months from interconnection request to commercial operation in {w}",
       LIMIT_LBNL + " Only projects that came online are in the median, and a year needs at least ten of them.",
       reproduce("months_by_region"), first_words="the first year this measure counts", consequence=3),
+    C("months_by_type", FAMILY, months_by_type, "months", 1, 1, 6.0, "THE WAIT, BY TYPE",
+      "the median months from request to online of the projects of the type that came online in the year",
+      lambda w: f"the median months from interconnection request to commercial operation of {w}",
+      LIMIT_LBNL + " Only projects that came online are in the median, a year needs at least ten of them, and a hybrid counts as its first type.",
+      reproduce("months_by_type"), first_words="the first year this measure counts", consequence=3),
+    C("withdrawn_by_type", FAMILY, withdrawn_by_type, "percent of MW leaving the queue", 1, 1, 5.0, "WITHDRAWN, BY TYPE",
+      "the MW of the type withdrawn in the year as a percent of the MW of the type withdrawn or brought online in it",
+      lambda w: f"the share of the MW of {w} leaving the queue that was withdrawn rather than brought online",
+      LIMIT_LBNL + " A year's exits mix requests of many queue years; a year counts when both exits are held in it; a hybrid counts as its first type.",
+      reproduce("withdrawn_by_type"), first_words="the first year this measure counts", consequence=2),
+    C("request_size", FAMILY, request_size, "MW", 1, 1, 10.0, "THE SIZE OF A REQUEST",
+      "the median MW of the requests of the type that entered a queue in the year",
+      lambda w: f"the median size of {w}",
+      LIMIT_LBNL + " A request's MW is its first type's; a year needs at least ten requests of the type.",
+      reproduce("request_size"), first_words="the first year this measure counts", consequence=2),
     C("requested_by_type", FAMILY, requested_by_type, "MW", 0, 1, 5000.0, "WHAT WAS ASKED FOR",
       "the US MW requested in the year, by type", lambda w: f"the MW of {w}",
       LIMIT_LBNL + " A request is counted in its queue year whatever became of it; hybrids are counted by their first type.",
@@ -304,7 +406,7 @@ CANDIDATES = [
 ]
 for _P in CANDIDATES:
     _P["rank_region"] = lambda r: 1e9 if r.startswith("us_") else 0.0
-    if _P["name"] == "requested_by_type":
+    if _P["name"] in ("requested_by_type", "months_by_type", "withdrawn_by_type", "request_size"):
         _P["max_per"] = 3                         # solar, batteries and gas: three stories of what was asked for
 
 
