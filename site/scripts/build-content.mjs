@@ -195,6 +195,8 @@ if (fs.existsSync(digestCharts)) {
     digestChartRecords[m[1]] = { date: r.date ?? m[1], title: r.title ?? "", fact: r.fact ?? "", table: r.table ?? "", source: r.flag?.source ?? "", unit: r.flag?.unit ?? "",
       rule: r.flag?.rule ?? "", rendered_at: r.rendered_at ?? "", image: `${m[1]}.png`, proof: r.proof === true,
       numbers: r.numbers && typeof r.numbers === "object" ? r.numbers : {} };   // session 315: the record's own figures, each a Num on /research
+    // session 1461 (fault 41): the plotted series, when the record keeps it, so the page draws the chart with a hover on each point
+    if (r.points && Array.isArray(r.points.x) && Array.isArray(r.points.series)) digestChartRecords[m[1]].points = r.points;
     Object.assign(digestChartRecords[m[1]], pngSize(path.join(digestCharts, `${m[1]}.png`)));   // session 411: width and height in pixels
     // session 815: the phone picture, when the day has one, so the page can offer it under 640 px
     if (fs.existsSync(path.join(digestCharts, `${m[1]}-600.png`))) digestChartRecords[m[1]].image_600 = `${m[1]}-600.png`;

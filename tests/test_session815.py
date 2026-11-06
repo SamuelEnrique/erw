@@ -79,3 +79,30 @@ class ThePhonePicture(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ThePointsForThePage(unittest.TestCase):
+    """Session 1461 (chain 150, fault 41 of docs/reviews/periodicals-faults-2026-11-05.md): the record keeps the series the
+    card draws, so the page draws the chart with a hover on each point; the picture stays the email's."""
+
+    def test_the_record_keeps_the_points(self):
+        c = candidates()
+        waited = {x["key"] for x in c if (daily_chart.record_jump(x) or 0) > daily_chart.RECORD_JUMP}
+        with tempfile.TemporaryDirectory() as d:
+            daily_chart.section("2026-10-13", quiet, chart_dir=d, candidates=c, waited=waited)
+            with open(os.path.join(d, "2026-10-13.json"), encoding="utf-8") as f:
+                rec = json.load(f)
+        chosen = next(x for x in c if x["key"] == rec["key"])
+        ch = chosen["card"]["chart"]
+        p = rec["points"]
+        self.assertEqual(len(p["x"]), min(len(ch["x"]), daily_chart.POINTS_MAX))
+        self.assertEqual(p["x"][-1], str(ch["x"][-1])[:10])
+        self.assertEqual(p["series"][0]["values"][-1], float(ch["series"][0]["values"][-1]))
+        self.assertEqual(p["decimals"], ch.get("decimals", 2))
+        self.assertEqual(p["unit"], (chosen.get("flag") or {}).get("unit", "") or ch.get("unit", ""))
+
+    def test_a_chart_of_another_shape_keeps_none(self):
+        self.assertIsNone(daily_chart.chart_points({"kind": "scatter", "points": [[1, 2]]}))
+        self.assertIsNone(daily_chart.chart_points({"x": ["a", "b"], "series": [{"name": "s", "values": [1]}]}))
+        got = daily_chart.chart_points({"x": ["2026-01-01", "2026-02-01"], "series": [{"name": "s", "values": [1.5, "n/a"]}], "decimals": 1}, "MW")
+        self.assertEqual(got, {"x": ["2026-01-01", "2026-02-01"], "series": [{"name": "s", "values": [1.5, None]}], "unit": "MW", "decimals": 1})
