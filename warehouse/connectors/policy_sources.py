@@ -226,8 +226,12 @@ TITLE_WORD = re.compile(r"^(Notice|Order|Errata|Supplemental|Revised|Amended|App
 FOOTNOTE = re.compile(r"\\\d+\\")
 PARA_MAX = 1500
 PLACE_REACH = 8000
-IN_A_COUNTY = re.compile(r"\b(?:Count(?:y|ies)|Parish(?:es)?|Borough|Township)s?,?\s+(?:" + STATE_NAMES + r")\b"
-                         r"|\b(?:is|are|be|facility|facilities|project) located\b[^.;]{0,160}?\b(?:" + STATE_NAMES + r")\b")
+# session 3127 (chain 169, the audit's class 6): Alaska's census areas ("Chugach Census Area, in Valdez, Alaska"), a
+# plant or site "located at" or "located in" a place ("located at the Palisades Energy Center in Covert, Michigan"),
+# and a part of a state ("the Southern Ute Indian Reservation in southwestern Colorado") place an action too
+IN_A_COUNTY = re.compile(r"\b(?:Count(?:y|ies)|Parish(?:es)?|Borough|Township|Census Area)s?,?\s+(?:in\s+[A-Z][a-z]+,\s+)?(?:" + STATE_NAMES + r")\b"
+                         r"|\b(?:(?:is|are|be|facility|facilities|project|plant|site) located|located (?:at|in|on|near))\b[^.;]{0,160}?\b(?:" + STATE_NAMES + r")\b"
+                         r"|\bin (?:north|south|east|west|central|northeast|northwest|southeast|southwest)(?:ern)? (?:" + STATE_NAMES + r")\b")
 # A party of a title that is a public body keeps its state ("City of Chignik, Alaska", "New Hampshire Department of
 # Environmental Services"); any other party is an applicant's name and is taken out whole.
 PUBLIC_BODY = re.compile(r"\b(City|Town|Village|County|Borough|State|Commonwealth|Department|Commission|District|"
@@ -308,19 +312,29 @@ def place_states(title, abstract, first_paragraph, place_words=""):
     abstract and the first paragraph name none."""
     parties = title_parties(title)
     got = states(" . ".join(not_a_place(x, parties) for x in (title, abstract, first_paragraph)))
+    # session 3127: a public body of the title named with its state's postal code ("City of Pelican, AK; Notice of ...")
+    codes = set(STATES.values())
+    for m in re.finditer(r"\b(?:City|Town|Village|Borough|County) of [A-Z][A-Za-z .'-]{1,40}?, ([A-Z]{2})\b", title or ""):
+        if m.group(1) in codes and m.group(1) not in got.split(";"):
+            got = ";".join(sorted(set(filter(None, got.split(";"))) | {m.group(1)}))
     return got or states(not_a_place(place_words, parties))
 
 
 def county_sentence(text):
-    """The first sentence of the text that places something in a county, parish or borough of a state; '' if none."""
-    m = IN_A_COUNTY.search(text or "")
-    if not m:
-        return ""
-    cut = max(text.rfind(". ", 0, m.start()), text.rfind("; ", 0, m.start()), text.rfind(": ", 0, m.start()))
-    a = cut + 2 if cut >= 0 else 0
-    ends = [x for x in (text.find(". ", m.end()), text.find("; ", m.end())) if x >= 0]
-    b = min(ends) + 1 if ends else len(text)
-    return text[max(a, m.start() - 250):min(b, m.end() + 200)].strip()
+    """The first sentence of the text that places something in a county, parish or borough of a state; '' if none.
+    Session 3127: a sentence whose only state stands in a postal address (a meeting's hall) is passed over for the
+    next, so the place is the action's, not the venue's."""
+    first = ""
+    for m in IN_A_COUNTY.finditer(text or ""):
+        cut = max(text.rfind(". ", 0, m.start()), text.rfind("; ", 0, m.start()), text.rfind(": ", 0, m.start()))
+        a = cut + 2 if cut >= 0 else 0
+        ends = [x for x in (text.find(". ", m.end()), text.find("; ", m.end())) if x >= 0]
+        b = min(ends) + 1 if ends else len(text)
+        sentence = text[max(a, m.start() - 250):min(b, m.end() + 200)].strip()
+        first = first or sentence
+        if states(not_a_place(sentence, ())):
+            return sentence
+    return first
 
 
 def printed(raw, record_title=""):
