@@ -70,8 +70,10 @@ def val(v, P):
 def sentence(P, words, c):
     """The one sentence: the fact with its figure, unit, geography, period and comparison basis. No cause."""
     s = P["subject"](words)
-    return (f"{s[0].upper()}{s[1:]} was {val(c['last'], P)} in {c['last_year']}, against {val(c['first'], P)} in {c['first_year']}, "
+    text = (f"{s[0].upper()}{s[1:]} was {val(c['last'], P)} in {c['last_year']}, against {val(c['first'], P)} in {c['first_year']}, "
             f"{P.get('first_words', 'the first full year the ERW holds')}.")
+    # session 3015: a finding from a held table says so before its figure, and names the table (the chain file's rule)
+    return f"{P['license_note']} {text}" if P.get("license_note") else text
 
 
 def draft_id(P, region, c):
@@ -117,7 +119,7 @@ def build(P, region, words, series, c, tables, out_dir, why, docs_root=None, did
     source_line = f"Source: the ERW tables {', '.join(tables)}, the rows for {words}; computed by warehouse/analysis/findings/deep/{P['family']}.py ({P['name']})."
     files = [f"{did}.csv", f"{did}.do", f"{did}.py", f"{did}_reproduce.py", f"{did}_reproduce.do", f"{did}_1200x627.png", f"{did}_1080x1080.png", f"{did}_caption.txt"]
     shown = list(c["years"])
-    card = {"id": "hunt_pattern", "card_id": did, "title": f"{P['title']}: {words.upper()}", "kind": "visual", "subtitle": fact, "draft": True,
+    card = {"id": "hunt_pattern", "card_id": did, "title": ("LICENSE NEEDED: " if P.get("license_note") else "") + f"{P['title']}: {words.upper()}", "kind": "visual", "subtitle": fact, "draft": True,
             "params": {"pattern": P["name"], "region": str(region)}, "inputs_words": {"pattern": P["name"], "region": words},
             "chart": {"kind": "flag_line", "x": shown, "x_label": "full years held; the last one is marked",
                       "series": [{"name": f"{words}: {P['label']}", "type": "line", "unit": P["unit"], "values": [common.round6(series[y][0]) for y in shown]}],
@@ -139,7 +141,7 @@ def build(P, region, words, series, c, tables, out_dir, why, docs_root=None, did
             "method": "https://github.com/SamuelEnrique/erw/blob/main/" + METHOD,
             "scanner": {"version": VERSION, "rule": "hunt", "date": f"{c['last_year']}-12-31", "flag_id": did, "strength": c["strength"], "full_card": None},
             "hunt": {"pattern": P["name"], "module": P["module"], "region": str(region), "region_words": words, "why": why, "tests": c["tests"], "files": files,
-                     "measure": P["name"], "family": P["family"], "chain": 164, "limits": P["limits"], "consequence": P["consequence"]}}
+                     "measure": P["name"], "family": P["family"], "chain": 164, "limits": P["limits"], "consequence": P["consequence"], "license": P.get("license_note")}}
     caption = "\n".join([fact, "", f"Checked five ways before it was drafted: {tests_words}", "", f"Limits: {P['limits']}", "", source_line,
                          "Computed by the Energy Research Warehouse (ERW). A draft: not reviewed."])
     card["hunt"]["caption"] = caption

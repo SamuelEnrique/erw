@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate gas_premium, region gasprem_R30 (the Gulf Coast (PADD 3))
+# Computed 2026-11-06T12:38:02Z by warehouse/analysis/findings/deep/oil_products_world.py (gas_premium); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: an area's retail regular gasoline price less the US price, the year's mean of the weeks with both (USD per gallon), the observations it rests on, and whether the year is full
+# Tables: eia_regional_retail_fuel_prices
+region,year,value,n_observations,full_year
+gasprem_R30,2019,-0.320423076923077,52.0,1
+gasprem_R30,2020,-0.31644230769230774,52.0,1
+gasprem_R30,2021,-0.31559615384615386,52.0,1
+gasprem_R30,2022,-0.4344038461538462,52.0,1
+gasprem_R30,2023,-0.42813461538461534,52.0,1
+gasprem_R30,2024,-0.4174905660377359,53.0,1
+gasprem_R30,2025,-0.42042307692307684,52.0,1
+gasprem_R30,2026,-0.45084090909090907,44.0,0
