@@ -1032,7 +1032,10 @@ class V2RTheOpeningNumber(unittest.TestCase):
         self.assertIn("persistent", roundup.opening_number.__doc__)
         op = roundup.opening_number({"move": move})
         self.assertEqual(roundup.opening_lines(op)[2], "**WTI moved.** Status: calculated from observed prices (the warehouse's tables).")
-        self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | Six reactors eyed; WTI up 12.0% on the week")   # session 1446 (fault 34)
+        # session 1446 (fault 34); session 1475 (fault 53): the move leads when the opening number is the move
+        self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | WTI up 12.0% on the week; Six reactors eyed")
+        self.assertEqual(roundup.subject_line(None, "AEP and Google advance a $4 Billion fuel-cell project"),
+                         "ERW Weekly | AEP and Google advance a USD 4 billion fuel-cell project")
         long = "Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery in Western Australia to EPBC Act"
         self.assertEqual(roundup.subject_line(None, long), "ERW Weekly | Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery...")
         self.assertLessEqual(len(roundup.subject_line(op, long)), 120)   # a 70-character headline and a move of up to 35

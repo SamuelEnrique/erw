@@ -732,12 +732,15 @@ def subject_line(op, first_head):
     """ERW Weekly | <plain description of the week>, with a second clause of one verified metric and unit when the
     opening number is a warehouse figure (the price move of the week). Session 1446 (fault 34): the headline is cut at a
     word to SUBJECT_HEAD_MAX characters, the move said in plain words ("Brent down 6.4% on the week")."""
-    head = short_head(brief.nodash(str(first_head or "the week's energy news")).rstrip("."))
+    # session 1475 (chain 154, fault 53): the headline's sums in the issue's money style ("$4 Billion" to "USD 4 billion"),
+    # and when the opening number is the week's move, the move leads ("ERW Weekly | Brent down 13.1% on the week; AEP and
+    # Google advance ..."): the subject opens on what the issue opens on
+    head = short_head(brief.money_style(brief.nodash(str(first_head or "the week's energy news"))).rstrip("."))
     mv = (op or {}).get("move")
     if mv and mv.get("label"):
         label = str(mv["label"]).replace(" day-ahead", " day-ahead power").replace("WTI Cushing crude", "WTI").replace("Brent crude", "Brent").replace("Henry Hub natural gas", "Henry Hub gas")
         pct = float(mv["pct"])
-        return f"ERW Weekly | {head}; {label} {'up' if pct >= 0 else 'down'} {abs(pct):.1f}% on the week"
+        return f"ERW Weekly | {label} {'up' if pct >= 0 else 'down'} {abs(pct):.1f}% on the week; {head}"
     return f"ERW Weekly | {head}"
 
 
