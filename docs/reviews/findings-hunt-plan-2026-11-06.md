@@ -619,7 +619,7 @@ The news index and scores, the cost ledger, the known faults: the platform's rec
 | markets_operations | not hunted | | 0 |
 | demand | hunted: EIA-930 daily by authority and hourly by sub-region | 3004 | 12 |
 | generation_pipeline | hunted: the mix, nuclear, heat rates, the build-out (the planned pipeline cannot be: two months held) | 3005 to 3007 | 35 |
-| gas | not hunted | | 0 |
+| gas | hunted: the US balance, states, flaring, Mexico, storage | 3008 | 11 |
 | queues_deals_datacenters | not hunted | | 0 |
 | tariffs_policy | not hunted | | 0 |
 | oil_products_world | not hunted | | 0 |

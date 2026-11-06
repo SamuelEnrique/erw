@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate lng_share, region us_lng (the United States)
+# Computed 2026-11-06T12:02:13Z by warehouse/analysis/findings/deep/gas.py (lng_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: LNG exports as a percent of US dry gas production over the year (percent of dry production), the observations it rests on, and whether the year is full
+# Tables: gas_balance_weekly
+region,year,value,n_observations,full_year
+us_lng,2015,0.104860586149284,12.0,1
+us_lng,2016,0.7026143428316509,12.0,1
+us_lng,2017,2.587881904347102,12.0,1
+us_lng,2018,3.5195563983373646,12.0,1
+us_lng,2019,5.367550448361044,12.0,1
+us_lng,2020,7.068572007755198,12.0,1
+us_lng,2021,10.312460947992681,12.0,1
+us_lng,2022,10.662388555889095,12.0,1
+us_lng,2023,11.534514710574651,12.0,1
+us_lng,2024,11.576352211847592,12.0,1
+us_lng,2025,14.022201722671555,12.0,1
+us_lng,2026,15.652004450442337,7.0,0

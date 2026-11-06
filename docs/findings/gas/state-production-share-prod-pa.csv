@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate state_production_share, region prod_PA (Pennsylvania)
+# Computed 2026-11-06T12:02:12Z by warehouse/analysis/findings/deep/gas.py (state_production_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: a state's marketed gas production as a percent of the US total (percent of US marketed production), the observations it rests on, and whether the year is full
+# Tables: eia_gas_production_state_monthly
+region,year,value,n_observations,full_year
+prod_PA,2001,0.6095488960925887,12.0,1
+prod_PA,2002,0.7626285028046577,12.0,1
+prod_PA,2003,0.7793491255789923,12.0,1
+prod_PA,2004,0.9885440705467726,12.0,1
+prod_PA,2005,0.8673280289447483,12.0,1
+prod_PA,2006,0.9065118297962228,12.0,1
+prod_PA,2007,0.9025196934138482,12.0,1
+prod_PA,2008,0.9392454187546129,12.0,1
+prod_PA,2009,1.2650998813512697,12.0,1
+prod_PA,2010,2.559669718422123,12.0,1
+prod_PA,2011,5.452545377934222,12.0,1
+prod_PA,2012,8.925646076207125,12.0,1
+prod_PA,2013,12.749446136002522,12.0,1
+prod_PA,2014,15.483780966256372,12.0,1
+prod_PA,2015,16.727977338002123,12.0,1
+prod_PA,2016,18.34576828884233,12.0,1
+prod_PA,2017,18.652682362475158,12.0,1
+prod_PA,2018,18.979242759225876,12.0,1
+prod_PA,2019,18.92284228469353,12.0,1
+prod_PA,2020,19.6296239403341,12.0,1
+prod_PA,2021,20.48074260281655,12.0,1
+prod_PA,2022,19.10417171536337,12.0,1
+prod_PA,2023,18.435790864188778,12.0,1
+prod_PA,2024,17.935245966347342,12.0,1
+prod_PA,2025,17.75606951528566,12.0,1
+prod_PA,2026,17.312981039831122,7.0,0
