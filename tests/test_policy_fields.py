@@ -234,6 +234,25 @@ class Rules(unittest.TestCase):
             g = F.derive(row, "", None)
             self.assertEqual((g["instrument"], g["action_status"]), want, title)
 
+    def test_the_instruments_of_the_third_sample(self):
+        # session 3153: the third sample's class 5 and class 2 rows, by their titles and action lines
+        cases = [
+            ("press_release", "NRC to Brief Public on Annual Nuclear Plant Safety Across Four States", "", ("meeting", "scheduled")),
+            ("notice", "FERC Form 580, Interrogatories on Fuel and Energy Purchase Practices; Notice of Request for Partial Waiver", "", ("notice", "issued")),
+            ("press_release", "NRC Extends St. Lucie Nuclear Plant Operations Into the 2060s", "", ("order", "issued")),
+            ("notice", "Proposed Reinstatement of BLM New Mexico Terminated Oil and Gas Lease: NMNM105294482", "Notice of lease reinstatement.", ("notice", "proposed")),
+            ("press_release", "NRC Expands Wyoming's Authority Over Key Nuclear Materials as Rare Earth Development Grows", "", ("approval", "final")),
+            ("press_release", "NRC to Discuss Wolf Creek Nuclear Power Plant Performance", "", ("meeting", "scheduled")),
+            ("notice", "Boott Hydropower, LLC; Notice of Revised Procedural Schedule for Processing of Relicense Application", "", ("notice", "scheduled")),
+            # an application tendered with its procedural schedule stays an application
+            ("notice", "ALLETE, Inc.; Notice of Application Tendered for Filing With the Commission and Establishing Procedural Schedule for Relicensing", "",
+             ("application", "filed")),
+        ]
+        for action_type, title, line, want in cases:
+            row = {"agency": "X", "action_type": action_type, "title": title, "status": line, "docket": "", "event_date": "2026-05-01"}
+            g = F.derive(row, "", None)
+            self.assertEqual((g["instrument"], g["action_status"]), want, title)
+
     def test_out_of_scope_is_marked_by_a_written_list(self):
         # session 3129: the audit's four (r3, r9, r26, r29), by their titles
         for t, why in [("Notice of 229 Boundary for the SLAC National Accelerator Laboratory", "a laboratory's security boundary"),

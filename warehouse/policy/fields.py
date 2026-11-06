@@ -126,12 +126,21 @@ def body(agency, record=None, docket="", title="", parties=""):
 # action line, lower case; for a release, its opening words too (a release names its order in its first sentence).
 INSTRUMENT_RULES = [
     ("complaint", re.compile(r"\bv\.\s|\bcomplaint\b")),
+    # session 3153 (the third sample): an agency's information collection and a revised procedural schedule are
+    # notices, not applications; a release that an agency will brief, discuss, hold or host something is a meeting's;
+    # a release that it extends, renews, grants or issues a licence is an order's, that it approves or expands an
+    # authority an approval's (the release title is read; `^` is the title's start)
+    ("meeting", re.compile(r"^(?:media advisory: )?(?:[a-z.&']+ ){1,3}(?:to|will) (?:brief|discuss|hold|host)\b")),
+    ("order", re.compile(r"^(?:media advisory: )?(?:[a-z.&']+ ){1,3}(?:extends|renews|grants\b|issues\b.{0,50}\b(?:licen[cs]es?|permits?|approvals?|orders?|authorizations?))")),
+    ("approval", re.compile(r"^(?:media advisory: )?(?:[a-z.&']+ ){1,3}(?:approves|expands)\b")),
     ("lease_sale", re.compile(r"\blease sale\b|\bnotice of sale\b")),
     ("guidance", re.compile(r"\bpolicy statement\b|\bguidance\b|\bregulatory guide\b|\bdraft guide\b|\btrial guide\b|\bstaff guidance\b")),
     # session 3140 (the fresh audit): an agency's order on a petition is an order, not the petition
     ("order", re.compile(r"\bemergency orders?\b|\bauthorization for continued project operation\b|;\s*exemption\s*$|\bexemption\b.*\bissuance\b|\border no\.|\border on petition\b|;\s*order\b(?! imposing procedures)")),
     # an application the Commission has accepted or that was tendered is an application, whatever else its title says
     ("application", re.compile(r"\bapplication (?:accepted|tendered)\b|\bnotice of (?:intent to file )?(?:license )?application\b")),
+    # session 3153: after an accepted or tendered application, which a procedural schedule may accompany
+    ("notice", re.compile(r"\bform \d+\b|\binformation collection\b|\binterrogatories\b|\bprocedural schedule\b")),
     # session 3140: a scoping period is a review step even where its notice also names its sessions
     ("environmental_review", re.compile(r"\bscoping period\b")),
     # session 3140: a hearing's notice, a technical conference, an open house and meetings (plural) are meetings
@@ -144,7 +153,7 @@ INSTRUMENT_RULES = [
     ("decision", re.compile(r"\bdecisions? on\b")),
     ("award", re.compile(r"\bfunding\b|\bgrants?\b|\bawards?\b|\bselects?\b|\bselected\b|\binvestments?\b")),
 ]
-PERMIT_APPROVAL = INSTRUMENT_RULES[[k for k, _ in INSTRUMENT_RULES].index("approval")][1]
+PERMIT_APPROVAL = next(p for k, p in INSTRUMENT_RULES if k == "approval" and "general permit" in p.pattern)
 RULE_APPROVAL = [p for k, p in INSTRUMENT_RULES if k == "approval"][-1]
 MONEY_WORD = re.compile(r"\$\s?\d")
 
@@ -207,6 +216,12 @@ def status(inst, action_type, title, status_line, event_date, dates):
         return "scheduled"
     if inst in ("award", "announcement"):
         return "announced"
+    # session 3153: a notice of a proposal ("Proposed Reinstatement of ... Lease") is proposed; one of a schedule is
+    # scheduled
+    if inst == "notice" and re.match(r"\s*(?:notice of )?proposed\b", (title or "").lower()):
+        return "proposed"
+    if inst == "notice" and re.search(r"\bschedule\b", hay):
+        return "scheduled"
     if inst == "notice" and eff and min(eff) <= event_date:
         return "effective"
     return "issued"
