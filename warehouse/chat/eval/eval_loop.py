@@ -151,6 +151,7 @@ def main(argv):
         raise SystemExit(f"--set must be one of {sorted(E.SETS)}")
     import ask  # noqa: E402  the Python loop, after the environment is set
     F = files(session, which)
+    keys_doc = None
     if which == "s320":
         if os.path.exists(F["keys"]):
             keys_doc = read_json(F["keys"])
@@ -176,7 +177,7 @@ def main(argv):
         write_json(F["grades"], doc)
     else:
         E.SETS[which]["run"], E.SETS[which]["grades"] = F["run"], F["grades"]
-        E.grade_s1114(rules)
+        E.grade_set(which, rules)
     return 0
 
 
