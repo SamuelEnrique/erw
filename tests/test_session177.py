@@ -330,8 +330,9 @@ class Site(unittest.TestCase):
             for f in files:
                 if f.endswith(".tsx"):
                     text = open(os.path.join(base, f), encoding="utf-8").read()
-                    for use in re.findall(r"dangerouslySetInnerHTML=\{\{ __html: (\w+)", text):
-                        self.assertIn(use, ("render", "renderDigest"), os.path.join(base, f))
+                    for use in re.findall(r"dangerouslySetInnerHTML=\{\{ __html: (\w+(?:\(render)?)", text):
+                        # session 2704: the Roundup page folds render()'s own HTML (foldMore(render(...)), nothing else
+                        self.assertIn(use, ("render", "renderDigest", "foldMore(render"), os.path.join(base, f))
 
     def test_the_chart_library_is_pinned_by_its_hash(self):
         e = src("site", "components", "echarts.ts")
