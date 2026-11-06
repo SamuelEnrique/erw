@@ -1,6 +1,6 @@
 # Session 1479 report: fault 56, the money in the model's headlines
 
-Energy Research Warehouse (ERW), session 1479, chain 154, samueloldlaptop, 6 November 2026, 07:30 to 07:36 UTC (while session 1478's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1479-periodicals`, cut from `wip/1478-periodicals` (the landing branch).
+Energy Research Warehouse (ERW), session 1479, chain 154, samueloldlaptop, 6 November 2026, 07:28 to 07:30 UTC (while session 1478's gate ran). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1479-periodicals`, cut from `wip/1478-periodicals` (the landing branch).
 
 ## The fault
 
