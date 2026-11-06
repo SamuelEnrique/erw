@@ -19,7 +19,7 @@ export default function EvPage() {
       <h1 className="mb-1 text-3xl">Should your family get an EV?</h1>
       <p className="mb-6 max-w-3xl text-base">
         What driving costs where you live, on gasoline and on electricity, and how long an EV takes to pay back what it costs more to buy. Change any number on the
-        left; point at a small square to see where a number comes from.
+        left; point at or tap a small square to see where a number comes from.
       </p>
       <EvGame states={d.states} us={{ code: "US", name: "United States", power: d.us.power, gas: d.us.gas }} built={d.built_at} />
     </div>

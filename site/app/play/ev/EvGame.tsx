@@ -7,7 +7,7 @@
 // cost by each year, the crossing marked, a hover with the values. The prices are the warehouse's (data/ev_prices.json);
 // the arithmetic is lib/ev.ts; the method docs/methods/ev_game.md. The brand's rules (docs/brand.md): tokens only,
 // square, no motion, cardinal for the highlighted series (the EV).
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { DEFAULTS, IRS_URL, NO_CREDIT_LINE, chargePrice, cumulative, keyed, verdict, type Inputs } from "@/lib/ev";
 import { PrintButton } from "@/app/learn/problems/PrintButton";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
@@ -39,7 +39,7 @@ function Field({ id, label, tip, value, shown, mine, min, max, step, set, reset 
         <span><label htmlFor={`ev-${id}`}>{label}</label><Tip id={`ev-${id}`} label={label}>{tip}</Tip></span>
         <span className={`font-mono ${mine ? "font-semibold text-ink" : "text-muted"}`} data-default={mine ? undefined : "1"}>{shown}</span>
       </div>
-      <input id={`ev-${id}`} type="range" min={min} max={max} step={step} value={value} onChange={(e) => set(Number(e.target.value))} className="mt-1 w-full accent-[var(--color-ink)]" />
+      <input id={`ev-${id}`} type="range" min={min} max={max} step={step} value={value} onChange={(e) => set(Number(e.target.value))} className="mt-1 h-6 w-full accent-[var(--color-ink)]" />
       {mine ? <div className="text-xs"><span>{"changed by you"}</span> <button type="button" onClick={reset} className="ml-1 border px-2 py-0.5">Reset {label.toLowerCase()}</button></div> : null}
     </div>
   );
@@ -49,7 +49,17 @@ function Field({ id, label, tip, value, shown, mine, min, max, step, set, reset 
  *  a tap or the arrow keys pick a year and show both values. */
 function CostChart({ rows, cross, years }: { rows: { year: number; gas: number; ev: number }[]; cross: number | null; years: number }) {
   const [at, setAt] = useState<number | null>(null);
-  const W = 640, H = 300, L = 64, R = 16, T = 16, B = 40;
+  // session 3277: the chart is drawn at the width it is shown (at 390 px a 640-wide drawing scaled its 12 px labels to 6)
+  const [W, setW] = useState(640);
+  const box = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = box.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => setW(Math.max(280, Math.round(el.clientWidth))));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const H = W < 500 ? 240 : 300, L = W < 500 ? 48 : 64, R = 16, T = 24, B = 40;
   const top = Math.max(...rows.flatMap((r) => [r.gas, r.ev]));
   const step = top > 100000 ? 20000 : top > 40000 ? 10000 : 5000;
   const ymax = Math.ceil(top / step) * step;
@@ -65,7 +75,7 @@ function CostChart({ rows, cross, years }: { rows: { year: number; gas: number; 
   const hover = at !== null ? rows[at] : null;
   const summary = `Cumulative cost by year, ${years} years. Gasoline car from ${usd(rows[0].gas)} to ${usd(rows[rows.length - 1].gas)}; EV from ${usd(rows[0].ev)} to ${usd(rows[rows.length - 1].ev)}.${cross !== null ? ` The lines cross at ${n2(cross, 1)} years.` : ""}`;
   return (
-    <div className="relative" data-ev-chart>
+    <div className="relative" data-ev-chart ref={box}>
       <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full touch-none select-none" role="img" aria-label={summary} tabIndex={0}
         onPointerMove={(e) => pick(e.clientX, e.currentTarget.getBoundingClientRect())} onPointerDown={(e) => pick(e.clientX, e.currentTarget.getBoundingClientRect())} onPointerLeave={() => setAt(null)}
         onKeyDown={(e) => { if (e.key === "ArrowRight") { setAt(Math.min(years, (at ?? -1) + 1)); e.preventDefault(); } if (e.key === "ArrowLeft") { setAt(Math.max(0, (at ?? 1) - 1)); e.preventDefault(); } if (e.key === "Escape") setAt(null); }}
@@ -84,7 +94,7 @@ function CostChart({ rows, cross, years }: { rows: { year: number; gas: number; 
           <g data-ev-cross>
             <line x1={x(cross)} x2={x(cross)} y1={T} y2={H - B} stroke="var(--color-muted)" strokeWidth={1} strokeDasharray="2 3" />
             <circle cx={x(cross)} cy={crossY} r={5} fill="var(--color-paper)" stroke="var(--color-accent)" strokeWidth={2} />
-            <text x={Math.min(x(cross) + 8, W - R - 150)} y={T + 12} fontSize={12} fill="var(--color-ink)">they cross at {n2(cross, 1)} years</text>
+            <text x={x(cross) > W - R - 150 ? x(cross) - 8 : x(cross) + 8} textAnchor={x(cross) > W - R - 150 ? "end" : "start"} y={T - 8} fontSize={12} fill="var(--color-ink)">they cross at {n2(cross, 1)} years</text>
           </g>
         ) : null}
         {hover ? (
@@ -203,7 +213,7 @@ export function EvGame({ states, us, built }: { states: StatePrices[]; us: State
                 <span className="font-serif text-xl text-accent">What each car has cost, year by year<Tip id="ev-chart-tip" label="The chart">Each line starts at the car&apos;s price and adds a year of fuel at a time, at today&apos;s prices, not discounted. Where they cross, the EV has paid back what it cost more to buy. Point at the chart, tap it, or use the arrow keys to read a year.</Tip></span>
                 <span className="flex flex-wrap gap-x-4 text-xs text-ink">
                   <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="inline-block h-0 w-5 border-t-2 border-dashed border-ink" />Gasoline car</span>
-                  <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="inline-block h-0 w-5 border-t-2 border-accent" />EV</span>
+                  <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="inline-block h-0.5 w-5 bg-accent" />EV</span>
                 </span>
               </figcaption>
               <CostChart rows={c.rows} cross={c.cross} years={x.years} />
