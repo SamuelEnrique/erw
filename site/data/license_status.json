@@ -136,30 +136,6 @@
     "NYISO"
    ]
   },
-  "deal_counterparties": {
-   "status": "license needed",
-   "from": "2026-10-21",
-   "publishers": [
-    "ANS Nuclear Newswire",
-    "Bloomberg",
-    "Canary Media",
-    "Data Center Dynamics",
-    "Data Center Frontier",
-    "Financial Times",
-    "Hart Energy",
-    "JPT",
-    "LNG Prime",
-    "Latitude Media",
-    "Natural Gas Intelligence",
-    "OilPrice.com",
-    "POWER Magazine",
-    "Reuters",
-    "Rigzone",
-    "Utility Dive",
-    "WSJ",
-    "pv magazine USA"
-   ]
-  },
   "energy_deals": {
    "status": "license needed",
    "from": "2026-10-21",

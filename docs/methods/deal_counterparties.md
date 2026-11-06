@@ -35,7 +35,7 @@ The same names are written on every deal of `energy_deals`, beside the buyer and
 
 ## License
 
-As `energy_deals`: license needed since 21 October 2026 (`warehouse/metadata/license_status.csv`), the names and counts being the ERW's own extraction from the news.
+As `energy_deals`: license needed since 21 October 2026, the names and counts being the ERW's own extraction from the news. Its own row of `warehouse/metadata/license_status.csv` is written once the data machine has built the table and `coverage.csv` holds it (session 410's test holds every row of the file to a table of coverage); until then no live set, page or download reads it.
 
 ## What it does not hold
 

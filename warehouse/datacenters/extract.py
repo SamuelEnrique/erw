@@ -90,6 +90,8 @@ deals = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(deals)
 PRICES, clean, norm, pick_model, stated_words, verified = (
     deals.PRICES, deals.clean, deals.norm, deals.pick_model, deals.stated_words, deals.verified)
+sys.path.insert(0, HERE)
+import facility_fields as ff  # noqa: E402  session 2236: MW basis, power kind, grid, the county's utility, energized
 
 TABLE = "datacenter_projects"
 EVIDENCE = "datacenter_projects_evidence"
@@ -108,6 +110,7 @@ STD = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capacity_mw", "
 EXTRA = ["kind", "developer", "site_name", "state", "county", "city", "mw", "phase", "project_status",
          "planned_year", "power_source", "utility", "ai_power", "confidence", "geo_precision", "geo_note",
          "first_story_at", "n_stories", "story_ids", "story_urls", "model_id", "extracted_at"]
+EXTRA = EXTRA + ff.NEW_COLS   # session 2236 (warehouse/datacenters/facility_fields.py), beside the old columns
 COLS = STD + EXTRA
 EVIDENCE_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price", "currency",
                  "status", "source", "source_url", "facility_id", "story_id", "evidence"]
@@ -126,7 +129,12 @@ For each facility, copy every value from the title or summary, character for cha
 - status: one of {", ".join(STATUSES)}, only from the stated words, with status_text, the exact span: announced for announces, reveals, unveils, plans, proposes, will build; applied for applied, filed, submitted an application, requested a permit or right-of-way, sought approval (an application is not a permit); permitted for approved, permitted, granted, rezoned, cleared; under_construction for broke ground, building, under construction, construction began; operating for opened, operational, online, running, energized; cancelled for cancelled, scrapped, withdrawn, paused indefinitely. status_text is required: whenever you give a status, copy the words that state it into status_text; if you cannot copy them, leave status and status_text empty. An empty status is correct when the words do not say
 - planned_year: the year the facility or phase is planned to start, as stated, with planned_year_text, the exact span
 - power_source: how it will be powered, as stated (natural gas turbines, nuclear, solar and storage, grid); utility: the utility or power supplier as named; power_text: the exact span that states them
-- confidence: 0 to 1, how sure you are that this is a real, specific facility and the fields are right
+- mw_basis: what the stated MW measures: {"; ".join(f"{b} for {w}" for b, w in ff.MW_BASES)}; with mw_basis_text, the exact span that says it (empty for unstated)
+- energized_year: the year the facility or its first phase is to be energized, go live or come online, as stated ("on track to go live in mid-2026", "online by 2028"), with energized_text, the exact span; a year of another event (a power deal that "will commence in 2028", a permit, a groundbreaking) is not it
+- country: the country where the facility is, only as the story's words name it, with country_text, the exact span; "United States" for the US
+- one facility per row: a story about several sites (a fleet, two campuses in two states, a program across a country) returns one facility for each named site, and none for a country-wide plan with no site. Never put two places in one facility
+- status also: operating for launches, opens, went live, goes live; cancelled for halts, pulls out of, pauses (a site); announced for plans and planned
+- confidence: 0 to 1, how sure you are that this is a real, specific facility and the fields are right: 0.8 or more for a named operator at a named place that the words state; 0.6 to 0.8 for a stated facility with a field unclear; under 0.6 only when it is doubtful that this is one facility
 - evidence: one sentence (or the title) copied verbatim from the story that names the facility; story_id: the story it is from
 - same_as: if this facility is already in the reference list (the same site), its id; if it is an earlier facility in this same request, that facility's key (cluster_id#n, n counting from 0 within its cluster); else empty
 
@@ -135,7 +143,8 @@ Return every cluster exactly once, with an empty facilities list when it names n
 STR = {"type": "string"}
 FIELDS = ["operator", "developer", "site_name", "state", "state_text", "county", "city", "location_text", "mw",
           "mw_text", "phase", "status_text", "planned_year", "planned_year_text", "power_source", "utility",
-          "power_text", "evidence", "story_id", "same_as"]
+          "power_text", "evidence", "story_id", "same_as",
+          "mw_basis", "mw_basis_text", "energized_year", "energized_text", "country", "country_text"]   # session 2236
 SCHEMA = {
     "type": "object",
     "properties": {"results": {"type": "array", "items": {
@@ -383,6 +392,21 @@ def main(argv=None):
                                        f", {by_id[target].get('city') or by_id[target].get('county') or '-'}, "
                                        f"{by_id[target].get('state') or '-'}); kept as its own facility")
                         target = None
+                    new_f = ff.finish(d, text)   # session 2236: the MW basis, the energized year, the country
+                    for f in ("operator", "developer"):   # session 2236: "TikTok owner" is a description, not a name
+                        if vals.get(f) and ff.description(vals[f]):
+                            dropped.append(f"{cid}: {f} {vals[f]!r} is a description, not a name; not kept")
+                            vals[f] = ""
+                    if not same and not ff.has_place({**vals, "country": new_f["country"]}):
+                        # session 2236 (the audit's class 4): a facility is a named site or a stated place
+                        dropped.append(f"{cid}: facility {n} not kept: no site, city, county, state or country stated")
+                        continue
+                    if target and ff.place_conflict(by_id[target], {**vals, "country": new_f["country"]}):
+                        # session 2236 (the audit's class 8): two places are two facilities, whatever same_as says
+                        dropped.append(f"{cid}: same_as {target} refused (another place: {vals.get('city') or vals.get('county') or '-'}, "
+                                       f"{vals.get('state') or new_f['country'] or '-'} against {by_id[target].get('city') or by_id[target].get('county') or '-'}, "
+                                       f"{by_id[target].get('state') or by_id[target].get('country') or '-'}); kept as its own facility")
+                        target = None
                     here = news_by_id.loc[story_ids].sort_values("event_date")
                     if target:
                         row = by_id[target]
@@ -404,6 +428,12 @@ def main(argv=None):
                         if not row.get("project_status") and vals["status"]:
                             row["project_status"] = vals["status"]
                             row["status"] = STD_STATUS[vals["status"]]
+                        for f in ("energized_year", "country"):   # session 2236: fill a gap only
+                            if not row.get(f) and new_f[f]:
+                                row[f] = new_f[f]
+                        if row.get("mw") and (not row.get("mw_basis") or row["mw_basis"] == "unstated") and \
+                                new_f["mw_basis"] not in ("", "unstated") and mw is not None and clean(mw) == row["mw"]:
+                            row["mw_basis"] = new_f["mw_basis"]
                         n_merged += 1
                         did = target
                     else:
@@ -422,7 +452,8 @@ def main(argv=None):
                             "confidence": clean(round(max(0.0, min(1.0, float(d.get("confidence") or 0))), 2)),
                             "geo_precision": "", "geo_note": "", "first_story_at": first["event_date"],
                             "n_stories": str(len(here)), "story_ids": ";".join(here.index),
-                            "story_urls": ";".join(here["source_url"]), "model_id": model, "extracted_at": now}
+                            "story_urls": ";".join(here["source_url"]), "model_id": model, "extracted_at": now,
+                            **{k: (v if k != "mw_basis" or mw is not None else "") for k, v in new_f.items()}}
                         n_new += 1
                     keys[f"{cid}#{n}"] = did
                     if ev:
@@ -445,6 +476,10 @@ def main(argv=None):
         for row in by_id.values():
             row["lat"], row["lon"], row["geo_precision"], row["geo_note"] = locate(row, counties, places)
             row["geo"] = f"US-{row['state']}" if row["state"] else ""
+            # session 2236: the power kind, the grid (named in the stories, else the state's) and the county's utility
+            ids = [x for x in str(row.get("story_ids") or "").split(";") if x in news_by_id.index]
+            words = norm(" ".join(str(news_by_id.loc[x, "title"]) + " " + str(news_by_id.loc[x, "summary"]) for x in ids))
+            row.update(ff.derive(row, words))
         out = pd.DataFrame(list(by_id.values()), columns=COLS).fillna("")
         common = [f"Retrieved: {run_id} (UTC) by warehouse/datacenters/extract.py from warehouse/output/{NEWS}.csv",
                   f"Run log: warehouse/output/logs/datacenters_extract_{run_id}.log"]
@@ -462,6 +497,10 @@ def main(argv=None):
                 "datacenter power subset). geo_precision: county or place (the Census gazetteer's internal point "
                 f"of the stated county or city; {got[0][0]}, {place_member}, kept in "
                 f"warehouse/raw/census_gazetteer/{run_id}/), or none.",
+                "Session 2236 (warehouse/datacenters/facility_fields.py): mw_basis (it, total, tenant, phase, unstated) as "
+                "stated; power_kind from power_source; grid with grid_basis (named in a story, or the state's main grid); "
+                "utility_eia861 and its number where one EIA-861 utility serves the stated county (utilities_in_county "
+                "counts them); energized_year and country as stated; fields_version 2236, or upgraded.",
                 "License: public. The model's checked fields and the story links only, no outlet text; the evidence "
                 f"sentences are in the internal table {EVIDENCE}.",
                 "Sources: the outlet named in each row's source column (the first story); story_urls lists every story.",

@@ -325,6 +325,8 @@ model_step datacenters "$PYTHON" warehouse/datacenters/extract.py
 # Session 22: the tracker's one table: the news facilities, the operator sites and the queue rows that
 # name a datacenter or large load, deduplicated by operator plus location (docs/methods/datacenter_facilities.md)
 run_other datacenter_facilities "$PYTHON" warehouse/derived/datacenter_facilities.py
+# Session 2236: the news facilities rolled up by grid, state and operator (docs/methods/datacenter_tracker_rollups.md)
+run_other datacenter_tracker_rollups "$PYTHON" warehouse/derived/datacenter_tracker_rollups.py
 
 # Session 29: the members back into their consolidated tables; the members move to warehouse/output/members/, where
 # nothing below looks. A failed build stops the run before the validator: the old names must never be uploaded again.

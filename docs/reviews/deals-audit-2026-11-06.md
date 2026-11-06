@@ -246,3 +246,31 @@ Over the stored 529 deals (read only, the stories' headlines of `news_stories`):
 |---|---|
 | A7 MW, USD and term missed | every such record now carries a flag naming the headline's figure; the figure itself is filled only by a later extraction whose span checks (the prompt of session 2232) |
 | A8 a sum of another figure, a share as a price | the prompt (2232) and `fields.energy_price` stop them at extraction; the cross-check flags a stored record that holds one (Volta) |
+
+## Session 2236: the datacenter facilities
+
+New columns of `datacenter_projects` (`warehouse/datacenters/facility_fields.py`, the method note's "The columns of session 2236"): `mw_basis`, `power_kind`, `grid` with `grid_basis`, `utility_eia861` with its number and `utilities_in_county`, `energized_year`, `country`, `fields_version`. Three rules: a facility needs a stated place; two places are two facilities; a description is not an operator. The rollups by grid, state and operator: `datacenter_tracker_rollups` (`warehouse/derived/datacenter_tracker_rollups.py`, validator: pass).
+
+The fixture (`tests/fixtures/datacenters/`): 35 stored stories in 28 clusters from the audit's sample, answers from their words, the new prompt's answers recorded once (claude-sonnet-5-5, 3 calls, USD 0.0933), replayed by `tests/test_session2236_deals.py`.
+
+| Class on the fixture | Before (the stored rows) | After |
+|---|---|---|
+| A facility kept where none is (no place) | 2 (F017, F057) | **0** |
+| Two places in one row (pairs, each way) | 6 (xAI TN and MS; AWS Mexico and UAE) | **0** |
+| A facility missed | 0 | 1 (DataOne's NJ facility: the model gave no state, so no place) |
+| State wrong or missed | 3 | 1 (Columbus, Georgia) |
+| Status wrong or missed | 3 | 1 (JERA at Chiba: "building data centre" and "First project planned", two clusters joined) |
+| A year of another event kept | 1 (F010's 2028, the power deal's start) | **0** |
+| Operator a description or wrong | 1 ("TikTok") | **0** |
+| MW basis | not a field before | 0 wrong (Nebius's 50 MW is a tenant's share; Fermi's 222 MW a phase) |
+| Energized year | not a field before | 0 wrong (Microsoft India 2026) |
+
+The stored 163 facilities rolled up (read only, to the scratchpad): 45 state MW (26,636 MW summed, every basis); 132 have no grid; ERCOT 11 facilities (4 with MW, 457 MW); PJM 10 (1, 18 MW); MISO 4 (none with MW); the operators with the most: Microsoft 11 (none with MW), Meta 9, Google 8 (1, 702 MW), Nebius 5.
+
+| Row | State after session 2236 |
+|---|---|
+| A11 MW basis unstated | `mw_basis` asked with its words; the stored rows read `unstated` until a re-extraction |
+| A12 status missed or wrong | the prompt's status words widened (launches, goes live, halts); 3 to 1 on the fixture |
+| A13 not a facility, several folded into one | fixed on the fixture (2 to 0; 6 to 0) |
+| A14 state, operator, site, power source, timeline, a year of another event | `energized_year` and `country` added; a year of another event out; operator descriptions out; state 3 to 1 |
+| A15 confidence too low | the prompt's bands; read again in session 2249 |
