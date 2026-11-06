@@ -1,6 +1,6 @@
 # Session 2985 report: the backfill
 
-6 November 2026, about 11:40 UTC, on lab-desktop (the data machine, its first window), chain 162, unattended. Model spend USD 0. Pulls: none (cap USD 15 unused).
+6 November 2026, about 11:37 UTC, on lab-desktop (the data machine, its first window), chain 162, unattended. Model spend USD 0. Pulls: none (cap USD 15 unused).
 
 ## Read these first
 

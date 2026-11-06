@@ -1,6 +1,6 @@
 # Session 2992 report: the siting gaps a derived table can close
 
-6 November 2026, about 11:42 UTC, on lab-desktop (the data machine, its first window), chain 162, unattended. Model spend USD 0. Pulls: none.
+6 November 2026, about 11:37 UTC, on lab-desktop (the data machine, its first window), chain 162, unattended. Model spend USD 0. Pulls: none.
 
 ## Read these first
 
