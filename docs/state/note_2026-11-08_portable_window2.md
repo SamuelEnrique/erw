@@ -22,7 +22,7 @@ Chain 169 (`queue/done/169-night-7-november-portable-window2-continued.md`) numb
 | 3130 | the scorer's note names a procedural notice's band (class 10) | `4bddf453c` |
 | 3131 | a water within one state (class 6); coal ash and mining in the note (class 4) | `73dce12a1` |
 | 3132 | the push and request (row 9) | `9af161b9f` |
-| 3133 | this note; the next file updated; the queue | `4ddb403f0` |
+| 3133 | this note; the next file updated; the queue | `ae75e7695` |
 
 ## The audit's 80, where they stand
 
@@ -39,7 +39,7 @@ Chain 169 (`queue/done/169-night-7-november-portable-window2-continued.md`) numb
 | 9. out of scope | 4 | 0 (marked) | |
 | 10. significance above its band | 2 | 2 (the held scores) | 0 |
 
-Of 206 faults, 22 are held: 18 wait for a rescoring (your ruling), 3 are left by design, 1 is r68.
+Of 206 faults, 21 are held: 18 wait for a rescoring (your ruling), 3 are left by design (r57, r6, r68).
 
 ## What was asked of the desktop
 
