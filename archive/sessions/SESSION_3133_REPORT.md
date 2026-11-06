@@ -4,7 +4,7 @@ Personal laptop, second window, 6 November 2026, 14:12 to 14:22 UTC. Opus 5.5. B
 
 ## What it did
 
-- `docs/state/note_2026-11-08_portable_window2.md` on main (chain 166's note's form): a line a session with its head, the audit's 80 where they stand (206 faults, 22 held: 18 waiting for a rescoring, 3 by design, r68), what is asked of the desktop, the decisions, the rulings asked, the cost.
+- `docs/state/note_2026-11-08_portable_window2.md` on main (chain 166's note's form): a line a session with its head, the audit's 80 where they stand (206 faults, 21 held: 18 waiting for a rescoring, 3 by design), what is asked of the desktop, the decisions, the rulings asked, the cost.
 - `queue/next/178-night-8-november-portable-window2-continued.md` updated on main and pushed alone: chain 169's unfinished steps (the build, the page from the snapshot, the data machine's trace, your rulings) and a fresh audit of 80 actions never used to write a rule, then its largest class.
 - Pushed `wip/3133-policy` and appended row 9 (the first window had taken 7 and 8) to `docs/state/landing_request_portable.md`.
 - The queue step by name: `queue/next/178-...` taken as `portable-laptop-window2`, and run.
