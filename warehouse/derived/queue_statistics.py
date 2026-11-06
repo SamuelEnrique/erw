@@ -146,7 +146,7 @@ def main(argv=None):
             f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
         ]
         ip.write_snapshot(df[cols], NAME, header, log, cols)
-        ip.update_sources([dict(source="erw:iso_queue_statistics", publisher="Energy Research Warehouse (ERW)",
+        ip.update_sources([dict(source="erw:iso_queue_statistics", publisher="Energy Research Warehouse (ERW), derived",
                                 report="Interconnection queue statistics by ISO and entry year (derived, session 348)",
                                 report_url=METHOD_URL, document_list=METHOD_URL, license="public", tables=[NAME])])
         print(f"{NAME}: {len(df)} rows, {df['x_iso'].nunique()} ISOs, entry years {df['x_entry_year'].min()} to {df['x_entry_year'].max()}")
