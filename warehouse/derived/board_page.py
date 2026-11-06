@@ -367,6 +367,7 @@ def minus(a, b):
 class Board:
     def __init__(self):
         self.rows, self.series, self.hourly = [], {}, {}
+        self.heat_ref = None   # session 1606: EIA's fleet heat rates beside the stated ones (fleet_heat_rates)
 
     def add(self, group, key, label, unit, freq, series, at="", code="", tags=None, formula=None, source="", also=None, curve=None, hourly=None, extra=None):
         rid = slug(key)
@@ -923,6 +924,60 @@ def build_gasflows(b, log):
     b.grey("gasflows", "lng|feedgas", "LNG feedgas, daily", "licensed", FEEDGAS_NOTE, at="the export terminals' pipeline receipts", unit="Bcf/d", tags=dict(kind="lng_volume"))
 
 
+# Session 1606 (chain 165): the spreads a power trader watches between hubs, and the source of the stated heat rates.
+HEAT_SOURCE = "EIA, Electric Power Annual, Table 8.1, average operating heat rates (eia_heat_rates_annual)"
+# (first hub, second hub, scope): within a grid, then across two grids where both are public; each a day-ahead and a
+# real-time row, the first hub's daily mean less the second's on the same date
+HUB_PAIRS = [("ercot:HB_NORTH", "ercot:HB_HOUSTON", "within"), ("ercot:HB_WEST", "ercot:HB_NORTH", "within"), ("ercot:HB_SOUTH", "ercot:HB_HOUSTON", "within"),
+             ("caiso:TH_NP15_GEN-APND", "caiso:TH_SP15_GEN-APND", "within"), ("spp:SPPNORTH_HUB", "spp:SPPSOUTH_HUB", "within"),
+             ("ercot:HB_HUBAVG", "spp:SPPNORTH_HUB", "across"), ("caiso:TH_SP15_GEN-APND", "ercot:HB_HUBAVG", "across")]
+
+
+def fleet_heat_rates():
+    """EIA's newest average operating heat rates of the US natural gas and coal fleets, {fuel: {t, v, table}}, or None
+    when the table is not on the machine (the rows then say the assumption without the comparison)."""
+    if not here("eia_heat_rates_annual"):
+        return None
+    s, _ = table_daily("eia_heat_rates_annual")
+    out = {}
+    for fuel in ("natural_gas", "coal"):
+        series = s.get((f"eia_epa_heat_rate:{fuel}", "heat_rate"), {})
+        if series:
+            d = max(series)
+            out[fuel] = dict(t=d.isoformat(), v=round(series[d], 4), table="eia_heat_rates_annual")
+    return out or None
+
+
+def heat_basis(kind, ref):
+    """The hover words of a spark or dark spread: the stated heat rate is an assumption, and EIA's fleet average beside it."""
+    rate, fuel, plant = (HEAT_RATE, "natural_gas", "a combined-cycle gas plant") if kind == "spark" else (COAL_HEAT_RATE, "coal", "the US coal fleet's average")
+    words = f"The heat rate, {rate:g} MMBtu/MWh, is the board's stated assumption, about {plant}; it is no plant's own heat rate."
+    if ref and fuel in ref:
+        r = ref[fuel]
+        fleet = "the US natural gas fleet (combined-cycle and peaking plants together)" if fuel == "natural_gas" else "the US coal fleet"
+        words += f" EIA's average operating heat rate of {fleet} was {r['v']:g} MMBtu/MWh in {r['t'][:4]} ({HEAT_SOURCE})."
+    return words
+
+
+def build_hubspreads(b, daily):
+    held = ls.held_grids()
+    for a, z, scope in HUB_PAIRS:
+        ga, gz = ISO[a.split(":")[0]][0], ISO[z.split(":")[0]][0]
+        if ga in held or gz in held:
+            continue
+        wa, wz = HUB_WORDS[a.split(":", 1)[1]], HUB_WORDS[z.split(":", 1)[1]]
+        label = f"{ga} {wa} less {wz}" if ga == gz else f"{ga} {wa} less {gz} {wz}"
+        for kind, name in (("da", "day-ahead"), ("rt", "real time")):
+            da, dz = daily.get((a, kind)), daily.get((z, kind))
+            series = minus(col(da, "mean"), col(dz, "mean")) if da is not None and dz is not None else {}
+            when = ("the same local operating day" if ga == gz else
+                    f"the same date, each on its own local operating day ({ISO[a.split(':')[0]][1]} and {ISO[z.split(':')[0]][1]})")
+            b.add("hubspread", f"{a}|{z}|{kind}", label, "USD/MWh", "D", series, at=name, code=f"{a.split(':', 1)[1]} less {z.split(':', 1)[1]}",
+                  tags=dict(market=kind, scope=scope), formula=f"the first hub's {name} daily mean - the second's, on {when}",
+                  source="the two hubs' rows of Power, by hub and zone",
+                  extra=dict(basis=f"Two daily means of complete local operating days, on {when}; each hour {hour_words(a, kind)}."))
+
+
 def build_spreads(b, daily, fuels, us_coal):
     gas = fuels.get("eia:henry_hub", {})
     for iso, (grid, tz) in ISO.items():
@@ -936,8 +991,30 @@ def build_spreads(b, daily, fuels, us_coal):
               extra=dict(inputs={k: v for k, v in si.items() if k != "heat_rate"}) if si else None)
         b.add("spark", f"{entity}|dark", f"{grid} {words}", "USD/MWh", "M", dark(da, us_coal), at="dark spread, indicative, monthly", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["dark"], source="the hub's day-ahead row and eia_power_plant_fuel_costs",
               extra=dict(inputs=di) if di else None)
+    # session 1606 (chain 165): the spark spread at every other public hub (not the load zones), behind the group's Show
+    # filter; the stated heat rate's source in every spark and dark row's hover (heat_basis)
+    held = ls.held_grids()
+    ref = fleet_heat_rates()
+    if ref:
+        b.heat_ref = ref
+    for r in b.rows:
+        if r["group"] == "spark" and r["id"].endswith(("-spark", "-dark")):
+            r["basis"] = heat_basis("dark" if r["id"].endswith("-dark") else "spark", ref)
+            if ref:
+                r["heat_ref"] = ref["coal" if r["id"].endswith("-dark") else "natural_gas"]
+    for (entity, kind), d in sorted(daily.items()):
+        iso, node = entity.split(":", 1)
+        if kind != "da" or node == MAIN.get(iso) or node.startswith("LZ_") or iso not in ISO or ISO[iso][0] in held:
+            continue
+        grid = ISO[iso][0]
+        da = col(d, "mean")
+        si = spark_inputs(da, gas)
+        b.add("spark", f"{entity}|spark", f"{grid} {HUB_WORDS.get(node, node)}", "USD/MWh", "D", spark(da, gas), at="spark spread, indicative", code=node,
+              tags=dict(grid=grid, scope="all"), formula=FORMULAS["spark"], source="the hub's day-ahead row and Henry Hub",
+              extra=dict(dict(inputs=si) if si else {}, basis=heat_basis("spark", ref), **({"heat_ref": ref["natural_gas"]} if ref else {})))
     for grid, status, note in (("MISO", "paused", MISO_NOTE), ("PJM", "licensed", PJM_NOTE)):
         b.grey("spark", f"{grid}|spark", f"{grid} spark and dark spreads", status, note, tags=dict(grid=grid), unit="USD/MWh")
+    build_hubspreads(b, daily)
     g, d = fuels.get("eia:EER_EPMRU_PF4_RGC_DPG", {}), fuels.get("eia:EER_EPD2DXL0_PF4_RGC_DPG", {})
     ci = crack_inputs(g, d, fuels.get("eia:wti_cushing", {}))
     b.add("oilspreads", "erw:crack_321_gulf_coast", "3-2-1 crack spread", "USD/bbl", "D", crack(g, d, fuels.get("eia:wti_cushing", {})), at="Gulf Coast products, WTI", formula=FORMULAS["crack_gc"], source="EIA's daily spot prices",
@@ -1009,7 +1086,13 @@ GROUPS = [
         dict(key="market", label="Market", options=[["all", "Both"], ["da", "Day-ahead"], ["rt", "Real time"]], default="da"),
         dict(key="measure", label="Measure", options=[["all", "All"], ["peak", "On-peak"], ["offpeak", "Off-peak"], ["spread", "On-peak less off-peak"]], default="all")]),
     dict(id="spark", title="Spark and dark spreads, by grid", filters=[
-        dict(key="grid", label="Grid", options=[["all", "All grids"], ["ERCOT", "ERCOT"], ["CAISO", "CAISO"], ["NYISO", "NYISO"], ["ISO-NE", "ISO-NE"], ["SPP", "SPP"]], default="all")]),
+        dict(key="grid", label="Grid", options=[["all", "All grids"], ["ERCOT", "ERCOT"], ["CAISO", "CAISO"], ["NYISO", "NYISO"], ["ISO-NE", "ISO-NE"], ["SPP", "SPP"]], default="all"),
+        # session 1606: the spark spread at every public hub, behind the same Show filter the power groups have
+        dict(key="scope", label="Show", options=[["main", "Main hubs"], ["all", "Every hub"]], default="main", inclusive=True)]),
+    # session 1606: hub less hub, within a grid and across two
+    dict(id="hubspread", title="Hub spreads, within and across grids", filters=[
+        dict(key="market", label="Market", options=[["da", "Day-ahead"], ["rt", "Real time"], ["all", "Both"]], default="da"),
+        dict(key="scope", label="Show", options=[["all", "All"], ["within", "Within a grid"], ["across", "Across grids"]], default="all")]),
     dict(id="da_rt", title="Day-ahead minus real time, by hub", filters=[
         dict(key="grid", label="Grid", options=[["all", "All grids"], ["ERCOT", "ERCOT"], ["CAISO", "CAISO"], ["NYISO", "NYISO"], ["ISO-NE", "ISO-NE"], ["SPP", "SPP"]], default="all"),
         dict(key="scope", label="Show", options=[["main", "Main hubs"], ["all", "Every hub and zone"]], default="main", inclusive=True)]),
@@ -1088,6 +1171,8 @@ def write_site(b, week, spikes, site_dir, built, log):
     sources = sorted({r["source"] for r in rows if r.get("source")})
     rows = [dict(r, source=sources.index(r["source"])) if r.get("source") else r for r in rows]     # a source is written once, and a row points at it
     board = dict(built=built, sources=sources, heat_rate=HEAT_RATE, coal_heat_rate=COAL_HEAT_RATE, gas_back_days=GAS_BACK, slack_days=SLACK, groups=GROUPS, rows=rows, week=week, spikes=spikes)
+    if b.heat_ref:
+        board["heat_ref"] = b.heat_ref      # session 1606
     with open(os.path.join(data_dir, "board.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(board, f, separators=(",", ":"))
         f.write("\n")

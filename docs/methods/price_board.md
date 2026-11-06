@@ -375,3 +375,23 @@ Tests: `tests/test_board_1603.py` (`tests/fixtures/board_1603/`).
 - **Uranium** is unchanged: the IMF's monthly price is drawn, the daily spot a placeholder (UxC, TradeTech). **Retail electricity** by state and sector is drawn as it was.
 
 Tests: `tests/test_board_1604.py` (`tests/fixtures/board_1604/`).
+
+## The power spreads (session 1606, chain 165, 6 November 2026)
+
+- **Hub spreads, within and across grids** (a group after the spark spreads): the first hub's daily mean less the second's, day-ahead and real time, from the two hubs' rows of "Power, by hub and zone".
+
+  | Pair | Scope |
+  |---|---|
+  | ERCOT North hub less Houston hub; West hub less North hub; South hub less Houston hub | within ERCOT |
+  | CAISO NP15 less SP15 | within CAISO |
+  | SPP North hub less South hub | within SPP |
+  | ERCOT hub average less SPP North hub | across grids |
+  | CAISO SP15 less ERCOT hub average | across grids |
+
+  Within a grid both means are of the same local operating day. Across two grids they are of the same date, each on its own grid's local operating day (America/Chicago for ERCOT and SPP, America/Los_Angeles for CAISO), so a cross-grid spread compares days that begin two hours apart. A pair with a grid held for a license on the day is not built; a market with either hub not held is "not held yet". A positive spread: the first hub priced above the second.
+- **The spark spread at every public hub**: ERCOT's, CAISO's and SPP's hubs other than the main one each have a spark spread row, behind the group's new Show filter (main hubs by default, as the other power groups); the load zones have none. The implied heat rate and the dark spread stay the main hub's. The gas is Henry Hub for every hub (no regional gas price is held: the gas group's placeholders).
+- **The stated heat rate's source**, in every spark and dark row's hover: 7.0 MMBtu/MWh (spark) and 10.5 (dark) are the board's assumptions, about a combined-cycle gas plant and about the US coal fleet's average, no plant's own; beside each, when `eia_heat_rates_annual` is on the machine that builds, EIA's newest average operating heat rate of the US natural gas fleet (combined-cycle and peaking plants together) or of the coal fleet, from EIA's Electric Power Annual, Table 8.1, its value and year, also written as the row's `heat_ref` and the file's `heat_ref` so a check can key it.
+- **Not built: the ERCOT 4CP exposure** (gap 28 of the audit). It needs the hub's 15-minute real-time price in each coincident-peak interval, which the board's hourly store does not keep; offered for the next chain.
+- `hubspread` is a power group for the stale rule (`POWER_GROUPS`, past 3 days).
+
+Tests: `tests/test_board_1606.py` (`tests/fixtures/board_1606/`).

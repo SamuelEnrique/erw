@@ -130,7 +130,7 @@ export const STALE_DAYS: Record<"D" | "W" | "M" | "Q", number> = { D: 10, W: 17,
 /** Session 1134: by the publisher's calendar. A power market posts every day, weekends and holidays included (its
  *  day-ahead prices the day before), so a daily row of the power groups is stale past 3 days; EIA's daily fuel closes
  *  are trading days, posted weekly and late, and keep the 10 days of session 304's ruling. */
-export const POWER_GROUPS = new Set(["power", "peak", "spark", "da_rt", "battery", "as"]);
+export const POWER_GROUPS = new Set(["power", "peak", "spark", "da_rt", "battery", "as", "hubspread"]);   // hubspread: session 1606
 export const STALE_POWER_DAYS = 3;
 export const staleDays = (row: Pick<Row, "freq" | "group">): number => (row.freq === "D" && POWER_GROUPS.has(row.group) ? STALE_POWER_DAYS : STALE_DAYS[row.freq as "D" | "W" | "M" | "Q"]);
 export function ageDays(t: string, built: string): number {
