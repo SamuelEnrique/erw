@@ -294,6 +294,34 @@
     "what": "the investor's iv13 to iv15 asked again after rule 3 asks for list_tables before not in the warehouse (session 3282); iv18 to iv20 stopped by the cap",
     "where": "session 3282's report (`archive/sessions/SESSION_3282_ASKEVAL_REPORT.md`)"
    }
+  },
+  {
+   "file": "eval_s3297_loop_trader_run.json",
+   "grades": "eval_s3297_loop_trader_grades.json",
+   "right": "ok",
+   "label": "session 3297, Python loop, the trader's tr15 again",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_trader.yaml`",
+    "what": "the trader's tr15 asked again after the query tool's value threshold (both loops, session 3297); the set's final count 20 of 20",
+    "where": "session 3297's report (`archive/sessions/SESSION_3297_ASKEVAL2_REPORT.md`)"
+   }
+  },
+  {
+   "file": "eval_s3297_loop_investor_run.json",
+   "grades": "eval_s3297_loop_investor_grades.json",
+   "right": "ok",
+   "label": "session 3297, Python loop, the investor's iv14 again and iv18 to iv20",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_investor.yaml`",
+    "what": "the investor's iv14 asked again after rule 3 lists every grid's tables with no filter first, and iv18 to iv20 asked for the first time (session 3297); the set's final count 20 of 20",
+    "where": "session 3297's report (`archive/sessions/SESSION_3297_ASKEVAL2_REPORT.md`)"
+   }
   }
  ],
  "left_out": {

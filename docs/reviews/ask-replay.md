@@ -23,5 +23,7 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/replay.p
 | session 3281, Python loop, the investor's twenty | 17 | 14 | 0 | 0 |
 | session 3282, Python loop, the trader's tr13 and tr14 again | 2 | 2 | 0 | 0 |
 | session 3282, Python loop, the investor's iv13 to iv15 again | 3 | 2 | 0 | 0 |
+| session 3297, Python loop, the trader's tr15 again | 1 | 1 | 0 | 0 |
+| session 3297, Python loop, the investor's iv14 again and iv18 to iv20 | 4 | 4 | 0 | 0 |
 
-In all: 393 answers, 0 would now be sent back.
+In all: 398 answers, 0 would now be sent back.
