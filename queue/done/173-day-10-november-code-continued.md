@@ -32,13 +32,15 @@ Long end 1:30 each. One step a session, in chain 163's order, as session 1536 li
 
 ### Unfinished steps (written by session 1536 of chain 163)
 
-1. Session 1526 (the scenario block's two scrolling tables reachable by keyboard; landing of session 1531): **the landing of `wip/1526-a11y`** (`47ca0b302` on origin). Its gate passed at 13:36 UTC on 6 November: suite 7867 tests OK; `check_values` 7812 of 7812, with only the `/deals` and know-your-grid floors failing; routes, cross-checks and CSP passed by hand. It was held only by the 14:00 to 16:15 UTC window. Not between 14:00 and 16:15 UTC:
-   - `git -C ../erw-1526 fetch origin`, then `git -C ../erw-1526 merge --no-edit origin/main`, then `git -C ../erw-1526 push origin wip/1526-a11y`.
-   - If main brought code since `47ca0b302`, run the gate again: `.venv/Scripts/python.exe scripts/land_check.py --ref wip/1526-a11y --task 1526-a11y --port 3526 --lock-as s1551 --keep-worktree`. If the gate fails only on those two floors, run `node scripts/check-routes.mjs`, `check-cross-checks.mjs` and `check-csp.mjs` against the kept build. If main brought documents only, the earlier gate holds.
-   - `node site/scripts/snapshot-live.mjs take s1551-before`.
-   - Push `task/1526-a11y` only after `git merge-base --is-ancestor origin/main <sha>`, after trial-merging the other `task/` branches.
-   - Wait by sha (`runs/s1523/wait_merge.sh` with the branch name changed), then `take s1551-after` and `compare s1551-before s1551-after`.
-   - Delete `wip/1526-a11y` on origin, and remove `../erw-1526`.
+1. Session 1526's landing, now **one landing with chain 172's session 1542** (session 1543 of chain 172 merged `wip/1526-a11y` into `wip/1542-periodicals` and ran one gate on both):
+   - The branch is `wip/1542-periodicals` at `3737ef1fd`. It holds session 1526's scrolling tables (chain 163's `wip/1526-a11y`, merged in) and session 1542's fault 58.
+   - Its gate passed at 14:25 UTC on 6 November: suite 7903 tests OK; `check_values` 7815 of 7815, with only the `/deals` and know-your-grid floors failing; routes, cross-checks and CSP passed by hand on the kept build. It was held only by the 14:00 to 16:15 UTC window.
+   - Not between 14:00 and 16:15 UTC: `git -C ../erw-1542 fetch origin`, then `git -C ../erw-1542 merge --no-edit origin/main`, then `git -C ../erw-1542 push origin wip/1542-periodicals`.
+   - If main brought code since `3737ef1fd`, run the gate again: `.venv/Scripts/python.exe scripts/land_check.py --ref wip/1542-periodicals --task 1544-periodicals --port 3542 --lock-as s<N> --keep-worktree`. If it fails only on those two floors, run `check-routes`, `check-cross-checks` and `check-csp` against the kept build. If main brought documents or data only, the earlier gate holds.
+   - `node site/scripts/snapshot-live.mjs take s<N>-before`.
+   - Push `task/1544-periodicals` only after `git merge-base --is-ancestor origin/main <sha>`, after trial-merging the other `task/` branches.
+   - Wait by sha (`runs/s1523/wait_merge.sh` with the branch name changed), then `take s<N>-after` and `compare`.
+   - Delete `wip/1542-periodicals` and `wip/1526-a11y` on origin; remove `../erw-1542` and `../erw-1526`.
 
 ## Sessions 1558 to 1562: the faults chain 163 left open
 
