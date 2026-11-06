@@ -501,6 +501,21 @@ def chart_figure(v):
 FIVE_HEADING = "## The week in five numbers"
 
 
+def deal_words(r):
+    """Session 1472 (chain 150's faults file, row 50): the deal of the week after its sum: the parties, the asset, and in
+    brackets the deal's kind and date. A party the asset already names is not printed again ("TeraWulf, TeraWulf data
+    center in Kentucky" was the W45 dry run's), and the kind "other" is not printed ("(other, 2026-11-05)"); with neither
+    a party nor an asset the row says "parties not stated", as before."""
+    asset = str(r.get("asset") or "").strip()
+    parties = [str(x).strip() for x in (r.get("buyer"), r.get("seller")) if str(x or "").strip()]
+    parties = [x for i, x in enumerate(parties) if x not in parties[:i] and x.lower() not in asset.lower()]
+    words = ", ".join(x for x in (" and ".join(parties), asset) if x) or "parties not stated"
+    kind = DEAL_LABEL.get(r.get("deal_type"), str(r.get("deal_type") or "").replace("_", " "))
+    when = str(r.get("event_date") or "")[:10]
+    inside = ", ".join(x for x in (kind if kind and kind != "other" else "", when) if x)
+    return words + (f" ({inside})" if inside else "")
+
+
 def five_numbers(label, start, cut, facts, log, picked=None):
     """Session 806 (docs/reviews/periodicals-plan-2026-10-23.md, Roundup change 1): the week in five numbers, each
     traced (scripts/check_roundup.py): the week's biggest price move among the main hubs' weekly means (both weeks
@@ -561,17 +576,12 @@ def five_numbers(label, start, cut, facts, log, picked=None):
         dw["_m"] = pd.to_numeric(dw["mw"], errors="coerce")
         if dw["_d"].notna().any():
             r = dw.sort_values(["_d", "event_date"], ascending=[False, True]).iloc[0]
-            who = " and ".join(x for x in (r["buyer"], r["seller"]) if x) or "parties not stated"
-            L.append(f"- **Deal of the week, by US dollars:** {usd_words(r['_d'])}, {who}, {r['asset'] or 'asset not stated'} "
-                     f"({DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))}, {r['event_date'][:10]}).")
+            L.append(f"- **Deal of the week, by US dollars:** {usd_words(r['_d'])}, {deal_words(r)}.")   # session 1472
             keys.append(f"the deal of the week, `energy_deals` {r['event_id']}")
             picked["deal"] = {"usd": float(r["_d"]), "text": L[-1].split(":** ", 1)[1].rstrip(".")}
         elif dw["_m"].notna().any():
             r = dw.sort_values(["_m", "event_date"], ascending=[False, True]).iloc[0]
-            who = " and ".join(x for x in (r["buyer"], r["seller"]) if x) or "parties not stated"
-            L.append(f"- **Deal of the week, by MW (no deal of the week states dollars):** {float(r['_m']):,.0f} MW, {who}, "
-                     f"{r['asset'] or 'asset not stated'} ({DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))}, "
-                     f"{r['event_date'][:10]}).")
+            L.append(f"- **Deal of the week, by MW (no deal of the week states dollars):** {float(r['_m']):,.0f} MW, {deal_words(r)}.")
             keys.append(f"the deal of the week, `energy_deals` {r['event_id']}")
         else:
             L.append("- **Deal of the week:** " + stand_in(1, "no deal in `energy_deals` is dated this week"))

@@ -1422,6 +1422,29 @@ class Session1469CountsReadTheFiveKeys(unittest.TestCase):
         self.assertEqual(pc.no_key(five + ["Tables: the deal of the week, `energy_deals` deal:a."]), 1)
 
 
+class Session1472DealWords(unittest.TestCase):
+    """Session 1472 (chain 154, fault 50 of docs/reviews/periodicals-faults-2026-11-05.md): the deal of the week prints no
+    kind "other" and no party its asset already names; the tracer still reads the row."""
+
+    def test_the_w45_row(self):
+        r = {"buyer": "", "seller": "TeraWulf", "asset": "TeraWulf data center in Kentucky", "deal_type": "other",
+             "event_date": "2026-11-05T12:00:00Z"}
+        self.assertEqual(roundup.deal_words(r), "TeraWulf data center in Kentucky (2026-11-05)")
+        import check_roundup as cr
+        row = f"- **Deal of the week, by US dollars:** USD 19 billion, {roundup.deal_words(r)}."
+        text = "## The week in five numbers\n\n" + row + "\n\nTables: the deal of the week, `energy_deals` deal:35a62f0ede4aa8ea.\n"
+        self.assertEqual(cr.five_keyed(text)[0], ("USD 19 billion", "deal:35a62f0ede4aa8ea"))
+
+    def test_other_rows(self):
+        self.assertEqual(roundup.deal_words({"buyer": "Shell", "seller": "Equinor", "asset": "Bay du Nord Oil Project",
+                                             "deal_type": "m_and_a", "event_date": "2026-10-09T21:45:00Z"}),
+                         "Shell and Equinor, Bay du Nord Oil Project (acquisition, 2026-10-09)")
+        self.assertEqual(roundup.deal_words({"buyer": "Acme", "seller": "Acme", "asset": "", "deal_type": "ppa", "event_date": ""}),
+                         "Acme (power purchase agreement)")
+        self.assertEqual(roundup.deal_words({"buyer": "", "seller": "", "asset": "", "deal_type": "other", "event_date": ""}),
+                         "parties not stated")
+
+
 class Session1438OneTopic(unittest.TestCase):
     """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
     story of the sector that is not about the price keeps the sector-and-region key."""
