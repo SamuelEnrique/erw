@@ -57,6 +57,12 @@ NAME = "deal_counterparties"
 # a party field that holds a description, not a name (the audit's class 5): no directory row
 DESCRIPTIONS = {"investors", "investor", "banks", "bank", "lenders", "lender", "shareholders", "management",
                 "hyperscaler", "a hyperscaler", "us hyperscaler", "partners", "buyers", "bondholders", "creditors"}
+# session 2250: a party field that describes a facility or a vehicle by its backer ("Meta-backed data centre",
+# "Google-Linked Data Centers", "CoreWeave-tied data center", "Anthropic data centre backed by Google"): no row
+DESCRIBED = re.compile(r"(?:-backed|-linked|-tied|\bbacked by\b)|\bdata ?cent(?:er|re)s?$", re.I)
+# session 2250: the places a subsidiary's name may end with (a country or a region)
+PLACES = sorted({c.title() for c in dp.COUNTRIES if len(c) > 3} | {"Asia Pacific", "Asia-Pacific", "Europe", "North America",
+                 "Latin America", "Middle East", "Africa", "Americas", "UK", "US", "USA", "APAC", "EMEA"})
 ROLE_COLS = ["buyer_name", "seller_name", "buyer_parent", "seller_parent", "buyer_eia861", "seller_eia861"]
 COMPANY_WORDS = {"energy", "power", "group", "holdings", "holding", "partners", "corporation", "company", "co", "inc",
                  "resources", "international", "global", "the"}
@@ -178,6 +184,12 @@ class Names:
                       raw, re.I))
         if m and not re.search(r",| and ", m.group(1)):
             return self.name(m.group(1))
+        # session 2250: a party of the deals followed by a place ("Chevron Australia", "ExxonMobil Asia Pacific"): the
+        # subsidiary that runs the party's business there; the place must be a country or a region, the shorter name a
+        # party the deals name themselves
+        m = re.match(r"^(.+?)\s+(" + "|".join(sorted((re.escape(p) for p in PLACES), key=len, reverse=True)) + r")$", raw, re.I)
+        if m and key(m.group(1)) in self.groups:
+            return self.canon[key(m.group(1))]
         return ""
 
     def eia861(self, s):
@@ -219,7 +231,8 @@ def directory(deals, folded=(), names=None, run_id=""):
     for r in d.to_dict("records"):
         for role, raw in [(ro, p) for ro in ("buyer", "seller") for p in split(r.get(ro) or "")]:
             n = names.name(raw)
-            if not n or dp.plain(raw) in DESCRIPTIONS or re.search(r"\b(?:owners|investors|startup|lenders|banks)$", dp.plain(raw)):
+            if not n or dp.plain(raw) in DESCRIPTIONS or re.search(r"\b(?:owners|investors|startup|lenders|banks)$", dp.plain(raw)) \
+                    or DESCRIBED.search(raw):
                 continue
             e = rows.setdefault(n, {"spellings": set(), "ids": [], "as_buyer": 0, "as_seller": 0, "mw": 0.0,
                                     "with_mw": 0, "ai": 0, "dates": [], "raw": raw})

@@ -356,3 +356,22 @@ Two distinct deals the stories state got no row of their own: Sempra's 20-year a
 ### Into the next file (`queue/next/159-night-7-november-portable-deals-continued.md`)
 
 The classes still above zero, in order of count: deals' place missed (12), kind (8, capacity leases and the uprate words), status missed (7), stated deals with no row (6) and a second deal of one story with no row (2), parties incomplete (3); facilities' operator (3), state (2), power source (2), stated facilities with no row (2).
+
+## Session 2250: the counterparties read for missed aliases
+
+Every name of the directory with two or more deals (109 of 481) was read against every other for a missed alias: the same words, a name and its initials, one name inside another, a shared first word (`warehouse/deals/dedupe.same_party` and a first word of four letters or more). Sixteen pairs came up:
+
+| Pair | Read | Done |
+|---|---|---|
+| Delfin; Delfin Midstream | one company: news:45e9aea1ffe912fa says "Delfin LNG" in its title and "Delfin Midstream's first 4.4 mtpa floating liquefied natural gas (FLNG) unit" in its summary | an alias in `aliases.yaml`, with the story (3 deals) |
+| Lynas; Lynas Rare Earths | likely one company; no stored story names both | left two names (an alias needs its story) |
+| Chevron; Chevron Australia. ExxonMobil; ExxonMobil Asia Pacific | a party followed by a place: its subsidiary there | a rule: the parent is the shorter name, where the deals name it themselves |
+| Meta-backed data centre; Google-Linked Data Centers; CoreWeave-tied data center; Anthropic data centre backed by Google | descriptions of a facility by its backer, not names | a rule: no directory row |
+| Amazon data center unit; Blackstone data center vehicle; Blackstone's QTS; Constellation Energy unit | the parent's words already show it (session 2234) | unchanged |
+| Energy Transfer; Energy Vault; Energy Capital Partners. American Electric Power; American Real Estate Partners. Radiant; Radiant Energy Solutions | two companies each (I Squared's Radiant Energy Solutions is not the microreactor maker) | left apart |
+
+After: **475 names** (481 before), 109 with two or more deals, 13 with a parent (11 before), 0 EIA-861 numbers.
+
+| Row | State after session 2250 |
+|---|---|
+| A5 a party a description | closed in the directory (the descriptions are out) and on the second read (0 of 106) |

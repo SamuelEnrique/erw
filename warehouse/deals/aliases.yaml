@@ -18,3 +18,7 @@ aliases:
     aliases: [AWS]
     parent: Amazon
     evidence: "news:3dde092ed86cf932: Amazon's AWS Shows Signs of Weakness as Competitors Charge Ahead"
+
+  - name: Delfin Midstream
+    aliases: [Delfin, Delfin LNG]
+    evidence: "news:45e9aea1ffe912fa (6 November 2026 read): Wartsila scores Delfin LNG gig, whose summary says: to supply the engines and thrusters for Delfin Midstream's first 4.4 mtpa floating liquefied natural gas (FLNG) unit"
