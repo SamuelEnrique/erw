@@ -333,14 +333,16 @@ function SettingsPanel({ draft, setDraft, difficulty, addonsOn, setAddonsOn, ava
           <p className="mb-1 text-xs text-muted">Optional, off by default, on Hard only. Each is a game rule, and a leaderboard ranks only plays with the same add-ons.</p>
           {ADDON_KEYS.map((k) => {
             const can = available[k], on = can && addonsOn.includes(k);
+            // session 2402 (session 583's open item, choice b): only the switch and its name are dimmed while the add-on cannot
+            // be chosen; the reason stays in the full muted grey (4.5 to 1), so a reader can read why
             return (
-              <label key={k} className={`flex items-start gap-2 ${can ? "" : "opacity-70"}`}>
-                <input type="checkbox" role="switch" aria-checked={on} checked={on} disabled={!can} className="mt-1"
+              <label key={k} className="flex items-start gap-2">
+                <input type="checkbox" role="switch" aria-checked={on} checked={on} disabled={!can} className={`mt-1 ${can ? "" : "opacity-70"}`}
                   onChange={(e) => setAddonsOn(e.target.checked ? [...addonsOn.filter((x) => x !== k), k] : addonsOn.filter((x) => x !== k))} />
                 <span className="min-w-0 break-words">
-                  <strong>{ADDONS[k].label}</strong>: {ADDONS[k].what}.
+                  <span className={can ? "" : "opacity-70"} data-addon-name={k}><strong>{ADDONS[k].label}</strong>: {ADDONS[k].what}.</span>
                   {can && level.solar_source ? <span className="block text-xs text-muted">The shape for {level.date}: {level.solar_source}</span> : null}
-                  {can ? null : <span className="block text-xs text-muted">Not available for {level.date}: the warehouse holds no solar shape for this day, and the game never fills one in.</span>}
+                  {can ? null : <span className="block text-xs text-muted" data-addon-unavailable={k}>Not available for {level.date}: the warehouse holds no solar shape for this day, and the game never fills one in.</span>}
                 </span>
               </label>
             );
@@ -383,6 +385,13 @@ const fromDraft = (d: Record<keyof Settings, string>): Settings => ({
 function EndTable({ mine, perfect, none, rules, big }: { mine: Tally; perfect: Tally; none: number; rules: Rules; big: boolean }) {
   const p = (v: number | null) => (v === null ? "" : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
   const kwh = (v: number) => v.toFixed(2);  // session 290: the unit is in the column's head, so a cell fits 390 px
+  // session 2402: each row's hover names where its figures come from: the game's own model (lib/battery.ts, simulate and
+  // optimum) under the rules of this play, on the day's real prices; no figure here is a real battery's earnings
+  const WHY: Record<string, string> = {
+    You: "Your play, scored by the game's own model (lib/battery.ts, simulate) under the rules of this mode, on the day's real prices. Not a real battery's earnings.",
+    "The perfect battery": "The same battery with every price of the day known in advance: the game's exact dynamic programme (lib/battery.ts, optimum) under the same rules. The most any play of this day could earn; not a real battery's earnings.",
+    "No battery": "The day with no battery at all: nothing bought or sold. With the rooftop add-on, the roof's power sold as it is made.",
+  };
   const rows: [string, Tally | null, number][] = [["You", mine, mine.score], ["The perfect battery", perfect, perfect.score], ["No battery", null, none]];
   const cell = "whitespace-nowrap py-1 pl-2 text-right align-top";
   const spread = perfect.buyPrice !== null && perfect.sellPrice !== null ? perfect.sellPrice - perfect.buyPrice : null;
@@ -397,7 +406,7 @@ function EndTable({ mine, perfect, none, rules, big }: { mine: Tally; perfect: T
         <tbody>
           {rows.map(([name, t, earned]) => (
             <tr key={name} className="border-b border-rule">
-              <th scope="row" className="py-1 text-left align-top font-normal">{name}</th>
+              <th scope="row" className="py-1 text-left align-top font-normal"><span className="cursor-help border-b border-dotted border-muted" title={WHY[name]} data-end-row={name}>{name}</span></th>
               <td className={`${cell} font-mono`}>{usd(earned)}</td>
               <td className={`${cell} font-mono`}>{t ? kwh(t.boughtKwh) : "none"}{t && t.buyPrice !== null ? <span className="block text-xs text-muted">at {p(t.buyPrice)}</span> : null}</td>
               <td className={`${cell} font-mono`}>{t ? kwh(t.soldKwh) : "none"}{t && t.sellPrice !== null ? <span className="block text-xs text-muted">at {p(t.sellPrice)}</span> : null}</td>
@@ -986,7 +995,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
                     <span className="text-xs text-muted">Money</span><div className="font-serif text-2xl" aria-live="off">{usd(money)}</div>
                     <div className="text-xs text-muted">earned {usd(money - START_MONEY)}{rules.deg > 0 ? `, wear ${usd(-hud.wear)}` : ""}</div>
                     {/* session 289 (Samuel's ruling 3a): one battery earns cents; the fleet of 10,000 such homes is shown beside it */}
-                    <div className="text-xs" data-fleet-now>fleet of {FLEET.toLocaleString("en-US")} homes: <span className="font-mono">{usd((money - START_MONEY) * FLEET)}</span></div>
+                    <div className="text-xs" data-fleet-now><span className="cursor-help border-b border-dotted border-muted" title={`A fictional fleet of ${FLEET.toLocaleString("en-US")} homes, each with this battery and each playing as you do: your earnings so far times ${FLEET.toLocaleString("en-US")}. A game rule, not a real fleet's earnings.`}>fleet of {FLEET.toLocaleString("en-US")} homes</span>: <span className="font-mono">{usd((money - START_MONEY) * FLEET)}</span></div>
                     {rules.solarKw > 0 ? <div className="text-xs text-muted">roof: {(roof[Math.min(n - 1, hud.idx)] * 4).toFixed(1)} of {SOLAR.kw} kW now{playing && !inOutage && labeled[Math.min(n - 1, hud.idx)].value < 0 && hud.control !== 1 ? " (switched off: the price is below zero)" : ""}, {usd(hud.solar)} so far</div> : null}
                   </div>
                 </div>
@@ -1018,7 +1027,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
           {!easy ? <WorstHour level={level} rules={result.rules} mine={result.mine} perfect={perfect} /> : null}
           <p className="mt-2 text-sm">
             {!easy ? <>In detail: {usd(result.mine.cash)} in the market{result.mine.wear > 0 ? `, less ${usd(result.mine.wear)} of wear` : ""}{result.mine.bonus > 0 ? `, plus the fleet bonus ${usd(result.mine.bonus)}` : ""}{result.rules.solarKw > 0 ? `, plus ${usd(result.mine.solar)} for the roof's power` : ""}{result.mine.penalty > 0 ? `, less the lights-out charge ${usd(result.mine.penalty)}` : ""}. </> : null}
-            Your fleet of {FLEET.toLocaleString("en-US")} homes: <strong>{usd(result.mine.score * FLEET)}</strong>; the perfect battery&apos;s fleet: {usd(perfect.score * FLEET)}.
+            <span className="cursor-help border-b border-dotted border-muted" title={`A fictional fleet of ${FLEET.toLocaleString("en-US")} homes, each with this battery and each playing as you did: your score times ${FLEET.toLocaleString("en-US")}, and the perfect battery's times the same. A game rule, not a real fleet's earnings.`} data-fleet-end="1">Your fleet of {FLEET.toLocaleString("en-US")} homes</span>: <strong>{usd(result.mine.score * FLEET)}</strong>; the perfect battery&apos;s fleet: {usd(perfect.score * FLEET)}.
             {!easy ? <> The rules: {presetLabel(result.preset)}.</> : null} <span className="text-muted">{server}</span>
           </p>
           {!easy ? (

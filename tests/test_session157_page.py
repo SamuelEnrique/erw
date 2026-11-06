@@ -162,7 +162,7 @@ class ThePage(unittest.TestCase):
 
     def test_what_the_view_reads_and_that_no_model_is_called(self):
         view, data, lib = src("site", "app", "policy", "WeekView.tsx"), src("site", "lib", "policyweekdata.ts"), src("site", "lib", "policyweek.ts")
-        self.assertEqual(sorted(re.findall(r'"data", "policy", "([a-z_]+\.json)"', data)), ["action_tags.json", "grids.json", "refresh.json", "state_rules.json", "tag_rules.json"])
+        self.assertEqual(sorted(re.findall(r'"data", "policy", "([a-z_]+\.json)"', data)), ["action_tags.json", "grids.json", "paused.json", "refresh.json", "state_rules.json", "tag_rules.json"])   # session 2401: paused.json
         self.assertIn('table_name: "eq.policy_actions"', data)
         self.assertIn('table_name: "eq.policy_reads"', data)
         self.assertIn('from "./supabase"', data)                                         # the one reader of the live set, with the anon key
