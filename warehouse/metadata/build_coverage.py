@@ -610,6 +610,8 @@ SECTOR_RULES = [
     (r"^weather_(obs|forecast)_hourly$", "power"),
     # session 25: companies found by the Thesis Builder (tool 27), the seed of the company database (tool 10)
     (r"^energy_companies$", "deals"),
+    # session 3302: the company database (tool 10): every company the warehouse names, its names and its rows
+    (r"^company_(directory|aliases|links)$", "power;deals"),
     (r"^eia_retail_sales_monthly$", "power"),
     (r"^eia_sector_energy_consumption_monthly$", "power;gas;oil;coal"),
     # session 19: the trader view (24)
