@@ -69,3 +69,7 @@ The same stories as the first runs, with the code of sessions 1435 to 1450 (`run
 - **23, in part**: 4 of 10 first links reach Google (5 before); the resolver is the data machine's and the owner's.
 - **26, 28, 29, 35, 41, in part**: as their rows say (the tracer's keys stay in the five numbers' rows; the related measure's chart and the point-by-point hover are the data machine's and chain 150's).
 - **New in the second runs**: three of the five What moved items print the headline alone with "One outlet has reported it so far." (the stories' scored lines are the old prompt's; the new prompt writes from the first scoring after the landing). The Roundup's "Next week" holds three items of three kinds on three days where the first run held three FERC comment deadlines on one day.
+
+## Friday's scheduled issue (session 1454, 6 November 2026)
+
+The Digest of 6 November was written at 00:48 UTC by the old code (the run checked out main before session 1434's landing at 01:17 UTC), and the 14:00 UTC run is skipped by the workflow's once-a-day gate, so Friday's issue is the old shape's: 4 figures repeated from the headline, 3 why lines with "signals", the ONRR line item as the chart (refused by session 1441's rule in the v2 code), 12 Google links of 36, no fold. No fault beyond the rows above; the first v2 issue is the first weekday run after this chain's stack lands (main is red: session 1439's note).
