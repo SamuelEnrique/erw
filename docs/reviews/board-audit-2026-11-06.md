@@ -98,10 +98,10 @@ State: **open** until a session closes it; each closing session writes its numbe
 | 9 | LNG: the export price by terminal and the export volumes (`eia_lng_exports_monthly`, `eia_gas_trade_monthly`) are not drawn; LNG feedgas by the day is not held | gas | 1602 | closed in 1602 (`tests/test_board_1602.py`) |
 | 10 | Regional gas hubs: four placeholders (Waha, SoCal Citygate, Algonquin, Chicago); Houston Ship Channel, Transco Zone 6 New York, Dominion South and the Northwest are not named | gas | 1602 | closed in 1602 (`tests/test_board_1602.py`) |
 | 11 | TTF and JKM by the day: placeholders as they should be; their World Bank months are in the world group, and the two placeholders' notes already say so | gas | 1602 | no gap: checked in 1602 |
-| 12 | US retail gasoline, all grades (`eia_retail_fuel_prices`, EMM_EPM0): no row | retailfuel | 1603 | open |
-| 13 | `eia_crude_first_purchase_prices`: two series not checked against the crude stream rows | crude | 1603 | open |
+| 12 | US retail gasoline, all grades (`eia_retail_fuel_prices`, EMM_EPM0): no row | retailfuel | 1603 | closed in 1603 (`tests/test_board_1603.py`) |
+| 13 | `eia_crude_first_purchase_prices`: two series not checked against the crude stream rows | crude | 1603 | closed in 1603: Mars Blend is the stream row (91 of 91 months equal), North Dakota drawn |
 | 14 | Crack spreads by product: only the two 3-2-1 cracks; no gasoline crack, no diesel crack, no heating oil crack | oilspreads | 1607 | open |
-| 15 | Coal by basin: placeholders (S&P Global) as they should be; the coal rows of the world group are not named beside them | plantfuel | 1603 | open |
+| 15 | Coal by basin: placeholders (S&P Global) as they should be; the coal rows of the world group are not named beside them | plantfuel | 1603 | closed in 1603 |
 | 16 | The PADD series: drawn in retail fuel and heating; the spot products are New York Harbor, Gulf Coast and Los Angeles only (EIA's daily set) | products | 1603 | no gap: noted |
 | 17 | RGGI's row says "held internal while the publisher's terms are reviewed" with status `not_held`, and names no publisher: a held series must print "licensed source needed" and name the publisher (RGGI, Inc.) | carbon | 1604 | open |
 | 18 | ISO-NE's ancillary row: the same, status `not_held`, no publisher named | as | 1604 | open |

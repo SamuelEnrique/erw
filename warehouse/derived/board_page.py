@@ -657,7 +657,8 @@ def build_fuels(b, log):
             b.add("plantfuel", f"{key[0]}|{variable}", label, meta[key]["unit"].replace("_", " "), "M", s[key], at=f"{names[loc].replace('U.S. Total', 'United States')}, monthly", code=f"{loc} {fuel}",
                   tags=dict(fuel=tag, area=loc_kind(loc)), source="EIA, Form EIA-923, cost of fossil fuels delivered to the electric power sector (eia_power_plant_fuel_costs)")
     for basin in ("Central Appalachia", "Northern Appalachia", "Illinois Basin", "Powder River Basin", "Uinta Basin"):
-        b.grey("plantfuel", f"coalspot|{basin}", "Coal spot price", "licensed", "EIA shows the week's coal spot prices with S&P Global's permission and says the history is proprietary and cannot be released. Source that would supply it: S&P Global.",
+        b.grey("plantfuel", f"coalspot|{basin}", "Coal spot price", "licensed", "EIA shows the week's coal spot prices with S&P Global's permission and says the history is proprietary and cannot be released. Source that would supply it: S&P Global. "
+               "The World Bank's monthly export prices of Australian and South African coal are under World energy benchmarks, monthly.",
                at=f"{basin}, weekly", unit="USD/short ton", tags=dict(fuel="coal_spot", area="us"))
     # retail electricity, monthly, by state and sector
     s, meta = table_daily("eia_retail_electricity_prices", since=START)
@@ -804,6 +805,37 @@ def build_heating(b, log):
         qtag, qwords = HEAT_PROCESSES[process]
         b.add("heating", k[0], pwords, meta[k]["unit"], "W", s[k], at=f"{area_name(area)}, {qwords}, weekly", code=k[0].split(":", 1)[1],
               tags=dict(product=ptag, process=qtag, area=kind(area)), source=HEAT_SOURCE)
+
+
+# Session 1603 (chain 165): the two oil series the warehouse held and the board did not draw. eia_crude_first_purchase_prices'
+# Mars Blend (F003075793) is the crude stream row already drawn (91 of 91 months equal on 6 November 2026), so only North
+# Dakota's (F002038__3) is a row; eia_retail_fuel_prices' US regular and diesel are the regional table's US rows (406 of
+# 406 weeks equal), so only gasoline of all grades is a row, beside the US regular one.
+FIRST_PURCHASE = [("eia:F002038__3", "North Dakota crude oil", "first purchase price, monthly",
+                   "The month's average first purchase price of crude oil produced in North Dakota, as EIA reports it (series F002038__3, by area); the table's method note calls it a proxy for Bakken crude.")]
+FIRST_PURCHASE_SOURCE = "EIA, Domestic Crude Oil First Purchase Prices by area (eia_crude_first_purchase_prices)"
+ALL_GRADES_SOURCE = "EIA, Gasoline and Diesel Fuel Update, US average retail price (eia_retail_fuel_prices)"
+
+
+def build_more_oil(b, log):
+    if here("eia_crude_first_purchase_prices"):
+        s, _ = table_daily("eia_crude_first_purchase_prices")
+        for entity, label, at, basis in FIRST_PURCHASE:
+            b.add("crude", f"{entity}|first_purchase_price", label, "USD/bbl", "M", s.get((entity, "first_purchase_price"), {}), at=at, code=entity.split(":", 1)[1],
+                  tags=dict(kind="first_purchase_price"), source=FIRST_PURCHASE_SOURCE, extra=dict(basis=basis))
+    else:
+        log("  first purchase prices: eia_crude_first_purchase_prices not on this machine, skipped (page_keep.py keeps the held rows)")
+    if here("eia_retail_fuel_prices"):
+        s, _ = table_daily("eia_retail_fuel_prices")
+        row = b.add("retailfuel", "eia:EMM_EPM0_PTE_NUS_DPG|retail", "Gasoline, all grades", "USD/gal", "W", s.get(("eia:EMM_EPM0_PTE_NUS_DPG", "retail_price"), {}), at="United States, retail, weekly",
+                    code="EMM_EPM0_PTE_NUS_DPG", tags=dict(product="gasoline", area="region"), source=ALL_GRADES_SOURCE,
+                    extra=dict(basis="The week's US average retail price of gasoline of every grade, taxes included, as EIA's weekly survey reports it, dated the Monday of the survey."))
+        regular = next((i for i, r in enumerate(b.rows) if r["id"] == "eia-emm-epmr-pte-nus-dpg-retail"), None)
+        if regular is not None:                       # beside the US regular row, not after the cities
+            b.rows.remove(row)
+            b.rows.insert(regular + 1, row)
+    else:
+        log("  US retail gasoline, all grades: eia_retail_fuel_prices not on this machine, skipped (page_keep.py keeps the held rows)")
 
 
 # Session 1602 (chain 165): the gas a trader reads beside Henry Hub. EIA's weekly working gas in storage by region, and
@@ -1003,6 +1035,7 @@ def build(log):
     build_adders(b, holidays, log)
     build_as(b, holidays, log)
     fuels, us_coal = build_fuels(b, log)
+    build_more_oil(b, log)       # session 1603
     build_world(b, log)          # session 1117
     build_gas_prices(b, log)
     build_gasflows(b, log)       # session 1602

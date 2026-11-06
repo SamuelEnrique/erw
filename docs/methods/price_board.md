@@ -355,3 +355,12 @@ The group opens on the storage rows (Show: gas in storage); the five-year averag
 Natural gas: the placeholders of the regional hubs are seven from this session, Houston Ship Channel, Transco Zone 6 New York and Eastern Gas South (formerly Dominion South) added to Waha, SoCal Citygate, Algonquin Citygate and Chicago Citygate: none is held (S&P Global Commodity Insights or Natural Gas Intelligence would supply them). TTF and JKM stay placeholders by the day; their notes name the World Bank's monthly Europe gas and Japan LNG rows of the world group.
 
 Tests: `tests/test_board_1602.py`, on real rows (`tests/fixtures/board_1602/`).
+
+## Oil and products: the series held and not drawn (session 1603, chain 165, 6 November 2026)
+
+- **North Dakota crude oil, first purchase price, monthly** (`eia_crude_first_purchase_prices`, series F002038__3, EIA's first purchase price by area; the table's method note calls it a proxy for Bakken crude): a row of the crude group (Show: first purchase, monthly). The table's other series, Mars Blend (F003075793), is not drawn again: it is the crude stream row `eia_crude_stream_prices` already draws (every one of the 91 months both hold is equal, checked on 6 November 2026).
+- **Gasoline, all grades, United States, weekly** (`eia_retail_fuel_prices`, EMM_EPM0_PTE_NUS_DPG): a row of the retail group, beside the US regular row. The table's US regular and diesel rows are the regional table's (406 of 406 weeks equal), so they are not drawn twice.
+- **Coal by basin** stays five placeholders (S&P Global; EIA may not release the history); each now names the World Bank's monthly Australian and South African coal rows of the world group.
+- **The PADD series and the spot products**: unchanged. The retail and heating groups draw every PADD EIA publishes; the spot products are EIA's nine daily series (New York Harbor, the Gulf Coast and Los Angeles), the inputs of the two 3-2-1 cracks among them.
+
+Tests: `tests/test_board_1603.py` (`tests/fixtures/board_1603/`).
