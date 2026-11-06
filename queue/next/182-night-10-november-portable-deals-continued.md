@@ -2,7 +2,7 @@
 
 machine: portable-laptop
 
-Written by session 2282 of chain 179 (`queue/done/179-night-9-november-portable-deals-continued.md`) on 6 November 2026, as that chain's rules say: that chain's unfinished steps first, then the audit's open rows. Numbered 182, the first number free on origin's main and every branch at or above 180. **Session 2295 updates this file** with what chain 179 did not finish; until it does, the steps below are chain 179's plan for its own tail. For the personal laptop only (named by its machine name, so no other code machine takes it). Model: as the owner sets for the night; the model under the owner's key at USD 3 a session and USD 25 the chain, every call's cost in the report.
+Written by session 2282 of chain 179 (`queue/done/179-night-9-november-portable-deals-continued.md`) on 6 November 2026, as that chain's rules say: that chain's unfinished steps first, then the audit's open rows. Numbered 182, the first number free on origin's main and every branch at or above 180. **Updated by session 2295** (6 November 2026, about 14:22 UTC) with what chain 179 did not finish, below under sessions 2297 to 2301. For the personal laptop only (named by its machine name, so no other code machine takes it). Model: as the owner sets for the night; the model under the owner's key at USD 3 a session and USD 25 the chain, every call's cost in the report.
 
 ## Rules for every session
 
@@ -18,7 +18,11 @@ Long end 0:45. The next file (above), committed alone, pushed. The machine (the 
 
 ## Sessions 2297 to 2301: chain 179's unfinished steps
 
-Long end 1:15 each. Each session takes the next unfinished step of chain 179 in its order (session 2295 lists them here), or, if none is left, the next open row of `docs/reviews/deals-audit-2026-11-06.md` in order of count.
+Long end 1:15 each. Each session takes the next unfinished step of chain 179 in this order, or, if none is left, the next open row of `docs/reviews/deals-audit-2026-11-06.md` in order of count. Chain 179's state at its end: nothing of chains 156 to 179 on main; `wip/2295-deals` (sessions 2230 to 2295 stacked, origin/main merged in session 2292) requested of the desktop as row 8 of `docs/state/landing_request_portable.md` (rows 1, 4 and 7 held in it). No class of the second or third read is open for code. The worktree `erw-2254` holds the site's packages and the newest branch.
+
+1. **The landing of row 8.** As chain 179's step 1 for row 7: deleted branches and `erw-2254` removed if landed; else the whole suite and the gate only when this is the only Claude Code window, 3 GB is free and the time is outside 14:00 to 16:15 UTC; if Claude Code stops either for memory, the row waits.
+2. **The owner's rulings**, any answered (the four notes of chains 156, 159, 174 and 179): each in its own session, with a fixture where it changes the extraction.
+3. **A fourth read**, only on stories scored after 5 November 2026 (the main checkout's `warehouse/output/news_stories.csv`, read only, after `scripts/sync.py` or a pull of the data machine's copy if this machine has one): about 50 deal clusters and 30 facility clusters no fixture holds, recorded under the cap and read in the audit file's form; any new class taken in order of count in sessions 2302 to 2305. If no story is scored after 5 November, no read: say so.
 
 ## Sessions 2302 to 2305: the audit's open rows
 
