@@ -300,7 +300,7 @@ forvalues i = 1/3 {
 
 * Not in this file: the capture price at the other hubs and by year, the other rows of the spans table, the IRR (none at the defaults: every year's flow is below zero), the sensitivity chart, a contract other than the breakeven one, the battery beside the plant and the stress days.
 
-* Session 1490: each headline figure the page shows for these months (page_figures.csv) beside the replication, with the difference.
+* Sessions 1490 and 1492: each headline figure the page shows for these months (page_figures.csv) beside the replication, with the difference.
 
 display "the page shows, for the months of the public file:"
 
