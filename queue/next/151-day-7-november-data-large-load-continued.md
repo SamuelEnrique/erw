@@ -2,7 +2,7 @@
 
 machine: data
 
-Written by session 2886, the first session of `queue/done/148-day-6-november-data-large-load-continued.md`, at that file's instruction ("at least fourteen sessions numbered from the first free numbers after 2903"). The next free number in `queue/next`, `queue/todo`, `queue/parked` and `queue/done`, on origin's main and on every branch, was 151: 149 and 150 are the code machine's, 152 the personal laptop's. This file takes sessions 2904 to 2917; no commit message and no file on origin's main or its branches named a session from 2904 to 2917 when this was written. The first session checks again, skips a taken one upward and says so. Session 2903 of chain 148 updates this file at chain 148's end: sessions 2904 to 2906 take the steps chain 148's note says did not finish, in chain 148's order. Model: Opus 5.5, high effort. This machine runs one Claude Code session, this chain, and nothing else.
+Written by session 2886, the first session of `queue/done/148-day-6-november-data-large-load-continued.md`, at that file's instruction ("at least fourteen sessions numbered from the first free numbers after 2903"). The next free number in `queue/next`, `queue/todo`, `queue/parked` and `queue/done`, on origin's main and on every branch, was 151: 149 and 150 are the code machine's, 152 the personal laptop's. This file takes sessions 2904 to 2917; no commit message and no file on origin's main or its branches named a session from 2904 to 2917 when this was written. The first session checks again, skips a taken one upward and says so. Session 2903 of chain 148 updated this file at chain 148's end (6 November 2026, about 03:35 UTC): sessions 2904 to 2906 below hold the steps chain 148's note (`docs/state/note_2026-11-07_data_c148.md`; `note_2026-11-07_data.md` is an older chain's) says did not finish, in chain 148's order. Model: Opus 5.5, high effort. This machine runs one Claude Code session, this chain, and nothing else.
 
 ## Why this chain
 
@@ -26,7 +26,7 @@ The rules of `queue/next/146-day-16-december-data-mepso-cges-kostt-ost.md` (park
 Read first: `docs/state/review_2026-10-31_portable.md`, `docs/state/review_2026-10-30_code_ask_board.md`, `docs/state/review_2026-10-29_portable.md`, `docs/state/review_2026-10-29_code.md`, `docs/reviews/siting-gaps.md` (its table and its last state section), `queue/summary/2026-11-04-health.md`, `docs/machines.md` ("The landing gate", "The chain worker"), `CLAUDE.md`.
 In the rules above, read "Session 2862" as session 2904 and "session 2885" as session 2917 (the rules are chain 147's, carried word for word by chain 148 and here).
 
-Also read first: chain 148's note (`docs/state/note_2026-11-07_data*.md`, the name its session 2903 gives), chain 147's (`docs/state/note_2026-11-06_data_c147.md`), and both chains' session reports under `archive/sessions/`.
+Also read first: chain 148's note (`docs/state/note_2026-11-07_data_c148.md`), chain 147's (`docs/state/note_2026-11-06_data_c147.md`), and both chains' session reports under `archive/sessions/`.
 
 ## Session 2904: the next file, the ground, chain 148's first unfinished step
 
@@ -34,11 +34,13 @@ Long end 1:30. Pulls: GitHub only.
 
 1. Write the successor file for this machine in this file's form (`machine: data`, Opus 5.5 high effort, at least fourteen sessions numbered from the first free numbers after 2917, the first free file number on origin's main and every branch): every step of this chain that its note says did not finish, then the siting gaps rows still open that a public US source can close without a ruling, then the daily run's seven days and the records; these rules word for word. Commit it alone, push it to main, `git status -sb`.
 2. `scripts/precheck.py` from the main checkout; memory and disk free; `scripts/freeze.py status`; the Anthropic key's state as chain 147's session 2862 read it.
-3. The first step chain 148's note lists as not finished (session 2903 writes it here). If none, the next session's work.
+3. **Chain 148's first unfinished step, the board's five questions regraded** (its session 2886): `warehouse/chat/eval/expected_s1122.py` run for today's keys (the live set, the anon key, reads only), `eval_s1113.py --grade --set s1122` on them, and the run's row of `runs.json` and `ask-history.md` written again. k03's fault in the route ("Cannot read properties of undefined (reading 'aggregation')") is the code machine's: say so in the note, do not fix site code here.
 
 ## Sessions 2905 and 2906: chain 148's other unfinished steps
 
-Long end 2:30 each. Pulls: as the step of chain 148 says. Each the next step chain 148's note lists as not finished, in chain 148's order (session 2903 writes them here, with their pull caps). A step that waits on a ruling is not done: its question goes to this chain's note. If none is left, each session takes the next siting gaps row below.
+Long end 2:30 each. Pulls: as the step of chain 148 says. **Session 2905, the controllable load's path, read where ERCOT states it** (chain 148's session 2893; at most 10 requests to www.ercot.com, robots first, never `/misapp` or `/misdownload`): the Planning Guide's Section 9 and ERCOT's large-load interconnection page under `/services/` or `/gridinfo/`, for a stated step or duration of a Controllable Load Resource's connection; into `large_load_connection_rules` with session 2910 if one is stated.
+
+**Session 2906, the TPIT refresh** (chain 148's session 2891; at most 10 requests, robots first): the newest Transmission Project and Information Tracking workbook on ERCOT's allowed pages, against `ercot_transmission_projects`' July 2026 base; a newer one written with the locked write scripts and `nodes.json` rebuilt. A step that waits on a ruling is not done: its question goes to this chain's note.
 
 ## Session 2907: the tariff registry, the utilities still missing
 
