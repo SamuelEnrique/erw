@@ -71,7 +71,13 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         # session 2224 (chain 152): the third set, twenty questions a lab's energy team asks (scripts/ask_eval/lab_questions.py
         # computes its keys and writes the file); its runs are eval_loop.py's, named by session
         "s2224": {"questions": os.path.join(HERE, "questions_s2224.yaml"), "run": os.path.join(HERE, "eval_s2224_loop_s2224_run.json"),
-                  "grades": os.path.join(HERE, "eval_s2224_loop_s2224_grades.json")}}
+                  "grades": os.path.join(HERE, "eval_s2224_loop_s2224_grades.json")},
+        # session 3280 (the Ask evaluation chain of 6 November 2026): twenty a power trader asks (scripts/ask_eval/trader_questions.py),
+        # and session 3281: twenty an investor asks (scripts/ask_eval/investor_questions.py); their runs are eval_loop.py's, named by session
+        "trader": {"questions": os.path.join(HERE, "questions_trader.yaml"), "run": os.path.join(HERE, "eval_s3280_loop_trader_run.json"),
+                   "grades": os.path.join(HERE, "eval_s3280_loop_trader_grades.json")},
+        "investor": {"questions": os.path.join(HERE, "questions_investor.yaml"), "run": os.path.join(HERE, "eval_s3281_loop_investor_run.json"),
+                     "grades": os.path.join(HERE, "eval_s3281_loop_investor_grades.json")}}
 ENV_ROOT = ROOT if os.path.exists(os.path.join(ROOT, ".env")) else os.path.join(os.path.dirname(ROOT), "erw")   # a worktree reads the main checkout's
 STEP = "site_ask_eval"
 GRID_SLUG = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "SPP": "spp", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm"}
@@ -248,6 +254,9 @@ def grade_set(which, rules=()):
             for t in q["text"]:
                 m = re.fullmatch(r"([A-Za-z]+) (\d{1,2})", t)
                 alts = [t.lower()] + ([f"{m.group(2)} {m.group(1)}".lower()] if m else [])
+                # session 3280: a text entry with "|" is met by any one of its parts (the ways an hour may be written:
+                # questions_trader.yaml's maxima, the hour in UTC as the tool gives it, in local time, or as the hour ending)
+                alts += [p.strip().lower() for p in t.split("|") if "|" in t and p.strip()]
                 ok = ok and any(x in ans for x in alts)
             g["text"] = ok
             g["ok"] = all(v for k, v in g.items() if k != "ok" and v is not None)
