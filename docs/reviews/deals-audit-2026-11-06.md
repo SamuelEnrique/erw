@@ -532,3 +532,10 @@ Deals (106): not a deal kept 1; stated deals with no row 6 (two by ruling 2, one
 | A15 | Facilities: confidence | done | 2236 |
 | A16 | The step's failure line | done | 2237 |
 | New | Stated deals with no row (6), stated facilities with no row (2) | traced (2256): 2 by ruling 2, 1 by a scope ruling, 3 by the prompt's own rules; the switch `ERW_DEALS_ONE_PARTY` holds the answer | 2256; ruling |
+
+## Session 2269 (chain 174): deals' place, the three left (a decision, no code)
+
+- **D024 ("Ohio and Pennsylvania"), D058 ("Texas, Louisiana")**: the `state` field holds one two-letter code, and the Roundup reads it as one (`warehouse/news/roundup.py`: `state in US_STATES`). Two states named for one deal stay out of `state`; both deals carry the country (United States, session 2257). A field of several states would be a new column beside `state` (the data standard's `geo` form, a comma list of ISO 3166-2 codes); not added without a need on a page.
+- **D087 ("Japan's Jera")**: Japan is the buyer's home, not where the LNG is produced; the rule leaves it empty (session 2257).
+
+Place missed: 3, each by a written decision; the class is closed for code.
