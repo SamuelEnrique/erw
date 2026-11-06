@@ -23,3 +23,5 @@ Also seen, not counted as a class: r60, a correction that replaces an effective 
 ## The rows closed by later sessions
 
 (Sessions 3140 to 3144 write their counts here.)
+
+- **Session 3140, class 5 (the instrument)**: 80 of 80 right on this sample (71 before), and no instrument of the first sample changed (14 of 14 there). The rules: an agency's order on a petition; a scoping period before its sessions; a hearing's notice, a technical conference, an open house and meetings (plural); an environmental review's schedule; a general permit proposed or issued as an approval ("Proposed ..." proposed); an award only with its words in the title or beside a sum of money. The NRC's "order imposing procedures" stays an application's notice. Tested with the nine rows' own titles and action lines.

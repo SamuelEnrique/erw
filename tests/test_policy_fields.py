@@ -159,6 +159,32 @@ class Rules(unittest.TestCase):
              "September 9, 2026, you will need to file those comments in Docket No. CP26-578-000.")
         self.assertEqual(F.dates(t), [])
 
+    def test_the_instruments_of_the_fresh_audit(self):
+        # session 3140: the nine rows of the fresh audit's class 5, by their titles and the Register's action lines
+        cases = [
+            ("notice", "Proposed Reissuance of NPDES General Permit for Oil and Gas Exploration Facilities in Federal Waters of Cook Inlet (AKG51000)",
+             "Notice of proposed reissuance of NPDES General Permit and request for public comment.", ("approval", "proposed")),
+            ("notice", "Duke Energy Carolinas, LLC; Belews Creek; Notice of Hearing", "Early site permit application; notice of uncontested hearing.", ("meeting", "scheduled")),
+            ("press_release", "People who Power the Process: Electric General Rate Case Program and Project Supervisor", "", ("announcement", "announced")),
+            ("notice", "Rockies Express Pipeline LLC, Cheyenne Connector, LLC, East Cheyenne Gas Storage, LLC; Notice of Revised Schedule for "
+             "Environmental Review of the Critical Energy Reliability Link Project", "", ("environmental_review", "scheduled")),
+            ("notice", "Clean Air Act Operating Permit Program; Order on Petition for Objection to State Operating Permit for the Humboldt Redwood Company, LLC",
+             "Notice of final order on petition.", ("order", "issued")),
+            ("notice", "Reliability Technical Conference; Notice of Reliability Technical Conference", "", ("meeting", "scheduled")),
+            ("press_release", "NRC Schedules Open House to Discuss Donald C. Cook Power Plant Performance", "", ("meeting", "scheduled")),
+            ("notice", "Algonquin Gas Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Planned Algonquin "
+             "Reliable Affordable Resilient Enhancement Project, and Notice of Public Scoping Sessions", "", ("environmental_review", "open")),
+            ("notice", "International Energy Agency Meetings", "Notice of meetings.", ("meeting", "scheduled")),
+            # and the NRC's "order imposing procedures" stays an application's notice
+            ("notice", "Applications for Amendments to Facility Operating Licenses Involving Proposed No Significant Hazards Consideration Determination",
+             "License amendment request; notice of opportunity to comment, request a hearing, and petition for leave to intervene; order imposing procedures.",
+             ("application", "filed")),
+        ]
+        for action_type, title, line, want in cases:
+            row = {"agency": "X", "action_type": action_type, "title": title, "status": line, "docket": "", "event_date": "2026-07-01"}
+            g = F.derive(row, "", None)
+            self.assertEqual((g["instrument"], g["action_status"]), want, title)
+
     def test_out_of_scope_is_marked_by_a_written_list(self):
         # session 3129: the audit's four (r3, r9, r26, r29), by their titles
         for t, why in [("Notice of 229 Boundary for the SLAC National Accelerator Laboratory", "a laboratory's security boundary"),

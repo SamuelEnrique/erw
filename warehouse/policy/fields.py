@@ -126,16 +126,25 @@ INSTRUMENT_RULES = [
     ("complaint", re.compile(r"\bv\.\s|\bcomplaint\b")),
     ("lease_sale", re.compile(r"\blease sale\b|\bnotice of sale\b")),
     ("guidance", re.compile(r"\bpolicy statement\b|\bguidance\b|\bregulatory guide\b|\bdraft guide\b|\btrial guide\b|\bstaff guidance\b")),
-    ("order", re.compile(r"\bemergency orders?\b|\bauthorization for continued project operation\b|;\s*exemption\s*$|\bexemption\b.*\bissuance\b|\border no\.")),
+    # session 3140 (the fresh audit): an agency's order on a petition is an order, not the petition
+    ("order", re.compile(r"\bemergency orders?\b|\bauthorization for continued project operation\b|;\s*exemption\s*$|\bexemption\b.*\bissuance\b|\border no\.|\border on petition\b|;\s*order\b(?! imposing procedures)")),
     # an application the Commission has accepted or that was tendered is an application, whatever else its title says
     ("application", re.compile(r"\bapplication (?:accepted|tendered)\b|\bnotice of (?:intent to file )?(?:license )?application\b")),
-    ("meeting", re.compile(r"\bscoping sessions?\b|\bpublic (?:meeting|forum|hearing)s?\b|\bmeeting\b|\bto hold\b.*\bhearing\b")),
-    ("environmental_review", re.compile(r"\benvironmental (?:assessment|impact statement)\b|\bscoping period\b|\bfinding of no significant impact\b|\benvironmental issues\b")),
+    # session 3140: a scoping period is a review step even where its notice also names its sessions
+    ("environmental_review", re.compile(r"\bscoping period\b")),
+    # session 3140: a hearing's notice, a technical conference, an open house and meetings (plural) are meetings
+    ("meeting", re.compile(r"\bscoping sessions?\b|\bpublic (?:meeting|forum|hearing)s?\b|\bmeetings?\b|\bto hold\b.*\bhearing\b|\bnotice of hearing\b|\bconference\b|\bopen house\b")),
+    ("environmental_review", re.compile(r"\benvironmental (?:assessment|impact statement|review)\b|\bscoping period\b|\bfinding of no significant impact\b|\benvironmental issues\b")),
+    # session 3140: an agency proposing or issuing a general permit (EPA's NPDES permits) grants an approval
+    ("approval", re.compile(r"\bgeneral permit\b|\bpermit (?:issuance|reissuance)\b|\breissuance of\b[^;]{0,60}\bpermit\b")),
     ("application", re.compile(r"\bapplications?\b|\brequest (?:under|for)\b|\bnotice of request\b|\bnotice; receipt\b|\bamendment request\b|\bpetition for\b")),
     ("approval", re.compile(r"\bapproval\b|\bapproving\b|\bapproves?\b|\bclean data determination\b")),
     ("decision", re.compile(r"\bdecisions? on\b")),
     ("award", re.compile(r"\bfunding\b|\bgrants?\b|\bawards?\b|\bselects?\b|\bselected\b|\binvestments?\b")),
 ]
+PERMIT_APPROVAL = INSTRUMENT_RULES[[k for k, _ in INSTRUMENT_RULES].index("approval")][1]
+RULE_APPROVAL = [p for k, p in INSTRUMENT_RULES if k == "approval"][-1]
+MONEY_WORD = re.compile(r"\$\s?\d")
 
 
 def instrument(action_type, title, status_line="", lead=""):
@@ -144,10 +153,16 @@ def instrument(action_type, title, status_line="", lead=""):
         hay += " ; " + (lead or "")[:700].lower()
     if action_type in ("rule", "proposed_rule"):
         # a Register rule is a rule, or the approval of a state's program or plan that the Register files as one
-        return "approval" if dict(INSTRUMENT_RULES)["approval"].search(hay) else action_type
+        return "approval" if RULE_APPROVAL.search(hay) or PERMIT_APPROVAL.search(hay) else action_type
     for name, pat in INSTRUMENT_RULES:
-        if name == "approval" or (name == "award" and action_type != "press_release"):
-            continue   # an approval is read only of a Register rule (above); an award only of a release
+        if (name == "approval" and pat is RULE_APPROVAL) or (name == "award" and action_type != "press_release"):
+            continue   # a program's approval is read only of a Register rule (above); an award only of a release
+        if name == "award":
+            # session 3140: an award's words in the title, or beside a sum of money; a feature story that names a
+            # program is no award
+            t = (title or "").lower()
+            if not (pat.search(t) or (MONEY_WORD.search(hay) and pat.search(hay))):
+                continue
         if pat.search(hay):
             return name
     if re.search(r"\border\b", (status_line or "").lower()) and not re.search(r"order imposing procedures", (status_line or "").lower()):
@@ -172,8 +187,9 @@ def status(inst, action_type, title, status_line, event_date, dates):
         return "stayed"
     eff = [d for k, d, _ in dates if k == "effective"]
     if inst in ("rule", "approval", "proposed_rule"):
-        if action_type == "proposed_rule" or re.search(r"\bproposed\b", (status_line or "").lower()):
-            return "proposed"
+        if action_type == "proposed_rule" or re.search(r"\bproposed\b", (status_line or "").lower()) or \
+                (action_type == "notice" and re.match(r"\s*(?:notice of )?proposed\b", (title or "").lower())):
+            return "proposed"   # session 3140: "Proposed Reissuance of NPDES General Permit" is proposed
         return "effective" if eff and min(eff) <= event_date else "final"
     if inst in ("guidance", "lease_sale"):
         return "proposed" if re.search(r"\bdraft\b|\bproposed\b|\btrial\b", hay) else ("final" if inst == "lease_sale" else "issued")
