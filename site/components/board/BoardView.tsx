@@ -16,8 +16,8 @@ import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
 import { GroupFold, NumberTile, NumberTileGrid } from "@/components/tool/ToolPage";
 import {
-  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, fmt, gridExtremes, heldLines, heldNote, inputsWords, leadRow, nameTitle, noMove, pct, rangeExtremes, rowsOf, shortDate, signed, sparkOf, topRows,
-  type Bench, type BoardFile, type Group, type Row, type WeekRow,
+  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, fmt, gridExtremes, heldLines, heldNote, inputsWords, leadRow, nameTitle, noMove, pct, rangeExtremes, rowsOf, shortDate, shownMove, signed, sparkOf, topRows,
+  type Bench, type BoardFile, type Group, type MoveKey, type Row, type WeekRow,
 } from "@/lib/board";
 
 const METHOD = "/data/methods/price_board";
@@ -110,8 +110,12 @@ function Curve({ row }: { row: Row }) {
   );
 }
 
-function MoveCell({ row, k }: { row: Row; k: "d" | "w" | "m" | "y" }) {
-  const m = row.moves?.[k];
+function MoveCell({ row, k, built }: { row: Row; k: MoveKey; built: string }) {
+  // session 1608: a stale row's moves are blank, with its status (lib/board.ts, shownMove)
+  if (row.moves?.[k] && closeAge(row, built)?.stale) {
+    return <span className="text-xs text-muted" title={`Not shown: the series is stale (${closeAge(row, built)!.words}).`}>stale</span>;
+  }
+  const m = shownMove(row, k, built);
   if (!m) {
     return noMove(row.freq, k)
       ? <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no move over a ${k === "d" ? "day" : "week"}.`}>{FREQ_WORDS[row.freq]}</span>
@@ -143,7 +147,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
       {row.link ? <span className="ml-1.5 text-xs" onClick={(e) => e.stopPropagation()} data-row-link={row.id}><SiteLink href={row.link.href}>{row.link.words}</SiteLink></span> : null}
     </th>
   );
-  const cols = 11 + (group.curve ? 1 : 0);
+  const cols = 7 + MOVES.length + (group.curve ? 1 : 0);   // session 1608: the moves are MOVES, the year to date among them
   if (row.status !== "ok") {
     return (
       <tr className="border-b border-rule/70" data-row={row.id} data-status={row.status} hidden={hidden} id={domId}>
@@ -165,7 +169,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
         {shortDate(last.t, row.freq)}{row.freq !== "D" ? <span className="ml-1 border border-rule px-0.5 text-xs">{FREQ_WORDS[row.freq]}</span> : null}
         {age?.stale ? <span className="ml-1 border border-accent px-0.5 text-xs text-accent">stale</span> : null}
       </td>
-      {MOVES.map(([k]) => <td key={k} className="py-1 pr-3 text-right text-xs"><MoveCell row={row} k={k} /></td>)}
+      {MOVES.map(([k]) => <td key={k} className="py-1 pr-3 text-right text-xs"><MoveCell row={row} k={k} built={file.built} /></td>)}
       <td className="py-1 pr-3 text-right text-xs">{row.avg7 ? <span title={`the mean of the ${row.avg7.n} values held in the 7 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg7`}>{fmt(row.avg7.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 7-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="py-1 pr-3 text-right text-xs">{row.avg30 ? <span title={`the mean of the ${row.avg30.n} values held in the 30 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg30`}>{fmt(row.avg30.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 30-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted">{row.lo30 !== undefined ? <span title="the lowest and highest value of the last 30 days">{fmt(row.lo30, row.unit)} to {fmt(row.hi30!, row.unit)}</span> : null}</td>
@@ -183,7 +187,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
   // its rows' names behind a toggle; the held rows stay in the page, blank, as they were (lib/board.ts, heldLines)
   const { shown, held } = heldLines(rows);
   const [named, setNamed] = useState<Record<string, boolean>>({});
-  const cols = 11 + (group.curve ? 1 : 0);
+  const cols = 7 + MOVES.length + (group.curve ? 1 : 0);   // session 1608: the moves are MOVES, the year to date among them
   return (
     <section id={group.id} className="scroll-mt-4" aria-label={group.title} data-group={group.id}>
       <GroupFold title={group.title} open={unfolded} onToggle={fold} meta={<>

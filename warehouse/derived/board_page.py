@@ -149,6 +149,18 @@ def day_of(ts_utc):
 # figures of one series
 # ---------------------------------------------------------------------------
 
+# Session 1608 (chain 165): the move over the year to date, against the last value held of the year before, when that
+# value is no older than a step's slack before 31 December (a daily series' SLACK days, a weekly one's week and SLACK, a
+# monthly one's December, a quarterly one's fourth quarter). None when the year before ends with no such value.
+YEAR_END_SLACK = {"D": SLACK, "W": 7 + SLACK, "M": 30, "Q": 91}
+
+
+def year_end(days, d0, freq):
+    end = dt.date(d0.year - 1, 12, 31)
+    cands = [d for d in days if end - dt.timedelta(days=YEAR_END_SLACK[freq]) <= d <= end]
+    return max(cands) if cands else None
+
+
 def stats(series, freq="D"):
     """The figures of one series, {date: value}, freq D, W, M or Q (session 1135: a quarterly series has a move over a
     year only). None for an empty series."""
@@ -169,7 +181,7 @@ def stats(series, freq="D"):
         return dict(t=d.isoformat(), v=round(v, 4), ch=round(v0 - v, 4), pct=round(100 * (v0 - v) / v, 2) if v > 0 and v0 >= 0 else None)
     prev = days[-2] if freq == "D" and len(days) > 1 and (d0 - days[-2]).days <= 1 + SLACK else None
     moves = {"d": move(prev), "w": move(back(7)) if freq in ("D", "W") else None,
-             "m": None if freq == "Q" else move(back(30) if freq != "M" else back(28)), "y": move(back(365))}
+             "m": None if freq == "Q" else move(back(30) if freq != "M" else back(28)), "y": move(back(365)), "ytd": move(year_end(days, d0, freq))}
     window = [series[d] for d in days if d0 - dt.timedelta(days=365) < d <= d0]
     rng = None
     if len(window) >= RANGE_MIN[freq]:

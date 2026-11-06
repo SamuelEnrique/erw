@@ -404,3 +404,12 @@ Tests: `tests/test_board_1606.py` (`tests/fixtures/board_1606/`).
 - Brent less WTI is unchanged (the crude group, also under oil spreads).
 
 Tests: `tests/test_board_1607.py` (`tests/fixtures/board_1607/`).
+
+## The moves: the year to date, and none on a stale row (session 1608, chain 165, 6 November 2026)
+
+- **Five moves a row**: day, week, month and year as before (the method's table above), and **YTD**, the latest value less the last value held of the year before, when that value is no older than a step's slack before 31 December: 6 days for a daily series (a fuel has no holiday close), a week and 6 days for a weekly one, December for a monthly one, the fourth quarter for a quarterly one. A year before that ends earlier has no YTD move ("not held yet"). The move's own date is on its hover ("against 11.00 on 30 Dec 2025"), so the window's two ends are stated. The builder writes it as `moves.ytd`; the page draws it as a fifth column from the same list as the four (`MOVES` in `site/lib/board.ts`).
+- **A stale row's moves are blank**, each cell reading "stale" with the row's age on hover (`shownMove`): a move measured from a series past the board's stale threshold (`closeAge`) is not shown as current. The latest value and its date stay, with the "stale" mark beside the date, as before. `site/scripts/check-board.mjs` and `check-board-v4.mjs` expect no number in those cells.
+- The rows' CSV (`/board/rows`) keeps its four moves until session 1614's downloads.
+- `tests/test_session132.py` and `tests/test_session1139.py` take a file built before the YTD move as it is (four moves), so a landing before the first rebuild passes.
+
+Tests: `tests/test_board_1608.py`.

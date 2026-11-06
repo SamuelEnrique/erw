@@ -108,7 +108,7 @@ State: **open** until a session closes it; each closing session writes its numbe
 | 19 | RIN prices: none held; EPA's RIN volumes are held. A placeholder that names the source | carbon | 1604 | closed in 1604 |
 | 20 | Uranium: the IMF's month is drawn and the daily spot is a placeholder (UxC, TradeTech) | metals | 1604 | no gap: noted |
 | 21 | Retail electricity: drawn by state and sector, newest month August 2026 | retailpower | | no gap |
-| 22 | The moves: day, week, month and year are drawn; year to date is not | all | 1608 | open |
+| 22 | The moves: day, week, month and year are drawn; year to date is not | all | 1608 | closed in 1608 (`tests/test_board_1608.py`); a stale row's moves blank |
 | 23 | The trend line: the last 30 points; the chain asks for the last ninety days (or the step's equivalent) | all | 1609 | open |
 | 24 | CFTC positions: not a price; not drawn | | | out of scope: for a ruling |
 | 25 | EIA's STEO price forecasts: not a market price; not drawn | | | out of scope: for a ruling |

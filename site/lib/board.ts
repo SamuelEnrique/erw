@@ -13,7 +13,7 @@ export type Row = {
   id: string; group: string; label: string; at: string; code: string; unit: string; freq: "D" | "W" | "M" | "Q" | "";
   tags: Record<string, string>; status: Status; note?: string; source?: number; formula?: string; also?: string[];
   curve?: { status: Status; note: string }; hourly?: string; hub?: string;
-  last?: { t: string; v: number }; moves?: Record<"d" | "w" | "m" | "y", Move | null>;
+  last?: { t: string; v: number }; moves?: Partial<Record<MoveKey, Move | null>>;
   range?: { lo: number; hi: number; n: number; pos: number | null } | null;
   avg7?: { v: number; n: number }; avg30?: { v: number; n: number }; lo30?: number; hi30?: number;
   spark?: { t0: string; d: number[]; v: number[] };
@@ -51,13 +51,21 @@ export type Point = { t: number; v: number };
 
 export const DAY = 86_400_000;
 export const HOUR = 3_600_000;
-export const MOVES = [["d", "Day"], ["w", "Week"], ["m", "Month"], ["y", "Year"]] as const;
+// session 1608: the year to date, against the last value held of the year before (the builder's year_end)
+export const MOVES = [["d", "Day"], ["w", "Week"], ["m", "Month"], ["y", "Year"], ["ytd", "YTD"]] as const;
+export type MoveKey = (typeof MOVES)[number][0];
 export const PLACEHOLDER: Record<Exclude<Status, "ok">, string> = {
   paused: "paused while terms are reviewed", licensed: "licensed source needed", license: "license needed", not_held: "not held yet", working: "working on it",
 };
 export const FREQ_WORDS: Record<string, string> = { D: "daily", W: "weekly", M: "monthly", Q: "quarterly", "": "" };
 /** Why a move is blank on a series that is not daily: a weekly series has no daily move, a monthly one no daily or weekly move. */
-export const noMove = (freq: string, k: string) => (freq === "W" && k === "d") || (freq === "M" && (k === "d" || k === "w")) || (freq === "Q" && k !== "y");
+export const noMove = (freq: string, k: string) => (freq === "W" && k === "d") || (freq === "M" && (k === "d" || k === "w")) || (freq === "Q" && k !== "y" && k !== "ytd");
+/** Session 1608 (the chain's rule: a move on a stale series is blank, with its status): the move a row shows, null when the
+ *  row is stale on the day the board was built or the move is not held. Pure; the page and scripts/check-board.mjs share it. */
+export function shownMove(row: Row, k: MoveKey, built: string): Move | null {
+  if (closeAge(row, built)?.stale) return null;
+  return row.moves?.[k] ?? null;
+}
 
 /** Decimals a unit is written with: gallons to a tenth of a cent, large prices whole, everything else to the cent. */
 export function places(unit: string, v = 0): number {
