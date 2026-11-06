@@ -1,6 +1,6 @@
 # Session 2885 report: the note, the next file, the landing, the queue
 
-6 November 2026, about 01:48 to @@END@@ UTC, on lab-desktop (the data machine), chain 147, unattended. Model spend USD 0. Pulls: GitHub only.
+6 November 2026, about 01:48 to 03:05 UTC, on lab-desktop (the data machine), chain 147, unattended. Model spend USD 0. Pulls: GitHub only.
 
 ## Read these first
 
@@ -10,8 +10,8 @@
   - `0d0e41e66`: session 2888 also takes session 2875's connection rules.
   - Its sessions 2889, 2894 and 2899 now start from the tables already held. Its successor takes the first number after the code machine's 149 and 150.
   - Rule 8's snapshots around both pushes: 0 differences.
-- **This chain's branch:** @@LANDING@@
-- **The queue step:** @@QUEUE@@
+- **This chain's branch `wip/c147-data` landed as `a41dd2e41`** (task/c147-data, run 42152196214, checks passed 03:00 UTC; deployed 03:03). Its gate's third round: suite 7,623 OK, npm ci, build and serve passed; check-values had 2 failures, both known (the `/deals` and `/learn/problems/know-your-grid` floors); 7,743 of 7,743 values matched. The first two rounds failed on the license record, the release package and the runner's thinned page files, repaired below. Freeze: none. Snapshots `s2885-before` (02:44) and `s2885-after` (03:03): 25 pages, **0 differences**.
+- **The queue step:** `chain_queue.py next` from the main checkout, pulled first, took `148-day-6-november-data-large-load-continued.md` (the code machine's 150 was left for it). 148 is run next, the same way.
 
 ## Repairs made before the landing
 
