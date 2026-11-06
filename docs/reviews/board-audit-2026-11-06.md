@@ -94,10 +94,10 @@ State: **open** until a session closes it; each closing session writes its numbe
 | 5 | Capacity prices: one placeholder for four operators; none of `iso_all_capacity_prices`' rows is public (the table is internal), so a placeholder for each operator with its auction and publisher | other | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
 | 6 | ERCOT's real-time price adders (`ercot_rtm_price_adders`, public): no row; three of the four end on 5 December 2025 in this machine's copy, so their rows must say when they stop | power | 1601 | closed in 1601 (`tests/test_board_1601.py`) |
 | 7 | ERCOT's 4CP: the year's four peaks are held (`ercot_4cp_intervals`) and drawn nowhere on the board; the Texas delivery charges (`texas_delivery_charges`) are internal | cost group | 1604 | open |
-| 8 | Gas in storage, weekly (`eia_gas_storage_weekly`): no row; the week's position is what a gas trader reads first | gas | 1602 | open |
-| 9 | LNG: the export price by terminal and the export volumes (`eia_lng_exports_monthly`, `eia_gas_trade_monthly`) are not drawn; LNG feedgas by the day is not held | gas | 1602 | open |
-| 10 | Regional gas hubs: four placeholders (Waha, SoCal Citygate, Algonquin, Chicago); Houston Ship Channel, Transco Zone 6 New York, Dominion South and the Northwest are not named | gas | 1602 | open |
-| 11 | TTF and JKM by the day: placeholders as they should be; their World Bank months are in the world group and no row says so beside them | gas | 1602 | open |
+| 8 | Gas in storage, weekly (`eia_gas_storage_weekly`): no row; the week's position is what a gas trader reads first | gas | 1602 | closed in 1602 (`tests/test_board_1602.py`) |
+| 9 | LNG: the export price by terminal and the export volumes (`eia_lng_exports_monthly`, `eia_gas_trade_monthly`) are not drawn; LNG feedgas by the day is not held | gas | 1602 | closed in 1602 (`tests/test_board_1602.py`) |
+| 10 | Regional gas hubs: four placeholders (Waha, SoCal Citygate, Algonquin, Chicago); Houston Ship Channel, Transco Zone 6 New York, Dominion South and the Northwest are not named | gas | 1602 | closed in 1602 (`tests/test_board_1602.py`) |
+| 11 | TTF and JKM by the day: placeholders as they should be; their World Bank months are in the world group, and the two placeholders' notes already say so | gas | 1602 | no gap: checked in 1602 |
 | 12 | US retail gasoline, all grades (`eia_retail_fuel_prices`, EMM_EPM0): no row | retailfuel | 1603 | open |
 | 13 | `eia_crude_first_purchase_prices`: two series not checked against the crude stream rows | crude | 1603 | open |
 | 14 | Crack spreads by product: only the two 3-2-1 cracks; no gasoline crack, no diesel crack, no heating oil crack | oilspreads | 1607 | open |

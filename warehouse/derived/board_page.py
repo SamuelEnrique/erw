@@ -603,7 +603,9 @@ def build_fuels(b, log):
     # gas
     b.add("gas", "eia:henry_hub|spot", "Henry Hub natural gas", "USD/MMBtu", "D", fuels.get("eia:henry_hub", {}), at="Louisiana, spot", code="RNGWHHD", source=spot, curve=CURVE)
     b.grey("gas", "nymex|ng", "Henry Hub futures, contracts 1 to 4", "licensed", FUT_NOTE, at="NYMEX", unit="USD/MMBtu")
-    for name, where in (("Waha", "West Texas"), ("SoCal Citygate", "Southern California"), ("Algonquin Citygate", "New England"), ("Chicago Citygate", "Illinois")):
+    # session 1602: three more of the hubs a gas trader reads, each with its own placeholder (none is held)
+    for name, where in (("Waha", "West Texas"), ("SoCal Citygate", "Southern California"), ("Algonquin Citygate", "New England"), ("Chicago Citygate", "Illinois"),
+                        ("Houston Ship Channel", "Texas Gulf Coast"), ("Transco Zone 6 New York", "New York City"), ("Eastern Gas South", "Appalachia, formerly Dominion South")):
         b.grey("gas", f"gashub|{name}", name, "licensed", "Source that would supply it: S&P Global Commodity Insights (Platts) or Natural Gas Intelligence, daily indices.", at=where, unit="USD/MMBtu")
     b.grey("gas", "ttf", "TTF, the Dutch gas benchmark", "licensed", "Source that would supply the daily price: ICE Endex or LSEG. The World Bank's monthly average for Europe is under World energy benchmarks, monthly.", at="Netherlands, daily", unit="EUR/MWh")
     b.grey("gas", "jkm", "JKM, the Japan-Korea LNG marker", "licensed", "Source that would supply the daily price: S&P Global Commodity Insights (Platts). The World Bank's monthly price of LNG in Japan is under World energy benchmarks, monthly.", at="Northeast Asia, daily", unit="USD/MMBtu")
@@ -804,6 +806,60 @@ def build_heating(b, log):
               tags=dict(product=ptag, process=qtag, area=kind(area)), source=HEAT_SOURCE)
 
 
+# Session 1602 (chain 165): the gas a trader reads beside Henry Hub. EIA's weekly working gas in storage by region, and
+# its monthly LNG exports by terminal: the price at the terminal and the volume, and the United States' total from the
+# trade table. Volumes beside prices, in a group of their own; the daily feedgas is not held.
+STORAGE_SOURCE = "EIA, Weekly Natural Gas Storage Report, working gas in underground storage (eia_gas_storage_weekly)"
+LNG_SOURCE = "EIA, U.S. Natural Gas Exports and Re-Exports by Point of Exit, liquefied natural gas (eia_lng_exports_monthly)"
+TRADE_SOURCE = "EIA, U.S. Natural Gas Imports and Exports, monthly (eia_gas_trade_monthly)"
+STORAGE_REGIONS = {("SWO", "R48"): "Lower 48 states", ("SWO", "R31"): "East", ("SWO", "R32"): "Midwest", ("SWO", "R34"): "Mountain", ("SWO", "R35"): "Pacific",
+                   ("SWO", "R33"): "South Central", ("SSO", "R33"): "South Central, salt", ("SNO", "R33"): "South Central, nonsalt"}
+LNG_TERMINALS = {"YSPL": "Sabine Pass, Louisiana", "YCRP": "Corpus Christi, Texas", "YCAM": "Cameron, Louisiana", "YFPT": "Freeport, Texas",
+                 "YCCPL": "Calcasieu Pass, Louisiana", "YPLAQ": "Plaquemines, Louisiana", "YCPT": "Cove Point, Maryland", "YELBA": "Elba Island, Georgia",
+                 "YGPT": "Golden Pass, Texas"}
+TRADE = [("eia:N9133US2", "LNG exports, United States", "all terminals, monthly"), ("eia:N9132MX2", "Pipeline exports to Mexico", "monthly"),
+         ("eia:N9132CN2", "Pipeline exports to Canada", "monthly"), ("eia:N9102CN2", "Pipeline imports from Canada", "monthly")]
+FEEDGAS_NOTE = ("Daily LNG feedgas is compiled from pipeline nominations by data vendors (for example S&P Global Commodity Insights or Wood Mackenzie); "
+                "the ERW holds none. Source that would supply it: such a vendor, under license. The monthly exports by terminal are rows of this group.")
+
+
+def build_gasflows(b, log):
+    if here("eia_gas_storage_weekly"):
+        s, _ = table_daily("eia_gas_storage_weekly")
+        pat = re.compile(r"^eia:NW2_EPG0_(SWO|SSO|SNO)_(R\d\d)_BCF$")
+        order = list(STORAGE_REGIONS)
+        keys = [k for k in s if k[1] == "working_gas" and pat.match(k[0]) and pat.match(k[0]).groups() in STORAGE_REGIONS]
+        for k in sorted(keys, key=lambda k: order.index(pat.match(k[0]).groups())):
+            region = STORAGE_REGIONS[pat.match(k[0]).groups()]
+            b.add("gasflows", k[0], "Working gas in storage", "Bcf", "W", s[k], at=f"{region}, weekly", code=k[0].split(":", 1)[1], tags=dict(kind="storage"), source=STORAGE_SOURCE,
+                  extra=dict(basis="The working gas in underground storage at the end of the week EIA reports (the week ending on the row's date), in billion cubic feet, as EIA publishes it each Thursday."))
+    else:
+        log("  gas in storage: eia_gas_storage_weekly not on this machine, skipped (page_keep.py keeps the held rows)")
+    if here("eia_lng_exports_monthly"):
+        s, _ = table_daily("eia_lng_exports_monthly")
+        pat = re.compile(r"^eia:NGM_EPG0_(PNG|ENG)_(Y[A-Z]+)-Z00_(DMCF|MMCF)$")
+        for variable, kind, unit, what in (("export_price", "lng_price", "USD/Mcf", "export price"), ("export_volume", "lng_volume", "MMcf", "exports")):
+            keys = [k for k in s if k[1] == variable and pat.match(k[0]) and pat.match(k[0]).group(2) in LNG_TERMINALS]
+            for k in sorted(keys, key=lambda k: list(LNG_TERMINALS).index(pat.match(k[0]).group(2))):
+                where = LNG_TERMINALS[pat.match(k[0]).group(2)]
+                b.add("gasflows", k[0], f"LNG {what}", unit, "M", s[k], at=f"{where}, monthly", code=k[0].split(":", 1)[1], tags=dict(kind=kind), source=LNG_SOURCE,
+                      extra=dict(basis=("The month's average price of the LNG exported at the terminal, in dollars per thousand cubic feet, as EIA reports it." if kind == "lng_price"
+                                        else "The month's volume of LNG exported at the terminal, in million cubic feet of gas, as EIA reports it.")))
+    else:
+        log("  LNG by terminal: eia_lng_exports_monthly not on this machine, skipped (page_keep.py keeps the held rows)")
+    if here("eia_gas_trade_monthly"):
+        s, _ = table_daily("eia_gas_trade_monthly")
+        for entity, label, at in TRADE:
+            key = next((k for k in s if k[0] == entity), None)
+            if key is None:
+                continue
+            b.add("gasflows", entity, label, "MMcf", "M", s[key], at=at, code=entity.split(":", 1)[1], tags=dict(kind="lng_volume"), source=TRADE_SOURCE,
+                  extra=dict(basis="The month's volume, in million cubic feet, as EIA reports it."))
+    else:
+        log("  gas trade: eia_gas_trade_monthly not on this machine, skipped (page_keep.py keeps the held rows)")
+    b.grey("gasflows", "lng|feedgas", "LNG feedgas, daily", "licensed", FEEDGAS_NOTE, at="the export terminals' pipeline receipts", unit="Bcf/d", tags=dict(kind="lng_volume"))
+
+
 def build_spreads(b, daily, fuels, us_coal):
     gas = fuels.get("eia:henry_hub", {})
     for iso, (grid, tz) in ISO.items():
@@ -901,6 +957,9 @@ GROUPS = [
     dict(id="as", title="Ancillary services, day-ahead", filters=[
         dict(key="grid", label="Grid", options=[["all", "All grids"], ["ERCOT", "ERCOT"], ["CAISO", "CAISO"], ["NYISO", "NYISO"], ["SPP", "SPP"]], default="ERCOT")]),
     dict(id="gas", title="Natural gas", curve=True, filters=[]),
+    # session 1602: the week's storage and the month's LNG exports, volumes beside the prices
+    dict(id="gasflows", title="Natural gas in storage and LNG exports", filters=[
+        dict(key="kind", label="Show", options=[["storage", "Gas in storage, weekly"], ["lng_price", "LNG export price, monthly"], ["lng_volume", "Exports and imports, monthly"], ["all", "Everything"]], default="storage")]),
     # session 1117: natural gas prices by sector and state, monthly (EIA)
     dict(id="gasprices", title="Natural gas by sector and state, monthly", filters=[
         dict(key="sector", label="Sector", options=[["all", "All sectors"], ["citygate", "Citygate"], ["residential", "Homes"], ["commercial", "Commercial"], ["industrial", "Industrial"], ["electric_power", "Electric power"]], default="all"),
@@ -946,6 +1005,7 @@ def build(log):
     fuels, us_coal = build_fuels(b, log)
     build_world(b, log)          # session 1117
     build_gas_prices(b, log)
+    build_gasflows(b, log)       # session 1602
     build_heating(b, log)
     build_spreads(b, daily, fuels, us_coal)
     week, spikes = build_week(log)

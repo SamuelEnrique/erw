@@ -337,3 +337,21 @@ Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `si
 - **ERCOT's real-time price adders** (`ercot_rtm_price_adders`, report NP6-792-ER): a daily row, the mean of the complete local day's hours, each the hour's mean of the adder over its SCED intervals. An adder whose newest hour is more than 90 days older than the table's newest has ended and is drawn as no row: RTORPA (the ORDC on-line reserve adder), RTOFFPA and RTORDPA end on 4 December 2025 and RTRDPA, the reliability deployment adder, begins on 5 December 2025 (`docs/methods/ercot_rtm_price_adders.md`). So one row today, RTRDPA.
 - **Capacity**: one placeholder an auction in place of the one row for four: PJM's Base Residual Auction (licensed; the row keeps the id `capacity`, so `page_keep.py` keeps no twin), NYISO's ICAP spot auction and ISO-NE's Forward Capacity Auction (licensed; the page makes them "license needed" with the two grids' hold), MISO's Planning Resource Auction (paused). Each names the publisher and why it is held: `iso_all_capacity_prices` and `pjm_rpm_capacity_prices` are internal.
 - Tests: `tests/test_board_1601.py`, on real rows cut from the tables (`tests/fixtures/board_1601/`).
+
+## Natural gas in storage and LNG exports (session 1602, chain 165, 6 November 2026)
+
+A group of its own, after "Natural gas": volumes beside the prices.
+
+| Rows | Table | Step | Unit | What a row is |
+|---|---|---|---|---|
+| Working gas in storage: Lower 48, East, Midwest, Mountain, Pacific, South Central, and South Central's salt and nonsalt | `eia_gas_storage_weekly` (EIA, Weekly Natural Gas Storage Report) | weekly | Bcf | the working gas at the end of the week EIA reports, dated the week's last day. The week's move is the week's net injection or withdrawal; the year's move is against the same week a year before (within the board's six days' slack) |
+| LNG export price, a terminal: Sabine Pass, Corpus Christi, Cameron, Freeport, Calcasieu Pass, Plaquemines, Cove Point, Elba Island | `eia_lng_exports_monthly` (EIA, exports by point of exit) | monthly | USD/Mcf | the month's average price of the LNG exported there, as EIA reports it |
+| LNG exports, a terminal (the same and Golden Pass) | the same | monthly | MMcf | the month's volume exported there |
+| LNG exports, United States; pipeline exports to Mexico and to Canada; pipeline imports from Canada | `eia_gas_trade_monthly` | monthly | MMcf | the month's volume |
+| LNG feedgas, daily | none | | Bcf/d | "licensed source needed": daily feedgas is compiled from pipeline nominations by data vendors (for example S&P Global Commodity Insights or Wood Mackenzie) |
+
+The group opens on the storage rows (Show: gas in storage); the five-year average of storage is not held, so no row compares the week with it; the year's move and the one-year range stand beside it. A terminal's price is EIA's average for the month, not a spot price; EIA publishes it about two months after the month, so a row is a monthly series with the board's monthly stale rule.
+
+Natural gas: the placeholders of the regional hubs are seven from this session, Houston Ship Channel, Transco Zone 6 New York and Eastern Gas South (formerly Dominion South) added to Waha, SoCal Citygate, Algonquin Citygate and Chicago Citygate: none is held (S&P Global Commodity Insights or Natural Gas Intelligence would supply them). TTF and JKM stay placeholders by the day; their notes name the World Bank's monthly Europe gas and Japan LNG rows of the world group.
+
+Tests: `tests/test_board_1602.py`, on real rows (`tests/fixtures/board_1602/`).
