@@ -225,8 +225,8 @@ class TheGeneratorsCount(unittest.TestCase):
         gaps = [r for r in self.twelve if not r[3].startswith("not computed")]
         self.assertEqual(len(gaps), 10)
         # session 298 (the owner's ruling 6a of 18 October 2026): one row more, Potomac's 2024 net revenue, among the first (the ERCOT) rows
-        self.assertEqual(len(self.cross), 21)
-        first, last = self.cross[:11], self.cross[11:]
+        self.assertEqual(len(self.cross), 34)   # session 463: thirteen of session 448's rows, before the ten
+        first, last = self.cross[:11], self.cross[24:]   # session 463: session 448's thirteen stand between
         self.assertTrue(first[0][0].startswith("Solar in ERCOT, the contract price at which coverage reaches 1.25 times: USD 39.14 per MWh"))   # session 196's ten, as they were
         self.assertTrue(first[10][0].startswith("New England's internal hub, day-ahead, the peak block"))
         self.assertTrue(any(r[0].startswith("ERCOT gas peaker, 2024") and "Potomac Economics" in r[2] for r in first))
@@ -243,7 +243,7 @@ class TheGeneratorsCount(unittest.TestCase):
         self.assertIn("A gas peaker at SP15, 2025, run their way as far as the model can", last[3][0])
 
     def test_each_of_the_ten_names_where_it_was_read(self):
-        last = self.cross[11:]   # session 298: Potomac's row joined the ERCOT rows before these
+        last = self.cross[24:]   # session 298: Potomac's row joined the ERCOT rows before these; session 463: session 448's thirteen too
         dmm = "https://www.caiso.com/documents/2025-annual-report-on-market-issues-and-performance.pdf"
         wind = "https://eta-publications.lbl.gov/sites/default/files/2026-08/data_file_land-based_wind_energy_technology_update_2026_edition_public_0.xlsx"
         solar = "https://eta-publications.lbl.gov/sites/default/files/2025-10/2025_utility-scale_solar_data_update.xlsx"
@@ -263,12 +263,12 @@ class TheGeneratorsCount(unittest.TestCase):
 
     def test_the_page_counts_twenty_and_names_the_two_new_publishers(self):
         # session 298 (the owner's ruling 6a of 18 October 2026): 21, with Potomac Economics
-        self.assertIn('<span data-checked-against="21">Checked against: 21 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab, Potomac Economics). '
+        self.assertIn('<span data-checked-against="34">Checked against: 34 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab, Potomac Economics). '
                       '<Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span>', self.page)
         self.assertEqual(self.page.count("data-checked-against="), 1)
         how = src("docs", "reviews", "packs", "generator.md")   # session 264: the pack replaces the how-it-works note
         self.assertNotIn("10 published figures", how)
-        self.assertIn('"Checked against: 21 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO\'s market monitor, Berkeley Lab, Potomac Economics)."', how)
+        self.assertIn('"Checked against: 34 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO\'s market monitor, Berkeley Lab, Potomac Economics)."', how)
 
     def test_what_waits_was_not_touched(self):
         lib = src("site", "lib", "merchant.ts")

@@ -10,13 +10,13 @@
 // Session 168: before any row is clicked, the workbench's place holds a quiet empty panel (BenchPlaceholder): the same
 // box the workbench takes, docked on the right on wide screens and above the tables on narrow ones, the faint outline of
 // a chart drawn in SVG, and one line. A click on a row puts the workbench in that box, exactly as before.
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
 import { GroupFold, NumberTile, NumberTileGrid } from "@/components/tool/ToolPage";
 import {
-  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, dateWords, fmt, gridExtremes, leadRow, noMove, pct, rangeExtremes, rowsOf, shortDate, signed, sparkOf, topRows,
+  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, fmt, gridExtremes, heldLines, heldNote, inputsWords, leadRow, noMove, pct, rangeExtremes, rowsOf, shortDate, signed, sparkOf, topRows,
   type Bench, type BoardFile, type Group, type Row, type WeekRow,
 } from "@/lib/board";
 
@@ -69,7 +69,7 @@ function Spark({ row, top }: { row: Row; top?: boolean }) {
         {at !== null ? <line x1={x(at)} x2={x(at)} y1={0} y2={H} stroke="var(--color-muted)" strokeWidth={0.6} /> : null}
       </svg>
       {p ? (
-        <span role="tooltip" className="pointer-events-none absolute bottom-full right-0 z-20 mb-1 whitespace-nowrap border border-rule bg-white px-2 py-1 text-left text-xs leading-tight text-ink shadow-sm">
+        <span role="tooltip" className="pointer-events-none absolute bottom-full right-0 z-20 mb-1 whitespace-nowrap border border-rule bg-white px-2 py-1 text-left text-xs leading-tight text-ink">
           <span className="block text-muted">{row.label}{row.at ? `, ${row.at}` : ""}</span>
           <span className="block"><strong>{fmt(p.v, row.unit)}</strong> {row.unit} on {dateWords(p.t, row.freq)}</span>
         </span>
@@ -126,32 +126,43 @@ function MoveCell({ row, k }: { row: Row; k: "d" | "w" | "m" | "y" }) {
   );
 }
 
-function PriceRow({ row, group, open, onOpen, file }: { row: Row; group: Group; open: boolean; onOpen: (id: string) => void; file: BoardFile }) {
+// Session 412 (the accessibility pass, docs/reviews/accessibility-2026-10-20.md): a row that opens the workbench was a
+// table row made a stop of the keyboard (tabindex 0, aria-selected), which a screen reader announces as a row with no
+// role to press (AccessLint, 218 rows of /board). The row's name is now a button, the stop of the keyboard, pressed while
+// its series is in the workbench; a click anywhere on the row still opens it (the button's click reaches the row).
+function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row; group: Group; open: boolean; onOpen: (id: string) => void; file: BoardFile; hidden?: boolean; domId?: string }) {
+  const words = (
+    <span className={row.status === "ok" ? "text-ink" : "text-muted"} title={[row.code ? `Code: ${row.code}` : "", row.formula ? `Formula: ${row.formula}` : "", row.source !== undefined ? `Source: ${file.sources[row.source]}` : ""].filter(Boolean).join("\n") || undefined}>
+      {row.label}{row.formula ? <sup className="ml-0.5 text-xs text-muted">f</sup> : null}
+    </span>
+  );
   const name = (
     <th scope="row" className="whitespace-nowrap py-1 pl-2 pr-3 text-left font-normal">
-      <span className={row.status === "ok" ? "text-ink" : "text-muted"} title={[row.code ? `Code: ${row.code}` : "", row.formula ? `Formula: ${row.formula}` : "", row.source !== undefined ? `Source: ${file.sources[row.source]}` : ""].filter(Boolean).join("\n") || undefined}>
-        {row.label}{row.formula ? <sup className="ml-0.5 text-xs text-muted">f</sup> : null}
-      </span>
+      {row.status === "ok" ? <button type="button" aria-pressed={open} data-row-open={row.id} className="text-left">{words}</button> : words}
       {row.at ? <span className="ml-1.5 text-xs text-muted">{row.at}</span> : null}
     </th>
   );
   const cols = 11 + (group.curve ? 1 : 0);
   if (row.status !== "ok") {
     return (
-      <tr className="border-b border-rule/70" data-row={row.id} data-status={row.status}>
+      <tr className="border-b border-rule/70" data-row={row.id} data-status={row.status} hidden={hidden} id={domId}>
         {name}
         <td colSpan={cols} className="py-1 pr-2 text-left text-xs italic text-muted"><span title={row.note} className="cursor-help border-b border-dotted border-muted">{PLACEHOLDER[row.status]}</span></td>
       </tr>
     );
   }
   const last = row.last!;
+  // session 1116: the close's age in its tip, and "stale" past the method's threshold (lib/board.ts, closeAge)
+  const age = closeAge(row, file.built);
   return (
-    <tr className={`cursor-pointer border-b border-rule/70 hover:bg-paper ${open ? "bg-paper outline outline-1 -outline-offset-1 outline-accent" : ""}`} data-row={row.id} tabIndex={0} aria-selected={open}
-      onClick={() => onOpen(row.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(row.id); } }}>
+    <tr className={`cursor-pointer border-b border-rule/70 hover:bg-paper ${open ? "bg-paper outline outline-1 -outline-offset-1 outline-accent" : ""}`} data-row={row.id}
+      onClick={() => onOpen(row.id)}>
       {name}
-      <td className="py-1 pr-3 text-right font-semibold"><span data-n={`${row.id}|last`}>{fmt(last.v, row.unit)}</span><span className="ml-1 text-xs font-normal text-muted">{row.unit}</span></td>
-      <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted" title={`${dateWords(last.t, row.freq)}${row.freq !== "D" ? `, a ${FREQ_WORDS[row.freq]} series` : ""}`}>
-        {shortDate(last.t, row.freq)}{row.freq !== "D" ? <span className="ml-1 rounded-sm border border-rule px-0.5 text-xs uppercase">{FREQ_WORDS[row.freq]}</span> : null}
+      <td className="py-1 pr-3 text-right font-semibold" title={inputsWords(row) ?? undefined} {...(row.inputs ? { "data-inputs": row.id } : {})}><span data-n={`${row.id}|last`}>{fmt(last.v, row.unit)}</span><span className="ml-1 text-xs font-normal text-muted">{row.unit}</span></td>
+      <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted" title={`${dateWords(last.t, row.freq)}${row.freq !== "D" ? `, a ${FREQ_WORDS[row.freq]} series` : ""}${age ? `: ${age.words}` : ""}`}
+        {...(age?.stale ? { "data-stale": row.id } : {})}>
+        {shortDate(last.t, row.freq)}{row.freq !== "D" ? <span className="ml-1 border border-rule px-0.5 text-xs">{FREQ_WORDS[row.freq]}</span> : null}
+        {age?.stale ? <span className="ml-1 border border-accent px-0.5 text-xs text-accent">stale</span> : null}
       </td>
       {MOVES.map(([k]) => <td key={k} className="py-1 pr-3 text-right text-xs"><MoveCell row={row} k={k} /></td>)}
       <td className="py-1 pr-3 text-right text-xs">{row.avg7 ? <span title={`the mean of the ${row.avg7.n} values held in the 7 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg7`}>{fmt(row.avg7.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 7-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
@@ -167,6 +178,11 @@ function PriceRow({ row, group, open, onOpen, file }: { row: Row; group: Group; 
 function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }: { file: BoardFile; group: Group; chosen: Record<string, string>; pick: (key: string, v: string) => void; open: string | null; onOpen: (id: string) => void; unfolded: boolean; fold: (open: boolean) => void }) {
   const rows = rowsOf(file, group, chosen);
   const lead = leadRow(file, group);
+  // session 1193: the public rows first, then one line for each grid held for a license (its count, the hold's words),
+  // its rows' names behind a toggle; the held rows stay in the page, blank, as they were (lib/board.ts, heldLines)
+  const { shown, held } = heldLines(rows);
+  const [named, setNamed] = useState<Record<string, boolean>>({});
+  const cols = 11 + (group.curve ? 1 : 0);
   return (
     <section id={group.id} className="scroll-mt-4" aria-label={group.title} data-group={group.id}>
       <GroupFold title={group.title} open={unfolded} onToggle={fold} meta={<>
@@ -188,7 +204,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
       <div className="overflow-x-auto">
         <table className="w-full min-w-[1180px] border-collapse text-sm tabular-nums" data-dense="1">
           <thead>
-            <tr className="border-b border-rule text-xs uppercase tracking-wide text-muted">
+            <tr className="border-b border-rule text-xs text-muted">
               <th className="py-1 pl-2 text-left font-normal">Price</th>
               <th className="pr-3 text-right font-normal">Latest</th>
               <th className="pr-3 text-right font-normal">Its date</th>
@@ -201,7 +217,27 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
               {group.curve ? <th className="pr-2 text-left font-normal">Futures 1 to 4</th> : null}
             </tr>
           </thead>
-          <tbody>{rows.map((r) => <PriceRow key={r.id} row={r} group={group} open={open === r.id} onOpen={onOpen} file={file} />)}</tbody>
+          <tbody>
+            {shown.map((r) => <PriceRow key={r.id} row={r} group={group} open={open === r.id} onOpen={onOpen} file={file} />)}
+            {held.map(({ grid, rows: hs }) => {
+              const id = `held-${group.id}-${grid.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
+              return (
+                <Fragment key={grid}>
+                  <tr className="border-b border-rule/70" data-held-line={`${group.id}|${grid}`} data-held-count={hs.length}>
+                    <th scope="row" className="whitespace-nowrap py-1 pl-2 pr-3 text-left font-normal text-muted">{grid}: {hs.length} {hs.length === 1 ? "row" : "rows"}</th>
+                    <td colSpan={cols} className="py-1 pr-2 text-left text-xs text-muted">
+                      <span className="italic"><span title={heldNote(grid)} className="cursor-help border-b border-dotted border-muted">{PLACEHOLDER.license}</span><span className="sr-only">: {heldNote(grid)}</span></span>
+                      <button type="button" aria-expanded={!!named[grid]} aria-controls={hs.map((r) => `${id}-${r.id}`).join(" ")} data-held-toggle={`${group.id}|${grid}`}
+                        onClick={() => setNamed((n) => ({ ...n, [grid]: !n[grid] }))} className="ml-3 border border-rule bg-white px-1.5 py-px not-italic text-ink hover:border-accent">
+                        {named[grid] ? "Hide the rows' names" : "Show the rows' names"}
+                      </button>
+                    </td>
+                  </tr>
+                  {hs.map((r) => <PriceRow key={r.id} domId={`${id}-${r.id}`} row={r} group={group} open={false} onOpen={onOpen} file={file} hidden={!named[grid]} />)}
+                </Fragment>
+              );
+            })}
+          </tbody>
         </table>
       </div>
       </GroupFold>
@@ -234,7 +270,7 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
       <div className="overflow-x-auto">
         <table className="w-full min-w-[980px] border-collapse text-sm tabular-nums" data-dense="1">
           <thead>
-            <tr className="border-b border-rule text-xs uppercase tracking-wide text-muted">
+            <tr className="border-b border-rule text-xs text-muted">
               <th className="py-1 pl-2 text-left font-normal">Hub or zone</th>
               <th className="pr-3 text-right font-normal">Day-ahead, latest</th>
               {WEEK_COLS.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal">{n}, week</th>)}
@@ -245,8 +281,8 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
           </thead>
           <tbody>
             {rows.map((w) => (
-              <tr key={w.hub} className="cursor-pointer border-b border-rule/70 hover:bg-paper" tabIndex={0} onClick={() => onOpen(`${w.hub}-da`)} onKeyDown={(e) => { if (e.key === "Enter") onOpen(`${w.hub}-da`); }}>
-                <th scope="row" className="py-1 pl-2 pr-3 text-left font-normal"><span title={`Code: ${w.code}`}>{w.label}</span></th>
+              <tr key={w.hub} className="cursor-pointer border-b border-rule/70 hover:bg-paper" onClick={() => onOpen(`${w.hub}-da`)}>
+                <th scope="row" className="py-1 pl-2 pr-3 text-left font-normal"><button type="button" data-row-open={`${w.hub}-da`} className="text-left"><span title={`Code: ${w.code}`}>{w.label}</span></button></th>
                 <td className="pr-3 text-right">{w.last_da ? <span title={dateWords(w.last_da.t)}><span data-n={`week|${w.hub}|last`}>{two(w.last_da.v)}</span><span className="ml-1 text-xs text-muted">{shortDate(w.last_da.t)}</span></span> : <span className="text-xs text-muted">not held yet</span>}</td>
                 {WEEK_COLS.map(([k]) => <td key={k} className="pr-3 text-right">{cell(w, k)}</td>)}
                 <td className="pr-3 text-right">{w.max_spread ? <span title={`${dateWords(w.max_spread.start)} to ${dateWords(w.max_spread.end)}`}>{two(w.max_spread.v)}</span> : <span className="text-xs text-muted" title="Needs a real-time price on each of the week's 7 days.">not held yet</span>}</td>
@@ -254,12 +290,14 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
                 <td className="pr-2 text-right">{w.vol ? <span title={`as of ${dateWords(w.vol.t)}`}>{two(w.vol.v)}</span> : <span className="text-xs text-muted" title="Needs 31 days of day-ahead prices.">not held yet</span>}</td>
               </tr>
             ))}
+            {/* session 1116: a grid held for a license on the day is one line, as MISO's and PJM's are (lib/board.ts, holdRows) */}
+            {(file.held ?? []).filter((g) => grid === "all" || grid === g).map((g) => <tr key={g} className="border-b border-rule/70" data-held-grid={g}><th scope="row" className="py-1 pl-2 pr-3 text-left font-normal text-muted">{g} hubs</th><td colSpan={8} className="text-left text-xs italic text-muted"><span className="cursor-help border-b border-dotted border-muted" title={heldNote(g)}>{PLACEHOLDER.license}</span></td></tr>)}
             {(grid === "all" || grid === "MISO") ? <tr className="border-b border-rule/70"><th scope="row" className="py-1 pl-2 pr-3 text-left font-normal text-muted">MISO hubs</th><td colSpan={8} className="text-left text-xs italic text-muted"><span className="cursor-help border-b border-dotted border-muted" title="MISO's prices are paused while its terms are reviewed; no MISO value is shown.">{PLACEHOLDER.paused}</span></td></tr> : null}
             {(grid === "all" || grid === "PJM") ? <tr className="border-b border-rule/70"><th scope="row" className="py-1 pl-2 pr-3 text-left font-normal text-muted">PJM hubs</th><td colSpan={8} className="text-left text-xs italic text-muted"><span className="cursor-help border-b border-dotted border-muted" title="PJM publishes its prices under a license the ERW does not hold.">{PLACEHOLDER.licensed}</span></td></tr> : null}
           </tbody>
         </table>
       </div>
-      <h3 className="mb-1 mt-3 text-xs uppercase tracking-wide text-muted">The week&apos;s highest real-time intervals</h3>
+      <h3 className="mb-1 mt-3 text-xs text-muted">The week&apos;s highest real-time intervals</h3>
       <ol className="grid gap-x-8 text-xs tabular-nums sm:grid-cols-2 xl:grid-cols-3">
         {file.spikes.filter((s) => grid === "all" || s.grid === grid).slice(0, 30).map((s) => (
           <li key={`${s.hub}${s.t}`} className="flex cursor-pointer justify-between border-b border-rule/60 py-0.5 hover:bg-paper" onClick={() => onOpen(`${s.hub}-rt`)}
@@ -287,7 +325,7 @@ function TopTwelve({ file, onOpen }: { file: BoardFile; onOpen: (id: string) => 
           ? <NumberTile key={r.id} id={r.id} label={r.label} sub={r.at} blank={<span title={r.note}>{PLACEHOLDER[r.status as Exclude<Row["status"], "ok">] ?? PLACEHOLDER.not_held}</span>} />
           : <NumberTile key={r.id} id={r.id} label={r.label} sub={r.at} unit={r.unit} onOpen={() => onOpen(r.id)} openTitle={`${r.label}${r.at ? `, ${r.at}` : ""}. Open in the workbench.`}
               value={<span data-n={`top|${r.id}|last`}>{fmt(r.last.v, r.unit)}</span>}
-              time={<time dateTime={r.last.t}>{dateWords(r.last.t, r.freq)}</time>}
+              time={<time dateTime={r.last.t} title={closeAge(r, file.built)?.words}>{dateWords(r.last.t, r.freq)}{closeAge(r, file.built)?.stale ? " (stale)" : ""}</time>}
               moves={(["d", "w"] as const).map((k) => {
                 const m = r.moves?.[k];
                 return {
@@ -328,7 +366,7 @@ function Headline({ file, market, setMarket, onOpen }: { file: BoardFile; market
       <div className="grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4 xl:grid-cols-8">
         {cells.map((c) => (
           <button key={c.k} type="button" onClick={() => c.r && onOpen(c.r.id)} className="bg-white px-2 py-1.5 text-left hover:bg-paper" title={c.r ? `${c.r.label}${c.r.at ? `, ${c.r.at}` : ""}. Open in the workbench.` : undefined}>
-            <span className="block text-xs uppercase tracking-wide text-muted">{c.label}</span>
+            <span className="block text-xs text-muted">{c.label}</span>
             <span className="block font-serif text-xl tabular-nums" data-n={`head|${c.k}`}>{c.r && c.v !== undefined ? fmt(c.v, c.r.unit) : ""}<span className="ml-1 font-sans text-xs text-muted">{c.r?.unit}</span></span>
             <span className="block truncate text-xs text-muted">{c.note}</span>
           </button>
@@ -347,8 +385,9 @@ function subscribe(cb: () => void) {
   return () => { listeners.delete(cb); window.removeEventListener("popstate", cb); };
 }
 
-/** Session 328: `footer` is drawn at the board's foot, inside its frame (the page's table downloads, a server part). */
-export function BoardView({ file, footer }: { file: BoardFile; footer?: ReactNode }) {
+/** Session 328: `footer` is drawn at the board's foot, inside its frame (the page's table downloads, a server part). Session 502:
+ *  `under`, below the header (the page's license line). */
+export function BoardView({ file, footer, under }: { file: BoardFile; footer?: ReactNode; under?: ReactNode }) {
   const search = useSyncExternalStore(subscribe, () => window.location.search, () => "");
   const params = useMemo(() => new URLSearchParams(search), [search]);
   const path = usePathname();
@@ -407,6 +446,8 @@ export function BoardView({ file, footer }: { file: BoardFile; footer?: ReactNod
           <span title={`The board's files were built at ${file.built}.`}>built {dateWords(file.built)}</span>
         </p>
       </header>
+      {/* session 502: the tables the board reads and their licenses, under its title */}
+      {under ? <div className="mb-3" data-board-licenses="1">{under}</div> : null}
       <TopTwelve file={file} onOpen={onOpen} />
       <Headline file={file} market={market} setMarket={(m) => setParam("mk", m, "da")} onOpen={onOpen} />
       <nav aria-label="Sections" className="mb-4 flex flex-wrap gap-x-3 gap-y-1 text-xs">

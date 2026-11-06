@@ -79,7 +79,7 @@ def header(run_id, days, n_rows, gaps, reports):
         "Shape: series (docs/datastandard.md v0), partition column market (caiso_dam). lmp_dam, USD/MWh, hourly; ts_utc the interval "
         "start, UTC. Days: the Pacific days warehouse/derived/flex_alert_scorecard.py --days lists (every CAISO notice day since "
         "2018-07, and the held-out hottest tenth of non-alert days); scattered days, not a window.",
-        f"Holds {days} days, {n_rows:,} rows, of the {CEILING:,}-row ceiling (approved pull b). Days CAISO left incomplete, not written: "
+        f"Holds {days} days, {n_rows:,} rows, of the {CEILING:,}-row ceiling (approved pull b). Wanted days not written (outside OASIS's history, never requested; or left incomplete by CAISO): "
         + ("; ".join(gaps) if gaps else "none") + ".",
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/caiso_alert_prices.py; earlier days by earlier runs (resumed)",
         f"Run log: warehouse/output/logs/caiso_alert_prices_{run_id}.log",
@@ -104,7 +104,7 @@ def main():
         cutoff = (pd.Timestamp.now(tz=TZ).normalize() - pd.DateOffset(months=OASIS_MONTHS)).strftime("%Y-%m-%d")
         old = [d for d in days if d < cutoff and d not in have]
         if old:
-            gaps.append(f"{len(old)} days before {cutoff}, outside OASIS's {OASIS_MONTHS}-month history ({old[0]} to {old[-1]}): not served, not requested")
+            gaps.append(f"{len(old)} days before {cutoff} (this run's date less {OASIS_MONTHS} months, so it moves; days before it that earlier runs pulled are kept), outside OASIS's history ({old[0]} to {old[-1]}): not served, not requested")
             log(f"{len(old)} wanted days are before {cutoff}, outside OASIS's history: not requested")
         todo = [d for d in days if d not in have and d >= cutoff]
         log(f"ERW caiso_alert_prices run {run_id}: {len(days)} days wanted, {len(have & set(days))} held, {len(todo)} to pull; "

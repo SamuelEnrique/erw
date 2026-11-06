@@ -1,0 +1,308 @@
+{
+ "_about": "Session 1112: the rows behind session 320's four held-grid questions, every hub of the month, copied untouched from this machine's warehouse/output CSVs by warehouse/chat/eval/fixture_s1112.py.",
+ "recorded_at": "2026-10-23T18:24:13Z",
+ "table_headers": {
+  "merchant_revenue_monthly": [
+   "# Retrieved: 20261004T022632Z (UTC) by warehouse/derived/merchant_revenue.py",
+   "# Source: erw:merchant_revenue ERW derived table, the seller's side of the cost of power (docs/methods/cost_of_power.md), https://github.com/SamuelEnrique/erw/blob/main/docs/methods/cost_of_power.md"
+  ],
+  "cost_of_power_monthly": [
+   "# Retrieved: 20261004T022612Z (UTC) by warehouse/derived/cost_of_power.py",
+   "# Source: erw:cost_of_power ERW derived table, cost-of-power method (docs/methods/cost_of_power.md), https://github.com/SamuelEnrique/erw/blob/main/docs/methods/cost_of_power.md"
+  ]
+ },
+ "questions": {
+  "g07": {
+   "table": "merchant_revenue_monthly",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "solar_capture_price",
+   "start": "2026-08-01",
+   "end": "2026-09-01",
+   "public": {
+    "caiso:TH_SP15_GEN-APND": 39.6727,
+    "ercot:HB_HUBAVG": 28.8203,
+    "spp:SPPNORTH_HUB": 55.6931
+   }
+  },
+  "g08": {
+   "table": "merchant_revenue_monthly",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "flat_price",
+   "start": "2026-07-01",
+   "end": "2026-08-01",
+   "public": {
+    "caiso:TH_SP15_GEN-APND": 39.434,
+    "ercot:HB_HUBAVG": 29.166,
+    "spp:SPPNORTH_HUB": 53.7867
+   }
+  },
+  "d05": {
+   "table": "cost_of_power_monthly",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "rt_load_weighted",
+   "start": "2026-01-01",
+   "end": "2026-02-01",
+   "public": {
+    "caiso:TH_NP15_GEN-APND": 33.6643,
+    "caiso:TH_SP15_GEN-APND": 32.694,
+    "ercot:HB_HUBAVG": 54.481,
+    "spp:SPPNORTH_HUB": 57.8815
+   }
+  },
+  "d07": {
+   "table": "cost_of_power_monthly",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "da_shape_premium",
+   "start": "2026-06-01",
+   "end": "2026-07-01",
+   "public": {
+    "caiso:TH_NP15_GEN-APND": 0.367,
+    "caiso:TH_SP15_GEN-APND": 0.0244,
+    "ercot:HB_HUBAVG": 0.1021,
+    "spp:SPPNORTH_HUB": 1.3449
+   }
+  }
+ },
+ "catalogue": [
+  {
+   "table_name": "merchant_revenue_monthly",
+   "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+   "market": null,
+   "n_nodes": 1,
+   "interval": "P1M",
+   "ts_min": "2018-06-01T00:00:00+00:00",
+   "ts_max": "2026-10-01T00:00:00+00:00",
+   "n_rows": 8335,
+   "source_report": "erw:merchant_revenue",
+   "last_run": null,
+   "validator_status": "pass",
+   "license": "public",
+   "sector": "power",
+   "derived": "yes",
+   "in_live_set": "yes",
+   "columns": "[\"entity\", \"variable\", \"ts_utc\", \"value\", \"unit\", \"freq\", \"geo\", \"market\", \"node\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\", \"ba\"]",
+   "tier": "derived"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+   "market": null,
+   "n_nodes": 1,
+   "interval": "P1M",
+   "ts_min": "2018-07-01T00:00:00+00:00",
+   "ts_max": "2026-10-01T00:00:00+00:00",
+   "n_rows": 2304,
+   "source_report": "erw:cost_of_power",
+   "last_run": null,
+   "validator_status": "pass",
+   "license": "public",
+   "sector": "power",
+   "derived": "yes",
+   "in_live_set": "yes",
+   "columns": "[\"entity\", \"variable\", \"ts_utc\", \"value\", \"unit\", \"freq\", \"geo\", \"market\", \"node\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\", \"ba\"]",
+   "tier": "derived"
+  }
+ ],
+ "rows": [
+  {
+   "table_name": "merchant_revenue_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "solar_capture_price",
+   "ts_utc": "2026-08-01T00:00:00+00:00",
+   "value": 39.6727,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "merchant_revenue_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "solar_capture_price",
+   "ts_utc": "2026-08-01T00:00:00+00:00",
+   "value": 28.8203,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "merchant_revenue_monthly",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "solar_capture_price",
+   "ts_utc": "2026-08-01T00:00:00+00:00",
+   "value": 54.5475,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "merchant_revenue_monthly",
+   "entity": "miso:INDIANA.HUB",
+   "variable": "solar_capture_price",
+   "ts_utc": "2026-08-01T00:00:00+00:00",
+   "value": 48.1226,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "merchant_revenue_monthly",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "solar_capture_price",
+   "ts_utc": "2026-08-01T00:00:00+00:00",
+   "value": 55.6931,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "merchant_revenue_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "flat_price",
+   "ts_utc": "2026-07-01T00:00:00+00:00",
+   "value": 39.434,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "merchant_revenue_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "flat_price",
+   "ts_utc": "2026-07-01T00:00:00+00:00",
+   "value": 29.166,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "merchant_revenue_monthly",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "flat_price",
+   "ts_utc": "2026-07-01T00:00:00+00:00",
+   "value": 55.2893,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "merchant_revenue_monthly",
+   "entity": "miso:INDIANA.HUB",
+   "variable": "flat_price",
+   "ts_utc": "2026-07-01T00:00:00+00:00",
+   "value": 57.5513,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "merchant_revenue_monthly",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "flat_price",
+   "ts_utc": "2026-07-01T00:00:00+00:00",
+   "value": 73.8689,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "merchant_revenue_monthly",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "flat_price",
+   "ts_utc": "2026-07-01T00:00:00+00:00",
+   "value": 53.7867,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "caiso:TH_NP15_GEN-APND",
+   "variable": "rt_load_weighted",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 33.6643,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "rt_load_weighted",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 32.694,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "rt_load_weighted",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 54.481,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "rt_load_weighted",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 164.8688,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "miso:INDIANA.HUB",
+   "variable": "rt_load_weighted",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 90.8318,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "rt_load_weighted",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 159.4187,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "rt_load_weighted",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 57.8815,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "caiso:TH_NP15_GEN-APND",
+   "variable": "da_shape_premium",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 0.367,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "da_shape_premium",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 0.0244,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "da_shape_premium",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 0.1021,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "da_shape_premium",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 2.6811,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "miso:INDIANA.HUB",
+   "variable": "da_shape_premium",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 3.9186,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "da_shape_premium",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 3.1976,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "cost_of_power_monthly",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "da_shape_premium",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 1.3449,
+   "unit": "USD/MWh"
+  }
+ ]
+}

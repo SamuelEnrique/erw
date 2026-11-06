@@ -171,7 +171,7 @@ def main(argv=None):
             "Lazard LCOE+ (June 2025): no copy is held in warehouse/raw, so none of its cases is written (no request was made)",
             "License: public. NLR's data terms (https://www.nlr.gov/disclaimer, read 2026-10-07) and the ATB's disclaimer agreement "
             "(https://atb.nlr.gov/electricity/2025/disclaimer, read 2026-10-19): use and copy without fee, the notice kept, DOE/NLR credited, as is",
-            f"Retrieved: {run_id} (UTC) by warehouse/connectors/{NAME}.py (the workbook kept at {kept})",
+            f"Retrieved: {run_id} (UTC) by warehouse/connectors/sourced_ranges.py (the workbook kept at {kept})",
             f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
         ]
         ip.write_snapshot(df[cols], NAME, header, log, cols)

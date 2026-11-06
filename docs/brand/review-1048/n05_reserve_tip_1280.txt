@@ -1,0 +1,599 @@
+http://localhost:3142/cost-of-power?view=allgrids
+{"wide":1265,"high":4889,"title":"What a datacenter pays | ERW","bytes":1678025}
+
+What a datacenter load pays, when it connects and how clean the power is, at every hub and zone
+Grid and region	Energy	Transmission and 4CP	Capacity	Time to connect	Headroom	Carbon	Utility	All-in
+CAISO TH_NP15_GEN-APND (hub)	33.43rt 32.67	not held	no capacity market	100.00 mo
+load: rule 2026-06
+	+3.64 %
+8,276 MW coming, capacity 106% above peak
+reserve margin not held
+No current planning reserve margin of CAISO's is held: the ERW holds ERCOT's own (its Capacity, Demand and Reserves report) alone. EIA-411 (eia411_capacity_margins_annual) gives margins by NERC assessment area, CAISO's under WECC, the whole Western Interconnection, of which CAISO is a part, but its last release is of November 2016: its figures for the coming summer are projections made then, so they are not drawn as the grid's.
+	194.35 kg
+428.46 lb
+	
+Pacific Gas & Electric Co.
+325.37
+-8.61 %
+	not held
+CAISO TH_SP15_GEN-APND (hub)	28.94rt 28.59	not held	no capacity market	100.00 mo
+load: rule 2026-06
+	+3.64 %
+8,276 MW coming, capacity 106% above peak
+reserve margin not held
+	194.35 kg
+428.46 lb
+	
+Southern California Edison Co and 6 more
+204.28
++0.19 %
+	not held
+CAISO TH_ZP26_GEN-APND (hub)	29.01rt 27.89	not held	no capacity market	100.00 mo
+load: rule 2026-06
+	+3.64 %
+8,276 MW coming, capacity 106% above peak
+reserve margin not held
+	194.35 kg
+428.46 lb
+	
+Pacific Gas & Electric Co.
+325.37
+-8.61 %
+	not held
+ERCOT HB_BUSAVG (hub)	34.40rt 32.38	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+TXU Energy Retail Co, LLC
+73.57
++9.44 %
+	42.22
+ERCOT HB_HOUSTON (hub)	35.22rt 32.90	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+San Bernard Electric Coop, Inc and 2 more
+89.39
+-0.75 %
+	43.05
+ERCOT HB_HUBAVG (hub)	34.30rt 32.20	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+TXU Energy Retail Co, LLC
+73.57
++9.44 %
+	42.13
+ERCOT HB_NORTH (hub)	34.43rt 32.51	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+TXU Energy Retail Co, LLC
+73.57
++9.44 %
+	42.26
+ERCOT HB_SOUTH (hub)	34.55rt 32.74	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+TXU Energy Retail Co, LLC
+73.57
++9.44 %
+	42.37
+ERCOT HB_WEST (hub)	33.01rt 30.66	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+TXU Energy Retail Co, LLC
+73.57
++9.44 %
+	40.83
+ERCOT LZ_AEN, Austin Energy load zone (load zone)	38.78	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+Austin Energy and 3 more
+71.32
++2.87 %
+	46.61
+ERCOT LZ_CPS, CPS Energy load zone (San Antonio) (load zone)	38.86	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+Guadalupe Valley Elec Coop Inc and 4 more
+56.27
++1.74 %
+	46.69
+ERCOT LZ_HOUSTON, Houston load zone (load zone)	35.48rt 33.43	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+San Bernard Electric Coop, Inc and 2 more
+89.39
+-0.75 %
+	43.31
+ERCOT LZ_LCRA, Lower Colorado River Authority load zone (load zone)	38.75	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+TXU Energy Retail Co, LLC
+73.57
++9.44 %
+	46.57
+ERCOT LZ_NORTH, North load zone (load zone)	35.33rt 33.73	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+TXU Energy Retail Co, LLC
+73.57
++9.44 %
+	43.15
+ERCOT LZ_RAYBN, Rayburn load zone (load zone)	35.61	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+TXU Energy Retail Co, LLC
+73.57
++9.44 %
+	43.43
+ERCOT LZ_SOUTH, South load zone (load zone)	34.44rt 33.75	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+TXU Energy Retail Co, LLC
+73.57
++9.44 %
+	42.27
+ERCOT LZ_WEST, West load zone (load zone)	37.38rt 35.27	7.83firm 7.83off 0.00	no capacity market	45.80 mo
+load: rule 2026-09, 8,927 MW approved
+	+5.41 %
+24,269 MW coming, capacity 97% above peak
+reserve margin 11.43%, summer 2027
+	332.87 kg
+733.86 lb
+	
+TXU Energy Retail Co, LLC
+73.57
++9.44 %
+	45.21
+ISO-NE .H.INTERNAL_HUB (hub)	74.19	not held	license needed	not held
+load: no rule held
+	+2.90 %
+1,124 MW coming, capacity 37% above peak
+reserve margin not held
+	244.61 kg
+539.28 lb
+	
+Massachusetts Electric Co and 2 more
+87.55delivery only
+-3.22 %
+	not held
+ISO-NE .Z.CONNECTICUT (load zone)	not held	not held	license needed	not held
+load: no rule held
+	+2.90 %
+zone +1.48 % in 2025
+1,124 MW coming, capacity 37% above peak
+reserve margin not held
+	244.61 kg
+539.28 lb
+	
+Constellation NewEnergy, Inc
+103.97energy only
+-1.96 %
+	not held
+ISO-NE .Z.MAINE (load zone)	not held	not held	license needed	not held
+load: no rule held
+	+2.90 %
+zone -1.10 % in 2025
+1,124 MW coming, capacity 37% above peak
+reserve margin not held
+	244.61 kg
+539.28 lb
+	
+Direct Energy Business
+66.19energy only
++7.91 %
+	not held
+ISO-NE .Z.NEMASSBOST (load zone)	not held	not held	license needed	not held
+load: no rule held
+	+2.90 %
+zone +1.33 % in 2025
+1,124 MW coming, capacity 37% above peak
+reserve margin not held
+	244.61 kg
+539.28 lb
+	
+Massachusetts Electric Co and 2 more
+87.55delivery only
+-3.22 %
+	not held
+ISO-NE .Z.NEWHAMPSHIRE (load zone)	not held	not held	license needed	not held
+load: no rule held
+	+2.90 %
+zone +1.84 % in 2025
+1,124 MW coming, capacity 37% above peak
+reserve margin not held
+	244.61 kg
+539.28 lb
+	
+Direct Energy Business
+93.65energy only
++9.84 %
+	not held
+ISO-NE .Z.RHODEISLAND (load zone)	not held	not held	license needed	not held
+load: no rule held
+	+2.90 %
+zone +0.75 % in 2025
+1,124 MW coming, capacity 37% above peak
+reserve margin not held
+	244.61 kg
+539.28 lb
+	
+Direct Energy Business
+98.25energy only
++7.52 %
+	not held
+ISO-NE .Z.SEMASS (load zone)	not held	not held	license needed	not held
+load: no rule held
+	+2.90 %
+zone +0.34 % in 2025
+1,124 MW coming, capacity 37% above peak
+reserve margin not held
+	244.61 kg
+539.28 lb
+	
+Direct Energy Business
+118.36energy only
++18.74 %
+	not held
+ISO-NE .Z.VERMONT (load zone)	not held	not held	license needed	not held
+load: no rule held
+	+2.90 %
+zone +1.39 % in 2025
+1,124 MW coming, capacity 37% above peak
+reserve margin not held
+	244.61 kg
+539.28 lb
+	
+Green Mountain Power Corp
+114.47
+-0.67 %
+	not held
+ISO-NE .Z.WCMASS (load zone)	not held	not held	license needed	not held
+load: no rule held
+	+2.90 %
+zone +2.00 % in 2025
+1,124 MW coming, capacity 37% above peak
+reserve margin not held
+	244.61 kg
+539.28 lb
+	
+Direct Energy Business
+118.36energy only
++18.74 %
+	not held
+MISO ARKANSAS.HUB (hub)	paused	paused	license needed	58.40 mo
+load: no rule held
+	+2.80 %
+8,887 MW coming, capacity 62% above peak
+reserve margin not held
+	335.53 kg
+739.72 lb
+	
+Entergy Arkansas LLC
+60.84
++21.45 %
+	not held
+MISO ILLINOIS.HUB (hub)	paused	paused	license needed	58.40 mo
+load: no rule held
+	+2.80 %
+8,887 MW coming, capacity 62% above peak
+reserve margin not held
+	562.38 kg
+1,239.84 lb
+	
+Direct Energy Business
+98.93energy only
++2.44 %
+	not held
+MISO INDIANA.HUB (hub)	paused	paused	license needed	58.40 mo
+load: no rule held
+	+2.80 %
+8,887 MW coming, capacity 62% above peak
+reserve margin not held
+	413.42 kg
+911.42 lb
+	
+Duke Energy Indiana, LLC and 1 more
+86.38
++0.28 %
+	not held
+MISO LOUISIANA.HUB (hub)	paused	paused	license needed	58.40 mo
+load: no rule held
+	+2.80 %
+8,887 MW coming, capacity 62% above peak
+reserve margin not held
+	335.53 kg
+739.72 lb
+	
+Entergy Louisiana LLC
+57.46
++4.24 %
+	not held
+MISO MICHIGAN.HUB (hub)	paused	paused	license needed	58.40 mo
+load: no rule held
+	+2.80 %
+8,887 MW coming, capacity 62% above peak
+reserve margin not held
+	440.26 kg
+970.62 lb
+	
+Consumers Energy Co - (MI)
+89.47
++3.65 %
+	not held
+MISO MINN.HUB (hub)	paused	paused	license needed	58.40 mo
+load: no rule held
+	+2.80 %
+8,887 MW coming, capacity 62% above peak
+reserve margin not held
+	417.36 kg
+920.13 lb
+	
+Northern States Power Co - Minnesota
+95.25
+-1.17 %
+	not held
+MISO MS.HUB (hub)	paused	paused	license needed	58.40 mo
+load: no rule held
+	+2.80 %
+8,887 MW coming, capacity 62% above peak
+reserve margin not held
+	335.53 kg
+739.72 lb
+	
+Entergy Mississippi LLC
+85.16
++11.07 %
+	not held
+MISO TEXAS.HUB (hub)	paused	paused	license needed	58.40 mo
+load: no rule held
+	+2.80 %
+8,887 MW coming, capacity 62% above peak
+reserve margin not held
+	335.53 kg
+739.72 lb
+	
+Entergy Texas Inc.
+56.29
++2.82 %
+	not held
+NYISO CAPITL (load zone)	70.76rt 65.95	not held	license needed	87.30 mo
+load: rule 2026-06, wait license needed
+	+0.52 %
+zone +1.91 % in 2025
+1,537 MW coming, capacity 34% above peak
+reserve margin not held
+	109.81 kg
+242.09 lb
+	
+Niagara Mohawk Power Corp. and 2 more
+17.34delivery only
++12.26 %
+	not held
+NYISO CENTRL (load zone)	66.56rt 62.42	not held	license needed	87.30 mo
+load: rule 2026-06, wait license needed
+	+0.52 %
+zone +1.06 % in 2025
+1,537 MW coming, capacity 34% above peak
+reserve margin not held
+	109.81 kg
+242.09 lb
+	
+Niagara Mohawk Power Corp. and 3 more
+17.34delivery only
++12.26 %
+	not held
+NYISO DUNWOD (load zone)	72.79rt 68.20	not held	license needed	87.30 mo
+load: rule 2026-06, wait license needed
+	+0.52 %
+zone +2.55 % in 2025
+1,537 MW coming, capacity 34% above peak
+reserve margin not held
+	392.12 kg
+864.47 lb
+	
+New York State Elec & Gas Corp and 1 more
+27.14delivery only
++1.19 %
+	not held
+NYISO GENESE (load zone)	63.22rt 59.12	not held	license needed	87.30 mo
+load: rule 2026-06, wait license needed
+	+0.52 %
+zone +0.60 % in 2025
+1,537 MW coming, capacity 34% above peak
+reserve margin not held
+	109.81 kg
+242.09 lb
+	
+Niagara Mohawk Power Corp. and 4 more
+17.34delivery only
++12.26 %
+	not held
+NYISO HUD VL (load zone)	71.79rt 66.03	not held	license needed	87.30 mo
+load: rule 2026-06, wait license needed
+	+0.52 %
+zone +2.71 % in 2025
+1,537 MW coming, capacity 34% above peak
+reserve margin not held
+	109.81 kg
+242.09 lb
+	
+New York Power Authority
+50.49energy only
+-3.76 %
+	not held
+NYISO LONGIL (load zone)	72.51rt 69.09	not held	license needed	87.30 mo
+load: rule 2026-06, wait license needed
+	+0.52 %
+zone +1.05 % in 2025
+1,537 MW coming, capacity 34% above peak
+reserve margin not held
+	535.54 kg
+1,180.66 lb
+	
+Fishers Island Utility Co Inc and 3 more
+no sales row	not held
+NYISO MHK VL (load zone)	69.57rt 64.82	not held	license needed	87.30 mo
+load: rule 2026-06, wait license needed
+	+0.52 %
+zone +1.94 % in 2025
+1,537 MW coming, capacity 34% above peak
+reserve margin not held
+	109.81 kg
+242.09 lb
+	
+New York Power Authority
+50.49energy only
+-3.76 %
+	not held
+NYISO MILLWD (load zone)	72.42rt 67.16	not held	license needed	87.30 mo
+load: rule 2026-06, wait license needed
+	+0.52 %
+zone -2.18 % in 2025
+1,537 MW coming, capacity 34% above peak
+reserve margin not held
+	392.12 kg
+864.47 lb
+	
+New York State Elec & Gas Corp and 1 more
+27.14delivery only
++1.19 %
+	not held
+NYISO N.Y.C. (load zone)	73.10rt 68.49	not held	license needed	87.30 mo
+load: rule 2026-06, wait license needed
+	+0.52 %
+zone +1.08 % in 2025
+1,537 MW coming, capacity 34% above peak
+reserve margin not held
+	392.12 kg
+864.47 lb
+	
+Consolidated Edison Co-NY Inc
+128.79delivery only
++0.67 %
+	not held
+NYISO NORTH (load zone)	67.60rt 63.85	not held	license needed	87.30 mo
+load: rule 2026-06, wait license needed
+	+0.52 %
+zone -6.70 % in 2025
+1,537 MW coming, capacity 34% above peak
+reserve margin not held
+	109.81 kg
+242.09 lb
+	
+New York Power Authority
+50.49energy only
+-3.76 %
+	not held
+NYISO WEST (load zone)	60.16rt 54.96	not held	license needed	87.30 mo
+load: rule 2026-06, wait license needed
+	+0.52 %
+zone -1.41 % in 2025
+1,537 MW coming, capacity 34% above peak
+reserve margin not held
+	109.81 kg
+242.09 lb
+	
+Niagara Mohawk Power Corp. and 4 more
+17.34delivery only
++12.26 %
+	not held
+PJM PJM, the grid (no hub or zone price held)	license needed	not held	license needed	71.30 mo
+load: rule 2026-09
+	+4.12 %
+7,696 MW coming, capacity 31% above peak
+reserve margin not held
+	325.18 kg
+716.91 lb
+	
+FirstEnergy Pennsylvania Electric Co and 4 more
+11.34delivery only
+-6.90 %
+	not held
+SPP SPPNORTH_HUB (hub)	33.51rt 30.80	not held	no capacity market	84.60 mo
+load: rule 2026-10
+	+5.25 %
+3,870 MW coming, capacity 78% above peak
+reserve margin not held
+	391.00 kg
+862.00 lb
+	
+Kansas Gas & Electric Co and 6 more
+77.79
+-4.65 %
+	not held
+SPP SPPSOUTH_HUB (hub)	29.27	not held	no capacity market	84.60 mo
+load: rule 2026-10
+	+5.25 %
+3,870 MW coming, capacity 78% above peak
+reserve margin not held
+	395.55 kg
+872.04 lb
+	
+Oklahoma Gas & Electric Co
+59.15
+-2.99 %
+	not held

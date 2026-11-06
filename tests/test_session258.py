@@ -374,7 +374,9 @@ class EveryCardFileInGit(unittest.TestCase):
         for p in sorted(glob.glob(os.path.join(ROOT, "site", "data", "findings", "*.json"))):
             with open(p, encoding="utf-8") as f:
                 c = json.load(f)
-            if isinstance(c, dict) and "source_line" in c:
+            # session 720: a card written outside the findings engine names its generator ("engine"; the All grids
+            # tab's card, site/scripts/siting-card.mjs, from the tab's own functions) and is held to that script's checks
+            if isinstance(c, dict) and "source_line" in c and not c.get("engine"):
                 out.append((os.path.basename(p), c))
         return out
 

@@ -112,7 +112,7 @@ class TheNote(unittest.TestCase):
         heads = re.findall(r"(?m)^## (.+)$", n)
         self.assertEqual(heads, ["1. The order of computation", "2. The reader's inputs", "3. The price of an hour", "4. Every number on the page, in the order the page shows it",
                                  "5. A load that is not flat", "6. Edge cases, as the code handles them", "7. Assumptions, their defaults and sources", "8. The replication",
-                                 "9. Where the notes and the code differ", "10. What is left, for your ruling", "11. Findings of this session", "Sign-off", "Checks", "Cross-checks"])   # session 196 added the last
+                                 "9. Where the notes and the code differ", "10. What is left, for your ruling", "11. Findings of this session", "12. The decisions on the page (session 462)", "Sign-off", "Checks", "Cross-checks"])   # session 196 added the last; session 462 the decisions
         block = n.split("## Sign-off", 1)[1].split("## Checks", 1)[0]
         for line in ("- Signed off by:", "- Date:", "- Items of section 10 ruled, and how:"):
             self.assertIn(line, block)

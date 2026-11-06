@@ -1,5 +1,7 @@
 # Cost of power: method
 
+Tables: `merchant_revenue_monthly`, `cost_of_power_hourly_profile`, `cost_of_power_carbon`
+
 > **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's hub prices stop at the last day pulled, and so do the months built on them. What is held stays as it is. [`miso_pause.md`](miso_pause.md)
 
 Built in session 37 for the cost-of-power model v0, platform tool 16 (`/cost-of-power`). Three derived tables (tier derived, public), written by `warehouse/derived/cost_of_power.py`, from tables and files the warehouse already held. No pull was made to build them.
@@ -44,6 +46,7 @@ For one hub, one market (real-time or day-ahead) and one local month, over the h
 - For the last 12 local months each hub holds with demand: the mean real-time price of each local hour of day (`rt_mean_h00` to `rt_mean_h23`).
 - The number of hours averaged (`rt_days_h00` to `rt_days_h23`).
 - Every complete price hour of those months counts, whether or not its demand is held.
+- Session 2536: a month the rolling price tables no longer reach is carried over from the previous file, and the header says how many rows were (336 on 24 October 2026, the month 2025-10 from the run of 2 October). So the table can hold more than 12 months: 13 that day, 2025-10 to 2026-10.
 
 **`cost_of_power_carbon`:** over the same real-time hours as the monthly table:
 
@@ -428,3 +431,16 @@ A box for solar and wind: the reader pastes or uploads one calendar year of hour
 - **The fix.** Until this session another hub or zone changed the capture price and the contract only; revenue, the months, debt coverage and the stress days stayed at the main hub. Now the hub chosen prices all of them: `warehouse/derived/merchant_hubs.py` runs the model's own function with that hub's hourly price and writes `site/data/seller/hubs/`; `site/lib/sellerhubs.ts` hands a hub's file to the model's library; the page writes the hub and the market beside the figure. The main hub keeps the snapshot, so no number of a default page moved. The battery beside the plant and the pasted profile stay at the main hub and say so.
 - **The replication.** `site/public/seller/erw_2026_generator_hourly.csv` (the default case hour by hour, `warehouse/derived/generator_hourly_export.py`), a Stata do-file and its Python mirror, linked from the page's source line.
 - **Tests and checks:** `tests/test_session183.py`, `tests/test_session183_replication.py`, `site/scripts/test-seller-hubs.mjs`, `site/scripts/check-seller-face.mjs` (the page at 1280 and 390 px, at the main hub and at others).
+
+## The figures of the AI gigawatts draft and their keys
+
+Each number `/reports/draft/ai-gigawatts` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The draft is internal (`site/app/reports/draft/ai-gigawatts/page.tsx`); every number is a row of `ai_power_regions` for one region (`iso:<region>`), or a ratio or difference of two such rows (`calc|ratio|...`, `calc|diff|...`); the measures are defined in `docs/reports/ai_gigawatts_methods.md`. The keys the sections above do not name:
+
+- `flat_rt_price_usd_mwh`, `flat_da_price_usd_mwh`, `flat_1gw_cost_usd`: in "2. Cost", each region's real-time and day-ahead price for a flat load in USD per MWh, and what a flat 1 GW would pay for energy in a year in USD. The first finding sets the dearest region's `flat_1gw_cost_usd` against the cheapest's, as a ratio and as a difference.
+- `carbon_intensity_kg_mwh`, `flat_1gw_co2_t`, `carbon_days`: in "3. Carbon", each region's consumption-based intensity in kg CO2 per MWh, the tonnes of CO2 a flat 1 GW would carry in a year, and the days held. The second finding sets the dirtiest region's tonnes against the cleanest's, as a ratio and a difference.
+- `scarcity_hours_200`, `scarcity_hours_1000`, `max_rt_hour_usd_mwh`, `rt_hours_seen`, `event_largest_effect_pct`: in "4. Stress", each region's hours at or above USD 200 and USD 1,000 per MWh, its highest hour's price, the hours held, and the largest effect of a studied event in percent of normal demand.
+- `emergency_days`: in "4. Stress", CAISO's days with an ISO-wide Flex Alert or emergency, the one region the table holds them for.
+- `lbnl_active_mw`, `lbnl_active_requests`, `lbnl_median_years_to_cod`, `lbnl_cod_sample`, `lbnl_completion_pct`, `queue_active_mw`: in "5. Connection", each region's active requests in MW and in number at the end of 2025 (Berkeley Lab), the median years from request to operation and the requests behind that median, the percent of 2000 to 2019 requests completed, and the active MW in the ISO's own queue. The third finding sets the slowest region's median against the fastest's, as a difference.
+- `net_import_share_pct`, `pair_import_share_pct`, `net_import_days_pct`, `peak_import_share_pct`, `interchange_days`, `screened_pair_days`, `demand_mwh`: in "6. Imports", each region's net imports in percent of demand by EIA's balance and by the pair sums, the percent of complete days it was a net importer, the percent imported on its ten peak days, the complete days, the pair-days screened out, and its demand in MWh.
+
+Section 8 ("Reading the table three ways") shows the same rows again for the three regions first in each order.

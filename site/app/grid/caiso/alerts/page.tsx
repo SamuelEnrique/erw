@@ -147,7 +147,7 @@ export default async function FlexAlertScorecard() {
   return (
     <Brand>
     <div>
-      <p className="mb-1 text-xs text-muted"><Link href="/grid/caiso">CAISO</Link> / <Link href="/grid/caiso#reliability">Reliability</Link> / Flex Alert scorecard</p>
+      <p className="mb-1 text-xs text-muted"><Link href="/grid?grid=caiso">CAISO</Link> / <Link href="/grid?grid=caiso#reliability">Reliability</Link> / Flex Alert scorecard</p>
       <h1 className="mb-2 text-3xl">The Flex Alert scorecard: CAISO, 2018 to 2024</h1>
       <p className="mb-4 max-w-3xl">
         When California&apos;s grid runs short, CAISO asks people to use less power: a <strong>Flex Alert</strong>, and in worse hours an Energy Emergency
@@ -313,7 +313,7 @@ export default async function FlexAlertScorecard() {
           <li><strong>The value is a lower bound</strong> at day-ahead prices, set before the day; real-time prices on alert evenings were often higher.</li>
         </ul>
         <p className="mt-3 max-w-3xl text-sm">
-          The notices themselves, and how tight each evening was, are in <Link href="/grid/caiso#reliability">CAISO&apos;s Reliability section</Link>; the
+          The notices themselves, and how tight each evening was, are in <Link href="/grid?grid=caiso#reliability">CAISO&apos;s Reliability section</Link>; the
           two heat waves have their own pages, <Link href="/events/caiso-heat-2020">August 2020</Link> and <Link href="/events/caiso-heat-2022">September 2022</Link>.
         </p>
       </Section>

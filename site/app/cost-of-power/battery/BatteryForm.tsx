@@ -67,7 +67,7 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
             <Link key={d} href={`${hrefOf(bare, { dur: d })}${carry(search, d === x.dur)}`} scroll={false} aria-current={x.dur === d ? "true" : undefined} data-duration={d}
               title={`${d} hours: the battery discharges at its rated power for ${d} hours, ${d} MWh for each MW`}
               style={x.dur === d ? { color: "#fff" } : undefined}
-              className={`px-2 py-1.5 text-center no-underline ${d !== DURATIONS[0] ? "border-l border-accent" : ""} ${x.dur === d ? "bg-accent font-semibold" : "bg-white text-accent"}`}>
+              className={`px-2 py-1.5 text-center no-underline ${d !== DURATIONS[0] ? "border-l border-accent" : ""} ${x.dur === d ? "bg-accent font-semibold" : "bg-white text-accent hover:bg-paper"}`}>
               {d} hours
             </Link>
           ))}
@@ -86,7 +86,7 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
       </fieldset>
 
       <label className="block"><span className="mb-1 block font-semibold">Size, MW</span>
-        <input name="mw" type="number" min={1} max={5000} step="any" defaultValue={x.mw} className={field} />
+        <input name="mw" type="number" min={1} max={5000} step="any" autoComplete="off" defaultValue={x.mw} className={field} />
       </label>
       <div className="flex items-baseline gap-3">
         <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Show</button>

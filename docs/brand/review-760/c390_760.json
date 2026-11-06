@@ -1,0 +1,36 @@
+{
+ "base": "https://erw-flame.vercel.app",
+ "at": "2026-10-22T19:27:30.023Z",
+ "pages": [
+  {
+   "page": "/cost-of-power?view=allgrids&rows=nodes&nsort=swing&ndir=desc",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&node=ercot%3AAPPLE_RN",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nq=RN&nsort=spread&ndir=desc",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  }
+ ]
+}

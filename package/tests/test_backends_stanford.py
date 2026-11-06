@@ -1,0 +1,121 @@
+"""The Stanford dataset through the Redivis backend must give the local files' answers (session 665, chain 043).
+
+Energy Research Warehouse (ERW). Five public tables of the draft of Datapages's `erw:b9wm` (one derived, one entities,
+one events, two series): fetch, coverage, sources and cite through RedivisBackend(owner="datapages", dataset="erw:b9wm",
+owner_kind="organization") against LocalBackend, as test_backends.py does for the owner's account. news_index, the events
+table of that file, is unsettled by its ERW verdict and not in the Stanford dataset; ercot_grid_notices stands in.
+
+On 22 October 2026 Redivis refused every streamed read ("Cannot stream more than 100GB to external environments within a
+30 day period", the token's user, since 15 October, session 305); the backend then reads the table's CSV export instead
+(session 665), and two of the five tables were proven that way before the session's ceiling. The whole run:
+
+    ERW_REMOTE_TESTS=1 python -m pytest package/tests/test_backends_stanford.py -v -m remote
+"""
+
+import re
+
+import pandas as pd
+import pytest
+
+import erw
+
+pytestmark = pytest.mark.remote
+
+FIVE = ["ercot_peak_premium_annual", "eia860m_retired_generators", "ercot_grid_notices", "eia_fuel_spot_prices",
+        "eia_drilling_monthly"]
+KEYS = {"ercot_peak_premium_annual": ["entity", "variable", "ts_utc"], "eia860m_retired_generators": ["entity_id"],
+        "ercot_grid_notices": ["event_id"], "eia_fuel_spot_prices": ["entity", "variable", "ts_utc"],
+        "eia_drilling_monthly": ["entity", "variable", "ts_utc"]}
+
+
+@pytest.fixture(scope="module")
+def stanford():
+    try:
+        b = erw.RedivisBackend(owner="datapages", dataset="erw:b9wm", owner_kind="organization", version="next")  # session 1001: the draft, named
+        missing = [t for t in FIVE if t not in b.list_tables()]
+        b.coverage()  # a read of rows: refused while Redivis's 30-day streaming cap stands
+    except Exception as exc:
+        pytest.skip(f"the Stanford draft is not readable here: {type(exc).__name__}: {str(exc)[:200]}")
+    if missing:
+        pytest.skip(f"the Stanford draft lacks {missing}")
+    yield b
+    erw.set_backend(erw.LocalBackend())
+
+
+def _norm(df, keys):
+    d = df[sorted(df.columns)].sort_values(keys).reset_index(drop=True)
+    d.attrs = {}
+    return d
+
+
+# Session 688: what a run of the daily refresh changes in a row it rewrites without a new value
+RUN_COLUMNS = ["retrieved_at", "vintage"]
+
+
+def title(header):
+    return next((ln for ln in header if ln.startswith("Energy Research Warehouse (ERW):")), None)
+
+
+def same_as_local(rem, loc, keys):
+    """The draft's copy of a table against the local one. While the table is as uploaded (one header), every row and
+    the header are equal. Once a daily run has rewritten it after the upload (session 688: eia_fuel_spot_prices, 27,754
+    rows in the draft, 27,766 here, every row's retrieved_at new), the draft must still be a part of the local table:
+    each of its keys held here, with the same values apart from the run's own columns, and the same title."""
+    hr, hl = rem.attrs["erw"]["header"], loc.attrs["erw"]["header"]
+    if hr == hl:
+        pd.testing.assert_frame_equal(_norm(rem, keys), _norm(loc, keys), check_dtype=False)
+        return "as uploaded"
+    assert title(hr) is not None and title(hr) == title(hl)
+    assert sorted(rem.columns) == sorted(loc.columns)
+    cols = [c for c in sorted(rem.columns) if c not in RUN_COLUMNS]
+    k = loc[keys].astype(str).agg("|".join, axis=1)
+    kr = rem[keys].astype(str).agg("|".join, axis=1)
+    assert not kr.duplicated().any() and kr.isin(set(k)).all(), "a row of the draft is not in the local table"
+    part = loc[k.isin(set(kr))]
+    a, b = _norm(rem[cols], keys), _norm(part[cols], keys)
+    # session 864: a publisher revises a few recent values between two runs (EIA's spot prices: one of 27,754 on
+    # 23 October 2026); the rows that differ must be under REVISED_SHARE of the rows in common, and are counted
+    diff = (a.astype(str) != b.astype(str)).any(axis=1)
+    assert diff.mean() <= REVISED_SHARE, f"{int(diff.sum()):,} of {len(a):,} rows differ"
+    return f"rewritten since the upload: {len(loc) - len(rem):,} rows newer here, {int(diff.sum()):,} revised"
+
+
+def undated(citation):
+    """A citation without its "Retrieved <date>": the date moves with every run that rewrites the table (session 864)."""
+    return re.sub(r"\. Retrieved \d{4}-\d{2}-\d{2}", ".", citation)
+
+
+# coverage's columns that a daily run's rewrite moves (session 864): compared only for a table as uploaded
+RUN_COVERAGE = ["ts_min", "ts_max", "n_rows", "last_run", "n_nodes", "validator_status"]
+REVISED_SHARE = 0.001
+
+
+@pytest.mark.parametrize("name", FIVE)
+def test_fetch_matches_local(stanford, name):
+    erw.set_backend(erw.LocalBackend())
+    loc = erw.fetch(name)
+    erw.set_backend(stanford)
+    rem = erw.fetch(name)
+    print(name, same_as_local(rem, loc, KEYS[name]))
+
+
+@pytest.mark.parametrize("name", FIVE)
+def test_cite_names_the_table(stanford, name):
+    erw.set_backend(erw.LocalBackend())
+    loc = erw.cite(name)
+    erw.set_backend(stanford)
+    rem = erw.cite(name)
+    cut = " Via the Energy Research Warehouse (ERW)"  # session 1001: the release's words
+    assert undated(rem.split(cut)[0]) == undated(loc.split(cut)[0])
+    assert f"table `{name}`" in rem
+
+
+def test_filter_and_coverage_match_local(stanford):
+    erw.set_backend(erw.LocalBackend())
+    loc_cov = erw.coverage().set_index("table").loc[FIVE]
+    loc_f = set(erw.filter(sector="oil")) & set(FIVE)
+    erw.set_backend(stanford)
+    rem_cov = erw.coverage().set_index("table").loc[FIVE]
+    stable = [c for c in loc_cov.columns if c not in RUN_COVERAGE]
+    pd.testing.assert_frame_equal(rem_cov[stable], loc_cov[stable], check_dtype=False)
+    assert set(erw.filter(sector="oil")) & set(FIVE) == loc_f

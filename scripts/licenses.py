@@ -42,6 +42,7 @@ META = os.path.join(ROOT, "warehouse", "metadata")
 COVERAGE, SOURCES = os.path.join(META, "coverage.csv"), os.path.join(META, "sources.csv")
 READS, VERDICTS, TABLES = (os.path.join(META, f"license_{n}.csv") for n in ("reads", "verdicts", "tables"))
 DOC = os.path.join(ROOT, "docs", "licenses.md")
+HOLDS_SHOWN = os.path.join(ROOT, "docs", "licenses_holds.csv")   # session 505: site/scripts/check-holds.mjs --csv
 PUBLIC, PERMISSION, PAID, FORBIDDEN = "may be public", "needs written permission", "needs a paid license", "forbidden"
 ORDER = [PUBLIC, PERMISSION, PAID, FORBIDDEN]
 OWN = {"ERW", "Anthropic"}          # the ERW's own work and its own bills: no publisher's page applies
@@ -56,16 +57,27 @@ CANON = [
     (r"St\. Louis|FRED", "FRED"),  # a name "through FRED" is FRED's: this rule goes before the Board's
     (r"Board of Governors|Federal Reserve System", "FRB"),  # session 207: the Board's own H.15 download (frb_treasury_yields)
     (r"PortWatch", "IMF PortWatch"), (r"International Monetary Fund", "IMF"), (r"Berkeley", "Berkeley Lab"), (r"Nuclear Regulatory", "NRC"),
-    (r"Census", "Census Bureau"), (r"Commodity Futures", "CFTC"), (r"Regional Greenhouse", "RGGI"), (r"Railroad Commission", "RRC"),
+    (r"Census Bureau", "Census Bureau"),  # session 2323: not "Census", which also matched Hong Kong's Census and Statistics Department
+    (r"Commodity Futures", "CFTC"), (r"Regional Greenhouse", "RGGI"), (r"Railroad Commission", "RRC"),
     (r"Federal Energy Regulatory|^FERC$", "FERC"), (r"Energy Research Warehouse|^ERW$", "ERW"),
     (r"(?i)bloomberg", "Bloomberg"), (r"(?i)^ft\.com$|\.ft\.com$|^FT Channels$|Financial Times", "Financial Times"), (r"(?i)hart ?energy", "Hart Energy"),
     (r"(?i)^WSJ$|wsj\.com$", "WSJ"), (r"(?i)reuters", "Reuters"), (r"(?i)hydrogen ?insight", "Hydrogen Insight"), (r"(?i)^JPT Homepage$|jpt\.spe\.org", "JPT"),
     (r"IEA .* International Energy Agency", "IEA"), (r"(?i)cpuc\.ca\.gov|California Public Utilities Commission", "California Public Utilities Commission"),
     (r"Public Utility Commission of Texas|PUC Interchange", "Public Utility Commission of Texas"), (r"(?i)epa\.gov|Environmental Protection Agency|EPA's", "EPA"),
+    # session 888: the U.S. Wind Turbine Database is a USGS data release, made with LBNL and ACP and distributed by USGS (its
+    # header: USGS's public domain). PUDL's FERC Form 714 tables are left unmatched on purpose: they wait on FERC's own page
+    (r"^U\.S\. Geological Survey", "U.S. Geological Survey (USGS)"),
 ]
 # tables no rule resolves, or resolves wrongly: their publishers by hand, each with the reason
 BY_HAND = {
+    # session 991: the hybrid plants file carries its own notice (the DOE contract notice, no CC BY), read 167
+    "lbnl_hybrid_plants": (["Berkeley Lab, hybrid plants file"], "its own file's notice (session 991): the Department of Energy's contract notice, without the CC BY 4.0 statement of LBNL's other data files"),
     "eia930_demand_growth": (["EIA"], "its header: EIA publications"),
+    # session 2014: EIA's page says the wholesale market data are "republished, with permission, from data collected by the
+    # Intercontinental Exchange (ICE)": ICE's data, so ICE's verdict as well as EIA's (as the NYMEX futures EIA republished)
+    "eia_ice_electricity_daily": (["EIA", "ICE, whose prices EIA republishes"], "its header: EIA republishes these prices with ICE's permission"),
+    # session 2020: Tracking the Sun as OEDI publishes it, by its own record's license (read 193), not Berkeley Lab's other files' (read 14)
+    "lbnl_tracking_the_sun": (["Berkeley Lab, Tracking the Sun on OEDI"], "its submission on the Open Energy Data Initiative states CC BY 4.0 (session 2019, read 193)"),
     "eia_all_futures_prices": (["EIA", "CME Group (NYMEX), whose prices EIA republished"], "its header: EIA names the New York Mercantile Exchange as the source of these prices"),
     "ercot_peak_premium_annual": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),
     "ercot_peak_premium_monthly": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),
@@ -279,7 +291,7 @@ def write(doc=None):
     ev = collections.Counter(erw_verdict(x["flag"], x["standing"]) for x in lines)
     w(f"- **The ERW's verdict (session 378): {ev['public']} public, {ev['internal']} internal, {ev['unsettled']} unsettled** "
       "(one word a table, in \"Every table\"; an unsettled table waits for a permission, a read, or a ruling).")
-    w(f"- **{len(reads)} publishers in the record: {n_ask} requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files), {n_read} pages read, {n_ask - n_read} that could not be read, "
+    w(f"- **{len(reads)} publishers in the record: {n_ask} requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), {n_read} pages read, {n_ask - n_read} that could not be read, "
       f"{len(reads) - n_ask} not asked (paused).**")
     loose = [x for x in lines if x["standing"] == "DISAGREES: the flag is looser"]
     strict = [x for x in lines if x["standing"] == "DISAGREES: the flag is stricter"]
@@ -415,6 +427,23 @@ def write(doc=None):
     w("")
     w("No page read states a price. For the letter of intent, a price has to be asked for.")
     w("")
+    # session 505: the held figures a page still shows, one line a page, from docs/licenses_holds.csv (written by
+    # site/scripts/check-holds.mjs --csv on a build); no file, no section. Before session 378's prices, which close the
+    # document (tests/test_session378.py; session 555)
+    if os.path.exists(HOLDS_SHOWN):
+        shown = rows(HOLDS_SHOWN)
+        day = shown[0]["day"] if shown else ""
+        w("## Held figures that still show (session 505)")
+        w("")
+        w("A table held for a license is drawn as \"license needed\" (`site/lib/license.ts`, `components/Num.tsx`). "
+          "`site/scripts/check-holds.mjs` reads every page of check-values' list on a build and lists each figure drawn from "
+          "a held table without those words. How such a figure is held is Samuel's ruling; no page was changed. "
+          + (f"Read on {day}: {len(shown)} pages." if shown else "Read: no page shows a held figure."))
+        w("")
+        for r in shown:
+            grids = f", grids {r['grids']}" if r["grids"] else ""
+            w(f"- `{r['page']}`: {r['figures']} held figures shown ({r['kinds']}), from `" + "`, `".join(r["tables"].split("; ")) + f"`{grids}.")
+        w("")
     # session 378: the prices for the letter of intent, one row a publisher whose verdict is not "may be public" today or
     # if the ERW sells anything, with what its page says of a price and who to write to; the four letters are named
     letters = {"NYISO": "nyiso", "SPP": "spp", "PJM": "pjm", "MISO": "miso"}
@@ -432,7 +461,7 @@ def write(doc=None):
         letter = f"`docs/reviews/licenses/{letters[k]}-permission-letter.md`" if k in letters else ""
         w(f"| {k} | {v['verdict']} | {v['if_commercial']} | {cell(v['price']) or 'none stated'} | {cell(v['contact']) or 'not named'} | {letter} |")
     w("")
-    text = "\n".join(L) + "\n"
+    text ="\n".join(L) + "\n"
     if chr(0x2014) in text:
         text = text.replace(chr(0x2014), ":")     # a publisher's own dash inside a quotation would break the house rule; none is expected
     with open(doc or DOC, "w", encoding="utf-8", newline="\n") as f:

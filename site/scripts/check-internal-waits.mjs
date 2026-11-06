@@ -65,13 +65,32 @@ try {
   const first = w.reports[0]?.waits[0];
   if (first) {
     const words = first.md.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/[*_`]/g, "").replace(/\s+/g, " ").slice(0, 60);
-    check(t.replace(/[*_`]/g, "").includes(words), "the newest report's first item is in the report's own words", `("${words}")`);
+    // compared without whitespace: text() turns each tag into a space, so a code span before a comma reads "wip/479-streak ,"
+    // (session 479's first item, 21 October), which is the page's markup, not other words
+    const bare = (s) => s.replace(/[*_`]/g, "").replace(/\s+/g, "");
+    check(bare(t).includes(bare(words)), "the newest report's first item is in the report's own words", `("${words}")`);
   }
   check(t.includes(`the reports after session ${w.marker.last}`) && t.includes("last_answered:") && html.includes(`${w.repo}/blob/main/${w.marker.path}`),
     "the page says which report was the last answered, and where a person changes it");
   const folded = (html.match(/<details[^>]*data-decided="[0-9]+"/g) ?? []).length;
   check(folded === w.reports.filter((x) => x.decided.length > 0).length, "what was decided without the owner is folded under its report", `(${folded})`);
   check(w.decided_only.every((d) => html.includes(`href="${d.url}"`)), "a report with only decisions is named in one line, not listed");
+  // session 414: the ledger of the run (each ruling once)
+  const L = w.ledger;
+  check(!!L && L.error === null && html.includes('data-ledger="1"'), "the ledger is drawn", `(${L ? `${L.from} to ${L.to}` : "absent"})`);
+  if (L && L.error === null) {
+    const ln = (k) => Number((html.match(new RegExp(`data-ln="${k}"[^>]*>([0-9,]+)<`)) ?? [])[1]?.replace(/,/g, "") ?? NaN);
+    check(ln("items") === L.counts.items && ln("lines") === L.counts.lines && ln("reports") === L.counts.reports, "the ledger's counts are the file's",
+      `(${ln("items")} items, ${ln("lines")} lines, ${ln("reports")} reports)`);
+    const drawn = [...html.matchAll(/data-ledger-item="([^"]+)"/g)].map((m) => m[1]);
+    check(drawn.length === L.groups.length && new Set(drawn).size === drawn.length, "each item of the ledger is drawn once", `(${drawn.length} of ${L.groups.length})`);
+    const linked = L.groups.every((g) => [...g.asked, ...g.restated].every((x) => html.includes(`href="${x.url}"`)));
+    check(linked, "every item of the ledger links to each line that asks it");
+    const firsts = L.groups.filter((g) => g.first).sort((a, b) => a.first.place - b.first.place).map((g) => g.id);
+    check(JSON.stringify(drawn.slice(0, firsts.length)) === JSON.stringify(firsts), "the first three are drawn first, in their order", `(${firsts.join(", ")})`);
+    check(L.blocks.every((b) => html.includes(`data-ledger-block="${b.key}"`)), "every block is drawn, an empty one too");
+    check(!noHtml.includes("data-ledger") && !noHtml.includes("each ruling once") && L.groups.every((g) => !noHtml.includes(`data-ledger-item="${g.id}"`)), "a visitor is sent none of the ledger");
+  }
   const home = await fetch(`${base}/`, { headers: { Cookie: cookie } });
   check(!(await home.text()).includes("/internal/waits"), "the home page and the menu do not link to it, even in the internal view");
 

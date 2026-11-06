@@ -10,6 +10,7 @@ import re
 import subprocess
 import sys
 import unittest
+from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 FONTS = os.path.join(ROOT, "site", "public", "fonts")
@@ -116,7 +117,12 @@ class TheCards(unittest.TestCase):
         import json
         for name in ("batteries_lunch", "gas_sets_price", "queue_divorce"):
             card = json.load(open(os.path.join(ROOT, "site", "data", "findings", f"{name}.json"), encoding="utf-8"))
-            self.assertTrue(card["computed_at"].startswith("2026-10-10T"), (name, card["computed_at"]))
+            # session 534: the data machine recomputes the cards (its findings step; 21 October 2026, commit c8aa37ff), so
+            # the stamp is held to be a UTC second on or after 10 October 2026, the day they were first computed there, and
+            # not in the future, rather than that day itself
+            self.assertRegex(card["computed_at"], r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$", name)
+            self.assertGreaterEqual(card["computed_at"], "2026-10-10T", (name, card["computed_at"]))
+            self.assertLessEqual(card["computed_at"], datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), (name, card["computed_at"]))
             csv_name = card.get("downloads", {}).get("csv") or next((v for k, v in card.items() if isinstance(v, str) and v.endswith(".csv")), None)
             if csv_name and os.path.exists(os.path.join(ROOT, "site", "public", "findings", os.path.basename(csv_name))):
                 with open(os.path.join(ROOT, "site", "public", "findings", os.path.basename(csv_name)), "rb") as f:

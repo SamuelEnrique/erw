@@ -308,12 +308,19 @@ class TheGridsAndThePlaceholders182(unittest.TestCase):
             vals = p["values"]["worst_interval_multiple"]
             first[p["grid"]] = x[next(i for i, v in enumerate(vals) if v is not None)]
             self.assertEqual(first[p["grid"]], p["first"])
-        self.assertEqual(first, {"ercot": "2019-01", "caiso": "2024-09", "nyiso": "2019-01", "isone": "2024-09", "spp": "2024-09"})
+            # session 534: where its prices start is what the panel's own title says ("from 2023-07"), not the months held
+            # on 10 October 2026: CAISO's prices reach back to 2023-07 since the data machine's run of 21 October 2026
+            self.assertTrue(p["title"].endswith(f"from {p['first']}"), p["title"])
+        self.assertEqual(sorted(first), sorted(["ercot", "caiso", "nyiso", "isone", "spp"]))
+        self.assertEqual((first["ercot"], first["nyiso"]), ("2019-01", "2019-01"))
+        for grid in ("caiso", "isone", "spp"):
+            self.assertLessEqual(first[grid], "2024-09", grid)   # held from September 2024 or earlier
+        months = first
         c = card182("peak_hour_grids")
         for p in c["chart"]["panels"]:
             vals = p["values"]["share_evening_pct"]
             y = c["chart"]["x"][next(i for i, v in enumerate(vals) if v is not None)]
-            self.assertEqual(y, "2019" if p["grid"] in ("ercot", "nyiso") else "2024", p["grid"])
+            self.assertEqual(y, months[p["grid"]][:4], p["grid"])
 
     def test_the_axes_are_stated_on_the_chart(self):
         for name in ("batteries_lunch_grids", "peak_hour_grids"):
@@ -642,23 +649,33 @@ class C3TheDailyCardKeepsItsNumbers(unittest.TestCase):
         cls.mod = c3_module(C3_DAILY)
         cls.card = c3_card(C3_DAILY)
         cls.csv = os.path.join(C3_DOWNLOADS, cls.card["downloads"]["csv"])
+        # session 534: session 182's own check is of the card of 10 October 2026, which the data machine has recomputed
+        # since (21 October 2026, c8aa37ff: 417 days where 405 were). So the two tests of "no number moved" read that card
+        # and its CSV as fixtures copied from the commit before (tests/fixtures/session182/), and the day's card is held
+        # to its own CSV
+        with open(os.path.join(ROOT, "tests", "fixtures", "session182", "batteries_curtailment_2026-10-10.json"), encoding="utf-8") as f:
+            cls.before = json.load(f)
+        cls.before_csv = os.path.join(ROOT, "tests", "fixtures", "session182", "erw_2026_caiso_curtailment_batteries_2026-10-10.csv")
 
     def test_every_old_number_is_unchanged(self):
-        n = self.card["numbers"]
+        n = self.before["numbers"]
         for k, v in C3_DAILY_BEFORE.items():
             self.assertEqual(n[k], v, k)
         self.assertEqual(set(n) - set(C3_DAILY_BEFORE), {"corr_curtailed_charging", "corr_squared"})
-        self.assertEqual(self.card["computed_at"], "2026-10-10T03:09:20Z", "the rows were not recomputed")
+        self.assertEqual(self.before["computed_at"], "2026-10-10T03:09:20Z", "the rows were not recomputed")
+        self.assertEqual(set(self.card["numbers"]), set(n), "the day's card has the same figures, recomputed")
 
     def test_the_rows_are_the_rows_session_174_wrote(self):
-        with open(self.csv, "rb") as f:
-            raw = f.read()
-        self.assertEqual(hashlib.sha256(raw).hexdigest(), self.card["csv_sha256"])
-        data = b"".join(ln for ln in raw.splitlines(keepends=True) if not ln.startswith(b"#"))
-        self.assertEqual(hashlib.sha256(data).hexdigest(), C3_DAILY_ROWS_SHA256)
-        head = [ln for ln in raw.decode("utf-8").split("\n") if ln.startswith("#")]
-        self.assertEqual(len(head), 4)
-        self.assertIn(f"Pearson r of curtailed_mwh with charging_mwh over these rows: {self.card['numbers']['corr_curtailed_charging']:.6f}", head[3])
+        for card, path, rows_sha in ((self.before, self.before_csv, C3_DAILY_ROWS_SHA256), (self.card, self.csv, None)):
+            with open(path, "rb") as f:
+                raw = f.read()
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), card["csv_sha256"], path)
+            if rows_sha:
+                data = b"".join(ln for ln in raw.splitlines(keepends=True) if not ln.startswith(b"#"))
+                self.assertEqual(hashlib.sha256(data).hexdigest(), rows_sha)
+            head = [ln for ln in raw.decode("utf-8").split("\n") if ln.startswith("#")]
+            self.assertEqual(len(head), 4, path)
+            self.assertIn(f"Pearson r of curtailed_mwh with charging_mwh over these rows: {card['numbers']['corr_curtailed_charging']:.6f}", head[3])
 
     def test_r_is_reported_beside_r2(self):
         n, f = self.card["numbers"], self.common.fmt

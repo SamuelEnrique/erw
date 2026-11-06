@@ -11,7 +11,7 @@
 // last. The service key is read by writeConfig() only, never for a read, and like the other two variables it is
 // server-side (no NEXT_PUBLIC_ prefix): none reaches a browser.
 import "server-only";
-import { gridOfEntity, licenseByGrid, licenseHeldGrid, licenseHeldRow, licenseNeeded, licenseReason } from "./license";
+import { ROW_LICENSE_FILTER, ROW_LICENSE_PUBLIC, gridOfEntity, licenseByGrid, licenseByRow, licenseHeldGrid, licenseHeldRow, licenseNeeded, licenseReason, rowLicenseHeld } from "./license";
 
 /** A read that failed. Pages show its message as the reason for "no data". */
 export class DataError extends Error {}
@@ -47,9 +47,10 @@ function gridOfQuery(query: Record<string, string>): string {
 
 /** Session 215: whether this read is held whole (throw), and, for a table held by grid with no grid named, that the
  * rows of the held grids are to be left out of what comes back. */
-function licenseHold(query: Record<string, string>): { throw: boolean; filter: boolean } {
+function licenseHold(query: Record<string, string>): { throw: boolean; filter: boolean; byRow?: boolean } {
   const t = tableOf(query);
   if (!t || !licenseNeeded(t)) return { throw: false, filter: false };
+  if (licenseByRow(t)) return { throw: false, filter: false, byRow: true };  // session 499: the public rows only
   if (!licenseByGrid(t)) return { throw: true, filter: false };
   const g = gridOfQuery(query);
   if (g) return { throw: licenseHeldGrid(g), filter: false };
@@ -92,6 +93,29 @@ async function turn<T>(f: () => Promise<T>): Promise<T> {
   }
 }
 
+// Session 580: the time of each read, for a measurement (docs/reviews/slow-reads-2026-10-22.md). Off unless the server
+// or the build is started with ERW_READ_TIMING=1. Off, readClock() answers 0 without reading a clock and readLine()
+// returns at once: the request is the one it was, sent and awaited by the same line. On, each request (one page of a
+// read, or a count) prints one line, "[erw-read] " and a JSON object: kind ("rows" or "count"), table, query (the
+// PostgREST parameters as sent), status ("failed" for a request that never answered), range (PostgREST's
+// Content-Range: the rows answered, and the total for a count) and ms, the time from the request to its answer's
+// headers, measured inside the build's turn so a wait for a slot is not counted. A retry is its own line.
+// site/scripts/slow-reads.mjs reads those lines from a build's log. Nothing is written to a file or sent anywhere.
+export function readTiming(v: string | undefined): boolean {
+  return v === "1";
+}
+const READ_TIMING = readTiming(process.env.ERW_READ_TIMING);
+function readClock(): number {
+  return READ_TIMING ? performance.now() : 0;
+}
+function readLine(kind: "rows" | "count", table: string, qs: URLSearchParams, t0: number, r: Response | undefined): void {
+  if (!READ_TIMING) return;
+  const ms = Math.round(performance.now() - t0);
+  const status = r ? String(r.status) : "failed";
+  const range = r?.headers.get("content-range") ?? "";
+  console.log(`[erw-read] ${JSON.stringify({ kind, table, query: qs.toString(), status, range, ms })}`);
+}
+
 function config(): { base: string; key: string } {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_ANON_KEY;
@@ -126,6 +150,45 @@ export function pagesTogether(v: string | undefined, building = false): number {
 }
 const PAGES_TOGETHER = pagesTogether(process.env.ERW_PAGES_TOGETHER, BUILDING);
 
+// Session 537: a page whose read failed is asked again soon, not after its whole interval. A page is cached for the
+// shortest revalidation among the reads made while it was rendered. A read that failed (the statement timeout past
+// session 90's retries, a refused request, an HTTP error) leaves the page with "no data" in that place, and until this
+// session the page was kept that way for its own interval: an hour, or until the next deploy for a page with none
+// (session 461's check-routes: 15 pages built on a slow live set). Now a failed read also asks Next for a revalidation
+// of RETRY seconds, through unstable_cache, the one public call whose interval Next takes into the page's own (a fetch
+// that failed is never kept in Next's data cache: only a 200 is). So the page that lost a read is regenerated on the
+// first request after RETRY seconds, in the background as every regeneration is (that request is answered with the
+// page as it was, the next one with the new page), and a page whose reads all succeeded never comes here and keeps its
+// interval exactly. Nothing is read from the database for the mark: it is one small entry in Next's own cache, kept per
+// page. A read held for a license (LicenseNeeded) and a server with no database named (NotConfigured) are not failed
+// reads and are not marked. required() reads keep failing the build, and a render that throws is never cached, as
+// before. Outside Next (the node scripts that import this file, the tests) there is no page and no mark.
+export const RETRY = 60;
+let askAgainMark: (() => Promise<boolean>) | null = null;
+export async function markFailedRead(e: unknown): Promise<boolean> {
+  if (e instanceof LicenseNeeded || e instanceof NotConfigured) return false;
+  if (!process.env.NEXT_RUNTIME) return false;   // not inside Next: a script or a test, with no page to mark
+  try {
+    if (!askAgainMark) {
+      const { unstable_cache } = await import("next/cache");
+      askAgainMark = unstable_cache(async () => true, ["erw-failed-read"], { revalidate: RETRY });
+    }
+    await askAgainMark();
+    return true;
+  } catch (m) {
+    console.error(`[erw] a failed read could not shorten the page's revalidation: ${(m as Error).message}`);
+    return false;
+  }
+}
+async function askAgainOnFailure<T>(f: () => Promise<T>): Promise<T> {
+  try {
+    return await f();
+  } catch (e) {
+    await markFailedRead(e);
+    throw e;
+  }
+}
+
 /** One page of a read: the request, its retries and its failure, exactly as the reader always made them. */
 async function onePage<T>(base: string, key: string, table: string, query: Record<string, string>, revalidate: number, offset: number, max: number): Promise<T[]> {
   const qs = new URLSearchParams({ ...query, limit: String(Math.min(PAGE, max - offset)), offset: String(offset) });
@@ -138,10 +201,16 @@ async function onePage<T>(base: string, key: string, table: string, query: Recor
     try {
       // the body of a failed answer is read inside the turn, so the slot is held until the request is over
       [res, body] = await turn(async () => {
-        const r = await fetch(`${base}/rest/v1/${table}?${qs}`, {
-          headers: { apikey: key, Authorization: `Bearer ${key}` },
-          next: { revalidate, tags: [table] },
-        });
+        const t0 = readClock();   // session 580: 0 and no clock unless ERW_READ_TIMING=1
+        let r: Response | undefined;
+        try {
+          r = await fetch(`${base}/rest/v1/${table}?${qs}`, {
+            headers: { apikey: key, Authorization: `Bearer ${key}` },
+            next: { revalidate, tags: [table] },
+          });
+        } finally {
+          readLine("rows", table, qs, t0, r);
+        }
         return [r, r.ok ? "" : (await r.text()).slice(0, 200)] as [Response, string];
       });
     } catch (e) {
@@ -200,7 +269,12 @@ export async function restPaged<T>(
   // session 215: a held table is not asked for; a table held by grid, read with no grid named, loses the held grids' rows
   const hold = licenseHold(query);
   if (hold.throw) throw new LicenseNeeded(tableOf(query));
-  const rows = await restPages<T>(table, query, revalidate, max, together);
+  if (hold.byRow) {
+    // session 499: a table held by row is asked for its public rows only, and what comes back is checked again
+    const rows = await askAgainOnFailure(() => restPages<T>(table, publicRowsQuery(query), revalidate, max, together));
+    return rows.filter((r) => !rowLicenseHeld(r as Record<string, unknown>));
+  }
+  const rows = await askAgainOnFailure(() => restPages<T>(table, query, revalidate, max, together));
   if (!hold.filter) return rows;
   const t = tableOf(query);
   return rows.filter((r) => !licenseHeldRow(t, (r as { entity?: string }).entity ?? ""));
@@ -239,12 +313,52 @@ async function restPages<T>(table: string, query: Record<string, string>, revali
 /** The number of rows matching `query`, without reading them (PostgREST exact count). */
 export async function restCount(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
   if (licenseHold(query).throw) throw new LicenseNeeded(tableOf(query));  // session 215; a count over a table held by grid is the table's own
+  // session 499: a count over a table held by row counts its public rows
+  return restCountRaw(table, licenseHold(query).byRow ? publicRowsQuery(query) : query, revalidate);
+}
+
+/** Session 499: the query for the public rows of a table held by row (the row's own license, `extra->>row_license`;
+ *  session 441's method, lib/license.ts). */
+export function publicRowsQuery(query: Record<string, string>): Record<string, string> {
+  return { ...query, [ROW_LICENSE_FILTER]: `eq.${ROW_LICENSE_PUBLIC}` };
+}
+
+/** Session 499: the query for the held rows of a table held by row: every row whose license is not public, a missing
+ *  one included. Counted, never read. */
+export function heldRowsQuery(query: Record<string, string>): Record<string, string> {
+  const held = `${ROW_LICENSE_FILTER}.is.null,${ROW_LICENSE_FILTER}.neq.${ROW_LICENSE_PUBLIC}`;
+  if (!query.or) return { ...query, or: `(${held})` };
+  const { or, ...rest } = query;  // a query that has its own `or` keeps it: both must hold
+  return { ...rest, and: `(or${or},or(${held}))` };
+}
+
+/** Session 499: how many rows of a table held by row are held (a count, not a row of it); null for any other table. */
+export async function restHeldRowCount(table: string, query: Record<string, string>, revalidate: number): Promise<number | null> {
+  if (!licenseHold(query).byRow) return null;
+  return restCountRaw(table, heldRowsQuery(query), revalidate);
+}
+
+async function restCountRaw(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
+  return askAgainOnFailure(() => countOf(table, query, revalidate));
+}
+
+async function countOf(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
   const { base, key } = config();
   const qs = new URLSearchParams({ ...query, limit: "1" });
-  const res = await turn(() => fetch(`${base}/rest/v1/${table}?${qs}`, {
-    headers: { apikey: key, Authorization: `Bearer ${key}`, Prefer: "count=exact" },
-    next: { revalidate, tags: [table] },
-  }));
+  const url = `${base}/rest/v1/${table}?${qs}`;
+  const res = await turn(async () => {
+    const t0 = readClock();   // session 580: 0 and no clock unless ERW_READ_TIMING=1
+    let r: Response | undefined;
+    try {
+      r = await fetch(url, {
+        headers: { apikey: key, Authorization: `Bearer ${key}`, Prefer: "count=exact" },
+        next: { revalidate, tags: [table] },
+      });
+    } finally {
+      readLine("count", table, qs, t0, r);
+    }
+    return r;
+  });
   if (!res.ok) throw new DataError(`Supabase ${table}: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
   const range = res.headers.get("content-range") ?? "";
   const n = Number(range.split("/")[1]);

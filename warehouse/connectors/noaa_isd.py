@@ -19,6 +19,12 @@ at a time, smallest events first; before each request the rows still allowed are
 pull stops rather than pass the ceiling, recording what it left out. Each response is saved under warehouse/raw/.
 Values: ISD's TMP and DEW, tenths of a degree Celsius with a quality code; 9999 (missing) and the codes ISD marks
 suspect or erroneous (2, 3, 6, 7) are not written. License: public domain (U.S. Government data, NOAA NCEI).
+
+Read against the table by session 2124 (docs/methods/noaa_isd_hourly.md): the table holds 11 stations, FAT (Fresno) among
+them, taken with SAC and LAX for the alert seasons of May to October 2018 to 2025; each row is one report (routine,
+special or synoptic, at its own minute), not one hour; the 2025 season ends at 2025-08-27T06:53Z, where NCEI's ISD ends;
+a request's rows are not trimmed to its window (590 rows of the December 2021 baseline run to 31 December); and a "local
+day" is each grid's own clock (MSP asked in fixed EST all year).
 """
 
 import datetime as dt

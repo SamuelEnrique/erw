@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""CAISO day-ahead ancillary service clearing prices, hourly, the system regions, from 2024-09-01.
+"""CAISO day-ahead ancillary service clearing prices, hourly, the system regions, from 2024-09-01 by default (the table
+holds hours from 14 July 2023: session 273 ran it with --start 2023-07-14; session 2060).
 
 Energy Research Warehouse (ERW) connector, session 65 (docs/methods/capacity_and_ancillary.md). Writes one series
 table, warehouse/output/caiso_as_prices.csv:

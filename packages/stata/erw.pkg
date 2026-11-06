@@ -1,0 +1,8 @@
+v 3
+d erw: the Energy Research Warehouse (ERW) in Stata
+d The six calls of the ERW packages (docs/methods/packages.md): erw tables, erw coverage, erw fetch, erw cite, erw license, erw standard.
+d Reads the live set and Redivis through curl; needs Stata 16.
+d Distribution-Date: 20261023
+f erw.ado
+f erw.sthlp
+f examples.do

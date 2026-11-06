@@ -4,6 +4,8 @@ The deal tracker (`/deals`: the deals, the tracker and the companies tabs). Writ
 from the builders' own descriptions, `warehouse/deals/extract.py` (session 15) and
 `warehouse/companies/seed_from_deals.py` (session 27); until then the page's lead paragraphs were its only note.
 
+Tables: `energy_deals`, `energy_deals_evidence`, `energy_companies`
+
 ## Where a deal comes from
 
 - **The stories.** The news stories the ERW scores (`news_stories`, `warehouse/news/`) that are scored, of the sectors
@@ -18,6 +20,7 @@ from the builders' own descriptions, `warehouse/deals/extract.py` (session 15) a
   A state, a country and a status are kept only where the story's words name them (session 16's ruling).
 - **One deal, every story.** Each call carries the deals already extracted, and a deal the model marks as one of them
   adds its story to that deal instead of making a new one; `warehouse/deals/duplicates.py` lists the pairs left.
+  Since session 531 the code checks too (below, "One deal across days").
 
 ## The tables
 
@@ -44,3 +47,120 @@ from the builders' own descriptions, `warehouse/deals/extract.py` (session 15) a
 
 Under each tab, its public tables as the live set's CSV with a Python and a Stata reader of that CSV (session 328's
 shared line); the evidence table is internal and is not offered.
+
+## The figures on the page and their keys
+
+Each number `/deals` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `deals|month_count|<month>`: the deals of the month in the first cell, counted from the rows of `energy_deals` whose announced date falls in it (at the start of a month with no deal yet, the previous month, labeled).
+- `deals|month_mw|<month>`: the MW announced in that month, the sum of the deals' `mw`, with the number of deals that state MW beside it.
+- `deals|month_ai_pct|<month>`: the share of that month's deals tagged AI or datacenter power, rounded to a whole percent; with no deal in the month the cell says so and shows no number.
+- `event|energy_deals|<deal>|mw` and `event|energy_deals|<deal>|dollars`: a deal's `mw` and its dollars in the table's row, blank where the story states none.
+
+## Master plan tool 6, field by field (session 465)
+
+Master plan tool 6 (`docs/master_plan.md`): "Structured, running database of every deal struck to power AI: nuclear
+restarts, SMR offtakes, gas buildouts, PPAs, behind-the-meter, with counterparties, MW, price where disclosed, and
+status." Each field against `energy_deals` as extracted on 2026-10-20T06:17:34Z (492 rows); the counts are in
+`docs/reviews/deals-tool6-2026-10-21.md`, with the script that made them.
+
+- **Held as a field**: the type (fourteen types, with `ppa`, `offtake`, `project_finance`, `m_and_a`,
+  `nuclear_restart`, `smr` and `behind_the_meter` among them), the buyer, seller and other parties, `mw`, the price
+  (`price` in USD per MWh, `price_value` with `price_unit` otherwise), the status, the AI power tag.
+- **Read from fields already held** (session 465, `kindsOf` in `site/lib/deals2.ts`, nothing written to a table): the
+  four kinds tool 6 names that the tracker's groups gather under Other. Nuclear restart, small modular reactor and
+  behind the meter are the extraction's own type, or the same words in the asset or the technology ("restart",
+  "small modular", "SMR", "microreactor", "behind the meter", "co-located", "on-site"). Gas generation has no type: a
+  deal is of it where the technology names gas and the asset a plant, a turbine or generation, an acquisition or a fuel
+  supply excepted. Whether a plant is new build the table does not say, so the kind is called gas generation, not a
+  buildout. The tracker offers the kinds and the status as two more choices; the AI power subset was already one click.
+- **Needs a pull not approved**: a deal's point of delivery and node, its tenor where the story omits it, and prices the
+  stories do not state (a filing or a press release beyond the news the ERW reads).
+
+## The hold (session 465)
+
+From 21 October 2026 `energy_deals` is "license needed" (`warehouse/metadata/license_status.csv`; the owner's ruling of
+12 October 2026, drawn on the pages by session 215): every deal of the table was extracted from news stories, and the
+outlets' own pages ask for permission. The pages draw the catalogue's words where a deal would be, and say how many
+rows the hold covers: `catalogue|energy_deals|n_rows`, the row count of `energy_deals` in the catalogue, the figure
+`/data` shows. No row of the held table is read for it.
+
+Which rows rest on a source whose terms the ERW reads as public was counted by the third machine's session 441 on the
+files of 20 October (`docs/reviews/sources-by-row-2026-10-21.md`, on `wip/441-450-third` until it lands): 9 of the 492
+rows, all from World Nuclear News, none with a stated MW. Showing those rows alone needs a license column a row (that
+review's method) and a ruling; until then the hold is whole.
+
+## Decisions
+
+The pages list every choice they make about the deals, one line each with its session and ruling, in a block under
+every tab (`site/app/deals/Decisions.tsx`, session 465).
+
+## The comparables view (session 466)
+
+`/deals?view=comparables` (in review, under the tracker's tab) sets the deals' disclosed figures side by side, one
+dimension at a time: the deal type (the extraction's fourteen types, the default), the technology as the story states
+it, the grid (read from the state, as the tracker reads it) or the year (`?by=type`, `technology`, `grid`, `year`). The
+register's folded pairs are counted once, as on the tracker. For each group, a row of one table:
+
+- `deals|comp_deals|<dimension>|<value>`: the deals of the group;
+- `deals|comp_with_price|<dimension>|<value>`: those that state a price in US dollars per MWh;
+- `deals|comp_median_price|<dimension>|<value>`: the median of those prices, only where three or more deals state one;
+- `deals|comp_with_mw|<dimension>|<value>`: those that state a size in MW;
+- `deals|comp_median_mw|<dimension>|<value>`: the median of those sizes, only where three or more deals state one.
+
+The value is the group's own (a type's id, a technology's words, a grid, a year), "-" for the group that does not state
+it. **Nothing is computed from fewer than three disclosed deals**: a group with fewer says "fewer than three". A median
+is of the figures the stories state; a deal that states none is left out, never counted as zero. One chart beside the
+table shows the median price of each group that has one; where no group of the dimension has three deals that state a
+price (every group of the 492 rows of 20 October: none states a price), it shows the median size, and says so. The
+functions are `comparables()`, `medianOf()` and `shown()` of `site/lib/deals2.ts`; `site/scripts/check-values.mjs`
+recomputes every key with the same functions on the live set's rows. Under the hold the view shows the hold's words
+and the rows it covers, and nothing of a row.
+
+## Held by row: how a row is shown (sessions 499 and 500)
+
+The site can now hold `energy_deals` row by row instead of whole, by each row's own license (session 441's method,
+[`docs/reviews/sources-by-row-2026-10-21.md`](../reviews/sources-by-row-2026-10-21.md)). Nothing changes until the data
+machine does two things: the table's CSV carries a column `row_license` (one of `public`, `license needed`, `unsettled`,
+computed from every publisher the row rests on), which the loader keeps in the row's `extra`; and
+`warehouse/metadata/license_status.csv` marks the table `hold = row`, which `scripts/licenses.py status` copies into
+`site/data/license_status.json`. Today no table carries the mark, so the deal pages show the hold as above.
+
+Once both are there, the site's one reader (`site/lib/supabase.ts`) asks for the public rows only
+(`extra->>row_license=eq.public`) and checks each row again when it comes back; a row with no `row_license` is held. The
+three deal views (the deals, the tracker and the comparables) show the public rows as they show every deal, each with its
+stories linked, and a line above them says how many rows are held and why: a count of the rows whose license is missing
+or not public (check key `held|events|energy_deals|rows`), never a row of them. Every figure the views compute (the
+month's count and MW, the tracker's counts, the comparables' medians) is then of the public rows only. The download of
+the table, Ask and the catalogue on `/data` still treat it as held whole: serving its public rows there waits for a later
+session and Samuel's ruling.
+
+## One deal across days (session 531)
+
+The Roundup audit of 21 October (`docs/reviews/roundup-audit-2026-10-21.md`, fix 8) found deals printed twice in two
+issues: the Department of Energy's loan to Vistra (a row of 2 October, "US" lending USD 4 billion, and one of 5
+October, "Department of Energy" lending USD 4.2 billion) and Amazon's PPA with Constellation (a row of 30 September,
+and one of 6 October, "nuclear expansions", from the story of Google's deal that says Constellation signed with "both
+Google and Amazon in the last week"). The second rows came from the daily run: it sends only the stories it has not
+checked, so a deal reported over several days is sent again with its later stories, and the model's `same_as` was the
+only guard. It left both empty.
+
+From session 531, `warehouse/deals/extract.py` applies three rules of `warehouse/deals/deal_parties.py` to every deal the
+model does not mark as one already held. No model is called for them.
+
+- **One deal, one row.** The deal is merged into a deal already held, as a `same_as` would be, when the two have the
+  same type and the same two parties (buyer and seller, in either order), are dated within 30 days of each other, name
+  assets that share a word (when both name one), and state sums within a quarter of each other (when both state one).
+  A name is the same party when one is the other with words added ("Constellation", "Constellation Energy"); the US
+  government is one party whatever the story calls it ("US", "DOE", "Department of Energy", "Pentagon").
+- **Two governments are not a deal.** A deal whose buyer and seller are both governments or countries is not kept: in
+  the stories held such rows were policy, talks or a memorandum ("Trump says Russia to supply diesel to US and global
+  markets"; 8 of the 497 rows of 21 October, each with a confidence of 0.6 or less).
+- **A party the story does not name is not kept.** A buyer or seller whose name is not in the story's words (an
+  equity raise's "investors" where no investor is named) is left empty, as a number without its words is.
+
+Each is said in the run log. The rules change what a later extraction writes, not the rows already held: the table is
+as the extraction left it, so the tracker's counts did not move. Run over the 497 rows of 21 October, read only, the
+first rule finds four repeats: the audit's two, session 113's folded Prysmian and Atkore pair, and its doubtful Lynas
+pair (the Pentagon and "US" are one party for the rule). Folding the held rows is the register's (`duplicates.csv`), a
+person's choice.

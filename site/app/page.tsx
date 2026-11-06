@@ -78,8 +78,9 @@ function TodayChart() {
     <ToolSection title="Today's chart" id="today">
       {today ? (
         <figure className="lead-chart" data-today-chart={today.date}>
+          {/* session 411: the picture's own size (lib/markdown.ts), so its room is right before it arrives */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`/digest-charts/${today.image}`} alt={`${today.title}. ${today.fact}`} width={1600} height={900} />
+          <img src={`/digest-charts/${today.image}`} alt={`${today.title}. ${today.fact}`} width={today.width ?? 1600} height={today.height ?? 900} />
           <figcaption>
             <p className="lead-date">{day(today.date)}</p>
             <h3>{today.title}</h3>

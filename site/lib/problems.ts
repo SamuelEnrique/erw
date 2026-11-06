@@ -482,7 +482,7 @@ async function setE(): Promise<Question[]> {
 export const SETS: Omit<ProblemSet, "questions">[] = [
   { slug: "know-your-grid", title: "Know your grid: ERCOT and CAISO side by side", line: "Peak demand, generation mix, the battery cycle and carbon intensity, from the latest data.",
     teacher: "About 45 minutes. Prerequisites: MW against MWh, reading a daily and an hourly table. Students should open /grid/ercot, /grid/caiso, /mix, /storage and /emissions, and the tables linked under each question on /data.",
-    pages: [{ href: "/grid/ercot", label: "ERCOT" }, { href: "/grid/caiso", label: "CAISO" }, { href: "/storage", label: "Storage" }, { href: "/emissions", label: "Emissions" }] },
+    pages: [{ href: "/grid?grid=ercot", label: "ERCOT" }, { href: "/grid?grid=caiso", label: "CAISO" }, { href: "/storage", label: "Storage" }, { href: "/grid?view=clean", label: "Emissions" }] },
   { slug: "prices-and-your-bill", title: "Prices and your bill", line: "Load-weighted against simple prices, the shape premium, the wholesale share of two real bills, and the cheapest and dearest hour.",
     teacher: "About 40 minutes. Prerequisites: a weighted average, USD per MWh against cents per kWh (divide by 10). Students should open /cost-of-power, /learn/bill and the method page for the cost of power.",
     pages: [{ href: "/cost-of-power", label: "Cost of power" }, { href: "/learn/bill", label: "What is on a bill" }, { href: "/data/methods/cost_of_power", label: "Method" }] },
@@ -496,7 +496,7 @@ export const SETS: Omit<ProblemSet, "questions">[] = [
   // session 55: set E
   { slug: "networks-and-money", title: "Networks and money", line: "ERCOT's ties and the biggest exporter in the network's newest hour, a solar plant's capture rate, a battery's debt cover, and what a plant earned in Winter Storm Uri.",
     teacher: "About 45 minutes. Prerequisites: MW against MWh, a weighted price, a ratio. Students should open /network (pick ERCOT, slide to the last hour), /cost-of-power/seller (solar, then battery, at ERCOT) and the Uri event page. The network's hour moves as the hourly refresh runs; the money questions move when the seller's snapshot is rebuilt.",
-    pages: [{ href: "/network", label: "The network" }, { href: "/cost-of-power/seller", label: "What a generator earns" }, { href: "/events/uri-2021", label: "Uri" }] },
+    pages: [{ href: "/grid?view=network", label: "The network" }, { href: "/cost-of-power/seller", label: "What a generator earns" }, { href: "/events/uri-2021", label: "Uri" }] },
 ];
 
 export async function problemSet(slug: string): Promise<ProblemSet | null> {

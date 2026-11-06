@@ -54,7 +54,71 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "USD/kW", "USD/kWh", "USD/kW-year",
          # session 345: JEDI's jobs per MW (job-years of a build, jobs of each operating year) and dollars per MW a year
          # (nlr_jedi_multipliers; Decision 48)
-         "FTE-year/MW", "FTE/MW", "USD/MW-year"}
+         "FTE-year/MW", "FTE/MW", "USD/MW-year",
+         # session 671: a duration in mean months of 30.4375 days (interconnection_durations_summary; Decision 49)
+         "month",
+         # session 685: a quantity of coal in short tons (2,000 lb), as EIA publishes it (eia_coal_production_annual; Decision 50)
+         "short_ton",
+         # session 695: a distribution utility's reliability as EIA-861 publishes it: SAIDI in minutes of interruption per
+         # customer, SAIFI in interruptions per customer, CAIDI in minutes per interruption, each over the row's period
+         # (eia861_utility_reliability; Decision 51)
+         "minute/customer", "interruption/customer", "minute/interruption",
+         # session 870: coal's heat content in Btu per pound, as Form EIA-923 gives it (eia_coal_shipments_annual; Decision 52)
+         "Btu/lb",
+         # session 889: an index number on its source's base period, as the Federal Reserve's G.17 gives industrial
+         # production (2017 = 100) (frb_utility_output_monthly; Decision 53)
+         "index",
+         # session 904: a quantity in pounds (EIA's uranium in pounds of U3O8 equivalent, named in the header), enrichment
+         # in separative work units and its price per unit (eia_uranium_marketing_annual; Decision 55)
+         "lb", "SWU", "USD/SWU",
+         # session 954: a quantity in metric tons and a price per kilogram, as the USGS's Mineral Commodity Summaries give
+         # them (usgs_mcs_critical_minerals; Decision 56)
+         "t", "USD/kg",
+         # session 2030: a volume in U.S. gallons, as EPA's Renewable Fuel Standard data give batch volumes (epa_rfs_rins_monthly;
+         # Decision 59)
+         "gal",
+         # session 2045: precipitation in inches, as NOAA's nClimDiv gives a state's month (noaa_climdiv_state_monthly;
+         # Decision 60)
+         "in",
+         # session 2072: metric tons of CO2 equivalent, as EPA's GHGRP reports a facility's total (AR4 global warming
+         # potentials; epa_ghgrp_facility_emissions; Decision 61)
+         "tCO2e",
+         # session 2092: degrees Celsius, the Oceanic Nino Index and the Nino 3.4 sea surface temperature as NOAA CPC gives them
+         # (noaa_cpc_oni_monthly; Decision 62)
+         "degC",
+         # session 2106: an area in acres (43,560 square feet), as BLM counts federal land under oil and gas lease
+         # (blm_oil_gas_statistics_annual; Decision 63)
+         "acre",
+         # session 2107: solar radiation in megajoules per square meter a day, as NOAA's USCRN gives a month's average daily
+         # total (noaa_uscrn_solar_monthly; Decision 64)
+         "MJ/m2-day",
+         # session 2113: a river's discharge in cubic feet a second, as the USGS gives a gauge's daily mean
+         # (usgs_streamflow_daily; Decision 65)
+         "ft3/s",
+         # session 2121: a mass in grams, as EPA's Toxics Release Inventory reports dioxins (epa_tri_energy_releases_annual;
+         # Decision 66)
+         "g",
+         # session 2137: parts per million of dry air, carbon dioxide at Mauna Loa as the Scripps CO2 Program gives it
+         # (scripps_co2_mlo_monthly; Decision 67)
+         "ppm",
+         # session 2150: electricity used a person in a year, in kWh, as the World Bank republishes the IEA's figure
+         # (wb_iea_electricity_annual; Decision 68)
+         "kWh/person",
+         # session 2169: a volume a day in cubic metres, as the CER gives a pipeline's throughput and capacity
+         # (cer_pipeline_throughput; Decision 69)
+         "m3/d",
+         # session 2179: a volume in cubic metres, as Statistics Canada gives crude oil (and natural gas in thousands, written
+         # times 1,000) a month (statcan_oil_gas_supply_monthly; Decision 70)
+         "m3",
+         # session 2211: a reservoir's pool elevation in feet above mean sea level and its storage in acre-feet, as
+         # Reclamation gives Lake Mead's and Lake Powell's (usbr_mead_powell_daily; Decisions 71 and 72)
+         "ft", "acre-ft",
+         # session 2244: a crude oil's API gravity in degrees, as EIA gives the crude run at refineries
+         # (eia_crude_quality_monthly; Decision 73)
+         "degAPI",
+         # session 2245: natural gas heat content in Btu a cubic foot, as EIA gives the gas delivered to consumers
+         # (eia_gas_heat_content_monthly; Decision 74)
+         "Btu/ft3"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
@@ -141,7 +205,10 @@ ENTITIES_COLS = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capac
                  "status_date", "operator", "source"]
 ENTITIES_REQUIRED = ["entity_id", "entity_type", "name", "source"]
 ENTITY_TYPES = {"plant", "generator", "project", "datacenter", "substation", "utility", "company",
-                "counterparty"}
+                "counterparty",
+                "equipment",  # session 896: a plant's boiler, cooling system or emissions control (EIA-860; Decision 54)
+                "dam",  # session 982: a dam and its reservoir, the National Inventory of Dams (usace_nid_dams; Decision 57)
+                "platform"}  # session 2007: an offshore oil and gas structure, BOEM's platform files (boem_offshore_platforms; Decision 58)
 # docs/datastandard.md shape (b) and Decision 20: the source's own status stays in its own column
 ENTITY_STATUS = {"operating", "planned", "under_construction", "retired", "withdrawn", "active",
                  "completed", "suspended"}

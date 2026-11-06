@@ -14,6 +14,8 @@ import { count } from "@/lib/format";
 import { cancelled, countryOf } from "@/lib/largeload";
 import { HeadlineNumber, HeadlineRow, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { DatacentersTable, type Facility } from "./DatacentersTable";
+import { facilityHref, facilitySite } from "@/lib/siting";
+import { FACILITY_GRID, SITING_FILES } from "@/lib/sitingdata";
 
 export function toFacility(r: EntityRow): Facility {
   const x = r.extra ?? {};
@@ -42,7 +44,14 @@ export function toFacility(r: EntityRow): Facility {
     mwSpan: x.mw_span ?? "",
     queueMw: x.queue_mw ? Number(x.queue_mw) : null,
     sourceUrls: (x.source_urls ?? r.source_url ?? "").split(";").filter(Boolean),
+    siting: sitingOf(x.state ?? "", x.county ?? "", r.capacity_mw === null ? null : Number(r.capacity_mw)),
   };
+}
+/** Session 719: the facility's row on the All grids tab of /cost-of-power, by its county, else its state; none where
+ *  neither places it in one grid. The tracker names no node, so an ERCOT facility is never placed at a node. */
+function sitingOf(state: string, county: string, mw: number | null): Facility["siting"] {
+  const s = facilitySite(FACILITY_GRID, SITING_FILES.index, state, county);
+  return s ? { ...s, href: facilityHref(s, mw) } : null;
 }
 
 /** Session 166: the rows the totals and bars count: in a named US state, and not cancelled. */

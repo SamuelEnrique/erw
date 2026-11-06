@@ -70,6 +70,13 @@ on:
         description: "Also run the monthly builds, warehouse/run_monthly.sh (1) or only when the month's are due (0)"
         required: false
         default: "0"
+      # Session 2863: the operating days each ISO connector pulls (3 on the schedule). From 31 October to 5 November 2026
+      # the merge tests stopped every run; a manual run with days=7 pulls the week back while ERCOT's real-time list
+      # still keeps it (seven days).
+      days:
+        description: "The complete operating days each ISO connector pulls (3 on the schedule)"
+        required: false
+        default: "3"
 
 permissions:
   contents: write  # session 61: no issues: the failure issues became rows of the day's health summary
@@ -222,7 +229,7 @@ jobs:
         if: env.ERW_LOCK_TOKEN != ''
         env:
           PYTHON: python
-          DAYS: "3"
+          DAYS: ${{ github.event.inputs.days || '3' }}
           # API keys come from repository secrets of the same names as the local
           # .env; they are never echoed, and every connector redacts them from
           # logs, stored URLs and raw file names.
@@ -433,6 +440,7 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          GH_TOKEN: ${{ github.token }}  # session 2864: the "Stale on main" line reads main's commits through GitHub's API
         run: |
           set -uo pipefail
           day="$(date -u -d yesterday +%F)"

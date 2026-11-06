@@ -125,7 +125,7 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
         lead={<>Solar floods the middle of the day and demand peaks in the evening. Between them is a stretch this page calls the evening shoulder (its term,
           defined below, not an industry standard): how long it lasts, how much of it the batteries operating that month cover, and how many hours they would need
           to cover all of it. California and Texas, on the average day of each month and on the ten worst days of each year. See also <SiteLink href="/cost-of-power/battery">what a battery earns</SiteLink>,{" "}
-          <SiteLink href="/storage/buildout">the storage build-out</SiteLink> and <SiteLink href="/curtailment">curtailment</SiteLink>.</>} />
+          <SiteLink href="/storage?tab=buildout">the storage build-out</SiteLink> and <SiteLink href="/curtailment">curtailment</SiteLink>.</>} />
       {grid.slug === "ercot" && month ? <AskErcotLink context={{ view: "/shoulder", title: "The shoulder hours", settings: { grid: "ERCOT", month } }} /> : null}
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>

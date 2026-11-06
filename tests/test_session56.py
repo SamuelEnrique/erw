@@ -117,7 +117,7 @@ class California(unittest.TestCase):
         game = src("site", "app", "play", "battery", "Game.tsx")
         self.assertIn('(["ERCOT", "CAISO"] as const).filter((gr) => levels.some((l) => l.grid === gr))', game)
         self.assertIn("{level.rule ? ` The rule: ${level.rule}` : \"\"}", game)   # session 289: the chosen day's line under one list of days
-        self.assertIn('href: "/grid/caiso"', game)
+        self.assertIn('href: "/grid?grid=caiso"', game)   # session 581: the address /grid/caiso redirects to
         self.assertIn("The grid: {G.name}.", game)
         self.assertIn("<Link href={G.href}>{G.page}</Link>", game)
         self.assertIsNone(re.search(r"clock\(level\.ts_utc", game), "a clock call without the level's time zone")

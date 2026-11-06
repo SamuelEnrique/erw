@@ -12,6 +12,11 @@ import { attempt } from "@/lib/supabase";
 import { PolicyTable, type Row } from "./PolicyTable";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import { WeekView } from "./WeekView";
+import { citeOf } from "@/lib/policyreads";
+import status from "@/data/license_status.json";
+
+// Session 469: the names of the ERW's tables the site knows (license_status.json), so that a read naming one is shown with it.
+const TABLES = [...Object.keys(status.all ?? {}), ...Object.keys(status.tables ?? {})];
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Policy" };
@@ -77,7 +82,9 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
   const reads = new Map((r.ok ? r.data : []).map((x) => [x.action_event_id, x]));
   // Session 164: the rule's tags of every action, so that a reader reaches each tagged action whatever its date.
   const tagged = allTags(a.data);
-  const rows: Row[] = a.data.map((x) => ({ ...x, event_date: x.event_date.slice(0, 10), read: reads.get(x.event_id) ?? null, tags: tagged.chips[x.event_id] ?? [] }));
+  // Session 469: each read's citation (its figures and their source, or "no figure"), worked out here from the read's own words.
+  const rows: Row[] = a.data.map((x) => { const read = reads.get(x.event_id) ?? null;
+    return { ...x, event_date: x.event_date.slice(0, 10), read, cite: read ? citeOf(read, TABLES) : null, tags: tagged.chips[x.event_id] ?? [] }; });
   const tag = tagOf(q, tagged.topics.map((t) => t.key));
   const since = new Date(now - 7 * 86_400_000).toISOString().slice(0, 10);
   const week = rows.filter((x) => x.event_date >= since && Number(x.significance) >= 5).sort((p, q) => Number(q.significance) - Number(p.significance)).slice(0, 6);

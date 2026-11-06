@@ -94,7 +94,7 @@ class TheOtherRulings(unittest.TestCase):
         self.assertIn("[Potomac Economics, 2024 State of the Market Report for the ERCOT Electricity Markets, June 2025, page 80, \"1. Interpreting Single-Year Net Revenues\" and Figure 56](https://www.potomaceconomics.com/wp-content/uploads/2025/06/2024-State-of-the-Market-Report.pdf)", note)
         self.assertIn("averaged only $68 per MWh", note)
         page = src("site", "app", "cost-of-power", "seller", "page.tsx")
-        self.assertIn('<span data-checked-against="21">Checked against: 21 published figures', page)
+        self.assertIn('<span data-checked-against="34">Checked against: 34 published figures', page)   # session 463: 21 until then
         self.assertIn("Potomac Economics", page)
 
     def test_7a_solar_takes_the_atbs_rate_and_the_page_states_what_moved(self):

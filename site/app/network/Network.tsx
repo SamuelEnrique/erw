@@ -73,12 +73,15 @@ const STORIES: Record<string, { label: string; file: string }> = {
   east_heat_2025: { label: "The June 2025 heat", file: "/network/story_east_heat_2025.json" },
 };
 
-/** Green (low) to cardinal (high) for carbon intensity, kg CO2/MWh, over the held BAs' range; grey where not held. */
+/** Green (the lowest held) through fog (the middle of the held range) to cardinal (the highest) for carbon intensity,
+ * kg CO2/MWh, over the held BAs' range; grey where not held. The fallbacks are the tokens' values, for a color asked
+ * before readPalette has run. */
 function colorOf(v: number | null, lo: number, hi: number): string {
   if (v === null) return PAL.none;
   const t = Math.max(0, Math.min(1, (v - lo) / (hi - lo || 1)));
-  const a = rgbOf(PAL.low, [0x17, 0x5e, 0x54]), b = rgbOf(PAL.high, [0x8c, 0x15, 0x15]);
-  return `rgb(${a.map((c, i) => Math.round(c + (b[i] - c) * t)).join(",")})`;
+  const low = rgbOf(PAL.low, [0x2e, 0x7d, 0x4f]), mid = rgbOf(PAL.mid, [0xf7, 0xf3, 0xea]), high = rgbOf(PAL.high, [0x8c, 0x15, 0x15]);
+  const [a, b, u] = t < 0.5 ? [low, mid, t * 2] : [mid, high, (t - 0.5) * 2];
+  return `rgb(${a.map((c, i) => Math.round(c + (b[i] - c) * u)).join(",")})`;
 }
 const localTime = (ts: string, tz: string) => new Intl.DateTimeFormat("en-US", { timeZone: tz, weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(ts));
 const pct = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -102,9 +105,9 @@ const priceOf = (view: View, v3on: boolean, id: string, h: number) => (v3on && P
  * page under the brand draws the brand's. A canvas cannot read a CSS variable itself, so readPalette puts the tokens'
  * values here before a scene is built. Session 241: until then each entry is the token itself (the map, an SVG, reads
  * a var() as it stands); no color is written in this file. */
-type Palette = { ink: string; ground: string; muted: string; accent: string; rule: string; low: string; high: string; none: string };
+type Palette = { ink: string; ground: string; muted: string; accent: string; rule: string; low: string; mid: string; high: string; none: string };
 const TOKENS: Record<keyof Palette, string> = { ink: "--color-ink", ground: "--color-panel", muted: "--color-muted", accent: "--color-accent", rule: "--color-rule",
-  low: "--color-down", high: "--color-up", none: "--color-not-held" };
+  low: "--color-intensity-low", mid: "--color-intensity-mid", high: "--color-intensity-high", none: "--color-not-held" };
 let PAL: Palette = Object.fromEntries((Object.keys(TOKENS) as (keyof Palette)[]).map((k) => [k, `var(${TOKENS[k]})`])) as Palette;
 function readPalette(el: Element | null) {
   if (!el || typeof window === "undefined") return;
@@ -245,7 +248,9 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       const c = document.createElement("canvas");
       if (!(c.getContext("webgl2") || c.getContext("webgl"))) { fail(); return; }
     } catch { fail(); return; }
-    Promise.all([import("3d-force-graph"), import("three")]).then(([{ default: ForceGraph3D }, THREE]) => {
+    // session 428 (session 411's item for 401): the scene's chunk (3d-force-graph with three.js, 841 KB) is fetched once
+    // its frame is on screen or within 200 px of it, not while a phone opens on the words and controls above the frame
+    const load = () => Promise.all([import("3d-force-graph"), import("three")]).then(([{ default: ForceGraph3D }, THREE]) => {
       if (!alive || !el) return;
       three.current = THREE;
       const nodes = snap.nodes.map((n) => ({ ...n, fx: n.x, fy: n.y, fz: n.z }));
@@ -274,9 +279,15 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       setTimeout(() => { if (alive) g.zoomToFit(400, 10); }, 1200);
       if (toggled.current) setGraphAt((k) => k + 1);   // session 180: back from the map, the scene takes the hour, view and selection shown
     }).catch(() => setNoGl(true));
+    let seen: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver === "undefined") load();
+    else {
+      seen = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { seen?.disconnect(); seen = null; load(); } }, { rootMargin: "200px 0px" });
+      seen.observe(el);
+    }
     const onResize = () => { if (graph.current && el) graph.current.width(el.clientWidth).height(el.clientHeight); };
     window.addEventListener("resize", onResize);
-    return () => { alive = false; window.removeEventListener("resize", onResize); graph.current?._destructor?.(); graph.current = null; };
+    return () => { alive = false; seen?.disconnect(); window.removeEventListener("resize", onResize); graph.current?._destructor?.(); graph.current = null; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shape]);
 
@@ -504,7 +515,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
           <span className="flex flex-wrap items-center gap-2" data-replay="1">
             <label className="ml-2 text-muted" htmlFor="replay-day">A day since {v3.index.first.slice(0, 4)}:</label>
             <input id="replay-day" type="date" min={v3.index.first} max={v3.index.last} value={isDayView ? ts.slice(0, 10) : ""} onChange={(e) => { if (e.target.value) void watchDay(e.target.value); }}
-              className="border border-rule bg-panel px-2 py-0.5 text-sm" aria-label="Replay a day" />
+              className="border border-rule bg-panel px-2 py-0.5 text-sm" />
             <button type="button" onClick={() => { if (isDayView) setPlaying(true); else void watchDay(`${v3.index.last.slice(0, 4)}-01-01`, true); }} className={buttons} aria-pressed={isDayView && playing}>{loading === "day" ? "Loading..." : "Play the year"}</button>
           </span>
         ) : null}
@@ -574,7 +585,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
                 <dt className="text-xs text-muted">Who is supplying it, largest first</dt>
                 <dd>{ties.length ? (
                   <ul className="mt-0.5 space-y-0.5 tabular-nums">
-                    {ties.map((t) => <li key={t.other} className="flex justify-between gap-2"><span>{nameOf(t.other)} <span className="font-mono text-[10px] text-muted">{t.other}</span></span><span className="whitespace-nowrap">{Math.round(t.imp) === 0 ? "0 MW" : t.imp > 0 ? `${fmt(t.imp)} MW in` : `${fmt(-t.imp)} MW out`}{isDayView && demandNow && Math.round(t.imp) !== 0 ? <span className="text-muted" data-tie-share={t.other}>, {pct((Math.abs(t.imp) / demandNow) * 100)}% of demand</span> : null}</span></li>)}
+                    {ties.map((t) => <li key={t.other} className="flex justify-between gap-2"><span>{nameOf(t.other)} <span className="font-mono text-xs text-muted">{t.other}</span></span><span className="whitespace-nowrap">{Math.round(t.imp) === 0 ? "0 MW" : t.imp > 0 ? `${fmt(t.imp)} MW in` : `${fmt(-t.imp)} MW out`}{isDayView && demandNow && Math.round(t.imp) !== 0 ? <span className="text-muted" data-tie-share={t.other}>, {pct((Math.abs(t.imp) / demandNow) * 100)}% of demand</span> : null}</span></li>)}
                   </ul>
                 ) : "none reported"}</dd>
               </div>
@@ -633,10 +644,10 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
                       <ol className="mt-1 list-decimal space-y-1 pl-5 tabular-nums">
                         {traced.rows.map((r) => (
                           <li key={r.id} data-trace-supplier={r.id}>
-                            <span>{nameOf(r.id)} <span className="font-mono text-[10px] text-muted">{r.id}</span>: {pct(r.share)} percent, {fmt(r.mwh)} MWh</span>
+                            <span>{nameOf(r.id)} <span className="font-mono text-xs text-muted">{r.id}</span>: {pct(r.share)} percent, {fmt(r.mwh)} MWh</span>
                             {r.via.length ? (
                               <ul className="text-xs text-muted">
-                                {r.via.map((x) => <li key={x.id} data-trace-via={x.id}>supplied by {nameOf(x.id)} <span className="font-mono text-[10px]">{x.id}</span>: {pct(x.share)} percent of what {r.id} took in, {fmt(x.mwh)} MWh</li>)}
+                                {r.via.map((x) => <li key={x.id} data-trace-via={x.id}>supplied by {nameOf(x.id)} <span className="font-mono text-xs">{x.id}</span>: {pct(x.share)} percent of what {r.id} took in, {fmt(x.mwh)} MWh</li>)}
                               </ul>
                             ) : <div className="text-xs text-muted" {...(r.island ? { "data-trace-island": r.id } : {})}>{r.island ?? "no neighbour supplied it on net"}</div>}
                           </li>
@@ -657,7 +668,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-muted">
         <span>{shape === "map" ? "Hover a region for its name, click it for its panel. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger." : shape === "gravity" ? "Hover a circle for its name, click it for its panel." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
         <span className="flex items-center gap-1">Carbon intensity of generation:
-          <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, var(--color-down), var(--color-up))" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
+          <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, var(--color-intensity-low), var(--color-intensity-mid), var(--color-intensity-high))" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
           {view.kind === "live" ? <> The color updates daily (latest hour {ciTs.slice(0, 13).replace("T", " ")}:00 UTC); the links and demand, hourly.</> : <> In a story, each day&apos;s own.</>}</span>
         {shape === "gravity" ? <span data-gravity-key="1">Circle: the grid&apos;s net generation in the hour shown (EIA-930), its area to scale with the Lower 48&apos;s at the center. Nearer the center: a net importer; farther out: a net exporter, by its net imports as a share of its generation (a quarter or more is the full pull); on the dashed ring: neither. The other {snap.nodes.length - GRAVITY_GRIDS.length} balancing authorities are drawn in the Network and Map shapes: their generation is not in the live set. A dashed outline: generation not held for the hour.</span>
           : shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.</span>
@@ -679,7 +690,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
               <thead><tr className="bg-accent text-left text-white"><th className="px-2 py-1 font-normal">Neighbour</th><th className="px-2 py-1 text-right font-normal">Net imports, MWh</th><th className="px-2 py-1 text-right font-normal">Share of demand</th></tr></thead>
               <tbody>
                 {supply[pick.id].neighbours.map((n) => (
-                  <tr key={n.id} className="border-b border-rule"><td className="px-2 py-1">{nameOf(n.id)} <span className="font-mono text-[10px] text-muted">{n.id}</span></td><td className="px-2 py-1 text-right">{fmt(n.mwh)}</td><td className="px-2 py-1 text-right">{n.share === null ? "" : `${pct(n.share)} percent`}</td></tr>
+                  <tr key={n.id} className="border-b border-rule"><td className="px-2 py-1">{nameOf(n.id)} <span className="font-mono text-xs text-muted">{n.id}</span></td><td className="px-2 py-1 text-right">{fmt(n.mwh)}</td><td className="px-2 py-1 text-right">{n.share === null ? "" : `${pct(n.share)} percent`}</td></tr>
                 ))}
               </tbody>
             </table>

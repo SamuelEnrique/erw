@@ -18,14 +18,14 @@ import { useState } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { LineChart } from "@/components/LineChart";
 import { HOUR_GROUP, chartPoints, isDrawn, keySeconds } from "@/lib/chat/series";
-import { PAGE_FILE_HREF } from "@/lib/chat/pagelinks";
+import { AnswerSources, sourceHref } from "@/components/ask/AnswerSources";
 import { cleanQuestion } from "@/lib/chat/plaintime";
 
 export { keySeconds };
 
 type Citation = { table: string; source_report: string; data_version: string; tier?: string };
 type Row = { key: string; value: number | null; n?: number; at?: string };
-type Series = {
+export type Series = {
   result_id: string; table: string; title: string; group_by: string; kind: "line" | "bar"; unit: string | null; rows: Row[];
   rows_matched: number | null; note: string | null; source_report: string | null; license: string | null; tier: string | null; chosen_by: string;
   check?: { rows_fetched: number; rows: number; same: boolean; points: number; not_drawn: number };
@@ -35,6 +35,9 @@ type Result = {
   answer: string; citations: Citation[]; status: string; model: string; tool_calls: number; retried: boolean; cost_usd: number | null; form?: Form;
   series?: Series[]; followups?: string[];
   seconds?: number; calls?: { tool: string; input: Record<string, unknown> }[]; nearest?: { table: string; holds: string }[]; premise?: string;
+  /** session 1115: what each query read (lib/chat/ask.ts readsOf), drawn under the sources */
+  reads?: { table: string; entity?: string; variable?: string; start?: string; end?: string; aggregation?: string; group_by?: string; tz?: string }[];
+  why?: string;
 };
 type Turn = { question: string; res: Result };
 const MAX_HISTORY = 3; // earlier turns sent with a question (lib/chat/spec_ercot.json max_history)
@@ -44,7 +47,7 @@ export type Context = { view: string; title?: string; settings?: Record<string, 
 const PROFILES = new Set(["ercot"]);
 const NOT_ANSWERED: Record<string, string> = {
   not_in_warehouse: "Not in the warehouse",
-  refused_unverified: "No answer: its numbers could not all be traced to a query",
+  refused_unverified: "The warehouse does not hold that figure",  // session 1110: the refusal's own words
   model_refusal: "No answer",
 };
 const SHOWN = 24; // rows of a table shown before the fold
@@ -52,15 +55,11 @@ const SHOWN = 24; // rows of a table shown before the fold
 const shown = (v: number | null) => (v === null ? "not held" : Number.isInteger(v) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { maximumFractionDigits: 4 }));
 
 /** Where a cited source is on this site: the grid's written page, a page built from the tables, or the table's entry. */
-export function sourceHref(table: string): { href: string; what: string } {
-  if (table.startsWith("docs/grids/")) return { href: `/grid?grid=${table.slice(11, -3)}`, what: "Written page" };
-  if (table === "site/data/board.json") return { href: "/board", what: "Price board" };
-  if (table === "site/data/supply.json") return { href: "/supply", what: "Supply and trade" };
-  if (PAGE_FILE_HREF[table]) return PAGE_FILE_HREF[table];   // session 153: a page's own file, read by the tool page_file
-  return { href: `/data#${table}`, what: "ERW table" };
-}
+// session 1194: sourceHref lives with the answer's sources (components/ask/AnswerSources.tsx), exported here as before
+export { sourceHref };
 
-function SeriesBlock({ s, form }: { s: Series; form: Form }) {
+// session 1145: exported, so the general chat's form (app/ask/AskForm.tsx) draws a series as this panel does
+export function SeriesBlock({ s, form }: { s: Series; form: Form }) {
   const drawn = chartPoints(s.rows, s.group_by);
   const hours = s.group_by === HOUR_GROUP;   // session 161: the average day by hour is one line over the 24 local hours
   const points = drawn.points;
@@ -135,18 +134,9 @@ function Answer({ turn, n, last, busy, onAsk }: { turn: Turn; n: number; last: b
         </div>
       ) : null}
       {(res.series ?? []).map((s) => <SeriesBlock key={s.result_id} s={s} form={form} />)}
-      {res.citations.length ? (
-        <ul className="mt-3 text-xs text-muted" data-sources={res.citations.length}>
-          {res.citations.map((c) => {
-            const src = sourceHref(c.table);
-            return (
-              <li key={c.table} className="py-0.5">
-                Source: {src.what} <Link href={src.href} className="font-mono" gate="plain">{c.table}</Link>{c.tier ? ` (${c.tier})` : ""}, <span title={c.data_version}>{c.source_report}</span>
-              </li>
-            );
-          })}
-        </ul>
-      ) : null}
+      {/* session 1194: the sources and the reads in the brand's source line, as under every chat's answer */}
+      <AnswerSources citations={res.citations} reads={res.reads} />
+      {typeof res.seconds === "number" ? <p className="mt-1 text-xs text-muted" data-answered-in={res.seconds.toFixed(1)}>Answered in {res.seconds.toFixed(1)} seconds{res.tool_calls ? `, ${res.tool_calls} ${res.tool_calls === 1 ? "read" : "reads"} of the warehouse` : ""}.</p> : null}
       {last && (res.followups ?? []).length ? (
         <div className="mt-4" data-followups={res.followups!.length}>
           <div className="mb-1 text-xs uppercase tracking-wide text-muted">Ask next</div>
@@ -188,10 +178,11 @@ export function AskPanel({ grid, initial = "", context = null, showContext = tru
     setEarly(null);
     // the turns before this one: each question, its answer and the queries run for it
     const history = turns.filter((t) => t.res.status === "answered" || t.res.status === "not_in_warehouse").slice(-MAX_HISTORY)
-      .map((t) => ({ question: t.question, answer: t.res.answer, calls: t.res.calls ?? [], citations: t.res.citations.map((c) => ({ table: c.table })) }));
+      .map((t) => ({ question: t.question, answer: t.res.answer, calls: t.res.calls ?? [], citations: t.res.citations.map((c) => ({ table: c.table })), ...(own ? {} : { reads: t.res.reads ?? [] }) }));
     try {
       const r = await fetch("/api/ask", { method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(own ? { question, profile: grid, stream: true, ...(context ? { context } : {}), ...(history.length ? { history } : {}) } : { question, grid }) });
+        // session 1129: the general chat and a grid's scoped chat send their turns too (lib/chat/history.ts)
+        body: JSON.stringify(own ? { question, profile: grid, stream: true, ...(context ? { context } : {}), ...(history.length ? { history } : {}) } : { question, grid, ...(history.length ? { history } : {}) }) });
       if (!r.ok || !r.body) {
         const body = await r.json().catch(() => ({}));
         setErr((body as { error?: string }).error ?? `HTTP ${r.status}`);

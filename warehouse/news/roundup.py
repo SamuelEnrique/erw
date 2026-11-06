@@ -65,6 +65,42 @@ WEEKEND_N = 3  # clusters under Weekend
 
 TYPE_RANK = {"rule": 0, "proposed_rule": 1, "notice": 2, "press_release": 3}
 TYPE_LABEL = {"rule": "final rule", "proposed_rule": "proposed rule", "notice": "notice", "press_release": "news release"}
+# Session 470 (roundup audit fix 10): the deal types of warehouse/deals/extract.py (DEAL_TYPES) as words, not codes
+DEAL_LABEL = {"ppa": "power purchase agreement", "offtake": "offtake", "m_and_a": "acquisition",
+              "project_finance": "project finance", "tax_equity": "tax equity", "debt": "debt", "equity_raise": "equity raise",
+              "joint_venture": "joint venture", "lease": "lease", "behind_the_meter": "behind the meter",
+              "nuclear_restart": "nuclear restart", "smr": "small modular reactor", "fuel_supply": "fuel supply",
+              "other": "other"}
+TITLE_MAX = 160
+
+
+def previous_week(start):
+    """The ISO week label (YYYY-Www) of the week before the one starting at `start`."""
+    y, w, _ = (start - pd.Timedelta(days=7)).date().isocalendar()
+    return f"{y}-W{w:02d}"
+
+
+def policy_title(title):
+    """Session 470 (roundup audit fix 9): a Federal Register title over 160 characters ("Parties; Subject") is written as
+    its subject, with the parties when they are short; the full title is on /policy."""
+    t = str(title).strip()
+    if len(t) <= TITLE_MAX or ";" not in t:
+        return t
+    parts = [p.strip() for p in t.split(";") if p.strip()]
+    subject, who = parts[-1], "; ".join(parts[:-1])
+    return f"{subject} ({who})" if len(who) <= 60 else subject
+
+
+def dockets(d):
+    """'Docket No. CP24-75-001;Docket No. CP25-505-000' to 'dockets CP24-75-001, CP25-505-000' (W40 printed "docket
+    Docket No.")."""
+    ids = [re.sub(r"^(?:docket\s+)?(?:no\.?\s*)?", "", x.strip(), flags=re.I) for x in str(d).split(";") if x.strip()]
+    return (("dockets " if len(ids) > 1 else "docket ") + ", ".join(ids)) if ids else ""
+
+
+def dated(r):
+    """One date, said for what it is: a Federal Register document is published, an agency's release released."""
+    return f"{'released' if r['action_type'] == 'press_release' else 'published'} {str(r['event_date'])[:10]}"
 
 
 def policy_of_the_week(start, cut, log):
@@ -85,17 +121,19 @@ def policy_of_the_week(start, cut, log):
     w = w.sort_values(["sig", "rank", "event_date"], ascending=[False, True, True])
     top = w.iloc[0]
     r = rd.get(top["event_id"], {})
-    L = [f"**{top['title']}** ({top['agency']} {TYPE_LABEL.get(top['action_type'], top['action_type'])}, {top['event_date']}"
-         + (f"; docket {top['docket'].replace(';', ', ')}" if top["docket"] else "") + ")", ""]
-    L.append((r.get("plain_read") or top["why"]) + f" [Source]({top['source_url']})")
+    # session 470 (roundup audit fix 9): a long title as its subject, "docket" once, one date said for what it is
+    L = [f"**{policy_title(top['title'])}** ({top['agency']} {TYPE_LABEL.get(top['action_type'], top['action_type'])}, "
+         f"{dated(top)}" + (f"; {dockets(top['docket'])}" if top["docket"] else "") + ")", ""]
+    # session 577: brief.why_line, so a read without a final stop does not run into its link
+    L.append(brief.why_line(r.get("plain_read") or top["why"], top["title"]) + f" [Source]({top['source_url']})")
     if r.get("timeline"):
         L += ["", f"Timeline: {r['timeline']}"]
     also = w.iloc[1:3]
     if len(also):
         L += ["", "Also this week:", ""]
         for x in also.to_dict("records"):
-            L.append(f"- {x['title']} ({x['agency']} {TYPE_LABEL.get(x['action_type'], x['action_type'])}, "
-                     f"{x['event_date']}): {x['why']} [source]({x['source_url']})")
+            L.append(f"- {policy_title(x['title'])} ({x['agency']} {TYPE_LABEL.get(x['action_type'], x['action_type'])}, "
+                     f"{dated(x)}): {brief.why_line(x['why'], x['title'])} [source]({x['source_url']})")
     L += ["", "Table: `policy_actions` (scored with the news rubric) and `policy_reads` (impact reads, each field kept only "
           "when its words are in the action's own text); every action is on [/policy](/policy)."]
     log(f"  policy of the week: {top['event_id']} (significance {top['sig']})")
@@ -118,10 +156,39 @@ def policy_section(lines, above, log):
     return L
 
 
-def chart_of_the_week(label, log):
+def chart_relevance(m, stories, log):
+    """Session 806 (docs/reviews/periodicals-plan-2026-10-23.md, Roundup change 2): the measure most related to the week's
+    top stories among the rule's pick and the measures that also moved (the week's chart record, also_moved), by
+    daily_chart.relevance (session 805). Returns (the most related {template, title, finding, score, story, shared} or
+    None when none is related, whether it is the rendered pick). The rendered picture is the rule's (run.py draws one a
+    week on the data machine); when the stories point elsewhere the section says so and names the measure."""
+    if not stories:
+        return None, True
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "analysis", "findings"))
+        import daily_chart
+    except Exception as exc:
+        log(f"  chart of the week: relevance not computed ({type(exc).__name__}: {str(exc)[:100]})")
+        return None, True
+    cands = [{"template": m.get("template", ""), "title": m.get("title", ""), "finding": m.get("finding") or m.get("caption") or ""}]
+    cands += [{"template": a.get("template", ""), "title": a.get("title", ""), "finding": a.get("finding", "")} for a in m.get("also_moved") or []]
+    best = None
+    for c in cands:
+        score, story, shared = daily_chart.relevance({"fact": f"{c['title']}: {c['finding']}", "table": c["template"], "series_key": ""}, stories)
+        if score and (best is None or score > best["score"]):
+            best = dict(c, score=score, story=story, shared=shared)
+    if best is None:
+        log("  chart of the week: none of the measures that moved is related to the week's top stories")
+        return None, True
+    log(f"  chart of the week: the most related to the week's stories is {best['template']} (relevance {best['score']})")
+    return best, best["template"] == m.get("template", "")
+
+
+def chart_of_the_week(label, log, stories=None):
     """Session 23: the chart of the week from docs/analysis/<label>/ (warehouse/analysis/run.py): the
     email-size PNG, the title, the two-sentence note and the source line, as markdown. The note passed
-    the literal-number check when the engine wrote it and is copied here as written."""
+    the literal-number check when the engine wrote it and is copied here as written. Session 806: with the week's top
+    stories, the section says which measure the stories point to (chart_relevance)."""
     import json
     # Session 170: a finding chosen on /analysis ("Use in Roundup") for this week comes first; none chosen, or nothing
     # readable, the rule's chart of the week stands and is labeled as the rule's pick. Never stops the Roundup.
@@ -144,6 +211,15 @@ def chart_of_the_week(label, log):
         L += [m["note"], ""]
     L.append(f"{m['source_line']} Template `{m['template']}`; every template's latest run is on "
              "[/research](/research).")
+    best, same = chart_relevance(m, stories, log)
+    if best is not None and same:
+        L.append(f"It is also the measure most related to the week's top stories: it shares "
+                 f"{', '.join(best['shared']) if best['shared'] else 'its sector'} with {best['story'][:80]!r}.")
+    elif best is not None:
+        L.append(f"The week's stories point elsewhere: {best['title']} ({brief.why_line(best['finding'])}) is the measure that "
+                 f"moved this week most related to the week's top stories (it shares "
+                 f"{', '.join(best['shared']) if best['shared'] else 'its sector'} with {best['story'][:80]!r}); its chart is on "
+                 f"[/research](/research) (template `{best['template']}`).")
     return L
 
 
@@ -188,20 +264,39 @@ def dam_week(label, table, node, tz, start, log):
     return (mean2(df["value"]) if len(df) else None), len(df), int((e - s) / pd.Timedelta(hours=1))
 
 
-def numbers(start, cut, log):
+def interval_words(freq):
+    """'PT15M' as 'a 15-minute interval', 'PT1H' as 'an hourly interval', 'PT5M' as 'a 5-minute interval'."""
+    f = str(freq or "")
+    m = re.fullmatch(r"PT(\d+)M", f)
+    if m:
+        return f"a {m.group(1)}-minute interval"
+    if f == "PT1H":
+        return "an hourly interval"
+    return f"an interval of {f}" if f else "an interval of unstated length"
+
+
+def numbers(start, cut, log, facts=None):
+    """The numbers section. facts (session 806): a dict the function fills with what it computed (the hubs' weekly means
+    and the change, the fuel closes a week apart, the US48 peak, the real-time maximum), for the week in five numbers."""
     # session 21: no provenance sentence; each number keeps its table in the footnotes at the end
     notes = brief.Notes()
     prior = start - pd.Timedelta(days=7)
+    held = brief.held_grids()   # session 806: a held grid's price is not the price move of the week (the board's rule)
     L = ["**Day-ahead average, main hub, over the ISO's local week, and the change from the week before**", "",
           "| ISO | Hub or zone | This week USD/MWh | Week before USD/MWh | Change | Table |", "|---|---|---|---|---|---|"]
     for label, table, node, tz in MAIN_HUBS:
         m1, n1, x1 = dam_week(label, table, node, tz, start, log)
         m0, n0, x0 = dam_week(label, table, node, tz, prior, log)
-        this = f"{m1}" if n1 == x1 else f"not in the warehouse ({n1} of {x1} hours)"
-        last = f"{m0}" if n0 == x0 else f"not in the warehouse ({n0} of {x0} hours)"
+        pause = brief.paused_row(label)  # session 470: a paused publisher's grid says so
+        gap = (lambda n, x: f"not requested: paused by the ERW since {pause['paused_on']}") if pause else (
+            lambda n, x: f"not in the warehouse ({n} of {x} hours)")
+        this = f"{m1}" if n1 == x1 else gap(n1, x1)
+        last = f"{m0}" if n0 == x0 else gap(n0, x0)
         # the change of the two rounded means, as the table shows them
         chg = f"{m1 - m0:+}" if n1 == x1 and n0 == x0 else "not computed"
         L.append(f"| {label} | {node} | {this} | {last} | {chg} | {notes.ref(table)} |")
+        if facts is not None and n1 == x1 and n0 == x0 and not pause and label not in held:
+            facts.setdefault("dam", []).append(dict(label=label, node=node, table=table, m1=m1, m0=m0, ref=notes.ref(table)))
     L.append("| PJM | | | | | no PJM price table (no API key) |")
 
     # the week's highest real-time price, over UTC bounds, from the interval price tables
@@ -225,27 +320,39 @@ def numbers(start, cut, log):
         tz = RT_TZ.get(iso, "UTC")
         L[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), interval starting "
                   f"{top['ts_utc'].tz_convert(tz):%Y-%m-%d %H:%M} local ({top['ts_utc']:%Y-%m-%d %H:%M} UTC), "
-                  f"{top['variable']} {notes.ref(table, 'real-time tables read, and how far each reaches this week: ' + ', '.join(covered))}.")
+                  f"{top['variable']} {notes.ref(table, 'real-time tables read, and how far each reaches this week: ' + ', '.join(covered))}"
+                  f", {brief.rt_label(iso, top['variable'])}, {interval_words(top.get('freq', ''))}."  # 470: the variable named; 806: the interval
+                  " The grids' real-time series differ in interval length (a 15-minute mean beside an hourly value), so this is the "
+                  "highest interval value held, not one measure across grids.")
+        if facts is not None:
+            facts["rt"] = top
     else:
         L[-1] += "no real-time table covers this week."
 
-    L += ["", "**Fuel spot prices, weekly change** (EIA, trading dates; the last close of the week and the last "
-          "close before it):", "", "| Price | Last close this week | Last close before | Change | Table |",
+    # Session 470 (roundup audit fix 2): EIA's closes come days late, so "the last close of the week against the last close
+    # before it" was a change of two trading days on W40 (WTI +12.8 percent from one outlying close). The change is now the
+    # newest close held against the newest close a week or more before it, both dated, and a close that moved over 8
+    # percent in a day while the other crude moved under 5 is flagged for a person to confirm against EIA's page.
+    L += ["", "**Fuel spot prices, change over a week** (EIA, trading dates; the newest close held and the newest close a "
+          "week or more before it):", "", "| Price | Newest close | Close a week before | Change | Table |",
           "|---|---|---|---|---|"]
     try:
         fuel = erw.fetch("eia_fuel_spot_prices")
+        series = {entity: fuel[fuel["entity"] == entity].sort_values("ts_utc") for _, entity in FUELS}
         for label, entity in FUELS:
-            s = fuel[fuel["entity"] == entity].sort_values("ts_utc")
-            wk = s[(s["ts_utc"] >= start) & (s["ts_utc"] < cut)]
-            before = s[s["ts_utc"] < start]
-            if wk.empty or before.empty:
-                L.append(f"| {label} | not in the warehouse (no close this week yet; newest "
-                         f"{s['ts_utc'].max():%Y-%m-%d}) | | | {notes.ref('eia_fuel_spot_prices')} |")
+            got = fuel_change(series, entity, cut)
+            if got is None:
+                s = series[entity]
+                L.append(f"| {label} | not in the warehouse (no close a week apart; newest "
+                         f"{s['ts_utc'].max():%Y-%m-%d}) | | | {notes.ref('eia_fuel_spot_prices')} |" if len(s) else
+                         f"| {label} | not in the warehouse | | | {notes.ref('eia_fuel_spot_prices')} |")
                 continue
-            a, b = wk.iloc[-1], before.iloc[-1]
+            a, b, flags = got
             L.append(f"| {label} | {a['value']:.2f} {a['unit']} on {a['ts_utc']:%Y-%m-%d} | {b['value']:.2f} on "
-                     f"{b['ts_utc']:%Y-%m-%d} | {a['value'] - b['value']:+.2f} ({100 * (a['value'] / b['value'] - 1):+.1f}%) "
-                     f"| {notes.ref('eia_fuel_spot_prices')} |")
+                     f"{b['ts_utc']:%Y-%m-%d} | {a['value'] - b['value']:+.2f} ({100 * (a['value'] / b['value'] - 1):+.1f}%)"
+                     + "".join(f"; {f}" for f in flags) + f" | {notes.ref('eia_fuel_spot_prices')} |")
+            if facts is not None and not flags:
+                facts.setdefault("fuel", []).append(dict(label=label, a=a, b=b, ref=notes.ref("eia_fuel_spot_prices")))
     except Exception as exc:
         log(f"  numbers: fuel prices unavailable: {exc!r}")
         L.append("| fuel prices | not in the warehouse | | | |")
@@ -258,6 +365,8 @@ def numbers(start, cut, log):
             L[-1] += "not in the warehouse for this week."
         else:
             top = d.loc[d["value"].idxmax()]
+            if facts is not None:
+                facts["us48"] = dict(top=top, ref=notes.ref("eia930_all_demand", "balancing authority us48"))
             L[-1] += (f"{top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC "
                       f"({top['ts_utc'].tz_convert('America/New_York'):%A %Y-%m-%d, %H:%M} Eastern), from "
                       f"{d['ts_utc'].nunique()} hours of the week to {d['ts_utc'].max():%Y-%m-%d %H:%M} UTC "
@@ -268,8 +377,157 @@ def numbers(start, cut, log):
     return L + notes.lines()
 
 
+OTHER_CRUDE = {"eia:wti_cushing": "eia:brent", "eia:brent": "eia:wti_cushing"}
+CRUDE_NAME = {"eia:wti_cushing": "WTI", "eia:brent": "Brent"}
+JUMP, CALM = 0.08, 0.05
+
+
+def day_move(s, ts):
+    """The move of the close at ts against the close before it, or None."""
+    i = s.index[s["ts_utc"] == ts]
+    if not len(i):
+        return None
+    pos = s.index.get_loc(i[0])
+    if pos == 0:
+        return None
+    return s.iloc[pos]["value"] / s.iloc[pos - 1]["value"] - 1
+
+
+def fuel_change(series, entity, cut):
+    """Session 470: (a, b, flags): the newest close before the cut, the newest close at least seven days before it, and
+    the flags of either close that moved over 8 percent in a day while the other crude moved under 5 percent the same
+    day. None when no two closes a week apart are held."""
+    s = series[entity]
+    held = s[s["ts_utc"] < cut]
+    if held.empty:
+        return None
+    a = held.iloc[-1]
+    base = held[held["ts_utc"] <= a["ts_utc"] - pd.Timedelta(days=7)]
+    if base.empty:
+        return None
+    b = base.iloc[-1]
+    flags, other = [], OTHER_CRUDE.get(entity)
+    for row in (a, b):
+        m = day_move(held.reset_index(drop=True), row["ts_utc"])
+        if other is None or m is None or abs(m) <= JUMP:
+            continue
+        o = day_move(series[other].reset_index(drop=True), row["ts_utc"])
+        if o is not None and abs(o) < CALM:
+            flags.append(f"the close of {row['ts_utc']:%Y-%m-%d} moved {100 * m:+.1f}% in a day while "
+                         f"{CRUDE_NAME[other]} moved {100 * o:+.1f}%: to be confirmed against EIA's page")
+    return a, b, flags
+
+
 def num(v, fmt="{:,.0f}"):
     return fmt.format(float(v)) if v not in ("", None) else "not stated"
+
+
+def usd_words(d):
+    """A sum of US dollars in the voice's form: 'USD 12 billion', 'USD 4.3 billion', 'USD 834 million', 'USD 250,000'."""
+    from decimal import Decimal, ROUND_HALF_UP
+    v = float(d)
+    for scale, word in ((1e12, "trillion"), (1e9, "billion"), (1e6, "million")):
+        if abs(v) >= scale:
+            x = (Decimal(repr(v)) / Decimal(int(scale))).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)   # half up, as mean2
+            s = f"{x:.2f}".rstrip("0").rstrip(".")
+            return f"USD {s} {word}"
+    return f"USD {v:,.0f}"
+
+
+def chart_figure(v):
+    """The chart's headline value as the five numbers print it: a whole number as it is, else whole above 100, else to
+    the cent."""
+    v = float(v)
+    if v == int(v):
+        return f"{int(v):,}"
+    return f"{v:,.0f}" if abs(v) >= 100 else f"{v:,.2f}"
+
+
+FIVE_HEADING = "## The week in five numbers"
+
+
+def five_numbers(label, start, cut, facts, log):
+    """Session 806 (docs/reviews/periodicals-plan-2026-10-23.md, Roundup change 1): the week in five numbers, each
+    traced (scripts/check_roundup.py): the week's biggest price move among the main hubs' weekly means (both weeks
+    complete, not held, not paused) and EIA's closes a week apart, in percent; the US48 peak with its hour; the week's
+    largest deal by US dollars (by MW when no deal states dollars) from energy_deals; the largest new datacenter load first
+    reported in the week (datacenter_projects, capacity_mw: the policy actions of the week carry no MW or price); and the
+    headline figure of the week's chart (docs/analysis/<week>/chart_of_the_week.json). A number the warehouse does not
+    hold is said missing, never filled."""
+    L = []
+    # 1. the price move of the week
+    moves = []
+    for h in facts.get("dam", []):
+        mv = brief.day_move(h["m1"], start, h["m0"], start - pd.Timedelta(days=7))
+        if mv["pct"] is not None:
+            moves.append(dict(mv, text=f"{h['label']} {h['node']} day-ahead averaged {h['m1']} USD/MWh over the week, against {h['m0']} USD/MWh "
+                                       f"the week before ({mv['ch']:+.2f} USD/MWh, {mv['pct']:+.1f}%) {h['ref']}"))
+    for f in facts.get("fuel", []):
+        mv = brief.day_move(f["a"]["value"], f["a"]["ts_utc"], f["b"]["value"], f["b"]["ts_utc"])
+        if mv["pct"] is not None:
+            moves.append(dict(mv, text=f"{f['label']} closed at {f['a']['value']:.2f} {f['a']['unit']} on {f['a']['ts_utc']:%Y-%m-%d}, against "
+                                       f"{f['b']['value']:.2f} {f['a']['unit']} on {f['b']['ts_utc']:%Y-%m-%d} ({mv['ch']:+.2f} {f['a']['unit']}, "
+                                       f"{mv['pct']:+.1f}%) {f['ref']}"))
+    if moves:
+        best = max(moves, key=lambda m: abs(m["pct"]))
+        L.append(f"- **Price move of the week:** {best['text']}.")
+    else:
+        L.append("- **Price move of the week:** no price with a complete week and a week before it is held.")
+    # 2. the US48 peak
+    if facts.get("us48"):
+        top = facts["us48"]["top"]
+        L.append(f"- **US48 peak demand:** {top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC {facts['us48']['ref']}.")
+    else:
+        L.append("- **US48 peak demand:** not in the warehouse for this week.")
+    # 3. the deal of the week
+    deals = read_table("energy_deals")
+    if deals is None:
+        L.append("- **Deal of the week:** energy_deals is not in the warehouse on this machine.")
+    else:
+        when = pd.to_datetime(deals["event_date"], utc=True, format="ISO8601")
+        dw = deals[(when >= start) & (when < cut)].copy()
+        dw["_d"] = pd.to_numeric(dw["dollars"], errors="coerce")
+        dw["_m"] = pd.to_numeric(dw["mw"], errors="coerce")
+        if dw["_d"].notna().any():
+            r = dw.sort_values(["_d", "event_date"], ascending=[False, True]).iloc[0]
+            who = " and ".join(x for x in (r["buyer"], r["seller"]) if x) or "parties not stated"
+            L.append(f"- **Deal of the week, by US dollars:** {usd_words(r['_d'])}, {who}, {r['asset'] or 'asset not stated'} "
+                     f"({DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))}, {r['event_date'][:10]}; `energy_deals` {r['event_id']}).")
+        elif dw["_m"].notna().any():
+            r = dw.sort_values(["_m", "event_date"], ascending=[False, True]).iloc[0]
+            who = " and ".join(x for x in (r["buyer"], r["seller"]) if x) or "parties not stated"
+            L.append(f"- **Deal of the week, by MW (no deal of the week states dollars):** {float(r['_m']):,.0f} MW, {who}, "
+                     f"{r['asset'] or 'asset not stated'} ({DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))}, "
+                     f"{r['event_date'][:10]}; `energy_deals` {r['event_id']}).")
+        else:
+            L.append("- **Deal of the week:** no deal in `energy_deals` is dated this week.")
+    # 4. the largest new datacenter load
+    dc = read_table("datacenter_projects")
+    if dc is None:
+        L.append("- **Largest new datacenter load first reported this week:** datacenter_projects is not in the warehouse on this machine.")
+    else:
+        t = pd.to_datetime(dc["first_story_at"], utc=True, format="ISO8601")
+        cw = dc[(t >= start) & (t < cut)].copy()
+        cw["_m"] = pd.to_numeric(cw["capacity_mw"] if "capacity_mw" in cw.columns else cw["mw"], errors="coerce")
+        if cw["_m"].notna().any():
+            r = cw.sort_values(["_m", "first_story_at"], ascending=[False, True]).iloc[0]
+            place = ", ".join(x for x in (r.get("city", ""), r.get("state", "")) if x) or "place not stated"
+            L.append(f"- **Largest new datacenter load first reported this week:** {float(r['_m']):,.0f} MW, {r['operator'] or 'operator not stated'}, "
+                     f"{r['site_name'] or 'site not stated'}, {place} (`datacenter_projects` {r['entity_id']}).")
+        else:
+            L.append("- **Largest new datacenter load first reported this week:** no facility first reported this week states its MW.")
+    # 5. the chart's figure
+    meta = os.path.join(ANALYSIS_DIR, label, "chart_of_the_week.json")
+    try:
+        import json
+        m = json.load(open(meta, encoding="utf-8"))
+        h = m["headline"]
+        L.append(f"- **From the chart of the week:** {h['label']}: {chart_figure(h['value'])} {h['unit']} in {h['period']} "
+                 f"(template `{m['template']}`, `docs/analysis/{label}/chart_of_the_week.json`).")
+    except (OSError, KeyError, ValueError):
+        L.append("- **From the chart of the week:** no chart of the week was picked for this week, so no figure.")
+    log(f"  five numbers: {len(L)} lines")
+    return L
 
 
 def main(argv=None):
@@ -298,13 +556,20 @@ def main(argv=None):
         log(f"week {label}: [{ip.utc_iso(start)}, {ip.utc_iso(cut)}), {len(s)} scored energy stories")
         if s.empty:
             raise RuntimeError("no scored stories in the week; not writing an empty brief")
-        clusters = brief.build_clusters(s)
+        # session 470 (roundup audit fix 1): one event once (W40 showed 8 items for 6 events), and not the previous
+        # Roundup's story again (W41 repeated W40's Amazon and Constellation agreement)
+        prev = [os.path.join(ROUNDUP_DIR, f"{previous_week(start)}.md")]
+        clusters = brief.one_per_event(brief.not_shown_before(brief.build_clusters(s), prev, log, "the previous Roundup"), log)
         # session 23: the weekend's top clusters first (Saturday 00:00 UTC to the cut), then the five
         # stories of the week from the clusters not shown under Weekend
         wk_start = start + pd.Timedelta(days=5)
         wk_s = s[pd.to_datetime(s["event_date"], utc=True, format="ISO8601") >= wk_start]
-        weekend = brief.build_clusters(wk_s).head(WEEKEND_N) if len(wk_s) else clusters.head(0)
-        top5 = clusters[~clusters["cluster_id"].isin(set(weekend["cluster_id"]))].head(5)
+        # session 802: one topic, one item, the rest folded under it, for the weekend's three and the five of the week
+        wk_c = (brief.one_per_event(brief.not_shown_before(brief.build_clusters(wk_s), prev, log, "the previous Roundup"), log)
+                if len(wk_s) else clusters.head(0))
+        weekend, wk_folded = brief.one_per_topic(wk_c, WEEKEND_N, log, "the weekend")
+        rest = clusters[~clusters["cluster_id"].isin(set(weekend["cluster_id"]) | wk_folded)]
+        top5, _ = brief.one_per_topic(rest, 5, log, "the five of the week")
         shown = pd.concat([weekend, top5]).drop_duplicates("cluster_id")
         if args.no_model:
             client, model = None, brief.NO_MODEL
@@ -333,15 +598,15 @@ def main(argv=None):
             L.append(f"- no scored story was published on {wk_start:%Y-%m-%d} or "
                      f"{wk_start + pd.Timedelta(days=1):%Y-%m-%d} (UTC).")
         for i, r in enumerate(weekend.to_dict("records"), 1):
-            L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
-                     f"{'story' if r['n'] == 1 else 'stories'})  ")
-            L.append(f"   {r['why']} Sources: {link_text(r['links'])}")
+            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+                                  f"{'story' if r['n'] == 1 else 'stories'})  ",
+                                  brief.why_line(r['why'], heads[r['cluster_id']]), f"Sources: {link_text(r['links'])}")  # 470, 577, 801, 802
         L += ["", "## The five stories of the week", ""]
         for i, r in enumerate(top5.to_dict("records"), 1):
             # session 21, ruling 4: the sector label, never the significance score
-            L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
-                     f"{'story' if r['n'] == 1 else 'stories'})  ")
-            L.append(f"   {r['why']} Sources: {link_text(r['links'])}")
+            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+                                  f"{'story' if r['n'] == 1 else 'stories'})  ",
+                                  brief.why_line(r['why'], heads[r['cluster_id']]), f"Sources: {link_text(r['links'])}")
 
         L += ["", "## Deals of the week", ""]
         deals = read_table("energy_deals")
@@ -357,7 +622,8 @@ def main(argv=None):
                       "|---|---|---|---|---|---|---|---|---|"]
                 for r in dw.to_dict("records"):
                     first = r["story_urls"].split(";")[0]
-                    L.append(f"| {r['event_date'][:10]} | {r['deal_type']} | {r['buyer'] or 'not stated'} | "
+                    L.append(f"| {r['event_date'][:10]} | {DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))} | "
+                             f"{r['buyer'] or 'not stated'} | "
                              f"{r['seller'] or 'not stated'} | {r['asset'] or 'not stated'} | {num(r['mw'])} | "
                              f"{num(r['dollars'])} | {r['status'] or 'not stated'} | [1]({first}) |")
                 L.append("")
@@ -386,19 +652,24 @@ def main(argv=None):
                          "every field only as its story states it).")
 
         L += ["", "## ERW's Policy of the Week", ""] + policy_section(policy_of_the_week(start, cut, log), L, log)
-        nums = numbers(start, cut, log)
+        facts = {}
+        nums = numbers(start, cut, log, facts)
+        # session 806: the week in five numbers opens the Roundup, after the line under the title
+        at = L.index("## Weekend")
+        L[at:at] = [FIVE_HEADING, ""] + five_numbers(label, start, cut, facts, log) + [""]
         summary, su = (None, []) if args.no_model else brief.numbers_summary(client, model, nums, log)
         if model in PRICES:
             scost = sum(x.input_tokens * PRICES[model][0] + x.output_tokens * PRICES[model][1] for x in su) / 1e6
             log(f"  numbers summary: {len(su)} call(s), cost USD {scost:.4f}")
             cost = f"{cost} + summary USD {scost:.4f}"
         L += ["", "## ERW's Numbers This Week", ""] + ([summary, ""] if summary else []) + nums
-        L += ["", "## ERW's Chart of the Week", ""] + chart_of_the_week(label, log)
+        L += ["", "## ERW's Chart of the Week", ""] + chart_of_the_week(label, log, stories=shown.to_dict("records"))  # 806: the week's stories
         L += ["", "ERW", "", "---", "", "[How this is made.](/about#digest)", "",  # session 25: signed ERW
               f"<!-- Generated by warehouse/news/roundup.py at {now:%Y-%m-%d %H:%M} UTC; run log "
               f"warehouse/output/logs/news_roundup_{run_id}.log; model {model}. -->"]
         path = os.path.abspath(args.out) if args.out else os.path.join(ROUNDUP_DIR, f"{label}.md")
         os.makedirs(os.path.dirname(path), exist_ok=True)
+        L = brief.drop_repeated_items(L, log)  # session 470: a repeat is dropped and named, not the Roundup
         brief.assert_unique(L)  # ruling 5: no two items share a normalized headline or a source URL
         text = "\n".join(L) + "\n"
         for p in ((path,) if args.out else (path, os.path.join(ROUNDUP_DIR, "latest.md"))):

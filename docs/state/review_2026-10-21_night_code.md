@@ -2,6 +2,10 @@
 
 Energy Research Warehouse (ERW), session 383, 21 October 2026. The chain `queue/done/014-night-20-october-code.md` (sessions 381 to 383) ran on samueloldlaptop, unattended, from 22:31 UTC on 20 October, after the owner's prompt of that evening (the "To finish" of `docs/state/review_2026-10-20_day_code.md` first, then 014, then 015). Every page is in review: open `https://erw-flame.vercel.app/internal/open` first. Model spend USD 0. No pull from any publisher; no warehouse data written.
 
+## Landed
+
+**`wip/381-382-land` landed at 07:05 UTC on 21 October** (`bb49c9e0`, GitHub run 39558609875): sessions 367 to 372, 381, 382 and 383, after Supabase answered again (about 05:45 UTC). Two more faults of the holds of 21 October were fixed on the way (the shape-premium draft's 500, and `check-table-downloads` on `/prices`); ten pages' floors fail because figures are now held, not because a read failed (session 381's report, item 6). The snapshot comparison: 0 differences. What follows was written before the landing.
+
 ## First: what holds the landing
 
 1. **Supabase answers the heavier reads with statement timeouts since about 23:30 UTC on 20 October** (`canceling statement due to statement timeout`, code 57014). A probe of one ordered read of `series` failed every two minutes from 02:00 to past 03:00 UTC. Production prints "The live set could not be read" on `/cost-of-power?grid=spp` and `?grid=ercot` and answered 504 on `?grid=nyiso`. The scheduled jobs still pass (the latest prices, the hourly network, the chain watch). A build reads some tables as required (`site/lib/supabase.ts`), so every build since then has failed or cached an empty block: GitHub's check of `task/367-372` failed twice on it (runs 39525362021 and its re-run), and the local builds of 381 and 382 stopped on it three times each. The cause is not seen from the code machine (the data lock is free; nothing in `erw_health` explains it). Look at the project's database health in Supabase's dashboard (its disk input and output budget especially).

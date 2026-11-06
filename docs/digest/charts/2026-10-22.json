@@ -1,0 +1,80 @@
+{
+ "date": "2026-10-22",
+ "source": "scanner",
+ "key": "scan-record-5490aa78dbc9",
+ "fact": "eia861m:4911:NE industrial_sales: 87,866 MWh in July 2026, the highest monthly value held since January 2017. The record until now was 81,361 MWh, in August 2023.",
+ "table": "eia861m_utility_sales_monthly",
+ "series_key": "entity=eia861m:4911:NE|variable=industrial_sales|market=|node=Dawson Power District|freq=P1M",
+ "why": "the strongest of the scanner's 25 flag(s) of the day that no Digest has shown (rank 9; rule record, strength 4.1348); 17 record(s) more than 25 percent past the old one held a day by the guard",
+ "candidates_from": "the scan of 2026-10-22 (computed 2026-10-22T15:32:04+00:00)",
+ "title": "RECORD HIGH",
+ "numbers": {
+  "sigma": 1573.0830779999994,
+  "value": 87865.529,
+  "margin": 6504.425999999992,
+  "strength": 4.1348,
+  "threshold": 81361.103,
+  "old_record": 81361.103,
+  "stood_points": 35,
+  "history_years": 9.33,
+  "margin_sigmas": 4.1348,
+  "history_points": 113
+ },
+ "image": "2026-10-22.png",
+ "rendered_at": "2026-10-22T15:40:12Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "flag": {
+  "id": "scan-record-5490aa78dbc9",
+  "geo": "US-NE",
+  "date": "2026-07-01",
+  "note": "",
+  "rule": "record",
+  "unit": "MWh",
+  "label": "eia861m:4911:NE industrial_sales",
+  "table": "eia861m_utility_sales_monthly",
+  "value": 87865.529,
+  "series": {
+   "freq": "P1M",
+   "node": "Dawson Power District",
+   "entity": "eia861m:4911:NE",
+   "market": "",
+   "variable": "industrial_sales"
+  },
+  "source": "eia:eia861m",
+  "window": [
+   "2026-07-01",
+   "2026-07-01"
+  ],
+  "history": {
+   "last": "2026-05-01",
+   "first": "2017-01-01",
+   "years": 9.33,
+   "points": 113
+  },
+  "compared": {
+   "sigma": 1573.0830779999994,
+   "margin": 6504.425999999992,
+   "old_record": 81361.103,
+   "stood_points": 35,
+   "margin_sigmas": 4.1348,
+   "old_record_date": "2023-08-01"
+  },
+  "flag_key": "record|eia861m_utility_sales_monthly|entity=eia861m:4911:NE|variable=industrial_sales|market=|node=Dawson Power District|freq=P1M",
+  "strength": 4.1348,
+  "direction": "high",
+  "scan_date": "2026-10-22",
+  "statistic": "monthly value",
+  "threshold": {
+   "name": "record high",
+   "value": 81361.103,
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   },
+   "statistic": "the highest monthly value of the held history"
+  },
+  "series_key": "entity=eia861m:4911:NE|variable=industrial_sales|market=|node=Dawson Power District|freq=P1M",
+  "scanner_version": "1.1.0"
+ }
+}

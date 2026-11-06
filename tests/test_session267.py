@@ -113,7 +113,7 @@ class TheGuard(unittest.TestCase):
     def test_the_shadow_copy_reads_the_real_memory_and_the_site_ignores_the_file(self):
         self.assertIn("waited=daily_chart.held_before(digest_date)", src("warehouse", "news", "brief.py"))
         build = src("site", "scripts", "build-content.mjs")
-        self.assertIn(r"/^\d{4}-\d{2}-\d{2}\.png$/", build)
+        self.assertIn(r"/^\d{4}-\d{2}-\d{2}(?:-600)?\.png$/", build)   # session 815: the phone picture too
         self.assertIn(r"/^(\d{4}-\d{2}-\d{2})\.json$/", build)
 
 
@@ -358,7 +358,8 @@ class TheFixes(unittest.TestCase):
 
     def test_the_trace_is_off_unless_asked(self):
         ts = src("site", "lib", "chat", "ask.ts")
-        self.assertIn('const tracing = process.env.ASK_RECORD_TOOLS === "1";', ts)
+        # session 1111: or an evaluation admitted by its own token (the route sets opts.record); a visitor never
+        self.assertIn('const tracing = process.env.ASK_RECORD_TOOLS === "1" || opts.record === true;', ts)
         self.assertIn("...(tracing ? { trace: traced } : {})", ts)
 
 

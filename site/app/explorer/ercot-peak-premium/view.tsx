@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { AskErcotLink } from "@/components/AskErcotLink";
 import { Term } from "@/components/Term";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
@@ -15,7 +16,8 @@ const ANNUAL = "ercot_peak_premium_annual";
 const MONTHLY = "ercot_peak_premium_monthly";
 const MONTHLY_VARS = ["peak_median", "midday_median", "overnight_median", "peak_iqr"];
 
-export async function PeakPremiumView() {
+/** Session 502: `under`, when given, is drawn below the title (the /prices tab's license line). */
+export async function PeakPremiumView({ under }: { under?: ReactNode } = {}) {
   const [annual, monthly, hdr] = await Promise.all([
     attempt(() => series(ANNUAL, {})),
     attempt(() => seriesVariables(MONTHLY, MONTHLY_VARS)),
@@ -29,6 +31,7 @@ export async function PeakPremiumView() {
     <>
       <p className="text-sm">Explorer</p>
       <h1 className="mb-1 text-3xl">ERCOT peak premium</h1>
+      {under}
       <AskErcotLink context={{ view: "/explorer/ercot-peak-premium", title: "ERCOT peak premium", settings: { grid: "ERCOT", table: "ercot_peak_premium_annual" } }} />
       <p className="mb-2 max-w-3xl">
         How <Term t="ERCOT" first /> real-time prices spread across the day, for each hub and each year since 2015, from ERCOT&apos;s settlement point prices.

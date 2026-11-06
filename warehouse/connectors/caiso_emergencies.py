@@ -8,9 +8,13 @@ operations; 191 pages on 2026-10-01) and writes one events table:
 
     warehouse/output/caiso_grid_emergencies.csv
 
-One row per notice and day: a notice that covers several days is one row per local day it covers, because CAISO's own
+One row per notice and day (and time frame, where CAISO gives two notices of one type and region on a day): a notice that
+covers several days is one row per local day it covers, because CAISO's own
 yearly counts are "the total number of days that the event lasted"; event_id is the notice's key and the day. The
 report has four layouts, each read from its tables (pdfplumber, the table cells as CAISO drew them):
+    (the years below are the report's; the rows of the revision read on 23 October 2026 come from the records reader for
+    2011 on, the stages reader for 1998 to 2010, whose test comes first and also takes the 2005 to 2010 matrix tables, which
+    carry stage columns, and the day lists for 1998 to 2004; no row comes from the matrix reader)
     records    2016 to the present: one notice per row (date, region, time frame, event, reason; notice number and issue
                time where the page gives them)
     matrix     2005 to 2015: one row per day, one column per notice type, the hours in the cell
@@ -295,10 +299,10 @@ def main(argv=None):
         header = [
             "Energy Research Warehouse (ERW): CAISO grid emergencies, every Flex Alert, Restricted Maintenance Operations notice, Energy "
             "Emergency Alert, stage emergency and transmission emergency in CAISO's Grid Emergencies History Report (session 58)",
-            "Shape: events (docs/datastandard.md v0, decision 35). One row per notice type, region and local (Pacific) day covered; "
+            "Shape: events (docs/datastandard.md v0, decision 35). One row per notice type, region, time frame and local (Pacific) day covered; "
             "event_type is CAISO's notice type (flex_alert, rmo, transmission_emergency, eea_watch, eea1 to eea3, alert, warning, stage1 to "
-            "stage3, power_watch, vlrp, load_interruption). x_label: the notice's name as printed; x_layout: the report's layout the row was read from (records 2016 on, matrix "
-            "2005 to 2015, stages 1998 to 2004, day_lists 1998 to 2001); x_page: its page.",
+            "stage3, vlrp, load_interruption; Power Watch filed under flex_alert). x_label: the notice's name as printed; x_layout: the reader the row came from "
+            "(records, stages, day_lists or matrix); x_page: its page.",
             f"Check against CAISO's own yearly day counts (the report's pages 1 and 3): {match} of {len(want)} year-type counts match; "
             + ("; ".join(f"{y} {t}: CAISO {w}, table {g}" for y, t, w, g in diffs) if diffs else "all match") + ".",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/caiso_emergencies.py; the report's revision date {revised}",

@@ -1,0 +1,859 @@
+{
+ "_about": "Session 1109: the monthly rows of battery_stack_monthly behind session 320's eight per-kW questions, copied untouched from this machine's warehouse/output/battery_stack_monthly.csv by warehouse/chat/eval/fixture_s1109.py; the table's own header lines are under table_header.",
+ "recorded_at": "2026-10-23T18:09:28Z",
+ "table_header": [
+  "# Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261021T153147Z-github (2026-10-21T15:31:47Z); that run's own header of the table follows",
+  "# Retrieved: 20261021T151150Z (UTC) by warehouse/derived/battery_stack.py",
+  "# Run log: warehouse/output/logs/battery_stack_20261021T151150Z.log",
+  "# Source: erw:battery_stack ERW derived table, the battery revenue stack (docs/methods/battery_stack.md), https://github.com/SamuelEnrique/erw/blob/main/docs/methods/battery_stack.md"
+ ],
+ "questions": {
+  "b01": {
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "start": "2025-10-01",
+   "end": "2026-10-01",
+   "months": 12,
+   "sum_usd_per_mw": 81402.1896,
+   "key_usd_per_kw": 81.4022,
+   "agrees": true
+  },
+  "b02": {
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "start": "2025-10-01",
+   "end": "2026-10-01",
+   "months": 12,
+   "sum_usd_per_mw": 54598.584,
+   "key_usd_per_kw": 54.5986,
+   "agrees": true
+  },
+  "b03": {
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "start": "2025-10-01",
+   "end": "2026-10-01",
+   "months": 12,
+   "sum_usd_per_mw": 26803.6056,
+   "key_usd_per_kw": 26.8036,
+   "agrees": true
+  },
+  "b04": {
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "start": "2025-10-01",
+   "end": "2026-10-01",
+   "months": 12,
+   "sum_usd_per_mw": 51067.1416,
+   "key_usd_per_kw": 51.0671,
+   "agrees": true
+  },
+  "b05": {
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "start": "2021-01-01",
+   "end": "2022-01-01",
+   "months": 12,
+   "sum_usd_per_mw": 3430556.5577,
+   "key_usd_per_kw": 3430.5566,
+   "agrees": true
+  },
+  "b06": {
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "start": "2025-01-01",
+   "end": "2026-01-01",
+   "months": 12,
+   "sum_usd_per_mw": 87439.609,
+   "key_usd_per_kw": 87.4396,
+   "agrees": true
+  },
+  "b08": {
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "start": "2025-10-01",
+   "end": "2026-10-01",
+   "months": 12,
+   "sum_usd_per_mw": 79308.3067,
+   "key_usd_per_kw": 79.3083,
+   "agrees": true
+  },
+  "b09": {
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "start": "2025-01-01",
+   "end": "2026-01-01",
+   "months": 12,
+   "sum_usd_per_mw": 42503.7732,
+   "key_usd_per_kw": 42.5038,
+   "agrees": true
+  }
+ },
+ "catalogue": [
+  {
+   "table_name": "battery_stack_monthly",
+   "iso": "CAISO;ERCOT",
+   "market": "caiso;ercot",
+   "n_nodes": 2,
+   "interval": "P1M",
+   "ts_min": "2018-01-01T00:00:00+00:00",
+   "ts_max": "2026-10-01T00:00:00+00:00",
+   "n_rows": 11556,
+   "source_report": "erw:battery_stack",
+   "last_run": null,
+   "validator_status": "pass",
+   "license": "public",
+   "sector": "power",
+   "derived": "yes",
+   "in_live_set": "yes",
+   "columns": "[\"entity\", \"variable\", \"ts_utc\", \"value\", \"unit\", \"freq\", \"geo\", \"market\", \"node\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\", \"x_strategy\", \"x_duration_hours\", \"x_metric\"]",
+   "tier": "derived"
+  }
+ ],
+ "rows": [
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-10-01T00:00:00+00:00",
+   "value": 7266.9627,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-11-01T00:00:00+00:00",
+   "value": 6873.3653,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-12-01T00:00:00+00:00",
+   "value": 7076.3101,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 14626.5867,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-02-01T00:00:00+00:00",
+   "value": 4116.2707,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-03-01T00:00:00+00:00",
+   "value": 5673.7221,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-04-01T00:00:00+00:00",
+   "value": 8870.1106,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-05-01T00:00:00+00:00",
+   "value": 4993.1631,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 3596.9053,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-07-01T00:00:00+00:00",
+   "value": 3937.163,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-08-01T00:00:00+00:00",
+   "value": 7503.0147,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-09-01T00:00:00+00:00",
+   "value": 6868.6153,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-10-01T00:00:00+00:00",
+   "value": 5419.4098,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-11-01T00:00:00+00:00",
+   "value": 4377.433,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-12-01T00:00:00+00:00",
+   "value": 4033.054,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 7973.1879,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2026-02-01T00:00:00+00:00",
+   "value": 3142.6367,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2026-03-01T00:00:00+00:00",
+   "value": 4676.9771,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2026-04-01T00:00:00+00:00",
+   "value": 6543.9157,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2026-05-01T00:00:00+00:00",
+   "value": 2721.0726,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 2183.6823,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2026-07-01T00:00:00+00:00",
+   "value": 2857.7738,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2026-08-01T00:00:00+00:00",
+   "value": 6115.112,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2026-09-01T00:00:00+00:00",
+   "value": 4554.3291,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2025-10-01T00:00:00+00:00",
+   "value": 1847.5529,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2025-11-01T00:00:00+00:00",
+   "value": 2495.9322,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2025-12-01T00:00:00+00:00",
+   "value": 3043.2561,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 6653.3988,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2026-02-01T00:00:00+00:00",
+   "value": 973.634,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2026-03-01T00:00:00+00:00",
+   "value": 996.745,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2026-04-01T00:00:00+00:00",
+   "value": 2326.195,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2026-05-01T00:00:00+00:00",
+   "value": 2272.0905,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 1413.223,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2026-07-01T00:00:00+00:00",
+   "value": 1079.3892,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2026-08-01T00:00:00+00:00",
+   "value": 1387.9027,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+   "ts_utc": "2026-09-01T00:00:00+00:00",
+   "value": 2314.2862,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-10-01T00:00:00+00:00",
+   "value": 4373.0784,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-11-01T00:00:00+00:00",
+   "value": 4798.4504,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-12-01T00:00:00+00:00",
+   "value": 4326.1769,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 11329.8106,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-02-01T00:00:00+00:00",
+   "value": 2199.2104,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-03-01T00:00:00+00:00",
+   "value": 2800.1354,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-04-01T00:00:00+00:00",
+   "value": 5118.0426,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-05-01T00:00:00+00:00",
+   "value": 3529.6884,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 2286.7254,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-07-01T00:00:00+00:00",
+   "value": 2874.3123,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-08-01T00:00:00+00:00",
+   "value": 3573.4009,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "dayahead_2h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-09-01T00:00:00+00:00",
+   "value": 3858.1099,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-01-01T00:00:00+00:00",
+   "value": 16554.3942,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-02-01T00:00:00+00:00",
+   "value": 3115947.3273,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-03-01T00:00:00+00:00",
+   "value": 41188.6528,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-04-01T00:00:00+00:00",
+   "value": 49333.693,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-05-01T00:00:00+00:00",
+   "value": 33060.0206,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-06-01T00:00:00+00:00",
+   "value": 34640.3753,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-07-01T00:00:00+00:00",
+   "value": 21652.6441,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-08-01T00:00:00+00:00",
+   "value": 21684.7196,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-09-01T00:00:00+00:00",
+   "value": 20465.4902,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-10-01T00:00:00+00:00",
+   "value": 31626.4949,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-11-01T00:00:00+00:00",
+   "value": 26978.1921,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2021-12-01T00:00:00+00:00",
+   "value": 17424.5536,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-01-01T00:00:00+00:00",
+   "value": 6777.1432,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-02-01T00:00:00+00:00",
+   "value": 6373.823,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-03-01T00:00:00+00:00",
+   "value": 7509.8635,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-04-01T00:00:00+00:00",
+   "value": 8460.9035,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-05-01T00:00:00+00:00",
+   "value": 12926.2516,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-06-01T00:00:00+00:00",
+   "value": 5587.769,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-07-01T00:00:00+00:00",
+   "value": 6322.2834,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-08-01T00:00:00+00:00",
+   "value": 6766.5739,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-09-01T00:00:00+00:00",
+   "value": 5498.3598,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-10-01T00:00:00+00:00",
+   "value": 7244.8445,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-11-01T00:00:00+00:00",
+   "value": 4948.8729,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2025-12-01T00:00:00+00:00",
+   "value": 3489.2248,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-01-01T00:00:00+00:00",
+   "value": 4573.1682,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-02-01T00:00:00+00:00",
+   "value": 4502.6973,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-03-01T00:00:00+00:00",
+   "value": 10196.7461,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-04-01T00:00:00+00:00",
+   "value": 6393.4836,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-05-01T00:00:00+00:00",
+   "value": 7495.0766,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-06-01T00:00:00+00:00",
+   "value": 5732.7195,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-07-01T00:00:00+00:00",
+   "value": 7023.7812,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-08-01T00:00:00+00:00",
+   "value": 10872.6388,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "foresight_4h_revenue_total_usd_per_mw",
+   "ts_utc": "2026-09-01T00:00:00+00:00",
+   "value": 6835.0532,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-01-01T00:00:00+00:00",
+   "value": 4328.3388,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-02-01T00:00:00+00:00",
+   "value": 5100.9349,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-03-01T00:00:00+00:00",
+   "value": 5938.6723,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-04-01T00:00:00+00:00",
+   "value": 4204.7643,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-05-01T00:00:00+00:00",
+   "value": 4340.6856,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-06-01T00:00:00+00:00",
+   "value": 3482.1883,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-07-01T00:00:00+00:00",
+   "value": 2366.2434,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-08-01T00:00:00+00:00",
+   "value": 2205.6115,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-09-01T00:00:00+00:00",
+   "value": 2499.7781,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-10-01T00:00:00+00:00",
+   "value": 4259.0987,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-11-01T00:00:00+00:00",
+   "value": 2537.6537,
+   "unit": "USD/MW"
+  },
+  {
+   "table_name": "battery_stack_monthly",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "dayahead_4h_revenue_energy_usd_per_mw",
+   "ts_utc": "2025-12-01T00:00:00+00:00",
+   "value": 1239.8036,
+   "unit": "USD/MW"
+  }
+ ]
+}

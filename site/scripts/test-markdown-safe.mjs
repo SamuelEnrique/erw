@@ -52,12 +52,20 @@ test("a word in angle brackets is shown as the author wrote it", () => {
 
 test("markdown's own output is as it was", () => {
   const html = render("# Title\n\nSome **bold** and `code <b>` and a [link](https://example.com).\n\n| a | b |\n|---|---|\n| 1 | 2 |\n\n```\n<script>in a code block</script>\n```\n", at);
-  for (const kept of ["<h1>Title</h1>", "<strong>bold</strong>", "<code>code &lt;b&gt;</code>", '<a href="https://example.com">link</a>', "<table>", "&lt;script&gt;in a code block&lt;/script&gt;"]) assert.ok(html.includes(kept), `${kept} in ${html}`);
+  for (const kept of ['<h1 id="title">Title</h1>', "<strong>bold</strong>", "<code>code &lt;b&gt;</code>", '<a href="https://example.com">link</a>', "<table>", "&lt;script&gt;in a code block&lt;/script&gt;"]) assert.ok(html.includes(kept), `${kept} in ${html}`);
+});
+
+test("each heading carries the id GitHub gives it (session 581)", () => {
+  const md = ["## 2. The tax side: severance and property tax", "### What JEDI cannot see", "### Terms", "### Terms", "## The `code` and [a link](https://example.com)"].join("\n\n");
+  const html = render(md, at);
+  for (const id of ["2-the-tax-side-severance-and-property-tax", "what-jedi-cannot-see", "terms", "terms-1", "the-code-and-a-link"]) assert.ok(html.includes(`id="${id}"`), `${id} in ${html}`);
+  assert.ok(html.includes('<h3 id="what-jedi-cannot-see">What JEDI cannot see</h3>'));
 });
 
 test("every document the site holds renders with no tag that is not markdown's own", () => {
   const OWN = new Set(["p", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li", "a", "strong", "em", "code", "pre", "table", "thead", "tbody", "tr", "th", "td", "blockquote", "hr", "br", "img", "del", "span", "sub", "sup", "input"]);
-  const sets = { digest: DOCS.digests, roundup: DOCS.weeklies, methods: DOCS.methods, grids: DOCS.grids, standard: { datastandard: DOCS.datastandard } };
+  const sets = { digest: DOCS.digests, roundup: DOCS.weeklies, methods: DOCS.methods, grids: DOCS.grids, standard: { datastandard: DOCS.datastandard },
+    licenses: { licenses: DOCS.licenses } };   // session 471: the licensing record, /data/licenses
   let files = 0;
   for (const [kind, set] of Object.entries(sets)) {
     for (const [name, md] of Object.entries(set ?? {})) {

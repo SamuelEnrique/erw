@@ -1,0 +1,80 @@
+{
+ "date": "2026-10-21",
+ "source": "scanner",
+ "key": "scan-record-7abe48d6b46b",
+ "fact": "Retail electricity price in Iowa, industrial: USD 99.90 per MWh in July 2026, the highest monthly value held since January 2001. The record until now was USD 91.70 per MWh, in July 2022.",
+ "table": "eia_retail_electricity_prices",
+ "series_key": "entity=eia:retail_price:IA:IND|variable=retail_price|market=|node=|freq=P1M",
+ "why": "the strongest of the scanner's 11 flag(s) of the day that no Digest has shown (rank 4; rule record, strength 0.8016)",
+ "candidates_from": "the scan of 2026-10-21 (computed 2026-10-21T15:33:20+00:00)",
+ "title": "RECORD HIGH",
+ "numbers": {
+  "sigma": 10.229939999999997,
+  "value": 99.9,
+  "margin": 8.200000000000003,
+  "strength": 0.8016,
+  "threshold": 91.7,
+  "old_record": 91.7,
+  "stood_points": 48,
+  "history_years": 25.33,
+  "margin_sigmas": 0.8016,
+  "history_points": 305
+ },
+ "image": "2026-10-21.png",
+ "rendered_at": "2026-10-21T15:45:22Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "flag": {
+  "id": "scan-record-7abe48d6b46b",
+  "geo": "US-IA",
+  "date": "2026-07-01",
+  "note": "",
+  "rule": "record",
+  "unit": "USD/MWh",
+  "label": "eia:retail_price:IA:IND retail_price",
+  "table": "eia_retail_electricity_prices",
+  "value": 99.9,
+  "series": {
+   "freq": "P1M",
+   "node": "",
+   "entity": "eia:retail_price:IA:IND",
+   "market": "",
+   "variable": "retail_price"
+  },
+  "source": "eia:electricity/retail-sales",
+  "window": [
+   "2026-07-01",
+   "2026-07-01"
+  ],
+  "history": {
+   "last": "2026-05-01",
+   "first": "2001-01-01",
+   "years": 25.33,
+   "points": 305
+  },
+  "compared": {
+   "sigma": 10.229939999999997,
+   "margin": 8.200000000000003,
+   "old_record": 91.7,
+   "stood_points": 48,
+   "margin_sigmas": 0.8016,
+   "old_record_date": "2022-07-01"
+  },
+  "flag_key": "record|eia_retail_electricity_prices|entity=eia:retail_price:IA:IND|variable=retail_price|market=|node=|freq=P1M",
+  "strength": 0.8016,
+  "direction": "high",
+  "scan_date": "2026-10-21",
+  "statistic": "monthly value",
+  "threshold": {
+   "name": "record high",
+   "value": 91.7,
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   },
+   "statistic": "the highest monthly value of the held history"
+  },
+  "series_key": "entity=eia:retail_price:IA:IND|variable=retail_price|market=|node=|freq=P1M",
+  "scanner_version": "1.1.0"
+ }
+}

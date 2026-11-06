@@ -23,7 +23,8 @@ Instead: every date EIA lists must carry a number, except that a date EIA
 lists with an empty value is an unpublished observation and is omitted (the
 standard's rule for a missing observation), and is logged; each series must
 reach within 10 calendar days of the run, or the table is stale and not
-written. Every run replaces the whole history, so EIA revisions are picked up.
+written. Every run asks for the whole history and merges it into the table held on (entity, variable, ts_utc)
+(ip.write_csv): a value EIA revises replaces the old one, and a row EIA no longer gives stays (session 2018).
 Negative prices are real (WTI, 2020-04-20). The key comes from EIA_API_KEY.
 """
 
@@ -161,7 +162,7 @@ def main(argv=None):
             "WTI Cushing crude, Brent crude",
             "Shape: series (docs/datastandard.md v0). Units: USD/MMBtu (Henry Hub), USD/bbl (WTI, "
             "Brent). freq P1D: ts_utc is the trading date at 00:00:00Z, a date, not an instant.",
-            "Window: the full daily history the EIA API v2 offers; every run replaces all of it.",
+            "Window: the full daily history the EIA API v2 offers; each run merges it into the table held (a revised value replaces the old; a row EIA stops giving stays).",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_fuels.py via the EIA API v2",
             f"Run log: warehouse/output/logs/eia_fuels_{run_id}.log (every API request, key removed)",
             f"Raw files: warehouse/raw/eia_fuels/{run_id}/ (not in git; manifest.csv lists each file and URL)",

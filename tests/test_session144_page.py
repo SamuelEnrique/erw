@@ -213,7 +213,19 @@ class TheSiteFiles(unittest.TestCase):
     def test_every_caiso_month_has_a_share_and_none_passes_100(self):
         s = site_file("shares.json")
         ca, spp = s["grids"]["caiso"], s["grids"]["spp"]
-        self.assertEqual((ca["months_with_share"], len(ca["months"]), ca["missing"]), (149, 149, {}))
+        # Session 2863: every month from May 2014 to the newest share has one (149 to September 2026, one more each month);
+        # the only month allowed without one is the month after the newest share, the month still being published (on
+        # 5 November 2026 October held 27 of its 31 days, and the fixed count of 149 with nothing missing failed the
+        # daily run's merge tests). A month missing inside the span still fails.
+        ms = sorted(ca["months"])
+        span, (y, m) = [], (2014, 5)
+        while f"{y:04d}-{m:02d}" <= ms[-1]:
+            span.append(f"{y:04d}-{m:02d}")
+            y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+        self.assertEqual(ms, span)
+        self.assertGreaterEqual(len(ms), 149)
+        self.assertEqual(ca["months_with_share"], len(ms))
+        self.assertLessEqual(set(ca["missing"]), {f"{y:04d}-{m:02d}"}, "a month inside the span has no share")
         self.assertEqual(min(spp["months"]), "2018-09")
         for g in (ca, spp):
             self.assertTrue(all(0 <= r["share_pct"] <= 100 for r in g["months"].values()))

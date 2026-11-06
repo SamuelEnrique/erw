@@ -41,6 +41,9 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "package", "src"))
 import erw  # noqa: E402
 
+sys.path.insert(0, HERE)
+import license_hold as hold  # noqa: E402  (session 1191: the site's license hold, with ASK_HOLD=on)
+
 AGGREGATIONS = ["latest", "mean", "median", "min", "max", "percentile", "count", "sum"]
 TIME_GROUPS = ["year", "month", "day", "hour"]
 MAX_GROUPS = 60        # rows returned by one query; more are counted and cut
@@ -49,6 +52,10 @@ DIGITS = 6             # decimals kept in returned values
 
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity", "metals",
            "equities", "news", "deals", "datacenters"]
+
+# Session 1122: the board's measures, and the derived table each is in
+BOARD_MEASURES = {m: "price_board_latest" for m in ("da_latest_day_mean", "rt_latest_day_mean", "da_day_change", "rt_day_change", "da_day_change_pct", "rt_day_change_pct", "da_minus_rt")}
+BOARD_MEASURES.update({"spark_spread_7": "price_board_spreads", "implied_heat_rate": "price_board_spreads"})
 
 QUERY_PROPS = {
     "table": {"type": "string", "description": "ERW table name, exactly as list_tables gives it."},
@@ -122,6 +129,19 @@ TOOLS = [
             "additionalProperties": False,
         },
     },
+    {
+        "name": "board_rank",
+        "description": "The price board's questions (session 1122): rank every hub of the board's own derived tables by one measure on its newest day, highest first, lowest first or by the size of the move. For 'which hub is highest', 'what moved most today', 'where is the spark spread widest'. Each hub's value carries its own date. Built on query (latest by entity), so it agrees with the board.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "measure": {"type": "string", "enum": list(BOARD_MEASURES), "description": "da_ or rt_latest_day_mean: the day's mean price; da_ or rt_day_change and _day_change_pct: the move on the day before; da_minus_rt: day-ahead less real time; spark_spread_7 and implied_heat_rate: the spreads against Henry Hub."},
+                "order": {"type": "string", "enum": ["highest", "lowest", "largest_move"], "description": "highest (default) or lowest by value; largest_move by the size of the value whatever its sign (for a change)."},
+            },
+            "required": ["measure"],
+            "additionalProperties": False,
+        },
+    },
 ]
 
 
@@ -177,6 +197,8 @@ def scope_rows(name, df):
         return df[df["ba"] == g["ba"]]
     if by == "entity" and "entity" in df.columns:
         return df[df["entity"].fillna("").str.startswith(g["slug"] + ":")]
+    if by == "isoentity" and "entity" in df.columns:   # session 1142: storage_buildout_monthly's iso:<slug>
+        return df[df["entity"] == "iso:" + g["slug"]]
     if by == "market" and "market" in df.columns and g.get("market_prefix"):
         return df[df["market"].fillna("").str.startswith(g["market_prefix"])]  # as the site: market like <prefix>*
     if by == "queue" and "source_table" in df.columns:
@@ -222,6 +244,35 @@ def _coverage():
 
 
 def _table(name):
+    """A table's frame, kept for the session. Session 1191: with ASK_HOLD=on, read as the site reads it (lib/chat/tools.ts
+    tableInfo, lib/supabase.ts): a table held whole is refused by name, a table held by grid comes without the held
+    grids' rows, a table held by row with its public rows only."""
+    df = _table_read(name)
+    if not hold.on():
+        return df
+    if hold.held_whole(name):
+        raise ToolError(f"table {name} is {hold.LICENSE_NEEDED}: {hold.title(name)}. State no figure of it: answer with "
+                        f"not_in_warehouse true and say that it is \"{hold.LICENSE_NEEDED}\"")
+    key = ("_held", name)
+    if key not in _frames:
+        kept = df
+        if hold.license_needed(name) and hold.by_row(name):
+            col = df[hold.ROW_LICENSE_COLUMN] if hold.ROW_LICENSE_COLUMN in df.columns else pd.Series("", index=df.index)
+            kept = df[col.fillna("").astype(str).str.strip().str.lower() == "public"]
+        elif hold.license_needed(name) and "entity" in df.columns:
+            ents = df["entity"].dropna().unique()
+            out = [e for e in ents if hold.held_row(name, e)]
+            if out:
+                kept = df[~df["entity"].isin(out)]
+        if kept is not df:
+            attrs = df.attrs
+            kept = kept.copy()
+            kept.attrs = attrs
+        _frames[key] = kept
+    return _frames[key]
+
+
+def _table_read(name):
     _ready()
     if name not in _frames:
         if name not in set(_coverage()["table"]):
@@ -491,13 +542,59 @@ def _aggregate(g, agg, vcol, tcol, pct, shape):
     return {"value": _num(fn(v.to_numpy(dtype=float))), "n": int(len(v))}
 
 
+def _where_values(where):
+    for v in (where or {}).values():
+        for x in (v if isinstance(v, list) else [v]):
+            yield x
+
+
+def held_answer(args, grid):
+    """Session 1191, as site/lib/chat/tools.ts heldAnswer: a question of a held grid's rows is answered with the hold's
+    words and the same query over the table's public grids (one read by entity); a grouped query gets the words only."""
+    table = args["table"]
+    name = hold.grid_name(grid)
+    out = {"held": True, "grid": name, "grid_license": hold.LICENSE_NEEDED, "title": hold.title(table),
+           "words": f"{name}'s rows of {table} are held for a license: {hold.LICENSE_NEEDED}",
+           "note": (f"State no figure of {name}. Answer with not_in_warehouse false: say first that {name}'s rows are held for a license "
+                    f"(\"{hold.LICENSE_NEEDED}\"), then give the same figure for each grid under public_grids, in the same sentence structure, with this table cited")}
+    if not args.get("group_by"):
+        pub = query(**{**args, "entity": None, "group_by": "entity"})
+        rows = [r for r in pub.get("result") or [] if hold.grid_of_entity(r.get("entity")) and not hold.miso_own(r.get("entity"))
+                and not hold.held_row(table, r.get("entity"))]
+        out["public_grids"] = [{"grid": hold.grid_name(hold.grid_of_entity(r["entity"])), **r} for r in rows]
+        out["public_query"] = {k: pub.get(k) for k in ("aggregation", "filters", "units", "variables", "rows_matched")}
+        if not rows:
+            out["public_grids_note"] = "no public grid holds a row for these filters"
+    else:
+        out["public_grids_note"] = f"a grouped query names no public grid's figure: ask again with entity set to a public grid's hub (group_by {args['group_by']})"
+    out.update(provenance(table))
+    return out
+
+
 def query(table, aggregation, entity=None, variable=None, start=None, end=None, where=None,
           percentile=None, value_column=None, group_by=None, tz="UTC"):
     if aggregation not in AGGREGATIONS:
         raise ToolError(f"aggregation must be one of {AGGREGATIONS}")
+    held_on = hold.on()
+    if held_on and (hold.miso_own(table) or hold.miso_own(entity) or any(hold.miso_own(x) for x in _where_values(where))):
+        raise ToolError(hold.MISO_PAUSED)
     df = _table(table)
+    if held_on:
+        try:
+            grid = hold.held_grid_of(table, entity, SCOPE)
+        except ValueError as exc:
+            raise ToolError(str(exc))
+        if grid:
+            return held_answer(dict(table=table, aggregation=aggregation, entity=entity, variable=variable, start=start, end=end, where=where,
+                                    percentile=percentile, value_column=value_column, group_by=group_by, tz=tz), grid)
     shape = _shape(df)
     sel, tcol = _select(df, shape, entity, variable, start, end, where, tz or "UTC")
+    if held_on and "entity" in sel.columns and len(sel):
+        # session 1191, as the site's read: MISO's own rows are left out, and a read that held only MISO's rows is refused
+        own = sel["entity"].map(hold.miso_own).astype(bool)
+        if own.all():
+            raise ToolError(hold.MISO_PAUSED)
+        sel = sel[~own]
     vcol = value_column or {"series": "value", "entities": "capacity_mw", "events": "mw"}[shape]
     if aggregation not in ("count",) and vcol not in df.columns:
         raise ToolError(f"no column {vcol!r}; numeric columns: "
@@ -551,7 +648,53 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
             if len(res) > cap:
                 out["result_note"] = f"{len(res)} groups; the first {cap} (sorted by {group_by}) are shown"
             out["result"] = res[:cap]
+    per_kw(out, table)
     out.update(provenance(table))
+    return out
+
+
+# Session 1109: USD per kW beside USD per MW, prepared for session 320's open ruling 1 and off until it is ruled (as
+# site/lib/chat/tools.ts perKw). With ASK_PER_KW=on, a query of a table whose method names the conversion, all of whose
+# rows are in USD/MW, carries each value divided by 1,000 as value_usd_per_kw. Off, the result is what it was.
+PER_KW_TABLES = {
+    "battery_stack_monthly": "docs/methods/battery_stack.md: USD per kW of rated power is the USD/MW value divided by 1,000",
+}
+
+
+def per_kw(out, table, env=None):
+    env = os.environ if env is None else env
+    if env.get("ASK_PER_KW") != "on" or table not in PER_KW_TABLES or out.get("units") != ["USD/MW"]:
+        return out
+    for r in out.get("result") or []:
+        if isinstance(r.get("value"), (int, float)) and not isinstance(r.get("value"), bool):
+            r["value_usd_per_kw"] = round(r["value"] / 1000, DIGITS)
+    out["per_kw"] = {"unit": "USD/kW", "rule": PER_KW_TABLES[table]}
+    return out
+
+
+def holds_line(c):
+    """Session 1146, as site/lib/chat/tools.ts holdsLine: what a table holds, from its catalogue row, never a figure."""
+    span = f"{str(c.get('ts_min') or '')[:10]} to {str(c.get('ts_max') or '')[:10]}" if c.get("ts_min") and c.get("ts_max") else ""
+    iso = ", ".join(str(c.get("iso")).split(";")) if c.get("iso") and c.get("iso") != "none" else ""
+    parts = [f"{c['sector']} data" if c.get("sector") else "", iso, f"step {c['interval']}" if c.get("interval") else "", span,
+             f"from {c['source_report']}" if c.get("source_report") else ""]
+    return "; ".join(p for p in parts if p)
+
+
+def nearest_for(tables):
+    """Session 1146, as site/lib/chat/tools.ts nearestFor: up to three tables looked at, with what each holds."""
+    out = []
+    for t in list(dict.fromkeys(tables)):
+        try:
+            row = _cov_row(t)
+        except Exception:  # noqa: BLE001: a table the catalogue does not hold is left out
+            row = None
+        if row is None:
+            continue
+        row = {k: (None if isinstance(v, float) and v != v else v) for k, v in dict(row).items()}   # a blank of the coverage file is no value
+        out.append({"table": t, "holds": holds_line(row)})
+        if len(out) == 3:
+            break
     return out
 
 
@@ -570,8 +713,25 @@ def compare(a, b):
     return out
 
 
+def board_rank(measure, order="highest"):
+    """Session 1122: every hub's newest value of one board measure, ranked (as site/lib/chat/tools.ts boardRank)."""
+    if measure not in BOARD_MEASURES:
+        raise ToolError(f"measure must be one of {sorted(BOARD_MEASURES)}")
+    if order not in ("highest", "lowest", "largest_move"):
+        raise ToolError("order must be highest, lowest or largest_move")
+    table = BOARD_MEASURES[measure]
+    q = query(table, "latest", variable=measure, group_by="entity")
+    rows = [r for r in q.get("result", []) if isinstance(r.get("value"), (int, float))]
+    key = (lambda r: -abs(r["value"])) if order == "largest_move" else (lambda r: -r["value"]) if order == "highest" else (lambda r: r["value"])
+    ranked = [{"rank": i + 1, "entity": r.get("entity"), "value": r["value"], "at": r.get("at")} for i, r in enumerate(sorted(rows, key=key))]
+    out = {"table": table, "measure": measure, "order": order, "units": q.get("units"), "n": len(ranked), "ranked": ranked,
+           "note": "each hub's newest value of the measure, with its own date; a hub whose rows are held is not in the table read"}
+    out.update(provenance(table))
+    return out
+
+
 FUNCTIONS = {"list_tables": list_tables, "describe_table": describe_table, "query": query, "compare": compare,
-             "grid_notes": grid_notes}
+             "grid_notes": grid_notes, "board_rank": board_rank}
 
 
 def run(name, args):

@@ -24,7 +24,10 @@ const strict = args.includes("--strict"), phone = args.includes("--phone");
 const base = (args.find((a) => !a.startsWith("--")) ?? "http://localhost:3000").replace(/\/$/, "");
 const { RELEASE } = await import("../lib/release.ts");
 const NEW = ["/privacy", "/terms", "/internal/open", "/internal/usage", "/internal/findings"];   // session 181: the scanner's review list
-const PAGES = phone ? NEW : [...new Set([...Object.keys(RELEASE), "/internal/open", "/internal/usage", "/internal/costs", "/internal/ask", "/internal/findings", "/internal/health", "/in-review"])];
+// session 421: the pages and views chain 019 added in review, which the release list does not name (a view is an
+// address of a listed page; /data/licenses is a page of its own)
+const VIEWS = ["/data/licenses", "/deals?view=comparables", "/datacenters?view=grids", "/policy?tag=loads_interconnection_tariffs"];
+const PAGES = phone ? NEW : [...new Set([...Object.keys(RELEASE), ...VIEWS, "/internal/open", "/internal/usage", "/internal/costs", "/internal/ask", "/internal/findings", "/internal/health", "/in-review"])];
 const HOOK = "window.__csp = []; document.addEventListener('securitypolicyviolation', (e) => window.__csp.push({ directive: e.effectiveDirective || e.violatedDirective, blocked: e.blockedURI, disposition: e.disposition, source: (e.sourceFile || '') + ':' + (e.lineNumber || 0) }));";
 
 const code = await withBrowser(async ({ go, evaluate, unlock, send, sleep }) => {

@@ -557,7 +557,12 @@ await test("the briefing says which source holds Texas's curtailment share, in o
   // October, when this assertion failed on main and would have stopped every landing); the question file is written
   // again by warehouse/chat/eval/ercot_pages_expected.py before an evaluation. What holds: one number, read from the
   // file's own figure (the tool's read above equals the file's).
-  assert.ok(p14.expect.length === 1 && typeof p14.expect[0] === "number" && Math.abs(p14.expect[0] - texas.window.both.share_pct) < 2);
+  // 21 October 2026 (session 424): the share had moved to 6.53 by 20 October, past the 2 points this allowed, and the
+  // test failed on every run. The question's figure is frozen with the dated inputs it names (session 199,
+  // built_from.inputs): it is set against that file's share, exactly, not against today's.
+  const dated = JSON.parse(read(`../../${PAGES.built_from.inputs}`));
+  assert.ok(p14.expect.length === 1 && typeof p14.expect[0] === "number");
+  assert.equal(p14.expect[0], dated.files["curtailment/ercot.json"].window.both.share_pct);
   assert.equal(p14.read.at, "over_the_days_held.share_of_limit_pct");
 });
 

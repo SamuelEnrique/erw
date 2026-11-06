@@ -40,12 +40,12 @@ export function Calculator({ hubs }: { hubs: HubIn[] }) {
     const c80 = cheapPrice(h.cells);
     return { ...h, c80, eFlat: energy(mw, lf, days), e80: energy(mw, lf, days, DEFAULTS.share) };
   }).sort((a, b) => (a.flat ?? Infinity) - (b.flat ?? Infinity)), [hubs, mw, lf, days]);
-  const input = "w-24 rounded border border-rule bg-panel px-2 py-1 text-sm";
+  const input = "w-24 border border-rule bg-panel px-2 py-1 text-sm";
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-end gap-4 text-sm">
-        <label className="flex flex-col">Facility, MW <input type="number" min={1} step={1} value={mw} onChange={(e) => setMw(Math.max(0, Number(e.target.value)))} className={input} /></label>
-        <label className="flex flex-col">Load factor <input type="number" min={0.05} max={1} step={0.05} value={lf} onChange={(e) => setLf(Math.min(1, Math.max(0, Number(e.target.value))))} className={input} /></label>
+        <label className="flex flex-col">Facility, MW <input type="number" autoComplete="off" min={1} step={1} value={mw} onChange={(e) => setMw(Math.max(0, Number(e.target.value)))} className={input} /></label>
+        <label className="flex flex-col">Load factor <input type="number" autoComplete="off" min={0.05} max={1} step={0.05} value={lf} onChange={(e) => setLf(Math.min(1, Math.max(0, Number(e.target.value))))} className={input} /></label>
         <label className="flex flex-col">Period
           <select value={period} onChange={(e) => setPeriod(e.target.value as "month" | "year" | "run")} className={input + " w-40"}>
             <option value="month">a month (30 days)</option>
@@ -53,17 +53,17 @@ export function Calculator({ hubs }: { hubs: HubIn[] }) {
             <option value="run">a training run of N days</option>
           </select>
         </label>
-        {period === "run" ? <label className="flex flex-col">N days <input type="number" min={1} step={1} value={runDays} onChange={(e) => setRunDays(Math.max(1, Math.round(Number(e.target.value))))} className={input} /></label> : null}
+        {period === "run" ? <label className="flex flex-col">N days <input type="number" autoComplete="off" min={1} step={1} value={runDays} onChange={(e) => setRunDays(Math.max(1, Math.round(Number(e.target.value))))} className={input} /></label> : null}
       </div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[520px] text-sm">
           <thead className="text-left text-xs text-muted">
-            <tr><th className="py-1">ISO</th><th>Flat load, USD</th><th>USD/MWh</th><th>Cheapest 80% of hours, USD</th><th>USD/MWh</th><th>Months</th></tr>
+            <tr><th scope="col" className="py-1">ISO</th><th scope="col">Flat load, USD</th><th scope="col">USD/MWh</th><th scope="col">Cheapest 80% of hours, USD</th><th scope="col">USD/MWh</th><th scope="col">Months</th></tr>
           </thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.iso} className="border-t border-rule">
-                <td className="py-1">{r.iso}</td>
+                <th scope="row" className="py-1 text-left font-normal">{r.iso}</th>
                 <td>{r.flat === null ? "not held" : usd(r.eFlat * r.flat)}</td>
                 <td>{r.flat === null ? "" : num(Math.round(r.flat * 100) / 100)}</td>
                 <td>{r.c80 === null ? "not held" : usd(r.e80 * r.c80)}</td>

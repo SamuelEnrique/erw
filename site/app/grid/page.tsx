@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { Related } from "@/components/Related";
 import { ToolHeader, ToolPage } from "@/components/tool/ToolPage";
+import { TableLicenses } from "@/components/tool/TableLicenses";
+import { GRID_VIEW_TABLES } from "@/lib/gridtables";
+import { licenseNeededTables } from "@/lib/license";
 import { ToolPicker, ToolTabs } from "@/components/tool/Choose";
 import { AskView } from "@/components/grid/AskView";
+import { AskExamples } from "@/components/grid/AskExamples";
 import { MixTable } from "@/components/grid/Conditions";
 import { EmissionsParts } from "@/components/grid/Emissions";
 import { ExchangeView } from "@/components/grid/ExchangeView";
@@ -55,7 +59,7 @@ const LEAD: Record<string, string> = {
 function Decisions() {
   return (
     <details className="mt-10 border-t border-rule pt-3 text-sm" data-decisions="299">
-      <summary className="cursor-pointer text-accent">Decisions on this page (the owner&apos;s rulings of 18 October 2026, session 299)</summary>
+      <summary className="cursor-pointer py-1 text-accent">Decisions on this page (the owner&apos;s rulings of 18 October 2026, session 299)</summary>
       <ul className="mt-2 max-w-3xl list-disc space-y-1 pl-5 text-sm">
         <li>One page, four tabs (Network, Mix, Clean, Gravity), the grid picked once above them, and Ask as a panel beside every tab. The Now view&apos;s blocks open the Mix tab; the Exchange view&apos;s sit under the gravity shape; every older address still resolves to the tab that holds its blocks.</li>
         <li>The page opens on the Lower 48, then the reader picks a grid (ruling 4b; ERCOT until then).</li>
@@ -85,12 +89,12 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
     <Brand>
       <ToolPage>
         <div data-grid-tool={grid.slug} data-grid-tool-view={view} data-grid-ask={p.ask ? "open" : "panel"}>
-          <ToolHeader crumb="The grid" title={grid.slug === "us48" ? "The Lower 48 states" : `${grid.label}: ${grid.name}`} lead={LEAD[view]} />
+          <ToolHeader crumb="The grid" title={grid.slug === "us48" ? "The Lower 48 states" : `${grid.label}: ${grid.name}`} lead={LEAD[view]} under={<TableLicenses tables={GRID_VIEW_TABLES[view]} />} />
           <ToolPicker label="Grid" items={GRID_CHOICES.map((g) => ({ key: g.slug, label: g.label, href: gridHref(g.slug, view), on: g.slug === grid.slug, title: g.name }))} />
           <ToolTabs label="Views" items={GRID_VIEWS.map(([k, label]) => ({ key: k, label, href: gridHref(grid.slug, k), on: k === view }))} />
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
             <div className="min-w-0">
-              {view === "network" ? <NetworkView keep={keep} node={p.node} /> : null}
+              {view === "network" ? <NetworkView keep={keep} node={p.node} grid={grid} /> : null}
               {view === "mix" ? (
                 <div data-grid-view="mix">
                   {/* session 299: the Now view's blocks, the grid's latest hour, open the tab */}
@@ -104,14 +108,14 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
               {view === "clean" ? (
                 <div data-grid-view="clean">
                   {cfg && data ? <GridCleanParts g={cfg} d={data} /> : null}
-                  <EmissionsParts focus={`eia930:${grid.ba}`} />
+                  <EmissionsParts focus={`eia930:${grid.ba}`} grid={grid.slug} />
                   <div className="mt-10"><MixClean c={mix} /></div>
                 </div>
               ) : null}
               {view === "gravity" ? (
                 <div data-grid-view="gravity">
                   {/* session 299: the network component in its gravity shape (the address carries shape=gravity), the Exchange view's blocks under it */}
-                  <NetworkView keep={keep} node={p.node} shape="gravity" />
+                  <NetworkView keep={keep} node={p.node} shape="gravity" grid={grid} />
                   <div className="mt-10"><ExchangeView grid={grid} /></div>
                 </div>
               ) : null}
@@ -121,7 +125,13 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
             <aside className="min-w-0 lg:border-l lg:border-rule lg:pl-6" aria-label="Ask" data-ask-side={grid.slug} data-ask-tab={view}>
               <h2 className="mb-1 font-serif text-lg text-accent" id="ask">Ask</h2>
               <p className="mb-3 text-xs text-muted" data-ask-on-screen="1">On screen: {grid.slug === "us48" ? "the Lower 48" : grid.label}, the {tabName} tab. The answer comes only from the warehouse&apos;s tables, each number with its table.</p>
+              {/* session 502: what the panel reads and under which license (lib/chat/tools.ts refuses a held table by name, and a read of a table held by grid gives none of those grids' rows) */}
+              <p className="mb-3 text-xs leading-relaxed text-muted" data-ask-licenses={licenseNeededTables().length}>
+                Tables read, with their licenses: the public tables of the site&apos;s live set, through the panel&apos;s tools; the {licenseNeededTables().length} tables held for a license are refused by name or, for a table held by grid, read without the held grids&apos; rows.
+              </p>
               <AskView grid={grid} question={one(sp.q) ?? ""} tab={view} compact />
+              {/* session 1157: the grid's stored example answers, folded under the live box (lib/gridask.ts): no model call, no figure keyed */}
+              <AskExamples grid={grid} />
             </aside>
           </div>
           <Related href="/grid" />

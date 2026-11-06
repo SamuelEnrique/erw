@@ -4,6 +4,8 @@ The metrics behind the ERCOT peak-premium chart (the human's thesis), as the Ene
 - `ercot_peak_premium_annual`: one value per metric, hub and ERCOT operating year, freq `P1Y`;
 - `ercot_peak_premium_monthly`: the same metrics per calendar month, freq `P1M`.
 
+Tables: `ercot_peak_premium_monthly`, `ercot_peak_premium_annual`
+
 ## Input
 
 - **Prices:** ERCOT real-time settlement point prices, 15-minute intervals, USD/MWh (variable `spp_rtm`). They come from ERCOT's NP6-785-ER yearly archives and NP6-905-CD live files, as stored in the ERW tables:
@@ -100,3 +102,44 @@ box on one scale, the median named with its value; no value moved. Since session
 live set's CSV with a Python and a Stata reader of that CSV. The catalogue,
 read on 20 October 2026, gives both tables' last run as 29 September 2026; the monthly table's newest month is
 September 2026.
+
+## The explorer (session 403, 21 October 2026)
+
+`/explore/ercot-peak-premium` (platform tool 5, the first signature explorer; in review, not in the menu) is the
+thesis chart made live. Its one-line definition: the peak premium is how much higher and how much wider ERCOT's
+real-time price runs from 16:00 to 21:00 than at midday, read as `peak_minus_midday_median` and `peak_iqr` above.
+
+- **Filters**, in the address so that each view can be linked and checked: `hub` (the six hubs, default HB_HUBAVG),
+  `month` (blank for the whole year, from `ercot_peak_premium_annual`; 1 to 12 for that calendar month in each year,
+  from `ercot_peak_premium_monthly`), `from` and `to` (two years; default the first year held and the newest complete
+  one, so the default view is the thesis's 2015 against 2025). A value the tables do not hold is replaced by the
+  default, and the page says so in one line.
+- **What it draws**, through the site's shared charts only (`components/BoxChart.tsx` over `svgchart.tsx`'s
+  `BoxPlot`, and `LineChart`): the five numbers of each block, the two years side by side (the thesis chart); the
+  table of those numbers; the thesis's figures (`all_median`, `all_p999`, `worst_interval_multiple`, `peak_iqr`,
+  `peak_minus_midday_median`, `midday_min`, `n_scarcity`, `n_negative`, `n_intervals`) for both years; the peak-block
+  IQR, the peak-minus-midday median and the median along the years (or along one month's years); the monthly medians
+  of the three blocks. Every figure is one row of one table, with its check key
+  (`series|<table>|<hub>|<variable>|<period>`); the page computes none.
+- **Partial periods.** A year is partial when `n_intervals` is short of 35,040 (35,136 in a leap year); a month when
+  it is short of its days times 96 less four (the four quarter hours the spring clock change removes). Only the newest
+  year and month can be partial, as the completeness rule above says; the page marks them.
+- **How old the tables are** is read, never written by hand: the catalogue's `last_run` and `ts_max` of each table,
+  and the header's "Last input interval". A table not computed for more than three days is called stale on the page,
+  with the date. On 21 October 2026 both tables' last run is 29 September 2026, the newest month September 2026 and
+  the newest interval 28 September 2026 04:45 UTC.
+- **The ERCOT tab of `/prices`** (where `/explorer/ercot-peak-premium` redirects) draws the same tables one hub and one
+  year at a time; it is unchanged. The explorer sets two years side by side and reads one month across the years.
+
+## Decisions of the explorer (each dated, and reversible unless said)
+
+The choices made on `/explore/ercot-peak-premium` and on the ERCOT tab of `/prices`, one line each with its session; sessions 403's are gathered here from "The explorer" above.
+
+1. 2026-10-21, session 403: the filters are the address (`hub`, `month`, `from`, `to`), so every figure is drawn on the server from one row and carries that row's check key; a value the tables do not hold falls back to the default and the page says so in one line.
+2. 2026-10-21, 403: the default view is the thesis's, HB_HUBAVG for the whole year, the first year held against the newest complete one.
+3. 2026-10-21, 403: a year is partial when `n_intervals` is short of 35,040 (35,136 in a leap year), a month when it is short of its days times 96 less four; the page marks them and computes nothing else.
+4. 2026-10-21, 403: how old the tables are is read from the catalogue and the header, never written by hand; stale after three days.
+5. 2026-10-23, session 2200: every figure carries its source in its hover, as the span's title (`site/components/Num.tsx`, `source`): the table, the hub, the variable, the period, the two ERCOT reports and this note's name, read from the figure's own key by `site/lib/explore/source.ts`; nothing typed per figure. The three headline numbers carry the same words in the brand's keyboard-reachable tip; the fifty-odd figures in the tables do not (a tip's button beside each would double the page's tab stops).
+6. 2026-10-23, 2200: the thesis chart's and the line charts' hover cards (fog, a rule-colored edge, the period, every figure in mono) are the shared components' as they stood; `site/scripts/check-explorers.mjs` reads them in a browser with the tips and the page's width at 390 px.
+7. 2026-10-23, session 2203: the tip mark's target is 24 px in both directions (WCAG 2.2's 2.5.8), its drawn size 16 px as before.
+8. 2026-10-23, session 2204: the ERCOT tab's ten headline tiles take the headline number's size of the brand's scale (24 px in the serif); they stood at 18 px, which the scale does not hold. Nothing else of the two pages' type, color, tables or charts was outside `docs/brand.md` on reading: `site/app/tokens.css` sets the titles in ink, the labels in sentence case, the notes at 68 characters, the tables' figures in mono and the axis text at 12 px for every page in the brand.

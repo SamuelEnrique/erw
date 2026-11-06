@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { render } from "@/lib/markdown";
 import { COOKIE } from "@/lib/release";
 import { internalOk } from "@/lib/thesis/server";
-import { lineUrl, WAITS, type WaitReport } from "@/lib/waits";
+import { lineUrl, WAITS, type Ledger, type LedgerGroup, type WaitReport } from "@/lib/waits";
 
 // Session 188: what waits for Samuel (docs/machines.md, "Continuous work"). Every session report after the last one
 // he answered, newest first: the rulings it leaves for him, each in the report's own words with the line it stands on,
@@ -61,6 +61,196 @@ function Report({ r }: { r: WaitReport }) {
   );
 }
 
+// Session 414: the ledger of one run of sessions, at the top of the page. Every item of a section for you listed once
+// (an item a later report asks again is merged with it and keeps each report's link), under what it blocks, with the
+// three the state notes rank highest by value first. The rules are fixed and in scripts/build-waits.mjs; each item says
+// which rule placed it, why items were merged and where the notes rank it, so a person can read why and overrule it.
+const NOTE_ORDER: Record<string, string> = { true: "the note ranks by value", false: "the note's list is numbered, not said to be by value" };
+
+function Sep({ i }: { i: number }) {
+  return i > 0 ? <>, </> : null;
+}
+
+function LedgerItem({ g, label }: { g: LedgerGroup; label: string }) {
+  const many = g.asked.length > 1 || g.restated.length > 0;
+  return (
+    <li className="border-t border-rule py-3" data-ledger-item={g.id} data-block={g.block} data-sessions={g.sessions.join(" ")} data-first={g.first ? g.first.place : undefined}>
+      {g.first ? (
+        <p className="mb-1 text-xs font-semibold">
+          {g.first.place} of the first three: item {g.first.rank} of{" "}
+          <a className="underline" href={g.first.url} rel="noreferrer">{g.first.note}</a>, &quot;{g.first.heading}&quot;
+        </p>
+      ) : null}
+      <div className="prose-erw text-sm" style={{ overflowWrap: "anywhere" }} dangerouslySetInnerHTML={{ __html: render(g.md, g.path) }} />
+      <p className="text-xs text-muted" data-ledger-asked={g.asked.length}>
+        Asked in{" "}
+        {g.asked.map((a, i) => (
+          <span key={`a${a.session}-${a.line}`}><Sep i={i} /><a className="underline" href={a.url} rel="noreferrer">session {a.session}, line {a.line}</a></span>
+        ))}
+        {g.restated.length > 0 ? (
+          <>
+            ; restated with another item in{" "}
+            {g.restated.map((a, i) => (
+              <span key={`r${a.session}-${a.line}`}><Sep i={i} /><a className="underline" href={a.url} rel="noreferrer">session {a.session}, line {a.line}</a></span>
+            ))}
+          </>
+        ) : null}
+        .{g.asked.length > 1 ? ` The words shown are session ${g.session}'s, the newest.` : ""}
+      </p>
+      <p className="text-xs text-muted" data-ledger-why={g.block_rule}>
+        Under &quot;{label}&quot;: {g.block_said ? <>it says &quot;{g.block_said}&quot; (rule {g.block_rule}).</> : <>no rule of the four matched its words (rule {g.block_rule}).</>}{" "}
+        {g.ranks.length > 0 ? (
+          <>
+            In the notes:{" "}
+            {g.ranks.map((r, i) => (
+              <span key={`n${r.note}-${r.rank}-${i}`}><Sep i={i} />item {r.rank} of <a className="underline" href={r.url} rel="noreferrer">{r.note}</a> ({NOTE_ORDER[`${r.by_value}`]}{r.best ? "" : "; that item speaks of another first"})</span>
+            ))}
+            .
+          </>
+        ) : (
+          <>No note ranks it.</>
+        )}
+      </p>
+      {many ? (
+        <details className="mt-1 text-xs" data-ledger-merged={g.asked.length + g.restated.length}>
+          <summary className="cursor-pointer text-muted">Why these are one item, and each report&apos;s own words</summary>
+          <ul className="mt-1">
+            {g.reasons.map((w, i) => <li key={`w${i}`} className="text-muted">{w}.</li>)}
+          </ul>
+          {[...g.asked, ...g.restated].map((a) => (
+            <div key={`m${a.session}-${a.line}`} className="mt-2 border-t border-rule pt-1">
+              <p className="text-muted">Session {a.session}, under &quot;{a.section}&quot;, <a className="underline" href={a.url} rel="noreferrer">line {a.line}</a>:</p>
+              <div className="prose-erw text-sm" style={{ overflowWrap: "anywhere" }} dangerouslySetInnerHTML={{ __html: render(a.md, a.path) }} />
+            </div>
+          ))}
+        </details>
+      ) : null}
+    </li>
+  );
+}
+
+function LedgerSection({ L }: { L: Ledger | undefined }) {
+  if (!L) return null;
+  if (L.error || !L.counts || !L.groups || !L.blocks || !L.rules) {
+    return (
+      <section className="mb-10 border border-rule bg-panel p-3 text-sm" data-ledger="error">
+        <h2 className="mb-1 text-xl">Sessions {L.from} to {L.to}: each ruling once</h2>
+        <p>{L.error ?? "The ledger was not written when the site was built."} The reports are listed one by one below.</p>
+      </section>
+    );
+  }
+  const c = L.counts;
+  const blocks = L.blocks;
+  const rules = L.rules;
+  const groups = L.groups;
+  const label = (k: string) => blocks.find((b) => b.key === k)?.label ?? k;
+  const first = groups.filter((g) => g.first).sort((a, b) => (a.first?.place ?? 0) - (b.first?.place ?? 0));
+  const rankedNote = L.notes_read?.find((n) => n.lists.some((l) => l.by_value));
+  const quiet = L.quiet ?? [];
+  const silent = L.silent ?? [];
+  return (
+    <section className="mb-12" data-ledger="1" data-ledger-from={L.from} data-ledger-to={L.to}>
+      <h2 className="mb-1 text-xl">Sessions {L.from} to {L.to}: each ruling once</h2>
+      <p className="mb-3 text-sm text-muted">
+        Every item of a section for your ruling in these reports, listed once: where a later report asks the same thing again, the two are one item
+        with a link to each. Placed under what it blocks, by fixed rules that each item names. The reports are listed one by one further down.
+      </p>
+      <div className="mb-3 grid grid-cols-3 gap-px border border-rule bg-rule">
+        <div className="bg-panel p-3"><div className="text-xs text-muted">Items waiting</div><div className="text-2xl tabular-nums" data-ln="items">{c.items}</div></div>
+        <div className="bg-panel p-3"><div className="text-xs text-muted">Lines in the reports</div><div className="text-2xl tabular-nums" data-ln="lines">{c.lines}</div><div className="text-xs text-muted">{c.merged} merged</div></div>
+        <div className="bg-panel p-3"><div className="text-xs text-muted">Reports read</div><div className="text-2xl tabular-nums" data-ln="reports">{c.reports}</div><div className="text-xs text-muted">of {L.to - L.from + 1} sessions</div></div>
+      </div>
+      <p className="mb-2 text-sm" data-ln-blocks="1">
+        {blocks.map((b, i) => (
+          <span key={b.key}><Sep i={i} />{b.label}: <span className="tabular-nums" data-ln-block={b.key}>{c.by_block[b.key] ?? 0}</span></span>
+        ))}
+        .
+      </p>
+      <p className="mb-6 text-xs text-muted" data-ln-held={L.held?.length ?? 0}>
+        Read when the site was built: the reports of sessions {L.held_words || "none"}.{" "}
+        {L.missing ? <>Not yet in <span className="font-mono">archive/sessions/</span>: {L.missing}; a report that lands joins this list at the next build.</> : <>Every session of the run has its report.</>}
+        {L.answered_to ? <> Reports up to session {L.answered_to} are marked answered and are not read.</> : null}
+      </p>
+
+      <h3 className="mb-1 text-lg">First: the three the notes rank highest</h3>
+      {first.length === 0 ? (
+        <p className="mb-6 text-sm" data-ledger-first="0">
+          No note under <span className="font-mono">docs/state/</span> ranks these items by value, so none is put first: this page does not make a rank up.
+        </p>
+      ) : (
+        <>
+          <p className="mb-1 text-xs text-muted" data-ledger-first={first.length}>
+            Taken from the notes that say their list is ranked by value, newest first{rankedNote ? <> (the newest is <a className="underline" href={rankedNote.url} rel="noreferrer">{rankedNote.file}</a>)</> : null}, in
+            each note&apos;s own order, each item once.{first.length < 3 ? ` Only ${first.length}: no other item of this run is ranked by a note that says its order is by value.` : ""}
+          </p>
+          <ul className="mb-6">{first.map((g) => <LedgerItem key={g.id} g={g} label={label(g.block)} />)}</ul>
+        </>
+      )}
+
+      {blocks.map((b) => {
+        const rest = groups.filter((g) => g.block === b.key && !g.first);
+        const above = (c.by_block[b.key] ?? 0) - rest.length;
+        return (
+          <div key={b.key} className="mb-6" data-ledger-block={b.key}>
+            <h3 className="text-lg">{b.label} ({c.by_block[b.key] ?? 0}{above > 0 ? `, of which ${above} above` : ""})</h3>
+            <p className="text-xs text-muted">{b.says}.</p>
+            {rest.length === 0 ? <p className="mt-1 text-sm">Nothing {above > 0 ? "more " : ""}under this heading.</p> : <ul className="mt-1">{rest.map((g) => <LedgerItem key={g.id} g={g} label={b.label} />)}</ul>}
+          </div>
+        );
+      })}
+
+      {quiet.length + silent.length > 0 ? (
+        <p className="mb-4 text-xs text-muted" data-ledger-quiet={quiet.length + silent.length}>
+          Not listed:{" "}
+          {quiet.map((q, i) => (
+            <span key={`q${q.session}`}><Sep i={i} /><a className="underline" href={`${q.url}?plain=1#L${q.lines[0].line}`} rel="noreferrer">session {q.session}</a> ({q.lines.map((x) => x.why).filter((x, k, a) => a.indexOf(x) === k).join("; ")})</span>
+          ))}
+          {silent.length > 0 ? (
+            <>
+              {quiet.length > 0 ? "; and, with no section for your ruling, " : "with no section for your ruling, "}
+              {silent.map((s, i) => <span key={`s${s.session}`}><Sep i={i} /><a className="underline" href={s.url} rel="noreferrer">session {s.session}</a></span>)}
+            </>
+          ) : null}
+          .
+        </p>
+      ) : null}
+
+      <details className="text-xs" data-ledger-rules="1">
+        <summary className="cursor-pointer text-muted">The rules, as the build applied them</summary>
+        <div className="mt-2 space-y-2 text-muted" style={{ overflowWrap: "anywhere" }}>
+          <p>
+            <strong>What is read.</strong> Every item of a section headed for you (&quot;For Samuel&apos;s ruling&quot; and the like) in the reports of sessions {L.from} to {L.to}.
+            An item that says there is nothing new is not listed, nor one that only sends the reader to another list (<span className="font-mono">{rules.pointer}</span>).
+          </p>
+          <p>
+            <strong>One item, not two.</strong> Two items of different reports are one when they match one subject (
+            {rules.subjects.map((s, i) => <span key={s.label}><Sep i={i} />{s.label}: <span className="font-mono">{s.re}</span></span>)}); or when one names the
+            other&apos;s session and they share at least {rules.named.words} words, {Math.round(rules.named.share * 100)} percent of the shorter&apos;s; or when they share
+            at least {rules.same.words} words, {Math.round(rules.same.share * 100)} percent of the shorter&apos;s. Words are compared without case, markup, short and common
+            words, or a plural&apos;s s. An item that matches two items of another report restates both: it is kept beside each, and they stay two.
+          </p>
+          <p><strong>What it blocks.</strong> The first of these rules that the item&apos;s words match places it (the words of every merged report are read):</p>
+          <ol className="list-decimal pl-5">
+            {rules.block.map((r) => <li key={r.n}>{label(r.block)}: <span className="font-mono">{r.re}</span></li>)}
+          </ol>
+          <p>
+            <strong>The rank.</strong> The notes of <span className="font-mono">docs/state/</span> written since the run began, with a list headed &quot;Waiting for you&quot; or
+            &quot;What waits for Samuel&quot;. A list ranks by value only when its heading or its first line says so (<span className="font-mono">{rules.by_value}</span>); a
+            numbered list that does not is shown beside each item and puts nothing first. A note&apos;s item speaks of a ledger item when they match one subject, or
+            it names the item&apos;s session and they share {rules.note.named} words, or they share {rules.note.words} words, {Math.round(rules.note.share * 100)} percent
+            of the shorter&apos;s. Notes read:{" "}
+            {(L.notes_read ?? []).map((n, i) => (
+              <span key={n.file}><Sep i={i} /><a className="underline" href={n.url} rel="noreferrer">{n.file}</a> ({n.lists.map((l) => `"${l.heading}", ${l.items} items${l.by_value ? ", by value" : ""}`).join("; ")})</span>
+            ))}
+            .
+          </p>
+          <p>These are words read by fixed rules: an item can be placed or merged wrongly. The report is the record.</p>
+        </div>
+      </details>
+    </section>
+  );
+}
+
 export default async function WaitsPage() {
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
   if (want.length < 24 || !(await internalOk((await cookies()).get(COOKIE)?.value))) notFound();
@@ -86,6 +276,8 @@ export default async function WaitsPage() {
         What the session reports leave for your ruling, newest first, each in the report&apos;s own words. A report with nothing waiting is not
         listed. Read from the repository when the site was built, {built}.
       </p>
+      <LedgerSection L={w.ledger} />
+      <h2 className="mb-2 text-xl">Report by report</h2>
       {m.error ? (
         <p className="mb-5 border border-rule bg-panel p-2 text-sm" role="status" data-marker="unread">
           The file <span className="font-mono">{m.path}</span> could not be read ({m.error}), so every report is listed. It holds two lines:{" "}

@@ -1,0 +1,54 @@
+Session 584: every page of check-values' list (151 addresses) at 390 by 844, a phone (mobile emulation), internal view, local builds.
+site/scripts/check-390.mjs; before = build of wip/584-s at 0dedb8af, after = build at the session's last commit.
+
+BEFORE: 43 of 151 pages with a finding
+FIND /emissions  scroll 390/390  wide 0  tables 0  labels 1
+FIND /grid  scroll 390/390  wide 0  tables 0  labels 3
+FIND /datacenters?view=grids  scroll 390/390  wide 0  tables 0  labels 1
+FIND /mix  scroll 390/390  wide 0  tables 0  labels 3
+FIND /mix?ba=erco&state=TX  scroll 390/390  wide 0  tables 0  labels 2
+FIND /explore/demand-growth  scroll 398/390  wide 1  tables 0  labels 0
+FIND /explore/demand-growth?grid=us48&window=peak  scroll 398/390  wide 1  tables 0  labels 0
+FIND /explore/demand-growth?grid=pjm&window=ytd  scroll 398/390  wide 1  tables 0  labels 0
+FIND /explore/demand-growth?grid=caiso&window=m08  scroll 398/390  wide 1  tables 0  labels 0
+FIND /explore/demand-growth?grid=ercot&window=h17  scroll 398/390  wide 1  tables 0  labels 0
+FIND /policy  scroll 429/390  wide 1  tables 0  labels 0
+FIND /grid/ercot  scroll 390/390  wide 0  tables 0  labels 2
+FIND /grid/isone  scroll 390/390  wide 0  tables 0  labels 1
+FIND /grid/miso  scroll 390/390  wide 0  tables 0  labels 1
+FIND /grid/spp  scroll 390/390  wide 0  tables 0  labels 4
+FIND /events/uri-2021  scroll 390/390  wide 0  tables 0  labels 1
+FIND /events/covid-2020  scroll 390/390  wide 0  tables 0  labels 1
+FIND /cost-of-power?view=grids  scroll 390/390  wide 0  tables 0  labels 1
+FIND /impact  scroll 390/390  wide 0  tables 0  labels 1
+FIND /impact?tech=utility_pv&state=la&mw=200&life=30  scroll 390/390  wide 0  tables 0  labels 1
+FIND /events/elliott-2022  scroll 390/390  wide 0  tables 0  labels 1
+FIND /events/ercot-heat-2023  scroll 390/390  wide 0  tables 0  labels 2
+FIND /events/east-heat-2025  scroll 390/390  wide 0  tables 0  labels 1
+FIND /events/cold-2026  scroll 390/390  wide 0  tables 0  labels 3
+FIND /learn/bill  scroll 390/390  wide 0  tables 1  labels 0
+FIND /severance  scroll 390/390  wide 0  tables 1  labels 0
+FIND /shoulder  scroll 390/390  wide 0  tables 0  labels 1
+FIND /shoulder?grid=caiso&month=2025-07  scroll 390/390  wide 0  tables 0  labels 1
+FIND /research  scroll 390/390  wide 0  tables 0  labels 7
+FIND /grid/caiso/alerts  scroll 390/390  wide 0  tables 0  labels 40
+FIND /grid?grid=ercot  scroll 390/390  wide 0  tables 0  labels 2
+FIND /grid?grid=ercot&view=clean  scroll 390/390  wide 0  tables 0  labels 1
+FIND /grid?grid=caiso&view=clean  scroll 390/390  wide 0  tables 0  labels 1
+FIND /grid?grid=pjm&view=clean  scroll 390/390  wide 0  tables 0  labels 1
+FIND /grid?grid=miso  scroll 390/390  wide 0  tables 0  labels 1
+FIND /grid?grid=isone  scroll 390/390  wide 0  tables 0  labels 1
+FIND /grid?grid=spp  scroll 390/390  wide 0  tables 0  labels 4
+FIND /grid?grid=spp&view=clean  scroll 390/390  wide 0  tables 0  labels 1
+FIND /grid?grid=us48  scroll 390/390  wide 0  tables 0  labels 3
+FIND /grid?grid=us48&view=clean  scroll 390/390  wide 0  tables 0  labels 1
+FIND /grid?grid=ercot&view=mix  scroll 390/390  wide 0  tables 0  labels 2
+FIND /grid?grid=us48&view=mix  scroll 390/390  wide 0  tables 0  labels 3
+FIND /reports/draft/shape-premium  scroll 390/390  wide 0  tables 4  labels 0
+
+AFTER: 5 of 151 pages with a finding (tables that fit with no scroll frame, and /shoulder's 24:00 tick, all in pages' own files)
+FIND /learn/bill  scroll 390/390  wide 0  tables 1  labels 0
+FIND /severance  scroll 390/390  wide 0  tables 1  labels 0
+FIND /shoulder  scroll 390/390  wide 0  tables 0  labels 1
+FIND /shoulder?grid=caiso&month=2025-07  scroll 390/390  wide 0  tables 0  labels 1
+FIND /reports/draft/shape-premium  scroll 390/390  wide 0  tables 4  labels 0

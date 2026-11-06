@@ -7,6 +7,7 @@ import { Marked, type Tokens } from "marked";
 import docs from "@/content/docs.json";
 import site from "@/data/site.json";
 import { gated } from "@/lib/release";
+import { archiveOf, digestMarkdown, fillDigest, type DayKind, type Revision } from "@/lib/digest";
 
 export type Docs = {
   built_at: string;
@@ -17,6 +18,10 @@ export type Docs = {
   weekly_source: Record<string, string>;
   latest: string;
   datastandard: string;
+  // session 471: docs/licenses.md, and each publisher's verdict (warehouse/metadata/license_verdicts.csv), for
+  // /data/licenses. Absent in a bundle built before session 471
+  licenses?: string;
+  license_verdicts?: { key: string; verdict: string; if_commercial: string; note: string }[];
   methods: Record<string, string>;
   // session 15: warehouse/metadata/run_status.csv rows for EIA-930 that are not ok (gaps, failures)
   run_status_eia930: { run_id: string; table: string; market: string; status: string; detail: string }[];
@@ -73,7 +78,9 @@ export const DOCS = docs as unknown as Docs;
 
 /** Session 238: one day's chart of the Digest, as warehouse/analysis/findings/daily_chart.py recorded it. */
 export type DigestChart = { date: string; title: string; fact: string; table: string; source: string; unit: string; rule: string; rendered_at: string; image: string; proof: boolean;
-  numbers: Record<string, number | string> };   // session 315: the record's own figures
+  numbers: Record<string, number | string>;   // session 315: the record's own figures
+  width?: number; height?: number;   // session 411: the picture's own size in pixels (absent in a bundle built before)
+  image_600?: string };   // session 815: the phone picture (<date>-600.png), when the day has one
 /** The days with a chart of the Digest, newest first (session 238). */
 export function digestChartDays(): string[] {
   return Object.keys(DOCS.digest_charts ?? {}).sort().reverse();
@@ -99,7 +106,7 @@ function sitePath(repoPath: string): string {
   m = file.match(/^docs\/analysis\/(.+\.(?:png|svg|json))$/);
   if (m) return `/analysis-files/${m[1]}${tail}`;
   // session 232: the Digest's chart of the day (docs/digest/charts/<date>.png), copied into public/digest-charts at build
-  m = file.match(/^docs\/digest\/charts\/(\d{4}-\d{2}-\d{2}\.png)$/);
+  m = file.match(/^docs\/digest\/charts\/(\d{4}-\d{2}-\d{2}(?:-600)?\.png)$/);
   if (m) return `/digest-charts/${m[1]}${tail}`;
   return `${site.repository}/blob/main/${p}`;
 }
@@ -119,6 +126,22 @@ export function safeHtml(raw: string): string {
 /** May a link or an image of a document point here? */
 export function safeHref(href: string): boolean {
   return !/^[a-z][a-z0-9+.-]*:/i.test(href.trim()) || /^(https?:|mailto:)/i.test(href.trim());
+}
+
+/** Session 581: a heading's id as GitHub writes it, from the heading's rendered HTML: its text, in lower case, without
+ * punctuation but the hyphen and the underscore, each space a hyphen; a second heading of the same text gets "-1", a
+ * third "-2" (one counter for each document rendered). */
+export function headingSlugs(): { next: (html: string) => string } {
+  const seen = new Map<string, number>();
+  return {
+    next(html: string): string {
+      const text = html.replace(/<[^>]*>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+      const base = text.trim().toLowerCase().replace(/[^\p{L}\p{M}\p{N}\p{Pc}\- ]/gu, "").replace(/ /g, "-");
+      const n = seen.get(base) ?? 0;
+      seen.set(base, n + 1);
+      return n ? `${base}-${n}` : base;
+    },
+  };
 }
 
 /** Render markdown that lives at `repoPath` (for example "docs/digest/2026-09-26.md"). */
@@ -149,8 +172,25 @@ export function render(md: string, repoPath: string): string {
       html(token) {
         return safeHtml(token.raw ?? token.text);   // session 177: a tag in a document is text, not markup
       },
+      // session 815: the Digest's chart of the day offers its phone picture under 640 px when the day has one (the markdown
+      // names the 1200 px picture; the build records the 600 px one beside it in digest_charts). Any other image as marked draws it.
+      image({ href, title, text }) {
+        const m = /^\/digest-charts\/(\d{4}-\d{2}-\d{2})\.png$/.exec(href);
+        const phone = m ? DOCS.digest_charts?.[m[1]]?.image_600 : undefined;
+        if (!safeHref(href)) return escapeHtml(text);
+        const alt = escapeHtml(text), t = title ? ` title="${escapeHtml(title)}"` : "";
+        if (!phone) return `<img src="${escapeHtml(href)}" alt="${alt}"${t}>`;
+        return `<img src="${escapeHtml(href)}" srcset="/digest-charts/${phone} 600w, ${escapeHtml(href)} 1200w" sizes="(max-width: 640px) 100vw, 640px" alt="${alt}"${t}>`;
+      },
+      // session 581: each heading carries the id GitHub gives it, so a link to a place in a document (the documents'
+      // own links, docs/methods/x.md#y, and the pages' links to /data/methods/x#y) lands where it names
+      heading({ tokens, depth }) {
+        const inner = this.parser.parseInline(tokens);
+        return `<h${depth} id="${slugs.next(inner)}">${inner}</h${depth}>\n`;
+      },
     },
   });
+  const slugs = headingSlugs();
   return gateLinks(marked.parse(md, { async: false }) as string);
 }
 
@@ -220,18 +260,22 @@ export function isoWeek(date: string): string {
 }
 
 /**
- * Session 23: the digest archive by day, newest first: every dated digest, plus each Saturday and Sunday
- * between the first digest and today (UTC) that has none, marked as having no weekend issue.
+ * Session 23: the digest archive by day, newest first. Session 402: every day from the first Digest to today (UTC), each
+ * with what the Digest holds for it (lib/digest.ts dayKind): its Digest, a weekend (no weekend issue), today before
+ * its Digest is written, or a weekday that passed without one (until this session such a day was left out of the
+ * list and its address answered 404).
  */
-export function archiveDays(): { date: string; has: boolean }[] {
-  const have = new Set(digestDates());
-  const first = [...have].sort()[0];
-  const out: { date: string; has: boolean }[] = [];
-  const today = new Date().toISOString().slice(0, 10);
-  for (let d = new Date(`${first}T00:00:00Z`); d.toISOString().slice(0, 10) <= today; d.setUTCDate(d.getUTCDate() + 1)) {
-    const s = d.toISOString().slice(0, 10);
-    if (have.has(s)) out.push({ date: s, has: true });
-    else if (isWeekend(s)) out.push({ date: s, has: false });
-  }
-  return out.reverse();
+export function archiveDays(today: string = new Date().toISOString().slice(0, 10)): { date: string; kind: DayKind }[] {
+  return archiveOf(digestDates(), today);
+}
+
+/**
+ * Session 402: a Digest rendered with its figures' keys (lib/digest.ts): each figure of the numbers section and of
+ * the chart of the day is a span with data-check and data-raw, as components/Num.tsx draws one, or "license needed"
+ * where its table is held (lib/license.ts); while news_index is held, the sections of stories read as held.
+ */
+export function renderDigest(md: string, date: string, now: Date = new Date(), revisions: Record<string, Revision> = {}): string {
+  const chart = DOCS.digest_charts?.[date] ?? null;
+  const t = digestMarkdown(md, date, chart ? { table: chart.table, numbers: chart.numbers } : null, now, revisions);
+  return fillDigest(render(t.md, `docs/digest/${date}.md`), t.spans);
 }

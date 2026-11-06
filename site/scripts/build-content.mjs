@@ -5,13 +5,18 @@
 //   docs/datastandard.md                                   the data standard
 //   docs/methods/*.md                                      method documents
 //   warehouse/metadata/sources.csv                         the source registry (session 21, /terms)
+//   docs/licenses.md, warehouse/metadata/license_verdicts.csv  the licenses and each publisher's verdict (session 471, /data/licenses)
+//   package/llms.txt                                       the briefing for AI readers (session 1011, /llms.txt)
 // and writes site/content/docs.json, which the pages import. Runs before
 // `next dev` and `next build` (package.json predev and prebuild), so the
 // content is part of the build and no page reads the file system at request
 // time. A missing file fails the build: the site never shows a stand-in.
+// Session 587: it also writes site/content/holds.json for /internal/holds, from docs/licenses_holds.csv and
+// warehouse/metadata/license_status.csv (scripts/holds-content.mjs); that list may be missing, and the page says so.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { holdsFromRepo } from "./holds-content.mjs";  // session 587
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, "..", "..");
@@ -124,6 +129,18 @@ function sources() {
     .map(({ source, publisher, report, report_url, license, tables }) => ({ source, publisher, report, report_url, license, tables }));
 }
 
+// Session 471: each publisher's verdict (warehouse/metadata/license_verdicts.csv, written with docs/licenses.md by
+// scripts/licenses.py), for the short reading at the head of /data/licenses: the publisher, its verdict as the ERW is
+// today and if the ERW sells anything, and the note (what the publisher asks for, an acknowledgment or a citation).
+function licenseVerdicts() {
+  // a row whose last cell (the note) holds an unquoted comma has more cells than the header (NLR's, 21 October 2026):
+  // the extra cells are the note's, joined back, so no publisher is dropped
+  const [head, ...rows] = csvRows(read(path.join(repo, "warehouse", "metadata", "license_verdicts.csv")));
+  return rows.filter((r) => r.length >= head.length).map((r) => [...r.slice(0, head.length - 1), r.slice(head.length - 1).join(",")])
+    .map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])))
+    .map(({ key, verdict, if_commercial, note }) => ({ key, verdict, if_commercial, note }));
+}
+
 // Session 23: Automated Analysis (docs/analysis/, warehouse/analysis/run.py). Each week's chart of the week and
 // results, the template list, and the gallery index go into the bundle; the PNGs and the gallery charts are copied
 // to public/analysis-files/ so the pages and the Roundup's images can link them. None is not an error.
@@ -156,12 +173,20 @@ fs.rmSync(publicDigestCharts, { recursive: true, force: true });
 if (fs.existsSync(digestCharts)) {
   fs.mkdirSync(publicDigestCharts, { recursive: true });
   for (const f of fs.readdirSync(digestCharts).sort()) {
-    if (/^\d{4}-\d{2}-\d{2}\.png$/.test(f)) fs.copyFileSync(path.join(digestCharts, f), path.join(publicDigestCharts, f));
+    // session 815: the phone picture (<date>-600.png) beside the 1200 px one
+    if (/^\d{4}-\d{2}-\d{2}(?:-600)?\.png$/.test(f)) fs.copyFileSync(path.join(digestCharts, f), path.join(publicDigestCharts, f));
   }
 }
 // Session 238: each day's record beside its picture (docs/digest/charts/<date>.json), for /research: the one fact, the
 // table and the source it was read from, as the warehouse wrote them. A day with a picture and no record is not listed.
 const digestChartRecords = {};
+// Session 411: the picture's own size, read from its PNG header (the IHDR chunk: width and height at bytes 16 and 20), so
+// a page reserves the right room for it before it arrives; the pages had written 1600 by 900 for pictures of 1200 by 880.
+function pngSize(file) {
+  const b = fs.readFileSync(file);
+  if (b.length < 24 || b.toString("latin1", 12, 16) !== "IHDR") return {};
+  return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) };
+}
 if (fs.existsSync(digestCharts)) {
   for (const f of fs.readdirSync(digestCharts).sort()) {
     const m = f.match(/^(\d{4}-\d{2}-\d{2})\.json$/);
@@ -170,6 +195,9 @@ if (fs.existsSync(digestCharts)) {
     digestChartRecords[m[1]] = { date: r.date ?? m[1], title: r.title ?? "", fact: r.fact ?? "", table: r.table ?? "", source: r.flag?.source ?? "", unit: r.flag?.unit ?? "",
       rule: r.flag?.rule ?? "", rendered_at: r.rendered_at ?? "", image: `${m[1]}.png`, proof: r.proof === true,
       numbers: r.numbers && typeof r.numbers === "object" ? r.numbers : {} };   // session 315: the record's own figures, each a Num on /research
+    Object.assign(digestChartRecords[m[1]], pngSize(path.join(digestCharts, `${m[1]}.png`)));   // session 411: width and height in pixels
+    // session 815: the phone picture, when the day has one, so the page can offer it under 640 px
+    if (fs.existsSync(path.join(digestCharts, `${m[1]}-600.png`))) digestChartRecords[m[1]].image_600 = `${m[1]}-600.png`;
   }
 }
 
@@ -213,8 +241,22 @@ const out = {
   weekly_source: weeklySource,
   latest: read(path.join(digestDir, "latest.md")),
   datastandard: read(path.join(docs, "datastandard.md")),
+  licenses: read(path.join(docs, "licenses.md")),   // session 471
+  license_verdicts: licenseVerdicts(),
   methods,
 };
 fs.mkdirSync(path.join(here, "..", "content"), { recursive: true });
 fs.writeFileSync(path.join(here, "..", "content", "docs.json"), JSON.stringify(out));
 console.log(`build-content: ${Object.keys(grids).length} grid pages, ${Object.keys(digests).length} digests, ${Object.keys(weeklies).length} weekly briefs, ${Object.keys(methods).length} method documents, the data standard, ${Object.keys(analysis.weeks).length} analysis weeks`);
+
+// Session 1011 (chain 070): package/llms.txt, the briefing for AI readers, for the route /llms.txt (app/llms.txt/route.ts),
+// in a file of its own and as it is (only its line ends made LF, as every file read here)
+fs.writeFileSync(path.join(here, "..", "content", "llms.json"), JSON.stringify({ text: read(path.join(repo, "package", "llms.txt")) }));
+console.log("build-content: llms.json, package/llms.txt for /llms.txt");
+
+// Session 587: the held figures that show (docs/licenses_holds.csv, written by scripts/check-holds.mjs --csv), with each
+// table's record in warehouse/metadata/license_status.csv, for /internal/holds only (lib/holds.ts). A file of its own,
+// so no page for visitors imports it; a missing list is said on that page and does not stop the build.
+const holds = holdsFromRepo();
+fs.writeFileSync(path.join(here, "..", "content", "holds.json"), JSON.stringify(holds));
+console.log(`build-content: holds.json, ${holds.unread ? `not read (${holds.unread})` : `${holds.rows.length} pages with held figures shown`}`);

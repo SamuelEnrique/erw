@@ -7,7 +7,7 @@
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolPicker } from "@/components/tool/Choose";
-import { SourceLine, ToolHeader, ToolTable } from "@/components/tool/ToolPage";
+import { SourceLine, Tip, ToolHeader, ToolTable } from "@/components/tool/ToolPage";
 import { LICENSE_NEEDED, licenseHeldGrid } from "@/lib/license";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { QueueCharts } from "./QueueCharts";
@@ -55,10 +55,12 @@ export async function QueuesView({ iso: asked }: { iso?: string }) {
         <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">No year is held for {label}.</p>
       ) : (
         <>
-          <QueueCharts label={label} years={years}
+          <QueueCharts label={label} iso={iso} years={years}
             entered={years.map((y) => val(y, "positions_entered"))} operating={years.map((y) => val(y, "positions_operating"))}
             rate={years.map((y) => val(y, "withdrawal_rate"))} wait={years.map((y) => val(y, "wait_years_median"))} />
-          <h3 className="mb-2 mt-2 font-serif text-lg text-accent">Every entry year</h3>
+          <h3 className="mb-2 mt-2 font-serif text-lg text-accent">Every entry year
+            <Tip id="queue-table" label="the figures of this table">Every figure is a row of {QUEUE_TABLE} as the live set holds it (its check key names the entity {iso}:queue_&lt;year&gt;, the variable and the timestamp), which the ERW derives from {label}&apos;s own queue table, {iso}_interconnection_queue, as last pulled. A figure the queue does not hold reads &quot;not held&quot; and is never filled.</Tip>
+          </h3>
           <ToolTable caption={`${label}'s queue by entry year`} minWidth={760}
             head={["Entry year", "Entered", "Operating", "Withdrawn", "Still waiting", "Status not stated", "Withdrawn, share of entered", "Median wait, years", "Waits counted", "MW entered"]}
             rows={years.map((y) => ({

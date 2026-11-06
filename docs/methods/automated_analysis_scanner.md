@@ -159,6 +159,15 @@ Session 232, Samuel's ruling of 12 October 2026: every weekday Digest carries on
 and drawn by code with no model and no approval (`warehouse/analysis/findings/daily_chart.py`). It is separate from the
 review list: a flag needs no ruling to be the day's chart, and being the day's chart does not approve its draft.
 
+- **The day's stories first** (session 805, 22 October 2026; `relevance`, `ranked` and `choose` in `daily_chart.py`).
+  Before the rule below, the candidates are ordered by how much each belongs to the day's top ten stories: two points
+  where the candidate's table belongs to the story's sector tag (`SECTOR_OF`, by the words of the table's and the
+  series' names) and one for each content word the candidate's fact, table or series shares with the story's title,
+  why line or parties (at most three), each times the story's weight (the top story ten, the tenth one). A candidate
+  related to no story ranks after every one related to some; among equals the rule below decides. The record of the
+  choice (`docs/digest/charts/<date>.json`, `relevance`) and the sentence under the chart say which story it follows.
+  The 13 issues to 21 October 2026 were chosen by strength alone, so each was a state's July record on a day whose
+  stories were elsewhere (`docs/reviews/periodicals-plan-2026-10-23.md`).
 - **The rule.** (1) The day's strongest scanner flag: records and first negative prices first, then by how far past
   its threshold (the flag's strength, in robust standard deviations of the series' own history), ties by the flag's id.
   (2) A flag a Digest has already shown is never shown again: a monthly record stays fresh to the scanner for 130 days
@@ -212,3 +221,9 @@ review list: a flag needs no ruling to be the day's chart, and being the day's c
 
 The owner's ruling of 19 October 2026 on the Research pack's question 4 (option b). A draft the scanner raised as a record of EIA's newest month (rule `record` on a table EIA's API answers for, `eia_*`) carries, before it can be approved, the figure EIA's own data service holds for that series and month: `warehouse/analysis/findings/publisher_figure.py`, run on the data machine after the daily scan, asks `api.eia.gov/v2` once per draft and month (the series' route and facets as the connector `eia_series.py` reads them: the state and sector of a retail price, the location and energy source of generation; the series id for the petroleum routes), records the value as EIA writes it and in the ERW's unit by the connector's conversion, the address without the key and the time of the read, and writes them into the draft's card (`card.publisher`). `/internal/findings` shows the figure beside ours with whether the two agree; the approval route (`site/app/internal/findings/state/route.ts`) refuses "approved" for such a draft while the figure is missing. A read that fails leaves the draft without a figure (none is made up) and the script exits 1. A record on any other table is approved as before.
 
+
+## The figures on the Research page and their keys
+
+Each number `/research` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against its file and `site/scripts/check-methods.mjs` against the notes of the page (session 409). The keys the sections above do not name:
+
+- `digest_chart|<date>|<table>|<figure>`: under "Today's chart", the record's figures of the Digest's chart of the day, each as the record writes it in `docs/digest/charts/<date>.json` (`numbers`), which is the scanner's flag: `value`, `threshold`, `history_points`, `history_years` and `strength` from every flag, and the numbers the rule compared. A record flag (the rule `record`) carries `sigma`, `margin`, `margin_sigmas`, `old_record` and `stood_points`: the robust standard deviation of the history, the margin over the old record and that margin in standard deviations, the old record, and the points it stood. The table is the day's chart's.

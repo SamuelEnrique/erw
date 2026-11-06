@@ -1,0 +1,877 @@
+{
+ "_about": "Session 539: the 30 stored answers of eval_s320_first_run.json graded again, offline, with eval_s267.py's grader, against the keys of 19 October (questions_s320.yaml) and the keys as the live set holds them now (eval_s539_keys.json); each wrong answer's cause is one of four. No model call.",
+ "keys_computed_at_utc": "2026-10-21T19:35:37Z",
+ "right_then": 17,
+ "right_now": 17,
+ "right_if_ruled": 30,
+ "right_under_hold": 14,
+ "held": [
+  "g07",
+  "g08",
+  "d05",
+  "d07"
+ ],
+ "moved": [
+  "b08",
+  "b09"
+ ],
+ "by_cause": {
+  "the tool did not return the figure": [
+   "b01",
+   "b02",
+   "b03",
+   "b04",
+   "b05",
+   "b06",
+   "b08",
+   "b09"
+  ],
+  "the answer stated a figure no tool returned": [],
+  "the question needs a table the tools cannot reach": [],
+  "the expected value was wrong": [
+   "g03",
+   "g06",
+   "g08",
+   "g09",
+   "d10"
+  ]
+ },
+ "questions": [
+  {
+   "id": "b01",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    81.4022
+   ],
+   "expected_now": [
+    81.4022
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the tool did not return the figure",
+   "evidence": "USD per kW is held by no table; the answer gives the key's figure in USD per MW (81,402.19 = 81.4022 x 1,000) and refuses the conversion; the first draft's 1000 was untraced by the number check",
+   "tool_calls": 8,
+   "retried": true
+  },
+  {
+   "id": "b02",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    54.5986
+   ],
+   "expected_now": [
+    54.5986
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the tool did not return the figure",
+   "evidence": "as b01: 54,598.58 USD per MW stated, the key 54.5986 per kW",
+   "tool_calls": 3,
+   "retried": true
+  },
+  {
+   "id": "b03",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    26.8036
+   ],
+   "expected_now": [
+    26.8036
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the tool did not return the figure",
+   "evidence": "as b01: 26,803.61 USD per MW stated, the key 26.8036 per kW",
+   "tool_calls": 4,
+   "retried": true
+  },
+  {
+   "id": "b04",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    51.0671
+   ],
+   "expected_now": [
+    51.0671
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the tool did not return the figure",
+   "evidence": "as b01: 51,067.14 USD per MW stated, the key 51.0671 per kW",
+   "tool_calls": 4,
+   "retried": true
+  },
+  {
+   "id": "b05",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    3430.5566
+   ],
+   "expected_now": [
+    3430.5566
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the tool did not return the figure",
+   "evidence": "as b01: 3,430,556.56 USD per MW stated, the key 3,430.5566 per kW",
+   "tool_calls": 5,
+   "retried": true
+  },
+  {
+   "id": "b06",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    87.4396
+   ],
+   "expected_now": [
+    87.4396
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the tool did not return the figure",
+   "evidence": "as b01: 87,439.61 USD per MW stated, the key 87.4396 per kW",
+   "tool_calls": 4,
+   "retried": true
+  },
+  {
+   "id": "b07",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    12926.2516
+   ],
+   "expected_now": [
+    12926.2516
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 8,
+   "retried": false
+  },
+  {
+   "id": "b08",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    79.046
+   ],
+   "expected_now": [
+    79.3083
+   ],
+   "moved": true,
+   "grade_now": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the tool did not return the figure",
+   "evidence": "as b01; the USD per MW figure stated (79,308.31) missed the key of 19 October (79.046 per kW) but is the table now (79,308.31 = 79.3083 x 1,000): the table was run again between the keys and the asking (its run of 2026-10-20T01:04Z), so that key was stale too",
+   "tool_calls": 8,
+   "retried": true
+  },
+  {
+   "id": "b09",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    42.3137
+   ],
+   "expected_now": [
+    42.5038
+   ],
+   "moved": true,
+   "grade_now": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the tool did not return the figure",
+   "evidence": "as b01; the USD per MW figure stated (42,503.77) missed the key of 19 October (42.3137 per kW) but is the table now (42.5038 per kW, 3 days left out): the key was stale, as b08",
+   "tool_calls": 7,
+   "retried": true
+  },
+  {
+   "id": "b10",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    200.337
+   ],
+   "expected_now": [
+    200.337
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 4,
+   "retried": false
+  },
+  {
+   "id": "g01",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    24.9462
+   ],
+   "expected_now": [
+    24.9462
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 4,
+   "retried": false
+  },
+  {
+   "id": "g02",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    90.7867
+   ],
+   "expected_now": [
+    90.7867
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 4,
+   "retried": false
+  },
+  {
+   "id": "g03",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    50424.0741
+   ],
+   "expected_now": [
+    50424.0741
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the expected value was wrong",
+   "evidence": "the figure is right (about 50,424 against 50,424.07); the key's absolute tolerance of 0.01 on a five-digit sum fails an answer rounded to the dollar",
+   "tool_calls": 8,
+   "retried": false
+  },
+  {
+   "id": "g04",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    2596.6548
+   ],
+   "expected_now": [
+    2596.6548
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 8,
+   "retried": false
+  },
+  {
+   "id": "g05",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    38.3296
+   ],
+   "expected_now": [
+    38.3296
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 6,
+   "retried": false
+  },
+  {
+   "id": "g06",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    66963.0112
+   ],
+   "expected_now": [
+    66963.0112
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the expected value was wrong",
+   "evidence": "as g03: about 66,963 against 66,963.01",
+   "tool_calls": 4,
+   "retried": false
+  },
+  {
+   "id": "g07",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    54.5475
+   ],
+   "expected_now": [
+    54.5475
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": true,
+   "ok_under_hold": false,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 6,
+   "retried": false
+  },
+  {
+   "id": "g08",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    73.8689
+   ],
+   "expected_now": [
+    73.8689
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": false,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": true,
+   "ok_under_hold": false,
+   "cause": "the expected value was wrong",
+   "evidence": "the figure is right (73.87); the key names merchant_revenue_monthly only and the answer read and cited the same price in cost_of_power_monthly (rt_simple_mean)",
+   "tool_calls": 8,
+   "retried": false
+  },
+  {
+   "id": "g09",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [
+    58533.7042
+   ],
+   "expected_now": [
+    58533.7042
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the expected value was wrong",
+   "evidence": "as g03: about 58,534 against 58,533.70",
+   "tool_calls": 8,
+   "retried": false
+  },
+  {
+   "id": "g10",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [],
+   "expected_now": [],
+   "moved": false,
+   "grade_now": {
+    "number": null,
+    "text": true,
+    "table": true,
+    "cited": null,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 8,
+   "retried": false
+  },
+  {
+   "id": "d01",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    36.6951
+   ],
+   "expected_now": [
+    36.6951
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 2,
+   "retried": true
+  },
+  {
+   "id": "d02",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    90.7806
+   ],
+   "expected_now": [
+    90.7806
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 3,
+   "retried": true
+  },
+  {
+   "id": "d03",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    0.9321
+   ],
+   "expected_now": [
+    0.9321
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 8,
+   "retried": false
+  },
+  {
+   "id": "d04",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    32.3934
+   ],
+   "expected_now": [
+    32.3934
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 8,
+   "retried": false
+  },
+  {
+   "id": "d05",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    159.4187
+   ],
+   "expected_now": [
+    159.4187
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": true,
+   "ok_under_hold": false,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 4,
+   "retried": true
+  },
+  {
+   "id": "d06",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    744.0
+   ],
+   "expected_now": [
+    744.0
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 3,
+   "retried": false
+  },
+  {
+   "id": "d07",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    2.6811
+   ],
+   "expected_now": [
+    2.6811
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": true,
+   "ok_under_hold": false,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 5,
+   "retried": false
+  },
+  {
+   "id": "d08",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    37.9939
+   ],
+   "expected_now": [
+    37.9939
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 3,
+   "retried": true
+  },
+  {
+   "id": "d09",
+   "stored_verdict": "right",
+   "then_ok": true,
+   "now_ok": true,
+   "expected_then": [
+    15.7097,
+    29.4033,
+    13.6936
+   ],
+   "expected_now": [
+    15.7097,
+    29.4033,
+    13.6936
+   ],
+   "moved": false,
+   "grade_now": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": true,
+   "cause": null,
+   "evidence": null,
+   "tool_calls": 7,
+   "retried": false
+  },
+  {
+   "id": "d10",
+   "stored_verdict": "wrong",
+   "then_ok": false,
+   "now_ok": false,
+   "expected_then": [],
+   "expected_now": [],
+   "moved": false,
+   "grade_now": {
+    "number": null,
+    "text": true,
+    "table": false,
+    "cited": null,
+    "refusal": true,
+    "ok": false
+   },
+   "ok_if_ruled": true,
+   "held_since_21_october": false,
+   "ok_under_hold": false,
+   "cause": "the expected value was wrong",
+   "evidence": "the refusal is right and states no figure; the key asks a refusal to cite cost_of_power_monthly, and a refusal cites no table (g10 passed only because its answer named the table it read)",
+   "tool_calls": 8,
+   "retried": false
+  }
+ ]
+}

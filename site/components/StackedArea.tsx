@@ -35,7 +35,7 @@ export function Legend({ items }: { items: { key: string; label: string; color: 
     <div className="my-2 flex flex-wrap gap-3 text-xs" aria-label="Colors">
       {items.map((f) => (
         <span key={f.key} className="flex items-center gap-1">
-          <span className="inline-block h-3 w-3 rounded-sm" style={{ background: f.color }} />
+          <span className="inline-block h-3 w-3" style={{ background: f.color }} />
           {f.label}
         </span>
       ))}

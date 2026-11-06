@@ -309,13 +309,17 @@ class TheBoard(unittest.TestCase):
 
     def test_every_price_row_holds_its_figures(self):
         ok = [r for r in self.board["rows"] if r["status"] == "ok"]
-        self.assertGreater(len(ok), 700)
+        # session 483: from 21 October 2026 NYISO's rows are held for their license (74 "licensed", 33 before), so 700
+        # rows were "ok" against 740; a row held on purpose is no thinner a board, and the floor stays on the two together
+        held = [r for r in self.board["rows"] if r["status"] == "licensed"]
+        self.assertGreater(len(ok) + len(held), 700)
+        self.assertGreater(len(ok), 600)
         for r in ok:
             self.assertIn("last", r, r["id"])
             self.assertEqual(set(r["moves"]), {"d", "w", "m", "y"}, r["id"])
             self.assertIn("spark", r, r["id"])
             self.assertLessEqual(len(r["spark"]["v"]), 30, r["id"])
-            self.assertIn(r["freq"], ("D", "W", "M"), r["id"])
+            self.assertIn(r["freq"], ("D", "W", "M", "Q"), r["id"])         # session 2503: "Q", the quarterly auctions of session 1135
             self.assertTrue(os.path.exists(os.path.join(SITE, "public", "board", "s", r["id"] + ".json")), r["id"])
             if r["freq"] != "D":
                 self.assertIsNone(r["moves"]["d"], r["id"])        # monthly series are shown monthly
