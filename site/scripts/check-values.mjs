@@ -639,6 +639,17 @@ async function truth(check) {
       return rows.reduce((a, r) => a + (r.capacity_mw === null ? 0 : Number(r.capacity_mw)), 0);
     }
   }
+  // session 2243: the rollups by grid and operator, datacenters|rollup_<facilities|mw|with_mw|without>|<dim>|<value>,
+  // the page's own function (lib/dcrollups.ts) on every row of datacenter_facilities as the page reads it
+  if (p[0] === "datacenters" && String(p[1]).startsWith("rollup_")) {
+    const R = await import("../lib/dcrollups.ts");
+    const [, stat, dim, value] = p;
+    const rows = await all("entities", { select: "entity_id,capacity_mw,status,operator,extra", table_name: "eq.datacenter_facilities", order: "entity_id" });
+    const r = R.rollups(rows, dim).find((x) => x.value === (value === "-" ? "" : value));
+    if (!r) return undefined;
+    const v = { rollup_facilities: r.counted, rollup_mw: r.mw, rollup_with_mw: r.withMw, rollup_without: r.without }[stat];
+    return v ?? undefined;
+  }
   if (p[0] === "datacenters") {
     // session 177: since session 166 (part F) the page's totals count only the rows in a named US state that are not
     // cancelled (app/datacenters/Body.tsx, counted), and it shows three counts this check did not know (counted,
