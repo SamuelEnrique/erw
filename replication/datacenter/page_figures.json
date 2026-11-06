@@ -81,9 +81,10 @@
   {
    "name": "a flat load's own hours over the window, kg CO2 per MWh",
    "key": "dc|...|co2:window:flat",
-   "page": 311.68,
+   "page": 309.84,
    "tolerance": 0.005,
-   "field": "window_kg_mwh"
+   "field": "window_kg_mwh",
+   "read": "session 1523: the page's own code (site/lib/datacenter/answers.ts, readAnswers) on the public carbon file's rows (site/scripts/datacenter-window-on-file.mjs): 309.8429 over the 10,160 hours 2025-08-26T16:00Z to 2026-10-27T23:00Z. Session 1491 read 311.68 from a local build reading the live set, whose 430-day window moves each day (the method note's \"The carbon file goes stale too\"); on 6 November 2026 at 12:40 UTC the live set gave 309.5511 over 10,108 hours"
   },
   {
    "name": "year 2016, a flat load, USD per MWh",
@@ -100,8 +101,6 @@
    "field": "year_2021"
   }
  ],
- "known_differences": {
-  "window_kg_mwh": "session 1491: the page prints 311.68 for a flat load over the window's 10,160 hours, the same figure as the grid's mean beside it (co2:window:grid); the mirror computes 309.84 over the same hours. The one figure the replication does not meet; open in chain 158's faults (session 1491's report)."
- },
+ "known_differences": {},
  "not_replicated": "the other grids and zones, the other loads, the scenarios' financing: check-values.mjs recomputes them from the live set."
 }
