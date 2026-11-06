@@ -1,6 +1,6 @@
 # Session 1476 report: fault 54, the Deals table's dollars
 
-Energy Research Warehouse (ERW), session 1476, chain 154, samueloldlaptop, 6 November 2026, 07:22 to 07:26 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1476-periodicals`, cut from `wip/1475-periodicals`.
+Energy Research Warehouse (ERW), session 1476, chain 154, samueloldlaptop, 6 November 2026, 07:22 to 07:24 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1476-periodicals`, cut from `wip/1475-periodicals`.
 
 ## The fault
 

@@ -111,3 +111,12 @@ State of the faults: 43 fixed (the opening number prints no reason; neither fuel
 | 54 | The Deals table | "938,000,000" (US dollars, Return's German storage financing) | A sum as a bare integer beside the issue's "USD 938 million" style | The table's dollars cell in `usd_words` | 1476 | fixed (761cbc388: "USD 938 million") |
 | 55 | The counts | `no_key` 2 for W45 | `scripts/periodicals_counts.py` counts the five's deal and load as unkeyed: their keys are on the Tables line since session 1460 | The count reads a figure as keyed when its row's key is on the five's Tables line | 1469 | fixed (session 1469's commit: W45's no_key 2 to 0) |
 
+## A dry run of chain 154 (session 1477, 6 November 2026, the code of sessions 1472 to 1476, USD 0.04)
+
+Read: `runs/periodicals_dryrun/s1477/digest/2026-11-06.md` and `roundup/2026-W45.md` (the same stories and windows as session 1468's: main's `news_stories` was still scored to 5 November 23:39 UTC), their emails (sent as "[preview, dry run 1477] ..." at 07:27 UTC to the one fixed recipient). Rows 50 to 54 read fixed: "**Deal of the week, by US dollars:** USD 938 million, Deutsche Bank and Rabobank and Return, Germany BESS portfolio (project finance, 2026-11-05)."; the load row says no facility passes the datacenter table's floor (3 under it) and stands in with the next move; the subject leads with "Brent down 13.1% on the week"; the Deals table's cell reads "USD 938 million". The model's headlines differ from session 1468's run to run (the same stories), and two faults are in them.
+
+| # | Where | The line | The fault | The fix | Session | State |
+|---|---|---|---|---|---|---|
+| 56 | What moved 1, the rest of the top ten 2 and 5 | "AEP and Google advance a 4 billion USD fuel-cell project, 702 MW, ..."; "EQT's Zelestra unveils a 12 billion USD plan ..."; session 1468's run of the same stories: "a $4 Billion, 702 MW ..." | The model's headline writes a sum in a third form ("4 billion USD"), neither the publisher's nor the issue's ("USD 4 billion") | Every headline the model writes passes through the money style, with the "<n> billion USD" form read too | 1479 | open |
+| 57 | What moved 3 | "Orsted's Revolution Wind, 704 MW, enters commercial operation as third major US offshore wind farm" | An adjective of the voice's list in a headline the ERW writes (the why line's rule does not reach the headline) | The model's headline passes through `plain()` as the why line does | 1480 | open |
+
