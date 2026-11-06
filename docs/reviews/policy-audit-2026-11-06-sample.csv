@@ -57,7 +57,7 @@ r,event_id,event_date,agency,action_type,significance,sector,states,source_url,f
 55,federalregister:2026-18455,2026-09-10,FERC,notice,4,gas,NM,https://www.federalregister.gov/documents/2026/09/10/2026-18455/transwestern-pipeline-company-llc-notice-of-availability-of-the-environmental-assessment-for-the,1;2
 56,doe:c358b979285a,2026-09-09,DOE,press_release,5,policy,,https://www.energy.gov/articles/does-office-critical-minerals-and-energy-innovation-announces-73-million-advance-domestic,2;3;4;5
 57,federalregister:2026-18358,2026-09-09,FERC,notice,2,generation,MN,https://www.federalregister.gov/documents/2026/09/09/2026-18358/city-of-thief-river-falls-municipal-utilities-notice-of-application-tendered-for-filing-with-the,1;2
-58,nrc:4c8d0c0d02ba,2026-09-09,NRC,press_release,4,nuclear,,https://www.nrc.gov/sites/default/files/cdn/doc-collection-news/2026/26-028-a.pdf,1;2
+58,nrc:4c8d0c0d02ba,2026-09-09,NRC,press_release,4,nuclear,,https://www.nrc.gov/sites/default/files/cdn/doc-collection-news/2026/26-028-a.pdf,2
 59,federalregister:2026-18230,2026-09-08,FERC,notice,2,gas,LA,https://www.federalregister.gov/documents/2026/09/08/2026-18230/enable-gas-transmission-llc-notice-of-request-under-blanket-authorization-and-establishing,1;2
 60,federalregister:2026-18106,2026-09-04,BLM,notice,5,oil,,https://www.federalregister.gov/documents/2026/09/04/2026-18106/intent-to-prepare-a-programmatic-environmental-impact-statement-for-southern-ute-mancos-shale,1;2;6
 61,federalregister:2026-18151,2026-09-04,FERC,notice,3,generation,AK,https://www.federalregister.gov/documents/2026/09/04/2026-18151/deepgreen-cook-inlet-spv-llc-notice-of-preliminary-permit-application-accepted-for-filing-and,1;2;3

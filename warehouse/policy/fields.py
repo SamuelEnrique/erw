@@ -62,8 +62,12 @@ GOVERNOR = re.compile(r"^\s*Governor\s+[A-Z][a-z]+", re.I)
 GOVERNOR_STATE = {"PUCT": "Texas", "CPUC": "California"}
 
 MONTHS = "January|February|March|April|May|June|July|August|September|October|November|December"
-DATE = re.compile(rf"\b({MONTHS})\s+(\d{{1,2}}),\s+(20\d\d)\b")
+# session 3125: a release writes "Tue., Oct. 13, 2026"; the abbreviated months are read too (longest first)
+MONTHS_ABBR = r"Sept\.?|Jan\.?|Feb\.?|Mar\.?|Apr\.?|Jun\.?|Jul\.?|Aug\.?|Sep\.?|Oct\.?|Nov\.?|Dec\.?"
+DATE = re.compile(rf"\b({MONTHS}|{MONTHS_ABBR})\s+(\d{{1,2}}),\s+(20\d\d)\b")
 MONTH_NO = {m: i for i, m in enumerate(MONTHS.split("|"), 1)}
+MONTH_NO.update({m[:3]: i for m, i in list(MONTH_NO.items())})
+MONTH_NO["Sept"] = 9
 # a full stop that ends a sentence: not the stop of p.m., a.m., No., Nos., U.S., Inc., Co., Corp., L.P., e.g., i.e., St.
 ABBREV = re.compile(r"(?:\b[ap]\.m|\bNos?|\bU\.S|\bInc|\bCo|\bCorp|\bL\.P|\bLtd|\be\.g|\bi\.e|\bSt|\bNo|\bDr|\bMr|\bMs|\b[A-Z])$")
 
@@ -94,7 +98,7 @@ def _sentence_at(text, i, j):
 
 
 def iso(m):
-    return f"{m.group(3)}-{MONTH_NO[m.group(1)]:02d}-{int(m.group(2)):02d}"
+    return f"{m.group(3)}-{MONTH_NO[m.group(1).rstrip('.')]:02d}-{int(m.group(2)):02d}"
 
 
 def body(agency, record=None, docket="", title="", parties=""):
@@ -194,6 +198,11 @@ def status(inst, action_type, title, status_line, event_date, dates):
 CLAUSE_RULES = [
     ("review_due", re.compile(r"issuance of (?:the )?(?:ea|eis|final eis|environmental assessment)\s*$|notice of availability of the (?:final )?eis\s*$", re.I)),
     ("decision_due", re.compile(r"decision deadline\W*(?:\\\d+\\)?\s*$", re.I)),
+    # session 3125: a water quality certification's deadline ("Reasonable Period of Time to Act on the Certification
+    # Request: One year, August 27, 2027")
+    ("decision_due", re.compile(r"reasonable period of time to act on the certification request:\s*(?:[a-z]+ )?(?:years?|months?)?\W*$", re.I)),
+    # session 3125: an event's date under its own heading ("When: Tue., Oct. 13, 2026"; "Scoping Session / Date:")
+    ("meeting", re.compile(r"^\W*when:\s*$", re.I)),
     ("comments_due", re.compile(r"\bcomments?\b", re.I)),
     ("intervention_due", re.compile(r"\bintervene\b|\bintervention\b|\bprotests?\b|\brequest for a hearing\b|\bhearing request", re.I)),
     ("effective", re.compile(r"\b(?:is|are|will be|becomes?|shall be) effective(?: on| as of)?\s*$|\beffective date is\s*$|\bfor a period effective\s*$|\bin effect beginning(?: on)?\s*$|\btakes? effect(?: on)?\s*$", re.I)),
@@ -202,7 +211,9 @@ CLAUSE_RULES = [
 # A date in these words is not a step of the action: a filing's or a signature's own date.
 NOT_A_STEP = re.compile(r"(?:\bdated|\bdate filed|\bfiled on|\bsigned on|\bsubmitted on|\bopening of this docket on|\bas of)\W*$", re.I)
 # A deadline's words end right before its date (its hour taken out): "must be filed by", "on or before", "is", ":"
-DEADLINE_END = re.compile(r"(?:\bdue(?: on| by)?|\bby|\bbefore|\bno later than|\blater than|\buntil|\bis|\bshortened to|:)\s*$", re.I)
+DEADLINE_END = re.compile(r"(?:\bdue(?: on| by)?|\bby|\bbefore|\bno later than|\blater than|\buntil|\bis|\bshortened to|\bperiod to|:)\s*$", re.I)
+WEEKDAY = r"Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon\.|Tue\.|Tues\.|Wed\.|Thu\.|Thurs\.|Fri\.|Sat\.|Sun\."
+HOUR_ETC = re.compile(rf"\s*(?:\d{{1,2}}:\d\d\s*[ap]\.?m\.?,?|Eastern (?:Standard |Daylight )?Time|E[DS]?T|Eastern time|on|,|{WEEKDAY})\s*$")
 
 
 def dates(text, record=None):
@@ -224,10 +235,15 @@ def dates(text, record=None):
         if NOT_A_STEP.search(clause):
             continue
         # the hour of a deadline stands between its words and its date ("by 5:00 p.m. Eastern Time on")
-        clause_w = re.sub(r"\s*(?:\d{1,2}:\d\d\s*[ap]\.?m\.?,?|Eastern (?:Standard |Daylight )?Time|E[DS]?T|Eastern time|on|,|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s*$", "", clause)
+        clause_w = HOUR_ETC.sub("", clause)
         while clause_w != clause:
-            clause, clause_w = clause_w, re.sub(r"\s*(?:\d{1,2}:\d\d\s*[ap]\.?m\.?,?|Eastern (?:Standard |Daylight )?Time|E[DS]?T|Eastern time|on|,|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s*$", "", clause_w)
+            clause, clause_w = clause_w, HOUR_ETC.sub("", clause_w)
         kind = None
+        # session 3125: a date under a heading of its own ("Evening Scoping Session" / "Date: Tuesday, ..."): the
+        # heading is the line before, which a blank line keeps out of the clause
+        if re.fullmatch(r"\W*date:\s*", clause, re.I) and re.search(
+                r"\b(?:session|meeting|hearing|forum)\b[^\n]{0,40}\n\s*\n?\s*date:\s*\S*\s*$", text[max(0, m.start() - 160):m.start()], re.I):
+            kind = "meeting"
         for k, pat in CLAUSE_RULES:
             if k in ("comments_due", "intervention_due"):
                 hits = list(pat.finditer(clause))
@@ -238,6 +254,11 @@ def dates(text, record=None):
             elif pat.search(clause):
                 kind = k
                 break
+        # session 3125: a list of meetings ("Tue., Oct. 13, 2026 at 1 p.m. (Virtual) Tue., Oct. 27, 2026"): a date that
+        # follows a meeting's date by no more than its hour and its place is a meeting too
+        if kind is None and last and last[0] == "meeting" and m.start() - last[1] < 60 and \
+                re.fullmatch(r"\s*(?:at\s+)?[\d:\s]*(?:[ap]\.?m\.?)?\s*(?:\([^)]{0,30}\))?\s*(?:and)?\s*", clause, re.I):
+            kind = "meeting"
         if kind is None and re.fullmatch(r"\W*through\s*", clause) and last and last[0] == "effective" \
                 and m.start() - last[1] < 40:
             kind = "expires"   # "effective September 17, 2026, through September 16, 2027"

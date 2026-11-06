@@ -84,7 +84,7 @@ The periodicals' faults file (`docs/reviews/periodicals-faults-2026-11-05.md`) h
 
 | # | Fault | Sample (of 80) | Table | Open |
 |---|---|---|---|---|
-| 1 | A date the document states (an effective date, a comment, protest or intervention deadline, a hearing or a session) is held in no field | 62 (59 first counted) | every row: no date field but `event_date` | 3056: held for 56 of 62 (`dates`, `next_step`), none kept that the text does not state |
+| 1 | A date the document states (an effective date, a comment, protest or intervention deadline, a hearing or a session) is held in no field | 61 (59 first counted, 62 in session 3056; r58 states no date) | every row: no date field but `event_date` | 3056: held for 56; 3125: 60 of 61, none kept that the text does not state; r57 gives a month only, kept as words |
 | 2 | No status: `status` is blank, or is the Register's action line, never a status (proposed, final, effective, stayed, vacated, withdrawn) | 80 (35 blank, 33 of them FERC) | 917 blank, 901 of FERC's 935 | 3056: `action_status` on 80 of 80 (the fixture's 30 right) |
 | 3 | A figure the document states as the action's own (MW, kV, Dth/d, USD) is held in no field: `mw` and `price` are empty | 16 (17 first counted) | 2,020 empty | 3056: `figure_value` and `figure_unit` for 12 of 16, none on another row; 4 stand outside the opening paragraph |
 | 4 | Sector "policy", which names no sector: every row is policy; the action's sector stands in its text | 16 | 507 | 3056: the scorer's policy note names it; the rows held change when they are scored again (the desktop's, with the owner's approval) |
@@ -203,7 +203,7 @@ The audit's 80 actions read again with the chain's code (`warehouse/policy/field
 
 | # | Fault | Before (of 80) | After (of 80) | What is left |
 |---|---|---|---|---|
-| 1 | A stated date held in no field | 62 | 6 | r38 and r58 (a forum's and a hearing's dates in a release), r50 and r72 (a "reasonable period" written "One year, August 27, 2027"), r57 (a schedule by month only), r78 (sessions on dates the rules do not read) |
+| 1 | A stated date held in no field | 61 | 1 (session 3125) | r57, a schedule given by month only ("May 2027"), kept as words; the five other rows of session 3064 held since session 3125, and r58, which states no date, out of the class |
 | 2 | No status | 80 | 0 | `action_status` on every row; the fixture's 30 right |
 | 3 | A stated figure held in no field | 16 | 4 | r6, r22, r29, r31: the figure stands outside the opening paragraph |
 | 4 | Sector "policy" | 16 | 16 | the scorer's note is changed; the rows change when they are scored again |
@@ -215,3 +215,7 @@ The audit's 80 actions read again with the chain's code (`warehouse/policy/field
 | 10 | Significance above its band | 2 | 2 | needs the scorer again (the faults rows) |
 
 Of the 80 rows' 206 faults before (each row counted once a class), 38 are left: 6 of class 1, 4 of class 3, and the 28 of classes 4, 6, 9 and 10, which wait for a rescoring or the next chain's rows.
+
+## Session 3125: the dates left of class 1
+
+Four rules of `warehouse/policy/fields.py`, each with the document's own words as its test (`tests/test_policy_fields.py`, `test_the_dates_of_session_3125`): a water quality certification's deadline ("Reasonable Period of Time to Act on the Certification Request: One year, August 27, 2027", r50 and r72, a `decision_due`); the abbreviated months and weekdays of a release ("When: Tue., Oct. 13, 2026 at 1 p.m. (Virtual) Tue., Oct. 27, 2026", r38, two meetings); a date under a heading of its own ("Evening Scoping Session" then "Date: Tuesday, September 15, 2026", r78) and a comment period extended "to" a date (r78). Class 1 is now 60 held of 61: r57 gives its schedule by month only ("May 2027"), which stays words, as the chain's rule says; and r58, counted in session 3056, states no date at all (the NRC's release names no day for its hearing), so the class is 61, not 62. On the archive's copy of the table the rules add one step (51 steps, from 50) and no step to a row that states none; `scripts/check_policy.py` 288 of 288 ok. The second read's totals become 205 faults before and 33 left.

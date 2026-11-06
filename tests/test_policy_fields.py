@@ -125,6 +125,23 @@ class Rules(unittest.TestCase):
              "Eastern Time on\n[[Page 63535]]\nNovember 2, 2026. Comments may be submitted in written form.")
         self.assertEqual(F.dates(t)[0][:2], ("comments_due", "2026-11-02"))
 
+    def test_the_dates_of_session_3125(self):
+        # a water quality certification's deadline (r50 of the audit's sample, its words)
+        t = ("Date of Receipt of the Certification Request: August 27, 2026 Reasonable Period of Time to Act on the "
+             "Certification Request: One year, August 27, 2027 If Maine DEP fails or refuses to act")
+        self.assertEqual([x[:2] for x in F.dates(t)], [("decision_due", "2027-08-27")])
+        # a release's forums, abbreviated months, in a list after "When:" (r38)
+        t = ("Forums provide customers with an opportunity to communicate. When: Tue., Oct. 13, 2026 at 1 p.m. (Virtual) "
+             "Tue., Oct. 27, 2026 at 2 p.m. and 6 p.m. (In-Person) What: The CPUC will hold forums.")
+        self.assertEqual([x[:2] for x in F.dates(t)], [("meeting", "2026-10-13"), ("meeting", "2026-10-27")])
+        # sessions under their own headings, and a comment period extended "to" a date (r78)
+        t = ("On July 24, 2026, Commission staff extended the comment period to September 18, 2026.\n\n"
+             "Evening Scoping Session\n\n    Date: Tuesday, September 15, 2026.\n    Time: 6:00 p.m.\n\n"
+             "Daytime Scoping Session\n\n    Date: Wednesday, September 16, 2026.\n")
+        self.assertEqual([x[:2] for x in F.dates(t)], [("comments_due", "2026-09-18"), ("meeting", "2026-09-15"), ("meeting", "2026-09-16")])
+        # a date under "Date:" with no session, meeting, hearing or forum above it is no step
+        self.assertEqual(F.dates("Receipt\n\n    Date: Tuesday, September 15, 2026.\n"), [])
+
     def test_a_past_date_that_is_no_step_is_left(self):
         t = ("If you submitted comments on this project to the Commission before the opening of this docket on "
              "September 9, 2026, you will need to file those comments in Docket No. CP26-578-000.")
