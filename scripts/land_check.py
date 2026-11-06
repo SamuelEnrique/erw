@@ -33,7 +33,10 @@ The steps, in order:
                     more (a build can bake a database timeout into a page), and a second such log fails
     serve           next start on --port (refused if the port is taken), then warm-live.mjs (its exit is noted only)
     check_values    node scripts/check-values.mjs; exit 3 (pages not read) is resumed with CHECK_VALUES_RESUME=1 until
-                    0 or 1, at most three tries. Exit 1 whose only failures are the floors of the ten pages the license
+                    0 or 1, at most three tries. A Digest figure the publisher revised after the issue was written
+                    is a "note" line of check-values (session 2207, Samuel's ruling of 23 October 2026 on item 7 of
+                    docs/reviews/deals-rulings-2026-10-23.md: a revision is a note, not a failure); the step passes
+                    and its line counts them. Exit 1 whose only failures are the floors of the ten pages the license
                     holds of 21 October empty (session 408's list, session 415's report), each page showing "license
                     needed" when read with the internal cookie, is a pass, said so
     check_routes, check_cross_checks, check_csp    node scripts/<name>.mjs <base>
@@ -66,7 +69,9 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 
-STEPS = ["freeze", "main_merged", "task_branches", "db_probe", "build_lock", "worktree", "suite", "npm_ci", "build",
+# session 1308: ask_replay, Ask's stored answers through the checks of the commit (warehouse/chat/eval/replay.py), its
+# own line after the suite (whose test_session1301 runs it too), so a check that would send back a right answer is named
+STEPS = ["freeze", "main_merged", "task_branches", "db_probe", "build_lock", "worktree", "suite", "ask_replay", "npm_ci", "build",
          "serve", "check_values", "check_routes", "check_cross_checks", "check_csp", "stop"]
 CHECK_VALUES_TRIES = 3
 STALE_TASK_HOURS = 48   # session 589: a task/ branch quiet this long is left over, not in flight
@@ -231,6 +236,16 @@ def suite_env(environ):
     return env
 
 
+def revised_notes(lines):
+    """The check keys of check-values' "note | <page> | <key> | revised: ..." lines (session 2207), in order."""
+    out = []
+    for ln in lines:
+        parts = [p.strip() for p in ln.split(" | ")]   # a key holds "|" with no spaces; the line's fields are " | "
+        if len(parts) >= 4 and parts[0] == "note" and parts[3].startswith("revised:"):
+            out.append(f"{parts[1]} {parts[2]}")
+    return out
+
+
 def held_floor_failures(text):
     """For a check-values log: the held pages whose floor failed, when the floors of session 408's held pages are its
     only failures; None when anything else failed or a page was not read."""
@@ -361,6 +376,14 @@ class Gate:
         tail = [x for x in self.ops.read(self.log("suite")).splitlines() if x.startswith(("Ran ", "OK", "FAILED"))]
         return ("pass" if c == 0 else "fail"), c, "; ".join(tail[-2:])
 
+    def s_ask_replay(self):
+        script = os.path.join(self.wt, "warehouse", "chat", "eval", "replay.py")
+        if not self.ops.exists(script):
+            return "pass", 0, "no replay.py in this commit"
+        c = self.run("ask_replay", [self.py, script, "--check"], self.wt, timeout=CHECK_MIN * 60)
+        return ("pass" if c == 0 else "fail"), c, ("" if c == 0 else "a stored answer graded right would now be sent back, "
+                                                    "or docs/reviews/ask-replay.md is not what the runs give")
+
     def s_npm_ci(self):
         src = os.path.join(self.main, "site", ".env.local")
         if not self.ops.exists(src):
@@ -409,6 +432,9 @@ class Gate:
             if code != 3:
                 break
         note = f"{tries} {'try' if tries == 1 else 'tries'}"
+        revised = revised_notes(self.ops.read(log)[before:])
+        if revised:
+            note += f"; {len(revised)} revised figure{'s' if len(revised) > 1 else ''} read as notes ({', '.join(revised)})"
         if code == 0:
             return "pass", 0, note
         if code == 3:

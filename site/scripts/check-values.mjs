@@ -84,8 +84,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // peak; the year so far in PJM; a calendar month and a local hour of the day, whose growth sits on the last whole year)
   "/explore/demand-growth", "/explore/demand-growth?grid=us48&window=peak", "/explore/demand-growth?grid=pjm&window=ytd",
   "/explore/demand-growth?grid=caiso&window=m08", "/explore/demand-growth?grid=ercot&window=h17",
-  // session 332: every action's significance (event|policy_actions|<id>|significance)
-  "/policy",
+  // session 332: every action's significance (event|policy_actions|<id>|significance); session 2400: the table's count of
+  // actions, and the week view's count of the actions read for its window (event_count|policy_actions|...)
+  "/policy", "/policy?view=week",
   // session 471: the licensing record's short reading (lic|held|..., lic|verdict|...), recomputed from warehouse/metadata
   "/data/licenses",
   // session 19
@@ -537,6 +538,14 @@ async function truth(check) {
     const col = field === "mw" ? "v:mw" : `v:extra->>${field}`;
     const r = (await q("events", { select: col, table_name: `eq.${table}`, event_id: `eq.${id}` }))[0];
     return r ? Number(r.v) : undefined;
+  }
+  // session 2400: the count of an events table's rows, every row (event_count|<table>|all) or those dated a day or later
+  // (event_count|<table>|since|<YYYY-MM-DD>): the policy page's "of N actions" and the week view's foot
+  if (p[0] === "event_count") {
+    const [, table, what, day] = p;
+    if (what === "all") return q("events", { select: "event_id", table_name: `eq.${table}` }, true);
+    if (what === "since" && /^\d{4}-\d{2}-\d{2}$/.test(day ?? "")) return q("events", { select: "event_id", table_name: `eq.${table}`, event_date: `gte.${day}` }, true);
+    throw new Error(`unknown check ${check}`);
   }
   // session 329: one field of one row of an entities table (the companies tab's confidence: entity|energy_companies|<id>|confidence)
   if (p[0] === "entity") {
@@ -1255,6 +1264,18 @@ async function main() {
         const d = ED.compareDated({ check, raw, written: w }, rows);
         if (d.pass === false) pass = false;
         of = ` of ${d.label}${d.why ? ` (${d.why})` : ""} |`;
+      }
+      // session 2207 (Samuel's ruling of 23 October 2026, item 7): a stored Digest issue keeps the figure it printed; when
+      // the page says in its own line that the publisher revised it (lib/digest.ts, data-revised with the value held
+      // now) and that value is the live set's, the figure is a note, not a failure
+      if (!pass && /^digest_(dam|rt|fuel)\|/.test(check) && t !== undefined && t !== null) {
+        const rv = new RegExp(`data-revised="${check.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}" data-revised-value="([^"]+)"`).exec(html);
+        if (rv && Math.abs(Number(rv[1]) - Number(t)) < 1e-9 * Math.max(1, Math.abs(Number(t)))) {
+          out.ok++;
+          out.n++;
+          out.lines.push(`note | ${page} | ${check} | revised: page shows "${text}" as the issue printed it, its note says ${rv[1]} | page read ${raw} | Supabase ${t}`);
+          continue;
+        }
       }
       pass ? out.ok++ : out.bad++;
       out.n++;

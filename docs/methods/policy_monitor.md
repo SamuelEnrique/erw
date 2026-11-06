@@ -366,3 +366,52 @@ The table `policy_action_tags` is not in the live set and the page does not need
   `transmission_cost` tags. "Tariffs" are the `transmission_cost` tag (transmission rates, formula rates, transmission
   service rates, network upgrades, cost allocation), the charges a tariff sets; tax credits are not in it. Not chosen,
   the page is as it was; chosen, it lifts the significance floor as any tag does.
+
+## 12. Paused sources, said in place (session 2401, 23 October 2026)
+
+- **What is paused.** `warehouse/metadata/paused_sources.csv` is the record of the publishers the ERW never requests:
+  MISO since 4 October 2026 (its terms forbid automated access; the closing ruling of session 89) and the Virginia State
+  Corporation Commission since 10 October 2026 (its robots file disallows every automated request; the ruling of
+  9 October 2026, session 172; `vascc_pause.md`). Only a person adds or removes a row. The daily refresh asks
+  `iso_prices.paused()` before every request and sends a paused publisher nothing; its rows already held stay as they are.
+- **How the page knows.** The site builds its own copy, `site/data/policy/paused.json`, from the CSV before every build
+  (`site/scripts/build-paused.mjs`, in `package.json`'s `prebuild`): the key is the record's scope (`miso`, `vascc`), as
+  `refresh.json` keys its regulators and `grids.json` its grids. Until this session the page knew only MISO, by its own
+  rule, and `refresh.json` (the data machine's file) marked the Virginia commission `refreshed: true`, so the page said
+  nothing of its pause; the record, not the refresh file, decides now.
+- **How the page says it.** In both views, a line under the lead: "N sources paused: MISO, paused since 4 Oct 2026;
+  Virginia SCC, paused since 10 Oct 2026", each mark with the record's reason, day, ruling and condition on hover. In
+  "What changed this week", the agency chip of a paused regulator carries the mark "paused since <day>" in place of any
+  refresh mark (the pause stands before "not refreshed" or "in part"), and so does the grid chip of a paused operator;
+  a paused agency chosen with nothing in the window shows the mark's words before "none in this window", never the
+  count alone. In "Every action, scored", a paused regulator with an agency code in `policy_actions` would read
+  "<code> (paused)" in the Agency filter, with the words "paused: the rows held stay, nothing new is read" when chosen
+  (today no paused source has rows in that table: the Virginia commission's rows are dockets of the week view).
+- **What does not change.** MISO's chip and its empty state keep the page's own words, "paused while terms are
+  reviewed" (`site/lib/rules.ts`), with the record's mark beside the chip. No row is deleted or hidden: the 18 Virginia
+  dockets of `state_rules.json` are listed whenever their dates fall in the window. Lifting a pause is deleting its row
+  of the CSV; the next build drops the mark.
+- **Checks.** `site/scripts/test-policy-week.mjs`, section 12: a paused regulator's mark and hover, the other bodies
+  unchanged, the refresh mark standing when there is no record, the line's words, and that the committed
+  `paused.json` is the CSV's rows as the build writes them.
+
+## 13. What is keyed, and what the page counts itself (sessions 2400 to 2404, 23 October 2026)
+
+- **Two counts carry a check key** (`site/components/Num.tsx`; `check-values` reads each again from the live set): the
+  first view's total beside the filters, "N of **M** actions" (`event_count|policy_actions|all`, every row of
+  `policy_actions`), and the week view's foot, "**R** actions and D dockets held for thirty days"
+  (`event_count|policy_actions|since|<first day>`, every row dated the window's first day or later, before the page's own
+  drop). The checker gained the kind in session 2400 and reads `/policy?view=week` since then. The significance score
+  of every action is keyed since session 332 (section 10).
+- **Every other count is the page's own and says so on hover**: the filtered count beside the total, the week view's
+  "N actions" and "of M", the chart's cells and totals, the count beside each agency's heading. Each is counted in the
+  browser from the rows the server read and changes with every click, so the checker, which reads the server's page,
+  cannot recompute it; its hover names the window, the filters and the table it was counted from.
+- **The read's "Figures" line carries no key** (section 11): the figures are the read's own words. The dockets' count
+  and build day are the site's file's, not the live set's.
+- **The paused sources** are section 12. **At 390 px** every table of both views is in its own scroll container, and the
+  table of every action has a caption for a screen reader (session 2403). The pass of 23 October counted the hovers a
+  keyboard cannot reach (a `title` on a span): 17 on the first view and about 150 on the week view; each hover's
+  sentence also stands in this note (session 164's rule), and whether the spans should take focus is left to the owner
+  (session 2403's report).
+- `docs/reviews/policy-figures-2026-10-23.md` has one row a figure, with its key or why none, and its hover before and after.

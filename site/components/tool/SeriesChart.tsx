@@ -19,7 +19,12 @@
 // figures seldom meet) and is left to the hover and the table beyond that. The figure carries data-chart-width, which
 // app/tokens.css reads to leave the phone's sideways scroll (a 600 px floor for a chart that shrank with its viewBox)
 // to the charts that are not measured. Nothing the page hands the chart changed.
-import { useEffect, useRef, useState, type ReactNode } from "react";
+//
+// Session 2202 (chain 086): the brand's hover card (docs/brand.md, section 6: fog with a rule-colored edge, the period
+// in sans, each series named in its color with its figure in mono) for the category under the pointer, or under the
+// keyboard's arrows once the chart has focus (Home, End, Escape as on the bar chart's card, components/tool/BarsHover.tsx).
+// The <title> a category stays for a reader with no script; nothing drawn and no figure changed.
+import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type ReactNode } from "react";
 
 export type Scale = "linear" | "log" | "adjusted";
 export const SCALES: { key: Scale; label: string; words: string }[] = [
@@ -69,6 +74,7 @@ export function wrapLabel(label: string, width: number, size = 11): string[] {
 
 export function SeriesChart({ id, title, unit, categories, series, kind, scale, fmt = plain, note, tip, says, partialWords = "Incomplete period", tableFirst = false }: Props) {
   const [table, setTable] = useState(tableFirst);
+  const [hover, setHover] = useState<number | null>(null);
   const wrap = useRef<HTMLElement>(null);
   const [width, setWidth] = useState(760);
   useEffect(() => {
@@ -125,6 +131,30 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
     names.unshift(<text key={s.name} x={right} y={14} textAnchor="end" fontSize="12" fill={s.color}>{s.name}</text>);
     right -= textWidth(s.name, 12) + 16;
   }
+  // the category under the pointer, from its share of the plot's width (the SVG is drawn at the width it has)
+  const onMove = (e: MouseEvent<SVGSVGElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const mx = ((e.clientX - r.left) / r.width) * W;
+    const i = Math.floor((mx - L) / bw);
+    setHover(mx >= L && mx <= W - R && i >= 0 && i < n ? i : null);
+  };
+  const onKey = (e: KeyboardEvent<SVGSVGElement>) => {
+    if (n === 0) return;
+    if (e.key === "ArrowRight") { setHover((v) => (v === null ? 0 : Math.min(n - 1, v + 1))); e.preventDefault(); }
+    else if (e.key === "ArrowLeft") { setHover((v) => (v === null ? n - 1 : Math.max(0, v - 1))); e.preventDefault(); }
+    else if (e.key === "Home") { setHover(0); e.preventDefault(); }
+    else if (e.key === "End") { setHover(n - 1); e.preventDefault(); }
+    else if (e.key === "Escape") setHover(null);
+  };
+  const card = hover === null ? null : (
+    <div className="pointer-events-none absolute z-10 border border-rule bg-paper px-3 py-2 text-xs" style={{ top: TOP + 8, left: Math.min(Math.max(0, cx(hover) + 10), Math.max(0, W - 240)) }} data-chart-card="1" aria-live="polite">
+      <div className="text-ink">{categories[hover].label}{categories[hover].sub ? <span className="ml-1 text-muted">{categories[hover].sub}</span> : null}{categories[hover].partial ? <span className="ml-1 text-muted">({partialWords.toLowerCase()})</span> : null}</div>
+      {series.map((s) => (
+        <div key={s.name} className="flex justify-between gap-4"><span style={{ color: s.color }}>{s.name}</span><span className="font-mono text-ink">{s.values[hover] === null ? "not held" : `${fmt(s.values[hover]!)} ${unit}`}</span></div>
+      ))}
+      {kind === "stacked" && series.length > 1 ? <div className="flex justify-between gap-4 border-t border-rule pt-0.5"><span className="text-ink">Total</span><span className="font-mono text-ink">{fmt(totals[hover])} {unit}</span></div> : null}
+    </div>
+  );
   const toggle = (
     <span className="inline-grid grid-cols-2 border border-muted text-xs" role="group" aria-label={`${title}: chart or table`} data-chart-table={id}>
       {([["chart", "Chart"], ["table", "Table"]] as const).map(([k, label], i) => (
@@ -134,7 +164,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
     </span>
   );
   return (
-    <figure ref={wrap} className="mb-10 min-w-0" data-series-chart={id} data-scale={useLog ? "log" : broken ? "adjusted" : "linear"} data-chart-width={W}>
+    <figure ref={wrap} className="relative mb-10 min-w-0" data-series-chart={id} data-scale={useLog ? "log" : broken ? "adjusted" : "linear"} data-chart-width={W}>
       <figcaption className="mb-2 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule pb-1">
         <span className="font-serif text-xl text-accent">{title}{tip}</span>
         {toggle}
@@ -156,7 +186,8 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
           </table>
         </div>
       ) : (
-        <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} className="block max-w-full" role="img" aria-label={`${title}, ${unit}${kind === "stacked" ? ", stacked" : ""}: ${series.map((s) => s.name).join(", ")}`}>
+        <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} className="block max-w-full" role="img" aria-label={`${title}, ${unit}${kind === "stacked" ? ", stacked" : ""}: ${series.map((s) => s.name).join(", ")}. The left and right arrows read each period's figures`}
+          tabIndex={0} onMouseMove={onMove} onMouseLeave={() => setHover(null)} onKeyDown={onKey} onBlur={() => setHover(null)}>
           <defs>
             {series.map((s, k) => (
               <pattern key={k} id={`${id}-hatch-${k}`} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="var(--color-surface)" /><rect width="2.2" height="5" fill={s.color} /></pattern>
@@ -218,6 +249,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
           )}
         </svg>
       )}
+      {table ? null : card}
       {scale === "log" && !useLog ? <p className="mt-2 max-w-3xl text-xs text-muted" data-log-refused="1">The log scale is not drawn: a value here is at or below zero, so the chart is linear.</p> : null}
       {note ? <p className="mt-2 max-w-3xl text-xs text-muted">{note}</p> : null}
     </figure>

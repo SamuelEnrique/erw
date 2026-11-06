@@ -77,16 +77,17 @@ class ThePageSaysWhatTheBriefDoes(unittest.TestCase):
         self.assertIn("ai = clusters[", sel)
         self.assertRegex(sel, r"AI_MIN_SIG[^\n]*\.head\(5\)")
         self.assertRegex(sel, r"by_group\[g\] = [^\n]*\.head\(3\)")
-        self.assertIn("top10 = clusters.head(10)", sel)
+        self.assertIn("top10, folded = one_per_topic(clusters, 10, log)", sel)   # session 802: one topic, one item
         self.assertIn(".values())[:3]", inspect.getsource(brief.build_clusters))
         same = inspect.getsource(brief.same_event)
         self.assertIn("len(both) >= 4", same)
         ev = inspect.getsource(brief.event_figures)
         self.assertIn("v * mult >= 1e6", ev)
         self.assertIn("v >= 10", ev)
-        self.assertEqual(brief.link_text([("Reuters", "https://news.google.com/rss/articles/x")]),
+        # session 803: the form without the license hold (with it, a held outlet is named with no link)
+        self.assertEqual(brief.link_text([("Reuters", "https://news.google.com/rss/articles/x")], licensed=set()),
                          "[Reuters](https://news.google.com/rss/articles/x) (via Google News)")
-        self.assertEqual(brief.link_text([("Reuters", "https://reuters.com/x")]), "[Reuters](https://reuters.com/x)")
+        self.assertEqual(brief.link_text([("Reuters", "https://reuters.com/x")], licensed=set()), "[Reuters](https://reuters.com/x)")
 
     def test_no_em_dash(self):
         self.assertNotIn(chr(0x2014), page())

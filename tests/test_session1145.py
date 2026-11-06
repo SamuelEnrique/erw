@@ -24,7 +24,9 @@ def src(*parts):
 class TheForm(unittest.TestCase):
     def test_the_form_draws_what_the_route_returns(self):
         f = src("site", "app", "ask", "AskForm.tsx")
-        for words in ("data-reads={res.reads!.length}", "Answered in {res.seconds.toFixed(1)} seconds", "data-nearest={res.nearest!.length}",
+        # session 1194: the reads under an answer are drawn by components/ask/AnswerSources.tsx, the form passes them
+        self.assertIn("data-reads={rs.length}", src("site", "components", "ask", "AnswerSources.tsx"))
+        for words in ("<AnswerSources citations={res.citations} reads={res.reads} />", "Answered in {res.seconds.toFixed(1)} seconds", "data-nearest={res.nearest!.length}",
                       "<SeriesBlock key={s.result_id} s={s} form=\"chart\" />", 'refused_unverified: "The warehouse does not hold that figure"',
                       "...(history.length ? { history } : {})", 'data-new-conversation="1"', "onClick={() => setQ(x)}"):
             self.assertIn(words, f)

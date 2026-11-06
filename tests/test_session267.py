@@ -113,7 +113,7 @@ class TheGuard(unittest.TestCase):
     def test_the_shadow_copy_reads_the_real_memory_and_the_site_ignores_the_file(self):
         self.assertIn("waited=daily_chart.held_before(digest_date)", src("warehouse", "news", "brief.py"))
         build = src("site", "scripts", "build-content.mjs")
-        self.assertIn(r"/^\d{4}-\d{2}-\d{2}\.png$/", build)
+        self.assertIn(r"/^\d{4}-\d{2}-\d{2}(?:-600)?\.png$/", build)   # session 815: the phone picture too
         self.assertIn(r"/^(\d{4}-\d{2}-\d{2})\.json$/", build)
 
 
