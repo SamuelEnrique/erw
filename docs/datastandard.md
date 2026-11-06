@@ -67,7 +67,7 @@ One row per physical or corporate thing: a plant, a project, a datacenter, a cou
 | Column | Required | Type | Rules |
 |---|---|---|---|
 | `entity_id` | yes | string | `namespace:native_id`, same rule as `series.entity`. Unique within the table |
-| `entity_type` | yes | string | `plant`, `generator`, `project`, `datacenter`, `substation`, `utility`, `company`, `counterparty`, and since session 896 (Decision 54) `equipment`, since session 982 (Decision 57) `dam`, since session 2007 (Decision 58) `platform` |
+| `entity_type` | yes | string | `plant`, `generator`, `project`, `datacenter`, `substation`, `utility`, `company`, `counterparty`, and since session 896 (Decision 54) `equipment`, since session 982 (Decision 57) `dam`, since session 2007 (Decision 58) `platform`, since session 3302 (Decision 76) `company_alias` and `company_link` |
 | `name` | yes | string | Name as the source writes it |
 | `geo` | no | string | ISO 3166-2 code |
 | `lat` | no | float | WGS84 decimal degrees |
@@ -262,6 +262,7 @@ What was chosen, and why:
 73. **Session 2244: degAPI.** `degAPI` joins the unit vocabulary for a crude oil's API gravity in degrees, as EIA gives the weighted average gravity of the crude run at refineries (`eia_crude_quality_monthly`; EIA's unit "D"). It is an inverse measure of density (141.5 / specific gravity at 60 degF, less 131.5), never a temperature and never summed or averaged across areas without the volumes that weight it. (Chain 102's Decisions are numbered from 74, by agreement.)
 74. **Session 2245: Btu/ft3.** `Btu/ft3` joins the unit vocabulary for the heat content of natural gas in British thermal units a cubic foot, as EIA gives the gas delivered to consumers in each state (`eia_gas_heat_content_monthly`; EIA's unit "BTU/CF"). It turns a volume into energy: MMcf times Btu/ft3, divided by 1,000, is billion Btu. It is an average, never summed across areas. (Chain 102's Decisions are numbered from 75, by a second agreement.)
 75. **Session 2871: a filed tariff's figure carries its filing.** `utility_large_load_tariffs` holds one row a figure a large-load schedule prints, from the registry `warehouse/sources/large_load_tariffs/` (`large_load_tariffs.py`). The value is the printed figure in the table's unit (`USD/kW-month`, `USD/MWh`, `USD`, `MW`, `year`, `pct`, `month`), converted only between units, and the printed words are kept in `x_printed`. The validator refuses a row of this table without `source_url`, or a `filed:` row without `x_page` (check `filing_cited`). No unit joins the vocabulary.
+76. **Session 3302: company_alias and company_link.** Two values join the `entity_type` vocabulary for the company database (platform tool 10, `docs/methods/companies.md`): `company_alias`, one name a company goes by as one input table writes it in one role (`company_aliases`), and `company_link`, one company named in one row of an input table (`company_links`, with `input_table` and `input_row` naming the row). The companies themselves are `company` rows (`company_directory`). Their ids are `company:eia-<EIA utility id>` where EIA's files give the company one and `company:<normalized name>` otherwise: an ERW id derived by a written rule from the names held, not a registry (item 3 above), so a later crosswalk changes no input table.
 
 Deferred to a later version:
 
