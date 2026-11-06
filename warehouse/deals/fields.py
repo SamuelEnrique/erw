@@ -112,6 +112,12 @@ AI_PARTIES = [
 DATACENTER_WORDS = re.compile(r"data ?cent(?:er|re)s?|datacent(?:er|re)s?|\bhyperscal\w*|\bai (?:campus|factory|"
                               r"compute|cloud|infrastructure)|\bgpus?\b|\bcomputing (?:deal|partnership|capacity)",
                               re.I)
+# Session 2270 (chain 159's step 3): a datacenter word that names a motive or a market, not the load the deal serves
+# ("pipeline order tied to data centre buildout", "manufacturing capacity for data center and utility markets"). Taken
+# out of the text before DATACENTER_WORDS is read; a named AI party still makes the deal AI power.
+DATACENTER_GENERIC = re.compile(r"(?:data ?cent(?:er|re)s?|datacent(?:er|re)s?|hyperscal\w*|ai)(?: and \w+)?"
+                                r" (?:build-?outs?|booms?|demand|markets?|growth|sectors?|industry|race|frenzy|spending)\b",
+                                re.I)
 
 # Prices: an energy price only (the audit's row A8: "80% equity selldown" was kept as a price of 80 "%").
 ENERGY_PRICE_UNIT = re.compile(r"(?i)^\s*(?:usd|us\$|\$|eur|€|gbp|£|cad|aud)?\s*/\s*(?:mwh|kwh|mw-?month|kw-?month|"
@@ -319,7 +325,7 @@ def ai_of(d, text):
         for a in AI_PARTIES:
             if re.search(r"(?<![a-z])" + re.escape(a) + r"(?![a-z])", p):
                 return True, f"party {' '.join(str(n).split())}"
-    m = DATACENTER_WORDS.search(text or "")
+    m = DATACENTER_WORDS.search(DATACENTER_GENERIC.sub(" ", text or ""))   # session 2270: a motive or a market is not a load
     if m:
         return True, f"datacenter load: {m.group(0)}"
     return False, ""

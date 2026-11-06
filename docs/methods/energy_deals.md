@@ -227,3 +227,7 @@ Where the model gives no stage, the stage is read from the deal's evidence sente
 ### A party a later story names (session 2260)
 
 When a deal is folded into a record already in the table (one record a deal), a party the later story names that the record lacks joins its `other_parties`, and the record's `parties` (buyer;seller;other_parties) is rebuilt; an empty buyer or seller is filled as before. "Microsoft, Chevron and Engine No. 1 sign exclusive deal for power supply", folded into "Chevron, Microsoft Eye Massive Texas Power Project", had kept Microsoft and Chevron only (`tests/test_session2260_deals.py`). A company acquired with no seller named stays the deal's `asset`, not its seller: `seller` is the party selling, as the Roundup prints it.
+
+### A datacenter word that is a motive or a market (session 2270)
+
+A deal is AI power where a named AI lab, hyperscaler or datacenter operator is a party, or where the load the deal serves is a datacenter. A datacenter word that names a motive or a market ("tied to data centre buildout", "for data center and utility markets", "amid the AI boom") is taken out of the words before the load is read, so it no longer tags the deal; a named AI party still does. On the audit's sample, AI-power tags wrong went from 2 to 0, no other row changing (`tests/test_session2270_deals.py`).

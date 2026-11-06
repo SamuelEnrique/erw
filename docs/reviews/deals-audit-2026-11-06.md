@@ -539,3 +539,7 @@ Deals (106): not a deal kept 1; stated deals with no row 6 (two by ruling 2, one
 - **D087 ("Japan's Jera")**: Japan is the buyer's home, not where the LNG is produced; the rule leaves it empty (session 2257).
 
 Place missed: 3, each by a written decision; the class is closed for code.
+
+## Session 2270 (chain 174): deals' AI-power tag (2)
+
+D005 ("gas pipeline order tied to data centre buildout") and D104 ("manufacturing capacity ... for data center and utility markets") were tagged AI power by a datacenter word naming a motive or a market. `fields.DATACENTER_GENERIC` takes such phrases out before the load check. **2 to 0**; no other row of the 82 changed (35 tagged now, 37 before). The 2232 fixture's written answer for D005 said AI power; the 2249 read, quoting the prompt's rule on motives, says not: the 2232 answer now accepts either, with the reason in its `why`.

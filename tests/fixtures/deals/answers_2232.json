@@ -124,10 +124,13 @@
     ],
     "country": null,
     "state": null,
-    "ai_power": true
+    "ai_power": [
+     true,
+     false
+    ]
    }
   ],
-  "why": "Welspun bags $580 million US gas pipeline order tied to data centre buildout: the buyer is not named",
+  "why": "Welspun bags $580 million US gas pipeline order tied to data centre buildout: the buyer is not named (session 2270: ai_power either way: the second read, session 2249, reads 'tied to data centre buildout' as a motive, which the rule makes false)",
   "stored": {
    "event_id": "deal:339c7169038b8512",
    "deal_type": "other",
