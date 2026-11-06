@@ -65,6 +65,42 @@ Ask ERCOT is drawn by `components/ask/AskPanel.tsx`; the general chat and the si
 
 The CLI's and the evaluation's own loop (`warehouse/chat/ask.py`) holds the conversation, records its reads and names a refusal's nearest tables as the site's does; the license hold stays the site's.
 
+## The license hold in the Python loop (23 October 2026, session 1191)
+
+With `ASK_HOLD=on` the Python tools hold what the site holds (`warehouse/chat/license_hold.py`, the decisions of `site/lib/license.ts` and `site/lib/chat/tools.ts`, read from the same `site/data/license_status.json`): a table held whole is refused by name; a table held by grid is read without the held grids' rows; MISO's rows are refused with the pause's words; a question of a held grid's rows is answered with the hold's words and the public grids' figures. Off by default, so the CLI reads every row as before (for Samuel's ruling: `docs/reviews/ask-board-rulings-2026-10-23.md`, item 13). `tests/test_session1191.py` holds the decisions equal to the site's own over every table of the status file.
+
+## Both loops, turn by turn (23 October 2026, session 1300)
+
+The Python loop and the site's are held to give a reader the same thing: `tests/test_session1300.py` runs six scenarios of scripted model turns (`tests/fixtures/session1300/turns.json`: an answer, a figure in no result, a compare, a refusal, a table cited but never read, a held grid's question) through both over the same fixture rows, and compares each scenario's status, whether it was sent back, its tool and model calls, its cited tables, its answer and its reason.
+
+## The stored answers through today's checks (23 October 2026, session 1301)
+
+`python warehouse/chat/eval/replay.py` runs every stored answer the loop let through, with its tool record, through the number check, the unit check and the citations as they now stand, and writes `docs/reviews/ask-replay.md`; `--check` fails when an answer graded right would now be sent back. On 23 October: 157 answers of six runs, none.
+
+## The replay in the landing gate (23 October 2026, session 1308)
+
+`scripts/land_check.py` runs `replay.py --check` as a step of its own (`ask_replay`), after the suite and before `npm ci`: a commit whose checks would send back an answer graded right does not reach the build.
+
+## Both loops' checks on the stored answers (23 October 2026, session 1309)
+
+`tests/test_session1309.py` runs every replayed answer, and a copy of each with one figure moved, through the number check and the unit check of both loops: 284 cases on 23 October, the same verdict in every one.
+
+## One list of the runs (24 October 2026, session 1315)
+
+`warehouse/chat/eval/runs.json` names every stored run once (its file, grades, label, call limit, whether it carries a tool record, its row in the history); `history.py`, `replay.py` and `refusals.py` read it, and a test fails when a JSON file of the folder is neither a run, a run's grades, nor named there as left out.
+
+## The general chat's chart in the Python loop (24 October 2026, session 1317)
+
+The Python loop's general and grid chats give an answered record the series it rests on, as the site's do since session 1142 (`warehouse/chat/general_series.py`); session 1300's turn-by-turn test compares the two loops' series too (its seventh scenario).
+
+## The refusals, classed (23 October 2026, session 1304)
+
+`python warehouse/chat/eval/refusals.py` classes every stored refusal from its tool record (MISO's pause, a license hold, the call limit of its day, the warehouse lacking the figure, rows read and still refused, the number check's refusal) and writes `docs/reviews/ask-refusals.md`. On 23 October: 10 refusals, 3 MISO's pause and 7 the warehouse lacking the figure; none is the loop's fault (the two graded wrong are PJM's d10, session 320's ruling 3).
+
+## An answer's sources (23 October 2026, session 1194)
+
+Under every chat's answer, the sources and the reads are one component in the brand's source line (`site/components/ask/AnswerSources.tsx`: 12 px, grey, a rule above): each source its table with a link, its tier, its source report and, on hover, the data's version; each read what one query read.
+
 ## A refusal names what it looked at (23 October 2026, session 1132)
 
 On "not in the warehouse" and on the fixed refusal, the general chat names up to three of the tables the question queried or described, each with what the catalogue says it holds (its sector, its grids, its step, its span, its source report; never a figure of its rows). A table only listed is not one it looked at.
@@ -77,8 +113,8 @@ On "not in the warehouse" and on the fixed refusal, the general chat names up to
 
 | Set | Questions | Keys | Runs |
 |---|---|---|---|
-| `questions_s320.yaml` | 30 on the three economics pages | computed from the live set before any model call; again by `eval_s1113.py --keys` the hour of an asking | 17 of 30 (20 October 2026), 14 of 30 under the hold (session 539); **19 of 30 under the hold on 23 October 2026** (session 1113's asking, run by session 1126; 30 of 30 if session 320's three rulings went the answers' way): `docs/reviews/ask-thirty-2026-10-23.md` |
-| `questions_s1114.yaml` | 30 a trading, an infrastructure-finance and a policy lead would ask, ERCOT, CAISO, SPP and national series only | `expected_s1114.py`, from the live set the hour of the asking | **24 of 30 on 23 October 2026** (four of the six wrong state the right figure from another table): `docs/reviews/ask-sixty-2026-10-23.md` |
+| `questions_s320.yaml` | 30 on the three economics pages | computed from the live set before any model call; again by `eval_s1113.py --keys` the hour of an asking | 17 of 30 (20 October 2026), 14 of 30 under the hold (session 539); **19 of 30 under the hold on 23 October 2026** (session 1113's asking, run by session 1126; 30 of 30 if session 320's three rulings went the answers' way): `docs/reviews/ask-thirty-2026-10-23.md`; asked again after chains 076 and 085 (session 1149): 19 of 30, the same eleven wrong, `docs/reviews/ask-sixty-2026-10-25.md` |
+| `questions_s1114.yaml` | 30 a trading, an infrastructure-finance and a policy lead would ask, ERCOT, CAISO, SPP and national series only | `expected_s1114.py`, from the live set the hour of the asking | **24 of 30 on 23 October 2026** (four of the six wrong state the right figure from another table): `docs/reviews/ask-sixty-2026-10-23.md`; asked again (session 1149): t01 to t08, 8 of 8, the rest stopped by the cap, `docs/reviews/ask-sixty-2026-10-25.md` |
 | `questions_s1122.yaml` | 5 on the price board | `expected_s1122.py`, from recorded rows of the board's tables | not yet asked; the board's Ask examples (session 1145) |
 
 Every run, one row a run: `docs/reviews/ask-history.md` (session 1147, written by `history.py` from the stored runs).
@@ -102,3 +138,10 @@ Each dated, with the session that made it; the reports in `archive/sessions/` ca
 - 23 October 2026, session 1144: percent and MW judged by the unit check, MWh not.
 - 23 October 2026, session 1145: the general chat's form, not a new component, draws the new fields.
 - 23 October 2026, session 1146: the license hold is not mirrored in the CLI.
+- 23 October 2026, session 1149: the sixty asked again into files of their own (`eval_s1133_*`), the stored runs left as they are; the first set made whole within the cap before the second.
+- 23 October 2026, session 1191: the hold mirrored in the Python tools behind `ASK_HOLD=on`, off by default (session 1146's decision kept for the CLI until the ruling).
+- 23 October 2026, session 1194: one component for every chat's sources and reads, the general form's "Sources" heading dropped.
+- 23 October 2026, session 1301: only the answers the loop let through are replayed (a refused draft is not stored).
+- 23 October 2026, session 1304: a refusal is classed from its record alone, the first class it shows.
+- 23 October 2026, session 1308: the replay a step of the gate beside the suite's own run of it.
+- 24 October 2026, session 1317: the series in the base loop's `finish`, so a grid's chat carries it too; Ask ERCOT's profile keeps its own.

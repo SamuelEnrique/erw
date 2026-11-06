@@ -79,7 +79,10 @@ class TheWallFolded(unittest.TestCase):
         v = src("site", "components", "board", "BoardView.tsx")
         self.assertEqual(v.count("<GroupFold "), 2)                           # the groups' table and the week's
         self.assertIn("useState<Record<string, boolean>>(() => ({ [file.groups[0].id]: true }))", v)      # the first group open as the page opens
-        self.assertIn("<tbody>{rows.map((r) => <PriceRow key={r.id} row={r} group={group} open={open === r.id} onOpen={onOpen} file={file} />)}</tbody>", v)
+        # session 1193 (fixed here by session 1317): the shown rows, then each held grid's rows behind its line, every row in the page
+        self.assertIn("const { shown, held } = heldLines(rows);", v)
+        self.assertIn("{shown.map((r) => <PriceRow key={r.id} row={r} group={group} open={open === r.id} onOpen={onOpen} file={file} />)}", v)
+        self.assertIn("{hs.map((r) => <PriceRow key={r.id} domId={`${id}-${r.id}`} row={r} group={group} open={false} onOpen={onOpen} file={file} hidden={!named[grid]} />)}", v)
         self.assertIn("data-count={group.id}>{rows.length}", v)
         self.assertIn("data-n={`fold|${group.id}|last`}", v)                  # a closed group keeps its first number in view
         for kept in ("function Headline(", "function WeekTable(", "function RangeBar(", "function Curve(", "<Workbench file={file}", "<BenchPlaceholder />",
