@@ -1,6 +1,6 @@
 # Session 2256 (chain 159, deals and datacenters) report: the six stated deals with no row
 
-6 November 2026, from about 12:42 to 13:05 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2256-deals`, cut from `wip/2255-deals`. Model spend **USD 0.0240** (one call, the switch on, on seven stories: 1,205 tokens in, 1,119 out, 4,148 cache write; measured, in `tests/fixtures/deals/recorded_2256.json`). No ledger row (a code machine; `ERW_LEDGER=0`). Nothing deployed; no warehouse data written.
+6 November 2026, from about 12:32 to 12:37 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2256-deals`, cut from `wip/2255-deals`. Model spend **USD 0.0240** (one call, the switch on, on seven stories: 1,205 tokens in, 1,119 out, 4,148 cache write; measured, in `tests/fixtures/deals/recorded_2256.json`). No ledger row (a code machine; `ERW_LEDGER=0`). Nothing deployed; no warehouse data written.
 
 - **Step 4 of the file**: the deals the stricter prompt drops. No ruling yet, so the rule is kept and a fixture holds the six.
 - **The cause, read from the recordings**: all six clusters were sent, and the model returned `"deals": []` for each. Not the story selection, and not the code's party check (`fields.named_party` keeps a deal with one named party). Four reasons, not one (`docs/reviews/deals-audit-2026-11-06.md`, "Session 2256"):
