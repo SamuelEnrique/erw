@@ -16,13 +16,28 @@ Session 1640 writes this chain's next file first (`queue/next/<first free number
 
 Read first: chain 165's and chain 167's files, `docs/state/note_2026-11-07_oldlaptop_window2.md`, `docs/state/note_2026-11-08_oldlaptop_window2.md` (chain 167's note), `docs/reviews/board-audit-2026-11-06.md`, `docs/state/landing_request_oldlaptop.md`, `docs/methods/price_board.md`, `CLAUDE.md`.
 
+## The landing first (written by session 1639)
+
+Chains 165 and 167 did everything that needs no landing; what is left needs the desktop to land row 7 of `docs/state/landing_request_oldlaptop.md` (`wip/1633-board`) and the data machine to rebuild the board after it. So **session 1640 begins by asking whether `wip/1633-board` (or a later row) is an ancestor of `origin/main`**:
+
+- **If not**: session 1640 writes `docs/state/note_2026-11-09_oldlaptop_window2.md` (one paragraph: what waits, as chain 167's note says), writes **no next file**, makes no queue step, and the chain ends there, as chain 096 did when what was left was a landing it could not make (`docs/state/review_2026-10-30_code_ask_board.md`, "No successor"). The owner starts this file again by name once the landing has come.
+- **If so**: the sessions below, in order.
+
 ## Session 1640: the next file, the ground
 
-Long end 1:00. The next file. Then chain 167's note read against main: every branch the request file names, landed or not; the unlanded ones merged into this chain's first branch.
+Long end 1:00. The next file. Then chain 167's note read against main: every branch the request file names, landed or not; the unlanded ones merged into this chain's first branch; the landed ones and their worktrees removed (the junction first).
 
 ## Sessions 1641 to 1649: chain 167's unfinished steps
 
-Long end 1:30 each. Every step of chain 167 its note says did not finish, in chain 167's order, one a session (session 1639 writes the list here). A push and landing request after every third session.
+Long end 1:30 each. A push and landing request after every third session. Written by session 1639, from chain 167's note:
+
+- **1641: the gate's output read**: the desktop's `land_check.py` run of this window's row, its `check-board.mjs` (with the page) and `check-values` lines; each failure that is the board's fixed with a test.
+- **1642: the real file**: once the data machine's `page_keep.py board` has run after the landing, `check-board.mjs --file` on main's `site/data/board.json`, every new group's floor judged; `heat_ref` present or not, and why.
+- **1643: the second read again, on the real file** (sessions 1620 and 1628's way), each fault a row of the audit's section 9.
+- **1644: the push and landing request.**
+- **1645: the whole Python suite**, once, in the foreground, only with 3 GB free and the first window idle; a suite the harness stops is written up and not started again.
+- **1646 to 1648**: the faults 1641 to 1645 found, one a session.
+- **1649: the push and landing request.**
 
 ## Sessions 1650 to 1653: the faults
 
