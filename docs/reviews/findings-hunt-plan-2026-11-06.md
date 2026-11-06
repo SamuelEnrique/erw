@@ -624,7 +624,7 @@ The news index and scores, the cost ledger, the known faults: the platform's rec
 | tariffs_policy | hunted: retail sales and prices, reliability, meters, net metering; large-load tariffs and policy actions not drafted (levels, recent) | 3012 | 12 |
 | oil_products_world | hunted: cracks, the pump, net imports, origins, state crude, the world shares, refining, demand, regions, propane; chokepoints fail the tests | 3013 to 3015 | 18 |
 | coal_uranium_metals | hunted: coal shares, productivity and price; uranium origin, price and enrichment | 3175 | 8 |
-| emissions_climate | not hunted: chain 166 | | 0 |
+| emissions_climate | hunted: power CO2 and its intensity, the sector and coal shares, the US temperature | 3176 | 7 |
 | other_us | not hunted: chain 166 | | 0 |
 | cross_family | hunted: batteries against peaks, built against asked, storage beside solar | 3016 | 8 |
 | outside_us | not hunted: US first (no finding about another country) | | 0 |

@@ -1,0 +1,27 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate coal_co2_share, region us_coal_co2_share (the United States)
+# Computed 2026-11-06T14:11:09Z by warehouse/analysis/findings/deep/emissions_climate.py (coal_co2_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: coal's share of US energy-related CO2, every sector (percent of US energy CO2), the observations it rests on, and whether the year is full
+# Tables: eia_co2_state_annual
+region,year,value,n_observations,full_year
+us_coal_co2_share,2001,36.249130062667,1.0,1
+us_coal_co2_share,2002,36.068584958620015,1.0,1
+us_coal_co2_share,2003,36.36025360594889,1.0,1
+us_coal_co2_share,2004,35.989507286880055,1.0,1
+us_coal_co2_share,2005,36.38666635111569,1.0,1
+us_coal_co2_share,2006,36.25880967746223,1.0,1
+us_coal_co2_share,2007,36.19341641701561,1.0,1
+us_coal_co2_share,2008,36.80964743674141,1.0,1
+us_coal_co2_share,2009,34.87607433937562,1.0,1
+us_coal_co2_share,2010,35.62074239752,1.0,1
+us_coal_co2_share,2011,34.49418853788297,1.0,1
+us_coal_co2_share,2012,31.786516260336647,1.0,1
+us_coal_co2_share,2013,32.210193581069866,1.0,1
+us_coal_co2_share,2014,31.799237236931045,1.0,1
+us_coal_co2_share,2015,28.30572108103349,1.0,1
+us_coal_co2_share,2016,26.36372622800844,1.0,1
+us_coal_co2_share,2017,25.838555190553254,1.0,1
+us_coal_co2_share,2018,24.025874651764788,1.0,1
+us_coal_co2_share,2019,21.033367604289268,1.0,1
+us_coal_co2_share,2020,19.200687316966004,1.0,1
+us_coal_co2_share,2021,20.602812043420617,1.0,1
+us_coal_co2_share,2022,19.1569493001619,1.0,1

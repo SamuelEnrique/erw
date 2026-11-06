@@ -1,0 +1,27 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate power_co2_share, region us_power_co2_share (the United States)
+# Computed 2026-11-06T14:11:09Z by warehouse/analysis/findings/deep/emissions_climate.py (power_co2_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the electric power sector's share of US energy-related CO2 (percent of US energy CO2), the observations it rests on, and whether the year is full
+# Tables: eia_co2_state_annual
+region,year,value,n_observations,full_year
+us_power_co2_share,2001,39.2939255373623,1.0,1
+us_power_co2_share,2002,39.294268364866575,1.0,1
+us_power_co2_share,2003,39.3480818179192,1.0,1
+us_power_co2_share,2004,39.21992418135788,1.0,1
+us_power_co2_share,2005,40.15213647437444,1.0,1
+us_power_co2_share,2006,39.741729920642,1.0,1
+us_power_co2_share,2007,40.24774071544542,1.0,1
+us_power_co2_share,2008,40.70075793757784,1.0,1
+us_power_co2_share,2009,39.847432217157724,1.0,1
+us_power_co2_share,2010,40.5213902753633,1.0,1
+us_power_co2_share,2011,39.713059341655494,1.0,1
+us_power_co2_share,2012,38.804551079177195,1.0,1
+us_power_co2_share,2013,38.17870886983129,1.0,1
+us_power_co2_share,2014,37.766321829923506,1.0,1
+us_power_co2_share,2015,36.2593401998158,1.0,1
+us_power_co2_share,2016,35.13315203311015,1.0,1
+us_power_co2_share,2017,33.87089157103329,1.0,1
+us_power_co2_share,2018,33.30360876699745,1.0,1
+us_power_co2_share,2019,31.308461312113884,1.0,1
+us_power_co2_share,2020,31.49229272966701,1.0,1
+us_power_co2_share,2021,31.48637534634669,1.0,1
+us_power_co2_share,2022,31.048125795345733,1.0,1

@@ -1,0 +1,27 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate power_co2_per_mwh, region co2mwh_IA (Iowa)
+# Computed 2026-11-06T14:11:09Z by warehouse/analysis/findings/deep/emissions_climate.py (power_co2_per_mwh); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the electric power sector's CO2 over the state's net generation (kg CO2 per MWh), the observations it rests on, and whether the year is full
+# Tables: eia_co2_state_annual, eia_state_generation_monthly
+region,year,value,n_observations,full_year
+co2mwh_IA,2001,895.2599150701826,1.0,1
+co2mwh_IA,2002,849.8671687187941,1.0,1
+co2mwh_IA,2003,863.6450894958579,1.0,1
+co2mwh_IA,2004,851.3672098501049,1.0,1
+co2mwh_IA,2005,814.2715095017095,1.0,1
+co2mwh_IA,2006,795.3491246953419,1.0,1
+co2mwh_IA,2007,792.1450145272289,1.0,1
+co2mwh_IA,2008,777.7690425636832,1.0,1
+co2mwh_IA,2009,721.2522649466254,1.0,1
+co2mwh_IA,2010,713.4497416955239,1.0,1
+co2mwh_IA,2011,666.9792142784389,1.0,1
+co2mwh_IA,2012,612.7634669192475,1.0,1
+co2mwh_IA,2013,573.641605571256,1.0,1
+co2mwh_IA,2014,577.3426013097284,1.0,1
+co2mwh_IA,2015,507.4727470349471,1.0,1
+co2mwh_IA,2016,459.2894610474902,1.0,1
+co2mwh_IA,2017,444.3668242616193,1.0,1
+co2mwh_IA,2018,461.3291829348993,1.0,1
+co2mwh_IA,2019,378.692315048231,1.0,1
+co2mwh_IA,2020,268.6860383442715,1.0,1
+co2mwh_IA,2021,355.82078178655837,1.0,1
+co2mwh_IA,2022,281.77860571374447,1.0,1
