@@ -408,7 +408,7 @@ class TheNodeTests(unittest.TestCase):
                 json.dump(day, f)
             r = subprocess.run([node, "--import", "./scripts/alias-register.mjs", "scripts/test-ask-tables.mjs"], cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, timeout=300, env=env)
         self.assertEqual(r.returncode, 0, r.stdout[-2500:] + r.stderr[-1500:])
-        self.assertIn("15 of 15 passed", r.stdout)   # session 2221: the per-kW test added
+        self.assertIn("16 of 16 passed", r.stdout)   # session 2221: the per-kW test added; session 2222: the spec and call-key test
 
 
 if __name__ == "__main__":

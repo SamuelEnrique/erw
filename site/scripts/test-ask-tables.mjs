@@ -474,5 +474,16 @@ await test("USD per kW is a fetched figure by default (session 2221): a battery 
   } finally { if (saved === undefined) delete process.env.ASK_PER_KW; else process.env.ASK_PER_KW = saved; }
 });
 
+await test("the spec both loops share says a money figure is written as returned and a per-kW question answered with value_usd_per_kw; a call's key ignores argument order (session 2222)", async () => {
+  const spec = JSON.parse(read("../lib/chat/spec.json"));
+  assert.match(spec.system, /to the cent when the result has cents, never rounded to the unit or to "about"/);
+  assert.match(spec.system, /50,424\.07 USD\/MW, not about 50,424/);
+  assert.match(spec.system, /answered with value_usd_per_kw, written in USD per kW/);
+  const { callKey } = await import("../lib/chat/stages.ts");
+  assert.equal(callKey("query", { table: "t", start: "2025-01-01", end: "2026-01-01" }), callKey("query", { end: "2026-01-01", table: "t", start: "2025-01-01" }));
+  assert.notEqual(callKey("query", { table: "t", start: "2025-01-01" }), callKey("query", { table: "t", start: "2025-02-01" }));
+  assert.notEqual(callKey("query", { table: "t" }), callKey("describe_table", { table: "t" }));
+});
+
 console.log(`${n - failed} of ${n} passed`);
 process.exit(failed ? 1 : 0);

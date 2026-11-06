@@ -56,10 +56,12 @@ const sse = (reply) => {
     ev("message_delta", { delta: { stop_reason: reply.tools ? "tool_use" : "end_turn", stop_sequence: null }, usage: { output_tokens: 50 } }) + ev("message_stop", {});
 };
 
-let script = [], calls = 0;
+let script = [], calls = 0, choices = [];
 globalThis.fetch = async (url, init) => {
   const u = new URL(typeof url === "string" ? url : url.url ?? String(url));
   if (u.hostname === "api.anthropic.com") {
+    // session 2222: what each call allowed (auto: tools; none: write only), compared with the Python loop's
+    if (u.pathname !== "/v1/models") { try { choices.push(JSON.parse(init?.body ?? "{}").tool_choice?.type ?? null); } catch { choices.push(null); } }
     if (u.pathname === "/v1/models") return new Response(JSON.stringify({ data: [{ type: "model", id: "claude-sonnet-5-5", display_name: "a stand-in", created_at: "2026-01-01T00:00:00Z" }], has_more: false, first_id: "claude-sonnet-5-5", last_id: "claude-sonnet-5-5" }), { status: 200, headers: { "content-type": "application/json" } });
     const reply = script[calls] ?? script[script.length - 1];
     calls += 1;
@@ -74,8 +76,10 @@ const out = {};
 for (const s of SET.scenarios) {
   script = s.turns;
   calls = 0;
+  choices = [];
   const r = await ask.ask(s.question, SET.today, null, null, null, {});
-  out[s.id] = { status: r.status, retried: !!r.retried, tool_calls: r.tool_calls, model_calls: calls, citations: (r.citations ?? []).map((c) => c.table).sort(), answer: r.answer, why: r.why ?? "",
+  out[s.id] = { status: r.status, retried: !!r.retried, tool_calls: r.tool_calls, model_calls: calls, tool_choices: choices, reads: (r.reads ?? []).length,
+    citations: (r.citations ?? []).map((c) => c.table).sort(), answer: r.answer, why: r.why ?? "",
     series: (r.series ?? []).map((x) => ({ result_id: x.result_id, table: x.table, title: x.title, group_by: x.group_by, unit: x.unit, rows: x.rows.map((y) => [y.key, y.value]), check: x.check })) };
 }
 console.log(JSON.stringify(out));

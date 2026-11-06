@@ -47,10 +47,12 @@ class Scripted:
     def __init__(self, turns):
         self.turns, self.n = turns, 0
         self.messages = self
+        self.choices = []   # session 2222: what each call allowed (auto: tools; none: write only), as the site's runner records it
 
     def create(self, **kw):
         t = self.turns[min(self.n, len(self.turns) - 1)]
         self.n += 1
+        self.choices.append((kw.get("tool_choice") or {}).get("type"))
         if "tools" in t:
             content = [types.SimpleNamespace(type="tool_use", name=c["name"], input=c["input"], id=f"toolu_fixture_{i + 1}") for i, c in enumerate(t["tools"])]
             return types.SimpleNamespace(stop_reason="tool_use", content=content, usage=Usage(), _request_id="req_fixture")
@@ -117,6 +119,7 @@ def python_loop():
             frames.load()
             rec = asker.ask(s["question"], today=turns["today"])
             out[s["id"]] = {"status": rec.get("status"), "retried": bool(rec.get("retried")), "tool_calls": rec.get("tool_calls"), "model_calls": client.n,
+                            "tool_choices": client.choices, "reads": len(rec.get("reads") or []),
                             "citations": sorted(c.get("table") for c in rec.get("citations") or []), "answer": rec.get("answer"), "why": rec.get("why") or "",
                             "series": [{"result_id": x["result_id"], "table": x["table"], "title": x["title"], "group_by": x["group_by"], "unit": x["unit"],
                                         "rows": [[y["key"], y["value"]] for y in x["rows"]], "check": x["check"]} for x in rec.get("series") or []]}
@@ -145,7 +148,12 @@ class ThePythonLoop(unittest.TestCase):
         self.assertEqual({k: v["status"] for k, v in got.items()},
                          {"answered": "answered", "a_figure_in_no_result": "refused_unverified", "a_compare": "answered",
                           "not_in_the_warehouse": "not_in_warehouse", "a_table_cited_unread": "refused_unverified", "a_held_grid": "answered",
-                          "a_series": "answered", "a_per_kw_question": "answered"})
+                          "a_series": "answered", "a_per_kw_question": "answered", "a_repeated_call": "answered"})
+        # session 2222 (chain 152): the second, identical call is counted and not read (one read in the record), and the turn of only
+        # repeats makes the third model call one that may not read
+        r = got["a_repeated_call"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["model_calls"], r["tool_choices"]), (2, 1, 3, ["auto", "auto", "none"]))
+        self.assertEqual(got["answered"]["tool_choices"], ["auto", "auto"])
         # session 2221 (chain 152): a question in USD per kW answered with the tool's own value_usd_per_kw passes the number
         # check at the first draft (before, the per-kW figure was in no result and the draft was sent back)
         self.assertFalse(got["a_per_kw_question"]["retried"])
@@ -166,7 +174,7 @@ class BothLoops(unittest.TestCase):
         py = python_loop()
         self.assertEqual(sorted(site), sorted(py))
         for sid in site:
-            for k in ("status", "retried", "tool_calls", "model_calls", "citations", "answer", "why", "series"):
+            for k in ("status", "retried", "tool_calls", "model_calls", "tool_choices", "reads", "citations", "answer", "why", "series"):
                 self.assertEqual(py[sid][k], site[sid][k], f"{sid}: {k}")
 
 
