@@ -1,6 +1,6 @@
 # Session 1750 report: the gate on sessions 1743 to 1745, passed; not landed, chain 208 owns the work
 
-Energy Research Warehouse (ERW), session 1750, chain 195, samueloldlaptop, 6 November 2026, 21:36 to 22:05 UTC. Model: Claude Opus 5.5 (the file names Fable 5.1). Model spend USD 0. No warehouse data written; nothing sent or posted. The gate on `wip/1743-records` at `84ffcbb1f`.
+Energy Research Warehouse (ERW), session 1750, chain 195, samueloldlaptop, 6 November 2026, 21:36 to 22:00 UTC. Model: Claude Opus 5.5 (the file names Fable 5.1). Model spend USD 0. No warehouse data written; nothing sent or posted. The gate on `wip/1743-records` at `84ffcbb1f`.
 
 ## What it did
 
