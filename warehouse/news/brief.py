@@ -152,6 +152,23 @@ def direct_first(links):
     return [l for l in links if not is_google(l[1])] + [l for l in links if is_google(l[1])]
 
 
+# Session 1443 (chain 149, fault 13): the scorer filed "CFTC looks into sale of futures equal to 6 million barrels in two
+# minutes" under power_prices, and the Digest printed it under Power. A title about a commodity's price or futures
+# (PRICE_STORY's words) is of that commodity's sector whatever the scorer's power tag.
+POWER_TAGS = {"power_prices", "grid_conditions", "generation", "transmission"}
+COMMODITY_SECTOR = {"oil": "oil", "gas": "gas"}
+
+
+def sector_of(lead):
+    """The cluster's sector: the scorer's, unless a power tag sits on a title about oil or gas prices (sector_of fixes it)."""
+    sector = str(lead.get("sector") or "")
+    if sector in POWER_TAGS:
+        commodity = price_commodity({"titles": [str(lead.get("title") or "")]})
+        if commodity in COMMODITY_SECTOR:
+            return COMMODITY_SECTOR[commodity]
+    return sector
+
+
 def build_clusters(stories):
     rows = []
     for cid, g in stories.groupby("cluster_id"):
@@ -160,7 +177,7 @@ def build_clusters(stories):
         rows.append({
             "cluster_id": cid, "sig": int(g["sig"].max()), "ai": int(g["ai"].max()),
             # session 21: the MW and price of the cluster are the first any of its stories' scored fields hold
-            "sector": lead["sector"], "region": str(lead.get("region", "") or ""), "why": lead["why"], "mw": next((x for x in g["mw"] if x), ""),
+            "sector": sector_of(lead), "region": str(lead.get("region", "") or ""), "why": lead["why"], "mw": next((x for x in g["mw"] if x), ""),
             "price": next((x for x in g["price_mentioned"] if x), ""), "parties": lead["parties"],
             "first": g["event_date"].min(), "n": len(g),
             "outlets": g["source"].astype(str).str.strip().str.lower().nunique(),   # session 2701: the outlets that ran it
@@ -1347,7 +1364,7 @@ def region_key(r):
 # 26 October "Oil prices rise on fears of Middle East conflict escalation" (oil, global) and "Oil prices dip but hold
 # above $100" (oil, Middle East) were two of the top ten; a reader counts them as one story. A story of the oil sector
 # that is not about the price (a Venezuelan field, a refinery) keeps the sector-and-region key.
-PRICE_STORY = {"oil": r"\b(?:brent|wti|crude|oil prices?|a barrel|per barrel)\b",
+PRICE_STORY = {"oil": r"\b(?:brent|wti|crude|oil prices?|oil futures|barrels?)\b",   # session 1443: "6 million barrels" of futures
                "gas": r"\b(?:henry hub|ttf|jkm|gas prices?|natural gas prices?|mmbtu)\b",
                "power": r"\b(?:power prices?|electricity prices?|per mwh|usd/mwh)\b"}
 

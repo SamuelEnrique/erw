@@ -1430,5 +1430,37 @@ class Session1442Sources(unittest.TestCase):
         self.assertEqual(c.iloc[0]["titles"][0], "Oil prices rise")   # the lead story is still the highest scored
 
 
+class Session1443RankingAndSectors(unittest.TestCase):
+    """Session 1443 (chain 149, fault 13, and the plan's tie-break fixture): a title about oil or gas prices is of that
+    commodity's sector whatever power tag the scorer gave; at one significance, an event before commentary, then the
+    outlets, then the time (rulings item 4), never AI relevance."""
+
+    def row(self, cid, title, sector, sig=7, ai=0, source="Outlet", when="2026-10-26T01:00:00Z"):
+        return {"cluster_id": cid, "sig": sig, "ai": ai, "sector": sector, "region": "", "why": "w", "mw": "", "price_mentioned": "",
+                "parties": "", "event_date": when, "source": source, "source_url": f"https://example.org/{cid}/{source}", "title": title, "summary": ""}
+
+    def test_an_oil_futures_story_is_not_power(self):
+        r = self.row("c", "CFTC looks into sale of futures equal to 6 million barrels in two minutes", "power_prices")
+        c = brief.build_clusters(pd.DataFrame([r, self.row("g", "ERCOT prices spike as demand peaks", "power_prices")]))
+        self.assertEqual(dict(zip(c["cluster_id"], c["sector"])), {"c": "oil", "g": "power_prices"})
+        self.assertEqual(brief.sector_of({"sector": "generation", "title": "Brent crude nears $120 as tensions rise"}), "oil")
+        self.assertEqual(brief.sector_of({"sector": "generation", "title": "Gas plant approved in Ohio"}), "generation")
+        self.assertEqual(brief.sector_of({"sector": "lng", "title": "Henry Hub falls"}), "lng")
+
+    def test_the_ai_tie_break_is_gone(self):
+        rows = [self.row("ai", "A 42 MW datacenter signs power", "datacenter_power", ai=9),
+                self.row("deal1", "A 600 MW gas deal is signed", "deal", source="A", when="2026-10-26T03:00:00Z"),
+                self.row("deal2", "A 600 MW gas deal is signed", "deal", source="B", when="2026-10-26T03:00:00Z"),
+                self.row("deal3", "A 600 MW gas deal is signed", "deal", source="C", when="2026-10-26T03:00:00Z")]
+        for r in rows[1:]:
+            r["cluster_id"] = "deal"
+        c = brief.build_clusters(pd.DataFrame(rows))
+        self.assertEqual(list(c["cluster_id"]), ["deal", "ai"])   # three outlets before one, at the same score
+        self.assertEqual(int(c.iloc[0]["outlets"]), 3)
+        com = self.row("com", "Why the grid cannot keep up, an analysis", "generation", source="D", when="2026-10-26T00:00:00Z")
+        c = brief.build_clusters(pd.DataFrame(rows + [com]))
+        self.assertEqual(list(c["cluster_id"]), ["deal", "ai", "com"])   # commentary last at the same score, though earliest
+
+
 if __name__ == "__main__":
     unittest.main()
