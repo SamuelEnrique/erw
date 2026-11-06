@@ -1,6 +1,6 @@
 # Session 2286 (chain 179, deals and datacenters) report: a facility's country as a UK nation
 
-6 November 2026, about 14:11 to 14:15 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2286-deals`, cut from `wip/2285-deals`. Model spend **USD 0** (code; the facility answers replayed). Nothing deployed; no warehouse data written.
+6 November 2026, about 14:11 to 14:13 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2286-deals`, cut from `wip/2285-deals`. Model spend **USD 0** (code; the facility answers replayed). Nothing deployed; no warehouse data written.
 
 - **The class** (the third read): U009, "in Newport, Wales", no country.
 - **The fix**: `facility_country` reads "in <place>, <country>" and, for facilities, counts England, Scotland, Wales and Northern Ireland as the United Kingdom.
