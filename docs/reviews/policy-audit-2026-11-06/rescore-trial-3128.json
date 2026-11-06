@@ -1,0 +1,727 @@
+{
+ "model": "claude-sonnet-5-5",
+ "usd": 0.1941111,
+ "note": "\n\nPolicy actions: the summary of an item is the document's own summary or the first paragraph of its printed text. When the summary is empty, say what the title says and no more: do not infer what the document decides, whom it affects or why it matters from a company's name, an agency's name or a docket number, and choose the sector only from words the title itself holds. Every item here is a policy action, so the sector is the part of the energy system the action applies to (generation, gas, oil, nuclear, transmission and the others); choose policy only when the summary and the title name no part of it.",
+ "rows": [
+  {
+   "r": 1,
+   "event_id": "federalregister:2026-22577",
+   "old_sig": "6",
+   "old_sector": "nuclear",
+   "new_sig": 5,
+   "new_sector": "nuclear",
+   "why": "First part of a two-part phased construction permit application; the facility would be sited at the Caldwell Site."
+  },
+  {
+   "r": 2,
+   "event_id": "federalregister:2026-22604",
+   "old_sig": "2",
+   "old_sector": "generation",
+   "new_sig": 2,
+   "new_sector": "generation",
+   "why": "Application includes a 12-week variance allowing a 1.0-foot reservoir drawdown while the pneumatic flashboard system is installed."
+  },
+  {
+   "r": 3,
+   "event_id": "federalregister:2026-22473",
+   "old_sig": "1",
+   "old_sector": "other",
+   "new_sig": 1,
+   "new_sector": "other",
+   "why": "Unauthorized entry and introduction of weapons or dangerous materials on the described SLAC property is prohibited under the Atomic Energy Act."
+  },
+  {
+   "r": 4,
+   "event_id": "federalregister:2026-22515",
+   "old_sig": "3",
+   "old_sector": "generation",
+   "new_sig": 2,
+   "new_sector": "generation",
+   "why": "The Pioneer Project No. 2722 license would be surrendered administratively while Project No. 15373 seeks exemption from licensing, near Ogden in Weber County."
+  },
+  {
+   "r": 5,
+   "event_id": "federalregister:2026-22395",
+   "old_sig": "3",
+   "old_sector": "nuclear",
+   "new_sig": 3,
+   "new_sector": "nuclear",
+   "why": "Request contains sensitive unclassified information, so the NRC set access procedures for those filing hearing requests or intervention petitions."
+  },
+  {
+   "r": 6,
+   "event_id": "cpuc:74c8c8a0bfee",
+   "old_sig": "2",
+   "old_sector": "transport",
+   "new_sig": 2,
+   "new_sector": "transport",
+   "why": "The news release is aimed at rideshare drivers moving to electric vehicles."
+  },
+  {
+   "r": 7,
+   "event_id": "federalregister:2026-22137",
+   "old_sig": "2",
+   "old_sector": "renewables",
+   "new_sig": 2,
+   "new_sector": "generation",
+   "why": "FERC approved use of the traditional licensing process for the hydropower relicensing application."
+  },
+  {
+   "r": 8,
+   "event_id": "federalregister:2026-22198",
+   "old_sig": "2",
+   "old_sector": "renewables",
+   "new_sig": 2,
+   "new_sector": "generation",
+   "why": "The existing license ends September 16, 2026, so continued operation needs this authorization."
+  },
+  {
+   "r": 9,
+   "event_id": "federalregister:2026-22066",
+   "old_sig": "1",
+   "old_sector": "policy",
+   "new_sig": 1,
+   "new_sector": "policy",
+   "why": "Revisions apply to EPA-authorized programs in states including Arkansas, Arizona, Connecticut, Delaware, Iowa, Idaho and Indiana."
+  },
+  {
+   "r": 10,
+   "event_id": "federalregister:2026-21986",
+   "old_sig": "4",
+   "old_sector": "gas",
+   "new_sig": 4,
+   "new_sector": "gas",
+   "why": "Project would deliver up to 64,000 dekatherms per day from near Opal to the new WE Soda meter station in Sweetwater County."
+  },
+  {
+   "r": 11,
+   "event_id": "federalregister:2026-21832",
+   "old_sig": "3",
+   "old_sector": "nuclear",
+   "new_sig": 2,
+   "new_sector": "nuclear",
+   "why": "Notice covers amendments issued or proposed to operating and combined licenses, which the NRC can make immediately effective."
+  },
+  {
+   "r": 12,
+   "event_id": "federalregister:2026-21870",
+   "old_sig": "5",
+   "old_sector": "gas",
+   "new_sig": 5,
+   "new_sector": "gas",
+   "why": "Facilities would be built across Mississippi, Alabama and Florida, and the environmental document feeds the FERC public convenience and necessity decision."
+  },
+  {
+   "r": 13,
+   "event_id": "federalregister:2026-21721",
+   "old_sig": "2",
+   "old_sector": "generation",
+   "new_sig": 2,
+   "new_sector": "generation",
+   "why": "The project is on the Indian River in Jefferson County, and comments and interventions are open."
+  },
+  {
+   "r": 14,
+   "event_id": "federalregister:2026-21835",
+   "old_sig": "3",
+   "old_sector": "policy",
+   "new_sig": 3,
+   "new_sector": "policy",
+   "why": "Amendment responds to provisions OSM did not approve in its January 19, 2024 partial approval of Wyoming's drilling rules."
+  },
+  {
+   "r": 15,
+   "event_id": "federalregister:2026-21645",
+   "old_sig": "4",
+   "old_sector": "transmission",
+   "new_sig": 3,
+   "new_sector": "transmission",
+   "why": "The Resource Management Plan amendments started by the December 1, 2023 notice of intent will not proceed."
+  },
+  {
+   "r": 16,
+   "event_id": "federalregister:2026-21588",
+   "old_sig": "6",
+   "old_sector": "nuclear",
+   "new_sig": 6,
+   "new_sector": "nuclear",
+   "why": "Dual-unit SMR-300 plant at Palisades Energy Center in Covert would be built under a limited work authorization request."
+  },
+  {
+   "r": 17,
+   "event_id": "federalregister:2026-21622",
+   "old_sig": "5",
+   "old_sector": "policy",
+   "new_sig": 3,
+   "new_sector": "policy",
+   "why": "Virginia's partial program operates in place of the federal CCR program except for specific provisions EPA names."
+  },
+  {
+   "r": 18,
+   "event_id": "federalregister:2026-21425",
+   "old_sig": "6",
+   "old_sector": "lng",
+   "new_sig": 6,
+   "new_sector": "lng",
+   "why": "Request, filed September 28, 2026, would amend DOE/FE Order No. 4489 to push back the date exports must begin."
+  },
+  {
+   "r": 19,
+   "event_id": "federalregister:2026-21442",
+   "old_sig": "7",
+   "old_sector": "policy",
+   "new_sig": 6,
+   "new_sector": "gas",
+   "why": "FERC would no longer ordinarily require air dispersion modeling for compressor stations or LNG facilities in applications."
+  },
+  {
+   "r": 20,
+   "event_id": "doe:c08b2874ffce",
+   "old_sig": "6",
+   "old_sector": "gas",
+   "new_sig": 6,
+   "new_sector": "gas",
+   "why": "Federal funding goes to a gas pipeline project through the Defense Production Act rather than through a FERC process."
+  },
+  {
+   "r": 21,
+   "event_id": "federalregister:2026-21364",
+   "old_sig": "5",
+   "old_sector": "interconnection",
+   "new_sig": 5,
+   "new_sector": "interconnection",
+   "why": "Five projects must decide by October 20, 2026 whether to sign a Large Generator Interconnection Agreement or leave the queue."
+  },
+  {
+   "r": 22,
+   "event_id": "doe:87ea850a8740",
+   "old_sig": "6",
+   "old_sector": "transmission",
+   "new_sig": 6,
+   "new_sector": "transmission",
+   "why": "Transmission line spanning two states gets Defense Production Act money for grid reliability."
+  },
+  {
+   "r": 23,
+   "event_id": "federalregister:2026-21070",
+   "old_sig": "2",
+   "old_sector": "gas",
+   "new_sig": 2,
+   "new_sector": "gas",
+   "why": "Request covers one injection/withdrawal well and connecting pipeline in Holmes County, Ohio."
+  },
+  {
+   "r": 24,
+   "event_id": "federalregister:2026-20954",
+   "old_sig": "3",
+   "old_sector": "nuclear",
+   "new_sig": 2,
+   "new_sector": "nuclear",
+   "why": "Notice lists amendments to operating and combined licenses the NRC can make immediately effective."
+  },
+  {
+   "r": 25,
+   "event_id": "federalregister:2026-21030",
+   "old_sig": "6",
+   "old_sector": "nuclear",
+   "new_sig": 7,
+   "new_sector": "nuclear",
+   "why": "Revision 20 reflects design changes made during licensing, construction and operation of Vogtle Units 3 and 4."
+  },
+  {
+   "r": 26,
+   "event_id": "federalregister:2026-20850",
+   "old_sig": "0",
+   "old_sector": "other",
+   "new_sig": 0,
+   "new_sector": "other",
+   "why": "The listing replaces all previously published lists of board members."
+  },
+  {
+   "r": 27,
+   "event_id": "federalregister:2026-20892",
+   "old_sig": "5",
+   "old_sector": "oil",
+   "new_sig": 5,
+   "new_sector": "oil",
+   "why": "Governors and local governments of affected states get a review and comment opportunity under Section 19 of the OCS Lands Act."
+  },
+  {
+   "r": 28,
+   "event_id": "federalregister:2026-20736",
+   "old_sig": "3",
+   "old_sector": "policy",
+   "new_sig": 2,
+   "new_sector": "policy",
+   "why": "Monitoring data for the 2023-2025 design value period showed both counties attained the 2015 ozone standard."
+  },
+  {
+   "r": 29,
+   "event_id": "doe:aadece17817a",
+   "old_sig": "2",
+   "old_sector": "policy",
+   "new_sig": 1,
+   "new_sector": "other",
+   "why": "The fellowship is a DOE graduate education program tied to the Genesis Mission."
+  },
+  {
+   "r": 30,
+   "event_id": "federalregister:2026-20580",
+   "old_sig": "5",
+   "old_sector": "gas",
+   "new_sig": 5,
+   "new_sector": "gas",
+   "why": "Project in Iowa and Minnesota replaces abandoned capacity and adds 79,303 dekatherms per day."
+  },
+  {
+   "r": 31,
+   "event_id": "federalregister:2026-20656",
+   "old_sig": "3",
+   "old_sector": "renewables",
+   "new_sig": 2,
+   "new_sector": "generation",
+   "why": "A hydroelectric application is open for public inspection and comments on environmental issues."
+  },
+  {
+   "r": 32,
+   "event_id": "federalregister:C1-2026-19812",
+   "old_sig": "1",
+   "old_sector": "nuclear",
+   "new_sig": 1,
+   "new_sector": "nuclear",
+   "why": "The item corrects a prior biweekly notice on license amendments involving no significant hazards considerations."
+  },
+  {
+   "r": 33,
+   "event_id": "federalregister:2026-20418",
+   "old_sig": "2",
+   "old_sector": "renewables",
+   "new_sig": 2,
+   "new_sector": "generation",
+   "why": "Proposed docks would sit in Pike County, with comments, interventions and protests open."
+  },
+  {
+   "r": 34,
+   "event_id": "federalregister:2026-20453",
+   "old_sig": "4",
+   "old_sector": "gas",
+   "new_sig": 5,
+   "new_sector": "gas",
+   "why": "Facilities in Reno, Harvey and Stafford counties would deliver gas to the Evergy McNew power plant."
+  },
+  {
+   "r": 35,
+   "event_id": "federalregister:2026-20336",
+   "old_sig": "3",
+   "old_sector": "nuclear",
+   "new_sig": 3,
+   "new_sector": "nuclear",
+   "why": "Certain uses and quantities of byproduct, source and special nuclear material no longer need a license."
+  },
+  {
+   "r": 36,
+   "event_id": "federalregister:2026-20276",
+   "old_sig": "3",
+   "old_sector": "nuclear",
+   "new_sig": 2,
+   "new_sector": "nuclear",
+   "why": "Indiana assumes authority over byproduct, source and small-quantity special nuclear materials, signed September 24, 2026 by Chairman Nieh and Governor Braun."
+  },
+  {
+   "r": 37,
+   "event_id": "federalregister:2026-20108",
+   "old_sig": "3",
+   "old_sector": "gas",
+   "new_sig": 3,
+   "new_sector": "gas",
+   "why": "Request covers about 1.59 miles of 24-inch and 30-inch mainline pipe, filed September 18, 2026."
+  },
+  {
+   "r": 38,
+   "event_id": "cpuc:4c8578a008e4",
+   "old_sig": "2",
+   "old_sector": "policy",
+   "new_sig": 2,
+   "new_sector": "power_prices",
+   "why": "Customers can comment on the utility's rate request at the public forums."
+  },
+  {
+   "r": 39,
+   "event_id": "federalregister:2026-19818",
+   "old_sig": "3",
+   "old_sector": "generation",
+   "new_sig": 3,
+   "new_sector": "generation",
+   "why": "Motions to intervene and protests are open alongside the scoping period on environmental issues."
+  },
+  {
+   "r": 40,
+   "event_id": "doe:52f19d96fc84",
+   "old_sig": "6",
+   "old_sector": "generation",
+   "new_sig": 6,
+   "new_sector": "generation",
+   "why": "A Colorado coal unit stays available to the grid instead of retiring."
+  },
+  {
+   "r": 41,
+   "event_id": "doe:c5acbde6bff5",
+   "old_sig": "7",
+   "old_sector": "grid_conditions",
+   "new_sig": 5,
+   "new_sector": "grid_conditions",
+   "why": "The investments span 26 states and target electricity costs and grid reliability; the summary gives no dollar amount or capacity."
+  },
+  {
+   "r": 42,
+   "event_id": "federalregister:2026-19581",
+   "old_sig": "4",
+   "old_sector": "gas",
+   "new_sig": 3,
+   "new_sector": "gas",
+   "why": "Facilities would be built in Maricopa and Yuma Counties, and the environmental document feeds the FERC public convenience and necessity decision."
+  },
+  {
+   "r": 43,
+   "event_id": "federalregister:2026-19441",
+   "old_sig": "3",
+   "old_sector": "gas",
+   "new_sig": 3,
+   "new_sector": "gas",
+   "why": "The request raises the maximum allowable operating pressure from 1008 psig under blanket authorization, with an intervention and protest deadline."
+  },
+  {
+   "r": 44,
+   "event_id": "federalregister:2026-19294",
+   "old_sig": "3",
+   "old_sector": "nuclear",
+   "new_sig": 2,
+   "new_sector": "nuclear",
+   "why": "The board is formed under 10 CFR Part 2 to preside over a licensing proceeding; the summary does not name the proceeding."
+  },
+  {
+   "r": 45,
+   "event_id": "federalregister:2026-19217",
+   "old_sig": "4",
+   "old_sector": "nuclear",
+   "new_sig": 3,
+   "new_sector": "nuclear",
+   "why": "Revision 1 adds an appendix describing the information staff use to review materials of construction and passive component performance."
+  },
+  {
+   "r": 46,
+   "event_id": "doe:8d771c691b80",
+   "old_sig": "6",
+   "old_sector": "generation",
+   "new_sig": 6,
+   "new_sector": "generation",
+   "why": "Coal units in Indiana that would have retired stay available to the grid, with costs likely spread across ratepayers."
+  },
+  {
+   "r": 47,
+   "event_id": "federalregister:2026-19197",
+   "old_sig": "2",
+   "old_sector": "renewables",
+   "new_sig": 3,
+   "new_sector": "renewables",
+   "why": "The filing opens a comment, intervention and protest period for a hydroelectric project."
+  },
+  {
+   "r": 48,
+   "event_id": "cpuc:b7833f573f66",
+   "old_sig": "2",
+   "old_sector": "policy",
+   "new_sig": 3,
+   "new_sector": "policy",
+   "why": "Utility land transfers in California now carry expanded tribal participation requirements."
+  },
+  {
+   "r": 49,
+   "event_id": "federalregister:2026-19071",
+   "old_sig": "9",
+   "old_sector": "policy",
+   "new_sig": 9,
+   "new_sector": "generation",
+   "why": "Removes the CCS-based standards for coal units undertaking large modification and the emission guidelines for existing steam units, easing retirement pressure on fossil plants."
+  },
+  {
+   "r": 50,
+   "event_id": "federalregister:2026-18990",
+   "old_sig": "2",
+   "old_sector": "renewables",
+   "new_sig": 2,
+   "new_sector": "renewables",
+   "why": "Maine DEP received the certification request on August 27, 2026, which starts the federal clock for its decision."
+  },
+  {
+   "r": 51,
+   "event_id": "federalregister:2026-19027",
+   "old_sig": "3",
+   "old_sector": "policy",
+   "new_sig": 4,
+   "new_sector": "generation",
+   "why": "Indiana's program would operate in place of the federal CCR program, apart from specified provisions, putting permitting under the state agency."
+  },
+  {
+   "r": 52,
+   "event_id": "federalregister:2026-18638",
+   "old_sig": "3",
+   "old_sector": "policy",
+   "new_sig": 2,
+   "new_sector": "policy",
+   "why": "The collaborative, created in March 2024, is a forum for federal and state regulators on jurisdictional overlap."
+  },
+  {
+   "r": 53,
+   "event_id": "federalregister:2026-18759",
+   "old_sig": "1",
+   "old_sector": "policy",
+   "new_sig": 1,
+   "new_sector": "policy",
+   "why": "DC certified on May 21, 2026 that no existing other solid waste incinerators fall under Clean Air Act sections 111(d) and 129."
+  },
+  {
+   "r": 54,
+   "event_id": "federalregister:2026-18516",
+   "old_sig": "6",
+   "old_sector": "nuclear",
+   "new_sig": 6,
+   "new_sector": "nuclear",
+   "why": "Renewal would extend the permit expiration by 20 years, keeping a site in Louisa County available for a construction permit or combined license."
+  },
+  {
+   "r": 55,
+   "event_id": "federalregister:2026-18455",
+   "old_sig": "4",
+   "old_sector": "gas",
+   "new_sig": 4,
+   "new_sector": "gas",
+   "why": "The project is a 24-inch, 17.77-mile gas pipeline with metering facilities in Doña Ana County, New Mexico."
+  },
+  {
+   "r": 56,
+   "event_id": "doe:c358b979285a",
+   "old_sig": "5",
+   "old_sector": "policy",
+   "new_sig": 5,
+   "new_sector": "capital",
+   "why": "Funding comes from the Office of Critical Minerals and Energy Innovation and targets mining technology for domestic supply."
+  },
+  {
+   "r": 57,
+   "event_id": "federalregister:2026-18358",
+   "old_sig": "2",
+   "old_sector": "generation",
+   "new_sig": 2,
+   "new_sector": "renewables",
+   "why": "The filing opens a period for additional study requests and sets a procedural schedule for relicensing."
+  },
+  {
+   "r": 58,
+   "event_id": "nrc:4c8d0c0d02ba",
+   "old_sig": "4",
+   "old_sector": "nuclear",
+   "new_sig": 6,
+   "new_sector": "nuclear",
+   "why": "The mandatory hearing is the Commission step before an early site permit for Belews Creek can be issued."
+  },
+  {
+   "r": 59,
+   "event_id": "federalregister:2026-18230",
+   "old_sig": "2",
+   "old_sector": "gas",
+   "new_sig": 2,
+   "new_sector": "gas",
+   "why": "The permanent pressure reduction on the Bossier Parish line is meant to maintain compliance with pipeline safety rules."
+  },
+  {
+   "r": 60,
+   "event_id": "federalregister:2026-18106",
+   "old_sig": "5",
+   "old_sector": "oil",
+   "new_sig": 5,
+   "new_sector": "oil",
+   "why": "The programmatic review covers oil and gas exploration and development of the Mancos Shale in La Plata County, Colorado."
+  },
+  {
+   "r": 61,
+   "event_id": "federalregister:2026-18151",
+   "old_sig": "3",
+   "old_sector": "generation",
+   "new_sig": 3,
+   "new_sector": "datacenter_power",
+   "why": "A preliminary permit gives priority to file a license application but authorizes no construction; the site is Upper Cook Inlet."
+  },
+  {
+   "r": 62,
+   "event_id": "federalregister:2026-18056",
+   "old_sig": "5",
+   "old_sector": "transmission",
+   "new_sig": 5,
+   "new_sector": "transmission",
+   "why": "The line crosses Millard, Beaver and Iron Counties in Utah and Lincoln and Clark Counties in Nevada, and scoping is now open."
+  },
+  {
+   "r": 63,
+   "event_id": "federalregister:2026-17944",
+   "old_sig": "7",
+   "old_sector": "gas",
+   "new_sig": 6,
+   "new_sector": "gas",
+   "why": "The pipeline would carry up to 750,000 Dth/d of firm transport from Delaware Basin production through New Mexico and Texas."
+  },
+  {
+   "r": 64,
+   "event_id": "federalregister:2026-17985",
+   "old_sig": "6",
+   "old_sector": "policy",
+   "new_sig": 6,
+   "new_sector": "oil",
+   "why": "EPA also reissued one 2024 compliance year decision originally issued August 3, 2026, under the Renewable Fuel Standard."
+  },
+  {
+   "r": 65,
+   "event_id": "federalregister:2026-17848",
+   "old_sig": "3",
+   "old_sector": "lng",
+   "new_sig": 3,
+   "new_sector": "lng",
+   "why": "The July 29 notice carried a wrong call-in number, and the scoping period ends August 31, 2026."
+  },
+  {
+   "r": 66,
+   "event_id": "federalregister:2026-17626",
+   "old_sig": "5",
+   "old_sector": "nuclear",
+   "new_sig": 5,
+   "new_sector": "nuclear",
+   "why": "Permanent support of excavation walls can be built before a limited work authorization is issued and stay in place after construction."
+  },
+  {
+   "r": 67,
+   "event_id": "federalregister:2026-17647",
+   "old_sig": "2",
+   "old_sector": "nuclear",
+   "new_sig": 2,
+   "new_sector": "nuclear",
+   "why": "Renewal would extend license XW018 ten years to December 31, 2036, with a hearing and intervention opportunity."
+  },
+  {
+   "r": 68,
+   "event_id": "federalregister:2026-17529",
+   "old_sig": "7",
+   "old_sector": "nuclear",
+   "new_sig": 8,
+   "new_sector": "nuclear",
+   "why": "The application covers indirect transfer of licenses for Surry, North Anna, Summer and Millstone nuclear stations, filed July 15, 2026."
+  },
+  {
+   "r": 69,
+   "event_id": "federalregister:2026-17394",
+   "old_sig": "3",
+   "old_sector": "renewables",
+   "new_sig": 2,
+   "new_sector": "renewables",
+   "why": "The project is unconstructed and sits at the Corps of Engineers' Emsworth Locks and Dam on the Ohio River."
+  },
+  {
+   "r": 70,
+   "event_id": "federalregister:2026-17399",
+   "old_sig": "6",
+   "old_sector": "gas",
+   "new_sig": 5,
+   "new_sector": "gas",
+   "why": "The Constitution pipeline would run through Susquehanna County, Pennsylvania and four New York counties, with Iroquois adding the Wright interconnect."
+  },
+  {
+   "r": 71,
+   "event_id": "federalregister:2026-17253",
+   "old_sig": "5",
+   "old_sector": "nuclear",
+   "new_sig": 3,
+   "new_sector": "nuclear",
+   "why": "The review covers excavation support walls for a dual-unit SMR-300 plant at the Palisades Energy Center in Covert, Michigan."
+  },
+  {
+   "r": 72,
+   "event_id": "federalregister:2026-17321",
+   "old_sig": "1",
+   "old_sector": "renewables",
+   "new_sig": 2,
+   "new_sector": "renewables",
+   "why": "New Hampshire DES received a complete request on June 3, 2026, which starts the federal decision clock."
+  },
+  {
+   "r": 73,
+   "event_id": "federalregister:2026-17093",
+   "old_sig": "2",
+   "old_sector": "nuclear",
+   "new_sig": 2,
+   "new_sector": "nuclear",
+   "why": "Draft DG-1444 would become Regulatory Guide 1.264 and sets a methodology staff accept for chemical risk from licensed material."
+  },
+  {
+   "r": 74,
+   "event_id": "federalregister:2026-17104",
+   "old_sig": "2",
+   "old_sector": "generation",
+   "new_sig": 3,
+   "new_sector": "renewables",
+   "why": "The filing opens a period for comments, motions to intervene and protests on the hydroelectric application."
+  },
+  {
+   "r": 75,
+   "event_id": "federalregister:2026-17147",
+   "old_sig": "6",
+   "old_sector": "nuclear",
+   "new_sig": 5,
+   "new_sector": "nuclear",
+   "why": "Direct transfer of operating licenses from Duke Energy Progress to Duke Energy Carolinas, applied for March 20, 2026, covers three plants."
+  },
+  {
+   "r": 76,
+   "event_id": "federalregister:2026-17013",
+   "old_sig": "3",
+   "old_sector": "nuclear",
+   "new_sig": 3,
+   "new_sector": "nuclear",
+   "why": "Trial RG 1.247, first issued March 2022 with a two-year trial period, is extended for further trial use."
+  },
+  {
+   "r": 77,
+   "event_id": "federalregister:2026-16923",
+   "old_sig": "2",
+   "old_sector": "generation",
+   "new_sig": 2,
+   "new_sector": "renewables",
+   "why": "The license for Project No. 2645 ended July 31, 2026, so operation continues under annual authorization."
+  },
+  {
+   "r": 78,
+   "event_id": "federalregister:2026-16833",
+   "old_sig": "5",
+   "old_sector": "generation",
+   "new_sig": 4,
+   "new_sector": "renewables",
+   "why": "PG&E applied July 25, 2025 to decommission the project on the Eel and Russian Rivers, on Forest Service land."
+  },
+  {
+   "r": 79,
+   "event_id": "puct:161533489d42",
+   "old_sig": "2",
+   "old_sector": "policy",
+   "new_sig": 3,
+   "new_sector": "grid_conditions",
+   "why": "The grants fund reliability improvements in Northwest Texas."
+  },
+  {
+   "r": 80,
+   "event_id": "federalregister:2026-16627",
+   "old_sig": "2",
+   "old_sector": "policy",
+   "new_sig": 1,
+   "new_sector": "policy",
+   "why": "The plan sets RACT for NOx from three oil-fired engines at a Woodside, Queens facility."
+  }
+ ]
+}
