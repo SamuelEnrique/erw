@@ -159,6 +159,30 @@ class Rules(unittest.TestCase):
              "September 9, 2026, you will need to file those comments in Docket No. CP26-578-000.")
         self.assertEqual(F.dates(t), [])
 
+    def test_the_dates_of_the_fresh_audit(self):
+        # session 3141: the fresh audit's class 1, each by its document's words
+        cases = [
+            ("Notice is hereby given that answers in response to the motions for abeyance are due by 5:00 p.m. Eastern Time on August 7, 2026.",
+             [("comments_due", "2026-08-07")]),
+            ("Schedule for Environmental Review Issuance of EA--August 21, 2026 90-day Federal Authorization Decision Deadline \\2\\--November 19, 2026",
+             [("review_due", "2026-08-21"), ("decision_due", "2026-11-19")]),
+            ("Under section 307(b)(1) of the CAA, petitions for judicial review of these actions must be filed in the D.C. Circuit by October 5, 2026.",
+             [("review_petition_due", "2026-10-05")]),
+            ("r. Final amendments to the application must be filed with the Commission on or before 5:00 Eastern Time on July 15, 2026.",
+             [("filing_due", "2026-07-15")]),
+            ("Any individual or entity interested in submitting study requests, commenting on the PAD or SD1, and any agency requesting "
+             "cooperating status must do so on or before 5:00 p.m. Eastern Time on August 7, 2026.", [("comments_due", "2026-08-07")]),
+            ("The IAB will also hold an online preparatory meeting among company representatives at 2 p.m., Paris time, on June 10, 2026.",
+             [("meeting", "2026-06-10")]),
+            ("The final rule extended the reporting deadline for reporting year 2025 from March 31, 2026, to October 30, 2026.",
+             [("filing_due", "2026-10-30")]),
+            # a date being replaced is no step; its replacement is
+            ("On page 5, in the first column, correct ``This RG is effective on June 4, 2026'' to read, ``This RG is effective on August 18, 2026.''",
+             [("effective", "2026-08-18")]),
+        ]
+        for text, want in cases:
+            self.assertEqual([x[:2] for x in F.dates(text)], want, text[:60])
+
     def test_the_instruments_of_the_fresh_audit(self):
         # session 3140: the nine rows of the fresh audit's class 5, by their titles and the Register's action lines
         cases = [

@@ -40,10 +40,12 @@ INSTRUMENTS = ["rule", "proposed_rule", "order", "guidance", "approval", "lease_
                "complaint", "environmental_review", "meeting", "decision", "notice", "announcement"]
 STATUSES = ["proposed", "final", "effective", "stayed", "vacated", "withdrawn", "filed", "open", "scheduled", "issued",
             "announced"]
-KINDS = ["effective", "expires", "comments_due", "intervention_due", "review_due", "decision_due", "meeting"]
+KINDS = ["effective", "expires", "comments_due", "intervention_due", "review_due", "decision_due", "meeting",
+         "filing_due", "review_petition_due"]   # session 3141: a filing's deadline; a court petition's deadline
 KIND_WORDS = {"effective": "takes effect", "expires": "ends", "comments_due": "comments due",
               "intervention_due": "interventions or hearing requests due", "review_due": "environmental document due",
-              "decision_due": "decision due", "meeting": "meeting or session"}
+              "decision_due": "decision due", "meeting": "meeting or session", "filing_due": "filings due",
+              "review_petition_due": "petitions for judicial review due"}
 FIGURE_UNITS = ["MW", "GW", "kW", "MWh", "kV", "Dth/d", "Bcf/d", "MMcf/d", "USD"]
 
 # The Register's agency names (its record's `agencies`) and the body each is filed under. A department is the body
@@ -213,24 +215,34 @@ def status(inst, action_type, title, status_line, event_date, dates):
 # What the words before a date say of it, in the order they are tried. The clause is the text between the sentence's
 # start (or the date before it in the same sentence) and the date.
 CLAUSE_RULES = [
-    ("review_due", re.compile(r"issuance of (?:the )?(?:ea|eis|final eis|environmental assessment)\s*$|notice of availability of the (?:final )?eis\s*$", re.I)),
-    ("decision_due", re.compile(r"decision deadline\W*(?:\\\d+\\)?\s*$", re.I)),
+    # session 3141: a schedule may write its dates after two hyphens ("Issuance of EA--August 21, 2026")
+    ("review_due", re.compile(r"issuance of (?:the )?(?:ea|eis|final eis|environmental assessment)[\s:-]*$|notice of availability of the (?:final )?eis[\s:-]*$", re.I)),
+    ("decision_due", re.compile(r"decision deadline\W*(?:\\\d+\\)?[\s:-]*$", re.I)),
+    # session 3141: a court petition's deadline ("A petition for review ... shall be filed ... no later than")
+    ("review_petition_due", re.compile(r"\bpetitions? for (?:judicial )?review\b.{0,200}(?:no later than|by|before)\s*$", re.I)),
     # session 3125: a water quality certification's deadline ("Reasonable Period of Time to Act on the Certification
     # Request: One year, August 27, 2027")
     ("decision_due", re.compile(r"reasonable period of time to act on the certification request:\s*(?:[a-z]+ )?(?:years?|months?)?\W*$", re.I)),
     # session 3125: an event's date under its own heading ("When: Tue., Oct. 13, 2026"; "Scoping Session / Date:")
     ("meeting", re.compile(r"^\W*when:\s*$", re.I)),
-    ("comments_due", re.compile(r"\bcomments?\b", re.I)),
+    # session 3141: "commenting on the PAD", and the answers a notice asks for, are comments
+    ("comments_due", re.compile(r"\bcomment(?:s|ing)?\b|\banswers?\b", re.I)),
     ("intervention_due", re.compile(r"\bintervene\b|\bintervention\b|\bprotests?\b|\brequest for a hearing\b|\bhearing request", re.I)),
+    # session 3141: a filing the action asks of someone ("Final amendments to the application must be filed ... on or
+    # before"; a reporting deadline extended "to" a date)
+    ("filing_due", re.compile(r"\bmust be filed\b|\bshall be filed\b|\breporting deadline\b|\bdeadline\b[^.]{0,120}\bto\s*$", re.I)),
     ("effective", re.compile(r"\b(?:is|are|will be|becomes?|shall be) effective(?: on| as of)?\s*$|\beffective date is\s*$|\bfor a period effective\s*$|\bin effect beginning(?: on)?\s*$|\btakes? effect(?: on)?\s*$", re.I)),
-    ("meeting", re.compile(r"\b(?:scoping|public) (?:session|meeting)s?\b[^.]{0,120}$|\bhearing (?:will be held|is scheduled)\b[^.]{0,60}$", re.I)),
+    ("meeting", re.compile(r"\b(?:scoping|public) (?:session|meeting)s?\b[^.]{0,120}$|\bhearing (?:will be held|is scheduled)\b[^.]{0,60}$"
+                           r"|\b(?:will|to) (?:also )?hold\b[^.]{0,120}\bmeetings?\b[^.]{0,100}$", re.I)),
 ]
 # A date in these words is not a step of the action: a filing's or a signature's own date.
 NOT_A_STEP = re.compile(r"(?:\bdated|\bdate filed|\bfiled on|\bsigned on|\bsubmitted on|\bopening of this docket on|\bas of)\W*$", re.I)
 # A deadline's words end right before its date (its hour taken out): "must be filed by", "on or before", "is", ":"
 DEADLINE_END = re.compile(r"(?:\bdue(?: on| by)?|\bby|\bbefore|\bno later than|\blater than|\buntil|\bis|\bshortened to|\bperiod to|:)\s*$", re.I)
 WEEKDAY = r"Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon\.|Tue\.|Tues\.|Wed\.|Thu\.|Thurs\.|Fri\.|Sat\.|Sun\."
-HOUR_ETC = re.compile(rf"\s*(?:\d{{1,2}}:\d\d\s*[ap]\.?m\.?,?|Eastern (?:Standard |Daylight )?Time|E[DS]?T|Eastern time|on|,|{WEEKDAY})\s*$")
+# session 3141: an hour with or without minutes or "p.m." ("2 p.m., Paris time"; "5:00 Eastern Time")
+HOUR_ETC = re.compile(rf"\s*(?:\d{{1,2}}:\d\d(?:\s*[ap]\.?m\.?)?,?|\d{{1,2}}\s*[ap]\.?m\.?,?|Eastern (?:Standard |Daylight )?Time|E[DS]?T|"
+                      rf"[A-Z][a-z]+ time|on|at|,|{WEEKDAY})\s*$")
 
 
 def dates(text, record=None):
@@ -245,11 +257,15 @@ def dates(text, record=None):
         # the clause: from the sentence's start, or from the date before it in the same sentence
         cut = _sentences_end(text, max(0, m.start() - 300), m.start()) - max(0, m.start() - 300)
         clause = before[cut:]
+        whole = re.sub(r"\s+", " ", clause)   # session 3141: the sentence to this date, other dates and all
         prev = list(DATE.finditer(clause))
         if prev:
             clause = clause[prev[-1].end():]
         clause = re.sub(r"\s+", " ", clause)
         if NOT_A_STEP.search(clause):
+            continue
+        # session 3141: a date being replaced ("June 4, 2026'' to read, ``This RG is effective on August 18, 2026.''")
+        if re.match(r"""[\s,.'"`]{0,6}to read\b""", text[m.end():m.end() + 24]):
             continue
         # the hour of a deadline stands between its words and its date ("by 5:00 p.m. Eastern Time on")
         clause_w = HOUR_ETC.sub("", clause)
@@ -262,10 +278,12 @@ def dates(text, record=None):
                 r"\b(?:session|meeting|hearing|forum)\b[^\n]{0,40}\n\s*\n?\s*date:\s*\S*\s*$", text[max(0, m.start() - 160):m.start()], re.I):
             kind = "meeting"
         for k, pat in CLAUSE_RULES:
-            if k in ("comments_due", "intervention_due"):
+            if k in ("comments_due", "intervention_due", "filing_due"):
                 hits = list(pat.finditer(clause))
                 # the date is these words' only when it follows them closely and a deadline's words end the clause
-                if hits and len(clause) - hits[0].end() <= 200 and DEADLINE_END.search(clause):
+                # (session 3141: a filing's deadline too, which may end "to" a date)
+                ends = DEADLINE_END.search(clause) or (k == "filing_due" and re.search(r"\bto\s*$", clause))
+                if hits and len(clause) - hits[0].end() <= 200 and ends:
                     kind = k
                     break
             elif pat.search(clause):
@@ -279,6 +297,9 @@ def dates(text, record=None):
         if kind is None and re.fullmatch(r"\W*through\s*", clause) and last and last[0] == "effective" \
                 and m.start() - last[1] < 40:
             kind = "expires"   # "effective September 17, 2026, through September 16, 2027"
+        # session 3141: a deadline moved "from March 31, 2026, to October 30, 2026": the new date is the filing's
+        if kind is None and re.fullmatch(r"\W*to\s*", clause) and re.search(r"\bdeadline\b", whole, re.I):
+            kind = "filing_due"
         if kind is None:
             continue
         last = (kind, m.end())
@@ -303,8 +324,8 @@ def dates(text, record=None):
     return out
 
 
-NEXT_ORDER = {k: i for i, k in enumerate(["comments_due", "intervention_due", "meeting", "review_due", "decision_due",
-                                          "effective", "expires"])}
+NEXT_ORDER = {k: i for i, k in enumerate(["comments_due", "intervention_due", "filing_due", "review_petition_due", "meeting",
+                                          "review_due", "decision_due", "effective", "expires"])}
 
 
 def next_step(steps, event_date):

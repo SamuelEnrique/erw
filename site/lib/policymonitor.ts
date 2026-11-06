@@ -154,6 +154,8 @@ export type CalStep = { kind: string; date: string; words: string; event_id: str
 export const KIND_WORDS: Record<string, string> = {
   effective: "takes effect", expires: "ends", comments_due: "comments due", intervention_due: "interventions or hearing requests due",
   review_due: "environmental document due", decision_due: "decision due", meeting: "meeting or session",
+  // session 3141: a filing's deadline and a court petition's deadline (warehouse/policy/fields.py, KINDS)
+  filing_due: "filings due", review_petition_due: "petitions for judicial review due",
 };
 
 const day = (iso: string, plus: number) => {

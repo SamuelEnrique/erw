@@ -1,6 +1,6 @@
 # Session 3140: chain 178's seventh session (its 3140): the fresh audit's instruments; the push
 
-Personal laptop, second window, 6 November 2026, 14:38 to 14:46 UTC. Opus 5.5. Branch `wip/3140-policy` cut from `wip/3139-policy`.
+Personal laptop, second window, 6 November 2026, 14:38 to 14:41 UTC (the commits' times). Opus 5.5. Branch `wip/3140-policy` cut from `wip/3139-policy`.
 
 ## What it did
 
