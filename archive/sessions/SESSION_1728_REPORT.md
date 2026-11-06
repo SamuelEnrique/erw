@@ -18,3 +18,8 @@ Energy Research Warehouse (ERW), sessions 1728 and 1729 (begun), chain 194, samu
 ## For Samuel's ruling
 
 - The wait above: keep it, or pass on empty chains while the stories are held.
+
+## Where the chain stands (20:33 UTC)
+
+- Session 1729's wait was stopped at 20:33 UTC by the harness's two-hour limit on a background command, which was the longest allowed, and it was not restarted. The stories had not moved (still 5 November 23:26 UTC).
+- Chain 194 stands at session 1729. Its file is in `queue/done/` (taken), and `queue/next/` holds 195 and 196 for this machine. To go on, run session 1729's dry run once `news_stories.csv` on main is newer than 20261105T232645Z (expected with 7 November's daily run, about 16:00 UTC), then sessions 1730 to 1741 as the file says, then `scripts/chain_queue.py next`.
