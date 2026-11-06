@@ -50,7 +50,7 @@ One step a session, in chain 154's order, as session 1484 lists them under "Unfi
 
 Long end 2:00 each. Pulls: none but the Claude API where a session's fixture needs a scored line (cap USD 1 a session).
 
-One fault a session, from `docs/reviews/periodicals-faults-2026-11-05.md`, in the order of the file: the rows whose state is open after chain 154 (the third dry runs of chain 154's session 1468 first). Each session: the fault quoted with the line it faults and the line the fix writes instead; the fix in the function the plan names; tests on fixtures and on the 13 issues regenerated into the test's own folder (no past issue rewritten); the faults file updated with the fault's state (fixed, with the commit); its branch cut from the newest unlanded branch of this chain. **Every third session (1492, 1495) ends by landing the stack through the gate** (`--port 34NN`), the snapshots, the branches deleted once ancestors.
+One fault a session, from `docs/reviews/periodicals-faults-2026-11-05.md`, in the order of the file: the rows whose state is open after chain 154 (the fourth dry runs of chain 154's session 1482 first). Each session: the fault quoted with the line it faults and the line the fix writes instead; the fix in the function the plan names; tests on fixtures and on the 13 issues regenerated into the test's own folder (no past issue rewritten); the faults file updated with the fault's state (fixed, with the commit); its branch cut from the newest unlanded branch of this chain. **Every third session (1492, 1495) ends by landing the stack through the gate** (`--port 34NN`), the snapshots, the branches deleted once ancestors.
 
 ### Open faults (written by session 1484 of chain 154)
 
