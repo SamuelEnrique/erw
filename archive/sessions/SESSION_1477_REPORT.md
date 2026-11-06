@@ -1,6 +1,6 @@
 # Session 1477 report: one more dry run of each periodical (a free session), read and sent
 
-Energy Research Warehouse (ERW), session 1477, chain 154 (a free fault session: rows 50 to 54 fixed by sessions 1472 to 1476, and the chain file sends a free session to one more dry run of each periodical), samueloldlaptop, 6 November 2026, 07:24 to 07:30 UTC. Model: Claude Opus 5.5 (this window's). **Model spend USD 0.0434** (the Digest USD 0.0268 + 0.0047, the Roundup USD 0.0073 + 0.0046; `ERW_SPEND_CAP_USD=4`, the ledger off). No warehouse data written; **two preview emails to the one fixed recipient** (07:27 UTC, "[preview, dry run 1477] ...", Resend ids `01a1afc0-f18f-7e50-b391-7356cb48ace1` and `01a1afc0-f6c2-77ca-bb04-6a212643ede8`); nothing posted. Branch `wip/1477-periodicals`, cut from `wip/1476-periodicals`.
+Energy Research Warehouse (ERW), session 1477, chain 154 (a free fault session: rows 50 to 54 fixed by sessions 1472 to 1476, and the chain file sends a free session to one more dry run of each periodical), samueloldlaptop, 6 November 2026, 07:24 to 07:27 UTC. Model: Claude Opus 5.5 (this window's). **Model spend USD 0.0434** (the Digest USD 0.0268 + 0.0047, the Roundup USD 0.0073 + 0.0046; `ERW_SPEND_CAP_USD=4`, the ledger off). No warehouse data written; **two preview emails to the one fixed recipient** (07:27 UTC, "[preview, dry run 1477] ...", Resend ids `01a1afc0-f18f-7e50-b391-7356cb48ace1` and `01a1afc0-f6c2-77ca-bb04-6a212643ede8`); nothing posted. Branch `wip/1477-periodicals`, cut from `wip/1476-periodicals`.
 
 ## What it did
 
