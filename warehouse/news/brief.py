@@ -141,6 +141,17 @@ def title_kind(title):
     return "event"
 
 
+def is_google(url):
+    """A Google News address: the link reaches Google's page, not the outlet's (the ingest's resolver, 22,619 of
+    22,624 by 6 November 2026, got no redirect from Google)."""
+    return "news.google.com" in str(url or "")
+
+
+def direct_first(links):
+    """The links with those reaching the outlet's own page first, each group in its order (session 1442)."""
+    return [l for l in links if not is_google(l[1])] + [l for l in links if is_google(l[1])]
+
+
 def build_clusters(stories):
     rows = []
     for cid, g in stories.groupby("cluster_id"):
@@ -153,8 +164,10 @@ def build_clusters(stories):
             "price": next((x for x in g["price_mentioned"] if x), ""), "parties": lead["parties"],
             "first": g["event_date"].min(), "n": len(g),
             "outlets": g["source"].astype(str).str.strip().str.lower().nunique(),   # session 2701: the outlets that ran it
-            # session 470: one link an address (two stories of a cluster at one address printed it twice)
-            "links": list({r.source_url: (r.source, r.source_url) for r in g.itertuples()}.values())[:3],
+            # session 470: one link an address (two stories of a cluster at one address printed it twice); session 1442
+            # (fault 23): a link that reaches the outlet's own page before one that reaches Google's, so the item's first
+            # source is the outlet's wherever one story of the cluster has it (the ingest's resolver reaches no outlet)
+            "links": direct_first(list({r.source_url: (r.source, r.source_url) for r in g.itertuples()}.values()))[:3],
             "titles": list(g["title"])[:4], "summary": lead["summary"][:300],
             "kind": title_kind(lead["title"]),   # session 814: event or commentary, by the title's form
         })

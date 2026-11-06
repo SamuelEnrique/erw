@@ -1406,5 +1406,29 @@ class Session1441ChartOfTheDay(unittest.TestCase):
                 self.assertIn(day, refused)
 
 
+class Session1442Sources(unittest.TestCase):
+    """Session 1442 (chain 149, fault 23): a cluster's links reach the outlet's own page before Google's, so an item's
+    first source is the outlet's wherever one of its stories has it."""
+
+    def test_direct_links_come_first(self):
+        g = ("Reuters", "https://news.google.com/rss/articles/CBMi0?oc=5")
+        d = ("Rigzone", "https://www.rigzone.com/news/x")
+        self.assertEqual(brief.direct_first([g, d]), [d, g])
+        self.assertEqual(brief.direct_first([d, g]), [d, g])
+        self.assertTrue(brief.is_google(g[1])); self.assertFalse(brief.is_google(d[1]))
+        self.assertEqual(brief.link_text([d, g]), "[Rigzone](https://www.rigzone.com/news/x), [Reuters](https://news.google.com/rss/articles/CBMi0?oc=5) (via Google News)")
+
+    def test_build_clusters_puts_the_outlet_first(self):
+        rows = [{"cluster_id": "c", "sig": 7, "ai": 0, "sector": "oil", "region": "", "why": "w", "mw": "", "price_mentioned": "", "parties": "",
+                 "event_date": "2026-10-26T01:00:00Z", "source": "Reuters", "source_url": "https://news.google.com/rss/articles/A?oc=5",
+                 "title": "Oil prices rise", "summary": ""},
+                {"cluster_id": "c", "sig": 6, "ai": 0, "sector": "oil", "region": "", "why": "w", "mw": "", "price_mentioned": "", "parties": "",
+                 "event_date": "2026-10-26T02:00:00Z", "source": "OilPrice.com", "source_url": "https://oilprice.com/x",
+                 "title": "Brent tops 116", "summary": ""}]
+        c = brief.build_clusters(pd.DataFrame(rows))
+        self.assertEqual(c.iloc[0]["links"][0], ("OilPrice.com", "https://oilprice.com/x"))
+        self.assertEqual(c.iloc[0]["titles"][0], "Oil prices rise")   # the lead story is still the highest scored
+
+
 if __name__ == "__main__":
     unittest.main()
