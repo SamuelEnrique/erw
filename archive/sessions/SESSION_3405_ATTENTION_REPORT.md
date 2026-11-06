@@ -20,9 +20,17 @@
 - **The internal view's token was not read** into this window; the site's own scripts opened the view for the pictures and the checks.
 - **The memory kills of 20:46 UTC:** Claude Code stopped this window's background backfill wrapper and build for low system memory while the window waited; the backfill's python finished and released the lock on its own; the build was run again in the foreground once the lock came free. No background build was started again.
 
+## The first gate, and what it settled (session 3407, 23:07 to 23:41 UTC)
+
+The gate (`scripts/land_check.py --ref wip/3400-attention --task 3400-attention --port 3340`, detached) waited 1,000 s for the build lock, built its clean copy and ran the suite: 8,076 tests, one failure, `test_session469.ThePage.test_release_is_not_touched`: `site/lib/release.ts` differs from origin/main. That test is the owner's rule in code: no session changes the release list, not even to add a review line; and the test of session 67 requires a line for every page of the menu registry (`site/lib/pages.ts`). Together they mean a session cannot put a new page in the menu; the owner does, by adding the page's review line on main first (the EV game's line was added that way). So:
+
+- `site/lib/release.ts` is origin/main's again (the one line is gone).
+- The `/attention` entry is out of `site/lib/pages.ts`; the three menu tests (203, 237, 238) are origin/main's again. The page stays at `/attention`, in review by the default rule (a path with no line), opened by the internal view; the method note, the tools inventory and the downloads name it.
+- The gate runs again on the corrected commit (the lines above this report's "Next" say where it stood when the report was written).
+
 ## For Samuel's ruling
 
-- **`site/lib/release.ts` has one new line** (`"/attention": "review"`). If the instruction meant the file must not change at all, the line can go and the page stays reachable in review by the default rule; the test of session 67 would then need your word.
+- **Two lines put `/attention` in the Analysis menu,** both yours to add on main: in `site/lib/release.ts`, `"/attention": "review",` beside `/impact`'s line; in `site/lib/pages.ts`, under the Analysis group after `/policy`: `{ href: "/attention", label: "Attention", line: "How much coverage each energy sector and place got week by week, and how much of it reported opposition: moratoria, lawsuits, protests, denied permits, rate-case fights. Every value opens its stories.", tables: "attention_index_weekly, friction_index_weekly, attention_story_links (site/data/attention.json)", related: ["/policy", "/datacenters", "/digest"] }` (then the menu tests of sessions 203, 237 and 238 take the sixth Analysis page: the lists in this chain's history, commit `b142fb958`, show the exact edits).
 - **The headline number floor:** `/attention` has no line in `check-values-floor.json`; a full passing run with `CHECK_VALUES_WRITE_FLOOR=1` sets it (a landing's run can).
 
 ## Next
