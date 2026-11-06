@@ -1,6 +1,6 @@
 # Session 2275 (chain 174, deals and datacenters) report: a party wrong
 
-6 November 2026, about 13:42 to 13:49 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2275-deals`, cut from `wip/2274-deals`. Model spend **USD 0** (code; the answers replayed). Nothing deployed; no warehouse data written.
+6 November 2026, about 13:42 to 13:45 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2275-deals`, cut from `wip/2274-deals`. Model spend **USD 0** (code; the answers replayed). Nothing deployed; no warehouse data written.
 
 - **The class**: a party wrong, 1 of 106 on the second read (D001: Google, the credit backstop, as seller).
 - **The fix**: `fields.credit_parties`, used by `extract.py` where no buyer is named: the seller the evidence names as providing credit becomes the buyer, the company named after "for" the seller, out of `other_parties`. Logged.
