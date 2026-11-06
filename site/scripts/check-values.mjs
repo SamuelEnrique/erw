@@ -653,6 +653,14 @@ async function truth(check) {
   // session 2244: the facilities against each grid, dcgrid|<stat>|<grid>: the facilities' figures with the page's
   // function (lib/dcrollups.ts gridLoads) on datacenter_facilities; the peak and capacity from grid_peak_vs_capacity in
   // the live set; ERCOT's reserve margin from the file the page reads (data/siting/headroom.json, its build's table)
+  // session 2245: the timeline, dctime|<count|median>|<grid|year>|<value>, the page's own function on the live set
+  if (p[0] === "dctime") {
+    const R = await import("../lib/dcrollups.ts");
+    const [, stat, dim, value] = p;
+    const rows = await all("entities", { select: "entity_id,capacity_mw,status,operator,extra", table_name: "eq.datacenter_facilities", order: "entity_id" });
+    const c = R.timelineCells(R.timeline(rows), dim).find((x) => x.value === (value === "-" ? "" : value));
+    return c ? (c[stat] ?? undefined) : undefined;
+  }
   if (p[0] === "dcgrid") {
     const [, stat, grid] = p;
     const id = { ERCOT: "ercot", CAISO: "caiso", PJM: "pjm", MISO: "miso", SPP: "spp", NYISO: "nyiso", "ISO-NE": "isone" }[grid];

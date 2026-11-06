@@ -91,3 +91,39 @@ export function shareOfPeak(g: GridLoad, peakMw: number | null): number | null {
 
 /** The check key: dcgrid|<facilities|with_mw|without|planned|under_construction|operating|share_of_peak>|<grid>. */
 export const gridKey = (stat: string, grid: string) => `dcgrid|${stat}|${grid}`;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 2245 (chain 156): the timeline, from first reported to energized. Only a facility whose sources state both
+// is on it: the first story's date (first_story_at) and the year it is to be energized or come online, as stated
+// (energized_year, session 2236). Its wait is the difference of the two years, in whole years: a year is all the
+// energized date states, so nothing finer is claimed, and a wait is never estimated from one date. The median of a
+// grid or of a year of first report needs three facilities with both (the deal tracker's rule).
+
+export type TimelineRow = { id: string; operator: string; grid: string; reported: string; energized: number; wait: number };
+export type TimelineCell = { value: string; count: number; median: number | null };
+
+export function timeline(rows: FacRow[]): TimelineRow[] {
+  const out: TimelineRow[] = [];
+  for (const r of rows) {
+    const rep = r.extra?.first_story_at ?? "", y = Number(r.extra?.energized_year ?? "");
+    if (!/^\d{4}-\d{2}/.test(rep) || !Number.isInteger(y) || y < 2000) continue;
+    out.push({ id: r.entity_id, operator: r.operator ?? "", grid: gridOf(r), reported: rep.slice(0, 10), energized: y, wait: y - Number(rep.slice(0, 4)) });
+  }
+  return out.sort((a, b) => a.reported.localeCompare(b.reported) || a.id.localeCompare(b.id));
+}
+
+const median3 = (xs: number[]): number | null => {
+  if (xs.length < 3) return null;
+  const s = [...xs].sort((a, b) => a - b), h = Math.floor(s.length / 2);
+  return s.length % 2 ? s[h] : (s[h - 1] + s[h]) / 2;
+};
+
+export function timelineCells(rows: TimelineRow[], dim: "grid" | "year"): TimelineCell[] {
+  const by = new Map<string, number[]>();
+  for (const r of rows) { const v = dim === "grid" ? r.grid : r.reported.slice(0, 4); by.set(v, [...(by.get(v) ?? []), r.wait]); }
+  return [...by.entries()].map(([value, ws]) => ({ value, count: ws.length, median: median3(ws) }))
+    .sort((a, b) => (dim === "year" ? a.value.localeCompare(b.value) : b.count - a.count || a.value.localeCompare(b.value)));
+}
+
+/** The check key: dctime|<count|median>|<grid|year>|<value> ("-" for none). */
+export const timeKey = (stat: "count" | "median", dim: string, value: string) => `dctime|${stat}|${dim}|${value === "" ? "-" : value}`;

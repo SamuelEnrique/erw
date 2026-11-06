@@ -19,6 +19,7 @@ import { GridsView } from "./GridsView";
 import { PowerSide } from "./PowerSide";
 import { Rollups } from "./Rollups";
 import { FacilitiesVsGrid } from "./FacilitiesVsGrid";
+import { Timeline } from "./Timeline";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Datacenter tracker" };  // session 203: renamed (the roadmap's ruling of 12 October 2026); "Datacenters" is the cost-of-power page's name in the menu now
@@ -101,6 +102,8 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
             <Body rows={res.data.map(toFacility)} today={today}><LargeLoad read={res} />{words}</Body>
             {/* session 2243: the rollups by grid and by operator, with the facilities that state no MW beside each sum */}
             <Rollups rows={res.data} />
+            {/* session 2245: from first reported to energized, where both are stated */}
+            <Timeline rows={res.data} />
           </>
         )}
         {/* session 467: on the power side, drawn whether or not the facilities table can be read (it is held since 21 October 2026) */}
