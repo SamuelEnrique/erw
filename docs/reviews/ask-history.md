@@ -12,3 +12,4 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/history.
 | 2026-10-23 | `questions_s1114.yaml` | thirty a trading, a finance and a policy lead ask, first asking | 24 of 30 | USD 2.84 | `docs/reviews/ask-sixty-2026-10-23.md` |
 | 2026-10-23 | `questions_s320.yaml` | asked again after chains 076 and 085, graded under the hold | 19 of 30 (15 on the figure keys; 30 if session 320's rulings went the answers' way) | USD 2.90 | `docs/reviews/ask-sixty-2026-10-25.md` |
 | 2026-10-23 | `questions_s1114.yaml` | asked again after chains 076 and 085, 8 of the thirty (the cap) | 8 of 8 | USD 0.63 | `docs/reviews/ask-sixty-2026-10-25.md` |
+| 2026-11-06 | `questions_s320.yaml` | asked through the Python loop (eval_loop.py) after USD per kW on by default (chain 152), graded under the hold | 26 of 30 (22 on the figure keys; 26 if session 320's rulings went the answers' way) | USD 2.49 | `docs/reviews/ask-faults-2026-11-05.md` |
