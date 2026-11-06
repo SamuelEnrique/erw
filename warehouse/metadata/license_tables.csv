@@ -77,10 +77,10 @@ cost_of_power_monthly,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registr
 cso_ireland_electricity_monthly,"Central Statistics Office, Ireland (CSO)",the source registry
 csp_latvia_electricity_monthly,Central Statistical Bureau of Latvia (CSP),the source registry
 czso_cz_regional_electricity_annual,Czech Statistical Office (CZSO),the source registry
-datacenter_facilities,Amazon Web Services; Bloomberg; CAISO; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; ERCOT; Equinix; Financial Times; Google; Hart Energy; Heatmap News; ISO-NE; Latitude Media; MISO; Meta; Microsoft; NYISO; Natural Gas Intelligence; OilPrice.com; Oracle; POWER Magazine; Reuters; SPP; Switch; Vantage Data Centers; WSJ,"the source registry and the tables its header derives it from: caiso_interconnection_queue, datacenter_operator_sites, datacenter_projects, ercot_interconnection_queue, isone_interconnection_queue, miso_interconnection_queue, nyiso_interconnection_queue, spp_interconnection_queue"
+datacenter_facilities,Amazon Web Services; Bloomberg; CAISO; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; ERCOT; Energy-Storage.news; Equinix; Financial Times; Google; Hart Energy; Heatmap News; ISO-NE; Latitude Media; MISO; Meta; Microsoft; NYISO; Natural Gas Intelligence; OilPrice.com; Oracle; POWER Magazine; Reuters; SPP; Switch; Vantage Data Centers; WSJ,"the source registry and the tables its header derives it from: caiso_interconnection_queue, datacenter_operator_sites, datacenter_projects, ercot_interconnection_queue, isone_interconnection_queue, miso_interconnection_queue, nyiso_interconnection_queue, spp_interconnection_queue"
 datacenter_operator_sites,Amazon Web Services; Digital Realty; Equinix; Google; Meta; Microsoft; Oracle; Switch; Vantage Data Centers,the source registry
-datacenter_projects,Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
-datacenter_projects_evidence,Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
+datacenter_projects,Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
+datacenter_projects_evidence,Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: rows of the six operators' queue tables
 dbedt_hawaii_electricity_annual,"Hawaii State Department of Business, Economic Development and Tourism (DBEDT)",the source registry
 derk_bih_electricity_annual,State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK),the source registry
@@ -339,6 +339,7 @@ ercot_transmission_projects,ERCOT,the source registry
 ercot_wind_solar_forecast,ERCOT,the source registry
 ercot_wind_solar_hsl_daily,ERCOT,the source registry
 ercot_wind_solar_hsl_hourly,ERCOT,the source registry
+ercot_wind_solar_hsl_monthly,ERW,the source registry
 ercot_wind_solar_output_hourly,ERCOT,the source registry
 ercot_zone_load_hourly,ERCOT,the source registry
 ercot_zone_prices_history,ERCOT,the source registry
