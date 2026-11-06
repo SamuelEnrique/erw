@@ -11,13 +11,14 @@ import { gridOfTable } from "@/lib/datacenter/bygrid";
 import { INDEX } from "@/lib/datacenterdata";
 import { one } from "@/lib/tabs";
 import { attempt } from "@/lib/supabase";
-import { licenseByRow, licenseNeeded } from "@/lib/license";
+import { isLicenseReason, licenseByRow, licenseNeeded } from "@/lib/license";
 import { HeldRows } from "@/components/tool/HeldRows";  // session 500
 import { Body, toFacility } from "./Body";
 import { LargeLoad, LargeLoadSource } from "./LargeLoad";
 import { GridsView } from "./GridsView";
 import { PowerSide } from "./PowerSide";
 import { Rollups } from "./Rollups";
+import { FacilitiesVsGrid } from "./FacilitiesVsGrid";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Datacenter tracker" };  // session 203: renamed (the roadmap's ruling of 12 October 2026); "Datacenters" is the cost-of-power page's name in the menu now
@@ -46,12 +47,16 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
     const grids = queues.ok ? [...new Set(queues.data.rows.map((r) => gridOfTable(r.table_name)))] : [];
     const active = await attempt(() => queueActive(grids));
     const priceTables = grids.flatMap((g) => (INDEX.grids[g]?.regions ?? []).flatMap((r) => [...(r.rt?.tables ?? []), ...(r.da?.tables ?? [])]));
+    // session 2244: the facilities against each grid's peak, capacity and reserve margin (held: the hold's words)
+    const facs = await attempt(datacenters);
+    const facsHeld = !facs.ok && isLicenseReason(facs.reason);
     return (
       <Brand>
         <ToolPage>
           {header}
           <Tabs page="/datacenters" active="grids" />
           <GridsView sites={queues} active={active} />
+          <FacilitiesVsGrid read={facs} held={facsHeld} />
           <TableDownloads tables={[...grids.map((g) => `${g}_interconnection_queue`), ...priceTables]} />
           <Related href="/datacenters" />
         </ToolPage>

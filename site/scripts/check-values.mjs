@@ -650,6 +650,31 @@ async function truth(check) {
     const v = { rollup_facilities: r.counted, rollup_mw: r.mw, rollup_with_mw: r.withMw, rollup_without: r.without }[stat];
     return v ?? undefined;
   }
+  // session 2244: the facilities against each grid, dcgrid|<stat>|<grid>: the facilities' figures with the page's
+  // function (lib/dcrollups.ts gridLoads) on datacenter_facilities; the peak and capacity from grid_peak_vs_capacity in
+  // the live set; ERCOT's reserve margin from the file the page reads (data/siting/headroom.json, its build's table)
+  if (p[0] === "dcgrid") {
+    const [, stat, grid] = p;
+    const id = { ERCOT: "ercot", CAISO: "caiso", PJM: "pjm", MISO: "miso", SPP: "spp", NYISO: "nyiso", "ISO-NE": "isone" }[grid];
+    if (stat === "peak_mw" || stat === "capacity_mw") {
+      const variable = stat === "peak_mw" ? "peak_demand_mw" : "capacity_mw";
+      return (await q("series", { select: "value", table_name: "eq.grid_peak_vs_capacity", entity: `eq.grid_peak_vs_capacity:${id}`, variable: `eq.${variable}`, order: "ts_utc.desc", limit: "1" }))[0]?.value;
+    }
+    if (stat === "reserve_margin") {
+      const h = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "siting", "headroom.json"), "utf-8"));
+      return h.reserve?.grids?.[id]?.peak?.pct;
+    }
+    const R = await import("../lib/dcrollups.ts");
+    const rows = await all("entities", { select: "entity_id,capacity_mw,status,operator,extra", table_name: "eq.datacenter_facilities", order: "entity_id" });
+    const l = R.gridLoads(rows).find((x) => x.grid === grid);
+    if (stat === "share_of_peak") {
+      const pk = (await q("series", { select: "value", table_name: "eq.grid_peak_vs_capacity", entity: `eq.grid_peak_vs_capacity:${id}`, variable: "eq.peak_demand_mw", order: "ts_utc.desc", limit: "1" }))[0]?.value;
+      return l ? R.shareOfPeak(l, pk ?? null) ?? undefined : undefined;
+    }
+    if (!l) return undefined;
+    const v = { facilities: l.facilities, with_mw: l.withMw, without: l.without, planned: l.planned, under_construction: l.underConstruction, operating: l.operating }[stat];
+    return v ?? undefined;
+  }
   if (p[0] === "datacenters") {
     // session 177: since session 166 (part F) the page's totals count only the rows in a named US state that are not
     // cancelled (app/datacenters/Body.tsx, counted), and it shows three counts this check did not know (counted,

@@ -48,3 +48,46 @@ export function rollups(rows: FacRow[], dim: "grid" | "operator"): Rollup[] {
 /** The check key of a rollup's figure: datacenters|rollup_<facilities|mw|with_mw|without>|<grid|operator>|<value>. */
 export const rollupKey = (stat: "facilities" | "mw" | "with_mw" | "without", dim: string, value: string) =>
   `datacenters|rollup_${stat}|${dim}|${value === "" ? "-" : value}`;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 2244 (chain 156): the facilities of each grid against what the grid holds. By grid, the MW the counted
+// facilities state, planned (announced, applied or permitted: the entities vocabulary's "planned"), under construction
+// and operating, with the facilities that state none; the page sets them beside the grid's peak and capacity
+// (grid_peak_vs_capacity, as site/data/siting/headroom.json carries it) and ERCOT's planning reserve margin.
+
+export type GridLoad = { grid: string; facilities: number; withMw: number; without: number; planned: number | null;
+  underConstruction: number | null; operating: number | null };
+
+const STAGE_OF: Record<string, "planned" | "underConstruction" | "operating"> = {
+  planned: "planned", under_construction: "underConstruction", operating: "operating",
+};
+
+export function gridLoads(rows: FacRow[]): GridLoad[] {
+  const by = new Map<string, FacRow[]>();
+  for (const r of rows.filter(counted)) { const g = gridOf(r); if (g) by.set(g, [...(by.get(g) ?? []), r]); }
+  return [...by.entries()].map(([grid, rs]) => {
+    const sums: Record<string, number[]> = { planned: [], underConstruction: [], operating: [] };
+    let withMw = 0;
+    for (const r of rs) {
+      const m = num(r.capacity_mw);
+      if (m === null) continue;
+      withMw += 1;
+      const s = STAGE_OF[(r.status ?? "").toLowerCase()];
+      if (s) sums[s].push(m);
+    }
+    const sum = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) : null);
+    return { grid, facilities: rs.length, withMw, without: rs.length - withMw, planned: sum(sums.planned),
+      underConstruction: sum(sums.underConstruction), operating: sum(sums.operating) };
+  }).sort((a, b) => (b.planned ?? 0) + (b.underConstruction ?? 0) - (a.planned ?? 0) - (a.underConstruction ?? 0) || a.grid.localeCompare(b.grid));
+}
+
+/** The planned and under-construction MW a grid's facilities state, as a share of the grid's peak hour, to a tenth of a
+ * percent; null where the facilities state none or the peak is not held. */
+export function shareOfPeak(g: GridLoad, peakMw: number | null): number | null {
+  const mw = (g.planned ?? 0) + (g.underConstruction ?? 0);
+  if (!peakMw || (g.planned === null && g.underConstruction === null)) return null;
+  return Math.round((1000 * mw) / peakMw) / 10;
+}
+
+/** The check key: dcgrid|<facilities|with_mw|without|planned|under_construction|operating|share_of_peak>|<grid>. */
+export const gridKey = (stat: string, grid: string) => `dcgrid|${stat}|${grid}`;
