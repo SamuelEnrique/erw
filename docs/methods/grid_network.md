@@ -496,6 +496,51 @@ summed over the years, `pair_days_rule`, `pair_days_confirmed_both_sides`, `pair
 network page." It pointed at `/network`, the old page. Since the two pages are one, the line is off the page: the
 three things it named are the first three blocks of this section.
 
+<a id="replication"></a>
+
+## Replication
+
+Session 1743 (chain 195, 6 November 2026) wrote this section, which the note lacked. The three decision tools' notes each have one ("Run it"). The package was in the repository since session 266 but was named only in the review pack (`docs/reviews/packs/grid.md`). Roadmap item 2 asks for "a replication a reader can run".
+
+- **What it rebuilds.** The Network view's figures and the gravity shape's circles for the hour shown, which is the newest hour every reporting pair holds:
+  - the balancing authorities drawn and the pairs reporting;
+  - the hour's lag behind the snapshot's refresh;
+  - for each of the seven ISO grids: its ties reporting, its net imports (negative: a net export) and their share of its demand;
+  - for each, its net generation and the gravity shape's share, radius and distance (`site/lib/networkGravity.ts`).
+- **The files** are the page's public downloads in `site/public/grid/`, served under `/grid/`:
+  - `erw_2026_grid_replication.csv`: every value as the page reads it, nothing computed. It holds one row per balancing authority, each tie's flow in the hour, the seven grids' demand, and the net generation of the seven and the Lower 48.
+  - `erw_2026_grid_replication.do` (Stata): rebuilds the figures from the CSV alone.
+  - `erw_2026_grid_replication.py` (Python, standard library): the do-file step for step, printing the same lines.
+- **Run it.**
+  - Stata: `cd site/public/grid`, then `do erw_2026_grid_replication.do`.
+  - Python: `python site/public/grid/erw_2026_grid_replication.py site/public/grid/erw_2026_grid_replication.csv`.
+  - The do-file's header lists the values the mirror printed on 19 October 2026 (session 304).
+- **The page moves every hour, the committed file does not.** The committed CSV is of the hour 2026-10-12 03:00 UTC (the snapshot refreshed 2026-10-14 08:05 UTC). To set a file beside today's page, write one from the page's own reads, then compare it with a running site value by value:
+  - `node site/scripts/write-grid-replication.mjs <out.csv>` (the public key);
+  - `node site/scripts/check-grid-replication.mjs <base-url> <out.csv>`.
+- **The record.**
+  - 14 October 2026 (session 266): 60 values, 0 different.
+  - 21 October (session 422): a file written that day, 60 values, 0 different.
+  - 6 November 2026 (session 1743): the mirror on the committed CSV, exit 0, 55 lines; the 16 the do-file's header lists are equal.
+  - The do-file has not been run: Stata is not on the code machine.
+- **Tests.** `tests/test_session266.py` and `tests/test_session304.py` hold the files to each other and to the house rules; `tests/test_session1743.py` holds this section and the block below.
+- **The other parts of roadmap item 2.** The cross-check table is the section below. The decisions block is the page's "Decisions on this page" (`site/app/grid/page.tsx`, `data-decisions="299"`); section "One page, four tabs, and the Ask panel" above gives its rulings.
+
+## Sign-off
+
+Session 1743 added this block, which the note lacked. The battery's (session 1527), the generator's and the datacenter's notes (session 463) have one, and the Grid pack's "Against roadmap item 2" (session 381) lists "Samuel's signature, and a block to sign in". Signing this note accepts, as the tool's rules:
+- EIA-930's interchange as the network's one source, with the pair rule;
+- the newest complete hour (90 percent of the median hour's pairs) and the two-day lag said under the chart;
+- EIA-930's net generation as the gravity shape's one source, CAISO's break said and not substituted;
+- the square-root pull;
+- the rulings of 18 October 2026 the page's decisions block carries (1a, 2c, 3c, 4b, 6a).
+
+It leaves open what the section "Cross-checks" lists as not compared, and the "Checked against" line the page does not carry.
+
+- Signed off by:
+- Date:
+- Items left open ruled, and how:
+
 <a id="cross-checks"></a>
 
 ## Cross-checks
