@@ -22,11 +22,15 @@ Read first: chain 184's note (`docs/state/note_<its day>_data_c184.md`), chain 1
 
 ## Session 3247: the next file, the ground, chain 184's first unfinished step
 
-Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 184's first unfinished step, as session 3204 of chain 184 writes it here; if it left none, session 3251's.
+Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 184's first unfinished step, written by session 3204 of chain 184: chain 184's branch landed (`a96634458`), so if chain 185 did not finish the data machine's page-files fault (its session 3206), finish it first; else session 3248's step.
 
 ## Sessions 3248 to 3250: chain 184's other unfinished steps
 
-Long end 2:00 each. Session 3248 begins with the landing request file (the rules). Session 3204 of chain 184 writes the steps here in its order; a session it does not name takes the next of the passes below.
+Long end 2:00 each. Session 3248 begins with the landing request file (the rules). Written by session 3204 of chain 184, in chain 184's order (its note, "What did not, and why"):
+
+- **Session 3248: the laptops' rows 8 and 11 and the backfill.** Rows 8 (`wip/2295-deals`) and 11 (`wip/3157-policy`) wait for the owner's word: the desktop's second window's gate was stopped by Claude Code for low memory with a note not to start it again unasked (`archive/sessions/SESSION_3178_REPORT.md`). With his word written, land them by that report's "To finish"; without it, say so. The backfill only with the extraction on main **and** his approval written.
+- **Session 3249: the owner's rulings, if any are written** (chains 153 to 185's notes): carried out where written; with none, say so.
+- **Session 3250: the stale inputs** (chains 162 to 184): after Saturday 7 November's supply refresh, `eia_gas_storage_weekly`'s newest week (16 October when last read); if it moved, `gas_balance_weekly` rebuilt with the locked write script and its method note's figures checked. `eia_nuclear_outages_generator_daily`: its age named; pulled only if the owner's ruling allows.
 
 ## Session 3251: FERC-714 forecast growth, second pass
 
