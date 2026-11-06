@@ -1,6 +1,6 @@
 # Session 2284 (chain 179, deals and datacenters) report: the third read, on newer stories
 
-6 November 2026, about 14:05 to 14:16 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2284-deals`, cut from `wip/2283-deals`. Model spend **USD 0.1275** (two recordings: deals 5 calls USD 0.0868, facilities 3 calls USD 0.0407; measured, in the recordings). No ledger row (a code machine; `ERW_LEDGER=0`). Nothing deployed; no warehouse data written.
+6 November 2026, about 14:05 to 14:08 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2284-deals`, cut from `wip/2283-deals`. Model spend **USD 0.1275** (two recordings: deals 5 calls USD 0.0868, facilities 3 calls USD 0.0407; measured, in the recordings). No ledger row (a code machine; `ERW_LEDGER=0`). Nothing deployed; no warehouse data written.
 
 - **Step 3 of chain 174's list**: a third read, since no class of the second read was open for code.
 - **The sample**: the main checkout's news table (read only; last scored 5 November) gives the latest eligible clusters no fixture held: 50 deal clusters (T001 to T050) and 30 facility clusters (U001 to U030), each whole (`tests/fixtures/deals/stories_2284.json`, `tests/fixtures/datacenters/stories_2284.json`).
