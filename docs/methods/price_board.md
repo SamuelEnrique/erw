@@ -4,6 +4,92 @@ Tables: `price_board_latest`, `price_board_peak_offpeak`, `price_board_spreads` 
 
 > **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's hub prices stop at the last day pulled. What is held stays as it is. [`miso_pause.md`](miso_pause.md)
 
+## The board as it stands, part by part (chain 165, sessions 1600 to 1617, 6 November 2026)
+
+This part says what `/board` draws today, group by group and column by column: the table, the computation, the window, the step, the limits, the assumptions with their sources, the tracers, and what the board cannot show and why, publisher by publisher. The sections after it are the board's history, session by session, and stay as they were written. The code: `warehouse/derived/board_page.py` (the builder; the daily run's `board` step and the data machine's `dm_board_page`, through `warehouse/derived/page_keep.py board`), `site/lib/board.ts` (every rule of the page, pure), `site/components/board/BoardView.tsx` and `Workbench.tsx` (the page), `site/app/board/page.tsx` (the page's hold of the day, `holdRows`, on the server), `site/app/board/rows/` (the CSV and its readers). The audit of 6 November 2026: `docs/reviews/board-audit-2026-11-06.md`.
+
+### The columns of every row
+
+| Column | What it is | Window and step | Limits |
+|---|---|---|---|
+| Latest, its date | the newest value held and its date; a day-ahead price may be tomorrow's | the row's own step | "stale" beside the date past 3 days (a power market's daily row), 10 (another daily row), 17 (weekly), 132 (monthly), 135 (quarterly): `closeAge` |
+| Day, Week, Month, Year | the latest less the value held at least 1, 7, 30 (28 for a monthly row) and 365 days before, no more than 6 days older than that; the base's date on hover | daily rows have a day; weekly rows no day; monthly rows no day or week; quarterly rows a year only | "not held yet" when no base is held; blank ("stale") on a stale row (`shownMove`) |
+| YTD | the latest less the last value held of the year before, no older than 6 days (daily), a week and 6 days (weekly), December (monthly), the fourth quarter (quarterly) before 31 December | every step | as the other moves |
+| Percent beside a move | 100 x the move over the base | | only for a price that cannot be negative: not power, ancillary services, spreads, rates or a row with a formula |
+| 7-day and 30-day avg | the mean of the values held in the 7 and 30 days ending on the latest; the count on hover | daily rows only | |
+| 12-month avg | the mean of the values held in the 365 days ending on the latest, and the latest less it | every step, when 180 daily, 26 weekly, 9 monthly or 4 quarterly values of the year are held | "not held yet" below that; "stale" on a stale row |
+| 30-day low to high | the lowest and highest of the last 30 days | daily rows only | |
+| Trend | the series' own points, the mouse reading each date and value | the last 90 days (daily, at most 90 points), a year (weekly), three years (monthly, quarterly) | no point is filled |
+| One-year range | the lowest and highest of the 365 days ending on the latest, and where the latest sits | as the 12-month avg | |
+| Futures 1 to 4 | "licensed source needed" (CME Group) | gas, crude and products | EIA's NYMEX series end on 5 April 2024 |
+| Day's high / low | the latest complete local day's highest and lowest hour, each with the hour it began in local time; under them the last 7 and 30 days' peak hour and the hours above 100, 250 and 1,000 USD/MWh | power group only | hours, not intervals; a single interval's spike is in the week's spikes |
+| The name's hover | the code, the formula, the interval (`basis`) and the source | | |
+
+### The groups
+
+| Group | Rows (default view first) | Tables | Computation | Step |
+|---|---|---|---|---|
+| Power, by hub and zone | the main hub of ERCOT, CAISO and SPP in both markets; every hub, ERCOT's eight load zones, the node basis by class (monthly, linking `/cost-of-power`) and ERCOT's reliability deployment adder behind Show; NYISO and ISO-NE "license needed", MISO "paused", PJM "licensed source needed" | `ercot_zone_prices_history`, `iso_zone_prices_history`, `ercot_all_hub_prices_history`, `iso_hub_prices_history`, the rolling hub and zone tables; `node_basis_summary`; `ercot_rtm_price_adders` | a daily mean of a complete local operating day's hours (24; 23 or 25 on the daylight saving days), each hour the day-ahead price or the mean of every one of its real-time intervals; an adder that ended is no row | daily (node basis monthly) |
+| Power, on-peak and off-peak | the main hubs | the same | the on-peak hours (ending 7 to 22 local, Monday to Friday; CAISO Monday to Saturday; NERC holidays off-peak) and the others, and their difference | daily |
+| Spark and dark spreads | the main hubs' spark spread, implied heat rate and dark spread; every public hub's spark spread behind Show | the hub rows, `eia_fuel_spot_prices`, `eia_power_plant_fuel_costs` | day-ahead mean - 7.0 x Henry Hub (the day's, else the newest trading day's up to 4 days before); the month's day-ahead mean - 10.5 x US coal delivered | daily; dark monthly |
+| Hub spreads | ERCOT North less Houston, West less North, South less Houston; CAISO NP15 less SP15; SPP North less South; ERCOT hub average less SPP North; CAISO SP15 less ERCOT hub average; day-ahead by default | the hub rows | the first hub's daily mean less the second's on the same date (across grids each on its own local day) | daily |
+| Day-ahead minus real time | every hub and zone with both markets | the hub rows | the two daily means of the same day | daily |
+| Battery spread | every hub and zone | the hub rows | the day's highest hour less its lowest | daily |
+| Ancillary services | ERCOT by default; CAISO and SPP; NYISO and ISO-NE held, MISO paused, PJM licensed | `ercot_as_prices`, `caiso_as_prices`, `spp_as_prices` | a daily mean of a complete local day's hourly day-ahead prices | daily |
+| Natural gas | Henry Hub; NYMEX contracts, seven regional hubs, TTF and JKM as placeholders | `eia_fuel_spot_prices` | EIA's spot close | daily |
+| Natural gas in storage and LNG exports | working gas, Lower 48 and the regions; LNG export price and volume by terminal; US LNG exports and the pipeline trade; daily feedgas a placeholder | `eia_gas_storage_weekly`, `eia_lng_exports_monthly`, `eia_gas_trade_monthly` | as EIA reports | weekly; monthly |
+| Natural gas by sector and state | citygate, homes, commercial, industrial, electric power | `eia_gas_prices_state_monthly` | as EIA reports | monthly |
+| Crude oil | WTI, Brent, Brent less WTI by default; first purchase (with North Dakota), landed, F.O.B. and refiner acquisition behind Show | `eia_fuel_spot_prices`, `eia_crude_stream_prices`, `eia_crude_first_purchase_prices` | EIA's closes and monthly prices | daily; monthly |
+| Refined products, spot | EIA's nine daily product spots | `eia_product_spot_prices` | EIA's closes | daily |
+| Oil spreads | the two 3-2-1 cracks; six cracks by product; Brent less WTI | the product and crude rows | (2 x gasoline + diesel) x 42 / 3 - crude; a product x 42 - crude | daily |
+| Gas spreads, monthly | Europe less the United States, Japan LNG less the United States, Japan LNG less Europe; the regional basis and the LNG netback as placeholders | `wb_commodity_prices_monthly` | the World Bank's monthly averages, the same month | monthly |
+| World energy benchmarks | crude (4), coal (2), gas US and Europe, LNG Japan | `wb_commodity_prices_monthly` | as published | monthly |
+| Retail gasoline and diesel | regions by default (US regular and all grades first); states, cities | `eia_regional_retail_fuel_prices`, `eia_retail_fuel_prices` | as EIA's weekly survey reports | weekly |
+| Heating oil and propane | residential, United States by default | `eia_heating_fuel_prices_weekly` | as EIA reports, October to March | weekly |
+| Retail electricity by state | all sectors, states by default | `eia_retail_electricity_prices` | as EIA-861M reports | monthly |
+| Coal and gas delivered to power plants | coal, every area by default; coal spot by basin as placeholders | `eia_power_plant_fuel_costs` | as EIA-923 reports; a cost of exactly 0 is no delivery and no row | monthly |
+| Uranium and battery metals | uranium, lithium, cobalt, nickel, copper; daily uranium and lithium as placeholders | `imf_commodity_prices` | the IMF's monthly averages | monthly |
+| US Treasury yields | 2, 10, 30 years | `frb_treasury_yields` | the Board's H.15 | daily |
+| Carbon and credits | California's LCFS credit (all and Type 1), California's current and advance auctions; RGGI, EUA, RECs and RINs as placeholders | `carb_lcfs_credit_prices`, `carb_auction_allowance_prices` | as CARB publishes | weekly; quarterly |
+| Delivery charges and transmission peaks | ERCOT's coincident peak load; the Texas delivery charges as a placeholder | `ercot_4cp_intervals` | ERCOT's load in each summer month's 4CP interval, dated the month | monthly, four months a year |
+| Capacity and equities | a placeholder an auction (PJM, NYISO, ISO-NE, MISO); energy equities | none | | |
+
+Beside the groups: the top twelve tiles (`TOP_TWELVE`), the week's table by hub and the week's spikes (`iso_trader_daily`, `iso_rt_top_intervals`), the workbench (any row, by the hour for a power hub; overlays, spreads and ratios, prior years, the distribution with a threshold the reader sets).
+
+### The assumptions, each with its source
+
+- **The spark spread's heat rate, 7.0 MMBtu/MWh**: the board's assumption, about a combined-cycle gas plant, no plant's own; beside it, where `eia_heat_rates_annual` is on the machine that builds, EIA's average operating heat rate of the US natural gas fleet (combined-cycle and peaking plants together), EIA's Electric Power Annual, Table 8.1, its value and year (`heat_ref`).
+- **The dark spread's heat rate, 10.5 MMBtu/MWh**: about the US coal fleet's average; beside it EIA's coal fleet average from the same table.
+- **The gas of every spark spread is Henry Hub**, in Louisiana: no regional gas price is held. The spread is labeled indicative.
+- **The 3-2-1 yields**: two barrels of gasoline and one of diesel from three of crude, before any cost.
+- **The thresholds of the hours above**: 100, 250 and 1,000 USD/MWh, the board's own round numbers (the workbench's threshold is the reader's).
+
+### The tracers
+
+Every number on the page carries a key (`data-n`, the row's id and the figure's name). `site/scripts/check-board.mjs` checks the file first (`boardFileChecks`: a key per cell, the numbers and sources, a floor a group, the placeholders' words with no digit, the new figures' consistency; `--file` alone, with no server) and then every marked number of the served page against the file; `check-board-v4.mjs` the same for the earlier marks. The daily run refuses a board its tests refuse (`tests.test_session132`, `240`, `1118`, `1139`), and `page_keep.py` takes a row only where it is no older and no shorter than the one held. The rows' CSV (`/board/rows`) carries every figure with its source, and its Python and Stata readers (`/board/rows/python`, `/board/rows/stata`) read it as it is. The tests: `tests/test_board_1601.py` to `test_board_1616.py`, each on real rows of the tables (`tests/fixtures/board_16NN/`) or, where a rule needs dates placed around a year's end, on series made in memory and said so.
+
+### What the board cannot show, and why, publisher by publisher
+
+| Publisher | What | Why | What would supply it |
+|---|---|---|---|
+| MISO | every hub, both markets; spreads; reserves; capacity | paused since 4 October 2026: MISO's terms forbid automated access (`miso_pause.md`) | a person's review of the terms |
+| PJM | every hub; spreads; reserves; capacity | PJM publishes under a license and an account the ERW does not hold | PJM Data Miner, under PJM's data license |
+| NYISO, ISO-NE | every hub and zone and every row built from them; reserves; capacity | their terms ask for written permission (`license_status.csv`, from 21 October 2026) | a permission recorded there |
+| CME Group | NYMEX futures, contracts 1 to 4 | EIA's copy ends on 5 April 2024 | CME Group, under license |
+| S&P Global Commodity Insights (Platts), Natural Gas Intelligence | regional gas hubs and their basis; JKM by the day | licensed indices | either, under license |
+| ICE Endex, LSEG | TTF by the day; EUA | licensed | either, under license |
+| S&P Global | coal spot by basin | EIA shows the week's prices by permission and may not release the history | S&P Global |
+| UxC, TradeTech; Fastmarkets, Benchmark Mineral Intelligence | uranium and lithium by the day | licensed | any of them, under license |
+| OPIS, Argus Media | RIN prices | the ERW holds EPA's RINs generated, not their prices | either, under license |
+| S&P Global Commodity Insights, ICE | renewable energy credits | licensed | either, under license |
+| RGGI, Inc. | the auctions' clearing prices | held internal while RGGI's terms are reviewed | RGGI, Inc., under its terms |
+| Data vendors (for example S&P Global Commodity Insights, Wood Mackenzie) | LNG feedgas by the day | compiled from pipeline nominations | such a vendor, under license |
+| Shipping assessments (for example Spark Commodities, the Baltic Exchange) | the LNG netback's freight | not held | either, under license |
+| The Texas utilities, at the PUCT | delivery charges | the ERW's copy is a model's reading of news reports, internal | each utility's tariff as the PUCT posts it |
+| An exchange data vendor | energy equities | licensed | for example Nasdaq Data Link or LSEG |
+
+Not on the board by its rule: annual tables, contracts by signing date (PPAs), tariffs as events, positions (CFTC) and forecasts (EIA's STEO), each named in the audit.
+
 Built in session 30 (Part A) for the site's `/board` (platform tool 2, the real-time price board). Four derived tables, tier `derived`, computed by `warehouse/derived/price_board.py` from the ERW's own tables. The site reads them as they are and computes nothing: every number on `/board` is a value of one of these tables, or of a source table the page names.
 
 ## Common rules

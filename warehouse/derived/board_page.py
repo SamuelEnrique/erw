@@ -1014,7 +1014,7 @@ def heat_basis(kind, ref):
 
 
 def build_hubspreads(b, daily):
-    held = ls.held_grids()
+    held = set(ls.held_grids())   # session 1606 (the two of session 207 are the power rows and the ancillary services)
     for a, z, scope in HUB_PAIRS:
         ga, gz = ISO[a.split(":")[0]][0], ISO[z.split(":")[0]][0]
         if ga in held or gz in held:
@@ -1091,7 +1091,7 @@ def build_spreads(b, daily, fuels, us_coal):
               extra=dict(inputs=di) if di else None)
     # session 1606 (chain 165): the spark spread at every other public hub (not the load zones), behind the group's Show
     # filter; the stated heat rate's source in every spark and dark row's hover (heat_basis)
-    held = ls.held_grids()
+    held = set(ls.held_grids())   # session 1606 (the two of session 207 are the power rows and the ancillary services)
     ref = fleet_heat_rates()
     if ref:
         b.heat_ref = ref
