@@ -1,6 +1,6 @@
 # Session 2234 (chain 156, deals and datacenters) report: the counterparties
 
-6 November 2026, about 09:40 to 10:50 UTC, portable-laptop (code role), unattended. Worktree `erw-2234` on `wip/2234-deals`, cut from `wip/2233-deals`. Model spend **USD 0**. Nothing deployed; no warehouse data written (the directory was built to the scratchpad to read it).
+6 November 2026, about 08:03 to 08:23 UTC, portable-laptop (code role), unattended. Worktree `erw-2234` on `wip/2234-deals`, cut from `wip/2233-deals`. Model spend **USD 0**. Nothing deployed; no warehouse data written (the directory was built to the scratchpad to read it).
 
 - **`warehouse/deals/counterparties.py`** (new): a canonical name a party (the same words with suffixes dropped, a company word added, or an alias with its story), a parent as a second field (a possessive or a unit in the name's own words, or an alias), an EIA-861 utility number for an exact name only; a field of several parties split; descriptions ("investors", "banks") left out. `annotate()` writes `buyer_name`, `seller_name`, `buyer_parent`, `seller_parent`, `buyer_eia861`, `seller_eia861` on every deal (the extractor calls it before each write); `directory()` builds **`deal_counterparties`** (entities; validator: pass on the 481 rows built from today's table).
 - **`warehouse/deals/aliases.yaml`** (new): AEP for American Electric Power, AWS for Amazon Web Services with Amazon as parent, each with the stored story that shows it.

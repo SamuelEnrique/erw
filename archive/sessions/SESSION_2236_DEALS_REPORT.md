@@ -1,6 +1,6 @@
 # Session 2236 (chain 156, deals and datacenters) report: the datacenter facilities
 
-6 November 2026, about 11:35 to 13:20 UTC, portable-laptop (code role), unattended. Worktree `erw-2236` on `wip/2236-deals`, cut from `wip/2235-deals`. Model spend **USD 0.0933** (one recording of the facilities fixture, 3 calls, measured). No ledger row (a code machine; `ERW_LEDGER=0`). Nothing deployed; no warehouse data written.
+6 November 2026, about 08:29 to 08:58 UTC, portable-laptop (code role), unattended. Worktree `erw-2236` on `wip/2236-deals`, cut from `wip/2235-deals`. Model spend **USD 0.0933** (one recording of the facilities fixture, 3 calls, measured). No ledger row (a code machine; `ERW_LEDGER=0`). Nothing deployed; no warehouse data written.
 
 - **`warehouse/datacenters/facility_fields.py`** (new): `mw_basis` (it, total, tenant, phase, unstated), `power_kind`, the grid with its basis (named in the stories, or the state's main grid), the county's EIA-861 utility where exactly one serves it, `energized_year`, `country`; the place rules (`has_place`, `place_conflict`) and `description`.
 - **`warehouse/datacenters/extract.py`**: the prompt asks for the MW basis, the energized year and the country, one facility per site, the wider status words and the confidence bands; a `same_as` across two places is refused; a facility with no stated place is not kept; an operator that is a description is dropped; every row gets the derived fields on every run (an old row's read from its own values).

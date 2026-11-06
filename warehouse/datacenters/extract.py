@@ -92,6 +92,7 @@ PRICES, clean, norm, pick_model, stated_words, verified = (
     deals.PRICES, deals.clean, deals.norm, deals.pick_model, deals.stated_words, deals.verified)
 sys.path.insert(0, HERE)
 import facility_fields as ff  # noqa: E402  session 2236: MW basis, power kind, grid, the county's utility, energized
+calls = deals.calls   # session 2237: the deal extractor's call, retried where a retry can help
 
 TABLE = "datacenter_projects"
 EVIDENCE = "datacenter_projects_evidence"
@@ -324,6 +325,7 @@ def main(argv=None):
         news_by_id = news.set_index("event_id")
         by_id = {r["entity_id"]: dict(r) for r in table.to_dict("records")}
         new_evidence, new_checked, usage, failed_calls, dropped = [], [], [], 0, []
+        first_error = ""
         now = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
         for bi, batch in enumerate(batches, 1):
             items = [{"cluster_id": g["cluster_id"].iloc[0],
@@ -336,23 +338,24 @@ def main(argv=None):
             user = ("Reference list of facilities already extracted (id | operator | developer | site | place | MW), "
                     "candidates for same_as:\n" + ("\n".join(ref_lines) if ref_lines else "(none)")
                     + "\n\nClusters (JSON):\n" + json.dumps(items, ensure_ascii=False))
-            try:
-                resp = client.messages.create(
+            try:   # session 2237: retried where a retry can help, the API's words kept (warehouse/deals/calls.py)
+                resp, text = calls.call(client, dict(
                     model=model, max_tokens=16000,
                     system=[{"type": "text", "text": SYSTEM, "cache_control": {"type": "ephemeral"}}],
                     output_config={"effort": "low", "format": {"type": "json_schema", "schema": SCHEMA}},
-                    messages=[{"role": "user", "content": user}])
-                u = resp.usage
-                usage.append(dict(input=u.input_tokens, output=u.output_tokens,
-                                  cache_write=u.cache_creation_input_tokens or 0,
-                                  cache_read=u.cache_read_input_tokens or 0))
-                if resp.stop_reason != "end_turn":
-                    raise RuntimeError(f"stop_reason {resp.stop_reason}")
-                results = {r["cluster_id"]: r for r in
-                           json.loads("".join(b.text for b in resp.content if b.type == "text"))["results"]}
+                    messages=[{"role": "user", "content": user}]), usage, log, f"call {bi}")
+                results = {r["cluster_id"]: r for r in json.loads(text)["results"]}
+            except calls.Stop as exc:
+                failed_calls += 1
+                first_error = first_error or exc.words
+                log(f"  call {bi} FAILED, and no further call is sent ({len(batch)} clusters and every later one left "
+                    f"unchecked): {ip.redact(exc.words)}")
+                break
             except Exception as exc:
                 failed_calls += 1
-                log(f"  call {bi} FAILED ({len(batch)} clusters left unchecked): {ip.redact(repr(exc))[:300]}")
+                w = exc.words if isinstance(exc, calls.Failed) else calls.words_of(exc)
+                first_error = first_error or w
+                log(f"  call {bi} FAILED ({len(batch)} clusters left unchecked): {ip.redact(w)}")
                 continue
             keys = {}
             n_new = n_merged = 0
@@ -472,6 +475,10 @@ def main(argv=None):
 
         for d in dropped:
             log(f"  not kept: {d}")
+        if failed_calls and not new_checked:
+            # session 2237: no call answered, so nothing is written (the table stays as the last good run left it)
+            raise RuntimeError(f"no call answered ({failed_calls} failed, {len(batches)} planned); the tables are not "
+                               f"rewritten; first error: {first_error}")
         # place every facility (a merge may have added a county or city)
         for row in by_id.values():
             row["lat"], row["lon"], row["geo_precision"], row["geo_note"] = locate(row, counties, places)
@@ -541,8 +548,8 @@ def main(argv=None):
         log(summary)
         print(f"datacenters extract: {summary}")
         status["detail"] = summary[:300]
-        if failed_calls and not usage:
-            raise RuntimeError(f"all {failed_calls} calls failed")
+        if failed_calls:   # session 2237: the failure first, in the API's words, so the 300 characters keep it
+            status["detail"] = f"{failed_calls} calls failed, first: {first_error}; {summary}"[:300]
     except Exception:
         tb = ip.redact(traceback.format_exc())
         log(f"FAILED:\n{tb}")

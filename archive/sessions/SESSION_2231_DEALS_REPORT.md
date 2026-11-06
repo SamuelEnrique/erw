@@ -1,6 +1,6 @@
 # Session 2231 (chain 156, deals and datacenters) report: the audit of the stored records
 
-6 November 2026, about 07:25 to 08:05 UTC, portable-laptop (code role), unattended. Worktree `erw-2231` on `wip/2231-deals`, cut from `wip/2230-deals` (origin/main merged). Model spend under the owner's key **USD 0** (no call: the prompt's "Pulls: none"). Nothing deployed; no warehouse data written.
+6 November 2026, about 07:21 to 07:31 UTC, portable-laptop (code role), unattended. Worktree `erw-2231` on `wip/2231-deals`, cut from `wip/2230-deals` (origin/main merged). Model spend under the owner's key **USD 0** (no call: the prompt's "Pulls: none"). Nothing deployed; no warehouse data written.
 
 - **The sample**: 106 deals (every fifth of the newest 600 by extraction time; the table holds 529) and 60 facilities spread over the 163 rows; each row read against its stories' stored title and summary by three readers of this Claude Code session on one rubric, six of their calls read again by the session and confirmed. Every row's grade and note, the scripts and the rubric: `docs/reviews/deals-audit-2026-11-06/`.
 - **The fault classes**, numbered, counted, three quoted examples each: `docs/reviews/deals-audit-2026-11-06.md`, "The audit of the stored records". The largest:

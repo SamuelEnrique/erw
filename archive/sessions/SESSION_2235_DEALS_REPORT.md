@@ -1,6 +1,6 @@
 # Session 2235 (chain 156, deals and datacenters) report: the figures cross-checked
 
-6 November 2026, about 10:50 to 11:35 UTC, portable-laptop (code role), unattended. Worktree `erw-2235` on `wip/2235-deals`, cut from `wip/2234-deals`. Model spend **USD 0**. Nothing deployed; no warehouse data written.
+6 November 2026, about 08:23 to 08:29 UTC, portable-laptop (code role), unattended. Worktree `erw-2235` on `wip/2235-deals`, cut from `wip/2234-deals`. Model spend **USD 0**. Nothing deployed; no warehouse data written.
 
 - **`warehouse/deals/crosscheck.py`** (new): the headlines' MW, MWh and US dollars against the record's (valuations, combined values and company-wide investments left out); MW and MWh, USD and USD per MWh never confused; a term in months flagged, not converted; the sanity bounds. `flags()` returns words; the extractor writes them to `flags` on every record on every run and logs the count.
 - **`warehouse/deals/fields.py`**: the MWh bound from 200,000 to 50,000,000 (50 TWh: an energy contract of 3.3 TWh is real); `num()` writes a figure in plain digits in every flag.

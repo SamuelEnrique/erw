@@ -62,10 +62,15 @@ def stated(title):
     """{"mw": [...], "mwh": [...], "usd": [...]} the figures a headline states, in MW, MWh and USD."""
     out = {"mw": [], "mwh": [], "usd": []}
     t = " ".join(str(title or "").split())
+    def a_rate_or_a_target(m):   # session 2237: "targets 1GW annually" is a rollout's pace, not the deal's size
+        return bool(re.match(r"\s*(?:a year|annually|per year|each year|a month|per month)", t[m.end():m.end() + 14], re.I)
+                    or re.search(r"(?:targets?|aims? for|goal of|pipeline of)\s*$", t[max(0, m.start() - 16):m.start()], re.I))
     for m in MWH_RE.finditer(t):
-        out["mwh"].append(float(m.group(1).replace(",", "")) * _scale(m.group(2)))
+        if not a_rate_or_a_target(m):
+            out["mwh"].append(float(m.group(1).replace(",", "")) * _scale(m.group(2)))
     for m in MW_RE.finditer(t):
-        out["mw"].append(float(m.group(1).replace(",", "")) * _scale(m.group(2)))
+        if not a_rate_or_a_target(m):
+            out["mw"].append(float(m.group(1).replace(",", "")) * _scale(m.group(2)))
     for m in USD_RE.finditer(t):
         before = t[max(0, m.start() - 22):m.start()]
         after = t[m.end():m.end() + 28]

@@ -1,6 +1,6 @@
 # Session 2233 (chain 156, deals and datacenters) report: deduplication
 
-6 November 2026, about 08:55 to 09:40 UTC, portable-laptop (code role), unattended. Worktree `erw-2233` on `wip/2233-deals`, cut from `wip/2232-deals`. Model spend **USD 0** (the fixture's model is a fake: the rules are code). Nothing deployed; no warehouse data written.
+6 November 2026, about 07:52 to 08:03 UTC, portable-laptop (code role), unattended. Worktree `erw-2233` on `wip/2233-deals`, cut from `wip/2232-deals`. Model spend **USD 0** (the fixture's model is a fake: the rules are code). Nothing deployed; no warehouse data written.
 
 - **`warehouse/deals/dedupe.py`** (new): one record a deal. Session 531's rule plus four: one party named on one side with a size agreeing; a name and its initials; a later stage within a year; the size within tolerance (USD a quarter, MW a tenth). `merge` adds the story, keeps the earliest first-reported date, moves `stage` and `status` forward and writes every change to the new column **`status_history`**, fills gaps and never replaces a figure held.
 - **`warehouse/deals/extract.py`**: every deal the model does not mark `same_as` is matched by `dedupe.find_record` (a superset of session 531's `find_same`); every merge, the model's or the code's, goes through `dedupe.merge`; a new record starts its history with its first stage.

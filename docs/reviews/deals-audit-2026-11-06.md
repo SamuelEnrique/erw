@@ -274,3 +274,37 @@ The stored 163 facilities rolled up (read only, to the scratchpad): 45 state MW 
 | A13 not a facility, several folded into one | fixed on the fixture (2 to 0; 6 to 0) |
 | A14 state, operator, site, power source, timeline, a year of another event | `energized_year` and `country` added; a year of another event out; operator descriptions out; state 3 to 1 |
 | A15 confidence too low | the prompt's bands; read again in session 2249 |
+
+## Session 2237: the daily step, end to end, offline
+
+**The failure mode of 26 to 30 October, fixed** (`warehouse/deals/calls.py`, used by both extractors). The spending limit stops the run at its first call with the API's words in the health line ("the API's spending limit: You have reached your specified API usage limits. You will regain access on 2026-11-01 at 00:00 UTC"), not "all 1 calls failed"; a refusal or an answer that is not the schema's JSON is tried once more; a busy API twice more, 10 and 30 seconds apart. When no call answers, **no table is rewritten** (no header claims a day's retrieval it did not make) and every story stays to be sent again. Tested in `tests/test_session2237_deals.py`.
+
+**One stored day, end to end** (`warehouse/deals/eval/one_day.py`): the 42 deal stories and 32 datacenter stories of 5 November, sent again with the new code against copies of every table held (the old columns upgraded in place on the way), in a temporary folder, the real model (claude-sonnet-5-5).
+
+- **Sent again as they stand**: 4 deal calls (USD 0.1822) and 3 datacenter calls (USD 0.0854): **no new row**: every story joined the deal or facility it had made on 5 November (the reference list and the deduplication), so a day sent twice makes no duplicate.
+- **As a first run** (that day's 8 deals and 4 facilities taken out of the copies first; USD 0.1716 and 0.0780): 8 deals and 4 facilities again. Against the stored eight: Google is now the party of "Google to serve as credit backstop for TeraWulf data center in Kentucky" (stored with no buyer); Entergy's "Arkansas data center deal" is tagged AI by its load (stored false); Eneva's "LNG-to-power move" is a gas buildout; Return's "835 million" financing in euros no longer carries USD 938 million, a sum its headline does not state, and it is a storage deal, financed, in Germany; the Belgian state and Engie are in Belgium. One false flag found and fixed: "targets 1GW annually" is a rollout's pace, not the deal's MW (`crosscheck.py` now skips a figure a year or a target).
+
+**The backfill** (`scripts/deals_backfill.py --from 2026-10-27 --to 2026-11-05 --dry-run`, read 09:02 UTC on 6 November):
+
+| Day | Stories | Unscored | Deal stories expected | Datacenter stories expected |
+|---|---|---|---|---|
+| 2026-10-27 | 502 | 502 | 53.1 | 28.9 |
+| 2026-10-28 | 505 | 505 | 53.4 | 29.0 |
+| 2026-10-29 | 523 | 523 | 55.3 | 30.1 |
+| 2026-10-30 | 277 | 277 | 29.3 | 15.9 |
+| 2026-10-31 to 2026-11-03 | 0 | 0 | 0 | 0 |
+| 2026-11-04 | 102 | 23 | 2.4 | 1.3 |
+| 2026-11-05 | 529 | 208 | 22.0 | 12.0 |
+
+| Step | Stories | Calls | USD (estimate) |
+|---|---|---|---|
+| score (`warehouse/news/score.py`) | 2,038 | 82 | 1.93 |
+| deals | 215.5 | 17 | 0.74 |
+| datacenters | 117.2 | 11 | 0.26 |
+| **total** | | | **2.93** |
+
+The shares are those of the 14 days before (0.106 of scored stories reach the deal extractor, 0.058 the datacenter one; 1.07 stories a cluster); a call's cost is the median of each step's last ten successful runs. Every eligible story already scored has been checked: the gap is the scoring. **The four days 31 October to 3 November hold no story at all**: the daily run did not ingest the feeds, and no backfill from this repository brings those stories back. The estimate is above the daily cap of the scheduled model steps (USD 1.50): the live run is the desktop's, after the owner approves it (`--run`, under the data lock).
+
+| Row | State after session 2237 |
+|---|---|
+| A16 the failure line and a failed day | done: the API's words, a stop at the limit, retries, no table rewritten |
