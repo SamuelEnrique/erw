@@ -1,0 +1,27 @@
+# Session 2872 (chain 147): read from the copy the data machine saved on 8 October 2026
+# (warehouse/raw/large_load_rules/C/raw/or_order_26-309.pdf, its text in .../C/text/or_order_26-309.pdf.txt); no request was made for it.
+# Order No. 26-309 restates the Schedule 96 terms Order No. 26-154 adopted and keeps them, but for refunds and adjustments of the exit
+# fee (page 9). The date below is the day Order No. 26-154 was entered; the order directed rates effective by 10 June 2026 (Order
+# No. 26-239). The pages are the order's own.
+utility: Portland General Electric Company
+eia_id: 15248
+state: OR
+grid: PGE
+sector: large data centers (Schedule 96)
+schedule: Schedule 96, data centers of 20 MW and above
+tariff_sheet: Schedule 96 as adopted by Order No. 26-154 (UM 2377) and reconsidered by Order No. 26-309
+effective: 2026-05-07
+commission: Public Utility Commission of Oregon
+docket: UM 2377
+document: Order No. 26-309, entered 31 August 2026, on the applications for reconsideration and rehearing of Order No. 26-154
+document_url: https://apps.puc.state.or.us/orders/2026ords/26-309.pdf
+retrieved_at: 2026-10-08T04:16:03Z
+license: public
+terms:
+  min_bill: {text: "In Order No. 26-154, we adopted MGD and MTD charges of 90 percent", page: 16}
+  exit_fee: {text: "loads 20 MW and greater exiting PGE's system before the end of their contracts are to pay the sum of (1) the net book value of the incremental distribution assets caused by the customer, and (2) the greater of (a) the remaining Minimum Transmission Demand (MTD) and Minimum Generation Demand (MGD) charges for the remainder of the contract, or (b) three years' worth of MTD and MGD charges at the highest allocated system capacity during the contract", page: 7}
+  term: {text: "For a customer that is 20 MW, the minimum contract term length is ten years. The term increases by one year for each 10 MW increment, reaching an upper limit at 30 years for a load 220 MW or greater.", page: 7}
+figures:
+  - {variable: min_demand_mw, value: 20, printed: "a new Schedule 96 specifically for data centers 20 MW and above", page: 1}
+  - {variable: min_contract_years, value: 10, printed: "For a customer that is 20 MW, the minimum contract term length is ten years", page: 7}
+  - {variable: min_bill_pct, value: 90, printed: "MGD and MTD charges of 90 percent", page: 16}

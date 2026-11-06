@@ -398,6 +398,15 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
     STORAGE_HELD[_t] = ("held: not yet on Redivis (written 21 October 2026, session 489; the account's free 10 GB is full, "
                         f"session 363). In v1 by its license once uploaded: python warehouse/redivis/upload.py {_t}, after the "
                         "storage is settled")
+# Session 2885 (chain 147): two public tables that are not on Redivis. utility_large_load_tariffs: the uploader refuses it while
+# its ERW verdict is unsettled (the IURC's terms need written permission; the Georgia and Oregon commissions have no verdict).
+# ercot_wind_solar_hsl_monthly: first written by the runner's daily run of 6 November 2026; the data machine does not hold it.
+STORAGE_HELD["utility_large_load_tariffs"] = ("held: not on Redivis (session 2882: the uploader refuses it while its ERW verdict is "
+                                             "unsettled). In v1 once its license is settled and it is uploaded: python "
+                                             "warehouse/redivis/upload.py --target stanford --tables utility_large_load_tariffs")
+STORAGE_HELD["ercot_wind_solar_hsl_monthly"] = ("held: not yet on Redivis (first written by the daily run of 6 November 2026, "
+                                               "session 2885). In v1 by its license once uploaded: python "
+                                               "warehouse/redivis/upload.py ercot_wind_solar_hsl_monthly")
 
 
 def plan(day=PUBLIC_DAY):

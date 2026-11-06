@@ -1247,6 +1247,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "ercot_wind_solar_hsl_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "ercot_wind_solar_output_hourly": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -1991,6 +1995,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "subregion_demand_growth": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "usace_nid_dams": [
   "unsettled",
   "The terms of U.S. Army Corps of Engineers (USACE) have not been read or settled, so the ERW does not redistribute it until they are."
@@ -2030,6 +2038,10 @@
  "uswtdb_wind_turbines": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "utility_large_load_tariffs": [
+  "unsettled",
+  "The terms of the state commissions (filed tariffs), read into the ERW's registry have not been read or settled, so the ERW does not redistribute it until they are."
  ],
  "utility_service_territories": [
   "public",
