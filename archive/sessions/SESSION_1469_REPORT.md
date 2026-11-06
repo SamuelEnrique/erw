@@ -19,7 +19,7 @@ Energy Research Warehouse (ERW), session 1469, chain 150, samueloldlaptop, 6 Nov
 
 ## Found
 
-- In every dry run of both chains, the prose above the fold is 176 to 220 words, against the brandbook's 350. The stored v1 issues, which had no fold, ran from 380 to 1,042 words. Rows 42 and 49: most top items print the headline alone.
+- In every dry run of both chains, the prose above the fold is 176 to 220 words, against the brandbook's 350. The stored v1 issues, which had no fold, ran from 380 to 1,135 words. Rows 42 and 49: most top items print the headline alone.
 
 ## Decisions made without you
 
