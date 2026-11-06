@@ -1,6 +1,6 @@
 # Session 2273 (chain 174, deals and datacenters) report: facilities' power source
 
-6 November 2026, about 13:39 to 13:44 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2273-deals`, cut from `wip/2272-deals`. Model spend **USD 0** (code; the facility answers replayed). Nothing deployed; no warehouse data written.
+6 November 2026, about 13:39 to 13:41 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2273-deals`, cut from `wip/2272-deals`. Model spend **USD 0** (code; the facility answers replayed). Nothing deployed; no warehouse data written.
 
 - **The class**: facilities' power source missed, 2 of 60 on the second read (F060, F032).
 - **The fix**: `facility_fields.power_from_words` (`POWER_WORDS`), used by `extract.py` for a one-facility cluster with no power source; the kind follows from `power_kind`. Logged.
