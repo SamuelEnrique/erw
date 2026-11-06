@@ -16,7 +16,8 @@
   {"file": "eval_s1133_s320_run.json", "grades": "eval_s1133_s320_grades.json", "right": "held_ok", "label": "session 1149, first set", "limit": 12, "replay": true,
    "history": {"kind": "held", "set": "`questions_s320.yaml`", "what": "asked again after chains 076 and 085, graded under the hold", "where": "`docs/reviews/ask-sixty-2026-10-25.md`"}},
   {"file": "eval_s1133_s1114_run.json", "grades": "eval_s1133_s1114_grades.json", "right": "ok", "label": "session 1149, second set", "limit": 12, "replay": true,
-   "history": {"kind": "right", "set": "`questions_s1114.yaml`", "what": "asked again after chains 076 and 085, {asked} of the thirty (the cap)", "where": "`docs/reviews/ask-sixty-2026-10-25.md`"}}
+   "history": {"kind": "right", "set": "`questions_s1114.yaml`", "what": "asked again after chains 076 and 085, {asked} of the thirty (the cap)", "where": "`docs/reviews/ask-sixty-2026-10-25.md`"}},
+  {"file": "eval_s1122_run.json", "grades": "eval_s1122_grades.json", "right": "ok", "label": "session 2886, the board's five", "limit": 12, "replay": true, "history": {"kind": "right", "set": "`questions_s1122.yaml`", "what": "the board's five questions, first asking, graded on the keys of 23 October 2026", "where": "`docs/reviews/ask-history.md`"}}
  ],
  "left_out": {
   "eval_s1113_keys.json": "the keys of an asking, read by eval_s1113.py --grade, not a run",

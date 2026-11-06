@@ -49,7 +49,13 @@ GRADES = os.path.join(HERE, "eval_s1113_grades.json")
 # asking, with --set s1114: its own run and grades files
 SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         "s1114": {"questions": os.path.join(HERE, "questions_s1114.yaml"), "run": os.path.join(HERE, "eval_s1114_run.json"),
-                  "grades": os.path.join(HERE, "eval_s1114_grades.json")}}
+                  "grades": os.path.join(HERE, "eval_s1114_grades.json")},
+        # session 2886 (chain 148): session 1133's asking of the second set (eight asked, t01 to t08) and the board's five
+        # questions of session 1122, through the same asking and the same grader (grade_s1114, its set given)
+        "s1133": {"questions": os.path.join(HERE, "eval_s1133_s1114_questions.yaml"), "run": os.path.join(HERE, "eval_s1133_s1114_run.json"),
+                  "grades": os.path.join(HERE, "eval_s1133_s1114_grades.json")},
+        "s1122": {"questions": os.path.join(HERE, "questions_s1122.yaml"), "run": os.path.join(HERE, "eval_s1122_run.json"),
+                  "grades": os.path.join(HERE, "eval_s1122_grades.json")}}
 ENV_ROOT = ROOT if os.path.exists(os.path.join(ROOT, ".env")) else os.path.join(os.path.dirname(ROOT), "erw")   # a worktree reads the main checkout's
 STEP = "site_ask_eval"
 GRID_SLUG = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "SPP": "spp", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm"}
@@ -190,13 +196,13 @@ def held_ok(answer, k):
     return "license needed" in a.lower() and grid.lower() in a.lower() and not states
 
 
-def grade_s1114():
+def grade_s1114(which="s1114"):
     """The second set: each question graded by eval_s267.py's grader on its own key (questions_s1114.yaml), a date in
     its text accepted written either way ("September 3" or "3 September")."""
-    with open(SETS["s1114"]["run"], encoding="utf-8") as f:
+    with open(SETS[which]["run"], encoding="utf-8") as f:
         run = {x["id"]: x for x in json.load(f)["questions"]}
     out = []
-    for q in questions(SETS["s1114"]["questions"]):
+    for q in questions(SETS[which]["questions"]):
         a = run.get(q["id"])
         if a is None:
             continue
@@ -212,9 +218,9 @@ def grade_s1114():
             g["ok"] = all(v for k, v in g.items() if k != "ok" and v is not None)
         out.append({"id": q["id"], "via": q["via"], "grid": q["grid"], "status": a.get("status"), "tool_calls": a.get("tool_calls"), "retried": a.get("retried"),
                     "cost_usd": a.get("cost_usd"), "seconds": a.get("seconds"), "expected": q["expected"], "ok": g["ok"], "grade": g, "trace_calls": len(a.get("trace") or [])})
-    doc = {"_about": "Session 1114: eval_s1114_run.json graded on questions_s1114.yaml's keys by eval_s1113.py --grade --set s1114 (no model, no network).",
+    doc = {"_about": f"Session 1114: {os.path.basename(SETS[which]['run'])} graded on {os.path.basename(SETS[which]['questions'])}'s keys by eval_s1113.py --grade --set {which} (no model, no network).",
            "asked": len(out), "right": sum(r["ok"] for r in out), "cost_usd": round(sum(float(r["cost_usd"] or 0) for r in out), 4), "questions": out}
-    with open(SETS["s1114"]["grades"], "w", encoding="utf-8", newline="\n") as f:
+    with open(SETS[which]["grades"], "w", encoding="utf-8", newline="\n") as f:
         json.dump(doc, f, indent=1)
         f.write("\n")
     print(f"right {doc['right']} of {doc['asked']}; cost USD {doc['cost_usd']}")
@@ -283,7 +289,7 @@ def main(argv):
         only = set(argv[argv.index("--only") + 1].split(",")) if "--only" in argv else None
         ask(base, cap, only, which)
     if "--grade" in argv:
-        grade_s1114() if which == "s1114" else grade()
+        grade_s1114(which) if which in ("s1114", "s1133", "s1122") else grade()
     return 0
 
 
