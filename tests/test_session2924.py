@@ -82,8 +82,9 @@ class TheCommittedRegistry(unittest.TestCase):
         regs, problems = m.read_registry()
         self.assertEqual(problems, [])
         d = m.rows(regs)
-        self.assertEqual(len(d), 26)
-        self.assertEqual(sorted(d["x_body"].unique()), ["Electric Reliability Council of Texas (ERCOT)", "Pacific Gas and Electric Company"])
+        # session 2938 (chain 155): SPP's HILL process, as FERC's order of 14 January 2026 states it, joined (13 steps)
+        self.assertEqual(len(d), 39)
+        self.assertEqual(sorted(d["x_grid"].unique()), ["CAISO", "ERCOT", "SPP"])
         self.assertEqual(int((d["x_date_kind"] == "stated date").sum()), 3)
         pclr = d[d["event_id"] == "rule:ercot_planning_guide_section_9:9_6_1_1"].iloc[0]
         self.assertEqual(pclr["x_duration"], "")                 # no faster path's duration is stated
