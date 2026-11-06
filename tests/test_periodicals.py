@@ -289,8 +289,13 @@ class TheFiveNumbers(unittest.TestCase):
         text = "\n".join(L)
         self.assertTrue(cr.FIVE_DAM.search(text))
         self.assertTrue(cr.FIVE_US48.search(text))
-        self.assertTrue(cr.FIVE_DEAL.search(text))
-        self.assertTrue(cr.FIVE_LOAD.search(text))
+        # session 1460 (faults 28 and 29): the keys are on the five's Tables line; the tracer reads them there
+        deal, deal_mw, load, chart = cr.five_keyed(text)
+        self.assertEqual(deal, ("USD 12 billion", "deal:a"))
+        self.assertEqual(load, ("1,200", "dc:a"))
+        self.assertIsNone(deal_mw)
+        self.assertIsNone(chart)
+        self.assertNotIn("deal:a)", text.split("Tables:")[0])
         self.assertIn("no chart of the week was picked", text)
 
 
@@ -1830,6 +1835,51 @@ class Session1459StoredFactsStyled(unittest.TestCase):
             self.assertTrue(os.path.exists(os.path.join(d, "2026-11-09.json")))
         self.assertIn("9,310.49 USD/MWh", item["fact"])
         self.assertIn(item["fact"], "\n".join(funfact.item_markdown(item)))
+
+
+class Session1460FiveKeys(unittest.TestCase):
+    """Session 1460 (chain 150, faults 28 and 29): the five numbers' rows print no row id, template or path; the keys sit on
+    one Tables line under the five, the email prints it small and grey, and scripts/check_roundup.py traces each row by it
+    (an issue written before keeps its keys in the rows and is read as it was)."""
+
+    MD = ("# ERW Weekly Roundup, 2026-W44\n\n## The week in five numbers\n\n"
+          "- **US48 peak demand:** 470,627 MW in the hour starting 2026-10-25 23:00 UTC [6].\n"
+          "- **Deal of the week, by US dollars:** USD 45 billion, Anthropic and Nscale, cloud computing deal (offtake, 2026-10-19).\n"
+          "- **Largest new datacenter load first reported this week:** 1,000 MW, Gingerah Energy, Gingerah, Western Australia.\n"
+          "- **From the chart of the week:** WTI spot price at Cushing, weekly mean: 107 USD/bbl in 2026-10-19 to 2026-10-25 "
+          "(the week before: the chart's latest period ends before this week).\n\n"
+          "Tables: the deal of the week, `energy_deals` deal:d7ed182372909e6d; the datacenter load, `datacenter_projects` "
+          "datacenter:8ea094c6d5fc3593; the chart's figure, template `watch_wti`, `docs/analysis/2026-W44/chart_of_the_week.json`.\n\n"
+          "## What mattered\n")
+    OLD = ("## The week in five numbers\n\n"
+           "- **Deal of the week, by US dollars:** USD 45 billion, Anthropic and Nscale, cloud computing deal (offtake, 2026-10-19; "
+           "`energy_deals` deal:d7ed182372909e6d).\n"
+           "- **From the chart of the week:** WTI spot price at Cushing, weekly mean: 107 USD/bbl in 2026-10-19 to 2026-10-25 "
+           "(template `watch_wti`, `docs/analysis/2026-W44/chart_of_the_week.json`).\n")
+
+    def checks(self, md, refs):
+        import check_roundup as cr
+        return {k: v for k, v, _f in cr.five_checks("2026-W44", md, refs, None)}
+
+    def test_the_tracer_reads_the_keys_on_the_tables_line(self):
+        got = self.checks(self.MD, {"6": "eia930_all_demand"})
+        self.assertEqual(got["rdp_five_deal|energy_deals|deal:d7ed182372909e6d|dollars"], "USD 45 billion")
+        self.assertEqual(got["rdp_five_load|datacenter_projects|datacenter:8ea094c6d5fc3593|capacity_mw"], "1,000")
+        self.assertEqual(got["rdp_five_chart|2026-W44|watch_wti|headline"], "107")
+
+    def test_an_issue_written_before_is_read_as_it_was(self):
+        got = self.checks(self.OLD, {})
+        self.assertEqual(got["rdp_five_deal|energy_deals|deal:d7ed182372909e6d|dollars"], "USD 45 billion")
+        self.assertEqual(got["rdp_five_chart|2026-W44|watch_wti|headline"], "107")
+
+    def test_no_key_in_the_rows_and_the_email_prints_the_line_small(self):
+        import email_digest
+        for ln in self.MD.splitlines():
+            if ln.startswith("- "):
+                self.assertNotRegex(ln, r"deal:|datacenter:|template|docs/analysis")
+        body = self.MD.split("## The week in five numbers\n\n")[1].split("\n## ")[0].splitlines()
+        _text, html = email_digest.block(body)
+        self.assertIn('font-size:12px;color:#6B665E">Tables: the deal of the week', html)
 
 
 class Session1450TheTracers(unittest.TestCase):

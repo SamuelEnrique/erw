@@ -66,6 +66,35 @@ FIVE_DEAL = re.compile(r"\*\*Deal of the week, by US dollars:\*\* (USD [\d,.]+(?
 FIVE_DEAL_MW = re.compile(r"\*\*Deal of the week, by MW[^*]*:\*\* ([\d,]+) MW, .*?`energy_deals` (deal:[0-9a-f]+)\)")
 FIVE_LOAD = re.compile(r"\*\*Largest new datacenter load first reported this week:\*\* ([\d,]+) MW, .*?`datacenter_projects` (\S+?)\)")
 FIVE_CHART = re.compile(r"\*\*From the chart of the week:\*\* (.+?): ([\d,.]+) (.+?) in (.+?) \(template `([a-z0-9_]+)`, `(docs/analysis/[^`]+)`\)")
+# session 1460 (chain 150, faults 28 and 29): since then the keys are on the five's Tables line, not in the rows; an issue
+# written before keeps them in its rows, and both forms are read
+FIVE_DEAL_V = re.compile(r"\*\*Deal of the week, by US dollars:\*\* (USD [\d,.]+(?: \w+)?), ")
+FIVE_DEAL_MW_V = re.compile(r"\*\*Deal of the week, by MW[^*]*:\*\* ([\d,]+) MW, ")
+FIVE_LOAD_V = re.compile(r"\*\*Largest new datacenter load first reported this week:\*\* ([\d,]+) MW, ")
+FIVE_CHART_V = re.compile(r"\*\*From the chart of the week:\*\* (.+?): ([\d,.]+) (.+?) in (.+?)(?: \(the week before[^)]*\))?\.$", re.M)
+KEY_DEAL = re.compile(r"the deal of the week, `energy_deals` (deal:[0-9a-f]+)")
+KEY_LOAD = re.compile(r"the datacenter load, `datacenter_projects` (\S+?)(?=[;.]\s|[;.]$)", re.M)
+KEY_CHART = re.compile(r"the chart's figure, template `([a-z0-9_]+)`, `(docs/analysis/[^`]+)`")
+
+
+def five_keyed(text):
+    """Session 1460: (deal, deal by MW, load, chart) as the old patterns' matches give them, from either form: the key in
+    the row (before session 1460) or on the five's Tables line. Each is a tuple of groups, or None."""
+    out = []
+    for old, row, key in ((FIVE_DEAL, FIVE_DEAL_V, KEY_DEAL), (FIVE_DEAL_MW, FIVE_DEAL_MW_V, KEY_DEAL), (FIVE_LOAD, FIVE_LOAD_V, KEY_LOAD)):
+        m = old.search(text)
+        if m:
+            out.append(m.groups())
+            continue
+        r, k = row.search(text), key.search(text)
+        out.append((r.group(1), k.group(1)) if r and k else None)
+    m = FIVE_CHART.search(text)
+    if m:
+        out.append(m.groups())
+    else:
+        r, k = FIVE_CHART_V.search(text), KEY_CHART.search(text)
+        out.append(r.groups() + k.groups() if r and k else None)
+    return out
 
 
 def usd_words(d):
@@ -148,9 +177,9 @@ def five_checks(label, md, refs, written):
             st, got = value_at(src, "eia930_all_demand", "eia930:US48", t, "demand_mw")
             return compare(src, v, f"{got:,.0f}", written, "eia930_all_demand", "eia930:US48", t, "demand_mw") if st == "held" else (st, got)
         out.append((f"rdp_five_us48|eia930_all_demand|eia930:US48|demand_mw|{t}", v, f))
-    m = FIVE_DEAL.search(text)
-    if m:
-        v, eid = m.groups()
+    k_deal, k_deal_mw, k_load, k_chart = five_keyed(text)   # session 1460: the keys in the row or on the Tables line
+    if k_deal:
+        v, eid = k_deal
 
         def f(src, v=v, eid=eid):
             st, row = event_row(src, "energy_deals", eid)
@@ -159,9 +188,8 @@ def five_checks(label, md, refs, written):
             got = usd_words(row["dollars"]) if row["dollars"] else "no dollars in the row"
             return ("ok" if got == v else "FAIL"), got
         out.append((f"rdp_five_deal|energy_deals|{eid}|dollars", v, f))
-    m = FIVE_DEAL_MW.search(text)
-    if m:
-        v, eid = m.groups()
+    if k_deal_mw:
+        v, eid = k_deal_mw
 
         def f(src, v=v, eid=eid):
             st, row = event_row(src, "energy_deals", eid)
@@ -170,9 +198,8 @@ def five_checks(label, md, refs, written):
             got = f"{float(row['mw']):,.0f}" if row["mw"] else "no mw in the row"
             return ("ok" if got == v else "FAIL"), got
         out.append((f"rdp_five_deal|energy_deals|{eid}|mw", v, f))
-    m = FIVE_LOAD.search(text)
-    if m:
-        v, eid = m.groups()
+    if k_load:
+        v, eid = k_load
 
         def f(src, v=v, eid=eid):
             st, row = event_row(src, "datacenter_projects", eid, "entity_id")
@@ -182,9 +209,8 @@ def five_checks(label, md, refs, written):
             got = f"{float(mw):,.0f}" if mw else "no capacity in the row"
             return ("ok" if got == v else "FAIL"), got
         out.append((f"rdp_five_load|datacenter_projects|{eid}|capacity_mw", v, f))
-    m = FIVE_CHART.search(text)
-    if m:
-        _label, v, unit, period, template, path = m.groups()
+    if k_chart:
+        _label, v, unit, period, template, path = k_chart
 
         def f(src, v=v, path=path, template=template):
             import json
