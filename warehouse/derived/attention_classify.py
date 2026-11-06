@@ -20,7 +20,7 @@ script writes no warehouse table. Method: docs/methods/attention.md.
         appended to warehouse/raw/attention/classified_<run_id>.jsonl as they arrive, so a run that stops keeps what it
         classified
 
-Model: ATTENTION_MODEL (claude-haiku-4-5), fixed and priced in warehouse/config/model_prices.yaml; the call goes through
+Model: ATTENTION_MODEL (claude-sonnet-5-5 since session 3401's trial), fixed and priced in warehouse/config/model_prices.yaml; the call goes through
 warehouse/llm.py so the cost ledger records every call. The system prompt carries the prompt-cache breakpoint. A call
 that fails leaves its stories unclassified and is logged; nothing is retried in the same run beyond the SDK's own
 retries. No request leaves this machine but the model call.
@@ -43,7 +43,9 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 import iso_prices as ip  # noqa: E402
 
-ATTENTION_MODEL = "claude-haiku-4-5"
+# Session 3401's trial on the 200 hand-labeled stories: Sonnet 5.5 for friction precision 0.94 (Haiku 0.88) and the US
+# field 0.93 (Haiku 0.80), at USD 0.71 a thousand stories (Haiku 0.29). Priced in warehouse/config/model_prices.yaml.
+ATTENTION_MODEL = "claude-sonnet-5-5"
 STEP = "attention_classify"
 RAW_DIR = os.path.join(ip.RAW_DIR, "attention")
 LINKS = "attention_story_links"
@@ -349,7 +351,8 @@ def run_batches(client, model, todo, log, out_path=None, cap_usd=None, max_calls
         for r in batch.itertuples():
             if r.event_id in out:
                 row = dict(event_id=r.event_id, event_date=r.event_date, source=r.source, source_url=r.source_url,
-                           headline=nodash(getattr(r, "headline", "")), **out[r.event_id],
+                           headline=nodash(getattr(r, "headline", "")), significance=getattr(r, "significance", ""),
+                           scorer_sector=getattr(r, "sector", ""), **out[r.event_id],
                            model_id=model_id, prompt_version=PROMPT_VERSION, classified_at=now)
                 got.append(row)
         rows.extend(got)
@@ -375,6 +378,7 @@ def main(argv=None):
     ap.add_argument("--max-calls", type=int, help="at most this many calls")
     ap.add_argument("--order", choices=["newest", "oldest"], default="newest")
     ap.add_argument("--since", help="the corpus run: only stories published on or after this date (YYYY-MM-DD)")
+    ap.add_argument("--all-significance", action="store_true", help="the corpus run: send the stories the news scorer gave significance 0 too")
     ap.add_argument("--log-dir", help="where the run log goes (default warehouse/output/logs)")
     args = ap.parse_args(argv)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -408,6 +412,12 @@ def main(argv=None):
     todo = d[~d["event_id"].isin(done)]
     if args.since:
         todo = todo[todo["_when"] >= pd.Timestamp(args.since, tz="UTC")]
+    if not args.all_significance:
+        # session 3401: a story the news scorer gave significance 0 ("not energy relevant") is not sent; it stays in
+        # its week's denominator as unclassified, and docs/methods/attention.md says so
+        zero = todo["significance"].str.strip() == "0"
+        log(f"{int(zero.sum())} stories scored 0 by the news scorer are not sent (--all-significance sends them)")
+        todo = todo[~zero]
     todo = todo.sort_values("_when", ascending=(args.order == "oldest"))
     log(f"{len(done)} stories already classified; {len(todo)} to do, {args.order} first")
     os.makedirs(RAW_DIR, exist_ok=True)
