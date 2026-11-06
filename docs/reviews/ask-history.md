@@ -12,4 +12,4 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/history.
 | 2026-10-23 | `questions_s1114.yaml` | thirty a trading, a finance and a policy lead ask, first asking | 24 of 30 | USD 2.84 | `docs/reviews/ask-sixty-2026-10-23.md` |
 | 2026-10-23 | `questions_s320.yaml` | asked again after chains 076 and 085, graded under the hold | 19 of 30 (15 on the figure keys; 30 if session 320's rulings went the answers' way) | USD 2.90 | `docs/reviews/ask-sixty-2026-10-25.md` |
 | 2026-10-23 | `questions_s1114.yaml` | asked again after chains 076 and 085, 30 of the thirty (the cap) | 28 of 30 | USD 2.42 | `docs/reviews/ask-sixty-2026-10-25.md` |
-| 2026-11-06 | `questions_s1122.yaml` | the board's five questions, first asking, graded on the keys of 23 October 2026 | 0 of 5 | USD 0.18 | `docs/reviews/ask-history.md` |
+| 2026-11-06 | `questions_s2918.yaml` | the board's five questions, first asking, graded on the keys of their own day (session 2918, from the rows of 6 November 2026, 05:16 UTC) | 4 of 5 | USD 0.18 | session 2918's report |

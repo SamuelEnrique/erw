@@ -28,6 +28,8 @@ In the rules above, read "Session 2862" as session 2918 and "session 2885" as se
 
 Also read first: chain 151's note (`docs/state/note_<its day>_data_c151.md`), chain 148's (`docs/state/note_2026-11-07_data_c148.md`), chain 147's (`docs/state/note_2026-11-06_data_c147.md`), and the three chains' session reports under `archive/sessions/`.
 
+Updated by session 2917 of chain 151 at its end: chain 151's note is `docs/state/note_2026-11-06_data_c151.md`. Its list of steps not finished names the session of this file that takes each (2918, 2920 to 2925, 2927, 2928); one more step joins session 2927: the monthly builds' page files (`site/data/mix/`, `site/data/curtailment_profile.json`) held to their tests after `run_monthly.sh`, as session 2913 held the board's, before the run of 3 December.
+
 ## Session 2918: the next file, the ground, chain 151's first unfinished step
 
 Long end 1:30. Pulls: GitHub only.

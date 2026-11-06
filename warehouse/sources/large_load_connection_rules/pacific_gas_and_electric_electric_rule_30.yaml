@@ -1,0 +1,44 @@
+# Session 2924 (chain 153): read from the copy session 2921 fetched from PG&E's filed tariff book
+# (runs/license_reads/s2921/05_*.bin; robots read first, every path but /mobile/ open to this reader; PG&E links no terms
+# of use on its tariff pages). Each sheet is the CPUC-filed sheet itself (Advice 7772-E, Decision D.25-07-039, effective
+# 4 December 2025). Pages are the PDF's, each one tariff sheet. The Rule applies to Retail Service at 50 kV to 230 kV; it
+# states no load size in MW. The steps below are those it prints with a number of days, months or years.
+body: Pacific Gas and Electric Company
+grid: CAISO
+utility: Pacific Gas and Electric Company
+eia_id: 14328
+state: CA
+document: PG&E Electric Rule No. 30, Retail Service Transmission Facilities, Interim Implementation (Cal. P.U.C. Sheets 60532-E to 60553-E)
+document_date: 2025-12-04
+document_url: https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_RULES_30.pdf
+retrieved_at: 2026-11-06T05:26:53Z
+license: public
+steps:
+  - section: "A.1.b.1)"
+    page: 1
+    step: PG&E keeps a project's construction and design standards fixed after its application is approved
+    party: PG&E
+    duration: 18
+    unit: months
+    printed: "PG&E will apply only those construction and design specifications, standards, terms, and conditions that are applicable to a new project under this Rule for the 18 months following the date an Applicant's application is approved."
+  - section: "Sheet 6, CCA service"
+    page: 6
+    step: PG&E sends the affected CCA a copy of the application
+    party: PG&E
+    duration: 20
+    unit: business days
+    printed: "PG&E will provide the affected CCA a copy of the application within twenty (20) business days of receipt"
+  - section: "Sheet 11, b."
+    page: 11
+    step: the Applicant pays an invoice of PG&E's actual costs
+    party: Applicant
+    duration: 45
+    unit: calendar days
+    printed: "Applicant shall pay all invoiced amounts within forty-five (45) calendar days after receipt of PG&E's invoice"
+  - section: "Sheet 22, usage forecast"
+    page: 22
+    step: the Applicant's application forecasts its load for the facilities' first years in service
+    party: Applicant
+    duration: 10
+    unit: years
+    printed: "Applicant shall provide to PG&E in its application for service a forecast of expected load for the first ten (10) years that the Transmission Facilities are in service."

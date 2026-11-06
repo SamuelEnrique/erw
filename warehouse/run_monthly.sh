@@ -54,6 +54,19 @@ soft_step ercot_large_load_status "$PYTHON" warehouse/connectors/ercot_large_loa
 for name in mix_profile price_compare demand_growth curtailment_profile project_map large_load_snapshot; do
   soft_step "$name" "$PYTHON" warehouse/scheduled.py "$name"
 done
+# Session 2927 (chain 153): the mix's and curtailment's page files held to their own tests, as session 2913 holds the
+# board's. On 6 November 2026 the runner's catch-up run rebuilt site/data/mix/ and site/data/curtailment_profile.json from
+# tables shorter than the history (CAISO's mix lost 2019 and 2020) and committed them; chain 147's session 2885 put 164
+# files back. Files the tests refuse are put back as committed (those files only), recorded, and the run goes on.
+MONTHLY_PAGE_PATHS="site/data/mix site/data/curtailment_profile.json"
+if "$PYTHON" -m unittest tests.test_session94 tests.test_session98 tests.test_session133 tests.test_session144_page > runs/monthly_page_tests.out 2>&1; then
+  echo "monthly_page_tests ok" >> "$status"
+else
+  git checkout -- $MONTHLY_PAGE_PATHS
+  git clean -fdq -- site/data/mix
+  echo "monthly_page_tests failed: the mix and curtailment files put back as committed ($(grep -m1 -E '^FAILED|^(FAIL|ERROR):' runs/monthly_page_tests.out | cut -c1-160))" >> "$status"
+  "$PYTHON" warehouse/health.py record --step "monthly_page_tests" --status failed --reason "the mix's and curtailment's tests refused the monthly build's page files; put back as committed (runs/monthly_page_tests.out)" > /dev/null 2>&1 || true
+fi
 if [ -z "${STATUS_FILE:-}" ]; then
   echo "== monthly status"
   cat "$status"

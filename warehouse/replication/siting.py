@@ -323,6 +323,47 @@ def planned_figures(places_rows, planned_rows, vintage, node=PANEL_NODE):
     return {f"allgrids|nodeplanned|ercot:{node}|{k}": round(v, 1) for k, v in mw.items()}
 
 
+SIGNED_OF = {"ercot": "ercot", "caiso": "caiso", "nyiso": "nyiso"}   # the replication's rows' grids, Berkeley Lab's names
+
+
+def signed_figures(rows, row_ids=None):
+    """Session 2923 (chain 153): each row's grid's MW with a signed interconnection agreement and no operation date, from
+    interconnection_agreements_by_grid's rows (the grid's own entity, its newest ts_utc), rounded to one decimal as the
+    tab's file writes it."""
+    rows = [r for r in rows if r["variable"] == "mw_signed" and r["entity"].count(":") == 1]
+    at = max((r["ts_utc"] for r in rows), default=None)
+    by = {r["entity"].split(":")[1]: float(r["value"]) for r in rows if r["ts_utc"] == at and r["value"] not in ("", None)}
+    out = {}
+    for rid in row_ids or ROWS:
+        g = SIGNED_OF.get(rid.split(":")[0])
+        if g in by:
+            out[f"allgrids|signed|{rid}"] = round(by[g], 1)
+    return out
+
+
+def wires_figures(delivery_rows, utility, row_ids=("ercot:HB_HOUSTON",)):
+    """Session 2923: a county row's delivery-only company's industrial delivery revenue per MWh, from
+    eia861_delivery_only's rows (the newest year, the company the tab's file names among the county's utilities)."""
+    out = {}
+    for rid in row_ids:
+        cu = (utility.get("county") or {}).get(rid) or {}
+        nums = {u["number"] for u in cu.get("utilities", [])}
+        rows = [r for r in delivery_rows if r.get("x_utility_number") in nums and r.get("x_state") == cu.get("state") and r.get("x_ba_code") == cu.get("ba")
+                and r["variable"] in ("industrial_sales", "industrial_revenue") and r["value"] not in ("", None)]
+        if not rows:
+            continue
+        y = max(r["ts_utc"][:4] for r in rows)
+        by = {}
+        for r in rows:
+            if r["ts_utc"][:4] == y:
+                by.setdefault(r["x_utility_number"], {})[r["variable"]] = by.get(r["x_utility_number"], {}).get(r["variable"], 0.0) + float(r["value"])
+        best = sorted(((v["industrial_sales"], n) for n, v in by.items() if v.get("industrial_sales", 0) > 0 and v.get("industrial_revenue", 0) > 0), key=lambda t: (-t[0], t[1]))
+        if best:
+            n = best[0][1]
+            out[f"allgrids|wiresrev|{rid}"] = by[n]["industrial_revenue"] / by[n]["industrial_sales"]
+    return out
+
+
 def table_figures(repo, tables, chosen):
     """Session 735: the node spread and the zone growth from the warehouse's own tables (--tables)."""
     out = {}
@@ -334,6 +375,13 @@ def table_figures(repo, tables, chosen):
         vintage = (read_json(repo, "siting", "nodes.json").get("planned") or {}).get("vintage")
         if vintage:
             out.update(planned_figures(list(table_rows(lp)), list(table_rows(gp)), vintage))
+    # session 2923: generation with a signed agreement, and Harris County's wires company, from the tables' own CSVs
+    sp = os.path.join(tables, "interconnection_agreements_by_grid.csv")
+    if os.path.exists(sp):
+        out.update(signed_figures(list(table_rows(sp))))
+    dp = os.path.join(tables, "eia861_delivery_only.csv")
+    if os.path.exists(dp):
+        out.update(wires_figures(list(table_rows(dp)), read_json(repo, "siting", "utility.json")))
     # session 1027: ERCOT's reserve margin from the table's own CSV, where the live set does not hold it yet
     rpath = os.path.join(tables, "ercot_cdr_reserve_margins.csv")
     if os.path.exists(rpath):

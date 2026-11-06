@@ -39,7 +39,10 @@ class TheSets(unittest.TestCase):
         runs = load("runs.json")["runs"]
         mine = [r for r in runs if r["file"] == "eval_s1122_run.json"]
         self.assertEqual(len(mine), 1)
-        self.assertEqual(mine[0]["grades"], "eval_s1122_grades.json")
+        # session 2918: the run's grades are those on the keys of its own day (eval_s1122_grades_s2918.json); session
+        # 2886's on the keys of 23 October are kept, named under left_out
+        self.assertEqual(mine[0]["grades"], "eval_s1122_grades_s2918.json")
+        self.assertIn("eval_s1122_grades.json", load("runs.json")["left_out"])
         self.assertEqual(len(load("eval_s1122_run.json")["questions"]), 5)
 
     def test_grading_reads_the_set_it_is_given(self):

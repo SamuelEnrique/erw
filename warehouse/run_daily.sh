@@ -385,6 +385,19 @@ run_other battery_stack "$PYTHON" warehouse/health.py run --strict --step "batte
 # table that is not on the machine (NYISO's and SPP's are held out of the runner), and page_keep.py keeps the held rows
 # for them, so the runner never writes a thinner board.
 run_other board "$PYTHON" warehouse/health.py run --step "board" -- bash warehouse/refresh_board.sh
+# Session 2913 (chain 151): the board's own tests, here as on the data machine (dm_test_board), with the tests of its
+# spreads and its figures (sessions 1118 and 1139). On 6 November 2026 the catch-up run's board failed tests 1118 and 1139
+# and was committed; the next run's merge tests would have stopped it. A board they refuse is put back as committed
+# (its files only), recorded, and the run goes on.
+BOARD_PATHS="site/data/board.json site/public/board"
+if "$PYTHON" -m unittest tests.test_session132 tests.test_session240 tests.test_session1118 tests.test_session1139 > runs/daily_board_tests.out 2>&1; then
+  echo "board_tests ok" >> "$status"
+else
+  git checkout -- $BOARD_PATHS
+  git clean -fdq -- site/public/board
+  echo "board_tests failed: the board put back as committed ($(grep -m1 -E '^FAILED|^(FAIL|ERROR):' runs/daily_board_tests.out | cut -c1-160))" >> "$status"
+  "$PYTHON" warehouse/health.py record --step "board_tests" --status failed --reason "the board's tests refused the run's board; put back as committed (runs/daily_board_tests.out)" > /dev/null 2>&1 || true
+fi
 
 # Session 114: the builders that were run by hand, on a schedule (session 112's state document, item 5). Each is a soft
 # step (warehouse/soft_step.sh): under warehouse/health.py without --strict, so a failure is tried once more, recorded in
