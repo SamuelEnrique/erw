@@ -238,6 +238,62 @@
     "what": "the board's five questions asked again on the build of main of 6 November 2026, 08:30 UTC, after session 2918's k03 failed in the route; graded on session 2918's keys",
     "where": "session 1486's report"
    }
+  },
+  {
+   "file": "eval_s3280_loop_trader_run.json",
+   "grades": "eval_s3280_loop_trader_grades.json",
+   "right": "ok",
+   "label": "session 3280, Python loop, the trader's twenty",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_trader.yaml`",
+    "what": "twenty a power trader asks (the hubs' day-ahead and real-time averages and maxima with their hour, a spread, the spark spread, a count over a threshold, the node basis, a held grid and MISO), first asking through the Python loop, graded under the grader's rules",
+    "where": "session 3282's report (`archive/sessions/SESSION_3282_ASKEVAL_REPORT.md`)"
+   }
+  },
+  {
+   "file": "eval_s3281_loop_investor_run.json",
+   "grades": "eval_s3281_loop_investor_grades.json",
+   "right": "ok",
+   "label": "session 3281, Python loop, the investor's twenty",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_investor.yaml`",
+    "what": "twenty an investor asks (PPA prices and deals and the datacenter tracker, held; large loads; the queues by status and fuel; the months to operation; a reactor's outages and the EIA-860M slip, not in the live set), first asking, 17 asked before the run was stopped for low memory",
+    "where": "session 3282's report (`archive/sessions/SESSION_3282_ASKEVAL_REPORT.md`)"
+   }
+  },
+  {
+   "file": "eval_s3282_loop_trader_run.json",
+   "grades": "eval_s3282_loop_trader_grades.json",
+   "right": "ok",
+   "label": "session 3282, Python loop, the trader's tr13 and tr14 again",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_trader.yaml`",
+    "what": "the trader's tr13 and tr14 asked again after a text value of latest is no figure (session 3282)",
+    "where": "session 3282's report (`archive/sessions/SESSION_3282_ASKEVAL_REPORT.md`)"
+   }
+  },
+  {
+   "file": "eval_s3282_loop_investor_run.json",
+   "grades": "eval_s3282_loop_investor_grades.json",
+   "right": "ok",
+   "label": "session 3282, Python loop, the investor's iv13 to iv15 again",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_investor.yaml`",
+    "what": "the investor's iv13 to iv15 asked again after rule 3 asks for list_tables before not in the warehouse (session 3282); iv18 to iv20 stopped by the cap",
+    "where": "session 3282's report (`archive/sessions/SESSION_3282_ASKEVAL_REPORT.md`)"
+   }
   }
  ],
  "left_out": {
@@ -256,6 +312,8 @@
   "eval_s1122_grades.json": "session 2886's grades of the board's five on the keys of 23 October 2026 (0 of 5, the keys stale), replaced in the list by session 2918's grades on the keys of the asking day",
   "expected_s2918.json": "the keys of the board's five from session 2918's rows of 6 November 2026, not a run",
   "expected_s2948.json": "the keys of the board's five from session 2948's rows of 6 November 2026, not a run",
-  "eval_s2968_loop_keys.json": "the keys of session 2968's asking through the Python loop, not a run"
+  "eval_s2968_loop_keys.json": "the keys of session 2968's asking through the Python loop, not a run",
+  "keys_trader.json": "the keys of questions_trader.yaml, written by scripts/ask_eval/trader_questions.py, not a run",
+  "keys_investor.json": "the keys of questions_investor.yaml, written by scripts/ask_eval/investor_questions.py, not a run"
  }
 }
