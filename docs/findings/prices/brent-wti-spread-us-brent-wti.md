@@ -2,7 +2,7 @@
 
 Draft `scan-deep-602c1f95afe4` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The mean daily premium of Brent crude over WTI at Cushing was 3.58 USD per barrel in 2025, against -1.04 USD per barrel in 1988, the first full year the ERW holds.
+**The finding.** The Brent spot price less WTI at Cushing, the year's mean of its days, was 3.58 USD per barrel in 2025, against -1.04 USD per barrel in 1988, the first full year the ERW holds.
 
 ![Brent against wti, Brent against WTI at Cushing](brent-wti-spread-us-brent-wti.png)
 

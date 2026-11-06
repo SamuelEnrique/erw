@@ -2,7 +2,7 @@
 
 Draft `scan-deep-e4ec068bcbd3` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail price of regular gasoline in California above the US average was 1.312 USD per gallon in 2025, against 0.998 USD per gallon in 2019, the first year the ERW's regional table holds.
+**The finding.** The retail price of regular gasoline in California less the US average was 1.312 USD per gallon in 2025, against 0.998 USD per gallon in 2019, the first year the ERW's regional table holds.
 
 ![What a region pays at the pump, California](gas-premium-gasprem-sca.png)
 

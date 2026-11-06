@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): findings hunt (chain 164), candidate gas_premium, region gasprem_SCA (California)
-# Computed 2026-11-06T12:38:02Z by warehouse/analysis/findings/deep/oil_products_world.py (gas_premium); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Computed 2026-11-06T13:52:25Z by warehouse/analysis/findings/deep/oil_products_world.py (gas_premium); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
 # Rows: one per year held: an area's retail regular gasoline price less the US price, the year's mean of the weeks with both (USD per gallon), the observations it rests on, and whether the year is full
 # Tables: eia_regional_retail_fuel_prices
 region,year,value,n_observations,full_year

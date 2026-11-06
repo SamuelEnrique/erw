@@ -215,7 +215,7 @@ C = builder.candidate
 CANDIDATES = [
     C("europe_gas_premium", FAMILY, europe_gas_premium, "USD per MMBtu", 2, 12, 1.0, "EUROPE'S GAS AGAINST US GAS",
       "the year's mean of the World Bank's Europe gas price less its US gas price, from 2000",
-      lambda w: "the mean premium of the World Bank's European gas price over its US gas price",
+      lambda w: "the World Bank's European gas price less its US gas price, the year's mean,",
       "Monthly index prices in nominal dollars; the Europe index is the World Bank's, not a price any US exporter received.",
       reproduce("europe_gas_premium"), first_words="the first year this comparison counts", consequence=3),
     C("japan_lng_premium", FAMILY, japan_lng_premium, "USD per MMBtu", 2, 12, 1.0, "JAPAN'S LNG AGAINST US GAS",
@@ -250,7 +250,7 @@ CANDIDATES = [
       reproduce("lcfs_credit_price"), consequence=2),
     C("brent_wti_spread", FAMILY, brent_wti_spread, "USD per barrel", 2, 200, 1.0, "BRENT AGAINST WTI",
       "the year's mean of the daily Brent spot close less the WTI Cushing close, days with both",
-      lambda w: "the mean daily premium of Brent crude over WTI at Cushing",
+      lambda w: "the Brent spot price less WTI at Cushing, the year's mean of its days,",
       "Nominal dollars; the two are spot closes at different places and qualities, and the spread includes the cost of moving crude between them.",
       reproduce("brent_wti_spread"), consequence=2),
     C("henry_hub_winter", FAMILY, henry_hub_winter, "percent of the year's mean", 1, 200, 5.0, "HENRY HUB'S WINTER",
@@ -265,12 +265,13 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="The findings hunt, family prices, fuels and carbon (chain 164)")
     ap.add_argument("--in-dir", default=None)
     ap.add_argument("--only", default=None)
+    ap.add_argument("--replace", action="store_true", help="correct the open drafts of the same claims in place (session 3019)")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--dry-run", action="store_true")
     g.add_argument("--load", action="store_true")
     a = ap.parse_args(argv)
     cands = [P for P in CANDIDATES if not a.only or P["name"] == a.only]
-    builder.run(FAMILY + "_fuels", cands, a.in_dir, dry_run=not a.load)
+    builder.run(FAMILY + "_fuels", cands, a.in_dir, dry_run=not a.load, replace=a.replace)
     return 0
 
 

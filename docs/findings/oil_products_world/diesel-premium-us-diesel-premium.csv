@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): findings hunt (chain 164), candidate diesel_premium, region us_diesel_premium (the United States)
-# Computed 2026-11-06T12:38:02Z by warehouse/analysis/findings/deep/oil_products_world.py (diesel_premium); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Computed 2026-11-06T13:52:27Z by warehouse/analysis/findings/deep/oil_products_world.py (diesel_premium); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
 # Rows: one per year held: the US retail diesel price less the retail regular gasoline price, the year's mean of the weeks with both (USD per gallon), the observations it rests on, and whether the year is full
 # Tables: eia_retail_fuel_prices
 region,year,value,n_observations,full_year

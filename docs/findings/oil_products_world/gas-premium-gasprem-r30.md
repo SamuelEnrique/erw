@@ -2,7 +2,7 @@
 
 Draft `scan-deep-1304854e183c` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail price of regular gasoline in the Gulf Coast (PADD 3) above the US average was -0.420 USD per gallon in 2025, against -0.320 USD per gallon in 2019, the first year the ERW's regional table holds.
+**The finding.** The retail price of regular gasoline in the Gulf Coast (PADD 3) less the US average was -0.420 USD per gallon in 2025, against -0.320 USD per gallon in 2019, the first year the ERW's regional table holds.
 
 ![What a region pays at the pump, the Gulf Coast (PADD 3)](gas-premium-gasprem-r30.png)
 

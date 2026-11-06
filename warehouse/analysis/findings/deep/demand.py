@@ -370,12 +370,13 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="The findings hunt, family demand (chain 164)")
     ap.add_argument("--in-dir", default=None)
     ap.add_argument("--only", default=None)
+    ap.add_argument("--replace", action="store_true", help="correct the open drafts of the same claims in place (session 3019)")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--dry-run", action="store_true")
     g.add_argument("--load", action="store_true")
     a = ap.parse_args(argv)
     cands = [P for P in CANDIDATES if not a.only or P["name"] == a.only]
-    builder.run(FAMILY, cands, a.in_dir, dry_run=not a.load)
+    builder.run(FAMILY, cands, a.in_dir, dry_run=not a.load, replace=a.replace)
     return 0
 
 

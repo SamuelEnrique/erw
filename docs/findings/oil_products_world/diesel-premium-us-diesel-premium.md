@@ -2,7 +2,7 @@
 
 Draft `scan-deep-e68a3453e8ec` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The US retail price of diesel above regular gasoline was 0.563 USD per gallon in 2025, against -0.002 USD per gallon in 1995, the first full year the ERW holds.
+**The finding.** The US retail price of diesel less the price of regular gasoline was 0.563 USD per gallon in 2025, against -0.002 USD per gallon in 1995, the first full year the ERW holds.
 
 ![Diesel against gasoline at the pump, the United States](diesel-premium-us-diesel-premium.png)
 

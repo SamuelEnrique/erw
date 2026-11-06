@@ -2,7 +2,7 @@
 
 Draft `scan-deep-f01a569678ac` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The mean premium of the World Bank's European gas price over its US gas price was 8.44 USD per MMBtu in 2025, against -0.45 USD per MMBtu in 2000, the first year this comparison counts.
+**The finding.** The World Bank's European gas price less its US gas price, the year's mean, was 8.44 USD per MMBtu in 2025, against -0.45 USD per MMBtu in 2000, the first year this comparison counts.
 
 ![Europe's gas against us gas, European gas against US gas (World Bank Pink Sheet)](europe-gas-premium-us-europe-gas.png)
 
