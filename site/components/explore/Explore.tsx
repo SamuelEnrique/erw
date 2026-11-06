@@ -12,10 +12,21 @@ import { InputPanel, SourceLine, ToolHeader, ToolPage } from "@/components/tool/
 import { longDay, periodOf, type Option } from "@/lib/explore";
 import { freshness } from "@/lib/explore/fresh";
 
-/** The explorer's frame, in the brand (components/Brand.tsx). `definition` is the figure's definition in one line; `method` the method note's address. */
-export function ExploreFrame({ id, title, definition, fresh, filters, method, tables, sourceNote, children }: {
+/** Session 1496 (chain 158): the rows an explorer draws, as the site's download reads them (GET /api/download with its
+ *  filters: entity, variable, a UTC window; lib/downloadfilter.ts), and the words that say which rows they are. */
+export type DrawnRows = { table: string; entity?: string; variable?: string; start?: string; end?: string; words: string };
+
+/** The address of the download of the rows drawn. */
+export function rowsHref(r: DrawnRows): string {
+  const q = new URLSearchParams({ table: r.table });
+  for (const k of ["entity", "variable", "start", "end"] as const) if (r[k]) q.set(k, r[k] as string);
+  return `/api/download?${q.toString()}`;
+}
+
+/** The explorer's frame, in the brand (components/Brand.tsx). `definition` is the figure's definition in one line; `method` the method note's address; `rows` the rows the page draws, offered as a download of their own. */
+export function ExploreFrame({ id, title, definition, fresh, filters, method, tables, sourceNote, rows, children }: {
   id: string; title: string; definition: ReactNode; fresh: ReactNode; filters?: ReactNode;
-  method: { href: string; label: string }; tables: string[]; sourceNote?: ReactNode; children: ReactNode;
+  method: { href: string; label: string }; tables: string[]; sourceNote?: ReactNode; rows?: DrawnRows; children: ReactNode;
 }) {
   return (
     <Brand>
@@ -28,6 +39,11 @@ export function ExploreFrame({ id, title, definition, fresh, filters, method, ta
           <p className="mt-8 text-sm" data-method-link="1">
             Method: <Link href={method.href}>{method.label}</Link>, every figure on this page step by step.
           </p>
+          {rows ? (
+            <p className="mt-2 text-sm" data-rows-download={rows.table}>
+              The rows drawn here, as CSV with the table&apos;s header: <a href={rowsHref(rows)}>{rows.words}</a>.
+            </p>
+          ) : null}
           <TableDownloads tables={tables} />
           <SourceLine tables={tables} note={sourceNote} />
         </div>

@@ -2,6 +2,8 @@
 
 Built in session 30 (Part B1). The table `api_cost_ledger` records every call the ERW's code makes to the Anthropic Messages API: one row per call, written at the time of the call. It is **internal**: never on the public site, never in the public Redivis dataset.
 
+Tables: `api_cost_ledger` (named here by session 2960).
+
 ## How a call is recorded
 
 - Every script that calls a Claude model builds its client with `llm.client(step)` (`warehouse/llm.py`). That is the only construction of the Anthropic client in the warehouse's code; `grep` finds no other.

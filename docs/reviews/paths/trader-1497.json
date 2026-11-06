@@ -1,0 +1,14 @@
+{"name": "the trader path", "steps": [
+ {"id": "01", "what": "the generator page as it opens", "url": "/cost-of-power/seller"},
+ {"id": "02", "what": "a wind plant", "url": "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_HUBAVG"},
+ {"id": "03", "what": "another hub", "url": "/cost-of-power/seller?iso=ercot&hub=HB_WEST&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"},
+ {"id": "05", "what": "CAISO", "url": "/cost-of-power/seller?iso=caiso&asset=wind"},
+ {"id": "06", "what": "scenario B as a PPA", "url": "/cost-of-power/seller?iso=caiso&asset=wind&bn=100&bp=100.32&v=b"},
+ {"id": "07", "what": "the battery page as it opens", "url": "/cost-of-power/battery"},
+ {"id": "09", "what": "two hours", "url": "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight"},
+ {"id": "10", "what": "four hours on the day-ahead schedule", "url": "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead&mw=100"},
+ {"id": "11", "what": "CAISO", "url": "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead&mw=100"},
+ {"id": "13", "what": "the board as it opens", "url": "/board"},
+ {"id": "14", "what": "a row in the markets workbench", "url": "/board?s=ercot-hb-hubavg-da"},
+ {"id": "15", "what": "every ERCOT hub", "url": "/board?s=ercot-hb-hubavg-da&power.grid=ERCOT&power.scope=all"}
+]}

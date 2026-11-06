@@ -3,6 +3,8 @@
 The table `ercot_large_load_status`, the connector `warehouse/connectors/ercot_large_load_status.py`, and the review
 page `/datacenters/v2`. Session 106. An approved pull: ceiling 20,000 rows, USD 0.
 
+Tables: `ercot_large_load_status` (named here by session 2960).
+
 ## What ERCOT publishes
 
 ERCOT's Large Load Integration team presents a "Large Load Interconnection Status Update" to the Technical Advisory

@@ -32,7 +32,7 @@ python-dateutil==2.9.0.post0
 pytz==2026.4
 requests==2.34.2
 rpds-py==2026.6.3
-setuptools==84.0.0
+setuptools==84.1.0   # session 1503: GHSA-xmj3-9gf7-h52w, fixed in 84.1.0 (84.0.0 until then)
 six==1.17.0
 soupsieve==2.10
 tabulate==0.10.0

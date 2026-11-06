@@ -5,6 +5,8 @@ One derived table, `grid_peak_vs_capacity`, built by `warehouse/derived/grid_pea
 second half of session 672; the first half, NERC's reserve margins, was not pulled because NERC's terms could not be
 read (session 666).
 
+Tables: `grid_peak_vs_capacity` (named here by session 2960).
+
 ## Inputs and license
 
 - **Peak:** `eia930_demand_growth`'s `peak_demand_mw` for the grid's balancing authority (CISO, ERCO, ISNE, MISO,

@@ -4,7 +4,7 @@ import { LineChart, type Line } from "@/components/LineChart";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ExploreFrame, FilterForm, Freshness } from "@/components/explore/Explore";
+import { ExploreFrame, FilterForm, Freshness, type DrawnRows } from "@/components/explore/Explore";
 import { ChartFrame, HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { headers } from "@/lib/data";
 import { MONTHS, choose, isoKey, longTime, type Params } from "@/lib/explore";
@@ -51,8 +51,9 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
       detail={input ? <>The newest 15-minute interval the tables were computed from starts {longTime(input)} (the tables&apos; header); the year and the month it falls in are partial, and are marked so below.</> : null}
     />
   );
-  const frame = (filters: React.ReactNode, body: React.ReactNode) => (
+  const frame = (filters: React.ReactNode, body: React.ReactNode, rows?: DrawnRows) => (
     <ExploreFrame
+      rows={rows}
       id="ercot-peak-premium"
       title="ERCOT peak premium"
       definition={<>The peak premium is how much higher and how much wider ERCOT&apos;s real-time price runs from 16:00 to 21:00 than at midday: the peak median minus the midday median, and the peak block&apos;s interquartile range (Q3 minus Q1), for each hub and each year or month since 2015.</>}
@@ -201,5 +202,9 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
       </p>
     </>
   );
-  return frame(filters, body);
+  // session 1496 (chain 158): the hub's rows of the table drawn, over the years drawn, as a download of their own
+  return frame(filters, body, {
+    table, entity: hub, start: `${Math.min(from, to)}-01-01`, end: `${Math.max(from, to) + 1}-01-01`,
+    words: `${table}, ${node(hub)}, ${Math.min(from, to)} to ${Math.max(from, to)}${month ? " (every month of those years: the download does not filter by month)" : ""}`,
+  });
 }

@@ -66,7 +66,7 @@ class ThePage(unittest.TestCase):
         self.assertIn('<GroupedBars id="growth-by-window"', p)
         self.assertIn('<GroupedBars id="demand-by-year"', p)
         self.assertNotIn("LineChart", p)   # the shared line chart's year axis repeats a year (2024 twice): bars label each year
-        self.assertIn('import { ExploreFrame, FilterForm } from "@/components/explore/Explore";', p)
+        self.assertIn('import { ExploreFrame, FilterForm, type DrawnRows } from "@/components/explore/Explore";', p)   # session 1496: the rows drawn
         self.assertNotIn("<svg", p)
         self.assertIn('<GroupedBars id="growth-by-grid"', p)   # its svg a direct child of the figure, so the brand lets it scroll on a phone
 
@@ -92,7 +92,14 @@ class ThePage(unittest.TestCase):
                               "site/lib/explore/index.ts", "site/lib/explore/fresh.ts"], cwd=ROOT, capture_output=True, text=True)
         if out.returncode != 0:
             self.skipTest("session 403's commit is not in this history")
-        self.assertEqual(out.stdout.strip(), "")
+        # session 1496 (chain 158) added the rows drawn as a download to the frame (ExploreFrame's `rows`); no other change
+        changed = [f for f in out.stdout.split() if f]
+        if changed == ["site/components/explore/Explore.tsx"]:
+            frame = src("site", "components", "explore", "Explore.tsx")
+            self.assertIn("Session 1496 (chain 158): the rows an explorer draws", frame)
+            self.assertIn("export function ExploreFrame({ id, title, definition, fresh, filters, method, tables, sourceNote, rows, children }", frame)
+        else:
+            self.assertEqual(changed, [])
         h = src(*HELD)
         self.assertIn('import "server-only";', h)
         self.assertIn('select: "table_name,last_run,ts_max,interval,license,in_live_set"', h)

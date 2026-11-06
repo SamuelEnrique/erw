@@ -3,6 +3,8 @@
 The table `known_data_faults` and the page `/data/faults` list every fault an ERW session has found in a publisher's
 data: values that are wrong, missing, shifted in time or impossible. Session 103.
 
+Tables: `known_data_faults` (named here by session 2960).
+
 ## What a fault is here
 
 Something the publisher's data holds, not something the ERW did. In: EIA's California generation changing in one hour;

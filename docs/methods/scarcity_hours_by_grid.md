@@ -2,6 +2,8 @@
 
 Energy Research Warehouse (ERW), session 254 (13 October 2026). Table: `scarcity_hours_by_grid` (derived, series, hourly, public). Code: `warehouse/derived/scarcity_hours_by_grid.py`. The datacenter page's second question, "Will the power be there?" ([`datacenter_pays_algorithm.md`](datacenter_pays_algorithm.md), 4.15), is the reader it was built for, and since session 280 reads it: `byGrid()` in `site/lib/datacenter/answers.ts` counts `rt_hour_ge_1000` and `own_signal` over the page's twelve months, each beside the hours held, for ERCOT and CAISO (session 254 wrote "No page reads it yet" here).
 
+Tables: `scarcity_hours_by_grid` (named here by session 2960).
+
 ## Why
 
 - The page counts an hour as short when the price is at or above USD 1,000 per MWh: one level for every grid (the owner's ruling of 12 October 2026). That count says what the market did. It does not say what the grid's operator said.
