@@ -32,7 +32,7 @@ Long end 1:30 each. One step a session, in chain 187's order, as session 1592 li
 
 ### Unfinished steps (written by session 1592 of chain 187)
 
-(To be filled by session 1592. One line a step, in chain 187's order: the session that owned it, what remains, and the exact commands where the step was a landing.)
+- None: the stack landed (chain 187's note).
 
 ## Sessions 1693 to 1697: the faults chain 187 left open
 
@@ -40,7 +40,10 @@ Long end 1:30 each. One fault a session, as session 1592 lists them below: the f
 
 ### Open faults (written by session 1592 of chain 187)
 
-(To be filled by session 1592: the faults chain 187 left open, one a line, by owning file. When fewer than five are open, the free sessions take the next item of `docs/roadmap.md` that needs no ruling and no design, saying which.)
+- `site/components/board/` (the board's chain): `/board`'s scrolling region (`#other > details > div > div`). Take it only once no `task/16xx-board` or `wip/16xx-board` branch is in flight; otherwise leave it and say so.
+- `site/public/findings/` and `site/app/research/card/` (the desktop's): the siting cards' six pictures answer 404. A line in the report only.
+- AccessLint on the pages no session has read (54 of the 225 are read: sessions 1504, 1524 and 1586 list them), in the internal view, one call a page, the findings fixed as session 1586's were. Remember that `site/components/ScrollRegions.tsx` marks scrolling boxes at run time, after AccessLint's read: a keyboard finding is fixed with the server-side `scrollRegion`, and a contrast finding is checked with the browser's computed colours.
+- For Samuel's ruling, not changed: `site/app/internal/open/page.tsx` line 31 (`autocomplete="off"`) and the battery page's decisions block.
 
 ## Session 1698: the records and the clean-up
 
