@@ -555,3 +555,7 @@ F034 ("Hutto, Texas") and F015 ("Western Kentucky") had no state. `facility_stat
 ## Session 2273 (chain 174): facilities' power source (2)
 
 F060 ("Gas-Powered Data Center on Federal Lands", no answer) and F032 ("unpermitted generator fleet"; the model's "generators" refused as not the story's word). `facility_fields.power_from_words` reads how a one-facility cluster's facility is powered. **2 to 0** (gas; behind-the-meter gas); no other facility of either fixture changed.
+
+## Session 2274 (chain 174): facilities' MW basis (1), a decision
+
+F049, "India's Lodha Developers to invest $11 billion in 2.5 GW data centre park in Maharashtra", is stored with MW basis `total`. The second read graded it wrong ("does not say total"). The vocabulary of session 2236 (`facility_fields.MW_BASES`) defines `total` as "the facility's total power ... a campus of N GW", and a 2.5 GW park is that form; the model's basis is the vocabulary's reading. Kept as `total`, no code: the class is closed by this decision. If the owner reads a park's GW as unstated, the vocabulary's line changes, not the code.
