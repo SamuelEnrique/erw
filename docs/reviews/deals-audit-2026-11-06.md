@@ -469,3 +469,10 @@ Kind wrong: **8 to 0** on the replayed answers; no other row of the 82 (or of th
 Status missed: **7 to 0**. Two more rows of the 82 had a stage and no status (D012, and D062 below) and now carry the stage as status; on the 2232 fixture, D043, D047 and D059 the same way. No stage or status the model gave changed.
 
 **Unsupported (D062), left open**: "Woodside Divests ... to Perenco", read as closed by the model. A check that a closed stage's words say so was tried and taken out: it also turned D100 ("takes 5% stakes") and D026 ("Seals Acquisition") from closed, both read as right by the second read, and the raises the prompt itself calls closed ("money raised or received"). No word rule tells these present-tense headlines apart; the row stays with its status now closed too (it had none).
+
+## Session 2260 (chain 159): deals' parties incomplete (3)
+
+- **D045, done**: the model named Engine No. 1 in the cluster of "Microsoft, Chevron and Engine No. 1 sign exclusive deal"; the fold into the earlier "Chevron, Microsoft Eye ..." record filled an empty buyer or seller only, never another party. `dedupe.merge` now adds the later party and rebuilds `parties`. Replayed: D045 has Engine No. 1; it is the only party added across both fixtures.
+- **D104, D105, left for the owner's ruling**: "Eaton signs agreement to acquire COL Group", "ESR to acquire Aquila Clean Energy APAC": no seller named; the second read wanted the company acquired as seller. The same read graded D068 (Calpine), D089 (Coterra) and D037 (Dominion), with the same empty seller, as right, and `seller` is a field the Roundup prints as the party selling. Unchanged.
+
+Parties incomplete: **3 to 2**, the two by the ruling.

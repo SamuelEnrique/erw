@@ -179,4 +179,19 @@ def merge(row, new, story_date, story_id):
     if (row.get("seller") or "") == "" and new.get("seller"):
         row["seller"] = new["seller"]
         changes.append("seller filled")
+    # session 2260 (chain 159): a party the later story names joins the record ("Microsoft, Chevron and Engine No. 1
+    # sign" folded into "Chevron, Microsoft Eye Massive Texas Power Project" had lost Engine No. 1)
+    others = [p for p in str(row.get("other_parties") or "").split(";") if p.strip()]
+    have = {" ".join(str(p).split()).lower() for p in [row.get("buyer"), row.get("seller")] + others if p}
+    nw = new.get("other_parties") or []
+    for p in (nw.split(";") if isinstance(nw, str) else nw):
+        p = " ".join(str(p or "").split())
+        if p and p.lower() not in have:
+            others.append(p)
+            have.add(p.lower())
+            changes.append(f"party {p} added")
+    if "other_parties" in row or others:
+        row["other_parties"] = ";".join(others)
+    if "parties" in row:   # buyer;seller;other_parties, as the extractor writes it
+        row["parties"] = ";".join(p for p in [row.get("buyer"), row.get("seller")] + others if p)
     return changes
