@@ -857,7 +857,9 @@ def cite_short(table):
 MOVERS_N = 5
 LICENSED_NOTE = "licensed source needed"
 # the words a scored story must name, in its title or its why line, for its why line to be the reason beside a price
-PRICE_WORDS = {"Henry Hub natural gas": ("henry hub",), "WTI Cushing crude": ("wti",), "Brent crude": ("brent",),
+# session 1440: a story that says "oil prices" or "crude" names the crude benchmarks; "gas prices" names Henry Hub
+PRICE_WORDS = {"Henry Hub natural gas": ("henry hub", "natural gas price", "gas prices"), "WTI Cushing crude": ("wti", "oil price", "crude price"),
+               "Brent crude": ("brent", "oil price", "crude price"),
                "ERCOT": ("ercot",), "CAISO": ("caiso",), "NYISO": ("nyiso",), "MISO": ("miso",),
                "SPP": ("southwest power pool", " spp "), "ISO-NE": ("iso-ne", "iso new england", "new england")}
 NOT_HELD = (("TTF, the Dutch gas benchmark", "not held: its source asks for a license"),
@@ -1537,6 +1539,12 @@ EASTERN = "America/New_York"
 # the move a price must make to lead the issue (percent against the day before): a hub's day-ahead mean swings more
 # from day to day than a benchmark's close; the metric that led the previous issue leads again only at twice the bar
 MATERIAL_PCT = {"hub": 10.0, "fuel": 3.0}
+# Session 1440 (chain 149, fault 2, and the survey of the 13 issues in runs/s1440): a move no story names needs
+# UNNAMED_FACTOR times the bar to open the issue (a fuel: 4.5 percent), and an unnamed hub never opens it while a top
+# story states a structural figure (14 October would have opened with SPP's day-ahead mean up 676.7 percent from a
+# near-zero day; it opens with Taiwan's USD 4.4 billion for Alaska LNG instead; 21 October with 6,600 MW of reactors
+# instead of WTI down 3.6 percent that no story named).
+UNNAMED_FACTOR = 1.5
 FUEL_PLACE = {"Henry Hub natural gas": "EIA's spot close at Henry Hub, Louisiana, the US natural gas benchmark",
               "WTI Cushing crude": "EIA's spot close of WTI at Cushing, Oklahoma, the US crude benchmark",
               "Brent crude": "EIA's spot close of Brent, the North Sea crude benchmark"}
@@ -1609,19 +1617,24 @@ def opening_number(cands, stories, prev_key=None):
       3. novelty since the last issue second: a metric other than the previous issue's opening number first;
       4. source quality third: every candidate is a warehouse table's figure, so this ties;
       5. only then the size of the move: the largest percentage move is never the choice by default.
+    Session 1440: a move no story names needs UNNAMED_FACTOR times the bar, and an unnamed single hub opens the issue
+    only when no named move and no unnamed benchmark passes and no top story states a structural figure.
     When no move is defensible, the opening number is a structural figure (a MW, a sum of money) of the day's
     highest-ranked story that states one, with its outlet. Returns {kind: "mover" | "story" | None, key, ...}."""
-    ok = []
+    ok, last = [], []
     for c in cands:
         if c.get("pct") is None:
             continue
         kind = cand_kind(c)
+        named = bool(c.get("reason"))
         again = str(c["key"]).replace(" ", "_") == prev_key   # the opening's key is written with underscores
-        bar = MATERIAL_PCT[kind] * (2 if again else 1)
+        # session 1440: a move no story names must be larger (UNNAMED_FACTOR), and an unnamed hub is the last resort
+        bar = MATERIAL_PCT[kind] * (2 if again else 1) * (1 if named else UNNAMED_FACTOR)
         if abs(float(c["pct"])) < bar:
             continue
-        consequence = (2 if c.get("reason") else 0) + (1 if kind == "fuel" else 0)
-        ok.append(((-consequence, -(0 if again else 1), -1, -abs(float(c["pct"])), c["label"]), c))
+        consequence = (2 if named else 0) + (1 if kind == "fuel" else 0)
+        entry = ((-consequence, -(0 if again else 1), -1, -abs(float(c["pct"])), c["label"]), c)
+        (ok if named or kind == "fuel" else last).append(entry)
     if ok:
         ok.sort(key=lambda x: x[0])
         c = ok[0][1]
@@ -1630,6 +1643,10 @@ def opening_number(cands, stories, prev_key=None):
         fig = story_figure(r)
         if fig:
             return {"kind": "story", "key": f"story:{r['cluster_id']}", "rec": r, "figure": fig, "rank": rank}
+    if last:
+        last.sort(key=lambda x: x[0])
+        c = last[0][1]
+        return {"kind": "mover", "key": str(c["key"]).replace(" ", "_"), "cand": c}
     return {"kind": None, "key": ""}
 
 

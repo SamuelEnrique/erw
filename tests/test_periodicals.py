@@ -787,11 +787,15 @@ class V2TheOpeningNumber(unittest.TestCase):
         small = cand("Brent crude", "Brent crude", 126.55, 126.0, 0.44, unit="USD/bbl")
         # the largest move is not the choice by default: a benchmark named by a story comes first
         self.assertEqual(brief.opening_number([hub_big, hh, wti, small], [])["cand"]["key"], "WTI Cushing crude")
-        # without the reason, a benchmark before a hub, however large the hub's move
+        # session 1440: without the reason a benchmark needs the larger bar (4.5): WTI's 3.99 and Henry Hub's 3.01 fail, and
+        # the unnamed hub is the last resort when no story states a figure
         wti0 = dict(wti, reason="")
-        self.assertEqual(brief.opening_number([hub_big, hh, wti0], [])["cand"]["key"], "WTI Cushing crude")
-        # novelty: yesterday's metric leads again only at twice the bar (WTI's 3.99 is under 6)
-        self.assertEqual(brief.opening_number([hub_big, hh, wti0], [], prev_key="WTI_Cushing_crude")["cand"]["key"], "Henry Hub natural gas")
+        self.assertEqual(brief.opening_number([hub_big, hh, wti0], [])["cand"]["key"], "SPP")
+        wti5 = dict(wti0, pct=4.6)
+        self.assertEqual(brief.opening_number([hub_big, hh, wti5], [])["cand"]["key"], "WTI Cushing crude")
+        # novelty: yesterday's metric leads again only at twice the bar (WTI's 3.99 is under 6); Henry Hub named leads
+        hh_named = dict(hh, reason=" Reason, from the day's stories: y")
+        self.assertEqual(brief.opening_number([hub_big, hh_named, wti], [], prev_key="WTI_Cushing_crude")["cand"]["key"], "Henry Hub natural gas")
         # no defensible move: the structural figure of the highest-ranked story stating one
         recs = [rec("a", "A takes stock", sector="company"), rec("b", "B plans 600 MW", sector="gas", mw="600"), rec("c", "C raises $3bn", price="$3bn")]
         op = brief.opening_number([small], recs)
@@ -829,7 +833,7 @@ class V2TheOpeningNumber(unittest.TestCase):
 
 class V2TheNumbersBlock(unittest.TestCase):
     def test_four_rows_in_the_traced_forms(self):
-        facts = {"cands": [cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01),
+        facts = {"cands": [cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01, reason=" Reason: x"),
                            cand("ERCOT HB_NORTH day-ahead", "ERCOT", 28.38, 26.28, 7.99, table="iso_dam_hub_prices", unit="USD/MWh", node="HB_NORTH")],
                  "demand": {"top": {"value": 612000.0, "ts_utc": pd.Timestamp("2026-10-20 19:00", tz="UTC")}, "before": pd.Timestamp("2025-10-21"), "old": None}}
         op = brief.opening_number(facts["cands"], [])
@@ -850,7 +854,7 @@ class V2TheNumbersBlock(unittest.TestCase):
         self.assertTrue(any(ln.startswith("Tables: [1] `iso_dam_hub_prices`; [2] `eia930_all_demand`") and ln.endswith("[3] `news_stories`; story a (mw); story b (price).") for ln in L), [ln for ln in L if ln.startswith("Tables")])
 
     def test_the_masthead_and_the_subject(self):
-        op = brief.opening_number([cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01)], [])
+        op = brief.opening_number([cand("Henry Hub natural gas", "Henry Hub natural gas", 3.22, 3.32, -3.01, reason=" Reason: x")], [])
         L = brief.masthead_lines("2026-10-26", pd.Timestamp("2026-10-26 15:45", tz="UTC"), op)
         self.assertEqual(L[0], "# ERW Daily Digest, 2026-10-26")
         self.assertEqual(L[2], "**26 October 2026.** Data through 11:45 ET, 15:45 UTC.")
@@ -1315,6 +1319,40 @@ class Session1439NumbersBlock(unittest.TestCase):
         row = [ln for ln in L if ln.startswith("- **Physical.**")][0]
         self.assertIn("a week before (2026-10-18) peaked at 455,000 MW", row)
         self.assertIn("on the week. The same weekday a year before is not held.", row)
+
+
+class Session1440OpeningNumber(unittest.TestCase):
+    """Session 1440 (chain 149, fault 2): the opening number is the day's consequence, not the largest percentage move.
+    The cases are the survey's (runs/s1440): 14 October (SPP +676.7% from a near-zero day, no story naming it),
+    21 October (WTI -3.6% unnamed against 6,600 MW of reactors), 26 October (Henry Hub -9.3% unnamed, Brent -0.1% named)."""
+
+    def test_an_unnamed_hub_never_beats_a_story_figure(self):
+        cands = [cand("SPP SPPSOUTH_HUB day-ahead", "SPP", 19.4, 2.5, 676.7, table="iso_dam_hub_prices", unit="USD/MWh", node="SPPSOUTH_HUB"),
+                 cand("Brent crude", "Brent crude", 115.9, 115.2, 0.6, reason=" Reason: x")]
+        recs = [rec("t", "Taiwan commits up to $4.4 Billion to Alaska LNG", sector="lng", price="$4.4 Billion")]
+        op = brief.opening_number(cands, recs)
+        self.assertEqual(op["kind"], "story")
+        self.assertEqual(op["figure"], "USD 4.4 billion")
+        op = brief.opening_number(cands, [])   # no story figure: the hub is the last resort
+        self.assertEqual((op["kind"], op["key"]), ("mover", "SPP"))
+
+    def test_an_unnamed_benchmark_needs_the_larger_bar(self):
+        wti = cand("WTI Cushing crude", "WTI Cushing crude", 98.0, 101.7, -3.6)
+        recs = [rec("n", "The Nuclear Company proposes 6.6 GW Kentucky project", sector="nuclear", mw="6600")]
+        op = brief.opening_number([wti], recs)
+        self.assertEqual((op["kind"], op["figure"]), ("story", "6,600 MW"))
+        henry = cand("Henry Hub natural gas", "Henry Hub natural gas", 2.52, 2.78, -9.3)
+        op = brief.opening_number([henry, cand("Brent crude", "Brent crude", 128.1, 128.3, -0.1, reason=" Reason: y")], recs)
+        self.assertEqual((op["kind"], op["key"]), ("mover", "Henry_Hub_natural_gas"))
+        named = cand("WTI Cushing crude", "WTI Cushing crude", 98.0, 101.7, -3.6, reason=" Reason: z")
+        op = brief.opening_number([named], recs)
+        self.assertEqual((op["kind"], op["key"]), ("mover", "WTI_Cushing_crude"))
+
+    def test_a_story_that_says_oil_prices_names_the_crude_benchmarks(self):
+        c = frame(rec("o", "Oil prices rise on fears of Middle East conflict escalation", sector="oil", why="Tanker rates doubled after the attacks on Saudi ports."))
+        self.assertIn("Tanker rates doubled", brief.price_reason("Brent crude", c))
+        self.assertIn("Tanker rates doubled", brief.price_reason("WTI Cushing crude", c))
+        self.assertEqual(brief.price_reason("Henry Hub natural gas", c), "")
 
 
 if __name__ == "__main__":
