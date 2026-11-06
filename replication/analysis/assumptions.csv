@@ -1,0 +1,26 @@
+name,stata,value,unit
+batteries_lunch_grids_first_year,blg_first_year,2019,year
+batteries_curtailment_hourly_first_year,bch_first_year,2019,year
+batteries_curtailment_hourly_ceiling_pct,bch_ceiling_pct,90,percent of the trailing 30-day maximum charging
+batteries_curtailment_hourly_curtailed_on_mw,bch_on_mw,1.0,MW
+batteries_curtailment_hourly_trail_days,bch_trail_days,30,Pacific days
+gas_sets_price_heat_rate,gsp_heat_rate,7.0,MMBtu per MWh
+gas_sets_price_first_year,gsp_first_year,2019,year
+impact_study_window,imp_window,14,days before and from the event
+negative_prices_west_first_year,npw_first_year,2019,year
+negative_prices_west_threshold,npw_threshold,0,USD per MWh: an hour counts below it
+peak_hour_grids_first_year,phg_first_year,2019,year
+peak_hour_grids_min_hours,phg_min_hours,20,hours a day must hold
+queue_divorce_first_year,qd_first_year,2000,request year
+queue_divorce_last_year,qd_last_year,2020,request year
+who_rescues_whom_min_mwh,wrw_min_mwh,1000,"MWh a day: a smaller flow on both sides is ""small"", not a flip"
+siting_battery_swing_min_days,sbs_min_days,302,days: a node holding fewer is left out
+siting_flexible_mw,sfl_mw,1000,MW
+siting_flexible_strike,sfl_strike,1000,"USD per MWh: the flexible load is off at or above it, and at the four summer peaks"
+siting_gigawatt_mw,sgw_mw,1000,MW
+siting_gigawatt_load_factor,sgw_load_factor,0.9,share of the size drawn in every hour
+siting_gigawatt_hours,sgw_hours,8760,hours a year
+rule_window_weekly,rule_window_weekly,104,earlier weekly changes a change is ranked among
+rule_window_monthly,rule_window_monthly,36,earlier monthly changes
+rule_min_earlier,rule_min_earlier,8,earlier changes at least
+rule_max_age_days,rule_max_age_days,100,days: a period new this week must have ended within them
