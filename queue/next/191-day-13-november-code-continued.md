@@ -32,7 +32,7 @@ Long end 1:30 each. One step a session, in chain 189's order, as session 1699 li
 
 ### Unfinished steps (written by session 1699 of chain 189)
 
-(To be filled by session 1699. One line a step, in chain 189's order: the session that owned it, what remains, and the exact commands where the step was a landing.)
+- None: chain 189's one branch landed at `ce81fddcf`.
 
 ## Sessions 1721 to 1725: the faults chain 189 left open
 
@@ -40,7 +40,10 @@ Long end 1:30 each. One fault a session, as session 1699 lists them below: the f
 
 ### Open faults (written by session 1699 of chain 189)
 
-(To be filled by session 1699: the faults chain 189 left open, one a line, by owning file. When fewer than five are open, the free sessions take the next item of `docs/roadmap.md` that needs no ruling and no design, saying which.)
+- AccessLint on the route check's pages no session has read (about 30: methods pages and further event pages; sessions 1504, 1524, 1586 and 1687 list those read), on a clean build of main in the internal view. A "scrollable-region" finding is AccessLint's timing: read the box again a few seconds after load, with its fold opened, before calling it a fault (chain 189's note). Any other finding is fixed with a test, as session 1688's was.
+- `site/components/ScrollRegions.tsx`, `regionName`: a fold's region takes its summary's whole text, so `/board`'s reads "Capacity and equities2 rows". The fix is to take the summary's first text only, or join its parts with a space. Check first whether the board's chain is in that file.
+- `site/public/findings/` and `site/app/research/card/` (the desktop's): the siting cards' six pictures answer 404. A line in the report only.
+- For Samuel's ruling, not changed: `site/app/internal/open/page.tsx` line 31 (`autocomplete="off"`) and the battery page's decisions block.
 
 ## Session 1726: the records and the clean-up
 
