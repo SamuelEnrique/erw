@@ -35,7 +35,10 @@ function token() {
   throw new Error("INTERNAL_COSTS_TOKEN is not in the environment or site/.env.local");
 }
 
+// Session 2255 (chain 159): `--set datacenters` captures the datacenter tracker instead (the facilities with their
+// rollups, timeline and charts, and the tracker by grid), to the same folder's names
 function pages() {
+  if (opt("--set") === "datacenters") return [["datacenters-facilities", "/datacenters"], ["datacenters-grids", "/datacenters?view=grids"]];
   return [["deals-table", "/deals"], ["deals-comparables", "/deals?view=comparables"], ["deals-ai", "/deals?view=ai"], ["deals-charts", "/deals?view=charts"]];
 }
 
