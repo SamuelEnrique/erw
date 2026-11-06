@@ -1218,6 +1218,97 @@ class Session1437WhyLines(unittest.TestCase):
             self.assertIn("one fact the story", text)
 
 
+class Session1458NothingNew(unittest.TestCase):
+    """Session 1458 (chain 150, fault 7 of docs/reviews/periodicals-faults-2026-11-05.md): a why line that names no party,
+    place, date, quantity or rule the headline lacks fails when it shares a quarter of its content words with the
+    headline or strings two clauses on a semicolon; it prints nothing (rulings item 16)."""
+
+    def test_the_faulted_line_fails_and_prints_nothing(self):
+        head = "US executives quit $25bn gas venture over claims of secret Russian control"
+        why = ("LNG or gas project faces executive departures and alleged Russian involvement claims; geopolitical risk to "
+               "US energy sector.")
+        self.assertLess(brief.restates(why, head), brief.RESTATES_SHARE)
+        self.assertEqual(brief.new_things(why, head), [])
+        self.assertEqual(brief.why_check(why, head), ["names nothing the headline lacks"])
+        self.assertEqual(brief.why_line(why, head), "")
+
+    def test_a_line_that_names_a_new_thing_passes(self):
+        # a figure, a party, a quantity in words, a month: each is a thing the headline lacks
+        cases = [
+            ("Maryland's first bulk storage procurement nets 440 MW, short of its target",
+             "Awards fell short of the 800-MW target, showing PJM capacity strain and limits on storage.", ["800", "PJM"]),
+            ("India's Coal Crisis Deepens as Power Demand Surges",
+             "Half of India's coal plants operating with low fuel stocks; supply squeeze threatens power generation.", ["Half"]),
+            ("Utility seeks rate rise for grid upgrades",
+             "Bills would climb from June for its customers.", ["June"]),
+        ]
+        for head, why, new in cases:
+            with self.subTest(head):
+                self.assertEqual(brief.new_things(why, head), new)
+                self.assertEqual(brief.why_check(why, head), [])
+                self.assertEqual(brief.why_line(why, head), why)
+
+    def test_a_demonym_and_a_generic_word_name_no_one_new(self):
+        head = "Qatar extends LNG force majeure as Hormuz disruptions continue"
+        self.assertEqual(brief.new_things("Extended force majeure on Qatari LNG keeps US supply short.", head), [])
+        self.assertEqual(brief.new_things("AI datacenter demand meets Qatari LNG.", head), [])
+
+    def test_the_semicolon_filler_fails_whatever_its_share(self):
+        head = "NTT in final talks to build $6.3bn data center for Anthropic in Japan, report says"
+        why = "AI data center capex; power demand commitment in final negotiation stages."
+        self.assertEqual(brief.why_check(why, head), ["names nothing the headline lacks"])
+        why = "Hormuz status drives oil, LNG and tanker pricing; stalled talks keep supply risk elevated."
+        head = "Iran says US response to its proposal to reopen Hormuz was 'insufficient'"
+        self.assertLess(brief.restates(why, head), brief.NOTHING_NEW_SHARE)
+        self.assertEqual(brief.why_check(why, head), ["names nothing the headline lacks"])
+
+    def test_a_consequence_with_little_of_the_headline_stays(self):
+        head = "Two more oil tankers attacked near Strait of Hormuz"
+        why = "Further attacks on crude and product tankers raise supply risk and shipping costs in a chokepoint."
+        self.assertLess(brief.restates(why, head), brief.NOTHING_NEW_SHARE)
+        self.assertEqual(brief.why_check(why, head), [])
+
+    def test_another_fault_is_named_by_itself(self):
+        # the rule is named last: a line with an adjective or a hollow verb is named by that alone
+        head = "A deal"
+        self.assertEqual(brief.why_check("A major deal for the grid.", head), ["adjective: major"])
+
+    def test_the_13_stored_issues_regenerated(self):
+        """The items of the stored issues of 25 September to 23 October, each line passed through why_line with and
+        without the rule, written to the test's own folder (no stored issue rewritten): 463 items, 324 printed a line
+        before, 224 with the rule; every line printed passes the check."""
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import periodicals_counts as pc
+        files = sorted(f for f in os.listdir(os.path.join(ROOT, "docs", "digest"))
+                       if re.fullmatch(r"2026-\d\d-\d\d\.md", f) and f <= "2026-10-23.md")
+        if len(files) < 15:
+            self.skipTest("the stored issues are not here")
+
+        def first(why):
+            m = brief.sentence_end(why)
+            return why[:m.start() + 1] if m else why
+        items = []
+        for f in files:
+            with open(os.path.join(ROOT, "docs", "digest", f), encoding="utf-8") as fh:
+                for head, _sector, why, _section in pc.read_items(fh.read().splitlines()):
+                    if why:
+                        items.append((f, head, first(why.split(" parties:")[0])))
+        now = [brief.why_line(w, h) for _, h, w in items]
+        with mock.patch.object(brief, "new_things", lambda t, h: ["(the rule off)"]):
+            was = [brief.why_line(w, h) for _, h, w in items]
+        self.assertEqual((len(items), sum(1 for a in was if a), sum(1 for b in now if b)), (463, 324, 224))
+        for (_f, h, _w), out in zip(items, now):
+            if out:
+                self.assertEqual(brief.why_check(out, h), [], out)
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "why_lines_regenerated.tsv")
+            with open(path, "w", encoding="utf-8", newline="\n") as fh:
+                for (f, h, _w), a, b in zip(items, was, now):
+                    fh.write(f"{f}\t{h}\t{a}\t{b}\n")
+            with open(path, encoding="utf-8") as fh:
+                self.assertEqual(sum(1 for _ in fh), 463)
+
+
 class Session1438OneTopic(unittest.TestCase):
     """Session 1438 (chain 149, fault 12): two price stories of one commodity are one topic whatever their regions; a
     story of the sector that is not about the price keeps the sector-and-region key."""

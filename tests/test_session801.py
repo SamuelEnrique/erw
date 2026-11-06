@@ -56,7 +56,8 @@ class TheRule(unittest.TestCase):
         self.assertEqual(brief.why_line("A 600 MW load adds demand to the grid.", "Sesterce plans a 600MW campus"),
                          "A load adds demand to the grid.")
         # a year is not a figure the headline gives
-        self.assertEqual(brief.why_check("Capacity arrives by 2032.", "A plan to 2032"), [])
+        # (session 1458: the line names a place, so the rule of fault 7, a line naming nothing the headline lacks, is not met)
+        self.assertEqual(brief.why_check("Capacity arrives in Texas by 2032.", "A plan to 2032"), [])
 
     def test_two_sentences_keep_the_first(self):
         self.assertEqual(brief.why_check("The U.S. Department of Energy funds it. Prices will rise.", "DOE"), ["two sentences"])
@@ -85,7 +86,9 @@ class TheRule(unittest.TestCase):
         self.assertEqual(brief.why_fallback(""), "")
 
     def test_an_article_follows_its_noun_once_the_figure_is_gone(self):
-        self.assertEqual(brief.why_line("Adds a 1,200 MW uprate to the fleet.", "BKV adds 1,200 MW"), "Adds an uprate to the fleet.")
+        # session 1458: the line names a place the headline lacks (fault 7's rule), so its article is what is tested
+        self.assertEqual(brief.why_line("Adds a 1,200 MW uprate to the Texas fleet.", "BKV adds 1,200 MW"),
+                         "Adds an uprate to the Texas fleet.")
         self.assertEqual(brief.why_line("An $800MM loan funds the plant.", "DOE lends $800 million"), "A loan funds the plant.")
 
     def test_without_a_headline_the_session_577_behaviour_holds(self):
@@ -126,7 +129,8 @@ class TheTwentySavedItems(unittest.TestCase):
     def test_the_fixture_holds_each_kind_of_fault(self):
         kinds = {p.split(":")[0] for it in items() for p in it["problems"]}
         # no saved why line of the twenty has two sentences; that fault is pinned by TheRule above
-        self.assertEqual(kinds, {"adjective", "figure of the headline", "hollow verb"})   # session 1437: the hollow verb
+        # session 1437: the hollow verb; session 1458 (fault 7): a line that names nothing the headline lacks
+        self.assertEqual(kinds, {"adjective", "figure of the headline", "hollow verb", "names nothing the headline lacks"})
 
 
 class WhereTheRuleLives(unittest.TestCase):

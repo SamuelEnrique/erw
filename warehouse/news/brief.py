@@ -646,6 +646,71 @@ def why_check(text, head=""):
     share = restates(t, head)
     if head and share >= RESTATES_SHARE:
         out.append(f"restates the headline: {share:.2f}")
+    # session 1458 (chain 150, fault 7): a line that names nothing the headline lacks, and leans on the headline's words or
+    # strings two clauses on a semicolon, fails; named last, so a line with another fault is named by that one
+    if head and not out and not new_things(t, head) and (share >= NOTHING_NEW_SHARE or ";" in t):
+        out.append("names nothing the headline lacks")
+    return out
+
+
+# Session 1458 (chain 150, fault 7 of docs/reviews/periodicals-faults-2026-11-05.md): "LNG or gas project faces executive
+# departures and alleged Russian involvement claims; geopolitical risk to US energy sector." under "US executives quit
+# $25bn gas venture over claims of secret Russian control" shares 0.29 of its content words with the headline, under
+# RESTATES_SHARE, and holds no hollow verb, so it printed; it names no party, place, date, quantity or rule the headline
+# lacks. Such a line fails when it also shares a quarter of its words with the headline, or strings two clauses on a
+# semicolon ("AI data center financing; power infrastructure capex commitment."). Over the stored scored stories of
+# significance 7 and above whose lines passed the check before (news_stories on 6 November), 167 of 784 fail it; the rule
+# alone, as the faults file words it, would refuse 560 of 784 (NOTHING_NEW_SHARE = 0 makes it so: for the owner).
+NOTHING_NEW_SHARE = 0.25
+# words with a capital that name no one: the country of the issue, the trade's acronyms and units
+GENERIC_NAMES = set("""us u.s usa u.s.a america american ai lng ev evs gw mw gwh mwh twh kv ceo cfo ipo esg iso rto ppa ppas
+capex opex bess hvdc llm""".split())
+MONTH_DAY = set("""january february march april may june july august september october november december jan feb mar apr
+jun jul aug sep sept oct nov dec monday tuesday wednesday thursday friday saturday sunday""".split())
+NAME_WORD = re.compile(r"[A-Za-z][A-Za-z0-9&'.-]*[A-Za-z0-9]|[A-Za-z]")
+# a quantity in words is a quantity ("Half of India's coal plants operating with low fuel stocks")
+NUMBER_WORDS = set("""half third thirds quarter quarters two three four five six seven eight nine ten eleven twelve dozen
+dozens hundred hundreds thousand thousands double doubled doubles triple tripled twice""".split())
+
+
+def _name_stem(w):
+    w = re.sub(r"'s$", "", w.lower().strip(".'"))
+    return w[:-1] if w.endswith("s") and len(w) > 4 else w
+
+
+def _held_by(w, head_stems):
+    s = _name_stem(w)
+    if s in head_stems:
+        return True
+    # a demonym and its country, a name and its adjective ("Russian" and "Russia", "Qatari" and "Qatar")
+    return len(s) >= 5 and any(len(h) >= 5 and s[:5] == h[:5] for h in head_stems)
+
+
+def new_things(text, head):
+    """Session 1458 (fault 7): what the line names that the headline does not, as a list: a number the headline does
+    not hold (an amount, or a year: a date), a quantity in words (NUMBER_WORDS), a month or a weekday, or a name (a word
+    with a capital letter, past the line's first word unless that word is an acronym or carries a capital inside, and
+    not a word of GENERIC_NAMES). [] when the line names nothing the headline lacks."""
+    t, h = str(text or ""), str(head or "")
+    hs = {_name_stem(w) for w in NAME_WORD.findall(h)}
+    hn = {n.replace(",", "") for n in NUMBER.findall(h)}
+    out = [n for n in (x.replace(",", "") for x in NUMBER.findall(t)) if n not in hn]
+    for i, w in enumerate(NAME_WORD.findall(t)):
+        s = _name_stem(w)
+        if w.lower() in NUMBER_WORDS:
+            if w.lower() not in {x.lower() for x in NAME_WORD.findall(h)}:
+                out.append(w)
+            continue
+        if s in MONTH_DAY:
+            if not _held_by(w, hs):
+                out.append(w)
+            continue
+        if not w[0].isupper() or s.replace(".", "") in GENERIC_NAMES or s in GENERIC_NAMES:
+            continue
+        if i == 0 and not any(c.isupper() for c in w[1:]):
+            continue
+        if not _held_by(w, hs):
+            out.append(w)
     return out
 
 
