@@ -20,6 +20,7 @@ import { rowOf } from "@/lib/dealsview";
 import { TrackerView } from "./v2/view";
 import { ComparablesView } from "./comparables/view";
 import { AiView } from "./ai/view";
+import { ChartsView } from "./charts/view";
 import { DealsDecisions } from "./Decisions";
 import { DealsHeld } from "./Held";
 
@@ -36,13 +37,14 @@ export default async function DealsPage({ searchParams }: { searchParams: Promis
   const comparablesView = sp.view === "comparables";
   const tab = comparablesView ? "tracker" : tabOf("/deals", sp.tab);
   const aiView = sp.view === "ai";   // session 2240: the AI-power view, under the tracker's tab too
-  const active = aiView ? "tracker" : tab;
+  const chartsView = sp.view === "charts";   // session 2241: the four charts, under the tracker's tab too
+  const active = aiView || chartsView ? "tracker" : tab;
   return (
     <Brand>
       <ToolPage>
         <div data-deals-tab={active}>
           <Tabs page="/deals" active={active} />
-          {comparablesView ? <ComparablesView sp={sp} /> : aiView ? <AiView sp={sp} /> : tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView />}
+          {comparablesView ? <ComparablesView sp={sp} /> : aiView ? <AiView sp={sp} /> : chartsView ? <ChartsView /> : tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView />}
           {/* session 465: the decisions block, under every tab and under the hold */}
           <DealsDecisions />
           {/* session 329: each tab's public tables, as CSV with a Python and a Stata reader (session 328's shared line) */}

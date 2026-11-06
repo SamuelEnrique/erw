@@ -63,3 +63,96 @@ export function largest(deals: Deal[], by: "mw" | "usd", n = 10): Deal[] {
 /** The check key of a figure: deals|ai_<deals|mw|with_mw|usd|with_usd>|<dimension>|<value> ("-" for not stated). */
 export const aiKey = (stat: "deals" | "mw" | "with_mw" | "usd" | "with_usd", dim: string, value: string) =>
   `deals|ai_${stat}|${dim}|${value === "" ? "-" : value}`;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 2241 (chain 156): the deals' four charts (/deals?view=charts). 1. MW stated by quarter and kind of supply
+// (five groups); 2. the prices stated per MWh over time, by technology; 3. the AI-power deals' share of the MW stated,
+// by quarter; 4. the counterparties with the most MW stated. Every figure has a key, deals|chart_<chart>|<x>|<series>,
+// which scripts/check_deals.py recomputes from the warehouse's CSV by its own code and compares with these functions
+// (site/scripts/deals-figures.mjs). A sum is of the stated figures; the deals that state none are counted beside it.
+
+/** The five groups of chart 1, in the brand's series order (docs/brand.md, "Chart series"). */
+export const GROUPS: [string, string, string][] = [
+  ["nuclear", "Nuclear", "var(--chart-ink)"], ["gas", "Gas", "var(--color-accent)"],
+  ["renewables_storage", "Renewables and storage", "var(--chart-blue)"], ["grid", "Grid supply", "var(--chart-grey)"],
+  ["other", "Compute, capital and other", "var(--chart-light)"],
+];
+export const groupOf = (d: Deal): string => {
+  const s = supplyOf(d);
+  return ["nuclear", "gas", "renewables_storage", "grid"].includes(s) ? s : "other";
+};
+
+export type Stack = { quarter: string; parts: { group: string; mw: number; deals: number }[]; total: number; without: number };
+
+/** Chart 1: by quarter, the MW stated by each group, and the deals of the quarter that state no MW. */
+export function mwByQuarter(deals: Deal[]): Stack[] {
+  const qs = [...new Set(deals.map(quarterOf))].sort();
+  return qs.map((q) => {
+    const inQ = deals.filter((d) => quarterOf(d) === q);
+    const parts = GROUPS.map(([g]) => {
+      const ds = inQ.filter((d) => groupOf(d) === g && d.mw !== null);
+      return { group: g, mw: ds.reduce((a, d) => a + d.mw!, 0), deals: ds.length };
+    });
+    return { quarter: q, parts, total: parts.reduce((a, p) => a + p.mw, 0), without: inQ.filter((d) => d.mw === null).length };
+  });
+}
+
+/** Chart 2: every priced PPA or offtake as a point; its technology folded to the four most common, else "other". */
+export function pricePoints(deals: Deal[]): { id: string; date: string; price: number; tech: string; label: string }[] {
+  const p = deals.filter((d) => ["ppa", "offtake"].includes(d.type) && d.price !== null);
+  const counts = new Map<string, number>();
+  for (const d of p) counts.set(d.technology || "not stated", (counts.get(d.technology || "not stated") ?? 0) + 1);
+  const top = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 4).map(([t]) => t);
+  return p.map((d) => {
+    const t = d.technology || "not stated";
+    return { id: d.id, date: d.date, price: d.price!, tech: top.includes(t) ? t : "other",
+      label: [d.buyerName || d.buyer, d.sellerName || d.seller].filter(Boolean).join(" / ") || "parties not stated" };
+  }).sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+}
+
+export type Share = { quarter: string; aiMw: number; allMw: number; share: number | null; aiDeals: number; deals: number };
+
+/** Chart 3: by quarter, the AI-power deals' share of the MW stated (null where no deal of the quarter states MW). */
+export function aiShare(deals: Deal[]): Share[] {
+  const qs = [...new Set(deals.map(quarterOf))].sort();
+  return qs.map((q) => {
+    const inQ = deals.filter((d) => quarterOf(d) === q);
+    const withMw = inQ.filter((d) => d.mw !== null);
+    const allMw = withMw.reduce((a, d) => a + d.mw!, 0), aiMw = withMw.filter((d) => d.ai).reduce((a, d) => a + d.mw!, 0);
+    return { quarter: q, aiMw, allMw, share: allMw > 0 ? Math.round((1000 * aiMw) / allMw) / 10 : null,
+      aiDeals: inQ.filter((d) => d.ai).length, deals: inQ.length };
+  });
+}
+
+/** Chart 4: the counterparties with the most MW stated (each deal counted once for each of its two parties). */
+export function topParties(deals: Deal[], n = 10): { name: string; mw: number; deals: number; withMw: number }[] {
+  const by = new Map<string, { mw: number; deals: number; withMw: number }>();
+  for (const d of deals) {
+    const names = [...new Set([d.buyerName || d.buyer, d.sellerName || d.seller].flatMap((x) => x.split("; ")).map((x) => x.trim()).filter(Boolean))];
+    for (const name of names) {
+      const e = by.get(name) ?? { mw: 0, deals: 0, withMw: 0 };
+      e.deals += 1;
+      if (d.mw !== null) { e.mw += d.mw; e.withMw += 1; }
+      by.set(name, e);
+    }
+  }
+  return [...by.entries()].filter(([, e]) => e.withMw > 0).map(([name, e]) => ({ name, ...e }))
+    .sort((a, b) => b.mw - a.mw || a.name.localeCompare(b.name)).slice(0, n);
+}
+
+/** Every figure of the four charts, by its key (what check_deals.py compares). */
+export function figures(deals: Deal[]): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const s of mwByQuarter(deals)) {
+    for (const p of s.parts) out[`deals|chart_mw|${s.quarter}|${p.group}`] = p.mw;
+    out[`deals|chart_mw|${s.quarter}|without`] = s.without;
+  }
+  for (const p of pricePoints(deals)) out[`deals|chart_price|${p.id}|price`] = p.price;
+  for (const s of aiShare(deals)) {
+    if (s.share !== null) out[`deals|chart_ai|${s.quarter}|share`] = s.share;
+    out[`deals|chart_ai|${s.quarter}|ai_mw`] = s.aiMw;
+    out[`deals|chart_ai|${s.quarter}|all_mw`] = s.allMw;
+  }
+  for (const p of topParties(deals)) out[`deals|chart_party|${p.name}|mw`] = p.mw;
+  return out;
+}
