@@ -343,7 +343,10 @@ def test_public_functions_only_use_the_backend_interface():
 
     erw.set_backend(Wrapped())
     # a table whose name starts with its ISO (session 30: the first table by name, api_cost_ledger, has none)
-    name = next(t for t in TABLES if t.split("_")[0] in ("caiso", "ercot", "isone", "miso", "nyiso", "spp", "pjm"))
+    name = next((t for t in TABLES if t.split("_")[0] in ("caiso", "ercot", "isone", "miso", "nyiso", "spp", "pjm")), None)
+    if name is None:  # session 3298: a checkout without such a table (a code machine's worktree) skips, saying so
+        pytest.skip("not in this machine's warehouse/output: a table named for an ISO (caiso_, ercot_, isone_, miso_, "
+                    "nyiso_, spp_ or pjm_)")
     assert erw.list_tables() == TABLES
     assert len(erw.fetch(name)) == MD_ROWS[name]
     assert name in erw.filter(iso=name.split("_")[0])
@@ -356,6 +359,7 @@ def test_public_functions_only_use_the_backend_interface():
 # --- session 5 rulings -------------------------------------------------------
 
 def test_fetch_subsets_rows_by_time_and_node():
+    _needs("iso_rtm_hub_prices", "iso_dam_hub_prices")  # session 3298: the old names read these (session 29)
     full = erw.fetch("ercot_rtm_hub_prices")
     t0 = full["ts_utc"].min() + pd.Timedelta(days=2)
     t1 = t0 + pd.Timedelta(days=1)
@@ -430,6 +434,7 @@ def test_source_registry_covers_every_source_in_every_table():
 
 def test_cite_names_every_report_even_from_earlier_runs():
     """The gap session 4 found: rows kept from an earlier run keep their report's title."""
+    _needs("iso_rtm_hub_prices")  # session 3298: ercot_rtm_hub_prices reads it (session 29)
     df = erw.fetch("ercot_rtm_hub_prices")
     reg = erw.get_backend().source_registry().set_index("source")
     c = erw.cite("ercot_rtm_hub_prices")
@@ -560,6 +565,7 @@ def test_entities_table_types_provenance_and_rules(name):
 
 
 def test_eia860m_tables_one_vintage_and_the_right_statuses():
+    _needs("eia860m_operating_generators", "eia860m_planned_generators", "eia860m_retired_generators")  # session 3298
     op, pl, rt = (erw.fetch(f"eia860m_{k}_generators") for k in ("operating", "planned", "retired"))
     vintages = set(op["vintage"]) | set(pl["vintage"]) | set(rt["vintage"])
     assert len(vintages) == 1 and re.fullmatch(r"\d{4}-\d{2}", vintages.pop())
@@ -619,6 +625,7 @@ def test_ercot_history_tables_are_complete_years():
 def test_old_names_work_through_the_map():
     """Session 29: an old table name reads its rows from the consolidated table, with its own columns and header,
     and a DeprecationWarning, until the first monthly release (docs/migrations/2026-09-29-consolidation.md)."""
+    _needs("eia930_all_demand", "iso_trader_daily", "iso_rtm_hub_prices")  # session 3298: the three new names
     for old, new, part in (("eia930_ciso_demand", "eia930_all_demand", {"ba": "ciso"}),
                            ("ercot_trader_daily", "iso_trader_daily", {"market": "ercot"}),
                            ("ercot_rtm_hub_prices", "iso_rtm_hub_prices", {"market": "ercot_rtm"})):
