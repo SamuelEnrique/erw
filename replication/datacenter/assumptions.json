@@ -1,0 +1,25 @@
+{
+ "_about": "What a datacenter pays (/cost-of-power): the page's default inputs (docs/methods/datacenter_pays_algorithm.md; the do-file's scalars). replicate.py and replicate.do read these and nothing else of the page; the page's figures in page_figures.json are at these values.",
+ "case": {
+  "grid": "ercot",
+  "zone": "LZ_NORTH",
+  "buy": "real time",
+  "load": "flat",
+  "mw": 100
+ },
+ "mw": {
+  "value": 100,
+  "unit": "MW",
+  "source": "the page's default size"
+ },
+ "gpu_kw": {
+  "value": 1.3,
+  "unit": "kW per GPU",
+  "source": "the page's default: a system of 10.2 kW maximum power for 8 GPUs, about 1.3 kW per GPU with its share of the system"
+ },
+ "pue": {
+  "value": 1.56,
+  "unit": "facility power over IT power",
+  "source": "the page's default overhead ratio"
+ }
+}
