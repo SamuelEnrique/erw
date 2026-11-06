@@ -1,0 +1,11 @@
+name,value,unit,source
+mw,100,MW,the page's default size
+fom_usd_kw_year,22,USD per kW a year,"Lazard LCOE+ June 2025, its 4-hour storage case"
+capex_usd_kw,1110,USD per kW,"Lazard LCOE+ June 2025, its 4-hour storage case"
+debt_share,0.2,share of the capital cost,the owner's ruling of 12 October 2026
+debt_rate,0.08,a year,the page's default
+debt_years,20,years,the page's default
+life_years,20,years,the page's default
+degradation,0.026,a year,the page's default
+hurdle_pct,12,percent a year,the owner's ruling of 12 October 2026
+toll_target,1.25,debt coverage the toll is set to,the page's default

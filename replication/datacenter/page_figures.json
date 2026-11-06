@@ -1,0 +1,107 @@
+{
+ "_about": "What a datacenter pays: the figures the page shows for the months of the public hourly file (site/public/datacenter/erw_2026_datacenter_hourly.csv and erw_2026_datacenter_carbon.csv, exported 5 November 2026: ERCOT's LZ_NORTH, a flat load bought in real time, the last twelve months 2025-11 to 2026-10), each with its check key (the page's data cell or check key; dc|... is the page's inputs at their defaults) and the tolerance to which the replication must meet it (half of the page's last shown digit). Read by session 1491 from a local build of main (6 November 2026, about 09:00 UTC) in the internal view.",
+ "figures": [
+  {
+   "name": "market energy, a flat load, last twelve months, USD per MWh",
+   "key": "a|price, l12_per",
+   "page": 34.07,
+   "tolerance": 0.005,
+   "field": "l12_usd_mwh"
+  },
+  {
+   "name": "cost for 100 MW, last twelve months, USD",
+   "key": "a|bill",
+   "page": 29841981,
+   "tolerance": 0.5,
+   "field": "l12_usd"
+  },
+  {
+   "name": "power per GPU-hour, USD",
+   "key": "a|gpu",
+   "page": 0.0691,
+   "tolerance": 5e-05,
+   "field": "gpu_hour"
+  },
+  {
+   "name": "GPUs that 100 MW powers",
+   "key": "the page's text",
+   "page": 49310,
+   "tolerance": 0.5,
+   "field": "gpus"
+  },
+  {
+   "name": "bought day-ahead, the same twelve months, USD per MWh",
+   "key": "l12_per on ?buy=da",
+   "page": 35.7,
+   "tolerance": 0.005,
+   "field": "da_usd_mwh"
+  },
+  {
+   "name": "a bad month (2026-08), USD per MWh",
+   "key": "a|bad",
+   "page": 37.88,
+   "tolerance": 0.005,
+   "field": "bad_usd_mwh"
+  },
+  {
+   "name": "hours of the last twelve months at or above USD 1,000 per MWh",
+   "key": "dc|...|scarce:hours",
+   "page": 4,
+   "tolerance": 0,
+   "field": "scarce_hours"
+  },
+  {
+   "name": "what a flat load of 100 MW paid in them, USD",
+   "key": "dc|...|scarce:flat_usd",
+   "page": 446175,
+   "tolerance": 0.5,
+   "field": "scarce_usd"
+  },
+  {
+   "name": "carbon, last twelve months at the grid's monthly average, kg CO2 per MWh",
+   "key": "dc|...|co2:l12:kg:flat",
+   "page": 300.38,
+   "tolerance": 0.005,
+   "field": "co2_kg_mwh"
+  },
+  {
+   "name": "tonnes of CO2 a year for 100 MW",
+   "key": "dc|...|co2:l12:tonnes:flat",
+   "page": 263102,
+   "tolerance": 0.5,
+   "field": "co2_tonnes"
+  },
+  {
+   "name": "hours of the hourly window",
+   "key": "dc|...|co2:window:hours",
+   "page": 10160,
+   "tolerance": 0,
+   "field": "window_hours"
+  },
+  {
+   "name": "a flat load's own hours over the window, kg CO2 per MWh",
+   "key": "dc|...|co2:window:flat",
+   "page": 311.68,
+   "tolerance": 0.005,
+   "field": "window_kg_mwh"
+  },
+  {
+   "name": "year 2016, a flat load, USD per MWh",
+   "key": "series|price_years_by_window|ercot:LZ_NORTH|datacenter_flat_rt_year_2016",
+   "page": 21.68,
+   "tolerance": 0.005,
+   "field": "year_2016"
+  },
+  {
+   "name": "year 2021, a flat load, USD per MWh",
+   "key": "series|price_years_by_window|ercot:LZ_NORTH|datacenter_flat_rt_year_2021",
+   "page": 150.61,
+   "tolerance": 0.005,
+   "field": "year_2021"
+  }
+ ],
+ "known_differences": {
+  "window_kg_mwh": "session 1491: the page prints 311.68 for a flat load over the window's 10,160 hours, the same figure as the grid's mean beside it (co2:window:grid); the mirror computes 309.84 over the same hours. The one figure the replication does not meet; open in chain 158's faults (session 1491's report)."
+ },
+ "not_replicated": "the other grids and zones, the other loads, the scenarios' financing: check-values.mjs recomputes them from the live set."
+}

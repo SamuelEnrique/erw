@@ -1,0 +1,14 @@
+field,name,key,page,tolerance
+l12_kw,"revenue, last twelve months, USD per kW",ms|G|twelve|revenue,59.85,0.005
+three_kw,"long-run average, last three full years, USD per kW a year",ms|G|three|revenue,102.24,0.005
+every_kw,"long-run average, every full year held, USD per kW a year",ms|G|every|revenue,130.8,0.005
+price_received,"price received, USD per MWh",cap|ercot|HB_HUBAVG|rt|solar|l12|price,23.27,0.005
+flat_average,"flat average over the same hours, USD per MWh",cap|ercot|HB_HUBAVG|rt|solar|l12|flat,32.17,0.005
+capture_rate,"capture rate, percent of the flat average",cap|ercot|HB_HUBAVG|rt|solar|l12|rate,72,0.5
+debt_service,"annual debt payments, USD",mr|G|ds,7078769,0.5
+cover,"debt coverage, last twelve months, times",mr|G|ttm_last,0.67,0.005
+l12_energy,"energy sold, last twelve months, MWh per MW",ms|G|twelve|energy,2580,0.5
+contract_price,"contract price at which coverage reaches 1.25 times, USD per MWh",scenario A's contract price,39.14,0.005
+npv_million,"NPV at the hurdle rate, USD million for 100 MW",scenario A's NPV,-76.66,0.005
+breakeven_ppa,"breakeven PPA price over the PPA term, USD per MWh",scenario A's breakeven PPA price,58.36,0.005
+worst_1_usd,"the worst month (2024-02), USD for 100 MW",scenario A's worst month,139298.97,0.005

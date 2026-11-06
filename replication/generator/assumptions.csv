@@ -1,0 +1,11 @@
+name,value,unit,source
+mw,100,MW,the page's default size
+fom_usd_kw_year,12.5,USD per kW a year,"Lazard LCOE+ June 2025, solar"
+capex_usd_kw,1375,USD per kW,"Lazard LCOE+ June 2025, solar"
+debt_share,0.6,share of the capital cost,"Lazard LCOE+ June 2025, solar"
+debt_rate,0.08,a year,Lazard LCOE+ June 2025
+debt_years,35,years,the asset's life
+hurdle,0.12,a year,the owner's ruling of 12 October 2026 (the hurdle at 12 percent)
+life_years,35,years,"Lazard LCOE+ June 2025, solar"
+ppa_years,35,years,the asset's life (session 264's default)
+deg,0.007,a year,"NREL ATB 2025, utility-scale PV (the owner's ruling 7a of 18 October 2026)"
