@@ -1,0 +1,68 @@
+# Ask's faults, read from the sixty's newest run (5 November 2026)
+
+Energy Research Warehouse (ERW), session 2220 (chain 152, `queue/done/152-night-5-november-portable-ask-quality.md`, portable-laptop, unattended). The sixty's newest run is session 1149's asking of 23 October 2026 (`docs/reviews/ask-sixty-2026-10-25.md`): the first set, session 320's thirty (`questions_s320.yaml`, `eval_s1133_s320_run.json`, graded under the hold in `eval_s1133_s320_grades.json`), 19 of 30; the second set, session 1114's thirty (`questions_s1114.yaml`, `eval_s1133_s1114_run.json`), 8 of 8 asked, 22 stopped by the cap. Ask landed on main on 6 November at 00:08 UTC (`task/1314-ask`, merge `efda9bba7`). Nothing here was asked anew: every line below is read from the stored runs and their grades, with no model.
+
+Each fault is put in one of the five classes the chain names: **table** (the wrong table chosen), **aggregation** (the wrong aggregation, period or unit), **hold** (a held table answered, or a public one refused), **unfetched** (a number not fetched), **form** (a form or chart fault). Where the answer is right and the key is wrong, the class says so: the loop is not changed for a key.
+
+## The eleven failures of the first set
+
+Each with its question, the answer given (its figure as written), the answer expected (the key as computed from the live set at 22:49 UTC on 23 October, `eval_s1133_s320_keys.json`, with the key's tolerance) and the class.
+
+1. **b01** (ERCOT's chat). Question: a 4-hour battery at ERCOT's hub average with perfect foresight, total revenue over 2025-10 to 2026-09, in USD per kW. Given: "81,402.19 USD/MW (battery_stack_monthly)", with "I have not converted this to USD per kW". Expected: 81.40 USD per kW (key 81.4022, tolerance 0.01). Class: **aggregation (unit)**. The table holds USD per MW; the tool handed back no per-kW figure (`ASK_PER_KW` off), and the loop, rightly, states no number it did not fetch. Sent back once by the number check, then passed with the per-MW figure.
+2. **b02** (ERCOT). Question: the energy part of b01, in USD per kW. Given: "54,598.58 USD per MW from energy alone". Expected: 54.60 USD per kW (54.5986). Class: **aggregation (unit)**, as b01.
+3. **b03** (ERCOT). Question: the ancillary part of b01, in USD per kW. Given: "26,803.61 USD/MW from ancillary services". Expected: 26.80 USD per kW (26.8036). Class: **aggregation (unit)**, as b01. The answer adds the monthly low and high (973.63 and 6,653.40 USD/MW), both fetched.
+4. **b04** (ERCOT). Question: a 2-hour battery on the day-ahead strategy, total over 2025-10 to 2026-09, in USD per kW. Given: "51,067.14 USD/MW" and the monthly mean 4,255.60 USD/MW. Expected: 51.07 USD per kW (51.0671). Class: **aggregation (unit)**, as b01.
+5. **b05** (ERCOT). Question: the 4-hour perfect-foresight battery in calendar year 2021, in USD per kW. Given: "3,430,556.56 USD/MW", February 2021 alone "3,115,947.33 USD/MW". Expected: 3,430.56 USD per kW (3430.5566). Class: **aggregation (unit)**, as b01. Used all 12 tool calls.
+6. **b06** (ERCOT). Question: the same battery in calendar year 2025, in USD per kW. Given: "87,439.61 USD/MW". Expected: 87.44 USD per kW (87.4396). Class: **aggregation (unit)**, as b01.
+7. **b08** (CAISO's chat). Question: a 4-hour battery at CAISO's SP15 hub with perfect foresight, total over 2025-10 to 2026-09, in USD per kW. Given: "79,308.31 USD per MW". Expected: 79.31 USD per kW (79.3083). Class: **aggregation (unit)**, as b01.
+8. **b09** (CAISO). Question: the 4-hour day-ahead battery's energy revenue at SP15 in calendar year 2025, in USD per kW. Given: "42,503.77 USD per MW of energy revenue". Expected: 42.50 USD per kW (42.5038). Class: **aggregation (unit)**, as b01.
+9. **g03** (ERCOT). Question: a gas peaker at ERCOT's hub average, margin over fuel in calendar year 2025, USD per MW, the twelve months summed. Given: "about 50,424 USD/MW (merchant_revenue_monthly, peaker_revenue_per_mw)". The tool's sum was 50,424.0741. Expected: 50,424.07 (50424.0741, tolerance 0.01). Class: **form**. The right figure from the right table and aggregation, written rounded to the unit against a key to the cent; the number check lets a coarser precision through. The record also shows the same sum asked six times over (the last five identical calls), so the answer used 11 of 12 calls.
+10. **g06** (SPP's chat). Question: wind at SPP's North hub in calendar year 2025, the twelve monthly revenues per MW summed, in USD. Given: "about 66,963 USD per MW", with the monthly low and high (3,943 and 8,182 USD/MW, each rounded to the unit from the tool's rows). The tool's sum was 66,963.0112. Expected: 66,963.01 (66963.0112, tolerance 0.01). Class: **form**, as g03. The same sum was asked seven times over; all 12 calls used.
+11. **d10** (the general chat). Question: the load-weighted real-time price at PJM's Western hub in August 2026, in USD per MWh. Given: "Not in the warehouse. It holds no PJM energy prices, day-ahead or real-time, and no PJM Western hub series", no figure, citing `ba_supply_monthly` (a count it read: zero rows for `pjm:WESTERN_HUB`). Expected: a refusal with "not in the warehouse" and no figure (`refuse: true`, `expected: []`), and the key also asks that `cost_of_power_monthly` be cited. Class: **none of the loop's; the key's**. PJM's prices are licensed for internal use and the live set holds none, so the refusal is right; the key grades a refusal on a cited table, which a right refusal need not cite (session 320's open ruling 3). Under the five classes it is nearest **hold** (a licensed source's question rightly refused, graded as if a public figure were expected).
+
+The nineteen right: b07, b10, g01, g02, g04, g05, g07 to g10, d01 to d09. g07, g08, d05 and d07 are held grids (ISO-NE, NYISO) answered with the hold's words and the public grids' figures; g10 is MISO refused with the pause's words.
+
+## The ten classed refusals
+
+`docs/reviews/ask-refusals.md` (written by `refusals.py` from the tool records) lists ten refusals across the stored runs: three MISO's pause, seven the warehouse lacking the figure. Each read the same way.
+
+12. **Session 267, q30**: the average real-time price at ERCOT's HB_HUBAVG over calendar year 2012. Given: "Not in the warehouse. ERCOT hub prices in the warehouse start on 2015-01-01 (ercot_all_hub_prices_history, ercot_hub_prices_daily)", no figure. Expected: a refusal. Class: the warehouse lacks the figure; **no fault**.
+13. **Session 302, q26**: the average day-ahead price at PJM's Western Hub in 2025. Given: "Not in the warehouse. It holds no PJM day-ahead or real-time energy prices", no figure; five calls, three of them the same `grid_notes` read of `docs/grids/pjm.md`. Expected: a refusal. Class: lacks (PJM's prices licensed internal); **no fault** of the answer; the three identical reads are a **form** fault of the loop (repeated calls), as in g03 and g06.
+14. **Session 302, q27**: the real-time price at ERCOT's HB_HUBAVG in July 2027. Given: "Not in the warehouse: it holds what happened, not forecasts", no figure, no tool call. Expected: a refusal. **No fault**.
+15. **Session 302, q28**: ERCOT's peak demand in August 2010. Given: "Not in the warehouse. The warehouse holds no ERCOT demand data for August 2010", no figure. Expected: a refusal. **No fault**: one `list_tables` call, whose rows carry each table's first time, so "begin much later" rests on a result.
+16. **Session 302, q29**: the load-weighted real-time price at MISO's Indiana hub in August 2026. Given: "Not in the warehouse. MISO data is paused while its terms are reviewed (since 4 October 2026)", no figure. Expected: a refusal with the pause's words. Class: MISO's pause; **no fault**.
+17. **Session 302, q30**: electric vehicles registered in Texas in 2025. Given: "Not in the warehouse. It has no table of electric vehicle registrations", no figure. Expected: a refusal. **No fault**.
+18. **Session 1113, g10**: the solar capture price at MISO's Indiana hub in July 2026. Given: "Not in the warehouse: MISO is paused while terms are reviewed (since 4 October 2026)", no figure, `merchant_revenue_monthly` named as the table that would hold it; nine calls, the last four the same count query, each answered with the pause. Expected: the pause's refusal. Class: MISO's pause; **no fault** of the answer; the repeated calls a **form** fault of the loop.
+19. **Session 1113, d10**: as item 11, asked on 23 October at 19:29 UTC. Given: "Not in the warehouse. It holds no PJM energy prices", no figure, nothing cited, one call. Expected: as item 11. Class: **the key's**, as item 11.
+20. **Session 1149, g10**: as item 18, asked again. Given: the pause's refusal, no figure; 12 calls, the last five the same count query. Class: MISO's pause; **no fault** of the answer; the repeated calls a **form** fault of the loop.
+21. **Session 1149, d10**: item 11.
+
+## By class
+
+| Class | Items | Count |
+|---|---|---|
+| aggregation (unit: USD per kW asked of a table in USD per MW) | 1 to 8 | 8 |
+| form (a figure of five digits or more written rounded to the unit against a key to the cent) | 9, 10 | 2 |
+| the key's, not the loop's (a right refusal graded on a cited table) | 11, 19, 21 | 1 of the thirty (3 records) |
+| no fault (a right refusal) | 12 to 18, 20 | 8 records |
+| form, found on the way (the same tool call repeated with the same arguments, up to seven times, spending the limit of 12) | 9, 10, 13, 18, 20 | 5 records |
+
+No failure is of the classes **table** or **hold** proper: every wrong answer read the table its key names, and no held table was answered nor a public figure refused. The eleven are session 320's three open rulings (`docs/reviews/ask-board-rulings-2026-10-23.md`, items 1 to 3), unmoved since 20 October.
+
+## What the chain does with them (sessions 2221 to 2223)
+
+One class a session, in order of count, in the code both loops share, each fix with a scripted test in both loops, never by adding a number the loop did not fetch:
+
+- **2221, the unit (8)**: the query tool hands back the per-kW figure beside the per-MW one for a table whose method note states the conversion (`battery_stack_monthly`: `value_usd_per_kw`, prepared behind `ASK_PER_KW` in session 1109), on by default in both loops, so a per-kW answer is a fetched number; the prompt says the per-kW key is there to use.
+- **2222, the form (2)**: a figure is written as the tool returned it, to the cent for money, not rounded to the unit; and the loop refuses to repeat a tool call whose arguments equal one already made in the turn, handing the earlier result back without spending a call.
+- **2223, the key (1)**: a refusal is graded on refusing and stating no figure, not on a cited table (ruling 3's recommendation), in the grader both runs use; and the keys of the second set that name one table among several holding the figure accept every table that holds it.
+
+## The second set
+
+Its newest run asked t01 to t08 (8 of 8); t09 to p10 stand unasked since the cap of 23 October. Their last grading (23 October, `eval_s1114_grades.json`) was 24 of 30, four of the six wrong being the right figure read from another table that holds it (t06, t09, f05, f07: ruling 3). Session 2223's grading change reaches them; the twenty-two are asked again when a session's cap allows.
+
+## The count after each session
+
+| Session | The thirty | Note |
+|---|---|---|
+| before (23 October 2026) | 19 of 30 | 15 on the figure keys alone; 30 if the three rulings went the answers' way |
