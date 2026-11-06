@@ -397,6 +397,18 @@ def lead_of(text, action_type):
     return body_[:4000]
 
 
+def not_a_total(src, m):
+    """Session 3154 (the third sample): a figure that is no single total of the action: a rate ("$20 per acre",
+    "$1.99 per MMBtu") or one end of a range ("$446 to $1,090 million dollars")."""
+    after = src[m.end():m.end() + 40]
+    before = src[max(0, m.start() - 12):m.start()]
+    return bool(re.match(r"\s*(?:per\b|/\s*[a-z])", after, re.I)
+                # a range's second end carries a dollar sign or a scale ("to $1,090 million"); "$96 Million to 67
+                # Early Career Scientists" is no range
+                or re.match(r"\s*(?:to|-)\s*(?:\$\s?\d|[\d,.]+\s*(?:thousand|million|billion)\b)", after, re.I)
+                or re.search(r"\$?\d[\d,.]*\s*(?:to|-)\s*$", before, re.I))
+
+
 def figure(title, text, action_type):
     """(value, unit, evidence) of the action's own figure: the first figure with a unit in the title, else in the
     opening paragraph; (None, "", "") when neither states one."""
@@ -411,7 +423,7 @@ def figure(title, text, action_type):
                 v = float(m.group("num").replace(",", ""))
                 u = m.group("unit").lower()
                 unit = UNIT_OF.get(u) or UNIT_OF.get(u.rstrip("s"))
-            if v:
+            if v and not not_a_total(src, m):
                 found.append((UNIT_RANK[unit], m.start(), v, unit, m))
         if found:
             # session 3142: a figure that follows the words of a stated total ("for a total installed capacity of
@@ -437,7 +449,7 @@ def figure(title, text, action_type):
             else:
                 u = m.group("unit").lower()
                 v, unit = float(m.group("num").replace(",", "")), UNIT_OF.get(u) or UNIT_OF.get(u.rstrip("s"))
-            if v:
+            if v and not not_a_total(sent, m):
                 hits.append((m.start(), v, unit))
         if hits:
             _, v, unit = hits[0]
@@ -505,6 +517,9 @@ OUT_OF_SCOPE = [
     (re.compile(r"\bfellowships?\b|\bscholarships?\b", re.I), "a fellowship or scholarship"),
     # session 3142 (the fresh audit, r28): an inventory of Native American remains held by an agency's office
     (re.compile(r"\bnotice of inventory completion\b|\bnative american graves\b|\bnagpra\b", re.I), "an inventory under the Native American Graves Protection and Repatriation Act"),
+    # session 3154 (the third sample): a pesticide's tolerance; an official sworn in
+    (re.compile(r"\brequirement for a tolerance\b|\bpesticide\b|\btolerances?\b.{0,40}\bexemption\b", re.I), "a pesticide's tolerance"),
+    (re.compile(r"\bsworn in\b|\bswearing-in\b", re.I), "an official sworn in"),
 ]
 
 

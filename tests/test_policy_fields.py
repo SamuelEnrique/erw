@@ -142,6 +142,15 @@ class Rules(unittest.TestCase):
         # a date under "Date:" with no session, meeting, hearing or forum above it is no step
         self.assertEqual(F.dates("Receipt\n\n    Date: Tuesday, September 15, 2026.\n"), [])
 
+    def test_the_figures_of_the_third_sample(self):
+        # session 3154: a range, a rate and a change "from ... to" are no single total; "$96 Million to 67 ..." is one
+        self.assertEqual(F.figure("Steam Electric ELG", "SUMMARY: The rule is estimated to reduce costs by $446 to $1,090 million "
+                                  "dollars annually. DATES: soon.", "proposed_rule"), (None, "", ""))
+        self.assertEqual(F.figure("Proposed Reinstatement of Lease", "SUMMARY: The lessee agrees to new lease terms for rental of $20 per acre. "
+                                  "DATES: soon.", "notice"), (None, "", ""))
+        self.assertEqual(F.figure("U.S. Department of Energy Awards $96 Million to 67 Early Career Scientists", "", "press_release")[:2],
+                         (96000000, "USD"))
+
     def test_the_figures_of_the_fresh_audit(self):
         # session 3142: a FERC notice's capacity past its first 1,800 characters (r72 stood at 2,188)
         t = ("[Docket No. CP26-1-000] Take notice that Acme filed an application. " + "z " * 1000 +
@@ -261,7 +270,11 @@ class Rules(unittest.TestCase):
                        ("Energy Department Launches Genesis Mission Graduate Fellowship to Advance American Scientific Leadership", "a fellowship or scholarship"),
                        # session 3142: the fresh audit's r28
                        ("Notice of Inventory Completion: U.S. Department of Energy, Idaho Operations Office, Idaho Falls, ID",
-                        "an inventory under the Native American Graves Protection and Repatriation Act")]:
+                        "an inventory under the Native American Graves Protection and Repatriation Act"),
+                       # session 3154: the third sample's r32 and r79
+                       ("Oxirane, 2-phenyl-, polymer With oxirane, mono(hydrogen 2-sulfobutanedioate), octyl ether, sodium salt (1:2) in Pesticide "
+                        "Formulations; Exemption From the Requirement for a Tolerance", "a pesticide's tolerance"),
+                       ("Patrick Rhode Sworn in as Commissioner of the PUCT", "an official sworn in")]:
             self.assertEqual(F.scope(t), f"out of scope: {why}")
         # and no other action of the fixture (its r26 is the personnel board above)
         for it, text in items():
