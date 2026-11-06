@@ -1355,5 +1355,56 @@ class Session1440OpeningNumber(unittest.TestCase):
         self.assertEqual(brief.price_reason("Henry Hub natural gas", c), "")
 
 
+class Session1441ChartOfTheDay(unittest.TestCase):
+    """Session 1441 (chain 149, faults 14 and 15): a candidate whose series name is an id, or whose strength is a step
+    from zero, is never the chart of the day; a readable, related one is; with none, choose says so."""
+
+    def flag(self, key, fact, strength, table="eia_state_generation_monthly", series_key="entity=eia:x|variable=y"):
+        return {"source": "scanner", "key": key, "fact": fact, "table": table, "series_key": series_key, "rank": 1,
+                "flag": {"rule": "record", "strength": strength}}
+
+    def test_the_two_ids_and_the_step_from_zero_are_passed_over(self):
+        onrr = self.flag("a", "onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -29,834 in August 2026, the lowest monthly value held since August 2010.",
+                         552.5288, table="onrr_revenue_monthly", series_key="entity=onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none|variable=revenue")
+        padd = self.flag("b", "eia_padd_movements:MGAMT1XP31 tanker_barge_receipts: 251.0 kbbl in June 2026, the highest monthly value held since January 1986.",
+                         8.6406, table="eia_padd_rail_barge_movements_monthly")
+        ok = self.flag("c", "Net generation from natural gas in Texas: 12,345 GWh in August 2026, the highest monthly value held since January 2001.", 3.2,
+                       series_key="entity=eia:gen:TX:NG|variable=net_generation")
+        self.assertFalse(dc.readable(onrr)); self.assertFalse(dc.readable(padd)); self.assertTrue(dc.readable(ok))
+        self.assertTrue(dc.degenerate(onrr)); self.assertFalse(dc.degenerate(ok))
+        stories = [{"titles": ["Oil prices rise on fears of Middle East conflict escalation"], "sector": "oil", "why": "", "parties": ""}]
+        c, why = dc.choose([onrr, padd, ok], set(), stories=stories)
+        self.assertEqual(c["key"], "c")
+        self.assertIn("2 candidate(s) whose series has no plain name passed over", why)
+        self.assertNotIn("step from zero", why)   # the ONRR flag is counted once, as unreadable
+        c, why = dc.choose([onrr, padd], set(), stories=stories)
+        self.assertIsNone(c)
+        self.assertIn("passed over", why)
+
+    def test_a_readable_step_from_zero_is_passed_over_too(self):
+        step = self.flag("s", "Net generation from solar in Vermont: 1 GWh in August 2026, the highest monthly value held since January 2001.", 61.0)
+        ok = self.flag("c", "Net generation from natural gas in Texas: 12,345 GWh in August 2026, the highest monthly value held since January 2001.", 3.2)
+        c, why = dc.choose([step, ok], set())
+        self.assertEqual(c["key"], "c")
+        self.assertIn("1 flag(s) past 50 robust standard deviations passed over as a step from zero", why)
+
+    def test_the_stored_charts_that_the_rule_refuses(self):
+        folder = os.path.join(ROOT, "docs", "digest", "charts")
+        if not os.path.isdir(folder):
+            self.skipTest("no chart records here")
+        refused = []
+        for f in sorted(os.listdir(folder)):
+            if f.endswith(".json") and f[:4] == "2026":
+                with open(os.path.join(folder, f), encoding="utf-8") as fh:
+                    d = json.load(fh)
+                if not dc.readable(d) or dc.degenerate(d):
+                    refused.append(f[:10])
+        # the five of 13 issues the session read (7, 22, 23 October, and 6 November's ONRR line item); a later issue
+        # written by this code adds none
+        for day in ("2026-10-07", "2026-10-22", "2026-10-23"):
+            if os.path.exists(os.path.join(folder, f"{day}.json")):
+                self.assertIn(day, refused)
+
+
 if __name__ == "__main__":
     unittest.main()
