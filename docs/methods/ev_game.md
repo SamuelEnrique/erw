@@ -58,3 +58,67 @@ Nothing. The page reads its prices when it is built; what the family types stays
   with where it comes from, and the credit line cites the IRS's page.
 - **At 390 px** (session 2403): the five screens draw inside the window; nothing is wider than the page and no control
   is without its name. The review of every game figure is `docs/reviews/games-figures-2026-10-23.md`.
+
+## One screen, sources on hover (sessions 3275 to 3278, 6 November 2026)
+
+The owner's ruling of 14 October 2026, as chain 198 read it (`queue/done/198-day-6-november-portable-evgame.md`):
+one page under Games, the household's inputs on the left and the results on the right, the verdict as payback years and
+net present value with the upfront cost included, the federal credit off by default behind a toggle, and every
+default's source as a hover tip, never as visible grey text. This replaces the five screens of session 294 and the
+"words beside it" rule of session 2402 for this page. The address stays `/play/ev`, the one the Games menu uses.
+
+### The tables the game reads (session 3275's survey)
+
+| Table | Held where | Key the game uses | Grain |
+|---|---|---|---|
+| `eia_retail_electricity_prices` | the warehouse (`coverage.csv`: 372 entities, monthly, 2001-01 to 2026-08, 114,574 rows); not in the live set | entity `eia:retail_price:<ST>:RES` (and `:US:RES`), variable the average price, USD/MWh | P1M |
+| `eia_regional_retail_fuel_prices` | the warehouse (`coverage.csv`: 29 entities, weekly, 2019-01-07 to 2026-11-02, 16,359 rows); in `live_set.yaml` under session 132's list, but nothing reads it from Supabase | entity `eia:EMM_EPMR_PTE_S<ST>_DPG` (nine states), `..._R<PADD>_DPG` (regions), `..._NUS_DPG` (US) | P1W |
+| `eia_retail_fuel_prices` | the warehouse (3 entities, weekly from 1990); not used: it holds only US series | | P1W |
+
+The page reads neither table from Supabase: `site/scripts/build-ev-prices.mjs` writes `site/data/ev_prices.json` from
+the two tables on a machine that holds them, and the page reads the file when it is built. The file in the repository
+was built on 15 October 2026 (electricity July 2026, gasoline the week of 5 October 2026). The code laptop holds neither
+table, so chain 198 did not rebuild it: a refresh is a data machine's run of the script.
+
+### The model
+
+- **Fuel a year, gasoline:** miles a year / mpg x the gasoline price.
+- **Fuel a year, electricity:** miles a year x kWh a mile x the price per kWh, where the price per kWh is the home
+  price for the home share of charging and the price the family types for a public charger for the rest:
+  `home share x home price + (1 - home share) x public price`.
+- **The upfront cost:** each car's price; the EV's less the federal credit when the toggle is on.
+- **Cumulative cost by year** (the chart): price at year 0, then price plus that many years of fuel. Not discounted, so
+  the year the two lines cross is the payback year.
+- **Payback, in years:** what the EV costs more to buy (after any credit), divided by the yearly saving on fuel. "At
+  once" when the EV costs no more; "never" when it saves nothing a year.
+- **Net present value over the years kept:** each year's saving divided by (1 + rate) to the power of the year, added
+  up, less what the EV costs more to buy. Above zero, the EV comes out ahead at these prices.
+- **Left out, and the page says so in a hover:** maintenance and repairs, insurance, a home charger, state and utility
+  incentives, registration fees, what each car is worth when sold, and any change in prices over the years (today's
+  prices are held for every year).
+
+### Every input, its default and its source
+
+| Input | Default | Source (shown on hover) |
+|---|---|---|
+| State | the United States as a whole | so the page shows a full result before a state is chosen; the US rows of the two tables |
+| Electricity price | the state's newest month | `eia_retail_electricity_prices`, entity `eia:retail_price:<ST>:RES` |
+| Gasoline price | the state's newest week, else its region's | `eia_regional_retail_fuel_prices`, the entity named on hover |
+| Miles a year | 15,000 | fueleconomy.gov's fuel cost estimates assume 15,000 miles (its 2025 Fuel Economy Guide) |
+| Gasoline car's mpg | 27 | 2025 Chevrolet Equinox FWD, combined (fueleconomy.gov vehicle 48061) |
+| EV's kWh a mile | 0.31 | 2025 Chevrolet Equinox EV FWD, 31.24 kWh per 100 miles combined (vehicle 48697) |
+| Gasoline car's price | $28,600 | Chevrolet's starting price for the 2025 Equinox LT, before destination (read 15 October 2026) |
+| EV's price | $33,600 | the 2025 Equinox EV LT1 before destination (read 15 October 2026) |
+| Home charging share | 100 percent | an assumption: every mile charged at home, at the home price |
+| Public charger price | none: the family types it | no table in the warehouse holds what public chargers charge, so the game invents none. Below 100 percent at home, the result waits for this price |
+| Years kept | 8 | an assumption for the family to change |
+| Discount rate | 5 percent | a round rate the game chooses. OMB's rates for 2026 are lower: nominal 3.6 percent (7-year Treasury) and 3.7 (10-year), real 1.4 and 1.6 (Circular A-94, Appendix C, revised 6 March 2026, read 6 November 2026). For Samuel's ruling |
+| Federal tax credit | off; $7,500 when switched on | the IRS: no credit for new clean vehicles acquired after 30 September 2025; $7,500 was its most. On, it is the family's assumption |
+
+### The figures keyed for check-values
+
+The page opens on the United States at the defaults, so the server's page carries the figures and
+`scripts/check-values.mjs` can read them. Keys (`ev|<state>|<figure>`), each recomputed by check-values from
+`data/ev_prices.json` and `lib/ev.ts` at the defaults: `power_cents` (the home price in cents a kWh, two decimals),
+`gas` (USD a gallon, as held), `payback` (years, one decimal) and `npv` (USD, whole). A state chosen in the browser is the
+family's own reading and is not keyed.
