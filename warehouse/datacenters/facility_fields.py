@@ -92,6 +92,21 @@ def power_kind(power_source):
     return "other"
 
 
+# Session 2273 (chain 174): a facility's power source from its words where the model gave none ("Another Solar Company
+# Trying Gas-Powered Data Center on Federal Lands"; "DataOne's unpermitted generator fleet", where the model's
+# "generators" was refused, not being the story's word). Only words that say how the facility itself is powered.
+POWER_WORDS = re.compile(r"\b(?:natural gas|gas|nuclear|solar|wind|diesel|hydrogen|coal)[- ](?:powered|fired|fuel(?:l)?ed)\b|"
+                         r"\bgenerator fleet\b|\bon-?site (?:gas|power|generation|turbines?)\b|"
+                         r"\bbehind[- ]the[- ]meter (?:gas|power|generation)\b|\bfuel cells?\b|"
+                         r"\bsmall modular reactors?\b", re.I)
+
+
+def power_from_words(words):
+    """(power_source, kind) as the words state how a facility is powered; ("", "") when they do not."""
+    m = POWER_WORDS.search(" ".join(str(words or "").split()))
+    return (m.group(0), power_kind(m.group(0))) if m else ("", "")
+
+
 def grid_of(text, state):
     """(grid, basis): a grid operator the story names ("named"), else the state's main grid ("state"), else none."""
     for g, pat in GRID_WORDS.items():

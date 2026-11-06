@@ -478,6 +478,12 @@ def main(argv=None):
                         if s_code:
                             vals["state"] = s_code
                             log(f"  {cid}: facility {n}: state {s_code} from the words {s_words!r}")
+                    if not vals.get("power_source") and len(facs) == 1:
+                        # session 2273: how the facility is powered, as the cluster's words of one facility say
+                        p_words, p_kind = ff.power_from_words(" ".join(g["title"]) + " " + " ".join(g["summary"]))
+                        if p_words:
+                            vals["power_source"] = p_words
+                            log(f"  {cid}: facility {n}: power_source {p_words!r} ({p_kind}) from the words")
                     for f in ("operator", "developer"):   # session 2236: "TikTok owner" is a description, not a name
                         if vals.get(f) and ff.description(vals[f]):
                             dropped.append(f"{cid}: {f} {vals[f]!r} is a description, not a name; not kept")

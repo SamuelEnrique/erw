@@ -551,3 +551,7 @@ D045 (a PPA) kept "$7 Billion" from "Over $7 Billion Texas Power Plant"; D053 (a
 ## Session 2272 (chain 174): facilities' state (2)
 
 F034 ("Hutto, Texas") and F015 ("Western Kentucky") had no state. `facility_state` reads the one US state a one-facility cluster names in full. **2 to 0**; the only other fill across both facility fixtures is the 2236 fixture's F028 ("Columbus, Georgia"), which its written answer gives as GA.
+
+## Session 2273 (chain 174): facilities' power source (2)
+
+F060 ("Gas-Powered Data Center on Federal Lands", no answer) and F032 ("unpermitted generator fleet"; the model's "generators" refused as not the story's word). `facility_fields.power_from_words` reads how a one-facility cluster's facility is powered. **2 to 0** (gas; behind-the-meter gas); no other facility of either fixture changed.

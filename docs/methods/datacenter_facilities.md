@@ -201,3 +201,7 @@ Where the model gives a facility no status, it is read from the facility's evide
 ### A facility's state from the words (session 2272)
 
 Where the model gives a facility no state, and its story is about one facility in the United States (or names no country), the state is read from the story's words when they name exactly one US state by its full name with a capital ("Hutto, Texas", "Western Kentucky"). Longer names are read first, so "West Virginia" is not also Virginia; "Washington" alone is not read, "Washington state" is. The words go to the run's log. On the audit's sample, facilities with the state missed went from 2 to 0, and the earlier fixture's "Columbus, Georgia" facility gained its state (`tests/test_session2272_deals.py`).
+
+### A facility's power source from the words (session 2273)
+
+Where the model gives a facility no power source and its story is about one facility, the source is read from words that say how the facility itself is powered: a fuel with "-powered" or "-fired" ("Gas-Powered Data Center"), a generator fleet, on-site or behind-the-meter generation, fuel cells, small modular reactors. Its kind follows as for any power source. A company's line of business ("Another Solar Company") is not the facility's power. On the audit's sample, facilities with the power source missed went from 2 to 0, nothing else changing (`tests/test_session2273_deals.py`).
