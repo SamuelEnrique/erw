@@ -78,6 +78,17 @@ Written by `check_companies.py --crosscheck` to `docs/reviews/companies-crossche
 - **A utility's retail sales against its fleet.** EIA-861 retail sales (Parts A and B) of the newest year with at least 80% of the median year's utilities (2025) against EIA-860M operated capacity: sales / (capacity x 8,760 h). 295 companies have both; 110 sell more at retail than their own fleet could make running all year (they buy power), 19 sell under a fifth of it (their plants sell at wholesale; the Tennessee Valley Authority's implied use is 0.07, Florida Power & Light's 0.36).
 - **A developer's queue MW against its deals' MW.** No company held both a live ERCOT or NYISO queue position and a deal on 6 November 2026: the deals name parents and brands ("NextEra"), the queues name project companies ("NextEra Energy Interconnection Holdings, LLC").
 
+## The pages
+
+- `/companies` and `/companies/<id>` (in review) read `site/data/companies/` (`warehouse/derived/companies_page.py`): an index of the listed companies and 256 shards of their detail. A row from a held input (above) is never in these files: its count by table is. A company named only in held inputs is not listed (1,176 on 6 November 2026), and the deal and facility filters stay off while those tables are held. Every figure there is computed from public rows alone, so a company's queue MW on the page leaves out its NYISO positions while the NYISO queue is held.
+- Each figure carries a key (`company_directory|<id>|<column>`, `company_links|<link>|mw`) and its source as the hover; `site/scripts/check-companies.mjs` reads a served build's figures back against the files, and `check_companies.py --pages` the files against the tables.
+- The downloads (`/companies/rows`, `/companies/<id>/rows`, each with a Python and a Stata reader) hold the public rows only, with their provenance and the held counts in the header.
+- An en or em dash in a source's name (the NRC writes one) is a hyphen in the page files (CLAUDE.md rule 2); the tables keep the name as written.
+
+## Capital
+
+`/capital` (platform tool 11, its first view; `warehouse/derived/capital_page.py`, `site/data/capital.json`) draws the capital rows of `energy_deals` (deal types project_finance, m_and_a, debt, equity_raise): by quarter and type, the rows, the USD stated summed and the rows with no USD; the same by segment (the deal's technology) and by the kind of the company that brings the money (the buyer: the acquirer of an M&A, the lender or the investor of a financing, its kind from `company_directory`; "not named" when no buyer is named; a deal with buyers of two kinds counts once in each); the share of deals that state a USD amount; the twenty largest by USD with their stories. Nothing is filled in. While `energy_deals` is held, the file holds the hold and the table's row count only and the page says so.
+
 ## What it cannot say
 
 - **Corporate families.** EIA files name operating companies, not their holding companies; a parent is known only where the NRC, a deal's "X's Y" or the reviewed file says so. American Electric Power's operating utilities are separate rows with no parent.
@@ -90,3 +101,5 @@ Written by `check_companies.py --crosscheck` to `docs/reviews/companies-crossche
 - Session 3301: the rules, the reviewed aliases (98 rows), the tests; `company_alias` and `company_link` join the entity types (Decision 76).
 - Session 3302: the three tables written under the data lock and archived; coverage's tier (model_extracted) and iso (none) rules.
 - Session 3303: this note, the tracers and the cross-checks.
+- Session 3304: the pages, their files and tracers; the NRC's several licensees in one field split.
+- Session 3306: `/capital`.

@@ -99,6 +99,8 @@ export const GROUPS: Group[] = [
       { href: "/deals", label: "Deals", line: "PPAs, acquisitions, financings and supply deals from the news, with sources: as a sortable table, and on the tracker by type, technology, grid, counterparty and year; and, on the Companies tab, the energy companies the ERW has found and sourced: stage, raised, location, founders and a confidence score, from Thesis Builder runs and the parties of the deals.", tables: "energy_deals, energy_companies", related: ["/datacenters", "/map"] },
       // session 3304 (chain 200): the company database (platform tool 10), its own page again (until then /companies redirected to the deals page's Companies tab, which stays)
       { href: "/companies", label: "Companies", line: "Every company the warehouse names: EIA's operators, owners and utilities, ERCOT's queue, the NRC's licensees and the policy agencies, each with its plants, plans, queue positions and the rows that name it.", tables: "company_directory, company_aliases, company_links", related: ["/deals", "/map", "/storage"] },
+      // session 3306 (chain 200): capital flows (platform tool 11), its first view, from the deal tracker's capital rows and the company database
+      { href: "/capital", label: "Capital flows", line: "Project finance, acquisitions, debt and equity raises in the deal tracker, by quarter, segment and the kind of company that brings the money, with the share that discloses its size.", tables: "energy_deals, company_links, company_directory", related: ["/deals", "/companies"] },
     ],
   },
   {
