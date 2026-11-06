@@ -34,13 +34,13 @@ Long end 1:30. Pulls: GitHub only.
 
 1. Write the next file in `queue/next/` for this machine in this file's form, numbered with the first queue number free on origin's main and every branch: `machine: code`, Fable 5.1 high effort, at least fourteen sessions numbered from the first free numbers after 1741; its content: every step of this chain that its note says did not finish, then the faults file's rows still open, one a session, then the records and the note; its last session writes the one after it the same way. It carries this chain's rules word for word. Commit it alone, push it to main, `git status -sb`.
 2. `scripts/precheck.py` from the main checkout; `git fetch origin`; `git worktree list` with every worktree of a landed branch removed and the count before and after; memory and disk free; `scripts/freeze.py status`; whether every `wip/<N>-periodicals` branch of chain 190 is an ancestor of `origin/main` (`git merge-base --is-ancestor`), written to the report.
-3. The first step chain 190's note lists as not finished (session 1685 writes it here, in chain 190's order). If none, the next session's work.
+3. The first step chain 190's note lists as not finished (session 1713 writes it here, in chain 190's order). If none, the next session's work.
 
 ## Sessions 1729 to 1732: chain 190's other unfinished steps
 
 Long end 2:00 each. Pulls: as the step needed in chain 172 (the Claude API under its cap only where the step was a dry run).
 
-One step a session, in chain 190's order, as session 1685 lists them under "Unfinished steps" below. A step that was a landing is a landing here (the gate, the snapshots, the branches deleted once ancestors). A step that was a dry run is a dry run here, into `runs/periodicals_dryrun/s<N>/`, read as a reader, its faults appended to the faults file, its preview sent to the fixed recipients with the subject prefixed "[preview, dry run <N>]". When the list is shorter than four sessions, the free sessions take the faults below, in order.
+One step a session, in chain 190's order, as session 1713 lists them under "Unfinished steps" below. A step that was a landing is a landing here (the gate, the snapshots, the branches deleted once ancestors). A step that was a dry run is a dry run here, into `runs/periodicals_dryrun/s<N>/`, read as a reader, its faults appended to the faults file, its preview sent to the fixed recipients with the subject prefixed "[preview, dry run <N>]". When the list is shorter than four sessions, the free sessions take the faults below, in order.
 
 ### Unfinished steps (written by session 1713 of chain 190)
 
