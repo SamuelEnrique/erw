@@ -71,3 +71,16 @@ The before is the issue the scheduled run wrote at 00:48 UTC with the old code (
 | repeated figures (counts) | 4 | 0 |
 | first links reaching Google, of all links | 12 of 36 | 8 of 40 |
 | words above the fold | 1,035 (no fold) | 214 (row 49) |
+
+## Friday 6 November again, after sessions 1464 to 1467 (session 1468)
+
+The before is session 1463's dry run; the after is session 1468's, the same stories and hour, the code landed at `2a56797cf`.
+
+| # | Before (session 1463) | After (session 1468) |
+|---|---|---|
+| 43 | "Reason, from the day's stories: Commodity price movement driven by fundamentals, impacts market sentiment and producer economics." | no reason: the figure and its description |
+| 44 | "Gigawatt-scale hyperscale power deal combining fuel cells, ..." | "Hyperscale power deal combining fuel cells, ..." |
+| 45 | "Also on this topic: Lambda to develop four-building data center campus in Lowndes County, Alabama" | "Also in datacenter power: Lambda to develop four-building data center campus in Lowndes County, Alabama" |
+| 46 | "- APS expects peak demand ... (generation): [Utility Dive](...)" | "- APS expects peak demand ... (generation). [Utility Dive](...)" |
+| words above the fold | 214 | 187 (the opening's reason gone) |
+
