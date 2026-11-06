@@ -1,6 +1,6 @@
 # Session 3060: chain 166's seventh session (its 2266): the monitor's table
 
-Personal laptop, second window, 6 November 2026, 12:25 to 13:05 UTC (begun while session 3059's tests ran). Opus 5.5. Branch `wip/3060-policy` cut from `wip/3059-policy`.
+Personal laptop, second window, 6 November 2026, 12:23 to 12:48 UTC (the commits' times; begun while session 3059's tests ran). Opus 5.5. Branch `wip/3060-policy` cut from `wip/3059-policy`.
 
 ## What it did
 

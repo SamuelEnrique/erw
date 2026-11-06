@@ -485,3 +485,55 @@ against 30 more of the audit's sample, where four of its rules were found wrong 
 model (Claude Sonnet 5.5, under the owner's key, 63 calls, USD 0.45 in all) wrote 60 clauses; 54 were kept and 6
 dropped (a quotation not in the text 3, over 45 words 2, a number not in the text 1). The reads are
 `docs/reviews/policy-impact-2026-11-06.csv`, for the owner's reading; no table of the warehouse holds them yet.
+
+## 16. The monitor (sessions 3057 to 3064, chain 166): one record a proceeding, its page, its tracer, its limits
+
+**The record.** `warehouse/policy/records.py` groups the documents of `policy_actions` that name one proceeding into
+one record: a FERC docket with its amendments (CP25-539-000 and -001), a hydro project's numbered proceeding
+(15249-002), an NRC docket ID (NRC-2026-0265), an EPA, DOE, BOEM, OSM or IRS docket, a RIN, a DOE LNG docket, an
+OSMRE program amendment (WV-124-FOR). Ids are joined across documents. A bureau's billing code (BLM's
+A2407-014-004-065516 stood on 52 rows of unrelated matters), an NRC plant's license docket (50-261, which spans
+exemptions, a renewal and a transfer) and a document number make no record. A document that names no proceeding joins
+only a repeat of its own title from its own body within 45 days. The record keeps every source of every document (the
+Register's pages, the releases folded into them, the linked news stories) and a history in which a repeated notice is
+one step with every date (the NRC's four weekly notices of one application). Its status is its newest document's; its
+next step the first dated step of any document on or after that document's date; its significance the highest. On
+the archive's copy of 6 November: 2,020 documents, 1,495 records, 301 of them with more than one document.
+
+**The file and the page.** `warehouse/policy/monitor_site.py` writes `site/data/policy/monitor.json` (a daily soft
+step, `policy_monitor_records`, after `policy_monitor_site`; never a file with fewer records than the one held), one
+row a record, with its body, instrument, status, sector, grids (those the reads of `policy_reads` name and those a
+title names by `rules_in_motion.OPERATOR_WORDS`), states, next step, every dated step with its words and document,
+figure, impact sentence (`warehouse/policy/impact_reads.csv`, section 15), plain read, the table it bears on, sources
+and history. The monitor is a view of `/policy` (`?view=monitor`, in review with the page): filters at the left (body,
+instrument, status, sector, grid, state, date range, significance, each choice with its count) and the results at
+the right; a sort on every column (an empty value last either way); "N shown of M records held"; a row opens to its
+proceeding, history and sources; the evidence of each date and figure and the quotation of each impact sentence as
+hovers. Above the table, the calendar: the actions of the past seven days and every dated step of the thirty days
+ahead (comment and intervention deadlines, effective dates and ends, hearings and sessions, environmental documents
+and decisions due), of the records the filters leave. Below it, the charts of every record of the file: records by
+month and body, records by sector and band of significance, and the MW and USD the records state as their own summed
+by month (only what is stated; a figure in another unit is shown in its row and never added). The filtered records
+download as CSV with every source, with a Python and a Stata reader of that CSV.
+
+**The tracer.** Each date, figure and sum the page shows carries a key (`policycal|<record>|<document>|<kind>|<date>`,
+`policyfig|<record>|<document>|<value>|<unit>`, `policysum|<unit>|<month>|<value>|<records>`, as `data-check`), which
+`site/scripts/policy-figures.mjs` prints as the page makes them and `scripts/check_policy.py` traces: a step to its
+document's row of `policy_actions` (the connector's own columns, or what `fields.derive` reads from the row's summary
+where the copy holds no text), a figure the same way, a sum to its records' figures, each traced, added. ok, FAIL, or
+"not here"; exit 1 on a FAIL. On this laptop's copy of 6 November: 287 keys, 287 ok.
+
+**The limits: what the monitor cannot see without a document feed, and the feeds that would close it** (named for the
+owner, not pulled):
+
+| What is missed | Why | The feed that would close it |
+|---|---|---|
+| FERC's own orders, filings and eLibrary documents not printed in the Register (most orders on rates, tariffs and complaints) | FERC's pages answer a Cloudflare challenge (session 24) | FERC eLibrary's RSS or its daily "Issuances" list, if its terms allow an automated reader |
+| An action's text beyond its Register summary on the GitHub runner | the runner holds no store of printed texts; the data machine's store has them | none needed: the data machine's daily run derives the fields from its store |
+| State commissions beyond the ten read for large loads, and every state's orders outside that topic | the refresh reads ten open-docket lists for one topic (section 7) | each commission's docket search or order list, one by one, under its own terms |
+| Congress: bills and their votes | not a source of this table | the Congress.gov API (api.congress.gov, a free key) |
+| Treasury's and the IRS's guidance not printed in the Register (notices, revenue procedures in the Internal Revenue Bulletin) | only Register documents are listed | the Internal Revenue Bulletin's index on irs.gov |
+| ISO and RTO board and committee decisions, and their tariff filings | the grid operators' sites are not read; MISO is paused (its terms) | each operator's own filings page, under its terms; for MISO, only after the owner lifts its pause |
+| Court rulings that stay or vacate an action | no court source | CourtListener's API (Free Law Project), with its terms |
+| BOEM lease sales' results (the bids) | the Register prints the notices of sale, not the results | BOEM's lease sale statistics pages |
+| Virginia's commission | paused: its robots file disallows every automated request | none while the pause stands |

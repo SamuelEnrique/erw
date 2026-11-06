@@ -1,6 +1,6 @@
 # Session 3061: chain 166's eighth session (its 2267): the monitor's calendar, keyed and traced
 
-Personal laptop, second window, 6 November 2026, 13:05 to 13:25 UTC. Opus 5.5. Branch `wip/3061-policy` cut from `wip/3060-policy`.
+Personal laptop, second window, 6 November 2026, 12:48 to 12:53 UTC (the commits' times). Opus 5.5. Branch `wip/3061-policy` cut from `wip/3060-policy`.
 
 ## What it did
 

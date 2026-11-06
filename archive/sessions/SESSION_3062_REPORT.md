@@ -1,6 +1,6 @@
 # Session 3062: chain 166's ninth session (its 2268): the monitor's charts and downloads
 
-Personal laptop, second window, 6 November 2026, 13:25 to 13:45 UTC. Opus 5.5. Branch `wip/3062-policy` cut from `wip/3061-policy`.
+Personal laptop, second window, 6 November 2026, 12:53 to 12:57 UTC (the commits' times). Opus 5.5. Branch `wip/3062-policy` cut from `wip/3061-policy`.
 
 ## What it did
 

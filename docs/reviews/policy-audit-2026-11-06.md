@@ -196,3 +196,22 @@ None scored clearly below its band.
 - **The map**: 30 of 30 on the fixture's actions (tables written from their texts, `tests/fixtures/policy/impact_tables_3058.json`). Read against 30 more of the audit's sample, four rules were wrong and are fixed: the NRC's biweekly notices and license transfers went to the new reactors' table (their texts name combined licenses), a reconductoring award to the large-load rules (its project is called "Large Load Growth"), a "new major license application" missed relicensing, an LNG terminal's scoping went to the pipelines.
 - **The reads**: 60 stored actions (the fixture's 30 and 30 of the sample, the most significant first), 63 calls of Claude Sonnet 5.5, USD 0.45 (the cap was USD 2). 54 kept, 6 dropped: a quotation not in the text (3: r25's AP1000 rule, the NRC's Belews Creek hearing release, a Florida Gas blanket request), over 45 words (2), a number the text does not state (1: "15" members of a DOE board, counted by the model, not stated). Every kept sentence is in `docs/reviews/policy-impact-2026-11-06.csv` with its quotation, for the owner's reading.
 - **Class 10** (significance above its band) is not changed by this session: it needs the scorer run again; it moves to the faults rows (3073 on).
+
+## Session 3064: the second read
+
+The audit's 80 actions read again with the chain's code (`warehouse/policy/fields.py`, `records.py`, as at `wip/3064-policy`), on the same documents fetched on 6 November (the Register's record and printed text, or the release's page). A fault counts after only where the row's new fields still show it. Classes 4, 9 and 10 change only when the rows are scored again or the connector's scope rule changes, neither of which this chain did.
+
+| # | Fault | Before (of 80) | After (of 80) | What is left |
+|---|---|---|---|---|
+| 1 | A stated date held in no field | 62 | 6 | r38 and r58 (a forum's and a hearing's dates in a release), r50 and r72 (a "reasonable period" written "One year, August 27, 2027"), r57 (a schedule by month only), r78 (sessions on dates the rules do not read) |
+| 2 | No status | 80 | 0 | `action_status` on every row; the fixture's 30 right |
+| 3 | A stated figure held in no field | 16 | 4 | r6, r22, r29, r31: the figure stands outside the opening paragraph |
+| 4 | Sector "policy" | 16 | 16 | the scorer's note is changed; the rows change when they are scored again |
+| 5 | The instrument not held | 14 | 0 | `instrument` names all 14 |
+| 6 | The place missing or short | 6 | 6 | not addressed by this chain (the faults rows, 3073 on) |
+| 7 | One action, several rows | 3 | 0 | r16, r66 and r71 are documents of one record, `nrc:NRC-2026-0265` |
+| 8 | The body at its parent's level | 3 | 0 | OSMRE, BOEM, Texas Governor |
+| 9 | Out of scope | 4 | 4 | not addressed (the faults rows) |
+| 10 | Significance above its band | 2 | 2 | needs the scorer again (the faults rows) |
+
+Of the 80 rows' 206 faults before (each row counted once a class), 38 are left: 6 of class 1, 4 of class 3, and the 28 of classes 4, 6, 9 and 10, which wait for a rescoring or the next chain's rows.
