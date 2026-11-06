@@ -556,7 +556,9 @@ def stale_line(stale):
         lim = f"{allowed:g} day{'s' if allowed != 1 else ''}" if allowed >= 1 else f"{allowed * 24:g} hours"
         if at is None:
             return f"{wf}, none in {STALE_LOOKBACK_DAYS} days ({what}; allowed {lim})"
-        return f"{wf}, {age:.1f} days ({what}, {at.strftime('%Y-%m-%d %H:%M')} UTC; allowed {lim})"
+        # session 2884: a job allowed hours, not days, is said in hours ("0.2 days" read as nothing on 6 November)
+        since = f"{age:.1f} days" if allowed >= 1 else f"{age * 24:.1f} hours"
+        return f"{wf}, {since} ({what}, {at.strftime('%Y-%m-%d %H:%M')} UTC; allowed {lim})"
     return "**Stale on main:** " + "; ".join(one(*x) for x in stale) + "."
 
 

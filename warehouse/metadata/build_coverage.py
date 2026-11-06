@@ -95,7 +95,8 @@ TIER_RULES = [
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
-    ("derived", r"^eia930_demand_growth$"),  # session 2298: ERW code (warehouse/derived/demand_growth.py) over EIA-930's workbooks
+    ("derived", r"^eia930_demand_growth$"),
+    ("derived", r"^subregion_demand_growth$"),  # session 2877: ERW code (warehouse/derived/subregion_demand_growth.py) over EIA-930 sub-regions  # session 2298: ERW code (warehouse/derived/demand_growth.py) over EIA-930's workbooks
     ("derived", r"^interconnection_durations$"),  # session 671: ERW code over the Queued Up file (an entities table)
     ("derived", r"^interconnection_agreements_signed$"),  # session 854: the same, the requests with a signed agreement
     # session 345: NLR's JEDI workbooks' own formulas, evaluated by ERW code for each state the model lists, per MW
@@ -133,6 +134,8 @@ SECTOR_RULES = [
     (r"^ferc714_area_demand_\d{4}$", "power"),  # session 484: FERC Form 714 hourly demand by planning area (PUDL)
     (r"^eia861_utility_sales$", "power"),  # session 485: EIA-861 retail sales, revenue and customers by utility
     (r"^utility_service_territories$", "power"),  # session 667: EIA-861 service territories, utility by county
+    (r"^utility_large_load_tariffs$", "power"),  # session 2871: large loads' filed tariffs, a figure a row (the registry)
+    (r"^subregion_demand_growth$", "power"),  # session 2877: every EIA-930 sub-region's peak and average demand by year
     (r"^interconnection_agreements_(signed|by_grid)$", "power"),  # session 854: signed agreements, not yet operating (Queued Up)
     (r"^interconnection_durations(_summary)?$", "power"),  # session 671: request to operation, completed projects (Queued Up)
     (r"^grid_peak_vs_capacity$", "power;capacity"),  # session 672: each grid's peak against its generators' capacity

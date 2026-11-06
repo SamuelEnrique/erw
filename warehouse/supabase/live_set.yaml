@@ -751,6 +751,10 @@ catalogue_hold:
   # populations behind the stations' weights. Not loaded: the same review page reads the site's own copy
   - noaa_station_weather_hourly
   - census_metro_population
+  # session 2885 (chain 147): two public tables not yet on Redivis's public draft, so not in the catalogue until uploaded
+  # (utility_large_load_tariffs is also unsettled: release_v1.STORAGE_HELD)
+  - subregion_demand_growth
+  - utility_large_load_tariffs
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's

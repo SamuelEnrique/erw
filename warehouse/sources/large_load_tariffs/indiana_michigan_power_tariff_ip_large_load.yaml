@@ -1,0 +1,29 @@
+# Session 2872 (chain 147): read from the copy the data machine saved on 8 October 2026
+# (warehouse/raw/large_load_rules/B/raw/in/ord_46097_021925.pdf, 73 pages); no request was made for it. The tariff sheets are the
+# Settlement Agreement's Attachment A, pages 66 to 73 of the order's PDF; the pages below are the PDF's own page numbers.
+# The Large Load sheets print their effective date as a blank line: the date here is the Commission's order approving them.
+utility: Indiana Michigan Power Company
+eia_id: 9324
+state: IN
+grid: PJM
+sector: Industrial (Tariff I.P.)
+schedule: Tariff I.P. (Industrial Power), Terms and Conditions for Customer at or Over 70 MW Individually or 150 MW in the Aggregate
+tariff_sheet: I.U.R.C. No. 20, Sheet Nos. 21.3 to 21.7 (Cause No. 46097 Settlement Agreement Attachment A)
+effective: 2025-02-19
+commission: Indiana Utility Regulatory Commission
+docket: Cause No. 46097
+document: the Commission's Order of 19 February 2025 approving the Settlement Agreement, with the agreed Tariff I.P. sheets (Attachment A)
+document_url: https://www.in.gov/iurc/files/ord_46097_021925.pdf
+retrieved_at: 2026-10-08T04:11:47Z
+license: public
+terms:
+  min_bill: {text: "the monthly demand so established shall in no event be less than the greater of (a) 80 percent of the Large Load Customer's contract capacity specified for the applicable time period of the Contract Term; or (b) 80 percent of the Large Load Customer's highest previously established Monthly Billing Demand during the past 11 months", page: 71}
+  collateral: {text: "The amount of collateral to be provided is equal to twenty-four (24) multiplied by: (a) during the first year of the contract, the maximum expected monthly non-fuel bill; or (b) after the first year of the contract, the Large Load Customer's previous maximum monthly non-fuel bill", page: 73}
+  exit_fee: {text: "The Exit Fee shall be calculated as the nominal value of the remaining Minimum Charge for the terminated/reduced capacity in excess of the 20% allowed reduction for the first year of the Exit Fee Period ... The Exit Fee Period shall not be less than one (1) year and shall not exceed five (5) years.", page: 70}
+  ramp: {text: "A Large Load Customer may designate a Load Ramp Period, which can be no greater than five (5) years. If a Load Ramp Period is designated by the Large Load Customer, the Initial Contract Term shall commence after the Load Ramp Period ends.", page: 69}
+  term: {text: "The Large Load Customer's Initial Contract Term will be made for a period of not less than 12 years ... Either party shall give at least 42 months written notice to the other of the intention to discontinue service under the terms of this tariff.", page: 69}
+figures:
+  - {variable: min_demand_mw, value: 70, printed: "contract capacity is greater than or equal to 70 MW or is reasonably expected to grow to exceed 70 MW at an individual plant, or 150 MW or reasonably expected to grow to exceed 150 MW at one or more aggregated premises", page: 69}
+  - {variable: min_contract_years, value: 12, printed: "Initial Contract Term will be made for a period of not less than 12 years", page: 69}
+  - {variable: min_bill_pct, value: 80, printed: "80 percent of the Large Load Customer's contract capacity", page: 71}
+  - {variable: collateral_months, value: 24, printed: "twenty-four (24) multiplied by ... the maximum expected monthly non-fuel bill", page: 73}
