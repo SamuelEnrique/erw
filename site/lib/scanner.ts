@@ -28,9 +28,12 @@ export type DraftFile = { id: string; name: string; state: DraftState; kind: "te
 
 const token = () => process.env.INTERNAL_COSTS_TOKEN ?? "";
 
-/** The drafts, newest and strongest first; with a state, only that state. Throws when the list cannot be read. */
+/** The drafts, newest and strongest first; with a state, only that state. Throws when the list cannot be read.
+ * Session 3018 (chain 164): the function returns 100 rows unless asked for more and at most LIST_LIMIT (migration 029);
+ * the list held 222 rows on 6 November 2026 and the page showed the newest and strongest 100, so it asks for the most. */
+export const LIST_LIMIT = 500;
 export async function listDrafts(state?: DraftState): Promise<Draft[]> {
-  const args: Record<string, string> = { p_token: token() };
+  const args: Record<string, string> = { p_token: token(), p_limit: String(LIST_LIMIT) };
   if (state) args.p_state = state;
   return (await rpc<Draft[] | null>("scanner_drafts_list", args)) ?? [];
 }
