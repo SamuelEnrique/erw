@@ -475,6 +475,10 @@ def main(argv=None):
                         vals[f] = v
                         if why:
                             dropped.append(f"{cid}: {why}")
+                    other = fields.sum_of_other(d.get("deal_type"), d.get("dollars_text"), text) if vals["dollars"] is not None else ""
+                    if other:   # session 2271: a contract's sum that is its funding or an asset's cost
+                        dropped.append(f"{cid}: dollars {vals['dollars']:g}: {other!r} is another thing's sum, not kept")
+                        vals["dollars"] = None
                     st_state, st_country, st_status, why_words = stated_words(d, text)
                     dropped.extend(f"{cid}: {w}" for w in why_words)
                     if not st_country:   # session 2257: the country the headline names before the asset, when one

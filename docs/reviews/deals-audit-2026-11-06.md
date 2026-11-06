@@ -543,3 +543,7 @@ Place missed: 3, each by a written decision; the class is closed for code.
 ## Session 2270 (chain 174): deals' AI-power tag (2)
 
 D005 ("gas pipeline order tied to data centre buildout") and D104 ("manufacturing capacity ... for data center and utility markets") were tagged AI power by a datacenter word naming a motive or a market. `fields.DATACENTER_GENERIC` takes such phrases out before the load check. **2 to 0**; no other row of the 82 changed (35 tagged now, 37 before). The 2232 fixture's written answer for D005 said AI power; the 2249 read, quoting the prompt's rule on motives, says not: the 2232 answer now accepts either, with the reason in its `why`.
+
+## Session 2271 (chain 174): a figure of another thing (2)
+
+D045 (a PPA) kept "$7 Billion" from "Over $7 Billion Texas Power Plant"; D053 (a lease) kept "$3.8 Billion" from "Funded by $3.8 Billion of Junk Bonds". `fields.sum_of_other` refuses such a sum on a contract; `crosscheck.stated` takes the deal's type and reads the headline the same way. **2 to 0**; every replayed row's sum and flags diffed against the committed code: only the two sums changed, no flag (2249 and 2232 fixtures).

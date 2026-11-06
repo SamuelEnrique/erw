@@ -119,6 +119,28 @@ DATACENTER_GENERIC = re.compile(r"(?:data ?cent(?:er|re)s?|datacent(?:er|re)s?|h
                                 r" (?:build-?outs?|booms?|demand|markets?|growth|sectors?|industry|race|frenzy|spending)\b",
                                 re.I)
 
+# Session 2271 (chain 159's step 3): a contract's sum that is another thing's. For a power purchase, an offtake, a lease
+# or a fuel supply, a USD figure whose words go on to the bonds or debt that fund something ("Nvidia to Lease Data
+# Center Funded by $3.8 Billion of Junk Bonds") or to a plant, project, facility, campus or building that no deal word
+# follows ("Microsoft in Talks With Chevron, Engine No. 1 Over $7 Billion Texas Power Plant") is not the deal's sum.
+# "$7.5 billion AI data center lease" and "$19 billion data center lease deal" are the contract's and stay.
+CONTRACT_TYPES = ("ppa", "offtake", "lease", "fuel_supply")
+SUM_OF_FUNDING = r"\s+(?:of|in)\s+(?:\w+\s+)?(?:bonds?|debt|notes|loans?)\b"
+SUM_OF_ASSET = (r"\s+(?:[\w-]+\s+){0,3}?(?:plant|project|facility|campus|building)s?\b"
+                r"(?!\s+(?:lease|deal|contract|agreement|ppa|offtake|order|sale|purchase|supply))")
+
+
+def sum_of_other(deal_type, span, text):
+    """The words that make a contract's USD figure another thing's (its funding or an asset's cost), or ""."""
+    if (deal_type or "") not in CONTRACT_TYPES or not span:
+        return ""
+    t = " ".join(str(text or "").replace("’", "'").split())
+    for pat in (SUM_OF_FUNDING, SUM_OF_ASSET):
+        m = re.search(re.escape(" ".join(str(span).split())) + pat, t, flags=re.I)
+        if m:
+            return m.group(0)
+    return ""
+
 # Prices: an energy price only (the audit's row A8: "80% equity selldown" was kept as a price of 80 "%").
 ENERGY_PRICE_UNIT = re.compile(r"(?i)^\s*(?:usd|us\$|\$|eur|€|gbp|£|cad|aud)?\s*/\s*(?:mwh|kwh|mw-?month|kw-?month|"
                                r"mw-?day|kw-?year|mmbtu)\s*$")

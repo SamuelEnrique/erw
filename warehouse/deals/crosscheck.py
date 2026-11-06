@@ -58,8 +58,9 @@ def _num(v):
         return None
 
 
-def stated(title):
-    """{"mw": [...], "mwh": [...], "usd": [...]} the figures a headline states, in MW, MWh and USD."""
+def stated(title, deal_type=""):
+    """{"mw": [...], "mwh": [...], "usd": [...]} the figures a headline states, in MW, MWh and USD. Session 2271: for a
+    contract (fields.CONTRACT_TYPES), a sum whose next words are its funding or an asset's cost is not the deal's."""
     out = {"mw": [], "mwh": [], "usd": []}
     t = " ".join(str(title or "").split())
     def a_rate_or_a_target(m):   # session 2237: "targets 1GW annually" is a rollout's pace, not the deal's size
@@ -77,6 +78,9 @@ def stated(title):
         if NOT_THE_DEALS.search(before) or re.match(r"\s*(?:-?\s*plus\s+)?(?:us\s+)?(?:shale\s+)?(?:giant|group|company|independent|"
                                                     r"market|value|valuation|ai infrastructure|investment)", after, re.I):
             continue
+        if (deal_type or "") in fields.CONTRACT_TYPES and any(re.match(p, t[m.end():], re.I)
+                                                             for p in (fields.SUM_OF_FUNDING, fields.SUM_OF_ASSET)):
+            continue   # session 2271: "$3.8 Billion of Junk Bonds", "$7 Billion Texas Power Plant" on a lease or a PPA
         unit = m.group(2) or ""
         if not unit and float(m.group(1).replace(",", "")) < 1000:
             continue   # "$50" with no scale is a price or a share price, not a deal's sum
@@ -102,7 +106,7 @@ def flags(row, titles, text=""):
            "usd": _num(row.get("usd") if row.get("usd") not in (None, "") else row.get("dollars"))}
     seen = {"mw": [], "mwh": [], "usd": []}
     for t in titles:
-        for f, vals in stated(t).items():
+        for f, vals in stated(t, row.get("deal_type")).items():
             for v in vals:
                 if not any(_close(v, x) for x in seen[f]):
                     seen[f].append(v)
