@@ -60,6 +60,11 @@ SPARK_POINTS = 90               # session 1609 (chain 165): the trend line's mos
 # session 1609: the trend line's span by step: the last ninety days of a daily series, and a span long enough to show a
 # trend at a coarser step (a year of weeks, three years of months or quarters)
 SPARK_DAYS = {"D": 90, "W": 365, "M": 1095, "Q": 1095}
+# session 1620 (the second read): the time base and step of a row that states none of its own (a fuel, a rate, a credit)
+STEP_BASIS = {"D": "A daily value as the publisher reports it, dated its trading or operating day (a fuel or a rate has no weekend or holiday value).",
+              "W": "A weekly value as the publisher reports it, dated the day the publisher gives the week.",
+              "M": "A monthly value as the publisher reports it, dated the first day of its month.",
+              "Q": "A quarterly value as the publisher reports it, dated the first day of its auction's month."}
 ISO = {"ercot": ("ERCOT", "America/Chicago"), "caiso": ("CAISO", "America/Los_Angeles"), "nyiso": ("NYISO", "America/New_York"),
        "isone": ("ISO-NE", "America/New_York"), "spp": ("SPP", "America/Chicago")}
 MAIN = {"ercot": "HB_HUBAVG", "caiso": "TH_SP15_GEN-APND", "nyiso": "N.Y.C.", "isone": ".H.INTERNAL_HUB", "spp": "SPPNORTH_HUB"}
@@ -437,6 +442,9 @@ class Board:
             row["hourly"] = hourly
         if extra:
             row.update(extra)
+        if not row.get("basis"):
+            # session 1620 (the second read): every row states its time base and step, the fuels' and the rest's too
+            row["basis"] = STEP_BASIS[freq]
         s = stats(series, freq)
         if s is None:
             row.update(status="not_held", note="The warehouse holds no value of this series yet.")
@@ -626,9 +634,10 @@ def build_adders(b, holidays, log):
             log(f"  ERCOT's {stem.upper()}: ended {h.index[-1]:%Y-%m-%d} (the table's newest hour is {newest:%Y-%m-%d}); no row")
             continue
         d = daily_of(h, "America/Chicago", "ercot", holidays)
+        # session 1620 (the second read): the adder's day extremes too, as the power group's other daily rows have them
         b.add("power", f"ercot:system|{stem}", f"ERCOT {words}", "USD/MWh", "D", col(d, "mean"), at="real time, system-wide", code=stem.upper(),
               tags=dict(grid="ERCOT", market="rt", scope="all"), source=ADDER_SOURCE,
-              extra=dict(basis=f"A daily mean of the complete local operating day's hours (24; 23 or 25 on the daylight saving days), each the hour's mean of the adder over its SCED intervals ({stem}_mean)."))
+              extra=dict(**({"ext": extremes(h, "America/Chicago", d)} if len(d) else {}), basis=f"A daily mean of the complete local operating day's hours (24; 23 or 25 on the daylight saving days), each the hour's mean of the adder over its SCED intervals ({stem}_mean)."))
         log(f"  ERCOT's {stem.upper()}: a row to {h.index[-1]:%Y-%m-%d}")
 
 

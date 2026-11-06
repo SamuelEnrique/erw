@@ -126,6 +126,8 @@ function Avg365Cell({ row, built }: { row: Row; built: string }) {
 /** Session 1611: the latest complete day's highest and lowest hour, with their local times; blank on a stale row. */
 function ExtCell({ row, built }: { row: Row; built: string }) {
   const e = row.ext;
+  // session 1620 (the second read): a monthly row (the node basis) has no hours; it says its step, as the 7-day cell does
+  if (!e && row.freq !== "D") return <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no day's hours.`}>{FREQ_WORDS[row.freq]}</span>;
   if (!e) return <span className="text-xs text-muted" title="The day's hours are not held for this row.">not held yet</span>;
   if (closeAge(row, built)?.stale) return <span className="text-xs text-muted" title={`Not shown: the series is stale (${closeAge(row, built)!.words}).`}>stale</span>;
   return (

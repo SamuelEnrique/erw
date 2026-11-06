@@ -166,3 +166,15 @@ Asked in `docs/reviews/trader-path.md` and the chain file; each answered by a co
 | 31 | The week and the month in one row: the mean, the peak hour, the count of intervals above 100, 250 and 1,000 USD/MWh | 1612 | closed in 1612: hours, not intervals; the means are the 7-day and 30-day columns (`tests/test_board_1612.py`) |
 | 32 | The comparison: a hub against the same date a year before and against its trailing twelve-month mean | 1613 | closed in 1613: the Year move and a 12-month column (`tests/test_board_1613.py`) |
 | 33 | The downloads: the board as shown in CSV, Stata and Python, public rows only, every key, the held rows' words and no digit | 1614 | closed in 1614 (`tests/test_board_1614.py`) |
+
+## 9. The second read (sessions 1620 and 1621)
+
+The board's file read as a trader reads the page: every cell a trader wants (level, change, when, against what, how often) present or marked; every figure's key traced. Read on the site's file of 5 November 2026 with its rows' figures made again by this chain's builder from their own series files (session 1618's way), and on the files the builder writes from this chain's fixtures.
+
+| # | Fault | Session | State |
+|---:|---|---|---|
+| 34 | A row outside the power groups (a fuel, a rate, a credit, a retail price) states no time base or step in its hover: "how often" and "when" are the date badge alone | 1620 | closed in 1620: every row without an interval of its own takes its step's (`STEP_BASIS`), "a daily value as the publisher reports it, dated its trading or operating day" and the others (`tests/test_board_1620.py`) |
+| 35 | The day's high and low cell reads "not held yet" on the node basis rows, which are monthly and have no hours: a reader would look for a figure the board could hold | 1620 | closed in 1620: a row that is not daily reads its step ("monthly"), as its 7-day cell does |
+| 36 | ERCOT's reliability deployment adder is a daily row of hours with no day extremes, while every other daily power row has them | 1620 | closed in 1620: `build_adders` writes its `ext` |
+| 37 | The Digest's day move and the board's must agree: `warehouse/news/brief.py` calls `board_page.stats(...)["moves"]["d"]` on a two-point series; this chain changed `stats` (YTD, twelve-month mean, trend span) | 1621 | open |
+| 38 | Ask's board panel (`site/lib/chat/panel.ts`) reads the moves `d`, `w`, `m`, `y` and the range of each row; this chain renamed no key and added `ytd`, `avg365` and `ext` | 1621 | open |
