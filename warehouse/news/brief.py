@@ -1907,7 +1907,15 @@ def main(argv=None):
              stamp_line(hours, start, now, len(s)), "",
              *([NO_MODEL_LINE, ""] if args.no_model else [])]
         L += opening_lines(op, heads)
-        L += numbers_block(facts, op, recs, heads)
+        # session 1439 (fault 5): the story rows read the whole issue's items in rank (the top ten, then the sections,
+        # then AI and power), since the day's policy or capital figure is often in a section bullet
+        pool, seen = [], set()
+        for frame in [top10, *by_group.values(), ai]:
+            for r in (frame.to_dict("records") if frame is not None and len(frame) else []):
+                if r["cluster_id"] not in seen:
+                    seen.add(r["cluster_id"])
+                    pool.append(r)
+        L += numbers_block(facts, op, pool, heads)
         n_moved = moved_count(recs)
         L += ["## What moved", ""]
         for i, r in enumerate(recs[:n_moved], 1):
