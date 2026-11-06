@@ -488,6 +488,7 @@ async function heldAnswer(a: QueryArgs, grid: string): Promise<Json> {
 }
 
 async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
+  if (!a || typeof a !== "object") throw new ToolError("query needs its arguments as an object (table, aggregation and the rest)");   // session 1486
   if (!AGGREGATIONS.includes(a.aggregation)) throw new ToolError(`aggregation must be one of ${AGGREGATIONS.join(", ")}`);
   if (misoOwn(a.table) || misoOwn(a.entity) || Object.values(a.where ?? {}).flat().some(misoOwn)) throw new ToolError(MISO_PAUSED);
   const { c, columns, shape } = await tableInfo(a.table, scope);
@@ -798,6 +799,13 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
 }
 
 async function compare(a: { a: QueryArgs; b: QueryArgs }, scope: Scope = null): Promise<Json> {
+  // session 1486 (chain 158): a compare call without one of its two queries threw a TypeError ("Cannot read properties
+  // of undefined (reading 'aggregation')"), which is not a tool error, so the route answered 502 (the board's k03 of
+  // session 2918); it is now an error the model sees and can correct
+  for (const side of ["a", "b"] as const) {
+    const q = (a as Record<string, unknown> | null)?.[side];
+    if (!q || typeof q !== "object" || Array.isArray(q)) throw new ToolError(`compare needs ${side}: the arguments of a query (table, aggregation and the rest), as an object`);
+  }
   const [ra, rb] = await Promise.all([query(a.a, scope), query(a.b, scope)]);
   const single = (r: Json) => {
     // session 1126: a held grid's side (session 1112's heldAnswer) has no result: no difference is made with it
