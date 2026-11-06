@@ -1,6 +1,6 @@
 # Session 1497 report: the trader path, walked again on a build
 
-Energy Research Warehouse (ERW), session 1497, chain 158, samueloldlaptop, 6 November 2026, 09:56 to 10:05 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the local build's reads) only. Branch `wip/1497-paths`, cut from `wip/1494-explorers`.
+Energy Research Warehouse (ERW), session 1497, chain 158, samueloldlaptop, 6 November 2026, 09:56 to 10:00 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the local build's reads) only. Branch `wip/1497-paths`, cut from `wip/1494-explorers`.
 
 ## What it did, with commits
 

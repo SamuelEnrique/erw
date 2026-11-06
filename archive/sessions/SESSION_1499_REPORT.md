@@ -1,6 +1,6 @@
 # Session 1499 report: the lab's path, written and walked; the explorers' browser check
 
-Energy Research Warehouse (ERW), session 1499, chain 158, samueloldlaptop, 6 November 2026, 10:12 to 10:25 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0 (Ask's page read, no question asked). No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the local build's reads) only. Branch `wip/1497-paths`.
+Energy Research Warehouse (ERW), session 1499, chain 158, samueloldlaptop, 6 November 2026, 10:03 to 10:06 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0 (Ask's page read, no question asked). No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the local build's reads) only. Branch `wip/1497-paths`.
 
 ## What it did, with commits
 

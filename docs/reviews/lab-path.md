@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), session 1499, chain 158 (`queue/done/158-day-6-november-code-replications-explorers-paths.md`). The path a lab's energy team takes when it asks what power will cost a datacenter, where, and how soon. It covers the datacenter tool, its All grids tab as the desktop's chains leave it, the datacenter tracker as the personal laptop's chains leave it, and Ask. Each page was read as it stood at the hour of the walk: another chain is changing the All grids tab and the tracker, so this walk records them as they were.
 
-**How it was walked.** On 6 November 2026, about 10:10 UTC, on a local production build of main at `04623251`, in the internal view, in a real browser (`site/scripts/walk-paths-1497.mjs`; the steps in `docs/reviews/paths/lab-1497.json`). Each step has its screenshot of the first screen at 1280 px, and the first also at 390 (`docs/brand/review-1497/lab-<step>-1280.png`, `lab-01-390.png`). Every figure below is the page's keyed figure.
+**How it was walked.** On 6 November 2026, about 10:03 UTC, on a local production build of main at `04623251`, in the internal view, in a real browser (`site/scripts/walk-paths-1497.mjs`; the steps in `docs/reviews/paths/lab-1497.json`). Each step has its screenshot of the first screen at 1280 px, and the first also at 390 (`docs/brand/review-1497/lab-<step>-1280.png`, `lab-01-390.png`). Every figure below is the page's keyed figure.
 
 ## Step 1: What a datacenter pays, as it opens
 

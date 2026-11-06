@@ -1,6 +1,6 @@
 # Session 1495 report: the explorers' filters and hovers; the screenshots left for the landing's build
 
-Energy Research Warehouse (ERW), session 1495, chain 158, samueloldlaptop, 6 November 2026, 09:25 to 09:30 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1494-explorers`.
+Energy Research Warehouse (ERW), session 1495, chain 158, samueloldlaptop, 6 November 2026, 09:30 to 09:32 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1494-explorers`.
 
 ## What it found
 

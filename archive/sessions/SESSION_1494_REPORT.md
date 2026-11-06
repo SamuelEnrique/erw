@@ -1,6 +1,6 @@
 # Session 1494 report: the explorers, live: what holds already, read on a build
 
-Energy Research Warehouse (ERW), session 1494, chain 158, samueloldlaptop, 6 November 2026, 09:15 to 09:25 UTC (during session 1493's landing). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the gate's build's reads) only. Branch `wip/1494-explorers` (sessions 1494 to 1496), cut from session 1493's landing commit.
+Energy Research Warehouse (ERW), session 1494, chain 158, samueloldlaptop, 6 November 2026, 09:20 to 09:30 UTC (during session 1493's landing). Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the gate's build's reads) only. Branch `wip/1494-explorers` (sessions 1494 to 1496), cut from session 1493's landing commit.
 
 ## What it found, explorer by explorer (read on session 1493's gate build of `d4a5fe42`, port 3493, the internal view)
 

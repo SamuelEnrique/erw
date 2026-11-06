@@ -1,6 +1,6 @@
 # Session 1496 report: the explorers' method note and the rows they draw as a download
 
-Energy Research Warehouse (ERW), session 1496, chain 158, samueloldlaptop, 6 November 2026, 09:30 to 09:42 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1494-explorers`.
+Energy Research Warehouse (ERW), session 1496, chain 158, samueloldlaptop, 6 November 2026, 09:32 to 09:42 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; no web request. Branch `wip/1494-explorers`.
 
 ## What it did, with commits
 

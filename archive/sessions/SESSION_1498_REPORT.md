@@ -1,6 +1,6 @@
 # Session 1498 report: the On.Energy walkthrough, written and walked
 
-Energy Research Warehouse (ERW), session 1498, chain 158, samueloldlaptop, 6 November 2026, 10:05 to 10:12 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the local build's reads) only. Branch `wip/1497-paths`.
+Energy Research Warehouse (ERW), session 1498, chain 158, samueloldlaptop, 6 November 2026, 10:00 to 10:03 UTC. Model: Claude Opus 5.5 (this window's). Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own database (the local build's reads) only. Branch `wip/1497-paths`.
 
 ## What it did, with commits
 
