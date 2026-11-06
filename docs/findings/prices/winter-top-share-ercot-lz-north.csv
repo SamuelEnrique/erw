@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate winter_top_share, region ercot_LZ_NORTH (ERCOT's North load zone (LZ_NORTH))
+# Computed 2026-11-06T11:24:50Z by warehouse/analysis/findings/deep/prices.py (winter_top_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the share of the year's dearest one percent of real-time hours that fell in December, January or February (percent of the dearest hours), the observations it rests on, and whether the year is full
+# Tables: ercot_zone_prices_history
+region,year,value,n_observations,full_year
+ercot_LZ_NORTH,2015,12.5,8760.0,1
+ercot_LZ_NORTH,2016,18.181818181818183,8784.0,1
+ercot_LZ_NORTH,2017,30.681818181818183,8760.0,1
+ercot_LZ_NORTH,2018,17.045454545454543,8760.0,1
+ercot_LZ_NORTH,2019,0.0,8760.0,1
+ercot_LZ_NORTH,2020,9.090909090909092,8784.0,1
+ercot_LZ_NORTH,2021,100.0,8760.0,1
+ercot_LZ_NORTH,2022,18.181818181818183,8760.0,1
+ercot_LZ_NORTH,2023,0.0,8760.0,1
+ercot_LZ_NORTH,2024,26.136363636363637,8784.0,1
+ercot_LZ_NORTH,2025,42.04545454545455,8760.0,1
+ercot_LZ_NORTH,2026,43.83561643835616,7295.0,0
