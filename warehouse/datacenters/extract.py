@@ -179,6 +179,39 @@ def names_named(value, text):
     return len(parts) > 1 and all(len(p.strip()) > 1 and named(p.strip(), text) for p in parts)
 
 
+def facility_country(site_name, raw):
+    """Session 2262 (chain 159): (country, words) for a facility the model gave no country, read from the story's own
+    words, the first of these that names exactly one country: a country word in the site's name ("Stargate Norway",
+    "Stargate UK"); "in <country>" ("AI infrastructure in Japan"); a country before what is built (the deals' rule,
+    fields.country_of: "US data center"). ("", "") otherwise."""
+    F = deals.fields
+    site = " ".join(str(site_name or "").split())
+    raw = " ".join(str(raw or "").replace("’", "'").split())
+
+    def nouns(words):   # the name and its capital letters (UK, UAE, U.S.), not an adjective
+        return [w for w in words if w == words[0] or w.replace(".", "").isupper()]
+
+    found = {}
+    for c, words in F.COUNTRIES.items():
+        for w in nouns(words):
+            if site and re.search(r"(?<![A-Za-z.])" + re.escape(w) + r"(?![A-Za-z])", site):
+                found.setdefault(c, w)
+    if len(found) == 1:
+        return next(iter(found.items()))
+    if found:
+        return "", ""
+    for c, words in F.COUNTRIES.items():
+        for w in nouns(words):
+            m = re.search(r"(?<![A-Za-z])in (?:the )?" + re.escape(w) + r"(?![A-Za-z])", raw)
+            if m:
+                found.setdefault(c, m.group(0))
+    if len(found) == 1:
+        return next(iter(found.items()))
+    if found:
+        return "", ""
+    return F.country_of(raw)
+
+
 def checked_fields(d, text):
     """The facility's text fields kept only as the story states them, and the reasons for any dropped."""
     why = []
@@ -403,6 +436,11 @@ def main(argv=None):
                                        f"{by_id[target].get('state') or '-'}); kept as its own facility")
                         target = None
                     new_f = ff.finish(d, text)   # session 2236: the MW basis, the energized year, the country
+                    if not new_f["country"]:   # session 2262: the country the site's name or the words give, when one
+                        c, c_words = facility_country(vals.get("site_name"), " ".join(g["title"]) + " " + " ".join(g["summary"]))
+                        if c and not (vals.get("state") and c != "United States"):
+                            new_f["country"] = c
+                            log(f"  {cid}: facility {n}: country {c} from the words {c_words!r}")
                     for f in ("operator", "developer"):   # session 2236: "TikTok owner" is a description, not a name
                         if vals.get(f) and ff.description(vals[f]):
                             dropped.append(f"{cid}: {f} {vals[f]!r} is a description, not a name; not kept")

@@ -189,3 +189,7 @@ A facility no source names; a facility's load beyond the MW a source states (mos
 ### Two companies in one field (session 2261)
 
 A facility's operator or developer is kept only where its name is in the story. Where the model joins two names in the field ("Colt DCS, RMZ" for "Colt DCS and RMZ start work on third facility at Mumbai campus"), the field is kept when each name is in the story; before, the joined string was refused and the facility had no company. A description ("TikTok owner") is still not a name, and a site, a power source or a utility takes no joined names (`tests/test_session2261_deals.py`).
+
+### A facility's country from the words (session 2262)
+
+Where the model gives a facility no country, it is read from the story's own words, the first of these that names exactly one country: a country's name or its capital letters in the site's name ("Stargate Norway", "Stargate UK"); "in <country>" ("AI infrastructure in Japan"); a country before what is built (the deals' rule: "US data center"). An adjective is not a country here, and a facility with a US state takes no other country. The words go to the run's log. On the audit's sample, facilities with a country missed went from 3 to 0, no other facility gaining one (`tests/test_session2262_deals.py`).

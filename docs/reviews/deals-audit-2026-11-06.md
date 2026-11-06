@@ -486,3 +486,13 @@ Parties incomplete: **3 to 2**, the two by the ruling.
 Operator missed: **3 to 2**, both by the rule's reading.
 
 The second read's facilities also show a country missed three times (F035 "Japan's AI infrastructure", F044 "Stargate Norway", F053 "Stargate UK"), which the 2249 tally counted under no class; it is the next class by count.
+
+## Session 2262 (chain 159): facilities' country (3)
+
+| Row | Words | After |
+|---|---|---|
+| F044 | site "Stargate Norway" | Norway |
+| F053 | site "Stargate UK" | United Kingdom |
+| F035 | the Chiba row: "AI infrastructure in Japan" | Japan |
+
+Country missed: **3 to 0**; the three fills are the only ones across both facility fixtures (the 2236 fixture's one fill is the same Stargate UK cluster). F053's other row ("OpenAI's First Stargate Site") names no place at all and stays as it is.
