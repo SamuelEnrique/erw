@@ -1,6 +1,6 @@
 # Session 2272 (chain 174, deals and datacenters) report: facilities' state
 
-6 November 2026, about 13:36 to 13:41 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2272-deals`, cut from `wip/2271-deals`. Model spend **USD 0** (code; the facility answers replayed). Nothing deployed; no warehouse data written.
+6 November 2026, about 13:36 to 13:39 UTC, portable-laptop (code role), unattended. Worktree `erw-2254` on `wip/2272-deals`, cut from `wip/2271-deals`. Model spend **USD 0** (code; the facility answers replayed). Nothing deployed; no warehouse data written.
 
 - **The class**: facilities' state missed, 2 of 60 on the second read (F034 "Hutto, Texas", F015 "Western Kentucky").
 - **The fix**: `facility_state` (`warehouse/datacenters/extract.py`) reads the one US state a cluster of one facility names by its full name with a capital, for a facility with no country or the United States; longer names first; "Washington" alone not read. Logged.
