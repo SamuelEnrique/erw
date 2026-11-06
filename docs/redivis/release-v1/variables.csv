@@ -8666,6 +8666,13 @@ storage_owners_monthly,us_planned_mw,series variable,MW
 storage_owners_monthly,us_planned_units,series variable,count
 storage_owners_monthly,us_top10_share_pct,series variable,pct
 storage_owners_monthly,us_top5_share_pct,series variable,pct
+subregion_demand_growth,avg_growth_pct,series variable,pct
+subregion_demand_growth,avg_mw,series variable,MW
+subregion_demand_growth,energy_mwh,series variable,MWh
+subregion_demand_growth,hours_in_year,series variable,count
+subregion_demand_growth,hours_used,series variable,count
+subregion_demand_growth,peak_growth_pct,series variable,pct
+subregion_demand_growth,peak_mw,series variable,MW
 usace_nid_dams,entity_id,column,
 usace_nid_dams,entity_type,column,
 usace_nid_dams,name,column,
@@ -8840,6 +8847,12 @@ uswtdb_wind_turbines,offshore,column,
 uswtdb_wind_turbines,faa_ors,column,
 uswtdb_wind_turbines,faa_asn,column,
 uswtdb_wind_turbines,usgs_project_id,column,
+utility_large_load_tariffs,collateral_months,series variable,month
+utility_large_load_tariffs,demand_charge,series variable,USD/kW-month
+utility_large_load_tariffs,fixed_charge,series variable,USD
+utility_large_load_tariffs,min_bill_pct,series variable,pct
+utility_large_load_tariffs,min_contract_years,series variable,year
+utility_large_load_tariffs,min_demand_mw,series variable,MW
 utility_service_territories,entity_id,column,
 utility_service_territories,entity_type,column,
 utility_service_territories,name,column,

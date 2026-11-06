@@ -5,6 +5,7 @@ two or three callouts, a why, a footnote, and every number reproduced from its C
 finding in FINDINGS; here the checks that are the four's own). No request and no model call; the environment is read,
 never set. The tests on the cards skip when a card is not on the machine."""
 import importlib
+import datetime
 import json
 import os
 import re
@@ -74,7 +75,10 @@ class TheCards(unittest.TestCase):
             self.assertTrue(c["subtitle"] and c["why"] and c["footnote"], n)
             self.assertIn(len(c["callouts"]), (2, 3), n)
             self.assertTrue(c["chart"]["series"] or c["chart"].get("points"), n)
-            self.assertTrue(c["computed_at"].startswith("2026-10-"), n)
+            # session 2884: a real time from the cards' first build on, never later than now. The card is recomputed every
+            # day (dm_findings_recompute), so "2026-10-" failed from 1 November and the run put every recomputed card back.
+            when = datetime.datetime.fromisoformat(c["computed_at"].replace("Z", "+00:00"))
+            self.assertTrue(datetime.datetime(2026, 10, 1, tzinfo=datetime.timezone.utc) <= when <= datetime.datetime.now(datetime.timezone.utc), n)
             self.assertEqual(set(c["downloads"]), {"csv", "python", "stata"})
             for k in ("csv", "python", "stata"):
                 self.assertTrue(os.path.exists(os.path.join(ROOT, "site", "public", "findings", c["downloads"][k])), (n, k))

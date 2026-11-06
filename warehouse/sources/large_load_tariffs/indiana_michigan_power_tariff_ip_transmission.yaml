@@ -1,0 +1,24 @@
+# Session 2872 (chain 147): read from the same saved copy as indiana_michigan_power_tariff_ip_large_load.yaml; page 66 of the order's
+# PDF is Tariff I.P.'s rate sheet as the Settlement Agreement's Attachment A prints it (rates effective 28 May 2024, Cause No. 45933).
+# Large Load Customers are charged Tariff I.P.'s rates (the order, page 3). The energy charge is two blocks (the first 410 kWh per kW
+# of demand, and over 410 kWh per kW): no single energy_charge is printed, so none is written.
+utility: Indiana Michigan Power Company
+eia_id: 9324
+state: IN
+grid: PJM
+sector: Industrial (Tariff I.P.)
+schedule: Tariff I.P. (Industrial Power), Transmission service (tariff code 324)
+tariff_sheet: I.U.R.C. No. 20, First Revised Sheet No. 21 (as attached to Cause No. 46097's Settlement Agreement)
+effective: 2024-05-28
+voltage: {text: "324 Transmission", page: 66}
+commission: Indiana Utility Regulatory Commission
+docket: Cause No. 45933 (the rates); Cause No. 46097 (the attachment read)
+document: the Commission's Order of 19 February 2025 in Cause No. 46097, Settlement Agreement Attachment A, Sheet No. 21
+document_url: https://www.in.gov/iurc/files/ord_46097_021925.pdf
+retrieved_at: 2026-10-08T04:11:47Z
+license: public
+terms:
+  min_bill: {text: "This tariff is subject to a minimum monthly charge equal to the sum of the Monthly Service Charge, the product of the Minimum Demand Charge and the monthly billing demand, and all applicable riders ... 324 Transmission 14.700", page: 66}
+figures:
+  - {variable: demand_charge, value: 10.194, printed: "324 Transmission 10.194 ($/kW)", page: 66}
+  - {variable: fixed_charge, value: 275, printed: "Monthly Service Charge ($) ... 324 Transmission ... 275.00", page: 66}
