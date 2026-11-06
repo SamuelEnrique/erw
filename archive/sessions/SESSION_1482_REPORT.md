@@ -1,6 +1,6 @@
 # Session 1482 report: the fourth dry runs, read, the previews sent
 
-Energy Research Warehouse (ERW), session 1482, chain 154, samueloldlaptop, 6 November 2026, 08:27 to 08:33 UTC. Model: Claude Opus 5.5 (this window's). **Model spend USD 0.0436** (the Digest USD 0.0273 + 0.0048, the Roundup USD 0.0074 + 0.0041; `ERW_SPEND_CAP_USD=4`, the ledger off). No warehouse data written; **two preview emails to the one fixed recipient** (08:29 UTC, "[preview, dry run 1482] ...", Resend ids `01a1affa-2d4f-7d48-a2f9-e27b7382be8c` and `01a1affa-32dc-71bd-b7cf-1e091dd834d7`); nothing posted. On main (a detached worktree of `f03182f51` for the runs, removed after; this report, the faults file and the before and after).
+Energy Research Warehouse (ERW), session 1482, chain 154, samueloldlaptop, 6 November 2026, 08:26 to 08:30 UTC. Model: Claude Opus 5.5 (this window's). **Model spend USD 0.0436** (the Digest USD 0.0273 + 0.0048, the Roundup USD 0.0074 + 0.0041; `ERW_SPEND_CAP_USD=4`, the ledger off). No warehouse data written; **two preview emails to the one fixed recipient** (08:29 UTC, "[preview, dry run 1482] ...", Resend ids `01a1affa-2d4f-7d48-a2f9-e27b7382be8c` and `01a1affa-32dc-71bd-b7cf-1e091dd834d7`); nothing posted. On main (a detached worktree of `f03182f51` for the runs, removed after; this report, the faults file and the before and after).
 
 ## What it did
 
