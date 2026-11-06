@@ -7,6 +7,7 @@ inputs as held; writes nothing under warehouse/output, needs no lock, makes no r
     python warehouse/derived/check_companies.py                       # the tracers; exit 1 on any failure
     python warehouse/derived/check_companies.py --crosscheck FILE.md  # also write the two cross-checks to FILE.md
     python warehouse/derived/check_companies.py --in-dir DIR           # read the tables from DIR
+    python warehouse/derived/check_companies.py --pages site/data/companies   # also trace the page files (6)
 
 The tracers (each a failure when it does not hold):
 1. every link's input_row is a row of its input_table (its entity_id or event_id);
@@ -170,6 +171,43 @@ def tracers(d, a, l, inputs):
     return fails
 
 
+def pages(l, pages_dir, lic):
+    """Tracer 6 (session 3306): the page files (site/data/companies/) against the links. Each listed company's figures
+    equal the public links' recomputed here; the listed companies are those with a public link; no held table's row is in
+    a file."""
+    import hashlib
+    import json
+    fails = []
+    with open(os.path.join(pages_dir, "index.json"), encoding="utf-8") as fh:
+        ix = json.load(fh)
+    pub = l[l["input_table"].map(lambda t: lic.get(t) == "public")]
+    want_ids = set(pub["company_id"])
+    cols = ix["columns"]
+    got_ids = {"company:" + r[cols.index("id")] for r in ix["rows"]}
+    if got_ids != want_ids:
+        fails.append(f"6 listed companies: {len(got_ids - want_ids)} without a public link, {len(want_ids - got_ids)} with one not listed")
+    rc = recompute(pub)
+    shards = {}
+    for cid in sorted(got_ids & want_ids):
+        key = hashlib.sha1(cid.encode("utf-8")).hexdigest()[:2]
+        if key not in shards:
+            with open(os.path.join(pages_dir, "c", key + ".json"), encoding="utf-8") as fh:
+                shards[key] = json.load(fh)
+        c = shards[key][cid.split(":", 1)[1]]
+        for fig in FIGURES:
+            if fig == "n_links" or (fig.startswith("mw_") and fig[3:] not in c["fuel"] and rc[cid].get(fig, 0) == 0):
+                continue
+            have = c["fuel"].get(fig[3:], 0.0) if fig.startswith("mw_") else c["figures"].get(fig)
+            if have is None or abs(float(have) - rc[cid].get(fig, 0.0)) > (0.11 if not fig.startswith("n_") else 0):
+                fails.append(f"6 {cid} {fig}: the file {have}, the public links {rc[cid].get(fig, 0.0)}")
+        if len(c["links"]) != int(rc[cid].get("n_links", 0)):
+            fails.append(f"6 {cid}: {len(c['links'])} links in the file, {int(rc[cid].get('n_links', 0))} public")
+    held = [t for t in ix["tables"] if lic.get(t) != "public"]
+    if sorted(held) != sorted(ix["held_tables"]):
+        fails.append(f"6 the held tables: the file {ix['held_tables']}, the license status {held}")
+    return fails
+
+
 def crosschecks(d, l, inputs):
     """(the sales check rows, the queue and deals rows)."""
     sales = inputs["eia861_utility_sales"]
@@ -224,6 +262,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="The company database's tracers and cross-checks")
     ap.add_argument("--in-dir", default=OUT)
     ap.add_argument("--crosscheck", help="write the two cross-checks to this markdown file")
+    ap.add_argument("--pages", help="also trace the page files in this folder (site/data/companies)")
     args = ap.parse_args(argv)
     d = read(os.path.join(args.in_dir, "company_directory.csv"))
     a = read(os.path.join(args.in_dir, "company_aliases.csv"))
@@ -231,6 +270,10 @@ def main(argv=None):
     names = set(l["input_table"]) | {"eia861_utility_sales"}
     inputs = {t: read(os.path.join(args.in_dir, t + ".csv")) for t in names}
     fails = tracers(d, a, l, inputs)
+    if args.pages:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import companies as C
+        fails += pages(l, args.pages, C.licenses(sorted(set(l["input_table"]))))
     for x in fails:
         print("FAIL", x)
     print(f"tracers: {len(l):,} links, {len(d):,} companies, {len(a):,} aliases; {len(fails)} failures")

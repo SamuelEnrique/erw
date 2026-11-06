@@ -79,6 +79,14 @@ class Parties(unittest.TestCase):
         self.assertEqual(C.split_possessive("ADNOC's XRG"), ("XRG", "ADNOC"))
         self.assertEqual(C.split_possessive("Google"), ("Google", ""))
 
+    def test_nrc_licensee_field_with_several_names(self):
+        # session 3304: the NRC joins licensees by "<br>", each with its part after an en dash
+        en = chr(0x2013)
+        got = C.nrc_names(f"Calvert Cliffs Nuclear Power Plant, LLC {en} Owner<br> Constellation Energy Generation, LLC {en} Operator")
+        self.assertEqual(got, ["Calvert Cliffs Nuclear Power Plant, LLC", "Constellation Energy Generation, LLC"])
+        self.assertEqual(C.nrc_names("Tennessee Valley Authority"), ["Tennessee Valley Authority"])
+        self.assertEqual(C.nrc_names(f"Northern States Power Company {en} Minnesota"), [f"Northern States Power Company {en} Minnesota"])
+
     def test_nrc_parent_field(self):
         self.assertEqual(C.parse_parent("NextEra Energy, Inc. with principal subsidiaries Florida Power & Light Co. "
                                         "and NextEra Energy Resources, LLC"), ("NextEra Energy, Inc.", []))

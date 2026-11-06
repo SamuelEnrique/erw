@@ -428,6 +428,21 @@ def m_policy(d):
     return out
 
 
+NRC_ROLE_END = re.compile("\\s*[" + chr(0x2013) + chr(0x2014) + "-]\\s*(owner|operator|licensee)s?\\s*$", re.I)
+
+
+def nrc_names(text):
+    """The names in an NRC licensee or operator field (session 3304): several licensees are joined by "<br>", each with
+    its part written after a dash, an en dash in the NRC's file ("Calvert Cliffs Nuclear Power Plant, LLC, en dash,
+    Owner<br>Constellation Energy Generation, LLC, en dash, Operator"): split on the tag, the part's words dropped."""
+    out = []
+    for part in re.split(r"<br\s*/?>", str(text or ""), flags=re.I):
+        part = NRC_ROLE_END.sub("", part.strip()).strip()
+        if part:
+            out.append(part)
+    return out
+
+
 def m_nrc(d):
     out, parents = [], []
     for r in d.to_dict("records"):
@@ -436,10 +451,10 @@ def m_nrc(d):
                          if re.search(r",\s*[A-Z]{2}", r.get("x_location", "")) else ""))
         seen = set()
         for role, col in (("licensee", "x_licensee"), ("operator", "operator")):
-            v = r.get(col, "").strip()
-            if v and norm(v) not in seen:
-                seen.add(norm(v))
-                out.append(mention("nrc_power_reactors", r["entity_id"], role, v, **kw))
+            for v in nrc_names(r.get(col, "")):
+                if v and norm(v) not in seen:
+                    seen.add(norm(v))
+                    out.append(mention("nrc_power_reactors", r["entity_id"], role, v, **kw))
         parent, aliases = parse_parent(r.get("x_parent_company", ""))
         if parent:
             out.append(mention("nrc_power_reactors", r["entity_id"], "parent", parent, **kw))
