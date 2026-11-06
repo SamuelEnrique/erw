@@ -161,3 +161,27 @@ rows are held (check key `held|entities|datacenter_facilities|rows`, a count of 
 public). The top block's counts and megawatts are then of the public rows only. Session 441 counted 2 such rows on 20
 October, both from ERCOT's queue. The power side and the view by grid (sessions 467 and 468) read the grids' own queues
 and are unchanged.
+
+## The tracker in the v2 shape (chain 156, sessions 2236 and 2243 to 2247)
+
+Written by session 2247 (6 November 2026). Each field of the news facilities is in `docs/methods/datacenter_projects.md` ("The columns of session 2236"); this note adds how they reach this table and the views, keys and tracers of the page. Every rule is a default the chain set, listed in its session's report.
+
+### The fields this table carries
+
+`grid` with `grid_basis` (`named`: a story names the operator; `queue`: the facility's queue position is in that ISO's queue; `state`: the grid that serves most of its state), `mw_basis` (that of the member its MW is from: it, total, tenant, phase or unstated), `power_kind`, `energized_year`, `utility_eia861`, `utility_eia861_number` and `utilities_in_county` (from the news facility), built by `warehouse/derived/datacenter_facilities.py`. A row built before session 2243 has none; the page then reads its grid from its state and says so.
+
+### The views and their keys
+
+- **The list** (`/datacenters`): the filters operator, state, status, source, country, grid, power, MW at least and at most; each cell's tip says how its field was read; the downloads are the rows shown (CSV with the ERW's header lines and no outlet text, a Python and a Stata reader).
+- **The rollups by grid and by operator**: the facilities the page's sums count (a named US state, not cancelled), `datacenters|rollup_facilities|<grid|operator>|<value>`, the MW stated `datacenters|rollup_mw`, those stating it `datacenters|rollup_with_mw` and those stating none `datacenters|rollup_without`; no sum where none states MW.
+- **The timeline**: from first reported to energized, only where both are stated: `dctime|count|<grid|year>|<value>` and, from three facilities, `dctime|median`; the wait is the difference of two stated years, never estimated from one date.
+- **The charts**: `dcchart|planned|<quarter>|<grid>` (and `|without`), `dcchart|operator|<name>|mw`, `dcchart|power|<kind>|facilities` and `|pct`.
+- **By grid** (`/datacenters?view=grids`): beside the queues, the facilities against each grid: `dcgrid|facilities|<grid>`, `dcgrid|with_mw`, `dcgrid|planned`, `dcgrid|under_construction`, `dcgrid|operating`, the grid's `dcgrid|peak_mw` and `dcgrid|capacity_mw` (`grid_peak_vs_capacity`, its peak demand mw and capacity mw), `dcgrid|share_of_peak` (planned and building over the peak hour), and ERCOT's `dcgrid|reserve_margin` (its CDR report). Under the hold the facility cells say "license needed" with a footnote; a grid's reserve margin no source holds says "not held" with a footnote.
+
+### The tracers
+
+`site/scripts/check-values.mjs` recomputes every key above with the page's own functions (`site/lib/dcrollups.ts`) on the live set. `scripts/check_datacenters.py` recomputes every chart figure from `datacenter_facilities.csv` with its own Python and compares it with the page's functions (28 of 28 on 6 November 2026). `warehouse/datacenters/eval/dc_fixture.py` grades the extraction on stored stories (`tests/fixtures/datacenters/`).
+
+### What the tracker cannot see
+
+A facility no source names; a facility's load beyond the MW a source states (most state none: 48 of 428 rows on 6 November 2026); whether a stated MW is IT load or the facility's total, where the words do not say; a facility's point of interconnection; the operating utility where its county is served by several.

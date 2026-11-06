@@ -164,3 +164,46 @@ as the extraction left it, so the tracker's counts did not move. Run over the 49
 first rule finds four repeats: the audit's two, session 113's folded Prysmian and Atkore pair, and its doubtful Lynas
 pair (the Pentagon and "US" are one party for the rule). Folding the held rows is the register's (`duplicates.csv`), a
 person's choice.
+
+## The tracker in the v2 shape (chain 156, sessions 2230 to 2247)
+
+Written by session 2247 (6 November 2026) after the audit of the stored records (`docs/reviews/deals-audit-2026-11-06.md`): each field, its vocabulary and its evidence rule, the deduplication, the cross-checks, the counterparties, the views and their keys, the tracers, and what the extraction cannot see. Every rule below is a default this chain set without a ruling, listed in its session's report under "Decisions made without you"; none changes a ruling.
+
+### Each field
+
+| Field | Vocabulary or unit | Kept only where | Code |
+|---|---|---|---|
+| `deal_type` | the form: ppa, offtake, m_and_a, project_finance, tax_equity, debt, equity_raise, joint_venture, lease, behind_the_meter, nuclear_restart, smr, fuel_supply, other (session 15, unchanged) | the model names it | `extract.py` |
+| `kind` | master plan tool 6's kinds, the power kind first: nuclear_restart_uprate, smr, behind_the_meter, gas_buildout, transmission, storage, compute_capacity; then the form: ppa, offtake, project_finance, m_and_a, capital, fuel_supply, other | read from the deal's own words (asset, technology, evidence) in code, else the model's kind, else the type's; `kind_basis` says which | `fields.kind_of` |
+| `stage` | rumored, announced, signed, financed, closed, under_construction, operating, cancelled | its words (`stage_text`, in the evidence table) are in the story | `fields.stage_of` |
+| `status` | rumored, announced, signed, closed, cancelled (session 15, the Roundup's) | its words are in the story; a later stage moves it forward | `extract.py`, `dedupe.merge` |
+| `status_history` | "date stage (story)", oldest first | every change of stage a story brings | `dedupe.merge` |
+| `mw`, `mwh`, `usd` (= `dollars`), `term_years` | MW, MWh, US dollars, years | its span is in the title or summary and parses to the same value (GW, bn applied); no figure is converted from another currency, from months or from words without digits | `extract.verified` |
+| `usd_per_mwh` (= `price`) | US dollars per MWh | stated so; a price in another energy unit stays in `price_value` with `price_unit`; a percentage or a share price is never a price | `fields.energy_price` |
+| `grid` | ERCOT, CAISO, PJM, MISO, SPP, NYISO, ISO-NE | the story names the operator; never read from a state in the table (the page reads a state's main grid, and says so) | `fields.grid_of` |
+| `state`, `country` | a US postal code; a country as named | the story's words name it (session 16's ruling) | `extract.stated_words` |
+| `ai_power` with `ai_power_basis` | true or false | a named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party (`fields.AI_PARTIES`), or the story's words name a datacenter load; a motive alone ("as AI demand booms") is false | `fields.ai_of` |
+| `confidence` | 0 to 1 | the model's, in its bands (0.8 a stated deal between named parties; under 0.6 a doubtful one); its words (`confidence_basis`) in the evidence table | `extract.py` |
+| `buyer_name`, `seller_name`, `buyer_parent`, `seller_parent`, `buyer_eia861`, `seller_eia861` | one name a company; its parent; an EIA-861 utility number | the rules of `docs/methods/deal_counterparties.md` | `counterparties.annotate` |
+| `flags` | words | the cross-check finds a headline's figure the record lacks or contradicts, MW and MWh or USD and USD per MWh confused, a term in months, a figure above a bound | `crosscheck.flags` |
+
+**Not a deal** (the prompt's list, session 2232): a plan or a pledge to invest, a seeking with no counterparty, a government's permission, two governments, a raise whose company the story does not name. **A deal needs a party the story names**: a buyer, a seller, a joint venture's partner, or the company sold. **The evidence** of every field is the story's own words, kept in the internal `energy_deals_evidence` (the sentence, the stage's words, the confidence's words, the figures' spans); no outlet text is in `energy_deals`.
+
+### One record a deal
+
+`warehouse/deals/dedupe.py`: session 531's rule, and a deal with one party named matched to a held one where a size both state agrees; a name and its initials one party; a later stage within a year; the size within tolerance (USD a quarter, MW a tenth). A merge keeps the earliest first-reported date, moves the stage forward with its history, fills a gap and never replaces a figure held. The register (`warehouse/deals/duplicates.csv`) folds what a person or a session judged one deal.
+
+### The views and their keys
+
+- **The table** (`/deals`): the filters kind, grid, state, counterparty, MW from and to, year, AI power, stage, price disclosed; every column sorts; the downloads are the rows shown (CSV with the ERW's header lines and no outlet text, a Python and a Stata reader). Its figures: `event|energy_deals|<deal>|mw` and `|dollars`.
+- **The disclosed prices** (`/deals?view=comparables#prices`): the PPAs and offtakes stating a price per MWh by technology, grid or year; `deals|price_count|<dimension>|<value>` always, `deals|price_median`, `deals|price_low` and `deals|price_high` from three. A reader's own deal is placed against them in one line, nothing stored or sent.
+- **The AI-power view** (`/deals?view=ai`): the tagged deals by buyer, kind of supply, grid and quarter: `deals|ai_deals|<dimension>|<value>`, `deals|ai_mw`, `deals|ai_with_mw`, `deals|ai_usd`, `deals|ai_with_usd`; the ten with the most MW and the ten with the most US dollars.
+- **The charts** (`/deals?view=charts`): `deals|chart_mw|<quarter>|<kind of supply>` (and `|without`), `deals|chart_price|<deal>|price`, `deals|chart_ai|<quarter>|share`, `|ai_mw`, `|all_mw`, `deals|chart_party|<name>|mw`.
+
+### The tracers
+
+`site/scripts/check-values.mjs` recomputes every key above with the page's own functions on the live set. `scripts/check_deals.py` recomputes every chart figure from `energy_deals.csv` with its own Python and compares it with the page's functions (71 of 71 on 6 November 2026). `warehouse/deals/eval/fixture.py` grades the extraction on stored stories with answers written from their words (`tests/fixtures/deals/`); `warehouse/deals/eval/one_day.py` runs a stored day end to end, offline.
+
+### What the extraction cannot see
+
+The warehouse holds a story's title and a short summary (a median of 77 characters on 6 November 2026), not its text. A figure the headline does not state, a deal's point of delivery and node, its tenor where the story omits it, and its price are almost never there: 6 of 18,358 scored stories state a price per MWh. A deal only a press release or a filing describes is not seen until a pull of those is approved (the rulings of 23 October, items 5 and 6). The extraction reads what the outlets report, so the counts by month follow the ERW's news coverage, not the market (the Roundup audit's fix 3).
