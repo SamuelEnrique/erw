@@ -196,7 +196,7 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
         if (id) {
           const text = st[3] ?? st[2];
           figs.push({ part: "story", key: `digest_story|news_stories|${id}|${field}`, raw: plain(st[3] ?? st[2].replace(/^USD /, "")), text, table: "news_stories", entity: id,
-            held: false, line: i, from: text, unit: "" });
+            held: false, title: "", line: i, from: text, unit: "" });
         }
         continue;
       }
