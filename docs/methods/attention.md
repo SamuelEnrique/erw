@@ -138,6 +138,10 @@ and on tone for 73.3. Agreement is not accuracy; it says where a second reading 
 - **A week in progress** is partial and is drawn so; the feeds also date a few stories after the day they were read,
   which the tables keep as given.
 - **No point of view.** The page and the tables say what the coverage did, not what anyone should do.
+- **No record of the deciding bodies.** The indices read the news, not the agendas, minutes or dockets of planning
+  commissions and siting boards; the probe of 6 November 2026 (`docs/reviews/local-permitting-estimate-2026-11-06.md`)
+  found one machine-readable door (Legistar's web API, where a client switched it on) and two state docket systems
+  that bar AI agents by name (`dis.puc.state.oh.us`, `apps.psc.wi.gov`), which the ERW does not read.
 
 ## Provenance
 
