@@ -22,11 +22,15 @@ Read first: chain 162's note (`docs/state/note_<its day>_data_c162.md`), chain 1
 
 ## Session 3066: the next file, the ground, chain 162's first unfinished step
 
-Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 162's first unfinished step, as session 2997 of chain 162 writes it here; if it left none, session 3070's.
+Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 162's first unfinished step, written by session 2997: **if chain 162's note says `wip/c162-data` did not land** (its "What landed" line), land it first by `archive/sessions/SESSION_2997_REPORT.md`, "To finish" (never between 14:00 and 16:15 UTC). If it landed, session 3067's step.
 
 ## Sessions 3067 to 3069: chain 162's other unfinished steps
 
-Long end 2:00 each. Session 3067 begins with the landing request file (the rules). Session 2997 of chain 162 writes the steps here in its order; a session it does not name takes the next of the second passes below.
+Long end 2:00 each. Session 3067 begins with the landing request file (the rules). Written by session 2997 of chain 162, in its order (its note, "What did not, and why"):
+
+- **Session 3067: the backfill** (chain 157's session 2964, carried by chain 162's 2985; cap USD 15): only once chain 156's extraction (`wip/*-deals`) is an ancestor of origin's main; then `scripts/deals_backfill.py --from 2026-10-27 --to 2026-11-05`, one day a run under the data lock. If not, say so and take session 3068's step.
+- **Session 3068: the owner's rulings, if any are written** (chains 153 to 162's notes; among them FERC-714 Part 3 Schedule 2, the four derived tables in Redivis v1, the per-reactor outages on a schedule). A ruling written in `docs/` or a queue file is carried out; with none, say so and take session 3069's step.
+- **Session 3069: the stale inputs** (chain 162's session 2991): after Saturday 7 November's supply refresh, `eia_gas_storage_weekly`'s newest week (it ended at 16 October); if it moved, `gas_balance_weekly` rebuilt with the locked write script and its method note's figures checked. `eia_nuclear_outages_generator_daily` (ended at 21 October, on no schedule): its age named; pulled only if the owner's ruling allows.
 
 ## Session 3070: FERC-714 forecast growth, second pass
 
