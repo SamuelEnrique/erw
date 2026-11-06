@@ -1,0 +1,42 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate jet_crack, region crack_jet (Gulf Coast jet fuel)
+# Computed 2026-11-06T12:32:46Z by warehouse/analysis/findings/deep/oil_products_world.py (jet_crack); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: Gulf Coast jet fuel in dollars a barrel less WTI, the year's mean of the days with both (USD per barrel), the observations it rests on, and whether the year is full
+# Tables: eia_product_spot_prices, eia_fuel_spot_prices
+region,year,value,n_observations,full_year
+crack_jet,1990,6.617830687830689,189.0,0
+crack_jet,1991,3.99053125,256.0,1
+crack_jet,1992,3.434871595330739,257.0,1
+crack_jet,1993,3.774144578313254,249.0,1
+crack_jet,1994,3.5112380952380957,252.0,1
+crack_jet,1995,2.3126693227091635,251.0,1
+crack_jet,1996,3.5304251968503935,254.0,1
+crack_jet,1997,2.9044126984126986,252.0,1
+crack_jet,1998,2.495059760956175,251.0,1
+crack_jet,1999,1.5924337349397588,249.0,1
+crack_jet,2000,5.319464,250.0,1
+crack_jet,2001,4.466376,250.0,1
+crack_jet,2002,2.6717280000000003,250.0,1
+crack_jet,2003,3.51596,250.0,1
+crack_jet,2004,6.841710843373493,249.0,1
+crack_jet,2005,15.41784860557769,251.0,1
+crack_jet,2006,14.712184738955825,249.0,1
+crack_jet,2007,17.157738095238095,252.0,1
+crack_jet,2008,24.835256916996048,253.0,1
+crack_jet,2009,7.949730158730159,252.0,1
+crack_jet,2010,10.786095617529881,251.0,1
+crack_jet,2011,31.056626984126982,252.0,1
+crack_jet,2012,34.30666666666667,252.0,1
+crack_jet,2013,24.678126984126983,252.0,1
+crack_jet,2014,19.927397590361448,249.0,1
+crack_jet,2015,15.21476377952756,254.0,1
+crack_jet,2016,9.264992125984252,254.0,1
+crack_jet,2017,14.633159999999998,250.0,1
+crack_jet,2018,19.900289156626506,249.0,1
+crack_jet,2019,21.94292549019608,255.0,1
+crack_jet,2020,6.990396825396825,252.0,1
+crack_jet,2021,9.90993625498008,251.0,1
+crack_jet,2022,46.685238866396766,247.0,1
+crack_jet,2023,35.7812955465587,247.0,1
+crack_jet,2024,21.421432,250.0,1
+crack_jet,2025,23.39921774193548,248.0,1
+crack_jet,2026,60.59725118483413,211.0,0

@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate spread_4h, region ercot_HB_HUBAVG (ERCOT's hub average (HB_HUBAVG))
+# Computed 2026-11-06T11:24:48Z by warehouse/analysis/findings/deep/prices.py (spread_4h); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the median day's mean of its four dearest real-time hours less the mean of its four cheapest (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: ercot_all_hub_prices_history
+region,year,value,n_observations,full_year
+ercot_HB_HUBAVG,2015,14.388750000000005,365.0,1
+ercot_HB_HUBAVG,2016,15.951562500000001,366.0,1
+ercot_HB_HUBAVG,2017,17.032500000000006,365.0,1
+ercot_HB_HUBAVG,2018,19.78875,365.0,1
+ercot_HB_HUBAVG,2019,21.331874999999997,365.0,1
+ercot_HB_HUBAVG,2020,14.8396875,366.0,1
+ercot_HB_HUBAVG,2021,30.528125,365.0,1
+ercot_HB_HUBAVG,2022,45.63,365.0,1
+ercot_HB_HUBAVG,2023,34.88062500000001,365.0,1
+ercot_HB_HUBAVG,2024,31.4221875,366.0,1
+ercot_HB_HUBAVG,2025,36.533125,365.0,1
+ercot_HB_HUBAVG,2026,31.645625000000003,301.0,0

@@ -1,0 +1,12 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate sub_p99, region ercot_sub_FWES (Far West (FWES, a sub-region of ERCO))
+# Computed 2026-11-06T11:36:34Z by warehouse/analysis/findings/deep/demand.py (sub_p99); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's 99th-percentile hour of the sub-region's demand (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_subba_demand_hourly_2019, eia930_subba_demand_hourly_2020, eia930_subba_demand_hourly_2021, eia930_subba_demand_hourly_2022, eia930_subba_demand_hourly_2023, eia930_subba_demand_hourly_2024, eia930_subba_demand_hourly_2025
+region,year,value,n_observations,full_year
+ercot_sub_FWES,2019,4188.0,5257.0,0
+ercot_sub_FWES,2020,4337.0,8784.0,1
+ercot_sub_FWES,2021,4522.0,8760.0,1
+ercot_sub_FWES,2022,5520.0,8760.0,1
+ercot_sub_FWES,2023,6522.0,8760.0,1
+ercot_sub_FWES,2024,7820.0,8778.0,1
+ercot_sub_FWES,2025,8763.0,8690.0,1

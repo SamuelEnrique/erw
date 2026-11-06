@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate reactor_outage_days, region nuc_6152_2 (Sequoyah, reactor 2)
+# Computed 2026-11-06T11:50:09Z by warehouse/analysis/findings/deep/generation_pipeline.py (reactor_outage_days); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the days of the year on which at least half the reactor's capacity was out (days), the observations it rests on, and whether the year is full
+# Tables: eia_nuclear_outages_generator_daily
+region,year,value,n_observations,full_year
+nuc_6152_2,2007,4.0,365.0,1
+nuc_6152_2,2008,46.0,366.0,1
+nuc_6152_2,2009,42.0,365.0,1
+nuc_6152_2,2010,8.0,365.0,1
+nuc_6152_2,2011,33.0,365.0,1
+nuc_6152_2,2012,80.0,366.0,1
+nuc_6152_2,2013,13.0,365.0,1
+nuc_6152_2,2014,39.0,365.0,1
+nuc_6152_2,2015,39.0,365.0,1
+nuc_6152_2,2016,13.0,366.0,1
+nuc_6152_2,2017,41.0,365.0,1
+nuc_6152_2,2018,38.0,365.0,1
+nuc_6152_2,2019,4.0,365.0,1
+nuc_6152_2,2020,26.0,366.0,1
+nuc_6152_2,2021,41.0,365.0,1
+nuc_6152_2,2022,8.0,365.0,1
+nuc_6152_2,2023,30.0,365.0,1
+nuc_6152_2,2024,165.0,366.0,1
+nuc_6152_2,2025,186.0,365.0,1
+nuc_6152_2,2026,19.0,294.0,0

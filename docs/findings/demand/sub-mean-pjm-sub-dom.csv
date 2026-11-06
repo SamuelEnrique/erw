@@ -1,0 +1,12 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate sub_mean, region pjm_sub_DOM (Dominion Virginia Power zone (DOM, a sub-region of PJM))
+# Computed 2026-11-06T11:36:35Z by warehouse/analysis/findings/deep/demand.py (sub_mean); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean hour of the sub-region's demand (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_subba_demand_hourly_2019, eia930_subba_demand_hourly_2020, eia930_subba_demand_hourly_2021, eia930_subba_demand_hourly_2022, eia930_subba_demand_hourly_2023, eia930_subba_demand_hourly_2024, eia930_subba_demand_hourly_2025
+region,year,value,n_observations,full_year
+pjm_sub_DOM,2019,11686.9874069834,8735.0,1
+pjm_sub_DOM,2020,11509.635187728938,8736.0,1
+pjm_sub_DOM,2021,12418.987668417447,8758.0,1
+pjm_sub_DOM,2022,13118.070584184552,8713.0,1
+pjm_sub_DOM,2023,13275.504993686143,8711.0,1
+pjm_sub_DOM,2024,14198.916886090441,8735.0,1
+pjm_sub_DOM,2025,15403.008477488831,8729.0,1

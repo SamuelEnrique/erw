@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate solar_midday_share, region ercot_mix (ERCOT)
+# Computed 2026-11-06T11:44:25Z by warehouse/analysis/findings/deep/generation_pipeline.py (solar_midday_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: solar's share of the grid's generation from 11 AM to 4 PM local, the mean over the year's months (percent of generation), the observations it rests on, and whether the year is full
+# Tables: generation_mix_hourly_profile
+region,year,value,n_observations,full_year
+ercot_mix,2019,2.542085360087159,12.0,1
+ercot_mix,2020,4.959247313132491,12.0,1
+ercot_mix,2021,9.041166319977718,12.0,1
+ercot_mix,2022,12.783238813494007,12.0,1
+ercot_mix,2023,16.816677863454427,12.0,1
+ercot_mix,2024,24.29907119185901,12.0,1
+ercot_mix,2025,32.39481014694546,11.0,1
+ercot_mix,2026,37.259974206270506,10.0,0

@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate propane_to_crude, region us_propane_crude (Mont Belvieu propane)
+# Computed 2026-11-06T12:38:03Z by warehouse/analysis/findings/deep/oil_products_world.py (propane_to_crude); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: Mont Belvieu propane in dollars a barrel as a percent of WTI, the year's mean of the days with both (percent of WTI), the observations it rests on, and whether the year is full
+# Tables: eia_product_spot_prices, eia_fuel_spot_prices
+region,year,value,n_observations,full_year
+us_propane_crude,1992,68.61971862795787,122.0,0
+us_propane_crude,1993,71.01837326600516,249.0,1
+us_propane_crude,1994,73.78739575258768,252.0,1
+us_propane_crude,1995,73.13190715470262,251.0,1
+us_propane_crude,1996,79.84854727662453,254.0,1
+us_propane_crude,1997,76.31219255262455,252.0,1
+us_propane_crude,1998,76.01006865412765,251.0,1
+us_propane_crude,1999,74.10824390528951,251.0,1
+us_propane_crude,2000,80.75500823006999,250.0,1
+us_propane_crude,2001,75.80560924958147,250.0,1
+us_propane_crude,2002,65.61613232672123,250.0,1
+us_propane_crude,2003,77.71836665511606,250.0,1
+us_propane_crude,2004,75.32571640372629,249.0,1
+us_propane_crude,2005,67.70754005471044,251.0,1
+us_propane_crude,2006,64.53023340941616,249.0,1
+us_propane_crude,2007,70.3688733215982,251.0,1
+us_propane_crude,2008,59.851178621806774,253.0,1
+us_propane_crude,2009,58.027850408035306,252.0,1
+us_propane_crude,2010,61.542353474635114,252.0,1
+us_propane_crude,2011,65.296191060897,252.0,1
+us_propane_crude,2012,44.550733074864205,247.0,1
+us_propane_crude,2013,42.95054014128072,250.0,1
+us_propane_crude,2014,46.5939494157422,249.0,1
+us_propane_crude,2015,39.987475753000794,254.0,1
+us_propane_crude,2016,47.203486858952076,253.0,1
+us_propane_crude,2017,62.891702185586865,250.0,1
+us_propane_crude,2018,56.51688270351944,249.0,1
+us_propane_crude,2019,40.0678336705526,255.0,1
+us_propane_crude,2020,52.23738040635239,251.0,1
+us_propane_crude,2021,64.27458728107653,250.0,1
+us_propane_crude,2022,48.84658355315068,247.0,1
+us_propane_crude,2023,38.59249457197325,247.0,1
+us_propane_crude,2024,42.79618520474327,248.0,1
+us_propane_crude,2025,48.023539382746506,246.0,1
+us_propane_crude,2026,37.367429596934805,209.0,0

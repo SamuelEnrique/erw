@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate commercial_sales, region com_sales_US (the United States)
+# Computed 2026-11-06T12:22:25Z by warehouse/analysis/findings/deep/tariffs_policy.py (commercial_sales); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's retail electricity sales to the commercial sector (TWh), the observations it rests on, and whether the year is full
+# Tables: eia_retail_sales_monthly
+region,year,value,n_observations,full_year
+com_sales_US,2001,1083.068516,12.0,1
+com_sales_US,2002,1104.49660701,12.0,1
+com_sales_US,2003,1198.72760101,12.0,1
+com_sales_US,2004,1230.424731,12.0,1
+com_sales_US,2005,1275.07902,12.0,1
+com_sales_US,2006,1299.7436950100002,12.0,1
+com_sales_US,2007,1336.3151960099997,12.0,1
+com_sales_US,2008,1336.1334850599997,12.0,1
+com_sales_US,2009,1306.85252392,12.0,1
+com_sales_US,2010,1330.1993639500001,12.0,1
+com_sales_US,2011,1328.0574390400002,12.0,1
+com_sales_US,2012,1327.10119566,12.0,1
+com_sales_US,2013,1337.07877712,12.0,1
+com_sales_US,2014,1352.15826309,12.0,1
+com_sales_US,2015,1360.75152665,12.0,1
+com_sales_US,2016,1367.19138589,12.0,1
+com_sales_US,2017,1352.8876939,12.0,1
+com_sales_US,2018,1381.75484497,12.0,1
+com_sales_US,2019,1360.87655505,12.0,1
+com_sales_US,2020,1287.4395831299998,12.0,1
+com_sales_US,2021,1328.4394981599999,12.0,1
+com_sales_US,2022,1390.87281288,12.0,1
+com_sales_US,2023,1408.1087551399999,12.0,1
+com_sales_US,2024,1450.9412160899997,12.0,1
+com_sales_US,2025,1503.3099908499998,12.0,1
+com_sales_US,2026,1041.10412935,8.0,0

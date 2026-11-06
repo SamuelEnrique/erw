@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate state_production_share, region prod_WV (West Virginia)
+# Computed 2026-11-06T12:02:13Z by warehouse/analysis/findings/deep/gas.py (state_production_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: a state's marketed gas production as a percent of the US total (percent of US marketed production), the observations it rests on, and whether the year is full
+# Tables: eia_gas_production_state_monthly
+region,year,value,n_observations,full_year
+prod_WV,2001,0.9018150153809178,12.0,1
+prod_WV,2002,0.9194419048136313,12.0,1
+prod_WV,2003,0.9153885280930153,12.0,1
+prod_WV,2004,0.9885440705467726,12.0,1
+prod_WV,2005,1.1326513656744472,12.0,1
+prod_WV,2006,1.161946297400652,12.0,1
+prod_WV,2007,1.1446872617452681,12.0,1
+prod_WV,2008,1.159915562929121,12.0,1
+prod_WV,2009,1.2215299057392772,12.0,1
+prod_WV,2010,1.1847713185027597,12.0,1
+prod_WV,2011,1.6397080555318877,12.0,1
+prod_WV,2012,2.1352491502387805,12.0,1
+prod_WV,2013,2.902152675869619,12.0,1
+prod_WV,2014,3.880731495379586,12.0,1
+prod_WV,2015,4.571267164752007,12.0,1
+prod_WV,2016,4.874850915744931,12.0,1
+prod_WV,2017,5.179177645452242,12.0,1
+prod_WV,2018,5.367342659776841,12.0,1
+prod_WV,2019,5.9132926983485214,12.0,1
+prod_WV,2020,7.031579542270497,12.0,1
+prod_WV,2021,7.164700922870245,12.0,1
+prod_WV,2022,7.2339722361282535,12.0,1
+prod_WV,2023,7.651504158306983,12.0,1
+prod_WV,2024,8.259239893163265,12.0,1
+prod_WV,2025,8.327696121254958,12.0,1
+prod_WV,2026,8.191911786911863,7.0,0

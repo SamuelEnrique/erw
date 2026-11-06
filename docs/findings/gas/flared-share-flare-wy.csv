@@ -1,0 +1,29 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate flared_share, region flare_WY (Wyoming)
+# Computed 2026-11-06T12:02:14Z by warehouse/analysis/findings/deep/gas.py (flared_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: a state's vented and flared gas as a percent of its gross withdrawals (percent of gross withdrawals), the observations it rests on, and whether the year is full
+# Tables: eia_gas_production_state_monthly
+region,year,value,n_observations,full_year
+flare_WY,2001,0.45639506613814057,12.0,1
+flare_WY,2002,0.7070777590968449,12.0,1
+flare_WY,2003,0.9086032192972663,12.0,1
+flare_WY,2004,0.873388251870491,12.0,1
+flare_WY,2005,1.5551258218656818,12.0,1
+flare_WY,2006,1.4992198469053137,12.0,1
+flare_WY,2007,2.11618582539485,12.0,1
+flare_WY,2008,1.701827014544661,12.0,1
+flare_WY,2009,1.6768289677822528,12.0,1
+flare_WY,2010,1.674224357437217,12.0,1
+flare_WY,2011,2.429628918608631,12.0,1
+flare_WY,2012,2.0410914157519042,12.0,1
+flare_WY,2013,1.690680769916323,12.0,1
+flare_WY,2014,1.3620181085361307,12.0,1
+flare_WY,2015,0.17410517455609442,12.0,1
+flare_WY,2016,0.6280891236341861,12.0,1
+flare_WY,2017,1.0734187662066301,12.0,1
+flare_WY,2018,0.5205424845298702,12.0,1
+flare_WY,2019,0.5603862736380649,12.0,1
+flare_WY,2020,4.101849991037918,12.0,1
+flare_WY,2021,4.779654732433994,12.0,1
+flare_WY,2022,4.518522739699022,12.0,1
+flare_WY,2023,4.271789078362823,12.0,1
+flare_WY,2024,4.462246481033163,12.0,1

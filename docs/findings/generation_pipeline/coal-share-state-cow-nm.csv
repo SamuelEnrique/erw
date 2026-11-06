@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate coal_share, region state_cow_NM (New Mexico)
+# Computed 2026-11-06T11:44:24Z by warehouse/analysis/findings/deep/generation_pipeline.py (coal_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: coal's share of the state's net generation over the year (percent of net generation), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+state_cow_NM,2001,84.50103733399763,12.0,1
+state_cow_NM,2002,87.74097240381863,12.0,1
+state_cow_NM,2003,88.0167103438172,12.0,1
+state_cow_NM,2004,88.83903665174725,12.0,1
+state_cow_NM,2005,85.2332454647525,12.0,1
+state_cow_NM,2006,80.12480228776286,12.0,1
+state_cow_NM,2007,76.70805077836486,12.0,1
+state_cow_NM,2008,72.99203483061875,12.0,1
+state_cow_NM,2009,73.3907839527518,12.0,1
+state_cow_NM,2010,70.66675669354929,12.0,1
+state_cow_NM,2011,71.08447763313104,12.0,1
+state_cow_NM,2012,68.22281552505585,12.0,1
+state_cow_NM,2013,67.31146149011667,12.0,1
+state_cow_NM,2014,63.00841663448018,12.0,1
+state_cow_NM,2015,62.50354065134886,12.0,1
+state_cow_NM,2016,55.801059987921114,12.0,1
+state_cow_NM,2017,54.80922835288628,12.0,1
+state_cow_NM,2018,41.01628862434658,12.0,1
+state_cow_NM,2019,41.767931093389926,12.0,1
+state_cow_NM,2020,37.52887725966177,12.0,1
+state_cow_NM,2021,35.62226904367806,12.0,1
+state_cow_NM,2022,32.507483259779406,12.0,1
+state_cow_NM,2023,18.772567511058064,12.0,1
+state_cow_NM,2024,21.2403235526729,12.0,1
+state_cow_NM,2025,20.744718017727465,12.0,1
+state_cow_NM,2026,18.370706937715166,8.0,0

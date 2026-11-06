@@ -107,12 +107,25 @@ def only_tables_read(card, reads):
     return card, [t for t in tables if t not in kept]
 
 
+def header_lines(path):
+    """The number of "#" lines at the top of a warehouse CSV (its provenance header), before the column names."""
+    n = 0
+    with open(path, encoding="utf-8", errors="replace") as f:
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    return n
+
+
 def read_table(name, in_dir=None, usecols=None, keep=None, dtype=None):
     """A warehouse CSV (its # header skipped), in chunks, keeping the rows `keep(chunk)` selects. The whole ERCOT
     history is 3 million rows and 700 MB: one hub's real-time rows are read without holding the file."""
     p = table_path(name, in_dir)
     parts = []
-    for ch in pd.read_csv(p, comment="#", dtype=dtype or str, usecols=usecols, chunksize=CHUNK, keep_default_na=False):
+    # session 3009: only the leading "#" lines are the header. comment="#" cut every line at its first "#", and a data
+    # row with "#" inside a field (Berkeley Lab's queue: 1,581 project names such as "Solar #2") lost its later columns
+    for ch in pd.read_csv(p, skiprows=header_lines(p), dtype=dtype or str, usecols=usecols, chunksize=CHUNK, keep_default_na=False):
         if keep is not None:
             ch = ch[keep(ch)]
         if len(ch):

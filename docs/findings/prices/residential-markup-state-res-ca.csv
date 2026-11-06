@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate residential_markup, region state_res_CA (California)
+# Computed 2026-11-06T11:29:29Z by warehouse/analysis/findings/deep/prices.py (residential_markup); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's mean of the residential gas price less the citygate price, months with both (USD per Mcf), the observations it rests on, and whether the year is full
+# Tables: eia_gas_prices_state_monthly
+region,year,value,n_observations,full_year
+state_res_CA,2001,3.9583333333333335,12.0,1
+state_res_CA,2002,3.9741666666666666,12.0,1
+state_res_CA,2003,4.025000000000001,12.0,1
+state_res_CA,2004,3.801666666666667,12.0,1
+state_res_CA,2005,4.091666666666666,12.0,1
+state_res_CA,2006,4.879166666666666,12.0,1
+state_res_CA,2007,5.004999999999999,12.0,1
+state_res_CA,2008,5.3525,12.0,1
+state_res_CA,2009,5.273333333333333,12.0,1
+state_res_CA,2010,5.229166666666665,12.0,1
+state_res_CA,2011,5.673333333333333,12.0,1
+state_res_CA,2012,5.8775,12.0,1
+state_res_CA,2013,6.043333333333333,12.0,1
+state_res_CA,2014,6.851666666666666,12.0,1
+state_res_CA,2015,8.133333333333333,12.0,1
+state_res_CA,2016,8.976666666666667,12.0,1
+state_res_CA,2017,9.076666666666666,12.0,1
+state_res_CA,2018,9.051666666666668,12.0,1
+state_res_CA,2019,9.984166666666667,12.0,1
+state_res_CA,2020,11.176666666666668,12.0,1
+state_res_CA,2021,11.724166666666669,12.0,1
+state_res_CA,2022,12.251666666666667,12.0,1
+state_res_CA,2023,13.546666666666665,12.0,1
+state_res_CA,2024,15.507499999999999,12.0,1
+state_res_CA,2025,17.84888888888889,9.0,0
+state_res_CA,2026,17.864,5.0,0

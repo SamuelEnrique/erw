@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate tight_wind, region ercot_tight_wind (ERCOT)
+# Computed 2026-11-06T14:13:17Z by warehouse/analysis/findings/deep/markets_operations.py (tight_wind); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: wind's output in the year's tightest hours as a percent of its capacity (percent of wind capacity), the observations it rests on, and whether the year is full
+# Tables: grid_stress_yearly
+region,year,value,n_observations,full_year
+ercot_tight_wind,2019,17.693,1.0,1
+ercot_tight_wind,2020,18.126,1.0,1
+ercot_tight_wind,2021,12.345,1.0,1
+ercot_tight_wind,2022,17.647,1.0,1
+ercot_tight_wind,2023,19.608,1.0,1
+ercot_tight_wind,2024,19.53,1.0,1
+ercot_tight_wind,2025,20.562,1.0,1
+ercot_tight_wind,2026,25.804,1.0,0

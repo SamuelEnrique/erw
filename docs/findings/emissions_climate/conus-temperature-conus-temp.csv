@@ -1,0 +1,32 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate conus_temperature, region conus_temp (the contiguous United States)
+# Computed 2026-11-06T14:11:51Z by warehouse/analysis/findings/deep/emissions_climate.py (conus_temperature); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the contiguous US's mean monthly temperature over the year less its months' 1901 to 2000 means (degrees F above the 1901 to 2000 mean), the observations it rests on, and whether the year is full
+# Tables: noaa_climdiv_state_monthly
+region,year,value,n_observations,full_year
+conus_temp,2000,1.2408333333333335,12.0,1
+conus_temp,2001,1.6699999999999993,12.0,1
+conus_temp,2002,1.1849999999999996,12.0,1
+conus_temp,2003,1.233333333333334,12.0,1
+conus_temp,2004,1.0724999999999996,12.0,1
+conus_temp,2005,1.6150000000000004,12.0,1
+conus_temp,2006,2.2291666666666656,12.0,1
+conus_temp,2007,1.6308333333333336,12.0,1
+conus_temp,2008,0.27249999999999996,12.0,1
+conus_temp,2009,0.36583333333333395,12.0,1
+conus_temp,2010,0.9666666666666673,12.0,1
+conus_temp,2011,1.163333333333333,12.0,1
+conus_temp,2012,3.2633333333333336,12.0,1
+conus_temp,2013,0.40499999999999936,12.0,1
+conus_temp,2014,0.5183333333333314,12.0,1
+conus_temp,2015,2.3724999999999996,12.0,1
+conus_temp,2016,2.891666666666666,12.0,1
+conus_temp,2017,2.528333333333332,12.0,1
+conus_temp,2018,1.4983333333333329,12.0,1
+conus_temp,2019,0.6541666666666673,12.0,1
+conus_temp,2020,2.3474999999999997,12.0,1
+conus_temp,2021,2.4875000000000003,12.0,1
+conus_temp,2022,1.3691666666666669,12.0,1
+conus_temp,2023,2.3524999999999996,12.0,1
+conus_temp,2024,3.4724999999999997,12.0,1
+conus_temp,2025,2.6075000000000004,12.0,1
+conus_temp,2026,4.173333333333334,9.0,0

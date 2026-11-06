@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate commercial_sales, region com_sales_TX (Texas)
+# Computed 2026-11-06T12:22:27Z by warehouse/analysis/findings/deep/tariffs_policy.py (commercial_sales); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the year's retail electricity sales to the commercial sector (TWh), the observations it rests on, and whether the year is full
+# Tables: eia_retail_sales_monthly
+region,year,value,n_observations,full_year
+com_sales_TX,2001,87.912113,12.0,1
+com_sales_TX,2002,87.74580499000001,12.0,1
+com_sales_TX,2003,96.69423397999999,12.0,1
+com_sales_TX,2004,99.61557798999999,12.0,1
+com_sales_TX,2005,110.78431200000001,12.0,1
+com_sales_TX,2006,111.13036401,12.0,1
+com_sales_TX,2007,110.54005299000002,12.0,1
+com_sales_TX,2008,113.63761201000001,12.0,1
+com_sales_TX,2009,118.53473497000002,12.0,1
+com_sales_TX,2010,121.46729201,12.0,1
+com_sales_TX,2011,128.21368998000003,12.0,1
+com_sales_TX,2012,133.104994,12.0,1
+com_sales_TX,2013,136.51603701,12.0,1
+com_sales_TX,2014,139.43209500999998,12.0,1
+com_sales_TX,2015,136.323562,12.0,1
+com_sales_TX,2016,139.10427398,12.0,1
+com_sales_TX,2017,137.485841,12.0,1
+com_sales_TX,2018,143.52463099000002,12.0,1
+com_sales_TX,2019,142.001524,12.0,1
+com_sales_TX,2020,145.16757697,12.0,1
+com_sales_TX,2021,147.84323098999997,12.0,1
+com_sales_TX,2022,160.71919807,12.0,1
+com_sales_TX,2023,165.79183402,12.0,1
+com_sales_TX,2024,164.23298702000002,12.0,1
+com_sales_TX,2025,174.68300899,12.0,1
+com_sales_TX,2026,124.98551641,8.0,0

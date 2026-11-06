@@ -127,7 +127,7 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
                   The carbon intensity is the grid&apos;s generation over the same period (kg of CO2 per MWh), not the hub&apos;s. A heading sorts by its column.</>}>
                 <ToolTable minWidth={700} caption={`Hub and zone prices compared, ${market.name.toLowerCase()}, ${when}`}
                   head={["Hub or zone", ...MEASURES.map((m) => (
-                    <Link key={m.slug} href={`${href({ ...c, sort: m.slug, dir: m.slug === c.sort.slug ? (c.dir === "asc" ? "desc" : "asc") : undefined })}#table`} className="underline" style={{ color: "var(--color-surface)" }} data-sort={m.slug}>
+                    <Link key={m.slug} href={`${href({ ...c, sort: m.slug, dir: m.slug === c.sort.slug ? (c.dir === "asc" ? "desc" : "asc") : undefined })}#table`} className="underline" data-sort={m.slug}>
                       {m.slug === "spread" ? "Spread, 4 hours" : m.slug === "carbon" ? "Grid carbon" : m.slug === "high" ? "Hours above 200" : m.name}{m.slug === c.sort.slug ? (c.dir === "asc" ? " ↑" : " ↓") : ""}
                     </Link>)), "Hours held"]}
                   rows={rows.map((r) => ({ key: r.entity, cells: [label(r), ...MEASURES.map((m) => cell(r, m)),

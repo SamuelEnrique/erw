@@ -9,8 +9,12 @@ Energy Research Warehouse (ERW). Written by chain 156 (`queue/done/156-night-6-n
 | 3 | `wip/3063-policy` | `4f8fef90d` | `3054-3063-policy` | 3260 | 2026-11-06 | the 223 test files that touch policy, dashes, the method notes, coverage or the daily run: 3,174 passed, 131 skipped, 0 failed, on the head's tree; Node `test-policy-monitor.mjs` 52 of 52, `test-policy-reads.mjs` 25 of 25, `test-policy-week.mjs` 90 of 90; `scripts/check_policy.py` 287 of 287 ok; the whole suite not run; not built, not type-checked (no `node_modules` on this machine) | waiting, or landed with row 5, which holds it |
 | 4 | `wip/2266-deals` | `c5ed68a47` | `2230-2266-deals` | 3230 | 2026-11-06 | the deals tests and the older tests that load the extractor: 237 passed, 1 skipped (session 2260); the datacenter tests: 54 passed (2263); the site built on `wip/2254-deals` (session 2255, the datacenter pages' first build: passed); the whole suite stopped by Claude Code for memory (2264), not run whole on the head | held in row 7: land row 7 in its place (it holds rows 1 and 4) |
 | 5 | `wip/3065-policy` | `07dfadcca` | `3054-3065-policy` | 3260 | 2026-11-06 | this chain's 9 test files and the older ones they touch: 105 passed, 2 skipped; Node `test-policy-monitor.mjs`, `test-policy-week.mjs`, `test-policy-reads.mjs` pass; row 3's 223 files passed on its head; not built | waiting, or landed with row 6, which holds it |
-| 6 | `wip/3128-policy` | `2721aea1e` | `3054-3128-policy` | 3260 | 2026-11-06 | on the head: this chain's and chain 166's test files and the older ones they touch, 204 passed, 8 skipped; Node monitor, week and reads tests pass; `check_policy.py` 288 of 288; on `wip/3125-policy` (with `origin/main` merged) the 224 related files: 3,179 passed, 131 skipped, 1 failed, `test_session178.py::TheNote::test_the_sections_asked_for`, which fails on `origin/main` too (the battery note's sections, not this chain's); not built | waiting (holds chain 166's rows) |
-| 7 | `wip/2281-deals` | `2fb4487a9` (or its one later commit, session 2281's report) | `2230-2281-deals` | 3230 | 2026-11-06 | the deals and datacenter tests: 279 passed, 1 skipped (session 2277); the chain's tests and tests 166 and 215 on the head with origin/main merged: 188 passed (2278); the site built on `wip/2254-deals` (2255); the whole suite not run whole on the head (a second window; stopped for memory in 2264) | waiting (holds rows 1 and 4) |
+| 6 | `wip/3128-policy` | `2721aea1e` | `3054-3128-policy` | 3260 | 2026-11-06 | on the head: this chain's and chain 166's test files and the older ones they touch, 204 passed, 8 skipped; Node monitor, week and reads tests pass; `check_policy.py` 288 of 288; on `wip/3125-policy` (with `origin/main` merged) the 224 related files: 3,179 passed, 131 skipped, 1 failed, `test_session178.py::TheNote::test_the_sections_asked_for`, which fails on `origin/main` too (the battery note's sections, not this chain's); not built | waiting, or landed with row 9, which holds it |
+| 7 | `wip/2281-deals` | `2fb4487a9` (or its one later commit, session 2281's report) | `2230-2281-deals` | 3230 | 2026-11-06 | the deals and datacenter tests: 279 passed, 1 skipped (session 2277); the chain's tests and tests 166 and 215 on the head with origin/main merged: 188 passed (2278); the site built on `wip/2254-deals` (2255); the whole suite not run whole on the head (a second window; stopped for memory in 2264) | held in row 8: land row 8 in its place (it holds rows 1, 4 and 7) |
+| 8 | `wip/2295-deals` | `c03caad91` (or its one later commit, session 2295's report) | `2230-2295-deals` | 3230 | 2026-11-06 | the deals and datacenter tests: 290 passed, 1 skipped (session 2288); the chain's tests and tests 166, 215 and 531 on the head with origin/main merged: 209 passed (2292); the whole suite not run whole on the head (a second window) | waiting (holds rows 1, 4 and 7) |
+| 9 | `wip/3133-policy` | `ae75e7695` | `3054-3133-policy` | 3260 | 2026-11-06 | on `wip/3132-policy` (its parent, `origin/main` merged): the 224 related test files, 3,186 passed, 131 skipped, 1 failed, `test_session178.py::TheNote::test_the_sections_asked_for`, which fails on `origin/main` too (not this chain's); Node monitor, week and reads tests pass; `check_policy.py` 288 of 288; not built | waiting, or landed with row 10, which holds it |
+| 10 | `wip/3144-policy` | `2bbbe02b1` | `3054-3144-policy` | 3260 | 2026-11-06 | on `wip/3140-policy` (its ancestor, `origin/main` merged): the 224 related test files, 3,188 passed, 131 skipped, 0 failed; on the head: the policy test files and the older ones they touch, 209 passed, 8 skipped; Node monitor, week and reads tests pass; `check_policy.py` 299 of 299; not built | waiting, or landed with row 11, which holds it |
+| 11 | `wip/3157-policy` | `ca2412524` | `3054-3157-policy` | 3260 | 2026-11-06 | on `wip/3154-policy` (its ancestor, `origin/main` merged): the 225 related test files, 3,193 passed, 131 skipped, 0 failed; sessions 3155 to 3157 add only the method note and reports; Node monitor, week and reads tests pass; not built | waiting (holds rows 2, 3, 5, 6, 9 and 10) |
 
 ## Row 1: what it holds
 
@@ -85,3 +89,35 @@ Written by session 3059 of `queue/done/166-night-6-november-portable-window2-pol
 - **Fixture answers changed**: `tests/fixtures/deals/answers_2232.json` (D005's AI tag either way) and `tests/fixtures/datacenters/answers_2236.json` (F017 either a facility or not), where two reads disagree; tests 2236, 2258, 2262 and 2270 count accordingly, with notes.
 - **Tests**: `tests/test_session2270_deals.py` to `test_session2277_deals.py`.
 - **After the landing, for the data machine**: new stories are extracted with these rules; a stored row takes them only on a re-extraction, such as the backfill the owner is asked to approve.
+
+## Row 8: what it adds to row 7 (chain 179, sessions 2282 to 2295)
+
+`wip/2295-deals` holds rows 1, 4 and 7 and `origin/main` merged (session 2292). Land it with `scripts/land_check.py --ref wip/2295-deals --task 2230-2295-deals --port 3230`; rows 1, 4 and 7 are then landed too. Reports: `archive/sessions/SESSION_2282_DEALS_REPORT.md` to `SESSION_2295_DEALS_REPORT.md`. No page file changes in this row.
+
+- **The third read** (session 2284): 50 deal and 30 facility clusters of newer stories, with the model's answers recorded (`tests/fixtures/deals/` and `tests/fixtures/datacenters/`, `stories_2284.json`, `recorded_2284.json`).
+- **The extraction**: a figure the evidence states in US dollars beside another currency (`fields.usd_stated`); talks with one party named are no deal (`fields.one_party_talks`); a facility's country from "in <place>, <country>", the UK nations counted as the United Kingdom (`warehouse/datacenters/extract.py`).
+- **Tests**: `tests/test_session2284_deals.py` to `test_session2288_deals.py`.
+
+## Row 9: what it adds to row 6 (chain 169, sessions 3129 to 3133)
+
+`wip/3133-policy` holds rows 2, 3, 5 and 6 and `origin/main` as merged in session 3132. Land it with `scripts/land_check.py --ref wip/3133-policy --task 3054-3133-policy --port 3260`. Chain 169's note: `docs/state/note_2026-11-08_portable_window2.md` on main.
+
+- **`scope`** (3129): a new column of `policy_actions` (widened as the others), "out of scope: <why>" by a written list, marked and never dropped; the monitor shows it.
+- **The scorer's policy note** (3130, 3131): two sentences more (a procedural notice's band; coal ash, wastewater and mining). They apply to actions scored after the landing; **the held scores change only if you rule a rescoring** (the note's question 1: the default view would hold about 29% fewer actions).
+- **The place rule** (3131): a water within one state.
+- Docs only beside these: the audit's sections and the trials' answers in `docs/reviews/policy-audit-2026-11-06/`.
+
+## Row 10: what it adds to row 9 (chain 178, sessions 3134 to 3144)
+
+`wip/3144-policy` holds rows 2, 3, 5, 6 and 9 and `origin/main` as merged in session 3144. Land it with `scripts/land_check.py --ref wip/3144-policy --task 3054-3144-policy --port 3260`. Reports: `archive/sessions/SESSION_3134_REPORT.md` to `SESSION_3144_REPORT.md`.
+
+- **A fresh audit** (3139): 80 actions never used to write a rule, `docs/reviews/policy-audit-2026-11-06-fresh.md`.
+- **Its faults fixed in `warehouse/policy/fields.py`** (3140 to 3142): the instrument rules; the date rules with two new kinds (`filing_due`, `review_petition_due`, shown on the page by `site/lib/policymonitor.ts`); a notice's figure read over 4,000 characters with a stated total first; NAGPRA inventories marked out of scope.
+- **The method note's section 17** (3143). `site/data/policy/monitor.json` rebuilt.
+
+## Row 11: what it adds to row 10 (chain 186, sessions 3146 to 3157)
+
+- **A third audit** (3151): 80 actions never used to write a rule, `docs/reviews/policy-audit-2026-11-06-third.md`.
+- **Its faults fixed in `warehouse/policy/fields.py`** (3152 to 3154): a filing deadline that restates a comment deadline, and a date a party asks for, expects or plans, are no step; release titles for meetings, orders and approvals; no figure from a range, a rate or a change; a money figure keeps its scale before a comma; more out-of-scope kinds.
+- **The method note's third sample** (3156). `site/data/policy/monitor.json` rebuilt.
+- **No successor chain**: what is left waits on this landing or on the owner's rulings (`docs/state/note_2026-11-10_portable_window2.md`).

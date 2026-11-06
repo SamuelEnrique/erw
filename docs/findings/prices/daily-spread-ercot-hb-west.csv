@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate daily_spread, region ercot_HB_WEST (ERCOT's West hub (HB_WEST))
+# Computed 2026-11-06T11:16:10Z by warehouse/analysis/findings/deep/prices.py (daily_spread); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the median day's highest hourly real-time price minus its lowest (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: ercot_all_hub_prices_history
+region,year,value,n_observations,full_year
+ercot_HB_WEST,2015,20.3475,365.0,1
+ercot_HB_WEST,2016,20.965,366.0,1
+ercot_HB_WEST,2017,25.825000000000003,365.0,1
+ercot_HB_WEST,2018,29.814999999999998,365.0,1
+ercot_HB_WEST,2019,33.7025,365.0,1
+ercot_HB_WEST,2020,25.58125,366.0,1
+ercot_HB_WEST,2021,45.6475,365.0,1
+ercot_HB_WEST,2022,71.48750000000001,365.0,1
+ercot_HB_WEST,2023,62.835,365.0,1
+ercot_HB_WEST,2024,56.73875,366.0,1
+ercot_HB_WEST,2025,58.4675,365.0,1
+ercot_HB_WEST,2026,47.372499999999995,301.0,0

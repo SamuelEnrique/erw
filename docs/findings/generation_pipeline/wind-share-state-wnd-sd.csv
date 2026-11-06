@@ -1,0 +1,31 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate wind_share, region state_wnd_SD (South Dakota)
+# Computed 2026-11-06T11:44:24Z by warehouse/analysis/findings/deep/generation_pipeline.py (wind_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: wind's share of the state's net generation over the year (percent of net generation), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+state_wnd_SD,2001,0.011769088590159123,12.0,1
+state_wnd_SD,2002,0.07825735389910175,12.0,1
+state_wnd_SD,2003,0.5570230104167545,12.0,1
+state_wnd_SD,2004,2.0995140750982593,12.0,1
+state_wnd_SD,2005,2.424622000220186,12.0,1
+state_wnd_SD,2006,2.0886136380939346,12.0,1
+state_wnd_SD,2007,2.4446418210591863,12.0,1
+state_wnd_SD,2008,2.0491704179747967,12.0,1
+state_wnd_SD,2009,5.136087443412234,12.0,1
+state_wnd_SD,2010,13.64974413889576,12.0,1
+state_wnd_SD,2011,22.23789867817307,12.0,1
+state_wnd_SD,2012,20.515781107401377,12.0,1
+state_wnd_SD,2013,26.587488371332977,12.0,1
+state_wnd_SD,2014,21.248222292065375,12.0,1
+state_wnd_SD,2015,25.926549916958965,12.0,1
+state_wnd_SD,2016,32.23012649090256,12.0,1
+state_wnd_SD,2017,27.051737892840947,12.0,1
+state_wnd_SD,2018,22.470775979974647,12.0,1
+state_wnd_SD,2019,19.22793774356146,12.0,1
+state_wnd_SD,2020,39.19097390706453,12.0,1
+state_wnd_SD,2021,53.841339362118354,12.0,1
+state_wnd_SD,2022,57.513112256294924,12.0,1
+state_wnd_SD,2023,53.77088029765346,12.0,1
+state_wnd_SD,2024,57.84767054650321,12.0,1
+state_wnd_SD,2025,58.20950660404604,12.0,1
+state_wnd_SD,2026,55.20010593012223,8.0,0

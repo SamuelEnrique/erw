@@ -1,0 +1,17 @@
+# Solar in the tightest hours: PJM
+
+Draft `scan-deep-f19b94d125fd` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
+
+**The finding.** Solar's output in PJM's tightest hours, as a share of its solar capacity, was 34.4 percent of solar capacity in 2025, against 19.3 percent of solar capacity in 2019, the first year the ERW's table holds.
+
+![Solar in the tightest hours, PJM](tight-solar-pjm-tight-solar.png)
+
+**The figure by full year** (percent of solar capacity): 2019: 19.3, 2020: 20.9, 2021: 25.7, 2022: 21.4, 2023: 21.4, 2024: 24.9, 2025: 34.4.
+
+**The tables and rows.** `grid_stress_yearly`; the rows for PJM, region key `pjm_tight_solar` (the card's `hunt.region`), years 2019 to 2025. The yearly values: `tight-solar-pjm-tight-solar.csv`.
+
+**Its strength.** The change is 2.58 typical yearly moves (a typical move is 5.8 percent of solar capacity, 1.4826 times the median absolute change between full years). Holds in more than one year: 6 of the 6 full years after 2019 lie above 2019's value. Survives a change of window: from 2020 to 2025 the change is 13.4, from 2019 to 2024 it is 5.6. Sample large enough: 2019 holds 1 and 2025 holds 1 observations; the floor is 1. Half the change remains without the first year: from 2020 to 2025 the change is 13.4, 89.4 percent of the change from 2019. At least one typical yearly move: the change is 2.58 typical yearly moves (5.8 percent of solar capacity a year, the median move between full years); the floor is 1.
+
+**Its limits.** The ERW's derived grid_stress_yearly (EIA-930 hourly by source, EIA's generator inventory); the tightest hours are the year's hours of highest net load, and a grid whose capacity grew late in a year shows a share of a capacity it held only in part. 
+
+**Reproduce.** `python tight-solar-pjm-tight-solar.reproduce.py <the table's CSV>` and `do tight-solar-pjm-tight-solar.reproduce.do` (Stata) recompute the figures by year from the tables as the public downloads hold them; each names the expected values at its top.

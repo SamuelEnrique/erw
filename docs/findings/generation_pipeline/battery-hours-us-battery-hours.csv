@@ -1,0 +1,16 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate battery_hours, region us_battery_hours (US batteries)
+# Computed 2026-11-06T12:13:11Z by warehouse/analysis/findings/deep/generation_pipeline.py (battery_hours); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the MWh per MW of the batteries that entered service in the year (their summed MWh over their summed MW) (MWh per MW), the observations it rests on, and whether the year is full
+# Tables: eia860m_operating_generators
+region,year,value,n_observations,full_year
+us_battery_hours,2015,0.5341922695738355,1.0,1
+us_battery_hours,2016,1.103537981269511,1.0,1
+us_battery_hours,2017,2.3222789115646263,1.0,1
+us_battery_hours,2018,2.2731397459165152,1.0,1
+us_battery_hours,2019,2.695014662756598,1.0,1
+us_battery_hours,2020,2.464957264957265,1.0,1
+us_battery_hours,2021,2.8838367711858997,1.0,1
+us_battery_hours,2022,2.7420979345555816,1.0,1
+us_battery_hours,2023,2.728742142709125,1.0,1
+us_battery_hours,2024,2.7610247605277425,1.0,1
+us_battery_hours,2025,2.855958422500764,1.0,1

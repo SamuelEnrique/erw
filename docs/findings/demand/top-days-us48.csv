@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate top_days, region us48 (the lower 48 states (EIA's US48 total))
+# Computed 2026-11-06T13:55:50Z by warehouse/analysis/findings/deep/demand.py (top_days); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-06.md
+# Rows: one per year held: the mean of the year's ten highest days of demand (GWh a day), the observations it rests on, and whether the year is full
+# Tables: eia930_daily_demand
+region,year,value,n_observations,full_year
+us48,2019,13745.666,365.0,1
+us48,2020,13504.1584,366.0,1
+us48,2021,13931.6758,365.0,1
+us48,2022,14305.5624,365.0,1
+us48,2023,14276.778400000001,365.0,1
+us48,2024,14538.1149,366.0,1
+us48,2025,14903.8168,365.0,1
+us48,2026,14996.938900000001,307.0,0
