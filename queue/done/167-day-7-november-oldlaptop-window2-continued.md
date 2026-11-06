@@ -22,7 +22,15 @@ Long end 1:00. The next file. Then chain 165's note read against main: every bra
 
 ## Sessions 1625 to 1633: chain 165's unfinished steps
 
-Long end 1:30 each. Every step of chain 165 its note says did not finish, in chain 165's order, one a session (session 1623 writes the list here). A push and landing request after every third session, as chain 165's sessions 1605, 1610, 1615 and 1619 do.
+Long end 1:30 each. Every step of chain 165 its note says did not finish (`docs/state/note_2026-11-07_oldlaptop_window2.md`, "What did not finish"), in chain 165's order, one a session. A push and landing request after every third session, as chain 165's sessions 1605, 1610, 1615 and 1619 do. Written by session 1623:
+
+- **1625: the real file.** If `wip/1623-board` (or a later row of the request) is an ancestor of main and the data machine's `page_keep.py board` has run since: `node --import ./scripts/alias-register.mjs scripts/check-board.mjs --file` on main's `site/data/board.json`; every new group's floor judged (`GROUP_FLOORS`); the second read of session 1620 again, on the real file (level, change, when, against what, how often), each fault a row of the audit's section 9; `heat_ref` present or not, and why. If nothing landed: the request file's rows checked, the stack merged with `origin/main`, and this session's step moves to 1628.
+- **1626: the ERCOT 4CP exposure** (audit row 28). The hub average's 15-minute real-time price in each coincident-peak interval of `ercot_4cp_intervals`, read from `ercot_all_hub_prices_history` at the 28 intervals only (`pb.read_table` with a filter, never the whole history in memory twice), as a monthly row beside the coincident peak load in "Delivery charges and transmission peaks", keyed, with its interval and its local time on hover; a test on the real rows.
+- **1627: the push and landing request** (row 6), as 1605.
+- **1628: the whole Python suite**, once, in the foreground and only when 3 GB of memory is free with the first window idle (`Get-CimInstance Win32_OperatingSystem`); a suite the harness stops is written up and not started again. Its failures that are this chain's are fixed with a test.
+- **1629: the desktop's gate read.** The landing's `land_check.py` output for this chain's row, its `check-board.mjs` (with the page) and `check-values` lines read; each failure that is the board's fixed here with a test.
+- **1630: the push and landing request** (row 7).
+- **1631 to 1633**: the faults sessions 1625, 1628 and 1629 found, one a session.
 
 ## Sessions 1634 to 1637: the faults
 
