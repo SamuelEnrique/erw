@@ -22,11 +22,15 @@ Read first: chain 157's note (`docs/state/note_2026-11-07_data_c157.md`), chain 
 
 ## Session 2984: the next file, the ground, chain 157's first unfinished step
 
-Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 157's first unfinished step, as session 2969 writes it here; if it left none, session 2988's.
+Long end 0:45. The next file (the rules). Then memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`. Then chain 157's first unfinished step, written by session 2969: **if chain 157's note says `wip/c157-data` did not land** (its "What landed" line), land it first by `archive/sessions/SESSION_2969_REPORT.md`, "To finish" (never between 14:00 and 16:15 UTC). If it landed, session 2985's step.
 
 ## Sessions 2985 to 2987: chain 157's other unfinished steps
 
-Long end 2:00 each. Session 2985 begins with the landing request file (the rules). Session 2969 of chain 157 writes the steps here in its order; a session it does not name takes the next of the second passes below.
+Long end 2:00 each. Session 2985 begins with the landing request file (the rules). Written by session 2969 of chain 157, in its order (its note, "What did not, and why"):
+
+- **Session 2985: the backfill** (chain 157's session 2964, cap USD 15): only once chain 156's extraction (`wip/*-deals`) is an ancestor of origin's main; then `scripts/deals_backfill.py --from 2026-10-27 --to 2026-11-05`, one day a run under the data lock, each day's rows and cost in the report. If it is not on main, say so and take session 2986's step.
+- **Session 2986: the owner's rulings, if any are written** (chain 157's note, "For your ruling"): FERC-714 Part 3 Schedule 2 (then `ferc714_forecast_growth`, chain 157's sessions 2949 and 2950), the four derived tables in Redivis v1, keeping each month's EIA-860M workbook and each Monday's queue snapshot, EIA's weekly gas supply and demand, the board's gas group and the ISOs' durations on the tab. A ruling written in `docs/` or a queue file is carried out; with none, say so and take the next step below.
+- **Session 2987: the daily run's week and the data machine's own** (chain 157's session 2963): the runner's runs from 14:00 UTC on 6 November (the board guard's `board_tests` line) and this machine's from 17:00 UTC, each failed step opened.
 
 ## Session 2988: FERC-714 forecast growth, second pass
 
