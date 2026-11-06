@@ -182,6 +182,20 @@
     "what": "the board's five questions, first asking, graded on the keys of their own day (session 2918, from the rows of 6 November 2026, 05:16 UTC)",
     "where": "session 2918's report"
    }
+  },
+  {
+   "file": "eval_s2948_loop_s2948_run.json",
+   "grades": "eval_s2948_loop_s2948_grades.json",
+   "right": "ok",
+   "label": "session 2948, Python loop, the board's five",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_s2948.yaml`",
+    "what": "the board's five questions through the Python loop (eval_loop.py), keyed on the rows of the asking hour (chain 157)",
+    "where": "session 2948's report"
+   }
   }
  ],
  "left_out": {
@@ -198,6 +212,7 @@
   "eval_s2223_regrade_s1114_grades.json": "session 2223's regrade of eval_s1114_run.json (session 1114's thirty, 23 October 2026) under eval_s267.py's RULES_2223: 29 of 30; a regrade of a stored run, not a run",
   "keys_s2224.json": "the keys of questions_s2224.yaml, written by scripts/ask_eval/lab_questions.py, not a run",
   "eval_s1122_grades.json": "session 2886's grades of the board's five on the keys of 23 October 2026 (0 of 5, the keys stale), replaced in the list by session 2918's grades on the keys of the asking day",
-  "expected_s2918.json": "the keys of the board's five from session 2918's rows of 6 November 2026, not a run"
+  "expected_s2918.json": "the keys of the board's five from session 2918's rows of 6 November 2026, not a run",
+  "expected_s2948.json": "the keys of the board's five from session 2948's rows of 6 November 2026, not a run"
  }
 }
