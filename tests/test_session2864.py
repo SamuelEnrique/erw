@@ -67,7 +67,7 @@ class StaleOnMain(unittest.TestCase):
     def test_the_roundup_past_eight_days_and_the_network_past_three_hours(self):
         st = health.stale_on_main(now=NOW + dt.timedelta(days=5), commits=self.COMMITS, oks={"hourly network": NOW - dt.timedelta(hours=4)})
         self.assertEqual([s[0] for s in st], ["daily prices", "energy roundup", "hourly network"])
-        self.assertIn("hourly network, 5.2 days (its last ok step in erw_health", health.stale_line(st))
+        self.assertIn("hourly network, 124.0 hours (its last ok step in erw_health", health.stale_line(st))   # session 2884: in hours
         self.assertIn("allowed 3 hours", health.stale_line(st))
         self.assertIn("allowed 8 days", health.stale_line(st))
 
