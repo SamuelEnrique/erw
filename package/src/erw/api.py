@@ -274,7 +274,9 @@ def tables(backend: Optional[str] = None) -> pd.DataFrame:
     """Session 1001 (docs/methods/packages.md): every table of the warehouse, one row each: table, shape (series,
     entities, events), interval, ts_min, ts_max, n_rows, verdict (public, internal, unsettled), in_live (yes or no) and
     title (its provenance header's first line, where the backend can say it without reading the rows). A table that is
-    not public is listed with its verdict, so a reader learns that it exists and why it is not served."""
+    not public is listed with its verdict, so a reader learns that it exists and why it is not served. Session 3298:
+    package/llms.txt's catalogue (scripts/build_llms.py) lists the same tables, the public ones with their description,
+    unit, period, granularity, license, method note and download address."""
     b = get_backend() if backend in (None, "auto") else _make(backend)
     cov = coverage(backend=backend)
     try:
