@@ -1,6 +1,6 @@
 # Chain 200: the desktop's third window, 6 and 7 November 2026: the company database (tool 10) and capital flows' first view (tool 11)
 
-lab-desktop, sessions 3300 to 3310 (the first free number at or above 3300 on origin main and every branch; the day's other chains held 3247 to 3282 and the fourth window 3400 onward). Prompt: `queue/done/200-day-6-november-desktop-window3-companies.md`; next file: `queue/next/201-day-7-november-desktop-window3-continued.md`. Branch `wip/3300-companies` (worktree `../erw-3300`). Opus 5.5.
+lab-desktop, sessions 3300 to 3310 (the first free number at or above 3300 on origin main and every branch; the day's other chains held 3247 to 3282 and the fourth window 3400 onward). Prompt: `queue/done/200-day-6-november-desktop-window3-companies.md`; next file: `queue/parked/201-day-7-november-desktop-window3-continued.md` (parked with the others for the weekend review at 23:15 UTC on 6 November; updated there, not taken). Branch `wip/3300-companies` (worktree `../erw-3300`). Opus 5.5.
 
 ## What landed
 
