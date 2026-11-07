@@ -22,3 +22,13 @@ Energy Research Warehouse (ERW), session 1756, chain 196, samueloldlaptop, 6 Nov
 ## For Samuel's ruling
 
 - Chain 181's and session 1728's question, still open: wait on a held step, or pass on empty chains.
+
+## Where the chain stands (00:10 UTC, 7 November)
+
+- Session 1757's wait ran from 22:10 UTC and was stopped at 00:09 UTC by the harness's two-hour limit on a background command, which was the longest allowed. It is not restarted. The stories had not moved: `news_stories.csv` on main is still 20261105T232645Z.
+- Chain 196 stands at session 1757. Its file is in `queue/done/` (taken); `queue/next/` holds 207 and 210 for this machine.
+- **To go on**:
+  1. Once `news_stories.csv` on main is newer than 20261105T232645Z (expected with 7 November's daily run, about 16:00 UTC), run chain 194's session 1729 dry run as session 1757.
+  2. Then sessions 1758 to 1769 as `queue/done/196-...` says.
+  3. Then `scripts/chain_queue.py next`.
+- Spend: USD 0.
