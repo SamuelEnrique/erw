@@ -34,11 +34,18 @@ Long end 1:30. Pulls: GitHub only.
 
 1. Write the successor file for this machine in this file's form (`machine: data`, Opus 5.5 high effort, at least fourteen sessions numbered from the first free numbers after 3296, the first free file number on origin's main and every branch): every step of this chain that its note says did not finish, then the siting gaps rows still open that a public US source can close without a ruling, then the daily run's seven days and the records; these rules word for word. Commit it alone, push it to main, `git status -sb`.
 2. `scripts/precheck.py` from the main checkout; memory and disk free; `scripts/freeze.py status`.
-3. Chain 185's first unfinished step, as session 3218 of chain 185 writes it here. If chain 185 left none, the first of the rows below.
+3. Chain 185's first unfinished step, written by session 3218 of chain 185: chain 185 landed (`e65e232ad`, the run's guard `dm_test_replication`), so the step is session 3284's.
 
 ## Sessions 3284 and 3285: chain 185's other unfinished steps
 
-Long end 2:30 each. Pulls: as the step of chain 185 says. Session 3218 of chain 185 writes them here in chain 185's order; a step it does not name leaves the session to the next row of the siting gaps below.
+Long end 2:30 each. Pulls: as the step of chain 185 says. Written by session 3218 of chain 185 (parked on 6 November for the weekend review; these lines were written where it is parked), in chain 185's order:
+
+- **Session 3284: the datacenter and findings refresh** (chain 185's session 3206). Since `e65e232ad`, the data machine's run puts back a refresh of `site/data/datacenter`, `site/public/datacenter`, `site/data/findings` and `site/public/findings` that fails tests 190, 1491, 538 or 720. So those pages keep their last good build until the four follow a refresh. If the owner has ruled (chain 185's note), do as ruled. If not, read `runs/data_machine_dm_test_replication.out` from the runs since 6 November and say which tests put a refresh back. Then make each test follow a refresh, on a branch with its test, and gate and land it:
+  - **Test 190:** the hourly CSV's window ends at the zone's last real-time hour, while the page counts the hub's hours to the end of its last month. Write the CSV to the end of that month, or have the page's hub figure count the window's hours. The second moves a page's figure, so it needs the owner's word.
+  - **Test 1491:** `replication/datacenter/page_figures.json` is recorded; recompute it in the same run as the files.
+  - **Test 538:** the cross-check rows' figures, recomputed from the cards.
+  - **Test 720:** run `site/scripts/siting-card.mjs` after `datacenter_page`.
+- **Session 3285: the runner's run of 7 November and the rulings.** The runner's run from 14:00 UTC on 7 November is the first with the board guard (`board_tests`, and `package tests` after sessions 2884 and 3161), and this machine's runs from 17:00 UTC (`dm_test_board` after chain 184's fix, `dm_test_replication`). Open each failed step. Then any ruling written (chains 153 to 193's notes): carried out where written; with none, say so.
 
 ## Session 3286: ERCOT's four coincident peaks of summer 2026, again
 
