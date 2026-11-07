@@ -90,7 +90,7 @@ Inside a clone the package reads the repository's own license record (`docs/lice
 `warehouse/metadata/license_status.csv`); an installed package reads the copy it carries, `erw/data/tables.csv`,
 written by `python package/tools/build_tables.py` before a build. `internal` tables (PJM's data among them, licensed
 for internal use only) are never shown publicly. From 21 October 2026 a table flagged public whose publisher asks for
-permission is **held: license needed** unless a permission is recorded (42 tables in
+permission is **held: license needed** unless a permission is recorded (45 tables in
 `warehouse/metadata/license_status.csv`). The reader's guide, [`docs/guide.md`](../docs/guide.md), says what held
 means and how to download a table from the site.
 

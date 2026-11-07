@@ -14,6 +14,9 @@ const KEY_TABLE: Record<string, string> = {
   deals: "energy_deals", event: "", es: "event_window_daily", griddc: "datacenter_facilities", datacenters: "datacenter_facilities",
   bill: "cost_of_power_monthly", cop: "cost_of_power_monthly", mr: "merchant_revenue_monthly", ms: "merchant_revenue_monthly", projects: "energy_projects",
   gridnews: "news_index",
+  // session 2248 (chain 156): the datacenter page's charts, grids view and timeline (dcchart|, dcgrid|, dctime|) count
+  // the facilities of datacenter_facilities, so a figure of theirs is held as a datacenters| figure is
+  dcchart: "datacenter_facilities", dcgrid: "datacenter_facilities", dctime: "datacenter_facilities",
   // session 264 added ms| (the generator page's month spans of merchant_revenue_monthly); the chain's landing of 14 October maps it as mr|
 };
 

@@ -1,0 +1,638 @@
+[
+ {
+  "n": "F001",
+  "cluster_id": "news:5dd4de5738326384",
+  "is_facility": true,
+  "why": "Google Plans to Spend $17 Billion on Wyoming Data Center",
+  "stored": {
+   "operator": "Google",
+   "state": "WY",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "announced",
+   "planned_year": ""
+  },
+  "operator": "Google",
+  "state": "WY",
+  "mw": "",
+  "project_status": "announced",
+  "story_ids": [
+   "news:5dd4de5738326384",
+   "news:ca6ff61b3e2527f8"
+  ]
+ },
+ {
+  "n": "F002",
+  "cluster_id": "news:05f2870615ef84d8",
+  "is_facility": true,
+  "why": "a field demonstration at the Sky Data Centers site in Santa Rosa, California",
+  "stored": {
+   "operator": "",
+   "state": "CA",
+   "city": "Santa Rosa",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "state": "CA",
+  "city": "Santa Rosa",
+  "power_kind": null,
+  "story_ids": [
+   "news:05f2870615ef84d8"
+  ]
+ },
+ {
+  "n": "F003",
+  "cluster_id": "news:f43900b681794577",
+  "is_facility": true,
+  "why": "Gingerah Energy has referred a 1GW data centre complex ... in Western Australia",
+  "stored": {
+   "operator": "",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "1000",
+   "project_status": "applied",
+   "planned_year": ""
+  },
+  "mw": "1000",
+  "mw_basis": [
+   "unstated",
+   "total"
+  ],
+  "country": "Australia",
+  "project_status": [
+   "applied",
+   ""
+  ],
+  "story_ids": [
+   "news:f43900b681794577"
+  ]
+ },
+ {
+  "n": "F005",
+  "cluster_id": "news:d0caf506846f4462",
+  "is_facility": true,
+  "why": "Krolmap plans a 225MW off-grid data center in Zaragoza, Spain",
+  "stored": {
+   "operator": "",
+   "state": "",
+   "city": "Zaragoza",
+   "county": "",
+   "mw": "225",
+   "project_status": "announced",
+   "planned_year": ""
+  },
+  "mw": "225",
+  "mw_basis": [
+   "unstated",
+   "total"
+  ],
+  "country": "Spain",
+  "city": "Zaragoza",
+  "project_status": "announced",
+  "story_ids": [
+   "news:d0caf506846f4462"
+  ]
+ },
+ {
+  "n": "F006",
+  "cluster_id": "news:281b193989824ca1",
+  "is_facility": true,
+  "why": "Nebius signs on for 50MW at Neom's Oxagon data center in Saudi Arabia: a tenant's share",
+  "stored": {
+   "operator": "Nebius",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "50",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "mw": "50",
+  "mw_basis": "tenant",
+  "country": "Saudi Arabia",
+  "story_ids": [
+   "news:281b193989824ca1"
+  ]
+ },
+ {
+  "n": "F010",
+  "cluster_id": "news:3c22b94abc25c5fa",
+  "is_facility": true,
+  "why": "Microsoft signs 20-year power deal ... for planned data center in the state; Will commence in 2028 (the deal's start)",
+  "stored": {
+   "operator": "Microsoft",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": "2028"
+  },
+  "operator": "Microsoft",
+  "energized_year": "",
+  "planned_year": "",
+  "state": [
+   "",
+   "IN"
+  ],
+  "story_ids": [
+   "news:3c22b94abc25c5fa"
+  ]
+ },
+ {
+  "n": "F013",
+  "cluster_id": "news:9068ce1f6fb752cc",
+  "is_facility": true,
+  "why": "GreenSquare launches first phase of data center campus in Sydney, Australia",
+  "stored": {
+   "operator": "Sharon AI",
+   "state": "",
+   "city": "Sydney",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "project_status": "operating",
+  "country": "Australia",
+  "city": "Sydney",
+  "story_ids": [
+   "news:9068ce1f6fb752cc"
+  ]
+ },
+ {
+  "n": "F015",
+  "cluster_id": "news:32987d43e777c5e4",
+  "is_facility": true,
+  "why": "Brookfield, NextEra to Build $100 Billion AI Hub ... Paducah American Energy Hub, Western Kentucky",
+  "stored": {
+   "operator": "",
+   "state": "KY",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "announced",
+   "planned_year": ""
+  },
+  "project_status": "announced",
+  "state": [
+   "KY",
+   ""
+  ],
+  "story_ids": [
+   "news:32987d43e777c5e4"
+  ]
+ },
+ {
+  "n": "F017",
+  "cluster_id": "news:89042444b5a57d83",
+  "is_facility": null,
+  "why": "a proposed 6MW data center acquisition with no place stated (session 2276: either: the second read, session 2249, reads it as a stated facility, its words naming the country, 'to enter US market', which has_place counts as a place)",
+  "stored": {
+   "operator": "Gorilla Technology Group",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "6",
+   "project_status": "announced",
+   "planned_year": ""
+  },
+  "story_ids": [
+   "news:89042444b5a57d83"
+  ]
+ },
+ {
+  "n": "F018",
+  "cluster_id": "news:39674a89cdc22df3",
+  "is_facility": true,
+  "why": "first 222MW data center, due to be delivered next year: a phase",
+  "stored": {
+   "operator": "",
+   "state": "TX",
+   "city": "Amarillo",
+   "county": "",
+   "mw": "222",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "mw": "222",
+  "mw_basis": [
+   "phase",
+   "unstated"
+  ],
+  "state": "TX",
+  "city": "Amarillo",
+  "energized_year": "",
+  "story_ids": [
+   "news:39674a89cdc22df3"
+  ]
+ },
+ {
+  "n": "F027",
+  "cluster_id": "news:58457da58562a6d6",
+  "is_facility": true,
+  "why": "a fuel cell power generation and data center project in Newport Township, Luzerne County, Pennsylvania",
+  "stored": {
+   "operator": "",
+   "state": "PA",
+   "city": "",
+   "county": "Luzerne County",
+   "mw": "",
+   "project_status": "permitted",
+   "planned_year": ""
+  },
+  "state": "PA",
+  "county": [
+   "Luzerne",
+   "Luzerne County"
+  ],
+  "power_kind": [
+   "gas",
+   "behind_the_meter_gas",
+   "other"
+  ],
+  "story_ids": [
+   "news:58457da58562a6d6"
+  ]
+ },
+ {
+  "n": "F028",
+  "cluster_id": "news:5cc7f3432f9ef915",
+  "is_facility": true,
+  "why": "Axe Compute acquires full ownership of AI cluster in Columbus, Georgia; Duos still owns facility",
+  "stored": {
+   "operator": "Axe Compute",
+   "state": "GA",
+   "city": "Columbus",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "state": "GA",
+  "city": "Columbus",
+  "story_ids": [
+   "news:5cc7f3432f9ef915"
+  ]
+ },
+ {
+  "n": "F032",
+  "cluster_id": "news:a42a0d8bc3b6156d",
+  "is_facility": true,
+  "why": "NJ data center ... DataOne's unpermitted generator fleet",
+  "stored": {
+   "operator": "DataOne",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "operator": "DataOne",
+  "state": "NJ",
+  "power_kind": "behind_the_meter_gas",
+  "story_ids": [
+   "news:a42a0d8bc3b6156d"
+  ]
+ },
+ {
+  "n": "F0354c",
+  "cluster_id": "news:5e3db54941e72e4c",
+  "is_facility": true,
+  "why": "JERA teams up with Dell, RHAELM ... building data centre near Tokyo",
+  "stored": {
+   "operator": "",
+   "state": "",
+   "city": "Chiba",
+   "county": "",
+   "mw": "",
+   "project_status": "under_construction",
+   "planned_year": ""
+  },
+  "country": "Japan",
+  "project_status": [
+   "under_construction",
+   "announced",
+   ""
+  ],
+  "story_ids": [
+   "news:5e3db54941e72e4c"
+  ]
+ },
+ {
+  "n": "F035ff",
+  "cluster_id": "news:5e62d2a312f59eff",
+  "is_facility": true,
+  "why": "First project planned for power plant at Chiba",
+  "stored": {
+   "operator": "",
+   "state": "",
+   "city": "Chiba",
+   "county": "",
+   "mw": "",
+   "project_status": "under_construction",
+   "planned_year": ""
+  },
+  "country": "Japan",
+  "project_status": [
+   "announced",
+   ""
+  ],
+  "story_ids": [
+   "news:5e62d2a312f59eff"
+  ]
+ },
+ {
+  "n": "F040",
+  "cluster_id": "news:8183346768fdeaf4",
+  "is_facility": "either",
+  "why": "SoftBank pledges to build Europe's biggest AI facility in France: a plan, one facility named only by its size",
+  "stored": {
+   "operator": "SoftBank",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "announced",
+   "planned_year": ""
+  },
+  "story_ids": [
+   "news:62a56337388377c5",
+   "news:05d98facb802c7d6",
+   "news:8183346768fdeaf4",
+   "news:ec309631dcf98a53"
+  ]
+ },
+ {
+  "n": "F041",
+  "cluster_id": "news:eca2854d8a421ea0",
+  "is_facility": true,
+  "why": "Microsoft's biggest India data center on track to go live in mid-2026",
+  "stored": {
+   "operator": "Microsoft",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": "2026"
+  },
+  "operator": "Microsoft",
+  "country": "India",
+  "energized_year": "2026",
+  "story_ids": [
+   "news:eca2854d8a421ea0"
+  ]
+ },
+ {
+  "n": "F042",
+  "cluster_id": "news:da364e26429b0308",
+  "is_facility": true,
+  "why": "Amazon's Chile data center moves ahead",
+  "stored": {
+   "operator": "Amazon",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "operator": "Amazon",
+  "country": "Chile",
+  "story_ids": [
+   "news:da364e26429b0308"
+  ]
+ },
+ {
+  "n": "F046",
+  "cluster_id": "news:08ef5fd432723de4",
+  "is_facility": true,
+  "why": "Microsoft to rent Texas data center dropped by Oracle and OpenAI",
+  "stored": {
+   "operator": "Microsoft",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "state": "TX",
+  "story_ids": [
+   "news:08ef5fd432723de4",
+   "news:7a13e5abfeb6973a"
+  ]
+ },
+ {
+  "n": "F050",
+  "cluster_id": "news:ede03b68727b5e89",
+  "is_facility": true,
+  "why": "TikTok owner weighs data center project in Brazil: the owner is not named",
+  "stored": {
+   "operator": "TikTok",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "operator": [
+   "",
+   "ByteDance"
+  ],
+  "country": "Brazil",
+  "story_ids": [
+   "news:ede03b68727b5e89"
+  ]
+ },
+ {
+  "n": "F05199",
+  "cluster_id": "news:772884a398fa8899",
+  "is_facility": true,
+  "why": "Musk's xAI increased Tennessee gas turbines without permits",
+  "stored": {
+   "operator": "xAI",
+   "state": "TN",
+   "city": "Memphis",
+   "county": "",
+   "mw": "",
+   "project_status": "announced",
+   "planned_year": ""
+  },
+  "operator": "xAI",
+  "state": "TN",
+  "power_kind": "behind_the_meter_gas",
+  "not_with": [
+   "F0519f"
+  ],
+  "story_ids": [
+   "news:772884a398fa8899"
+  ]
+ },
+ {
+  "n": "F0519f",
+  "cluster_id": "news:c93c902e594a349f",
+  "is_facility": true,
+  "why": "Musk's xAI to invest over $20 billion in Mississippi data center",
+  "stored": {
+   "operator": "xAI",
+   "state": "TN",
+   "city": "Memphis",
+   "county": "",
+   "mw": "",
+   "project_status": "announced",
+   "planned_year": ""
+  },
+  "operator": "xAI",
+  "state": "MS",
+  "not_with": [
+   "F05199",
+   "F0512a"
+  ],
+  "story_ids": [
+   "news:c93c902e594a349f"
+  ]
+ },
+ {
+  "n": "F0512a",
+  "cluster_id": "news:2864e36a3acf372a",
+  "is_facility": true,
+  "why": "Elon Musk's xAI Sued by NAACP Over Memphis Data Center",
+  "stored": {
+   "operator": "xAI",
+   "state": "TN",
+   "city": "Memphis",
+   "county": "",
+   "mw": "",
+   "project_status": "announced",
+   "planned_year": ""
+  },
+  "operator": "xAI",
+  "city": [
+   "Memphis",
+   ""
+  ],
+  "not_with": [
+   "F0519f"
+  ],
+  "story_ids": [
+   "news:6833404fcf146937"
+  ]
+ },
+ {
+  "n": "F0531e",
+  "cluster_id": "news:b08b0cca6647cf1e",
+  "is_facility": "either",
+  "why": "OpenAI's First Stargate Site to Hold Up to 400,000 Nvidia Chips: the site is not placed",
+  "stored": {
+   "operator": "OpenAI",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "cancelled",
+   "planned_year": ""
+  },
+  "story_ids": [
+   "news:b08b0cca6647cf1e"
+  ]
+ },
+ {
+  "n": "F0535c",
+  "cluster_id": "news:0ade6f4a912c9a5c",
+  "is_facility": true,
+  "why": "OpenAI halts Stargate UK data centre project",
+  "stored": {
+   "operator": "OpenAI",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "cancelled",
+   "planned_year": ""
+  },
+  "country": [
+   "UK",
+   "United Kingdom"
+  ],
+  "project_status": "cancelled",
+  "story_ids": [
+   "news:0ade6f4a912c9a5c"
+  ]
+ },
+ {
+  "n": "F056d0",
+  "cluster_id": "news:e1744e95b7e436d0",
+  "is_facility": true,
+  "why": "Amazon Web Services Launches Infrastructure Region in Mexico",
+  "stored": {
+   "operator": "Amazon Web Services",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "country": "Mexico",
+  "project_status": "operating",
+  "not_with": [
+   "F056e4"
+  ],
+  "story_ids": [
+   "news:e1744e95b7e436d0"
+  ]
+ },
+ {
+  "n": "F056e4",
+  "cluster_id": "news:a5bd9b49117154e4",
+  "is_facility": true,
+  "why": "Amazon's AWS reports outage after UAE data center struck by 'objects'",
+  "stored": {
+   "operator": "Amazon Web Services",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "country": [
+   "UAE",
+   "United Arab Emirates"
+  ],
+  "not_with": [
+   "F056d0"
+  ],
+  "story_ids": [
+   "news:3590dc339afa0b2b",
+   "news:a5bd9b49117154e4",
+   "news:736dd08260940b11"
+  ]
+ },
+ {
+  "n": "F057",
+  "cluster_id": "news:7425400e003b0a18",
+  "is_facility": false,
+  "why": "TeraWulf jumps on $19 billion data center lease deal with Anthropic: no place",
+  "stored": {
+   "operator": "Anthropic",
+   "state": "",
+   "city": "",
+   "county": "",
+   "mw": "",
+   "project_status": "",
+   "planned_year": ""
+  },
+  "story_ids": [
+   "news:7425400e003b0a18"
+  ]
+ }
+]

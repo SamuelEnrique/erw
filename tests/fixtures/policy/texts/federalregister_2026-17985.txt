@@ -1,0 +1,362 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 169 (Wednesday, September 2, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 169 (Wednesday, September 2, 2026)]
+[Notices]
+[Pages 56444-56447]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-17985]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+ENVIRONMENTAL PROTECTION AGENCY
+
+[FRL-13562-01-OAR]
+
+
+Notice of August 31, 2026 Decisions on Petitions for Small 
+Refinery Exemptions Under the Renewable Fuel Standard Program
+
+AGENCY: Environmental Protection Agency (EPA).
+
+ACTION: Decision on petitions.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The Environmental Protection Agency (EPA) is providing 
+notification of its final action entitled August 31, 2026 Decision on 
+Petitions for RFS Small Refinery Exemptions (``August 31, 2026 SRE 
+Decisions Action'') in which EPA issued decisions on 34 small refinery 
+exemption (SRE) petitions under the Renewable Fuel Standard (RFS) 
+program for the 2025 compliance year. EPA is also reissuing a decision 
+for 1 petition for the 2024 compliance year that was originally issued 
+in the August 3, 2026 Decision on Petitions for RFS Small Refinery 
+Exemptions. EPA is providing this notification for public awareness of, 
+and the basis for, EPA's decision announced on August 31, 2026.
+
+DATES: September 2, 2026.
+
+FOR FURTHER INFORMATION CONTACT: Campbell Martin, Office of 
+Transportation and Air Quality, Environmental Protection Agency, 1200 
+Pennsylvania Avenue NW, Washington, DC 20004; telephone number: (202) 
+564-5209; email address: [email protected].
+
+SUPPLEMENTARY INFORMATION:
+
+I. Background and Final Action
+
+    The Clean Air Act (CAA) provides that a small refinery \1\ may at 
+any time petition EPA for an extension of the exemption from the 
+obligations of the RFS program for the reason of disproportionate 
+economic hardship (DEH).\2\ In evaluating such petitions, the EPA 
+Administrator, in consultation with the Secretary of Energy, will 
+consider the findings of a Department of Energy (DOE) study and other 
+economic factors.\3\
+---------------------------------------------------------------------------
+
+    \1\ The CAA defines a small refinery as ``a refinery for which 
+the average aggregate daily crude oil throughput for a calendar year 
+. . . does not exceed 75,000 barrels.'' CAA section 211(o)(1)(K).
+    \2\ CAA section 211(o)(9)(B)(i).
+    \3\ CAA section 211(o)(9)(B)(ii).
+---------------------------------------------------------------------------
+
+    In the August 31, 2026 SRE Decisions Action,\4\ EPA is acting on 34 
+individual SRE petitions from 34 refineries seeking an exemption from 
+their RFS obligations for the 2025 compliance years. In consultation 
+with DOE, EPA reviewed all the information submitted by each individual 
+refinery in support of its petition. After careful consideration of all 
+statutory factors and the information submitted by the refineries, EPA 
+is granting full (100 percent) exemptions to 18 petitions, granting 
+partial (50 percent) exemptions to 11 petitions, denying 3 petitions, 
+and determining 2 petitions to be ineligible.
+---------------------------------------------------------------------------
+
+    \4\ EPA. (Aug. 2026). August 31, 2026 Decisions on Petitions for 
+RFS Small Refinery Exemptions. EPA-420-R-26-017.
+---------------------------------------------------------------------------
+
+    The August 31, 2026 SRE Decisions Action articulates EPA's 
+interpretation of section 211(o)(9) of the CAA and EPA's authority with 
+respect to SRE petitions. As required by CAA section
+
+[[Page 56445]]
+
+211(o)(9), EPA's final actions on the pending SRE petitions are based 
+on the legal and factual analysis presented herein, after consulting 
+with DOE, and considering the DOE Small Refinery Study and ``other 
+economic factors.''
+    EPA is also reissuing a partial exemption for 1 petition for the 
+2024 compliance year that was originally issued in the August 3, 2026 
+SRE Decisions Action.\5\ The August 31, 2026 SRE Decisions Action also 
+explains how EPA will implement SRE decisions when an exemption is 
+granted.
+---------------------------------------------------------------------------
+
+    \5\ EPA. (Aug. 2026). August 3, 2026 Decisions on Petitions for 
+RFS Small Refinery Exemptions. EPA-420-R-26-004.
+---------------------------------------------------------------------------
+
+II. Judicial Review
+
+    Section 307(b)(1) of the CAA governs judicial review of final 
+actions by EPA. This section generally provides that petitions for 
+judicial review of final actions that are nationally applicable must be 
+filed in the United States Court of Appeals for the District of 
+Columbia Circuit, and petitions for judicial review of actions that are 
+locally or regionally applicable must be filed in the appropriate 
+regional circuit.\6\ However, petitions for judicial review of a final 
+action that is locally or regionally applicable must be filed in the 
+D.C. Circuit when ``such action is based on a determination of 
+nationwide scope or effect and if in taking such action the 
+Administrator finds and publishes that such action is based on such a 
+determination.'' \7\
+---------------------------------------------------------------------------
+
+    \6\ CAA section 307(b)(1).
+    \7\ Id.
+---------------------------------------------------------------------------
+
+    As the Supreme Court recently articulated in Calumet, the first 
+step in determining the appropriate venue for judicial review of an EPA 
+final action is to ascertain whether the action at issue is nationally 
+applicable or locally or regionally applicable.\8\ If the action is 
+nationally applicable, judicial review belongs in the D.C. Circuit. If 
+the action is locally or regionally applicable, then the second step is 
+to determine whether EPA has appropriately invoked the ``nationwide 
+scope or effect'' exception to ``override the default rule'' that 
+judicial review of a locally or regionally applicable action belongs in 
+the appropriate regional circuit.\9\ The exception applies, and 
+judicial review of EPA's action belongs in the D.C. Circuit, if EPA 
+invokes the exception for a final action that is ``based on a 
+determination of nationwide scope or effect'' and accompanied by an EPA 
+finding of this basis.\10\ A determination is ``the justification [EPA] 
+gives for it[s] action, which can be found in its explanation of its 
+action.'' \11\ A determination has a nationwide scope when it applies 
+throughout the country as a legal matter, and it has a nationwide 
+effect when it applies throughout the country as a practical 
+matter.\12\ Finally, an action is ``based on'' a determination of 
+nationwide scope or effect when the determination ``lie[s] at the core 
+of the agency action,'' so as to form the most important part of the 
+agency's reasoning.\13\ Put another way, an EPA action is based on a 
+determination of nationwide scope or effect ``only if a justification 
+of nationwide breadth is the primary explanation for and driver of 
+EPA's action.'' \14\
+---------------------------------------------------------------------------
+
+    \8\ Calumet, 145 S. Ct. at 1746.
+    \9\ Id. at 1746.
+    \10\ Id. at 1749-50.
+    \11\ Id. at 1750 (internal quotations omitted).
+    \12\ Id.
+    \13\ Id. at 1751.
+    \14\ Id.
+---------------------------------------------------------------------------
+
+    In the August 31, 2026 SRE Decisions Action, EPA is adjudicating 
+SRE petitions pursuant to the authority granted to the Agency by CAA 
+section 211(o)(9)(B). Each adjudication is a separate ``action'' for 
+the purposes of determining venue under CAA section 307(b)(1), and 
+because each adjudication only applies to a single refinery, each 
+action is locally or regionally applicable.\15\ However, EPA's 
+adjudication of the relevant petitions is based on several 
+determinations of nationwide scope or effect that formed the core basis 
+for the Agency's decision.
+---------------------------------------------------------------------------
+
+    \15\ Id. at 1748.
+---------------------------------------------------------------------------
+
+    First, these adjudications are based on EPA's determination that 
+CAA section 211(o)(9) provides EPA with the authority to find that a 
+small refinery would experience partial DEH if required to comply with 
+its RFS obligations and to extend a partial exemption. As detailed in 
+section III.H of the August 31, 2026 SRE Decisions Action, CAA section 
+211(o)(9)(B) grants EPA authority to temporarily extend the exemption 
+from RFS obligations to a small refinery that demonstrates 
+``disproportionate economic hardship,'' but the statute does not define 
+that phrase or its components, suggesting Congress left it to the 
+Agency's discretion to ``fill up the details'' when determining how to 
+implement this provision.\16\ EPA interprets CAA section 211(o)(9)(B), 
+based on the plain language, structure, and objective of the statute, 
+to provide the Agency with the authority to find that a small refinery 
+would experience partial DEH and to extend a partial exemption. This 
+determination has nationwide scope because it is an interpretation of a 
+federal statute and CAA section 211(o)(9)(B)(i) by its terms applies 
+nationwide.\17\ Additionally, this determination has nationwide effect 
+because it applies generically to all refineries nationwide, regardless 
+of their geographic location.\18\
+---------------------------------------------------------------------------
+
+    \16\ Loper Bright Enters. v. Raimondo, 603 U.S. 369, 394-95.
+    \17\ Calumet, 145 S. Ct. at 1752.
+    \18\ Id.
+---------------------------------------------------------------------------
+
+    Second, these adjudications are based on EPA's determination that 
+the DOE matrix is a reasonable proxy for DEH, and EPA will defer to 
+DOE's findings unless EPA's consideration of other economic factors 
+compels a different result. As detailed in section III.E of the August 
+31, 2026 SRE Decisions Action, CAA section 211(o)(9)(B) permits a small 
+refinery to petition for an extension of the exemption from its RFS 
+obligations for the reason of DEH. The statute directs EPA to 
+``consider the findings of the [2011 DOE study] and other economic 
+factors'' in evaluating a petition but provides no further instruction 
+as to how to effectuate these obligations.\19\ As the author of the 
+study and through its work assessing SRE petitions in conjunction with 
+EPA, DOE has developed extensive expertise in evaluating economic 
+conditions at U.S. refineries that is fundamental to the process both 
+DOE and EPA use to identify whether DEH exists for each petitioner. 
+With limited exceptions, EPA has consistently relied upon DOE's 
+expertise in the Agency's adjudication of SRE petitions over the life 
+of the RFS program. Thus, EPA has determined that the best way to 
+fulfill its obligation to ``consider the findings of the [2011 DOE 
+study]'' under CAA section 211(o)(9)(B) is to defer to DOE's 
+application of its matrix and resulting findings in evaluating whether 
+a small refinery would experience DEH. EPA has further determined that 
+the best way to fulfill its obligation to consider ``other economic 
+factors'' is to independently assess all available information and 
+weigh whether this information compels EPA to depart from DOE's 
+findings. This determination has nationwide scope because it is both an 
+interpretation of a federal statute and CAA section 211(o)(9)(B)(i) by 
+its terms applies nationwide, and it is a rebuttable presumption that 
+DOE's finding as to whether a given small refinery would experience 
+DEH, based on application of the DOE matrix, is correct, unless EPA's 
+consideration of other economic factors compels it to depart from DOE's 
+findings. Additionally, this determination has nationwide effect 
+because it applies generically to all
+
+[[Page 56446]]
+
+refineries nationwide, regardless of their geographic location.
+---------------------------------------------------------------------------
+
+    \19\ CAA section 211(o)(9)(B).
+---------------------------------------------------------------------------
+
+    Third, these adjudications are based on EPA's determination that, 
+when extending the exemption, either wholly or partially, to a small 
+refinery that has already retired RINs to comply with its RFS 
+obligations, CAA section 211(o) restricts EPA to returning some or all 
+of those retired RINs, commensurate with the degree of the exemption. 
+As detailed in section IV.B of the August 31, 2026 SRE Decisions 
+Action, returning RINs in this manner effectuates the best reading of 
+the statute. CAA section 211(o)(5) requires that every instance of RIN 
+generation be associated with the refining, blending, or importation of 
+renewable fuel. Section 211(o)(5) also requires that RINs expire after 
+a certain amount of time, while section 211(o)(9)(B) permits small 
+refineries to petition for an extension of the exemption ``at any 
+time.'' EPA interprets these provisions of CAA section 211(o) to limit 
+EPA to returning RINs retired for compliance, if any, when it grants an 
+extension of the exemption. This determination has nationwide scope 
+because it is an interpretation of a federal statute and CAA sections 
+211(o)(5) and 211(o)(9)(B) by their terms apply nationwide. 
+Additionally, this determination has nationwide effect because it 
+applies generically to all refineries nationwide, regardless of their 
+geographic location.
+    This third determination also minimizes disruptions to the RIN 
+market and RFS program, akin to the Fifth Circuit's review of the April 
+2022 Alternative Compliance Action \20\ in Wynnewood Refining Co., LLC 
+v. EPA, 86 F.4th 1114 (5th Cir. 2023). In Wynnewood, the Fifth Circuit 
+concluded that the ACA was based on a determination of nationwide scope 
+or effect because the ACA was designed to mitigate the impact of the 
+collective denials from the April 2022 SRE Denial Action \21\ on the 
+RIN market.\22\ After denying 36 SRE petitions for the 2018 compliance 
+year, EPA estimated that the small refineries would need to retire an 
+additional 1.4 billion RINs to satisfy their 2018 compliance 
+obligations.\23\ Concerned that such a drastic spike in need for RINs 
+would threaten the viability of the RIN market, EPA issued the ACA, 
+which required that the small refineries file a revised compliance 
+report but did not require them to retire additional RINs.\24\ The 
+Fifth Circuit reasoned that, because the purpose of the ACA was to 
+address the continuing viability of the RFS program as a whole, it was 
+based on a determination of nationwide scope or effect.\25\ Similarly 
+here, EPA's determination that the only permissible means of 
+implementing the extension of the exemption is by returning retired 
+RINs is based on concerns about the integrity of the RFS program as a 
+whole. As explained in section IV.B of the August 31, 2026 SRE 
+Decisions Action and in the August 2025 SRE Decisions Action, were the 
+Agency to replace the retired RINs with current vintage RINs, the 
+sudden mass influx of new RINs would result in decreased RIN prices, 
+leading to decreased future investments in renewable fuel production 
+and threatening the stability of the RIN market nationwide. EPA's 
+approach of returning retired RINs is designed to avoid these negative 
+impacts to the RFS program. Following the reasoning from the Wynnewood 
+decision, because the purpose of this determination is to address the 
+continuing viability of the RFS program as a whole, it is a 
+determination of nationwide scope or effect.
+---------------------------------------------------------------------------
+
+    \20\ EPA. (Apr. 2022). April 2022 Alternative RFS Compliance 
+Demonstration Approach for Certain Small Refineries. EPA-420-R-22-
+006. (``ACA'').
+    \21\ EPA. (Apr. 2022). April 2022 Denial of Petitions for RFS 
+Small Refinery Exemptions. EPA-420-R-22-006.
+    \22\ Wynnewood Refining Co., LLC v. EPA, 86 F.4th 1114, 1119 
+(5th Cir. 2023).
+    \23\ Id. at 1119-20.
+    \24\ Id. at 1117, 1120.
+    \25\ Id. at 1120.
+---------------------------------------------------------------------------
+
+    The actions discussed within the August 31, 2026 SRE Decisions 
+Action are based on the three determinations outlined above, as these 
+determinations lie ``at the core of the agency action[s]'' so as to 
+form the most important part of EPA's reasoning.\26\ The first and 
+second determinations together form the core basis for EPA's 
+adjudications because the Agency has used both of them to create a 
+rebuttable presumption that application of the DOE matrix produces the 
+correct DEH finding, and EPA defers to that finding unless the Agency's 
+consideration of other economic factors, including refinery-specific 
+information, compels the Agency to depart from that rebuttable 
+presumption. EPA's first determination is the first element of EPA's 
+rebuttable presumption: because the DOE matrix can result in a finding 
+of full DEH, partial DEH, or no DEH, EPA must first determine that the 
+CAA provides the Agency with authority for finding partial DEH before 
+the Agency can consider deferring to those findings. EPA's second 
+determination is the second element of EPA's rebuttable presumption: 
+the DOE matrix is a reasonable proxy for determining whether a small 
+refinery would experience DEH, and deferring to that finding is the 
+best way of fulfilling the Agency's statutory obligation to ``consider 
+the [2011 DOE Study]'' and will result in the correct DEH finding for 
+that small refinery. Taken together, these two determinations--that EPA 
+has the authority to find that a small refinery is experiencing partial 
+DEH and that the DOE matrix is a reasonable proxy for determining 
+whether a small refinery would experience DEH--form the rebuttable 
+presumption that is ``the primary explanation for and driver of EPA's 
+action.'' \27\ Under this rebuttable presumption, EPA will defer to 
+DOE's findings unless the Agency's consideration of other economic 
+factors compels a different result.
+---------------------------------------------------------------------------
+
+    \26\ Calumet, 145 S. Ct. at 1751.
+    \27\ Id.
+---------------------------------------------------------------------------
+
+    To fulfill its statutory obligation to consider ``other economic 
+factors,'' EPA did consider refinery-specific information in its 
+adjudications. However, these confirmatory reviews were not the primary 
+drivers of EPA's actions on these petitions. EPA considered refinery-
+specific facts only to determine whether to depart from its rebuttable 
+presumption that application of DOE's matrix results in the correct DEH 
+finding, and these considerations, for each small refinery, confirmed 
+that none of the refinery-specific facts rebutted the presumptive 
+disposition. For example, EPA considered information presented by small 
+refineries regarding their financial circumstances and found that the 
+information was already considered in the DOE matrix or did not 
+otherwise justify departing from the finding reached by application of 
+the DOE matrix. Thus, EPA's consideration of refinery-specific facts 
+was peripheral in comparison to EPA's rebuttable presumption that 
+application of the DOE matrix is the best means of determining whether 
+DEH exists.\28\ Notably, EPA's confirmatory review of refinery-specific 
+facts did not change the final decision for any of the SRE petitions.
+---------------------------------------------------------------------------
+
+    \28\ Id. at 1752.
+---------------------------------------------------------------------------
+
+    Additionally, EPA's third determination--that the only perm

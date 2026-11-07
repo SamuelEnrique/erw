@@ -554,7 +554,7 @@ public, `erw.filter(license="public")`.
 Held: license needed (from 2026-10-21; session 445, docs/guide.md). A table
 flagged public whose publisher's own page asks for permission or a license is
 held unless a permission is recorded: the rows of
-warehouse/metadata/license_status.csv (42 on 21 October 2026, decided mostly
+warehouse/metadata/license_status.csv (45 on 6 November 2026, 42 on 21 October 2026, decided mostly
 by NYISO, ISO-NE and MISO; docs/licenses.md). coverage.csv still says `public`
 for them, so `erw.filter(license="public")` returns them: a held table is not
 offered by the site or /api/download and is out of Redivis version 1

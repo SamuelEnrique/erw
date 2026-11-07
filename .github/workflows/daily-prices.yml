@@ -305,6 +305,11 @@ jobs:
       - name: Commit metadata, docs and digests (never outputs)
         id: commit
         if: steps.daily.outputs.status == 'ok' || steps.daily.outputs.status == 'retried'
+        env:
+          # session 3713: for scripts/push_guard.py's one row of erw_health when the push is refused (the suite itself
+          # runs with every key taken out of its environment)
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
           set -euo pipefail
           date="$(date -u +%F)"
@@ -387,12 +392,24 @@ jobs:
           for p in "${paths[@]}"; do
             [ -e "$p" ] && git add -- "$p"
           done
+          # session 3714 (docs/state/main_red_2026-11-06.md): a page file rebuilt here from a table shorter than its history
+          # (the runner holds only what it restored) is put back as main has it, each one named in the log
+          python scripts/never_thinner.py --staged
           if git diff --cached --quiet; then
             echo "No tracked file changed today; nothing to commit."
             exit 0
           fi
           git commit -m "Daily prices $date: ok: ${ok:-none}; failed: ${failed:-none}"                      -m "Automated run of .github/workflows/daily-prices.yml. Metadata, docs and digests only; the tables stay out of git (session 9). All tables passed erw_validate."
-          git push origin HEAD:main
+          # session 3713 (docs/state/main_red_2026-11-06.md): the whole suite on a clean copy of this commit before it
+          # goes to main. Red: the failing tests are named here and in the run's summary, the commit goes to
+          # wip/red-daily-<day> for a session to repair, this step is recorded failed in erw_health (the email rule's one
+          # daily red email reads it), and main is not touched. The job itself stays green: a red scheduled job would
+          # make GitHub send an email of its own, which the email rule does not allow (no scheduled job fails on GitHub)
+          if python scripts/push_guard.py --who "daily prices" --step "commit" --red-branch "wip/red-daily-$date"; then
+            git push origin HEAD:main
+          else
+            echo "::warning::the push to main was refused; the failing tests are named above and in the summary"
+          fi
 
       - name: Release the data lock
         if: always() && env.ERW_LOCK_TOKEN != ''
@@ -456,6 +473,12 @@ jobs:
             [ -e site/data/health_days.json ] && git add -- site/data/health_days.json
             git diff --cached --quiet && { echo "the health summary for $day is unchanged"; exit 0; }
             git commit --quiet -m "Health summary $day (warehouse/health.py)" -m "Automated run of .github/workflows/daily-prices.yml."
+            # session 3713: this commit too goes to main only when the whole suite passes on it (the first try; a later
+            # try only rebases the same two files onto a main the guard of its own commit tested)
+            if [ "$i" = 1 ] && ! python scripts/push_guard.py --who "daily prices" --step "health summary commit" --red-branch "wip/red-health-$day"; then
+              echo "::warning::the health summary's push to main was refused; the failing tests are named above"
+              exit 0
+            fi
             git push --quiet origin HEAD:main && exit 0
             git reset --quiet --soft HEAD~1
             git stash push --include-untracked --quiet -m "health summary" || true

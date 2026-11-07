@@ -1,0 +1,385 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 205 (Monday, October 26, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 205 (Monday, October 26, 2026)]
+[Rules and Regulations]
+[Pages 67211-67214]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-21835]
+
+
+-----------------------------------------------------------------------
+
+DEPARTMENT OF THE INTERIOR
+
+Office of Surface Mining Reclamation and Enforcement
+
+30 CFR Part 950
+
+[SATS No. WY-055-FOR; Docket ID No. OSM-2025-0002; S1D1S SS08009000 
+SX064A000 278S180110; S2D2S SS08009000 SX064A000 27XS501520; S2R2B 
+SS08009000 SX064A000 22XS5015I]
+
+
+Wyoming Regulatory Program
+
+AGENCY: Office of Surface Mining Reclamation and Enforcement, Interior.
+
+ACTION: Final rule; approving
+
+-----------------------------------------------------------------------
+
+SUMMARY: The Office of Surface Mining Reclamation and Enforcement 
+(OSM), are approving an amendment to the Wyoming regulatory program 
+(Wyoming program) under the Surface Mining Control and Reclamation Act 
+of 1977 (SMCRA or the Act). The Wyoming Land Quality Division (WLQD) 
+submitted this proposed amendment in response to our January 19, 2024 
+partial approval of an amendment to WLQD's regulations for coal 
+exploration by drilling (SATS No. WY-050-FOR; Docket ID No. OSM-2021-
+0004). In the final rule, under the heading ``Revisions to Wyoming's 
+Rules That We Are Not Approving,'' OSM listed several provisions 
+containing typographical errors that WLQD would need to correct through 
+future rulemaking. WLQD now proposes those corrections with this 
+amendment (SATS No. WY-055-FOR; Docket ID No. OSM-2025-0002).
+
+DATES: The effective date is November 25, 2026.
+
+FOR FURTHER INFORMATION CONTACT: Jeffrey Fleischman, Field Office 
+Director, Office of Surface Mining Reclamation and Enforcement, 100 
+East B Street, Room 4100; Casper, Wyoming 82602.Telephone: (307) 261-
+6550. Email: [email protected].
+
+SUPPLEMENTARY INFORMATION:
+I. Background on the Wyoming Program
+II. Submission of the Amendment
+III. OSM's Findings
+    A. Minor Revisions to Wyoming's Rules
+IV. Summary and Disposition of Comments
+V. OSM's Decision
+VI. Procedural Determinations
+
+I. Background on the Wyoming Program
+
+    Section 503(a) of SMCRA permits a State to assume primacy for the 
+regulation of surface coal mining and reclamation operations on non-
+Federal and non-Indian lands within its borders by demonstrating that 
+its program includes, among other things, State laws and regulations 
+that govern surface coal mining and reclamation operations in 
+accordance with SMCRA and consistent with the Federal implementing 
+regulations. See 30 U.S.C. 1253(a)(1) and (7); 30 CFR 730.5 and 
+732.15(a).
+    On the basis of these criteria, the Secretary of the Interior 
+conditionally approved the Wyoming program on November 26, 1980. You 
+can find background information on the Wyoming program, including the 
+Secretary's findings, the disposition of comments, and conditions of 
+approval in the November 26, 1980, Federal Register (45 FR 78637). You 
+can also find later actions concerning the Wyoming program and 
+amendments thereto at 30 CFR 950.10, 950.12, 950.15, 950.16, and 
+950.20.
+
+II. Submission of the Amendment
+
+    Between 1978 and 2007, the Wyoming State legislature enacted a 
+number of revisions to its statutes governing coal exploration by 
+drilling. The proposed statutory revisions reflected organizational 
+updates at WLQD, corrected typographical errors, provided more detailed 
+instructions for plugging and sealing drill holes, incorporated 
+provisions for the awarding of attorney fees and other litigation 
+costs, and included more detailed instructions for bond release. In 
+addition to the statutory changes, on March 2, 2016, the Wyoming 
+Environmental Quality Council approved several revisions to Chapter 14 
+of the Land Quality Division Coal Rules and Regulations governing coal 
+exploration by drilling, which were last updated in 1998. Specifically, 
+the rules were updated to include best management practices and 
+standards adopted by the Wyoming State Engineer's Office that conform 
+with accepted practices established by the American Society for Testing 
+and Materials, the American Water Works Association, and the Wyoming 
+DEQ--Water Quality Division regulations. Other revisions included a 
+list of acceptable grout materials, requirements to plug and 
+immediately cap the entire drill hole, additional identification 
+numbers to facilitate inspections, and minor formatting and 
+organizational changes. Accordingly, by letter dated June 4, 2021, the 
+State proposed to OSM these statutory and regulatory changes on its own 
+initiative.
+    On January 19, 2024, OSM approved, with exceptions, the WY-050-FOR 
+amendment, effective February 20, 2024 (89 FR 3562). In the final rule, 
+under the heading ``Revisions to Wyoming's Rules That We Are Not 
+Approving,'' OSM noted an inadvertent word-swap in the language 
+proposed for chapter 14, subsection 3(a) addressing reclamation of 
+drill sites and ancillary roads: specifically, the word ``location'' 
+was used instead of the previously approved word ``condition,'' 
+rendering the rule illogical. OSM also noted that WLQD, in referencing 
+its own ``Land Quality Division Coal Rules and Regulations'' in the 
+language proposed for chapter 14, subsections 3(c), 3(d), 3(e), and 
+4(d), omitted the word ``Division'' and that made the title of these 
+regulations incomplete.
+    As laid out in the final rule, by letter dated October 24, 2023, 
+OSM informed WLQD of these typographical errors and the need to correct 
+them, while offering to delay rulemaking under WY-050-FOR to 
+accommodate the corrections. WLQD responded by letter dated November 
+22, 2023, that, although they had taken the initial steps to address 
+OSM's concerns, the State's internal rulemaking processes would 
+preclude WLQD from making the corrections within the allowable 
+timeframe. WLQD subsequently undertook rulemaking to correct the minor 
+errors; the revised rules were approved by the Environmental Quality 
+Council on October 23, 2024, filed with the Wyoming Secretary of State 
+on January 3, 2025, and transmitted to OSM on January 22, 2025. In the 
+January 22,
+
+[[Page 67212]]
+
+2025 revisions, WLQD included additional minor corrections noted during 
+OSM's initial review of the original amendment and communicated to the 
+State by email on July 27, 2021. Specifically, OSM pointed out that, in 
+the language proposed for chapter 14, subsection 2(e)(iii), the word 
+``part'' was misspelled ``peart;'' at subsection 2(g), the punctuation 
+directly after the first use of ``shall'' should probably have been a 
+colon instead of a semicolon; and at subsection 2(h), the punctuation 
+directly after the second use of the term ``material'' should probably 
+have been a period instead of a comma.
+    During OSM's initial review of the January 22, 2025 revision 
+package, OSM noticed a new typographical error that was introduced 
+during the rulemaking to correct the previously identified errors. 
+Specifically, in the required correction to chapter 14, subsection 
+3(e), in referencing its Land Quality Division Coal Rules and 
+Regulations, WLQD transposed the words ``Coal'' and ``Division'' 
+forming the incorrect title for these regulations as ``Land Quality 
+Coal Division Rules and Regulations.'' OSM communicated this 
+discrepancy to WLQD which was able to make the correction using its own 
+streamlined process for non-substantive changes that do not require 
+formal rulemaking. Accordingly, on February 7, 2025, WLQD retransmitted 
+a corrected copy of the January 22, 2025 submittal for OSM's review.
+
+III. OSM's Findings
+
+    The following are the findings OSM made concerning the amendment 
+under SMCRA and the Federal implementing regulations at 30 CFR 732.15 
+and 732.17. OSM is approving the amendment as described below. The full 
+text of the approved amendment is available online at 
+<a href="http://www.regulations.gov">www.regulations.gov</a>.
+
+A. Minor Revisions to Wyoming's Rules
+
+    WLQD proposed minor spelling and grammatical and organizational 
+changes to Chapter 14 of the Land Quality Division Coal Rules and 
+Regulations. WLQD did not propose any substantive changes to the text 
+of these previously approved regulations. Because the proposed 
+revisions are minor and result in no substantive changes to the Wyoming 
+program, OSM is approving the changes and find that they are no less 
+effective than the corresponding Federal regulations at 30 CFR parts 
+700 to 887. The specific, minor revisions to the Code of Wyoming Rules 
+are as follows:
+    <bullet> Chapter 14, subsection 2(e)(iii): spelling error 
+(``peart'' corrected as ``part'');
+    <bullet> Chapter 14, subsection 2(g): punctuation error (semicolon 
+struck and replaced with colon);
+    <bullet> Chapter 14, subsection 2(h): punctuation error (comma 
+struck and replaced with full stop);
+    <bullet> Chapter 14, subsection 3(a): word-swap (``location'' 
+struck and replaced with ``condition'');
+    <bullet> Chapter 14, subsection 3(c): word omission (``Division'' 
+inserted between ``Quality'' and ``Coal'');
+    <bullet> Chapter 14, subsection 3(d): word omission (``Division'' 
+inserted between ``Quality'' and ``Coal'');
+    <bullet> Chapter 14, subsection 3(e): word omission and 
+transposition (``Coal'' erroneously inserted between ``Quality'' and 
+``Division''; Wyoming subsequently rectified this initial correction 
+attempt by properly relocating ``Coal'' between ``Division'' and 
+``Rules''); and
+    <bullet> Chapter 14, subsection 4(d): word omission (``Division'' 
+inserted between ``Quality'' and ``Coal'').
+
+IV. Summary and Disposition of Comments
+
+Public Comments
+
+    OSM asked for public comments on the amendment; three comments were 
+received. One commenter submitted a poem about the virtues of 
+``beautiful, clean coal.'' OSM thanks the poet for their time but finds 
+the comment to be outside the scope of this rulemaking about proposed 
+revisions to the Wyoming program. Another commenter expressed 
+frustration with WLQD's typographical mistakes and broader concerns 
+with the fossil fuel industry. The comments about the merits of 
+companies that extract fossil fuels are outside the scope of this 
+rulemaking, but OSM does agree with the commenter about the importance 
+of proper spelling and grammar generally, and in the rulemaking arena 
+specifically. However, typographical errors in proposed or final 
+rulemakings are not grounds to require a State to ``start over'' and 
+the Federal regulations at 30 CFR 732.17(h) allow for partial approvals 
+of amendments and subsequent rulemakings to incorporate required 
+revisions. Here, OSM and WLQD followed the process laid out at 30 CFR 
+732.17(h) by not approving earlier proposed rules that contained errors 
+and correcting those errors in this proposed amendment.
+    The third commenter provided a variety of recommendations regarding 
+OSM's Tribal engagement process for amendments, including: (1) conduct 
+comprehensive legal and technical pre-approval reviews of all proposed 
+amendments, with attention to how changes affect Tribal interests; (2) 
+implement mandatory Tribal consultation for all program amendments 
+under SMCRA that involve shared watersheds, adjacent lands, or 
+potential cultural resource impacts; (3) distribute plain-language 
+summaries of proposed rule changes to Tribal Historic Preservation 
+Officers (THPO) and Tribal environmental departments; and (4) 
+institutionalize Tribal feedback into SMCRA implementation guidance for 
+state program officials.
+    While the comment was focused on OSM's Tribal engagement process 
+for amendments generally, which is outside the scope of this 
+rulemaking, OSM addresses the suggestions for this proposed amendment 
+specifically. With respect to the first recommendation, these steps are 
+already integrated into OSM's review process: see OSM Directive 979 
+entitled, ``REG-18,'' which implements Executive Order 13175, 
+Presidential Memorandum on Tribal Consultation dated November 9, 2009, 
+and Secretarial Order 3317; OSM Standard Operating Procedure 3000-01; 
+and Department of the Interior Departmental Manual part 512, chapters 4 
+and 5. With respect to the second recommendation, OSM reached out to 42 
+federally recognized Tribes with an actual or potential interest in the 
+Wyoming program by electronic and hard copy letter dated October 7, 
+2025. OSM did not receive any substantive comments or requests for 
+consultation or further discussion on the amendment in response to this 
+letter. With respect to the third recommendation, OSM always strives to 
+write in plain language, as required by the Plain Writing Act of 2010, 
+and incorporated this practice as part of OSM's October 7, 2025 Tribal 
+consultation initiation letter. Finally, the fourth recommendation is 
+outside the scope of this rulemaking but OSM conveyed the 
+recommendation to the Program Support Directorate, which has 
+responsibility for the development of guidance for state program 
+implementation at OSM.
+
+Federal Agency Comments
+
+    On March 13, 2025, under 30 CFR 732.17(h)(11)(i) and section 503(b) 
+of SMCRA, OSM requested comments on the amendment from various Federal 
+agencies with an actual or potential interest in the Wyoming program. 
+OSM did not receive any comments.
+
+V. OSM's Decision
+
+    Section 503(a) of SMCRA requires that the State program demonstrate 
+the State has the capability of carrying out the provisions of SMCRA 
+and meeting
+
+[[Page 67213]]
+
+its purposes. SMCRA requires consistency between State and Federal 
+standards. Based on the above findings, OSM approves the Wyoming 
+amendment submitted on February 7, 2025. To implement this decision, 
+OSM is amending the Federal regulations at 30 CFR 950.15 that codify 
+decisions concerning the Wyoming program. In accordance with the 
+Administrative Procedure Act, this rule will take effect 30 days after 
+the date of publication.
+
+VI. Procedural Determinations
+
+Executive Order 12630--Governmental Actions and Interference With 
+Constitutionally Protected Property Rights
+
+    This rule would not effect a taking of private property or 
+otherwise have taking implications that would result in public property 
+being taken for government use without just compensation under the law. 
+Therefore, a takings implication assessment is not required. This 
+determination is based on an analysis of the corresponding Federal 
+regulations.
+
+Executive Orders 12866--Regulatory Planning and Review, 13563--
+Improving Regulation and Regulatory Review
+
+    Executive Order 12866, as amended by Executive Order 13563, 
+provides that the Administrator of the Office of Information and 
+Regulatory Affairs within the Office of Management and Budget (OMB) 
+will review all significant rules. Pursuant to OMB guidance dated 
+October 12, 1993, the approval of State program amendments is exempted 
+from OMB review under Executive Order 12866.
+
+Executive Order 12988--Civil Justice Reform
+
+    The Department of the Interior has reviewed this rule as required 
+by section 3 of Executive Order 12988. The Department determined that 
+this Federal Register document meets the criteria of section 3 of 
+Executive Order 12988, which is intended to ensure that the agency 
+review its proposed legislation and regulations to eliminate drafting 
+errors and ambiguity; that the agency write its legislation and 
+regulations to minimize litigation; and that the agency's legislation 
+and regulations provide a clear legal standard for affected conduct 
+rather than a general standard, and promote simplification and burden 
+reduction. Because section 3 focuses on the quality of Federal 
+legislation and regulations, the Department limited its review under 
+this Executive Order to the quality of this Federal Register document 
+and to changes to the Federal regulations. The review under this 
+Executive Order did not extend to the language of the State regulatory 
+program or to the program amendment that the Cabinet proposed.
+
+Executive Order 13132--Federalism
+
+    This rule is not a ``[p]olicy that [has] federalism implications'' 
+as defined by section 1(a) of Executive Order 13132 because it does not 
+have ``substantial direct effects on the states, on the relationship 
+between the national government and the states, or on the distribution 
+of power and responsibilities among the various levels of government.'' 
+Instead, this rule approves an amendment to the Wyoming program 
+submitted and drafted by that State. OSM reviewed the submission with 
+fundamental federalism principles in mind as set forth in sections 2 
+and 3 of the Executive Order and with the principles of cooperative 
+federalism set forth in SMCRA. See, e.g., 30 U.S.C. 1201(f). As such, 
+pursuant to section 503(a)(1) and (7) (30 U.S.C. 1253(a)(1) and (7)), 
+OSM reviewed the program amendment to ensure that it is ``in accordance 
+with'' the requirements of SMCRA and ``consistent with'' the Federal 
+implementing regulations issued by the Secretary pursuant to SMCRA.
+
+Executive Order 13175--Consultation and Coordination With Indian Tribal 
+Governments
+
+    The Department of the Interior strives to strengthen its 
+government-to-government relationship with Tribes through a commitment 
+to consultation with Tribes and recognition of their right to self-
+governance and Tribal sovereignty. By electronic and hard copy letter 
+dated October 7, 2025, and in line with the Department's consultation 
+policy and Executive Order 13175, OSM invited 42 federally recognized 
+Tribes with an actual or potential interest in the Wyoming program to 
+consult on the amendment. OSM did not receive any substantive comments 
+or requests for consultation or further discussion on the amendment in 
+response to this letter.
+
+Executive Order 13211--Actions Concerning Regulations That 
+Significantly Affect Energy Supply, Distribution, or Use
+
+    Executive Order 13211 requires agencies to prepare a Statement of 
+Energy Effects for a rulemaking that is (1) considered significant 
+under Executive Order 12866, and (2) likely to have a significant 
+adverse effect on the supply, distribution, or use of energy. Because 
+this rule is exempt from review under Executive Order 12866 and is not 
+a significant energy action under the definition in Executive Order 
+13211, a Statement of Energy Effects is not required.
+
+National Environmental Policy Act
+
+    Consistent with sections 501(a) and 702(d) of SMCRA (30 U.S.C. 
+1251(a) and 1292(d)) and the U.S. Department of the Interior 
+Departmental Manual, part 516, section 13.5(A), State program 
+amendments are not major Federal actions within the meaning of section 
+102(2)(C) of the National Environmental Policy Act (42 U.S.C. 
+4332(2)(C)).
+
+Paperwork Reduction Act
+
+    This rule does not include requests and requirements of an 
+individual, partnership, or corporation to obtain information and 
+report it to a Federal agency. As this rule does not contain 
+information collection requirements, a submission to the Director of 
+the Office of Management and Budget under the Paperwork Reduction Act 
+(44 U.S.C. 3501 et seq.) is not required.
+
+Regulatory Flexibility Act
+
+    This rule will not have a significant economic impact on a 
+substantial number of small entities under the Regulatory Flexibility 
+Act (5 U.S.C. 601 et seq.). The State submittal, which is the subject 
+of this rule, is based upon corresponding Federal regulations for which 
+an economic analysis was prepared, and certification made that such 
+regulations would not have a significant economic effect upon a 
+substantial number of small entities. In making the determination as to 
+whether this rule would have a significant economic impact, the 
+Department relied upon the data and assumptions for the corresponding 
+Federal regulations.
+
+Congressional 

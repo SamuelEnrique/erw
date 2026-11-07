@@ -1,0 +1,59 @@
+{
+ "_about": "eval_s3282_loop_trader_run.json graded on questions_trader.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "trader",
+ "asked": 2,
+ "right": 2,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence"
+ ],
+ "cost_usd": 0.303,
+ "questions": [
+  {
+   "id": "tr13",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.1585067,
+   "seconds": 19.2,
+   "expected": [
+    40.5675
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "tr14",
+   "via": "grid",
+   "grid": "SPP",
+   "status": "answered",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.1445412,
+   "seconds": 43.3,
+   "expected": [
+    -17.0059
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 12
+  }
+ ]
+}
