@@ -27,9 +27,12 @@ Long end 0:45. The next file. Then chain 192's note read; its unfinished steps o
 
 Long end 1:30 each, in its note's order; the landing service first in the third (`docs/state/landing_request_portable.md` and `docs/state/landing_request_oldlaptop.md` on origin's main).
 
-What chain 192 left (session 3233, 6 November 2026, about 19:00 UTC; its last session replaces this list):
+What chain 192 left (session 3246, 7 November 2026, about 05:00 UTC; updated where this file is parked for the owner's weekend review, as the other windows did):
 
-- **The portable laptop's deals row 8 and policy row 11** were prepared by session 3233: `wip/3233-deals` (`wip/2295-deals` with `origin/main` merged and the `check-holds.mjs` fix of `50988f711`) and `wip/3233-policy` (`wip/3157-policy` with `origin/main` merged). Their gates were started on 6 November; chain 192's note says which landed.
+- **Every row of the portable laptop's request file landed** from 6 to 7 November (rows 1 to 15, the last at `28c3a311d`), each through `land_check.py` with the hand checks on the gate's own server. Nothing of the old laptop's waits.
+- **The gates now fail `/digest`'s floor on Saturdays and Sundays** ("No Digest on Saturday" has no numbers); chain 192 read it as the day and asked the owner (its report, "For Samuel's ruling").
+- **No findings branch is in flight;** this chain cuts its first from `origin/main`.
+- **This file is parked:** it runs only when the owner moves it back to `queue/next/`.
 
 ## The sixth to eighth sessions: the owner's rulings
 
