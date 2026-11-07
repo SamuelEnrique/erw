@@ -77,7 +77,14 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
 
   // the charts' span: the weeks with a classified story, the first to the last (the weeks before the classification
   // reached are not zero, they are not yet read, so they are not drawn; the note under the chart says so)
-  const span = useMemo(() => f.denominators.filter((d) => d[3] > 0).map((d) => d[0]).sort((a, b) => a - b), [f]);
+  // ... and no week after the one the file was built in: a feed dates a few stories after the day they were read, and
+  // a one-story week in the future would end the lines with a spike (its cell stays in the week picker and the tables)
+  const span = useMemo(() => {
+    const built = new Date(f.built);
+    const monday = new Date(Date.UTC(built.getUTCFullYear(), built.getUTCMonth(), built.getUTCDate() - ((built.getUTCDay() + 6) % 7)));
+    const last = monday.toISOString().slice(0, 10);
+    return f.denominators.filter((d) => d[3] > 0 && day(f.weeks[d[0]]) <= last).map((d) => d[0]).sort((a, b) => a - b);
+  }, [f]);
   // the two series over the span: a week without a row is null (no story of the sector in that place)
   const series = useMemo(() => {
     const att: (number | null)[] = [], fri: (number | null)[] = [], n: number[] = [], opp: number[] = [];
