@@ -612,7 +612,29 @@ def render(day, rows, stale=None):
     if sk:
         lines += ["", "## Skips, by reason", ""]
         lines += [f"- {w}, {s}: {n} x {why}" for (w, s, why), n in sorted(sk.items(), key=lambda kv: -kv[1])]
+    lines += emails_sent(rows)
     return "\n".join(lines) + "\n"
+
+
+EMAIL_KINDS = ("ready", "daily red")   # scripts/alert.py deliver(): the only kinds it sends (the email rule, session 243)
+
+
+def emails_sent(rows):
+    """Session 3717: the day's emails, from the alerts' memory (rows of workflow "alerts" whose step is a kind
+    deliver() sends: one row a sent email), and the memory's other rows, recorded and not emailed (the morning summary,
+    the failures a daily red named). So the one-email rule can be checked from this file alone: until then the table
+    above counted the memory's rows without their kinds, and a reader had to ask erw_health which were emails."""
+    mem = [r for r in rows if r.get("workflow") == MEMORY]
+    sent = [r for r in mem if r.get("step") in EMAIL_KINDS]
+    other = {}
+    for r in mem:
+        if r.get("step") not in EMAIL_KINDS:
+            other[r.get("step")] = other.get(r.get("step"), 0) + 1
+    out = ["", "## Emails the chain watch sent", ""]
+    out += [f"- {str(r['at'])[11:16]} UTC, {r['step']}: {r.get('reason') or ''}" for r in sent] or ["- none"]
+    if other:
+        out += ["", "Recorded, not emailed: " + "; ".join(f"{k} {n}" for k, n in sorted(other.items())) + "."]
+    return out
 
 
 ROOT_CAUSES = "## Root causes"  # session 377: a person's or a session's section of a day's file, kept when it is rewritten

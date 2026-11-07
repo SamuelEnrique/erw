@@ -522,6 +522,8 @@ Session 381, 21 October 2026 (roadmap item 2, "a cross-check table against publi
 - Not in the table: ISO-NE, MISO and NYISO against Form EIA-923 (2025: -4.91, -6.68 and -3.09 percent). `eia_annual_crosscheck.md` gives the gaps and not the two totals, and `eia_annual_crosscheck_ba` is not in the live set (a read on 21 October 2026 answered "Could not find the table"), so their TWh are not quoted.
 - The page carries no "Checked against" line yet, unlike the three decision tools: adding one changes the page's words, and is listed in the session's report for Samuel's ruling.
 
+- **Session 3705 (chain 208).** The table of the Grid tool's headline figures against figures others publish, one row a figure, is `docs/methods/crosschecks/grid.md` (sessions 3708 to 3710). The replication below holds the page to its own inputs; this section and that file hold the inputs to other publishers.
+
 ## The figures on the page and their keys
 
 Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
@@ -530,3 +532,66 @@ Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `si
 - `bsup|<BA>|neighbour_mwh:<ID>`, `bsup|<BA>|neighbour:<ID>`: the table of the grid's neighbours over the same twelve months: each neighbour's net import into the grid in MWh, and its percent of the grid's demand.
 - `net|maxflow|<BA>|<hour>`: the Exchange view's headline "Largest flow": the largest flow, either way, over the grid's reporting ties in the hour shown, in MW, read from the network's snapshot of `eia930_all_interchange`.
 - `net|topexport|<hour>`: the Exchange view of the Lower 48, in its first paragraph: the largest net export of any balancing authority in the hour shown, in MW, its reporting ties summed and signed from its side (`netExports` and `topExporter` in `site/lib/network.ts`), from the same snapshot; two authorities with the same net export give it to the first by its id.
+
+## Replication (sessions 3703 to 3705)
+
+Roadmap item 2 asks for a replication a reader can run. `replication/grid/` is the Grid tool's, in the form of the three decision tools' packages (`replication/battery/`, `generator/`, `datacenter/`) and Research's (`replication/analysis/`). It reproduces the figures the page prints from EIA-930 and the warehouse's tables:
+
+- the network snapshot the page draws: public Storage's `erw-public/network/grid_network.json`, or the committed `site/data/grid_network.json`;
+- the warehouse's tables as CSV: `eia930_all_emissions`, `carbon_intensity_hourly` and `carbon_intensity_monthly`, `eia930_all_generation`, and the tables the Ask panel's stored answers read;
+- this folder's `assumptions.json`: every assumption, its default, its source and how to change it (the section below).
+
+| File | What it does |
+|---|---|
+| `figures_of_the_page.py` | Writes `page_figures.json` and `.csv`: the figures the page prints, each with its check key, the value and the tolerance (half of the last digit the page shows, as `site/lib/format.ts` writes it). It also writes `snapshot_hour.csv` (the snapshot's hour shown, for Stata) and `replicate_ask.do`. The network's figures come from the page's own functions, which `network_figures.mjs` runs with node (`site/lib/gridKeys.ts`, `networkV3.ts`, `network.ts`, `networkGravity.ts`: pure, type imports only). The carbon months are the rows the Clean tab's monthly block names. The Ask figures are the stored answers the panel shows, with the license hold the panel applies on the day |
+| `replicate.py` | Standard library and pandas only. It recomputes every figure without the page's code. The network: the hour shown, its age, each grid's ties signed from its side, net export and import, the number of ties, the largest flow, the largest net exporter, and the gravity shape's net import, generation and share where the tables hold the hour. The carbon months: each month's CO2 (`eia930_all_emissions`, `co2_emissions_generated`) over its MWh, each hour's MWh being its CO2 over its intensity, over months whose every UTC day holds 24 hours. The Ask answers: each stored query run again with the Ask tool's rules (`warehouse/chat/tools.py`: the filters, the grid's scope, latest, mean, sum, min, max or count, the groups). `mix_now()` applies the Mix tab's latest-hour rules (`components/grid/NowView.tsx`) to rows a reader reads |
+| `replicate.do`, `replicate_ask.do` | The network's hour, the carbon months and the Ask panel's 24 plain queries in Stata, in the owner's rules. Not yet run: no Stata on the machine that wrote them |
+| `assumptions.json` | The 25 assumptions (below) |
+
+**What it found on 6 November 2026** (the snapshot built 2026-11-05T23:09:35Z, hour shown 2026-11-03T23:00 UTC; the tables of `warehouse/output` on the portable laptop, retrieved 26 September to 2 October 2026):
+
+- 188 figures; 158 computed, **147 met**.
+- **Network and Gravity: 85 of 85.** The page's own code and the replication agree on every figure; the test holds them to each other on whatever snapshot is committed.
+- **Carbon: 14 of 14 months** of the Clean tab's monthly block, rebuilt from the hours to within 0.0001 kg CO2 per MWh.
+- **Not held in the tables given: the network's 7 hourly carbon figures** (the hours of 30 October to 2 November are after the tables' copy).
+- **Ask: 48 of 59 met; 11 a known difference.** Each of the 11 is an answer asked on 14 or 19 October of the live set, against a copy of its table made on 26 or 30 September or 2 October. The CAISO answers moved with the California join's rebuild; SPP's queue gained a project. One answer's table (`ercot_hub_prices_daily`) is not on the machine.
+- **22 "license needed":** the stored answers of ISO-NE, MISO and NYISO whose tables are held for those grids.
+- **Not replicated:**
+  - the Mix tab's and the Clean tab's latest hours. These are live reads; the package's `mix_now()` applies the rules to rows a reader reads with the site's public key, and this chain read no row of the live set.
+  - the hourly carbon intensity itself. Its denominators are EIA's per-BA workbooks, which no table holds.
+  - the Mix tab's other views, built from EIA's workbooks on the data machine.
+- **The test:** `tests/test_session3703.py`. It runs both computations of the network on the committed snapshot, so the daily run's new snapshot never turns it red. The carbon and Ask checks run where the tables are, and skip in a clean checkout. It also checks the Mix tab's rules on a fixture, the license hold against the site's, the query rules on a fixture, the imports, and both do-files' rules.
+
+The earlier files stay as they were: `site/public/grid/erw_2026_grid_replication.{csv,do,py}` (session 266), the Network view's hour of 12 October 2026, the page's download.
+
+## Decisions: every assumption, its default, its source, how to change it (session 3705)
+
+Roadmap item 2's decisions block for the Grid tool. The table is `replication/grid/assumptions.json`, word for word (`tests/test_session3705.py` holds the two to each other). The page's own block, "Decisions on this page" (`site/app/grid/page.tsx`, `data-decisions="299"`), carries the owner's five rulings of 18 October; they are rows here too. No page was changed.
+
+| Assumption | Default | Source | How to change it |
+|---|---|---|---|
+| `network_window_hours` | 168 (hours) | warehouse/derived/grid_network.py: the snapshot holds the last week of EIA-930's hourly interchange (hours, links' mw arrays of 168) | the window of grid_network.py and network_hourly.py; the page draws whatever the snapshot holds |
+| `network_snapshot` | the hourly copy in public Storage, else the committed one | site/lib/network.ts pickSnapshot: Storage's erw-public/network/grid_network.json when it is whole and its newest hour is not older than site/data/grid_network.json's | site/lib/network.ts |
+| `network_pair_rule` | each pair once, read from the BA whose code sorts first | warehouse/derived/grid_network.py (the snapshot's rule): a pair's flow is the one the first BA in code order reported, positive when it exported | warehouse/derived/grid_network.py |
+| `network_quiet_hours` | 48 (hours) | site/lib/networkV3.ts completeHour, quiet = 48: a pair that held no flow in the snapshot's last 48 hours is silent and does not hold back the hour shown | the default argument of completeHour in site/lib/networkV3.ts |
+| `network_hour_shown` | the newest hour every reporting pair holds | site/lib/networkV3.ts completeHour and site/lib/gridKeys.ts shownHour; the newest hour of all when no hour is whole | site/lib/networkV3.ts |
+| `network_sign` | positive: power left the grid | site/lib/gridKeys.ts tiesOf and site/lib/network.ts netValue: a tie's flow is signed from the grid's side; net export is the sum over its reporting ties, net import the same sum from the other side | site/lib/gridKeys.ts |
+| `network_top_exporter_tie` | the first in code order | site/lib/network.ts topExporter: of equal net exports, the balancing authority whose code sorts first | site/lib/network.ts |
+| `network_lag_rounding` | half up | site/lib/network.ts netValue, net|lag: the hours from the hour shown to the snapshot's refresh, by JavaScript's Math.round | site/lib/network.ts |
+| `gravity_source` | EIA-930 net generation for every circle, CAISO's included | the owner's ruling 1a of 18 October 2026 (docs/methods/grid_network.md, "One page, four tabs, and the Ask panel"); the line under the frame names California's break of December 2025 | a ruling |
+| `gravity_pull` | sign(share) x sqrt(|share| / 0.25), held to one | the owner's ruling 2c of 18 October 2026; site/lib/networkGravity.ts | site/lib/networkGravity.ts GRAVITY.S_FULL and the pull's formula |
+| `gravity_full_pull_share` | 0.25 (share of the grid's net generation) | site/lib/networkGravity.ts GRAVITY.S_FULL | site/lib/networkGravity.ts |
+| `gravity_others` | the 63 other balancing authorities are not drawn | the owner's ruling 6a of 18 October 2026: their net generation is not in the live set; the line under the frame counts them | a ruling |
+| `grid_opening` | US48, the Lower 48 | the owner's ruling 4b of 18 October 2026; site/lib/gridtool.ts gridPick | site/lib/gridtool.ts |
+| `carbon_intensity` | CO2 generated x 1,000 over net generation (kg CO2 per MWh) | warehouse/derived/carbon_intensity.py; docs/methods/emissions.md: EIA's CO2 Emissions Generated over the Net generation column of the same EIA-930 workbook row | warehouse/derived/carbon_intensity.py |
+| `carbon_daily_monthly` | energy-weighted over whole UTC days and months | docs/methods/emissions.md: a day is its CO2 over its MWh over UTC days with all 24 hours; a month the same over months whose every day is complete | warehouse/derived/carbon_intensity.py |
+| `carbon_left_out` | months computed on an impossible hour, and California's months without hydro, are not shown | site/data/carbon_left_out.json (warehouse/derived/carbon_left_out.py, docs/methods/impossible_hours.md); held until a person approves the rebuilt table | a person's approval of the rebuilt carbon tables |
+| `mix_latest_hour` | the latest hour that holds the total net generation | components/grid/NowView.tsx: its sources largest first; demand's latest hour and the same hour a week earlier | components/grid/NowView.tsx |
+| `mix_caiso` | EIA-930's generation for California is not drawn; CAISO's own supply from 2025-12-16 | components/grid/NowView.tsx (session 118) and docs/methods/eia930_caiso_break.md (the one join of the warehouse) | docs/methods/eia930_caiso_break.md |
+| `mix_sources` | natural gas, coal, nuclear, wind, solar, hydro, storage, other | docs/methods/generation_mix_hourly.md, "The sources": EIA's codes grouped as the site groups them | warehouse/derived/mix_profile.py |
+| `clean_sources` | nuclear, wind, solar, hydro | site/data/clean/<grid>.json clean (docs/methods/clean_energy.md, "Carbon-free") | warehouse/derived/mix_clean.py |
+| `clean_levels` | 50, 75 and 90 (percent carbon-free in an hour) | site/data/clean/<grid>.json levels | warehouse/derived/mix_clean.py |
+| `ask_examples_per_grid` | 5 (stored answers) | site/data/grid_ask_examples.json max_examples: answers a recorded evaluation graded right, each figure traced to its tool result | site/scripts/build-grid-ask-examples.mjs |
+| `ask_scope` | a grid's own chat and the Grid panel's profile read only that grid's rows | warehouse/chat/tools.py scope_rows with docs/grids/grids.json and docs/grids/grid_tables.json; the general chat reads every row | docs/grids/grid_tables.json |
+| `license_held_grids` | isone, miso, nyiso | site/data/license_status.json, read by site/lib/license.ts on 6 November 2026 (from 21 October 2026): a figure of a table held for a grid prints "license needed" | a publisher's permission recorded in site/data/license_status.json |
+| `tolerance` | half of the last digit the page shows | site/lib/format.ts shown(): a whole number as a count, any other with two decimals; a stored answer's figure as its text has it | page_figures.json, written by figures_of_the_page.py |

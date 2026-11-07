@@ -157,7 +157,9 @@ class Runs(unittest.TestCase):
 
     def test_the_second_rows_came_from_the_later_days_stories(self):
         # the extraction as it was: only the model's same_as, which it left empty on 6 and 7 October
-        with mock.patch.object(dp, "find_same", lambda *a, **k: None), mock.patch.object(dp, "fault", lambda *a: None):
+        # (session 2233: the extractor matches through warehouse/deals/dedupe.py, which is switched off too)
+        with mock.patch.object(dp, "find_same", lambda *a, **k: None), mock.patch.object(dp, "fault", lambda *a: None), \
+                mock.patch.object(self.ex.dedupe, "find_record", lambda *a, **k: None):
             d = self.two_days()
         self.assertEqual(len(self.calls), 2)
         self.assertEqual(len(d), 6)

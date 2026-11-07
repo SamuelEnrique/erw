@@ -16,6 +16,7 @@ import { HeadlineNumber, HeadlineRow, ToolSection, ToolTable } from "@/component
 import { DatacentersTable, type Facility } from "./DatacentersTable";
 import { facilityHref, facilitySite } from "@/lib/siting";
 import { FACILITY_GRID, SITING_FILES } from "@/lib/sitingdata";
+import { gridBasisOf, gridOf } from "@/lib/dcrollups";
 
 export function toFacility(r: EntityRow): Facility {
   const x = r.extra ?? {};
@@ -45,6 +46,9 @@ export function toFacility(r: EntityRow): Facility {
     queueMw: x.queue_mw ? Number(x.queue_mw) : null,
     sourceUrls: (x.source_urls ?? r.source_url ?? "").split(";").filter(Boolean),
     siting: sitingOf(x.state ?? "", x.county ?? "", r.capacity_mw === null ? null : Number(r.capacity_mw)),
+    // session 2243: the fields of session 2236; a row built before reads its grid from its state (lib/dcrollups.ts)
+    grid: gridOf(r), gridBasis: gridBasisOf(r), mwBasis: x.mw_basis ?? "", powerKind: x.power_kind ?? "",
+    energizedYear: x.energized_year ?? "", utilityEia: x.utility_eia861 ?? "", utilitiesInCounty: x.utilities_in_county ?? "",
   };
 }
 /** Session 719: the facility's row on the All grids tab of /cost-of-power, by its county, else its state; none where

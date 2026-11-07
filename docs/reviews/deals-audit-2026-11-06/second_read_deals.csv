@@ -1,0 +1,107 @@
+n,not_a_deal,row,party,kind_ok,mw,mwh,usd,price,term,status,ai_power,place,confidence_fit,note
+D001,0,present,wrong,0,ok,ok,ok,ok,ok,missed,ok,ok,ok,Google is the credit provider ('to serve as credit backstop') so it belongs as buyer with TeraWulf as seller; a 'credit backstop' fits capital/project_finance not other; 'to serve' states an announced stage left empty.
+D002,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D003,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D004,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D005,0,present,ok,1,ok,ok,ok,ok,ok,ok,wrong,ok,ok,"'tied to data centre buildout' is a motive; no datacenter or AI party is a party to the pipeline order, so ai_power should be false."
+D006,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D007,0,present,ok,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"'lease capacity to Applied spin-out ChronoScale' is a datacenter capacity lease, kind compute_capacity not other."
+D008,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Fund close ('Raises $2.5B for Energy Fund') with no counterparty or asset, treated as not a deal."
+D009,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Fund close ('$8.7 Billion Final Close') with no counterparty or asset, treated as not a deal."
+D010,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D011,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D012,0,present,ok,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"'Fund Billions in Illinois Nuclear Upgrades in Exchange for Future Power' is an uprate deal, kind nuclear_restart_uprate not other."
+D013,0,present,ok,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"'credit support deal' for the campus build-out fits capital/project_finance, not other."
+D014,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D015,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D016,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D017,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"'Indonesian assets' names Indonesia, absent from country."
+D018,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D019,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D020,0,present,ok,0,ok,ok,ok,ok,ok,missed,ok,ok,ok,"'swap transaction' by which Chevron exits Hess Midstream is a stake exit, kind m_and_a; 'will become independent' states an announced stage left empty."
+D021,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D022,0,none,missed,na,na,na,na,na,na,na,na,na,na,"'Black Hills plans $1.8 billion investment to power Google's data center' names a utility serving Google; borderline (a plan) but a named counterparty, no row made."
+D023,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D024,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,'Pennsylvania and Ohio' are named but state and country are empty (grid PJM only).
+D025,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"'Venezuela's energy infrastructure' names Venezuela, absent from country."
+D026,0,present,ok,1,ok,ok,missed,ok,ok,ok,ok,ok,ok,"Best row (EnCap, closed) leaves usd empty though '$1.3B Paloma Deal' is stated; the extra row is the same deal duplicated, not a distinct deal."
+D027,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D028,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D029,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"'BP's Indonesian offshore blocks' names Indonesia, absent from country."
+D030,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D031,0,none,missed,na,na,na,na,na,na,na,na,na,na,"'The successful partners have been identified' for Sellafield's 'GBP3.6 billion (USD4.8 billion)' framework is an award; partners unnamed in the summary, no row made."
+D032,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Main row ok; the stories also state a distinct real deal, 'Sempra announced a 20-year agreement to also supply about 0.8 MMtpa of LNG' to Petrobras, not extracted."
+D033,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D034,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D035,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,'SoftBank pledges EUR75bn' is a pledge to invest.
+D036,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D037,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"'create $400 billion US utility' names the US, absent from country and state."
+D038,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D039,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D040,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Investors push for higher yield' is market commentary on a debt sale with no concluded transaction between named parties.
+D041,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D042,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D043,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Main row ok; the title also states a distinct deal, 'expands Amazon agreement', not extracted."
+D044,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D045,0,present,incomplete,1,ok,ok,wrong,ok,ok,ok,ok,ok,ok,"'Microsoft, Chevron and Engine No. 1 sign' but Engine No. 1 is absent; usd 7bn is the plant cost ('$7 Billion Texas Power Plant'), not the deal value."
+D046,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D047,0,present,ok,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,"'Joins Mercuria to Develop' states an agreed JV, stage left empty."
+D048,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Seeks to Boost Loan' is a company seeking a deal with no counterparty.
+D049,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D050,0,present,ok,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"'scrap deal to expand flagship Texas data centre' is a datacenter capacity deal, kind compute_capacity not other."
+D051,0,present,ok,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,"'Partner to Develop AI Data Centers' states an announced partnership, stage left empty."
+D052,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Main row (AES, 20-year) ok; extra Xcel row is a distinct real deal the title states ('Google signs AES, Xcel supply deals')."
+D053,0,present,ok,0,ok,ok,wrong,ok,ok,ok,ok,ok,ok,"'Nvidia to Lease Data Center' is a capacity lease, kind compute_capacity not other; usd 3.8bn is the 'Junk Bonds' funding the building, not the lease."
+D054,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,Raise by an unnamed company: 'Fusion Startup Raises $450 Million'.
+D055,1,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"One-party project, no counterparty: 'G42 Leads $1 Billion Data Center Project in Vietnam'; row graded otherwise ok."
+D056,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D057,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,"IPO not yet priced, no counterparty: 'targets $8.8 billion valuation in US IPO'."
+D058,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"Stories say 'US Shale Gas' and 'Texas, Louisiana', no state or country; usd follows '$7.2 Billion' while WSJ says '$5.2 Billion'."
+D059,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D060,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D061,0,none,missed,na,na,na,na,na,na,na,na,na,na,"'ONEOK, MPLX's Wellhead-to-Water Deal' names a deal between named parties; no row (title is partly commentary)."
+D062,0,present,ok,1,ok,ok,ok,ok,ok,unsupported,ok,ok,ok,'Woodside Divests ... to Perenco' does not say closed; stage 'closed' unsupported.
+D063,0,present,ok,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,'ADQ partners with ECP' states an agreement; stage and status empty.
+D064,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D065,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,No counterparty: 'Diamondback in Talks to Build Permian NatGas Power'.
+D066,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Two governments: 'France, UAE agree to develop 1 gigawatt AI data centre'."
+D067,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Buyer not named in the story ('to sell water supply unit in $2.4 billion deal'), so empty buyer is ok."
+D068,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,'US power deal' but country empty; usd follows Reuters '$16.4 billion' (FT '$27bn').
+D069,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Pledge, no counterparty: 'Google to invest $15 billion ... and buy nuclear power in Finland'."
+D070,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D071,0,none,missed,na,na,na,na,na,na,na,na,na,na,"'Nvidia, Dell Back AI Cloud Startup Volta at $2.4 Billion Value' is an investment by named parties; no row."
+D072,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D073,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,'in US electrical push' but country empty.
+D074,0,present,ok,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,'$19 billion data center lease deal with Anthropic' states a deal; stage and status empty.
+D075,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Company project approval, no counterparty: 'Pembina approves Alberta power project'."
+D076,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D077,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,Government permission: 'Putin Allows TotalEnergies to Sell 10% Stake'.
+D078,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D079,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,Roles cannot be checked from 'INEOS signs LNG supply agreement with Marubeni'; taken as ok.
+D080,0,present,ok,0,ok,ok,ok,ok,ok,ok,ok,missed,ok,'May Restart Abandoned US Nuclear Project': power kind nuclear_restart_uprate takes precedence over capital; 'US' absent from country.
+D081,0,present,ok,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,"'Meta picks Morgan Stanley, JPMorgan ... source says' gives a stage (selected, sourced); stage and status empty."
+D082,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,No named counterparty: 'India makes first Iranian oil buy'.
+D083,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D084,0,none,missed,na,na,na,na,na,na,na,na,na,na,'Shell to offload Jiffy Lube to Monomoy Capital for $1.3 billion' is a named sale; no row.
+D085,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Seeking, no counterparty: 'LS Power looks to raise $2.1 billion stake sale in NRG'."
+D086,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,Pledge: 'Amazon Pledges Nearly $40 Billion'.
+D087,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,'Supply LNG for 27 Years to Japan's Jera': destination country Japan absent.
+D088,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,Unnamed party: 'Greek joint venture will supply US LNG to Ukraine'.
+D089,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"'$58B US Shale Independent' names US, country empty; usd follows '$21.5 Billion' ('$21.4 Billion' elsewhere, $58B is combined value)."
+D090,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,Seeking: 'Orano May Seek Investors'.
+D091,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"'Vistra Buying US Gas-Power Fleet' names US, country empty; usd follows '$4.7 billion' (Bloomberg '$4 Billion')."
+D092,0,none,missed,na,na,na,na,na,na,na,na,na,na,'Crescent Sells Non-Op D-J Assets' is a specific sale by a named seller; no row.
+D093,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,Unnamed partners: 'Mozambique LNG partners to provide additional equity'.
+D094,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,Seeking: 'Energy Transfer seeks 80% equity selldown'.
+D095,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D096,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D097,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D098,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D099,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D100,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+D101,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Named fund raise ('Meridiam Raises $1.8 Billion'), investors unnamed so empty buyer is ok."
+D102,1,none,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Project phase launch, no transaction: 'Launch New Phase of Azerbaijan Gas Project'."
+D103,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,usd follows '$360 million Capricorn takeover'; the other story says 'raises Capricorn offer to $436 million'.
+D104,0,present,incomplete,1,ok,ok,ok,ok,ok,ok,wrong,ok,ok,"Seller (target 'COL Group') empty; ai_power true though Eaton is a manufacturer 'for data center and utility markets', not a datacenter load."
+D105,0,present,incomplete,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,Seller ('Aquila Clean Energy APAC') empty; ai_power kept ok as ESR is 'focused on ... data centres' (borderline).
+D106,0,present,ok,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,

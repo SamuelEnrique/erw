@@ -37,7 +37,48 @@ export type Facility = {
   /** session 719: the All grids tab's row for this facility (lib/siting.ts, facilitySite), and its address; none where
    *  neither its county nor its state places it in one grid */
   siting?: { grid: string; row: string; how: string; why: string; href: string } | null;
+  /** session 2243: the fields of session 2236 (warehouse/datacenters/facility_fields.py), empty in a row built before */
+  grid: string; gridBasis: string; mwBasis: string; powerKind: string; energizedYear: string; utilityEia: string; utilitiesInCounty: string;
 };
+
+const POWER_LABEL: Record<string, string> = {
+  behind_the_meter_gas: "gas on the site", behind_the_meter: "on the site, fuel not stated", nuclear: "nuclear",
+  renewables_storage: "renewables or storage", gas: "gas", grid: "grid or a utility", other: "other",
+};
+// session 2243: the download of the rows shown, with the ERW's header lines and no outlet text (the links only)
+const FILE = "erw_datacenters.csv";
+const CSV_COLS: [string, (f: Facility) => string | number | null][] = [
+  ["entity_id", (f) => f.id], ["operator", (f) => f.operator], ["developer", (f) => f.developer], ["site", (f) => f.site],
+  ["city", (f) => f.city], ["county", (f) => f.county], ["state", (f) => f.state], ["grid", (f) => f.grid], ["grid_basis", (f) => f.gridBasis],
+  ["mw", (f) => f.mw], ["mw_basis", (f) => f.mwBasis], ["status", (f) => f.status], ["planned_year", (f) => f.plannedYear],
+  ["energized_year", (f) => f.energizedYear], ["power_source", (f) => f.power], ["power_kind", (f) => f.powerKind],
+  ["utility", (f) => f.utility], ["county_utility_eia861", (f) => f.utilityEia], ["first_reported", (f) => f.firstStory.slice(0, 10)],
+  ["sources", (f) => f.kinds.join(";")], ["source_urls", (f) => f.sourceUrls.join(";")],
+];
+const csvCell = (v: string | number | null) => (v === null || v === undefined ? "" : /[",\n\r#]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : String(v));
+function facilitiesCsv(rows: Facility[], filters: string): string {
+  const head = [
+    "# Energy Research Warehouse (ERW): datacenter facilities, the rows of /datacenters as filtered on the page",
+    `# Downloaded: ${new Date().toISOString().slice(0, 16).replace("T", " ")} UTC; filters: ${filters || "none"}`,
+    "# Source: the ERW's own table datacenter_facilities (docs/methods/datacenter_facilities.md); source_urls links every source; no outlet text",
+    `# Rows: ${rows.length}. A field no source states is empty.`,
+  ];
+  return [...head, CSV_COLS.map(([c]) => c).join(","), ...rows.map((f) => CSV_COLS.map(([, g]) => csvCell(g(f))).join(","))].join("\n") + "\n";
+}
+const PY = `# Read the ERW's datacenter facilities as downloaded from /datacenters\nimport pandas as pd\n\nfac = pd.read_csv("${FILE}", comment="#")\nprint(fac.groupby("grid")["mw"].agg(["count", "sum"]))\n`;
+const DO = `* Read the ERW's datacenter facilities as downloaded from /datacenters\nimport delimited using "${FILE}", varnames(5) rowrange(6) clear\ntabstat mw, by(grid) statistics(count sum)\n`;
+function saveFile(name: string, text: string, type: string) {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+const BASIS_LABEL: Record<string, string> = { it: "IT load", total: "total", tenant: "a tenant's share", phase: "a phase", unstated: "basis not stated" };
+const GRID_BASIS: Record<string, string> = { named: "named in a story", queue: "its queue's ISO", state: "the grid that serves most of its state" };
 
 const KIND_LABEL: Record<string, string> = { news: "news", operator: "operator list", queue: "ISO queue" };
 // session 166: a row whose story or operator page states no US state: no source the ERW reads records a country
@@ -88,6 +129,10 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
   const [minMw, setMinMw] = useState("");
   const [kind, setKind] = useState("");
   const [country, setCountry] = useState("");
+  // session 2243: the grid, an MW ceiling and the kind of power
+  const [grid, setGrid] = useState("");
+  const [maxMw, setMaxMw] = useState("");
+  const [power, setPower] = useState("");
   const countryKey = (f: Facility) => f.country || NO_COUNTRY;
   const shown = useMemo(
     () =>
@@ -96,10 +141,15 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
         .filter((f) => !kind || f.kinds.includes(kind))
         .filter((f) => !country || countryKey(f) === country)
         .filter((f) => !minMw || (f.mw !== null && f.mw >= Number(minMw)))
+        .filter((f) => !maxMw || (f.mw !== null && f.mw <= Number(maxMw)))
+        .filter((f) => !grid || (grid === "none" ? !f.grid : f.grid === grid))
+        .filter((f) => !power || (power === "none" ? !f.powerKind : f.powerKind === power))
         .sort((a, b) => b.firstStory.localeCompare(a.firstStory) || a.operator.localeCompare(b.operator) || a.site.localeCompare(b.site)),
-    [rows, state, status, operator, minMw, kind, country],
+    [rows, state, status, operator, minMw, maxMw, kind, country, grid, power],
   );
-  const filtered = !!(state || status || operator || minMw || kind || country);
+  const filtered = !!(state || status || operator || minMw || maxMw || kind || country || grid || power);
+  const filterNote = () => Object.entries({ country, state, status, operator, source: kind, minMw, maxMw, grid, power })
+    .filter(([, v]) => v).map(([k, v]) => `${k}=${v}`).join(", ");
   const groups = useMemo(() => byOperator(shown), [shown]);
   // a group's own click wins; until then the first group is open, or every group while a filter is on
   const [toggled, setToggled] = useState<Record<string, boolean>>({});
@@ -114,6 +164,8 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
         <Select name="Status" value={status} set={setStatus} options={uniq(rows.map((f) => f.status))} />
         <Select name="Operator" value={operator} set={setOperator} options={uniq(rows.map((f) => f.operator))} />
         <Select name="Source" value={kind} set={setKind} options={uniq(rows.flatMap((f) => f.kinds))} />
+        <Select name="Grid" value={grid} set={setGrid} options={[...uniq(rows.map((f) => f.grid)), "none"]} />
+        <Select name="Power" value={power} set={setPower} options={[...uniq(rows.map((f) => f.powerKind)), "none"]} />
         <label className="flex flex-col gap-1 text-xs text-muted">
           MW at least
           <input
@@ -124,11 +176,22 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
             className="w-24 border border-rule bg-panel px-2 py-1 text-sm text-ink"
           />
         </label>
+        <label className="flex flex-col gap-1 text-xs text-muted" title="Facilities that state MW of at most this; one that states none is left out">
+          MW at most
+          <input value={maxMw} onChange={(e) => setMaxMw(e.target.value.replace(/[^0-9.]/g, ""))} inputMode="decimal" placeholder="any"
+            className="w-24 border border-rule bg-panel px-2 py-1 text-sm text-ink" />
+        </label>
         <span className="pb-1 text-sm text-muted">
           {shown.length} of {rows.length} facilities, {groups.length} {groups.length === 1 ? "operator" : "operators"}
         </span>
         {/* session 282: every filter back to its default, "any" */}
-        <button type="button" data-reset="1" onClick={() => { setCountry(""); setState(""); setStatus(""); setOperator(""); setKind(""); setMinMw(""); }} className="border border-rule px-2 py-1 text-sm">Reset the filters</button>
+        <button type="button" data-reset="1" onClick={() => { setCountry(""); setState(""); setStatus(""); setOperator(""); setKind(""); setMinMw(""); setMaxMw(""); setGrid(""); setPower(""); }} className="border border-rule px-2 py-1 text-sm">Reset the filters</button>
+        <span className="flex flex-wrap items-center gap-2 text-xs" aria-label="Download the facilities shown">
+          <span className="text-muted">The {shown.length} shown as</span>
+          <button type="button" data-download="csv" className="border border-rule px-2 py-1" title="The rows shown, their fields and links; no outlet text" onClick={() => saveFile(FILE, facilitiesCsv(shown, filterNote()), "text/csv")}>CSV</button>
+          <button type="button" data-download="py" className="border border-rule px-2 py-1" title="A Python reader of that CSV (pandas)" onClick={() => saveFile("erw_datacenters.py", PY, "text/x-python")}>Python</button>
+          <button type="button" data-download="do" className="border border-rule px-2 py-1" title="A Stata reader of that CSV" onClick={() => saveFile("erw_datacenters.do", DO, "text/plain")}>Stata</button>
+        </span>
         <button type="button" data-fold-all="1" aria-pressed={allOpen} onClick={() => setToggled(Object.fromEntries(groups.map((g) => [g.operator, !allOpen])))} className="border border-rule px-2 py-1 text-sm">
           {allOpen ? "Close every operator" : "Open every operator"}
         </button>
@@ -168,19 +231,27 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
                   {[f.city, f.county, f.state].filter(Boolean).join(", ") || blank}
                   {f.country ? null : <div className="text-xs text-muted" title={NO_COUNTRY_WHY} data-no-country="1">{NO_COUNTRY}</div>}
                   {f.placed ? <div className="text-xs text-muted">on the map</div> : null}
+                  {f.grid ? <div className="text-xs" title={`The grid: ${GRID_BASIS[f.gridBasis] ?? "as the table gives it"}`} data-facility-grid={f.grid}>{f.grid}</div> : null}
                   {f.siting ? <div className="text-xs" data-facility-siting={f.siting.how}><a href={f.siting.href} className="underline" aria-label={`${f.site || f.operator}: what a load of its size pays at ${f.siting.row}, on the All grids tab. ${f.siting.why}`}>on All grids</a>{" "}<span className="text-muted">({f.siting.how === "county" ? "its county" : "its state"})</span></div> : null}
                 </td>
                 <td className="py-1 pr-3 text-right tabular-nums">
                   {f.mw === null ? blank : f.mw.toLocaleString("en-US")}
                   {f.mwSpan ? <div className="text-xs text-muted">&ldquo;{f.mwSpan}&rdquo;</div> : null}
+                  {f.mw !== null && f.mwBasis ? <div className="text-xs text-muted" title="What the stated MW measures, as the words say" data-mw-basis={f.mwBasis}>{BASIS_LABEL[f.mwBasis] ?? f.mwBasis}</div> : null}
                   {f.queueMw !== null ? <div className="text-xs text-muted">queue: {f.queueMw.toLocaleString("en-US")} MW generation or storage</div> : null}
                 </td>
                 <td className="py-1 pr-3">{f.status ? label(f.status) : blank}</td>
-                <td className="py-1 pr-3 tabular-nums">{f.plannedYear || blank}</td>
+                <td className="py-1 pr-3 tabular-nums">
+                  {f.plannedYear || blank}
+                  {f.energizedYear ? <div className="text-xs text-muted" title="The year it is to be energized or come online, as stated">energized {f.energizedYear}</div> : null}
+                </td>
                 <td className="py-1 pr-3">
                   {f.power || f.utility ? [f.power, f.utility ? `utility ${f.utility}` : ""].filter(Boolean).join("; ") : blank}
+                  {f.powerKind ? <div className="text-xs text-muted" data-power-kind={f.powerKind}>{POWER_LABEL[f.powerKind] ?? f.powerKind}</div> : null}
+                  {f.utilityEia ? <div className="text-xs text-muted" title="The one EIA-861 utility that serves the stated county (EIA-861 2025)">county utility {f.utilityEia}</div>
+                    : f.utilitiesInCounty && Number(f.utilitiesInCounty) > 1 ? <div className="text-xs text-muted" title="EIA-861 lists several utilities for the stated county; none is chosen">{f.utilitiesInCounty} utilities serve its county</div> : null}
                 </td>
-                <td className="py-1">
+                <td className="py-1" title={`${f.kinds.map((k) => KIND_LABEL[k] ?? k).join(", ")}: ${f.sourceUrls.length} ${f.sourceUrls.length === 1 ? "source" : "sources"}; the words each field was read from are the sources' own, kept in the internal evidence table`}>
                   <div className="text-xs text-muted">{f.kinds.map((k) => KIND_LABEL[k] ?? k).join(", ")}</div>
                   {f.sourceUrls.map((u, i) => (
                     <a key={u} href={u} target="_blank" rel="noreferrer" className="mr-2">
