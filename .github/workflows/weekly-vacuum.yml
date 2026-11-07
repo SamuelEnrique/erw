@@ -38,6 +38,10 @@ jobs:
         run: python warehouse/health.py run --step "vacuum" -- python warehouse/lock.py run --task "weekly vacuum ${{ github.run_id }}" --minutes 60 --wait 60 -- python warehouse/supabase/vacuum.py
       - name: Record the sizes in run_status
         if: always()
+        env:
+          # session 3713: for scripts/push_guard.py's one row of erw_health when the push is refused
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -48,4 +52,10 @@ jobs:
           git add warehouse/metadata/run_status.csv
           if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
           git commit -m "Weekly vacuum $(date -u +%F): Supabase sizes in run_status (supabase_vacuum)"
-          git push origin HEAD:main
+          # session 3713: to main only when the whole suite passes on this commit; refused, the tests are named, the
+          # commit goes to a wip/ branch and the step is recorded failed, and the job stays green (no email of GitHub's)
+          if python scripts/push_guard.py --who "weekly vacuum" --step "run_status commit" --red-branch "wip/red-vacuum-$(date -u +%F)"; then
+            git push origin HEAD:main
+          else
+            echo "::warning::the push to main was refused; the failing tests are named above"
+          fi

@@ -75,6 +75,11 @@ import iso_prices as ip  # noqa: E402
 from ingest import NAME as NEWS, NEWS_COLS  # noqa: E402
 sys.path.insert(0, HERE)
 import deal_parties  # noqa: E402  session 531: one deal across days, two parties
+import deal_fields as fields  # noqa: E402  session 3233: by its own name (deal_fields.py)  session 2232: the tracker's fields, one vocabulary each
+import dedupe  # noqa: E402  session 2233: one record a deal
+import counterparties  # noqa: E402  session 2234: one name a party
+import crosscheck  # noqa: E402  session 2235: the figures read again against the headlines
+import calls  # noqa: E402  session 2237: one model call, retried where a retry can help
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
@@ -108,13 +113,31 @@ DEAL_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "m
              "deal_type", "buyer", "seller", "other_parties", "asset", "technology", "state", "country",
              "mwh", "dollars", "price_value", "price_unit", "term_years", "announced_date", "date_basis",
              "ai_power", "confidence", "n_stories", "story_ids", "story_urls", "model_id", "extracted_at"]
+DEAL_COLS_V1 = list(DEAL_COLS)   # the table's columns from session 15 to session 2231
+DEAL_COLS = DEAL_COLS_V1 + fields.NEW_COLS   # session 2232: the new fields beside the old (warehouse/deals/fields.py)
+DEAL_COLS = DEAL_COLS + counterparties.ROLE_COLS   # session 2234: the canonical name, parent and EIA-861 number a role
 EVIDENCE_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price", "currency",
                  "status", "source", "source_url", "deal_id", "story_id", "evidence"]
+EVIDENCE_COLS_V1 = list(EVIDENCE_COLS)
+EVIDENCE_COLS = EVIDENCE_COLS_V1 + fields.EVIDENCE_NEW_COLS   # session 2232: the story's words of the new fields
 CHECKED_COLS = ["story_id", "cluster_id", "checked_at", "model_id", "n_deals"]
+
+# Session 2256 (chain 159): chain 156's ruling 2 in one switch. The prompt above returns no deal for a sale, award or
+# raise the story states with one named party and the other unnamed ("Crescent Sells Non-Op D-J Assets",
+# "Sellafield selects partners"); ERW_DEALS_ONE_PARTY=on adds the sentence that returns them. Off (the default) leaves
+# the prompt as it was, character for character. The owner's answer is this default; the fixture of session 2256
+# (tests/fixtures/deals/stories_2256.json) holds what each setting returns.
+ONE_PARTY = os.environ.get("ERW_DEALS_ONE_PARTY", "off").strip().lower() == "on"
+ONE_PARTY_RULE = (" A sale, an award or a raise that the story states with one party named and the other not named "
+                  "(\"Crescent Sells Non-Op D-J Assets\", \"Sellafield selects partners for asset care framework\") is a "
+                  "transaction: return it, with the named party in its field and the other field empty."
+                  if ONE_PARTY else "")
 
 SYSTEM = f"""You extract energy transactions from news stories for the Energy Research Warehouse (ERW), the live, citable record of the US energy system.
 
 Each item is one cluster: one or more stories (title and summary) about the same event. Decide whether the stories report a specific transaction: a named deal between named parties (a power purchase agreement, an offtake, an acquisition or merger, project finance, tax equity, debt, an equity raise, a joint venture, a lease, a behind-the-meter supply deal, a nuclear restart deal, a small modular reactor deal, a fuel supply contract). Market commentary, policy, earnings, forecasts, generic plans and prices are not transactions: return no deals for them.
+
+Not transactions either (session 2232, the audit of 6 November 2026): a company's plan or pledge to invest ("plans $1.8 billion investment", "pledges $40 billion"), a company that seeks, looks for or weighs a deal with no counterparty named ("seeks to boost loan", "seeks 80% equity selldown"), a government's permission ("allows X to sell"), and an agreement between two governments. Talks between two named companies are a transaction with status rumored. A raise or a deal whose company the story does not name ("a fusion startup raises") is not returned.{ONE_PARTY_RULE}
 
 For each transaction, return:
 - deal_type: one of {", ".join(DEAL_TYPES)}
@@ -126,8 +149,13 @@ For each transaction, return:
 - for every number, the exact text span you read it from, copied character for character from the title or summary (mw_text, mwh_text, dollars_text, price_text, term_text)
 - status: one of {", ".join(STATUSES)}, read only from the stated words, with the exact span (status_text): signed for words such as signed, agreed, secured, awarded, entered into, inked; closed for completed, closed, finalized, or money raised or received ("raises", "raised"); announced for announces, plans, proposes, will acquire, to buy, offers; cancelled for cancelled, terminated, scrapped, withdrawn, called off; rumored for in talks, considering, exploring, reportedly. When the words do not say, status and status_text are empty
 - announced_date: YYYY-MM-DD only if the story states the date of the deal, else empty
-- ai_power: true only if the load or offtake serves datacenters or AI
-- confidence: 0 to 1, how sure you are that this is a real, specific transaction and the fields are right
+- ai_power: true only if a named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party, or the load the deal serves is a datacenter; a story that names AI only as a motive ("as AI demand booms", "to deepen AI bet") with no such party or load is false
+- kind: one of {", ".join(fields.KIND_IDS)}: the power kind first when the words name it (a PPA for a restarted reactor is nuclear_restart_uprate; solar plus storage is storage; gas turbines or a gas plant to be built is gas_buildout; a cloud, GPU or datacenter capacity contract is compute_capacity, never an offtake), else the form (ppa, offtake, project_finance, m_and_a, capital for a company's debt, equity or joint venture, fuel_supply), else other
+- stage: one of {", ".join(fields.STAGE_IDS)}, read only from the stated words, with the exact span (stage_text): {"; ".join(f"{s} for {w}" for s, w in fields.STAGES)}. Empty when the words do not say
+- a party is a name: "investors", "a US hyperscaler", "a fusion startup", "lenders" are descriptions, and the field is empty. A company that backs or owns a party, or is named as its adjective ("Nvidia-backed Firmus"), is not a party; nor is a rival bidder. A company that pays for infrastructure or power is the buyer
+- a sum is the deal's only when the words make it the deal's: a valuation ("valued at"), a company-wide investment ("to invest $15 billion in AI infrastructure and buy nuclear power") or a market capitalization is not the deal's dollars. A percentage is never a price
+- country: when the story's words name the country where the deal's asset is ("in Spain", "Bahamas LNG hub", "UK BWRX-300 fleet", "US gas pipeline"), with its span; the United States is "United States"
+- confidence: 0 to 1, how sure you are that this is a real, specific transaction and the fields are right: 0.8 or more for a deal between named parties that the words state as done or agreed; 0.6 to 0.8 for a stated deal with a field unclear; under 0.6 only when it is doubtful that this is a transaction. confidence_basis: the exact words of the story your confidence rests on
 - evidence: one sentence (or the title) copied verbatim from the story that shows the transaction; story_id: the story it is from
 - same_as: if this deal is already in the reference list, its id; if it is an earlier deal in this same request, that deal's key (cluster_id#n, n counting from 0 within its cluster); else empty
 
@@ -162,12 +190,16 @@ SCHEMA = {
                     "evidence": {"type": "string"},
                     "story_id": {"type": "string"},
                     "same_as": STR,
+                    "kind": {"type": "string", "enum": fields.KIND_IDS},
+                    "stage": {"type": "string", "enum": fields.STAGE_IDS + [""]}, "stage_text": STR,
+                    "confidence_basis": STR,
                 },
                 "required": ["deal_type", "buyer", "seller", "other_parties", "asset", "technology", "state",
                              "country", "mw", "mw_text", "mwh", "mwh_text", "dollars", "dollars_text",
                              "price_value", "price_unit", "price_text", "term_years", "term_text", "status",
                              "state_text", "country_text", "status_text",
-                             "announced_date", "ai_power", "confidence", "evidence", "story_id", "same_as"],
+                             "announced_date", "ai_power", "confidence", "evidence", "story_id", "same_as",
+                             "kind", "stage", "stage_text", "confidence_basis"],
                 "additionalProperties": False}},
         },
         "required": ["cluster_id", "deals"],
@@ -251,7 +283,7 @@ def stated_words(d, text):
     span = d.get("country_text") or ""
     if country:
         c = norm(country)
-        names = US_NAMES if c in US_NAMES else {c}
+        names = (US_NAMES if c in US_NAMES else {c}) | fields.country_names(country)   # session 2257: or its adjective
         sp = norm(span)
         if not span or sp not in text:
             why.append(f"country {country}: span {span!r} not in the story")
@@ -283,6 +315,38 @@ def read_or_empty(path, cols):
     if os.path.exists(path):
         return ip.read_series(path, cols)
     return pd.DataFrame(columns=cols)
+
+
+def upgrade_file(path, old_cols, new_cols, row_fn, log):
+    """Session 2232: a table of the columns of sessions 15 to 2231 is rewritten in place with the new fields beside the
+    old, every row kept and its old values unchanged; row_fn gives a row its new fields from its own values
+    (fields.upgrade for energy_deals: kind, usd, usd_per_mwh, the flags; stage, grid and the bases stay empty). The
+    header comment lines are kept. Returns the number of rows upgraded (0 when the file is already new or absent)."""
+    if not os.path.exists(path):
+        return 0
+    with open(path, encoding="utf-8") as f:
+        head = []
+        for line in f:
+            if not line.startswith("#"):
+                break
+            head.append(line)
+    cols = list(pd.read_csv(path, skiprows=len(head), nrows=0).columns)
+    if cols == new_cols:
+        return 0
+    if cols[:len(old_cols)] != old_cols or not set(cols) <= set(new_cols):
+        raise RuntimeError(f"{path} has columns {cols}: neither the old shape nor a shape of this table; not upgraded")
+    old = ip.read_series(path, cols)   # the old shape, or an earlier new one (session 2234: any prefix of the new)
+    new = pd.DataFrame([row_fn(r) for r in old.to_dict("records")], columns=new_cols).fillna("")
+    tmp = path + ".upgrade"
+    with open(tmp, "w", encoding="utf-8", newline="") as f:
+        for x in head:
+            f.write(x if x.endswith("\n") else x + "\n")
+        f.write(f"# Session 2232: the columns {', '.join(c for c in new_cols if c not in old_cols)} added beside the old; "
+                "every earlier row kept as it was (warehouse/deals/extract.py upgrade_file).\n")
+        new.to_csv(f, index=False, lineterminator="\n")
+    os.replace(tmp, path)
+    log(f"upgraded {os.path.basename(path)}: {len(new)} rows given the session 2232 columns from their own values")
+    return len(new)
 
 
 def deal_id(first_story, n):
@@ -331,6 +395,9 @@ def main(argv=None):
             checked = checked[~checked["story_id"].isin(set(todo["event_id"]))]
         else:
             todo = elig[~elig["event_id"].isin(set(checked["story_id"]))]
+        upgrade_file(os.path.join(ip.OUT_DIR, DEALS + ".csv"), DEAL_COLS_V1, DEAL_COLS, fields.upgrade, log)
+        upgrade_file(os.path.join(ip.OUT_DIR, EVIDENCE + ".csv"), EVIDENCE_COLS_V1, EVIDENCE_COLS,
+                     lambda r: {**r, **{c: "" for c in fields.EVIDENCE_NEW_COLS}}, log)
         deals = read_or_empty(os.path.join(ip.OUT_DIR, DEALS + ".csv"), DEAL_COLS)
         log(f"ERW deals extract {run_id}: {len(news)} stories, {len(elig)} eligible, {len(todo)} not yet checked; "
             f"{len(deals)} deals already in the table")
@@ -349,6 +416,7 @@ def main(argv=None):
         news_by_id = news.set_index("event_id")
         by_id = {r["event_id"]: dict(r) for r in deals.to_dict("records")}   # deal_id -> row
         new_evidence, new_checked, usage, failed_calls, dropped = [], [], [], 0, []
+        first_error = ""
         now = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
         for bi, batch in enumerate(batches, 1):
             items = []
@@ -362,23 +430,24 @@ def main(argv=None):
             user = ("Reference list of deals already extracted (id | type | buyer | seller | asset | date), "
                     "candidates for same_as:\n" + ("\n".join(ref_lines) if ref_lines else "(none)")
                     + "\n\nClusters (JSON):\n" + json.dumps(items, ensure_ascii=False))
-            try:
-                resp = client.messages.create(
+            try:   # session 2237: retried where a retry can help, the API's words kept (warehouse/deals/calls.py)
+                resp, text = calls.call(client, dict(
                     model=model, max_tokens=16000,
                     system=[{"type": "text", "text": SYSTEM, "cache_control": {"type": "ephemeral"}}],
                     output_config={"effort": "low", "format": {"type": "json_schema", "schema": SCHEMA}},
-                    messages=[{"role": "user", "content": user}])
-                u = resp.usage
-                usage.append(dict(input=u.input_tokens, output=u.output_tokens,
-                                  cache_write=u.cache_creation_input_tokens or 0,
-                                  cache_read=u.cache_read_input_tokens or 0))
-                if resp.stop_reason != "end_turn":
-                    raise RuntimeError(f"stop_reason {resp.stop_reason}")
-                text = "".join(b.text for b in resp.content if b.type == "text")
+                    messages=[{"role": "user", "content": user}]), usage, log, f"call {bi}")
                 results = {r["cluster_id"]: r for r in json.loads(text)["results"]}
+            except calls.Stop as exc:
+                failed_calls += 1
+                first_error = first_error or exc.words
+                log(f"  call {bi} FAILED, and no further call is sent ({len(batch)} clusters and every later one left "
+                    f"unchecked): {ip.redact(exc.words)}")
+                break
             except Exception as exc:
                 failed_calls += 1
-                log(f"  call {bi} FAILED ({len(batch)} clusters left unchecked): {ip.redact(repr(exc))[:300]}")
+                w = exc.words if isinstance(exc, calls.Failed) else calls.words_of(exc)
+                first_error = first_error or w
+                log(f"  call {bi} FAILED ({len(batch)} clusters left unchecked): {ip.redact(w)}")
                 continue
             keys = {}   # cluster_id#n -> deal_id, within this call
             n_new = n_merged = n_code = n_refused = 0
@@ -406,12 +475,33 @@ def main(argv=None):
                         vals[f] = v
                         if why:
                             dropped.append(f"{cid}: {why}")
+                    other = fields.sum_of_other(d.get("deal_type"), d.get("dollars_text"), text) if vals["dollars"] is not None else ""
+                    if other:   # session 2271: a contract's sum that is its funding or an asset's cost
+                        dropped.append(f"{cid}: dollars {vals['dollars']:g}: {other!r} is another thing's sum, not kept")
+                        vals["dollars"] = None
+                    if vals["dollars"] is None and d.get("dollars") is None and norm(d.get("evidence") or "") in text:
+                        # session 2285: a figure the evidence states in US dollars beside another currency
+                        usd_v, usd_span = fields.usd_stated(d.get("evidence"))
+                        if usd_v is not None and not fields.sum_of_other(d.get("deal_type"), usd_span, text):
+                            vals["dollars"] = usd_v
+                            d["dollars_text"] = usd_span
+                            log(f"  {cid}: dollars {usd_v:g} from the words {usd_span!r}")
                     st_state, st_country, st_status, why_words = stated_words(d, text)
                     dropped.extend(f"{cid}: {w}" for w in why_words)
+                    if not st_country:   # session 2257: the country the headline names before the asset, when one
+                        st_country, c_span = fields.country_of(" ".join(g["title"]) + " " + " ".join(g["summary"]))
+                        if st_country:
+                            log(f"  {cid}: country {st_country} from the words {c_span!r}")
                     ev = d.get("evidence") or ""
                     if norm(ev) not in text:
                         dropped.append(f"{cid}: evidence not verbatim in the story, not kept: {ev[:100]!r}")
                         ev = ""
+                    cp = fields.credit_parties({**d, "evidence": ev})   # session 2275: the provider of credit is the buyer
+                    if cp:
+                        log(f"  {cid}: buyer {cp[0]!r} (provides the credit), seller {cp[1]!r}, from the words {ev[:90]!r}")
+                        d["buyer"], d["seller"] = cp[0], cp[1] or None
+                        d["other_parties"] = [p for p in (d.get("other_parties") or [])
+                                              if " ".join(str(p).split()).lower() not in {cp[0].lower(), cp[1].lower()}]
                     src_story = d.get("story_id") if d.get("story_id") in story_ids else story_ids[0]
                     target = None
                     same = d.get("same_as")
@@ -420,6 +510,12 @@ def main(argv=None):
                     elif same and same in keys:
                         target = keys[same]
                     stories_here = news_by_id.loc[story_ids]
+                    cand = {"deal_type": d.get("deal_type"), "buyer": d.get("buyer"), "seller": d.get("seller"),
+                            "other_parties": d.get("other_parties") or [], "asset": d.get("asset"),
+                            "technology": d.get("technology"), "dollars": clean(vals["dollars"]), "mw": clean(vals["mw"]),
+                            "mwh": clean(vals["mwh"]), "term_years": clean(vals["term_years"]), "state": st_state,
+                            "country": st_country, "status": st_status,
+                            "stage": fields.stage_of(d, text)[0], "kind": fields.kind_of({**d, "evidence": ev}, text)[0]}
                     if not target:   # session 531: the checks the model's same_as cannot be trusted with
                         why_not = deal_parties.fault(d, text)
                         if why_not:
@@ -429,17 +525,29 @@ def main(argv=None):
                         for role in deal_parties.unnamed(d, text):
                             dropped.append(f"{cid}: {role} {d[role]!r} is not named in the story, not kept")
                             d[role] = None
+                        if not fields.named_party(d, text):   # session 2232: a deal needs a party the story names
+                            dropped.append(f"{cid}: deal not kept: neither buyer nor seller is named in the story")
+                            n_refused += 1
+                            continue
+                        led = fields.project_led({**d, "evidence": ev})   # session 2277: a project led is not a deal
+                        talks = fields.one_party_talks({**d, "evidence": ev})   # session 2288: talks need two parties
+                        if talks:
+                            dropped.append(f"{cid}: deal not kept: {talks!r} with one party named, no counterparty")
+                            n_refused += 1
+                            continue
+                        if led:
+                            dropped.append(f"{cid}: deal not kept: {led!r} is a project one party leads, no counterparty")
+                            n_refused += 1
+                            continue
                         ad0 = d.get("announced_date") or ""
                         first0 = stories_here.sort_values("event_date").iloc[0]
-                        target = deal_parties.find_same(
-                            {"deal_type": d.get("deal_type"), "buyer": d.get("buyer"), "seller": d.get("seller"),
-                             "asset": d.get("asset"), "dollars": vals["dollars"],
-                             "event_date": ad0 if re.match(r"^\d{4}-\d{2}-\d{2}$", ad0) else first0["event_date"]},
+                        target = dedupe.find_record(   # session 2233: session 531's rule and dedupe's four
+                            {**cand, "buyer": d.get("buyer"), "seller": d.get("seller"), "event_date": ad0 if re.match(r"^\d{4}-\d{2}-\d{2}$", ad0) else first0["event_date"]},
                             by_id.values())
                         if target:
                             n_code += 1
-                            dropped.append(f"{cid}: deal {n} is {target} (same type, parties and asset, within "
-                                           f"{deal_parties.WINDOW_DAYS} days): merged, not a new row")
+                            dropped.append(f"{cid}: deal {n} is {target} (the same parties, kind and size; "
+                                           f"warehouse/deals/dedupe.py): merged, not a new row")
                     if target:   # add this cluster's stories to the existing deal
                         row = by_id[target]
                         ids = [x for x in row["story_ids"].split(";") if x]
@@ -449,9 +557,10 @@ def main(argv=None):
                                 ids.append(sid)
                                 urls.append(news_by_id.loc[sid, "source_url"])
                         row.update(story_ids=";".join(ids), story_urls=";".join(urls), n_stories=str(len(ids)))
-                        for f in ("mw", "mwh", "dollars", "price_value", "term_years"):   # fill a gap only
-                            if row.get(f, "") == "" and vals[f] is not None:
-                                row[f] = clean(vals[f])
+                        first_new = stories_here.sort_values("event_date").iloc[0]
+                        for x in dedupe.merge(row, {**cand, "buyer": clean(d.get("buyer")), "seller": clean(d.get("seller"))},
+                                              first_new["event_date"], first_new.name):   # session 2233: date, stage, history, gaps
+                            dropped.append(f"{cid}: {target}: {x}")
                         n_merged += 1
                         did = target
                     else:
@@ -463,7 +572,18 @@ def main(argv=None):
                             ad = ""
                         parties = [p for p in [d.get("buyer"), d.get("seller")] + list(d.get("other_parties") or []) if p]
                         pu = (d.get("price_unit") or "").strip()
+                        if vals["price_value"] is not None and not fields.energy_price(pu):   # session 2232
+                            dropped.append(f"{cid}: price_value {vals['price_value']:g} {pu!r} is not an energy price, not kept")
+                            vals["price_value"] = None
                         per_mwh_usd = vals["price_value"] is not None and re.fullmatch(r"(?i)(usd|\$|us\$)\s*/\s*mwh", pu)
+                        extra, notes = fields.finish(d, text, vals, ev)
+                        dropped.extend(f"{cid}: {x}" for x in notes)
+                        # session 2259: an empty status takes the stage the deal's words give, where it is one of the
+                        # five words the Roundup prints
+                        if not st_status and extra.get("stage") in STATUSES:
+                            st_status = extra["stage"]
+                        extra["usd_per_mwh"] = clean(vals["price_value"]) if per_mwh_usd else ""
+                        extra["usd"] = clean(vals["dollars"])
                         by_id[did] = {
                             "event_id": did, "event_date": ad or first["event_date"], "event_type": "deal",
                             "parties": ";".join(clean(p) for p in parties), "entity_ids": "",
@@ -479,20 +599,28 @@ def main(argv=None):
                             "price_unit": pu if vals["price_value"] is not None else "",
                             "term_years": clean(vals["term_years"]),
                             "announced_date": ad, "date_basis": "stated" if ad else "first_story_published",
-                            "ai_power": "true" if d.get("ai_power") else "false",
+                            "ai_power": "true" if extra["ai_power"] else "false",   # session 2232: the rule, fields.ai_of
                             "confidence": clean(round(max(0.0, min(1.0, float(d.get("confidence") or 0))), 2)),
                             "n_stories": str(len(story_ids)), "story_ids": ";".join(stories_here.sort_values("event_date").index),
                             "story_urls": ";".join(stories_here.sort_values("event_date")["source_url"]),
-                            "model_id": model, "extracted_at": now}
+                            "model_id": model, "extracted_at": now,
+                            **{c: clean(extra.get(c)) for c in fields.NEW_COLS}}
+                        ev_extra = {c: clean(extra.get(c)) for c in fields.EVIDENCE_NEW_COLS}
+                        if by_id[did]["stage"] or by_id[did]["status"]:
+                            by_id[did]["status_history"] = dedupe.history_entry(
+                                by_id[did]["event_date"], by_id[did]["stage"] or by_id[did]["status"], first.name)
                         n_new += 1
                     keys[f"{cid}#{n}"] = did
+                    if target:
+                        ev_extra = {c: "" for c in fields.EVIDENCE_NEW_COLS}
                     if ev:
                         s = news_by_id.loc[src_story]
                         new_evidence.append({"event_id": f"{did}|{src_story}", "event_date": s["event_date"],
                                              "event_type": "deal_evidence", "parties": "", "entity_ids": "",
                                              "mw": "", "price": "", "currency": "", "status": "",
                                              "source": s["source"], "source_url": s["source_url"],
-                                             "deal_id": did, "story_id": src_story, "evidence": " ".join(ev.split())})
+                                             "deal_id": did, "story_id": src_story, "evidence": " ".join(ev.split()),
+                                             **ev_extra})
                 for sid in story_ids:
                     new_checked.append({"story_id": sid, "cluster_id": cid, "checked_at": now, "model_id": model,
                                         "n_deals": str(len(out["deals"]))})
@@ -503,9 +631,25 @@ def main(argv=None):
 
         for d in dropped:
             log(f"  not kept: {d}")
+        if failed_calls and not new_checked:
+            # session 2237: no call answered, so nothing is written: the tables stay as the last good run left them
+            # (no header claiming today's retrieval), and the health line says why in the API's words
+            raise RuntimeError(f"no call answered ({failed_calls} failed, {len(batches)} planned); the tables are not "
+                               f"rewritten; first error: {first_error}")
         header_common = [f"Retrieved: {run_id} (UTC) by warehouse/deals/extract.py from warehouse/output/{NEWS}.csv",
                          f"Run log: warehouse/output/logs/deals_extract_{run_id}.log"]
         out_deals = pd.DataFrame(list(by_id.values()), columns=DEAL_COLS).fillna("")
+        if len(out_deals):   # session 2234: every row's canonical names, parents and EIA-861 numbers, from today's names
+            out_deals = counterparties.annotate(out_deals)[DEAL_COLS]
+            # session 2235: every record's figures read again against its headlines (warehouse/deals/crosscheck.py)
+            def _flags(r):
+                ids = [x for x in str(r["story_ids"]).split(";") if x in news_by_id.index]
+                titles = [str(news_by_id.loc[x, "title"]) for x in ids]
+                text = " ".join(str(news_by_id.loc[x, "summary"]) for x in ids)
+                return "; ".join(crosscheck.flags(r, titles, text))
+            out_deals["flags"] = [_flags(r) for r in out_deals.to_dict("records")]
+            n_flagged = int((out_deals["flags"] != "").sum())
+            log(f"cross-check: {n_flagged} of {len(out_deals)} records flagged (warehouse/deals/crosscheck.py)")
         if len(out_deals):
             ip.write_csv(out_deals, DEALS, [
                 "Energy Research Warehouse (ERW): Energy deals extracted from scored news stories (platform tool 6)",
@@ -515,7 +659,11 @@ def main(argv=None):
                 f"Model: {model}, JSON schema output; every number was checked against a span of the story's title or "
                 "summary and kept only if the span is there and parses to the same value (warehouse/deals/extract.py).",
                 "Columns: mw, mwh, dollars (US dollars) and term_years as stated; price and currency only for a price stated "
-                "in USD/MWh, otherwise price_value with price_unit as stated. parties is buyer;seller;other_parties.",
+                "in USD/MWh, otherwise price_value with price_unit as stated (an energy price only, session 2232). parties is buyer;seller;other_parties.",
+                "Session 2232 fields (warehouse/deals/fields.py): kind (tool 6's kinds, power kinds first) with kind_basis; "
+                "stage as stated (its words in the evidence table); grid only where the story names it; usd (= dollars) "
+                "and usd_per_mwh (= price); ai_power by the rule with ai_power_basis; flags (a figure above a sanity bound); "
+                "fields_version 2232, or upgraded for a row extracted before (its new fields read from its own values).",
                 "License: public. The model's structured fields and the story links only, no outlet text; the evidence "
                 f"sentences are in the internal table {EVIDENCE}.",
                 "Sources: the outlet named in each row's source column (the first story); story_urls lists every story.",
@@ -556,8 +704,8 @@ def main(argv=None):
         log(summary)
         print(f"deals extract: {summary}")
         status["detail"] = summary[:300]
-        if failed_calls and not usage:
-            raise RuntimeError(f"all {failed_calls} calls failed")
+        if failed_calls:   # session 2237: the failure first, in the API's words, so the 300 characters keep it
+            status["detail"] = f"{failed_calls} calls failed, first: {first_error}; {summary}"[:300]
     except Exception:
         tb = ip.redact(traceback.format_exc())
         log(f"FAILED:\n{tb}")

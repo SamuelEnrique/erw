@@ -1,0 +1,189 @@
+group,check,name,page_text,raw,tolerance,held
+network,net|lag|2026-11-03T23:00:00Z|2026-11-05T23:09:35Z,hours from the hour shown to the snapshot's refresh,,48,0.5,0
+network,net|export|ERCO|2026-11-03T23:00:00Z,"ERCO: net export over its reporting ties, MW (negative: a net import)",,-219,0.5,0
+network,net|ties|ERCO|2026-11-03T23:00:00Z,ERCO: ties reporting,,2,0.5,0
+network,net|export|CISO|2026-11-03T23:00:00Z,"CISO: net export over its reporting ties, MW (negative: a net import)",,-2172,0.5,0
+network,net|ties|CISO|2026-11-03T23:00:00Z,CISO: ties reporting,,11,0.5,0
+network,net|export|PJM|2026-11-03T23:00:00Z,"PJM: net export over its reporting ties, MW (negative: a net import)",,2554,0.5,0
+network,net|ties|PJM|2026-11-03T23:00:00Z,PJM: ties reporting,,7,0.5,0
+network,net|export|MISO|2026-11-03T23:00:00Z,"MISO: net export over its reporting ties, MW (negative: a net import)",,-3761,0.5,0
+network,net|ties|MISO|2026-11-03T23:00:00Z,MISO: ties reporting,,10,0.5,0
+network,net|export|NYIS|2026-11-03T23:00:00Z,"NYIS: net export over its reporting ties, MW (negative: a net import)",,-2231,0.5,0
+network,net|ties|NYIS|2026-11-03T23:00:00Z,NYIS: ties reporting,,4,0.5,0
+network,net|export|ISNE|2026-11-03T23:00:00Z,"ISNE: net export over its reporting ties, MW (negative: a net import)",,-547,0.5,0
+network,net|ties|ISNE|2026-11-03T23:00:00Z,ISNE: ties reporting,,3,0.5,0
+network,net|export|SWPP|2026-11-03T23:00:00Z,"SWPP: net export over its reporting ties, MW (negative: a net import)",,571,0.5,0
+network,net|ties|SWPP|2026-11-03T23:00:00Z,SWPP: ties reporting,,11,0.5,0
+gravity,net|topexport|2026-11-03T23:00:00Z,"the largest net export of any balancing authority, MW (SRP)",,2634,0.5,0
+network,net|tie|ERCO|SWPP|2026-11-03T23:00:00Z,"ERCO: its tie with SWPP, MW signed from ERCO's side",,-219,0.5,0
+network,net|tie|ERCO|CEN|2026-11-03T23:00:00Z,"ERCO: its tie with CEN, MW signed from ERCO's side",,0,0.5,0
+network,net|import|ERCO|2026-11-03T23:00:00Z,"ERCO: net import over its reporting ties, MW",,219,0.5,0
+gravity,net|maxflow|ERCO|2026-11-03T23:00:00Z,"ERCO: the largest flow on its ties, MW, either way",,219,0.5,0
+network,net|tie|CISO|LDWP|2026-11-03T23:00:00Z,"CISO: its tie with LDWP, MW signed from CISO's side",,-809,0.5,0
+network,net|tie|CISO|AZPS|2026-11-03T23:00:00Z,"CISO: its tie with AZPS, MW signed from CISO's side",,-519,0.5,0
+network,net|tie|CISO|BPAT|2026-11-03T23:00:00Z,"CISO: its tie with BPAT, MW signed from CISO's side",,-495,0.5,0
+network,net|tie|CISO|IID|2026-11-03T23:00:00Z,"CISO: its tie with IID, MW signed from CISO's side",,-384,0.5,0
+network,net|tie|CISO|TIDC|2026-11-03T23:00:00Z,"CISO: its tie with TIDC, MW signed from CISO's side",,331,0.5,0
+network,net|tie|CISO|SRP|2026-11-03T23:00:00Z,"CISO: its tie with SRP, MW signed from CISO's side",,-253,0.5,0
+network,net|tie|CISO|BANC|2026-11-03T23:00:00Z,"CISO: its tie with BANC, MW signed from CISO's side",,-144,0.5,0
+network,net|tie|CISO|NEVP|2026-11-03T23:00:00Z,"CISO: its tie with NEVP, MW signed from CISO's side",,73,0.5,0
+network,net|tie|CISO|WALC|2026-11-03T23:00:00Z,"CISO: its tie with WALC, MW signed from CISO's side",,37,0.5,0
+network,net|tie|CISO|PACW|2026-11-03T23:00:00Z,"CISO: its tie with PACW, MW signed from CISO's side",,-20,0.5,0
+network,net|tie|CISO|CEN|2026-11-03T23:00:00Z,"CISO: its tie with CEN, MW signed from CISO's side",,11,0.5,0
+network,net|import|CISO|2026-11-03T23:00:00Z,"CISO: net import over its reporting ties, MW",,2172,0.5,0
+gravity,net|maxflow|CISO|2026-11-03T23:00:00Z,"CISO: the largest flow on its ties, MW, either way",,809,0.5,0
+network,net|tie|PJM|MISO|2026-11-03T23:00:00Z,"PJM: its tie with MISO, MW signed from PJM's side",,2933,0.5,0
+network,net|tie|PJM|NYIS|2026-11-03T23:00:00Z,"PJM: its tie with NYIS, MW signed from PJM's side",,1636,0.5,0
+network,net|tie|PJM|CPLE|2026-11-03T23:00:00Z,"PJM: its tie with CPLE, MW signed from PJM's side",,-873,0.5,0
+network,net|tie|PJM|TVA|2026-11-03T23:00:00Z,"PJM: its tie with TVA, MW signed from PJM's side",,-805,0.5,0
+network,net|tie|PJM|LGEE|2026-11-03T23:00:00Z,"PJM: its tie with LGEE, MW signed from PJM's side",,-246,0.5,0
+network,net|tie|PJM|CPLW|2026-11-03T23:00:00Z,"PJM: its tie with CPLW, MW signed from PJM's side",,-49,0.5,0
+network,net|tie|PJM|DUK|2026-11-03T23:00:00Z,"PJM: its tie with DUK, MW signed from PJM's side",,-42,0.5,0
+network,net|export|PJM|2026-11-03T23:00:00Z,"PJM: net export over its reporting ties, MW",,2554,0.5,0
+gravity,net|maxflow|PJM|2026-11-03T23:00:00Z,"PJM: the largest flow on its ties, MW, either way",,2933,0.5,0
+network,net|tie|MISO|PJM|2026-11-03T23:00:00Z,"MISO: its tie with PJM, MW signed from MISO's side",,-2933,0.5,0
+network,net|tie|MISO|TVA|2026-11-03T23:00:00Z,"MISO: its tie with TVA, MW signed from MISO's side",,1802,0.5,0
+network,net|tie|MISO|MHEB|2026-11-03T23:00:00Z,"MISO: its tie with MHEB, MW signed from MISO's side",,-1431,0.5,0
+network,net|tie|MISO|AECI|2026-11-03T23:00:00Z,"MISO: its tie with AECI, MW signed from MISO's side",,-835,0.5,0
+network,net|tie|MISO|IESO|2026-11-03T23:00:00Z,"MISO: its tie with IESO, MW signed from MISO's side",,-653,0.5,0
+network,net|tie|MISO|LGEE|2026-11-03T23:00:00Z,"MISO: its tie with LGEE, MW signed from MISO's side",,360,0.5,0
+network,net|tie|MISO|SPA|2026-11-03T23:00:00Z,"MISO: its tie with SPA, MW signed from MISO's side",,-213,0.5,0
+network,net|tie|MISO|SOCO|2026-11-03T23:00:00Z,"MISO: its tie with SOCO, MW signed from MISO's side",,103,0.5,0
+network,net|tie|MISO|SWPP|2026-11-03T23:00:00Z,"MISO: its tie with SWPP, MW signed from MISO's side",,83,0.5,0
+network,net|tie|MISO|SIKE|2026-11-03T23:00:00Z,"MISO: its tie with SIKE, MW signed from MISO's side",,-44,0.5,0
+network,net|import|MISO|2026-11-03T23:00:00Z,"MISO: net import over its reporting ties, MW",,3761,0.5,0
+gravity,net|maxflow|MISO|2026-11-03T23:00:00Z,"MISO: the largest flow on its ties, MW, either way",,2933,0.5,0
+network,net|tie|NYIS|PJM|2026-11-03T23:00:00Z,"NYIS: its tie with PJM, MW signed from NYIS's side",,-1636,0.5,0
+network,net|tie|NYIS|HQT|2026-11-03T23:00:00Z,"NYIS: its tie with HQT, MW signed from NYIS's side",,-1234,0.5,0
+network,net|tie|NYIS|ISNE|2026-11-03T23:00:00Z,"NYIS: its tie with ISNE, MW signed from NYIS's side",,563,0.5,0
+network,net|tie|NYIS|IESO|2026-11-03T23:00:00Z,"NYIS: its tie with IESO, MW signed from NYIS's side",,76,0.5,0
+network,net|import|NYIS|2026-11-03T23:00:00Z,"NYIS: net import over its reporting ties, MW",,2231,0.5,0
+gravity,net|maxflow|NYIS|2026-11-03T23:00:00Z,"NYIS: the largest flow on its ties, MW, either way",,1636,0.5,0
+network,net|tie|ISNE|NYIS|2026-11-03T23:00:00Z,"ISNE: its tie with NYIS, MW signed from ISNE's side",,-563,0.5,0
+network,net|tie|ISNE|NBSO|2026-11-03T23:00:00Z,"ISNE: its tie with NBSO, MW signed from ISNE's side",,16,0.5,0
+network,net|tie|ISNE|HQT|2026-11-03T23:00:00Z,"ISNE: its tie with HQT, MW signed from ISNE's side",,0,0.5,0
+network,net|import|ISNE|2026-11-03T23:00:00Z,"ISNE: net import over its reporting ties, MW",,547,0.5,0
+gravity,net|maxflow|ISNE|2026-11-03T23:00:00Z,"ISNE: the largest flow on its ties, MW, either way",,563,0.5,0
+network,net|tie|SWPP|SPA|2026-11-03T23:00:00Z,"SWPP: its tie with SPA, MW signed from SWPP's side",,-474,0.5,0
+network,net|tie|SWPP|PSCO|2026-11-03T23:00:00Z,"SWPP: its tie with PSCO, MW signed from SWPP's side",,368,0.5,0
+network,net|tie|SWPP|AECI|2026-11-03T23:00:00Z,"SWPP: its tie with AECI, MW signed from SWPP's side",,271,0.5,0
+network,net|tie|SWPP|ERCO|2026-11-03T23:00:00Z,"SWPP: its tie with ERCO, MW signed from SWPP's side",,219,0.5,0
+network,net|tie|SWPP|BHBA|2026-11-03T23:00:00Z,"SWPP: its tie with BHBA, MW signed from SWPP's side",,204,0.5,0
+network,net|tie|SWPP|MISO|2026-11-03T23:00:00Z,"SWPP: its tie with MISO, MW signed from SWPP's side",,-83,0.5,0
+network,net|tie|SWPP|SIKE|2026-11-03T23:00:00Z,"SWPP: its tie with SIKE, MW signed from SWPP's side",,83,0.5,0
+network,net|tie|SWPP|SPC|2026-11-03T23:00:00Z,"SWPP: its tie with SPC, MW signed from SWPP's side",,-54,0.5,0
+network,net|tie|SWPP|WAUW|2026-11-03T23:00:00Z,"SWPP: its tie with WAUW, MW signed from SWPP's side",,37,0.5,0
+network,net|tie|SWPP|EPE|2026-11-03T23:00:00Z,"SWPP: its tie with EPE, MW signed from SWPP's side",,0,0.5,0
+network,net|tie|SWPP|PNM|2026-11-03T23:00:00Z,"SWPP: its tie with PNM, MW signed from SWPP's side",,0,0.5,0
+network,net|export|SWPP|2026-11-03T23:00:00Z,"SWPP: net export over its reporting ties, MW",,571,0.5,0
+gravity,net|maxflow|SWPP|2026-11-03T23:00:00Z,"SWPP: the largest flow on its ties, MW, either way",,474,0.5,0
+gravity,net|import|CISO|2026-11-03T23:00:00Z,"CISO: net import over its reporting ties, MW (negative: a net export)",,2172,0.5,0
+gravity,net|import|SWPP|2026-11-03T23:00:00Z,"SWPP: net import over its reporting ties, MW (negative: a net export)",,-571,0.5,0
+gravity,net|import|MISO|2026-11-03T23:00:00Z,"MISO: net import over its reporting ties, MW (negative: a net export)",,3761,0.5,0
+gravity,net|import|ISNE|2026-11-03T23:00:00Z,"ISNE: net import over its reporting ties, MW (negative: a net export)",,547,0.5,0
+gravity,net|import|NYIS|2026-11-03T23:00:00Z,"NYIS: net import over its reporting ties, MW (negative: a net export)",,2231,0.5,0
+gravity,net|import|PJM|2026-11-03T23:00:00Z,"PJM: net import over its reporting ties, MW (negative: a net export)",,-2554,0.5,0
+gravity,net|import|ERCO|2026-11-03T23:00:00Z,"ERCO: net import over its reporting ties, MW (negative: a net export)",,219,0.5,0
+carbon,series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-11-02T23:00:00Z,"ERCO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,286.922,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-11-02T23:00:00Z,"CISO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,128.9306,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:PJM|intensity_generation|2026-10-30T23:00:00Z,"PJM: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,310.7712,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:MISO|intensity_generation|2026-11-02T23:00:00Z,"MISO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,387.7906,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-11-02T23:00:00Z,"NYIS: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,217.4895,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-11-02T23:00:00Z,"ISNE: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,214.723,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-10-31T23:00:00Z,"SWPP: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,552.5791,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2018-08-01T00:00:00Z,"ERCO: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",,460.4669,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2026-08-01T00:00:00Z,"ERCO: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,326.6858,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2018-08-01T00:00:00Z,"CISO: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",,213.5147,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2026-08-01T00:00:00Z,"CISO: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,172.5591,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:PJM|intensity_generation|2018-10-01T00:00:00Z,"PJM: carbon intensity of its generation, its first month held (2018-10), kg CO2 per MWh",,373.4665,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:PJM|intensity_generation|2026-07-01T00:00:00Z,"PJM: carbon intensity of its generation, its last month held (2026-07), kg CO2 per MWh",,368.2207,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:MISO|intensity_generation|2018-09-01T00:00:00Z,"MISO: carbon intensity of its generation, its first month held (2018-09), kg CO2 per MWh",,595.9164,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:MISO|intensity_generation|2026-08-01T00:00:00Z,"MISO: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,478.3676,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:NYIS|intensity_generation|2018-08-01T00:00:00Z,"NYIS: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",,255.4985,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:NYIS|intensity_generation|2026-08-01T00:00:00Z,"NYIS: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,279.8354,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:ISNE|intensity_generation|2018-08-01T00:00:00Z,"ISNE: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",,251.5063,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:ISNE|intensity_generation|2026-08-01T00:00:00Z,"ISNE: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,244.3533,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:SWPP|intensity_generation|2018-09-01T00:00:00Z,"SWPP: carbon intensity of its generation, its first month held (2018-09), kg CO2 per MWh",,550.4692,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:SWPP|intensity_generation|2026-08-01T00:00:00Z,"SWPP: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,466.9008,0.005,0
+ask,ask|s302:q01|0|0,"ercot: s302:q01, source 1, figure 1: What was the average real-time on-peak price at ERCOT's hub average (HB_HUBAVG) over calendar year 2024?",31.57,31.57,0.005,0
+ask,ask|s302:q02|0|0,"ercot: s302:q02, source 1, figure 1: What was the load-weighted real-time price at ERCOT's HB_HUBAVG in July 2025?",34.18,34.18,0.005,0
+ask,ask|s302:q03|0|0,"ercot: s302:q03, source 1, figure 1: What was wind's capture rate at ERCOT's HB_HUBAVG in March 2024?",72.5,72.5,0.05,0
+ask,ask|s302:q04|0|0,"ercot: s302:q04, source 1, figure 1: How many scarcity intervals did ERCOT's HB_SOUTH hub have in 2023?",213,213.0,0.5,0
+ask,ask|s302:q05|0|0,"ercot: s302:q05, source 1, figure 1: What was the carbon intensity of ERCOT's demand in January 2025, in kg CO2 per MWh?",356.7,356.7,0.05,0
+ask,ask|s302:q11|0|0,"caiso: s302:q11, source 1, figure 1: How much wind did CAISO curtail in total in 2024, in MWh?","230,777",230777.0,0.5,0
+ask,ask|s302:q11|0|1,"caiso: s302:q11, source 1, figure 2: How much wind did CAISO curtail in total in 2024, in MWh?",230776.644,230776.644,0.0005,0
+ask,ask|s302:q11|0|2,"caiso: s302:q11, source 1, figure 3: How much wind did CAISO curtail in total in 2024, in MWh?",12,12.0,0.5,0
+ask,ask|s302:q12|0|0,"caiso: s302:q12, source 1, figure 1: What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month?",44.2145,44.2145,5e-05,0
+ask,ask|s302:q12|0|1,"caiso: s302:q12, source 1, figure 2: What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month?",69,69.0,0.5,0
+ask,ask|s302:q12|1|0,"caiso: s302:q12, source 2, figure 1: What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month?",48.2772,48.2772,5e-05,0
+ask,ask|s302:q12|2|0,"caiso: s302:q12, source 3, figure 1: What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month?",94.5725,94.5725,5e-05,0
+ask,ask|s302:q13|0|0,"caiso: s302:q13, source 1, figure 1: What was the load-weighted real-time price at CAISO's SP15 hub in September 2024?",33.07,33.07,0.005,0
+ask,ask|s302:q13|1|0,"caiso: s302:q13, source 2, figure 1: What was the load-weighted real-time price at CAISO's SP15 hub in September 2024?",720,720.0,0.5,0
+ask,ask|s302:q13|2|0,"caiso: s302:q13, source 3, figure 1: What was the load-weighted real-time price at CAISO's SP15 hub in September 2024?",31.38,31.38,0.005,0
+ask,ask|s302:q13|3|0,"caiso: s302:q13, source 4, figure 1: What was the load-weighted real-time price at CAISO's SP15 hub in September 2024?",1.68,1.68,0.005,0
+ask,ask|s302:q14|0|0,"caiso: s302:q14, source 1, figure 1: What was a 4-hour battery's capture rate at CAISO's SP15 hub in March 2025?",216.5,216.5,0.05,0
+ask,ask|s302:q14|1|0,"caiso: s302:q14, source 2, figure 1: What was a 4-hour battery's capture rate at CAISO's SP15 hub in March 2025?",53.71,53.71,0.005,0
+ask,ask|s302:q14|2|0,"caiso: s302:q14, source 3, figure 1: What was a 4-hour battery's capture rate at CAISO's SP15 hub in March 2025?",24.81,24.81,0.005,0
+ask,ask|s302:q15|0|0,"caiso: s302:q15, source 1, figure 1: What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?",1.1363,1.1363,5e-05,0
+ask,ask|s302:q15|1|0,"caiso: s302:q15, source 2, figure 1: What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?",25.4274,25.4274,5e-05,0
+ask,ask|s302:q15|2|0,"caiso: s302:q15, source 3, figure 1: What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?",24.2911,24.2911,5e-05,0
+ask,ask|s302:q15|3|0,"caiso: s302:q15, source 4, figure 1: What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?",719,719.0,0.5,0
+ask,ask|s302:q15|4|0,"caiso: s302:q15, source 5, figure 1: What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?",743,743.0,0.5,0
+ask,ask|s267:q29|0|0,"pjm: s267:q29, source 1, figure 1: What was the carbon intensity of PJM's demand in January 2025?",375.95,375.95,0.005,0
+ask,ask|s267:q29|1|0,"pjm: s267:q29, source 2, figure 1: What was the carbon intensity of PJM's demand in January 2025?",382.42,382.42,0.005,0
+ask,ask|s302:q16|0|0,"nyiso: s302:q16, source 1, figure 1: What was the load-weighted day-ahead price at NYISO's N.Y.C. zone in February 2025?",license needed,,0.005,1
+ask,ask|s302:q16|1|0,"nyiso: s302:q16, source 2, figure 1: What was the load-weighted day-ahead price at NYISO's N.Y.C. zone in February 2025?",license needed,,0.5,1
+ask,ask|s302:q16|2|0,"nyiso: s302:q16, source 3, figure 1: What was the load-weighted day-ahead price at NYISO's N.Y.C. zone in February 2025?",license needed,,0.005,1
+ask,ask|s267:q18|0|0,"nyiso: s267:q18, source 1, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",license needed,,0.005,1
+ask,ask|s267:q18|1|0,"nyiso: s267:q18, source 2, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",license needed,,0.5,1
+ask,ask|s267:q18|2|0,"nyiso: s267:q18, source 3, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",license needed,,0.005,1
+ask,ask|s267:q18|2|1,"nyiso: s267:q18, source 3, figure 2: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",license needed,,0.005,1
+ask,ask|s267:q18|3|0,"nyiso: s267:q18, source 4, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",license needed,,0.5,1
+ask,ask|s267:q18|4|0,"nyiso: s267:q18, source 5, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",license needed,,0.5,1
+ask,ask|s267:q18|5|0,"nyiso: s267:q18, source 6, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",license needed,,0.5,1
+ask,ask|s267:q18|5|1,"nyiso: s267:q18, source 6, figure 2: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",license needed,,0.5,1
+ask,ask|s267:q18|6|0,"nyiso: s267:q18, source 7, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",license needed,,0.5,1
+ask,ask|s267:q18|6|1,"nyiso: s267:q18, source 7, figure 2: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",license needed,,0.5,1
+ask,ask|s267:q19|0|0,"nyiso: s267:q19, source 1, figure 1: What was a 4-hour battery's capture rate at NYISO's N.Y.C. zone in January 2025?",license needed,,0.005,1
+ask,ask|s267:q19|1|0,"nyiso: s267:q19, source 2, figure 1: What was a 4-hour battery's capture rate at NYISO's N.Y.C. zone in January 2025?",license needed,,0.005,1
+ask,ask|s267:q20|0|0,"nyiso: s267:q20, source 1, figure 1: How many active energy storage projects are in NYISO's interconnection queue, and what is their total capacity in MW?",license needed,,0.5,1
+ask,ask|s267:q20|1|0,"nyiso: s267:q20, source 2, figure 1: How many active energy storage projects are in NYISO's interconnection queue, and what is their total capacity in MW?",license needed,,0.05,1
+ask,ask|s302:q18|0|0,"isone: s302:q18, source 1, figure 1: What was the carbon intensity of ISO-NE's demand in July 2024?",269.85,269.85,0.005,0
+ask,ask|s302:q20|0|0,"isone: s302:q20, source 1, figure 1: What was solar's capture rate at ISO-NE's Internal Hub in June 2025?",license needed,,0.05,1
+ask,ask|s302:q20|1|0,"isone: s302:q20, source 2, figure 1: What was solar's capture rate at ISO-NE's Internal Hub in June 2025?",license needed,,0.005,1
+ask,ask|s302:q20|2|0,"isone: s302:q20, source 3, figure 1: What was solar's capture rate at ISO-NE's Internal Hub in June 2025?",license needed,,0.005,1
+ask,ask|s267:q25|0|0,"isone: s267:q25, source 1, figure 1: What was the load-weighted real-time price at ISO-NE's Internal Hub in December 2024?",license needed,,0.005,1
+ask,ask|s267:q25|1|0,"isone: s267:q25, source 2, figure 1: What was the load-weighted real-time price at ISO-NE's Internal Hub in December 2024?",license needed,,0.5,1
+ask,ask|s267:q26|0|0,"isone: s267:q26, source 1, figure 1: What was ISO-NE's carbon intensity of demand in January 2025?",267.44,267.44,0.005,0
+ask,ask|s302:q17|0|0,"spp: s302:q17, source 1, figure 1: What was the load-weighted real-time price at SPP's North hub in February 2025?",24.78,24.78,0.005,0
+ask,ask|s302:q17|1|0,"spp: s302:q17, source 2, figure 1: What was the load-weighted real-time price at SPP's North hub in February 2025?",672,672.0,0.5,0
+ask,ask|s302:q17|2|0,"spp: s302:q17, source 3, figure 1: What was the load-weighted real-time price at SPP's North hub in February 2025?",23.33,23.33,0.005,0
+ask,ask|s267:q21|0|0,"spp: s267:q21, source 1, figure 1: How much wind did SPP curtail in total in 2023, in MWh?","11,423,441",11423441.0,0.5,0
+ask,ask|s267:q21|0|1,"spp: s267:q21, source 1, figure 2: How much wind did SPP curtail in total in 2023, in MWh?",12,12.0,0.5,0
+ask,ask|s267:q21|1|0,"spp: s267:q21, source 2, figure 1: How much wind did SPP curtail in total in 2023, in MWh?","237,065",237065.0,0.5,0
+ask,ask|s267:q21|1|1,"spp: s267:q21, source 2, figure 2: How much wind did SPP curtail in total in 2023, in MWh?","1,921,222",1921222.0,0.5,0
+ask,ask|s267:q22|0|0,"spp: s267:q22, source 1, figure 1: What was the flat, time-weighted price at SPP's North hub in February 2025?",23.33,23.33,0.005,0
+ask,ask|s267:q22|0|1,"spp: s267:q22, source 1, figure 2: What was the flat, time-weighted price at SPP's North hub in February 2025?",672,672.0,0.5,0
+ask,ask|s267:q22|0|2,"spp: s267:q22, source 1, figure 3: What was the flat, time-weighted price at SPP's North hub in February 2025?",26.75,26.75,0.005,0
+ask,ask|s267:q22|0|3,"spp: s267:q22, source 1, figure 4: What was the flat, time-weighted price at SPP's North hub in February 2025?",24.78,24.78,0.005,0
+ask,ask|s267:q23|0|0,"spp: s267:q23, source 1, figure 1: What is the lowest monthly carbon intensity of SPP's generation in the warehouse, and in which month?",274.64,274.64,0.005,0
+ask,ask|s267:q23|0|1,"spp: s267:q23, source 1, figure 2: What is the lowest monthly carbon intensity of SPP's generation in the warehouse, and in which month?",46,46.0,0.5,0
+ask,ask|s267:q24|0|0,"spp: s267:q24, source 1, figure 1: How many active wind projects are in SPP's interconnection queue, and what is their total capacity in MW?",111,111.0,0.5,0
+ask,ask|s267:q24|1|0,"spp: s267:q24, source 2, figure 1: How many active wind projects are in SPP's interconnection queue, and what is their total capacity in MW?",23208.66,23208.66,0.005,0
+ask,ask|s302:q19|0|0,"us48: s302:q19, source 1, figure 1: What was the average monthly carbon intensity of US Lower 48 generation over 2024?",12,12.0,0.5,0
+ask,ask|s302:q19|0|1,"us48: s302:q19, source 1, figure 2: What was the average monthly carbon intensity of US Lower 48 generation over 2024?",337.48,337.48,0.005,0
+ask,ask|s302:q19|1|0,"us48: s302:q19, source 2, figure 1: What was the average monthly carbon intensity of US Lower 48 generation over 2024?",289.93,289.93,0.005,0
+ask,ask|s302:q19|1|1,"us48: s302:q19, source 2, figure 2: What was the average monthly carbon intensity of US Lower 48 generation over 2024?",383.24,383.24,0.005,0
+ask,ask|s267:q27|0|0,"us48: s267:q27, source 1, figure 1: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",344.75,344.75,0.005,0
+ask,ask|s267:q27|0|1,"us48: s267:q27, source 1, figure 2: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",299.81,299.81,0.005,0
+ask,ask|s267:q27|0|2,"us48: s267:q27, source 1, figure 3: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",382.87,382.87,0.005,0
+ask,ask|s267:q27|0|3,"us48: s267:q27, source 1, figure 4: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",356.37,356.37,0.005,0
+ask,ask|s267:q27|0|4,"us48: s267:q27, source 1, figure 5: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",303.86,303.86,0.005,0
+ask,ask|s267:q27|0|5,"us48: s267:q27, source 1, figure 6: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",313.62,313.62,0.005,0
+ask,ask|s267:q27|0|6,"us48: s267:q27, source 1, figure 7: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",348.01,348.01,0.005,0
+ask,ask|s267:q27|0|7,"us48: s267:q27, source 1, figure 8: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",379.66,379.66,0.005,0
+ask,ask|s267:q27|0|8,"us48: s267:q27, source 1, figure 9: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",367.86,367.86,0.005,0
+ask,ask|s267:q27|0|9,"us48: s267:q27, source 1, figure 10: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",358.43,358.43,0.005,0
+ask,ask|s267:q27|0|10,"us48: s267:q27, source 1, figure 11: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",341.12,341.12,0.005,0
+ask,ask|s267:q27|0|11,"us48: s267:q27, source 1, figure 12: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",336.64,336.64,0.005,0
+ask,ask|s267:q27|0|12,"us48: s267:q27, source 1, figure 13: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",348.82,348.82,0.005,0

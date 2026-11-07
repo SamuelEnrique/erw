@@ -85,6 +85,17 @@ EXTRA = ["kind", "kinds", "site_type", "developer", "state", "county", "city", "
          "queue_mw", "project_status", "phase", "planned_year", "power_source", "utility", "confidence",
          "first_story_at", "geo_precision", "geo_note", "n_members", "member_ids", "source_urls"]
 NEWS_ONLY = ["phase", "planned_year", "power_source", "utility", "confidence", "first_story_at"]
+# Session 2243 (chain 156): the fields of session 2236 (warehouse/datacenters/facility_fields.py) carried from the news
+# facilities, beside the old; a facility's grid is the grid its stories name, else its queue's own ISO, else the grid
+# that serves most of its state (grid_basis: named, queue or state); its mw_basis is that of the member its MW is from.
+NEWS_2236 = ["power_kind", "energized_year", "utility_eia861", "utility_eia861_number", "utilities_in_county"]
+EXTRA = EXTRA + ["grid", "grid_basis", "mw_basis"] + NEWS_2236
+STATE_GRID = {  # the site's lib/deals2.ts STATE_GRID and facility_fields.STATE_GRID: one reading of a state's grid
+    "TX": "ERCOT", "CA": "CAISO", "NY": "NYISO", "CT": "ISO-NE", "ME": "ISO-NE", "MA": "ISO-NE", "NH": "ISO-NE",
+    "RI": "ISO-NE", "VT": "ISO-NE", "PA": "PJM", "NJ": "PJM", "MD": "PJM", "DE": "PJM", "VA": "PJM", "WV": "PJM",
+    "OH": "PJM", "DC": "PJM", "MN": "MISO", "IA": "MISO", "WI": "MISO", "MI": "MISO", "LA": "MISO", "OK": "SPP",
+    "KS": "SPP", "NE": "SPP"}
+QUEUE_GRID = {"ercot": "ERCOT", "caiso": "CAISO", "pjm": "PJM", "miso": "MISO", "spp": "SPP", "nyiso": "NYISO", "isone": "ISO-NE"}
 COLS = STD + EXTRA
 PRIORITY = {"operator": 0, "news": 1, "queue": 2}
 US_STATES = set(ep.STATES.values())  # the 50 states and the District of Columbia, as postal codes
@@ -161,7 +172,10 @@ def members(log):
                         project_status=r["project_status"], site_type="", geo_precision=r["geo_precision"],
                         geo_note=r["geo_note"], source=r["source"], source_url=r["source_url"],
                         urls=[u for u in r["story_urls"].split(";") if u] or [r["source_url"]], queue_mw="",
-                        **{f: r[f] for f in NEWS_ONLY}))
+                        **{f: r[f] for f in NEWS_ONLY},
+                        # session 2243: the fields of session 2236, empty in a table extracted before it
+                        grid=r.get("grid", "") if r.get("grid_basis", "") == "named" else "", mw_basis=r.get("mw_basis", ""),
+                        **{f: r.get(f, "") for f in NEWS_2236}))
     ops = read(OPS)
     if ops is None:
         log(f"  WARNING: {OPS}.csv is missing; no operator sites (run warehouse/datacenters/operators/run.py)")
@@ -172,7 +186,7 @@ def members(log):
                             mw=r["mw"], mw_span=r["mw_span"], status=r["status"], project_status=r["status_text"],
                             site_type=r["site_type"], geo_precision=r["geo_precision"], geo_note=r["geo_note"],
                             source=r["source"], source_url=r["source_url"], urls=[r["source_url"]], queue_mw="",
-                            **{f: "" for f in NEWS_ONLY}))
+                            **{f: "" for f in NEWS_ONLY}, grid="", mw_basis="", **{f: "" for f in NEWS_2236}))
     qp = queue_positions(log)
     look = None
     for r in qp.to_dict("records"):
@@ -188,7 +202,8 @@ def members(log):
                         lon=f"{b:.6f}" if b is not None else "", mw="", mw_span="", status=r["status"],
                         project_status=r["iso_status"], site_type="queue_position", geo_precision=p,
                         geo_note=note, source=r["source"], source_url=r["source_url"], urls=[r["source_url"]],
-                        queue_mw=r["capacity_mw"], **{f: "" for f in NEWS_ONLY}))
+                        queue_mw=r["capacity_mw"], **{f: "" for f in NEWS_ONLY},
+                        grid=QUEUE_GRID.get(r["entity_id"].split("_", 1)[0], ""), mw_basis="", **{f: "" for f in NEWS_2236}))
     log(f"  members: {sum(m['kind'] == 'news' for m in out)} news, {sum(m['kind'] == 'operator' for m in out)} "
         f"operator, {len(qp)} queue")
     return out
@@ -274,7 +289,8 @@ def merge(ms, log):
 def facility(g, now):
     g = sorted(g, key=lambda m: PRIORITY[m["kind"]])
     head = g[0]
-    first = lambda f, order=None: next((m[f] for m in (order or g) if m[f]), "")  # noqa: E731
+    # session 2252: .get, so a member built without the fields of session 2236 (a test's, an older caller's) reads empty
+    first = lambda f, order=None: next((m.get(f, "") for m in (order or g) if m.get(f, "")), "")  # noqa: E731
     by_news_first = sorted(g, key=lambda m: {"news": 0, "operator": 1, "queue": 2}[m["kind"]])
     mw_member = next((m for m in g if m["mw"]), None)
     r = {c: "" for c in COLS}
@@ -301,6 +317,16 @@ def facility(g, now):
     if mw_member:
         r["mw"] = r["capacity_mw"] = mw_member["mw"]
         r["mw_span"], r["mw_from"] = mw_member["mw_span"], f"{mw_member['kind']}:{mw_member['id']}"
+    # session 2243: the fields of session 2236; the grid named by a story, else the queue's ISO, else the state's
+    for f in NEWS_2236:
+        r[f] = first(f, by_news_first)
+    if mw_member:
+        r["mw_basis"] = (mw_member.get("mw_basis") or "unstated") if mw_member["kind"] == "news" else "unstated"
+    named = next((m["grid"] for m in by_news_first if m["kind"] == "news" and m.get("grid")), "")
+    queue = next((m["grid"] for m in g if m["kind"] == "queue" and m.get("grid")), "")
+    by_state = STATE_GRID.get(r["state"], "")
+    r["grid"], r["grid_basis"] = ((named, "named") if named else (queue, "queue") if queue else
+                                  (by_state, "state") if by_state else ("", ""))
     # session 166: a country only where a US state is stated; geo is never "US" on the word of no source
     r["country"] = country_of(r["state"])
     r["geo"] = f"US-{r['state']}" if r["country"] else ""

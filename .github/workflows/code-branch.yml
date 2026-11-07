@@ -19,6 +19,8 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    outputs:
+      main: ${{ steps.base.outputs.main }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,10 +36,22 @@ jobs:
           cache-dependency-path: site/package-lock.json
       - name: Install Python dependencies
         run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
-      - name: Tests (tests/)
-        env:
-          ERW_LOCK_EXEMPT: "1"
-        run: python -m unittest discover -s tests
+      # Session 3712 (docs/state/main_red_2026-11-06.md): the checks run on what main will hold after the merge, the
+      # branch with the main it lands on merged in (never pushed from here), not on the branch's own head. A branch
+      # cut before a red commit reached main used to pass here and land on a red main
+      - name: Merge the main this branch lands on
+        id: base
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch --quiet origin main
+          echo "main=$(git rev-parse origin/main)" >> "$GITHUB_OUTPUT"
+          git merge --no-edit --quiet origin/main || { echo "::error::the branch does not merge cleanly with main $(git rev-parse --short origin/main)"; exit 1; }
+      # Session 3712: the whole suite on that clean checkout (no secret in this step's environment), each failing test
+      # named in the log and in the run's summary (scripts/suite_gate.py)
+      - name: Tests (tests/), on the branch merged with main
+        run: python scripts/suite_gate.py --summary "$GITHUB_STEP_SUMMARY"
       - name: Site build and check-routes
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -66,11 +80,37 @@ jobs:
   merge:
     needs: checks
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      # Session 3712: main may have moved while the checks ran (the daily run's commit, another branch's merge). Then
+      # the whole suite runs again on the branch merged with the new main, and a red suite stops the merge here, its
+      # failing tests named. A move during this step is the window left: the next branch's checks see it
+      - name: The suite again when main moved since the checks
+        env:
+          TESTED_MAIN: ${{ needs.checks.outputs.main }}
+        run: |
+          set -euo pipefail
+          branch="${GITHUB_REF#refs/heads/}"
+          git fetch --quiet origin main "$branch"
+          now="$(git rev-parse origin/main)"
+          if [ "$now" = "$TESTED_MAIN" ]; then
+            echo "main is where the checks found it ($now): nothing to test again"
+            exit 0
+          fi
+          echo "main moved from $TESTED_MAIN to $now since the checks: the whole suite on the branch merged with it"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --quiet -B gate "origin/$branch"
+          git merge --no-edit --quiet origin/main || { echo "::error::the branch no longer merges cleanly with main $now"; exit 1; }
+          python -m pip install --quiet --upgrade pip && python -m pip install --quiet -r requirements.txt
+          python scripts/suite_gate.py --summary "$GITHUB_STEP_SUMMARY"
       - name: Open the pull request and merge it
         env:
           GH_TOKEN: ${{ github.token }}

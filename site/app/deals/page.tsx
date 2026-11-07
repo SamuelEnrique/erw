@@ -16,8 +16,11 @@ import { ToolPage } from "@/components/tool/ToolPage";
 import { one, tabOf } from "@/lib/tabs";
 import { CompaniesView } from "../companies/view";
 import { DealsTable, type Deal } from "./DealsTable";
+import { rowOf } from "@/lib/dealsview";
 import { TrackerView } from "./v2/view";
 import { ComparablesView } from "./comparables/view";
+import { AiView } from "./ai/view";
+import { ChartsView } from "./charts/view";
 import { DealsDecisions } from "./Decisions";
 import { DealsHeld } from "./Held";
 
@@ -33,12 +36,15 @@ export default async function DealsPage({ searchParams }: { searchParams: Promis
   // session 466: /deals?view=comparables, the tracker's disclosed figures side by side, under the tracker's tab
   const comparablesView = sp.view === "comparables";
   const tab = comparablesView ? "tracker" : tabOf("/deals", sp.tab);
+  const aiView = sp.view === "ai";   // session 2240: the AI-power view, under the tracker's tab too
+  const chartsView = sp.view === "charts";   // session 2241: the four charts, under the tracker's tab too
+  const active = aiView || chartsView ? "tracker" : tab;
   return (
     <Brand>
       <ToolPage>
-        <div data-deals-tab={tab}>
-          <Tabs page="/deals" active={tab} />
-          {comparablesView ? <ComparablesView sp={sp} /> : tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView />}
+        <div data-deals-tab={active}>
+          <Tabs page="/deals" active={active} />
+          {comparablesView ? <ComparablesView sp={sp} /> : aiView ? <AiView sp={sp} /> : chartsView ? <ChartsView /> : tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView />}
           {/* session 465: the decisions block, under every tab and under the hold */}
           <DealsDecisions />
           {/* session 329: each tab's public tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
@@ -83,41 +89,15 @@ async function DealsView() {
         <>
           {/* session 500: held by row, the public rows are shown and the held ones counted (nothing here until the mark) */}
           <HeldRows shape="events" table="energy_deals" shown={res.data.length} method="/data/methods/energy_deals" />
-          <Body rows={res.data.map(toDeal)} month={month} companies={cos.ok ? cos.data.map((c) => c.name) : []} />
+          <Body rows={res.data.map(rowOf)} month={month} companies={cos.ok ? cos.data.map((c) => c.name) : []} />
         </>
       )}
     </>
   );
 }
 
-function toDeal(r: Awaited<ReturnType<typeof deals>>[number]): Deal {
-  const x = r.extra ?? {};
-  const num = (v: string | number | null | undefined) => (v === null || v === undefined || v === "" ? null : Number(v));
-  return {
-    id: r.event_id,
-    date: r.event_date,
-    dateBasis: x.date_basis ?? "",
-    type: x.deal_type ?? "",
-    status: r.status ?? "",
-    buyer: x.buyer ?? "",
-    seller: x.seller ?? "",
-    others: x.other_parties ?? "",
-    asset: x.asset ?? "",
-    technology: x.technology ?? "",
-    state: x.state ?? "",
-    country: x.country ?? "",
-    mw: num(r.mw),
-    mwh: num(x.mwh),
-    dollars: num(x.dollars),
-    priceValue: num(x.price_value),
-    priceUnit: x.price_unit ?? "",
-    termYears: num(x.term_years),
-    aiPower: String(x.ai_power ?? "").toLowerCase() === "true", // session 114: the table holds "True", "False" and "false"
-    confidence: num(x.confidence),
-    storyUrls: (x.story_urls ?? r.source_url).split(";").filter(Boolean),
-    source: r.source,
-  };
-}
+// Session 2238: a row of the live set as the table reads it is lib/dealsview.ts rowOf (the fields of sessions 2232 to
+// 2235 where the row has them, each older row's own columns where it does not).
 
 function Body({ rows, month: current, companies }: { rows: Deal[]; month: string; companies: string[] }) {
   // session 49: at the start of a month with no deals yet, the previous month, labeled
