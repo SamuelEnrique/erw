@@ -243,7 +243,10 @@ class OneTablesCoverageRow(unittest.TestCase):
         s = src("warehouse", "metadata", "build_coverage.py")
         self.assertIn('ap.add_argument("--only"', s)
         self.assertIn("files = [p for p in files if re.search(args.only, os.path.basename(p)[:-4])]", s)
-        self.assertIn("sys.exit(main() or 0)", s)                           # a failed --only is an exit code a gate can read
+        # a failed --only is an exit code a gate can read (session 3233: session 3298 keeps main's code in rc and exits
+        # with it after rewriting package/llms.txt's catalogue, so the two lines are asked for, not the one it replaced)
+        self.assertIn("rc = main() or 0", s)
+        self.assertIn("sys.exit(rc)", s)
         # by its path: warehouse/validate holds a shim of the same name that runs the builder, and another test puts
         # that folder first on the path (the full run of this session imported the shim, which stopped on its arguments)
         import importlib.util

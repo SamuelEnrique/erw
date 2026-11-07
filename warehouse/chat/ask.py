@@ -55,6 +55,11 @@ REFUSAL = ("The warehouse does not hold that figure: the numbers in my draft cou
            "to a warehouse query. Try asking for one value, one table and one period at a time.")
 
 BRIEFING = open(os.path.join(ROOT, "package", "llms.txt"), encoding="utf-8").read().strip()
+# Session 3298: llms.txt's last section, the catalogue of every table (scripts/build_llms.py, between its two marker
+# lines), is left out of the chat's briefing: the tools list the tables, and the catalogue would multiply each
+# question's cost. The briefing is the file without it, as it was before the catalogue existed.
+if "<!-- BEGIN catalogue:" in BRIEFING:
+    BRIEFING = BRIEFING.split("<!-- BEGIN catalogue:", 1)[0].strip()
 
 RULES = """You answer questions about the US energy system from the Energy Research Warehouse (ERW), using only its tools: list_tables, describe_table, query and compare, and grid_notes for a grid page's written text.
 
