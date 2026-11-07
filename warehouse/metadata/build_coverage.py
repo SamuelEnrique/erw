@@ -1285,5 +1285,22 @@ def main():
           f"({len(rows)} built here, {len(carried)} carried over)")
 
 
+def write_llms_catalogue():
+    """Session 3298: package/llms.txt's catalogue (scripts/build_llms.py) is rewritten after every build of coverage, so
+    whatever rebuilds coverage.csv also rebuilds the list of tables AI readers are given (tests/test_session3298.py fails
+    when the catalogue is older than coverage.csv's newest row). A failure here is said loudly and does not undo the
+    coverage just written; the test is what stops a stale catalogue from landing."""
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import build_llms
+        build_llms.main([])
+    except BaseException as e:  # noqa: BLE001 - SystemExit from the generator included: coverage stands, the error is said
+        print(f"package/llms.txt's catalogue NOT rewritten (scripts/build_llms.py): {type(e).__name__}: {e}",
+              file=sys.stderr)
+
+
 if __name__ == "__main__":
-    sys.exit(main() or 0)
+    rc = main() or 0
+    if rc == 0:
+        write_llms_catalogue()
+    sys.exit(rc)

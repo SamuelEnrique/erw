@@ -102,6 +102,7 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
 # 199), committed with the CSV whose header names it, and only when the generator's group was not put back
 RECORD_PATH=docs/methods/figures
 META_PATHS=(warehouse/metadata/coverage.csv docs/coverage.md warehouse/metadata/sources.csv
+            package/llms.txt    # session 3298: the catalogue build_coverage.py rewrites (scripts/build_llms.py)
             warehouse/metadata/archive_manifest.csv warehouse/metadata/redivis_uploads.csv
             docs/grids/grid_tables.json    # session 314: the grids' tables by rule (dm_grid_tables)
             warehouse/metadata/findings_recompute.csv)   # session 361: the daily recompute's record (dm_findings_recompute)
@@ -443,6 +444,13 @@ group dm_test_hybrid "dm_seller_hybrid" "tests.test_session162" -- site/data/sel
 # session 284: the board's Python tests (the node test's newest-week check of the top twelve fails whenever EIA posts its
 # spot prices late, as on 14 October 2026, which would put back an ERCOT refresh that has nothing to do with it)
 group dm_test_board "dm_board_page" "tests.test_session132 tests.test_session240" -- site/data/board.json site/public/board
+# session 3206: the files the replication and cross-check tests hold to their recorded figures. The run of 6 November
+# (e475f7069) committed a refresh of the datacenter and findings files that broke four of them on main (190, 1491,
+# 538, 720; chain 184 put the files back): those tests read the committed files, so a refresh that moves a recorded
+# figure is put back here, whole, until the tests or their recorded figures follow the refresh.
+group dm_test_replication "dm_datacenter_page dm_datacenter_export dm_datacenter_carbon dm_findings_recompute" \
+  "tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720" -- \
+  site/data/datacenter site/public/datacenter site/data/findings site/public/findings
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"

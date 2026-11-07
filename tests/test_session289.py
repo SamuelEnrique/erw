@@ -70,10 +70,12 @@ class OnePage(unittest.TestCase):
 
     def test_the_day_at_a_glance(self):
         self.assertIn("const PREVIEW_MS = 5000;", self.game)
-        self.assertIn("const avg = p.reduce((a, v) => a + v, 0) / p.length, lo = Math.min(...p), hi = Math.max(...p);", self.game)
+        # session 3600: the numbers come from lib/battery.ts's glance() (the average, the lowest, the highest and the
+        # spread), and the preview carries the prices' source as a hover
+        self.assertIn("const gl = glance(level.price);", self.game)
         for w in ("lowest", "average", "highest", "Start now"):
             self.assertIn(w, self.game)
-        self.assertIn('{phase === "preview" ? <Preview level={level} hard={difficulty === "hard"} onDone={begin} />', self.game)
+        self.assertIn('{phase === "preview" ? <Preview level={level} hard={difficulty === "hard"} onDone={begin} hover={hover} />', self.game)
 
     def test_hard_notice_names_the_emergency(self):
         self.assertIn("In 15 minutes: the grid emergency and the fleet call.", self.game)

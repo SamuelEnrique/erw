@@ -79,7 +79,8 @@ class TheProblemSets(unittest.TestCase):
         self.assertIn('hours.get(day(r.ts_utc)) === r.value', self.p)
 
     def test_eighteen_days_against_eighteen(self):
-        e5 = self.p[self.p.index('id: "e5"') - 900:self.p.index("return [q1, q2, q3, q4, q5];\n}\n\nexport const SETS")]
+        # session 3650: set E now ends with its worked example and returns { example, questions }; the question ends there
+        e5 = self.p[self.p.index('id: "e5"') - 900:self.p.index("// session 3650: the worked example, question 3's method on the held month before")]
         self.assertIn('mrs("base_window", st.baseMean * st.days, "USD")', e5)
         self.assertIn('calc("ratio", tot, normal, "times")', e5)
         self.assertNotIn('calc("ratio", tot, week, "times")', e5)

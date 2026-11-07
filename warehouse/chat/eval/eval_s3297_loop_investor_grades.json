@@ -1,0 +1,105 @@
+{
+ "_about": "eval_s3297_loop_investor_run.json graded on questions_investor.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "investor",
+ "asked": 4,
+ "right": 4,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence"
+ ],
+ "cost_usd": 0.5389,
+ "questions": [
+  {
+   "id": "iv14",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.15520689999999998,
+   "seconds": 19.9,
+   "expected": [
+    95.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 7
+  },
+  {
+   "id": "iv18",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.1634878,
+   "seconds": 42.7,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true,
+    "first": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "iv19",
+   "via": "grid",
+   "grid": "NYISO",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.10969860000000001,
+   "seconds": 21.1,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": false,
+    "no_figure": true,
+    "ok": true,
+    "hold_answer": true
+   },
+   "trace_calls": 7
+  },
+  {
+   "id": "iv20",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.1104576,
+   "seconds": 7.5,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true,
+    "first": true
+   },
+   "trace_calls": 3
+  }
+ ]
+}
