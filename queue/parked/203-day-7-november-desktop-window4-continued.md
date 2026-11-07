@@ -26,12 +26,14 @@ Long end 0:45. The next file. Then chain 202's note read; its unfinished steps o
 
 ## The second to fourth sessions: chain 202's unfinished steps
 
-Long end 1:30 each, in chain 202's note's order. What chain 202 left (session 3405, 6 November 2026, about 21:10 UTC; chain 202's last session replaces this list):
+Long end 1:30 each, in chain 202's note's order. What chain 202 left (session 3412, 7 November 2026, about 02:10 UTC, the final list; the chain landed as `8b9b97615` at 02:00 UTC and its note is `docs/state/note_2026-11-07_desktop_window4.md`):
 
-- **The 94 weeks before 2026-10-05:** 13,389 eligible stories (significance 0 excluded) not yet classified, about USD 9.3 at Sonnet 5.5's USD 0.71 a thousand; the oldest first as this file says, so the series grows from January 2025, or the newest first if the owner prefers the series to grow backward from the classified weeks (chain 202's note asks).
+- **The 94 weeks before 2026-10-05:** 13,389 eligible stories (significance 0 excluded) not yet classified, about USD 9.3 at Sonnet 5.5's USD 0.71 a thousand; the oldest first as this file says, so the series grows from January 2025, or the newest first if the owner prefers the series to grow backward from the classified weeks (chain 202's note asks). The classifier's prompt is version 3 (a neutral headline for a story the scorer never read); the backfill mode (`--headlines`) exists for rows written before it.
 - **The 312 oldest stories of the week of 2026-10-05** (the cap's edge), classified by the same run.
 - **A fresh labeled sample** drawn from the older weeks, whose outlets differ (the four wires are three quarters of the rows before September 2026).
-- Whatever chain 202's landing (session 3407) and its page checks (session 3411) leave, named in `docs/state/note_2026-11-07_desktop_window4.md`.
+- **The page is not in the Analysis menu:** the owner adds its two lines on main (`site/lib/release.ts` and the registry entry in session 3405's report); then the menu tests of sessions 203, 237 and 238 take the sixth Analysis page (the edits are in chain 202's history, commit `b142fb958`). No session changes `site/lib/release.ts` (test 469).
+- **Every gate stops at check-values on main's three known floors** (`/deals`, `/learn/problems/know-your-grid`, `/digest`); the three skipped page checks are run by hand on the kept build (`runs/c202/hand_checks.sh` has the form) until the floors are ruled on.
+- **This file was parked** with every other `queue/next/` file at 23:16 UTC on 6 November (the owner's instruction, for the weekend review); it starts only once unparked, by name, from the fourth window (`chain_queue.take(who='lab-desktop-window4', file=...)`; the command-line step refuses a window's file on a data machine).
 
 ## The fifth and sixth sessions: the stories the cap left
 
