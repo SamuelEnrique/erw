@@ -36,7 +36,8 @@ const KIND_NAME: Record<string, string> = {
   political_opposition: "political opposition", other_opposition: "other opposition",
 };
 const ATT = "attention_index_weekly", FRI = "friction_index_weekly";
-const pct = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+// two decimals: the value checker (scripts/check-values.mjs) reads a checked number as the raw value rounded to two decimals or a whole count
+const pct = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const whole = (v: number) => Math.round(v).toLocaleString("en-US");
 const tone = (v: number) => (v > 0 ? "+" : "") + v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const day = (w: string) => w.slice(0, 10);
