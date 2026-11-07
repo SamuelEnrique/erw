@@ -26,9 +26,12 @@ Long end 0:45. The next file. Then chain 202's note read; its unfinished steps o
 
 ## The second to fourth sessions: chain 202's unfinished steps
 
-Long end 1:30 each, in chain 202's note's order. What chain 202 left (session 3400, 6 November 2026, about 19:25 UTC; chain 202's last session replaces this list):
+Long end 1:30 each, in chain 202's note's order. What chain 202 left (session 3405, 6 November 2026, about 21:10 UTC; chain 202's last session replaces this list):
 
-- Everything: chain 202 had run only its first session when this file was written. Its note says what landed and what did not.
+- **The 94 weeks before 2026-10-05:** 13,389 eligible stories (significance 0 excluded) not yet classified, about USD 9.3 at Sonnet 5.5's USD 0.71 a thousand; the oldest first as this file says, so the series grows from January 2025, or the newest first if the owner prefers the series to grow backward from the classified weeks (chain 202's note asks).
+- **The 312 oldest stories of the week of 2026-10-05** (the cap's edge), classified by the same run.
+- **A fresh labeled sample** drawn from the older weeks, whose outlets differ (the four wires are three quarters of the rows before September 2026).
+- Whatever chain 202's landing (session 3407) and its page checks (session 3411) leave, named in `docs/state/note_2026-11-07_desktop_window4.md`.
 
 ## The fifth and sixth sessions: the stories the cap left
 

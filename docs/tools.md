@@ -89,6 +89,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 | ERW's Roundup | `/roundup`, `/roundup/<week>` | What happened this week, and what was the chart of the week? | everyone | `news_index`, `energy_deals`, `datacenter_projects`, `docs/roundup/` |
 | Research (Automated Analysis until session 238; `/analysis` redirects) | `/research`, `/research/<week>`, `/research/card/<id>` | What do the house chart templates show this week? | researchers | the price, EIA-930, curtailment, battery, trader view, deal and datacenter tables |
 | Email | `/subscribe` | How do I get the digest and the Roundup by email? | everyone | Supabase subscribers (insert only) |
+| Attention (session 3405, chain 202, in review) | `/attention` | How much coverage did each energy sector and place get week by week, and how much of it reported opposition (moratoria, lawsuits, protests, denied permits, rate-case fights)? | researchers, investors and lenders, everyone | `attention_index_weekly`, `friction_index_weekly`, `attention_story_links` (a model's reading of each `news_stories` title and summary; `site/data/attention.json`) |
 
 ## Data and research
 
