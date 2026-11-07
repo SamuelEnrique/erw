@@ -1,0 +1,24 @@
+{
+ "set": "2256",
+ "model": "claude-sonnet-5-5",
+ "recorded_at": "2026-11-06T12:35:40Z",
+ "extractor_exit": 0,
+ "usd": 0.02397,
+ "calls": [
+  {
+   "request_id": "req_011CgmgcqYnCqL1ZUQG1nsqC",
+   "stop_reason": "end_turn",
+   "tokens": {
+    "input": 1205,
+    "output": 1119,
+    "cache_read": 0,
+    "cache_write": 4148,
+    "cache_write_1h": 0,
+    "web_searches": 0
+   },
+   "usd": 0.02397,
+   "text": "{\"results\":[{\"cluster_id\":\"news:19821cdb2e72d9f6\",\"deals\":[]},{\"cluster_id\":\"news:9fc7debc2394441a\",\"deals\":[{\"deal_type\":\"m_and_a\",\"buyer\":\"\",\"seller\":\"Crescent\",\"other_parties\":[],\"asset\":\"Non-Op D-J Assets\",\"technology\":\"oil\",\"state\":\"\",\"country\":\"\",\"mw\":\"\",\"mw_text\":\"\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"\",\"dollars_text\":\"\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"\",\"country_text\":\"\",\"status\":\"closed\",\"status_text\":\"Sells\",\"announced_date\":\"\",\"ai_power\":false,\"confidence\":0.7,\"evidence\":\"Crescent Sells Non-Op D-J Assets Ahead of Closing Vital Deal\",\"story_id\":\"news:9fc7debc2394441a\",\"same_as\":\"\",\"kind\":\"m_and_a\",\"stage\":\"closed\",\"stage_text\":\"Sells\",\"confidence_basis\":\"Crescent Sells Non-Op D-J Assets\"}]},{\"cluster_id\":\"news:691dcf77756dbdfa\",\"deals\":[{\"deal_type\":\"m_and_a\",\"buyer\":\"Monomoy Capital\",\"seller\":\"Shell\",\"other_parties\":[],\"asset\":\"Jiffy Lube\",\"technology\":\"\",\"state\":\"\",\"country\":\"\",\"mw\":\"\",\"mw_text\":\"\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"1300000000\",\"dollars_text\":\"$1.3 billion\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"\",\"country_text\":\"\",\"status\":\"announced\",\"status_text\":\"to offload\",\"announced_date\":\"\",\"ai_power\":false,\"confidence\":0.85,\"evidence\":\"Shell to offload Jiffy Lube to Monomoy Capital for $1.3 billion\",\"story_id\":\"news:691dcf77756dbdfa\",\"same_as\":\"\",\"kind\":\"m_and_a\",\"stage\":\"announced\",\"stage_text\":\"to offload\",\"confidence_basis\":\"Shell to offload Jiffy Lube to Monomoy Capital for $1.3 billion\"}]},{\"cluster_id\":\"news:3af2a975e7eaa4a7\",\"deals\":[]},{\"cluster_id\":\"news:f26abf1c5c49a563\",\"deals\":[{\"deal_type\":\"other\",\"buyer\":\"Sellafield\",\"seller\":\"\",\"other_parties\":[],\"asset\":\"asset care and asset creation framework at Sellafield site\",\"technology\":\"nuclear\",\"state\":\"\",\"country\":\"United Kingdom\",\"mw\":\"\",\"mw_text\":\"\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"\",\"dollars_text\":\"\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"\",\"country_text\":\"UK\",\"status\":\"signed\",\"status_text\":\"selects\",\"announced_date\":\"\",\"ai_power\":false,\"confidence\":0.7,\"evidence\":\"Sellafield selects partners for asset care framework\",\"story_id\":\"news:f26abf1c5c49a563\",\"same_as\":\"\",\"kind\":\"other\",\"stage\":\"signed\",\"stage_text\":\"selects\",\"confidence_basis\":\"The successful partners have been identified for a new delivery framework\"}]},{\"cluster_id\":\"news:da70551560f8939a\",\"deals\":[]}]}"
+  }
+ ],
+ "one_party": "on"
+}

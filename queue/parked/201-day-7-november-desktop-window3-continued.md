@@ -28,9 +28,15 @@ Long end 0:45. The next file. Then chain 200's note read; its unfinished steps o
 
 Long end 1:30 each, in its note's order. A landing never between 14:00 and 16:15 UTC, through `scripts/land_check.py --port 3330`, every printed command run as its own command with its exit read, the snapshots before and after.
 
-What chain 200 left (session 3300, 6 November 2026, about 19:10 UTC; its last session replaces this list):
+What chain 200 left (session 3310, 7 November 2026; chain 200's note `docs/state/note_2026-11-07_desktop_window3.md` says what landed):
 
-- Everything: chain 200 had just begun.
+- **A daily rebuild.** The three tables and the page files (`site/data/companies/`, `site/data/capital.json`) are as of 6 November 2026. Add `warehouse/derived/companies.py`, `companies_page.py` and `capital_page.py` to the data machine's daily derived steps (after their inputs), with the page files committed as the other page files are, and `check_companies.py --pages` as the step's check.
+- **Chain 156's counterparties** (`task/2230-2295-deals` was in flight on 6 November): once landed, read its `aliases.yaml` and `deal_counterparties` into the reviewed aliases (each alias with its evidence) and match the deals' parties to it.
+- **The owner's rulings** on chain 200's seven questions (its note, "For Samuel's ruling"): a deals permission opens the deal parts of the company pages and `/deals/capital` (the next build of the files does it by itself); the Form D pull (about 47 requests) needs the owner's approval and a contact email, never pulled without both.
+- **Main's three check-values failures** seen in every gate on 6 November (`/deals`'s floor while the deals are held, `/learn/problems/know-your-grid`, `/roundup` 0 of 0): not this chain's pages; say whether they persist.
+- **Colour contrast** of the new pages was not judged (AccessLint ran without the stylesheet): judge it on a served build with the internal cookie.
+
+Parked on 6 November 2026 with the other next files for the weekend review (`76b168e70`); chain 200's last session updated it where it is and did not take it.
 
 ## The seventh and eighth sessions: the resolution's faults
 

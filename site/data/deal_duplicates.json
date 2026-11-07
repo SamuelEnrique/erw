@@ -43,7 +43,21 @@
    "ruling": "doubtful",
    "reason": "Talks to invest in OpenAI: Financial Times on 2026-01-28 (USD 40 billion from Nvidia, Amazon and Microsoft) and Bloomberg and WSJ on 2026-01-29 (Amazon, up to USD 50 billion). Overlapping talks with different figures and parties; not folded.",
    "found": "session 113 (2026-10-05)"
+  },
+  {
+   "duplicate": "deal:70bf30d372e1d674",
+   "kept": "deal:29c1d07b7456f089",
+   "ruling": "fold",
+   "reason": "The Department of Energy's loan to Vistra for its nuclear uprates: Bloomberg on 2026-10-02 (US to offer a USD 4 billion loan) and POWER, Utility Dive and four more on 2026-10-05 and 06 (a conditional commitment of up to USD 4.2 billion, 433 MW of uprates). The same lender and borrower within 3 days, sums within a quarter: one loan, the Roundup audit's fix 8 pair; the earlier row is kept with its own figure and the later row's stories join it.",
+   "found": "session 2233 (2026-11-06)"
+  },
+  {
+   "duplicate": "deal:3768a40d6f7e3242",
+   "kept": "deal:6d416fb10be3a6f0",
+   "ruling": "fold",
+   "reason": "Amazon's 20-year PPA with Constellation for the Maryland nuclear plant (Calvert Cliffs, 190 MW): Reuters and Power Engineering on 2026-09-30 and 10-01, and Utility Dive on 2026-10-06, whose summary says Constellation signed with both Google and Amazon in the last week. The same buyer and seller within 6 days: one PPA, the Roundup audit's second pair.",
+   "found": "session 2233 (2026-11-06)"
   }
  ],
- "built": "2026-10-05T01:06:17Z"
+ "built": "2026-11-06T08:00:19Z"
 }

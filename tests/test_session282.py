@@ -34,7 +34,8 @@ class TheDownloadHoldsWhatDataHolds(unittest.TestCase):
 class Resets(unittest.TestCase):
     def test_each_filter_bar_has_one(self):
         for parts, words in ((("site", "app", "datacenters", "DatacentersTable.tsx"), 'setCountry(""); setState(""); setStatus(""); setOperator(""); setKind(""); setMinMw("");'),
-                             (("site", "app", "deals", "DealsTable.tsx"), 'setType(""); setTech(""); setState(""); setAi(""); setStatus(""); setFrom(""); setTo("");'),
+                             # session 2238: the deals table's inputs are one object, every one back to All at once
+                             (("site", "app", "deals", "DealsTable.tsx"), "onClick={() => setF(NO_INPUTS)}"),
                              (("site", "app", "companies", "CompaniesTable.tsx"), 'setSector(""); setNiche(""); setStage(""); setState(""); setMinConf("0");'),
                              (("site", "app", "policy", "PolicyTable.tsx"), 'setTag(""); setMinSig("5"); setFrom("");')):
             s = src(*parts)

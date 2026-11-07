@@ -33,7 +33,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
-import fields as pf  # noqa: E402
+import policy_fields as pf  # noqa: E402  session 3233: its own name, beside the deals tracker's fields
 import impact as pi  # noqa: E402
 import records as pr  # noqa: E402
 

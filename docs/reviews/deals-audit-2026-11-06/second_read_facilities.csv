@@ -1,0 +1,61 @@
+n,not_a_facility,row,two_places,operator,site,state,country,mw,mw_basis,status,power,timeline,confidence_fit,note
+F001,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F002,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F003,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F004,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F005,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F006,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F007,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F008,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F009,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F010,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F011,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F012,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F013,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F014,0,present,0,missed,ok,ok,ok,ok,ok,ok,ok,ok,too_high,"Title names ""Colt DCS and RMZ start work"" but the row has no operator or developer, yet confidence 0.85."
+F015,0,present,0,ok,ok,missed,ok,ok,ok,ok,ok,ok,ok,"Words say ""Western Kentucky"" and ""Kentucky's history"" but state is blank."
+F016,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F017,0,none,0,missed,na,na,na,na,na,na,na,na,na,"Story names ""Gorilla Technology Group to enter US market with proposed 6MW data center acquisition"" but no row was extracted."
+F018,0,present,0,ok,ok,ok,ok,ok,ok,missed,ok,ok,ok,"Words say ""build-out of Project Matador campus"" and ""due to be delivered next year"" but status is blank."
+F019,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F020,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F021,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F022,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F023,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F024,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F025,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F026,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F027,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F028,0,none,0,missed,na,na,na,na,na,na,na,na,na,"Story names an ""AI cluster in Columbus, Georgia"" where ""Duos still owns facility"" but no row was extracted."
+F029,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F030,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F031,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F032,0,present,0,ok,ok,ok,ok,ok,ok,ok,missed,ok,ok,"Words name ""DataOne's unpermitted generator fleet"" but power is blank."
+F033,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F034,0,present,0,ok,ok,missed,ok,ok,ok,ok,ok,ok,ok,"Title says ""Hutto, Texas"" but state is blank."
+F035,0,present,0,ok,ok,ok,missed,ok,ok,ok,ok,ok,ok,"Best row (Chiba) lacks country though words say ""Japan's AI infrastructure""; a duplicate JERA row says under_construction where words say ""First project planned""."
+F036,0,present,0,missed,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Words say ""Balearic Islands launches new data center"" and ""regional government data center"" but operator is blank."
+F037,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F038,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F039,0,present,0,ok,ok,ok,ok,ok,ok,wrong,ok,ok,ok,"Words say ""Pauses Wyoming Site"" and ""Crusoe Pushed Aside"", not cancelled."
+F040,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F041,0,present,0,ok,ok,ok,ok,ok,ok,missed,ok,ok,ok,"Words say ""on track to go live in mid-2026"" but status is blank."
+F042,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F043,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F044,0,present,0,ok,ok,ok,missed,ok,ok,ok,ok,ok,ok,"Words say ""Stargate Norway Data Center"" but country is blank."
+F045,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F046,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F047,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F048,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F049,0,present,0,ok,ok,ok,ok,ok,wrong,ok,ok,ok,ok,"Words say only ""2.5 GW data centre park"", which does not say total."
+F050,0,present,0,missed,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Words say ""TikTok owner weighs data center project"" but operator is blank."
+F051,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F052,1,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Words name no developer or site, only ""AI Data Center Planned for Pennsylvania Coal Plant Site""; row has only state PA."
+F053,0,present,0,ok,ok,ok,missed,ok,ok,ok,ok,ok,ok,"Words say ""OpenAI halts Stargate UK data centre project"" but country is blank; second row ""First Stargate Site"" has no place."
+F054,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F055,1,none,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F056,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F057,1,none,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F058,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F059,0,present,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,ok,
+F060,0,present,0,ok,ok,ok,ok,ok,ok,ok,missed,ok,ok,"Title says ""Gas-Powered Data Center on Federal Lands"" but power is blank."

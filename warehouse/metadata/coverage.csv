@@ -15,6 +15,8 @@ ask_kosovo_electricity_monthly,ask,,13,P1M,2022-01-01T00:00:00Z,2026-07-01T00:00
 asli_liechtenstein_electricity_annual,asli,,4,P1Y,1985-01-01T00:00:00Z,2025-01-01T00:00:00Z,164,asli_li:energie_2025_tabelle5,2026-10-25T06:52:01Z,pass,public,power,no,source
 asub_aland_electricity_annual,asub,,7,P1Y,1994-01-01T00:00:00Z,2025-01-01T00:00:00Z,190,asub_ax:MI009,2026-10-25T08:56:07Z,pass,public,power,no,source
 asub_aland_electricity_sales_annual,asub,,18,P1Y,1980-01-01T00:00:00Z,2025-01-01T00:00:00Z,603,asub_ax:MI010,2026-10-25T10:47:43Z,pass,public,power,no,source
+attention_index_weekly,attention,,185,P1W,2024-12-30T00:00:00Z,2026-11-30T00:00:00Z,1785,erw:attention,2026-11-06T20:52:23Z,pass,public,news;datacenters,no,model_extracted
+attention_story_links,none,,48,event,2026-10-05T17:03:00Z,2026-11-17T12:00:00Z,8120,48 outlets,2026-11-06T20:52:23Z,pass,public,news;datacenters,no,model_extracted
 ba_supply_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,473,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,158503,erw:ba_supply,2026-10-02T23:03:48Z,pass,public,power,yes,derived
 battery_sourced_ranges,battery,,18,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,90,nlr:atb-2025-v1,2026-10-19T12:40:18Z,pass,public,power,no,source
 battery_stack_monthly,CAISO;ERCOT,caiso;ercot,2,P1M,2018-01-01T00:00:00Z,2026-10-01T00:00:00Z,11556,erw:battery_stack,2026-10-30T15:05:44Z,pass,public,power,yes,derived
@@ -415,6 +417,7 @@ flex_alert_effects,flex,,1,P1D;P1Y;PT1H,2018-01-01T00:00:00Z,2024-07-25T06:00:00
 flex_alert_model,flex,,1,;P1D,2018-07-01T00:00:00Z,2025-08-24T00:00:00Z,881,erw:flex_alert_scorecard,2026-10-19T22:49:51Z,pass,public,power,yes,derived
 frb_treasury_yields,frb,,3,P1D,2019-01-02T00:00:00Z,2026-11-04T00:00:00Z,5886,frb:h15_treasury_yields,2026-11-05T23:51:25Z,pass,public,equities,no,source
 frb_utility_output_monthly,frb,,19,P1M,1919-01-01T00:00:00Z,2026-09-01T00:00:00Z,15365,frb:g17,2026-10-23T05:34:53Z,pass,public,power,no,source
+friction_index_weekly,friction,,184,P1W,2026-10-05T00:00:00Z,2026-11-16T00:00:00Z,4167,erw:attention,2026-11-06T20:52:23Z,pass,public,news;datacenters,no,model_extracted
 gas_balance_weekly,gas,,9,P1M;P1W,2001-01-01T00:00:00Z,2026-10-16T00:00:00Z,40507,erw:gas_balance_weekly,2026-11-06T08:28:34Z,pass,public,gas,yes,derived
 gastat_saudi_electricity_annual,gastat,,30,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,177,gastat:electrical_energy_statistics_2024,2026-10-24T23:16:34Z,pass,internal,power,no,source
 generation_mix_hourly_profile,generation,,7,P1M,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,164724,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-11-06T00:22:31Z,pass,public,power;carbon,yes,derived
