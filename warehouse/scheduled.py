@@ -82,8 +82,13 @@ JOBS = {
         tables=["ercot_dam_esr_awards", "ercot_storage_dam_awards_monthly", "ercot_storage_dam_offers_daily", "ercot_storage_dam_offers_monthly"],
         restore=["ercot_dam_esr_awards", "ercot_storage_dam_awards_monthly", "ercot_storage_dam_offers_daily", "ercot_storage_dam_offers_monthly"],
         cmd=["warehouse/connectors/ercot_dam_esr.py", "--daily"]),
+    # session 3714 (docs/state/main_red_2026-11-06.md): caiso_fuel_supply_history is read too, for California's hydro gap
+    # (October 2019 to August 2020). Unnamed here, its absence on the runner was not seen, and the run of 6 November wrote
+    # CAISO's mix without those months (90 to 80). Named as an input (and, like the others here, never asked of the
+    # archive: session 114), a machine that lacks it skips the step and the page keeps the copy it has
     "mix_profile": dict(
-        cadence="monthly", page="/mix/v2", tables=["caiso_fuel_supply", "carbon_intensity_hourly"], workbooks=ISO_BAS,
+        cadence="monthly", page="/mix/v2", tables=["caiso_fuel_supply", "carbon_intensity_hourly", "caiso_fuel_supply_history"],
+        workbooks=ISO_BAS,
         cmd=["warehouse/derived/mix_profile.py", "--snapshot"]),
     "price_compare": dict(
         cadence="monthly", page="/prices/compare",

@@ -1,0 +1,2914 @@
+{
+ "_about": "The Grid tool (/grid): the figures the page prints, each with its check key and value. The network group is the page's own code (network_figures.mjs) on the snapshot named here; the carbon group is the rows of carbon_intensity_monthly the Clean tab's monthly block names, read from the tables named here; the ask group is the Ask panel's stored answers, as the panel shows them on the day. Written by figures_of_the_page.py; replicate.py recomputes each figure without the page's code, from the snapshot and the tables.",
+ "written_for_day": "2026-11-06",
+ "snapshot": "site/data/grid_network.json",
+ "snapshot_built": "2026-11-05T23:09:35Z",
+ "hour_shown": "2026-11-03T23:00:00Z",
+ "pairs": 159,
+ "reporting": 159,
+ "generation_held": false,
+ "tables": "warehouse/output",
+ "tables_retrieved": {
+  "carbon_intensity_monthly": "20260930T003026Z (UTC) by warehouse/derived/carbon_intensity.py",
+  "carbon_intensity_hourly": "20260930T003026Z (UTC) by warehouse/derived/carbon_intensity.py",
+  "eia930_all_emissions": "20260930T002015Z (UTC) by warehouse/connectors/eia930_emissions.py from the save",
+  "eia930_all_generation": "20260929T005739Z (UTC), the newest retrieval of its members (eia930_us48_generat",
+  "cost_of_power_monthly": "20261002T122336Z (UTC) by warehouse/derived/cost_of_power.py",
+  "merchant_revenue_monthly": "20261002T122438Z (UTC) by warehouse/derived/merchant_revenue.py"
+ },
+ "carbon_last_month_held": "2026-08",
+ "ask_file_built_by": "site/scripts/build-grid-ask-examples.mjs",
+ "not_replicated": "the Mix tab's latest-hour figures and the Clean tab's latest hours (live reads of eia930_all_demand, eia930_all_generation and carbon_intensity_hourly as the page is drawn: replicate.py's mix_now applies the page's rules to rows a reader reads with the public key, and this chain read none); the hourly carbon intensity itself (its denominators are EIA's per-BA workbooks, which no table holds); the Mix tab's other views (site/data/mix, clean, stress, mixplus: built from EIA's workbooks on the data machine)",
+ "figures": [
+  {
+   "group": "network",
+   "name": "hours from the hour shown to the snapshot's refresh",
+   "check": "net|lag|2026-11-03T23:00:00Z|2026-11-05T23:09:35Z",
+   "raw": 48,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "ERCO: net export over its reporting ties, MW (negative: a net import)",
+   "check": "net|export|ERCO|2026-11-03T23:00:00Z",
+   "raw": -219,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "ERCO: ties reporting",
+   "check": "net|ties|ERCO|2026-11-03T23:00:00Z",
+   "raw": 2,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: net export over its reporting ties, MW (negative: a net import)",
+   "check": "net|export|CISO|2026-11-03T23:00:00Z",
+   "raw": -2172,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: ties reporting",
+   "check": "net|ties|CISO|2026-11-03T23:00:00Z",
+   "raw": 11,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "PJM: net export over its reporting ties, MW (negative: a net import)",
+   "check": "net|export|PJM|2026-11-03T23:00:00Z",
+   "raw": 2554,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "PJM: ties reporting",
+   "check": "net|ties|PJM|2026-11-03T23:00:00Z",
+   "raw": 7,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: net export over its reporting ties, MW (negative: a net import)",
+   "check": "net|export|MISO|2026-11-03T23:00:00Z",
+   "raw": -3761,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: ties reporting",
+   "check": "net|ties|MISO|2026-11-03T23:00:00Z",
+   "raw": 10,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "NYIS: net export over its reporting ties, MW (negative: a net import)",
+   "check": "net|export|NYIS|2026-11-03T23:00:00Z",
+   "raw": -2231,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "NYIS: ties reporting",
+   "check": "net|ties|NYIS|2026-11-03T23:00:00Z",
+   "raw": 4,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "ISNE: net export over its reporting ties, MW (negative: a net import)",
+   "check": "net|export|ISNE|2026-11-03T23:00:00Z",
+   "raw": -547,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "ISNE: ties reporting",
+   "check": "net|ties|ISNE|2026-11-03T23:00:00Z",
+   "raw": 3,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: net export over its reporting ties, MW (negative: a net import)",
+   "check": "net|export|SWPP|2026-11-03T23:00:00Z",
+   "raw": 571,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: ties reporting",
+   "check": "net|ties|SWPP|2026-11-03T23:00:00Z",
+   "raw": 11,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "the largest net export of any balancing authority, MW (SRP)",
+   "check": "net|topexport|2026-11-03T23:00:00Z",
+   "raw": 2634,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "ERCO: its tie with SWPP, MW signed from ERCO's side",
+   "check": "net|tie|ERCO|SWPP|2026-11-03T23:00:00Z",
+   "raw": -219,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "ERCO: its tie with CEN, MW signed from ERCO's side",
+   "check": "net|tie|ERCO|CEN|2026-11-03T23:00:00Z",
+   "raw": 0,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "ERCO: net import over its reporting ties, MW",
+   "check": "net|import|ERCO|2026-11-03T23:00:00Z",
+   "raw": 219,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "ERCO: the largest flow on its ties, MW, either way",
+   "check": "net|maxflow|ERCO|2026-11-03T23:00:00Z",
+   "raw": 219,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: its tie with LDWP, MW signed from CISO's side",
+   "check": "net|tie|CISO|LDWP|2026-11-03T23:00:00Z",
+   "raw": -809,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: its tie with AZPS, MW signed from CISO's side",
+   "check": "net|tie|CISO|AZPS|2026-11-03T23:00:00Z",
+   "raw": -519,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: its tie with BPAT, MW signed from CISO's side",
+   "check": "net|tie|CISO|BPAT|2026-11-03T23:00:00Z",
+   "raw": -495,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: its tie with IID, MW signed from CISO's side",
+   "check": "net|tie|CISO|IID|2026-11-03T23:00:00Z",
+   "raw": -384,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: its tie with TIDC, MW signed from CISO's side",
+   "check": "net|tie|CISO|TIDC|2026-11-03T23:00:00Z",
+   "raw": 331,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: its tie with SRP, MW signed from CISO's side",
+   "check": "net|tie|CISO|SRP|2026-11-03T23:00:00Z",
+   "raw": -253,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: its tie with BANC, MW signed from CISO's side",
+   "check": "net|tie|CISO|BANC|2026-11-03T23:00:00Z",
+   "raw": -144,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: its tie with NEVP, MW signed from CISO's side",
+   "check": "net|tie|CISO|NEVP|2026-11-03T23:00:00Z",
+   "raw": 73,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: its tie with WALC, MW signed from CISO's side",
+   "check": "net|tie|CISO|WALC|2026-11-03T23:00:00Z",
+   "raw": 37,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: its tie with PACW, MW signed from CISO's side",
+   "check": "net|tie|CISO|PACW|2026-11-03T23:00:00Z",
+   "raw": -20,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: its tie with CEN, MW signed from CISO's side",
+   "check": "net|tie|CISO|CEN|2026-11-03T23:00:00Z",
+   "raw": 11,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "CISO: net import over its reporting ties, MW",
+   "check": "net|import|CISO|2026-11-03T23:00:00Z",
+   "raw": 2172,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "CISO: the largest flow on its ties, MW, either way",
+   "check": "net|maxflow|CISO|2026-11-03T23:00:00Z",
+   "raw": 809,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "PJM: its tie with MISO, MW signed from PJM's side",
+   "check": "net|tie|PJM|MISO|2026-11-03T23:00:00Z",
+   "raw": 2933,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "PJM: its tie with NYIS, MW signed from PJM's side",
+   "check": "net|tie|PJM|NYIS|2026-11-03T23:00:00Z",
+   "raw": 1636,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "PJM: its tie with CPLE, MW signed from PJM's side",
+   "check": "net|tie|PJM|CPLE|2026-11-03T23:00:00Z",
+   "raw": -873,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "PJM: its tie with TVA, MW signed from PJM's side",
+   "check": "net|tie|PJM|TVA|2026-11-03T23:00:00Z",
+   "raw": -805,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "PJM: its tie with LGEE, MW signed from PJM's side",
+   "check": "net|tie|PJM|LGEE|2026-11-03T23:00:00Z",
+   "raw": -246,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "PJM: its tie with CPLW, MW signed from PJM's side",
+   "check": "net|tie|PJM|CPLW|2026-11-03T23:00:00Z",
+   "raw": -49,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "PJM: its tie with DUK, MW signed from PJM's side",
+   "check": "net|tie|PJM|DUK|2026-11-03T23:00:00Z",
+   "raw": -42,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "PJM: net export over its reporting ties, MW",
+   "check": "net|export|PJM|2026-11-03T23:00:00Z",
+   "raw": 2554,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "PJM: the largest flow on its ties, MW, either way",
+   "check": "net|maxflow|PJM|2026-11-03T23:00:00Z",
+   "raw": 2933,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: its tie with PJM, MW signed from MISO's side",
+   "check": "net|tie|MISO|PJM|2026-11-03T23:00:00Z",
+   "raw": -2933,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: its tie with TVA, MW signed from MISO's side",
+   "check": "net|tie|MISO|TVA|2026-11-03T23:00:00Z",
+   "raw": 1802,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: its tie with MHEB, MW signed from MISO's side",
+   "check": "net|tie|MISO|MHEB|2026-11-03T23:00:00Z",
+   "raw": -1431,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: its tie with AECI, MW signed from MISO's side",
+   "check": "net|tie|MISO|AECI|2026-11-03T23:00:00Z",
+   "raw": -835,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: its tie with IESO, MW signed from MISO's side",
+   "check": "net|tie|MISO|IESO|2026-11-03T23:00:00Z",
+   "raw": -653,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: its tie with LGEE, MW signed from MISO's side",
+   "check": "net|tie|MISO|LGEE|2026-11-03T23:00:00Z",
+   "raw": 360,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: its tie with SPA, MW signed from MISO's side",
+   "check": "net|tie|MISO|SPA|2026-11-03T23:00:00Z",
+   "raw": -213,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: its tie with SOCO, MW signed from MISO's side",
+   "check": "net|tie|MISO|SOCO|2026-11-03T23:00:00Z",
+   "raw": 103,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: its tie with SWPP, MW signed from MISO's side",
+   "check": "net|tie|MISO|SWPP|2026-11-03T23:00:00Z",
+   "raw": 83,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: its tie with SIKE, MW signed from MISO's side",
+   "check": "net|tie|MISO|SIKE|2026-11-03T23:00:00Z",
+   "raw": -44,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "MISO: net import over its reporting ties, MW",
+   "check": "net|import|MISO|2026-11-03T23:00:00Z",
+   "raw": 3761,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "MISO: the largest flow on its ties, MW, either way",
+   "check": "net|maxflow|MISO|2026-11-03T23:00:00Z",
+   "raw": 2933,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "NYIS: its tie with PJM, MW signed from NYIS's side",
+   "check": "net|tie|NYIS|PJM|2026-11-03T23:00:00Z",
+   "raw": -1636,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "NYIS: its tie with HQT, MW signed from NYIS's side",
+   "check": "net|tie|NYIS|HQT|2026-11-03T23:00:00Z",
+   "raw": -1234,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "NYIS: its tie with ISNE, MW signed from NYIS's side",
+   "check": "net|tie|NYIS|ISNE|2026-11-03T23:00:00Z",
+   "raw": 563,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "NYIS: its tie with IESO, MW signed from NYIS's side",
+   "check": "net|tie|NYIS|IESO|2026-11-03T23:00:00Z",
+   "raw": 76,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "NYIS: net import over its reporting ties, MW",
+   "check": "net|import|NYIS|2026-11-03T23:00:00Z",
+   "raw": 2231,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "NYIS: the largest flow on its ties, MW, either way",
+   "check": "net|maxflow|NYIS|2026-11-03T23:00:00Z",
+   "raw": 1636,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "ISNE: its tie with NYIS, MW signed from ISNE's side",
+   "check": "net|tie|ISNE|NYIS|2026-11-03T23:00:00Z",
+   "raw": -563,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "ISNE: its tie with NBSO, MW signed from ISNE's side",
+   "check": "net|tie|ISNE|NBSO|2026-11-03T23:00:00Z",
+   "raw": 16,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "ISNE: its tie with HQT, MW signed from ISNE's side",
+   "check": "net|tie|ISNE|HQT|2026-11-03T23:00:00Z",
+   "raw": 0,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "ISNE: net import over its reporting ties, MW",
+   "check": "net|import|ISNE|2026-11-03T23:00:00Z",
+   "raw": 547,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "ISNE: the largest flow on its ties, MW, either way",
+   "check": "net|maxflow|ISNE|2026-11-03T23:00:00Z",
+   "raw": 563,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: its tie with SPA, MW signed from SWPP's side",
+   "check": "net|tie|SWPP|SPA|2026-11-03T23:00:00Z",
+   "raw": -474,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: its tie with PSCO, MW signed from SWPP's side",
+   "check": "net|tie|SWPP|PSCO|2026-11-03T23:00:00Z",
+   "raw": 368,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: its tie with AECI, MW signed from SWPP's side",
+   "check": "net|tie|SWPP|AECI|2026-11-03T23:00:00Z",
+   "raw": 271,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: its tie with ERCO, MW signed from SWPP's side",
+   "check": "net|tie|SWPP|ERCO|2026-11-03T23:00:00Z",
+   "raw": 219,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: its tie with BHBA, MW signed from SWPP's side",
+   "check": "net|tie|SWPP|BHBA|2026-11-03T23:00:00Z",
+   "raw": 204,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: its tie with MISO, MW signed from SWPP's side",
+   "check": "net|tie|SWPP|MISO|2026-11-03T23:00:00Z",
+   "raw": -83,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: its tie with SIKE, MW signed from SWPP's side",
+   "check": "net|tie|SWPP|SIKE|2026-11-03T23:00:00Z",
+   "raw": 83,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: its tie with SPC, MW signed from SWPP's side",
+   "check": "net|tie|SWPP|SPC|2026-11-03T23:00:00Z",
+   "raw": -54,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: its tie with WAUW, MW signed from SWPP's side",
+   "check": "net|tie|SWPP|WAUW|2026-11-03T23:00:00Z",
+   "raw": 37,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: its tie with EPE, MW signed from SWPP's side",
+   "check": "net|tie|SWPP|EPE|2026-11-03T23:00:00Z",
+   "raw": 0,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: its tie with PNM, MW signed from SWPP's side",
+   "check": "net|tie|SWPP|PNM|2026-11-03T23:00:00Z",
+   "raw": 0,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "network",
+   "name": "SWPP: net export over its reporting ties, MW",
+   "check": "net|export|SWPP|2026-11-03T23:00:00Z",
+   "raw": 571,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "SWPP: the largest flow on its ties, MW, either way",
+   "check": "net|maxflow|SWPP|2026-11-03T23:00:00Z",
+   "raw": 474,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "CISO: net import over its reporting ties, MW (negative: a net export)",
+   "check": "net|import|CISO|2026-11-03T23:00:00Z",
+   "raw": 2172,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "SWPP: net import over its reporting ties, MW (negative: a net export)",
+   "check": "net|import|SWPP|2026-11-03T23:00:00Z",
+   "raw": -571,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "MISO: net import over its reporting ties, MW (negative: a net export)",
+   "check": "net|import|MISO|2026-11-03T23:00:00Z",
+   "raw": 3761,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "ISNE: net import over its reporting ties, MW (negative: a net export)",
+   "check": "net|import|ISNE|2026-11-03T23:00:00Z",
+   "raw": 547,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "NYIS: net import over its reporting ties, MW (negative: a net export)",
+   "check": "net|import|NYIS|2026-11-03T23:00:00Z",
+   "raw": 2231,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "PJM: net import over its reporting ties, MW (negative: a net export)",
+   "check": "net|import|PJM|2026-11-03T23:00:00Z",
+   "raw": -2554,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "gravity",
+   "name": "ERCO: net import over its reporting ties, MW (negative: a net export)",
+   "check": "net|import|ERCO|2026-11-03T23:00:00Z",
+   "raw": 219,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.5
+  },
+  {
+   "group": "carbon",
+   "name": "ERCO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",
+   "check": "series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-11-02T23:00:00Z",
+   "raw": 286.922,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "CISO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",
+   "check": "series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-11-02T23:00:00Z",
+   "raw": 128.9306,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "PJM: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",
+   "check": "series|carbon_intensity_hourly|eia930:PJM|intensity_generation|2026-10-30T23:00:00Z",
+   "raw": 310.7712,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "MISO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",
+   "check": "series|carbon_intensity_hourly|eia930:MISO|intensity_generation|2026-11-02T23:00:00Z",
+   "raw": 387.7906,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "NYIS: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",
+   "check": "series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-11-02T23:00:00Z",
+   "raw": 217.4895,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "ISNE: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",
+   "check": "series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-11-02T23:00:00Z",
+   "raw": 214.723,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "SWPP: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",
+   "check": "series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-10-31T23:00:00Z",
+   "raw": 552.5791,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "ERCO: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2018-08-01T00:00:00Z",
+   "raw": 460.4669,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "ERCO: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2026-08-01T00:00:00Z",
+   "raw": 326.6858,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "CISO: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2018-08-01T00:00:00Z",
+   "raw": 213.5147,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "CISO: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2026-08-01T00:00:00Z",
+   "raw": 172.5591,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "PJM: carbon intensity of its generation, its first month held (2018-10), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:PJM|intensity_generation|2018-10-01T00:00:00Z",
+   "raw": 373.4665,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "PJM: carbon intensity of its generation, its last month held (2026-07), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:PJM|intensity_generation|2026-07-01T00:00:00Z",
+   "raw": 368.2207,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "MISO: carbon intensity of its generation, its first month held (2018-09), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:MISO|intensity_generation|2018-09-01T00:00:00Z",
+   "raw": 595.9164,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "MISO: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:MISO|intensity_generation|2026-08-01T00:00:00Z",
+   "raw": 478.3676,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "NYIS: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:NYIS|intensity_generation|2018-08-01T00:00:00Z",
+   "raw": 255.4985,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "NYIS: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:NYIS|intensity_generation|2026-08-01T00:00:00Z",
+   "raw": 279.8354,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "ISNE: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:ISNE|intensity_generation|2018-08-01T00:00:00Z",
+   "raw": 251.5063,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "ISNE: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:ISNE|intensity_generation|2026-08-01T00:00:00Z",
+   "raw": 244.3533,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "SWPP: carbon intensity of its generation, its first month held (2018-09), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:SWPP|intensity_generation|2018-09-01T00:00:00Z",
+   "raw": 550.4692,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "carbon",
+   "name": "SWPP: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",
+   "check": "series|carbon_intensity_monthly|eia930:SWPP|intensity_generation|2026-08-01T00:00:00Z",
+   "raw": 466.9008,
+   "page_text": "",
+   "held": false,
+   "source": null,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "ercot: s302:q01, source 1, figure 1: What was the average real-time on-peak price at ERCOT's hub average (HB_HUBAVG) over calendar year 2024?",
+   "check": "ask|s302:q01|0|0",
+   "raw": 31.57,
+   "page_text": "31.57",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "ercot_hub_prices_daily"
+    ],
+    "filter": "aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_peak_mean, start=2024-01-01, end=2025-01-01",
+    "scope": {
+     "slug": "ercot",
+     "by": "name",
+     "ba": "erco",
+     "iso": "ERCOT",
+     "market_prefix": "ercot",
+     "queue_table": "ercot_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:35:27.174Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "ercot: s302:q02, source 1, figure 1: What was the load-weighted real-time price at ERCOT's HB_HUBAVG in July 2025?",
+   "check": "ask|s302:q02|0|0",
+   "raw": 34.18,
+   "page_text": "34.18",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=mean, entity=ercot:HB_HUBAVG, variable=rt_load_weighted, start=2025-07-01, end=2025-08-01",
+    "scope": {
+     "slug": "ercot",
+     "by": "entity",
+     "ba": "erco",
+     "iso": "ERCOT",
+     "market_prefix": "ercot",
+     "queue_table": "ercot_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:35:51.765Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "ercot: s302:q03, source 1, figure 1: What was wind's capture rate at ERCOT's HB_HUBAVG in March 2024?",
+   "check": "ask|s302:q03|0|0",
+   "raw": 72.5,
+   "page_text": "72.5",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "merchant_revenue_monthly"
+    ],
+    "filter": "aggregation=mean, entity=ercot:HB_HUBAVG, variable=wind_capture_rate, start=2024-03-01, end=2024-04-01",
+    "scope": {
+     "slug": "ercot",
+     "by": "entity",
+     "ba": "erco",
+     "iso": "ERCOT",
+     "market_prefix": "ercot",
+     "queue_table": "ercot_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:36:02.583Z",
+   "decimals": 1,
+   "tolerance": 0.05
+  },
+  {
+   "group": "ask",
+   "name": "ercot: s302:q04, source 1, figure 1: How many scarcity intervals did ERCOT's HB_SOUTH hub have in 2023?",
+   "check": "ask|s302:q04|0|0",
+   "raw": 213.0,
+   "page_text": "213",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "ercot_peak_premium_annual"
+    ],
+    "filter": "aggregation=latest, entity=ercot:HB_SOUTH, variable=n_scarcity, start=2023-01-01, end=2024-01-01",
+    "scope": {
+     "slug": "ercot",
+     "by": "name",
+     "ba": "erco",
+     "iso": "ERCOT",
+     "market_prefix": "ercot",
+     "queue_table": "ercot_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:36:11.167Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "ercot: s302:q05, source 1, figure 1: What was the carbon intensity of ERCOT's demand in January 2025, in kg CO2 per MWh?",
+   "check": "ask|s302:q05|0|0",
+   "raw": 356.7,
+   "page_text": "356.7",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:ERCO, variable=intensity_demand, start=2025-01-01, end=2025-02-01",
+    "scope": {
+     "slug": "ercot",
+     "by": "ba",
+     "ba": "erco",
+     "iso": "ERCOT",
+     "market_prefix": "ercot",
+     "queue_table": "ercot_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:36:18.274Z",
+   "decimals": 1,
+   "tolerance": 0.05
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q11, source 1, figure 1: How much wind did CAISO curtail in total in 2024, in MWh?",
+   "check": "ask|s302:q11|0|0",
+   "raw": 230777.0,
+   "page_text": "230,777",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "iso_curtailment_monthly"
+    ],
+    "filter": "aggregation=sum, variable=curtailed_wind_mwh, start=2024-01-01, end=2025-01-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:52:20.043Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q11, source 1, figure 2: How much wind did CAISO curtail in total in 2024, in MWh?",
+   "check": "ask|s302:q11|0|1",
+   "raw": 230776.644,
+   "page_text": "230776.644",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "iso_curtailment_monthly"
+    ],
+    "filter": "aggregation=sum, variable=curtailed_wind_mwh, start=2024-01-01, end=2025-01-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:52:20.043Z",
+   "decimals": 3,
+   "tolerance": 0.0005
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q11, source 1, figure 3: How much wind did CAISO curtail in total in 2024, in MWh?",
+   "check": "ask|s302:q11|0|2",
+   "raw": 12.0,
+   "page_text": "12",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "iso_curtailment_monthly"
+    ],
+    "filter": "aggregation=sum, variable=curtailed_wind_mwh, start=2024-01-01, end=2025-01-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:52:20.043Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q12, source 1, figure 1: What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month?",
+   "check": "ask|s302:q12|0|0",
+   "raw": 44.2145,
+   "page_text": "44.2145",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=min, variable=intensity_generation, entity=eia930:CISO",
+    "scope": {
+     "slug": "caiso",
+     "by": "ba",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:38:07.515Z",
+   "decimals": 4,
+   "tolerance": 5e-05
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q12, source 1, figure 2: What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month?",
+   "check": "ask|s302:q12|0|1",
+   "raw": 69.0,
+   "page_text": "69",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=min, variable=intensity_generation, entity=eia930:CISO",
+    "scope": {
+     "slug": "caiso",
+     "by": "ba",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:38:07.515Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q12, source 2, figure 1: What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month?",
+   "check": "ask|s302:q12|1|0",
+   "raw": 48.2772,
+   "page_text": "48.2772",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=min, variable=intensity_generation, entity=eia930:CISO, start=2025-12-01, group_by=month",
+    "scope": {
+     "slug": "caiso",
+     "by": "ba",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:38:07.515Z",
+   "decimals": 4,
+   "tolerance": 5e-05
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q12, source 3, figure 1: What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month?",
+   "check": "ask|s302:q12|2|0",
+   "raw": 94.5725,
+   "page_text": "94.5725",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=min, variable=intensity_generation, entity=eia930:CISO, start=2018-01-01, group_by=year",
+    "scope": {
+     "slug": "caiso",
+     "by": "ba",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:38:07.515Z",
+   "decimals": 4,
+   "tolerance": 5e-05
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q13, source 1, figure 1: What was the load-weighted real-time price at CAISO's SP15 hub in September 2024?",
+   "check": "ask|s302:q13|0|0",
+   "raw": 33.07,
+   "page_text": "33.07",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=rt_load_weighted, start=2024-09-01, end=2024-10-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:52:37.196Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q13, source 2, figure 1: What was the load-weighted real-time price at CAISO's SP15 hub in September 2024?",
+   "check": "ask|s302:q13|1|0",
+   "raw": 720.0,
+   "page_text": "720",
+   "held": false,
+   "source": {
+    "tool": "compare",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "a: cost_of_power_monthly aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=rt_hours, start=2024-09-01, end=2024-10-01; b: cost_of_power_monthly aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=hours_in_month, start=2024-09-01, end=2024-10-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:52:37.196Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q13, source 3, figure 1: What was the load-weighted real-time price at CAISO's SP15 hub in September 2024?",
+   "check": "ask|s302:q13|2|0",
+   "raw": 31.38,
+   "page_text": "31.38",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=rt_simple_mean, start=2024-09-01, end=2024-10-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:52:37.196Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q13, source 4, figure 1: What was the load-weighted real-time price at CAISO's SP15 hub in September 2024?",
+   "check": "ask|s302:q13|3|0",
+   "raw": 1.68,
+   "page_text": "1.68",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=rt_shape_premium, start=2024-09-01, end=2024-10-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:52:37.196Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q14, source 1, figure 1: What was a 4-hour battery's capture rate at CAISO's SP15 hub in March 2025?",
+   "check": "ask|s302:q14|0|0",
+   "raw": 216.5,
+   "page_text": "216.5",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "merchant_revenue_monthly"
+    ],
+    "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=battery_4h_capture_rate, start=2025-03-01, end=2025-04-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:53:07.334Z",
+   "decimals": 1,
+   "tolerance": 0.05
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q14, source 2, figure 1: What was a 4-hour battery's capture rate at CAISO's SP15 hub in March 2025?",
+   "check": "ask|s302:q14|1|0",
+   "raw": 53.71,
+   "page_text": "53.71",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "merchant_revenue_monthly"
+    ],
+    "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=battery_4h_capture_price, start=2025-03-01, end=2025-04-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:53:07.334Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q14, source 3, figure 1: What was a 4-hour battery's capture rate at CAISO's SP15 hub in March 2025?",
+   "check": "ask|s302:q14|2|0",
+   "raw": 24.81,
+   "page_text": "24.81",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "merchant_revenue_monthly"
+    ],
+    "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=battery_4h_flat_price, start=2025-03-01, end=2025-04-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:53:07.334Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q15, source 1, figure 1: What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?",
+   "check": "ask|s302:q15|0|0",
+   "raw": 1.1363,
+   "page_text": "1.1363",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=da_shape_premium, start=2025-03-01, end=2025-04-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:53:22.070Z",
+   "decimals": 4,
+   "tolerance": 5e-05
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q15, source 2, figure 1: What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?",
+   "check": "ask|s302:q15|1|0",
+   "raw": 25.4274,
+   "page_text": "25.4274",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=da_load_weighted, start=2025-03-01, end=2025-04-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:53:22.070Z",
+   "decimals": 4,
+   "tolerance": 5e-05
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q15, source 3, figure 1: What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?",
+   "check": "ask|s302:q15|2|0",
+   "raw": 24.2911,
+   "page_text": "24.2911",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=da_simple_mean, start=2025-03-01, end=2025-04-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:53:22.070Z",
+   "decimals": 4,
+   "tolerance": 5e-05
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q15, source 4, figure 1: What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?",
+   "check": "ask|s302:q15|3|0",
+   "raw": 719.0,
+   "page_text": "719",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=da_hours, start=2025-03-01, end=2025-04-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:53:22.070Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "caiso: s302:q15, source 5, figure 1: What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?",
+   "check": "ask|s302:q15|4|0",
+   "raw": 743.0,
+   "page_text": "743",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=caiso:TH_SP15_GEN-APND, variable=hours_in_month, start=2025-03-01, end=2025-04-01",
+    "scope": {
+     "slug": "caiso",
+     "by": "entity",
+     "ba": "ciso",
+     "iso": "CAISO",
+     "market_prefix": "caiso",
+     "queue_table": "caiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:53:22.070Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "pjm: s267:q29, source 1, figure 1: What was the carbon intensity of PJM's demand in January 2025?",
+   "check": "ask|s267:q29|0|0",
+   "raw": 375.95,
+   "page_text": "375.95",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=latest, entity=eia930:PJM, variable=intensity_demand, start=2025-01-01, end=2025-02-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:45:04.712Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "pjm: s267:q29, source 2, figure 1: What was the carbon intensity of PJM's demand in January 2025?",
+   "check": "ask|s267:q29|1|0",
+   "raw": 382.42,
+   "page_text": "382.42",
+   "held": false,
+   "source": {
+    "tool": "compare",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "a: carbon_intensity_monthly aggregation=count, entity=eia930:PJM, variable=intensity_demand, start=2025-01-01, end=2025-02-01; b: carbon_intensity_monthly aggregation=latest, entity=eia930:PJM, variable=intensity_generation, start=2025-01-01, end=2025-02-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:45:04.712Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s302:q16, source 1, figure 1: What was the load-weighted day-ahead price at NYISO's N.Y.C. zone in February 2025?",
+   "check": "ask|s302:q16|0|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=nyiso:N.Y.C., start=2025-02-01, end=2025-03-01, group_by=entity, variable=da_load_weighted",
+    "scope": {
+     "slug": "nyiso",
+     "by": "entity",
+     "ba": "nyis",
+     "iso": "NYISO",
+     "market_prefix": "nyiso",
+     "queue_table": "nyiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:53:35.683Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s302:q16, source 2, figure 1: What was the load-weighted day-ahead price at NYISO's N.Y.C. zone in February 2025?",
+   "check": "ask|s302:q16|1|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=nyiso:N.Y.C., start=2025-02-01, end=2025-03-01, variable=da_hours",
+    "scope": {
+     "slug": "nyiso",
+     "by": "entity",
+     "ba": "nyis",
+     "iso": "NYISO",
+     "market_prefix": "nyiso",
+     "queue_table": "nyiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:53:35.683Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s302:q16, source 3, figure 1: What was the load-weighted day-ahead price at NYISO's N.Y.C. zone in February 2025?",
+   "check": "ask|s302:q16|2|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=nyiso:N.Y.C., start=2025-02-01, end=2025-03-01, variable=da_simple_mean",
+    "scope": {
+     "slug": "nyiso",
+     "by": "entity",
+     "ba": "nyis",
+     "iso": "NYISO",
+     "market_prefix": "nyiso",
+     "queue_table": "nyiso_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:53:35.683Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q18, source 1, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",
+   "check": "ask|s267:q18|0|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=mean, entity=nyiso:N.Y.C., variable=rt_shape_premium, start=2025-01-01, end=2026-01-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:18.871Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q18, source 2, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",
+   "check": "ask|s267:q18|1|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=count, entity=nyiso:N.Y.C., variable=rt_shape_premium, start=2025-01-01, end=2026-01-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:18.871Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q18, source 3, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",
+   "check": "ask|s267:q18|2|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=mean, entity=nyiso:N.Y.C., variable=rt_shape_premium, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:18.871Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q18, source 3, figure 2: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",
+   "check": "ask|s267:q18|2|1",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=mean, entity=nyiso:N.Y.C., variable=rt_shape_premium, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:18.871Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q18, source 4, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",
+   "check": "ask|s267:q18|3|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=sum, entity=nyiso:N.Y.C., variable=rt_hours, start=2025-01-01, end=2026-01-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:18.871Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q18, source 5, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",
+   "check": "ask|s267:q18|4|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=sum, entity=nyiso:N.Y.C., variable=hours_in_month, start=2025-01-01, end=2026-01-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:18.871Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q18, source 6, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",
+   "check": "ask|s267:q18|5|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=sum, entity=nyiso:N.Y.C., variable=rt_hours, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:18.871Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q18, source 6, figure 2: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",
+   "check": "ask|s267:q18|5|1",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=sum, entity=nyiso:N.Y.C., variable=rt_hours, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:18.871Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q18, source 7, figure 1: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",
+   "check": "ask|s267:q18|6|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=sum, entity=nyiso:N.Y.C., variable=hours_in_month, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:18.871Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q18, source 7, figure 2: What was the average real-time shape premium at NYISO's N.Y.C. zone over the twelve months of 2025?",
+   "check": "ask|s267:q18|6|1",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=sum, entity=nyiso:N.Y.C., variable=hours_in_month, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:18.871Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q19, source 1, figure 1: What was a 4-hour battery's capture rate at NYISO's N.Y.C. zone in January 2025?",
+   "check": "ask|s267:q19|0|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "merchant_revenue_monthly"
+    ],
+    "filter": "aggregation=latest, entity=nyiso:N.Y.C., variable=battery_4h_capture_rate, start=2025-01-01, end=2025-02-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:35.223Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q19, source 2, figure 1: What was a 4-hour battery's capture rate at NYISO's N.Y.C. zone in January 2025?",
+   "check": "ask|s267:q19|1|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "merchant_revenue_monthly"
+    ],
+    "filter": "aggregation=latest, entity=nyiso:N.Y.C., variable=flat_price, start=2025-01-01, end=2025-02-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:35.223Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q20, source 1, figure 1: How many active energy storage projects are in NYISO's interconnection queue, and what is their total capacity in MW?",
+   "check": "ask|s267:q20|0|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "nyiso_interconnection_queue"
+    ],
+    "filter": "aggregation=count, where={\"status\":\"active\",\"fuel_technology\":\"Energy Storage\"}",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:50.838Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "nyiso: s267:q20, source 2, figure 1: How many active energy storage projects are in NYISO's interconnection queue, and what is their total capacity in MW?",
+   "check": "ask|s267:q20|1|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "nyiso_interconnection_queue"
+    ],
+    "filter": "aggregation=sum, where={\"status\":\"active\",\"fuel_technology\":\"Energy Storage\"}",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:42:50.838Z",
+   "decimals": 1,
+   "tolerance": 0.05
+  },
+  {
+   "group": "ask",
+   "name": "isone: s302:q18, source 1, figure 1: What was the carbon intensity of ISO-NE's demand in July 2024?",
+   "check": "ask|s302:q18|0|0",
+   "raw": 269.85,
+   "page_text": "269.85",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=latest, variable=intensity_demand, start=2024-07-01, end=2024-08-01",
+    "scope": {
+     "slug": "isone",
+     "by": "ba",
+     "ba": "isne",
+     "iso": "ISO-NE",
+     "market_prefix": "isone",
+     "queue_table": "isone_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:40:27.734Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "isone: s302:q20, source 1, figure 1: What was solar's capture rate at ISO-NE's Internal Hub in June 2025?",
+   "check": "ask|s302:q20|0|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "merchant_revenue_monthly"
+    ],
+    "filter": "aggregation=latest, variable=solar_capture_rate, start=2025-06-01, end=2025-07-01",
+    "scope": {
+     "slug": "isone",
+     "by": "entity",
+     "ba": "isne",
+     "iso": "ISO-NE",
+     "market_prefix": "isone",
+     "queue_table": "isone_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:50:10.724Z",
+   "decimals": 1,
+   "tolerance": 0.05
+  },
+  {
+   "group": "ask",
+   "name": "isone: s302:q20, source 2, figure 1: What was solar's capture rate at ISO-NE's Internal Hub in June 2025?",
+   "check": "ask|s302:q20|1|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "merchant_revenue_monthly"
+    ],
+    "filter": "aggregation=latest, variable=solar_capture_price, start=2025-06-01, end=2025-07-01",
+    "scope": {
+     "slug": "isone",
+     "by": "entity",
+     "ba": "isne",
+     "iso": "ISO-NE",
+     "market_prefix": "isone",
+     "queue_table": "isone_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:50:10.724Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "isone: s302:q20, source 3, figure 1: What was solar's capture rate at ISO-NE's Internal Hub in June 2025?",
+   "check": "ask|s302:q20|2|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "merchant_revenue_monthly"
+    ],
+    "filter": "aggregation=latest, variable=solar_flat_price, start=2025-06-01, end=2025-07-01",
+    "scope": {
+     "slug": "isone",
+     "by": "entity",
+     "ba": "isne",
+     "iso": "ISO-NE",
+     "market_prefix": "isone",
+     "queue_table": "isone_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:50:10.724Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "isone: s267:q25, source 1, figure 1: What was the load-weighted real-time price at ISO-NE's Internal Hub in December 2024?",
+   "check": "ask|s267:q25|0|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=isone:.H.INTERNAL_HUB, variable=rt_load_weighted, start=2024-12-01, end=2025-01-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:03.368Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "isone: s267:q25, source 2, figure 1: What was the load-weighted real-time price at ISO-NE's Internal Hub in December 2024?",
+   "check": "ask|s267:q25|1|0",
+   "raw": null,
+   "page_text": "license needed",
+   "held": true,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=isone:.H.INTERNAL_HUB, variable=rt_hours, start=2024-12-01, end=2025-01-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:03.368Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "isone: s267:q26, source 1, figure 1: What was ISO-NE's carbon intensity of demand in January 2025?",
+   "check": "ask|s267:q26|0|0",
+   "raw": 267.44,
+   "page_text": "267.44",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=latest, entity=eia930:ISNE, variable=intensity_demand, start=2025-01-01, end=2025-02-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:15.136Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "spp: s302:q17, source 1, figure 1: What was the load-weighted real-time price at SPP's North hub in February 2025?",
+   "check": "ask|s302:q17|0|0",
+   "raw": 24.78,
+   "page_text": "24.78",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=spp:SPPNORTH_HUB, variable=rt_load_weighted, start=2025-02-01, end=2025-03-01, group_by=month",
+    "scope": {
+     "slug": "spp",
+     "by": "entity",
+     "ba": "swpp",
+     "iso": "SPP",
+     "market_prefix": "spp",
+     "queue_table": "spp_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:49:38.273Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "spp: s302:q17, source 2, figure 1: What was the load-weighted real-time price at SPP's North hub in February 2025?",
+   "check": "ask|s302:q17|1|0",
+   "raw": 672.0,
+   "page_text": "672",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=spp:SPPNORTH_HUB, variable=rt_hours, start=2025-02-01, end=2025-03-01, group_by=month",
+    "scope": {
+     "slug": "spp",
+     "by": "entity",
+     "ba": "swpp",
+     "iso": "SPP",
+     "market_prefix": "spp",
+     "queue_table": "spp_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:49:38.273Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "spp: s302:q17, source 3, figure 1: What was the load-weighted real-time price at SPP's North hub in February 2025?",
+   "check": "ask|s302:q17|2|0",
+   "raw": 23.33,
+   "page_text": "23.33",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=spp:SPPNORTH_HUB, variable=rt_simple_mean, start=2025-02-01, end=2025-03-01, group_by=month",
+    "scope": {
+     "slug": "spp",
+     "by": "entity",
+     "ba": "swpp",
+     "iso": "SPP",
+     "market_prefix": "spp",
+     "queue_table": "spp_interconnection_queue",
+     "filters": null
+    }
+   },
+   "asked_at": "2026-10-19T11:49:38.273Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q21, source 1, figure 1: How much wind did SPP curtail in total in 2023, in MWh?",
+   "check": "ask|s267:q21|0|0",
+   "raw": 11423441.0,
+   "page_text": "11,423,441",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "iso_curtailment_monthly"
+    ],
+    "filter": "aggregation=sum, variable=curtailed_wind_mwh, start=2023-01-01, end=2024-01-01, group_by=entity",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:07.798Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q21, source 1, figure 2: How much wind did SPP curtail in total in 2023, in MWh?",
+   "check": "ask|s267:q21|0|1",
+   "raw": 12.0,
+   "page_text": "12",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "iso_curtailment_monthly"
+    ],
+    "filter": "aggregation=sum, variable=curtailed_wind_mwh, start=2023-01-01, end=2024-01-01, group_by=entity",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:07.798Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q21, source 2, figure 1: How much wind did SPP curtail in total in 2023, in MWh?",
+   "check": "ask|s267:q21|1|0",
+   "raw": 237065.0,
+   "page_text": "237,065",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "iso_curtailment_monthly"
+    ],
+    "filter": "aggregation=sum, variable=curtailed_wind_mwh, entity=spp:SPP, start=2023-01-01, end=2024-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:07.798Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q21, source 2, figure 2: How much wind did SPP curtail in total in 2023, in MWh?",
+   "check": "ask|s267:q21|1|1",
+   "raw": 1921222.0,
+   "page_text": "1,921,222",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "iso_curtailment_monthly"
+    ],
+    "filter": "aggregation=sum, variable=curtailed_wind_mwh, entity=spp:SPP, start=2023-01-01, end=2024-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:07.798Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q22, source 1, figure 1: What was the flat, time-weighted price at SPP's North hub in February 2025?",
+   "check": "ask|s267:q22|0|0",
+   "raw": 23.33,
+   "page_text": "23.33",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=spp:SPPNORTH_HUB, start=2025-02-01, end=2025-03-01, group_by=variable",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:29.363Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q22, source 1, figure 2: What was the flat, time-weighted price at SPP's North hub in February 2025?",
+   "check": "ask|s267:q22|0|1",
+   "raw": 672.0,
+   "page_text": "672",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=spp:SPPNORTH_HUB, start=2025-02-01, end=2025-03-01, group_by=variable",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:29.363Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q22, source 1, figure 3: What was the flat, time-weighted price at SPP's North hub in February 2025?",
+   "check": "ask|s267:q22|0|2",
+   "raw": 26.75,
+   "page_text": "26.75",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=spp:SPPNORTH_HUB, start=2025-02-01, end=2025-03-01, group_by=variable",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:29.363Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q22, source 1, figure 4: What was the flat, time-weighted price at SPP's North hub in February 2025?",
+   "check": "ask|s267:q22|0|3",
+   "raw": 24.78,
+   "page_text": "24.78",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "cost_of_power_monthly"
+    ],
+    "filter": "aggregation=latest, entity=spp:SPPNORTH_HUB, start=2025-02-01, end=2025-03-01, group_by=variable",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:29.363Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q23, source 1, figure 1: What is the lowest monthly carbon intensity of SPP's generation in the warehouse, and in which month?",
+   "check": "ask|s267:q23|0|0",
+   "raw": 274.64,
+   "page_text": "274.64",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=min, entity=eia930:SWPP, variable=intensity_generation",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:43.123Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q23, source 1, figure 2: What is the lowest monthly carbon intensity of SPP's generation in the warehouse, and in which month?",
+   "check": "ask|s267:q23|0|1",
+   "raw": 46.0,
+   "page_text": "46",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=min, entity=eia930:SWPP, variable=intensity_generation",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:43.123Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q24, source 1, figure 1: How many active wind projects are in SPP's interconnection queue, and what is their total capacity in MW?",
+   "check": "ask|s267:q24|0|0",
+   "raw": 111.0,
+   "page_text": "111",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "spp_interconnection_queue"
+    ],
+    "filter": "aggregation=count, where={\"status\":\"active\",\"fuel_technology\":[\"WIND\",\"Wind\",\"Wind - Wind\",\"wind - wind\"]}",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:51.768Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "spp: s267:q24, source 2, figure 1: How many active wind projects are in SPP's interconnection queue, and what is their total capacity in MW?",
+   "check": "ask|s267:q24|1|0",
+   "raw": 23208.66,
+   "page_text": "23208.66",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "spp_interconnection_queue"
+    ],
+    "filter": "aggregation=sum, where={\"status\":\"active\",\"fuel_technology\":[\"WIND\",\"Wind\",\"Wind - Wind\",\"wind - wind\"]}",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:43:51.768Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s302:q19, source 1, figure 1: What was the average monthly carbon intensity of US Lower 48 generation over 2024?",
+   "check": "ask|s302:q19|0|0",
+   "raw": 12.0,
+   "page_text": "12",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-19T11:40:43.042Z",
+   "decimals": 0,
+   "tolerance": 0.5
+  },
+  {
+   "group": "ask",
+   "name": "us48: s302:q19, source 1, figure 2: What was the average monthly carbon intensity of US Lower 48 generation over 2024?",
+   "check": "ask|s302:q19|0|1",
+   "raw": 337.48,
+   "page_text": "337.48",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01",
+    "scope": null
+   },
+   "asked_at": "2026-10-19T11:40:43.042Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s302:q19, source 2, figure 1: What was the average monthly carbon intensity of US Lower 48 generation over 2024?",
+   "check": "ask|s302:q19|1|0",
+   "raw": 289.93,
+   "page_text": "289.93",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-19T11:40:43.042Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s302:q19, source 2, figure 2: What was the average monthly carbon intensity of US Lower 48 generation over 2024?",
+   "check": "ask|s302:q19|1|1",
+   "raw": 383.24,
+   "page_text": "383.24",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2024-01-01, end=2025-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-19T11:40:43.042Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 1: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|0",
+   "raw": 344.75,
+   "page_text": "344.75",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 2: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|1",
+   "raw": 299.81,
+   "page_text": "299.81",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 3: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|2",
+   "raw": 382.87,
+   "page_text": "382.87",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 4: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|3",
+   "raw": 356.37,
+   "page_text": "356.37",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 5: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|4",
+   "raw": 303.86,
+   "page_text": "303.86",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 6: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|5",
+   "raw": 313.62,
+   "page_text": "313.62",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 7: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|6",
+   "raw": 348.01,
+   "page_text": "348.01",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 8: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|7",
+   "raw": 379.66,
+   "page_text": "379.66",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 9: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|8",
+   "raw": 367.86,
+   "page_text": "367.86",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 10: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|9",
+   "raw": 358.43,
+   "page_text": "358.43",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 11: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|10",
+   "raw": 341.12,
+   "page_text": "341.12",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 12: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|11",
+   "raw": 336.64,
+   "page_text": "336.64",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  },
+  {
+   "group": "ask",
+   "name": "us48: s267:q27, source 1, figure 13: What was the average monthly carbon intensity of US Lower 48 generation over 2025?",
+   "check": "ask|s267:q27|0|12",
+   "raw": 348.82,
+   "page_text": "348.82",
+   "held": false,
+   "source": {
+    "tool": "query",
+    "tables": [
+     "carbon_intensity_monthly"
+    ],
+    "filter": "aggregation=mean, entity=eia930:US48, variable=intensity_generation, start=2025-01-01, end=2026-01-01, group_by=month",
+    "scope": null
+   },
+   "asked_at": "2026-10-14T09:44:28.922Z",
+   "decimals": 2,
+   "tolerance": 0.005
+  }
+ ]
+}
