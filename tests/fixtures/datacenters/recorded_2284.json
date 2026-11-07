@@ -1,0 +1,51 @@
+{
+ "set": "2284",
+ "model": "claude-sonnet-5-5",
+ "recorded_at": "2026-11-06T14:06:38Z",
+ "extractor_exit": 0,
+ "usd": 0.040674,
+ "calls": [
+  {
+   "request_id": "req_011CgmoYkrxgmA3BKgfXQL9W",
+   "stop_reason": "end_turn",
+   "tokens": {
+    "input": 2165,
+    "output": 592,
+    "cache_read": 0,
+    "cache_write": 2696,
+    "cache_write_1h": 0,
+    "web_searches": 0
+   },
+   "usd": 0.01699,
+   "text": "{\"results\":[{\"cluster_id\":\"news:532959214bc2d52e\",\"facilities\":[]},{\"cluster_id\":\"news:567a8b7ac7f21263\",\"facilities\":[]},{\"cluster_id\":\"news:bd99ce8bcaa0a2b2\",\"facilities\":[]},{\"cluster_id\":\"news:d9cb25a70e276e95\",\"facilities\":[]},{\"cluster_id\":\"news:aafb18a779d21aa8\",\"facilities\":[]},{\"cluster_id\":\"news:3df71658d2388df0\",\"facilities\":[]},{\"cluster_id\":\"news:da38bc18ebe60385\",\"facilities\":[{\"operator\":\"Google\",\"developer\":\"\",\"site_name\":\"West Memphis campus\",\"state\":\"\",\"state_text\":\"\",\"county\":\"\",\"city\":\"West Memphis\",\"location_text\":\"West Memphis campus\",\"mw\":\"\",\"mw_text\":\"\",\"phase\":\"\",\"status_text\":\"\",\"planned_year\":\"\",\"planned_year_text\":\"\",\"power_source\":\"\",\"utility\":\"Entergy Arkansas\",\"power_text\":\"Entergy Arkansas said this week it is updating the contract for powering the hyperscaler's West Memphis campus.\",\"evidence\":\"Entergy Arkansas said this week it is updating the contract for powering the hyperscaler's West Memphis campus.\",\"story_id\":\"news:da38bc18ebe60385\",\"same_as\":\"\",\"mw_basis\":\"unstated\",\"mw_basis_text\":\"\",\"energized_year\":\"\",\"energized_text\":\"\",\"country\":\"\",\"country_text\":\"\",\"status\":\"\",\"confidence\":0.6}]},{\"cluster_id\":\"news:78809df9ed7139f4\",\"facilities\":[]},{\"cluster_id\":\"news:8648a54a438a9a80\",\"facilities\":[]},{\"cluster_id\":\"news:10de088594280394\",\"facilities\":[]}]}"
+  },
+  {
+   "request_id": "req_011CgmoZ4AmNtYR6V6p6vvjt",
+   "stop_reason": "end_turn",
+   "tokens": {
+    "input": 2469,
+    "output": 563,
+    "cache_read": 2696,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "web_searches": 0
+   },
+   "usd": 0.011107,
+   "text": "{\"results\":[{\"cluster_id\":\"news:f361954096b4f5fd\",\"facilities\":[{\"operator\":\"\",\"developer\":\"Era4\",\"site_name\":\"\",\"state\":\"\",\"state_text\":\"\",\"county\":\"\",\"city\":\"Newport\",\"location_text\":\"former steelworks in Newport, Wales\",\"mw\":\"1000\",\"mw_text\":\"could eventually reach 1GW\",\"phase\":\"\",\"status_text\":\"reveals details of hyperscale data center planned\",\"planned_year\":\"\",\"planned_year_text\":\"\",\"power_source\":\"\",\"utility\":\"\",\"power_text\":\"\",\"evidence\":\"Era4 reveals details of hyperscale data center planned for former steelworks in Newport, Wales\",\"story_id\":\"news:f361954096b4f5fd\",\"same_as\":\"\",\"mw_basis\":\"unstated\",\"mw_basis_text\":\"\",\"energized_year\":\"\",\"energized_text\":\"\",\"country\":\"\",\"country_text\":\"\",\"status\":\"announced\",\"confidence\":0.7}]},{\"cluster_id\":\"news:78591154f83c5c90\",\"facilities\":[]},{\"cluster_id\":\"news:b57042134dae204d\",\"facilities\":[]},{\"cluster_id\":\"news:16189e99b1c56185\",\"facilities\":[]},{\"cluster_id\":\"news:f93100184cd09c0f\",\"facilities\":[]},{\"cluster_id\":\"news:787f39352e7bb45b\",\"facilities\":[]},{\"cluster_id\":\"news:2eea0a4bae46f840\",\"facilities\":[]},{\"cluster_id\":\"news:654864fb5965a7f7\",\"facilities\":[]},{\"cluster_id\":\"news:7ac4d58ef557b21f\",\"facilities\":[]},{\"cluster_id\":\"news:55fe9cbdd644263e\",\"facilities\":[]}]}"
+  },
+  {
+   "request_id": "req_011CgmoZMXHbQSsG5VJ1JFr4",
+   "stop_reason": "end_turn",
+   "tokens": {
+    "input": 1834,
+    "output": 837,
+    "cache_read": 2696,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "web_searches": 0
+   },
+   "usd": 0.012577,
+   "text": "{\"results\":[{\"cluster_id\":\"news:003eb5fdf64db9f5\",\"facilities\":[]},{\"cluster_id\":\"news:a97e7459232be65b\",\"facilities\":[]},{\"cluster_id\":\"news:2b4df20de2bb6fe1\",\"facilities\":[{\"operator\":\"\",\"developer\":\"O-Green\",\"site_name\":\"\",\"state\":\"\",\"state_text\":\"\",\"county\":\"\",\"city\":\"San Mateo de Gállego\",\"location_text\":\"San Mateo de Gállego, Zaragoza\",\"mw\":\"\",\"mw_text\":\"\",\"phase\":\"\",\"status_text\":\"plans data center campus\",\"planned_year\":\"\",\"planned_year_text\":\"\",\"power_source\":\"\",\"utility\":\"\",\"power_text\":\"\",\"evidence\":\"O-Green plans data center campus in Zaragoza, Spain\",\"story_id\":\"news:2b4df20de2bb6fe1\",\"same_as\":\"\",\"mw_basis\":\"unstated\",\"mw_basis_text\":\"\",\"energized_year\":\"\",\"energized_text\":\"\",\"country\":\"Spain\",\"country_text\":\"Spain\",\"status\":\"announced\",\"confidence\":0.8}]},{\"cluster_id\":\"news:4d2577404cb20823\",\"facilities\":[]},{\"cluster_id\":\"news:404bdd81505da1dd\",\"facilities\":[]},{\"cluster_id\":\"news:d012aa564ff47e12\",\"facilities\":[]},{\"cluster_id\":\"news:939986ca9a0e77bf\",\"facilities\":[{\"operator\":\"\",\"developer\":\"\",\"site_name\":\"Paducah Gaseous Diffusion Plant\",\"state\":\"KY\",\"state_text\":\"Kentucky\",\"county\":\"McCracken County\",\"city\":\"Paducah\",\"location_text\":\"McCracken County, Kentucky, just outside its largest city, Paducah\",\"mw\":\"\",\"mw_text\":\"\",\"phase\":\"\",\"status_text\":\"\",\"planned_year\":\"\",\"planned_year_text\":\"\",\"power_source\":\"\",\"utility\":\"\",\"power_text\":\"\",\"evidence\":\"An election-season battle is brewing over what could be the nation’s first massive data center operating on federal land.\",\"story_id\":\"news:939986ca9a0e77bf\",\"same_as\":\"\",\"mw_basis\":\"unstated\",\"mw_basis_text\":\"\",\"energized_year\":\"\",\"energized_text\":\"\",\"country\":\"\",\"country_text\":\"\",\"status\":\"\",\"confidence\":0.6}]},{\"cluster_id\":\"news:c33c4848cf7b56dc\",\"facilities\":[]},{\"cluster_id\":\"news:b8867cc9e99d9acf\",\"facilities\":[]},{\"cluster_id\":\"news:6643d8abc7ff4a77\",\"facilities\":[]}]}"
+  }
+ ]
+}

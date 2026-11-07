@@ -1,0 +1,107 @@
+n,event_id,not_a_deal,party,kind,kind_ok,mw,mwh,usd,price,term,status,ai_power,place,confidence_fit,note
+D001,deal:35a62f0ede4aa8ea,0,ok,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Credit backstop by Google for TeraWulf data center ""contracted to Anthropic under $19bn deal""; $19bn is the Anthropic contract value."
+D002,deal:659b6089d572ed2c,0,ok,fuel_supply,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"Place missed: ""supporting development of the Bahamas LNG hub""."
+D003,deal:567b55ed4ac03562,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Clean: ""892-MW Acquisition""; seller not named in story."
+D004,deal:b66945982ccee061,0,ok,lease,1,ok,ok,ok,ok,ok,ok,wrong,ok,too_low,"Datacenter operator hosting GPUs: ""STTGDC to host Neysa GPUs at data center""; clear deal at 0.5."
+D005,deal:339c7169038b8512,0,ok,gas_buildout,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Vocabulary gap: ""$580 million US gas pipeline order""; buyer not named."
+D006,deal:2eafe13b10e3f733,0,ok,joint_venture,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"Place missed: ""planned UK BWRX-300 fleet""; signed is a ""letter of intent""."
+D007,deal:1484d8a08b093107,0,ok,lease,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Clean: ""lease capacity to Applied spin-out ChronoScale"", ""50MW data center in Texas""."
+D008,deal:318c513fd0f4fe8d,0,ok,equity_raise,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Fund close: ""Raises $2.5B for Energy Fund""; investors not named."
+D009,deal:db4eb1a261d42d37,0,ok,equity_raise,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Fund close: ""$8.7 Billion Final Close""."
+D010,deal:d6eda0ffd6db76cd,0,ok,smr,1,ok,ok,ok,ok,ok,ok,wrong,ok,ok,"Hyperscaler is party: ""Amazon would purchase the power under a long-term contract""."
+D011,deal:69803a9d2dbc9ab3,0,ok,debt,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Clean: ""$173-million term loan facility"", ""135 MW across six states""."
+D012,deal:f30f7dba7d3e8203,0,ok,nuclear_restart_or_uprate,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Uprate funding for power: ""Fund Billions in Illinois Nuclear Upgrades in Exchange for Future Power""; ppa acceptable, no seller named."
+D013,deal:949ca87047903b5e,0,ok,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Credit support: ""Fermi and AMD sign credit support deal"", ""first 222MW data center""."
+D014,deal:a31f8b9fdfd9c540,0,ok,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"""Mainspring, AEP Strike Deal""; terms and roles not stated."
+D015,deal:b3005daccd02ba9b,0,ok,debt,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"Place missed: ""funding for Malaysia expansion""."
+D016,deal:feca51575e39c1a3,0,ok,equity_raise,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"""extends $1.6 billion IPO""."
+D017,deal:39135f920162d9c0,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"Place missed: ""select Indonesian assets""."
+D018,deal:2f48b82f84ab121d,0,ok,ppa,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Clean: ""509 MW"", ""long-term corporate power purchase agreement"" with Tesla."
+D019,deal:2663cbb6f04644cc,0,ok,m_and_a,1,ok,ok,missed,ok,ok,ok,ok,ok,ok,"Value missed: ""Sold for About $1 Billion""; buyer is management."
+D020,deal:1c72f10bdf69e42c,0,ok,m_and_a,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Stake exit, not other: ""Chevron Exits Hess Midstream"", ""swap transaction""."
+D021,deal:a2aca5279840a842,0,ok,gas_buildout,0,ok,ok,ok,ok,ok,missed,ok,ok,ok,"Not yet a PPA: ""Big Step Toward Hyperscaler PPA"", ""locked in about 1,200 MW of natural gas-fired generation equipment""."
+D022,deal:468cbffc921e97d3,1,na,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Plan, not a deal: ""Black Hills plans $1.8 billion investment""."
+D023,deal:36ca228d7079e592,0,ok,ppa,1,missed,ok,ok,ok,ok,ok,ok,missed,ok,"MW and place missed: ""adding 181MWdc of solar"", ""hybrid PPAs in Spain""."
+D024,deal:70bf30d372e1d674,0,ok,debt,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"Ohio missed: ""its Davis-Besse and Perry plants in Ohio""; conditional loan for uprates."
+D025,deal:7c912391555cd43f,0,ok,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"""signed two strategic agreements""; counterparty not named."
+D026,deal:a2a154f028c25154,0,incomplete,m_and_a,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,"Seller missed: ""Acquisition of EnCap Delaware Basin Assets""; status ""Seals Acquisition""."
+D027,deal:5d7dd292d411fe86,0,ok,debt,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"""Broadcom to lend Anthropic up to $42 billion""; buyer is the borrower here, while D011 and D024 put the lender as buyer."
+D028,deal:c1cb6c30a633082c,0,ok,equity_raise,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Clean: ""Eni and Ares completed a transaction to inject new capital""."
+D029,deal:4084febc595fa579,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,"Place missed: ""BP's Indonesian offshore blocks""."
+D030,deal:0645c551b80339d4,0,ok,gas_buildout,0,ok,ok,ok,ok,ok,missed,ok,ok,ok,"Vocabulary gap: ""1.7-GW Mobile Gas Power Deal""; status ""Strike"" stated."
+D031,deal:3c1f461ac1000983,0,ok,other,1,ok,ok,missed,ok,ok,ok,ok,missed,ok,"Value and place missed: ""GBP3.6 billion (USD4.8 billion)"", ""UK's Sellafield site""; partners not named."
+D032,deal:f2dc6da3fa975d52,0,ok,fuel_supply,1,ok,ok,ok,ok,missed,ok,ok,ok,ok,"Term missed: ""22-Year LNG Contract to Supply Petrobras""."
+D033,deal:0fd206cfe66ac078,0,ok,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"FEED award: ""awarded the front-end engineering design (FEED) contract""."
+D034,deal:774c0e53e6d1cb12,0,ok,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Fiber supply, offtake acceptable: ""Agreement With Corning for Optical Fiber""."
+D035,deal:22b0579a1e248432,1,na,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Investment pledge, no counterparty: ""SoftBank pledges 75bn euros to build"", ""to Plow $52 Billion""."
+D036,deal:0f9355edf142b244,0,ok,equity_raise,1,ok,ok,ok,ok,ok,missed,ok,missed,ok,"Status and place missed: ""Greece's PPC Jumps to Record After"" the raise; amount is in euros so empty USD is right."
+D037,deal:c65b59169f156a81,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,wrong,missed,ok,"No AI party: ""form biggest US power company as AI demand booms""; country US missed."
+D038,deal:aa2e02e91c72a746,0,ok,equity_raise,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"""VoltaGrid Secures $1B Investment""; Blackstone is an existing backer, investor not named."
+D039,deal:76c5707d996203e0,0,ok,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"""CDC Signs Monster Data Center Deal""; counterparty not named, Infratil is a shareholder."
+D040,deal:d95b872e9057aff4,0,unnamed,debt,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Buyer is a description: ""Investors push for higher yield""."
+D041,deal:56515d0b03437e3a,0,unnamed,lease,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Buyer is a description: ""lease with US hyperscaler""."
+D042,deal:b7d98d30694db89a,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,wrong,ok,ok,"Datacenter operator is party: ""AirTrunk to Acquire Lumina CloudInfra""."
+D043,deal:8de0945a262e0ec4,0,ok,ppa,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"""NiSource signs long-term power deal with Alphabet""; no term number."
+D044,deal:876d7eaaaa7c3e3e,0,ok,lease,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Compute rental: ""Anthropic Agrees to Rent CoreWeave AI Capacity""."
+D045,deal:874509dccbc2cc33,0,ok,ppa,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"""sign exclusive deal for power supply""; $7B is the plant: ""Over $7 Billion Texas Power Plant""."
+D046,deal:d1743a1260aaa8d2,0,wrong,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Meta pays, so it is not the seller: ""Meta Agrees to Fund Local Energy Infrastructure""."
+D047,deal:2339b303a618a9ae,0,ok,joint_venture,1,missed,ok,ok,ok,ok,ok,ok,ok,ok,"MW missed: ""Develop Half-GW, Gas-Fired Permian Power Plant""."
+D048,deal:ed8521af85c8a52c,1,na,debt,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Seeking, not done: ""DayOne Seeks to Boost Loan to Record $7 Billion""."
+D049,deal:c8852887c03f87d5,0,ok,equity_raise,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Clean: ""Nvidia to invest $2 billion in neocloud Nebius""."
+D050,deal:83bde9a08b36147b,0,ok,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Cancelled: ""Oracle and OpenAI scrap deal""."
+D051,deal:f2f22cf152918e6c,0,ok,joint_venture,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,"Status missed: ""MARA, Starwood Partner to Develop AI Data Centers""."
+D052,deal:77a5c76011035157,0,ok,ppa,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Clean: ""signs 20-year power supply deal with Google""."
+D053,deal:ea05c1c8dcb87843,0,ok,lease,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"""Nvidia to Lease Data Center Funded by $3.8 Billion of Junk Bonds""; $3.8bn is the bond funding, lessor not named."
+D054,deal:5ac7930b22b1601a,0,unnamed,equity_raise,1,ok,ok,ok,ok,ok,ok,ok,ok,too_high,Raiser not named: 'Fusion Startup Raises $450 Million'; confidence 0.75 on a row with no named party.
+D055,deal:372f82090712a843,1,na,other,0,ok,ok,ok,ok,ok,ok,ok,missed,ok,"A project led by one party, no counterparty: 'G42 Leads $1 Billion Data Center Project in Vietnam'; Vietnam missing from country."
+D056,deal:c0a548cc4173a58a,0,ok,equity_raise,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"'in talks to raise $40bn in investments from Nvidia, Amazon and Microsoft': matches."
+D057,deal:1d226768a5a645a4,0,ok,equity_raise,1,ok,ok,ok,ok,ok,ok,wrong,missed,ok,Forgent is not an AI or datacenter party ('leaning on data center boom'); 'US IPO' but country empty.
+D058,deal:2be28a4ee81ce815,0,ok,m_and_a,1,ok,ok,ok,ok,ok,missed,ok,missed,ok,"Stories differ ('$7.2 Billion' vs '$5.2 Billion'); 'to Buy' not stored as status; 'Texas, Louisiana' and 'US' missing."
+D059,deal:7096cc91f56fe7fc,0,ok,other,0,ok,ok,ok,ok,ok,missed,ok,ok,ok,"A compute contract, not an energy offtake: 'Computing Partnership With Cerebras'; 'Forges' not stored as status."
+D060,deal:4d9ab573daa7963d,0,ok,project_finance,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Apollo Backs $5.4 Billion Valor and xAI ... with $3.5 Billion Capital Solution': matches.
+D061,deal:f4b919aa13c5aa8c,0,ok,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"'ONEOK, MPLX's Wellhead-to-Water Deal': kind not stated, other acceptable."
+D062,deal:0046c6c22995488c,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Woodside Divests Greater Angostura Assets to Perenco for $206MM': matches.
+D063,deal:722119ed198f0d55,0,ok,joint_venture,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'ADQ partners with ECP for $25 billion-plus data centre energy projects': matches.
+D064,deal:9069ed9b05cd16b0,0,ok,other,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"A compute contract, not an energy offtake: 'CoreWeave inks $11.9 billion contract with OpenAI'."
+D065,deal:a8b9ac3dfab79eec,1,na,behind_the_meter,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"A plan, counterparty unnamed: 'Diamondback in Talks to Build Permian NatGas Power for Data Centers'."
+D066,deal:ad1f71bb7cc60e26,1,na,joint_venture,1,missed,ok,ok,ok,ok,ok,ok,ok,ok,"Government agreement: 'France, UAE agree to develop 1 gigawatt AI data centre'; 1 gigawatt not stored as mw."
+D067,deal:4dc4fc5e8e77c99f,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Eversource to sell water supply unit in $2.4 billion deal': buyer not named in story.
+D068,deal:41be1c6151ef2b3c,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,missed,ok,Stories differ ('$16.4 billion' vs '$27bn'); 'US power deal' but country empty.
+D069,deal:a5afffa17eb98c67,0,ok,ppa,1,ok,ok,wrong,ok,ok,missed,ok,ok,ok,"'$15 billion in AI infrastructure' is an investment, not the nuclear purchase; 'to invest ... and buy' not stored as status."
+D070,deal:c0b604a7c446e7f8,0,wrong,lease,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"'Nvidia-backed Firmus' describes Firmus, Nvidia is not a party; 'data centre capacity' is a capacity contract, not an energy offtake."
+D071,deal:db835cd9b54140ca,0,ok,equity_raise,1,ok,ok,wrong,ok,ok,ok,ok,ok,ok,"'valued at $2.4 billion' is the valuation, not the amount raised."
+D072,deal:afae3b463fc52410,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Williams Closes $5.5B Momentum Deal': matches.
+D073,deal:43f84d02835d83c3,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Prysmian strikes $3.8 billion deal to buy Atkore': matches.
+D074,deal:662010be3993e035,0,ok,lease,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'$19 billion data center lease deal with Anthropic': matches.
+D075,deal:a2b96d77aeeae5b6,1,na,gas_buildout,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"One party's investment decision, not a financing: 'Pembina approves Alberta power project tied to major data center'."
+D076,deal:19e7207b672ee8c2,0,ok,m_and_a,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,'EDF to Sell North America Renewables to KKR': status empty.
+D077,deal:48a6a74d68d4b404,1,na,m_and_a,1,ok,ok,ok,ok,ok,unsupported,ok,ok,ok,"A permission, no buyer or sale: 'Putin Allows TotalEnergies to Sell 10% Stake'."
+D078,deal:8a945483b276e549,0,ok,m_and_a,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,'Weatherford To Scoop Up NCS Multistage': status empty.
+D079,deal:035188a3c9494648,0,ok,fuel_supply,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'INEOS signs LNG supply agreement with Marubeni': matches.
+D080,deal:6f5bdc9189887384,0,ok,joint_venture,1,ok,ok,ok,ok,ok,ok,ok,ok,too_low,"Clearly stated: 'Brookfield, Nuclear Company to form joint venture'; confidence 0.4."
+D081,deal:2dc34cc98d67cedf,0,ok,project_finance,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,"'Meta picks Morgan Stanley, JPMorgan ... source says': status (rumored or mandated) empty."
+D082,deal:b8dc662702316f9c,0,unnamed,fuel_supply,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"Parties are countries, buyer refiner unnamed: 'India makes first Iranian oil buy'."
+D083,deal:894a59a0280447cd,0,ok,offtake,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Nth Cycle signs $1.1 billion lithium offtake deal with Trafigura': matches.
+D084,deal:797386660b4bb23c,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Shell to offload Jiffy Lube to Monomoy Capital for $1.3 billion': matches.
+D085,deal:d15fd09aa175af10,0,ok,m_and_a,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"A secondary sale of shares LS Power holds, not a capital raise: '$2.1 billion stake sale in NRG Energy'."
+D086,deal:0213fdd16caee260,1,na,other,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,A pledge by one party: 'Amazon Pledges Nearly $40 Billion to Expand AI Data-Center Infrastructure'.
+D087,deal:91e61d016dbfc5df,0,ok,fuel_supply,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Supply LNG for 27 Years to Japan's Jera': matches.
+D088,deal:dbcf0c27dd38d652,0,unnamed,fuel_supply,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,Seller and buyer are descriptions: 'Greek joint venture will supply US LNG to Ukraine'; 'will supply' not stored as status.
+D089,deal:2d5cf81691f0f1bf,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Devon Energy to Buy Coterra for $21.5 Billion' (Bloomberg '$21.4 Billion'): matches.
+D090,deal:8fcd26786e2ea4b9,1,na,equity_raise,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"A possibility, no investor named: 'Orano May Seek Investors for $5 Billion Nuclear-Fuel Plant'."
+D091,deal:5a1cc0f3babd4c0d,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,wrong,missed,ok,No AI or datacenter party ('to Deepen AI Bet' is motive); 'US Gas-Power Fleet' but country empty; stories differ ('$4 Billion' vs '$4.7 billion').
+D092,deal:6dda720d7b302872,0,wrong,m_and_a,1,ok,ok,ok,ok,ok,missed,ok,ok,ok,"Vital is a separate deal, not a party: 'Ahead of Closing Vital Deal'; 'Sells' not stored as status."
+D093,deal:ae1826a4c606119d,0,unnamed,equity_raise,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,Buyer is a description: 'Mozambique LNG partners to provide additional equity'.
+D094,deal:7e51c91e399619ae,1,na,equity_raise,1,ok,ok,ok,wrong,ok,ok,ok,ok,ok,A plan: 'Energy Transfer seeks 80% equity selldown'; 80% is a stake share stored as a price.
+D095,deal:911cb2d401b35ff1,0,ok,joint_venture,1,ok,ok,ok,ok,ok,ok,ok,ok,too_low,"Clearly stated: 'Deutsche Telekom, Nvidia to launch $1.2 billion AI cloud'; confidence 0.55."
+D096,deal:940dcbc91554a2e0,0,ok,joint_venture,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Eni Inks Deal With Malaysia's Petronas on New Oil-And-Gas Venture': matches.
+D097,deal:320000c88b81ec0a,0,ok,other,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"A compute contract, not an energy offtake: 'OpenAI, Amazon Sign $38 Billion Cloud Deal'."
+D098,deal:aaef977aa062d939,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Chart Industries backs sale to Baker Hughes for $13.6 billion': matches.
+D099,deal:5da707b261f42509,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Citadel in Talks to Buy Haynesville Assets from Comstock': matches.
+D100,deal:ba60780d44728a0e,0,unnamed,equity_raise,0,ok,ok,ok,ok,ok,ok,ok,missed,ok,"An equity stake, not a joint venture: 'US government takes 5% stakes'; buyer is a government; US not in country."
+D101,deal:255dfb5da45c1c07,0,ok,equity_raise,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Meridiam Raises $1.8 Billion': matches.
+D102,deal:ed9baf8b84b589a8,1,na,other,0,ok,ok,ok,ok,ok,ok,ok,ok,ok,"A project phase by existing partners, no new transaction: 'Launch New Phase of Azerbaijan Gas Project'."
+D103,deal:d82a30b9bbde4034,0,wrong,m_and_a,1,ok,ok,ok,ok,ok,missed,ok,missed,ok,DNO is a rival bidder: 'outbidding Norway's DNO'; offer status empty; 'Egypt entry' but country empty.
+D104,deal:afe40d045b8ea74b,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'Eaton signs agreement to acquire COL Group': matches.
+D105,deal:5453b24bfaa3651a,0,ok,m_and_a,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,'signed an agreement to acquire 100% of Aquila Clean Energy APAC': matches.
+D106,deal:ed28bf483b54a211,0,ok,smr,1,ok,ok,ok,ok,ok,ok,ok,ok,ok,"'binding term sheet signed', 'up to $100 million' for Hermes 2: matches; joint_venture acceptable."

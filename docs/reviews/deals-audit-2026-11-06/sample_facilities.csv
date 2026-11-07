@@ -1,0 +1,61 @@
+n,entity_id,not_a_facility,operator,site,state,mw,mw_basis,status,power_source,utility,timeline,confidence_fit,note
+F001,datacenter:f760a20e4df11013,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'Google Plans to Spend $17 Billion on Wyoming Data Center'.
+F002,datacenter:71da369c2534a51b,0,missed,ok,ok,ok,na,ok,ok,ok,ok,ok,Operator not captured: 'the Sky Data Centers site in Santa Rosa'.
+F003,datacenter:26f9ec2585f00352,0,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,"Clean: '1GW data centre complex', referred to EPBC Act."
+F004,datacenter:baff39f65f4de6ce,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'first phase live'.
+F005,datacenter:7d078deeea2862d9,0,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,"Clean: '225MW off-grid data center in Zaragoza, Spain'."
+F006,datacenter:729fec70e0b76957,0,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,"MW is Nebius's take, not the facility size: 'signs on for 50MW'."
+F007,datacenter:73f5f80add88c1dd,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,"Clean: 'data centers in Roubaix, France'."
+F008,datacenter:54f4f537c619fae2,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'tops out latest data center in Espoo'.
+F009,datacenter:4496cb1283f8d540,0,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,"Clean: '400MW data center eyed', status only 'exploring'."
+F010,datacenter:c81a4a427b3a5ab9,0,ok,ok,missed,ok,na,missed,missed,ok,ok,ok,State missed: 'Indiana utility NiSource for planned data center in the state'; status 'planned'; power '20-year power deal'; 2028 is the deal start: 'Will commence in 2028'.
+F011,datacenter:0ab791a1a6aaa28f,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'files for second building'.
+F012,datacenter:0403e02384dfcae9,0,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,Clean: 'pivot 18MW site into an AI data center'.
+F013,datacenter:853911f874fddca3,0,ok,ok,ok,ok,na,missed,ok,ok,ok,ok,Status missed: 'launches first phase' implies operating.
+F014,datacenter:c0fef225a96cedcb,0,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,Clean: 'Work starts on 64MW facility'.
+F015,datacenter:c0622f16dc1b0ccc,0,missed,ok,ok,ok,na,ok,ok,ok,ok,ok,"Developers missed: 'Brookfield, NextEra to Build $100 Billion AI Hub'."
+F016,datacenter:e05f1dd107c9c629,0,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,"Clean: 'files to build 112MW data center building in Willacy, Texas'."
+F017,datacenter:ddd465e2c1be8ed0,1,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,No place stated: 'enter US market with proposed 6MW data center acquisition'.
+F018,datacenter:949ca87047903b5e,0,ok,ok,ok,ok,unstated,ok,ok,ok,missed,ok,Timeline missed: 'due to be delivered next year'; MW is first phase only.
+F019,datacenter:c4f082f57bbb9d30,0,ok,ok,ok,ok,na,ok,ok,ok,ok,too_low,"A supercomputer, country only: 'AI supercomputer in Sweden'; clean row at 0.4."
+F020,datacenter:e4b28514063c5cbf,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'deployed in Swanbank'.
+F021,datacenter:5349407ee728d7cc,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,"Clean: Nebius tenant, 'AI Gigafactory' in the Port of Rotterdam."
+F022,datacenter:e77b0dc99e73f858,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'Barber Lake data center lease commitments'.
+F023,datacenter:57d038e7ec2310fe,0,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,"Clean: 'begins work on KIX15', 'adds 24MW'."
+F024,datacenter:916dadc8c67ec730,0,ok,ok,ok,ok,na,missed,ok,ok,ok,ok,"Status missed: existing site, 'data center in Kaluga has taken a hit'."
+F025,datacenter:428e3c2eddd50cb5,0,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,Clean: 'plans 50MW data center project in Incheon'.
+F026,datacenter:366940be6097f80c,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'additional $1bn investment in data center campus in Inzai'.
+F027,datacenter:da059f4749c88ed5,0,ok,missed,ok,ok,na,ok,ok,ok,missed,ok,"Township missed: 'Newport Township, Luzerne County'; date missed: 'Fit Energy on October 6 said'."
+F028,datacenter:1ebfd6be1b14ae53,0,wrong,ok,ok,ok,na,ok,ok,ok,ok,ok,"Axe owns the cluster, not the building: 'Duos still owns facility'."
+F029,datacenter:50bd11f976fa42bb,0,ok,ok,missed,ok,na,ok,ok,ok,ok,ok,"State missed: 'research campus in Silicon Valley', 'in San Jose'."
+F030,datacenter:b76ed77d8278674e,0,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,"Clean: '75MW data center in Salo', 'go live in 2028'."
+F031,datacenter:b05cf8fddf3b6250,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Row keeps Maine only of 'coastlines in Maine and Alaska'.
+F032,datacenter:8dfbe73ed841949d,0,ok,ok,missed,ok,na,missed,missed,ok,ok,ok,State missed: 'NJ data center'; status 'polluted for a year'; power 'unpermitted generator fleet'.
+F033,datacenter:0a7df4c78cb7b4d5,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'to open new data center in Saint-Omer'.
+F034,datacenter:3eafc23ef57016a7,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,"Clean: 'file for fourth data center in Hutto, Texas'."
+F035,datacenter:04a5a4836e54f365,0,ok,ok,ok,ok,na,wrong,ok,ok,ok,ok,Not under construction: 'First project planned for power plant at Chiba'.
+F036,datacenter:c2e3a6ce19bfa103,0,missed,ok,ok,ok,na,missed,ok,ok,ok,ok,Operator missed: 'Balearic Islands launches new data center'; status 'launches' implies operating.
+F037,datacenter:0ae5b4f73b7c8038,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,"Clean: 'Crusoe's data center campus in Amarillo, Texas'."
+F038,datacenter:a407765d418e25a3,0,ok,ok,ok,ok,unstated,ok,ok,ok,ok,ok,Clean: 'withdraws application for 90MW data center campus'.
+F039,datacenter:a5ed4d9e781b4826,0,ok,ok,ok,ok,na,ok,ok,ok,ok,too_low,Clean row at 0.5: 'Pauses Wyoming Site'.
+F040,datacenter:3be9e39be2dbc5f8,1,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Country-wide plan: 'Plow $52 Billion Into French Data Centers'.
+F041,datacenter:de8d578a62e29f99,0,ok,ok,ok,ok,na,missed,ok,ok,ok,ok,Status missed: 'on track to go live in mid-2026' implies under construction.
+F042,datacenter:a2afc3666d76ae24,0,ok,ok,ok,ok,na,ok,ok,ok,ok,too_low,Clean row at 0.5: 'Amazon's Chile data center moves ahead'.
+F043,datacenter:6b427de28446ade0,0,ok,ok,ok,ok,na,ok,ok,ok,ok,too_low,Clean row at 0.5: 'Compass Pulls Out of Massive Virginia Data Center'.
+F044,datacenter:4c0c586172f3e273,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'Microsoft Takes Over Stargate Norway Data Center From OpenAI'.
+F045,datacenter:d1743a1260aaa8d2,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'Meta's $200 Billion Louisiana Data Center'.
+F046,datacenter:56f16afc173e9d7a,0,ok,ok,missed,ok,na,ok,ok,ok,ok,ok,State missed: 'Microsoft to rent Texas data center'.
+F047,datacenter:bc8e743da28f58ba,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'Amazon plans $12 billion Louisiana data center buildout'.
+F048,datacenter:cc25623c00096b26,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,"Utility capex story, plural sites: 'Microsoft data centers expand in Wisconsin'."
+F049,datacenter:a7e4f5df9b75bf92,0,ok,ok,ok,ok,unstated,missed,ok,ok,ok,ok,Status missed: 'to invest $11 billion in 2.5 GW data centre park'.
+F050,datacenter:6f8f93eaa753b05b,0,wrong,ok,ok,ok,na,ok,ok,ok,ok,ok,"Operator is the parent, not TikTok: 'TikTok owner weighs data center project in Brazil'."
+F051,datacenter:9ef88b4f9ec36b87,0,ok,ok,ok,ok,na,wrong,ok,ok,ok,ok,"Memphis site runs turbines, not announced: 'increased Tennessee gas turbines'; merges 'Mississippi data center'."
+F052,datacenter:4d01260b8a7464ae,0,ok,ok,ok,ok,na,ok,ok,ok,ok,too_low,Clean but thin row at 0.5: 'Huge AI Data Center Planned for Pennsylvania Coal Plant Site'.
+F053,datacenter:e6f907340e138ce4,1,ok,ok,ok,ok,na,wrong,ok,ok,ok,ok,Merges Stargate sites; cancelled is the UK one: 'OpenAI halts Stargate UK data centre project'.
+F054,datacenter:b949143df40beb95,0,ok,ok,ok,ok,na,ok,ok,ok,ok,too_low,"Clean row at 0.5: 'SoftBank, OpenAI to build AI data centre in Japan'."
+F055,datacenter:d7911a69f8c6388b,1,ok,ok,missed,ok,na,ok,ok,ok,ok,ok,Not stated to be a data center: 'Super Micro to Build Third California Campus'.
+F056,datacenter:780428960f26c20e,0,ok,ok,ok,ok,na,missed,ok,ok,ok,ok,Merges 'Infrastructure Region in Mexico' with 'UAE data center struck by objects' (operating).
+F057,datacenter:662010be3993e035,1,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,"Lease deal, no place: '$19 billion data center lease deal with Anthropic'."
+F058,datacenter:39fbfb544bc7079e,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,Clean: 'QTS terminates Digital Gateway data center project in Virginia'.
+F059,datacenter:f3209ce78e32b9a7,0,ok,ok,ok,ok,na,missed,ok,ok,ok,ok,Status missed: 'to Build $1 Billion Chip Cluster in Ohio'.
+F060,datacenter:25dcf2257226bef9,0,ok,ok,ok,ok,na,ok,ok,ok,ok,ok,"Clean: 'submitted a right-of-way application', 'Ada County, Idaho', gas-powered."

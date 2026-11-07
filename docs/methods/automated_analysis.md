@@ -92,3 +92,93 @@ The ten templates read 8 of the public tables. A measure on the watch list needs
 5. send the email, whose image links the pushed PNG.
 
 On the runner, templates whose inputs are not restored skip with their reason. The ERCOT yearly history tables are not on the runner, so there `peak_premium_block` and `negative_price_hours` use the live tables only.
+
+## Replication (session 3701)
+
+Roadmap item 2 asks for a replication a reader can run. `replication/analysis/` is Research's, in the form of the three decision tools' packages (`replication/battery/`, `generator/`, `datacenter/`). It reads only what `/research` offers for download and this folder's own files:
+
+- the finding cards' CSVs (`site/public/findings/<file>.csv`, served at `/findings/<file>.csv`);
+- the week's chart file (`docs/analysis/<week>/chart_of_the_week.json`, served at `/analysis-files/<week>/`);
+- `assumptions.json`: every assumption the figures rest on, its default, its source and how to change it (the section below);
+- `page_figures.json` (and `.csv`): the figures the page prints, each with its check key, the text shown, its decimals and the tolerance, half of the last shown digit.
+
+It prints each figure beside the page's with the difference.
+
+| File | What it does |
+|---|---|
+| `replicate.py` | Standard library and pandas only (the regressions' algebra is written out: Gauss-Jordan on the cross-product matrices, robust HC1 errors, Newey-West errors). `python replication/analysis/replicate.py [CSV folder or URL] [chart folder or URL]`; the defaults are the repository's copies, else the site's. Exit 0 when every computed figure is inside its tolerance or a known difference, 1 when one is not, 2 when an input cannot be read |
+| `replicate.do` | The same card figures in Stata, in the owner's rules: no line continuation, one empty line between commands outside a loop and none inside, every numeric column destringed with force. Run from its folder. Not yet run: no Stata on the machine that wrote it |
+| `figures_of_the_page.py` | Writes `page_figures.json` and `.csv` from the cards' own files (`site/data/findings/<card>.json`, which `site/scripts/check-values.mjs` holds the page to) and the newest Roundup's chart; `--check` says whether the files are current. It refuses when a callout's text is not the card figure it names |
+| `assumptions.json`, `assumptions.csv` | The assumptions (below); the CSV holds the numeric ones, with a short Stata name each |
+
+**What it found on 6 November 2026** (`page_figures.json` written for that day, nine cards as computed on 31 October and the three siting cards on 5 November, the Roundup of 2026-W44):
+
+- 78 figures; 66 computed, **65 inside the tolerance**.
+- **1 known difference**: the weekly chart's score, 87.25 percent from the file against 87.5 on the page. The chart file holds 104 weeks, so 102 earlier changes; the rule ranked the change among 104 (`WINDOW["week"]` in `run.py`). The value, the week before and the change (107.17, 99.93, +7.24 USD per barrel) meet the page exactly.
+- **10 "license needed"**: every callout whose words name NYISO or ISO-NE, as the page prints it (`site/lib/license.ts`, `licenseHeldGrids`).
+- **2 not in a download**: `siting_gigawatt`'s months to connect, which the All grids tab reads from `interconnection_durations`.
+- **Not replicated**: today's chart (the Digest's chart of the day, drawn from the scanner's rows; no download of `/research` holds them) and the five "also moved" sentences (their series are not in the week's file).
+- **The test:** `tests/test_session3701.py` builds the figures afresh from the cards and holds every computed one to its tolerance, so a card the data machine recomputes is held to its new figures. It also checks that a held figure is printed "license needed", that the assumptions drive the figures (the hourly card's ceiling at 95 percent gives fewer hours), the imports (standard library and pandas), and the do-file's rules.
+
+The earlier per-card files stay as they were: each card's `.py` and `.do` beside its CSV, and `site/public/findings/erw_2026_research_replication.py` (session 381, numpy), which reruns every figure of the ten cards' `numbers` against their files. The package above differs in two ways: it holds what the page prints, with the page's rounding, and the weekly chart is in it.
+
+## Cross-checks
+
+Roadmap item 2's cross-check table, in the three decision tools' form: our figure, the published figure, where it was read, the gap, the reason. The table of Research's cards against figures others publish is `docs/methods/crosschecks/automated_analysis.md` (chain 208, sessions 3708 to 3710).
+
+- **Kept as they are:** the four rows of `automated_analysis_findings.md`, "Cross-checks" (session 381). Two set a card against the owner's thesis, one against CDC's FastStats (quoted on the queue card), one against an earlier edition of Berkeley Lab's queue data.
+- **Not compared, the weekly chart:** its measures are the warehouse's own tables of a publisher's series (the WTI spot price at Cushing is EIA's daily series, weekly mean by the rule's week). A sum or mean of them reproduces the publisher's figure; it does not check it. The replication above holds the chart to its file.
+
+## Decisions: every assumption, its default, its source, how to change it (session 3702)
+
+Roadmap item 2's decisions block for Research. The table is `replication/analysis/assumptions.json`, word for word (`tests/test_session3702.py` holds the two to each other). Every figure on the page is at these values. A card's inputs are changed by a person in the page's request flow, and the data machine runs the card again; a constant of the rule or of a card's module is changed in its file, and the next run uses it.
+
+| Assumption | Default | Source | How to change it |
+|---|---|---|---|
+| `batteries_lunch_grids_first_year` | 2019 (year) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (the only choice offered is 2019) |
+| `batteries_curtailment_curtailed` | solar_and_wind | site/data/findings/catalogue.json, the card's default input (curtailed_mwh is solar and wind) | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (solar_only) |
+| `batteries_curtailment_first_month` | 2025-08 (month) | site/data/findings/catalogue.json, the card's default input (the first month CAISO's battery charging is held daily) | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (2026-01) |
+| `batteries_curtailment_hourly_first_year` | 2019 (year) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (2021, 2023) |
+| `batteries_curtailment_hourly_ceiling_pct` | 90 (percent of the trailing 30-day maximum charging) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (95); here, the value in this file and in assumptions.csv |
+| `batteries_curtailment_hourly_curtailed_on_mw` | 1.0 (MW) | warehouse/analysis/findings/batteries_curtailment_hourly.py, CURTAILED_ON: curtailment counts as on in an hour from 1 MW | the constant in the card's module; here, this file and assumptions.csv |
+| `batteries_curtailment_hourly_trail_days` | 30 (Pacific days) | warehouse/analysis/findings/batteries_curtailment_hourly.py, TRAIL_DAYS: the observed ceiling is the largest charging hour of the 30 days before the hour's day (the CSV's trail_max_charging_mw holds it) | the constant in the card's module; the CSV is then written again |
+| `gas_sets_price_heat_rate` | 7.0 (MMBtu per MWh) | site/data/findings/catalogue.json, the card's default input (the share below Henry Hub times 6.5 and 8.0 is shown beside it) | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (6.5, 8.0) |
+| `gas_sets_price_first_year` | 2019 (year) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (2020, 2021) |
+| `impact_study_series` | ercot_north_rt | site/data/findings/catalogue.json, the card's default input (ERCOT North Hub, real time) | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again |
+| `impact_study_control` | nyiso_nyc_rt | site/data/findings/catalogue.json, the card's default input (NYISO New York City, real time; held under NYISO's terms since 21 October 2026, so the control's figures print "license needed") | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again |
+| `impact_study_event` | uri_2021 | site/data/findings/catalogue.json, the card's default input (Winter Storm Uri, from 2021-02-07) | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again |
+| `impact_study_window` | 14 (days before and from the event) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (7, 28, 56) |
+| `negative_prices_west_first_year` | 2019 (year) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (2020, 2021) |
+| `negative_prices_west_threshold` | 0 (USD per MWh: an hour counts below it) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (-10, -20) |
+| `peak_hour_grids_first_year` | 2019 (year) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (the only choice offered is 2019) |
+| `peak_hour_grids_min_hours` | 20 (hours a day must hold) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (24) |
+| `queue_divorce_first_year` | 2000 (request year) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (2005, 2010) |
+| `queue_divorce_last_year` | 2020 (request year) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (2015, 2018) |
+| `who_rescues_whom_event` | uri_2021 | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (elliott_2022, ercot_heat_2023, caiso_heat_2020) |
+| `who_rescues_whom_min_mwh` | 1000 (MWh a day: a smaller flow on both sides is "small", not a flip) | site/data/findings/catalogue.json, the card's default input | a person picks another choice in /research's request flow ("Or choose a finding and its inputs"); the data machine runs the card again (0, 5000) |
+| `siting_battery_swing_min_days` | 302 (days: a node holding fewer is left out) | site/scripts/siting-card.mjs: 90 percent of the 335 days node_basis_daily holds, rounded up | the card's script, site/scripts/siting-card.mjs, then the card is written again |
+| `siting_flexible_mw` | 1000 (MW) | site/scripts/siting-card.mjs, MW | the card's script |
+| `siting_flexible_strike` | 1000 (USD per MWh: the flexible load is off at or above it, and at the four summer peaks) | site/scripts/siting-card.mjs and the All grids tab's flexible profile (site/lib/siting.ts) | the card's script |
+| `siting_flexible_hub_row` | ercot:HB_HUBAVG | site/scripts/siting-card.mjs: the row whose two all-in figures the third callout prints | the card's script |
+| `siting_gigawatt_mw` | 1000 (MW) | site/scripts/siting-card.mjs, MW | the card's script |
+| `siting_gigawatt_load_factor` | 0.9 (share of the size drawn in every hour) | the All grids tab's datacenter profile (site/lib/siting.ts): 0.90 in every hour, never curtails | the profile in site/lib/siting.ts |
+| `siting_gigawatt_hours` | 8760 (hours a year) | the card's year_mwh, 7,884,000 MWh = 1,000 MW x 0.90 x 8,760 hours | a year of other length here |
+| `rule_window_weekly` | 104 (earlier weekly changes a change is ranked among) | warehouse/analysis/run.py, WINDOW["week"] (session 119) | the constant in run.py; the next Sunday's run uses it |
+| `rule_window_monthly` | 36 (earlier monthly changes) | warehouse/analysis/run.py, WINDOW["month"] (session 119) | the constant in run.py |
+| `rule_min_earlier` | 8 (earlier changes at least) | docs/methods/automated_analysis.md, the rule's step 3 | warehouse/analysis/run.py |
+| `rule_max_age_days` | 100 (days: a period new this week must have ended within them) | warehouse/analysis/run.py, MAX_AGE_NEW (EIA's monthly lag) | the constant in run.py |
+| `errors_hc1` | n / (n - k) | the cards' regressions with robust errors, Stata's regress, vce(robust) | the card's module |
+| `errors_newey_west_lags` | floor(4 (n / 100) ^ (2 / 9)) | warehouse/analysis/findings/impact_study.py, newey_lags; Bartlett weights, the factor n / (n - k) | the card's module |
+| `held_grids` | isone, miso, nyiso | site/data/license_status.json, read by site/lib/license.ts licenseHeldGrids on 6 November 2026: a callout whose words name one prints "license needed" | a publisher's permission recorded in site/data/license_status.json |
+
+The rule's own choices, each made by the session named and kept since (the sections above give the reasons):
+
+1. Only a measurement of the energy system competes for the chart of the week; a count of what the ERW has collected is shown and never chosen. (session 119)
+2. The statistic is a change from the period compared with, never a level: the week before, or the same month a year earlier for a monthly figure with a season. (session 119)
+3. A change is ranked among the same measure's last 104 weekly or 36 monthly changes, with at least 8; the score is the share that were smaller. (session 119)
+4. The headline period must be new this week and have ended within 100 days. (session 119)
+5. Ties go to the higher robust z of the change, then to the order of the list. (session 119)
+6. The caption is two sentences written by code from the table's numbers; the model's note is held to the literal-number check and names no statistic. (session 119)
+7. A chart that holds its headline rings it and labels it; a chart that does not shows no mark. (session 533)
+8. An internal template never leaves the warehouse's machines. (session 23)
+9. A callout whose words name a grid held under its publisher's terms prints "license needed"; the card stays. (session 315; ruling 6a of the Research pack)

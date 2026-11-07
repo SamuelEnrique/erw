@@ -86,11 +86,15 @@ TIERS = ["source", "derived", "model_extracted"]
 TIER_RULES = [
     ("model_extracted", r"^(energy_deals|datacenter_projects|policy_reads)(_evidence)?$"),  # extraction from news
     ("model_extracted", r"^energy_companies$"),           # the Thesis Builder's research and the deal parties
+    ("model_extracted", r"^company_(directory|aliases|links)$"),  # session 3302: names from the deals, datacenter and policy extractions
     ("model_extracted", r"^news_(stories|index)$"),       # the scores and headlines are the model's
     ("model_extracted", r"^policy_actions$"),             # significance, sector and why are the model's
     ("derived", r"^(energy_projects|datacenter_queue_positions|storage_capacity)$"),  # ERW code over source tables
     # session 30: the Haiku shadow scores are a model's; the cost ledger prices Anthropic's usage counts
     ("model_extracted", r"^news_scores_shadow$"),
+    # session 3402: the Attention and Friction indices are counted by code, but every row rests on a model's reading of a
+    # story (attention_classify.py), so the three tables are a model's (docs/methods/attention.md)
+    ("model_extracted", r"^(attention_story_links|attention_index_weekly|friction_index_weekly)$"),
     ("derived", r"^api_cost_ledger$"),
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
@@ -565,6 +569,7 @@ SECTOR_RULES = [
     (r"^large_load_waits$", "power;datacenters"),  # session 155: measured waits of large loads, from dated copies of queues (internal)
     (r"^large_load_(public|document_verdicts)$", "power;datacenters"),  # session 255: the statements whose document is public, and each document's license verdict (internal until ruled)
     (r"^policy_action_tags$", "news"),  # session 154: tags of the policy actions held, by a written rule
+    (r"^(attention_story_links|attention_index_weekly|friction_index_weekly)$", "news;datacenters"),  # session 3402: the Attention and Friction indices
     (r"^news_", "news"),
     # session 8
     (r"^eia860m_(operating|planned|retired)_generators$", "power"),
@@ -610,6 +615,8 @@ SECTOR_RULES = [
     (r"^weather_(obs|forecast)_hourly$", "power"),
     # session 25: companies found by the Thesis Builder (tool 27), the seed of the company database (tool 10)
     (r"^energy_companies$", "deals"),
+    # session 3302: the company database (tool 10): every company the warehouse names, its names and its rows
+    (r"^company_(directory|aliases|links)$", "power;deals"),
     (r"^eia_retail_sales_monthly$", "power"),
     (r"^eia_sector_energy_consumption_monthly$", "power;gas;oil;coal"),
     # session 19: the trader view (24)
@@ -689,6 +696,8 @@ def iso_of(table):
         return ";".join(sorted({iso_of(m) for m in members}))
     parts = table.split("_")
     if table == "price_board_carbon":  # session 30: CARB and RGGI, no ISO
+        return "none"
+    if table in ("company_directory", "company_aliases", "company_links"):  # session 3302: companies, no one ISO
         return "none"
     if table == "shoulder_hours_monthly":  # session 75
         return "CAISO;ERCOT"

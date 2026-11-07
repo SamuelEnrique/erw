@@ -4,11 +4,12 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 
 | Class | Refusals | Graded right |
 |---|---|---|
-| MISO's pause | 9 | 9 of 9 graded |
-| a license hold | 9 | 9 of 9 graded |
-| the warehouse lacks the figure | 12 | 8 of 12 graded |
+| MISO's pause | 10 | 10 of 10 graded |
+| a license hold | 14 | 14 of 14 graded |
+| the call limit | 1 | 0 of 1 graded |
+| the warehouse lacks the figure | 18 | 11 of 18 graded |
 
-In all: 30 refusals.
+In all: 43 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -42,3 +43,16 @@ In all: 30 refusals.
 | session 2968, Python loop, the twenty | l04 | 4 | a license hold | right |
 | session 2968, Python loop, the twenty | l10 | 6 | MISO's pause | right |
 | session 2968, Python loop, the twenty | l20 | 1 | the warehouse lacks the figure | right |
+| session 3280, Python loop, the trader's twenty | tr20 | 3 | MISO's pause | right |
+| session 3281, Python loop, the investor's twenty | iv01 | 6 | a license hold | right |
+| session 3281, Python loop, the investor's twenty | iv02 | 4 | a license hold | right |
+| session 3281, Python loop, the investor's twenty | iv03 | 4 | a license hold | right |
+| session 3281, Python loop, the investor's twenty | iv04 | 5 | a license hold | right |
+| session 3281, Python loop, the investor's twenty | iv05 | 8 | a license hold | right |
+| session 3281, Python loop, the investor's twenty | iv13 | 6 | the warehouse lacks the figure | wrong |
+| session 3281, Python loop, the investor's twenty | iv14 | 7 | the warehouse lacks the figure | wrong |
+| session 3281, Python loop, the investor's twenty | iv15 | 3 | the warehouse lacks the figure | wrong |
+| session 3281, Python loop, the investor's twenty | iv17 | 4 | the warehouse lacks the figure | right |
+| session 3282, Python loop, the investor's iv13 to iv15 again | iv14 | 12 | the call limit | wrong |
+| session 3297, Python loop, the investor's iv14 again and iv18 to iv20 | iv18 | 7 | the warehouse lacks the figure | right |
+| session 3297, Python loop, the investor's iv14 again and iv18 to iv20 | iv20 | 3 | the warehouse lacks the figure | right |
