@@ -18,7 +18,20 @@ Long end 0:45. The next file (above), committed alone, pushed. The machine (memo
 
 ## Sessions 3721 to 3726: chain 208's unfinished steps
 
-Long end 1:30 each. Each session takes the next unfinished step of chain 208 in its order (part one: the replications of Automated Analysis and the Grid tool, their method notes' Replication and Cross-checks sections and decisions blocks, the cross-check tables under `docs/methods/crosschecks/`; part two: the red-main causes, the merge gate's whole suite on a clean checkout, the data machine's suite before its push, a bot's push that would make main red refused, the thin page-file rebuild, the health streak and the one-email rule). Session 3719 lists here what is left; if nothing is left, these sessions take the faults below.
+Long end 1:30 each. Each session takes the next unfinished step of chain 208, in this order. **Updated by session 3719 of chain 208** (7 November 2026, about 19:30 UTC; the file was parked by the desktop at 23:15 UTC on 6 November "for the weekend review" and stays parked: only the owner moves it back): every step of chain 208 was done but these. Chain 208's note is `docs/state/note_2026-11-07_portable_sellable.md`.
+
+1. **The landing of row 16 of `docs/state/landing_request_portable.md`**: `wip/3701-sellable` at `8d9a9dba2`, session 3718's three commits (the runner's tracebacks and its verdict rule, `test_session244`'s module loading). Sessions 3701 to 3717 landed as `9245ed56d` on 7 November. If the desktop has not landed row 16:
+   - use `land_check.py --ref wip/3701-sellable --task 3718-sellable --port 3721 --keep-worktree`;
+   - if check-values fails only on the floors of `/deals`, `/learn/problems/know-your-grid` and `/digest` (other chains' pages, main's own) or on a page not read, read that page again (`CHECK_VALUES_PAGES=<it>`) and run the three skipped page checks by hand on the kept build;
+   - land only when nothing of the branch fails, with the snapshots before and after.
+2. **The data machine's commit path** (`warehouse/run_data_machine.sh`): the four lines of `docs/state/main_red_2026-11-06.md`, "Not changed by this chain". This machine's permission classifier refused that edit. Do not try it another way: leave it to the owner's ruling, or to a session on the desktop that the owner asks.
+3. **`.github/workflows/roundup.yml`**: the same guard before its push. It is the periodicals chain's file, so the line goes into that chain's next file, not here.
+4. **The cross-check rows still "no counterpart held"** that a public report would give (at most ten requests a session, each host's robots file and terms read first):
+   - FERC and NERC's report on February 2021, for Research's `who_rescues_whom` and `impact_study`;
+   - ERCOT's market monitor's 2021 report, for Uri's prices;
+   - CAISO's Department of Market Monitoring's 2025 annual report, for the curtailment cards.
+   - Not Berkeley Lab's data files while its terms' ruling is open (session 253).
+5. **The Grid tool's Ask figures against fresh tables**: the eleven known differences came from table copies older than the answers. On a machine that holds current tables (the data machine), run `python replication/grid/replicate.py --only ask --tables warehouse/output`.
 
 ## Sessions 3727 to 3730: the faults chain 208's reads leave
 
