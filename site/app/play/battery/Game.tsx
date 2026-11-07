@@ -29,6 +29,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ADDON_KEYS, ADDONS, DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, emergencyOf, eventPageFor, explain, FLEET, isPerfect, LIGHTS_OUT, optimum, perfectShare, presetLabel, presetOf, rulesOf, SETTINGS,
   noBattery, shownPrices, simulate, SOLAR, solarKwh, SPIKE_LABEL, START_MONEY, tally, validAddons, validSettings, validSolar, vppHour, worstHour,
+  glance, gridDownWords, priceHover,
   type Action, type AddonKey, type Difficulty, type Result, type Rules, type Settings, type ShownPrice, type Tally,
 } from "@/lib/battery";
 import type { PresetCount, ScoreRow } from "@/lib/game";
@@ -37,7 +38,12 @@ import type { PresetCount, ScoreRow } from "@/lib/game";
 // California days their selection rule
 // session 66: and, where the warehouse holds it, the day's solar shape (the grid's solar fleet, output per MW installed,
 // one value per interval) with its source: the rooftop add-on needs it and is unavailable without it
-export type GameLevel = { slug: string; date: string; title: string; why: string; ts_utc: string[]; price: number[]; grid: "ERCOT" | "CAISO"; tz: string; rule?: string; solar?: number[]; solar_source?: string };
+// session 3600: and where its prices come from (its warehouse table, the publisher's report, when the ERW retrieved it),
+// for the hover on every shown price
+export type GameLevel = {
+  slug: string; date: string; title: string; why: string; ts_utc: string[]; price: number[]; grid: "ERCOT" | "CAISO"; tz: string; rule?: string; solar?: number[]; solar_source?: string;
+  table?: string; source?: string[]; retrieved_at?: string;
+};
 
 const DURATION_MS = 90_000;
 const HHMM = new Map<string, Intl.DateTimeFormat>();
@@ -471,10 +477,11 @@ function EarlyEnd({ mine, at }: { mine: Result; at: string }) {
 
 /** The price now, as a big number. Session 66: a spiked price carries its label and the real price beside it, on the
  * number itself (the text is lib/battery.ts's shownPrices). */
-function PriceNow({ s, big, ended = false }: { s: ShownPrice; big: boolean; ended?: boolean }) {
+function PriceNow({ s, big, ended = false, hover }: { s: ShownPrice; big: boolean; ended?: boolean; hover: string }) {
   const cut = s.text.indexOf(" ");
+  // session 3600: the price's source as a hover (the owner's rule: explanatory text only as hover tips)
   return (
-    <div className="mb-1 text-center">
+    <div className="mb-1 cursor-help text-center" title={hover}>
       <span className={`tabular-nums ${big ? "text-3xl" : "text-xl"} ${s.spike ? "text-accent" : ""}`}>{s.text.slice(0, cut)}</span>{" "}
       <span className={`text-sm ${s.spike ? "text-accent" : "text-muted"}`}>{s.text.slice(cut + 1)}{s.spike ? "" : ended ? " when the play ended" : " now"}</span>
     </div>
@@ -485,9 +492,12 @@ function PriceNow({ s, big, ended = false }: { s: ShownPrice; big: boolean; ende
  * average and highest real price, so the player knows what cheap and dear mean on this day. It moves on by itself and
  * can be skipped. The numbers are the level's own real prices (on Hard the emergency's prices are a game rule, said). */
 const PREVIEW_MS = 5000;
-function Preview({ level, hard, onDone }: { level: GameLevel; hard: boolean; onDone: () => void }) {
-  const p = level.price;
-  const avg = p.reduce((a, v) => a + v, 0) / p.length, lo = Math.min(...p), hi = Math.max(...p);
+// Session 3600 (ruling 2: the average and some of the variance): the numbers come from lib/battery.ts's glance(), which
+// adds the day's typical range (the average plus or minus one standard deviation) under the three; each number carries
+// the prices' source as a hover.
+function Preview({ level, hard, onDone, hover }: { level: GameLevel; hard: boolean; onDone: () => void; hover: string }) {
+  const gl = glance(level.price);
+  const avg = gl?.avg ?? 0, lo = gl?.lo ?? 0, hi = gl?.hi ?? 0;  // a level always holds a whole day; gl is null only for none, never drawn
   const [left, setLeft] = useState(PREVIEW_MS);
   const done = useRef(onDone);
   useEffect(() => { done.current = onDone; }, [onDone]);
@@ -505,15 +515,21 @@ function Preview({ level, hard, onDone }: { level: GameLevel; hard: boolean; onD
   }, []);
   const f = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const at = (v: number) => `${((v - lo) / (hi - lo || 1)) * 100}%`;
+  if (!gl) return <p className="text-sm" role="status" data-game-preview>This day holds no prices to show.</p>;
   return (
     <div className="border border-rule p-3" role="status" aria-live="polite" data-game-preview>
       <p className="mb-2 text-sm"><strong>{level.title}, {level.date}</strong>: the day&apos;s real prices at a glance, USD per MWh.</p>
-      <div className="grid grid-cols-3 gap-2 text-center">
+      <div className="grid cursor-help grid-cols-3 gap-2 text-center" title={hover}>
         <div><div className="text-xs text-muted">lowest</div><div className="font-serif text-2xl">{f(lo)}</div></div>
         <div><div className="text-xs text-muted">average</div><div className="font-serif text-2xl">{f(avg)}</div></div>
         <div><div className="text-xs text-muted">highest</div><div className="font-serif text-2xl">{f(hi)}</div></div>
       </div>
+      <p className="mt-2 text-center text-sm" data-glance-spread>
+        <span className="cursor-help border-b border-dotted border-muted" title={`The average plus or minus one standard deviation of the day's ${gl.n} real prices (${f(gl.sd)} USD per MWh), kept within the day's lowest and highest. ${hover}`}>most prices</span>: {f(gl.typicalLo)} to {f(gl.typicalHi)}
+      </p>
       <div className="relative mx-6 mb-6 mt-3 h-2 bg-[var(--color-rule)]" aria-hidden="true">
+        {/* session 3600: the typical range drawn on the same bar, in the muted tone under the average's mark */}
+        <div className="absolute top-0 h-2 bg-[var(--color-muted)]" style={{ left: at(gl.typicalLo), width: `${((gl.typicalHi - gl.typicalLo) / (hi - lo || 1)) * 100}%` }} />
         <div className="absolute top-[-4px] h-4 w-0.5 bg-[var(--color-ink)]" style={{ left: at(avg) }} />
         <span className="absolute top-3 -translate-x-1/2 text-xs text-muted" style={{ left: at(avg) }}>average</span>
       </div>
@@ -622,6 +638,11 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
   const setControl = useCallback((c: Control) => { g.current.control = c; setHud((h) => ({ ...h, control: c })); }, []);
   const forecast = DIFFICULTIES[difficulty].forecastHours * 4;
   const wholeDay = forecast >= n;  // session 289: Easy shows the whole day ahead
+  // session 3600: every shown price's source, as a hover; and Hard's grid-down window in words, its clock times
+  const hover = priceHover(GRIDS[level.grid].prices, level);
+  const downWords = em.outage
+    ? gridDownWords(clock(level.tz, level.ts_utc[em.outage.first]), clock(level.tz, new Date(Date.parse(level.ts_utc[em.outage.last]) + 15 * 60_000).toISOString()))
+    : "";
 
   const draw = useCallback((pos: number) => {
     const cv = canvas.current;
@@ -952,7 +973,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
 
       {phase !== "pick" ? (
         <div ref={board} className="scroll-mt-2" data-game-phase={phase} data-game-idx={hud.idx} data-game-level={level.date}>
-          {phase === "preview" ? <Preview level={level} hard={difficulty === "hard"} onDone={begin} /> : (
+          {phase === "preview" ? <Preview level={level} hard={difficulty === "hard"} onDone={begin} hover={hover} /> : (
             <>
               <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2 text-sm">
                 <span><strong>{level.title}</strong>, {level.date} ({GRIDS[level.grid].name}, {GRIDS[level.grid].zone} time), {DIFFICULTIES[difficulty].label}{addons.map((k) => `, with ${ADDONS[k].label.toLowerCase()}`).join("")}</span>
@@ -978,7 +999,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
                   Fleet call: discharge now to earn the bonus (a game rule modeled on ERCOT&apos;s ADER pilot; the rules are below).
                 </div>
               ) : null}
-              <PriceNow s={labeled[Math.min(n - 1, hud.idx)]} big={easy} ended={!playing} />
+              <PriceNow s={labeled[Math.min(n - 1, hud.idx)]} big={easy} ended={!playing} hover={hover} />
               <canvas ref={canvas} className={`block w-full touch-none ${easy ? "h-[200px] sm:h-[240px]" : "h-[220px] sm:h-[260px]"}`} aria-label={easy ? "The day's prices: the solid line is the day so far, the dashed line the rest of the day, shown ahead" : "The day's price so far; the future is hidden"} />
               <div className={`mt-2 grid grid-cols-1 items-center gap-2 ${easy ? "" : "sm:grid-cols-[auto_1fr]"}`}>
                 {!easy ? <HouseFlow flow={playing ? hud.control : 0} soc={hud.soc} kwh={rules.kwh} reserveKwh={rules.reserveKwh} blocked={blocked} /> : null}
@@ -1012,7 +1033,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
                 <div className="mt-3 grid grid-cols-2 gap-3">
                   <button type="button" {...hold(1)} aria-pressed={hud.control === 1} disabled={inOutage} className={`touch-none border px-3 ${easy ? "py-8 text-xl" : "py-4 text-base"} ${hud.control === 1 ? "border-ink bg-ink text-white" : ""}`}>{easy ? "Charge" : "Hold to charge (buy)"}</button>
                   <button type="button" {...hold(-1)} aria-pressed={hud.control === -1} disabled={inOutage} className={`touch-none border px-3 ${easy ? "py-8 text-xl" : "py-4 text-base"} ${hud.control === -1 ? "border-accent bg-accent text-white" : ""}`}>{easy ? "Sell" : "Hold to sell (discharge)"}</button>
-                  <p className="col-span-2 text-xs text-muted">{inOutage ? "The grid is down: nothing to buy or sell until it is back." : <>{/* session 279: no keys on a phone */}<span className="[@media(pointer:coarse)]:hidden">Hold a button down, or the keys: C or the down arrow to charge, S or the up arrow to sell. Let go to wait.</span><span className="hidden [@media(pointer:coarse)]:inline">Hold a button down; let go to wait.</span></>}</p>
+                  <p className="col-span-2 text-xs text-muted">{inOutage ? <span data-grid-down>{downWords}</span> : <>{/* session 279: no keys on a phone */}<span className="[@media(pointer:coarse)]:hidden">Hold a button down, or the keys: C or the down arrow to charge, S or the up arrow to sell. Let go to wait.</span><span className="hidden [@media(pointer:coarse)]:inline">Hold a button down; let go to wait.</span></>}</p>
                 </div>
               ) : null}
             </>
