@@ -76,7 +76,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
         lead={<>Every company the warehouse names in a public row: EIA&apos;s operators, owners and utilities, ERCOT&apos;s interconnection queue, the NRC&apos;s licensees and the policy actions&apos; agencies.<Tip id="companies-what" label="What the directory is">Built from the tables held and nothing else: no figure is typed in and no model is asked. A company is one EIA utility id where it has one, else one name as the rows write it (docs/methods/companies.md). {heldWords}</Tip></>}
       />
       <div className="grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
-        <aside>
+        <aside className="min-w-0">
           <form method="get" action="/companies">
             <InputPanel title="Choose" reset={{ href: "/companies", defaults: "every listed company, the largest footprint first." }}>
               <label className="mb-3 flex flex-col text-xs text-muted">
@@ -105,7 +105,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
             Download these companies: <a href={csvHref} download data-download="csv">CSV</a>, <a href={readerHref("python")} download data-download="python">Python</a>, <a href={readerHref("stata")} download data-download="stata">Stata</a>.
           </p>
         </aside>
-        <div>
+        <div className="min-w-0">
           <p className="mb-3 text-sm" data-companies-count={kept.length}>
             <strong>{count(kept.length)}</strong> of {count(ix.n_listed)} companies{filtered ? " match" : ""}; page {page} of {pages}.
             <Tip id="companies-held" label="What is not listed">{heldWords}</Tip>

@@ -71,7 +71,7 @@ import requests
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import iso_prices as ip  # noqa: E402
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "policy"))
-import fields as pf  # noqa: E402  session 3056: body, instrument, status, dates, next step, figure, docket ids
+import policy_fields as pf  # noqa: E402  session 3233: its own name, beside the deals tracker's fields  session 3056: body, instrument, status, dates, next step, figure, docket ids
 
 NAME = "policy_actions"
 ROOT = ip.ROOT

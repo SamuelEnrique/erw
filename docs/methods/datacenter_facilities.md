@@ -161,3 +161,55 @@ rows are held (check key `held|entities|datacenter_facilities|rows`, a count of 
 public). The top block's counts and megawatts are then of the public rows only. Session 441 counted 2 such rows on 20
 October, both from ERCOT's queue. The power side and the view by grid (sessions 467 and 468) read the grids' own queues
 and are unchanged.
+
+## The tracker in the v2 shape (chain 156, sessions 2236 and 2243 to 2247)
+
+Written by session 2247 (6 November 2026). Each field of the news facilities is in `docs/methods/datacenter_projects.md` ("The columns of session 2236"); this note adds how they reach this table and the views, keys and tracers of the page. Every rule is a default the chain set, listed in its session's report.
+
+### The fields this table carries
+
+`grid` with `grid_basis` (`named`: a story names the operator; `queue`: the facility's queue position is in that ISO's queue; `state`: the grid that serves most of its state), `mw_basis` (that of the member its MW is from: it, total, tenant, phase or unstated), `power_kind`, `energized_year`, `utility_eia861`, `utility_eia861_number` and `utilities_in_county` (from the news facility), built by `warehouse/derived/datacenter_facilities.py`. A row built before session 2243 has none; the page then reads its grid from its state and says so.
+
+### The views and their keys
+
+- **The list** (`/datacenters`): the filters operator, state, status, source, country, grid, power, MW at least and at most; each cell's tip says how its field was read; the downloads are the rows shown (CSV with the ERW's header lines and no outlet text, a Python and a Stata reader).
+- **The rollups by grid and by operator**: the facilities the page's sums count (a named US state, not cancelled), `datacenters|rollup_facilities|<grid|operator>|<value>`, the MW stated `datacenters|rollup_mw`, those stating it `datacenters|rollup_with_mw` and those stating none `datacenters|rollup_without`; no sum where none states MW.
+- **The timeline**: from first reported to energized, only where both are stated: `dctime|count|<grid|year>|<value>` and, from three facilities, `dctime|median`; the wait is the difference of two stated years, never estimated from one date.
+- **The charts**: `dcchart|planned|<quarter>|<grid>` (and `|without`), `dcchart|operator|<name>|mw`, `dcchart|power|<kind>|facilities` and `|pct`.
+- **By grid** (`/datacenters?view=grids`): beside the queues, the facilities against each grid: `dcgrid|facilities|<grid>`, `dcgrid|with_mw`, `dcgrid|planned`, `dcgrid|under_construction`, `dcgrid|operating`, the grid's `dcgrid|peak_mw` and `dcgrid|capacity_mw` (`grid_peak_vs_capacity`, its peak demand mw and capacity mw), `dcgrid|share_of_peak` (planned and building over the peak hour), and ERCOT's `dcgrid|reserve_margin` (its CDR report). Under the hold the facility cells say "license needed" with a footnote; a grid's reserve margin no source holds says "not held" with a footnote.
+
+### The tracers
+
+`site/scripts/check-values.mjs` recomputes every key above with the page's own functions (`site/lib/dcrollups.ts`) on the live set. `scripts/check_datacenters.py` recomputes every chart figure from `datacenter_facilities.csv` with its own Python and compares it with the page's functions (28 of 28 on 6 November 2026). `warehouse/datacenters/eval/dc_fixture.py` grades the extraction on stored stories (`tests/fixtures/datacenters/`).
+
+### What the tracker cannot see
+
+A facility no source names; a facility's load beyond the MW a source states (most state none: 48 of 428 rows on 6 November 2026); whether a stated MW is IT load or the facility's total, where the words do not say; a facility's point of interconnection; the operating utility where its county is served by several.
+
+### Two companies in one field (session 2261)
+
+A facility's operator or developer is kept only where its name is in the story. Where the model joins two names in the field ("Colt DCS, RMZ" for "Colt DCS and RMZ start work on third facility at Mumbai campus"), the field is kept when each name is in the story; before, the joined string was refused and the facility had no company. A description ("TikTok owner") is still not a name, and a site, a power source or a utility takes no joined names (`tests/test_session2261_deals.py`).
+
+### A facility's country from the words (session 2262)
+
+Where the model gives a facility no country, it is read from the story's own words, the first of these that names exactly one country: a country's name or its capital letters in the site's name ("Stargate Norway", "Stargate UK"); "in <country>" ("AI infrastructure in Japan"); a country before what is built (the deals' rule: "US data center"). An adjective is not a country here, and a facility with a US state takes no other country. The words go to the run's log. On the audit's sample, facilities with a country missed went from 3 to 0, no other facility gaining one (`tests/test_session2262_deals.py`).
+
+### A facility's status from its words, and a pause (session 2263)
+
+Where the model gives a facility no status, it is read from the facility's evidence (or from the cluster's words when the cluster gives one facility), the first of these that the words say: cancelled ("cancel", "scrapped", "withdrawn", "paused indefinitely"), operating ("opened", "came online", "energized"), under_construction ("broke ground", "start work", "on track to go live", "due to be delivered"), permitted ("approved", "rezoned"), applied ("filed", "submitted"), announced ("announces", "unveils", "plans"). A bare "building" is not read as under construction. A cancelled whose words say only that the facility is paused ("Pauses Wyoming Site") is not kept: the vocabulary has no paused, and cancelled is "paused indefinitely". On the audit's sample, status faults went from 3 to 0, no other facility changing (`tests/test_session2263_deals.py`).
+
+### A facility's state from the words (session 2272)
+
+Where the model gives a facility no state, and its story is about one facility in the United States (or names no country), the state is read from the story's words when they name exactly one US state by its full name with a capital ("Hutto, Texas", "Western Kentucky"). Longer names are read first, so "West Virginia" is not also Virginia; "Washington" alone is not read, "Washington state" is. The words go to the run's log. On the audit's sample, facilities with the state missed went from 2 to 0, and the earlier fixture's "Columbus, Georgia" facility gained its state (`tests/test_session2272_deals.py`).
+
+### A facility's power source from the words (session 2273)
+
+Where the model gives a facility no power source and its story is about one facility, the source is read from words that say how the facility itself is powered: a fuel with "-powered" or "-fired" ("Gas-Powered Data Center"), a generator fleet, on-site or behind-the-meter generation, fuel cells, small modular reactors. Its kind follows as for any power source. A company's line of business ("Another Solar Company") is not the facility's power. On the audit's sample, facilities with the power source missed went from 2 to 0, nothing else changing (`tests/test_session2273_deals.py`).
+
+### The market a company enters with a facility (session 2276)
+
+The country of a facility is also read from the market its company enters with it ("Gorilla Technology Group to enter US market with proposed 6MW data center acquisition"), after the site's name and "in <country>", and only where one country is so named. A facility is kept where a place is stated, a country included; this one was refused before for no place (`tests/test_session2276_deals.py`).
+
+### A place and its country (session 2286)
+
+A facility's country is also read from a place and its country ("in Newport, Wales", "in San Mateo, Zaragoza, Spain"), and for facilities England, Scotland, Wales and Northern Ireland are the United Kingdom (`tests/test_session2286_deals.py`).

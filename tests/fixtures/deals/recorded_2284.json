@@ -1,0 +1,79 @@
+{
+ "set": "2284",
+ "model": "claude-sonnet-5-5",
+ "recorded_at": "2026-11-06T14:06:19Z",
+ "extractor_exit": 0,
+ "usd": 0.086815,
+ "calls": [
+  {
+   "request_id": "req_011CgmoW9GFsqYJxX7s9wRzv",
+   "stop_reason": "end_turn",
+   "tokens": {
+    "input": 2698,
+    "output": 1486,
+    "cache_read": 0,
+    "cache_write": 4064,
+    "cache_write_1h": 0,
+    "web_searches": 0
+   },
+   "usd": 0.030416,
+   "text": "{\"results\":[{\"cluster_id\":\"news:c648bea597dd7e88\",\"deals\":[]},{\"cluster_id\":\"news:7eecac282f624045\",\"deals\":[]},{\"cluster_id\":\"news:5eec63b14ab8fbd7\",\"deals\":[]},{\"cluster_id\":\"news:6a9dddfd7872d39c\",\"deals\":[]},{\"cluster_id\":\"news:6777fc080f0d022f\",\"deals\":[]},{\"cluster_id\":\"news:ed0d72744958d578\",\"deals\":[]},{\"cluster_id\":\"news:a80d586f9e0e1bc2\",\"deals\":[{\"deal_type\":\"other\",\"buyer\":\"Venture Global\",\"seller\":\"Worley\",\"other_parties\":[],\"asset\":\"CP2 LNG expansion project\",\"technology\":\"LNG\",\"state\":\"LA\",\"country\":\"\",\"mw\":\"\",\"mw_text\":\"\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"\",\"dollars_text\":\"\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"Louisiana\",\"country_text\":\"\",\"status\":\"signed\",\"status_text\":\"has signed\",\"announced_date\":\"\",\"ai_power\":false,\"confidence\":0.8,\"evidence\":\"Australian engineering firm Worley has signed a reimbursable engineering, procurement, and construction (EPC) contract for Venture Global’s CP2 LNG expansion project in Louisiana.\",\"story_id\":\"news:a80d586f9e0e1bc2\",\"same_as\":\"\",\"kind\":\"other\",\"stage\":\"signed\",\"stage_text\":\"has signed\",\"confidence_basis\":\"Worley has signed a reimbursable engineering, procurement, and construction (EPC) contract\"}]},{\"cluster_id\":\"news:93fb27fee6af30be\",\"deals\":[]},{\"cluster_id\":\"news:b2ded5ec9c2d4451\",\"deals\":[{\"deal_type\":\"fuel_supply\",\"buyer\":\"Jiangsu Guoxin Group\",\"seller\":\"TotalEnergies\",\"other_parties\":[],\"asset\":\"LNG supply\",\"technology\":\"LNG\",\"state\":\"\",\"country\":\"China\",\"mw\":\"\",\"mw_text\":\"\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"\",\"dollars_text\":\"\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"\",\"country_text\":\"China\",\"status\":\"signed\",\"status_text\":\"has signed a heads of agreement\",\"announced_date\":\"\",\"ai_power\":false,\"confidence\":0.8,\"evidence\":\"French energy giant TotalEnergies has signed a heads of agreement with Jiangsu Guoxin Group, a major energy company in China's Jiangsu province, to deliver 900,000 tons of LNG per year.\",\"story_id\":\"news:b2ded5ec9c2d4451\",\"same_as\":\"\",\"kind\":\"fuel_supply\",\"stage\":\"signed\",\"stage_text\":\"has signed a heads of agreement\",\"confidence_basis\":\"TotalEnergies has signed a heads of agreement with Jiangsu Guoxin Group, to deliver 900,000 tons of LNG per year\"}]},{\"cluster_id\":\"news:d7ef6b76db2935c9\",\"deals\":[]},{\"cluster_id\":\"news:d5249325b8bb5568\",\"deals\":[]},{\"cluster_id\":\"news:ba054773bb4b12df\",\"deals\":[{\"deal_type\":\"behind_the_meter\",\"buyer\":\"Google\",\"seller\":\"AEP\",\"other_parties\":[\"Bloom Energy\"],\"asset\":\"702 MW Bloom Energy fuel-cell installation, Cheyenne data centers\",\"technology\":\"fuel cell\",\"state\":\"\",\"country\":\"\",\"mw\":\"702\",\"mw_text\":\"702 MW\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"4000000000\",\"dollars_text\":\"$4 Billion\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"\",\"country_text\":\"\",\"status\":\"announced\",\"status_text\":\"Advance\",\"announced_date\":\"\",\"ai_power\":true,\"confidence\":0.7,\"evidence\":\"AEP, Google Advance $4 Billion Fuel-Cell Project to Power Cheyenne Data Centers\",\"story_id\":\"news:ba054773bb4b12df\",\"same_as\":\"\",\"kind\":\"behind_the_meter\",\"stage\":\"announced\",\"stage_text\":\"planned\",\"confidence_basis\":\"AEP's planned 702 MW Bloom Energy installation\"}]}]}"
+  },
+  {
+   "request_id": "req_011CgmoWk2JKo2uD9D1HkyNx",
+   "stop_reason": "end_turn",
+   "tokens": {
+    "input": 2687,
+    "output": 1487,
+    "cache_read": 4064,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "web_searches": 0
+   },
+   "usd": 0.021057,
+   "text": "{\"results\":[{\"cluster_id\":\"news:9ec39d62205155da\",\"deals\":[]},{\"cluster_id\":\"news:db66bc0ea49dfb2b\",\"deals\":[]},{\"cluster_id\":\"news:6ddc52871c00252c\",\"deals\":[]},{\"cluster_id\":\"news:bd169a9db6008885\",\"deals\":[]},{\"cluster_id\":\"news:aa6e869a98cc0d34\",\"deals\":[]},{\"cluster_id\":\"news:302b6b98f7d86572\",\"deals\":[]},{\"cluster_id\":\"news:f7ae8b998f1b559e\",\"deals\":[]},{\"cluster_id\":\"news:5a636e80d859ca1d\",\"deals\":[{\"deal_type\":\"other\",\"buyer\":\"Eneva\",\"seller\":\"Vports\",\"other_parties\":[],\"asset\":\"usage rights for areas for new LNG terminal and thermal power plants\",\"technology\":\"LNG\",\"state\":\"\",\"country\":\"\",\"mw\":\"\",\"mw_text\":\"\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"\",\"dollars_text\":\"\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"\",\"country_text\":\"\",\"status\":\"signed\",\"status_text\":\"has signed a deal\",\"announced_date\":\"\",\"ai_power\":false,\"confidence\":0.75,\"evidence\":\"Brazilian energy firm Eneva has signed a deal with port authority Vports to secure usage rights for areas for the development of a new liquefied natural gas (LNG) terminal and thermal power plants in Espirito Santo state.\",\"story_id\":\"news:5a636e80d859ca1d\",\"same_as\":\"\",\"kind\":\"gas_buildout\",\"stage\":\"signed\",\"stage_text\":\"has signed a deal\",\"confidence_basis\":\"Eneva has signed a deal with port authority Vports\"}]},{\"cluster_id\":\"news:91a04ecbce487d00\",\"deals\":[]},{\"cluster_id\":\"news:45e9aea1ffe912fa\",\"deals\":[{\"deal_type\":\"other\",\"buyer\":\"Delfin Midstream\",\"seller\":\"Wartsila\",\"other_parties\":[],\"asset\":\"engines and thrusters for first 4.4 mtpa FLNG unit\",\"technology\":\"LNG\",\"state\":\"\",\"country\":\"\",\"mw\":\"\",\"mw_text\":\"\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"\",\"dollars_text\":\"\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"\",\"country_text\":\"\",\"status\":\"signed\",\"status_text\":\"has secured an order\",\"announced_date\":\"\",\"ai_power\":false,\"confidence\":0.8,\"evidence\":\"Finnish tech firm Wartsila has secured an order to supply the engines and thrusters for Delfin Midstream’s first 4.4 mtpa floating liquefied natural gas (FLNG) unit, which will be installed offshore Louisiana.\",\"story_id\":\"news:45e9aea1ffe912fa\",\"same_as\":\"\",\"kind\":\"other\",\"stage\":\"signed\",\"stage_text\":\"has secured an order\",\"confidence_basis\":\"Wartsila has secured an order to supply the engines and thrusters\"}]},{\"cluster_id\":\"news:9c1262f126ebdd57\",\"deals\":[]},{\"cluster_id\":\"news:3af4759d52cee4b1\",\"deals\":[{\"deal_type\":\"project_finance\",\"buyer\":\"Deutsche Bank\",\"seller\":\"Return\",\"other_parties\":[\"Rabobank\"],\"asset\":\"Germany BESS portfolio\",\"technology\":\"storage\",\"state\":\"\",\"country\":\"Germany\",\"mw\":\"\",\"mw_text\":\"\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"\",\"dollars_text\":\"\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"\",\"country_text\":\"Germany\",\"status\":\"signed\",\"status_text\":\"has secured\",\"announced_date\":\"\",\"ai_power\":false,\"confidence\":0.85,\"evidence\":\"BESS owner-operator Return has secured an €835 million (US$938 million) portfolio financing underwritten by Deutsche Bank and Rabobank to expand its BESS activities in Germany.\",\"story_id\":\"news:3af4759d52cee4b1\",\"same_as\":\"\",\"kind\":\"storage\",\"stage\":\"financed\",\"stage_text\":\"has secured an €835 million\",\"confidence_basis\":\"Return has secured an €835 million (US$938 million) portfolio financing underwritten by Deutsche Bank and Rabobank\"}]}]}"
+  },
+  {
+   "request_id": "req_011CgmoXLbvZL1mfzZ4qLzn1",
+   "stop_reason": "end_turn",
+   "tokens": {
+    "input": 2802,
+    "output": 732,
+    "cache_read": 4064,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "web_searches": 0
+   },
+   "usd": 0.013737,
+   "text": "{\"results\":[{\"cluster_id\":\"news:ac5b3495e41838fd\",\"deals\":[]},{\"cluster_id\":\"news:320c5cdf6d1682fb\",\"deals\":[]},{\"cluster_id\":\"news:c4e2034c914a5507\",\"deals\":[]},{\"cluster_id\":\"news:5a43ec4ff8855258\",\"deals\":[]},{\"cluster_id\":\"news:b90a891c179fca77\",\"deals\":[{\"deal_type\":\"m_and_a\",\"buyer\":\"Belgian state\",\"seller\":\"Engie\",\"other_parties\":[\"Electrabel\"],\"asset\":\"Belgium's seven nuclear power reactors\",\"technology\":\"nuclear\",\"state\":\"\",\"country\":\"Belgium\",\"mw\":\"\",\"mw_text\":\"\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"\",\"dollars_text\":\"\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"\",\"country_text\":\"Belgian\",\"status\":\"rumored\",\"status_text\":\"potential acquisition\",\"announced_date\":\"\",\"ai_power\":false,\"confidence\":0.7,\"evidence\":\"The Belgian state, Engie and Electrabel have agreed to postpone to 12 December the target date for the conclusion of the heads of terms for the potential acquisition of Belgium's seven nuclear power reactors by the state.\",\"story_id\":\"news:b90a891c179fca77\",\"same_as\":\"\",\"kind\":\"m_and_a\",\"stage\":\"rumored\",\"stage_text\":\"potential acquisition\",\"confidence_basis\":\"heads of terms for the potential acquisition of Belgium's seven nuclear power reactors by the state\"}]},{\"cluster_id\":\"news:721aa61135b123e7\",\"deals\":[]},{\"cluster_id\":\"news:63afb806f189d08a\",\"deals\":[]},{\"cluster_id\":\"news:192645433fb51f55\",\"deals\":[]},{\"cluster_id\":\"news:d34d50c2c5569778\",\"deals\":[]},{\"cluster_id\":\"news:561dd3944ca2aae4\",\"deals\":[]},{\"cluster_id\":\"news:f919785688381860\",\"deals\":[]},{\"cluster_id\":\"news:7943b96039bab020\",\"deals\":[]}]}"
+  },
+  {
+   "request_id": "req_011CgmoXiKdGjArt6ikfycs2",
+   "stop_reason": "end_turn",
+   "tokens": {
+    "input": 3319,
+    "output": 1051,
+    "cache_read": 4064,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "web_searches": 0
+   },
+   "usd": 0.017961,
+   "text": "{\"results\":[{\"cluster_id\":\"news:d0151de00f0a24f0\",\"deals\":[]},{\"cluster_id\":\"news:355d43d616517f51\",\"deals\":[]},{\"cluster_id\":\"news:15d0fffa33ade37b\",\"deals\":[]},{\"cluster_id\":\"news:ebb427d6f6630ec2\",\"deals\":[{\"deal_type\":\"fuel_supply\",\"buyer\":\"Entergy\",\"seller\":\"\",\"other_parties\":[],\"asset\":\"firm pipeline contracts for natural gas to support 10 new combined-cycle power plants\",\"technology\":\"gas\",\"state\":\"LA\",\"country\":\"\",\"mw\":\"\",\"mw_text\":\"\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"\",\"dollars_text\":\"\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"Louisiana\",\"country_text\":\"\",\"status\":\"signed\",\"status_text\":\"inked\",\"announced_date\":\"\",\"ai_power\":false,\"confidence\":0.7,\"evidence\":\"The New Orleans-based company separately inked firm pipeline contracts for enough natural gas to support 10 new combined-cycle power plants in Louisiana, CEO Drew Marsh said Monday.\",\"story_id\":\"news:ebb427d6f6630ec2\",\"same_as\":\"\",\"kind\":\"fuel_supply\",\"stage\":\"signed\",\"stage_text\":\"inked\",\"confidence_basis\":\"inked firm pipeline contracts for enough natural gas to support 10 new combined-cycle power plants in Louisiana\"}]},{\"cluster_id\":\"news:1b07d8963d2c62bc\",\"deals\":[{\"deal_type\":\"fuel_supply\",\"buyer\":\"Qatar\",\"seller\":\"\",\"other_parties\":[],\"asset\":\"US LNG\",\"technology\":\"LNG\",\"state\":\"\",\"country\":\"United States\",\"mw\":\"\",\"mw_text\":\"\",\"mwh\":\"\",\"mwh_text\":\"\",\"dollars\":\"\",\"dollars_text\":\"\",\"price_value\":\"\",\"price_unit\":\"\",\"price_text\":\"\",\"term_years\":\"\",\"term_text\":\"\",\"state_text\":\"\",\"country_text\":\"US\",\"status\":\"rumored\",\"status_text\":\"in Talks\",\"announced_date\":\"\",\"ai_power\":false,\"confidence\":0.5,\"evidence\":\"Qatar in Talks to Buy More US LNG, Diversify Supply Outside Persian Gulf\",\"story_id\":\"news:1b07d8963d2c62bc\",\"same_as\":\"\",\"kind\":\"fuel_supply\",\"stage\":\"rumored\",\"stage_text\":\"in Talks\",\"confidence_basis\":\"Qatar in Talks to Buy More US LNG\"}]},{\"cluster_id\":\"news:75eb16fdbd549abf\",\"deals\":[]},{\"cluster_id\":\"news:1ae4d337b672a166\",\"deals\":[]},{\"cluster_id\":\"news:af869e95478491f0\",\"deals\":[]},{\"cluster_id\":\"news:7b24a2043b9c7a24\",\"deals\":[]},{\"cluster_id\":\"news:6924c3ef99d85016\",\"deals\":[]},{\"cluster_id\":\"news:e248121889ecf5cf\",\"deals\":[]},{\"cluster_id\":\"news:971bec07987d7723\",\"deals\":[]}]}"
+  },
+  {
+   "request_id": "req_011CgmoYAGbLfG7SpAArypHp",
+   "stop_reason": "end_turn",
+   "tokens": {
+    "input": 1076,
+    "output": 68,
+    "cache_read": 4064,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "web_searches": 0
+   },
+   "usd": 0.003645,
+   "text": "{\"results\":[{\"cluster_id\":\"news:9808f49b2fe376bf\",\"deals\":[]},{\"cluster_id\":\"news:3d512552ea1bf5f2\",\"deals\":[]}]}"
+  }
+ ]
+}

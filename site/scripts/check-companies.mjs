@@ -91,7 +91,10 @@ for (const id of picks) {
   check(r.status === 200, `/companies/${id} answers 200 (${r.status})`);
   const ms = marks(r.html);
   const good = readCompanyMarks(ms, c);
-  check(good === ms.length && ms.length > 0, `/companies/${id}: ${good} of ${ms.length} figures equal the file`);
+  // a company with no figure (a small utility with EIA-861 rows alone: no MW, no count) carries no keyed figure
+  const hasFigure = ["plants_mw", "planned_mw", "owned_mw", "queue_mw", "n_reactors", "n_policy_actions"].some((k) => c.figures[k] > 0)
+    || c.links.some((l) => l[6] !== "" || l[7] !== "");
+  check(good === ms.length && (ms.length > 0) === hasFigure, `/companies/${id}: ${good} of ${ms.length} figures equal the file${hasFigure ? "" : " (it has none)"}`);
   for (const t of ix.held_tables) {
     check(!r.html.includes(`data-rows-table="${t}"`), `/companies/${id}: no row of the held ${t}`);
     if (c.held[t]) check(r.html.includes(`data-held-table="${t}"`), `/companies/${id}: the held ${t} is counted (${c.held[t]})`);

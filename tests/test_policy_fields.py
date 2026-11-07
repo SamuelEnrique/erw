@@ -14,7 +14,7 @@ import unittest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "policy"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
-import fields as F  # noqa: E402
+import policy_fields as F  # noqa: E402  session 3233: its own name, beside the deals tracker's fields
 
 FIX = os.path.join(ROOT, "tests", "fixtures", "policy")
 

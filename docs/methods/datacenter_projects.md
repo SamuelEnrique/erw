@@ -44,6 +44,20 @@ The whole table is rewritten each run from the facilities already extracted and 
 
 Public: the model's checked fields and the story links only, no outlet text. The evidence sentences, which are outlet text, are in the internal `datacenter_projects_evidence`. `datacenter_facilities`, which joins this table with the operators' lists and the queues, is held whole for its own reasons (its note).
 
+## The columns of session 2236 (chain 156)
+
+Added beside the old, each kept only as the stories state it (`warehouse/datacenters/facility_fields.py`; the audit `docs/reviews/deals-audit-2026-11-06.md`, rows A11 to A15):
+
+- **`mw_basis`**: what a stated MW measures: `it` (IT or critical load), `total` (the facility's power or grid capacity), `tenant` (one tenant's share: "Nebius signs on for 50MW at Neom's Oxagon data center"), `phase` (a phase or a building: "first 222MW data center"), `unstated`; empty without MW. The model gives it with the words that say it; without such words it is `unstated`.
+- **`power_kind`**: from `power_source`: `behind_the_meter_gas` (gas turbines or a generator fleet on the site), `nuclear`, `renewables_storage`, `gas`, `behind_the_meter` (off the grid or on the site, no fuel stated), `grid` (a utility, a grid supply, a power deal), `other`; empty when no source is stated.
+- **`grid`** with **`grid_basis`**: a US grid operator the stories name (`named`), else the grid that serves most of the facility's state (`state`, the site's own reading, `site/lib/deals2.ts`); empty for a state split between grids or no state.
+- **`utility_eia861`** and **`utility_eia861_number`**: where the stories state a county and exactly one EIA-861 utility serves it (`utility_service_territories`, EIA-861 2025); **`utilities_in_county`** counts those that serve it, so a county served by several says how many, and names none. The stated `utility` is kept as it was.
+- **`energized_year`**: the year the facility or its first phase is to be energized or come online, as stated ("on track to go live in mid-2026"); a year of another event (a power deal that "will commence in 2028") is not it.
+- **`country`**: as stated, with its span ("Spain", "Saudi Arabia"); the US as "United States".
+- **`fields_version`**: 2236, or `upgraded` for a row extracted before (its `power_kind`, `grid` and utility read from its own values; its `mw_basis` `unstated` where it states MW).
+
+Three rules changed what a row is: **a facility needs a stated place** (a site, a city, a county, a state or a country: "proposed 6MW data center acquisition" with no place is not a row); **two places are two facilities** (a story that joins another of the same operator in another state or country is kept apart: xAI's Tennessee turbines and its Mississippi data center, AWS's Mexico region and its UAE data center); **a description is not an operator** ("TikTok owner"). The rollups by grid, state and operator are `datacenter_tracker_rollups` (`docs/methods/datacenter_tracker_rollups.md`).
+
 ## What it does not hold
 
 - Facilities no scored story names; the outlets' text; any value a story does not state in words the checks find.
