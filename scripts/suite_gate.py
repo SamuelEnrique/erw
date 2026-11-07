@@ -117,13 +117,15 @@ def details(lines):
 
 def report(code, lines, summary=None, names=None, label=""):
     """Print the failing tests and the verdict; append them to a step summary. The exit code: 0 or 1."""
-    bad = failing(lines)
     ran, ok = verdict(lines)
+    # unittest's own verdict decides. A test may print a line that reads like unittest's "FAIL: ..." (a test of this
+    # script does, from the small suite it runs), so names are read only when the suite did not pass
+    passed = code == 0 and ok == "OK"
+    bad = [] if passed else failing(lines)
     if bad:
         print("\n".join(details(lines)))
     for kind, name in bad:
         print(f"{kind} {name}")
-    passed = code == 0 and ok == "OK" and not bad
     if passed:
         line = f"the suite passed{label}: {ran} tests"
     elif ran is None:
