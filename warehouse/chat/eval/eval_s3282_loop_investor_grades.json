@@ -1,0 +1,82 @@
+{
+ "_about": "eval_s3282_loop_investor_run.json graded on questions_investor.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "investor",
+ "asked": 3,
+ "right": 2,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence"
+ ],
+ "cost_usd": 0.5689,
+ "questions": [
+  {
+   "id": "iv13",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.24150529999999998,
+   "seconds": 60.3,
+   "expected": [
+    48.7
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 12
+  },
+  {
+   "id": "iv14",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.16038390000000002,
+   "seconds": 25.0,
+   "expected": [
+    95.0
+   ],
+   "ok": false,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": false,
+    "cited": true,
+    "refusal": false,
+    "ok": false
+   },
+   "trace_calls": 12
+  },
+  {
+   "id": "iv15",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.166969,
+   "seconds": 22.8,
+   "expected": [
+    69.1
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 8
+  }
+ ]
+}

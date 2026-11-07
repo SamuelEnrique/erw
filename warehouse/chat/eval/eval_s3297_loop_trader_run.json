@@ -1,0 +1,1360 @@
+{
+ "_about": "Session 3297 (chain 152, trader): the questions asked through the Python loop (warehouse/chat/ask.py Asker; a grid question through the grid's scoped chat), the hold on as the site's (ASK_HOLD=on), the Supabase live set as the backend, every tool call recorded (trace), by eval_loop.py under the ledger step chat_eval.",
+ "base": "python loop",
+ "questions": [
+  {
+   "id": "tr15",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "How many 15-minute real-time intervals at ERCOT's West hub (HB_WEST) settled above 100 USD per MWh in the week of Monday 26 October to Sunday 1 November 2026 (Central time)?",
+   "asked_at_utc": "2026-11-06T20:55:04Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "23 fifteen-minute real-time intervals at HB_WEST settled above 100 USD/MWh (variable spp_rtm, iso_rtm_hub_prices, source table). The window is Monday 26 October to Sunday 1 November 2026 in Central time (America/Chicago). It covers all 676 fifteen-minute intervals of the week, which is 4 more than usual because the clocks changed on 1 November. By Central operating day, 2 of the 23 fell on 26 October and 21 on 31 October (iso_rtm_hub_prices). The week's highest interval was 209.55 USD/MWh, starting 2026-11-01T02:45Z (iso_rtm_hub_prices).",
+   "why": null,
+   "citations": [
+    {
+     "table": "iso_rtm_hub_prices",
+     "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+     "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T22:48:17Z",
+     "tier": "source"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 9,
+   "retried": false,
+   "cost_usd": 0.22725120000000001,
+   "seconds": 48.1,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": [
+    {
+     "table": "iso_rtm_hub_prices",
+     "entity": "ercot:HB_WEST",
+     "variable": "spp_rtm",
+     "start": "2026-10-26",
+     "end": "2026-11-02",
+     "aggregation": "count",
+     "tz": "America/Chicago"
+    },
+    {
+     "table": "iso_rtm_hub_prices",
+     "entity": "ercot:HB_WEST",
+     "variable": "spp_rtm",
+     "start": "2026-10-26",
+     "end": "2026-11-02",
+     "aggregation": "max",
+     "tz": "America/Chicago"
+    },
+    {
+     "table": "iso_rtm_hub_prices",
+     "entity": "ercot:HB_WEST",
+     "variable": "spp_rtm",
+     "start": "2026-10-26",
+     "end": "2026-11-02",
+     "aggregation": "max",
+     "group_by": "day",
+     "tz": "America/Chicago"
+    },
+    {
+     "table": "iso_rtm_hub_prices",
+     "entity": "ercot:HB_WEST",
+     "variable": "spp_rtm",
+     "start": "2026-10-26",
+     "end": "2026-11-02",
+     "aggregation": "count",
+     "group_by": "day",
+     "tz": "America/Chicago"
+    }
+   ],
+   "nearest": null,
+   "trace": [
+    {
+     "tool": "list_tables",
+     "input": {},
+     "out": {
+      "n_tables": 55,
+      "tables": [
+       {
+        "table": "ai_power_regions",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "",
+        "first": "2018-07-01T00:00:00Z",
+        "last": "2026-09-30T00:00:00Z",
+        "rows": 187,
+        "source_report": "erw:ai_power_regions",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ba_supply_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "P1M",
+        "first": "2019-01-01T00:00:00Z",
+        "last": "2026-09-01T00:00:00Z",
+        "rows": 158503,
+        "source_report": "erw:ba_supply",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "battery_stack_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT",
+        "interval": "P1M",
+        "first": "2018-01-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 11556,
+        "source_report": "erw:battery_stack",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "battery_stack_stress_daily",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT",
+        "interval": "P1D",
+        "first": "2021-02-07T00:00:00Z",
+        "last": "2026-10-08T00:00:00Z",
+        "rows": 1890,
+        "source_report": "erw:battery_stack",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "carbon_intensity_daily",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "P1D",
+        "first": "2018-07-02T00:00:00Z",
+        "last": "2026-11-02T00:00:00Z",
+        "rows": 47171,
+        "source_report": "erw:carbon_intensity;erw:carbon_intensity_caiso",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "carbon_intensity_hourly",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "PT1H",
+        "first": "2018-07-02T00:00:00Z",
+        "last": "2026-11-02T23:00:00Z",
+        "rows": 1132545,
+        "source_report": "erw:carbon_intensity;erw:carbon_intensity_caiso",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "carbon_intensity_monthly",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "P1M",
+        "first": "2018-08-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 1285,
+        "source_report": "erw:carbon_intensity;erw:carbon_intensity_caiso",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "clean_energy_summary",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "clean",
+        "interval": "P1M;P1Y",
+        "first": "2019-01-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 27834,
+        "source_report": "erw:clean_energy",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "cost_of_power_carbon",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1M",
+        "first": "2018-07-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 712,
+        "source_report": "erw:cost_of_power",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "cost_of_power_hourly_profile",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1M",
+        "first": "2025-10-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 4368,
+        "source_report": "erw:cost_of_power",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "cost_of_power_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1M",
+        "first": "2018-07-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 2304,
+        "source_report": "erw:cost_of_power",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "eia930_all_demand",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "PT1H",
+        "first": "2026-08-26T00:00:00Z",
+        "last": "2026-11-04T23:00:00Z",
+        "rows": 26208,
+        "source_report": "eia:electricity/rto/region-data",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "eia930_all_emissions",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "PT1H",
+        "first": "2018-07-02T00:00:00Z",
+        "last": "2026-11-02T23:00:00Z",
+        "rows": 4367376,
+        "source_report": "eia:gridmonitor/knownissues/xls",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "eia930_all_generation",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "PT1H",
+        "first": "2026-08-26T00:00:00Z",
+        "last": "2026-11-04T23:00:00Z",
+        "rows": 141000,
+        "source_report": "eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "eia930_all_storage",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT;ISO-NE;MISO;SPP;US48",
+        "interval": "PT1H",
+        "first": "2024-11-01T00:00:00Z",
+        "last": "2026-11-04T23:00:00Z",
+        "rows": 74784,
+        "source_report": "eia:electricity/rto/fuel-type-data",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "energy_projects",
+        "sector": "power",
+        "license": "public",
+        "iso": "none",
+        "interval": "snapshot",
+        "first": "2026-11-05T23:21:27Z",
+        "last": "2026-11-05T23:22:50Z",
+        "rows": 39917,
+        "source_report": "erw:energy_projects",
+        "derived": "no",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_4cp_intervals",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "PT15M",
+        "first": "2018-06-27T21:45:00Z",
+        "last": "2025-09-04T22:15:00Z",
+        "rows": 28,
+        "source_report": "ercot:NP9-83-M",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_as_prices",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "PT1H",
+        "first": "2018-01-01T06:00:00Z",
+        "last": "2026-10-31T04:00:00Z",
+        "rows": 339332,
+        "source_report": "ercot:NP4-181-ER;ercot:NP4-188-CD",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_as_prices_daily",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1D",
+        "first": "2018-01-01T00:00:00Z",
+        "last": "2026-10-30T00:00:00Z",
+        "rows": 70695,
+        "source_report": "erw:ercot_as_prices_rollup",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_as_prices_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2018-01-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 2325,
+        "source_report": "erw:ercot_as_prices_rollup",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_grid_notices",
+        "sector": "power",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2011-02-02T00:00:00Z",
+        "last": "2026-10-15T00:00:00Z",
+        "rows": 178,
+        "source_report": "2 outlets",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_hub_prices_daily",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1D",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z",
+        "rows": 347814,
+        "source_report": "erw:ercot_hub_prices_daily",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_interconnection_queue",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "snapshot",
+        "first": "2026-11-05T23:21:53Z",
+        "last": "2026-11-05T23:21:53Z",
+        "rows": 1736,
+        "source_report": "ercot:interconnection_queue",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_large_load_status",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2025-05-28T00:00:00Z",
+        "last": "2026-06-19T00:00:00Z",
+        "rows": 38,
+        "source_report": "ercot:large_load_status_update",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_peak_premium_annual",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1Y",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 2016,
+        "source_report": "erw:ercot_peak_premium",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_peak_premium_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 23856,
+        "source_report": "erw:ercot_peak_premium",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_rtm_price_adders",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "PT1H",
+        "first": "2014-06-01T06:00:00Z",
+        "last": "2026-11-01T03:00:00Z",
+        "rows": 602482,
+        "source_report": "ercot:NP6-792-ER",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "ercot_storage_dam_awards_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2025-12-01T00:00:00Z",
+        "last": "2026-08-01T00:00:00Z",
+        "rows": 252,
+        "source_report": "erw:ercot_storage_dam_awards",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_storage_dam_offers_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2025-12-01T00:00:00Z",
+        "last": "2026-08-01T00:00:00Z",
+        "rows": 819,
+        "source_report": "erw:ercot_storage_dam_offers",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_storage_node_basis",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1W",
+        "first": "2026-09-28T00:00:00Z",
+        "last": "2026-09-28T00:00:00Z",
+        "rows": 2064,
+        "source_report": "erw:ercot_storage_realtime",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_storage_rt_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2026-02-01T00:00:00Z",
+        "last": "2026-08-01T00:00:00Z",
+        "rows": 329,
+        "source_report": "erw:ercot_storage_realtime",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "ercot_wind_solar_hsl_daily",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1D",
+        "first": "2026-09-19T00:00:00Z",
+        "last": "2026-11-04T00:00:00Z",
+        "rows": 258,
+        "source_report": "ercot:np4_732_745",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "event_window_daily",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+        "interval": "P1D;P1W",
+        "first": "2018-03-04T00:00:00Z",
+        "last": "2026-02-02T00:00:00Z",
+        "rows": 29953,
+        "source_report": "erw:event_window",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "generation_mix_hourly_profile",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "generation",
+        "interval": "P1M",
+        "first": "2019-01-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 164724,
+        "source_report": "erw:generation_mix_hourly;erw:generation_mix_hourly_caiso",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "generation_mix_records",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "generation",
+        "interval": "PT1H",
+        "first": "2019-01-14T05:00:00Z",
+        "last": "2026-10-31T06:00:00Z",
+        "rows": 306,
+        "source_report": "erw:generation_mix_hourly;erw:generation_mix_hourly_caiso",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "grid_stress_days",
+        "sector": "power",
+        "license": "public",
+        "iso": "grid",
+        "interval": "P1D",
+        "first": "2015-07-30T00:00:00Z",
+        "last": "2026-10-08T00:00:00Z",
+        "rows": 282,
+        "source_report": "caiso:PRC_INTVL_LMP;erw:ercot_hub_prices_daily;isone:rt_lmp_5min;miso:rt_lmp_final;nyiso:realtime;spp:RTBM-LMP-SL",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "grid_stress_yearly",
+        "sector": "power",
+        "license": "public",
+        "iso": "grid",
+        "interval": "P1Y",
+        "first": "2019-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 2394,
+        "source_report": "erw:grid_stress",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "hub_price_comparison",
+        "sector": "power, carbon",
+        "license": "public",
+        "iso": "hub",
+        "interval": "P1M;P1Y",
+        "first": "2025-10-01T00:00:00Z",
+        "last": "2026-09-01T00:00:00Z",
+        "rows": 575,
+        "source_report": "erw:hub_price_comparison",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "iso_dam_hub_prices",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;MISO;SPP",
+        "interval": "PT1H",
+        "first": "2026-08-26T05:00:00Z",
+        "last": "2026-11-07T07:00:00Z",
+        "rows": 26723,
+        "source_report": "caiso:PRC_LMP;ercot:NP4-190-CD;miso:da_expost_lmp;spp:DA-LMP-SL",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "iso_queue_statistics",
+        "sector": "power",
+        "license": "public",
+        "iso": "iso",
+        "interval": "P1Y",
+        "first": "1989-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 1511,
+        "source_report": "erw:iso_queue_statistics",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "iso_rt_top_intervals",
+        "sector": "power",
+        "license": "public",
+        "iso": "iso",
+        "interval": "PT15M;PT1H",
+        "first": "2026-09-28T22:00:00Z",
+        "last": "2026-11-04T01:15:00Z",
+        "rows": 50,
+        "source_report": "erw:trader_view",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "iso_rtm_hub_prices",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;MISO;SPP",
+        "interval": "PT15M;PT1H",
+        "first": "2026-08-26T05:00:00Z",
+        "last": "2026-11-05T07:45:00Z",
+        "rows": 73380,
+        "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "iso_trader_daily",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1D",
+        "first": "2026-08-26T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z",
+        "rows": 20100,
+        "source_report": "erw:trader_view",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "merchant_revenue_monthly",
+        "sector": "power, gas",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1M",
+        "first": "2018-06-01T00:00:00Z",
+        "last": "2026-10-01T00:00:00Z",
+        "rows": 8853,
+        "source_report": "erw:merchant_revenue",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "node_basis_summary",
+        "sector": "power",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2025-10-01T00:00:00Z",
+        "last": "2026-11-01T00:00:00Z",
+        "rows": 1344,
+        "source_report": "erw:node_basis",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "price_board_latest",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1D;PT15M;PT1H",
+        "first": "2026-09-03T00:00:00Z",
+        "last": "2026-11-07T07:00:00Z",
+        "rows": 3250,
+        "source_report": "erw:price_board",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "price_board_peak_offpeak",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1D;P1Y",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z",
+        "rows": 4572,
+        "source_report": "erw:price_board",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "price_board_spreads",
+        "sector": "power, gas, oil",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+        "interval": "P1D",
+        "first": "2025-09-29T00:00:00Z",
+        "last": "2026-11-06T00:00:00Z",
+        "rows": 2697,
+        "source_report": "erw:price_board",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "price_years_by_window",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;SPP",
+        "interval": "P105M;P12M;P141M;P25M;P36M;P38M;P39M;P4M;P5M;P6M;P84M;P93M;P9M",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 2754,
+        "source_report": "erw:price_years",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "scarcity_hours_by_grid",
+        "sector": "power",
+        "license": "public",
+        "iso": "scarcity",
+        "interval": "PT1H",
+        "first": "2023-11-01T06:00:00Z",
+        "last": "2026-10-31T06:00:00Z",
+        "rows": 201579,
+        "source_report": "erw:scarcity_hours_by_grid",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "shoulder_hours_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT",
+        "interval": "P1D;P1M;P1Y",
+        "first": "2019-01-01T00:00:00Z",
+        "last": "2026-10-17T00:00:00Z",
+        "rows": 27489,
+        "source_report": "erw:shoulder_hours",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "storage_buildout_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "P1M",
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2026-09-01T00:00:00Z",
+        "rows": 21382,
+        "source_report": "erw:storage_buildout",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "storage_capacity",
+        "sector": "power",
+        "license": "public",
+        "iso": "none",
+        "interval": "snapshot",
+        "first": "2026-11-05T23:26:37Z",
+        "last": "2026-11-05T23:26:37Z",
+        "rows": 1648,
+        "source_report": "erw:storage_capacity",
+        "derived": "no",
+        "tier": "derived"
+       },
+       {
+        "table": "storage_daily_cycle",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;SPP;US48",
+        "interval": "P1D",
+        "first": "2024-11-01T00:00:00Z",
+        "last": "2026-11-04T00:00:00Z",
+        "rows": 14836,
+        "source_report": "erw:storage_daily_cycle;erw:storage_daily_cycle_caiso",
+        "derived": "yes",
+        "tier": "derived"
+       },
+       {
+        "table": "storage_owners_monthly",
+        "sector": "power",
+        "license": "public",
+        "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP",
+        "interval": "P1M",
+        "first": "2026-08-01T00:00:00Z",
+        "last": "2026-09-01T00:00:00Z",
+        "rows": 19180,
+        "source_report": "erw:storage_owners",
+        "derived": "yes",
+        "tier": "derived"
+       }
+      ],
+      "backend": "supabase",
+      "note": "Only public tables may be shown publicly; internal tables are licensed for internal use only. first and last are interval starts, UTC."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "iso_rtm_hub_prices",
+      "aggregation": "count",
+      "entity": "ercot:HB_WEST",
+      "variable": "spp_rtm",
+      "start": "2026-10-26",
+      "end": "2026-11-02",
+      "tz": "America/Chicago",
+      "threshold": {
+       "above": 100
+      }
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {
+       "entity": "ercot:HB_WEST",
+       "variable": "spp_rtm",
+       "start": "2026-10-26",
+       "end": "2026-11-02",
+       "threshold": {
+        "above": 100
+       },
+       "tz": "America/Chicago"
+      },
+      "rows_matched": 23,
+      "threshold": {
+       "column": "value",
+       "above": 100.0,
+       "rows_in_window": 676,
+       "rows_kept": 23,
+       "note": "rows_kept of rows_in_window have a value strictly past the threshold; the aggregation is over those rows"
+      },
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "spp_rtm"
+      ],
+      "time_span": {
+       "first": "2026-10-27T02:45:00Z",
+       "last": "2026-11-01T04:15:00Z"
+      },
+      "result": [
+       {
+        "count": 23
+       }
+      ],
+      "table": "iso_rtm_hub_prices",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T22:48:17Z",
+      "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+      "license": "public",
+      "tier": "source",
+      "citation": "California Independent System Operator (CAISO); Electric Reliability Council of Texas (ERCOT); Midcontinent Independent System Operator (MISO); Southwest Power Pool (SPP). Historical RTM Load Zone and Hub Prices; OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute); RTBM LMP by Settlement Location, 5-minute; Real-Time Final Market LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Real-Time Preliminary Ex-Post LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the Energy Research Warehouse (ERW), table `iso_rtm_hub_prices`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "iso_rtm_hub_prices",
+      "aggregation": "max",
+      "entity": "ercot:HB_WEST",
+      "variable": "spp_rtm",
+      "start": "2026-10-26",
+      "end": "2026-11-02",
+      "tz": "America/Chicago"
+     },
+     "out": {
+      "aggregation": "max",
+      "value_column": "value",
+      "filters": {
+       "entity": "ercot:HB_WEST",
+       "variable": "spp_rtm",
+       "start": "2026-10-26",
+       "end": "2026-11-02",
+       "tz": "America/Chicago"
+      },
+      "rows_matched": 676,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "spp_rtm"
+      ],
+      "time_span": {
+       "first": "2026-10-26T05:00:00Z",
+       "last": "2026-11-02T05:45:00Z"
+      },
+      "result": [
+       {
+        "value": 209.55,
+        "n": 676,
+        "at": "2026-11-01T02:45:00Z",
+        "entity": "ercot:HB_WEST"
+       }
+      ],
+      "table": "iso_rtm_hub_prices",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T22:48:17Z",
+      "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+      "license": "public",
+      "tier": "source",
+      "citation": "California Independent System Operator (CAISO); Electric Reliability Council of Texas (ERCOT); Midcontinent Independent System Operator (MISO); Southwest Power Pool (SPP). Historical RTM Load Zone and Hub Prices; OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute); RTBM LMP by Settlement Location, 5-minute; Real-Time Final Market LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Real-Time Preliminary Ex-Post LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the Energy Research Warehouse (ERW), table `iso_rtm_hub_prices`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "iso_rtm_hub_prices",
+      "aggregation": "count",
+      "entity": "ercot:HB_WEST",
+      "variable": "spp_rtm",
+      "start": "2026-10-26",
+      "end": "2026-11-02",
+      "tz": "America/Chicago"
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {
+       "entity": "ercot:HB_WEST",
+       "variable": "spp_rtm",
+       "start": "2026-10-26",
+       "end": "2026-11-02",
+       "tz": "America/Chicago"
+      },
+      "rows_matched": 676,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "spp_rtm"
+      ],
+      "time_span": {
+       "first": "2026-10-26T05:00:00Z",
+       "last": "2026-11-02T05:45:00Z"
+      },
+      "result": [
+       {
+        "count": 676
+       }
+      ],
+      "table": "iso_rtm_hub_prices",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T22:48:17Z",
+      "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+      "license": "public",
+      "tier": "source",
+      "citation": "California Independent System Operator (CAISO); Electric Reliability Council of Texas (ERCOT); Midcontinent Independent System Operator (MISO); Southwest Power Pool (SPP). Historical RTM Load Zone and Hub Prices; OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute); RTBM LMP by Settlement Location, 5-minute; Real-Time Final Market LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Real-Time Preliminary Ex-Post LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the Energy Research Warehouse (ERW), table `iso_rtm_hub_prices`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "compare",
+     "input": {
+      "a": {
+       "table": "iso_rtm_hub_prices",
+       "aggregation": "count",
+       "entity": "ercot:HB_WEST",
+       "variable": "spp_rtm",
+       "start": "2026-10-26",
+       "end": "2026-11-02",
+       "tz": "America/Chicago"
+      },
+      "b": {
+       "table": "iso_rtm_hub_prices",
+       "aggregation": "count",
+       "entity": "ercot:HB_WEST",
+       "variable": "spp_rtm",
+       "start": "2026-10-26",
+       "end": "2026-11-02",
+       "tz": "America/Chicago",
+       "threshold": {
+        "above": 100
+       }
+      }
+     },
+     "out": {
+      "a": {
+       "aggregation": "count",
+       "value_column": null,
+       "filters": {
+        "entity": "ercot:HB_WEST",
+        "variable": "spp_rtm",
+        "start": "2026-10-26",
+        "end": "2026-11-02",
+        "tz": "America/Chicago"
+       },
+       "rows_matched": 676,
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "spp_rtm"
+       ],
+       "time_span": {
+        "first": "2026-10-26T05:00:00Z",
+        "last": "2026-11-02T05:45:00Z"
+       },
+       "result": [
+        {
+         "count": 676
+        }
+       ],
+       "table": "iso_rtm_hub_prices",
+       "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T22:48:17Z",
+       "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+       "license": "public",
+       "tier": "source",
+       "citation": "California Independent System Operator (CAISO); Electric Reliability Council of Texas (ERCOT); Midcontinent Independent System Operator (MISO); Southwest Power Pool (SPP). Historical RTM Load Zone and Hub Prices; OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute); RTBM LMP by Settlement Location, 5-minute; Real-Time Final Market LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Real-Time Preliminary Ex-Post LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the Energy Research Warehouse (ERW), table `iso_rtm_hub_prices`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+      },
+      "b": {
+       "aggregation": "count",
+       "value_column": null,
+       "filters": {
+        "entity": "ercot:HB_WEST",
+        "variable": "spp_rtm",
+        "start": "2026-10-26",
+        "end": "2026-11-02",
+        "threshold": {
+         "above": 100
+        },
+        "tz": "America/Chicago"
+       },
+       "rows_matched": 23,
+       "threshold": {
+        "column": "value",
+        "above": 100.0,
+        "rows_in_window": 676,
+        "rows_kept": 23,
+        "note": "rows_kept of rows_in_window have a value strictly past the threshold; the aggregation is over those rows"
+       },
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "spp_rtm"
+       ],
+       "time_span": {
+        "first": "2026-10-27T02:45:00Z",
+        "last": "2026-11-01T04:15:00Z"
+       },
+       "result": [
+        {
+         "count": 23
+        }
+       ],
+       "table": "iso_rtm_hub_prices",
+       "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T22:48:17Z",
+       "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+       "license": "public",
+       "tier": "source",
+       "citation": "California Independent System Operator (CAISO); Electric Reliability Council of Texas (ERCOT); Midcontinent Independent System Operator (MISO); Southwest Power Pool (SPP). Historical RTM Load Zone and Hub Prices; OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute); RTBM LMP by Settlement Location, 5-minute; Real-Time Final Market LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Real-Time Preliminary Ex-Post LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the Energy Research Warehouse (ERW), table `iso_rtm_hub_prices`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+      },
+      "difference_b_minus_a": -653,
+      "ratio_b_over_a": 0.034024
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "iso_rtm_hub_prices",
+      "aggregation": "max",
+      "entity": "ercot:HB_WEST",
+      "variable": "spp_rtm",
+      "start": "2026-10-26",
+      "end": "2026-11-02",
+      "tz": "America/Chicago",
+      "group_by": "day"
+     },
+     "out": {
+      "aggregation": "max",
+      "value_column": "value",
+      "filters": {
+       "entity": "ercot:HB_WEST",
+       "variable": "spp_rtm",
+       "start": "2026-10-26",
+       "end": "2026-11-02",
+       "tz": "America/Chicago"
+      },
+      "rows_matched": 676,
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "spp_rtm"
+      ],
+      "time_span": {
+       "first": "2026-10-26T05:00:00Z",
+       "last": "2026-11-02T05:45:00Z"
+      },
+      "n_groups": 7,
+      "result": [
+       {
+        "day": "2026-10-26",
+        "value": 121.52,
+        "n": 96,
+        "at": "2026-10-27T03:00:00Z",
+        "entity": "ercot:HB_WEST"
+       },
+       {
+        "day": "2026-10-27",
+        "value": 72.04,
+        "n": 96,
+        "at": "2026-10-27T13:00:00Z",
+        "entity": "ercot:HB_WEST"
+       },
+       {
+        "day": "2026-10-28",
+        "value": 63.63,
+        "n": 96,
+        "at": "2026-10-28T22:45:00Z",
+        "entity": "ercot:HB_WEST"
+       },
+       {
+        "day": "2026-10-29",
+        "value": 47.77,
+        "n": 96,
+        "at": "2026-10-29T12:15:00Z",
+        "entity": "ercot:HB_WEST"
+       },
+       {
+        "day": "2026-10-30",
+        "value": 47.23,
+        "n": 96,
+        "at": "2026-10-30T22:45:00Z",
+        "entity": "ercot:HB_WEST"
+       },
+       {
+        "day": "2026-10-31",
+        "value": 209.55,
+        "n": 96,
+        "at": "2026-11-01T02:45:00Z",
+        "entity": "ercot:HB_WEST"
+       },
+       {
+        "day": "2026-11-01",
+        "value": 68.61,
+        "n": 100,
+        "at": "2026-11-01T08:00:00Z",
+        "entity": "ercot:HB_WEST"
+       }
+      ],
+      "table": "iso_rtm_hub_prices",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T22:48:17Z",
+      "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+      "license": "public",
+      "tier": "source",
+      "citation": "California Independent System Operator (CAISO); Electric Reliability Council of Texas (ERCOT); Midcontinent Independent System Operator (MISO); Southwest Power Pool (SPP). Historical RTM Load Zone and Hub Prices; OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute); RTBM LMP by Settlement Location, 5-minute; Real-Time Final Market LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Real-Time Preliminary Ex-Post LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the Energy Research Warehouse (ERW), table `iso_rtm_hub_prices`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "compare",
+     "input": {
+      "a": {
+       "table": "iso_rtm_hub_prices",
+       "aggregation": "count",
+       "entity": "ercot:HB_WEST",
+       "variable": "spp_rtm",
+       "start": "2026-10-26",
+       "end": "2026-11-02",
+       "tz": "America/Chicago",
+       "threshold": {
+        "above": 100
+       }
+      },
+      "b": {
+       "table": "iso_rtm_hub_prices",
+       "aggregation": "count",
+       "entity": "ercot:HB_WEST",
+       "variable": "spp_rtm",
+       "start": "2026-10-26",
+       "end": "2026-11-02",
+       "tz": "America/Chicago",
+       "threshold": {
+        "above": 100
+       },
+       "group_by": "day"
+      }
+     },
+     "out": {
+      "a": {
+       "aggregation": "count",
+       "value_column": null,
+       "filters": {
+        "entity": "ercot:HB_WEST",
+        "variable": "spp_rtm",
+        "start": "2026-10-26",
+        "end": "2026-11-02",
+        "threshold": {
+         "above": 100
+        },
+        "tz": "America/Chicago"
+       },
+       "rows_matched": 23,
+       "threshold": {
+        "column": "value",
+        "above": 100.0,
+        "rows_in_window": 676,
+        "rows_kept": 23,
+        "note": "rows_kept of rows_in_window have a value strictly past the threshold; the aggregation is over those rows"
+       },
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "spp_rtm"
+       ],
+       "time_span": {
+        "first": "2026-10-27T02:45:00Z",
+        "last": "2026-11-01T04:15:00Z"
+       },
+       "result": [
+        {
+         "count": 23
+        }
+       ],
+       "table": "iso_rtm_hub_prices",
+       "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T22:48:17Z",
+       "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+       "license": "public",
+       "tier": "source",
+       "citation": "California Independent System Operator (CAISO); Electric Reliability Council of Texas (ERCOT); Midcontinent Independent System Operator (MISO); Southwest Power Pool (SPP). Historical RTM Load Zone and Hub Prices; OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute); RTBM LMP by Settlement Location, 5-minute; Real-Time Final Market LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Real-Time Preliminary Ex-Post LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the Energy Research Warehouse (ERW), table `iso_rtm_hub_prices`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+      },
+      "b": {
+       "aggregation": "count",
+       "value_column": null,
+       "filters": {
+        "entity": "ercot:HB_WEST",
+        "variable": "spp_rtm",
+        "start": "2026-10-26",
+        "end": "2026-11-02",
+        "threshold": {
+         "above": 100
+        },
+        "tz": "America/Chicago"
+       },
+       "rows_matched": 23,
+       "threshold": {
+        "column": "value",
+        "above": 100.0,
+        "rows_in_window": 676,
+        "rows_kept": 23,
+        "note": "rows_kept of rows_in_window have a value strictly past the threshold; the aggregation is over those rows"
+       },
+       "units": [
+        "USD/MWh"
+       ],
+       "variables": [
+        "spp_rtm"
+       ],
+       "time_span": {
+        "first": "2026-10-27T02:45:00Z",
+        "last": "2026-11-01T04:15:00Z"
+       },
+       "n_groups": 2,
+       "result": [
+        {
+         "day": "2026-10-26",
+         "count": 2
+        },
+        {
+         "day": "2026-10-31",
+         "count": 21
+        }
+       ],
+       "table": "iso_rtm_hub_prices",
+       "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T22:48:17Z",
+       "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+       "license": "public",
+       "tier": "source",
+       "citation": "California Independent System Operator (CAISO); Electric Reliability Council of Texas (ERCOT); Midcontinent Independent System Operator (MISO); Southwest Power Pool (SPP). Historical RTM Load Zone and Hub Prices; OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute); RTBM LMP by Settlement Location, 5-minute; Real-Time Final Market LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Real-Time Preliminary Ex-Post LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the Energy Research Warehouse (ERW), table `iso_rtm_hub_prices`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+      }
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "iso_rtm_hub_prices",
+      "aggregation": "count",
+      "entity": "ercot:HB_WEST",
+      "variable": "spp_rtm",
+      "start": "2026-10-26",
+      "end": "2026-11-02",
+      "tz": "America/Chicago",
+      "threshold": {
+       "above": 100
+      },
+      "group_by": "day"
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {
+       "entity": "ercot:HB_WEST",
+       "variable": "spp_rtm",
+       "start": "2026-10-26",
+       "end": "2026-11-02",
+       "threshold": {
+        "above": 100
+       },
+       "tz": "America/Chicago"
+      },
+      "rows_matched": 23,
+      "threshold": {
+       "column": "value",
+       "above": 100.0,
+       "rows_in_window": 676,
+       "rows_kept": 23,
+       "note": "rows_kept of rows_in_window have a value strictly past the threshold; the aggregation is over those rows"
+      },
+      "units": [
+       "USD/MWh"
+      ],
+      "variables": [
+       "spp_rtm"
+      ],
+      "time_span": {
+       "first": "2026-10-27T02:45:00Z",
+       "last": "2026-11-01T04:15:00Z"
+      },
+      "n_groups": 2,
+      "result": [
+       {
+        "day": "2026-10-26",
+        "count": 2
+       },
+       {
+        "day": "2026-10-31",
+        "count": 21
+       }
+      ],
+      "table": "iso_rtm_hub_prices",
+      "data_version": "supabase backend, The live set is derived from the ERW tables and rebuilt daily; cite Redivis.; table last run 2026-11-05T22:48:17Z",
+      "source_report": "caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL",
+      "license": "public",
+      "tier": "source",
+      "citation": "California Independent System Operator (CAISO); Electric Reliability Council of Texas (ERCOT); Midcontinent Independent System Operator (MISO); Southwest Power Pool (SPP). Historical RTM Load Zone and Hub Prices; OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute); RTBM LMP by Settlement Location, 5-minute; Real-Time Final Market LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Real-Time Preliminary Ex-Post LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the Energy Research Warehouse (ERW), table `iso_rtm_hub_prices`, Supabase live set at https://nrdylqzasarkjjsqturo.supabase.co (service key)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  }
+ ]
+}

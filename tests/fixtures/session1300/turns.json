@@ -427,6 +427,43 @@
      }
     }
    ]
+  },
+  {
+   "id": "a_threshold_count",
+   "_note": "session 3297 (the trader set's tr15): query's value threshold, the same argument and answer field in both loops; 3 of the 12 yearly rows are above 10",
+   "question": "In how many years was ERCOT's hub average peak premium above 10 USD/MWh?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "ercot_peak_premium_annual",
+        "aggregation": "count",
+        "entity": "ercot:HB_HUBAVG",
+        "variable": "peak_minus_midday_median",
+        "threshold": {
+         "above": 10
+        }
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "ERCOT's hub average peak premium was above 10 USD/MWh in 3 of the 12 years held (ercot_peak_premium_annual).",
+      "citations": [
+       {
+        "table": "ercot_peak_premium_annual",
+        "source_report": "erw:ercot_peak_premium",
+        "data_version": "fixture",
+        "tier": "derived"
+       }
+      ],
+      "not_in_warehouse": false
+     }
+    }
+   ]
   }
  ],
  "extra": [
