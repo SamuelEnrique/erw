@@ -130,11 +130,11 @@ export function pageOf<T>(rows: T[], page: number, size = PAGE_SIZE): { rows: T[
 
 // ---- a company's MW by year, in spans when its years are many
 
-export type YearGroup = { label: string; operating: number; planned: number; queue: number; years: string[] };
+export type YearGroup = { label: string; sub?: string; operating: number; planned: number; queue: number; years: string[] };
 /** The years of a company's MW (operating generators by the month they began, planned by the month planned, queue
- *  positions by the date they entered), one group a year; past `most` years, one group a span of `span` years (the
+ *  positions by the date they entered), one group a year; past `most` years (15 since session 3307), one group a span of `span` years (the
  *  first span starts at a multiple of `span`). Sums, not rounded. */
-export function yearGroups(years: [string, number, number, number][], most = 30, span = 5): YearGroup[] {
+export function yearGroups(years: [string, number, number, number][], most = 15, span = 5): YearGroup[] {
   if (!years.length) return [];
   const first = Number(years[0][0]), last = Number(years[years.length - 1][0]);
   const by = new Map(years.map((y) => [y[0], y]));
@@ -150,7 +150,9 @@ export function yearGroups(years: [string, number, number, number][], most = 30,
       ys.push(String(y)); o += v[1]; p += v[2]; q += v[3];
     }
     const b = Math.min(a + width - 1, last);
-    out.push({ label: width > 1 ? `${a} to ${b}` : String(a), operating: o, planned: p, queue: q, years: ys });
+    // session 3307: a span is its first year with "to" and the last year's two digits under it ("1990", "to 94"), so the
+    // labels of sixteen spans fit a phone's chart; one year is its own label
+    out.push({ label: String(a), sub: width > 1 ? `to ${String(b).slice(2)}` : undefined, operating: o, planned: p, queue: q, years: ys });
   }
   return out;
 }

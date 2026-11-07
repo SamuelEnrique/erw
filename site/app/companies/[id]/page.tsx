@@ -13,7 +13,7 @@ import { ROLE_WORDS, TABLE_WORDS, count, linksOf, mw, yearGroups, type Company, 
 import { company, companyIndex } from "@/lib/companydata";
 
 export const dynamic = "force-dynamic";
-const SHOWN = 100;   // rows a table shows on the page; every public row is in the download
+const SHOWN = 50;   // rows a table shows on the page, folded (session 3308: the page ran to 14,000 px open); every public row is in the download
 const FUEL_ORDER = ["solar", "wind", "gas", "coal", "nuclear", "hydro", "storage", "oil", "geothermal", "other"];
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -45,6 +45,8 @@ function rowsTable(c: Company, table: string, rows: Row[], ix: CompanyIndex) {
     <section key={table} id={`rows-${table}`} className="mb-8" data-rows-table={table} data-rows={rows.length}>
       <h3 className="mb-2 font-serif text-lg text-accent">{TABLE_WORDS[table] ?? table} <span className="font-sans text-xs text-muted">{count(rows.length)} rows</span>
         <Tip id={`src-${table}`} label={`Source of ${table}`}>{`${table}. Source: ${src}`}</Tip></h3>
+      <details data-rows-fold={table}>
+      <summary className="cursor-pointer py-1 text-sm">{rows.length > SHOWN ? `Show the newest ${SHOWN} of its ${count(rows.length)} rows` : `Show its ${count(rows.length)} rows`}</summary>
       <div className="overflow-x-auto" role="region" aria-label={`${TABLE_WORDS[table] ?? table} rows`} tabIndex={0}>
         <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: 640 }}>
           <caption className="sr-only">{`Rows of ${table} that name ${c.name}`}</caption>
@@ -77,6 +79,7 @@ function rowsTable(c: Company, table: string, rows: Row[], ix: CompanyIndex) {
         </table>
       </div>
       {rows.length > SHOWN ? <p className="mt-1 text-xs text-muted" data-rows-more={rows.length - SHOWN}>The newest {SHOWN} of {count(rows.length)} by date; every row is in the download.</p> : null}
+      </details>
     </section>
   );
 }
@@ -122,7 +125,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
         lead={<>{c.kind}{c.segment ? `, ${c.segment}` : ""}{c.states.length ? `, in ${c.states.slice(0, 6).join(", ")}${c.states.length > 6 ? ` and ${c.states.length - 6} more states` : ""}` : ""}. {count(links.length)} public rows of {byTable.size} tables name it{held.length ? `; ${count(held.reduce((s, [, n]) => s + n, 0))} held rows do too` : ""}.</>}
       />
       <div className="grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
-        <aside>
+        <aside className="min-w-0">
           <InputPanel title="This company">
             <dl>
               <Fact label="Kind" tip={<Tip id="c-kind" label="How the kind was set">{`Set by: ${c.kind_basis}. The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, other that its rows show.`}</Tip>}>{c.kind}</Fact>
@@ -144,7 +147,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
             Download its public rows: <a href={`/companies/${c.id}/rows`} download data-download="csv">CSV</a>, <a href={`/companies/${c.id}/rows/python`} download data-download="python">Python</a>, <a href={`/companies/${c.id}/rows/stata`} download data-download="stata">Stata</a>.
           </p>
         </aside>
-        <div>
+        <div className="min-w-0">
           {heads.length ? (
             <div className="mb-10 grid gap-6 sm:grid-cols-3">
               {heads.map((h) => (
@@ -175,9 +178,9 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
           ) : null}
           {groups.length ? (
             <ChartFrame title="MW by year" legend={[{ label: "Operating, by first month", color: "var(--color-accent)" }, { label: "Planned, by planned month", color: "var(--color-ink)" }, { label: "ERCOT queue, by queue date", color: "var(--color-muted)" }]}
-              tip={<Tip id="c-years" label="The years">{`Nameplate MW of its operating generators by the year each began, of its planned generators by the year planned, and of its live ERCOT queue positions by the year each entered the queue.${groups[0].label.includes(" to ") ? " Its years are many, so each bar is five years." : ""}`}</Tip>}>
+              tip={<Tip id="c-years" label="The years">{`Nameplate MW of its operating generators by the year each began, of its planned generators by the year planned, and of its live ERCOT queue positions by the year each entered the queue; each group's figures are in its hover.${groups[0].sub ? " Its years are many, so each group is five years." : ""}`}</Tip>}>
               <GroupedBars id={`years-${c.id}`} unit="MW" label={`${c.name}: MW by year`} series={[{ name: "Operating", tone: "accent" }, { name: "Planned", tone: "ink" }, { name: "ERCOT queue", tone: "muted" }]}
-                groups={groups.map((g) => ({ label: g.label, values: [g.operating, g.planned, g.queue], title: `${g.label}: ${mw(g.operating)} MW operating, ${mw(g.planned)} MW planned, ${mw(g.queue)} MW in the ERCOT queue` }))} />
+                groups={groups.map((g) => ({ label: g.label, sub: g.sub, over: "", values: [g.operating, g.planned, g.queue], title: `${g.label}${g.sub ? ` ${g.sub}` : ""}: ${mw(g.operating)} MW operating, ${mw(g.planned)} MW planned, ${mw(g.queue)} MW in the ERCOT queue` }))} />
             </ChartFrame>
           ) : null}
           <ChartFrame title="Deals by quarter" tip={<Tip id="c-deals" label="The deals">Deals from the deal tracker (energy_deals) that name it, by the quarter of the deal&apos;s date: the count, the MW and the USD the stories state.</Tip>}>
