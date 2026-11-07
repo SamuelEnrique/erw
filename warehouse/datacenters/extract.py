@@ -90,6 +90,9 @@ deals = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(deals)
 PRICES, clean, norm, pick_model, stated_words, verified = (
     deals.PRICES, deals.clean, deals.norm, deals.pick_model, deals.stated_words, deals.verified)
+sys.path.insert(0, HERE)
+import facility_fields as ff  # noqa: E402  session 2236: MW basis, power kind, grid, the county's utility, energized
+calls = deals.calls   # session 2237: the deal extractor's call, retried where a retry can help
 
 TABLE = "datacenter_projects"
 EVIDENCE = "datacenter_projects_evidence"
@@ -108,6 +111,7 @@ STD = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capacity_mw", "
 EXTRA = ["kind", "developer", "site_name", "state", "county", "city", "mw", "phase", "project_status",
          "planned_year", "power_source", "utility", "ai_power", "confidence", "geo_precision", "geo_note",
          "first_story_at", "n_stories", "story_ids", "story_urls", "model_id", "extracted_at"]
+EXTRA = EXTRA + ff.NEW_COLS   # session 2236 (warehouse/datacenters/facility_fields.py), beside the old columns
 COLS = STD + EXTRA
 EVIDENCE_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price", "currency",
                  "status", "source", "source_url", "facility_id", "story_id", "evidence"]
@@ -126,7 +130,12 @@ For each facility, copy every value from the title or summary, character for cha
 - status: one of {", ".join(STATUSES)}, only from the stated words, with status_text, the exact span: announced for announces, reveals, unveils, plans, proposes, will build; applied for applied, filed, submitted an application, requested a permit or right-of-way, sought approval (an application is not a permit); permitted for approved, permitted, granted, rezoned, cleared; under_construction for broke ground, building, under construction, construction began; operating for opened, operational, online, running, energized; cancelled for cancelled, scrapped, withdrawn, paused indefinitely. status_text is required: whenever you give a status, copy the words that state it into status_text; if you cannot copy them, leave status and status_text empty. An empty status is correct when the words do not say
 - planned_year: the year the facility or phase is planned to start, as stated, with planned_year_text, the exact span
 - power_source: how it will be powered, as stated (natural gas turbines, nuclear, solar and storage, grid); utility: the utility or power supplier as named; power_text: the exact span that states them
-- confidence: 0 to 1, how sure you are that this is a real, specific facility and the fields are right
+- mw_basis: what the stated MW measures: {"; ".join(f"{b} for {w}" for b, w in ff.MW_BASES)}; with mw_basis_text, the exact span that says it (empty for unstated)
+- energized_year: the year the facility or its first phase is to be energized, go live or come online, as stated ("on track to go live in mid-2026", "online by 2028"), with energized_text, the exact span; a year of another event (a power deal that "will commence in 2028", a permit, a groundbreaking) is not it
+- country: the country where the facility is, only as the story's words name it, with country_text, the exact span; "United States" for the US
+- one facility per row: a story about several sites (a fleet, two campuses in two states, a program across a country) returns one facility for each named site, and none for a country-wide plan with no site. Never put two places in one facility
+- status also: operating for launches, opens, went live, goes live; cancelled for halts, pulls out of, pauses (a site); announced for plans and planned
+- confidence: 0 to 1, how sure you are that this is a real, specific facility and the fields are right: 0.8 or more for a named operator at a named place that the words state; 0.6 to 0.8 for a stated facility with a field unclear; under 0.6 only when it is doubtful that this is one facility
 - evidence: one sentence (or the title) copied verbatim from the story that names the facility; story_id: the story it is from
 - same_as: if this facility is already in the reference list (the same site), its id; if it is an earlier facility in this same request, that facility's key (cluster_id#n, n counting from 0 within its cluster); else empty
 
@@ -135,7 +144,8 @@ Return every cluster exactly once, with an empty facilities list when it names n
 STR = {"type": "string"}
 FIELDS = ["operator", "developer", "site_name", "state", "state_text", "county", "city", "location_text", "mw",
           "mw_text", "phase", "status_text", "planned_year", "planned_year_text", "power_source", "utility",
-          "power_text", "evidence", "story_id", "same_as"]
+          "power_text", "evidence", "story_id", "same_as",
+          "mw_basis", "mw_basis_text", "energized_year", "energized_text", "country", "country_text"]   # session 2236
 SCHEMA = {
     "type": "object",
     "properties": {"results": {"type": "array", "items": {
@@ -162,13 +172,86 @@ def named(value, text):
     return bool(value) and norm(value) in text
 
 
+def names_named(value, text):
+    """Session 2261 (chain 159): True when a company field holds several names the model joined ("Colt DCS, RMZ" from
+    "Colt DCS and RMZ start work") and each name appears in the story's text."""
+    parts = [p for p in re.split(r"\s*(?:,|;|&|\band\b)\s*", str(value or "")) if p.strip()]
+    return len(parts) > 1 and all(len(p.strip()) > 1 and named(p.strip(), text) for p in parts)
+
+
+def facility_country(site_name, raw):
+    """Session 2262 (chain 159): (country, words) for a facility the model gave no country, read from the story's own
+    words, the first of these that names exactly one country: a country word in the site's name ("Stargate Norway",
+    "Stargate UK"); "in <country>" ("AI infrastructure in Japan"); a country before what is built (the deals' rule,
+    fields.country_of: "US data center"). ("", "") otherwise."""
+    F = deals.fields
+    site = " ".join(str(site_name or "").split())
+    raw = " ".join(str(raw or "").replace("’", "'").split())
+
+    def nouns(words):   # the name and its capital letters (UK, UAE, U.S.), not an adjective
+        out = [w for w in words if w == words[0] or w.replace(".", "").isupper()]
+        # session 2286 (chain 179): a facility "in Newport, Wales" is in the United Kingdom
+        return out + (["England", "Scotland", "Wales", "Northern Ireland"] if words[0] == "United Kingdom" else [])
+
+    found = {}
+    for c, words in F.COUNTRIES.items():
+        for w in nouns(words):
+            if site and re.search(r"(?<![A-Za-z.])" + re.escape(w) + r"(?![A-Za-z])", site):
+                found.setdefault(c, w)
+    if len(found) == 1:
+        return next(iter(found.items()))
+    if found:
+        return "", ""
+    for c, words in F.COUNTRIES.items():
+        for w in nouns(words):
+            m = re.search(r"(?<![A-Za-z])in (?:the )?" + re.escape(w) + r"(?![A-Za-z])", raw)
+            # session 2286: or a place and its country, "in Newport, Wales", "San Mateo de Gallego, Zaragoza, Spain"
+            m = m or re.search(r"\bin (?:[A-Z][\w'-]*\s?){1,4}(?:, [A-Z][\w'-]*(?:\s[A-Z][\w'-]*)*)?, " + re.escape(w) + r"(?![A-Za-z])", raw)
+            if m:
+                found.setdefault(c, m.group(0))
+    if len(found) == 1:
+        return next(iter(found.items()))
+    if found:
+        return "", ""
+    # session 2276 (chain 174): the market a company enters with the facility ("Gorilla Technology Group to enter US
+    # market with proposed 6MW data center acquisition")
+    for c, words in F.COUNTRIES.items():
+        for w in nouns(words):
+            m = re.search(r"(?<![A-Za-z])(?:enter|enters|entering|entry into|into) (?:the )?" + re.escape(w) + r" market\b", raw)
+            if m:
+                found.setdefault(c, m.group(0))
+    if len(found) == 1:
+        return next(iter(found.items()))
+    if found:
+        return "", ""
+    return F.country_of(raw)
+
+
+def facility_state(raw):
+    """Session 2272 (chain 174): (state code, words) where the story's words name exactly one US state by its full name,
+    written with a capital ("Hutto, Texas", "Western Kentucky"); ("", "") when none or several. Longer names are read
+    first and blanked, so "West Virginia" is not also Virginia; "Washington" alone (the capital, a person) is not
+    read, "Washington state" is."""
+    t = " ".join(str(raw or "").replace("’", "'").split())
+    found = {}
+    for code, name in sorted(deals.US_STATES.items(), key=lambda kv: len(kv[1]), reverse=True):
+        pat = r"washington state" if name == "washington" else re.escape(name)
+        for m in list(re.finditer(r"(?<![A-Za-z])" + pat + r"(?![A-Za-z])", t, re.I)):
+            if m.group(0)[0].isupper():
+                found.setdefault(code, m.group(0))
+                t = t[:m.start()] + " " * (m.end() - m.start()) + t[m.end():]
+    if len(found) == 1:
+        return next(iter(found.items()))
+    return "", ""
+
+
 def checked_fields(d, text):
     """The facility's text fields kept only as the story states them, and the reasons for any dropped."""
     why = []
     out = {}
     for f in ("operator", "developer", "site_name", "power_source", "utility", "phase"):
         v = " ".join((d.get(f) or "").split())
-        if v and not named(v, text):
+        if v and not named(v, text) and not (f in ("operator", "developer") and names_named(v, text)):
             why.append(f"{f} {v!r}: not in the story")
             v = ""
         out[f] = v
@@ -315,6 +398,7 @@ def main(argv=None):
         news_by_id = news.set_index("event_id")
         by_id = {r["entity_id"]: dict(r) for r in table.to_dict("records")}
         new_evidence, new_checked, usage, failed_calls, dropped = [], [], [], 0, []
+        first_error = ""
         now = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
         for bi, batch in enumerate(batches, 1):
             items = [{"cluster_id": g["cluster_id"].iloc[0],
@@ -327,23 +411,24 @@ def main(argv=None):
             user = ("Reference list of facilities already extracted (id | operator | developer | site | place | MW), "
                     "candidates for same_as:\n" + ("\n".join(ref_lines) if ref_lines else "(none)")
                     + "\n\nClusters (JSON):\n" + json.dumps(items, ensure_ascii=False))
-            try:
-                resp = client.messages.create(
+            try:   # session 2237: retried where a retry can help, the API's words kept (warehouse/deals/calls.py)
+                resp, text = calls.call(client, dict(
                     model=model, max_tokens=16000,
                     system=[{"type": "text", "text": SYSTEM, "cache_control": {"type": "ephemeral"}}],
                     output_config={"effort": "low", "format": {"type": "json_schema", "schema": SCHEMA}},
-                    messages=[{"role": "user", "content": user}])
-                u = resp.usage
-                usage.append(dict(input=u.input_tokens, output=u.output_tokens,
-                                  cache_write=u.cache_creation_input_tokens or 0,
-                                  cache_read=u.cache_read_input_tokens or 0))
-                if resp.stop_reason != "end_turn":
-                    raise RuntimeError(f"stop_reason {resp.stop_reason}")
-                results = {r["cluster_id"]: r for r in
-                           json.loads("".join(b.text for b in resp.content if b.type == "text"))["results"]}
+                    messages=[{"role": "user", "content": user}]), usage, log, f"call {bi}")
+                results = {r["cluster_id"]: r for r in json.loads(text)["results"]}
+            except calls.Stop as exc:
+                failed_calls += 1
+                first_error = first_error or exc.words
+                log(f"  call {bi} FAILED, and no further call is sent ({len(batch)} clusters and every later one left "
+                    f"unchecked): {ip.redact(exc.words)}")
+                break
             except Exception as exc:
                 failed_calls += 1
-                log(f"  call {bi} FAILED ({len(batch)} clusters left unchecked): {ip.redact(repr(exc))[:300]}")
+                w = exc.words if isinstance(exc, calls.Failed) else calls.words_of(exc)
+                first_error = first_error or w
+                log(f"  call {bi} FAILED ({len(batch)} clusters left unchecked): {ip.redact(w)}")
                 continue
             keys = {}
             n_new = n_merged = 0
@@ -372,6 +457,19 @@ def main(argv=None):
                     if norm(ev) not in text:
                         dropped.append(f"{cid}: evidence not verbatim in the story, not kept: {ev[:100]!r}")
                         ev = ""
+                    # session 2263 (chain 159): "Pauses" is not cancelled; an empty status from the facility's own
+                    # words (its evidence, or the cluster's words when the cluster gives one facility)
+                    if vals["status"] == "cancelled" and ff.paused_only(d.get("status_text")):
+                        dropped.append(f"{cid}: status cancelled: {d.get('status_text')!r} says paused, not kept")
+                        vals["status"] = ""
+                    if not vals["status"]:
+                        words = ev if ev else ""
+                        s_new, s_span = ff.status_from_words(words)
+                        if not s_new and len(facs) == 1:
+                            s_new, s_span = ff.status_from_words(" ".join(g["title"]) + " " + " ".join(g["summary"]))
+                        if s_new:
+                            vals["status"] = s_new
+                            log(f"  {cid}: facility {n}: status {s_new} from the words {s_span!r}")
                     src_story = d.get("story_id") if d.get("story_id") in story_ids else story_ids[0]
                     same = d.get("same_as")
                     target = same if same in by_id else keys.get(same) if same else None
@@ -382,6 +480,38 @@ def main(argv=None):
                                        f"in common with {by_id[target].get('operator') or by_id[target].get('developer') or '-'}"
                                        f", {by_id[target].get('city') or by_id[target].get('county') or '-'}, "
                                        f"{by_id[target].get('state') or '-'}); kept as its own facility")
+                        target = None
+                    new_f = ff.finish(d, text)   # session 2236: the MW basis, the energized year, the country
+                    if not new_f["country"]:   # session 2262: the country the site's name or the words give, when one
+                        c, c_words = facility_country(vals.get("site_name"), " ".join(g["title"]) + " " + " ".join(g["summary"]))
+                        if c and not (vals.get("state") and c != "United States"):
+                            new_f["country"] = c
+                            log(f"  {cid}: facility {n}: country {c} from the words {c_words!r}")
+                    if not vals.get("state") and len(facs) == 1 and new_f["country"] in ("", "United States"):
+                        # session 2272: the one US state the cluster's words name, for a cluster of one facility
+                        s_code, s_words = facility_state(" ".join(g["title"]) + " " + " ".join(g["summary"]))
+                        if s_code:
+                            vals["state"] = s_code
+                            log(f"  {cid}: facility {n}: state {s_code} from the words {s_words!r}")
+                    if not vals.get("power_source") and len(facs) == 1:
+                        # session 2273: how the facility is powered, as the cluster's words of one facility say
+                        p_words, p_kind = ff.power_from_words(" ".join(g["title"]) + " " + " ".join(g["summary"]))
+                        if p_words:
+                            vals["power_source"] = p_words
+                            log(f"  {cid}: facility {n}: power_source {p_words!r} ({p_kind}) from the words")
+                    for f in ("operator", "developer"):   # session 2236: "TikTok owner" is a description, not a name
+                        if vals.get(f) and ff.description(vals[f]):
+                            dropped.append(f"{cid}: {f} {vals[f]!r} is a description, not a name; not kept")
+                            vals[f] = ""
+                    if not same and not ff.has_place({**vals, "country": new_f["country"]}):
+                        # session 2236 (the audit's class 4): a facility is a named site or a stated place
+                        dropped.append(f"{cid}: facility {n} not kept: no site, city, county, state or country stated")
+                        continue
+                    if target and ff.place_conflict(by_id[target], {**vals, "country": new_f["country"]}):
+                        # session 2236 (the audit's class 8): two places are two facilities, whatever same_as says
+                        dropped.append(f"{cid}: same_as {target} refused (another place: {vals.get('city') or vals.get('county') or '-'}, "
+                                       f"{vals.get('state') or new_f['country'] or '-'} against {by_id[target].get('city') or by_id[target].get('county') or '-'}, "
+                                       f"{by_id[target].get('state') or by_id[target].get('country') or '-'}); kept as its own facility")
                         target = None
                     here = news_by_id.loc[story_ids].sort_values("event_date")
                     if target:
@@ -404,6 +534,12 @@ def main(argv=None):
                         if not row.get("project_status") and vals["status"]:
                             row["project_status"] = vals["status"]
                             row["status"] = STD_STATUS[vals["status"]]
+                        for f in ("energized_year", "country"):   # session 2236: fill a gap only
+                            if not row.get(f) and new_f[f]:
+                                row[f] = new_f[f]
+                        if row.get("mw") and (not row.get("mw_basis") or row["mw_basis"] == "unstated") and \
+                                new_f["mw_basis"] not in ("", "unstated") and mw is not None and clean(mw) == row["mw"]:
+                            row["mw_basis"] = new_f["mw_basis"]
                         n_merged += 1
                         did = target
                     else:
@@ -422,7 +558,8 @@ def main(argv=None):
                             "confidence": clean(round(max(0.0, min(1.0, float(d.get("confidence") or 0))), 2)),
                             "geo_precision": "", "geo_note": "", "first_story_at": first["event_date"],
                             "n_stories": str(len(here)), "story_ids": ";".join(here.index),
-                            "story_urls": ";".join(here["source_url"]), "model_id": model, "extracted_at": now}
+                            "story_urls": ";".join(here["source_url"]), "model_id": model, "extracted_at": now,
+                            **{k: (v if k != "mw_basis" or mw is not None else "") for k, v in new_f.items()}}
                         n_new += 1
                     keys[f"{cid}#{n}"] = did
                     if ev:
@@ -441,10 +578,18 @@ def main(argv=None):
 
         for d in dropped:
             log(f"  not kept: {d}")
+        if failed_calls and not new_checked:
+            # session 2237: no call answered, so nothing is written (the table stays as the last good run left it)
+            raise RuntimeError(f"no call answered ({failed_calls} failed, {len(batches)} planned); the tables are not "
+                               f"rewritten; first error: {first_error}")
         # place every facility (a merge may have added a county or city)
         for row in by_id.values():
             row["lat"], row["lon"], row["geo_precision"], row["geo_note"] = locate(row, counties, places)
             row["geo"] = f"US-{row['state']}" if row["state"] else ""
+            # session 2236: the power kind, the grid (named in the stories, else the state's) and the county's utility
+            ids = [x for x in str(row.get("story_ids") or "").split(";") if x in news_by_id.index]
+            words = norm(" ".join(str(news_by_id.loc[x, "title"]) + " " + str(news_by_id.loc[x, "summary"]) for x in ids))
+            row.update(ff.derive(row, words))
         out = pd.DataFrame(list(by_id.values()), columns=COLS).fillna("")
         common = [f"Retrieved: {run_id} (UTC) by warehouse/datacenters/extract.py from warehouse/output/{NEWS}.csv",
                   f"Run log: warehouse/output/logs/datacenters_extract_{run_id}.log"]
@@ -462,6 +607,10 @@ def main(argv=None):
                 "datacenter power subset). geo_precision: county or place (the Census gazetteer's internal point "
                 f"of the stated county or city; {got[0][0]}, {place_member}, kept in "
                 f"warehouse/raw/census_gazetteer/{run_id}/), or none.",
+                "Session 2236 (warehouse/datacenters/facility_fields.py): mw_basis (it, total, tenant, phase, unstated) as "
+                "stated; power_kind from power_source; grid with grid_basis (named in a story, or the state's main grid); "
+                "utility_eia861 and its number where one EIA-861 utility serves the stated county (utilities_in_county "
+                "counts them); energized_year and country as stated; fields_version 2236, or upgraded.",
                 "License: public. The model's checked fields and the story links only, no outlet text; the evidence "
                 f"sentences are in the internal table {EVIDENCE}.",
                 "Sources: the outlet named in each row's source column (the first story); story_urls lists every story.",
@@ -502,8 +651,8 @@ def main(argv=None):
         log(summary)
         print(f"datacenters extract: {summary}")
         status["detail"] = summary[:300]
-        if failed_calls and not usage:
-            raise RuntimeError(f"all {failed_calls} calls failed")
+        if failed_calls:   # session 2237: the failure first, in the API's words, so the 300 characters keep it
+            status["detail"] = f"{failed_calls} calls failed, first: {first_error}; {summary}"[:300]
     except Exception:
         tb = ip.redact(traceback.format_exc())
         log(f"FAILED:\n{tb}")

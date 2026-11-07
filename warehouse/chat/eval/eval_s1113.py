@@ -71,7 +71,13 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         # session 2224 (chain 152): the third set, twenty questions a lab's energy team asks (scripts/ask_eval/lab_questions.py
         # computes its keys and writes the file); its runs are eval_loop.py's, named by session
         "s2224": {"questions": os.path.join(HERE, "questions_s2224.yaml"), "run": os.path.join(HERE, "eval_s2224_loop_s2224_run.json"),
-                  "grades": os.path.join(HERE, "eval_s2224_loop_s2224_grades.json")}}
+                  "grades": os.path.join(HERE, "eval_s2224_loop_s2224_grades.json")},
+        # session 3280 (the Ask evaluation chain of 6 November 2026): twenty a power trader asks (scripts/ask_eval/trader_questions.py),
+        # and session 3281: twenty an investor asks (scripts/ask_eval/investor_questions.py); their runs are eval_loop.py's, named by session
+        "trader": {"questions": os.path.join(HERE, "questions_trader.yaml"), "run": os.path.join(HERE, "eval_s3280_loop_trader_run.json"),
+                   "grades": os.path.join(HERE, "eval_s3280_loop_trader_grades.json")},
+        "investor": {"questions": os.path.join(HERE, "questions_investor.yaml"), "run": os.path.join(HERE, "eval_s3281_loop_investor_run.json"),
+                     "grades": os.path.join(HERE, "eval_s3281_loop_investor_grades.json")}}
 ENV_ROOT = ROOT if os.path.exists(os.path.join(ROOT, ".env")) else os.path.join(os.path.dirname(ROOT), "erw")   # a worktree reads the main checkout's
 STEP = "site_ask_eval"
 GRID_SLUG = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "SPP": "spp", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm"}
@@ -221,6 +227,13 @@ def hold_answer(q, a):
     return all(t.lower() in ans for t in q["text"]) and not figure
 
 
+def first_sentence(text):
+    """The answer's first sentence: up to the first full stop, question or exclamation mark followed by a space or the end
+    (a decimal point is followed by a digit, so it does not end one)."""
+    m = re.search(r"[.!?](\s|$)", text.strip())
+    return text.strip()[: m.start() + 1] if m else text.strip()
+
+
 def grade_s1114(which="s1114", rules=()):
     """A set of the second set's form, as before session 2224 (now grade_set(which, rules)); session 2947 (chain 157): the
     set is named as chain 148's callers name it (grade_s1114("s2918"))."""
@@ -248,9 +261,23 @@ def grade_set(which, rules=()):
             for t in q["text"]:
                 m = re.fullmatch(r"([A-Za-z]+) (\d{1,2})", t)
                 alts = [t.lower()] + ([f"{m.group(2)} {m.group(1)}".lower()] if m else [])
+                # session 3280: a text entry with "|" is met by any one of its parts (the ways an hour may be written:
+                # questions_trader.yaml's maxima, the hour in UTC as the tool gives it, in local time, or as the hour ending)
+                alts += [p.strip().lower() for p in t.split("|") if "|" in t and p.strip()]
                 ok = ok and any(x in ans for x in alts)
             g["text"] = ok
             g["ok"] = all(v for k, v in g.items() if k != "ok" and v is not None)
+        if q.get("count") in (True, "true", "True") and q["expected"]:
+            # session 3282: a count key (questions_trader.yaml's tr15 and tr16) is not met by a clock time's hour: tr15's
+            # first asking said it could not count and was graded right on the 23 of "the 23:00 hour"
+            plain = re.sub(r"\d{1,2}:\d{2}", " ", a.get("answer") or "")
+            g["number"] = all(G.matches(e, G.numbers(plain), q["tolerance"]) for e in q["expected"])
+            g["ok"] = all(v for k, v in g.items() if k not in ("ok", "hold_answer") and v is not None) or bool(g.get("hold_answer"))
+        if q.get("first") in (True, "true", "True"):
+            # session 3281: a key marked first: true (questions_investor.yaml's "not in the warehouse") is met only when its
+            # words are in the answer's first sentence, as test_session2225_ask.py holds the stored refusals
+            g["first"] = all(t.lower() in first_sentence(a.get("answer") or "").lower() for t in q["text"])
+            g["ok"] = g["ok"] and g["first"]
         out.append({"id": q["id"], "via": q["via"], "grid": q["grid"], "status": a.get("status"), "tool_calls": a.get("tool_calls"), "retried": a.get("retried"),
                     "cost_usd": a.get("cost_usd"), "seconds": a.get("seconds"), "expected": q["expected"], "ok": g["ok"], "grade": g, "trace_calls": len(a.get("trace") or [])})
     doc = {"_about": f"{os.path.basename(SETS[which]['run'])} graded on {os.path.basename(SETS[which]['questions'])}'s keys by eval_s1113.py grade_set (no model, no network).",

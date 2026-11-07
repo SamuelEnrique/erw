@@ -33,14 +33,14 @@ PAGES = {
     "/cost-of-power/battery/awards": ["app/cost-of-power/battery/awards/page.tsx", "app/cost-of-power/battery/awards/Offers.tsx", "app/cost-of-power/battery/awards/RealTime.tsx"],
     "/grid/caiso/alerts": ["app/grid/caiso/alerts/page.tsx"],
     "/events": ["app/events/page.tsx", "app/events/EventWindow.tsx", "components/EventStudy.tsx"],
-    "/policy": ["app/policy/page.tsx", "app/policy/PolicyTable.tsx", "app/policy/WeekView.tsx"],
+    "/policy": ["app/policy/page.tsx", "app/policy/PolicyTable.tsx", "app/policy/WeekView.tsx", "app/policy/MonitorView.tsx"],
 }
 for _e in EVENTS:
     PAGES[f"/events/{_e}"] = [f"app/events/{_e}/page.tsx"]
 
 # how many times each page opens the wrapper: one for each return of the page that draws (a page with two views or a
 # branch for a table that could not be read has more than one)
-OPENS = {"/policy": 3, "/grid/caiso/alerts": 2}
+OPENS = {"/policy": 4, "/grid/caiso/alerts": 2}   # session 3060: /policy's monitor view is a fourth return
 
 
 def src(*parts):

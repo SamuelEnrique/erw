@@ -25,11 +25,12 @@ import { NO_READ_WHY, PAUSED_WORDS, PAUSE_WHY, dayWords, docketTip, docketWords,
 
 // ---- the page's two views and their address ---------------------------------------------------------------------------
 
-export const VIEWS = [["all", "Every action, scored"], ["week", "What changed this week"]] as const;
+// Session 3060 (chain 166): a third view, "The monitor" (?view=monitor, app/policy/MonitorView.tsx, lib/policymonitor.ts).
+export const VIEWS = [["all", "Every action, scored"], ["week", "What changed this week"], ["monitor", "The monitor"]] as const;
 export type View = (typeof VIEWS)[number][0];
-/** The view an address asks for: anything but "week" is the page as it was before session 157. */
-export const viewOf = (q: Record<string, string | undefined>): View => (q.view === "week" ? "week" : "all");
-export const viewHref = (view: View): string => (view === "week" ? "/policy?view=week" : "/policy");
+/** The view an address asks for: anything but "week" or "monitor" is the page as it was before session 157. */
+export const viewOf = (q: Record<string, string | undefined>): View => (q.view === "week" ? "week" : q.view === "monitor" ? "monitor" : "all");
+export const viewHref = (view: View): string => (view === "all" ? "/policy" : `/policy?view=${view}`);
 export const METHOD = { href: "/data/methods/policy_monitor", doc: "docs/methods/policy_monitor.md" } as const;
 
 export const WINDOWS = [7, 30] as const;

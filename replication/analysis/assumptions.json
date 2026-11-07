@@ -1,0 +1,217 @@
+{
+ "_about": "Research (/research, Automated Analysis): every assumption the page's figures rest on, its default, its unit, its source and how to change it. The cards' inputs are the defaults of site/data/findings/catalogue.json (the request flow on /research offers the other choices); the rule's constants are warehouse/analysis/run.py's; the regressions' rules are the cards' own (warehouse/analysis/findings/<card>.py). replicate.py and replicate.do read the values below and nothing else of the page; assumptions.csv holds the numeric ones for Stata. A change here changes the replication, not the page: the page's figures are at these values, so a changed value gives a figure the page does not show.",
+ "batteries_lunch_grids_first_year": {
+  "value": 2019,
+  "unit": "year",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (the only choice offered is 2019)"
+ },
+ "batteries_curtailment_curtailed": {
+  "value": "solar_and_wind",
+  "unit": "",
+  "source": "site/data/findings/catalogue.json, the card's default input (curtailed_mwh is solar and wind)",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (solar_only)"
+ },
+ "batteries_curtailment_first_month": {
+  "value": "2025-08",
+  "unit": "month",
+  "source": "site/data/findings/catalogue.json, the card's default input (the first month CAISO's battery charging is held daily)",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (2026-01)"
+ },
+ "batteries_curtailment_hourly_first_year": {
+  "value": 2019,
+  "unit": "year",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (2021, 2023)"
+ },
+ "batteries_curtailment_hourly_ceiling_pct": {
+  "value": 90,
+  "unit": "percent of the trailing 30-day maximum charging",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (95); here, the value in this file and in assumptions.csv"
+ },
+ "batteries_curtailment_hourly_curtailed_on_mw": {
+  "value": 1.0,
+  "unit": "MW",
+  "source": "warehouse/analysis/findings/batteries_curtailment_hourly.py, CURTAILED_ON: curtailment counts as on in an hour from 1 MW",
+  "change": "the constant in the card's module; here, this file and assumptions.csv"
+ },
+ "batteries_curtailment_hourly_trail_days": {
+  "value": 30,
+  "unit": "Pacific days",
+  "source": "warehouse/analysis/findings/batteries_curtailment_hourly.py, TRAIL_DAYS: the observed ceiling is the largest charging hour of the 30 days before the hour's day (the CSV's trail_max_charging_mw holds it)",
+  "change": "the constant in the card's module; the CSV is then written again"
+ },
+ "gas_sets_price_heat_rate": {
+  "value": 7.0,
+  "unit": "MMBtu per MWh",
+  "source": "site/data/findings/catalogue.json, the card's default input (the share below Henry Hub times 6.5 and 8.0 is shown beside it)",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (6.5, 8.0)"
+ },
+ "gas_sets_price_first_year": {
+  "value": 2019,
+  "unit": "year",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (2020, 2021)"
+ },
+ "impact_study_series": {
+  "value": "ercot_north_rt",
+  "unit": "",
+  "source": "site/data/findings/catalogue.json, the card's default input (ERCOT North Hub, real time)",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again"
+ },
+ "impact_study_control": {
+  "value": "nyiso_nyc_rt",
+  "unit": "",
+  "source": "site/data/findings/catalogue.json, the card's default input (NYISO New York City, real time; held under NYISO's terms since 21 October 2026, so the control's figures print \"license needed\")",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again"
+ },
+ "impact_study_event": {
+  "value": "uri_2021",
+  "unit": "",
+  "source": "site/data/findings/catalogue.json, the card's default input (Winter Storm Uri, from 2021-02-07)",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again"
+ },
+ "impact_study_window": {
+  "value": 14,
+  "unit": "days before and from the event",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (7, 28, 56)"
+ },
+ "negative_prices_west_first_year": {
+  "value": 2019,
+  "unit": "year",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (2020, 2021)"
+ },
+ "negative_prices_west_threshold": {
+  "value": 0,
+  "unit": "USD per MWh: an hour counts below it",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (-10, -20)"
+ },
+ "peak_hour_grids_first_year": {
+  "value": 2019,
+  "unit": "year",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (the only choice offered is 2019)"
+ },
+ "peak_hour_grids_min_hours": {
+  "value": 20,
+  "unit": "hours a day must hold",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (24)"
+ },
+ "queue_divorce_first_year": {
+  "value": 2000,
+  "unit": "request year",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (2005, 2010)"
+ },
+ "queue_divorce_last_year": {
+  "value": 2020,
+  "unit": "request year",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (2015, 2018)"
+ },
+ "who_rescues_whom_event": {
+  "value": "uri_2021",
+  "unit": "",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (elliott_2022, ercot_heat_2023, caiso_heat_2020)"
+ },
+ "who_rescues_whom_min_mwh": {
+  "value": 1000,
+  "unit": "MWh a day: a smaller flow on both sides is \"small\", not a flip",
+  "source": "site/data/findings/catalogue.json, the card's default input",
+  "change": "a person picks another choice in /research's request flow (\"Or choose a finding and its inputs\"); the data machine runs the card again (0, 5000)"
+ },
+ "siting_battery_swing_min_days": {
+  "value": 302,
+  "unit": "days: a node holding fewer is left out",
+  "source": "site/scripts/siting-card.mjs: 90 percent of the 335 days node_basis_daily holds, rounded up",
+  "change": "the card's script, site/scripts/siting-card.mjs, then the card is written again"
+ },
+ "siting_flexible_mw": {
+  "value": 1000,
+  "unit": "MW",
+  "source": "site/scripts/siting-card.mjs, MW",
+  "change": "the card's script"
+ },
+ "siting_flexible_strike": {
+  "value": 1000,
+  "unit": "USD per MWh: the flexible load is off at or above it, and at the four summer peaks",
+  "source": "site/scripts/siting-card.mjs and the All grids tab's flexible profile (site/lib/siting.ts)",
+  "change": "the card's script"
+ },
+ "siting_flexible_hub_row": {
+  "value": "ercot:HB_HUBAVG",
+  "unit": "",
+  "source": "site/scripts/siting-card.mjs: the row whose two all-in figures the third callout prints",
+  "change": "the card's script"
+ },
+ "siting_gigawatt_mw": {
+  "value": 1000,
+  "unit": "MW",
+  "source": "site/scripts/siting-card.mjs, MW",
+  "change": "the card's script"
+ },
+ "siting_gigawatt_load_factor": {
+  "value": 0.9,
+  "unit": "share of the size drawn in every hour",
+  "source": "the All grids tab's datacenter profile (site/lib/siting.ts): 0.90 in every hour, never curtails",
+  "change": "the profile in site/lib/siting.ts"
+ },
+ "siting_gigawatt_hours": {
+  "value": 8760,
+  "unit": "hours a year",
+  "source": "the card's year_mwh, 7,884,000 MWh = 1,000 MW x 0.90 x 8,760 hours",
+  "change": "a year of other length here"
+ },
+ "rule_window_weekly": {
+  "value": 104,
+  "unit": "earlier weekly changes a change is ranked among",
+  "source": "warehouse/analysis/run.py, WINDOW[\"week\"] (session 119)",
+  "change": "the constant in run.py; the next Sunday's run uses it"
+ },
+ "rule_window_monthly": {
+  "value": 36,
+  "unit": "earlier monthly changes",
+  "source": "warehouse/analysis/run.py, WINDOW[\"month\"] (session 119)",
+  "change": "the constant in run.py"
+ },
+ "rule_min_earlier": {
+  "value": 8,
+  "unit": "earlier changes at least",
+  "source": "docs/methods/automated_analysis.md, the rule's step 3",
+  "change": "warehouse/analysis/run.py"
+ },
+ "rule_max_age_days": {
+  "value": 100,
+  "unit": "days: a period new this week must have ended within them",
+  "source": "warehouse/analysis/run.py, MAX_AGE_NEW (EIA's monthly lag)",
+  "change": "the constant in run.py"
+ },
+ "errors_hc1": {
+  "value": "n / (n - k)",
+  "unit": "",
+  "source": "the cards' regressions with robust errors, Stata's regress, vce(robust)",
+  "change": "the card's module"
+ },
+ "errors_newey_west_lags": {
+  "value": "floor(4 (n / 100) ^ (2 / 9))",
+  "unit": "",
+  "source": "warehouse/analysis/findings/impact_study.py, newey_lags; Bartlett weights, the factor n / (n - k)",
+  "change": "the card's module"
+ },
+ "held_grids": {
+  "value": [
+   "isone",
+   "miso",
+   "nyiso"
+  ],
+  "unit": "",
+  "source": "site/data/license_status.json, read by site/lib/license.ts licenseHeldGrids on 6 November 2026: a callout whose words name one prints \"license needed\"",
+  "change": "a publisher's permission recorded in site/data/license_status.json"
+ }
+}

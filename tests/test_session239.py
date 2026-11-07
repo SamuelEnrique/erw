@@ -49,8 +49,10 @@ PAGES = {
 MERGED = {
     "/storage/buildout": "/storage?tab=buildout", "/storage/owners": "/storage?tab=owners", "/severance/lease": "/severance?tab=lease",
     "/explorer/ercot-peak-premium": "/prices?tab=ercot", "/consumption": "/demand?view=consumption", "/deals/v2": "/deals?tab=tracker",
-    "/companies": "/deals?tab=companies", "/resources": "/map?tab=resources",
+    "/resources": "/map?tab=resources",
 }
+# session 3304 (chain 200): "/companies": "/deals?tab=companies" left this list: /companies is the company database's own
+# page again (tool 10); the deals page keeps its Companies tab at /deals?tab=companies
 # the versioned addresses of the owner's list, each with its one page (session 241: "/datacenters/v2" redirects too, now that /datacenters draws its blocks)
 VERSIONED = {
     "/board/v3": "/board", "/board/v4": "/board", "/deals/v2": "/deals?tab=tracker", "/map/v2": "/map", "/network/v3": "/grid?view=network",
@@ -108,7 +110,10 @@ class ThePages(unittest.TestCase):
         for href, (_, _, views) in PAGES.items():
             for key, (file, component) in views.items():
                 self.assertTrue(os.path.exists(path(*APP, *file.split("/"))), file)
-                self.assertFalse(os.path.exists(path(*APP, *file.replace("view.tsx", "page.tsx").split("/"))), f"{file}: the page file still answers")
+                # session 3304 (chain 200): /companies answers again as the company database (tool 10); its folder keeps the
+                # deals page's Companies view (companies/view.tsx), which the deals page imports
+                if file != "companies/view.tsx":
+                    self.assertFalse(os.path.exists(path(*APP, *file.replace("view.tsx", "page.tsx").split("/"))), f"{file}: the page file still answers")
                 v = src(*APP, *file.split("/"))
                 self.assertRegex(v, r"export (async )?function %s\(" % component, file)
                 self.assertNotIn("export default", v, file)
@@ -198,7 +203,7 @@ class TheMenu(unittest.TestCase):
     def test_the_groups_of_the_merged_site(self):
         group = lambda label: re.search(r'label: "%s",\s*pages: \[(.*?)\n    \],' % label, self.pages, flags=re.S).group(1)
         hrefs = lambda label: re.findall(r'\{ href: "([^"]+)"', code(group(label)))
-        self.assertEqual(hrefs("Infrastructure"), ["/map", "/datacenters", "/storage", "/deals"])
+        self.assertEqual(hrefs("Infrastructure"), ["/map", "/datacenters", "/storage", "/deals", "/companies", "/deals/capital"])   # sessions 3304 and 3306 (chain 200): the company database and capital flows
         self.assertEqual(hrefs("Economics"), ["/board", "/prices", "/supply", "/contracts", "/severance", "/impact"])   # Power contracts stays (the owner's ruling); session 288: the bill moved to Games; session 347: the economic impact tool
         self.assertIn("/thesis", hrefs("Analysis"))   # Thesis Builder stays (the owner's ruling)
         # session 288 (Samuel's ruling 14 of 14 October 2026): the battery game, the tour, the bill and the problem sets' index

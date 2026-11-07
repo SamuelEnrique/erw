@@ -164,3 +164,90 @@ as the extraction left it, so the tracker's counts did not move. Run over the 49
 first rule finds four repeats: the audit's two, session 113's folded Prysmian and Atkore pair, and its doubtful Lynas
 pair (the Pentagon and "US" are one party for the rule). Folding the held rows is the register's (`duplicates.csv`), a
 person's choice.
+
+## The tracker in the v2 shape (chain 156, sessions 2230 to 2247)
+
+Written by session 2247 (6 November 2026) after the audit of the stored records (`docs/reviews/deals-audit-2026-11-06.md`): each field, its vocabulary and its evidence rule, the deduplication, the cross-checks, the counterparties, the views and their keys, the tracers, and what the extraction cannot see. Every rule below is a default this chain set without a ruling, listed in its session's report under "Decisions made without you"; none changes a ruling.
+
+### Each field
+
+| Field | Vocabulary or unit | Kept only where | Code |
+|---|---|---|---|
+| `deal_type` | the form: ppa, offtake, m_and_a, project_finance, tax_equity, debt, equity_raise, joint_venture, lease, behind_the_meter, nuclear_restart, smr, fuel_supply, other (session 15, unchanged) | the model names it | `extract.py` |
+| `kind` | master plan tool 6's kinds, the power kind first: nuclear_restart_uprate, smr, behind_the_meter, gas_buildout, transmission, storage, compute_capacity; then the form: ppa, offtake, project_finance, m_and_a, capital, fuel_supply, other | read from the deal's own words (asset, technology, evidence) in code, else the model's kind, else the type's; `kind_basis` says which | `fields.kind_of` |
+| `stage` | rumored, announced, signed, financed, closed, under_construction, operating, cancelled | its words (`stage_text`, in the evidence table) are in the story | `fields.stage_of` |
+| `status` | rumored, announced, signed, closed, cancelled (session 15, the Roundup's) | its words are in the story; a later stage moves it forward | `extract.py`, `dedupe.merge` |
+| `status_history` | "date stage (story)", oldest first | every change of stage a story brings | `dedupe.merge` |
+| `mw`, `mwh`, `usd` (= `dollars`), `term_years` | MW, MWh, US dollars, years | its span is in the title or summary and parses to the same value (GW, bn applied); no figure is converted from another currency, from months or from words without digits | `extract.verified` |
+| `usd_per_mwh` (= `price`) | US dollars per MWh | stated so; a price in another energy unit stays in `price_value` with `price_unit`; a percentage or a share price is never a price | `fields.energy_price` |
+| `grid` | ERCOT, CAISO, PJM, MISO, SPP, NYISO, ISO-NE | the story names the operator; never read from a state in the table (the page reads a state's main grid, and says so) | `fields.grid_of` |
+| `state`, `country` | a US postal code; a country as named | the story's words name it (session 16's ruling) | `extract.stated_words` |
+| `ai_power` with `ai_power_basis` | true or false | a named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party (`fields.AI_PARTIES`), or the story's words name a datacenter load; a motive alone ("as AI demand booms") is false | `fields.ai_of` |
+| `confidence` | 0 to 1 | the model's, in its bands (0.8 a stated deal between named parties; under 0.6 a doubtful one); its words (`confidence_basis`) in the evidence table | `extract.py` |
+| `buyer_name`, `seller_name`, `buyer_parent`, `seller_parent`, `buyer_eia861`, `seller_eia861` | one name a company; its parent; an EIA-861 utility number | the rules of `docs/methods/deal_counterparties.md` | `counterparties.annotate` |
+| `flags` | words | the cross-check finds a headline's figure the record lacks or contradicts, MW and MWh or USD and USD per MWh confused, a term in months, a figure above a bound | `crosscheck.flags` |
+
+**Not a deal** (the prompt's list, session 2232): a plan or a pledge to invest, a seeking with no counterparty, a government's permission, two governments, a raise whose company the story does not name. **A deal needs a party the story names**: a buyer, a seller, a joint venture's partner, or the company sold. **The evidence** of every field is the story's own words, kept in the internal `energy_deals_evidence` (the sentence, the stage's words, the confidence's words, the figures' spans); no outlet text is in `energy_deals`.
+
+### One record a deal
+
+`warehouse/deals/dedupe.py`: session 531's rule, and a deal with one party named matched to a held one where a size both state agrees; a name and its initials one party; a later stage within a year; the size within tolerance (USD a quarter, MW a tenth). A merge keeps the earliest first-reported date, moves the stage forward with its history, fills a gap and never replaces a figure held. The register (`warehouse/deals/duplicates.csv`) folds what a person or a session judged one deal.
+
+### The views and their keys
+
+- **The table** (`/deals`): the filters kind, grid, state, counterparty, MW from and to, year, AI power, stage, price disclosed; every column sorts; the downloads are the rows shown (CSV with the ERW's header lines and no outlet text, a Python and a Stata reader). Its figures: `event|energy_deals|<deal>|mw` and `|dollars`.
+- **The disclosed prices** (`/deals?view=comparables#prices`): the PPAs and offtakes stating a price per MWh by technology, grid or year; `deals|price_count|<dimension>|<value>` always, `deals|price_median`, `deals|price_low` and `deals|price_high` from three. A reader's own deal is placed against them in one line, nothing stored or sent.
+- **The AI-power view** (`/deals?view=ai`): the tagged deals by buyer, kind of supply, grid and quarter: `deals|ai_deals|<dimension>|<value>`, `deals|ai_mw`, `deals|ai_with_mw`, `deals|ai_usd`, `deals|ai_with_usd`; the ten with the most MW and the ten with the most US dollars.
+- **The charts** (`/deals?view=charts`): `deals|chart_mw|<quarter>|<kind of supply>` (and `|without`), `deals|chart_price|<deal>|price`, `deals|chart_ai|<quarter>|share`, `|ai_mw`, `|all_mw`, `deals|chart_party|<name>|mw`.
+
+### The tracers
+
+`site/scripts/check-values.mjs` recomputes every key above with the page's own functions on the live set. `scripts/check_deals.py` recomputes every chart figure from `energy_deals.csv` with its own Python and compares it with the page's functions (71 of 71 on 6 November 2026). `warehouse/deals/eval/fixture.py` grades the extraction on stored stories with answers written from their words (`tests/fixtures/deals/`); `warehouse/deals/eval/one_day.py` runs a stored day end to end, offline.
+
+### What the extraction cannot see
+
+The warehouse holds a story's title and a short summary (a median of 77 characters on 6 November 2026), not its text. A figure the headline does not state, a deal's point of delivery and node, its tenor where the story omits it, and its price are almost never there: 6 of 18,358 scored stories state a price per MWh. A deal only a press release or a filing describes is not seen until a pull of those is approved (the rulings of 23 October, items 5 and 6). The extraction reads what the outlets report, so the counts by month follow the ERW's news coverage, not the market (the Roundup audit's fix 3).
+
+### A deal with one party named (session 2256)
+
+A sale, an award or a raise whose story names one party and not the other ("Crescent Sells Non-Op D-J Assets": no buyer named; "Sellafield selects partners": no partner named) gets no row by default: the prompt asks for a named deal between named parties. `ERW_DEALS_ONE_PARTY=on` adds one sentence to the prompt that returns such a deal, with the named party in its field and the other empty; the default is off and leaves the prompt as it was, character for character, until the owner rules (chain 156's ruling 2). On the six stated deals of the audit's sample with no row, the switch on returns three (the two above, and Shell's sale of Jiffy Lube to Monomoy Capital, a sale of an asset that is not an energy asset); a plan ("plans $1.8 billion investment"), a commentary headline that names a deal and a valuation still get none (`tests/test_session2256_deals.py`).
+
+### A deal's country from the words (session 2257)
+
+A country is kept where the story's words name it, by its name or its adjective ("Indonesian assets" names Indonesia). Where the model leaves the country empty, the code reads it from the cluster's titles and summaries when one country is named just before what is traded or built ("US shale", "US power deal", "Venezuela gas infrastructure"): the United States by any of its words, read case by case so the pronoun "us" never counts; another country by its name, not its adjective, since an adjective often describes a party ("the Italian oil and gas group"); and where the United States and one other country are both named, the other, since the US words then describe the party ("US energy services firm Baker Hughes"). A country named only as a party's home ("Japan's Jera") is not taken. The words are written to the run's log. On the audit's sample, deals with a place missed went from 12 to 3 (`tests/test_session2257_deals.py`).
+
+### A kind the rule would call "other" (session 2258)
+
+A deal the kind rule would call "other" is read once more from its own words (asset and evidence), in this order: a lease of a data center is `compute_capacity` (a lease is a lease, whatever bonds fund the building); a credit backstop, credit support, loan, bond or guarantee is `project_finance` where the deal names its asset, else `capital`; a data center as the asset of a deal between two named parties is `compute_capacity`, unless the asset is something sold to a data center ("optical fiber for data centers", "local energy infrastructure for ... data center"); a stake bought, sold or exited is `m_and_a`. "Nuclear upgrades" are an uprate's words, and a nuclear deal whose stories name a restart or an uprate ("May Restart Abandoned US Nuclear Project") is `nuclear_restart_uprate`. On the audit's sample, kinds wrong went from 8 to 0, no other row changing (`tests/test_session2258_deals.py`).
+
+### A stage from the deal's own words (session 2259)
+
+Where the model gives no stage, the stage is read from the deal's evidence sentence, the first of these that its words say: cancelled ("scrap", "end plans", "drop ... plan"), rumored ("in talks", "weighs", "source says"), closed ("completes", "closes", "sold", "acquired", "raised"), financed ("financial close", "closes a loan"), signed ("signs", "agrees", "secures", "partners with", "joins", "picks", "deal with"), announced ("announces", "plans to", "will", "to buy", "to develop"); its span is the words. An empty status then takes the stage where the stage is one of the five words the Roundup prints. A stage or status the model gave, with its span in the story, is kept as it is. On the audit's sample, status missed went from 7 to 0 (`tests/test_session2259_deals.py`). Left open: a present-tense headline verb the model reads as closed ("Woodside Divests ... to Perenco"), which no word rule tells from "takes 5% stakes" or "Seals Acquisition", both read as closed by the second read.
+
+### A party a later story names (session 2260)
+
+When a deal is folded into a record already in the table (one record a deal), a party the later story names that the record lacks joins its `other_parties`, and the record's `parties` (buyer;seller;other_parties) is rebuilt; an empty buyer or seller is filled as before. "Microsoft, Chevron and Engine No. 1 sign exclusive deal for power supply", folded into "Chevron, Microsoft Eye Massive Texas Power Project", had kept Microsoft and Chevron only (`tests/test_session2260_deals.py`). A company acquired with no seller named stays the deal's `asset`, not its seller: `seller` is the party selling, as the Roundup prints it.
+
+### A datacenter word that is a motive or a market (session 2270)
+
+A deal is AI power where a named AI lab, hyperscaler or datacenter operator is a party, or where the load the deal serves is a datacenter. A datacenter word that names a motive or a market ("tied to data centre buildout", "for data center and utility markets", "amid the AI boom") is taken out of the words before the load is read, so it no longer tags the deal; a named AI party still does. On the audit's sample, AI-power tags wrong went from 2 to 0, no other row changing (`tests/test_session2270_deals.py`).
+
+### A contract's sum that is another thing's (session 2271)
+
+For a power purchase, an offtake, a lease or a fuel supply, a USD figure is not the deal's when the story's next words are what funds something ("Funded by $3.8 Billion of Junk Bonds") or an asset's cost that no deal word follows ("Over $7 Billion Texas Power Plant"); it is not kept, and the log says why. "$7.5 billion AI data center lease" and "$19 billion data center lease deal" are the contract's own and stay; for a debt deal or an acquisition, the sum is read as before. The cross-check reads the headline the same way, so such a row is not flagged for a figure it refused. On the audit's sample, figures of another thing went from 2 to 0, no other row's sum or flag changing (`tests/test_session2271_deals.py`).
+
+### The provider of credit (session 2275)
+
+In debt and project finance the investors or lenders are the buyer and the company raising the money the seller. Where a deal names no buyer and its evidence says the stored seller provides credit ("Google to serve as credit backstop for TeraWulf data center in Kentucky"; "provides ... financing", "extends a loan", "offers a guarantee"), that party becomes the buyer, and the company the credit is for ("for TeraWulf data center") the seller, taken out of the other parties. The log says so. On the audit's sample, parties wrong went from 1 to 0, no other row changing (`tests/test_session2275_deals.py`).
+
+### A project one party leads (session 2277)
+
+A record whose only named party leads a project, with no counterparty ("Abu Dhabi's G42 Leads $1 Billion Data Center Project in Vietnam"), is not a transaction and is not kept: leading a project is neither a sale nor an award (chain 156's ruling 2 is about those). The log says so (`tests/test_session2277_deals.py`).
+
+### A figure stated in US dollars beside another currency (session 2285)
+
+The model is told not to convert currencies, and leaves a deal's USD empty when its story gives the sum in euros or pounds, even where the story itself adds the US-dollar figure ("EUR 835 million (US$938 million) portfolio financing"). Where the model gives no USD and the deal's evidence states exactly one figure explicitly in US dollars (US$ or USD; never a bare $), that figure is the deal's USD, with the words as its span, unless it is a contract's funding or an asset's cost (session 2271). The log says so (`tests/test_session2285_deals.py`).
+
+### Talks with one party named (session 2288)
+
+Talks are a transaction (status rumored) between two named companies. A record whose evidence speaks of talks and which names one party only ("Qatar in Talks to Buy More US LNG") is not kept; a company that "looks to" or "weighs" a deal is left as the model reads it (`tests/test_session2288_deals.py`).

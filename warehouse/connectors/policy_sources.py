@@ -70,6 +70,8 @@ import requests
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import iso_prices as ip  # noqa: E402
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "policy"))
+import policy_fields as pf  # noqa: E402  session 3233: its own name, beside the deals tracker's fields  session 3056: body, instrument, status, dates, next step, figure, docket ids
 
 NAME = "policy_actions"
 ROOT = ip.ROOT
@@ -131,10 +133,12 @@ STATES = {"Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "C
           "Wisconsin": "WI", "Wyoming": "WY"}
 SCORE_COLS = ["significance", "sector", "why", "model_id", "scored_at", "model_recheck", "model_rechecked_at"]
 TEXT_COLS = ["first_paragraph", "place_words", "title_register", "text_status", "text_read_at"]  # session 157: from the printed text
+FIELD_COLS = pf.FIELD_COLS  # session 3056 (chain 166): the precise fields, warehouse/policy/fields.py; beside, never instead
 COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price", "currency", "status", "source",
         "source_url", "agency", "action_type", "title", "abstract", "docket", "rin", "fr_document_number",
-        "sector_tags", "states", "related_urls", "news_story_ids", "news_story_urls"] + TEXT_COLS + SCORE_COLS + ["retrieved_at"]
-COLS_S154 = [c for c in COLS if c not in TEXT_COLS + ["model_recheck", "model_rechecked_at"]]  # the table before session 157
+        "sector_tags", "states", "related_urls", "news_story_ids", "news_story_urls"] + TEXT_COLS + FIELD_COLS + SCORE_COLS + ["retrieved_at"]
+COLS_S154 = [c for c in COLS if c not in TEXT_COLS + FIELD_COLS + ["model_recheck", "model_rechecked_at"]]  # the table before session 157
+COLS_S157 = [c for c in COLS if c not in FIELD_COLS]  # the table of session 157 to session 3056
 STOP = set("the and for of to in on a an by with from at as is are be or its that this under final notice rule "
            "proposed commission department agency federal u.s. us announces approves".split())
 
@@ -222,8 +226,12 @@ TITLE_WORD = re.compile(r"^(Notice|Order|Errata|Supplemental|Revised|Amended|App
 FOOTNOTE = re.compile(r"\\\d+\\")
 PARA_MAX = 1500
 PLACE_REACH = 8000
-IN_A_COUNTY = re.compile(r"\b(?:Count(?:y|ies)|Parish(?:es)?|Borough|Township)s?,?\s+(?:" + STATE_NAMES + r")\b"
-                         r"|\b(?:is|are|be|facility|facilities|project) located\b[^.;]{0,160}?\b(?:" + STATE_NAMES + r")\b")
+# session 3127 (chain 169, the audit's class 6): Alaska's census areas ("Chugach Census Area, in Valdez, Alaska"), a
+# plant or site "located at" or "located in" a place ("located at the Palisades Energy Center in Covert, Michigan"),
+# and a part of a state ("the Southern Ute Indian Reservation in southwestern Colorado") place an action too
+IN_A_COUNTY = re.compile(r"\b(?:Count(?:y|ies)|Parish(?:es)?|Borough|Township|Census Area)s?,?\s+(?:in\s+[A-Z][a-z]+,\s+)?(?:" + STATE_NAMES + r")\b"
+                         r"|\b(?:(?:is|are|be|facility|facilities|project|plant|site) located|located (?:at|in|on|near))\b[^.;]{0,160}?\b(?:" + STATE_NAMES + r")\b"
+                         r"|\bin (?:north|south|east|west|central|northeast|northwest|southeast|southwest)(?:ern)? (?:" + STATE_NAMES + r")\b")
 # A party of a title that is a public body keeps its state ("City of Chignik, Alaska", "New Hampshire Department of
 # Environmental Services"); any other party is an applicant's name and is taken out whole.
 PUBLIC_BODY = re.compile(r"\b(City|Town|Village|County|Borough|State|Commonwealth|Department|Commission|District|"
@@ -304,19 +312,40 @@ def place_states(title, abstract, first_paragraph, place_words=""):
     abstract and the first paragraph name none."""
     parties = title_parties(title)
     got = states(" . ".join(not_a_place(x, parties) for x in (title, abstract, first_paragraph)))
+    # session 3127: a public body of the title named with its state's postal code ("City of Pelican, AK; Notice of ...")
+    codes = set(STATES.values())
+    for m in re.finditer(r"\b(?:City|Town|Village|Borough|County) of [A-Z][A-Za-z .'-]{1,40}?, ([A-Z]{2})\b", title or ""):
+        if m.group(1) in codes and m.group(1) not in got.split(";"):
+            got = ";".join(sorted(set(filter(None, got.split(";"))) | {m.group(1)}))
+    # session 3131: a water that lies within one state places an offshore action there ("Cook Inlet Outer Continental
+    # Shelf Oil and Gas Lease Sale"); a water shared by several states (the Gulf, the Atlantic) places nothing
+    if not got:
+        for water, code in ONE_STATE_WATERS:
+            if re.search(water, f"{title or ''} {abstract or ''}", re.I):
+                got = code
+                break
     return got or states(not_a_place(place_words, parties))
 
 
+ONE_STATE_WATERS = [(r"\bCook Inlet\b", "AK"), (r"\bBeaufort Sea\b", "AK"), (r"\bChukchi Sea\b", "AK"), (r"\bNorton Sound\b", "AK"),
+                    (r"\bPuget Sound\b", "WA")]
+
+
 def county_sentence(text):
-    """The first sentence of the text that places something in a county, parish or borough of a state; '' if none."""
-    m = IN_A_COUNTY.search(text or "")
-    if not m:
-        return ""
-    cut = max(text.rfind(". ", 0, m.start()), text.rfind("; ", 0, m.start()), text.rfind(": ", 0, m.start()))
-    a = cut + 2 if cut >= 0 else 0
-    ends = [x for x in (text.find(". ", m.end()), text.find("; ", m.end())) if x >= 0]
-    b = min(ends) + 1 if ends else len(text)
-    return text[max(a, m.start() - 250):min(b, m.end() + 200)].strip()
+    """The first sentence of the text that places something in a county, parish or borough of a state; '' if none.
+    Session 3127: a sentence whose only state stands in a postal address (a meeting's hall) is passed over for the
+    next, so the place is the action's, not the venue's."""
+    first = ""
+    for m in IN_A_COUNTY.finditer(text or ""):
+        cut = max(text.rfind(". ", 0, m.start()), text.rfind("; ", 0, m.start()), text.rfind(": ", 0, m.start()))
+        a = cut + 2 if cut >= 0 else 0
+        ends = [x for x in (text.find(". ", m.end()), text.find("; ", m.end())) if x >= 0]
+        b = min(ends) + 1 if ends else len(text)
+        sentence = text[max(a, m.start() - 250):min(b, m.end() + 200)].strip()
+        first = first or sentence
+        if states(not_a_place(sentence, ())):
+            return sentence
+    return first
 
 
 def printed(raw, record_title=""):
@@ -488,6 +517,9 @@ def read_texts(rows, held, store, log, max_requests=300, max_bytes=300_000_000, 
         elif old.get("text_status"):
             for c in TEXT_COLS:
                 r[c] = old.get(c, "")
+            if "text" in (old.get("fields_from") or ""):   # session 3056: the fields read from its text before
+                for c in FIELD_COLS:
+                    r[c] = old.get(c, "")
             if old["text_status"] == "read":
                 if old.get("title_register"):
                     r["title"] = old["title"]
@@ -524,6 +556,7 @@ def read_texts(rows, held, store, log, max_requests=300, max_bytes=300_000_000, 
             raw, r["text_status"], r["text_read_at"] = content.decode("utf-8", "replace"), "read", now
         got = printed(raw, r["title"])
         r["first_paragraph"] = got["first_paragraph"]
+        r.update(pf.derive(r, raw, r.get("_record")))   # session 3056: from the printed text and the record
         full = got["title"]
         if cut_short(r["title"], full):
             r["title_register"], r["title"] = r["title"], full   # the Register's record cuts the title short
@@ -548,7 +581,8 @@ def get(url, log, **kw):
 
 def federal_register(since, log):
     fields = ["document_number", "type", "title", "abstract", "action", "publication_date", "agencies", "docket_ids",
-              "regulation_id_numbers", "html_url", "topics", "significant", "raw_text_url"]
+              "regulation_id_numbers", "html_url", "topics", "significant", "raw_text_url",
+              "effective_on", "comments_close_on"]   # session 3056: the record's own dates
     rows, got = [], ip.utc_iso(pd.Timestamp.now(tz="UTC"))
     for slug, short in AGENCIES.items():
         for t in TYPES:
@@ -592,6 +626,8 @@ def federal_register(since, log):
                     "fr_document_number": x["document_number"], "sector_tags": tags(text, agency, docket),
                     "states": place_states(title, f"{abstract} {' '.join(x.get('topics') or [])}", ""),
                     "_text_url": x.get("raw_text_url") or "", "_topics": " ".join(x.get("topics") or []),
+                    "_record": {"agencies": names, "effective_on": x.get("effective_on") or "",
+                                "comments_close_on": x.get("comments_close_on") or ""},
                     "retrieved_at": x["_got"]})
     log(f"  Federal Register: {len(seen)} documents, {len(out)} kept (energy, not routine)")
     return out
@@ -632,11 +668,13 @@ def press(name, agency, link, date, title, text, got, st):
     # session 154: the PUCT's news page also lists releases of the Governor's office (gov.texas.gov); the row stays
     # under the commission that lists it, and parties names who issued it
     parties = f"Office of the Texas Governor;{agency}" if "gov.texas.gov" in link.lower() else agency
-    return {"event_id": f"{name}:{hashlib.sha1(link.encode()).hexdigest()[:12]}", "event_date": date,
-            "event_type": "announcement", "parties": parties, "status": "news release", "source": f"{name}:news",
-            "source_url": link, "agency": agency, "action_type": "press_release", "title": title, "abstract": "",
-            "docket": "", "rin": "", "fr_document_number": "", "sector_tags": tags(text, agency), "states": st,
-            "retrieved_at": got}
+    row = {"event_id": f"{name}:{hashlib.sha1(link.encode()).hexdigest()[:12]}", "event_date": date,
+           "event_type": "announcement", "parties": parties, "status": "news release", "source": f"{name}:news",
+           "source_url": link, "agency": agency, "action_type": "press_release", "title": title, "abstract": "",
+           "docket": "", "rin": "", "fr_document_number": "", "sector_tags": tags(text, agency), "states": st,
+           "retrieved_at": got}
+    row.update(pf.derive(row, text if text != title else "", None))   # session 3056: from the release's own words
+    return row
 
 
 def puct(since, log):
@@ -786,7 +824,9 @@ def widen_held(log):
         return False
     n = ip.header_rows(path)
     old = pd.read_csv(path, skiprows=n, dtype=str, keep_default_na=False)
-    if list(old.columns) != COLS_S154:
+    # session 3056: a table of any earlier shape (its columns today's, in today's order, some missing) gains the
+    # missing ones; session 157's check took the shape of session 154 only
+    if set(old.columns) - set(COLS) or [c for c in COLS if c in old.columns] != list(old.columns) or list(old.columns) == COLS:
         return False
     ip._require_lock(path, f"widening {NAME}")
     with open(path, encoding="utf-8") as fh:
@@ -798,7 +838,8 @@ def widen_held(log):
         fh.writelines(head)
         old[COLS].to_csv(fh, index=False, lineterminator=chr(10))
     os.replace(path + ".tmp", path)
-    log(f"  {NAME}: the table held gained the columns of session 157, empty ({len(old)} rows, no value changed)")
+    log(f"  {NAME}: the table held gained the columns {', '.join(c for c in COLS if c not in old.columns)}, empty "
+        f"({len(old)} rows, no value changed)")
     return True
 
 
@@ -850,6 +891,9 @@ def main(argv=None):
         held = held_table()
         counts = read_texts(rows, held, text_dir(args), log, max_requests=args.max_texts, max_bytes=args.max_text_bytes,
                             pause=max(0.5, args.text_pause))
+        for r in rows:   # session 3056: a row whose text was not read this run, nor before: its fields from the record and summary
+            if not r.get("fields_from"):
+                r.update(pf.derive(r, "", r.get("_record")))
         results.append(dict(table=NAME, market="printed_text", status="ok",
                             detail=f"{counts['asked']} asked ({counts['bytes']} bytes), {counts['store']} from the store, "
                                    f"{counts['table']} read before, {counts['not_reachable']} not reachable, "
@@ -893,6 +937,10 @@ def main(argv=None):
             "Session 157: first_paragraph, title_register, text_status and text_read_at come from each Register "
             "document's printed text, read once (the place in states is read from it too); model_recheck says whether "
             "the model's fields were rechecked against that text, and model_rechecked_at when.",
+            "Session 3056: body, instrument, action_status, dates (with dates_evidence), next_step (with its date and "
+            "evidence), figure_value and figure_unit (with figure_evidence), docket_ids and fields_from are read by "
+            "warehouse/policy/fields.py from the Register's record and the document's text, no model and nothing "
+            "guessed: a field neither states is empty (docs/methods/policy_monitor.md, section 14).",
         ] + ([f"Absent inputs: {', '.join(absent)} (failed this run; their rows from earlier runs are kept)"] if absent else []) + [
             "License: public (US and state government publications)."]
         widen_held(log)

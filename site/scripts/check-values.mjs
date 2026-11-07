@@ -79,6 +79,8 @@ const FLOOR = fs.existsSync(FLOOR_FILE) ? JSON.parse(fs.readFileSync(FLOOR_FILE,
 const ONLY = (process.env.CHECK_VALUES_PAGES ?? "").split(",").map((v) => v.trim()).filter(Boolean);
 const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre));
 const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?view=comparables", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/datacenters?view=grids", "/roundup",
+  // session 3405 (chain 202): the Attention page's headline numbers (series keys of attention_index_weekly and friction_index_weekly)
+  "/attention",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/demand?view=consumption",
   // session 404: the demand growth explorer (the default, ERCOT's whole-year average; the peak with the Lower 48's missing
@@ -136,6 +138,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/impact", "/impact?tech=utility_pv&state=la&mw=200&life=30", "/impact?tech=natural_gas&state=nm&capex=120&local=80", "/impact?tech=geothermal&state=us&life=25",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
+  "/play/ev",  // session 3276: the EV game's four figures at the defaults (ev|US|...)
   "/play/battery", "/play/battery?mode=hard",  // session 63: the simple page and the full game; session 289: one page, three modes (?more=1 redirects)
   // session 39: three more events
   "/events", "/events/caiso-heat-2020", "/events/elliott-2022", "/events/ercot-heat-2023",
@@ -524,6 +527,37 @@ async function truth(check) {
     const v = { comp_deals: cell.deals, comp_with_price: cell.withPrice, comp_with_mw: cell.withMw, comp_median_price: cell.medianPrice, comp_median_mw: cell.medianMw }[stat];
     return v ?? undefined;
   }
+  // session 2241: the four charts, deals|chart_<mw|price|ai|party>|<x>|<series>, the page's own functions
+  if (p[0] === "deals" && String(p[1]).startsWith("chart_")) {
+    const D = await import("../lib/deals2.ts");
+    const A = await import("../lib/dealsai.ts");
+    const rows = await all("events", { select: "event_id,event_date,status,mw,price,currency,parties,source,source_url,extra", table_name: "eq.energy_deals", order: "event_date.desc,event_id" });
+    const pairs = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "deal_duplicates.json"), "utf-8")).pairs;
+    return A.figures(D.fold(rows.map(D.toDeal), pairs))[check] ?? undefined;
+  }
+  // session 2240: the AI-power view, deals|ai_<deals|mw|with_mw|usd|with_usd>|<dimension>|<value>, the page's own functions
+  if (p[0] === "deals" && String(p[1]).startsWith("ai_")) {
+    const D = await import("../lib/deals2.ts");
+    const A = await import("../lib/dealsai.ts");
+    const [, stat, dim, value] = p;
+    const rows = await all("events", { select: "event_id,event_date,status,mw,price,currency,parties,source,source_url,extra", table_name: "eq.energy_deals", order: "event_date.desc,event_id" });
+    const pairs = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "deal_duplicates.json"), "utf-8")).pairs;
+    const cell = A.aiCells(D.fold(rows.map(D.toDeal), pairs), dim).find((c) => c.value === (value === "-" ? "" : value));
+    if (!cell) return undefined;
+    const v = { ai_deals: cell.deals, ai_mw: cell.mw, ai_with_mw: cell.withMw, ai_usd: cell.usd, ai_with_usd: cell.withUsd }[stat];
+    return v ?? undefined;
+  }
+  // session 2239: the disclosed prices, deals|price_<count|median|low|high>|<dimension>|<value>, the page's own functions
+  if (p[0] === "deals" && String(p[1]).startsWith("price_")) {
+    const D = await import("../lib/deals2.ts");
+    const [, stat, dim, value] = p;
+    const rows = await all("events", { select: "event_id,event_date,status,mw,price,currency,parties,source,source_url,extra", table_name: "eq.energy_deals", order: "event_date.desc,event_id" });
+    const pairs = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "deal_duplicates.json"), "utf-8")).pairs;
+    const cell = D.priceCells(D.fold(rows.map(D.toDeal), pairs), dim).find((c) => c.value === (value === "-" ? "" : value));
+    if (!cell) return undefined;
+    const v = { price_count: cell.count, price_median: cell.median, price_low: cell.low, price_high: cell.high }[stat];
+    return v ?? undefined;
+  }
   if (p[0] === "deals") {
     const [, what, month] = p;
     const rows = await all("events", { select: "event_date,mw,ai:extra->>ai_power", table_name: "eq.energy_deals" });
@@ -607,6 +641,56 @@ async function truth(check) {
       const rows = await all("entities", { ...base, select: "capacity_mw", order: "entity_id" });
       return rows.reduce((a, r) => a + (r.capacity_mw === null ? 0 : Number(r.capacity_mw)), 0);
     }
+  }
+  // session 2243: the rollups by grid and operator, datacenters|rollup_<facilities|mw|with_mw|without>|<dim>|<value>,
+  // the page's own function (lib/dcrollups.ts) on every row of datacenter_facilities as the page reads it
+  if (p[0] === "datacenters" && String(p[1]).startsWith("rollup_")) {
+    const R = await import("../lib/dcrollups.ts");
+    const [, stat, dim, value] = p;
+    const rows = await all("entities", { select: "entity_id,capacity_mw,status,operator,extra", table_name: "eq.datacenter_facilities", order: "entity_id" });
+    const r = R.rollups(rows, dim).find((x) => x.value === (value === "-" ? "" : value));
+    if (!r) return undefined;
+    const v = { rollup_facilities: r.counted, rollup_mw: r.mw, rollup_with_mw: r.withMw, rollup_without: r.without }[stat];
+    return v ?? undefined;
+  }
+  // session 2244: the facilities against each grid, dcgrid|<stat>|<grid>: the facilities' figures with the page's
+  // function (lib/dcrollups.ts gridLoads) on datacenter_facilities; the peak and capacity from grid_peak_vs_capacity in
+  // the live set; ERCOT's reserve margin from the file the page reads (data/siting/headroom.json, its build's table)
+  // session 2245: the timeline, dctime|<count|median>|<grid|year>|<value>, the page's own function on the live set
+  // session 2246: the tracker's charts, dcchart|<planned|operator|power>|<x>|<series>, the page's own functions
+  if (p[0] === "dcchart") {
+    const R = await import("../lib/dcrollups.ts");
+    const rows = await all("entities", { select: "entity_id,capacity_mw,status,operator,extra", table_name: "eq.datacenter_facilities", order: "entity_id" });
+    return R.dcFigures(rows)[check] ?? undefined;
+  }
+  if (p[0] === "dctime") {
+    const R = await import("../lib/dcrollups.ts");
+    const [, stat, dim, value] = p;
+    const rows = await all("entities", { select: "entity_id,capacity_mw,status,operator,extra", table_name: "eq.datacenter_facilities", order: "entity_id" });
+    const c = R.timelineCells(R.timeline(rows), dim).find((x) => x.value === (value === "-" ? "" : value));
+    return c ? (c[stat] ?? undefined) : undefined;
+  }
+  if (p[0] === "dcgrid") {
+    const [, stat, grid] = p;
+    const id = { ERCOT: "ercot", CAISO: "caiso", PJM: "pjm", MISO: "miso", SPP: "spp", NYISO: "nyiso", "ISO-NE": "isone" }[grid];
+    if (stat === "peak_mw" || stat === "capacity_mw") {
+      const variable = stat === "peak_mw" ? "peak_demand_mw" : "capacity_mw";
+      return (await q("series", { select: "value", table_name: "eq.grid_peak_vs_capacity", entity: `eq.grid_peak_vs_capacity:${id}`, variable: `eq.${variable}`, order: "ts_utc.desc", limit: "1" }))[0]?.value;
+    }
+    if (stat === "reserve_margin") {
+      const h = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "siting", "headroom.json"), "utf-8"));
+      return h.reserve?.grids?.[id]?.peak?.pct;
+    }
+    const R = await import("../lib/dcrollups.ts");
+    const rows = await all("entities", { select: "entity_id,capacity_mw,status,operator,extra", table_name: "eq.datacenter_facilities", order: "entity_id" });
+    const l = R.gridLoads(rows).find((x) => x.grid === grid);
+    if (stat === "share_of_peak") {
+      const pk = (await q("series", { select: "value", table_name: "eq.grid_peak_vs_capacity", entity: `eq.grid_peak_vs_capacity:${id}`, variable: "eq.peak_demand_mw", order: "ts_utc.desc", limit: "1" }))[0]?.value;
+      return l ? R.shareOfPeak(l, pk ?? null) ?? undefined : undefined;
+    }
+    if (!l) return undefined;
+    const v = { facilities: l.facilities, with_mw: l.withMw, without: l.without, planned: l.planned, under_construction: l.underConstruction, operating: l.operating }[stat];
+    return v ?? undefined;
   }
   if (p[0] === "datacenters") {
     // session 177: since session 166 (part F) the page's totals count only the rows in a named US state that are not
@@ -925,6 +1009,15 @@ async function truth(check) {
     return stats(rows.map((r) => ({ ...r, value: Number(r.value) })), entity, market, start, end)[stat];
   }
   if (p[0] === "spotmean") return spotMean(p[1], p[2]);
+  // session 3276: the EV game's figures at the defaults (ev|<state or US>|power_cents, gas, payback or npv), recomputed by
+  // lib/ev.ts keyed() from data/ev_prices.json, the file the page is built from (the two EIA tables are not in the live
+  // set: docs/methods/ev_game.md)
+  if (p[0] === "ev") {
+    const { keyed } = await import("../lib/ev.ts");
+    const E = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "ev_prices.json"), "utf-8"));
+    const s = p[1] === "US" ? E.us : E.states.find((x) => x.code === p[1]);
+    return s?.power && s?.gas ? keyed(s.power.value, s.gas.value)[p[2]] ?? undefined : undefined;
+  }
   if (p[0] === "sev" || p[0] === "sevcert" || p[0] === "sevcredit") {
     const S = await import("../lib/severance.ts");
     const R = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "severance_rules.json"), "utf-8"));

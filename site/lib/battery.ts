@@ -569,6 +569,40 @@ export function eventPageFor(date: string): { href: string; label: string } | nu
 export const FLEET_MW = (FLEET * BATTERY.kw) / 1000;
 export const FLEET_MWH = (FLEET * BATTERY.kwh) / 1000;
 
+// --- session 3600: the owner's rulings of 14 October 2026 and Kelsey's asks of 5 October, the last pieces ----------------
+
+/** Session 3600 (ruling 2: before play in every mode, the day's average and some of its variance): the day's real prices
+ * at a glance, USD/MWh. The lowest, the mean and the highest; the standard deviation (of the day's own intervals, divided
+ * by their count: the day is the whole population, not a sample); and the typical range, the mean plus or minus one
+ * standard deviation, clipped to the day's lowest and highest. Null for an empty day: nothing is filled in. */
+export type Glance = { lo: number; avg: number; hi: number; sd: number; typicalLo: number; typicalHi: number; n: number };
+export function glance(prices: number[]): Glance | null {
+  if (!prices.length || !prices.every((p) => Number.isFinite(p))) return null;
+  const n = prices.length;
+  const avg = prices.reduce((a, v) => a + v, 0) / n;
+  const sd = Math.sqrt(prices.reduce((a, v) => a + (v - avg) ** 2, 0) / n);
+  const lo = Math.min(...prices), hi = Math.max(...prices);
+  return { lo, avg, hi, sd, typicalLo: Math.max(lo, avg - sd), typicalHi: Math.min(hi, avg + sd), n };
+}
+
+/** Session 3600 (the owner's rule 4: Hard has one grid-constrained moment, said plainly): Hard's outage is that moment, one
+ * window (emergencyOf's `outage`, two hours after the dearest hour) in which the battery cannot discharge to the grid, nor
+ * buy from it: simulate() ignores the player's action there. The words the page shows while it lasts, `from` and `to` the
+ * window's clock times. */
+export function gridDownWords(from: string, to: string): string {
+  return `The grid is down from ${from} to ${to}: your battery cannot sell (discharge to the grid) or buy until it is back. It runs your house instead.`;
+}
+
+/** Session 3600 (the owner's rule: every price the game uses is a real stored price, its source given as a hover): the
+ * hover on a shown price. `prices` names the market in words; the level names its warehouse table, the publisher's
+ * report and when the ERW retrieved it, where it holds them (a missing one is left out, never invented). */
+export function priceHover(prices: string, l: { date: string; table?: string; source?: string[]; retrieved_at?: string }): string {
+  const parts = [`Real prices: ${prices}, ${l.date}, USD per MWh, every 15 minutes.`];
+  if (l.source && l.source.length) parts.push(`Source: ${l.source.join(", ")}${l.retrieved_at ? `, retrieved ${l.retrieved_at}` : ""}.`);
+  if (l.table) parts.push(`ERW table: ${l.table}.`);
+  return parts.join(" ");
+}
+
 /** Session 46 (problem set D): one full cycle of the game's battery, empty to full at `buy` and full to empty at `sell`
  * (USD/MWh): it buys 13.5 kWh over the square root of 0.9 and delivers 13.5 kWh times it; the cash is USD. */
 export function fullCycle(buy: number, sell: number): { bought: number; delivered: number; usd: number } {
