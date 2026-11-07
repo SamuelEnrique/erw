@@ -35,7 +35,7 @@ import pandas as pd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "policy"))
-import fields as pf  # noqa: E402
+import policy_fields as pf  # noqa: E402  session 3233: its own name, beside the deals tracker's fields
 import records as pr  # noqa: E402
 
 SITE = os.path.join(ROOT, "site")

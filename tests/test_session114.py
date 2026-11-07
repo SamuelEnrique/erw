@@ -237,7 +237,8 @@ class Stores(unittest.TestCase):
 
 class DealsPage(unittest.TestCase):
     def test_the_ai_tag_is_read_whatever_its_case(self):
-        page = src("site", "app", "deals", "page.tsx")
+        # session 2242: the page's rows are mapped by site/lib/dealsview.ts rowOf (session 2238), the same line
+        page = src("site", "app", "deals", "page.tsx") + src("site", "lib", "dealsview.ts")
         self.assertIn('aiPower: String(x.ai_power ?? "").toLowerCase() === "true"', page)
         self.assertNotIn('x.ai_power === "true"', page)
 
