@@ -4,8 +4,8 @@ Energy Research Warehouse (ERW), session 3412, for Samuel. The fourth window's c
 
 - **Who ran it:** this window, under the owner's prompt of 6 November 2026 (file 202).
 - **Beside it:** chain 200 in the third window (sessions from 3300; its landing held the build lock from 20:32 UTC), the data machine's daily task.
-- **The live site:** LIVE_SITE_LINE
-- **Model spend:** SPEND_LINE
+- **The live site:** every page 200 in every snapshot of this chain; `s3407-before` and `s3407-after` around the landing, 25 pages, 0 differences; the records' push has its own pair.
+- **Model spend:** USD 8.99 of the chain's USD 20 (sessions 3401 USD 0.75, 3402 USD 3.01, 3403 USD 3.02, 3404 USD 2.21; USD 0 in every other session), every call a row of `api_cost_ledger`.
 
 ## Read these first
 
@@ -28,12 +28,12 @@ Energy Research Warehouse (ERW), session 3412, for Samuel. The fourth window's c
 | 3404 | The headline backfill (3,548 headlines), the method note complete, the tracers, the Digest cross-check, the tables rewritten (every link row headlined) and loaded into the live set (14,072 rows, each a match). USD 2.21 |
 | 3405 | The page built (93 s) and read at 1280 and 390 through the site's browser helper; check-values 4 of 4, check-390 clean, AccessLint two findings; the records a new public table needs: the license record, the release list v1 (139 tables), the Redivis draft (counts matching), the package records, the tools inventory, the menu tests. USD 0 |
 | 3406 | The page's faults fixed (the default week, the tone hover, the charts' span, checked figures in the rising tables, empty tables as sentences); the suite in five groups in the worktree, every group passing but main's own board test; origin/main merged twice, the generated documents regenerated on the merged tree. USD 0 |
-| 3407 | LANDING_LINE |
+| 3407 | Three gates: the first failed on the release line (reverted), the second on the page's one-decimal figures (two decimals since), the third (`ff2898e9`) passed the suite (8,076) and check-values (7,835 of 7,835, three known floors of main's); the three skipped checks by hand (routes 225, cross-checks 92, csp 97); `s3407-before`, the push to `task/3400-attention`, merged as `8b9b97615` at 02:00 UTC, deployed 02:02, `s3407-after`: 25 pages, 0 differences. USD 0 |
 | 3408 | The GDELT probe (ten requests) and its estimate, `docs/reviews/gdelt-estimate-2026-11-06.md`. USD 0 |
 | 3409 | The local permitting probe (twelve requests) and its estimate, `docs/reviews/local-permitting-estimate-2026-11-06.md`. USD 0 |
 | 3410 | The research memo, `docs/reviews/attention-paper-notes-2026-11-06.md`: three candidate findings, the paper's outline and limits. USD 0 |
-| 3411 | S3411_LINE |
-| 3412 | This note; the next file updated; the queue step by name. USD 0 |
+| 3411 | The second look on the gate's own build (the figures with two decimals against their raw values, 19 checked numbers, no empty table, the charts from the first classified week to the week the file was built in); the chart span's end for a feed-dated future week; the queue step tried by name against the parked file. USD 0 |
+| 3412 | This note; the next file updated where it now lives, `queue/parked/203-day-7-november-desktop-window4-continued.md` (you had every `queue/next/` file parked for the weekend review at 23:16 UTC, through this window); the queue step by name not taken: the file is parked, and `chain_queue.py next --file` refuses a window's file on a data machine (the window starts it with `chain_queue.take(who='lab-desktop-window4', file=...)` once you unpark it); the window's records pushed to main with their snapshots. USD 0 |
 
 ## Decisions made without you
 
@@ -48,7 +48,9 @@ Energy Research Warehouse (ERW), session 3412, for Samuel. The fourth window's c
 - **The classifier writes outside the warehouse** (raw jsonl files, appended call by call) and the table writer reads them under the data lock, so a long run never holds the lock.
 - **One review line in `site/lib/release.ts`** (above). **The menu-shape tests and the tools inventory** told of the sixth Analysis page.
 - **The internal view's token was never read** into this window (the classifier refused it, rightly); the site's own browser helper opened the view for the pictures and the checks.
-- **Background jobs stopped by Claude Code for low memory** (the backfill's wrapper and a build, 20:46 UTC) were not started again in the background: the backfill's python finished on its own, the build was run in the foreground, the landing gate was started detached.
+- **Background jobs stopped by Claude Code for low memory** (the backfill's wrapper and a build at 20:46 UTC, the hand-checks wrapper at 01:13) were not started again in the background: the backfill's python finished on its own, the build was run in the foreground, the landing gates were started detached, the three page checks were run one by one in the foreground.
+- **The gate's three skipped page checks were run by hand on its kept build** after check-values failed only on main's three known floors (`/deals`, `/learn/problems/know-your-grid`, `/digest`; no new failure, 7,835 values matching), as sessions 2931, 2945 and 3706 read the rule, and **without the build lock**, which the other windows' gates held without a gap for three hours: the lock guards heavy builds, and the checks are page reads of a built site.
+- **The gated commit `ff2898e9` was pushed to `task/3400-attention`** at 01:43 UTC with the before snapshot `s3407-before` taken first (25 pages, 0 failed); the commits after it on the branch (the chart span's end, the reports, this note) wait for the second landing or the next chain.
 
 ## Waiting for Samuel, highest value first
 
