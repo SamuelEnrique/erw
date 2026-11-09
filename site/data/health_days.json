@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-08T19:00Z",
+ "written": "2026-11-09T23:38Z",
  "green_days": 0,
- "counted_to": "2026-11-07",
+ "counted_to": "2026-11-08",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -3079,9 +3079,9 @@
     }
    ]
   },
-  "2026-11-07": {
-   "rows": 708,
-   "failed": 6,
+  "2026-11-08": {
+   "rows": 683,
+   "failed": 8,
    "missing": [],
    "short": [],
    "jobs": {
@@ -3093,98 +3093,104 @@
      "runs": 101
     },
     "daily prices": {
-     "ok": 35,
-     "skipped": 1,
-     "retried": 1,
-     "failed": 5,
+     "ok": 0,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 4,
      "runs": 2
+    },
+    "energy roundup": {
+     "ok": 8,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 1,
+     "runs": 1
     },
     "hourly network": {
      "ok": 22,
-     "skipped": 6,
+     "skipped": 5,
      "retried": 0,
      "failed": 0,
-     "runs": 28
+     "runs": 27
     },
     "latest prices": {
-     "ok": 97,
-     "skipped": 4,
+     "ok": 96,
+     "skipped": 5,
      "retried": 0,
      "failed": 0,
      "runs": 101
     },
     "local:SU-4QC3QR3": {
-     "ok": 50,
+     "ok": 51,
      "skipped": 1,
      "retried": 0,
      "failed": 1,
-     "runs": 52
+     "runs": 53
     },
-    "local:lab-desktop": {
-     "ok": 28,
+    "weekly vacuum": {
+     "ok": 2,
      "skipped": 0,
      "retried": 0,
-     "failed": 0,
-     "runs": 28
-    },
-    "local:portable-laptop": {
-     "ok": 1,
-     "skipped": 0,
-     "retried": 0,
-     "failed": 0,
-     "runs": 1
+     "failed": 2,
+     "runs": 2
     }
    },
    "failures": [
     {
-     "at": "2026-11-07T14:52",
-     "workflow": "daily prices",
-     "step": "portwatch",
-     "reason": "portwatch_chokepoint_transits: portwatch portwatch_chokepoint_transits FAILED, no output file written: RuntimeError: chokepoint6: newest date 2026-10-25 is 13 days old"
+     "at": "2026-11-08T10:15",
+     "workflow": "weekly vacuum",
+     "step": "run_status commit",
+     "reason": "push to main refused: 2 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session502.TheLists.test_the_board_line_and_the_downloads_take_one_li"
     },
     {
-     "at": "2026-11-07T15:17",
-     "workflow": "daily prices",
-     "step": "board_tests",
-     "reason": "the board's tests refused the run's board; put back as committed (runs/daily_board_tests.out)"
-    },
-    {
-     "at": "2026-11-07T15:44",
-     "workflow": "daily prices",
-     "step": "daily run",
-     "reason": "ValueError: datacenter_tracker_rollups: sources ['erw:datacenter_projects'] are not in /home/runner/work/erw/erw/warehouse/metadata/sources.csv; cannot set its license"
-    },
-    {
-     "at": "2026-11-07T18:13",
-     "workflow": "local:SU-4QC3QR3",
-     "step": "dm_test_replication",
-     "reason": "its tests exited 1 (tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720); the group was put back as committed"
-    },
-    {
-     "at": "2026-11-07T18:50",
+     "at": "2026-11-08T14:22",
      "workflow": "daily prices",
      "step": "merge tests",
      "reason": "FAILED (failures=2, skipped=369)"
     },
     {
-     "at": "2026-11-07T19:03",
+     "at": "2026-11-08T14:32",
      "workflow": "daily prices",
      "step": "health summary commit",
      "reason": "push to main refused: 2 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session502.TheLists.test_the_board_line_and_the_downloads_take_one_li"
+    },
+    {
+     "at": "2026-11-08T16:48",
+     "workflow": "weekly vacuum",
+     "step": "run_status commit",
+     "reason": "push to main refused: 2 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session502.TheLists.test_the_board_line_and_the_downloads_take_one_li"
+    },
+    {
+     "at": "2026-11-08T18:13",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_replication",
+     "reason": "its tests exited 1 (tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720); the group was put back as committed"
+    },
+    {
+     "at": "2026-11-08T19:00",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "FAILED (failures=2, skipped=369)"
+    },
+    {
+     "at": "2026-11-08T19:12",
+     "workflow": "daily prices",
+     "step": "health summary commit",
+     "reason": "push to main refused: 2 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session502.TheLists.test_the_board_line_and_the_downloads_take_one_li"
+    },
+    {
+     "at": "2026-11-08T23:29",
+     "workflow": "energy roundup",
+     "step": "ledger: Redivis draft",
+     "reason": "FAIL api_cost_ledger: RuntimeError: refused: 3,889 rows would shrink the rolling-window table below the 3,892 rows last uploaded (2026-11-06T00:58:02Z); if that is intended, --allow-shrink api_cost_le"
     }
    ],
    "stale": [
     {
-     "at": "2026-11-07T15:16",
-     "workflow": "daily prices",
-     "step": "carb_lcfs",
-     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-21, 47 days old (limit 28)"
-    },
-    {
-     "at": "2026-11-07T17:24",
+     "at": "2026-11-08T17:21",
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
-     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 54 days old (limit 28)"
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 55 days old (limit 28)"
     }
    ]
   }
