@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-09T23:38Z",
+ "written": "2026-11-10T21:02Z",
  "green_days": 0,
- "counted_to": "2026-11-08",
+ "counted_to": "2026-11-09",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -3079,18 +3079,18 @@
     }
    ]
   },
-  "2026-11-08": {
+  "2026-11-09": {
    "rows": 683,
-   "failed": 8,
+   "failed": 5,
    "missing": [],
    "short": [],
    "jobs": {
     "chain watch": {
-     "ok": 480,
-     "skipped": 5,
+     "ok": 475,
+     "skipped": 3,
      "retried": 0,
      "failed": 0,
-     "runs": 101
+     "runs": 98
     },
     "daily prices": {
      "ok": 0,
@@ -3100,97 +3100,72 @@
      "runs": 2
     },
     "energy roundup": {
-     "ok": 8,
-     "skipped": 0,
+     "ok": 1,
+     "skipped": 1,
      "retried": 0,
-     "failed": 1,
+     "failed": 0,
      "runs": 1
     },
     "hourly network": {
-     "ok": 22,
-     "skipped": 5,
+     "ok": 23,
+     "skipped": 3,
      "retried": 0,
      "failed": 0,
-     "runs": 27
+     "runs": 26
     },
     "latest prices": {
      "ok": 96,
-     "skipped": 5,
+     "skipped": 3,
      "retried": 0,
      "failed": 0,
-     "runs": 101
+     "runs": 99
     },
     "local:SU-4QC3QR3": {
-     "ok": 51,
-     "skipped": 1,
+     "ok": 71,
+     "skipped": 2,
      "retried": 0,
      "failed": 1,
-     "runs": 53
-    },
-    "weekly vacuum": {
-     "ok": 2,
-     "skipped": 0,
-     "retried": 0,
-     "failed": 2,
-     "runs": 2
+     "runs": 74
     }
    },
    "failures": [
     {
-     "at": "2026-11-08T10:15",
-     "workflow": "weekly vacuum",
-     "step": "run_status commit",
-     "reason": "push to main refused: 2 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session502.TheLists.test_the_board_line_and_the_downloads_take_one_li"
-    },
-    {
-     "at": "2026-11-08T14:22",
+     "at": "2026-11-09T14:27",
      "workflow": "daily prices",
      "step": "merge tests",
      "reason": "FAILED (failures=2, skipped=369)"
     },
     {
-     "at": "2026-11-08T14:32",
+     "at": "2026-11-09T14:40",
      "workflow": "daily prices",
      "step": "health summary commit",
      "reason": "push to main refused: 2 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session502.TheLists.test_the_board_line_and_the_downloads_take_one_li"
     },
     {
-     "at": "2026-11-08T16:48",
-     "workflow": "weekly vacuum",
-     "step": "run_status commit",
-     "reason": "push to main refused: 2 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session502.TheLists.test_the_board_line_and_the_downloads_take_one_li"
-    },
-    {
-     "at": "2026-11-08T18:13",
+     "at": "2026-11-09T18:45",
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_test_replication",
      "reason": "its tests exited 1 (tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720); the group was put back as committed"
     },
     {
-     "at": "2026-11-08T19:00",
+     "at": "2026-11-09T23:38",
      "workflow": "daily prices",
      "step": "merge tests",
-     "reason": "FAILED (failures=2, skipped=369)"
+     "reason": "FAILED (failures=3, skipped=369)"
     },
     {
-     "at": "2026-11-08T19:12",
+     "at": "2026-11-09T23:50",
      "workflow": "daily prices",
      "step": "health summary commit",
-     "reason": "push to main refused: 2 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session502.TheLists.test_the_board_line_and_the_downloads_take_one_li"
-    },
-    {
-     "at": "2026-11-08T23:29",
-     "workflow": "energy roundup",
-     "step": "ledger: Redivis draft",
-     "reason": "FAIL api_cost_ledger: RuntimeError: refused: 3,889 rows would shrink the rolling-window table below the 3,892 rows last uploaded (2026-11-06T00:58:02Z); if that is intended, --allow-shrink api_cost_le"
+     "reason": "push to main refused: 3 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session183.TheHubFiles.test_the_page_library_on_the_files, test_sessi"
     }
    ],
    "stale": [
     {
-     "at": "2026-11-08T17:21",
+     "at": "2026-11-09T17:22",
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
-     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 55 days old (limit 28)"
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 56 days old (limit 28)"
     }
    ]
   }
