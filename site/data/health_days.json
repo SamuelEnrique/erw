@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-10T21:02Z",
+ "written": "2026-11-11T21:13Z",
  "green_days": 0,
- "counted_to": "2026-11-09",
+ "counted_to": "2026-11-10",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -3079,18 +3079,18 @@
     }
    ]
   },
-  "2026-11-09": {
-   "rows": 683,
+  "2026-11-10": {
+   "rows": 666,
    "failed": 5,
    "missing": [],
    "short": [],
    "jobs": {
     "chain watch": {
-     "ok": 475,
-     "skipped": 3,
+     "ok": 480,
+     "skipped": 4,
      "retried": 0,
      "failed": 0,
-     "runs": 98
+     "runs": 100
     },
     "daily prices": {
      "ok": 0,
@@ -3099,19 +3099,12 @@
      "failed": 4,
      "runs": 2
     },
-    "energy roundup": {
-     "ok": 1,
-     "skipped": 1,
-     "retried": 0,
-     "failed": 0,
-     "runs": 1
-    },
     "hourly network": {
-     "ok": 23,
-     "skipped": 3,
+     "ok": 22,
+     "skipped": 5,
      "retried": 0,
      "failed": 0,
-     "runs": 26
+     "runs": 27
     },
     "latest prices": {
      "ok": 96,
@@ -3121,40 +3114,40 @@
      "runs": 99
     },
     "local:SU-4QC3QR3": {
-     "ok": 71,
-     "skipped": 2,
+     "ok": 50,
+     "skipped": 1,
      "retried": 0,
      "failed": 1,
-     "runs": 74
+     "runs": 52
     }
    },
    "failures": [
     {
-     "at": "2026-11-09T14:27",
-     "workflow": "daily prices",
-     "step": "merge tests",
-     "reason": "FAILED (failures=2, skipped=369)"
-    },
-    {
-     "at": "2026-11-09T14:40",
-     "workflow": "daily prices",
-     "step": "health summary commit",
-     "reason": "push to main refused: 2 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session502.TheLists.test_the_board_line_and_the_downloads_take_one_li"
-    },
-    {
-     "at": "2026-11-09T18:45",
-     "workflow": "local:SU-4QC3QR3",
-     "step": "dm_test_replication",
-     "reason": "its tests exited 1 (tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720); the group was put back as committed"
-    },
-    {
-     "at": "2026-11-09T23:38",
+     "at": "2026-11-10T14:23",
      "workflow": "daily prices",
      "step": "merge tests",
      "reason": "FAILED (failures=3, skipped=369)"
     },
     {
-     "at": "2026-11-09T23:50",
+     "at": "2026-11-10T14:33",
+     "workflow": "daily prices",
+     "step": "health summary commit",
+     "reason": "push to main refused: 3 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session183.TheHubFiles.test_the_page_library_on_the_files, test_sessi"
+    },
+    {
+     "at": "2026-11-10T18:12",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_replication",
+     "reason": "its tests exited 1 (tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720); the group was put back as committed"
+    },
+    {
+     "at": "2026-11-10T21:02",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "FAILED (failures=3, skipped=369)"
+    },
+    {
+     "at": "2026-11-10T21:13",
      "workflow": "daily prices",
      "step": "health summary commit",
      "reason": "push to main refused: 3 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session183.TheHubFiles.test_the_page_library_on_the_files, test_sessi"
@@ -3162,10 +3155,10 @@
    ],
    "stale": [
     {
-     "at": "2026-11-09T17:22",
+     "at": "2026-11-10T17:23",
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
-     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 56 days old (limit 28)"
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 57 days old (limit 28)"
     }
    ]
   }
