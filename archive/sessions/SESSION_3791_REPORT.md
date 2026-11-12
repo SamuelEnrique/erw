@@ -22,8 +22,32 @@ Energy Research Warehouse (ERW). Chain 212, session 18 of 18, data machine (lab-
 
 ## The landing
 
-Never between 14:00 and 16:15 UTC: the push waits for 16:15. Written below.
+- **Landed at `9e7fde9a6`** (Merge task/c212-data, run 43256620922):
+  - `git push origin 2af7ce758:refs/heads/task/c212-data` at 16:15:06 UTC, after `freeze.py status` (no freeze) and a pull of main;
+  - the workflow tested the branch merged with main (main had gained one health summary, `8b8339a35`) and merged at 16:28 UTC;
+  - Vercel's deploy: success.
+- **Snapshots (rule 8):**
+  - `c212-land-before` (16:14 UTC) against `c212-land-after` (16:30, after the deploy's success): **0 differences in all**, 25 pages, 0 checked numbers. Expected: every page is in review.
+  - `c212-land-after` against `c212-queue-after` (16:32, after the two queue pushes deployed): 0 differences.
+- **The gate's printed line:** "NOT READY ... check_values failed", printed because of the three known floors. The push followed the rule chain 211's session 3773 followed: floors only (`cv_diff` 0 new), and the three hand checks passed on the same build.
+- `0bec1acbb` (this report's gate record) and this report's last commit wait on `wip/c212-data`. The next file's session 3792 lands them.
 
-## The next file
+## The next file and the queue
 
-`queue/next/215-day-13-november-data-continued.md`: its "Sessions 3793 to 3797" filled from chain 212's note (`runs/c212/update_215.py`), pushed alone after the landing. Written below.
+- `queue/next/215-day-13-november-data-continued.md`: its "Sessions 3793 to 3797" filled from chain 212's note, pushed alone (`b41d3bfa9`). The steps, in order:
+  - the first daily run after the landing committing;
+  - the data machine's run passing its replication group;
+  - the hunt again where data moved;
+  - the per-reactor outages' incremental pull;
+  - the FERC-714 cross-check's map;
+  - the waiting rows re-checked once each.
+- `chain_queue.py next` (after a pull): "taken: 215-day-13-november-data-continued.md by lab-desktop (0 more waiting)". The move `0bc415b13` was pushed, and `git status -sb` read `## main...origin/main`, nothing ahead. Chain 215 runs next, the same way.
+
+## Decisions made without you
+
+- **Pushed with check-values' floors failing,** as the established rule allows: only the known floors, and the three hand checks on the same build.
+- **The report's two later commits are left for chain 215 to land:** a docs-only commit after the gated one is never pushed ungated.
+
+## For Samuel's ruling
+
+- None new; see chain 212's note.
