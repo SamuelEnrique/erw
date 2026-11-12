@@ -93,7 +93,7 @@ def main(argv=None):
     if not os.path.exists(src):
         print(f"{NAME} FAILED: {INPUT} is not on this machine ({src}); nothing written", file=sys.stderr)
         return 1
-    f = pd.read_csv(src, comment="#", dtype=str, keep_default_na=False)
+    f = pd.read_csv(src, skiprows=ip.header_rows(src), dtype=str, keep_default_na=False)
     retrieved = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
     t = build(f, retrieved)
     years = sorted(set(t["x_report_year"]))

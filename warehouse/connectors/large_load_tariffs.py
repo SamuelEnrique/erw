@@ -235,7 +235,7 @@ def main(argv=None):
         # OpenEI rows (openei_urdb:*) it holds under the new columns
         path = os.path.join(ip.OUT_DIR, NAME + ".csv")
         if os.path.exists(path):
-            old = pd.read_csv(path, comment="#", dtype=str, keep_default_na=False)
+            old = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False)
             if list(old.columns) != COLS:
                 keep = old[old["entity"].str.startswith("openei_urdb:")].reindex(columns=COLS, fill_value="")
                 d = pd.concat([d, keep], ignore_index=True) if len(keep) else d

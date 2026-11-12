@@ -83,9 +83,11 @@ class TheCommittedRegistry(unittest.TestCase):
         self.assertEqual(problems, [])
         d = m.rows(regs)
         # session 2938 (chain 155): SPP's HILL process, as FERC's order of 14 January 2026 states it, joined (13 steps)
-        self.assertEqual(len(d), 39)
-        self.assertEqual(sorted(d["x_grid"].unique()), ["CAISO", "ERCOT", "SPP"])
-        self.assertEqual(int((d["x_date_kind"] == "stated date").sum()), 3)
+        # session 3762 (chain 211): PJM's Board letter (7) and show-cause proposal (5), CAISO's straw proposal (3), ERCOT's batch
+        # deck (2) and PUCT Project 58000's proposal (3) joined, each step read in its document
+        self.assertEqual(len(d), 59)
+        self.assertEqual(sorted(d["x_grid"].unique()), ["CAISO", "ERCOT", "PJM", "SPP"])
+        self.assertEqual(int((d["x_date_kind"] == "stated date").sum()), 4)
         pclr = d[d["event_id"] == "rule:ercot_planning_guide_section_9:9_6_1_1"].iloc[0]
         self.assertEqual(pclr["x_duration"], "")                 # no faster path's duration is stated
         sec = d[d["event_id"] == "rule:ercot_planning_guide_section_9:9_3_1_2_a_ii"].iloc[0]

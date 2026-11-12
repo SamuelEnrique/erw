@@ -276,7 +276,7 @@ def held(restore=None):
             if os.path.exists(path):
                 os.remove(path)  # a rebuild that did not finish is not a table
             return None, None
-    ts = pd.read_csv(path, comment="#", usecols=["ts_utc"])["ts_utc"]
+    ts = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["ts_utc"])["ts_utc"]
     return path, (ts.max() if len(ts) else None)
 
 
