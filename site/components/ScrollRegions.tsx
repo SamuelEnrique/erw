@@ -73,13 +73,24 @@ export function uniqueNames(root: ParentNode = document) {
     const key = (el.dataset.scrollName ?? el.getAttribute("aria-label") ?? "").trim().toLowerCase();
     groups.set(key, [...(groups.get(key) ?? []), el]);
   });
-  groups.forEach((els) => els.forEach((el, i) => {
-    if (el.dataset.scrollLabel !== "1") return;
-    const base = el.dataset.scrollName ?? el.getAttribute("aria-label") ?? "";
-    el.dataset.scrollName = base;
-    const name = els.length > 1 ? `${base}, ${i + 1} of ${els.length}` : base;
-    if (el.getAttribute("aria-label") !== name) el.setAttribute("aria-label", name);
-  }));
+  groups.forEach((all) => {
+    // session 1883 (docs/reviews/board-audit-2026-11-06.md, row 44): a region this script named inside a container of the
+    // same name (the board's group, a section named for its title, around its one table) is not a second thing of that
+    // name: "Power, by hub and zone, 2 of 2" counted the section as the first. It takes a name of its own, the container's
+    // words and what it holds ("Power, by hub and zone, table"), and is not counted among the others. An element with no
+    // contains() (a stand-in) is never a container, so every other page counts as it did.
+    const inside = all.filter((el) => el.dataset.scrollLabel === "1" && all.some((o) => o !== el && typeof o.contains === "function" && o.contains(el)));
+    const els = all.filter((el) => !inside.includes(el));
+    const name = (el: HTMLElement, i: number, n: number, what = "") => {
+      const base = el.dataset.scrollName ?? el.getAttribute("aria-label") ?? "";
+      el.dataset.scrollName = base;
+      const own = what ? `${base}, ${what}` : base;
+      const words = n > 1 ? `${own}, ${i + 1} of ${n}` : own;
+      if (el.getAttribute("aria-label") !== words) el.setAttribute("aria-label", words);
+    };
+    els.forEach((el, i) => { if (el.dataset.scrollLabel === "1") name(el, i, els.length); });
+    inside.forEach((el, i) => name(el, i, inside.length, el.tagName === "PRE" ? "code" : "table"));
+  });
 }
 
 export function ScrollRegions() {

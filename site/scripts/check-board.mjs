@@ -1,7 +1,8 @@
 // Energy Research Warehouse (ERW) site, session 132: the price board and its markets workbench, on the built site.
 //
 //   npm run build && npx next start -p 3132
-//   node --import ./scripts/alias-loader.mjs scripts/check-board.mjs [base-url]      (default http://localhost:3132)
+//   node --import ./scripts/alias-register.mjs scripts/check-board.mjs [base-url]      (default http://localhost:3132; session 1883: --import
+//   ./scripts/alias-loader.mjs stops at once, ERR_MODULE_NOT_FOUND for @/data from lib/license.ts)
 //
 // As HTML, in the internal view (the page is in review):
 //   numbers     every number the page marks (data-n) equals the site's file (data/board.json): each row's latest value,

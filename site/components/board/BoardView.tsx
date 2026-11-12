@@ -212,7 +212,9 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
       <td className="py-1 pr-3 text-right text-xs">{row.avg7 ? <span title={`the mean of the ${row.avg7.n} values held in the 7 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg7`}>{fmt(row.avg7.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 7-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="py-1 pr-3 text-right text-xs">{row.avg30 ? <span title={`the mean of the ${row.avg30.n} values held in the 30 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg30`}>{fmt(row.avg30.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 30-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs"><Avg365Cell row={row} built={file.built} /></td>
-      <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted">{row.lo30 !== undefined ? <span title="the lowest and highest value of the last 30 days">{fmt(row.lo30, row.unit)} to {fmt(row.hi30!, row.unit)}</span> : null}</td>
+      {/* session 1883 (audit row 43): a row with no 30-day low and high says its step, as the 7-day cell does; the cell was
+          empty on every weekly, monthly and quarterly row, and its column collapsed with its header in five lines */}
+      <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted">{row.lo30 !== undefined ? <span title="the lowest and highest value of the last 30 days">{fmt(row.lo30, row.unit)} to {fmt(row.hi30!, row.unit)}</span> : row.freq && row.freq !== "D" ? <span title={`A ${FREQ_WORDS[row.freq]} series has no 30-day low and high.`} data-lo30-step={row.id}>{FREQ_WORDS[row.freq]}</span> : <span title="The last 30 days' lowest and highest values are not held for this row.">not held yet</span>}</td>
       <td className="py-0.5 pr-3 text-right" onClick={(e) => e.stopPropagation()}><Spark row={row} /></td>
       <td className="py-1 pr-2 text-right"><RangeBar row={row} /></td>
       {group.curve ? <td className="py-1 pr-2 text-left"><Curve row={row} /></td> : null}
@@ -224,6 +226,9 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
 function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }: { file: BoardFile; group: Group; chosen: Record<string, string>; pick: (key: string, v: string) => void; open: string | null; onOpen: (id: string) => void; unfolded: boolean; fold: (open: boolean) => void }) {
   const rows = rowsOf(file, group, chosen);
   const lead = leadRow(file, group);
+  // session 1883 (audit row 42): a closed group's head prints "stale" beside its date, as the row and the top block's tile
+  // do; a stale number is never shown as current
+  const leadAge = lead ? closeAge(lead, file.built) : null;
   // session 1193: the public rows first, then one line for each grid held for a license (its count, the hold's words),
   // its rows' names behind a toggle; the held rows stay in the page, blank, as they were (lib/board.ts, heldLines)
   const { shown, held } = heldLines(rows);
@@ -233,7 +238,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
     <section id={group.id} className="scroll-mt-4" aria-label={group.title} data-group={group.id}>
       <GroupFold title={group.title} open={unfolded} onToggle={fold} meta={<>
         <span data-count={group.id}>{rows.length} {rows.length === 1 ? "row" : "rows"}</span>
-        {lead ? <span className="ml-4" data-lead={group.id}>{lead.label}{lead.at ? `, ${lead.at}` : ""}: <span className="font-mono text-ink" data-n={`fold|${group.id}|last`}>{fmt(lead.last!.v, lead.unit)}</span> {lead.unit}, {shortDate(lead.last!.t, lead.freq)}</span> : null}
+        {lead ? <span className="ml-4" data-lead={group.id}>{lead.label}{lead.at ? `, ${lead.at}` : ""}: <span className="font-mono text-ink" data-n={`fold|${group.id}|last`}>{fmt(lead.last!.v, lead.unit)}</span> {lead.unit}, {shortDate(lead.last!.t, lead.freq)}{leadAge?.stale ? <span className="ml-1 border border-accent px-0.5 text-xs text-accent" title={leadAge.words} data-lead-stale={group.id}>stale</span> : null}</span> : null}
       </>}>
       {group.filters.length ? <div className="mb-2 flex flex-wrap items-baseline gap-x-4 gap-y-1">
         {group.filters.map((f) => (
@@ -247,7 +252,9 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
           </span>
         ))}
       </div> : null}
-      <div className="overflow-x-auto">
+      {/* session 1883 (audit row 41): the box is the containing block of the held line's screen-reader words (an
+          absolutely placed sr-only span), so they are clipped by it; they widened the page to 521 px at 390 */}
+      <div className="relative overflow-x-auto">
         <table className="w-full min-w-[1180px] border-collapse text-sm tabular-nums" data-dense="1">
           <thead>
             <tr className="border-b border-rule text-xs text-muted">
