@@ -1,0 +1,37 @@
+# Session 3762 (chain 211): read from the PUCT's Proposal for Publication in Project No. 58000 (amendments to 16 TAC 25.192 and
+# 25.193 and new 25.252, Large Load Customer Tariffs, for its 9 July 2026 open meeting), from the copy ERCOT posts under
+# www.ercot.com/files (its robots file allows /files/), the research file of 6 November 2026's Set B row 9 being the lead;
+# saved under runs/license_reads/s3761/ (not in git; fetched in session 3761). A PROPOSED RULE, not adopted as far as the
+# documents read show: it applies to every ERCOT TSP and DSP, so it is a connection rule here, not a utility's tariff row.
+# The adopted 16 TAC 25.194 (Project No. 58481) was not read: the document fetched under that project is a party's
+# comments, not the rule.
+body: Public Utility Commission of Texas (PUCT)
+grid: ERCOT
+utility: ""
+eia_id: ""
+state: TX
+document: PUCT Project No. 58000, Proposal for Publication of amendments to 16 TAC 25.192 and 25.193 and new 25.252 (Large Load Customer Tariffs), for the 9 July 2026 open meeting (a proposal)
+document_date: 2026-07-09
+document_url: https://www.ercot.com/files/docs/2026/07/23/PUCT-Project-58000-pfp_adopted-9-July-2026.pdf
+retrieved_at: 2026-11-12T11:14:14Z
+license: public
+steps:
+  - section: "proposed 25.252(c)(3), Interconnection agreement"
+    page: 35
+    step: a large load customer signs an interconnection agreement of at least twenty years (proposed)
+    party: large load customer and TSP
+    duration: 20
+    unit: years
+    printed: "An interconnection agreement for service with a term of not less than 20 years and that complies with 25.194 of this title (relating to Large Load Interconnection Standards) is required."
+  - section: "proposed 25.252(d), TSP tariff requirements"
+    page: 36
+    step: the customer pays on its contracted peak demand for twenty years from the start of billing (proposed)
+    party: large load customer
+    duration: 20
+    unit: years
+    printed: "For the first 20 years after commencement of billing, the large load customer must complete 240 consecutive payments based on the greater of: (A) the large load customer's contracted peak demand; (B) the highest non-coincident peak demand placed by the large load customer on the system in the past year; or (C) the large load customer's 12CP demand"
+  - section: "summary, billing before energization"
+    page: 2
+    step: billing begins when transmission capacity is available, whether or not the customer has energized (proposed)
+    party: TSP
+    printed: "irrespective of whether the large load customer has energized or is fully using available capacity"
