@@ -43,7 +43,7 @@
     "/curtailment": 10,
     "/data": 10,
     "/datacenters": 10,
-    "/deals": 10,
+    "/deals": 1,
     "/deals?tab=companies": 10,
     "/deals?tab=tracker": 0,
     "/deals?view=comparables": 0,
