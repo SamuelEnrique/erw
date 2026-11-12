@@ -285,7 +285,7 @@
  ],
  "datacenter_facilities": [
   "unsettled",
-  "Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; Equinix; Financial Times; Google; Hart Energy; Heatmap News; ISO-NE; Latitude Media; MISO; Meta; Microsoft; NYISO; Natural Gas Intelligence; OilPrice.com; Oracle; POWER Magazine; Reuters; Switch; Vantage Data Centers; WSJ's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
+  "Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; Equinix; Financial Times; Google; Hart Energy; Heatmap News; ISO-NE; Latitude Media; MISO; Meta; Microsoft; NYISO; Natural Gas Intelligence; OilPrice.com; Oracle; POWER Magazine; Reuters; Switch; Utility Dive; Vantage Data Centers; WSJ's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
  "datacenter_operator_sites": [
   "unsettled",
@@ -293,7 +293,7 @@
  ],
  "datacenter_projects": [
   "unsettled",
-  "Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
+  "Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Utility Dive; WSJ's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
  "datacenter_queue_positions": [
   "unsettled",
@@ -1406,6 +1406,14 @@
  "fema_disaster_declarations": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "ferc714_forecast_growth": [
+  "unsettled",
+  "The terms of Catalyst Cooperative (PUDL), from FERC Form 714 have not been read or settled, so the ERW does not redistribute it until they are."
+ ],
+ "ferc714_planning_area_forecasts": [
+  "unsettled",
+  "The terms of Catalyst Cooperative (PUDL), from FERC Form 714 have not been read or settled, so the ERW does not redistribute it until they are."
  ],
  "fhwa_motor_fuel_monthly": [
   "public",
