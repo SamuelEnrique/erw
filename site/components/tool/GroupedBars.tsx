@@ -97,7 +97,7 @@ export function GroupedBars({ id, groups, series, unit, label, partialWords = "I
             })}
             {g.over !== undefined
               ? <text x={x0 + (bw * n) / 2} y={Math.min(...tops) - 6} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{g.over}</text>
-              : g.values.map((v, k) => (v === null ? null : <text key={k} x={x0 + k * bw + bw / 2} y={tops[k] - 6} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{fmt(v)}</text>))}
+              : g.values.map((v, k) => (v === null ? null : <text key={k} x={x0 + k * bw + bw / 2} y={tops[k] - 6 - (bw < 40 && k % 2 ? 12 : 0)} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{fmt(v)}</text>))}
             <text x={inside(x0 + (bw * n) / 2, g.label)} y={H - bot + 16} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{g.label}</text>
             {g.sub ? <text x={inside(x0 + (bw * n) / 2, g.sub)} y={H - bot + 31} textAnchor="middle" style={{ fill: "var(--color-muted)" }}>{g.sub}</text> : null}
             {g.title ? <title>{g.title}</title> : null}
