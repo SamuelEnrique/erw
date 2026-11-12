@@ -20,6 +20,13 @@ is filled. A unit not in the map stops the run; so does a day given twice.
 
     python warehouse/connectors/eia_nuclear_outages_generator.py [--from 2015-01-01] [--offline | --fresh]   # one window
     python warehouse/connectors/eia_nuclear_outages_generator.py [--offline | --fresh]                     # both windows
+    python warehouse/connectors/eia_nuclear_outages_generator.py --new-days                                # the days after the held table's newest
+
+--new-days (session 3795, chain 215): the daily step. The pages of the last window are saved by address, and the newest
+page's address does not change as EIA adds days, so a run that reuses saved pages never reads past the day its saved
+page ended (the table stopped at 21 October 2026). With --new-days the run asks EIA, fresh, only for the days after the
+held table's newest day, checks that they follow it with no day missing, and writes the held rows with the new ones (a
+held row is never changed). A day EIA has not yet published is no failure: no new day, nothing written.
 
 Ceiling: 98 requests a run (pages of 5,000, 3 seconds apart; about 36,000 rows a year, so each window is about 50 to
 60 pages; a page an earlier run saved in warehouse/raw is reused unless --fresh, so a window already read asks nothing;
@@ -78,6 +85,10 @@ def rows(data, url, retrieved):
     return t
 
 
+class _NothingNew(Exception):
+    """--new-days: EIA holds no day after the held table's newest (not a failure)."""
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="EIA's nuclear outages by reactor, a day")
     ap.add_argument("--from", dest="first", help="one window from this day, YYYY-MM-DD (default: the windows of WINDOWS)")
@@ -85,7 +96,10 @@ def main(argv=None):
     ap.add_argument("--offline", action="store_true", help="the pages from warehouse/raw only, no request")
     ap.add_argument("--fresh", action="store_true", help="ask every page again, even one saved in warehouse/raw")
     ap.add_argument("--out-dir", help="a trial: the table under this folder, not warehouse/output")
+    ap.add_argument("--new-days", action="store_true", help="session 3795: only the days after the held table's newest, asked fresh, added to it")
     args = ap.parse_args(argv)
+    held = None
+    held_dir = ip.OUT_DIR   # --new-days reads the held table here, also in a trial (--out-dir)
     if args.out_dir:
         raw_dir = ip.RAW_DIR
         ip.set_out_dir(args.out_dir)
@@ -99,7 +113,7 @@ def main(argv=None):
 
     def get(params):
         url = requests.Request("GET", API + "data/", params=params).prepare().url
-        hit = None if args.fresh else ip.raw_cached(CONNECTOR, url)
+        hit = None if (args.fresh or args.new_days) else ip.raw_cached(CONNECTOR, url)
         if hit:
             log(f"  raw file reused: {ip.redact(url)}")
             return json.loads(hit[0]), ip.redact(url)
@@ -129,6 +143,13 @@ def main(argv=None):
         # a page comes back short, and checks that the pages run in order with no day missing; the per-day sums are
         # checked against EIA's U.S. total in session 516's report.
         windows = [(args.first, args.last)] if args.first else WINDOWS
+        if args.new_days:
+            src = os.path.join(held_dir, NAME + ".csv")
+            held = ip.read_series(src)
+            newest = held["ts_utc"].max()[:10]
+            first_new = (dt.date.fromisoformat(newest) + dt.timedelta(days=1)).isoformat()
+            windows = [(first_new, None)]
+            log(f"--new-days: the held table ends {newest}; asking from {first_new}")
         frames, days, offset = [], [], 0
         for start, end in windows:
             offset = 0
@@ -151,6 +172,11 @@ def main(argv=None):
                 if len(data) < 5000:
                     break
             log(f"window {start} to {end or 'the newest day'}: {offset:,} rows")
+        if not days and args.new_days:
+            log("--new-days: EIA has no day after the held table's newest; nothing written")
+            results.append(dict(table=NAME, market="all", status="ok", detail="no new day"))
+            print(f"{NAME}: no day after {newest} yet; {asked[0]} requests")
+            raise _NothingNew()
         if not days:
             raise RuntimeError("no rows")
         have = set(days)
@@ -163,6 +189,13 @@ def main(argv=None):
         if s.duplicated(["entity", "variable", "ts_utc"]).any():
             raise RuntimeError("a row on two pages")
         s = s[ip.SERIES_COLS]
+        if held is not None:
+            if days[0] != first_new:
+                raise RuntimeError(f"--new-days: EIA's first new day is {days[0]}, not {first_new}: a day is missing after the held table")
+            s = pd.concat([held[ip.SERIES_COLS], s], ignore_index=True)
+            if s.duplicated(["entity", "variable", "ts_utc"]).any():
+                raise RuntimeError("--new-days: a new row repeats a held one")
+            log(f"--new-days: {len(held):,} held rows and {len(s) - len(held):,} new, {len(want):,} new days")
         span = f"{s['ts_utc'].min()[:10]} to {s['ts_utc'].max()[:10]}"
         header = [
             "Energy Research Warehouse (ERW): EIA, status of U.S. nuclear outages, each reactor's capacity and outages, a day (sessions 548 and 549)",
@@ -182,6 +215,8 @@ def main(argv=None):
                                     license="public", tables=[NAME])])
         results.append(dict(table=NAME, market="all", status="ok", detail=f"{len(s):,} rows"))
         print(f"{NAME}: {len(s):,} rows, {s['entity'].nunique()} reactors, {span}; {asked[0]} requests")
+    except _NothingNew:
+        pass
     except Exception:
         tb = ip.redact(traceback.format_exc())
         log(f"FAILED, no output file written:\n{tb}")
