@@ -29,13 +29,18 @@ schedule (`filed:<EIA utility id>:<schedule>`), the figure (`variable`) and the 
 `warehouse/sources/large_load_tariffs/` holds one YAML file a schedule (its README has the form). A session reads the
 filed tariff after the host's robots file and terms, and writes each figure with its page and words. The connector
 `warehouse/connectors/large_load_tariffs.py` makes no request. It checks every file (each figure has a page and its
-words, units are from the list, the license is public, dates are well formed) and refuses the whole write if any file
-fails. The validator refuses a row without `source_url`, or a filed row without `x_page` (check `filing_cited`).
+words, units are from the list, the license is public or internal, dates are well formed) and refuses the whole write if any
+file fails. The validator refuses a row without `source_url`, or a filed row without `x_page` (check `filing_cited`).
 
 ## License
 
-Public, row by row. A filed tariff is a public regulatory record, and each row cites the commission's copy. A utility
-site whose terms bar the reader is not read; the commission's docket copy is.
+Public, row by row (the table's license line reads "public (row-level holds)"). A filed tariff is a public regulatory
+record, and each row cites the commission's copy or the utility's filed tariff book (the owner's ruling 4 of 6 November
+2026, `docs/state/rulings_2026-11-06.md`). A schedule whose only readable source is a host whose terms ask written
+permission (AEP's "personal use only", IN.gov's statewide terms) is `license: internal` in its registry file. Since session
+3760 the connector keeps such a file but writes none of its rows to the table, and names it in the header as held for a
+license. So no held figure reaches a public copy, and the All grids tab shows the cell as needing a license. AEP Ohio's
+Schedule DCT is the first such file.
 
 Session 2921 (chain 153): PG&E's Schedule B-20 rows cite PG&E's own filed tariff book (`www.pge.com/tariffs/`), whose
 sheets are the CPUC-filed sheets themselves ("Cal. P.U.C. Sheet No."). PG&E's site states no terms of use on its tariff
@@ -50,7 +55,70 @@ Database, under entities `openei_urdb:*`, with derived figures (an hour-weighted
 has never run: no key is held. If it runs, its rows and these merge by key and neither overwrites the other's. The
 tab's builder reads both kinds; the method of each row is its source's.
 
+## Chain 211: the owner's research file, verified row by row (sessions 3760 and 3761)
+
+`docs/reviews/research/large-load-tariffs-2026-11-06.md` (36 tariff rows and 10 operator rules, each with its document,
+page and quote) was used as leads, never as data. Each row written was read in the document it cites:
+- the host's robots file first (all allowed; none names an AI agent);
+- one GET a document (`runs/s3760/probe.py`, `runs/s3761/probe.py`, 36 requests in all);
+- the text taken with pdftotext: the layout, and its raw order where the layout interleaves columns;
+- the figure found on its page and quoted.
+
+A figure the research file marks secondhand, or one only quoted by an intervenor or a news report, goes to the row's notes
+and is not written as a figure.
+
+**New fields and variables (session 3760).**
+- `status`, written as `x_status`:
+  - `adopted`: in force;
+  - `ordered`: a commission ordered it, no sheet yet;
+  - `proposed`: filed, pending;
+  - `framework`: a statute or a set of customer-specific agreements with no rate schedule.
+- `x_license` (public on every written row) and `x_notes`. The notes hold what the schedule prints that has no variable:
+  demand blocks, per-kVA charges, the closed status of a schedule.
+- Variables for what schedules print by season or voltage:
+  - `demand_charge_summer`, `demand_charge_winter`;
+  - `energy_charge_summer`, `energy_charge_winter`;
+  - `grid_charge_transmission`, `grid_charge_substation` (Evergy's LLPS).
+
+**What is held after chain 211.** 25 schedules in the registry, 24 written: the 5 of chains 147 to 157 and 20 more.
+- **Adopted:** Evergy Missouri Metro and West LLPS, Ameren Missouri LLCS, Entergy Louisiana LLHLFPS-L and LPHLF-G, Entergy
+  Texas LIPS, Georgia Power TOU-SC-15, SRP E-67, APS XHLF, Alabama Power LPL, Oncor Transmission Service and Rider TCRF,
+  CenterPoint Houston Transmission Service, Dominion GS-4, and NV Energy LGS-X (closed to new customers).
+- **Proposed:** Duke Energy Carolinas's Large Load Tariff (the settlement of 6 October 2026), Xcel Colorado Schedule TL.
+- **Framework:** NV Energy's LLESA, Alabama's Act 2026-610.
+- **Held internal:** AEP Ohio Schedule DCT.
+
+**Rows that wait, and why.**
+- **Dominion GS-5:** no sheet is published, and its order is on the Virginia SCC's host, which the ERW does not ask (paused).
+- **Duke Energy Progress:** the settlement prints only Duke Energy Carolinas's leaf.
+- **Utah:** the 100 MW threshold is in Utah Code 54-26, not read; the PSC's notice that was read states none.
+- **Evergy Kansas:** its host returns a bot check.
+- **APS's pending XHLF revision:** not read.
+- **Xcel Colorado's full terms:** only the interim decision was read. The rest are intervenor quotes, kept in notes.
+- **PUCT Project 58000:** a rule for every ERCOT TSP, held in `large_load_connection_rules`.
+
 ## Cross-checks
 
 Each session that adds utilities checks one utility's demand charge against the revenue per kW that EIA-861 implies
 for its largest class. The result is written as a check in the session's report, never as a correction to a row.
+
+**Session 3763's check (Missouri, EIA-861 of 2025).** Each schedule's all-in price at an 80 percent load factor is set beside
+the utility's 2025 industrial revenue over industrial sales (`eia861_utility_sales`).
+- The all-in price is:
+  - the seasons' demand charge averaged over the year, plus the transmission grid charge,
+  - divided by the 584 kWh a kW takes in a month at 80 percent,
+  - plus the energy charge.
+- Riders, the fuel adjustment and the customer charge are left out.
+- EIA-861 gives no peak by class, so a revenue per kW cannot be read directly. The comparison is per MWh.
+
+| Utility | LLPS or LLCS all-in at 80 percent, USD/MWh | EIA-861 2025 industrial revenue over sales, USD/MWh | Difference |
+|---|---|---|---|
+| Evergy Missouri Metro | 67.39 | 74.31 | -9 percent |
+| Evergy Missouri West | 63.90 | 62.63 | +2 percent |
+| Ameren Missouri | 63.24 | 81.92 | -23 percent |
+
+What it says:
+- The large-load schedules land at or below the industrial class's average, as a high-load-factor schedule should.
+- Ameren's gap is the widest. Its energy charge is printed before its fuel adjustment clause, and the industrial average
+  includes that clause.
+- This is a check, not a correction.

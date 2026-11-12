@@ -1,6 +1,6 @@
 # Session 1851: the deal tracker, read as a reader (chain 213, 12 November 2026)
 
-Energy Research Warehouse (ERW). Chain 213, session 1851, samueloldlaptop, unattended, Fable 5.1. 10:12 to about 11:00 UTC. Long end 1:30. Precheck passed; `origin/main` had not moved (0 commits ahead of the main copy's `37cbea47b`).
+Energy Research Warehouse (ERW). Chain 213, session 1851, samueloldlaptop, unattended, Fable 5.1. 10:12 to 10:28 UTC (the clock in this report was corrected by session 1856 from the commit times). Long end 1:30. Precheck passed; `origin/main` had not moved (0 commits ahead of the main copy's `37cbea47b`).
 
 ## What it did
 

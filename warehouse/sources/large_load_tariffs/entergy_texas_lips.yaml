@@ -1,0 +1,30 @@
+# Session 3760 (chain 211): verified against the schedule as Entergy Texas publishes it, the research file of 6 November 2026's
+# Set A row 9 being the lead; saved under runs/license_reads/s3760/ (not in git). Entergy Texas has no large-load or data
+# center schedule on its published tariff list; LIPS (2,500 kW and above) is its largest general schedule, kept here as
+# what a large load in its territory (MISO South, outside ERCOT) takes today. The energy charge is in two blocks (page 1),
+# so none is written; the sheet prints no docket number.
+utility: Entergy Texas, Inc.
+eia_id: 55937
+state: TX
+grid: MISO
+sector: large industrial (2,500 kW and above; no large-load schedule)
+status: adopted
+schedule: Schedule LIPS, Large Industrial Power Service
+tariff_sheet: Sheet No. 26, Revision 8, Section III pages 15.1 to 15.3
+effective: 2022-12-03
+voltage: {text: "Delivery Voltage Adjustment: Less than Transmission (69kV) $1.76; Transmission (69kV) $0.06; (138kV) ($0.36); (230kV) ($0.93) per kW of Billing Load", page: 1}
+commission: Public Utility Commission of Texas
+docket: not printed on the sheet
+document: Entergy Texas's Schedule LIPS, Revision 8, effective 3 December 2022 (implemented 2 June 2023), as published in its tariff list
+document_url: https://www.entergytexas.com/wp-content/uploads/eti_lips.pdf
+retrieved_at: 2026-11-12T10:50:14Z
+license: public
+notes: "Energy charge $0.006010 per kWh for the first 584 kWh/kW of Billing Load, $0.004028 per kWh additional, plus the Fixed Fuel Factor (page 1). No large-load schedule exists for this utility as of 12 November 2026."
+terms:
+  min_bill: {text: "The kW of Billing Load will be the greatest of ... (B) 75% of Contract Power", page: 2}
+figures:
+  - {variable: min_demand_mw, value: 2.5, printed: "Customers who contract for not less than 2,500 kW of electric service", page: 1}
+  - {variable: min_bill_pct, value: 75, printed: "75% of Contract Power", page: 2}
+  - {variable: demand_charge_summer, value: 10.10, printed: "Billing Load Charge, All kW per month, May-October $10.10 per kW", page: 1}
+  - {variable: demand_charge_winter, value: 9.39, printed: "Billing Load Charge, All kW per month, November-April $9.39 per kW", page: 1}
+  - {variable: fixed_charge, value: 4000.00, printed: "Customer Charge $4,000.00 per month", page: 1}

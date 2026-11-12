@@ -1,0 +1,25 @@
+# Session 3761 (chain 211): read from the Colorado PUC's Decision No. C26-0396-I in Proceeding No. 26AL-0137E (the copy an
+# intervenor, Earthjustice, posts; the Commission's e-filing host disallows robots, research file "Hosts that refused"), the
+# research file of 6 November 2026's Set B row 17 being the lead; saved under runs/license_reads/s3761/ (not in git).
+# STATUS PROPOSED: Advice Letter No. 2018-Electric, suspended by Decision No. C26-0280; no final decision read. The interim
+# decision states only the threshold. The terms the research file took from intervenor testimony quoting the filing (80
+# percent minimum billing demand, 15-year minimum term with a ramp of up to five years, an exit fee of the remaining minimum
+# bills) are not read in a filing here and are in notes, not written as figures.
+utility: Public Service Company of Colorado (Xcel Energy)
+eia_id: 15466
+state: CO
+grid: PSCO
+sector: new or expanded large loads of 50 MW or more
+status: proposed
+schedule: Schedule TL, Transmission Large Service (proposed)
+tariff_sheet: Colorado P.U.C. No. 8 - Electric, sheets filed with Advice Letter No. 2018-Electric (numbers not read)
+effective: 2026-05-03
+commission: Colorado Public Utilities Commission
+docket: Proceeding No. 26AL-0137E (Decision Nos. C26-0280 and C26-0396-I)
+document: Colorado PUC Decision No. C26-0396-I, Proceeding No. 26AL-0137E, interim decision on interventions
+document_url: https://earthjustice.org/document/xcel-tariff-intervention-written-decision
+retrieved_at: 2026-11-12T11:14:14Z
+license: public
+notes: "Proposed: filed 2 April 2026 with a requested effective date of 3 May 2026 (the date written), suspended 120 days by Decision No. C26-0280 of 30 April 2026; final decision not read. Leads from intervenor testimony, not verified in the filing: minimum monthly bill on 80 percent of contract capacity; 15-year minimum term including an optional ramp of up to 5 years; exit fee the sum of the remaining minimum monthly bills."
+figures:
+  - {variable: min_demand_mw, value: 50, printed: "a comprehensive framework for serving new or expanded large load customers with a demand of 50 MW or greater", page: 2}

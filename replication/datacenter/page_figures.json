@@ -1,5 +1,5 @@
 {
- "_about": "What a datacenter pays: the figures the page shows for the months of the public hourly file (site/public/datacenter/erw_2026_datacenter_hourly.csv and erw_2026_datacenter_carbon.csv, exported 5 November 2026: ERCOT's LZ_NORTH, a flat load bought in real time, the last twelve months 2025-11 to 2026-10), each with its check key (the page's data cell or check key; dc|... is the page's inputs at their defaults) and the tolerance to which the replication must meet it (half of the page's last shown digit). Read by session 1491 from a local build of main (6 November 2026, about 09:00 UTC) in the internal view.",
+ "_about": "What a datacenter pays: the figures the page shows for the months of the public hourly file (site/public/datacenter/erw_2026_datacenter_hourly.csv and erw_2026_datacenter_carbon.csv, the page's files built 12 November 2026: ERCOT's LZ_NORTH, a flat load bought in real time, the last twelve months 2025-11 to 2026-10), each with its check key (the page's data cell or check key; dc|... is the page's inputs at their defaults) and the tolerance to which the replication must meet it (half of the page's last shown digit). Read by session 1491 from a local build of main (6 November 2026, about 09:00 UTC) in the internal view. Since session 3779 the figures the page computes from its files are written by figures_of_the_page.py from the page's own code (site/scripts/datacenter-page-figures.mjs) on the files of the same run; the two years by window are the live set's and kept as read.",
  "figures": [
   {
    "name": "market energy, a flat load, last twelve months, USD per MWh",
@@ -11,7 +11,7 @@
   {
    "name": "cost for 100 MW, last twelve months, USD",
    "key": "a|bill",
-   "page": 29841981,
+   "page": 29846522,
    "tolerance": 0.5,
    "field": "l12_usd"
   },
@@ -60,28 +60,28 @@
   {
    "name": "carbon, last twelve months at the grid's monthly average, kg CO2 per MWh",
    "key": "dc|...|co2:l12:kg:flat",
-   "page": 300.38,
+   "page": 301.82,
    "tolerance": 0.005,
    "field": "co2_kg_mwh"
   },
   {
    "name": "tonnes of CO2 a year for 100 MW",
    "key": "dc|...|co2:l12:tonnes:flat",
-   "page": 263102,
+   "page": 264395,
    "tolerance": 0.5,
    "field": "co2_tonnes"
   },
   {
    "name": "hours of the hourly window",
    "key": "dc|...|co2:window:hours",
-   "page": 10160,
+   "page": 10151,
    "tolerance": 0,
    "field": "window_hours"
   },
   {
    "name": "a flat load's own hours over the window, kg CO2 per MWh",
    "key": "dc|...|co2:window:flat",
-   "page": 309.84,
+   "page": 309.54,
    "tolerance": 0.005,
    "field": "window_kg_mwh",
    "read": "session 1523: the page's own code (site/lib/datacenter/answers.ts, readAnswers) on the public carbon file's rows (site/scripts/datacenter-window-on-file.mjs): 309.8429 over the 10,160 hours 2025-08-26T16:00Z to 2026-10-27T23:00Z. Session 1491 read 311.68 from a local build reading the live set, whose 430-day window moves each day (the method note's \"The carbon file goes stale too\"); on 6 November 2026 at 12:40 UTC the live set gave 309.5511 over 10,108 hours"

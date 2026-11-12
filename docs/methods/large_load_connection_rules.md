@@ -40,3 +40,26 @@ no duration is stated for the conditions that lift the cap).
 Public, row by row. ERCOT's terms let raw data in public portions of its site be reproduced in compilations (licenses.md
 #2); PG&E's Rule 30 is its CPUC-filed tariff sheet, and PG&E's site states no terms on its tariff pages (a question for
 the owner, session 2921).
+
+## Chain 211: the operators' documents from the owner's research file (session 3762)
+
+The research file of 6 November 2026 (`docs/reviews/research/large-load-tariffs-2026-11-06.md`, its operator table) was
+used as leads. Each step was read in the operator's own document: robots first, one GET each (`runs/s3762/probe.py`), each
+step written with its page and printed words. The table has no status column of its own, so a document that is a proposal
+says so in its name and its steps say "(proposed)".
+
+| Document | Body | Date | Steps | Status |
+|---|---|---|---|---|
+| Board letter on the CIFP for Large Load Additions, with Appendix C (Expedited Interconnection Track) | PJM | 2026-01-16 | 7 | decided by the Board; FERC's acceptance not read |
+| Show Cause for Large Loads Approach, CLLSCO workshop | PJM | 2026-09-30 | 5 | proposal (the deck marks large-load values as estimates) |
+| Large Loads Considerations, Straw Proposal | CAISO | 2026-08-11 | 3 | proposal |
+| Large Load Update, Board hearing (the batch study framework) | ERCOT | 2026-04-01 | 2 (one a statistic) | deck |
+| Project No. 58000, Proposal for Publication (16 TAC 25.252) | PUCT | 2026-07-09 | 3 | proposed rule |
+
+**Waiting.** None of these is written:
+- **PUCT 16 TAC 25.194** (Project No. 58481, adopted on 18 September 2026 according to secondhand sources): the document
+  fetched under the project number is a party's comments, not the rule.
+- **MISO's ERAS guide:** the research file names only a news site's copy.
+- **MISO's large-load definition:** known only secondhand.
+- **FERC's six orders to show cause of 18 June 2026:** known only from law-firm summaries.
+- **SPP's CHILLS:** known only secondhand.

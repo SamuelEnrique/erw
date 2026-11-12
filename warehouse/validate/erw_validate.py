@@ -123,6 +123,7 @@ NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 TS_FMT = "%Y-%m-%dT%H:%M:%SZ"
+REVISIONS_KEPT = "Revisions: kept, one row per vintage"  # session 3758, decision 77
 FREQ_RE = re.compile(r"^P(\d+[YMWD])*(T(\d+H)?(\d+M)?(\d+S)?)?$")
 ENTITY_RE = re.compile(r"^[a-z0-9_]+:.+$")
 GEO_RE = re.compile(r"^[A-Z]{2}(-[A-Z0-9]{1,3})?$")
@@ -442,6 +443,14 @@ def validate(path):
     if not missing:
         # session 36C, decision 32: a table with an event column (event_window_daily) is keyed by it too
         key = ["entity", "variable", "ts_utc"] + (["event"] if "event" in cols else [])
+        # session 3758, decision 77: a table whose header says it keeps its revisions ("Revisions: kept, one row per
+        # vintage") is keyed by vintage too, as the standard's key rule allows (ferc714_planning_area_forecasts: each
+        # planning area forecasts the same year in ten filings); every such row must carry its vintage
+        if "vintage" in cols and any(h.lstrip("# ").startswith(REVISIONS_KEPT) for h in header):
+            key.append("vintage")
+            blank_v = df["vintage"].isna() | (df["vintage"].astype(str).str.strip() == "")
+            if blank_v.any():
+                err("vintage_required", f"{int(blank_v.sum())} row(s) of a table that keeps its revisions have no vintage")
         dup = df.duplicated(key, keep=False)
         if dup.any():
             first = df.loc[dup, key].head(3).to_dict("records")

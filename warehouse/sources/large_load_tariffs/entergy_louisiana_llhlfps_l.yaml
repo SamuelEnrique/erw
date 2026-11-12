@@ -1,0 +1,28 @@
+# Session 3760 (chain 211): verified against the schedule as Entergy Louisiana publishes it, the research file of 6 November
+# 2026's Set A row 7 being the lead; saved under runs/license_reads/s3760/ (not in git). The demand charge is in four blocks
+# (First $10.55, Second $7.32, Third $4.36, Fourth $3.37 per kW, page 1; the blocks defined on page 2), so no one demand
+# charge is written; the blocks are in notes. No collateral, exit fee or ramp language is in the schedule.
+utility: Entergy Louisiana, LLC
+eia_id: 11241
+state: LA
+grid: MISO
+sector: large load, high load factor (70 MW and above, Legacy ELL service area)
+status: adopted
+schedule: Schedule LLHLFPS-L, Large Load, High Load Factor Power Service
+tariff_sheet: Pages 55.1 to 55.3, First Revised, Revision 1
+effective: 2024-08-30
+voltage: {text: "Three phase, 60 cycle, alternating current at a transmission line nominal voltage of 69,000 volts or higher as may be available.", page: 1}
+commission: Louisiana Public Service Commission
+docket: U-36959 (the authority the sheet cites)
+document: Entergy Louisiana's Schedule LLHLFPS-L, First Revised, effective 30 August 2024, as published in its tariff index
+document_url: https://www.entergylouisiana.com/wp-content/uploads/ell_elec_llhlfps-l.pdf
+retrieved_at: 2026-11-12T10:50:14Z
+license: public
+notes: "Firm demand charge in blocks: $10.55 per kW for the First Demand Block, $7.32 the Second, $4.36 the Third, $3.37 the Fourth (page 1); reactive $0.41 per rkVA above 25% of Maximum Demand."
+terms:
+  min_bill: {text: "The Demand Charge ... but not less than the sum of the First Demand Block and the Second Demand Block ... if the average of the Maximum Demands during the preceding twelve Months falls below 70 MW, the Maximum Demand for the current Month shall be adjusted by the amount required to raise that average to 70 MW.", page: 2}
+  term: {text: "The Contract shall be for a minimum of five (5) Years and, at Company's option, may be longer to justify the investment in generation and transmission facilities.", page: 3}
+figures:
+  - {variable: min_demand_mw, value: 70, printed: "contract for not less than 70 MW of firm load with facilities operating with at least an 80% average monthly electric load factor", page: 1}
+  - {variable: min_contract_years, value: 5, printed: "a minimum of five (5) Years", page: 3}
+  - {variable: energy_charge, value: 3.18, printed: "Energy Charge $0.00318 per kWh for all kWh", page: 1}

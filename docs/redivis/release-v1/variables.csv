@@ -5182,6 +5182,21 @@ fema_disaster_declarations,x_region,column,
 fema_disaster_declarations,x_tribal,column,
 fema_disaster_declarations,retrieved_at,column,
 fema_disaster_declarations,vintage,column,
+ferc714_forecast_growth,net_energy_revision_1y_mwh,series variable,MWh
+ferc714_forecast_growth,net_energy_revision_1y_pct,series variable,pct
+ferc714_forecast_growth,net_energy_revision_2y_mwh,series variable,MWh
+ferc714_forecast_growth,net_energy_revision_2y_pct,series variable,pct
+ferc714_forecast_growth,summer_peak_revision_1y_mw,series variable,MW
+ferc714_forecast_growth,summer_peak_revision_1y_pct,series variable,pct
+ferc714_forecast_growth,summer_peak_revision_2y_mw,series variable,MW
+ferc714_forecast_growth,summer_peak_revision_2y_pct,series variable,pct
+ferc714_forecast_growth,winter_peak_revision_1y_mw,series variable,MW
+ferc714_forecast_growth,winter_peak_revision_1y_pct,series variable,pct
+ferc714_forecast_growth,winter_peak_revision_2y_mw,series variable,MW
+ferc714_forecast_growth,winter_peak_revision_2y_pct,series variable,pct
+ferc714_planning_area_forecasts,net_energy_forecast_mwh,series variable,MWh
+ferc714_planning_area_forecasts,summer_peak_forecast_mw,series variable,MW
+ferc714_planning_area_forecasts,winter_peak_forecast_mw,series variable,MW
 fhwa_motor_fuel_monthly,gasoline_volume,series variable,gal
 fhwa_motor_fuel_monthly,special_fuel_volume,series variable,gal
 flex_alert_effects,actual_mw,series variable,MW
@@ -6392,6 +6407,11 @@ iso_queue_snapshot_summary,unknown_count,series variable,count
 iso_queue_snapshot_summary,unknown_mw,series variable,MW
 iso_queue_snapshot_summary,withdrawn_count,series variable,count
 iso_queue_snapshot_summary,withdrawn_mw,series variable,MW
+iso_reserve_margin_reports,capacity_surplus_mw,series variable,MW
+iso_reserve_margin_reports,peak_forecast_mw,series variable,MW
+iso_reserve_margin_reports,prm_achieved_pct,series variable,pct
+iso_reserve_margin_reports,prm_required_pct,series variable,pct
+iso_reserve_margin_reports,ra_prm_load_weighted_pct,series variable,pct
 known_data_faults,event_id,column,
 known_data_faults,event_date,column,
 known_data_faults,event_type,column,
@@ -8988,8 +9008,15 @@ uswtdb_wind_turbines,usgs_project_id,column,
 utility_large_load_tariffs,collateral_months,series variable,month
 utility_large_load_tariffs,demand_charge,series variable,USD/kW-month
 utility_large_load_tariffs,demand_charge_distribution,series variable,USD/kW-month
+utility_large_load_tariffs,demand_charge_summer,series variable,USD/kW-month
 utility_large_load_tariffs,demand_charge_transmission,series variable,USD/kW-month
+utility_large_load_tariffs,demand_charge_winter,series variable,USD/kW-month
+utility_large_load_tariffs,energy_charge,series variable,USD/MWh
+utility_large_load_tariffs,energy_charge_summer,series variable,USD/MWh
+utility_large_load_tariffs,energy_charge_winter,series variable,USD/MWh
 utility_large_load_tariffs,fixed_charge,series variable,USD
+utility_large_load_tariffs,grid_charge_substation,series variable,USD/kW-month
+utility_large_load_tariffs,grid_charge_transmission,series variable,USD/kW-month
 utility_large_load_tariffs,min_bill_pct,series variable,pct
 utility_large_load_tariffs,min_contract_years,series variable,year
 utility_large_load_tariffs,min_demand_mw,series variable,MW

@@ -19,8 +19,8 @@
    "HB_WEST",
    "HB_HUBAVG",
    "HB_BUSAVG",
-   "HB_SOUTH",
    "HB_NORTH",
+   "HB_SOUTH",
    "LZ_SOUTH",
    "HB_HOUSTON",
    "LZ_NORTH",
@@ -38,20 +38,20 @@
     "type": "bar",
     "unit": "USD per MWh",
     "values": [
-     33.161768746422446,
-     34.55828963938181,
-     34.671775615340586,
-     34.7387796222095,
-     34.745587864911286,
-     34.86466834113483,
-     35.5870200343446,
-     35.69607146934582,
-     35.90960954446855,
-     35.97540929329832,
-     37.20213494691174,
-     38.63861285534878,
-     38.99027286219886,
-     39.007609316131976
+     33.21202397260274,
+     34.588592465753436,
+     34.69801712328767,
+     34.76595319634704,
+     34.77076598173517,
+     34.86725,
+     35.605622146118726,
+     35.697873287671236,
+     35.91157420091324,
+     35.97714269406392,
+     37.205626712328765,
+     38.64059931506849,
+     38.992267123287654,
+     39.00950570776255
     ]
    },
    {
@@ -84,7 +84,7 @@
    "label": "All-in, USD per MWh, least and most",
    "before": {
     "period": "ERCOT HB_WEST",
-    "text": "40.99"
+    "text": "41.04"
    },
    "after": {
     "period": "ERCOT LZ_AEN",
@@ -96,11 +96,11 @@
    "label": "A year at 1 GW, USD",
    "before": {
     "period": "HB_WEST",
-    "text": "323,139,956"
+    "text": "323,536,168"
    },
    "after": {
     "period": "LZ_AEN",
-    "text": "369,228,563"
+    "text": "369,243,514"
    },
    "unit": ""
   },
@@ -117,22 +117,22 @@
    "unit": ""
   }
  ],
- "why": "A 1 GW datacenter load, drawing 0.90 of its size in every hour, paid least all-in at ERCOT HB_WEST: USD 40.99 per MWh, USD 323,139,956 a year, and most at ERCOT LZ_AEN: USD 46.83 per MWh, USD 369,228,563 a year. All-in is the day-ahead price over the last twelve whole months, the four-peak transmission charge at the Commission's rate, and capacity, of which ERCOT has none. Only 14 of the tab's 48 rows hold every part: elsewhere transmission is not held, or capacity is held under a license (34 rows). Generators took a median of 45.80 months from request to operation in ERCOT and 100.00 in CAISO, over the requests that came online from 2023 to 2025.",
+ "why": "A 1 GW datacenter load, drawing 0.90 of its size in every hour, paid least all-in at ERCOT HB_WEST: USD 41.04 per MWh, USD 323,536,168 a year, and most at ERCOT LZ_AEN: USD 46.83 per MWh, USD 369,243,514 a year. All-in is the day-ahead price over the last twelve whole months, the four-peak transmission charge at the Commission's rate, and capacity, of which ERCOT has none. Only 14 of the tab's 48 rows hold every part: elsewhere transmission is not held, or capacity is held under a license (34 rows). Generators took a median of 45.80 months from request to operation in ERCOT and 100.00 in CAISO, over the requests that came online from 2023 to 2025.",
  "footnote": "Data: the All grids tab of \"What a datacenter pays\" (/cost-of-power?view=allgrids&mw=1000), computed by site/lib/siting.ts from the page's own files: the hourly hub and zone prices (ercot_all_hub_prices_history, ercot_zone_prices_history), ercot_4cp_intervals and the Commission's approved rate (texas_transmission_matrix), and interconnection_durations (Berkeley Lab's Queued Up, 2026 edition (through 2025)). Method: docs/methods/siting.md. The replication: warehouse/replication/siting.py.",
  "numbers": {
   "rows": 48,
   "rows_held": 14,
   "rows_not_held": 34,
-  "least_allin": 40.98680310715304,
+  "least_allin": 41.037058333333334,
   "least_row": "ercot:HB_WEST",
-  "least_energy": 33.161768746422446,
+  "least_energy": 33.21202397260274,
   "least_tx": 7.825034360730594,
-  "least_year_usd": 323139955.69679457,
-  "most_allin": 46.832643676862574,
+  "least_year_usd": 323536167.90000004,
+  "most_allin": 46.83454006849314,
   "most_row": "ercot:LZ_AEN",
-  "most_energy": 39.007609316131976,
+  "most_energy": 39.00950570776255,
   "most_tx": 7.825034360730594,
-  "most_year_usd": 369228562.74838454,
+  "most_year_usd": 369243513.8999999,
   "year_mwh": 7884000,
   "connect_least": 45.8,
   "connect_least_grid": "ercot",
@@ -147,7 +147,7 @@
   "texas_transmission_matrix",
   "interconnection_durations"
  ],
- "computed_at": "2026-11-05T21:02:21Z",
+ "computed_at": "2026-11-12T18:04:10Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/siting.md",
  "downloads": {
   "csv": "siting_gigawatt.csv",
@@ -163,7 +163,7 @@
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-31",
+   "name": "the findings library's cards as computed by 2026-11-12",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,

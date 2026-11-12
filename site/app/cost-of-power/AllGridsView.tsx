@@ -4,7 +4,7 @@ import { InlineSpark } from "@/components/InlineSpark";
 import { LineChart } from "@/components/LineChart";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, signedGeneration, wiresUtility, queueCell, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, reserveReport, signedGeneration, forecastRevision, wiresUtility, queueCell, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -181,6 +181,7 @@ function ConnectTd({ r }: { r: Row }) {
         load: {c.rule ? <Tp tip={ruleTip}>rule {c.rule.date.slice(0, 7)}</Tp> : <Words words="no rule held" why={ruleTip} />}
         {c.status ? <>, <Tp dotted={false} tip={`ERCOT's large loads approved to energize, MW, its report of ${c.status.day} (${c.status.document}; ercot_large_load_status): approved to connect, not a wait.`}><Num check={`allgrids|llapproved|${r.id}`} raw={c.status.approved}>{c.status.approved.toLocaleString("en-US")}</Num> MW approved</Tp></> : null}
         {"held" in c.wait ? <>, wait <Held table="large_load_waits" why={c.wait.held} /></> : null}
+        {c.filed ? <>, <Tp tip={c.filed}>filed steps</Tp></> : null}
       </span>
     </span>
   );
@@ -212,7 +213,13 @@ function HeadroomTd({ r }: { r: Row }) {
       <span className="block text-xs" data-headroom-reserve="1">
         {"peak" in m
           ? <Tp dotted={false} tip={`ERCOT's planning reserve margin for ${m.peak.label.toLowerCase()} at the report's peak load hour (hour ending ${m.peak.x_hour}): total capacity, ${Math.round(m.peak.capacity_mw).toLocaleString("en-US")} MW, less firm peak load, ${Math.round(m.peak.firm_peak_mw).toLocaleString("en-US")} MW, over firm peak load. ${m.net ? `At the peak net load hour (hour ending ${m.net.x_hour}), ${m.net.pct.toFixed(1)}%. ` : ""}Wind, solar and storage at ERCOT's ELCCs, not at nameplate. ${m.first_below_zero ? `The report's first season below zero at the peak load hour: ${m.first_below_zero.label.toLowerCase()}, ${m.first_below_zero.pct.toFixed(1)}%. ` : ""}A forecast: ERCOT's Capacity, Demand and Reserves report posted ${m.vintage} (${m.table}).`}>reserve margin <Num check={`allgrids|reservemargin|${r.id}`} raw={m.peak.pct}>{two(m.peak.pct)}</Num>%, {m.peak.label.toLowerCase()}</Tp>
-          : <Words words="reserve margin not held" why={m.why} />}
+          : (() => {
+            // session 3802 (chain 215): the operator's own assessment where the ERW holds one (the CAISO's summer assessment)
+            const rr = reserveReport(h, r.grid);
+            if (!rr) return <Words words="reserve margin not held" why={m.why} />;
+            const fg = rr.figures, pg = rr.pages;
+            return <Tp dotted={false} tip={`The ${GRID_NAMES[r.grid]}'s own ${rr.period} assessment (${rr.document}): the planning reserve margin its model achieves in the tightest hour, ${fg.prm_achieved_pct.toFixed(1)}% (page ${pg.prm_achieved_pct})${fg.prm_required_pct !== undefined ? `, against the ${fg.prm_required_pct.toFixed(0)}% it finds is needed for one loss-of-load day in ten years (page ${pg.prm_required_pct})` : ""}${fg.capacity_surplus_mw !== undefined ? `; a surplus of ${Math.round(fg.capacity_surplus_mw).toLocaleString("en-US")} MW above that target (page ${pg.capacity_surplus_mw})` : ""}${fg.peak_forecast_mw !== undefined ? `, for a planned peak of ${Math.round(fg.peak_forecast_mw).toLocaleString("en-US")} MW (page ${pg.peak_forecast_mw})` : ""}. A forecast for the season by the operator's own method, not ERCOT's measure. Read through ${rr.table}.`}>reserve margin <Num check={`allgrids|reservereport|${r.id}`} raw={fg.prm_achieved_pct}>{fg.prm_achieved_pct.toFixed(1)}</Num>%, {rr.period}</Tp>;
+          })()}
       </span>
       {/* session 2923 (chain 153): generation with a signed interconnection agreement, not yet operating (Queued Up) */}
       {(() => {
@@ -222,6 +229,17 @@ function HeadroomTd({ r }: { r: Row }) {
             {"mw_signed" in sg
               ? <Tp dotted={false} tip={`Requests in ${GRID_NAMES[r.grid]}'s queue at the end of ${sg.queue_end.slice(0, 4)} with a signed interconnection agreement and no operation date: ${sg.projects_signed.toLocaleString("en-US")} requests, ${sg.signed_share_pct.toFixed(1)}% of the ${Math.round(sg.active_mw).toLocaleString("en-US")} MW still in the queue (${sg.active_projects.toLocaleString("en-US")} requests). Berkeley Lab and GridTracker's Queued Up, read through ${sg.table}; nameplate MW, a signed agreement is not a commitment to build.`}><Num check={`allgrids|signed|${r.id}`} raw={sg.mw_signed}>{Math.round(sg.mw_signed).toLocaleString("en-US")}</Num> MW signed</Tp>
               : <Words words="signed not held" why={sg.why} />}
+          </span>
+        );
+      })()}
+      {/* session 3785 (chain 212): how the ISO's own FERC-714 forecast of its summer peak moved between its last two filings */}
+      {(() => {
+        const fr = forecastRevision(h, r.grid);
+        return (
+          <span className="block text-xs" data-headroom-forecast={"summer_mw" in fr ? "1" : "0"}>
+            {"summer_mw" in fr
+              ? <Tp dotted={false} tip={`${GRID_NAMES[r.grid]}'s own forecast of its ${fr.year} summer peak, as it filed it on FERC Form 714 (Part 3, Schedule 2) for ${fr.report_year}, less its forecast of the same year filed for ${fr.prior_report_year}${fr.summer_pct === null ? "" : `: ${fr.summer_pct > 0 ? "+" : ""}${fr.summer_pct.toFixed(1)}% of the earlier figure`}. The ISO's planning area as a whole (respondent ${fr.respondent}), not this row's zone; a forecast, revised every year. Read through ${fr.table}.`}>{fr.year} peak forecast {fr.summer_mw > 0 ? "+" : ""}<Num check={`allgrids|forecast|${r.id}`} raw={fr.summer_mw}>{Math.abs(fr.summer_mw) < 10 ? fr.summer_mw.toFixed(1) : Math.round(fr.summer_mw).toLocaleString("en-US")}</Num> MW since the {fr.prior_report_year} filing</Tp>
+              : <Words words="forecast revision not held" why={fr.why} />}
           </span>
         );
       })()}

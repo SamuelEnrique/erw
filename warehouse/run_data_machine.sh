@@ -98,6 +98,9 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
             site/data/seller/hybrid.json site/public/seller/prices
             site/data/board.json site/public/board
             site/data/map.json site/data/map_v2.json)   # session 349: the map's copy (dm_project_map)
+PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
+            docs/methods/automated_analysis_findings.md   # session 3779: dm_cross_check_rows
+            replication/analysis/page_figures.json replication/analysis/page_figures.csv)   # session 3803: dm_analysis_figures
 # session 204: the generator export's dated record of the capture file's build (docs/methods/figures/<day>/, session
 # 199), committed with the CSV whose header names it, and only when the generator's group was not put back
 RECORD_PATH=docs/methods/figures
@@ -334,6 +337,10 @@ put_back() {  # put_back <step> <path...>
 put_back dm_datacenter_page site/data/datacenter
 put_back dm_findings_recompute site/data/findings site/public/findings
 put_back dm_test_findings site/data/findings site/public/findings
+# Session 3779 (chain 212): the cross-check rows of the Research note that name a card's figure (test 538), written
+# again from the cards as they now stand; on 9 and 10 November queue_divorce's recompute (22,348 requests since session
+# 3009's read_table fix) no longer matched the row and the whole refresh was put back. Our figure and the gap only.
+soft_step dm_cross_check_rows "$PYTHON" warehouse/analysis/findings/cross_check_rows.py
 put_back dm_capture_price site/data/seller/capture.json
 put_back dm_curtailment_shares site/data/curtailment/shares.json
 put_back dm_free_energy site/data/curtailment/free_energy.json
@@ -368,6 +375,18 @@ soft_step dm_datacenter_export "$PYTHON" warehouse/derived/datacenter_hourly_exp
 # tonnes a year read 265,548 against the page's 265,549, and the window 10,160 hours against 10,141). It writes
 # nothing when a read fails.
 soft_step dm_datacenter_carbon "$PYTHON" site/scripts/write-datacenter-carbon.py
+# Session 3779 (chain 212): the files the replication tests hold to the page, written from the page's own code on the
+# files above, so a refresh no longer fails them by moving a figure read by hand (the runs of 9 and 10 November put
+# every refresh back on tests 1491 and 720). The All grids tab's two research cards (site/scripts/siting-card.mjs,
+# test 720: the cards are the tab's figures for the same files) and the datacenter replication's page figures
+# (replication/datacenter/figures_of_the_page.py, test 1491: the published mirror is still a second code held to them).
+soft_step dm_siting_card node site/scripts/siting-card.mjs
+soft_step dm_datacenter_figures "$PYTHON" replication/datacenter/figures_of_the_page.py
+# Session 3803 (chain 215): Research's replication page figures (replication/analysis/page_figures.json, test 3701)
+# written again from the cards as they now stand, after the siting cards above. On 12 November the refreshed siting cards
+# moved their callouts and test 3701, whose script compares the downloads' replication with the committed figures,
+# refused the run's commit at the push guard.
+soft_step dm_analysis_figures "$PYTHON" replication/analysis/figures_of_the_page.py
 
 # ---- 3b. the battery page's downloads, the generator page's builders and its hourly CSV (session 204) -----------------
 # Each through warehouse/scheduled.py (it skips with the reason where an input is not here), each a soft step. After
@@ -448,9 +467,11 @@ group dm_test_board "dm_board_page" "tests.test_session132 tests.test_session240
 # (e475f7069) committed a refresh of the datacenter and findings files that broke four of them on main (190, 1491,
 # 538, 720; chain 184 put the files back): those tests read the committed files, so a refresh that moves a recorded
 # figure is put back here, whole, until the tests or their recorded figures follow the refresh.
-group dm_test_replication "dm_datacenter_page dm_datacenter_export dm_datacenter_carbon dm_findings_recompute" \
-  "tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720" -- \
-  site/data/datacenter site/public/datacenter site/data/findings site/public/findings
+group dm_test_replication "dm_datacenter_page dm_datacenter_export dm_datacenter_carbon dm_siting_card dm_datacenter_figures dm_findings_recompute dm_cross_check_rows dm_analysis_figures" \
+  "tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720 tests.test_session3701" -- \
+  site/data/datacenter site/public/datacenter site/data/findings site/public/findings \
+  replication/datacenter/page_figures.json replication/datacenter/page_figures.csv docs/methods/automated_analysis_findings.md \
+  replication/analysis/page_figures.json replication/analysis/page_figures.csv
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"
@@ -503,10 +524,30 @@ fi
 git pull --rebase --quiet origin main
 rc=$?
 echo "pull exit=$rc"
+# Session 3803 (chain 215): package/llms.txt is generated from coverage.csv and sources.csv (scripts/build_llms.py), and
+# both this run and any landing of the day rewrite its header lines, so a landing between this run's sync and its push
+# stopped the rebase on that file alone (12 November 2026: chain 215's landing at 18:03 UTC, this run's commit left here).
+# When it is the one file the rebase cannot merge, it is written again from the merged metadata and the rebase goes on;
+# any other conflict stops the push as before.
+if [ "$rc" -ne 0 ] && [ "$(git diff --name-only --diff-filter=U)" = "package/llms.txt" ]; then
+  "$PYTHON" scripts/build_llms.py > /dev/null 2>&1 && git add package/llms.txt && GIT_EDITOR=true git rebase --continue > /dev/null 2>&1
+  rc=$?
+  echo "the catalogue's conflict written again from the merged metadata (scripts/build_llms.py): rebase exit=$rc"
+fi
 if [ "$rc" -ne 0 ]; then
   git rebase --abort 2>/dev/null || true
   "$PYTHON" warehouse/health.py record --step "dm_commit" --status failed --reason "git pull --rebase exit $rc: committed here, not pushed"
   echo "main moved in a way the commit could not follow: committed here, not pushed"
+  exit 0
+fi
+# Session 3751 (chain 211; chain 208's note, docs/state/main_red_2026-11-06.md, "Not changed by this chain"): the whole
+# suite on a clean copy of the commit before the push. From 7 to 12 November 2026 this machine's page files (board.json,
+# the seller's capture file) made the suite red while the bots that run it were refused at their own guard
+# (docs/state/main_red_2026-11-11.md). A red commit goes to wip/red-dm-<day> with one failed dm_commit row naming the
+# tests, and this checkout returns to origin/main so the next day's commit does not carry it.
+if ! "$PYTHON" scripts/push_guard.py --who "data machine daily" --step "dm_commit" --red-branch "wip/red-dm-$day"; then
+  echo "the suite failed on the commit: pushed to wip/red-dm-$day, not to main"
+  git reset --quiet --keep origin/main || echo "could not return to origin/main: the commit stays here"
   exit 0
 fi
 git push --quiet origin main

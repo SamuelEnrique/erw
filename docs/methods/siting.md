@@ -1,6 +1,17 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 10, session 2958, 6 November 2026 (chain 157); version 9 was session 2923's (chain 153, `queue/done/153-day-8-november-data-large-load-continued.md`); version 8 was session 1081's, 23 October 2026 (chain 073, `queue/done/073-evening-23-october-code-allgrids-packages-3.md`); version 7 was session 1059's (chain 072), version 6 was session 1038's (chain 071), version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+Version 12, session 3802, 12 November 2026 (chain 215); version 11 was session 3785's, the same day (chain 212); version 10 was session 2958's, 6 November 2026 (chain 157); version 9 was session 2923's (chain 153, `queue/done/153-day-8-november-data-large-load-continued.md`); version 8 was session 1081's, 23 October 2026 (chain 073, `queue/done/073-evening-23-october-code-allgrids-packages-3.md`); version 7 was session 1059's (chain 072), version 6 was session 1038's (chain 071), version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+
+## What version 12 changed (chain 215, session 3802, 12 November 2026)
+
+- **The CAISO's own reserve margin** (decision 37): the Headroom column's reserve line for the CAISO rows, from the CAISO's 2026 Summer Loads and Resources Assessment (`iso_reserve_margin_reports`, session 3798's registry, public), keyed `allgrids|reservereport|<row>`: an achieved planning reserve margin of 30.8 percent in the tightest hour, summer 2026; the tip adds the 25 percent the assessment finds is needed for a 0.1 LOLE, the 2,547 MW surplus and the CEC's 1-in-2 peak of 46,844 MW, each with its page. ERCOT's line stays its CDR; the other grids read "reserve margin not held" with the reason (NERC's assessment is closed to this reader by its robots file).
+- **No figure the tab drew before moved:** the `reserve_reports` key was added to the committed `headroom.json`, every other key left as it was.
+
+## What version 11 changed (chain 212, session 3785, 12 November 2026)
+
+- **The ISO's own forecast revision** (decision 36): the Headroom column's last line, how each grid's ISO revised its forecast of its summer peak five years after its newest FERC Form 714 filing (Part 3, Schedule 2), that filing less the one before (`ferc714_forecast_growth`, public under the owner's ruling 1, chain 211's session 3758), keyed `allgrids|forecast|<row>`, with the percent of the earlier figure in the tip. The ISO's planning area as a whole, mapped as the table's method note maps the seven ISO respondents (`docs/methods/ferc714_forecast_growth.md`, "Cross-check"), not the row's zone. The 2030 summer peak, the 2025 filing against the 2024: SPP +7,235 MW (+10.9%), MISO +5,485 (+3.8%), ISO-NE +181 (+0.7%), ERCOT +0 (0.4 MW), PJM -875 (-0.5%), NYISO -660 (-2.0%), CAISO -2,442 (-4.6%).
+- **The registries:** `utility_large_load_tariffs` and `large_load_connection_rules` gained Utah's S.B. 132 (PacifiCorp, `PACE`, session 3783). No tab row is in PacifiCorp's territory, so no cell moved; `tariffs.json` and `conn_rules.json` carry them.
+- **No figure the tab drew before moved:** the `forecast` key was added to the committed `headroom.json`, every other key left as it was; `warehouse/derived/siting_page.py` writes it from now on.
 
 ## What version 10 changed (chain 157, session 2958, 6 November 2026)
 
@@ -180,6 +191,25 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 33. 2026-11-06, 2923 (chain 153): the Headroom column's signed line is Berkeley Lab's queue at the end of its edition's year (2025 in the 2026 edition), not the vintage of EIA-860M above it: the two count different things (an agreement signed; a generator's status) and are not added. Nameplate MW; a signed agreement is not a commitment to build.
 34. 2026-11-06, 2923 (chain 153): a wires company's delivery revenue per MWh is drawn beside the county's largest seller, not in its place. It is the charge for the wires alone and the company's figure across the state, so it is not comparable with a bundled seller's revenue per MWh; the cell's main figure stays the largest seller's.
 35. 2026-11-06, 2958 (chain 157): the queue line is the ISO's own snapshot of active requests, nameplate MW, not Berkeley Lab's annual file (the signed line above it); a request in the queue is not a plant that will be built, and the line is not added to anything.
+36. 2026-11-12, 3785 (chain 212): the forecast line is the ISO's own revision of its summer peak five years after its newest FERC-714 filing, that filing less the one before, in MW with the percent in the tip; the planning area as a whole, never apportioned to a zone, and never summed across grids (an ISO's forecast holds its members' loads). A forecast, revised every year; reversible.
+37. 2026-11-12, 3802 (chain 215): an operator's own seasonal assessment fills the reserve line where it is held (the CAISO's achieved PRM in its tightest hour), beside ERCOT's CDR; the two are each operator's own measure, drawn in their own words and never compared or ranked across grids. Reversible.
+
+- **12 November 2026 (session 3764, chain 211): the filed large-load schedules and the connection rules.** Two files are
+  built from the tables chain 211 loaded:
+  - `tariffs.json` from `utility_large_load_tariffs`: each utility's filed schedules by EIA id, every figure with its page
+    and printed words, the filing and its status; `held` lists the EIA ids of schedules held for a license under ruling 4.
+  - `conn_rules.json` from `large_load_connection_rules`: by grid, each step a document states.
+
+  Outside ERCOT, the Transmission and 4CP cell of a row whose utility files a held schedule shows that schedule's per-kW
+  month figure in words, with the filing on hover. The figure is the transmission demand charge, else the one demand charge,
+  else the transmission grid charge, else the summer demand charge. A schedule held for a license reads "licensed source
+  needed".
+
+  The cell draws no USD per MWh, so the all-in is unchanged. A per-kW month charge becomes a per-MWh figure only through
+  a load factor and the schedule's other parts (generation, riders), and the tab does not invent them.
+
+  The Time to connect cell adds "filed steps", a hover with the steps the documents held state for the grid, those with a
+  duration first. No cell's figure moved; no default changed.
 
 ## The limits
 

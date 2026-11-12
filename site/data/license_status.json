@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-11-06",
+ "written": "2026-11-12",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -205,6 +205,7 @@
     "POWER Magazine",
     "Reuters",
     "Switch",
+    "Utility Dive",
     "Vantage Data Centers",
     "WSJ"
    ]
@@ -240,6 +241,7 @@
     "OilPrice.com",
     "POWER Magazine",
     "Reuters",
+    "Utility Dive",
     "WSJ"
    ]
   },
@@ -614,14 +616,12 @@
   "attention_index_weekly": {
    "status": "public",
    "pages": [
-    "/attention",
     "/data"
    ]
   },
   "attention_story_links": {
    "status": "public",
    "pages": [
-    "/attention",
     "/data"
    ]
   },
@@ -1201,6 +1201,7 @@
     "POWER Magazine",
     "Reuters",
     "Switch",
+    "Utility Dive",
     "Vantage Data Centers",
     "WSJ"
    ],
@@ -1247,6 +1248,7 @@
     "OilPrice.com",
     "POWER Magazine",
     "Reuters",
+    "Utility Dive",
     "WSJ"
    ],
    "pages": [
@@ -2106,6 +2108,7 @@
   "eia_heat_rates_annual": {
    "status": "public",
    "pages": [
+    "/board",
     "/data"
    ]
   },
@@ -3098,6 +3101,20 @@
     "/data"
    ]
   },
+  "ferc714_forecast_growth": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
+  },
+  "ferc714_planning_area_forecasts": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
   "fhwa_motor_fuel_monthly": {
    "status": "public",
    "pages": [
@@ -3132,7 +3149,6 @@
   "friction_index_weekly": {
    "status": "public",
    "pages": [
-    "/attention",
     "/data"
    ]
   },
@@ -3379,6 +3395,10 @@
     "/map"
    ]
   },
+  "iso_reserve_margin_reports": {
+   "status": "public",
+   "pages": []
+  },
   "iso_rt_top_intervals": {
    "status": "license needed",
    "hold": "by grid",
@@ -3398,6 +3418,7 @@
    ],
    "pages": [
     "/",
+    "/board",
     "/cost-of-power",
     "/cost-of-power/battery",
     "/cost-of-power/seller",
@@ -3502,7 +3523,9 @@
   "large_load_connection_rules": {
    "status": "public",
    "pages": [
-    "/data"
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
    ]
   },
   "large_load_public": {
@@ -4410,7 +4433,9 @@
   "utility_large_load_tariffs": {
    "status": "public",
    "pages": [
-    "/data"
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
    ]
   },
   "utility_service_territories": {
@@ -4459,7 +4484,7 @@
    ]
   }
  },
- "internal_tables": 114,
+ "internal_tables": 115,
  "pages": {
   "/": {
    "label": "Home",
@@ -4526,7 +4551,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 484
+   "public": 486
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -4560,11 +4585,12 @@
    "dark": "part",
    "license_needed": [
     "iso_hub_prices_history",
+    "iso_rtm_hub_prices",
     "iso_zone_prices_history",
     "nyiso_as_prices"
    ],
    "internal": 0,
-   "public": 26
+   "public": 27
   },
   "/prices": {
    "label": "Prices",
@@ -4665,7 +4691,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 7,
-   "public": 34
+   "public": 37
   },
   "/shoulder": {
    "label": "The shoulder hours",
@@ -4746,7 +4772,7 @@
     "nyiso_zone_load_hourly"
    ],
    "internal": 7,
-   "public": 23
+   "public": 26
   },
   "/storage": {
    "label": "Storage",
@@ -4806,13 +4832,6 @@
    ],
    "internal": 1,
    "public": 23
-  },
-  "/attention": {
-   "label": "Attention",
-   "dark": "none",
-   "license_needed": [],
-   "internal": 0,
-   "public": 3
   },
   "/play/battery": {
    "label": "Home battery game",

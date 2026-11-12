@@ -235,7 +235,13 @@ class TheTableAndItsWiring(unittest.TestCase):
         self.assertNotIn("fillna(0)", text.replace('h["covered"].fillna(0)', ""))   # seconds covered may be zero; a price is never filled
 
     def test_coverage_the_live_set_and_the_daily_run_know_the_table(self):
-        import build_coverage
+        # session 3718: the builder loaded by its path. A bare `import build_coverage` found warehouse/validate's
+        # two-line shim when an earlier test of the same run had put that folder first on sys.path, and the shim runs
+        # the builder as __main__ with unittest's own arguments ("unrecognized arguments")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("build_coverage_s244", os.path.join(ROOT, "warehouse", "metadata", "build_coverage.py"))
+        build_coverage = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build_coverage)
         self.assertTrue(any(__import__("re").match(p, c.NAME) and s == "power" for p, s in build_coverage.SECTOR_RULES))
         live = yaml.safe_load(src("warehouse", "supabase", "live_set.yaml"))
         self.assertIn("^ercot_rtm_price_adders$", live["full"])

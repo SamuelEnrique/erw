@@ -386,7 +386,10 @@ class DealsLibrary(unittest.TestCase):
                 continue
             self.assertIn(f"{len(self.d):,} deals", s)
             if c["deals"] > 1:
-                self.assertIn(f"{c['mw']:,.0f} MW in all" if c["withMw"] else "None of them states a size", s)
+                # session 3756 (chain 211): the page prints the total as lib/deals2.ts whole() does (up to two decimals);
+                # the backfill of 27 October to 5 November 2026 brought the first deal with a fractional size (39,587.5 MW)
+                total = f"{c['mw']:,.2f}".rstrip("0").rstrip(".")
+                self.assertIn(f"{total} MW in all" if c["withMw"] else "None of them states a size", s)
                 self.assertIn("none states a price" if c["withPrice"] == 0 else f"{c['withPrice']:,}", s)
             if got["href"] != "/deals?tab=tracker":
                 self.assertTrue(s.startswith(f"{c['deals']:,} of the {len(self.d):,} deals held"), s)

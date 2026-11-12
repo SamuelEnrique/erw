@@ -85,6 +85,7 @@ TIERS = ["source", "derived", "model_extracted"]
 # Session 28: first match wins (docs/datastandard.md, "Provenance tiers")
 TIER_RULES = [
     ("model_extracted", r"^(energy_deals|datacenter_projects|policy_reads)(_evidence)?$"),  # extraction from news
+    ("model_extracted", r"^datacenter_tracker_rollups$"),  # session 3775: counted by code, every row from the model's facilities
     ("model_extracted", r"^energy_companies$"),           # the Thesis Builder's research and the deal parties
     ("model_extracted", r"^company_(directory|aliases|links)$"),  # session 3302: names from the deals, datacenter and policy extractions
     ("model_extracted", r"^news_(stories|index)$"),       # the scores and headlines are the model's
@@ -140,6 +141,7 @@ SECTOR_RULES = [
     (r"^utility_service_territories$", "power"),  # session 667: EIA-861 service territories, utility by county
     (r"^utility_large_load_tariffs$", "power"),  # session 2871: large loads' filed tariffs, a figure a row (the registry)
     (r"^large_load_connection_rules$", "power;datacenters"),  # session 2924: the steps a document states to connect a large load (the registry)
+    (r"^iso_reserve_margin_reports$", "power"),  # session 3798: grid operators' reserve margins as their assessments print them (the registry)
     (r"^generator_pipeline_by_grid$", "power"),  # session 2951: EIA-860M's pipeline by grid and its monthly moves (derived)
     (r"^iso_queue_snapshot_summary$", "power"),  # session 2953: the ISO queues summarized from their own snapshots (derived)
     (r"^nuclear_fleet_status$", "power"),  # session 2955: the reactor fleet by reactor and year, and by grid (derived)
@@ -160,6 +162,7 @@ SECTOR_RULES = [
     (r"^eia861m_utility_sales_monthly$", "power"),  # session 511: Form EIA-861M, the sampled utilities' monthly sales
     (r"^eia_nuclear_outages_daily$", "power;uranium"),  # session 513: EIA's U.S. nuclear outages, a day
     (r"^ferc714_respondents$", "power"),  # session 514: FERC Form 714's respondents, from PUDL
+    (r"^ferc714_(planning_area_forecasts|forecast_growth)$", "power"),  # session 3758: FERC-714 Part 3 Schedule 2 forecasts (PUDL) and their revisions
     (r"^eia_nuclear_outages_facility_daily$", "power;uranium"),  # session 516: EIA's nuclear outages by plant, a day
     (r"^eia_gas_prices_state_monthly$", "gas"),  # session 517: EIA's natural gas prices by state, a month
     (r"^eia_gas_consumption_state_monthly$", "gas"),  # session 518: EIA's natural gas consumption by state, a month
@@ -585,6 +588,7 @@ SECTOR_RULES = [
     # session 16: the project map (tool 3) and the datacenter power tracker (tool 4)
     (r"^energy_projects$", "power"),
     (r"^datacenter_projects(_evidence)?$", "power;datacenters"),
+    (r"^datacenter_tracker_rollups$", "power;datacenters"),  # session 3775: the tracker's rollups of datacenter_projects (session 2236)
     # session 22: the tracker's combined table and its operator and queue inputs
     (r"^datacenter_(facilities|operator_sites|queue_positions)$", "power;datacenters"),
     # session 17: written only if ERCOT publishes a request-level list (warehouse/connectors/ercot_large_load.py)

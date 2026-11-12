@@ -70,11 +70,11 @@ export type Column = { id: ColumnId; head: string; unit: string; tip: string; ta
 export const COLUMNS: Column[] = [
   { id: "energy", head: "Energy", unit: "USD per MWh", tables: ["iso_dam_hub_prices", "iso_rtm_hub_prices", "iso_hub_prices_history", "ercot_all_hub_prices_history", "ercot_zone_prices_history", "node_basis_daily"],
     tip: "The day-ahead price over the last twelve whole months, a flat load, from the page's own hourly files (lib/datacenter.ts, as \"Your load\" computes it); an ERCOT node is its hub plus its mean daily basis (node_basis_daily)." },
-  { id: "transmission", head: "Transmission and 4CP", unit: "USD per MWh", tables: ["ercot_4cp_intervals", "texas_transmission_matrix"],
-    tip: "ERCOT: the load's demand in the four summer peak intervals of the newest summer held (ercot_4cp_intervals) at the Commission's approved rate, over its energy: the profile's own, then firm (on in all four) and off (curtailing). Elsewhere the utility's large-load tariff, not held." },
+  { id: "transmission", head: "Transmission and 4CP", unit: "USD per MWh", tables: ["ercot_4cp_intervals", "texas_transmission_matrix", "utility_large_load_tariffs"],
+    tip: "ERCOT: the load's demand in the four summer peak intervals of the newest summer held (ercot_4cp_intervals) at the Commission's approved rate, over its energy: the profile's own, then firm (on in all four) and off (curtailing). Elsewhere the row's utility's filed large-load schedule where one is held (utility_large_load_tariffs), as its per-kW month figure with the filing on hover, not added to the all-in." },
   { id: "capacity", head: "Capacity", unit: "USD per MWh", tables: ["iso_all_capacity_prices", "pjm_rpm_capacity_prices"],
     tip: "The latest cleared capacity price for the zone, over the load's energy (iso_all_capacity_prices, pjm_rpm_capacity_prices). ERCOT, CAISO and SPP have no capacity market." },
-  { id: "connect", head: "Time to connect", unit: "months", tables: ["interconnection_durations", "lbnl_interconnection_queue", "large_load_rules", "large_load_waits", "ercot_large_load_status", "nyiso_load_queue"],
+  { id: "connect", head: "Time to connect", unit: "months", tables: ["interconnection_durations", "lbnl_interconnection_queue", "large_load_rules", "large_load_waits", "ercot_large_load_status", "nyiso_load_queue", "large_load_connection_rules"],
     tip: "The median months from queue entry to operation for projects finished in the last three years (interconnection_durations, from Berkeley Lab's queue file), and the grid's large-load rule (large_load_rules)." },
   { id: "headroom", head: "Headroom", unit: "percent; MW", tables: ["eia930_demand_growth", "eia860m_planned_generators", "grid_peak_vs_capacity", "eia_state_capacity_annual", "ercot_cdr_reserve_margins"],
     tip: "Demand growth over the last twelve months (EIA-930), generation under construction due in the next twelve months (eia860m_planned_generators), capacity above the grid's peak (grid_peak_vs_capacity), and ERCOT's planning reserve margin for the coming summer (ercot_cdr_reserve_margins)." },
@@ -426,9 +426,49 @@ export function newestRate(rows: { quantity: string; status: string; matrix: str
  * (HB_HUBAVG; node_basis_daily is daily). */
 export type CpCharge = { year: number; rate: Rate; hours: number; share: number | null; firm: number; curtailing: number | null; own: number | null;
   intervals: { ts: string; local: string; w: number | null }[]; region: string };
+/** data/siting/tariffs.json (warehouse/derived/siting_page.py, from utility_large_load_tariffs; session 3764): each
+ * utility's filed large-load schedules by EIA id, every figure as printed with its page, the filing and its status; held
+ * lists the EIA ids of schedules held for a license (ruling 4 of 6 November 2026), whose figures are not in the file. */
+export type TariffFigure = { variable: string; value: number; unit: string; page: string; printed: string };
+export type TariffSchedule = { entity: string; utility: string; schedule: string; effective: string; status: string; grid: string; state: string; sheet: string;
+  commission: string; docket: string; document: string; url: string; min_bill: string; term: string; notes: string; figures: TariffFigure[] };
+export type TariffFile = { table: string; built: string; held: string[]; utilities: Record<string, TariffSchedule[]> };
+/** data/siting/conn_rules.json (from large_load_connection_rules; session 3764): by grid, each step an operator's or a
+ * commission's document states, with its duration as printed, newest document first. */
+export type ConnRuleStep = { document: string; date: string; step: string; duration: string; unit: string; mw: string; page: string; section: string; printed: string; url: string };
+export type ConnRulesFile = { table: string; built: string; grids: Record<string, ConnRuleStep[]> };
+/** The per-kW delivery figure a schedule prints, in the order a transmission-voltage load would read it. */
+const TARIFF_KW = ["demand_charge_transmission", "demand_charge", "grid_charge_transmission", "demand_charge_summer", "demand_charge_distribution"];
+/** Session 3764: a non-ERCOT row's transmission cell from its utility's filed schedule, when one is held: the per-kW figure
+ * as printed, the filing in the hover; "licensed source needed" for a schedule held for a license. Words only: a per-kW
+ * month charge is not a USD per MWh, so the cell draws no figure into the all-in. */
+export function tariffWords(f: Files, r: Row): { why: string; words: string } | null {
+  const uc = utilityCell(f, r);
+  if ("why" in uc || !uc.u || !f.tariffs) return null;
+  const num = uc.u.number;
+  if (f.tariffs.held.includes(num)) return { why: `${uc.u.utility}'s filed large-load schedule is held for a license: its only readable copy is on a host whose terms ask written permission (the owner's ruling 4 of 6 November 2026), so its figures are not shown (${f.tariffs.table}).`, words: "licensed source needed" };
+  const ts = (f.tariffs.utilities[num] ?? []).filter((x) => x.figures?.length);
+  if (!ts.length) return null;
+  // the adopted schedule first, newest first within a status (the file is newest first)
+  const t = ts.find((x) => x.status === "adopted") ?? ts[0];
+  const kw = TARIFF_KW.map((v) => t.figures.find((x) => x.variable === v)).find(Boolean);
+  const figs = t.figures.map((x) => `${x.printed} (page ${x.page})`).join("; ");
+  const status = t.status === "adopted" ? "" : ` (${t.status})`;
+  const why = `${t.utility}, ${t.schedule}${status}, effective ${t.effective}: ${figs}. ${t.commission}${t.docket ? `, ${t.docket}` : ""}; ${t.document}, ${t.url}.${t.notes ? ` ${t.notes}` : ""} A per-kW month charge, not a USD per MWh: it is not added to the all-in (${f.tariffs.table}).`;
+  return { why, words: kw ? `$${kw.value.toFixed(kw.value < 1 ? 3 : 2)}/kW-mo${status}` : `tariff filed${status}` };
+}
+/** Session 3764: the steps an operator's or a commission's documents state for connecting a large load in the row's grid,
+ * those with a duration first, as one hover line; null when none is held (conn_rules.json). */
+export function filedSteps(f: Files, r: Row): string | null {
+  const g = f.connRules?.grids[r.grid];
+  if (!g?.length) return null;
+  const timed = g.filter((x) => x.duration).slice(0, 4);
+  const lines = (timed.length ? timed : g.slice(0, 3)).map((x) => `${x.step}${x.duration ? `: ${x.duration} ${x.unit}` : ""} (${x.document}, ${x.page ? `page ${x.page}` : x.section})`);
+  return `What the documents held state for ${GRID_NAMES[r.grid]} (${f.connRules?.table}): ${lines.join("; ")}.`;
+}
 export function cpCharge(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">): CpCharge | { why: string; words: string } {
   if (r.blank) return { why: r.blank.why, words: r.grid === "miso" ? "paused" : "not held" };
-  if (r.grid !== "ercot") return { why: `The transmission and delivery charge a large load pays in ${GRID_NAMES[r.grid]} is set by its utility's large-load tariff, and no such tariff is held in the warehouse. Only ERCOT's four-peak charge is held (ercot_4cp_intervals, at the Commission's rate).`, words: "not held" };
+  if (r.grid !== "ercot") return tariffWords(f, r) ?? { why: `The transmission and delivery charge a large load pays in ${GRID_NAMES[r.grid]} is set by its utility's large-load tariff, and no such tariff of the row's utility is held in the warehouse. Only ERCOT's four-peak charge is held (ercot_4cp_intervals, at the Commission's rate).`, words: "not held" };
   const rate = f.rate;
   if (!rate) return { why: "The Commission's approved postage stamp rate is not in the page's files (texas_transmission_matrix).", words: "not held" };
   const summer = [...(f.cp?.summers ?? [])].filter((s) => s.intervals.length === 4).at(-1);
@@ -538,6 +578,8 @@ export type WaitsFile = { grids: Record<string, { state: string; stages?: { inte
 export type ConnectCell = {
   gen: (ConnectGrid & { from: number; to: number; vintage: string }) | { why: string };
   rule: RuleRow | null; ruleWhy: string;
+  /** session 3764: the steps the documents held state for the grid (conn_rules.json), one hover line, or null */
+  filed: string | null;
   status: { approved: number; day: string; document: string; url: string } | null;
   wait: { held: string } | { why: string };
 };
@@ -556,7 +598,7 @@ export function connectCell(f: Files, r: Row): ConnectCell {
   const w = f.waits?.grids[r.grid];
   const wait = w?.state === "measured" ? { held: `Measured waits by stage are held for ${GRID_NAMES[r.grid]} (large_load_waits, internal: ${(w.stages ?? []).filter((s) => s.measured && s.measured.n > 0).length} stages measured); computed, and drawn as "license needed".` }
     : { why: `No large-load wait is measured for ${GRID_NAMES[r.grid]} (large_load_waits): ${w?.state ?? "not held"}.` };
-  return { gen, rule, ruleWhy, status, wait };
+  return { gen, rule, ruleWhy, status, wait, filed: filedSteps(f, r) };
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -589,6 +631,12 @@ export type HeadroomFile = {
   /** session 2958 (chain 157): the active interconnection queue at each ISO's own snapshot (iso_queue_snapshot_summary),
    * CAISO, ERCOT and SPP; `held` the grids whose queue tables are held whole for a license */
   queue?: { table: string; grids: Record<string, { active_mw: number; active_count: number; snapshot: string }>; held: string[] };
+  /** session 3785 (chain 212): the revision of each ISO's own forecast summer peak for `year`, the newest FERC-714 filing
+   * (`report_year`) less the filing before (ferc714_forecast_growth, summer_peak_revision_1y_mw and _pct) */
+  forecast?: { table: string; report_year: number; prior_report_year: number; year: number; grids: Record<string, { respondent: string; summer_mw: number; summer_pct: number | null }> };
+  /** session 3802 (chain 215): the grid operators' own reserve margin assessments (iso_reserve_margin_reports, session
+   * 3798's registry), the newest document of each grid with its figures as printed and their pages */
+  reserve_reports?: { table: string; grids: Record<string, { document: string; period: string; source_url: string; figures: Record<string, number>; pages: Record<string, string> }> };
 };
 export type ReserveAt = { label: string; x_hour: number; pct: number; capacity_mw: number; firm_peak_mw: number };
 export const BA_OF: Record<string, string> = { ercot: "ERCO", caiso: "CISO", nyiso: "NYIS", isone: "ISNE", spp: "SWPP", miso: "MISO", pjm: "PJM" };
@@ -639,6 +687,20 @@ export function signedGeneration(h: HeadroomFile | undefined, grid: string) {
   if (!s || !g) return { why: `No count of ${GRID_NAMES[grid]}'s generation with a signed interconnection agreement is in the page's files (interconnection_agreements_by_grid).` };
   return { ...g, table: s.table, queue_end: s.queue_end };
 }
+/** Session 3802 (chain 215): the grid operator's own reserve margin assessment, where the ERW holds one (the CAISO's
+ * summer assessment); null where it holds none (ERCOT's is its CDR, reserveMargin). */
+export function reserveReport(h: HeadroomFile | undefined, grid: string) {
+  const r = h?.reserve_reports, g = r?.grids[grid];
+  if (!r || !g || g.figures.prm_achieved_pct === undefined) return null;
+  return { ...g, table: r.table };
+}
+/** Session 3785 (chain 212): how the grid's own FERC-714 forecast of its summer peak moved between its last two filings,
+ * for the year five years after the newer one's report year; else why. */
+export function forecastRevision(h: HeadroomFile | undefined, grid: string) {
+  const f = h?.forecast, g = f?.grids[grid];
+  if (!f || !g) return { why: `No FERC-714 forecast revision of ${GRID_NAMES[grid]}'s own summer peak is in the page's files (ferc714_forecast_growth).` };
+  return { ...g, table: f.table, report_year: f.report_year, prior_report_year: f.prior_report_year, year: f.year };
+}
 /** Session 2958 (chain 157): the grid's active interconnection queue at its ISO's own snapshot; else why and its words. */
 export function queueCell(h: HeadroomFile | undefined, grid: string) {
   const q = h?.queue, g = q?.grids[grid];
@@ -662,7 +724,7 @@ export const EIA411_AREA: Record<string, string> = { ercot: "TRE (ERCOT)", caiso
  * Session 1047: the why names EIA-411's area for the grid and why its figures are not drawn (docs/methods/siting.md). */
 export function reserveMargin(h: HeadroomFile | undefined, grid: string) {
   const r = h?.reserve, g = r?.grids[grid];
-  if (!r || !g) return { why: `No current planning reserve margin of ${GRID_NAMES[grid]}'s is held: the ERW holds ERCOT's own (its Capacity, Demand and Reserves report) alone. EIA-411 (eia411_capacity_margins_annual) gives margins by NERC assessment area, ${GRID_NAMES[grid]}'s under ${EIA411_AREA[grid] ?? "no area"}, but its last release is of November 2016: its figures for the coming summer are projections made then, so they are not drawn as the grid's.` };
+  if (!r || !g) return { why: `No current planning reserve margin of ${GRID_NAMES[grid]}'s is held: the ERW holds ERCOT's own (its Capacity, Demand and Reserves report) and the CAISO's (its summer assessment) alone. EIA-411 (eia411_capacity_margins_annual) gives margins by NERC assessment area, ${GRID_NAMES[grid]}'s under ${EIA411_AREA[grid] ?? "no area"}, but its last release is of November 2016: its figures for the coming summer are projections made then, so they are not drawn as the grid's.` };
   return { ...g, report: r.report, vintage: r.vintage.slice(0, 10), table: r.table };
 }
 
@@ -1037,7 +1099,9 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
   /** session 707: eGRID's subregions and the grids' hourly intensity (data/siting/carbon.json) */
   carbon?: CarbonFile;
   /** session 708: the largest seller to industry by state and grid (data/siting/utility.json) */
-  utility?: UtilityFile };
+  utility?: UtilityFile;
+  /** session 3764: the filed large-load schedules and the connection rules (data/siting/tariffs.json, conn_rules.json) */
+  tariffs?: TariffFile; connRules?: ConnRulesFile };
 /** The figure a check key names, from the files the page reads; undefined when the key names none.
  *   allgrids|rows|hubs, allgrids|rows|nodes                the count of each row set (session 700)
  *   allgrids|energy|<row>|da or rt                         a flat load's price over the last twelve whole months (701);
@@ -1069,6 +1133,8 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|signed|<row>                                  MW with a signed interconnection agreement, not yet operating (2923)
  *   allgrids|wiresrev|<row>                                the county's delivery-only company's industrial delivery revenue per MWh (2923)
  *   allgrids|queue|<row>                                   the grid's active interconnection queue MW at its ISO's snapshot (2958)
+ *   allgrids|forecast|<row>                                the grid's FERC-714 forecast summer peak revision, MW, newest filing less the one before (3785)
+ *   allgrids|reservereport|<row>                           the reserve margin the grid operator's own assessment achieves, percent (3802)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
 export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
@@ -1157,6 +1223,8 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   if (p[1] === "signed") { const g = signedGeneration(f.headroom, row.grid); return "mw_signed" in g ? g.mw_signed : undefined; }
   if (p[1] === "wiresrev") return wiresUtility(f, row)?.rev;
   if (p[1] === "queue") { const q = queueCell(f.headroom, row.grid); return "active_mw" in q ? q.active_mw : undefined; }
+  if (p[1] === "forecast") { const g = forecastRevision(f.headroom, row.grid); return "summer_mw" in g ? g.summer_mw : undefined; }
+  if (p[1] === "reservereport") return reserveReport(f.headroom, row.grid)?.figures.prm_achieved_pct;
   if (p[1] === "reservemargin") { const m = reserveMargin(f.headroom, row.grid); return "peak" in m ? m.peak.pct : undefined; }
   if (p[1] === "connect" || p[1] === "llapproved") {
     const c = connectCell(f, row);
