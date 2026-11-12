@@ -89,6 +89,10 @@ class TheRun(unittest.TestCase):
             self.assertLess(t.index(step), at, step)
         self.assertLess(t.index("soft_step dm_datacenter_carbon "), t.index("soft_step dm_datacenter_figures "))
         self.assertLess(t.index("soft_step dm_findings_recompute "), t.index("soft_step dm_cross_check_rows "))
+        # session 3803: Research's replication page figures after the siting cards and the recompute
+        self.assertLess(t.index("soft_step dm_siting_card "), t.index("soft_step dm_analysis_figures "))
+        self.assertLess(t.index("soft_step dm_findings_recompute "), t.index("soft_step dm_analysis_figures "))
+        self.assertLess(t.index("soft_step dm_analysis_figures "), at)
 
 
 if __name__ == "__main__":

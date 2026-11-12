@@ -99,7 +99,8 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
             site/data/board.json site/public/board
             site/data/map.json site/data/map_v2.json)   # session 349: the map's copy (dm_project_map)
 PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
-            docs/methods/automated_analysis_findings.md)   # session 3779: dm_cross_check_rows
+            docs/methods/automated_analysis_findings.md   # session 3779: dm_cross_check_rows
+            replication/analysis/page_figures.json replication/analysis/page_figures.csv)   # session 3803: dm_analysis_figures
 # session 204: the generator export's dated record of the capture file's build (docs/methods/figures/<day>/, session
 # 199), committed with the CSV whose header names it, and only when the generator's group was not put back
 RECORD_PATH=docs/methods/figures
@@ -381,6 +382,11 @@ soft_step dm_datacenter_carbon "$PYTHON" site/scripts/write-datacenter-carbon.py
 # (replication/datacenter/figures_of_the_page.py, test 1491: the published mirror is still a second code held to them).
 soft_step dm_siting_card node site/scripts/siting-card.mjs
 soft_step dm_datacenter_figures "$PYTHON" replication/datacenter/figures_of_the_page.py
+# Session 3803 (chain 215): Research's replication page figures (replication/analysis/page_figures.json, test 3701)
+# written again from the cards as they now stand, after the siting cards above. On 12 November the refreshed siting cards
+# moved their callouts and test 3701, whose script compares the downloads' replication with the committed figures,
+# refused the run's commit at the push guard.
+soft_step dm_analysis_figures "$PYTHON" replication/analysis/figures_of_the_page.py
 
 # ---- 3b. the battery page's downloads, the generator page's builders and its hourly CSV (session 204) -----------------
 # Each through warehouse/scheduled.py (it skips with the reason where an input is not here), each a soft step. After
@@ -461,10 +467,11 @@ group dm_test_board "dm_board_page" "tests.test_session132 tests.test_session240
 # (e475f7069) committed a refresh of the datacenter and findings files that broke four of them on main (190, 1491,
 # 538, 720; chain 184 put the files back): those tests read the committed files, so a refresh that moves a recorded
 # figure is put back here, whole, until the tests or their recorded figures follow the refresh.
-group dm_test_replication "dm_datacenter_page dm_datacenter_export dm_datacenter_carbon dm_siting_card dm_datacenter_figures dm_findings_recompute dm_cross_check_rows" \
-  "tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720" -- \
+group dm_test_replication "dm_datacenter_page dm_datacenter_export dm_datacenter_carbon dm_siting_card dm_datacenter_figures dm_findings_recompute dm_cross_check_rows dm_analysis_figures" \
+  "tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720 tests.test_session3701" -- \
   site/data/datacenter site/public/datacenter site/data/findings site/public/findings \
-  replication/datacenter/page_figures.json replication/datacenter/page_figures.csv docs/methods/automated_analysis_findings.md
+  replication/datacenter/page_figures.json replication/datacenter/page_figures.csv docs/methods/automated_analysis_findings.md \
+  replication/analysis/page_figures.json replication/analysis/page_figures.csv
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"
@@ -517,6 +524,16 @@ fi
 git pull --rebase --quiet origin main
 rc=$?
 echo "pull exit=$rc"
+# Session 3803 (chain 215): package/llms.txt is generated from coverage.csv and sources.csv (scripts/build_llms.py), and
+# both this run and any landing of the day rewrite its header lines, so a landing between this run's sync and its push
+# stopped the rebase on that file alone (12 November 2026: chain 215's landing at 18:03 UTC, this run's commit left here).
+# When it is the one file the rebase cannot merge, it is written again from the merged metadata and the rebase goes on;
+# any other conflict stops the push as before.
+if [ "$rc" -ne 0 ] && [ "$(git diff --name-only --diff-filter=U)" = "package/llms.txt" ]; then
+  "$PYTHON" scripts/build_llms.py > /dev/null 2>&1 && git add package/llms.txt && GIT_EDITOR=true git rebase --continue > /dev/null 2>&1
+  rc=$?
+  echo "the catalogue's conflict written again from the merged metadata (scripts/build_llms.py): rebase exit=$rc"
+fi
 if [ "$rc" -ne 0 ]; then
   git rebase --abort 2>/dev/null || true
   "$PYTHON" warehouse/health.py record --step "dm_commit" --status failed --reason "git pull --rebase exit $rc: committed here, not pushed"
