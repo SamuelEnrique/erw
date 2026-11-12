@@ -181,6 +181,23 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 34. 2026-11-06, 2923 (chain 153): a wires company's delivery revenue per MWh is drawn beside the county's largest seller, not in its place. It is the charge for the wires alone and the company's figure across the state, so it is not comparable with a bundled seller's revenue per MWh; the cell's main figure stays the largest seller's.
 35. 2026-11-06, 2958 (chain 157): the queue line is the ISO's own snapshot of active requests, nameplate MW, not Berkeley Lab's annual file (the signed line above it); a request in the queue is not a plant that will be built, and the line is not added to anything.
 
+- **12 November 2026 (session 3764, chain 211): the filed large-load schedules and the connection rules.** Two files are
+  built from the tables chain 211 loaded:
+  - `tariffs.json` from `utility_large_load_tariffs`: each utility's filed schedules by EIA id, every figure with its page
+    and printed words, the filing and its status; `held` lists the EIA ids of schedules held for a license under ruling 4.
+  - `conn_rules.json` from `large_load_connection_rules`: by grid, each step a document states.
+
+  Outside ERCOT, the Transmission and 4CP cell of a row whose utility files a held schedule shows that schedule's per-kW
+  month figure in words, with the filing on hover. The figure is the transmission demand charge, else the one demand charge,
+  else the transmission grid charge, else the summer demand charge. A schedule held for a license reads "licensed source
+  needed".
+
+  The cell draws no USD per MWh, so the all-in is unchanged. A per-kW month charge becomes a per-MWh figure only through
+  a load factor and the schedule's other parts (generation, riders), and the tab does not invent them.
+
+  The Time to connect cell adds "filed steps", a hover with the steps the documents held state for the grid, those with a
+  duration first. No cell's figure moved; no default changed.
+
 ## The limits
 
 - **Figures as of the build**: every figure is of the files the build read. The node basis and the eGRID and EIA-861 tables are rebuilt from the archive on a machine that holds them; the tab's files are only as new as their last build.
