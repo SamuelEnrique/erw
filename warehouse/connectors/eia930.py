@@ -43,7 +43,8 @@ than failing the whole table. A fuel type the BA does not report at all is
 simply not a variable of that table.
 Per-day completeness (session 13): for the tables in PER_DAY (ERCO and NYIS
 demand, where EIA's day-ahead forecast series has missing days, SWPP demand since
-session 36A for the same reason (2026-09-28: 19 forecast hours missing), and since
+session 36A for the same reason (2026-09-28: 19 forecast hours missing), every
+BA's demand since session 3757 (2026-11-01: CISO's and PJM's forecast absent), and since
 session 16 all eight generation tables, whose net generation lags demand by a
 day or more), the rule above is applied to each UTC day instead of the whole
 window. In a generation table, a per-fuel series missing any hour of a day
@@ -166,7 +167,10 @@ CORE = {"demand_mw", "demand_forecast_mw", "net_generation_mw"}
 # a day or more after demand, and the whole-window rule then wrote no generation at all.
 # Session 36A: SWPP demand too; EIA left 19 of its day-ahead forecast hours of 2026-09-28 empty, and the whole-window
 # rule failed the table (and closed the health gate) instead of recording the day as a gap
-PER_DAY = {"eia930_erco_demand", "eia930_nyis_demand", "eia930_swpp_demand"} | {f"eia930_{c}_generation" for c in BAS}
+# Session 3757 (chain 211): every BA's demand. On 5 November 2026 EIA held no day-ahead forecast for CISO and PJM on
+# 1 November (the 25-hour day of the clock change), and the whole-window rule failed both tables every run, as it had
+# failed SWPP's in session 36A; a day with a core hole is a gap row, its earlier rows kept, never filled
+PER_DAY = {f"eia930_{c}_demand" for c in BAS} | {f"eia930_{c}_generation" for c in BAS}
 
 
 def incomplete_variables(rows, start, end):
@@ -187,10 +191,15 @@ def incomplete_variables(rows, start, end):
 def complete_days(rows, start, end, log, name):
     """Per-day completeness: (rows of the complete UTC days, [(day, reason)] for the others)."""
     keep, gaps = [], []
+    # session 3757: a core variable the window holds but a day lacks entirely is that day's hole too (CISO's and PJM's
+    # forecast of 1 November 2026: no row at all that day, so the variable was not seen as incomplete)
+    window_core = set(rows["variable"]) & CORE
     for d0 in pd.date_range(start, end, freq="1D", inclusive="left"):
         d1 = d0 + pd.Timedelta(days=1)
         part = rows[(rows["interval_start"] >= d0) & (rows["interval_start"] < d1)]
         problems, _ = incomplete_variables(part, d0, d1)
+        for v in sorted(window_core - set(part["variable"])):
+            problems[v] = f"{v}: 0 of 24 hours (absent for the day)"
         core_bad = [problems[v] for v in problems if v in CORE]
         present = set(part["variable"]) & CORE
         if core_bad or not present:

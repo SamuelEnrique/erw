@@ -66,12 +66,24 @@ METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_
 UNITS = {"min_demand_mw": "MW", "demand_charge": "USD/kW-month", "demand_charge_transmission": "USD/kW-month",
          "demand_charge_distribution": "USD/kW-month", "demand_charge_generation": "USD/kW-month", "energy_charge": "USD/MWh",
          "fixed_charge": "USD", "min_contract_years": "year", "min_bill_pct": "pct", "collateral_months": "month",
-         "exit_fee_months": "month"}
+         "exit_fee_months": "month",
+         # session 3760 (chain 211): a schedule that prints a summer and a winter figure, and a grid charge by voltage
+         # (Evergy's LLPS: "Per kW of Grid Demand per month-Trans." and "-Substation")
+         "demand_charge_summer": "USD/kW-month", "demand_charge_winter": "USD/kW-month",
+         "energy_charge_summer": "USD/MWh", "energy_charge_winter": "USD/MWh",
+         "grid_charge_transmission": "USD/kW-month", "grid_charge_substation": "USD/kW-month"}
+# Session 3760: where the schedule stands (the owner's research file of 6 November 2026 has ordered and proposed ones)
+STATUSES = ("adopted", "ordered", "proposed", "framework")
+# Session 3760 (ruling 4 of 6 November 2026): a schedule whose only source is a host whose terms ask written permission
+# is internal until the permission is on record. Such a file is kept in the registry and named in the table's header as
+# held, but its rows are not written to this public table, so no held figure reaches a public copy; the page shows the
+# cell as needing a license.
+LICENSES = ("public", "internal")
 FIELDS = ("utility", "eia_id", "state", "grid", "sector", "schedule", "tariff_sheet", "effective", "commission", "document",
           "document_url", "retrieved_at", "license", "figures")
 TERMS = ("min_bill", "collateral", "exit_fee", "ramp", "term")
 X_COLS = ["x_eia_id", "x_utility", "x_sector", "x_state", "x_grid", "x_schedule", "x_tariff_sheet", "x_voltage", "x_commission",
-          "x_docket", "x_document", "x_page", "x_printed"] + [f"x_{t}" for t in TERMS]
+          "x_docket", "x_document", "x_page", "x_printed"] + [f"x_{t}" for t in TERMS] + ["x_status", "x_license", "x_notes"]
 COLS = ip.SERIES_COLS + X_COLS
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
@@ -102,8 +114,10 @@ def check(reg, path):
         bad.append(f"state {reg.get('state')!r} is not a two-letter code")
     if not str(reg.get("document_url") or "").startswith(("http://", "https://")):
         bad.append("document_url is not an address")
-    if str(reg.get("license") or "") != "public":
-        bad.append(f"license {reg.get('license')!r}: only a public filing is written here")
+    if str(reg.get("license") or "") not in LICENSES:
+        bad.append(f"license {reg.get('license')!r} is not one of {LICENSES}")
+    if str(reg.get("status") or "adopted") not in STATUSES:
+        bad.append(f"status {reg.get('status')!r} is not one of {STATUSES}")
     seen = set()
     for i, f in enumerate(reg.get("figures") or []):
         v = f.get("variable")
@@ -118,8 +132,11 @@ def check(reg, path):
             bad.append(f"figure {i} ({v}): no page")
         if not str(f.get("printed") or "").strip():
             bad.append(f"figure {i} ({v}): no printed words")
-    if "demand_charge" in seen and seen & {"demand_charge_transmission", "demand_charge_distribution", "demand_charge_generation"}:
+    if "demand_charge" in seen and seen & {"demand_charge_transmission", "demand_charge_distribution", "demand_charge_generation",
+                                           "demand_charge_summer", "demand_charge_winter"}:
         bad.append("demand_charge beside its parts: a schedule prints one or the parts")
+    if "energy_charge" in seen and seen & {"energy_charge_summer", "energy_charge_winter"}:
+        bad.append("energy_charge beside its seasons: a schedule prints one or the seasons")
     return [f"{os.path.basename(path)}: {b}" for b in bad]
 
 
@@ -145,6 +162,8 @@ def rows(regs):
     """The table's rows from the schedules' files."""
     out = []
     for p, reg in regs:
+        if str(reg.get("license") or "public") != "public":
+            continue  # ruling 4: held in the registry, named in the header, not written to the public table
         eia = str(reg["eia_id"]).strip()
         ent = f"filed:{eia}:{slug(reg['schedule'])}"
         common = {"ts_utc": f"{reg['effective']}T00:00:00Z", "freq": "", "geo": f"US-{reg['state']}", "market": "", "node": str(reg["schedule"]),
@@ -155,6 +174,7 @@ def rows(regs):
                   "x_document": str(reg["document"])}
         terms = reg.get("terms") or {}
         common.update({f"x_{t}": words(terms.get(t)) for t in TERMS})
+        common.update({"x_status": str(reg.get("status") or "adopted"), "x_license": "public", "x_notes": " ".join(str(reg.get("notes") or "").split())})
         for f in reg["figures"]:
             v = f["variable"]
             out.append({"entity": ent, "variable": v, "value": float(f["value"]), "unit": UNITS[v], "x_page": str(f["page"]),
@@ -163,7 +183,7 @@ def rows(regs):
     return d.sort_values(["x_grid", "x_utility", "entity", "variable"]).reset_index(drop=True)
 
 
-def header(d, run_id):
+def header(d, run_id, held=()):
     utilities = d.drop_duplicates("x_eia_id")[["x_utility", "x_grid"]].itertuples(index=False) if len(d) else []
     return [
         "Energy Research Warehouse (ERW): large loads' filed tariffs, one row a figure a schedule prints (session 2871, chain 147)",
@@ -176,7 +196,10 @@ def header(d, run_id):
         "filled by reading each commission's filed copy. No request is made by this connector.",
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/large_load_tariffs.py; each row's retrieved_at is when its filing was read",
         f"Method: {METHOD_URL}",
-        "License: public, row by row: each row cites a commission's filing (a filed tariff is a public regulatory record).",
+        "License: public (row-level holds): each row cites a commission's filing or a filed tariff book, a public regulatory record "
+        "(the owner's ruling 4 of 6 November 2026). x_status: adopted, ordered, proposed or framework. "
+        + ("Held for a license and not written here (their only source asks written permission): " + "; ".join(held) + "."
+           if held else "No schedule is held for a license."),
     ]
 
 
@@ -193,7 +216,9 @@ def main(argv=None):
         print(f"{NAME} FAILED: {len(problems)} problems in the registry; nothing written")
         return 1
     d = rows(regs)
-    print(f"{NAME}: {len(regs)} schedules, {len(d)} rows, {d['x_eia_id'].nunique() if len(d) else 0} utilities")
+    held = [f"{r['utility']}, {r['schedule']} (EIA {r['eia_id']})" for _, r in regs if str(r.get("license") or "public") != "public"]
+    print(f"{NAME}: {len(regs)} schedules, {len(d)} rows, {d['x_eia_id'].nunique() if len(d) else 0} utilities"
+          + (f"; held for a license: {len(held)}" if held else ""))
     if a.check:
         return 0
     if d.empty:
@@ -205,7 +230,19 @@ def main(argv=None):
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"{NAME}_{run_id}.log"))
     try:
-        ip.write_csv(d, NAME, header(d, run_id), log, cols=COLS)
+        # session 3760: the registry is the whole of this table's filed rows; when the held file's columns are not the
+        # connector's (x_status, x_license and x_notes added in session 3760), the table is written again whole, keeping any
+        # OpenEI rows (openei_urdb:*) it holds under the new columns
+        path = os.path.join(ip.OUT_DIR, NAME + ".csv")
+        if os.path.exists(path):
+            old = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False)
+            if list(old.columns) != COLS:
+                keep = old[old["entity"].str.startswith("openei_urdb:")].reindex(columns=COLS, fill_value="")
+                d = pd.concat([d, keep], ignore_index=True) if len(keep) else d
+                ip._require_lock(path, f"rebuilding {NAME} with its new columns")
+                os.remove(path)
+                log(f"  {NAME}: columns changed; written again whole ({len(keep)} OpenEI rows kept)")
+        ip.write_csv(d, NAME, header(d, run_id, held), log, cols=COLS)
         if not a.out_dir:
             ip.update_sources([dict(source=SOURCE, publisher="the state commissions (filed tariffs), read into the ERW's registry",
                                     report="Large loads' filed tariffs (warehouse/sources/large_load_tariffs)", report_url=METHOD_URL,

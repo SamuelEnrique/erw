@@ -1,0 +1,27 @@
+# Session 3760 (chain 211): verified against APS's Rate Schedule XHLF as it publishes it, the research file of 6 November
+# 2026's Set B row 10 being the lead; saved under runs/license_reads/s3760/ (not in git). The figures written are those of
+# a customer served at transmission voltage (15,000 kW or greater may choose it); the secondary ($18.750) and primary
+# ($17.290) demand charges are in notes. The pending revision in APS's 2025 rate case (Set B row 11) was not read.
+utility: Arizona Public Service Company
+eia_id: 803
+state: AZ
+grid: AZPS
+sector: general service, extra high load factor (5,000 kW and 92 percent load factor; transmission service from 15,000 kW)
+status: adopted
+schedule: Rate Schedule XHLF, General Service Extra High Load Factor
+tariff_sheet: A.C.C. No. 6067, Canceling A.C.C. No. 6064, Revision No. 3
+effective: 2024-03-08
+voltage: {text: "Customers with monthly demands of 15,000 kW or greater may choose to be served with transmission voltage service", page: 1}
+commission: Arizona Corporation Commission
+docket: Decision No. 79293
+document: APS's Rate Schedule XHLF, effective 8 March 2024 in Decision No. 79293, as published on its rates page
+document_url: https://www.aps.com/-/media/APS/APSCOM-PDFs/Utility/Regulatory-and-Legal/Regulatory-Plan-Details-Tariffs/Business/Business-NonResidential-Plans/ExtraHighLoadFactor.pdf
+retrieved_at: 2026-11-12T10:50:14Z
+license: public
+notes: "Bundled demand charge: Secondary $18.750, Primary $17.290, Transmission $13.274 per kW; energy $0.04210 per kWh at every voltage; basic service charge at transmission voltage $43.130 per day (page 2)."
+terms:
+  min_bill: {text: "The monthly bill will be calculated at the following rates or the minimum rates, whichever is greater", page: 2}
+figures:
+  - {variable: min_demand_mw, value: 5, printed: "whose monthly maximum demand is 5,000 kW or", page: 1}
+  - {variable: demand_charge, value: 13.274, printed: "Customers Served at Transmission Voltage, Demand Charge $ 13.274 per kW", page: 2}
+  - {variable: energy_charge, value: 42.10, printed: "Customers Served at Transmission Voltage, Energy Charge $ 0.04210 per kWh", page: 2}

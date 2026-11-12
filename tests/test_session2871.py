@@ -113,15 +113,24 @@ class TheRefusals(unittest.TestCase):
         self.assertTrue(any("is not one of" in p for p in self.problems(GOOD.replace("min_demand_mw", "all_in_price"))))
 
     def test_a_licence_a_date_and_a_demand_charge_beside_its_parts(self):
-        self.assertTrue(any("license" in p for p in self.problems(GOOD.replace("license: public", "license: internal"))))
+        # session 3760: ruling 4 of 6 November 2026 allows an internal file (held, not written); another word is refused
+        self.assertFalse(any("license" in p for p in self.problems(GOOD.replace("license: public", "license: internal"))))
+        self.assertTrue(any("license" in p for p in self.problems(GOOD.replace("license: public", "license: restricted"))))
         self.assertTrue(any("effective" in p for p in self.problems(GOOD.replace("2025-07-09", "July 2025"))))
         both = GOOD + '  - {variable: demand_charge, value: 12, printed: "$12 per kW", page: 2}\n'
         self.assertTrue(any("beside its parts" in p for p in self.problems(both)))
 
     def test_a_refused_registry_writes_nothing(self):
-        d = registry(**{"f.yaml": GOOD.replace("license: public", "license: internal")})
+        d = registry(**{"f.yaml": GOOD.replace("license: public", "license: restricted")})
         with tempfile.TemporaryDirectory() as out:
             self.assertEqual(llt.main(["--registry", d, "--out-dir", out]), 1)
+            self.assertFalse(os.path.exists(os.path.join(out, "utility_large_load_tariffs.csv")))
+
+    def test_an_internal_schedule_is_held_not_written(self):
+        # session 3760, ruling 4: a schedule whose only source asks written permission stays out of the public table
+        d = registry(**{"f.yaml": GOOD.replace("license: public", "license: internal")})
+        with tempfile.TemporaryDirectory() as out:
+            self.assertEqual(llt.main(["--registry", d, "--out-dir", out]), 75)
             self.assertFalse(os.path.exists(os.path.join(out, "utility_large_load_tariffs.csv")))
 
     def test_a_trial_writes_the_table_under_its_folder(self):

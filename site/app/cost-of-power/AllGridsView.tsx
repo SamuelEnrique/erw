@@ -181,6 +181,7 @@ function ConnectTd({ r }: { r: Row }) {
         load: {c.rule ? <Tp tip={ruleTip}>rule {c.rule.date.slice(0, 7)}</Tp> : <Words words="no rule held" why={ruleTip} />}
         {c.status ? <>, <Tp dotted={false} tip={`ERCOT's large loads approved to energize, MW, its report of ${c.status.day} (${c.status.document}; ercot_large_load_status): approved to connect, not a wait.`}><Num check={`allgrids|llapproved|${r.id}`} raw={c.status.approved}>{c.status.approved.toLocaleString("en-US")}</Num> MW approved</Tp></> : null}
         {"held" in c.wait ? <>, wait <Held table="large_load_waits" why={c.wait.held} /></> : null}
+        {c.filed ? <>, <Tp tip={c.filed}>filed steps</Tp></> : null}
       </span>
     </span>
   );

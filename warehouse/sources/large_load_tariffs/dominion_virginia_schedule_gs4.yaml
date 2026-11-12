@@ -1,0 +1,32 @@
+# Session 3761 (chain 211): verified against Dominion Energy Virginia's Schedule GS-4 as it publishes it (pages footed "Filed
+# 12-09-25"), the research file of 6 November 2026's Set A row 3 being the lead; saved under runs/license_reads/s3761/ (not in
+# git). The Virginia SCC's own site is paused for the ERW (its robots file disallows every automated request; CLAUDE.md,
+# docs/methods/vascc_pause.md), so the Commission's Final Order in PUR-2025-00058 was not read; the utility's filed schedule
+# is the record. Paragraph I.F and VIII (customers of 25 MW or more that do not qualify for Rate Schedule GS-5) take effect
+# on 1 January 2027; the figures written are the transmission-voltage customer's. Rate Schedule GS-5 itself (ordered, from
+# 1 January 2027) has no published sheet and its order is on the paused host: that row waits.
+utility: Virginia Electric and Power Company (Dominion Energy Virginia)
+eia_id: 19876
+state: VA
+grid: PJM
+sector: large general service, primary voltage; high load customers of 25 MW or more not on GS-5 (from 2027)
+status: adopted
+schedule: Schedule GS-4, Large General Service, Primary Voltage
+tariff_sheet: Schedule GS-4 (pages footed "Filed 12-09-25"; no sheet numbers printed)
+effective: 2026-01-01
+voltage: {text: "A transmission voltage Customer is any Customer whose delivery voltage is 69 kV or above", page: 8}
+commission: Virginia State Corporation Commission
+docket: PUR-2025-00058 (the Final Order the schedule cites; the SCC's host not read, paused)
+document: Dominion Energy Virginia's Schedule GS-4, filed 9 December 2025, effective for usage on and after 1 January 2026, as published on its rates page
+document_url: https://www.dominionenergy.com/-/media/content/rates-and-tariffs/pdfs/virginia/large-business/schedule-gs4.pdf
+retrieved_at: 2026-11-12T11:14:11Z
+license: public
+notes: "Paragraph VIII's minimums apply from 1 January 2027 to customers of 25 MW or more that do not qualify for GS-5: distribution and transmission demand not less than 85 percent of contracted demand, generation demand not less than 60 percent (excluding PJM capacity expense). Distribution demand charge $2.717 per kW for the first 5,000 kW where delivery is below 69 kV (page 2); on-peak generation demand $9.280 per kW at transmission voltage (page 2)."
+terms:
+  min_bill: {text: "Eighty-five percent of the Customer's contracted demand (distribution and transmission demand, Paragraph VIII.A and B.1); Sixty percent of the contracted demand (generation demand, Paragraph VIII.B.2)", page: 6}
+  term: {text: "mutually agreed upon, but for not less than one year", page: 9}
+figures:
+  - {variable: min_demand_mw, value: 25, printed: "equal to or greater than 25 MW and (2) does not qualify for Rate Schedule GS-5", page: 1}
+  - {variable: min_bill_pct, value: 85, printed: "Eighty-five percent of the Customer's contracted demand", page: 6}
+  - {variable: demand_charge_transmission, value: 2.310, printed: "Transmission Demand Charge, Transmission Service Voltage @ $2.310 per kW", page: 3}
+  - {variable: min_contract_years, value: 1, printed: "but for not less than one year", page: 9}

@@ -1,0 +1,28 @@
+# Session 3760 (chain 211): verified against Alabama Power's Rate LPL as it publishes it, the research file of 6 November 2026's
+# Set C row 6 being the lead; saved under runs/license_reads/s3760/ (not in git). Rate LPL prices capacity per kVA, not per
+# kW ($4.26 per kVa at transmission), so no demand charge is written in USD/kW-month; the kVA charge and the energy blocks
+# are in notes. Alabama Power has no large-load schedule; LPL is what a large load takes until a contract under Act
+# 2026-610 (session 3761).
+utility: Alabama Power Company
+eia_id: 195
+state: AL
+grid: SOCO
+sector: light and power service, large (no MW minimum; above 20,000 kVA from 115 kV or higher)
+status: adopted
+schedule: Rate LPL, Light and Power Service, Large
+tariff_sheet: Rate LPL, Seventeenth Revision, 3 pages
+effective: 2009-01-01
+voltage: {text: "20,000 kVa of capacity except from its transmission facilities of 115 kV or higher", page: 1}
+commission: Alabama Public Service Commission
+docket: not printed on the page read
+document: Alabama Power's Rate LPL, Seventeenth Revision, effective with January 2009 billings, kWh charges as adjusted for June 2023 billings
+document_url: https://www.alabamapower.com/content/dam/alabama-power/pdfs-docs/Rates/LPL.pdf
+retrieved_at: 2026-11-12T10:50:15Z
+license: public
+notes: "Capacity charge per kVa of billing capacity: $4.26 (transmission), with secondary and primary higher (page 1); energy 5.7996 cents per kWh and 4.5496 cents per kWh in two blocks (page 1). The effective date is the January 2009 billings of the Seventeenth Revision, written as their first day."
+terms:
+  min_bill: {text: "eleven (11) months preceding the billing period or seventy-five percent (75%) of the contracted capacity", page: 2}
+  term: {text: "Service under this rate shall be for a minimum period of five (5) years for new Consumers", page: 2}
+figures:
+  - {variable: min_contract_years, value: 5, printed: "a minimum period of five (5) years for new Consumers", page: 2}
+  - {variable: min_bill_pct, value: 75, printed: "seventy-five percent (75%) of the contracted capacity", page: 2}

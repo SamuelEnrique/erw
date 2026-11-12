@@ -1,0 +1,59 @@
+# Session 3762 (chain 211): read from PJM's Board decisional letter of 16 January 2026 on the results of the CIFP process on Large
+# Load Additions, as PJM publishes it under its public disclosures (www.pjm.com robots allow /-/media/), the research file of
+# 6 November 2026's operator table row 4 being the lead; saved under runs/license_reads/s3762/ (not in git). Appendix C
+# describes the Expedited Interconnection Track (the PJM staff proposal the Board's letter carries). FERC's acceptance of
+# the EIT (9 June 2026 per the research file) is secondhand and not written.
+body: PJM Interconnection, L.L.C. (Board of Managers)
+grid: PJM
+utility: ""
+eia_id: ""
+state: PA                                   # PJM spans thirteen states and DC; PA is its seat (Audubon), as the registry needs one
+document: PJM Board letter, Results of the Critical Issue Fast Path process on Large Load Additions, with Appendix C (Expedited Interconnection Track)
+document_date: 2026-01-16
+document_url: https://www.pjm.com/-/media/DotCom/about-pjm/who-we-are/public-disclosures/2026/20260116-pjm-board-letter-re-results-of-the-cifp-process-large-load-additions.pdf
+retrieved_at: 2026-11-12T11:21:29Z
+license: public
+steps:
+  - section: "letter, definition of large load additions"
+    page: 2
+    step: a large load addition is defined by its size at one point of interconnection
+    party: EDC or LSE
+    mw: 50
+    printed: "the Board proposes to define large load additions as individual additions of load at or above 50 MW at a single Point of Interconnection"
+  - section: "Appendix C, Time Frame"
+    page: 12
+    step: the Expedited Interconnection Track runs from application to agreement
+    party: PJM
+    duration: 10
+    unit: months
+    printed: "Time Frame: 10 months from application"
+  - section: "Appendix C, Generation Eligibility"
+    page: 12
+    step: generation entering the EIT reaches commercial operation
+    party: generation developer
+    duration: 3
+    unit: years
+    printed: "Commercial operations must be achieved within three years of the application submission."
+  - section: "Appendix C, Generation Eligibility, megawatt requirements"
+    page: 12
+    step: EIT generation must be large
+    party: generation developer
+    mw: 250
+    printed: "requests must be for large scale generation greater than 250 MW (UCAP)"
+  - section: "Appendix C, Generation Application"
+    page: 12
+    step: the applicant pays a nonrefundable study deposit and a readiness deposit
+    party: generation developer
+    printed: "Large nonrefundable study deposit ($500,000) and readiness deposit - $10k/MW for generation paired with load - $20k/MW for generation not paired with load"
+  - section: "Appendix C, Generation Application, annual cap"
+    page: 13
+    step: PJM takes at most ten EIT applications a year
+    party: PJM
+    printed: "Applications are capped annually at 10 projects."
+  - section: "Appendix C, site control"
+    page: 13
+    step: the applicant shows site control at application
+    party: generation developer
+    duration: 3
+    unit: years
+    printed: "Must provide 3 full years of site control for 100% of generating site and interconnection facilities at time of application."
