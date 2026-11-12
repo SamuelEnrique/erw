@@ -122,7 +122,23 @@ def json_tables(path, tables, route=""):
     named &= set(tables)
     if name in NOT_A_READ or (name in ONLY_FOR and route != ONLY_FOR[name]):
         return named
+    text = without_hold_notes(d, text)
     return named | set(table_re(tables).findall(text))
+
+
+# Session 3751 (chain 211): a row that draws no figure (board.json's "licensed", "paused" and "not_held" rows) says in its
+# note which held table it waits for ("held internal (isone_as_prices) while ISO-NE's terms are reviewed"). The page
+# does not read that table, so the note's words are not a read; from 7 November 2026 the data machine's board build
+# named eight such tables and test_session502 found the page's list and this reading apart.
+def without_hold_notes(d, text):
+    """The file's text with the notes of the rows that draw no figure left out."""
+    if not (isinstance(d, dict) and isinstance(d.get("rows"), list)):
+        return text
+    if not any(isinstance(r, dict) and r.get("status") not in (None, "ok") and "note" in r for r in d["rows"]):
+        return text
+    rows = [{k: v for k, v in r.items() if k != "note"} if isinstance(r, dict) and r.get("status") not in (None, "ok") else r
+            for r in d["rows"]]
+    return json.dumps({**d, "rows": rows}, ensure_ascii=False)
 
 
 def walk(page_file, tables, depth=3, site=SITE, route="", root_idents=None):

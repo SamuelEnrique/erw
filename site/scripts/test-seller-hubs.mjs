@@ -34,6 +34,17 @@ const out = { grids: {}, hubs: 0, moved: 0, compared: 0, worstCapture: 0, worstF
 const cap12 = (h, f, m) => C.twelve(h[m]?.[f], cap.near);
 const has = (h, m) => C.FUELS.some((f) => Object.keys(h[m]?.[f] ?? {}).length > 0);
 const whole12 = (h, m) => C.FUELS.some((f) => cap12(h, f, m) !== null);
+// the capture file's figure over a given twelve months (oldest first), null unless it holds hours in each of them
+const twelveFrom = (from) => Array.from({ length: 12 }, (_, k) => new Date(Date.UTC(Number(from.slice(0, 4)), Number(from.slice(5, 7)) - 1 + k, 1)).toISOString().slice(0, 7));
+const sameTwelve = (h, f, m, span) => {
+  if (!span.from || !span.to) return null;
+  const ms = twelveFrom(span.from);
+  if (ms[11] !== span.to) return null;
+  const recs = ms.map((k) => h[m]?.[f]?.[k]);
+  if (recs.some((r) => !r || !r[0])) return null;
+  const fig = C.figure(recs);
+  return fig ? { ...fig, from: span.from, to: span.to } : null;
+};
 const marketOf = (h) => (whole12(h, "rt") ? "rt" : whole12(h, "da") ? "da" : has(h, "rt") || !has(h, "da") ? "rt" : "da");
 
 for (const [iso, cg] of Object.entries(cap.grids)) {
@@ -92,7 +103,11 @@ for (const [iso, cg] of Object.entries(cap.grids)) {
     }
     // one hub, and it moves
     const span = S.spans(M.months(priced, perMw)).twelve;
-    const fuel = x.asset, c12 = cap12(h, fuel, e.market);
+    // session 3751: the capture file is rebuilt every day by the data machine and the hub files with the snapshot, so
+    // their newest months differ for weeks at a time (on 10 November 2026 the capture file's twelve ended 2026-10 and
+    // the models' 2026-09, and only New York's were compared). The rule is one price over the same months, so the
+    // capture file is read over the model's own twelve where it holds every one of them.
+    const fuel = x.asset, c12 = (span && sameTwelve(h, fuel, e.market, span)) || cap12(h, fuel, e.market);
     if (span && c12 && span.capture !== null && span.from === c12.from && span.to === c12.to) {
       const own = Math.abs(span.capture - c12.price) / Math.abs(c12.price);
       out.compared += 1;

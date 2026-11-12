@@ -40,8 +40,12 @@ def near(a, b, key=""):
             # session 2699: a move's percent is its change over its base, both held to 4 decimals, so over a small base the
             # rounding (5 in 100,000 on each) moves the percent by 100 * (5e-5 / |base| + 5e-5 * |change| / base ** 2), beyond a
             # thousandth of itself (caiso-as-caiso-as-price-dam-rd on 24 October 2026: base 0.0146, 2215.75 against 2218.13)
+            # session 3751: the change is the difference of two values each held to 4 decimals, so its rounding is 1 in
+            # 10,000 (two halves), not one half; and each side's percent is itself rounded to 2 decimals (5 in 1,000 each).
+            # caiso-as-caiso-as-price-dam-rd on 4 November 2026: base 0.2117, change 0.0867 against 0.0868, 40.95 against
+            # 41.01, inside 0.067 by this bound and outside the 0.033 of the bound before
             v, ch = abs(b["v"]), abs(b["ch"])
-            tol = 100 * (5e-5 / v + 5e-5 * ch / v ** 2)
+            tol = 100 * (1e-4 / v + 5e-5 * ch / v ** 2) + 0.01
             return all(near(a[k], b[k], k) for k in a if k != "pct") and (near(a["pct"], b["pct"], "pct") or abs(a["pct"] - b["pct"]) <= tol)
         return all(near(a[k], b[k], k) for k in a)
     if isinstance(a, (int, float)) and isinstance(b, (int, float)) and not isinstance(a, bool):
@@ -67,6 +71,9 @@ class ThePercentsRounding(unittest.TestCase):
         self.assertTrue(near({"t": "2026-10-24", "v": 0.0146, "ch": 0.3235, "pct": 2215.75}, file))
         self.assertFalse(near({"t": "2026-10-24", "v": 0.0146, "ch": 0.3235, "pct": 2200.0}, file))
         self.assertFalse(near({"t": "2026-10-24", "v": 0.0150, "ch": 0.3235, "pct": 2215.75}, file))
+        nov4 = {"t": "2026-11-04", "v": 0.2117, "ch": 0.0868, "pct": 41.01}
+        self.assertTrue(near({"t": "2026-11-04", "v": 0.2117, "ch": 0.0867, "pct": 40.95}, nov4))
+        self.assertFalse(near({"t": "2026-11-04", "v": 0.2117, "ch": 0.0867, "pct": 40.90}, nov4))
         big = {"t": "2026-10-24", "v": 41.25, "ch": 3.1, "pct": 7.52}
         self.assertTrue(near({"t": "2026-10-24", "v": 41.25, "ch": 3.1, "pct": 7.515}, big))
         self.assertFalse(near({"t": "2026-10-24", "v": 41.25, "ch": 3.1, "pct": 7.6}, big))
