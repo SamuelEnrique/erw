@@ -2,7 +2,9 @@
 tests, so a gate or a bot's push can say which tests stopped it (docs/state/main_red_2026-11-06.md). No network, no
 model; the end-to-end case runs a two-test suite in a temporary folder.
 """
+import contextlib
 import importlib.util
+import io
 import os
 import shutil
 import sys
@@ -57,14 +59,16 @@ class TheRun(unittest.TestCase):
                         "    def test_bad(self):\n        self.assertEqual(1, 2)\n")
             code, lines = g.run_suite(tmp, os.path.join(tmp, "out.log"), python=sys.executable)
             names = os.path.join(tmp, "names.txt")
-            self.assertEqual(g.report(code, lines, names=names), 1)
+            with contextlib.redirect_stdout(io.StringIO()):   # its report must not reach this suite's own output
+                self.assertEqual(g.report(code, lines, names=names), 1)
             with open(names) as f:
                 self.assertEqual(f.read().split(), ["test_pair.Pair.test_bad"])   # discover -s tests: the module is named from inside tests/
             # the passing half alone passes
             with open(os.path.join(tmp, "tests", "test_pair.py"), "w") as f:
                 f.write("import unittest\n\nclass Pair(unittest.TestCase):\n    def test_good(self):\n        self.assertTrue(True)\n")
             code, lines = g.run_suite(tmp, os.path.join(tmp, "out.log"), python=sys.executable)
-            self.assertEqual(g.report(code, lines), 0)
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(g.report(code, lines), 0)
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
@@ -117,3 +121,24 @@ class ThePushGuard(unittest.TestCase):
         calls, run, record, push = self.stand_ins(1, ["a.b.c"])
         self.assertEqual(self.p.guard("HEAD", "x", "commit", "wip/red-x", dry_run=True, run=run, record=record, push=push), 1)
         self.assertEqual(calls, {"push": [], "record": []})
+
+
+class TheDetails(unittest.TestCase):
+    def test_the_tracebacks_are_printed_with_the_names(self):
+        g = module()
+        lines = ["..F", "=" * 70, "FAIL: test_bad (test_pair.Pair.test_bad)", "-" * 70, "Traceback (most recent call last):",
+                 "AssertionError: 1 != 2", "", "Ran 2 tests in 0.1s", "", "FAILED (failures=1)"]
+        out = g.details(lines)
+        self.assertEqual(out[0], "=" * 70)
+        self.assertIn("AssertionError: 1 != 2", out)
+        self.assertEqual(g.details(["Ran 2 tests in 0.1s", "OK"]), [])
+
+    def test_a_passing_suite_passes_whatever_its_tests_printed(self):
+        # session 3718: a test that prints a line reading like unittest's "FAIL: ..." must not fail a passing suite
+        g = module()
+        lines = ["...", "FAIL: test_bad (test_pair.Pair.test_bad)", "", "Ran 3 tests in 0.1s", "", "OK"]
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            self.assertEqual(g.report(0, lines), 0)
+        self.assertIn("the suite passed: 3 tests", out.getvalue())
+        self.assertNotIn("FAIL", out.getvalue())

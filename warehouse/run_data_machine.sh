@@ -509,6 +509,16 @@ if [ "$rc" -ne 0 ]; then
   echo "main moved in a way the commit could not follow: committed here, not pushed"
   exit 0
 fi
+# Session 3751 (chain 211; chain 208's note, docs/state/main_red_2026-11-06.md, "Not changed by this chain"): the whole
+# suite on a clean copy of the commit before the push. From 7 to 12 November 2026 this machine's page files (board.json,
+# the seller's capture file) made the suite red while the bots that run it were refused at their own guard
+# (docs/state/main_red_2026-11-11.md). A red commit goes to wip/red-dm-<day> with one failed dm_commit row naming the
+# tests, and this checkout returns to origin/main so the next day's commit does not carry it.
+if ! "$PYTHON" scripts/push_guard.py --who "data machine daily" --step "dm_commit" --red-branch "wip/red-dm-$day"; then
+  echo "the suite failed on the commit: pushed to wip/red-dm-$day, not to main"
+  git reset --quiet --keep origin/main || echo "could not return to origin/main: the commit stays here"
+  exit 0
+fi
 git push --quiet origin main
 rc=$?
 echo "push exit=$rc"
