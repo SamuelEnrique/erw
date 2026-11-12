@@ -35,7 +35,7 @@ t("index rows carry their columns", () => {
 
 t("a query keeps only values the index holds", () => {
   const q = db.queryOf({ q: " alpha ", kind: "utility", state: "tx", grid: "PJM", has: "deals", page: "2" }, IX);
-  assert.deepEqual(q, { q: "alpha", kind: "utility", segment: "", state: "TX", grid: "", has: "", page: 2 });
+  assert.deepEqual(q, { q: "alpha", kind: "utility", segment: "", state: "TX", grid: "", has: "", sort: "footprint", page: 2 });   // session 1878: the order (companies faults row 11)
   assert.equal(db.queryOf({ has: "queue", page: "-4" }, IX).page, 1);
   assert.equal(db.queryOf({ has: "queue" }, IX).has, "queue");
   assert.equal(db.queryOf({ has: "facilities" }, IX).has, "");   // a held table's filter is no filter
@@ -113,7 +113,7 @@ t("the index CSV says its filters and the hold", () => {
   const q = { ...db.NO_QUERY, state: "TX" };
   const csv = db.indexCsv(db.filterRows(rows, q), IX, q, "https://x/companies/rows?state=TX");
   assert.ok(csv.includes("# Filters: q=(any), kind=(any), segment=(any), state=TX, grid=(any), has=(any)."));
-  assert.ok(csv.includes("# Held (license needed): energy_deals; 1 companies named only in them are not listed"));
+  assert.ok(csv.includes("# Held (license needed): energy_deals; 1 company named only in them is not listed"));   // session 1878: one is one (row 3)
   assert.equal(csv.split("\n").filter((l) => l && !l.startsWith("#")).length, 3);
 });
 
