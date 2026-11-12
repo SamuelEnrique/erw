@@ -416,6 +416,12 @@ STORAGE_HELD["large_load_connection_rules"] = ("held: not on Redivis (session 29
 for _t in ("generator_pipeline_by_grid", "iso_queue_snapshot_summary", "nuclear_fleet_status", "gas_balance_weekly"):
     STORAGE_HELD[_t] = ("held: in the Stanford draft since 6 November 2026 (session 2959, counted equal), written by chain 157 after "
                         "the v1 package was prepared: in v1 when the owner adds it to the package's list")
+# Session 3758 (chain 211): FERC-714's planning areas' forecasts and their revisions (public under the owner's ruling 1), written
+# after the v1 package was prepared, as chain 157's: uploaded to the drafts by session 3770 when the data lock allows; in v1 when
+# the owner adds them to the package's list
+for _t in ("ferc714_planning_area_forecasts", "ferc714_forecast_growth"):
+    STORAGE_HELD[_t] = ("held: written by chain 211 (session 3758) after the v1 package was prepared; uploaded to the drafts by "
+                        "session 3770: in v1 when the owner adds it to the package's list")
 
 
 def plan(day=PUBLIC_DAY):
