@@ -6,9 +6,10 @@
 // tables, the NYISO queue) adds no row, no name and no figure here: its rows are counted. Until session 3304 this
 // address redirected to the deals page's Companies tab (energy_companies), which stays at /deals?tab=companies.
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { InputPanel, SourceLine, Tip, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
-import { KIND_ORDER, PAGE_SIZE, filterRows, hrefOf, indexRows, mw, count, pageOf, queryOf, type CompanyIndex, type IndexRow, type Query } from "@/lib/companydb";
+import { KIND_ORDER, PAGE_SIZE, SORTS, filterRows, hrefOf, idTag, indexRows, mw, count, pageOf, plural, queryOf, sharedNames, stateLabel, statesCell, type CompanyIndex, type IndexRow, type Query, type Sort } from "@/lib/companydb";
 import { companyIndex } from "@/lib/companydata";
 
 export const metadata: Metadata = { title: "Companies", robots: { index: false, follow: false } };
@@ -46,10 +47,12 @@ export default async function Companies({ searchParams }: { searchParams: Promis
     ix = companyIndex();
   } catch {
     return (
-      <ToolPage>
-        <ToolHeader title="Companies" />
-        <p className="text-sm" data-companies-unread="1">The company database&apos;s file could not be read; the tables are on <Link href="/data">Data and methods</Link>.</p>
-      </ToolPage>
+      <Brand>
+        <ToolPage>
+          <ToolHeader title="Companies" />
+          <p className="text-sm" data-companies-unread="1">The company database&apos;s file could not be read; the tables are on <Link href="/data">Data and methods</Link>.</p>
+        </ToolPage>
+      </Brand>
     );
   }
   const sp = await searchParams;
@@ -62,14 +65,23 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   const dealsHeld = held.includes("energy_deals");
   const facHeld = held.includes("datacenter_facilities");
   const heldWords = held.length
-    ? `Held for a license (the publishers ask for permission; warehouse/metadata/license_status.csv): ${held.map((t) => `${t} (${count(ix.held_links[t] ?? 0)} rows)`).join(", ")}. Their rows add no company, no name and no figure here; ${count(ix.held_only)} companies named only in them are not listed.`
+    ? `Held for a license (the publishers ask for permission; warehouse/metadata/license_status.csv): ${held.map((t) => `${t} (${plural(ix.held_links[t] ?? 0, "row", "rows")})`).join(", ")}. Their rows add no company, no name and no figure here; ${plural(ix.held_only, "company", "companies")} named only in them ${ix.held_only === 1 ? "is" : "are"} not listed.`
     : "No input is held.";
   const sourceOf = (col: string) => `company_directory, ${col}: summed from the public rows of company_links (docs/methods/companies.md)`;
   const opt = (rec: Record<string, number>, order?: string[]) =>
     (order ? order.filter((k) => k in rec) : Object.keys(rec).sort()).map((k) => ({ value: k, label: `${k} (${count(rec[k])})` }));
+  // session 1878 (companies faults row 5): a name more than one listed row carries; its cells add the id
+  const shared = sharedNames(all);
+  // session 1878 (row 11): each column head a link to its order, the filters kept, page 1
+  const Head = ({ sort, label, right }: { sort: Sort; label: string; right?: boolean }) => (
+    <th scope="col" className={`px-3 py-1.5 font-normal${right ? " text-right" : ""}`} aria-sort={q.sort === sort ? (sort === "name" ? "ascending" : "descending") : undefined} data-sort-col={sort}>
+      <Link href={hrefOf("/companies", q, { sort, page: 1 })} title={`Order ${SORTS[sort].words}`} aria-current={q.sort === sort ? "true" : undefined}>{label}</Link>
+    </th>
+  );
   const csvHref = hrefOf("/companies/rows", { ...q, page: 1 });
   const readerHref = (as: string) => hrefOf(`/companies/rows/${as}`, { ...q, page: 1 });
   return (
+    <Brand>
     <ToolPage>
       <ToolHeader
         title="Companies"
@@ -87,7 +99,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
                 tip={<Tip id="companies-kind" label="The kind">The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, other that the company&apos;s rows show: EIA-861&apos;s ownership, EIA-860&apos;s sector, a queue&apos;s interconnection customer, an NRC licensee, a policy action&apos;s agency; lab or hyperscaler and OEM from the reviewed aliases only.</Tip>} />
               <Select name="segment" label="Segment" value={q.segment} options={[{ value: "", label: "Every segment" }, ...opt(ix.segments)]}
                 tip={<Tip id="companies-segment" label="The segment">The fuel or line with the most MW across the company&apos;s plants, plans and queue positions; a utility or a government body with none is its kind&apos;s line.</Tip>} />
-              <Select name="state" label="State" value={q.state} options={[{ value: "", label: "Every state" }, ...opt(ix.states)]} />
+              <Select name="state" label="State" value={q.state} options={[{ value: "", label: "Every state" }, ...Object.keys(ix.states).sort().map((k) => ({ value: k, label: stateLabel(k, ix.states[k]) }))]} />
               <Select name="grid" label="Grid" value={q.grid} options={[{ value: "", label: "Every grid" }, ...opt(ix.grids)]}
                 tip={<Tip id="companies-grid" label="The grid">The grids its plants&apos; balancing authorities, its queue positions and EIA-861&apos;s RTO flags name.</Tip>} />
               <Select name="has" label="Has" value={q.has} options={[
@@ -98,6 +110,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
                   disabled: (k === "deals" && dealsHeld) || (k === "facilities" && facHeld),
                 })),
               ]} tip={dealsHeld || facHeld ? <Tip id="companies-has" label="Held filters">Deals and datacenter facilities are held for a license: which company has them is not shown until a permission is recorded.</Tip> : undefined} />
+              {q.sort !== "footprint" ? <input type="hidden" name="sort" value={q.sort} /> : null}
               <button type="submit" className="mt-1 border border-accent bg-accent px-3 py-1 text-sm text-white">Show</button>
             </InputPanel>
           </form>
@@ -112,27 +125,27 @@ export default async function Companies({ searchParams }: { searchParams: Promis
           </p>
           <div className="overflow-x-auto" role="region" aria-label="Companies" tabIndex={0}>
             <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: 760 }}>
-              <caption className="sr-only">Companies, the largest footprint first</caption>
+              <caption className="sr-only">{`Companies, ${SORTS[q.sort].words}`}</caption>
               <thead>
-                <tr className="bg-accent text-white">
-                  <th scope="col" className="px-3 py-1.5 font-normal">Company</th>
+                <tr>
+                  <Head sort="name" label="Company" />
                   <th scope="col" className="px-3 py-1.5 font-normal">Kind</th>
                   <th scope="col" className="px-3 py-1.5 font-normal">Segment</th>
                   <th scope="col" className="px-3 py-1.5 font-normal">States</th>
-                  <th scope="col" className="px-3 py-1.5 text-right font-normal">Operating MW</th>
-                  <th scope="col" className="px-3 py-1.5 text-right font-normal">Planned MW</th>
-                  <th scope="col" className="px-3 py-1.5 text-right font-normal">Queue MW</th>
-                  <th scope="col" className="px-3 py-1.5 text-right font-normal">Policy actions</th>
-                  <th scope="col" className="px-3 py-1.5 text-right font-normal">Footprint MW</th>
+                  <Head sort="operating" label="Operating MW" right />
+                  <Head sort="planned" label="Planned MW" right />
+                  <Head sort="queue" label="Queue MW" right />
+                  <Head sort="policy" label="Policy actions" right />
+                  <Head sort="footprint" label="Footprint MW" right />
                 </tr>
               </thead>
               <tbody>
                 {rows.map((r) => (
                   <tr key={r.id} className="border-b border-rule" data-company={r.id}>
-                    <th scope="row" className="px-3 py-1.5 font-normal"><Link href={`/companies/${r.id}`}>{r.name}</Link></th>
+                    <th scope="row" className="px-3 py-1.5 font-normal"><Link href={`/companies/${r.id}`}>{r.name}</Link>{shared.has(r.name) ? <span className="ml-1 font-mono text-xs" title={idTag(r.id).title} data-same-name={r.id}>{idTag(r.id).text}</span> : null}</th>
                     <td className="px-3 py-1.5">{r.kind}</td>
                     <td className="px-3 py-1.5">{r.segment}</td>
-                    <td className="px-3 py-1.5">{r.states.split(";").filter(Boolean).slice(0, 3).join(", ")}{r.states.split(";").length > 3 ? " ..." : ""}</td>
+                    <td className="px-3 py-1.5" title={statesCell(r.states).title || undefined}>{statesCell(r.states).text}</td>
                     <td className="px-3 py-1.5 text-right">{figureCell(r, "plants_mw", sourceOf("plants_mw: EIA-860M operating generators' nameplate"))}</td>
                     <td className="px-3 py-1.5 text-right">{figureCell(r, "planned_mw", sourceOf("planned_mw: EIA-860M planned generators' nameplate"))}</td>
                     <td className="px-3 py-1.5 text-right">{figureCell(r, "queue_mw", sourceOf("queue_mw: ERCOT queue positions neither withdrawn nor completed"))}</td>
@@ -155,5 +168,6 @@ export default async function Companies({ searchParams }: { searchParams: Promis
         </div>
       </div>
     </ToolPage>
+    </Brand>
   );
 }
