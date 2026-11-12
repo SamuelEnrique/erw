@@ -1,0 +1,27 @@
+{
+ "date": "2026-11-12",
+ "fact_id": "ff_8eab30eeb6",
+ "kind": "history",
+ "fact": "The term horsepower was adopted in the late 18th century by Scottish engineer James Watt to compare the output of steam engines with the power of draft horses.",
+ "second": "The Citroën 2CV is named for its French fiscal horsepower rating, deux chevaux (2CV).",
+ "structure": "etymology",
+ "conjecture": "False",
+ "sources": [
+  {
+   "label": "Wikipedia, Horsepower",
+   "url": "https://en.wikipedia.org/wiki/Horsepower",
+   "raw": "warehouse/news/facts/raw/wikipedia/horsepower_20261112T225559Z.txt",
+   "retrieved_at": "20261112T225559Z",
+   "part": "fact",
+   "span": "The term was adopted in the late 18th century by Scottish engineer James Watt to compare the output of steam engines with the power of draft horses."
+  },
+  {
+   "label": "Wikipedia, Horsepower",
+   "url": "https://en.wikipedia.org/wiki/Horsepower",
+   "raw": "warehouse/news/facts/raw/wikipedia/horsepower_20261112T225559Z.txt",
+   "retrieved_at": "20261112T225559Z",
+   "part": "second",
+   "span": "The Citroën 2CV is named for its French fiscal horsepower rating, deux chevaux (2CV)."
+  }
+ ]
+}
