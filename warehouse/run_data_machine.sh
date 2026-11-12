@@ -517,6 +517,16 @@ fi
 git pull --rebase --quiet origin main
 rc=$?
 echo "pull exit=$rc"
+# Session 3803 (chain 215): package/llms.txt is generated from coverage.csv and sources.csv (scripts/build_llms.py), and
+# both this run and any landing of the day rewrite its header lines, so a landing between this run's sync and its push
+# stopped the rebase on that file alone (12 November 2026: chain 215's landing at 18:03 UTC, this run's commit left here).
+# When it is the one file the rebase cannot merge, it is written again from the merged metadata and the rebase goes on;
+# any other conflict stops the push as before.
+if [ "$rc" -ne 0 ] && [ "$(git diff --name-only --diff-filter=U)" = "package/llms.txt" ]; then
+  "$PYTHON" scripts/build_llms.py > /dev/null 2>&1 && git add package/llms.txt && GIT_EDITOR=true git rebase --continue > /dev/null 2>&1
+  rc=$?
+  echo "the catalogue's conflict written again from the merged metadata (scripts/build_llms.py): rebase exit=$rc"
+fi
 if [ "$rc" -ne 0 ]; then
   git rebase --abort 2>/dev/null || true
   "$PYTHON" warehouse/health.py record --step "dm_commit" --status failed --reason "git pull --rebase exit $rc: committed here, not pushed"
