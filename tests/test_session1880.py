@@ -71,7 +71,7 @@ class TheView(unittest.TestCase):
 
     def test_rows_3_and_5_the_picker_offers_the_cells_weeks_to_the_build(self):
         self.assertIn("cellWeeks(f, sector, gi)", self.view)
-        self.assertIn("setWeek((w) => chooseWeek(weeksWithStories, w))", self.view)
+        self.assertIn("setWeek(chooseWeek(weeksWithStories, week))", self.view)
         self.assertIn("weekOptions(weeksWithStories, week)", self.view)
         self.assertIn('none ? " (no story)" : ""', self.view)
         self.assertIn("openingWeek(f)", self.view)

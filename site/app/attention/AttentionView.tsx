@@ -61,12 +61,12 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
   // rows 3 and 5: the cell's weeks, none after the build's week; the chosen week moves to the cell's latest when the
   // cell lacks it (a cell with no week keeps it, marked "no story" in the picker)
   const weeksWithStories = useMemo(() => cellWeeks(f, sector, gi), [f, sector, gi]);
-  useEffect(() => { setWeek((w) => chooseWeek(weeksWithStories, w)); }, [weeksWithStories]);
+  const [weeksSeen, setWeeksSeen] = useState(weeksWithStories);
+  if (weeksSeen !== weeksWithStories) { setWeeksSeen(weeksWithStories); setWeek(chooseWeek(weeksWithStories, week)); }
   const cell = cellOf.get(`${sector}|${gi}|${week}`);
   const wk = f.weeks[week];
   const d = denom.get(week);
   const entity = `attention:${sectorKey}:${geo}`;
-  const partial = (i: number) => isPartial(f, i);
   // a figure of a warehouse table, keyed and with its source as its hover (row 8)
   const S = (table: string, ent: string, variable: string, raw: number, text: string, w = wk) => (
     <Num check={seriesKey(table, ent, variable, w)} raw={raw} source={seriesSource(f.built, table, ent, variable, w)}>{text}</Num>
