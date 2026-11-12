@@ -978,6 +978,9 @@ def check_interval_length(rows, minutes, log):
     log(f"  interval length: all {len(rows)} rows are {minutes} minutes")
 
 
+LATE_STAMP_S = 10   # session 3811: a regular stamp published up to this many seconds late (NYISO's 09:40:01 for 09:40)
+
+
 def rebuild_irregular_intervals(rows, start, end, nodes, log):
     """NYISO: intervals run from the previous time stamp to this one.
 
@@ -989,12 +992,19 @@ def rebuild_irregular_intervals(rows, start, end, nodes, log):
     (12:10:03 for 12:10). Completeness stays strict: no interval may be longer
     than 5 minutes, so a missing stamp can never be bridged by stretching a
     price over the gap, and every quarter hour must still be fully covered.
+
+    Session 3811 (chain 216): "no longer than 5 minutes" allows the late
+    publication the paragraph above describes, LATE_STAMP_S seconds. On 9
+    November 2026 NYISO stamped 09:40:01 after 09:35:00 in every zone, an
+    interval of 301 seconds, and the strict 300 refused all of NYISO's real
+    time for three daily runs. A missing stamp leaves an interval of about 600
+    seconds, which this allowance never bridges.
     """
     r = rows.sort_values(["node", "interval_end"]).copy()
     prev = r.groupby("node")["interval_end"].shift(1)
     r["interval_start"] = prev.fillna(r["interval_end"] - pd.Timedelta(minutes=5))
     secs = (r["interval_end"] - r["interval_start"]).dt.total_seconds()
-    too_long = r[secs > 300]
+    too_long = r[secs > 300 + LATE_STAMP_S]
     if len(too_long):
         for _, t in too_long.head(20).iterrows():
             log(f"  INCOMPLETE {t['node']}: gap from {utc_iso(t['interval_start'])} to "

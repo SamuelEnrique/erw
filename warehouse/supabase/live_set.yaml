@@ -769,8 +769,6 @@ catalogue_hold:
   # session 3758 (chain 211): FERC-714's forecasts and their revisions, not yet on Redivis's public draft
   - ferc714_planning_area_forecasts
   - ferc714_forecast_growth
-  # session 3798 (chain 215): grid operators' reserve margins (CAISO's summer assessment), not yet on Redivis's public draft
-  - iso_reserve_margin_reports
   # session 3807 (chain 215): the deal tracker's counterparties directory, first written on 12 November, not yet on Redivis
   - deal_counterparties
   # session 3307 (chain 200): the company database's three tables, not on Redivis's public draft and "license needed" by
