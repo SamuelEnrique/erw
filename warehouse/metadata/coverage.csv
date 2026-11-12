@@ -89,6 +89,7 @@ datacenter_projects_evidence,none,,16,event,2025-01-07T08:00:00Z,2026-11-05T19:4
 datacenter_queue_positions,none,,3,snapshot,2026-09-26T00:06:50Z,2026-11-05T23:21:53Z,3,ercot:interconnection_queue;nyiso:interconnection_queue,,pass,public,power;datacenters,no,derived
 datacenter_tracker_rollups,none,,145,P1D,2026-11-12T00:00:00Z,2026-11-12T00:00:00Z,584,erw:datacenter_projects,2026-11-12T13:55:46Z,pass,internal,power;datacenters,no,model_extracted
 dbedt_hawaii_electricity_annual,dbedt,,113,P1Y,1994-01-01T00:00:00Z,2025-01-01T00:00:00Z,268,dbedt_hi:data_book_2025_section_17,2026-10-25T02:42:18Z,pass,internal,power,no,source
+deal_counterparties,deal,,510,snapshot,2026-11-12T20:04:30Z,2026-11-12T20:04:30Z,510,erw:energy_deals,2026-11-12T20:04:30Z,pass,public,deals,no,model_extracted
 derk_bih_electricity_annual,derk,,10,P1Y,2021-01-01T00:00:00Z,2025-01-01T00:00:00Z,214,derk:annex_c_balance_2025,2026-10-24T22:58:44Z,pass,internal,power,no,source
 desnz_gb_regional_consumption_annual,desnz,,246,P1Y,2005-01-01T00:00:00Z,2024-01-01T00:00:00Z,2608,desnz:subnational_electricity_consumption_2005_2024,2026-10-25T13:08:18Z,pass,public,power,no,source
 desnz_gb_regional_gas_consumption_annual,desnz,,130,P1Y,2005-01-01T00:00:00Z,2024-01-01T00:00:00Z,1966,desnz:subnational_gas_consumption_2005_2024,2026-10-25T13:17:51Z,pass,public,gas,no,source

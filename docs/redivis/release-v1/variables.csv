@@ -783,6 +783,33 @@ cso_ireland_electricity_monthly,net_electricity_output,series variable,MWh
 czso_cz_regional_electricity_annual,gross_production,series variable,MWh
 czso_cz_regional_electricity_annual,installed_capacity,series variable,MW
 czso_cz_regional_electricity_annual,net_consumption,series variable,MWh
+deal_counterparties,entity_id,column,
+deal_counterparties,entity_type,column,
+deal_counterparties,name,column,
+deal_counterparties,geo,column,
+deal_counterparties,lat,column,
+deal_counterparties,lon,column,
+deal_counterparties,capacity_mw,column,
+deal_counterparties,status,column,
+deal_counterparties,status_date,column,
+deal_counterparties,operator,column,
+deal_counterparties,source,column,
+deal_counterparties,source_url,column,
+deal_counterparties,retrieved_at,column,
+deal_counterparties,vintage,column,
+deal_counterparties,kind,column,
+deal_counterparties,parent,column,
+deal_counterparties,eia861_utility_number,column,
+deal_counterparties,spellings,column,
+deal_counterparties,deals,column,
+deal_counterparties,as_buyer,column,
+deal_counterparties,as_seller,column,
+deal_counterparties,mw_stated,column,
+deal_counterparties,deals_with_mw,column,
+deal_counterparties,ai_power_deals,column,
+deal_counterparties,first_deal,column,
+deal_counterparties,last_deal,column,
+deal_counterparties,event_ids,column,
 desnz_gb_regional_consumption_annual,consumption,series variable,MWh
 desnz_gb_regional_consumption_annual,meters,series variable,count
 desnz_gb_regional_gas_consumption_annual,consumption,series variable,MWh
