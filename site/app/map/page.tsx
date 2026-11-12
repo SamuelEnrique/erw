@@ -12,7 +12,7 @@ import mapJson from "@/data/map.json";
 import { SOURCE_RULE, faceOf, sourceOf, sourceWords, whole, type MapFile } from "@/lib/projectmap";
 import { one, tabOf } from "@/lib/tabs";
 import { ResourcesView } from "../resources/view";
-import { Num } from "@/components/Num";
+import { Num, heldBy } from "@/components/Num";   // session 1855 (datacenter faults row 6)
 import { HOURLY, attempt, restCount } from "@/lib/supabase";
 import { ProjectMap } from "./ProjectMap";
 import { QUEUE_TABLE, QueuesView } from "./QueuesView";
@@ -66,7 +66,7 @@ async function ProjectsView() {
         lead={<>Every generating unit in EIA&apos;s monthly inventory, operating and planned (<span data-map-units="1" data-source={sourceOf(f, "units", SOURCE_RULE.file)}>{whole(c.units)}</span> units as of {f.vintage}<Tip id="map-units" label="the unit count">{sourceWords(f, "units", SOURCE_RULE.file)} Every row of the two tables is one unit, whatever its status.</Tip>), the interconnection queue positions that are not withdrawn, and the datacenters the ERW holds, on one map. Choose any grids, technologies, statuses, states, kinds and sizes; click a unit for its card. <Link href={METHOD}>Method</Link>.</>} />
       {unplaced.ok ? (
         <p className="mb-3 max-w-3xl text-sm" data-unplaced="queue">
-          <Num check="projects|count|queue|none" raw={unplaced.data}>{unplaced.data.toLocaleString("en-US")}</Num> queue positions the ERW holds (withdrawn ones among them) are not on the map: their county words name no county, city or town the Census Bureau lists in their state, or they state no county or no state. <Link href={`${METHOD}#coordinates`}>How a position is placed</Link>.
+          {heldBy("projects|count|queue|none") ? "Some" : <Num check="projects|count|queue|none" raw={unplaced.data}>{unplaced.data.toLocaleString("en-US")}</Num>} queue positions the ERW holds (withdrawn ones among them) are not on the map: their county words name no county, city or town the Census Bureau lists in their state, or they state no county or no state.{heldBy("projects|count|queue|none") ? " Their count is held (license needed)." : ""} <Link href={`${METHOD}#coordinates`}>How a position is placed</Link>.
         </p>
       ) : null}
       <ProjectMap file={faceOf(f)} statesGeo={feature(topo, topo.objects.states)} />

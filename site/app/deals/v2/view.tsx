@@ -10,7 +10,8 @@ import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
 import { NoData } from "@/components/NoData";
 import { DealsHeld } from "../Held";
-import { HeldRows } from "@/components/tool/HeldRows";  // session 500
+import { HeldRows } from "@/components/tool/HeldRows";
+import { BarsHover } from "@/components/tool/BarsHover";   // session 1853 (deals faults row 7): the brand's hover card on the month bars  // session 500
 
 // Session 113: the deals tracker, version 2, in the battery page's layout: the choices in a fog beige panel on the
 // left, the answer on the right. It reads the deals already extracted (energy_deals, warehouse/deals/extract.py) and
@@ -85,7 +86,10 @@ function Sources({ d }: { d: Deal }) {
   );
 }
 
-function Choices({ x, all }: { x: Inputs; all: Deal[] }) {
+function Choices({ x, all, held = false }: { x: Inputs; all: Deal[]; held?: boolean }) {
+  // session 1852 (deals faults row 2): under the hold the read is empty, so a count would print 0 for a table of 529
+  // held rows; no bracket is drawn then
+  const br = (v: number) => (held ? "" : ` (${whole(v)})`);
   const c = counts(all);
   const years = [...new Set(all.map((d) => d.year))].sort().reverse();
   const views: { id: Inputs["view"]; label: string }[] = [{ id: "", label: "All deals" }, { id: "storage", label: "Storage only" }, { id: "ai", label: "AI power" }];
@@ -108,27 +112,27 @@ function Choices({ x, all }: { x: Inputs; all: Deal[] }) {
       </div>
       <label className="block"><span className="mb-1 block font-semibold">Deal type</span>
         <select name="type" defaultValue={x.type} className={field}>
-          <option value="">All types ({whole(c.deals)})</option>
-          {GROUPS.map((g) => <option key={g.id} value={g.id}>{g.label} ({whole(c.byGroup[g.id])})</option>)}
+          <option value="">All types{br(c.deals)}</option>
+          {GROUPS.map((g) => <option key={g.id} value={g.id}>{g.label}{br(c.byGroup[g.id])}</option>)}
         </select>
       </label>
       {/* session 465: the kinds of master plan tool 6 that the groups above gather under Other */}
       <label className="block"><span className="mb-1 block font-semibold">Kind (master plan tool 6)</span>
         <select name="kind" defaultValue={x.kind} className={field}>
           <option value="">Every kind</option>
-          {KINDS.map((k) => <option key={k.id} value={k.id}>{k.label} ({whole(n((d) => d.kinds.includes(k.id)))})</option>)}
+          {KINDS.map((k) => <option key={k.id} value={k.id}>{k.label}{br(n((d) => d.kinds.includes(k.id)))}</option>)}
         </select>
       </label>
       <label className="block"><span className="mb-1 block font-semibold">Technology, as the story states it</span>
         <select name="tech" defaultValue={x.tech} className={field}>
           <option value="">All</option>
-          {technologies(all).map((t) => <option key={t.value} value={t.value}>{t.value} ({whole(t.n)})</option>)}
+          {technologies(all).map((t) => <option key={t.value} value={t.value}>{t.value}{br(t.n)}</option>)}
         </select>
       </label>
       <label className="block"><span className="mb-1 block font-semibold">Grid, by the state the story names</span>
         <select name="grid" defaultValue={x.grid} className={field}>
           <option value="">All</option>
-          {GRIDS.map((g) => <option key={g} value={g}>{g} ({whole(n((d) => d.grid === g))})</option>)}
+          {GRIDS.map((g) => <option key={g} value={g}>{g}{br(n((d) => d.grid === g))}</option>)}
         </select>
       </label>
       <label className="block"><span className="mb-1 block font-semibold">Counterparty</span>
@@ -138,13 +142,13 @@ function Choices({ x, all }: { x: Inputs; all: Deal[] }) {
       <label className="block"><span className="mb-1 block font-semibold">Year</span>
         <select name="year" defaultValue={x.year} className={field}>
           <option value="">All</option>
-          {years.map((y) => <option key={y} value={y}>{y} ({whole(n((d) => d.year === y))})</option>)}
+          {years.map((y) => <option key={y} value={y}>{y}{br(n((d) => d.year === y))}</option>)}
         </select>
       </label>
       <label className="block"><span className="mb-1 block font-semibold">Status, as the stories state it</span>
         <select name="status" defaultValue={x.status} className={field}>
           <option value="">Any</option>
-          {STATUSES.map((v) => <option key={v} value={v}>{v} ({whole(n((d) => d.status === v))})</option>)}
+          {STATUSES.map((v) => <option key={v} value={v}>{v}{br(n((d) => d.status === v))}</option>)}
         </select>
       </label>
       <div className="flex items-baseline gap-3">
@@ -175,8 +179,8 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
         lead={<>Power purchases, offtakes, financings and acquisitions in energy, as the news reported them: who, what technology, how large and at what price, where a story says so, each with a link to the story. <strong>These are deals reported in the news the ERW reads, not a complete record of the market.</strong></>} />
       <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Your selection" reset={{ href: "/deals?tab=tracker", defaults: "all deals, of every type, kind, technology, grid, party, year and status." }} note={<>The counts in brackets are of every deal held. Grid is the grid operator that serves most of the state a story names; {whole(withState)} of the {whole(ca.deals)} deals name a US state, and {whole(withGrid)} of those states have one grid.</>}>
-            <Choices key={hrefOf(x)} x={x} all={all} />
+          <InputPanel title="Your selection" reset={{ href: "/deals?tab=tracker", defaults: "all deals, of every type, kind, technology, grid, party, year and status." }} note={read.ok ? <>The counts in brackets are of every deal held. Grid is the grid operator that serves most of the state a story names; {whole(withState)} of the {whole(ca.deals)} deals name a US state, and {whole(withGrid)} of those states have one grid.</> : <>The selection applies once the table&apos;s hold is lifted; no count is shown while every row is held. Grid is the grid operator that serves most of the state a story names.</>}>
+            <Choices key={hrefOf(x)} x={x} all={all} held={!read.ok} />
           </InputPanel>
         </aside>
 
@@ -208,12 +212,16 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
                 <HeadlineNumber label="Disclosed megawatts" value={c.withMw ? <span data-deals="mw">{whole(c.mw)}</span> : <span className="text-muted" data-deals="mw">{NOT_STATED}</span>} unit={c.withMw ? "MW" : undefined}
                   note={<>the sum over the <span data-deals="with_mw">{whole(c.withMw)}</span> {c.withMw === 1 ? "deal that states" : "deals that state"} a size; the other {whole(c.deals - c.withMw)} are not counted as zero, they are not known</>} />
                 <HeadlineNumber label="State a price" value={<span data-deals="with_price">{whole(c.withPrice)}</span>} unit={`of ${whole(c.deals)}`}
-                  note={<>in US dollars per MWh. <span data-deals="with_dollars">{whole(c.withDollars)}</span> state a value in US dollars{c.withDollars ? <>, USD {usd(c.dollars)} in all</> : null}.</>} />
+                  note={<>in US dollars per MWh. <span data-deals="with_dollars">{whole(c.withDollars)}</span> state a value in US dollars: a purchase price, a financing or a valuation, each as stated and not summed here (session 1852; the sums by kind are on the AI-power view).</>} />
               </HeadlineRow>
 
               <ChartFrame title="Deals by month"
                 note={<>{words ? <>This selection ({words}). </> : null}By the deal&apos;s date: the announced date where a story states it, else the day the first story was published (UTC). A month with 0 has no deal dated in it. Deals are extracted only from stories the ERW has scored: the stories of June to September 2025 are held but not scored, so those months are empty for that reason, not because nothing was reported. The ERW has scored the news daily since 23 September 2026; earlier months come from older stories scored afterwards and are thinner.</>}>
-                <MonthBars ms={months(all, shown)} />
+                {/* session 1853 (deals faults row 7): the fog card with the month and its count, by pointer and by the arrow keys; the SVG's own <title> stays */}
+                <BarsHover id="deals-months" left={40} right={10} width={760}
+                  cards={months(all, shown).map((m) => ({ label: monthWords(m.month), lines: [{ name: m.n === 1 ? "deal" : "deals", color: "var(--color-accent)", text: whole(m.n) }] }))}>
+                  <MonthBars ms={months(all, shown)} />
+                </BarsHover>
               </ChartFrame>
 
               <ToolSection title={words ? `The ${whole(c.deals)} deals in this selection` : `Every deal held (${whole(c.deals)})`} id="deals"
@@ -223,7 +231,7 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
                     <table className="w-full border-collapse text-left text-sm" style={{ minWidth: 860 }}>
                       <caption className="sr-only">Deals in this selection</caption>
                       <thead>
-                        <tr className="bg-accent text-white">
+                        <tr className="border-b border-rule text-left text-xs text-muted">
                           {["Date", "Deal", "Parties", "Technology", "Size", "Price", "Value, USD", "Source"].map((h) => <th key={h} scope="col" className="px-3 py-1.5 font-normal">{h}</th>)}
                         </tr>
                       </thead>

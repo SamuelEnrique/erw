@@ -9,9 +9,10 @@
 // under the pointer or under the keyboard's arrows; the SVG itself, its <title> a group and every figure are as before.
 import { BarsHover, type BarCard } from "./BarsHover";
 
-/** A series' color, by the token's role: the highlighted series is the accent, the one beside it ink. */
-export type Tone = "accent" | "ink" | "muted";
-const COLOR: Record<Tone, string> = { accent: "var(--color-accent)", ink: "var(--color-ink)", muted: "var(--color-muted)" };
+/** A series' color, by the token's role: the highlighted series is the accent, the one beside it ink. Session 1878
+ *  (companies faults row 13): blue, the brand's third series color (docs/brand.md, "Chart series"), for a fourth series. */
+export type Tone = "accent" | "ink" | "muted" | "blue";
+export const COLOR: Record<Tone, string> = { accent: "var(--color-accent)", ink: "var(--color-ink)", muted: "var(--color-muted)", blue: "var(--chart-blue)" };
 
 export type BarSeries = { name: string; tone: Tone };
 export type BarGroup = {
@@ -25,6 +26,9 @@ export type BarGroup = {
   over?: string;
   /** the hover's words */
   title?: string;
+  /** session 1878 (companies faults row 14): the hover card's words a series, in place of its figure and unit
+   *  ("none", "0.4 USD billion; 3 deals, 1 with no USD") */
+  cards?: string[];
 };
 
 const nice = (hi: number) => [0.5, 1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000].find((s) => hi / s <= 5) ?? 10000;
@@ -57,7 +61,7 @@ export function GroupedBars({ id, groups, series, unit, label, partialWords = "I
   // the hover card's words, one card a group, written here so the client draws and computes nothing
   const cards: BarCard[] = groups.map((g) => ({
     label: g.label, sub: g.sub,
-    lines: series.map((s, k) => ({ name: s.name, color: COLOR[s.tone], text: g.values[k] === null ? "not held" : `${fmt(g.values[k] as number)} ${unit}` })),
+    lines: series.map((s, k) => ({ name: s.name, color: COLOR[s.tone], ...(g.cards?.[k] !== undefined ? { text: g.cards[k] } : { text: g.values[k] === null ? "not held" : `${fmt(g.values[k] as number)} ${unit}` }) })),
   }));
   return (
     <BarsHover id={id} cards={cards} left={L} right={R} width={W}>
@@ -97,7 +101,7 @@ export function GroupedBars({ id, groups, series, unit, label, partialWords = "I
             })}
             {g.over !== undefined
               ? <text x={x0 + (bw * n) / 2} y={Math.min(...tops) - 6} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{g.over}</text>
-              : g.values.map((v, k) => (v === null ? null : <text key={k} x={x0 + k * bw + bw / 2} y={tops[k] - 6} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{fmt(v)}</text>))}
+              : g.values.map((v, k) => (v === null ? null : <text key={k} x={x0 + k * bw + bw / 2} y={tops[k] - 6 - (bw < 40 && k % 2 ? 12 : 0)} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{fmt(v)}</text>))}
             <text x={inside(x0 + (bw * n) / 2, g.label)} y={H - bot + 16} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{g.label}</text>
             {g.sub ? <text x={inside(x0 + (bw * n) / 2, g.sub)} y={H - bot + 31} textAnchor="middle" style={{ fill: "var(--color-muted)" }}>{g.sub}</text> : null}
             {g.title ? <title>{g.title}</title> : null}

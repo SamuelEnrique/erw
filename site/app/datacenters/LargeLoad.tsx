@@ -10,6 +10,7 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import type { ReactNode } from "react";
 import { LineChart } from "@/components/LineChart";
 import { Num } from "@/components/Num";
+import { isLicenseReason } from "@/lib/license";   // session 1855 (datacenter faults row 2)
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import loadJson from "@/data/large_load_status.json";
 import type { EntityRow } from "@/lib/data";
@@ -111,6 +112,8 @@ export function LargeLoad({ read }: { read: Read }) {
               rows={texas.map((r, i) => ({ key: `${i}`, cells: [r.name ?? "not named", r.operator ?? "not stated", r.status || "not stated", r.capacity_mw !== null ? whole(r.capacity_mw) : "not stated", KIND[r.kind] ?? (r.kind || "not stated")] }))} />
             <p className="mt-2 text-sm">Every site, with its sources: <a href="#every-site" className="underline">the list below</a>.</p>
           </>
+        ) : isLicenseReason(read.reason) ? (
+          <p className="border border-rule bg-paper px-3 py-2 text-sm" role="status" data-facilities-held-note="1">The facilities are held (license needed): the note above ERCOT&apos;s section says how many rows, since when and why.</p>
         ) : <p className="border border-rule bg-paper px-3 py-2 text-sm" role="status">The table could not be read, so no number is shown: {read.reason}</p>}
       </ToolSection>
 

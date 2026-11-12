@@ -6,7 +6,7 @@
 // the hold's words with its footnote (the owner's rule for licensed figures), and the grid's public figures stay. A
 // grid's reserve margin no source the ERW reads holds (NERC's: its terms were not read, session 666) says so in its
 // cell, with the footnote, never an empty cell. Every figure carries its key: dcgrid|<stat>|<grid> (check-values).
-import { Num } from "@/components/Num";
+import { Num, heldBy } from "@/components/Num";   // session 1855 (datacenter faults rows 3 and 4): heldBy
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import type { EntityRow } from "@/lib/data";
@@ -43,10 +43,11 @@ export function FacilitiesVsGrid({ read, held }: { read: Read; held: boolean }) 
               held ? hold : l ? fig(l.planned, gridKey("planned", g)) : none,
               held ? hold : l ? fig(l.underConstruction, gridKey("under_construction", g)) : none,
               held ? hold : l ? fig(l.operating, gridKey("operating", g)) : none,
-              pc ? <Num key="p" check={gridKey("peak_mw", g)} raw={pc.peak_mw}>{whole(pc.peak_mw)}</Num> : <span key="p" className="text-muted">not held</span>,
-              pc ? <Num key="c" check={gridKey("capacity_mw", g)} raw={pc.capacity_mw}>{whole(pc.capacity_mw)}</Num> : <span key="c" className="text-muted">not held</span>,
+              pc ? heldBy(gridKey("peak_mw", g)) ? hold : <Num key="p" check={gridKey("peak_mw", g)} raw={pc.peak_mw}>{whole(pc.peak_mw)}</Num> : <span key="p" className="text-muted">not held</span>,
+              pc ? heldBy(gridKey("capacity_mw", g)) ? hold : <Num key="c" check={gridKey("capacity_mw", g)} raw={pc.capacity_mw}>{whole(pc.capacity_mw)}</Num> : <span key="c" className="text-muted">not held</span>,
               held ? hold : share === null ? none : <Num key="s" check={gridKey("share_of_peak", g)} raw={share}>{share.toFixed(1)}</Num>,
-              rm ? <span key="r"><Num check={gridKey("reserve_margin", g)} raw={rm.peak.pct}>{rm.peak.pct.toFixed(1)}</Num>% ({rm.peak.label.toLowerCase()})</span>
+              // session 1855 (row 3): a held margin is the placeholder, not "license needed% (summer 2027)"
+              rm ? heldBy(gridKey("reserve_margin", g)) ? hold : <span key="r"><Num check={gridKey("reserve_margin", g)} raw={rm.peak.pct}>{rm.peak.pct.toFixed(1)}</Num>% ({rm.peak.label.toLowerCase()})</span>
                 : <span key="r" className="text-muted">not held<sup>2</sup></span>,
             ],
           };
