@@ -1269,6 +1269,10 @@
     "/data"
    ]
   },
+  "deal_counterparties": {
+   "status": "public",
+   "pages": []
+  },
   "desnz_gb_regional_consumption_annual": {
    "status": "public",
    "pages": [
@@ -3397,7 +3401,11 @@
   },
   "iso_reserve_margin_reports": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
   },
   "iso_rt_top_intervals": {
    "status": "license needed",
@@ -4551,7 +4559,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 486
+   "public": 487
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -4691,7 +4699,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 7,
-   "public": 37
+   "public": 38
   },
   "/shoulder": {
    "label": "The shoulder hours",
@@ -4772,7 +4780,7 @@
     "nyiso_zone_load_hourly"
    ],
    "internal": 7,
-   "public": 26
+   "public": 27
   },
   "/storage": {
    "label": "Storage",

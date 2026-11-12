@@ -86,6 +86,7 @@ TIERS = ["source", "derived", "model_extracted"]
 TIER_RULES = [
     ("model_extracted", r"^(energy_deals|datacenter_projects|policy_reads)(_evidence)?$"),  # extraction from news
     ("model_extracted", r"^datacenter_tracker_rollups$"),  # session 3775: counted by code, every row from the model's facilities
+    ("model_extracted", r"^deal_counterparties$"),  # session 3807: counted by code from the model's deals (session 2234)
     ("model_extracted", r"^energy_companies$"),           # the Thesis Builder's research and the deal parties
     ("model_extracted", r"^company_(directory|aliases|links)$"),  # session 3302: names from the deals, datacenter and policy extractions
     ("model_extracted", r"^news_(stories|index)$"),       # the scores and headlines are the model's
@@ -585,6 +586,7 @@ SECTOR_RULES = [
     (r"^ercot_peak_premium_(annual|monthly)$", "power"),
     # session 15: the deal tracker (tool 6)
     (r"^energy_deals(_evidence)?$", "deals"),
+    (r"^deal_counterparties$", "deals"),  # session 3807: the deal tracker's counterparties directory (session 2234)
     # session 16: the project map (tool 3) and the datacenter power tracker (tool 4)
     (r"^energy_projects$", "power"),
     (r"^datacenter_projects(_evidence)?$", "power;datacenters"),

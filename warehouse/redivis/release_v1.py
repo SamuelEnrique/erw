@@ -427,6 +427,10 @@ for _t in ("ferc714_planning_area_forecasts", "ferc714_forecast_growth"):
 # in v1 when the owner adds it to the package's list
 STORAGE_HELD["iso_reserve_margin_reports"] = ("held: written by chain 215 (session 3798) after the v1 package was prepared; uploaded "
                                               "to the drafts by chain 215: in v1 when the owner adds it to the package's list")
+# Session 3807 (chain 215): the deal tracker's counterparties directory (session 2234), first written by the daily run of 12
+# November (its stop at coverage fixed by this session), public as energy_companies is: held as the other late tables are
+STORAGE_HELD["deal_counterparties"] = ("held: first written on 12 November 2026 (chain 215, session 3807), after the v1 package was "
+                                       "prepared: in v1 when the owner adds it to the package's list")
 
 
 def plan(day=PUBLIC_DAY):
