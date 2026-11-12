@@ -20,7 +20,7 @@ import { DealsHeld } from "../Held";
 
 const PAIRS = (duplicates as unknown as { pairs: Pair[] }).pairs;
 const cell = "px-3 py-1.5 align-top";
-const usdWords = (v: number) => (v >= 1e9 ? `${whole(v / 1e9)} billion` : v >= 1e6 ? `${whole(v / 1e6)} million` : whole(v));
+const usdWords = (v: number) => (v >= 1e12 ? `${whole(v / 1e12)} trillion` : v >= 1e9 ? `${whole(v / 1e9)} billion` : v >= 1e6 ? `${whole(v / 1e6)} million` : whole(v));
 
 function Sum({ v, n, of, k, kn, unit }: { v: number | null; n: number; of: number; k: string; kn: string; unit: "MW" | "USD" }) {
   return (
@@ -44,7 +44,7 @@ function Largest({ rows, by }: { rows: Deal[]; by: "mw" | "usd" }) {
             {by === "mw" ? " MW" : " USD"}
           </span>
           {": "}
-          {[d.buyerName || d.buyer, d.sellerName || d.seller].filter(Boolean).join(" / ") || "parties not stated"}
+          {[d.buyerName || d.buyer, d.sellerName || d.seller].filter(Boolean).join(" / ") || d.others.join(", ") || "parties not stated"}
           {d.asset ? `, ${d.asset}` : ""} <span className="text-muted">({d.date}; {SUPPLY_LABEL[supplyOf(d)]})</span>{" "}
           <span className="text-xs" title={d.aiBasis ? `Tagged AI by: ${d.aiBasis}` : "Tagged AI by the extraction (before session 2232)"}>
             {d.links.map((u, i) => (
@@ -63,6 +63,9 @@ export async function AiView({ sp }: { sp: Record<string, string | undefined> })
   const dim = AI_DIMENSIONS.find((d) => d.id === by)!;
   const all = read.ok ? fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS) : [];
   const ai = all.filter((d) => d.ai);
+  // session 1852 (deals faults row 3): the two top-ten lists are of power and infrastructure deals; a capital deal (an
+  // acquisition at its valuation, a funding round, a financing) stays in the table's Capital and acquisitions row
+  const supply = all.filter((d) => supplyOf(d) !== "capital");
   const cells = aiCells(all, by);
   return (
     <>
@@ -99,7 +102,7 @@ export async function AiView({ sp }: { sp: Record<string, string | undefined> })
               <table className="w-full border-collapse text-left text-sm" data-ai-table={by}>
                 <caption className="sr-only">The AI-power deals by {dim.label.toLowerCase()}</caption>
                 <thead>
-                  <tr className="bg-accent text-white">
+                  <tr className="border-b border-rule text-left text-xs text-muted">
                     {[dim.label, "Deals", "MW stated", "US dollars stated"].map((h) => <th key={h} scope="col" className="px-3 py-1.5 font-normal">{h}</th>)}
                   </tr>
                 </thead>
@@ -117,11 +120,11 @@ export async function AiView({ sp }: { sp: Record<string, string | undefined> })
             </div>
           </ToolSection>
           <div className="grid gap-6 lg:grid-cols-2">
-            <ToolSection title="The ten with the most MW stated" id="ai-largest-mw" note={<>Hover a deal&apos;s sources for what tagged it AI.</>}>
-              <Largest rows={largest(all, "mw")} by="mw" />
+            <ToolSection title="The ten with the most MW stated" id="ai-largest-mw" note={<>Power and infrastructure deals; a capital deal (a raise, an acquisition, a financing) is summed in the table above under Capital and acquisitions, not listed here. Hover a deal&apos;s sources for what tagged it AI.</>}>
+              <Largest rows={largest(supply, "mw")} by="mw" />
             </ToolSection>
-            <ToolSection title="The ten with the most US dollars stated" id="ai-largest-usd" note={<>A sum as stated in US dollars; a valuation or a company-wide investment is not a deal&apos;s.</>}>
-              <Largest rows={largest(all, "usd")} by="usd" />
+            <ToolSection title="The ten with the most US dollars stated" id="ai-largest-usd" note={<>Power and infrastructure deals, as stated in US dollars; a raise, an acquisition at a valuation or a financing is a capital deal and is summed in the table above, not listed here.</>}>
+              <Largest rows={largest(supply, "usd")} by="usd" />
             </ToolSection>
           </div>
         </>

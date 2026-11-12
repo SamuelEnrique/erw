@@ -1092,6 +1092,7 @@ async function eventRows(check) {
 /** US dollars, short, as site/app/deals/DealsTable.tsx writes them (data-format usd). */
 function usd(v) {
   const t = (x) => x.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  if (Math.abs(v) >= 1e12) return `${t(v / 1e12)} trillion`;   // session 1852, as DealsTable.tsx
   if (Math.abs(v) >= 1e9) return `${t(v / 1e9)} billion`;
   if (Math.abs(v) >= 1e6) return `${t(v / 1e6)} million`;
   return v.toLocaleString("en-US");
