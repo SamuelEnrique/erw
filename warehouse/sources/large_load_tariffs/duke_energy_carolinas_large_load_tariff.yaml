@@ -1,0 +1,33 @@
+# Session 3761 (chain 211): verified against the Agreement and Stipulation of Settlement on Large Load Tariff of 6 October 2026
+# (Docket Nos. E-7, Sub 1329 and E-2, Sub 1380), Exhibit 1, the research file of 6 November 2026's Set A rows 10 and 11 being
+# the lead. Read from the copy of the filing an intervenor (the Southern Environmental Law Center) posts, the mirror the
+# research file names; the North Carolina Utilities Commission's own site names the reader and duke-energy.com answers 403
+# (research file, "Hosts that refused"). Saved under runs/license_reads/s3761/ (not in git). STATUS PROPOSED: a filed
+# settlement pending the Commission's approval; the tariff prints "Effective for service rendered on and after January 1,
+# 2027" with the order's date blank. Duke Energy Progress is a party (E-2, Sub 1380), but the exhibit prints only Duke Energy
+# Carolinas's leaf, so no Progress row is written until its own leaf is read. Schedule HLF's demand charges (the rates these
+# minimums apply to) were not read.
+utility: Duke Energy Carolinas, LLC
+eia_id: 5416
+state: NC
+grid: DUK
+sector: large load customers (50 MW at 80 percent load factor, or 150 MW at any load factor)
+status: proposed
+schedule: Large Load Tariff (LLT), with Schedule HLF
+tariff_sheet: NC Original Leaf No. (blank), 3 pages, Exhibit 1 to the Agreement and Stipulation of Settlement
+effective: 2027-01-01
+commission: North Carolina Utilities Commission
+docket: E-7, Sub 1329 (and E-2, Sub 1380 for Duke Energy Progress)
+document: Agreement and Stipulation of Settlement on Large Load Tariff, 6 October 2026, Exhibit 1 (the Large Load Tariff), as filed
+document_url: https://www.selc.org/wp-content/uploads/2026/10/2026-10-06-Duke-Energy-LLT-Settlement.pdf
+retrieved_at: 2026-11-12T11:14:13Z
+license: public
+notes: "Proposed: a settlement filed 6 October 2026, pending NCUC approval as of 12 November 2026. Applies to letter agreements and electric service agreements executed on and after 1 June 2026. Contract term: below 100 MW the greater of 10 years and 5 years plus the load ramp period; 100 MW or more the greater of 15 years and 10 years plus the load ramp period."
+terms:
+  min_bill: {text: "Billing demand will not be less than 75% of contract demand for all demand charges in Schedule HLF", page: 23}
+  collateral: {text: "Dedicated Facilities: advanced funds equal to the estimated total cost as CIAC within 60 days of the LA; Transmission Network Upgrades: a letter of credit equal to the estimated total cost within 60 days of the ESA", page: 22}
+  term: {text: "The minimum initial contract term for ESAs below 100 MW will be the greater of (a) 10 years and (b) 5 years plus the load ramp period. The minimum initial contract term for ESAs of 100 MW or more will be the greater of (a) 15 years and (b) 10 years plus the load ramp period.", page: 23}
+figures:
+  - {variable: min_demand_mw, value: 50, printed: "a total contract demand of 50 MW or more and an expected 12-month rolling average load factor of 80% of more", page: 22}
+  - {variable: min_bill_pct, value: 75, printed: "Billing demand will not be less than 75% of contract demand for all demand charges in Schedule HLF", page: 23}
+  - {variable: min_contract_years, value: 10, printed: "The minimum initial contract term for ESAs below 100 MW will be the greater of (a) 10 years", page: 23}

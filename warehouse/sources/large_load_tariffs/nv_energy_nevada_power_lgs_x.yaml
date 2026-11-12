@@ -1,0 +1,27 @@
+# Session 3761 (chain 211): verified against Nevada Power's Schedule LGS-X as NV Energy publishes it, the research file of
+# 6 November 2026's Set B row 15 being the lead; saved under runs/license_reads/s3761/ (not in git), read in pdftotext's raw
+# order. The schedule is CLOSED to new customers and new meter locations (Sheet 16): it is written as the filed rule for the
+# existing extra-large customers, not as a path a new load can take; a new large load is served under an LLESA
+# (nv_energy_llesa.yaml). Its rates are in the Statement of Rates (PUCN Sheet No. 10 on), not read.
+utility: Nevada Power Company d/b/a NV Energy
+eia_id: 13407
+state: NV
+grid: NEVP
+sector: large general service, extra large (22 MW coincident peak; closed to new customers)
+status: adopted
+schedule: Schedule LGS-X, Large General Service - Extra Large
+tariff_sheet: Tariff No. 1-B, 39th Revised PUCN Sheet No. 16 (applicability) and 24th Revised Sheet No. 17 (facilities charges)
+effective: 2018-02-15
+commission: Public Utilities Commission of Nevada
+docket: Advice No. 478 (Sheet 16) and Advice No. 553-R-2 (Sheet 17, effective 1 October 2025)
+document: Nevada Power's Schedule LGS-X, Sheets 16 and 17, as NV Energy publishes its southern Nevada electric schedules
+document_url: https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/about-nvenergy/rates-regulatory/electric-schedules-south/LGSX_South.pdf
+retrieved_at: 2026-11-12T11:14:13Z
+license: public
+notes: "Closed to new Customers and to new meter locations of existing Customers (Sheet 16). Customer-specific facilities charges on Sheet 17: Bellagio/Park MGM $24,728, Mandalay Bay/Excalibur/Luxor $36,770, Paris/Horseshoe $16,876 a month."
+terms:
+  min_bill: {text: "the eligible Customer must agree in writing to take or continue to pay for the minimum bill under Schedule LGS-X for a minimum period of 36 months", page: 1}
+  term: {text: "At the end of the 36 month contract period, a Customer may elect to continue to take service under LGS-X on a month-to-month basis", page: 1}
+figures:
+  - {variable: min_demand_mw, value: 22, printed: "the Customer's aggregate coincident peak (\"CP\") load is 22 MW or greater during any one month of the most recent historical twelve month period", page: 1}
+  - {variable: min_contract_years, value: 3, printed: "for a minimum period of 36 months", page: 1}
