@@ -98,6 +98,7 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
             site/data/seller/hybrid.json site/public/seller/prices
             site/data/board.json site/public/board
             site/data/map.json site/data/map_v2.json)   # session 349: the map's copy (dm_project_map)
+PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv)   # session 3779: dm_datacenter_figures
 # session 204: the generator export's dated record of the capture file's build (docs/methods/figures/<day>/, session
 # 199), committed with the CSV whose header names it, and only when the generator's group was not put back
 RECORD_PATH=docs/methods/figures
@@ -368,6 +369,13 @@ soft_step dm_datacenter_export "$PYTHON" warehouse/derived/datacenter_hourly_exp
 # tonnes a year read 265,548 against the page's 265,549, and the window 10,160 hours against 10,141). It writes
 # nothing when a read fails.
 soft_step dm_datacenter_carbon "$PYTHON" site/scripts/write-datacenter-carbon.py
+# Session 3779 (chain 212): the files the replication tests hold to the page, written from the page's own code on the
+# files above, so a refresh no longer fails them by moving a figure read by hand (the runs of 9 and 10 November put
+# every refresh back on tests 1491 and 720). The All grids tab's two research cards (site/scripts/siting-card.mjs,
+# test 720: the cards are the tab's figures for the same files) and the datacenter replication's page figures
+# (replication/datacenter/figures_of_the_page.py, test 1491: the published mirror is still a second code held to them).
+soft_step dm_siting_card node site/scripts/siting-card.mjs
+soft_step dm_datacenter_figures "$PYTHON" replication/datacenter/figures_of_the_page.py
 
 # ---- 3b. the battery page's downloads, the generator page's builders and its hourly CSV (session 204) -----------------
 # Each through warehouse/scheduled.py (it skips with the reason where an input is not here), each a soft step. After
@@ -448,9 +456,10 @@ group dm_test_board "dm_board_page" "tests.test_session132 tests.test_session240
 # (e475f7069) committed a refresh of the datacenter and findings files that broke four of them on main (190, 1491,
 # 538, 720; chain 184 put the files back): those tests read the committed files, so a refresh that moves a recorded
 # figure is put back here, whole, until the tests or their recorded figures follow the refresh.
-group dm_test_replication "dm_datacenter_page dm_datacenter_export dm_datacenter_carbon dm_findings_recompute" \
+group dm_test_replication "dm_datacenter_page dm_datacenter_export dm_datacenter_carbon dm_siting_card dm_datacenter_figures dm_findings_recompute" \
   "tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720" -- \
-  site/data/datacenter site/public/datacenter site/data/findings site/public/findings
+  site/data/datacenter site/public/datacenter site/data/findings site/public/findings \
+  replication/datacenter/page_figures.json replication/datacenter/page_figures.csv
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"

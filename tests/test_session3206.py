@@ -29,13 +29,17 @@ class TheGroup(unittest.TestCase):
     def test_the_group_names_the_steps_the_tests_and_the_files(self):
         line = next(l for l in joined().split("\n") if l.startswith("group dm_test_replication "))
         steps, tests, paths = re.match(r'group dm_test_replication\s+"([^"]+)"\s+"([^"]+)"\s+--\s+(.+)$', line.strip()).groups()
-        self.assertEqual(steps.split(), ["dm_datacenter_page", "dm_datacenter_export", "dm_datacenter_carbon", "dm_findings_recompute"])
+        # session 3779: the siting cards and the replication's page figures are written from the page's code in the run
+        self.assertEqual(steps.split(), ["dm_datacenter_page", "dm_datacenter_export", "dm_datacenter_carbon", "dm_siting_card",
+                                         "dm_datacenter_figures", "dm_findings_recompute"])
         self.assertEqual(tests.split(), ["tests.test_session190_replication", "tests.test_session1491", "tests.test_session538", "tests.test_session720"])
-        self.assertEqual(paths.split(), ["site/data/datacenter", "site/public/datacenter", "site/data/findings", "site/public/findings"])
+        self.assertEqual(paths.split(), ["site/data/datacenter", "site/public/datacenter", "site/data/findings", "site/public/findings",
+                                         "replication/datacenter/page_figures.json", "replication/datacenter/page_figures.csv"])
 
     def test_each_step_and_test_exists(self):
         t = text()
-        for step in ("dm_datacenter_page", "dm_datacenter_export", "dm_datacenter_carbon", "dm_findings_recompute"):
+        for step in ("dm_datacenter_page", "dm_datacenter_export", "dm_datacenter_carbon", "dm_siting_card", "dm_datacenter_figures",
+                     "dm_findings_recompute"):
             self.assertRegex(t, rf"soft_step {step} ")
         for mod in ("test_session190_replication", "test_session1491", "test_session538", "test_session720"):
             self.assertTrue(os.path.exists(os.path.join(ROOT, "tests", mod + ".py")), mod)
