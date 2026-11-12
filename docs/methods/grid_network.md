@@ -500,6 +500,8 @@ three things it named are the first three blocks of this section.
 
 ## Replication
 
+This section is the page's own download of one hour (`site/public/grid/`). The Grid tool's replication package, which recomputes every figure of the page (`replication/grid/`), is the section "Replication (sessions 3703 to 3705)" below (session 1884).
+
 Session 1743 (chain 195, 6 November 2026) wrote this section, which the note lacked. The three decision tools' notes each have one ("Run it"). The package was in the repository since session 266 but was named only in the review pack (`docs/reviews/packs/grid.md`). Roadmap item 2 asks for "a replication a reader can run".
 
 - **What it rebuilds.** The Network view's figures and the gravity shape's circles for the hour shown, which is the newest hour every reporting pair holds:
