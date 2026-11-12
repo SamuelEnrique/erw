@@ -4,6 +4,8 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { Section } from "@/components/Section";
 import { SETS } from "@/lib/problems";
 import { editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
+import { GUIDE, instructorNote } from "@/lib/problemkit";  // session 3650: each set's grids, tables and skills; the instructors' hover
+import { Tip } from "@/components/tool/ToolPage";
 
 // Session 44: the problem sets' index (lib/problems.ts).
 export const metadata: Metadata = { title: "Problem sets" };
@@ -12,7 +14,8 @@ export default function ProblemSets() {
   return (
     <Brand>
     <div>
-      <h1 className="mb-1 text-3xl">Problem sets</h1>
+      {/* session 3650: for instructors, the table keys and the method note, as a hover only */}
+      <h1 className="mb-1 text-3xl">Problem sets<Tip label="for instructors" id="instructors">For instructors. {instructorNote()}</Tip></h1>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         Questions for an undergraduate class, answered from the warehouse&apos;s own tables. Each question names its tables, and each answer opens to
         a worked solution with the actual numbers and a line on why it matters.
@@ -29,6 +32,13 @@ export default function ProblemSets() {
             <li key={s.slug}>
               <Link href={`/learn/problems/${s.slug}`} className="text-lg">{s.title}</Link>
               <div className="text-sm text-muted">{s.line}</div>
+              {/* session 3650: the grids, the tables and the skills the set uses, and its figures as CSV (public tables only) */}
+              {GUIDE[s.slug] ? (
+                <div className="text-sm" data-set-facts={s.slug}>
+                  Grid: {GUIDE[s.slug].grids.join(", ")}. Tables: {GUIDE[s.slug].tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono">{t}</Link></span>)}.
+                  {" "}Skills: {GUIDE[s.slug].skills.join(", ")}. <a href={`/learn/problems/${s.slug}/data.csv`} download>The set&apos;s data, CSV</a>.
+                </div>
+              ) : null}
               {editions().length ? (
                 <div className="text-sm">The live set; <Link href={editionPath(s.slug, editions()[0])}>the edition of {editions()[0]}</Link>; <Link href={teacherPath(s.slug, editions()[0])}>its teacher&apos;s copy</Link>.</div>
               ) : null}

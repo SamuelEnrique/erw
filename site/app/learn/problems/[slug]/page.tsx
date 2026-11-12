@@ -6,7 +6,9 @@ import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { shown } from "@/lib/format";
-import { problemSet, SETS, type Part } from "@/lib/problems";
+import { problemSet, SETS, type Part, type Question } from "@/lib/problems";
+import { GUIDE, sourceOfKey } from "@/lib/problemkit";  // session 3650: the outcome line, and each figure's source as its hover
+import citations from "@/data/table_citations.json";
 import { editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
 import { attempt } from "@/lib/supabase";
 
@@ -22,14 +24,36 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: SETS.find((s) => s.slug === slug)?.title ?? "Problem set" };
 }
 
+const cite = (t: string) => (citations as Record<string, string>)[t];
+
 function Parts({ parts }: { parts: Part[] }) {
   return (
     <>
       {parts.map((p, i) =>
         typeof p === "string" ? <span key={i}>{p}</span> : (
-          <span key={i} className="font-mono"><Num check={p.k} raw={p.v}>{shown(p.v)}</Num>{p.u ? ` ${p.u}` : ""}</span>
+          <span key={i} className="font-mono"><Num check={p.k} raw={p.v} source={sourceOfKey(p.k, cite)}>{shown(p.v)}</Num>{p.u ? ` ${p.u}` : ""}</span>
         ))}
     </>
+  );
+}
+
+/** Session 3650: the worked example, open: the question, its solution step by step, the one-line computation and the answer. */
+function Example({ q }: { q: Question }) {
+  return (
+    <div className="mb-6" data-example>
+      <Section title="Worked example">
+        <p className="mb-1 max-w-3xl">{q.q}</p>
+        <p className="mb-2 text-xs text-muted">Tables: {q.tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono">{t}</Link></span>)}</p>
+        <div className="max-w-3xl border border-rule bg-panel p-2 text-sm">
+          <ol className="list-decimal pl-6">
+            {q.steps.map((s, i) => <li key={i}><Parts parts={s} /></li>)}
+          </ol>
+          <p className="mt-2" data-line><strong>Computation.</strong> <span className="font-mono"><Parts parts={q.line} /></span></p>
+          <p className="mt-2"><strong>Answer.</strong> <Parts parts={q.answer} /></p>
+          <p className="mt-2 text-muted">{q.why}</p>
+        </div>
+      </Section>
+    </div>
   );
 }
 
@@ -44,6 +68,8 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
       <p className="mb-1 text-xs text-muted"><Link href="/learn/problems">Problem sets</Link> / {meta.title}</p>
       <h1 className="mb-1 text-3xl">{meta.title}</h1>
       <p className="mb-3 max-w-3xl text-sm">{meta.line} Every answer is computed from the warehouse&apos;s tables when the page is built, so the numbers move as the data updates.</p>
+      {/* session 3650: what a student should be able to do after the set, in one line (lib/problemkit.ts, GUIDE) */}
+      {GUIDE[slug] ? <p className="mb-3 max-w-3xl text-sm" data-can><strong>After this set</strong> a student can {GUIDE[slug].can}.</p> : null}
       <div className="mb-5 max-w-3xl border-l-2 border-accent pl-3 text-sm">
         <p><strong>For teachers.</strong> {meta.teacher}</p>
         <p className="mt-1 text-xs text-muted">Pages: {meta.pages.map((p, i) => <span key={p.href}>{i ? ", " : ""}<Link href={p.href}>{p.label}</Link></span>)}.</p>
@@ -55,6 +81,9 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
       {!got.ok || !got.data ? (
         <NoData what="the problem set" reason={got.ok ? "no data" : got.reason} />
       ) : (
+        <>
+        {/* session 3650: a worked example first, its answer open, then the five from the easiest to the hardest */}
+        {got.data.example ? <Example q={got.data.example} /> : null}
         <ol className="space-y-6">
           {got.data.questions.map((q, n) => (
             <li key={q.id}>
@@ -66,6 +95,7 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
                 <details className="max-w-3xl border border-rule bg-panel p-2 text-sm">
                   <summary className="cursor-pointer text-accent">Show answer</summary>
                   <p className="mt-2"><strong>Answer.</strong> <Parts parts={q.answer} /></p>
+                  <p className="mt-2" data-line><strong>Computation.</strong> <span className="font-mono"><Parts parts={q.line} /></span></p>
                   <p className="mt-2 font-semibold">Worked solution</p>
                   <ol className="list-decimal pl-6">
                     {q.steps.map((s, i) => <li key={i}><Parts parts={s} /></li>)}
@@ -76,6 +106,7 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
             </li>
           ))}
         </ol>
+        </>
       )}
     </div>
     </Brand>

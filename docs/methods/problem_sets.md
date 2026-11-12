@@ -28,3 +28,12 @@ The live sets move every day: a class that prepares on one day meets other numbe
 
 ## Limits
 - The battery questions of set D use the game's assumed battery (`site/lib/battery.ts`): 13.5 kWh, 90 percent round trip.
+
+## For a class to assign (session 3650, 6 November 2026)
+
+- **What a student can do after each set:** one line under the set's title, from `site/lib/problemkit.ts` (`GUIDE`).
+- **A worked example first:** each set opens with one question worked in full, its answer open, by the method of one of the five on other figures (set A: question 1 on the day before; B: question 1 on the complete month before; C: question 1's method on Uri's demand; D: question 1's method on one day; E: question 3 on the held month before), so it gives none of the five answers away. Its figures are computed and keyed as the questions' are.
+- **The five from the easiest to the hardest:** `GUIDE[set].order`, by the number of moves a question needs (read and compare first; a maximum or a sum over a range next; a complete month, a local day, a rule file or a ranking last). The question ids do not change, so the editions' files keep their names; an edition built before this session keeps its own order.
+- **The one-line computation:** each answer, on its click, shows the line that gives it (`line` in `lib/problems.ts`), made of the same keyed figures, so it moves with the data. No number is typed in it (`site/scripts/test-problemkit.mjs`).
+- **Every figure's source as its hover:** the table, the entity, the variable and the time read from the check key, the table's citation (`site/data/table_citations.json`) and this note (`sourceOfKey`).
+- **The index:** each set's grids, tables and skills, and its figures as CSV, `/learn/problems/<set>/data.csv`: every keyed figure of the live set with its key, table, value, unit and source. A figure of a row held for a license (`components/Num.tsx`, `heldBy`) is left out; in review the address answers the internal view alone, as the page does. For instructors, a hover beside the title holds each set's table keys and this note's path.

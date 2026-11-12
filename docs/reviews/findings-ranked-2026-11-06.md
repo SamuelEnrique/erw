@@ -440,3 +440,238 @@ Every draft still a draft on the review list, 185 in all, ranked by the same rub
 | 183 | 6 | 2 | 2 | 2 | 1.6 | prices | top_days_share | ercot_HB_HOUSTON | `scan-deep-992ff5bf34d9` |
 | 184 | 6 | 1 | 3 | 2 | 1.3 | generation_pipeline | reactor_outage_days | nuc_6038_1 | `scan-deep-a76fd4282570` |
 | 185 | 6 | 2 | 2 | 2 | 1.2 | prices | top_days_share | ercot_HB_SOUTH | `scan-deep-7dfd2bf8b8c6` |
+
+## The ranking renewed, 12 November 2026 (chain 211, session 3765)
+
+`rank.py` run again over every draft on the review list as it stands (185, read over SUPABASE_DB_URL; none approved). No second read's verdicts exist to apply (`docs/reviews/findings-second-read-2026-11-06.md` is on no branch), so no draft was fixed or removed; the families of chains 183 and 192 (coal, uranium and metals; emissions; markets and operations; other US) join the table. The rubric is the one above. Nothing here is approved.
+
+### The drafts by family
+
+| Family | Drafts |
+|---|---:|
+| coal_uranium_metals | 8 |
+| cross_family | 8 |
+| demand | 12 |
+| emissions_climate | 7 |
+| gas | 11 |
+| generation_pipeline | 35 |
+| markets_operations | 7 |
+| oil_products_world | 18 |
+| other_us | 7 |
+| prices | 33 |
+| queues_deals_datacenters | 27 |
+| tariffs_policy | 12 |
+| all | 185 |
+
+### The twenty to read first
+
+1. **generation_pipeline**, score 9 (consequence 3, novelty 3, strength 3; 121.0 typical moves). The nameplate capacity of batteries, the United States that entered service in the year and operates today was 16,372 MW in 2025, against 0 MW in 2010, the first year this measure counts. `scan-deep-dbdda8d8c6f2`
+2. **generation_pipeline**, score 9 (consequence 3, novelty 3, strength 3; 66.0 typical moves). Nuclear's share of net generation in Vermont was 0.0 percent of net generation in 2025, against 76.1 percent of net generation in 2001, the first full year the ERW holds. `scan-deep-dc86397ca7c4`
+3. **gas**, score 9 (consequence 3, novelty 3, strength 3; 56.4 typical moves). US pipeline exports of natural gas to Mexico was 2,423 Bcf in 2025, against 14 Bcf in 1973, the first full year the ERW holds. `scan-deep-fc2e875ea6e1`
+4. **generation_pipeline**, score 9 (consequence 3, novelty 3, strength 3; 36.6 typical moves). Utility-scale solar's share of net generation in Nevada was 30.8 percent of net generation in 2025, against 0.0 percent of net generation in 2001, the first full year the ERW holds. `scan-deep-e6f61807b161`
+5. **generation_pipeline**, score 9 (consequence 3, novelty 3, strength 3; 31.1 typical moves). Utility-scale solar's share of net generation in the United States was 6.8 percent of net generation in 2025, against 0.0 percent of net generation in 2001, the first full year the ERW holds. `scan-deep-74babf6df9f2`
+6. **gas**, score 9 (consequence 3, novelty 3, strength 3; 30.1 typical moves). West Virginia's share of US marketed gas production was 8.3 percent of US marketed production in 2025, against 0.9 percent of US marketed production in 2001, the first full year the ERW holds. `scan-deep-0578ec6db1b6`
+7. **generation_pipeline**, score 9 (consequence 3, novelty 3, strength 3; 28.4 typical moves). The gas-fired fleet's fuel per MWh in the United States was 8.30 MMBtu per MWh in 2024, against 10.84 MMBtu per MWh in 2001, the first full year the ERW holds. `scan-deep-e2d515f4e468`
+8. **gas**, score 9 (consequence 3, novelty 3, strength 3; 28.0 typical moves). Pennsylvania's share of US marketed gas production was 17.8 percent of US marketed production in 2025, against 0.6 percent of US marketed production in 2001, the first full year the ERW holds. `scan-deep-0d768034cd5f`
+9. **tariffs_policy**, score 9 (consequence 3, novelty 3, strength 3; 22.3 typical moves). The average residential electricity price in the United States was 172.6 USD per MWh in 2025, against 85.8 USD per MWh in 2001, the first full year the ERW holds. `scan-deep-3a7bd234ee53`
+10. **queues_deals_datacenters**, score 9 (consequence 3, novelty 3, strength 3; 20.9 typical moves). The value of private data center construction put in place in the US was 49.74 USD billion in 2025, against 1.80 USD billion in 2014, the first full year the ERW holds. `scan-deep-dd585d3c607b`
+11. **generation_pipeline**, score 9 (consequence 3, novelty 3, strength 3; 20.3 typical moves). The gas-fired fleet's fuel per MWh in Florida was 7.48 MMBtu per MWh in 2024, against 9.39 MMBtu per MWh in 2001, the first full year the ERW holds. `scan-deep-9fd4e326766e`
+12. **queues_deals_datacenters**, score 9 (consequence 3, novelty 3, strength 3; 19.1 typical moves). Batteries' share of the MW requested in the United States was 29.7 percent of requested MW in 2024, against 0.0 percent of requested MW in 2005, the first year this measure counts. `scan-deep-1fd8bb1d1483`
+13. **queues_deals_datacenters**, score 9 (consequence 3, novelty 3, strength 3; 19.1 typical moves). Data centers' share of US private nonresidential construction was 6.35 percent of private nonresidential construction in 2025, against 0.50 percent of private nonresidential construction in 2014, the first full year the ERW holds. `scan-deep-a1a72bdb3de0`
+14. **oil_products_world**, score 9 (consequence 3, novelty 3, strength 3; 19.1 typical moves). Texas's share of US crude oil production was 42.2 percent of US crude production in 2025, against 20.0 percent of US crude production in 2001, the first full year the ERW holds. `scan-deep-deffa03e8721`
+15. **tariffs_policy**, score 9 (consequence 3, novelty 3, strength 3; 18.9 typical moves). Retail electricity sales to the commercial sector in Texas was 174.7 TWh in 2025, against 87.9 TWh in 2001, the first full year the ERW holds. `scan-deep-cea999e8b1d3`
+16. **oil_products_world**, score 9 (consequence 3, novelty 3, strength 3; 18.1 typical moves). Canada's share of US crude oil imports was 63.4 percent of US crude imports in 2025, against 30.9 percent of US crude imports in 1973, the first full year the ERW holds. `scan-deep-15ac3afd0745`
+17. **oil_products_world**, score 9 (consequence 3, novelty 3, strength 3; 17.2 typical moves). Alaska's share of US crude oil production was 6.1 percent of US crude production in 2025, against 32.7 percent of US crude production in 2001, the first full year the ERW holds. `scan-deep-9fa18e56c335`
+18. **queues_deals_datacenters**, score 9 (consequence 3, novelty 3, strength 3; 16.9 typical moves). The value of private electric power construction put in place in the US was 128.04 USD billion in 2025, against 16.39 USD billion in 1993, the first full year the ERW holds. `scan-deep-ee79f812b00a`
+19. **generation_pipeline**, score 9 (consequence 3, novelty 3, strength 3; 16.4 typical moves). Wind's share of net generation in the United States was 10.4 percent of net generation in 2025, against 0.2 percent of net generation in 2001, the first full year the ERW holds. `scan-deep-f02c2bc8cd8a`
+20. **generation_pipeline**, score 9 (consequence 3, novelty 3, strength 3; 15.7 typical moves). Coal's share of net generation in the United States was 16.6 percent of net generation in 2025, against 51.0 percent of net generation in 2001, the first full year the ERW holds. `scan-deep-c7c053517090`
+
+### Every draft
+
+| Rank | Score | C | N | S | Moves | Family | Candidate | Region | Draft |
+|---:|---:|---:|---:|---:|---:|---|---|---|---|
+| 1 | 9 | 3 | 3 | 3 | 121.0 | generation_pipeline | added_mw | add_battery_US | `scan-deep-dbdda8d8c6f2` |
+| 2 | 9 | 3 | 3 | 3 | 66.0 | generation_pipeline | nuclear_share | state_nuc_VT | `scan-deep-dc86397ca7c4` |
+| 3 | 9 | 3 | 3 | 3 | 56.4 | gas | mexico_exports | us_mexico | `scan-deep-fc2e875ea6e1` |
+| 4 | 9 | 3 | 3 | 3 | 36.6 | generation_pipeline | solar_share | state_sun_NV | `scan-deep-e6f61807b161` |
+| 5 | 9 | 3 | 3 | 3 | 31.1 | generation_pipeline | solar_share | state_sun_US | `scan-deep-74babf6df9f2` |
+| 6 | 9 | 3 | 3 | 3 | 30.1 | gas | state_production_share | prod_WV | `scan-deep-0578ec6db1b6` |
+| 7 | 9 | 3 | 3 | 3 | 28.4 | generation_pipeline | gas_heat_rate | hr_gas_US | `scan-deep-e2d515f4e468` |
+| 8 | 9 | 3 | 3 | 3 | 28.0 | gas | state_production_share | prod_PA | `scan-deep-0d768034cd5f` |
+| 9 | 9 | 3 | 3 | 3 | 22.3 | tariffs_policy | res_price | res_price_US | `scan-deep-3a7bd234ee53` |
+| 10 | 9 | 3 | 3 | 3 | 20.9 | queues_deals_datacenters | dc_construction | us_dc_build | `scan-deep-dd585d3c607b` |
+| 11 | 9 | 3 | 3 | 3 | 20.3 | generation_pipeline | gas_heat_rate | hr_gas_FL | `scan-deep-9fd4e326766e` |
+| 12 | 9 | 3 | 3 | 3 | 19.1 | queues_deals_datacenters | storage_share | us_req_battery_share | `scan-deep-1fd8bb1d1483` |
+| 13 | 9 | 3 | 3 | 3 | 19.1 | queues_deals_datacenters | dc_share | us_dc_share | `scan-deep-a1a72bdb3de0` |
+| 14 | 9 | 3 | 3 | 3 | 19.1 | oil_products_world | state_crude_share | crude_TX | `scan-deep-deffa03e8721` |
+| 15 | 9 | 3 | 3 | 3 | 18.9 | tariffs_policy | commercial_sales | com_sales_TX | `scan-deep-cea999e8b1d3` |
+| 16 | 9 | 3 | 3 | 3 | 18.1 | oil_products_world | import_share | imp_CA | `scan-deep-15ac3afd0745` |
+| 17 | 9 | 3 | 3 | 3 | 17.2 | oil_products_world | state_crude_share | crude_AK | `scan-deep-9fa18e56c335` |
+| 18 | 9 | 3 | 3 | 3 | 16.9 | queues_deals_datacenters | power_construction | us_power_build | `scan-deep-ee79f812b00a` |
+| 19 | 9 | 3 | 3 | 3 | 16.4 | generation_pipeline | wind_share | state_wnd_US | `scan-deep-f02c2bc8cd8a` |
+| 20 | 9 | 3 | 3 | 3 | 15.7 | generation_pipeline | coal_share | state_cow_US | `scan-deep-c7c053517090` |
+| 21 | 9 | 3 | 3 | 3 | 15.5 | emissions_climate | coal_co2_share | us_coal_co2_share | `scan-deep-fed28b9d315c` |
+| 22 | 9 | 3 | 3 | 3 | 15.4 | generation_pipeline | coal_share | state_cow_NM | `scan-deep-fc5e1d762a8e` |
+| 23 | 9 | 3 | 3 | 3 | 13.6 | generation_pipeline | added_mw | add_solar_US | `scan-deep-a222729a0c70` |
+| 24 | 9 | 3 | 3 | 3 | 13.2 | oil_products_world | gas_premium | gasprem_R30 | `scan-deep-1304854e183c` |
+| 25 | 9 | 3 | 3 | 3 | 12.5 | demand | top_days | ercot_ba | `scan-deep-fd75816434cd` |
+| 26 | 9 | 3 | 3 | 3 | 12.4 | oil_products_world | us_liquids_share | us_world_liquids | `scan-deep-3bed96cc151a` |
+| 27 | 9 | 3 | 3 | 3 | 12.2 | other_us | renewable_share | us_renewable_share | `scan-deep-03ee2f7ee6fd` |
+| 28 | 9 | 3 | 3 | 3 | 11.9 | queues_deals_datacenters | hybrid_share | southeast_lbnl_hybrid | `scan-deep-60e6cbd9b000` |
+| 29 | 9 | 3 | 3 | 3 | 11.8 | tariffs_policy | commercial_sales | com_sales_US | `scan-deep-2f409a77aca6` |
+| 30 | 9 | 3 | 3 | 3 | 11.5 | generation_pipeline | gas_share | state_ng_DE | `scan-deep-879dc6e37a47` |
+| 31 | 9 | 3 | 3 | 3 | 11.5 | gas | shale_share | us_shale | `scan-deep-d6e14ebad25b` |
+| 32 | 9 | 3 | 3 | 3 | 11.3 | emissions_climate | power_co2_per_mwh | co2mwh_US | `scan-deep-653a6d6ac682` |
+| 33 | 9 | 3 | 3 | 3 | 11.0 | generation_pipeline | gas_share | state_ng_US | `scan-deep-9c2774360dec` |
+| 34 | 9 | 3 | 3 | 3 | 10.6 | generation_pipeline | wind_share | state_wnd_SD | `scan-deep-169f53d4acf2` |
+| 35 | 9 | 3 | 3 | 3 | 10.6 | emissions_climate | power_co2_per_mwh | co2mwh_IA | `scan-deep-cd77164267f1` |
+| 36 | 9 | 3 | 3 | 3 | 9.8 | cross_family | storage_per_solar | ercot_bat_solar | `scan-deep-f703dda8e911` |
+| 37 | 9 | 3 | 3 | 3 | 9.8 | emissions_climate | power_co2_share | us_power_co2_share | `scan-deep-eccae85c28d5` |
+| 38 | 9 | 3 | 3 | 3 | 9.7 | coal_uranium_metals | uranium_price | us_uranium_price | `scan-deep-0432d100ffa9` |
+| 39 | 9 | 3 | 3 | 3 | 8.4 | generation_pipeline | battery_hours | us_battery_hours | `scan-deep-05c99ca8013f` |
+| 40 | 9 | 3 | 3 | 3 | 8.4 | queues_deals_datacenters | months_by_region | us_lbnl_months | `scan-deep-3a40649cbec1` |
+| 41 | 9 | 3 | 3 | 3 | 8.2 | queues_deals_datacenters | months_by_type | us_type_wind_months | `scan-deep-462f0003f4c4` |
+| 42 | 9 | 3 | 3 | 3 | 8.0 | oil_products_world | net_imports | us_net_imports | `scan-deep-10e0e2c5d386` |
+| 43 | 9 | 3 | 3 | 3 | 7.5 | gas | power_share | us_power_burn | `scan-deep-7c1da7c0bbd9` |
+| 44 | 9 | 3 | 3 | 3 | 7.4 | emissions_climate | power_co2 | us_power_co2 | `scan-deep-13f51f12c4f5` |
+| 45 | 9 | 3 | 3 | 3 | 7.2 | cross_family | storage_per_solar | us_bat_solar | `scan-deep-3ad64568fb85` |
+| 46 | 9 | 3 | 3 | 3 | 7.1 | gas | lng_share | us_lng | `scan-deep-7c7ba78c393d` |
+| 47 | 9 | 3 | 3 | 3 | 6.9 | tariffs_policy | res_price | res_price_HI | `scan-deep-3e07973c5f92` |
+| 48 | 9 | 3 | 3 | 3 | 6.7 | cross_family | storage_per_solar | caiso_bat_solar | `scan-deep-c41ae534ead9` |
+| 49 | 9 | 3 | 3 | 3 | 6.6 | generation_pipeline | nuclear_share | state_nuc_US | `scan-deep-55e4412f65bd` |
+| 50 | 9 | 3 | 3 | 3 | 6.6 | queues_deals_datacenters | months_by_region | pjm_lbnl_months | `scan-deep-b087f09de0f6` |
+| 51 | 9 | 3 | 3 | 3 | 6.0 | oil_products_world | import_share | imp_NI | `scan-deep-fea3cf0e9244` |
+| 52 | 9 | 3 | 3 | 3 | 5.8 | cross_family | battery_per_peak | ercot_bat_peak | `scan-deep-6946a9ef098b` |
+| 53 | 9 | 3 | 3 | 3 | 5.6 | emissions_climate | transport_co2_share | us_transport_co2_share | `scan-deep-2b91680ae020` |
+| 54 | 9 | 3 | 3 | 3 | 5.5 | oil_products_world | gasoline_crack | crack_gasoline | `scan-deep-960efb8eb1e1` |
+| 55 | 9 | 3 | 3 | 3 | 4.8 | cross_family | battery_per_peak | us_bat_peak | `scan-deep-8a517c868c02` |
+| 56 | 9 | 3 | 3 | 3 | 4.4 | demand | mean_day | ercot_ba | `scan-deep-f9e530bab496` |
+| 57 | 9 | 3 | 3 | 3 | 4.2 | queues_deals_datacenters | withdrawn_share | us_lbnl_wd | `scan-deep-72e9a2889ce4` |
+| 58 | 9 | 3 | 3 | 3 | 4.2 | cross_family | battery_per_peak | caiso_bat_peak | `scan-deep-8d4c08a1fc82` |
+| 59 | 9 | 3 | 3 | 3 | 4.1 | prices | europe_gas_premium | us_europe_gas | `scan-deep-f01a569678ac` |
+| 60 | 9 | 3 | 3 | 3 | 4.1 | demand | sub_p99 | pjm_sub_DOM | `scan-deep-19bbb7ecebde` |
+| 61 | 9 | 3 | 3 | 3 | 3.9 | markets_operations | tight_solar | ercot_tight_solar | `scan-deep-5aaddd49168d` |
+| 62 | 9 | 3 | 3 | 3 | 3.8 | queues_deals_datacenters | hybrid_share | us_lbnl_hybrid | `scan-deep-55cf9c67bd30` |
+| 63 | 9 | 3 | 3 | 3 | 3.5 | queues_deals_datacenters | months_by_type | us_type_solar_months | `scan-deep-1e1ec3f4c6cf` |
+| 64 | 9 | 3 | 3 | 3 | 3.2 | demand | sub_mean | ercot_sub_FWES | `scan-deep-5d357242de6d` |
+| 65 | 9 | 3 | 3 | 3 | 3.1 | tariffs_policy | saidi | saidi_NE | `scan-deep-1483006a7d41` |
+| 66 | 9 | 3 | 3 | 3 | 3.1 | demand | sub_mean | pjm_sub_DOM | `scan-deep-99a9fa233018` |
+| 67 | 9 | 3 | 3 | 3 | 3.1 | generation_pipeline | us_nuclear_capacity | us_nuclear_cap | `scan-deep-4fcc17900596` |
+| 68 | 9 | 3 | 3 | 3 | 3.0 | demand | sub_p99 | ercot_sub_FWES | `scan-deep-fa9adfc32032` |
+| 69 | 9 | 3 | 3 | 3 | 2.6 | demand | winter_vs_summer | ba_soco | `scan-deep-bc17ba25950a` |
+| 70 | 9 | 3 | 3 | 3 | 2.6 | markets_operations | tight_solar | pjm_tight_solar | `scan-deep-f19b94d125fd` |
+| 71 | 9 | 3 | 3 | 3 | 2.5 | demand | top_days | us48 | `scan-deep-9c50aad59286` |
+| 72 | 9 | 3 | 3 | 3 | 2.5 | coal_uranium_metals | us_origin_uranium | us_uranium_origin | `scan-deep-377b97f45425` |
+| 73 | 9 | 3 | 3 | 3 | 2.1 | queues_deals_datacenters | withdrawn_share | pjm_lbnl_wd | `scan-deep-93e08e83729d` |
+| 74 | 8 | 2 | 3 | 3 | 74.6 | queues_deals_datacenters | requested_by_type | us_req_battery | `scan-deep-3f1caaff9a19` |
+| 75 | 8 | 2 | 3 | 3 | 24.2 | queues_deals_datacenters | withdrawn_by_type | us_type_solar_wd | `scan-deep-58bdd2d65c59` |
+| 76 | 8 | 2 | 3 | 3 | 22.4 | prices | residential_markup | state_res_CA | `scan-deep-36df813be89c` |
+| 77 | 8 | 2 | 3 | 3 | 21.9 | tariffs_policy | res_over_ind | res_ind_gap_US | `scan-deep-45a2cdbdc53c` |
+| 78 | 8 | 2 | 3 | 3 | 21.8 | queues_deals_datacenters | hosting_revenue | us_rev518 | `scan-deep-14b8c3d3809e` |
+| 79 | 8 | 2 | 3 | 3 | 18.3 | prices | residential_markup | state_res_VT | `scan-deep-434f65fce867` |
+| 80 | 8 | 2 | 3 | 3 | 17.5 | queues_deals_datacenters | request_size | us_type_solar_size | `scan-deep-806f7662cfe8` |
+| 81 | 8 | 2 | 3 | 3 | 16.2 | generation_pipeline | turbine_kw | us_turbine_kw | `scan-deep-ca16b8ec9d96` |
+| 82 | 8 | 2 | 3 | 3 | 15.8 | tariffs_policy | res_over_ind | res_ind_gap_MI | `scan-deep-25c23e4885ff` |
+| 83 | 8 | 2 | 3 | 3 | 15.6 | prices | industrial_vs_citygate | state_ind_CA | `scan-deep-9305cfa9e8d7` |
+| 84 | 8 | 2 | 3 | 3 | 15.2 | prices | industrial_vs_citygate | state_ind_MI | `scan-deep-71847f516518` |
+| 85 | 8 | 2 | 3 | 3 | 13.7 | generation_pipeline | turbine_rotor | us_turbine_rotor | `scan-deep-4dd4f313b2f6` |
+| 86 | 8 | 2 | 3 | 3 | 13.5 | generation_pipeline | res_pv_price | tts_res_CA | `scan-deep-af2dc7748c3c` |
+| 87 | 8 | 2 | 3 | 3 | 13.1 | oil_products_world | us_ngpl_share | us_world_ngpl | `scan-deep-c17e0814cc1d` |
+| 88 | 8 | 2 | 3 | 3 | 12.8 | queues_deals_datacenters | hosting_sites | est518_US | `scan-deep-64e34aef7b05` |
+| 89 | 8 | 2 | 3 | 3 | 12.8 | generation_pipeline | hydro_share | state_hyc_VT | `scan-deep-5498dfb70ce7` |
+| 90 | 8 | 2 | 3 | 3 | 12.6 | gas | flared_share | flare_LA | `scan-deep-4631e32a866a` |
+| 91 | 8 | 2 | 3 | 3 | 12.6 | oil_products_world | pump_over_spot | us_pump_spot | `scan-deep-4ec5d417fc01` |
+| 92 | 8 | 2 | 3 | 3 | 12.3 | generation_pipeline | coal_heat_rate | hr_coal_PA | `scan-deep-92152fa1deb6` |
+| 93 | 8 | 2 | 3 | 3 | 12.1 | generation_pipeline | res_pv_price | tts_res_MA | `scan-deep-1684caf0fa14` |
+| 94 | 8 | 2 | 3 | 3 | 11.6 | oil_products_world | sulfur_content | us_sulfur | `scan-deep-1df42fc6e86d` |
+| 95 | 8 | 2 | 3 | 3 | 10.8 | gas | state_power_share | burn_NH | `scan-deep-998f86c36de8` |
+| 96 | 8 | 3 | 2 | 3 | 10.4 | prices | cheapest_hour | ercot_HB_SOUTH | `scan-deep-2575e2a95070` |
+| 97 | 8 | 2 | 3 | 3 | 10.3 | other_us | dcfast_ports | dcfast_US | `scan-deep-7f8c9d720532` |
+| 98 | 8 | 2 | 3 | 3 | 10.2 | coal_uranium_metals | power_coal_price | us_power_coal | `scan-deep-71a55d721af9` |
+| 99 | 8 | 2 | 3 | 3 | 10.1 | oil_products_world | supplied_gasoline | us_supplied_gasoline | `scan-deep-201f5379da4a` |
+| 100 | 8 | 2 | 3 | 3 | 10.0 | gas | state_power_share | burn_PA | `scan-deep-776d5abbc30d` |
+| 101 | 8 | 2 | 3 | 3 | 9.2 | oil_products_world | refining_capacity | us_refining_capacity | `scan-deep-5166e2ebeea5` |
+| 102 | 8 | 2 | 3 | 3 | 9.1 | generation_pipeline | small_solar_ratio | state_dpv_MA | `scan-deep-bb58cb4d30cb` |
+| 103 | 8 | 3 | 2 | 3 | 8.9 | prices | cheapest_hour | ercot_HB_NORTH | `scan-deep-246cb7930280` |
+| 104 | 8 | 2 | 3 | 3 | 8.8 | tariffs_policy | net_metered | nem_US | `scan-deep-8b410b7a1fb4` |
+| 105 | 8 | 2 | 3 | 3 | 8.1 | other_us | ev_share | ev_US | `scan-deep-ac1de0ab330b` |
+| 106 | 8 | 2 | 3 | 3 | 8.0 | generation_pipeline | small_solar_ratio | state_dpv_US | `scan-deep-270472592e21` |
+| 107 | 8 | 2 | 3 | 3 | 7.9 | other_us | ev_share | ev_CA | `scan-deep-9996493a9202` |
+| 108 | 8 | 2 | 3 | 3 | 7.8 | queues_deals_datacenters | hosting_jobs | jobs518_CA | `scan-deep-4b922e23058f` |
+| 109 | 8 | 2 | 3 | 3 | 7.8 | other_us | dcfast_ports | dcfast_CA | `scan-deep-e38ab51241fa` |
+| 110 | 8 | 2 | 3 | 3 | 7.8 | tariffs_policy | net_metered | nem_CA | `scan-deep-1902482e45f7` |
+| 111 | 8 | 2 | 3 | 3 | 7.7 | gas | flared_share | flare_WY | `scan-deep-cb0428da3115` |
+| 112 | 8 | 2 | 3 | 3 | 7.6 | queues_deals_datacenters | requested_by_type | us_req_solar | `scan-deep-cdf5f79c521a` |
+| 113 | 8 | 2 | 3 | 3 | 7.1 | prices | lcfs_credit_price | us_ca_lcfs | `scan-deep-5f1311606943` |
+| 114 | 8 | 2 | 3 | 3 | 6.8 | queues_deals_datacenters | hosting_sites | est518_CA | `scan-deep-651294f23fc1` |
+| 115 | 8 | 2 | 3 | 3 | 6.7 | other_us | home_electric_spend | home_elec_DC | `scan-deep-699a4ec2bc71` |
+| 116 | 8 | 2 | 3 | 3 | 6.4 | demand | sub_night_share | pjm_sub_BC | `scan-deep-0f5a1fecd0f8` |
+| 117 | 8 | 2 | 3 | 3 | 6.3 | generation_pipeline | hydro_share | state_hyc_ID | `scan-deep-5b3aa3ba26bb` |
+| 118 | 8 | 2 | 3 | 3 | 6.2 | prices | hour_to_hour_move | ercot_HB_HOUSTON | `scan-deep-4af800b86a3a` |
+| 119 | 8 | 2 | 3 | 3 | 6.2 | queues_deals_datacenters | hosting_jobs | jobs518_US | `scan-deep-5ef3c6f444d9` |
+| 120 | 8 | 2 | 3 | 3 | 5.9 | prices | carb_allowance_price | us_ca_allowance | `scan-deep-5671faf8f993` |
+| 121 | 8 | 2 | 3 | 3 | 5.6 | coal_uranium_metals | underground_share | us_underground | `scan-deep-df7d4d19e204` |
+| 122 | 8 | 2 | 3 | 3 | 5.6 | oil_products_world | diesel_premium | us_diesel_premium | `scan-deep-e68a3453e8ec` |
+| 123 | 8 | 2 | 3 | 3 | 5.6 | demand | sub_night_share | pjm_sub_CE | `scan-deep-d52decf44c60` |
+| 124 | 8 | 2 | 3 | 3 | 5.4 | generation_pipeline | coal_heat_rate | hr_coal_US | `scan-deep-86882524bc40` |
+| 125 | 8 | 2 | 3 | 3 | 5.4 | coal_uranium_metals | appalachia_share | app_coal | `scan-deep-8435505023e3` |
+| 126 | 8 | 2 | 3 | 3 | 5.2 | prices | hour_to_hour_move | ercot_HB_SOUTH | `scan-deep-e814d43a8641` |
+| 127 | 8 | 2 | 3 | 3 | 5.1 | oil_products_world | api_gravity | us_api_gravity | `scan-deep-0607c5f8ab90` |
+| 128 | 8 | 2 | 3 | 3 | 5.0 | cross_family | built_per_asked | us_battery_built_asked | `scan-deep-5f1d006e0f13` |
+| 129 | 8 | 3 | 2 | 3 | 5.0 | prices | spread_4h | ercot_HB_WEST | `scan-deep-0ffe99affaf3` |
+| 130 | 8 | 3 | 2 | 3 | 5.0 | generation_pipeline | solar_midday_share | ercot_mix | `scan-deep-aff73c06925b` |
+| 131 | 8 | 2 | 3 | 3 | 4.9 | coal_uranium_metals | wyoming_share | wy_coal | `scan-deep-1073ac2d4c9f` |
+| 132 | 8 | 3 | 2 | 3 | 4.7 | prices | daily_spread | ercot_HB_WEST | `scan-deep-a2e22707d072` |
+| 133 | 8 | 3 | 2 | 3 | 4.5 | prices | midday_discount | ercot_LZ_WEST | `scan-deep-ec2251cf2ae7` |
+| 134 | 8 | 2 | 3 | 3 | 4.2 | oil_products_world | jet_crack | crack_jet | `scan-deep-bb200e252fa1` |
+| 135 | 8 | 2 | 3 | 3 | 4.2 | queues_deals_datacenters | request_size | us_type_wind_size | `scan-deep-b02935a8e929` |
+| 136 | 8 | 2 | 3 | 3 | 4.1 | queues_deals_datacenters | request_size | us_type_battery_size | `scan-deep-6ca546fc88a0` |
+| 137 | 8 | 3 | 2 | 3 | 4.0 | prices | daily_spread | ercot_HB_SOUTH | `scan-deep-de3c20a9ed97` |
+| 138 | 8 | 2 | 3 | 3 | 3.9 | tariffs_policy | ami_share | ami_IL | `scan-deep-5d99205b850f` |
+| 139 | 8 | 2 | 3 | 3 | 3.7 | tariffs_policy | ami_share | ami_US | `scan-deep-bd4ddaf8e303` |
+| 140 | 8 | 2 | 3 | 3 | 3.5 | prices | power_vs_citygate | state_pow_NE | `scan-deep-8686ad3a7888` |
+| 141 | 8 | 3 | 2 | 3 | 3.5 | prices | spread_4h | ercot_HB_HUBAVG | `scan-deep-e6952da61753` |
+| 142 | 8 | 2 | 3 | 3 | 3.5 | prices | japan_lng_premium | us_japan_lng | `scan-deep-d6e2173a680c` |
+| 143 | 8 | 2 | 3 | 3 | 3.5 | cross_family | built_per_asked | us_solar_built_asked | `scan-deep-a1b3df8569b3` |
+| 144 | 8 | 2 | 3 | 3 | 3.3 | coal_uranium_metals | tons_per_employee | us_tons_employee | `scan-deep-e2d04b7011cc` |
+| 145 | 8 | 2 | 3 | 3 | 3.2 | prices | power_vs_citygate | state_pow_WV | `scan-deep-3e515c514c2d` |
+| 146 | 8 | 2 | 3 | 3 | 3.2 | queues_deals_datacenters | requested_by_type | us_req_gas | `scan-deep-58c11e815e84` |
+| 147 | 8 | 2 | 3 | 3 | 3.2 | prices | brent_wti_spread | us_brent_wti | `scan-deep-602c1f95afe4` |
+| 148 | 8 | 3 | 2 | 3 | 2.9 | generation_pipeline | solar_midday_share | caiso_mix | `scan-deep-42891ac362d0` |
+| 149 | 8 | 2 | 3 | 3 | 2.8 | other_us | home_electric_spend | home_elec_US | `scan-deep-da4f4bfadd76` |
+| 150 | 8 | 2 | 3 | 3 | 2.7 | prices | da_above_rt_share | ercot_LZ_WEST | `scan-deep-fd76c0c06802` |
+| 151 | 8 | 2 | 3 | 3 | 2.5 | oil_products_world | propane_to_crude | us_propane_crude | `scan-deep-479fe9a50745` |
+| 152 | 8 | 3 | 2 | 3 | 2.5 | prices | midday_discount | ercot_LZ_SOUTH | `scan-deep-3da968045e4d` |
+| 153 | 8 | 2 | 3 | 3 | 2.3 | markets_operations | wind_solar_cf | ercot_wind_solar_cf | `scan-deep-691859bc9a8b` |
+| 154 | 8 | 2 | 3 | 3 | 2.0 | markets_operations | calm_hours | ercot_calm_hours | `scan-deep-6b52a987779b` |
+| 155 | 8 | 3 | 3 | 2 | 1.9 | oil_products_world | gas_premium | gasprem_SCA | `scan-deep-e4ec068bcbd3` |
+| 156 | 8 | 3 | 3 | 2 | 1.7 | tariffs_policy | saidi | saidi_MO | `scan-deep-4d2d647be64d` |
+| 157 | 8 | 3 | 3 | 2 | 1.6 | demand | winter_vs_summer | ba_tva | `scan-deep-9e2c143415fc` |
+| 158 | 8 | 3 | 3 | 2 | 1.6 | demand | mean_day | us48 | `scan-deep-ae89247e0230` |
+| 159 | 8 | 3 | 3 | 2 | 1.3 | queues_deals_datacenters | months_by_type | us_type_battery_months | `scan-deep-5cae45311577` |
+| 160 | 8 | 3 | 3 | 2 | 1.3 | coal_uranium_metals | us_enrichment_share | us_enrich_origin | `scan-deep-20b1b2a70f28` |
+| 161 | 8 | 3 | 3 | 2 | 1.3 | markets_operations | tight_wind | ercot_tight_wind | `scan-deep-7056679e00ea` |
+| 162 | 7 | 3 | 1 | 3 | 14.6 | generation_pipeline | battery_fleet_mw | us_fleet_battery_operating_mw | `scan-deep-cace35476103` |
+| 163 | 7 | 1 | 3 | 3 | 11.2 | queues_deals_datacenters | hosting_pay | pay518_US | `scan-deep-1f413dfcbd8e` |
+| 164 | 7 | 3 | 1 | 3 | 9.2 | generation_pipeline | battery_fleet_mw | caiso_fleet_battery_operating_mw | `scan-deep-42c7b168c0a1` |
+| 165 | 7 | 1 | 3 | 3 | 7.4 | queues_deals_datacenters | hosting_pay | pay518_NY | `scan-deep-5617da2c6d05` |
+| 166 | 7 | 2 | 2 | 3 | 5.1 | prices | wide_spread_days | ercot_LZ_WEST | `scan-deep-7f9685056a5a` |
+| 167 | 7 | 1 | 3 | 3 | 4.7 | generation_pipeline | reactor_outage_days | nuc_6152_2 | `scan-deep-74d24dc0ef94` |
+| 168 | 7 | 2 | 2 | 3 | 3.5 | prices | wide_spread_days | ercot_LZ_NORTH | `scan-deep-e9841ce1dca1` |
+| 169 | 7 | 2 | 3 | 2 | 1.8 | prices | henry_hub_volatility | us_henry_hub | `scan-deep-0226feeb5cde` |
+| 170 | 7 | 2 | 3 | 2 | 1.7 | markets_operations | calm_hours | pjm_calm_hours | `scan-deep-b03457614699` |
+| 171 | 7 | 2 | 3 | 2 | 1.7 | markets_operations | calm_hours | caiso_calm_hours | `scan-deep-140097c6934a` |
+| 172 | 7 | 3 | 2 | 2 | 1.7 | generation_pipeline | gas_evening_share | caiso_mix | `scan-deep-6deaba8ca881` |
+| 173 | 7 | 3 | 2 | 2 | 1.7 | prices | midday_minus_night | ercot_LZ_WEST | `scan-deep-fafffdc2c9f0` |
+| 174 | 7 | 2 | 3 | 2 | 1.6 | prices | winter_top_share | ercot_LZ_WEST | `scan-deep-6f0131013626` |
+| 175 | 7 | 3 | 2 | 2 | 1.6 | prices | evening_premium | ercot_LZ_HOUSTON | `scan-deep-83ca4deea096` |
+| 176 | 7 | 2 | 3 | 2 | 1.5 | emissions_climate | conus_temperature | conus_temp | `scan-deep-0cc95d0b9b3b` |
+| 177 | 7 | 3 | 2 | 2 | 1.5 | prices | evening_premium | ercot_HB_SOUTH | `scan-deep-0ff3c59ac283` |
+| 178 | 7 | 2 | 3 | 2 | 1.4 | gas | storage_outside | stor_salt | `scan-deep-d319970c5c19` |
+| 179 | 7 | 2 | 3 | 2 | 1.3 | prices | da_above_rt_share | ercot_LZ_SOUTH | `scan-deep-8144236bc4fd` |
+| 180 | 7 | 2 | 3 | 2 | 1.2 | prices | winter_top_share | ercot_LZ_NORTH | `scan-deep-7bfd2eb8c1b9` |
+| 181 | 6 | 2 | 1 | 3 | 6.8 | generation_pipeline | fleet_hours | ercot_fleet_battery_operating_mwh_per_mw | `scan-deep-b65761b2cde3` |
+| 182 | 6 | 2 | 1 | 3 | 6.2 | generation_pipeline | fleet_hours | us_fleet_battery_operating_mwh_per_mw | `scan-deep-2d084fa894ec` |
+| 183 | 6 | 2 | 2 | 2 | 1.6 | prices | top_days_share | ercot_HB_HOUSTON | `scan-deep-992ff5bf34d9` |
+| 184 | 6 | 1 | 3 | 2 | 1.3 | generation_pipeline | reactor_outage_days | nuc_6038_1 | `scan-deep-a76fd4282570` |
+| 185 | 6 | 2 | 2 | 2 | 1.2 | prices | top_days_share | ercot_HB_SOUTH | `scan-deep-7dfd2bf8b8c6` |

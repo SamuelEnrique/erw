@@ -1,0 +1,36 @@
+# Session 3762 (chain 211): read from the CAISO's Large Loads Considerations Straw Proposal of 11 August 2026 (its response to
+# FERC's Order to Show Cause in EL26-71), as the CAISO publishes it on its stakeholder center (no robots file there), the
+# research file of 6 November 2026's operator table row 9 being the lead; saved under runs/license_reads/s3762/ (not in
+# git). A PROPOSAL: the CAISO does not study load interconnections today (the PTOs' tariffs govern), and the straw
+# proposal's schedule went to the Board of Governors on 28 October 2026; the Board's decision and the FERC compliance
+# filing were not read.
+body: California Independent System Operator (CAISO)
+grid: CAISO
+utility: ""
+eia_id: ""
+state: CA
+document: CAISO, Large Loads Considerations, Straw Proposal, 11 August 2026 (a proposal; FERC Docket EL26-71)
+document_date: 2026-08-11
+document_url: https://stakeholdercenter.caiso.com/InitiativeDocuments/Large-loads-Straw-Proposal-Aug-11-2026.pdf
+retrieved_at: 2026-11-12T11:21:35Z
+license: public
+steps:
+  - section: "Proposal, definition of Large Load"
+    page: 9
+    step: a large load is defined for the CAISO tariff (proposed)
+    party: CAISO
+    mw: 50
+    printed: "The CAISO proposes that a potential definition could be: \"An End User located at a single site interconnecting to the CAISO Controlled Grid, and that has a peak load of 50 MW or greater.\""
+  - section: "Proposal, study procedures"
+    page: 11
+    step: the PTOs complete the large load interconnection study (proposed; the CAISO's expectation of the PTOs)
+    party: PTOs
+    duration: 90
+    unit: days
+    printed: "the CAISO expects the PTOs to develop consistent study procedures to be completed within 60 to 90 days"
+  - section: "Schedule"
+    page: 40
+    step: the CAISO seeks the Board of Governors' approval
+    party: CAISO
+    date: 2026-10-28
+    printed: "CAISO Board of Governors October 28, 2026"

@@ -1,0 +1,29 @@
+# Session 3783 (chain 212): read from the enrolled copy of Utah's S.B. 132 of the 2025 General Session (new Utah Code Title
+# 54 Chapter 26, Large-Scale Electric Service Requirements), as the Utah Legislature publishes it (le.utah.gov, robots
+# allowing /~2025/bills/, crawl delay kept), the research file of 6 November 2026's Set C row on PacifiCorp / Rocky
+# Mountain Power being the lead; saved under runs/license_reads/s3783/ (not in git). STATUS FRAMEWORK, as chain 211 wrote
+# Alabama's Act 2026-610: a statute under which a qualified electric utility's large load contracts are negotiated case by
+# case and approved by the Public Service Commission; it prints the threshold and the matters a contract covers, and no
+# rate. Written against PacifiCorp (Rocky Mountain Power), the utility the research file names; the statute names none.
+# Its steps and clocks are in the rules registry (large_load_connection_rules/utah_sb132_large_scale_electric_service.yaml).
+# Rocky Mountain Power's large load flexible tariff (54-26-701) and the PSC's rule R746-318 were not read.
+utility: PacifiCorp
+eia_id: 14354
+state: UT
+grid: PACE
+sector: large-scale service requests (100 MW or more within five years)
+status: framework
+schedule: Large load contracts under Utah Code Title 54 Chapter 26 (S.B. 132 of 2025)
+tariff_sheet: no tariff sheet; S.B. 132 (2025 General Session, enrolled)
+effective: 2025-05-07
+commission: Public Service Commission of Utah (contract approval under 54-26-302)
+docket: S.B. 132, 2025 General Session (Utah Legislature)
+document: Utah S.B. 132, Electric Utility Amendments, 2025 General Session, enrolled copy
+document_url: https://le.utah.gov/~2025/bills/sbillenr/SB0132.pdf
+retrieved_at: 2026-11-12T13:27:59Z
+license: public
+notes: "A statute, not a tariff: a qualified electric utility and a large load customer negotiate a large load contract case by case (54-26-301(7)(b)), and the commission approves it within 60 days of the application (54-26-302(4)), its review limited to the requirements of 54-26-302(2), among them that existing ratepayers do not bear costs justly and reasonably attributable to providing electric service for the large load customer. Service under the chapter is for contracts providing service to commence on or before December 31, 2034 (54-26-801). No rate, term or collateral figure is printed."
+terms:
+  term: {text: "negotiate the terms of a large load contract with a large load customer on a case-by-case basis", page: 10}
+figures:
+  - {variable: min_demand_mw, value: 100, printed: "new electric service that is expected to reach a cumulative demand of 100 megawatts or greater within five years of the requested initial start date", page: 5}

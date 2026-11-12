@@ -1,0 +1,27 @@
+# Session 3761 (chain 211): read from the enrolled bill as the Alabama Legislature publishes it (SB 270 of the 2026 regular
+# session, Act 2026-610, new Code of Alabama Section 37-4-22.1), the research file of 6 November 2026's Set C row 7 being the
+# lead; saved under runs/license_reads/s3761/ (not in git). STATUS FRAMEWORK: a statute under which a utility's large-load
+# data center contracts are reviewed by the Alabama PSC; it prints the threshold and the matters a contract covers (minimum
+# term, upfront payments, security and collateral, minimum payment), no figure for any of them. Written against Alabama
+# Power, the utility the research file names; the Act applies to any utility the PSC regulates. The PSC's contract review
+# procedures adopted in October 2026 were not read.
+utility: Alabama Power Company
+eia_id: 195
+state: AL
+grid: SOCO
+sector: large load data center customers (150 MW or more)
+status: framework
+schedule: Large load data center customer contracts under Act 2026-610 (Code of Alabama 37-4-22.1)
+tariff_sheet: no tariff sheet; Act 2026-610 (SB 270, enrolled)
+effective: 2026-10-01
+commission: Alabama Public Service Commission (contract review under the Act)
+docket: Act 2026-610 (Alabama Legislature, 2026 regular session, SB 270)
+document: Act 2026-610, SB 270 of the 2026 regular session, enrolled, as published by the Alabama Legislature
+document_url: https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2026RS/SB270-enr.pdf
+retrieved_at: 2026-11-12T11:14:14Z
+license: public
+notes: "A statute, not a tariff: a contract between a utility and a large load data center customer covers matters such as minimum term for contract length, upfront payments, security and collateral, and minimum payment, and the PSC reviews whether its pricing and terms are expected to cover the incremental costs of service. No figure for any term is printed."
+terms:
+  term: {text: "matters such as minimum term for contract length, upfront payments, security and collateral, and minimum payment", page: 3}
+figures:
+  - {variable: min_demand_mw, value: 150, printed: "an expected total peak demand of 150 megawatts or greater at one or more contiguous parcels of land", page: 2}

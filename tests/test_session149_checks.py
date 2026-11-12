@@ -38,7 +38,8 @@ class TheCatalogue(unittest.TestCase):
 
 class TheDeals(unittest.TestCase):
     def test_the_tag_is_read_whatever_its_case_on_the_page_and_in_the_check(self):
-        self.assertIn('String(x.ai_power ?? "").toLowerCase() === "true"', src("site", "app", "deals", "page.tsx"))
+        # session 2242: the page's rows are mapped by site/lib/dealsview.ts rowOf (session 2238), the same line
+        self.assertIn('String(x.ai_power ?? "").toLowerCase() === "true"', src("site", "lib", "dealsview.ts"))
         check = src("site", "scripts", "check-values.mjs")
         self.assertIn('m.filter((r) => String(r.ai ?? "").toLowerCase() === "true")', check)
         self.assertNotIn('r.ai === "true"', check)

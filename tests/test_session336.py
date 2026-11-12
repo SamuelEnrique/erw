@@ -128,10 +128,13 @@ class TheDemandWindow(unittest.TestCase):
         E.build_table(rows, "ciso", start, end, lambda m: None, "eia930_ciso_demand", "t", "r", 3, write=False)
 
     def test_the_clock_window_on_the_same_rows_fails_as_the_runner_did(self):
+        # session 3757 (chain 211): every BA's demand is checked per UTC day (PER_DAY), so the clock's window no longer
+        # fails the table whole: its unpublished last hour makes 19 October a gap row and the two whole days are written
         rows = demand_rows("CISO", "2026-10-16T00:00:00Z", 96, missing_last=1)
-        with self.assertRaisesRegex(RuntimeError, "71 of 72 hours"):
-            E.build_table(rows, "ciso", self.CLOCK - pd.Timedelta(days=3), self.CLOCK, lambda m: None,
-                          "eia930_ciso_demand", "t", "r", 3, write=False)
+        dropped, gaps = E.build_table(rows, "ciso", self.CLOCK - pd.Timedelta(days=3), self.CLOCK, lambda m: None,
+                                      "eia930_ciso_demand", "t", "r", 3, write=False)
+        self.assertEqual([d for d, _ in gaps], ["2026-10-19"])
+        self.assertIn("23 of 24 hours", gaps[0][1])
 
     def test_a_published_last_hour_keeps_the_clocks_midnight(self):
         rows = demand_rows("CISO", "2026-10-16T00:00:00Z", 96)
@@ -141,9 +144,15 @@ class TheDemandWindow(unittest.TestCase):
         rows = demand_rows("CISO", "2026-10-15T00:00:00Z", 96, missing_last=30)  # EIA a day and six hours behind
         end = E.demand_window_end(rows, self.CLOCK, lambda m: None, "x")
         self.assertEqual(end, pd.Timestamp("2026-10-19T00:00:00Z"))
+        # session 3757: per day, the lag's two short days are gap rows (one partly published, one absent) and the
+        # whole day before them is written; a window with no whole day at all still fails
+        dropped, gaps = E.build_table(rows, "ciso", end - pd.Timedelta(days=3), end, lambda m: None, "eia930_ciso_demand", "t",
+                                      "r", 3, write=False)
+        self.assertEqual([d for d, _ in gaps], ["2026-10-17", "2026-10-18"])
+        self.assertIn("absent for the day", gaps[1][1])
         with self.assertRaisesRegex(RuntimeError, "incomplete data"):
-            E.build_table(rows, "ciso", end - pd.Timedelta(days=3), end, lambda m: None, "eia930_ciso_demand", "t",
-                          "r", 3, write=False)
+            E.build_table(rows, "ciso", end - pd.Timedelta(days=2), end, lambda m: None, "eia930_ciso_demand", "t",
+                          "r", 2, write=False)
 
 
 def eia_json(rows):

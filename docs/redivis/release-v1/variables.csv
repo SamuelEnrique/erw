@@ -80,6 +80,43 @@ asub_aland_electricity_annual,imports,series variable,MWh
 asub_aland_electricity_annual,supply,series variable,MWh
 asub_aland_electricity_sales_annual,exports,series variable,MWh
 asub_aland_electricity_sales_annual,sales,series variable,MWh
+attention_index_weekly,attention_index,series variable,pct
+attention_index_weekly,stories,series variable,count
+attention_index_weekly,stories_classified,series variable,count
+attention_index_weekly,stories_judged,series variable,count
+attention_index_weekly,stories_unsent_zero,series variable,count
+attention_index_weekly,stories_week,series variable,count
+attention_index_weekly,tone_mean,series variable,ratio
+attention_story_links,event_id,column,
+attention_story_links,event_date,column,
+attention_story_links,event_type,column,
+attention_story_links,parties,column,
+attention_story_links,entity_ids,column,
+attention_story_links,mw,column,
+attention_story_links,price,column,
+attention_story_links,currency,column,
+attention_story_links,status,column,
+attention_story_links,source,column,
+attention_story_links,source_url,column,
+attention_story_links,story_event_id,column,
+attention_story_links,week,column,
+attention_story_links,sector,column,
+attention_story_links,us,column,
+attention_story_links,state,column,
+attention_story_links,geo,column,
+attention_story_links,place,column,
+attention_story_links,place_kind,column,
+attention_story_links,opposition,column,
+attention_story_links,kind,column,
+attention_story_links,tone,column,
+attention_story_links,headline,column,
+attention_story_links,scorer_sector,column,
+attention_story_links,significance,column,
+attention_story_links,model_id,column,
+attention_story_links,prompt_version,column,
+attention_story_links,classified_at,column,
+attention_story_links,fixed,column,
+attention_story_links,retrieved_at,column,
 ba_supply_monthly,balance_all_days_mwh,series variable,MWh
 ba_supply_monthly,balance_days,series variable,count
 ba_supply_monthly,days_held,series variable,count
@@ -746,6 +783,33 @@ cso_ireland_electricity_monthly,net_electricity_output,series variable,MWh
 czso_cz_regional_electricity_annual,gross_production,series variable,MWh
 czso_cz_regional_electricity_annual,installed_capacity,series variable,MW
 czso_cz_regional_electricity_annual,net_consumption,series variable,MWh
+deal_counterparties,entity_id,column,
+deal_counterparties,entity_type,column,
+deal_counterparties,name,column,
+deal_counterparties,geo,column,
+deal_counterparties,lat,column,
+deal_counterparties,lon,column,
+deal_counterparties,capacity_mw,column,
+deal_counterparties,status,column,
+deal_counterparties,status_date,column,
+deal_counterparties,operator,column,
+deal_counterparties,source,column,
+deal_counterparties,source_url,column,
+deal_counterparties,retrieved_at,column,
+deal_counterparties,vintage,column,
+deal_counterparties,kind,column,
+deal_counterparties,parent,column,
+deal_counterparties,eia861_utility_number,column,
+deal_counterparties,spellings,column,
+deal_counterparties,deals,column,
+deal_counterparties,as_buyer,column,
+deal_counterparties,as_seller,column,
+deal_counterparties,mw_stated,column,
+deal_counterparties,deals_with_mw,column,
+deal_counterparties,ai_power_deals,column,
+deal_counterparties,first_deal,column,
+deal_counterparties,last_deal,column,
+deal_counterparties,event_ids,column,
 desnz_gb_regional_consumption_annual,consumption,series variable,MWh
 desnz_gb_regional_consumption_annual,meters,series variable,count
 desnz_gb_regional_gas_consumption_annual,consumption,series variable,MWh
@@ -5145,6 +5209,21 @@ fema_disaster_declarations,x_region,column,
 fema_disaster_declarations,x_tribal,column,
 fema_disaster_declarations,retrieved_at,column,
 fema_disaster_declarations,vintage,column,
+ferc714_forecast_growth,net_energy_revision_1y_mwh,series variable,MWh
+ferc714_forecast_growth,net_energy_revision_1y_pct,series variable,pct
+ferc714_forecast_growth,net_energy_revision_2y_mwh,series variable,MWh
+ferc714_forecast_growth,net_energy_revision_2y_pct,series variable,pct
+ferc714_forecast_growth,summer_peak_revision_1y_mw,series variable,MW
+ferc714_forecast_growth,summer_peak_revision_1y_pct,series variable,pct
+ferc714_forecast_growth,summer_peak_revision_2y_mw,series variable,MW
+ferc714_forecast_growth,summer_peak_revision_2y_pct,series variable,pct
+ferc714_forecast_growth,winter_peak_revision_1y_mw,series variable,MW
+ferc714_forecast_growth,winter_peak_revision_1y_pct,series variable,pct
+ferc714_forecast_growth,winter_peak_revision_2y_mw,series variable,MW
+ferc714_forecast_growth,winter_peak_revision_2y_pct,series variable,pct
+ferc714_planning_area_forecasts,net_energy_forecast_mwh,series variable,MWh
+ferc714_planning_area_forecasts,summer_peak_forecast_mw,series variable,MW
+ferc714_planning_area_forecasts,winter_peak_forecast_mw,series variable,MW
 fhwa_motor_fuel_monthly,gasoline_volume,series variable,gal
 fhwa_motor_fuel_monthly,special_fuel_volume,series variable,gal
 flex_alert_effects,actual_mw,series variable,MW
@@ -5774,6 +5853,15 @@ flex_alert_model,variant_minimal_pooled_reduction_mw_lo,series variable,MW
 frb_treasury_yields,yield,series variable,pct
 frb_utility_output_monthly,production,series variable,index
 frb_utility_output_monthly,utilization,series variable,pct
+friction_index_weekly,friction_index,series variable,pct
+friction_index_weekly,kind_lawsuit,series variable,count
+friction_index_weekly,kind_moratorium,series variable,count
+friction_index_weekly,kind_other_opposition,series variable,count
+friction_index_weekly,kind_permit_denied,series variable,count
+friction_index_weekly,kind_political_opposition,series variable,count
+friction_index_weekly,kind_protest,series variable,count
+friction_index_weekly,kind_rate_case,series variable,count
+friction_index_weekly,opposition_stories,series variable,count
 gas_balance_weekly,consumption,series variable,MMcf
 gas_balance_weekly,dry_production,series variable,MMcf
 gas_balance_weekly,exports,series variable,MMcf
@@ -6346,6 +6434,11 @@ iso_queue_snapshot_summary,unknown_count,series variable,count
 iso_queue_snapshot_summary,unknown_mw,series variable,MW
 iso_queue_snapshot_summary,withdrawn_count,series variable,count
 iso_queue_snapshot_summary,withdrawn_mw,series variable,MW
+iso_reserve_margin_reports,capacity_surplus_mw,series variable,MW
+iso_reserve_margin_reports,peak_forecast_mw,series variable,MW
+iso_reserve_margin_reports,prm_achieved_pct,series variable,pct
+iso_reserve_margin_reports,prm_required_pct,series variable,pct
+iso_reserve_margin_reports,ra_prm_load_weighted_pct,series variable,pct
 known_data_faults,event_id,column,
 known_data_faults,event_date,column,
 known_data_faults,event_type,column,
@@ -8942,8 +9035,15 @@ uswtdb_wind_turbines,usgs_project_id,column,
 utility_large_load_tariffs,collateral_months,series variable,month
 utility_large_load_tariffs,demand_charge,series variable,USD/kW-month
 utility_large_load_tariffs,demand_charge_distribution,series variable,USD/kW-month
+utility_large_load_tariffs,demand_charge_summer,series variable,USD/kW-month
 utility_large_load_tariffs,demand_charge_transmission,series variable,USD/kW-month
+utility_large_load_tariffs,demand_charge_winter,series variable,USD/kW-month
+utility_large_load_tariffs,energy_charge,series variable,USD/MWh
+utility_large_load_tariffs,energy_charge_summer,series variable,USD/MWh
+utility_large_load_tariffs,energy_charge_winter,series variable,USD/MWh
 utility_large_load_tariffs,fixed_charge,series variable,USD
+utility_large_load_tariffs,grid_charge_substation,series variable,USD/kW-month
+utility_large_load_tariffs,grid_charge_transmission,series variable,USD/kW-month
 utility_large_load_tariffs,min_bill_pct,series variable,pct
 utility_large_load_tariffs,min_contract_years,series variable,year
 utility_large_load_tariffs,min_demand_mw,series variable,MW

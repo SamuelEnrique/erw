@@ -480,8 +480,12 @@ def whole_day_failures(rows):
 # Session 2864: how old a scheduled job's last success may be before the summary's first line names it: the daily run's
 # commit on main ("Daily prices <day>: ..."), the Roundup's ("Energy Roundup <week>"), in days; the hourly network
 # commits nothing, so its last ok row of erw_health. (workflow, where it is read, the commit's first words, days allowed)
+# Session 3754 (chain 211): the 15-minute latest prices (it commits nothing either: its last ok row, within 1 hour) and
+# the health summary's own commit on main ("Health summary <day>", within 1 day). From 7 to 11 November 2026 every
+# summary was refused at the push guard and sat on wip/red-health-*, and no line said that the summary itself was stale.
 STALE_RULES = (("daily prices", "commit", "Daily prices ", 1.0), ("energy roundup", "commit", "Energy Roundup ", 8.0),
-               ("hourly network", "health", None, 3 / 24))
+               ("hourly network", "health", None, 3 / 24), ("latest prices", "health", None, 1 / 24),
+               ("health summary", "commit", "Health summary ", 1.0))
 STALE_LOOKBACK_DAYS = 30
 REPO = "SamuelEnrique/erw"
 
@@ -550,10 +554,12 @@ def stale_line(stale):
         return f"**Stale on main:** not read ({stale})."
     if not stale:
         return ("**Stale on main:** none (the daily run's commit within 1 day, the Roundup's within 8 days, the hourly "
-                "network's last ok step within 3 hours).")
+                "network's last ok step within 3 hours, the latest prices' within 1 hour, the health summary's commit "
+                "within 1 day).")
 
     def one(wf, what, at, age, allowed):
-        lim = f"{allowed:g} day{'s' if allowed != 1 else ''}" if allowed >= 1 else f"{allowed * 24:g} hours"
+        hours = round(allowed * 24, 6)
+        lim = f"{allowed:g} day{'s' if allowed != 1 else ''}" if allowed >= 1 else f"{hours:g} hour{'s' if hours != 1 else ''}"
         if at is None:
             return f"{wf}, none in {STALE_LOOKBACK_DAYS} days ({what}; allowed {lim})"
         # session 2884: a job allowed hours, not days, is said in hours ("0.2 days" read as nothing on 6 November)
@@ -612,7 +618,29 @@ def render(day, rows, stale=None):
     if sk:
         lines += ["", "## Skips, by reason", ""]
         lines += [f"- {w}, {s}: {n} x {why}" for (w, s, why), n in sorted(sk.items(), key=lambda kv: -kv[1])]
+    lines += emails_sent(rows)
     return "\n".join(lines) + "\n"
+
+
+EMAIL_KINDS = ("ready", "daily red")   # scripts/alert.py deliver(): the only kinds it sends (the email rule, session 243)
+
+
+def emails_sent(rows):
+    """Session 3717: the day's emails, from the alerts' memory (rows of workflow "alerts" whose step is a kind
+    deliver() sends: one row a sent email), and the memory's other rows, recorded and not emailed (the morning summary,
+    the failures a daily red named). So the one-email rule can be checked from this file alone: until then the table
+    above counted the memory's rows without their kinds, and a reader had to ask erw_health which were emails."""
+    mem = [r for r in rows if r.get("workflow") == MEMORY]
+    sent = [r for r in mem if r.get("step") in EMAIL_KINDS]
+    other = {}
+    for r in mem:
+        if r.get("step") not in EMAIL_KINDS:
+            other[r.get("step")] = other.get(r.get("step"), 0) + 1
+    out = ["", "## Emails the chain watch sent", ""]
+    out += [f"- {str(r['at'])[11:16]} UTC, {r['step']}: {r.get('reason') or ''}" for r in sent] or ["- none"]
+    if other:
+        out += ["", "Recorded, not emailed: " + "; ".join(f"{k} {n}" for k, n in sorted(other.items())) + "."]
+    return out
 
 
 ROOT_CAUSES = "## Root causes"  # session 377: a person's or a session's section of a day's file, kept when it is rewritten

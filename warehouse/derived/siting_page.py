@@ -52,6 +52,10 @@ Files:
                   (ISORTO); and from carbon_intensity_hourly (public), intensity_demand in kg CO2 per MWh, each priced
                   grid's hours of the years its price window covers, in the grid's standard time (as the price files),
                   {"s": the first hour held, "v": the values}, to one decimal; an hour not held is null.
+    tariffs.json  (session 3764) from utility_large_load_tariffs (public, row-level holds): each utility's filed
+                  large-load schedules with every figure, its page and words, the filing and the status; "held" lists
+                  the EIA ids of schedules held for a license (ruling 4 of 6 November 2026).
+    conn_rules.json (session 3764) from large_load_connection_rules (public): by grid, each step a document states.
     utility.json  (session 708) from eia861_utility_sales (public): for each state and balancing authority the tab needs,
                   the utility with the most industrial sales in the newest year, among the rows of EIA's service types
                   Bundled and Energy (Delivery rows are wires charges), with its industrial sales and revenue that year
@@ -617,6 +621,55 @@ def signed_by_grid(spath):
     return {"table": SIGNED_TABLE, "queue_end": at[:10], "grids": grids}
 
 
+RESERVE_REPORTS_TABLE = "iso_reserve_margin_reports"
+
+
+def reserve_reports_by_grid(path):
+    """Session 3802 (chain 215): each grid's reserve margin as its operator's own assessment prints it, from
+    iso_reserve_margin_reports (the registry of session 3798): the newest document of each grid, its figures as printed
+    (achieved and required planning reserve margin, surplus, the peak planned for), with its period and pages. ERCOT's
+    stays its CDR (headroom.json's `reserve`); a grid the table does not hold is left out."""
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str, keep_default_na=False)
+    grids = {}
+    for g, x in d.groupby(d["x_grid"].str.lower()):
+        x = x[x["ts_utc"] == x["ts_utc"].max()]
+        v = {r.variable: float(r.value) for r in x.itertuples()}
+        pages = {r.variable: r.x_page for r in x.itertuples()}
+        first = x.iloc[0]
+        grids[g] = {"document": first["x_document"], "period": first["x_period"], "source_url": first["source_url"],
+                    "figures": {k: v[k] for k in sorted(v)}, "pages": {k: pages[k] for k in sorted(pages)}}
+    return {"table": RESERVE_REPORTS_TABLE, "grids": grids}
+
+
+FORECAST_TABLE = "ferc714_forecast_growth"
+# session 3785 (chain 212): the seven ISO planning areas whose FERC-714 respondent is the ISO itself, as the table's method
+# note maps them (docs/methods/ferc714_forecast_growth.md, "Cross-check", session 3759)
+FORECAST_RESPONDENTS = {"caiso": "ferc714:24", "ercot": "ferc714:58", "isone": "ferc714:76", "nyiso": "ferc714:100",
+                        "pjm": "ferc714:119", "spp": "ferc714:146", "miso": "ferc714:203"}
+FORECAST_AHEAD = 5   # the forecast year drawn: five years after the newest filing's report year (2030 for the 2025 filing)
+
+
+def forecast_by_grid(fpath):
+    """Session 3785 (chain 212): each tab grid's revision of its own forecast summer peak, from ferc714_forecast_growth:
+    the newest filing's figure for the year FORECAST_AHEAD years after its report year, less the figure for the same year
+    in the filing one year before (summer_peak_revision_1y_mw), and that change in percent where the table writes one
+    (the table writes the percent only where the earlier figure is above zero). A grid whose respondent has no such row is left out."""
+    f = pd.read_csv(fpath, skiprows=header_rows(fpath), dtype=str, usecols=["entity", "variable", "ts_utc", "value", "x_report_year"])
+    f = f[f["variable"].isin(["summer_peak_revision_1y_mw", "summer_peak_revision_1y_pct"]) & f["entity"].isin(FORECAST_RESPONDENTS.values())]
+    report = int(f["x_report_year"].astype(int).max())
+    year = report + FORECAST_AHEAD
+    f = f[(f["x_report_year"].astype(int) == report) & (f["ts_utc"].str[:4] == str(year))]
+    grids = {}
+    for g, ent in FORECAST_RESPONDENTS.items():
+        v = {r.variable: float(r.value) for r in f[f["entity"] == ent].itertuples()}
+        if "summer_peak_revision_1y_mw" not in v:
+            continue
+        pct = v.get("summer_peak_revision_1y_pct")
+        grids[g] = {"respondent": ent, "summer_mw": round(v["summer_peak_revision_1y_mw"], 1),
+                    "summer_pct": None if pct is None else round(pct, 2)}
+    return {"table": FORECAST_TABLE, "report_year": report, "prior_report_year": report - 1, "year": year, "grids": grids}
+
+
 QUEUE_TABLE = "iso_queue_snapshot_summary"
 # session 2958: the grids whose queue tables are held whole for a license (release v1, 21 October 2026)
 QUEUE_HELD = ("isone", "miso", "nyiso")
@@ -714,27 +767,63 @@ TARIFF_TABLE = "utility_large_load_tariffs"
 
 
 def tariffs_file(path):
-    """tariffs.json's content (session 730, chain 062), when the data machine's table has landed: each utility's (EIA
-    id) large-load rates as warehouse/connectors/openei_large_load_tariffs.py documents them, one series row a rate and
-    a variable (energy_charge USD/MWh, demand_charge USD/kW-month, fixed_charge USD a month, min_demand_mw MW), keyed by
-    the rate (entity) and its start (ts_utc). NOT WIRED into the tab: the table had not landed when this was written.
-    Its license is the table's own; a table held under a license is never written to the site's files."""
-    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str)
-    need = {"entity", "variable", "ts_utc", "value", "x_eia_id", "x_utility", "x_sector"}
+    """tariffs.json's content (session 730, chain 062; wired by session 3764, chain 211): each utility's (EIA id) filed
+    large-load schedules from utility_large_load_tariffs, one entry a schedule with every figure it prints, the figure's
+    page and printed words, the filing (commission, docket, document, address, sheet), its status (adopted, ordered,
+    proposed, framework) and its notes. The table holds public rows only (ruling 4: a schedule held for a license is kept
+    out of it and named in its header); the held schedules' EIA ids are listed under "held" so the tab can say a license
+    is needed. Each entry is as the schedule prints it: nothing is summed or converted."""
+    import re
+    with open(path, encoding="utf-8") as fh:
+        head = [ln[2:].rstrip("\n") for ln in fh if ln.startswith("# ")]
+    held = sorted({m for ln in head if ln.startswith("License:") for m in re.findall(r"\(EIA (\d+)\)", ln)})
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str, keep_default_na=False)
+    need = {"entity", "variable", "ts_utc", "value", "x_eia_id", "x_utility", "x_sector"}   # session 730's, which the OpenEI rows carry
     if not need <= set(d.columns):
         raise ValueError(f"{TARIFF_TABLE} lacks {sorted(need - set(d.columns))}")
-    d["v"] = pd.to_numeric(d["value"], errors="coerce")
-    rates = {}
-    for (ent, start), g in d.groupby(["entity", "ts_utc"]):
-        v = {r.variable: (None if pd.isna(r.v) else float(r.v)) for r in g.itertuples()}
+    col = lambda r, k: str(r.get(k, "") or "")
+    num = lambda v: None if str(v).strip() == "" else float(v)
+    utilities = {}
+    for (ent, start), g in d.groupby(["entity", "ts_utc"], sort=False):
         first = g.iloc[0]
-        rates.setdefault(str(first["x_eia_id"]), []).append({
-            "rate": ent, "name": str(first.get("node") or ""), "start": str(start)[:10], "utility": str(first["x_utility"]),
-            "sector": str(first["x_sector"]), "energy": v.get("energy_charge"), "demand": v.get("demand_charge"),
-            "fixed": v.get("fixed_charge"), "min_mw": v.get("min_demand_mw")})
-    for k in rates:
-        rates[k].sort(key=lambda r: (r["start"], r["rate"]), reverse=True)
-    return {"table": TARIFF_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "utilities": rates}
+        v = {r["variable"]: num(r["value"]) for _, r in g.iterrows()}
+        figures = [{"variable": r["variable"], "value": num(r["value"]), "unit": col(r, "unit"), "page": col(r, "x_page"), "printed": col(r, "x_printed")}
+                   for _, r in g.sort_values("variable").iterrows() if num(r["value"]) is not None]
+        utilities.setdefault(str(first["x_eia_id"]), []).append({
+            # session 730's fields, which the tab's rate picker reads
+            "rate": ent, "name": col(first, "node"), "start": str(start)[:10], "sector": col(first, "x_sector"),
+            "energy": v.get("energy_charge"), "demand": v.get("demand_charge"), "fixed": v.get("fixed_charge"), "min_mw": v.get("min_demand_mw"),
+            # session 3764's, the filing as printed
+            "entity": ent, "utility": first["x_utility"], "schedule": col(first, "x_schedule") or col(first, "node"), "effective": str(start)[:10],
+            "status": col(first, "x_status") or "adopted", "grid": col(first, "x_grid"), "state": col(first, "x_state"),
+            "sheet": col(first, "x_tariff_sheet"), "commission": col(first, "x_commission"), "docket": col(first, "x_docket"),
+            "document": col(first, "x_document"), "url": col(first, "source_url"), "min_bill": col(first, "x_min_bill"),
+            "term": col(first, "x_term"), "notes": col(first, "x_notes"), "figures": figures})
+    for k in utilities:
+        utilities[k].sort(key=lambda t: (t["start"], t["rate"]), reverse=True)   # session 730's order: newest first
+    return {"table": TARIFF_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "held": held,
+            "utilities": utilities}
+
+
+RULES_TABLE = "large_load_connection_rules"
+
+
+def conn_rules_file(path):
+    """conn_rules.json's content (session 3764): large_load_connection_rules by grid, each step a document states with its
+    duration or date as printed, the document, its page and its address, newest document first. Public, row by row."""
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str, keep_default_na=False)
+    need = {"x_grid", "x_document", "x_document_date", "x_step", "x_page", "x_printed", "source_url"}
+    if not need <= set(d.columns):
+        raise ValueError(f"{RULES_TABLE} lacks {sorted(need - set(d.columns))}")
+    grids = {}
+    for _, r in d.iterrows():
+        grids.setdefault(r["x_grid"].strip().lower(), []).append({
+            "document": r["x_document"], "date": r["x_document_date"], "step": r["x_step"], "duration": r.get("x_duration", ""),
+            "unit": r.get("x_duration_unit", ""), "mw": r.get("mw", ""), "page": r["x_page"], "section": r.get("x_section", ""),
+            "printed": r["x_printed"], "url": r["source_url"]})
+    for g in grids:
+        grids[g].sort(key=lambda x: x["date"], reverse=True)
+    return {"table": RULES_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "grids": grids}
 
 
 def gaps_file(path=GAPS_MD):
@@ -883,6 +972,22 @@ def main(argv=None):
             print(f"{SIGNED_TABLE}: " + "; ".join(f"{g} {v['mw_signed']}" for g, v in hr["signed"]["grids"].items()))
         except FileNotFoundError:
             print(f"{SIGNED_TABLE} is not on this machine: no grid's signed generation is drawn")
+        try:   # session 3802: the operators' own reserve margin assessments (CAISO's summer assessment)
+            rrpath = find(RESERVE_REPORTS_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {rrpath}")
+            hr["reserve_reports"] = reserve_reports_by_grid(rrpath)
+            print(f"{RESERVE_REPORTS_TABLE}: " + "; ".join(f"{g} {v['figures'].get('prm_achieved_pct')}" for g, v in hr["reserve_reports"]["grids"].items()))
+        except FileNotFoundError:
+            print(f"{RESERVE_REPORTS_TABLE} is not on this machine: no operator's own assessment is drawn")
+        try:   # session 3785: the revision of each ISO's own forecast summer peak (FERC-714)
+            fpath = find(FORECAST_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {fpath}")
+            hr["forecast"] = forecast_by_grid(fpath)
+            fc = hr["forecast"]
+            print(f"{FORECAST_TABLE}: {fc['year']} summer peak, {fc['report_year']} filing against {fc['prior_report_year']}: "
+                  + "; ".join(f"{g} {v['summer_mw']:+,.0f} MW" for g, v in fc["grids"].items()))
+        except FileNotFoundError:
+            print(f"{FORECAST_TABLE} is not on this machine: no grid's forecast revision is drawn")
     except Exception as e:
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
@@ -936,6 +1041,20 @@ def main(argv=None):
         return 1
     print(f"facilities.json: {len(fac['states'])} states, {len(fac['counties'])} counties in one grid")
     write("facilities.json", fac, a.out_dir)
+    # session 3764 (chain 211): the filed large-load schedules and the operators' connection rules, when their tables are here
+    for table, name, build in ((TARIFF_TABLE, "tariffs.json", tariffs_file), (RULES_TABLE, "conn_rules.json", conn_rules_file)):
+        try:
+            tp = find(table, a.in_dir, a.in_dir_first)
+        except FileNotFoundError:
+            print(f"{table} is not on this machine: {name} is left as it is")
+            continue
+        try:
+            obj = build(tp)
+        except Exception as e:
+            print(f"FAILED: {e}", file=sys.stderr)
+            return 1
+        print(f"{name}: from {tp}")
+        write(name, obj, a.out_dir)
     if a.internal:
         if not a.rows:
             print("FAILED: --internal needs --rows", file=sys.stderr)

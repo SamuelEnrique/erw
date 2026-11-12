@@ -149,7 +149,11 @@ class ThePythonLoop(unittest.TestCase):
                          {"answered": "answered", "a_figure_in_no_result": "refused_unverified", "a_compare": "answered",
                           "not_in_the_warehouse": "not_in_warehouse", "a_table_cited_unread": "refused_unverified", "a_held_grid": "answered",
                           "a_series": "answered", "a_per_kw_question": "answered", "a_repeated_call": "answered",
-                          "a_table_held_whole": "not_in_warehouse", "misos_pause": "not_in_warehouse"})
+                          "a_table_held_whole": "not_in_warehouse", "misos_pause": "not_in_warehouse", "a_threshold_count": "answered"})
+        # session 3297 (the trader set's tr15): a count past a value threshold, answered at the first draft from the tool's count
+        r = got["a_threshold_count"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"]), (1, 1, False))
+        self.assertIn("in 3 of the 12 years", r["answer"])
         # session 2225 (chain 152): a table held whole is refused by name with the hold's words, MISO's rows with the pause's,
         # and the answer is a refusal that carries those words and no figure
         self.assertIn("license needed", got["a_table_held_whole"]["answer"])

@@ -4,10 +4,11 @@
 // move as the tables update; an edition does not, so a class can answer what its teacher prepared.
 import fs from "node:fs";
 import path from "node:path";
-import type { ProblemSet, Question } from "@/lib/problems";
+import type { Part, ProblemSet, Question } from "@/lib/problems";
 
-export type EditionQuestion = Question & { rows: number; csv: string };
-export type EditionSet = Omit<ProblemSet, "questions"> & { questions: EditionQuestion[] };
+// session 3650: an edition built before that session holds no one-line computation and no worked example
+export type EditionQuestion = Omit<Question, "line"> & { line?: Part[]; rows: number; csv: string };
+export type EditionSet = Omit<ProblemSet, "questions" | "example"> & { example?: Question | null; questions: EditionQuestion[] };
 export type Edition = { date: string; built_at: string; note: string; sets: EditionSet[] };
 
 const DIR = () => path.join(process.cwd(), "data", "problem_editions");

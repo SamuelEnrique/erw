@@ -1,0 +1,36 @@
+{
+ "_about": "eval_s3297_loop_trader_run.json graded on questions_trader.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "trader",
+ "asked": 1,
+ "right": 1,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence"
+ ],
+ "cost_usd": 0.2273,
+ "questions": [
+  {
+   "id": "tr15",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 9,
+   "retried": false,
+   "cost_usd": 0.22725120000000001,
+   "seconds": 48.1,
+   "expected": [
+    23.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 8
+  }
+ ]
+}

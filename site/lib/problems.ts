@@ -14,15 +14,21 @@ import type { Snapshot as NetSnapshot } from "@/app/network/Network";
 import { fetchHourly, netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
 import { EVENTS, ISO_NAMES, inputsKey, inputsOf, months, stat, stress, summary, type Inputs, type Snapshot as MerchantSnapshot } from "@/lib/merchant";
 import { dayKey, KNOW_YOUR_GRID, newestCommonFullDay } from "@/lib/gridday";
+import { GUIDE, inOrder } from "@/lib/problemkit";
 
 export type V = { v: number; k: string; u?: string };
 export type Part = string | V;
 export type Question = {
   id: string; q: string; tables: string[]; answer: Part[]; steps: Part[][]; why: string;
+  // session 3650: the one-line computation that gives the answer, from the same keyed figures
+  line: Part[];
   // session 369: the day the figures belong to, written beside the question with its check key (lib/gridday.ts)
   day?: { d: string; k: string; note: string };
 };
-export type ProblemSet = { slug: string; title: string; line: string; teacher: string; pages: { href: string; label: string }[]; questions: Question[] };
+export type ProblemSet = { slug: string; title: string; line: string; teacher: string; pages: { href: string; label: string }[]; questions: Question[];
+  // session 3650: a worked example before the five, its answer open, by the method of the easiest (lib/problemkit.ts, GUIDE)
+  example: Question | null };
+type Built = { example: Question | null; questions: Question[] };
 
 const DAY = 86_400_000;
 const iso = (t: number) => new Date(t).toISOString().replace(/\.\d{3}Z$/, "Z");
@@ -65,7 +71,7 @@ function localMidnight(d: string, tz: string): number {
 }
 
 // ---------------------------------------------------------------- set A: know your grid (ERCOT and CAISO)
-async function setA(): Promise<Question[]> {
+async function setA(): Promise<Built> {
   const D = "eia930_all_demand", G = "eia930_all_generation", S = "storage_daily_cycle", C = "carbon_intensity_daily";
   const E = "eia930:ERCO", CA = "eia930:CISO";
   const since = iso(Date.now() - 6 * DAY);
@@ -85,6 +91,7 @@ async function setA(): Promise<Question[]> {
     id: "a1", tables: [D], day: dayNote,
     q: `On ${d0} (UTC), the latest day both grids' demand and generation are held in full, what was the highest hour of demand in ERCOT and in CAISO? ERCOT's peak was how many times CAISO's?`,
     answer: [`${d0}: ERCOT `, pE, `, CAISO `, pC, `; ERCOT's peak was `, calc("ratio", pE, pC, "times"), ` CAISO's.`],
+    line: [pE, " / ", pC, " = ", calc("ratio", pE, pC, "times")],
     steps: [[`Take the 24 hourly demand values of ${d0} (UTC) for each grid (entity eia930:ERCO and eia930:CISO, variable demand_mw).`],
       ["The highest ERCOT hour is ", pE, "; the highest CAISO hour is ", pC, "."], ["Divide: ", pE, " / ", pC, " = ", calc("ratio", pE, pC, "times"), "."]],
     why: "Peak demand, not average demand, sets how much generation and wire a grid has to build.",
@@ -96,6 +103,7 @@ async function setA(): Promise<Question[]> {
     id: "a2", tables: [G], day: dayNote,
     q: `On the same day, ${d0} (UTC), what share of each grid's net generation came from natural gas?`,
     answer: [`${d0}: ERCOT `, calc("pct", gE, tE, "%"), ", CAISO ", calc("pct", gC, tC, "%"), "."],
+    line: ["ERCOT ", gE, " / ", tE, " x 100 = ", calc("pct", gE, tE, "%"), "; CAISO ", gC, " / ", tC, " x 100 = ", calc("pct", gC, tC, "%")],
     steps: [[`Add the 24 hourly values of net_generation_natural_gas_mw and of net_generation_mw for ${d0} (UTC).`],
       ["ERCOT: ", gE, " from gas of ", tE, " in all: ", calc("pct", gE, tE, "%"), "."], ["CAISO: ", gC, " from gas of ", tC, " in all: ", calc("pct", gC, tC, "%"), "."]],
     why: "The fuel that runs most often sets both the price and the emissions of a grid's power.",
@@ -107,6 +115,7 @@ async function setA(): Promise<Question[]> {
     id: "a3", tables: [S],
     q: "On the latest day both are held, how many MWh did batteries discharge in ERCOT and in CAISO? CAISO's discharge was how many times ERCOT's?",
     answer: [`${sd}: ERCOT `, bE, ", CAISO ", bC, "; CAISO's was ", calc("ratio", bC, bE, "times"), " ERCOT's."],
+    line: [bC, " / ", bE, " = ", calc("ratio", bC, bE, "times")],
     steps: [[`Read mwh_discharged for ${sd} (each grid's local day): ERCOT (eia930:ERCO, EIA-930) `, bE, ", CAISO (caiso:ISO, CAISO's own data) ", bC, "."],
       ["Divide: ", bC, " / ", bE, " = ", calc("ratio", bC, bE, "times"), "."]],
     why: "Batteries move solar power from midday into the evening peak; how much they discharge shows how far that shift has gone.",
@@ -118,6 +127,7 @@ async function setA(): Promise<Question[]> {
     id: "a4", tables: [C],
     q: "On the latest day both are held, what was the carbon intensity of generation in ERCOT and in CAISO, and how much higher was ERCOT's?",
     answer: [`${cd}: ERCOT `, iE, ", CAISO ", iC, "; ERCOT's is higher by ", calc("diff", iE, iC, "kg CO2/MWh"), "."],
+    line: [iE, " - ", iC, " = ", calc("diff", iE, iC, "kg CO2/MWh")],
     steps: [["Read intensity_generation for each grid: the day's CO2 from generation over its net generation."], ["Subtract: ", iE, " - ", iC, " = ", calc("diff", iE, iC, "kg CO2/MWh"), "."]],
     why: "The same kilowatt-hour carries very different emissions depending on where and when it is made.",
   };
@@ -138,26 +148,45 @@ async function setA(): Promise<Question[]> {
   // the answer's parts: the figures of the day when there is one, else the words that say it is not held
   let asked = "a day", a5: Part[] = ["Not held yet: no day of the batteries' table has every hour of ERCOT's demand in the live set."];
   let s5: Part[][] = [["The batteries' table holds a day; the hourly demand of that day is not all held yet, so no sum is written."]];
+  let l5: Part[] = ["No sum: the day's hours are not all held."];
   if (d5) {
     const { a: m0, b: m1, rows } = localDay(d5);
     const b5 = row(S, st.find((r) => r.entity === E && day(r.ts_utc) === d5)!, "MWh");
     const dd: V = { v: rows.reduce((a, r) => a + r.value, 0), k: `series_sum|${D}|demand_mw|${iso(m0)}|${iso(m1)}|${E}`, u: "MWh" };
     asked = d5;
     a5 = [calc("pct", b5, dd, "%"), " of the day's demand."];
+    l5 = [b5, " / ", dd, " x 100 = ", calc("pct", b5, dd, "%")];
     s5 = [["ERCOT's batteries discharged ", b5, " on that local day."], [`Add ERCOT's hourly demand_mw from ${iso(m0)} to ${iso(m1)} (the Central-time day in UTC): `, dd, "."], ["Divide: ", b5, " / ", dd, " x 100 = ", calc("pct", b5, dd, "%"), "."]];
   }
   const q5: Question = {
     id: "a5", tables: [S, D],
     q: `What share of ERCOT's demand on ${asked} (Central time) did its batteries' discharge equal?`,
     answer: a5,
+    line: l5,
     steps: s5,
     why: "Battery output is growing fast, but it is still a small share of all the energy a grid uses.",
   };
-  return [q1, q2, q3, q4, q5];
+  // session 3650: the worked example, question 1's method on the day before (when both grids' demand holds its 24 hours)
+  const prev = day(iso(Date.parse(s0) - DAY));
+  const whole = (e: string, d: string) => new Set(dem.filter((r) => r.entity === e && day(r.ts_utc) === d).map((r) => r.ts_utc)).size === 24;
+  const dx = whole(E, prev) && whole(CA, prev) ? prev : d0;
+  const x0 = `${dx}T00:00:00Z`, x1 = iso(Date.parse(x0) + DAY);
+  const peakOn = (e: string): V => ({ v: Math.max(...dem.filter((r) => r.entity === e && day(r.ts_utc) === dx).map((r) => r.value)), k: `series_max|${D}|demand_mw|${x0}|${x1}|${e}`, u: "MW" });
+  const xE = peakOn(E), xC = peakOn(CA);
+  const example: Question = {
+    id: "ax", tables: [D],
+    q: `On ${dx} (UTC), what was the highest hour of demand in ERCOT and in CAISO, and ERCOT's peak was how many times CAISO's?`,
+    answer: [`${dx}: ERCOT `, xE, ", CAISO ", xC, "; ERCOT's peak was ", calc("ratio", xE, xC, "times"), " CAISO's."],
+    line: [xE, " / ", xC, " = ", calc("ratio", xE, xC, "times")],
+    steps: [[`Open ${D} and keep the rows of variable demand_mw for eia930:ERCO and eia930:CISO from ${x0} to ${x1}: 24 hours each.`],
+      ["Take the largest of each grid's 24 values: ERCOT ", xE, ", CAISO ", xC, "."], ["Divide the first by the second: ", xE, " / ", xC, " = ", calc("ratio", xE, xC, "times"), "."]],
+    why: "Every problem below is the same three moves: find the rows, reduce them to one figure (a maximum, a sum, a reading), then compare two figures.",
+  };
+  return { example, questions: [q1, q2, q3, q4, q5] };
 }
 
 // ---------------------------------------------------------------- set B: prices and your bill
-async function setB(): Promise<Question[]> {
+async function setB(): Promise<Built> {
   const M = "cost_of_power_monthly", P = "cost_of_power_hourly_profile";
   const all = await series(M, {});
   const by = (e: string, v: string) => all.filter((r) => r.entity === e && r.variable === v);
@@ -170,6 +199,7 @@ async function setB(): Promise<Question[]> {
     id: "b1", tables: [M],
     q: "For ERCOT's hub average in its latest complete month, what were the load-weighted and the simple average real-time prices, and what is the shape premium?",
     answer: [`${m.slice(0, 7)}: load-weighted `, lw, ", simple ", sm, ", shape premium ", calc("diff", lw, sm, "USD/MWh"), "."],
+    line: [lw, " - ", sm, " = ", calc("diff", lw, sm, "USD/MWh")],
     steps: [["Load-weighted: each hour's price times ERCOT's demand that hour, over the month's demand: ", lw, "."], ["Simple: the plain mean of the same hours: ", sm, "."], ["Shape premium = load-weighted - simple = ", calc("diff", lw, sm, "USD/MWh"), "."]],
     why: "A grid's load uses power most when it is dear, so its average cost per MWh is above the simple average price.",
   };
@@ -190,6 +220,7 @@ async function setB(): Promise<Question[]> {
     id: "b2", tables: [M],
     q: `The table holds ${ents.length} hubs: ${ents.map(hubName).join(", ")}. In the latest month all ${ents.length} hold at least 95 percent of their hours, which had the largest shape premium, and which the smallest?`,
     answer: [`${common.slice(0, 7)}: largest ${hubName(top.entity)}, `, row(M, top, "USD/MWh"), `; smallest ${hubName(low.entity)}, `, row(M, low, "USD/MWh"), "."],
+    line: [`max over the ${ents.length} hubs = `, row(M, top, "USD/MWh"), ` (${hubName(top.entity)}); min = `, row(M, low, "USD/MWh"), ` (${hubName(low.entity)})`],
     steps: [[`Find the latest month in which every hub's rt_hours is at least 95 percent of its hours_in_month: ${common.slice(0, 7)}. `,
       ...(short.length ? short.flatMap((e, i) => [`${i ? "; " : ""}${hubName(e)} holds `, row(M, held(e, common).h!, ""), " of ", row(M, held(e, common).n!, "hours")] as Part[]) : ["Every hub holds every hour"]),
       short.length ? `; the other ${ents.length - short.length} hold every hour.` : "."],
@@ -213,6 +244,7 @@ async function setB(): Promise<Question[]> {
     id, tables: [M],
     q: `On the default ${who} bill of /learn/bill (${x.kwh} kWh), how many dollars are wholesale energy, and what share of the bill is that?`,
     answer: [x.wh, " of ", x.tot, ": ", x.sh, "."],
+    line: [`${x.kwh} kWh x `, x.price, " / 1,000 = ", x.wh, "; ", x.wh, " / ", x.tot, " x 100 = ", x.sh],
     steps: [[`The bill: `, x.tot, ` (the tariff lines on /learn/bill).`], [`Wholesale: ${x.kwh} kWh x `, x.price, ` / 1,000 (${x.month}${x.partial ? ", a partial month" : ""}) = `, x.wh, "."], ["Share: ", x.wh, " / ", x.tot, " x 100 = ", x.sh, "."]],
     why: "Most of a home's bill pays for wires, programs and fixed charges, not the power itself; how much differs by state.",
   });
@@ -227,14 +259,30 @@ async function setB(): Promise<Question[]> {
     id: "b5", tables: [P, M],
     q: "In the latest complete month of ERCOT's hour-of-day profile, which hour was cheapest and which dearest on average, and how far apart were they?",
     answer: [`${pm.slice(0, 7)}: cheapest ${lo.variable.slice(-2)}:00, `, row(P, lo, "USD/MWh"), `; dearest ${hi.variable.slice(-2)}:00, `, row(P, hi, "USD/MWh"), "; spread ", calc("diff", row(P, hi, "USD/MWh"), row(P, lo, "USD/MWh"), "USD/MWh"), "."],
+    line: [row(P, hi, "USD/MWh"), " - ", row(P, lo, "USD/MWh"), " = ", calc("diff", row(P, hi, "USD/MWh"), row(P, lo, "USD/MWh"), "USD/MWh")],
     steps: [[`The latest month every hour of which is held (cost_of_power_monthly: rt_hours equals hours_in_month): ${pm.slice(0, 7)}. Read the 24 values rt_mean_h00 to rt_mean_h23 for that month (Central time).`], ["The lowest is ", row(P, lo, "USD/MWh"), `, at ${lo.variable.slice(-2)}:00; the highest `, row(P, hi, "USD/MWh"), `, at ${hi.variable.slice(-2)}:00.`], ["Spread = ", row(P, hi, "USD/MWh"), " - ", row(P, lo, "USD/MWh"), " = ", calc("diff", row(P, hi, "USD/MWh"), row(P, lo, "USD/MWh"), "USD/MWh"), "."]],
     why: "The daily price swing is what a battery, or a flexible load, earns by moving use.",
   };
-  return [q1, q2, q3, q4, q5];
+  // session 3650: the worked example, question 1's method on the complete month before (the same month when only one is whole)
+  const mx = full.at(-2) ?? m;
+  const xl = by(E, "rt_load_weighted").find((r) => r.ts_utc === mx), xs = by(E, "rt_simple_mean").find((r) => r.ts_utc === mx);
+  const example: Question | null = xl && xs ? (() => {
+    const L = row(M, xl, "USD/MWh"), S = row(M, xs, "USD/MWh");
+    return {
+      id: "bx", tables: [M],
+      q: `For ERCOT's hub average in ${mx.slice(0, 7)}, what were the load-weighted and the simple average real-time prices, and what is the shape premium?`,
+      answer: [`${mx.slice(0, 7)}: load-weighted `, L, ", simple ", S, ", shape premium ", calc("diff", L, S, "USD/MWh"), "."],
+      line: [L, " - ", S, " = ", calc("diff", L, S, "USD/MWh")],
+      steps: [[`Open ${M} and keep the rows of entity ${E} for ${mx.slice(0, 7)}; check that rt_hours equals hours_in_month (every hour held).`],
+        ["Read rt_load_weighted, ", L, ", and rt_simple_mean, ", S, "."], ["Subtract: ", L, " - ", S, " = ", calc("diff", L, S, "USD/MWh"), "."]],
+      why: "The premium is what the grid's own load paid above the plain average price, because it used most power in the dear hours.",
+    };
+  })() : null;
+  return { example, questions: [q1, q2, q3, q4, q5] };
 }
 
 // ---------------------------------------------------------------- set C: when the grid broke
-async function setC(): Promise<Question[]> {
+async function setC(): Promise<Built> {
   const T = "event_window_daily";
   const ev = async (event: string, entity: string, variable: string) => series(T, { event, entity, variable });
   const r = (x: SeriesRow, event: string, u: string) => row(T, x, u, event);
@@ -245,6 +293,7 @@ async function setC(): Promise<Question[]> {
     id: "c1", tables: [T],
     q: "Winter Storm Uri (ERCOT, February 2021): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?",
     answer: [`${day(u21.ts_utc)}: `, U, ", against ", UB, ` (${day(ubase.ts_utc)}): `, calc("ratio", U, UB, "times"), "."],
+    line: [U, " / ", UB, " = ", calc("ratio", U, UB, "times")],
     steps: [["Read rt_max (event uri_2021, ercot:HB_HUBAVG) for every day; the highest in 2021 is ", U, "."], ["The highest on the 2019 and 2020 days is ", UB, "."], ["Divide: ", calc("ratio", U, UB, "times"), "."]],
     why: "Scarcity pricing lets the price rise to the cap when supply fails, which is the market's signal and the customer's risk.",
   };
@@ -255,6 +304,7 @@ async function setC(): Promise<Question[]> {
     id: "c2", tables: [T],
     q: "CAISO, August 2020: on which day was the peak hour furthest above the same weekdays of earlier years, and by how many percentage points did it exceed 2020-08-14, the first day of rotating outages?",
     answer: [`${day(chi.ts_utc)}, `, CH, "; ", calc("diff", CH, C14, "percentage points"), " above 2020-08-14 (", C14, ")."],
+    line: [CH, " - ", C14, " = ", calc("diff", CH, C14, "percentage points")],
     steps: [["Read demand_max_pct_vs_baseline (event caiso_heat_2020) for each day and find the highest: ", CH, "."], ["2020-08-14: ", C14, "."], ["Subtract: ", calc("diff", CH, C14, "percentage points"), "."]],
     why: "The outages came before demand peaked: supply fell short, not demand alone.",
   };
@@ -265,6 +315,7 @@ async function setC(): Promise<Question[]> {
     id: "c3", tables: [T],
     q: "Winter Storm Elliott (December 2022): what was PJM's highest hour of demand served in the window, on which day, and how far above the same weekdays of 2021 and 2020 was that day's peak?",
     answer: [`${day(ptop.ts_utc)}: `, r(ptop, "elliott_2022", "MW"), ", ", r(ppct, "elliott_2022", "%"), " above the baseline."],
+    line: ["max of demand_max_mw from 2022-12-19 = ", r(ptop, "elliott_2022", "MW"), `, on ${day(ptop.ts_utc)}; that day's demand_max_pct_vs_baseline = `, r(ppct, "elliott_2022", "%")],
     steps: [["Read demand_max_mw (event elliott_2022, eia930:PJM) from 2022-12-19 on and find the highest: ", r(ptop, "elliott_2022", "MW"), "."], ["Read demand_max_pct_vs_baseline for that day: ", r(ppct, "elliott_2022", "%"), "."]],
     why: "Winter peaks can rival summer ones when a cold snap meets electric heating and failing plants.",
   };
@@ -275,6 +326,7 @@ async function setC(): Promise<Question[]> {
     id: "c4", tables: [T],
     q: "ERCOT, summer 2023: on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?",
     answer: [`Highest price ${day(etop.ts_utc)}, `, r(etop, "ercot_heat_2023", "USD/MWh"), `; highest demand ${day(edem.ts_utc)}, `, r(edem, "ercot_heat_2023", "MW"), day(etop.ts_utc) === day(edem.ts_utc) ? ": the same day." : ": different days."],
+    line: ["max of rt_max = ", r(etop, "ercot_heat_2023", "USD/MWh"), ` on ${day(etop.ts_utc)}; max of demand_max_mw = `, r(edem, "ercot_heat_2023", "MW"), ` on ${day(edem.ts_utc)}`],
     steps: [["Read rt_max (event ercot_heat_2023) and find the highest: ", r(etop, "ercot_heat_2023", "USD/MWh"), "."], ["Read demand_max_mw and find the highest: ", r(edem, "ercot_heat_2023", "MW"), "."], ["Compare the dates."]],
     why: "Prices spike when supply is short, which is not always when demand is highest: wind and the solar ramp at sunset matter too.",
   };
@@ -283,10 +335,29 @@ async function setC(): Promise<Question[]> {
     id: "c5", tables: [T],
     q: "Compare two ERCOT events: Winter Storm Uri's highest 15-minute real-time price was how many times the summer 2023 heat's?",
     answer: [U, " (Uri) / ", U2, " (2023) = ", calc("ratio", U, U2, "times"), "."],
+    line: [U, " / ", U2, " = ", calc("ratio", U, U2, "times")],
     steps: [["Uri's highest rt_max: ", U, "."], ["The 2023 heat's highest rt_max: ", U2, "."], ["Divide: ", calc("ratio", U, U2, "times"), "."]],
     why: "Both hit the price cap's neighborhood, but Uri held prices there for days and cut power to millions.",
   };
-  return [q1, q2, q3, q4, q5];
+  // session 3650: the worked example, question 1's method on Uri's demand instead of its price (the window's highest day
+  // in 2021 against the highest of the same days of 2019 and 2020), so it gives none of the five answers away
+  const ud = await ev("uri_2021", "eia930:ERCO", "demand_max_mw");
+  const ud21 = ud.filter((x) => x.ts_utc.startsWith("2021")), udb = ud.filter((x) => !x.ts_utc.startsWith("2021"));
+  const example: Question | null = ud21.length && udb.length ? (() => {
+    const hi21 = pick(ud21, "max"), hib = pick(udb, "max");
+    const X = r(hi21, "uri_2021", "MW"), XB = r(hib, "uri_2021", "MW");
+    return {
+      id: "cx", tables: [T],
+      q: "Winter Storm Uri (ERCOT, February 2021): the highest hour of demand in the storm window was how many times the highest on the same days of 2019 and 2020?",
+      answer: [`${day(hi21.ts_utc)}: `, X, ", against ", XB, ` (${day(hib.ts_utc)}): `, calc("ratio", X, XB, "times"), "."],
+      line: [X, " / ", XB, " = ", calc("ratio", X, XB, "times")],
+      steps: [[`Open ${T} and keep the rows of event uri_2021, entity eia930:ERCO, variable demand_max_mw: each day's highest hour, in the storm window and on the same days of 2019 and 2020 (the baseline).`],
+        ["The highest of the 2021 days: ", X, `, on ${day(hi21.ts_utc)}. The highest of the baseline days: `, XB, `, on ${day(hib.ts_utc)}.`],
+        ["Divide: ", X, " / ", XB, " = ", calc("ratio", X, XB, "times"), "."]],
+      why: "An event is a window of days set against normal days: the window's extreme and the baseline's are the two figures the problems below compare.",
+    };
+  })() : null;
+  return { example, questions: [q1, q2, q3, q4, q5] };
 }
 
 // ---------------------------------------------------------------- set D: storage and taxes (session 46)
@@ -309,7 +380,7 @@ function sev(state: string, product: string, volume: number, month: string, pric
   return { v: o ? r.withTotal : r.baseTotal, k: `sev|${state}|${product}|${volume}|${month}|${option}`, u: "USD" };
 }
 
-async function setD(): Promise<Question[]> {
+async function setD(): Promise<Built> {
   const S = "storage_daily_cycle", P = "cost_of_power_hourly_profile", E = "eia930:ERCO";
   const cyc = await series(S, { entity: E, since: iso(Date.now() - 12 * DAY) });
   const days = [...new Set(cyc.filter((r) => r.variable === "mwh_discharged").map((r) => day(r.ts_utc)))].sort();
@@ -324,6 +395,7 @@ async function setD(): Promise<Question[]> {
     id: "d1", tables: [S],
     q: `Over the seven latest days held (${last7[0]} to ${last7.at(-1)}), how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? How does that compare with the game's battery?`,
     answer: ["Discharged ", out, ", charged ", inn, ": ", calc("pct", out, inn, "%"), " came back out, against ", rt, " assumed for the game's battery."],
+    line: [out, " / ", inn, " x 100 = ", calc("pct", out, inn, "%")],
     steps: [[`Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over ${last7[0]} to ${last7.at(-1)} (local days).`],
       ["Energy out over energy in: ", out, " / ", inn, " x 100 = ", calc("pct", out, inn, "%"), "."],
       ["The game's battery is an assumption: ", rt, " round trip (lib/battery.ts)."]],
@@ -336,6 +408,7 @@ async function setD(): Promise<Question[]> {
     id: "d2", tables: [S],
     q: `On ${dL}, at which hour (Central time) did ERCOT's batteries charge hardest, at which did they discharge hardest, and how many hours apart were they?`,
     answer: ["Charging peaked in hour ", hc, ", discharging in hour ", hd, ": ", calc("diff", hd, hc, "hours"), " apart."],
+    line: [hd, " - ", hc, " = ", calc("diff", hd, hc, "hours")],
     steps: [["Read peak_charge_hour and peak_discharge_hour for that day (the hour starting, 0 to 23, local time)."], ["Subtract: ", hd, " - ", hc, " = ", calc("diff", hd, hc, "hours"), "."]],
     why: "Batteries fill when solar floods the grid at midday and empty into the evening peak, when the sun has set and demand is still high.",
   };
@@ -353,6 +426,7 @@ async function setD(): Promise<Question[]> {
     id: "d3", tables: [P, "cost_of_power_monthly"],
     q: `The home battery game's battery charges once from empty at ERCOT's cheapest average hour of ${pm.slice(0, 7)} (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of homes earn?`,
     answer: ["One cycle earns ", cash, "; the fleet ", fleet, "."],
+    line: ["(", delivered, " x ", HI, " - ", bought, " x ", LO, ") / 1,000 = ", cash, "; times the fleet's homes = ", fleet],
     steps: [[`The cheapest hour of the month's profile is ${lo.variable.slice(-2)}:00, `, LO, `; the dearest ${hi.variable.slice(-2)}:00, `, HI, "."],
       ["To store 13.5 kWh at 90 percent round trip (the square root of 0.9 each way) it buys ", bought, " and delivers ", delivered, "."],
       ["Cash: (", delivered, " x ", HI, " - ", bought, " x ", LO, ") / 1,000 = ", cash, "."], ["Times the fleet's homes: ", fleet, "."]],
@@ -366,6 +440,7 @@ async function setD(): Promise<Question[]> {
     id: "d4", tables: [SPOT],
     q: `A well produces 1,000 barrels of oil in ${mo}, valued at that month's WTI Cushing mean. What state production tax does it owe in Texas, in Louisiana (a well completed before July 2025, no transport deducted) and in New Mexico (no royalty, trucking or district ad valorem)?`,
     answer: ["At ", wti, ": Texas ", tx, ", Louisiana ", la, ", New Mexico ", nm, "; Louisiana's is ", calc("ratio", la, tx, "times"), " Texas's."],
+    line: ["1,000 bbl x ", wti, " x each state's rate: Texas ", tx, ", Louisiana ", la, ", New Mexico ", nm, "; ", la, " / ", tx, " = ", calc("ratio", la, tx, "times")],
     steps: [[`The mean of ${mo}'s daily WTI Cushing spot prices: `, wti, "."],
       ["Texas: 4.6 percent of value, or 4.6 cents a barrel if more: ", tx, "."], ["Louisiana: 12.5 percent of value: ", la, "."],
       ["New Mexico: severance 3.75, emergency school 3.15 and conservation 0.24 percent: ", nm, "."], ["Louisiana over Texas: ", calc("ratio", la, tx, "times"), "."]],
@@ -382,19 +457,35 @@ async function setD(): Promise<Question[]> {
     id: "d5", tables: [SPOT],
     q: `A Texas gas well produced 2,400 Mcf in ${gm} (80 Mcf a day over 30 days), valued at that month's Henry Hub mean. What is its tax, and what does it owe with the low-producing well credit?`,
     answer: ["Tax ", g0, "; the Comptroller certified ", cert, " for the month, a ", pct, " credit, so it owes ", g1, "."],
+    line: ["2,400 Mcf x ", hh, " x Texas's gas rate = ", g0, "; less the ", pct, " credit = ", g1],
     steps: [[`The mean of ${gm}'s daily Henry Hub spot prices, applied per Mcf: `, hh, "."], ["7.5 percent of value: ", g0, "."],
       ["The well averages 90 Mcf a day or less, so it may claim the credit, set by the Comptroller's certified price for the month in 2005 dollars: ", cert, ", which gives ", pct, "."],
       ["With the credit: ", g1, "."]],
     why: "Low-producing wells get tax relief when prices are low, so they are not plugged for good; the test uses a certified price, not the well's own.",
   };
-  return [q1, q2, q3, q4, q5];
+  // session 3650: the worked example, question 1's method on one day (the latest that holds both the discharge and the
+  // charge), which shows why the question takes a week
+  const dX = [...days].reverse().find((d) => ["mwh_discharged", "mwh_charged"].every((v) => dayRows(d).some((r) => r.variable === v)));
+  const example: Question | null = dX ? (() => {
+    const o = row(S, dayRows(dX).find((r) => r.variable === "mwh_discharged")!, "MWh"), i = row(S, dayRows(dX).find((r) => r.variable === "mwh_charged")!, "MWh");
+    return {
+      id: "dx", tables: [S],
+      q: `On ${dX} alone, how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out?`,
+      answer: [`${dX}: discharged `, o, ", charged ", i, ": ", calc("pct", o, i, "%"), " came back out."],
+      line: [o, " / ", i, " x 100 = ", calc("pct", o, i, "%")],
+      steps: [[`Open ${S} and keep the rows of entity ${E} for ${dX} (a local day).`], ["Read mwh_discharged, ", o, ", and mwh_charged, ", i, "."],
+        ["Energy out over energy in: ", o, " / ", i, " x 100 = ", calc("pct", o, i, "%"), ". One day's charge can be discharged the next, so a single day can read above or below the true round trip: the problem on a week below adds seven days."]],
+      why: "A round trip is energy out over energy in, both in MWh: the first figure every storage question below needs.",
+    };
+  })() : null;
+  return { example, questions: [q1, q2, q3, q4, q5] };
 }
 
 // ---------------------------------------------------------------- set E: networks and money (session 55)
 const ET = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
 const hourText = (h: string) => `${h.slice(0, 13).replace("T", " ")}:00 UTC (${ET.format(new Date(h))} Eastern)`;
 
-async function setE(): Promise<Question[]> {
+async function setE(): Promise<Built> {
   // the network: the snapshot /network draws (lib/network.ts: the hourly one in Storage, else the committed one)
   const { snap: net } = pickSnapshot(await fetchHourly(), netJson as unknown as NetSnapshot);
   // Session 102: the newest hour in which ERCOT's ties are reported. EIA's newest hour can hold other balancing
@@ -414,6 +505,7 @@ async function setE(): Promise<Question[]> {
     id: "e1", tables: ["eia930_all_interchange"],
     q: `${hourWords}, ${hourText(H)}, with how many neighboring balancing authorities did ERCOT exchange power, and what was the largest flow?`,
     answer: ["ERCOT exchanged power with ", nTies, "; the largest flow, ", maxFlow, ", ", out ? "out to " : "in from ", name(big.other), "."],
+    line: ["count of ERCOT's ties with a flow = ", nTies, "; the largest flow in size = ", maxFlow],
     steps: [[`${H === last ? "On /network, pick ERCOT and set the slider to the last hour" : `On /network, pick ERCOT and set the slider to ${hourText(H)} (the snapshot's later hours hold no flow for ERCOT yet)`}; or read the snapshot's links that have ERCO at either end, in that hour.`],
       ["Count the neighbors with a reported flow: ", nTies, ": ", ties.map((t) => `${name(t.other)} (${t.other})`).join(", "), "."],
       ["The largest in size, whichever way it runs: ", maxFlow, ", ", out ? "ERCOT exporting" : "ERCOT importing", ". EIA's sign: positive when the reporting balancing authority exports."]],
@@ -427,6 +519,7 @@ async function setE(): Promise<Question[]> {
     id: "e2", tables: ["eia930_all_interchange"],
     q: "In the same hour, which balancing authority exported the most power, net, to its neighbors?",
     answer: [`${name(top.id)} (${top.id}), a net export of `, topV, "."],
+    line: ["the largest, over every balancing authority, of the sum of its tie flows = ", topV, ` (${top.id})`],
     steps: [["For each balancing authority, add the flows on all its ties in that hour, exports positive and imports negative."],
       ["The largest sum: ", `${name(top.id)} (${top.id}), `, topV, `; the next, ${name(second[0])} (${second[0]}), about ${Math.round(second[1]).toLocaleString("en-US")} MW.`],
       ["The sum covers the ties between balancing authorities in the snapshot; EIA's regions and its country totals are left out, since they repeat the same flows."]],
@@ -442,6 +535,7 @@ async function setE(): Promise<Question[]> {
     id: "e3", tables: ["merchant_revenue_monthly"],
     q: `A merchant solar plant at ERCOT's hub average (HB_HUBAVG) sells every MWh it makes at the real-time price. In ${mo}, the latest complete month held, what price did its output capture, and what is that as a share of the month's flat (time-average) price?`,
     answer: ["It captured ", cap, " against a flat price of ", flat, ": a capture rate of ", rate, "."],
+    line: [cap, " / ", flat, " x 100 = ", rate],
     steps: [["Capture price: the month's revenue from its sales over the MWh it made (the Texas solar fleet's hourly shape, per MW of nameplate): ", cap, "."],
       ["Flat price: the mean of every hour's real-time price in the month: ", flat, "."], ["Capture rate: ", cap, " / ", flat, " x 100 = ", rate, "."]],
     why: "Solar makes its power when every other solar plant does, so midday prices sag and a solar MWh is worth less than the average MWh. The capture rate measures that discount.",
@@ -454,6 +548,7 @@ async function setE(): Promise<Question[]> {
     id: "e4", tables: ["merchant_revenue_monthly"],
     q: `A default merchant battery at ERCOT's hub average, ${bat.mw} MW / ${bat.mwh} MWh, financed with 60 percent debt at 8 percent over its 20-year life at Lazard's midpoint cost, owes ${Math.round(bat.ds).toLocaleString("en-US")} USD of debt service a year. In how many of the months held, ${sm.first} to ${sm.last}, could its cash flow at best cover that month's share?`,
     answer: ["At best, in ", covered, " of ", n, "; it fell short in ", under, " even with perfect foresight. A real battery, which cannot see the day's prices in advance, earns less and covers fewer."],
+    line: [n, " - ", under, " = ", covered],
     steps: [["Each month: the battery's arbitrage revenue (one cycle a day with perfect foresight, an upper bound) less fixed O&M, over one twelfth of the annual debt service: the debt service coverage ratio."],
       ["Months held: ", n, "; months below 1.0x: ", under, "."], ["Months covered, at best: ", n, " - ", under, " = ", covered, "."],
       ["At best, because the revenue is an upper bound, as the seller's tab notes: the battery knows each day's prices in advance; a real one captures a fraction of this."]],
@@ -470,16 +565,31 @@ async function setE(): Promise<Question[]> {
     id: "e5", tables: ["merchant_revenue_monthly", "event_window_daily"],
     q: `During ${EVENTS[ev]} (the ${st.days} days from ${st.start} to ${st.end}), what did the same ${sol.mw} MW merchant solar plant at ${ISO_NAMES.ercot}'s hub average earn, against as many normal days before the storm?`,
     answer: ["Over the storm's ", nDays, " it earned ", tot, "; as many normal days earned ", normal, ": ", calc("ratio", tot, normal, "times"), " as much."],
+    line: [tot, " / (", baseDay, " x ", nDays, ") = ", calc("ratio", tot, normal, "times")],
     steps: [["Each day's revenue: the plant's hourly output (the fleet's shape that day) times the hour's real-time price, added up."],
       ["Add the ", nDays, " of the event window: ", tot, "."],
       ["A normal day: the mean of the baseline days of the same event (the same dates of earlier years): ", baseDay, ". A normal week is seven of them, ", week, "."],
       ["As many normal days as the storm lasted: ", baseDay, " x ", nDays, " = ", normal, "."], ["The ratio: ", tot, " / ", normal, " = ", calc("ratio", tot, normal, "times"), "."]],
     why: "Scarcity pays whoever can deliver in it. Uri's prices sat at the cap for days, so even a plant whose output fell with the snow and the short days could earn more in the storm than on as many normal days.",
   };
-  return [q1, q2, q3, q4, q5];
+  // session 3650: the worked example, question 3's method on the held month before
+  const mx = months(M, sol).filter((r) => r.held).at(-2)?.m;
+  const example: Question | null = mx ? (() => {
+    const c = mr(sol, `capture:${mx}`, "USD/MWh"), f = mr(sol, `flat:${mx}`, "USD/MWh"), rr = mr(sol, `rate:${mx}`, "%");
+    return {
+      id: "ex", tables: ["merchant_revenue_monthly"],
+      q: `The same merchant solar plant at ERCOT's hub average, in ${mx}: what price did its output capture, and what is that as a share of the month's flat price?`,
+      answer: [`${mx}: it captured `, c, " against a flat price of ", f, ": a capture rate of ", rr, "."],
+      line: [c, " / ", f, " x 100 = ", rr],
+      steps: [["On /cost-of-power/seller pick solar at ERCOT, or read merchant_revenue_monthly for the month: the capture price is the month's revenue over the MWh made, ", c, "."],
+        ["The flat price is the plain mean of every hour's real-time price, ", f, "."], ["Divide and multiply by 100: ", c, " / ", f, " x 100 = ", rr, "."]],
+      why: "A price earned is set against the plain average price: the same comparison, revenue against a benchmark, runs through every problem below.",
+    };
+  })() : null;
+  return { example, questions: [q1, q2, q3, q4, q5] };
 }
 
-export const SETS: Omit<ProblemSet, "questions">[] = [
+export const SETS: Omit<ProblemSet, "questions" | "example">[] = [
   { slug: "know-your-grid", title: "Know your grid: ERCOT and CAISO side by side", line: "Peak demand, generation mix, the battery cycle and carbon intensity, from the latest data.",
     teacher: "About 45 minutes. Prerequisites: MW against MWh, reading a daily and an hourly table. Students should open /grid/ercot, /grid/caiso, /mix, /storage and /emissions, and the tables linked under each question on /data.",
     pages: [{ href: "/grid?grid=ercot", label: "ERCOT" }, { href: "/grid?grid=caiso", label: "CAISO" }, { href: "/storage", label: "Storage" }, { href: "/grid?view=clean", label: "Emissions" }] },
@@ -502,7 +612,8 @@ export const SETS: Omit<ProblemSet, "questions">[] = [
 export async function problemSet(slug: string): Promise<ProblemSet | null> {
   const meta = SETS.find((s) => s.slug === slug);
   if (!meta) return null;
-  const questions = slug === "know-your-grid" ? await setA() : slug === "prices-and-your-bill" ? await setB() : slug === "storage-and-taxes" ? await setD()
+  const built = slug === "know-your-grid" ? await setA() : slug === "prices-and-your-bill" ? await setB() : slug === "storage-and-taxes" ? await setD()
     : slug === "networks-and-money" ? await setE() : await setC();
-  return { ...meta, questions };
+  // session 3650: the five asked from the easiest to the hardest (lib/problemkit.ts, GUIDE), after a worked example
+  return { ...meta, example: built.example, questions: inOrder(built.questions, GUIDE[slug]?.order ?? []) };
 }

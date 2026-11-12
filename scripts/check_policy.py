@@ -13,7 +13,9 @@ its calendar and each figure of its table carries a key (site/lib/policymonitor.
                 document's own)
     policyfig   the figure (value and unit) is the row's figure_value and figure_unit, or what derive reads, the same way
     policysum   (session 3062) a chart's sum of MW or USD in a month: every record it names has its figure traced, in
-                that unit, and the figures add to the sum
+                that unit, and the figures add to the sum. Since session 1876 (policy faults row 28) the page shows no
+                sum and keysOf gives none: the table by month shows each unit's largest figure, whose key is its
+                record's policyfig key, checked above. The sum check stays for the keys of an older file.
 
     python scripts/check_policy.py                    # the local CSVs (warehouse/output), read only
     python scripts/check_policy.py --in-dir DIR       # the CSVs of another copy
@@ -35,7 +37,7 @@ import pandas as pd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "policy"))
-import fields as pf  # noqa: E402
+import policy_fields as pf  # noqa: E402  session 3233: its own name, beside the deals tracker's fields
 import records as pr  # noqa: E402
 
 SITE = os.path.join(ROOT, "site")

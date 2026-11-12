@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-06T01:41Z",
+ "written": "2026-11-12T15:55Z",
  "green_days": 0,
- "counted_to": "2026-11-05",
+ "counted_to": "2026-11-11",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -2985,6 +2985,245 @@
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 52 days old (limit 28)"
     }
    ]
+  },
+  "2026-11-06": {
+   "rows": 684,
+   "failed": 2,
+   "missing": [],
+   "short": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 485,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "daily prices": {
+     "ok": 11,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 1,
+     "runs": 3
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 50,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 1,
+     "runs": 53
+    },
+    "local:lab-desktop": {
+     "ok": 40,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 40
+    },
+    "local:portable-laptop": {
+     "ok": 21,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 21
+    },
+    "local:samueloldlaptop": {
+     "ok": 10,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 10
+    },
+    "local:samueloldlaptop-window2": {
+     "ok": 1,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-06T01:41",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_derived_tables_flag_license_and_inputs - assert 'Energy Research Warehouse (ERW), derived' in \"Energy Research Warehouse (ERW). ERW derived table: ERCOT output b"
+    },
+    {
+     "at": "2026-11-06T18:13",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_board",
+     "reason": "its tests exited 1 (tests.test_session132 tests.test_session240); the group was put back as committed"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-06T17:22",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 53 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-10": {
+   "rows": 666,
+   "failed": 5,
+   "missing": [],
+   "short": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "daily prices": {
+     "ok": 0,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 4,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 22,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 50,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 52
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-10T14:23",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "FAILED (failures=3, skipped=369)"
+    },
+    {
+     "at": "2026-11-10T14:33",
+     "workflow": "daily prices",
+     "step": "health summary commit",
+     "reason": "push to main refused: 3 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session183.TheHubFiles.test_the_page_library_on_the_files, test_sessi"
+    },
+    {
+     "at": "2026-11-10T18:12",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_replication",
+     "reason": "its tests exited 1 (tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720); the group was put back as committed"
+    },
+    {
+     "at": "2026-11-10T21:02",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "FAILED (failures=3, skipped=369)"
+    },
+    {
+     "at": "2026-11-10T21:13",
+     "workflow": "daily prices",
+     "step": "health summary commit",
+     "reason": "push to main refused: 3 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session183.TheHubFiles.test_the_page_library_on_the_files, test_sessi"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-10T17:23",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 57 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-11": {
+   "rows": 603,
+   "failed": 4,
+   "missing": [],
+   "short": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 470,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 98
+    },
+    "daily prices": {
+     "ok": 0,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 4,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 22,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 95,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 98
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-11T14:26",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "FAILED (failures=3, skipped=369)"
+    },
+    {
+     "at": "2026-11-11T14:38",
+     "workflow": "daily prices",
+     "step": "health summary commit",
+     "reason": "push to main refused: 3 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session183.TheHubFiles.test_the_page_library_on_the_files, test_sessi"
+    },
+    {
+     "at": "2026-11-11T21:13",
+     "workflow": "daily prices",
+     "step": "merge tests",
+     "reason": "FAILED (failures=3, skipped=369)"
+    },
+    {
+     "at": "2026-11-11T21:21",
+     "workflow": "daily prices",
+     "step": "health summary commit",
+     "reason": "push to main refused: 3 failing tests: test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_session183.TheHubFiles.test_the_page_library_on_the_files, test_sessi"
+    }
+   ],
+   "stale": []
   }
  }
 }

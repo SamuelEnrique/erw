@@ -66,8 +66,9 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const t: Level | null = today.ok ? today.data : null;
   // session 56: each level's grid and time zone (today's level and the session 38 days are ERCOT, Central time)
   // session 66: and the day's solar shape where the warehouse holds one (the rooftop add-on; never filled where it does not)
-  const levels: GameLevel[] = [...(t ? [t] : []), ...FAMOUS].map(({ slug, date, title, why, ts_utc, price, grid, tz, rule, solar, solar_source }) =>
-    ({ slug, date, title, why, ts_utc, price, grid: grid ?? "ERCOT", tz: tz ?? TZ, ...(rule ? { rule } : {}), ...(solar ? { solar, solar_source } : {}) }));
+  // session 3600: and each level's table, source and retrieval, for the hover on every shown price
+  const levels: GameLevel[] = [...(t ? [t] : []), ...FAMOUS].map(({ slug, date, title, why, ts_utc, price, grid, tz, rule, solar, solar_source, table, source, retrieved_at }) =>
+    ({ slug, date, title, why, ts_utc, price, grid: grid ?? "ERCOT", tz: tz ?? TZ, ...(rule ? { rule } : {}), ...(solar ? { solar, solar_source } : {}), table, source, retrieved_at }));
   const withSolar = levels.filter((l) => l.solar).map((l) => l.date);
   const top = t ? await attempt(() => leaderboard(t.date, 60, presetOf(DEFAULT_SETTINGS, mode))) : null;
   const played = t ? await attempt(() => presetsPlayed(t.date)) : null;  // session 50: the presets played today

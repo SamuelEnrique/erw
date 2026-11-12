@@ -53,6 +53,9 @@ full:
   - '^iso_rt_top_intervals$'
   # session 24: the policy monitor (tool 12; the evidence table is internal) and NWS weather for /grid
   - '^policy_(actions|reads)$'
+  # session 3402 (chain 202): the Attention and Friction indices (public, the ERW's own derivation; the two weekly series
+  # tables a few thousand rows, the link table one row a classified story), for /attention's downloads and check-values
+  - '^(attention_index_weekly|friction_index_weekly|attention_story_links)$'
   - '^weather_(obs|forecast)_hourly$'
   # session 26: the company database's seed (tool 10), for /companies and the /deals cross-links
   - '^energy_companies$'
@@ -763,6 +766,16 @@ catalogue_hold:
   - iso_queue_snapshot_summary
   - nuclear_fleet_status
   - gas_balance_weekly
+  # session 3758 (chain 211): FERC-714's forecasts and their revisions, not yet on Redivis's public draft
+  - ferc714_planning_area_forecasts
+  - ferc714_forecast_growth
+  # session 3807 (chain 215): the deal tracker's counterparties directory, first written on 12 November, not yet on Redivis
+  - deal_counterparties
+  # session 3307 (chain 200): the company database's three tables, not on Redivis's public draft and "license needed" by
+  # their inputs' publishers; the company pages read the site's own files (site/data/companies/)
+  - company_directory
+  - company_aliases
+  - company_links
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's

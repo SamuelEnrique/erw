@@ -263,3 +263,26 @@ Read again by session 2969 at about 09:55 UTC, after chain 155's section. Chain 
 - **Time to connect, a large load's own wait:** open. The new queue table is the generators' queue; its request-to-in-service medians are not drawn (a recent year counts only the requests already in service, session 2958).
 - **Headroom, reserve margins by zone, and demand growth from the utilities' own forecasts:** open. FERC-714's forecasts (Part 3, Schedule 2) are not held (session 2949).
 - **No other row moved:** the reactor fleet and the gas balance fill no cell of the tab.
+## State on 12 November 2026 (chain 211)
+Read by session 3764, after chain 211 loaded the owner's research file of 6 November 2026, verified row by row.
+- **Transmission and 4CP, the utilities' large-load tariffs:** filled in part.
+  - `utility_large_load_tariffs` holds 24 schedules of 18 utilities: the Missouri and Louisiana schedules, Dominion GS-4, Georgia Power, SRP, APS, Alabama Power, Oncor and CenterPoint, Duke Energy Carolinas (proposed), Xcel Colorado (proposed), NV Energy, PG&E, PGE and I&M.
+  - A row whose utility (the tab's Utility column) files one shows its per-kW month figure with the filing on hover, words only, not in the all-in.
+  - AEP Ohio's DCT reads "licensed source needed" (ruling 4).
+  - The rows whose utility files none, or whose utility is not known (PJM has no one state), still read "not held".
+- **Time to connect, connection timelines by grid:** filled in part. `large_load_connection_rules` holds 8 documents: ERCOT's Planning Guide Section 9 and its batch deck, PUCT Project 58000's proposal, PJM's Board letter (EIT, 10 months) and its show-cause proposal (12-month cycle), CAISO's straw proposal (PTO studies within 60 to 90 days), SPP's HILL order and PG&E's Rule 30. Each grid's steps are a hover ("filed steps") on the cell.
+- **Headroom, demand growth from the utilities' own forecasts:** held, not yet drawn. `ferc714_planning_area_forecasts` and `ferc714_forecast_growth` (session 3758) hold every planning area's forecast and its revision; the tab's Headroom column reads EIA-930's measured growth, and drawing the forecast revision beside it is chain 212's.
+- **Still open:** NYISO's and ISO-NE's utilities' large-load tariffs; MISO's ERAS (only a news site's copy named); PUCT 16 TAC 25.194's adopted text; Dominion GS-5's sheet; the four peak intervals' node prices (ruling 2).
+## State on 12 November 2026, afternoon (chain 212)
+Read again by session 3785 at about 14:10 UTC, after chain 211's section, on `wip/c212-data` (main at `53d8a2f69`, chain 211 landed, merged). Chain 212's sessions 3774 to 3785:
+- **Headroom, demand growth from the utilities' own forecasts: drawn** (session 3785; on the tab once `wip/c212-data` lands). Each grid's row draws its ISO's own revision of its 2030 summer peak, the 2025 FERC-714 filing against the 2024 (`ferc714_forecast_growth`), keyed `allgrids|forecast|<row>`: SPP +7,235 MW, MISO +5,485, ISO-NE +181, ERCOT +0, PJM -875, NYISO -660, CAISO -2,442. The planning area as a whole, not the row's zone.
+- **Time to connect, connection timelines:** `large_load_connection_rules` holds 9 documents and 67 steps. Utah's S.B. 132 (8 steps, PacifiCorp) joined (session 3783); no tab row is in Utah, so no cell moved.
+- **Transmission and 4CP, every grid but ERCOT:** no new utility under a tab row. Austin Energy's and FirstEnergy's own terms bar reuse; the NCUC portal disallows ClaudeBot by name (Duke Energy Progress); the PUCT asks permission to copy and the Secretary of State's TAC host disallows the named AI and search agents (16 TAC 25.194's adopted text) (session 3783).
+- **ERCOT, the four peaks of summer 2026:** open. NP9-83-M is not linked from an allowed page on 12 November; its list is under `/misapp` (session 3782).
+- **Still open:** the four peak intervals' node prices (ruling 2); FERC's six show-cause orders (www.ferc.gov answers with a Cloudflare check, session 3784); SPP's CHILLS (SPP's license unanswered); MISO's ERAS (MISO paused); Dominion GS-5 (the SCC host paused).
+## State on 12 November 2026, evening (chain 215)
+Read again by session 3802 at about 17:10 UTC, after chain 212's section, on `wip/c215-data` (main at `1c42742b0`, chain 212 landed at `9e7fde9a6`). Chain 215's sessions 3795 to 3802:
+- **Headroom, reserve margins by zone: filled for the CAISO** (session 3802; on the tab once `wip/c215-data` lands). The CAISO rows draw the CAISO's own 2026 summer assessment, an achieved planning reserve margin of 30.8 percent in the tightest hour (`iso_reserve_margin_reports`, session 3798's registry), keyed `allgrids|reservereport|<row>`, with the 25 percent it finds is needed and the 2,547 MW surplus in the tip. ERCOT's stays its CDR. The other grids stay open: NERC's assessment is closed by its robots file (ClaudeBot by name), and the other ISOs' reports by terms, a pause or a license.
+- **Headroom, demand growth from the utilities' own forecasts:** drawn since chain 212 (`allgrids|forecast|<row>`); its cross-check now holds eleven planning areas outside the ISOs as well (session 3796, `docs/methods/ferc714_forecast_growth.md`).
+- **Substations and lines:** open. EIA's Energy Atlas names no transmission layer in its catalogue search (session 3799).
+- **No other row moved** (session 3799's report names each and why).

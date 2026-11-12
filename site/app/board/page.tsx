@@ -35,7 +35,9 @@ const TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history", "caiso
   "carb_auction_allowance_prices",
   // sessions 1601 to 1604 (chain 165): the tables of the rows they added
   "ercot_zone_prices_history", "iso_zone_prices_history", "node_basis_summary", "ercot_rtm_price_adders", "eia_gas_storage_weekly",
-  "eia_lng_exports_monthly", "eia_gas_trade_monthly", "eia_crude_first_purchase_prices", "eia_retail_fuel_prices", "ercot_4cp_intervals"];
+  "eia_lng_exports_monthly", "eia_gas_trade_monthly", "eia_crude_first_purchase_prices", "eia_retail_fuel_prices", "ercot_4cp_intervals",
+  // session 3751: the 4CP rows' real-time hub price (session 1626) and the fleet's stated heat rates (session 1606), read by board_page.py
+  "iso_rtm_hub_prices", "eia_heat_rates_annual"];
 
 // session 1145: the five board questions of warehouse/chat/eval/questions_s1122.yaml, as examples a reader can click
 const BOARD_QUESTIONS = (boardQuestions as { questions: { question: string }[] }).questions.map((q) => q.question);

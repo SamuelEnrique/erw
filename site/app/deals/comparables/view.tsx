@@ -5,9 +5,10 @@ import { ChartFrame, SourceLine, ToolHeader, ToolSection } from "@/components/to
 import duplicates from "@/data/deal_duplicates.json";
 import { deals } from "@/lib/data";
 import {
-  DIMENSIONS, FEWER, MIN_DISCLOSED, NOT_STATED, comparables, compKey, fold, shown as shownOf, toDeal, whole,
-  type Cell, type DealRow, type Pair,
+  DIMENSIONS, FEWER, MIN_DISCLOSED, NOT_STATED, PRICE_DIMENSIONS, comparables, compKey, fold, priceCells, priceKey, priced,
+  shown as shownOf, toDeal, whole, type Cell, type Deal, type DealRow, type Pair,
 } from "@/lib/deals2";
+import { PlaceDeal } from "./PlaceDeal";
 import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
 import { DealsHeld } from "../Held";
@@ -26,7 +27,8 @@ const PAIRS = (duplicates as unknown as { pairs: Pair[] }).pairs;
 const cell = "px-3 py-1.5 align-top";
 
 function Bars({ cells, what }: { cells: Cell[]; what: "price" | "mw" }) {
-  const rows = cells.filter((c) => (what === "price" ? c.medianPrice : c.medianMw) !== null);
+  // session 1852 (deals faults row 14): the group whose dimension is not stated is in the table, not in the chart
+  const rows = cells.filter((c) => c.value !== "" && (what === "price" ? c.medianPrice : c.medianMw) !== null);
   const W = 760, L = 210, R = 70, rowH = 26, top = 8, H = top + rows.length * rowH + 8;
   const hi = Math.max(1, ...rows.map((c) => (what === "price" ? c.medianPrice! : c.medianMw!)));
   const x = (v: number) => L + (v / hi) * (W - L - R);
@@ -53,6 +55,59 @@ function Figure({ v, k }: { v: number | null; k: string }) {
   return v === null ? <span className="text-muted">{FEWER}</span> : <Num check={k} raw={v}>{whole(v)}</Num>;
 }
 
+// Session 2239 (chain 156): the disclosed prices of PPAs and offtakes by technology, grid or year (?pby=), each figure
+// a hover to the records it is of, and a reader's own deal placed against them (PlaceDeal, nothing stored).
+const records = (ds: Deal[]) =>
+  ds.map((d) => `${d.date} ${[d.buyer, d.seller].filter(Boolean).join(" / ") || "parties not stated"}: USD ${whole(d.price!)} per MWh`).join("\n");
+
+function Prices({ all, pby, by }: { all: Deal[]; pby: string; by: string }) {
+  const dim = PRICE_DIMENSIONS.find((d) => d.id === pby)!;
+  const cells = priceCells(all, pby);
+  const p = priced(all);
+  const base = by === "type" ? "/deals?view=comparables" : `/deals?view=comparables&by=${by}`;
+  return (
+    <ToolSection title="Disclosed prices" id="prices"
+      note={<>The PPAs and offtakes whose stories state a price in US dollars per MWh: {whole(p.length)} of the {whole(all.length)} deals. The count is always shown; the median, the lowest and the highest only where {MIN_DISCLOSED} or more state one. Hover a figure for the deals it is of.</>}>
+      <nav aria-label="Prices by" className="mb-3 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-sm" data-price-by={pby}>
+        <span className="font-semibold">By</span>
+        {PRICE_DIMENSIONS.map((d) => (
+          <Link key={d.id} href={d.id === "technology" ? `${base}#prices` : `${base}&pby=${d.id}#prices`} scroll={false}
+            aria-current={d.id === pby ? "true" : undefined} className={d.id === pby ? "font-semibold no-underline" : "underline"}>
+            {d.label}
+          </Link>
+        ))}
+      </nav>
+      {cells.length === 0 ? (
+        <p className="mb-6 text-sm text-muted" role="status" data-price-none="1">No PPA or offtake held states a price in US dollars per MWh: almost no story the ERW reads states one (<Link href="/data/methods/energy_deals">method</Link>).</p>
+      ) : (
+        <div className="mb-6 overflow-x-auto">
+          <table className="w-full border-collapse text-left text-sm" data-price-table={pby}>
+            <caption className="sr-only">The disclosed prices by {dim.label.toLowerCase()}</caption>
+            <thead>
+              <tr className="border-b border-rule text-left text-xs text-muted">
+                {[dim.label, "State a price", "Median", "Lowest", "Highest"].map((h) => <th key={h} scope="col" className="px-3 py-1.5 font-normal">{h}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {cells.map((c) => (
+                <tr key={c.value || "-"} className="border-b border-rule" data-price-cell={c.value || "-"}>
+                  <th scope="row" className={`${cell} font-normal`}>{c.label}</th>
+                  <td className={`${cell} tabular-nums`} title={records(c.records)}><Num check={priceKey("count", pby, c.value)} raw={c.count}>{whole(c.count)}</Num></td>
+                  {(["median", "low", "high"] as const).map((s) => (
+                    <td key={s} className={`${cell} tabular-nums`} title={c[s] === null ? "" : records(c.records)}><Figure v={c[s]} k={priceKey(s, pby, c.value)} /></td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      <h3 className="mb-2 text-base">Your deal against them</h3>
+      <PlaceDeal deals={p} technologies={[...new Set(p.map((d) => d.technology).filter(Boolean))].sort()} grids={[...new Set(p.map((d) => d.grid).filter(Boolean))].sort()} />
+    </ToolSection>
+  );
+}
+
 export async function ComparablesView({ sp }: { sp: Record<string, string | undefined> }) {
   const read = await attempt(deals);
   const by = DIMENSIONS.some((d) => d.id === sp.by) ? (sp.by as string) : "type";
@@ -60,7 +115,7 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
   const all = read.ok ? fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS) : [];
   const cells = comparables(all, by);
   const what: "price" | "mw" = cells.some((c) => c.medianPrice !== null) ? "price" : "mw";
-  const charted = cells.filter((c) => (what === "price" ? c.medianPrice : c.medianMw) !== null).length;
+  const charted = cells.filter((c) => c.value !== "" && (what === "price" ? c.medianPrice : c.medianMw) !== null).length;
   const withPrice = all.filter((d) => d.price !== null).length, withMw = all.filter((d) => d.mw !== null).length;
 
   return (
@@ -107,7 +162,7 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
               <table className="w-full border-collapse text-left text-sm" style={{ minWidth: 720 }} data-comp-table={by}>
                 <caption className="sr-only">The deals&apos; disclosed figures by {dim.label.toLowerCase()}</caption>
                 <thead>
-                  <tr className="bg-accent text-white">
+                  <tr className="border-b border-rule text-left text-xs text-muted">
                     {[dim.label, "Deals", "State a price", "Median price, USD/MWh", "State a size", "Median size, MW"].map((h) => <th key={h} scope="col" className="px-3 py-1.5 font-normal">{h}</th>)}
                   </tr>
                 </thead>
@@ -126,6 +181,7 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
               </table>
             </div>
           </ToolSection>
+          <Prices all={all} pby={PRICE_DIMENSIONS.some((d) => d.id === sp.pby) ? (sp.pby as string) : "technology"} by={by} />
         </>
       )}
       <SourceLine tables={["energy_deals"]} note={<>The deals as <code className="font-mono">warehouse/deals/extract.py</code> extracted them from <code className="font-mono">news_stories</code>, with <code className="font-mono">warehouse/deals/duplicates.csv</code>&apos;s pairs shown once. <Link href="/data/methods/energy_deals">Method</Link>. This view is in review.</>} />

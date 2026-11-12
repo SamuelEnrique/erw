@@ -132,7 +132,9 @@ class TheComponents(unittest.TestCase):
                  "dcpow", "dcq", "lic",
                  # session 700 (chain 050): the All grids tab of /cost-of-power (allgrids|<column>|<row>|...), read from the
                  # site's own files; a figure of an internal table is drawn as "license needed" by the tab itself, with no key
-                 "allgrids"}
+                 "allgrids",
+                 # session 2248 (chain 156): the datacenter page's charts, grids view and timeline, held by datacenter_facilities
+                 "dcchart", "dcgrid", "dctime"}
         found = set()
         for dirpath, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             if "_retired" in dirpath:

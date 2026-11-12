@@ -18,6 +18,11 @@ IRW's Python package, github.com/itemresponsewarehouse/Python-pkg.
 
 Session 536: the examples name today's tables; ercot_dam_hub_prices became the ercot_dam partition of
 iso_dam_hub_prices in session 29 (warehouse/metadata/table_migrations.csv).
+
+Session 3298: tables() lists every table of warehouse/metadata/coverage.csv (in a clone) or of the copy the package
+ships, erw/data/tables.csv (installed), held tables included with their verdict. The same list, written out with each
+public table's description, unit, period, granularity, license, method note and download address, is the last
+section of package/llms.txt, which scripts/build_llms.py writes from the same record.
 """
 
 __version__ = "0.1.0"

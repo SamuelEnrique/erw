@@ -1,0 +1,26 @@
+# Session 3760 (chain 211): verified against Oncor's Tariff for Retail Delivery Service as it publishes it, the research file of
+# 6 November 2026's Set B row 5 being the lead; saved under runs/license_reads/s3760/ (not in git). A wires-only schedule:
+# transmission cost comes through Rider TCRF (oncor_rider_tcrf.yaml). Oncor has no large-load schedule; Transmission
+# Service is what a large load at transmission voltage takes. Pages are the PDF's (the tariff's printed pages 80 and 81).
+utility: Oncor Electric Delivery Company LLC
+eia_id: 44372
+state: TX
+grid: ERCOT
+sector: delivery at transmission voltage (no large-load schedule)
+status: adopted
+schedule: 6.1.1.1.7 Transmission Service (Tariff for Retail Delivery Service)
+tariff_sheet: Sheet 1.7, Revision Twelve
+effective: 2026-06-01
+commission: Public Utility Commission of Texas
+docket: not printed for the base rates (the tariff cites Docket No. 58306 for rate case expenses only)
+document: Oncor's Tariff for Retail Delivery Service, effective 1 June 2026, as published on its tariffs page
+document_url: https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf.coredownload.pdf
+retrieved_at: 2026-11-12T10:58:14Z
+license: public
+notes: "Metering Charge $321.63 per Retail Customer (page 80). Transmission cost is billed through Rider TCRF on 4CP kW."
+terms:
+  min_bill: {text: "the higher of the 15-minute NCP kW for the current billing month or 80% of the highest monthly 15-minute NCP kW established in the 11 months preceding the current billing month (80% ratchet)", page: 81}
+figures:
+  - {variable: demand_charge_distribution, value: 0.331004, printed: "Distribution System Charge $ 0.331004 per Distribution System billing kW", page: 80}
+  - {variable: min_bill_pct, value: 80, printed: "80% of the highest monthly 15-minute NCP kW established in the 11 months", page: 81}
+  - {variable: fixed_charge, value: 258.80, printed: "Customer Charge $ 258.80 per Retail Customer", page: 80}

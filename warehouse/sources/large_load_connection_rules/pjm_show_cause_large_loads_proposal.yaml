@@ -1,0 +1,50 @@
+# Session 3762 (chain 211): read from PJM's presentation "Show Cause for Large Loads Approach" to its CLLSCO workshop of 30
+# September 2026 (FERC Docket EL26-67), as PJM publishes it (www.pjm.com robots allow /-/media/), the research file of 6 November
+# 2026's operator table row 5 being the lead; saved under runs/license_reads/s3762/ (not in git), read in pdftotext's raw
+# order. A PROPOSAL, not yet filed with FERC (the filing scheduled for 16 November 2026): the durations are the deck's, and
+# the deck marks its figures for large loads as estimated values (**). The decision-point amounts' mapping to the two turns
+# is not clear from the slide and is not written as steps.
+body: PJM Interconnection, L.L.C. (staff proposal to the CLLSCO workshop)
+grid: PJM
+utility: ""
+eia_id: ""
+state: PA                                   # PJM spans thirteen states and DC; PA is its seat (Audubon), as the registry needs one
+document: PJM, Show Cause for Large Loads Approach, CLLSCO workshop presentation, 30 September 2026 (a proposal; FERC Docket EL26-67)
+document_date: 2026-09-30
+document_url: https://www.pjm.com/-/media/DotCom/committees-groups/workshops/cllsco/2026/20260930/20260930-item-02---show-cause-for-large-loads-approach---presentation.pdf
+retrieved_at: 2026-11-12T11:21:31Z
+license: public
+steps:
+  - section: "slide 9, Submission Window"
+    page: 9
+    step: large loads and generation submit to the annual window (proposed)
+    party: large load or generation developer
+    duration: 4
+    unit: months
+    printed: "Submission Window ... Submission/Application 4 months (16 weeks) ... Dec 15"
+  - section: "slide 9, Kickoff Gate"
+    page: 9
+    step: a request posts its readiness deposit at the Kickoff Gate or is withdrawn (proposed)
+    party: large load or generation developer
+    printed: "Withdrawn at gate if following not met: $30,000/MW** readiness (not at risk); Site control verified; Permit matrix verified; Tech data verified; Evidence of TO approval to proceed (Large Load)"
+  - section: "slide 9, System Impact Study"
+    page: 9
+    step: the System Impact Study (proposed)
+    party: PJM and TOs
+    duration: 6.75
+    unit: months
+    printed: "SIS ... 6.75 months (31 weeks)"
+  - section: "slide 9, the cycle"
+    page: 9
+    step: the whole cycle from the Kickoff Gate to the final agreement (proposed)
+    party: PJM
+    duration: 12
+    unit: months
+    printed: "12 months (52 weeks)"
+  - section: "slide 10, Screening Window"
+    page: 10
+    step: the Screening Window with its two turns and decision points (proposed)
+    party: PJM and TOs
+    duration: 4
+    unit: months
+    printed: "Screening Window (4 months/16 weeks)"

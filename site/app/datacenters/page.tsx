@@ -11,12 +11,17 @@ import { gridOfTable } from "@/lib/datacenter/bygrid";
 import { INDEX } from "@/lib/datacenterdata";
 import { one } from "@/lib/tabs";
 import { attempt } from "@/lib/supabase";
-import { licenseByRow, licenseNeeded } from "@/lib/license";
+import { isLicenseReason, licenseByRow, licenseNeeded } from "@/lib/license";
 import { HeldRows } from "@/components/tool/HeldRows";  // session 500
 import { Body, toFacility } from "./Body";
+import { FacilitiesHeld } from "./Held";   // session 1855 (datacenter faults row 2): the hold as one sentence
 import { LargeLoad, LargeLoadSource } from "./LargeLoad";
 import { GridsView } from "./GridsView";
 import { PowerSide } from "./PowerSide";
+import { Rollups } from "./Rollups";
+import { FacilitiesVsGrid } from "./FacilitiesVsGrid";
+import { Timeline } from "./Timeline";
+import { DcCharts } from "./DcCharts";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Datacenter tracker" };  // session 203: renamed (the roadmap's ruling of 12 October 2026); "Datacenters" is the cost-of-power page's name in the menu now
@@ -45,12 +50,16 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
     const grids = queues.ok ? [...new Set(queues.data.rows.map((r) => gridOfTable(r.table_name)))] : [];
     const active = await attempt(() => queueActive(grids));
     const priceTables = grids.flatMap((g) => (INDEX.grids[g]?.regions ?? []).flatMap((r) => [...(r.rt?.tables ?? []), ...(r.da?.tables ?? [])]));
+    // session 2244: the facilities against each grid's peak, capacity and reserve margin (held: the hold's words)
+    const facs = await attempt(datacenters);
+    const facsHeld = !facs.ok && isLicenseReason(facs.reason);
     return (
       <Brand>
         <ToolPage>
           {header}
           <Tabs page="/datacenters" active="grids" />
           <GridsView sites={queues} active={active} />
+          <FacilitiesVsGrid read={facs} held={facsHeld} />
           <TableDownloads tables={[...grids.map((g) => `${g}_interconnection_queue`), ...priceTables]} />
           <Related href="/datacenters" />
         </ToolPage>
@@ -80,7 +89,7 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
         {header}
         <Tabs page="/datacenters" active="facilities" />
         {!res.ok ? (
-          <><NoData what="datacenters" reason={res.reason} /><LargeLoad read={res} />{words}</>
+          <>{isLicenseReason(res.reason) ? <FacilitiesHeld /> : <NoData what="datacenters" reason={res.reason} />}<LargeLoad read={res} />{words}</>
         ) : res.data.length === 0 ? (
           <>
             {/* session 500: a table held by row with no public row says so, then how many are held */}
@@ -93,6 +102,12 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
             {/* session 500: held by row, the public rows are shown and the held ones counted (nothing here until the mark) */}
             <HeldRows shape="entities" table="datacenter_facilities" shown={res.data.length} method="/data/methods/datacenter_facilities" />
             <Body rows={res.data.map(toFacility)} today={today}><LargeLoad read={res} />{words}</Body>
+            {/* session 2243: the rollups by grid and by operator, with the facilities that state no MW beside each sum */}
+            <Rollups rows={res.data} />
+            {/* session 2245: from first reported to energized, where both are stated */}
+            <Timeline rows={res.data} />
+            {/* session 2246: the three charts, every figure traced by scripts/check_datacenters.py */}
+            <DcCharts rows={res.data} />
           </>
         )}
         {/* session 467: on the power side, drawn whether or not the facilities table can be read (it is held since 21 October 2026) */}

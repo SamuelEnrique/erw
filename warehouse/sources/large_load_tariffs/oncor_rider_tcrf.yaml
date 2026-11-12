@@ -1,0 +1,22 @@
+# Session 3760 (chain 211): verified against Oncor's Tariff for Retail Delivery Service as it publishes it, the research file of
+# 6 November 2026's Set B row 6 being the lead; saved under runs/license_reads/s3760/ (not in git). The figure is the
+# Transmission Service column ($/4CP kW) of the step effective 4 October 2026 (PDF page 98, the rider's page 3 of 4); the
+# earlier steps (1 August 2026 $3.491759, 1 September 2025 $3.395215 among them) are in the same table.
+utility: Oncor Electric Delivery Company LLC
+eia_id: 44372
+state: TX
+grid: ERCOT
+sector: transmission cost recovery, Transmission Service class (4CP)
+status: adopted
+schedule: Rider TCRF, Transmission Cost Recovery Factor (6.1.1.6.1)
+tariff_sheet: Sheet 6.1, Revision Fifty-three
+effective: 2026-10-04
+commission: Public Utility Commission of Texas
+docket: PUCT Substantive Rule 25.193 (the step's own docket not printed)
+document: Oncor's Tariff for Retail Delivery Service, Rider TCRF, the step effective 4 October 2026, as published on its tariffs page
+document_url: https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf.coredownload.pdf
+retrieved_at: 2026-11-12T10:58:14Z
+license: public
+notes: "Billed on the customer's 4CP kW: the average of its demand in ERCOT's four coincident peak intervals of June to September."
+figures:
+  - {variable: demand_charge_transmission, value: 6.260839, printed: "Oct. 4, 2026 ... Transmission ($/4CP kW) 6.260839", page: 98}

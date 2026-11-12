@@ -1,0 +1,59 @@
+ERW Weekly Roundup, 2026-W45
+
+Week ending 8 November 2026. Sources through 18:26 ET, 23:26 UTC.
+
+ERW's weekly roundup of energy news for 2026-11-02 to 2026-11-08, to 2026-11-08 23:26 UTC, from 287 scored stories.
+
+
+The opening number
+
+Brent crude closed at 107.03 USD/bbl on 2026-11-03, against 123.10 USD/bbl on 2026-10-27 (-16.07 USD/bbl, -13.1%) [5]. Status: calculated from observed prices (the warehouse's tables).
+
+The week in five numbers
+
+- Price move of the week: the opening number, above.
+- US48 peak demand: 502,100 MW in the hour starting 2026-11-02 23:00 UTC [6].
+- Deal of the week, by US dollars: USD 938 million, Deutsche Bank and Rabobank and Return, Germany BESS portfolio (project finance, 2026-11-05).
+- Largest new datacenter load first reported this week: no facility first reported this week with its MW passes the datacenter table's floor (3 under it); in its place, the week's next price move: WTI Cushing crude closed at 99.64 USD/bbl on 2026-11-03, against 103.37 USD/bbl on 2026-10-27 (-3.73 USD/bbl, -3.6%) [5].
+- From the chart of the week: Lower 48 battery discharge, daily mean of the week: 47,682 MWh a day in 2026-10-26 to 2026-11-01 (the week before: the chart's latest period ends before this week).
+Tables: the deal of the week, energy_deals deal:bf5c6cf108d504e1; the chart's figure, template watch_battery_discharge_us, docs/analysis/2026-W45/chart_of_the_week.json.
+
+What mattered
+
+1. AEP and Google advance a USD 4 billion, 702 MW Bloom Energy fuel-cell project in Cheyenne
+   Hyperscale power deal combining fuel cells, natural gas, and private microgrid infrastructure for datacenter demand. What the evidence does not establish: the 702 MW is the outlet's figure, not a warehouse table's; one outlet has reported it so far.
+   Data Center Frontier: https://www.datacenterfrontier.com/energy/article/55413102/aep-google-advance-4-billion-fuel-cell-project-to-power-cheyenne-data-centers
+2. IEA publishes World Energy Outlook 2026
+   Annual forecast of global energy trends shapes investment and policy decisions. What the evidence does not establish: no capacity or sum is stated; one outlet has reported it so far.
+   IEA - International Energy Agency (via Google News)
+3. Orsted completes Revolution Wind, a 704 MW offshore wind farm now in commercial operation
+   What the evidence does not establish: the 704 MW is the outlet's figure, not a warehouse table's.
+   POWER Magazine: https://www.powermag.com/revolution-wind-offshore-wind-project-enters-commercial-operation/
+
+ERW's Chart of the Week
+
+Batteries discharging, Lower 48 (the rule's pick; no finding was chosen for this week)
+[chart: Batteries discharging, Lower 48] https://raw.githubusercontent.com/SamuelEnrique/erw/main/docs/analysis/2026-W45/chart_email.png
+The chart shows the Lower 48 battery discharge, daily mean of the week, for each of the 104 weeks held, which ran from 9188.86 MWh a day (2024-11-04 to 2024-11-10) to 56102.57 MWh a day (2026-08-31 to 2026-09-06). In the week of 2026-10-26 to 2026-11-01 it was 47682.14 MWh a day, down 6,317.57 from 53,999.71 the week before, and 8 of the 102 earlier week-to-week moves were as large.
+Source: Energy Research Warehouse (ERW), derived, Energy Research Warehouse (ERW), derived from California ISO via the Energy Research Warehouse (ERW), table storage_daily_cycle; data retrieved to 2026-11-05. Template watch_battery_discharge_us; every template's latest run is on /research.
+The week's stories point to US crude oil exports, whose chart is on /research (template watch_crude_exports).
+
+Next week
+
+- 9 November 2026: Regulatory Enhancements for Reactor Licensing, Decommissioning, and Operational Oversight (NRC). Comments are due by 11:59 p.m. eastern time on November 9, 2026, through regulations.gov under Docket ID NRC-2025-1138. (source (https://www.federalregister.gov/documents/2026/09/24/2026-19568/regulatory-enhancements-for-reactor-licensing-decommissioning-and-operational-oversight))
+- 9 November 2026: Cheniere Corpus Christi Pipeline, LP, Corpus Christi Liquefaction Stage IV, LLC, Corpus... (FERC). FERC must receive comments on the draft EIS by 5:00 p.m. Eastern Time on November 9, 2026. (source (https://www.federalregister.gov/documents/2026/09/23/2026-19447/cheniere-corpus-christi-pipeline-lp-corpus-christi-liquefaction-stage-iv-llc-corpus-christi))
+- 9 November 2026: National Petroleum Reserve in Alaska Production Site Development (BLM). Comments on the proposed rule are due to the BLM by November 9, 2026. (source (https://www.federalregister.gov/documents/2026/09/08/2026-18261/national-petroleum-reserve-in-alaska-production-site-development))
+
+More on the site: the weekend's and the week's other stories, the deals, the datacenters, the policy of the week and the numbers in full: https://github.com/SamuelEnrique/erw/blob/main/docs/roundup/2026-W45.md
+
+ERW's Fun Fact
+
+In 2002, GE acquired the wind power assets of Enron during its bankruptcy proceedings, and Enron Wind was the only surviving U.S. manufacturer of large wind turbines at the time.
+Sources: Wikipedia, General Electric (https://en.wikipedia.org/wiki/General_Electric).
+
+ERW
+
+All of ERW's Roundup: https://github.com/SamuelEnrique/erw/blob/main/docs/roundup/2026-W45.md
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Corrections: https://github.com/SamuelEnrique/erw/issues
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.

@@ -1,0 +1,252 @@
+# Energy Research Warehouse (ERW): 20 questions for Ask a power trader asks, session 3280 (the Ask evaluation chain of 6 November 2026).
+# The hubs' day-ahead and real-time averages and maxima with their hour for the operating day 3 November 2026 and the week of 26 October
+# to 1 November 2026 (local time, said in each question), a spread between two hubs, the spark spread at 7.0 MMBtu/MWh against Henry Hub,
+# a count of real-time intervals above a threshold, the trader view's hours of real time over day-ahead, ERCOT's node basis, the on-peak
+# average, and two grids the site shows no price of (NYISO held for a license, MISO paused). Every expected number was computed before any
+# model call from the live set (Supabase, the catalogue and series views, the anon key, reads only) on 2026-11-06 by
+# scripts/ask_eval/trader_questions.py, which writes this file; each note names the table, the entity, the variable, the window and the
+# aggregation. `via` as in questions_s302.yaml. tolerance: 0.01 under 1,000, 0.5 from 1,000. A text entry with "|" is met by any one of
+# its parts (the ways an hour may be written); count: true asks the figure apart from a clock time. A refusal key has no figure; hold: true marks a held table, whose answer carries the hold's
+# words and no figure.
+today: '2026-11-06'
+questions:
+- id: tr01
+  grid: ERCOT
+  via: grid
+  question: "What was the average hourly day-ahead price at ERCOT's North hub (HB_NORTH) on 3 November 2026 (Central time), in USD per MWh?"
+  expected: [50.7954]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, ercot:HB_NORTH, spp_dam: the mean of the 24 hourly rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (the local days, America/Chicago); checked whole"
+- id: tr02
+  grid: ERCOT
+  via: grid
+  question: "What was the highest hourly day-ahead price at ERCOT's North hub (HB_NORTH) on 3 November 2026 (Central time), in USD per MWh, and in which hour?"
+  expected: [150.0]
+  tolerance: 0.01
+  text: ["03:00 UTC|03:00Z|T03:00|21:00|9:00 p.m.|9:00p.m.|9 p.m.|9p.m.|9:00 pm|9:00pm|9 pm|9pm|hour ending 22|HE22|HE 22"]
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, ercot:HB_NORTH, spp_dam: the maximum of the 24 hourly rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (America/Chicago), the hour beginning 2026-11-04T03:00:00Z"
+- id: tr03
+  grid: ERCOT
+  via: grid
+  question: "What was the average real-time price at ERCOT's Houston hub (HB_HOUSTON) on 3 November 2026 (Central time), over its 15-minute intervals, in USD per MWh?"
+  expected: [49.9954]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_rtm_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_rtm_hub_prices, ercot:HB_HOUSTON, spp_rtm: the mean of the 96 15-minute rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (America/Chicago); checked whole"
+- id: tr04
+  grid: ERCOT
+  via: grid
+  question: "What was the highest 15-minute real-time price at ERCOT's West hub (HB_WEST) on 3 November 2026 (Central time), in USD per MWh, and in which interval?"
+  expected: [222.74]
+  tolerance: 0.01
+  text: ["23:30 UTC|23:30Z|T23:30|17:30|5:30 p.m.|5:30p.m.|5:30 pm|5:30pm"]
+  tables: ["iso_rtm_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_rtm_hub_prices, ercot:HB_WEST, spp_rtm: the maximum of the 96 15-minute rows from 2026-11-03T06:00:00Z to 2026-11-04T06:00:00Z (America/Chicago), the interval beginning 2026-11-03T23:30:00Z"
+- id: tr05
+  grid: CAISO
+  via: grid
+  question: "What was the average hourly day-ahead price at CAISO's SP15 hub on 3 November 2026 (Pacific time), in USD per MWh?"
+  expected: [44.6725]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, caiso:TH_SP15_GEN-APND, lmp_dam: the mean of the 24 hourly rows from 2026-11-03T08:00:00Z to 2026-11-04T08:00:00Z (the local days, America/Los_Angeles); checked whole"
+- id: tr06
+  grid: CAISO
+  via: grid
+  question: "What was the highest hourly day-ahead price at CAISO's SP15 hub on 3 November 2026 (Pacific time), in USD per MWh, and in which hour?"
+  expected: [58.0027]
+  tolerance: 0.01
+  text: ["14:00 UTC|14:00Z|T14:00|06:00|6:00 a.m.|6:00a.m.|6 a.m.|6a.m.|6:00 am|6:00am|6 am|6am|hour ending 7|HE7|HE 7|HE07|hour ending 07"]
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, caiso:TH_SP15_GEN-APND, lmp_dam: the maximum of the 24 hourly rows from 2026-11-03T08:00:00Z to 2026-11-04T08:00:00Z (America/Los_Angeles), the hour beginning 2026-11-03T14:00:00Z"
+- id: tr07
+  grid: SPP
+  via: grid
+  question: "What was the average hourly day-ahead price at SPP's North hub in the week of Monday 26 October to Sunday 1 November 2026 (Central time), in USD per MWh?"
+  expected: [32.7471]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, spp:SPPNORTH_HUB, lmp_dam: the mean of the 169 hourly rows from 2026-10-26T05:00:00Z to 2026-11-02T06:00:00Z (the local days, America/Chicago); checked whole"
+- id: tr08
+  grid: CAISO
+  via: grid
+  question: "What was the average real-time price at CAISO's ZP26 hub in the week of Monday 26 October to Sunday 1 November 2026 (Pacific time), over its 15-minute intervals, in USD per MWh?"
+  expected: [43.8409]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_rtm_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_rtm_hub_prices, caiso:TH_ZP26_GEN-APND, lmp_rtm_15m_mean: the mean of the 676 15-minute rows from 2026-10-26T07:00:00Z to 2026-11-02T08:00:00Z (America/Los_Angeles); checked whole"
+- id: tr09
+  grid: ERCOT
+  via: grid
+  question: "What was the highest hourly day-ahead price at ERCOT's hub average (HB_HUBAVG) in the week of Monday 26 October to Sunday 1 November 2026 (Central time), in USD per MWh, and in which hour?"
+  expected: [69.07]
+  tolerance: 0.01
+  text: ["22:00 UTC|22:00Z|T22:00|17:00|5:00 p.m.|5:00p.m.|5 p.m.|5p.m.|5:00 pm|5:00pm|5 pm|5pm|hour ending 18|HE18|HE 18"]
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, ercot:HB_HUBAVG, spp_dam: the maximum of the 169 hourly rows from 2026-10-26T05:00:00Z to 2026-11-02T06:00:00Z (America/Chicago), the hour beginning 2026-10-26T22:00:00Z"
+- id: tr10
+  grid: CAISO
+  via: grid
+  question: "What was the highest 15-minute real-time price at CAISO's NP15 hub in the week of Monday 26 October to Sunday 1 November 2026 (Pacific time), in USD per MWh, and in which interval?"
+  expected: [82.8028]
+  tolerance: 0.01
+  text: ["04:15 UTC|04:15Z|T04:15|21:15|9:15 p.m.|9:15p.m.|9:15 pm|9:15pm"]
+  tables: ["iso_rtm_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_rtm_hub_prices, caiso:TH_NP15_GEN-APND, lmp_rtm_15m_mean: the maximum of the 676 15-minute rows from 2026-10-26T07:00:00Z to 2026-11-02T08:00:00Z (America/Los_Angeles), the interval beginning 2026-10-27T04:15:00Z"
+- id: tr11
+  grid: ERCOT
+  via: grid
+  question: "What was the spread between the average hourly day-ahead prices at ERCOT's West hub (HB_WEST) and ERCOT's North hub (HB_NORTH) in the week of Monday 26 October to Sunday 1 November 2026 (Central time), West minus North, in USD per MWh?"
+  expected: [3.2399]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, spp_dam: the mean of ercot:HB_WEST's 169 hourly rows minus the mean of ercot:HB_NORTH's 169, the local days 2026-10-26 to 2026-11-02 (America/Chicago), end not included"
+- id: tr12
+  grid: CAISO
+  via: grid
+  question: "What was the spread between the average hourly day-ahead prices at CAISO's SP15 hub and CAISO's NP15 hub on 3 November 2026 (Pacific time), SP15 minus NP15, in USD per MWh?"
+  expected: [-10.2643]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, lmp_dam: the mean of caiso:TH_SP15_GEN-APND's 24 hourly rows minus the mean of caiso:TH_NP15_GEN-APND's 24, the local days 2026-11-03 to 2026-11-04 (America/Los_Angeles), end not included"
+- id: tr13
+  grid: ERCOT
+  via: grid
+  question: "What was the spark spread at ERCOT's hub average (HB_HUBAVG) on 3 November 2026, at a heat rate of 7.0 MMBtu per MWh against Henry Hub gas, in USD per MWh?"
+  expected: [40.5675]
+  tolerance: 0.01
+  text: []
+  tables: ["price_board_spreads"]
+  refuse: false
+  hold: false
+  count: false
+  note: "price_board_spreads, ercot:HB_HUBAVG, spark_spread_7: the 2026-11-03 row (the day-ahead daily mean minus 7.0 times Henry Hub, the board's own)"
+- id: tr14
+  grid: SPP
+  via: grid
+  question: "What was the spark spread at SPP's North hub on 2 November 2026, at a heat rate of 7.0 MMBtu per MWh against Henry Hub gas, in USD per MWh?"
+  expected: [-17.0059]
+  tolerance: 0.01
+  text: []
+  tables: ["price_board_spreads"]
+  refuse: false
+  hold: false
+  count: false
+  note: "price_board_spreads, spp:SPPNORTH_HUB, spark_spread_7: the 2026-11-02 row (the day-ahead daily mean minus 7.0 times Henry Hub, the board's own)"
+- id: tr15
+  grid: ERCOT
+  via: grid
+  question: "How many 15-minute real-time intervals at ERCOT's West hub (HB_WEST) settled above 100 USD per MWh in the week of Monday 26 October to Sunday 1 November 2026 (Central time)?"
+  expected: [23.0]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_rtm_hub_prices"]
+  refuse: false
+  hold: false
+  count: true
+  note: "iso_rtm_hub_prices, ercot:HB_WEST, spp_rtm: the count of the 676 15-minute rows from 2026-10-26T05:00:00Z to 2026-11-02T06:00:00Z whose value is above 100 (strictly)"
+- id: tr16
+  grid: ERCOT
+  via: grid
+  question: "In how many hours did the real-time price at ERCOT's West hub (HB_WEST) exceed the day-ahead price by more than 50 USD per MWh in the week of Monday 26 October to Sunday 1 November 2026?"
+  expected: [5.0]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_trader_daily"]
+  refuse: false
+  hold: false
+  count: true
+  note: "iso_trader_daily, ercot:HB_WEST, hours_rt_over_da_50: the sum of the 7 daily rows labelled 2026-10-26 to 2026-11-01 (each the operating day's count)"
+- id: tr17
+  grid: ERCOT
+  via: grid
+  question: "What was the median day-ahead basis of ERCOT's solar nodes to the hub average in October 2026, in USD per MWh?"
+  expected: [-0.8342]
+  tolerance: 0.01
+  text: []
+  tables: ["node_basis_summary"]
+  refuse: false
+  hold: false
+  count: false
+  note: "node_basis_summary, ercot:HB_HUBAVG, dam_solar_basis_p50: the 2026-10 row (in_live_set review)"
+- id: tr18
+  grid: ERCOT
+  via: grid
+  question: "What was the on-peak (5x16) day-ahead average at ERCOT's North hub (HB_NORTH) on 3 November 2026, in USD per MWh?"
+  expected: [49.835]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_trader_daily"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_trader_daily, ercot:HB_NORTH, da_onpeak_mean_usd: the 2026-11-03 row (hours beginning 06:00 to 21:00 local on a weekday, docs/methods/trader_view.md)"
+- id: tr19
+  grid: NYISO
+  via: grid
+  question: "What was the average day-ahead price in NYISO's Zone J (New York City) on 3 November 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["NYISO", "license needed"]
+  tables: ["nyiso_dam_zone_prices"]
+  refuse: true
+  hold: true
+  count: false
+  note: "nyiso_dam_zone_prices is NYISO's own and held for a license (site/data/license_status.json): NYISO named, the hold's words, no figure"
+- id: tr20
+  grid: MISO
+  via: grid
+  question: "What was the average day-ahead price at MISO's Indiana hub on 3 November 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["paused"]
+  tables: ["iso_dam_hub_prices"]
+  refuse: true
+  hold: false
+  count: false
+  note: "MISO's own rows: MISO is paused while its terms are reviewed (since 4 October 2026), so the answer is the pause's words and no figure"

@@ -85,12 +85,18 @@ TIERS = ["source", "derived", "model_extracted"]
 # Session 28: first match wins (docs/datastandard.md, "Provenance tiers")
 TIER_RULES = [
     ("model_extracted", r"^(energy_deals|datacenter_projects|policy_reads)(_evidence)?$"),  # extraction from news
+    ("model_extracted", r"^datacenter_tracker_rollups$"),  # session 3775: counted by code, every row from the model's facilities
+    ("model_extracted", r"^deal_counterparties$"),  # session 3807: counted by code from the model's deals (session 2234)
     ("model_extracted", r"^energy_companies$"),           # the Thesis Builder's research and the deal parties
+    ("model_extracted", r"^company_(directory|aliases|links)$"),  # session 3302: names from the deals, datacenter and policy extractions
     ("model_extracted", r"^news_(stories|index)$"),       # the scores and headlines are the model's
     ("model_extracted", r"^policy_actions$"),             # significance, sector and why are the model's
     ("derived", r"^(energy_projects|datacenter_queue_positions|storage_capacity)$"),  # ERW code over source tables
     # session 30: the Haiku shadow scores are a model's; the cost ledger prices Anthropic's usage counts
     ("model_extracted", r"^news_scores_shadow$"),
+    # session 3402: the Attention and Friction indices are counted by code, but every row rests on a model's reading of a
+    # story (attention_classify.py), so the three tables are a model's (docs/methods/attention.md)
+    ("model_extracted", r"^(attention_story_links|attention_index_weekly|friction_index_weekly)$"),
     ("derived", r"^api_cost_ledger$"),
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
@@ -136,6 +142,7 @@ SECTOR_RULES = [
     (r"^utility_service_territories$", "power"),  # session 667: EIA-861 service territories, utility by county
     (r"^utility_large_load_tariffs$", "power"),  # session 2871: large loads' filed tariffs, a figure a row (the registry)
     (r"^large_load_connection_rules$", "power;datacenters"),  # session 2924: the steps a document states to connect a large load (the registry)
+    (r"^iso_reserve_margin_reports$", "power"),  # session 3798: grid operators' reserve margins as their assessments print them (the registry)
     (r"^generator_pipeline_by_grid$", "power"),  # session 2951: EIA-860M's pipeline by grid and its monthly moves (derived)
     (r"^iso_queue_snapshot_summary$", "power"),  # session 2953: the ISO queues summarized from their own snapshots (derived)
     (r"^nuclear_fleet_status$", "power"),  # session 2955: the reactor fleet by reactor and year, and by grid (derived)
@@ -156,6 +163,7 @@ SECTOR_RULES = [
     (r"^eia861m_utility_sales_monthly$", "power"),  # session 511: Form EIA-861M, the sampled utilities' monthly sales
     (r"^eia_nuclear_outages_daily$", "power;uranium"),  # session 513: EIA's U.S. nuclear outages, a day
     (r"^ferc714_respondents$", "power"),  # session 514: FERC Form 714's respondents, from PUDL
+    (r"^ferc714_(planning_area_forecasts|forecast_growth)$", "power"),  # session 3758: FERC-714 Part 3 Schedule 2 forecasts (PUDL) and their revisions
     (r"^eia_nuclear_outages_facility_daily$", "power;uranium"),  # session 516: EIA's nuclear outages by plant, a day
     (r"^eia_gas_prices_state_monthly$", "gas"),  # session 517: EIA's natural gas prices by state, a month
     (r"^eia_gas_consumption_state_monthly$", "gas"),  # session 518: EIA's natural gas consumption by state, a month
@@ -565,6 +573,7 @@ SECTOR_RULES = [
     (r"^large_load_waits$", "power;datacenters"),  # session 155: measured waits of large loads, from dated copies of queues (internal)
     (r"^large_load_(public|document_verdicts)$", "power;datacenters"),  # session 255: the statements whose document is public, and each document's license verdict (internal until ruled)
     (r"^policy_action_tags$", "news"),  # session 154: tags of the policy actions held, by a written rule
+    (r"^(attention_story_links|attention_index_weekly|friction_index_weekly)$", "news;datacenters"),  # session 3402: the Attention and Friction indices
     (r"^news_", "news"),
     # session 8
     (r"^eia860m_(operating|planned|retired)_generators$", "power"),
@@ -577,9 +586,11 @@ SECTOR_RULES = [
     (r"^ercot_peak_premium_(annual|monthly)$", "power"),
     # session 15: the deal tracker (tool 6)
     (r"^energy_deals(_evidence)?$", "deals"),
+    (r"^deal_counterparties$", "deals"),  # session 3807: the deal tracker's counterparties directory (session 2234)
     # session 16: the project map (tool 3) and the datacenter power tracker (tool 4)
     (r"^energy_projects$", "power"),
     (r"^datacenter_projects(_evidence)?$", "power;datacenters"),
+    (r"^datacenter_tracker_rollups$", "power;datacenters"),  # session 3775: the tracker's rollups of datacenter_projects (session 2236)
     # session 22: the tracker's combined table and its operator and queue inputs
     (r"^datacenter_(facilities|operator_sites|queue_positions)$", "power;datacenters"),
     # session 17: written only if ERCOT publishes a request-level list (warehouse/connectors/ercot_large_load.py)
@@ -610,6 +621,8 @@ SECTOR_RULES = [
     (r"^weather_(obs|forecast)_hourly$", "power"),
     # session 25: companies found by the Thesis Builder (tool 27), the seed of the company database (tool 10)
     (r"^energy_companies$", "deals"),
+    # session 3302: the company database (tool 10): every company the warehouse names, its names and its rows
+    (r"^company_(directory|aliases|links)$", "power;deals"),
     (r"^eia_retail_sales_monthly$", "power"),
     (r"^eia_sector_energy_consumption_monthly$", "power;gas;oil;coal"),
     # session 19: the trader view (24)
@@ -689,6 +702,8 @@ def iso_of(table):
         return ";".join(sorted({iso_of(m) for m in members}))
     parts = table.split("_")
     if table == "price_board_carbon":  # session 30: CARB and RGGI, no ISO
+        return "none"
+    if table in ("company_directory", "company_aliases", "company_links"):  # session 3302: companies, no one ISO
         return "none"
     if table == "shoulder_hours_monthly":  # session 75
         return "CAISO;ERCOT"
@@ -1276,5 +1291,22 @@ def main():
           f"({len(rows)} built here, {len(carried)} carried over)")
 
 
+def write_llms_catalogue():
+    """Session 3298: package/llms.txt's catalogue (scripts/build_llms.py) is rewritten after every build of coverage, so
+    whatever rebuilds coverage.csv also rebuilds the list of tables AI readers are given (tests/test_session3298.py fails
+    when the catalogue is older than coverage.csv's newest row). A failure here is said loudly and does not undo the
+    coverage just written; the test is what stops a stale catalogue from landing."""
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import build_llms
+        build_llms.main([])
+    except BaseException as e:  # noqa: BLE001 - SystemExit from the generator included: coverage stands, the error is said
+        print(f"package/llms.txt's catalogue NOT rewritten (scripts/build_llms.py): {type(e).__name__}: {e}",
+              file=sys.stderr)
+
+
 if __name__ == "__main__":
-    sys.exit(main() or 0)
+    rc = main() or 0
+    if rc == 0:
+        write_llms_catalogue()
+    sys.exit(rc)
