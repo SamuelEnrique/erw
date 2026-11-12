@@ -4,7 +4,7 @@ import { InlineSpark } from "@/components/InlineSpark";
 import { LineChart } from "@/components/LineChart";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, signedGeneration, wiresUtility, queueCell, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, signedGeneration, forecastRevision, wiresUtility, queueCell, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -223,6 +223,17 @@ function HeadroomTd({ r }: { r: Row }) {
             {"mw_signed" in sg
               ? <Tp dotted={false} tip={`Requests in ${GRID_NAMES[r.grid]}'s queue at the end of ${sg.queue_end.slice(0, 4)} with a signed interconnection agreement and no operation date: ${sg.projects_signed.toLocaleString("en-US")} requests, ${sg.signed_share_pct.toFixed(1)}% of the ${Math.round(sg.active_mw).toLocaleString("en-US")} MW still in the queue (${sg.active_projects.toLocaleString("en-US")} requests). Berkeley Lab and GridTracker's Queued Up, read through ${sg.table}; nameplate MW, a signed agreement is not a commitment to build.`}><Num check={`allgrids|signed|${r.id}`} raw={sg.mw_signed}>{Math.round(sg.mw_signed).toLocaleString("en-US")}</Num> MW signed</Tp>
               : <Words words="signed not held" why={sg.why} />}
+          </span>
+        );
+      })()}
+      {/* session 3785 (chain 212): how the ISO's own FERC-714 forecast of its summer peak moved between its last two filings */}
+      {(() => {
+        const fr = forecastRevision(h, r.grid);
+        return (
+          <span className="block text-xs" data-headroom-forecast={"summer_mw" in fr ? "1" : "0"}>
+            {"summer_mw" in fr
+              ? <Tp dotted={false} tip={`${GRID_NAMES[r.grid]}'s own forecast of its ${fr.year} summer peak, as it filed it on FERC Form 714 (Part 3, Schedule 2) for ${fr.report_year}, less its forecast of the same year filed for ${fr.prior_report_year}${fr.summer_pct === null ? "" : `: ${fr.summer_pct > 0 ? "+" : ""}${fr.summer_pct.toFixed(1)}% of the earlier figure`}. The ISO's planning area as a whole (respondent ${fr.respondent}), not this row's zone; a forecast, revised every year. Read through ${fr.table}.`}>{fr.year} peak forecast {fr.summer_mw > 0 ? "+" : ""}<Num check={`allgrids|forecast|${r.id}`} raw={fr.summer_mw}>{Math.abs(fr.summer_mw) < 10 ? fr.summer_mw.toFixed(1) : Math.round(fr.summer_mw).toLocaleString("en-US")}</Num> MW since the {fr.prior_report_year} filing</Tp>
+              : <Words words="forecast revision not held" why={fr.why} />}
           </span>
         );
       })()}

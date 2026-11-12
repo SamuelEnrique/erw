@@ -631,6 +631,9 @@ export type HeadroomFile = {
   /** session 2958 (chain 157): the active interconnection queue at each ISO's own snapshot (iso_queue_snapshot_summary),
    * CAISO, ERCOT and SPP; `held` the grids whose queue tables are held whole for a license */
   queue?: { table: string; grids: Record<string, { active_mw: number; active_count: number; snapshot: string }>; held: string[] };
+  /** session 3785 (chain 212): the revision of each ISO's own forecast summer peak for `year`, the newest FERC-714 filing
+   * (`report_year`) less the filing before (ferc714_forecast_growth, summer_peak_revision_1y_mw and _pct) */
+  forecast?: { table: string; report_year: number; prior_report_year: number; year: number; grids: Record<string, { respondent: string; summer_mw: number; summer_pct: number | null }> };
 };
 export type ReserveAt = { label: string; x_hour: number; pct: number; capacity_mw: number; firm_peak_mw: number };
 export const BA_OF: Record<string, string> = { ercot: "ERCO", caiso: "CISO", nyiso: "NYIS", isone: "ISNE", spp: "SWPP", miso: "MISO", pjm: "PJM" };
@@ -680,6 +683,13 @@ export function signedGeneration(h: HeadroomFile | undefined, grid: string) {
   const s = h?.signed, g = s?.grids[grid];
   if (!s || !g) return { why: `No count of ${GRID_NAMES[grid]}'s generation with a signed interconnection agreement is in the page's files (interconnection_agreements_by_grid).` };
   return { ...g, table: s.table, queue_end: s.queue_end };
+}
+/** Session 3785 (chain 212): how the grid's own FERC-714 forecast of its summer peak moved between its last two filings,
+ * for the year five years after the newer one's report year; else why. */
+export function forecastRevision(h: HeadroomFile | undefined, grid: string) {
+  const f = h?.forecast, g = f?.grids[grid];
+  if (!f || !g) return { why: `No FERC-714 forecast revision of ${GRID_NAMES[grid]}'s own summer peak is in the page's files (ferc714_forecast_growth).` };
+  return { ...g, table: f.table, report_year: f.report_year, prior_report_year: f.prior_report_year, year: f.year };
 }
 /** Session 2958 (chain 157): the grid's active interconnection queue at its ISO's own snapshot; else why and its words. */
 export function queueCell(h: HeadroomFile | undefined, grid: string) {
@@ -1113,6 +1123,7 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|signed|<row>                                  MW with a signed interconnection agreement, not yet operating (2923)
  *   allgrids|wiresrev|<row>                                the county's delivery-only company's industrial delivery revenue per MWh (2923)
  *   allgrids|queue|<row>                                   the grid's active interconnection queue MW at its ISO's snapshot (2958)
+ *   allgrids|forecast|<row>                                the grid's FERC-714 forecast summer peak revision, MW, newest filing less the one before (3785)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
 export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
@@ -1201,6 +1212,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   if (p[1] === "signed") { const g = signedGeneration(f.headroom, row.grid); return "mw_signed" in g ? g.mw_signed : undefined; }
   if (p[1] === "wiresrev") return wiresUtility(f, row)?.rev;
   if (p[1] === "queue") { const q = queueCell(f.headroom, row.grid); return "active_mw" in q ? q.active_mw : undefined; }
+  if (p[1] === "forecast") { const g = forecastRevision(f.headroom, row.grid); return "summer_mw" in g ? g.summer_mw : undefined; }
   if (p[1] === "reservemargin") { const m = reserveMargin(f.headroom, row.grid); return "peak" in m ? m.peak.pct : undefined; }
   if (p[1] === "connect" || p[1] === "llapproved") {
     const c = connectCell(f, row);

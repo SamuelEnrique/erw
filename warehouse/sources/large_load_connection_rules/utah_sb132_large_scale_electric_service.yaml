@@ -1,0 +1,72 @@
+# Session 3783 (chain 212): read from the enrolled copy of Utah's S.B. 132 of the 2025 General Session ("Electric Utility
+# Amendments", new Title 54 Chapter 26, Large-Scale Electric Service Requirements), as the Utah Legislature publishes it
+# (le.utah.gov; its robots file allows /~2025/bills/, crawl delay 10 seconds, kept), the research file of 6 November
+# 2026's Set C row on PacifiCorp / Rocky Mountain Power being the lead; saved under runs/license_reads/s3783/ (not in
+# git). A STATUTE in force: it states the steps and clocks a qualified electric utility (in Utah, Rocky Mountain Power,
+# the research file's utility; the statute names none) follows for a request of 100 MW or more. The enrolled copy prints
+# no date of its own; document_date is the day the bill says it takes effect (Section 22, page 21). The Public Service
+# Commission's rule R746-318 under it was not read. Pages are the PDF's.
+body: Utah Legislature (Utah Code Title 54 Chapter 26, S.B. 132 of 2025)
+grid: PACE
+utility: PacifiCorp (Rocky Mountain Power)
+eia_id: 14354
+state: UT
+document: Utah S.B. 132, Electric Utility Amendments, 2025 General Session, enrolled copy (Utah Code 54-26-101 to 54-26-901)
+document_date: 2025-05-07
+document_url: https://le.utah.gov/~2025/bills/sbillenr/SB0132.pdf
+retrieved_at: 2026-11-12T13:27:59Z
+license: public
+steps:
+  - section: "54-26-101(12)"
+    page: 5
+    step: a large-scale service request is defined (new service, or an addition, reaching 100 MW within five years)
+    party: large load customer
+    mw: 100
+    printed: "\"Large-scale service request\" means a request submitted to a qualified electric utility for: (a) new electric service that is expected to reach a cumulative demand of 100 megawatts or greater within five years of the requested initial start date"
+  - section: "54-26-202(2)"
+    page: 7
+    step: the utility begins processing the requests received in each half year (by April 1 for requests of October to March, by October 1 for requests of April to September)
+    party: qualified electric utility
+    printed: "A qualified electric utility shall begin processing large-scale service requests, including conducting evaluations, no later than: (a) April 1, for requests received after September 30 of the prior year and on or before March 31; or (b) October 1, for requests received after March 31 and on or before September 30."
+  - section: "54-26-202(1)(b)"
+    page: 7
+    step: the utility notifies the customer of any missing information
+    party: qualified electric utility
+    duration: 15
+    unit: business days
+    printed: "notify the customer of any missing information within 15 business days after beginning to process the request under Subsection (2)"
+  - section: "54-26-202(1)(c)"
+    page: 7
+    step: the utility completes its evaluation of the request
+    party: qualified electric utility
+    duration: 6
+    unit: months
+    printed: "complete an evaluation as soon as reasonably practicable after beginning the study under Subsection (2), but in no case more than 6 months after beginning the evaluation"
+  - section: "54-26-202(4)"
+    page: 7
+    step: the utility gives the customer a written service proposal (costs, upgrades, the timeline to service, the terms)
+    party: qualified electric utility
+    duration: 15
+    unit: business days
+    printed: "Within 15 business days after completing an evaluation, the qualified electric utility shall provide to the customer a written service proposal"
+  - section: "54-26-402(1)(b)"
+    page: 12
+    step: if no contract is agreed, the customer may contract with a large-scale generation provider instead
+    party: large load customer
+    duration: 90
+    unit: days
+    printed: "the qualified electric utility and large load customer cannot agree to a large load contract within 90 days after the day on which the large load customer receives the evaluation described in Section 54-26-202, unless the qualified electric utility and the large load customer mutually agree to a longer period of time"
+  - section: "54-26-301(8)"
+    page: 10
+    step: the parties file the executed large load contract with the Public Service Commission for approval
+    party: utility or generation provider
+    duration: 15
+    unit: business days
+    printed: "Within 15 business days after executing a large load contract, a person executing the contract shall submit an application for approval to the commission for review under Section 54-26-302."
+  - section: "54-26-302(4)"
+    page: 11
+    step: the Public Service Commission approves or disapproves the contract
+    party: Public Service Commission of Utah
+    duration: 60
+    unit: days
+    printed: "The commission shall approve or disapprove an application submitted under this section within 60 days after the day on which a person files the application."
