@@ -1966,7 +1966,9 @@ class Session1447TablesAndArchive(unittest.TestCase):
 
     def test_the_weekend_line_says_scored(self):
         src = inspect.getsource(roundup.main)
-        self.assertIn('f"- no story of {wk_start:%Y-%m-%d} or "', src)
+        # session 1882 (faults file row 60): the line is roundup.weekend_empty_line, which says what is held and the newest
+        # story's time (tests/test_session1882.py); still never "no scored story was published on"
+        self.assertIn("weekend_empty_line(wk_start, newest)", src)
         self.assertNotIn("no scored story was published on", src)
 
     def test_the_summary_has_one_number_a_clause(self):

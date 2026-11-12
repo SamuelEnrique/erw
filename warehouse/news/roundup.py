@@ -143,12 +143,28 @@ def policy_of_the_week(start, cut, log):
     if len(also):
         L += ["", "Also this week:", ""]
         for x in also.to_dict("records"):
-            L.append(f"- {policy_title(x['title'])} ({x['agency']} {TYPE_LABEL.get(x['action_type'], x['action_type'])}, "
-                     f"{dated(x)}): {brief.why_line(x['why'], x['title'])} [source]({x['source_url']})")
+            L.append(also_policy_line(x))
     L += ["", "Table: `policy_actions` (scored with the news rubric) and `policy_reads` (impact reads, each field kept only "
           "when its words are in the action's own text); every action is on [/policy](/policy)."]
     log(f"  policy of the week: {top['event_id']} (significance {top['sig']})")
     return L
+
+
+def tidy_title(t):
+    """Session 1882 (row 72): a Federal Register title's company suffix with its stop ("Last Energy, Inc;" to "Last Energy,
+    Inc.;")."""
+    return re.sub(r"\b(Inc|Corp|Ltd|Co)(?=[;,\s]|$)(?!\.)", r"\1.", str(t))
+
+
+def also_policy_line(x):
+    """One line under "Also this week": the title, the agency, the kind and the date, then the why line when it passes
+    (brief.why_line) and the source. Session 1882 (faults file row 72, row 46's fault in the policy section): a why line
+    that failed left "(...):  [source](...)", a colon introducing nothing and a double space; the line now closes on its
+    bracket with a stop and the source follows as its own sentence."""
+    head = (f"- {tidy_title(policy_title(x['title']))} ({x['agency']} {TYPE_LABEL.get(x['action_type'], x['action_type'])}, "
+            f"{dated(x)})")
+    why = brief.why_line(x.get("why", ""), x["title"]).strip()
+    return f"{head}: {why} [source]({x['source_url']})" if why else f"{head}. [Source]({x['source_url']})"
 
 
 def policy_section(lines, above, log):
@@ -195,6 +211,31 @@ def chart_relevance(m, stories, log):
     return best, best["template"] == m.get("template", "")
 
 
+NOTE_NUMBER = re.compile(r"(?<![\w.,/-])(-?)(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(?![\w,/-]|\.\d)")
+
+
+def note_style(text):
+    """Session 1882 (faults file row 73, row 16's fault in the chart's note): the note's numbers as the issue prints them.
+    A figure of 100 or more with a fraction is rounded half up to the whole number with its separator (53,999.71 to 54,000;
+    9188.86 to 9,189: the five print "47,682"), a whole number of 10,000 or more gains its separator, and a year, a date
+    (2024-11-04), a count under 100 and a figure under 100 are left as written. The engine's note passed its literal-number
+    check on the record's own figures; this styles it for the reader only, every figure still the record's rounded."""
+    from decimal import Decimal, ROUND_HALF_UP
+
+    def one(m):
+        sign, whole, frac = m.group(1), m.group(2), m.group(3) or ""
+        w = int(whole.replace(",", ""))
+        if frac:
+            if w < 100:
+                return m.group(0)
+            v = (Decimal(whole.replace(",", "") + frac)).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+            return f"{sign}{int(v):,}"
+        if "," in whole or w < 10000:
+            return m.group(0)
+        return f"{sign}{w:,}"
+    return NOTE_NUMBER.sub(one, str(text or ""))
+
+
 def chart_of_the_week(label, log, stories=None):
     """Session 23: the chart of the week from docs/analysis/<label>/ (warehouse/analysis/run.py): the
     email-size PNG, the title, the two-sentence note and the source line, as markdown. The note passed
@@ -219,7 +260,7 @@ def chart_of_the_week(label, log, stories=None):
     m = json.load(open(meta, encoding="utf-8"))
     L = [f"**{m['title']}** (the rule's pick; no finding was chosen for this week)", "", f"![{m['title']}](../analysis/{label}/{m['files']['email']})", ""]
     if m.get("note"):
-        L += [m["note"], ""]
+        L += [note_style(m["note"]), ""]   # session 1882 (row 73): one number style, as the five print the figure
     h = m.get("headline") or {}
     if h.get("label") and h.get("value") is not None and not m.get("note"):   # session 2704: one sentence on what the picture shows
         # session 1446 (fault 35): the note the engine wrote says the move against the weeks held; this line only when
@@ -303,7 +344,7 @@ def numbers(start, cut, log, facts=None):
         m0, n0, x0 = dam_week(label, table, node, tz, prior, log)
         pause = brief.paused_row(label)  # session 470: a paused publisher's grid says so
         gap = (lambda n, x: f"not requested: paused by the ERW since {pause['paused_on']}") if pause else (
-            lambda n, x: f"not in the warehouse ({n} of {x} hours)")
+            lambda n, x: f"{n} of {x} hours held, no weekly mean")   # session 1882 (row 71): what is held, said so
         this = f"{m1}" if n1 == x1 else gap(n1, x1)
         last = f"{m0}" if n0 == x0 else gap(n0, x0)
         # the change of the two rounded means, as the table shows them
@@ -325,6 +366,8 @@ def numbers(start, cut, log, facts=None):
         if df.empty:
             continue
         covered.append(f"{table}{f' ({market})' if market else ''} to {df['ts_utc'].max():%Y-%m-%d %H:%M} UTC")
+        if facts is not None:   # session 1882 (row 59): how far the week's tables reach, for the masthead
+            facts.setdefault("reach", []).append(df["ts_utc"].max())
         top = df.loc[df["value"].idxmax()]
         if best is None or top["value"] > best[0]["value"]:
             best = (top, table, iso)
@@ -380,7 +423,9 @@ def numbers(start, cut, log, facts=None):
         else:
             top = d.loc[d["value"].idxmax()]
             if facts is not None:
-                facts["us48"] = dict(top=top, ref=notes.ref("eia930_all_demand", "balancing authority us48"))
+                facts["us48"] = dict(top=top, ref=notes.ref("eia930_all_demand", "balancing authority us48"),
+                                     hours=int(d["ts_utc"].nunique()), to=d["ts_utc"].max())
+                facts.setdefault("reach", []).append(d["ts_utc"].max())
             L[-1] += (f"{top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC "
                       f"({top['ts_utc'].tz_convert('America/New_York'):%A %Y-%m-%d, %H:%M} Eastern), from "
                       f"{d['ts_utc'].nunique()} hours of the week to {d['ts_utc'].max():%Y-%m-%d %H:%M} UTC "
@@ -746,13 +791,109 @@ def subject_line(op, first_head):
     if mv and mv.get("label"):
         label = str(mv["label"]).replace(" day-ahead", " day-ahead power").replace("WTI Cushing crude", "WTI").replace("Brent crude", "Brent").replace("Henry Hub natural gas", "Henry Hub gas")
         pct = float(mv["pct"])
-        return f"ERW Weekly | {label} {'up' if pct >= 0 else 'down'} {abs(pct):.1f}% on the week; {head}"
+        lead = f"ERW Weekly | {label} {'up' if pct >= 0 else 'down'} {abs(pct):.1f}% on the week"
+        # session 1882 (faults file row 62): the whole subject at most SUBJECT_MAX, the headline clause with no figure (the
+        # move is the subject's one verified metric, chain 131) and cut at a word with no "..."
+        clause = head_clause(brief.money_style(brief.nodash(str(first_head or ""))).rstrip("."), SUBJECT_MAX - len(lead) - 2)
+        return f"{lead}; {clause}" if clause else lead
     return f"ERW Weekly | {head}"
 
 
-def masthead_lines(label, end, cut, op, first_head, missed):
+SUBJECT_MAX = 90
+CLAUSE_TAIL = re.compile(r"(?:\s+(?:a|an|the|of|to|in|on|for|with|from|by|at|and|or|its|their|as|into|over))+$", re.I)
+FIGURE_IN_HEAD = re.compile(r"(?:\b(?:a|an)\s+)?(?:USD|CAD|AUD|EUR|GBP)\s\d[\d,.]*(?:\s(?:billion|million|trillion|thousand))?,?\s*|"
+                            r"(?:\b(?:a|an)\s+)?\d[\d,.]*\s?(?:MW|GW|kW|MWh|GWh|TWh|kV|bcf/d|bcf|mtpa|percent|%)\b,?\s*", re.I)
+
+
+def head_clause(head, n):
+    """Session 1882 (row 62): a headline as the subject's second clause: its figures taken out (a sum, a capacity; the
+    article before the first figure kept as "a"), then cut at a word to n characters with no ellipsis, a trailing article,
+    preposition or conjunction dropped. "" when nothing readable is left."""
+    t = " ".join(str(head or "").split())
+    had = bool(FIGURE_IN_HEAD.search(t))
+    t = FIGURE_IN_HEAD.sub(lambda m: "a " if re.match(r"(?:a|an)\s", m.group(0), re.I) else "", t)
+    t = re.sub(r"\s{2,}", " ", t).strip(" ,;:")
+    if had:
+        t = brief.fix_article(t)
+    if len(t) > n:
+        t = t[:n + 1].rsplit(" ", 1)[0].rstrip(",;:")
+    t = CLAUSE_TAIL.sub("", t).strip(" ,;:")
+    return t if len(re.findall(r"[A-Za-z]+", t)) >= 2 else ""
+
+
+def utc_ts(t):
+    """A timestamp in UTC (a naive one read as UTC), or None."""
+    if t is None or (not isinstance(t, pd.Timestamp) and pd.isna(t)):
+        return None
+    t = pd.Timestamp(t)
+    if pd.isna(t):
+        return None
+    return t.tz_localize("UTC") if t.tzinfo is None else t.tz_convert("UTC")
+
+
+def day_month(t):
+    """A day as '5 November' (no year: the masthead's week names it)."""
+    return f"{t.day} {t:%B}"
+
+
+def stories_short(cut, newest):
+    """Session 1882 (faults file row 59): the newest story held, in UTC, when it is more than brief.STORIES_SHORT_HOURS
+    before the cut (the ingest or the scorer stopped short of it); else None."""
+    newest = utc_ts(newest)
+    if newest is None or utc_ts(cut) - newest <= pd.Timedelta(hours=brief.STORIES_SHORT_HOURS):
+        return None
+    return newest
+
+
+def cutoff_line(cut, newest=None, tables_to=None):
+    """The masthead's cutoff. As the Digest's rule (brief.masthead_lines, session 1444): when the newest story held is more
+    than STORIES_SHORT_HOURS before the cut, the line says where the stories stop, with its date when that is another day
+    than the cut's (Eastern), and how far the week's tables reach (`tables_to`, the newest hour the numbers read) when they
+    stop on an earlier day than the cut. Session 1882 (row 59): W45 claimed "Sources through 18:26 ET, 23:26 UTC" on 8
+    November with no story after 5 November."""
+    cut = utc_ts(cut)
+    short = stories_short(cut, newest)
+    if short is None:
+        return brief.cutoff_words(cut).replace("Data through", "Sources through")
+    et, cet = short.tz_convert(brief.EASTERN), cut.tz_convert(brief.EASTERN)
+    day = f"{day_month(et)}, " if et.date() != cet.date() else ""
+    line = f"Stories through {day}{et:%H:%M} ET, {short:%H:%M} UTC"
+    tables_to = utc_ts(tables_to)
+    if tables_to is not None and tables_to.tz_convert(brief.EASTERN).date() < cet.date():
+        line += (f"; the week's tables reach {day_month(tables_to.tz_convert(brief.EASTERN))} (each table's reach is under "
+                 "ERW's Numbers This Week).")
+    else:
+        line += f"; cut at {cet:%H:%M} ET, {cut:%H:%M} UTC."
+    return line
+
+
+def intro_span(start, end, cut, newest=None):
+    """The intro's span: the week's dates, then where the stories stop when they stop on a day before the cut's (row 59:
+    "(no story after 2026-11-05 is held)"), else the cut when the week is cut short. Never "to ... to"."""
+    span = f"{start:%Y-%m-%d} to {(end - pd.Timedelta(days=1)):%Y-%m-%d}"
+    short = stories_short(cut, newest)
+    if short is not None and short.date() < (utc_ts(cut) - pd.Timedelta(microseconds=1)).date():
+        return span + f" (no story after {short:%Y-%m-%d} is held)"
+    if cut < end:
+        return span + f", cut at {cut:%Y-%m-%d %H:%M} UTC"
+    return span
+
+
+def weekend_empty_line(wk_start, newest=None):
+    """Session 1882 (row 60): the Weekend's line when it has no item. The warehouse holding no story of the weekend is not
+    "no story was published": the line says what is held, and when the newest story is before the weekend, its time."""
+    sat, sun = wk_start, wk_start + pd.Timedelta(days=1)
+    days = (f"{sat.day} or {sun.day} {sun:%B}" if sat.month == sun.month else f"{day_month(sat)} or {day_month(sun)}")
+    newest = utc_ts(newest)
+    if newest is not None and newest < utc_ts(wk_start):
+        return (f"- No story of {days} is held: the newest story the warehouse holds is of {day_month(newest)}, "
+                f"{newest:%H:%M} UTC.")
+    return f"- No other story of {days} is held."
+
+
+def masthead_lines(label, end, cut, op, first_head, missed, newest=None, tables_to=None):
     return ([f"# {V2_TITLE}, {label}", "", f"**Week ending {brief.day_words(end - pd.Timedelta(days=1))}.** "
-             f"{brief.cutoff_words(cut).replace('Data through', 'Sources through')}", ""]
+             f"{cutoff_line(cut, newest, tables_to)}", ""]
             + ([missed, ""] if missed else [])
             + [f"<!-- subject: {subject_line(op, first_head)} -->", "", f"<!-- opening: {(op or {}).get('key', '')} -->", ""])
 
@@ -946,8 +1087,8 @@ def main(argv=None):
                 if model in PRICES else "unknown")
         log(f"  headlines from {model}: tokens in {u.input_tokens} out {u.output_tokens}; cost {cost}")
 
-        span = (f"{start:%Y-%m-%d} to {(end - pd.Timedelta(days=1)):%Y-%m-%d}" +
-                (f", to {cut:%Y-%m-%d %H:%M} UTC" if partial else ""))
+        newest = pd.to_datetime(s["event_date"], utc=True, format="ISO8601").max()   # session 1882 (rows 59, 60)
+        span = intro_span(start, end, cut, newest)
         missed = missed_week_line(start)   # session 2702, rulings item 10
         intro = [  # session 21: one sentence (what, the period, the story count); the method is on /about#digest
              f"ERW's weekly roundup of energy news for {span}, from {len(s)} scored stories.", "",
@@ -955,8 +1096,7 @@ def main(argv=None):
         # session 2704: the lines below are the fold ("More"); the page's order is assembled after the numbers
         L = ["### Weekend", ""]
         if weekend.empty:
-            L.append(f"- no story of {wk_start:%Y-%m-%d} or "
-                     f"{wk_start + pd.Timedelta(days=1):%Y-%m-%d} (UTC).")
+            L.append(weekend_empty_line(wk_start, newest))   # session 1882 (row 60)
         for i, r in enumerate(weekend.to_dict("records"), 1):
             L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
@@ -1047,7 +1187,9 @@ def main(argv=None):
                                   " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']])) if x),
                                   f"Sources: {link_text(r['links'])}")
         nxt = next_week(end, log)
-        L = (masthead_lines(label, end, cut, op, heads[recs[0]["cluster_id"]] if recs else "", missed) + intro + opening_lines(op)
+        tables_to = max(facts["reach"]) if facts.get("reach") else None   # session 1882 (row 59)
+        L = (masthead_lines(label, end, cut, op, heads[recs[0]["cluster_id"]] if recs else "", missed, newest, tables_to)
+             + intro + opening_lines(op)
              + [FIVE_HEADING, ""] + five + [""] + W + ["", brief.FOLD_HEADING, ""] + L
              + ["", "## ERW's Chart of the Week", ""] + chart_of_the_week(label, log, stories=shown.to_dict("records"))  # 806: the week's stories
              + ["", "## Next week", ""] + (nxt or [NO_NEXT_WEEK])
