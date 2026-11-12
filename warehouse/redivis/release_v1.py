@@ -422,6 +422,11 @@ for _t in ("generator_pipeline_by_grid", "iso_queue_snapshot_summary", "nuclear_
 for _t in ("ferc714_planning_area_forecasts", "ferc714_forecast_growth"):
     STORAGE_HELD[_t] = ("held: written by chain 211 (session 3758) after the v1 package was prepared; uploaded to the drafts by "
                         "session 3770: in v1 when the owner adds it to the package's list")
+# Session 3798 (chain 215): grid operators' reserve margins as their assessments print them (CAISO's 2026 summer assessment),
+# public, written after the v1 package was prepared, as chains 157's and 211's: uploaded to the Stanford draft by this chain;
+# in v1 when the owner adds it to the package's list
+STORAGE_HELD["iso_reserve_margin_reports"] = ("held: written by chain 215 (session 3798) after the v1 package was prepared; uploaded "
+                                              "to the drafts by chain 215: in v1 when the owner adds it to the package's list")
 
 
 def plan(day=PUBLIC_DAY):
