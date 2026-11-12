@@ -621,6 +621,35 @@ def signed_by_grid(spath):
     return {"table": SIGNED_TABLE, "queue_end": at[:10], "grids": grids}
 
 
+FORECAST_TABLE = "ferc714_forecast_growth"
+# session 3785 (chain 212): the seven ISO planning areas whose FERC-714 respondent is the ISO itself, as the table's method
+# note maps them (docs/methods/ferc714_forecast_growth.md, "Cross-check", session 3759)
+FORECAST_RESPONDENTS = {"caiso": "ferc714:24", "ercot": "ferc714:58", "isone": "ferc714:76", "nyiso": "ferc714:100",
+                        "pjm": "ferc714:119", "spp": "ferc714:146", "miso": "ferc714:203"}
+FORECAST_AHEAD = 5   # the forecast year drawn: five years after the newest filing's report year (2030 for the 2025 filing)
+
+
+def forecast_by_grid(fpath):
+    """Session 3785 (chain 212): each tab grid's revision of its own forecast summer peak, from ferc714_forecast_growth:
+    the newest filing's figure for the year FORECAST_AHEAD years after its report year, less the figure for the same year
+    in the filing one year before (summer_peak_revision_1y_mw), and that change in percent where the table writes one
+    (the table writes the percent only where the earlier figure is above zero). A grid whose respondent has no such row is left out."""
+    f = pd.read_csv(fpath, skiprows=header_rows(fpath), dtype=str, usecols=["entity", "variable", "ts_utc", "value", "x_report_year"])
+    f = f[f["variable"].isin(["summer_peak_revision_1y_mw", "summer_peak_revision_1y_pct"]) & f["entity"].isin(FORECAST_RESPONDENTS.values())]
+    report = int(f["x_report_year"].astype(int).max())
+    year = report + FORECAST_AHEAD
+    f = f[(f["x_report_year"].astype(int) == report) & (f["ts_utc"].str[:4] == str(year))]
+    grids = {}
+    for g, ent in FORECAST_RESPONDENTS.items():
+        v = {r.variable: float(r.value) for r in f[f["entity"] == ent].itertuples()}
+        if "summer_peak_revision_1y_mw" not in v:
+            continue
+        pct = v.get("summer_peak_revision_1y_pct")
+        grids[g] = {"respondent": ent, "summer_mw": round(v["summer_peak_revision_1y_mw"], 1),
+                    "summer_pct": None if pct is None else round(pct, 2)}
+    return {"table": FORECAST_TABLE, "report_year": report, "prior_report_year": report - 1, "year": year, "grids": grids}
+
+
 QUEUE_TABLE = "iso_queue_snapshot_summary"
 # session 2958: the grids whose queue tables are held whole for a license (release v1, 21 October 2026)
 QUEUE_HELD = ("isone", "miso", "nyiso")
@@ -923,6 +952,15 @@ def main(argv=None):
             print(f"{SIGNED_TABLE}: " + "; ".join(f"{g} {v['mw_signed']}" for g, v in hr["signed"]["grids"].items()))
         except FileNotFoundError:
             print(f"{SIGNED_TABLE} is not on this machine: no grid's signed generation is drawn")
+        try:   # session 3785: the revision of each ISO's own forecast summer peak (FERC-714)
+            fpath = find(FORECAST_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {fpath}")
+            hr["forecast"] = forecast_by_grid(fpath)
+            fc = hr["forecast"]
+            print(f"{FORECAST_TABLE}: {fc['year']} summer peak, {fc['report_year']} filing against {fc['prior_report_year']}: "
+                  + "; ".join(f"{g} {v['summer_mw']:+,.0f} MW" for g, v in fc["grids"].items()))
+        except FileNotFoundError:
+            print(f"{FORECAST_TABLE} is not on this machine: no grid's forecast revision is drawn")
     except Exception as e:
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
