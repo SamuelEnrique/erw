@@ -1,0 +1,28 @@
+# Session 3760 (chain 211): verified against the schedule as Entergy Louisiana publishes it, the research file of 6 November
+# 2026's Set A row 8 being the lead; saved under runs/license_reads/s3760/ (not in git). The first 200,000 kW are billed as
+# one sum ($1,665,947 a month, page 1); the per-kW figure written is the one the schedule prints for the kW above it. The
+# schedule states no contract term, collateral, exit fee or ramp.
+utility: Entergy Louisiana, LLC
+eia_id: 11241
+state: LA
+grid: MISO
+sector: large power, high load factor (200,000 kW and above, Legacy EGSL service area)
+status: adopted
+schedule: Schedule LPHLF-G, Large Power High Load Factor Service
+tariff_sheet: Pages 31.1 to 31.3, Second Revised, Revision 2
+effective: 2025-04-04
+voltage: {text: "When Service is metered at a voltage lower than transmission voltage of 230,000 volts all Meter readings shall be adjusted for losses", page: 2}
+commission: Louisiana Public Service Commission
+docket: Staff Acceptance Letter of 4 April 2025 (the authority the sheet cites)
+document: Entergy Louisiana's Schedule LPHLF-G, Second Revised, effective 4 April 2025, as published in its tariff index
+document_url: https://www.entergylouisiana.com/wp-content/uploads/ell_elec_lphlf-g.pdf
+retrieved_at: 2026-11-12T10:50:14Z
+license: public
+notes: "Billing Load Charge: $1,665,947 for the first 200,000 kW per Month, then $8.31 per kW for all additional kW (page 1)."
+terms:
+  min_bill: {text: "The kW of Billing Load will be the greatest of ... 80% of Contract Power ... 60% of the Highest Contract Power ...; The Minimum Charge will be the sum of the Billing Load Charge and Tax Adjustment.", page: 2}
+figures:
+  - {variable: min_demand_mw, value: 200, printed: "Customers who contract for not less than 200,000 kW of electric service", page: 1}
+  - {variable: min_bill_pct, value: 80, printed: "80% of Contract Power", page: 2}
+  - {variable: demand_charge, value: 8.31, printed: "$8.31 per kW for all additional kW (above the first 200,000 kW, billed at $1,665,947 per Month)", page: 1}
+  - {variable: energy_charge, value: 4.22, printed: "$0.00422 per kWh for all kWh used", page: 1}

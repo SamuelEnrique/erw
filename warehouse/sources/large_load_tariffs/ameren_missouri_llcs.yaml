@@ -1,0 +1,38 @@
+# Session 3760 (chain 211): verified against the filed sheets, the research file of 6 November 2026's Set B row 4 being the
+# lead. Read from the Missouri PSC's EFIS copy of Ameren Missouri's compliance tariff (JE-2026-0076), saved under
+# runs/license_reads/s3760/ (not in git); the rate page read in pdftotext's raw order, since its layout interleaves the two
+# seasons. Pages are the PDF's pages. Approved by the Commission's Order Approving Tariff Revision of 19 December 2025
+# (efis.psc.mo.gov/Document/Display/860789), not read in this session. The alternate four-season time-of-use rates
+# (Sheet 61.5) are not written: one figure a variable.
+utility: Union Electric Company d/b/a Ameren Missouri
+eia_id: 19436
+state: MO
+grid: MISO
+sector: large load (75 MW and above)
+status: adopted
+schedule: Service Classification No. 11(M), Large Load Customer Service (LLCS)
+tariff_sheet: MO.P.S.C. Schedule No. 6, 2nd Revised Sheet No. 61.5 (rates) and Original Sheet Nos. 61.6 to 61.19
+effective: 2026-01-04
+voltage: {text: "Service Voltage for Large Load Customer Service: 115 kV or greater (Sheet 61.6)", page: 5}
+commission: Missouri Public Service Commission
+docket: ET-2025-0184 (tariff tracking JE-2026-0076)
+document: Ameren Missouri's Large Load Customer Service compliance tariff sheets, issued 5 December 2025, effective 4 January 2026 (EFIS document 859644)
+document_url: https://efis.psc.mo.gov/Document/Display/859644
+retrieved_at: 2026-11-12T10:50:13Z
+license: public
+terms:
+  min_bill: {text: "but in no event less than eighty percent (80%) of the Contract Capacity specified in the LLSC Service Agreement (\"Minimum Billing Demand\")", page: 7}
+  collateral: {text: "an amount equal to two (2) years of Minimum Monthly Bills, as calculated", page: 14}
+  exit_fee: {text: "during the Ramp Period: the Minimum Monthly Bill multiplied by the months in the remaining term of the Load Ramp period plus sixty (60) calendar months; after it: the Minimum Monthly Bill multiplied by the lesser of sixty (60) calendar months or the months remaining in the Term or Extension Term", page: 11}
+  ramp: {text: "During the Load Ramp the customer's maximum load may be lower than seventy-five megawatts (75 MW)", page: 9}
+  term: {text: "(\"Load Ramp\" or \"Ramp Period\") plus twelve (12) years (the \"Term\")", page: 9}
+figures:
+  - {variable: min_demand_mw, value: 75, printed: "any expansion of such customer's load by seventy-five megawatts (75 MW) or", page: 3}
+  - {variable: min_contract_years, value: 12, printed: "plus twelve (12) years (the \"Term\")", page: 9}
+  - {variable: min_bill_pct, value: 80, printed: "in no event less than eighty percent (80%) of the Contract Capacity", page: 7}
+  - {variable: collateral_months, value: 24, printed: "two (2) years of Minimum Monthly Bills", page: 14}
+  - {variable: demand_charge_summer, value: 22.43, printed: "Summer Rate (June through September) Demand Charge - per kW of Billing Demand $ 22.43", page: 4}
+  - {variable: demand_charge_winter, value: 10.66, printed: "Winter Rate (October through May) Demand Charge - per kW of Billing Demand $ 10.66", page: 4}
+  - {variable: energy_charge_summer, value: 40.6, printed: "Summer Rate Energy Charge - per kWh 4.06 cents", page: 4}
+  - {variable: energy_charge_winter, value: 37.1, printed: "Winter Rate Energy Charge - per kWh 3.71 cents", page: 4}
+  - {variable: fixed_charge, value: 412.66, printed: "Customer Charge - per month $ 412.66", page: 4}
