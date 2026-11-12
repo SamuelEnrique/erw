@@ -85,6 +85,7 @@ TIERS = ["source", "derived", "model_extracted"]
 # Session 28: first match wins (docs/datastandard.md, "Provenance tiers")
 TIER_RULES = [
     ("model_extracted", r"^(energy_deals|datacenter_projects|policy_reads)(_evidence)?$"),  # extraction from news
+    ("model_extracted", r"^datacenter_tracker_rollups$"),  # session 3775: counted by code, every row from the model's facilities
     ("model_extracted", r"^energy_companies$"),           # the Thesis Builder's research and the deal parties
     ("model_extracted", r"^company_(directory|aliases|links)$"),  # session 3302: names from the deals, datacenter and policy extractions
     ("model_extracted", r"^news_(stories|index)$"),       # the scores and headlines are the model's
@@ -586,6 +587,7 @@ SECTOR_RULES = [
     # session 16: the project map (tool 3) and the datacenter power tracker (tool 4)
     (r"^energy_projects$", "power"),
     (r"^datacenter_projects(_evidence)?$", "power;datacenters"),
+    (r"^datacenter_tracker_rollups$", "power;datacenters"),  # session 3775: the tracker's rollups of datacenter_projects (session 2236)
     # session 22: the tracker's combined table and its operator and queue inputs
     (r"^datacenter_(facilities|operator_sites|queue_positions)$", "power;datacenters"),
     # session 17: written only if ERCOT publishes a request-level list (warehouse/connectors/ercot_large_load.py)

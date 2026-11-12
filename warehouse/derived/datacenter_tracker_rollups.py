@@ -47,6 +47,16 @@ import facility_fields as ff  # noqa: E402
 NAME = "datacenter_tracker_rollups"
 STATUSES = ["planned", "under_construction", "operating", "withdrawn"]
 SOURCE_URL = "https://github.com/SamuelEnrique/erw/blob/main/warehouse/derived/datacenter_tracker_rollups.py"
+# Session 3775 (chain 212): the rows name this source, and build_coverage.py sets a table's license from its sources'
+# entries in warehouse/metadata/sources.csv. No run ever registered it, so every daily run that reached coverage with this
+# table written stopped there ("sources ['erw:datacenter_projects'] are not in sources.csv; cannot set its license", the
+# runs of 7 and 12 November) and committed nothing. Internal, as its one input datacenter_projects is (license needed since
+# 21 October 2026).
+SOURCE = "erw:datacenter_projects"
+SOURCE_ENTRY = dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived",
+                    report="The datacenter tracker's rollups by grid, state and operator, from datacenter_projects (docs/methods/datacenter_tracker_rollups.md)",
+                    report_url="https://github.com/SamuelEnrique/erw/blob/main/docs/methods/datacenter_tracker_rollups.md",
+                    document_list="docs/methods/datacenter_tracker_rollups.md", license="internal", tables=[NAME])
 
 
 def rollups(fac, day):
@@ -79,7 +89,7 @@ def rollups(fac, day):
                     continue   # no facility of the group states MW: no sum, never a zero
                 out.append({"entity": entity, "variable": v, "ts_utc": ts, "value": x, "unit": unit, "freq": "P1D",
                             "geo": f"US-{k}" if dim == "state" and k != "none" else "", "market": "", "node": "",
-                            "source": "erw:datacenter_projects", "source_url": SOURCE_URL, "retrieved_at": ts,
+                            "source": SOURCE, "source_url": SOURCE_URL, "retrieved_at": ts,
                             "vintage": ts})
     return out
 
@@ -113,6 +123,7 @@ def main(argv=None):
     else:
         log = ip.Log(os.path.join(ip.LOG_DIR, f"datacenter_tracker_rollups_{run_id}.log"))
         ip.write_csv(rows, NAME, header, log)
+        ip.update_sources([SOURCE_ENTRY])   # session 3775: before coverage reads the table's sources
         log.close()
     print(f"datacenter_tracker_rollups: {len(rows)} rows from {len(fac)} facilities")
     return 0
