@@ -230,6 +230,18 @@ def main(argv=None):
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"{NAME}_{run_id}.log"))
     try:
+        # session 3760: the registry is the whole of this table's filed rows; when the held file's columns are not the
+        # connector's (x_status, x_license and x_notes added in session 3760), the table is written again whole, keeping any
+        # OpenEI rows (openei_urdb:*) it holds under the new columns
+        path = os.path.join(ip.OUT_DIR, NAME + ".csv")
+        if os.path.exists(path):
+            old = pd.read_csv(path, comment="#", dtype=str, keep_default_na=False)
+            if list(old.columns) != COLS:
+                keep = old[old["entity"].str.startswith("openei_urdb:")].reindex(columns=COLS, fill_value="")
+                d = pd.concat([d, keep], ignore_index=True) if len(keep) else d
+                ip._require_lock(path, f"rebuilding {NAME} with its new columns")
+                os.remove(path)
+                log(f"  {NAME}: columns changed; written again whole ({len(keep)} OpenEI rows kept)")
         ip.write_csv(d, NAME, header(d, run_id, held), log, cols=COLS)
         if not a.out_dir:
             ip.update_sources([dict(source=SOURCE, publisher="the state commissions (filed tariffs), read into the ERW's registry",
