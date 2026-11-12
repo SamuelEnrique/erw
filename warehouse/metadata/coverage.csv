@@ -403,6 +403,7 @@ ferc714_area_demand_2022,ferc714,,91,PT1H,2022-01-01T00:00:00Z,2022-12-31T23:00:
 ferc714_area_demand_2023,ferc714,,89,PT1H,2023-01-01T00:00:00Z,2023-12-31T23:00:00Z,779627,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:29:50Z,pass,internal,power,no,source
 ferc714_area_demand_2024,ferc714,,89,PT1H,2024-01-01T00:00:00Z,2024-12-31T23:00:00Z,781703,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:29:50Z,pass,internal,power,no,source
 ferc714_area_demand_2025,ferc714,,89,PT1H,2025-01-01T00:00:00Z,2025-12-31T23:00:00Z,770886,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:29:50Z,pass,internal,power,no,source
+ferc714_forecast_growth,ferc714,,168,P1Y,2008-01-01T00:00:00Z,2047-01-01T00:00:00Z,198354,erw:ferc714_forecast_growth,2026-11-12T11:29:00Z,pass,public,power,yes,derived
 ferc714_planning_area_forecasts,ferc714,,190,P1Y,2007-01-01T00:00:00Z,2050-01-01T00:00:00Z,67215,pudl:core_ferc714__yearly_planning_area_demand_forecast,2026-11-12T11:27:09Z,pass,public,power,no,source
 ferc714_respondents,ferc714,,219,snapshot,2026-10-21T16:54:04Z,2026-10-21T16:54:04Z,219,pudl:core_ferc714__respondent_id,2026-10-21T19:43:35Z,pass,internal,power,no,source
 ferc_eqr_buyer_doubtful,none,,1,event,2026-06-30T00:00:00Z,2026-06-30T00:00:00Z,1281,1 outlets,2026-10-04T17:29:30Z,pass,internal,power,no,source
