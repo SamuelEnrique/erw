@@ -23,7 +23,18 @@ Long end 1:00. The next file. Memory and disk; `git worktree list`, landed workt
 
 ## Sessions 3793 to 3797: chain 212's other unfinished steps
 
-Long end 1:30 each. In chain 212's order, from its note. Where chain 212 finished everything, these sessions take the next sections' steps early and say so.
+Long end 1:30 each. Written by chain 212's session 3791 from its note (`docs/state/note_2026-11-12_data_c212.md`); chain 212's branch `wip/c212-data`: landed at `9e7fde9a6` (task/c212-data, run 43256620922, 16:28 UTC); its one later commit, session 3791's report (`0bec1acbb`), waits on `wip/c212-data` and is landed by session 3792 with this chain's first commits. In this order; where a step is done, the next section's steps are taken early and said so.
+
+- **3792's first unfinished step: the daily run commits again.** Chain 212 fixed the stop of the catch-up (`datacenter_tracker_rollups`' unregistered source, its sector rule and its license rows). Read the first daily run after the landing: its "Pull, validate, rebuild coverage" status ok or retried, its commit on main past the guard, the health summary's "Stale on main" line shorter. If it stops again, the stop is named and fixed with its test first, before any other step. If chain 212's branch did not land, it is landed first through the gate.
+- **3793: the data machine's own run.** Read `runs/data_machine_status.txt` of the first run after the landing: `dm_siting_card`, `dm_datacenter_figures` and `dm_cross_check_rows` ok, and `dm_test_replication` ok, so the datacenter and findings refresh committed. The queue card's 3,591 GW and the note's row moved together. If a test of the group still fails, it is made to follow the refresh (chain 212's session 3779), never skipped.
+- **3794: the hunt again where data moved** (chain 212's session 3786 could not: no table had moved): `rank.py`'s list read against the tables' newest rows after the daily run and the data machine's run commit. A draft whose last full year has a newer year held is computed again (`--replace` keeping its id while it is a draft). `check.py`, `check_cards.py` and `check_do.py` over every draft, the count by family before and after. Nothing approved.
+- **3795: the per-reactor outages' incremental pull** (chain 211's session 3767 carried it; chain 212's file did not name it). `eia_nuclear_outages_generator.py` pulls only the days after its newest held day (an incremental window, its ceiling kept), a step added to the data machine's run, and its test. `nuclear_fleet_status` rebuilt on it. EIA's API (a key held), at most 10 requests.
+- **3796: the FERC-714 cross-check's map** (chain 212's session 3780): EIA-930 hourly demand by balancing authority for the non-ISO respondents (TVA, Duke Energy Carolinas and Progress, Southern, FPL, the western balancing authorities), a source already held. Each respondent named or mapped, with its actual peak against its forecast filed the year before, in `docs/methods/ferc714_forecast_growth.md`. At most 30 requests to EIA's API.
+- **3797: the waiting rows, re-checked once each:**
+  - ERCOT's NP9-83-M from 1 December only, on an allowed page (at most 5 requests, robots first, never `/misapp`).
+  - Utah's R746-318 text on the Utah administrative code's host (robots and terms first), its steps into the rules registry.
+  - `iso_queue_snapshot_summary`'s live-set load, with the snapshot before and after (rule 8).
+  - The rest wait on a ruling (chain 212's note, "For Samuel's ruling") and are not sessions.
 
 ## Sessions 3798 to 3801: the siting gaps a public US source can close
 
