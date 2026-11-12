@@ -475,7 +475,7 @@ je_jersey_electricity_annual,je,,15,P1Y,2023-01-01T00:00:00Z,2025-01-01T00:00:00
 known_data_faults,none,,1,event,2018-07-20T00:00:00Z,2026-10-05T00:00:00Z,28,1 outlets,2026-10-05T07:57:29Z,pass,public,platform,no,derived
 kpx_korea_demand_monthly,kpx,,1,P1M,2005-01-01T00:00:00Z,2026-09-01T00:00:00Z,270,kpx:epsis_peak_base_demand_monthly,2026-10-24T07:10:24Z,pass,internal,power,no,source
 kpx_korea_generation_annual,kpx,,1,P1Y,1961-01-01T00:00:00Z,2025-01-01T00:00:00Z,1526,kpx:epsis_generation_by_source,2026-10-24T07:10:13Z,pass,internal,power,no,source
-large_load_connection_rules,none,,1,event,2025-12-04T00:00:00Z,2027-04-09T00:00:00Z,59,1 outlets,2026-11-12T11:29:51Z,pass,public,power;datacenters,no,source
+large_load_connection_rules,none,,1,event,2025-05-07T00:00:00Z,2027-04-09T00:00:00Z,67,1 outlets,2026-11-12T14:03:48Z,pass,public,power;datacenters,no,source
 large_load_document_verdicts,none,,1,event,2026-10-14T00:00:00Z,2026-10-14T00:00:00Z,427,1 outlets,2026-10-14T09:42:52Z,pass,internal,power;datacenters,no,derived
 large_load_public,none,,1,event,2024-05-01T00:00:00Z,2026-09-30T00:00:00Z,341,1 outlets,2026-10-14T09:42:52Z,pass,public,power;datacenters,no,model_extracted
 large_load_rule_reads,none,,1,event,2024-01-25T00:00:00Z,2026-10-07T00:00:00Z,87,1 outlets,2026-10-08T05:01:16Z,pass,public,power;datacenters,no,model_extracted
@@ -634,7 +634,7 @@ usgs_mcs_critical_minerals,usgs,,653,P1Y;P4Y,2021-01-01T00:00:00Z,2025-01-01T00:
 usgs_streamflow_daily,usgs,,8,P1D,2015-01-01T00:00:00Z,2026-10-22T00:00:00Z,33421,usgs:nwis_daily_values,2026-10-23T23:00:29Z,pass,public,power,no,source
 uspvdb_solar_facilities,uspvdb,,6611,snapshot,2026-10-23T05:19:06Z,2026-10-23T05:19:06Z,6611,usgs:uspvdb,2026-10-23T05:35:32Z,pass,public,power,no,source
 uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:33:12Z,77839,usgs:uswtdb,2026-10-21T18:33:12Z,pass,public,power,no,source
-utility_large_load_tariffs,utility,,23,,2009-01-01T00:00:00Z,2027-01-01T00:00:00Z,83,filed:large_load_tariffs,2026-11-12T11:30:19Z,pass,public,power,no,source
+utility_large_load_tariffs,utility,,24,,2009-01-01T00:00:00Z,2027-01-01T00:00:00Z,84,filed:large_load_tariffs,2026-11-12T14:03:30Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
 vmme_paraguay_electricity_annual,vmme,,19,P1Y,2023-01-01T00:00:00Z,2024-01-01T00:00:00Z,38,vmme_py:ben_2024_cuadro_3,2026-10-25T01:31:16Z,pass,internal,power,no,source
 wapa_energy_sales_annual,wapa,,12,P1Y,2007-10-01T00:00:00Z,2024-10-01T00:00:00Z,307,wapa:rates_and_sales_data,2026-10-25T22:04:40Z,pass,public,power,no,source
