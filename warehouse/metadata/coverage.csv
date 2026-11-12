@@ -238,7 +238,7 @@ eia_net_metering_state_annual,none,,1031,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:
 eia_ngl_production_monthly,none,,283,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,110896,eia:petroleum/pnp/gp,2026-10-22T06:55:02Z,pass,public,products,no,source
 eia_nuclear_outages_daily,none,,1,P1D,2007-01-01T00:00:00Z,2026-10-21T00:00:00Z,21702,eia:nuclear-outages/us-nuclear-outages,2026-10-21T19:39:31Z,pass,public,power;uranium,no,source
 eia_nuclear_outages_facility_daily,none,,66,P1D,2007-01-01T00:00:00Z,2026-10-21T00:00:00Z,1312872,eia:nuclear-outages/facility-nuclear-outages,2026-10-21T20:54:58Z,pass,public,power;uranium,no,source
-eia_nuclear_outages_generator_daily,none,,107,P1D,2007-01-01T00:00:00Z,2026-10-21T00:00:00Z,2141406,eia:nuclear-outages/generator-nuclear-outages,2026-10-21T22:33:55Z,pass,public,power;uranium,no,source
+eia_nuclear_outages_generator_daily,none,,107,P1D,2007-01-01T00:00:00Z,2026-11-12T00:00:00Z,2147676,eia:nuclear-outages/generator-nuclear-outages,2026-11-12T16:41:37Z,pass,public,power;uranium,no,source
 eia_oxygenate_production_monthly,none,,30,P1M,1981-01-01T00:00:00Z,2026-07-01T00:00:00Z,6006,eia:petroleum/pnp/oxy,2026-10-22T05:07:00Z,pass,public,products,no,source
 eia_padd_crude_pipeline_flows,none,,11,P1M,1986-01-01T00:00:00Z,2026-08-01T00:00:00Z,4566,eia:petroleum/move/pipe,2026-11-05T23:10:25Z,pass,public,oil,no,source
 eia_padd_rail_barge_movements_monthly,none,,689,P1M,1986-01-01T00:00:00Z,2026-07-01T00:00:00Z,120742,eia:petroleum/move/rail;eia:petroleum/move/tb,2026-10-22T03:50:28Z,pass,public,oil;products,no,source
@@ -532,7 +532,7 @@ nsi_bulgaria_electricity_monthly,nsi,,14,P1M,2019-01-01T00:00:00Z,2026-07-01T00:
 nso_malawi_electricity_sales_annual,nso,,5,P1Y,1992-01-01T00:00:00Z,2019-01-01T00:00:00Z,140,nso_malawi:statistical_yearbook,2026-10-24T16:29:27Z,pass,internal,power,no,source
 nspower_ns_load_hourly,nspower,,1,PT1H,2022-01-01T04:00:00Z,2026-09-01T02:00:00Z,40308,nspower:oasis_hourly_total_net_ns_load,2026-10-25T18:20:18Z,pass,internal,power,no,source
 ntd_transit_energy_annual,ntd,,1751,P1Y,2022-01-01T00:00:00Z,2025-01-01T00:00:00Z,10161,fta:ntd_fuel_energy,2026-10-24T02:38:28Z,pass,public,power;products,no,source
-nuclear_fleet_status,nuclear,,107,P1Y,2007-01-01T00:00:00Z,2026-01-01T00:00:00Z,15048,erw:nuclear_fleet_status,2026-11-12T14:10:07Z,pass,public,power,yes,derived
+nuclear_fleet_status,nuclear,,107,P1Y,2007-01-01T00:00:00Z,2026-01-01T00:00:00Z,15048,erw:nuclear_fleet_status,2026-11-12T16:42:26Z,pass,public,power,yes,derived
 nve_norway_reservoirs_weekly,nve,,14931,P1W,1995-01-08T00:00:00Z,2026-10-18T00:00:00Z,44793,nve:magasinstatistikk,2026-10-24T18:22:50Z,pass,public,power,no,source
 nyiso_as_prices,NYISO,nyiso_dam,6,PT1H,2024-09-01T04:00:00Z,2026-10-05T03:00:00Z,293376,nyiso:damasp,2026-10-04T04:09:15Z,pass,public,power,no,source
 nyiso_dam_cleared_energy,NYISO,nyiso_dam,1,PT1H,2025-09-01T04:00:00Z,2026-10-26T03:00:00Z,10080,nyiso:damenergy,2026-10-24T15:04:13Z,pass,public,power,no,source
