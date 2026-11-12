@@ -104,7 +104,12 @@ class Headroom(unittest.TestCase):
         if not (os.path.exists(p) and os.path.exists(c)):
             raise unittest.SkipTest("the planned generators or the state capacity table is not on this machine")
         again = sp.headroom_file(p, c)
-        own = ("built", "peak_capacity", "peak_capacity_table", "zones", "reserve", "signed", "queue")   # session 718 adds the data machine's table to the file; 728 the zones; 1027 the reserve margin; 2923 the signed agreements (session 1478: the test failed on the code machine, which holds the two tables it recomputes from); 2958 the interconnection queue (session 1506, the same fault)
+        # session 1874: the code machine's restored table can be a later EIA-860M vintage than the one the data machine
+        # built the committed file from (2026-09 here, 2026-08 in the file on 12 November); the window then moves a month
+        # and the comparison is of two vintages, not of the code. Compared only where the vintages agree
+        if again.get("vintage") != self.h.get("vintage"):
+            raise unittest.SkipTest("the planned generators here are vintage %s, the file's are %s" % (again.get("vintage"), self.h.get("vintage")))
+        own =("built", "peak_capacity", "peak_capacity_table", "zones", "reserve", "signed", "queue")   # session 718 adds the data machine's table to the file; 728 the zones; 1027 the reserve margin; 2923 the signed agreements (session 1478: the test failed on the code machine, which holds the two tables it recomputes from); 2958 the interconnection queue (session 1506, the same fault)
         self.assertEqual({k: v for k, v in again.items() if k not in own}, {k: v for k, v in self.h.items() if k not in own})
         self.assertEqual(self.o["ercot"]["planned"], self.h["planned"]["ercot"]["construction_mw"])
 
