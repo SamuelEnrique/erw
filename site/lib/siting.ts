@@ -634,6 +634,9 @@ export type HeadroomFile = {
   /** session 3785 (chain 212): the revision of each ISO's own forecast summer peak for `year`, the newest FERC-714 filing
    * (`report_year`) less the filing before (ferc714_forecast_growth, summer_peak_revision_1y_mw and _pct) */
   forecast?: { table: string; report_year: number; prior_report_year: number; year: number; grids: Record<string, { respondent: string; summer_mw: number; summer_pct: number | null }> };
+  /** session 3802 (chain 215): the grid operators' own reserve margin assessments (iso_reserve_margin_reports, session
+   * 3798's registry), the newest document of each grid with its figures as printed and their pages */
+  reserve_reports?: { table: string; grids: Record<string, { document: string; period: string; source_url: string; figures: Record<string, number>; pages: Record<string, string> }> };
 };
 export type ReserveAt = { label: string; x_hour: number; pct: number; capacity_mw: number; firm_peak_mw: number };
 export const BA_OF: Record<string, string> = { ercot: "ERCO", caiso: "CISO", nyiso: "NYIS", isone: "ISNE", spp: "SWPP", miso: "MISO", pjm: "PJM" };
@@ -684,6 +687,13 @@ export function signedGeneration(h: HeadroomFile | undefined, grid: string) {
   if (!s || !g) return { why: `No count of ${GRID_NAMES[grid]}'s generation with a signed interconnection agreement is in the page's files (interconnection_agreements_by_grid).` };
   return { ...g, table: s.table, queue_end: s.queue_end };
 }
+/** Session 3802 (chain 215): the grid operator's own reserve margin assessment, where the ERW holds one (the CAISO's
+ * summer assessment); null where it holds none (ERCOT's is its CDR, reserveMargin). */
+export function reserveReport(h: HeadroomFile | undefined, grid: string) {
+  const r = h?.reserve_reports, g = r?.grids[grid];
+  if (!r || !g || g.figures.prm_achieved_pct === undefined) return null;
+  return { ...g, table: r.table };
+}
 /** Session 3785 (chain 212): how the grid's own FERC-714 forecast of its summer peak moved between its last two filings,
  * for the year five years after the newer one's report year; else why. */
 export function forecastRevision(h: HeadroomFile | undefined, grid: string) {
@@ -714,7 +724,7 @@ export const EIA411_AREA: Record<string, string> = { ercot: "TRE (ERCOT)", caiso
  * Session 1047: the why names EIA-411's area for the grid and why its figures are not drawn (docs/methods/siting.md). */
 export function reserveMargin(h: HeadroomFile | undefined, grid: string) {
   const r = h?.reserve, g = r?.grids[grid];
-  if (!r || !g) return { why: `No current planning reserve margin of ${GRID_NAMES[grid]}'s is held: the ERW holds ERCOT's own (its Capacity, Demand and Reserves report) alone. EIA-411 (eia411_capacity_margins_annual) gives margins by NERC assessment area, ${GRID_NAMES[grid]}'s under ${EIA411_AREA[grid] ?? "no area"}, but its last release is of November 2016: its figures for the coming summer are projections made then, so they are not drawn as the grid's.` };
+  if (!r || !g) return { why: `No current planning reserve margin of ${GRID_NAMES[grid]}'s is held: the ERW holds ERCOT's own (its Capacity, Demand and Reserves report) and the CAISO's (its summer assessment) alone. EIA-411 (eia411_capacity_margins_annual) gives margins by NERC assessment area, ${GRID_NAMES[grid]}'s under ${EIA411_AREA[grid] ?? "no area"}, but its last release is of November 2016: its figures for the coming summer are projections made then, so they are not drawn as the grid's.` };
   return { ...g, report: r.report, vintage: r.vintage.slice(0, 10), table: r.table };
 }
 
@@ -1124,6 +1134,7 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|wiresrev|<row>                                the county's delivery-only company's industrial delivery revenue per MWh (2923)
  *   allgrids|queue|<row>                                   the grid's active interconnection queue MW at its ISO's snapshot (2958)
  *   allgrids|forecast|<row>                                the grid's FERC-714 forecast summer peak revision, MW, newest filing less the one before (3785)
+ *   allgrids|reservereport|<row>                           the reserve margin the grid operator's own assessment achieves, percent (3802)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
 export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
@@ -1213,6 +1224,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   if (p[1] === "wiresrev") return wiresUtility(f, row)?.rev;
   if (p[1] === "queue") { const q = queueCell(f.headroom, row.grid); return "active_mw" in q ? q.active_mw : undefined; }
   if (p[1] === "forecast") { const g = forecastRevision(f.headroom, row.grid); return "summer_mw" in g ? g.summer_mw : undefined; }
+  if (p[1] === "reservereport") return reserveReport(f.headroom, row.grid)?.figures.prm_achieved_pct;
   if (p[1] === "reservemargin") { const m = reserveMargin(f.headroom, row.grid); return "peak" in m ? m.peak.pct : undefined; }
   if (p[1] === "connect" || p[1] === "llapproved") {
     const c = connectCell(f, row);

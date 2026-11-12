@@ -6407,6 +6407,11 @@ iso_queue_snapshot_summary,unknown_count,series variable,count
 iso_queue_snapshot_summary,unknown_mw,series variable,MW
 iso_queue_snapshot_summary,withdrawn_count,series variable,count
 iso_queue_snapshot_summary,withdrawn_mw,series variable,MW
+iso_reserve_margin_reports,capacity_surplus_mw,series variable,MW
+iso_reserve_margin_reports,peak_forecast_mw,series variable,MW
+iso_reserve_margin_reports,prm_achieved_pct,series variable,pct
+iso_reserve_margin_reports,prm_required_pct,series variable,pct
+iso_reserve_margin_reports,ra_prm_load_weighted_pct,series variable,pct
 known_data_faults,event_id,column,
 known_data_faults,event_date,column,
 known_data_faults,event_type,column,

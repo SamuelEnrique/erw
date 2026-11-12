@@ -1,6 +1,11 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 11, session 3785, 12 November 2026 (chain 212); version 10 was session 2958's, 6 November 2026 (chain 157); version 9 was session 2923's (chain 153, `queue/done/153-day-8-november-data-large-load-continued.md`); version 8 was session 1081's, 23 October 2026 (chain 073, `queue/done/073-evening-23-october-code-allgrids-packages-3.md`); version 7 was session 1059's (chain 072), version 6 was session 1038's (chain 071), version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+Version 12, session 3802, 12 November 2026 (chain 215); version 11 was session 3785's, the same day (chain 212); version 10 was session 2958's, 6 November 2026 (chain 157); version 9 was session 2923's (chain 153, `queue/done/153-day-8-november-data-large-load-continued.md`); version 8 was session 1081's, 23 October 2026 (chain 073, `queue/done/073-evening-23-october-code-allgrids-packages-3.md`); version 7 was session 1059's (chain 072), version 6 was session 1038's (chain 071), version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+
+## What version 12 changed (chain 215, session 3802, 12 November 2026)
+
+- **The CAISO's own reserve margin** (decision 37): the Headroom column's reserve line for the CAISO rows, from the CAISO's 2026 Summer Loads and Resources Assessment (`iso_reserve_margin_reports`, session 3798's registry, public), keyed `allgrids|reservereport|<row>`: an achieved planning reserve margin of 30.8 percent in the tightest hour, summer 2026; the tip adds the 25 percent the assessment finds is needed for a 0.1 LOLE, the 2,547 MW surplus and the CEC's 1-in-2 peak of 46,844 MW, each with its page. ERCOT's line stays its CDR; the other grids read "reserve margin not held" with the reason (NERC's assessment is closed to this reader by its robots file).
+- **No figure the tab drew before moved:** the `reserve_reports` key was added to the committed `headroom.json`, every other key left as it was.
 
 ## What version 11 changed (chain 212, session 3785, 12 November 2026)
 
@@ -187,6 +192,7 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 34. 2026-11-06, 2923 (chain 153): a wires company's delivery revenue per MWh is drawn beside the county's largest seller, not in its place. It is the charge for the wires alone and the company's figure across the state, so it is not comparable with a bundled seller's revenue per MWh; the cell's main figure stays the largest seller's.
 35. 2026-11-06, 2958 (chain 157): the queue line is the ISO's own snapshot of active requests, nameplate MW, not Berkeley Lab's annual file (the signed line above it); a request in the queue is not a plant that will be built, and the line is not added to anything.
 36. 2026-11-12, 3785 (chain 212): the forecast line is the ISO's own revision of its summer peak five years after its newest FERC-714 filing, that filing less the one before, in MW with the percent in the tip; the planning area as a whole, never apportioned to a zone, and never summed across grids (an ISO's forecast holds its members' loads). A forecast, revised every year; reversible.
+37. 2026-11-12, 3802 (chain 215): an operator's own seasonal assessment fills the reserve line where it is held (the CAISO's achieved PRM in its tightest hour), beside ERCOT's CDR; the two are each operator's own measure, drawn in their own words and never compared or ranked across grids. Reversible.
 
 - **12 November 2026 (session 3764, chain 211): the filed large-load schedules and the connection rules.** Two files are
   built from the tables chain 211 loaded:

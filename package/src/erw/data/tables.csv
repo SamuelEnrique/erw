@@ -458,6 +458,7 @@ iso_dam_hub_prices,unsettled,license needed,2026-10-21,MISO,CAISO; ERCOT; MISO; 
 iso_hub_prices_history,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 iso_queue_snapshot_summary,public,,,,CAISO; ERCOT; SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 iso_queue_statistics,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
+iso_reserve_margin_reports,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 iso_rt_top_intervals,unsettled,license needed,2026-10-21,ISO-NE; NYISO,ISO-NE; NYISO,"ISO-NE; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 iso_rtm_hub_prices,unsettled,license needed,2026-10-21,MISO,CAISO; ERCOT; MISO; SPP,"MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",35 days
 iso_trader_daily,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",45 days

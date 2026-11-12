@@ -621,6 +621,26 @@ def signed_by_grid(spath):
     return {"table": SIGNED_TABLE, "queue_end": at[:10], "grids": grids}
 
 
+RESERVE_REPORTS_TABLE = "iso_reserve_margin_reports"
+
+
+def reserve_reports_by_grid(path):
+    """Session 3802 (chain 215): each grid's reserve margin as its operator's own assessment prints it, from
+    iso_reserve_margin_reports (the registry of session 3798): the newest document of each grid, its figures as printed
+    (achieved and required planning reserve margin, surplus, the peak planned for), with its period and pages. ERCOT's
+    stays its CDR (headroom.json's `reserve`); a grid the table does not hold is left out."""
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str, keep_default_na=False)
+    grids = {}
+    for g, x in d.groupby(d["x_grid"].str.lower()):
+        x = x[x["ts_utc"] == x["ts_utc"].max()]
+        v = {r.variable: float(r.value) for r in x.itertuples()}
+        pages = {r.variable: r.x_page for r in x.itertuples()}
+        first = x.iloc[0]
+        grids[g] = {"document": first["x_document"], "period": first["x_period"], "source_url": first["source_url"],
+                    "figures": {k: v[k] for k in sorted(v)}, "pages": {k: pages[k] for k in sorted(pages)}}
+    return {"table": RESERVE_REPORTS_TABLE, "grids": grids}
+
+
 FORECAST_TABLE = "ferc714_forecast_growth"
 # session 3785 (chain 212): the seven ISO planning areas whose FERC-714 respondent is the ISO itself, as the table's method
 # note maps them (docs/methods/ferc714_forecast_growth.md, "Cross-check", session 3759)
@@ -952,6 +972,13 @@ def main(argv=None):
             print(f"{SIGNED_TABLE}: " + "; ".join(f"{g} {v['mw_signed']}" for g, v in hr["signed"]["grids"].items()))
         except FileNotFoundError:
             print(f"{SIGNED_TABLE} is not on this machine: no grid's signed generation is drawn")
+        try:   # session 3802: the operators' own reserve margin assessments (CAISO's summer assessment)
+            rrpath = find(RESERVE_REPORTS_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {rrpath}")
+            hr["reserve_reports"] = reserve_reports_by_grid(rrpath)
+            print(f"{RESERVE_REPORTS_TABLE}: " + "; ".join(f"{g} {v['figures'].get('prm_achieved_pct')}" for g, v in hr["reserve_reports"]["grids"].items()))
+        except FileNotFoundError:
+            print(f"{RESERVE_REPORTS_TABLE} is not on this machine: no operator's own assessment is drawn")
         try:   # session 3785: the revision of each ISO's own forecast summer peak (FERC-714)
             fpath = find(FORECAST_TABLE, a.in_dir, a.in_dir_first)
             print(f"reading {fpath}")

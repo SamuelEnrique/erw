@@ -102,6 +102,40 @@ What it says:
   - PJM's 2024 filing raised its summer peak forecast against the 2023 filing by 16,010 MW for 2030 and 30,431 MW for 2034;
   - its 2025 filing lowered 2026 to 2032 by 875 to 4,564 MW, and raised 2033 (+1,887) and 2034 (+4,629).
 
+## Cross-check, eleven planning areas outside the ISOs: the 2025 forecast against EIA-930's 2025 peak (session 3796)
+
+The utilities whose planning area is their own EIA-930 balancing authority, mapped by name (the respondent's name in `ferc714_respondents`, the balancing authority EIA-930 names for the same utility). The forecast is the higher of the summer and winter peak the 2024 filing gives for 2025 (`ferc714_planning_area_forecasts`). The actual is the balancing authority's highest hour of 2025 in EIA-930's hourly demand (type D, UTC hours), under the neighbour and range tests the ISO rows use (`warehouse/derived/demand_growth.py`: an hour is used when it is within 25 percent of the median of the four hours around it and within a third to three times the area's median hour).
+
+- **Source:** EIA's API v2, `electricity/rto/region-data`, `frequency=hourly`, `facets[type][]=D`, `facets[respondent][]=<BA>`, 2025-01-01T00 to 2025-12-31T23.
+  - Retrieved 2026-11-12T16:46:14Z in 22 requests; `replication/ferc714/ba_peaks.py` reproduces the table (with `--raw` from the saved pages, no request); the raw pages are under `warehouse/raw/eia930_ba_peaks/20261112T164614Z/` (not in git).
+  - Not a warehouse table.
+- **Two faulty hours were left out by the tests:** APS's 10,529 MW at 2025-02-13T23 (the hours beside it 7,850 and 4,210), and LADWP's 5,823 MW at 2025-02-01T00 (beside it 2,916 and 2,752).
+- **Southern Company** (`ferc714:142`) has no 2024 filing in the table and is not in the table below.
+
+| EIA-930 BA | FERC-714 respondent | Forecast of 2025, filed for 2024 (MW) | Actual peak 2025, EIA-930 (MW, hour UTC) | Forecast less actual (pct) |
+|---|---|---|---|---|
+| TVA | ferc714:152 (Tennessee Valley Authority) | 32,838 (winter) | 35,086 (2025-01-22T14) | -6.4 |
+| DUK | ferc714:51 (Duke Energy Carolinas) | 21,216 (summer) | 21,931 (2025-06-25T20) | -3.3 |
+| CPLE | ferc714:214 (Duke Energy Progress) | 14,457 (winter) | 14,209 (2025-01-23T13) | +1.7 |
+| FPL | ferc714:63 (Florida Power & Light) | 26,306 (summer) | 28,963 (2025-07-28T21) | -9.2 |
+| FPC | ferc714:215 (Duke Energy Florida) | 10,366 (winter) | 12,583 (2025-07-28T20) | -17.6 |
+| AZPS | ferc714:16 (Arizona Public Service) | 8,491 (summer) | 8,499 (2025-08-08T01) | -0.1 |
+| SRP | ferc714:133 (Salt River Project) | 8,528 (summer) | 8,784 (2025-08-08T02) | -2.9 |
+| BPAT | ferc714:21 (Bonneville Power Administration) | 12,185 (winter) | 11,537 (2025-02-12T16) | +5.6 |
+| PSCO | ferc714:124 (Public Service Company of Colorado) | 7,974 (summer) | 9,079 (2025-07-10T00) | -12.2 |
+| NEVP | ferc714:99 (Nevada Power) | 7,226 (summer) | 9,239 (2025-07-15T01) | -21.8 |
+| LDWP | ferc714:84 (Los Angeles Department of Water and Power) | 6,226 (summer) | 5,356 (2025-09-04T00) | +16.2 |
+
+What it says, with its limits:
+
+- **Six of the eleven are within about 6.5 percent:** TVA, the two Duke Carolinas areas, APS, SRP and BPA.
+- **Where the gap is large, the two boundaries are not the same.** A balancing authority balances the load of every utility inside it, while a FERC-714 planning area is the respondent's own:
+  - NV Energy's balancing authority (NEVP) holds Sierra Pacific's load as well as Nevada Power's, so Nevada Power's own forecast sits 21.8 percent under it.
+  - Duke Energy Florida's (FPC), Public Service Company of Colorado's (PSCO) and FPL's authorities may also balance other utilities' loads; the table does not say how much.
+  - LADWP's filed forecast sits 16.2 percent above its authority's 2025 peak. A mild summer or a planning area larger than the authority's load would each do it; the table does not say which.
+  - So these rows are a check of order of magnitude, not of forecasting skill. The seven ISO rows above are the test of skill.
+- **Nothing is apportioned or corrected:** each figure is the filing's and EIA-930's as published.
+
 ## Limits
 
 - **A planning area is what its respondent files.** A respondent that merged, split or changed its footprint between filings moves its forecast with it, and a revision then measures the footprint as well as the load. The table does not detect this.

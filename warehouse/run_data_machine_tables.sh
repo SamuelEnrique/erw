@@ -15,6 +15,10 @@
 #     dm_ercot_ws_forecast          ercot_wind_solar_forecast        ERCOT's week of hourly postings (it keeps a week and no
 #                                                                    more: a day not pulled is a day of forecasts lost)
 #     dm_nrc_reactor_status         nrc_reactor_status               the NRC's file of the last 365 days: one request
+#     dm_nuclear_outages_gen        eia_nuclear_outages_generator_daily  session 3795: EIA's days after the held table's
+#                                                                    newest, asked fresh (--new-days): one request a day
+#     dm_nuclear_fleet              nuclear_fleet_status             derived (the reactor status and the outages just
+#                                                                    read); no request
 #     dm_caiso_emergencies          caiso_grid_emergencies           CAISO's Grid Emergencies History Report: one document
 #     dm_caiso_reliability          caiso_reliability_daily          derived (EIA-930's CISO workbook, CAISO's batteries,
 #                                                                    the notices just read); no request
@@ -132,10 +136,12 @@ TABLE_STEPS=(
   "dm_zone_history_pull|-|weekly|warehouse/connectors/zone_price_history.py --pull --iso caiso --recent 9"
   "dm_zone_history_write|iso_zone_prices_history|weekly|warehouse/connectors/zone_price_history.py --write --iso caiso --recent 9"
   "dm_mix_profile|generation_mix_hourly_profile,generation_mix_records|weekly|warehouse/derived/mix_profile.py"
+  "dm_nuclear_outages_gen|eia_nuclear_outages_generator_daily|daily|warehouse/connectors/eia_nuclear_outages_generator.py --new-days"
+  "dm_nuclear_fleet|nuclear_fleet_status|daily|warehouse/derived/nuclear_fleet_status.py"
 )
 # session 271: the weekly load of every table this block and warehouse/run_data_machine.sh write (the loader takes
 # only those a live-set rule names, and writes what changed)
-WEEKLY_LIVE='^(iso_zone_prices_history|caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders|scarcity_hours_by_grid|eia930_daily_total_interchange|caiso_wind_solar_forecast|ercot_wind_solar_forecast|nrc_reactor_status|caiso_curtailment_intervals|ercot_large_load_status|ercot_all_hub_prices_history|ercot_sced_esr_hourly|ercot_storage_rt_monthly|ercot_storage_node_basis|clean_energy_hourly|clean_energy_summary|noaa_grid_weather_hourly|noaa_grid_weather_daily|noaa_grid_weather_stations|noaa_station_weather_hourly|ercot_rtm_node_prices|ercot_zone_prices_history|carb_auction_allowance_prices|carb_lcfs_credit_prices|merchant_revenue_monthly|generation_mix_hourly_profile|generation_mix_records)$'
+WEEKLY_LIVE='^(iso_zone_prices_history|caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders|scarcity_hours_by_grid|eia930_daily_total_interchange|caiso_wind_solar_forecast|ercot_wind_solar_forecast|nrc_reactor_status|caiso_curtailment_intervals|ercot_large_load_status|ercot_all_hub_prices_history|ercot_sced_esr_hourly|ercot_storage_rt_monthly|ercot_storage_node_basis|clean_energy_hourly|clean_energy_summary|noaa_grid_weather_hourly|noaa_grid_weather_daily|noaa_grid_weather_stations|noaa_station_weather_hourly|ercot_rtm_node_prices|ercot_zone_prices_history|carb_auction_allowance_prices|carb_lcfs_credit_prices|merchant_revenue_monthly|generation_mix_hourly_profile|generation_mix_records|eia_nuclear_outages_generator_daily|nuclear_fleet_status)$'
 
 # the tables of this block that the live set holds (warehouse/supabase/live_set.yaml gives each its rule; the others
 # are histories, or held out of the catalogue, and are not loaded), and session 244's table, which only this machine builds
