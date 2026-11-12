@@ -22,8 +22,9 @@ class Layout(unittest.TestCase):
     def test_inputs_left_results_right_at_1280_and_the_records_first_at_390(self):
         self.assertIn('className="grid gap-4 lg:grid-cols-[14rem_1fr]"', self.view)
         self.assertRegex(self.view, r'<button type="button" className="[^"]*lg:hidden"[^>]*aria-expanded=\{showFilters\}')
-        self.assertIn('className={`${showFilters ? "" : "hidden"} lg:block`}', self.view)
-        self.assertLess(self.view.index("data-monitor-filters-toggle"), self.view.index('<section aria-label="Records">'))
+        # session 1876 (policy faults row 1): min-w-0 joined both grid items
+        self.assertIn('className={`min-w-0 ${showFilters ? "" : "hidden"} lg:block`}', self.view)
+        self.assertLess(self.view.index("data-monitor-filters-toggle"), self.view.index('<section aria-label="Records" className="min-w-0">'))
 
     def test_the_table_scrolls_inside_itself_never_the_page(self):
         self.assertRegex(self.view, r'<div className="overflow-x-auto">\s*<table className="w-full text-sm">')
@@ -35,7 +36,8 @@ class Layout(unittest.TestCase):
     def test_every_hover_explains_and_every_figure_shown_is_keyed(self):
         self.assertIn("data-check={figureKey(r)}", self.view)
         self.assertIn("data-check={stepKey(row, step)}", src("app", "policy", "MonitorCalendar.tsx"))
-        self.assertIn("data-check={sumKey(s)}", src("app", "policy", "MonitorCharts.tsx"))
+        # session 1876 (policy faults row 28): no sum; each month's largest figure carries its record's figure key
+        self.assertIn("data-check={figureKey(m.top)}", src("app", "policy", "MonitorCharts.tsx"))
         for h in re.findall(r'(?<=\n  )(\w+): \["([^"]+)", "([^"]+)"\]', self.view):
             self.assertTrue(h[2].endswith("."), f"the hover of {h[0]} is a sentence")
 
