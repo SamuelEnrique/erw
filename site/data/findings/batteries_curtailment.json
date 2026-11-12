@@ -2569,7 +2569,7 @@
     "solar": 167.8129166
    },
    {
-    "x": 63.848166666666664,
+    "x": 63.80058333333333,
     "y": 4.805055,
     "label": "2026-10-27",
     "solar": 165.0295002
@@ -2579,14 +2579,50 @@
     "y": 7.675892,
     "label": "2026-10-28",
     "solar": 151.7515833
+   },
+   {
+    "x": 55.097,
+    "y": 1.119184,
+    "label": "2026-10-29",
+    "solar": 120.7587496
+   },
+   {
+    "x": 44.46308333333333,
+    "y": 0.435606,
+    "label": "2026-10-30",
+    "solar": 100.3286669
+   },
+   {
+    "x": 35.15,
+    "y": 0.189969,
+    "label": "2026-10-31",
+    "solar": 68.8829999
+   },
+   {
+    "x": 54.32283333333333,
+    "y": 21.581087,
+    "label": "2026-11-02",
+    "solar": 148.5305831
+   },
+   {
+    "x": 53.2675,
+    "y": 7.239942999999999,
+    "label": "2026-11-03",
+    "solar": 132.7608334
+   },
+   {
+    "x": 54.03325,
+    "y": 2.3967460000000003,
+    "label": "2026-11-04",
+    "solar": 148.3310001
    }
   ],
   "fit": {
    "name": "Fit, charging alone",
-   "intercept": -17.712359802971843,
-   "slope": 0.6361308206335841,
+   "intercept": -17.714782882625077,
+   "slope": 0.6338501202939456,
    "x_min": 11.064416666666666,
-   "x_max": 63.848166666666664
+   "x_max": 63.80058333333333
   },
   "y_left_label": "curtailed, GWh in the day",
   "decimals": 2
@@ -2596,11 +2632,11 @@
    "label": "Curtailment on low and high charging days, MWh a day",
    "before": {
     "period": "at or below the median",
-    "text": "8,539"
+    "text": "8,426"
    },
    "after": {
     "period": "above it",
-    "text": "18,259"
+    "text": "18,153"
    },
    "unit": ""
   },
@@ -2608,11 +2644,11 @@
    "label": "MWh curtailed per GWh charged",
    "before": {
     "period": "charging alone",
-    "text": "636"
+    "text": "634"
    },
    "after": {
     "period": "solar and month fixed",
-    "text": "1,006"
+    "text": "994"
    },
    "unit": ""
   },
@@ -2629,43 +2665,43 @@
    "unit": ""
   }
  ],
- "why": "Over 426 days from 2025-08-24 to 2026-10-28, CAISO curtailed 13,399 MWh a day on average while its batteries charged 48,908 MWh a day. On the days with charging at or below the median (51,185 MWh), curtailment averaged 8,539 MWh; above it, 18,259. Day by day the two correlate at r = 0.28 (R2 0.08, charging alone). Charging alone goes with 636 MWh of curtailment per GWh charged; with solar output held fixed, 767; with the month too, 1,006 (standard error 161, p 0.000, R2 0.65). Solar output itself goes with -257 MWh of curtailment per GWh (standard error 50). The raw association and the controlled one can differ in sign: sunny spring days bring both charging and curtailment, so the question is what charging adds on a day like any other, and that is the third estimate. What it cannot separate is the batteries' dispatch from the prices that call for it.",
- "footnote": "Data: caiso_curtailment_daily (CAISO production and curtailment report, MWh a day; 'solar and wind' is curtailed_solar_mwh plus curtailed_wind_mwh, 'solar only' the first), caiso_battery_storage (Today's Outlook, batteries MW every 5 minutes; charging is the negative values summed times 5/60, a day needs at least 276 of its 288 intervals), caiso_fuel_supply (Today's Outlook, solar MW by hour summed to MWh, at least 23 hours), all on America/Los_Angeles days, 2025-08-24 to 2026-10-28, 426 days in 15 calendar months (the battery series begins 2025-08-24). Regressions: OLS of daily curtailment (MWh) on charging (GWh); on charging and solar (GWh); on both and month-of-sample dummies; HC1 standard errors (Stata's vce(robust)), p from Student's t. The split at the median charging day is a plain comparison of means. r is the Pearson correlation of daily curtailment with daily charging over these days, 0.285; its square, 0.081, is the R2 of the charging-alone fit. No instrument, no event window: an association.",
+ "why": "Over 432 days from 2025-08-24 to 2026-11-04, CAISO curtailed 13,289 MWh a day on average while its batteries charged 48,914 MWh a day. On the days with charging at or below the median (51,224 MWh), curtailment averaged 8,426 MWh; above it, 18,153. Day by day the two correlate at r = 0.28 (R2 0.08, charging alone). Charging alone goes with 634 MWh of curtailment per GWh charged; with solar output held fixed, 741; with the month too, 994 (standard error 161, p 0.000, R2 0.65). Solar output itself goes with -249 MWh of curtailment per GWh (standard error 49). The raw association and the controlled one can differ in sign: sunny spring days bring both charging and curtailment, so the question is what charging adds on a day like any other, and that is the third estimate. What it cannot separate is the batteries' dispatch from the prices that call for it.",
+ "footnote": "Data: caiso_curtailment_daily (CAISO production and curtailment report, MWh a day; 'solar and wind' is curtailed_solar_mwh plus curtailed_wind_mwh, 'solar only' the first), caiso_battery_storage (Today's Outlook, batteries MW every 5 minutes; charging is the negative values summed times 5/60, a day needs at least 276 of its 288 intervals), caiso_fuel_supply (Today's Outlook, solar MW by hour summed to MWh, at least 23 hours), all on America/Los_Angeles days, 2025-08-24 to 2026-11-04, 432 days in 16 calendar months (the battery series begins 2025-08-24). Regressions: OLS of daily curtailment (MWh) on charging (GWh); on charging and solar (GWh); on both and month-of-sample dummies; HC1 standard errors (Stata's vce(robust)), p from Student's t. The split at the median charging day is a plain comparison of means. r is the Pearson correlation of daily curtailment with daily charging over these days, 0.285; its square, 0.081, is the R2 of the charging-alone fit. No instrument, no event window: an association.",
  "numbers": {
-  "n_days": 426,
-  "n_months": 15,
+  "n_days": 432,
+  "n_months": 16,
   "first_day": "2025-08-24",
-  "last_day": "2026-10-28",
-  "mean_curtailed_mwh": 13399.232821596244,
-  "mean_charging_mwh": 48907.53853677621,
-  "mean_solar_mwh": 162819.64770187796,
-  "median_charging_mwh": 51185.25,
-  "curtailed_low_charging_days": 8539.175408450705,
-  "curtailed_high_charging_days": 18259.290234741784,
-  "n_low_days": 213,
-  "n_high_days": 213,
-  "max_charging_mwh": 63848.166666666664,
+  "last_day": "2026-11-04",
+  "mean_curtailed_mwh": 13289.434530092592,
+  "mean_charging_mwh": 48914.114583333336,
+  "mean_solar_mwh": 162223.9878564815,
+  "median_charging_mwh": 51223.666666666664,
+  "curtailed_low_charging_days": 8425.562587962964,
+  "curtailed_high_charging_days": 18153.306472222223,
+  "n_low_days": 216,
+  "n_high_days": 216,
+  "max_charging_mwh": 63800.58333333333,
   "max_curtailed_mwh": 112882.332,
-  "charging_coef": 636.1308206335841,
-  "charging_se": 67.43173821236518,
-  "charging_p": 2.6380140977801547e-19,
-  "charging_r2": 0.08122100288558554,
-  "charging_n": 426,
-  "charging_solar_coef": 767.1339122400054,
-  "charging_solar_se": 131.34312549367937,
-  "charging_solar_p": 1.037719082868279e-08,
-  "charging_solar_r2": 0.0840191235439588,
-  "charging_solar_n": 426,
-  "charging_solar_month_coef": 1005.8455933613488,
-  "charging_solar_month_se": 161.24609715564716,
-  "charging_solar_month_p": 1.1076167964646726e-09,
-  "charging_solar_month_r2": 0.6488642789635771,
-  "charging_solar_month_n": 426,
-  "solar_coef": -257.1285148299283,
-  "solar_se": 50.065718655953866,
-  "solar_p": 4.355705654501638e-07,
-  "corr_curtailed_charging": 0.28499298743229734,
-  "corr_squared": 0.08122100288558559
+  "charging_coef": 633.8501202939456,
+  "charging_se": 66.86909130286324,
+  "charging_p": 1.750760265465374e-19,
+  "charging_r2": 0.08105548451099898,
+  "charging_n": 432,
+  "charging_solar_coef": 741.3376387600824,
+  "charging_solar_se": 128.05327242581862,
+  "charging_solar_p": 1.3669640485014386e-08,
+  "charging_solar_r2": 0.08298716931881223,
+  "charging_solar_n": 432,
+  "charging_solar_month_coef": 994.3866480107481,
+  "charging_solar_month_se": 161.26460387600181,
+  "charging_solar_month_p": 1.6638554261493458e-09,
+  "charging_solar_month_r2": 0.647198682856616,
+  "charging_solar_month_n": 432,
+  "solar_coef": -249.46312652365867,
+  "solar_se": 49.33487540204562,
+  "solar_p": 6.425435514154583e-07,
+  "corr_curtailed_charging": 0.28470244907797826,
+  "corr_squared": 0.08105548451099881
  },
  "effect_table": {
   "columns": [
@@ -2679,30 +2715,30 @@
   "rows": [
    {
     "measure": "charging alone",
-    "coef_per_gw": 636.1308206335841,
-    "se": 67.43173821236518,
-    "p": 2.6380140977801547e-19,
-    "n": 426,
-    "r2": 0.08122100288558554
+    "coef_per_gw": 633.8501202939456,
+    "se": 66.86909130286324,
+    "p": 1.750760265465374e-19,
+    "n": 432,
+    "r2": 0.08105548451099898
    },
    {
     "measure": "charging, solar output held fixed",
-    "coef_per_gw": 767.1339122400054,
-    "se": 131.34312549367937,
-    "p": 1.037719082868279e-08,
-    "n": 426,
-    "r2": 0.0840191235439588
+    "coef_per_gw": 741.3376387600824,
+    "se": 128.05327242581862,
+    "p": 1.3669640485014386e-08,
+    "n": 432,
+    "r2": 0.08298716931881223
    },
    {
     "measure": "charging, solar output and month held fixed",
-    "coef_per_gw": 1005.8455933613488,
-    "se": 161.24609715564716,
-    "p": 1.1076167964646726e-09,
-    "n": 426,
-    "r2": 0.6488642789635771
+    "coef_per_gw": 994.3866480107481,
+    "se": 161.26460387600181,
+    "p": 1.6638554261493458e-09,
+    "n": 432,
+    "r2": 0.647198682856616
    }
   ],
-  "in_words": "each extra GWh a day of charging goes with 1,006 MWh more curtailment, solar output and the month held fixed (standard error 161, p 0.000): the batteries charge on the days the grid has most to spare"
+  "in_words": "each extra GWh a day of charging goes with 994 MWh more curtailment, solar output and the month held fixed (standard error 161, p 0.000): the batteries charge on the days the grid has most to spare"
  },
  "source_line": "Source: CAISO production and curtailment report; CAISO Today's Outlook (storage, fuel source); ERW tables caiso_curtailment_daily, caiso_battery_storage, caiso_fuel_supply.",
  "tables": [
@@ -2710,32 +2746,32 @@
   "caiso_battery_storage",
   "caiso_fuel_supply"
  ],
- "computed_at": "2026-10-31T17:54:22Z",
+ "computed_at": "2026-11-12T18:03:19Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding batteries_curtailment, BY HOW MUCH DO BATTERIES CUT CURTAILMENT",
-  "Computed 2026-10-31T17:54:22Z by warehouse/analysis/findings/batteries_curtailment.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-11-12T18:03:19Z by warehouse/analysis/findings/batteries_curtailment.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per Pacific day: curtailed MWh (as counted), solar and wind curtailed, battery charging and discharging MWh, solar generation MWh, intervals and hours held",
-  "Sources: caiso_curtailment_daily, caiso_battery_storage, caiso_fuel_supply. Pearson r of curtailed_mwh with charging_mwh over these rows: 0.284993 (r squared 0.081221, the R2 of the charging-alone fit)"
+  "Sources: caiso_curtailment_daily, caiso_battery_storage, caiso_fuel_supply. Pearson r of curtailed_mwh with charging_mwh over these rows: 0.284702 (r squared 0.081055, the R2 of the charging-alone fit)"
  ],
  "card_id": "batteries_curtailment",
  "meta": {
   "curtailed": "solar_and_wind",
   "first_month": "2025-08",
   "first_day": "2025-08-24",
-  "last_day": "2026-10-28",
-  "n_days": 426
+  "last_day": "2026-11-04",
+  "n_days": 432
  },
  "downloads": {
   "csv": "erw_2026_caiso_curtailment_batteries.csv",
   "python": "batteries_curtailment.py",
   "stata": "batteries_curtailment.do"
  },
- "csv_sha256": "3aeccf860ec8240f04c88ad9405a4414291ffde0b1d12005fb84298328c13ff4",
+ "csv_sha256": "f83b46c1cf3dcdb1f69178c97bdd78fd03356079ca95217ca4ff4cd1fda85941",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-31",
+   "name": "the findings library's cards as computed by 2026-11-12",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,
@@ -2743,10 +2779,10 @@
    "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
    "claims_of_this_card": 4,
    "q_bh": {
-    "charging_p": 1.7147091635571005e-18,
-    "charging_solar_p": 3.854385164939322e-08,
-    "charging_solar_month_p": 4.7996727846802485e-09,
-    "solar_p": 1.4156043377130323e-06
+    "charging_p": 9.103953380419946e-19,
+    "charging_solar_p": 5.0772950372910574e-08,
+    "charging_solar_month_p": 7.210040179980499e-09,
+    "solar_p": 2.0882665421002395e-06
    }
   },
   "newey_west": {
@@ -2755,49 +2791,49 @@
      "spec": "charging",
      "label": "charging: MWh curtailed per GWh charged",
      "numbers_key": "charging",
-     "coef": 636.130820633578,
-     "se_hc1": 67.43173821236356,
-     "p_hc1": 2.6380140977773236e-19,
-     "se_nw": 107.06874980005838,
-     "p_nw": 5.900827631456149e-09,
+     "coef": 633.8501202939406,
+     "se_hc1": 66.86909130286318,
+     "p_hc1": 1.750760265466298e-19,
+     "se_nw": 106.07956403944627,
+     "p_nw": 4.824825349340944e-09,
      "nw_lag": 5,
-     "n": 426
+     "n": 432
     },
     {
      "spec": "charging_solar",
      "label": "charging solar: MWh curtailed per GWh charged",
      "numbers_key": "charging_solar",
-     "coef": 767.1339122400057,
-     "se_hc1": 131.3431254936805,
-     "p_hc1": 1.0377190828685628e-08,
-     "se_nw": 216.99513012866143,
-     "p_nw": 0.00045236129538523995,
+     "coef": 741.3376387600624,
+     "se_hc1": 128.05327242581205,
+     "p_hc1": 1.3669640485003952e-08,
+     "se_nw": 212.10156042664866,
+     "p_nw": 0.0005230262469955637,
      "nw_lag": 5,
-     "n": 426
+     "n": 432
     },
     {
      "spec": "charging_solar_month",
      "label": "charging solar month: MWh curtailed per GWh charged",
      "numbers_key": "charging_solar_month",
-     "coef": 1005.845593361441,
-     "se_hc1": 161.24609715564614,
-     "p_hc1": 1.1076167964607253e-09,
-     "se_nw": 219.90162135538685,
-     "p_nw": 6.34982902271165e-06,
+     "coef": 994.3866480107023,
+     "se_hc1": 161.2646038759907,
+     "p_hc1": 1.6638554261479884e-09,
+     "se_nw": 220.64023410628715,
+     "p_nw": 8.575415482277484e-06,
      "nw_lag": 5,
-     "n": 426
+     "n": 432
     },
     {
      "spec": "solar",
      "label": "solar: MWh curtailed per GWh of solar (with charging and the month)",
      "numbers_key": "solar",
-     "coef": -257.12851482993403,
-     "se_hc1": 50.065718655952445,
-     "p_hc1": 4.3557056544959637e-07,
-     "se_nw": 68.27603174998413,
-     "p_nw": 0.00019019947685354957,
+     "coef": -249.46312652365157,
+     "se_hc1": 49.334875402043856,
+     "p_hc1": 6.425435514153374e-07,
+     "se_nw": 67.69211293421785,
+     "p_nw": 0.00025882845135659436,
      "nw_lag": 5,
-     "n": 426
+     "n": 432
     }
    ],
    "rule": "the Bartlett kernel to floor(4 (n / 100) ^ (2 / 9)) lags (Newey and West, 1994), with HC1's n / (n - k)",

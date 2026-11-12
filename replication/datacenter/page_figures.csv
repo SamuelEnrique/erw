@@ -1,15 +1,15 @@
 field,name,key,page,tolerance
 l12_usd_mwh,"market energy, a flat load, last twelve months, USD per MWh","a|price, l12_per",34.07,0.005
-l12_usd,"cost for 100 MW, last twelve months, USD",a|bill,29841981,0.5
+l12_usd,"cost for 100 MW, last twelve months, USD",a|bill,29846522,0.5
 gpu_hour,"power per GPU-hour, USD",a|gpu,0.0691,5e-05
 gpus,GPUs that 100 MW powers,the page's text,49310,0.5
 da_usd_mwh,"bought day-ahead, the same twelve months, USD per MWh",l12_per on ?buy=da,35.7,0.005
 bad_usd_mwh,"a bad month (2026-08), USD per MWh",a|bad,37.88,0.005
 scarce_hours,"hours of the last twelve months at or above USD 1,000 per MWh",dc|...|scarce:hours,4,0
 scarce_usd,"what a flat load of 100 MW paid in them, USD",dc|...|scarce:flat_usd,446175,0.5
-co2_kg_mwh,"carbon, last twelve months at the grid's monthly average, kg CO2 per MWh",dc|...|co2:l12:kg:flat,300.38,0.005
-co2_tonnes,tonnes of CO2 a year for 100 MW,dc|...|co2:l12:tonnes:flat,263102,0.5
-window_hours,hours of the hourly window,dc|...|co2:window:hours,10160,0
-window_kg_mwh,"a flat load's own hours over the window, kg CO2 per MWh",dc|...|co2:window:flat,309.84,0.005
+co2_kg_mwh,"carbon, last twelve months at the grid's monthly average, kg CO2 per MWh",dc|...|co2:l12:kg:flat,301.82,0.005
+co2_tonnes,tonnes of CO2 a year for 100 MW,dc|...|co2:l12:tonnes:flat,264395,0.5
+window_hours,hours of the hourly window,dc|...|co2:window:hours,10151,0
+window_kg_mwh,"a flat load's own hours over the window, kg CO2 per MWh",dc|...|co2:window:flat,309.54,0.005
 year_2016,"year 2016, a flat load, USD per MWh",series|price_years_by_window|ercot:LZ_NORTH|datacenter_flat_rt_year_2016,21.68,0.005
 year_2021,"year 2021, a flat load, USD per MWh",series|price_years_by_window|ercot:LZ_NORTH|datacenter_flat_rt_year_2021,150.61,0.005
