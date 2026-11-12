@@ -23,3 +23,13 @@ Energy Research Warehouse (ERW). Chain 215, data machine (lab-desktop), 12 Novem
 ## For Samuel's ruling
 
 - None.
+
+## Added at 19:06 UTC: the guard, and main
+
+- **The first guard refused** the replayed commit (`72e8958c7`) on one test, `test_session3701.TheReplication.test_the_script_exits_0_and_says_license_needed`. The refreshed siting cards had moved their callouts, and Research's replication compares the downloads with the committed `replication/analysis/page_figures.json` (40.99 recorded where the card now says 41.04). The guard pushed the commit to `wip/red-dm-2026-11-12`, never to main.
+- **Fixed in the same way as test 1491:** `replication/analysis/figures_of_the_page.py` wrote the page figures from the cards (78 figures; test 3701 OK), committed as `3dab64a49` on top of the replay.
+- **The second guard passed:** "the suite passed on 3dab64a49: 8383 tests". Pushed to main at 19:04 UTC.
+  - Snapshots `c215-dm-before` and `c215-dm-after` (after Vercel's success): 0 differences in all.
+  - The main checkout's local commit, superseded by the replay, was moved to `origin/main` (`git reset --keep`).
+- **The lasting fix** (`85f4e85e4` on `wip/c215-data`): the run writes Research's page figures after the siting cards (`dm_analysis_figures`), and its replication group holds test 3701. Tests 3206 and 3779 follow it.
+- `wip/red-dm-2026-11-12` is left on origin; this machine's permission rules refuse branch deletions (chain 211's ruling item 1 lists the others).
