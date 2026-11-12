@@ -100,7 +100,7 @@
  "tables": [
   "node_basis_daily"
  ],
- "computed_at": "2026-11-05T21:02:21Z",
+ "computed_at": "2026-11-12T18:04:10Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/siting.md",
  "downloads": {
   "csv": "siting_battery_swing.csv",
@@ -116,7 +116,7 @@
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-10-31",
+   "name": "the findings library's cards as computed by 2026-11-12",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,
