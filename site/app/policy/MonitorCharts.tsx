@@ -18,7 +18,7 @@ export function MonitorCharts({ rows, last = "" }: { rows: MonitorRow[]; last?: 
   const ss = sigBySector(rows);
   const figs = figureMonths(rows);
   return (
-    <div className="mt-6 grid gap-6" data-monitor-charts="1">
+    <div className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-6" data-monitor-charts="1">
       <div data-chart="policy-body-month">
         <CategoryChart id="policy-body-month" x={monthLabels(bm.months, last)} unit="records" height={280}
           label="Records by the month of their newest document, by body (every record of the monitor's file)"
