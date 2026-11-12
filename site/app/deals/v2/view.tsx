@@ -10,7 +10,8 @@ import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
 import { NoData } from "@/components/NoData";
 import { DealsHeld } from "../Held";
-import { HeldRows } from "@/components/tool/HeldRows";  // session 500
+import { HeldRows } from "@/components/tool/HeldRows";
+import { BarsHover } from "@/components/tool/BarsHover";   // session 1853 (deals faults row 7): the brand's hover card on the month bars  // session 500
 
 // Session 113: the deals tracker, version 2, in the battery page's layout: the choices in a fog beige panel on the
 // left, the answer on the right. It reads the deals already extracted (energy_deals, warehouse/deals/extract.py) and
@@ -216,7 +217,11 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
 
               <ChartFrame title="Deals by month"
                 note={<>{words ? <>This selection ({words}). </> : null}By the deal&apos;s date: the announced date where a story states it, else the day the first story was published (UTC). A month with 0 has no deal dated in it. Deals are extracted only from stories the ERW has scored: the stories of June to September 2025 are held but not scored, so those months are empty for that reason, not because nothing was reported. The ERW has scored the news daily since 23 September 2026; earlier months come from older stories scored afterwards and are thinner.</>}>
-                <MonthBars ms={months(all, shown)} />
+                {/* session 1853 (deals faults row 7): the fog card with the month and its count, by pointer and by the arrow keys; the SVG's own <title> stays */}
+                <BarsHover id="deals-months" left={40} right={10} width={760}
+                  cards={months(all, shown).map((m) => ({ label: monthWords(m.month), lines: [{ name: m.n === 1 ? "deal" : "deals", color: "var(--color-accent)", text: whole(m.n) }] }))}>
+                  <MonthBars ms={months(all, shown)} />
+                </BarsHover>
               </ChartFrame>
 
               <ToolSection title={words ? `The ${whole(c.deals)} deals in this selection` : `Every deal held (${whole(c.deals)})`} id="deals"
