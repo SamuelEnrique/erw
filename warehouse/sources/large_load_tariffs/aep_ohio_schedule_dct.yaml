@@ -1,0 +1,32 @@
+# Session 3760 (chain 211): verified against Ohio Power's November 2026 tariff book as AEP Ohio publishes it, the research file
+# of 6 November 2026's Set A rows 1 and 2 being the lead; saved under runs/license_reads/s3760/ (not in git). LICENSE
+# INTERNAL (the owner's ruling 4 of 6 November 2026): the only copy read is on aepohio.com, whose terms allow personal use
+# only, and PUCO's docket copy sits behind a reCAPTCHA. So this file is held in the registry and its rows are not written to
+# the public table until the permission is on record; the All grids tab shows the cell as needing a license. The Basic
+# Transmission Cost Rider (Sheet 400-1) applies to DCT customers as Demand Metered Service; its rate lines did not read
+# cleanly from the layout and are not written. Pages are the PDF's (Sheets 223-1 to 223-6 on pages 113 to 118).
+utility: Ohio Power Company (AEP Ohio)
+eia_id: 14006
+state: OH
+grid: PJM
+sector: data centers (over 25,000 kW)
+status: adopted
+schedule: Schedule DCT, Data Center Tariff
+tariff_sheet: P.U.C.O. No. 22, 1st Revised Sheets 223-1 to 223-8 (cancels Original Sheets 223-1 to 223-8)
+effective: 2026-08-28
+commission: Public Utilities Commission of Ohio
+docket: 24-508-EL-ATA (Schedule DCT); 26-113-EL-ATA (the August 5, 2026 Finding and Order behind the 1st Revised sheets)
+document: Ohio Power Company's tariff book of November 2026, Schedule DCT 1st Revised Sheets 223-1 to 223-8, issued and effective 28 August 2026
+document_url: https://www.aepohio.com/lib/docs/ratesandtariffs/Ohio/November_2026_Ohio_Power_Tariff_Book.pdf
+retrieved_at: 2026-11-12T10:58:18Z
+license: internal
+notes: "Held for a license (ruling 4): aepohio.com's terms allow personal use only. Distribution demand charges $9.05 (secondary) and $8.08 (primary) per kW and, at transmission voltage, a Customer Supplemental Charge $6,800 and Customer Charge $20,000 a month appear on Sheet 223-3 (page 115) but did not read cleanly from the layout and are not written."
+terms:
+  min_bill: {text: "during the Load Ramp Period, monthly billing demand ... shall not be less than 85% of the customer's Load Ramp Contract Capacity; after it, not less than the greater of (a) 85% of the customer's highest previously established monthly billing demand during the past 11 months or the minimum demand", page: 116}
+  collateral: {text: "must provide a guarantee or collateral at the time of signing the contract equal to 50% of the total minimum charges for the full term of the contract (\"Collateral Requirement\")", page: 118}
+  ramp: {text: "In Year 1, 50% of Contract Capacity (the Load Ramp Contract Capacity's floor, Sheet 223-1)", page: 113}
+  term: {text: "Load Ramp Period plus 8 years", page: 117}
+figures:
+  - {variable: min_demand_mw, value: 25, printed: "has an aggregate monthly maximum demand of greater than 25,000 kW", page: 113}
+  - {variable: min_bill_pct, value: 85, printed: "not be less than 85% of the customer's Load Ramp Contract Capacity", page: 116}
+  - {variable: min_contract_years, value: 8, printed: "Load Ramp Period plus 8 years", page: 117}

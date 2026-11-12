@@ -1,0 +1,38 @@
+# Session 3760 (chain 211): verified against the filed sheets, the research file of 6 November 2026's Set B row 2 being the
+# lead (docs/reviews/research/large-load-tariffs-2026-11-06.md). Read from the Missouri PSC's EFIS copy of Evergy Metro's
+# compliance filing (JE-2026-0104), saved under runs/license_reads/s3760/ (not in git). Pages are the PDF's pages; the
+# tariff's own sheet numbers are in tariff_sheet and each term. Approved by the Commission's Order Approving Tariffs of
+# 25 February 2026 (efis.psc.mo.gov/Document/Display/866562), not read in this session.
+utility: Evergy Metro, Inc. d/b/a Evergy Missouri Metro
+eia_id: 10000
+state: MO
+grid: SPP
+sector: large load (75 MW and above)
+status: adopted
+schedule: Schedule LLPS, Large Load Power Service
+tariff_sheet: P.S.C. MO. No. 7, Original Sheet Nos. 76 to 82
+effective: 2026-03-09
+voltage: {text: "Schedule LLPS Customers shall receive service at either substation or transmission voltage levels.", page: 20}
+commission: Missouri Public Service Commission
+docket: EO-2025-0154 (tariff tracking JE-2026-0104)
+document: Evergy Missouri Metro's Schedule LLPS tariff sheets, issued 5 February 2026, effective 9 March 2026 (EFIS document 865318)
+document_url: https://efis.psc.mo.gov/Document/Display/865318
+retrieved_at: 2026-11-12T10:50:12Z
+license: public
+terms:
+  min_bill: {text: "Minimum Demand shall be 80% of the annual Contract Capacity. Billing Demand shall be the higher of: (a) the Monthly Maximum Demand in the current month or (b) the Minimum Demand. (Sheet 77)", page: 21}
+  collateral: {text: "The Company will require Schedule LLPS Customers to provide collateral in an amount equal to two (2) years of Minimum Monthly Bills (Sheet 80)", page: 24}
+  exit_fee: {text: "an Exit Fee equal to the nominal value of the Minimum Monthly Bill times the number of months remaining in the Term or Extension Term, or for twelve (12) months, whichever is greater; with less than thirty-six (36) months' notice, an Early Termination Fee of the Exit Fee plus two (2) times the Minimum Monthly Bill times the months short (Sheet 79)", page: 23}
+  ramp: {text: "During the transitional load ramp period, the Customer's maximum load may be lower than seventy-five megawatts (75 MW). (Sheet 76)", page: 20}
+  term: {text: "transitional load ramp period plus twelve (12) years; extends for periods of five years unless thirty-six (36) months' written notice (Sheets 76 and 77)", page: 20}
+figures:
+  - {variable: min_demand_mw, value: 75, printed: "a monthly maximum demand of seventy-five megawatts (75 MW)", page: 20}
+  - {variable: min_contract_years, value: 12, printed: "transitional load ramp period plus twelve (12) years", page: 20}
+  - {variable: min_bill_pct, value: 80, printed: "Minimum Demand shall be 80% of the annual Contract Capacity", page: 21}
+  - {variable: collateral_months, value: 24, printed: "two (2) years of Minimum Monthly Bills", page: 24}
+  - {variable: demand_charge_summer, value: 21.038, printed: "Per kW of Billing Demand per month, Summer Season $21.038", page: 21}
+  - {variable: demand_charge_winter, value: 19.038, printed: "Per kW of Billing Demand per month, Winter Season $19.038", page: 21}
+  - {variable: grid_charge_transmission, value: 2.200, printed: "Per kW of Grid Demand per month-Trans. $2.200", page: 21}
+  - {variable: grid_charge_substation, value: 3.003, printed: "Per kW of Grid Demand per month-Substation $3.003", page: 21}
+  - {variable: energy_charge, value: 29.88, printed: "$0.02988 per kWh (Summer and Winter Seasons)", page: 21}
+  - {variable: fixed_charge, value: 1181.28, printed: "CUSTOMER CHARGE (per month): $1,181.28", page: 21}

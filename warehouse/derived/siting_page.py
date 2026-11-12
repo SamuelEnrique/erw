@@ -52,6 +52,10 @@ Files:
                   (ISORTO); and from carbon_intensity_hourly (public), intensity_demand in kg CO2 per MWh, each priced
                   grid's hours of the years its price window covers, in the grid's standard time (as the price files),
                   {"s": the first hour held, "v": the values}, to one decimal; an hour not held is null.
+    tariffs.json  (session 3764) from utility_large_load_tariffs (public, row-level holds): each utility's filed
+                  large-load schedules with every figure, its page and words, the filing and the status; "held" lists
+                  the EIA ids of schedules held for a license (ruling 4 of 6 November 2026).
+    conn_rules.json (session 3764) from large_load_connection_rules (public): by grid, each step a document states.
     utility.json  (session 708) from eia861_utility_sales (public): for each state and balancing authority the tab needs,
                   the utility with the most industrial sales in the newest year, among the rows of EIA's service types
                   Bundled and Energy (Delivery rows are wires charges), with its industrial sales and revenue that year
@@ -714,27 +718,63 @@ TARIFF_TABLE = "utility_large_load_tariffs"
 
 
 def tariffs_file(path):
-    """tariffs.json's content (session 730, chain 062), when the data machine's table has landed: each utility's (EIA
-    id) large-load rates as warehouse/connectors/openei_large_load_tariffs.py documents them, one series row a rate and
-    a variable (energy_charge USD/MWh, demand_charge USD/kW-month, fixed_charge USD a month, min_demand_mw MW), keyed by
-    the rate (entity) and its start (ts_utc). NOT WIRED into the tab: the table had not landed when this was written.
-    Its license is the table's own; a table held under a license is never written to the site's files."""
-    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str)
-    need = {"entity", "variable", "ts_utc", "value", "x_eia_id", "x_utility", "x_sector"}
+    """tariffs.json's content (session 730, chain 062; wired by session 3764, chain 211): each utility's (EIA id) filed
+    large-load schedules from utility_large_load_tariffs, one entry a schedule with every figure it prints, the figure's
+    page and printed words, the filing (commission, docket, document, address, sheet), its status (adopted, ordered,
+    proposed, framework) and its notes. The table holds public rows only (ruling 4: a schedule held for a license is kept
+    out of it and named in its header); the held schedules' EIA ids are listed under "held" so the tab can say a license
+    is needed. Each entry is as the schedule prints it: nothing is summed or converted."""
+    import re
+    with open(path, encoding="utf-8") as fh:
+        head = [ln[2:].rstrip("\n") for ln in fh if ln.startswith("# ")]
+    held = sorted({m for ln in head if ln.startswith("License:") for m in re.findall(r"\(EIA (\d+)\)", ln)})
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str, keep_default_na=False)
+    need = {"entity", "variable", "ts_utc", "value", "x_eia_id", "x_utility", "x_sector"}   # session 730's, which the OpenEI rows carry
     if not need <= set(d.columns):
         raise ValueError(f"{TARIFF_TABLE} lacks {sorted(need - set(d.columns))}")
-    d["v"] = pd.to_numeric(d["value"], errors="coerce")
-    rates = {}
-    for (ent, start), g in d.groupby(["entity", "ts_utc"]):
-        v = {r.variable: (None if pd.isna(r.v) else float(r.v)) for r in g.itertuples()}
+    col = lambda r, k: str(r.get(k, "") or "")
+    num = lambda v: None if str(v).strip() == "" else float(v)
+    utilities = {}
+    for (ent, start), g in d.groupby(["entity", "ts_utc"], sort=False):
         first = g.iloc[0]
-        rates.setdefault(str(first["x_eia_id"]), []).append({
-            "rate": ent, "name": str(first.get("node") or ""), "start": str(start)[:10], "utility": str(first["x_utility"]),
-            "sector": str(first["x_sector"]), "energy": v.get("energy_charge"), "demand": v.get("demand_charge"),
-            "fixed": v.get("fixed_charge"), "min_mw": v.get("min_demand_mw")})
-    for k in rates:
-        rates[k].sort(key=lambda r: (r["start"], r["rate"]), reverse=True)
-    return {"table": TARIFF_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "utilities": rates}
+        v = {r["variable"]: num(r["value"]) for _, r in g.iterrows()}
+        figures = [{"variable": r["variable"], "value": num(r["value"]), "unit": col(r, "unit"), "page": col(r, "x_page"), "printed": col(r, "x_printed")}
+                   for _, r in g.sort_values("variable").iterrows() if num(r["value"]) is not None]
+        utilities.setdefault(str(first["x_eia_id"]), []).append({
+            # session 730's fields, which the tab's rate picker reads
+            "rate": ent, "name": col(first, "node"), "start": str(start)[:10], "sector": col(first, "x_sector"),
+            "energy": v.get("energy_charge"), "demand": v.get("demand_charge"), "fixed": v.get("fixed_charge"), "min_mw": v.get("min_demand_mw"),
+            # session 3764's, the filing as printed
+            "entity": ent, "utility": first["x_utility"], "schedule": col(first, "x_schedule") or col(first, "node"), "effective": str(start)[:10],
+            "status": col(first, "x_status") or "adopted", "grid": col(first, "x_grid"), "state": col(first, "x_state"),
+            "sheet": col(first, "x_tariff_sheet"), "commission": col(first, "x_commission"), "docket": col(first, "x_docket"),
+            "document": col(first, "x_document"), "url": col(first, "source_url"), "min_bill": col(first, "x_min_bill"),
+            "term": col(first, "x_term"), "notes": col(first, "x_notes"), "figures": figures})
+    for k in utilities:
+        utilities[k].sort(key=lambda t: (t["start"], t["rate"]), reverse=True)   # session 730's order: newest first
+    return {"table": TARIFF_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "held": held,
+            "utilities": utilities}
+
+
+RULES_TABLE = "large_load_connection_rules"
+
+
+def conn_rules_file(path):
+    """conn_rules.json's content (session 3764): large_load_connection_rules by grid, each step a document states with its
+    duration or date as printed, the document, its page and its address, newest document first. Public, row by row."""
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str, keep_default_na=False)
+    need = {"x_grid", "x_document", "x_document_date", "x_step", "x_page", "x_printed", "source_url"}
+    if not need <= set(d.columns):
+        raise ValueError(f"{RULES_TABLE} lacks {sorted(need - set(d.columns))}")
+    grids = {}
+    for _, r in d.iterrows():
+        grids.setdefault(r["x_grid"].strip().lower(), []).append({
+            "document": r["x_document"], "date": r["x_document_date"], "step": r["x_step"], "duration": r.get("x_duration", ""),
+            "unit": r.get("x_duration_unit", ""), "mw": r.get("mw", ""), "page": r["x_page"], "section": r.get("x_section", ""),
+            "printed": r["x_printed"], "url": r["source_url"]})
+    for g in grids:
+        grids[g].sort(key=lambda x: x["date"], reverse=True)
+    return {"table": RULES_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "grids": grids}
 
 
 def gaps_file(path=GAPS_MD):
@@ -936,6 +976,20 @@ def main(argv=None):
         return 1
     print(f"facilities.json: {len(fac['states'])} states, {len(fac['counties'])} counties in one grid")
     write("facilities.json", fac, a.out_dir)
+    # session 3764 (chain 211): the filed large-load schedules and the operators' connection rules, when their tables are here
+    for table, name, build in ((TARIFF_TABLE, "tariffs.json", tariffs_file), (RULES_TABLE, "conn_rules.json", conn_rules_file)):
+        try:
+            tp = find(table, a.in_dir, a.in_dir_first)
+        except FileNotFoundError:
+            print(f"{table} is not on this machine: {name} is left as it is")
+            continue
+        try:
+            obj = build(tp)
+        except Exception as e:
+            print(f"FAILED: {e}", file=sys.stderr)
+            return 1
+        print(f"{name}: from {tp}")
+        write(name, obj, a.out_dir)
     if a.internal:
         if not a.rows:
             print("FAILED: --internal needs --rows", file=sys.stderr)

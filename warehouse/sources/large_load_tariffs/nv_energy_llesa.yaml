@@ -1,0 +1,26 @@
+# Session 3761 (chain 211): read from NV Energy's own fact sheet on the Large Load Electric Service Agreement, the research
+# file of 6 November 2026's Set B row 16 being the lead; saved under runs/license_reads/s3761/ (not in git). STATUS
+# FRAMEWORK: customer-specific agreements each approved by the PUCN, not a published rate schedule; the fact sheet states
+# no figure but the size it typically serves. The trade-press figures for individual agreements (25-year terms, 90 percent
+# minimums) are not from a filing and are not written. The effective date is the fact sheet's month (June 2026), its first
+# day; no PUCN docket was read.
+utility: Nevada Power Company d/b/a NV Energy (and Sierra Pacific Power Company)
+eia_id: 13407
+state: NV
+grid: NEVP
+sector: large loads that require new generation or transmission (typically above 25 MW)
+status: framework
+schedule: Large Load Electric Service Agreement (LLESA)
+tariff_sheet: no tariff sheet; NV Energy's LLESA fact sheet (dated June 2026)
+effective: 2026-06-01
+commission: Public Utilities Commission of Nevada
+docket: not read (each agreement is filed for approval)
+document: NV Energy, "Large Load Electric Service Agreement" fact sheet, June 2026
+document_url: https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/help/brochures/Large-Load-Electric-Service-Agreement-LLESA-Fact-Sheet.pdf
+retrieved_at: 2026-11-12T11:14:13Z
+license: public
+notes: "A proposed framework of customer-specific agreements: long-term commitments for energy usage, minimum usage levels and financial guarantees, each agreement reviewed and approved by the PUCN (fact sheet). No rate, term or minimum share is printed."
+terms:
+  min_bill: {text: "LLESA customers must: Make long-term commitments for energy usage; Pay minimum usage levels; Provide financial guarantees to ensure obligations are met", page: 1}
+figures:
+  - {variable: min_demand_mw, value: 25, printed: "Large customers with energy needs that typically exceed 25 megawatts and require new generation or transmission infrastructure are served under a LLESA.", page: 1}

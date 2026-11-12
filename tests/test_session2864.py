@@ -54,10 +54,13 @@ class WholeDay(unittest.TestCase):
 class StaleOnMain(unittest.TestCase):
     COMMITS = [(dt.datetime(2026, 10, 30, 16, 27, tzinfo=UTC), "Daily prices 2026-10-30: ok: ercot caiso"),
                (dt.datetime(2026, 11, 1, 23, 28, tzinfo=UTC), "Energy Roundup 2026-W44"),
-               (dt.datetime(2026, 11, 5, 18, 48, tzinfo=UTC), "Page files 2026-11-05 (the data machine's daily run)")]
+               (dt.datetime(2026, 11, 5, 18, 48, tzinfo=UTC), "Page files 2026-11-05 (the data machine's daily run)"),
+               # session 3754: the health summary's own commit, within its day
+               (dt.datetime(2026, 11, 5, 14, 30, tzinfo=UTC), "Health summary 2026-11-04 (warehouse/health.py)")]
+    LATEST = NOW - dt.timedelta(minutes=20)
 
     def test_the_daily_run_six_days_stale_and_the_others_within_their_limits(self):
-        st = health.stale_on_main(now=NOW, commits=self.COMMITS, oks={"hourly network": NOW - dt.timedelta(hours=1)})
+        st = health.stale_on_main(now=NOW, commits=self.COMMITS, oks={"hourly network": NOW - dt.timedelta(hours=1), "latest prices": self.LATEST})
         self.assertEqual([(s[0], round(s[3], 1), s[4]) for s in st], [("daily prices", 6.1, 1.0)])
         line = health.stale_line(st)
         self.assertEqual(line, "**Stale on main:** daily prices, 6.1 days (its last commit on main, 'Daily prices ...', 2026-10-30 16:27 UTC; allowed 1 day).")
@@ -65,20 +68,24 @@ class StaleOnMain(unittest.TestCase):
         self.assertEqual(md.splitlines()[2], line)                # the first line under the title
 
     def test_the_roundup_past_eight_days_and_the_network_past_three_hours(self):
-        st = health.stale_on_main(now=NOW + dt.timedelta(days=5), commits=self.COMMITS, oks={"hourly network": NOW - dt.timedelta(hours=4)})
-        self.assertEqual([s[0] for s in st], ["daily prices", "energy roundup", "hourly network"])
+        st = health.stale_on_main(now=NOW + dt.timedelta(days=5), commits=self.COMMITS, oks={"hourly network": NOW - dt.timedelta(hours=4), "latest prices": self.LATEST})
+        self.assertEqual([s[0] for s in st], ["daily prices", "energy roundup", "hourly network", "latest prices", "health summary"])
+        self.assertIn("latest prices, 120.3 hours (its last ok step in erw_health", health.stale_line(st))
+        self.assertIn("allowed 1 hour)", health.stale_line(st))
         self.assertIn("hourly network, 124.0 hours (its last ok step in erw_health", health.stale_line(st))   # session 2884: in hours
         self.assertIn("allowed 3 hours", health.stale_line(st))
         self.assertIn("allowed 8 days", health.stale_line(st))
 
     def test_none_found_in_the_window(self):
         st = health.stale_on_main(now=NOW, commits=[], oks={"hourly network": None})
-        self.assertEqual([(s[0], s[2]) for s in st], [("daily prices", None), ("energy roundup", None), ("hourly network", None)])
+        self.assertEqual([(s[0], s[2]) for s in st], [("daily prices", None), ("energy roundup", None), ("hourly network", None),
+                                                       ("latest prices", None), ("health summary", None)])
         self.assertIn("daily prices, none in 30 days", health.stale_line(st))
 
     def test_nothing_stale_and_a_read_that_failed(self):
-        fresh = [(NOW - dt.timedelta(hours=5), "Daily prices 2026-11-05: ok"), (NOW - dt.timedelta(days=3), "Energy Roundup 2026-W45")]
-        st = health.stale_on_main(now=NOW, commits=fresh, oks={"hourly network": NOW - dt.timedelta(minutes=30)})
+        fresh = [(NOW - dt.timedelta(hours=5), "Daily prices 2026-11-05: ok"), (NOW - dt.timedelta(days=3), "Energy Roundup 2026-W45"),
+                 (NOW - dt.timedelta(hours=6), "Health summary 2026-11-04 (warehouse/health.py)")]
+        st = health.stale_on_main(now=NOW, commits=fresh, oks={"hourly network": NOW - dt.timedelta(minutes=30), "latest prices": self.LATEST})
         self.assertEqual(st, [])
         self.assertTrue(health.stale_line(st).startswith("**Stale on main:** none ("))
         self.assertEqual(health.stale_line("HTTPError: 403"), "**Stale on main:** not read (HTTPError: 403).")

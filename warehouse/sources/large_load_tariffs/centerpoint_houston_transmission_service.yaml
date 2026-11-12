@@ -1,0 +1,26 @@
+# Session 3760 (chain 211): verified against CenterPoint Energy Houston Electric's Tariff for Retail Delivery Service as it
+# publishes it, the research file of 6 November 2026's Set B rows 7 and 8 being the lead; saved under runs/license_reads/
+# s3760/ (not in git), read in pdftotext's raw order. CenterPoint bills its transmission-voltage customers per 4CP kVA,
+# not per kW, so its system charges and the Rider TCRF step are in notes, not in the per-kW columns: Transmission System
+# Charge $0.00 and Distribution System Charge $0.587101 per 4CP kVA (Sheet 6.5, PDF page 97); Rider TCRF, Transmission
+# Service, $5.048210 per 4 CP kVA, effective 1 September 2026 (Sheet 6.13, Revision 53rd, PDF page 147). No large-load
+# schedule exists for this utility.
+utility: CenterPoint Energy Houston Electric, LLC
+eia_id: 8901
+state: TX
+grid: ERCOT
+sector: delivery at transmission voltage, 60,000 volts or higher (no large-load schedule)
+status: adopted
+schedule: 6.1.1.1.5 Transmission Service (Tariff for Retail Delivery Service)
+tariff_sheet: Sheet No. 6.5, CNP 8019, Revision Number 20th
+effective: 2025-09-17
+voltage: {text: "alternating current service at 60,000 volts or higher", page: 100}
+commission: Public Utility Commission of Texas
+docket: not printed for this revision
+document: CenterPoint Energy Houston Electric's Tariff for Retail Delivery Service, Transmission Service effective 17 September 2025, as published on its assets host
+document_url: https://assets.centerpointenergy.com/api/public/content/houston-electric-tariff-for-retail-delivery-service.pdf
+retrieved_at: 2026-11-12T10:58:17Z
+license: public
+notes: "Per 4CP kVA, not per kW: Transmission System Charge $0.00, Distribution System Charge $0.587101 (page 97); Rider TCRF Transmission Service $5.048210 per 4 CP kVA from 1 September 2026 (page 147). Metering Charge $732.35 per Meter per month (page 97)."
+figures:
+  - {variable: fixed_charge, value: 190.55, printed: "Customer Charge $190.55 per Retail Customer per month", page: 97}

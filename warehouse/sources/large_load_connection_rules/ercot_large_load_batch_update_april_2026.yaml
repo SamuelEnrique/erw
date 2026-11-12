@@ -1,0 +1,29 @@
+# Session 3762 (chain 211): read from ERCOT's "Large Load Update" to its Board's hearing of 1 April 2026, as ERCOT publishes it
+# under www.ercot.com/files (its robots file allows /files/; /misapp is not asked), the research file of 6 November 2026's
+# operator table row 2 being the lead; saved under runs/license_reads/s3762/ (not in git), read in pdftotext's raw order.
+# A deck describing the batch study framework (PGRR145 and NPRR1325, "Batch Zero") then before the Board; the Planning
+# Guide's own clocks are in ercot_planning_guide_section_9.yaml. ERCOT's terms: "raw data provided in public portions of
+# this website may be used, reproduced, and redistributed in compilations, charts, and analyses" (licenses.md #2).
+body: Electric Reliability Council of Texas (ERCOT)
+grid: ERCOT
+utility: ""
+eia_id: ""
+state: TX
+document: ERCOT, Large Load Update, Board of Directors hearing, 1 April 2026 (the batch study framework)
+document_date: 2026-04-01
+document_url: https://www.ercot.com/files/docs/2026/04/01/ERCOT_LargeLoad_Update_April2026_B-C_-Hearing.pdf
+retrieved_at: 2026-11-12T11:21:36Z
+license: public
+steps:
+  - section: "slide 7, Batching process"
+    page: 7
+    step: large load requests are clustered and studied together, twice a year
+    party: ERCOT
+    duration: 6
+    unit: months
+    printed: "Every ~6 months, all submitted requests are clustered and studied together; allocated capacity coming out of the study is \"reserved\" to prevent restudies"
+  - section: "slide 3, the queue"
+    page: 3
+    step: the large loads seeking interconnection, as ERCOT counted them (a statistic, not a rule)
+    party: ERCOT
+    printed: "ERCOT is tracking approximately 410 GW of Large Loads seeking interconnection of which ~87% are data centers."

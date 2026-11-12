@@ -1,0 +1,32 @@
+# Session 3760 (chain 211): verified against SRP's 2025 ratebook page for E-67 (with the Transmission Cost Adjustment), the
+# research file of 6 November 2026's Set B row 12 being the lead; saved under runs/license_reads/s3760/ (not in git), read in
+# pdftotext's raw order. SRP is a public power district: its price plans are set by its Board, not filed with the Arizona
+# Corporation Commission; the price plan it publishes is the record here, and public. The summer peak (July and August)
+# per kW total, $28.84, has no variable of its own and is in notes; the minimum term is in SRP's Agreement for Electric
+# Service, not read.
+utility: Salt River Project Agricultural Improvement and Power District
+eia_id: 16572
+state: AZ
+grid: SRP
+sector: large load substation service (20 MW and above)
+status: adopted
+schedule: E-67 Standard Price Plan for Large Load Substation Large General Service
+tariff_sheet: E-67, 2025 Ratebook with TCA, 8 pages
+effective: 2025-11-01
+voltage: {text: "metered at the low side (or, if permitted by SRP, in its sole discretion, at the high side) of a dedicated or customer-owned substation transformer(s)", page: 1}
+commission: Salt River Project Board of Directors (public power; not under the Arizona Corporation Commission)
+docket: SRP price process (the Board's approval date not read in an SRP document)
+document: SRP's E-67 price plan, effective with the November 2025 billing cycle, with the Transmission Cost Adjustment decrease effective January 2026, as published in its 2025 ratebook
+document_url: https://www.srpnet.com/assets/srpnet/pdf/price-plans/FY26/TCA%20Ratebooks/2025%20Ratebook%20E-67%20with%20TCA.pdf
+retrieved_at: 2026-11-12T10:50:14Z
+license: public
+notes: "Per kW charge on the On-Peak Max kW or the Minimum Billing Demand: Summer $16.61 (Transmission $1.98, TCA ($0.16), Ancillary $0.63 and $0.72, Generation $13.44), Summer Peak $28.84, Winter $9.83. Billing and Customer Service $5,479.45 a month plus $287.57 a meter; Facilities Charge customer-specific."
+terms:
+  min_bill: {text: "each New Large Load Account will have a minimum billing demand (the kW used for calculating the per kW charge) of 80% of customer's forecasted demand (the \"Minimum Billing Demand\")", page: 2}
+  term: {text: "the customer shall sign SRP's then-current form of Agreement for Electric Service, having a minimum term as set forth therein", page: 2}
+figures:
+  - {variable: min_demand_mw, value: 20, printed: "a load of 20 megawatts (MW) or more, or reasonably expected by SRP ... to achieve a load of 20 MW or more within five years", page: 1}
+  - {variable: min_bill_pct, value: 80, printed: "minimum billing demand ... of 80% of customer's forecasted demand", page: 2}
+  - {variable: demand_charge_summer, value: 16.61, printed: "Per kW Charge, Summer On-Peak Max kW, Total $16.61", page: 3}
+  - {variable: demand_charge_winter, value: 9.83, printed: "Per kW Charge, Winter, Total $9.83", page: 4}
+  - {variable: fixed_charge, value: 5479.45, printed: "Monthly Service Charge, Billing and Customer Service $5,479.45", page: 3}

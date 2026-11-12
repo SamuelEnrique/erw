@@ -766,6 +766,9 @@ catalogue_hold:
   - iso_queue_snapshot_summary
   - nuclear_fleet_status
   - gas_balance_weekly
+  # session 3758 (chain 211): FERC-714's forecasts and their revisions, not yet on Redivis's public draft
+  - ferc714_planning_area_forecasts
+  - ferc714_forecast_growth
   # session 3307 (chain 200): the company database's three tables, not on Redivis's public draft and "license needed" by
   # their inputs' publishers; the company pages read the site's own files (site/data/companies/)
   - company_directory

@@ -263,3 +263,13 @@ Read again by session 2969 at about 09:55 UTC, after chain 155's section. Chain 
 - **Time to connect, a large load's own wait:** open. The new queue table is the generators' queue; its request-to-in-service medians are not drawn (a recent year counts only the requests already in service, session 2958).
 - **Headroom, reserve margins by zone, and demand growth from the utilities' own forecasts:** open. FERC-714's forecasts (Part 3, Schedule 2) are not held (session 2949).
 - **No other row moved:** the reactor fleet and the gas balance fill no cell of the tab.
+## State on 12 November 2026 (chain 211)
+Read by session 3764, after chain 211 loaded the owner's research file of 6 November 2026, verified row by row.
+- **Transmission and 4CP, the utilities' large-load tariffs:** filled in part.
+  - `utility_large_load_tariffs` holds 24 schedules of 18 utilities: the Missouri and Louisiana schedules, Dominion GS-4, Georgia Power, SRP, APS, Alabama Power, Oncor and CenterPoint, Duke Energy Carolinas (proposed), Xcel Colorado (proposed), NV Energy, PG&E, PGE and I&M.
+  - A row whose utility (the tab's Utility column) files one shows its per-kW month figure with the filing on hover, words only, not in the all-in.
+  - AEP Ohio's DCT reads "licensed source needed" (ruling 4).
+  - The rows whose utility files none, or whose utility is not known (PJM has no one state), still read "not held".
+- **Time to connect, connection timelines by grid:** filled in part. `large_load_connection_rules` holds 8 documents: ERCOT's Planning Guide Section 9 and its batch deck, PUCT Project 58000's proposal, PJM's Board letter (EIT, 10 months) and its show-cause proposal (12-month cycle), CAISO's straw proposal (PTO studies within 60 to 90 days), SPP's HILL order and PG&E's Rule 30. Each grid's steps are a hover ("filed steps") on the cell.
+- **Headroom, demand growth from the utilities' own forecasts:** held, not yet drawn. `ferc714_planning_area_forecasts` and `ferc714_forecast_growth` (session 3758) hold every planning area's forecast and its revision; the tab's Headroom column reads EIA-930's measured growth, and drawing the forecast revision beside it is chain 212's.
+- **Still open:** NYISO's and ISO-NE's utilities' large-load tariffs; MISO's ERAS (only a news site's copy named); PUCT 16 TAC 25.194's adopted text; Dominion GS-5's sheet; the four peak intervals' node prices (ruling 2).

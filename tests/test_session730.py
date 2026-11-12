@@ -69,8 +69,15 @@ class Tariffs(unittest.TestCase):
         self.assertAlmostEqual(o["half"]["demand"], 2 * o["parts"]["demand"], places=6)   # half the hours, twice per MWh
         self.assertEqual(o["parts"]["energy"], 61.5)
 
-    def test_it_is_not_wired(self):
-        self.assertNotIn("tariffs.json", open(os.path.join(SITE, "lib", "sitingdata.ts"), encoding="utf-8").read())
+    def test_it_is_wired_as_words_not_into_the_all_in(self):
+        # session 3764 (chain 211): the tab reads tariffs.json; a filed schedule's per-kW month figure is words with its
+        # filing on hover, never a USD per MWh added to the all-in (lib/siting.ts, tariffWords)
+        self.assertIn('import tariffsJson from "@/data/siting/tariffs.json";', open(os.path.join(SITE, "lib", "sitingdata.ts"), encoding="utf-8").read())
+        ts = open(os.path.join(SITE, "lib", "siting.ts"), encoding="utf-8").read()
+        self.assertIn("return tariffWords(f, r) ?? {", ts)
+        body = ts[ts.index("export function tariffWords"):ts.index("export function filedSteps")]
+        self.assertNotIn("own:", body)
+        self.assertIn("licensed source needed", body)
 
 
 if __name__ == "__main__":
