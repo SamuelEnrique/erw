@@ -216,7 +216,7 @@ def main(argv=None):
         print(f"{NAME} FAILED: {len(problems)} problems in the registry; nothing written")
         return 1
     d = rows(regs)
-    held = [f"{r['utility']}, {r['schedule']}" for _, r in regs if str(r.get("license") or "public") != "public"]
+    held = [f"{r['utility']}, {r['schedule']} (EIA {r['eia_id']})" for _, r in regs if str(r.get("license") or "public") != "public"]
     print(f"{NAME}: {len(regs)} schedules, {len(d)} rows, {d['x_eia_id'].nunique() if len(d) else 0} utilities"
           + (f"; held for a license: {len(held)}" if held else ""))
     if a.check:
