@@ -1,6 +1,6 @@
 # Session 1855: the datacenter tracker's faults fixed (chain 213, 12 November 2026)
 
-Energy Research Warehouse (ERW). Chain 213, session 1855, samueloldlaptop, unattended, Fable 5.1. About 12:50 to 13:15 UTC. Long end 1:30. Precheck passed.
+Energy Research Warehouse (ERW). Chain 213, session 1855, samueloldlaptop, unattended, Fable 5.1. 10:50 to 10:53 UTC (corrected by session 1856 from the commit times). Long end 1:30. Precheck passed.
 
 ## What it did, with commits
 

@@ -1,6 +1,6 @@
 # Session 1852: the deal tracker's faults fixed, first batch (chain 213, 12 November 2026)
 
-Energy Research Warehouse (ERW). Chain 213, session 1852, samueloldlaptop, unattended, Fable 5.1. About 11:05 UTC on. Long end 1:30. Precheck passed.
+Energy Research Warehouse (ERW). Chain 213, session 1852, samueloldlaptop, unattended, Fable 5.1. 10:28 to about 10:37 UTC (corrected by session 1856 from the commit times). Long end 1:30. Precheck passed.
 
 ## What it did, with commits
 
