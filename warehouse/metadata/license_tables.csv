@@ -458,6 +458,7 @@ iso_dam_hub_prices,CAISO; ERCOT; MISO; SPP,the grids its coverage row lists (a t
 iso_hub_prices_history,CAISO; ISO-NE; MISO; NYISO; SPP,the source registry
 iso_queue_snapshot_summary,CAISO; ERCOT; SPP,"the source registry and the tables its header derives it from: caiso_interconnection_queue, ercot_interconnection_queue, spp_interconnection_queue"
 iso_queue_statistics,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: the six ISOs' interconnection queues it counts (session 348)
+iso_reserve_margin_reports,CAISO,the source registry
 iso_rt_top_intervals,ISO-NE; NYISO,"the source registry and the tables its header derives it from: isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices"
 iso_rtm_hub_prices,CAISO; ERCOT; MISO; SPP,the grids its coverage row lists (a table of several operators' own prices)
 iso_trader_daily,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,the grids its coverage row lists (a table of several operators' own prices)

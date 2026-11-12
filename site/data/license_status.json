@@ -3103,11 +3103,17 @@
   },
   "ferc714_forecast_growth": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/cost-of-power",
+    "/data",
+    "/datacenters"
+   ]
   },
   "ferc714_planning_area_forecasts": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "fhwa_motor_fuel_monthly": {
    "status": "public",
@@ -3388,6 +3394,10 @@
     "/data",
     "/map"
    ]
+  },
+  "iso_reserve_margin_reports": {
+   "status": "public",
+   "pages": []
   },
   "iso_rt_top_intervals": {
    "status": "license needed",
@@ -4474,7 +4484,7 @@
    ]
   }
  },
- "internal_tables": 114,
+ "internal_tables": 115,
  "pages": {
   "/": {
    "label": "Home",
@@ -4541,7 +4551,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 484
+   "public": 486
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -4681,7 +4691,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 7,
-   "public": 36
+   "public": 37
   },
   "/shoulder": {
    "label": "The shoulder hours",
@@ -4762,7 +4772,7 @@
     "nyiso_zone_load_hourly"
    ],
    "internal": 7,
-   "public": 25
+   "public": 26
   },
   "/storage": {
    "label": "Storage",
