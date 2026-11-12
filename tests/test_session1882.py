@@ -172,5 +172,81 @@ class Row71TheHoursHeld(unittest.TestCase):
         self.assertNotIn("not in the warehouse ({h['n1']} of {h['x1']} hours)", src)
 
 
+DEAL = dict(event_id="deal:bf5c6cf108d504e1", buyer="Deutsche Bank and Rabobank", seller="Return", asset="Germany BESS portfolio",
+            deal_type="project_finance", event_date="2026-11-05T10:32:53Z", buyer_name="Deutsche Bank; Rabobank", seller_name="Return",
+            dollars="938000000", mw="", confidence="0.85", status="signed", story_urls="https://www.energy-storage.news/x",
+            country="", state="")
+OTHER = dict(DEAL, event_id="deal:4da0313565975b19", buyer="Venture Global", seller="Worley", asset="CP2 LNG expansion project",
+             deal_type="other", event_date="2026-11-04T07:07:35Z", buyer_name="Venture Global", seller_name="Worley", dollars="",
+             confidence="0.8", state="LA")
+
+
+class Row66TheDealOfTheWeek(unittest.TestCase):
+    def test_a_financing_by_its_roles(self):
+        self.assertEqual(roundup.deal_words(DEAL),
+                         "Deutsche Bank and Rabobank's financing of Return's Germany battery storage portfolio (2026-11-05)")
+
+    def test_the_five_s_row(self):
+        deals = pd.DataFrame([DEAL, OTHER])
+        with mock.patch.object(roundup, "read_table", lambda n: deals if n == "energy_deals" else None),                 mock.patch.object(roundup, "ANALYSIS_DIR", tempfile.gettempdir()):
+            L = roundup.five_numbers("2026-W99", START, CUT, {}, quiet)
+        row = next(ln for ln in L if "Deal of the week" in ln)
+        self.assertEqual(row, "- **Deal of the week, by US dollars:** USD 938 million, Deutsche Bank and Rabobank's financing of "
+                              "Return's Germany battery storage portfolio (2026-11-05).")
+        self.assertNotIn("Rabobank and Return", row)
+
+    def test_other_kinds_as_before(self):
+        self.assertEqual(roundup.deal_words(OTHER), "Venture Global and Worley, CP2 LNG expansion project (2026-11-04)")
+
+
+class Row67TheDealsTable(unittest.TestCase):
+    def test_the_cells(self):
+        self.assertEqual(roundup.deal_cells(DEAL), ("project finance", "Return (borrower)", "Deutsche Bank, Rabobank (lenders)"))
+        self.assertEqual(roundup.deal_cells(OTHER), ("", "Venture Global", "Worley"))
+        self.assertEqual(roundup.deal_cells(dict(DEAL, deal_type="ppa")), ("power purchase agreement", "Deutsche Bank and Rabobank", "Return"))
+
+    def test_main_prints_them(self):
+        src = open(roundup.__file__, encoding="utf-8").read()
+        self.assertIn("kind, buyer, seller = deal_cells(r)", src)
+        self.assertIn("{asset_words(r['asset']) or 'not stated'}", src)
+
+
+class Row69TheUS48Row(unittest.TestCase):
+    def facts(self, hours, to):
+        top = {"value": 502100.0, "ts_utc": pd.Timestamp("2026-11-02 23:00", tz=UTC)}
+        return {"us48": {"top": top, "ref": "[6]", "hours": hours, "to": to}}
+
+    def test_part_of_the_week(self):
+        with mock.patch.object(roundup, "read_table", lambda n: None), mock.patch.object(roundup, "ANALYSIS_DIR", tempfile.gettempdir()):
+            L = roundup.five_numbers("2026-W99", START, END, self.facts(72, pd.Timestamp("2026-11-04 23:00", tz=UTC)), quiet)
+        self.assertIn("- **US48 peak demand:** 502,100 MW in the hour starting 2026-11-02 23:00 UTC, the highest of the 72 hours held "
+                      "(to 2026-11-04 23:00 UTC) [6].", L)
+
+    def test_the_whole_week(self):
+        self.assertEqual(roundup.us48_period({"hours": 168, "to": END}, START, END), ", the highest of the week's 168 hours")
+        self.assertEqual(roundup.us48_period({}, START, END), "")
+
+
+class Row70TheFiveNameTheirMarks(unittest.TestCase):
+    def test_the_tables_line(self):
+        a = {"value": 107.03, "unit": "USD/bbl", "ts_utc": pd.Timestamp("2026-11-03", tz=UTC)}
+        b = {"value": 123.10, "unit": "USD/bbl", "ts_utc": pd.Timestamp("2026-10-27", tz=UTC)}
+        facts = {"fuel": [{"label": "Brent crude", "a": a, "b": b, "ref": "[5]"}],
+                 "us48": {"top": {"value": 502100.0, "ts_utc": pd.Timestamp("2026-11-02 23:00", tz=UTC)}, "ref": "[6]",
+                          "hours": 72, "to": pd.Timestamp("2026-11-04 23:00", tz=UTC)}}
+        deals = pd.DataFrame([DEAL])
+        with mock.patch.object(roundup, "read_table", lambda n: deals if n == "energy_deals" else None),                 mock.patch.object(roundup, "ANALYSIS_DIR", tempfile.gettempdir()):
+            L = roundup.five_numbers("2026-W99", START, CUT, facts, quiet)
+        self.assertIn("(-16.07 USD/bbl, -13.1%) [5].", L[0])
+        self.assertEqual(L[-1], "Tables: [5] `eia_fuel_spot_prices` (EIA); [6] `eia930_all_demand` (EIA-930); the deal of the week, "
+                                "`energy_deals` deal:bf5c6cf108d504e1.")
+
+    def test_the_email_keeps_the_five_s_tables_line(self):
+        import email_digest
+        text, _html = email_digest.block(["- **US48 peak demand:** 502,100 MW [6].", "",
+                                          "Tables: [6] `eia930_all_demand` (EIA-930)."])
+        self.assertIn("Tables: [6] eia930_all_demand (EIA-930).", " ".join(text).replace("`", ""))
+
+
 if __name__ == "__main__":
     unittest.main()

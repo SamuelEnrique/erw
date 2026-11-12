@@ -552,12 +552,74 @@ def chart_figure(v):
 FIVE_HEADING = "## The week in five numbers"
 
 
+# Session 1882 (faults file rows 66 and 67): in a financing the extract writes the company raising the money as the seller
+# and the lenders or investors as the buyer (warehouse/deals/extract.py's prompt); the issue names them by their roles
+FINANCE_ROLES = {"project_finance": ("borrower", "lender", "financing"), "debt": ("borrower", "lender", "loan"),
+                 "tax_equity": ("company raising", "investor", "tax equity investment"),
+                 "equity_raise": ("company raising", "investor", "investment")}
+ASSET_WORDS = [(re.compile(r"\bBESS\b"), "battery storage"), (re.compile(r"\bPPA\b"), "power purchase agreement"),
+               (re.compile(r"\bSMRs?\b"), "small modular reactor")]
+
+
+def asset_words(asset):
+    """An asset's abbreviations said (row 66: "Germany BESS portfolio" to "Germany battery storage portfolio")."""
+    t = str(asset or "").strip()
+    for rx, word in ASSET_WORDS:
+        t = rx.sub(word, t)
+    return t
+
+
+def names_of(r, side):
+    """A party cell's names: the extract's split names (buyer_name "Deutsche Bank; Rabobank") when held, else the party as
+    written; a list."""
+    split = str(r.get(f"{side}_name") or "").strip()
+    if ";" in split:
+        return [x.strip() for x in split.split(";") if x.strip()]
+    one = str(r.get(side) or "").strip()
+    return [one] if one else []
+
+
+def finance_words(r):
+    """Row 66: a financing as the reader reads it: "Deutsche Bank and Rabobank's financing of Return's Germany battery
+    storage portfolio (2026-11-05)". None when the row is not a financing or names neither side."""
+    roles = FINANCE_ROLES.get(str(r.get("deal_type") or ""))
+    if not roles:
+        return None
+    money, raising = str(r.get("buyer") or "").strip(), str(r.get("seller") or "").strip()
+    asset = asset_words(r.get("asset"))
+    if not money and not raising:
+        return None
+    what = asset if asset else ""
+    if raising and raising.lower() not in asset.lower():
+        what = f"{raising}'s {asset}" if asset else raising
+    when = str(r.get("event_date") or "")[:10]
+    head = f"{money}'s {roles[2]} of {what}" if money and what else (f"{money}'s {roles[2]}" if money else f"a {roles[2]} of {what}")
+    return head + (f" ({when})" if when else "")
+
+
+def deal_cells(r):
+    """Row 67: the deals table's type, buyer and seller cells. The type "other" prints no word; a financing prints the
+    company raising the money under Buyer and the lenders or investors under Seller, each with its role."""
+    kind = r.get("deal_type") or ""
+    label = "" if kind == "other" else DEAL_LABEL.get(kind, str(kind).replace("_", " "))
+    roles = FINANCE_ROLES.get(kind)
+    if not roles:
+        return label, r.get("buyer") or "not stated", r.get("seller") or "not stated"
+    money, raising = names_of(r, "buyer"), names_of(r, "seller")
+    buyer = f"{', '.join(raising)} ({roles[0]})" if raising else "not stated"
+    seller = f"{', '.join(money)} ({roles[1]}{'s' if len(money) > 1 or ' and ' in money[0] else ''})" if money else "not stated"
+    return label, buyer, seller
+
+
 def deal_words(r):
     """Session 1472 (chain 150's faults file, row 50): the deal of the week after its sum: the parties, the asset, and in
     brackets the deal's kind and date. A party the asset already names is not printed again ("TeraWulf, TeraWulf data
     center in Kentucky" was the W45 dry run's), and the kind "other" is not printed ("(other, 2026-11-05)"); with neither
     a party nor an asset the row says "parties not stated", as before."""
-    asset = str(r.get("asset") or "").strip()
+    fin = finance_words(r)   # session 1882 (row 66): a financing by its roles
+    if fin:
+        return fin
+    asset = asset_words(r.get("asset"))
     parties = [str(x).strip() for x in (r.get("buyer"), r.get("seller")) if str(x or "").strip()]
     parties = [x for i, x in enumerate(parties) if x not in parties[:i] and x.lower() not in asset.lower()]
     words = ", ".join(x for x in (" and ".join(parties), asset) if x) or "parties not stated"
@@ -565,6 +627,48 @@ def deal_words(r):
     when = str(r.get("event_date") or "")[:10]
     inside = ", ".join(x for x in (kind if kind and kind != "other" else "", when) if x)
     return words + (f" ({inside})" if inside else "")
+
+
+MARK_PUBLISHER = {"eia_fuel_spot_prices": "EIA", "eia930_all_demand": "EIA-930"}
+MARK_RE = re.compile(r"\[(\d+)\]")
+
+
+def five_marks(lines, facts):
+    """Session 1882 (faults file row 70): the marks the five's rows print ("[5]", "[6]"), each named with its table, for
+    the five's own Tables line. W45's email printed [5] and [6] and named no table: the Tables line that defines them is
+    under ERW's Numbers This Week, folded out of the email. ["[5] `eia_fuel_spot_prices` (EIA)", ...] in the order of
+    the marks."""
+    tables = {}
+    for h in facts.get("dam", []):
+        if h.get("ref") and h.get("table"):
+            tables[h["ref"]] = h["table"]
+    for f in facts.get("fuel", []):
+        tables[f["ref"]] = "eia_fuel_spot_prices"
+    if facts.get("us48"):
+        tables[facts["us48"]["ref"]] = "eia930_all_demand"
+    seen = []
+    for ln in lines:
+        for m in MARK_RE.findall(ln):
+            if f"[{m}]" in tables and f"[{m}]" not in seen:
+                seen.append(f"[{m}]")
+    out = []
+    for ref in sorted(seen, key=lambda x: int(x[1:-1])):
+        t = tables[ref]
+        out.append(f"{ref} `{t}`" + (f" ({MARK_PUBLISHER[t]})" if t in MARK_PUBLISHER else ""))
+    return out
+
+
+def us48_period(u, start, cut):
+    """Session 1882 (faults file row 69): the five's US48 row carries its period and status, as chain 131 asks of each of
+    the five: ", the highest of the 72 hours held (to 2026-11-04 23:00 UTC)" when the week is not whole, ", the highest
+    of the week's 168 hours" when it is. "" when the facts do not say how many hours were read."""
+    n, to = u.get("hours"), u.get("to")
+    if not n:
+        return ""
+    whole = int((cut - start) / pd.Timedelta(hours=1))
+    if n >= whole:
+        return f", the highest of the week's {whole} hours"
+    return f", the highest of the {n} hours held" + (f" (to {pd.Timestamp(to):%Y-%m-%d %H:%M} UTC)" if to is not None else "")
 
 
 def five_numbers(label, start, cut, facts, log, picked=None):
@@ -612,7 +716,8 @@ def five_numbers(label, start, cut, facts, log, picked=None):
     # 2. the US48 peak
     if facts.get("us48"):
         top = facts["us48"]["top"]
-        L.append(f"- **US48 peak demand:** {top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC {facts['us48']['ref']}.")
+        L.append(f"- **US48 peak demand:** {top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC"
+                 f"{us48_period(facts['us48'], start, cut)} {facts['us48']['ref']}.")   # session 1882 (row 69): its period
         picked["us48"] = {"text": f"US48 demand peaked at {top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC"}
     else:
         L.append("- **US48 peak demand:** not in the warehouse for this week.")
@@ -689,6 +794,7 @@ def five_numbers(label, start, cut, facts, log, picked=None):
         keys.append(f"the chart's figure, template `{m['template']}`, `docs/analysis/{label}/chart_of_the_week.json`")
     except (OSError, KeyError, ValueError):
         L.append("- **From the chart of the week:** no chart of the week was picked for this week, so no figure.")
+    keys = five_marks(L, facts) + keys   # session 1882 (row 70): every mark the five print is named on their Tables line
     log(f"  five numbers: {len(L)} lines")
     return L + (["", "Tables: " + "; ".join(keys) + "."] if keys else [])
 
@@ -1126,9 +1232,9 @@ def main(argv=None):
                       "|---|---|---|---|---|---|---|---|---|"]
                 for r in shown_d:
                     first = r["story_urls"].split(";")[0]
-                    L.append(f"| {r['event_date'][:10]} | {DEAL_LABEL.get(r['deal_type'], r['deal_type'].replace('_', ' '))} | "
-                             f"{r['buyer'] or 'not stated'} | "
-                             f"{r['seller'] or 'not stated'} | {r['asset'] or 'not stated'} | {num(r['mw'])} | "
+                    kind, buyer, seller = deal_cells(r)   # session 1882 (row 67): no "other", a financing by its roles
+                    L.append(f"| {r['event_date'][:10]} | {kind} | {buyer} | "
+                             f"{seller} | {asset_words(r['asset']) or 'not stated'} | {num(r['mw'])} | "
                              f"{usd_cell(r['dollars'])} | {r['status'] or 'not stated'} | [1]({first}) |")   # session 1476 (fault 54)
                 L.append("")
                 L.append(floor_note("energy_deals", "deals", shown_d, rest_d, under_d) + " Extracted from the scored stories by "

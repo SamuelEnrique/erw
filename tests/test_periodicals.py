@@ -1484,7 +1484,8 @@ class Session1474FiveReadTheFloor(unittest.TestCase):
                              "operator": "Google", "site_name": "", "city": "Cheyenne", "state": "", "confidence": "0.55"}])
         L = self.five(deals, dcs)
         deal = next(x for x in L if x.startswith("- **Deal of the week"))
-        self.assertIn("USD 938 million, Deutsche Bank and Rabobank and Return, Germany BESS portfolio", deal)
+        # session 1882 (faults file row 66): a financing by its roles, BESS said
+        self.assertIn("USD 938 million, Deutsche Bank and Rabobank's financing of Return's Germany battery storage portfolio", deal)
         self.assertNotIn("TeraWulf", deal)
         load = next(x for x in L if x.startswith("- **Largest new datacenter load"))
         self.assertIn("passes the datacenter table's floor (1 under it)", load)
@@ -1888,7 +1889,9 @@ class Session1446TheRoundupsNumbers(unittest.TestCase):
         with mock.patch.object(roundup, "read_table", side_effect=lambda n: empty if n == "energy_deals" else empty_dc), \
                 mock.patch.object(roundup, "ANALYSIS_DIR", tempfile.mkdtemp()):
             L = roundup.five_numbers("2026-W44", pd.Timestamp("2026-10-26", tz="UTC"), pd.Timestamp("2026-11-02", tz="UTC"), facts, quiet, picked)
-        self.assertEqual(len(L), 5)
+        # session 1882 (faults file row 70): the five name the marks they print on their own Tables line
+        self.assertEqual(len(L), 7)
+        self.assertEqual(L[6], "Tables: [5] `eia_fuel_spot_prices` (EIA).")
         self.assertTrue(L[0].startswith("- **Price move of the week:** SPP SPPSOUTH_HUB day-ahead averaged 27.62"), L[0])
         self.assertIn("no deal in `energy_deals` is dated this week; in its place, the week's next price move: ERCOT HB_NORTH day-ahead", L[2])
         self.assertIn("states its MW; in its place, the week's next price move: Brent crude closed at 120.15", L[3])
