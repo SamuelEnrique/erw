@@ -11,7 +11,7 @@ table, warehouse/output/ercot_as_prices.csv:
     market    ercot_dam
     node      the service
 
-    python warehouse/connectors/ercot_as_prices.py                      # 2018-01-01 to the newest day published
+    python warehouse/connectors/ercot_as_prices.py                      # since session 3757: no request (ruling 2), the held table kept
     python warehouse/connectors/ercot_as_prices.py --out-dir C:/scratch # a trial run: nothing in warehouse/output
     python warehouse/connectors/ercot_as_prices.py --offline            # from the raw files only, no request
 
@@ -253,6 +253,43 @@ def to_series(rows):
     return s.sort_values(["entity", "ts_utc"]).reset_index(drop=True)[ip.SERIES_COLS]
 
 
+# Session 3757 (chain 211): ruling 2 of the owner's rulings of 6 November 2026. Both reports are listed and served
+# under ERCOT's /misapp and /misdownload paths, which ERCOT's robots file disallows; the list answered HTTP 503 on the
+# daily runs of 5 and 6 November. The connector asks ERCOT for nothing: it keeps the table it holds (rebuilt from the
+# ERW's own archive, the private bucket erw-archive and not a publisher, when this machine has none, so the rollup, the
+# board and the battery stack still read it) and exits as a skip that says the table is stale and why. --offline still
+# rebuilds the table from the raw files already saved. A person who lifts the ruling changes this function.
+RULING = ("no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload "
+          "paths, which its robots file disallows, are not asked again")
+
+
+def held(restore=None):
+    """The held table's path and its newest ts_utc (or None): rebuilt from the archive first when absent."""
+    path = os.path.join(ip.OUT_DIR, f"{NAME}.csv")
+    if not os.path.exists(path):
+        if restore is None:
+            import subprocess
+            here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            restore = lambda: subprocess.run([sys.executable, os.path.join(here, "archive", "restore.py"), NAME, "--from-bucket",
+                                              "--out", path], cwd=ip.ROOT).returncode == 0
+        if not restore() or not os.path.exists(path):
+            if os.path.exists(path):
+                os.remove(path)  # a rebuild that did not finish is not a table
+            return None, None
+    ts = pd.read_csv(path, comment="#", usecols=["ts_utc"])["ts_utc"]
+    return path, (ts.max() if len(ts) else None)
+
+
+def keep_held(restore=None):
+    """The run under ruling 2: no request; the table kept; a skip (ERW_SKIP_EXIT) naming the ruling and the newest hour."""
+    path, newest = held(restore)
+    if path is None:
+        print(f"{CONNECTOR} {NAME} FAILED: {RULING}, and the table is neither on this machine nor in the archive")
+        return 1
+    print(f"{CONNECTOR} SKIPPED: stale at source ({RULING}); {NAME} kept as held, newest hour {newest}")
+    return int(os.environ.get("ERW_SKIP_EXIT") or 0)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW: ERCOT day-ahead ancillary service prices (MCPC)")
     ap.add_argument("--out-dir", help="write the table, log, registry and status under this directory instead of "
@@ -263,6 +300,8 @@ def main(argv=None):
     if a.out_dir:
         ip.set_out_dir(a.out_dir)
         ip.RAW_DIR = raw_dir  # source documents are kept once, in warehouse/raw, whatever the output directory
+    if not a.offline:
+        return keep_held()
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"{CONNECTOR}_{run_id}.log"))
