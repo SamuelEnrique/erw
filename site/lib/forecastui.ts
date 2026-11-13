@@ -103,7 +103,9 @@ export const FIELDS: FieldDef[] = [
   { key: "own", label: "Property tax, effective rate", unit: "% of cost", min: 0, max: 10, whole: false, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     // fault 16: where a statute is held but leaves years or the choice open (Iowa's valuation, Kansas's exemption, Oregon's
     // agreement), the rate covers those years, not "no statute"
-    source: (t, s, P) => ((P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t))
+    source: (t, s, P) => ((P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.adds_to_property)
+      ? "The state's excise on production is held; the property tax on the plant is not: a rate typed here is the reader's own, added to the excise, applied to the capital cost as it falls."
+      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t))
       ? "The state's statute leaves some years or cases open (without the local option, or after an exemption or an agreement ends): a rate typed here is the reader's own for those years, applied to the capital cost as it falls."
       : "No statute is held for this state and technology: a rate typed here is the reader's own, applied to the capital cost as it falls.") },
   { key: "ownyears", label: "Taxable value falls to 0 over", unit: "years", min: 1, max: 60, whole: true, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
