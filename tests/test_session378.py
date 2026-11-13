@@ -43,7 +43,10 @@ class Verdicts(unittest.TestCase):
 
     def test_the_hourly_node_table_is_ruled_internal(self):
         self.assertIn("ercot_node_prices_hourly", L.RULED_INTERNAL)
-        self.assertIn("- **0 tables are flagged internal where the sentence read allows them.**", doc())
+        # chain 229 (session 4102): a table flagged internal whose sentence allows it waits for the owner's ruling, never
+        # loosened by a session; the line names them all (21 then, the FERC 714 tables by PUDL's CC BY 4.0)
+        n = int(re.search(r"- \*\*(\d+) tables are flagged internal where the sentence read allows them", doc()).group(1))
+        self.assertIn(f"{n} flagged internal wait for the owner's ruling", doc())
 
 
 class Letters(unittest.TestCase):

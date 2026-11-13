@@ -56,3 +56,15 @@ Read on 13 November 2026 from the data machine's table files (read only). Each h
 | 24 | 2026-11-13 | 4156 | the news feeds (`https://www.ans.org/news/feed/`) | Drop ANS Nuclear Newswire's feed, or ask ANS | www.ans.org's robots file (read 1815) refuses ClaudeBot and anthropic-ai by name, `/news/feed/` included | requested |
 | 25 | 2026-11-13 | 4156 | the news feeds (`https://pv-magazine-usa.com/feed/`) | Drop pv magazine USA's feed, or ask pv magazine | pv-magazine-usa.com's robots file (read 1821) refuses ClaudeBot and anthropic-ai by name, `/feed/` included | requested |
 | 26 | 2026-11-13 | 4156 | the news feeds (`https://www.utilitydive.com/feeds/news/`) | Read www.utilitydive.com's robots file before the next fetch; drop the feed if it refuses as its owner's www.industrydive.com does | www.industrydive.com's robots file (read 1812) refuses ClaudeBot and anthropic-ai by name; the feed's own host was not read by this chain | requested |
+
+## Robots wildcards (session 4161)
+
+| # | Requested (UTC) | Session | For | What | Why | State |
+|---:|---|---|---|---|---|---|
+| 27 | 2026-11-13 | 4161 | `warehouse/connectors/eia_ba_boundaries.py`, `warehouse/connectors/large_load_filings.py`, `warehouse/thesis/series.py` | Read a robots file's `*` and `$` as the usual convention does before a fetch (each connector its own copy, as `scripts/license_confirm.py`'s `wildcard_allows` does: the longest matching rule wins, Allow on a tie), and keep the stricter of that and `urllib.robotparser`'s answer | `urllib.robotparser` reads `*` and `$` literally: the Texas Comptroller's `Disallow: /*/` (read 2038) refuses nearly every path, yet the parser allows `/taxes/`. Chain 229's 196 page reads were checked again under the wildcard reading: none was refused | requested |
+
+## The board builder and the held grids (session 4174)
+
+| # | Requested (UTC) | Session | For | What | Why | State |
+|---:|---|---|---|---|---|---|
+| 28 | 2026-11-13 | 4174 | `warehouse/derived/board_page.py` (the price board's builder, run on the data machine) | For a grid in `ls.held_grids()`, build no row data and no file under `site/public/board/s/`, `site/public/board/h/` or `site/public/seller/prices/` in any group (per-product reserves, battery, day-ahead/real-time, peak, spark), as the power-hub branch already does: the row reads "licensed". Removing the files already there is the owner's ruling (`docs/reviews/held-public-files-2026-11-13.md`) | 110 public files of NYISO's and ISO-NE's rows were filled after the hold of 21 October (newest point 5 November); the page masks them when drawn, but the files are served by address and committed to the public repository. Stopping new writes is a tightening and waits for no ruling | requested |

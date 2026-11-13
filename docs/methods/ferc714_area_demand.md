@@ -41,6 +41,8 @@ Entities shape, 219 rows, each with an EIA code. `entity_id` `ferc714:<PUDL's re
 
 ERW verdict: internal, for all 21 tables (licenses.md: the publisher's terms not settled, needs written permission by default). Header: "License: internal (PUDL's data CC-BY-4.0: cite Catalyst Cooperative, PUDL; FERC's filings a U.S. government work; FERC's own terms page unread, HTTP 403: a person rules on public)." The respondents' header says the same: internal until a person rules.
 
+Chain 229, session 4102 (13 November 2026): PUDL's terms are read. Its README (read 1688, https://raw.githubusercontent.com/catalyst-cooperative/pudl/main/README.rst) says: "The PUDL data and documentation are published under the Creative Commons Attribution License v4.0 (CC-BY-4.0)." Verdict: may be public, sold or not. FERC's own pages still answer HTTP 403 to the ERW's reader (reads 58 and 1692). The 21 tables stay internal: no session loosens a flag, and `docs/licenses.md` lists them as waiting for the owner's ruling (default: stays internal).
+
 ## Cross-check
 
 None in the connector. Its docstring records a one-time check of the hour stamp: ERCOT's own system load for 2025 against respondent 58 (8,759 hours). With the hour shifted one hour earlier, the mean difference is 1,184 MW on a mean of 55,734 MW; as PUDL stamps it, 2,717 MW; one hour later, 4,176 MW. The connector stops when a respondent's hour is given twice; the respondents connector stops when an id is missing or given twice.
