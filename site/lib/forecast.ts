@@ -35,7 +35,7 @@ export type Params = {
   taxable: { technologies: Record<TechKey, { taxable_share: number | null }> };
   gas: { heat_rate_btu_per_kwh: number; capacity_factor: number; price_usd_per_mmbtu: number | null; btu_per_cf: number };
   /** session 4218: sales tax exemptions read from statutes (sales_exemptions.json); absent in older callers */
-  exemptions?: { states: Record<string, Partial<Record<TechKey, { exempt_pct: number }>>> };
+  exemptions?: { states: Record<string, Partial<Record<TechKey, { exempt_pct: number; tip?: string }>>> };
 };
 export type IncomeState = {
   name: string; none?: boolean; brackets: { over_usd: number; rate: number }[];

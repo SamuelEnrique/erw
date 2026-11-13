@@ -46,7 +46,7 @@ export function params(): Params {
     property: { states: slimProp } as Params["property"],
     taxable: { technologies: Object.fromEntries(Object.entries(taxable.technologies).map(([t, v]) => [t, { taxable_share: v.taxable_share }])) } as Params["taxable"],
     gas: { heat_rate_btu_per_kwh: gas.heat_rate_btu_per_kwh, capacity_factor: gas.capacity_factor, price_usd_per_mmbtu: gas.price_usd_per_mmbtu, btu_per_cf: gas.btu_per_cf },
-    exemptions: { states: Object.fromEntries(Object.entries(exemptions.states).map(([s, v]) => [s, Object.fromEntries(Object.entries(v).map(([t, e]) => [t, { exempt_pct: e.exempt_pct }]))])) } as Params["exemptions"],
+    exemptions: { states: Object.fromEntries(Object.entries(exemptions.states).map(([s, v]) => [s, Object.fromEntries(Object.entries(v).map(([t, e]) => [t, { exempt_pct: e.exempt_pct, tip: (e as { tip?: string }).tip }]))])) } as Params["exemptions"],
   };
 }
 

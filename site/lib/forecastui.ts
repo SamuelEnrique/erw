@@ -87,7 +87,7 @@ export const FIELDS: FieldDef[] = [
   { key: "taxable", label: "Taxable share of spending", unit: "%", min: 0, max: 100, whole: false, group: "taxes", nullable: true,
     source: (t) => t === "geothermal" ? "JEDI's geothermal model holds no sales tax line: no share is held." : "JEDI's own base for sales tax, its materials and equipment purchases, as a share of its cost before tax." },
   { key: "exempt", label: "Sales tax exemption", unit: "% of the tax", min: 0, max: 100, whole: false, group: "taxes",
-    source: (t, s, P) => (EXEMPT_WORDS[`${s}:${t}`] ?? (P.exemptions?.states[s]?.[t] ? "The state's statute exempts these purchases." : "No exemption of this state for this technology has been read: 0, so the sales tax is before exemptions.")) },
+    source: (t, s, P) => (P.exemptions?.states[s]?.[t]?.tip ?? EXEMPT_WORDS[`${s}:${t}`] ?? (P.exemptions?.states[s]?.[t] ? "The state's statute exempts these purchases." : "No exemption of this state for this technology has been read: 0, so the sales tax is before exemptions.")) },
   { key: "iaval", label: "Local option by ordinance or agreement", unit: "", min: 0, max: 1, whole: true, group: "taxes",
     options: () => [{ value: 0, label: "No" }, { value: 1, label: "Yes" }],
     applies: (t, s) => (s === "ia" && t === "land_based_wind") || ((s === "or" || s === "mi") && t === "utility_pv") || (s === "nv" && t !== "natural_gas"),
