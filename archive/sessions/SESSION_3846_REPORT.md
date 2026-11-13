@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW). Chain 221, data machine (lab-desktop), 13 Novem
 
 ## Read these first
 
-- **The NYISO rows' "Transmission and 4CP" cell is filled for six of seven rows.** No session before had tried the Commission's own copies; the utilities' own sites are closed to this reader (Con Edison's and National Grid's terms, NYSEG's robots address, sessions 2921 and 2937).
+- **The NYISO rows' "Transmission and 4CP" cell is filled for seven of its eleven rows**, every NYISO row whose utility the tab knows. HUD VL, MHK VL and NORTH name no place, so the tab knows no utility for them, and LONGIL's is LIPA. No session before had tried the Commission's own copies; the utilities' own sites are closed to this reader (Con Edison's and National Grid's terms, NYSEG's robots address, sessions 2921 and 2937).
   - The New York Department of Public Service serves every effective tariff through its Electronic Tariff System (`ets.dps.ny.gov`).
   - Robots: `documents.dps.ny.gov` and `ets.dps.ny.gov` have no robots file (HTTP 404). `dps.ny.gov`'s and `www.ny.gov`'s disallow only admin, search and login paths, and neither names an AI agent.
   - Terms: the DPS's Disclaimer (`dps.ny.gov/disclaimer`) sets no condition on reuse.
