@@ -5,9 +5,11 @@
 // of the block is a checked number, and nothing on the page is computed from it.
 import type { Decision } from "@/lib/decisions";
 
-export function DecisionsBlock({ id, title, items }: { id: string; title: string; items: Decision[] }) {
+// Session 5001 (chain 233): `open` draws the fold open to start, for the battery page, which has nothing collapsed (the
+// owner's ruling of 12 October 2026); the other pages pass nothing and are as they were.
+export function DecisionsBlock({ id, title, items, open = false }: { id: string; title: string; items: Decision[]; open?: boolean }) {
   return (
-    <details className="mt-10 border-t border-rule pt-3 text-sm" data-decisions={id}>
+    <details className="mt-10 border-t border-rule pt-3 text-sm" data-decisions={id} open={open || undefined}>
       <summary className="cursor-pointer py-1 text-accent">{title}</summary>
       <ul className="mt-2 max-w-3xl list-disc space-y-1 pl-5 text-sm" data-decision-count={items.length}>
         {items.map((d) => (

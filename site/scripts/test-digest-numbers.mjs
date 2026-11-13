@@ -33,6 +33,7 @@ ERW's weekday brief of energy news for the 24 hours to 2026-10-20 06:55 UTC, fro
 
 - A policy story (policy): its reason. [Bloomberg](https://example.com/c)
 - Five storage projects v. ISO New England; Notice (FERC notice, policy action): a decision on 20 October. [FERC](https://www.federalregister.gov/x)
+- Energy Department closes a USD 480 million loan (DOE news release, policy action). [DOE](https://www.energy.gov/x)
 
 ## AI and power
 
@@ -165,6 +166,8 @@ test("the markdown carries each figure as Num draws it, and the hold's words in 
   assert.ok(!h.includes("$45 Billion") && !h.includes("A power story") && !h.includes("An AI story") && !h.includes("A policy story"), h);
   assert.equal((h.match(/data-license-held="news_index"/g) ?? []).length, 3);
   assert.ok(/\*\*Policy\*\*\n\n- Five storage projects v\. ISO New England; Notice \(FERC notice, policy action\)/.test(h), h);
+  // session 1980 (faults file row 85): a policy action whose why line failed ends "). " and is kept too
+  assert.ok(h.includes("- Energy Department closes a USD 480 million loan (DOE news release, policy action). [DOE]"), h);
   // what follows the closing rule is kept, the chart and the fun fact are not held
   assert.ok(h.includes("[How this is made.](/about#digest)") && h.includes("10.2 million barrels") && h.includes("1,658,263</span>"));
 });
@@ -392,6 +395,23 @@ test("the chart is drawn with a hover on each point", () => {
   assert.equal(D.chartSvg(undefined, "x"), "");
   assert.equal(D.chartSvg({ x: [], series: [] }, "x"), "");
   assert.equal(D.chartSvg({ x: ["a"], series: [{ name: "s", values: [null] }] }, "x"), "");
+});
+
+test("a stored Roundup holds a held grid's prices (session 1989, faults file row 94)", () => {
+  const md = [
+    "| ISO | Hub or zone | This week USD/MWh | Week before USD/MWh | Change | Table |",
+    "|---|---|---|---|---|---|",
+    "| ERCOT | HB_NORTH | 33.19 | 35.02 | -1.83 | [1] |",
+    "| NYISO | N.Y.C. | not in the warehouse (120 of 168 hours) | 40.90 | not computed | [2] |",
+    "| ISO-NE | .H.INTERNAL_HUB | 41.10 | 40.28 | +0.82 | [3] |",
+    "| Henry Hub natural gas | 2.63 USD/MMBtu on 2026-11-03 | 2.76 on 2026-10-27 | -0.13 (-4.7%) | [5] |",
+  ].join("\n");
+  const out = D.holdRoundupGrids(md, new Date("2026-11-13T00:00:00Z")).split("\n");
+  assert.equal(out[2], "| ERCOT | HB_NORTH | 33.19 | 35.02 | -1.83 | [1] |");
+  assert.equal(out[3], "| NYISO | N.Y.C. | not in the warehouse (120 of 168 hours) | license needed | not computed | [2] |");
+  assert.equal(out[4], "| ISO-NE | .H.INTERNAL_HUB | license needed | license needed | license needed | [3] |");
+  assert.equal(out[5], "| Henry Hub natural gas | 2.63 USD/MMBtu on 2026-11-03 | 2.76 on 2026-10-27 | -0.13 (-4.7%) | [5] |");
+  assert.equal(D.holdRoundupGrids(md, new Date("2026-10-01T00:00:00Z")), md);   // before the hold began
 });
 
 console.log(`${n} passed`);

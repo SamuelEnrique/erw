@@ -8,7 +8,7 @@ Downloads, the default case hour by hour: [erw_2026_datacenter_hourly.csv](/data
 
 **The files these figures are of** (session 199). The page's files are rebuilt every day and the page shows the day's; the figures quoted in this note are those of the build of 10 October 2026 and stay so. What they need of that build is kept in `docs/methods/figures/2026-10-10/datacenter_pays_inputs.json` (the default case's months, and the hours of 2025 and 2026 that a flexible load's figures need), and `tests/test_session190.py` recomputes them from that file with the page's own library.
 
-**The flexible example**, used in section 5: the same load set to turn off in 100 hours a year. The page shows USD 31.46 per MWh, 2.27 less than a flat load, and USD 29.72 "if perfectly foreseen" (4.01 less).
+**The flexible example**, used in section 5: the same load set to turn off in 100 hours a year. The page shows USD 31.46 per MWh, 2.27 less than a flat load, and USD 29.29 "if perfectly foreseen" (4.44 less). (29.72 and 4.01 until session 5003, which gave the foreseen load the rule's budget in a year held in part, the owner's ruling of 12 October 2026.)
 
 ## 1. The order of computation
 
@@ -349,8 +349,8 @@ The same load with its hours chosen knowing every price of the market it buys in
 - **The year's budget.** In 2025 the rule was off in 29 hours of January, 21 of February, 5, 7, 13, 4, 16 and 5 in March to August: 100 by August, none after. In 2026: 55 hours in January, 24 in March, 14 in April, 1, 3 and 3 in May to July; the hundredth on 5 July. In August and September 2026, the fourth and second dearest months of the last 36, the load ran every hour.
 - **One day by hand, 20 January 2026**, the first day of 2026 the load was off. The 720 prior hours all hold a day-ahead price; k = 8; the eight dearest are 86.78, 81.90, 72.95, 70.37, 68.42, 61.48, 60.50 and **59.60**: T = 59.60. Three hours of the day stand at or above it: 05:00, 06:00 and 07:00 (day-ahead 65.76, 80.61 and 81.74). The next dearest hour of the day is 53.12. The load is off in those three hours, whose real-time prices were 70.55, 73.90 and 136.80.
 - **The last twelve months** hold 100 hours off, all of 2026 (none of October to December 2025): cost 272,428.84 over 8,660 MWh = **31.46** per MWh, against 33.73 flat: 2.27 less.
-- **Foreseen:** 109 hours off in the same twelve months (the part of 2025's 100 that falls in October to December, and of 2026's 76): **29.72**, 4.01 less. "The rule kept 57 percent of it."
-- Bought day-ahead: 30.99 against 35.33 flat; foreseen 30.54. Shifting 20 percent, real time: 24.80, foreseen 22.88; bought day-ahead: 25.87 both, since the rule ranks by the prices it pays.
+- **Foreseen:** 133 hours off in the same twelve months (the part of 2025's 100 that falls in October to December, and 2026's 100: the rule's budget since session 5003; 109 hours, 76 of them in 2026, gave 29.72 and 57 percent before it): **29.29**, 4.44 less. "The rule kept 51 percent of it."
+- Bought day-ahead: 30.99 against 35.33 flat; foreseen 30.19. Shifting 20 percent, real time: 24.80, foreseen 22.88; bought day-ahead: 25.87 both, since the rule ranks by the prices it pays. (Foreseen bought day-ahead read 30.54 until session 5003.)
 
 ## 6. Edge cases, as the code handles them
 
@@ -364,7 +364,7 @@ The same load with its hours chosen knowing every price of the market it buys in
 8. **A partial month** is in the folds (muted) and in no figure. October 2026 holds 71 of 744 hours for the default region.
 9. **A year held in part** is hatched in the chart and holds its counted months only: 2026 is January to September.
 10. **A leap year** has 8,784 hours; the share to shed is still n / 8,760; the transmission figures still divide by 8,760.
-11. **A year held in part, for a flexible load: the rule and the foreseen load get different hours.** The rule's budget is the whole year's (100 hours for 2026, although 2026 is held to 3 October); the foreseen load's is pro-rated (76). In a year held in part the foreseen figure is therefore not the most the rule's load could have saved. New York City, real time, 100 hours, the year 2026 on the chart and in the fold: the rule 63.93 against "if perfectly foreseen" 63.97. Section 11, finding 1.
+11. **A year held in part, for a flexible load: the rule and the foreseen load get different hours.** The rule's budget is the whole year's (100 hours for 2026, although 2026 is held to 3 October); the foreseen load's is pro-rated (76). In a year held in part the foreseen figure is therefore not the most the rule's load could have saved. New York City, real time, 100 hours, the year 2026 on the chart and in the fold: the rule 63.93 against "if perfectly foreseen" 63.97. Section 11, finding 1. **Since session 5003** (the owner's ruling of 12 October 2026) the foreseen load takes the rule's budget too, never more than the hours held, so in every year the foreseen figure is the most the rule's load could have saved; the figures of this item are those of the build of 10 October 2026.
 12. **The rule spends its hours early.** Example 5.3: none left for August and September 2026. By the owner's ruling of 7 October 2026 the budget stays.
 13. **The last twelve months of a load that turns off hold parts of two years' budgets**, so the hours off in them need not be n (the default example: 100 under the rule, 109 foreseen; at 5 percent, 470 and 448).
 14. **A day not decided.** The first 30 days a region is held, and a day whose prior 720 hours hold fewer than 684 day-ahead prices: the load runs. For `LZ_NORTH`: 1 to 30 January 2015, and the days after 5 October 2026.
@@ -456,7 +456,7 @@ From this tool's reports (138, 140, 163) and from this session. Each with a reco
 | 1 | The Texas tariffs' terms; ISO-NE's demand; ISO-NE's zone prices; the budget of hours; NYISO's terms for the queue rows; how a flexible load's bound is said | 138, 140 | Closed: your rulings of 7 October 2026, applied in sessions 140 and 149 |
 | 2 | Load zone prices; the zones' history; the Commission's matrix; the forecast rule; the load's own clean hours; New York's queue; SPP South's year | 138, 140 | Closed by sessions 140 and 149 |
 | 3 | The first Saturday build on the runner | 138, 140 | Closed in this session: 2,376 hours added, none removed, none changed |
-| 4 | ERCOT's load zones stop on 3 October 2026 | 140, 149 | Open. The refresh is written and never runs: `run_data_machine.sh` is registered nowhere. Recommend registering it; until then the default page's twelve months do not move |
+| 4 | ERCOT's load zones stop on 3 October 2026 | 140, 149 | Closed by session 204 (12 October 2026): `price_compare` is a daily step of the data machine (`warehouse/scheduled.py`), and the page's last twelve months ran to October 2026 on 13 November (session 5003 marked this row). The text as session 190 left it: Open. The refresh is written and never runs: `run_data_machine.sh` is registered nowhere. Recommend registering it; until then the default page's twelve months do not move |
 | 5 | The tab on the battery page read "What power costs to buy" | 138, 140 | Closed in this session: the three tabs read alike. The menu and the home page still say "Cost of power": open; a visitor sees the menu, so it wants a landing of its own |
 | 6 | A month enters the last twelve months at 95 percent | new | Open. Recommend whole months only for the headline, as recommended for the battery and the generator pages. Moves nothing today |
 | 7 | The 2026 transmission matrices are filed, not approved | 140 | Open. Docket 59080 had no signed order on 7 October. A pull of the docket's list: your approval |
@@ -467,14 +467,14 @@ From this tool's reports (138, 140, 163) and from this session. Each with a reco
 | 12 | Bonneville and Alberta are on none of the page's grids | 163 | Open. Recommend leaving them off: the page's grids are the seven organized markets, and both entities' terms wait for your word (session 165) |
 | 13 | Stated waits held for CAISO, ISO-NE, SPP and PJM are not shown | 163 | Open. Recommend showing them as Texas's are shown, each labeled whose it is: a page change, a session of its own |
 | 14 | The time spent in each status, in NYISO's words, is not on the page | 163 | Open. Recommend leaving it off while NYISO's terms hold the rows |
-| 15 | A year held in part: the rule's hours and the foreseen load's differ | new | Open. Section 11, finding 1. Recommend giving the foreseen load the rule's budget in such a year |
+| 15 | A year held in part: the rule's hours and the foreseen load's differ | new | Closed: the owner ruled on 12 October 2026 that "if perfectly foreseen" takes the rule's hour budget in a partial year; session 5003 (13 November 2026) applied it in `weights()` (`site/lib/datacenter.ts`): the foreseen load is off in `min(hours held, shedBudget(x, hours of the year))` hours, in every year |
 | 16 | The do-file has never been run | new | Open. Yours |
 
 ## 11. Findings of this session
 
 1. **In a year held in part, "if perfectly foreseen" is given fewer hours than the rule.** The rule may be off 100 hours of 2026; the foreseen load 76 (100 x the share of the year held). Effects on the page today, a load set to 100 hours:
    - New York City, real time, the year 2026 (chart and fold): the rule 63.93, "if perfectly foreseen" 63.97. The label is not true of that row.
-   - `LZ_NORTH`, real time, last twelve months: foreseen 29.72 as shown; with the whole budget 29.29. "The rule kept 57 percent" would read 51. Bought day-ahead: 91 would read 84.
+   - `LZ_NORTH`, real time, last twelve months: foreseen 29.72 as shown then; with the whole budget 29.29, the figure since session 5003. "The rule kept 57 percent" would read 51. Bought day-ahead: 91 would read 84.
    - New York City, day-ahead: 74 would read 62. SP15, day-ahead: 71 would read 57.
    - The rule's own figures, which are the page's, do not move, and no flat figure does.
    - Not changed: the pro-rating is session 138's stated decision and the whole-year budget session 140's; which one yields is yours. Recommend the foreseen load take min(hours held, the rule's budget) in each year. Figures: `runs/session190/partial_year.out`.
@@ -492,7 +492,7 @@ Session 462, 21 October 2026 (chain 019). The page lists, at its foot, every mod
 4. A bad month is the top tenth of the 36 months that end with the last twelve, by nearest rank: the mirror of the battery page's 10th percentile month. (sessions 138 and 190)
 5. Months and years are counted in the grid's standard time, with no daylight saving shift. (session 138)
 6. A flexible load follows a rule decided before each hour from the prior 30 days of day-ahead prices, within a budget of hours each calendar year; it turns off whole and at once, with no minimum run. (session 140; the owner's ruling of 7 October 2026)
-7. "If perfectly foreseen" chooses the same budget of hours knowing the year's prices, pro-rated in a year held in part (section 10, item 15, waits for a ruling). (session 138)
+7. "If perfectly foreseen" chooses the rule's budget of hours knowing the year's prices, in a year held in part as in a whole one, never more than the hours held. (sessions 138 and 5003; the owner's ruling of 12 October 2026)
 8. Power per GPU defaults to 1.3 kW (NVIDIA's DGX H100) and the overhead ratio to 1.56 (Uptime Institute, 2024); both are scenario A's assumptions since session 195. (sessions 138 and 195)
 9. One page in the battery page's layout: what it will pay, whether the power is there, how clean it is and how soon it can be had, each computed for the load described, then the two scenarios and what matters most. (sessions 213 and 228)
 10. Scenarios A and B are the block the three economics pages share; scenario A sets the headline. The contract's share and price are two of each scenario's assumptions, 0 by default, so the default load is fully merchant. (sessions 194, 195 and 213)
@@ -508,7 +508,7 @@ Session 462, 21 October 2026 (chain 019). The page lists, at its foot, every mod
 20. A node's band (the resource nodes' day-ahead basis to the hub) is shown under the cost table and added to no figure: a load settles at its load zone. (session 354)
 21. Capacity charges: none in ERCOT, an energy-only market; elsewhere "no public figure", because the auction results are held only in an internal table. (session 354)
 
-Open choices stay in section 10 (the year held in part, item 15, among them); none of the lines above is a ruling this session made.
+Open choices stay in section 10; none of the lines above is a ruling this session made. Line 7 is the owner's ruling of 12 October 2026 on item 15, applied in session 5003.
 
 ## Sign-off
 

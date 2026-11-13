@@ -87,7 +87,9 @@ class TheStandIn(unittest.TestCase):
         return next(ln for ln in L if "datacenter load" in ln)
 
     def test_neither_held_the_second_price_as_before(self):
-        self.assertIn("in its place, the week's next price move: Henry Hub natural gas closed", self.row(self.five({})))
+        # session 1992 (faults file row 97): the next unused move at the bar (WTI's 3.6%), not the third by index (Henry
+        # Hub's 2.7%, under the 3% bar)
+        self.assertIn("in its place, the week's next price move: WTI Cushing crude closed", self.row(self.five({})))
 
     def test_the_policy_line_before_a_second_price(self):
         L = self.five({"policy": NRC})
