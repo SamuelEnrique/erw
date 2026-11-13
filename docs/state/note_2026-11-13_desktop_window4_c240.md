@@ -69,7 +69,7 @@ Energy Research Warehouse (ERW). Sessions 4250 to 4263 and 4266 to 4268, about 1
 10. Virginia's revenue share [left out].
 11. Illinois and Ohio [no rule held].
 12. The shared chart's spacing, faults 13 and 21 [left as it is].
-13. Whether a Vermont plant also pays the education property tax [not held].
+13. Whether a Vermont plant also pays the education property tax: answered by the statute (session 4301): fixtures taxed under 8701 do not (32 V.S.A. 5401(10)(J)(ii)); wind pays 5402c's USD 3 per MWh instead.
 14. Whether Wisconsin's payments belong on the property tax line, and whether its per-resident caps should be an input [on the line; caps not modeled].
 15. Whether `docs/methods/economic_impact.md` stays as the table's method [it stays].
 16. Idaho's tax on gross energy earnings, which needs a sale price [not held].

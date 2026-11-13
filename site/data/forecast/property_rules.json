@@ -409,6 +409,24 @@
    "url": "https://tax.utah.gov/property/centrally-assessed",
    "read": "2026-11-13",
    "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+  },
+  "vt_32_5401": {
+   "title": "Vermont Statutes, 32 V.S.A. 5401 (definitions, nonhomestead property, (10)(J))",
+   "url": "https://legislature.vermont.gov/statutes/section/32/135/05401",
+   "read": "2026-11-13",
+   "request": 182
+  },
+  "vt_32_5402c": {
+   "title": "Vermont Statutes, 32 V.S.A. 5402c, Wind-powered electric generating facilities tax",
+   "url": "https://legislature.vermont.gov/statutes/section/32/135/05402c",
+   "read": "2026-11-13",
+   "request": 183
+  },
+  "ia_437a_6": {
+   "title": "Iowa Code 2026, section 437A.6, Replacement generation tax",
+   "url": "https://www.legis.iowa.gov/docs/code/437A.6.pdf",
+   "read": "2026-11-13",
+   "request": 184
   }
  },
  "states": {
@@ -562,6 +580,21 @@
      "not_modeled": "The local levy: no statewide figure is held, so the tax needs the reader's levy rate (dollars per 1,000 of taxable value). The excess cost adjustment in the net acquisition cost.",
      "tip": "Iowa: where the county or city has adopted it by ordinance, wind property is valued at 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh (Code 427B.26).",
      "option_tip": "Iowa Code 427B.26 applies where the county or city has adopted it by ordinance: 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh."
+    },
+    {
+     "id": "ia_generation_tax",
+     "technologies": [
+      "utility_pv",
+      "natural_gas",
+      "geothermal"
+     ],
+     "kind": "production",
+     "usd_per_mwh": 0.6,
+     "adds_to_property": true,
+     "cite": "ia_437a_6",
+     "tip": "Iowa: a replacement generation tax of six hundredths of a cent per kWh generated (USD 0.60 per MWh) (Code 437A.6); wind specially valued under 427B.26 is excluded; the property tax on the plant is not held.",
+     "own_tip": "Iowa's replacement generation tax, USD 0.60 per MWh (Code 437A.6), is held; the property tax on the plant is not: a rate typed here is the reader's own, added to it, applied to the capital cost as it falls.",
+     "quote": "A replacement generation tax of six hundredths of a cent per kilowatt-hour of electricity generated within this state during the tax year is imposed on every person generat[ing] [...] c. Wind energy conversion property subject to section 427B.26 or eligible for a tax credit under chapter 476B."
     }
    ]
   },
@@ -781,7 +814,7 @@
      "quote3": "(f) \"Qualified solar energy facility\" or \"qualified facility\" means a facility, whether owned or leased, that when constructed and placed in service is located in a solar energy district and that uses or will use solar energy as the sole source for the generation of at least 2 megawatts of nameplate capacity, alternating current [...]",
      "default_why": "USD 7,000 per MW AC, the statute's rate; USD 2,000 on state land, in an opportunity zone, on a brownfield or attached to an improvement. Only those two rates are statutory: a rate between them is held, not refused.",
      "not_modeled": "The district must be established and the certificate approved by the city, village or township (sections 3 to 6): off by default. The 20 years run from the certificate's effective date, which the tool takes as the first operating year; the tax on construction in progress (half the rate) and before construction (none) is not charged, as the tool charges property tax only in operating years. The land stays under the general property tax, not modeled.",
-     "tip": "Michigan: in a solar energy district established by a city, village or township, a facility of 2 MW AC or more is exempt from property tax for 20 years and pays USD 7,000 per MW AC a year (USD 2,000 on some sites) (MCL 211.1157, 211.1159).",
+     "tip": "Michigan: in a solar energy district established by a city, village or township, a facility of 2 MW AC or more is exempt from property tax for 20 years and pays USD 7,000 per MW AC a year (USD 2,000 on state land, in an opportunity zone, on commercial or industrial property that is a facility, functionally obsolete or blighted in the brownfield act's terms, or attached to an improvement) (MCL 211.1157, 211.1159).",
      "option_tip": "Michigan (Solar Energy Facilities Taxation Act, 2023 PA 108): a city, village or township may establish a solar energy district and approve an exemption certificate for a facility of at least 2 MW AC; the facility then pays a specific tax per MW in place of the property tax on it, for 20 years. The land is not exempt.",
      "rate_tip": "USD 7,000 per MW AC (MCL 211.1159(2)); USD 2,000 on state land, in an opportunity zone, on a brownfield or attached to an improvement (211.1159(3)). Only those two rates are statutory; a rate outside them is held to them."
     }
@@ -801,9 +834,23 @@
      "min_mw": 0.05,
      "cite": "vt_32_8701",
      "quote": "(b)(1) There is assessed on any renewable energy plant in Vermont commissioned to generate solar power an annual tax of $4.00 per kW of plant capacity. [...] (3) [...] The Department of Taxes shall deposit the taxes collected under this section into the Education Fund. (c) A renewable energy plant that generates electricity from solar power shall be exempt from taxation under this section if it has a plant capacity of less than 50kW. (d) The existence of a renewable energy plant or energy storage facility subject to tax under subsection (b) of this section shall not: (1) alter the exempt status of any underlying property under section 3802 or subdivision 5401(10)(F) of this title; or (2) alter the taxation of the underlying property under chapters 121-135 of this title.",
-     "not_modeled": "A state tax paid to the Education Fund; the plant's municipal property tax is not held: a rate typed by the reader is added. \"Plant capacity\" is defined in 30 V.S.A. 8002, not read: the tool applies USD 4 per kW to the reader's MW (AC). Whether the plant also pays the education property tax (chapters 121 to 135) is not read here.",
-     "tip": "Vermont: a solar plant of 50 kW or more pays USD 4 per kW of plant capacity a year to the Education Fund (32 V.S.A. 8701); the town's property tax on it is not held.",
-     "own_tip": "Vermont's uniform capacity tax, USD 4 per kW a year to the Education Fund (32 V.S.A. 8701), is held; the town's property tax on the plant is not: a rate typed here is the reader's own, added to the capacity tax, applied to the capital cost as it falls."
+     "not_modeled": "\"Plant capacity\" is defined in 30 V.S.A. 8002, not read: the tool applies USD 4 per kW to the reader's MW (AC). Answered by the re-check of session 4291 and read by this chain (request 182): fixtures taxed under 8701 are outside nonhomestead property, so they pay no education property tax; the land still does (not modeled).",
+     "tip": "Vermont: a solar plant of 50 kW or more pays USD 4 per kW of plant capacity a year to the Education Fund (32 V.S.A. 8701), in place of the education property tax on its buildings and fixtures (5401(10)(J)(ii)); the town's property tax on it is not held.",
+     "own_tip": "Vermont's uniform capacity tax, USD 4 per kW a year to the Education Fund (32 V.S.A. 8701), is held and replaces the education property tax on the plant's fixtures (5401(10)(J)(ii)); the town's property tax is not: a rate typed here is the reader's own municipal rate, added to the capacity tax, applied to the capital cost as it falls."
+    },
+    {
+     "id": "vt_wind_education",
+     "technologies": [
+      "land_based_wind"
+     ],
+     "kind": "production",
+     "usd_per_mwh": 3.0,
+     "min_mw": 1,
+     "adds_to_property": true,
+     "cite": "vt_32_5402c",
+     "tip": "Vermont: a wind facility of 1 MW or more, in service after 2007, pays an alternative education property tax of USD 0.003 per kWh produced (USD 3 per MWh) on its buildings and fixtures (32 V.S.A. 5402c); the town's property tax on it is not held.",
+     "own_tip": "Vermont's wind education tax, USD 3 per MWh (32 V.S.A. 5402c), is held; the town's property tax is not: a rate typed here is the reader's own municipal rate, added to it, applied to the capital cost as it falls.",
+     "quote": "shall be assessed an alternative education property tax on its buildings and fixtures used directly and exclusively in the generation of electrical energy from wind power. (b) The tax shall be imposed at a rate per kWh of electrical energy produced by the certified facility [...] The rate of the tax shall be $0.003."
     }
    ]
   },
@@ -846,10 +893,11 @@
      "cite": "nv_701a",
      "quote": "NRS 701A.370 1. If the Director approves an application for a partial abatement pursuant to NRS 701A.300 to 701A.390, inclusive, of: (a) Property taxes imposed pursuant to chapter 361 of NRS, the partial abatement must: (1) Be for a duration of the 20 fiscal years immediately following the date of approval of the application; (2) Be equal to 55 percent of the taxes on real and personal property payable by the facility each year; and (3) Not apply during any period in which the facility is receiving another abatement or exemption from property taxes imposed pursuant to chapter 361 of NRS, other than any partial abatement provided pursuant to NRS 361.4722.",
      "quote2": "NRS 701A.365 (the version effective through June 30, 2032) 2. [...] If the board of county commissioners does not approve or deny the application within 30 days after the board receives from the Director a copy of the application, the application shall be deemed approved.",
-     "not_modeled": "The abatement needs the Director's approval (jobs on the construction, a capital investment of USD 3 or 10 million, wages of 110 and 175 percent of the state's average, NRS 701A.365) and the county may deny it within 30 days: off by default. No rate is in the statute: the abatement acts on the reader's own rate. The 20 fiscal years run from the approval, taken as the first construction year. The partial abatement of local sales and use taxes above 0.6 percent for 3 years (701A.370(1)(b)) is not modeled.",
-     "tip": "Nevada: where the Office of Energy approves it, 55 percent of the property tax is abated for the 20 fiscal years after approval (NRS 701A.370).",
+     "not_modeled": "The abatement needs the Director's approval (jobs on the construction, a capital investment of USD 3 or 10 million, wages of 110 and 175 percent of the state's average, NRS 701A.365) and the county may deny it within 30 days: off by default. No rate is in the statute: the abatement acts on the reader's own rate. The 20 fiscal years run from the approval, taken as the first construction year. The partial abatement of local sales and use taxes above 0.6 percent for 3 years (701A.370(1)(b)) is not modeled. Eligibility needs a generating capacity of at least 10 MW (701A.360, read by the re-check of session 4291): held as the rule's minimum size.",
+     "tip": "Nevada: where the Office of Energy approves it, 55 percent of the property tax is abated for the 20 fiscal years after approval for a facility of 10 MW or more (NRS 701A.370, 701A.360).",
      "own_tip": "Nevada's partial abatement (NRS 701A.370), where approved (the local option above), takes 55 percent off the tax for the 20 fiscal years after approval, counted here from the first construction year: a rate typed here is the reader's own, applied to the capital cost as it falls, 45 percent of it charged in those years.",
-     "option_tip": "Nevada (NRS 701A.360 to 701A.370): the Office of Energy's Director may approve a partial abatement of 55 percent of the property tax for the 20 fiscal years after approval, for a facility that meets the statute's tests of construction jobs, investment and wages; the county may deny it within 30 days. It acts on the property tax rate typed below."
+     "option_tip": "Nevada (NRS 701A.360 to 701A.370): the Office of Energy's Director may approve a partial abatement of 55 percent of the property tax for the 20 fiscal years after approval, for a facility that meets the statute's tests of construction jobs, investment and wages; the county may deny it within 30 days. It acts on the property tax rate typed below.",
+     "min_mw": 10
     }
    ]
   },

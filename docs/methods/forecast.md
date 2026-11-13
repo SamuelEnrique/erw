@@ -97,7 +97,7 @@ Two rule kinds were generalized: the valuation (a statutory value per MW, an ass
 | Alaska | wind/solar/gas/geothermal: none held (a note) | none read (0) | ak_lrs_21_028 (subagent) |
 | Alabama | wind/solar/gas/geothermal: none held (a note) | none read (0) | al_dor_assessment (subagent) |
 | Arkansas | wind/solar/gas/geothermal: none held (a note) | none read (0) | ar_none (subagent) |
-| Arizona | solar/wind/geothermal: 80 percent exempt on the reader's rate | none read (0) | az_42_14155 (request 86) |
+| Arizona | solar/wind/geothermal: 80 percent exempt on the reader's rate | geothermal 0; wind 0; gas 0; solar 0 | az_42_14155 (request 86) |
 | California | wind/solar/gas/geothermal: the capital cost, levy 10 per 1,000 | none read (0) | ca_boe_pub306 (request 180) |
 | Colorado | wind/solar/gas/geothermal: none held (a note) | wind 36.76; solar 36.76 | co_sb21_020 (subagent) |
 | Connecticut | wind/solar/gas/geothermal: none held (a note) | solar 100 | ct_olr_2023_r_0214 (subagent) |
@@ -106,7 +106,7 @@ Two rule kinds were generalized: the valuation (a statutory value per MW, an ass
 | Florida | solar/wind/geothermal: 80 percent exempt on the reader's rate | geothermal 0; wind 0; gas 0; solar 0 | fl_196_182 (request 83) |
 | Georgia | wind/solar/gas/geothermal: the capital cost, assessed at 40.0 percent, levy 24.712 per 1,000 | none read (0) | ga_dor_valuation (request 164) |
 | Hawaii | wind/solar/gas/geothermal: none held (a note) | geothermal 0; wind 0; gas 0; solar 0 | hi_hrs_239 (subagent) |
-| Iowa | wind: the capital cost, schedule 0 to 30 percent, the reader's levy | wind 100; solar 67.2131 | ia_427b_26 (request 36) |
+| Iowa | wind: the capital cost, schedule 0 to 30 percent, the reader's levy; solar/gas/geothermal: USD 0.6 per MWh | wind 100; solar 67.2131 | ia_427b_26, ia_437a_6 (request 184, request 36) |
 | Idaho | wind/solar/gas/geothermal: none held (a note) | none read (0) | id_63_3502b (request 112) |
 | Illinois | wind: USD 579,600 per MW, assessed at 33.33 percent, schedule 96 to 30 percent, the reader's levy; solar: USD 285,580 per MW, assessed at 33.33 percent, schedule 96 to 30 percent, the reader's levy; gas/geothermal: none held (a note) | geothermal 0; wind 0; gas 0; solar 0 | il_ptax_csesv, il_ptax_wedv (request 144, request 145) |
 | Indiana | wind/solar/gas/geothermal: none held (a note) | none read (0) | in_none (subagent) |
@@ -117,7 +117,7 @@ Two rule kinds were generalized: the valuation (a statutory value per MW, an ass
 | Maryland | wind/solar/gas/geothermal: 50 percent exempt on the reader's rate | solar 100 | md_tp_7_237 (request 110) |
 | Maine | wind/solar/gas/geothermal: none held (a note) | geothermal 0; wind 0; gas 0; solar 0 | me_36_691 (subagent) |
 | Michigan | solar: USD 2,000 to 7,000 per MW by local option | none read (0) | mi_211_1159 (request 92) |
-| Minnesota | wind: per MWh, by size; solar: per MWh, by size | wind 100 | mn_272_029, mn_272_0295 (request 34, request 35) |
+| Minnesota | wind: per MWh, by size; solar: per MWh, by size | wind 100; solar 100 | mn_272_029, mn_272_0295 (request 34, request 35) |
 | Missouri | wind/solar/gas/geothermal: none held (a note) | none read (0) | mo_stc_2024 (subagent) |
 | Mississippi | wind/solar/gas/geothermal: none held (a note) | none read (0) | ms_dor_faq (subagent) |
 | Montana | wind/gas: the capital cost, assessed at 3.0 percent, the reader's levy; solar/geothermal: the capital cost, assessed at 6.0 percent, the reader's levy; wind/solar/gas/geothermal: USD 0.2 per MWh | none read (0) | mt_15_51_101, mt_15_6_156, mt_15_6_157 (request 146, request 147, request 148) |
@@ -140,13 +140,13 @@ Two rule kinds were generalized: the valuation (a statutory value per MW, an ass
 | Texas | wind/solar/gas/geothermal: the capital cost, the reader's levy | none read (0) | tx_comptroller_valuing (request 178) |
 | Utah | wind/solar/gas/geothermal: none held (a note) | none read (0) | ut_centrally_assessed (subagent) |
 | Virginia | solar: exempt 80, 70, 60 percent by years, on the reader's rate | wind 0; solar 0 | va_58_1_3660 (request 117) |
-| Vermont | solar: USD 4,000 per MW a year | none read (0) | vt_32_8701 (request 99) |
+| Vermont | solar: USD 4,000 per MW a year; wind: USD 3.0 per MWh | none read (0) | vt_32_5402c, vt_32_8701 (request 183, request 99) |
 | Washington | wind/solar/gas/geothermal: the capital cost, levy 8.96 per 1,000 | wind 50; solar 50 | wa_dor_levy (request 155) |
 | Wisconsin | wind/solar/geothermal: USD 5,000 per MW a year | none read (0) | wi_79_04 (request 102) |
 | West Virginia | wind: USD 2,734 per MW a year; solar: USD 1,822 per MW a year; gas/geothermal: USD 9,112 per MW a year; wind: the capital cost, assessed at 60.0 percent, schedule 24.95 to 24.95 percent, levy 19.2 per 1,000; solar/gas/geothermal: the capital cost, assessed at 60.0 percent, levy 19.2 per 1,000 | none read (0) | wv_tax_expenditure_2024 (request 149) |
 | Wyoming | wind: USD 1.0 per MWh | none read (0) | wy_39_22 (request 81) |
 
-Reading errors the subagents reported and this chain checked: two California PDFs fetched from boe.ca.gov before that host's robots file was read (it answers 404: no rules), one South Carolina page on www.dor.sc.gov (robots 404), one read-only Python attempt by a subagent that wrote nothing; a subagent's Virginia request may have followed the previous one by slightly under the 10-second crawl delay.
+The re-checks of the 17 held states (session 4301, three subagents and this chain's reads, requests 182 to 185) confirmed every held reading and added: Vermont's wind education tax (32 V.S.A. 5402c, USD 3 per MWh) and the answer to ruling 13 (fixtures taxed under 8701 pay no education property tax, 5401(10)(J)(ii)); Iowa's replacement generation tax (437A.6, USD 0.60 per MWh, wind under 427B.26 excluded); Nevada's 10 MW minimum (701A.360); Minnesota's solar sales exemption (297A.67, subd. 29); Arizona's deduction for generating machinery (42-5061(B)(4), noted, prime contracting not read). Wyoming's title 39 could not be re-read (a binary PDF). The re-check subagent for Wyoming to Nevada reported that its shell's sleep was blocked, so azleg.gov's 120-second and legislature.vermont.gov's 30-second crawl delays were probably not fully honoured in its requests. Reading errors the subagents reported and this chain checked: two California PDFs fetched from boe.ca.gov before that host's robots file was read (it answers 404: no rules), one South Carolina page on www.dor.sc.gov (robots 404), one read-only Python attempt by a subagent that wrote nothing; a subagent's Virginia request may have followed the previous one by slightly under the 10-second crawl delay.
 
 **Datacenter sales and use tax exemptions read (not modeled: the tool models generating plants).** Texas (Tax Code 151.359, 151.3595: 100,000 sq ft, USD 200 million and 20 jobs for 10 or 15 years; 250,000 sq ft, USD 500 million and 40 jobs for 20 years); Louisiana (R.S. 47:305.73: 50 jobs and USD 200 million, 20 years renewable 10); Washington (RCW 82.08.986, .9861: rural and urban centers, jobs per 20,000 sq ft, to 2048 and 2038); South Carolina (12-36-2120(79): USD 50 million and 25 jobs, certified before 2032); Alabama (40-9B: abatements of 10 to 30 years by investment); Illinois (35 ILCS 120/2-5(44): USD 250 million and 20 jobs, the program paused 1 July 2026); Indiana (IC 6-2.5-15: USD 25 to 150 million by county population, 25 or 50 years); Missouri (RSMo 144.810: USD 25 million and 10 jobs, 15 years); Kentucky (KRS 139.499 by agreement); Maryland (Tax-General 11-239: USD 2 or 5 million and 5 positions, 10 or 20 years); Virginia (58.1-609.3(18), (19): USD 150 million and 50 jobs, to 2035); North Carolina (105-164.13(55a): electricity and support equipment); Florida (212.08(5)(r): 100 MW critical IT load and USD 150 million); New York (Tax Law 1115(a)(37)); Pennsylvania (Act 84 of 2016, certified); Connecticut (2021 Public Act 1: USD 50 or 200 million, 20 or 30 years); Massachusetts (c. 64H, s. 6(zz): USD 50 million, 100,000 sq ft, 100 jobs, 20 years); Idaho (63-3622VV: USD 250 million and 30 jobs); Utah (59-12-104, qualifying data center); Montana (class seventeen property at 0.9 percent, 15-6-162); Georgia (48-8-3(68.1), by county population); Mississippi (local property exemption up to 10 years); Ohio (R.C. 122.175, new agreements paused); Maine (data centers from 1 August 2026 excluded from the equipment exemption); none in California, Colorado (HB26-1030 lost) or Rhode Island.
 
