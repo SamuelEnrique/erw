@@ -317,3 +317,18 @@ Session 1885 walked the sixteen steps again, click by click, on 12 November 2026
 4. **Board, step 13**: a stale tile prints moves ("6 Nov 2026 (stale)", Day +13.65, Week +0.72) while the same series' row writes "stale" in each move cell. Should: the tile blanks its moves as the row does. Site code fix. State: fixed (`cb6cad4cd`, session 1890: a stale tile's Day and Week read "stale").
 5. **Board, step 14**: a tile's click opens the workbench 1,174 px below the first screen with no scroll and no focus move; a reader sees nothing happen. Should: the workbench scrolled into view and focused (or opened beside the tiles). Site code fix. State: fixed (`bf6d9e819`, session 1891: the workbench heading scrolls into view and takes focus).
 6. **Board against the grid page**: the board (built 12 Nov) gives ERCOT Hub average day-ahead 40.64 on 6 Nov, stale; `/grid?grid=ercot`, "What it costs", gives 33.74 day-ahead on 13 Nov and 82.54 real time on 11 Nov from `price_board_latest`. The tables `board.json` is built from are behind the live set (board audit row 46). The data machine's. State: data machine.
+
+## Walked again 13 November 2026, the fixed steps (session 1904)
+
+Main at `b1bc8829f` (chain 217's stack and sessions 1903, 1907, 1908 landed), built locally and served on 3904, internal view, 1280 px, with session 1885's walk script (`runs/s1904/walk.mjs`, records `runs/s1904/trader-1280.json`, shots `runs/s1904/shots/`). Only the steps of faults fixed since session 1885's walk; every other step reads as it did (`runs/s1904/compare.txt`).
+
+| Step | Session 1885 | Session 1904 |
+|---|---|---|
+| 01 to 05, the generator's headline (fault 1) | revenue "Oct 2025 to Sep 2026" beside the capture card's "Nov 2025 to Oct 2026" | one window: "Oct 2025 to Sep 2026" twice on each face, no "Nov 2025 to Oct 2026" |
+| 06b, the PPA results table (fault 1) | the capture rows "real time, Nov 2025 to Oct 2026" | the capture rows gone to the model's window; one "Nov 2025 to Oct 2026" stays, the CAISO battery paired with the plant ("USD 10.25 million with, USD 6.68 million without; Nov 2025 to Oct 2026, a 100 MW, 4-hour battery, priced at SP15"), the battery's own last twelve months: a second table, said so, not a fault |
+| 07 to 10, the battery page, ERCOT (fault 2) | the year chart and income table "2026, 10 months" beside a headline ending September | opened at `?grid=ercot&dur=4&strat=dayahead&mw=100`: "October 2025 to September 2026", "2026, 9 months held", the chart "9 months", the Price years choice "2026, 9 months held": one set of months |
+| 11 and 12, CAISO | "November 2025 to October 2026", 65.96 per kW | opened at its address: the same, 65.96, the chart "10 months". The walk's click to CAISO read "October 2025 to September 2026" and 65.22 once, the first request to the page after the build (the local build's stale first fetch); opened again it reads October. The Price years choice still offers "The last twelve months (default): 65.22" and "2026, 9 months held" (`price_years_by_window`, built before CAISO's October was whole): the data machine's |
+| 13, the board (fault 4) | "ERCOT Hub average day-ahead 40.64, 6 Nov 2026 (stale), Day +13.65, Week +0.72" | "40.64 USD/MWh, 6 Nov 2026 (stale), Day stale, Week stale"; every stale tile the same, 5 of 12 |
+| 14, a tile's click (fault 5) | the page stayed at 67 px; the workbench opened 1,174 px below | the page scrolls to 1,205 px, the workbench's heading at the top: "Power, by hub and zone, 14 rows, ERCOT Hub average, day-ahead: 40.64 USD/MWh, 6 Nov, stale" |
+
+Faults 3 and 6 (the awards line ends July 2026; the board's tables behind the live set) are the data machine's and read as before.

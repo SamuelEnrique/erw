@@ -95,3 +95,15 @@ The first walk's step 2 (bought day-ahead, `?buy=da`) was not walked; the All gr
 2. **Tracker by grid, step 04**: "The facilities against each grid" prints "license needed" (note 1, the facilities' hold) in the Peak hour MW and Capacity MW columns of every grid and in ERCOT's Reserve margin, though the line under the table names them as each grid's own figures "(EIA-930 and EIA-860M, grid_peak_vs_capacity)" and note 2 says ERCOT's margin is held. Should: the grid's own columns drawn, only the facility columns held. Site code fix. State: fixed (`a05a17e9b`, session 1898: `KEY_STAT_TABLE` names `grid_peak_vs_capacity` and `ercot_cdr_reserve_margins` for the grid's own cells).
 3. **Grid page, step 11**: the Lower 48's second card reads "Net export" then "by grid MW": words where the figure goes, with the unit after them. Should: words without a unit (or the card left out for the Lower 48). Site code fix. State: fixed (`9c5745d4b`, session 1898: the card takes its MW only beside a figure).
 4. **Grid page, step 13**: "In the news" holds the count ("license needed scored stories since 2026-10-30") and then says "No story in the last 14 days matched", which reads as a search of the held table that found nothing. Should: the stories said held, with no empty-result line. Site code fix. State: fixed (`6482a971a`, session 1898: held, the section is one sentence of the hold, no count and no empty-result line).
+
+## Walked again 13 November 2026, the fixed steps (session 1904)
+
+Main at `b1bc8829f`, the local build on 3904, internal view, 1280 px (`runs/s1904/lab-1280.json`); steps 11 to 13 from session 1903's read of the same code on the gate's build, at 390 and 1280 (`runs/s1903/read.json`), since the walk's click on the Grid menu found no link (a page in review is a span in the fetched menu, not a fault of the page).
+
+| Step | Session 1885 | Session 1904 |
+|---|---|---|
+| 04, the facilities against each grid (fault 2) | "license needed" in every grid's Peak hour MW and Capacity MW and in ERCOT's reserve margin | each grid's own figures: ERCOT "83,597" and "164,685", reserve margin "11.4% (summer 2027)", PJM "160,560" and "210,667", and so on for seven grids; the facilities' five columns and the share of peak still "license needed" (the facilities' hold) |
+| 11, the Lower 48's second card (fault 3) | "Net export by grid MW" | "Net export by grid", then "The Lower 48 is the sum of its grids: the exchange of each."; ERCOT "Net import 219 MW" |
+| 13, In the news (fault 4) | "license needed scored stories since 2026-10-30 ..." then "No story in the last 14 days matched" | "The scored stories are held for a license (license needed): the outlets' terms ask for permission and none is recorded yet, so this section shows neither their count nor their headlines." No empty-result line |
+
+Fault 1 (ERCOT's queue on All grids) is the data machine's and reads as before.
