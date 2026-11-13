@@ -86,6 +86,8 @@ def property_tax(d, i):
             continue
         if r["kind"] == "capacity":
             total += mw * r["usd_per_mw_year"]; used = True
+            adds = r.get("adds_to_property", False) if not used_rules else adds and r.get("adds_to_property", False)
+            used_rules.append(r["id"])
         elif r["kind"] == "production":
             rate = r.get("usd_per_mwh")
             if rate is None:
@@ -206,14 +208,14 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
     const spend = `${xi.capex} * ${xi.mw} * 1000`, mwh = `${xi.mw} * 8760 * ${xi.cf}`;
     const parts: string[] = [];
     let valuation: string | null = null, exemptYears: number | null = null;
+    const addsFlags: boolean[] = [];  // Wyoming's excise and Vermont's capacity tax add to the reader's own property tax
     for (const rl of d.property) {
       if (rl.min_mw !== undefined && xi.mw < rl.min_mw) continue;
-      if (rl.kind === "capacity") parts.push(`${xi.mw} * ${rl.usd_per_mw_year}`);
+      if (rl.kind === "capacity") { parts.push(`${xi.mw} * ${rl.usd_per_mw_year}`); addsFlags.push(!!rl.adds_to_property); }
       else if (rl.kind === "production") {
         let rate = rl.usd_per_mwh ?? 0;
         if (rl.usd_per_mwh === undefined) for (const t of rl.tiers ?? []) { const lo = t.min_mw_exclusive ?? t.min_mw_ac_exclusive ?? 0; if (xi.mw > lo && (t.max_mw === undefined || xi.mw <= t.max_mw)) { rate = t.usd_per_mwh; break; } }
-        if (rate > 0 && Number.isFinite(xi.cf)) parts.push(rl.exempt_years ? `cond(i < ${rl.exempt_years}, 0, ${mwh} * ${rate})` : `${mwh} * ${rate}`);  // geothermal holds no capacity factor
-        if (rl.adds_to_property && xi.own !== null && xi.ownyears) parts.push(`${spend} * max(0, 1 - i / ${xi.ownyears}) * ${xi.own} / 100`);
+        if (rate > 0 && Number.isFinite(xi.cf)) { parts.push(rl.exempt_years ? `cond(i < ${rl.exempt_years}, 0, ${mwh} * ${rate})` : `${mwh} * ${rate}`); addsFlags.push(!!rl.adds_to_property); }  // geothermal holds no capacity factor
       } else if (rl.kind === "capacity_option" && xi.iaval && xi.optrate !== null) {
         parts.push(`cond(i < ${rl.years}, ${xi.mw} * ${Math.min(rl.usd_per_mw_max ?? Infinity, Math.max(rl.usd_per_mw_min ?? 0, xi.optrate))}, .)`);
       } else if (rl.kind === "exempt_years") {
@@ -223,12 +225,13 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
         valuation = `${spend} * cond(i < ${s.length}, ${s.map((v, k) => `(i == ${k}) * ${v}`).join(" + ")}, ${rl.then_pct}) / 100 * ${xi.levy} / 1000`;
       }
     }
+    if (addsFlags.length && addsFlags.every(Boolean) && xi.own !== null && xi.ownyears) parts.push(`${spend} * max(0, 1 - i / ${xi.ownyears}) * ${xi.own} / 100`);
     if (valuation) parts.push(valuation);
     if (parts.length) out.push(`replace property = ${parts.join(" + ")} if !build`);
     else {
       if (exemptYears !== null) out.push(`replace property = 0 if !build & i < ${exemptYears}`);
       const fx = d.property.find((rl) => rl.kind === "own_exempt");
-      const taxedShare = fx ? `cond(year <= ${fx.until_year}, ${1 - (fx.exempt_share ?? 0)}, 1)` : "1";
+      const taxedShare = !fx ? "1" : fx.until_year === undefined ? `${1 - (fx.exempt_share ?? 0)}` : `cond(year <= ${fx.until_year}, ${1 - (fx.exempt_share ?? 0)}, 1)`;
       if (xi.own !== null && xi.ownyears) out.push(`replace property = ${spend} * max(0, 1 - i / ${xi.ownyears}) * ${taxedShare} * ${xi.own} / 100 if !build${exemptYears !== null ? ` & i >= ${exemptYears}` : ""}`);
     }
     out.push(`gen double severance = ${d.severance_per_mcf === null ? "." : `cond(build, ., ${xi.mw} * 8760 * ${xi.cf} * ${xi.heat} / 1000 / (${d.btu_per_cf} / 1000) * ${xi.instate} / 100 * ${d.severance_per_mcf})`}`,

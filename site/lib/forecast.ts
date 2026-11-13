@@ -325,7 +325,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
   const propNote = propHeld && propGap && exempt ? `exempt for its first ${exempt.years} years; no rule held after them (the reader's own rate fills them)`
     : propHeld ? (propRule === "own" ? "the reader's own rate" : "the state's statute")
     : rules.some((r) => r.kind === "valuation") ? (x.iaval ? "the local levy is not given" : "the county's special valuation is off and no other rule is held")
-    : rules.some((r) => r.kind === "capacity_option") ? "the county's agreement is off and no other rule is held"
+    : rules.some((r) => r.kind === "capacity_option") ? "the local option is off and no other rule is held"
     : "no rule held for this state and technology";
   return {
     ok: true, years, sums, pv: { ...pvS, taxes }, construction: c, operations: o,

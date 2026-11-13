@@ -220,6 +220,8 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "utility_pv", "or"), iaval: true, optrate: 6200 }, { ...F.defaults(P, "utility_pv", "or"), iaval: true, own: 1, ownyears: 30 }],
     [{ ...F.defaults(P, "land_based_wind", "wy") }, { ...F.defaults(P, "land_based_wind", "wy"), own: 1.1, ownyears: 20 }],
     [{ ...F.defaults(P, "utility_pv", "fl"), own: 1, ownyears: 30 }, { ...F.defaults(P, "land_based_wind", "fl"), own: 1.2, ownyears: 25, start: 2030 }],
+    [{ ...F.defaults(P, "utility_pv", "nc"), own: 0.7, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "vt"), own: 1.4, ownyears: 25 }],
+    [{ ...F.defaults(P, "utility_pv", "mi"), iaval: true }, { ...F.defaults(P, "utility_pv", "mi"), iaval: true, optrate: 2000, life: 30 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -367,4 +369,30 @@ test("Arizona's valuation at 20 percent of depreciated cost through 2040, on the
   near(F.propertyTax(P, az, 0).tax, 150e6 * 0.2 * 0.01);
   near(F.propertyTax(P, az, 12).tax, 150e6 * (1 - 12 / 35) * 0.2 * 0.01, 1e-12, "2040, the last year");
   near(F.propertyTax(P, az, 13).tax, 150e6 * (1 - 13 / 35) * 0.01, 1e-12, "2041");
+});
+
+test("North Carolina's 80 percent solar exclusion, no end year, on the reader's own rate; wind is not a solar system", () => {
+  const nc = { ...F.defaults(P, "utility_pv", "nc"), mw: 100, capex: 1500, start: 2027, build: 1, own: 0.7, ownyears: 30 };
+  near(F.propertyTax(P, nc, 0).tax, 150e6 * 0.2 * 0.007);
+  near(F.propertyTax(P, nc, 20).tax, 150e6 * (1 - 20 / 30) * 0.2 * 0.007, 1e-12, "2048: no end year");
+  near(F.propertyTax(P, { ...F.defaults(P, "land_based_wind", "nc"), mw: 100, capex: 1500, own: 0.7, ownyears: 30 }, 0).tax, 150e6 * 0.007, 1e-12, "wind taxed in full");
+});
+
+test("Michigan's solar specific tax: off by default; USD 7,000 per MW AC for 20 years by local option; 2 MW at least", () => {
+  const mi = { ...F.defaults(P, "utility_pv", "mi"), mw: 100 };
+  assert.equal(mi.optrate, 7000);
+  assert.equal(F.propertyTax(P, mi, 0).tax, null, "the option is off");
+  near(F.propertyTax(P, { ...mi, iaval: true }, 0).tax, 700000);
+  near(F.propertyTax(P, { ...mi, iaval: true, optrate: 2000 }, 19).tax, 200000, 1e-12, "the reduced rate, the 20th year");
+  assert.equal(F.propertyTax(P, { ...mi, iaval: true }, 20).tax, null, "after 20 years no rule is held");
+  near(F.propertyTax(P, { ...mi, iaval: true, optrate: 9000 }, 0).tax, 700000, 1e-12, "held to the statute's rate");
+  assert.equal(F.propertyTax(P, { ...mi, iaval: true, mw: 1.5 }, 0).tax, null, "below 2 MW AC no facility qualifies");
+});
+
+test("Vermont's uniform capacity tax, USD 4 per kW, with the reader's own property tax added", () => {
+  const vt = { ...F.defaults(P, "utility_pv", "vt"), mw: 20, capex: 1500 };
+  near(F.propertyTax(P, vt, 0).tax, 80000);
+  near(F.propertyTax(P, { ...vt, own: 1, ownyears: 25 }, 5).tax, 80000 + 30e6 * (1 - 5 / 25) * 0.01);
+  assert.equal(F.propertyTax(P, { ...vt, mw: 0.04 }, 0).tax, null, "under 50 kW: exempt from the capacity tax, no rule held");
+  assert.equal(F.propertyTax(P, { ...F.defaults(P, "land_based_wind", "vt"), mw: 20 }, 0).tax, null, "wind: no rule held");
 });
