@@ -866,5 +866,57 @@ class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
         self.assertTrue(rt.endswith("Not read: NYISO (licensed source needed)."), rt)
 
 
+class Row146AClosePrintedBeforeDoesNotOpen(unittest.TestCase):
+    """Row 146 (session 3441): main's dry run of 12 November, with this machine's copy of EIA's closes nine days old,
+    opened on Henry Hub's close of 3 November up 3.5%; a close the previous issue already printed is no news since it."""
+
+    def setUp(self):
+        import tempfile
+        self.dir = tempfile.mkdtemp()
+        with open(os.path.join(self.dir, "2026-11-06.md"), "w", encoding="utf-8") as f:
+            f.write("**Latest fuel spot closes** (EIA, trading dates):\n\n"
+                    "- Henry Hub natural gas: 2.63 USD/MMBtu on 2026-11-03 [4], EIA's newest close when this was written\n"
+                    "- Brent crude: 107.03 USD/bbl on 2026-11-03 [4], EIA's newest close when this was written\n")
+
+    def tearDown(self):
+        import shutil
+        shutil.rmtree(self.dir, ignore_errors=True)
+
+    def hh(self, day):
+        c = cand("Henry Hub natural gas", "Henry Hub natural gas", 2.63, 2.54, 3.54, reason="Strong feedgas demand")
+        return dict(c, d=pd.Timestamp(day, tz="UTC"))
+
+    def test_the_previous_issues_closes_are_read(self):
+        shown = brief.previous_closes("2026-11-12", self.dir)
+        self.assertEqual(shown, {"Henry Hub natural gas": pd.Timestamp("2026-11-03"), "Brent crude": pd.Timestamp("2026-11-03")})
+        self.assertEqual(brief.previous_closes("2026-11-06", self.dir), {})
+
+    def test_a_close_printed_before_does_not_open(self):
+        shown = brief.previous_closes("2026-11-12", self.dir)
+        op = brief.opening_number([self.hh("2026-11-03")], [SPACEX], None, shown)
+        self.assertEqual(op["kind"], "story")
+        self.assertIsNone(op["passed"])
+        line = brief.opening_lines(op, {})[2]
+        self.assertNotIn("No price moved enough to lead", line)
+        self.assertIn("Henry Hub natural gas's rise on 2026-11-03 (in the numbers below) was in the last issue, so a "
+                      "reported figure leads; it is the outlet's, not a warehouse table's.", line)
+        none = brief.opening_number([self.hh("2026-11-03")], [rec("t", "A story with no figure")], None, shown)
+        self.assertEqual(none["kind"], None)
+        self.assertEqual(brief.opening_lines(none, {})[2], "No price moved enough to lead: Henry Hub natural gas's rise on "
+                         "2026-11-03 (in the numbers below) was in the last issue. No story of the day states a figure.")
+
+    def test_a_small_close_printed_before_says_nothing_new(self):
+        shown = brief.previous_closes("2026-11-12", self.dir)
+        op = brief.opening_number([dict(self.hh("2026-11-03"), pct=1.0, ch=0.03)], [SPACEX], None, shown)
+        self.assertIsNone(op["seen"])
+        self.assertIn("No price moved enough to lead; this is a reported figure", brief.opening_lines(op, {})[2])
+
+    def test_a_newer_close_still_opens(self):
+        shown = brief.previous_closes("2026-11-12", self.dir)
+        op = brief.opening_number([self.hh("2026-11-11")], [SPACEX], None, shown)
+        self.assertEqual((op["kind"], op["cand"]["key"]), ("mover", "Henry Hub natural gas"))
+        self.assertEqual(brief.opening_number([self.hh("2026-11-03")], [SPACEX])["kind"], "mover")
+
+
 if __name__ == "__main__":
     unittest.main()

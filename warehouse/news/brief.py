@@ -2049,7 +2049,29 @@ def story_figure(r, order=("mw", "money")):
     return ""
 
 
-def opening_number(cands, stories, prev_key=None):
+FUEL_LINE_RE = re.compile(r"^- (" + "|".join(re.escape(k) for k in FUEL_PLACE) + r"): .*? on (\d{4}-\d{2}-\d{2})\b", re.M)
+
+
+def previous_closes(digest_date, folder=None):
+    """Session 3441 (faults file row 146): {fuel label: the newest close date} the newest issue before `digest_date`
+    printed ("- Henry Hub natural gas: 2.63 USD/MMBtu on 2026-11-03 ..."), or {}. EIA publishes a close from one day to
+    about a week after its day, so one close can be the newest on several issues running (the close of 6 October on the
+    issues of 8 to 14 October)."""
+    day = previous_issue_day(digest_date, folder)
+    if day is None:
+        return {}
+    try:
+        with open(os.path.join(folder or DIGEST_DIR, f"{day:%Y-%m-%d}.md"), encoding="utf-8") as f:
+            text = f.read()
+    except OSError:
+        return {}
+    out = {}
+    for label, d in FUEL_LINE_RE.findall(text):
+        out[label] = max(out.get(label, pd.Timestamp(d)), pd.Timestamp(d))
+    return out
+
+
+def opening_number(cands, stories, prev_key=None, shown=None):
     """The issue's opening number: one verified finding, chosen by rule, not by a person or a model.
 
     Among the day's moves (numbers_today's candidates: the main hubs' day-ahead means and EIA's spot closes, each against
@@ -2064,8 +2086,11 @@ def opening_number(cands, stories, prev_key=None):
     Session 1440: a move no story names needs UNNAMED_FACTOR times the bar, and an unnamed single hub opens the issue
     only when no named move and no unnamed benchmark passes and no top story states a structural figure.
     When no move is defensible, the opening number is a structural figure (a MW, a sum of money) of the day's
-    highest-ranked story that states one, with its outlet. Returns {kind: "mover" | "story" | None, key, ...}."""
-    ok, last = [], []
+    highest-ranked story that states one, with its outlet. Returns {kind: "mover" | "story" | None, key, ...}.
+    Session 3441 (faults file row 146): a benchmark close the previous issue already printed (`shown`, previous_closes)
+    is no news since that issue and never opens this one, whatever its move."""
+    shown = shown or {}
+    ok, last, seen = [], [], []
     for c in cands:
         if c.get("pct") is None:
             continue
@@ -2075,6 +2100,10 @@ def opening_number(cands, stories, prev_key=None):
         # session 1440: a move no story names must be larger (UNNAMED_FACTOR), and an unnamed hub is the last resort
         bar = MATERIAL_PCT[kind] * (2 if again else 1) * (1 if named else UNNAMED_FACTOR)
         if abs(float(c["pct"])) < bar:
+            continue
+        if kind == "fuel" and c.get("label") in shown and c.get("d") is not None \
+                and pd.Timestamp(c["d"]).tz_localize(None) <= shown[c["label"]]:
+            seen.append(c)   # kept, so the opening says why it does not lead (row 79's rule: never deny a printed move)
             continue
         consequence = (2 if named else 0) + (1 if kind == "fuel" else 0)
         entry = ((-consequence, -(0 if again else 1), -1, -abs(float(c["pct"])), c["label"]), c)
@@ -2091,11 +2120,22 @@ def opening_number(cands, stories, prev_key=None):
             # session 1974 (faults file row 79): the unnamed hub's move the rule passed over is kept, so the opening says
             # what the rule did instead of "No price moved enough to lead" beside a 39.1% move in the numbers below
             return {"kind": "story", "key": f"story:{r['cluster_id']}", "rec": r, "figure": fig, "rank": rank,
-                    "passed": last[0][1] if last else None}
+                    "passed": last[0][1] if last else None, "seen": seen_move(seen)}
     if last:
         c = last[0][1]
         return {"kind": "mover", "key": str(c["key"]).replace(" ", "_"), "cand": c}
-    return {"kind": None, "key": ""}
+    return {"kind": None, "key": "", "seen": seen_move(seen)}
+
+
+def seen_move(seen):
+    """Session 3441 (faults file row 146): the largest benchmark move the rule passed over as printed by the last issue."""
+    return max(seen, key=lambda c: (abs(float(c["pct"])), c["label"])) if seen else None
+
+
+def seen_words(c):
+    """Session 3441 (faults file row 146): the clause naming a benchmark close the last issue already printed."""
+    word = "rise" if float(c.get("ch", c["pct"])) >= 0 else "fall"
+    return f"{c['label']}'s {word} on {pd.Timestamp(c['d']):%Y-%m-%d} (in the numbers below) was in the last issue"
 
 
 def mover_text(c, ref):
@@ -2119,10 +2159,12 @@ def outlet_of(r):
     return outlet_name(links[0][0]) if links else "its outlet"   # session 1978 (row 83): "JPT", not "JPT Homepage"
 
 
-def passed_words(c):
+def passed_words(c, seen=None):
     """Session 1974 (faults file row 79): the sentence after a story's figure in the opening. With no move past its bar,
     "No price moved enough to lead"; with a single hub's move that no story names (session 1440's last resort), that
     move is named, so the opening does not deny a move the numbers below print."""
+    if not c and seen:
+        return f"{seen_words(seen)}, so a reported figure leads; it is the outlet's, not a warehouse table's."
     if not c:
         return "No price moved enough to lead; this is a reported figure, not a warehouse table's."
     # session 3375 (faults file row 144): the move is named, its figure left to the numbers below, where it is keyed; the
@@ -2143,8 +2185,10 @@ def opening_lines(op, heads):
         r = op["rec"]
         L.append(f"**{op['figure']}**: {heads.get(r['cluster_id'], str((r.get('titles') or [''])[0])).rstrip('.')}, as "
                  f"{outlet_of(r)} reported on {pd.Timestamp(r['first']):%Y-%m-%d} (ranked {op['rank']} of the day's top ten). "
-                 + passed_words(op.get("passed")))
+                 + passed_words(op.get("passed"), op.get("seen")))
         return L + [""]
+    if op.get("seen"):
+        return L + [f"No price moved enough to lead: {seen_words(op['seen'])}. No story of the day states a figure.", ""]
     return L + ["No price moved enough to lead, and no story of the day states a figure.", ""]
 
 
@@ -2499,7 +2543,7 @@ def main(argv=None):
         recs = top10.to_dict("records")
         for r in recs:   # session 1983 (faults file row 88): the headline as the issue prints it, which the chart's line quotes
             r["head"] = heads.get(r["cluster_id"], "")
-        op = opening_number(facts.get("cands", []), recs, previous_opening(digest_date))
+        op = opening_number(facts.get("cands", []), recs, previous_opening(digest_date), previous_closes(digest_date))
         log(f"  opening number: {op['kind'] or 'none'} {op['key']}")
         newest = pd.to_datetime(s["event_date"], utc=True, format="ISO8601").max() if len(s) else None
         L = masthead_lines(digest_date, now, op, newest) + [
