@@ -183,7 +183,8 @@
      "quote": "(1) for a large scale wind energy conversion system, .12 cents per kilowatt-hour of electricity produced by the system; (2) for a medium scale wind energy conversion system, .036 cents per kilowatt-hour of electricity produced by the system; and (3) for a small scale wind energy conversion system of two megawatts or less, but greater than .25 megawatts capacity, .012 cents per kilowatt-hour of electricity produced by the system.",
      "quote2": "\"large scale wind energy conversion system\" means a wind energy conversion system of more than 12 megawatts, as measured by the nameplate capacity of the system",
      "arithmetic": ".12 cents per kWh is USD 1.20 per MWh; .036 cents is USD 0.36; .012 cents is USD 0.12",
-     "not_modeled": "The combination of systems within five miles built within 12 months under common ownership (subd. 2(b)); the exemption of systems owned by a political subdivision (subd. 3(b)); the wind and solar equipment's own exemption from the general property tax (section 272.02, not read by this chain)."
+     "not_modeled": "The combination of systems within five miles built within 12 months under common ownership (subd. 2(b)); the exemption of systems owned by a political subdivision (subd. 3(b)); the wind and solar equipment's own exemption from the general property tax (section 272.02, not read by this chain).",
+     "tip": "Minnesota: wind energy production tax, USD 1.20 per MWh above 12 MW, 0.36 for 2 to 12 MW, 0.12 for 0.25 to 2 MW (Statutes 272.029)."
     },
     {
      "id": "mn_solar_production",
@@ -199,7 +200,8 @@
      ],
      "cite": "mn_272_0295",
      "quote": "(a) For a solar energy generating system with a capacity exceeding one megawatt alternating current, the tax is $1.20 per megawatt-hour. (b) A solar energy generating system with a capacity of one megawatt alternating current or less is exempt from the tax imposed under this section.",
-     "not_modeled": "The combination of systems built within 12 months as a single development (subd. 2(b))."
+     "not_modeled": "The combination of systems built within 12 months as a single development (subd. 2(b)).",
+     "tip": "Minnesota: solar energy production tax, USD 1.20 per MWh above 1 MW AC (Statutes 272.0295)."
     }
    ]
   },
@@ -224,7 +226,8 @@
      "cite2": "sd_10_35_16",
      "quote2": "\"Nameplate capacity,\" the number of kilowatts a renewable facility can produce, as assigned to the power units in the renewable facility by the manufacturer and determined by the secretary; [...] \"Wind farm,\" all real or personal property used or constructed for the purpose of producing electricity for commercial purposes utilizing the wind as an energy source and with a nameplate capacity of at least five thousand kilowatts.",
      "arithmetic": "three dollars a kilowatt is USD 3,000 a MW; a wind farm or solar facility is at least 5,000 kW (5 MW)",
-     "not_modeled": "The proration of the first year (the tax begins the first calendar year the facility has gross receipts): the tool charges whole operating years."
+     "not_modeled": "The proration of the first year (the tax begins the first calendar year the facility has gross receipts): the tool charges whole operating years.",
+     "tip": "South Dakota: a wind farm or solar facility of 5 MW or more pays USD 3 per kW of nameplate capacity a year, in lieu of property tax (Codified Laws 10-35-17, -18)."
     },
     {
      "id": "sd_wind_production",
@@ -236,7 +239,8 @@
      "min_mw": 5,
      "cite": "sd_10_35_19_1",
      "quote": "Any company owning or holding under lease, or otherwise, real or personal property used, or intended for use, as a wind farm producing power for the first time after March 31, 2015, shall pay an annual tax of $.00045 per kilowatt hour of electricity produced by the wind farm.",
-     "arithmetic": "USD 0.00045 per kWh is USD 0.45 per MWh"
+     "arithmetic": "USD 0.00045 per kWh is USD 0.45 per MWh",
+     "tip": "South Dakota: and USD 0.00045 per kWh produced by wind (USD 0.45 per MWh) (Codified Laws 10-35-19.1)."
     },
     {
      "id": "sd_solar_production",
@@ -248,7 +252,8 @@
      "min_mw": 5,
      "cite": "sd_10_35_19_1",
      "quote": "Any company owning or holding under lease, or otherwise, real or personal property used, or intended for use, as a solar facility, shall pay an annual tax of $.00090 per kilowatt hour of electricity produced by the solar facility.",
-     "arithmetic": "USD 0.00090 per kWh is USD 0.90 per MWh"
+     "arithmetic": "USD 0.00090 per kWh is USD 0.90 per MWh",
+     "tip": "South Dakota: and USD 0.0009 per kWh produced by solar (USD 0.90 per MWh) (Codified Laws 10-35-19.1)."
     }
    ]
   },
@@ -266,7 +271,8 @@
      "cite": "ne_77_6203",
      "quote": "(1)(a) The owner of a renewable energy generation facility annually shall pay a nameplate capacity tax equal to the total nameplate capacity of the commissioned renewable energy generation facility multiplied by a tax rate of three thousand five hundred eighteen dollars per megawatt.",
      "exempt_owners": "(2) No tax shall be imposed on a renewable energy generation facility or energy storage resource: (a) Owned or operated by the federal government, the State of Nebraska, a public power district, a public power and irrigation district, an individual municipality, a registered group of municipalities, an electric membership association, or a cooperative",
-     "not_modeled": "Which technologies are a renewable energy generation facility is defined in section 77-6201, not read by this chain: the tool applies the rule to wind and solar and not to geothermal until it is read. Whether the tax replaces the property tax on the equipment is not stated in 77-6203 (not read elsewhere): the tool computes no other property tax in Nebraska. The proration of the first year."
+     "not_modeled": "Which technologies are a renewable energy generation facility is defined in section 77-6201, not read by this chain: the tool applies the rule to wind and solar and not to geothermal until it is read. Whether the tax replaces the property tax on the equipment is not stated in 77-6203 (not read elsewhere): the tool computes no other property tax in Nebraska. The proration of the first year.",
+     "tip": "Nebraska: nameplate capacity tax of USD 3,518 per MW a year on renewable generating facilities (Revised Statutes 77-6203)."
     }
    ]
   },
@@ -295,7 +301,8 @@
      "quote": "a. For the first assessment year, at zero percent of the net acquisition cost. b. For the second through sixth assessment years, at a percent of the net acquisition cost which rate increases by five percentage points each assessment year. c. For the seventh and succeeding assessment years, at thirty percent of the net acquisition cost.",
      "quote2": "A city council or county board of supervisors may provide by ordinance for the special valuation of wind energy conversion property as provided in subsection 2.",
      "optional": "The special valuation applies only where the county or city has enacted the ordinance, so the tool offers it as a choice (on by default only when the reader says so; see docs/methods/forecast.md, section 4).",
-     "not_modeled": "The local levy: no statewide figure is held, so the tax needs the reader's levy rate (dollars per 1,000 of taxable value). The excess cost adjustment in the net acquisition cost."
+     "not_modeled": "The local levy: no statewide figure is held, so the tax needs the reader's levy rate (dollars per 1,000 of taxable value). The excess cost adjustment in the net acquisition cost.",
+     "tip": "Iowa: where the county or city has adopted it by ordinance, wind property is valued at 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh (Code 427B.26)."
     }
    ]
   },
@@ -316,7 +323,8 @@
      "cite": "nd_57_33_2",
      "quote": "1. Wind generators, wind farms, and associated collector systems are subject to taxes consisting of the following two components: a. A tax of two dollars and fifty cents per kilowatt times the rated capacity of the wind generator.",
      "arithmetic": "USD 2.50 a kW is USD 2,500 a MW",
-     "not_modeled": "A company taxed under chapter 57-06 (a centrally assessed utility) is not a company of this chapter unless it elected to be one by 1 October 2013 to 2016 (57-33.2-01(3)); the tool applies the chapter to every owner."
+     "not_modeled": "A company taxed under chapter 57-06 (a centrally assessed utility) is not a company of this chapter unless it elected to be one by 1 October 2013 to 2016 (57-33.2-01(3)); the tool applies the chapter to every owner.",
+     "tip": "North Dakota: a wind generator pays USD 2.50 per kW of capacity a year, in lieu of property tax except on land (Century Code 57-33.2-04, -05)."
     },
     {
      "id": "nd_wind_production",
@@ -327,7 +335,8 @@
      "usd_per_mwh": 0.5,
      "cite": "nd_57_33_2",
      "quote": "b. A tax of one-half of one mill per kilowatt-hour of electricity generated by the wind generator during the taxable period.",
-     "arithmetic": "one-half of one mill (USD 0.0005) a kWh is USD 0.50 a MWh"
+     "arithmetic": "one-half of one mill (USD 0.0005) a kWh is USD 0.50 a MWh",
+     "tip": "North Dakota: and half a mill per kWh produced (USD 0.50 per MWh) (Century Code 57-33.2-04)."
     },
     {
      "id": "nd_other_capacity",
@@ -341,7 +350,8 @@
      "min_mw": 0.1,
      "cite": "nd_57_33_2",
      "quote": "2. Grid-connected generators that are part of a project with generation capacity of one hundred kilowatts or more not produced from coal or wind, or produced from coal and not subject to coal conversion taxes under chapter 57-60, are subject to taxes consisting of the following two components: a. Fifty cents per kilowatt times the rated capacity of the generation unit.",
-     "arithmetic": "USD 0.50 a kW is USD 500 a MW; a project of 100 kW (0.1 MW) or more"
+     "arithmetic": "USD 0.50 a kW is USD 500 a MW; a project of 100 kW (0.1 MW) or more",
+     "tip": "North Dakota: a generator of 100 kW or more from a source other than coal or wind pays 50 cents per kW of capacity a year, in lieu of property tax except on land (Century Code 57-33.2-04, -05)."
     },
     {
      "id": "nd_other_production",
@@ -356,7 +366,8 @@
      "cite": "nd_57_33_2",
      "quote": "b. One mill per kilowatt-hour of electricity generated by the production unit during the taxable period.",
      "arithmetic": "one mill (USD 0.001) a kWh is USD 1 a MWh",
-     "not_modeled": "Geothermal holds no capacity factor in the tool, so its production tax is not computed (the capacity tax is)."
+     "not_modeled": "Geothermal holds no capacity factor in the tool, so its production tax is not computed (the capacity tax is).",
+     "tip": "North Dakota: and one mill per kWh produced (USD 1 per MWh) (Century Code 57-33.2-04)."
     }
    ]
   },
@@ -374,7 +385,8 @@
      "years": 10,
      "cite": "ks_79_201",
      "quote": "Any exemption granted under the provisions of this subsection for such property when the applicant, after December 31, 2016, has filed such application or filed such application and received a conditional use permit, shall be in effect for the 10 taxable years immediately following the taxable year in which construction or installation of such property is completed. For purposes of this section, \"renewable energy resources or technologies\" shall include wind, solar, photovoltaic, biomass, hydropower, geothermal and landfill gas resources or technologies.",
-     "not_modeled": "The exemption is granted by the Board of Tax Appeals on application; the tool assumes it is granted. After the ten years the property is taxed like other property, and no rule for that is held: the reader's own rate fills those years. Payments in lieu agreed with a county during the exemption (Jayhawk's USD 2,000 per MW, section 9 of the note) are agreements, not the statute."
+     "not_modeled": "The exemption is granted by the Board of Tax Appeals on application; the tool assumes it is granted. After the ten years the property is taxed like other property, and no rule for that is held: the reader's own rate fills those years. Payments in lieu agreed with a county during the exemption (Jayhawk's USD 2,000 per MW, section 9 of the note) are agreements, not the statute.",
+     "tip": "Kansas: property generating electricity from wind, solar or geothermal is exempt for the 10 taxable years after construction (K.S.A. 79-201, Eleventh); no rule is held after them."
     }
    ]
   },
@@ -396,7 +408,8 @@
      "quote": "Sec. 1. (1)(a) The governing body of a county and the owner or person in possession or control of a solar project located within the county and outside the boundaries of any incorporated city may enter into an agreement that exempts from property taxes the property constituting the solar project and allows the payment of a fee in lieu of property taxes imposed on the property. (b) An agreement entered into under this section: (A) May not be for a term longer than 20 consecutive years; [...] (2) The fee in lieu of property taxes shall be computed at a rate not less than $5,500, and not more than $7,000, per megawatt of nameplate capacity of the solar project for each property tax year.",
      "quote2": "Sec. 3. (1) Section 1, chapter 571, Oregon Laws 2015, is repealed on January 2, 2028. (2) Notwithstanding subsection (1) of this section, property constituting a solar project that is exempt from property taxes under section 1, chapter 571, Oregon Laws 2015, on the date specified in subsection (1) of this section shall continue to be exempt and to pay the fee in lieu of property taxes for the term specified in the agreement",
      "default_why": "USD 7,000, the statute's maximum, which was its one fixed rate until the 2021 amendment set the range (a ruling)",
-     "not_modeled": "The agreement is the county's and the owner's: the tool offers it as a choice, off by default. The repeal of 2 January 2028: a project must be exempt under an agreement by then; the tool does not test the date. After the agreement's years no rule is held (no life total unless the reader types a rate). The land's treatment, which the agreement sets."
+     "not_modeled": "The agreement is the county's and the owner's: the tool offers it as a choice, off by default. The repeal of 2 January 2028: a project must be exempt under an agreement by then; the tool does not test the date. After the agreement's years no rule is held (no life total unless the reader types a rate). The land's treatment, which the agreement sets.",
+     "tip": "Oregon: a county and a solar project outside any city may agree to exempt it for up to 20 years for a fee of USD 5,500 to 7,000 per MW a year (Oregon Laws 2015, chapter 571, in the notes to ORS 307.175)."
     }
    ]
   },
@@ -415,7 +428,9 @@
      "cite": "wy_39_22",
      "quote": "39-22-103. Imposition. There is levied an excise tax upon the privilege of producing electricity from wind resources in this state. [...] The tax shall be imposed on each megawatt hour of electricity produced from wind resources at the point of interconnection with an electric transmission line. 39-22-104. Taxation rate. The tax rate shall be one dollar ($1.00) on each megawatt hour, or portion thereof, which is produced in this state.",
      "quote2": "39-22-105. (b) Electricity produced from a wind turbine shall not be subject to the tax imposed under this chapter until the date three (3) years after the turbine first produced electricity for sale.",
-     "not_modeled": "An excise on production, in addition to the property tax on the plant, which no rule here holds: the reader's own property tax rate, if typed, is added to it. MWh at the point of interconnection are taken as the plant's MWh. The three years are counted as the first three operating years."
+     "not_modeled": "An excise on production, in addition to the property tax on the plant, which no rule here holds: the reader's own property tax rate, if typed, is added to it. MWh at the point of interconnection are taken as the plant's MWh. The three years are counted as the first three operating years.",
+     "tip": "Wyoming: wind generation excise of USD 1 per MWh, owed from three years after first sale (W.S. 39-22-103 to -105), in addition to the property tax, which is not held.",
+     "own_tip": "The state's excise on production is held; the property tax on the plant is not: a rate typed here is the reader's own, added to the excise, applied to the capital cost as it falls."
     }
    ]
   },
@@ -436,7 +451,9 @@
      "quote": "196.182 Exemption of renewable energy source devices. (1) Eighty percent of the assessed value of a renewable energy source device, as defined in s. 193.624, that is considered tangible personal property is exempt from ad valorem taxation if the renewable energy source device: (a) Is installed on real property on or after January 1, 2018; [...] (4) This section expires December 31, 2037.",
      "cite2": "fl_193_624",
      "quote2": "the term \"renewable energy source device\" means any of the following equipment that collects, transmits, stores, or uses solar energy, wind energy, or energy derived from geothermal deposits or biogas [...]: (a) Solar energy collectors, photovoltaic modules, and inverters. [...] (i) Pipes, ducts, wiring, structural supports, refrigerant handling systems, and other components used as integral parts of such systems [...] (j) Windmills and wind turbines. (k) Wind-driven generators.",
-     "not_modeled": "No rate is in the statute: the exemption acts on the reader's own rate, applied to the remaining 20 percent of the base through 2037 and to all of it after (the section expires 31 December 2037). The tool applies the 80 percent to the whole capital cost; land and any other real property improvement are not exempt. The fiscally constrained counties' projects filed by 2017 (subsection 2) are not modeled."
+     "not_modeled": "No rate is in the statute: the exemption acts on the reader's own rate, applied to the remaining 20 percent of the base through 2037 and to all of it after (the section expires 31 December 2037). The tool applies the 80 percent to the whole capital cost; land and any other real property improvement are not exempt. The fiscally constrained counties' projects filed by 2017 (subsection 2) are not modeled.",
+     "tip": "Florida: 80 percent of a renewable energy source device's assessed value is exempt, for devices installed from 2018, until the section expires on 31 December 2037 (Statutes 196.182); no rate is in the statute.",
+     "own_tip": "Florida exempts 80 percent of a renewable energy device's assessed value through 2037 (Statutes 196.182): a rate typed here is the reader's own, applied to the remaining 20 percent of the capital cost until 2037 and to all of it after, as the value falls. Land and other real property are not exempt; the tool applies the 80 percent to the whole capital cost."
     }
    ]
   },
@@ -456,7 +473,9 @@
      "cite": "az_42_14155",
      "quote": "A. Through December 31, 2040, the department shall determine the full cash value of taxable renewable energy and storage equipment in the manner prescribed by this section. B. The full cash value of renewable energy and storage equipment is twenty percent of the depreciated cost of the equipment. Depreciated cost shall be determined by deducting depreciation from taxable original cost. Depreciation shall not exceed ninety percent of the adjusted original cost.",
      "quote2": "6. \"Taxable original cost\" means the original cost reduced by the value of any investment tax credits, production tax credits or cash grants in lieu of investment tax credits applicable to the taxable renewable energy and storage equipment.",
-     "not_modeled": "No rate is in the section (the assessment ratio and the local rates are elsewhere): it acts on the reader's own rate, applied to 20 percent of the capital cost as it falls, through 2040, and to the whole after. Not modeled: the depreciation cap of 90 percent (the reader's straight line goes to 0), the department's useful lives, and the taxable original cost's reduction by federal tax credits, which the tool does not hold (the base is the capital cost before any credit)."
+     "not_modeled": "No rate is in the section (the assessment ratio and the local rates are elsewhere): it acts on the reader's own rate, applied to 20 percent of the capital cost as it falls, through 2040, and to the whole after. Not modeled: the depreciation cap of 90 percent (the reader's straight line goes to 0), the department's useful lives, and the taxable original cost's reduction by federal tax credits, which the tool does not hold (the base is the capital cost before any credit).",
+     "tip": "Arizona: renewable energy equipment is valued at 20 percent of its depreciated cost through 2040 (Revised Statutes 42-14155); no rate is in the statute.",
+     "own_tip": "Arizona values renewable energy equipment at 20 percent of its depreciated cost through 2040 (Revised Statutes 42-14155): a rate typed here is the reader's own, applied to 20 percent of the capital cost until 2040 and to all of it after, as the value falls. The statute's 90 percent cap on depreciation and its deduction of federal tax credits from the cost are not modeled."
     }
    ]
   },
@@ -472,7 +491,9 @@
      "exempt_share": 0.8,
      "cite": "nc_105_275",
      "quote": "The following classes of property are designated special classes under Article V, Sec. 2(2), of the North Carolina Constitution and are excluded from tax: [...] (45) Eighty percent (80%) of the appraised value of a solar energy electric system. For purposes of this subdivision, the term \"solar energy electric system\" means all equipment used directly and exclusively for the conversion of solar energy to electricity.",
-     "not_modeled": "No rate is in the section and it has no end date: it acts on the reader's own rate, applied to 20 percent of the capital cost in every year. The tool applies the 80 percent to the whole capital cost; equipment not used directly and exclusively for the conversion, and the land, are taxed in full, which the tool does not separate."
+     "not_modeled": "No rate is in the section and it has no end date: it acts on the reader's own rate, applied to 20 percent of the capital cost in every year. The tool applies the 80 percent to the whole capital cost; equipment not used directly and exclusively for the conversion, and the land, are taxed in full, which the tool does not separate.",
+     "tip": "North Carolina: 80 percent of a solar energy electric system's appraised value is excluded from tax (General Statutes 105-275(45)); no rate is in the statute.",
+     "own_tip": "North Carolina excludes 80 percent of the appraised value of a solar energy electric system from tax (General Statutes 105-275(45)), with no end date: a rate typed here is the reader's own, applied to 20 percent of the capital cost as the value falls. Equipment not used directly for the conversion, and the land, are taxed in full; the tool applies the 80 percent to the whole capital cost."
     }
    ]
   },
@@ -498,7 +519,8 @@
      "cite3": "mi_211_1152",
      "quote3": "(f) \"Qualified solar energy facility\" or \"qualified facility\" means a facility, whether owned or leased, that when constructed and placed in service is located in a solar energy district and that uses or will use solar energy as the sole source for the generation of at least 2 megawatts of nameplate capacity, alternating current [...]",
      "default_why": "USD 7,000 per MW AC, the statute's rate; USD 2,000 on state land, in an opportunity zone, on a brownfield or attached to an improvement. Only those two rates are statutory: a rate between them is held, not refused.",
-     "not_modeled": "The district must be established and the certificate approved by the city, village or township (sections 3 to 6): off by default. The 20 years run from the certificate's effective date, which the tool takes as the first operating year; the tax on construction in progress (half the rate) and before construction (none) is not charged, as the tool charges property tax only in operating years. The land stays under the general property tax, not modeled."
+     "not_modeled": "The district must be established and the certificate approved by the city, village or township (sections 3 to 6): off by default. The 20 years run from the certificate's effective date, which the tool takes as the first operating year; the tax on construction in progress (half the rate) and before construction (none) is not charged, as the tool charges property tax only in operating years. The land stays under the general property tax, not modeled.",
+     "tip": "Michigan: in a solar energy district established by a city, village or township, a facility of 2 MW AC or more is exempt from property tax for 20 years and pays USD 7,000 per MW AC a year (USD 2,000 on some sites) (MCL 211.1157, 211.1159)."
     }
    ]
   },
@@ -516,7 +538,9 @@
      "min_mw": 0.05,
      "cite": "vt_32_8701",
      "quote": "(b)(1) There is assessed on any renewable energy plant in Vermont commissioned to generate solar power an annual tax of $4.00 per kW of plant capacity. [...] (3) [...] The Department of Taxes shall deposit the taxes collected under this section into the Education Fund. (c) A renewable energy plant that generates electricity from solar power shall be exempt from taxation under this section if it has a plant capacity of less than 50kW. (d) The existence of a renewable energy plant or energy storage facility subject to tax under subsection (b) of this section shall not: (1) alter the exempt status of any underlying property under section 3802 or subdivision 5401(10)(F) of this title; or (2) alter the taxation of the underlying property under chapters 121-135 of this title.",
-     "not_modeled": "A state tax paid to the Education Fund; the plant's municipal property tax is not held: a rate typed by the reader is added. \"Plant capacity\" is defined in 30 V.S.A. 8002, not read: the tool applies USD 4 per kW to the reader's MW (AC). Whether the plant also pays the education property tax (chapters 121 to 135) is not read here."
+     "not_modeled": "A state tax paid to the Education Fund; the plant's municipal property tax is not held: a rate typed by the reader is added. \"Plant capacity\" is defined in 30 V.S.A. 8002, not read: the tool applies USD 4 per kW to the reader's MW (AC). Whether the plant also pays the education property tax (chapters 121 to 135) is not read here.",
+     "tip": "Vermont: a solar plant of 50 kW or more pays USD 4 per kW of plant capacity a year to the Education Fund (32 V.S.A. 8701); the town's property tax on it is not held.",
+     "own_tip": "Vermont's uniform capacity tax, USD 4 per kW a year to the Education Fund (32 V.S.A. 8701), is held; the town's property tax on the plant is not: a rate typed here is the reader's own, added to the capacity tax, applied to the capital cost as it falls."
     }
    ]
   },
@@ -537,7 +561,8 @@
      "quote": "79.04(6)(b) Subject to pars. (c) and (d), each municipality entitled to a payment under par. (a) and each county in which such a municipality is located shall receive a payment equal to a portion of an amount that is equal to the number of megawatts that represents the production plant's name-plate capacity, multiplied by $2,000. [...] 79.04(7)(c)1. [...] if a production plant, as described in sub. (6) (a), that derives energy from an alternative energy resource is built after December 31, 2003, and has a name-plate capacity of at least one megawatt, each municipality and county in which such a production plant is located shall receive annually from the public utility account a payment in an amount that is equal to the number of megawatts that represents the production plant's name-plate capacity, multiplied by $1,000. Beginning with payments in 2024, the multiplier is $1,500.",
      "cite2": "wi_70_112",
      "quote2": "70.112(4)(a) All special property assessed under ss. 76.01 to 76.26 and property of any light, heat, and power company taxed under s. 76.28, car line company, and electric cooperative association that is used and useful in the operation of the business of such company or association.",
-     "not_modeled": "Payments by the state from its public utility account to the plant's municipality and county, USD 2,000 per MW shared (two thirds to a city or village and one third to its county, or one third to a town and two thirds to its county) plus USD 1,500 per MW to each: USD 5,000 per MW in all, in place of the property tax the plant does not pay. Not modeled: the caps on the shared part at USD 300 a resident of the municipality and USD 100 a resident of the county (79.04(6)(d)); the extra USD 900 per MW each for a plant on the site of an existing plant or a brownfield (7)(a); whether a given owner is taxed under s. 76.28 (79.04(6)(a)'s list of owners). A gas plant receives the shared USD 2,000 per MW and, as a baseload plant of 50 MW or more, USD 600 each (7)(b); \"baseload\" is not read, so no gas rule is held."
+     "not_modeled": "Payments by the state from its public utility account to the plant's municipality and county, USD 2,000 per MW shared (two thirds to a city or village and one third to its county, or one third to a town and two thirds to its county) plus USD 1,500 per MW to each: USD 5,000 per MW in all, in place of the property tax the plant does not pay. Not modeled: the caps on the shared part at USD 300 a resident of the municipality and USD 100 a resident of the county (79.04(6)(d)); the extra USD 900 per MW each for a plant on the site of an existing plant or a brownfield (7)(a); whether a given owner is taxed under s. 76.28 (79.04(6)(a)'s list of owners). A gas plant receives the shared USD 2,000 per MW and, as a baseload plant of 50 MW or more, USD 600 each (7)(b); \"baseload\" is not read, so no gas rule is held.",
+     "tip": "Wisconsin: the plant, taxed under s. 76.28, is exempt from local property tax (70.112(4)(a)); the state pays its municipality and county USD 5,000 per MW a year in its place (79.04(6), (7)(c)1)."
     }
    ]
   },
@@ -558,7 +583,9 @@
      "cite": "nv_701a",
      "quote": "NRS 701A.370 1. If the Director approves an application for a partial abatement pursuant to NRS 701A.300 to 701A.390, inclusive, of: (a) Property taxes imposed pursuant to chapter 361 of NRS, the partial abatement must: (1) Be for a duration of the 20 fiscal years immediately following the date of approval of the application; (2) Be equal to 55 percent of the taxes on real and personal property payable by the facility each year; and (3) Not apply during any period in which the facility is receiving another abatement or exemption from property taxes imposed pursuant to chapter 361 of NRS, other than any partial abatement provided pursuant to NRS 361.4722.",
      "quote2": "NRS 701A.365 (the version effective through June 30, 2032) 2. [...] If the board of county commissioners does not approve or deny the application within 30 days after the board receives from the Director a copy of the application, the application shall be deemed approved.",
-     "not_modeled": "The abatement needs the Director's approval (jobs on the construction, a capital investment of USD 3 or 10 million, wages of 110 and 175 percent of the state's average, NRS 701A.365) and the county may deny it within 30 days: off by default. No rate is in the statute: the abatement acts on the reader's own rate. The 20 fiscal years run from the approval, taken as the first construction year. The partial abatement of local sales and use taxes above 0.6 percent for 3 years (701A.370(1)(b)) is not modeled."
+     "not_modeled": "The abatement needs the Director's approval (jobs on the construction, a capital investment of USD 3 or 10 million, wages of 110 and 175 percent of the state's average, NRS 701A.365) and the county may deny it within 30 days: off by default. No rate is in the statute: the abatement acts on the reader's own rate. The 20 fiscal years run from the approval, taken as the first construction year. The partial abatement of local sales and use taxes above 0.6 percent for 3 years (701A.370(1)(b)) is not modeled.",
+     "tip": "Nevada: where the Office of Energy approves it, 55 percent of the property tax is abated for the 20 fiscal years after approval (NRS 701A.370).",
+     "own_tip": "Nevada's partial abatement (NRS 701A.370), where approved (the local option above), takes 55 percent off the tax for the 20 fiscal years after approval, counted here from the first construction year: a rate typed here is the reader's own, applied to the capital cost as it falls, 45 percent of it charged in those years."
     }
    ]
   },
@@ -577,7 +604,9 @@
      "exempt_share": 0.5,
      "cite": "md_tp_7_237",
      "quote": "(a) Except as provided in subsection (b) of this section, personal property is exempt from property tax if the property is machinery or equipment used to generate: (1) electricity or steam for sale; [...] (b) Subject to § 7-514 of this title, and except as provided in subsection (c) of this section, personal property that is machinery or equipment described in subsection (a) of this section is subject to county or municipal corporation property tax on: (1) 75% of its value for the taxable year beginning July 1, 2000; and (2) 50% of its value for the taxable year beginning July 1, 2001 and each subsequent taxable year.",
-     "not_modeled": "No rate is in the section: the county's or municipality's rate is the reader's own, applied to 50 percent of the capital cost as it falls. The section reaches machinery and equipment (personal property), not land or buildings, which the tool does not separate. Section 7-514, to which subsection (b) is subject, is not read. The exemption of small community solar systems (subsection (c), 5 MW AC or less with conditions) is not modeled."
+     "not_modeled": "No rate is in the section: the county's or municipality's rate is the reader's own, applied to 50 percent of the capital cost as it falls. The section reaches machinery and equipment (personal property), not land or buildings, which the tool does not separate. Section 7-514, to which subsection (b) is subject, is not read. The exemption of small community solar systems (subsection (c), 5 MW AC or less with conditions) is not modeled.",
+     "tip": "Maryland: generating machinery and equipment is exempt from the state's property tax; counties and municipalities tax 50 percent of its value (Tax-Property 7-237).",
+     "own_tip": "Maryland exempts generating machinery and equipment from the state's property tax and lets counties and municipalities tax 50 percent of its value (Tax-Property 7-237): a rate typed here is the reader's own, applied to half the capital cost as it falls. Land and buildings are taxed in full; the tool applies the 50 percent to the whole capital cost."
     }
    ]
   },
@@ -608,7 +637,9 @@
      "cite": "va_58_1_3660",
      "quote": "C. For solar photovoltaic (electric energy) systems, this exemption applies only to [...] (v) 80 percent of the assessed value of all other projects equaling more than five megawatts and less than 150 megawatts, as measured in alternating current (AC) generation capacity for which an initial interconnection request form has been filed with an electric utility or a regional transmission organization on or after January 1, 2019. [...] F. Notwithstanding any provision to the contrary, for any solar photovoltaic project described in clauses (iii) and (v) of subsection C for which an initial interconnection request form has been filed with an electric utility or a regional transmission organization on or after January 1, 2019, the amount of the exemption shall be as follows: 80 percent of the assessed value in the first five years in service after commencement of commercial operation, 70 percent of the assessed value in the second five years in service, and 60 percent of the assessed value for all remaining years in service.",
      "quote2": "D. The exemption for solar photovoltaic (electric energy) projects greater than five megawatts, as measured in alternating current (AC) generation capacity, shall not apply to any such project unless an application has been filed with the locality for the project before July 1, 2030, regardless of whether a locality assesses a revenue share on such project pursuant to the provisions of § 58.1-2636. If a locality adopts an energy revenue share ordinance under § 58.1-2636, the exemption for solar photovoltaic (electric energy) projects greater than five megawatts [...] shall be 100 percent of the assessed value. If a locality does not adopt an energy revenue share ordinance under § 58.1-2636, the exemption [...] shall be 80 percent of the assessed value when an application has been filed with the locality prior to July 1, 2030.",
-     "not_modeled": "No rate is in the section: the locality's rate is the reader's own, applied to the taxed share of the capital cost as it falls. Held for a locality without a revenue share ordinance, with subsection F's steps (80, 70, 60 percent) as F applies \"notwithstanding any provision to the contrary\"; subsection D's flat 80 percent for such a locality is read as the first step (a ruling). Where the locality has adopted a revenue share (58.1-2636), the exemption is 100 percent and the revenue share, not held, is owed instead. A project of 150 MW AC or more has no exemption here; a project of 5 MW or less has the whole exemption of clause (iv), not modeled. The application to the locality must be filed before 1 July 2030."
+     "not_modeled": "No rate is in the section: the locality's rate is the reader's own, applied to the taxed share of the capital cost as it falls. Held for a locality without a revenue share ordinance, with subsection F's steps (80, 70, 60 percent) as F applies \"notwithstanding any provision to the contrary\"; subsection D's flat 80 percent for such a locality is read as the first step (a ruling). Where the locality has adopted a revenue share (58.1-2636), the exemption is 100 percent and the revenue share, not held, is owed instead. A project of 150 MW AC or more has no exemption here; a project of 5 MW or less has the whole exemption of clause (iv), not modeled. The application to the locality must be filed before 1 July 2030.",
+     "tip": "Virginia: a solar project of more than 5 and less than 150 MW AC is exempt from 80 percent of its assessed value in its first five years in service, 70 in the next five and 60 after, where the locality has no revenue share ordinance (Code 58.1-3660).",
+     "own_tip": "Virginia exempts a solar project of more than 5 and less than 150 MW AC from 80 percent of its assessed value in its first five years in service, 70 percent in the next five and 60 percent after (Code 58.1-3660), where the locality has no revenue share ordinance: a rate typed here is the reader's own, applied to the taxed share of the capital cost as it falls. Where the locality has a revenue share, the exemption is whole and the revenue share is owed instead; it is not held."
     }
    ]
   }

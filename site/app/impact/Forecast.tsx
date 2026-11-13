@@ -56,7 +56,7 @@ function Body({ P, jedi, rules, planned }: { P: Params; jedi: Packed; rules: Rul
     <div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)]" data-forecast="1">
       <aside><Panel P={P} s={s} update={update} planned={planned} /></aside>
       <div className="min-w-0 space-y-8">
-        <Compare x={x} r={r} names={{ a: projectOf(planned, s.a, x.a), b: projectOf(planned, s.b, x.b) }} />
+        <Compare x={x} r={r} P={P} names={{ a: projectOf(planned, s.a, x.a), b: projectOf(planned, s.b, x.b) }} />
         <Years x={x[s.view]} r={r[s.view]} view={s.view} />
         <OtherStates P={P} jedi={jedi} x={x[s.view]} v={s[s.view]} view={s.view} sev={sev} />
         <Downloads P={P} x={x} r={r} jedi={jedi} />
@@ -199,7 +199,7 @@ function NumberInput({ f, value, onValue }: { f: FieldDef; value: number | null;
 }
 
 // ---- A and B side by side ------------------------------------------------------------------------------------------
-type Line = { key: string; label: string; tip: string; figure: string; fmt: (v: number) => string; why?: (r: Result, x: Inputs) => string | null };
+type Line = { key: string; label: string; tip: string; tipFor?: (x: Record<View, Inputs>, P: Params) => string; figure: string; fmt: (v: number) => string; why?: (r: Result, x: Inputs) => string | null };
 const LINES: Line[] = [
   { key: "cjobs", label: "Construction jobs", tip: "Job-years over the build (one is a full-time job for a year): on site, in the state's supply chain and induced by the wages' spending. JEDI's per-MW construction figures, scaled by the spending.", figure: "c:jobs:total", fmt: jobs },
   { key: "ojobs", label: "Operating jobs, each year", tip: "Full-time jobs in each year the plant runs, all three effects. JEDI's per-MW operating figures; for solar, JEDI's 2010 operating costs give an upper reading.", figure: "o:jobs:total", fmt: jobs },
@@ -207,7 +207,11 @@ const LINES: Line[] = [
   { key: "oearn", label: "Operating earnings, each year", tip: "Wages, salaries and benefits of the operating jobs each year, in 2025 dollars.", figure: "o:earnings:total", fmt: usd },
   { key: "cout", label: "Construction output", tip: "The value of all the goods and services produced in the state because of the build: JEDI's widest measure, in 2025 dollars.", figure: "c:output:total", fmt: usd },
   { key: "oout", label: "Operating output, each year", tip: "The same measure for each year the plant runs.", figure: "o:output:total", fmt: usd },
-  { key: "prop1", label: "Property tax, first operating year", tip: "From the state's statute where one is held (Minnesota, South Dakota, North Dakota, Nebraska, Iowa; Kansas exempts the first ten years and holds no rule after; Oregon solar by county agreement and Michigan solar by a township's or city's district; Wisconsin's payments of USD 5,000 per MW a year from the state to the plant's municipality and county in place of its property tax; Wyoming's wind generation excise of USD 1 a MWh from the fourth year and Vermont's solar capacity tax of USD 4 a kW, to which the reader's own property tax rate is added; Florida's 80 percent exemption of renewable devices through 2037, Arizona's 20 percent valuation through 2040 North Carolina's 80 percent solar exclusion Maryland's tax on 50 percent of generating equipment and Virginia's solar exemption of 80, 70 and 60 percent by years in service, on the reader's own rate; Nevada's 55 percent abatement for 20 years where approved, on the reader's own rate), or the reader's own rate. Land is not included.", figure: "y1:property", fmt: usd,
+  { key: "prop1", label: "Property tax, first operating year", tip: "From the state's statute where one is held, else the reader's own rate where typed; land is not included.",
+    tipFor: (x, P) => (["a", "b"] as View[]).map((p) => {
+      const rules = (P.property.states[x[p].state]?.rules ?? []).filter((r) => r.technologies.includes(x[p].tech) && r.tip);
+      return `${p.toUpperCase()}, ${stateName(x[p].state)}: ${rules.length ? rules.map((r) => r.tip).join(" ") : "no statute is held for this technology; the reader's own rate, where typed."}`;
+    }).join(" "), figure: "y1:property", fmt: usd,
     why: (r) => (r.property.held ? null : r.property.note) },
   { key: "propl", label: "Property tax over the life", tip: "Every operating year added, in 2025 dollars.", figure: "sum:property", fmt: usd, why: (r) => (r.property.held ? null : r.property.note) },
   { key: "sales", label: "Sales and use tax", tip: "On the taxable share of the construction spending at the state and average local rate, spread over the build.", figure: "sum:sales", fmt: usd,
@@ -223,7 +227,7 @@ function scenarioWords(x: Inputs): string {
   return `${TECHS.find((t) => t.key === x.tech)?.label}, ${stateName(x.state)}, ${plain(x.mw, 1)} MW`;
 }
 
-function Compare({ x, r, names }: { x: Record<View, Inputs>; r: Record<View, Result>; names: Record<View, Planned | null> }) {
+function Compare({ x, r, names, P }: { x: Record<View, Inputs>; r: Record<View, Result>; names: Record<View, Planned | null>; P: Params }) {
   const views: View[] = ["a", "b"];
   return (
     <section data-compare="1">
@@ -247,7 +251,7 @@ function Compare({ x, r, names }: { x: Record<View, Inputs>; r: Record<View, Res
           <tbody className="block sm:table-row-group">
             {LINES.map((l) => (
               <tr key={l.key} className="grid grid-cols-2 border-b border-rule align-top sm:table-row" data-row={l.key}>
-                <th scope="row" className="col-span-2 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{l.tip}</Tip></th>
+                <th scope="row" className="col-span-2 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{l.tipFor ? `${l.tip} ${l.tipFor(x, P)}` : l.tip}</Tip></th>
                 {views.map((p) => {
                   const res = r[p];
                   const cls = "px-3 py-1.5 text-right sm:table-cell";

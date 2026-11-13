@@ -448,3 +448,10 @@ test("a state's own assessment (valuation without the option): applies without t
   assert.equal(F.defaults(P, "land_based_wind", "ia").levy, null, "Iowa: no statewide levy held");
   assert.equal(F.propertyTax(P, { ...F.defaults(P, "land_based_wind", "ia"), levy: 30 }, 3).tax, null, "Iowa still needs its ordinance");
 });
+
+test("fault 22: every property rule carries its hover words with a citation, and the own rate's words where it acts on one", () => {
+  for (const [s, v] of Object.entries(P.property.states)) for (const r of v.rules) {
+    assert.ok(r.tip && /\(.*\d.*\)/.test(r.tip), `${s} ${r.id}: a tip with its citation in brackets`);
+    if (r.kind === "own_exempt" || r.adds_to_property) assert.ok(r.own_tip, `${s} ${r.id}: the own rate's words`);
+  }
+});

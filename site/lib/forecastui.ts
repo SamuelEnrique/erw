@@ -110,25 +110,13 @@ export const FIELDS: FieldDef[] = [
   { key: "own", label: "Property tax, effective rate", unit: "% of cost", min: 0, max: 10, whole: false, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     // fault 16: where a statute is held but leaves years or the choice open (Iowa's valuation, Kansas's exemption, Oregon's
     // agreement), the rate covers those years, not "no statute"
-    source: (t, s, P) => ((P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt") && s === "va"
-      ? "Virginia exempts a solar project of more than 5 and less than 150 MW AC from 80 percent of its assessed value in its first five years in service, 70 percent in the next five and 60 percent after (Code 58.1-3660), where the locality has no revenue share ordinance: a rate typed here is the reader's own, applied to the taxed share of the capital cost as it falls. Where the locality has a revenue share, the exemption is whole and the revenue share is owed instead; it is not held."
-      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt") && s === "md"
-      ? "Maryland exempts generating machinery and equipment from the state's property tax and lets counties and municipalities tax 50 percent of its value (Tax-Property 7-237): a rate typed here is the reader's own, applied to half the capital cost as it falls. Land and buildings are taxed in full; the tool applies the 50 percent to the whole capital cost."
-      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt") && s === "nv"
-      ? "Nevada's partial abatement (NRS 701A.370), where approved (the local option above), takes 55 percent off the tax for the 20 fiscal years after approval, counted here from the first construction year: a rate typed here is the reader's own, applied to the capital cost as it falls, 45 percent of it charged in those years."
-      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt") && s === "nc"
-      ? "North Carolina excludes 80 percent of the appraised value of a solar energy electric system from tax (General Statutes 105-275(45)), with no end date: a rate typed here is the reader's own, applied to 20 percent of the capital cost as the value falls. Equipment not used directly for the conversion, and the land, are taxed in full; the tool applies the 80 percent to the whole capital cost."
-      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt") && s === "az"
-      ? "Arizona values renewable energy equipment at 20 percent of its depreciated cost through 2040 (Revised Statutes 42-14155): a rate typed here is the reader's own, applied to 20 percent of the capital cost until 2040 and to all of it after, as the value falls. The statute's 90 percent cap on depreciation and its deduction of federal tax credits from the cost are not modeled."
-      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt")
-      ? "Florida exempts 80 percent of a renewable energy device's assessed value through 2037 (Statutes 196.182): a rate typed here is the reader's own, applied to the remaining 20 percent of the capital cost until 2037 and to all of it after, as the value falls. Land and other real property are not exempt; the tool applies the 80 percent to the whole capital cost."
-      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.adds_to_property) && s === "vt"
-      ? "Vermont's uniform capacity tax, USD 4 per kW a year to the Education Fund (32 V.S.A. 8701), is held; the town's property tax on the plant is not: a rate typed here is the reader's own, added to the capacity tax, applied to the capital cost as it falls."
-      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.adds_to_property)
-      ? "The state's excise on production is held; the property tax on the plant is not: a rate typed here is the reader's own, added to the excise, applied to the capital cost as it falls."
-      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t))
-      ? "The state's statute leaves some years or cases open (without the local option, or after an exemption or an agreement ends): a rate typed here is the reader's own for those years, applied to the capital cost as it falls."
-      : "No statute is held for this state and technology: a rate typed here is the reader's own, applied to the capital cost as it falls.") },
+    // session 4293: the words come from the rule (its own_tip), so every state's reads the same way
+    source: (t, s, P) => {
+      const rules = (P.property.states[s]?.rules ?? []).filter((r) => r.technologies.includes(t));
+      return rules.find((r) => r.own_tip)?.own_tip
+        ?? (rules.length ? "The state's statute leaves some years or cases open (without the local option, or after an exemption or an agreement ends): a rate typed here is the reader's own for those years, applied to the capital cost as it falls."
+          : "No statute is held for this state and technology: a rate typed here is the reader's own, applied to the capital cost as it falls.");
+    } },
   { key: "ownyears", label: "Taxable value falls to 0 over", unit: "years", min: 1, max: 60, whole: true, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     source: () => "The reader's own: the years over which the taxable value falls in a straight line." },
   { key: "cf", label: "Capacity factor", unit: "ratio", min: 0.01, max: 1, whole: false, group: "output",

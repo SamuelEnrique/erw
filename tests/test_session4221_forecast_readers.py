@@ -44,7 +44,9 @@ class Fault16(unittest.TestCase):
             ui = f.read()
         self.assertIn("The state's statute leaves some years or cases open", ui)
         own = ui[ui.index('{ key: "own",'):ui.index('{ key: "ownyears",')]
-        self.assertIn("(P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t))", own)
+        # session 4293: the rules of the state and technology are filtered once; "leaves some years open" where any is held
+        self.assertIn("(P.property.states[s]?.rules ?? []).filter((r) => r.technologies.includes(t))", own)
+        self.assertIn("rules.length ?", own)
 
 
 class Fault19(unittest.TestCase):
