@@ -382,7 +382,13 @@ function TopTwelve({ file, onOpen }: { file: BoardFile; onOpen: (id: string) => 
               value={<span data-n={`top|${r.id}|last`}>{fmt(r.last.v, r.unit)}</span>}
               time={<time dateTime={r.last.t} title={closeAge(r, file.built)?.words}>{dateWords(r.last.t, r.freq)}{closeAge(r, file.built)?.stale ? " (stale)" : ""}</time>}
               moves={(["d", "w"] as const).map((k) => {
-                const m = r.moves?.[k];
+                // session 1890 (trader path, 13 November, step 13): a stale tile's moves are blank, as its row's are
+                // (MoveCell, session 1608): the word "stale" with the age's words as its title, never a number as if current
+                const age = closeAge(r, file.built);
+                if (r.moves?.[k] && age?.stale) {
+                  return { label: k === "d" ? "Day" : "Week", dir: 0, title: `Not shown: the series is stale (${age.words}).`, text: <span data-top-stale={`${r.id}|${k}`}>stale</span> };
+                }
+                const m = shownMove(r, k, file.built);
                 return {
                   label: k === "d" ? "Day" : "Week", dir: m ? m.ch : 0,
                   title: m ? `against ${fmt(m.v, r.unit)} ${r.unit} on ${dateWords(m.t, r.freq)}` : "The value this move is measured from is not held.",
