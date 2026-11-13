@@ -2,7 +2,7 @@
 
 machine: lab-desktop-window3
 
-Written by session 4100 of chain 229 (`queue/done/229-day-13-november-desktop-window3-licenses.md`) on 13 November 2026, as that chain's rules ask; its session 4149 updates it with what chain 229 did not finish. It takes sessions 4150 to 4165 (at least fourteen); its first session checks each is free on origin's main and on every branch, skips a taken one upward and says so. Model: Opus 5.5, high effort. The third Claude Code window on lab-desktop.
+Written by session 4100 of chain 229 (`queue/done/229-day-13-november-desktop-window3-licenses.md`) on 13 November 2026, as that chain's rules ask; its session 4149 updated it with what chain 229 did not finish (13 November 2026, about 12:00 UTC). It takes sessions 4150 to 4165 (at least fourteen); its first session checks each is free on origin's main and on every branch, skips a taken one upward and says so. Model: Opus 5.5, high effort. The third Claude Code window on lab-desktop.
 
 ## Rules for every session
 
@@ -14,7 +14,23 @@ Long end 1:00. The next file first, committed alone and pushed. The precheck, `g
 
 ## Sessions 4151 to 4162: what chain 229 did not finish
 
-Long end 1:00 each. Filled by session 4149 from chain 229's note: the publishers not yet read, the letters not yet ready, the FRED request rows not yet written, the costs not yet found, the site and method notes' license lines not yet checked.
+Long end 1:00 each. Written by chain 229's session 4149 from its note (`docs/state/note_2026-11-13_desktop_window3.md`). Chain 229 did the sweep's work by its session 4115: 71 tables not settled became 26, 362 stale became 36, 37 publishers were confirmed on their current pages, the letters, the costs and the FRED requests were written, and two tests guard the result. In this order:
+
+- **4151: the landings.** Rows 1 and 2 of `docs/state/landing_request_desktop_w3.md` (`wip/4100-licenses`, `wip/4110-licenses`) and row 3 (`wip/4115-licenses`): which landed, and at what commit. The stack is merged with `origin/main` again, with these checks run: `licenses.py check`, `build_llms.py --check`, `build_tables.py --check`, `release_v1.py --check`, `check_spec.py`, and tests 4101, 4109, 205, 207, 275 and 378. A new table that window A wrote since then is registered in `license_tables.csv` (`licenses.py tables --headers` over the data machine's headers, read only), and its verdict is read or named unsettled.
+- **4152: the rulings.** Any rulings file newer than `docs/state/rulings_2026-11-06.md` is read, and each ruling on chain 229's list is applied on the stack: the held grids' 138 public files, the three findings cards, the policy monitor, `impact_tax_rules`, the 24 internal tables whose sentences allow public, the 26 unsettled, CFTC, the letters.
+- **4153 and 4154: the unsettled tables that still have a route.** Robots first, at most 25 requests a session:
+  - USACE's National Inventory of Dams on its own host (nid.sec.usace.army.mil: its robots file, then its disclaimer);
+  - Statnett's download centre's terms on statnett.no;
+  - PSE's reports API description (raporty.pse.pl);
+  - Statistics Greenland's conditions of use on stat.gl;
+  - the Danish Energy Agency's statistics workbook's own notice;
+  - USAspending's data licensing statement (GAO named one, added in August 2019).
+  - Each found sentence becomes a verdict, never loosening a flag.
+- **4155: window A's requests.** The rows of `docs/state/data_requests_licenses.md` that window A has done (the outlet-name dash, the three IMF codes, a BLS connector, the three refusing hosts). Each new table gets its verdict from its own publisher's page, robots first (www.bls.gov answered 403 to the ERW's reader). A done row is marked with its commit.
+- **4156 and 4157: the stale verdicts.** The 36 tables whose verdicts rest on an unreadable host (MISO paused; CFTC, Bloomberg, Data Center Dynamics, Hart Energy, Heatmap, Reuters, Meta, Equinix by robots; the FT's page 404). Any host whose robots file has changed is read again; nothing is asked of a host that still refuses.
+- **4158: the letters.** If Samuel has filled the brackets or sent a letter, its state goes into `/data/licenses` and `license_status.csv`'s permission columns only by his word. MISO's address is found only if MISO's pause is lifted.
+- **4159 and 4160: the costs.** Prices on pages not yet read are added to `docs/licenses_costs.md`, robots first: Natural Gas Intelligence's data feed, Dow Jones's licensing, and CME's fee list if its host answers.
+- **4161 and 4162: the public site test kept honest.** `tests/test_session4109_public_site.py` is run against `origin/main`'s newest site data (a new findings card, a new public file). A new card built from a table that is not public is fixed at its cause, or named for a ruling.
 
 ## Session 4163: the note
 
