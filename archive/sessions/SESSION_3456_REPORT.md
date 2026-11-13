@@ -82,3 +82,86 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Row 164 (new, fixed):** the stored 12 and 13 November issues both print "Long Mott Energy, LLC; Long Mott Generating Station; Construction Permit (NRC notice, policy action)". Policy actions are dated by day and read from the window's first whole day, so an action of the day the window opens is in two issues. An action whose link an issue of the last week printed is now left out.
 - Tests: `Row163AGasForwardsTitleIsGass` (1), `Row164APolicyActionIsPrintedOnce` (3). The 65 files: 1,247 passed, 20 skipped.
 - **Row 11:** moved to `86e19d969`.
+
+## Session 3464: every stored Digest on the stack, rows 165 to 167
+
+- The 17 stored Digests on main (25 September to 12 November), each as a dry run on the stack at its own window's end (`runs/s3464_batch.py`, outputs in `runs/periodicals_dryrun/s3464/`), scanned for the new rows' classes.
+- **Row 164's reach:** besides 12 to 13 November, the stored issues of 9, 14 and 23 October each repeat one policy action from the issue before.
+- **Row 165 (new, fixed):** the stack's subject of 14 October read "Taiwan Commits Up to to Alaska LNG Megaproject": the figure was taken out and its quantity words were left. The same removal left "of" after a capacity and a lower-case first letter after "A 500 MW deal ...", and never took out a percent ("with 30% of output", since `\b` cannot follow "%"). All four are fixed in `roundup.head_clause`.
+- **Row 166 (new, fixed):** "Morgan Stanley: Global Fuel Market Will Stay Tight Through Mid-2027 (power prices)". "fuel market" is now oil's under a power tag.
+- **Row 167 (new, fixed):** "nearly USD 1 billion; Parties: US Energy Department." opened an item's line in lower case. The figures line now opens with a capital.
+- Left as they are: "French Power Prices Exceed EUR 100 ..." and "Japan Power Price at Four-Year High ..." are power price stories rightly tagged. The charts of the batch are today's candidates, not those days', so they were not read.
+- Tests: three classes, 4 tests. The 65 files: 1,251 passed, 20 skipped. The method notes carry rows 165 to 167.
+- **Row 11:** moved to `fce6e0cfd`.
+
+## Session 3465: 21 October and 6 November on the stack, read whole; rows 168 to 170
+
+- **Row 168 (new, fixed):** the stack's ten of 21 October held one DOE announcement twice: "DOE Announces $967 Million in Grid Resilience Funding" and "Energy Department Announces New Investments to Strengthen America's Power Grid ...". Every word of "Department of Energy" and "US Energy Department" is generic, so the two named no party in common. An agency's long name now counts as its initials (DOE, EPA, FERC, NRC, EIA, IEA, DOI, BOEM), and the second folds under the first. Across all 17 stored issues this adds one other fold: 14 October's two DOE grid-reliability actions.
+- **Row 169 (new, fixed):** with no model, 6 November's first item read "Gigawatt-scale hyperscale power deal ..." for a 702 MW project. Row 44's check reads the headline's capacity, and the publisher's title states none. The cluster's own MW now counts too.
+- **Row 170 (new, fixed):** "Also in deal:" now reads "Also in deals:" (companies, PPAs likewise). The also line's two readers (the fold's count, the email) read lower case only, so row 127's "Also in LNG:" had slipped past both; they now read capitals.
+- **Seen, the owner's (rulings item 13):** a cluster with no region is of every region, so 6 November folds "Democratic landslide raises big questions for US energy policy" under the IEA's World Energy Outlook as one policy topic.
+- **Seen, a dry-run artifact:** a past day's dry run reads closes EIA published later, so "EIA's newest close ... (0 days before this issue)" appears on 21 October. A scheduled run cannot hold a close of its own day.
+- Tests: three classes, 6 tests. The 65 files (adding those naming `email_digest`): 1,256 passed, 20 skipped.
+- **Row 11:** moved to `abae3aea9`.
+
+## Session 3466: the stack merged with main; W45 on the stack
+
+- **Merged:** `origin/main` (at `d62c4a31e`, 61 commits) into `wip/3457-periodicals` as `1f45e5525`, with no conflict. Main had changed `site/lib/digest.ts` (sessions 4009 and 4010, the revision notes), away from row 152's parser. On the merge: the 65 test files, 1,256 passed; the 7 files naming `digest.ts` (two new to the list, `test_session165` and `test_session4010`), 238 passed; `test-digest-numbers.mjs`, 17 passed. Pushed.
+- **W45 as a dry run on the stack** (`runs/periodicals_dryrun/s3466/`): the differences from the stored issue are rows 59 to 165 and tables newer than the issue. Nothing new. The worktree held no `policy_reads.csv` (an ignored file), so its "Next week" was empty. `policy_reads` was restored from the archive (behind: 368 rows to 8 October here, 412 on Redivis) and copied in; the section then lists the stored issue's deadlines.
+- **Not a fault:** a past week's dry run reads policy reads written later, so W45's "Next week" lists "the permit was issued on November 9" from a notice of 12 November.
+- **No build:** MemFree about 2.1 GB, under 2.5.
+- **Row 11:** moved to `1f45e5525` (the merge).
+
+## Session 3467: the stack's issues as email, row 171
+
+- The stack's 13 November Digest and W46 dry runs rendered with `email_digest.render` (`runs/s3467_render.py`, nothing sent; `runs/periodicals_dryrun/s3467/`).
+- **Row 171 (new, fixed):** the plain-text email printed the chart's description, "[chart: Net generation from natural gas in Wyoming: ...] <address>", then the same sentence again on the next line. That is in 12 November's email as sent, and in every chart since session 232. The text part now gives "[chart] <address>" when the next line is the description; the HTML keeps it as alt text.
+- **By design, kept:** the text part names a Google News outlet without its address (session 803), and prints What moved's first three items (session 2703).
+- Tests: `Row171TheTextEmailNamesTheChartOnce` (2). The 66 files: 1,261 passed, 20 skipped.
+- **Row 11:** moved to `91cc7525c`.
+
+## Session 3468: every stored Roundup week on the stack
+
+- W39 to W44 as dry runs on the stack (`--no-model`, main's tables; `runs/periodicals_dryrun/s3468/`), with W45 (session 3466) and W46 (session 3462), scanned for rows 161, 162 and 165.
+- **Row 161 holds:** in all eight weeks the five's deal of the week is in the Deals table. The stored issues before W45 were written by the old code, which had no deal-of-the-week line.
+- **Row 162 holds:** the five's datacenter row now names the developer the table already showed. W44 reads "10,400 MW, SB Energy (developer), OH." where row 118's line said "52 MW, Vyoma, Chennai (2 larger loads ... name no operator or site)". W40, W42 and W43 name places with no country ("Pyhajoki", "Wagga Wagga", "Newport") because their rows hold none (the data machine's).
+- **Seen, kept:** W39's subject ends "TotalEnergies Announces Final Investment". The publisher's title is in Title Case (the issue with no model), so row 157's rule, which reads a lower-case word inside a phrase, has nothing to go back to. With the model, headlines are in sentence case.
+- No new row. "Also in LNG:" (W40) is now read by the email and the fold's count (row 170).
+
+## Session 3469: the email's readers, rows 170 (widened) and 172
+
+- **Row 170, widened:** on main, an item of What moved with an "Also in LNG:" or "Also in PPA:" line lost its why line and its source in the email; the also line printed in their place, since the email's reader read lower case only. Fixed by session 3465's change. The test `Row170TheEmailKeepsTheWhyBesideAnLNGAlsoLine` fails on main.
+- **Row 172 (new, fixed):** a subscriber who chose topics was sent no story from a v2 issue. `email_digest.items`, which the topic filter reads, looked only under the old headings ("## Top of the industry", "## By sector", "## The five stories of the week"), and found none of the 13 November issue's 30 items, so every topic got "No story in them made this brief". A sector in capitals ("LNG", "PPA", since row 127) was no sector either. Both headings and both cases are read now. On 13 November, nuclear finds Centrus and Oklo, Fermi's builder and the IAEA report; W46 yields 8 items.
+- Searched for any other reader of the sector label that reads lower case only: none (`scripts/periodicals_counts.py` reads any case).
+- Tests: `Row172TheTopicFilterReadsTheV2Issues` (4), failing on main. The 72 files (adding those naming `topics`): 1,378 passed, 20 skipped. The method notes carry rows 169 to 172.
+- **Row 11:** moved to `95189fdf8`.
+
+## Session 3470: the records and the note
+
+- The note: `docs/state/note_2026-11-13_oldlaptop_c252.md` (the name was free on main and every branch). It covers chain 251 too, which wrote none.
+- Row 11 of `docs/state/landing_request_oldlaptop.md` holds rows 151 to 172. The faults file and both method notes carry them.
+- `npm ci` ran in the worktree (session 3469) for a build, but MemFree fell to about 2.2 GB after it, under the 2.5 GB the rule asks. The build waits for the next session that finds the memory.
+
+## Decisions made without you
+
+- The next file is queue number 254, not 247. Chains 246 and 248 passed over 247 as taken, though no ref holds it now.
+- Chain 251's empty unfinished list was rebuilt from its report and branch, under chain 219's rule.
+- `scripts/sync.py --tables` restored eight tables to this machine (local working files, no data lock, as its header says), so the dry runs matched the stored issues. `policy_actions.csv` and `policy_reads.csv` were copied into the worktree (ignored files).
+- The stored issue was read from `wip/red-daily-2026-11-13`, its inputs taken from that commit. The worktree's tracked `energy_deals.csv` and `datacenter_projects.csv` were swapped in for one dry run, then checked out again.
+- Pinned tests that held a fault were changed with their row: `tests/fixtures/periodicals/why_lines.json`'s Dominion item (158), row 118's words in `test_periodicals_1973.py` (162), the call counts in `test_session577.py` and `test_session801.py` (169), and `RT_LINE` in `test_periodicals.py` (152).
+- No dry run with the model: the rows on model text were tested on the stored headlines and lines, at no spend.
+- Left as they are: the watch fact's unit given once (session 119's form, eight pages), the text email's three items and its Google News outlets with no address (by design), and W39's Title Case subject cut.
+
+## For Samuel's ruling
+
+- The 13 November Digest on `wip/red-daily-2026-11-13` (not on main; its email's links lead nowhere until it lands). Default: another machine lands it after fixing `test_session3703`, as on 12 November.
+- The chart record of 13 November, which describes a chart the issue says it did not show (row 151). Default: kept.
+- Subscribers with topics and v2 issues (row 172). Default: none known, nothing re-sent.
+- The US48 day as the UTC day. Default: kept.
+- EIA's Veterans Day closes, for the data machine to check.
+- Rows 39, 65 and 109, and rulings item 13, as before.
+
+## Session 3471: the next file, the queue
+
+- `queue/next/254-day-21-november-oldlaptop-periodicals-continued.md` now lists what this chain did not finish (`87a3bd16e`): the stack's build when memory allows, the stored W46 Roundup, the 13 November issue's landing and the first issue after it, and row 11's clean-up once it lands.
+- Then the queue step: `.venv\Scripts\python.exe scripts\chain_queue.py next`.

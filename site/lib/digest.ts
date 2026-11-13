@@ -112,8 +112,12 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
     const foot: Record<string, string> = {};
     // session 1450: the stories a block row reads ("[3] `news_stories`; story news:abc (mw); story news:def (price)")
     const stories: Record<string, string> = {};
+    // session 3457 (faults file row 152): since then the real-time line names no variable; the Tables line does
+    // ("; yesterday's highest real-time price is variable `spp_rtm`")
+    let rtVariable = "";
     for (let i = num.start; i < num.end; i++) {
       if (lines[i].startsWith("Tables: ")) {
+        rtVariable = /highest real-time price is variable `([a-z0-9_]+)`/.exec(lines[i])?.[1] ?? rtVariable;
         for (const m of lines[i].matchAll(/\[(\d+)\] `([a-z0-9_]+)`/g)) foot[m[1]] = m[2];
         for (const m of lines[i].matchAll(/story (news:[0-9a-f]+) \((mw|price)\)/g)) if (!stories[m[2]]) stories[m[2]] = m[1];
       }
@@ -145,7 +149,12 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
         }
         continue;
       }
-      const rt = /^\*\*Highest real-time price[^*]*:\*\* (-?[\d,]+\.\d{2}) USD\/MWh at (.+?) \(([A-Z-]+)\), interval starting .*?\((\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) UTC\), \S+ `([a-z0-9_]+)`(.*)$/.exec(l);
+      const rt0 = /^\*\*Highest real-time price[^*]*:\*\* (-?[\d,]+\.\d{2}) USD\/MWh at (.+?) \(([A-Z-]+)\), interval starting .*?\((\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) UTC\), \S+ `([a-z0-9_]+)`(.*)$/.exec(l);
+      // session 3457 (faults file row 152): "the 15-minute interval starting 2026-11-12 19:00 Central (2026-11-13 01:00
+      // UTC) [4], ERCOT's ..." (the UTC date only when it is not the local one; a grid with no zone in UTC alone), the
+      // variable from the Tables line; read as the old form's groups
+      const rt1 = rt0 || !rtVariable ? null : /^\*\*Highest real-time price[^*]*:\*\* (-?[\d,]+\.\d{2}) USD\/MWh at (.+?) \(([A-Z-]+)\), the [^,\[]*? starting (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) (?:[A-Z][a-z]+(?: [A-Z][a-z]+)? \((?:(\d{4}-\d{2}-\d{2}) )?(\d{2}:\d{2}) UTC\)|UTC)(.*)$/.exec(l);
+      const rt = rt0 ?? (rt1 ? [rt1[0], rt1[1], rt1[2], rt1[3], rt1[6] ?? rt1[4], rt1[7] ?? rt1[5], rtVariable, rt1[8]] : null);
       if (rt && GRID[rt[3]]) {
         const rest = rt[7];
         const marks = [...rest.matchAll(/\[(\d+)\]/g)];
@@ -292,22 +301,6 @@ export function digestMarkdown(md: string, date: string, chart: { table: string;
     }
     out[i] = s;
   }
-  // session 2207: the revision notes, one line a revised figure, at the end of the numbers section (before any splice
-  // of the sections above it moves the lines); the figure keeps its span and its key, and the note names the value held
-  const num = secs.find((s) => s.title === "The numbers") ?? secs.find((s) => isNumbers(s.title));   // session 2703: under the v2 block
-  const revised = figs.filter((f) => f.part !== "chart" && revisions[f.key] && !f.held);
-  if (num && revised.length) {
-    const notes = revised.map((f) => {
-      const r = revisions[f.key];
-      const who = f.part === "fuel" ? "EIA" : "The publisher";
-      const when = /\|(\d{4}-\d{2}-\d{2})(?:T|$)/.exec(f.key.slice(f.key.lastIndexOf("|")))?.[1] ?? "";
-      const what = f.label ?? `${currentTable(f.table)} ${f.entity}`;
-      const words = `${who} revised the ${what} ${f.part === "fuel" ? "close" : "price"}${when ? ` for ${day(when)}` : ""} after this issue was written: `
-        + `the warehouse now holds ${shownTwo(r.value)}${f.unit}; the issue printed ${f.text}${f.unit} and keeps it as its record.`;
-      return token(`<span data-revised="${esc(f.key)}" data-revised-value="${r.value}" data-revised-printed="${esc(f.raw)}" class="text-muted">${esc(words)}</span>`);
-    });
-    out.splice(num.end, 0, "", ...notes.flatMap((n, i) => (i ? ["", n] : [n])));
-  }
   if (licenseNeeded("news_index", now)) {
     for (const s of [...secs].reverse()) {
       if (!STORY_SECTIONS.includes(s.title)) continue;
@@ -327,6 +320,31 @@ export function digestMarkdown(md: string, date: string, chart: { table: string;
         + `the stories of this section come from the news index, whose outlets ask for permission; held since ${day(LICENSE_FROM)}.`;
       out.splice(s.start + 1, s.end - s.start - 1, "", line, ...kept, "");
     }
+  }
+  // session 4010: the revision notes go in after the news index's hold below. The hold rewrites the story sections by
+  // their first lines' places in the issue as written, and "What moved" begins where the notes went in, so its splice
+  // began on the notes and removed them (the issue of 12 November lost its revised US48 demand line on every build).
+  // The hold changes only lines after "The numbers", so num.end is still the notes' place once it has run.
+  // session 2207: the revision notes, one line a revised figure, at the end of the numbers section (before any splice
+  // of the sections above it moves the lines); the figure keeps its span and its key, and the note names the value held
+  const num = secs.find((s) => s.title === "The numbers") ?? secs.find((s) => isNumbers(s.title));   // session 2703: under the v2 block
+  // session 4010: one note a key (the US48 demand line is printed twice in an issue, under one key)
+  const revised = figs.filter((f, i, all) => f.part !== "chart" && revisions[f.key] && !f.held && all.findIndex((g) => g.key === f.key) === i);
+  if (num && revised.length) {
+    const notes = revised.map((f) => {
+      const r = revisions[f.key];
+      const who = f.part === "fuel" ? "EIA" : "The publisher";
+      const when = /\|(\d{4}-\d{2}-\d{2})(?:T|$)/.exec(f.key.slice(f.key.lastIndexOf("|")))?.[1] ?? "";
+      // session 4009: US48 demand's peak hour is a revised figure too, said in whole MW
+      const demand = f.part === "demand";
+      const what = demand ? "US48 demand" : f.label ?? `${currentTable(f.table)} ${f.entity}`;
+      const noun = f.part === "fuel" ? "close" : demand ? "peak hour" : "price";
+      const held = demand ? Math.round(r.value).toLocaleString("en-US") : shownTwo(r.value);
+      const words = `${who} revised the ${what} ${noun}${when ? ` for ${day(when)}` : ""} after this issue was written: `
+        + `the warehouse now holds ${held}${f.unit}; the issue printed ${f.text}${f.unit} and keeps it as its record.`;
+      return token(`<span data-revised="${esc(f.key)}" data-revised-value="${r.value}" data-revised-printed="${esc(f.raw)}" class="text-muted">${esc(words)}</span>`);
+    });
+    out.splice(num.end, 0, "", ...notes.flatMap((n, i) => (i ? ["", n] : [n])));
   }
   // the chart of a held table: the picture and its sentence go with it (the chart-maker passes over held tables since
   // session 232; a chart drawn before a hold is held here). Done last: the chart follows the sections above.
