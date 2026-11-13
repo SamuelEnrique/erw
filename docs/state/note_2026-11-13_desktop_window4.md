@@ -10,11 +10,13 @@ Energy Research Warehouse (ERW). Sessions 4200 to 4229, 4248 and 4249, about 10:
 - Every dollar is a 2025 dollar (BEA's GDP deflator, as EIA's STEO carries it). Defaults: EIA's capital cost by state (AEO2025 study, its location tables), EIA's construction time and life, LBNL's capacity factors by state, Tax Foundation's 2026 sales and income tax tables, JEDI's taxable share and default cost per state (read with JEDI's own formulas).
 - Property tax statutes held: Minnesota (wind and solar production taxes), South Dakota (capacity and production taxes in lieu), North Dakota (generation taxes in lieu), Nebraska (nameplate tax), Iowa (special valuation by ordinance, needs the levy), Kansas (ten-year exemption), Oregon (solar fee in lieu by county agreement). Sales tax exemptions held: Minnesota wind, Iowa wind and solar equipment.
 
-## The cross-check (method note, section 9)
+## The cross-check (method note, section 9): five studies and a tax check
 
 - **Jayhawk Wind, Kansas** (2019 study): the model gives 0.82 of its construction jobs (supply chain 0.96, induced 1.07, onsite 0.40: the developer's own in-state spending) and 0.79 of its operating jobs.
 - **Ohio utility solar** (Ohio University, 2020): 1.10 of its construction jobs, 1.16 of its direct jobs, but 3.5 times its operating jobs: JEDI's 2010 PV operating costs. The page's "operating spending" input lets a reader correct it.
 - **Glendive Wind, Montana** (NextEra's summary of a 2024 study): its "approx. 400" construction jobs sit nearer the model's onsite figure (272) than its total (1,730); the summary does not say which it counts.
+- **Indiana's first 1,000 MW of wind** (NREL, 2014, the projects' own costs): 1.03 of its construction jobs, 0.89 of its operating jobs.
+- **Rush Creek, Colorado** (NREL, 2019): 0.51 of its construction jobs, because its turbines came from Vestas's Colorado factories while JEDI's default turbine share made in the state is 0; 0.71 without those 830 factory jobs. The local content input is where a reader raises it.
 - **A tax check**: Minnesota's 2024 wind production tax in Lincoln County, USD 1.189 per MWh, is the statute's USD 1.20 within 1 percent; the state's fleet implies a capacity factor near 0.31 against the tool's new-plant default 0.42 (an input).
 - check-values: every figure on the four `/impact` addresses, the tables by year included, matches its recomputation (633 of 633 at the last read, 13:38 UTC).
 
