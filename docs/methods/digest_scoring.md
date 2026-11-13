@@ -19,7 +19,7 @@ Energy Research Warehouse (ERW). Internal note: not published on the site (`site
 ## 3. The opening number (`brief.opening_number`)
 
 1. A move must pass its bar (`MATERIAL_PCT`): 3 percent for a benchmark's close (Henry Hub, WTI, Brent), 10 percent for a hub's day-ahead mean; yesterday's opening metric needs twice its bar; a move no story names needs `UNNAMED_FACTOR` = 1.5 times it.
-2. Consequence first: a move a story of the day names (`brief.price_named`, by `PRICE_WORDS` and, since 13 November, an oil or crude headline that settles, rises, falls, jumps or slips: `brief.names_price`) scores 2, a benchmark 1 more.
+2. Consequence first: a move a story of the day names (`brief.price_named`, by `PRICE_WORDS` and, since 13 November, an oil or crude headline that settles, rises, falls, jumps or slips: `brief.names_price`) scores 2, a benchmark 1 more. A story first reported more than `REASON_LAG_DAYS` = 3 days after the move's day neither names nor explains it (since 13 November, row 149).
 3. Novelty second, source quality third, the size of the move last.
 4. With no named move and no benchmark past its bar, the day's highest-ranked story stating a MW or a sum leads, said to be the outlet's figure; a single hub no story names is the last resort.
 5. A benchmark's close no later than the one the last issue printed (`brief.previous_closes`, read from that issue's "- <label>: ... on <date>" lines) never leads: EIA publishes a close from one day to about a week after its day, so one close can be the newest on several issues running. When such a close passed its bar, the opening names it instead of saying no price moved ("Henry Hub natural gas's rise on 2026-11-03 (in the numbers below) was in the last issue"). Since 13 November (faults file row 146).

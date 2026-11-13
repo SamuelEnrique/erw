@@ -974,5 +974,29 @@ class Row148TheMarketRowSaysTheCloseIsTheLastIssues(unittest.TestCase):
         self.assertTrue(self.row({}).endswith("the newest EIA had published."))
 
 
+class Row149AStoryAfterTheCloseIsNoReason(unittest.TestCase):
+    """Row 149 (session 3444): main's dry run of 12 November gave Henry Hub's close of 3 November a reason first reported
+    on 8 to 12 November; a story first reported more than REASON_LAG_DAYS after a move's day neither explains nor names it."""
+
+    def clusters(self, first):
+        return pd.DataFrame([{"cluster_id": "ngi", "titles": ["Record LNG Demand Ignites Natural Gas Forward Rally, But Will It Last?"],
+                              "why": "Strong feedgas demand from LNG and production outages are pushing natural gas prices higher "
+                                     "across the US and Canada.",
+                              "links": [("Natural Gas Intelligence", "https://example.org/ngi")], "first": first}])
+
+    def test_a_story_days_after_the_close(self):
+        cl = self.clusters("2026-11-10T14:00:00Z")
+        self.assertEqual(brief.price_reason("Henry Hub natural gas", cl, 3.5, pd.Timestamp("2026-11-03", tz="UTC")), "")
+        self.assertFalse(brief.price_named("Henry Hub natural gas", cl, 3.5, pd.Timestamp("2026-11-03", tz="UTC")))
+
+    def test_a_story_within_the_lag(self):
+        cl = self.clusters("2026-11-10T14:00:00Z")
+        for day in ("2026-11-07", "2026-11-10", "2026-11-11"):
+            self.assertIn("Reason, from the day's stories: Strong feedgas demand",
+                          brief.price_reason("Henry Hub natural gas", cl, 3.5, pd.Timestamp(day, tz="UTC")))
+            self.assertTrue(brief.price_named("Henry Hub natural gas", cl, 3.5, pd.Timestamp(day)))
+        self.assertIn("Strong feedgas demand", brief.price_reason("Henry Hub natural gas", cl, 3.5))
+
+
 if __name__ == "__main__":
     unittest.main()

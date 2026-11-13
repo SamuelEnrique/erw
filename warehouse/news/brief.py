@@ -1222,14 +1222,36 @@ def day_move(newest, newest_day, prev, prev_day):
     return {"ch": round(v0 - v, 4), "pct": round(100 * (v0 - v) / v, 2) if v > 0 and v0 >= 0 else None}
 
 
-def price_named(label, clusters, pct=None):
+# Session 3444 (faults file row 149): a story first reported more than REASON_LAG_DAYS after a close's day does not
+# explain it (main's dry run of 12 November gave Henry Hub's close of 3 November a reason first reported on 8 to 12
+# November); three days carry a Friday's close to a Monday's story.
+REASON_LAG_DAYS = 3
+
+
+def too_late(r, day):
+    """Session 3444 (row 149): whether story `r` was first reported more than REASON_LAG_DAYS after `day`."""
+    if day is None or not r.get("first"):
+        return False
+    try:
+        first = pd.to_datetime(r["first"], utc=True)
+        d = pd.Timestamp(day)
+        d = d.tz_localize("UTC") if d.tzinfo is None else d.tz_convert("UTC")
+    except (TypeError, ValueError):
+        return False
+    return first.normalize() > d.normalize() + pd.Timedelta(days=REASON_LAG_DAYS)
+
+
+def price_named(label, clusters, pct=None, day=None):
     """Session 1446: whether a story of the day or the week names the price (PRICE_WORDS in its title or why line),
     whatever its why line prints: a move is "named" for the opening number's choice even when the story's why line
-    fails the check and no reason is printed beside the mover."""
+    fails the check and no reason is printed beside the mover. Session 3444 (row 149): `day`, the move's own day; a
+    story first reported more than REASON_LAG_DAYS after it does not name it."""
     words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
     if clusters is None or not len(clusters) or not words:
         return False
     for r in clusters.to_dict("records"):
+        if too_late(r, day):
+            continue
         text = f" {str((r.get('titles') or [''])[0])} {r.get('why') or ''} ".lower()
         if names_price(label, text) and agrees(text, pct):   # row 104
             return True
@@ -1251,13 +1273,16 @@ def price_story(label, clusters, pct=None):
     return ""
 
 
-def price_reason(label, clusters, pct=None):
+def price_reason(label, clusters, pct=None, day=None):
     """The why line of the day's highest-ranked scored story that names the price (PRICE_WORDS), with its outlet, as
-    the reason beside a mover; "" when no story of the day names it (the figure then stands with no reason)."""
+    the reason beside a mover; "" when no story of the day names it (the figure then stands with no reason). Session
+    3444 (row 149): `day`, the move's own day; a story first reported more than REASON_LAG_DAYS after it is no reason."""
     words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
     if clusters is None or not len(clusters) or not words:
         return ""
     for r in clusters.to_dict("records"):
+        if too_late(r, day):
+            continue
         title = str((r.get("titles") or [""])[0])
         text = f" {title} {r.get('why') or ''} ".lower()
         if names_price(label, text) and agrees(text, pct):   # row 104
@@ -1348,7 +1373,7 @@ def mover_list(cands, clusters):
     for c in ranked:
         movers.append(f"- {c['label']}: {c['v']:.2f} {c['unit']} on {c['d']:%Y-%m-%d}, {'up' if c['ch'] >= 0 else 'down'} "
                       f"{abs(c['ch']):.2f} {c['unit']} ({abs(c['pct']):.1f}%) from {c['pv']:.2f} {c['unit']} on {c['pd']:%Y-%m-%d} {c['ref']}."
-                      + price_reason(c["key"], clusters, c["pct"]))
+                      + price_reason(c["key"], clusters, c["pct"], c.get("d")))
     if not cands:
         movers.append("- no price with a day before it is held, so no move is ranked.")
     return movers
@@ -1486,8 +1511,8 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     lines += demand_lines(digest_date, log, notes, store)
     if facts is not None:   # session 2703
         for c in cands:
-            c["reason"] = price_reason(c["key"], clusters, c["pct"])
-            c["named"] = price_named(c["key"], clusters, c["pct"])   # session 1446: named, whether or not a reason prints
+            c["reason"] = price_reason(c["key"], clusters, c["pct"], c.get("d"))
+            c["named"] = price_named(c["key"], clusters, c["pct"], c.get("d"))   # session 1446: named, whether or not a reason prints
         facts.update(cands=cands, demand=store)
     return lines + notes.lines()
 
