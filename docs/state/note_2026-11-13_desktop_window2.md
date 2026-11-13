@@ -26,6 +26,12 @@ Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`q
 
 ## Rows that wait, and why
 
+- **In the gate of session 4005** (`wip/w2-land-b`):
+  - window 3's row 4 (licenses, rows 1 to 3 within it), with the fix for a held table's count;
+  - window 4's row 1 (the forecast);
+  - the old laptop's row 10 to `88893595d`.
+- **Row 10's newer heads** (`862ce4255` and on) go in the next gate: the old laptop keeps stacking on the same branch.
+
 ## The fallback's results
 
 - **(a) The 8 GB gate:** above.
