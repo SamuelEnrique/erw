@@ -212,7 +212,7 @@
      21.196747337851196,
      11.594504869377051,
      8.00893906154795,
-     6.5617759948652195
+     12.568678171281498
     ]
    },
    {
@@ -464,7 +464,7 @@
   }
  ],
  "why": "ERCOT's operating battery fleet went from 87 MW in 2019-01 to 19,195 MW in 2026-09 (EIA-860M). Over the same years the ERCOT hub average's worst-interval multiple fell from 126.6x in 2019 to 12.1x in 2025: the 99.9th percentile went from 2,415 to 312 USD/MWh while the median went from 19.07 to 25.68. Hours at or above USD 1,000 went from 26 in 2019 to 2 in 2025; the worst month was 2019-08 at 465x. With load, Henry Hub and the month of the year held fixed, each added GW of batteries goes with a multiple 10.81 lower (standard error 2.33, p < 0.001). That is an association in a before-and-after with controls, not a cause: the same years brought the 2021 winter storm, a new offer cap, more solar and a gas price that doubled and fell back.",
- "footnote": "Data: ERCOT real-time settlement point prices at HB_HUBAVG, 15-minute intervals, 2019-01 to 2026-11-05 (274,944 intervals in 95 local months, America/Chicago; ERW tables ercot_all_hub_prices_history and iso_rtm_hub_prices from ERCOT NP6-785-ER and NP6-905-CD). Per month and per year: the median and the 99.9th percentile (numpy linear percentiles, no cap or exclusion), their ratio (the worst-interval multiple), hours at or above USD 1,000 and USD 250 (intervals over four), and hours at or above the 99th percentile of every interval in the sample (300.79 USD/MWh, one fixed threshold). Fleet: storage_buildout_monthly, iso:ercot battery_operating_mw (EIA-860M, operating units, month of the data). Load: ercot_zone_load_hourly, the ERCOT total row, monthly mean. Gas: eia_fuel_spot_prices Henry Hub daily spot, monthly mean. Regression: OLS of each monthly spike measure on battery GW, mean load in GW, Henry Hub in USD/MMBtu and eleven month-of-year dummies, 93 months 2019-01 to 2026-09 (months after the latest fleet figure are left out), HC1 standard errors, p from Student's t. No instrument, no event window: an association.",
+ "footnote": "Data: ERCOT real-time settlement point prices at HB_HUBAVG, 15-minute intervals, 2019-01 to 2026-11-13 (275,328 intervals in 95 local months, America/Chicago; ERW tables ercot_all_hub_prices_history and iso_rtm_hub_prices from ERCOT NP6-785-ER and NP6-905-CD). Per month and per year: the median and the 99.9th percentile (numpy linear percentiles, no cap or exclusion), their ratio (the worst-interval multiple), hours at or above USD 1,000 and USD 250 (intervals over four), and hours at or above the 99th percentile of every interval in the sample (300.89 USD/MWh, one fixed threshold). Fleet: storage_buildout_monthly, iso:ercot battery_operating_mw (EIA-860M, operating units, month of the data). Load: ercot_zone_load_hourly, the ERCOT total row, monthly mean. Gas: eia_fuel_spot_prices Henry Hub daily spot, monthly mean. Regression: OLS of each monthly spike measure on battery GW, mean load in GW, Henry Hub in USD/MMBtu and eleven month-of-year dummies, 93 months 2019-01 to 2026-09 (months after the latest fleet figure are left out), HC1 standard errors, p from Student's t. No instrument, no event window: an association.",
  "numbers": {
   "first_year": "2019",
   "last_full_year": "2025",
@@ -498,7 +498,7 @@
   "reg_top1_se": 0.7964880434677281,
   "reg_top1_p": 0.01735669044278045,
   "n_months": 95,
-  "n_intervals": 274944
+  "n_intervals": 275328
  },
  "effect_table": {
   "columns": [
@@ -545,11 +545,11 @@
   "ercot_zone_load_hourly",
   "eia_fuel_spot_prices"
  ],
- "computed_at": "2026-11-12T18:02:46Z",
+ "computed_at": "2026-11-13T18:48:50Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding batteries_lunch, BATTERIES ATE THEIR OWN LUNCH?",
-  "Computed 2026-11-12T18:02:46Z by warehouse/analysis/findings/batteries_lunch.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-11-13T18:48:50Z by warehouse/analysis/findings/batteries_lunch.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per local month and one per local year (kind), the thesis's spike measures, the fleet, the load and the gas price",
   "Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, storage_buildout_monthly, ercot_zone_load_hourly, eia_fuel_spot_prices"
  ],
@@ -557,23 +557,23 @@
  "meta": {
   "hub": "HB_HUBAVG",
   "first_year": 2019,
-  "top1_threshold_usd_mwh": 300.7868000000017,
-  "last_interval_utc": "2026-11-05T05:45:00Z",
-  "n_intervals_all": 274944,
+  "top1_threshold_usd_mwh": 300.89,
+  "last_interval_utc": "2026-11-13T05:45:00Z",
+  "n_intervals_all": 275328,
   "load_how": "the ERCOT total row",
   "fleet_last_month": "2026-09",
-  "henry_hub_days": 1967
+  "henry_hub_days": 1973
  },
  "downloads": {
   "csv": "erw_2026_ercot_spikes_batteries.csv",
   "python": "batteries_lunch.py",
   "stata": "batteries_lunch.do"
  },
- "csv_sha256": "b2d03b5edb3e823b36c99c3f68724598eb68caf4fcc92eb45e338acf41fb85ef",
+ "csv_sha256": "74fb56c85ea8c88b5930474350416ff60a61d39bca7af242cbc037c5c88e5796",
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-11-12",
+   "name": "the findings library's cards as computed by 2026-11-13",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,

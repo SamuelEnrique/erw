@@ -1,9 +1,9 @@
 {
  "_about": "Session 314: the tables each grid's scoped chat reads, found by rule from the live set's catalogue and one row asked of each public table (warehouse/chat/grid_tables.py, which says the rules). Written by the data machine after its live-set load; read by site/lib/chat/tools.ts (scopeOf, scopeFilter) and warehouse/chat/tools.py (set_scope, scope_rows). docs/grids/grids.json's tables are documentation since this session: not_in_grids_json and grids_json_not_found say how the two differ on the day this ran.",
- "read_at": "2026-11-12T17:36:32Z",
+ "read_at": "2026-11-13T18:19:36Z",
  "public_live_tables": 106,
- "requests": 727,
- "seconds": 132,
+ "requests": 729,
+ "seconds": 95,
  "rules": [
   "name",
   "entity",
@@ -526,10 +526,8 @@
     "generation_mix_records",
     "grid_stress_days",
     "grid_stress_yearly",
-    "iso_dam_hub_prices",
     "iso_queue_statistics",
     "iso_rt_top_intervals",
-    "iso_rtm_hub_prices",
     "iso_trader_daily",
     "merchant_revenue_monthly",
     "miso_interconnection_queue",
@@ -560,10 +558,8 @@
     "generation_mix_records": "isoentity",
     "grid_stress_days": "entity",
     "grid_stress_yearly": "isoentity",
-    "iso_dam_hub_prices": "entity",
     "iso_queue_statistics": "entity",
     "iso_rt_top_intervals": "entity",
-    "iso_rtm_hub_prices": "entity",
     "iso_trader_daily": "entity",
     "merchant_revenue_monthly": "entity",
     "miso_interconnection_queue": "name",
@@ -591,7 +587,9 @@
     "storage_owners_monthly"
    ],
    "grids_json_not_found": [
-    "energy_projects"
+    "energy_projects",
+    "iso_dam_hub_prices",
+    "iso_rtm_hub_prices"
    ]
   },
   "spp": {
