@@ -19,13 +19,27 @@ import type { NextConfig } from "next";
 // Session 1501 (chain 158, the review's M4): the report-only header is dropped, its week over (it was due on or after
 // 26 October 2026); the enforced policy is the one header, and scripts/check-csp.mjs proves it on a build.
 const CSP_MINIMAL = "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'";
+// Session 5159 (docs/reviews/security-faults-2026-11-13.md, row 27): the policy let a browser connect to every Supabase
+// project there is, so a script that got into a page could have sent what it read to a project of its writer's. The
+// site has one project, the one SUPABASE_URL names when the site is built: the policy names that origin alone. Where
+// the variable is not set, or is not an https address of a Supabase project (a test, a machine without the
+// environment), the wider name stands, as from session 301 to session 5159: `otherwise`, written where the policy is.
+function connectSrc(supabaseUrl: string | undefined, otherwise: string): string {
+  try {
+    const u = new URL(supabaseUrl ?? "");
+    if (u.protocol === "https:" && /^[a-z0-9-]+\.supabase\.co$/.test(u.hostname) && u.port === "") return `connect-src 'self' https://${u.hostname}`;
+  } catch {
+    /* not an address */
+  }
+  return otherwise;
+}
 const CSP_FULL = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co",
+  connectSrc(process.env.SUPABASE_URL, "connect-src 'self' https://*.supabase.co"),   // session 5159: this site's own project when the build knows it
   "worker-src 'self' blob:",
   "frame-src 'none'",
   "base-uri 'self'", "object-src 'none'", "frame-ancestors 'none'", "form-action 'self'",
