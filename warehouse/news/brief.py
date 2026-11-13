@@ -1074,7 +1074,16 @@ def names_price(label, text):
     words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
     if any(w in text for w in words):
         return True
+    if label == "Henry Hub natural gas":   # session 3330 (faults file row 110): "Natural Gas Forward Rally"
+        return bool(GAS_MOVE.search(text))
     return label in ("WTI Cushing crude", "Brent crude") and bool(CRUDE_MOVE.search(text))
+
+
+# Session 3330 (faults file row 110): a headline that moves US natural gas names Henry Hub ("Record LNG Demand Ignites
+# Natural Gas Forward Rally", 11 November), as CRUDE_MOVE does for the crudes; "gas" alone is not read (a gas plant)
+GAS_MOVE = re.compile(r"\bnatural gas(?: prices?| futures| forwards?| forward prices)? (?:rall(?:y|ies|ied)|settles?|settled|"
+                      r"rises?|rose|falls?|fell|jumps?|jumped|slips?|slipped|climbs?|climbed|drops?|dropped|surges?|surged|"
+                      r"tumbles?|tumbled|slides?|slid|sinks?|sank|soars?|soared|plunges?|plunged)\b")
 
 
 # Session 3312 (faults file row 104): a story names a move only when its direction words do not contradict it. W45's

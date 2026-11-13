@@ -528,6 +528,30 @@ class Row107TheKeyNamesTheFiguresStory(unittest.TestCase):
         self.assertEqual(detail, "story news:f3e7 (price)")
 
 
+class Row110AGasRallyNamesHenryHub(unittest.TestCase):
+    """Row 110: a natural gas headline that rallies names Henry Hub, and the Roundup asks the week's stories, not only the
+    printed ones."""
+
+    def test_the_words(self):
+        t = " record lng demand ignites natural gas forward rally, but will it last? "
+        self.assertTrue(brief.names_price("Henry Hub natural gas", t))
+        self.assertFalse(brief.names_price("Henry Hub natural gas", " gas plant rises in texas "))
+        self.assertFalse(brief.names_price("Brent crude", t))
+
+    def test_the_w46_opening(self):
+        import roundup
+        hh = {"label": "Henry Hub natural gas", "pct": 14.1, "ch": 0.37,
+              "text": "Henry Hub natural gas closed at 3.00 USD/MMBtu on 2026-11-11, against 2.63 USD/MMBtu on 2026-11-04 (+0.37 USD/MMBtu, +14.1%) [5]"}
+        week = pd.DataFrame([{"titles": ["Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?"], "parties": "",
+                              "why": "Strong feedgas demand from LNG and production outages are pushing natural gas prices higher across the US and Canada.",
+                              "links": [("Natural Gas Intelligence", "https://example.org/n")]}])
+        op = roundup.opening_number({"moves": [hh], "move": hh, "deal": {"usd": 2e9, "text": "USD 2 billion, Strathcona, Greenfire"}}, week)
+        self.assertEqual(op["key"], "move")
+        self.assertIn("Reason, from the week's stories: Strong feedgas demand", roundup.opening_lines(op)[2])
+        src = open(os.path.join(ROOT, "warehouse", "news", "roundup.py"), encoding="utf-8").read()
+        self.assertIn("op = opening_number(picked, clusters)", src)
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

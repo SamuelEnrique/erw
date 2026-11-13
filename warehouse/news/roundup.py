@@ -2040,7 +2040,7 @@ def main(argv=None):
         if recs and brief.story_figure(recs[0]):
             picked["story"] = {"text": f"{brief.story_figure(recs[0])}: {heads[recs[0]['cluster_id']].rstrip('.')}, as "
                                        f"{brief.outlet_of(recs[0])} reported", "fig": brief.story_figure(recs[0])}
-        op = opening_number(picked, shown)
+        op = opening_number(picked, clusters)   # session 3330 (row 110): the week's stories name a move, not only those printed
         log(f"  opening number: {(op or {}).get('key', 'none')}")
         W = ["## What mattered", ""]
         if not recs:
