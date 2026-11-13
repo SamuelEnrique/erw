@@ -248,5 +248,60 @@ class Row158OneCapacityInTwoUnitsIsOneFigure(unittest.TestCase):
         self.assertEqual(brief.detail(r, "AirTrunk signs energy deal"), "1,000 MW; Parties: AirTrunk; European Energy Australia. ")
 
 
+class Row159TheReasonADayIsNotHeld(unittest.TestCase):
+    """Row 159: "the same weekday a year before (2025-11-13) and a week before (2026-11-05) are not held: the hourly table's
+    window does not reach them." The table starts on 26 August; 5 to 8 November are a gap inside it (the machines' pause)."""
+
+    def test_a_gap_inside_the_window_is_said_to_be_one(self):
+        import pandas as pd
+        first = pd.Timestamp("2026-08-26", tz="UTC")
+        self.assertEqual(brief.not_held_why(pd.Timestamp("2026-11-05", tz="UTC"), first),
+                         "the hourly table starts on 2026-08-26 and holds no hour of 2026-11-05")
+        self.assertEqual(brief.not_held_why(pd.Timestamp("2026-08-20", tz="UTC"), first), "the hourly table's window does not reach them")
+        self.assertEqual(brief.not_held_why(pd.Timestamp("2026-11-05", tz="UTC"), None), "the hourly table's window does not reach them")
+
+    def test_the_line_on_a_table_with_a_gap(self):
+        import pandas as pd
+        from unittest import mock
+
+        def fetch(table, start=None, end=None, ba=None, **kw):
+            hours = pd.date_range("2026-08-26", "2026-11-13", freq="h", tz="UTC", inclusive="left")
+            hours = hours[(hours < pd.Timestamp("2026-11-05", tz="UTC")) | (hours >= pd.Timestamp("2026-11-09", tz="UTC"))]
+            df = pd.DataFrame({"ts_utc": hours, "value": 400000.0, "variable": "demand_mw"})
+            return df[(df["ts_utc"] >= start) & (df["ts_utc"] < end)]
+
+        class Notes:
+            def ref(self, *a):
+                return "[6]"
+        with mock.patch.object(brief.erw, "fetch", side_effect=fetch):
+            line = brief.demand_lines("2026-11-13", lambda m: None, Notes())[-1]
+        self.assertTrue(line.endswith("are not held: the hourly table starts on 2026-08-26 and holds no hour of 2026-11-05."), line)
+
+
+class Row160TheNoChartLineSaysWhy(unittest.TestCase):
+    """Row 160: "No chart is shown today: no candidate passed the chart's rules (the run log says why)." A log no reader
+    sees, and on 13 November a chart had passed and failed to be written."""
+
+    def test_the_two_reasons(self):
+        self.assertEqual(brief.no_chart_lines({}, why="none")[3], "No chart is shown today: no candidate passed the chart's rules.")
+        self.assertEqual(brief.no_chart_lines({}, why="error")[3], "No chart is shown today: the chart chosen by its rules could not be drawn.")
+        self.assertNotIn("run log", " ".join(brief.no_chart_lines({})))
+
+    def test_the_section_leaves_its_reason(self):
+        c, _ = monthly_watch_card()
+        with tempfile.TemporaryDirectory() as d:
+            self.assertEqual(daily_chart.section("2026-11-13", lambda m: None, chart_dir=d, candidates=[], used=set(), waited=set(),
+                                                 dismissed=set()), [])
+            self.assertEqual(daily_chart.OMITTED, "none")
+            self.assertEqual(brief.chart_omitted(), "none")
+            real = daily_chart.markdown
+            daily_chart.markdown = lambda day, cand: 1 / 0
+            try:
+                daily_chart.section("2026-11-13", lambda m: None, chart_dir=d, candidates=[c], used=set(), waited=set(), dismissed=set())
+            finally:
+                daily_chart.markdown = real
+            self.assertEqual(daily_chart.OMITTED, "error")
+
+
 if __name__ == "__main__":
     unittest.main()

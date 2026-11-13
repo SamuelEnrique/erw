@@ -82,6 +82,7 @@ WATCH_MAX_AGE = {"week": 14, "month": 100}   # days since the period ended: olde
 HELD = ("nyiso", "spp")
 DEFAULT_WAIT = 420                      # seconds the Digest waits for today's candidates before using yesterday's
 METHOD = "docs/methods/automated_analysis_scanner.md"
+OMITTED = ""   # session 3461 (faults file row 160): set by section(): "none", "error", or "" when it wrote the section
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 # Plain names for the series that flag most often. A code that is not here is shown as the table writes it: a wrong
@@ -855,7 +856,9 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
     earlier run (session 267; by default read from chart_dir's held.json); the records it holds now are written there.
     stories: the day's top stories (session 805), each with titles or title, sector, why and parties; the candidate most
     related to them comes first."""
+    global OMITTED
     chart_dir = chart_dir or CHART_DIR
+    OMITTED = "error"   # session 3461 (row 160): why the section is empty, for the Digest's words; "" once it is written
     try:
         why_source = "given"
         if candidates is None:
@@ -877,6 +880,7 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
             log(f"  daily chart: {k} held a day (a record more than {round(100 * RECORD_JUMP)} percent past the old one)")
         if c is None:
             log(f"  daily chart: {why} ({why_source}); section omitted")
+            OMITTED = "none"
             return []
         # session 3457 (faults file row 151): the section's lines first, so a chart whose words cannot be written leaves
         # no picture and no record behind (13 November 2026: the record and pictures of a chart the issue said it did not
@@ -907,6 +911,7 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
             json.dump(record, f, indent=1, ensure_ascii=False, default=common.round6)
             f.write("\n")
         log(f"  daily chart: {c['key']} ({c['source']}); {why}; {why_source}")
+        OMITTED = ""
         return lines
     except Exception as exc:
         log(f"  daily chart: omitted ({type(exc).__name__}: {str(exc)[:200]})")

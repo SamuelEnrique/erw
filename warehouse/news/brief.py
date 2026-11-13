@@ -1383,6 +1383,25 @@ def price_reason(label, clusters, pct=None, day=None):
     return ""
 
 
+def held_from(day):
+    """The first day of US48 demand the hourly table holds (a fetch of the 400 days to `day`), or None."""
+    try:
+        df = erw.fetch("eia930_all_demand", start=day - pd.Timedelta(days=400), end=day + pd.Timedelta(days=1), ba="us48")
+    except Exception:
+        return None
+    df = df[df["variable"] == "demand_mw"] if "variable" in df else df
+    return None if df.empty else pd.Timestamp(df["ts_utc"].min()).tz_convert("UTC").normalize()
+
+
+def not_held_why(week, first):
+    """Session 3461 (faults file row 159): why the year before and the week before are not held. The year before is
+    always before the hourly table's window; the week before can be a day inside it that the table holds no hour of (13
+    November 2026: 5 to 8 November, the machines' pause), which "the window does not reach them" called the window's."""
+    if first is None or week < first:
+        return "the hourly table's window does not reach them"
+    return f"the hourly table starts on {first:%Y-%m-%d} and holds no hour of {week:%Y-%m-%d}"
+
+
 def demand_lines(digest_date, log, notes, store=None):
     """US48 demand's peak hour of yesterday (the UTC day before the issue) and, where the warehouse holds it, the peak of
     the same weekday a year before (364 days earlier); the two values and their hours, and the change in percent."""
@@ -1427,7 +1446,7 @@ def demand_lines(digest_date, log, notes, store=None):
             old = None
         if old is None:
             out[-1] += (f"the same weekday a year before ({before:%Y-%m-%d}) and a week before ({week:%Y-%m-%d}) are not held: "
-                        "the hourly table's window does not reach them.")
+                        f"{not_held_why(week, held_from(day))}.")
             return out
         span, before = "week", week
         if store is not None:
@@ -2555,10 +2574,26 @@ def lift_count(words, n0, n_recs):
     return n
 
 
-def no_chart_lines(facts, n=3):
-    """When no valid chart can be built: the issue says no chart is shown, and a small table of the day's largest moves
+# Session 3461 (faults file row 160): why the day's chart section is empty, as daily_chart.section left it ("none": no
+# candidate passed its rules; "error": a chart was chosen and could not be written), read by no_chart_lines
+NO_CHART_WHY = {"none": "no candidate passed the chart's rules", "error": "the chart chosen by its rules could not be drawn"}
+
+
+def chart_omitted():
+    """"none" or "error": why daily_chart.section gave nothing (its OMITTED), "error" when it raised before saying."""
+    try:
+        import daily_chart
+        return getattr(daily_chart, "OMITTED", "") or "error"
+    except Exception:
+        return "error"
+
+
+def no_chart_lines(facts, n=3, why="none"):
+    """When no valid chart can be built: the issue says no chart is shown, and why in words a reader can check (session
+    3461, row 160: "(the run log says why)" pointed to a log no reader sees, and on 13 November 2026 "no candidate passed
+    the chart's rules" was said of a chart that failed to be written), and a small table of the day's largest moves
     (numbers_today's candidates, at most n) stands in its place."""
-    L = ["", "## ERW's Chart of the Day", "", "No chart is shown today: no candidate passed the chart's rules (the run log says why)."]
+    L = ["", "## ERW's Chart of the Day", "", f"No chart is shown today: {NO_CHART_WHY.get(why, NO_CHART_WHY['error'])}."]
     cands = [c for c in facts.get("cands", []) if c.get("pct") is not None][:n]
     if cands:
         L += ["", "| Measure | Value | Change | Period | Table |", "|---|---|---|---|---|"]
@@ -2721,7 +2756,7 @@ def main(argv=None):
             return M
 
         # session 232: the chart of the day, chosen and drawn by code; omitted, with the reason logged, when there is none
-        tail = daily_chart_section(digest_date, log, args.out, stories=recs) or no_chart_lines(facts)   # 805; 2703: the stand-in
+        tail = daily_chart_section(digest_date, log, args.out, stories=recs) or no_chart_lines(facts, why=chart_omitted())   # 805; 2703; 3461
         # session 23: the Fun fact, last; re-verified from its stored sources, omitted if it fails
         tail += fun_fact_section(digest_date, log)
         # session 21: the method is on /about#digest; the generation record stays in the file, not on the page
