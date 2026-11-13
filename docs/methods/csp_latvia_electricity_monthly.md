@@ -74,6 +74,8 @@ January to August 2026: gross production 4.87 TWh, solar 1.37 TWh, the battery l
 
 Internal. The portal's database page carries no licence or terms text (read 521), and CSP's own site refused the reader. No verdict is recorded; `sources.csv` flags the source `internal`.
 
+Chain 229, session 4108 (13 November 2026): the CSB's verdict is recorded. Its media page (read 1771, https://www.csp.gov.lv/en/media, robots read 1768) says: "Data reproduction is permitted, provided Central Statistical Bureau of Latvia is quoted as source." Verdict: may be public, sold or not. The table stays internal: no session loosens a flag, and `docs/licenses.md` lists it as waiting for the owner's ruling (default: stays internal).
+
 ## Cross-checks (session 2314, full years 2016 to 2025)
 
 - Against `eurostat_electricity_monthly` (Latvia):

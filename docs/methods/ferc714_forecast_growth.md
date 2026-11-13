@@ -146,3 +146,5 @@ What it says, with its limits:
 ## License
 
 Public: the owner's ruling 1 of 6 November 2026. FERC-714 is a federal filing; PUDL's data are CC-BY-4.0, credited in each table's header and in `warehouse/metadata/sources.csv`.
+
+Chain 229, session 4102 (13 November 2026): PUDL's verdict, read from its README (read 1688): "The PUDL data and documentation are published under the Creative Commons Attribution License v4.0 (CC-BY-4.0)." With it `docs/licenses.md` settles this table and `ferc714_planning_area_forecasts` as public (they were "not settled" while PUDL was unread).
