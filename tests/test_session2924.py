@@ -87,9 +87,11 @@ class TheCommittedRegistry(unittest.TestCase):
         # deck (2) and PUCT Project 58000's proposal (3) joined, each step read in its document
         # session 3783 (chain 212): Utah's S.B. 132 (8 steps, PacifiCorp's PACE), read from the Legislature's enrolled copy
         # session 3863 (chain 223): the Pennsylvania PUC's Large Load Customer Model Tariff (8 steps, PJM), from its Final Order
-        self.assertEqual(len(d), 75)
+        # session 3888 (chain 227): the Utah PSC's rule R746-318 under S.B. 132 (5 steps, PACE), from its filing at 25-R318-01,
+        # and the CAISO's Large Load Enhancements Draft Final Proposal of 24 September 2026 (4 steps, one a stated date)
+        self.assertEqual(len(d), 84)
         self.assertEqual(sorted(d["x_grid"].unique()), ["CAISO", "ERCOT", "PACE", "PJM", "SPP"])
-        self.assertEqual(int((d["x_date_kind"] == "stated date").sum()), 4)
+        self.assertEqual(int((d["x_date_kind"] == "stated date").sum()), 5)
         pclr = d[d["event_id"] == "rule:ercot_planning_guide_section_9:9_6_1_1"].iloc[0]
         self.assertEqual(pclr["x_duration"], "")                 # no faster path's duration is stated
         sec = d[d["event_id"] == "rule:ercot_planning_guide_section_9:9_3_1_2_a_ii"].iloc[0]

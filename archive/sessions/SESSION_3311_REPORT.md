@@ -56,3 +56,34 @@ Energy Research Warehouse (ERW). Chain 232 (`queue/done/232-day-14-november-oldl
 ### For Samuel's ruling
 
 - None new beyond chain 228's (W44 and W45's held prices; 12 November's chart record).
+
+## Session 3319: the emails at 390, the older Roundups' pages (rows 108, 109)
+
+- The three emails' HTML (12 November, W45, W46) read at 390 in the browser from local files: no horizontal overflow, no gated pointer left (row 105), no held figure.
+- 108: the stored W39, W40, W43 and W44 print NYISO's figures outside the day-ahead table: the real-time maximum (W43: 1,165.64 USD/MWh at LONGIL; W44: 588.05 at CAPITL) and the numbers' summary sentence (W43: "dearest at NYISO's N.Y.C., 47.64"). The page now holds both kinds of line, W39's older heading "Numbers of the week" included. Read on a local build (built at 11:22 UTC) with curl: no held figure on W40, W43, W44 or W45; W39's sentence held by the next commit (node test). `tsc --noEmit` exit 0.
+- That build was stopped by Claude Code for low memory just after it finished, and was not run again. The page reads used the finished build; the server was stopped by its port's process, the cookie file deleted, `paused.json` restored.
+- 109 (ruling): the Roundup's fun fact repeats the week's newest Digest fact by design. Default: unchanged.
+- **Row 10**: head `a3420698d`, merges cleanly with main at `6d705563e`.
+
+## Session 3320: chain 225's records step
+
+- `docs/reviews/five-tools-read-2026-11-11.md`: a line after chains 220 to 225 and the revert's landing; each faults file's rows counted on main (121, 55 fixed, 0 open, 28 data machine, 11 ruling, 27 not a fault: unchanged). `package/tools/build_tables.py --check`: exit 1 for the site's two files only (this machine's local news tables), the package's 648 rows 0 differ, as session 1905 found.
+- The lab path's step 04 needs a fresh build of main; builds here are stopped for memory, so it stays in the next file.
+
+## Session 3321: the model path
+
+- One dry run of 12 November on the stack with the model (USD 0.0264 headlines + USD 0.0061 summary, `ERW_SPEND_CAP_USD=2`, the ledger off as earlier dry runs ran it; `runs/periodicals_dryrun/s3321/`). Every fix carries into the model's issue: the subject "ERW Daily | SpaceX plans data center projects in Arizona and Texas", the first line, the opening's passed-over move, Brent as the market row, "Storage dispatched", "JPT", no repeated parties, "the 4 largest moves" with the unchanged line. The model's summary names Brent's reason from the oil story. No new fault.
+
+## Sessions 3322 to 3324
+
+- Not used as separate sessions: the stored Digest of 13 November does not exist before the 14:00 UTC run, and the remaining open rows are the owner's. The step is the first of the next file.
+
+## Session 3325: the note
+
+- `docs/state/note_2026-11-13_oldlaptop_c232.md`.
+
+## Session 3326: the next file, the queue
+
+- `queue/next/242-day-15-november-oldlaptop-periodicals-continued.md` filled: the stored 13 November Digest against the stack, row 10's landing and clean-up, the stored W46 Roundup, the lab path's step 04 under a memory condition.
+- Then `chain_queue.py next`.
+

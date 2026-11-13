@@ -20,9 +20,14 @@ Long end 1:00 each. One step a session, in chain 232's order, as session 3326 li
 
 ### Unfinished steps (written by session 3326 of chain 232)
 
-(Session 3326 fills this list.)
+Chain 232 ran every session (3311 to 3326) and added rows 100 to 108 to `wip/1973-periodicals` (row 10 of `docs/state/landing_request_oldlaptop.md`, head `a3420698d`, requested). What it did not reach, in this order:
 
-Written by session 3311, before the list above: chain 225's two steps that waited on `wip/1905-revert` are possible since it landed (`3a82aebe4`, 13 November): the lab path's step 04 (`/datacenters?view=grids`, the internal view, 1280 and 390) walked on a local build, its reading written beside session 1904's in `docs/reviews/lab-path.md`; and the five tools' table line after chains 220 to 224 in `docs/reviews/five-tools-read-2026-11-11.md` with `package/tools/build_tables.py --check`. Session 3326 keeps them in the list if chain 232 does not take them.
+1. (Session 3328) The Digest of 13 November as stored (written by the daily run after 14:00 UTC with main's code, so without row 10's fixes) read as a reader against the stack: a dry run of the same day and hour on the stack (`--no-model`), each difference checked, each new fault a numbered row (from 110), fixed with a test. If no issue of 13 November is stored, the newest issue, said so.
+2. (Session 3329) If row 10 has landed: the first issue after the landing read as stored, each of rows 79 to 108 checked in print; and the clean-up (the worktree `erw-1973` with its `.next` and `node_modules` removed, `wip/1973-periodicals` deleted on origin, row 10 marked landed). If not landed, skipped, said so.
+3. (Session 3330) The Roundup of W46 as stored (written Sunday 15 November at 23:00 UTC), read the same way; if not yet written when the session runs, its dry run on the stack with the model under USD 2, said so.
+4. (Session 3331) The lab path's step 04 (`/datacenters?view=grids`, the internal view, 1280 and 390), possible since the revert landed: walked on a local build of main only if MemFree is 2.5 GB or more and the build is run in the foreground (a background build was stopped by Claude Code for low memory on 13 November); its reading beside session 1904's in `docs/reviews/lab-path.md`. Otherwise left, said so.
+5. Done by chain 232, not to repeat: the five tools' table line (session 3320), the emails (3313, 3319), the trace of every figure (3318), the model dry run (3321).
+6. Rows 39, 65 and 109 stay the owner's; the held prices of W39 to W45 and the 12 November chart record wait for Samuel's ruling (`docs/state/note_2026-11-13_oldlaptop_c232.md`).
 
 ## Sessions 3334 to 3340: the periodicals, again
 
