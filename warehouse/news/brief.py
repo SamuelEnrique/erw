@@ -2192,6 +2192,7 @@ SECTOR_NOUN = {"datacenter_power": "Datacenter load", "generation": "Generation 
 
 
 TOTAL_OF_DEALS = re.compile(r"\btotal(?:s|ed|ing)?\b|\bin [\w-]+(?: [\w-]+)? deals\b", re.I)   # session 3332, row 112
+COMBINED = re.compile(r"\bto (?:form|create)\b|\bcombine[sd]? to\b|\bcreating (?:the |a )?(?:largest|biggest|\w+ giant)", re.I)   # row 123
 DISPATCHED = re.compile(r"\b(?:dispatch(?:ed|es|ing)?|discharg(?:e|ed|es|ing)|delivered)\b", re.I)   # session 1977, row 82
 
 
@@ -2221,6 +2222,10 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
             # session 3332 (faults file row 112): "US Oil and Gas M&A Activity Accelerates With $12.6 Billion in Third-Quarter
             # Deals" is a quarter's total, not one deal's value
             noun = "Deals in total"
+        elif field != "mw" and COMBINED.search(f"{(r.get('titles') or [''])[0]} {(heads or {}).get(r['cluster_id'], '')}"):
+            # session 3337 (faults file row 123): "EQT, Range Resources To Combine To Form $50B Gas Giant" states the
+            # combined company's size, not the deal's (USD 13 billion in energy_deals)
+            noun = "Combined company value"
         region = str(r.get("region") or "").strip()
         place = f", {region}" if region and region.lower() != "global" else ""
         ref = f" {notes.ref('news_stories')}" if notes is not None else ""

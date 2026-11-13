@@ -684,6 +684,15 @@ class Row122EachListFromOne(unittest.TestCase):
         self.assertIn("2. **B** (gas)  ", out)
 
 
+class Row123ACombinedCompanyIsNoDealValue(unittest.TestCase):
+    def test_eqt(self):
+        r = rec("e", "EQT, Range Resources To Combine To Form $50B Gas Giant", sector="deal", price="$50B", parties="EQT; Range Resources")
+        line, _ = brief.story_row("Policy, capital or reliability", [r], ("deal",), {}, None, "a figure", ("money",))
+        self.assertIn("Combined company value, USA: USD 50 billion (EQT, Range Resources;", line)
+        one = rec("d", "Strathcona pursues growth with a USD 2.1 billion deal", sector="deal", price="$2.1 billion", parties="Strathcona")
+        self.assertIn("Deal value, USA", brief.story_row("x", [one], ("deal",), {}, None, "a figure", ("money",))[0])
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
