@@ -35,7 +35,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 # scripts/land_check.py SECRET_NAME: names whose values never reach the suite (GitHub's test step has no secret)
 SECRET_NAME = re.compile(r"SUPABASE|ANTHROPIC|OPENAI|API_KEY|TOKEN|SECRET|PASSWORD|RESEND|REDIVIS|DB_URL", re.I)
-FAILED = re.compile(r"^(FAIL|ERROR): (\S+) \(([^)]+)\)\s*$")
+# session 3819 (chain 216): a subtest's failure adds its parameters after the test, "FAIL: test_x (tests.test_mod.Class.test_x)
+# (table='iso_reserve_margin_reports')"; without the optional group the guard named none ("the suite stopped before naming a
+# test") on 12 November 2026
+FAILED = re.compile(r"^(FAIL|ERROR): (\S+) \(([^)]+)\)(?: \(.*\))?\s*$")
 RAN = re.compile(r"^Ran (\d+) tests? in ")
 VERDICT = re.compile(r"^(OK|FAILED)\b(.*)$")
 
