@@ -190,5 +190,47 @@ class Row86OneMoneyStyle(unittest.TestCase):
         self.assertIn("Energy Department Closes USD 480 million Loan", brief.policy_line(r, {"press_release": "news release"}))
 
 
+class Row87TheRecordUntilNow(unittest.TestCase):
+    """Row 87: the record until now is the highest value before the new point, fresh points included; the held record is
+    kept beside it, as Wyoming's gas generation of July and August 2026 needs it."""
+
+    CFG = {"record_min_points": {"monthly": 24}, "record_stood_points": {"monthly": 12}, "record_min_margin_sigmas": 3.0, "version": "t"}
+
+    def series(self, fresh):
+        import numpy as np
+        import findings_scanner as fs
+        vals = [250000.0 + 20000.0 * ((i * 7) % 5) for i in range(36)]
+        vals[12] = 765381.0                       # the held record (July 2024 in the table)
+        vals += fresh
+        s = fs.Series()
+        s.table, s.key, s.key_str = "eia_state_generation_monthly", {"entity": "eia:generation:WY:NG", "variable": "net_generation"}, "k"
+        s.days = np.array([np.datetime64("2023-01-01", "M") + np.timedelta64(i, "M") for i in range(len(vals))]).astype("datetime64[D]")
+        s.v = np.array(vals)
+        s.lo = s.hi = s.v
+        s.unit, s.grain, s.sub, s.source, s.note, s.geo = "MWh", "monthly", False, "eia", "", "WY"
+        return fs, s, 36
+
+    def test_a_fresh_point_had_beaten_it(self):
+        fs, s, f = self.series([1034450.83, 1060503.7])
+        flags = [x for x in fs.rule_record(s, self.CFG, "2026-11-12", len(s.v), f) if x["direction"] == "high"]
+        self.assertEqual(len(flags), 1)
+        c = flags[0]["compared"]
+        self.assertEqual((c["old_record"], c["old_record_date"]), (1034450.83, "2026-01-01"))
+        self.assertEqual((c["held_record"], c["held_record_date"]), (765381.0, "2024-01-01"))
+        self.assertAlmostEqual(c["margin"], 1060503.7 - 1034450.83)
+        self.assertAlmostEqual(flags[0]["strength"], round(abs(1060503.7 - 1034450.83) / c["sigma"], 4), places=3)
+        import daily_chart as dc
+        fl = dict(flags[0], statistic="monthly value", label="x")
+        fact = dc.fact_from_flag(fl)
+        self.assertIn("The record until now was 1,034,451 MWh, in January 2026.", fact)
+        self.assertIn("Before the months new in this scan, the record was 765,381 MWh, in January 2024.", fact)
+
+    def test_no_fresh_point_beat_it(self):
+        fs, s, f = self.series([500000.0, 1060503.7])
+        c = [x for x in fs.rule_record(s, self.CFG, "2026-11-12", len(s.v), f) if x["direction"] == "high"][0]["compared"]
+        self.assertEqual(c["old_record"], 765381.0)
+        self.assertNotIn("held_record", c)
+
+
 if __name__ == "__main__":
     unittest.main()

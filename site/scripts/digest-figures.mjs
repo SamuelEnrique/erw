@@ -34,7 +34,9 @@ for (const f of fs.readdirSync(dir).sort()) {
   const md = fs.readFileSync(path.join(dir, f), "utf-8").replace(/\r\n/g, "\n");
   out.digests[date] = { figures: digestFigures(md, date, chart, now), chart: chart ? { table: chart.table, numbers: chart.numbers,
     entity: chart.flag?.series?.entity ?? "", variable: chart.flag?.series?.variable ?? "", date: chart.flag?.date ?? "",
-    old_record_date: chart.flag?.compared?.old_record_date ?? "" } : null };
+    old_record_date: chart.flag?.compared?.old_record_date ?? "",
+    // session 1982 (faults file row 87): the held record's date, when a newer value had beaten it before this one
+    held_record_date: chart.flag?.compared?.held_record_date ?? "" } : null };
 }
 const text = JSON.stringify(out, null, 1);
 if (outFile) fs.writeFileSync(outFile, text + "\n");
