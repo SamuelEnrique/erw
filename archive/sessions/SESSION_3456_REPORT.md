@@ -103,3 +103,11 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Seen, a dry-run artifact:** a past day's dry run reads closes EIA published later, so "EIA's newest close ... (0 days before this issue)" appears on 21 October. A scheduled run cannot hold a close of its own day.
 - Tests: three classes, 6 tests. The 65 files (adding those naming `email_digest`): 1,256 passed, 20 skipped.
 - **Row 11:** moved to `abae3aea9`.
+
+## Session 3466: the stack merged with main; W45 on the stack
+
+- **Merged:** `origin/main` (at `d62c4a31e`, 61 commits) into `wip/3457-periodicals` as `1f45e5525`, with no conflict. Main had changed `site/lib/digest.ts` (sessions 4009 and 4010, the revision notes), away from row 152's parser. On the merge: the 65 test files, 1,256 passed; the 7 files naming `digest.ts` (two new to the list, `test_session165` and `test_session4010`), 238 passed; `test-digest-numbers.mjs`, 17 passed. Pushed.
+- **W45 as a dry run on the stack** (`runs/periodicals_dryrun/s3466/`): the differences from the stored issue are rows 59 to 165 and tables newer than the issue. Nothing new. The worktree held no `policy_reads.csv` (an ignored file), so its "Next week" was empty. `policy_reads` was restored from the archive (behind: 368 rows to 8 October here, 412 on Redivis) and copied in; the section then lists the stored issue's deadlines.
+- **Not a fault:** a past week's dry run reads policy reads written later, so W45's "Next week" lists "the permit was issued on November 9" from a notice of 12 November.
+- **No build:** MemFree about 2.1 GB, under 2.5.
+- **Row 11:** moved to `1f45e5525` (the merge).
