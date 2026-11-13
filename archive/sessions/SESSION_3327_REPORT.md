@@ -20,3 +20,14 @@ Energy Research Warehouse (ERW). Chain 242 (`queue/done/242-day-15-november-oldl
 - 110: the opening was Strathcona's USD 2 billion deal while Henry Hub rose 14.1% on the week, explained by a story of the week ("Record LNG Demand Ignites Natural Gas Forward Rally"). The Roundup asked only the printed stories, and Henry Hub's words missed "natural gas forward rally". Now the week's clusters are asked and `GAS_MOVE` reads a gas headline's move. W46 opens on Henry Hub's 14.1% with its reason; its subject is "ERW Weekly | Henry Hub gas up 14.1% on the week; ...". W45's opening now points to "Oil Prices Rebound Sharply After Brutal Midweek Rout".
 - The 59 importing test files OK (1,104 tests). **Row 10**: head `3219971df`, merges cleanly.
 
+## Session 3331: the lab path's step 04
+
+- MemFree 2.37 GB, under the 2.5 GB the file sets for a build; left, said so.
+
+## Sessions 3332 to 3334: days and weeks with no stored issue, on the stack (rows 111 to 117)
+
+- 3332, the Digest of 11 November (dry run): 111, the outlet printed twice when no party is named ("Rigzone; Rigzone"); 112, a quarter's M&A total named "Deal value" (now "Deals in total"); 113, "Also named: Saudi Arabia" under a "Saudi ..." headline.
+- 3333, the Digest of 10 November (dry run): 114. The window held 3 stories in 96 hours, where a weekday brings several hundred; elsewhere many stories were held but not scored. The issue now says each, as counts only, and "1 scored story".
+- 3334, W44 (dry run): 115, a European gas story ("100 euros per MWh as EU confronts refinery closures") was the reason for Henry Hub's 12.9% fall; another market's gas no longer names Henry Hub, and the direction words read support, lift, boost and rebound as a rise, and weigh, pressure, rout and retreat as a fall. 116: the subject's cut went back to its comma. 117: "1,253 scored stories".
+- One older test brought to row 111 (`test_periodicals.py`, "Outlet; Outlet"). The 59 importing test files OK (1,110 tests). **Row 10**: head `ed900cd13`, merges cleanly.
+
