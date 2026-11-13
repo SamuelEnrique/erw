@@ -124,7 +124,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   const sp = await searchParams;
   const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
   const M = await modelOf(q);
-  const { snap, iso, x, scenarioParams, g, a, cg, hub, mainHub, atHub, at, key, k, sizeLabel, fuel, peaker, money, bmw, dur, strat, held, monthRows, s, ys, line, mk, why, mine, batt, battWhy, hf, pair, facts, capView } = M;
+  const { snap, iso, x, scenarioParams, g, a, cg, hub, mainHub, atHub, at, key, k, sizeLabel, fuel, peaker, money, bmw, dur, strat, held, monthRows, s, ys, line, mk, why, mine, batt, battWhy, hf, pair, facts, capView, capHub, capSpan, capWords } = M;
   const scenarioKey = `${iso}|${hub.id}|${k}|${x.mw}|${JSON.stringify(scenarioParams)}`;
   const costs = M.costsOf(k);
 
@@ -157,13 +157,14 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   const capNum = (r: CapRow, span: string, what: "price" | "flat" | "rate", v: number) => {
     const raw = what === "rate" ? Math.round(v) : v, text = what === "rate" ? whole(v) : two(v);
     return capView.fuel
-      ? <Num check={`cap|${iso}|${r.id}|${r.market}|${capView.fuel}|${span}|${what}`} raw={raw}>{text}</Num>
+      ? <Num check={`cap|${iso}|${r.id}|${r.market}|${capView.fuel}|${capSpan(span)}|${what}`} raw={raw}>{text}</Num>
       : <span data-model-cap={`${r.id}|${span}|${what}`} data-raw={raw}>{text}</span>;
   };
   const capHead = (top: string, under: string) => <span key={top}>{top}<span className="mt-0.5 block text-xs opacity-80">{under}</span></span>;
 
   // session 264: the capture price of the hub chosen with its rate beside it, each with its check key (the capture file)
-  const capKey = (what: "price" | "flat" | "rate") => `cap|${iso}|${hub.id}|${mk}|${fuel}|l12|${what}`;
+  // session 1893: the span ends "@<the model's last month>" when the capture file's months were cut at it (model.ts, capCut)
+  const capKey = (what: "price" | "flat" | "rate") => `cap|${iso}|${hub.id}|${mk}|${fuel}|${capSpan("l12")}|${what}`;
   const mineRate = mine && mine.flat > 0 ? Math.round((100 * mine.price) / mine.flat) : null;
   // session 264: the model's spans carry ms|<inputs>|<span>|<stat> at the main hub (the inputs name the grid, iso=)
   const spanNum = (span: "twelve" | "three" | "every", stat: string, v: number, text: string) =>
@@ -233,8 +234,8 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                   note={s.twelve ? <>{shortMonth(s.twelve.from)} to {shortMonth(s.twelve.to)}, priced at <span data-stat="priced_at">{at}</span></> : null} />
                 {fuel ? (
                   <HeadlineNumber label={`Price received at ${hubAt(hub.id)}`}
-                    value={mine ? <span data-stat="cap_price"><Num check={capKey("price")} raw={mine.price}>{two(mine.price)}</Num></span> : <Missing why={why(hub, fuel, mk)} />} unit={mine ? "USD/MWh" : undefined}
-                    note={mine ? <><span data-stat="cap_premium">{signed(mine.premium)}</span> USD per MWh{mine.pct === null ? "" : <> (<span data-stat="cap_pct">{signed(mine.pct, 1)}</span> percent)</>} against the flat average of <span data-stat="cap_flat"><Num check={capKey("flat")} raw={mine.flat}>{two(mine.flat)}</Num></span>{mineRate === null ? "" : <>, a capture rate of <span data-stat="cap_rate"><Num check={capKey("rate")} raw={mineRate}>{whole(mineRate)}</Num></span> percent</>}; {MARKETS[mk].toLowerCase()}, {shortMonth(mine.from)} to {shortMonth(mine.to)}</> : null} />
+                    value={mine ? <span data-stat="cap_price"><Num check={capKey("price")} raw={mine.price}>{two(mine.price)}</Num></span> : <Missing why={why(capHub, fuel, mk)} />} unit={mine ? "USD/MWh" : undefined}
+                    note={mine ? <><span data-stat="cap_premium">{signed(mine.premium)}</span> USD per MWh{mine.pct === null ? "" : <> (<span data-stat="cap_pct">{signed(mine.pct, 1)}</span> percent)</>} against the flat average of <span data-stat="cap_flat"><Num check={capKey("flat")} raw={mine.flat}>{two(mine.flat)}</Num></span>{mineRate === null ? "" : <>, a capture rate of <span data-stat="cap_rate"><Num check={capKey("rate")} raw={mineRate}>{whole(mineRate)}</Num></span> percent</>}; {capWords}</> : null} />
                 ) : (
                   <HeadlineNumber label={peaker ? "Price while running" : "Price while selling"}
                     value={s.twelve && s.twelve.capture !== null ? spanNum("twelve", "capture", s.twelve.capture, usd(s.twelve.capture)) : <Missing why={M.twelveWhy} />} unit={s.twelve && s.twelve.capture !== null ? "USD/MWh" : undefined}
@@ -288,7 +289,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                           title: `${c.label}: ${capName.toLowerCase()} ${two(c.price)} USD per MWh against a hub average of ${two(c.flat)}${c.rate === null ? "" : `, a capture rate of ${whole(c.rate)} percent`}${c.partial ? ` (${c.months} of 12 months counted, a partial year)` : ""}` }))} />
                     </ChartFrame>
                   ) : (
-                    <p className="mb-6 text-sm" data-capture-chart="none"><Missing why={fuel ? why(hub, fuel, mk) : M.twelveWhy} words={`No year is held at ${hubAt(hub.id)}`} /></p>
+                    <p className="mb-6 text-sm" data-capture-chart="none"><Missing why={fuel ? why(capHub, fuel, mk) : M.twelveWhy} words={`No year is held at ${hubAt(hub.id)}`} /></p>
                   )}
                   <p className="mb-2 max-w-3xl text-sm" data-capture-lead="1">Every hub and zone of {g.name}: the last twelve months in the first three columns, then the capture rate of each year, in percent.</p>
                   <ToolTable caption={`${capName}, hub average and capture rate at every hub and zone of ${g.name}: the last twelve months, and the capture rate by year`}
