@@ -103,6 +103,15 @@ export const STUDIES = [
     published_words: "Generated over 2,100 full-time-equivalent (FTE) jobs within the state of Texas; Currently supports approximately 240 permanent Texas jobs; Figure 3: construction phase over 600 FTE jobs (on-site), over 1,000 FTE jobs (local revenue, turbine and supply chain), over 500 FTE jobs (induced); operational phase 60 long-term jobs, 100 jobs, 80 jobs",
     dollars_of: 2009,
   },
+  {
+    id: "maine_wind_1000", title: "Maine Economic Impacts from 1,000 MW of New Wind Development, Wind Powering America fact sheet, NREL (Lantz and Tegen), DOE/GO-102008-2672, October 2008",
+    url: "https://docs.nlr.gov/docs/fy09osti/44146.pdf", request: 122,
+    method: "JEDI Wind with inputs from interviews with Maine contacts (developers, contractors, assessors); 2007 constant dollars; construction plus 20 years; totals only (the sheet's direct category is not JEDI's on-site line)",
+    tech: "land_based_wind", state: "me", mw: 1000, cost_usd: 1980e6, cost_year: 2007, cost_words: "Data Inputs: Construction Cost $1,980/kW; Operations and Maintenance $24.70/kW/yr", life: 20,
+    published: { "construction:total:jobs": 3896, "operations:total:jobs": 540 },
+    published_words: "New Local Jobs During Construction: 3,896; New Local Long-term Jobs: 540 (construction phase 2,042 direct and 1,854 indirect and induced; operational phase 254 and 286)",
+    dollars_of: 2007,
+  },
 ];
 
 export function crosscheck(rows) {

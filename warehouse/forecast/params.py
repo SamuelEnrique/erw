@@ -89,7 +89,7 @@ def deflator(path):
                  "index(2025) / index(y). 2026 is EIA's projection and is not used.",
         "source": "U.S. Energy Information Administration, Short-Term Energy Outlook, API v2 steo/data, series GDPDIUS (annual)",
         "source_url": "https://api.eia.gov/v2/steo/data/?frequency=annual&data[]=value&facets[seriesId][]=GDPDIUS",
-        "read": "2026-11-13, chain 239 session 4200 (runs/w4/eia_requests.csv)",
+        "read": "2026-11-13, chain 239 session 4200 (2009 on) and chain 257 session 4292 (from 1997, for older studies in the cross-check; runs/w4/eia_requests.csv)",
         "base_year": 2025,
         "index": {str(y): v for y, v in sorted(idx.items()) if y <= 2025},
     }, None

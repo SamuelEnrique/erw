@@ -430,6 +430,38 @@
      "ratio": 0.7555499999999999
     }
    ]
+  },
+  {
+   "id": "maine_wind_1000",
+   "title": "Maine Economic Impacts from 1,000 MW of New Wind Development, Wind Powering America fact sheet, NREL (Lantz and Tegen), DOE/GO-102008-2672, October 2008",
+   "url": "https://docs.nlr.gov/docs/fy09osti/44146.pdf",
+   "request": 122,
+   "method": "JEDI Wind with inputs from interviews with Maine contacts (developers, contractors, assessors); 2007 constant dollars; construction plus 20 years; totals only (the sheet's direct category is not JEDI's on-site line)",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "me",
+    "mw": 1000,
+    "capex_2025_usd_per_kw": 2955.714897830379,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "New Local Jobs During Construction: 3,896; New Local Long-term Jobs: 540 (construction phase 2,042 direct and 1,854 indirect and induced; operational phase 254 and 286)",
+   "cost_words": "Data Inputs: Construction Cost $1,980/kW; Operations and Maintenance $24.70/kW/yr",
+   "dollars_of": 2007,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 3896,
+     "model": 5642.5915916914455,
+     "ratio": 1.4483037966353813
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 540,
+     "model": 275.78200000000004,
+     "ratio": 0.5107074074074075
+    }
+   ]
   }
  ]
 }
