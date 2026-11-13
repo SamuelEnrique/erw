@@ -4,8 +4,8 @@
  "notice": "NLR's data terms (https://www.nlr.gov/disclaimer): the user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data; credit DOE/NLR/ALLIANCE; the Data are provided as is.",
  "technologies": {
   "land_based_wind": {
-   "taxable_share": 0.819258,
-   "arithmetic": "22,682,269.38 / 0.0635 / 435,992,965.33 = 0.819258",
+   "taxable_share": 0.819282,
+   "arithmetic": "22,682,269.38 / 0.0635 / 435,992,965.33 = 0.819282",
    "cells": "DefaultData!C47 and D47 (Sales Tax (Materials & Equipment Purchases), 22,682,269.38); DefaultData!C46 and D46 (Subtotal All Costs (without sales tax), 435,992,965.33); ProjectData!B108 (Local Sales Tax Rate, 0.0635, the saved project in Connecticut)",
    "file": "01d-jedi-land-based-wind-model-rel-w6-28-19.xlsm"
   },
