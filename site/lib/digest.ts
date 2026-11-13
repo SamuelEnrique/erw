@@ -382,7 +382,7 @@ export function holdRoundupGrids(md: string, now: Date = new Date()): string {
   const namesHeld = names.length ? new RegExp(`\\b(?:${names.map((n) => n.replace(/[-]/g, "\\-")).join("|")})\\b`) : null;
   let inNumbers = false;
   return md.split("\n").map((l) => {
-    if (/^#{2,3} /.test(l)) inNumbers = /ERW's Numbers This Week/.test(l);
+    if (/^#{2,3} /.test(l)) inNumbers = /ERW's Numbers This Week|^## Numbers of the week/.test(l);   // W39's older heading too
     // session 3319 (row 108): the week's highest real-time price, when it was a held grid's (W43: LONGIL, NYISO)
     const rt = /^\*\*Highest real-time price of the week:\*\* -?[\d,]+\.\d+ USD\/MWh at .+? \(([A-Z-]+)\)/.exec(l);
     if (rt && held.has(gridPrefix(rt[1]))) {

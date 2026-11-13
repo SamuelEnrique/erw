@@ -431,6 +431,9 @@ test("a stored Roundup holds a held grid's prices (session 1989, faults file row
   assert.ok(h43[5].startsWith("**Highest real-time price of the week:** 302.71 USD/MWh at HB_SOUTH (ERCOT)"));
   assert.equal(h43[9], "NYISO's queue grew to 1,234.56 MW in a story.");   // outside the numbers section: a story's words
   assert.ok(!h43.join("\n").includes("47.64") && !h43.join("\n").includes("1165.64"));
+  // W39's older heading, "## Numbers of the week"
+  const w39 = "## Numbers of the week\n\nThe week's highest real-time price was 521.36 USD/MWh at N.Y.C. (NYISO).";
+  assert.ok(!D.holdRoundupGrids(w39, new Date("2026-11-13T00:00:00Z")).includes("521.36"));
 });
 
 console.log(`${n} passed`);
