@@ -769,6 +769,17 @@ class Row136ABacklogIsNoDeal(unittest.TestCase):
         self.assertIn("Project backlog, USA: USD 14.4 billion", brief.story_row("x", [r], ("deal",), {}, None, "a figure", ("money",))[0])
 
 
+class Row137SpendingIsNotRaised(unittest.TestCase):
+    def row(self, title):
+        r = rec("m", title, sector="capital", price="$825 billion", parties="Meta")
+        return brief.story_row("x", [r], ("capital",), {}, None, "a figure", ("money",))[0]
+
+    def test_the_nouns(self):
+        self.assertIn("Spending committed, USA: USD 825 billion", self.row("Meta Reports $825 Billion in Future Spending Commitments"))
+        self.assertIn("Capital raised, USA", self.row("CoreWeave plans to raise at least $825 billion in a high-grade loan"))
+        self.assertIn("Capital, USA", self.row("Meta's $825 billion question"))
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

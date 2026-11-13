@@ -2224,6 +2224,7 @@ SECTOR_NOUN = {"datacenter_power": "Datacenter load", "generation": "Generation 
                "grid_conditions": "Reliability", "geopolitics": "Supply at risk", "oil": "Oil supply"}
 
 
+RAISED = re.compile(r"\b(?:rais(?:e|es|ed|ing)|funding|round|ipo|loan|bonds?|debt|financing|secures?)\b", re.I)   # row 137
 TOTAL_OF_DEALS = re.compile(r"\btotal(?:s|ed|ing)?\b|\bin [\w-]+(?: [\w-]+)? deals\b", re.I)   # session 3332, row 112
 # row 123, narrowed by row 124 (session 3347): the headline's sum stands right before the company it describes ("To Form $50B
 # Gas Giant", "Will Create $50 Billion Gas 'Champion'"); "Creating Largest US Gas Producer" with no sum keeps "Deal value"
@@ -2265,6 +2266,14 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
         elif field != "mw" and re.search(r"\bbacklogs?\b", f"{(r.get('titles') or [''])[0]} {(heads or {}).get(r['cluster_id'], '')}", re.I):
             # session 3354 (faults file row 136): "Kinder Morgan Backlog Surges ..." states a company's backlog, not a deal
             noun = "Project backlog"
+        elif field != "mw" and str(r.get("sector")) == "capital":
+            # session 3355 (faults file row 137): "Meta Reports $825 Billion in Future Spending Commitments" was "Capital
+            # raised"; the measure follows the headline: money raised, money to be spent, else capital
+            text = f"{(r.get('titles') or [''])[0]} {(heads or {}).get(r['cluster_id'], '')}"
+            if re.search(r"\b(?:spend(?:s|ing)?|capex|commitments?|invest(?:s|ing|ment)?)\b", text, re.I) and not RAISED.search(text):
+                noun = "Spending committed"
+            elif not RAISED.search(text):
+                noun = "Capital"
         region = str(r.get("region") or "").strip()
         place = f", {region}" if region and region.lower() != "global" else ""
         ref = f" {notes.ref('news_stories')}" if notes is not None else ""
