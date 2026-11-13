@@ -56,7 +56,9 @@ class TheBlock(unittest.TestCase):
 
     def test_the_shared_block_is_the_grid_pages_form(self):
         b = src(*BLOCK)
-        self.assertIn('<details className="mt-10 border-t border-rule pt-3 text-sm" data-decisions={id}>', b)
+        # session 5001 (chain 233): the fold opens to start only when a page passes `open` (the battery page); closed otherwise
+        self.assertIn('<details className="mt-10 border-t border-rule pt-3 text-sm" data-decisions={id} open={open || undefined}>', b)
+        self.assertIn("open = false", b)
         self.assertIn('<summary className="cursor-pointer py-1 text-accent">{title}</summary>', b)
         self.assertNotIn("style=", b)            # tokens only: no color, font or spacing of its own
 

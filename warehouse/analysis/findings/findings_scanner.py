@@ -350,6 +350,19 @@ def rule_record(s, cfg, scan_date, n, f):
                           "record_min_margin_sigmas": cfg["record_min_margin_sigmas"]}}
         cmp_ = {"old_record": float(old), "old_record_date": str(s.days[since]), "stood_points": int(stood), "margin": float(val - old),
                 "margin_sigmas": round(float(margin), 4), "sigma": float(sigma)}
+        # Session 1982 (docs/reviews/periodicals-faults-2026-11-05.md row 87): a fresh point before this one can already have
+        # beaten the held record (Wyoming's gas generation, July 2026 at 1,034,451 MWh, before August's 1,060,504 MWh; the
+        # Digest of 12 November said the record until now was July 2024's 765,381). The test above stays the fresh window's
+        # against the held history; "the record until now" is the highest (lowest) value before this point, the held record
+        # is kept beside it, and the margin and the strength are measured from the record until now.
+        between = new[:j]
+        if between.size:
+            k = int(np.argmax(between) if direction == "high" else np.argmin(between))
+            if (between[k] > old) if direction == "high" else (between[k] < old):
+                cmp_.update({"held_record": float(old), "held_record_date": str(s.days[since]), "old_record": float(between[k]),
+                             "old_record_date": str(s.days[f + k]), "margin": float(val - between[k]),
+                             "margin_sigmas": round(float(abs(val - between[k]) / sigma), 4)})
+                margin = abs(val - between[k]) / sigma
         out.append(base_flag(s, "record", f + j, val, cfg, scan_date, margin, thr, cmp_, direction, history_of(s.days, f)))
     return out
 

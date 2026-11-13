@@ -588,6 +588,8 @@ Roadmap item 2 asks for a replication a reader can run. `replication/grid/` is t
 - the warehouse's tables as CSV: `eia930_all_emissions`, `carbon_intensity_hourly` and `carbon_intensity_monthly`, `eia930_all_generation`, and the tables the Ask panel's stored answers read;
 - this folder's `assumptions.json`: every assumption, its default, its source and how to change it (the section below).
 
+Since session 5005 (13 November 2026) `figures_of_the_page.py` keeps the snapshot it read beside the figures (`replication/grid/snapshot.json`), and `replicate.py` reads that copy when no `--snapshot` is given. Until then a run with no argument stopped (exit 2) the day after the figures were written, because the daily run rewrites `site/data/grid_network.json`. `--snapshot site/data/grid_network.json` still sets today's snapshot beside the figures, once they are written again from it.
+
 | File | What it does |
 |---|---|
 | `figures_of_the_page.py` | Writes `page_figures.json` and `.csv`: the figures the page prints, each with its check key, the value and the tolerance (half of the last digit the page shows, as `site/lib/format.ts` writes it). It also writes `snapshot_hour.csv` (the snapshot's hour shown, for Stata) and `replicate_ask.do`. The network's figures come from the page's own functions, which `network_figures.mjs` runs with node (`site/lib/gridKeys.ts`, `networkV3.ts`, `network.ts`, `networkGravity.ts`: pure, type imports only). The carbon months are the rows the Clean tab's monthly block names. The Ask figures are the stored answers the panel shows, with the license hold the panel applies on the day |

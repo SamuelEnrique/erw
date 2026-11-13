@@ -45,3 +45,28 @@ Energy Research Warehouse (ERW). Chain 242 (`queue/done/242-day-15-november-oldl
 - 120: "U.S. Refineries Make Dramatic Shift Away From Gasoline" sat under Power, tagged power prices; a refining or road-fuel title is now oil's.
 - The 60 importing test files OK (1,122 tests); `test_session206` and `test_session2226_ask` OK. **Row 10**: head `d2ce5ad44`, merges cleanly.
 
+## Sessions 3336 and 3337: W43 and the Digest of 30 October (dry runs), rows 121 to 123
+
+- 121: "a investment in Blackstone Energy Transition Partners V", a slip of this chain's row 103; the article follows the word now.
+- 122: the Roundup's "five stories of the week" were numbered 4 to 8 after the weekend's 1 to 3; each list starts at 1.
+- 123: "Deal value: USD 50 billion" from "EQT, Range Resources To Combine To Form $50B Gas Giant", a combined company's size (the deal is USD 13 billion in `energy_deals`); such a figure is now "Combined company value".
+- The 60 importing test files OK (1,125 tests). **Row 10**: head `0b6bbbdd4`, merges cleanly.
+
+## Sessions 3338 and 3339: every figure of the new dry runs traced
+
+- The Digests of 11 and 5 November and 30 October on the stack: `check_digest.py` 86 ok, 0 failed (3 "not here" are fun facts those days never had: no item was written for them).
+- W43 and W44 on the stack: `check_roundup.py` 52 ok, 0 failed.
+
+## Session 3340
+
+- Not used separately: the stored Digest of 13 November is not written before the 14:00 UTC run; the next file takes it first.
+
+## Session 3341: the note
+
+- `docs/state/note_2026-11-13_oldlaptop_c242.md`.
+
+## Session 3342: the next file, the queue
+
+- `queue/next/244-day-16-november-oldlaptop-periodicals-continued.md` filled: the stored 13 November Digest against the stack first, row 10's landing, the stored W46, more days with no issue.
+- Then `chain_queue.py next`.
+
