@@ -1,0 +1,57 @@
+# Session 3888 (chain 227): read from the Utah Public Service Commission's filing of rule R746-318, "Large Scale Electric
+# Requirements" (its Notice of Substantive Change of 31 October 2025, signed by the Commission's chair, with the rule's full
+# text on pages 3 to 9), at rulemaking Docket 25-R318-01 as the Commission publishes it: the docket page
+# psc.utah.gov/2025/05/09/docket-no-25-r318-01/ links the PDF on pscdocs.utah.gov (9 pages, 298,309 bytes). Robots:
+# psc.utah.gov's file disallows only /wp-admin/ (crawl delay 10 seconds, kept) and names no AI agent; pscdocs.utah.gov
+# answers 404 for robots.txt (a storage bucket with no file, so nothing is disallowed); requests 11 seconds apart. Saved
+# under runs/license_reads/s3888/ (not in git). The document is a state commission's rule filing, a public record. IN
+# FORCE: the rule prints "Date of Enactment or Last Substantive Amendment: January 1, 2026", and the docket lists the
+# Commission's "Notice of January 1, 2026 Effective Date" (29 December 2025; a scanned image, its text not read here). The
+# docket's comment rounds of 2026 (on revisions and a large load flexible tariff, with Docket 24-035-43) had produced no
+# amended rule on 13 November 2026. Chain 212's S.B. 132 file (utah_sb132_large_scale_electric_service.yaml) holds the
+# statute's steps; this file holds the rule's own, as printed: the rule gives the filing window as "15 days" where the
+# statute (54-26-301(8)) prints "15 business days", and both are kept as printed. The qualified electric utility in Utah
+# is Rocky Mountain Power (PacifiCorp), as in the statute's file; the rule names none. Pages are the PDF's.
+body: Public Service Commission of Utah (Utah Admin. Code R746-318, under S.B. 132 of 2025)
+grid: PACE
+utility: PacifiCorp (Rocky Mountain Power)
+eia_id: 14354
+state: UT
+document: Public Service Commission of Utah, R746-318 Large Scale Electric Requirements, Notice of Substantive Change of 31 October 2025, Docket 25-R318-01 (effective 1 January 2026)
+document_date: 2025-10-31
+document_url: https://pscdocs.utah.gov/Rules/25R31801/34253425R31801nopr10-31-2025.pdf
+retrieved_at: 2026-11-13T10:29:27Z
+license: public
+steps:
+  - section: "R746-318-201(1)"
+    page: 5
+    step: the utility or generation provider files the executed large load contract with the Commission for approval
+    party: utility or generation provider
+    duration: 15
+    unit: days
+    printed: "Within 15 days of executing a large load contract, a qualified electric utility or large-scale generation provider shall file with the Commission an application for approval of the large load contract"
+  - section: "R746-318-201(3)"
+    page: 5
+    step: a redacted copy of an application the utility is not party to is served on the utility the day it is filed
+    party: large-scale generation provider
+    printed: "An appropriately redacted version of the application for Commission approval of a large load contract to which the qualified electric utility is not a party shall be served upon the qualified electric utility on the same day an unredacted, complete version is filed with the Commission."
+  - section: "R746-318-202(1)"
+    page: 5
+    step: the Commission approves or disapproves the large load contract
+    party: Public Service Commission of Utah
+    duration: 60
+    unit: days
+    printed: "The Commission shall approve or disapprove an application for approval of a large load contract within 60 days of the application being filed."
+  - section: "R746-318-401(7)"
+    page: 7
+    step: a registered generation provider given a notice of deficiency has 90 days to remedy it, or its registration may be suspended or revoked
+    party: large-scale generation provider
+    duration: 90
+    unit: days
+    printed: "A notice of deficiency will allow the large-scale generation provider 90 days to remedy the deficiency and may impose reasonable conditions on the large-scale generation provider’s registration status during that 90-day period."
+  - section: "R746-318-601(4)"
+    page: 8
+    step: the Commission conducts a limited and expedited review of a closed private generation contract (a load reaching 100 MW within five years)
+    party: Public Service Commission of Utah
+    mw: 100
+    printed: "The Commission shall conduct a limited and expedited review and shall approve a private generation contract if the Commission finds: (a) the large-scale generation provider is registered with the Commission; (b) the large load customer is requesting service that is expected to reach a cumulative demand of 100 megawatts or greater within five years of the requested initial start date"
