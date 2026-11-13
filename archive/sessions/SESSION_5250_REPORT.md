@@ -1,6 +1,6 @@
 # Session 5250: chain 238 taken, its next file, and the ground after chain 235 stopped
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 13 November 2026 (18:35 to 18:50 UTC), Fable, unattended. First session of chain 238 (`queue/done/238-day-14-november-portable-p3-ask-continued.md`). Branch `wip/5200-ask` (worktree `erw-p3-5200`), `origin/main` merged at `1d35d2ca5`. Nothing built, nothing landed, no model call, no warehouse data written.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 13 November 2026 (18:35 to 18:47 UTC), Fable, unattended. First session of chain 238 (`queue/done/238-day-14-november-portable-p3-ask-continued.md`). Branch `wip/5200-ask` (worktree `erw-p3-5200`), `origin/main` merged at `1d35d2ca5`. Nothing built, nothing landed, no model call, no warehouse data written.
 
 ## Read these first
 
