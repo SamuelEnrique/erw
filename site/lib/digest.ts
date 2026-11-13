@@ -16,7 +16,7 @@
 // checkers, as the Roundup's are). A figure of a held table is drawn as Num draws one: "license needed", no data-check.
 // This file imports nothing but lib/license.ts, so scripts can read it without building the site
 // (scripts/digest-figures.mjs, scripts/test-digest-numbers.mjs).
-import { LICENSE_FROM, LICENSE_NEEDED, gridPrefix, licenseHeldGrids, licenseHeldRow, licenseNeeded, licenseTitle, utcDay } from "./license";
+import { LICENSE_FROM, LICENSE_NEEDED, gridName, gridPrefix, licenseHeldGrids, licenseHeldRow, licenseNeeded, licenseTitle, utcDay } from "./license";
 
 /** A grid's label in the Digest (the row's first cell, or the real-time line's parenthesis) and its entity prefix. */
 const GRID: Record<string, string> = { ERCOT: "ercot", CAISO: "caiso", NYISO: "nyiso", MISO: "miso", SPP: "spp", "ISO-NE": "isone", ISONE: "isone", PJM: "pjm" };
@@ -377,7 +377,22 @@ export function sourceTrail(html: string): string {
 export function holdRoundupGrids(md: string, now: Date = new Date()): string {
   const held = new Set(licenseHeldGrids(now));
   if (!held.size) return md;
+  // session 3319 (row 108): the held grids by the names a stored Roundup's sentences give them
+  const names = [...held].map((p) => gridName(p)).filter((n) => n && !/^[a-z]/.test(n));
+  const namesHeld = names.length ? new RegExp(`\\b(?:${names.map((n) => n.replace(/[-]/g, "\\-")).join("|")})\\b`) : null;
+  let inNumbers = false;
   return md.split("\n").map((l) => {
+    if (/^#{2,3} /.test(l)) inNumbers = /ERW's Numbers This Week/.test(l);
+    // session 3319 (row 108): the week's highest real-time price, when it was a held grid's (W43: LONGIL, NYISO)
+    const rt = /^\*\*Highest real-time price of the week:\*\* -?[\d,]+\.\d+ USD\/MWh at .+? \(([A-Z-]+)\)/.exec(l);
+    if (rt && held.has(gridPrefix(rt[1]))) {
+      return `**Highest real-time price of the week:** ${LICENSE_NEEDED}: the week's highest interval held was ${rt[1]}'s, a grid held since ${day(LICENSE_FROM)}.`;
+    }
+    // session 3319 (row 108): the numbers' summary sentence, when it names a held grid beside a price (W43: "dearest at
+    // NYISO's N.Y.C., 47.64 USD/MWh")
+    if (inNumbers && namesHeld && /^[A-Z]/.test(l) && !/^Tables?:/.test(l) && namesHeld.test(l) && /\d\.\d{2}\b/.test(l)) {
+      return `${LICENSE_NEEDED}: the summary of these numbers names figures of a grid held since ${day(LICENSE_FROM)}.`;
+    }
     if (!l.startsWith("| ")) return l;
     const c = l.split("|");
     const p = gridPrefix((c[1] ?? "").trim());

@@ -412,6 +412,25 @@ test("a stored Roundup holds a held grid's prices (session 1989, faults file row
   assert.equal(out[4], "| ISO-NE | .H.INTERNAL_HUB | license needed | license needed | license needed | [3] |");
   assert.equal(out[5], "| Henry Hub natural gas | 2.63 USD/MMBtu on 2026-11-03 | 2.76 on 2026-10-27 | -0.13 (-4.7%) | [5] |");
   assert.equal(D.holdRoundupGrids(md, new Date("2026-10-01T00:00:00Z")), md);   // before the hold began
+  // session 3319 (row 108): W43's summary sentence and real-time line, both NYISO's figures
+  const w43 = [
+    "### ERW's Numbers This Week",
+    "",
+    "Day-ahead power was dearest at NYISO's N.Y.C., 47.64 USD/MWh, and cheapest at SPP's SPPSOUTH_HUB, 20.15.",
+    "",
+    "**Highest real-time price of the week:** 1165.64 USD/MWh at LONGIL (NYISO), interval starting 2026-10-21 20:00 local (2026-10-22 00:00 UTC), lmp_rtm_15m_mean [4].",
+    "**Highest real-time price of the week:** 302.71 USD/MWh at HB_SOUTH (ERCOT), the 15-minute interval starting 2026-11-03 17:45 Central (23:45 UTC) [4].",
+    "",
+    "## What mattered",
+    "",
+    "NYISO's queue grew to 1,234.56 MW in a story.",
+  ].join("\n");
+  const h43 = D.holdRoundupGrids(w43, new Date("2026-11-13T00:00:00Z")).split("\n");
+  assert.equal(h43[2], "license needed: the summary of these numbers names figures of a grid held since 21 October 2026.");
+  assert.equal(h43[4], "**Highest real-time price of the week:** license needed: the week's highest interval held was NYISO's, a grid held since 21 October 2026.");
+  assert.ok(h43[5].startsWith("**Highest real-time price of the week:** 302.71 USD/MWh at HB_SOUTH (ERCOT)"));
+  assert.equal(h43[9], "NYISO's queue grew to 1,234.56 MW in a story.");   // outside the numbers section: a story's words
+  assert.ok(!h43.join("\n").includes("47.64") && !h43.join("\n").includes("1165.64"));
 });
 
 console.log(`${n} passed`);
