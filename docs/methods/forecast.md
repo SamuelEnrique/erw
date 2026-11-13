@@ -129,7 +129,15 @@ Session 4209 (chain 239). `site/scripts/forecast-crosscheck.mjs` runs each study
 | Rush Creek Wind Farm, Colorado, NREL/TP-5000-73659, 2019 ([docs.nlr.gov](https://docs.nlr.gov/docs/fy19osti/73659.pdf), request 80); JEDI Wind with costs from Xcel Energy's filings and JEDI's default shares for the rest; Vestas's Colorado factories in the supply chain | 600 MW, "Total Capital Cost $698,137,648" (2018 dollars, USD 1,164/kW) | construction jobs: total / onsite / supply chain / induced | 2,970 / 290 / 1,840 / 840 | 1,523 / 221 / 878 / 424 | 0.51 / 0.76 / 0.48 / 0.50 |
 | | | operating jobs a year | "approximately 180" | 123 | 0.69 |
 
-Session 4253 added Indiana and Rush Creek. Two more studies were sought and not used: a West Virginia gas plant study whose host disallows ClaudeBot and anthropic-ai by name, and a regional battery study (no JEDI model, not statewide).
+| Wyoming: NREL/TP-6A20-57411, 2013 ([docs.nlr.gov](https://docs.nlr.gov/docs/fy13osti/57411.pdf), request 107); JEDI Natural Gas and Wind with IMPLAN 2008 multipliers and the Wyoming Infrastructure Authority's local shares; Wyoming's own figures (the study also counts Colorado); jobs over a three-year build, the cumulative figure three times Table 6's average; dollar year not stated, taken as 2012 | gas: 225 MW, installed cost USD 280 million; 24 percent of construction and 39 percent of O&M spending in Wyoming | construction jobs: total / onsite / supply chain / induced | 573 / 309 / 141 / 120 | 551 / 235 / 217 / 100 | 0.96 / 0.76 / 1.54 / 0.83 |
+| | | operating jobs a year (onsite) | 36 (11) | 31 (11.4) | 0.86 (1.04) |
+| | | Wyoming sales and use tax over the build (2012 dollars) | USD 10.2 million (6 percent on capital goods and materials) | USD 9.1 million | 0.90 |
+| | wind: 900 MW, installed cost USD 1,350 million; turbines from Colorado (18 percent of construction spending in Wyoming) | construction jobs: total / onsite / supply chain / induced | 2,496 / 453 / 1,707 / 336 | 2,574 / 476 / 1,648 / 449 | 1.03 / 1.05 / 0.97 / 1.34 |
+| | | operating jobs a year (onsite) | 217 (41) | 151 (40.8) | 0.70 (1.00) |
+| | | Wyoming sales and use tax over the build (2012 dollars) | USD 74.2 million | USD 59.6 million | 0.80 |
+| | | wind generation tax a year, at the study's 48.5 percent capacity factor (the tool from the fourth operating year) | USD 3.8 million | USD 3.82 million | 1.01 |
+
+Session 4253 added Indiana and Rush Creek; session 4263 added NREL's Wyoming study of a gas plant and a wind plant, the first with a gas plant and with taxes stated for the state. Its Wyoming figures agree within 4 percent for construction jobs of both plants; gas operating jobs 0.86; wind operating jobs 0.70, as the study counts lease payments to landowners (about USD 10 million a year) in the supply chain; the sales tax 0.90 and 0.80, as the study taxes capital goods and materials at 6 percent where the tool takes Tax Foundation's state and average local rate on JEDI's taxable share; and Wyoming's wind generation tax at the study's own capacity factor is the statute's figure (1.01; the study does not apply the three exempt years, the tool does). Two more studies were sought and not used: a West Virginia gas plant study whose host disallows ClaudeBot and anthropic-ai by name, and a regional battery study (no JEDI model, not statewide).
 
 **What the differences say.**
 
