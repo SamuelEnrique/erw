@@ -16,7 +16,7 @@ import { HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolTable } from 
 import { daysAgo, series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { FUELS, fuelName, fuelOf, type GridData } from "@/lib/grid";
-import { gridHref, type GridChoice } from "@/lib/gridtool";
+import { gridHref, zoneWords, type GridChoice } from "@/lib/gridtool";
 import type { GridConfig } from "@/lib/markdown";
 import { fetchHourly, pickSnapshot, tiesAt } from "@/lib/network";
 import { completeHour } from "@/lib/networkV3";
@@ -33,7 +33,7 @@ const committed = snapJson as unknown as Snapshot;
 const CONDITIONS_CODE: Record<string, string> = { ercot: "erco", caiso: "ciso", pjm: "pjm", miso: "miso", spp: "swpp", nyiso: "nyis", isone: "isne", us48: "us48" };
 
 const hourOf = (ts: string, tz: string | null) => (tz
-  ? new Intl.DateTimeFormat("en-US", { timeZone: tz, month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(new Date(ts))
+  ? zoneWords(new Intl.DateTimeFormat("en-US", { timeZone: tz, month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(new Date(ts)), tz)
   : `${ts.slice(0, 10)} ${ts.slice(11, 16)} UTC`);
 const key = (t: string, r: SeriesRow) => `series|${t}|${r.entity}|${r.variable}|${r.ts_utc}`;
 const N = ({ t, r }: { t: string; r: SeriesRow }) => <Num check={key(t, r)} raw={r.value}>{shown(r.value)}</Num>;

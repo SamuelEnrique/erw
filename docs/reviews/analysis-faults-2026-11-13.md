@@ -9,6 +9,7 @@ Energy Research Warehouse (ERW). Chain 233, window P1 of the portable laptop, se
 | 3 | Method note, first paragraph | "on the site's `/analysis`": the page is `/research` since session 238 | The paragraph names `/research` and says `/analysis` redirects | fixed (session 5004) |
 | 4 | Method note | No sign-off block, which the three economics notes and the Grid tool's have; roadmap item 2 asks for a signed note | A "Sign-off" block ends the note, naming what a signature accepts | fixed (session 5004) |
 | 5 | Method note | Nothing says which parts of the page run by themselves and on which clock, which "the final form" needs | A section "Final form" before "Replication": each part, what makes it, its clock, the last one made, and what waits for a person by ruling (a finding's publication) | fixed (session 5004) |
+| 6 | `docs/methods/crosschecks/automated_analysis.md` (found in session 5402, reading the cards against it) | The cross-check table quoted the cards of 6 November where the page prints those of 12 November: least all-in 40.99 for 41.04, the gigawatt's years, the curtailment estimates (8,539 for 8,426 and five more), the flexible load's hub figures, the queue's 3,509 GW for 3,591 and its best technology's 52 percent for 53. Session 5073 held only the three decision tools' tables to their page figures | Every figure set to `replication/analysis/page_figures.json` of 12 November, the gaps recomputed (-25.98; +90 GW); `tests/test_session5073.py` holds every card figure the page prints to the table | fixed (session 5402) |
 
 ## The read
 
