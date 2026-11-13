@@ -170,6 +170,10 @@ def income(path):
                 v["brackets"].insert(0, {"over_usd": 0.0, "rate": 0.0, "implied": "below the table's first threshold"})
         if len(out) < 51:
             return None, f"income: {len(out)} states read"
+        # session 4299: a state's own 2026 figures where it changed them after the table (income_official.json, cited)
+        off = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "income_official.json"), encoding="utf-8"))
+        for s, o in off.items():
+            out[s].update(o)
         return {
             "about": "State individual income tax for a single filer, 2026 (Tax Foundation's table as of February 2026): each "
                      "bracket's rate over its threshold, the standard deduction and the personal exemption or credit. The tool "

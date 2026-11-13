@@ -535,3 +535,12 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   assert.equal(F.defaults(P, "utility_pv", "fl").exempt, 0);
   assert.equal(Object.keys(P.property.states).length, 51, "every state and DC");
 });
+
+test("session 4299: the states' own 2026 income tax where they changed it after the table (Georgia, Utah, South Carolina, West Virginia)", () => {
+  assert.equal(P.income.states.ga.brackets[0].rate, 0.0499); assert.equal(P.income.states.ga.standard_deduction_single, 15000);
+  assert.equal(P.income.states.ut.brackets[0].rate, 0.0445);
+  assert.deepEqual(P.income.states.wv.brackets.map((b) => b.rate), [0.0211, 0.0281, 0.0316, 0.0422, 0.0458]);
+  // South Carolina: 5.21 percent of income less USD 966 from USD 30,000, the same as the brackets
+  const sc = (y) => P.income.states.sc.brackets.reduce((t, b, k, a) => t + Math.max(0, Math.min(y, a[k + 1]?.over_usd ?? Infinity) - b.over_usd) * b.rate, 0);
+  near(sc(40000), 0.0521 * 40000 - 966, 1e-9);
+});
