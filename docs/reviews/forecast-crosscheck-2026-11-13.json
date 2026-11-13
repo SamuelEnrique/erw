@@ -194,6 +194,56 @@
      "ratio": null
     }
    ]
+  },
+  {
+   "id": "rush_creek_co",
+   "title": "Economic Impacts from Wind Energy in Colorado, Case Study: Rush Creek Wind Farm, NREL/TP-5000-73659 (2019)",
+   "url": "https://docs.nlr.gov/docs/fy19osti/73659.pdf",
+   "request": 80,
+   "method": "JEDI Wind with the project's known costs from Xcel Energy's PUC filings and JEDI's default shares for the rest; Vestas's Colorado turbine factories in the supply chain; 2018 dollars",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "co",
+    "mw": 600,
+    "capex_2025_usd_per_kw": 1466.3070658302192,
+    "life": 25,
+    "ilr": 1
+   },
+   "published_words": "The Rush Creek Wind Farm construction supports an estimated 2,970 FTE jobs [...] the 290 FTEs include 245 FTEs for on-site construction and interconnection labor [...] 1,840 FTEs were local revenue, turbine, and supply chain workers [...] an additional 840 FTE-induced jobs; Supports approximately 180 jobs in Colorado annually",
+   "cost_words": "Table 11: Total Capital Cost $698,137,648; Installed Project Cost $1,164/kW; 600 MW",
+   "dollars_of": 2018,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 2970,
+     "model": 1522.8155305827688,
+     "ratio": 0.5127325018797202
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 290,
+     "model": 221.42846459455137,
+     "ratio": 0.7635464296363841
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 1840,
+     "model": 877.7359173402943,
+     "ratio": 0.47703038985885565
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 840,
+     "model": 423.650689881906,
+     "ratio": 0.5043460593832214
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 180,
+     "model": 123.43379999999999,
+     "ratio": 0.6857433333333333
+    }
+   ]
   }
  ]
 }

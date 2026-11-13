@@ -64,6 +64,15 @@ export const STUDIES = [
     published_words: "Supported employment totaling more than 4,400 full-time-equivalent (FTE) jobs in Indiana during the construction periods; Supports approximately 260 ongoing Indiana jobs; Generates more than $8 million in annual property taxes (per 1,000 MW)",
     dollars_of: 2010,
   },
+  {
+    id: "rush_creek_co", title: "Economic Impacts from Wind Energy in Colorado, Case Study: Rush Creek Wind Farm, NREL/TP-5000-73659 (2019)",
+    url: "https://docs.nlr.gov/docs/fy19osti/73659.pdf", request: 80,
+    method: "JEDI Wind with the project's known costs from Xcel Energy's PUC filings and JEDI's default shares for the rest; Vestas's Colorado turbine factories in the supply chain; 2018 dollars",
+    tech: "land_based_wind", state: "co", mw: 600, cost_usd: 698137648, cost_year: 2018, cost_words: "Table 11: Total Capital Cost $698,137,648; Installed Project Cost $1,164/kW; 600 MW", life: 25,
+    published: { "construction:total:jobs": 2970, "construction:onsite:jobs": 290, "construction:supply_chain:jobs": 1840, "construction:induced:jobs": 840, "operations:total:jobs": 180 },
+    published_words: "The Rush Creek Wind Farm construction supports an estimated 2,970 FTE jobs [...] the 290 FTEs include 245 FTEs for on-site construction and interconnection labor [...] 1,840 FTEs were local revenue, turbine, and supply chain workers [...] an additional 840 FTE-induced jobs; Supports approximately 180 jobs in Colorado annually",
+    dollars_of: 2018,
+  },
 ];
 
 export function crosscheck(rows) {
