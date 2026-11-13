@@ -2,7 +2,7 @@
 
 13 November 2026, unattended, `portable-laptop` window P2. Branch `wip/5166-security`, worktree `erw-p2-5150`. Model spend USD 0. Pulls: two read-only transactions on the catalog, twelve requests of the storage service with the anon key (lists of at most three entries, and one byte of the newest object of each bucket), `verify_rls.py --catalog` once. Nothing built, nothing landed, no warehouse data written, nothing changed in the database or in a bucket.
 
-Clock: precheck 20:20 UTC, the reads 20:22 to 20:25 UTC, the tests by 20:27 UTC. Inside the long end of 1:00.
+Clock: precheck 20:20 UTC, the reads 20:21 to 20:23 UTC, the tests by 20:24 UTC. Inside the long end of 1:00.
 
 ## Read these first
 
@@ -11,7 +11,7 @@ Clock: precheck 20:20 UTC, the reads 20:22 to 20:25 UTC, the tests by 20:27 UTC.
 - **Three buckets**: `erw-archive` private, `erw-thesis` private (12 objects), `erw-public` public by design (3 objects: what a page fetches by address).
 - `storage.objects` has row-level security on and **no policy at all**: the anon key lists nothing of any bucket.
 - **The verifier gains step 7.** A private bucket made public, a bucket that is not listed, a policy for the anon key, or an entry the anon key can list, now fails `verify_rls.py --catalog`.
-- **Waits, polled at 20:20 UTC:** landing row 23 not landed; the scan of the git history still running (48 minutes at 20:25 UTC).
+- **Waits, polled at 20:20 UTC:** landing row 23 not landed; the scan of the git history still running (47 minutes at 20:24 UTC).
 
 ## What to review
 

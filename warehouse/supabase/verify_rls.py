@@ -29,6 +29,10 @@ What is checked, and what a mismatch is:
   7. With --catalog (session 5172): every storage bucket is in EXPECTED_BUCKETS as public or private, storage.objects
      has row-level security on and no policy for the anon key or a signed-in user, and the anon key lists nothing of
      a private bucket (the archive of every table's rows is one).
+  8. With --catalog (session 5173): the API serves no schema but public to the anon key (a read of a table of net,
+     cron, vault, erw_private, storage or extensions is refused); the anon role holds no usage on cron, vault or
+     erw_private and cannot execute the dispatcher; each scheduled job is one call of the dispatcher and holds no
+     text shaped like a key.
 
 Exit 0 when everything matches, 1 on any mismatch, 2 when the key or the address is not set. Never prints a key.
 """
@@ -36,6 +40,7 @@ Exit 0 when everything matches, 1 on any mismatch, 2 when the key or the address
 import argparse
 import json
 import os
+import re
 import sys
 import urllib.error
 import urllib.parse
@@ -123,6 +128,17 @@ ANON_FUNCTIONS = {
 # storage.objects carries no policy for the anon key: with row-level security on and no policy, the anon key lists and
 # reads nothing of a private bucket, whatever table privilege it holds.
 EXPECTED_BUCKETS = {"erw-archive": "private", "erw-public": "public", "erw-thesis": "private"}
+
+# Session 5173: what else the database could offer the anon key. The REST API serves schema public alone: a table of
+# any of these schemas, asked for by name, must be answered "Invalid schema" (the anon role holds usage on `net`, the
+# extension that makes HTTP requests from the database, by the host's own default; it is the API's list of schemas
+# that keeps it out of reach). The scheduled jobs (pg_cron) each call the dispatcher and nothing else, and no job's
+# command holds text shaped like a key: the token that starts a workflow lives in the vault, read by erw_dispatch.
+CLOSED_SCHEMAS = (("net", "http_request_queue"), ("cron", "job"), ("vault", "secrets"), ("erw_private", "settings"),
+                  ("storage", "objects"), ("extensions", "pg_stat_statements"))
+KEY_SHAPED = re.compile(r"eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-ant-[A-Za-z0-9_-]{10,}"
+                        r"|sb_secret_[A-Za-z0-9_-]{10,}|re_[A-Za-z0-9]{20,}|[Bb]earer\s+[A-Za-z0-9._-]{20,}|://[^/\s:@]+:[^/\s@]{6,}@")
+JOB_COMMAND = re.compile(r"^\s*select\s+public\.erw_dispatch\(\s*'[a-z0-9-]+\.yml'\s*(?:,\s*'[^']*'\s*(?:::\s*jsonb?\s*)?)?\)\s*;?\s*$", re.I)
 
 def env(name):
     v = os.environ.get(name)
@@ -387,6 +403,52 @@ def check_storage(db_url, origin, key, out=print, lister=storage_list):
     return bad
 
 
+def schema_read(origin, key, schema, table):
+    """(status, PostgREST's code) of a read of one row of schema.table with this key. A read; no function is called."""
+    req = urllib.request.Request(f"{origin}/rest/v1/{table}?select=*&limit=1",
+                                 headers={"apikey": key, "Authorization": f"Bearer {key}", "Accept-Profile": schema, "Accept": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            r.read(200)
+            return r.status, ""
+    except urllib.error.HTTPError as e:
+        return e.code, code_of(e.read(2000).decode("utf-8", "replace"))
+
+
+def check_surface(db_url, origin, key, out=print, reader=schema_read):
+    """Session 5173: the API serves no schema but public to the anon key; each scheduled job calls the dispatcher alone
+    and holds no text shaped like a key; the dispatcher and the vault are not the anon key's. Read-only."""
+    import psycopg
+    bad = 0
+    with psycopg.connect(db_url, autocommit=False) as conn:
+        conn.execute("set transaction read only")
+        jobs = conn.execute("select jobname, command from cron.job order by jobname").fetchall()
+        closed = conn.execute(
+            "select has_schema_privilege('anon', 'cron', 'usage'), has_schema_privilege('anon', 'vault', 'usage'), "
+            "has_schema_privilege('anon', 'erw_private', 'usage'), "
+            "coalesce((select bool_or(has_function_privilege('anon', p.oid, 'execute')) from pg_proc p "
+            "join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname = 'erw_dispatch'), false)").fetchall()
+        conn.rollback()
+    out("8. what else the database could offer the anon key")
+    for schema, table in CLOSED_SCHEMAS:
+        status, code = reader(origin, key, schema, table)
+        ok = status != 200
+        bad += 0 if ok else 1
+        out(f"   schema {schema:14s} a read of {table}: HTTP {status} {code}{'' if ok else '  MISMATCH: the API serves this schema to the anon key'}")
+    for label, held in zip(("usage on schema cron", "usage on schema vault", "usage on schema erw_private", "execute on erw_dispatch"), closed[0] if closed else ()):
+        bad += 1 if held else 0
+        out(f"   the anon role, {label}: {'HELD  MISMATCH' if held else 'no'}")
+    for name, command in jobs:
+        problems = []
+        if not JOB_COMMAND.match(command or ""):
+            problems.append("its command is not one call of public.erw_dispatch")
+        if KEY_SHAPED.search(command or ""):
+            problems.append("its command holds text shaped like a key")
+        bad += 1 if problems else 0
+        out(f"   job {name:22s} {'ok' if not problems else 'MISMATCH: ' + '; '.join(problems)}")
+    return bad
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Verify what the anon key can read (read-only)")
     ap.add_argument("--catalog", action="store_true", help="also read the catalog over SUPABASE_DB_URL")
@@ -406,6 +468,7 @@ def main(argv=None):
         bad += check_catalog(db_url, args.before_028)
         bad += check_functions(db_url)
         bad += check_storage(db_url, f"{u.scheme}://{u.netloc}", key)
+        bad += check_surface(db_url, f"{u.scheme}://{u.netloc}", key)
     print(f"{'PASS' if bad == 0 else 'FAIL'}: {bad} mismatch(es)")
     return 0 if bad == 0 else 1
 

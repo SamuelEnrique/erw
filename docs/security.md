@@ -178,9 +178,9 @@ The review run again against the code as it stands, part by part. Each part's fi
 
 **Session 5162, the usage counts' method against the code.** The method note was read statement by statement against the code and the database's functions, and stands. It was corrected in three places where it said more or less than the code (an event no tool sends; four more cases in which nothing is counted; the site's own checks, row 32), and `tests/test_session5162.py` now holds each number and each list of the note to the line of code it describes. `/privacy` agrees with the code as it runs by default.
 
-## What chain 247 read after the fresh pass, 13 November 2026 (sessions 5169 to 5172)
+## What chain 247 read after the fresh pass, 13 November 2026 (sessions 5169 to 5173)
 
-While landing row 23 and the owner's rulings were awaited, four more parts no pass had reached were read. None found a fault; each now has a standing test.
+While landing row 23 and the owner's rulings were awaited, five more parts no pass had reached were read. `verify_rls.py --catalog` has eight steps since: the tables (1 to 5), the functions (6), the buckets (7), the API's reach and the scheduler (8). None found a fault; each now has a standing test.
 
 | Session | What was read | What holds it now |
 |---|---|---|
@@ -188,5 +188,6 @@ While landing row 23 and the owner's rulings were awaited, four more parts no pa
 | 5170 | Each of the 23 database functions the anon key may execute, from its newest definition in the migrations: the 19 that take a token check it and raise before any other statement; the subscription functions compare the signed token first; a thesis run's one-time key is compared before the run is written | `tests/test_session5170.py` |
 | 5171 | Every redirect (each to a path the code names; none takes a destination from the address) and every file the site's server reads (sixteen files, each by a name the site holds or a bounded pattern) | `tests/test_session5171.py` |
 | 5172 | The storage buckets: the archive of every table's rows and the thesis tool's files are private and refuse the anon key; one bucket is public by design; no policy opens the objects | `verify_rls.py --catalog`, step 7 (`EXPECTED_BUCKETS`); `tests/test_session5172.py` |
+| 5173 | The scheduler and the API's reach: six scheduled jobs, each one call of the dispatcher, none holding a secret; the dispatcher, the vault and the scheduler's schema closed to the anon key; the REST API serves schema `public` alone; the GraphQL API is not enabled | `verify_rls.py --catalog`, step 8; `tests/test_session5173.py` |
 
 Session 5169 also corrected a flaw in this chain's own tests: the way they dropped comments before scanning the source left 4,680 characters of three files unread. Read now, those parts hold nothing the tests forbid.
