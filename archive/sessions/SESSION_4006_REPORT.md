@@ -20,6 +20,18 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 - Window 4's row 2 (`wip/4220-forecast`, `52dc1001a`) and row 3 (`wip/4225-forecast`, `925e9e481`).
 - The old laptop's row 10 to `1831d3fe5`.
 
+## The next batch, built (14:28 UTC): `wip/w2-land-c`
+
+- **From `origin/main`:**
+  - `wip/4166-licenses` (`82f9db150`, window 3's row 6, holding rows 1 to 5);
+  - `wip/4225-forecast` (`ae3a50c59`, window 4's row 3, holding row 2);
+  - `wip/1973-periodicals` (`32a5c1975`);
+  - `wip/w2-4000`, this window's reports and `--verbose`.
+- **Commits past the requested heads were checked:** reports, request files, notes and the forecast's method note only, as the rows allow.
+- **The one conflict,** row 4's line of `landing_request_desktop_w3.md`, keeps main's "landed" mark.
+- **Checks:** the five consistency checks exit 0; the 8 changed test files with periodicals, 579 and 4005: 332 OK.
+- **The gate** runs late in the blackout, with any newer heads merged first, and is pushed at 16:15.
+
 ## Decisions made without you
 
 - **No gate is pushed between 14:00 and 16:15.** The next combined gate is built and run late in the blackout, and pushed at 16:15. GitHub's merge job tests a task branch merged with the main of the moment (session 3712), so the daily run's commits in between are covered.
