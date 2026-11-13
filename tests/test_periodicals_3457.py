@@ -119,5 +119,89 @@ class Row152TheRealTimeLineInWords(unittest.TestCase):
         self.assertIs(roundup.ZONE_WORDS, brief.ZONE_WORDS)
 
 
+ENI_WHY = ("Major oil major commits significant capital to UK lower-carbon projects, signaling portfolio transition and capital "
+           "allocation.")
+ENI_HEAD = "Eni plans around GBP 11 billion in gross investments in the United Kingdom, 2026 to 2030"
+
+
+class Row153AnOilMajorIsACompany(unittest.TestCase):
+    """Row 153: the voice's cleaner took "major" out of "oil major" and printed "Oil commits capital to UK lower-carbon
+    projects." (13 November 2026, What moved 5)."""
+
+    def test_the_eni_line(self):
+        self.assertEqual(brief.why_line(ENI_WHY, ENI_HEAD), "Oil major commits capital to UK lower-carbon projects.")
+
+    def test_the_noun_stays_and_the_adjective_goes(self):
+        self.assertEqual(brief.plain("Saudi oil major and sovereign fund invest."), "Saudi oil major and sovereign fund invest.")
+        self.assertEqual(brief.plain("An energy major and a gas major bid."), "An energy major and a gas major bid.")
+        self.assertEqual(brief.plain("A major 2 GW deal."), "A 2 GW deal.")
+        self.assertEqual(brief.plain("Two oil majors sign a major contract."), "Two oil majors sign a contract.")
+        self.assertEqual(brief.why_check("Oil major commits capital to UK projects."), [])
+        self.assertEqual(brief.why_check("A major contract."), ["adjective: major"])
+
+
+class Row154AnOilMarketTitleIsOils(unittest.TestCase):
+    """Row 154: "IEA Sees Oil Surplus for First Time in Iran War", tagged power prices, printed "(power prices)" in the
+    rest of the top ten beside an oil price story of the same day."""
+
+    def test_the_fuel_market_titles(self):
+        for title, sector in [("IEA Sees Oil Surplus for First Time in Iran War", "oil"),
+                              ("OPEC+ holds output steady amid tensions", "oil"),
+                              ("Global oil demand to peak sooner, agency says", "oil"),
+                              ("Natural gas demand for power hits a record", "gas"),
+                              ("Oil-fired plant retires in New England", "power_prices"),
+                              ("Power prices spike in Texas heat", "power_prices")]:
+            self.assertEqual(brief.sector_of({"sector": "power_prices", "title": title}), sector, title)
+
+    def test_only_a_power_tag_is_corrected(self):
+        self.assertEqual(brief.sector_of({"sector": "geopolitics", "title": "IEA Sees Oil Surplus"}), "geopolitics")
+
+    def test_the_two_oil_stories_are_one_topic(self):
+        iea = {"cluster_id": "a", "titles": ["IEA Sees Oil Surplus for First Time in Iran War"], "sector": "oil", "region": "global",
+               "parties": "IEA"}
+        squeeze = {"cluster_id": "b", "titles": ["Oil Prices Squeezed Between Peace Hopes and Iran Escalation Risk"], "sector": "oil",
+                   "region": "global", "parties": ""}
+        self.assertTrue(brief.same_topic(iea, squeeze))
+
+
+def item(**k):
+    return dict(dict(mw="", price="", parties=""), **k)
+
+
+class Row155NoFigureTwiceInAnItem(unittest.TestCase):
+    """Row 155: the figures line printed the why line's own figure again: "Oil down from USD 118 to below USD 95 per barrel
+    on ... de-escalation talks. USD 118 per barrel." (a dry run of 13 November with no model)."""
+
+    def test_the_why_lines_figure_is_not_printed_again(self):
+        why = "Oil down from USD 118 to below USD 95 per barrel on Ukraine-Russia and US-Iran de-escalation talks."
+        self.assertEqual(brief.detail(item(price="$118 per barrel"), "Oil Prices Squeezed Between Peace Hopes and Iran Escalation Risk",
+                                      why=why), "")
+        self.assertEqual(brief.detail(item(mw="1000", parties="AirTrunk; European Energy Australia"), "AirTrunk signs energy deal",
+                                      why="AirTrunk buys 1,000 MW."), "Also named: European Energy Australia. ")
+
+    def test_a_figure_neither_gives_is_printed(self):
+        self.assertEqual(brief.detail(item(price="$118 per barrel"), "Oil Prices Squeezed", why="Talks eased."), "USD 118 per barrel. ")
+
+    def test_the_issue_passes_the_printed_why_line(self):
+        import inspect
+        src = inspect.getsource(brief.main)
+        self.assertIn("detail(r, heads[r['cluster_id']], why=w)", src)
+
+
+class Row156NoSumWithoutAUnit(unittest.TestCase):
+    """Row 156: "2.6 billion; Parties: Aramco; PIF; HUMAIN." under "Aramco, PIF Close HUMAIN AI Deal": a sum the scorer
+    wrote with no currency, printed as one."""
+
+    def test_a_sum_with_no_unit_is_left_out(self):
+        self.assertEqual(brief.detail(item(price="2.6 billion", parties="Aramco; PIF; HUMAIN"), "Aramco, PIF Close HUMAIN AI Deal"), "")
+        self.assertEqual(brief.detail(item(price="millions", parties="X Corp"), "A deal"), "Also named: X Corp. ")
+        self.assertEqual(brief.detail(item(price="246,000", parties="X Corp"), "A deal"), "Also named: X Corp. ")
+
+    def test_a_sum_with_its_unit_stays(self):
+        self.assertEqual(brief.detail(item(price="$2.6 billion", parties="Aramco; PIF"), "A deal"), "USD 2.6 billion; Parties: Aramco; PIF. ")
+        self.assertEqual(brief.detail(item(price="3 billion euros", parties="X"), "A deal"), "3 billion euros; Parties: X. ")
+        self.assertEqual(brief.detail(item(price="50%", parties="X"), "A deal"), "50%; Parties: X. ")
+
+
 if __name__ == "__main__":
     unittest.main()

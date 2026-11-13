@@ -170,10 +170,18 @@ def sector_of(lead):
         # ("U.S. Refineries Make Dramatic Shift Away From Gasoline" under Power, tagged power prices, 5 November)
         if REFINING.search(str(lead.get("title") or "")):
             return "oil"
+        # session 3459 (faults file row 154): a title about the oil or gas market's balance is that fuel's ("IEA Sees Oil
+        # Surplus for First Time in Iran War" under the rest of the top ten, tagged power prices, 13 November 2026)
+        for fuel, pat in FUEL_MARKET.items():
+            if pat.search(str(lead.get("title") or "")):
+                return fuel
     return sector
 
 
 REFINING = re.compile(r"\b(?:refiner(?:y|ies|s)?|refining|gasoline|diesel(?! generat)|jet fuel)\b", re.I)   # 3335, row 120
+_BALANCE = r"(?:surplus|glut|shortage|supply|supplies|demand|market|markets|output|production|stocks|inventor(?:y|ies)|exports?|imports?)"
+FUEL_MARKET = {"oil": re.compile(rf"\b(?:oil {_BALANCE}\b|opec\b)", re.I),   # 3459, row 154
+               "gas": re.compile(rf"\b(?:natural )?gas {_BALANCE}\b", re.I)}
 
 
 def build_clusters(stories):
@@ -625,7 +633,9 @@ def an_word(word):
 WHY_ADJECTIVES = ("massive", "unprecedented", "significant", "major", "critical", "key", "huge")
 # Session 2206: unprecedented, critical and key join the list. "key" and "critical" are also plain words of the trade
 # ("the key to", "critical minerals"): TERM says where they stand, and plain() leaves those.
-HYPE = r"(?:major|massive|significant|significantly|huge|unprecedented|critical|critically|key)"
+# Session 3457 (faults file row 153): "an oil major" is a company, not an adjective; "Major oil major commits significant
+# capital ..." printed "Oil commits capital ..." on 13 November 2026. "major" after "oil", "gas" or "energy" stays.
+HYPE = r"(?:(?<!oil )(?<!gas )(?<!energy )major|massive|significant|significantly|huge|unprecedented|critical|critically|key)"
 # Session 1437 (chain 149, faults 7 to 11 of docs/reviews/periodicals-faults-2026-11-05.md): a verb that asserts nothing
 # in place of a fact ("capacity expansion signals rising demand"), and a line whose content words are the headline's
 # (half or more of them: "Major oil company nearing deal to invest in Venezuela's oil fields" under "Exxon nears
@@ -907,16 +917,24 @@ def why_line(text, head=""):
     return t
 
 
-def detail(r, head=""):
+# Session 3459 (faults file row 156): a scored sum with no unit ("2.6 billion": of what currency?) or no figure at all
+# ("millions") is no figure a reader can use; detail() leaves it out
+UNITLESS = re.compile(r"^\s*[~≈]?\s*(?:about |around |nearly |over |up to )?\d[\d,]*(?:\.\d+)?\s*(?:billion|million|trillion|thousand|bn|mn|m|b|k)?\s*$", re.I)
+
+
+def detail(r, head="", why=""):
     """The figures line after the why line: the MW, the price and the parties of the cluster's scored fields. Session 801:
     a MW or a price whose figure the printed headline already gives is not printed again ("Anthropic may spend $750 Billion
-    ... $750 Billion; parties: Anthropic", 21 October, top 1)."""
+    ... $750 Billion; parties: Anthropic", 21 October, top 1). Session 3459 (faults file rows 155 and 156): nor one the
+    printed why line gives ("... from USD 118 to below USD 95 per barrel ... USD 118 per barrel.", 13 November, with no
+    model), nor a sum with no unit ("2.6 billion")."""
     bits = []
-    hf = figures_of(head)
+    hf = figures_of(head) | figures_of(why)
     if r["mw"] and not figures_of(f"{float(r['mw']):,.0f}") & hf:
         bits.append(f"{float(r['mw']):,.0f} MW")
-    if r["price"] and not (figures_of(r["price"]) and figures_of(r["price"]) <= hf):
-        bits.append(money_style(r["price"]))  # session 470
+    price = money_style(r["price"]) if r["price"] else ""
+    if price and figures_of(price) and not UNITLESS.match(price) and not figures_of(price) <= hf:
+        bits.append(price)  # session 470
     if r["parties"] and bits:
         # kept as written beside a figure: the Roundup reads the parties of a stored issue's item here (roundup.ISSUE_FIELDS)
         bits.append("Parties: " + r["parties"])   # session 3350 (row 130): a label in capitals; the Roundup reads either case
@@ -2648,8 +2666,9 @@ def main(argv=None):
             if len(recs) <= n_moved:
                 M.append("- no further story in the top ten today")
             for i, r in enumerate(recs[n_moved:], n_moved + 1):
+                w = why_line(r['why'], heads[r['cluster_id']])
                 M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
-                                (why_line(r['why'], heads[r['cluster_id']]) + " " + detail(r, heads[r['cluster_id']])).strip(),
+                                (w + " " + detail(r, heads[r['cluster_id']], why=w)).strip(),   # 3459, row 155
                                 f"Sources: {link_text(r['links'])}")
             M += ["", "### By sector", ""]
             for g, c in by_group.items():
