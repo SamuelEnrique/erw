@@ -7,6 +7,8 @@ counted apart) is put in the first class its record shows:
 
   pause      a tool answered with MISO's pause (MISO_PAUSED)
   held       a tool answered with a license hold ("license needed", or a held grid's answer)
+  not_live   a tool answered that the table is not in the live set the chat reads: it is of the record, on Redivis
+             (session 5256: the platform set's questions of such tables were counted as "lacks" or as "limit")
   limit      the loop used every tool call its day allowed (8 until session 1111 on 23 October 2026, 12 since)
   lacks      the tools were asked only for lists, notes or counts, or every read matched no row: the warehouse does not
              hold the figure, as far as the record shows
@@ -28,7 +30,8 @@ import replay as R  # noqa: E402
 OUT = os.path.join(ROOT, "docs", "reviews", "ask-refusals.md")
 EIGHT = {e["label"] for e in R.RUN_LIST if e["limit"] == 8}   # the runs asked under the limit of 8 (runs.json)
 REFUSED = ("not_in_warehouse", "refused_unverified")
-CLASSES = [("pause", "MISO's pause"), ("held", "a license hold"), ("limit", "the call limit"), ("lacks", "the warehouse lacks the figure"),
+CLASSES = [("pause", "MISO's pause"), ("held", "a license hold"), ("not_live", "a table not in the live set"), ("limit", "the call limit"),
+           ("lacks", "the warehouse lacks the figure"),
            ("read", "rows read, then refused"), ("checked", "the number check's refusal")]
 
 
@@ -45,6 +48,8 @@ def classify(q, label):
         return "pause"
     if any(o.get("held") for o in outs) or any("license needed" in e for e in errors):
         return "held"
+    if any("is not in this site's live set" in e for e in errors):
+        return "not_live"
     if q.get("status") == "refused_unverified":
         return "checked"
     if calls_of(q) >= (8 if label in EIGHT else 12):

@@ -1,0 +1,26 @@
+{
+ "_about": "Session 5260 (chain 238): the catalogue row of isone_interconnection_queue, ISO New England's own interconnection queue, a table of things held for a license by its grid (site/data/license_status.json), with no rows: both loops refuse it by name before reading, so the scenario a_held_grids_own_table of tests/fixtures/session1300/turns.json needs no row, and no held row is in the repository. The row is the live set's catalogue row as read with the anon key on 13 November 2026.",
+ "catalogue": [
+  {
+   "table_name": "isone_interconnection_queue",
+   "iso": "ISO-NE",
+   "market": null,
+   "n_nodes": 1751,
+   "interval": "snapshot",
+   "ts_min": "2026-11-05T23:22:50+00:00",
+   "ts_max": "2026-11-05T23:22:50+00:00",
+   "n_rows": 1751,
+   "source_report": "isone:interconnection_queue",
+   "last_run": "2026-11-05T23:21:52+00:00",
+   "validator_status": "pass",
+   "license": "public",
+   "sector": "power",
+   "derived": "no",
+   "in_live_set": "yes",
+   "columns": "[\"entity_id\", \"entity_type\", \"name\", \"geo\", \"lat\", \"lon\", \"capacity_mw\", \"status\", \"status_date\", \"operator\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\", \"queue_id\", \"county\", \"state\", \"poi\", \"zone\", \"transmission_owner\", \"fuel_technology\", \"iso_status\", \"queue_date\", \"proposed_in_service_date\", \"actual_in_service_date\", \"withdrawn_date\"]",
+   "rows_sha256": "87bb0f5867546295c1935fc9a6c5850ac67834dfe2923ac00a379066bdf4448a",
+   "tier": "source"
+  }
+ ],
+ "rows": []
+}
