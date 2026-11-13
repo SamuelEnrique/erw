@@ -67,6 +67,12 @@
    "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors307.html",
    "read": "2026-11-13",
    "request": 68
+  },
+  "wy_39_22": {
+   "title": "Wyoming Statutes, title 39, chapter 22, Tax upon production of electricity from wind resources (39-22-103 to 39-22-105)",
+   "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+   "read": "2026-11-13",
+   "request": 81
   }
  },
  "states": {
@@ -313,6 +319,25 @@
      "quote2": "Sec. 3. (1) Section 1, chapter 571, Oregon Laws 2015, is repealed on January 2, 2028. (2) Notwithstanding subsection (1) of this section, property constituting a solar project that is exempt from property taxes under section 1, chapter 571, Oregon Laws 2015, on the date specified in subsection (1) of this section shall continue to be exempt and to pay the fee in lieu of property taxes for the term specified in the agreement",
      "default_why": "USD 7,000, the statute's maximum, which was its one fixed rate until the 2021 amendment set the range (a ruling)",
      "not_modeled": "The agreement is the county's and the owner's: the tool offers it as a choice, off by default. The repeal of 2 January 2028: a project must be exempt under an agreement by then; the tool does not test the date. After the agreement's years no rule is held (no life total unless the reader types a rate). The land's treatment, which the agreement sets."
+    }
+   ]
+  },
+  "wy": {
+   "name": "Wyoming",
+   "rules": [
+    {
+     "id": "wy_wind_generation",
+     "technologies": [
+      "land_based_wind"
+     ],
+     "kind": "production",
+     "usd_per_mwh": 1.0,
+     "exempt_years": 3,
+     "adds_to_property": true,
+     "cite": "wy_39_22",
+     "quote": "39-22-103. Imposition. There is levied an excise tax upon the privilege of producing electricity from wind resources in this state. [...] The tax shall be imposed on each megawatt hour of electricity produced from wind resources at the point of interconnection with an electric transmission line. 39-22-104. Taxation rate. The tax rate shall be one dollar ($1.00) on each megawatt hour, or portion thereof, which is produced in this state.",
+     "quote2": "39-22-105. (b) Electricity produced from a wind turbine shall not be subject to the tax imposed under this chapter until the date three (3) years after the turbine first produced electricity for sale.",
+     "not_modeled": "An excise on production, in addition to the property tax on the plant, which no rule here holds: the reader's own property tax rate, if typed, is added to it. MWh at the point of interconnection are taken as the plant's MWh. The three years are counted as the first three operating years."
     }
    ]
   }

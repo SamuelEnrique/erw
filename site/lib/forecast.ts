@@ -45,6 +45,9 @@ export type PropertyRule = {
   id: string; technologies: TechKey[]; kind: "capacity" | "production" | "valuation" | "exempt_years" | "capacity_option";
   /** capacity_option (session 4225, Oregon's solar fee in lieu by county agreement): the statute's range and the default */
   usd_per_mw_min?: number; usd_per_mw_max?: number; default_usd_per_mw?: number;
+  /** session 4255 (Wyoming's wind excise): a production tax's first exempt operating years, and a rule that adds to the
+   *  property tax instead of standing in for it (the reader's own property tax rate is added to it) */
+  exempt_years?: number; adds_to_property?: boolean;
   /** exempt_years: the operating years exempt (session 4223, Kansas) */
   years?: number;
   usd_per_mw_year?: number; usd_per_mwh?: number; min_mw?: number;
@@ -199,7 +202,7 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
       else if (r.kind === "production") {
         // a scenario with no capacity factor (geothermal) has no production tax: the Python and Stata files do the same
         const rate = tierRate(r, x.mw);
-        if (rate > 0 && Number.isFinite(mwh)) { tax += mwh * rate; used.push(r.id); }
+        if (rate > 0 && Number.isFinite(mwh)) { tax += i < (r.exempt_years ?? 0) ? 0 : mwh * rate; used.push(r.id); }
       }
       else if (r.kind === "capacity_option") {
         // a county's agreement (off by default): the reader's rate within the statute's range, for the agreement's years
@@ -219,6 +222,12 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
         value = spend * (pct / 100);
         tax += value * (x.levy / 1000); used.push(r.id);
       }
+    }
+    // a rule that adds to the property tax (Wyoming's excise) leaves the property tax itself to the reader's own rate
+    const adds = rules.filter((r) => used.includes(r.id)).every((r) => r.adds_to_property);
+    if (used.length && adds && x.own !== null && x.ownyears !== null && x.ownyears > 0) {
+      const share = Math.max(0, 1 - i / x.ownyears);
+      return { tax: tax + spend * share * (x.own / 100), rule: used.concat("own").join("+"), value: spend * share };
     }
     if (used.length) return { tax, rule: used.join("+"), value };
   }

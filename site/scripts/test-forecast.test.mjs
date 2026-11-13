@@ -218,6 +218,7 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "geothermal", "ca") }, { ...F.defaults(P, "land_based_wind", "tx"), own: 1.2, ownyears: 20 }],
     [{ ...F.defaults(P, "land_based_wind", "ks") }, { ...F.defaults(P, "utility_pv", "ks"), own: 0.8, ownyears: 25 }],
     [{ ...F.defaults(P, "utility_pv", "or"), iaval: true, optrate: 6200 }, { ...F.defaults(P, "utility_pv", "or"), iaval: true, own: 1, ownyears: 30 }],
+    [{ ...F.defaults(P, "land_based_wind", "wy") }, { ...F.defaults(P, "land_based_wind", "wy"), own: 1.1, ownyears: 20 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -331,4 +332,14 @@ test("sales tax: North Dakota exempts a solar or gas power plant's purchases, no
   assert.equal(F.defaults(P, "utility_pv", "nd").exempt, 100);
   assert.equal(F.defaults(P, "natural_gas", "nd").exempt, 100);
   assert.equal(F.defaults(P, "land_based_wind", "nd").exempt, 0);
+});
+
+test("Wyoming's wind excise: USD 1 a MWh from the fourth operating year, the reader's own property tax added", () => {
+  const wy = { ...F.defaults(P, "land_based_wind", "wy"), mw: 100, cf: 0.4, capex: 1500 };
+  assert.equal(F.propertyTax(P, wy, 0).tax, 0); assert.equal(F.propertyTax(P, wy, 2).tax, 0);
+  near(F.propertyTax(P, wy, 3).tax, 100 * 8760 * 0.4 * 1);
+  const own = { ...wy, own: 1, ownyears: 25 };
+  near(F.propertyTax(P, own, 0).tax, 150e6 * 0.01, 1e-12, "the property tax during the excise's exempt years");
+  near(F.propertyTax(P, own, 5).tax, 100 * 8760 * 0.4 + 150e6 * (1 - 5 / 25) * 0.01);
+  assert.equal(F.propertyTax(P, F.defaults(P, "utility_pv", "wy"), 0).tax, null, "the excise is wind's");
 });

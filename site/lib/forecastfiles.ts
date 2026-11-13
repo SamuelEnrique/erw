@@ -79,6 +79,7 @@ def income_tax(t, w):
 def property_tax(d, i):
     x, mw = d["inputs"], d["inputs"]["mw"]
     cf = x["cf"] if x["cf"] is not None else 0.0  # geothermal holds none: no production tax applies to it
+    used_rules, adds = [], False  # Wyoming's excise adds to the property tax (the reader's own rate)
     mwh, spend, total, used = mw * 8760 * cf, x["capex"] * mw * 1000, 0.0, False
     for r in d["property"]:
         if r.get("min_mw") is not None and mw < r["min_mw"]:
@@ -94,7 +95,9 @@ def property_tax(d, i):
                     if mw > lo and (t.get("max_mw") is None or mw <= t["max_mw"]):
                         rate = t["usd_per_mwh"]; break
             if rate > 0:
-                total += mwh * rate; used = True
+                total += 0.0 if i < r.get("exempt_years", 0) else mwh * rate; used = True
+                adds = r.get("adds_to_property", False) if not used_rules else adds and r.get("adds_to_property", False)
+                used_rules.append(r["id"])
         elif r["kind"] == "capacity_option":
             if not x["iaval"] or x["optrate"] is None:
                 continue
@@ -111,6 +114,8 @@ def property_tax(d, i):
                 return None
             pct = r["schedule_pct"][i] if i < len(r["schedule_pct"]) else r["then_pct"]
             total += spend * pct / 100 * x["levy"] / 1000; used = True
+    if used and adds and x["own"] is not None and x["ownyears"]:
+        return total + spend * max(0.0, 1 - i / x["ownyears"]) * x["own"] / 100
     if used:
         return total
     if x["own"] is not None and x["ownyears"]:
@@ -203,7 +208,8 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
       else if (rl.kind === "production") {
         let rate = rl.usd_per_mwh ?? 0;
         if (rl.usd_per_mwh === undefined) for (const t of rl.tiers ?? []) { const lo = t.min_mw_exclusive ?? t.min_mw_ac_exclusive ?? 0; if (xi.mw > lo && (t.max_mw === undefined || xi.mw <= t.max_mw)) { rate = t.usd_per_mwh; break; } }
-        if (rate > 0 && Number.isFinite(xi.cf)) parts.push(`${mwh} * ${rate}`);  // geothermal holds no capacity factor
+        if (rate > 0 && Number.isFinite(xi.cf)) parts.push(rl.exempt_years ? `cond(i < ${rl.exempt_years}, 0, ${mwh} * ${rate})` : `${mwh} * ${rate}`);  // geothermal holds no capacity factor
+        if (rl.adds_to_property && xi.own !== null && xi.ownyears) parts.push(`${spend} * max(0, 1 - i / ${xi.ownyears}) * ${xi.own} / 100`);
       } else if (rl.kind === "capacity_option" && xi.iaval && xi.optrate !== null) {
         parts.push(`cond(i < ${rl.years}, ${xi.mw} * ${Math.min(rl.usd_per_mw_max ?? Infinity, Math.max(rl.usd_per_mw_min ?? 0, xi.optrate))}, .)`);
       } else if (rl.kind === "exempt_years") {
