@@ -18,7 +18,13 @@ Energy Research Warehouse (ERW). Chain 228 (`queue/done/228-day-13-november-desk
   - A batch that dies is run again one module a process; a module that still dies is named as an ERROR.
   - `land_check.py` uses it automatically below 12 GB of memory, or with `--suite-batch N` (0 means one process).
   - `suite_gate.py --batch N` does the same for the guard's runner.
-  - Test 4000, 15 tests.
+  - Test 4000, 16 tests.
+- **The memory-heavy part found and fixed:** numpy's OpenBLAS commits a buffer for each thread when numpy is imported.
+  - On the desktop's 20 threads, `import numpy, pandas` takes a process from 17 MB to 702 MB peak commit. With `OPENBLAS_NUM_THREADS=1` it is 91 MB.
+  - Every suite process pays this, and so does every Python child a test starts. A profile of the first 263 modules, each run alone, gave a median peak of 708 MB.
+  - `land_check.py` (`suite_env`), `suite_gate.py` (`clean_env`) and `suite_batches.py` now run the suite with the maths libraries on one thread (`ONE_THREAD`).
+  - The laptops have fewer threads, so their saving per process is smaller but of the same kind. This is the likeliest cause of row 9's commitment-limit exits.
+  - A second profile with the caps (every module alone) is running. Its heaviest modules go to `scripts/suite_alone.txt`.
 
 ## Row 9 of the old laptop
 
