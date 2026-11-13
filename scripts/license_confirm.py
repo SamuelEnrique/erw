@@ -218,7 +218,7 @@ def confirm(key, n, note="", session=None, pages=None, out=print):
     return state
 
 
-def verdict(key, n, pick, value, if_commercial, contact="", price="", note="", replace=False, pages=None, out=print, start=""):
+def verdict(key, n, pick, value, if_commercial, contact="", price="", note="", replace=False, pages=None, out=print, start="", end=""):
     if value not in FOUR or if_commercial not in FOUR:
         raise SystemExit(f"a verdict is one of {FOUR}")
     r = read_row(n)
@@ -240,6 +240,11 @@ def verdict(key, n, pick, value, if_commercial, contact="", price="", note="", r
             if start not in sentence:
                 raise SystemExit(f"--start {start!r} is not in the sentences picked")
             sentence = sentence[sentence.index(start):]
+        if end:
+            # and ends at the phrase given, when more menu words follow the notice
+            if end not in sentence:
+                raise SystemExit(f"--end {end!r} is not in the sentences picked")
+            sentence = sentence[:sentence.index(end) + len(end)]
     data = rows(VERDICTS)
     old = next((x for x in data if x["key"] == key), None)
     if old and not replace:
@@ -274,6 +279,7 @@ def main(argv=None):
     a.add_argument("--contact", default=""); a.add_argument("--price", default=""); a.add_argument("--note", default="")
     a.add_argument("--replace", action="store_true")
     a.add_argument("--start", default="", help="begin the cut at this phrase of the picked sentences (a footer after menu words)")
+    a.add_argument("--end", default="", help="end the cut after this phrase (menu words after the notice)")
     a = ap.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -289,7 +295,7 @@ def main(argv=None):
     if a.cmd == "confirm":
         state = confirm(a.key, a.n, a.note, pages=pages)
         return 0 if not state.startswith("changed") else 1
-    verdict(a.key, a.n, a.pick, a.verdict, a.if_commercial, a.contact, a.price, a.note, a.replace, pages=pages, start=a.start)
+    verdict(a.key, a.n, a.pick, a.verdict, a.if_commercial, a.contact, a.price, a.note, a.replace, pages=pages, start=a.start, end=a.end)
     return 0
 
 

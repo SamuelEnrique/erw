@@ -114,6 +114,9 @@ class OnThePage(unittest.TestCase):
         row = C.verdict("Example", "4", "0+1", "needs written permission", "needs written permission", replace=True, start="(c) Example",
                         pages=[self.pages], out=lambda *_: None)
         self.assertEqual(row["sentence"], "(c) Example Agency. All rights reserved.")
+        row = C.verdict("Example", "4", "0+1", "needs written permission", "needs written permission", replace=True, start="(c) Example",
+                        end="Agency.", pages=[self.pages], out=lambda *_: None)
+        self.assertEqual(row["sentence"], "(c) Example Agency.")
         with self.assertRaises(SystemExit):
             C.verdict("Example", "4", "0", "needs written permission", "needs written permission", replace=True, start="not there",
                       pages=[self.pages], out=lambda *_: None)
