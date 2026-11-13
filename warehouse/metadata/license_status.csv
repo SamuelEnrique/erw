@@ -19,6 +19,7 @@ event_study_estimates,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs writte
 event_window_daily,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 grid_stress_days,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 hub_price_comparison,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
+impact_tax_rules,license needed,2026-10-21,Louisiana Department of Revenue,needs written permission,,,"flagged public (its header); the Louisiana Department of Revenue's terms, read in session 4103 (read 1696), prohibit reproduction other than under its copyright notice, and the table cites its revenue information bulletin (docs/licenses.md)"
 iso_dam_hub_prices,license needed,2026-10-21,MISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 iso_hub_prices_history,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 iso_queue_statistics,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)

@@ -335,6 +335,13 @@
     "NYISO"
    ]
   },
+  "impact_tax_rules": {
+   "status": "license needed",
+   "from": "2026-10-21",
+   "publishers": [
+    "Louisiana Department of Revenue"
+   ]
+  },
   "iso_dam_hub_prices": {
    "status": "license needed",
    "from": "2026-10-21",
@@ -3333,7 +3340,11 @@
    ]
   },
   "impact_tax_rules": {
-   "status": "public",
+   "status": "license needed",
+   "hold": "whole",
+   "publishers": [
+    "Louisiana Department of Revenue"
+   ],
    "pages": [
     "/data",
     "/impact"
@@ -4599,6 +4610,7 @@
     "event_window_daily",
     "grid_stress_days",
     "hub_price_comparison",
+    "impact_tax_rules",
     "iso_dam_hub_prices",
     "iso_hub_prices_history",
     "iso_queue_statistics",
@@ -4629,7 +4641,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 485
+   "public": 484
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -4707,10 +4719,12 @@
   },
   "/impact": {
    "label": "Economic impact",
-   "dark": "none",
-   "license_needed": [],
+   "dark": "part",
+   "license_needed": [
+    "impact_tax_rules"
+   ],
    "internal": 0,
-   "public": 2
+   "public": 1
   },
   "/cost-of-power/battery": {
    "label": "What a battery earns",
