@@ -510,6 +510,24 @@ class Row105AGatedPointerGoes(unittest.TestCase):
         self.assertEqual(ed.gate_links("[How the chart is chosen](/x).", {"/x": "live"}), "[How the chart is chosen](/x).")
 
 
+class Row107TheKeyNamesTheFiguresStory(unittest.TestCase):
+    """Row 107: a block row's key names the story whose scored field gave the figure, not the cluster's id."""
+
+    def test_strathcona(self):
+        base = {"cluster_id": "news:808f", "sig": 7, "ai_power_relevance": "0", "ai": 0, "sector": "deal", "region": "Canada",
+                "why": "", "mw": "", "parties": "Strathcona; Greenfire", "summary": "", "source_url": "u", "significance": "7"}
+        s = pd.DataFrame([dict(base, event_id="news:808f", event_date="2026-11-11T04:52:11Z", price_mentioned="",
+                               title="Strathcona's Greenfire Deal Leaves Few Oil Sands Targets Standing", source="Hart Energy",
+                               source_url="https://example.org/h"),
+                          dict(base, event_id="news:f3e7", event_date="2026-11-12T18:01:03Z", price_mentioned="$2.1 Billion",
+                               title="Strathcona Pursues Growth With $2.1 Billion Greenfire Deal", source="JPT Homepage",
+                               source_url="https://example.org/j")])
+        c = brief.build_clusters(s).to_dict("records")[0]
+        self.assertEqual((c["price"], c["price_id"]), ("$2.1 Billion", "news:f3e7"))
+        line, detail = brief.story_row("Policy, capital or reliability", [c], ("deal",), {}, None, "a figure", ("money",))
+        self.assertEqual(detail, "story news:f3e7 (price)")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

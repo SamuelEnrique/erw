@@ -179,6 +179,11 @@ def build_clusters(stories):
             # session 21: the MW and price of the cluster are the first any of its stories' scored fields hold
             "sector": sector_of(lead), "region": str(lead.get("region", "") or ""), "why": lead["why"], "mw": next((x for x in g["mw"] if x), ""),
             "price": next((x for x in g["price_mentioned"] if x), ""), "parties": lead["parties"],
+            # session 3318 (faults file row 107): the story each figure came from, which the block's key names, so
+            # scripts/check_digest.py reads the row that holds it (the cluster's id named Hart Energy's "$2B" where JPT's
+            # "$2.1 Billion" was printed, 12 November)
+            "mw_id": next((e for x, e in zip(g["mw"], g["event_id"]) if x), "") if "event_id" in g else "",
+            "price_id": next((e for x, e in zip(g["price_mentioned"], g["event_id"]) if x), "") if "event_id" in g else "",
             "first": g["event_date"].min(), "n": len(g),
             "outlets": g["source"].astype(str).str.strip().str.lower().nunique(),   # session 2701: the outlets that ran it
             # session 470: one link an address (two stories of a cluster at one address printed it twice); session 1442
@@ -2148,7 +2153,7 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
         ref = f" {notes.ref('news_stories')}" if notes is not None else ""
         line = (f"- **{label}.** {noun}{place}: {fig} ({story_who(r)}; {outlet_of(r)}, {pd.Timestamp(r['first']):%Y-%m-%d}){ref}. "
                 "Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.")
-        return line, f"story {r['cluster_id']} ({field})"
+        return line, f"story {r.get(field + '_id') or r['cluster_id']} ({field})"   # row 107: the story the figure came from
     return f"- **{label}.** No story of the day states {what}.", ""
 
 
