@@ -82,6 +82,7 @@ WATCH_MAX_AGE = {"week": 14, "month": 100}   # days since the period ended: olde
 HELD = ("nyiso", "spp")
 DEFAULT_WAIT = 420                      # seconds the Digest waits for today's candidates before using yesterday's
 METHOD = "docs/methods/automated_analysis_scanner.md"
+OMITTED = ""   # session 3461 (faults file row 160): set by section(): "none", "error", or "" when it wrote the section
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 # Plain names for the series that flag most often. A code that is not here is shown as the table writes it: a wrong
@@ -140,8 +141,10 @@ def num(v, unit=""):
 
 
 def day_words(day, monthly=False):
-    """'2026-07-01' as 'July 2026' for a monthly value, else '6 October 2026'."""
-    y, m, d = (int(x) for x in str(day)[:10].split("-"))
+    """'2026-07-01' as 'July 2026' for a monthly value, else '6 October 2026'. Session 3457 (faults file row 151): a
+    month as a watch card's axis writes it ('2026-08') is read as its first day; it raised before, and the chart of 13
+    November 2026 was lost to it."""
+    y, m, d = _ymd(day)
     return f"{MONTHS[m - 1]} {y}" if monthly else f"{d} {MONTHS[m - 1]} {y}"
 
 
@@ -711,7 +714,9 @@ def how_words(c):
 
 
 def _ymd(day):
-    y, m, d = (int(x) for x in str(day)[:10].split("-"))
+    """(year, month, day) of '2026-08-01', or of a month alone, '2026-08', as its first day (session 3457, row 151)."""
+    parts = [int(x) for x in str(day)[:10].split("-")]
+    y, m, d = (parts + [1, 1])[:3]
     return y, m, d
 
 
@@ -851,7 +856,9 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
     earlier run (session 267; by default read from chart_dir's held.json); the records it holds now are written there.
     stories: the day's top stories (session 805), each with titles or title, sector, why and parties; the candidate most
     related to them comes first."""
+    global OMITTED
     chart_dir = chart_dir or CHART_DIR
+    OMITTED = "error"   # session 3461 (row 160): why the section is empty, for the Digest's words; "" once it is written
     try:
         why_source = "given"
         if candidates is None:
@@ -873,7 +880,12 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
             log(f"  daily chart: {k} held a day (a record more than {round(100 * RECORD_JUMP)} percent past the old one)")
         if c is None:
             log(f"  daily chart: {why} ({why_source}); section omitted")
+            OMITTED = "none"
             return []
+        # session 3457 (faults file row 151): the section's lines first, so a chart whose words cannot be written leaves
+        # no picture and no record behind (13 November 2026: the record and pictures of a chart the issue said it did not
+        # show, which /research lists and used_keys counts as shown)
+        lines = markdown(day, c)
         import card_image
         png = card_image.render(c["card"], os.path.join(chart_dir, f"{day}.png"), "digest", fact=c["fact"])
         record = {"date": day, "source": c["source"], "key": c["key"], "fact": c["fact"], "table": c["table"], "series_key": c["series_key"],
@@ -899,7 +911,8 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
             json.dump(record, f, indent=1, ensure_ascii=False, default=common.round6)
             f.write("\n")
         log(f"  daily chart: {c['key']} ({c['source']}); {why}; {why_source}")
-        return markdown(day, c)
+        OMITTED = ""
+        return lines
     except Exception as exc:
         log(f"  daily chart: omitted ({type(exc).__name__}: {str(exc)[:200]})")
         return []
