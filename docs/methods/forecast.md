@@ -97,7 +97,28 @@ PV = sum over years t of x_t / (1 + r)^(t - t0), r the real discount rate and t0
 
 ## 9. Cross-check against published studies
 
-(Session 4209 to 4210: at least three published impact studies of projects, each with its source; the model run with the study's inputs; the differences and their reasons.)
+Session 4209 (chain 239). `site/scripts/forecast-crosscheck.mjs` runs each study's own project (technology, state, MW, cost in its dollar year, life) through `lib/forecast.ts` at the tool's defaults otherwise, and sets the model's statewide figures beside the study's (the model's dollars converted back to the study's year). Each study was read on 13 November 2026 (requests 49, 50 and 54 of `runs/w4/probe.csv`, robots files first).
+
+| Study | Project as the study states it | Figure | Published | Model | Model / published |
+|---|---|---|---:|---:|---:|
+| Jayhawk Wind, Kansas: economic development report, November 2019 ([fortscott.biz](https://fortscott.biz/wp-content/uploads/2019/12/Jayhawk-Wind-Economic-Development-Report-Final-November-20191.pdf)); JEDI Wind, 2017 IMPLAN state multipliers, the project's own spending | about 195 MW; "an investment of almost $250 million" (2019 dollars); 25 years | construction jobs, total | 634 | 517 | 0.82 |
+| | | construction jobs: onsite / supply chain / induced | 190 / 321 / 123 | 77 / 308 / 132 | 0.40 / 0.96 / 1.07 |
+| | | construction earnings, output (2019 dollars) | 36.7 m / 98.2 m | 27.7 m / 78.7 m | 0.75 / 0.80 |
+| | | operating jobs, total (onsite) | 43 (9) | 34 (8.8) | 0.79 (0.98) |
+| | | operating earnings, output a year | 2.2 m / 7.5 m | 1.9 m / 5.9 m | 0.86 / 0.78 |
+| Glendive Wind, Montana: NextEra's summary of a 2024 study by Strategic Economic Research ([nexteraenergyresources.com](https://www.nexteraenergyresources.com/content/dam/neer/us/en/microsites/PDF/glendive-prairie-econ-impact.pdf)); IMPLAN with JEDI | "up to 800 megawatts", "$1 billion investment" (2024 dollars) | construction jobs | "Approx. 400" | 1,730 total; 272 onsite | 4.3 (total); 0.68 (onsite) |
+| Utility-scale solar in Ohio, Ohio University, 31 July 2020, low scenario ([PDF](https://static1.squarespace.com/static/56a8596376d99c0164fc16bd/t/5f50094e9c0ff3029d54bc6c/1599080786155/Measuring+the+Economic+Impacts+of+Utility-Scale+Solar+in+Ohio+---+FINAL%2C+7.31.2020.pdf)); JEDI PV with 2018 IMPLAN multipliers and NREL's Q1 2018 benchmark; 80 percent Ohio labor, 30 percent Ohio materials | 2.5 GW DC; construction cost USD 3,592,192,939 (2018 dollars); 40 years | construction jobs, total (direct) | 18,039 (8,536) | 19,835 (9,881) | 1.10 (1.16) |
+| | | construction output (2018 dollars) | "roughly $3.2B" | 2.43 bn | 0.76 |
+| | | operating jobs a year | 207 | 733 | 3.54 |
+| | | tax revenue a year | "up to $22.5M" (USD 9,000 per MW, Ohio's payment in lieu ceiling) | no rule held (codes.ohio.gov disallows every path) | none |
+
+**What the differences say.**
+
+- **Local content is the study's, not JEDI's default.** Jayhawk's developer planned far more onsite spending in Kansas than JEDI's default shares (onsite jobs 190 against the model's 77), while the supply chain and induced lines agree within 7 percent. Ohio's 80 percent labor and 30 percent materials are close to JEDI's utility defaults, and its construction jobs agree within 10 percent. The tool's local content input is where a reader with a project's spending plan moves the figure.
+- **JEDI's PV operating figures are high for today's plants.** JEDI's utility PV default holds 0.185 onsite FTE per MW DC a year (2010 operating costs), so 2.5 GW gives 461 onsite operating jobs against Ohio's 207 in total, which used NREL's 2018 O&M benchmark. The tool's PV operating jobs are therefore an upper reading; the tip on the operating figures says so, and a later session may add an operating spending input (percent of JEDI's default), as Ohio's study changed JEDI's costs.
+- **A headline count may not say what it counts.** Glendive's "approx. 400 construction jobs" is a summary's headline; the model's onsite jobs (272) are nearer to it than its total (1,730), and job-years spread over a short build can be read as a peak headcount. The study itself was not found; the comparison is kept with that caveat, not dropped.
+- **Dollar figures** run about 0.75 to 0.86 of the studies': JEDI's default multipliers are of 2014 to 2019 and its default cost mixes are of 2010 to 2017; the studies updated both.
+- **Taxes.** Ohio's tax figure is its statutory payment in lieu, the rule this chain could not read (Ohio's code site disallows automated reads). Kansas, Jayhawk's state, exempts the project for ten years under a payment in lieu of USD 2,000 per MW ("Assumes $2,000/MW/year [...] for the first ten years of the Project's life while the property tax exemption is in place"), a negotiated agreement the tool cannot hold.
 
 ## 10. What the tool cannot see
 
