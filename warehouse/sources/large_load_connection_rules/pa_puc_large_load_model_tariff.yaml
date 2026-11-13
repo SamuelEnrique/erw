@@ -1,0 +1,74 @@
+# Session 3863 (chain 223): read from the Pennsylvania Public Utility Commission's Final Order of 30 April 2026 (entered 12
+# May 2026) at Docket M-2025-3054271, "Interconnection and Tariffs for Large Load Customers", as the Commission publishes it
+# (www.puc.pa.gov/pcdocs/1929842.pdf, 129 pages, 525,804 bytes). Robots: www.puc.pa.gov's file disallows only its system
+# paths and a crawler named Brightbot; it names no AI agent. The Commission's site links no terms of use (its footer reads
+# "PUC All Rights Reserved" and links pa.gov's privacy policy only); the document is a Commission order, a public record.
+# Saved under runs/license_reads/s3863/ (not in git). ADOPTED: ordering paragraph 1 adopts the Model Tariff in the
+# Appendix (pages 119 to 129) for customers at or over 50 MW individually or 100 MW in the aggregate; each electric
+# distribution company files its own tariff on the model, so these are the model's steps, not one utility's. The orders on
+# reconsideration were read (pcdocs 1933623 and 1940149): the Energy Association's petition of 27 May 2026 was granted for
+# review on 4 June and withdrawn on 16 July 2026, which closed the docket, so the model stands as adopted. Pages are the PDF's. Pennsylvania's
+# EDCs are in PJM, so grid is PJM. The load ramp period is printed as a range (three to five years) and the open seasons as a
+# frequency (twice a year), so neither has a duration.
+body: Pennsylvania Public Utility Commission (Final Order adopting the Large Load Customer Model Tariff)
+grid: PJM
+utility: ""
+eia_id: ""
+state: PA
+document: Pennsylvania Public Utility Commission, Final Order, Interconnection and Tariffs for Large Load Customers, Docket M-2025-3054271 (adopted 30 April 2026, entered 12 May 2026), Appendix, Model Tariff for Customers at or over 50 MW Individually or 100 MW in the Aggregate
+document_date: 2026-05-12
+document_url: https://www.puc.pa.gov/pcdocs/1929842.pdf
+retrieved_at: 2026-11-13T08:05:17Z
+license: public
+steps:
+  - section: "Appendix, Applicability"
+    page: 122
+    step: the model tariff applies to a new large load of 50 MW or more, or 100 MW in the aggregate
+    party: electric distribution company
+    mw: 50
+    printed: "This tariff is applicable to customers at or over 50 MW individually or 100 MW in the aggregate."
+  - section: "Appendix, Network Open Season Planning Studies"
+    page: 127
+    step: large loads apply for interconnection studies in an open season, studied as a cluster
+    party: large load customer
+    printed: "Biannually (2 times per year) during a specified Network Open Season, Large Load Customers may apply for interconnection studies, which will be analyzed as cluster studies."
+  - section: "Appendix, Maximum Times for Interconnection Studies, the deadline"
+    page: 127
+    step: the company completes the interconnection studies from the day it accepts the application as complete
+    party: electric distribution company
+    duration: 6
+    unit: months
+    printed: "Interconnection Studies will be completed within six (6) months from the date that an application for interconnection study is accepted by the Company as complete."
+  - section: "Appendix, Maximum Times for Interconnection Studies, the refund"
+    page: 127
+    step: for each period past the six months, the company refunds half the study fee
+    party: electric distribution company
+    duration: 90
+    unit: days
+    printed: "the Company will refund the applicant 50% of the study fee for each 90-day period beyond the six-month completion deadline."
+  - section: "Appendix, Terms of Contract, the load ramp period"
+    page: 123
+    step: the customer may designate a load ramp period before the initial contract term
+    party: large load customer
+    printed: "A Customer may designate a Load Ramp Period, which should be at or between three (3) years and five (5) years."
+  - section: "Appendix, Terms of Contract, the initial contract term"
+    page: 123
+    step: the initial contract term, at least
+    party: large load customer
+    duration: 5
+    unit: years
+    printed: "A Large Load Customer's Initial Contract Term should be made for a period of not less than five (5) years."
+  - section: "Appendix, Terms of Contract, the notice period"
+    page: 123
+    step: after the initial term, notice to terminate the contract or modify its capacity
+    party: either party
+    duration: 48
+    unit: months
+    printed: "Contracts shall remain in effect unless terminated by either party by providing written notice to the other party at least 48 months prior to the requested date of termination."
+  - section: "Appendix, Contractual Flexibility, (b) Dispute Resolution"
+    page: 126
+    step: a request to escalate a dispute over the exit fee, after the customer is notified of it
+    party: either party
+    duration: 14
+    unit: business days
+    printed: "Such request should be made in writing and within 14 business days of the Large Load Customer being notified regarding the Exit Fee calculation."

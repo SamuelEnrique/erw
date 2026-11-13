@@ -1,0 +1,33 @@
+# Session 3847 (chain 221): read from the New York Department of Public Service's Electronic Tariff System
+# (ets.dps.ny.gov), the Commission's own copy of the filed tariff, not the utility's site (Con Edison's General Terms of
+# Service bar automated retrieval, session 2921). Robots and terms as in niagara_mohawk_sc3a_over_60kv.yaml (session
+# 3846): no robots file on the tariff host, and the DPS's Disclaimer sets no condition on reuse. The system served the
+# whole effective PSC No. 10 as one PDF (760 pages, 65,369,690 bytes, sha256 85f6827cc30d313c...), kept on this machine
+# at runs/license_reads/s3847/coned_psc10.pdf. Pages are the PDF's, each one leaf. The document_url is the system's
+# listing of PSC No. 10's effective leaves; the PDF's own address there is a per-request token. Con Edison is EIA
+# utility 4226, the one utility billing in the county of the tab's N.Y.C. row. Rate II is mandatory above 1,500 kW
+# (Leaf 447). Its demand delivery charges are printed by time period and summed (Leaf 449): in June to September a high
+# tension customer pays two ($11.33 per kW, 8 AM to 6 PM, and $22.82 per kW, 8 AM to 10 PM), so no summer figure is
+# written; in the other months a high tension customer pays one, $19.41 per kW (the all-hours charge is low tension
+# only), written as demand_charge_winter. The energy delivery charge is one figure for all hours. Supply is not part of
+# these delivery charges, and the adjustments of General Rule 26 are not figures of this leaf.
+utility: Consolidated Edison Company of New York, Inc.
+eia_id: 4226
+state: NY
+grid: NYISO
+sector: customers whose monthly maximum demand exceeds 1,500 kW (Service Classification No. 9, Rate II)
+schedule: Service Classification No. 9, General - Large, Rate II - General - Large - Time-of-Day
+tariff_sheet: PSC No. 10 Electricity, Leaf 449, Revision 20 (Rate II charges); Leaf 447, Revision 1 (Rate II applicability); Leaf 444, Revision 3 (voltages)
+effective: 2026-02-01
+voltage: {text: "High Tension Alternating Current - 60 cycles: ... Three phase at 69,000 volts Three phase at 138,000 volts", page: 683}
+commission: New York State Public Service Commission
+docket: Case 25-E-0072 (Leaf 449, issued in compliance with the Order of 22 January 2026)
+document: Consolidated Edison Company of New York, Inc., PSC No. 10 Electricity, the effective tariff as served by the Department of Public Service's Electronic Tariff System
+document_url: https://ets.dps.ny.gov/ets_web/search/searchShortcutEffective.cfm?companyID=3569014&serviceType=ELECTRIC&psc_num=10
+retrieved_at: 2026-11-13T05:41:14Z
+license: public
+figures:
+  - {variable: min_demand_mw, value: 1.5, printed: "To any Customer, other than Customers taking service under Rider J, whose monthly maximum demand exceeds 1,500 kW in any annual period ending September 30", page: 686}
+  - {variable: fixed_charge, value: 510, printed: "Customer Charge $510.00 per month", page: 688}
+  - {variable: demand_charge_winter, value: 19.41, printed: "Charges applicable for all other months Monday through Friday, 8 AM to 10 PM (high/low tension service) $19.41 per kW", page: 688}
+  - {variable: energy_charge, value: 7.9, printed: "Energy Delivery Charge, per kWhr Charges applicable for all months All hours of all days $0.0079 per kWhr", page: 688}

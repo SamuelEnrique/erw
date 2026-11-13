@@ -268,8 +268,16 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
                  "frb": "Board of Governors of the Federal Reserve System",  # session 207: frb_treasury_yields
                  "portwatch": "International Monetary Fund",
                  "weather": "National Weather Service",
-                 "iso": "PJM"}[org]  # session 29: derived tables and weather; session 67: iso_all_capacity_prices (session
+                 "iso": "PJM"}.get(org)  # session 29: derived tables and weather; session 67: iso_all_capacity_prices (session
     # 65) names its four publishers, PJM among them
+    # session 3851: a publisher the map above does not name (every table the ERW added since, datacenter_tracker_rollups
+    # and utility_large_load_tariffs among them: a KeyError in the daily run's package tests on 12 November 2026, and 227
+    # on the data machine) is read from the table's own source rows in sources.csv, as the citation draws it
+    # (and where the map names a publisher in other words than the source row, as "Census Bureau", "EIA", "NOAA NCEI" or
+    # iso_reserve_margin_reports' CAISO under "iso", the source row's own words are the ones the citation prints)
+    pubs = sorted({r["publisher"] for r in erw.sources(name)["reports"] if r.get("publisher")})
+    if publisher is None or publisher not in c:
+        publisher = next((p for p in pubs if p in c), publisher or (pubs[0] if pubs else f"{name}: no source row with a publisher"))
     # a derived table's source line is worded one of two ways in sources.csv: "Energy Research Warehouse (ERW), derived."
     # or "Energy Research Warehouse (ERW). <report>: ERW derived table, ..."
     # session 1001: a third wording, "Energy Research Warehouse (ERW). ERW derived stress days ..." (grid_stress_days),

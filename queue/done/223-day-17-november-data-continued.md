@@ -25,7 +25,14 @@ Long end 1:00. The next file. Memory and disk; `git worktree list`, landed workt
 
 ## Sessions 3857 to 3861: chain 221's other unfinished steps
 
-Long end 1:30 each. Session 3855 writes them here from chain 221's note. Where chain 221 finished everything, these sessions take the next sections' steps early and say so.
+Long end 1:30 each. Written by chain 221's session 3855 from its note (`docs/state/note_2026-11-13_data_c221.md`); chain 221's branch: landed at 645ffe51b and fd986898c (task/c221-data and task/c221-data2; snapshots before and after each, 0 differences). Chain 221 ran in the morning of 13 November, so every read of that day's runs falls to this chain. In this order; a run not yet run when its session comes is carried to the next file, not waited for over 20 minutes.
+
+- **3856's first unfinished step: the daily run of 13 November** (the 14:00 UTC dispatch), the first with every fix of 12 November and chain 221's cite test. Its "daily run" ok, its commit on main through the guard by itself, `nyiso` ok, **`package tests` ok** (chain 221's fix of `test_cite_names_the_iso_the_table_and_the_commit`; a remaining failure named by its table and fixed at its cause), the health summary's "Stale on main" line gone. A refusal is read by its named test and fixed at its cause.
+- **3857: the board.** The run of 13 November's `board_tests` row; if it fails, reproduce here (the board's builder and tests 132 and 240 on the day's tables) and fix the cause with its test.
+- **3858: the data machine's run of 13 November** (17:00 UTC): its page files on main without a session's help, `dm_test_replication ok`, `dm_analysis_figures` and the outages' two daily steps ok, and `utility_large_load_tariffs` left as chain 221 wrote it (95 rows).
+- **3859: check-values on the Digests of 13 and 14 November:** each issue's every key known and matching; a new key named and taught, with its rule.
+- **3860: the hunt again** (`check.py` after the daily commit's tables moved), and the cite test run over every series table on this machine (chain 221: 424 pass; the 14 failing are tables on disk that coverage does not list; name them and say whether each belongs in `warehouse/output/retired/`).
+- **3861: the records and the rulings:** New York's Case 26-E-0045 read again (a proposal or order with steps and clocks joins `large_load_connection_rules`); `utility_large_load_tariffs`' verdict and the rollups' license carried as rulings; the branches listed for the owner (chain 221's note).
 
 ## Sessions 3862 to 3865: the siting gaps a public US source can close
 
