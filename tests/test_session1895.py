@@ -173,5 +173,65 @@ class Row68TheCapacityStandIn(unittest.TestCase):
         self.assertIsNone(cr.five_keyed(text)[2])
 
 
+OLD_RT = ("**Highest real-time price of the week:** 302.71 USD/MWh at HB_SOUTH (ERCOT), interval starting 2026-11-03 17:45 local "
+          "(2026-11-03 23:45 UTC), spp_rtm [4], ERCOT's real-time settlement point price, a 15-minute interval.")
+
+
+class Row71TheRealTimeLine(unittest.TestCase):
+    """The open part of row 71: the source id and "local" leave the line; the Tables line keeps the source ids."""
+
+    def numbers(self, ts):
+        def fetch(table, start=None, end=None, market=None, **k):
+            if table == "iso_rtm_hub_prices":
+                return pd.DataFrame({"ts_utc": [pd.Timestamp(ts, tz=UTC), pd.Timestamp("2026-11-05 05:45", tz=UTC)],
+                                     "value": [302.71, 40.0], "node": ["HB_SOUTH", "HB_SOUTH"], "variable": ["spp_rtm", "spp_rtm"],
+                                     "freq": ["PT15M", "PT15M"]})
+            raise RuntimeError("not on this machine")
+        with mock.patch.object(roundup, "dam_week", lambda *a: (None, 0, 168)), mock.patch.object(roundup.erw, "fetch", fetch), \
+                mock.patch.object(brief, "held_grids", lambda *a: set()), mock.patch.object(brief, "paused_row", lambda *a: None), \
+                mock.patch.object(brief, "rt_parts", lambda: [("ercot", "iso_rtm_hub_prices", "ercot_rtm")]), \
+                mock.patch.object(brief, "cite_short", lambda t: f"`{t}`"):
+            return roundup.numbers(START, CUT, lambda *a: None, {})
+
+    def test_the_w45_line(self):
+        L = self.numbers("2026-11-03 23:45")
+        rt = next(ln for ln in L if ln.startswith("**Highest real-time price of the week:**"))
+        self.assertTrue(rt.startswith("**Highest real-time price of the week:** 302.71 USD/MWh at HB_SOUTH (ERCOT), the 15-minute "
+                                      "interval starting 2026-11-03 17:45 Central (23:45 UTC) [4], ERCOT's real-time settlement "
+                                      "point price. The grids' real-time series differ in interval length"), rt)
+        self.assertNotIn("spp_rtm", rt)
+        self.assertNotIn(" local ", rt)
+        tables = next(ln for ln in L if ln.startswith("Tables: "))
+        self.assertIn("iso_rtm_hub_prices (ercot_rtm) to 2026-11-05 05:45 UTC", tables)
+        self.assertIn("the week's highest real-time price is variable `spp_rtm`", tables)
+
+    def test_the_utc_date_when_it_is_not_the_local_one(self):
+        self.assertEqual(roundup.rt_when(pd.Timestamp("2026-11-04 01:00", tz=UTC), "America/Chicago"),
+                         "2026-11-03 19:00 Central (2026-11-04 01:00 UTC)")
+        self.assertEqual(roundup.rt_when(pd.Timestamp("2026-11-03 23:45", tz=UTC), "America/Chicago"), "2026-11-03 17:45 Central (23:45 UTC)")
+        self.assertEqual(roundup.rt_when(pd.Timestamp("2026-07-03 23:45", tz=UTC), "America/Los_Angeles"), "2026-07-03 16:45 Pacific (23:45 UTC)")
+        self.assertEqual(roundup.rt_when(pd.Timestamp("2026-11-03 23:45", tz=UTC), "UTC"), "2026-11-03 23:45 UTC")
+
+    def test_the_checker_reads_the_new_line_and_the_old(self):
+        import check_roundup as cr
+        L = self.numbers("2026-11-04 01:00")
+        self.assertEqual(cr.rt_line("\n".join(L)), ("302.71", "HB_SOUTH", "ERCOT", "2026-11-04 01:00", "spp_rtm", "4"))
+        L = self.numbers("2026-11-03 23:45")
+        self.assertEqual(cr.rt_line("\n".join(L)), ("302.71", "HB_SOUTH", "ERCOT", "2026-11-03 23:45", "spp_rtm", "4"))
+        self.assertEqual(cr.rt_line(OLD_RT), ("302.71", "HB_SOUTH", "ERCOT", "2026-11-03 23:45", "spp_rtm", "4"))
+
+    def test_the_checker_keys_the_new_line(self):
+        import check_roundup as cr
+        md = "# ERW Weekly Roundup, 2026-W45\n\n### ERW's Numbers This Week\n\n" + "\n".join(self.numbers("2026-11-03 23:45")) + "\n"
+        keys = [k for k, _, _ in cr.checks("2026-W45", md)]
+        self.assertIn("rdp_rt|iso_rtm_hub_prices|ercot:HB_SOUTH|spp_rtm|2026-11-03T23:45:00Z", keys)
+
+    def test_the_site_checker_reads_both_forms(self):
+        with open(os.path.join(ROOT, "site", "scripts", "check-values.mjs"), encoding="utf-8") as f:
+            src = f.read()
+        self.assertIn("highest real-time price is variable `?([a-z0-9_]+)", src)
+        self.assertIn("m1 && v1 ? [m1[0], m1[1], m1[2], `${m1[5] ?? m1[3]} ${m1[6] ?? m1[4]}`, v1[1], foot[m1[7]]] : null", src)
+
+
 if __name__ == "__main__":
     unittest.main()

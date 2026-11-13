@@ -1218,7 +1218,12 @@ async function checkWeekly(lines) {
   // session 21: the table is a footnote ("lmp_rtm_15m_mean [2]", and "[2] nyiso_rtm_zone_prices (...)" in the Tables list)
   const foot = Object.fromEntries([...text.matchAll(/\[(\d+)\] ([a-z0-9_]+) \(/g)].map((m) => [m[1], m[2]]));
   const m0 = text.match(/Highest real-time price of the week:\s*([\d,.]+) USD\/MWh at (.+?) \([A-Z-]+\), interval starting .*?\((\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC\), (\w+) \[(\d+)\]/);
-  const rt = m0 ? [m0[0], m0[1], m0[2], m0[3], m0[4], foot[m0[5]]] : null;
+  // session 1895 (faults file row 71): since then the line names the interval in the grid's zone and in UTC with no source
+  // id ("the 15-minute interval starting 2026-11-03 17:45 Central (23:45 UTC) [4]"), and the variable is on the Tables line
+  const m1 = m0 ? null : text.match(/Highest real-time price of the week:\s*([\d,.]+) USD\/MWh at (.+?) \([A-Z-]+\), the [^,\[]*? starting (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) (?:[A-Z][a-z]+(?: [A-Z][a-z]+)? \((?:(\d{4}-\d{2}-\d{2}) )?(\d{2}:\d{2}) UTC\)|UTC) \[(\d+)\]/);
+  const v1 = text.match(/highest real-time price is variable `?([a-z0-9_]+)/);
+  const rt = m0 ? [m0[0], m0[1], m0[2], m0[3], m0[4], foot[m0[5]]]
+    : m1 && v1 ? [m1[0], m1[1], m1[2], `${m1[5] ?? m1[3]} ${m1[6] ?? m1[4]}`, v1[1], foot[m1[7]]] : null;
   if (rt && rt[5]) {
     const [t, f] = current(rt[5], { node: `eq.${rt[2]}`, variable: `eq.${rt[4]}`, ts_utc: `eq.${rt[3].replace(" ", "T")}:00Z` });
     const r = (await q("series", { select: "value", table_name: `eq.${t}`, ...f }))[0];

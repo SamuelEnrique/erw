@@ -330,6 +330,27 @@ def interval_words(freq):
     return f"an interval of {f}" if f else "an interval of unstated length"
 
 
+# Session 1895 (faults file row 71): the zone a grid's local time is written in, and the Tables line's words for the week's
+# highest real-time price's variable (scripts/check_roundup.py and site/scripts/check-values.mjs read it there)
+ZONE_WORDS = {"America/Chicago": "Central", "America/New_York": "Eastern", "America/Los_Angeles": "Pacific",
+              "America/Denver": "Mountain", "America/Phoenix": "Arizona", "EST": "Eastern Standard"}
+RT_VARIABLE = "; the week's highest real-time price is variable `"
+
+
+def rt_when(ts, tz):
+    """Row 71: an interval's start in the grid's zone and in UTC, "2026-11-03 17:45 Central (23:45 UTC)", the UTC date
+    written only when it is not the local one ("2026-11-03 19:00 Central (2026-11-04 01:00 UTC)"); a grid with no zone
+    held is written in UTC alone ("2026-11-03 23:45 UTC")."""
+    ts = pd.Timestamp(ts)
+    ts = ts.tz_localize("UTC") if ts.tzinfo is None else ts.tz_convert("UTC")
+    zone = ZONE_WORDS.get(tz)
+    if not zone:
+        return f"{ts:%Y-%m-%d %H:%M} UTC"
+    loc = ts.tz_convert(tz)
+    utc = f"{ts:%H:%M}" if loc.date() == ts.date() else f"{ts:%Y-%m-%d %H:%M}"
+    return f"{loc:%Y-%m-%d %H:%M} {zone} ({utc} UTC)"
+
+
 def numbers(start, cut, log, facts=None):
     """The numbers section. facts (session 806): a dict the function fills with what it computed (the hubs' weekly means
     and the change, the fuel closes a week apart, the US48 peak, the real-time maximum), for the week in five numbers."""
@@ -375,10 +396,13 @@ def numbers(start, cut, log, facts=None):
     if best:
         top, table, iso = best
         tz = RT_TZ.get(iso, "UTC")
-        L[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), interval starting "
-                  f"{top['ts_utc'].tz_convert(tz):%Y-%m-%d %H:%M} local ({top['ts_utc']:%Y-%m-%d %H:%M} UTC), "
-                  f"{top['variable']} {notes.ref(table, 'real-time tables read, and how far each reaches this week: ' + ', '.join(covered))}"
-                  f", {brief.rt_label(iso, top['variable'])}, {interval_words(top.get('freq', ''))}."  # 470: the variable named; 806: the interval
+        # session 1895 (faults file row 71): the source id ("spp_rtm", read as SPP in an ERCOT line) and "local" left the
+        # line: it names the interval in the grid's zone and in UTC; the variable is on the Tables line, with the tables
+        the_interval = re.sub(r"^an? ", "the ", interval_words(top.get('freq', '')))   # 806: the interval
+        L[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), {the_interval} starting "
+                  f"{rt_when(top['ts_utc'], tz)} "
+                  f"{notes.ref(table, 'real-time tables read, and how far each reaches this week: ' + ', '.join(covered) + RT_VARIABLE + top['variable'] + '`')}"
+                  f", {brief.rt_label(iso, top['variable'])}."  # 470: the variable named, in words
                   " The grids' real-time series differ in interval length (a 15-minute mean beside an hourly value), so this is the "
                   "highest interval value held, not one measure across grids.")
         if facts is not None:
