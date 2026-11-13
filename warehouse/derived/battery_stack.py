@@ -7,7 +7,7 @@ Energy Research Warehouse (ERW). Writes two derived series tables:
     warehouse/output/battery_stack_stress_daily.csv   the same per local day, for the days of the ERCOT stress events
                                                       (Winter Storm Uri, Winter Storm Elliott, the 2023 heat)
 
-Scope: ERCOT (HB_HUBAVG, 2018 on) and CAISO (TH_SP15_GEN-APND, 2024-09 on; ancillary prices of the expanded system
+Scope: ERCOT (HB_HUBAVG, 2018 on) and CAISO (TH_SP15_GEN-APND, 2023-08 on since session 273; ancillary prices of the expanded system
 region). Durations 2, 4 and 8 hours. Every result is per MW of rated power.
 
 Session 86, the grids in review: NYISO (the N.Y.C. zone; regulation and 10-minute spinning reserve) and SPP
