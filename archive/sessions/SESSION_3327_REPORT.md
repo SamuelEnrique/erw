@@ -39,3 +39,9 @@ Energy Research Warehouse (ERW). Chain 242 (`queue/done/242-day-15-november-oldl
 
 - MemFree reached 3.2 GB, so the step was taken: `origin/main` at `bd244b944` checked out in the `erw-1973` worktree (everything there committed), built in the foreground (exit 0, under ten minutes), read at 1280 and 390. Every cell of "The facilities against each grid" reads "license needed" (note 1), the grids' peak and capacity included, as session 1905's default puts them since the revert landed; no sideways scroll at 390. Written beside session 1904's reading in `docs/reviews/lab-path.md`. Then the server stopped by its port, the cookie file deleted, `paused.json` restored, the worktree back on `wip/1973-periodicals`.
 
+## Session 3335: the Digest of 5 November (dry run), rows 119 and 120
+
+- 119: an en dash from a publisher's title ("... Projects [en dash] Company Announcement - FT.com") reached the issue: `score.nodash` replaced only the em dash. It now turns an en dash into "-", as the chat's does, and an "Also" line drops the publisher's tail. No stored issue holds one yet.
+- 120: "U.S. Refineries Make Dramatic Shift Away From Gasoline" sat under Power, tagged power prices; a refining or road-fuel title is now oil's.
+- The 60 importing test files OK (1,122 tests); `test_session206` and `test_session2226_ask` OK. **Row 10**: head `d2ce5ad44`, merges cleanly.
+
