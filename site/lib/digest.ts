@@ -317,7 +317,8 @@ export function digestMarkdown(md: string, date: string, chart: { table: string;
       let label = "";
       for (const l of body) {
         if (/^\*\*[^*]+\*\*\s*$/.test(l)) { label = l; continue; }
-        if (/, policy action\): /.test(l)) {
+        // session 1980 (faults file row 85): a policy action whose why line failed closes on "). " since then
+        if (/, policy action\)[:.] /.test(l)) {
           if (label) { kept.push("", label, ""); label = ""; }
           kept.push(l);
         }

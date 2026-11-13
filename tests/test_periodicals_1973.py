@@ -152,5 +152,27 @@ class Row84NoPartyTwice(unittest.TestCase):
         self.assertEqual(len(items[0][2]), 2)
 
 
+class Row85ThePolicyLineCloses(unittest.TestCase):
+    """Row 85: a policy action whose why line fails closes on its bracket, no empty colon, no double space."""
+
+    KINDS = {"press_release": "news release", "notice": "notice"}
+
+    def test_no_why(self):
+        r = {"title": "Energy Department Closes $480 Million Loan", "agency": "DOE", "action_type": "press_release", "why": "",
+             "source_url": "https://www.energy.gov/x"}
+        line = brief.policy_line(r, self.KINDS)
+        self.assertTrue(line.endswith("(DOE news release, policy action). [DOE](https://www.energy.gov/x)"), line)
+        self.assertNotIn("  ", line)
+        self.assertNotIn("):", line)
+
+    def test_with_a_why(self):
+        r = {"title": "Long Mott Energy, LLC; Long Mott Generating Station; Construction Permit", "agency": "NRC", "action_type": "notice",
+             "why": "The permit, numbered CPAR-3, authorizes Long Mott Energy to begin building the reactor facility.",
+             "source_url": "https://www.federalregister.gov/x"}
+        line = brief.policy_line(r, self.KINDS)
+        self.assertIn("(NRC notice, policy action): The permit", line)
+        self.assertTrue(line.endswith(" [NRC](https://www.federalregister.gov/x)"))
+
+
 if __name__ == "__main__":
     unittest.main()

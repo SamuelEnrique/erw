@@ -1373,8 +1373,17 @@ def policy_actions_lines(start, end, log, n=3):
     a = a.sort_values(["sig", "event_date"], ascending=[False, False]).head(n)
     kinds = {"rule": "final rule", "proposed_rule": "proposed rule", "notice": "notice", "press_release": "news release"}
     log(f"  policy actions: {len(a)} scored 5 or more in the window")
-    return [f"- {r['title']} ({r['agency']} {kinds.get(r['action_type'], r['action_type'])}, policy action): {why_line(r['why'], r['title'])} "
-            f"[{r['agency']}]({r['source_url']})" for r in a.to_dict("records")]
+    return [policy_line(r, kinds) for r in a.to_dict("records")]
+
+
+def policy_line(r, kinds):
+    """One policy action under Policy. Session 1980 (faults file row 85, row 72's fault in the Digest): a why line that
+    failed left "(DOE news release, policy action):  [DOE](...)", a colon introducing nothing and a double space; the line
+    then closes on its bracket with a stop. The site keeps the line under a held news index by ", policy action)"
+    (site/lib/digest.ts)."""
+    head = f"- {r['title']} ({r['agency']} {kinds.get(r['action_type'], r['action_type'])}, policy action)"
+    why = why_line(r["why"], r["title"]).strip()
+    return f"{head}: {why} [{r['agency']}]({r['source_url']})" if why else f"{head}. [{r['agency']}]({r['source_url']})"
 
 
 def fun_fact_section(digest_date, log):

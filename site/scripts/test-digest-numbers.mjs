@@ -33,6 +33,7 @@ ERW's weekday brief of energy news for the 24 hours to 2026-10-20 06:55 UTC, fro
 
 - A policy story (policy): its reason. [Bloomberg](https://example.com/c)
 - Five storage projects v. ISO New England; Notice (FERC notice, policy action): a decision on 20 October. [FERC](https://www.federalregister.gov/x)
+- Energy Department closes a USD 480 million loan (DOE news release, policy action). [DOE](https://www.energy.gov/x)
 
 ## AI and power
 
@@ -165,6 +166,8 @@ test("the markdown carries each figure as Num draws it, and the hold's words in 
   assert.ok(!h.includes("$45 Billion") && !h.includes("A power story") && !h.includes("An AI story") && !h.includes("A policy story"), h);
   assert.equal((h.match(/data-license-held="news_index"/g) ?? []).length, 3);
   assert.ok(/\*\*Policy\*\*\n\n- Five storage projects v\. ISO New England; Notice \(FERC notice, policy action\)/.test(h), h);
+  // session 1980 (faults file row 85): a policy action whose why line failed ends "). " and is kept too
+  assert.ok(h.includes("- Energy Department closes a USD 480 million loan (DOE news release, policy action). [DOE]"), h);
   // what follows the closing rule is kept, the chart and the fun fact are not held
   assert.ok(h.includes("[How this is made.](/about#digest)") && h.includes("10.2 million barrels") && h.includes("1,658,263</span>"));
 });
