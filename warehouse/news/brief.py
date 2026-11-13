@@ -533,7 +533,7 @@ def source_text(src, url, licensed=None):
 # Session 1978 (faults file row 83): a feed's title is not the outlet's name ("JPT Homepage", 115 stories of
 # news_stories; "California State Portal | CA.gov", 46): the name an issue prints drops a " Homepage" tail and keeps the
 # last part of a "Portal | site" title
-OUTLET_NAMES = {"California State Portal | CA.gov": "CA.gov"}
+OUTLET_NAMES = {"California State Portal | CA.gov": "CA.gov", "IEA - International Energy Agency": "IEA"}   # 3312: row 102
 
 
 def outlet_name(src):

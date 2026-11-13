@@ -435,6 +435,43 @@ class Row99OneColon(unittest.TestCase):
         self.assertIn("Status: reported, extracted from the week's stories", line)
 
 
+class Rows100To103W45OnTheStack(unittest.TestCase):
+    """Rows 100 to 103, from the W45 dry run on the stack (session 3312)."""
+
+    def test_100_the_masthead_names_the_real_time_tables(self):
+        import roundup
+        end, cut = pd.Timestamp("2026-11-08 23:59", tz="UTC"), pd.Timestamp("2026-11-08 23:26", tz="UTC")
+        L = roundup.masthead_lines("2026-W45", end, cut, None, "A head.", "", pd.Timestamp("2026-11-05 23:07", tz="UTC"),
+                                   pd.Timestamp("2026-11-05 07:45", tz="UTC"))
+        self.assertIn("; the real-time price tables reach 5 November", L[2])
+        self.assertNotIn("the week's tables", L[2])
+
+    def test_101_the_opening_move_says_why(self):
+        import roundup
+        move = {"label": "Brent crude", "pct": -18.6, "ch": -22.32,
+                "text": "Brent crude closed at 97.83 USD/bbl on 2026-11-06, against 120.15 USD/bbl on 2026-10-30 (-22.32 USD/bbl, -18.6%) [5]"}
+        stories = pd.DataFrame([{"titles": ["Oil prices slump as Gulf shipping resumes"], "parties": "",
+                                 "why": "Tanker traffic through the Strait of Hormuz resumed on 4 November after a ceasefire.",
+                                 "links": [("Reuters", "https://example.org/r")]}])
+        op = roundup.opening_number({"moves": [move], "move": move}, stories)
+        self.assertEqual(op["key"], "move")
+        line = roundup.opening_lines(op)[2]
+        self.assertIn("Status: calculated from observed prices (the warehouse's tables). Reason, from the week's stories: Tanker traffic", line)
+        self.assertNotIn("day's stories", line)
+
+    def test_102_iea(self):
+        self.assertEqual(brief.outlet_name("IEA - International Energy Agency"), "IEA")
+
+    def test_103_investment_in(self):
+        import roundup
+        # buyer holds the money side, seller the company raising (finance_words; deal_cells swaps them for the table)
+        r = {"deal_type": "equity_raise", "buyer": "Blackstone", "seller": "Mitsubishi", "asset": "Mitsubishi's stake in LNG Canada",
+             "event_date": "2026-11-05"}
+        self.assertIn("Blackstone's investment in Mitsubishi's stake in LNG Canada", roundup.finance_words(r))
+        loan = dict(r, deal_type="debt", buyer="Apterra", seller="Calibrant Energy", asset="solar and storage projects")
+        self.assertIn("Apterra's loan for Calibrant Energy's solar and storage projects", roundup.finance_words(loan))
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

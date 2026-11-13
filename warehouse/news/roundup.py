@@ -771,6 +771,7 @@ FIVE_HEADING = "## The week in five numbers"
 FINANCE_ROLES = {"project_finance": ("borrower", "lender", "financing"), "debt": ("borrower", "lender", "loan"),
                  "tax_equity": ("company raising", "investor", "tax equity investment"),
                  "equity_raise": ("company raising", "investor", "investment")}
+FINANCE_PREP = {"financing": "of", "loan": "for", "tax equity investment": "in", "investment": "in"}   # row 103
 ASSET_WORDS = [(re.compile(r"\bBESS\b"), "battery storage"), (re.compile(r"\bPPA\b"), "power purchase agreement"),
                (re.compile(r"\bSMRs?\b"), "small modular reactor")]
 
@@ -807,7 +808,8 @@ def finance_words(r):
     if raising and raising.lower() not in asset.lower():
         what = f"{raising}'s {asset}" if asset else raising
     when = str(r.get("event_date") or "")[:10]
-    head = f"{money}'s {roles[2]} of {what}" if money and what else (f"{money}'s {roles[2]}" if money else f"a {roles[2]} of {what}")
+    prep = FINANCE_PREP.get(roles[2], "of")   # session 3312 (faults file row 103): "investment in", "loan for"
+    head = f"{money}'s {roles[2]} {prep} {what}" if money and what else (f"{money}'s {roles[2]}" if money else f"a {roles[2]} {prep} {what}")
     return head + (f" ({when})" if when else "")
 
 
@@ -1100,7 +1102,10 @@ def opening_number(picked, stories=None):
     hubs = [m for m in moves if is_hub(m)]
 
     def mover(m):
-        return {"key": "move", "text": m["text"], "status": "calculated from observed prices (the warehouse's tables)", "move": m}
+        # session 3312 (faults file row 101): the move carries the naming story's line, as the Digest's mover does
+        why = brief.price_reason(m["label"], stories) if stories is not None and len(stories) else ""
+        return {"key": "move", "text": m["text"], "status": "calculated from observed prices (the warehouse's tables)", "move": m,
+                "reason": why.replace("from the day's stories", "from the week's stories")}
     for m in fuel:
         if named[m["label"]] and abs(float(m["pct"])) >= WEEK_FUEL_PCT:
             return mover(m)
@@ -1125,7 +1130,7 @@ def opening_lines(op):
     L = ["## The opening number", ""]
     if op is None:
         return L + ["The week holds none of the five numbers this section reads.", ""]
-    return L + [f"**{op['text'].rstrip('.')}.** Status: {op['status']}.", ""]
+    return L + [f"**{op['text'].rstrip('.')}.** Status: {op['status']}.{op.get('reason') or ''}", ""]   # row 101: the reason
 
 
 SUBJECT_HEAD_MAX = 70
@@ -1224,7 +1229,9 @@ def cutoff_line(cut, newest=None, tables_to=None):
     line = f"Stories through {day}{et:%H:%M} ET, {short:%H:%M} UTC"
     tables_to = utc_ts(tables_to)
     if tables_to is not None and tables_to.tz_convert(brief.EASTERN).date() < cet.date():
-        line += (f"; the week's tables reach {day_month(tables_to.tz_convert(brief.EASTERN))} (each table's reach is under "
+        # session 3312 (faults file row 100): the reach is the real-time tables' (facts["reach"]); EIA's closes, the opening
+        # number's table, can reach a day further, so "the week's tables" contradicted the first figure under it
+        line += (f"; the real-time price tables reach {day_month(tables_to.tz_convert(brief.EASTERN))} (each table's reach is under "
                  "ERW's Numbers This Week).")
     else:
         line += f"; cut at {cet:%H:%M} ET, {cut:%H:%M} UTC."
