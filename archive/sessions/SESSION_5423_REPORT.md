@@ -1,6 +1,6 @@
 # Session 5423 report: chain 261, step 7, the five's accessibility read; Grid row 5 fixed (the read script's race)
 
-Energy Research Warehouse (ERW). Chain 261, portable laptop window P1, 13 November 2026, about 21:14 to 21:24 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5072-read` (the fix made on `wip/5072-fixes3` and moved onto it).
+Energy Research Warehouse (ERW). Chain 261, portable laptop window P1, 13 November 2026, about 21:11 to 21:16 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5072-read` (the fix made on `wip/5072-fixes3` and moved onto it).
 
 - **The tool:** `site/scripts/a11y-axe.mjs`, the site's own axe-core read of pages in the internal view (session 3778: AccessLint's live audit cannot carry the internal cookie, as `docs/tooling.md` says of pages in review), WCAG 2.0 to 2.2, A and AA; on production; 0.8 GB free (single-browser reads have run all evening at that).
 - **1280:** the battery, the generator, the datacenter page, Research and the Grid: 0 rules broken on each.
