@@ -309,10 +309,26 @@ NO_MODEL_LINE = ("Today's headlines are the publishers' own titles, and the writ
                  "the day's model budget was reached.")
 
 
+def tail_off(title, source=""):
+    """A title with the publisher's own tail taken off ("... in Indiana - Company Announcement", "... - FT.com", "... |
+    Reuters"): a tail of one or two parts after a dash or a bar that names an address, an announcement or the outlet.
+    Session 3335 (faults file row 119) for the also line; session 3495 (row 184) for the headlines of an issue with no
+    model too."""
+    t = str(title or "")
+    outlet = outlet_name(source).lower()
+    tail = re.search(r"(?:\s+[-|]\s+[\w.&' ]{1,40}){1,2}$", t)
+    if tail and (".com" in tail.group(0).lower() or "announcement" in tail.group(0).lower()
+                 or (outlet and outlet in tail.group(0).lower())):
+        return t[:tail.start()].rstrip()
+    return t
+
+
 def own_titles(clusters):
     """{cluster_id: the lead story's own title}, for an issue written without the model. Nothing is rewritten: the
-    title is the publisher's, with a dash of the kind the ERW never prints replaced as in a model headline."""
-    return {r["cluster_id"]: nodash(str(r["titles"][0]).strip()) for r in clusters.to_dict("records")}
+    title is the publisher's, with a dash of the kind the ERW never prints replaced as in a model headline, and (session
+    3495, row 184) its site tail off ("... in Indiana - Company Announcement")."""
+    return {r["cluster_id"]: tail_off(nodash(str(r["titles"][0]).strip()), (list(r.get("links") or []) or [("", "")])[0][0])
+            for r in clusters.to_dict("records")}
 
 
 def norm_headline(h):
@@ -772,7 +788,7 @@ SCALE_WORD = re.compile(r"\b(?:multi-?)?(?:gigawatt|GW)[- ]scale\s*", re.I)
 HEAD_MW = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s?(MW|GW)\b", re.I)
 # Session 3460 (faults file row 158): one capacity in two units ("AirTrunk commits to purchasing 1GW ..." under "AirTrunk
 # signs 1,000 MW energy deal ...", 13 November 2026) is one figure: the rule of no figure the headline gives read it as two
-CAPACITY = re.compile(r"(?<![\w.,])(\d[\d,]*(?:\.\d+)?)\s?(MW|GW)\b", re.I)
+CAPACITY = re.compile(r"(?<![\w.,])(\d[\d,]*(?:\.\d+)?)[\s-]?(MW|GW)\b", re.I)   # 3496, row 185: "3.6-GW" too
 
 
 def capacity_mw(number, unit):
@@ -940,6 +956,10 @@ def without_figures(t, head):
         pat = re.compile(r"(?<![\w.,])" + FIGURE_PHRASE.format(n=re.escape(shown)) + r"(?=\s+[A-Za-z])", re.I)
         m = pat.search(t)
         if not m or not re.search(r"(?:^|\s)" + BEFORE_FIGURE + r"\s*$", t[:m.start()], re.I):
+            return ""
+        # session 3493 (faults file row 183): a figure after a quantity's words cannot go and leave a sentence ("DOE says
+        # it intends to lend up to so Constellation can ...", the stack's W44; "worth about to the seller")
+        if re.search(r"\b(?:about|over|nearly|some|around|up to|more than|at least|almost|roughly)\s*$", t[:m.start()], re.I):
             return ""
         t = (t[:m.start()] + t[m.end():]).replace("  ", " ")
         t = fix_article(re.sub(r"\s+([,;:.])", r"\1", t).strip(" ,;:"))
@@ -2027,11 +2047,7 @@ def also_line(recs):
         title = money_style(nodash(x["title"]).strip())
         # session 3335 (faults file row 119): the publisher's own tail ("... Projects - Company Announcement - FT.com")
         # goes, as why_fallback takes it off: the outlet is named in the brackets after it
-        outlet = outlet_name((x.get("links") or [("", "")])[0][0]).lower()
-        tail = re.search(r"(?:\s+[-|]\s+[\w.&' ]{1,40}){1,2}$", title)
-        if tail and (".com" in tail.group(0).lower() or "announcement" in tail.group(0).lower()
-                     or (outlet and outlet in tail.group(0).lower())):
-            title = title[:tail.start()].rstrip()
+        title = tail_off(title, (x.get("links") or [("", "")])[0][0])
         return f"{title.rstrip('.')} ({link_text(x['links'])})" if x.get("links") else title
     topic = [part(x) for x in recs if x.get("kind") != "sector"]
     sector = [x for x in recs if x.get("kind") == "sector"]
