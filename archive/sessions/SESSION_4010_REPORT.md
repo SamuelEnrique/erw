@@ -24,7 +24,7 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
   - One note per key: the demand line is printed twice under one key.
   - Under node: the 12 November page shows its note once, and the 21 October note is as before. `tsc --noEmit` reports 0 errors.
   - Test 4010 (3 tests); the digest tests pass.
-- **The second gate:** `943295956` (land-f with the fix), from 17:51 UTC.
+- **The second gate:** started at 17:51 UTC on `943295956` (land-f with the fix). It waited for the lock behind window A's `c227-gate2`. Meanwhile window 4 asked for row 5 (`wip/4250-forecast` at `2fc4d9ac8`; to `279dd3121` only a report), which was merged in before the gate took the lock: `3b1aae438`. The forecast's tests, 4010 and 2207 pass, and `build_llms.py --check` exits 0.
 - (its result and the landing: written when they come)
 
 ## Decisions made without you
