@@ -54,3 +54,44 @@ Energy Research Warehouse (ERW). Chain 254 (`queue/done/254-day-21-november-oldl
 - **Row 177 (new, fixed):** the block printed the country three ways: "Generation capacity, United States", "Storage dispatched, USA", "Transmission, US". These are the scorer's region as written (US 5,172, United States 794, USA 106), and the topic key read them as three regions. Both now read "US". Over the 17 issues, the block's places change, and two pairs fold as one topic: 21 October's heating oil and diesel policies, and 6 November's Lambda campus under the datacenter commentary (the owner's "one sector in one region" rule).
 - Tests: `Row177TheCountryIsUS` (2); 14 pins of `test_periodicals_1973.py` read "US". The 72 files: 1,387 passed, 20 skipped.
 - **Row 11:** moved to `48b5fb1df` (rows 161 to 177 wait).
+
+## Session 3480: W46 on the latest stack, rows 178 and 179
+
+- The partial W46 ran again on the stack with the policy tables present (`runs/periodicals_dryrun/s3480/`). Row 174 shows ("against 90.16 on 2026-11-10"), and the Policy of the Week and Next week are filled.
+- **Row 178 (new, fixed):** "Energy Department Closes $480 Million Loan ..." under Also this week. Row 86 put the Digest's policy lines in the money style, but the Roundup's policy titles were left. They are styled now.
+- **Row 179 (new, fixed):** Next week read "(EPA): the final rule is effective on November 16, 2026." under the bold "16 November 2026". A rule effective on the item's day now "takes effect", as row 76 wrote comment deadlines; `test_session1897.py`'s pin follows.
+- Tests: two classes, 3 tests. The 72 files: 1,390 passed, 20 skipped.
+- **Row 11:** moved to `9ced6f322` (rows 161 to 179 wait).
+
+## Sessions 3481 to 3485: the periodicals, again
+
+- **W46's filled sections, read whole** (Policy of the Week, Also this week, Next week): nothing beyond rows 178 and 179. The Federal Register's "Parties; Subject" title form is the owner's (row 72).
+- **`scripts/periodicals_counts.py` over the stack's runs of the 15 stored weekday issues:** no adjective of the list and no why line repeating its headline's figure in any. Folded items: 0 sectors over 2 in the ten. Three figures with no key: the story openings' own figures ("**702 MW**: AEP, Google Advance ..."), which the opening says are the outlet's. Keying them needs a new form in `site/lib/digest.ts`, so it goes to Samuel with "keep" as the default.
+- Every open row of the faults file is the owner's (39, 65, 109, rulings item 13) or the data machine's (61, 77, 129). The newest stored issues have been read against the stack: 12 and 13 November, W45, and every earlier issue.
+- The stack merges with `origin/main` with no conflict (`git merge-tree`); `test-digest-numbers.mjs` passes. The faults have converged on the stored issues; the next readings are W46 as stored (Sunday) and the 16 November Digest (Monday).
+- No new row in these sessions.
+
+## Session 3486: the records and the note
+
+- The note: `docs/state/note_2026-11-13_oldlaptop_c254.md` (its name free on main and every branch).
+- Row 11 holds rows 161 to 179 at `9ced6f322`. The faults file and both method notes carry rows 173 to 179.
+
+## Decisions made without you
+
+- 258 for the next file: the highest number in any ref was 257. 247, which chain 252 passed over, has since been taken by another machine.
+- The merge conflict on row 11 (the desk's partial landing beside this chain's new head) was resolved by keeping the desk's state cell and adding the head that waits.
+- The stack's build was dropped once row 152 passed the desk's build. The memory wait was stopped.
+- A rule letting the first direction word decide whether a story names a move (for "Rebound ... After ... Rout") was tried and reverted: row 104's own case "swing higher then lower" ends on its last word.
+- Pinned tests changed with their rows: 14 block rows of `test_periodicals_1973.py` (177) and one sentence of `test_session1897.py` (179).
+
+## For Samuel's ruling
+
+- The 13 November Digest on `wip/red-daily-2026-11-13`. Default: another machine lands it.
+- A story opening's figure printed twice and carrying no key. Default: kept.
+- The fun fact's source wording ("US$3/barrel"). Default: kept.
+- As before: the 13 November chart record, subscribers with topics, the US48 UTC day, EIA's Veterans Day closes, rows 39, 65 and 109, and rulings item 13.
+
+## Session 3487: the next file, the queue
+
+- `queue/next/258-day-22-november-oldlaptop-periodicals-continued.md` lists what this chain did not finish: the stored W46 Roundup and the 16 November Digest (both written after this file), the red branch's landing, and row 11's clean-up.
+- Then the queue step: `.venv\Scripts\python.exe scripts\chain_queue.py next`.
