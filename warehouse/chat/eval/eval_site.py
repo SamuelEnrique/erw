@@ -25,9 +25,10 @@ which reads the catalogue and the rows a visitor's key reads. This runner asks t
              sessions 2223 and 5201, and hold_public_grids: a held grid's question answered with the public grids'
              figures, as the loop is built to), or under --rules, each into its eval_s<N>_site_<set>_grades.json with the
              counts by kind and by sector; then the counts over all of them, a question's newest answer standing
-  record     a run not yet in runs.json (the one list of the stored runs) is named there, and the three records written
+  record     a run not yet in runs.json (the one list of the stored runs) is named there, and the records written
              from the stored runs are written again: docs/reviews/ask-history.md, ask-replay.md and ask-refusals.md
-             (history.py, replay.py, refusals.py; each exit code is printed and the first that is not 0 is returned)
+             (history.py, replay.py, refusals.py) and, for the platform set, the scores of its review file
+             (platform_scores.py); each exit code is printed and the first that is not 0 is returned
 
 Each model call is one row of the site's cost ledger (site_api_calls, the step site_ask_eval, which no public ceiling
 counts: migration 035), written with the service key as the server writes it; --no-ledger leaves the key out, and the
@@ -172,10 +173,11 @@ def register(session, which, questions_file, path=None):
     return True
 
 
-def records():
-    """history.py, replay.py and refusals.py written again from the stored runs; the first exit code that is not 0."""
+def records(which=None):
+    """history.py, replay.py and refusals.py written again from the stored runs (and the platform set's scores in its
+    review file, session 5252); the first exit code that is not 0."""
     worst = 0
-    for name in ("history.py", "replay.py", "refusals.py"):
+    for name in ("history.py", "replay.py", "refusals.py") + (("platform_scores.py",) if which == "platform" else ()):
         code = subprocess.run([sys.executable, os.path.join(HERE, name)], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL).returncode
         print(f"{name}: exit {code}")
         worst = worst or code
@@ -267,7 +269,7 @@ def main(argv):
     print("not right: " + (", ".join(wrong) if wrong else "none"))
     if os.path.exists(F["run"]) and register(session, which, os.path.basename(E.SETS[which]["questions"])):
         print(f"runs.json: {os.path.basename(F['run'])} named")
-    return records()
+    return records(which)
 
 
 if __name__ == "__main__":

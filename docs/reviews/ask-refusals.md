@@ -5,12 +5,12 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 | Class | Refusals | Graded right |
 |---|---|---|
 | MISO's pause | 11 | 11 of 11 graded |
-| a license hold | 14 | 14 of 14 graded |
-| the call limit | 2 | 1 of 2 graded |
-| the warehouse lacks the figure | 19 | 12 of 19 graded |
-| rows read, then refused | 1 | 1 of 1 graded |
+| a license hold | 15 | 15 of 15 graded |
+| the call limit | 3 | 2 of 3 graded |
+| the warehouse lacks the figure | 21 | 14 of 21 graded |
+| rows read, then refused | 4 | 4 of 4 graded |
 
-In all: 47 refusals.
+In all: 54 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -61,3 +61,10 @@ In all: 47 refusals.
 | session 3769, Python loop | d10 | 2 | the warehouse lacks the figure | right |
 | session 5251, the site's loop, the platform set | pw11 | 5 | rows read, then refused | right |
 | session 5251, the site's loop, the platform set | pw12 | 12 | the call limit | right |
+| session 5252, the site's loop, the platform set | pw13 | 8 | the warehouse lacks the figure | right |
+| session 5252, the site's loop, the platform set | pr13 | 1 | the warehouse lacks the figure | right |
+| session 5252, the site's loop, the platform set | ga09 | 9 | a license hold | right |
+| session 5252, the site's loop, the platform set | gp01 | 12 | the call limit | right |
+| session 5252, the site's loop, the platform set | gp02 | 10 | rows read, then refused | right |
+| session 5252, the site's loop, the platform set | gp03 | 11 | rows read, then refused | right |
+| session 5252, the site's loop, the platform set | pt03 | 11 | rows read, then refused | right |

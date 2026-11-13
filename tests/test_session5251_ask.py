@@ -487,6 +487,29 @@ class TheAsking(unittest.TestCase):
                 self.assertIsNone(q["error"], f"{s} {q['id']}: an error is in the stored run")
             self.assertLessEqual(round(sum(float(q["cost_usd"] or 0) for q in run["questions"]), 4), 2.0, f"session {s} spent more than USD 2")
 
+    def test_the_review_file_s_scores_are_the_runs(self):
+        r = subprocess.run([sys.executable, os.path.join(EVAL, "platform_scores.py"), "--check"], capture_output=True, text=True, stdin=subprocess.DEVNULL, timeout=300)
+        self.assertEqual(r.returncode, 0, (r.stdout or "")[-500:] + (r.stderr or "")[-1500:])
+        PS = module("platform_scores_for_5251", os.path.join(EVAL, "platform_scores.py"))
+        qs = [{"id": "pw01", "sector": "power", "kind": "figure"}, {"id": "pw02", "sector": "power", "kind": "outside"}, {"id": "ga01", "sector": "gas", "kind": "figure"}]
+        rec = lambda i, calls, cost, retried=False: {"id": i, "tool_calls": calls, "cost_usd": cost, "retried": retried, "status": "answered"}
+        grade = lambda i, ok, **g: {"id": i, "ok": ok, "grade": {"ok": ok, **g}}
+        runs = [("5300", [rec("pw01", 12, 0.2), rec("pw02", 3, 0.05)], {"pw01": grade("pw01", False, number=False, table=True), "pw02": grade("pw02", True)}),
+                ("5301", [rec("pw01", 4, 0.1, True)], {"pw01": grade("pw01", True)})]
+        text = PS.text(qs, runs)
+        self.assertIn("**Asked: 2 of 3. Right: 2. Cost: USD 0.35.**", text, "a question asked again counts once, its newest answer standing; its cost counts each time")
+        self.assertIn("| 5300 | 2 | 1 | USD 0.25 | 7.5, 12 | 1 | 0 |", text)
+        self.assertIn("| 5301 | 1 | 1 | USD 0.10 | 4, 4 | 0 | 1 |", text)
+        self.assertIn("| figure | 2 | 1 | 1 |", text)
+        self.assertIn("| gas | 1 | 0 | 0 |", text)
+        self.assertIn("- None.", text)
+        wrong = PS.text(qs, runs[:1])
+        self.assertIn("- `pw01` (figure, power; session 5300; status `answered`, 12 calls): not met: number.", wrong)
+        doc = f"a\n{PS.BEGIN}\nold\n{PS.END}\nz\n"
+        self.assertEqual(PS.placed(doc, text), f"a\n{text}\nz\n")
+        with self.assertRaises(SystemExit):
+            PS.placed("no markers", text)
+
     def test_no_question_is_in_two_runs_unless_asked_again_by_name(self):
         seen = {}
         for s in S.sessions_of("platform"):
