@@ -23,3 +23,12 @@ Energy Research Warehouse (ERW). Chain 244 (`queue/done/244-day-16-november-oldl
 - 129 (data machine): some feeds cut titles at 128 characters ("... Emissions Guidelines for Ex"); the ingest would read the page's own title.
 - The 60 importing test files OK (1,130 tests). Row 10's head moved with them.
 
+## Session 3350 (step 4): the Digest of 29 October (dry run), row 130
+
+- 130: beside a figure the field read "10,400 MW; parties: American Electric Power; SB Energy."; it reads "Parties:" now, and the Roundup's parser reads either case, so stored issues still match. `test_session577`, `test_session801` and its fixture brought to the form. The 60 importing test files OK (1,130 tests).
+
+## Session 3351: the method notes
+
+- `docs/methods/digest_scoring.md` (section 7) and `roundup_selection.md` (section 8), internal, and `periodicals.md`, the readers' note: what changed later on 13 November (rows 100 to 130).
+- **Row 10**: head `88893595d`, merges cleanly.
+
