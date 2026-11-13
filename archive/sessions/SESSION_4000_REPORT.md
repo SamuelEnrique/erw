@@ -26,9 +26,25 @@ Energy Research Warehouse (ERW). Chain 228 (`queue/done/228-day-13-november-desk
   - The laptops have fewer threads, so their saving per process is smaller but of the same kind. This is the likeliest cause of row 9's commitment-limit exits.
   - A second profile with the caps (every module alone) is running. Its heaviest modules go to `scripts/suite_alone.txt`.
 
-## Row 9 of the old laptop
+## Row 9 of the old laptop: landed at `3a82aebe4`
 
-(written when the gate ends)
+- **Branch:** `wip/1905-revert`, with `origin/main` merged at `428a0664f` and pushed to the branch, as the row asks. It holds the datacenter grids view's public columns back again until the owner rules (`datacenter-faults-2026-11-11.md` row 4, state `ruling`).
+- **The gate** ran on the desktop (`runs/c153/gate_held.sh`, task `1944-revert`, port 3944), 09:34 to 10:04 UTC.
+  - The suite: 8,633 tests OK, 382 skipped, 17 minutes. The two memory failures of the old laptop's gates did not recur here.
+  - The build passed. check-routes passed; check-cross-checks passed all 92; check-csp ran 97 pages with 0 violations.
+  - check-values had one failure: `/digest`'s floor, main's own. It failed in all 35 gates on this machine, and `cv_diff` found 0 new. Its cause and fix are under Done below.
+- **The landing:**
+  - Freeze none. Snapshot `w2-s4000-before` at 10:04.
+  - Pushed to `task/1944-revert`. Run 43406357288 passed and merged at 10:32 (`3a82aebe4`). The deploy succeeded at 10:33.
+  - Snapshot `w2-s4000-after`: **0 differences** on the 25 pages. This was expected: every page is in review.
+- **The marks:** rows 9 and 16 were marked on main as `a2a3e9153`, with snapshots before and after: 0 differences.
+- **Clean-up:** the worktrees `erw-w2-1905` and `erw-land-428a0664` were removed. The old laptop may delete `wip/1905-revert` on origin and its own worktrees.
+
+- **`/digest`'s floor (main kept green, fallback c):** session 402 made `/digest` today's issue only. So before the daily run writes it (14:00 UTC), and at weekends, the page says so and carries 0 checked numbers, and its floor of 9 failed every morning gate.
+  - `check-values.mjs` now writes a note for that floor when the page says `data-digest-none="pending"` or `"weekend"`.
+  - A missed day still fails.
+  - The rule is `noIssueToday` in `held-marks.mjs`, with tests 4000 and periodicals.
+- **The 8 November ledger refusal**, traced further: the Roundup restored `api_cost_ledger` from the archive at 3,886 rows, 6 under the last upload.
 
 ## Decisions made without you
 
