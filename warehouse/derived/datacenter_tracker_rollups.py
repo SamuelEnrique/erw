@@ -108,6 +108,10 @@ def main(argv=None):
         "Energy Research Warehouse (ERW): the datacenter tracker's rollups by grid, state and operator (platform tool 4)",
         "Shape: series (docs/datastandard.md); derived from datacenter_projects by warehouse/derived/datacenter_tracker_rollups.py (session 2236). One row a group, a variable and a day.",
         f"Retrieved: {run_id} (UTC) from warehouse/output/datacenter_projects.csv ({len(fac)} facilities)",
+        # session 3888: the line build_coverage.py reads for a derived table (coverage's derived column), as every other
+        # derived builder writes it; without it the table read as derived "no" with no run log, and the package's
+        # provenance test refused it in the daily run of 13 November 2026
+        "Derived from: datacenter_projects",
         "Columns: entity grid:<grid> (named in the stories, or the state's main grid), state:<XX>, operator:<name> (the operator, else the developer, joined as warehouse/deals/counterparties.py joins names), tracker:all; a sum is of the MW the stories state, any basis; facilities_without_mw counts the rest; a group with no stated MW has no sum.",
         "License: as datacenter_projects (license needed since 2026-10-21).",
         "Sources: datacenter_projects (the news the ERW scores).",

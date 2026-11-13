@@ -127,6 +127,23 @@ def network(snap, gen_at, a):
                 v[f"calc|pct|{nk.replace('|', '~')}|{gk.replace('|', '~')}"] = -s / g * 100
     if gen_at.get("US48") is not None:
         v[f"series|eia930_all_generation|eia930:US48|net_generation_mw|{hour}"] = gen_at["US48"]
+    # Session 3889 (chain 227): each grid's demand in the hour, as the page's demandAt (site/lib/gridKeys.ts) reads it
+    # from the snapshot: the hourly refresh's recent demand for the hour, else the node's demand when its hour is the
+    # hour shown; keyed netsnap| when the hourly refresh read it, else as its row of eia930_all_demand. On 13 November
+    # 2026 the daily run's snapshot held demand at the hour shown (2026-11-11T23:00Z) for the first time since this file
+    # was written, the page drew six demand figures this function did not, and the push guard refused the daily commit.
+    for ba in ISOS:
+        node = next((n for n in snap["nodes"] if n["id"] == ba), None)
+        if node is None:
+            continue
+        recent = node.get("demand_recent") or {}
+        x = recent[hour] if hour in recent else node.get("demand_mw") if node.get("demand_ts") == hour else None
+        if x is None:
+            continue
+        if node.get("demand_src") == "hourly" and hour in recent and recent[hour] == x:
+            v[f"netsnap|{ba}|demand_mw|{hour}"] = float(x)
+        else:
+            v[f"series|eia930_all_demand|eia930:{ba}|demand_mw|{hour}"] = float(x)
     return hour, pairs, reporting, v
 
 
