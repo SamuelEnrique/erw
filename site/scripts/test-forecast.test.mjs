@@ -326,3 +326,9 @@ test("property tax: Oregon's solar fee in lieu by county agreement, within its r
   near(F.propertyTax(P, { ...on, optrate: 4000 }, 0).tax, 50 * 5500, 1e-12, "held to the statute's minimum");
   assert.equal(F.defaults(P, "land_based_wind", "or").optrate, null, "the fee is a solar project's");
 });
+
+test("sales tax: North Dakota exempts a solar or gas power plant's purchases, not a new wind plant's", () => {
+  assert.equal(F.defaults(P, "utility_pv", "nd").exempt, 100);
+  assert.equal(F.defaults(P, "natural_gas", "nd").exempt, 100);
+  assert.equal(F.defaults(P, "land_based_wind", "nd").exempt, 0);
+});
