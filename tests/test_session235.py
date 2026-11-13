@@ -102,7 +102,8 @@ class TheCapturePrice(unittest.TestCase):
 
     def test_the_figures_carry_a_check_key_the_value_check_recomputes(self):
         page, check = src(*SELLER, "page.tsx"), src("site", "scripts", "check-values.mjs")
-        self.assertIn("check={`cap|${iso}|${r.id}|${r.market}|${capView.fuel}|${span}|${what}`}", page)
+        # session 1893: the span carries "@<the model's last month>" when the capture file's months were cut at it (capSpan)
+        self.assertIn("check={`cap|${iso}|${r.id}|${r.market}|${capView.fuel}|${capSpan(span)}|${what}`}", page)
         self.assertIn('if (p[0] === "cap") {', check)
         self.assertIn('"data", "seller", "capture.json"', check)
         self.assertIn("return C.stat(file, p[1], p[2], p[3], p[4], p[5], p[6]);", check)

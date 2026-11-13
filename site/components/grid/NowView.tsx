@@ -96,7 +96,8 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
       <HeadlineRow>
         <HeadlineNumber label="Demand" unit="MW" value={d ? <N t={DEMAND} r={d} /> : <span className="text-muted">not read</span>}
           note={d ? <>Hour starting {hourOf(d.ts_utc, tz)}.{dWeek ? <> A week earlier: <N t={DEMAND} r={dWeek} /> MW.</> : null}</> : dem.ok ? "No hour of demand in the last nine days." : dem.reason} />
-        <HeadlineNumber label={ties.length && !out ? "Net import" : "Net export"} unit="MW" value={ties.length ? netNum : <span className="text-muted">{grid.slug === "us48" ? "by grid" : "not reported"}</span>}
+        {/* session 1898 (lab path fault 3 of session 1885): the unit only beside a figure; the Lower 48's card read "by grid MW" */}
+        <HeadlineNumber label={ties.length && !out ? "Net import" : "Net export"} unit={ties.length ? "MW" : undefined} value={ties.length ? netNum : <span className="text-muted">{grid.slug === "us48" ? "by grid" : "not reported"}</span>}
           note={ties.length
             ? <>Hour starting {hourOf(xHour, tz)}, over <Num check={`net|ties|${grid.ba}|${xHour}`} raw={ties.length}>{shown(ties.length)}</Num> ties. <Link href={gridHref(grid.slug, "gravity")}>Each neighbour</Link>.</>
             : grid.slug === "us48" ? <>The Lower 48 is the sum of its grids: <Link href={gridHref(grid.slug, "gravity")}>the exchange of each</Link>.</>
