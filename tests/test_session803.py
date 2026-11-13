@@ -139,7 +139,8 @@ class ThePrintedIssue(unittest.TestCase):
             finally:
                 brief._LICENSED.pop(brief.LICENSE_FILE, None)
         # session 2701 (rulings item 15): the held outlet keeps its link
-        self.assertEqual(L[1], f"   Why. parties: Iran. Sources: [Reuters]({GN}) (via Google News), [OilPrice.com](https://oilprice.com/x)")
+        # session 1979 (faults file row 84): with no figure, a party the headline lacks reads "Also named:"
+        self.assertEqual(L[1], f"   Why. Also named: Iran. Sources: [Reuters]({GN}) (via Google News), [OilPrice.com](https://oilprice.com/x)")
         self.assertEqual(brief.assert_unique(L), 1)
 
 
