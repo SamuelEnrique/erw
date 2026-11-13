@@ -2,18 +2,297 @@
  "group": "texas",
  "rows": [
   {
+   "utility": "Texas TSPs and DSPs in ERCOT (PUCT rule)",
+   "state": "TX",
+   "iso_region": "ERCOT",
+   "rule_name": "16 TAC §25.194, Large Load Interconnection Standards (PUCT Project No. 58481), adopted 18 September 2026, effective 8 October 2026: intermediate agreement, study fee, financial security, standard large load interconnection agreement (SLLIA), CIAC, withdrawal, forfeiture and reallocation terms",
+   "source_url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+   "source_title": "PUCT Project No. 58481, Order Adopting New 16 TAC §25.194 (filed 18 September 2026, item 218), third of three files (adoption order pages 200 to 270: the rule text and the ordering paragraph)",
+   "quoted_clause": {
+    "page": "25",
+    "section": "§25.194(a)",
+    "quote": "§25.194. Large Load Interconnection Standards. (a) Purpose and Scope. This section sets forth the standards and criteria for an electric utility,"
+   },
+   "docket": {
+    "value": "PUCT Project No. 58481",
+    "cites": [
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+      "page": "1",
+      "section": "filing receipt",
+      "quote": "Filed Date - 2026-09-18 01:19:42 PM Control Number - 58481 Item Number - 218",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+      "page": "2",
+      "quote": "ORDER ADOPTING NEW 16 TAC §25.194",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-10-08",
+    "cites": [
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58481_219_1684678.PDF",
+      "page": "3",
+      "section": "Texas Register acknowledgment of receipt, TRD 202604027",
+      "quote": "Effective Date: 10/08/2026",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+      "page": "71",
+      "quote": "It is therefore ordered by the Public Utility Commission of Texas that new 16 TAC §25.194, relating to Large Load Interconnection Standards, is hereby adopted with changes to the text as proposed.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+      "page": "1",
+      "quote": "Filed Date - 2026-09-18 01:19:42 PM",
+      "date_read": "2026-11-13"
+     }
+    ],
+    "note": "adopted by the order filed 18 September 2026 (the signature date on page 71 is illegible in the scan); effective 8 October 2026 per the Texas Register's acknowledgment (issue of 2 October 2026, TRD 202604027)"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "75 MW: a large load customer not energized by 8 October 2026 that seeks a new interconnection at a single site of 75 MW or more, an expansion reaching 75 MW for the first time, an expansion of a site over 75 MW by 75 MW or more, or co-location with a generation resource; at transmission or distribution voltage; for an expansion the rule applies to the added load",
+     "cites": [
+      {
+       "page": "25",
+       "section": "§25.194(b)(1)",
+       "quote": "(b) Applicability. (1) This section applies to a large load customer that has not energized as of the effective date ofthis section and that seeks: (A) a new interconnection at a single site that is equal to or exceeds 75 megawatts (MW); (B) an expanded interconnection at a single site that equals or exceeds 75 MW for the first time; or (C) an expanded interconnection at a single site that exceeds 75 MW and is expanding by 75 MW or more; or (D) to co-locate with a generation resource."
+      },
+      {
+       "page": "28",
+       "section": "§25.194(c)(14)",
+       "quote": "(14) Large load customer -- An entity requesting a new or expanded interconnection where the customer's total expected non-coincident peak demand at a single site is equal to or exceeds 75 MW, whether at transmission voltage or distribution voltage."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "the SLLIA must include the customer's agreement to pay the large load minimum billing demand described in §25.193 for the period set there, and the utility may require additional security tied to it; the minimum billing demand itself is in §25.193, whose amendment (Project 58000) is pending and held by window A as a proposal",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "55",
+       "section": "§25.194(f)(2)(D)",
+       "quote": "acknowledgment and agreement that the large load customer will pay the large load minimum billing demand described in §25.193 ofthis title for the setperiod oftime described in §25.193.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "53",
+       "section": "§25.194(f)(2)(B)(ii)",
+       "quote": "a large load customer may be required to post additional financial security related to the large load minimum billing demand, described in §25.193 of this title"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "no term printed in §25.194: an intermediate agreement before the study, then a commission-approved pro forma SLLIA (to be adopted in a future rulemaking) whose minimum billing obligation runs for the period set in §25.193",
+     "cites": [
+      {
+       "page": "28",
+       "section": "§25.194(c)(17)",
+       "quote": "(17) Standard large load interconnection agreement (SLLIA) -- A commissionapproved pro forma agreement that is executed by a large load customer, the interconnecting DSP, and if different from the interconnecting DSP, the interconnecting TSP; and that, at a minimum, complies with this section."
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684655.PDF",
+       "page": "60",
+       "section": "adoption order, preamble",
+       "quote": "The commission plans to adopt a SLLIA in a future rulemaking project.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "55",
+       "section": "§25.194(f)(2)(D)",
+       "quote": "acknowledgment and agreement that the large load customer will pay the large load minimum billing demand described in §25.193 ofthis title for the setperiod oftime described in §25.193.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "intermediate agreement: $50,000 per MW of requested peak demand (or of the incremental increase), posted at execution; SLLIA: the greater of $50,000 per MW of contracted peak demand or the system upgrade costs allocated by the (batch zero) interconnection study, posted at SLLIA execution, plus possible additional security for the minimum billing demand; accepted forms: cash in a segregated interest-bearing account, a guaranty from a guarantor rated at least BBB- (S&P), Baa3 (Moody's) or BBB- (Fitch), or a letter of credit from a bank rated at least A-, A3 or A-; the $50,000 adjusted by CPI every five years from 2032; direct interconnection costs paid as non-refundable cash CIAC with no allowance",
+     "cites": [
+      {
+       "page": "36",
+       "section": "§25.194(d)(2)(B)",
+       "quote": "A large load customer must post financial security with the interconnecting DSP or the interconnecting TSP in the amount of $50,000 per MW of the requested peak demand for new interconnection requests or $50,000 per MW of the incremental increase in the peak demand for expanded interconnection requests."
+      },
+      {
+       "page": "52",
+       "section": "§25.194(f)(2)(B)(i)",
+       "quote": "A large load customer must post financial security with the interconnecting DSP or the interconnecting TSP in an amount that is the greater of: (I) $50,000 per MW ofthe contracted peak demand; or"
+      },
+      {
+       "page": "53",
+       "section": "§25.194(f)(2)(B)(i)(II)",
+       "quote": "the costs allocated to the large load customer for system upgrades as a result of a batch zero interconnection study or an interconnection study."
+      },
+      {
+       "page": "53",
+       "section": "§25.194(f)(2)(B)(iii)",
+       "quote": "Financial security under this subsection must be posted at the time the SLLIA is executed."
+      },
+      {
+       "page": "37",
+       "section": "§25.194(d)(2)(B)(ii)",
+       "quote": "(I) cash collateral to be held in a segregated, cash account bearing interest at a rate equal to at least the rate of the constant maturity one-month U.S. Treasury bill"
+      },
+      {
+       "page": "37",
+       "section": "§25.194(d)(2)(B)(ii)",
+       "quote": "guaranty, only if the guarantor has a U.S. or international credit rating of at least \"BBB-\" from Standard & Poor's, \"Baa3\" from Moody's Investor Service, or \"BBB-\" from Fitch."
+      },
+      {
+       "page": "38",
+       "section": "§25.194(d)(2)(B)(ii)",
+       "quote": "a letter of credit issued by a major U.S. commercial bank, or a U.S. branch office of a major foreign commercial bank, with a U.S. or international credit rating of at least \"A-\" from Standard & Poor's, \"A3\" from Moody's Investor Service, or \"A-\" from Fitch."
+      },
+      {
+       "page": "37",
+       "section": "§25.194(d)(2)(B)(i)",
+       "quote": "Beginning in 2032, the commission will adjust the $50,000 value on January 1 every five years in accordance with this clause."
+      },
+      {
+       "page": "55",
+       "section": "§25.194(f)(2)(C)",
+       "quote": "A large load customer must pay all direct interconnection costs through CIAC, with no standard or other allowance offered to offset the customer's CIAC payments. (i) CIAC must be paid in the form of a direct cash payment."
+      },
+      {
+       "page": "55",
+       "section": "§25.194(f)(2)(C)",
+       "quote": "(v) CIAC is not refundable."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "outstanding amounts owed are paid first (costs incurred, non-cancellable equipment, construction and services, and after a SLLIA the minimum billing demand for its set period); withdrawal before the study, or after a zero-MW allocation: full return of the rest; withdrawal after a partial allocation but before the SLLIA deadline: 20% of the security for the allocated capacity kept (50% for batch zero loads under Planning Guide 9.2.1.1(1)(f)); no SLLIA by the deadline: security forfeited; withdrawal of contracted demand after a SLLIA: 20% of the security for the withdrawn demand kept; energization schedule missed by 24 months: security drawn for amounts owed and 20% of the security for the non-utilized capacity kept; CIAC not refundable",
+     "cites": [
+      {
+       "page": "40",
+       "section": "§25.194(d)(3)(A)(iii)",
+       "quote": "(II) costs for equipment that the interconnecting DSP or the interconnecting TSP procured and that cannot be canceled or returned with a full refund;"
+      },
+      {
+       "page": "57",
+       "section": "§25.194(f)(3)(A)",
+       "quote": "(V) the large load minimum billing demand described in §25.193 of this title for the set period oftime described in §25.193."
+      },
+      {
+       "page": "40",
+       "section": "§25.194(d)(3)(B)",
+       "quote": "(i) the large load customer withdraws its requests for interconnection before ERCOT begins the interconnection study; or (ii) the large load customer is included in an interconnection study, is allocated zero MW across all study years by ERCOT, and withdraws"
+      },
+      {
+       "page": "41",
+       "section": "§25.194(d)(3)(C)",
+       "quote": "the interconnecting DSP or interconnecting TSP must subtract 20% of the financial security associated with the transmission capacity allocated by ERCOT to a large load customer that is included in an interconnection study, is allocated some portion of its requested peak demand, and withdraws its interconnection request before the deadline to execute a SLLIA"
+      },
+      {
+       "page": "42",
+       "section": "§25.194(d)(3)(E)",
+       "quote": "is deemed to have forfeited any financial security that the large load customer posted under an intermediate agreement."
+      },
+      {
+       "page": "57",
+       "section": "§25.194(f)(3)(B)",
+       "quote": "subtract 20% of the financial security associated with the contracted peak demand that is withdrawn before the interconnecting DSP or the interconnecting TSP returns the remaining balance of financial security posted by a large load customer."
+      },
+      {
+       "page": "60",
+       "section": "§25.194(g)(3)",
+       "quote": "must subtract 20% of the financial security associated with the non-utilized transmission capacity and then return the balance to the large load customer."
+      },
+      {
+       "page": "63",
+       "section": "§25.194(h)(1)(C)",
+       "quote": "(i) 50% of the financial security associated with the transmission capacity allocated by ERCOT to a large load customer that meets the criteria in ERCOT Planning Guide Section 9.2.1.1(1)(f)"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "$100,000 study fee due at execution of the intermediate agreement (ERCOT may add a flat fee); the TSP or DSP must contact ERCOT to start the study within 60 days after the intermediate agreement is executed and funded, and tell the customer within five working days; unused study fee returned within 60 days after the study ends",
+     "cites": [
+      {
+       "page": "35",
+       "section": "§25.194(d)(2)(A)",
+       "quote": "(i) A large load customer must pay a study fee of $100,000 to the interconnecting DSP or the interconnecting TSP for transmission studies performed by the interconnecting DSP, the interconnecting TSP, and ERCOT, as applicable."
+      },
+      {
+       "page": "36",
+       "section": "§25.194(d)(2)(A)",
+       "quote": "(iv) The study fee is due not later than the date that the intermediate agreement is executed."
+      },
+      {
+       "page": "43",
+       "section": "§25.194(e)(1)",
+       "quote": "Not later than 60 days after an intennediate agreement is executed and funded under subsection (d) of this section, the interconnecting DSP or the interconnecting TSP must contact ERCOT to initiate an interconnection study, as prescribed by ERCOT protocols."
+      },
+      {
+       "page": "44",
+       "section": "§25.194(e)(2)(A)",
+       "quote": "The interconnecting DSP or the interconnecting TSP must notify the large load customer not later than five working days after the interconnecting DSP or the interconnecting TSP contacts ERCOT to initiate an interconnection study."
+      },
+      {
+       "page": "36",
+       "section": "§25.194(d)(2)(A)",
+       "quote": "(vi) Any unused study amount of the study fee must be returned to the large load customer not later than 60 days after the conclusion of the interconnection study."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "SLLIA executed and funded within 60 days after ERCOT's study report allocating capacity, or the request is cancelled; if the customer fails by 24 months to meet a milestone of its phased energization schedule (the schedule as a whole), the TSP or DSP notifies ERCOT within 30 days and ERCOT may reallocate the capacity; security returned 20% at energization and the rest in 20% steps as the minimum billing demand milestones are met",
+     "cites": [
+      {
+       "page": "45",
+       "section": "§25.194(f)",
+       "quote": "Not later than 60 days after ERCOT issues a study report that allocates transmission capacity, the large load customer must execute and fund a SLLIA with the interconnecting DSP and, if different from the interconnecting DSP, the interconnecting TSP."
+      },
+      {
+       "page": "59",
+       "section": "§25.194(g)(1)",
+       "quote": "Not later than 30 days after a large load customer fails, by 24 months, to satisfy a milestone in its schedule for phased energization, as described in the SLLIA at the time of execution, the interconnecting DSP or the interconnecting TSP must notify ERCOT of the large load customer's non-utilized capacity."
+      },
+      {
+       "page": "59",
+       "section": "§25.194(g)(1)",
+       "quote": "The 24-month period applies to the energization schedule as a whole, and not for each energization milestone individually."
+      },
+      {
+       "page": "57",
+       "section": "§25.194(f)(3)(C)",
+       "quote": "The interconnecting DSP or the interconnecting TSP must return 20% of the remaining balance of financial security when the large load customer energizes and the remainder ratably in 20% increments as the large load customer meets the milestones identified in the"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "a statewide rule: no queue of its own; ERCOT's large-load queue is held by window A (large_load_connection_rules/ercot_large_load_batch_update_april_2026.yaml); each utility's queue is on its own row"
+    }
+   },
+   "license": "public",
+   "license_basis": "the PUCT's own docket copy (interchange.puc.texas.gov, Project 58481, items 218 and 219)",
+   "erw_overlap": "Not held. large_load_connection_rules/puct_project_58000_proposal.yaml is the separate tariff rulemaking (proposed amendments to 25.192 and 25.193 and new 25.252: 20-year agreement, 240 payments); it is still pending (the latest filing in Project 58000, item 70 of 1 October 2026, is comments on the minimum billing demand study), and §25.194 relies on its §25.193 minimum billing demand. ercot_planning_guide_section_9.yaml and ercot_large_load_batch_update_april_2026.yaml hold ERCOT's own Batch Zero clocks and threshold; §25.194(h) sets the PUCT's return and forfeiture terms for batch zero load, which those files do not hold.",
+   "notes": "The rule binds electric utilities, municipally owned utilities and electric cooperatives interconnecting large loads to the ERCOT system (subsection (a)); a municipally owned utility or cooperative may add its own requirements: 'Nothing in this section limits the authority of a municipally owned utility or an electric cooperative to impose electric service requirements for large load customers on their systems in addition to the standards adopted under this section' (page 25). Also in the rule, not entered as fields: required disclosures under both agreements (site control with a lease of at least five years, substantially similar requests elsewhere in Texas, water, backup generation, power supply, controllable load resource), audit and verification by ERCOT and commission staff with forfeiture and reallocation for false information (subsections (j), (k)), and the transition for customers that signed a §25.370(g) agreement (subsection (i)). A batch zero load with an interconnection agreement signed on or before 1 June 2025 pays direct interconnection costs under that agreement (subsection (h)(3)(B), page 65). The Texas Register's own pages were not read (sos.state.tx.us answered 403 on the October 9 issue; the adoption was submitted for the issue of 2 October 2026).",
+   "date_read": "2026-11-13"
+  },
+  {
    "utility": "Oncor Electric Delivery Company LLC",
    "state": "TX",
    "iso_region": "ERCOT",
-   "rule_name": "Large-load (75 MW or greater) transmission interconnection: customer financial security and Batch Zero customer agreements, under ERCOT's Batch Zero and the PUCT's large load interconnection standards adopted September 2026, as Oncor's SEC filings state (the delivery schedule such a load takes is Transmission Service, held by window A)",
+   "rule_name": "Large-load (75 MW or more) interconnection with Oncor: the Transmission/Substation Facility Extension Agreement of its Tariff for Retail Delivery Service (6.3.2, Docket 58306) and 6.2.3.6 (transmission voltage), Batch Zero customer agreements and security, and 16 TAC §25.194 (effective 8 October 2026; its terms are in the statewide row of this file)",
    "source_url": "https://www.sec.gov/Archives/edgar/data/1193311/000119331126000026/c311-20260930x10q.htm",
-   "source_title": "Oncor Electric Delivery Company LLC, Form 10-Q for the quarterly period ended September 30, 2026 (SEC EDGAR, filed 5 November 2026)",
+   "source_title": "Oncor Electric Delivery Company LLC, Form 10-Q for the quarterly period ended September 30, 2026 (SEC EDGAR, filed 5 November 2026); with the PUCT's stamped approved copy of Oncor's Tariff for Retail Delivery Service (Docket 58306, item 758)",
    "quoted_clause": {
     "section": "MD&A, customer deposits held as restricted cash",
     "quote": "ERCOT’s batch zero process required many large load customers to post financial security of $50,000 per MW requested, with the majority of batch zero financial security being received by us in the three months ended September 30, 2026."
    },
    "docket": {
-    "value": "PUCT Docket No. 58306 (the comprehensive base rate review whose rates, the Transmission Service schedule among them, took effect 1 June 2026); the large-load standards' PUCT project number is not printed in Oncor's filings",
+    "value": "PUCT Docket No. 58306 (Oncor's comprehensive base rate review: tariff approved 17 April 2026, rates in effect 1 June 2026); PUCT Project No. 58481 (16 TAC §25.194)",
     "cites": [
      {
       "section": "MD&A, regulatory matters",
@@ -22,33 +301,76 @@
      {
       "section": "MD&A, regulatory matters",
       "quote": "The new base rates implementing the terms of the order took effect June 1, 2026."
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF",
+      "page": "74",
+      "section": "PUCT stamp on Sheet 2 (6.3.2)",
+      "quote": "Docket: 58306",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF",
+      "page": "74",
+      "section": "PUCT stamp on Sheet 2 (6.3.2)",
+      "quote": "Approved on: APR 17 2026",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+      "page": "1",
+      "section": "filing receipt",
+      "quote": "Filed Date - 2026-09-18 01:19:42 PM Control Number - 58481 Item Number - 218",
+      "date_read": "2026-11-13"
      }
     ]
    },
    "status": {
     "value": "in effect",
-    "date": "2026-10",
+    "date": "2026-10-08",
     "cites": [
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58481_219_1684678.PDF",
+      "page": "3",
+      "section": "Texas Register acknowledgment of receipt, TRD 202604027",
+      "quote": "Effective Date: 10/08/2026",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF",
+      "page": "74",
+      "section": "6.3.2 Transmission/Substation Facility Extension Agreement, Sheet 2, Revision Two",
+      "quote": "Effective Date: June 1, 2026",
+      "date_read": "2026-11-13"
+     },
      {
       "section": "MD&A, ERCOT Large Load Interconnection Process Developments",
       "quote": "in September 2026 the PUCT adopted new large load customer interconnection standards requiring those customers to provide their transmission or distribution service provider with financial security as well as pay direct interconnection costs"
-     },
-     {
-      "url": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm",
-      "section": "AEP 10-Q, Large Load Interconnections in Texas",
-      "quote": "The PUCT adopted changes in September 2026, effective October 2026, to the Texas Administrative Code related to Large Load Interconnection Standards.",
-      "date_read": "2026-11-13"
      }
     ],
-    "note": "the day of the month is not printed; the effective month is from AEP's 10-Q (same PUCT rule)"
+    "note": "16 TAC §25.194 in effect from 8 October 2026 (Texas Register receipt); Oncor's facility extension agreement form (Revision Two) in effect from 1 June 2026, approved in Docket 58306 on 17 April 2026"
    },
    "fields": {
     "threshold_mw": {
-     "value": "75 MW or greater (ERCOT's batch interconnection framework for large load customers, as Oncor's 10-Q describes it)",
+     "value": "75 MW or more at a single site (16 TAC §25.194, as for every ERCOT TSP and DSP; Oncor's 10-Q gives the same 75 MW for ERCOT's batch framework); in Oncor's tariff a load too large to be served economically or practically at primary or secondary voltage, as Oncor determines, takes transmission voltage service",
      "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "25",
+       "section": "§25.194(b)(1)",
+       "quote": "(b) Applicability. (1) This section applies to a large load customer that has not energized as of the effective date ofthis section and that seeks: (A) a new interconnection at a single site that is equal to or exceeds 75 megawatts (MW)",
+       "date_read": "2026-11-13"
+      },
       {
        "section": "MD&A, ERCOT Large Load Interconnection Process Developments",
        "quote": "a PUCT-approved, system-wide approach to sequence large load customer interconnection requests (loads of 75 MW or greater) in a recurring batch interconnection framework, the first stage of which is known as the batch zero process"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF",
+       "page": "70",
+       "section": "6.2.3.6 Voltage Level of Facility Extensions",
+       "quote": "A Retail Customer whose load is of such magnitude or of such characteristics that it cannot otherwise be economically or practically served from Company's primary or secondary voltage system, as determined by the Company, must receive Delivery Service from the Company's transmission voltage system.",
+       "date_read": "2026-11-13"
       }
      ]
     },
@@ -58,16 +380,74 @@
       {
        "section": "MD&A, distribution base revenues, note (c)",
        "quote": "the greater of actual monthly demand (kW) or 80% of peak monthly demand during the prior eleven months"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "55",
+       "section": "§25.194(f)(2)(D)",
+       "quote": "acknowledgment and agreement that the large load customer will pay the large load minimum billing demand described in §25.193 ofthis title for the setperiod oftime described in §25.193.",
+       "date_read": "2026-11-13"
+      }
+     ],
+     "note": "the 80% ratchet of the Transmission Service schedule is held; in addition 16 TAC §25.194 requires every SLLIA to bind the customer to the large load minimum billing demand of §25.193, whose amendment is the pending Project 58000 proposal held by window A"
+    },
+    "contract_term": {
+     "value": "tariff form: the Transmission/Substation Facility Extension Agreement takes effect on execution, with no minimum term; the customer may terminate before the Company Facilities are complete on seven days' written notice; under 16 TAC §25.194 the SLLIA binds the customer to the minimum billing demand for the period set in §25.193",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF",
+       "page": "74",
+       "section": "6.3.2, Article III",
+       "quote": "1. This Agreement becomes effective on the date of execution by both parties",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF",
+       "page": "74",
+       "section": "6.3.2, Article III",
+       "quote": "2. Customer may terminate this Agreement at any time prior to completion of the Company Facilities by providing Company with seven (7) days advanced written notice.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "55",
+       "section": "§25.194(f)(2)(D)",
+       "quote": "acknowledgment and agreement that the large load customer will pay the large load minimum billing demand described in §25.193 ofthis title for the setperiod oftime described in §25.193.",
+       "date_read": "2026-11-13"
       }
      ]
     },
-    "contract_term": {
-     "value": "not published",
-     "searched": "Oncor Q3 2026 10-Q (MD&A and notes), Q3 2026 8-K Exhibit 99.1, 2025 Form 10-K: no contract term for large-load agreements printed; Oncor's tariff book on www.oncor.com could not be read (TLS certificate verification failed in the reader)"
-    },
     "collateral": {
-     "value": "financial security of $50,000 per MW requested for ERCOT Batch Zero, posted with Oncor; Oncor's Batch Zero customer agreements require cash deposits to be converted within a specified number of days into letters of credit or approved affiliate guarantees; customers below Oncor's credit quality thresholds post security before construction of customer-requested interconnection or delivery facilities; the PUCT's September 2026 standards require financial security and payment of direct interconnection costs",
+     "value": "16 TAC §25.194: $50,000 per MW of requested peak demand at the intermediate agreement, then the greater of $50,000 per MW of contracted peak demand or the allocated system upgrade costs at the SLLIA, and direct interconnection costs as cash CIAC (full terms in the statewide row); Oncor's tariff form: Oncor may require a security payment in advance of construction to cover the costs owed if the customer's facilities do not reach the specified level of operation by the specified date; Batch Zero: $50,000 per MW requested, cash deposits converted within a specified number of days into letters of credit or approved affiliate guarantees; customers below Oncor's credit quality thresholds post security before construction",
      "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "36",
+       "section": "§25.194(d)(2)(B)",
+       "quote": "A large load customer must post financial security with the interconnecting DSP or the interconnecting TSP in the amount of $50,000 per MW of the requested peak demand for new interconnection requests or $50,000 per MW of the incremental increase in the peak demand for expanded interconnection requests.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "52",
+       "section": "§25.194(f)(2)(B)(i)",
+       "quote": "A large load customer must post financial security with the interconnecting DSP or the interconnecting TSP in an amount that is the greater of: (I) $50,000 per MW ofthe contracted peak demand; or",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "55",
+       "section": "§25.194(f)(2)(C)",
+       "quote": "A large load customer must pay all direct interconnection costs through CIAC, with no standard or other allowance offered to offset the customer's CIAC payments. (i) CIAC must be paid in the form of a direct cash payment.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF",
+       "page": "74",
+       "section": "6.3.2, Article I, paragraph 2",
+       "quote": "The Company may require a security payment in advance of constructing facilities to cover such costs.",
+       "date_read": "2026-11-13"
+      },
       {
        "section": "MD&A, customer deposits held as restricted cash",
        "quote": "ERCOT’s batch zero process required many large load customers to post financial security of $50,000 per MW requested"
@@ -89,16 +469,96 @@
      ]
     },
     "exit_fee": {
-     "value": "not published",
-     "searched": "Oncor Q3 2026 10-Q, Q3 2026 8-K Exhibit 99.1, 2025 Form 10-K: no termination or exit charge printed"
+     "value": "tariff form: on termination before completion the customer pays Oncor's costs incurred, its committed costs it cannot avoid and the cost of restoring the system, less the customer's payments; if the customer's facilities miss the specified level of operation by the specified date, the customer pays the costs the agreement specifies; 16 TAC §25.194: 20% of the security for allocated or contracted capacity kept on withdrawal, security forfeited if no SLLIA is signed, CIAC not refundable (statewide row)",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF",
+       "page": "74",
+       "section": "6.3.2, Article I, paragraph 3",
+       "quote": "Customer shall pay to Company all of: (a) the costs that Company has incurred prior to the date of termination for engineering, procuring equipment and materials, construction, and any other costs related to the Company Facilities; (b) the costs that Company has committed to incur prior to the date of termination that it is unable to avoid using commercially reasonable steps",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF",
+       "page": "74",
+       "section": "6.3.2, Article I, paragraph 2",
+       "quote": "If the Customer Facilities have not achieved the level of operation specified below by the date specified below, then Customer shall pay to Company those costs as described below to compensate Company for costs it has incurred associated with the Company Facilities.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "41",
+       "section": "§25.194(d)(3)(C)",
+       "quote": "the interconnecting DSP or interconnecting TSP must subtract 20% of the financial security associated with the transmission capacity allocated by ERCOT to a large load customer that is included in an interconnection study, is allocated some portion of its requested peak demand, and withdraws its interconnection request before the deadline to execute a SLLIA",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "57",
+       "section": "§25.194(f)(3)(B)",
+       "quote": "subtract 20% of the financial security associated with the contracted peak demand that is withdrawn before the interconnecting DSP or the interconnecting TSP returns the remaining balance of financial security posted by a large load customer.",
+       "date_read": "2026-11-13"
+      }
+     ]
     },
     "study_timeline": {
-     "value": "not published",
-     "searched": "Oncor Q3 2026 10-Q and 8-K Exhibit 99.1: no Oncor study duration printed (the ERCOT Batch Zero study clocks are held by window A; Oncor's expectation for the final Batch Zero transmission plan is in notes)"
+     "value": "16 TAC §25.194: $100,000 study fee at the intermediate agreement; Oncor, as interconnecting TSP or DSP, must contact ERCOT to start the study within 60 days after the intermediate agreement is executed and funded and tell the customer within five working days; no Oncor-specific study duration in its tariff or SEC filings",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "35",
+       "section": "§25.194(d)(2)(A)",
+       "quote": "(i) A large load customer must pay a study fee of $100,000 to the interconnecting DSP or the interconnecting TSP for transmission studies performed by the interconnecting DSP, the interconnecting TSP, and ERCOT, as applicable.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "43",
+       "section": "§25.194(e)(1)",
+       "quote": "Not later than 60 days after an intennediate agreement is executed and funded under subsection (d) of this section, the interconnecting DSP or the interconnecting TSP must contact ERCOT to initiate an interconnection study, as prescribed by ERCOT protocols.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "44",
+       "section": "§25.194(e)(2)(A)",
+       "quote": "The interconnecting DSP or the interconnecting TSP must notify the large load customer not later than five working days after the interconnecting DSP or the interconnecting TSP contacts ERCOT to initiate an interconnection study.",
+       "date_read": "2026-11-13"
+      }
+     ]
     },
     "connection_timeline": {
-     "value": "not published",
-     "searched": "Oncor Q3 2026 10-Q and 8-K Exhibit 99.1: no time to energize or construction milestone printed for large loads"
+     "value": "16 TAC §25.194: SLLIA executed and funded within 60 days after ERCOT's study report; capacity reported as non-utilized if the energization schedule is missed by 24 months; Oncor's tariff: extensions other than new residential service to be completed within the time Oncor estimates, the estimate due within ten Business Days of a detailed request",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "45",
+       "section": "§25.194(f)",
+       "quote": "Not later than 60 days after ERCOT issues a study report that allocates transmission capacity, the large load customer must execute and fund a SLLIA with the interconnecting DSP and, if different from the interconnecting DSP, the interconnecting TSP.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "59",
+       "section": "§25.194(g)(1)",
+       "quote": "Not later than 30 days after a large load customer fails, by 24 months, to satisfy a milestone in its schedule for phased energization, as described in the SLLIA at the time of execution, the interconnecting DSP or the interconnecting TSP must notify ERCOT of the large load customer's non-utilized capacity.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf.coredownload.pdf",
+       "page": "60",
+       "section": "5.7.3 Processing of Requests for Construction of Delivery System",
+       "quote": "For all other extensions requiring construction, requests should be completed within the time estimated by Company.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf.coredownload.pdf",
+       "page": "60",
+       "section": "5.7.3",
+       "quote": "within ten Business Days of Company’s receipt of a detailed request, Company shall give the entity requesting Construction Service an estimated completion date and an estimated cost for all charges to be assessed",
+       "date_read": "2026-11-13"
+      }
+     ]
     },
     "queue_size": {
      "value": "795 requests in Oncor's active transmission LC&I interconnection queue at the end of the third quarter of 2026 (30 September 2026): approximately 293 GW from data centers and approximately 19 GW from other industrial sectors, including 4 GW of crypto-mining; Batch Zero (conditional ERCOT classification): approximately 24 GW base load, including 10 GW already energized, and 21 GW studied load where Oncor is the TSP",
@@ -125,9 +585,9 @@
     }
    },
    "license": "public",
-   "license_basis": "Oncor's filings with the SEC (EDGAR): Form 10-Q and Form 8-K Exhibit 99.1",
-   "erw_overlap": "large_load_tariffs/oncor_transmission_service.yaml: the delivery schedule (80% ratchet, same value, written held); its docket field reads 'not printed for the base rates', while Oncor's Q3 2026 10-Q names PUCT Docket No. 58306 as the base rate review whose new rates took effect 1 June 2026 (a correction for window A to check). large_load_connection_rules/ercot_planning_guide_section_9.yaml and ercot_large_load_batch_update_april_2026.yaml hold the Batch Zero process itself (75 MW, ERCOT's clocks); this row adds only Oncor's own security terms and queue.",
-   "notes": "Not read: Oncor's Tariff for Retail Delivery Service (its Section 6.3.2 form of Transmission/Substation Facility Extension Agreement and its Discretionary Service Agreement) on www.oncor.com: the reader's TLS check failed ('self-signed certificate in certificate chain'), so the host was not read. Lead, not a value: the complaint of ACS DC Hicks Field Road LLC against ERCOT (PUCT Docket 60425, the copy ERCOT posts at https://www.ercot.com/files/docs/2026/10/26/60425-Complaint-of-ACS-DC-Hicks-Field-Road-LLC-Against-ERCOT.pdf) describes one Oncor Facility Extension Agreement requiring financial security within ten business days of execution and a Discretionary Services Agreement backed by security; customer-specific, so not entered as a rule. Oncor's 8-K Exhibit 99.1 says a final transmission plan reflecting Batch Zero is not expected until fall of 2027 (the 10-Q says the second half of 2027) and that the classifications are conditional on an ERCOT audit expected in December 2026. Customer cash deposits were about $580 million on 31 October 2026 (10-Q). The adopted 16 TAC 25.194 text (PUCT Project 58481) was not read: interchange.puc.texas.gov, www.puc.texas.gov and the Texas Register (sos.state.tx.us) all failed the reader's TLS check.",
+   "license_basis": "Oncor's SEC filings (EDGAR), the PUCT's stamped approved copy of Oncor's tariff (Docket 58306, item 758) and the PUCT's adoption order in Project 58481; the two Section 5.7.3 cites are from Oncor's own copy on oncor.com (the PUCT's compliance copy holds only the revised sheets), whose terms allow 'personal, noncommercial, and, as applicable, educational purposes only'; window A licensed that filed tariff book public",
+   "erw_overlap": "large_load_tariffs/oncor_transmission_service.yaml: the delivery schedule (80% ratchet, same value, written held); its docket field reads 'not printed for the base rates', while the PUCT's stamped copy of the same tariff prints 'Docket: 58306' and 'Approved on: APR 17 2026' on its sheets and Oncor's 10-Q says the new base rates took effect 1 June 2026 (a correction for window A to check). large_load_connection_rules/ercot_planning_guide_section_9.yaml and ercot_large_load_batch_update_april_2026.yaml hold Batch Zero itself; 16 TAC §25.194 is the statewide row of this file.",
+   "notes": "Oncor's tariff (Docket 58306) has no large-load schedule or section: a large load uses Transmission Service, the Facilities Extension Policy (5.7), 6.2.3.6 and the 6.3.2 agreement form; the 6.3.5 Discretionary Service Agreement form (page 182 of oncor.com's copy) leaves term and services blank. Lead, not a value: the complaint of ACS DC Hicks Field Road LLC against ERCOT (PUCT Docket 60425, the copy ERCOT posts at https://www.ercot.com/files/docs/2026/10/26/60425-Complaint-of-ACS-DC-Hicks-Field-Road-LLC-Against-ERCOT.pdf) describes one Oncor Facility Extension Agreement requiring financial security within ten business days of execution; customer-specific. Oncor's 8-K Exhibit 99.1: a final transmission plan reflecting Batch Zero is not expected until fall of 2027 (the 10-Q: second half of 2027); classifications conditional on an ERCOT audit expected in December 2026. Customer cash deposits were about $580 million on 31 October 2026 (10-Q).",
    "date_read": "2026-11-13"
   },
   {
@@ -277,41 +737,68 @@
     }
    },
    "license": "internal",
-   "license_basis": "CenterPoint's filed Tariff for Retail Delivery Service (the copy window A read and licensed public) and CenterPoint Energy's Form 10-Q on SEC EDGAR Session 5300's license audit: CenterPoint's Terms of Use (https://www.centerpointenergy.com/en-us/about-us/legal/terms-of-use, read 2026-11-13) limit content to personal and non-commercial use and bar any 'scraper, robot, bot, spider' without prior express written consent; the tariff was read from assets.centerpointenergy.com before those terms were read. Internal, and to be re-read from the PUCT's copy (the 90-day pass).",
+   "license_basis": "CenterPoint's filed Tariff for Retail Delivery Service (the copy window A read and licensed public) and CenterPoint Energy's Form 10-Q on SEC EDGAR Made internal by merge_group.py's license audit: threshold_mw rests only on a host whose terms ask permission: CenterPoint's Terms of Use (personal and non-commercial use; robots barred), read 2026-11-13.",
    "erw_overlap": "large_load_tariffs/centerpoint_houston_transmission_service.yaml: the same tariff book; that file holds the Transmission Service rates and the 60,000 volt definition from Sheet 6.25. No value here differs; this row adds the facility extension terms and the Batch Zero figures.",
-   "notes": "Not a large-load-specific schedule: Subsection 2.3 and the Sheet 6.25 form apply to every transmission-voltage extension, and CenterPoint's 10-Q names Facilities Extension Agreements as the instrument of its Batch Zero submissions. Sheet 6.16 also provides a prorated refund of common-facility reimbursement over $10,000,000 if further transmission customers are served from the same facilities within five years (page 203). The 10-Q also states that in Q3 2026 customers provided about $290 million of CIAC and about $600 million of financial security, of which about $135 million was returned. The investor slides (8-K Exhibit 99.2 of 27 October 2026) are images and were not read. The tariff book was read from CenterPoint's own content host before the terms were read; window A's centerpoint_houston_transmission_service.yaml is read from the same host (data request row 8).",
+   "notes": "Not a large-load-specific schedule: Subsection 2.3 and the Sheet 6.25 form apply to every transmission-voltage extension, and CenterPoint's 10-Q names Facilities Extension Agreements as the instrument of its Batch Zero submissions. Sheet 6.16 also provides a prorated refund of common-facility reimbursement over $10,000,000 if further transmission customers are served from the same facilities within five years (page 203). The 10-Q also states that in Q3 2026 customers provided about $290 million of CIAC and about $600 million of financial security, of which about $135 million was returned. The investor slides (8-K Exhibit 99.2 of 27 October 2026) are images and were not read. From 8 October 2026 a large load of 75 MW or more connecting to CenterPoint is also under 16 TAC §25.194 (the statewide row: intermediate agreement, $50,000 per MW security, SLLIA, non-refundable cash CIAC).",
    "date_read": "2026-11-13"
   },
   {
    "utility": "AEP Texas Inc.",
    "state": "TX",
    "iso_region": "ERCOT",
-   "rule_name": "Large-load interconnection under the PUCT's Large Load Interconnection Standards (Texas Administrative Code, adopted September 2026, effective October 2026) and ERCOT Batch Zero: intermediate agreement, $50,000 per MW security, standardized interconnection agreement, as AEP's Q3 2026 10-Q states for AEP Texas",
+   "rule_name": "Large-load interconnection with AEP Texas under 16 TAC §25.194 (PUCT Project No. 58481, effective 8 October 2026) and ERCOT Batch Zero: Letters of Agreement, Batch Zero security and segregated cash collateral, as AEP's Q3 2026 10-Q states (the rule's terms are in the statewide row of this file)",
    "source_url": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm",
    "source_title": "American Electric Power Company, Inc. and subsidiaries (AEP Texas Inc. among the registrants), combined Form 10-Q for the quarterly period ended September 30, 2026 (SEC EDGAR, filed 28 October 2026)",
    "quoted_clause": {
     "section": "Large Load Interconnections in Texas",
-    "quote": "The changes require a large load customer to execute an intermediate agreement, provide certain disclosures and post financial security in the amount of $50,000 per MW before inclusion in an ERCOT interconnection study."
+    "quote": "In October 2026, AEP Texas segregated approximately $1.2 billion of cash collateral pursuant to the new rule."
    },
    "docket": {
-    "value": "not published",
-    "searched": "AEP Q3 2026 10-Q, Large Load Interconnections in Texas: no PUCT project or docket number printed (Project 58481 is a lead from law firm summaries, unverified)"
+    "value": "PUCT Project No. 58481 (16 TAC §25.194)",
+    "cites": [
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+      "page": "1",
+      "section": "filing receipt",
+      "quote": "Filed Date - 2026-09-18 01:19:42 PM Control Number - 58481 Item Number - 218",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+      "page": "2",
+      "quote": "ORDER ADOPTING NEW 16 TAC §25.194",
+      "date_read": "2026-11-13"
+     }
+    ]
    },
    "status": {
     "value": "in effect",
-    "date": "2026-10",
+    "date": "2026-10-08",
     "cites": [
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58481_219_1684678.PDF",
+      "page": "3",
+      "section": "Texas Register acknowledgment of receipt, TRD 202604027",
+      "quote": "Effective Date: 10/08/2026",
+      "date_read": "2026-11-13"
+     },
      {
       "section": "Large Load Interconnections in Texas",
       "quote": "The PUCT adopted changes in September 2026, effective October 2026, to the Texas Administrative Code related to Large Load Interconnection Standards."
      }
-    ],
-    "note": "the day of the month is not printed"
+    ]
    },
    "fields": {
     "threshold_mw": {
-     "value": "75 MW or greater (Batch Zero applies primarily to large electric loads of 75 MW or greater, as AEP states)",
+     "value": "75 MW or more at a single site (16 TAC §25.194); Batch Zero applies primarily to large electric loads of 75 MW or greater (AEP)",
      "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "25",
+       "section": "§25.194(b)(1)",
+       "quote": "(b) Applicability. (1) This section applies to a large load customer that has not energized as of the effective date ofthis section and that seeks: (A) a new interconnection at a single site that is equal to or exceeds 75 megawatts (MW)",
+       "date_read": "2026-11-13"
+      },
       {
        "section": "Large Load Interconnections in Texas",
        "quote": "The process applies primarily to large electric loads of 75 MW or greater"
@@ -319,12 +806,34 @@
      ]
     },
     "min_demand": {
-     "value": "not published",
-     "searched": "AEP Q3 2026 10-Q, Large Load Interconnections in Texas and the large load tariff paragraph (AEP Texas has no large-load tariff filing named there; the pending Texas filing is SWEPCo-Texas, outside this group)"
+     "value": "the SLLIA binds the customer to the large load minimum billing demand of §25.193 (16 TAC §25.194(f)(2)(D)); no AEP Texas figure printed; the §25.193 amendment is the pending Project 58000 proposal held by window A",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "55",
+       "section": "§25.194(f)(2)(D)",
+       "quote": "acknowledgment and agreement that the large load customer will pay the large load minimum billing demand described in §25.193 ofthis title for the setperiod oftime described in §25.193.",
+       "date_read": "2026-11-13"
+      }
+     ]
     },
     "contract_term": {
-     "value": "a standardized interconnection agreement once capacity is allocated from the ERCOT batch study; no term printed",
+     "value": "a standard large load interconnection agreement (SLLIA) once ERCOT allocates capacity, binding the customer to the minimum billing demand for the period set in §25.193; no term printed in §25.194 or AEP's 10-Q",
      "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "45",
+       "section": "§25.194(f)",
+       "quote": "Not later than 60 days after ERCOT issues a study report that allocates transmission capacity, the large load customer must execute and fund a SLLIA with the interconnecting DSP and, if different from the interconnecting DSP, the interconnecting TSP.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "55",
+       "section": "§25.194(f)(2)(D)",
+       "quote": "acknowledgment and agreement that the large load customer will pay the large load minimum billing demand described in §25.193 ofthis title for the setperiod oftime described in §25.193.",
+       "date_read": "2026-11-13"
+      },
       {
        "section": "Large Load Interconnections in Texas",
        "quote": "The new rule requires a large load customer to execute a standardized interconnection agreement once the allocation of capacity is determined from the ERCOT batch study"
@@ -332,15 +841,35 @@
      ]
     },
     "collateral": {
-     "value": "$50,000 per MW before inclusion in an ERCOT interconnection study, plus the cash for direct interconnection once capacity is allocated; utilities must segregate cash collateral posted as financial security (AEP Texas segregated about $1.2 billion in October 2026); Batch Zero security was received as cash collateral, corporate or parental guarantees and letters of credit",
+     "value": "16 TAC §25.194: $50,000 per MW of requested peak demand at the intermediate agreement; the greater of $50,000 per MW of contracted peak demand or allocated system upgrade costs at the SLLIA; cash collateral held in a segregated interest-bearing account; direct interconnection costs as cash CIAC; AEP Texas segregated about $1.2 billion of cash collateral in October 2026 and received about $2 billion of Batch Zero security in July 2026 as cash, corporate or parental guarantees and letters of credit",
      "cites": [
       {
-       "section": "Large Load Interconnections in Texas",
-       "quote": "post financial security in the amount of $50,000 per MW before inclusion in an ERCOT interconnection study"
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "36",
+       "section": "§25.194(d)(2)(B)",
+       "quote": "A large load customer must post financial security with the interconnecting DSP or the interconnecting TSP in the amount of $50,000 per MW of the requested peak demand for new interconnection requests or $50,000 per MW of the incremental increase in the peak demand for expanded interconnection requests.",
+       "date_read": "2026-11-13"
       },
       {
-       "section": "Large Load Interconnections in Texas",
-       "quote": "in addition to the financial security, the cash required for the direct interconnection of their load to the broader system"
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "52",
+       "section": "§25.194(f)(2)(B)(i)",
+       "quote": "A large load customer must post financial security with the interconnecting DSP or the interconnecting TSP in an amount that is the greater of: (I) $50,000 per MW ofthe contracted peak demand; or",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "37",
+       "section": "§25.194(d)(2)(B)(ii)",
+       "quote": "(I) cash collateral to be held in a segregated, cash account bearing interest at a rate equal to at least the rate of the constant maturity one-month U.S. Treasury bill",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "55",
+       "section": "§25.194(f)(2)(C)",
+       "quote": "A large load customer must pay all direct interconnection costs through CIAC, with no standard or other allowance offered to offset the customer's CIAC payments. (i) CIAC must be paid in the form of a direct cash payment.",
+       "date_read": "2026-11-13"
       },
       {
        "section": "Large Load Interconnections in Texas",
@@ -353,21 +882,68 @@
      ]
     },
     "exit_fee": {
-     "value": "the rule sets the consequences of withdrawing all or part of requested or contracted peak demand and the terms for returning security on energization; no amounts printed in AEP's 10-Q",
+     "value": "16 TAC §25.194: 20% of the security for allocated capacity kept on withdrawal before the SLLIA deadline, 20% of the security for withdrawn contracted demand kept after a SLLIA, security forfeited without a SLLIA; CIAC not refundable (statewide row)",
      "cites": [
       {
-       "section": "Large Load Interconnections in Texas",
-       "quote": "The new rule also establishes the consequences of withdrawing all or a portion of requested or contracted peak demand, establishes the terms for the return of financial security to a large load customer that energizes"
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "41",
+       "section": "§25.194(d)(3)(C)",
+       "quote": "the interconnecting DSP or interconnecting TSP must subtract 20% of the financial security associated with the transmission capacity allocated by ERCOT to a large load customer that is included in an interconnection study, is allocated some portion of its requested peak demand, and withdraws its interconnection request before the deadline to execute a SLLIA",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "57",
+       "section": "§25.194(f)(3)(B)",
+       "quote": "subtract 20% of the financial security associated with the contracted peak demand that is withdrawn before the interconnecting DSP or the interconnecting TSP returns the remaining balance of financial security posted by a large load customer.",
+       "date_read": "2026-11-13"
       }
      ]
     },
     "study_timeline": {
-     "value": "not published",
-     "searched": "AEP Q3 2026 10-Q: no study duration printed; it states ERCOT received a good-cause exception on the Batch Zero schedule and paused classification and study activity (notes)"
+     "value": "16 TAC §25.194: $100,000 study fee; the TSP or DSP contacts ERCOT within 60 days after the intermediate agreement is executed and funded and tells the customer within five working days; AEP's 10-Q reports ERCOT's Batch Zero study paused (notes)",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "35",
+       "section": "§25.194(d)(2)(A)",
+       "quote": "(i) A large load customer must pay a study fee of $100,000 to the interconnecting DSP or the interconnecting TSP for transmission studies performed by the interconnecting DSP, the interconnecting TSP, and ERCOT, as applicable.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "43",
+       "section": "§25.194(e)(1)",
+       "quote": "Not later than 60 days after an intennediate agreement is executed and funded under subsection (d) of this section, the interconnecting DSP or the interconnecting TSP must contact ERCOT to initiate an interconnection study, as prescribed by ERCOT protocols.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "44",
+       "section": "§25.194(e)(2)(A)",
+       "quote": "The interconnecting DSP or the interconnecting TSP must notify the large load customer not later than five working days after the interconnecting DSP or the interconnecting TSP contacts ERCOT to initiate an interconnection study.",
+       "date_read": "2026-11-13"
+      }
+     ]
     },
     "connection_timeline": {
-     "value": "not published",
-     "searched": "AEP Q3 2026 10-Q: no time to energize printed; ERCOT will not authorize large loads to energize until verification is complete (notes)"
+     "value": "16 TAC §25.194: SLLIA within 60 days after ERCOT's study report; capacity reported as non-utilized if the energization schedule is missed by 24 months; AEP's 10-Q: ERCOT will not authorize large loads to energize until its verification is complete (notes)",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "45",
+       "section": "§25.194(f)",
+       "quote": "Not later than 60 days after ERCOT issues a study report that allocates transmission capacity, the large load customer must execute and fund a SLLIA with the interconnecting DSP and, if different from the interconnecting DSP, the interconnecting TSP.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "page": "59",
+       "section": "§25.194(g)(1)",
+       "quote": "Not later than 30 days after a large load customer fails, by 24 months, to satisfy a milestone in its schedule for phased energization, as described in the SLLIA at the time of execution, the interconnecting DSP or the interconnecting TSP must notify ERCOT of the large load customer's non-utilized capacity.",
+       "date_read": "2026-11-13"
+      }
+     ]
     },
     "queue_size": {
      "value": "Letters of Agreement executed for approximately 49 GW of incremental load by 2031, including prospective load seeking Batch Zero; financial security received in July 2026 for 45 GW of prospective load seeking Batch Zero participation through 2032 (Q3 2026 10-Q, filed 28 October 2026)",
@@ -384,9 +960,9 @@
     }
    },
    "license": "public",
-   "license_basis": "AEP's combined Form 10-Q on SEC EDGAR (AEP's own sites allow personal use only and were not used for any value)",
-   "erw_overlap": "large_load_connection_rules/ercot_planning_guide_section_9.yaml and ercot_large_load_batch_update_april_2026.yaml hold Batch Zero itself; large_load_connection_rules/puct_project_58000_proposal.yaml holds the separate Project 58000 tariff proposal (20-year agreements). The adopted interconnection standards (16 TAC 25.194 by the leads) are not held; this row records them only as AEP describes them.",
-   "notes": "AEP Texas's own tariff (aeptexas.com, Tariff for Electric Delivery Service effective 5 January 2026) answered HTTP 404 and was not read; no AEP Texas large-load schedule is named in the 10-Q. The 10-Q: in August 2026 the Governor directed a verification of Batch Zero loads and an audit of data center projects 25 MW and above; ERCOT 'has currently paused Batch Zero classification and study activity and stated it will not authorize large loads to energize until verification is complete.' The adopted rule's text was not read (PUCT and Texas Register hosts failed the reader's TLS check).",
+   "license_basis": "AEP's combined Form 10-Q on SEC EDGAR and the PUCT's adoption order in Project 58481 (AEP's own sites allow personal use only and were not used for any value)",
+   "erw_overlap": "large_load_connection_rules/ercot_planning_guide_section_9.yaml and ercot_large_load_batch_update_april_2026.yaml hold Batch Zero itself; large_load_connection_rules/puct_project_58000_proposal.yaml holds the separate, still pending Project 58000 proposal (25.192, 25.193, 25.252). 16 TAC §25.194 is the statewide row of this file.",
+   "notes": "AEP Texas's own tariff (aeptexas.com, Tariff for Electric Delivery Service effective 5 January 2026) answered HTTP 404 and was not read; no AEP Texas large-load schedule is named in the 10-Q (AEP's pending Texas large-load tariff is SWEPCo-Texas, outside ERCOT). The 10-Q: in August 2026 the Governor directed a verification of Batch Zero loads and an audit of data center projects 25 MW and above; ERCOT 'has currently paused Batch Zero classification and study activity and stated it will not authorize large loads to energize until verification is complete.'",
    "date_read": "2026-11-13"
   },
   {
@@ -502,7 +1078,7 @@
    "license": "internal",
    "license_basis": "CPS Energy's own presentation, read only from a third-party conference file store with no stated terms (no robots file); CPS Energy's own site bars Claude's agents in robots.txt and was not read",
    "erw_overlap": "",
-   "notes": "cpsenergy.com refused (robots.txt disallows ClaudeBot, Claude-Web and anthropic-ai); leads only, unverified: its large-load page is reported (search snippet) to list an End-User Interconnection Study for 40 to 75 MW at $75,000, a Pre-LLIS Screening Study for 75 MW and up at $75,000 and the ERCOT LLIS at $150,000 per point of interconnection, and a March 2026 council briefing to define large load at 40 MW and to track 59 projects. Not taken as values. The deck's page 9 table is laid out in two columns; the row values are quoted as printed.",
+   "notes": "cpsenergy.com refused (robots.txt disallows ClaudeBot, Claude-Web and anthropic-ai); leads only, unverified: its large-load page is reported (search snippet) to list an End-User Interconnection Study for 40 to 75 MW at $75,000, a Pre-LLIS Screening Study for 75 MW and up at $75,000 and the ERCOT LLIS at $150,000 per point of interconnection, and a March 2026 council briefing to define large load at 40 MW and to track 59 projects. Not taken as values. The deck's page 9 table is laid out in two columns; the row values are quoted as printed. 16 TAC §25.194 (statewide row, in effect 8 October 2026) also binds municipally owned utilities interconnecting loads of 75 MW or more to the ERCOT system, and leaves them free to add requirements of their own (its subsection (a)).",
    "date_read": "2026-11-13"
   },
   {
@@ -613,7 +1189,7 @@
    "license": "public",
    "license_basis": "City of Austin public records (services.austintexas.gov: council backup, ordinance, Austin Energy presentation)",
    "erw_overlap": "",
-   "notes": "The February 2026 presentation calls the repealed section the '2003 City Code'; the ordinance and the RCA say Section 15-9-5 was adopted in 2004. The Electric Utility Commission recommended the repeal on 9 February 2026 (8-0). City work session transcript (https://services.austintexas.gov/edims/document.cfm?id=480040, page 7): 'Austin energy currently serves ten data centers. These facilities, for the most part, are 20mw and under. At this time, Austin energy is not aware of any interconnection requests' for a hyperscale data center (a caption transcript, so not entered as a queue value). Council was to take up a data center resolution (item 61, 27 August 2026) to begin code amendments; its outcome was not read.",
+   "notes": "The February 2026 presentation calls the repealed section the '2003 City Code'; the ordinance and the RCA say Section 15-9-5 was adopted in 2004. The Electric Utility Commission recommended the repeal on 9 February 2026 (8-0). City work session transcript (https://services.austintexas.gov/edims/document.cfm?id=480040, page 7): 'Austin energy currently serves ten data centers. These facilities, for the most part, are 20mw and under. At this time, Austin energy is not aware of any interconnection requests' for a hyperscale data center (a caption transcript, so not entered as a queue value). Council was to take up a data center resolution (item 61, 27 August 2026) to begin code amendments; its outcome was not read. 16 TAC §25.194 (statewide row, in effect 8 October 2026) also binds municipally owned utilities interconnecting loads of 75 MW or more to the ERCOT system, and leaves them free to add requirements of their own (its subsection (a)).",
    "date_read": "2026-11-13"
   },
   {
@@ -1091,66 +1667,39 @@
  ],
  "refused": [
   {
-   "url": "https://interchange.puc.texas.gov/search/filings/?UtilityType=A&ControlNumber=58481&ItemMatch=Equal&DocumentType=ALL&SortOrder=Ascending",
-   "reason": "robots.txt not readable (URLError: SSL CERTIFICATE_VERIFY_FAILED, unable to get local issuer certificate); not read",
-   "utility": "AEP Texas Inc."
-  },
-  {
-   "url": "https://interchange.puc.texas.gov/Documents/58481_4_1543628.PDF",
-   "reason": "robots.txt not readable (URLError: SSL CERTIFICATE_VERIFY_FAILED, unable to get local issuer certificate); not read",
-   "utility": "AEP Texas Inc."
-  },
-  {
    "url": "https://www.puc.texas.gov/agency/rulesnlaws/subrules/electric/Electric.aspx",
-   "reason": "robots.txt not readable (URLError: SSL CERTIFICATE_VERIFY_FAILED, unable to get local issuer certificate); not read",
-   "utility": "AEP Texas Inc."
-  },
-  {
-   "url": "https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf.coredownload.pdf",
-   "reason": "robots.txt not readable (URLError: SSL CERTIFICATE_VERIFY_FAILED, self-signed certificate in certificate chain); not read",
-   "utility": "Oncor Electric Delivery Company LLC"
+   "reason": "retried once after the reader's certificate fix: HTTP 404 (robots not a bar)"
   },
   {
    "url": "https://www.sos.state.tx.us/texreg/archive/October92026/Adopted%20Rules/16.ECONOMIC%20REGULATION.html",
-   "reason": "robots.txt not readable (URLError: SSL CERTIFICATE_VERIFY_FAILED, self-signed certificate in certificate chain); not read",
-   "utility": "AEP Texas Inc."
-  },
-  {
-   "url": "https://www.sos.state.tx.us/texreg/archive/October162026/Adopted%20Rules/16.ECONOMIC%20REGULATION.html",
-   "reason": "robots.txt not readable (URLError: SSL CERTIFICATE_VERIFY_FAILED, self-signed certificate in certificate chain); not read",
-   "utility": "AEP Texas Inc."
-  },
-  {
-   "url": "https://www.sos.texas.gov/texreg/archive/July242026/Proposed%20Rules/16.ECONOMIC%20REGULATION.html",
-   "reason": "robots.txt not readable (URLError: SSL CERTIFICATE_VERIFY_FAILED, self-signed certificate in certificate chain); not read",
-   "utility": "AEP Texas Inc."
+   "reason": "retried once after the reader's certificate fix: HTTP 403"
   },
   {
    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001193311&type=8-K&dateb=&owner=include&count=10",
-   "reason": "robots.txt 200: DISALLOWED for every agent (the EDGAR Archives path, which robots allows, was used instead)",
-   "utility": "Oncor Electric Delivery Company LLC"
+   "reason": "robots.txt 200: DISALLOWED for every agent (the EDGAR Archives path, which robots allows, was used instead)"
   },
   {
    "url": "https://tnmp.com/customers/rates",
-   "reason": "HTTP 403 (robots allowed)",
-   "utility": "Texas-New Mexico Power Company (TNMP)"
+   "reason": "HTTP 403 (robots allowed)"
   },
   {
    "url": "https://www.cpsenergy.com/largeload",
-   "reason": "robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai; cpsenergy.com and its subdomains not read",
-   "utility": "CPS Energy (City Public Service Board of San Antonio)"
+   "reason": "robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai; cpsenergy.com and its subdomains not read"
   },
   {
    "url": "https://www.aeptexas.com/lib/docs/ratesandtariffs/Texas/AEPTEXASTARIFFEffJan5-2026.pdf",
-   "reason": "HTTP 404 (no robots file)",
-   "utility": "AEP Texas Inc."
+   "reason": "HTTP 404 (no robots file)"
+  },
+  {
+   "url": "https://www.oncor.com/content/oncorwww/us/en/home/terms-of-use.html",
+   "reason": "HTTP 404 (the terms were read at /home/legal.html instead)"
   }
  ],
  "none_found": [
   {
    "utility": "Texas-New Mexico Power Company (TNMP)",
    "searched": "TNMP Tariff for Retail Delivery Service effective 1 September 2026 (tnmp.com, 307 pages: 'large load', 'data center', '75 MW', '25.194', 'financial security', study fees, transmission voltage; only the generic Transmission Service schedule at 69 kV or higher, a Facilities Extension Agreement with optional letter of credit for the Standard Allowance, and distributed generation study fees); TXNM Energy Q3 2026 Form 10-Q on SEC EDGAR (Large Load Interconnection Rulemaking paragraph: describes PUCT Rule 25.370 adopted 6 February 2026 for loads of 75 MW or more and Batch Zero deposits of $51.8 million and $52.7 million held by TNMP on 30 September 2026; no TNMP-specific rule, no queue in MW or count); tnmp.com/customers/rates answered HTTP 403",
-   "notes": "TXNM 10-Q: 'Since the rule’s effectiveness and the establishment of “batch zero” by ERCOT, TNMP has experienced an increase in transmission interconnection requests.' (https://www.sec.gov/Archives/edgar/data/1108426/000110842626000070/pnm-20260930.htm)"
+   "notes": "TXNM 10-Q: 'Since the rule’s effectiveness and the establishment of “batch zero” by ERCOT, TNMP has experienced an increase in transmission interconnection requests.' (https://www.sec.gov/Archives/edgar/data/1108426/000110842626000070/pnm-20260930.htm) From 8 October 2026 TNMP's large loads of 75 MW or more are under 16 TAC §25.194 (statewide row); TNMP has no rule of its own."
   }
  ]
 }
