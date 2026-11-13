@@ -1875,7 +1875,32 @@ def stamp_line(hours, start, now, n, folder=None):
     if since is not None and len(pd.bdate_range(since + pd.Timedelta(days=1), pd.Timestamp(f"{now:%Y-%m-%d}"))) > 1:
         gap = f", the first issue since {since.day} {since:%B}"
     return (f"ERW's weekday brief of energy news for the {hours} hours to {now:%Y-%m-%d %H:%M} UTC (the window opened "
-            f"{start:%Y-%m-%d %H:%M} UTC): {n} scored stories{gap}.")
+            f"{start:%Y-%m-%d %H:%M} UTC): {n} scored {'story' if n == 1 else 'stories'}{gap}.")   # 3333: row 114
+
+
+UNSCORED_MIN = 20       # session 3333 (faults file row 114): held stories the scorer has not read, said from this many
+THIN_WINDOW = 50        # and a window holding fewer stories than this, said
+
+
+def held_lines(df, start, now, hours):
+    """Session 3333 (faults file row 114): the window as the warehouse holds it, when a reader would misread the issue
+    without it: stories held but not scored (the scorer's cap, or a run that stopped), when they are UNSCORED_MIN or more
+    and a tenth of the window; and a window that holds fewer than THIN_WINDOW stories (6 to 10 November 2026 held 3 in 96
+    hours, where a weekday brings several hundred). [] otherwise. Counts only; no cause is claimed."""
+    try:
+        when = pd.to_datetime(df["event_date"], utc=True, format="ISO8601")
+        inside = df[(when >= start) & (when <= now)]
+    except (KeyError, ValueError, TypeError):
+        return []
+    held = len(inside)
+    unscored = int((inside["scored_at"] == "").sum()) if "scored_at" in inside else 0
+    out = []
+    if held < THIN_WINDOW:
+        out.append(f"The warehouse holds {held} {'story' if held == 1 else 'stories'} of these {hours} hours, where a weekday "
+                   "usually brings several hundred.")
+    if unscored >= UNSCORED_MIN and unscored * 10 >= held:
+        out.append(f"A further {unscored:,} stories of the window are held but not scored yet, so this issue does not rank them.")
+    return (out + [""]) if out else []
 
 
 def previous_issue_day(digest_date, folder=None):
@@ -2383,6 +2408,7 @@ def main(argv=None):
         L = masthead_lines(digest_date, now, op, newest) + [
              # session 21: one sentence (what, the period, the story count); the method is on /about#digest
              stamp_line(hours, start, now, len(s)), "",
+             *held_lines(df, start, now, hours),   # session 3333 (faults file row 114): a thin or unscored window, said
              *([NO_MODEL_LINE, ""] if args.no_model else [])]
         L += opening_lines(op, heads)
         # session 1439 (fault 5): the story rows read the whole issue's items in rank (the top ten, then the sections,

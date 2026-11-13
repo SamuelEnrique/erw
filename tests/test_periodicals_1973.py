@@ -571,6 +571,24 @@ class Rows111To113The11NovemberDryRun(unittest.TestCase):
                                       "Saudi Oil Production Surges to One of Highest Levels in Years"), "Also named: OPEC. ")
 
 
+class Row114AThinOrUnscoredWindow(unittest.TestCase):
+    """Row 114: a window that holds few stories, or many unscored ones, is said; '1 scored story'."""
+
+    def frame(self, n_scored, n_unscored, day="2026-11-10T12:00:00Z"):
+        rows = [{"event_date": day, "scored_at": "2026-11-10T13:00:00Z"}] * n_scored + [{"event_date": day, "scored_at": ""}] * n_unscored
+        return pd.DataFrame(rows)
+
+    def test_the_lines(self):
+        start, now = pd.Timestamp("2026-11-06T22:56Z"), pd.Timestamp("2026-11-10T22:56Z")
+        self.assertEqual(brief.held_lines(self.frame(1, 2), start, now, 96),
+                         ["The warehouse holds 3 stories of these 96 hours, where a weekday usually brings several hundred.", ""])
+        self.assertEqual(brief.held_lines(self.frame(400, 234), start, now, 96),
+                         ["A further 234 stories of the window are held but not scored yet, so this issue does not rank them.", ""])
+        self.assertEqual(brief.held_lines(self.frame(400, 5), start, now, 96), [])
+        line = brief.stamp_line(96, start, now, 1, folder=os.path.join(ROOT, "docs", "digest"))
+        self.assertIn("): 1 scored story", line)
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
