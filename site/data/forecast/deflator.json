@@ -1,0 +1,28 @@
+{
+ "about": "GDP implicit price deflator (Index, 2017 = 100), annual: BEA's NIPA Table 1.1.9 line as EIA's Short-Term Energy Outlook carries it (series GDPDIUS). The forecast tool works in 2025 dollars: a figure of year y is multiplied by index(2025) / index(y). 2026 is EIA's projection and is not used.",
+ "source": "U.S. Energy Information Administration, Short-Term Energy Outlook, API v2 steo/data, series GDPDIUS (annual)",
+ "source_url": "https://api.eia.gov/v2/steo/data/?frequency=annual&data[]=value&facets[seriesId][]=GDPDIUS",
+ "read": "2026-11-13, chain 239 session 4200 (runs/w4/eia_requests.csv)",
+ "base_year": 2025,
+ "index": {
+  "2009": 88.5565,
+  "2010": 89.6185,
+  "2011": 91.466,
+  "2012": 93.176,
+  "2013": 94.786,
+  "2014": 96.43625,
+  "2015": 97.27675,
+  "2016": 98.208,
+  "2017": 99.99975,
+  "2018": 102.28975,
+  "2019": 103.9815,
+  "2020": 105.398,
+  "2021": 110.1565,
+  "2022": 118.03725,
+  "2023": 122.452,
+  "2024": 125.59075,
+  "2025": 128.90425
+ },
+ "written_at": "2026-11-13T10:37:04Z",
+ "written_by": "warehouse/forecast/params.py"
+}

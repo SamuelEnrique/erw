@@ -128,9 +128,6 @@
     "/grid/pjm": 10,
     "/grid/spp": 10,
     "/impact": 10,
-    "/impact?tech=geothermal&state=us&life=25": 10,
-    "/impact?tech=natural_gas&state=nm&capex=120&local=80": 10,
-    "/impact?tech=utility_pv&state=la&mw=200&life=30": 10,
     "/learn/bill": 10,
     "/learn/problems/know-your-grid": 10,
     "/learn/problems/networks-and-money": 10,
@@ -168,6 +165,9 @@
     "/storage?tab=buildout": 10,
     "/storage?tab=buildout&grid=caiso": 10,
     "/storage?tab=buildout&grid=ercot&measure=mwh": 10,
-    "/storage?tab=owners": 0
+    "/storage?tab=owners": 0,
+    "/impact?tech=utility_pv&state=mn&bstate=sd": 10,
+    "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca": 10,
+    "/impact?state=ia&iaval=1&levy=30&bstate=ne": 10
   }
 }

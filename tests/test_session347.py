@@ -33,30 +33,34 @@ class ThePage(unittest.TestCase):
         self.assertRegex(read(SITE, "lib", "release.ts"), r'"/impact": "review"')
         pages = read(SITE, "lib", "pages.ts")
         econ = pages[pages.index('label: "Economics"'):pages.index('label: "Infrastructure Economics"')]
-        self.assertIn('href: "/impact", label: "Economic impact"', econ)
+        # session 4213 (chain 239): the forecast's name, "Local impact" (a ruling for Samuel with that default), same place
+        self.assertIn('href: "/impact", label: "Local impact"', econ)
 
-    def test_the_three_questions_in_order(self):
-        qs = [m.group(1) for m in re.finditer(r'<ToolSection title="([^"]+)"', self.page)]
-        self.assertEqual(qs, ["How many jobs?", "What does it pay the state?", "What matters most?"])
-        for n in ("1", "2", "3"):
-            self.assertIn(f'data-question="{n}"', self.page)
+    def test_the_forecast_replaced_the_three_questions(self):
+        # session 4213 (chain 239, the owner's prompt of 13 November 2026): the page is the forecast (app/impact/Forecast.tsx);
+        # the third question's view of other states is kept there
+        self.assertIn("<Forecast ", self.page)
+        forecast = read(SITE, "app", "impact", "Forecast.tsx")
+        self.assertIn("<StateChart ", forecast)
 
     def test_the_decisions_downloads_and_source(self):
-        self.assertIn('data-decisions="347"', self.page)
+        # session 4213: no decisions box (explanations only as hover tips, the owner's tool rules); they are in the reports
         self.assertIn("<TableDownloads tables={[TABLE]} />", self.page)
         self.assertIn('data-tax-download="held"', self.page, "the tax table is not settled, so it is not offered")
-        self.assertIn("<SourceLine tables={[TABLE, TAX_TABLE]}", self.page)
+        self.assertIn("<SourceLine tables={[TABLE, TAX_TABLE,", self.page)
         self.assertIn("this entire notice appears in all copies of the Data", self.page)
 
     def test_every_figure_is_a_checked_num(self):
-        self.assertIn("check={`${inputsKey(x)}|${s}`}", self.page)
-        self.assertIn("check={`series|${TABLE}|${r.entity}|${r.variable}|${iso(r.ts_utc)}`}", self.page)
+        # session 4214: the forecast's keys (lib/forecast.ts, inputsKey and stat), recomputed by check-values
+        forecast = read(SITE, "app", "impact", "Forecast.tsx")
+        self.assertIn("check={`${inputsKey(x[p])}|${l.figure}`}", forecast)
         cv = read(SITE, "scripts", "check-values.mjs")
+        self.assertIn('if (p[0] === "forecast")', cv)
         self.assertIn('if (p[0] === "impact")', cv)
         self.assertIn('"/impact"', cv)
 
     def test_battery_storage_is_named_and_never_filled(self):
-        self.assertIn("NOT_MODELED", self.page)
+        self.assertIn("NOT_MODELED.why", self.page)
         self.assertIn('battery_storage', self.lib)
         self.assertNotIn('key: "battery_storage", label', self.lib.split("export const TECHS")[1].split("];")[0])
 

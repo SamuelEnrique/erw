@@ -195,11 +195,13 @@ class ThePagesOwnFindings(unittest.TestCase):
         self.assertNotIn("aria-label", field)
 
     def test_the_impact_fields_are_named_by_their_labels(self):
-        p = site("app", "impact", "page.tsx")
-        for k in ("mw", "capex", "local", "life"):
-            with self.subTest(field=k):
-                self.assertIn(f'<label className="block" htmlFor="impact-{k}">', p)
-                self.assertIn(f'<input id="impact-{k}" name="{k}" type="number"', p)
+        # session 4219 (chain 239): /impact is the forecast; its fields are drawn by app/impact/Forecast.tsx, each number
+        # box and list named for its field (aria-label: the label and its unit), so a field never takes a tip's button
+        # for its name (the finding of session 412)
+        p = site("app", "impact", "Forecast.tsx")
+        self.assertIn('data-assumption={f.key} aria-label={`${f.label}${f.unit ? `, ${f.unit}` : ""}`}', p)
+        self.assertIn('data-assumption={k} aria-label={f.label}', p)
+        self.assertIn('data-assumption="proj" aria-label="A planned project in this state"', p)
 
 
 class TheRecord(unittest.TestCase):
