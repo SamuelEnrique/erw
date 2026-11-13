@@ -60,6 +60,11 @@ class TheFaults(unittest.TestCase):
         # every chart's tip is a Tip (two charts by year, and since session 4221 the taxes in other states)
         self.assertGreaterEqual(len(re.findall(r"tip=\{<Tip id=", self.page)), 2)
         self.assertEqual(len(re.findall(r"(?<![\w-])tip=", self.page)), len(re.findall(r"tip=\{<Tip id=", self.page)))
+    def test_18_the_table_by_year_is_always_drawn_so_its_figures_are_checked(self):
+        # its rows were drawn only when the fold was opened, so the page as served (what check-values reads) had none
+        self.assertNotIn("{open ? (", self.page)
+        self.assertIn("fault 18: the fold's state only; its rows are always drawn", self.page)
+
 
 class Fault15(unittest.TestCase):
     def test_15_the_trimmed_parameters_keep_every_field_of_a_rule(self):

@@ -269,7 +269,7 @@ function Compare({ x, r, names }: { x: Record<View, Inputs>; r: Record<View, Res
 
 // ---- the scenario in view, by year -----------------------------------------------------------------------------------
 function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
-  const [open, setOpen] = useState(false);  // the table by year: drawn only when opened (a 40-year life is 42 rows)
+  const [open, setOpen] = useState(false);  // fault 18: the fold's state only; its rows are always drawn, so check-values reads them
   if (!r.ok) return <p className="text-sm text-muted">Scenario {view.toUpperCase()} has no figure: {r.why}.</p>;
   const cats = r.years.map((y) => ({ label: String(y.year), sub: y.phase === "construction" ? "build" : undefined }));
   const val = (f: (i: number) => number | null) => r.years.map((_, i) => f(i));
@@ -309,7 +309,7 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
           tip={<Tip id={`jobs-${view}`} label="jobs by year">Full-time jobs each year: the build&apos;s job-years spread evenly over its years, then each operating year&apos;s.</Tip>} />
         <details className="border-t border-rule" open={open} onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)} data-year-table={view}>
           <summary className="cursor-pointer py-2 text-sm font-semibold">Every year</summary>
-          {open ? (
+          {(
             <div className="overflow-x-auto">
               <table className="w-full min-w-[640px] border-collapse text-left text-xs tabular-nums">
                 <caption className="sr-only">Scenario {view.toUpperCase()} by year</caption>
@@ -327,7 +327,7 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
                 </tbody>
               </table>
             </div>
-          ) : null}
+          )}
         </details>
       </div>
     </section>
