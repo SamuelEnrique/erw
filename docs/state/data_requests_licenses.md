@@ -47,3 +47,12 @@ Read on 13 November 2026 from the data machine's table files (read only). Each h
 | 20 | 2026-11-13 | 4155 | `irena_capacity_annual` | "License: not settled (IRENA's terms ... answered with a challenge)" to say: needs written permission ("IRENA - International Renewable Energy Agency. All Rights Reserved.", read 342) | the verdict was written in session 2139 | requested |
 | 21 | 2026-11-13 | 4155 | `usdm_drought_state_weekly` | "License: not settled (the Monitor's Permission page not yet read, session 2061)" to say: may be public (read 255) | the verdict exists; the flag is public and agrees | requested |
 | 22 | 2026-11-13 | 4155 | `ferc714_area_demand_2006` to `_2025` (21 tables, `warehouse/connectors/ferc714_demand.py`) | add to the header's license line: PUDL's CC BY 4.0 read from its README (read 1688, chain 229); the flag waits for the owner's ruling | the header says only that FERC's page is unread | requested |
+
+## More news feeds on hosts whose robots files refuse Anthropic's agents (session 4156)
+
+| # | Requested (UTC) | Session | For | What | Why | State |
+|---:|---|---|---|---|---|---|
+| 23 | 2026-11-13 | 4156 | the news feeds (`https://oilprice.com/rss/main`) | Drop OilPrice.com's feed, or ask OilPrice.com | oilprice.com's robots file (read 1811) refuses ClaudeBot and anthropic-ai by name, `/rss/main` included | requested |
+| 24 | 2026-11-13 | 4156 | the news feeds (`https://www.ans.org/news/feed/`) | Drop ANS Nuclear Newswire's feed, or ask ANS | www.ans.org's robots file (read 1815) refuses ClaudeBot and anthropic-ai by name, `/news/feed/` included | requested |
+| 25 | 2026-11-13 | 4156 | the news feeds (`https://pv-magazine-usa.com/feed/`) | Drop pv magazine USA's feed, or ask pv magazine | pv-magazine-usa.com's robots file (read 1821) refuses ClaudeBot and anthropic-ai by name, `/feed/` included | requested |
+| 26 | 2026-11-13 | 4156 | the news feeds (`https://www.utilitydive.com/feeds/news/`) | Read www.utilitydive.com's robots file before the next fetch; drop the feed if it refuses as its owner's www.industrydive.com does | www.industrydive.com's robots file (read 1812) refuses ClaudeBot and anthropic-ai by name; the feed's own host was not read by this chain | requested |
