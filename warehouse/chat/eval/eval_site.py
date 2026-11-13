@@ -83,10 +83,12 @@ def write_json(path, doc):
 
 
 def spent(run_path):
-    """(the cost of a run so far in USD, the questions it holds)."""
+    """(the cost of a run so far in USD, the answers it holds). The cost counts the answers a later asking of the same
+    question superseded in the run (session 5256), and so does the count: each was a question asked and paid for."""
     if not os.path.exists(run_path):
         return 0.0, 0
-    qs = read_json(run_path).get("questions") or []
+    doc = read_json(run_path)
+    qs = (doc.get("questions") or []) + (doc.get("superseded") or [])
     return round(sum(float(x.get("cost_usd") or 0) for x in qs), 6), len(qs)
 
 
@@ -195,6 +197,7 @@ def grade_all(E, which, qs, rules, here=HERE):
             E.SETS[which]["run"], E.SETS[which]["grades"] = F["run"], F["grades"]
             doc = E.grade_set(which, rules)
             doc["loop"] = "site"
+            doc["cost_usd"] = round(spent(F["run"])[0], 4)   # session 5256: with the answers asked again in the same run
             doc.update(counts(doc["questions"], qs))
             write_json(F["grades"], doc)
             for r in doc["questions"]:

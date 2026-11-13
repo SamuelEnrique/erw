@@ -9,17 +9,17 @@
   "sign_in_words",
   "hold_public_grids"
  ],
- "cost_usd": 0.9452,
+ "cost_usd": 1.2657,
  "questions": [
   {
    "id": "pw12",
    "via": "general",
    "grid": "none",
    "status": "not_in_warehouse",
-   "tool_calls": 12,
+   "tool_calls": 5,
    "retried": false,
-   "cost_usd": 0.264865,
-   "seconds": 23.2,
+   "cost_usd": 0.23409430000000003,
+   "seconds": 11.2,
    "expected": [],
    "ok": true,
    "grade": {
@@ -31,7 +31,7 @@
     "no_figure": true,
     "ok": true
    },
-   "trace_calls": 12
+   "trace_calls": 4
   },
   {
    "id": "ga09",
@@ -60,10 +60,10 @@
    "via": "general",
    "grid": "none",
    "status": "not_in_warehouse",
-   "tool_calls": 12,
+   "tool_calls": 4,
    "retried": false,
-   "cost_usd": 0.18752610000000003,
-   "seconds": 18.5,
+   "cost_usd": 0.0864307,
+   "seconds": 5.6,
    "expected": [],
    "ok": true,
    "grade": {
@@ -75,7 +75,7 @@
     "no_figure": true,
     "ok": true
    },
-   "trace_calls": 12
+   "trace_calls": 4
   },
   {
    "id": "oi09",

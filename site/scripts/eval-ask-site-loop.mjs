@@ -20,6 +20,10 @@
 // --keep-going. --dry-run loads the loop, reads the live set's catalogue through the loop's own list_tables and asks
 // nothing. warehouse/chat/eval/eval_site.py runs this and grades the run.
 //
+// A question named with --only that the run already holds is asked again, and its earlier record is kept under
+// "superseded" with its cost (session 5256: two such records were written over, and the run file then held USD 0.45
+// less than the ledger): the cap counts both lists, and so does every reader of the run's cost.
+//
 // The keys come from the main checkout's .env beside a worktree (never printed). No warehouse table is written.
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -47,6 +51,19 @@ export function reserve(asked, dearest) {
 }
 
 export const GRID_SLUG = { ERCOT: "ercot", CAISO: "caiso", NYISO: "nyiso", SPP: "spp", "ISO-NE": "isone", MISO: "miso", PJM: "pjm" };
+
+/** The run's cost so far: its answers and the answers they superseded. */
+export function costOf(run) {
+  return [...(run.questions ?? []), ...(run.superseded ?? [])].reduce((s, x) => s + Number(x.cost_usd ?? 0), 0);
+}
+
+/** The run with a new record in: an earlier record of the same question moves to "superseded", never out of the file. */
+export function withRecord(run, rec, order) {
+  const old = (run.questions ?? []).find((x) => x.id === rec.id);
+  const kept = (run.questions ?? []).filter((x) => x.id !== rec.id).concat([rec]);
+  const at = (id) => { const i = order.indexOf(id); return i < 0 ? order.length : i; };
+  return { ...run, questions: kept.sort((a, b) => at(a.id) - at(b.id)), ...(old || run.superseded ? { superseded: [...(run.superseded ?? []), ...(old ? [old] : [])] } : {}) };
+}
 
 /** One answer of the site's loop as a record of the run file (the shape of eval_loop.py's). */
 export function recordOf(q, r, at, error) {
@@ -84,11 +101,12 @@ async function main() {
     base: "site loop", questions: [] };
   if (fs.existsSync(runPath)) run = JSON.parse(fs.readFileSync(runPath, "utf8"));
   const done = new Map(run.questions.map((x) => [x.id, x]));
-  let dearest = Math.max(0, ...run.questions.map((x) => Number(x.cost_usd ?? 0)));
+  const order = qs.map((x) => x.id);
+  let dearest = Math.max(0, ...run.questions.map((x) => Number(x.cost_usd ?? 0)), ...(run.superseded ?? []).map((x) => Number(x.cost_usd ?? 0)));
   let stopped = null, failed = false;
   for (const q of qs) {
     if (only ? !only.has(q.id) : done.has(q.id)) continue;
-    const spent = [...done.values()].reduce((s, x) => s + Number(x.cost_usd ?? 0), 0);
+    const spent = costOf(run);
     const keep = reserve(done.size, dearest);
     if (spent + keep > cap) { stopped = q.id; console.log(`${q.id}: STOPPED before the call: spent ${spent.toFixed(4)} + reserve ${keep.toFixed(2)} > cap ${cap.toFixed(2)}`); break; }
     const at = new Date().toISOString().replace(/\.\d+Z$/, "Z");
@@ -102,13 +120,13 @@ async function main() {
     const rec = recordOf(q, r, at, error);
     dearest = Math.max(dearest, rec.cost_usd);
     done.set(q.id, rec);
-    run.questions = qs.filter((x) => done.has(x.id)).map((x) => done.get(x.id));
+    run = withRecord(run, rec, order);
     fs.writeFileSync(runPath, JSON.stringify(run, null, 1) + "\n");
     console.log(`${q.id} ${String(q.via).padEnd(7)} ${rec.status} calls ${rec.tool_calls} cost ${rec.cost_usd.toFixed(4)} ${rec.seconds}s${error ? ` ERROR ${error.slice(0, 160)}` : ""}`);
     if (error && !flag("--keep-going")) { stopped = `the question after ${q.id} (an error stops the run; --keep-going to go on)`; failed = true; break; }
   }
-  const spent = run.questions.reduce((s, x) => s + Number(x.cost_usd ?? 0), 0);
-  console.log(`asked ${run.questions.length} of ${qs.length}; the run's cost USD ${spent.toFixed(4)}${stopped ? `; stopped before ${stopped}` : ""}`);
+  const spent = costOf(run);
+  console.log(`asked ${run.questions.length} of ${qs.length}${run.superseded?.length ? ` (${run.superseded.length} asked again)` : ""}; the run's cost USD ${spent.toFixed(4)}${stopped ? `; stopped before ${stopped}` : ""}`);
   return failed ? 3 : 0;
 }
 

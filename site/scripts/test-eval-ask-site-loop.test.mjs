@@ -5,7 +5,7 @@
 //   node --test site/scripts/test-eval-ask-site-loop.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
-import { GRID_SLUG, dotenv, recordOf, reserve } from "./eval-ask-site-loop.mjs";
+import { GRID_SLUG, costOf, dotenv, recordOf, reserve, withRecord } from "./eval-ask-site-loop.mjs";
 import { bare } from "./eval-loader.mjs";
 
 test("dotenv reads KEY=value lines, drops quotes and leaves comments", () => {
@@ -63,4 +63,20 @@ test("the loader looks elsewhere for packages only, never for a path, an alias o
   assert.equal(bare("@anthropic-ai/sdk"), true);
   assert.equal(bare("server-only"), true);
   for (const s of ["./ask.ts", "../lib/chat/ask.ts", "/abs/x.mjs", "C:\\x\\y.mjs", "file:///x.mjs", "node:fs", "@/lib/supabase", "data:text/javascript,1"]) assert.equal(bare(s), false, s);
+});
+
+test("a question asked again in the same run: the earlier answer is kept, and its cost is still counted", () => {
+  const order = ["a", "b", "c"];
+  let run = { questions: [{ id: "c", cost_usd: 0.3 }, { id: "a", cost_usd: 0.1 }] };
+  assert.equal(costOf(run), 0.4);
+  run = withRecord(run, { id: "b", cost_usd: 0.2 }, order);
+  assert.deepEqual(run.questions.map((x) => x.id), ["a", "b", "c"], "in the set's order");
+  assert.equal("superseded" in run, false, "nothing was asked twice");
+  run = withRecord(run, { id: "a", cost_usd: 0.05, again: true }, order);
+  assert.deepEqual(run.questions.map((x) => [x.id, x.cost_usd]), [["a", 0.05], ["b", 0.2], ["c", 0.3]]);
+  assert.deepEqual(run.superseded, [{ id: "a", cost_usd: 0.1 }]);
+  assert.ok(Math.abs(costOf(run) - 0.65) < 1e-9, "the run's cost is what was spent, not what stands");
+  run = withRecord(run, { id: "a", cost_usd: 0.01 }, order);
+  assert.deepEqual(run.superseded.map((x) => x.cost_usd), [0.1, 0.05]);
+  assert.equal(costOf({}), 0);
 });

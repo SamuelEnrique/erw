@@ -38,16 +38,17 @@ def load(S, E, here=HERE):
     runs = []
     for s in S.sessions_of(SET, here):
         F = S.files(s, SET, here)
-        run = S.read_json(F["run"])["questions"]
+        doc = S.read_json(F["run"])
+        run = doc["questions"]
         grades = {g["id"]: g for g in S.read_json(F["grades"])["questions"]} if os.path.exists(F["grades"]) else {}
-        runs.append((s, run, grades))
+        runs.append((s, run, grades, doc.get("superseded") or []))
     return qs, runs
 
 
 def newest(runs):
     """One record a question over the runs, the newest session's standing: {id: (session, answer record, grade)}."""
     out = {}
-    for s, run, grades in runs:
+    for s, run, grades, *_ in runs:
         for q in run:
             out[q["id"]] = (s, q, grades.get(q["id"]))
     return out
@@ -91,15 +92,20 @@ def text(qs, runs, G=None):
     last = newest(runs)
     asked = [i for i in by if i in last]
     right = [i for i in asked if (last[i][2] or {}).get("ok")]
-    cost = sum(float(q.get("cost_usd") or 0) for _, run, _ in runs for q in run)
+    cost = sum(float(q.get("cost_usd") or 0) for r in runs for q in r[1] + (r[3] if len(r) > 3 else []))
     lines = [BEGIN, "",
-             f"**Asked: {len(asked)} of {len(qs)}. Right: {len(right)}. Cost: USD {cost:.2f}.** Graded under `{'`, `'.join(rules_of(runs))}`.", "",
+             f"**Asked: {len(asked)} of {len(qs)}. Right: {len(right)}. Cost: USD {cost:.2f}.** Graded under `{'`, `'.join(rules_of(runs))}`, on today's keys: "
+             "a key corrected after an asking grades that asking's answer too, and a question asked again counts once, its newest answer standing.", "",
              "### The askings", "",
              "| Session | Asked | Right | Cost | Tool calls: median, most | At 11 or 12 calls | Sent back once |",
              "|---|---:|---:|---|---|---:|---:|"]
-    for s, run, grades in runs:
+    again = 0
+    for s, run, grades, *rest in runs:
+        old = rest[0] if rest else []
+        again += len(old)
         calls = [int(q.get("tool_calls") or 0) for q in run]
-        lines.append(f"| {s} | {len(run)} | {sum(1 for q in run if (grades.get(q['id']) or {}).get('ok'))} | USD {sum(float(q.get('cost_usd') or 0) for q in run):.2f} | "
+        lines.append(f"| {s} | {len(run)}{f' (and {len(old)} asked twice)' if old else ''} | {sum(1 for q in run if (grades.get(q['id']) or {}).get('ok'))} | "
+                     f"USD {sum(float(q.get('cost_usd') or 0) for q in run + old):.2f} | "
                      f"{statistics.median(calls):g}, {max(calls)} | {sum(1 for c in calls if c >= LIMIT - 1)} | {sum(1 for q in run if q.get('retried'))} |")
     lines += ["", "### By kind", "", "| Kind | In the set | Asked | Right |", "|---|---:|---:|---:|"]
     for k in KINDS:
@@ -140,7 +146,7 @@ def text(qs, runs, G=None):
 def rules_of(runs):
     """The rules the grades files name (the same in every one after a grading of all the runs)."""
     found = []
-    for s, _, _ in runs:
+    for s, *_ in runs:
         p = os.path.join(HERE, f"eval_s{s}_site_{SET}_grades.json")
         if os.path.exists(p):
             with open(p, encoding="utf-8") as f:

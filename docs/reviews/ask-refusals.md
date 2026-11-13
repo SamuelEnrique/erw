@@ -86,9 +86,9 @@ In all: 77 refusals.
 | session 5255, the site's loop, the platform set | po07 | 8 | a table not in the live set | right |
 | session 5255, the site's loop, the platform set | po09 | 11 | a license hold | right |
 | session 5255, the site's loop, the platform set | dc01 | 12 | a license hold | right |
-| session 5256, the site's loop, the platform set | pw12 | 12 | a table not in the live set | right |
+| session 5256, the site's loop, the platform set | pw12 | 5 | a table not in the live set | right |
 | session 5256, the site's loop, the platform set | ga09 | 2 | a table not in the live set | right |
-| session 5256, the site's loop, the platform set | oi07 | 12 | a table not in the live set | right |
+| session 5256, the site's loop, the platform set | oi07 | 4 | a table not in the live set | right |
 | session 5256, the site's loop, the platform set | oi09 | 6 | a table not in the live set | right |
 | session 5256, the site's loop, the platform set | tx09 | 2 | a table not in the live set | right |
 | session 5256, the site's loop, the platform set | po07 | 7 | a table not in the live set | right |

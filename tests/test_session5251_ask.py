@@ -406,6 +406,10 @@ class TheAsking(unittest.TestCase):
             with open(p, "w", encoding="utf-8") as f:
                 json.dump({"questions": [{"id": "a", "cost_usd": 0.0712}, {"id": "b", "cost_usd": None}, {"id": "c", "cost_usd": 0.1}]}, f)
             self.assertEqual(S.spent(p), (0.1712, 3))
+            # session 5256: an answer a later asking of the same question superseded in the run was paid for too
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump({"questions": [{"id": "a", "cost_usd": 0.05}], "superseded": [{"id": "a", "cost_usd": 0.2}, {"id": "a", "cost_usd": 0.1}]}, f)
+            self.assertEqual(S.spent(p), (0.35, 3))
 
     def test_the_ids_an_asking_takes(self):
         qs = [{"id": i} for i in ("a", "b", "c", "d", "e")]
@@ -485,7 +489,9 @@ class TheAsking(unittest.TestCase):
             for q in run["questions"]:
                 self.assertEqual(q["loop"], "site", f"{s} {q['id']}")
                 self.assertIsNone(q["error"], f"{s} {q['id']}: an error is in the stored run")
-            self.assertLessEqual(round(sum(float(q["cost_usd"] or 0) for q in run["questions"]), 4), 2.0, f"session {s} spent more than USD 2")
+            self.assertLessEqual(S.spent(os.path.join(EVAL, e["file"]))[0], 2.0, f"session {s} spent more than USD 2")
+            with open(os.path.join(EVAL, e["grades"]), encoding="utf-8") as f:
+                self.assertEqual(json.load(f)["cost_usd"], round(S.spent(os.path.join(EVAL, e["file"]))[0], 4), f"session {s}: the grades' cost is not the run's")
 
     def test_the_review_file_s_scores_are_the_runs(self):
         r = subprocess.run([sys.executable, os.path.join(EVAL, "platform_scores.py"), "--check"], capture_output=True, text=True, stdin=subprocess.DEVNULL, timeout=300)
@@ -495,11 +501,11 @@ class TheAsking(unittest.TestCase):
         rec = lambda i, calls, cost, retried=False: {"id": i, "tool_calls": calls, "cost_usd": cost, "retried": retried, "status": "answered"}
         grade = lambda i, ok, **g: {"id": i, "ok": ok, "grade": {"ok": ok, **g}}
         runs = [("5300", [rec("pw01", 12, 0.2), rec("pw02", 3, 0.05)], {"pw01": grade("pw01", False, number=False, table=True), "pw02": grade("pw02", True)}),
-                ("5301", [rec("pw01", 4, 0.1, True)], {"pw01": grade("pw01", True)})]
+                ("5301", [rec("pw01", 4, 0.1, True)], {"pw01": grade("pw01", True)}, [rec("pw01", 12, 0.3)])]
         text = PS.text(qs, runs)
-        self.assertIn("**Asked: 2 of 3. Right: 2. Cost: USD 0.35.**", text, "a question asked again counts once, its newest answer standing; its cost counts each time")
+        self.assertIn("**Asked: 2 of 3. Right: 2. Cost: USD 0.65.**", text, "a question asked again counts once, its newest answer standing; its cost counts each time")
         self.assertIn("| 5300 | 2 | 1 | USD 0.25 | 7.5, 12 | 1 | 0 |", text)
-        self.assertIn("| 5301 | 1 | 1 | USD 0.10 | 4, 4 | 0 | 1 |", text)
+        self.assertIn("| 5301 | 1 (and 1 asked twice) | 1 | USD 0.40 | 4, 4 | 0 | 1 |", text)
         self.assertIn("| figure | 2 | 1 | 1 |", text)
         self.assertIn("| gas | 1 | 0 | 0 |", text)
         self.assertIn("- None.", text)
