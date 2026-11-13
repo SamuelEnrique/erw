@@ -27,3 +27,12 @@ With no open fault rows, the slots for faults (1879 to 1883) take chain 213's re
 ## For Samuel's ruling
 
 - None new.
+
+## The gate's result (added later in the chain)
+
+- Run 1 (`ddb6ac89a`): every step to the suite passed; the suite failed one test, `test_session706.Headroom.test_planned_generation_matches_the_table_where_it_is_here`: this machine's restored `eia860m_planned_generators` is vintage 2026-09 and the committed `site/data/siting/headroom.json` was built by the data machine from vintage 2026-08, so the window moves a month. The test now compares only where the two vintages agree (`135bd99c4` on the stack), passing alone (4 tests, 1 skipped).
+- Run 2 (`135bd99c4`): suite 8406 tests OK, build and serve passed; check_values stopped on three floors, read in session 1877 (`/digest` and `/learn/problems/know-your-grid`, the data machine's state; `/deals`, the stack's own fix). The stack then landed with the policy, companies and attention fixes in one landing (session 1880's report: `52ccb381e`, 0 differences).
+
+## Decisions made without you (added)
+
+- `test_session706` was given a vintage guard rather than left failing: it compared two machines' copies of a table, not the code, and skips on GitHub's runner where the table is absent.
