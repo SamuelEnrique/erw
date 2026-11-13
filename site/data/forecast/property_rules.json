@@ -91,6 +91,36 @@
    "url": "https://www.azleg.gov/ars/42/14155.htm",
    "read": "2026-11-13",
    "request": 86
+  },
+  "nc_105_275": {
+   "title": "North Carolina General Statutes 105-275, Property classified and excluded from the tax base",
+   "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-275.html",
+   "read": "2026-11-13",
+   "request": 90
+  },
+  "mi_211_1159": {
+   "title": "Michigan Compiled Laws 211.1159, Solar energy facilities specific tax (Solar Energy Facilities Taxation Act, 2023 PA 108, section 9)",
+   "url": "https://legislature.mi.gov/Laws/MCL?objectName=mcl-211-1159",
+   "read": "2026-11-13",
+   "request": 92
+  },
+  "mi_211_1157": {
+   "title": "Michigan Compiled Laws 211.1157, Exemption from ad valorem property taxes; time period (2023 PA 108, section 7)",
+   "url": "https://legislature.mi.gov/Laws/MCL?objectName=mcl-211-1157",
+   "read": "2026-11-13",
+   "request": 93
+  },
+  "mi_211_1152": {
+   "title": "Michigan Compiled Laws 211.1152, Definitions (2023 PA 108, section 2)",
+   "url": "https://legislature.mi.gov/Laws/MCL?objectName=mcl-211-1152",
+   "read": "2026-11-13",
+   "request": 94
+  },
+  "vt_32_8701": {
+   "title": "Vermont Statutes, 32 V.S.A. 8701, Uniform capacity tax",
+   "url": "https://legislature.vermont.gov/statutes/section/32/215/08701",
+   "read": "2026-11-13",
+   "request": 99
   }
  },
  "states": {
@@ -397,6 +427,66 @@
      "quote": "A. Through December 31, 2040, the department shall determine the full cash value of taxable renewable energy and storage equipment in the manner prescribed by this section. B. The full cash value of renewable energy and storage equipment is twenty percent of the depreciated cost of the equipment. Depreciated cost shall be determined by deducting depreciation from taxable original cost. Depreciation shall not exceed ninety percent of the adjusted original cost.",
      "quote2": "6. \"Taxable original cost\" means the original cost reduced by the value of any investment tax credits, production tax credits or cash grants in lieu of investment tax credits applicable to the taxable renewable energy and storage equipment.",
      "not_modeled": "No rate is in the section (the assessment ratio and the local rates are elsewhere): it acts on the reader's own rate, applied to 20 percent of the capital cost as it falls, through 2040, and to the whole after. Not modeled: the depreciation cap of 90 percent (the reader's straight line goes to 0), the department's useful lives, and the taxable original cost's reduction by federal tax credits, which the tool does not hold (the base is the capital cost before any credit)."
+    }
+   ]
+  },
+  "nc": {
+   "name": "North Carolina",
+   "rules": [
+    {
+     "id": "nc_solar_exclusion",
+     "technologies": [
+      "utility_pv"
+     ],
+     "kind": "own_exempt",
+     "exempt_share": 0.8,
+     "cite": "nc_105_275",
+     "quote": "The following classes of property are designated special classes under Article V, Sec. 2(2), of the North Carolina Constitution and are excluded from tax: [...] (45) Eighty percent (80%) of the appraised value of a solar energy electric system. For purposes of this subdivision, the term \"solar energy electric system\" means all equipment used directly and exclusively for the conversion of solar energy to electricity.",
+     "not_modeled": "No rate is in the section and it has no end date: it acts on the reader's own rate, applied to 20 percent of the capital cost in every year. The tool applies the 80 percent to the whole capital cost; equipment not used directly and exclusively for the conversion, and the land, are taxed in full, which the tool does not separate."
+    }
+   ]
+  },
+  "mi": {
+   "name": "Michigan",
+   "rules": [
+    {
+     "id": "mi_solar_specific_tax",
+     "technologies": [
+      "utility_pv"
+     ],
+     "kind": "capacity_option",
+     "usd_per_mw_min": 2000,
+     "usd_per_mw_max": 7000,
+     "default_usd_per_mw": 7000,
+     "years": 20,
+     "min_mw": 2,
+     "requires": "option",
+     "cite": "mi_211_1159",
+     "quote": "(2) Except as provided in subsections (3), (4), and (5), the amount of the solar energy facilities tax, in each year after the facility is placed in service, is equal to $7,000.00 per megawatt of nameplate capacity, alternating current as reported on the annual form prescribed under section 8(1). (3) The amount of the specific tax as prescribed in subsection (2) must be reduced to $2,000.00 per megawatt of nameplate capacity, alternating current [...], for a qualified facility located on 1 or more of the following: (a) Property owned by this state [...] (b) Property located in an opportunity zone [...] (c) Property that was used or is currently used for commercial or industrial purposes and that is a facility, historic resource, functionally obsolete, or blighted [...] (d) Improved real property used for another purpose if the qualified facility is attached to the improvement.",
+     "cite2": "mi_211_1157",
+     "quote2": "A qualified facility for which a certificate is in effect, but not the land on which the qualified facility is located, for the period on and after the effective date of the certificate and continuing for 20 years is exempt from ad valorem property taxes collected under the general property tax act",
+     "cite3": "mi_211_1152",
+     "quote3": "(f) \"Qualified solar energy facility\" or \"qualified facility\" means a facility, whether owned or leased, that when constructed and placed in service is located in a solar energy district and that uses or will use solar energy as the sole source for the generation of at least 2 megawatts of nameplate capacity, alternating current [...]",
+     "default_why": "USD 7,000 per MW AC, the statute's rate; USD 2,000 on state land, in an opportunity zone, on a brownfield or attached to an improvement. Only those two rates are statutory: a rate between them is held, not refused.",
+     "not_modeled": "The district must be established and the certificate approved by the city, village or township (sections 3 to 6): off by default. The 20 years run from the certificate's effective date, which the tool takes as the first operating year; the tax on construction in progress (half the rate) and before construction (none) is not charged, as the tool charges property tax only in operating years. The land stays under the general property tax, not modeled."
+    }
+   ]
+  },
+  "vt": {
+   "name": "Vermont",
+   "rules": [
+    {
+     "id": "vt_uniform_capacity",
+     "technologies": [
+      "utility_pv"
+     ],
+     "kind": "capacity",
+     "usd_per_mw_year": 4000,
+     "adds_to_property": true,
+     "min_mw": 0.05,
+     "cite": "vt_32_8701",
+     "quote": "(b)(1) There is assessed on any renewable energy plant in Vermont commissioned to generate solar power an annual tax of $4.00 per kW of plant capacity. [...] (3) [...] The Department of Taxes shall deposit the taxes collected under this section into the Education Fund. (c) A renewable energy plant that generates electricity from solar power shall be exempt from taxation under this section if it has a plant capacity of less than 50kW. (d) The existence of a renewable energy plant or energy storage facility subject to tax under subsection (b) of this section shall not: (1) alter the exempt status of any underlying property under section 3802 or subdivision 5401(10)(F) of this title; or (2) alter the taxation of the underlying property under chapters 121-135 of this title.",
+     "not_modeled": "A state tax paid to the Education Fund; the plant's municipal property tax is not held: a rate typed by the reader is added. \"Plant capacity\" is defined in 30 V.S.A. 8002, not read: the tool applies USD 4 per kW to the reader's MW (AC). Whether the plant also pays the education property tax (chapters 121 to 135) is not read here."
     }
    ]
   }

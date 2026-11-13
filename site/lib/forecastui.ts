@@ -90,23 +90,31 @@ export const FIELDS: FieldDef[] = [
     source: (t, s, P) => (EXEMPT_WORDS[`${s}:${t}`] ?? (P.exemptions?.states[s]?.[t] ? "The state's statute exempts these purchases." : "No exemption of this state for this technology has been read: 0, so the sales tax is before exemptions.")) },
   { key: "iaval", label: "Local option by ordinance or agreement", unit: "", min: 0, max: 1, whole: true, group: "taxes",
     options: () => [{ value: 0, label: "No" }, { value: 1, label: "Yes" }],
-    applies: (t, s) => (s === "ia" && t === "land_based_wind") || (s === "or" && t === "utility_pv"),
-    source: (_t, s) => (s === "or"
+    applies: (t, s) => (s === "ia" && t === "land_based_wind") || ((s === "or" || s === "mi") && t === "utility_pv"),
+    source: (_t, s) => (s === "mi"
+      ? "Michigan (Solar Energy Facilities Taxation Act, 2023 PA 108): a city, village or township may establish a solar energy district and approve an exemption certificate for a facility of at least 2 MW AC; the facility then pays a specific tax per MW in place of the property tax on it, for 20 years. The land is not exempt."
+      : s === "or"
       ? "Oregon (2015 c.571, notes to ORS 307.175): a county and a solar project outside any city may agree to exempt it and take a fee in lieu, USD 5,500 to 7,000 per MW of nameplate a year, for up to 20 years; agreements end with projects exempt by 2 January 2028."
       : "Iowa Code 427B.26 applies where the county or city has adopted it by ordinance: 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh.") },
   { key: "optrate", label: "Fee in lieu", unit: "USD per MW a year", min: 0, max: 20000, whole: false, group: "taxes", nullable: true,
-    applies: (t, s) => s === "or" && t === "utility_pv",
-    source: () => "Within the statute's USD 5,500 to 7,000 (a rate outside it is held to it). Default 7,000, the statute's maximum and its one fixed rate until the 2021 amendment set the range." },
+    applies: (t, s) => (s === "or" || s === "mi") && t === "utility_pv",
+    source: (_t, s) => s === "mi"
+      ? "USD 7,000 per MW AC (MCL 211.1159(2)); USD 2,000 on state land, in an opportunity zone, on a brownfield or attached to an improvement (211.1159(3)). Only those two rates are statutory; a rate outside them is held to them."
+      : "Within the statute's USD 5,500 to 7,000 (a rate outside it is held to it). Default 7,000, the statute's maximum and its one fixed rate until the 2021 amendment set the range." },
   { key: "levy", label: "Local levy", unit: "USD per 1,000", min: 0, max: 200, whole: false, group: "taxes", nullable: true,
     applies: (t, s) => s === "ia" && t === "land_based_wind",
     source: () => "No statewide figure is held: the county's consolidated levy, in dollars per 1,000 of taxable value." },
   { key: "own", label: "Property tax, effective rate", unit: "% of cost", min: 0, max: 10, whole: false, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     // fault 16: where a statute is held but leaves years or the choice open (Iowa's valuation, Kansas's exemption, Oregon's
     // agreement), the rate covers those years, not "no statute"
-    source: (t, s, P) => ((P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt") && s === "az"
+    source: (t, s, P) => ((P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt") && s === "nc"
+      ? "North Carolina excludes 80 percent of the appraised value of a solar energy electric system from tax (General Statutes 105-275(45)), with no end date: a rate typed here is the reader's own, applied to 20 percent of the capital cost as the value falls. Equipment not used directly for the conversion, and the land, are taxed in full; the tool applies the 80 percent to the whole capital cost."
+      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt") && s === "az"
       ? "Arizona values renewable energy equipment at 20 percent of its depreciated cost through 2040 (Revised Statutes 42-14155): a rate typed here is the reader's own, applied to 20 percent of the capital cost until 2040 and to all of it after, as the value falls. The statute's 90 percent cap on depreciation and its deduction of federal tax credits from the cost are not modeled."
       : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt")
       ? "Florida exempts 80 percent of a renewable energy device's assessed value through 2037 (Statutes 196.182): a rate typed here is the reader's own, applied to the remaining 20 percent of the capital cost until 2037 and to all of it after, as the value falls. Land and other real property are not exempt; the tool applies the 80 percent to the whole capital cost."
+      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.adds_to_property) && s === "vt"
+      ? "Vermont's uniform capacity tax, USD 4 per kW a year to the Education Fund (32 V.S.A. 8701), is held; the town's property tax on the plant is not: a rate typed here is the reader's own, added to the capacity tax, applied to the capital cost as it falls."
       : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.adds_to_property)
       ? "The state's excise on production is held; the property tax on the plant is not: a rate typed here is the reader's own, added to the excise, applied to the capital cost as it falls."
       : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t))

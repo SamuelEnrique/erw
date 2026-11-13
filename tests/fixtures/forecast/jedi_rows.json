@@ -1,5 +1,5 @@
 {
-"about": "A fixture for the forecast tests (session 4203): the rows of nlr_jedi_multipliers for ten states (Kansas added in session 4223, Oregon in 4225, Wyoming in 4255, Florida in 4257) (jobs, earnings, output), as the live set gives them, copied from warehouse/output/nlr_jedi_multipliers.csv of 20 October 2026 (5,562 rows).",
+"about": "A fixture for the forecast tests (session 4203): the rows of nlr_jedi_multipliers for ten states (Kansas added in session 4223, Oregon in 4225, Wyoming in 4255, Florida in 4257, North Carolina, Michigan and Vermont in 4260) (jobs, earnings, output), as the live set gives them, copied from warehouse/output/nlr_jedi_multipliers.csv of 20 October 2026 (5,562 rows).",
 "notice": "NLR's data terms (https://www.nlr.gov/disclaimer): the user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data; credit DOE/NLR/ALLIANCE; the Data are provided as is.",
 "rows": [
 {
@@ -6913,6 +6913,1734 @@
 "variable": "output",
 "ts_utc": "2010-01-01T00:00:00Z",
 "value": 24450.474202
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.092599
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:induced",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.115012
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:induced",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 4279.328762
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 316004.830312
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.772681
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.051342
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 551359.517059
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.23747
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 318681.853804
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.48986
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:induced",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 3741.20604
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:total",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.211704
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:total",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 40441.706472
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.066272
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.302248
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 30147.732279
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 743934.029568
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 11107.367817
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.062024
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 5091.819289
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 57402.615575
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 747371.327698
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.050508
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 15943.422722
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 4672.132092
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 8751.656872
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.03478
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 4607.199105
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.050648
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.030569
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3.525326
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 11478.656628
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:total",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 174467.538041
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 106983.076203
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:induced",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 137226.573844
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:total",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 10817.923673
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 204093.102045
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 230854.805906
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1956.455748
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3.209097
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 186010.548985
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 274320.607794
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 203374.374517
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 29540.885686
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 196691.176471
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 50807.64123
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 60188.455882
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 48702.408088
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.163159
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.136596
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 110153.106009
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 5.44067
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 118757.398126
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.480121
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 29780.121139
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:induced",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 151998.779155
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:total",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 14440.7536
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 2537.127267
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:onsite",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 30695.287744
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.091188
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 11107.367817
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 102660.650146
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 11107.367817
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1299.187178
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.657009
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3204.54436
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 536242.444853
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3876.330647
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.300817
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.306441
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.174081
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 276735.832511
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 11131.599987
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 1.88369
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 36027.078154
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:total",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 58238.646215
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 101471.498888
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:induced",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.934919
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3086.461805
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.194519
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 205559.542451
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 149108.798138
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 12803.71775
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 20368.345785
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 196691.176471
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3204.54436
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3738.704627
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 8224.433591
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 4.205074
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 11.369245
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1345216.985082
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.256179
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:onsite",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 2846.865698
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:induced",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 13210.990305
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:total",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 483926.691899
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:onsite",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 2503.070925
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 274320.607794
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 67550.791812
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.184634
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 11107.367817
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 16479.362656
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 6.702873
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 7.096161
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 12556.60232
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3.538495
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 86024.982529
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 42359.145643
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 196361.60818
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 10.777274
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.642591
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 242973.502835
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 102275.619624
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 5194.449427
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:total",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 41896.896069
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 2503.070925
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 387142.904268
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 798174.020591
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.220169
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 6201.477818
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.305167
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.035187
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.000208
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.164093
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 84873.69303
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 247355.635165
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 5.44067
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 70579.855312
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 84873.69303
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:onsite",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 30996.088942
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.045333
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 4857.379785
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 26148.778497
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 26375.378148
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:induced",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.075183
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 274320.607794
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 339397.012284
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 2.230055
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 11107.367817
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.274138
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.116292
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.080196
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.233377
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 196691.176471
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1588.263032
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 8669.138039
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 506361.323529
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1281.184604
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 276735.832511
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 184490.555007
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 879090.536547
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 206616.548784
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.127195
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:induced",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 6399.438475
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:induced",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 143343.918773
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:total",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.216193
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:total",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 11673.835814
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 26360.301677
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.282473
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.211091
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3204.54436
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.077731
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 12173.381804
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 14432.712815
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.784855
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 84873.69303
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 32727.372972
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 323026.964959
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:induced",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 46422.575319
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:onsite",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 2537.127267
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:induced",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 44334.714841
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.045333
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3.22179
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 7.441324
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 12353.756249
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 192473.918747
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 296159.426574
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 173453.9952
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.035815
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 137933.911975
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 57882.118724
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 141392.261029
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 244534.246324
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.082876
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 12495.787982
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 214035.328942
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3.551749
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.202896
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 117991.106569
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 13800.756352
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:onsite",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 33731.84048
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:induced",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.977049
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 292998.60689
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 28455.855589
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.070024
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 20680.394202
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 42220.955882
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 10.910246
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 120122.796493
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 111479.787648
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 205606.422355
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 2846.865698
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:induced",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 19364.702363
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 2.244869
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 6686.608213
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3.165217
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.184634
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.166031
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 5.44067
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 897233.193723
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1426430.636464
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1387553.461496
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 84873.69303
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 40108.703236
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 184490.555007
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 236358.464127
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:induced",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 50222.131081
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:total",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 504412.473439
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:total",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.252944
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.479649
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:total",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 177693.169191
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 2.317486
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3143.827047
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 12256.668483
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 269676.345387
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3.584949
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3204.54436
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 135643.382353
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 53429.338235
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 123779.264706
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 233196.25
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.94425
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 484550.866479
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 84873.69303
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 460587.19659
+},
+{
+"entity": "nlr_jedi:geothermal:nc:operations:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.291108
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 861864.603787
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.642591
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.228425
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 11178.74045
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:total",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 3.34086
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:construction:total",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 182277.871845
+},
+{
+"entity": "nlr_jedi:land_based_wind:mi:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.045333
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 26573.463834
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 115499.010411
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 86839.112022
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:construction:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 330252.276581
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:construction:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 246623.671929
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.050648
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 198159.007353
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3204.54436
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 137545.955882
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 185890.882353
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3204.54436
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:total",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 19451.494472
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.723501
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 84873.69303
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:induced",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.954414
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:construction:total",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 3.689144
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 4573.646709
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3415.539091
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.184634
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3955.201727
+},
+{
+"entity": "nlr_jedi:natural_gas:mi:operations:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1591.910785
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:induced",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1.06203
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:construction:total",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3.506498
+},
+{
+"entity": "nlr_jedi:natural_gas:nc:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.050648
+},
+{
+"entity": "nlr_jedi:natural_gas:vt:operations:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 3751.162131
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.642591
+},
+{
+"entity": "nlr_jedi:geothermal:mi:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 0.225048
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 79735.033403
+},
+{
+"entity": "nlr_jedi:geothermal:nc:construction:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 231727.092439
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 276735.832511
+},
+{
+"entity": "nlr_jedi:geothermal:vt:operations:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 107184.033467
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 2.053034
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:total",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 3.467602
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:construction:total",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 497366.972674
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.090495
+},
+{
+"entity": "nlr_jedi:land_based_wind:nc:operations:induced",
+"variable": "jobs",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 0.080365
+},
+{
+"entity": "nlr_jedi:land_based_wind:vt:operations:induced",
+"variable": "output",
+"ts_utc": "2017-01-01T00:00:00Z",
+"value": 11578.33387
+},
+{
+"entity": "nlr_jedi:utility_pv:mi:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 2.446853
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:construction:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 44262.443391
+},
+{
+"entity": "nlr_jedi:utility_pv:nc:operations:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 15550.382042
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:onsite",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 11107.367817
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 12232.040052
+},
+{
+"entity": "nlr_jedi:utility_pv:vt:operations:induced",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 1749.5931
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 184490.555007
+},
+{
+"entity": "nlr_jedi:geothermal:mi:construction:induced",
+"variable": "output",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 252461.610231
+},
+{
+"entity": "nlr_jedi:geothermal:vt:construction:total",
+"variable": "earnings",
+"ts_utc": "2010-01-01T00:00:00Z",
+"value": 460676.832675
 }
 ]
 }
