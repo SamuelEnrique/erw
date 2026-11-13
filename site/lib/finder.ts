@@ -2,6 +2,7 @@
 // server from the warehouse's output directory, where they exist only on a machine that built them: internal (the RRC
 // grants no reuse in writing), never in git, the public database or a committed JSON. Like /severance/lease/real, the
 // pages that read them answer 404 without the internal token.
+import "server-only";   // session 5102: it reads INTERNAL_COSTS_TOKEN (docs/reviews/security-faults-2026-11-13.md, row 20)
 import fs from "node:fs";
 import { cookieOpens } from "@/lib/release";
 

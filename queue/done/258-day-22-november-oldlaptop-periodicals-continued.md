@@ -20,7 +20,12 @@ Long end 1:00 each. One step a session, in chain 254's order, as session 3487 li
 
 ### Unfinished steps (written by session 3487 of chain 254)
 
-(Session 3487 fills this list.)
+Chain 254 ran all its sessions (3472 to 3487) and added rows 173 to 179. Row 11 (`wip/3457-periodicals`) landed in part, rows 151 to 160 at `f71fda27e`; the rest, rows 161 to 179, waits at head `9ced6f322` (merged with main after the partial landing). The note is `docs/state/note_2026-11-13_oldlaptop_c254.md`. The faults have converged on every stored issue. What it did not reach, in this order (the W46 Roundup and the 16 November Digest are written after this file, so a session that starts before them takes the periodicals below and comes back to them):
+
+1. (Session 3489) The W46 Roundup as stored (Sunday 15 November, 23:00 UTC) read as a reader against a dry run of the same hour on the stack (`--no-model`). The worktree `erw-3457` needs `policy_actions.csv` and `policy_reads.csv` copied from the main copy after `scripts/sync.py --tables` restores them, and the run's own `energy_deals.csv` and `datacenter_projects.csv` swapped in, then checked out again. Each new fault is a numbered row from 180. Before it is written, skip it and say so.
+2. (Session 3490) Whether `wip/red-daily-2026-11-13` (the 13 November Digest) has landed. Then the Digest of 16 November (Monday, after the daily run) as stored against the stack's dry run: its window should open at 13 November 16:01 UTC if the red branch landed, else at 12 November 22:56 UTC, which would repeat 13 November's items (said so if it does). Before it is written, skip it and say so.
+3. (Session 3491) If row 11 has landed in full: the clean-up. Remove the worktree `erw-3457` with its `site/.next` and `site/node_modules` (untracked copies of `.env`, `site/.env.local`, the 13 November fun fact item and two ignored tables, none to keep), delete `wip/3457-periodicals` on origin, and mark row 11 landed. If not, skip it and say so.
+4. Rows 39, 65 and 109 and rulings item 13 stay the owner's; rows 61, 77 and 129 the data machine's. The note lists what waits for Samuel.
 
 ## Sessions 3495 to 3499 and 3501 to 3502: the periodicals, again
 
