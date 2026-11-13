@@ -12,6 +12,10 @@ Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`q
   - Whole suite batched: 8,648 tests OK; the heaviest process 652 MB.
 - **The curtain's hole is closed on production** (row 18, `b1ea7427a`): `check-curtain.mjs` exit 0 after the deploy.
 - **Every morning gate failed `/digest`'s floor by the clock**, because the page has no issue before 14:00 UTC. check-values now notes the floor in that case instead of failing it.
+- **A revised figure's note on a stored Digest was silently removed whenever the issue's story sections were held** (since 21 October).
+  - digest.ts spliced the notes in before the news index's hold rewrote the sections by their original line places.
+  - EIA revised 12 November's US48 demand peak (488,034 to 488,341 MW), and every gate failed on it from that afternoon.
+  - Fixed in land-f: demand is read as a revision too, the notes go in after the hold, and once a key.
 
 ## Every landing, with its commit
 
