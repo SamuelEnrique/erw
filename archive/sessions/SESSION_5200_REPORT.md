@@ -1,6 +1,6 @@
 # Session 5200: chain 235's next file and the ground of the AI chat over the warehouse
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 13 November 2026 (09:35 to 10:05 UTC), Fable, unattended. First session of chain 235 (`queue/done/235-day-13-november-portable-p3-ask.md`). Branch `wip/5200-ask`, cut from `origin/main` at `a57b7079`; worktree `erw-p3-5200`. Nothing built, nothing landed, no model call, no warehouse data written.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 13 November 2026 (09:35 to 09:59 UTC), Fable, unattended. First session of chain 235 (`queue/done/235-day-13-november-portable-p3-ask.md`). Branch `wip/5200-ask`, cut from `origin/main` at `a57b7079`; worktree `erw-p3-5200`. Nothing built, nothing landed, no model call, no warehouse data written.
 
 ## Read these first
 

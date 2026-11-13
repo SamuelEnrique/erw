@@ -1,6 +1,6 @@
 # Session 5201: the faults file's open rows
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 13 November 2026 (10:05 to 10:35 UTC), Fable, unattended. Chain 235. Branch `wip/5200-ask` (worktree `erw-p3-5200`), stacked on session 5200. No model call, nothing built, nothing landed.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 13 November 2026 (09:59 to 10:08 UTC), Fable, unattended. Chain 235. Branch `wip/5200-ask` (worktree `erw-p3-5200`), stacked on session 5200. No model call, nothing built, nothing landed.
 
 ## Read these first
 
