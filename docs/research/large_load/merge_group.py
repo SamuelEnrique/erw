@@ -39,6 +39,53 @@ def clean(x, in_quote=False):
     return x
 
 
+# Hosts whose terms ask written permission, or allow personal use only (README, "The hosts' terms"): a row whose
+# values come only from such a host is internal (the owner's ruling 4 of 6 November 2026).
+RESTRICTED = {
+    "centerpointenergy.com": "CenterPoint's Terms of Use (personal and non-commercial use; robots barred), read 2026-11-13",
+    "southerncompany.com": "Southern Company's Terms and Conditions (no reproduction without prior written consent), read 2026-11-13",
+    "georgiapower.com": "Southern Company's Terms and Conditions (no reproduction without prior written consent), read 2026-11-13",
+    "alabamapower.com": "Southern Company's Terms and Conditions (no reproduction without prior written consent), read 2026-11-13",
+    "mississippipower.com": "Southern Company's Terms and Conditions (no reproduction without prior written consent), read 2026-11-13",
+    "pge.com": "PG&E's Terms of Use (no use in publications without prior written consent), read 2026-11-13",
+    "aps.com": "APS's Terms of Use (personal, noncommercial use; no distribution without written permission), read 2026-11-13",
+    "oncor.com": "Oncor's Terms and Conditions (personal, noncommercial, educational use only), read 2026-11-13",
+    "srpnet.com": "SRP's Website Terms and Conditions (no reproduction without written permission)",
+    "epelectric.com": "El Paso Electric's terms of use (personal, noncommercial use)",
+    "aep.com": "AEP's legal notice (personal use only)",
+    "aepohio.com": "AEP's legal notice (personal use only)",
+    "appalachianpower.com": "AEP's legal notice (personal use only)",
+    "indianamichiganpower.com": "AEP's legal notice (personal use only)",
+    "psoklahoma.com": "AEP's legal notice (personal use only)",
+    "swepco.com": "AEP's legal notice (personal use only)",
+    "aeptexas.com": "AEP's legal notice (personal use only)",
+    "kentuckypower.com": "AEP's legal notice (personal use only)",
+    "in.gov": "IN.gov's statewide terms (written permission)",
+}
+
+
+def restricted(url: str):
+    import urllib.parse
+    host = (urllib.parse.urlsplit(url or "").hostname or "").lower()
+    for k, why in RESTRICTED.items():
+        if host == k or host.endswith("." + k):
+            return why
+    return None
+
+
+def license_audit(row: dict) -> str | None:
+    """The reason a public row must be internal: a value whose every cite is a restricted host's document."""
+    src = row.get("source_url", "")
+    for f in FIELDS:
+        v = (row.get("fields") or {}).get(f) or {}
+        cites = v.get("cites") or []
+        if cites and not marker(v.get("value", "")):
+            whys = [restricted(c.get("url") or src) for c in cites]
+            if all(whys):
+                return f"{f} rests only on a host whose terms ask permission: {whys[0]}"
+    return None
+
+
 def marker(v: str) -> bool:
     v = (v or "").strip()
     return v == "not published" or v.startswith("held: ") or v.startswith("see row: ")
@@ -99,6 +146,21 @@ def main() -> int:
     src = os.path.join(ROOT, "runs", "s5300", "rows", f"{group}.json")
     data = clean(json.load(open(src, encoding="utf-8")))
     rows = data.get("rows") or []
+    for r in rows:
+        st = r.get("status") or {}
+        date = (st.get("date") or "").strip()
+        m = re.match(r"^(\d{4}-\d{2}(?:-\d{2})?)(.*)$", date)
+        if date and (not m or m.group(2).strip()):
+            # a status date followed by words: the date stays, the words go to the notes as the group wrote them
+            st["date"] = m.group(1) if m else ""
+            r["notes"] = (r.get("notes", "").rstrip() + f" Status date as the reading group wrote it: '{date}'.").strip()
+            print(f"status date normalized: {r.get('utility', '')[:40]} | '{date}' -> '{st['date']}'")
+        why = license_audit(r)
+        if why and r.get("license") == "public":
+            r["license"] = "internal"
+            r["license_basis"] = (r.get("license_basis", "").rstrip() + " Made internal by merge_group.py's license audit: "
+                                  + why + ".").strip()
+            print(f"internal by the license audit: {r.get('utility', '')[:50]} | {r.get('rule_name', '')[:50]}")
     bad = 0
     for i, r in enumerate(rows):
         # a queue figure a holding company states for several utilities sits on one row of the group (session 5300)
