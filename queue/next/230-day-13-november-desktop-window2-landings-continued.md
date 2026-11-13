@@ -8,7 +8,7 @@ Written by session 4000 of chain 228 (`queue/done/228-day-13-november-desktop-wi
 
 The rules of `queue/done/228-day-13-november-desktop-window2-landings.md` hold word for word (and through it those of the newest data chain in `queue/done`). Also:
 
-- **Its first session writes the next file first** (`queue/next/<first free number at or above 230>-day-14-november-desktop-window2-landings-continued.md`, the same machine line, at least fourteen sessions), commits it alone and pushes it with the snapshots; its last session updates it.
+- **Its first session writes the next file first** (`queue/next/<first free number at or above 231>-day-14-november-desktop-window2-landings-continued.md`, the same machine line, at least fourteen sessions), commits it alone and pushes it with the snapshots; its last session updates it.
 - **The queue step is by name**, never bare `next`.
 
 Read first: chain 228's note `docs/state/note_<its date>_desktop_window2.md`, the landing request files (`docs/state/landing_request_*.md`), `CLAUDE.md`.
