@@ -15,12 +15,13 @@ Energy Research Warehouse (ERW). Chain 227, data machine (lab-desktop), 13 Novem
 - **Reproduced** on that commit in a scratch worktree: for MISO the rule (`warehouse/chat/grid_tables.py`, over the live set) no longer finds `iso_dam_hub_prices` and `iso_rtm_hub_prices`.
 - **The cause:** MISO is paused since 4 October (its terms forbid automated access). Its newest hub prices are of 4 October (day-ahead) and 3 October (real time). The live set keeps these tables for a recent window of 35 days, and it now holds no MISO row in either (read at 19:45 UTC); the data machine's file of 12 November still found them, so the last left between the two runs (which load's deletion took them was not read). The rule reads the live set, so it found no MISO row. The warehouse still holds every MISO row (the CSVs and Redivis); only the live set's window moved.
 - **The fix** (test 314): `aged_out()` lets a paused publisher's grid lack a hand-listed table that the live set keeps for its recent window only, once the pause is older than the window. A paused grid inside the window, or a grid not paused, still fails. Test 314 passes on main's `grid_tables.json` and on the refused one.
-- **The refused commit merged** into this chain's branch with the fix (a clean merge), so the day's page files and Redivis upload records reach main through the gate rather than wait a day: without its `redivis_uploads.csv` rows, the next run would upload again tables already uploaded, at the export cap.
+- **The refused commit was merged, then taken out again.** Merged into this chain's branch with the fix, it failed the gate's suite (21:41 to 21:59 UTC) on tests 5073 and 5074, which another window landed after the run: the datacenter tool's hourly window reads 10,094 hours on the page and 10,151 and 10,160 in the day-old export. Reconciling another window's new tests with a day-old export is not this chain's, and the next run rebuilds the files with main's code, so the merge was reverted and only test 314's fix landed. The cost: the run's `redivis_uploads.csv` rows of 13 November are not on main, so the next run may upload some tables again.
 
 ## Decisions made without you
 
 - **The allowance is in the test, not in the hand list.** `docs/grids/grids.json` still names MISO's hub price tables: the warehouse holds their rows; only the live set's window does not.
-- **The data machine's refused commit landed after its cause was fixed,** through the full gate, rather than left for the next run.
+- **The data machine's refused commit left for the next run** once it failed another window's new tests.
+- **The build lock's queue:** this chain's fourth gate waited 1 hour 47 minutes (19:53 to 21:40 UTC) while three later gates of two other windows took the lock first: `buildlock.py` lets every waiter poll every 20 seconds, so the first to poll after a release wins. A first-come queue would be fairer; it was not changed while other windows' waiters run the old code.
 
 ## For Samuel's ruling
 
