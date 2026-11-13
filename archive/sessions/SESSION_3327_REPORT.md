@@ -45,3 +45,10 @@ Energy Research Warehouse (ERW). Chain 242 (`queue/done/242-day-15-november-oldl
 - 120: "U.S. Refineries Make Dramatic Shift Away From Gasoline" sat under Power, tagged power prices; a refining or road-fuel title is now oil's.
 - The 60 importing test files OK (1,122 tests); `test_session206` and `test_session2226_ask` OK. **Row 10**: head `d2ce5ad44`, merges cleanly.
 
+## Sessions 3336 and 3337: W43 and the Digest of 30 October (dry runs), rows 121 to 123
+
+- 121: "a investment in Blackstone Energy Transition Partners V", a slip of this chain's row 103; the article follows the word now.
+- 122: the Roundup's "five stories of the week" were numbered 4 to 8 after the weekend's 1 to 3; each list starts at 1.
+- 123: "Deal value: USD 50 billion" from "EQT, Range Resources To Combine To Form $50B Gas Giant", a combined company's size (the deal is USD 13 billion in `energy_deals`); such a figure is now "Combined company value".
+- The 60 importing test files OK (1,125 tests). **Row 10**: head `0b6bbbdd4`, merges cleanly.
+
