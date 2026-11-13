@@ -26,7 +26,12 @@ Long end 1:30 each. One step a session, in chain 222's order, as session 1943 li
 
 ### Unfinished steps (written by session 1943 of chain 222)
 
-(To be filled by session 1943: one line a step, in chain 222's order, with the exact commands where the step was a landing.)
+Chain 222 stopped inside its session 1930 (13 November, about 06:20 UTC): the gate for `wip/1905-revert` (`77e8916a0`, `scripts/land_check.py --ref 77e8916a0 --task 1930-revert --port 3930 --keep-worktree`) failed its suite for memory (8 failures, 2 errors: `MemoryError`s in the research mirror tests 381, 422, 582, 1315, 3701 and 157_refresh, the PowerShell dry runs of 181_worker and 185 timed out; `runs/land_check/77e8916a0996de55d29679106d19261638e11219/suite.out`), and sessions 1931 to 1943 never ran. Session 1944 rebuilt this list from session 1916's report, `runs/s1930/land_check.out` and the gate's files; chain 222 wrote no report, no note and no branch of its own:
+
+1. (Session 1944) The landing of `wip/1905-revert`: not tried a third time on this machine (about 0.9 GB free, two windows lost to it); a request row 9 in `docs/state/landing_request_oldlaptop.md` instead, with the commands: main merged into the branch, `scripts/land_check.py --ref <the merge> --task 1944-revert --port 3944 --keep-worktree`, the snapshots, the branch deleted once an ancestor, `erw-1905` removed.
+2. (Session 1945) Chain 219's session 1913: the records and the clean-up (the five tools' table; `build_tables.py --check`).
+3. (Session 1946) Chain 219's session 1914: the paths walked again where chain 219 changed a step (the lab path's fault 2, the grids view held again by the revert), on the revert branch's local build only if memory allows one build.
+4. (Session 1947) The notes of chains 219, 220 and 222: `docs/state/note_2026-11-15_code_c219.md`, `note_2026-11-16_code_c220.md`, `note_2026-11-17_code_c222.md` (all unwritten; one short note each, from the reports).
 
 ## Sessions 1950 to 1954: the faults files' open rows
 
@@ -34,7 +39,12 @@ Long end 1:30 each. One fault a session, in this order: `docs/reviews/deals-faul
 
 ### Open faults (written by session 1943 of chain 222)
 
-(To be filled by session 1943: every faults file's rows whose state is open, one a line, in the files' order; the owner's rows named, not to be decided here.)
+Rebuilt by session 1944 from the files on main (`ee5b05245`): no row open in any of them (no state cell reads `open`), as session 1930 found.
+
+- Deals, datacenter, policy, companies, attention faults files: every row `fixed`, `not a fault`, `data machine` or `ruling` (the owner's: deals 3, datacenter 4, policy 1, companies 1, attention 2).
+- Periodicals: every row fixed or `ruling` (five the owner's, rows 39 and 65 among them).
+- Board audit: five rows `data machine`, one `not a fault`.
+- Trader, lab and On.Energy paths, session 1885's walk and session 1904's: the data machine's rows, and the lab's fault 2 the owner's (datacenter row 4).
 
 ## Session 1955: the records and the clean-up
 
