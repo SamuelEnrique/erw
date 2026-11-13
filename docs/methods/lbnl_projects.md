@@ -33,6 +33,8 @@ The solar file retrieved 2026-10-23T08:30:21Z (last modified 15 October 2025); t
 
 Each file's copyright notice: "This work is openly licensed via CC BY 4.0"; Berkeley Lab's verdict in `license_verdicts.csv` (read 14).
 
+Chain 229, session 4107 (13 November 2026): Berkeley Lab's verdict now rests on read 1711, the Queued Up 2026 edition page's CC BY 4.0 notice, cut by code. Verdict unchanged.
+
 ## Cross-checks (sessions 939, 944 and 946)
 
 - Solar against EIA (session 939): 1,772 projects carry an EIA id (1,767 plants); 1,740 are in `uspvdb_solar_facilities` and 1,755 have PV generators in `eia860m_operating_generators`; the AC capacity equals EIA-860M's PV nameplate within 5 percent at 1,637 of 1,750 plants (109,926 and 110,626 MW in all).

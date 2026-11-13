@@ -92,6 +92,8 @@ The pages session 2351 read, saved in `runs/license_reads/s2351/`:
 
 None of these pages states terms of reuse. Once tags and scripts are removed, their text holds no licens, upphovsrätt, Creative Commons, CC0, öppna data, vidareutnyttjande, terms or copyright. The only "villkor" is in a menu item on grid connection ("Avtal och villkor vid anslutning").
 
+Chain 229, session 4108 (13 November 2026): Svenska kraftnat's verdict is recorded from its Data Service (read 1770, https://data.svk.se/about, robots read 1767): "The information available on Svenska kraftnät's Data Service is covered by an open license: Creative Commons Attribution (CC BY 4.0)." Verdict: may be public, sold or not; cite "Source: Svenska kraftnät (data.svk.se)". The Data Service replaces Mimer step by step, and the page names no other licence for Mimer. The table stays internal and waits for the owner's ruling (default: stays internal).
+
 ## Checks (session 2353)
 
 The figures in this note were computed by `runs/c105/s2353/check_svk_sweden_production_hourly.py` (output `check_svk_sweden_production_hourly.out` beside it). It streams the rows of `warehouse/output/svk_sweden_production_hourly.csv` in the main checkout, read past its 10 header lines (counted, never parsed as comments), and also reads Mimer's six raw files and `eurostat_electricity_monthly` (entity `eurostat_elec:SE`). No request was made.

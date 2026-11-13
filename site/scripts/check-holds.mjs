@@ -155,6 +155,7 @@ export function judgeKey(key, held, heldGrids) {
   let table = "";
   if (head.startsWith("series")) table = p[1] ?? "";
   else if (head === "event" || head === "entity") table = p[1] ?? "";
+  else if (head === "event_count") table = p[1] ?? "";   // session 4005: as Num.tsx heldBy
   else if (head in KEY_TABLE) table = KEY_TABLE[head];
   else if (head === "digest_chart") table = p[2] ?? "";
   if (table) {

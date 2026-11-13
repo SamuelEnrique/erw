@@ -38,3 +38,12 @@ The weekend's stories, the five stories of the week, the deals and datacenter ta
 - A stand-in move passes the opening's bar and is the next unused one (row 97).
 - A story naming a benchmark is given the warehouse's close (row 98).
 - One colon in the deal opening's status (row 99).
+
+## 8. What changed later on 13 November 2026 (chains 232 to 244, rows 100 to 130)
+
+- The opening asks the week's stories, not only the printed ones, whether one names a benchmark's move (row 110): W46 opens on Henry Hub's 14.1% rise with its reason where it opened on a deal. The move carries the naming story's line ("Reason, from the week's stories: ..."), else its title ("Named in the week's stories: ..."), only when the story's direction agrees and it states no sum of its own (rows 101, 104, 126).
+- The masthead names the real-time tables' reach (row 100). The deal's financing words: "an investment in", "a loan for" (rows 103 and 121).
+- The datacenter load row says how many larger loads of the week it leaves out for naming no operator or site (row 118).
+- Each list of More is numbered from 1 (row 122); the subject's cut goes back to a comma (row 116).
+- The page holds a held grid's real-time line and summary sentence in stored issues (W39 to W44), as well as its table cells (row 108).
+- The fun fact repeats the week's newest Digest fact by design; a fact of the Roundup's own is the owner's to rule on (row 109).

@@ -1,0 +1,161 @@
+{
+ "written_by": "site/scripts/forecast-crosscheck.mjs",
+ "studies": [
+  {
+   "id": "jayhawk_ks",
+   "title": "Jayhawk Wind Energy Project (Bourbon and Crawford Counties, Kansas): economic development report, November 2019",
+   "url": "https://fortscott.biz/wp-content/uploads/2019/12/Jayhawk-Wind-Economic-Development-Report-Final-November-20191.pdf",
+   "request": 50,
+   "method": "JEDI Wind with 2017 IMPLAN state multipliers and the project's own spending and local shares; 25-year life",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "ks",
+    "mw": 195,
+    "capex_2025_usd_per_kw": 1589.3390552584733,
+    "life": 25,
+    "ilr": 1
+   },
+   "published_words": "634 (190 direct) local jobs during construction for the State of Kansas; 43 (9 direct) long-term jobs for the State of Kansas; over $36.7 million in local earnings during construction for the State of Kansas; over $2.2 million in local long-term earnings; over $98.2 million in local output during construction; over $7.5 million in local long-term output",
+   "cost_words": "an investment of almost $250 million",
+   "dollars_of": 2019,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 634,
+     "model": 516.5236063883049,
+     "ratio": 0.8147060037670424
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 190,
+     "model": 76.61186984803906,
+     "ratio": 0.40322036762125824
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 321,
+     "model": 307.9144543838553,
+     "ratio": 0.959235060385842
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 123,
+     "model": 131.99728215641056,
+     "ratio": 1.073148635417972
+    },
+    {
+     "figure": "construction:total:earnings",
+     "published": 36700000,
+     "model": 27691464.613033973,
+     "ratio": 0.7545358205186369
+    },
+    {
+     "figure": "construction:total:output",
+     "published": 98200000,
+     "model": 78662488.71024625,
+     "ratio": 0.8010436732204302
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 43,
+     "model": 33.93663,
+     "ratio": 0.7892239534883722
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 9,
+     "model": 8.839935,
+     "ratio": 0.9822150000000001
+    },
+    {
+     "figure": "operations:total:earnings",
+     "published": 2200000,
+     "model": 1900013.1000004485,
+     "ratio": 0.8636423181820221
+    },
+    {
+     "figure": "operations:total:output",
+     "published": 7500000,
+     "model": 5877791.660934946,
+     "ratio": 0.7837055547913261
+    }
+   ]
+  },
+  {
+   "id": "glendive_mt",
+   "title": "Glendive Wind (Prairie County, Montana), NextEra Energy Resources: economic impact summary of a 2024 study by Strategic Economic Research",
+   "url": "https://www.nexteraenergyresources.com/content/dam/neer/us/en/microsites/PDF/glendive-prairie-econ-impact.pdf",
+   "request": 49,
+   "method": "IMPLAN multipliers with NREL's JEDI model, statewide",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "mt",
+    "mw": 800,
+    "capex_2025_usd_per_kw": 1282.9791405816113,
+    "life": 30,
+    "ilr": 1
+   },
+   "published_words": "Approx. 400 construction jobs in the state of Montana",
+   "cost_words": "$1 billion investment in Prairie County; up to 800 megawatts",
+   "dollars_of": 2024,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 400,
+     "model": 1729.8299480860335,
+     "ratio": 4.324574870215084
+    }
+   ]
+  },
+  {
+   "id": "ohio_pv_low",
+   "title": "Measuring the Economic Impacts of Utility-Scale Solar in Ohio, Ohio University (Voinovich School), 31 July 2020: the low scenario",
+   "url": "https://static1.squarespace.com/static/56a8596376d99c0164fc16bd/t/5f50094e9c0ff3029d54bc6c/1599080786155/Measuring+the+Economic+Impacts+of+Utility-Scale+Solar+in+Ohio+---+FINAL%2C+7.31.2020.pdf",
+   "request": 54,
+   "method": "JEDI PV updated with 2018 IMPLAN multipliers and NREL's Q1 2018 one-axis tracker utility cost benchmark; 80 percent Ohio labor and 30 percent Ohio materials; DC capacity; 2018 dollars; 40-year life",
+   "inputs": {
+    "tech": "utility_pv",
+    "state": "oh",
+    "mw": 1861.6427135304193,
+    "capex_2025_usd_per_kw": 2431.6352988908748,
+    "life": 40,
+    "ilr": 1.3429
+   },
+   "published_words": "a total of 18,039 one-time construction phase jobs, and 207 annual operations and maintenance (O&M) phase jobs; 8,536 direct construction jobs; roughly $3.2B construction phase economic impacts; up to $22.5M in annual tax revenues",
+   "cost_words": "Project Construction or Installation Cost, Low (2.5 GW): $3,592,192,939",
+   "dollars_of": 2018,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 18039,
+     "model": 19834.457819938645,
+     "ratio": 1.0995320039879508
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 8536,
+     "model": 9881.179648208656,
+     "ratio": 1.1575889934639942
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 207,
+     "model": 733.06,
+     "ratio": 3.541352657004831
+    },
+    {
+     "figure": "construction:total:output",
+     "published": 3200000000,
+     "model": 2434007961.8203573,
+     "ratio": 0.7606274880688617
+    },
+    {
+     "figure": "property:year",
+     "published": 22500000,
+     "model": null,
+     "ratio": null
+    }
+   ]
+  }
+ ]
+}
