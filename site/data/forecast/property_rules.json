@@ -290,7 +290,7 @@
       30
      ],
      "then_pct": 30,
-     "requires": "local_rate",
+     "requires": "option",
      "cite": "ia_427b_26",
      "quote": "a. For the first assessment year, at zero percent of the net acquisition cost. b. For the second through sixth assessment years, at a percent of the net acquisition cost which rate increases by five percentage points each assessment year. c. For the seventh and succeeding assessment years, at thirty percent of the net acquisition cost.",
      "quote2": "A city council or county board of supervisors may provide by ordinance for the special valuation of wind energy conversion property as provided in subsection 2.",

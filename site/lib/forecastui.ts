@@ -54,7 +54,7 @@ const EXEMPT_WORDS: Record<string, string> = {
 /** fault 7: a statute's capacity or production tax is held for this technology and state (Iowa's valuation is optional, so
  *  the reader's own rate stays offered there) */
 export const statuteHeld = (t: TechKey, s: string, P: Params) =>
-  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "valuation" && r.kind !== "exempt_years" && r.kind !== "capacity_option" && r.kind !== "own_exempt" && !r.adds_to_property);
+  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && !(r.kind === "valuation" && r.requires === "option") && r.kind !== "exempt_years" && r.kind !== "capacity_option" && r.kind !== "own_exempt" && !r.adds_to_property);
 
 export const FIELDS: FieldDef[] = [
   { key: "tech", label: "Technology", unit: "", min: 0, max: TECHS.length - 1, whole: true, group: "project",
@@ -104,8 +104,9 @@ export const FIELDS: FieldDef[] = [
       ? "USD 7,000 per MW AC (MCL 211.1159(2)); USD 2,000 on state land, in an opportunity zone, on a brownfield or attached to an improvement (211.1159(3)). Only those two rates are statutory; a rate outside them is held to them."
       : "Within the statute's USD 5,500 to 7,000 (a rate outside it is held to it). Default 7,000, the statute's maximum and its one fixed rate until the 2021 amendment set the range." },
   { key: "levy", label: "Local levy", unit: "USD per 1,000", min: 0, max: 200, whole: false, group: "taxes", nullable: true,
-    applies: (t, s) => s === "ia" && t === "land_based_wind",
-    source: () => "No statewide figure is held: the county's consolidated levy, in dollars per 1,000 of taxable value." },
+    applies: (t, s, P) => (P.property.states[s]?.rules ?? []).some((r) => r.kind === "valuation" && r.technologies.includes(t)),
+    source: (t, s, P) => (P.property.states[s]?.rules ?? []).find((r) => r.kind === "valuation" && r.technologies.includes(t))?.levy_words
+      ?? "No statewide figure is held: the county's consolidated levy, in dollars per 1,000 of taxable value." },
   { key: "own", label: "Property tax, effective rate", unit: "% of cost", min: 0, max: 10, whole: false, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     // fault 16: where a statute is held but leaves years or the choice open (Iowa's valuation, Kansas's exemption, Oregon's
     // agreement), the rate covers those years, not "no statute"

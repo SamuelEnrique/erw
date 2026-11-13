@@ -435,3 +435,16 @@ test("Virginia's solar exemption: 80, 70 and 60 percent by years in service, mor
   near(F.propertyTax(P, { ...va, mw: 200, capex: 750 }, 0).tax, 150e6 * 0.008, 1e-12, "150 MW or more: no exemption");
   near(F.propertyTax(P, { ...va, mw: 5, capex: 30000 }, 0).tax, 150e6 * 0.008, 1e-12, "5 MW: not this clause");
 });
+
+test("a state's own assessment (valuation without the option): applies without the switch, its published levy the default", () => {
+  // a rule built here for the test only: 10 percent assessed, falling 10 points a year to a floor of 3, levy USD 60 per 1,000
+  const rule = { id: "test_assessed", technologies: ["utility_pv"], kind: "valuation", schedule_pct: [10, 9, 8, 7, 6, 5, 4], then_pct: 3, default_levy: 60, levy_words: "test" };
+  const P2 = { ...P, property: { ...P.property, states: { ...P.property.states, zz: { name: "Test", rules: [rule] } } } };
+  const x = { ...F.defaults(P2, "utility_pv", "tx"), state: "zz", mw: 100, capex: 1500, levy: F.defaults(P2, "utility_pv", "zz").levy };
+  assert.equal(x.levy, 60);
+  near(F.propertyTax(P2, x, 0).tax, 150e6 * 0.10 * 0.060);
+  near(F.propertyTax(P2, x, 9).tax, 150e6 * 0.03 * 0.060, 1e-12, "the floor");
+  assert.equal(F.propertyTax(P2, { ...x, levy: null }, 0).tax, null, "no levy, no figure");
+  assert.equal(F.defaults(P, "land_based_wind", "ia").levy, null, "Iowa: no statewide levy held");
+  assert.equal(F.propertyTax(P, { ...F.defaults(P, "land_based_wind", "ia"), levy: 30 }, 3).tax, null, "Iowa still needs its ordinance");
+});
