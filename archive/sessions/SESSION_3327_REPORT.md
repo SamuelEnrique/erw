@@ -61,3 +61,12 @@ Energy Research Warehouse (ERW). Chain 242 (`queue/done/242-day-15-november-oldl
 
 - Not used separately: the stored Digest of 13 November is not written before the 14:00 UTC run; the next file takes it first.
 
+## Session 3341: the note
+
+- `docs/state/note_2026-11-13_oldlaptop_c242.md`.
+
+## Session 3342: the next file, the queue
+
+- `queue/next/244-day-16-november-oldlaptop-periodicals-continued.md` filled: the stored 13 November Digest against the stack first, row 10's landing, the stored W46, more days with no issue.
+- Then `chain_queue.py next`.
+
