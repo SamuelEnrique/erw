@@ -12,11 +12,11 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **648 tables.** The flag and the verdict agree on 532; a ruling settles 51 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 42 are not settled (a publisher not read); 2 is internal by the ERW's own choice; 21 flagged internal wait for the owner's ruling, the sentence read allowing them (chain 229: never loosened by a session, the default "stays internal").
 - **The ERW's verdict (session 378): 478 public, 115 internal, 55 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1699 publishers in the record: 1697 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 351 pages read, 1346 that could not be read, 2 not asked (paused).**
+- **1703 publishers in the record: 1701 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 355 pages read, 1346 that could not be read, 2 not asked (paused).**
 - **49 tables are flagged public where a publisher's sentence asks for permission or a license** (49 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 34; ISO-NE 30; MISO 27; Bloomberg 7; Data Center Dynamics 7; Data Center Frontier 7; Energy-Storage.news 7; Financial Times 7; Hart Energy 7; Heatmap News 7; Latitude Media 7; Natural Gas Intelligence 7; OilPrice.com 7; POWER Magazine 7; Public Utility Commission of Texas 7; Reuters 7; Utility Dive 7; WSJ 7; Data Center Knowledge 6; ANS Nuclear Newswire 5; Amazon Web Services 5; Canary Media 5; Digital Realty 5; Electrek 5; Equinix 5; Google 5; JPT 5; LNG Prime 5; Meta 5; Microsoft 5; Oracle 5; Rigzone 5; Switch 5; Vantage Data Centers 5; pv magazine USA 5; Louisiana Department of Revenue 1; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **21 tables are flagged internal where the sentence read allows them:** `ferc714_area_demand_2006`, `ferc714_area_demand_2007`, `ferc714_area_demand_2008`, `ferc714_area_demand_2009`, `ferc714_area_demand_2010`, `ferc714_area_demand_2011`, `ferc714_area_demand_2012`, `ferc714_area_demand_2013`, `ferc714_area_demand_2014`, `ferc714_area_demand_2015`, `ferc714_area_demand_2016`, `ferc714_area_demand_2017`, `ferc714_area_demand_2018`, `ferc714_area_demand_2019`, `ferc714_area_demand_2020`, `ferc714_area_demand_2021`, `ferc714_area_demand_2022`, `ferc714_area_demand_2023`, `ferc714_area_demand_2024`, `ferc714_area_demand_2025`, `ferc714_respondents`.
 - **16 tables that may be public today would need permission if the ERW sells anything** (SPP 8; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
-- **Confirmed against the publisher's current page (chain 229, session 4101 on): 15 publishers, 0 of them with a sentence no longer on the page.** 63 tables rest on a verdict read more than 30 days before the newest read in the record (2026-11-13) and not confirmed since.
+- **Confirmed against the publisher's current page (chain 229, session 4101 on): 16 publishers, 0 of them with a sentence no longer on the page.** 62 tables rest on a verdict read more than 30 days before the newest read in the record (2026-11-13) and not confirmed since.
 
 ## The reads
 
@@ -1723,6 +1723,10 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 1697 | Louisiana State Legislature, its disclaimer (session 4103) | https://www.legis.la.gov/Legis/Disclaimer.aspx | 10:29:32 | 200 | 18395 | read |
 | 1698 | New Mexico Taxation and Revenue Department, its privacy and security page (session 4103) | https://www.tax.newmexico.gov/about-us/privacy-security/ | 10:29:32 | 200 | 511025 | read |
 | 1699 | USACE, the National Inventory of Dams in data.gov's catalog API (session 4103) | https://catalog.data.gov/api/3/action/package_search?q=title:%22National%20Inventory%20of%20Dams%22&rows=5 | 10:29:33 | 404 | 36 | not read: HTTP 404 |
+| 1700 | PJM, www.pjm.com's robots file (session 4104) | https://www.pjm.com/robots.txt | 10:43:57 | 200 | 352 | read |
+| 1701 | PJM, its legal page (session 4104) | https://www.pjm.com/about-pjm/legal | 10:44:12 | 200 | 50874 | read |
+| 1702 | PJM, current data license (session 4104) | https://www.pjm.com/-/media/DotCom/etools/edatafeed/data-license-agreement-edata-feed-data-miner-2.ashx | 10:44:14 | 200 | 104439 | read |
+| 1703 | NYISO, its contact page (session 4104) | https://www.nyiso.com/contact-us | 10:44:16 | 200 | 153365 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -2011,6 +2015,7 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | NOAA NCEI | #9 | #1675 | 2026-11-13 | on the page | may be public | may be public |  |
 | NRC | #16 | #1677 | 2026-11-13 | on the page | may be public | may be public |  |
 | NYISO | #5 | #1670 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| PJM | #15 | #1702 | 2026-11-13 | on the page | needs a paid license | needs a paid license |  |
 | SPP | #6 | #1671 | 2026-11-13 | on the page | may be public | may be public |  |
 | U.S. Department of Energy (DOE) | #54 | #1676 | 2026-11-13 | on the page | may be public | may be public |  |
 | UK Department for Energy Security and Net Zero (DESNZ) | #315 | #1674 | 2026-11-13 | on the page | may be public | may be public |  |
