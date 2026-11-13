@@ -2267,6 +2267,14 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
         elif field != "mw" and re.search(r"\bbacklogs?\b", f"{(r.get('titles') or [''])[0]} {(heads or {}).get(r['cluster_id'], '')}", re.I):
             # session 3354 (faults file row 136): "Kinder Morgan Backlog Surges ..." states a company's backlog, not a deal
             noun = "Project backlog"
+        elif (field != "mw" and str(r.get("sector")) in ("deal", "capital", "company")
+              and re.search(r"\bplans?\b|\bplanned\b", f"{(r.get('titles') or [''])[0]} {(heads or {}).get(r['cluster_id'], '')}", re.I)
+              and not re.search(r"\b(?:buy|buys|acquir\w*|merg\w*|sells?|sale|stake|takeover|deal)\b",
+                                f"{(r.get('titles') or [''])[0]} {(heads or {}).get(r['cluster_id'], '')}", re.I)
+              and not RAISED.search(f"{(r.get('titles') or [''])[0]} {(heads or {}).get(r['cluster_id'], '')}")):
+            # session 3365 (faults file row 141): "EQT's Zelestra unveils a USD 12 billion plan to meet US AI demand" is a plan
+            # to invest, not a deal's value
+            noun = "Investment planned"
         elif field != "mw" and str(r.get("sector")) == "capital":
             # session 3355 (faults file row 137): "Meta Reports $825 Billion in Future Spending Commitments" was "Capital
             # raised"; the measure follows the headline: money raised, money to be spent, else capital

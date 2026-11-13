@@ -1189,6 +1189,9 @@ def head_clause(head, n):
     article before the first figure kept as "a"), then cut at a word to n characters with no ellipsis, a trailing article,
     preposition or conjunction dropped. "" when nothing readable is left."""
     t = " ".join(str(head or "").split())
+    # session 3365 (faults file row 140): a headline's kicker before a colon ("Azerbaijan: TotalEnergies Announces ...",
+    # "Exclusive: ...") is no part of the clause, and it took the space the clause needs
+    t = re.sub(r"^[A-Z][\w.'&-]*(?: [A-Z][\w.'&-]*)?\s*[:|]\s+(?=[A-Z])", "", t)
     had = bool(FIGURE_IN_HEAD.search(t))
     t = FIGURE_IN_HEAD.sub(lambda m: "a " if re.match(r"(?:a|an)\s", m.group(0), re.I) else "", t)
     t = re.sub(r"\s{2,}", " ", t).strip(" ,;:")

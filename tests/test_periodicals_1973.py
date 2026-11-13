@@ -796,6 +796,28 @@ class Rows138And139OctoberOnTheStack(unittest.TestCase):
         self.assertIn("the same weekday a year before (2025-10-13) and a week before (2026-10-05) are not held, so no change is shown.", row)
 
 
+class Row140NoKickerInTheSubject(unittest.TestCase):
+    def test_w39(self):
+        import roundup
+        out = roundup.subject_line({"move": {"label": "Henry Hub natural gas", "pct": 8.1}},
+                                   "Azerbaijan: TotalEnergies Announces Final Investment Decision for Absheron Full Field Development")
+        self.assertNotIn("Azerbaijan", out)
+        self.assertTrue(out.startswith("ERW Weekly | Henry Hub gas up 8.1% on the week; TotalEnergies Announces"), out)
+        self.assertEqual(roundup.head_clause("Exclusive: Coreshell raises money for silicon anodes", 60), "Coreshell raises money for silicon anodes")
+        self.assertEqual(roundup.head_clause("Six reactors eyed for Kentucky", 60), "Six reactors eyed for Kentucky")
+
+
+class Row141APlanIsNoDeal(unittest.TestCase):
+    def row(self, title, sector="deal"):
+        r = rec("z", title, sector=sector, price="$12 billion", parties="EQT; Zelestra")
+        return brief.story_row("x", [r], (sector,), {}, None, "a figure", ("money",))[0]
+
+    def test_the_nouns(self):
+        self.assertIn("Investment planned, USA: USD 12 billion", self.row("EQT's Zelestra unveils a USD 12 billion plan to meet US AI demand"))
+        self.assertIn("Deal value, USA", self.row("EQT plans to buy Range Resources for USD 12 billion"))
+        self.assertIn("Deal value, USA", self.row("Strathcona pursues growth with a USD 12 billion deal"))
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
