@@ -35,6 +35,13 @@ export const techOfIx = (i: number): TechKey => (TECHS[i] ?? TECHS[0]).key;
 export const stateOfIx = (i: number): string => (STATE_LIST[i] ?? STATE_LIST[0])[0];
 const n = (v: number, d = 0) => v.toLocaleString("en-US", { maximumFractionDigits: d });
 
+/** session 4218: the words of each exemption read from a statute (site/data/forecast/sales_exemptions.json quotes them) */
+const EXEMPT_WORDS: Record<string, string> = {
+  "mn:land_based_wind": "Minnesota Statutes 297A.68, subd. 12, exempts wind energy conversion systems used as an electric power source and the materials to build them: 100 percent.",
+  "ia:land_based_wind": "Iowa Code 423.3(54) exempts wind energy conversion property and the materials to build it: 100 percent.",
+  "ia:utility_pv": "Iowa Code 423.3(90) exempts solar energy equipment, equipment primarily used to collect and convert solar radiation or carry it to a point of use: the modules and inverters, 67.2 percent of the tax on JEDI's materials and equipment. Racking and wiring are not named.",
+};
+
 export const FIELDS: FieldDef[] = [
   { key: "tech", label: "Technology", unit: "", min: 0, max: TECHS.length - 1, whole: true, group: "project",
     options: () => TECHS.map((t, i) => ({ value: i, label: t.label })),
@@ -66,8 +73,7 @@ export const FIELDS: FieldDef[] = [
   { key: "taxable", label: "Taxable share of spending", unit: "%", min: 0, max: 100, whole: false, group: "taxes", nullable: true,
     source: (t) => t === "geothermal" ? "JEDI's geothermal model holds no sales tax line: no share is held." : "JEDI's own base for sales tax, its materials and equipment purchases, as a share of its cost before tax." },
   { key: "exempt", label: "Sales tax exemption", unit: "% of the tax", min: 0, max: 100, whole: false, group: "taxes",
-    source: (t, s, P) => (P.exemptions?.states[s]?.[t] ? "The state's statute exempts these purchases (Minnesota Statutes 297A.68, subd. 12: wind energy conversion systems and the materials to build them)."
-      : "No exemption of this state for this technology has been read: 0, so the sales tax is before exemptions.") },
+    source: (t, s, P) => (EXEMPT_WORDS[`${s}:${t}`] ?? (P.exemptions?.states[s]?.[t] ? "The state's statute exempts these purchases." : "No exemption of this state for this technology has been read: 0, so the sales tax is before exemptions.")) },
   { key: "iaval", label: "Special valuation by county ordinance", unit: "", min: 0, max: 1, whole: true, group: "taxes",
     options: () => [{ value: 0, label: "No" }, { value: 1, label: "Yes" }],
     applies: (t, s) => s === "ia" && t === "land_based_wind",
