@@ -918,5 +918,43 @@ class Row146AClosePrintedBeforeDoesNotOpen(unittest.TestCase):
         self.assertEqual(brief.opening_number([self.hh("2026-11-03")], [SPACEX])["kind"], "mover")
 
 
+class Row147ACloseBeforeTheWeekIsNoMoveOfTheWeek(unittest.TestCase):
+    """Row 147 (session 3442): the stack's W46, with this machine's copy of EIA's closes nine days old, opened on W45's
+    Brent close of 3 November (-13.1%); a newest close dated before the week began is printed, marked, and not the week's."""
+
+    def numbers(self, newest):
+        from unittest import mock
+        import roundup
+        utc = "UTC"
+        days = [pd.Timestamp("2026-10-27", tz=utc), pd.Timestamp(newest, tz=utc)]
+        fuel = pd.DataFrame({"entity": ["eia:brent"] * 2 + ["eia:henry_hub"] * 2 + ["eia:wti_cushing"] * 2,
+                             "ts_utc": days * 3, "value": [110.00, 107.03, 2.76, 2.63, 103.37, 99.64],
+                             "unit": ["USD/bbl", "USD/bbl", "USD/MMBtu", "USD/MMBtu", "USD/bbl", "USD/bbl"]})
+
+        def fetch(table, start=None, end=None, market=None, **k):
+            if table == "eia_fuel_spot_prices":
+                return fuel
+            raise RuntimeError("not on this machine")
+        facts = {}
+        with mock.patch.object(roundup, "dam_week", lambda *a: (None, 0, 168)), mock.patch.object(roundup.erw, "fetch", fetch), \
+                mock.patch.object(brief, "held_grids", lambda *a: set()), mock.patch.object(brief, "held_rt", lambda p, *a: set()), \
+                mock.patch.object(brief, "paused_row", lambda label: None), mock.patch.object(brief, "rt_parts", lambda: []), \
+                mock.patch.object(brief, "cite_short", lambda t: f"`{t}`"):
+            L = roundup.numbers(pd.Timestamp("2026-11-09", tz=utc), pd.Timestamp("2026-11-15 23:00", tz=utc), lambda *a: None, facts)
+        return L, facts
+
+    def test_a_close_before_the_week_is_marked_and_not_a_fact(self):
+        L, facts = self.numbers("2026-11-03")
+        brent = next(ln for ln in L if ln.startswith("| Brent crude |"))
+        self.assertIn("-2.97 (-2.7%); EIA's newest close is from before this week, so this is no move of the week", brent)
+        self.assertEqual(facts.get("fuel", []), [])
+
+    def test_a_close_in_the_week_is_the_weeks(self):
+        L, facts = self.numbers("2026-11-11")
+        brent = next(ln for ln in L if ln.startswith("| Brent crude |"))
+        self.assertNotIn("before this week", brent)
+        self.assertEqual(sorted(f["label"] for f in facts["fuel"]), ["Brent crude", "Henry Hub natural gas", "WTI Cushing crude"])
+
+
 if __name__ == "__main__":
     unittest.main()

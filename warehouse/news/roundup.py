@@ -619,10 +619,15 @@ def numbers(start, cut, log, facts=None):
                          f"| {label} | not in the warehouse | | | {notes.ref('eia_fuel_spot_prices')} |")
                 continue
             a, b, flags = got
+            # session 3442 (faults file row 147): a newest close dated before the week began is not the week's move (with
+            # this machine's copy of EIA's closes nine days old, W46 opened on W45's Brent close of 3 November, -13.1%)
+            before_week = a["ts_utc"] < start
             L.append(f"| {label} | {a['value']:.2f} {a['unit']} on {a['ts_utc']:%Y-%m-%d} | {b['value']:.2f} on "
                      f"{b['ts_utc']:%Y-%m-%d} | {a['value'] - b['value']:+.2f} ({100 * (a['value'] / b['value'] - 1):+.1f}%)"
-                     + "".join(f"; {f}" for f in flags) + f" | {notes.ref('eia_fuel_spot_prices')} |")
-            if facts is not None and not flags:
+                     + "".join(f"; {f}" for f in flags)
+                     + ("; EIA's newest close is from before this week, so this is no move of the week" if before_week else "")
+                     + f" | {notes.ref('eia_fuel_spot_prices')} |")
+            if facts is not None and not flags and not before_week:
                 facts.setdefault("fuel", []).append(dict(label=label, a=a, b=b, ref=notes.ref("eia_fuel_spot_prices")))
     except Exception as exc:
         log(f"  numbers: fuel prices unavailable: {exc!r}")
