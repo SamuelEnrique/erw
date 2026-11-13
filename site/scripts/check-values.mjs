@@ -1464,7 +1464,8 @@ async function main() {
       // session 2207 (Samuel's ruling of 23 October 2026, item 7): a stored Digest issue keeps the figure it printed; when
       // the page says in its own line that the publisher revised it (lib/digest.ts, data-revised with the value held
       // now) and that value is the live set's, the figure is a note, not a failure
-      if (!pass && /^digest_(dam|rt|fuel)\|/.test(check) && t !== undefined && t !== null) {
+      // session 3891 (chain 227): the US48 demand line too (EIA restates EIA-930's hours; the note carries the live value)
+      if (!pass && /^digest_(dam|rt|fuel|demand)\|/.test(check) && t !== undefined && t !== null) {
         const rv = new RegExp(`data-revised="${check.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}" data-revised-value="([^"]+)"`).exec(html);
         if (rv && Math.abs(Number(rv[1]) - Number(t)) < 1e-9 * Math.max(1, Math.abs(Number(t)))) {
           out.ok++;
