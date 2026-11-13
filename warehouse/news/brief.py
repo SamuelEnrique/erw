@@ -574,10 +574,24 @@ OUTLET_NAMES = {"California State Portal | CA.gov": "CA.gov", "IEA - Internation
                 "ft.com": "Financial Times", "wsj.com": "WSJ"}   # session 3352 (rows 133, 134): the paper's name, as its other links give it
 
 
+# Session 3478 (faults file row 176): an outlet the feed names by its address is named as its other links name it
+# ("[bloomberg.com]" beside "[Bloomberg.com]", the stack's 28 September), a subdomain by its domain ("ep.ft.com",
+# "partners.wsj.com", "lei.bloomberg.com")
+DOMAIN_NAMES = {"bloomberg.com": "Bloomberg.com", "ft.com": "Financial Times", "wsj.com": "WSJ", "reuters.com": "Reuters",
+                "hartenergy.com": "Hart Energy", "hydrogeninsight.com": "Hydrogen Insight", "jpt.spe.org": "JPT",
+                "nyiso.com": "NYISO", "caiso.com": "CAISO", "ercot.com": "ERCOT", "misoenergy.org": "MISO", "cpuc.ca.gov": "CPUC"}
+
+
 def outlet_name(src):
     s = str(src or "").strip()
     if s in OUTLET_NAMES:
         return OUTLET_NAMES[s]
+    if re.fullmatch(r"[a-z0-9-]+(?:\.[a-z0-9-]+)+", s):   # session 3478 (row 176): an address, then its domains, longest first
+        parts = s.split(".")
+        for k in range(len(parts) - 1):
+            name = DOMAIN_NAMES.get(".".join(parts[k:]))
+            if name:
+                return name
     return re.sub(r"\s+Home ?page$", "", s, flags=re.I) or s
 
 
@@ -637,6 +651,10 @@ def an_word(word):
     """Whether a word takes 'an': a vowel sound, by its spelling, with the common exceptions ('a utility', 'a one-off',
     'an hour', 'an 8 GW')."""
     w = str(word).lower()
+    # session 3477 (faults file row 175): a word in capitals said letter by letter from "U" ("you") takes "a": "a major US
+    # LNG project" lost its adjective and printed "an US LNG project" (the stack's 28 September)
+    if re.fullmatch(r"U[A-Z.]+", str(word)):
+        return False
     if re.match(r"(uni|use|usu|uti|ura|eu|one|once|ubi)", w):
         return False
     if re.match(r"(hour|honest|honor|honour|heir|8|11\b|18\b|80)", w):
@@ -1857,8 +1875,23 @@ ALSO_RE = re.compile(r"^Also (?:on this topic|in [A-Za-z][A-Za-z ]*):")   # 3465
 
 def region_key(r):
     """A cluster's region as the topic key reads it: the scorer's region (a US state, a country, or "global"), lower case;
-    "" when the scorer gave none."""
-    return re.sub(r"\s+", " ", str(r.get("region") or "").strip().lower())
+    "" when the scorer gave none. Session 3479 (row 177): the country's other names are "us"."""
+    k = re.sub(r"\s+", " ", str(r.get("region") or "").strip().lower())
+    return "us" if k in US_NAMES else k
+
+
+# Session 3479 (faults file row 177): the scorer names the country three ways ("US" 5,172 stored stories, "United States"
+# 794, "USA" 106); the block printed each as written ("Generation capacity, United States", "Storage dispatched, USA") and
+# the topic key read them as three regions
+US_NAMES = {"us", "u.s.", "u.s", "usa", "u.s.a.", "united states", "united states of america"}
+
+
+def region_words(region):
+    """A region as the issue prints it: the country's other names as "US"; "" for none or "global"."""
+    r = str(region or "").strip()
+    if not r or r.lower() == "global":
+        return ""
+    return "US" if r.lower() in US_NAMES else r
 
 
 # Session 1438 (chain 149, fault 12): a price story's topic is its commodity, whatever region the scorer gave. On
@@ -2511,8 +2544,8 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
                 noun = "Spending committed"
             elif not RAISED.search(text):
                 noun = "Capital"
-        region = str(r.get("region") or "").strip()
-        place = f", {region}" if region and region.lower() != "global" else ""
+        region = region_words(r.get("region"))   # 3479, row 177
+        place = f", {region}" if region else ""
         ref = f" {notes.ref('news_stories')}" if notes is not None else ""
         who, outlet = story_who(r), outlet_of(r)
         # session 3332 (faults file row 111): with no party, story_who is the outlet: "(Rigzone; Rigzone, ...)" said it twice

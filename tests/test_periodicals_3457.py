@@ -520,6 +520,156 @@ class Row170AlsoInDeals(unittest.TestCase):
             self.assertEqual(email_digest.ALSO_RE.match(label + " x").group(1), label)
 
 
+class Row170TheEmailKeepsTheWhyBesideAnLNGAlsoLine(unittest.TestCase):
+    """Row 170, found again by session 3469: the email read "Also in LNG: ..." as the item's why line (its reader read lower
+    case only), so the item's why line and its source were lost and the also line printed in their place."""
+
+    def test_the_item_keeps_its_why_and_source(self):
+        import email_digest
+        lines = ["## What moved", "", "1. **Trump to Tout Korean LNG Plan** (LNG)  ", "   Its reason. Sources: [Bloomberg](https://example.org/b)  ",
+                 "   Also in LNG: Another LNG story ([Reuters](https://example.org/r)).", ""]
+        text = email_digest.story_list(email_digest.numbered(lines, ("## What moved",), 3))[0]
+        self.assertEqual(text, ["1. Trump to Tout Korean LNG Plan", "   Its reason.", "   Bloomberg: https://example.org/b",
+                                "   Also in LNG: Another LNG story (Reuters)."])
+
+
+class Row172TheTopicFilterReadsTheV2Issues(unittest.TestCase):
+    """Row 172: a subscriber with topics was sent no story from a v2 issue: the filter (`email_digest.items`) read the old
+    headings only, and a sector in capitals ("LNG") was no sector."""
+
+    MD = ["# ERW Daily Digest, 2026-11-13", "", "## What moved", "",
+          "1. **Centrus and Oklo finalise fuel agreements** (nuclear)  ", "   One outlet. Sources: [World Nuclear News](https://example.org/n)",
+          "", "## More", "", "### The rest of the top ten", "", "1. **Venture Global seeks approval** (LNG)  ",
+          "   Sources: [LNG Prime](https://example.org/l)", "", "### By sector", "", "**Oil and gas**", "",
+          "- Canada to invest in Woodfibre LNG (LNG): Public capital. [Reuters](https://example.org/r)", "",
+          "### AI and power", "", "- Nscale brings two data centers online (datacenter power). [DCD](https://example.org/d)", ""]
+
+    def test_the_items(self):
+        import email_digest
+        got = [(x["head"], x["sector"]) for x in email_digest.items(self.MD, "daily")]
+        self.assertEqual(got, [("Centrus and Oklo finalise fuel agreements", "nuclear"), ("Venture Global seeks approval", "LNG"),
+                               ("Canada to invest in Woodfibre LNG", "LNG"), ("Nscale brings two data centers online", "datacenter power")])
+
+    def test_a_subscribers_topics(self):
+        import email_digest
+        keep, note = email_digest.filtered(self.MD, "daily", ["gas_lng"])
+        self.assertEqual([k["head"] for k in keep], ["Venture Global seeks approval", "Canada to invest in Woodfibre LNG"])
+        self.assertTrue(note.startswith("Your topics: Gas and LNG. These are the highest-ranked stories in them"), note)
+        keep, _ = email_digest.filtered(self.MD, "daily", ["nuclear"])
+        self.assertEqual([k["head"] for k in keep], ["Centrus and Oklo finalise fuel agreements"])
+
+    def test_the_topic_of_a_sector_in_capitals(self):
+        import topics
+        self.assertEqual(topics.topic_of("LNG"), "gas_lng")
+        self.assertEqual(topics.topic_of("PPA"), "deals_capital")
+        self.assertEqual(topics.topic_of("datacenter power"), "datacenters_ai")
+
+    def test_the_roundups_v2_headings(self):
+        import email_digest
+        md = ["# ERW Weekly Roundup, 2026-W46", "", "## What mattered", "", "1. **SpaceX plans data center projects** (datacenter power, 3 stories)  ",
+              "   Sources: [Bloomberg](https://example.org/b)", "", "## More", "", "### The five stories of the week", "",
+              "1. **OPG to revise SMR timeline** (nuclear, 4 stories)  ", "   Sources: [WNN](https://example.org/w)", ""]
+        self.assertEqual([(x["head"], x["sector"]) for x in email_digest.items(md, "roundup")],
+                         [("SpaceX plans data center projects", "datacenter power"), ("OPG to revise SMR timeline", "nuclear")])
+
+
+class Row173NextWeekSaysTheWeekAhead(unittest.TestCase):
+    """Row 173: "No dated events held this week: ... dated in the week ahead." under "Next week" (the stack's W46)."""
+
+    def test_the_line(self):
+        import roundup
+        self.assertEqual(roundup.NO_NEXT_WEEK, "No event of the week ahead is held: the warehouse and the policy monitor hold no "
+                                               "filing, auction, hearing, data release or project milestone dated in it.")
+        self.assertNotIn("this week", roundup.NO_NEXT_WEEK)
+
+
+class Row174AStorysMoveBesideItsOwnDay(unittest.TestCase):
+    """Row 174: W46's "Oil settles $3 higher on attacks on Saudi energy sites" (Reuters, 2026-11-12 01:52 UTC: the settle
+    of 11 November) was set beside the week's Brent closes (+0.30), not the story's day (+1.98)."""
+
+    def fact(self):
+        import pandas as pd
+        s = pd.DataFrame({"ts_utc": pd.to_datetime(["2026-11-04", "2026-11-05", "2026-11-06", "2026-11-09", "2026-11-10", "2026-11-11"], utc=True),
+                          "value": [91.84, 97.96, 97.83, 91.03, 90.16, 92.14], "unit": "USD/bbl"})
+        return {"label": "Brent crude", "a": s.iloc[-1], "b": s.iloc[0], "ref": "[5]", "s": s}
+
+    def test_the_story_day(self):
+        import roundup
+        self.assertEqual(roundup.bench_words(self.fact(), "2026-11-12T01:52:00Z"),
+                         "the warehouse's Brent crude close is 92.14 USD/bbl on 2026-11-11, against 90.16 on 2026-11-10 [5]")
+        # a Sunday story reads Friday's close
+        self.assertEqual(roundup.bench_words(self.fact(), "2026-11-08T12:00:00Z"),
+                         "the warehouse's Brent crude close is 97.83 USD/bbl on 2026-11-06, against 97.96 on 2026-11-05 [5]")
+
+    def test_the_week_when_the_day_is_not_held(self):
+        import roundup
+        week = "the warehouse's Brent crude close is 92.14 USD/bbl on 2026-11-11, against 91.84 on 2026-11-04 [5]"
+        self.assertEqual(roundup.bench_words(self.fact()), week)
+        self.assertEqual(roundup.bench_words(self.fact(), "2026-11-25T12:00:00Z"), week)
+        f = self.fact()
+        f.pop("s")
+        self.assertEqual(roundup.bench_words(f, "2026-11-12T01:52:00Z"), week)
+
+    def test_the_evidence_line_passes_the_story_time(self):
+        import roundup
+        r = {"cluster_id": "o", "titles": ["Oil settles $3 higher on attacks on Saudi energy sites, Strait of Hormuz disruptions"],
+             "why": "", "parties": "", "mw": "", "price": "$3", "n": 1, "links": [("Reuters", "https://example.org/o")], "sector": "oil",
+             "first": "2026-11-12T01:52:00Z"}
+        gap = roundup.evidence_gap(r, r["titles"][0], None, None, self.fact())
+        self.assertIn("close is 92.14 USD/bbl on 2026-11-11, against 90.16 on 2026-11-10 [5]", gap)
+
+
+class Row175AUSProject(unittest.TestCase):
+    """Row 175: "Regulatory approval adds export volume at an US LNG project" (the stack's 28 September): the scorer's "a major
+    US LNG project" lost its adjective, and the article read "US" by its spelling."""
+
+    def test_the_article(self):
+        self.assertEqual(brief.why_line("Regulatory approval adds export volume at a major US LNG project, supporting expansion economics."),
+                         "Regulatory approval adds export volume at a US LNG project, supporting expansion economics.")
+        self.assertFalse(brief.an_word("US"))
+        self.assertFalse(brief.an_word("UK"))
+        self.assertFalse(brief.an_word("U.S."))
+        self.assertTrue(brief.an_word("EIA"))
+        self.assertTrue(brief.an_word("hour"))
+        self.assertFalse(brief.an_word("utility"))
+        self.assertTrue(brief.an_word("uncertain"))
+
+
+class Row176AnOutletByItsName(unittest.TestCase):
+    """Row 176: "[bloomberg.com] (via Google News)" (the stack's 28 September) beside "[Bloomberg.com]" elsewhere: an outlet
+    the feed named by its address."""
+
+    def test_the_names(self):
+        for src, name in [("bloomberg.com", "Bloomberg.com"), ("lei.bloomberg.com", "Bloomberg.com"), ("ep.ft.com", "Financial Times"),
+                          ("partners.wsj.com", "WSJ"), ("hartenergy.com", "Hart Energy"), ("jpt.spe.org", "JPT"), ("nyiso.com", "NYISO"),
+                          ("cdn.misoenergy.org", "MISO"), ("ia.cpuc.ca.gov", "CPUC"), ("example.com", "example.com"),
+                          ("Bloomberg.com", "Bloomberg.com"), ("JPT Homepage", "JPT")]:
+            self.assertEqual(brief.outlet_name(src), name, src)
+
+    def test_one_outlet_once(self):
+        links = [("Bloomberg.com", "https://news.google.com/a"), ("bloomberg.com", "https://news.google.com/b"), ("Reuters", "https://example.org/r")]
+        self.assertEqual(brief.link_text(links), "[Bloomberg.com](https://news.google.com/a) (via Google News), [Reuters](https://example.org/r)")
+        self.assertEqual(brief.link_text([("hartenergy.com", "https://example.org/h")]), "[Hart Energy](https://example.org/h)")
+
+
+class Row177TheCountryIsUS(unittest.TestCase):
+    """Row 177: "Generation capacity, United States", "Storage dispatched, USA", "Transmission, US" in the block on different
+    days, and the topic key reading the three names as three regions."""
+
+    def test_the_place(self):
+        for region, words in [("United States", "US"), ("USA", "US"), ("U.S.", "US"), ("US", "US"), ("Texas", "Texas"),
+                              ("global", ""), ("", ""), ("US Midwest", "US Midwest")]:
+            self.assertEqual(brief.region_words(region), words, region)
+
+    def test_the_topic_key(self):
+        self.assertEqual(brief.region_key({"region": "United States"}), "us")
+        self.assertEqual(brief.region_key({"region": "USA"}), "us")
+        self.assertEqual(brief.region_key({"region": "Canada"}), "canada")
+        a = {"cluster_id": "a", "titles": ["A US policy story"], "sector": "policy", "region": "United States", "parties": ""}
+        b = {"cluster_id": "b", "titles": ["Another one"], "sector": "policy", "region": "US", "parties": ""}
+        self.assertTrue(brief.same_topic(a, b))
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""
