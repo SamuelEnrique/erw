@@ -105,7 +105,8 @@ export type TimelineCell = { value: string; count: number; median: number | null
 export function timeline(rows: FacRow[]): TimelineRow[] {
   const out: TimelineRow[] = [];
   for (const r of rows) {
-    const rep = r.extra?.first_story_at ?? "", y = Number(r.extra?.energized_year ?? "");
+    // session 1855 (datacenter faults row 9): a row built before chain 156 wrote the year as planned_year
+    const rep = r.extra?.first_story_at ?? "", y = Number(r.extra?.energized_year ?? r.extra?.planned_year ?? "");
     if (!/^\d{4}-\d{2}/.test(rep) || !Number.isInteger(y) || y < 2000) continue;
     out.push({ id: r.entity_id, operator: r.operator ?? "", grid: gridOf(r), reported: rep.slice(0, 10), energized: y, wait: y - Number(rep.slice(0, 4)) });
   }

@@ -27,7 +27,8 @@ const PAIRS = (duplicates as unknown as { pairs: Pair[] }).pairs;
 const cell = "px-3 py-1.5 align-top";
 
 function Bars({ cells, what }: { cells: Cell[]; what: "price" | "mw" }) {
-  const rows = cells.filter((c) => (what === "price" ? c.medianPrice : c.medianMw) !== null);
+  // session 1852 (deals faults row 14): the group whose dimension is not stated is in the table, not in the chart
+  const rows = cells.filter((c) => c.value !== "" && (what === "price" ? c.medianPrice : c.medianMw) !== null);
   const W = 760, L = 210, R = 70, rowH = 26, top = 8, H = top + rows.length * rowH + 8;
   const hi = Math.max(1, ...rows.map((c) => (what === "price" ? c.medianPrice! : c.medianMw!)));
   const x = (v: number) => L + (v / hi) * (W - L - R);
@@ -83,7 +84,7 @@ function Prices({ all, pby, by }: { all: Deal[]; pby: string; by: string }) {
           <table className="w-full border-collapse text-left text-sm" data-price-table={pby}>
             <caption className="sr-only">The disclosed prices by {dim.label.toLowerCase()}</caption>
             <thead>
-              <tr className="bg-accent text-white">
+              <tr className="border-b border-rule text-left text-xs text-muted">
                 {[dim.label, "State a price", "Median", "Lowest", "Highest"].map((h) => <th key={h} scope="col" className="px-3 py-1.5 font-normal">{h}</th>)}
               </tr>
             </thead>
@@ -114,7 +115,7 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
   const all = read.ok ? fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS) : [];
   const cells = comparables(all, by);
   const what: "price" | "mw" = cells.some((c) => c.medianPrice !== null) ? "price" : "mw";
-  const charted = cells.filter((c) => (what === "price" ? c.medianPrice : c.medianMw) !== null).length;
+  const charted = cells.filter((c) => c.value !== "" && (what === "price" ? c.medianPrice : c.medianMw) !== null).length;
   const withPrice = all.filter((d) => d.price !== null).length, withMw = all.filter((d) => d.mw !== null).length;
 
   return (
@@ -161,7 +162,7 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
               <table className="w-full border-collapse text-left text-sm" style={{ minWidth: 720 }} data-comp-table={by}>
                 <caption className="sr-only">The deals&apos; disclosed figures by {dim.label.toLowerCase()}</caption>
                 <thead>
-                  <tr className="bg-accent text-white">
+                  <tr className="border-b border-rule text-left text-xs text-muted">
                     {[dim.label, "Deals", "State a price", "Median price, USD/MWh", "State a size", "Median size, MW"].map((h) => <th key={h} scope="col" className="px-3 py-1.5 font-normal">{h}</th>)}
                   </tr>
                 </thead>

@@ -15,6 +15,7 @@ export type Deal = Row;
 /** US dollars, short: 6000000000 gives "6 billion". scripts/check-values.mjs formats the same way (data-format usd). */
 export function usd(v: number): string {
   const t = (x: number) => x.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  if (Math.abs(v) >= 1e12) return `${t(v / 1e12)} trillion`;   // session 1852: 1,250,000,000,000 is "1.25 trillion", not "1,250 billion"
   if (Math.abs(v) >= 1e9) return `${t(v / 1e9)} billion`;
   if (Math.abs(v) >= 1e6) return `${t(v / 1e6)} million`;
   return v.toLocaleString("en-US");

@@ -24,6 +24,11 @@
 // in sans, each series named in its color with its figure in mono) for the category under the pointer, or under the
 // keyboard's arrows once the chart has focus (Home, End, Escape as on the bar chart's card, components/tool/BarsHover.tsx).
 // The <title> a category stays for a reader with no script; nothing drawn and no figure changed.
+//
+// Session 1880 (attention faults row 12, row 4): `saysOnCard`, when the page asks, writes the page's `says(i)` under the
+// values on the hover card (the counts behind a share), where it was only in the <title>; and a line chart hatches the
+// column of a partial category behind its point, as a bar chart hatches the bar (no line chart passed a partial
+// category until now). A page that passes neither changes nothing.
 import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type ReactNode } from "react";
 
 export type Scale = "linear" | "log" | "adjusted";
@@ -47,6 +52,8 @@ type Props = {
   partialWords?: string;
   /** the table first: the chart on request */
   tableFirst?: boolean;
+  /** session 1880: write says(i) on the hover card under the values */
+  saysOnCard?: boolean;
 };
 
 const PLOT = 228, L = 60, R = 12, TOP = 34, LINE = 12;
@@ -72,7 +79,7 @@ export function wrapLabel(label: string, width: number, size = 11): string[] {
   return lines.length ? lines : [label];
 }
 
-export function SeriesChart({ id, title, unit, categories, series, kind, scale, fmt = plain, note, tip, says, partialWords = "Incomplete period", tableFirst = false }: Props) {
+export function SeriesChart({ id, title, unit, categories, series, kind, scale, fmt = plain, note, tip, says, partialWords = "Incomplete period", tableFirst = false, saysOnCard = false }: Props) {
   const [table, setTable] = useState(tableFirst);
   const [hover, setHover] = useState<number | null>(null);
   const wrap = useRef<HTMLElement>(null);
@@ -153,6 +160,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
         <div key={s.name} className="flex justify-between gap-4"><span style={{ color: s.color }}>{s.name}</span><span className="font-mono text-ink">{s.values[hover] === null ? "not held" : `${fmt(s.values[hover]!)} ${unit}`}</span></div>
       ))}
       {kind === "stacked" && series.length > 1 ? <div className="flex justify-between gap-4 border-t border-rule pt-0.5"><span className="text-ink">Total</span><span className="font-mono text-ink">{fmt(totals[hover])} {unit}</span></div> : null}
+      {saysOnCard && says ? <div className="mt-0.5 max-w-[14rem] whitespace-normal text-ink" data-chart-card-says="1">{says(hover)}</div> : null}
     </div>
   );
   const toggle = (
@@ -232,6 +240,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
             );
           }) : (
             <>
+              {categories.map((c, i) => (c.partial ? <rect key={`partial-${i}`} data-partial-column={i} x={L + i * bw} width={bw} y={TOP} height={PLOT} fill={`url(#${id}-hatch-0)`} opacity="0.18" /> : null))}
               {series.map((s, k) => {
                 const pts = s.values.map((v, i) => (v === null ? null : [cx(i), y(capped(v))] as [number, number]));
                 const d = pts.map((p, i) => (p ? `${i === 0 || !pts[i - 1] ? "M" : "L"}${p[0].toFixed(1)},${p[1].toFixed(1)}` : "")).join(" ");

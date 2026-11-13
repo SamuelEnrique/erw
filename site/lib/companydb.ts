@@ -50,6 +50,17 @@ export const ROLE_WORDS: Record<string, string> = {
   owner: "owner", service_territory: "service territory", interconnection_customer: "interconnection customer",
   agency: "agency", licensee: "licensee", parent: "parent",
 };
+/** Session 1878 (companies faults row 4): the builder's match rules (index.rules) as a reader knows them. */
+export const RULE_WORDS: Record<string, string> = {
+  eia_id: "EIA utility id", reviewed_alias: "reviewed alias", anchored_name: "name of an EIA company", name: "same name",
+  company_word: "a company word added",
+};
+export const ruleWords = (rule: string): string => RULE_WORDS[rule] ?? rule;
+
+/** Session 1878 (companies faults row 3): a count with its noun, one or many ("1 row", "2 rows"). */
+export function plural(n: number, one: string, many: string): string {
+  return `${count(n)} ${Math.round(n) === 1 ? one : many}`;
+}
 
 export function indexRows(ix: CompanyIndex): IndexRow[] {
   return ix.rows.map((r) => Object.fromEntries(ix.columns.map((c, i) => [c, r[i]])) as unknown as IndexRow);
@@ -64,12 +75,23 @@ export function linksOf(c: Company, ix: Pick<CompanyIndex, "tables" | "rules" | 
 
 // ---- the index's query, kept in the address so a view can be shared and works without script
 
+export type Sort = "footprint" | "operating" | "planned" | "queue" | "policy" | "name";
 export type Query = {
   q: string; kind: string; segment: string; state: string; grid: string;
-  has: "" | "plants" | "queue" | "reactors" | "policy" | "deals" | "facilities"; page: number;
+  has: "" | "plants" | "queue" | "reactors" | "policy" | "deals" | "facilities"; sort: Sort; page: number;
 };
-export const NO_QUERY: Query = { q: "", kind: "", segment: "", state: "", grid: "", has: "", page: 1 };
+export const NO_QUERY: Query = { q: "", kind: "", segment: "", state: "", grid: "", has: "", sort: "footprint", page: 1 };
 const HAS = ["plants", "queue", "reactors", "policy", "deals", "facilities"] as const;
+/** Session 1878 (companies faults row 11): the index's orders, each a column of the index; `footprint` is the file's own
+ *  order and is left out of an address; `name` is A to Z, every other largest first. */
+export const SORTS: Record<Sort, { col: keyof IndexRow; words: string }> = {
+  footprint: { col: "footprint_mw", words: "the largest footprint first" },
+  operating: { col: "plants_mw", words: "the most operating MW first" },
+  planned: { col: "planned_mw", words: "the most planned MW first" },
+  queue: { col: "queue_mw", words: "the most ERCOT queue MW first" },
+  policy: { col: "n_policy_actions", words: "the most policy actions first" },
+  name: { col: "name", words: "by name, A to Z" },
+};
 
 /** The query an address asks for; a value the index does not hold is no filter. `deals` and `facilities` are
  *  filters only while their tables are not held (index.columns names their figures). */
@@ -79,10 +101,11 @@ export function queryOf(sp: Record<string, string | string[] | undefined>, ix: P
   const has = one("has");
   const hasOk = (HAS as readonly string[]).includes(has) && (has === "deals" ? ix.columns.includes("n_deals") : has === "facilities" ? ix.columns.includes("n_facilities") : true);
   const page = Math.max(1, Math.floor(Number(one("page")) || 1));
+  const sort = one("sort");
   return {
     q: one("q").slice(0, 80), kind: pick(one("kind"), ix.kinds), segment: pick(one("segment"), ix.segments),
     state: pick(one("state").toUpperCase(), ix.states), grid: pick(one("grid"), ix.grids),
-    has: hasOk ? (has as Query["has"]) : "", page,
+    has: hasOk ? (has as Query["has"]) : "", sort: sort in SORTS ? (sort as Sort) : "footprint", page,
   };
 }
 
@@ -91,6 +114,7 @@ export function hrefOf(base: string, q: Query, over: Partial<Query> = {}): strin
   const v = { ...q, ...over };
   const p = new URLSearchParams();
   for (const k of ["q", "kind", "segment", "state", "grid", "has"] as const) if (v[k]) p.set(k, String(v[k]));
+  if (v.sort && v.sort !== "footprint") p.set("sort", v.sort);
   if (v.page > 1) p.set("page", String(v.page));
   const s = p.toString();
   return s ? `${base}?${s}` : base;
@@ -98,11 +122,11 @@ export function hrefOf(base: string, q: Query, over: Partial<Query> = {}): strin
 
 const fold = (s: string) => s.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-/** The rows a query keeps, in the index's order (the footprint, largest first). The search reads the name and the
- *  other names; every word typed must be in one of them. */
+/** The rows a query keeps, in the query's order (the index's own, the footprint largest first, when none is asked; a
+ *  tie keeps the index's order). The search reads the name and the other names; every word typed must be in one of them. */
 export function filterRows(rows: IndexRow[], q: Query): IndexRow[] {
   const words = fold(q.q).split(/[^a-z0-9&]+/).filter(Boolean);
-  return rows.filter((r) => {
+  const kept = rows.filter((r) => {
     if (q.kind && r.kind !== q.kind) return false;
     if (q.segment && r.segment !== q.segment) return false;
     if (q.state && !r.states.split(";").includes(q.state)) return false;
@@ -119,6 +143,35 @@ export function filterRows(rows: IndexRow[], q: Query): IndexRow[] {
     }
     return true;
   });
+  const sort = q.sort ?? "footprint";
+  if (sort === "footprint") return kept;
+  if (sort === "name") return kept.sort((a, b) => fold(a.name).localeCompare(fold(b.name), "en-US"));
+  const col = SORTS[sort].col;
+  return kept.sort((a, b) => Number(b[col] ?? 0) - Number(a[col] ?? 0));
+}
+
+/** Session 1878 (companies faults row 5): the names that more than one listed row carries; such a row's cell adds its id. */
+export function sharedNames(rows: Pick<IndexRow, "name">[]): Set<string> {
+  const seen = new Set<string>(), twice = new Set<string>();
+  for (const r of rows) (seen.has(r.name) ? twice : seen).add(r.name);
+  return twice;
+}
+/** The words that tell a row from another of the same name: its EIA utility id, or its id when it has none. */
+export function idTag(id: string): { text: string; title: string } {
+  const m = /^eia-(\d+)$/.exec(id);
+  return m ? { text: `EIA ${m[1]}`, title: `EIA utility id ${m[1]}` } : { text: id, title: `The company database's id ${id}` };
+}
+
+/** Session 1878 (companies faults row 6): what EIA-861 writes as a state that is not one. */
+export const NOT_STATES: Record<string, string> = { CN: "Canada, as EIA-861 writes it" };
+export const stateLabel = (code: string, n: number): string => `${code}${NOT_STATES[code] ? ` (${NOT_STATES[code]})` : ""} (${count(n)})`;
+/** The States cell: the first `most`, and every state in the hover, the count first. */
+export function statesCell(states: string, most = 3): { text: string; title: string } {
+  const all = states.split(";").filter(Boolean);
+  return {
+    text: `${all.slice(0, most).join(", ")}${all.length > most ? " ..." : ""}`,
+    title: all.length ? `${plural(all.length, "state", "states")}: ${all.map((s) => (NOT_STATES[s] ? `${s} (${NOT_STATES[s]})` : s)).join(", ")}` : "",
+  };
 }
 
 /** One page of rows, and the page shown (a page past the last is the last). */
@@ -157,6 +210,56 @@ export function yearGroups(years: [string, number, number, number][], most = 15,
   return out;
 }
 
+// ---- a company page's words (session 1878, companies faults rows 2, 3 and 7 to 10)
+
+/** The lead's count of rows: "143 public rows of 6 tables name it; 2 held rows do too." (one is one: "1 public row of
+ *  1 table names it"). */
+export function leadRows(nLinks: number, nTables: number, nHeld: number): string {
+  return `${plural(nLinks, "public row", "public rows")} of ${plural(nTables, "table", "tables")} name${nLinks === 1 ? "s" : ""} it${nHeld ? `; ${plural(nHeld, "held row does", "held rows do")} too` : ""}.`;
+}
+
+/** What a company figure sums or counts, from its own rows by the builder's rules (warehouse/derived/companies_page.py,
+ *  figures): the hover of the figure says the count actually summed, not the count of the table's rows. */
+export function basisOf(col: string, table: string, links: Link[]): string {
+  const of = links.filter((l) => l.table === table);
+  const rows = (n: number) => plural(n, "row", "rows");
+  const distinct = (xs: Link[], by: (l: Link) => string = (l) => l.row) => new Set(xs.map(by)).size;
+  if (col === "queue_mw") {
+    const live = of.filter((l) => l.detail !== "withdrawn" && l.detail !== "Completed");
+    return `the sum of the ${rows(live.length)} of ${count(of.length)} neither withdrawn nor completed (${plural(distinct(live), "position", "positions")})`;
+  }
+  if (col === "n_reactors") {
+    const lic = of.filter((l) => l.role === "licensee" || l.role === "operator");
+    return `a count of ${plural(distinct(lic), "reactor", "reactors")} it is the licensee or operator of, over ${rows(of.length)} (licensee, operator or parent)`;
+  }
+  if (col === "n_policy_actions") return `a count of ${plural(distinct(of), "policy action", "policy actions")} over ${rows(of.length)}`;
+  if (col === "plants_mw") return `the sum of ${rows(of.length)}, one an operating generator, at ${plural(distinct(of, (l) => l.detail), "plant", "plants")}`;
+  if (col === "planned_mw") return `the sum of ${rows(of.length)}, one a planned generator, at ${plural(distinct(of, (l) => l.detail), "plant", "plants")}`;
+  if (col === "owned_mw") return `the sum of ${rows(of.length)} of ${plural(distinct(of), "jointly owned generator", "jointly owned generators")}, each its nameplate MW times the percent owned`;
+  if (col.startsWith("mw_")) {
+    const fuel = col.slice(3);
+    return `the sum of ${rows(of.filter((l) => (l.fuel || "other") === fuel).length)} of operating generators whose fuel is ${fuel}`;
+  }
+  return `from ${rows(of.length)}`;
+}
+
+/** The last date seen: a date after the file's build is a planned generator's planned month, and says so. */
+export const seenLast = (last: string, built: string): string => (last && last.slice(0, 10) > built.slice(0, 10) ? `${last} (planned)` : last);
+
+/** A fuel's share's hover: the two figures it divides, keyed by their columns. */
+export const shareTitle = (fuel: string, v: number, total: number): string => `mw_${fuel} ${mw(v)} of plants_mw ${mw(total)} (company_directory)`;
+
+/** The MW by year chart's series that have a group above zero (a series zero in every group is not drawn or named). */
+export const YEAR_SERIES = ["operating", "planned", "queue"] as const;
+export function liveSeries(groups: YearGroup[]): (typeof YEAR_SERIES)[number][] {
+  return YEAR_SERIES.filter((k) => groups.some((g) => g[k] > 0));
+}
+
+/** Whether a company page draws its deals by quarter: while energy_deals is held, only for a company held rows name
+ *  (the hold line); once it is not, only for a company with quarters. */
+export const showDeals = (c: Pick<Company, "held" | "quarters">, dealsHeld: boolean): boolean =>
+  dealsHeld ? (c.held.energy_deals ?? 0) > 0 : c.quarters.length > 0;
+
 // ---- the downloads: a company's public rows, and the index's rows of a query
 
 const CSV_SAFE = /[",\n\r]/;
@@ -175,7 +278,7 @@ export function linksCsv(c: Company, links: Link[], ix: Pick<CompanyIndex, "buil
     `# From ${url}, built ${ix.built} by warehouse/derived/companies_page.py; method docs/methods/companies.md.`,
     "# One row a company named in a row of an input table: input_table and input_row name the row; role is what the company is in it; match_rule and confidence how the name was matched; mw, usd, date, fuel, state and grid as the row states them.",
     held.length
-      ? `# Held, not in this file (license needed: the publishers ask for permission): ${held.map(([t, n]) => `${n} rows of ${t}`).join(", ")}.`
+      ? `# Held, not in this file (license needed: the publishers ask for permission): ${held.map(([t, n]) => `${plural(n, "row", "rows")} of ${t}`).join(", ")}.`
       : "# No row of this company is held.",
     ...Array.from(new Set(links.map((l) => l.table))).map((t) => `# Source of ${t}: ${ix.sources[t] ?? ""}`),
   ];
@@ -190,9 +293,10 @@ export function indexCsv(rows: IndexRow[], ix: Pick<CompanyIndex, "built" | "col
     "# Energy Research Warehouse (ERW): the company database (company_directory), the companies listed on /companies, as filtered.",
     `# From ${url}, built ${ix.built} by warehouse/derived/companies_page.py; method docs/methods/companies.md.`,
     `# Filters: ${(["q", "kind", "segment", "state", "grid", "has"] as const).map((k) => `${k}=${q[k] || "(any)"}`).join(", ")}.`,
+    `# Order: sort=${q.sort ?? "footprint"}, ${SORTS[q.sort ?? "footprint"].words}.`,
     "# Every figure is from public rows alone; MW are nameplate (EIA-860M) or as the queue states them; footprint_mw is a sort key (plants, owned, planned and queue MW summed).",
     ix.held_tables.length
-      ? `# Held (license needed): ${ix.held_tables.join(", ")}; ${ix.held_only} companies named only in them are not listed, and their rows add nothing here.`
+      ? `# Held (license needed): ${ix.held_tables.join(", ")}; ${plural(ix.held_only, "company", "companies")} named only in them ${ix.held_only === 1 ? "is" : "are"} not listed, and their rows add nothing here.`
       : "# No table is held.",
   ];
   return [...head, cols.join(","), ...rows.map((r) => cols.map((c) => csvCell((r as unknown as Record<string, unknown>)[c])).join(",")), ""].join("\n");

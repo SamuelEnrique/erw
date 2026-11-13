@@ -35,6 +35,15 @@
   "table": "eia_padd_rail_barge_movements_monthly",
   "value": 762.0
  },
+ "scan-record-21629691102a": {
+  "fact": "eurostat_sff:CZ:C0100 flow:RCV_RCY: 49,302 t in July 2026, the highest monthly value held since January 2016. The record until now was 28,000 t, in October 2016.",
+  "held_on": "2026-11-12",
+  "jump_pct": 76.1,
+  "old_record": 28000.0,
+  "series_key": "entity=eurostat_sff:CZ:C0100|variable=flow:RCV_RCY|market=|node=Hard coal: Recovered and recycled products|freq=P1M",
+  "table": "eurostat_solid_fuels_monthly",
+  "value": 49302.0
+ },
  "scan-record-295925a6435d": {
   "fact": "eia861m:11251:NE industrial_revenue: USD 6,033,000 in July 2026, the highest monthly value held since January 2017. The record until now was USD 4,719,000, in August 2022.",
   "held_on": "2026-10-22",
@@ -53,6 +62,15 @@
   "table": "eia_padd_rail_barge_movements_monthly",
   "value": 2332.0
  },
+ "scan-record-3ce24ced948d": {
+  "fact": "eurostat_gas_balance:ES imports: 0.0000 MWh in August 2026, the lowest monthly value held since January 2015. The record until now was 23,264,167 MWh, in April 2020.",
+  "held_on": "2026-11-12",
+  "jump_pct": 100.0,
+  "old_record": 23264166.667,
+  "series_key": "entity=eurostat_gas_balance:ES|variable=imports|market=|node=ES natural gas IMP|freq=P1M",
+  "table": "eurostat_gas_balance_monthly",
+  "value": 0.0
+ },
  "scan-record-4591f022577a": {
   "fact": "eia_petroleum_snd:MO1NR_R10-Z0P_2 net_receipts_per_day: 40.00 kbbl/d in July 2026, the lowest monthly value held since January 2015. The record until now was 167.0 kbbl/d, in March 2021.",
   "held_on": "2026-10-22",
@@ -61,6 +79,15 @@
   "series_key": "entity=eia_petroleum_snd:MO1NR_R10-Z0P_2|variable=net_receipts_per_day|market=|node=East Coast (PADD 1) Net Receipts by Pipeline, Tanker, and Barge from Other PADDs of Reformulated Gasoline Blending Components (Thousand Barrels per Day)|freq=P1M",
   "table": "eia_petroleum_snd_monthly",
   "value": 40.0
+ },
+ "scan-record-46c289da4589": {
+  "fact": "eia_petroleum_stocks_state:E_EPOBGC0_STR_SRI_MBBL stocks_refineries_terminals_gas_plants: 135.0 kbbl in July 2026, the highest monthly value held since February 2021. The record until now was 52.00 kbbl, in September 2023.",
+  "held_on": "2026-11-12",
+  "jump_pct": 159.6,
+  "old_record": 52.0,
+  "series_key": "entity=eia_petroleum_stocks_state:E_EPOBGC0_STR_SRI_MBBL|variable=stocks_refineries_terminals_gas_plants|market=|node=Rhode Island Conventional Gasoline Blending Components Stocks at Refineries, Bulk Terminals, and Natural Gas Plants (Thousand Barrels)|freq=P1M",
+  "table": "eia_petroleum_stocks_state_monthly",
+  "value": 135.0
  },
  "scan-record-471057df956d": {
   "fact": "onrr_revenue:federal:onshore:49047_uintah:rents:oil_gas:oil_gas_pre_production:none revenue: USD 407,768 in July 2026, the highest monthly value held since January 2003. The record until now was USD 237,673, in June 2003.",
@@ -142,6 +169,15 @@
   "series_key": "entity=eia_padd_movements:MUOMTP5P31|variable=tanker_barge_receipts|market=|node=West Coast (PADD 5) Receipts by Tanker and Barge from Gulf Coast (PADD 3) of Unfinished Oils (Thousand Barrels)|freq=P1M",
   "table": "eia_padd_rail_barge_movements_monthly",
   "value": 1120.0
+ },
+ "scan-record-609cd80d42a2": {
+  "fact": "eurostat_oil:SK:O4661XR5230B flow:IMP: 6,305.0 t in July 2026, the highest monthly value held since January 2016. The record until now was 3,552.0 t, in June 2024.",
+  "held_on": "2026-11-12",
+  "jump_pct": 77.5,
+  "old_record": 3552.0,
+  "series_key": "entity=eurostat_oil:SK:O4661XR5230B|variable=flow:IMP|market=|node=Kerosene-type jet fuel (excluding biofuel portion): Imports|freq=P1M",
+  "table": "eurostat_oil_monthly",
+  "value": 6305.0
  },
  "scan-record-631a46066fb2": {
   "fact": "onrr_revenue:federal:onshore:38053_mckenzie:bonus:oil_gas:oil_gas_pre_production:none revenue: USD 47,575,506 in July 2026, the highest monthly value held since January 2003. The record until now was USD 26,724,350, in September 2013.",
@@ -232,6 +268,15 @@
   "series_key": "entity=eia_petroleum_snd:MGFSCP21|variable=stock_change|market=|node=Midwest (PADD 2) Finished Motor Gasoline Stock Change (Thousand Barrels)|freq=P1M",
   "table": "eia_petroleum_snd_monthly",
   "value": 3958.0
+ },
+ "scan-record-8e355f61727f": {
+  "fact": "eurostat_oil:IE:O4661XR5230B flow:STATDIFF: 14,577 t in July 2026, the highest monthly value held since December 2019. The record until now was 9,032.0 t, in January 2023.",
+  "held_on": "2026-11-12",
+  "jump_pct": 61.4,
+  "old_record": 9032.0,
+  "series_key": "entity=eurostat_oil:IE:O4661XR5230B|variable=flow:STATDIFF|market=|node=Kerosene-type jet fuel (excluding biofuel portion): Statistical differences|freq=P1M",
+  "table": "eurostat_oil_monthly",
+  "value": 14577.0
  },
  "scan-record-9243fd884ef7": {
   "fact": "eia_product_supplied:MGAUPP11 product_supplied: 568.0 kbbl in June 2026, the highest monthly value held since January 2017. The record until now was 290.0 kbbl, in June 2018.",

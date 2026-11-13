@@ -3,6 +3,7 @@ import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { ChartFrame, SourceLine, ToolHeader } from "@/components/tool/ToolPage";
 import { HeldRows } from "@/components/tool/HeldRows";
+import { BarsHover } from "@/components/tool/BarsHover";   // session 1853 (deals faults row 8): the brand's hover card on the two charts by quarter
 import duplicates from "@/data/deal_duplicates.json";
 import { deals } from "@/lib/data";
 import { fold, toDeal, whole, type DealRow, type Pair } from "@/lib/deals2";
@@ -204,7 +205,13 @@ export async function ChartsView() {
           <ChartFrame title="MW stated, by quarter and kind of supply"
             note={<>The quarter of each deal&apos;s date; the deals that state no MW are counted in the hover and the table, not drawn. The kind of supply is read from the deal&apos;s kind and its stated technology.</>}>
             <Legend items={GROUPS.map(([, label, color]) => [label, color])} />
-            <MwChart stacks={stacks} />
+            {/* session 1853 (deals faults row 8): the fog card a quarter, each kind of supply in its own color, the total and the count that state no MW */}
+            <BarsHover id="deals-mw-quarter" left={56} right={12} width={W}
+              cards={stacks.map((s) => ({ label: s.quarter, sub: `${whole(s.without)} deals of the quarter state no MW`,
+                lines: [...s.parts.filter((p) => p.mw > 0).map((p) => { const g = GROUPS.find(([id]) => id === p.group)!; return { name: `${g[1]} (${p.deals})`, color: g[2], text: `${whole(p.mw)} MW` }; }),
+                  { name: "MW stated", color: T, text: `${whole(s.total)} MW` }] }))}>
+              <MwChart stacks={stacks} />
+            </BarsHover>
             <Table caption="MW stated by quarter and kind of supply" head={["Quarter", ...GROUPS.map(([, l]) => l), "Deals stating no MW"]}
               rows={stacks.map((s) => [s.quarter, ...s.parts.map((p) => <Num key={p.group} check={`deals|chart_mw|${s.quarter}|${p.group}`} raw={p.mw}>{whole(p.mw)}</Num>),
                 <Num key="w" check={`deals|chart_mw|${s.quarter}|without`} raw={s.without}>{whole(s.without)}</Num>])} />
@@ -221,7 +228,14 @@ export async function ChartsView() {
             )}
           </ChartFrame>
           <ChartFrame title="The AI-power deals' share of the MW stated, by quarter" note={<>Of the MW the quarter&apos;s deals state, the part stated by the deals the AI-power rule tags; a quarter whose deals state no MW has no share.</>}>
-            <ShareChart shares={shares} />
+            <BarsHover id="deals-ai-share" left={56} right={12} width={W}
+              cards={shares.map((s) => ({ label: s.quarter, sub: `${whole(s.aiDeals)} of ${whole(s.deals)} deals tagged AI`,
+                lines: s.share === null ? [{ name: "MW stated", color: T, text: "none" }] : [
+                  { name: "AI-power share", color: "var(--color-accent)", text: `${s.share}%` },
+                  { name: "AI-power MW", color: "var(--color-accent)", text: `${whole(s.aiMw)} MW` },
+                  { name: "MW stated", color: T, text: `${whole(s.allMw)} MW` }] }))}>
+              <ShareChart shares={shares} />
+            </BarsHover>
             <Table caption="The AI-power share by quarter" head={["Quarter", "Share, %", "AI MW", "All MW stated", "AI deals", "Deals"]}
               rows={shares.map((s) => [s.quarter, s.share === null ? "no MW stated" : <Num key="s" check={`deals|chart_ai|${s.quarter}|share`} raw={s.share}>{String(s.share)}</Num>,
                 <Num key="a" check={`deals|chart_ai|${s.quarter}|ai_mw`} raw={s.aiMw}>{whole(s.aiMw)}</Num>, <Num key="b" check={`deals|chart_ai|${s.quarter}|all_mw`} raw={s.allMw}>{whole(s.allMw)}</Num>,

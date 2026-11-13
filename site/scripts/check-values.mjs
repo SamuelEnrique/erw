@@ -889,6 +889,14 @@ async function truth(check) {
     const F = await import("./siting-files.mjs");
     return S.sitingStat(F.files(), check, await F.dc());
   }
+  // session 1880 (attention faults row 8): /attention's rising rows, places and footer counts, attention_rising|,
+  // attention_place| and attention_file| keys: read back from the file the page reads (data/attention.json, written by
+  // warehouse/derived/attention_index.py with the three tables) by lib/attention.ts
+  if (p[0] === "attention_rising" || p[0] === "attention_place" || p[0] === "attention_file") {
+    const A = await import("../lib/attention.ts");
+    const file = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "attention.json"), "utf-8"));
+    return A.attentionStat(file, check);
+  }
   if (p[0] === "dcd") {
     const D = await import("../lib/datacenter/delivery.ts");
     const file = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "datacenter", "texas_delivery.json"), "utf-8"));
@@ -1092,6 +1100,7 @@ async function eventRows(check) {
 /** US dollars, short, as site/app/deals/DealsTable.tsx writes them (data-format usd). */
 function usd(v) {
   const t = (x) => x.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  if (Math.abs(v) >= 1e12) return `${t(v / 1e12)} trillion`;   // session 1852, as DealsTable.tsx
   if (Math.abs(v) >= 1e9) return `${t(v / 1e9)} billion`;
   if (Math.abs(v) >= 1e6) return `${t(v / 1e6)} million`;
   return v.toLocaleString("en-US");

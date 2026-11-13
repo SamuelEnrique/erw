@@ -145,3 +145,44 @@ The same count over the 16 stored Digests, the five stored Roundups and the twel
 | 2026-W45 | dry run, session 1477 | 11 | 0 | 1 | 0  | 6 / 26 | 193 | 0 |
 | 2026-11-06 | dry run, session 1482 | 30 | 0 | 0 | 2 deal | 8 / 37 | 192 | 0 |
 | 2026-W45 | dry run, session 1482 | 11 | 0 | 1 | 0  | 6 / 26 | 192 | 0 |
+
+## Counts of 12 November 2026 (session 1881)
+
+Chain 210's step, folded into session 1881 (chain 213's read of the W45 Roundup, `docs/reviews/periodicals-faults-2026-11-05.md` rows 59 to 78). `scripts/periodicals_counts.py` as it stands on main, over the 16 stored Digests (25 September to 6 November), the six stored Roundups (W39 to W45) and the twelve dry runs of chains 149, 150 and 154 under `runs/periodicals_dryrun/` (sessions 1435 to 1482; not in git). No dry run of chains 155 to 213 is on this machine, and no Digest newer than 6 November is on `origin/main`, so the first issue written by the v2 code is still to count. The one new row is the stored W45 Roundup, written by the scheduled run at 2026-11-08 23:26 UTC with the code of chain 154 and after: 13 items (the dry runs' 11 plus the policy section's two also lines, which the script reads as items), 0 adjectives, 1 repeated figure (the limitation naming the headline's 702 MW on purpose), 6 of 29 links to Google News, 189 words above the fold (the dry runs of the same week: 192 and 193), 0 figures without a key in the markdown, though its email prints the marks [5] and [6] and names neither table (row 70). Every other row reads as session 1483 counted it; the stored 6 November Digest's top sector reads "2 oil" here and "2 renewables" in session 1483's table, and the 1468 and 1482 dry runs' "2 datacenter power" where 1483 read "2 deal": a tie between two sectors of two items, which the script breaks by order. The script reads markdown only: given the W45 email's text and HTML it counts 3 and 0 items and 650 and 765 words, the whole of each file, which are not comparable with the rows below and are left out. The working files are under `runs/s1881/` (not in git).
+
+| issue | kind | items | adjectives | repeated | top sector | links to Google News / all links | words above the fold | figures without a key |
+|---|---|---|---|---|---|---|---|---|
+| 2026-09-25 | stored | 27 | 12 | 4 | 3 datacenter_power | 15 / 31 | 1042 | 0 |
+| 2026-09-26 | stored | 27 | 16 | 4 | 3 datacenter_power | 13 / 28 | 983 | 0 |
+| 2026-09-27 | stored | 25 | 3 | 0 | 3 policy | 18 / 30 | 810 | 0 |
+| 2026-09-28 | stored | 30 | 6 | 1 | 3 lng | 16 / 36 | 1006 | 0 |
+| 2026-10-02 | stored | 31 | 2 | 9 | 4 oil | 15 / 43 | 1073 | 0 |
+| 2026-10-07 | stored | 33 | 1 | 10 | 2 deal | 14 / 43 | 1123 | 0 |
+| 2026-10-08 | stored | 33 | 5 | 7 | 3 deal | 19 / 38 | 1078 | 0 |
+| 2026-10-09 | stored | 33 | 3 | 7 | 3 oil | 11 / 37 | 1135 | 0 |
+| 2026-10-12 | stored | 30 | 3 | 1 | 5 oil | 22 / 37 | 941 | 0 |
+| 2026-10-13 | stored | 32 | 18 | 2 | 5 datacenter power | 18 / 36 | 981 | 0 |
+| 2026-10-14 | stored | 32 | 14 | 8 | 2 oil | 21 / 44 | 980 | 0 |
+| 2026-10-20 | stored | 31 | 14 | 5 | 2 deal | 18 / 40 | 946 | 0 |
+| 2026-10-21 | stored | 33 | 11 | 9 | 3 datacenter power | 17 / 39 | 1031 | 0 |
+| 2026-10-22 | stored | 33 | 4 | 3 | 3 datacenter power | 15 / 41 | 1018 | 0 |
+| 2026-10-23 | stored | 33 | 1 | 0 | 2 gas | 15 / 36 | 1117 | 0 |
+| 2026-11-06 | stored | 32 | 0 | 4 | 2 oil | 12 / 36 | 1035 | 0 |
+| 2026-W39 | stored | 8 | 4 | 3 | 0  | 21 / 44 | 513 | 0 |
+| 2026-W40 | stored | 10 | 1 | 0 | 0  | 27 / 80 | 554 | 0 |
+| 2026-W41 | stored | 10 | 1 | 0 | 0  | 32 / 79 | 496 | 0 |
+| 2026-W43 | stored | 10 | 0 | 2 | 0  | 26 / 88 | 489 | 0 |
+| 2026-W44 | stored | 7 | 0 | 0 | 0  | 2 / 9 | 380 | 0 |
+| 2026-W45 | stored | 13 | 0 | 1 | 0  | 6 / 29 | 189 | 0 |
+| 2026-10-26 | dry run, session 1435 | 30 | 0 | 0 | 2 oil | 15 / 37 | 176 | 1 |
+| 2026-W43 | dry run, session 1436 | 11 | 0 | 1 | 0  | 20 / 56 | 195 | 2 |
+| 2026-W44 | dry run, session 1436 | 11 | 0 | 1 | 0  | 8 / 18 | 213 | 1 |
+| 2026-10-26 | dry run, session 1451 | 30 | 0 | 0 | 2 oil | 15 / 40 | 220 | 0 |
+| 2026-W44 | dry run, session 1451 | 11 | 0 | 0 | 0  | 7 / 18 | 195 | 1 |
+| 2026-11-06 | dry run, session 1463 | 30 | 0 | 0 | 2 deal | 8 / 40 | 214 | 0 |
+| 2026-11-06 | dry run, session 1468 | 30 | 0 | 0 | 2 datacenter power | 8 / 37 | 187 | 0 |
+| 2026-W45 | dry run, session 1468 | 11 | 0 | 1 | 0  | 6 / 26 | 193 | 0 |
+| 2026-11-06 | dry run, session 1477 | 30 | 0 | 0 | 2 deal | 8 / 37 | 191 | 0 |
+| 2026-W45 | dry run, session 1477 | 11 | 0 | 1 | 0  | 6 / 26 | 193 | 0 |
+| 2026-11-06 | dry run, session 1482 | 30 | 0 | 0 | 2 datacenter power | 8 / 37 | 192 | 0 |
+| 2026-W45 | dry run, session 1482 | 11 | 0 | 1 | 0  | 6 / 26 | 192 | 0 |
