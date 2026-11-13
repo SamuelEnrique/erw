@@ -16,6 +16,7 @@ Energy Research Warehouse (ERW). Written by session 5164 of chain 237 (`queue/do
 - **Closed:** row 1. A visitor could read a page in review at its transport addresses. Fixed by session 5101, landed at `b1ea7427a`, proven on production after the deploy.
 - **Fixed, on `wip/5150-security`:** `/internal/lock` refuses a cross-site request; limits on the email's two token doors, the map's card and the leaderboard; standing tests of every route's body and address, of secrets, of the headers, of the internal view; the policy names this site's own Supabase project; `certifi` without the compromised root; the guards' own proof runs again.
 - **Nothing is open.** What remains is yours.
+- **Landed since this note was first written** (session 5185, chain 259): the desktop's landing window landed the stack's first part, sessions 5150 to 5158, at `ad7f16ca6` on 13 November at 20:47 UTC (every check of the gate passed; snapshots 0 differences). Rows 2 and 15 to 21 are now closed: 9 closed, 2 fixed and not yet live (row 27, in the desk's next gate, and the `certifi` pin, which is in the file on `main`), 15 rulings, 8 noted. `/internal/lock` was read on production at 20:57 UTC: a cross-site request clears nothing.
 
 ## What waits, and where
 
