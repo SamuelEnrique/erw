@@ -99,15 +99,16 @@ class LargeLoadResearch(unittest.TestCase):
                     path = os.path.join(ROOT, "warehouse", "sources", target)
                     self.assertTrue(os.path.exists(path), f"{r['row_id']} {f}: {target} is not in a registry")
 
-    def test_a_see_row_pointer_names_a_row_of_the_same_utility(self):
+    def test_a_see_row_pointer_names_a_row_of_the_same_group(self):
+        # the same utility's row, or the group's row holding a figure a holding company states for several utilities
         names = {}
         for r in self.rows:
-            names.setdefault(r["utility"], set()).add(r["rule_name"])
+            names.setdefault(r["group"], set()).add(r["rule_name"])
         for r in self.rows:
             for f in FIELDS:
                 v = (r[f] or "").strip()
                 if v.startswith("see row: "):
-                    self.assertIn(v[len("see row: "):], names[r["utility"]], f"{r['row_id']} {f}")
+                    self.assertIn(v[len("see row: "):], names[r["group"]], f"{r['row_id']} {f}")
 
     def test_license_and_notes_file(self):
         for r in self.rows:

@@ -101,7 +101,8 @@ def main() -> int:
     rows = data.get("rows") or []
     bad = 0
     for i, r in enumerate(rows):
-        names = {x.get("rule_name") for x in rows if x.get("utility") == r.get("utility")}
+        # a queue figure a holding company states for several utilities sits on one row of the group (session 5300)
+        names = {x.get("rule_name") for x in rows}
         p = problems(r, names)
         if p:
             bad += 1

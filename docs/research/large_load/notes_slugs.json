@@ -59,5 +59,19 @@
  "Florida Power & Light Company": "fpl",
  "Tampa Electric Company": "tampa_electric",
  "Mississippi Power Company": "mississippi_power",
- "JEA (Jacksonville)": "jea"
+ "JEA (Jacksonville)": "jea",
+ "Union Electric Company d/b/a Ameren Missouri": "ameren_missouri",
+ "Ameren Missouri and Ameren Illinois": "ameren_missouri",
+ "Ameren Illinois Company": "ameren_illinois",
+ "Ameren Illinois Company d/b/a Ameren Illinois": "ameren_illinois",
+ "Evergy (all companies)": "evergy_kansas",
+ "Evergy Kansas Central and Evergy Kansas Metro": "evergy_kansas",
+ "Evergy Kansas Central, Inc. and Evergy Metro, Inc. (Evergy Kansas Metro)": "evergy_kansas",
+ "Evergy Metro, Inc. d/b/a Evergy Missouri Metro": "evergy_missouri_metro",
+ "Evergy Missouri West, Inc. d/b/a Evergy Missouri West": "evergy_missouri_west",
+ "Kansas City Board of Public Utilities (KS, SPP)": "kansas_city_bpu",
+ "Oklahoma Gas and Electric Company (OG&E)": "oge",
+ "Oklahoma Gas and Electric Company in Arkansas (APSC)": "oge",
+ "The Empire District Electric Company (Liberty) in Kansas, Oklahoma and Arkansas": "empire_district_liberty",
+ "The Empire District Electric Company d/b/a Liberty (Empire Electric)": "empire_district_liberty"
 }
