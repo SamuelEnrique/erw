@@ -23714,127 +23714,9 @@
       "table": "miso_interconnection_queue"
      },
      "out": {
-      "shape": "entities",
-      "rows_in_live_set": 3881,
-      "columns": [
-       "entity_id",
-       "entity_type",
-       "name",
-       "geo",
-       "lat",
-       "lon",
-       "capacity_mw",
-       "status",
-       "status_date",
-       "operator",
-       "source",
-       "source_url",
-       "retrieved_at",
-       "vintage",
-       "queue_id",
-       "county",
-       "state",
-       "poi",
-       "zone",
-       "transmission_owner",
-       "fuel_technology",
-       "iso_status",
-       "queue_date",
-       "proposed_in_service_date",
-       "actual_in_service_date",
-       "withdrawn_date"
-      ],
-      "first": "2017-02-17",
-      "last": "2026-09-18",
-      "source_reports": [
-       {
-        "source": "miso:interconnection_queue",
-        "publisher": "Midcontinent Independent System Operator (MISO)",
-        "report": "Generator Interconnection Queue (giqueue API) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]",
-        "report_url": "https://www.misoenergy.org/planning/resource-utilization/GI_Queue/"
-       }
-      ],
-      "text_column_values": {
-       "entity_type": [
-        "project"
-       ],
-       "geo": [
-        "US-AR",
-        "US-IA",
-        "US-IL",
-        "US-IN",
-        "US-KY",
-        "US-LA",
-        "US-MI",
-        "US-MN",
-        "US-MO",
-        "US-MS",
-        "US-MT",
-        "US-ND",
-        "US-SD",
-        "US-TX",
-        "US-WI"
-       ],
-       "status": [
-        "active",
-        "completed",
-        "withdrawn"
-       ],
-       "source": [
-        "miso:interconnection_queue"
-       ],
-       "vintage": [
-        "2026-09-30T00:00:00Z"
-       ],
-       "state": [
-        "AR",
-        "IA",
-        "IL",
-        "IN",
-        "KY",
-        "LA",
-        "MI",
-        "MN",
-        "MO",
-        "MS",
-        "MT",
-        "ND",
-        "SD",
-        "TX",
-        "WI"
-       ],
-       "fuel_technology": [
-        "Battery Storage",
-        "Coal",
-        "Diesel",
-        "Gas",
-        "High Voltage DC",
-        "Hybrid",
-        "Hydro",
-        "Solar",
-        "Waste Heat Recovery",
-        "Wind"
-       ],
-       "iso_status": [
-        "Active",
-        "Done",
-        "LEGACY: Done",
-        "Pending Revision Approval",
-        "Pending Transfer",
-        "Withdrawn"
-       ]
-      },
-      "text_column_values_note": "values seen in the first 2000 rows, without counts; use query with aggregation count to count",
-      "time_column": "status_date",
-      "notes": [
-       "License: public (ISO public queue report)."
-      ],
+      "redacted": "not kept: the result of a held or paused grid's own table, which the tools should have held (session 5259, docs/reviews/ask-eval-2026-11-13.md)",
       "table": "miso_interconnection_queue",
-      "data_version": "Supabase live set (public site); table last run 2026-09-26T00:06:45Z",
-      "source_report": "miso:interconnection_queue",
-      "license": "public",
-      "tier": "source",
-      "citation": "Midcontinent Independent System Operator (MISO). interconnection_queue: Generator Interconnection Queue (giqueue API) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]. https://www.misoenergy.org/planning/resource-utilization/GI_Queue/. Retrieved 2026-09-26 via the ERW, table miso_interconnection_queue, Supabase live set."
+      "rows_matched": null
      },
      "isError": false,
      "is_error": false
@@ -23869,7 +23751,8 @@
      "isError": true,
      "is_error": true
     }
-   ]
+   ],
+   "redacted": "not kept: the result of a held or paused grid's own table, which the tools should have held (session 5259, docs/reviews/ask-eval-2026-11-13.md)"
   },
   {
    "id": "de01",

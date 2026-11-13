@@ -552,6 +552,45 @@ class TheAsking(unittest.TestCase):
             self.assertEqual([r["file"] for r in doc["runs"]], ["a_run.json", "eval_s5300_site_platform_run.json"])
             self.assertEqual(doc["runs"][1], S.entry("5300", "platform", "questions_platform.yaml"))
 
+    def test_a_result_the_tools_should_have_held_is_not_kept(self):
+        held = lambda t: t in ("isone_interconnection_queue", "nyiso_dam_zone_prices", "miso_interconnection_queue", "energy_projects")  # noqa: E731
+        t = lambda tool, inp, out, err=False: {"tool": tool, "input": inp, "out": out, "isError": err}
+        doc = {"questions": [
+            {"id": "a", "status": "answered", "answer": "ISO New England's queue totals 1,234.5 MW across 50 positions (isone_interconnection_queue).", "trace": [
+                t("list_tables", {}, {"tables": [{"table": "isone_interconnection_queue", "rows": 1751}]}),
+                t("query", {"table": "isone_interconnection_queue", "aggregation": "sum"}, {"result": [{"value": 1234.5, "n": 50}], "rows_matched": 50}),
+                t("compare", {"a": {"table": "ercot_interconnection_queue"}, "b": {"table": "isone_interconnection_queue"}}, {"a": {"result": [1]}, "b": {"result": [2]}})]},
+            {"id": "b", "status": "not_in_warehouse", "answer": "Not in the warehouse: MISO is paused since 4 October 2026.", "trace": [
+                t("describe_table", {"table": "miso_interconnection_queue"}, {"columns": ["status"], "text_column_values": {"status": {"active": 9}}}),
+                t("query", {"table": "miso_interconnection_queue", "aggregation": "count"}, {"error": "MISO is paused"}, True)]},
+            {"id": "c", "status": "answered", "answer": "NYISO's rows are held (license needed). ERCOT's was 41.92 USD/MWh.", "trace": [
+                t("query", {"table": "nyiso_dam_zone_prices", "aggregation": "mean", "entity": "N.Y.C."}, {"held": True, "public_grids": [{"value": 41.92}]}),
+                t("query", {"table": "energy_projects", "aggregation": "count"}, {"result": [{"count": 5}]}),
+                t("query", {"table": "ercot_interconnection_queue", "aggregation": "count"}, {"result": [{"count": 7}]})]}],
+            "superseded": [{"id": "a", "status": "answered", "answer": "It was 9 MW.", "trace": [t("query", {"table": "isone_interconnection_queue"}, {"result": [{"value": 9}]})]}]}
+        self.assertEqual(S.redact_held(doc, held), 3)
+        a, b, c = doc["questions"]
+        self.assertEqual(a["answer"], "ISO New England's queue totals [removed] MW across [removed] positions (isone_interconnection_queue).")
+        self.assertEqual([("redacted" in x["out"]) for x in a["trace"]], [False, True, True])
+        self.assertEqual(a["trace"][1]["out"], {"redacted": S.REDACTED, "table": "isone_interconnection_queue", "rows_matched": 50})
+        self.assertEqual(b["answer"], "Not in the warehouse: MISO is paused since 4 October 2026.", "a refusal's own words are kept")
+        self.assertEqual([("redacted" in x["out"]) for x in b["trace"]], [True, False], "the tool's own refusal stays")
+        self.assertNotIn("redacted", c, "a held answer, a mixed table and a public table are not struck")
+        self.assertEqual(doc["superseded"][0]["answer"], "It was [removed] MW.")
+        self.assertEqual(S.redact_held(doc, held), 0, "struck once")
+        self.assertEqual(S.own_held_tables("query", {"table": "isone_dam_zone_prices"}, lambda t: False), [], "a table the file no longer holds is kept")
+
+    def test_no_stored_run_keeps_a_result_of_a_held_grid_s_own_table(self):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "chat"))
+        import license_hold
+        for s in S.sessions_of("platform"):
+            doc = S.read_json(S.files(s, "platform")["run"])
+            for q in (doc.get("questions") or []) + (doc.get("superseded") or []):
+                for t in q.get("trace") or []:
+                    out = t.get("out")
+                    if isinstance(out, dict) and not t.get("isError") and not out.get("held") and S.own_held_tables(t.get("tool"), t.get("input"), license_hold.license_needed):
+                        self.assertIn("redacted", out, f"session {s} {q['id']}: a result of {t.get('input')} is kept")
+
     def test_a_key_is_never_sent_to_the_asking(self):
         with open(os.path.join(EVAL, "eval_site.py"), encoding="utf-8") as f:
             src = f.read()

@@ -30,6 +30,12 @@ which reads the catalogue and the rows a visitor's key reads. This runner asks t
              (history.py, replay.py, refusals.py) and, for the platform set, the scores of its review file
              (platform_scores.py); each exit code is printed and the first that is not 0 is returned
 
+A result the tools should have held is not kept (session 5259): the held-out pj08 found that both loops read a held
+grid's own table of things (isone_interconnection_queue), and a run file is in a public repository. Before a run is
+graded, every result read from a held or paused grid's own table is replaced by a note that says so, and the figures of
+an answer that rests on one are struck out (redact_held). The record of what happened stays: the question, the status,
+the calls made, the tables named.
+
 Each model call is one row of the site's cost ledger (site_api_calls, the step site_ask_eval, which no public ceiling
 counts: migration 035), written with the service key as the server writes it; --no-ledger leaves the key out, and the
 cost then stands in the run file alone. Nothing of the warehouse is written.
@@ -104,6 +110,42 @@ def asking(qs, done_ids, only=None, first=None):
     """The ids this asking takes, in the set's order: the named ones, or those not yet in a run, at most `first`."""
     ids = [q["id"] for q in qs if (q["id"] in only if only else q["id"] not in done_ids)]
     return ids[:first] if first else ids
+
+
+OWN_TABLE = re.compile(r"^(isone|nyiso|miso)_")   # a held or paused grid's own table, by its name
+REDACTED = ("not kept: the result of a held or paused grid's own table, which the tools should have held (session 5259, "
+            "docs/reviews/ask-eval-2026-11-13.md)")
+
+
+def own_held_tables(name, args, held):
+    """The held or paused grids' own tables a call names (`held`: whether a table is license needed today)."""
+    a = args if isinstance(args, dict) else {}
+    one = lambda x: [x["table"]] if isinstance(x, dict) and isinstance(x.get("table"), str) else []  # noqa: E731
+    named = one(a) if name in ("query", "describe_table") else one(a.get("a")) + one(a.get("b")) if name == "compare" else []
+    return [t for t in named if OWN_TABLE.match(t) and held(t)]
+
+
+def redact_held(doc, held):
+    """Session 5259: a run with every result of a held or paused grid's own table replaced by a note, and the figures of
+    an answer that rests on such a result struck out. An error and a held answer are the tools' own refusals and stay.
+    Returns the number of records changed (0 when the run holds no such result, or was redacted before)."""
+    changed = 0
+    for q in (doc.get("questions") or []) + (doc.get("superseded") or []):
+        hit = False
+        for t in q.get("trace") or []:
+            out = t.get("out")
+            if not isinstance(out, dict) or t.get("isError") or t.get("is_error") or out.get("held") or "redacted" in out:
+                continue
+            tables = own_held_tables(t.get("tool"), t.get("input"), held)
+            if tables:
+                t["out"] = {"redacted": REDACTED, "table": tables[0], "rows_matched": out.get("rows_matched")}
+                hit = True
+        if hit:
+            changed += 1
+            if q.get("status") == "answered" and not q.get("redacted"):
+                q["answer"] = re.sub(r"-?\d[\d,]*(?:\.\d+)?", "[removed]", q.get("answer") or "")
+            q["redacted"] = REDACTED
+    return changed
 
 
 def slices(qs):
@@ -191,9 +233,15 @@ def grade_all(E, which, qs, rules, here=HERE):
     a question, the newest session's answer standing, each with the session it was asked in."""
     newest = {}
     keep = dict(E.SETS[which])
+    sys.path.insert(0, os.path.dirname(HERE))
+    import license_hold   # warehouse/chat/license_hold.py: the license file both loops read
     try:
         for s in sessions_of(which, here):
             F = files(s, which, here)
+            run_doc = read_json(F["run"])
+            if redact_held(run_doc, license_hold.license_needed):   # session 5259: before anything else reads the run
+                write_json(F["run"], run_doc)
+                print(f"session {s}'s run: a result of a held or paused grid's own table was struck out")
             E.SETS[which]["run"], E.SETS[which]["grades"] = F["run"], F["grades"]
             doc = E.grade_set(which, rules)
             doc["loop"] = "site"

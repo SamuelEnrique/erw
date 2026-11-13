@@ -5,13 +5,13 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 | Class | Refusals | Graded right |
 |---|---|---|
 | MISO's pause | 13 | 13 of 13 graded |
-| a license hold | 23 | 23 of 23 graded |
-| a table not in the live set | 17 | 17 of 17 graded |
+| a license hold | 28 | 28 of 28 graded |
+| a table not in the live set | 21 | 21 of 21 graded |
 | the call limit | 1 | 0 of 1 graded |
-| the warehouse lacks the figure | 27 | 20 of 27 graded |
+| the warehouse lacks the figure | 29 | 22 of 29 graded |
 | rows read, then refused | 4 | 4 of 4 graded |
 
-In all: 85 refusals.
+In all: 96 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -100,3 +100,14 @@ In all: 85 refusals.
 | session 5258, the site's loop, the platform set | oi10 | 3 | a table not in the live set | right |
 | session 5258, the site's loop, the platform set | nu06 | 4 | the warehouse lacks the figure | right |
 | session 5258, the site's loop, the platform set | re10 | 6 | a table not in the live set | right |
+| session 5259, the site's loop, the platform set | ga10 | 3 | a table not in the live set | right |
+| session 5259, the site's loop, the platform set | oi08 | 4 | a table not in the live set | right |
+| session 5259, the site's loop, the platform set | oi10 | 3 | a table not in the live set | right |
+| session 5259, the site's loop, the platform set | st10 | 2 | the warehouse lacks the figure | right |
+| session 5259, the site's loop, the platform set | tx08 | 6 | a table not in the live set | right |
+| session 5259, the site's loop, the platform set | tx10 | 3 | the warehouse lacks the figure | right |
+| session 5259, the site's loop, the platform set | pj10 | 7 | a license hold | right |
+| session 5259, the site's loop, the platform set | de02 | 4 | a license hold | right |
+| session 5259, the site's loop, the platform set | de04 | 4 | a license hold | right |
+| session 5259, the site's loop, the platform set | de08 | 6 | a license hold | right |
+| session 5259, the site's loop, the platform set | po02 | 2 | a license hold | right |

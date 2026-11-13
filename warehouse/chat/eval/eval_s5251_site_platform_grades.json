@@ -324,7 +324,7 @@
     "table": null,
     "cited": null,
     "refusal": false,
-    "no_figure": false,
+    "no_figure": true,
     "ok": true,
     "hold_answer": true
    },
