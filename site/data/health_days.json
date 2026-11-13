@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-12T15:55Z",
+ "written": "2026-11-13T17:04Z",
  "green_days": 0,
- "counted_to": "2026-11-11",
+ "counted_to": "2026-11-12",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -3224,6 +3224,173 @@
     }
    ],
    "stale": []
+  },
+  "2026-11-12": {
+   "rows": 761,
+   "failed": 12,
+   "missing": [],
+   "short": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "daily prices": {
+     "ok": 75,
+     "skipped": 10,
+     "retried": 2,
+     "failed": 11,
+     "runs": 4
+    },
+    "hourly network": {
+     "ok": 15,
+     "skipped": 11,
+     "retried": 0,
+     "failed": 0,
+     "runs": 26
+    },
+    "latest prices": {
+     "ok": 98,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 52,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 54
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-12T12:20",
+     "workflow": "daily prices",
+     "step": "nyiso",
+     "reason": "nyiso RTM failed: nyiso RTM FAILED, no output file written: RuntimeError: incomplete data, no file written: 11 intervals longer than 5 minutes (a missing time stamp), first at CAPITL 2026-11-09T14:40:"
+    },
+    {
+     "at": "2026-11-12T13:53",
+     "workflow": "daily prices",
+     "step": "daily run",
+     "reason": "ValueError: datacenter_tracker_rollups: sources ['erw:datacenter_projects'] are not in /home/runner/work/erw/erw/warehouse/metadata/sources.csv; cannot set its license"
+    },
+    {
+     "at": "2026-11-12T14:29",
+     "workflow": "daily prices",
+     "step": "nyiso",
+     "reason": "nyiso RTM failed: nyiso RTM FAILED, no output file written: RuntimeError: incomplete data, no file written: 11 intervals longer than 5 minutes (a missing time stamp), first at CAPITL 2026-11-09T14:40:"
+    },
+    {
+     "at": "2026-11-12T15:54",
+     "workflow": "daily prices",
+     "step": "daily run",
+     "reason": "ValueError: datacenter_tracker_rollups: sources ['erw:datacenter_projects'] are not in /home/runner/work/erw/erw/warehouse/metadata/sources.csv; cannot set its license"
+    },
+    {
+     "at": "2026-11-12T18:16",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_commit",
+     "reason": "git pull --rebase exit 1: committed here, not pushed"
+    },
+    {
+     "at": "2026-11-12T18:30",
+     "workflow": "daily prices",
+     "step": "nyiso",
+     "reason": "nyiso RTM failed: nyiso RTM FAILED, no output file written: RuntimeError: incomplete data, no file written: 11 intervals longer than 5 minutes (a missing time stamp), first at CAPITL 2026-11-09T14:40:"
+    },
+    {
+     "at": "2026-11-12T19:53",
+     "workflow": "daily prices",
+     "step": "daily run",
+     "reason": "ValueError: deal_counterparties: no sector rule in build_coverage.SECTOR_RULES matches; add one"
+    },
+    {
+     "at": "2026-11-12T21:30",
+     "workflow": "daily prices",
+     "step": "nyiso",
+     "reason": "nyiso RTM failed: nyiso RTM FAILED, no output file written: RuntimeError: incomplete data, no file written: 11 intervals longer than 5 minutes (a missing time stamp), first at CAPITL 2026-11-09T14:40:"
+    },
+    {
+     "at": "2026-11-12T22:18",
+     "workflow": "daily prices",
+     "step": "board_tests",
+     "reason": "the board's tests refused the run's board; put back as committed (runs/daily_board_tests.out)"
+    },
+    {
+     "at": "2026-11-12T23:34",
+     "workflow": "daily prices",
+     "step": "commit",
+     "reason": "push to main refused: 1 failing tests: test_session402.TheSiteSide.test_the_node_tests_pass"
+    },
+    {
+     "at": "2026-11-12T23:40",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_cite_names_the_iso_the_table_and_the_commit[datacenter_tracker_rollups] - KeyError: 'datacenter'"
+    },
+    {
+     "at": "2026-11-12T23:47",
+     "workflow": "daily prices",
+     "step": "health summary commit",
+     "reason": "push to main refused: 1 failing tests: test_session402.TheSiteSide.test_the_node_tests_pass"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-12T13:19",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 59 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-12T15:17",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices SKIPPED: stale at source (no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload paths, which its robots file disallows, are not a"
+    },
+    {
+     "at": "2026-11-12T15:20",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 59 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-12T17:25",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 59 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-12T19:18",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices SKIPPED: stale at source (no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload paths, which its robots file disallows, are not a"
+    },
+    {
+     "at": "2026-11-12T19:20",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-21, 52 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-12T22:13",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices SKIPPED: stale at source (no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload paths, which its robots file disallows, are not a"
+    },
+    {
+     "at": "2026-11-12T22:17",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 59 days old (limit 28)"
+    }
+   ]
   }
  }
 }
