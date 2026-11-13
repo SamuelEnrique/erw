@@ -256,6 +256,7 @@ const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
 const dcllRows = new Map();
 const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
+const newsRows = new Map();   // session 3823: a news table kept in git, by event_id, read once (the Digest's story rows)
 let R_statOf = null;
 /** Session 471: a CSV file's rows as objects, by its header (quoted cells, doubled quotes inside them). */
 function licCsv(text) {
@@ -401,6 +402,29 @@ async function truth(check) {
     const [, table, entity, d] = p;
     const r = (await q("series", { select: "value", table_name: `eq.${table}`, entity: `eq.${entity}`, ts_utc: `eq.${d}T00:00:00Z` }))[0];
     return r ? Number(r.value.toFixed(2)) : undefined;
+  }
+  // session 3823 (chain 216): two keys lib/digest.ts writes (session 804's US48 demand line, session 1450's story rows) and
+  // this script did not know until the issue of 12 November 2026 printed them and every gate stopped on "unknown check".
+  // digest_demand|<table>|<entity>|<variable>|<ts_utc>: the hour's demand, whole MW, from the live set (none held: no value
+  // to compare, as for a day-ahead day not held whole); digest_story|news_stories|<event_id>|mw or price: the story's
+  // field in the news table kept in git (warehouse/output/news_stories.csv; it is in no live set), blank: no value
+  if (p[0] === "digest_demand") {
+    const [, table, entity, variable, ts] = p;
+    const [t, f] = current(table, { entity: `eq.${entity}`, variable: `eq.${variable}`, ts_utc: `eq.${ts}` });
+    const r = (await q("series", { select: "value", table_name: `eq.${t}`, ...f }))[0];
+    return r ? Math.round(r.value) : undefined;
+  }
+  if (p[0] === "digest_story") {
+    const [, table, id, field] = p;
+    if (!newsRows.has(table)) {
+      const text = fs.readFileSync(path.join(here, "..", "..", "warehouse", "output", `${table}.csv`), "utf-8")
+        .split(/\r?\n/).filter((l) => !l.startsWith("#")).join("\n");
+      newsRows.set(table, new Map(licCsv(text).map((r) => [r.event_id, r])));
+    }
+    const r = newsRows.get(table).get(id);
+    if (!r || r[field] === undefined || r[field] === "") return undefined;
+    const v = Number(r[field]);
+    return Number.isFinite(v) ? v : undefined;
   }
   // session 300: the home page's count of findings, from the library's own catalogue (site/data/findings/catalogue.json)
   if (p[0] === "findings" && p[1] === "count") {

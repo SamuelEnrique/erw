@@ -25,7 +25,14 @@ Long end 1:00. The next file. Memory and disk; `git worktree list`, landed workt
 
 ## Sessions 3825 to 3829: chain 216's other unfinished steps
 
-Long end 1:30 each. In chain 216's order, from its note. Where chain 216 finished everything, these sessions take the next sections' steps early and say so.
+Long end 1:30 each. Written by chain 216's session 3823 from its note (`docs/state/note_2026-11-13_data_c216.md`); chain 216's later commits: landed at `ba107551d` (task/c216-data, 22:28 UTC on 12 November), the daily commit `405b42a10` (task/daily-2026-11-12, 00:54 UTC on 13 November) and `179209ea0` (task/c216-data2, 02:24 UTC: the guard's subtest names, check-values' Digest keys, the reports and the note). In this order; where a step is done, the next section's steps are taken early and said so.
+
+- **3824's first unfinished step: the daily run of 13 November** (the 14:00 UTC dispatch). The first with every fix of 12 November (the two coverage stops, NYISO's late stamps, test 402's rule, the guard's subtest names). Its "daily run" ok, its commit on main through the guard by itself (no session's replay), `nyiso` ok, the health summary's "Stale on main" line gone. A refusal is read by its named test and fixed at its cause (a test to its rule, or the code), never skipped.
+- **3825: the board's put-back.** The scheduled run of 12 November recorded `board_tests` failed ("the board's tests refused the run's board; put back as committed"); its log is on GitHub's runner. Read the next run's `board_tests` row; if it fails again, reproduce on this machine (the board's builder and tests 132 and 240 on the day's tables) and fix the cause with its test.
+- **3826: the data machine's run of 13 November** (17:00 UTC), the first with chain 215's two fixes: its page files on main without a session's help, `dm_test_replication ok`, `dm_analysis_figures` and the outages' two daily steps ok.
+- **3827: the Digest's story figure that traces to no table field.** The issue of 12 November keys "USD 2.1 billion" (story `news:808f73a07b2ad109`, the policy or capital row) to `news_stories`' `price`, which is blank for that story (its `price_mentioned` reads "$2B"); `warehouse/news/brief.py`'s `story_figure` reads the scored record's `price`. check-values (since session 3823) names it. Find the record's field and make the key name the field the figure is read from (or print no figure where the table holds none), with its test; a published issue is not rewritten.
+- **3828: the hunt again** (`check.py` after the daily commit's tables moved; a draft whose last full year has a newer year held computed again with `--replace`); and the Stanford and the warehouse's drafts for `deal_counterparties` (public, held from v1 and the catalogue until on Redivis), under the data lock, nothing released.
+- **3829: the records:** the guard's red branches and the day's task branches listed for the owner (this machine cannot delete them); the note's rulings carried.
 
 ## Sessions 3830 to 3833: the siting gaps a public US source can close
 
