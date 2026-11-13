@@ -53,5 +53,11 @@
  "CPS Energy (City Public Service Board of San Antonio)": "cps_energy",
  "Austin Energy (City of Austin)": "austin_energy",
  "El Paso Electric Company": "el_paso_electric",
- "Texas-New Mexico Power Company (TNMP)": "tnmp"
+ "Texas-New Mexico Power Company (TNMP)": "tnmp",
+ "Georgia Power Company": "georgia_power",
+ "Alabama Power Company": "alabama_power",
+ "Florida Power & Light Company": "fpl",
+ "Tampa Electric Company": "tampa_electric",
+ "Mississippi Power Company": "mississippi_power",
+ "JEA (Jacksonville)": "jea"
 }
