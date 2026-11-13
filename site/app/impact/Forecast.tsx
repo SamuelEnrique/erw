@@ -207,7 +207,7 @@ const LINES: Line[] = [
   { key: "oearn", label: "Operating earnings, each year", tip: "Wages, salaries and benefits of the operating jobs each year, in 2025 dollars.", figure: "o:earnings:total", fmt: usd },
   { key: "cout", label: "Construction output", tip: "The value of all the goods and services produced in the state because of the build: JEDI's widest measure, in 2025 dollars.", figure: "c:output:total", fmt: usd },
   { key: "oout", label: "Operating output, each year", tip: "The same measure for each year the plant runs.", figure: "o:output:total", fmt: usd },
-  { key: "prop1", label: "Property tax, first operating year", tip: "From the state's statute where one is held (Minnesota, South Dakota, North Dakota, Nebraska, Iowa; Kansas exempts the first ten years and holds no rule after; Oregon solar by county agreement), or the reader's own rate. Land is not included.", figure: "y1:property", fmt: usd,
+  { key: "prop1", label: "Property tax, first operating year", tip: "From the state's statute where one is held (Minnesota, South Dakota, North Dakota, Nebraska, Iowa; Kansas exempts the first ten years and holds no rule after; Oregon solar by county agreement; Wyoming's wind generation excise of USD 1 a MWh from the fourth year, to which the reader's own property tax rate is added; Florida's 80 percent exemption of renewable devices through 2037 and Arizona's 20 percent valuation through 2040, on the reader's own rate), or the reader's own rate. Land is not included.", figure: "y1:property", fmt: usd,
     why: (r) => (r.property.held ? null : r.property.note) },
   { key: "propl", label: "Property tax over the life", tip: "Every operating year added, in 2025 dollars.", figure: "sum:property", fmt: usd, why: (r) => (r.property.held ? null : r.property.note) },
   { key: "sales", label: "Sales and use tax", tip: "On the taxable share of the construction spending at the state and average local rate, spread over the build.", figure: "sum:sales", fmt: usd,
@@ -289,7 +289,7 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
   const key = inputsKey(x);
   // session 4220 (the county assessor's read): the year's MWh where a production tax rests on it, the taxable value
   // where a valuation or the reader's own rate taxes one
-  const hasMwh = r.years.some((y) => y.mwh !== null) && r.property.held && (r.property.rule ?? "").includes("production");
+  const hasMwh = r.years.some((y) => y.mwh !== null) && r.property.production;  // fault 20: by the rule's kind, not its id
   const hasValue = r.years.some((y) => y.value !== null);
   return (
     <section data-years={view}>

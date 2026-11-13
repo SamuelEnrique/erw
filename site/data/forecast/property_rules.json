@@ -67,6 +67,30 @@
    "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors307.html",
    "read": "2026-11-13",
    "request": 68
+  },
+  "wy_39_22": {
+   "title": "Wyoming Statutes, title 39, chapter 22, Tax upon production of electricity from wind resources (39-22-103 to 39-22-105)",
+   "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+   "read": "2026-11-13",
+   "request": 81
+  },
+  "fl_196_182": {
+   "title": "Florida Statutes 2025, section 196.182, Exemption of renewable energy source devices",
+   "url": "https://www.flsenate.gov/Laws/Statutes/2025/196.182",
+   "read": "2026-11-13",
+   "request": 83
+  },
+  "fl_193_624": {
+   "title": "Florida Statutes 2025, section 193.624, Assessment of renewable energy source devices (the definition)",
+   "url": "https://www.flsenate.gov/Laws/Statutes/2025/193.624",
+   "read": "2026-11-13",
+   "request": 84
+  },
+  "az_42_14155": {
+   "title": "Arizona Revised Statutes 42-14155, Valuation of renewable energy and storage equipment; definitions",
+   "url": "https://www.azleg.gov/ars/42/14155.htm",
+   "read": "2026-11-13",
+   "request": 86
   }
  },
  "states": {
@@ -313,6 +337,66 @@
      "quote2": "Sec. 3. (1) Section 1, chapter 571, Oregon Laws 2015, is repealed on January 2, 2028. (2) Notwithstanding subsection (1) of this section, property constituting a solar project that is exempt from property taxes under section 1, chapter 571, Oregon Laws 2015, on the date specified in subsection (1) of this section shall continue to be exempt and to pay the fee in lieu of property taxes for the term specified in the agreement",
      "default_why": "USD 7,000, the statute's maximum, which was its one fixed rate until the 2021 amendment set the range (a ruling)",
      "not_modeled": "The agreement is the county's and the owner's: the tool offers it as a choice, off by default. The repeal of 2 January 2028: a project must be exempt under an agreement by then; the tool does not test the date. After the agreement's years no rule is held (no life total unless the reader types a rate). The land's treatment, which the agreement sets."
+    }
+   ]
+  },
+  "wy": {
+   "name": "Wyoming",
+   "rules": [
+    {
+     "id": "wy_wind_generation",
+     "technologies": [
+      "land_based_wind"
+     ],
+     "kind": "production",
+     "usd_per_mwh": 1.0,
+     "exempt_years": 3,
+     "adds_to_property": true,
+     "cite": "wy_39_22",
+     "quote": "39-22-103. Imposition. There is levied an excise tax upon the privilege of producing electricity from wind resources in this state. [...] The tax shall be imposed on each megawatt hour of electricity produced from wind resources at the point of interconnection with an electric transmission line. 39-22-104. Taxation rate. The tax rate shall be one dollar ($1.00) on each megawatt hour, or portion thereof, which is produced in this state.",
+     "quote2": "39-22-105. (b) Electricity produced from a wind turbine shall not be subject to the tax imposed under this chapter until the date three (3) years after the turbine first produced electricity for sale.",
+     "not_modeled": "An excise on production, in addition to the property tax on the plant, which no rule here holds: the reader's own property tax rate, if typed, is added to it. MWh at the point of interconnection are taken as the plant's MWh. The three years are counted as the first three operating years."
+    }
+   ]
+  },
+  "fl": {
+   "name": "Florida",
+   "rules": [
+    {
+     "id": "fl_device_exemption",
+     "technologies": [
+      "utility_pv",
+      "land_based_wind",
+      "geothermal"
+     ],
+     "kind": "own_exempt",
+     "exempt_share": 0.8,
+     "until_year": 2037,
+     "cite": "fl_196_182",
+     "quote": "196.182 Exemption of renewable energy source devices. (1) Eighty percent of the assessed value of a renewable energy source device, as defined in s. 193.624, that is considered tangible personal property is exempt from ad valorem taxation if the renewable energy source device: (a) Is installed on real property on or after January 1, 2018; [...] (4) This section expires December 31, 2037.",
+     "cite2": "fl_193_624",
+     "quote2": "the term \"renewable energy source device\" means any of the following equipment that collects, transmits, stores, or uses solar energy, wind energy, or energy derived from geothermal deposits or biogas [...]: (a) Solar energy collectors, photovoltaic modules, and inverters. [...] (i) Pipes, ducts, wiring, structural supports, refrigerant handling systems, and other components used as integral parts of such systems [...] (j) Windmills and wind turbines. (k) Wind-driven generators.",
+     "not_modeled": "No rate is in the statute: the exemption acts on the reader's own rate, applied to the remaining 20 percent of the base through 2037 and to all of it after (the section expires 31 December 2037). The tool applies the 80 percent to the whole capital cost; land and any other real property improvement are not exempt. The fiscally constrained counties' projects filed by 2017 (subsection 2) are not modeled."
+    }
+   ]
+  },
+  "az": {
+   "name": "Arizona",
+   "rules": [
+    {
+     "id": "az_renewable_valuation",
+     "technologies": [
+      "utility_pv",
+      "land_based_wind",
+      "geothermal"
+     ],
+     "kind": "own_exempt",
+     "exempt_share": 0.8,
+     "until_year": 2040,
+     "cite": "az_42_14155",
+     "quote": "A. Through December 31, 2040, the department shall determine the full cash value of taxable renewable energy and storage equipment in the manner prescribed by this section. B. The full cash value of renewable energy and storage equipment is twenty percent of the depreciated cost of the equipment. Depreciated cost shall be determined by deducting depreciation from taxable original cost. Depreciation shall not exceed ninety percent of the adjusted original cost.",
+     "quote2": "6. \"Taxable original cost\" means the original cost reduced by the value of any investment tax credits, production tax credits or cash grants in lieu of investment tax credits applicable to the taxable renewable energy and storage equipment.",
+     "not_modeled": "No rate is in the section (the assessment ratio and the local rates are elsewhere): it acts on the reader's own rate, applied to 20 percent of the capital cost as it falls, through 2040, and to the whole after. Not modeled: the depreciation cap of 90 percent (the reader's straight line goes to 0), the department's useful lives, and the taxable original cost's reduction by federal tax credits, which the tool does not hold (the base is the capital cost before any credit)."
     }
    ]
   }

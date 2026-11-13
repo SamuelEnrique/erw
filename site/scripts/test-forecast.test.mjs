@@ -218,6 +218,8 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "geothermal", "ca") }, { ...F.defaults(P, "land_based_wind", "tx"), own: 1.2, ownyears: 20 }],
     [{ ...F.defaults(P, "land_based_wind", "ks") }, { ...F.defaults(P, "utility_pv", "ks"), own: 0.8, ownyears: 25 }],
     [{ ...F.defaults(P, "utility_pv", "or"), iaval: true, optrate: 6200 }, { ...F.defaults(P, "utility_pv", "or"), iaval: true, own: 1, ownyears: 30 }],
+    [{ ...F.defaults(P, "land_based_wind", "wy") }, { ...F.defaults(P, "land_based_wind", "wy"), own: 1.1, ownyears: 20 }],
+    [{ ...F.defaults(P, "utility_pv", "fl"), own: 1, ownyears: 30 }, { ...F.defaults(P, "land_based_wind", "fl"), own: 1.2, ownyears: 25, start: 2030 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -325,4 +327,44 @@ test("property tax: Oregon's solar fee in lieu by county agreement, within its r
   assert.equal(F.propertyTax(P, on, 20).tax, null, "no rule held after the agreement's 20 years");
   near(F.propertyTax(P, { ...on, optrate: 4000 }, 0).tax, 50 * 5500, 1e-12, "held to the statute's minimum");
   assert.equal(F.defaults(P, "land_based_wind", "or").optrate, null, "the fee is a solar project's");
+});
+
+test("sales tax: North Dakota exempts a solar or gas power plant's purchases, not a new wind plant's", () => {
+  assert.equal(F.defaults(P, "utility_pv", "nd").exempt, 100);
+  assert.equal(F.defaults(P, "natural_gas", "nd").exempt, 100);
+  assert.equal(F.defaults(P, "land_based_wind", "nd").exempt, 0);
+});
+
+test("Wyoming's wind excise: USD 1 a MWh from the fourth operating year, the reader's own property tax added", () => {
+  const wy = { ...F.defaults(P, "land_based_wind", "wy"), mw: 100, cf: 0.4, capex: 1500 };
+  assert.equal(F.propertyTax(P, wy, 0).tax, 0); assert.equal(F.propertyTax(P, wy, 2).tax, 0);
+  near(F.propertyTax(P, wy, 3).tax, 100 * 8760 * 0.4 * 1);
+  const own = { ...wy, own: 1, ownyears: 25 };
+  near(F.propertyTax(P, own, 0).tax, 150e6 * 0.01, 1e-12, "the property tax during the excise's exempt years");
+  near(F.propertyTax(P, own, 5).tax, 100 * 8760 * 0.4 + 150e6 * (1 - 5 / 25) * 0.01);
+  assert.equal(F.propertyTax(P, F.defaults(P, "utility_pv", "wy"), 0).tax, null, "the excise is wind's");
+});
+
+test("a production tax applied is reported whatever its rule's id (fault 20)", () => {
+  assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "wy"), mw: 100 }, ROWS, P).property.production, true);
+  assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "mn"), mw: 100 }, ROWS, P).property.production, true);
+  assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "ne"), mw: 100 }, ROWS, P).property.production, false);
+  assert.equal(F.run(F.defaults(P, "land_based_wind", "tx"), ROWS, P).property.production, false);
+});
+
+test("Florida's device exemption: the reader's own rate on 20 percent of the base through 2037, all of it after", () => {
+  const fl = { ...F.defaults(P, "utility_pv", "fl"), mw: 100, capex: 1500, start: 2027, build: 1, own: 1.5, ownyears: 30 };
+  // the first operating year is 2028
+  near(F.propertyTax(P, fl, 0).tax, 150e6 * 1 * 0.2 * 0.015);
+  near(F.propertyTax(P, fl, 9).tax, 150e6 * (1 - 9 / 30) * 0.2 * 0.015, 1e-12, "2037, the last exempt year");
+  near(F.propertyTax(P, fl, 10).tax, 150e6 * (1 - 10 / 30) * 0.015, 1e-12, "2038, the section expired");
+  assert.equal(F.propertyTax(P, { ...fl, own: null }, 0).tax, null, "no rate given, no figure");
+  near(F.propertyTax(P, { ...F.defaults(P, "natural_gas", "fl"), mw: 100, capex: 1500, own: 1.5, ownyears: 30 }, 0).tax, 150e6 * 0.015, 1e-12, "gas is not a renewable device");
+});
+
+test("Arizona's valuation at 20 percent of depreciated cost through 2040, on the reader's own rate", () => {
+  const az = { ...F.defaults(P, "utility_pv", "az"), mw: 100, capex: 1500, start: 2027, build: 1, own: 1, ownyears: 35 };
+  near(F.propertyTax(P, az, 0).tax, 150e6 * 0.2 * 0.01);
+  near(F.propertyTax(P, az, 12).tax, 150e6 * (1 - 12 / 35) * 0.2 * 0.01, 1e-12, "2040, the last year");
+  near(F.propertyTax(P, az, 13).tax, 150e6 * (1 - 13 / 35) * 0.01, 1e-12, "2041");
 });

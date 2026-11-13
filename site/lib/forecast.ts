@@ -42,9 +42,14 @@ export type IncomeState = {
   standard_deduction_single: number | null; personal_exemption_single: number | null; personal_credit_single: number | null;
 };
 export type PropertyRule = {
-  id: string; technologies: TechKey[]; kind: "capacity" | "production" | "valuation" | "exempt_years" | "capacity_option";
+  id: string; technologies: TechKey[]; kind: "capacity" | "production" | "valuation" | "exempt_years" | "capacity_option" | "own_exempt";
   /** capacity_option (session 4225, Oregon's solar fee in lieu by county agreement): the statute's range and the default */
   usd_per_mw_min?: number; usd_per_mw_max?: number; default_usd_per_mw?: number;
+  /** session 4255 (Wyoming's wind excise): a production tax's first exempt operating years, and a rule that adds to the
+   *  property tax instead of standing in for it (the reader's own property tax rate is added to it) */
+  exempt_years?: number; adds_to_property?: boolean;
+  /** own_exempt (session 4257, Florida's device exemption): the share of the reader's own rate's base exempt, through a calendar year */
+  exempt_share?: number; until_year?: number;
   /** exempt_years: the operating years exempt (session 4223, Kansas) */
   years?: number;
   usd_per_mw_year?: number; usd_per_mwh?: number; min_mw?: number;
@@ -104,7 +109,8 @@ export type Result = {
   pv: Streams & { taxes: number };
   construction: { jobs: Record<Effect, number>; earnings: Record<Effect, number>; output: Record<Effect, number> };
   operations: { jobs: Record<Effect, number>; earnings: Record<Effect, number>; output: Record<Effect, number> };
-  property: { held: boolean; rule: string | null; note: string };
+  /** production: a tax on MWh was applied in some year (fault 20: the page's MWh column asks this, not a rule's id) */
+  property: { held: boolean; rule: string | null; note: string; production: boolean };
   severance: { held: boolean; note: string };
   sales: { held: boolean; note: string };
 };
@@ -199,7 +205,7 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
       else if (r.kind === "production") {
         // a scenario with no capacity factor (geothermal) has no production tax: the Python and Stata files do the same
         const rate = tierRate(r, x.mw);
-        if (rate > 0 && Number.isFinite(mwh)) { tax += mwh * rate; used.push(r.id); }
+        if (rate > 0 && Number.isFinite(mwh)) { tax += i < (r.exempt_years ?? 0) ? 0 : mwh * rate; used.push(r.id); }
       }
       else if (r.kind === "capacity_option") {
         // a county's agreement (off by default): the reader's rate within the statute's range, for the agreement's years
@@ -220,11 +226,20 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
         tax += value * (x.levy / 1000); used.push(r.id);
       }
     }
+    // a rule that adds to the property tax (Wyoming's excise) leaves the property tax itself to the reader's own rate
+    const adds = rules.filter((r) => used.includes(r.id)).every((r) => r.adds_to_property);
+    if (used.length && adds && x.own !== null && x.ownyears !== null && x.ownyears > 0) {
+      const share = Math.max(0, 1 - i / x.ownyears);
+      return { tax: tax + spend * share * (x.own / 100), rule: used.concat("own").join("+"), value: spend * share };
+    }
     if (used.length) return { tax, rule: used.join("+"), value };
   }
   if (x.own !== null && x.ownyears !== null && x.ownyears > 0) {
     const share = Math.max(0, 1 - i / x.ownyears);
-    return { tax: spend * share * (x.own / 100), rule: "own", value: spend * share };
+    // an exemption of part of the base (Florida's 80 percent of a renewable device's value, through 2037) acts on the own rate
+    const ex = rules.find((r) => r.kind === "own_exempt" && x.start + x.build + i <= (r.until_year ?? Infinity));
+    const taxed = ex ? 1 - (ex.exempt_share ?? 0) : 1;
+    return { tax: spend * share * taxed * (x.own / 100), rule: ex ? `own+${ex.id}` : "own", value: spend * share * taxed };
   }
   return { tax: null, rule: null };
 }
@@ -235,7 +250,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
     ok: false, years: [], sums: { jobs: 0, earnings: 0, output: 0, property: null, sales: null, income: 0, severance: null },
     pv: { jobs: 0, earnings: 0, output: 0, property: null, sales: null, income: 0, severance: null, taxes: 0 },
     construction: { jobs: ZERO(), earnings: ZERO(), output: ZERO() }, operations: { jobs: ZERO(), earnings: ZERO(), output: ZERO() },
-    property: { held: false, rule: null, note: "" }, severance: { held: false, note: "" }, sales: { held: false, note: "" },
+    property: { held: false, rule: null, note: "", production: false }, severance: { held: false, note: "" }, sales: { held: false, note: "" },
   };
   const jc = P.jediCosts.technologies[x.tech];
   const cost = jc?.states[x.state]?.cost_usd_per_mw;
@@ -314,7 +329,8 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
     : "no rule held for this state and technology";
   return {
     ok: true, years, sums, pv: { ...pvS, taxes }, construction: c, operations: o,
-    property: { held: propHeld && !propGap, rule: propRule, note: propNote },
+    property: { held: propHeld && !propGap, rule: propRule, note: propNote,
+      production: rules.some((r) => r.kind === "production" && (propRule ?? "").split("+").includes(r.id)) },
     severance: { held: sevYear !== null, note: sevNote },
     sales: { held: salesHeld, note: salesHeld ? (x.exempt > 0 ? "after the exemption" : "before exemptions") : "no taxable share held for this technology" },
   };
