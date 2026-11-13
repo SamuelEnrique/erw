@@ -537,6 +537,13 @@ def numbers(start, cut, log, facts=None):
     L = ["**Day-ahead average, main hub, over the ISO's local week, and the change from the week before**", "",
           "| ISO | Hub or zone | This week USD/MWh | Week before USD/MWh | Change | Table |", "|---|---|---|---|---|---|"]
     for label, table, node, tz in MAIN_HUBS:
+        if label in held:
+            # session 1988 (faults file row 93): a grid held for license (its publisher asks for written permission) prints
+            # no mean, as the Digest's table; its weekly means were printed here in W44 and W45. A paused one says its pause
+            pz = brief.paused_row(label)
+            words = f"not requested: paused by the ERW since {pz['paused_on']}" if pz else brief.LICENSED_NOTE
+            L.append(f"| {label} | {node} | {words} | {words} | not computed | {notes.ref(table)} |")
+            continue
         m1, n1, x1 = dam_week(label, table, node, tz, start, log)
         m0, n0, x0 = dam_week(label, table, node, tz, prior, log)
         pause = brief.paused_row(label)  # session 470: a paused publisher's grid says so
@@ -554,7 +561,11 @@ def numbers(start, cut, log, facts=None):
     # the week's highest real-time price, over UTC bounds, from the interval price tables
     best, covered = None, []
     # session 30: the consolidated iso_rtm_hub_prices is read one ISO (market) at a time (brief.rt_parts)
-    for iso, table, market in brief.rt_parts():
+    parts = brief.rt_parts()
+    held_parts = brief.held_rt(parts)   # session 1988 (row 93): a held grid's real-time table is not read, as in the Digest
+    for iso, table, market in parts:
+        if (iso, table) in held_parts:
+            continue
         try:
             df = erw.fetch(table, start=start, end=cut, market=market)
         except Exception as exc:
@@ -585,6 +596,9 @@ def numbers(start, cut, log, facts=None):
             facts["rt"] = top
     else:
         L[-1] += "no real-time table covers this week."
+    if held_parts:   # session 1988 (row 93): the grids not read, said as the Digest says them
+        L[-1] += (" Not read: " + ", ".join(sorted({brief.RT_GRID.get(i, i.upper()) for i, _t in held_parts}))
+                  + f" ({brief.LICENSED_NOTE}).")
 
     # Session 470 (roundup audit fix 2): EIA's closes come days late, so "the last close of the week against the last close
     # before it" was a change of two trading days on W40 (WTI +12.8 percent from one outlying close). The change is now the

@@ -340,5 +340,43 @@ class Row91AMoverIsNotAnItem(unittest.TestCase):
         self.assertEqual(len(out), 2)
 
 
+class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
+    """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
+
+    def numbers(self):
+        from unittest import mock
+        import roundup
+        utc = "UTC"
+
+        def fetch(table, start=None, end=None, market=None, **k):
+            if table == "iso_rtm_hub_prices":
+                return pd.DataFrame({"ts_utc": [pd.Timestamp("2026-11-10 22:00", tz=utc)], "value": [926.42], "node": ["HB_WEST"],
+                                     "variable": ["spp_rtm"], "freq": ["PT15M"]})
+            if table == "nyiso_rtm_zone_prices":
+                return pd.DataFrame({"ts_utc": [pd.Timestamp("2026-11-10 22:00", tz=utc)], "value": [2000.0], "node": ["N.Y.C."],
+                                     "variable": ["lbmp_rtm"], "freq": ["PT5M"]})
+            raise RuntimeError("not on this machine")
+        parts = [("ercot", "iso_rtm_hub_prices", "ercot_rtm"), ("nyiso", "nyiso_rtm_zone_prices", None)]
+        with mock.patch.object(roundup, "dam_week", lambda *a: (40.9, 168, 168)), mock.patch.object(roundup.erw, "fetch", fetch), \
+                mock.patch.object(brief, "held_grids", lambda *a: {"NYISO", "ISO-NE", "MISO"}), \
+                mock.patch.object(brief, "held_rt", lambda p, *a: {("nyiso", "nyiso_rtm_zone_prices")}), \
+                mock.patch.object(brief, "paused_row", lambda label: {"paused_on": "2026-10-04"} if label == "MISO" else None), \
+                mock.patch.object(brief, "rt_parts", lambda: parts), mock.patch.object(brief, "cite_short", lambda t: f"`{t}`"):
+            return roundup.numbers(pd.Timestamp("2026-11-09", tz=utc), pd.Timestamp("2026-11-12 22:00", tz=utc), lambda *a: None, {})
+
+    def test_the_table_and_the_real_time_line(self):
+        L = self.numbers()
+        nyiso = next(ln for ln in L if ln.startswith("| NYISO |"))
+        self.assertEqual(nyiso.split(" | ")[2:5], ["licensed source needed", "licensed source needed", "not computed"])
+        isone = next(ln for ln in L if ln.startswith("| ISO-NE |"))
+        self.assertNotIn("40.9", isone)
+        self.assertIn("paused by the ERW", next(ln for ln in L if ln.startswith("| MISO |")))
+        self.assertIn("| 40.9 | 40.9 |", next(ln for ln in L if ln.startswith("| ERCOT |")))
+        rt = next(ln for ln in L if ln.startswith("**Highest real-time price of the week:**"))
+        self.assertIn("926.42 USD/MWh at HB_WEST (ERCOT)", rt)
+        self.assertNotIn("2000", rt)
+        self.assertTrue(rt.endswith("Not read: NYISO (licensed source needed)."), rt)
+
+
 if __name__ == "__main__":
     unittest.main()
