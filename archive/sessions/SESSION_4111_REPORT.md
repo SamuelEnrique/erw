@@ -1,6 +1,6 @@
 # Session 4111 report: the paused, the refused and the reserved
 
-Energy Research Warehouse (ERW). Chain 229, session 12 of 50, lab-desktop third window, 13 November 2026 11:27 to 11:33 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4110-licenses`.
+Energy Research Warehouse (ERW). Chain 229, session 12 of 50, lab-desktop third window, 13 November 2026 11:27 to 11:29 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4110-licenses`.
 
 ## Verdicts (3 new; 270 publishers with a verdict)
 
