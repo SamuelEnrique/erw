@@ -45,7 +45,7 @@ Clock: precheck 19:51 UTC, the next file pushed 19:54:02 UTC, the queue step pus
 | 5165 | the next file, the queue | |
 
 - 13 new test files (`tests/test_session5102.py`, `5151` to `5156`, `5159` to `5163`; `5157` on the retirement's branch), 2 more tests in `site/scripts/test-usage.mjs`.
-- Pushes to `main`: six, each of queue files or the landing request file alone, each with a snapshot before and after: 0 differences every time (the last pair is session 5166's to compare).
+- Pushes to `main`: five, holding six commits, each of queue files or the landing request file alone, each with a snapshot before and after: 0 differences every time (the last pair is session 5166's to compare).
 
 ## Checks, with exit codes
 
