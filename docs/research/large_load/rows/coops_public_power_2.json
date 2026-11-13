@@ -1,0 +1,676 @@
+{
+ "group": "coops_public_power_2",
+ "rows": [
+  {
+   "utility": "Hoosier Energy Rural Electric Cooperative, Inc. (Hoosier Energy)",
+   "state": "IN, IL",
+   "iso_region": "MISO",
+   "rule_name": "Consumer Directed Resource Policy (board policy for loads greater than 50 MW, data centers included)",
+   "source_url": "https://www.hoosierenergy.com/news-resources/data-centers-affordability-in-focus-at-annual-meeting/",
+   "source_title": "Data centers, affordability in focus at Annual Meeting (Hoosier Energy news, 12 May 2026)",
+   "quoted_clause": {
+    "section": "article text",
+    "quote": "The result was what is called the Consumer Directed Resource Policy, which applies to all loads greater than 50 megawatts."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "a generation and transmission cooperative's board policy; no docket is named in the post, and no IURC filing was found"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-04-08",
+    "cites": [
+     {
+      "section": "article text",
+      "quote": "The 2026 Hoosier Energy Annual Meeting convened on April 8"
+     },
+     {
+      "section": "article text",
+      "quote": "together, the board, staff, and member CEOs, developed a framework and policy for serving large megaloads, like data centers."
+     },
+     {
+      "section": "article text",
+      "quote": "The result of the policy is that a data center would pay all costs to serve its load rather than operating under Hoosier Energy's traditional tariffs."
+     }
+    ],
+    "note": "the date is the annual meeting at which the policy was described as applying; the post prints no adoption or effective date"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "greater than 50 MW",
+     "cites": [
+      {
+       "section": "article text",
+       "quote": "the Consumer Directed Resource Policy, which applies to all loads greater than 50 megawatts."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Hoosier Energy news post of 12 May 2026 on the 8 April 2026 annual meeting (the only document found); the policy text itself is not posted on hoosierenergy.com, and no Hoosier tariff, board resolution or IURC filing for the policy was found (one web search)"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Hoosier Energy news post of 12 May 2026 on the 8 April 2026 annual meeting (the only document found); the policy text itself is not posted on hoosierenergy.com, and no Hoosier tariff, board resolution or IURC filing for the policy was found (one web search)"
+    },
+    "collateral": {
+     "value": "upfront payment for any obligations Hoosier undertakes on the load's behalf, robust prepayments, and energy invoiced every seven days (amounts not stated)",
+     "cites": [
+      {
+       "section": "article text",
+       "quote": "we require them to actually pay for any obligations that we've undertaken on their behalf. We require them to pay for that upfront."
+      },
+      {
+       "section": "article text",
+       "quote": "These large loads are also invoiced every seven days on their energy consumption as part of minimizing the risk, coupled with robust prepayments."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Hoosier Energy news post of 12 May 2026 on the 8 April 2026 annual meeting (the only document found); the policy text itself is not posted on hoosierenergy.com, and no Hoosier tariff, board resolution or IURC filing for the policy was found (one web search)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Hoosier Energy news post of 12 May 2026 on the 8 April 2026 annual meeting (the only document found); the policy text itself is not posted on hoosierenergy.com, and no Hoosier tariff, board resolution or IURC filing for the policy was found (one web search); the post says only that the load pays the cost of any studies, with no duration"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Hoosier Energy news post of 12 May 2026 on the 8 April 2026 annual meeting (the only document found); the policy text itself is not posted on hoosierenergy.com, and no Hoosier tariff, board resolution or IURC filing for the policy was found (one web search)"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Hoosier Energy news post of 12 May 2026 on the 8 April 2026 annual meeting (the only document found); the policy text itself is not posted on hoosierenergy.com, and no Hoosier tariff, board resolution or IURC filing for the policy was found (one web search); the post gives no count or MW of requests (it says only that inquiries of 100 MW have grown since 2020)"
+    }
+   },
+   "license": "public",
+   "license_basis": "Hoosier Energy's own news post; the site's only legal page is a privacy policy (https://hoosierenergy.com/privacy-policy/, read 13 November 2026), with no terms limiting use or reproduction",
+   "erw_overlap": "",
+   "notes": "The post (a staff article, quoting Hoosier executives) says the costs the load pays include studies, transmission infrastructure, transmission costs, capacity costs and administrative fees, and that Hoosier does not procure capacity for the data center: the load must procure its own (\"we do not procure any capacity on behalf of the actual data center\"). The policy document itself was not found. Leads not read: none.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Seattle City Light (City of Seattle, City Light Department)",
+   "state": "WA",
+   "iso_region": "outside an ISO (Seattle City Light balancing authority, Western Interconnection)",
+   "rule_name": "SMC 21.49.059 New large data center load: a new data center customer class served only under a Service Agreement (Council Bill 121231, passed as Ordinance 127473, the 2027-2028 retail rate ordinance)",
+   "source_url": "https://seattle.legistar.com/View.ashx?M=F&ID=15697497&GUID=AA5CD313-2E25-4C74-B62E-D8A03B10427D",
+   "source_title": "Council Bill 121231 v2 (the version passed on 21 July 2026 as Ordinance 127473): an ordinance relating to the City Light Department; establishing new retail rate schedules; establishing a new customer class and conditions of service for data centers (seattle.legistar.com)",
+   "quoted_clause": {
+    "page": "40",
+    "section": "Section 7, new SMC 21.49.059 A",
+    "quote": "21.49.059 New large data center load A. Applicability. A new large data center load shall not be eligible for general service rates and shall instead be served under a Service Agreement (Contract) established for the customer by the Department."
+   },
+   "docket": {
+    "value": "Council Bill 121231; Ordinance 127473",
+    "cites": [
+     {
+      "url": "https://seattle.legistar.com/gateway.aspx?M=L&ID=17175",
+      "section": "legislation details",
+      "quote": "CB 121231",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://seattle.legistar.com/gateway.aspx?M=L&ID=17175",
+      "section": "legislation details",
+      "quote": "Ord 127473",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-07",
+    "cites": [
+     {
+      "url": "https://powerlines.seattle.gov/2026/06/12/getting-ahead-of-data-center-power-demands/",
+      "section": "article text",
+      "quote": "Our New Large Data Center Load Policy was adopted, and effective immediately, as part of our rate ordinance in July 2026.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://seattle.legistar.com/gateway.aspx?M=L&ID=17175",
+      "section": "history",
+      "quote": "7/21/2026 2 City Council passed Pass",
+      "date_read": "2026-11-13"
+     },
+     {
+      "page": "59",
+      "section": "Section 15",
+      "quote": "This ordinance shall take effect as provided by Seattle Municipal Code Sections 1.04.020 and 1.04.070, except that Sections 10 and 12 shall take effect on January 1, 2027."
+     }
+    ],
+    "note": "passed by the City Council on 21 July 2026 and signed by the Mayor on 22 July 2026 (the legislation history); City Light says the policy took effect immediately; the class covers capacity installed after 1 January 2027 (the definition)"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "10 MVA or more of new or expanded data center capacity installed within any consecutive five-year period after 1 January 2027 (stated in MVA, not MW)",
+     "cites": [
+      {
+       "page": "7",
+       "section": "Section 1, SMC 21.49.020 definitions",
+       "quote": "\"New large data center load\" means any service to a data center fed from an expanded or a new installation equal to or greater than 10 MVA of capacity installed within any consecutive five-year period after January 1, 2027."
+      },
+      {
+       "url": "https://seattle.legistar.com/View.ashx?M=F&ID=15581803&GUID=77DBFEA5-7128-4AEA-8BB5-D81F62685E59",
+       "page": "4",
+       "section": "Summary and Fiscal Note, Section 8",
+       "quote": "Applies to data centers with new or expanded service of 10 megavolt-amperes (MVA) or greater",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "the contract must carry a guaranteed minimum demand or service rating (level set in each contract, not in the ordinance); demand is billed on contract demand, and demand above it is charged at 300 percent of the demand charge",
+     "cites": [
+      {
+       "page": "40",
+       "section": "SMC 21.49.059 B.1",
+       "quote": "The Contract shall require all the following terms, among other conditions: 1. A guaranteed minimum demand or service rating."
+      },
+      {
+       "page": "42",
+       "section": "SMC 21.49.059 D.1.b",
+       "quote": "The demand for billing purposes is the contract demand, unless otherwise specified."
+      },
+      {
+       "page": "42",
+       "section": "SMC 21.49.059 D.1.c",
+       "quote": "Contract demand overrun charge = metered demand in excess of the contract demand (kW) x demand charge ($/kW) x 300 percent."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not exceeding 20 years (City Light's authority to sign data center contracts for new large loads)",
+     "cites": [
+      {
+       "page": "59",
+       "section": "Section 14, SMC 21.49.130 C.9",
+       "quote": "The Department is authorized to execute contracts with data center customers to serve new large loads pursuant to Section 21.49.059 for an effective term not exceeding 20 years."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "full upfront financial responsibility for the cost of any infrastructure needed to serve the customer; the contract may add other terms for security and financial risk (no amount stated)",
+     "cites": [
+      {
+       "page": "41",
+       "section": "SMC 21.49.059 B.7",
+       "quote": "Full upfront financial responsibility for the cost of any infrastructure needed to serve the customer"
+      },
+      {
+       "page": "41",
+       "section": "SMC 21.49.059 B.11",
+       "quote": "Any other terms of service needed to address transactional costs, security, and financial risk."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "no exit fee is named; the customer stays fully responsible for the cost of the agreements City Light signed to serve its load until the contract term expires",
+     "cites": [
+      {
+       "page": "41",
+       "section": "SMC 21.49.059 B.9",
+       "quote": "The customer shall remain fully responsible for the cost of agreements executed by the Department to serve the customer's load, until the expiration of the Contract term."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "CB 121231 v2 Section 7 (SMC 21.49.059, pp. 40-42) and Section 14 (p. 59); the Summary and Fiscal Note (p. 4); City Light's post of 12 June 2026 (updated for July 2026); City Light Review Panel minutes of 4 May and 17 June 2026"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "CB 121231 v2 SMC 21.49.059 C (p. 41) states a condition, not a time: \"Service to new large loads will commence only after a Contract has been fully executed and the Department has in place all infrastructure, contracts, and resources necessary to provide electrical service.\"; City Light's post and the Summary and Fiscal Note give no time either"
+    },
+    "queue_size": {
+     "value": "five proposed large data centers from four companies, combined maximum demand 369 MW (approaches to City Light reported in April 2026, as the City Council's release of 9 June 2026 states)",
+     "cites": [
+      {
+       "url": "https://council.seattle.gov/2026/06/09/city-council-passes-emergency-data-center-moratorium-and-policy-framework/",
+       "section": "release text",
+       "quote": "follow reports in April that four companies had approached Seattle City Light to build five large-scale data centers. These proposed facilities would have a combined maximum demand of 369 megawatts",
+       "date_read": "2026-11-13"
+      }
+     ],
+     "note": "the City Council (the utility's rate-setting body) states the figure, citing reports in April; it is a count of approaches, not of signed service requests"
+    }
+   },
+   "license": "public",
+   "license_basis": "the City of Seattle's legislative record (seattle.legistar.com) and City web pages; seattle.gov's terms of use (https://www.seattle.gov/digital/terms-of-use, read 13 November 2026) set no limit on use or reproduction",
+   "erw_overlap": "",
+   "notes": "The signed Ordinance 127473 PDF (legistar2.granicus.com) is refused by robots; the text read is the passed version 2 of the bill on seattle.legistar.com (the history shows version 2 passed by the Council on 21 July 2026 after the committee's amendment of 15 July). Other conditions of SMC 21.49.059: curtailment provisions and energy conservation measures (B.5, B.6), full recovery of the procurement cost of new resources (B.8), energy and demand charges at City Light's marginal cost plus a service fee (D.1). City Light's own summary: threshold \"10 megavolt-amperes (MVA) or more\" (post); the Review Panel minutes of 17 June 2026 (p. 2) say \"greater than 10 MVA\". Separately, the City Council's one-year moratorium (Council Bill 121214) bars siting data centers over 20 MVA within city limits; that is a land-use rule, not a connection rule.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Buckeye Power, Inc. and Ohio's Electric Cooperatives (the 24 Ohio distribution cooperatives Buckeye serves)",
+   "state": "OH",
+   "iso_region": "PJM",
+   "rule_name": "Buckeye Power data center rate schedule (a separate rate class for high-load, energy-intensive data centers), approved by the Buckeye Power Board in March 2026",
+   "source_url": "https://www.ppec.coop/community/economic-development/data-centers-your-electric-cooperative/",
+   "source_title": "Data Centers & Your Electric Cooperative (Paulding Putnam Electric Cooperative, a Buckeye Power member)",
+   "quoted_clause": {
+    "section": "New Rate Specifically For Data Centers",
+    "quote": "Ohio's Electric Cooperatives (OEC) have established a new, distinct rate schedule for high-load, energy-intensive data centers to help keep power reliable and affordable for current members."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "a cooperative board's rate schedule; no docket is named on the page"
+   },
+   "status": {
+    "value": "approved",
+    "date": "2026-03",
+    "cites": [
+     {
+      "section": "New Rate Specifically For Data Centers",
+      "quote": "The Buckeye Power Board approved the new data center rate schedule in March 2026."
+     }
+    ],
+    "note": "no effective date or sheet was found; the OEC press release the page links (dated 28 March 2026) returned HTTP 404"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "PPEC's data center page (the schedule is described only as for \"high-load, energy-intensive data centers\"); the OEC release PDF on ppec.coop and PPEC's rates FAQ PDF returned HTTP 404; ohioec.org's Buckeye Power and economic development pages; Ohio Cooperative Living's data center article (an older article, no schedule terms)"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    }
+   },
+   "license": "public",
+   "license_basis": "a member cooperative's posting; ppec.coop's terms of use (https://www.ppec.coop/terms/, read 13 November 2026) note copyright and limit only the use of trademarks, with no personal-use limit or bar on reproduction",
+   "erw_overlap": "",
+   "notes": "The page says the schedule \"assigns the full cost of serving data centers directly to those customers\". Leads not used: the Ohio Farm Bureau article (ofbf.org, 25 May 2026) on the schedule, a third party, not read. The schedule's own terms wait for Buckeye's or OEC's posting of the schedule.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Tri-County Electric Cooperative, Inc. (Azle, Texas; a Brazos Electric Power Cooperative member)",
+   "state": "TX",
+   "iso_region": "ERCOT",
+   "rule_name": "Large Load Program: Large Load Electric Service Request (2 MW and up) with pro forma Large Load Reimbursable Services, Construction Development and Electric Service Agreements",
+   "source_url": "https://www.tcectexas.com/large-load-requests",
+   "source_title": "Large Load Requests (Tri-County Electric Cooperative web page, with the four large-load documents posted in April 2026)",
+   "quoted_clause": {
+    "section": "page text",
+    "quote": "If you are seeking electric service of two megawatts or greater, please complete the Large Load Electric Service Request ... to begin the large load review process."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "the cooperative's own forms and pro forma agreements; no PUCT docket is named"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "",
+    "cites": [
+     {
+      "section": "page text",
+      "quote": "Additional agreements and supporting documents, including the Reimbursable Services Agreement, Construction Development Agreement, and Electric Service Agreement, will be required at the appropriate project milestones as the request advances through TCEC's large load process."
+     }
+    ],
+    "note": "the documents carry no effective date; they are posted under a folder dated 2026-04 on tcectexas.com"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "2 MW: \"two megawatts or greater\" (web page); \"greater than 2 MW\" (request form)",
+     "cites": [
+      {
+       "section": "page text",
+       "quote": "If you are seeking electric service of two megawatts or greater"
+      },
+      {
+       "url": "https://www.tcectexas.com/sites/default/files/2026-04/large-load-electric-service-request-final.pdf",
+       "page": "1",
+       "quote": "This form must be completed for all requests for new electric service greater than 2 MW.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "the Large Load Electric Service Agreement sections 1 to 14: no minimum demand or take-or-pay share (section 8 makes the member responsible for costs of \"reduction in load below planned levels\", see exit_fee); the request form, the Reimbursable Services Agreement and the Construction Development Agreement"
+    },
+    "contract_term": {
+     "value": "no fixed term: the Electric Service Agreement remains in effect until terminated",
+     "cites": [
+      {
+       "url": "https://www.tcectexas.com/sites/default/files/2026-04/large-load-electric-service-agreement-final-1.pdf",
+       "page": "5",
+       "section": "10. Term and Termination",
+       "quote": "This Agreement shall remain in effect until terminated.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "an irrevocable standby letter of credit kept for the whole term of service, amount set by the Cooperative (it may set minimums per MW or per MVA); 100 percent of the estimated construction cost (CIAC) paid within 10 business days of the Construction Development Agreement; a study deposit of $5,000 per MW of requested load, capped at $1,000,000",
+     "cites": [
+      {
+       "url": "https://www.tcectexas.com/sites/default/files/2026-04/large-load-electric-service-agreement-final-1.pdf",
+       "page": "3",
+       "section": "7. Security Deposit, Financial Assurance",
+       "quote": "Member shall provide and maintain, at all times during the term of Service, an irrevocable standby letter of credit in favor of the Cooperative. The amount of the letter of credit shall be determined by the Cooperative",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.tcectexas.com/sites/default/files/2026-04/large-load-electric-service-agreement-final-1.pdf",
+       "page": "4",
+       "section": "7. Security Deposit, Financial Assurance",
+       "quote": "may establish minimum requirements on a per MW or per MVA basis",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.tcectexas.com/sites/default/files/2026-04/large-load-construction-development-agreement-final_0.pdf",
+       "page": "2",
+       "section": "5.1 Upfront Payment",
+       "quote": "Within ten (10) business days of execution of this Agreement, Developer shall provide payment equal to one hundred percent (100%) of the estimated construction cost (CIAC).",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.tcectexas.com/sites/default/files/2026-04/large-load-reimbursable-services-agreement-final_1.pdf",
+       "page": "2",
+       "section": "4. Initial Deposit",
+       "quote": "an initial reimbursable deposit equal to Five Thousand Dollars ($5,000) per MW of requested load, as identified in the Electric Service Request, not to exceed One Million Dollars ($1,000,000).",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "no fixed fee: on termination all outstanding amounts fall due at once, and the member bears stranded transmission or distribution investment, underused or abandoned facilities, load below planned levels, decommissioning and any other unrecovered cost of serving it",
+     "cites": [
+      {
+       "url": "https://www.tcectexas.com/sites/default/files/2026-04/large-load-electric-service-agreement-final-1.pdf",
+       "page": "4",
+       "section": "8. Stranded Costs",
+       "quote": "Member shall be responsible for all costs associated with stranded transmission or distribution investments, underutilized or abandoned facilities, reduction in load below planned levels, decommissioning or retirement of facilities, and any remaining unrecovered costs associated with providing Service.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.tcectexas.com/sites/default/files/2026-04/large-load-electric-service-agreement-final-1.pdf",
+       "page": "5",
+       "section": "10. Term and Termination",
+       "quote": "Upon termination of Service, all outstanding amounts shall become immediately due and payable.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "the request form and the Reimbursable Services Agreement: no study duration; the form sets only that a request expires 90 days after submission without an executed Reimbursable Services Agreement and initial payment (see notes)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "the Electric Service Agreement section 1 states a condition, not a time (\"Service shall commence only after completion of all required facilities, satisfaction of all contractual requirements, and authorization by the Cooperative.\"); the Construction Development Agreement gives no construction duration"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "the large load page and the four documents (the form refers to a \"large load evaluation queue\" but gives no count or MW)"
+    }
+   },
+   "license": "public",
+   "license_basis": "the cooperative's posted forms and pro forma agreements; tcectexas.com shows no terms of use (its footer links only a privacy policy and a copyright line)",
+   "erw_overlap": "",
+   "notes": "Request form p.1: a request enters the \"large load evaluation queue\" only after the Reimbursable Services Agreement is executed and the deposit paid, and \"A request for large load electric service will expire ninety (90) days after submission unless the Reimbursable Services Agreement has been executed\" and the initial payment received; submission \"does not establish queue position or priority for service\". Electric Service Agreement section 4: $1,000 per installed MVA a month; energy at North Texas ERCOT real-time LMP plus a margin; 100 percent of transmission-related costs; bills may be weekly, due in 10 business days. The page links the form as large-load-electric-service-request-final-1.pdf; the copy read is large-load-electric-service-request-final.pdf in the same folder. This is the one Brazos member program found; Brazos's own rule was not found. Status date as the reading group wrote it: 'not published'.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Sunflower Electric Power Corporation and its seven member utilities (central and western Kansas)",
+   "state": "KS",
+   "iso_region": "SPP",
+   "rule_name": "Large Load Interconnection Program (standardized three-phase program for new loads of 25 MW or greater)",
+   "source_url": "https://www.sunflower.net/interconnection-guidelines",
+   "source_title": "Powering Opportunity with Planning and Precision: Interconnection Guidelines (sunflower.net)",
+   "quoted_clause": {
+    "section": "Interconnection Guidelines",
+    "quote": "Sunflower, in coordination with our seven-member utilities, developed a standardized Large Load Interconnection Program to ensure a fair, consistent, and transparent experience for all applicants."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "the program page names no KCC docket"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "",
+    "cites": [
+     {
+      "section": "Interconnection Guidelines",
+      "quote": "If you are an individual, project developer, or company seeking electric service for a new large load (25 megawatts (MW) or greater) located within the certified service territory of one of Sunflower's seven member utilities in central or western Kansas, we're here to guide you through the program."
+     }
+    ],
+    "note": "the page prints no adoption or effective date"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "25 MW or greater (new large load)",
+     "cites": [
+      {
+       "section": "Interconnection Guidelines",
+       "quote": "a new large load (25 megawatts (MW) or greater)"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "sunflower.net Interconnection Guidelines page (the program documents and application forms are not posted; the page asks applicants to contact Sunflower); Western Cooperative Electric's Sunflower Electric Information page (no program terms)"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "as for min_demand"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "as for min_demand; the page names a non-refundable application fee for each phase but no amount (see notes)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "as for min_demand"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "as for min_demand"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "as for min_demand"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "as for min_demand; the page says Sunflower does not publicly share specific potential project information"
+    }
+   },
+   "license": "public",
+   "license_basis": "Sunflower's own page; its Terms & Conditions (https://www.sunflower.net/terms-and-conditions, effective 15 August 2025, read 13 November 2026) state information is for general purposes and note copyright, with no personal-use limit or bar on reproduction",
+   "erw_overlap": "",
+   "notes": "Each of the three phases includes \"A non-refundable application fee\" and an application form for the engineering studies (page text); the fee amounts are not posted. The page: \"our long-standing policy is to protect member privacy by not publicly sharing specific potential project information.\" Lead not read: Victory Electric's large load information page (victoryelectric.net). Status date as the reading group wrote it: 'not published'.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "City of Ames Electric Services (City of Ames, Iowa)",
+   "state": "IA",
+   "iso_region": "MISO",
+   "rule_name": "Staff recommendation that data centers be served only on a contract rate basis, with the Electric tariff and the Utilities chapter of the Municipal Code reconciled so large customers pay for their infrastructure (staff report to the City Council of 14 July 2026)",
+   "source_url": "https://www.cityofames.org/files/assets/city/v/1/city-clerk/documents/datacenter/2026.07.14-staff-report-on-data-centers.pdf",
+   "source_title": "City of Ames staff report on data centers, City Council meeting of 14 July 2026",
+   "quoted_clause": {
+    "page": "3",
+    "section": "C. Electric, action 10",
+    "quote": "The discrepancies between the Electric tariff and the Utilities chapter should be addressed. Data centers could be considered only on a contract rate basis, which allows for a negotiation of the costs for infrastructure (staff recommends this as a minimum action)."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "a staff report to the City Council; no ordinance number found"
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-07-14",
+    "cites": [
+     {
+      "page": "4",
+      "section": "staff recommendation",
+      "quote": "Reconcile the differences between the Electric tariff and the Utilities Chapter of Municipal Code to ensure that large electric customers pay for their required infrastructure rather than obligating the utility to take the investment risk"
+     },
+     {
+      "url": "https://www.cityofames.org/Resident-Services/Whats-Happening-in-Ames/Major-Projects/Data-Center-Development-Updates",
+      "section": "Project History",
+      "quote": "Aug. 25 - City Council Meeting: Council approved the Data Center Study Committee Plan.",
+      "date_read": "2026-11-13"
+     }
+    ],
+    "note": "a staff recommendation; the City's update page (read 13 November 2026) records a Data Center Study Committee approved on 25 August and its members appointed on 22 September 2026, and no adopted electric ordinance or tariff change"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "the staff report of 14 July 2026 (pp. 1-6) and the City's Data Center Development Updates page: the recommendation covers data centers, with no MW threshold"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "as for threshold_mw (the report speaks of large power users paying upfront for infrastructure, with no amount or instrument)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "queue_size": {
+     "value": "one proposal (Lightedge co-location data center on City property): 3 MW first phase, 6 MW second phase, 25 MW at full build-out over an estimated 10 years",
+     "cites": [
+      {
+       "url": "https://www.cityofames.org/Resident-Services/Whats-Happening-in-Ames/Major-Projects/Data-Center-Development-Updates",
+       "section": "Lightedge Proposal",
+       "quote": "The first phase of the project would result in 3 MW of electrical demand. The second phase would follow shortly and use 6 MW. Ultimate buildout would demand 25 MW. The time estimate of the full buildout is 10 years.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the City of Ames's council staff report and project page (a city government's public record); cityofames.org's terms were not read",
+   "erw_overlap": "",
+   "notes": "Report p.3: resolving the discrepancy \"would strengthen the utility's ability to require large power users to pay upfront for the installation of additional infrastructure necessary to serve the customer.\" The report also lists zoning, noise, water and wastewater options and a possible moratorium. Not a rule in force: kept as a pending proposal.",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Wabash Valley Power Alliance",
+   "url": "https://www.wvpa.com/for-site-selectors/rate-options/",
+   "reason": "robots.txt answered 403: treated as disallow all (the whole wvpa.com host is therefore not read)"
+  },
+  {
+   "utility": "Seattle City Light",
+   "url": "https://legistar2.granicus.com/seattle/attachments/a4b34d38-e2b4-4f67-abfc-6da4b76f1e90.pdf",
+   "reason": "robots.txt disallows every agent (the signed Ordinance 127473); the passed version 2 of the bill was read from seattle.legistar.com instead"
+  },
+  {
+   "utility": "PowerSouth Energy Cooperative",
+   "url": "https://www.powersouth.com/?p=2238",
+   "reason": "robots.txt disallows ClaudeBot, Claude-Web and anthropic-ai"
+  },
+  {
+   "utility": "Pedernales Electric Cooperative, Inc.",
+   "url": "https://mypec.com/terms-of-use/",
+   "reason": "the site's terms bar \"Using, or attempting to use, any \"deep-link,\" \"scraper,\" \"robot,\" \"bot,\" \"spider,\" \"data mining,\" ... or any other automated device ... without prior express written consent\" and say \"This Website is for personal use only\"; PEC's Tariff and Business Rules (effective 1 October 2026) was fetched before the terms were read and is not used as a source (it holds only a general clause for applicants over 1,000 kW, below this pass's scale)"
+  },
+  {
+   "utility": "Buckeye Power, Inc. (Ohio's Electric Cooperatives)",
+   "url": "https://ppec.coop/sites/default/files/documents/OEC%20Data%20Center%20Rate%20Schedule%20Release%20-%20March%2028%2C%202026.pdf",
+   "reason": "HTTP 404"
+  },
+  {
+   "utility": "Buckeye Power, Inc. (Ohio's Electric Cooperatives)",
+   "url": "https://ppec.coop/sites/default/files/documents/112025_FINAL%20FAQ%20Rates%20and%20Data%20Centers_1.pdf",
+   "reason": "HTTP 404"
+  },
+  {
+   "utility": "Cooperative Energy (member Dixie Electric Power Association)",
+   "url": "https://www.dixiepower.com/?p=19677",
+   "reason": "HTTP 404 (a post a search listed as a \"High-Density Rate Tariff Adjustment\"; not read)"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Wabash Valley Power Alliance",
+   "searched": "one web search; wvpa.com refused by robots (see refused); IURC copies of WVPA's 2020 and 2023 IRPs were not read (in.gov is an internal-license host and both predate 2025). A search snippet of WVPA's rate options page lists a market rate for 35,000 kW and up with negotiated terms: a lead only, not read"
+  },
+  {
+   "utility": "American Municipal Power, Inc. (AMP)",
+   "searched": "one web search: only AMP's and Buckeye Power's joint brief in AEP Ohio's data center tariff case (an AEP Ohio rule, covered by the AEP group), no AMP large-load policy for its members; amppartners.org not read further"
+  },
+  {
+   "utility": "Seminole Electric Cooperative, Inc.",
+   "searched": "one web search: no Seminole large-load rule; the only Seminole result is a Florida PSC filing in Duke Energy Florida's large load case naming Seminole as affected (another utility's rule; not read)"
+  },
+  {
+   "utility": "PowerSouth Energy Cooperative",
+   "searched": "one web search; PowerSouth's own post refused by robots (see refused). A search snippet quotes that post on data center requests of up to 1,000 MW: a lead only, not read and not used"
+  },
+  {
+   "utility": "Cooperative Energy (Mississippi)",
+   "searched": "one web search: no Cooperative Energy large-load rule; a member's (Dixie Electric Power Association) post returned HTTP 404"
+  },
+  {
+   "utility": "Brazos Electric Power Cooperative, Inc.",
+   "searched": "one web search: no Brazos large-load rule found; its member Tri-County Electric Cooperative's large load program is a row of this group"
+  },
+  {
+   "utility": "Golden Spread Electric Cooperative, Inc.",
+   "searched": "one web search (with Brazos): nothing found"
+  },
+  {
+   "utility": "Pedernales Electric Cooperative, Inc.",
+   "searched": "one web search; mypec.com refused under its terms (see refused); no data center or large-load schedule was seen in the tariff's table of contents before the terms were read"
+  },
+  {
+   "utility": "Western Farmers Electric Cooperative",
+   "searched": "one web search: nothing found on WFEC; wfec.com not read"
+  },
+  {
+   "utility": "Los Angeles Department of Water and Power",
+   "searched": "one web search: no LADWP large-load or data center rate found; ladwp.com and the Board of Water and Power Commissioners' agendas not read (document budget)"
+  },
+  {
+   "utility": "Dixie Electric Membership Corporation (Louisiana) and SLEMCO",
+   "searched": "one web search: only third-party rate guides (nectarclimate.com), no data center or large-load schedule; LPSC filings not read"
+  }
+ ]
+}
