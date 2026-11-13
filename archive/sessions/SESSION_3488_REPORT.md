@@ -50,3 +50,10 @@ Energy Research Warehouse (ERW). Chain 258 (`queue/done/258-day-22-november-oldl
 - Nothing else new in W43. "Datacenter power deal: 960 MW ..." now carries its evidence line consistently with row 180.
 - Tests: `Row184NoSiteTailOnAPublishersTitle` (2). The 72 files: 1,399 passed, 20 skipped.
 - **Row 11:** moved to `49be99929` (rows 172 to 184 wait).
+
+## Session 3496: W41 read whole, row 185
+
+- **Row 185 (new, fixed):** W41's "Google enters massive 3.6-GW power deal with Constellation Energy" carried no word that its figure is the outlet's. The scored 3,600 MW was compared as written, and the capacity reader took no hyphen. The reader now takes "3.6-GW", and the evidence line reads capacities in MW: "the 3,600 MW is the outlet's figure, not a warehouse table's".
+- Nothing else new in W41. Two Canadian deals fold as one topic (Cenovus and Athabasca, Emera's Canadian Utilities deal) under the owner's "one sector in one region" rule.
+- Tests: `Row185ACapacityInAnotherForm` (2). The 72 files: 1,401 passed, 20 skipped.
+- **Row 11:** moved to `f2ebae979` (rows 172 to 185 wait).
