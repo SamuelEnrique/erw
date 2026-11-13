@@ -72,3 +72,13 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Seen, the data machine's:** the Deals table holds Sempra's stake sale twice. The 11-13 row is KKR and CPP buying, closed; the 11-12 row is reversed (Sempra as buyer, "rumored"). MN8 Energy and FlexGen also read as buyer and seller of a supply contract. Both are the extraction's (row 77's file).
 - Tests: `Row161TheDealOfTheWeekIsInTheTable` (3), `Row162TheFivesLoadNamesItsDeveloper` (2). The 65 files: 1,243 passed, 20 skipped. `check_roundup.py --dir`: 15 ok, 0 failed.
 - **Row 11:** moved to `1385e767b`.
+
+## Session 3463: the method notes; the 12 November issue on the stack, rows 163 and 164
+
+- `docs/methods/digest_scoring.md` (section 8) and `roundup_selection.md` (section 9) carry rows 151 to 164.
+- **The 12 November issue** (on main) as a dry run on the stack with the restored tables, beside the stored issue: the differences are rows 79 to 162 as intended. Chain 251's runs of the same day read a copy of the tables nine days old, so their numbers differed from the stored issue's; this machine's tables now match it.
+- The worktree holds no `policy_actions.csv` (an ignored file), so the stack's dry runs of sessions 3457 to 3462 printed no policy action. The restored table was copied in (local, ignored), and the runs now print them.
+- **Row 163 (new, fixed):** "Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?" printed "(power prices)" under Power. A gas forwards or futures title, or an LNG market title, is now gas's.
+- **Row 164 (new, fixed):** the stored 12 and 13 November issues both print "Long Mott Energy, LLC; Long Mott Generating Station; Construction Permit (NRC notice, policy action)". Policy actions are dated by day and read from the window's first whole day, so an action of the day the window opens is in two issues. An action whose link an issue of the last week printed is now left out.
+- Tests: `Row163AGasForwardsTitleIsGass` (1), `Row164APolicyActionIsPrintedOnce` (3). The 65 files: 1,247 passed, 20 skipped.
+- **Row 11:** moved to `86e19d969`.
