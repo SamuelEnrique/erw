@@ -303,5 +303,241 @@ class Row160TheNoChartLineSaysWhy(unittest.TestCase):
             self.assertEqual(daily_chart.OMITTED, "error")
 
 
+def five(deals=None, dcs=None):
+    import pandas as pd
+    from unittest import mock
+    import roundup
+    with tempfile.TemporaryDirectory() as d, \
+            mock.patch.object(roundup, "read_table", lambda n: {"energy_deals": deals, "datacenter_projects": dcs}.get(n)), \
+            mock.patch.object(roundup, "ANALYSIS_DIR", d):
+        return roundup.five_numbers("2026-W46", pd.Timestamp("2026-11-09", tz="UTC"), pd.Timestamp("2026-11-13T18:40", tz="UTC"), {},
+                                    lambda m: None)
+
+
+def deal(i, day, dollars="", mw="", buyer="A Corp", country="", conf="0.9"):
+    return {"event_id": f"deal:{i}", "event_date": f"{day}T12:00:00Z", "deal_type": "acquisition", "buyer": buyer, "seller": "B Corp",
+            "asset": "an asset", "mw": mw, "dollars": dollars, "confidence": conf, "country": country, "state": "TX" if not country else "",
+            "status": "closed", "story_urls": "https://example.org/a"}
+
+
+class Row161TheDealOfTheWeekIsInTheTable(unittest.TestCase):
+    """Row 161: the stack's W46 named "USD 2.6 billion, Aramco, HUMAIN AI" as the deal of the week, and the Deals table
+    below (US first, at most 15) left it out."""
+
+    def test_the_kept_row_replaces_the_last_shown(self):
+        import pandas as pd
+        import roundup
+        rows = [deal(i, "2026-11-11", dollars="1000000") for i in range(16)] + [deal("aramco", "2026-11-13", dollars="2600000000",
+                                                                                      buyer="Aramco", country="Saudi Arabia")]
+        dw = pd.DataFrame(rows)
+        self.assertEqual(roundup.deal_of_week_id(dw), "deal:aramco")
+        shown, rest, under = roundup.floor_rows(dw, "energy_deals", keep="deal:aramco")
+        self.assertEqual(len(shown), roundup.ROW_MAX)
+        self.assertEqual(shown[-1]["event_id"], "deal:aramco")
+        self.assertEqual((rest, under), (2, 0))
+        shown0, rest0, _ = roundup.floor_rows(dw, "energy_deals")
+        self.assertNotIn("deal:aramco", [r["event_id"] for r in shown0])   # the old cut, which row 161 is about
+        self.assertEqual(rest0, 2)
+
+    def test_a_kept_row_already_shown_changes_nothing(self):
+        import pandas as pd
+        import roundup
+        dw = pd.DataFrame([deal(1, "2026-11-11", dollars="5"), deal(2, "2026-11-12", dollars="9")])
+        self.assertEqual(roundup.deal_of_week_id(dw), "deal:2")
+        self.assertEqual([r["event_id"] for r in roundup.floor_rows(dw, "energy_deals", keep="deal:2")[0]], ["deal:1", "deal:2"])
+        self.assertIsNone(roundup.deal_of_week_id(dw.iloc[0:0]))
+
+    def test_the_five_and_the_table_name_one_deal(self):
+        import pandas as pd
+        rows = [deal(i, "2026-11-11", dollars="1000000") for i in range(16)] + [deal("aramco", "2026-11-13", dollars="2600000000",
+                                                                                      buyer="Aramco", country="Saudi Arabia")]
+        L = five(deals=pd.DataFrame(rows))
+        self.assertIn("`energy_deals` deal:aramco", "\n".join(L))
+
+
+class Row162TheFivesLoadNamesItsDeveloper(unittest.TestCase):
+    """Row 162: W46's five printed "20 MW, Syntys (1 larger load of the week name no operator or site; it is in the table
+    below)" above a table showing that load as "CDC (developer)", 1,400 MW, Kemps Creek, Australia."""
+
+    DCS = [{"entity_id": "datacenter:kemps", "first_story_at": "2026-11-12T10:00:00Z", "capacity_mw": "1400", "mw": "1400", "operator": "",
+            "developer": "CDC", "site_name": "", "city": "Kemps Creek", "state": "", "country": "Australia", "confidence": "0.9"},
+           {"entity_id": "datacenter:syntys", "first_story_at": "2026-11-13T10:00:00Z", "capacity_mw": "20", "mw": "20", "operator": "Syntys",
+            "developer": "", "site_name": "", "city": "", "state": "", "country": "Qatar", "confidence": "0.9"}]
+
+    def load(self, rows):
+        import pandas as pd
+        return next(x for x in five(dcs=pd.DataFrame(rows)) if x.startswith("- **Largest new datacenter load"))
+
+    def test_the_developer_names_the_load(self):
+        self.assertEqual(self.load(self.DCS), "- **Largest new datacenter load first reported this week:** 1,400 MW, CDC (developer), "
+                                              "Kemps Creek, Australia.")
+
+    def test_one_larger_unnamed_load_names_nothing(self):
+        rows = [dict(self.DCS[0], developer=""), self.DCS[1]]
+        self.assertEqual(self.load(rows), "- **Largest new datacenter load first reported this week:** 20 MW, Syntys, Qatar (1 larger "
+                                          "load of the week names no operator, developer or site; it is in the table below).")
+
+
+class Row163AGasForwardsTitleIsGass(unittest.TestCase):
+    """Row 163: "Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?" (power prices) under Power, the stack's
+    dry run of 12 November."""
+
+    def test_the_gas_market_titles(self):
+        for title, sector in [("Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?", "gas"),
+                              ("Natural gas futures slip on mild forecasts", "gas"),
+                              ("LNG prices climb in Asia", "gas"),
+                              ("Gas-fired plants set output records", "power_prices"),
+                              ("LNG Canada starts up its second train", "power_prices")]:
+            self.assertEqual(brief.sector_of({"sector": "power_prices", "title": title}), sector, title)
+
+
+class Row164APolicyActionIsPrintedOnce(unittest.TestCase):
+    """Row 164: "Long Mott Energy, LLC; Long Mott Generating Station; Construction Permit (NRC notice, policy action)" was in
+    the issues of 12 and 13 November: the actions are dated by day, and the window's first day is the last issue's last."""
+
+    COLS = "event_date,title,agency,action_type,significance,why,source_url\n"
+    ROWS = ("2026-11-12,Long Mott Energy; Construction Permit,NRC,notice,8,The permit authorizes building.,https://www.federalregister.gov/a\n"
+            "2026-11-13,A new rule,EPA,rule,7,The rule sets limits.,https://www.federalregister.gov/b\n")
+
+    def lines(self, printed):
+        import pandas as pd
+        from unittest import mock
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "policy_actions.csv"), "w", encoding="utf-8") as f:
+                f.write("# test\n" + self.COLS + self.ROWS)
+            with mock.patch.object(brief.ip, "OUT_DIR", d):
+                return brief.policy_actions_lines(pd.Timestamp("2026-11-12T22:56Z"), pd.Timestamp("2026-11-13T16:01Z"), lambda m: None,
+                                                  printed=printed)
+
+    def test_an_action_the_last_issue_printed_is_left_out(self):
+        got = self.lines({"https://www.federalregister.gov/a"})
+        self.assertEqual(len(got), 1)
+        self.assertIn("A new rule", got[0])
+        self.assertEqual(len(self.lines(set())), 2)
+
+    def test_the_links_of_earlier_issues(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "2026-11-12.md")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write("- Long Mott (NRC notice, policy action): x. [NRC](https://www.federalregister.gov/a)\n")
+            self.assertEqual(brief.printed_links([p, os.path.join(d, "missing.md")]), {"https://www.federalregister.gov/a"})
+
+    def test_the_issue_passes_the_earlier_issues(self):
+        import inspect
+        self.assertIn("printed=printed_links(earlier_issues(digest_date))", inspect.getsource(brief.main))
+
+
+class Row165NoQuantityWordsLeftInTheSubject(unittest.TestCase):
+    """Row 165: "ERW Daily | Taiwan Commits Up to to Alaska LNG Megaproject" (the stack's dry run of 14 October): the figure
+    taken out, its "Up to" left; and the same removal's other leftovers."""
+
+    def test_the_subjects(self):
+        for head, clause in [("Taiwan Commits Up to $4.4 Billion to Alaska LNG Megaproject", "Taiwan Commits to Alaska LNG Megaproject"),
+                             ("Utility adds nearly 2 GW of solar in Texas", "Utility adds solar in Texas"),
+                             ("A 500 MW deal is signed by Meta", "A deal is signed by Meta"),
+                             ("Prices rose 12% on Tuesday", "Prices rose on Tuesday"),
+                             ("SpaceX plans USD 74 billion in data center projects in Arizona and Texas",
+                              "SpaceX plans data center projects in Arizona and Texas")]:
+            self.assertEqual(brief.subject_clause(head), clause, head)
+
+    def test_a_percent_is_a_figure(self):
+        import roundup
+        self.assertNotIn("30", roundup.head_clause("Taiwan commits to Alaska LNG with 30% of output", 90))
+
+
+class Row166AFuelMarketTitleIsOils(unittest.TestCase):
+    """Row 166: "Morgan Stanley: Global Fuel Market Will Stay Tight Through Mid-2027 (power prices)" (the stack's 21 October)."""
+
+    def test_the_fuel_market(self):
+        self.assertEqual(brief.sector_of({"sector": "power_prices", "title": "Morgan Stanley: Global Fuel Market Will Stay Tight Through Mid-2027"}),
+                         "oil")
+        self.assertEqual(brief.sector_of({"sector": "power_prices", "title": "Fuel cell maker raises funds"}), "power_prices")
+
+
+class Row167TheFiguresLineOpensWithACapital(unittest.TestCase):
+    """Row 167: "nearly USD 1 billion; Parties: US Energy Department." opened an item's line in lower case (21 October)."""
+
+    def test_the_capital(self):
+        self.assertEqual(brief.detail(item(price="nearly $1 billion", parties="US Energy Department"), "DOE announces grid investments"),
+                         "Nearly USD 1 billion; Parties: US Energy Department. ")
+        self.assertEqual(brief.detail(item(mw="580", parties="Sunrun; Tesla"), "VPP dispatch"), "580 MW; Parties: Sunrun; Tesla. ")
+
+
+class Row168AnAgencysNameIsItsInitials(unittest.TestCase):
+    """Row 168: "DOE Announces $967 Million in Grid Resilience Funding" (Department of Energy) and "Energy Department
+    Announces New Investments to Strengthen America's Power Grid and Lower Electricity Costs" (US Energy Department), one
+    announcement, two items of the stack's ten of 21 October."""
+
+    A = {"parties": "Department of Energy", "titles": ["DOE Announces $967 Million in Grid Resilience Funding"], "sector": "transmission",
+         "region": "USA"}
+    B = {"parties": "US Energy Department", "sector": "policy", "region": "global",
+         "titles": ["Energy Department Announces New Investments to Strengthen America's Power Grid and Lower Electricity Costs"]}
+
+    def test_the_long_names_are_the_initials(self):
+        self.assertEqual(brief.party_words(self.A), {"doe"})
+        self.assertIn("doe", brief.party_words(self.B))
+        self.assertIn("doe", brief.party_words({"parties": "U.S. Department of Energy"}))
+        self.assertIn("ferc", brief.party_words({"parties": "Federal Energy Regulatory Commission"}))
+        self.assertEqual(brief.party_words({"parties": "Energy Transfer"}), {"transfer"})
+
+    def test_one_announcement_is_one_topic(self):
+        self.assertTrue(brief.same_topic(self.A, self.B))
+        other = {"parties": "DOE", "titles": ["Energy Department Designates Helium as Critical Material"], "sector": "policy",
+                 "region": "United States"}
+        self.assertFalse(brief.same_topic(self.A, other))
+
+
+class Row169TheScaleWordReadsTheClustersMW(unittest.TestCase):
+    """Row 169: "Gigawatt-scale hyperscale power deal ..." under "AEP, Google Advance $4 Billion Fuel-Cell Project to Power
+    Cheyenne Data Centers" (the stack's 6 November with no model): a 702 MW project, the publisher's title stating no MW."""
+
+    def test_the_clusters_mw_counts(self):
+        why = "Gigawatt-scale hyperscale power deal combining fuel cells, natural gas, and private microgrid infrastructure for datacenter demand."
+        head = "AEP, Google Advance $4 Billion Fuel-Cell Project to Power Cheyenne Data Centers"
+        self.assertEqual(brief.why_line(why, head, "702"), "Hyperscale power deal combining fuel cells, natural gas, and private "
+                                                           "microgrid infrastructure for datacenter demand.")
+        self.assertEqual(brief.scale_against("Gigawatt-scale deal.", head, "702"), "gigawatt-scale")
+        self.assertEqual(brief.scale_against("Gigawatt-scale deal.", head, "1500"), "")
+        self.assertEqual(brief.scale_against("Gigawatt-scale deal.", head), "")
+        self.assertEqual(brief.scale_against("Gigawatt-scale deal.", head, "not a number"), "")
+
+
+class Row170AlsoInDeals(unittest.TestCase):
+    """Row 170: "Also in deal: Blackstone Leads USD 3.1 billion Investment ..." (the stack's 6 November); and the two readers
+    of that label read lower case only, so "Also in LNG:" (row 127's capitals) was not read as one."""
+
+    def test_the_plural(self):
+        rec = {"title": "Blackstone Leads $3.1 Billion Investment in Mitsubishi's Stake in LNG Canada", "kind": "sector", "sector": "deal",
+               "links": [("WSJ", "https://example.org/w")]}
+        self.assertTrue(brief.also_line([rec]).startswith("Also in deals: Blackstone Leads USD 3.1 billion Investment"))
+        self.assertTrue(brief.also_line([dict(rec, sector="nuclear")]).startswith("Also in nuclear: "))
+        self.assertTrue(brief.also_line([dict(rec, sector="lng")]).startswith("Also in LNG: "))
+
+    def test_the_readers_read_capitals(self):
+        import email_digest
+        for label in ("Also in LNG:", "Also in PPAs:", "Also in deals:", "Also on this topic:"):
+            self.assertTrue(brief.ALSO_RE.match(label + " x"), label)
+            self.assertEqual(email_digest.ALSO_RE.match(label + " x").group(1), label)
+
+
+class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
+    """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
+    then the same sentence on the next line (12 November as sent, and every chart since session 232)."""
+
+    def test_the_picture_line_gives_its_address(self):
+        import email_digest
+        fact = "US retail electricity sales: 412,568,374 MWh in August 2026."
+        text, html_ = email_digest.block([f"![{fact}](charts/2026-11-13.png)", "", fact, "The table holds 308 months."], "docs/digest")
+        self.assertTrue(text[0].startswith("[chart] https://"), text[0])
+        self.assertTrue(text[0].endswith("docs/digest/charts/2026-11-13.png"), text[0])
+        self.assertEqual(text[1], fact)
+        self.assertIn(f'alt="{fact}"', html_)
+
+    def test_a_description_that_is_not_the_next_line_stays(self):
+        import email_digest
+        text, _ = email_digest.block(["![A picture of the week](charts/x.png)", "Something else."], "docs/digest")
+        self.assertTrue(text[0].startswith("[chart: A picture of the week] "), text[0])
+
+
 if __name__ == "__main__":
     unittest.main()

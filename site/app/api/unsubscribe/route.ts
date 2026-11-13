@@ -10,6 +10,7 @@
 //   POST  RFC 8058 one-click            (body List-Unsubscribe=One-Click, a mail client's button) unsubscribes
 // Any other POST changes nothing.
 import { NextResponse } from "next/server";
+import { limited } from "@/lib/guard";
 import { rpc } from "@/lib/supabase";
 
 export const runtime = "nodejs";
@@ -32,6 +33,11 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  // session 5102 (docs/reviews/security-faults-2026-11-13.md, row 16): each POST makes the database check a token, and
+  // nothing limited them. 120 an hour from one address: far above any reader's or mail client's use (a mail service
+  // posts for many readers from one address, so the limit is wide), and an end to checking tokens without end.
+  const lim = await limited(req, "unsubscribe", 120, 3600);
+  if (!lim.ok) return new NextResponse("nothing changed: too many requests from this address; try again later", { status: 429, headers: { "Retry-After": String(lim.retryAfter) } });
   const u = new URL(req.url);
   const body = await req.text();
   if (body.length > 4000) return new NextResponse("nothing changed: the request is too large", { status: 413 });   // session 177
