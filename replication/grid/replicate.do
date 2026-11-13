@@ -6,7 +6,7 @@
 
 * Run it from this folder (replication/grid). snapshot_hour.csv is the network snapshot's hour shown, written by figures_of_the_page.py from the snapshot the page draws; the global tables below is the folder of the warehouse's tables as CSV (warehouse/output on the ERW's machines).
 
-* What it does not compute: the gravity shape's generation and share (eia930_all_generation at the hour shown, not in the tables of 30 September); the network's carbon intensity per grid (the same); the Ask panel's grouped queries and compares (replicate.py); every figure the page prints as "license needed".
+* What it does not compute: the gravity shape's generation and share (eia930_all_generation at the hour shown, not in the tables of 30 September); the Ask panel's grouped queries and compares (replicate.py); every figure the page prints as "license needed". Session 5074: the network's carbon intensity per grid is computed (the hour's own row of carbon_intensity_hourly, section 2), and printed as not held when the tables given do not reach the hour shown.
 
 clear all
 
@@ -172,6 +172,24 @@ rename value intensity
 
 drop if intensity >= .
 
+* Session 5074: the network's colour for each grid, its carbon intensity in the hour the page shows, is that hour's own row; every hour is kept here and the comparison below keeps the hours the page prints (replicate.py's carbon, the hourly keys).
+
+gen check = "series|carbon_intensity_hourly|" + entity + "|intensity_generation|" + ts_utc
+
+gen double replication = intensity
+
+preserve
+
+keep check replication
+
+tempfile hourly
+
+save `hourly'
+
+restore
+
+drop check replication
+
 merge 1:1 entity ts_utc using `co2', keep(match master) nogenerate
 
 gen month = substr(ts_utc, 1, 7)
@@ -201,6 +219,8 @@ gen check = "series|carbon_intensity_monthly|" + entity + "|intensity_generation
 keep check replication
 
 append using `network'
+
+append using `hourly'
 
 tempfile computed
 
