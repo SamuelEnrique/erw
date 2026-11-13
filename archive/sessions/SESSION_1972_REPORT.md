@@ -19,3 +19,41 @@ Energy Research Warehouse (ERW). Chain 228 (`queue/done/228-day-13-november-oldl
 
 - `erw-land-77e8916a` removed though its commit is not on main: it is a gate leftover at a commit saved on origin as `wip/1905-revert`.
 - The next file's numbers 3311 to 3326, the first free block of fourteen or more above 2001.
+
+## Session 1973: the open rows, the Digest of 12 November read
+
+- **The open rows:** session 1881's rows 59 to 76 are all fixed on main (their branches `wip/1882`, `wip/1894` and `wip/1896-periodicals` landed; the commits are ancestors of `origin/main`). Open before this chain: row 65 only (the why lines' rule, with row 39 for the owner). Rows 19, 20, 23, 40, 47, 49 are `ruling`; 27, 35, 48, 61, 77 the data machine's.
+- **The issues:** of the last seven on main (14, 20 to 23 October, 6 and 12 November), only 12 November's was written by the v2 code; the six older ones' faults are rows 1 to 58. No W46 Roundup is stored yet (the week ends 15 November).
+- **The harness:** `brief.py --date 2026-11-12 --now 2026-11-12T22:56Z --no-model` with `ERW_BACKEND=supabase` reproduces the stored issue's numbers, block and chart to the digit (`runs/periodicals_dryrun/s1973/`). USD 0.00.
+- **Read:** twelve new rows, 79 to 90, in `docs/reviews/periodicals-faults-2026-11-05.md`.
+- **Branch:** `wip/1973-periodicals` from `origin/main` at `ed7dc1779`, worktree `C:\Users\lossa\Documents\erw-1973`.
+
+## Sessions 1974 to 1985: rows 79 to 90 fixed
+
+One row a session, each with tests in `tests/test_periodicals_1973.py` (28 tests), on `wip/1973-periodicals`:
+
+- 79: the opening names the single hub's move it passed over ("SPP SPPSOUTH_HUB day-ahead down 39.1%") instead of "No price moved enough to lead".
+- 80: the market row is never a 0.0% move; an oil headline that "settles", "jumps" or "rises" names Brent and WTI (12 November: Brent, +2.2%, not Henry Hub unchanged).
+- 81: the market row names the close's trading day, not "about a week after"; "1 day".
+- 82: "Storage dispatched, USA: 580 MW", not "Storage capacity".
+- 83: outlets by name: "JPT", not "JPT Homepage"; "CA.gov".
+- 84: no "parties:" line repeating the headline; "Also named:" for the rest; the Roundup's field kept beside a figure.
+- 85: the Digest's policy line closes "(... policy action). [DOE](...)" where the why line fails; `site/lib/digest.ts` keeps it.
+- 86: the money style on the titles printed as published.
+- 87: the scanner's "record until now" is the highest value before the new point (Wyoming: July 2026's 1,034,451 MWh, not July 2024's 765,381); the held record kept beside it and traced; the method note says so.
+- 88: the chart's line ties it to a story only when the shared words name the measure; else "No top story of the day names this measure."
+- 89: the subject carries the top story's headline with no figure ("ERW Daily | SpaceX plans data center projects in Arizona and Texas").
+- 90: the first line in order, with "the first issue since 6 November" after a gap.
+- **Tests run:** `test_periodicals_1973`, `test_periodicals`, `test_session176`, `test_session181`, `test_session192`, `test_session267`, `test_session150`, `test_session402`, `test_session470`, `test_session802`, `test_session804`, `test_session805`, `test_session810`, `test_session1882`, `test_session1908`, `test_session2206`: all OK; `site/scripts/test-digest-numbers.mjs` 15 passed. The whole suite not run (this machine's rule).
+- **The dry run on the stack** (`runs/periodicals_dryrun/s1973/digest/2026-11-12-stack-nomodel.md`): every fix shows on 12 November's inputs. The chart's caption is the data machine's stored scan, so row 87 shows from its next scan.
+- Two existing tests' expectations changed with the rule they pinned: `test_periodicals.py` (row 84: no "parties: Sesterce." under a headline naming Sesterce) and `test_session2206.py` (row 90: the new first line).
+
+### Decisions made without you
+
+- Row 84 keeps "; parties: ..." beside a figure, since `roundup.issue_items` matches a week's story to an earlier Digest item by two parties read there.
+- Row 87 keeps the record test's statistics against the held history (the fresh window broke a two-year record) and changes only what "the record until now" names, the margin and the strength. The other choice, to measure the test from the record until now, would have flagged nothing when two record months arrive in one release.
+- Row 90 keeps "for the N hours to <time> UTC" first: `STAMP_END` opens the next window from it.
+
+### For Samuel's ruling
+
+- The stored Digest of 12 November says Wyoming's August gas generation broke July 2024's record when July 2026 had already broken it. Default: the issue stays as written (no stored issue rewritten); a one-line correction note on it waits for your word.
