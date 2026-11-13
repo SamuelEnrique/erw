@@ -14,7 +14,9 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 - **The demand line:** EIA revised its hourly demand after the issue was written. The stored issue keeps its figure, as Samuel's ruling of 23 October (item 7) asks. But only fuel closes had the revision note (session 2207), so every gate on main failed on that page from 13 November. It is main's state, not the forecast's, so land-e was landed on its hand checks.
 - **The landing:**
   - Snapshot `before-96489ad2`, then the push to `task/4009-landing` at 16:48.
-  - (the merge and the after snapshot: written when they come)
+  - Run 43466407853 merged at 17:07 (`8f7995482`); the deploy succeeded at 17:08.
+  - Snapshot after: **0 differences**.
+  - Marked on main as `3c7b4ca92` (0 differences). Window 4's row 4 is landed to its requested head.
 
 ## The fix, on this window's branch (in land-f, session 4010)
 
