@@ -28,3 +28,16 @@ Energy Research Warehouse (ERW). Chain 251 (`queue/done/251-day-19-november-oldl
 - In production, the stored 12 November Digest held EIA's close of 11 November, so the real W46 (Sunday) should hold closes of its own week. The rule matters when EIA is late or a refresh fails.
 - Tests: `Row147ACloseBeforeTheWeekIsNoMoveOfTheWeek` (2). The 24 files importing `roundup`: 605 passed.
 - **Row 10:** pushed at `2cba5f779`, the head moved; merges with `origin/main` with no conflict.
+
+## Session 3443: the market row, row 148; the method notes
+
+- **Row 148 (new, fixed):** the numbers block promises what changed since the last issue, but its "Market price" row printed the close the 6 November issue had printed as if it were the day's. When the row's close is no later than the one the last issue printed, its status adds ", the same close the last issue printed (no newer close is held)".
+- Tests: `Row148TheMarketRowSaysTheCloseIsTheLastIssues` (2). The 24 files importing `brief`: 601 passed. `site/scripts/test-digest-numbers.mjs`: 16 passed. The dry run's 13 figures trace.
+- `docs/methods/digest_scoring.md` and `docs/methods/roundup_selection.md` carry rows 146 to 148.
+
+## Session 3444: a reason written after the move, row 149
+
+- **Row 149 (new, fixed):** main's and the stack's runs explained Henry Hub's close of 3 November with an NGI story first reported in the window of 8 to 12 November. The same story made the move "named", which halves the opening's bar. A story first reported more than `REASON_LAG_DAYS` = 3 days after a move's day (enough to carry a Friday's close to a Monday's story) neither explains nor names it (`brief.too_late`).
+- The dry run then prints the close with no reason. Its opening says "No price moved enough to lead": 3.5% unnamed is under the 4.5% bar. "What moved" takes one more story, because it sizes itself by how many price moves carry a story. The 13 figures trace.
+- Tests: `Row149AStoryAfterTheCloseIsNoReason` (2). The 32 files importing `brief` or `roundup`: 738 passed.
+- **Row 10:** pushed at `a327a797e`, the head moved; merges with `origin/main` with no conflict.
