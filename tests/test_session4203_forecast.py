@@ -10,6 +10,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -29,7 +30,8 @@ class TheModel(unittest.TestCase):
         node = shutil.which("node")
         if not node:
             raise unittest.SkipTest("node is not on the path")
-        r = subprocess.run([node, "--no-warnings", "--test", "scripts/test-forecast.test.mjs"], cwd=SITE, capture_output=True, text=True, timeout=180)
+        env = {**os.environ, "ERW_PYTHON": sys.executable}  # the run's Python script is run by this interpreter
+        r = subprocess.run([node, "--no-warnings", "--test", "scripts/test-forecast.test.mjs"], cwd=SITE, capture_output=True, text=True, timeout=180, env=env)
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
 
     def test_the_model_imports_nothing(self):

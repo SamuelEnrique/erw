@@ -205,3 +205,33 @@ test("a check key carries every input and gives the figure back", () => {
   assert.equal(F.stat(r, "nonsense"), null);
   assert.equal(F.parseKey("impact|x"), null);
 });
+
+test("the run's Python script recomputes every total of the tool", async () => {
+  const { pythonOf, csvOf, stataOf } = await import("../lib/forecastfiles.ts");
+  const S = await import("../lib/severance.ts");
+  const rules = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "severance_rules.json"), "utf8"));
+  const sev = (state, v, p) => { const st = state.toUpperCase(); if (!rules.states[st]?.products?.gas) return null; const r = S.compute(rules, { state: st, product: "gas", volume: v, price: p }); return r.baseTotal + r.fees.reduce((a, f) => a + f.amount, 0); };
+  const cases = [
+    [{ ...F.defaults(P, "land_based_wind", "ia"), iaval: true, levy: 28 }, { ...F.defaults(P, "utility_pv", "mn"), mw: 80 }],
+    [{ ...F.defaults(P, "natural_gas", "tx"), instate: 60 }, { ...F.defaults(P, "land_based_wind", "sd"), own: null }],
+    [{ ...F.defaults(P, "geothermal", "ca") }, { ...F.defaults(P, "land_based_wind", "tx"), own: 1.2, ownyears: 20 }],
+  ];
+  const { execFileSync } = await import("node:child_process");
+  const py = process.env.ERW_PYTHON || "python";
+  for (const [a, b] of cases) {
+    const x = { a, b }, rows = { a: ROWS.filter((r) => r.entity.includes(`:${a.tech}:${a.state}:`)), b: ROWS.filter((r) => r.entity.includes(`:${b.tech}:${b.state}:`)) };
+    const r = { a: F.run(a, rows.a, P, sev), b: F.run(b, rows.b, P, sev) };
+    assert.ok(r.a.ok && r.b.ok);
+    const file = path.join(fs.mkdtempSync(path.join(fs.realpathSync(process.env.TEMP || process.env.TMPDIR || "/tmp"), "fc-")), "run.py");
+    fs.writeFileSync(file, pythonOf(P, x, rows, r));
+    let out;
+    try { out = execFileSync(py, ["-I", file], { encoding: "utf8" }); } catch (e) { if (e.code === "ENOENT") return; throw e; }
+    assert.ok(!out.includes("DIFFERENT"), out);
+    assert.equal((out.match(/same/g) || []).length, 14, out);
+    const csv = csvOf(x, r);
+    assert.equal(csv.split("\n").filter((l) => /^[AB],/.test(l)).length, a.build + a.life + b.build + b.life);
+    const doFile = stataOf(P, x, rows, r);
+    assert.ok(doFile.includes('display "Scenario A"') && doFile.includes('display "Scenario B"'));
+    assert.ok(!doFile.includes("undefined") && !doFile.includes("NaN"), "no undefined or NaN written into the do-file");
+  }
+});

@@ -135,7 +135,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 405: the interconnection explorer (the default, CAISO in positions; ERCOT in MW over a window; SPP; a held queue)
   "/explore/interconnection", "/explore/interconnection?queue=ercot&measure=mw&from=2018&to=2025", "/explore/interconnection?queue=spp",
   "/explore/interconnection?queue=nyiso",
-  "/impact", "/impact?tech=utility_pv&state=la&mw=200&life=30", "/impact?tech=natural_gas&state=nm&capex=120&local=80", "/impact?tech=geothermal&state=us&life=25",
+  "/impact", "/impact?tech=utility_pv&state=mn&bstate=sd", "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca", "/impact?state=ia&iaval=1&levy=30&bstate=ne",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
   "/play/ev",  // session 3276: the EV game's four figures at the defaults (ev|US|...)
@@ -253,6 +253,7 @@ async function all(table, params) {
 }
 
 const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's rows, by technology and state, and by technology
+const forecastRows = new Map(); let forecastParams = null, forecastSev = null;   // session 4214: the forecast's rows, by technology and state, and its parameters
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
 const dcllRows = new Map();
 const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
@@ -535,6 +536,30 @@ async function truth(check) {
     if (!impactRows.has(k)) impactRows.set(k, (await all("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${I.TABLE}`, entity: `like.nlr_jedi:${x.tech}:${x.state}:*`, order: "entity,variable" })).map(num));
     if (!impactAll.has(x.tech)) impactAll.set(x.tech, (await all("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${I.TABLE}`, entity: `like.nlr_jedi:${x.tech}:*:construction:*`, variable: "eq.jobs", order: "entity" })).map(num));
     return I.stat(impactRows.get(k), x, stat, impactAll.get(x.tech)) ?? undefined;
+  }
+  // session 4214 (chain 239): the forecast on /impact, forecast|<every input of the scenario>|<figure>: recomputed by
+  // lib/forecast.ts (the page's own arithmetic) from this script's own read of the technology's and state's rows of
+  // nlr_jedi_multipliers, the parameter files of site/data/forecast/ and /severance's own rules and arithmetic
+  if (p[0] === "forecast") {
+    const F = await import("../lib/forecast.ts");
+    const k = F.parseKey(check);
+    if (!k) return undefined;
+    const rk = `${k.x.tech}|${k.x.state}`;
+    if (!forecastRows.has(rk)) forecastRows.set(rk, (await all("series", { select: "entity,variable,ts_utc,value", table_name: "eq.nlr_jedi_multipliers", entity: `like.nlr_jedi:${k.x.tech}:${k.x.state}:*`, variable: "in.(jobs,earnings,output)", order: "entity,variable" })).map((r) => ({ ...r, value: Number(r.value) })));
+    if (!forecastParams) {
+      const d = (n) => JSON.parse(fs.readFileSync(path.join(here, "..", "data", "forecast", n), "utf-8"));
+      forecastParams = { jediCosts: d("jedi_costs.json"), eiaCapex: d("eia_capex.json"), deflator: d("deflator.json"), capacity: d("capacity_factors.json"), sales: d("sales_tax.json"),
+        income: d("income_tax.json"), property: d("property_rules.json"), taxable: d("jedi_taxable.json"), gas: d("gas.json") };
+      const S = await import("../lib/severance.ts");
+      const rules = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "severance_rules.json"), "utf-8"));
+      forecastSev = (state, volume, price) => {
+        const st = state.toUpperCase();
+        if (!rules.states[st]?.products?.gas) return null;
+        const r = S.compute(rules, { state: st, product: "gas", volume, price });
+        return r.baseTotal + r.fees.reduce((a, f) => a + f.amount, 0);
+      };
+    }
+    return F.stat(F.run(k.x, forecastRows.get(rk), forecastParams, forecastSev), k.figure) ?? undefined;
   }
   if (p[0] === "series") {
     const [, table, entity, variable, at, event] = p;
