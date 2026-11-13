@@ -382,3 +382,19 @@ export function groupPlanned(rows: { entity_id: string; name: string | null; cap
   }
   return [...by.values()].filter((p) => p.mw > 0).sort((a, b) => a.state.localeCompare(b.state) || a.name.localeCompare(b.name));
 }
+
+// ---- how a figure is written (session 4219): the page writes each figure so, and check-values compares the text with
+// displayOf(figure, raw), so the forms live here, beside the arithmetic, where both read them ----------------------------
+export function usdText(v: number): string {
+  const a = Math.abs(v);
+  if (a >= 1e9) return `USD ${(v / 1e9).toLocaleString("en-US", { maximumFractionDigits: 2 })} billion`;
+  if (a >= 1e6) return `USD ${(v / 1e6).toLocaleString("en-US", { maximumFractionDigits: 1 })} million`;
+  return `USD ${Math.round(v).toLocaleString("en-US")}`;
+}
+export const jobsText = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: v < 100 ? 1 : 0 });
+/** The text of a figure by its name (stat's names): jobs as jobs, every other figure in US dollars */
+export function displayOf(figure: string, v: number): string {
+  const p = figure.split(":");
+  const isJobs = p[1] === "jobs" || p[2] === "jobs";
+  return isJobs ? jobsText(v) : usdText(v);
+}

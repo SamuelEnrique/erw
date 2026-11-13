@@ -268,3 +268,13 @@ test("sales tax: a statute's exemption is the default (Minnesota wind), elsewher
   assert.equal(F.defaults(P, "utility_pv", "mn").exempt, 0, "no solar exemption read in 297A.68");
   assert.equal(F.defaults(P, "land_based_wind", "tx").exempt, 0);
 });
+
+test("a figure's text: jobs to one decimal under 100 and whole above, dollars short with USD", () => {
+  assert.equal(F.displayOf("c:jobs:total", 515.128), "515");
+  assert.equal(F.displayOf("o:jobs:total", 44.7358), "44.7");
+  assert.equal(F.displayOf("year:2030:jobs", 3.04), "3");
+  assert.equal(F.displayOf("c:earnings:total", 41045772.3), "USD 41 million");
+  assert.equal(F.displayOf("sum:sales", 19915038.03), "USD 19.9 million");
+  assert.equal(F.displayOf("pv:taxes", 2.345e9), "USD 2.35 billion");
+  assert.equal(F.displayOf("y1:property", 703600), "USD 703,600");
+});

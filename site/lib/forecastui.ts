@@ -42,6 +42,11 @@ const EXEMPT_WORDS: Record<string, string> = {
   "ia:utility_pv": "Iowa Code 423.3(90) exempts solar energy equipment, equipment primarily used to collect and convert solar radiation or carry it to a point of use: the modules and inverters, 67.2 percent of the tax on JEDI's materials and equipment. Racking and wiring are not named.",
 };
 
+/** fault 7: a statute's capacity or production tax is held for this technology and state (Iowa's valuation is optional, so
+ *  the reader's own rate stays offered there) */
+export const statuteHeld = (t: TechKey, s: string, P: Params) =>
+  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "valuation");
+
 export const FIELDS: FieldDef[] = [
   { key: "tech", label: "Technology", unit: "", min: 0, max: TECHS.length - 1, whole: true, group: "project",
     options: () => TECHS.map((t, i) => ({ value: i, label: t.label })),
@@ -81,9 +86,9 @@ export const FIELDS: FieldDef[] = [
   { key: "levy", label: "Local levy", unit: "USD per 1,000", min: 0, max: 200, whole: false, group: "taxes", nullable: true,
     applies: (t, s) => s === "ia" && t === "land_based_wind",
     source: () => "No statewide figure is held: the county's consolidated levy, in dollars per 1,000 of taxable value." },
-  { key: "own", label: "Property tax, effective rate", unit: "% of cost", min: 0, max: 10, whole: false, group: "taxes", nullable: true,
+  { key: "own", label: "Property tax, effective rate", unit: "% of cost", min: 0, max: 10, whole: false, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     source: () => "No statute is held for this state and technology: a rate typed here is the reader's own, applied to the capital cost as it falls." },
-  { key: "ownyears", label: "Taxable value falls to 0 over", unit: "years", min: 1, max: 60, whole: true, group: "taxes", nullable: true,
+  { key: "ownyears", label: "Taxable value falls to 0 over", unit: "years", min: 1, max: 60, whole: true, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     source: () => "The reader's own: the years over which the taxable value falls in a straight line." },
   { key: "cf", label: "Capacity factor", unit: "ratio", min: 0.01, max: 1, whole: false, group: "output",
     applies: (t) => t !== "geothermal",

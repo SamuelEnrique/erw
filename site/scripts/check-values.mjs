@@ -253,7 +253,7 @@ async function all(table, params) {
 }
 
 const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's rows, by technology and state, and by technology
-const forecastRows = new Map(); let forecastParams = null, forecastSev = null;   // session 4214: the forecast's rows, by technology and state, and its parameters
+const forecastRows = new Map(); let forecastParams = null, forecastSev = null, forecastLib = null;   // session 4214: the forecast's rows, by technology and state, and its parameters
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
 const dcllRows = new Map();
 const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
@@ -542,6 +542,7 @@ async function truth(check) {
   // nlr_jedi_multipliers, the parameter files of site/data/forecast/ and /severance's own rules and arithmetic
   if (p[0] === "forecast") {
     const F = await import("../lib/forecast.ts");
+    forecastLib = F;
     const k = F.parseKey(check);
     if (!k) return undefined;
     const rk = `${k.x.tech}|${k.x.state}`;
@@ -1443,7 +1444,10 @@ async function main() {
       // session 3827 (chain 218): a Digest story's sum is shown with its currency code before the raw the page reads ("USD 2.1
       // billion" for "2.1 billion"; a non-US sum keeps its code in the raw itself)
       const storyOk = /^digest_story\|[^|]+\|[^|]+\|price$/.test(check) && (text === raw || text === `USD ${raw}`);
-      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || chartOk || dcWhole || dcOne;
+      // session 4219 (chain 239): the forecast on /impact writes its figures as lib/forecast.ts's displayOf does (jobs to one
+      // decimal under 100, whole above; dollars as "USD 41 million"), the text compared with that form of the raw
+      const forecastOk = /^forecast\|/.test(check) && forecastLib !== null && text === forecastLib.displayOf(check.slice(check.lastIndexOf("|") + 1), Number(raw));
+      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || chartOk || dcWhole || dcOne || forecastOk;
       let pass = t !== undefined && t !== null && same && textOk;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with

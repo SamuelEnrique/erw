@@ -12,7 +12,7 @@ import { Tip } from "@/components/tool/ToolPage";
 import { Num } from "@/components/Num";
 import { TECHS, stateName } from "@/lib/impact";
 import { compute, type Rules } from "@/lib/severance";
-import { inputsKey, run, stat, unpack, type Inputs, type Packed, type Params, type Result, type TechKey } from "@/lib/forecast";
+import { displayOf, inputsKey, jobsText, run, stat, unpack, usdText, type Inputs, type Packed, type Params, type Result, type TechKey } from "@/lib/forecast";
 import { FIELDS, GROUPS, clampTo, dropParam, queryWithProjects, resolve, stateOfIx, techOfIx, type Both, type FieldDef, type Values } from "@/lib/forecastui";
 import type { Planned } from "@/lib/forecast";
 import { csvOf, pythonOf, stataOf } from "@/lib/forecastfiles";
@@ -22,13 +22,9 @@ type View = "a" | "b";
 const box = "w-full border border-rule bg-white px-2 py-1 text-sm";
 
 // ---- how figures are written ---------------------------------------------------------------------------------------
-export function usd(v: number): string {
-  const a = Math.abs(v);
-  if (a >= 1e9) return `USD ${(v / 1e9).toLocaleString("en-US", { maximumFractionDigits: 2 })} billion`;
-  if (a >= 1e6) return `USD ${(v / 1e6).toLocaleString("en-US", { maximumFractionDigits: 1 })} million`;
-  return `USD ${Math.round(v).toLocaleString("en-US")}`;
-}
-export const jobs = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: v < 100 ? 1 : 0 });
+// the forms check-values reads too (lib/forecast.ts, displayOf)
+const usd = usdText;
+const jobs = jobsText;
 const plain = (v: number, d = 2) => v.toLocaleString("en-US", { maximumFractionDigits: d });
 
 /** The severance on a gas plant's in-state fuel: /severance's own rules and arithmetic (lib/severance.ts), its base
@@ -147,6 +143,7 @@ function shownDefault(f: FieldDef, d: Inputs): string {
   if (f.key === "state") return stateName(String(val));
   if (f.key === "iaval") return val ? "Yes" : "No";
   if (f.key === "capex") return `${plain(val as number, 0)}`;
+  if (f.key === "start") return String(val);  // fault 6: a year, never "2,027"
   return plain(val as number, f.key === "cf" || f.key === "ilr" ? 4 : 2);
 }
 
@@ -229,14 +226,14 @@ function Compare({ x, r, names }: { x: Record<View, Inputs>; r: Record<View, Res
   return (
     <section data-compare="1">
       <h2 className="mb-2 text-lg font-semibold">A and B</h2>
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[520px] border-collapse text-left text-sm tabular-nums">
+      <div>
+        <table className="block w-full border-collapse text-left text-sm tabular-nums sm:table sm:table-fixed" data-compare-table="1">
           <caption className="sr-only">Scenarios A and B</caption>
-          <thead>
-            <tr className="bg-accent text-white">
-              <th scope="col" className="px-3 py-1.5 font-normal">Figure</th>
+          <thead className="block sm:table-header-group">
+            <tr className="grid grid-cols-2 bg-accent align-top text-white sm:table-row">
+              <th scope="col" className="col-span-2 px-3 py-1.5 font-normal sm:table-cell sm:w-[34%]">Figure</th>
               {views.map((p) => (
-                <th key={p} scope="col" className="px-3 py-1.5 text-right font-normal" data-head={p}>
+                <th key={p} scope="col" className="px-3 py-1.5 text-right font-normal sm:table-cell" data-head={p}>
                   <span className="font-semibold">{p.toUpperCase()}</span>
                   <span className="block text-xs opacity-90">{scenarioWords(x[p])}</span>
                   {names[p] ? <span className="block text-xs opacity-90" data-project={names[p]!.id}>{names[p]!.name}, {names[p]!.county} County</span> : null}
@@ -245,17 +242,19 @@ function Compare({ x, r, names }: { x: Record<View, Inputs>; r: Record<View, Res
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody className="block sm:table-row-group">
             {LINES.map((l) => (
-              <tr key={l.key} className="border-b border-rule" data-row={l.key}>
-                <th scope="row" className="px-3 py-1.5 font-normal">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{l.tip}</Tip></th>
+              <tr key={l.key} className="grid grid-cols-2 border-b border-rule align-top sm:table-row" data-row={l.key}>
+                <th scope="row" className="col-span-2 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{l.tip}</Tip></th>
                 {views.map((p) => {
                   const res = r[p];
-                  if (!res.ok) return <td key={p} className="px-3 py-1.5 text-right italic text-muted" data-cell={`${p}|${l.key}`} title={res.why}>no figure</td>;
+                  const cls = "px-3 py-1.5 text-right sm:table-cell";
+                  if (!res.ok) return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${l.key}`}><span className="cursor-help border-b border-dotted border-muted" title={res.why}>no figure</span></td>;
                   const v = stat(res, l.figure);
                   const why = l.why?.(res, x[p]) ?? null;
-                  if (v === null) return <td key={p} className="px-3 py-1.5 text-right italic text-muted" data-cell={`${p}|${l.key}`}><span className="cursor-help border-b border-dotted border-muted" title={why ?? "not held"}>{why ?? "not held"}</span></td>;
-                  return <td key={p} className="px-3 py-1.5 text-right" data-cell={`${p}|${l.key}`}><Num check={`${inputsKey(x[p])}|${l.figure}`} raw={v}>{l.fmt(v)}</Num></td>;
+                  // fault 11: a short word in the cell, the reason in its hover (a long reason widened the table past its column)
+                  if (v === null) return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${l.key}`}><span className="cursor-help border-b border-dotted border-muted" title={why ?? "not held"}>{l.key === "sev" && x[p].tech !== "natural_gas" ? "none" : "not held"}</span></td>;
+                  return <td key={p} className={cls} data-cell={`${p}|${l.key}`}><Num check={`${inputsKey(x[p])}|${l.figure}`} raw={v}>{displayOf(l.figure, v)}</Num></td>;
                 })}
               </tr>
             ))}
@@ -272,13 +271,16 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
   if (!r.ok) return <p className="text-sm text-muted">Scenario {view.toUpperCase()} has no figure: {r.why}.</p>;
   const cats = r.years.map((y) => ({ label: String(y.year), sub: y.phase === "construction" ? "build" : undefined }));
   const val = (f: (i: number) => number | null) => r.years.map((_, i) => f(i));
-  const prop = val((i) => r.years[i].property), sales = val((i) => r.years[i].sales), inc = val((i) => r.years[i].income), sev = val((i) => r.years[i].severance);
+  // fault 9: a tax held for the scenario is 0 in the years it does not fall (sales after the build, property during it);
+  // a tax not held at all is left out of the chart, not drawn as "not held" in every year
+  const prop = val((i) => r.years[i].property ?? 0), sales = val((i) => r.years[i].sales ?? 0), inc = val((i) => r.years[i].income), sev = val((i) => r.years[i].severance ?? 0);
   const taxSeries = [
-    { name: "Property", color: "var(--color-year-1)", values: prop },
-    { name: "Sales and use", color: "var(--color-year-2)", values: sales },
+    ...(r.property.held ? [{ name: "Property", color: "var(--color-year-1)", values: prop }] : []),
+    ...(r.sales.held ? [{ name: "Sales and use", color: "var(--color-year-2)", values: sales }] : []),
     { name: "Income", color: "var(--color-year-3)", values: inc },
-    ...(x.tech === "natural_gas" ? [{ name: "Severance", color: "var(--color-year-4)", values: sev }] : []),
+    ...(r.severance.held ? [{ name: "Severance", color: "var(--color-year-4)", values: sev }] : []),
   ];
+  const short = (v: number) => usd(v).replace(/^USD /, "");  // fault 10: the chart writes its unit itself
   const say = (i: number) => { const y = r.years[i]; return `${y.year} (${y.phase}): property ${y.property === null ? "not held" : usd(y.property)}, sales ${y.sales === null ? "none" : usd(y.sales)}, income ${usd(y.income)}${x.tech === "natural_gas" ? `, severance ${y.severance === null ? "not held" : usd(y.severance)}` : ""}`; };
   const jobsSays = (i: number) => { const y = r.years[i]; return `${y.year} (${y.phase}): ${jobs(y.jobs.total)} jobs (on site ${jobs(y.jobs.onsite)}, supply chain ${jobs(y.jobs.supply_chain)}, induced ${jobs(y.jobs.induced)})`; };
   const key = inputsKey(x);
@@ -286,9 +288,9 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
     <section data-years={view}>
       <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} by year</h2>
       <div className="space-y-6">
-        <SeriesChart id={`tax-${view}`} title="Taxes by year" unit="USD (2025)" kind="stacked" scale="linear" fmt={(v) => usd(v)}
+        <SeriesChart id={`tax-${view}`} title="Taxes by year" unit="USD (2025)" kind="stacked" scale="linear" fmt={short}
           categories={cats} series={taxSeries} says={say}
-          tip="Each year's property, sales and use, income and (for a gas plant) severance taxes of the scenario in view, in 2025 dollars. A tax not held for this state is left out." />
+          tip={<Tip id={`tax-${view}`} label="taxes by year">Each year&apos;s property, sales and use, income and (for a gas plant) severance taxes of the scenario in view, in 2025 dollars. A tax not held for this state and technology is left out.</Tip>} />
         <SeriesChart id={`jobs-${view}`} title="Jobs by year" unit="jobs" kind="stacked" scale="linear" fmt={(v) => jobs(v)}
           categories={cats}
           series={[
@@ -297,7 +299,7 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
             { name: "Induced", color: "var(--color-muted)", values: val((i) => r.years[i].jobs.induced) },
           ]}
           says={jobsSays}
-          tip="Full-time jobs each year: the build's job-years spread evenly over its years, then each operating year's." />
+          tip={<Tip id={`jobs-${view}`} label="jobs by year">Full-time jobs each year: the build&apos;s job-years spread evenly over its years, then each operating year&apos;s.</Tip>} />
         <details className="border-t border-rule" open={open} onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)} data-year-table={view}>
           <summary className="cursor-pointer py-2 text-sm font-semibold">Every year</summary>
           {open ? (
@@ -311,7 +313,7 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
                       <td className="px-2 py-1">{y.year}</td><td className="px-2 py-1">{y.phase}</td>
                       {(["jobs", "earnings", "property", "sales", "income", "severance"] as const).map((sname) => {
                         const v = stat(r, `year:${y.year}:${sname}`);
-                        return <td key={sname} className="px-2 py-1 text-right">{v === null ? <span className="text-muted">-</span> : <Num check={`${key}|year:${y.year}:${sname}`} raw={v}>{sname === "jobs" ? jobs(v) : usd(v)}</Num>}</td>;
+                        return <td key={sname} className="px-2 py-1 text-right">{v === null ? <span className="text-muted">-</span> : <Num check={`${key}|year:${y.year}:${sname}`} raw={v}>{displayOf(`year:${y.year}:${sname}`, v)}</Num>}</td>;
                       })}
                     </tr>
                   ))}
