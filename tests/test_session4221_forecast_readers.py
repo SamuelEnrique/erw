@@ -24,7 +24,8 @@ class TheReaders(unittest.TestCase):
     def test_the_assessor_sees_mwh_and_taxable_value_where_they_apply(self):
         self.assertIn('...(hasMwh ? ["MWh"] : [])', self.page)
         self.assertIn('...(hasValue ? ["Taxable value"] : [])', self.page)
-        self.assertIn('(r.property.rule ?? "").includes("production")', self.page)
+        # fault 20: the MWh column asks the model whether a production tax was applied (Wyoming's rule id has no "production")
+        self.assertIn("r.years.some((y) => y.mwh !== null) && r.property.production", self.page)
 
     def test_14_each_state_takes_its_own_defaults(self):
         # fault 14: the other states' runs resolve the scenario's values (NaN where not set) in each state

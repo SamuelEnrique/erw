@@ -289,7 +289,7 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
   const key = inputsKey(x);
   // session 4220 (the county assessor's read): the year's MWh where a production tax rests on it, the taxable value
   // where a valuation or the reader's own rate taxes one
-  const hasMwh = r.years.some((y) => y.mwh !== null) && r.property.held && (r.property.rule ?? "").includes("production");
+  const hasMwh = r.years.some((y) => y.mwh !== null) && r.property.production;  // fault 20: by the rule's kind, not its id
   const hasValue = r.years.some((y) => y.value !== null);
   return (
     <section data-years={view}>

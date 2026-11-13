@@ -343,3 +343,10 @@ test("Wyoming's wind excise: USD 1 a MWh from the fourth operating year, the rea
   near(F.propertyTax(P, own, 5).tax, 100 * 8760 * 0.4 + 150e6 * (1 - 5 / 25) * 0.01);
   assert.equal(F.propertyTax(P, F.defaults(P, "utility_pv", "wy"), 0).tax, null, "the excise is wind's");
 });
+
+test("a production tax applied is reported whatever its rule's id (fault 20)", () => {
+  assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "wy"), mw: 100 }, ROWS, P).property.production, true);
+  assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "mn"), mw: 100 }, ROWS, P).property.production, true);
+  assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "ne"), mw: 100 }, ROWS, P).property.production, false);
+  assert.equal(F.run(F.defaults(P, "land_based_wind", "tx"), ROWS, P).property.production, false);
+});

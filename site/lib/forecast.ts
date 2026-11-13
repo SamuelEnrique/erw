@@ -107,7 +107,8 @@ export type Result = {
   pv: Streams & { taxes: number };
   construction: { jobs: Record<Effect, number>; earnings: Record<Effect, number>; output: Record<Effect, number> };
   operations: { jobs: Record<Effect, number>; earnings: Record<Effect, number>; output: Record<Effect, number> };
-  property: { held: boolean; rule: string | null; note: string };
+  /** production: a tax on MWh was applied in some year (fault 20: the page's MWh column asks this, not a rule's id) */
+  property: { held: boolean; rule: string | null; note: string; production: boolean };
   severance: { held: boolean; note: string };
   sales: { held: boolean; note: string };
 };
@@ -244,7 +245,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
     ok: false, years: [], sums: { jobs: 0, earnings: 0, output: 0, property: null, sales: null, income: 0, severance: null },
     pv: { jobs: 0, earnings: 0, output: 0, property: null, sales: null, income: 0, severance: null, taxes: 0 },
     construction: { jobs: ZERO(), earnings: ZERO(), output: ZERO() }, operations: { jobs: ZERO(), earnings: ZERO(), output: ZERO() },
-    property: { held: false, rule: null, note: "" }, severance: { held: false, note: "" }, sales: { held: false, note: "" },
+    property: { held: false, rule: null, note: "", production: false }, severance: { held: false, note: "" }, sales: { held: false, note: "" },
   };
   const jc = P.jediCosts.technologies[x.tech];
   const cost = jc?.states[x.state]?.cost_usd_per_mw;
@@ -323,7 +324,8 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
     : "no rule held for this state and technology";
   return {
     ok: true, years, sums, pv: { ...pvS, taxes }, construction: c, operations: o,
-    property: { held: propHeld && !propGap, rule: propRule, note: propNote },
+    property: { held: propHeld && !propGap, rule: propRule, note: propNote,
+      production: rules.some((r) => r.kind === "production" && (propRule ?? "").split("+").includes(r.id)) },
     severance: { held: sevYear !== null, note: sevNote },
     sales: { held: salesHeld, note: salesHeld ? (x.exempt > 0 ? "after the exemption" : "before exemptions") : "no taxable share held for this technology" },
   };
