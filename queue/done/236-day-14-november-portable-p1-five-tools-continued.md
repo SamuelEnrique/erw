@@ -10,7 +10,7 @@ The rules of `queue/done/233-day-13-november-portable-p1-five-tools.md` hold wor
 
 Read first: chain 233's note (`docs/state/note_2026-11-13_portable_p1.md` or the name session 5048 chose), its reports (`archive/sessions/SESSION_50NN_REPORT.md`), `docs/state/landing_request_portable.md`, the faults files `docs/reviews/*-faults-2026-11-13.md`, `docs/roadmap.md` item 2.
 
-If the list below is still empty when session 5050 starts, chain 233 stopped before its session 5049; session 5050 rebuilds the list from chain 233's reports, its branches (`git branch -r | grep wip/5000-`) and the five tools' done lines, and says so.
+If the list below is still empty when session 5050 starts, chain 233 stopped before writing it; session 5050 rebuilds the list from chain 233's reports, its branches (`git branch -r | grep wip/5000-`) and the five tools' done lines, and says so.
 
 ## Session 5050: the next file, the ground
 
@@ -20,9 +20,15 @@ Long end 1:00. The next file first (same machine line, sessions 5070 upward, at 
 
 Long end 1:00 each. One step a session, in the order below, each on this chain's own stack, a landing request row after each tool's stack is ready.
 
-### Unfinished steps (written by session 5049 of chain 233)
+### Unfinished steps (written by session 5011 of chain 233)
 
-(Not yet written.)
+Chain 233 ran sessions 5000 to 5011 and closed early: the tools' work ran out at session 5009 (session 5010's report says why; the numbers 5012 to 5049 are unused). Its note: `docs/state/note_2026-11-13_portable_p1.md`. Nothing it did is landed; landing row 22 of `docs/state/landing_request_portable.md` (`wip/5000-grid`) holds all of it. What is left, in order; a step whose condition does not hold is skipped, said so, and the chain closes with its note when none holds:
+
+1. (Session 5051) Row 22: if landed, every `wip/5000-*` branch deleted on origin once an ancestor of `origin/main`, the worktree `erw-p1-5000` removed (and `erw-p1-req`), the five faults files' `fixed` rows read on main. If not landed, `origin/main` merged into `wip/5000-grid`, the chain's tests run (the files the note's sessions name), the head written into row 22.
+2. (Session 5052) The owner's rulings of the note's list (1 to 7), applied where he has ruled (`docs/roadmap.md`, "Rulings", or a review file), each with a test; a signature written in a note's sign-off block is his, never a session's.
+3. (Session 5053) Once the data machine has rewritten `replication/grid/page_figures.json` and `snapshot.json` from its tables (Grid faults row 2): `python replication/grid/replicate.py` run whole, its line written into `docs/methods/grid_network.md`'s replication record.
+4. (Session 5054) Once October 2026 is a held month on the battery and generator pages (battery row 7, generator row 2): both pages read again at 1280 and 390 on a local build, `check-values` on `/cost-of-power`, and the three economics cross-check tables set beside the new `page_figures.json` (`docs/methods/crosschecks/`).
+5. (Session 5055) Once a do-file has been run in Stata by the owner: its output's lines set beside the Python mirror's, written in the tool's note.
 
 ## Session 5067: the note
 

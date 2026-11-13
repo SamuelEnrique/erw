@@ -57,3 +57,57 @@ One row a session, each with tests in `tests/test_periodicals_1973.py` (28 tests
 ### For Samuel's ruling
 
 - The stored Digest of 12 November says Wyoming's August gas generation broke July 2024's record when July 2026 had already broken it. Default: the issue stays as written (no stored issue rewritten); a one-line correction note on it waits for your word.
+
+## Session 1986: two faults the stack's dry run found (rows 91, 92)
+
+- 91: a mover whose reason links a story printed above was dropped as a repeated item (Brent on the stack, Henry Hub on main's run); mover lines are now figures to the repeat drop and the hard check.
+- 92: "the 5 largest moves" then listed Henry Hub "up 0.00 (0.0%)"; the list ranks moves of 0.05% or more, counts them, and names the unchanged ones ("- Unchanged: Henry Hub natural gas, WTI Cushing crude.").
+
+## Session 1987: the Roundups of W45 and W46 read (rows 93 to 99)
+
+- Dry runs on the stack, no model: W45 (now 399 stories: stories of 6 to 8 November were ingested since session 1881's read) and W46 so far (262 stories to 12 November 21:52 UTC). USD 0.00.
+- **Row 93, the serious one:** the stored W44 and W45 print NYISO's and ISO-NE's weekly day-ahead means (W45: 40.90 and 40.28 USD/MWh; W44: 47.64 and 40.34) from tables held for license since 21 October. The Roundup's table read the hold only for its five numbers. The Digest was right all along.
+
+## Sessions 1988 to 1994: rows 93 to 99 fixed
+
+- 93: the Roundup prints "licensed source needed" for a held grid and skips its real-time table ("Not read: NYISO (licensed source needed).").
+- 94: the `/roundup` page holds a held grid's price cells in a stored issue (`holdRoundupGrids`, `site/lib/digest.ts`), as the Digest's page does.
+- 95: the weekly subject carries no outlet figure in any case; a cut does not split a name.
+- 96: the deal of the week names the outlet of its sum ("the sum as Hart Energy reported it"; JPT wrote USD 2.1 billion).
+- 97: a stand-in move passes the opening's bar and is the next unused one (W46's "+0.3%" of Brent is gone).
+- 98: a story naming a benchmark is given the warehouse's close in its limitation, and no party is asked of a market move.
+- 99: one colon in the deal opening's status.
+- The W46 dry run again on the stack shows each fix (`runs/periodicals_dryrun/s1973/roundup/2026-W46-stack2-nomodel.md`).
+- **Tests:** `tests/test_periodicals_1973.py` (41 tests), with `test_periodicals`, `test_session806`, `test_session1882`, `test_session1894`, `test_session1895`, `test_session1907`, `test_session1908`, `test_session135`, `test_session177`: OK; `site/scripts/test-digest-numbers.mjs` 16 passed. Two old expectations changed with their rule: `test_periodicals.py` (the subject's outlet figure, row 95) and `test_session1907.py` (the stand-in by index, row 97).
+
+## Sessions 1995 and 1996: the method notes
+
+- `docs/methods/digest_scoring.md` and `docs/methods/roundup_selection.md`, internal (added to `INTERNAL_METHODS` in `site/scripts/build-content.mjs`, so the site does not publish them), each with what changed on 13 November.
+- `docs/methods/periodicals.md` (the readers' note): a section "Changed on 13 November 2026".
+
+### Decisions made without you
+
+- Row 93's page fix holds the cells at render time; the stored W44 and W45 markdown are not rewritten.
+- Row 97: the stand-in is the next unused move at the bar, not the k-th by index, so an unused 3.6% move no longer gives way to a 2.7% one.
+- The method notes are internal, as the chain asked; the readers' note gets only what a reader sees.
+
+### For Samuel's ruling
+
+- **W44 and W45 printed held prices (row 93).** NYISO's and ISO-NE's weekly means went into the stored markdown and, if the Sunday emails were sent to `DIGEST_RECIPIENTS`, into those emails. Default: nothing re-sent and the stored files left as written; the page now holds the cells. Whether the publishers need to be told is yours.
+
+## Session 1997: the build, the pages, the landing request
+
+- The Roundup workflow's "Send the Roundup by email" step succeeded on 1 November (run 41359885666) and 8 November (run 42532965996). The job log came back truncated, so whether the emails reached `DIGEST_RECIPIENTS` is not read here.
+- `npm ci` and `npm run build` in `erw-1973`: both exit 0 (the build lock taken and released). `next start` on port 3973 with the internal cookie (set by a one-shot local helper so the digest never entered a command; its file deleted after).
+- Read at 1280 and 390 (`runs/s1997/shots/`, not in git): `/roundup/2026-W45` shows NYISO and ISO-NE as "license needed", and neither 40.90 nor 40.28 is in the page's HTML (W44's 47.64 and 40.34 neither); no horizontal scroll at 390. `/digest/2026-11-12` renders the stored issue as written. `/data/methods/digest_scoring` answers 404 (internal).
+- The server and the helper stopped by their ports' processes; ports 3973 and 3974 free. The build's `site/data/policy/paused.json` restored (an artifact, not committed).
+- **Row 10** of `docs/state/landing_request_oldlaptop.md`: `wip/1973-periodicals`, task `1973-periodicals`, port 3973, requested; merges with `origin/main` at `97c501a77` with no conflict.
+
+## Session 1998: the note
+
+- `docs/state/note_2026-11-13_oldlaptop.md`.
+
+## Session 1999: the next file, the queue
+
+- `queue/next/232-day-14-november-oldlaptop-periodicals-continued.md` filled: the W45 dry run read in full, the emails, the no-model opening's title, the first issues after row 10 lands, its clean-up.
+- Then `chain_queue.py next`.
