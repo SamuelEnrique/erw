@@ -540,7 +540,7 @@ class ThePage(unittest.TestCase):
         self.assertIn("<Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}", self.page)
         lib = src("site", "lib", "datacenter.ts")
         self.assertIn("let left = cap ? shedBudget(x, pay[y].length) : Infinity;", lib)      # finding 1: the rule's budget, as it was
-        self.assertIn("const k = Math.min(held.length, Math.round(x.run === \"hours\" ? (x.n * held.length) / p.length : (x.pct / 100) * held.length));", lib)   # and the foreseen load's
+        self.assertIn("const k = Math.min(held.length, shedBudget(x, p.length));", lib)   # and the foreseen load's: the rule's budget since session 5003 (the owner's ruling of 12 October 2026)
         self.assertIn("if (twelve.every((t) => t && t.complete)) return (twelve as Month[]).reverse();", lib)   # finding 2: twelve months in a row, as it was
 
 

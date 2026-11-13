@@ -159,7 +159,7 @@ never on the price the hour settles at (`site/lib/datacenter.ts`, `ruleWeights`)
   day-ahead price gives no figure under the rule for a flexible load: the placeholder says so.
 
 **"If perfectly foreseen" (beside it).** The same load with its hours chosen knowing every price of the year: off in
-the n hours of each calendar year with the highest price (a year held in part takes the same share of its hours), or
+the n hours of each calendar year with the highest price (since session 5003, the owner's ruling of 12 October 2026, a year held in part takes the rule's whole budget, never more than its hours held; until then the same share of its hours), or
 in the dearest share of its hours; or, shifting, each day's energy moved from that day's dearest hours of the market
 bought in to its cheapest. It is the most the load could have saved. No operator knows these hours in advance.
 

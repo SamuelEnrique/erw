@@ -4,6 +4,8 @@ import { AskErcotLink } from "@/components/AskErcotLink";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { SourceLine, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { BATTERY_DECISIONS } from "@/lib/decisions";
 import {
   CAPACITY_WORDS, COSTS, DURATION_WORDS, LEFT_OUT, PRODUCTS, REVIEW_TABLE, STRATEGIES, STRESS_BY, TABLE, awardsBeside, debtPerMw, eventMonths, fleetBeside, fleetCase, gridOf, inputsKey, inputsOf, last36, lastTwelve,
   monthName, monthsOf, outlier, stat, stress, typedNotes, years, type AwardsSnapshot, type Inputs, type Month,
@@ -296,6 +298,8 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
           </div>
         </div>
       </BatteryDecisions>
+      {/* session 5001 (chain 233): the decisions on the page, as the generator's and the datacenter's foot carries them, open (nothing collapsed) */}
+      <DecisionsBlock id="5001" title="Decisions on this page (each with the session that made it, and the ruling where one exists)" items={BATTERY_DECISIONS} open />
       <SourceLine tables={g.review
         ? [REVIEW_TABLE, "iso_hub_prices_history", ...(x.grid === "nyiso" ? ["nyiso_rtm_zone_prices", "nyiso_dam_zone_prices", "nyiso_as_prices"] : ["iso_rtm_hub_prices", "iso_dam_hub_prices", "spp_as_prices"])]
         : [TABLE, ...(x.grid === "ercot" ? ["ercot_all_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "ercot_as_prices"] : ["iso_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "caiso_as_prices"]),

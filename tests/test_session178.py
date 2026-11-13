@@ -500,8 +500,10 @@ class TheNote(unittest.TestCase):
             self.assertIn(head, self.note)
         # session 196: "Cross-checks" is the note's last section, after "Checks"; section 11 is still the last numbered one.
         # Session 1527 (chain 163) put the "Sign-off" block between section 11 and "Checks", as the generator's note has it
+        # Session 5001 (chain 233) added section 12, the decisions on the page, after section 11 and before "Sign-off"
         parts = self.note.rstrip().split("\n## ")
-        self.assertTrue(parts[-4].startswith("11. What the browser has, for session 179"))
+        self.assertTrue(parts[-5].startswith("11. What the browser has, for session 179"))
+        self.assertTrue(parts[-4].startswith("12. The decisions on the page (session 5001)"))
         self.assertEqual([x.split("\n", 1)[0] for x in parts[-3:]], ["Sign-off", "Checks", "Cross-checks"])
         self.assertIn("Stata is not installed on the machine that wrote it, so the do-file has not been run.", self.note)
 

@@ -155,8 +155,13 @@ def fact_from_flag(fl):
     if fl["rule"] == "record":
         high = fl["direction"] == "high"
         # no count of the values before it: the flag counts the history before its fresh window, not before this point
+        held = ""
+        if c.get("held_record") is not None:   # session 1982 (faults file row 87): a newer value had beaten the held record
+            held = (f" Before the {'months' if monthly else 'days'} new in this scan, the record was {num(c['held_record'], u)}, "
+                    f"{on} {day_words(c['held_record_date'], monthly)}.")
         return (f"{name}: {num(fl['value'], u)} {on} {when}, the {'highest' if high else 'lowest'} {fl['statistic']} held since "
-                f"{day_words(h['first'], monthly)}. The record until now was {num(c['old_record'], u)}, {on} {day_words(c['old_record_date'], monthly)}.")
+                f"{day_words(h['first'], monthly)}. The record until now was {num(c['old_record'], u)}, {on} {day_words(c['old_record_date'], monthly)}."
+                + held)
     if fl["rule"] == "negative":
         return (f"{name}: {num(fl['value'], u)} on {when}, the first price below zero in the {common.fmt(c['prior_days_held'], 0)} days held "
                 f"before it. The day's mean was {num(c['day_mean'], u)}.")
@@ -556,8 +561,22 @@ def relevance(c, stories):
         if pts:
             total += w * pts
             if w * pts > best[0]:
-                best = (w * pts, title, shared)
+                # session 1983 (faults file row 88): the headline as the issue printed it, when the caller gives it
+                best = (w * pts, str(s.get("head") or title), shared)
     return total, best[1], best[2]
+
+
+GRID_WORDS = {"pjm", "ercot", "caiso", "miso", "spp", "nyiso", "isone"}
+
+
+def names_measure(shared):
+    """Session 1983 (faults file row 88): whether the words a candidate shares with a story name the measure: a place (a
+    state's name, a grid), or a fuel with one more word. "generation" alone (Ontario Power Generation, a party, against
+    Wyoming's gas generation on 12 November) names nothing the reader can follow."""
+    s = set(shared)
+    places = {w for v in STATES.values() for w in words_of(v)} | GRID_WORDS
+    fuels = {w for v in FUELS.values() for w in words_of(v)}
+    return bool(s & places) or (bool(s & fuels) and len(s) >= 2)
 
 
 def ranked(candidates, stories):
@@ -674,8 +693,15 @@ def dismissed_keys(log=print, get=None):
 
 def how_words(c):
     score, title, shared = c.get("_relevance", (0, "", []))
-    day_words_ = (f" It is the candidate most related to the day's top stories: it shares {', '.join(shared) if shared else 'its sector'} "
-                  f"with {title[:80]!r}." if score else "")
+    # session 1983 (faults file row 88): the relation is said only when the shared words name the measure (names_measure);
+    # a match on a sector's word alone is not offered to the reader as a reason
+    if score and names_measure(shared):
+        day_words_ = (f" It is the candidate most related to the day's top stories: it shares {', '.join(shared)} "
+                      f"with {title[:80]!r}.")
+    elif score:
+        day_words_ = " No top story of the day names this measure."
+    else:
+        day_words_ = ""
     if c["source"] == "scanner":
         return ("Chosen by rule, not by a person or a model: the strongest flag of the day's scan that no Digest has shown "
                 f"(rule: {c['flag']['rule']}; {common.fmt(float(c['flag']['strength']), 2)} robust standard deviations past its threshold)." + day_words_)

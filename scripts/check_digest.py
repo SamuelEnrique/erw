@@ -346,7 +346,8 @@ def check_figure(src, date, f, chart, written=None):
         return (("ok" if shown and shown in held.split() + [held] else "FAIL"), str(row.get("price_mentioned") or "no price in the row"))
     if head == "digest_chart":
         k = p[3]
-        at = {"value": chart.get("date"), "old_record": chart.get("old_record_date")}.get(k)
+        # session 1982 (faults file row 87): the held record, when a newer value had beaten it, traced at its own date
+        at = {"value": chart.get("date"), "old_record": chart.get("old_record_date"), "held_record": chart.get("held_record_date")}.get(k)
         if not at or not chart.get("entity"):
             return "record", "a statistic of the scan, held in the chart's record (docs/digest/charts/<date>.json)"
         rows = src.rows(current(f["table"]), chart["entity"], variable=chart.get("variable") or None, ts=f"{at[:10]}T00:00:00Z")
