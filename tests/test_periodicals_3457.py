@@ -520,5 +520,24 @@ class Row170AlsoInDeals(unittest.TestCase):
             self.assertEqual(email_digest.ALSO_RE.match(label + " x").group(1), label)
 
 
+class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
+    """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
+    then the same sentence on the next line (12 November as sent, and every chart since session 232)."""
+
+    def test_the_picture_line_gives_its_address(self):
+        import email_digest
+        fact = "US retail electricity sales: 412,568,374 MWh in August 2026."
+        text, html_ = email_digest.block([f"![{fact}](charts/2026-11-13.png)", "", fact, "The table holds 308 months."], "docs/digest")
+        self.assertTrue(text[0].startswith("[chart] https://"), text[0])
+        self.assertTrue(text[0].endswith("docs/digest/charts/2026-11-13.png"), text[0])
+        self.assertEqual(text[1], fact)
+        self.assertIn(f'alt="{fact}"', html_)
+
+    def test_a_description_that_is_not_the_next_line_stays(self):
+        import email_digest
+        text, _ = email_digest.block(["![A picture of the week](charts/x.png)", "Something else."], "docs/digest")
+        self.assertTrue(text[0].startswith("[chart: A picture of the week] "), text[0])
+
+
 if __name__ == "__main__":
     unittest.main()
