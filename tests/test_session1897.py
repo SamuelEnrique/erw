@@ -126,7 +126,8 @@ class Row76NextWeek(unittest.TestCase):
 
     def test_other_sentences_as_written_in_one_clause(self):
         w = roundup.deadline_words
-        self.assertEqual(w("The final rule is effective on November 9, 2026.", DAY), "the final rule is effective on November 9, 2026")
+        # session 3480 (faults file row 179): a rule effective on the item's day takes effect, its day not said again
+        self.assertEqual(w("The final rule is effective on November 9, 2026.", DAY), "the final rule takes effect")
         self.assertEqual(w("Comments are due by midnight EST on November 9, 2026.", DAY), "comments are due by midnight EST on November 9, 2026")
         self.assertEqual(w("FERC will hold a technical conference on November 9, 2026.", DAY), "FERC will hold a technical conference on November 9, 2026")
         # a sentence whose comment date is not the item's day is left as written
