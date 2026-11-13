@@ -2,17 +2,17 @@
 
 13 November 2026, unattended, `portable-laptop` window P2. Branch `wip/5166-security`, worktree `erw-p2-5150`. Model spend USD 0. Pulls: eleven GET requests of GitHub's API for this repository, with the machine's token (never printed). Nothing built, nothing landed, no warehouse data written; nothing changed at GitHub.
 
-Clock: precheck 20:37 UTC, the read 20:39 UTC, the records by 20:42 UTC. Inside the long end of 1:00.
+Clock: precheck 20:37 UTC, the read 20:38 UTC, the records by 20:39 UTC. Inside the long end of 1:00.
 
 ## Read these first
 
 - **Row 33: Dependabot alerts are off.** GitHub's own words: "Dependabot alerts are disabled for this repository." So a new advisory on a package the site or the warehouse uses is seen only when a session runs the audits by hand. This morning's `certifi` (a compromised root in the bundle) is the kind of thing an alert would have shown weeks earlier.
   - **Yours to turn on**: GitHub, the repository, Settings, Advanced Security: "Dependabot alerts". On the same page, look that "Secret scanning" and "Push protection" are on. They cost nothing on a public repository. No session's token can change or even read them.
-- **Row 34: the repository is public, and this list is in it.** A fault written into a report, a landing row or the list is published when it is pushed, before its fix lands. Row 1's account, with the address that opened a page in review, was public for about three hours before the landing.
+- **Row 34: the repository is public, and this list is in it.** A fault written into a report, a landing row or the list is published when it is pushed, before its fix lands. Row 1's account, with the address that opened a page in review, was public for about an hour before the landing (pushed 10:12 UTC, landed 11:07 UTC; session 5176 read the two commits' times and corrected "three hours", which this report first said).
   - Nothing in the list today is an open door (every row is fixed, a ruling with no exploit in its words, or noted).
   - The ruling is about the next High row: say less until it lands. Default below.
 - **What else was read**: the repository has no fork, one collaborator (you, admin), no ruleset. The machine's token is a fine-grained one: it was refused the branch's protection, the Actions' defaults, the security settings, the webhooks and the deploy keys (403 each). That is as it should be for a token that pushes code; it also means those settings are only yours to look at.
-- **Waits, polled at 20:37 UTC:** landing row 23 not landed; the scan of the git history still running (64 minutes at 20:41 UTC).
+- **Waits, polled at 20:37 UTC:** landing row 23 not landed; the scan of the git history still running (62 minutes at 20:39 UTC).
 
 ## What to review
 
