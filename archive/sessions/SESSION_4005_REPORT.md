@@ -22,7 +22,8 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 
 ## The gate
 
-- (written when it ends)
+- Gated commit `958764699` (land-b with `origin/main` merged after the lock, 12:42 UTC); `build_llms.py --check` exit 0 on it; the suite running.
+- (the rest written when it ends)
 
 ## Decisions made without you
 
