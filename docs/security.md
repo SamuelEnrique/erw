@@ -149,3 +149,19 @@ The ruling is one line, "no usage count on tool pages" (12 October 2026, `docs/r
 No tool sends a count of its own: "scenario compared" is an event nothing sends.
 
 Choice: (a) as today, the ruling read as "nothing a reader does on those tool pages is counted". (b) `USAGE_TOOL_PAGES=off` in the host's environment, built by session 5155: the server records nothing for the seven marked pages, the page view included. (c) the mark on every page of the menu's groups Economics, Grid, Infrastructure, Analysis and Games, 23 more pages: a session's work in the tools' own files. The default is (a); nothing changes until the variable is set. What is counted and how is in [`docs/methods/usage_counts.md`](methods/usage_counts.md).
+
+## The guards on new tables and functions, and sign-ups, read on 13 November 2026 (session 5156, rows 7 and 12 of the list)
+
+Reads only: the catalog in a read-only transaction, `verify_rls.py --catalog`, and one GET of the public auth settings with the anon key. The outputs are in `runs/s5156/` of the session's worktree (not in git).
+
+| What | Result |
+|---|---|
+| The default privileges (M6) | unchanged: what `postgres` or `supabase_admin` creates in `public` is granted to `anon` and `authenticated` (tables `arwdDxtm`, sequences `rwU`, functions `X`) |
+| The `ensure_rls` event trigger | enabled, on `CREATE TABLE`, `CREATE TABLE AS` and `SELECT INTO` |
+| The tables of `public` | 25, row-level security on for all 25; the anon key holds `INSERT`, `UPDATE` or `DELETE` on none; no write policy names `anon`, `authenticated` or `public` |
+| `verify_rls.py --catalog` | exit 0, 0 mismatches |
+| Sign-ups in Supabase Auth (L8) | `disable_signup` false, the email provider on, `mailer_autoconfirm` false: unchanged since 20 October |
+
+**What the guards did not cover, and now do.** The trigger turns row-level security on for a new table; nothing did the like for a new function, which the default privileges hand to the anon key. On 13 November the anon key may execute 23 functions of `public`. Every one asks for a credential in its own arguments: a token as its first argument, checked before anything else (19), the address's own signed token (the two subscription functions), a run's one-time key (one), and the trigger's own function, which Postgres refuses to call directly. `verify_rls.py --catalog` now has a step 6: the functions the anon key may execute are compared with a list in the script (`ANON_FUNCTIONS`), and one that is not listed fails the run until it is revoked or listed with what it asks for. A session that adds a function adds it to the list, as it adds a table to `EXPECTED`. The verifier is run by sessions; no scheduled job runs it.
+
+Item 4 above (M6) and item 8 (L8) stand as they are, with the same choices.
