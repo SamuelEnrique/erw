@@ -33,3 +33,17 @@ Read on 13 November 2026 by chain 229 before each terms page (`scripts/license_c
 | 13 | 2026-11-13 | 4107 | `warehouse/connectors/release_schedule.py` (it reads `https://www.cftc.gov/MarketReports/CommitmentsofTraders/ReleaseSchedule/index.htm`) | Stop reading www.cftc.gov, or read the release schedule from a host whose robots file allows it; `cftc_cot.py` reads `publicreporting.cftc.gov`, a different host whose robots file this chain did not read | www.cftc.gov's robots file (read 1716) names ClaudeBot and anthropic-ai with `Disallow: /` | requested |
 | 14 | 2026-11-13 | 4107 | the news feeds (`https://heatmap.news/feeds/feed.rss`) | Drop Heatmap News's feed, or ask Heatmap | heatmap.news's robots file (read 1725) refuses anthropic-ai by name | requested |
 | 15 | 2026-11-13 | 4107 | the news feeds (`https://www.datacenterdynamics.com/en/rss/`) | Drop Data Center Dynamics's feed, or ask DCD | www.datacenterdynamics.com's robots file (read 1721) refuses ClaudeBot and anthropic-ai by name | requested |
+
+## Table headers whose "License:" line the record has overtaken (session 4155)
+
+Read on 13 November 2026 from the data machine's table files (read only). Each header's own words say a publisher's terms are not read or not settled, where `docs/licenses.md` now holds a verdict. The flag does not change (no session loosens one); only the words of the header line, which the table's connector or builder writes.
+
+| # | Requested (UTC) | Session | For | What | Why | State |
+|---:|---|---|---|---|---|---|
+| 16 | 2026-11-13 | 4155 | `makstat_macedonia_electricity_monthly` (its connector) | "License: internal until the licenses' round reads the State Statistical Office's terms" to say the terms are read: needs written permission ("© State Statistical Office", read 1780) | the header names a read that has happened | requested |
+| 17 | 2026-11-13 | 4155 | `svk_sweden_production_hourly` | "internal until the licenses' round reads Svenska kraftnat's terms" to say: Svenska kraftnat's Data Service is CC BY 4.0 (read 1770); internal until the owner rules (`docs/licenses.md`, waiting for a ruling) | as row 16 | requested |
+| 18 | 2026-11-13 | 4155 | `csp_latvia_electricity_monthly` | "no licence text read" to say: the CSB's media page allows reproduction with the CSB quoted as source (read 1771); internal until the owner rules | as row 16 | requested |
+| 19 | 2026-11-13 | 4155 | `econtrol_austria_electricity_monthly` | "no reuse statement read" to say: E-Control asks to be named as the data source (read 1772), may be public as the ERW is today; internal until the owner rules | as row 16 | requested |
+| 20 | 2026-11-13 | 4155 | `irena_capacity_annual` | "License: not settled (IRENA's terms ... answered with a challenge)" to say: needs written permission ("IRENA - International Renewable Energy Agency. All Rights Reserved.", read 342) | the verdict was written in session 2139 | requested |
+| 21 | 2026-11-13 | 4155 | `usdm_drought_state_weekly` | "License: not settled (the Monitor's Permission page not yet read, session 2061)" to say: may be public (read 255) | the verdict exists; the flag is public and agrees | requested |
+| 22 | 2026-11-13 | 4155 | `ferc714_area_demand_2006` to `_2025` (21 tables, `warehouse/connectors/ferc714_demand.py`) | add to the header's license line: PUDL's CC BY 4.0 read from its README (read 1688, chain 229); the flag waits for the owner's ruling | the header says only that FERC's page is unread | requested |
