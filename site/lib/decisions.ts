@@ -101,3 +101,44 @@ export const GENERATOR_DECISIONS: Decision[] = [
   { key: "grids", session: "sessions 89 and 145",
     text: "MISO is not priced while its publisher is paused (its terms forbid automated access), and PJM's prices come from a licensed source, none of it in a public table." },
 ];
+
+/** /cost-of-power/battery, "What a battery earns" (docs/methods/battery_earns_algorithm.md, section 12). Session 5001
+ * (chain 233): the list the other two economics pages carry since sessions 462 and 463, which the battery page lacked
+ * (session 1527's recommendation). Drawn open, not folded: the battery page has nothing collapsed (the owner's ruling of
+ * 12 October 2026). */
+export const BATTERY_DECISIONS: Decision[] = [
+  { key: "one-optimization", session: "session 67",
+    text: "Energy and ancillary services are chosen together in one optimization a day, so a megawatt is discharged or held as an upward reserve in an hour, never both, and nothing is counted twice." },
+  { key: "day-from-empty", session: "session 67",
+    text: "Each local day starts empty, with at most one full cycle a day and an 86 percent round trip (the low end of Lazard's range), split evenly between charging and discharging." },
+  { key: "foresight", session: "session 67",
+    text: "The day's prices are known in advance: \"Perfect foresight\" is paid the hourly mean of the real-time price, \"Day-ahead schedule\" the day-ahead price, and both are paid day-ahead reserve prices, so each figure is an upper bound." },
+  { key: "price-taker", session: "session 67",
+    text: "The battery is a price taker, awarded up to its full power at the posted price; reserves are paid for being held and are never called." },
+  { key: "hub", session: "sessions 67 and 355",
+    text: "Energy is priced at the hub (ERCOT's hub average, CAISO's SP15), not at the battery's node; ERCOT's storage nodes' band to the hub is shown and added to no figure." },
+  { key: "durations", session: "sessions 67 and 296",
+    text: "Each reserve must be backed by the stored energy its market's rule requires on the day (ERCOT's NPRR 1096 and 1282, CAISO's tariff), one hour assumed where no rule is stated, which caps how much of a product a short battery can hold." },
+  { key: "no-fill", session: "session 67",
+    text: "A day is solved only when every hour has an energy price and a price for every product bought that day; any other day is left out and counted, never filled or scaled." },
+  { key: "months", session: "sessions 67 and 195", ruling: "the owner's ruling of 12 October 2026",
+    text: "A month counts when 90 percent of its days are solved, and the headline's last twelve months are whole months only, the newest twelve in a row." },
+  { key: "outlier", session: "session 71",
+    text: "A month that is more than a quarter of everything held (ERCOT's February 2021) stays in every figure and on the chart; only the average of every year is also shown without it." },
+  { key: "questions", session: "session 208", ruling: "the owner's ruling of 12 October 2026",
+    text: "One page, three questions, nothing collapsed: what it earned, whether it is worth building and what matters most; the monthly rows are the CSV download." },
+  { key: "scenarios", session: "sessions 179, 195 and 208", ruling: "the owner's ruling of 12 October 2026",
+    text: "Scenarios A and B are the block the three economics pages share; scenario A sets the headline. The contract's share and price are two of each scenario's assumptions, 0 by default, so the default battery is fully merchant." },
+  { key: "costs", session: "sessions 67 and 296",
+    text: "Capital cost and fixed O&M default to the midpoints of Lazard's Levelized Cost of Storage at 2 and 4 hours, and at 8 hours to NREL's Annual Technology Baseline 2025, whose fixed O&M pays for augmentation." },
+  { key: "debt", session: "session 208", ruling: "the owner's ruling of 12 October 2026",
+    text: "Debt is 20 percent of the capital at 8 percent over 20 years, level payments: Lazard's storage financing, editable." },
+  { key: "hurdle", session: "session 208", ruling: "the owner's ruling of 12 October 2026",
+    text: "The NPV is to equity, after the debt payments, discounted at 12 percent, Lazard's cost of equity." },
+  { key: "degradation", session: "sessions 196 and 297",
+    text: "Revenue falls by 2.6 percent a year for degradation (Lazard's storage cases), as a yearly cut to revenue by default; capacity fade with augmentation is the other method a scenario may choose." },
+  { key: "credits", session: "session 297",
+    text: "The investment tax credit and the stress repeats are scenario assumptions, 0 by default." },
+  { key: "grids", session: "sessions 86 and 89",
+    text: "ERCOT and CAISO are open; NYISO and SPP are built and held in review until their licenses are answered; PJM, ISO-NE and MISO are not built, their prices needing a license." },
+];

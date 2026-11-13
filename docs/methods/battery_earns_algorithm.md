@@ -494,6 +494,28 @@ The same script also holds the default case's headline (81.40, 8,140,219, 33, 47
 
 For ERCOT at `HB_HUBAVG`, under "Income by stream": over the battery's own last twelve months, the day-ahead four-hour spread of ERCOT's storage nodes at the 10th percentile, the median and the 90th, the hub's own spread over the same days and the share of storage nodes wider than the hub, from `node_basis_summary` (`dam_storage_*`, `docs/methods/node_basis.md`), each month's figures with their keys in a fold and the twelve months' means weighted by the days held (`days`). The median node's spread over the hub's is the one ratio written: the energy this page counts at the hub would scale about with it, the reserves not at all. Added to no figure. Read in `site/lib/nodebasisread.ts`, so the page's own reads stay `read.ts`'s.
 
+## 12. The decisions on the page (session 5001)
+
+Session 5001, 13 November 2026 (chain 233). The page lists, at its foot, every modelling choice it makes, one line each, with the session that made it and the ruling where one exists (`site/lib/decisions.ts`, `BATTERY_DECISIONS`, drawn by `site/components/tool/DecisionsBlock.tsx`, `data-decisions="5001"`), the form of the generator's (session 463) and the datacenter's (session 462) pages. The block is drawn open, not folded, because the battery page has nothing collapsed (the owner's ruling of 12 October 2026). The list below is the same list, word for word; `tests/test_session5001.py` holds the two to it. No figure moved: the block is words, and no number of the page reads it.
+
+1. Energy and ancillary services are chosen together in one optimization a day, so a megawatt is discharged or held as an upward reserve in an hour, never both, and nothing is counted twice. (session 67)
+2. Each local day starts empty, with at most one full cycle a day and an 86 percent round trip (the low end of Lazard's range), split evenly between charging and discharging. (session 67)
+3. The day's prices are known in advance: "Perfect foresight" is paid the hourly mean of the real-time price, "Day-ahead schedule" the day-ahead price, and both are paid day-ahead reserve prices, so each figure is an upper bound. (session 67)
+4. The battery is a price taker, awarded up to its full power at the posted price; reserves are paid for being held and are never called. (session 67)
+5. Energy is priced at the hub (ERCOT's hub average, CAISO's SP15), not at the battery's node; ERCOT's storage nodes' band to the hub is shown and added to no figure. (sessions 67 and 355)
+6. Each reserve must be backed by the stored energy its market's rule requires on the day (ERCOT's NPRR 1096 and 1282, CAISO's tariff), one hour assumed where no rule is stated, which caps how much of a product a short battery can hold. (sessions 67 and 296)
+7. A day is solved only when every hour has an energy price and a price for every product bought that day; any other day is left out and counted, never filled or scaled. (session 67)
+8. A month counts when 90 percent of its days are solved, and the headline's last twelve months are whole months only, the newest twelve in a row. (sessions 67 and 195; the owner's ruling of 12 October 2026)
+9. A month that is more than a quarter of everything held (ERCOT's February 2021) stays in every figure and on the chart; only the average of every year is also shown without it. (session 71)
+10. One page, three questions, nothing collapsed: what it earned, whether it is worth building and what matters most; the monthly rows are the CSV download. (session 208; the owner's ruling of 12 October 2026)
+11. Scenarios A and B are the block the three economics pages share; scenario A sets the headline. The contract's share and price are two of each scenario's assumptions, 0 by default, so the default battery is fully merchant. (sessions 179, 195 and 208; the owner's ruling of 12 October 2026)
+12. Capital cost and fixed O&M default to the midpoints of Lazard's Levelized Cost of Storage at 2 and 4 hours, and at 8 hours to NREL's Annual Technology Baseline 2025, whose fixed O&M pays for augmentation. (sessions 67 and 296)
+13. Debt is 20 percent of the capital at 8 percent over 20 years, level payments: Lazard's storage financing, editable. (session 208; the owner's ruling of 12 October 2026)
+14. The NPV is to equity, after the debt payments, discounted at 12 percent, Lazard's cost of equity. (session 208; the owner's ruling of 12 October 2026)
+15. Revenue falls by 2.6 percent a year for degradation (Lazard's storage cases), as a yearly cut to revenue by default; capacity fade with augmentation is the other method a scenario may choose. (sessions 196 and 297)
+16. The investment tax credit and the stress repeats are scenario assumptions, 0 by default. (session 297)
+17. ERCOT and CAISO are open; NYISO and SPP are built and held in review until their licenses are answered; PJM, ISO-NE and MISO are not built, their prices needing a license. (sessions 86 and 89)
+
 ## Sign-off
 
 Session 1527 (chain 163) added this block, which the note lacked. The generator's and the datacenter's notes have one (session 463), and `docs/state/roadmap_item2_state_2026-11-07.md` lists the battery's signature as one of what roadmap item 2 still needs. Signing this note accepts, as the tool's rules:
@@ -501,6 +523,7 @@ Session 1527 (chain 163) added this block, which the note lacked. The generator'
 - the assumptions of section 6 at their defaults and sources;
 - the 90 percent month;
 - scenarios A and B as section 11.1 describes them;
+- the decisions of section 12, the list the page shows at its foot;
 - the owner's rulings this note records (11, 12, 15 and 19 October 2026).
 
 It leaves open the differences section 10 lists.
