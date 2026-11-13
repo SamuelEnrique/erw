@@ -221,6 +221,12 @@ RULED_INTERNAL = {
                                 "points' hourly prices kept in the warehouse, not in the live set, under 500,000 rows); "
                                 "ERCOT's terms (read 2) would allow it",
 }
+# Chain 229 (session 4109): a table public by the owner's own ruling although no single publisher's page decides it. The
+# document says it is ruled public, not open; the flag is the owner's, so nothing here loosens one.
+RULED_PUBLIC = {
+    "large_load_public": "public by the owner's ruling of 14 October 2026 (session 272): the large-load statements whose document is "
+                         "public, as facts with a link and no quoted text; each row's own document is named in the row",
+}
 STATUS = os.path.join(META, "license_status.csv")
 WAITS = "waits for a ruling: the sentence allows public, the flag stays internal (never loosened by a session)"
 
@@ -231,7 +237,7 @@ def erw_verdict(flag, standing):
     read, a "license needed" ruling waiting for a permission, a flag and a verdict that disagree)."""
     if flag != "public":
         return "internal"
-    return "public" if standing == "agrees" else "unsettled"
+    return "public" if standing == "agrees" or standing.startswith("ruled: public") else "unsettled"
 
 
 def license_needed():
@@ -293,6 +299,8 @@ def write(doc=None):
             standing = f"ruled: license needed from {needed[r['table']]}"
         if standing == "DISAGREES: the flag is stricter" and r["table"] in RULED_INTERNAL:
             standing = "ruled: kept internal"
+        if standing == "not settled" and r["table"] in RULED_PUBLIC and r["license"] == "public":
+            standing = "ruled: public by the owner's ruling"
         # chain 229 (the owner's rule of 13 November 2026): a session never loosens a flag. A table flagged internal whose
         # publishers' sentences allow it keeps its flag and waits for the owner's ruling, the default "stays internal".
         if standing == "DISAGREES: the flag is stricter":
@@ -316,7 +324,7 @@ def write(doc=None):
     w("## Read these first")
     w("")
     w(f"- **{len(lines)} tables.** The flag and the verdict agree on {count('agrees')}; a ruling settles {count('ruled')} (session 324: "
-      f"the \"license needed\" rows of `license_status.csv`, and {len(RULED_INTERNAL)} tables kept internal by a ruling); disagree on {count('DISAGREES')}; "
+      f"the \"license needed\" rows of `license_status.csv`, and {len(RULED_INTERNAL)} tables kept internal by a ruling, and {len(RULED_PUBLIC)} public by the owner's ruling); disagree on {count('DISAGREES')}; "
       f"{count('not settled')} are not settled (a publisher not read); {count('internal by')} is internal by the ERW's own choice; "
       f"{count('waits for a ruling')} flagged internal wait for the owner's ruling, the sentence read allowing them (chain 229: never loosened by a session, the default \"stays internal\").")
     ev = collections.Counter(erw_verdict(x["flag"], x["standing"]) for x in lines)
@@ -409,7 +417,7 @@ def write(doc=None):
       "in its row. The verdict is right about the clause; the flag is the table's place once permitted.")
     w("")
     for x in ruled:
-        why = RULED_INTERNAL.get(x["table"]) or f"{x['v']}, by {short(x['why'], 8)}; license needed from {needed.get(x['table'], '')}"
+        why = RULED_INTERNAL.get(x["table"]) or RULED_PUBLIC.get(x["table"]) or f"{x['v']}, by {short(x['why'], 8)}; license needed from {needed.get(x['table'], '')}"
         w(f"- `{x['table']}`: {why}.")
     w("")
     w("## Where the flag and the verdict disagree")

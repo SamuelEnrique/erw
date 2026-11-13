@@ -1,6 +1,6 @@
 # Session 4108 report: the unread publishers' long tail (US federal, then foreign)
 
-Energy Research Warehouse (ERW). Chain 229, session 9 of 50, lab-desktop third window, 13 November 2026 10:58 to 11:06 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4100-licenses`.
+Energy Research Warehouse (ERW). Chain 229, session 9 of 50, lab-desktop third window, 13 November 2026 10:58 to 11:02 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4100-licenses`.
 
 ## Read
 
