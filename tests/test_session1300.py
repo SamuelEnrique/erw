@@ -166,7 +166,13 @@ class ThePythonLoop(unittest.TestCase):
                           "not_in_the_warehouse": "not_in_warehouse", "a_table_cited_unread": "refused_unverified", "a_held_grid": "answered",
                           "a_series": "answered", "a_per_kw_question": "answered", "a_repeated_call": "answered",
                           "a_table_held_whole": "not_in_warehouse", "misos_pause": "not_in_warehouse", "a_threshold_count": "answered",
-                          "a_table_not_in_the_live_set": "not_in_warehouse", "a_refused_table_asked_again": "not_in_warehouse"})
+                          "a_table_not_in_the_live_set": "not_in_warehouse", "a_refused_table_asked_again": "not_in_warehouse",
+                          "a_held_grids_own_table": "not_in_warehouse"})
+        # session 5260 (chain 238, the platform set's pj08): a held grid's own table of things (ISO New England's queue) is
+        # refused by name with the hold's words, as a table held whole is; its description, asked next, is not read either
+        r = got["a_held_grids_own_table"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"], r["tool_choices"]), (2, 0, False, 3, ["auto", "auto", "none"]))
+        self.assertIn("license needed", r["answer"])
         # session 5256: told once that a table cannot be read, a model that asks it again with other arguments is not obeyed:
         # the two later calls are counted and not made, and the call after that turn may only write
         r = got["a_refused_table_asked_again"]

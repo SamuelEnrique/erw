@@ -16,6 +16,7 @@ import { hourlyRefusal } from "./rollup";
 import { HOUR_OF_DAY, NEWEST, THIS_WEEK, NEWEST_READ, NEWEST_READ_DATED, dateColumns, dateLabel, hourFamily, newestWholeDay, stepsPerHour } from "./forms";
 import { addLocalTimes, zoneOfEntity } from "./plaintime";
 import { notLiveWords } from "./refused";
+import { heldRowsWords, keepRows, ownGrid, ownTableWords } from "./heldrows";   // session 5260: the hold by grid for a table of things
 import { THRESHOLD_NONE, ThresholdError, applyThreshold, readThreshold, type Threshold } from "./threshold";   // session 3297
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
@@ -127,6 +128,13 @@ async function tableInfo(name: string, scope: Scope = null) {
   // session 215: a table held under its publisher's terms (lib/license.ts) is refused by name, as PJM's and MISO's are;
   // a table held by grid is read, and lib/supabase.ts leaves the held grids' rows out (or refuses a read that names one)
   if (licenseNeeded(name) && !licenseByGrid(name)) throw new ToolError(`table ${name} is ${LICENSE_NEEDED}: ${licenseTitle(name)}. State no figure of it: answer with not_in_warehouse true and say that it is "${LICENSE_NEEDED}"`);
+  // session 5260 (lib/chat/heldrows.ts, the platform set's pj08): a held grid's own table is held in every row, so it is
+  // refused by name too. Until this session a table of things among them (isone_interconnection_queue) was read whole.
+  // MISO's own table is refused in the pause's words, which say more than its license (session 1126): a description of
+  // it was answered until this session, and refused in the license's words alone the model answered MISO's question
+  // from another table (pj09)
+  if (misoOwn(name)) throw new ToolError(MISO_PAUSED);
+  if (ownGrid(name)) throw new ToolError(ownTableWords(name));
   const columns: string[] = c.columns ? JSON.parse(c.columns) : [];
   const shape: Shape = columns[0] === "entity_id" ? "entities" : columns[0] === "event_id" ? "events" : "series";
   return { c, columns, shape };
@@ -291,7 +299,8 @@ async function describeTable(a: { table: string }, scope: Scope = null): Promise
   } else {
     // Unlike the Python tool, which counts every value, this lists the values seen in a
     // sample of rows (reading a whole generator table per question would be too slow here).
-    const sample = await rest<Json>(shape, { ...base, select: "*", order: shape === "entities" ? "entity_id" : "event_id" }, HOURLY, 2000);
+    // session 5260: without a held grid's rows and MISO's own (a shared table of things, energy_projects)
+    const sample = keepRows(a.table, shape, await rest<Json>(shape, { ...base, select: "*", order: shape === "entities" ? "entity_id" : "event_id" }, HOURLY, 2000)).kept;
     const vals: Record<string, Set<string>> = {};
     for (const r of sample) {
       const flat = { ...r, ...((r.extra as Json) ?? {}) };
@@ -571,7 +580,14 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   const read = async (bounds: string[], more: Record<string, string> = {}, max = MAX_ROWS + 1): Promise<Json[]> => {
     const one = (col: "entity" | "node" | null) => {
       const terms = [...(col ? [`${col}.eq.${quote(a.entity!)}`] : []), ...bounds];
-      return rest<Json>(shape, { ...q, ...more, ...(terms.length ? { and: `(${terms.join(",")})` } : {}) }, HOURLY, max);
+      return rest<Json>(shape, { ...q, ...more, ...(terms.length ? { and: `(${terms.join(",")})` } : {}) }, HOURLY, max).then(thingsKept);
+    };
+    // session 5260 (lib/chat/heldrows.ts): a row of a table of things is its grid's by its id, not by an entity. A held
+    // grid's rows and MISO's own are left out, and a read that matched only such rows is refused in the hold's words
+    const thingsKept = (rows: Json[]) => {
+      const k = keepRows(a.table, shape, rows);
+      if (rows.length && !k.kept.length && (k.held || k.paused)) throw new ToolError(k.held ? heldRowsWords(a.table) : MISO_PAUSED);
+      return k.kept;
     };
     // session 267: MISO's own rows are left out (MISO_PAUSED above)
     const kept = (rows: Json[]) => { const out = rows.filter((r) => !misoOwn(r.entity)); if (rows.length && !out.length) throw new ToolError(MISO_PAUSED); return out; };
