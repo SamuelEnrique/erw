@@ -19,7 +19,7 @@ Never recorded, in a table or in a log: the IP address, the user agent string, t
 
 - **tool opened**: once a page view (`site/components/Usage.tsx`, mounted once in the root layout).
 - **input changed**: a form control inside the page's `<main>` changed, at most once a control a page view. Only the fact is sent.
-- **scenario compared**: a tool compared two cases. The tool calls `track("scenario compared")` itself (`site/lib/usage.ts`).
+- **scenario compared**: a tool compared two cases. A tool would call `track("scenario compared")` itself (`site/lib/usage.ts`); no tool does (read on 13 November 2026, session 5155), so the event is in the list and no line of it is recorded.
 - **download**: a click on a link that carries `download`, goes to `/api/download` or a download route, or names a `.csv`, `.do` or `.py` file.
 
 ## The daily code, step by step
@@ -59,11 +59,15 @@ Every other page of the menu (29 on 13 November 2026) is counted in full: the pa
 - **During the day** the codes of that day exist, so the day's own lines can be grouped by browser. That is what makes "distinct visitors today" a number.
 - **A shared address.** People behind one address with the same browser version are one code.
 - **The hosts.** Vercel and Supabase handle every request and keep their own logs under their own terms. This note is about what the ERW's own code stores.
+- **The site's own checks.** The counts cannot tell a reader from a check. A site built on a machine that holds the secrets writes into the same tables, so a landing's browser checks, which open every page, can add page views of their own. `site/scripts/check-links.mjs` sends Do Not Track and blocks the count's address; the other browser checks do not (read on 13 November 2026, session 5162; row 32 of `docs/reviews/security-faults-2026-11-13.md`).
 
 ## When nothing is counted
 
 - The browser sends Do Not Track (`navigator.doNotTrack` of `"1"`) or Global Privacy Control: the page's script sends nothing, and the server drops a request that carries `DNT: 1` or `Sec-GPC: 1`.
-- The request comes from another site's page, from a stock command-line client, or names a path that is not a page of this site.
+- The request comes from another site's page, from a stock command-line client, or names a path that is not a page of this site. An address under `/api/`, `/internal/` or `/_next/` is never a page for the count.
+- The request does not say it is JSON or plain text, its body is over 600 characters, or it names an event that is not one of the four.
+- More than 600 counts in an hour from one address: the rest of that hour are dropped (session 177's limit, `usage`).
+- The server holds no secret to make the code with, or cannot tell the visitor's address: nothing is recorded rather than recorded under a wrong code.
 - The page tells the reader that nothing typed there is sent (`/battery/customer`, the contract boxes of the cost-of-power pages, the severance tools, the bill page): the page view is counted and nothing after it, so no request follows what the reader does. `site/scripts/check-no-request.mjs` proves it for `/battery/customer`.
 - An element inside `data-no-usage` is never counted.
 - More than 400 different lines from one code in a day, or 200,000 lines in a day: the rest are dropped.
