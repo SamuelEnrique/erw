@@ -95,5 +95,22 @@ class Row81TheCloseSaysItsOwnDay(unittest.TestCase):
         self.assertIn("day{'' if age == 1 else 's'} before this issue", src)
 
 
+class Row82DispatchedIsNotCapacity(unittest.TestCase):
+    """Row 82: a story of power dispatched is not named as capacity."""
+
+    def test_the_row(self):
+        r = rec("v", "Recent dispatch of VPP power to grid demonstrates viability of coordinated residential storage at scale",
+                sector="storage", parties="Sunrun; Tesla", mw="580", links=[("pv magazine USA", "https://example.org/v")])
+        line, detail = brief.story_row("Project or capacity", [r], ("storage",), {"v": "Sunrun and Tesla dispatched more than 580 MW"},
+                                       None, "a project figure", ("mw",))
+        self.assertIn("Storage dispatched, USA: 580 MW (Sunrun, Tesla; pv magazine USA, 2026-11-11)", line)
+        self.assertEqual(detail, "story v (mw)")
+
+    def test_a_capacity_story_keeps_its_noun(self):
+        r = rec("b", "Developer files for a 300 MW battery in Arizona", sector="storage", mw="300")
+        line, _ = brief.story_row("Project or capacity", [r], ("storage",), {}, None, "a project figure", ("mw",))
+        self.assertIn("Storage capacity, USA: 300 MW", line)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1966,6 +1966,9 @@ SECTOR_NOUN = {"datacenter_power": "Datacenter load", "generation": "Generation 
                "grid_conditions": "Reliability", "geopolitics": "Supply at risk", "oil": "Oil supply"}
 
 
+DISPATCHED = re.compile(r"\b(?:dispatch(?:ed|es|ing)?|discharg(?:e|ed|es|ing)|delivered)\b", re.I)   # session 1977, row 82
+
+
 def story_who(r):
     """The parties of a story (the first two), else its outlet."""
     parties = [p.strip() for p in str(r.get("parties") or "").split(";") if p.strip()]
@@ -1984,6 +1987,10 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
             continue
         field = "mw" if fig.endswith(" MW") else "price"
         noun = SECTOR_NOUN.get(str(r.get("sector")), str(r.get("sector")).replace("_", " ").capitalize())
+        if field == "mw" and DISPATCHED.search(f"{(r.get('titles') or [''])[0]} {(heads or {}).get(r['cluster_id'], '')}"):
+            # session 1977 (faults file row 82): "Sunrun and Tesla dispatched more than 580 MW from 140,000 home batteries"
+            # is power dispatched, not storage capacity built
+            noun = "Storage dispatched" if str(r.get("sector")) == "storage" else "Power dispatched"
         region = str(r.get("region") or "").strip()
         place = f", {region}" if region and region.lower() != "global" else ""
         ref = f" {notes.ref('news_stories')}" if notes is not None else ""
