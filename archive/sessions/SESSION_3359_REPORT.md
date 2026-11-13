@@ -33,3 +33,20 @@ Energy Research Warehouse (ERW). Chain 246 (`queue/done/246-day-17-november-oldl
 - 143: "Also named: OPEC+." under "OPEC, Allies Hold ...": a party's trailing "+" is read off.
 - 8, 9 and 12 October: nothing new. The 60 importing test files OK (1,143 tests). Row 10's head moved with them.
 
+## Session 3368: the stored Digests of 2 October and 28 September against the stack
+
+- Nothing new. Every stored Digest (25 September to 12 November) and Roundup (W39 to W46) has now been read against the stack.
+
+## Sessions 3369 to 3372
+
+- Not used separately: no open row is this machine's, and the stored issues are all read.
+
+## Session 3373: the note
+
+- `docs/state/note_2026-11-13_oldlaptop_c246.md`.
+
+## Session 3374: the next file, the queue
+
+- `queue/next/248-day-18-november-oldlaptop-periodicals-continued.md` filled: the stored 13 November Digest (a bounded wait for it when nothing else is open), row 10, the stored W46.
+- Then `chain_queue.py next`.
+

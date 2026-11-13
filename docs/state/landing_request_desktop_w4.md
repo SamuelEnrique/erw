@@ -5,6 +5,7 @@ Energy Research Warehouse (ERW). Written by chain 239 (`queue/done/239-day-13-no
 | # | Branch | Head | Task | Port | Requested (UTC) | Tests on this machine | State |
 |---:|---|---|---|---:|---|---|---|
 | 1 | `wip/4200-forecast` | `1a1008073` (or a later commit of this window: reports and notes only, or a fix recorded in this row) | `4200-forecast` | 4200 | 2026-11-13 12:12 | on `9d904954e` (`origin/main` merged at `58bec34ba`; merged again at `1a1008073`, one conflict in `site/scripts/build-content.mjs` resolved by keeping both additions to `INTERNAL_METHODS`, its tests 38 passed): the 177 test files that name the page, the menu, check-values, check-methods, build-content, `llms.txt` or the floors: 2,180 passed, 56 skipped, 6 failed, each fixed after (tests 1903 and 412 brought to the new page; test 1011 a stale `site/content/llms.json` of a build before the merge, passing after `build-content`); `node --test site/scripts/test-forecast.test.mjs` 21 of 21 (the run's Python script reproduces the tool's totals); `build_llms.py --check` exit 0; built under the build lock (11:51 to 12:03 UTC) and read at 1280 and 390 px; `check-values` on the four `/impact` addresses: 64 of 64 match. The whole suite not run whole (the gate runs it) | requested |
+| 2 | `wip/4220-forecast` | `52dc1001a` (or a later commit of this window: reports and notes only) | `4220-forecast` | 4210 | 2026-11-13 13:22 | on `52dc1001a` (`origin/main` merged at `5559ef1c4`): the 179 test files that name the page, the menu, check-values, check-methods, build-content, `llms.txt` or the floors: 2,202 passed, 56 skipped, 0 failed; `node --test site/scripts/test-forecast.test.mjs` 24 of 24 (the run's Python script reproduces the tool's totals for four scenario pairs, Kansas among them); built under the build lock (13:13 to 13:16 UTC) and read at 1280 and 390 px (Kansas, Iowa's valuation, Minnesota against South Dakota); `check-values` on the four `/impact` addresses: 78 of 78 match. The whole suite not run whole (the gate runs it) | requested: holds row 1 (stack 2 is built on it), so landing row 2 lands both; if row 1 has landed first, row 2 is its continuation |
 
 ## Row 1: what it holds
 
@@ -19,3 +20,12 @@ Sessions 4200 to 4219, one stack. Reports: `archive/sessions/SESSION_4200_REPORT
 
 - **Snapshot differences to expect**: the menu's entry text on every page ("Economic impact in review" to "Local impact in review"); `/impact` itself is in review, so a visitor sees the in-review page as before.
 - **Tables**: none new. The page reads `nlr_jedi_multipliers` and `energy_projects` from the live set (both already there); `impact_tax_rules` stays held for review and is named in the source line as before.
+
+## Row 2: what it adds to row 1
+
+Sessions 4220 to 4224, on `wip/4220-forecast` (built on row 1's head). Reports: `archive/sessions/SESSION_4220_4224_REPORT.md` (when written) and the fault file `docs/reviews/forecast-faults-2026-11-13.md` (faults 14 and 15, the three readers).
+
+- **The three readers**: construction and operating output in A and B (an economic developer); each year's MWh and taxable value in the table by year (a county assessor); the taxes' present value in other states, its hover saying whether a state's property tax is counted (a utility siting analyst).
+- **Fault 14**: the other states' runs take each state's own defaults for what the scenario does not set. **Fault 15**: the browser's trimmed parameters keep every rule field.
+- **Kansas**: its ten-year renewable exemption (K.S.A. 79-201, Eleventh) held as a rule; after it no rule is held (no life total) unless the reader types a rate. **Texas**: the sales tax field's tip names the Comptroller's partial exemption of generation equipment (an upper bound; a ruling).
+- **Port**: 4210 (window B's gate of 13 November used 4200).

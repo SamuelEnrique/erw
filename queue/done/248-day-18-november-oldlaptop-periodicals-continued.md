@@ -20,7 +20,12 @@ Long end 1:00 each. One step a session, in chain 246's order, as session 3374 li
 
 ### Unfinished steps (written by session 3374 of chain 246)
 
-(Session 3374 fills this list.)
+Chain 246 ran its sessions (3359 to 3374; 3369 to 3372 not used separately, the stored issues all read) and added rows 138 to 143 to `wip/1973-periodicals` (row 10, head `de312ecee`, requested). Every stored Digest and Roundup is now read against the stack; the faults have converged. What it did not reach, in this order:
+
+1. (Session 3376) The Digest of 13 November as stored (written by the daily run after 14:00 UTC with main's code) read as a reader against a dry run of the same day and hour on the stack (`--no-model`), each difference checked, each new fault a numbered row (from 144), fixed with a test; its figures traced. If the session starts before it is on main, wait for its commit (a bounded wait on `git fetch` and `docs/digest/2026-11-13.md`), as no other step is open.
+2. (Session 3377) If row 10 has landed: the first issue after the landing read as stored, rows 79 to 143 checked in print, and the clean-up (the worktree `erw-1973` with its `.next` and `node_modules` removed, `wip/1973-periodicals` deleted on origin, row 10 marked landed). If not landed, skipped, said so.
+3. (Session 3378) The Roundup of W46 as stored (Sunday 15 November, 23:00 UTC), read the same way; before it is written, skipped, said so.
+4. Rows 39, 65 and 109 stay the owner's, row 129 the data machine's; the held prices of W39 to W45 and the 12 November chart record wait for Samuel's ruling.
 
 ## Sessions 3382 to 3388: the periodicals, again
 
