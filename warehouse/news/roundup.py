@@ -236,6 +236,102 @@ def note_style(text):
     return NOTE_NUMBER.sub(one, str(text or ""))
 
 
+ERW_FULL = "Energy Research Warehouse (ERW)"
+
+
+def watch_spec(template):
+    """The watch list's entry of a template (warehouse/analysis/watch.py, WATCH): its table, entity and variable; None
+    for a template that is not a watch line."""
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "analysis"))
+        import watch
+    except Exception:
+        return None
+    return next((s for s in watch.WATCH if s.get("name") == template), None)
+
+
+def derived_inputs(df):
+    """The tables a fetched table says it is built from: its header note "Derived from: a; b" (the derived builders
+    write it), in their order."""
+    out = []
+    for n in (df.attrs.get("erw") or {}).get("notes") or []:
+        mt = re.match(r"\s*derived from\s*:(.*)", str(n), re.I)
+        if mt:
+            out += [t.strip() for t in re.split(r"[;,]", mt.group(1)) if re.fullmatch(r"[a-z0-9_]+", t.strip())]
+    return out
+
+
+def report_name(r):
+    """A source report as the line names it: the report's own words (a leading "Form " and a closing parenthesis of
+    paths taken off, its colon read as a comma), the publisher's short name first when the report does not hold it."""
+    pub = str(r.get("publisher") or "").strip()
+    short = pub.split(" (")[1].rstrip(")") if " (" in pub and len(pub.split(" (")[1]) < 12 else pub
+    rep = re.sub(r"\s*\([^()]*\)\s*$", "", str(r.get("report") or "").strip())
+    rep = re.sub(r"^Form\s+", "", rep).replace(": ", ", ")
+    if not rep:
+        return short
+    return rep if (not short or short in rep) else f"{short}, {rep}"
+
+
+def series_reports(table, entity, variable, fetch, sources):
+    """The source reports of one series of a table: the reports of the source ids its rows carry."""
+    df = fetch(table)
+    rows = df[df["entity"] == entity]
+    if variable and "variable" in rows:
+        rows = rows[rows["variable"].isin([variable] if isinstance(variable, str) else list(variable))]
+    sids = sorted(set(rows["source"].dropna().astype(str)))
+    reps = {r["source"]: r for r in sources(table)["reports"]}
+    return df, [reps.get(s, {"source": s}) for s in sids]
+
+
+def chart_source_line(m, log, fetch=None, sources=None):
+    """Session 1896 (docs/reviews/periodicals-faults-2026-11-05.md, row 74): the chart's source line names the publisher
+    of the series charted, not every publisher of its table, and the ERW once. The stored line (common.source_line, on
+    the data machine) lists every publisher of the table: W45's Lower 48 battery series (entity eia930:US48, EIA-930)
+    read "Source: Energy Research Warehouse (ERW), derived, Energy Research Warehouse (ERW), derived from California ISO
+    via the Energy Research Warehouse (ERW), table storage_daily_cycle". Here the rows of the charted entity give their
+    source ids; when they are the ERW's own (a derived table), the table its header says it is built from and that holds
+    the same entity gives the publisher. The retrieval date stays the stored line's (the record's run). Anything not
+    found: the stored line as written, and the log says why."""
+    stored = str(m.get("source_line") or "")
+    fetch = fetch or erw.fetch
+    sources = sources or erw.sources
+    spec = watch_spec(m.get("template", ""))
+    if not spec or not spec.get("table") or not spec.get("entity"):
+        log(f"  chart of the week: source line as stored ({m.get('template', '')} is not a watch line)")
+        return stored
+    table, entity, variable = spec["table"], spec["entity"], spec.get("variable")
+    try:
+        df, reps = series_reports(table, entity, variable, fetch, sources)
+        derived = bool(reps) and all(str(r.get("publisher") or "").startswith(ERW_FULL) or str(r.get("source", "")).startswith("erw:")
+                                     for r in reps)
+        if derived:
+            reps = []
+            for up in derived_inputs(df):
+                try:
+                    udf, ureps = series_reports(up, entity, None, fetch, sources)
+                except Exception:
+                    continue
+                if len(udf[udf["entity"] == entity]) and ureps:
+                    reps = ureps
+                    break
+        names = []
+        for r in reps:
+            n = report_name(r)
+            if n and n not in names:
+                names.append(n)
+    except Exception as exc:
+        log(f"  chart of the week: source line as stored ({type(exc).__name__}: {str(exc)[:100]})")
+        return stored
+    if not names:
+        log(f"  chart of the week: source line as stored (no publisher found for {entity} in {table})")
+        return stored
+    when = re.search(r"data retrieved to (\d{4}-\d{2}-\d{2})", stored)
+    when = f"; data retrieved to {when.group(1)}" if when else ""
+    via = f"via the ERW's derived table {table}" if derived else f"via the {ERW_FULL}, table {table}"
+    return f"Source: {'; '.join(names)}, {via}{when}."
+
+
 def chart_of_the_week(label, log, stories=None):
     """Session 23: the chart of the week from docs/analysis/<label>/ (warehouse/analysis/run.py): the
     email-size PNG, the title, the two-sentence note and the source line, as markdown. The note passed
@@ -266,7 +362,7 @@ def chart_of_the_week(label, log, stories=None):
         # session 1446 (fault 35): the note the engine wrote says the move against the weeks held; this line only when
         # there is no note, so the caption is not read twice
         L += [f"Reading: the chart shows {h['label']} at {chart_figure(h['value'])} {h.get('unit', '')} in {h.get('period', 'its latest period')}.".replace("  ", " "), ""]
-    L.append(f"{m['source_line']} Template `{m['template']}`; every template's latest run is on "
+    L.append(f"{chart_source_line(m, log)} Template `{m['template']}`; every template's latest run is on "   # session 1896 (row 74)
              "[/research](/research).")
     best, same = chart_relevance(m, stories, log)
     if best is not None and same:
