@@ -13,7 +13,7 @@ import unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SPLIT = re.compile(r"(?<!\\)\|")
 NUM = re.compile(r"-?\d[\d,]*(?:\.\d+)?")
-HEADERS = {"Headline figure", "Headline figure (`page_figures.json` field)", "Card and figure", "Card", "Our figure"}
+HEADERS = {"Headline figure", "Headline figure (`page_figures.json` field)", "Card and figure", "Card", "Our figure", "Figure"}
 NOTES = {"battery": "battery_earns_algorithm", "generator": "generator_earns_algorithm", "datacenter": "datacenter_pays_algorithm"}
 
 
@@ -150,7 +150,8 @@ class Generator(Decision, unittest.TestCase):
     def test_gaps(self):
         self.check_gaps(crosscheck(self.tool), [
             ("0.67", "1.275", "-0.605"), ("29.5", "24", "+5.5"), ("29.5", "23.8", "+5.7"), ("39.14", "38", "+1.14"),
-            ("39.14", "78", "-38.86"), ("58.36", "38", "+20.36"), ("58.36", "78", "-19.64")])
+            ("39.14", "78", "-38.86"), ("58.36", "38", "+20.36"), ("58.36", "78", "-19.64"),
+            ("50.42", "52.59", "-2.17"), ("50.42", "79", "-28.58"), ("23.27", "21", "+2.27")])
 
 
 class Datacenter(Decision, unittest.TestCase):

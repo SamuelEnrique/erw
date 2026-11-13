@@ -35,3 +35,4 @@ Read on production (`https://erw-flame.vercel.app`, main as deployed on 13 Novem
 
 - ERCOT's solar (the default) and CAISO's wind, at both widths: no sideways scroll, no exception, no broken word. The "Price years" default (59.85) is the headline's: the snapshot and the table are both of early October (row 2).
 - **No new fault.**
+- **Session 5404, about 20:55 UTC:** SPP's wind at both widths: no sideways scroll, no exception, no broken word. No new fault.
