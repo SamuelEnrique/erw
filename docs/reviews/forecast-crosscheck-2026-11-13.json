@@ -374,6 +374,62 @@
      "ratio": 1.0062473684210527
     }
    ]
+  },
+  {
+   "id": "texas_wind_1000",
+   "title": "Economic Development Impact of 1,000 MW of Wind Energy in Texas, NREL/TP-6A20-50400 (Reategui and Hendrickson, August 2011)",
+   "url": "https://docs.nlr.gov/docs/fy11osti/50400.pdf",
+   "request": 121,
+   "method": "JEDI Wind with costs and local shares from Texas projects' data (Tables 2 to 5); results in 2009 real dollars; out-of-state workers excluded; statewide",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "tx",
+    "mw": 1000,
+    "capex_2025_usd_per_kw": 2911.2318124587127,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "Generated over 2,100 full-time-equivalent (FTE) jobs within the state of Texas; Currently supports approximately 240 permanent Texas jobs; Figure 3: construction phase over 600 FTE jobs (on-site), over 1,000 FTE jobs (local revenue, turbine and supply chain), over 500 FTE jobs (induced); operational phase 60 long-term jobs, 100 jobs, 80 jobs",
+   "cost_words": "This study assumes that 1,000 MW of wind energy represents approximately $2 billion in investment (Table 2: installed project cost $1,650-$2,200/kW, 2009 dollars)",
+   "dollars_of": 2009,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 2100,
+     "model": 5058.925378455144,
+     "ratio": 2.40901208497864
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 600,
+     "model": 710.2933691251741,
+     "ratio": 1.1838222818752901
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 1000,
+     "model": 2784.4637132759044,
+     "ratio": 2.7844637132759043
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 500,
+     "model": 1564.1682960540647,
+     "ratio": 3.1283365921081296
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 240,
+     "model": 223.679,
+     "ratio": 0.9319958333333334
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 60,
+     "model": 45.333,
+     "ratio": 0.7555499999999999
+    }
+   ]
   }
  ]
 }

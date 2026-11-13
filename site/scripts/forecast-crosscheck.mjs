@@ -93,6 +93,16 @@ export const STUDIES = [
     published_words: "Table 6 (Wyoming, wind): onsite 151, supply chain 569, induced 112, total 832 a year over three years; Table 7 (Wyoming, wind): onsite 41, supply chain 121, induced 55, total 217; Table 2: Wyoming sales/use tax, wind, $74,200 thousand; Table 3: generation tax, wind, $3,800 thousand a year (the $1/MWh tax at a 48.5 percent net capacity factor)",
     dollars_of: 2012,
   },
+  {
+    id: "texas_wind_1000", title: "Economic Development Impact of 1,000 MW of Wind Energy in Texas, NREL/TP-6A20-50400 (Reategui and Hendrickson, August 2011)",
+    url: "https://docs.nlr.gov/docs/fy11osti/50400.pdf", request: 121,
+    method: "JEDI Wind with costs and local shares from Texas projects' data (Tables 2 to 5); results in 2009 real dollars; out-of-state workers excluded; statewide",
+    tech: "land_based_wind", state: "tx", mw: 1000, cost_usd: 2e9, cost_year: 2009, cost_words: "This study assumes that 1,000 MW of wind energy represents approximately $2 billion in investment (Table 2: installed project cost $1,650-$2,200/kW, 2009 dollars)", life: 20,
+    published: { "construction:total:jobs": 2100, "construction:onsite:jobs": 600, "construction:supply_chain:jobs": 1000, "construction:induced:jobs": 500,
+      "operations:total:jobs": 240, "operations:onsite:jobs": 60 },
+    published_words: "Generated over 2,100 full-time-equivalent (FTE) jobs within the state of Texas; Currently supports approximately 240 permanent Texas jobs; Figure 3: construction phase over 600 FTE jobs (on-site), over 1,000 FTE jobs (local revenue, turbine and supply chain), over 500 FTE jobs (induced); operational phase 60 long-term jobs, 100 jobs, 80 jobs",
+    dollars_of: 2009,
+  },
 ];
 
 export function crosscheck(rows) {
