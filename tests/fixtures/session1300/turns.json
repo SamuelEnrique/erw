@@ -1,5 +1,5 @@
 {
- "_about": "Session 1300 (chain 093): scripted model turns for the general chat, run through both loops (warehouse/chat/ask.py and site/lib/chat/ask.ts) over the rows of tests/fixtures/session1112/held_reads.json, by tests/test_session1300.py and site/scripts/test-ask-1300.mjs. Each turn is what the model returns: tool calls, or the answer as JSON text. The figures are the fixture's rows (cost_of_power_monthly, January 2026, rt_load_weighted: ERCOT's hub average 54.481, CAISO SP15 32.694), and the wrong ones are written wrong on purpose. Session 1317 added the scenario a_series, over the twelve yearly rows of ercot_peak_premium_annual recorded from the live set in tests/fixtures/session143/tool_reads.json (named under extra, read from there at run time). Session 2221 (chain 152) added a_per_kw_question, over the twelve monthly rows of battery_stack_monthly behind session 320's b01 (tests/fixtures/session1109/battery_reads.json, read from there): the question asked in USD per kW is answered with the tool's own value_usd_per_kw (81.4022), so the number check passes it at the first draft; extra became a list. Session 2222 (chain 152) added a_repeated_call: the model asks the same sum twice; the second call is answered with the repeat note and read from nothing, it is counted, and the turn of only repeats makes the next model call one that may not read (tool_choice none), in both loops alike. Session 2225 (chain 152) added a_table_held_whole (a query of energy_deals, held whole for a license: the tool refuses it by name with the hold's words and no figure, and the answer says license needed) and misos_pause (a query of MISO's rows of cost_of_power_monthly: the pause's words, no figure, a refusal), so the scripted turns cover every kind of answer the rule names.",
+ "_about": "Session 1300 (chain 093): scripted model turns for the general chat, run through both loops (warehouse/chat/ask.py and site/lib/chat/ask.ts) over the rows of tests/fixtures/session1112/held_reads.json, by tests/test_session1300.py and site/scripts/test-ask-1300.mjs. Each turn is what the model returns: tool calls, or the answer as JSON text. The figures are the fixture's rows (cost_of_power_monthly, January 2026, rt_load_weighted: ERCOT's hub average 54.481, CAISO SP15 32.694), and the wrong ones are written wrong on purpose. Session 1317 added the scenario a_series, over the twelve yearly rows of ercot_peak_premium_annual recorded from the live set in tests/fixtures/session143/tool_reads.json (named under extra, read from there at run time). Session 2221 (chain 152) added a_per_kw_question, over the twelve monthly rows of battery_stack_monthly behind session 320's b01 (tests/fixtures/session1109/battery_reads.json, read from there): the question asked in USD per kW is answered with the tool's own value_usd_per_kw (81.4022), so the number check passes it at the first draft; extra became a list. Session 2222 (chain 152) added a_repeated_call: the model asks the same sum twice; the second call is answered with the repeat note and read from nothing, it is counted, and the turn of only repeats makes the next model call one that may not read (tool_choice none), in both loops alike. Session 2225 (chain 152) added a_table_held_whole (a query of energy_deals, held whole for a license: the tool refuses it by name with the hold's words and no figure, and the answer says license needed) and misos_pause (a query of MISO's rows of cost_of_power_monthly: the pause's words, no figure, a refusal), so the scripted turns cover every kind of answer the rule names. Session 5256 (chain 238) added a_table_not_in_the_live_set (the platform set's oi07): the table is listed, its query is refused because the live set does not hold it, a first draft answers as an answer with the refused table as its source and is sent back, and the second is a refusal. And a_refused_table_asked_again: told the table cannot be read, the model asks it twice more with other arguments; neither call is made (a note, counted, no record), and the call after that turn may only write.",
  "today": "2026-10-23",
  "scenarios": [
   {
@@ -464,6 +464,95 @@
      }
     }
    ]
+  },
+  {
+   "id": "a_table_not_in_the_live_set",
+   "question": "How much crude oil did the United States import from Canada last year?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "list_tables",
+       "input": {}
+      }
+     ]
+    },
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "eia_crude_imports_by_country",
+        "aggregation": "sum",
+        "entity": "eia:MCRIMUSCA2"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "I can't give a figure for crude imports from Canada. The warehouse has a table for it, eia_crude_imports_by_country, but the live set this chat reads does not include it. Its full history is on Redivis.",
+      "citations": [
+       {
+        "table": "eia_crude_imports_by_country",
+        "source_report": "eia:petroleum/move/impcus",
+        "data_version": "not returned (query refused: table not in this site's live set)",
+        "tier": "source"
+       }
+      ],
+      "not_in_warehouse": false
+     }
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse this chat reads: eia_crude_imports_by_country is on Redivis and not in the live set, so no figure of crude imports from Canada can be given.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "a_refused_table_asked_again",
+   "question": "How much crude oil did the United States import from Canada last year?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "eia_crude_imports_by_country",
+        "aggregation": "sum",
+        "entity": "eia:MCRIMUSCA2"
+       }
+      }
+     ]
+    },
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "eia_crude_imports_by_country",
+        "aggregation": "latest"
+       }
+      },
+      {
+       "name": "describe_table",
+       "input": {
+        "table": "eia_crude_imports_by_country"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse this chat reads: eia_crude_imports_by_country is on Redivis and not in the live set, so no figure of crude imports from Canada can be given.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
   }
  ],
  "extra": [
@@ -478,6 +567,10 @@
   {
    "fixture": "tests/fixtures/session2225/held_whole.json",
    "table": "energy_deals"
+  },
+  {
+   "fixture": "tests/fixtures/session5256/not_live.json",
+   "table": "eia_crude_imports_by_country"
   }
  ]
 }

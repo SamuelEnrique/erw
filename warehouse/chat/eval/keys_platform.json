@@ -1,6 +1,6 @@
 {
  "_about": "Session 5202: the keys of questions_platform.yaml as computed from the live set by scripts/ask_eval/platform_questions.py, not a run.",
- "computed_at_utc": "2026-11-13T19:10:36Z",
+ "computed_at_utc": "2026-11-13T19:49:07Z",
  "source": "nrdylqzasarkjjsqturo catalogue, series, entities and events views, anon key",
  "keys": {
   "pw01": {
@@ -1382,19 +1382,19 @@
   },
   "tx07": {
    "expected": [
-    5593.64
+    9451.88
    ],
    "tolerance": 0.5,
    "text": [],
    "tables": [
-    "iso_queue_statistics"
+    "lbnl_interconnection_queue"
    ],
    "refuse": false,
    "hold": false,
    "count": false,
    "sector": "transmission",
    "kind": "figure",
-   "note": "iso_queue_statistics, ercot:queue_2019, mw_operating: the 2019 row (in_live_set review)"
+   "note": "lbnl_interconnection_queue (entities): the sum of capacity_mw over the rows with region ERCOT, q_year 2019 and q_status operational. Session 5251 keyed the question, with no source named, on iso_queue_statistics (5,593.64 MW of 8,443.64 entered, from ERCOT's own file, which lists no withdrawn project); the chat answered from Berkeley Lab's table (session 5254). The two tables differ, so the question names its source"
   },
   "tx08": {
    "expected": [],
@@ -1701,7 +1701,7 @@
    "tolerance": 0.01,
    "text": [
     "not in the warehouse",
-    "share price|stock|equity"
+    "share price|share-price|stock|equit|closing price"
    ],
    "tables": [],
    "refuse": true,

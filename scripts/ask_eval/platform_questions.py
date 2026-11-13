@@ -449,8 +449,11 @@ def build():
       tables=("iso_trader_daily",))
     f("tx06", "transmission", "ERCOT", "general", "For ERCOT projects that reached operation in 2024, what was the median time from interconnection request to operation, in months?", "interconnection_durations_summary",
       lambda: L.year_value("interconnection_durations_summary", "lbnl_durations:ercot", "median_months", 2024), "interconnection_durations_summary, lbnl_durations:ercot, median_months: the 2024 row (in_live_set review)")
-    f("tx07", "transmission", "ERCOT", "general", "Of the capacity that entered ERCOT's interconnection queue in 2019, how many MW are now operating?", "iso_queue_statistics",
-      lambda: L.year_value("iso_queue_statistics", "ercot:queue_2019", "mw_operating", 2019), "iso_queue_statistics, ercot:queue_2019, mw_operating: the 2019 row (in_live_set review)")
+    f("tx07", "transmission", "ERCOT", "general", "In Berkeley Lab's queue data, of the capacity that entered ERCOT's interconnection queue in 2019, how many MW are now operating?",
+      "lbnl_interconnection_queue", lambda: lbnl_operating("ERCOT", 2019),
+      "lbnl_interconnection_queue (entities): the sum of capacity_mw over the rows with region ERCOT, q_year 2019 and q_status operational. Session 5251 keyed the question, "
+      "with no source named, on iso_queue_statistics (5,593.64 MW of 8,443.64 entered, from ERCOT's own file, which lists no withdrawn project); the chat answered from Berkeley "
+      "Lab's table (session 5254). The two tables differ, so the question names its source")
     r("tx08", "transmission", "not_live", "CAISO", "general", "How many MW flowed from the Bonneville Power Administration into the California ISO in the hour beginning 18:00 UTC on 10 November 2026?", [NOT_LIVE, "interchange"],
       "eia930_all_interchange (hourly interchange by pair) is a table of the record, not loaded into the live set: the answer says so and states no figure", tables=["eia930_all_interchange"])
     r("tx09", "transmission", "not_live", "none", "general", "In the warehouse's grid network table, what was the latest flow on the link between ERCOT and SPP, in MW?", [NOT_LIVE, "network|link"],
@@ -495,7 +498,7 @@ def build():
       "energy_deals is held whole for a license: the hold's words and no figure", tables=["energy_deals"])
     f("de06", "deals", "none", "general", "How many companies does the warehouse's energy companies table list?", "energy_companies",
       lambda: len(entity_rows("energy_companies")), "energy_companies (entities, model-extracted): the count of its rows", count=True)
-    r("de07", "deals", "outside", "none", "general", "What was NextEra Energy's share price at the close on 10 November 2026?", [NIW, "share price|stock|equity"],
+    r("de07", "deals", "outside", "none", "general", "What was NextEra Energy's share price at the close on 10 November 2026?", [NIW, "share price|share-price|stock|equit|closing price"],
       "no table holds share prices: not in the warehouse, the thing named, no figure")
     r("de08", "deals", "outside", "none", "general", "At what price per MWh did Constellation sell power under its long-term contracts in the second quarter of 2026, per its FERC Electric Quarterly Report?", [NIW, "EQR|Electric Quarterly|contract"],
       "the FERC EQR tables are internal and not in the catalogue a visitor's chat reads: not in the warehouse, the thing named, no figure", tables=["ferc_eqr_contracts"])
@@ -591,6 +594,16 @@ def whole_month(table, entity, month, days_variable):
     if held != want:
         raise SystemExit(f"{table} {entity} {month}: {days_variable} says {held:g} of {want} days: not a whole month's row")
     return True
+
+
+def lbnl_operating(region, year):
+    """The MW of Berkeley Lab's queue rows of one region and entry year that are operational, checked not empty."""
+    rows = [e for e in L.get("entities", table_name="eq.lbnl_interconnection_queue", select="capacity_mw,extra",
+                             **{"extra->>region": f"eq.{region}", "extra->>q_status": "eq.operational"})
+            if str((e.get("extra") or {}).get("q_year")) in (str(year), f"{year}.0")]
+    if not rows:
+        raise SystemExit(f"lbnl_interconnection_queue {region} {year} operational: no rows")
+    return cap_sum(rows)
 
 
 def one_value(table, entity, variable):

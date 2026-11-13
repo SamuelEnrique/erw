@@ -6,11 +6,12 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 |---|---|---|
 | MISO's pause | 12 | 12 of 12 graded |
 | a license hold | 22 | 22 of 22 graded |
-| the call limit | 4 | 3 of 4 graded |
-| the warehouse lacks the figure | 28 | 20 of 28 graded |
-| rows read, then refused | 5 | 5 of 5 graded |
+| a table not in the live set | 13 | 13 of 13 graded |
+| the call limit | 1 | 0 of 1 graded |
+| the warehouse lacks the figure | 25 | 18 of 25 graded |
+| rows read, then refused | 4 | 4 of 4 graded |
 
-In all: 71 refusals.
+In all: 77 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -60,28 +61,34 @@ In all: 71 refusals.
 | session 3769, Python loop | g10 | 10 | MISO's pause | right |
 | session 3769, Python loop | d10 | 2 | the warehouse lacks the figure | right |
 | session 5251, the site's loop, the platform set | pw11 | 5 | rows read, then refused | right |
-| session 5251, the site's loop, the platform set | pw12 | 12 | the call limit | right |
+| session 5251, the site's loop, the platform set | pw12 | 12 | a table not in the live set | right |
 | session 5252, the site's loop, the platform set | pw13 | 8 | the warehouse lacks the figure | right |
 | session 5252, the site's loop, the platform set | pr13 | 1 | the warehouse lacks the figure | right |
 | session 5252, the site's loop, the platform set | ga09 | 9 | a license hold | right |
-| session 5252, the site's loop, the platform set | gp01 | 12 | the call limit | right |
+| session 5252, the site's loop, the platform set | gp01 | 12 | a table not in the live set | right |
 | session 5252, the site's loop, the platform set | gp02 | 10 | rows read, then refused | right |
-| session 5252, the site's loop, the platform set | gp03 | 11 | rows read, then refused | right |
+| session 5252, the site's loop, the platform set | gp03 | 11 | a table not in the live set | right |
 | session 5252, the site's loop, the platform set | pt03 | 11 | rows read, then refused | right |
 | session 5253, the site's loop, the platform set | ga11 | 5 | the warehouse lacks the figure | right |
-| session 5253, the site's loop, the platform set | oi09 | 6 | the warehouse lacks the figure | right |
+| session 5253, the site's loop, the platform set | oi09 | 6 | a table not in the live set | right |
 | session 5253, the site's loop, the platform set | oi11 | 3 | the warehouse lacks the figure | right |
-| session 5253, the site's loop, the platform set | nu07 | 9 | the warehouse lacks the figure | right |
+| session 5253, the site's loop, the platform set | nu07 | 9 | a table not in the live set | right |
 | session 5253, the site's loop, the platform set | re11 | 1 | the warehouse lacks the figure | right |
 | session 5254, the site's loop, the platform set | st11 | 5 | rows read, then refused | right |
-| session 5254, the site's loop, the platform set | tx09 | 12 | the call limit | right |
+| session 5254, the site's loop, the platform set | tx09 | 12 | a table not in the live set | right |
 | session 5254, the site's loop, the platform set | pj09 | 5 | MISO's pause | right |
 | session 5254, the site's loop, the platform set | de01 | 2 | a license hold | right |
 | session 5254, the site's loop, the platform set | de03 | 6 | a license hold | right |
 | session 5255, the site's loop, the platform set | de05 | 11 | a license hold | right |
-| session 5255, the site's loop, the platform set | de07 | 2 | the warehouse lacks the figure | wrong |
+| session 5255, the site's loop, the platform set | de07 | 2 | the warehouse lacks the figure | right |
 | session 5255, the site's loop, the platform set | po01 | 5 | a license hold | right |
 | session 5255, the site's loop, the platform set | po03 | 5 | a license hold | right |
-| session 5255, the site's loop, the platform set | po07 | 8 | the warehouse lacks the figure | right |
+| session 5255, the site's loop, the platform set | po07 | 8 | a table not in the live set | right |
 | session 5255, the site's loop, the platform set | po09 | 11 | a license hold | right |
 | session 5255, the site's loop, the platform set | dc01 | 12 | a license hold | right |
+| session 5256, the site's loop, the platform set | pw12 | 12 | a table not in the live set | right |
+| session 5256, the site's loop, the platform set | ga09 | 2 | a table not in the live set | right |
+| session 5256, the site's loop, the platform set | oi07 | 12 | a table not in the live set | right |
+| session 5256, the site's loop, the platform set | oi09 | 6 | a table not in the live set | right |
+| session 5256, the site's loop, the platform set | tx09 | 2 | a table not in the live set | right |
+| session 5256, the site's loop, the platform set | po07 | 7 | a table not in the live set | right |

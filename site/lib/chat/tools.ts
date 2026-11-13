@@ -15,6 +15,7 @@ import { LIFE_MS, keep, within, type Summary } from "./summaries";
 import { hourlyRefusal } from "./rollup";
 import { HOUR_OF_DAY, NEWEST, THIS_WEEK, NEWEST_READ, NEWEST_READ_DATED, dateColumns, dateLabel, hourFamily, newestWholeDay, stepsPerHour } from "./forms";
 import { addLocalTimes, zoneOfEntity } from "./plaintime";
+import { notLiveWords } from "./refused";
 import { THRESHOLD_NONE, ThresholdError, applyThreshold, readThreshold, type Threshold } from "./threshold";   // session 3297
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
@@ -121,7 +122,8 @@ async function tableInfo(name: string, scope: Scope = null) {
   if (!c) throw new ToolError(`no public table named ${JSON.stringify(name)}; call list_tables for the table names`);
   if (scope && !scope.tables.includes(name)) throw new ToolError(`${name} does not carry ${scope.iso}; this chat reads only ${scope.iso}'s tables (list_tables)`);
   // session 102: "review" is a table loaded for a page in review (live_set.yaml, review_hold); Ask is in review too
-  if (c.in_live_set !== "yes" && c.in_live_set !== "review") throw new ToolError(`table ${name} is not in this site's live set; its full history is on Redivis`);
+  // session 5256: the refusal says how to answer too, as a held table's does below (lib/chat/refused.ts)
+  if (c.in_live_set !== "yes" && c.in_live_set !== "review") throw new ToolError(notLiveWords(name));
   // session 215: a table held under its publisher's terms (lib/license.ts) is refused by name, as PJM's and MISO's are;
   // a table held by grid is read, and lib/supabase.ts leaves the held grids' rows out (or refuses a read that names one)
   if (licenseNeeded(name) && !licenseByGrid(name)) throw new ToolError(`table ${name} is ${LICENSE_NEEDED}: ${licenseTitle(name)}. State no figure of it: answer with not_in_warehouse true and say that it is "${LICENSE_NEEDED}"`);

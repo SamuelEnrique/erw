@@ -2,7 +2,7 @@
  "_about": "eval_s5255_site_platform_run.json graded on questions_platform.yaml's keys by eval_s1113.py grade_set (no model, no network).",
  "set": "platform",
  "asked": 12,
- "right": 11,
+ "right": 12,
  "rules": [
   "refusal_no_table",
   "table_by_evidence",
@@ -43,15 +43,15 @@
    "cost_usd": 0.0721585,
    "seconds": 3.4,
    "expected": [],
-   "ok": false,
+   "ok": true,
    "grade": {
     "number": null,
-    "text": false,
+    "text": true,
     "table": null,
     "cited": null,
     "refusal": true,
     "no_figure": true,
-    "ok": false
+    "ok": true
    },
    "trace_calls": 2
   },
@@ -289,7 +289,7 @@
   },
   "outside": {
    "asked": 2,
-   "right": 1
+   "right": 2
   },
   "figure": {
    "asked": 5,
@@ -303,7 +303,7 @@
  "by_sector": {
   "deals": {
    "asked": 2,
-   "right": 1
+   "right": 2
   },
   "policy": {
    "asked": 5,

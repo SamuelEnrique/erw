@@ -2,7 +2,7 @@
  "_about": "eval_s5254_site_platform_run.json graded on questions_platform.yaml's keys by eval_s1113.py grade_set (no model, no network).",
  "set": "platform",
  "asked": 17,
- "right": 16,
+ "right": 17,
  "rules": [
   "refusal_no_table",
   "table_by_evidence",
@@ -204,16 +204,16 @@
    "cost_usd": 0.1679859,
    "seconds": 24.1,
    "expected": [
-    5593.64
+    9451.88
    ],
-   "ok": false,
+   "ok": true,
    "grade": {
-    "number": false,
+    "number": true,
     "text": null,
-    "table": false,
+    "table": true,
     "cited": true,
     "refusal": true,
-    "ok": false
+    "ok": true
    },
    "trace_calls": 12
   },
@@ -402,7 +402,7 @@
  "by_kind": {
   "figure": {
    "asked": 12,
-   "right": 11
+   "right": 12
   },
   "outside": {
    "asked": 1,
@@ -428,7 +428,7 @@
   },
   "transmission": {
    "asked": 5,
-   "right": 4
+   "right": 5
   },
   "projects": {
    "asked": 5,
