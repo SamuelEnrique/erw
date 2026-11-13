@@ -1004,12 +1004,156 @@ def masthead_lines(label, end, cut, op, first_head, missed, newest=None, tables_
             + [f"<!-- subject: {subject_line(op, first_head)} -->", "", f"<!-- opening: {(op or {}).get('key', '')} -->", ""])
 
 
-def evidence_gap(r, head=""):
+# Session 1894 (faults file row 63): a story of the week that is a step in a deal energy_deals already holds. W45's first
+# item, "AEP and Google advance a USD 4 billion, 702 MW Bloom Energy fuel-cell project in Cheyenne", was told "the 702 MW is
+# the outlet's figure, not a warehouse table's; one outlet has reported it so far", while energy_deals has held the deal
+# (Google and AEP, 702 MW, USD 4 billion, a 20-year PPA) since 2026-10-14, from five stories.
+PARTY_LEGAL = {"inc", "corp", "corporation", "co", "company", "llc", "lp", "ltd", "plc", "sa", "ag", "nv", "se", "the"}
+DEAL_PARTY_COLS = ("parties", "buyer", "seller", "other_parties", "buyer_name", "seller_name", "buyer_parent", "seller_parent")
+MONEY_VALUE = re.compile(r"(?:US\$|\$|USD ?)\s?([\d][\d,]*(?:\.\d+)?)\s?(trillion|billion|million|bn|mn|tn|b|m)?\b", re.I)
+MONEY_SCALE = {"trillion": 1e12, "tn": 1e12, "billion": 1e9, "bn": 1e9, "b": 1e9, "million": 1e6, "mn": 1e6, "m": 1e6}
+
+
+def party_key(name):
+    """A party's name for matching: lower case, letters and digits, the legal suffixes left out ("AEP, Inc." and "aep" are
+    one)."""
+    t = re.sub(r"[^a-z0-9 ]+", " ", str(name or "").lower().replace("&", " and "))
+    return " ".join(w for w in t.split() if w not in PARTY_LEGAL)
+
+
+def money_value(text):
+    """A sum of money a scored field states, in US dollars ("$4 Billion" is 4e9); None when it states none."""
+    m = MONEY_VALUE.search(str(text or ""))
+    if not m:
+        return None
+    try:
+        v = float(m.group(1).replace(",", ""))
+    except ValueError:
+        return None
+    return v * MONEY_SCALE.get((m.group(2) or "").lower(), 1.0)
+
+
+def as_float(v):
+    try:
+        x = float(v)
+    except (TypeError, ValueError):
+        return None
+    return x if x == x else None   # NaN is no figure
+
+
+def deal_index(deals):
+    """energy_deals as the look-up of prior_deal reads it, built once: (date, party keys, MW, US dollars, row) of every row
+    that passes the Deals table's floor and states a MW or a sum. [] when the table is not on the machine."""
+    if deals is None or not len(deals) or "event_date" not in deals.columns:
+        return []
+    out = []
+    for d in deals.to_dict("records"):
+        if not row_passes(d, "energy_deals"):
+            continue
+        mw, usd = as_float(d.get("mw")), as_float(d.get("dollars"))
+        if mw is None and usd is None:
+            continue
+        try:
+            when = pd.Timestamp(str(d["event_date"]))
+        except (ValueError, TypeError):
+            continue
+        when = when.tz_localize("UTC") if when.tzinfo is None else when.tz_convert("UTC")
+        keys = {party_key(x) for c in DEAL_PARTY_COLS for x in str(d.get(c) or "").split(";")} - {""}
+        out.append((when, keys, mw, usd, d))
+    return out
+
+
+def prior_deal(r, index, before):
+    """The energy_deals row a story of the week is a step in: the same parties (two or more of the story's scored parties
+    among the row's), the same quantity (the story's MW, else its sum of money, equal to the row's) and a date before
+    `before` (the week's start). The earliest such row, or None."""
+    mine = {party_key(x) for x in str(r.get("parties") or "").split(";")} - {""}
+    if len(mine) < 2 or not index:
+        return None
+    mw, usd = as_float(r.get("mw")), money_value(r.get("price"))
+    if mw is not None and mw <= 0:
+        mw = None
+    if mw is None and not usd:
+        return None
+    best = None
+    for when, keys, dmw, dusd, d in index:
+        if when >= before or len(mine & keys) < 2:
+            continue
+        same = ((mw is not None and dmw is not None and abs(mw - dmw) < 0.5)
+                or (mw is None and usd and dusd and abs(usd / dusd - 1) < 0.005))
+        if same and (best is None or when < best[0]):
+            best = (when, d)
+    return best[1] if best else None
+
+
+def first_reports_first(clusters, steps):
+    """Row 63: What mattered ranks the week's first reports above a step in a deal first reported before the week (the
+    clusters keep their order otherwise). steps: {cluster_id: energy_deals row}."""
+    if not steps or clusters.empty:
+        return clusters
+    k = clusters["cluster_id"].isin(set(steps)).astype(int)
+    return clusters.assign(_step=k).sort_values("_step", kind="stable").drop(columns="_step").reset_index(drop=True)
+
+
+def an(word):
+    return f"an {word}" if str(word)[:1].lower() in "aeiou" else f"a {word}"
+
+
+def deal_summary(d):
+    """A held deal in words: "Google and AEP, Wyoming fuel cell project, 702 MW, USD 4 billion, a 20-year power purchase
+    agreement"."""
+    fin = finance_words(d)
+    if fin:
+        head = re.sub(r" \(\d{4}-\d{2}-\d{2}\)$", "", fin)
+    else:
+        asset = asset_words(d.get("asset"))
+        parties = [str(x).strip() for x in (d.get("buyer"), d.get("seller")) if str(x or "").strip()]
+        parties = [x for i, x in enumerate(parties) if x not in parties[:i] and x.lower() not in asset.lower()]
+        head = ", ".join(x for x in (" and ".join(parties), asset) if x)
+    parts = [head] if head else []
+    mw, usd = as_float(d.get("mw")), as_float(d.get("dollars"))
+    if mw is not None:
+        parts.append(f"{mw:,.0f} MW")
+    if usd is not None:
+        parts.append(usd_words(usd))
+    kind = str(d.get("deal_type") or "")
+    label = "" if kind in ("other", "") or fin else DEAL_LABEL.get(kind, kind.replace("_", " "))
+    term = as_float(d.get("term_years"))
+    if term and label:
+        parts.append(f"a {term:g}-year {label}")
+    elif label:
+        parts.append(an(label))
+    return ", ".join(parts)
+
+
+def step_line(d):
+    """Row 63: the sentence that says a story is a step in a held deal, with the row's date and figures."""
+    return (f"A step in a deal first reported before this week: in `energy_deals` since {str(d.get('event_date') or '')[:10]} "
+            f"({deal_summary(d)}).")
+
+
+def more_why(r, heads, steps):
+    """Row 63: an item under More (the weekend's, the week's five) keeps its why line, and a step in a held deal says so."""
+    why = brief.why_line(r["why"], heads[r["cluster_id"]])
+    d = steps.get(r["cluster_id"])
+    return " ".join(x for x in (why, step_line(d) if d is not None else "") if x)
+
+
+def evidence_gap(r, head="", deal=None):
     """What the evidence does not establish, from the record alone (session 1446, faults 30 and 31): the scored fields
     that are empty (no party named; no capacity or sum stated), a figure the headline states that is the outlet's and
     not a table's (a scored figure the headline does not hold is not claimed: "1GWh of storage" was printed as 1,000 MW),
     one outlet so far, an analysis piece. Nothing when every field is stated and the story is reported by more than
-    one outlet: the sentence is not boilerplate."""
+    one outlet: the sentence is not boilerplate.
+
+    Session 1894 (row 63): when the story is a step in a deal energy_deals already holds (deal, from prior_deal), the
+    figure is the table's and the deal has been reported before: the item says it is a step, names the row's date and
+    figures, and the gap is what the week's step changes in that deal (an analysis piece is still said)."""
+    if deal is not None:
+        gaps = ["what the week's step changes in that deal"]
+        if r.get("kind") == "commentary":
+            gaps.append("an analysis piece, not a reported event")
+        return step_line(deal) + " What the evidence does not establish: " + "; ".join(gaps) + "."
     gaps = []
     fig = brief.story_figure(r)
     titles = " ".join(str(t) for t in (r.get("titles") or []))
@@ -1168,7 +1312,16 @@ def main(argv=None):
         # session 802: one topic, one item, the rest folded under it, for the weekend's three and the five of the week
         # session 2704 (the v2 order): what mattered first, the week's three most consequential developments (the scorer's
         # significance, one topic one item); the weekend's three and the week's five are the others, under More
-        mattered, m_folded = brief.one_per_topic(clusters, WHAT_MATTERED_N, log, "what mattered")
+        # session 1894 (row 63): a story that is a step in a deal energy_deals held before the week is said so, and What
+        # mattered ranks the week's first reports above it
+        deal_ix = deal_index(read_table("energy_deals"))
+        steps = {}
+        for r in clusters.to_dict("records"):
+            d = prior_deal(r, deal_ix, start)
+            if d is not None:
+                steps[r["cluster_id"]] = d
+        log(f"  steps in deals held before the week: {len(steps)}")
+        mattered, m_folded = brief.one_per_topic(first_reports_first(clusters, steps), WHAT_MATTERED_N, log, "what mattered")
         taken = set(mattered["cluster_id"]) | m_folded
         wk_c = (brief.one_per_event(brief.not_shown_before(brief.build_clusters(wk_s), prev, log, "the previous Roundup"), log)
                 if len(wk_s) else clusters.head(0))
@@ -1206,13 +1359,13 @@ def main(argv=None):
         for i, r in enumerate(weekend.to_dict("records"), 1):
             L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
-                                  brief.why_line(r['why'], heads[r['cluster_id']]), f"Sources: {link_text(r['links'])}")  # 470, 577, 801, 802
+                                  more_why(r, heads, steps), f"Sources: {link_text(r['links'])}")  # 470, 577, 801, 802; 1894
         L += ["", "### The five stories of the week", ""]
         for i, r in enumerate(top5.to_dict("records"), 1):
             # session 21, ruling 4: the sector label, never the significance score
             L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
-                                  brief.why_line(r['why'], heads[r['cluster_id']]), f"Sources: {link_text(r['links'])}")
+                                  more_why(r, heads, steps), f"Sources: {link_text(r['links'])}")   # session 1894 (row 63)
 
         L += ["", "### Deals of the week", ""]
         deals = read_table("energy_deals")
@@ -1290,7 +1443,7 @@ def main(argv=None):
         for i, r in enumerate(recs, 1):
             W += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
-                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']])) if x),
+                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']))) if x),
                                   f"Sources: {link_text(r['links'])}")
         nxt = next_week(end, log)
         tables_to = max(facts["reach"]) if facts.get("reach") else None   # session 1882 (row 59)
