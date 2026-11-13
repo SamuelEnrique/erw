@@ -37,7 +37,7 @@ class AStopBeforeTheFigures(unittest.TestCase):
     def test_the_20_october_line_reads_as_two_sentences(self):
         r = {"why": "Escalation affecting global oil markets and prices", "mw": "", "price": "", "parties": "Iran"}
         line = f"{brief.why_line(r['why'])} {brief.detail(r)}Sources: x"
-        self.assertIn("prices. parties: Iran. Sources:", line)
+        self.assertIn("prices. Also named: Iran. Sources:", line)   # session 3313 (row 84): no figure, so "Also named:"
 
     def test_the_14_october_line(self):
         r = {"why": "Long-term LNG supply for 20-year supply agreement", "mw": "", "price": "$4.4 Billion",

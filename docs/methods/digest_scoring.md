@@ -1,0 +1,50 @@
+# The Daily Digest: how a story is scored and how the issue is chosen (internal)
+
+Energy Research Warehouse (ERW). Internal note: not published on the site (`site/scripts/build-content.mjs`, `INTERNAL_METHODS`). The readers' note for both periodicals is `docs/methods/periodicals.md`; this note is the working rule behind the Digest, with every number as the code holds it. Written by session 1995 of chain 228 (13 November 2026). The code: `warehouse/news/score.py` with `warehouse/news/rubric.md` (the scoring), `warehouse/news/brief.py` (the issue), `warehouse/analysis/findings/daily_chart.py` and `findings_scanner.py` (the chart). The faults that set the rules below: `docs/reviews/periodicals-faults-2026-11-05.md`.
+
+## 1. The score of a story
+
+- **Who scores.** A model, under the owner's key and the cost ledger (`warehouse/news/llm.py`), reads each ingested story once against the rubric and writes the scored fields to `news_stories`. A story is scored once; a rescore is the owner's.
+- **Significance, 0 to 10**: how much the story changes what an informed energy professional believes about where the industry is going. 9 to 10 market-moving (an OPEC decision, a gigawatt deal, an LNG or nuclear final investment decision, a federal rule with industry-wide effect); 7 to 8 hundreds of MW or of millions of dollars, a major counterparty, a state rule, a notable price move; 4 to 6 incremental but real; 1 to 3 commentary and marketing; 0 not about energy (left out of every issue).
+- **AI relevance** is a tag, never a credit: an AI or datacenter story is scored on the same energy consequences as any other.
+- **The fields**: a sector, a region, a capacity in MW only when the text states MW, GW or kW (an energy unit such as GWh is refused), a price as written, the parties, a headline, and the why line: one sentence, the consequence, one fact the title lacks, no figure the title gives, no adjective of `docs/voice.md`'s list, no hollow verb.
+
+## 2. The window and the ten
+
+- **The window** opens at the previous issue's end, read from its first line's "for the N hours to <time> UTC" (`brief.STAMP_END`), and is capped at `WINDOW_CAP_HOURS` = 96; with no earlier issue it is `DEFAULT_HOURS` = 24. A story dated after the run waits for the next issue.
+- **Clusters**: the stories of one event are one cluster; a cluster is ranked by its highest significance, then an event before commentary, then its number of outlets, then its time. AI relevance is no key.
+- **One topic, one item**: a topic is the sector with the region; two price stories of one commodity are one topic; a sector holds at most `SECTOR_MAX` = 2 items of the ten; the rest of a topic folds under its item ("Also on this topic", "Also in <sector>").
+- **Not again**: a cluster an earlier issue printed (by headline or link) is left out.
+
+## 3. The opening number (`brief.opening_number`)
+
+1. A move must pass its bar (`MATERIAL_PCT`): 3 percent for a benchmark's close (Henry Hub, WTI, Brent), 10 percent for a hub's day-ahead mean; yesterday's opening metric needs twice its bar; a move no story names needs `UNNAMED_FACTOR` = 1.5 times it.
+2. Consequence first: a move a story of the day names (`brief.price_named`, by `PRICE_WORDS` and, since 13 November, an oil or crude headline that settles, rises, falls, jumps or slips: `brief.names_price`) scores 2, a benchmark 1 more.
+3. Novelty second, source quality third, the size of the move last.
+4. With no named move and no benchmark past its bar, the day's highest-ranked story stating a MW or a sum leads, said to be the outlet's figure; a single hub no story names is the last resort.
+
+## 4. The numbers block (`brief.numbers_block`)
+
+- **Market price**: the best candidate the opening did not take, a move of 0.0 percent after every move (since 13 November).
+- **Physical**: US48 demand's peak hour against the same weekday a year before, or a week before while the year is not held.
+- **Project or capacity** and **policy, capital or reliability**: the highest-ranked stories of the whole issue stating a MW or a sum, the measure named by the sector, or "dispatched" when the headline says the power was dispatched (since 13 November); never a price story.
+- **What moved most**: the moves of 0.05 percent or more, at most `MOVERS_N` = 5, the heading counting them; the unchanged prices on one line with no figure (since 13 November).
+
+## 5. The chart of the day
+
+The scanner's flags and the watch list, most related to the day's top stories first (`daily_chart.relevance`), then records and first negatives, then strength; a flag past `STRENGTH_CAP` = 50 robust standard deviations is a step from zero and never the chart. The line that ties the chart to a story is printed only when the shared words name the measure (a state, a grid, or a fuel and one more word: `daily_chart.names_measure`, since 13 November).
+
+## 6. What changed on 13 November 2026 (chain 228, rows 79 to 92)
+
+- The opening names the single hub's move it passed over, instead of "No price moved enough to lead" (row 79).
+- The market row is never a price that did not move; an oil headline that settles names the crude benchmarks (row 80).
+- EIA's closes: the row names the trading day; the lag is said to run from one day to about a week; "1 day" (row 81).
+- "Storage dispatched", not "Storage capacity", for power dispatched (row 82).
+- Outlets by name: "JPT", not "JPT Homepage"; "CA.gov" (row 83).
+- No "parties:" line repeating the headline; "Also named:" for the rest; beside a figure the field stays, since the Roundup reads it (row 84).
+- A policy action whose why line fails closes on its bracket (row 85); the publisher's sums in the money style (row 86).
+- The scanner's "record until now" is the highest value before the new point, fresh points included, with the held record kept beside it (row 87; `docs/methods/automated_analysis_scanner.md`).
+- The chart's tie to a story only when it names the measure (row 88).
+- The subject: the top story's headline with no figure when a story's figure opens (row 89).
+- The first line: "for the 96 hours to <end> UTC (the window opened <start> UTC): N scored stories", with "the first issue since <date>" after a gap of more than a weekday (row 90).
+- A mover is never dropped for its reason's link; an unchanged price is no largest move (rows 91 and 92).

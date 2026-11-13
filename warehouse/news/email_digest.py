@@ -189,9 +189,28 @@ def live(path, rel=None):
         p = p[:i]
 
 
+# Session 3313 (docs/reviews/periodicals-faults-2026-11-05.md row 105): a link whose words only point ("the table and its
+# download", "How the chart is chosen", "/research") means nothing once the page is gated; it goes, with the clause that
+# leads to it, where any other gated link keeps its words
+POINTER_TEXT = re.compile(r"^(?:the table and its download|how the chart is chosen|the whole table|/\S*)$", re.I)
+GONE = "\x00"
+
+
 def gate_links(s, rel=None):
-    """A site link to a page in review written as its text alone."""
-    return re.sub(r"\[([^\]]+)\]\((/[^)]*)\)", lambda m: m.group(0) if live(m.group(2), rel) else m.group(1), s)
+    """A site link to a page in review written as its text alone; a pointer's words (POINTER_TEXT) dropped with the
+    clause that leads to them (": the table and its download.", "; every template's latest run is on /research.")."""
+    def one(m):
+        if live(m.group(2), rel):
+            return m.group(0)
+        return GONE if POINTER_TEXT.match(m.group(1).strip()) else m.group(1)
+    out = re.sub(r"\[([^\]]+)\]\((/[^)]*)\)", one, s)
+    if GONE not in out:
+        return out
+    out = re.sub(r"\s*\(\s*\x00\s*\)", "", out)          # "(<pointer>)", first
+    out = re.sub(r"\s*[:;][^:;.()\x00]*\x00", "", out)   # ": <pointer>", "; every template's latest run is on <pointer>"
+    out = out.replace(GONE, "")
+    out = re.sub(r"\.\s*\.", ".", out)
+    return re.sub(r"[ \t]{2,}", " ", out).rstrip()
 
 
 def md_inline_html(s):
