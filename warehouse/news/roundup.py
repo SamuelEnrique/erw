@@ -671,14 +671,17 @@ def us48_period(u, start, cut):
     return f", the highest of the {n} hours held" + (f" (to {pd.Timestamp(to):%Y-%m-%d %H:%M} UTC)" if to is not None else "")
 
 
-def five_numbers(label, start, cut, facts, log, picked=None):
+def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
     """Session 806 (docs/reviews/periodicals-plan-2026-10-23.md, Roundup change 1): the week in five numbers, each
     traced (scripts/check_roundup.py): the week's biggest price move among the main hubs' weekly means (both weeks
     complete, not held, not paused) and EIA's closes a week apart, in percent; the US48 peak with its hour; the week's
     largest deal by US dollars (by MW when no deal states dollars) from energy_deals; the largest new datacenter load first
     reported in the week (datacenter_projects, capacity_mw: the policy actions of the week carry no MW or price); and the
     headline figure of the week's chart (docs/analysis/<week>/chart_of_the_week.json). A number the warehouse does not
-    hold is said missing, never filled."""
+    hold is said missing, never filled.
+
+    Session 1895 (row 68): capacity, {"plant": planned_plant's plant, "rec": its story}, is the first stand-in for a
+    category with no new observation, before a second price: a part of the system not yet among the five."""
     L = []
     # session 1460 (chain 150, faults 28 and 29): a row's table key (the row id, the chart's template and path) is the
     # tracer's, not the reader's: it goes to one Tables line under the five (small and grey in the email, closed under
@@ -707,9 +710,17 @@ def five_numbers(label, start, cut, facts, log, picked=None):
     else:
         L.append("- **Price move of the week:** no price with a complete week and a week before it is held.")
 
+    cap_used = []
+
     def stand_in(k, why):
         """Session 1446 (fault 27): a category with no new observation is replaced by the next price move that
-        mattered, said so (the brand: replaced by one that mattered, said so)."""
+        mattered, said so (the brand: replaced by one that mattered, said so). Session 1895 (row 68): a capacity line from
+        the look-up of a plant the week's stories name comes first, once; a second price only when none is held."""
+        if capacity and not cap_used:
+            cap_used.append(capacity)
+            ids = capacity["plant"].get("ids") or [f"plant {capacity['plant']['plant_id']}"]
+            keys.append(f"the capacity, `eia860m_planned_generators` {', '.join(ids)}")
+            return f"{why}; in its place, capacity: {capacity_words(capacity)}."
         if len(moves) > k:
             return f"{why}; in its place, the week's next price move: {moves[k]['text']}."
         return f"{why}."
@@ -1132,6 +1143,127 @@ def step_line(d):
             f"({deal_summary(d)}).")
 
 
+# Session 1895 (faults file rows 64 and 68): a plant a story names, looked up in eia860m_planned_generators (the data
+# machine's table; a code machine may hold a restored copy, or none). W45's third item, "Orsted completes Revolution Wind, a
+# 704 MW offshore wind farm", was told "the 704 MW is the outlet's figure, not a warehouse table's" while the table lists
+# Revolution Wind (plant 65500) at 715 MW nameplate, planned for 2026-11-01 (EIA-860M, September 2026).
+PLANT_TAIL = {"llc", "inc", "lp", "llp", "ltd", "project", "facility", "plant"}
+PLANT_GENERIC = {"solar", "wind", "energy", "storage", "battery", "bess", "project", "farm", "power", "center", "centre", "plant",
+                 "station", "generating", "generation", "hybrid", "pv", "park", "gas", "hydroelectric", "hydro", "facility",
+                 "offshore", "onshore", "renewable", "renewables", "clean", "and", "the", "of", "at", "llc", "inc", "lp", "phase",
+                 "unit", "units", "expansion", "north", "south", "east", "west", "new", "county", "city", "creek", "road",
+                 "lake", "river", "ranch", "hills", "valley", "landfill", "nuclear", "steam", "turbine", "fuel", "cell", "cells",
+                 "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "sr", "csg"}
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
+          "December"]
+
+
+def plant_text(text):
+    """A text in the look-up's form: lower case, '&' as 'and', every other sign a space, one space between words."""
+    t = re.sub(r"[^a-z0-9]+", " ", str(text or "").lower().replace("&", " and "))
+    return " ".join(t.split())
+
+
+def plant_key(name):
+    """A plant's EIA name as the look-up matches it, or "" when it is too plain to name one plant in a headline: the
+    bracketed part and a legal or "project" tail left out; two words or more, one of them not a generic word ("Revolution
+    Wind" passes, "Solar Project" and "Kalmar" do not)."""
+    words = plant_text(re.sub(r"\([^)]*\)", " ", str(name or ""))).split()
+    while words and words[-1] in PLANT_TAIL:
+        words = words[:-1]
+    if len(words) < 2 or not any(w not in PLANT_GENERIC and not w.isdigit() and len(w) >= 3 for w in words):
+        return ""
+    return " ".join(words)
+
+
+def vintage_words(v):
+    """'2026-09' as 'September 2026'; "" when the vintage is not a month."""
+    m = re.fullmatch(r"(\d{4})-(\d{2})", str(v or "").strip())
+    return f"{MONTHS[int(m.group(2)) - 1]} {m.group(1)}" if m and 1 <= int(m.group(2)) <= 12 else ""
+
+
+def plant_index(gens):
+    """eia860m_planned_generators as the look-up reads it, built once: {plant key: [plant, ...]}, each plant its EIA name,
+    nameplate MW summed over its generators, planned dates, vintage, technology, state and entity ids. {} when the table
+    is not on the machine or lacks the columns the look-up needs."""
+    need = {"name", "plant_id", "planned_operation_date", "vintage"}
+    if gens is None or not len(gens) or not need <= set(gens.columns) or not ({"nameplate_mw", "capacity_mw"} & set(gens.columns)):
+        return {}
+    plants = {}
+    for g in gens.to_dict("records"):
+        key = plant_key(g.get("name"))
+        pid = str(g.get("plant_id") or "").strip()
+        mw = as_float(g.get("nameplate_mw")) if "nameplate_mw" in g else None
+        if mw is None:
+            mw = as_float(g.get("capacity_mw"))
+        if not key or not pid or mw is None:
+            continue
+        p = plants.setdefault(pid, dict(key=key, name=str(g["name"]).strip(), plant_id=pid, mw=0.0, dates=set(), ids=[],
+                                        vintage=str(g.get("vintage") or "").strip(), technology=str(g.get("technology") or "").strip(),
+                                        state=str(g.get("state") or "").strip()))
+        p["mw"] += mw
+        if str(g.get("planned_operation_date") or "").strip():
+            p["dates"].add(str(g["planned_operation_date"]).strip()[:10])
+        if str(g.get("entity_id") or "").strip():
+            p["ids"].append(str(g["entity_id"]).strip())
+    out = {}
+    for p in plants.values():
+        p["dates"] = sorted(p["dates"])
+        out.setdefault(p["key"], []).append(p)
+    return out
+
+
+def planned_plant(r, head, index):
+    """The plant of eia860m_planned_generators a story names in its headline or its titles: the longest plant key found
+    whole in them, when it is one plant's (a name two plants share names neither). None when no plant is named or the
+    table is not on the machine."""
+    if not index:
+        return None
+    text = f" {plant_text(' '.join([str(head or '')] + [str(t) for t in (r.get('titles') or [])]))} "
+    found = [k for k in index if f" {k} " in text]
+    if not found:
+        return None
+    best = max(found, key=len)
+    if len(index[best]) != 1 or sum(1 for k in found if len(k) == len(best)) > 1:
+        return None
+    return index[best][0]
+
+
+def mw_words(v):
+    return f"{v:,.0f}" if float(v) == int(v) else f"{v:,.1f}"
+
+
+def plant_words(p, fig=""):
+    """Row 64: what EIA-860M lists for the plant, against the story's MW: "EIA-860M (September 2026) lists Revolution Wind at
+    715 MW nameplate, planned for 2026-11-01; the 704 MW is the outlet's, and EIA has not yet listed the plant as
+    operating". The table is of planned generators, so a plant in it is not yet listed as operating."""
+    d = p["dates"]
+    when = (f"planned for {d[0]}" if len(d) == 1 else f"planned for {d[0]} to {d[-1]}") if d else "with no planned date stated"
+    vin = vintage_words(p.get("vintage"))
+    s = f"EIA-860M{f' ({vin})' if vin else ''} lists {p['name']} at {mw_words(p['mw'])} MW nameplate, {when}"
+    fmw = None
+    m = re.fullmatch(r"([\d,.]+) MW", str(fig or ""))
+    if m:
+        fmw = as_float(m.group(1).replace(",", ""))
+    if fmw is not None and abs(fmw - p["mw"]) >= 0.5:
+        return s + f"; the {fig} is the outlet's, and EIA has not yet listed the plant as operating"
+    if fmw is not None:
+        return s + ", as the outlet reports; EIA has not yet listed the plant as operating"
+    return s + "; EIA has not yet listed the plant as operating"
+
+
+def capacity_words(cap):
+    """Row 68: the five's capacity stand-in from the look-up: "Revolution Wind (offshore wind turbine, RI), named in the
+    week's stories (POWER Magazine): EIA-860M (September 2026) lists it at 715 MW nameplate, planned for 2026-11-01"."""
+    p, r = cap["plant"], cap["rec"]
+    what = ", ".join(x for x in (p.get("technology", "").lower(), p.get("state", "")) if x)
+    d = p["dates"]
+    when = (f"planned for {d[0]}" if len(d) == 1 else f"planned for {d[0]} to {d[-1]}") if d else "with no planned date stated"
+    vin = vintage_words(p.get("vintage"))
+    return (f"{p['name']}{f' ({what})' if what else ''}, named in the week's stories ({brief.outlet_of(r)}): "
+            f"EIA-860M{f' ({vin})' if vin else ''} lists it at {mw_words(p['mw'])} MW nameplate, {when}")
+
+
 def more_why(r, heads, steps):
     """Row 63: an item under More (the weekend's, the week's five) keeps its why line, and a step in a held deal says so."""
     why = brief.why_line(r["why"], heads[r["cluster_id"]])
@@ -1139,7 +1271,7 @@ def more_why(r, heads, steps):
     return " ".join(x for x in (why, step_line(d) if d is not None else "") if x)
 
 
-def evidence_gap(r, head="", deal=None):
+def evidence_gap(r, head="", deal=None, plant=None):
     """What the evidence does not establish, from the record alone (session 1446, faults 30 and 31): the scored fields
     that are empty (no party named; no capacity or sum stated), a figure the headline states that is the outlet's and
     not a table's (a scored figure the headline does not hold is not claimed: "1GWh of storage" was printed as 1,000 MW),
@@ -1148,7 +1280,11 @@ def evidence_gap(r, head="", deal=None):
 
     Session 1894 (row 63): when the story is a step in a deal energy_deals already holds (deal, from prior_deal), the
     figure is the table's and the deal has been reported before: the item says it is a step, names the row's date and
-    figures, and the gap is what the week's step changes in that deal (an analysis piece is still said)."""
+    figures, and the gap is what the week's step changes in that deal (an analysis piece is still said).
+
+    Session 1895 (row 64): when the story names a plant eia860m_planned_generators lists (plant, from planned_plant), the
+    gap says what EIA-860M lists (nameplate, vintage, planned date) against the outlet's MW, in place of "not a warehouse
+    table's"; with no table on the machine, plant is None and the sentence is as before."""
     if deal is not None:
         gaps = ["what the week's step changes in that deal"]
         if r.get("kind") == "commentary":
@@ -1157,11 +1293,17 @@ def evidence_gap(r, head="", deal=None):
     gaps = []
     fig = brief.story_figure(r)
     titles = " ".join(str(t) for t in (r.get("titles") or []))
-    if fig and brief.figures_of(fig) & brief.figures_of(f"{head} {titles}"):
+    said = bool(fig and brief.figures_of(fig) & brief.figures_of(f"{head} {titles}"))
+    if plant is not None:   # session 1895 (row 64): the table's listing, against the outlet's MW when the headline gives it
+        mw_fig = fig if said and fig.endswith(" MW") else ""
+        gaps.append(plant_words(plant, mw_fig))
+        if said and not mw_fig:
+            gaps.append(f"the {fig} is the outlet's figure, not a warehouse table's")
+    elif said:
         gaps.append(f"the {fig} is the outlet's figure, not a warehouse table's")
     if not str(r.get("parties") or "").strip():
         gaps.append("no party is named")
-    if not fig:
+    if not fig and plant is None:
         gaps.append("no capacity or sum is stated")
     lim = brief.limitation(r)
     if lim:
@@ -1421,7 +1563,17 @@ def main(argv=None):
         L += ["", "### ERW's Policy of the Week", ""] + policy_section(policy_of_the_week(start, cut, log), L, log)
         facts, picked = {}, {}
         nums = numbers(start, cut, log, facts)
-        five = five_numbers(label, start, cut, facts, log, picked)   # session 806, kept; session 2704: what the opening reads
+        # session 1895 (rows 64 and 68): a plant a shown story names, looked up in eia860m_planned_generators (None
+        # when the table is not on this machine: the lines are then as before)
+        plant_ix = plant_index(read_table("eia860m_planned_generators"))
+        plants = {}
+        for r in shown.to_dict("records"):
+            p = planned_plant(r, heads[r["cluster_id"]], plant_ix)
+            if p is not None:
+                plants[r["cluster_id"]] = p
+        log(f"  plants named and listed in eia860m_planned_generators: {len(plants)}")
+        cap = next(({"plant": plants[r["cluster_id"]], "rec": r} for r in shown.to_dict("records") if r["cluster_id"] in plants), None)
+        five = five_numbers(label, start, cut, facts, log, picked, cap)   # session 806, kept; session 2704: what the opening reads
         summary, su = (None, []) if args.no_model else brief.numbers_summary(client, model, nums, log)
         if model in PRICES:
             scost = sum(x.input_tokens * PRICES[model][0] + x.output_tokens * PRICES[model][1] for x in su) / 1e6
@@ -1443,7 +1595,7 @@ def main(argv=None):
         for i, r in enumerate(recs, 1):
             W += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
-                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']))) if x),
+                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']), plants.get(r['cluster_id']))) if x),
                                   f"Sources: {link_text(r['links'])}")
         nxt = next_week(end, log)
         tables_to = max(facts["reach"]) if facts.get("reach") else None   # session 1882 (row 59)

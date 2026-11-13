@@ -130,7 +130,7 @@ class Row63TheRanking(unittest.TestCase):
             src = f.read()
         self.assertIn("deal_ix = deal_index(read_table(\"energy_deals\"))", src)
         self.assertIn("brief.one_per_topic(first_reports_first(clusters, steps), WHAT_MATTERED_N, log, \"what mattered\")", src)
-        self.assertIn("evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']))", src)
+        self.assertIn("evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id'])", src)   # session 1895 adds the plant
 
 
 class Row63TheWords(unittest.TestCase):
