@@ -39,13 +39,22 @@ const n = (v: number, d = 0) => v.toLocaleString("en-US", { maximumFractionDigit
 const EXEMPT_WORDS: Record<string, string> = {
   "mn:land_based_wind": "Minnesota Statutes 297A.68, subd. 12, exempts wind energy conversion systems used as an electric power source and the materials to build them: 100 percent.",
   "ia:land_based_wind": "Iowa Code 423.3(54) exempts wind energy conversion property and the materials to build it: 100 percent.",
+  "tx:land_based_wind": "Texas: the Comptroller applies the manufacturing exemption (Tax Code 151.318) to equipment that generates electricity, such as wind turbines and solar modules, but not to every item of a facility (its letter rulings); the exempt share is not held, so the default is 0 and this sales tax is an upper bound before that exemption.",
+  "tx:utility_pv": "Texas: the Comptroller applies the manufacturing exemption (Tax Code 151.318) to equipment that generates electricity, such as wind turbines and solar modules, but not to every item of a facility (its letter rulings); the exempt share is not held, so the default is 0 and this sales tax is an upper bound before that exemption.",
+  "tx:natural_gas": "Texas: the Comptroller applies the manufacturing exemption (Tax Code 151.318) to equipment that generates electricity, such as wind turbines and solar modules, but not to every item of a facility (its letter rulings); the exempt share is not held, so the default is 0 and this sales tax is an upper bound before that exemption.",
+  "ne:land_based_wind": "Nebraska's exemption for community-based energy development projects (Revised Statutes 77-2704.57) was repealed by Laws 2026, LB901, operative 1 July 2026 (the Legislature's page, read 13 November 2026): none (0).",
+  "ne:utility_pv": "Nebraska's exemption for community-based energy development projects (Revised Statutes 77-2704.57) was repealed by Laws 2026, LB901, operative 1 July 2026 (the Legislature's page, read 13 November 2026): none (0).",
+  "nd:utility_pv": "North Dakota Century Code 57-39.2-04.2 exempts the production equipment and every other purchase for building a power plant, which includes any non-coal, non-wind generating facility of 100 kW or more selling its power: 100 percent.",
+  "nd:natural_gas": "North Dakota Century Code 57-39.2-04.2 exempts the production equipment and every other purchase for building a power plant, which includes any non-coal, non-wind generating facility of 100 kW or more selling its power: 100 percent.",
+  "nd:geothermal": "North Dakota Century Code 57-39.2-04.2 exempts the production equipment and every other purchase for building a power plant, which includes any non-coal, non-wind generating facility of 100 kW or more selling its power: 100 percent.",
+  "nd:land_based_wind": "North Dakota Century Code 57-39.2-04.2 counts a wind facility only if it was completed before 1 January 2017: a new wind plant has no exemption (0).",
   "ia:utility_pv": "Iowa Code 423.3(90) exempts solar energy equipment, equipment primarily used to collect and convert solar radiation or carry it to a point of use: the modules and inverters, 67.2 percent of the tax on JEDI's materials and equipment. Racking and wiring are not named.",
 };
 
 /** fault 7: a statute's capacity or production tax is held for this technology and state (Iowa's valuation is optional, so
  *  the reader's own rate stays offered there) */
 export const statuteHeld = (t: TechKey, s: string, P: Params) =>
-  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "valuation");
+  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "valuation" && r.kind !== "exempt_years" && r.kind !== "capacity_option" && r.kind !== "own_exempt" && !r.adds_to_property);
 
 export const FIELDS: FieldDef[] = [
   { key: "tech", label: "Technology", unit: "", min: 0, max: TECHS.length - 1, whole: true, group: "project",
@@ -79,15 +88,38 @@ export const FIELDS: FieldDef[] = [
     source: (t) => t === "geothermal" ? "JEDI's geothermal model holds no sales tax line: no share is held." : "JEDI's own base for sales tax, its materials and equipment purchases, as a share of its cost before tax." },
   { key: "exempt", label: "Sales tax exemption", unit: "% of the tax", min: 0, max: 100, whole: false, group: "taxes",
     source: (t, s, P) => (EXEMPT_WORDS[`${s}:${t}`] ?? (P.exemptions?.states[s]?.[t] ? "The state's statute exempts these purchases." : "No exemption of this state for this technology has been read: 0, so the sales tax is before exemptions.")) },
-  { key: "iaval", label: "Special valuation by county ordinance", unit: "", min: 0, max: 1, whole: true, group: "taxes",
+  { key: "iaval", label: "Local option by ordinance or agreement", unit: "", min: 0, max: 1, whole: true, group: "taxes",
     options: () => [{ value: 0, label: "No" }, { value: 1, label: "Yes" }],
-    applies: (t, s) => s === "ia" && t === "land_based_wind",
-    source: () => "Iowa Code 427B.26 applies where the county or city has adopted it by ordinance: 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh." },
+    applies: (t, s) => (s === "ia" && t === "land_based_wind") || ((s === "or" || s === "mi") && t === "utility_pv"),
+    source: (_t, s) => (s === "mi"
+      ? "Michigan (Solar Energy Facilities Taxation Act, 2023 PA 108): a city, village or township may establish a solar energy district and approve an exemption certificate for a facility of at least 2 MW AC; the facility then pays a specific tax per MW in place of the property tax on it, for 20 years. The land is not exempt."
+      : s === "or"
+      ? "Oregon (2015 c.571, notes to ORS 307.175): a county and a solar project outside any city may agree to exempt it and take a fee in lieu, USD 5,500 to 7,000 per MW of nameplate a year, for up to 20 years; agreements end with projects exempt by 2 January 2028."
+      : "Iowa Code 427B.26 applies where the county or city has adopted it by ordinance: 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh.") },
+  { key: "optrate", label: "Fee in lieu", unit: "USD per MW a year", min: 0, max: 20000, whole: false, group: "taxes", nullable: true,
+    applies: (t, s) => (s === "or" || s === "mi") && t === "utility_pv",
+    source: (_t, s) => s === "mi"
+      ? "USD 7,000 per MW AC (MCL 211.1159(2)); USD 2,000 on state land, in an opportunity zone, on a brownfield or attached to an improvement (211.1159(3)). Only those two rates are statutory; a rate outside them is held to them."
+      : "Within the statute's USD 5,500 to 7,000 (a rate outside it is held to it). Default 7,000, the statute's maximum and its one fixed rate until the 2021 amendment set the range." },
   { key: "levy", label: "Local levy", unit: "USD per 1,000", min: 0, max: 200, whole: false, group: "taxes", nullable: true,
     applies: (t, s) => s === "ia" && t === "land_based_wind",
     source: () => "No statewide figure is held: the county's consolidated levy, in dollars per 1,000 of taxable value." },
   { key: "own", label: "Property tax, effective rate", unit: "% of cost", min: 0, max: 10, whole: false, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
-    source: () => "No statute is held for this state and technology: a rate typed here is the reader's own, applied to the capital cost as it falls." },
+    // fault 16: where a statute is held but leaves years or the choice open (Iowa's valuation, Kansas's exemption, Oregon's
+    // agreement), the rate covers those years, not "no statute"
+    source: (t, s, P) => ((P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt") && s === "nc"
+      ? "North Carolina excludes 80 percent of the appraised value of a solar energy electric system from tax (General Statutes 105-275(45)), with no end date: a rate typed here is the reader's own, applied to 20 percent of the capital cost as the value falls. Equipment not used directly for the conversion, and the land, are taxed in full; the tool applies the 80 percent to the whole capital cost."
+      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt") && s === "az"
+      ? "Arizona values renewable energy equipment at 20 percent of its depreciated cost through 2040 (Revised Statutes 42-14155): a rate typed here is the reader's own, applied to 20 percent of the capital cost until 2040 and to all of it after, as the value falls. The statute's 90 percent cap on depreciation and its deduction of federal tax credits from the cost are not modeled."
+      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt")
+      ? "Florida exempts 80 percent of a renewable energy device's assessed value through 2037 (Statutes 196.182): a rate typed here is the reader's own, applied to the remaining 20 percent of the capital cost until 2037 and to all of it after, as the value falls. Land and other real property are not exempt; the tool applies the 80 percent to the whole capital cost."
+      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.adds_to_property) && s === "vt"
+      ? "Vermont's uniform capacity tax, USD 4 per kW a year to the Education Fund (32 V.S.A. 8701), is held; the town's property tax on the plant is not: a rate typed here is the reader's own, added to the capacity tax, applied to the capital cost as it falls."
+      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.adds_to_property)
+      ? "The state's excise on production is held; the property tax on the plant is not: a rate typed here is the reader's own, added to the excise, applied to the capital cost as it falls."
+      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t))
+      ? "The state's statute leaves some years or cases open (without the local option, or after an exemption or an agreement ends): a rate typed here is the reader's own for those years, applied to the capital cost as it falls."
+      : "No statute is held for this state and technology: a rate typed here is the reader's own, applied to the capital cost as it falls.") },
   { key: "ownyears", label: "Taxable value falls to 0 over", unit: "years", min: 1, max: 60, whole: true, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     source: () => "The reader's own: the years over which the taxable value falls in a straight line." },
   { key: "cf", label: "Capacity factor", unit: "ratio", min: 0.01, max: 1, whole: false, group: "output",

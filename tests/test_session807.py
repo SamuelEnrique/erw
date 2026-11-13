@@ -23,7 +23,9 @@ class WhatTheDryRunShowed(unittest.TestCase):
     def test_a_source_is_named_once(self):
         # session 2701 (rulings item 15): a held outlet keeps its link, so it prints as any outlet does: once a link
         self.assertEqual(brief.link_text([("POWER Magazine", "https://a"), ("POWER Magazine", "https://a")], {"POWER Magazine"}), "[POWER Magazine](https://a)")
-        self.assertEqual(brief.link_text([("X", "https://a"), ("X", "https://b")], set()), "[X](https://a), [X](https://b)")
+        # session 3352 (periodicals faults file row 132): one outlet once, whatever its addresses ("[Bloomberg.com] (via
+        # Google News), [Bloomberg.com] (via Google News)" read as a repeat); the first address is kept
+        self.assertEqual(brief.link_text([("X", "https://a"), ("X", "https://b")], set()), "[X](https://a)")
 
     def test_the_fallback_is_not_the_headline_again(self):
         head = "Crusoe plans Spark Liquid modular data center with 3.5MW deployments for Nvidia GPUs"

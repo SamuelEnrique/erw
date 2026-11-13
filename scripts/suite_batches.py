@@ -177,7 +177,7 @@ def total_mb():
     return 0
 
 
-def worker(names, tests_dir):
+def worker(names, tests_dir, verbosity=1):
     """One batch, as discover would run it: exit 0 when it passed, 1 when not."""
     import importlib
     import unittest
@@ -196,7 +196,7 @@ def worker(names, tests_dir):
             suite.addTest(unittest.loader._make_failed_import_test(n, unittest.TestSuite)[0])
             continue
         suite.addTests(loader.loadTestsFromModule(mod, pattern=PATTERN))
-    result = unittest.TextTestRunner(verbosity=1).run(suite)
+    result = unittest.TextTestRunner(verbosity=verbosity).run(suite)
     sys.stdout.flush()
     sys.stderr.write(f"suite_batches: peak MB {peak_mb()}\n")
     sys.stderr.flush()
@@ -208,9 +208,9 @@ def worker(names, tests_dir):
 ONE_THREAD = {"OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1"}
 
 
-def run_batch(names, tests_dir, out, env=None, timeout=None):
+def run_batch(names, tests_dir, out, env=None, timeout=None, verbose=False):
     """One batch in its own process, its output (both streams) written to `out` as it comes; (exit, lines, seconds)."""
-    argv = [sys.executable, os.path.abspath(__file__), "--worker", "--tests", tests_dir, *names]
+    argv = [sys.executable, os.path.abspath(__file__), "--worker", "--tests", tests_dir, *(["--verbose"] if verbose else []), *names]
     env = dict(os.environ if env is None else env)
     for k, v in ONE_THREAD.items():
         env.setdefault(k, v)
@@ -236,11 +236,12 @@ def main(argv=None):
     ap.add_argument("--tests", default="tests", help="the tests folder (default tests)")
     ap.add_argument("--alone", help="a file of module names, each run in a process alone")
     ap.add_argument("--profile", help="run every module alone and write module, tests, seconds and peak MB to this CSV")
+    ap.add_argument("--verbose", action="store_true", help="each test's name and verdict, as unittest -v (to compare with a discover run)")
     ap.add_argument("--worker", action="store_true", help=argparse.SUPPRESS)
     ap.add_argument("names", nargs="*", help=argparse.SUPPRESS)
     a = ap.parse_args(argv)
     if a.worker:
-        return worker(a.names, a.tests)
+        return worker(a.names, a.tests, 2 if a.verbose else 1)
     if not os.path.isdir(a.tests):
         print(f"suite_batches: no folder {a.tests} here (run from the checkout's root)", file=sys.stderr)
         return 2
@@ -254,13 +255,13 @@ def main(argv=None):
     total, secs, counts, heavy, lost, prof = 0, 0.0, dict.fromkeys(COUNTS, 0), [], [], []
     out = sys.stdout
     for i, names in enumerate(plan, 1):
-        code, lines, took = run_batch(names, a.tests, out)
+        code, lines, took = run_batch(names, a.tests, out, verbose=a.verbose)
         got = parse(lines)
         if got is None and len(names) > 1:    # stopped without a summary: each of its modules again, alone, once
             print(f"suite_batches: batch {i} ({names[0]} to {names[-1]}) stopped without a summary (exit {code}); "
                   f"its {len(names)} modules run again one a process", flush=True)
             for n in names:
-                c2, l2, t2 = run_batch([n], a.tests, out)
+                c2, l2, t2 = run_batch([n], a.tests, out, verbose=a.verbose)
                 g2 = parse(l2)
                 if g2 is None:
                     lost.append((n, c2))

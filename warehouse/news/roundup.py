@@ -619,10 +619,15 @@ def numbers(start, cut, log, facts=None):
                          f"| {label} | not in the warehouse | | | {notes.ref('eia_fuel_spot_prices')} |")
                 continue
             a, b, flags = got
+            # session 3442 (faults file row 147): a newest close dated before the week began is not the week's move (with
+            # this machine's copy of EIA's closes nine days old, W46 opened on W45's Brent close of 3 November, -13.1%)
+            before_week = a["ts_utc"] < start
             L.append(f"| {label} | {a['value']:.2f} {a['unit']} on {a['ts_utc']:%Y-%m-%d} | {b['value']:.2f} on "
                      f"{b['ts_utc']:%Y-%m-%d} | {a['value'] - b['value']:+.2f} ({100 * (a['value'] / b['value'] - 1):+.1f}%)"
-                     + "".join(f"; {f}" for f in flags) + f" | {notes.ref('eia_fuel_spot_prices')} |")
-            if facts is not None and not flags:
+                     + "".join(f"; {f}" for f in flags)
+                     + ("; EIA's newest close is from before this week, so this is no move of the week" if before_week else "")
+                     + f" | {notes.ref('eia_fuel_spot_prices')} |")
+            if facts is not None and not flags and not before_week:
                 facts.setdefault("fuel", []).append(dict(label=label, a=a, b=b, ref=notes.ref("eia_fuel_spot_prices")))
     except Exception as exc:
         log(f"  numbers: fuel prices unavailable: {exc!r}")
@@ -705,6 +710,26 @@ ROW_FIELDS = {"energy_deals": ("buyer", "seller", "asset", "mw"), "datacenter_pr
 def row_is_us(r):
     """A row is of the United States: its country says so, or its state is a US state's code."""
     return (str(r.get("country", "")).strip().lower() in US_NAMES) or (str(r.get("state", "")).strip().upper() in US_STATES)
+
+
+def dc_place(r):
+    """Session 3445 (faults file row 150): a facility's place as the table holds it, its country named when it is not
+    the United States ("Kemps Creek, Australia", not "Kemps Creek" in a table read as US first)."""
+    country = str(r.get("country") or "").strip()
+    parts = [str(r.get(k) or "").strip() for k in ("city", "county", "state")]
+    if country and country.lower() not in US_NAMES:
+        parts.append(country)
+    return ", ".join(x for x in parts if x and x.lower() != "nan") or "not stated"
+
+
+def dc_operator(r):
+    """Session 3445 (faults file row 150): the operator; with none held, the developer the table holds, said to be one
+    ("CDC (developer)", not "not stated" beside a row that names CDC)."""
+    op = str(r.get("operator") or "").strip()
+    dev = str(r.get("developer") or "").strip()
+    if op and op.lower() != "nan":
+        return op
+    return f"{dev} (developer)" if dev and dev.lower() != "nan" else "not stated"
 
 
 def row_passes(r, table):
@@ -967,8 +992,10 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
                 if id(m) not in moves_used and abs(float(m["pct"])) >= bar:
                     moves_used.add(id(m))
                     return f"{why}; in its place, the week's next price move: {m['text']}."
-            return (f"{why}; no other price moved {brief.MATERIAL_PCT['fuel']:.0f}% or more on the week "
-                    f"({brief.MATERIAL_PCT['hub']:.0f}% for a hub's weekly mean).")
+            # session 3375 (faults file row 145): the bar in words: "3%" and "10%" here are the rule's, not figures a
+            # table holds, and the counts read them as figures with no key
+            return (f"{why}; no other price passed the opening's bar for a move on the week (three percent for a benchmark's "
+                    "close, ten for a hub's weekly mean).")
         return f"{why}."
     # 2. the US48 peak
     if facts.get("us48"):
@@ -1170,7 +1197,7 @@ def subject_line(op, first_head):
         lead = f"ERW Weekly | {label} {'up' if pct >= 0 else 'down'} {abs(pct):.1f}% on the week"
         # session 1882 (faults file row 62): the whole subject at most SUBJECT_MAX, the headline clause with no figure (the
         # move is the subject's one verified metric, chain 131) and cut at a word with no "..."
-        clause = head_clause(brief.money_style(brief.nodash(str(first_head or ""))).rstrip("."), SUBJECT_MAX - len(lead) - 2)
+        clause = head_clause(brief.money_style(brief.plain(brief.nodash(str(first_head or "")))).rstrip("."), SUBJECT_MAX - len(lead) - 2)   # row 131
         return f"{lead}; {clause}" if clause else lead
     # session 1990 (faults file row 95): with no move to lead, the headline's clause still carries no figure (chain 131: a
     # figure in the subject only when it is a warehouse table's), as the Digest's subject since row 89
@@ -1181,7 +1208,7 @@ def subject_line(op, first_head):
 SUBJECT_MAX = 90
 CLAUSE_TAIL = re.compile(r"(?:\s+(?:a|an|the|of|to|in|on|for|with|from|by|at|and|or|its|their|as|into|over))+$", re.I)
 FIGURE_IN_HEAD = re.compile(r"(?:\b(?:a|an)\s+)?(?:USD|CAD|AUD|EUR|GBP)\s\d[\d,.]*(?:\s(?:billion|million|trillion|thousand))?,?\s*|"
-                            r"(?:\b(?:a|an)\s+)?\d[\d,.]*\s?(?:MW|GW|kW|MWh|GWh|TWh|kV|bcf/d|bcf|mtpa|percent|%)\b,?\s*", re.I)
+                            r"(?:\b(?:a|an)\s+)?\d[\d,.]*[\s-]?(?:MW|GW|kW|MWh|GWh|TWh|kV|bcf/d|bcf|mtpa|percent|%)\b,?\s*", re.I)   # 3352: "3.6-GW"
 
 
 def head_clause(head, n):
@@ -1189,6 +1216,9 @@ def head_clause(head, n):
     article before the first figure kept as "a"), then cut at a word to n characters with no ellipsis, a trailing article,
     preposition or conjunction dropped. "" when nothing readable is left."""
     t = " ".join(str(head or "").split())
+    # session 3365 (faults file row 140): a headline's kicker before a colon ("Azerbaijan: TotalEnergies Announces ...",
+    # "Exclusive: ...") is no part of the clause, and it took the space the clause needs
+    t = re.sub(r"^[A-Z][\w.'&-]*(?: [A-Z][\w.'&-]*)?\s*[:|]\s+(?=[A-Z])", "", t)
     had = bool(FIGURE_IN_HEAD.search(t))
     t = FIGURE_IN_HEAD.sub(lambda m: "a " if re.match(r"(?:a|an)\s", m.group(0), re.I) else "", t)
     t = re.sub(r"\s{2,}", " ", t).strip(" ,;:")
@@ -1991,7 +2021,8 @@ def main(argv=None):
                 for r in shown_d:
                     first = r["story_urls"].split(";")[0]
                     kind, buyer, seller = deal_cells(r)   # session 1882 (row 67): no "other", a financing by its roles
-                    L.append(f"| {r['event_date'][:10]} | {kind} | {buyer} | "
+                    # session 3445 (faults file row 150): a deal with no type says so, as every other empty cell does
+                    L.append(f"| {r['event_date'][:10]} | {kind or 'not stated'} | {buyer} | "
                              f"{seller} | {asset_words(r['asset']) or 'not stated'} | {num(r['mw'])} | "
                              f"{usd_cell(r['dollars'])} | {r['status'] or 'not stated'} | [1]({first}) |")   # session 1476 (fault 54)
                 L.append("")
@@ -2014,9 +2045,8 @@ def main(argv=None):
             else:
                 L += ["| First reported | Operator | Site | Place | MW | Status | Story |", "|---|---|---|---|---|---|---|"]
                 for r in shown_c:
-                    place = ", ".join(x for x in (r["city"], r["county"], r["state"]) if x) or "not stated"
-                    L.append(f"| {r['first_story_at'][:10]} | {r['operator'] or 'not stated'} | "
-                             f"{r['site_name'] or 'not stated'} | {place} | {num(r['mw'])} | "
+                    L.append(f"| {r['first_story_at'][:10]} | {dc_operator(r)} | "
+                             f"{r['site_name'] or 'not stated'} | {dc_place(r)} | {num(r['mw'])} | "
                              f"{(r['project_status'] or 'not stated').replace('_', ' ')} | "
                              f"[1]({r['story_urls'].split(';')[0]}) |")
                 L.append("")
