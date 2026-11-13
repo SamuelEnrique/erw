@@ -23,7 +23,14 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 - **Checks run on it:**
   - its five tests (4101, 205, 207, 275, 378): 53 passed;
   - `licenses.py check`, `build_llms.py --check`, `build_tables.py --check`, `release_v1.py --check` and `check_spec.py`: all exit 0.
-- **Its gate runs alone after this one,** because it holds four more tables "license needed", and check-values' floors may move with them.
+- **Its gate runs after this one.** It holds four more tables "license needed", and check-values' floors may move with them.
+- **At 11:18 both rows moved on.**
+  - The licenses row's head became `3ab353fcc` (sessions 4100 to 4109) with its one later commit `57c5df6c9`.
+  - Row 10's head became `129775878` (chain 232's rows 100 to 107; no site file changed).
+  - The copy was rebuilt as **`wip/w2-4100-lic2`** (`d88f5d777`): `57c5df6c9`, then `origin/main` merged, then `129775878` merged.
+  - Its 99 tests pass: 4101, 205, 207, 275, 378, 4109 and periodicals_1973. The five checks exit 0.
+  - The first copy `wip/w2-4100-licenses` is stale: a force push was refused, so the copy took a new name.
+- **The running combined gate holds row 10 up to `5f5aea071`** (rows up to 106). Row 107 (`129775878`) lands with the licenses gate.
 
 ## Decisions made without you
 
