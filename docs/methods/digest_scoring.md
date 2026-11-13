@@ -22,10 +22,11 @@ Energy Research Warehouse (ERW). Internal note: not published on the site (`site
 2. Consequence first: a move a story of the day names (`brief.price_named`, by `PRICE_WORDS` and, since 13 November, an oil or crude headline that settles, rises, falls, jumps or slips: `brief.names_price`) scores 2, a benchmark 1 more.
 3. Novelty second, source quality third, the size of the move last.
 4. With no named move and no benchmark past its bar, the day's highest-ranked story stating a MW or a sum leads, said to be the outlet's figure; a single hub no story names is the last resort.
+5. A benchmark's close no later than the one the last issue printed (`brief.previous_closes`, read from that issue's "- <label>: ... on <date>" lines) never leads: EIA publishes a close from one day to about a week after its day, so one close can be the newest on several issues running. When such a close passed its bar, the opening names it instead of saying no price moved ("Henry Hub natural gas's rise on 2026-11-03 (in the numbers below) was in the last issue"). Since 13 November (faults file row 146).
 
 ## 4. The numbers block (`brief.numbers_block`)
 
-- **Market price**: the best candidate the opening did not take, a move of 0.0 percent after every move (since 13 November).
+- **Market price**: the best candidate the opening did not take, a move of 0.0 percent after every move (since 13 November). A close the last issue printed says so in its status: "the same close the last issue printed (no newer close is held)" (row 148).
 - **Physical**: US48 demand's peak hour against the same weekday a year before, or a week before while the year is not held.
 - **Project or capacity** and **policy, capital or reliability**: the highest-ranked stories of the whole issue stating a MW or a sum, the measure named by the sector, or "dispatched" when the headline says the power was dispatched (since 13 November); never a price story.
 - **What moved most**: the moves of 0.05 percent or more, at most `MOVERS_N` = 5, the heading counting them; the unchanged prices on one line with no figure (since 13 November).
