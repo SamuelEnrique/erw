@@ -42,7 +42,7 @@ class Row79TheOpeningDoesNotDenyAMove(unittest.TestCase):
         self.assertEqual(op["passed"]["key"], "SPP")
         line = brief.opening_lines(op, {})[2]
         self.assertNotIn("No price moved enough to lead", line)
-        self.assertIn("The day's largest move, SPP SPPSOUTH_HUB day-ahead down 39.1%, is one hub's and no story names it", line)
+        self.assertIn("The day's largest move, SPP SPPSOUTH_HUB day-ahead's fall (in the numbers below), is one hub's and no story names it", line)
         self.assertIn("not a warehouse table's", line)
 
     def test_no_move_past_a_bar_keeps_the_old_sentence(self):
@@ -394,7 +394,7 @@ class Row97TheStandInMoved(unittest.TestCase):
                          ("Brent crude", "USD/bbl", 92.14, 91.84)])
         self.assertNotIn("Brent crude closed", row)
         self.assertNotIn("WTI Cushing crude closed", row)   # -2.3%, under the bar too
-        self.assertTrue(row.endswith("no other price moved 3% or more on the week (10% for a hub's weekly mean)."), row)
+        self.assertTrue(row.endswith("no other price passed the opening's bar for a move on the week (three percent for a benchmark's close, ten for a hub's weekly mean)."), row)
 
 
 class Row98AMarketMoveTheWarehouseHolds(unittest.TestCase):

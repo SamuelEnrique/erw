@@ -2125,8 +2125,10 @@ def passed_words(c):
     move is named, so the opening does not deny a move the numbers below print."""
     if not c:
         return "No price moved enough to lead; this is a reported figure, not a warehouse table's."
-    word = "up" if float(c.get("ch", c["pct"])) >= 0 else "down"
-    return (f"The day's largest move, {c['label']} {word} {abs(float(c['pct'])):.1f}%, is one hub's and no story names it, so a "
+    # session 3375 (faults file row 144): the move is named, its figure left to the numbers below, where it is keyed; the
+    # "down 39.1%" this sentence printed had no key a tracer could follow
+    word = "rise" if float(c.get("ch", c["pct"])) >= 0 else "fall"
+    return (f"The day's largest move, {c['label']}'s {word} (in the numbers below), is one hub's and no story names it, so a "
             "reported figure leads; it is the outlet's, not a warehouse table's.")
 
 

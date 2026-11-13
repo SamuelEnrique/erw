@@ -967,8 +967,10 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
                 if id(m) not in moves_used and abs(float(m["pct"])) >= bar:
                     moves_used.add(id(m))
                     return f"{why}; in its place, the week's next price move: {m['text']}."
-            return (f"{why}; no other price moved {brief.MATERIAL_PCT['fuel']:.0f}% or more on the week "
-                    f"({brief.MATERIAL_PCT['hub']:.0f}% for a hub's weekly mean).")
+            # session 3375 (faults file row 145): the bar in words: "3%" and "10%" here are the rule's, not figures a
+            # table holds, and the counts read them as figures with no key
+            return (f"{why}; no other price passed the opening's bar for a move on the week (three percent for a benchmark's "
+                    "close, ten for a hub's weekly mean).")
         return f"{why}."
     # 2. the US48 peak
     if facts.get("us48"):
