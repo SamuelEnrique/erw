@@ -48,6 +48,8 @@ Series, 12,472 rows, 63 series, every one beginning in January 2010: 53 have all
 
 Internal. The site carries "Copyright 2026 © E-Control" and the impressum grants no reuse (read 683, session 2391); `license_verdicts.csv` holds no verdict for E-Control yet. The table is held from the Redivis storage and the live set until a ruling or a reuse statement is read.
 
+Chain 229, session 4108 (13 November 2026): E-Control's verdict is recorded. Its electricity statistics page (read 1772, https://www.e-control.at/en/statistik/e-statistik, robots read 1769) says: "Please reference E-Control as the data-source." Verdict: may be public as the ERW is today; needs written permission if the ERW sells anything (the page names no licence and nothing of commercial use). The table stays internal and waits for the owner's ruling (default: stays internal).
+
 ## Cross-checks (session 2391, against `eurostat_electricity_monthly`'s Austria, 2016 to 2025)
 
 - Imports and exports in all: 1.000 (1.001 in 2016).

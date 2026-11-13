@@ -809,7 +809,7 @@ def finance_words(r):
         what = f"{raising}'s {asset}" if asset else raising
     when = str(r.get("event_date") or "")[:10]
     prep = FINANCE_PREP.get(roles[2], "of")   # session 3312 (faults file row 103): "investment in", "loan for"
-    head = f"{money}'s {roles[2]} {prep} {what}" if money and what else (f"{money}'s {roles[2]}" if money else f"a {roles[2]} {prep} {what}")
+    head = f"{money}'s {roles[2]} {prep} {what}" if money and what else (f"{money}'s {roles[2]}" if money else f"{an(roles[2])} {prep} {what}")   # session 3336 (row 121): "an investment"
     return head + (f" ({when})" if when else "")
 
 
@@ -1015,6 +1015,7 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
         # session 1446 (fault 29): the week's largest load is a row with an operator or a site; a row with neither is
         # a figure with no subject ("1,000 MW, operator not stated, site not stated, Newport")
         named = cw["operator"].astype(str).str.strip().ne("") | cw["site_name"].astype(str).str.strip().ne("")
+        unnamed = cw[~named]   # session 3334 (faults file row 118): kept to say how many larger ones the row leaves out
         cw = cw[named]
         # session 1474 (fault 52): and with the datacenter table's own floor (W45: 702 MW at confidence 0.55, "not stated"
         # in the table below)
@@ -1028,6 +1029,13 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
             parts = [str(r.get(k) or "").strip() for k in ("operator", "site_name")]
             place = ", ".join(x for x in (str(r.get("city") or "").strip(), str(r.get("state") or "").strip()) if x)
             words = ", ".join(x for x in (*parts, place) if x)
+            # session 3334 (faults file row 118): W44's row said 52 MW above a table of 10,400, 700 and 520 MW loads that
+            # name no operator or site; the row says how many larger ones it leaves out, and why
+            big = unnamed[unnamed["_m"] > float(r["_m"])]
+            big = big[[row_passes(x, "datacenter_projects") for x in big.to_dict("records")]] if len(big) else big
+            if len(big):
+                words += (f" ({len(big)} larger {'load' if len(big) == 1 else 'loads'} of the week name no operator or site; "
+                          f"{'it is' if len(big) == 1 else 'they are'} in the table below)")
             L.append(f"- **Largest new datacenter load first reported this week:** {float(r['_m']):,.0f} MW, {words}.")
             keys.append(f"the datacenter load, `datacenter_projects` {r['entity_id']}")
             picked["dc"] = {"mw": float(r["_m"]), "text": L[-1].split(":** ", 1)[1].rstrip(".")}
@@ -1188,6 +1196,10 @@ def head_clause(head, n):
         t = brief.fix_article(t)
     if len(t) > n:
         t = t[:n + 1].rsplit(" ", 1)[0].rstrip(",;:")
+        # session 3334 (faults file row 116): a cut that leaves a clause's first word or two after a comma ("EQT to Buy
+        # Range Resources, Creating", W44) goes back to the comma
+        if ", " in t and len(t.rsplit(", ", 1)[1].split()) <= 2:
+            t = t.rsplit(", ", 1)[0]
     t = CLAUSE_TAIL.sub("", t).strip(" ,;:")
     return t if len(re.findall(r"[A-Za-z]+", t)) >= 2 else ""
 
@@ -1359,7 +1371,7 @@ def prior_deal(r, index, before):
 # same quantity name the item. The table is read first; an item only where no row matches.
 DIGEST_DIR = os.path.join(ROOT, "docs", "digest")
 ISSUE_HEAD = re.compile(r"^(\d+)\. \*\*(.+?)\*\*")
-ISSUE_FIELDS = re.compile(r"^\s+(.*?); parties: (.+?)\. Sources:")
+ISSUE_FIELDS = re.compile(r"^\s+(.*?); [Pp]arties: (.+?)\. Sources:")   # session 3350 (row 130): either case
 ISSUE_MW = re.compile(r"^([\d,]+(?:\.\d+)?) MW$")
 ISSUE_SUM = re.compile(r"(?:US\$|\$|USD ?)\s?[\d][\d,]*(?:\.\d+)?\s?(?:trillion|billion|million|bn|mn|tn)?$", re.I)
 
@@ -1943,20 +1955,20 @@ def main(argv=None):
         span = intro_span(start, end, cut, newest)
         missed = missed_week_line(start)   # session 2702, rulings item 10
         intro = [  # session 21: one sentence (what, the period, the story count); the method is on /about#digest
-             f"ERW's weekly roundup of energy news for {span}, from {len(s)} scored stories.", "",
+             f"ERW's weekly roundup of energy news for {span}, from {len(s):,} scored stories.", "",   # 3334: row 117
              *([brief.NO_MODEL_LINE.replace("Today's", "This week's"), ""] if args.no_model else [])]
         # session 2704: the lines below are the fold ("More"); the page's order is assembled after the numbers
         L = ["### Weekend", ""]
         if weekend.empty:
             L.append(weekend_empty_line(wk_start, newest))   # session 1882 (row 60)
         for i, r in enumerate(weekend.to_dict("records"), 1):
-            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({brief.sector_words(r['sector'])}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
                                   more_why(r, heads, steps), f"Sources: {link_text(r['links'])}")  # 470, 577, 801, 802; 1894
         L += ["", "### The five stories of the week", ""]
         for i, r in enumerate(top5.to_dict("records"), 1):
             # session 21, ruling 4: the sector label, never the significance score
-            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({brief.sector_words(r['sector'])}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
                                   more_why(r, heads, steps), f"Sources: {link_text(r['links'])}")   # session 1894 (row 63)
 
@@ -2040,13 +2052,13 @@ def main(argv=None):
         if recs and brief.story_figure(recs[0]):
             picked["story"] = {"text": f"{brief.story_figure(recs[0])}: {heads[recs[0]['cluster_id']].rstrip('.')}, as "
                                        f"{brief.outlet_of(recs[0])} reported", "fig": brief.story_figure(recs[0])}
-        op = opening_number(picked, shown)
+        op = opening_number(picked, clusters)   # session 3330 (row 110): the week's stories name a move, not only those printed
         log(f"  opening number: {(op or {}).get('key', 'none')}")
         W = ["## What mattered", ""]
         if not recs:
             W.append("- no scored story of the week to rank.")
         for i, r in enumerate(recs, 1):
-            W += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+            W += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({brief.sector_words(r['sector'])}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
                                   " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']), plants.get(r['cluster_id']), bench_of(r, facts))) if x),
                                   f"Sources: {link_text(r['links'])}")

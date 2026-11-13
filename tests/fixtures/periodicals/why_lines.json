@@ -92,7 +92,7 @@
     "hollow verb: signals"
    ],
    "expected_why": "",
-   "expected_detail": "3,500 MW; parties: Dominion Energy. ",
+   "expected_detail": "3,500 MW; Parties: Dominion Energy. ",
    "fallback": true
   },
   {
@@ -135,7 +135,7 @@
    "parties": "PJM; Engie; LS Power",
    "problems": [],
    "expected_why": "Storage and a gas uprate totaling 2.1 GW expected online by mid-2029 show the expedited track working.",
-   "expected_detail": "2,100 MW; parties: PJM; Engie; LS Power. ",
+   "expected_detail": "2,100 MW; Parties: PJM; Engie; LS Power. ",
    "fallback": false
   },
   {
@@ -148,7 +148,7 @@
    "parties": "Google; Constellation Energy; PJM Interconnection",
    "problems": [],
    "expected_why": "Customer-funded uprates at 11 PJM reactors add firm capacity by 2032 without new plants.",
-   "expected_detail": "USD 4.3 billion; parties: Google; Constellation Energy; PJM Interconnection. ",
+   "expected_detail": "USD 4.3 billion; Parties: Google; Constellation Energy; PJM Interconnection. ",
    "fallback": false
   },
   {
@@ -303,6 +303,7 @@
   "Session 1437 (chain 149): a hollow verb (signals, demonstrates, reflects, underscores, highlights) and a line that restates the headline (half or more of its content words) fail the check; a failing line prints nothing, the headline alone (rulings item 16). Three of the twenty changed: their lines said 'signals'.",
   "Session 1458 (chain 150, fault 7): a line that names nothing the headline lacks (no party, place, date, quantity or rule) and shares a quarter of its content words with the headline, or strings two clauses on a semicolon, fails; five of the twenty changed, each to the headline alone: three by the new rule on the scorer's line, two whose adjectives were cut and whose line then named nothing new.",
   "Session 1462 (chain 150): the hollow verbs' -ing and past forms fail the check ('signaling'); one saved item's problems name it.",
-  "session 3313 (faults file row 84): expected_detail as the rule now prints it: with no figure, no party the headline names (by name, initials or singular)"
+  "session 3313 (faults file row 84): expected_detail as the rule now prints it: with no figure, no party the headline names (by name, initials or singular)",
+  "session 3350 (faults file row 130): beside a figure the field reads \"Parties:\", the Roundup reading either case"
  ]
 }

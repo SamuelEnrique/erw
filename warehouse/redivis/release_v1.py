@@ -433,12 +433,17 @@ STORAGE_HELD["deal_counterparties"] = ("held: first written on 12 November 2026 
                                        "prepared; on both drafts since 13 November (chain 218, session 3828): in v1 when the owner adds it to the package's list")
 
 
+UNSETTLED_WHY = "its ERW verdict is unsettled (docs/licenses.md: a publisher's terms not read or not settled); out of v1 until it is settled (chain 229, session 4109)"
+
+
 def plan(day=PUBLIC_DAY):
     """[(table, in_v1, reason)] over coverage, in coverage's order."""
     cov = rows(os.path.join(META, "coverage.csv"))
     retired = {r["table"] for r in rows(os.path.join(META, "retired_tables.csv"))}
     migrated = {r["old_table"] if "old_table" in r else r[list(r)[0]] for r in rows(os.path.join(META, "table_migrations.csv"))}
     hold = held(day)
+    import upload  # its reader of docs/licenses.md's ERW verdicts, as plan_stanford uses it
+    erw = upload.erw_verdicts()
     out = []
     for r in cov:
         t = r["table"]
@@ -452,6 +457,10 @@ def plan(day=PUBLIC_DAY):
             out.append((t, "no", hold[t]))
         elif t in STORAGE_HELD:
             out.append((t, "held", STORAGE_HELD[t]))
+        elif erw.get(t) == "unsettled":
+            # chain 229 (session 4109): flagged public, but its ERW verdict is unsettled (a publisher not read or not
+            # settled, docs/licenses.md), so no visitor gets it from v1 until the verdict is settled
+            out.append((t, "no", UNSETTLED_WHY))
         else:
             out.append((t, "yes", "public, and public on the public day"))
     return out

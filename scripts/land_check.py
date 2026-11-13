@@ -90,7 +90,11 @@ CHECK_MIN = 45
 # their floors in site/scripts/check-values-floor.json fail on every build until Samuel rules on lowering them
 # (session 415's report, item 2; session 531's report). A pass for this gate only when each shows "license needed".
 HELD_FLOOR_PAGES = ("/deals", "/map", "/events", "/events/uri-2021", "/events/covid-2020", "/events/caiso-heat-2020",
-                    "/events/caiso-heat-2022", "/events/east-heat-2025", "/learn/bill", "/research/card/gas_sets_price")
+                    "/events/caiso-heat-2022", "/events/east-heat-2025", "/learn/bill", "/research/card/gas_sets_price",
+                    # session 4005: the desktop's third window held policy_actions and policy_reads (the PUCT's releases,
+                    # "needs written permission"), so /policy draws its count and table as "license needed"; the same rule
+                    # (a pass only when the page shows "license needed"), and the same ruling for Samuel on its floor
+                    "/policy")
 # names whose values never reach the suite: GitHub's test step has no secret in its environment
 SECRET_NAME = re.compile(r"SUPABASE|ANTHROPIC|OPENAI|API_KEY|TOKEN|SECRET|PASSWORD|RESEND|REDIVIS|DB_URL", re.I)
 

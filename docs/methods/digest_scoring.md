@@ -48,3 +48,13 @@ The scanner's flags and the watch list, most related to the day's top stories fi
 - The subject: the top story's headline with no figure when a story's figure opens (row 89).
 - The first line: "for the 96 hours to <end> UTC (the window opened <start> UTC): N scored stories", with "the first issue since <date>" after a gap of more than a weekday (row 90).
 - A mover is never dropped for its reason's link; an unchanged price is no largest move (rows 91 and 92).
+
+## 7. What changed later on 13 November 2026 (chains 232 to 244, rows 104 to 130)
+
+- A story names a price's move only when its direction words do not contradict it (row 104: rise words beside a fall, or fall words beside a rise), and a story of another gas market (euros, the EU, TTF, Asia) names no move of Henry Hub's (row 115); a natural gas headline that rallies or falls names Henry Hub (row 110). A naming story's line or title that states a sum of its own is passed over (row 126).
+- The block's key names the story each figure came from, not the cluster's id (row 107).
+- The block's measure: "Deals in total" for a total of many deals (row 112), "Combined company value" only when the headline's sum stands before the company it describes (rows 123 and 124); the outlet once when no party is named (row 111).
+- A party is named by its name, its initials ("DOE"), its singular ("Houthi"), its distinctive first word ("Saudi"); a description ("US regulator", "unnamed hyperscaler") is never printed as a name (rows 84, 113, 128). Beside a figure the field reads "Parties:" (row 130).
+- The first line says when the window holds few stories or many unscored ones, counts only (row 114); thousands carry their separator (row 117).
+- No en dash from a publisher's title (row 119); a refining or road-fuel title is oil's and a gas price title with a verb is gas's, whatever power tag the scorer gave (rows 120 and 125); sector codes print as "LNG", "PPA" (row 127).
+- The emails drop a gated pointer link with its clause (row 105).
