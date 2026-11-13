@@ -218,7 +218,7 @@ def confirm(key, n, note="", session=None, pages=None, out=print):
     return state
 
 
-def verdict(key, n, pick, value, if_commercial, contact="", price="", note="", replace=False, pages=None, out=print):
+def verdict(key, n, pick, value, if_commercial, contact="", price="", note="", replace=False, pages=None, out=print, start=""):
     if value not in FOUR or if_commercial not in FOUR:
         raise SystemExit(f"a verdict is one of {FOUR}")
     r = read_row(n)
@@ -235,6 +235,11 @@ def verdict(key, n, pick, value, if_commercial, contact="", price="", note="", r
         sentence = sents[picks[0]]
         for a, b in zip(picks, picks[1:]):          # passages that are not next to each other are joined with "[...]"
             sentence += (" " if b == a + 1 else " [...] ") + sents[b]
+        if start:
+            # a footer's notice that ends a run of menu words: the cut begins at the phrase given, still the page's own words
+            if start not in sentence:
+                raise SystemExit(f"--start {start!r} is not in the sentences picked")
+            sentence = sentence[sentence.index(start):]
     data = rows(VERDICTS)
     old = next((x for x in data if x["key"] == key), None)
     if old and not replace:
@@ -268,6 +273,7 @@ def main(argv=None):
     a.add_argument("--verdict", required=True); a.add_argument("--if-commercial", required=True)
     a.add_argument("--contact", default=""); a.add_argument("--price", default=""); a.add_argument("--note", default="")
     a.add_argument("--replace", action="store_true")
+    a.add_argument("--start", default="", help="begin the cut at this phrase of the picked sentences (a footer after menu words)")
     a = ap.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -283,7 +289,7 @@ def main(argv=None):
     if a.cmd == "confirm":
         state = confirm(a.key, a.n, a.note, pages=pages)
         return 0 if not state.startswith("changed") else 1
-    verdict(a.key, a.n, a.pick, a.verdict, a.if_commercial, a.contact, a.price, a.note, a.replace, pages=pages)
+    verdict(a.key, a.n, a.pick, a.verdict, a.if_commercial, a.contact, a.price, a.note, a.replace, pages=pages, start=a.start)
     return 0
 
 

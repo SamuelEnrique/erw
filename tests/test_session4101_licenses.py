@@ -106,6 +106,18 @@ class OnThePage(unittest.TestCase):
         self.assertEqual(row["sentence"], sents[0] + " " + sents[1])
         self.assertEqual(C.rows(self.conf)[0]["sentence"], "cut again from this page")
 
+    def test_a_footer_after_menu_words_is_cut_from_its_phrase(self):
+        self.save(4, "Example Agency, its footer (session 4112)", b"<html><body><p>Home Data Contact (c) Example Agency. All rights reserved.</p></body></html>")
+        with open(self.reads, "a", encoding="utf-8", newline="") as f:
+            csv.writer(f, lineterminator="\n").writerow(["4", "Example Agency, its footer (session 4112)", "https://x.gov/", "",
+                                                         "2026-11-13T00:00:00Z", "200", "1", "x", "text/html", "read"])
+        row = C.verdict("Example", "4", "0+1", "needs written permission", "needs written permission", replace=True, start="(c) Example",
+                        pages=[self.pages], out=lambda *_: None)
+        self.assertEqual(row["sentence"], "(c) Example Agency. All rights reserved.")
+        with self.assertRaises(SystemExit):
+            C.verdict("Example", "4", "0", "needs written permission", "needs written permission", replace=True, start="not there",
+                      pages=[self.pages], out=lambda *_: None)
+
     def test_a_verdict_is_one_of_the_four(self):
         with self.assertRaises(SystemExit):
             C.verdict("Example", "2", "0", "probably fine", "may be public", replace=True, pages=[self.pages], out=lambda *_: None)

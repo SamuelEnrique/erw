@@ -69,6 +69,9 @@ CANON = [
     # session 888: the U.S. Wind Turbine Database is a USGS data release, made with LBNL and ACP and distributed by USGS (its
     # header: USGS's public domain). PUDL's FERC Form 714 tables are left unmatched on purpose: they wait on FERC's own page
     (r"^U\.S\. Geological Survey", "U.S. Geological Survey (USGS)"),
+    # chain 229 (session 4112): two registry names that differ from the key their verdict was written under
+    (r"^Centro Nacional de Control de Energia \(CENCE, ICE\)$", "Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica)"),
+    (r"^Viceministerio de Minas y Energia \(VMME\), Paraguay$", "Viceministerio de Minas y Energia, Paraguay (VMME)"),
 ]
 # tables no rule resolves, or resolves wrongly: their publishers by hand, each with the reason
 BY_HAND = {

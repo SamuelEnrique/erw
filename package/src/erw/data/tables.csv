@@ -58,7 +58,7 @@ cbs_netherlands_electricity_monthly,public,,,,Statistics Netherlands (CBS),"Publ
 cea_india_psp_annual,internal,,,Central Electricity Authority (India),Central Electricity Authority (India),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 ceb_srilanka_electricity_annual,internal,,,,"Ceylon Electricity Board, Sri Lanka (CEB)",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 cec_total_system_generation_annual,public,,,,California Energy Commission (CEC),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
-cence_costarica_generation_monthly,internal,,,,"Centro Nacional de Control de Energia (CENCE, ICE)",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+cence_costarica_generation_monthly,internal,,,"Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica)","Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 censtatd_hk_electricity,public,,,,"Census and Statistics Department, Hong Kong (C&SD)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_bps_state_annual,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_c30_construction_monthly,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -350,7 +350,7 @@ ercot_wind_solar_hsl_monthly,public,,,,ERCOT,"Public: every publisher's terms th
 ercot_wind_solar_output_hourly,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_zone_load_hourly,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_zone_prices_history,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
-eru_czech_electricity,internal,,,,"Energeticky regulacni urad (ERU), Czechia",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+eru_czech_electricity,internal,,,"Energeticky regulacni urad (ERU), Czechia","Energeticky regulacni urad (ERU), Czechia",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 esco_georgia_electricity_monthly,internal,,,Electricity Market Operator of Georgia (ESCO),Electricity Market Operator of Georgia (ESCO),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 eso_cayman_electricity_annual,internal,,,"Economics and Statistics Office, Cayman Islands (ESO)","Economics and Statistics Office, Cayman Islands (ESO)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 eurostat_crude_imports_by_field_monthly,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -428,7 +428,7 @@ generation_mix_hourly_profile,public,,,,CAISO; EIA,"Public: every publisher's te
 generation_mix_records,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 generator_pipeline_by_grid,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 gfz_kp_index_3h,public,,,,GFZ Helmholtz Centre for Geosciences (Potsdam),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
-grenada_cso_electricity_annual,internal,,,,Central Statistical Office of Grenada (CSO),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+grenada_cso_electricity_annual,internal,,,Central Statistical Office of Grenada (CSO),Central Statistical Office of Grenada (CSO),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 grid_network_links,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 grid_network_nodes,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 grid_peak_vs_capacity,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -436,7 +436,7 @@ grid_stress_days,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; 
 grid_stress_yearly,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 hagstofa_iceland_power_annual,public,,,,Statistics Iceland (Hagstofa Islands),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 hagstova_faroe_electricity_annual,public,,,,Statistics Faroe Islands (Hagstova Foroya),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
-hops_croatia_annual,internal,,,,HOPS (the Croatian transmission system operator),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+hops_croatia_annual,internal,,,HOPS (the Croatian transmission system operator),HOPS (the Croatian transmission system operator),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 hub_price_comparison,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 ieso_generation_fuel_hourly,public,,,,"Independent Electricity System Operator (IESO), Ontario","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ieso_ontario_demand_hourly,public,,,,"Independent Electricity System Operator (IESO), Ontario","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -494,7 +494,7 @@ lbnl_tracking_the_sun,public,,,,"Berkeley Lab, Tracking the Sun on OEDI","Public
 lbnl_wind_capacity_factors,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 lbnl_wind_costs,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 lbnl_wind_turbine_orders,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
-makstat_macedonia_electricity_monthly,internal,,,,State Statistical Office of North Macedonia (MakStat),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+makstat_macedonia_electricity_monthly,internal,,,State Statistical Office of North Macedonia (MakStat),State Statistical Office of North Macedonia (MakStat),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 merchant_revenue_monthly,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 miso_as_prices,internal,,,MISO,MISO,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 miso_interconnection_queue,unsettled,license needed,2026-10-21,MISO,MISO,"MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
@@ -638,7 +638,7 @@ uspvdb_solar_facilities,public,,,,U.S. Geological Survey (USGS),"Public: every p
 uswtdb_wind_turbines,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 utility_large_load_tariffs,unsettled,,,,"the state commissions (filed tariffs), read into the ERW's registry","The terms of the state commissions (filed tariffs), read into the ERW's registry have not been read or settled, so the ERW does not redistribute it until they are.",none
 utility_service_territories,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
-vmme_paraguay_electricity_annual,internal,,,,"Viceministerio de Minas y Energia (VMME), Paraguay",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+vmme_paraguay_electricity_annual,internal,,,"Viceministerio de Minas y Energia, Paraguay (VMME)","Viceministerio de Minas y Energia, Paraguay (VMME)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 wapa_energy_sales_annual,public,,,,Western Area Power Administration (WAPA),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 wb_commodity_prices_monthly,public,,,,World Bank,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 wb_electricity_access_annual,public,,,,World Bank,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none

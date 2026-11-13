@@ -10,9 +10,9 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **648 tables.** The flag and the verdict agree on 533; a ruling settles 52 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling, and 1 public by the owner's ruling); disagree on 0; 37 are not settled (a publisher not read); 2 is internal by the ERW's own choice; 24 flagged internal wait for the owner's ruling, the sentence read allowing them (chain 229: never loosened by a session, the default "stays internal").
+- **648 tables.** The flag and the verdict agree on 539; a ruling settles 52 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling, and 1 public by the owner's ruling); disagree on 0; 31 are not settled (a publisher not read); 2 is internal by the ERW's own choice; 24 flagged internal wait for the owner's ruling, the sentence read allowing them (chain 229: never loosened by a session, the default "stays internal").
 - **The ERW's verdict (session 378): 479 public, 115 internal, 54 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1775 publishers in the record: 1772 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 414 pages read, 1358 that could not be read, 3 not asked (paused).**
+- **1783 publishers in the record: 1780 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 420 pages read, 1360 that could not be read, 3 not asked (paused).**
 - **49 tables are flagged public where a publisher's sentence asks for permission or a license** (49 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 34; ISO-NE 30; MISO 27; Bloomberg 7; Data Center Dynamics 7; Data Center Frontier 7; Energy-Storage.news 7; Financial Times 7; Hart Energy 7; Heatmap News 7; Latitude Media 7; Natural Gas Intelligence 7; OilPrice.com 7; POWER Magazine 7; Public Utility Commission of Texas 7; Reuters 7; Utility Dive 7; WSJ 7; Data Center Knowledge 6; ANS Nuclear Newswire 5; Amazon Web Services 5; Canary Media 5; Digital Realty 5; Electrek 5; Equinix 5; Google 5; JPT 5; LNG Prime 5; Meta 5; Microsoft 5; Oracle 5; Rigzone 5; Switch 5; Vantage Data Centers 5; pv magazine USA 5; Louisiana Department of Revenue 1; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **24 tables are flagged internal where the sentence read allows them:** `csp_latvia_electricity_monthly`, `econtrol_austria_electricity_monthly`, `ferc714_area_demand_2006`, `ferc714_area_demand_2007`, `ferc714_area_demand_2008`, `ferc714_area_demand_2009`, `ferc714_area_demand_2010`, `ferc714_area_demand_2011`, `ferc714_area_demand_2012`, `ferc714_area_demand_2013`, `ferc714_area_demand_2014`, `ferc714_area_demand_2015`, `ferc714_area_demand_2016`, `ferc714_area_demand_2017`, `ferc714_area_demand_2018`, `ferc714_area_demand_2019`, `ferc714_area_demand_2020`, `ferc714_area_demand_2021`, `ferc714_area_demand_2022`, `ferc714_area_demand_2023`, `ferc714_area_demand_2024`, `ferc714_area_demand_2025`, `ferc714_respondents`, `svk_sweden_production_hourly`.
 - **17 tables that may be public today would need permission if the ERW sells anything** (SPP 8; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; E-Control (Energie-Control Austria) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -1799,6 +1799,14 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 1773 | Virginia State Corporation Commission, current terms (session 4111) | https://www.scc.virginia.gov/robots.txt | 11:28:07 | no request |  | not asked: paused (www.scc.virginia.gov is in warehouse/metadata/paused_sources.csv) |
 | 1774 | Georgia Public Service Commission, psc.ga.gov's robots file (session 4111) | https://psc.ga.gov/robots.txt | 11:28:07 | 404 | 44 | not read: HTTP 404 |
 | 1775 | Georgia Public Service Commission, its about page (session 4111) | https://psc.ga.gov/about-the-psc | 11:28:16 | 200 | 78829 | read |
+| 1776 | State Statistical Office of North Macedonia (MakStat), www.stat.gov.mk's robots file (session 4112) | https://www.stat.gov.mk/robots.txt | 11:32:26 | 404 | 1245 | not read: HTTP 404 |
+| 1777 | Central Statistical Office of Grenada (CSO), stats.gov.gd's robots file (session 4112) | https://stats.gov.gd/robots.txt | 11:32:27 | 200 | 170 | read |
+| 1778 | Energeticky regulacni urad (ERU), Czechia, eru.gov.cz's robots file (session 4112) | https://eru.gov.cz/robots.txt | 11:32:28 | 200 | 1706 | read |
+| 1779 | HOPS (the Croatian transmission system operator), www.hops.hr's robots file (session 4112) | https://www.hops.hr/robots.txt | 11:32:28 | 404 | 20597 | not read: HTTP 404 |
+| 1780 | State Statistical Office of North Macedonia (MakStat), its English home page (session 4112) | https://www.stat.gov.mk/Default_en.aspx | 11:32:40 | 200 | 134374 | read |
+| 1781 | Central Statistical Office of Grenada (CSO), its terms and conditions (session 4112) | https://stats.gov.gd/terms-and-conditions/ | 11:32:42 | 200 | 198935 | read |
+| 1782 | Energeticky regulacni urad (ERU), Czechia, its home page (session 4112) | https://eru.gov.cz/ | 11:32:43 | 200 | 92447 | read |
+| 1783 | HOPS (the Croatian transmission system operator), its terms page (session 4112) | https://www.hops.hr/odredbe-i-uvjeti | 11:32:44 | 200 | 39928 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -2074,6 +2082,10 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | Georgia Public Service Commission | #1775: read | "All rights reserved." | needs written permission | needs written permission | not named | none stated | Session 4111. The footer of psc.ga.gov (no robots file, read 1774), after the line naming the State of Georgia Public Service Commission: the site names no terms of reuse and reserves its rights. |
 | Virginia State Corporation Commission | #1773: not asked: paused | none | needs written permission | needs written permission | not named | none stated | NOT READ: paused since 10 October 2026 (warehouse/metadata/paused_sources.csv, scope vascc): the commission's robots file disallows every automated request (User-agent: * Disallow: /), and by the owner's ruling of 9 October only the commission's written permission lifts the pause (docs/reviews/scc-permission-email.md). |
 | CME Group (NYMEX), whose prices EIA republished | #49: not read: ConnectionError | none | needs written permission | needs written permission | not named | none stated | NOT READ: www.cmegroup.com refused the ERW's connection on 12 October (read 49) and on 13 November (its robots file, read 1704). Held at needs written permission until a person reads CME's terms (docs/licenses_costs.md). |
+| State Statistical Office of North Macedonia (MakStat) | #1780: read | "© State Statistical Office" | needs written permission | needs written permission | not named | none stated | Session 4112. The footer of the office's English home page (no robots file, read 1776); the site links no terms of reuse (as read 670 found). CNDC's precedent (read 1026): a copyright line and no grant. |
+| Central Statistical Office of Grenada (CSO) | #1781: read | "Proprietary Rights The materials located on this website, including the information as well as any software programs available on or through this website ("the Contents"), are protected by copyright, trademark and other forms of proprietary rights. All rights, title and interest in the Contents are owned by, licensed to or controlled by the CSO. [...] Show more Show less Proprietary Rights Access and use of the Data is subject to the requirements set forth under the Open Licence Agreement." | needs written permission | needs written permission | not named | none stated | Session 4112. The terms and conditions of stats.gov.gd (robots read 1777). The Open Licence Agreement they name has a title and no text (read 845), and its link points at a host that does not resolve, so no licence can be read: held at needs written permission until the CSO's licence is read. |
+| Energeticky regulacni urad (ERU), Czechia | #1782: read | "2026 © Energetický regulační úřad • Informace jsou poskytovány v souladu se zákonem č. 106/1999 Sb., o svobodném přístupu k informacím." | needs written permission | needs written permission | not named | none stated | Session 4112. The footer of eru.gov.cz (robots read 1778): information is given under the Free Access to Information Act (106/1999), which governs access, not reuse; no terms of reuse are linked. CNDC's precedent (read 1026). |
+| HOPS (the Croatian transmission system operator) | #1783: read | "© 2026. Hrvatski operator prijenosnog sustava d.d." | needs written permission | needs written permission | not named | none stated | Session 4112. The footer of HOPS's terms page (no robots file, read 1779), which covers the use of personal data only; no terms of reuse. CNDC's precedent (read 1026). |
 
 ## Confirmed against the current page (chain 229)
 
@@ -2119,7 +2131,7 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | Vantage Data Centers | #40 | #1760 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | WSJ | #31 | #1752 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 
-**Publishers no read of this sweep covers (43):** Administrador del Mercado Mayorista (AMM), Guatemala; Africa Sustainable Futures Awards; Arizona Corporation Commission; CTVC; Central Statistical Office of Grenada (CSO); Centro Nacional de Control de Energia (CENCE, ICE); Ceylon Electricity Board, Sri Lanka (CEB); Danish Energy Agency (Energistyrelsen); ELES (the Slovenian transmission system operator); Energeticky regulacni urad (ERU), Czechia; Energy Commission, Ghana; Energy Regulatory Commission of Mongolia (ERC); FERC; HOPS (the Croatian transmission system operator); Illinois Commerce Commission; Kosovo Agency of Statistics (ASK); Louisiana State Legislature; Ministry of Energy, Saudi Arabia, as published by GASTAT; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); PSE S.A. (Polskie Sieci Elektroenergetyczne); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility District No. 2 of Grant County, Washington (Grant PUD); REN (Redes Energeticas Nacionais); State Statistical Office of North Macedonia (MakStat); Statistics Greenland (Gronlands Statistik); Statnett SF; Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov); USDA Natural Resources Conservation Service (NRCS); Viceministerio de Minas y Energia (VMME), Paraguay; grid operators' guides and utilities' filed rules, read into the ERW's registry; the outlets of news_stories; the state commissions (filed tariffs), read into the ERW's registry; utilities and operators, each row's own document (not listed one by one).
+**Publishers no read of this sweep covers (37):** Administrador del Mercado Mayorista (AMM), Guatemala; Africa Sustainable Futures Awards; Arizona Corporation Commission; CTVC; Ceylon Electricity Board, Sri Lanka (CEB); Danish Energy Agency (Energistyrelsen); ELES (the Slovenian transmission system operator); Energy Commission, Ghana; Energy Regulatory Commission of Mongolia (ERC); FERC; Illinois Commerce Commission; Kosovo Agency of Statistics (ASK); Louisiana State Legislature; Ministry of Energy, Saudi Arabia, as published by GASTAT; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); PSE S.A. (Polskie Sieci Elektroenergetyczne); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility District No. 2 of Grant County, Washington (Grant PUD); REN (Redes Energeticas Nacionais); Statistics Greenland (Gronlands Statistik); Statnett SF; Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov); USDA Natural Resources Conservation Service (NRCS); grid operators' guides and utilities' filed rules, read into the ERW's registry; the outlets of news_stories; the state commissions (filed tariffs), read into the ERW's registry; utilities and operators, each row's own document (not listed one by one).
 
 ## Every table
 
@@ -2188,7 +2200,7 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | `cea_india_psp_annual` | Central Electricity Authority (India) | needs written permission | Central Electricity Authority (India) |  | internal | agrees | needs written permission | internal |
 | `ceb_srilanka_electricity_annual` | Ceylon Electricity Board, Sri Lanka (CEB) | not settled (needs written permission by default) |  | Ceylon Electricity Board, Sri Lanka (CEB) | internal | not settled | may be public | internal |
 | `cec_total_system_generation_annual` | California Energy Commission (CEC) | may be public |  |  | public | agrees | needs written permission | public |
-| `cence_costarica_generation_monthly` | Centro Nacional de Control de Energia (CENCE, ICE) | not settled (needs written permission by default) |  | Centro Nacional de Control de Energia (CENCE, ICE) | internal | not settled | may be public | internal |
+| `cence_costarica_generation_monthly` | Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica) | needs written permission | Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica) |  | internal | agrees | needs written permission | internal |
 | `censtatd_hk_electricity` | Census and Statistics Department, Hong Kong (C&SD) | may be public |  |  | public | agrees | may be public | public |
 | `census_bps_state_annual` | Census Bureau | may be public |  |  | public | agrees | may be public | public |
 | `census_c30_construction_monthly` | Census Bureau | may be public |  |  | public | agrees | may be public | public |
@@ -2480,7 +2492,7 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | `ercot_wind_solar_output_hourly` | ERCOT | may be public |  |  | public | agrees | may be public | public |
 | `ercot_zone_load_hourly` | ERCOT | may be public |  |  | public | agrees | may be public | public |
 | `ercot_zone_prices_history` | ERCOT | may be public |  |  | public | agrees | may be public | public |
-| `eru_czech_electricity` | Energeticky regulacni urad (ERU), Czechia | not settled (needs written permission by default) |  | Energeticky regulacni urad (ERU), Czechia | internal | not settled | may be public | internal |
+| `eru_czech_electricity` | Energeticky regulacni urad (ERU), Czechia | needs written permission | Energeticky regulacni urad (ERU), Czechia |  | internal | agrees | needs written permission | internal |
 | `esco_georgia_electricity_monthly` | Electricity Market Operator of Georgia (ESCO) | needs written permission | Electricity Market Operator of Georgia (ESCO) |  | internal | agrees | needs written permission | internal |
 | `eso_cayman_electricity_annual` | Economics and Statistics Office, Cayman Islands (ESO) | needs written permission | Economics and Statistics Office, Cayman Islands (ESO) |  | internal | agrees | needs written permission | internal |
 | `eurostat_crude_imports_by_field_monthly` | Eurostat (Statistical Office of the European Union) | may be public |  |  | public | agrees | may be public | public |
@@ -2558,7 +2570,7 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | `generation_mix_records` | CAISO; EIA | may be public |  |  | public | agrees | may be public | public |
 | `generator_pipeline_by_grid` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `gfz_kp_index_3h` | GFZ Helmholtz Centre for Geosciences (Potsdam) | may be public |  |  | public | agrees | may be public | public |
-| `grenada_cso_electricity_annual` | Central Statistical Office of Grenada (CSO) | not settled (needs written permission by default) |  | Central Statistical Office of Grenada (CSO) | internal | not settled | may be public | internal |
+| `grenada_cso_electricity_annual` | Central Statistical Office of Grenada (CSO) | needs written permission | Central Statistical Office of Grenada (CSO) |  | internal | agrees | needs written permission | internal |
 | `grid_network_links` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `grid_network_nodes` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `grid_peak_vs_capacity` | EIA | may be public |  |  | public | agrees | may be public | public |
@@ -2566,7 +2578,7 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | `grid_stress_yearly` | CAISO; EIA | may be public |  |  | public | agrees | may be public | public |
 | `hagstofa_iceland_power_annual` | Statistics Iceland (Hagstofa Islands) | may be public |  |  | public | agrees | may be public | public |
 | `hagstova_faroe_electricity_annual` | Statistics Faroe Islands (Hagstova Foroya) | may be public |  |  | public | agrees | may be public | public |
-| `hops_croatia_annual` | HOPS (the Croatian transmission system operator) | not settled (needs written permission by default) |  | HOPS (the Croatian transmission system operator) | internal | not settled | may be public | internal |
+| `hops_croatia_annual` | HOPS (the Croatian transmission system operator) | needs written permission | HOPS (the Croatian transmission system operator) |  | internal | agrees | needs written permission | internal |
 | `hub_price_comparison` | CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; and 1 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
 | `ieso_generation_fuel_hourly` | Independent Electricity System Operator (IESO), Ontario | may be public |  |  | public | agrees | may be public | public |
 | `ieso_ontario_demand_hourly` | Independent Electricity System Operator (IESO), Ontario | may be public |  |  | public | agrees | may be public | public |
@@ -2624,7 +2636,7 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | `lbnl_wind_capacity_factors` | Berkeley Lab | may be public |  |  | public | agrees | may be public | public |
 | `lbnl_wind_costs` | Berkeley Lab | may be public |  |  | public | agrees | may be public | public |
 | `lbnl_wind_turbine_orders` | Berkeley Lab | may be public |  |  | public | agrees | may be public | public |
-| `makstat_macedonia_electricity_monthly` | State Statistical Office of North Macedonia (MakStat) | not settled (needs written permission by default) |  | State Statistical Office of North Macedonia (MakStat) | internal | not settled | may be public | internal |
+| `makstat_macedonia_electricity_monthly` | State Statistical Office of North Macedonia (MakStat) | needs written permission | State Statistical Office of North Macedonia (MakStat) |  | internal | agrees | needs written permission | internal |
 | `merchant_revenue_monthly` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
 | `miso_as_prices` | MISO | needs written permission | MISO |  | internal | agrees | needs written permission | internal |
 | `miso_interconnection_queue` | MISO | needs written permission | MISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
@@ -2768,7 +2780,7 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | `uswtdb_wind_turbines` | U.S. Geological Survey (USGS) | may be public |  |  | public | agrees | may be public | public |
 | `utility_large_load_tariffs` | the state commissions (filed tariffs), read into the ERW's registry | not settled (needs written permission by default) |  | the state commissions (filed tariffs), read into the ERW's registry | public | not settled | may be public | unsettled |
 | `utility_service_territories` | EIA | may be public |  |  | public | agrees | may be public | public |
-| `vmme_paraguay_electricity_annual` | Viceministerio de Minas y Energia (VMME), Paraguay | not settled (needs written permission by default) |  | Viceministerio de Minas y Energia (VMME), Paraguay | internal | not settled | may be public | internal |
+| `vmme_paraguay_electricity_annual` | Viceministerio de Minas y Energia, Paraguay (VMME) | needs written permission | Viceministerio de Minas y Energia, Paraguay (VMME) |  | internal | agrees | needs written permission | internal |
 | `wapa_energy_sales_annual` | Western Area Power Administration (WAPA) | may be public |  |  | public | agrees | may be public | public |
 | `wb_commodity_prices_monthly` | World Bank | may be public |  |  | public | agrees | may be public | public |
 | `wb_electricity_access_annual` | World Bank | may be public |  |  | public | agrees | may be public | public |
@@ -2876,12 +2888,10 @@ A ruling each, the default "stays internal": no session loosens a flag (chain 22
 - `amm_guatemala_generation_monthly` (flag internal): not read: Administrador del Mercado Mayorista (AMM), Guatemala.
 - `ask_kosovo_electricity_monthly` (flag internal): not read: Kosovo Agency of Statistics (ASK).
 - `ceb_srilanka_electricity_annual` (flag internal): not read: Ceylon Electricity Board, Sri Lanka (CEB).
-- `cence_costarica_generation_monthly` (flag internal): not read: Centro Nacional de Control de Energia (CENCE, ICE).
 - `eles_slovenia_hourly` (flag internal): not read: ELES (the Slovenian transmission system operator).
 - `energycom_ghana_electricity_annual` (flag internal): not read: Energy Commission, Ghana.
 - `ens_denmark_electricity_monthly` (flag internal): not read: Danish Energy Agency (Energistyrelsen).
 - `erc_mongolia_electricity_annual` (flag internal): not read: Energy Regulatory Commission of Mongolia (ERC).
-- `eru_czech_electricity` (flag internal): not read: Energeticky regulacni urad (ERU), Czechia.
 - `ferc_eqr_buyer_doubtful` (flag internal): not read: FERC.
 - `ferc_eqr_buyer_names` (flag internal): not read: FERC.
 - `ferc_eqr_contract_terms` (flag internal): not read: FERC.
@@ -2891,13 +2901,10 @@ A ruling each, the default "stays internal": no session loosens a flag (chain 22
 - `ferc_eqr_party_totals` (flag internal): not read: FERC.
 - `ferc_eqr_quarter_changes` (flag internal): not read: FERC.
 - `gastat_saudi_electricity_annual` (flag internal): not read: Ministry of Energy, Saudi Arabia, as published by GASTAT.
-- `grenada_cso_electricity_annual` (flag internal): not read: Central Statistical Office of Grenada (CSO).
-- `hops_croatia_annual` (flag internal): not read: HOPS (the Croatian transmission system operator).
 - `large_load_connection_rules` (flag public): not read: grid operators' guides and utilities' filed rules, read into the ERW's registry.
 - `large_load_rule_reads` (flag public): not read: Arizona Corporation Commission; Illinois Commerce Commission; Oregon Public Utility Commission; Pennsylvania Public Utility Commission.
 - `large_load_rules` (flag public): not read: Arizona Corporation Commission; Illinois Commerce Commission; Oregon Public Utility Commission; Pennsylvania Public Utility Commission.
 - `large_load_statements` (flag internal): not read: utilities and operators, each row's own document (not listed one by one).
-- `makstat_macedonia_electricity_monthly` (flag internal): not read: State Statistical Office of North Macedonia (MakStat).
 - `news_scores_shadow` (flag internal): not read: the outlets of news_stories.
 - `nrcs_snotel_swe_daily` (flag internal): not read: USDA Natural Resources Conservation Service (NRCS).
 - `ornl_tedb_transportation_annual` (flag internal): not read: Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book.
@@ -2909,7 +2916,6 @@ A ruling each, the default "stays internal": no session loosens a flag (chain 22
 - `usace_nid_dams` (flag public): not read: U.S. Army Corps of Engineers (USACE).
 - `usaspending_doe_obligations` (flag internal): not read: U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov).
 - `utility_large_load_tariffs` (flag public): not read: the state commissions (filed tariffs), read into the ERW's registry.
-- `vmme_paraguay_electricity_annual` (flag internal): not read: Viceministerio de Minas y Energia (VMME), Paraguay.
 
 ## Three lists
 
@@ -2967,6 +2973,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Agence de Regulation du Secteur de l'Electricite (ARSEL), Cameroun** (1 tables). Write to: no person or address on the page read. Tables: `arsel_cameroon_electricity_annual`.
 - **BC Hydro (British Columbia Hydro and Power Authority)** (1 tables). Write to: no person or address on the page read. Tables: `bchydro_ba_load_hourly`.
 - **Central Electricity Authority (India)** (1 tables). Write to: the designated CEA contact (the policy names no address). Tables: `cea_india_psp_annual`.
+- **Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica)** (1 tables). Write to: no person or address on the page read. Tables: `cence_costarica_generation_monthly`.
 - **Cook Islands Statistics Office** (1 tables). Write to: no person or address on the page read. Tables: `cisos_cook_electricity_quarterly`.
 - **Central Statistical Organization, Iraq (COSIT)** (1 tables). Write to: no person or address on the page read. Tables: `cosit_iraq_electricity_annual`.
 - **Hawaii State Department of Business, Economic Development and Tourism (DBEDT)** (1 tables). Write to: no person or address on the page read. Tables: `dbedt_hawaii_electricity_annual`.
@@ -2977,9 +2984,12 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **ICE, whose prices EIA republishes** (1 tables). Write to: no person or address on the page read. Tables: `eia_ice_electricity_daily`.
 - **Enercal** (1 tables). Write to: no person or address on the page read. Tables: `enercal_nc_electricity_annual`.
 - **Energy Regulation Board, Zambia (ERB)** (1 tables). Write to: no person or address on the page read. Tables: `erb_zambia_electricity_annual`.
+- **Energeticky regulacni urad (ERU), Czechia** (1 tables). Write to: no person or address on the page read. Tables: `eru_czech_electricity`.
 - **Electricity Market Operator of Georgia (ESCO)** (1 tables). Write to: no person or address on the page read. Tables: `esco_georgia_electricity_monthly`.
 - **Economics and Statistics Office, Cayman Islands (ESO)** (1 tables). Write to: no person or address on the page read. Tables: `eso_cayman_electricity_annual`.
 - **Electricity and Water Authority, Kingdom of Bahrain (EWA)** (1 tables). Write to: no person or address on the page read. Tables: `ewa_bahrain_electricity_annual`.
+- **Central Statistical Office of Grenada (CSO)** (1 tables). Write to: no person or address on the page read. Tables: `grenada_cso_electricity_annual`.
+- **HOPS (the Croatian transmission system operator)** (1 tables). Write to: no person or address on the page read. Tables: `hops_croatia_annual`.
 - **Louisiana Department of Revenue** (1 tables). Write to: no person or address on the page read. Tables: `impact_tax_rules`.
 - **Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo** (1 tables). Write to: no person or address on the page read. Tables: `inseed_togo_electricity_annual`.
 - **Institut National de la Statistique (INSTAT), Madagascar** (1 tables). Write to: no person or address on the page read. Tables: `instat_madagascar_electricity_monthly`.
@@ -2989,6 +2999,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Indiana Utility Regulatory Commission** (1 tables). Write to: no person or address on the page read. Tables: `large_load_rules_internal`.
 - **Virginia State Corporation Commission** (1 tables). Write to: no person or address on the page read. Tables: `large_load_rules_internal`.
 - **Berkeley Lab, hybrid plants file** (1 tables). Write to: no person or address on the page read. Tables: `lbnl_hybrid_plants`.
+- **State Statistical Office of North Macedonia (MakStat)** (1 tables). Write to: no person or address on the page read. Tables: `makstat_macedonia_electricity_monthly`.
 - **National Water and Electricity Company (NAWEC)** (1 tables). Write to: info@nawec.gm. Tables: `nawec_gambia_electricity_monthly`.
 - **Maldives Bureau of Statistics (NBS)** (1 tables). Write to: info@stats.gov.mv (the site's footer). Tables: `nbs_maldives_electricity`.
 - **National Statistical Institute, Bulgaria (NSI)** (1 tables). Write to: no person or address on the page read. Tables: `nsi_bulgaria_electricity_monthly`.
@@ -3002,6 +3013,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **AEP Texas Inc.** (1 tables). Write to: no person or address on the page read. Tables: `texas_delivery_charges`.
 - **CenterPoint Energy Houston Electric, LLC** (1 tables). Write to: CenterPointEnergy.com/en-us/corporate/contact-us/. Tables: `texas_delivery_charges`.
 - **Oncor Electric Delivery Company LLC** (1 tables). Write to: no person or address on the page read. Tables: `texas_delivery_charges`.
+- **Viceministerio de Minas y Energia, Paraguay (VMME)** (1 tables). Write to: none named on the page. Tables: `vmme_paraguay_electricity_annual`.
 - **IEA (standalone datasets)** (1 tables). Write to: Rights@iea.org. Tables: `wb_iea_electricity_annual`.
 - **Zimbabwe National Statistics Agency (ZIMSTAT)** (1 tables). Write to: no person or address on the page read. Tables: `zimstat_zimbabwe_generation_monthly`.
 
@@ -3073,6 +3085,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Canary Media | needs written permission | needs written permission | none stated | not named |  |
 | CenterPoint Energy Houston Electric, LLC | needs written permission | needs written permission | none stated | CenterPointEnergy.com/en-us/corporate/contact-us/ |  |
 | Central Electricity Authority (India) | needs written permission | needs written permission | none stated | the designated CEA contact (the policy names no address) |  |
+| Central Statistical Office of Grenada (CSO) | needs written permission | needs written permission | none stated | not named |  |
 | Central Statistical Organization, Iraq (COSIT) | needs written permission | needs written permission | none stated | not named |  |
 | Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica) | needs written permission | needs written permission | none stated | not named |  |
 | Centro Nacional de Despacho de Carga, Nicaragua (CNDC, ENATREL) | needs written permission | needs written permission | none stated | not named |  |
@@ -3100,6 +3113,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Electricity Regulatory Authority (ERA, Uganda) | needs written permission | needs written permission | none stated | not named |  |
 | Enemalta plc | needs written permission | needs written permission | none stated | not named |  |
 | Enercal | needs written permission | needs written permission | none stated | not named |  |
+| Energeticky regulacni urad (ERU), Czechia | needs written permission | needs written permission | none stated | not named |  |
 | Energy Policy and Planning Office, Thailand (EPPO) | needs written permission | needs written permission | none stated | not named |  |
 | Energy Regulation Board, Zambia (ERB) | needs written permission | needs written permission | none stated | not named |  |
 | Energy-Storage.news | needs written permission | needs written permission | none stated | not named |  |
@@ -3117,6 +3131,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Hart Energy | needs written permission | needs written permission | none stated | not named |  |
 | Hawaii State Department of Business, Economic Development and Tourism (DBEDT) | needs written permission | needs written permission | none stated | not named |  |
 | Heatmap News | needs written permission | needs written permission | none stated | not named |  |
+| HOPS (the Croatian transmission system operator) | needs written permission | needs written permission | none stated | not named |  |
 | Hydrogen Insight | needs written permission | needs written permission | none stated | not named |  |
 | ICE, whose prices EIA republishes | needs written permission | needs written permission | none stated | not named |  |
 | IEA (standalone datasets) | needs written permission | needs written permission | none stated | Rights@iea.org |  |
@@ -3187,6 +3202,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | St. Lucia Electricity Services Limited (LUCELEC) | needs written permission | needs written permission | none stated | not named |  |
 | State Committee of Turkmenistan on Statistics | needs written permission | needs written permission | none stated | turkmenstat@stat.gov.tm |  |
 | State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK) | needs written permission | needs written permission | none stated | not named |  |
+| State Statistical Office of North Macedonia (MakStat) | needs written permission | needs written permission | none stated | not named |  |
 | Swissgrid AG | needs written permission | needs written permission | none stated | not named |  |
 | Switch | needs written permission | needs written permission | none stated | not named |  |
 | T&D World | needs written permission | needs written permission | none stated | none named for permissions in the sentences read |  |
