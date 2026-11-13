@@ -31,6 +31,15 @@ Energy Research Warehouse (ERW). Session 3707, chain 208, 6 November 2026. Roadm
 | Year 2021, a flat load, USD per MWh (`year_2021`) | 150.61 | The North load zone's load-weighted average real-time price, 2021: USD 221.52 per MWh | [Potomac Economics, *2025 State of the Market Report for the ERCOT Electricity Markets*, June 2026](https://www.potomaceconomics.com/wp-content/uploads/2026/06/2025-State-of-the-Market-Report-for-ERCOT.pdf), Table 1 (page 7), read by session 3708 on 6 November 2026 | -70.91 | Theirs weights each interval by the zone's load, and Winter Storm Uri's highest prices fell in hours of the highest load; ours is the flat mean of every hour |
 | The same zone, 2022 to 2025, a flat load, from the page's hourly download | 62.93, 48.69, 26.41, 32.66 | The North zone's load-weighted averages: 77.30, 78.01, 30.42, 35.34 | the same | -14.37, -29.32, -4.01, -2.68 | The same weighting: the gap is large in years whose price spikes came in high-load hours (2023's August) and small in years without them |
 
+## Other grids the page offers (session 5422)
+
+The default is ERCOT's North zone. The note's own "Cross-checks" sets two other grids' prices of one month beside EIA's industrial retail prices; they are brought here as the note holds them (session 462).
+
+| Figure | Ours | Published figure | Source | Gap | Reason |
+|---|---|---|---|---|---|
+| CAISO, SP15, real time, July 2026, a flat load, USD per MWh | 39.47 | California, industrial customers, July 2026: 25.11 cents per kWh, USD 251.10 per MWh | [EIA, *Electric Power Monthly*, Table 5.6.A](https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_6_a), as the note holds it | -211.63 | Wholesale energy alone at one hub, against everything California's industry paid, in a state whose delivery and public-purpose charges are several times the energy |
+| NYISO, the New York City zone, day-ahead, July 2026 | 77.45 | New York, industrial customers, July 2026: 10.81 cents per kWh, USD 108.10 per MWh | the same | -30.65 | The same; EIA's is the whole state, where upstate industry buys cheaper power than the city's zone; day-ahead because July's real-time hours are held in part (289 of 744) |
+
 ## The largest gap, in one line
 
 - **Wholesale energy against the industrial retail price: -34.62 USD per MWh over November 2025 to July 2026.** Delivery and charges are about half of what Texas industry paid. The page's "all-in" view (the All grids tab) adds transmission, and its method note says the retail figure is not the page's.
