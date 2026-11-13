@@ -215,6 +215,15 @@ class TheGate(unittest.TestCase):
         self.assertEqual(LC.parse(["--suite-batch", "10"]).suite_batch, 10)
         self.assertIsNone(LC.parse([]).suite_batch)
 
+    def test_the_suite_runs_its_maths_on_one_thread(self):
+        # numpy's OpenBLAS commits a buffer a thread at import: 702 MB on the desktop's 20 threads, 91 MB on one
+        import suite_gate
+        for env in (LC.suite_env({"PATH": "x", "GH_TOKEN": "t"}), suite_gate.clean_env({"PATH": "x", "GH_TOKEN": "t"})):
+            self.assertEqual(env["OPENBLAS_NUM_THREADS"], "1")
+            self.assertEqual(env["OMP_NUM_THREADS"], "1")
+            self.assertNotIn("GH_TOKEN", env)
+        self.assertEqual(SB.ONE_THREAD, LC.ONE_THREAD)
+
     def test_no_runner_in_the_checkout_falls_back_to_one_process(self):
         argv, _ = self.suite_argv(Ops(mb=8 * 1024, exists=False))
         self.assertEqual(argv[1:], ["-m", "unittest", "discover", "-s", "tests"])

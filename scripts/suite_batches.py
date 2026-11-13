@@ -202,9 +202,17 @@ def worker(names, tests_dir):
     return 0 if result.wasSuccessful() else 1
 
 
+# numpy's OpenBLAS commits a buffer a thread at import (about 610 MB on 20 threads, 91 MB in all on one): each batch, and
+# each Python child its tests start, on one thread unless the caller says otherwise (scripts/land_check.py ONE_THREAD)
+ONE_THREAD = {"OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1"}
+
+
 def run_batch(names, tests_dir, out, env=None, timeout=None):
     """One batch in its own process, its output (both streams) written to `out` as it comes; (exit, lines, seconds)."""
     argv = [sys.executable, os.path.abspath(__file__), "--worker", "--tests", tests_dir, *names]
+    env = dict(os.environ if env is None else env)
+    for k, v in ONE_THREAD.items():
+        env.setdefault(k, v)
     t0 = time.time()
     buf = []
     p = subprocess.Popen(argv, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, env=env,

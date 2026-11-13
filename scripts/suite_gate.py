@@ -44,14 +44,22 @@ RAN = re.compile(r"^Ran (\d+) tests? in ")
 VERDICT = re.compile(r"^(OK|FAILED)\b(.*)$")
 
 
+# Session 4000: one thread for the maths libraries in the suite. numpy's OpenBLAS commits a buffer a thread at import:
+# about 610 MB on the desktop's 20 threads (17 MB before `import numpy, pandas`, 702 after; 91 with one thread), in the
+# suite's process and in every Python child a test starts. That commit is what the laptops' gates ran out of (row 9 of
+# docs/state/landing_request_oldlaptop.md: MemoryError and commitment-limit exits). No test asks for threaded BLAS.
+ONE_THREAD = {"OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1"}
+
+
 def clean_env(env=None):
-    """The environment the suite runs in: no key, the lock exemption on."""
+    """The environment the suite runs in: no key, the lock exemption on, the maths libraries on one thread."""
     env = dict(os.environ if env is None else env)
     for k in list(env):
         if SECRET_NAME.search(k):
             del env[k]
     env["ERW_LOCK_EXEMPT"] = "1"
     env["PYTHONIOENCODING"] = "utf-8"
+    env.update(ONE_THREAD)
     return env
 
 

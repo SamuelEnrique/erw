@@ -248,10 +248,19 @@ def env_value(path, name, ops):
     return None
 
 
+# Session 4000: one thread for the maths libraries in the suite. numpy's OpenBLAS commits a buffer a thread at import:
+# about 610 MB on the desktop's 20 threads (17 MB before `import numpy, pandas`, 702 after; 91 with one thread), in the
+# suite's process and in every Python child a test starts. That commit is what the laptops' gates ran out of (row 9 of
+# docs/state/landing_request_oldlaptop.md: MemoryError and commitment-limit exits). No test asks for threaded BLAS.
+ONE_THREAD = {"OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1"}
+
+
 def suite_env(environ):
-    """The suite's environment: the caller's with every key taken out, ERW_LOCK_EXEMPT=1."""
+    """The suite's environment: the caller's with every key taken out, ERW_LOCK_EXEMPT=1, the maths libraries on one
+    thread (ONE_THREAD, session 4000)."""
     env = {k: v for k, v in environ.items() if not SECRET_NAME.search(k)}
     env["ERW_LOCK_EXEMPT"] = "1"
+    env.update(ONE_THREAD)
     return env
 
 
