@@ -82,8 +82,8 @@ class TheWhyLine(unittest.TestCase):
     def test_no_figure_the_headline_gives_and_the_stop(self):
         out = brief.why_line("A 600 MW load adds demand to the grid", "Sesterce plans a 600MW campus")
         self.assertEqual(out, "A load adds demand to the grid.")
-        self.assertEqual(brief.detail({"mw": "600", "price": "$10bn", "parties": "Sesterce"}, "Sesterce plans a 600MW campus for $10bn"),
-                         "parties: Sesterce. ")
+        # session 1979 (faults file row 84): with no figure left to print, the party the headline names is not printed again
+        self.assertEqual(brief.detail({"mw": "600", "price": "$10bn", "parties": "Sesterce"}, "Sesterce plans a 600MW campus for $10bn"), "")
 
     def test_the_money_style(self):
         self.assertEqual(brief.why_line("Funds a $1.2B pipeline with an $800MM loan", "DOE"), "Funds a USD 1.2 billion pipeline with a USD 800 million loan.")

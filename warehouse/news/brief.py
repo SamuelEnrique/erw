@@ -886,8 +886,15 @@ def detail(r, head=""):
         bits.append(f"{float(r['mw']):,.0f} MW")
     if r["price"] and not (figures_of(r["price"]) and figures_of(r["price"]) <= hf):
         bits.append(money_style(r["price"]))  # session 470
-    if r["parties"]:
+    if r["parties"] and bits:
+        # kept as written beside a figure: the Roundup reads the parties of a stored issue's item here (roundup.ISSUE_FIELDS)
         bits.append("parties: " + r["parties"])
+    elif r["parties"]:
+        # session 1979 (faults file row 84): with no figure, a party the headline names is not printed again ("parties:
+        # Repsol." under "Repsol takes final investment decision ..."), and the others read as a sentence
+        low = str(head or "").lower()
+        rest = [p.strip() for p in str(r["parties"]).split(";") if p.strip() and p.strip().lower() not in low]
+        return f"Also named: {', '.join(rest)}. " if rest else ""
     return ("; ".join(bits) + ". ") if bits else ""
 
 

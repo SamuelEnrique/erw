@@ -127,5 +127,30 @@ class Row83TheOutletsName(unittest.TestCase):
         self.assertIn("(Strathcona, Greenfire; JPT, 2026-11-11)", line)
 
 
+class Row84NoPartyTwice(unittest.TestCase):
+    """Row 84: a line with no figure does not print the parties its headline names; beside a figure the field stays as
+    the Roundup reads it."""
+
+    def test_the_four_lines_of_12_november(self):
+        self.assertEqual(brief.detail({"mw": "", "price": "", "parties": "Repsol"},
+                                      "Repsol takes final investment decision on third large-scale green hydrogen project in Spain"), "")
+        self.assertEqual(brief.detail({"mw": "580", "price": "", "parties": "Sunrun; Tesla"},
+                                      "Sunrun and Tesla dispatched more than 580 MW from over 140,000 home batteries in September"), "")
+
+    def test_a_party_the_headline_lacks(self):
+        self.assertEqual(brief.detail({"mw": "", "price": "", "parties": "Google; AEP; Bloom Energy"}, "Google signs a fuel-cell deal"),
+                         "Also named: AEP, Bloom Energy. ")
+
+    def test_beside_a_figure_the_field_stays(self):
+        import roundup
+        out = brief.detail({"mw": "702", "price": "$4 billion", "parties": "Google; AEP"}, "Google and AEP sign a fuel-cell deal")
+        self.assertEqual(out, "702 MW; USD 4 billion; parties: Google; AEP. ")
+        md = f"1. **Google and AEP sign a fuel-cell deal** (datacenter power)  \n   Why. {out}Sources: [X](https://example.org/x)\n"
+        items = roundup.issue_items(md)
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0][3], 702.0)
+        self.assertEqual(len(items[0][2]), 2)
+
+
 if __name__ == "__main__":
     unittest.main()
