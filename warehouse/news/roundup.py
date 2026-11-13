@@ -114,6 +114,35 @@ def dated(r):
     return f"{'released' if r['action_type'] == 'press_release' else 'published'} {str(r['event_date'])[:10]}"
 
 
+def week_policy(acts, start, cut):
+    """The week's scored policy actions, most significant first (ties: a final rule over a proposed rule, a notice and a
+    news release, then the earlier date). Session 1907: policy_of_the_week and the five's policy stand-in read one order."""
+    d = pd.to_datetime(acts["event_date"], utc=True, format="ISO8601")
+    w = acts[(d >= start) & (d < cut) & (acts["significance"] != "")].copy()
+    if w.empty:
+        return w
+    w["sig"] = w["significance"].astype(int)
+    w["rank"] = w["action_type"].map(TYPE_RANK).fillna(9)
+    return w.sort_values(["sig", "rank", "event_date"], ascending=[False, True, True])
+
+
+def policy_pick(start, cut):
+    """Session 1907 (faults file row 68, its second choice): the week's policy of the week as a row (a dict), the five's
+    stand-in after capacity and before a second price; None when policy_actions is not on the machine or holds no scored
+    action dated in the week."""
+    acts = read_table("policy_actions")
+    if acts is None or not len(acts):
+        return None
+    w = week_policy(acts, start, cut)
+    return None if w.empty else w.iloc[0].to_dict()
+
+
+def policy_words(top):
+    """The policy stand-in in words: the title as policy_of_the_week writes it, the agency, the kind and the date."""
+    return (f"{tidy_title(policy_title(top['title']))} ({top['agency']} {TYPE_LABEL.get(top['action_type'], top['action_type'])}, "
+            f"{dated(top)}), the Policy of the Week below")
+
+
 def policy_of_the_week(start, cut, log):
     """Session 24: the week's most significant policy action (policy_actions, scored with the news rubric by
     warehouse/policy/score.py; ties go to a final rule over a proposed rule, a notice and a news release), with its
@@ -123,13 +152,9 @@ def policy_of_the_week(start, cut, log):
         return ["- policy_actions is not in the warehouse on this machine."]
     reads = read_table("policy_reads")
     rd = {} if reads is None else {r["action_event_id"]: r for r in reads.to_dict("records")}
-    d = pd.to_datetime(acts["event_date"], utc=True, format="ISO8601")
-    w = acts[(d >= start) & (d < cut) & (acts["significance"] != "")].copy()
+    w = week_policy(acts, start, cut)
     if w.empty:
         return ["- no scored policy action is dated this week."]
-    w["sig"] = w["significance"].astype(int)
-    w["rank"] = w["action_type"].map(TYPE_RANK).fillna(9)
-    w = w.sort_values(["sig", "rank", "event_date"], ascending=[False, True, True])
     top = w.iloc[0]
     r = rd.get(top["event_id"], {})
     # session 470 (roundup audit fix 9): a long title as its subject, "docket" once, one date said for what it is
@@ -877,6 +902,7 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
                                        f"{mv['pct']:+.1f}%) {f['ref']}"))
     picked = {} if picked is None else picked   # session 2704: what the opening number chooses from
     capacity = capacity if capacity is not None else picked.get("capacity")   # session 1895 (row 68), as main passes it
+    policy = picked.get("policy")   # session 1907 (row 68, its second choice): the policy stand-in, after capacity
     moves.sort(key=lambda m: -abs(m["pct"]))
     picked["moves"] = moves   # session 1446: every move, for the opening number's choice and the stand-ins below
     if moves:
@@ -887,6 +913,7 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
         L.append("- **Price move of the week:** no price with a complete week and a week before it is held.")
 
     cap_used = []
+    pol_used = []   # session 1907
 
     def stand_in(k, why):
         """Session 1446 (fault 27): a category with no new observation is replaced by the next price move that
@@ -897,6 +924,12 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
             ids = capacity["plant"].get("ids") or [f"plant {capacity['plant']['plant_id']}"]
             keys.append(f"the capacity, `eia860m_planned_generators` {', '.join(ids)}")
             return f"{why}; in its place, capacity: {capacity_words(capacity)}."
+        # session 1907 (row 68, its second choice): then policy, a part not yet among the five, once; a second price only
+        # when neither capacity nor policy is held
+        if policy and not pol_used:
+            pol_used.append(policy)
+            keys.append(f"the policy, `policy_actions` {policy['event_id']}")
+            return f"{why}; in its place, policy: {policy_words(policy)}."
         if len(moves) > k:
             return f"{why}; in its place, the week's next price move: {moves[k]['text']}."
         return f"{why}."
@@ -1842,6 +1875,7 @@ def main(argv=None):
         log(f"  plants named and listed in eia860m_planned_generators: {len(plants)}")
         cap = next(({"plant": plants[r["cluster_id"]], "rec": r} for r in shown.to_dict("records") if r["cluster_id"] in plants), None)
         picked["capacity"] = cap   # session 1895 (row 68): the five's first stand-in, before a second price
+        picked["policy"] = policy_pick(start, cut)   # session 1907 (row 68): the second stand-in, before a second price
         five = five_numbers(label, start, cut, facts, log, picked)   # session 806, kept; session 2704: what the opening reads
         summary, su = (None, []) if args.no_model else brief.numbers_summary(client, model, nums, log)
         if model in PRICES:
