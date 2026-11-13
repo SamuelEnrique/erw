@@ -34,3 +34,10 @@ Energy Research Warehouse (ERW). Chain 254 (`queue/done/254-day-21-november-oldl
 ## Session 3476: row 11's clean-up
 
 - Row 11 has landed only in part (rows 151 to 160), so the worktree `erw-3457` and `wip/3457-periodicals` stay. Skipped.
+
+## Session 3477: the stack's W45 and 28 September read whole, row 175
+
+- **W45 on the stack, read whole:** nothing new in code. Three things seen and kept. The opening's "Named in the week's stories: Oil Prices Rebound Sharply After Brutal Midweek Rout" stands beside Brent's fall of 18.6%; row 104 counts a title with words of both directions as agreeing, and a rule letting the first word decide was tried and reverted, since row 104's own case "swing higher then lower" ends on its last. The Deals table's US-first order follows the rows' place fields (the data machine's). "[source]" after a why line and "[Source]" alone are by design (session 1882).
+- **Row 175 (new, fixed):** the stack's 28 September printed "adds export volume at an US LNG project". The scorer wrote "a major US LNG project"; the cleaner took out "major" and chose the article by the spelling of "US". A word in capitals said from "U" now takes "a". Six stored scorer lines have that shape.
+- Tests: `Row175AUSProject` (1), failing on main. The 72 files: 1,383 passed, 20 skipped. The Digest's method note carries the row.
+- **Row 11:** moved to `ad894d3e8` (rows 161 to 175 wait).
