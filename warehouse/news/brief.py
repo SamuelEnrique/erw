@@ -1954,7 +1954,31 @@ def subject_line(op, digest_date):
         c = op["cand"]
         return (f"ERW Daily | {c['label']}: {c['v']:.2f} {c['unit']}, {'up' if c['ch'] >= 0 else 'down'} "
                 f"{abs(c['pct']):.1f}% on {'the close before' if cand_kind(c) == 'fuel' else 'the day before'}")
+    if op.get("kind") == "story" and op.get("rec"):
+        clause = subject_clause(op["rec"].get("head") or str((op["rec"].get("titles") or [""])[0]))
+        if clause:
+            return f"ERW Daily | {clause}"
     return f"ERW Daily | {day_words(digest_date)}"
+
+
+SUBJECT_CLAUSE_MAX = 70
+# a verb that takes no "in" before its object: a figure taken out of "plans USD 74 billion in data center projects" leaves
+# "plans in data center projects", read as "plans data center projects"; "invests in" keeps its "in"
+NO_IN_VERB = re.compile(r"\b(plans|unveils|announces|signs|secures|raises|targets|commits|approves|files|proposes|wins|closes|"
+                        r"seals|pledges|outlines|books|lands) in (?=[a-z])")
+
+
+def subject_clause(head):
+    """Session 1984 (faults file row 89): the subject when the opening is a story's figure: the top story's headline as the
+    issue printed it, its figures taken out (chain 131: a figure in the subject only when it is a warehouse table's; the
+    Roundup's row 62 form, roundup.head_clause), cut at a word to SUBJECT_CLAUSE_MAX with no "...". "" when nothing
+    readable is left."""
+    import roundup   # noqa: E402  (roundup imports this module: read here, not at the top)
+    t = roundup.head_clause(money_style(nodash(str(head or ""))).rstrip("."), SUBJECT_CLAUSE_MAX + 20)
+    t = NO_IN_VERB.sub(lambda m: m.group(1) + " ", t)
+    if len(t) > SUBJECT_CLAUSE_MAX:
+        t = roundup.head_clause(t, SUBJECT_CLAUSE_MAX)
+    return t
 
 
 STORIES_SHORT_HOURS = 2   # session 1444 (fault 21): the newest story more than this before the cutoff is said

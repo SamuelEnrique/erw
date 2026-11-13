@@ -261,5 +261,26 @@ class Row88TheChartsStoryNamesItsMeasure(unittest.TestCase):
         self.assertIn("\"Wyoming's gas plants run at a record\"", words)
 
 
+class Row89TheSubjectCarriesTheNews(unittest.TestCase):
+    """Row 89: with a story's figure as the opening, the subject is the top story's headline with no figure."""
+
+    def test_12_november(self):
+        op = {"kind": "story", "key": "story:s", "rec": dict(SPACEX, head="SpaceX plans USD 74 billion in data center projects in Arizona and Texas")}
+        self.assertEqual(brief.subject_line(op, "2026-11-12"), "ERW Daily | SpaceX plans data center projects in Arizona and Texas")
+
+    def test_in_kept_after_invests(self):
+        self.assertEqual(brief.subject_clause("Repsol invests USD 1 billion in solar parks"), "Repsol invests in solar parks")
+
+    def test_long_and_empty(self):
+        long = "Developer plans USD 5 billion in data center campuses across Arizona, Texas, Ohio, Georgia, Virginia and Pennsylvania"
+        out = brief.subject_clause(long)
+        self.assertLessEqual(len(out), 70)
+        self.assertNotIn("...", out)
+        self.assertNotRegex(out, r"\d")
+        op = {"kind": "story", "key": "story:s", "rec": dict(SPACEX, head="USD 74 billion")}
+        self.assertEqual(brief.subject_line(op, "2026-11-12"), "ERW Daily | 12 November 2026")
+        self.assertEqual(brief.subject_line({"kind": None, "key": ""}, "2026-11-12"), "ERW Daily | 12 November 2026")
+
+
 if __name__ == "__main__":
     unittest.main()
