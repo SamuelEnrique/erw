@@ -657,7 +657,8 @@ class Item19TheFloorsCountLicenseNeeded(unittest.TestCase):
     def test_check_values_uses_them_and_land_check_counts_the_notes(self):
         with open(os.path.join(ROOT, "site", "scripts", "check-values.mjs"), encoding="utf-8") as f:
             src = f.read()
-        self.assertIn('import { floorVerdict, heldMarks } from "./held-marks.mjs";', src)
+        # session 4000 added noIssueToday (/digest before the day's issue, or at a weekend: its floor a note)
+        self.assertIn('import { floorVerdict, heldMarks, noIssueToday } from "./held-marks.mjs";', src)
         self.assertIn("const fv = floorVerdict(out.count, held, floor);", src)
         import land_check
         log = ("ok   | /map | x | page shows \"1\"\n"

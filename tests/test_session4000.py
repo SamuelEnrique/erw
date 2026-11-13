@@ -229,5 +229,34 @@ class TheGate(unittest.TestCase):
         self.assertEqual(argv[1:], ["-m", "unittest", "discover", "-s", "tests"])
 
 
+class TheDigestBeforeItsIssue(unittest.TestCase):
+    """/digest is today's issue only (session 402): before the daily run writes it (14:00 UTC), and at weekends, it says so
+    and carries no checked number, so its floor of 9 failed every morning gate (35 times on the desktop by 13 November).
+    check-values now notes the floor of a page that says it has no issue today; a missed day still fails."""
+
+    def test_the_reason_is_read_from_the_page(self):
+        if shutil.which("node") is None:
+            self.skipTest("node is not on this machine")
+        mod = os.path.join(ROOT, "site", "scripts", "held-marks.mjs").replace("\\", "/")
+        js = ("import('file:///" + mod.lstrip("/") + "').then((m) => console.log(JSON.stringify(["
+              "m.noIssueToday('<article data-digest-today=\"none\"><p data-digest-none=\"pending\">No Digest yet</p></article>'),"
+              "m.noIssueToday('<p data-digest-none=\"weekend\">No Digest on Saturday</p>'),"
+              "m.noIssueToday('<p data-digest-none=\"missed\">No Digest</p>'),"
+              "m.noIssueToday('<article data-digest-today=\"2026-11-13\"><span data-check=\"x\">5</span></article>')])))")
+        out = subprocess.run(["node", "-e", js], capture_output=True, text=True, timeout=60)
+        self.assertEqual(out.returncode, 0, out.stderr)
+        self.assertEqual(__import__("json").loads(out.stdout.strip().splitlines()[-1]), ["pending", "weekend", None, None])
+
+    def test_check_values_notes_it_and_the_page_says_it(self):
+        with open(os.path.join(ROOT, "site", "scripts", "check-values.mjs"), encoding="utf-8") as f:
+            src = f.read()
+        self.assertIn("const none = noIssueToday(html);", src)
+        self.assertIn("if (fv.fail && none) {", src)
+        with open(os.path.join(ROOT, "site", "app", "digest", "page.tsx"), encoding="utf-8") as f:
+            page = f.read()
+        self.assertIn('data-digest-none={kind ?? "none"}', page)
+        self.assertIn('pending: "not written yet"', page)
+
+
 if __name__ == "__main__":
     unittest.main()
