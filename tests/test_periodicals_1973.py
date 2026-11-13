@@ -700,6 +700,14 @@ class Row123ACombinedCompanyIsNoDealValue(unittest.TestCase):
         self.assertIn("Combined company value", brief.story_row("x", [c], ("deal",), {}, None, "a figure", ("money",))[0])
 
 
+class Row125EuropeanGasIsGas(unittest.TestCase):
+    def test_the_titles(self):
+        for t in ("European Gas Hits €97 for First Time Since 2022 on Winter Risks",
+                  "European gas touches €100 for first time since 2022 energy crisis"):
+            self.assertEqual(brief.sector_of({"sector": "power_prices", "title": t}), "gas", t)
+        self.assertEqual(brief.sector_of({"sector": "generation", "title": "Gas plant hits full output in Texas"}), "generation")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

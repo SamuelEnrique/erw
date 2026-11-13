@@ -1670,7 +1670,9 @@ def region_key(r):
 # above $100" (oil, Middle East) were two of the top ten; a reader counts them as one story. A story of the oil sector
 # that is not about the price (a Venezuelan field, a refinery) keeps the sector-and-region key.
 PRICE_STORY = {"oil": r"\b(?:brent|wti|crude|oil prices?|oil futures|barrels?)\b",   # session 1443: "6 million barrels" of futures
-               "gas": r"\b(?:henry hub|ttf|jkm|gas prices?|natural gas prices?|mmbtu)\b",
+               # session 3347 (faults file row 125): "European Gas Hits €97 ..." is a gas price story too
+               "gas": r"\b(?:henry hub|ttf|jkm|gas prices?|natural gas prices?|mmbtu|gas (?:hits|touches|tops|nears|climbs|jumps|"
+                      r"surges|soars|rises|falls|drops|slumps|tumbles|plunges))\b",
                "power": r"\b(?:power prices?|electricity prices?|per mwh|usd/mwh)\b"}
 
 
