@@ -23,61 +23,42 @@ def node_ok():
     return shutil.which("node") and os.path.isdir(os.path.join(SITE, "node_modules"))
 
 
-def stat_map(text, start):
-    """The "first|second": "table" pairs of the object literal that follows `start`."""
-    i = text.index(start)
-    body = text[text.index("{", i):text.index("};", i)]
-    return dict(re.findall(r'"([a-z_]+\|[a-z_]+)"\s*:\s*"([a-z0-9_]+)"', body))
+class Fault2WaitsForTheOwnersRuling(unittest.TestCase):
+    """Fault 2: "The facilities against each grid" prints "license needed" (note 1, the facilities' hold) in the Peak
+    hour MW and Capacity MW columns of every grid and in ERCOT's Reserve margin.
 
+    Session 1898 printed the grids' own figures (KEY_STAT_TABLE in Num.tsx and check-holds.mjs); it landed with chain
+    217's stack at b1bc8829f. The same cells are row 4 of docs/reviews/datacenter-faults-2026-11-11.md, whose state is
+    "ruling": the owner decides whether a grid's public columns show while its facility counts are held (the state
+    review of 6 November, item 28; the recommendation was yes). Session 1905 put the default back until the owner rules:
+    every dcgrid| key is the held facilities table's, and the cells carry footnote 1."""
 
-class Fault2TheGridsOwnFiguresArePrinted(unittest.TestCase):
-    """Fault 2: "The facilities against each grid" printed "license needed" (note 1, the facilities' hold) in the Peak
-    hour MW and Capacity MW columns of every grid and in ERCOT's Reserve margin, though the line under the table names
-    them as each grid's own figures (grid_peak_vs_capacity) and note 2 says ERCOT's margin is held.
+    def test_no_second_word_map_in_either_file(self):
+        self.assertNotIn("KEY_STAT_TABLE", src("site", "components", "Num.tsx"))
+        self.assertNotIn("KEY_STAT_TABLE", src("site", "scripts", "check-holds.mjs"))
 
-    Why: components/Num.tsx heldBy read every dcgrid| key as datacenter_facilities (KEY_TABLE), held from 2026-10-21.
-    Fix: KEY_STAT_TABLE names the table by the key's second word, read before KEY_TABLE: dcgrid|peak_mw and
-    dcgrid|capacity_mw are grid_peak_vs_capacity, dcgrid|reserve_margin ercot_cdr_reserve_margins; both are public in
-    sources.csv and absent from the site's license list, so the figures print. check-holds.mjs reads the same map."""
-
-    WANT = {"dcgrid|peak_mw": "grid_peak_vs_capacity", "dcgrid|capacity_mw": "grid_peak_vs_capacity",
-            "dcgrid|reserve_margin": "ercot_cdr_reserve_margins"}
-
-    def test_num_and_check_holds_hold_the_same_map(self):
-        self.assertEqual(stat_map(src("site", "components", "Num.tsx"), "const KEY_STAT_TABLE"), self.WANT)
-        self.assertEqual(stat_map(src("site", "scripts", "check-holds.mjs"), "export const KEY_STAT_TABLE"), self.WANT)
-
-    def test_the_map_is_read_before_key_table(self):
+    def test_every_dcgrid_key_is_the_facilities_table(self):
         for parts in (("site", "components", "Num.tsx"), ("site", "scripts", "check-holds.mjs")):
-            s = src(*parts)
-            stat = s.index("in KEY_STAT_TABLE) table = KEY_STAT_TABLE[")
-            self.assertLess(stat, s.index("else if (head in KEY_TABLE) table = KEY_TABLE[head];"), "/".join(parts))
+            self.assertIn('dcgrid: "datacenter_facilities"', src(*parts), "/".join(parts))
 
-    def test_the_tables_are_public_and_not_on_the_license_list(self):
-        held = json.loads(src("site", "data", "license_status.json"))["tables"]
-        sources = src("warehouse", "metadata", "sources.csv")
-        for table in set(self.WANT.values()):
-            self.assertNotIn(table, held)
-            self.assertRegex(sources, r",public," + table + r",")
-        # the facilities stay held: their other columns are still the hold's words
-        self.assertEqual(held["datacenter_facilities"]["status"], "license needed")
+    def test_the_faults_file_row_is_the_owners(self):
+        row = next(ln for ln in src("docs", "reviews", "datacenter-faults-2026-11-11.md").splitlines() if ln.startswith("| 4 |"))
+        self.assertTrue(row.rstrip().rstrip("|").rstrip().endswith("ruling"), row[-200:])
 
     @unittest.skipUnless(node_ok(), "node or site/node_modules is not on this machine")
-    def test_check_holds_judges_the_grid_figures_free_and_the_facilities_held(self):
+    def test_check_holds_judges_every_grid_cell_held(self):
         script = (
             "import { judgeKey } from './scripts/check-holds.mjs';"
             "const held = new Map([['datacenter_facilities', { byGrid: false, grids: new Set() }]]);"
             "const out = {};"
-            "for (const k of ['dcgrid|peak_mw|ERCOT', 'dcgrid|capacity_mw|PJM', 'dcgrid|reserve_margin|ERCOT', 'dcgrid|planned|ERCOT', 'dcgrid|share_of_peak|ERCOT'])"
+            "for (const k of ['dcgrid|peak_mw|ERCOT', 'dcgrid|capacity_mw|PJM', 'dcgrid|reserve_margin|ERCOT', 'dcgrid|planned|ERCOT'])"
             "  out[k] = judgeKey(k, held, new Set()) ? 'held' : 'free';"
             "console.log(JSON.stringify(out));"
         )
         r = subprocess.run(["node", "--input-type=module", "-e", script], cwd=SITE, capture_output=True, text=True, timeout=120)
         self.assertEqual(r.returncode, 0, r.stderr[-2000:])
         got = json.loads(r.stdout.strip().splitlines()[-1])
-        self.assertEqual(got, {"dcgrid|peak_mw|ERCOT": "free", "dcgrid|capacity_mw|PJM": "free",
-                               "dcgrid|reserve_margin|ERCOT": "free", "dcgrid|planned|ERCOT": "held",
-                               "dcgrid|share_of_peak|ERCOT": "held"})
+        self.assertEqual(set(got.values()), {"held"}, got)
 
 
 class Fault3TheNetExportCardHasNoUnitWithoutAFigure(unittest.TestCase):
