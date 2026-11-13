@@ -1,0 +1,10 @@
+# The test modules scripts/suite_batches.py runs each in a process of its own (scripts/land_check.py passes this file
+# with --alone when it runs the suite in batches, on a machine with under 12 GB). Session 4000 (chain 228): the five
+# modules whose peak memory, run alone with the maths libraries on one thread, was 400 MB or more on lab-desktop
+# (python scripts/suite_batches.py --profile, 13 November 2026: 1,088 modules, median 132 MB, 90th percentile 171 MB).
+# test_session3701 was among the modules of the old laptop's failed gates (landing request row 9).
+test_periodicals            # 526 MB
+test_session470             # 482 MB
+test_session802             # 482 MB
+test_session182             # 431 MB
+test_session3701            # 426 MB
