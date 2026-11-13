@@ -3,7 +3,7 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { Cite } from "@/components/Cite";
 import { InlineSpark } from "@/components/InlineSpark";
 import { LineChart, type Line } from "@/components/LineChart";
-import { Num } from "@/components/Num";
+import { Num, heldBy } from "@/components/Num";   // session 1898: heldBy, the news section held whole
 import { Section } from "@/components/Section";
 import { ShareBar } from "@/components/ShareBar";
 import { StackedArea } from "@/components/StackedArea";
@@ -363,10 +363,25 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
 
 function News({ g, d }: { g: GridConfig; d: GridData }) {
   const n = d.news.length;
+  const key = `gridnews|${g.slug}|${d.newsSince}|n`;
+  // session 1898 (lab path fault 4 of session 1885): while the stories are held for a license the section says only
+  // that; it read "license needed scored stories since ..." and then "No story in the last 14 days matched", a search
+  // of the held table that found nothing
+  const held = heldBy(key);
+  if (held) {
+    return (
+      <>
+        <p className="text-sm text-muted" data-license-held={held.table} title={held.title}>
+          The scored stories are held for a license (license needed): the outlets&apos; terms ask for permission and none is recorded yet, so this section shows neither their count nor their headlines.
+        </p>
+        <Cite tables={["news_index"]} />
+      </>
+    );
+  }
   return (
     <>
       <div className="mb-2 text-sm">
-        <Num check={`gridnews|${g.slug}|${d.newsSince}|n`} raw={n}>{count(n)}</Num> scored stories since {d.newsSince.slice(0, 10)} whose headline names{" "}
+        <Num check={key} raw={n}>{count(n)}</Num> scored stories since {d.newsSince.slice(0, 10)} whose headline names{" "}
         {g.names.join(" or ")}{Object.keys(g.states).length ? ` or whose region is ${Object.values(g.states).join(", ")}` : ""}.
       </div>
       {n ? (

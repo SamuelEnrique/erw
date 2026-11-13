@@ -105,5 +105,49 @@ class Fault3TheNetExportCardHasNoUnitWithoutAFigure(unittest.TestCase):
         self.assertIn('{unit ? <span className="ml-1 font-sans text-sm text-muted">{unit}</span> : null}', s)
 
 
+class Fault4HeldStoriesAreSaidHeldNotUnmatched(unittest.TestCase):
+    """Fault 4: the grid page's "In the news" held the count ("license needed scored stories since 2026-10-30") and then
+    said "No story in the last 14 days matched", which reads as a search of the held table that found nothing.
+
+    Fix: components/grid/YourGrid.tsx News asks heldBy for its own check key (gridnews| is news_index, held whole from
+    2026-10-21) before it draws anything; held, the section is one sentence that says the stories are held for a license
+    and why, with data-license-held and the hold's title, and no count, no list, no "No story ... matched"."""
+
+    def news(self):
+        s = src("site", "components", "grid", "YourGrid.tsx")
+        return s[s.index("function News("):s.index("// ------------------------------------------------------------------ the page")]
+
+    def test_the_hold_is_asked_before_anything_is_drawn(self):
+        n = self.news()
+        self.assertIn("const key = `gridnews|${g.slug}|${d.newsSince}|n`;", n)
+        ask = n.index("const held = heldBy(key);")
+        self.assertLess(ask, n.index("if (held) {"))
+        self.assertLess(n.index("if (held) {"), n.index("<Num check={key} raw={n}>"))
+        self.assertIn('import { Num, heldBy } from "@/components/Num";', src("site", "components", "grid", "YourGrid.tsx"))
+
+    def test_the_held_branch_says_only_the_hold(self):
+        n = self.news()
+        branch = n[n.index("if (held) {"):n.index("  return (\n    <>\n      <div className=\"mb-2 text-sm\">")]
+        self.assertIn("data-license-held={held.table} title={held.title}", branch)
+        self.assertIn("The scored stories are held for a license (license needed)", branch)
+        self.assertNotIn("No story", branch)
+        self.assertNotIn("<Num", branch)
+        self.assertNotIn("d.news", branch)
+        # the empty-result line stays for a public table that found nothing
+        self.assertIn("No story in the last 14 days matched.", n[n.index("<Num check={key} raw={n}>"):])
+
+    def test_news_index_is_held_and_gridnews_names_it(self):
+        self.assertEqual(json.loads(src("site", "data", "license_status.json"))["tables"]["news_index"]["status"], "license needed")
+        self.assertIn('gridnews: "news_index"', src("site", "components", "Num.tsx"))
+
+
+class NoDashes(unittest.TestCase):
+    def test_no_em_or_en_dash_in_the_files_written(self):
+        for parts in (("tests", "test_session1898.py"), ("site", "components", "Num.tsx"), ("site", "scripts", "check-holds.mjs"),
+                      ("site", "components", "grid", "NowView.tsx"), ("site", "components", "grid", "YourGrid.tsx")):
+            s = src(*parts)
+            self.assertEqual(s.count(chr(0x2014)) + s.count(chr(0x2013)), 0, "/".join(parts))
+
+
 if __name__ == "__main__":
     unittest.main()
