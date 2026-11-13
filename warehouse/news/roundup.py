@@ -1306,6 +1306,63 @@ def prior_deal(r, index, before):
     return best[1] if best else None
 
 
+# Session 1908 (faults file row 63, its open part): the fix asked that the step be found in energy_deals "and the earlier
+# issues' items". A deal the table does not hold may still have been an earlier Digest's item: the Digest prints each item's
+# scored fields under its headline ("702 MW; $4 billion; parties: Google; AEP; Bloom Energy."), so the same parties and the
+# same quantity name the item. The table is read first; an item only where no row matches.
+DIGEST_DIR = os.path.join(ROOT, "docs", "digest")
+ISSUE_HEAD = re.compile(r"^(\d+)\. \*\*(.+?)\*\*")
+ISSUE_FIELDS = re.compile(r"^\s+(.*?); parties: (.+?)\. Sources:")
+ISSUE_MW = re.compile(r"^([\d,]+(?:\.\d+)?) MW$")
+ISSUE_SUM = re.compile(r"(?:US\$|\$|USD ?)\s?[\d][\d,]*(?:\.\d+)?\s?(?:trillion|billion|million|bn|mn|tn)?$", re.I)
+
+
+def issue_items(text):
+    """The items of one stored Digest that print their scored fields: (number, headline, party keys, MW, US dollars)."""
+    out, lines = [], str(text).splitlines()
+    for i, ln in enumerate(lines[:-1]):
+        h, f = ISSUE_HEAD.match(ln), ISSUE_FIELDS.match(lines[i + 1])
+        if not h or not f:
+            continue
+        pieces = f.group(1).split("; ")
+        pieces[0] = pieces[0].rsplit(". ", 1)[-1]   # the why line runs into the first field
+        mw = next((float(m.group(1).replace(",", "")) for m in map(ISSUE_MW.match, pieces) if m), None)
+        # a sum ends its field (the why line may run into it: "... supply agreement $4.4 Billion"); a price per unit
+        # ("$106.37") is no deal's sum, so a sum under a million is not one
+        sums = [money_value(m.group(0)) for m in map(ISSUE_SUM.search, pieces) if m]
+        usd = next((v for v in sums if v and v >= 1e6), None)
+        keys = {party_key(x) for x in f.group(2).split(";")} - {""}
+        if mw is None and usd is None:
+            continue
+        out.append((int(h.group(1)), h.group(2), keys, mw, usd))
+    return out
+
+
+def issue_index(folder=None):
+    """Every stored Digest's items with scored fields, as prior_item reads them: (date, party keys, MW, US dollars, item),
+    the item {"issue": "Digest", "date", "n", "head"}. [] when the folder is absent."""
+    folder = folder or DIGEST_DIR
+    if not os.path.isdir(folder):
+        return []
+    out = []
+    for name in sorted(os.listdir(folder)):
+        m = re.fullmatch(r"(\d{4}-\d{2}-\d{2})\.md", name)
+        if not m:
+            continue
+        with open(os.path.join(folder, name), encoding="utf-8") as fh:
+            text = fh.read()
+        when = pd.Timestamp(m.group(1), tz="UTC")
+        for n, head, keys, mw, usd in issue_items(text):
+            out.append((when, keys, mw, usd, {"issue": "Digest", "date": m.group(1), "n": n, "head": head}))
+    return out
+
+
+def prior_item(r, index, before):
+    """The earlier Digest item a story of the week is a step in, by prior_deal's rule (two of the story's parties, the same
+    MW, else the same sum, an issue dated before `before`): the earliest, or None."""
+    return prior_deal(r, index, before)
+
+
 def first_reports_first(clusters, steps):
     """Row 63: What mattered ranks the week's first reports above a step in a deal first reported before the week (the
     clusters keep their order otherwise). steps: {cluster_id: energy_deals row}."""
@@ -1347,7 +1404,11 @@ def deal_summary(d):
 
 
 def step_line(d):
-    """Row 63: the sentence that says a story is a step in a held deal, with the row's date and figures."""
+    """Row 63: the sentence that says a story is a step in a held deal, with the row's date and figures. Session 1908: or
+    in a story an earlier Digest carried, with the issue's date, the item's number and its headline."""
+    if d.get("issue"):
+        return (f"A step in a story first carried before this week: the {d['issue']} of {d['date']}, item {d['n']} "
+                f"(\"{d['head']}\").")
     return (f"A step in a deal first reported before this week: in `energy_deals` since {str(d.get('event_date') or '')[:10]} "
             f"({deal_summary(d)}).")
 
@@ -1494,6 +1555,15 @@ def evidence_gap(r, head="", deal=None, plant=None):
     Session 1895 (row 64): when the story names a plant eia860m_planned_generators lists (plant, from planned_plant), the
     gap says what EIA-860M lists (nameplate, vintage, planned date) against the outlet's MW, in place of "not a warehouse
     table's"; with no table on the machine, plant is None and the sentence is as before."""
+    if deal is not None and deal.get("issue"):   # session 1908 (row 63): an earlier Digest's item, not a table's row
+        fig = brief.story_figure(r)
+        titles = " ".join(str(t) for t in (r.get("titles") or []))
+        gaps = ["what the week's step changes in that story"]
+        if fig and brief.figures_of(fig) & brief.figures_of(f"{head} {titles}"):
+            gaps.append(f"the {fig} is the outlets' figure, not a warehouse table's")
+        if r.get("kind") == "commentary":
+            gaps.append("an analysis piece, not a reported event")
+        return step_line(deal) + " What the evidence does not establish: " + "; ".join(gaps) + "."
     if deal is not None:
         gaps = ["what the week's step changes in that deal"]
         if r.get("kind") == "commentary":
@@ -1763,6 +1833,17 @@ def main(argv=None):
             if d is not None:
                 steps[r["cluster_id"]] = d
         log(f"  steps in deals held before the week: {len(steps)}")
+        # session 1908 (row 63, its open part): where no row matches, an earlier Digest's item with the same parties and
+        # quantity
+        item_ix = issue_index()
+        n_items = 0
+        for r in clusters.to_dict("records"):
+            if r["cluster_id"] not in steps:
+                d = prior_item(r, item_ix, start)
+                if d is not None:
+                    steps[r["cluster_id"]] = d
+                    n_items += 1
+        log(f"  steps in stories an earlier Digest carried: {n_items}")
         clusters = first_reports_first(clusters, steps)
         mattered, m_folded = brief.one_per_topic(clusters, WHAT_MATTERED_N, log, "what mattered")
         taken = set(mattered["cluster_id"]) | m_folded
