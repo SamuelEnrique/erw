@@ -1,0 +1,1073 @@
+{
+ "group": "xcel_plains",
+ "rows": [
+  {
+   "utility": "Northern States Power Company, a Minnesota corporation (Xcel Energy)",
+   "state": "MN",
+   "iso_region": "MISO",
+   "rule_name": "Large General Time of Day Service (Rate Code AXX, Minnesota Electric Rate Book MPUC No. 2, Section No. 5, Sheets 32.2 to 32.7): the very large customer tariff",
+   "source_url": "https://content.govdelivery.com/accounts/MNPUBUC/bulletins/417d139",
+   "source_title": "Minnesota Public Utilities Commission news release of 18 May 2026: Minnesota Public Utilities Commission strengthens consumer protections as state prepares for new very large electricity customers",
+   "date_read": "2026-11-13",
+   "quoted_clause": {
+    "page": "1",
+    "quote": "The Commission adopted Xcel Energy’s proposed tariff framework for very large customers but strengthened it in several key areas to better implement these statutory requirements."
+   },
+   "docket": {
+    "value": "MPUC Docket No. 25-289 (Xcel's petition is captioned E002/M-25-___)",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Full record information is available in Docket 25-289."
+     },
+     {
+      "url": "https://legalectric.org/f/2025/10/Xcel-Tariff-Petition_20257-221060-01.pdf",
+      "page": "31",
+      "quote": "Please take notice that on July 16, 2025, Northern States Power Company doing business as Xcel Energy filed with the Minnesota Public Utilities Commission a Petition requesting approval of its proposed tariffs for Large General Time of Day Service and Large Peak Controlled Time of Day Service customers, including data centers.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2026-06",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Minnesota Public Utilities Commission sent this bulletin at 05/18/2026 01:00 PM CDT"
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/1123852/000112385226000013/nspm-20260930.htm",
+      "page": "1",
+      "section": "NSP-Minnesota Form 10-Q for the quarter ended 30 September 2026, Large Load/Data Center Tariff",
+      "quote": "The tariff, which was approved by the MPUC in June 2026, is mandatory for new loads over 100 MW and includes an incremental cost test, minimum initial term of 15 years, minimum bill provisions, termination and exit fees, and credit requirements.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "New loads of 100 MW or more; also new customers of at least 20 MW but less than 100 MW that are system intensive (needing significant system modifications, design, engineering or other expenditures before service)",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Key approvals, Defining very large customers",
+       "quote": "The Commission defined “very large customers” for purposes of Xcel’s tariffs as new loads sized 100 megawatts (MW) or greater."
+      },
+      {
+       "page": "1",
+       "section": "Key approvals, Defining very large customers",
+       "quote": "this new customer class will include any new customer with at least 20 MW but less than 100 MW of load if the customer is “system intensive” ... meaning the customer will require significant system modifications, design, engineering, or other expenditures prior to starting service."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum bill on 80 percent of the customer's contracted capacity (the Commission raised it from the 75 percent Xcel proposed); in Xcel's proposed sheet the floor applies to the Load Ramp Capacity during the ramp and to the Contract Capacity after it",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Key approvals, A balanced contract structure",
+       "quote": "the Commission increased the minimum bill and exit fee proposed by Xcel to 80% of the customer’s contracted capacity to strengthen ratepayer protections."
+      },
+      {
+       "url": "https://legalectric.org/f/2025/10/Xcel-Tariff-Petition_20257-221060-01.pdf",
+       "page": "35",
+       "section": "Proposed Sheet No. 32.4, Determination of On Peak Period Demand (redline)",
+       "quote": "In no month shall the on peak period demand to be billed be less than the current month's Adjusted On Peak Demand in kW, or 75% of the Load Ramp Capacity or Contract Capacity as defined for that time period in the ESA.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "15-year default contract term (approved); in Xcel's proposed sheet the initial ESA term is at least 15 years including a Load Ramp Period of up to 5 years; 24 months' exit notice (approved)",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Key approvals, A balanced contract structure",
+       "quote": "The Commission approved Xcel’s proposed 15-year default contract term and 24 month exit notice period."
+      },
+      {
+       "url": "https://legalectric.org/f/2025/10/Xcel-Tariff-Petition_20257-221060-01.pdf",
+       "page": "33",
+       "section": "Proposed Sheet No. 32.2, Term (redline)",
+       "quote": "Customers subject to this tariff must enter into an ESA with an initial term of at least fifteen (15) years, inclusive of any Load Ramp Period of up to a maximum of five (5) years.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Transmission and distribution upgrades paid by the customer as contributions in aid of construction (Commission). Xcel's proposed sheet requires sufficient credit support in the ESA; its form ESA asks for a guaranty from a US guarantor with no credit rating but a cash balance over 3 billion dollars, or a rating of BBB- (S&P) or Baa3 (Moody's) or better, and on a Credit Event a cash deposit, letter of credit, surety bond or other support for the Company's credit exposure within 30 days, capped at the Guaranty Cap",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Key approvals, Requiring customer-funded system upgrades",
+       "quote": "All transmission and distribution upgrades needed to serve very large customers must be paid directly by those customers through Contributions in Aid of Construction (CIAC)."
+      },
+      {
+       "url": "https://legalectric.org/f/2025/10/Xcel-Tariff-Petition_20257-221060-01.pdf",
+       "page": "38",
+       "section": "Proposed Sheet No. 32.7, item 10 (redline)",
+       "quote": "At a minimum, the following security and risk mitigation requirements will be included in the ESA. a. Sufficient credit support;",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://legalectric.org/f/2025/10/Xcel-Tariff-Petition_20257-221060-01.pdf",
+       "page": "114",
+       "section": "Attachment G, Retail Customer Form ESA, section 14",
+       "quote": "either has (i) no Credit Rating but whose Cash Balance is more than three billion dollars ($3,000,000,000); or (ii) has a Credit Rating equal to or better",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://legalectric.org/f/2025/10/Xcel-Tariff-Petition_20257-221060-01.pdf",
+       "page": "115",
+       "section": "Attachment G, Retail Customer Form ESA, sections 14 and 14.1",
+       "quote": "than BBB- from S&P or Baa3 from Moody’s",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://legalectric.org/f/2025/10/Xcel-Tariff-Petition_20257-221060-01.pdf",
+       "page": "115",
+       "section": "Attachment G, Retail Customer Form ESA, section 14.1",
+       "quote": "Upon the happening and during the continuance of a Credit Event, then within 30 days of demand from Company to Customer, Customer shall provide to Company either (a) a cash deposit, (b) a letter of credit, (c) a surety bond, or (d) other credit support in a form and from an entity reasonably acceptable to Company, in the amount of Company’s credit exposure over the remaining term of this Agreement, which credit exposure shall not exceed the Guaranty Cap.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Exit fee on 80 percent of contracted capacity (the Commission raised it from Xcel's 75 percent). In Xcel's proposed sheet: termination on 24 months' notice with an exit fee equal to Effective Contract Capacity x on-peak demand charges x the percentage x the lesser of the remaining ESA months or 120 months; the same formula applies to a contract capacity reduction (12 months' notice in the form ESA)",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Key approvals, A balanced contract structure",
+       "quote": "the Commission increased the minimum bill and exit fee proposed by Xcel to 80% of the customer’s contracted capacity to strengthen ratepayer protections."
+      },
+      {
+       "url": "https://legalectric.org/f/2025/10/Xcel-Tariff-Petition_20257-221060-01.pdf",
+       "page": "38",
+       "section": "Proposed Sheet No. 32.7, items 8 and 9 (redline)",
+       "quote": "Upon 24 months’ notice by the Customer, subject to payment of exit fee",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://legalectric.org/f/2025/10/Xcel-Tariff-Petition_20257-221060-01.pdf",
+       "page": "38",
+       "section": "Proposed Sheet No. 32.7, item 9 (redline)",
+       "quote": "Early termination or Contract Capacity reduction shall incur fees calculated as the total of (i) the Effective Contract Capacity multiplied by (ii) the on peak demand charges contained in this rate schedule multiplied by (iii) seventy-five percent (75%) multiplied by (iv) the “Termination Period,” defined as the lesser of the remaining contract months of the ESA Term or 120 months from the date of the Termination Notice as defined in the ESA.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://legalectric.org/f/2025/10/Xcel-Tariff-Petition_20257-221060-01.pdf",
+       "page": "115",
+       "section": "Attachment G, Retail Customer Form ESA, section 16.1",
+       "quote": "no less than twelve (12) months in the case of Capacity Reduction",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "MPUC release of 18 May 2026; Xcel petition of 16 July 2025 (187 pages: narrative, proposed Sheets 32.2 to 32.7, Retail Customer Form ESA, form Interconnection Agreement): no load or engineering study duration found; NSP-Minnesota 10-Q, Q3 2026"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "As study_timeline; the proposed sheet bills the minimum from the month the Company's facilities are capable of energization but sets no energization deadline"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Xcel petition of 16 July 2025 (p. 27 describes the forecasting of highly likely projects of 5 MW or more, no total); NSP-Minnesota and Xcel Energy 10-Qs for Q3 2026; Xcel Energy 10-K for 2025; Xcel Energy Q3 2026 earnings release (8-K exhibit): no large-load pipeline in MW or count. Xcel's investor site not read (xcelenergy.com answered with a bot check)"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Commission's own news release; Xcel's petition as filed in the docket (copy posted by legalectric.org); NSP-Minnesota's SEC filing",
+   "erw_overlap": "none",
+   "notes": "The written order of June 2026 was not read: the Minnesota eDockets host answered with a browser security check (see refused). The approved compliance sheets were not read; Xcel's posted Minnesota rate book Section 5 (fetched 13 Nov 2026 before its host's terms could be read; no value taken from it) holds no Large General Time of Day Service sheet. The petition also proposed a companion Large Peak Controlled Time of Day Service tariff and an Incremental Cost Test (approved with added OAG requirements per the release). Related: MPUC Docket 26-159, an ESA between Xcel and Echo Zone, LLC (a Google subsidiary) for a Pine Island data center, filed 14 April 2026, pending (https://mn.gov/puc/activities/v-l-e-c/data-centers/); NSP-Minnesota's 10-Q says it includes a proposed Clean Energy Accelerator Charge for 1,900 MW of clean energy resources and a decision is expected in early 2027. Leads not verified in a primary: Fresh Energy and ELPC say the Commission also directed a clean energy and capacity tariff filing by 1 December 2026. Status date as the reading group wrote it: '2026-06 (written order; the Commission announced its decision on 18 May 2026)'."
+  },
+  {
+   "utility": "All Minnesota public utilities providing electric service (applies to Northern States Power Company, Minnesota)",
+   "state": "MN",
+   "iso_region": "MISO",
+   "rule_name": "Minn. Stat. § 216B.1622, Service to Very Large Customers (2025 data center law)",
+   "source_url": "https://www.revisor.mn.gov/statutes/cite/216B.1622",
+   "source_title": "Minnesota Statutes 2026, section 216B.1622, SERVICE TO VERY LARGE CUSTOMERS (Office of the Revisor of Statutes)",
+   "date_read": "2026-11-13",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Subd. 2",
+    "quote": "The commission may approve, modify, or reject a tariff or electric service agreement proposed between a public utility and a very large customer establishing the terms and conditions under which the utility will provide electric service to the customer."
+   },
+   "docket": {
+    "value": "Laws 2025, First Special Session, chapter 12, section 9; amended 2026 c 88 art 1 s 91",
+    "cites": [
+     {
+      "page": "1",
+      "section": "History",
+      "quote": "1Sp2025 c 12 s 9; 2026 c 88 art 1 s 91"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-06-14",
+    "cites": [
+     {
+      "url": "https://www.revisor.mn.gov/laws/2025/1/Session+Law/Chapter/12/",
+      "page": "1",
+      "quote": "Signed by the governor June 14, 2025, 10:30 a.m.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.revisor.mn.gov/laws/2025/1/Session+Law/Chapter/12/",
+      "page": "1",
+      "section": "Sec. 9, EFFECTIVE DATE",
+      "quote": "This section is effective the day following final enactment.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "No MW figure in the statute: the Commission defines the very large customer class or subclass for each utility by order by 15 December 2026",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Subd. 1",
+       "quote": "By December 15, 2026, the commission shall establish by order the definition and appropriate characteristics of a very large customer class or subclass for each public utility providing electric service."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Minn. Stat. § 216B.1622 subds. 1 to 3 and Laws 2025, 1Sp c 12 s 9: the statute requires protections against stranded costs but sets no minimum demand or bill"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Minn. Stat. § 216B.1622 subds. 1 to 3"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Minn. Stat. § 216B.1622 subds. 1 to 3"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Minn. Stat. § 216B.1622 subds. 1 to 3"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Minn. Stat. § 216B.1622 subds. 1 to 3"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Minn. Stat. § 216B.1622 subds. 1 to 3"
+    },
+    "queue_size": {
+     "value": "see row: Large General Time of Day Service (Rate Code AXX, Minnesota Electric Rate Book MPUC No. 2, Section No. 5, Sheets 32.2 to 32.7): the very large customer tariff"
+    }
+   },
+   "license": "public",
+   "license_basis": "the State's official publication of its statutes and session laws",
+   "erw_overlap": "none",
+   "notes": "Required outcomes the Commission must consider (subd. 2): costs of very large customers assigned to their class; electricity meeting the § 216B.1691 benchmarks; protections so other customers are not placed at risk for stranded costs. Subd. 3: the section does not apply to existing, renewed or extended ESAs or to very large customers taking service before 2020. Related definition (Minn. Stat. § 216B.02, subd. 11, https://www.revisor.mn.gov/statutes/cite/216B.02): a data center is a facility designed to have a load of 100 megawatts or more. The MPUC's data center page (https://mn.gov/puc/activities/v-l-e-c/data-centers/) names §§ 216B.1622 and 216B.1623 and an annual ECO fund fee of 2 to 5 million dollars for qualified large-scale data centers (not a connection term). Status date as the reading group wrote it: '2025-06-14 (signed; the section is effective the day following final enactment)'."
+  },
+  {
+   "utility": "Public Service Company of Colorado (Xcel Energy)",
+   "state": "CO",
+   "iso_region": "PSCO balancing authority (WECC), no RTO",
+   "rule_name": "Large Load Tariff: Schedule TL, Transmission Large Service, with Schedule CTT (Advice Letter No. 2018-Electric), proposed",
+   "source_url": "https://puc.colorado.gov/electric-rate-cases",
+   "source_title": "Colorado Public Utilities Commission, Electric Rate Cases page, section Xcel Large Load Tariff",
+   "date_read": "2026-11-13",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Xcel Large Load Tariff",
+    "quote": "On April 2, Xcel Energy filed a new “Large Load Tariff” proposal, Proceeding No. 26AL-0137E, to address high-demand energy projects, such as large-scale data centers."
+   },
+   "docket": {
+    "value": "Colorado PUC Proceeding No. 26AL-0137E",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Proceeding Number 26AL-0137E"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-04-02",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Milestones",
+      "quote": "Application Filed Filed date of the application. Apr. 2, 2026"
+     },
+     {
+      "page": "1",
+      "section": "Milestones",
+      "quote": "Commission Decision Final ruling on all issues presented in the proceeding. TBD"
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/81018/000008101826000012/psco-20260930.htm",
+      "page": "1",
+      "section": "PSCo Form 10-Q for the quarter ended 30 September 2026, Large Load/Data Center Tariffs",
+      "quote": "A CPUC decision is expected in late 2026 or early 2027.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "50 MW or more (mandatory for new loads over 50 MW per PSCo's 10-Q); new customers of 20 to 50 MW may also be subject to the tariff",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Xcel Large Load Tariff",
+       "quote": "large-load customers (those requiring 50 MW or more) would be required to cover the costs of the specific transmission lines, substations, interconnection upgrades and new electric generation capacity needed to serve them."
+      },
+      {
+       "page": "1",
+       "section": "Xcel Large Load Tariff",
+       "quote": "New customers using between 20 and 50 MW may also be subject to the tariff."
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/81018/000008101826000012/psco-20260930.htm",
+       "page": "1",
+       "section": "Large Load/Data Center Tariffs",
+       "quote": "The proposed tariff, filed in the second quarter of 2026, would be mandatory for new loads over 50 MW and requires the customer pay for generation and other infrastructure costs needed to serve the load.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Colorado PUC Electric Rate Cases page (names 'Minimum monthly payments' with no figure); PSCo 10-Q Q3 2026 (names 'minimum bill provisions' with no figure); Advice Letter No. 2018-Electric and its Schedule TL sheets not read (the Commission's e-filing host disallows robots)"
+    },
+    "contract_term": {
+     "value": "15 years or more (minimum initial term of 15 years)",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Xcel Large Load Tariff",
+       "quote": "Requiring large customers to sign contracts of 15 years or more, ensuring they remain invested in the system they helped expand"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/81018/000008101826000012/psco-20260930.htm",
+       "page": "1",
+       "section": "Large Load/Data Center Tariffs",
+       "quote": "The proposed tariff also includes a minimum initial term of 15 years, minimum bill provisions, termination and exit fees, and credit requirements.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "PSCo 10-Q Q3 2026 (names 'credit requirements' with no amount); Colorado PUC page; the filing itself not read"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Colorado PUC page (names 'early-termination charges' with no amount); PSCo 10-Q Q3 2026 ('termination and exit fees', no amount); the filing itself not read"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Colorado PUC page; PSCo 10-Q Q3 2026"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Colorado PUC page; PSCo 10-Q Q3 2026"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "PSCo 10-Q Q3 2026 (the Phase II RFP seeks 500 MW 'with potential upside for additional capacity as new large load customers are approved', no pipeline figure); Colorado PUC page"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Commission's own web page; PSCo's SEC filing",
+   "erw_overlap": "large_load_tariffs/xcel_colorado_schedule_tl.yaml: threshold held as 50 MW (Decision C26-0396-I p. 2); the Commission's page adds that new customers of 20 to 50 MW may also be subject. Contract term of 15 years is now read in the Commission's page and PSCo's 10-Q (the yaml has it only as an intervenor-testimony lead). Status unchanged: proposed, decision TBD; hearing held 21, 22, 26, 27 and 28 October 2026 per the page",
+   "notes": "No final decision found as of 13 Nov 2026. The page lists stipulations or settlement agreements due 5 Oct 2026; none was read. Leads from intervenor testimony (held in the yaml's notes, not written as values): minimum monthly bill on 80 percent of contract capacity, optional ramp up to 5 years inside the 15-year term, exit fee the sum of remaining minimum monthly bills. www.dora.state.co.us not requested (robots disallow, per the brief). Status date as the reading group wrote it: '2026-04-02 (filed); Commission decision TBD on the page read 13 Nov 2026'."
+  },
+  {
+   "utility": "Southwestern Public Service Company (Xcel Energy)",
+   "state": "TX",
+   "iso_region": "SPP",
+   "rule_name": "Large General Service - Transmission (LGS-T) rate schedule, Section No. IV Sheet No. IV-108, Revision No. 17: large load customer tariff provisions (LLT), proposed",
+   "source_url": "https://interchange.puc.texas.gov/Documents/60332_2_1687520.PDF",
+   "source_title": "Application of Southwestern Public Service Company for Approval of Large Load Customer Tariff Provisions, PUCT Docket No. 60332, with Attachment A (revised LGS-T tariff)",
+   "date_read": "2026-11-13",
+   "quoted_clause": {
+    "page": "19",
+    "section": "Attachment A, Commercial Terms Applicable to All Customers of 75 MW or more",
+    "quote": "These terms are required for all Customers whose service results in Aggregated Service of 75 MW or more in Peak Contracted Load."
+   },
+   "docket": {
+    "value": "PUCT Docket No. 60332",
+    "cites": [
+     {
+      "page": "3",
+      "quote": "DOCKET NO. 60332"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-09-25",
+    "cites": [
+     {
+      "page": "24",
+      "section": "Attachment B, notice",
+      "quote": "On September 25,2026, Southwestern Public Service Company (“SPS”) filed an application (“Application”) with the Public Utility Commission of Texas"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/60332_18_1698214.PDF",
+      "page": "2",
+      "section": "Order No. 5 Suspending Effective Date, 30 October 2026",
+      "quote": "Accordingly, the ALJ suspends the effective date of SPS's proposed tariff change to February 27,2027, to allow sufficient time for processing the application.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Aggregated Service of 75 MW or more of Peak Contracted Load (transmission voltage, 69 kV and above, delivery points within a 2.5-mile radius under common ownership or control), and Peak Contracted Load Growth of 75 MW or more after 25 September 2026",
+     "cites": [
+      {
+       "page": "19",
+       "section": "Attachment A, Aggregated Service",
+       "quote": "to Customers with Aggregated Service of greater than or equal to 75 megawatts (MW) of Peak Contracted Load, aggregation is based on the maximum number of service delivery points subject to this rate schedule within a 2.5-mile radius of any delivery point."
+      },
+      {
+       "page": "19",
+       "section": "Attachment A, Peak Contracted Load Growth",
+       "quote": "PEAK CONTRACTED LOAD GROWTH: Any increase in a Customer's Aggregated Existing Contracted Load of 75 MW or more occurring after September 25,2026."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum bill: demand charges on the greater of actual metered kW demand or 80 percent of Peak Contracted Load; a Load Ramp Period of up to five years, with demand charges billed from the Load Ramp Start Date",
+     "cites": [
+      {
+       "page": "20",
+       "section": "Attachment A, Minimum Bill",
+       "quote": "Minimum Bill: Demand Charges x billed kW demand, based on the greater of (i) actual metered kW demand or (ii) 80% of Peak Contracted Load."
+      },
+      {
+       "page": "19",
+       "section": "Attachment A, Load Ramp Period",
+       "quote": "LOAD RAMP PERIOD: Up to five years following Load Ramp Start Date as defined in the ESA, for incremental growth to 100% Peak Contracted Load"
+      },
+      {
+       "page": "19",
+       "section": "Attachment A, Load Ramp Period",
+       "quote": "Company shall bill Demand Charges and Service Availability Charges beginning on the Load Ramp Start Date specified in an ESA."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Minimum initial term of 15 years at full Peak Contracted Load, any ramp period added; existing loads may get up to 10 years of credit for prior continuous service; automatic five-year renewal terms unless 24 months' written notice",
+     "cites": [
+      {
+       "page": "20",
+       "section": "Attachment A, Term",
+       "quote": "Minimum initial term of 15 years of service at full Peak Contracted Load (Load ... Ramp Period, if elected, would be added to the initial term). For Aggregated Existing Contracted Load, Customers may be given up to 10 years of credit for previous continuous service at the existing delivery point(s)"
+      },
+      {
+       "page": "21",
+       "section": "Attachment A, Auto-Renewal",
+       "quote": "Auto-Renewal: Successive five-year Renewal Terms apply automatically unless termination notice is given to Company in writing at least 24-months prior to the expiration of the current term."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Both an irrevocable letter of credit of at least three months' minimum bills (at the highest Peak Contracted Load in the ESA) and a guaranty of at least five years of minimum bill payments and no more than the exit fee; a qualified guarantor needs a tangible net worth of at least 500 million dollars and an investment grade rating; a customer without a creditworthy guarantor posts a letter of credit instead; letters of credit from banks rated at least A- (S&P) or A3 (Moody's); security posted within 30 days of the ESA or of the Company's notice",
+     "cites": [
+      {
+       "page": "20",
+       "section": "Attachment A, Security Framework",
+       "quote": "an irrevocable Letter of Credit in an amount of no less than three months"
+      },
+      {
+       "page": "20",
+       "section": "Attachment A, Security Framework",
+       "quote": "Minimum Bills based on the Customer's highest Peak Contracted Load in the ESA"
+      },
+      {
+       "page": "20",
+       "section": "Attachment A, Security Framework",
+       "quote": "Guaranty in an amount no less than five years of Minimum Bill payments and no more than the Exit Fee required upon initial execution ofthe ESA."
+      },
+      {
+       "page": "20",
+       "section": "Attachment A, Security Framework",
+       "quote": "the Customer must post security in the form of a Letter of Credit in lieu of the Guaranty"
+      },
+      {
+       "page": "21",
+       "section": "Attachment A, Guaranty Definition",
+       "quote": "the Guarantor to have both a tangible net worth of at least $500 million and a minimum investment grade rating from Standard and Poor's or Moody's Investor Services."
+      },
+      {
+       "page": "21",
+       "section": "Attachment A, Letter of Credit Definition",
+       "quote": "with a credit rating of at least “A-” by Standard & Poor's or “A3” by Moody's Investor Service."
+      },
+      {
+       "page": "21",
+       "section": "Attachment A, Security Timing",
+       "quote": "Within 30 days of executing an ESA for Peak Contracted Load Growth or within 30 days of Company's notice to Customer that its Peak Contracted Load equals or exceeds 75 MW, Customer shall post, and maintain, throughout the Initial and Renewal Terms of its ESA, both forms of required security as described herein."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Minimum bill payments after termination for the lesser of 15 years or the remaining initial or renewal term (the 15 years counting the 24-month notice period plus 13 years of payments after termination)",
+     "cites": [
+      {
+       "page": "20",
+       "section": "Attachment A, Exit Fee",
+       "quote": "If, prior to completion of the Initial or Renewal Term, an ESA is terminated for anything other than an uncured and unexcused Company default, Customer must pay Company Minimum Bill payments following termination of the ESA for the lesser of (i) fifteen years or (ii) the remaining Initial or Renewal Term of the ESA (“Exit Fee”)."
+      },
+      {
+       "page": "20",
+       "section": "Attachment A, Exit Fee",
+       "quote": "Determination of the number of the term period for calculating the Exit Fee includes the required 24-month termination notice period described in the Auto-Renewal term below and thirteen years of Minimum Bill payments following termination."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Application and Attachment A (LGS-T sheets pp. 15 to 23): a non-refundable application fee of $120,000 and study fees per SPP's tariff, no study duration; Williams direct testimony"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Application and Attachment A; Williams direct testimony"
+    },
+    "queue_size": {
+     "value": "Executed ESAs or transmission tap agreements representing 'thousands of MW' of new peak load planned to come online in the next few years (no figure printed), against a historical peak of about 4,500 MW; testimony filed 25 September 2026",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/60332_3_1687524.PDF",
+       "page": "12",
+       "section": "Direct Testimony of Jordan M. Williams (SPS)",
+       "quote": "SPS has executed electric service agreements or transmission tap agreements with customers representing thousands of MW of new peak load demand who are planning to come online in the next few years",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/60332_3_1687524.PDF",
+       "page": "12",
+       "section": "Direct Testimony of Jordan M. Williams (SPS)",
+       "quote": "Compared to a historical peak demand of approximately 4,500 MW, this influx of demand has been unique in SPS's history",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the PUCT's docket copies (interchange.puc.texas.gov)",
+   "erw_overlap": "none",
+   "notes": "Group 3 (Contracted Load Growth of 75 MW or more) is to bear an incremental cost test that SPS will propose in its next base rate case, which it expects to file in the second half of 2027 (application p. 6). The application proposed an effective date of 30 October 2026; parties requesting a hearing include TIEC and OPUC; Data Center Coalition and Federal Executive Agencies moved to intervene on 9 November 2026. New Mexico: Xcel Energy's 10-Q for Q3 2026 says SPS expects to file similar tariff modifications in New Mexico in the fourth quarter of 2026 (https://www.sec.gov/Archives/edgar/data/72903/000007290326000181/xel-20260930.htm); no NMPRC filing was read. Status date as the reading group wrote it: '2026-09-25 (filed); effective date suspended to 2027-02-27'."
+  },
+  {
+   "utility": "Northern States Power Company, a Wisconsin corporation (Xcel Energy)",
+   "state": "WI",
+   "iso_region": "MISO",
+   "rule_name": "Large load tariff (proposed to the PSC of Wisconsin, second quarter of 2026)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/72909/000007290926000013/nspw-20260930.htm",
+   "source_title": "Northern States Power Company (Wisconsin) Form 10-Q for the quarter ended 30 September 2026, Large Load/Data Center Tariffs",
+   "date_read": "2026-11-13",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Large Load/Data Center Tariffs",
+    "quote": "In Wisconsin, we have proposed a tariff applicable to large load customers, designed to allow us to serve these new customers and support local economic development while protecting existing customers from bearing the incremental costs to serve these loads."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "NSP-Wisconsin 10-Q Q3 2026 names no docket; the PSCW's ERF and docket host (apps.psc.wi.gov) disallows Claude's agents (refused); PSCW press releases list and highlighted cases page name no NSP-Wisconsin large load docket"
+   },
+   "status": {
+    "value": "proposed",
+    "date": "",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Large Load/Data Center Tariffs",
+      "quote": "The proposed tariff, filed in the second quarter of 2026, would be mandatory for new loads over 100 MW and requires the customer pay for generation and other infrastructure costs needed to serve the load."
+     },
+     {
+      "page": "1",
+      "section": "Large Load/Data Center Tariffs",
+      "quote": "A PSCW decision is expected in early 2027."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "New loads over 100 MW (mandatory)",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Large Load/Data Center Tariffs",
+       "quote": "would be mandatory for new loads over 100 MW"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "NSP-Wisconsin 10-Q Q3 2026 names 'minimum bill provisions' with no figure; the tariff filing on PSCW ERF not readable (robots)"
+    },
+    "contract_term": {
+     "value": "Minimum initial term of 15 years",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Large Load/Data Center Tariffs",
+       "quote": "The proposed tariff also includes a minimum initial term of 15 years, minimum bill provisions, termination and exit fees, and credit requirements."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "NSP-Wisconsin 10-Q Q3 2026 names 'credit requirements' with no amount"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "NSP-Wisconsin 10-Q Q3 2026 names 'termination and exit fees' with no amount"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "NSP-Wisconsin 10-Q Q3 2026"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "NSP-Wisconsin 10-Q Q3 2026"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "NSP-Wisconsin 10-Q Q3 2026; Xcel Energy 10-Q Q3 2026 and 10-K 2025"
+    }
+   },
+   "license": "public",
+   "license_basis": "NSP-Wisconsin's SEC filing",
+   "erw_overlap": "none",
+   "notes": "The tariff sheets were not read: PSCW ERF (apps.psc.wi.gov) disallows Claude's agents and Xcel's own site answered with a bot check. Michigan (NSP-Wisconsin's Michigan service): no large-load rule found in the documents read (the 10-Q names only Wisconsin); the MPSC was not searched. Status date as the reading group wrote it: 'filed in the second quarter of 2026 (day not published); PSCW decision expected early 2027'."
+  },
+  {
+   "utility": "Wisconsin Power and Light Company (Alliant Energy)",
+   "state": "WI",
+   "iso_region": "MISO",
+   "rule_name": "Large load tariff for customers of 100 MW or more (filed with the PSC of Wisconsin, September 2026), proposed",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/352541/000035254126000047/lnt-20260930.htm",
+   "source_title": "Alliant Energy Corporation, Interstate Power and Light Company and Wisconsin Power and Light Company combined Form 10-Q for the quarter ended 30 September 2026, Rate Matters",
+   "date_read": "2026-11-13",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Rate Matters, Large Load Tariff",
+    "quote": "The large load tariff specifies the rates, terms and conditions applicable to customers meeting the applicable threshold and describes the standards and protections WPL will apply when evaluating electric service agreements with large load growth customers."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "Alliant's 10-Q Q3 2026 names no docket for the tariff filing; PSCW ERF disallows Claude's agents (refused)"
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-09",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Rate Matters, Large Load Tariff",
+      "quote": "In September 2026, WPL filed an application with the PSCW for approval of a large load tariff."
+     },
+     {
+      "page": "1",
+      "section": "Rate Matters, Large Load Tariff",
+      "quote": "A decision from the PSCW is currently expected in the first half of 2027."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Customers with demand requirements of 100 MW or greater (as directed by the PSCW)",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Rate Matters, Large Load Tariff",
+       "quote": "In connection with its June 2026 approval of an individual customer rate (ICR), the PSCW directed WPL to file a large load tariff applicable to all customers with demand requirements of 100 MW or greater."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Alliant's 10-Q Q3 2026 names 'minimum demand commitments' with no figure; the filing on PSCW ERF not readable (robots); alliantenergy.com refused (robots 403)"
+    },
+    "contract_term": {
+     "value": "Initial service term of 15 years",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Rate Matters, Large Load Tariff",
+       "quote": "The proposed tariff would require qualifying customers to commit to an initial service term of 15 years and includes minimum demand commitments, termination charges, customer reimbursement obligations and credit support requirements."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Alliant's 10-Q Q3 2026 names 'credit support requirements' and 'customer reimbursement obligations' with no amount"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Alliant's 10-Q Q3 2026 names 'termination charges' with no amount"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Alliant's 10-Q Q3 2026"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Alliant's 10-Q Q3 2026"
+    },
+    "queue_size": {
+     "value": "see row: Individual customer rate (ICR) tariff and the IUC-approved ICRs for data centers"
+    }
+   },
+   "license": "public",
+   "license_basis": "WPL's SEC filing (the combined 10-Q of Alliant Energy, IPL and WPL)",
+   "erw_overlap": "none",
+   "notes": "Ordered by the PSCW in Docket 6680-TE-115 (see the next row). The tariff sheets were not read (PSCW ERF and alliantenergy.com refused). Status date as the reading group wrote it: '2026-09 (filed; day not published); PSCW decision expected in the first half of 2027'."
+  },
+  {
+   "utility": "Wisconsin Power and Light Company (Alliant Energy)",
+   "state": "WI",
+   "iso_region": "MISO",
+   "rule_name": "Individual Contract Rate (ICR) tariff: Electric Service Agreement for a data center in Beaver Dam, PSCW Docket 6680-TE-115",
+   "source_url": "https://psc.wi.gov/Documents/PressReleases/05.08.26PressRelease.PDF",
+   "source_title": "Public Service Commission of Wisconsin news release of 7 May 2026: PSC Ensures Stronger Public Transparency, Customer Protections in Review of Alliant Energy's Data Center Service Agreement",
+   "date_read": "2026-11-13",
+   "quoted_clause": {
+    "page": "1",
+    "quote": "Alliant Energy’s existing Individual Contract Rate Tariff requires the utility to submit an Electric Service Agreement application proposing the rates, terms, and conditions of providing service to an individual customer within its service territory."
+   },
+   "docket": {
+    "value": "PSCW Docket 6680-TE-115",
+    "cites": [
+     {
+      "page": "3",
+      "quote": "All documents related to this proceeding are available under Docket 6680-TE-115 on the PSC’s Electronic Records Filing (ERF) System."
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2026-06",
+    "cites": [
+     {
+      "page": "2",
+      "quote": "The Commission discussed this case during its May 7, 2026 open meeting."
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/352541/000035254126000047/lnt-20260930.htm",
+      "page": "1",
+      "section": "Growing Customer Demand",
+      "quote": "In June 2026, the PSCW approved an ICR for a customer who is constructing a data center in WPL’s service territory, subject to certain conditions",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "PSCW release of 7 May 2026 and Alliant's 10-Q Q3 2026: the ICR serves one customer; no size threshold stated for the ICR tariff"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "PSCW release of 7 May 2026; Alliant's 10-Q Q3 2026 (demand revenue before the next rate review goes through the fuel cost recovery mechanism; no minimum demand figure)"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "PSCW release of 7 May 2026; Alliant's 10-Q Q3 2026"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "PSCW release of 7 May 2026 says only that the Commission 'imposed appropriate financial safeguard protections'; the final order on ERF not readable (robots)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "PSCW release of 7 May 2026 says the Commission 'strengthened the proposed termination charge', no amount; the final order on ERF not readable (robots)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "PSCW release of 7 May 2026"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "PSCW release of 7 May 2026"
+    },
+    "queue_size": {
+     "value": "see row: Individual customer rate (ICR) tariff and the IUC-approved ICRs for data centers"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Commission's own news release; WPL's SEC filing",
+   "erw_overlap": "none",
+   "notes": "A single-customer agreement under a general tariff in place since 2000 (per the release), kept as a row because the PSCW's order sets the terms for this data center and directed the stand-alone large load tariff (previous row). The release also lists added reporting requirements, a contribution to the statewide energy efficiency and renewable program and approved Renewable Energy Procurement Agreements. Alliant's 10-Q says customers on approved ICRs are a separate class in WPL's next cost-of-service study. Status date as the reading group wrote it: '2026-06 (final order; decided at the PSCW open meeting of 7 May 2026)'."
+  },
+  {
+   "utility": "Interstate Power and Light Company (Alliant Energy)",
+   "state": "IA",
+   "iso_region": "MISO",
+   "rule_name": "Individual customer rate (ICR) tariff and the IUC-approved ICRs for data centers",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/352541/000035254126000007/lnt-20251231.htm",
+   "source_title": "Alliant Energy Corporation, Interstate Power and Light Company and Wisconsin Power and Light Company combined Form 10-K for 2025",
+   "date_read": "2026-11-13",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Growing Customer Demand",
+    "quote": "The IUC’s order for IPL’s most recent retail electric rate review includes the creation of an individual customer rate tariff, allowing IPL to attract new load growth to its service territory."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "Alliant's 10-K 2025 and 10-Q Q3 2026 name no IUC docket; the IUC's EFS (efs.iowa.gov) disallows all robots (refused)"
+   },
+   "status": {
+    "value": "approved",
+    "date": "2024-09",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Rate Matters, IPL's Retail Electric and Gas Rate Reviews",
+      "quote": "In September 2024, the IUC issued an order for IPL’s retail electric and gas rate reviews for the October 2024 through September 2025 forward-looking Test Period with rate changes effective October 1, 2024."
+     },
+     {
+      "page": "1",
+      "section": "Rate Matters, IUC order provisions",
+      "quote": "Creation of an individual customer rate tariff, which would allow IPL to attract new load growth to its service territory;"
+     },
+     {
+      "page": "1",
+      "section": "Growing Customer Demand",
+      "quote": "In May 2025 and October 2025, the IUC issued orders, with certain conditions, approving individual customer rates for data centers expected to be constructed in IPL’s service territory."
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/352541/000035254126000047/lnt-20260930.htm",
+      "page": "1",
+      "section": "Growing Customer Demand",
+      "quote": "In October 2026, IPL filed a request with the IUC for approval of an ICR for a data center expected to be constructed in its service territory. A decision from the IUC is currently expected in the first quarter of 2027.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "Alliant's 10-K 2025 and 10-Q Q3 2026; the ICR tariff sheet (IUC EFS, alliantenergy.com) not readable"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "As threshold_mw"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "As threshold_mw"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "As threshold_mw. Alliant's 10-Q Q3 2026 reports IPL's guarantees to its transmission provider for data center infrastructure of about 199 million dollars at 30 September 2026 (a utility obligation, not customer collateral)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "As threshold_mw"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "As threshold_mw"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "As threshold_mw"
+    },
+    "queue_size": {
+     "value": "IPL's and WPL's executed ESAs: aggregate peak demands of approximately 3 gigawatts (10-K for 2025, filed 20 February 2026). Since then, an IPL ESA of April 2026 with contracted peak demand of approximately 370 MW (10-Q, Q3 2026); the two figures are not summed",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Growing Customer Demand",
+       "quote": "IPL’s and WPL’s currently executed electric service agreements include aggregate, peak demands of approximately 3 gigawatts."
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/352541/000035254126000047/lnt-20260930.htm",
+       "page": "1",
+       "section": "Growing Customer Demand",
+       "quote": "In April 2026, IPL entered into an electric service agreement with a customer who currently expects to build a data center in IPL’s service territory. This electric service agreement includes contracted peak demand of approximately 370 MW.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "IPL's and WPL's SEC filings (the combined 10-K and 10-Q of Alliant Energy, IPL and WPL)",
+   "erw_overlap": "none",
+   "notes": "The ICR tariff sheet and the IUC's ICR orders were not read (IUC EFS disallows all robots; alliantenergy.com robots answered 403). The 10-K says IPL has ESAs with two new data center customers and WPL with one. The 10-Q says a WPL data center customer moved to a site in IPL's territory in Q1 2026 and its ESA was renegotiated. The IUC's newsroom (iuc.iowa.gov) shows no large-load release in 2025 or 2026. Status date as the reading group wrote it: '2024-09 (IUC rate review order creating the ICR tariff); ICRs for data centers approved May 2025 and October 2025; a further ICR request filed October 2026, decision expected Q1 2027'."
+  },
+  {
+   "utility": "Omaha Public Power District (OPPD)",
+   "state": "NE",
+   "iso_region": "SPP",
+   "rule_name": "Rate Schedule No. 261M, Large Power, High-Voltage Transmission Level, Market Energy",
+   "source_url": "https://www.oppd.com/media/172612/oppd-rate-manual.pdf",
+   "source_title": "OPPD Rate Manual: Rates, Service Regulations and Riders (Board of Directors approved)",
+   "date_read": "2026-11-13",
+   "quoted_clause": {
+    "page": "44",
+    "section": "Rate Schedule No. 261M, Applicability",
+    "quote": "The minimum Demand for service under this Rate Schedule is 20,000 kilowatts for service at 161,000 volts or a minimum Demand of 200,000 kilowatts for service at 345,000 volts each month."
+   },
+   "docket": {
+    "value": "OPPD Board Resolution No. 6743",
+    "cites": [
+     {
+      "page": "44",
+      "quote": "Resolution No. 6743"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-01-01",
+    "cites": [
+     {
+      "page": "44",
+      "quote": "Effective 01/01/2026"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "20 MW minimum demand at 161 kV; 200 MW at 345 kV (customer-owned substation); demand must reach the minimum within 18 months",
+     "cites": [
+      {
+       "page": "44",
+       "section": "Applicability",
+       "quote": "The minimum Demand for service under this Rate Schedule is 20,000 kilowatts for service at 161,000 volts or a minimum Demand of 200,000 kilowatts for service at 345,000 volts each month."
+      },
+      {
+       "page": "44",
+       "section": "Applicability",
+       "quote": "Customers must substantiate to OPPD’s satisfaction that their Demand requirements will meet the minimum Demand requirements of this Rate Schedule within 18 months of establishing service under this Rate Schedule."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum billing demand of 20,000 kW (161 kV) or 200,000 kW (345 kV) a month; minimum monthly bill 488,200 dollars (161 kV) or 4,792,000 dollars (345 kV); billing demand also not below 90 percent of the highest summer demand or 75 percent of the highest non-summer demand of the preceding 11 months",
+     "cites": [
+      {
+       "page": "44",
+       "section": "Billing Components",
+       "quote": "Minimum Billing Demand of 20,000 kilowatts per month for interconnection at 161,000 volts or 200,000 kilowatts per month for interconnection at 345,000 volts."
+      },
+      {
+       "page": "44",
+       "section": "Billing Components",
+       "quote": "Minimum Monthly Bill: $488,200 for Customers taking service at 161,000 volts or $4,792,000 for Customers taking service at 345,000 volts"
+      },
+      {
+       "page": "45",
+       "section": "Determination of Demand",
+       "quote": "The Customer’s Demand must be equal to or greater than the larger of the following: ... 90% of the highest 15-minute Power Factor-adjusted Demand during the Summer billing months of the preceding eleven (11) months, or ... 75% of the highest 15-minute Power Factor-adjusted Demand during the Non-Summer billing months of the preceding eleven (11) months"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "OPPD Rate Manual pp. 44 to 46 (Rate 261M) and its Service Regulations section"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "OPPD Rate Manual pp. 44 to 46 and Service Regulations"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "OPPD Rate Manual pp. 44 to 46 and Service Regulations"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "OPPD Rate Manual pp. 44 to 46 and Service Regulations"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "OPPD Rate Manual pp. 44 to 46 (only the 18-month window to reach the minimum demand)"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "OPPD Rate Manual; OPPD's integrated resource plan and board materials not read (document budget)"
+    }
+   },
+   "license": "internal",
+   "license_basis": "OPPD's site terms allow personal, non-commercial use only (https://www.oppd.com/contact/terms-conditions/)",
+   "erw_overlap": "none",
+   "notes": "A Board-approved transmission-level rate with market (SPP) energy pricing, not a data-center-specific tariff; no OPPD large-load or data center policy was found in the rate manual (no 'large load' text). Rate 261M also requires the customer to notify expected monthly demand a week ahead, bars export and resale, and bars wholesale transmission service to serve its demand (p. 46). Monthly service charge 10,000 dollars, demand charge 23.91 dollars per kW-month (p. 44)."
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Northern States Power Company, Minnesota",
+   "url": "https://efiling.web.commerce.state.mn.us/documents?doSearch=true&dockets=25-289",
+   "reason": "blocked: robots allowed, but the answer redirected to /turnstile, a 'Security check ... verify your browser's security' page; a bot check, not retried"
+  },
+  {
+   "utility": "Xcel Energy (all four operating companies)",
+   "url": "https://www.xcelenergy.com/",
+   "reason": "blocked: redirected to my.xcelenergy.com/s/, which the reader marked as a bot check; the terms of use could not be read, so no value is taken from Xcel's host (its Minnesota rate book Section 5 PDF was fetched once before this was known; nothing from it is used)"
+  },
+  {
+   "utility": "Northern States Power Company, Wisconsin; Wisconsin Power and Light Company",
+   "url": "https://apps.psc.wi.gov/APPS/dockets/content/detail.aspx?dockt_id=6680-TE-115",
+   "reason": "robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai (the PSCW's ERF and docket host)"
+  },
+  {
+   "utility": "Interstate Power and Light Company; MidAmerican Energy Company",
+   "url": "https://efs.iowa.gov/efs/",
+   "reason": "robots.txt 200: DISALLOWED for every agent (the IUC's electronic filing system, which holds tariffs and orders)"
+  },
+  {
+   "utility": "Interstate Power and Light Company; Wisconsin Power and Light Company",
+   "url": "https://www.alliantenergy.com/",
+   "reason": "robots.txt answered 403: treated as disallow all"
+  },
+  {
+   "utility": "Nebraska Public Power District",
+   "url": "https://cdn.prod.website-files.com/5a26c42ac0c9b0000147937c/695426f9d52d95ded596e69f_LargeIndustrialService.pdf",
+   "reason": "robots.txt answered 403: treated as disallow all (the host of NPPD's rate PDFs)"
+  },
+  {
+   "utility": "Lincoln Electric System",
+   "url": "https://www.les.com/sites/default/files/Budget%20%26%20Rates/rates-schedules-2026.pdf",
+   "reason": "not requested: LES's legal notice limits content to 'limited, internal, personal, noncommercial, informational purposes' and says 'You may not store ... any of the content', which the reader's cache would do; left for the parent to decide"
+  },
+  {
+   "utility": "Public Service Company of Colorado",
+   "url": "https://www.dora.state.co.us/",
+   "reason": "not requested: the Colorado PUC's e-filing host disallows robots (per the brief)"
+  },
+  {
+   "utility": "Xcel Energy (NSP-Minnesota, NSP-Wisconsin); Alliant (IPL, WPL); MidAmerican",
+   "url": "https://www.misoenergy.org/",
+   "reason": "not requested: paused publisher (MISO)"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "MidAmerican Energy Company (IA, SD, IL; MISO)",
+   "searched": "MidAmerican's combined 10-Q (with Berkshire Hathaway Energy) for Q3 2026, filed 9 November 2026: its rate matters name only a July 2026 Iowa natural gas rate request, no large-load or data center tariff; IUC newsroom (2025 to 2026) and the IUC's news of 8 July 2026 on MidAmerican's rate filing (Docket RPU-2026-0001), no large-load terms; IUC EFS refused (robots). Not read: midamericanenergy.com, the South Dakota and Illinois commissions (web search budget exhausted, document budget)."
+  },
+  {
+   "utility": "Nebraska Public Power District (NE; SPP)",
+   "searched": "NPPD rates pages (nppd.com, terms limit use to internal noncommercial purposes): the Large Business / Industrial page says Large Industrial Service is 'Typically applicable to industrial or manufacturing customers with peak demands in excess of 20,000 kW', a general rate class, not a large-load rule; its rate PDF was refused (robots 403 on cdn.prod.website-files.com). No large-load or data center rule, Board policy or contract framework found."
+  },
+  {
+   "utility": "Lincoln Electric System (NE; SPP)",
+   "searched": "les.com home page, the news item 'LES proposes 2027 budget and retail rate adjustment' (no large-load item), the legal notice and the business rates page; the 2026 rate schedules book and service regulations were not read because of the terms (see refused). No large-load rule found in what was read."
+  },
+  {
+   "utility": "Northern States Power Company, Wisconsin, Michigan service (MI)",
+   "searched": "NSP-Wisconsin 10-Q Q3 2026 (names only the Wisconsin filing). The Michigan PSC was not searched."
+  },
+  {
+   "utility": "Southwestern Public Service Company, New Mexico (NM)",
+   "searched": "Xcel Energy 10-Q Q3 2026: SPS 'expects to file similar tariff modifications in New Mexico in the fourth quarter of 2026'; no NMPRC filing read (web search budget exhausted)."
+  }
+ ]
+}
