@@ -236,24 +236,6 @@ test("a revised figure keeps its span and gains one note line at the end of the 
     D.digestFigures(MD, "2026-10-20", null, HELD).find((f) => f.key === fuel.key).held ? 0 : 1);
 });
 
-// session 3891 (chain 227): the US48 demand line's hour is EIA's too and EIA restates it: the issue of 12 November 2026
-// printed 488,034 MW for 11 November 23:00 UTC, and the run of 13 November loaded EIA's 488,341
-test("a restated demand hour gains the note in whole MW, the issue's figure kept", () => {
-  const md = fs.readFileSync(path.join(here, "..", "..", "docs", "digest", "2026-11-12.md"), "utf-8");
-  const now = new Date("2026-11-13T18:00:00Z");
-  const dem = D.digestFigures(md, "2026-11-12", null, now).find((f) => f.part === "demand");
-  assert.ok(dem, "the issue of 12 November prints the US48 demand line");
-  assert.equal(dem.key, "digest_demand|eia930_all_demand|eia930:US48|demand_mw|2026-11-11T23:00:00Z");
-  assert.equal(dem.raw, "488034");
-  const t = D.digestMarkdown(md, "2026-11-12", null, now, { [dem.key]: { key: dem.key, value: 488341, retrieved: "2026-11-13T16:01:00Z" } });
-  assert.ok(t.spans.join("\n").includes(`<span data-check="${dem.key}" data-raw="488034"`), "the figure's own span and key stay");
-  const note = t.spans.find((x) => x.includes(`data-revised="${dem.key}"`));
-  assert.ok(note, "the note's span");
-  assert.ok(note.includes('data-revised-value="488341"') && note.includes('data-revised-printed="488034"'), note);
-  assert.ok(note.includes("EIA revised the") && note.includes(" demand for ") && note.includes("the warehouse now holds 488,341 MW")
-    && note.includes("the issue printed 488,034 MW"), note);
-});
-
 test("every Digest the site holds has its numbers read: a key for each figure, and none left as a bare number", () => {
   const dir = path.join(here, "..", "..", "docs", "digest");
   const files = fs.readdirSync(dir).filter((f) => /^\d{4}-\d{2}-\d{2}\.md$/.test(f));

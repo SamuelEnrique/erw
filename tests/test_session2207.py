@@ -30,11 +30,10 @@ class ThePage(unittest.TestCase):
 
     def test_the_live_reader_reads_the_fuel_closes_only_and_never_fails_the_page(self):
         s = src("site", "lib", "digestLive.ts")
-        # session 3891 (chain 227): the fuel closes and the US48 demand line's hour (EIA restates both), demand in whole MW
-        self.assertIn('.filter((f) => (f.part === "fuel" || f.part === "demand") && !f.held)', s)
+        self.assertIn('.filter((f) => f.part === "fuel" && !f.held)', s)
         self.assertIn("attempt(() => rest<Row>(", s)
         self.assertIn("if (!r.ok || !r.data.length) continue;", s)
-        self.assertIn('if (demand ? Math.round(v) === Number(f.raw) : v.toFixed(2) === Number(f.raw).toFixed(2)) continue;', s)
+        self.assertIn('v.toFixed(2) === Number(f.raw).toFixed(2)) continue;', s)
 
     def test_the_renderer_draws_the_note_with_the_values_and_keeps_the_figure(self):
         d = src("site", "lib", "digest.ts")
@@ -51,8 +50,7 @@ class ThePage(unittest.TestCase):
 class TheChecks(unittest.TestCase):
     def test_check_values_reads_the_note_as_a_pass(self):
         cv = src("site", "scripts", "check-values.mjs")
-        # session 3891 (chain 227): the demand line's restated hour is a note too
-        self.assertIn('if (!pass && /^digest_(dam|rt|fuel|demand)\\|/.test(check) && t !== undefined && t !== null) {', cv)
+        self.assertIn('if (!pass && /^digest_(dam|rt|fuel)\\|/.test(check) && t !== undefined && t !== null) {', cv)
         self.assertIn('data-revised-value="([^"]+)"', cv)
         self.assertIn('out.lines.push(`note | ${page} | ${check} | revised: page shows "${text}" as the issue printed it, its note says ${rv[1]} | page read ${raw} | Supabase ${t}`);', cv)
         body = cv[cv.index("if (!pass && /^digest_"):cv.index("pass ? out.ok++ : out.bad++;")]
