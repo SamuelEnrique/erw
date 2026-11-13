@@ -13,11 +13,11 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **648 tables.** The flag and the verdict agree on 544; a ruling settles 52 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling, and 1 public by the owner's ruling); disagree on 0; 26 are not settled (a publisher not read); 2 is internal by the ERW's own choice; 24 flagged internal wait for the owner's ruling, the sentence read allowing them (chain 229: never loosened by a session, the default "stays internal").
 - **The ERW's verdict (session 378): 479 public, 115 internal, 54 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1810 publishers in the record: 1807 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 443 pages read, 1364 that could not be read, 3 not asked (paused).**
+- **1854 publishers in the record: 1851 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 482 pages read, 1369 that could not be read, 3 not asked (paused).**
 - **49 tables are flagged public where a publisher's sentence asks for permission or a license** (49 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 34; ISO-NE 30; MISO 27; Bloomberg 7; Data Center Dynamics 7; Data Center Frontier 7; Energy-Storage.news 7; Financial Times 7; Hart Energy 7; Heatmap News 7; Latitude Media 7; Natural Gas Intelligence 7; OilPrice.com 7; POWER Magazine 7; Public Utility Commission of Texas 7; Reuters 7; Utility Dive 7; WSJ 7; Data Center Knowledge 6; ANS Nuclear Newswire 5; Amazon Web Services 5; Canary Media 5; Digital Realty 5; Electrek 5; Equinix 5; Google 5; JPT 5; LNG Prime 5; Meta 5; Microsoft 5; Oracle 5; Rigzone 5; Switch 5; Vantage Data Centers 5; pv magazine USA 5; Louisiana Department of Revenue 1; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **24 tables are flagged internal where the sentence read allows them:** `csp_latvia_electricity_monthly`, `econtrol_austria_electricity_monthly`, `ferc714_area_demand_2006`, `ferc714_area_demand_2007`, `ferc714_area_demand_2008`, `ferc714_area_demand_2009`, `ferc714_area_demand_2010`, `ferc714_area_demand_2011`, `ferc714_area_demand_2012`, `ferc714_area_demand_2013`, `ferc714_area_demand_2014`, `ferc714_area_demand_2015`, `ferc714_area_demand_2016`, `ferc714_area_demand_2017`, `ferc714_area_demand_2018`, `ferc714_area_demand_2019`, `ferc714_area_demand_2020`, `ferc714_area_demand_2021`, `ferc714_area_demand_2022`, `ferc714_area_demand_2023`, `ferc714_area_demand_2024`, `ferc714_area_demand_2025`, `ferc714_respondents`, `svk_sweden_production_hourly`.
 - **17 tables that may be public today would need permission if the ERW sells anything** (SPP 8; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; E-Control (Energie-Control Austria) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
-- **Confirmed against the publisher's current page (chain 229, session 4101 on): 37 publishers, 0 of them with a sentence no longer on the page.** 36 tables rest on a verdict read more than 30 days before the newest read in the record (2026-11-13) and not confirmed since.
+- **Confirmed against the publisher's current page (chain 229, session 4101 on): 58 publishers, 0 of them with a sentence no longer on the page.** 36 tables rest on a verdict read more than 30 days before the newest read in the record (2026-11-13) and not confirmed since.
 
 ## The reads
 
@@ -1835,6 +1835,50 @@ One request a label, no second try: a publisher's page asked again takes a new l
 | 1808 | ELES (the Slovenian transmission system operator), its basic data page (session 4113) | https://www.eles.si/en/basic-data | 11:37:56 | 200 | 112321 | read |
 | 1809 | U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov), www.usaspending.gov's robots file (session 4153) | https://www.usaspending.gov/robots.txt | 12:09:40 | 200 | 97 | read |
 | 1810 | U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov), about the data download (session 4153) | https://www.usaspending.gov/data/about-the-data-download.pdf | 12:09:48 | 200 | 465759 | read |
+| 1811 | OilPrice.com, oilprice.com's robots file (session 4156) | https://oilprice.com/robots.txt | 12:13:00 | 200 | 7546 | read |
+| 1812 | Utility Dive, www.industrydive.com's robots file (session 4156) | https://www.industrydive.com/robots.txt | 12:13:01 | 200 | 990 | read |
+| 1813 | Office of the Federal Register (NARA), www.govinfo.gov's robots file (session 4156) | https://www.govinfo.gov/robots.txt | 12:13:01 | 200 | 5092 | read |
+| 1814 | Statistics Canada, www.statcan.gc.ca's robots file (session 4156) | https://www.statcan.gc.ca/robots.txt | 12:13:01 | 200 | 2027 | read |
+| 1815 | ANS Nuclear Newswire, www.ans.org's robots file (session 4156) | https://www.ans.org/robots.txt | 12:13:02 | 200 | 3149 | read |
+| 1816 | Canary Media, www.canarymedia.com's robots file (session 4156) | https://www.canarymedia.com/robots.txt | 12:13:02 | 200 | 286 | read |
+| 1817 | JPT, www.spe.org's robots file (session 4156) | https://www.spe.org/robots.txt | 12:13:02 | 200 | 469 | read |
+| 1818 | LNG Prime, lngprime.com's robots file (session 4156) | https://lngprime.com/robots.txt | 12:13:02 | 404 | 170 | not read: HTTP 404 |
+| 1819 | Rigzone, www.rigzone.com's robots file (session 4156) | https://www.rigzone.com/robots.txt | 12:13:03 | 200 | 2016 | read |
+| 1820 | World Nuclear News, world-nuclear.org's robots file (session 4156) | https://world-nuclear.org/robots.txt | 12:13:04 | 404 | 41933 | not read: HTTP 404 |
+| 1821 | pv magazine USA, pv-magazine-usa.com's robots file (session 4156) | https://pv-magazine-usa.com/robots.txt | 12:13:05 | 200 | 2882 | read |
+| 1822 | Energy-Charts.info (Fraunhofer ISE), api.energy-charts.info's robots file (session 4156) | https://api.energy-charts.info/robots.txt | 12:13:05 | 404 | 22 | not read: HTTP 404 |
+| 1823 | Oak Ridge National Laboratory (ORNL), HydroSource, hydrosource.ornl.gov's robots file (session 4156) | https://hydrosource.ornl.gov/robots.txt | 12:13:06 | 200 | 136 | read |
+| 1824 | U.S. Geological Survey (USGS), www.usgs.gov's robots file (session 4156) | https://www.usgs.gov/robots.txt | 12:13:06 | 200 | 1636 | read |
+| 1825 | STATEC (Luxembourg), statistiques.public.lu's robots file (session 4156) | https://statistiques.public.lu/robots.txt | 12:13:06 | 200 | 529 | read |
+| 1826 | Alberta Electric System Operator (AESO), Canada, www.aeso.ca's robots file (session 4156) | https://www.aeso.ca/robots.txt | 12:13:07 | 404 | 64573 | not read: HTTP 404 |
+| 1827 | Bureau of Ocean Energy Management (BOEM), www.boem.gov's robots file (session 4156) | https://www.boem.gov/robots.txt | 12:13:08 | 200 | 2069 | read |
+| 1828 | National Laboratory of the Rockies (NLR, formerly NREL), www.nlr.gov's robots file (session 4156) | https://www.nlr.gov/robots.txt | 12:13:08 | 200 | 24 | read |
+| 1829 | U.S. Bureau of Reclamation (USBR), www.usbr.gov's robots file (session 4156) | https://www.usbr.gov/robots.txt | 12:13:08 | 200 | 50 | read |
+| 1830 | U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR), www.doi.gov's robots file (session 4156) | https://www.doi.gov/robots.txt | 12:13:08 | 200 | 2403 | read |
+| 1831 | Banco Central de Reserva del Peru (BCRP), estadisticas.bcrp.gob.pe's robots file (session 4156) | https://estadisticas.bcrp.gob.pe/robots.txt | 12:13:09 | 404 | 951 | not read: HTTP 404 |
+| 1832 | Canada Energy Regulator (CER), www.cer-rec.gc.ca's robots file (session 4156) | https://www.cer-rec.gc.ca/robots.txt | 12:13:10 | 200 | 741 | read |
+| 1833 | CivicPlus, www.civicplus.help's robots file (session 4156) | https://www.civicplus.help/robots.txt | 12:13:10 | 200 | 76 | read |
+| 1834 | Office of the Federal Register (NARA), current terms (session 4156) | https://www.govinfo.gov/about/policies | 12:13:27 | 200 | 64169 | read |
+| 1835 | Statistics Canada, current terms (session 4156) | https://www.statcan.gc.ca/en/terms-conditions/open-licence | 12:13:27 | 200 | 26643 | read |
+| 1836 | Canary Media, current terms (session 4156) | https://www.canarymedia.com/about/republish-our-stories | 12:13:27 | 200 | 463363 | read |
+| 1837 | JPT, current terms (session 4156) | https://www.spe.org/en/about/terms-of-service/ | 12:13:27 | 200 | 69661 | read |
+| 1838 | LNG Prime, current terms (session 4156) | https://lngprime.com/terms-and-conditions/ | 12:13:28 | 200 | 205385 | read |
+| 1839 | Rigzone, current terms (session 4156) | https://www.rigzone.com/terms/ | 12:13:29 | 200 | 156545 | read |
+| 1840 | World Nuclear News, current terms (session 4156) | https://world-nuclear.org/general/permission-for-use-of-content | 12:13:29 | 200 | 45717 | read |
+| 1841 | Energy-Charts.info (Fraunhofer ISE), current terms (session 4156) | https://api.energy-charts.info/openapi.json | 12:13:30 | 200 | 83840 | read |
+| 1842 | Oak Ridge National Laboratory (ORNL), HydroSource, current terms (session 4156) | https://hydrosource.ornl.gov/data-use-policy/ | 12:13:32 | 200 | 141979 | read |
+| 1843 | U.S. Geological Survey (USGS), current terms (session 4156) | https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits | 12:13:32 | 200 | 88994 | read |
+| 1844 | STATEC (Luxembourg), current terms (session 4156) | https://statistiques.public.lu/en/support/notice.html | 12:13:33 | 200 | 79547 | read |
+| 1845 | Alberta Electric System Operator (AESO), Canada, current terms (session 4156) | https://www.aeso.ca/legal/ | 12:13:35 | 200 | 73930 | read |
+| 1846 | Bonneville Power Administration (BPA), current terms (session 4156) | https://www.energy.gov/web-policies | 12:13:36 | 200 | 133258 | read |
+| 1847 | Bureau of Ocean Energy Management (BOEM), current terms (session 4156) | https://www.boem.gov/about-boem/copyright-restrictions-and-permissions | 12:13:36 | 200 | 58441 | read |
+| 1848 | National Laboratory of the Rockies (NLR, formerly NREL), current terms (session 4156) | https://www.nlr.gov/disclaimer | 12:13:36 | 200 | 30098 | read |
+| 1849 | U.S. Bureau of Reclamation (USBR), current terms (session 4156) | https://www.usbr.gov/main/disclaimer.html | 12:13:36 | 200 | 17937 | read |
+| 1850 | U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR), current terms (session 4156) | https://www.doi.gov/copyright | 12:13:36 | 200 | 53304 | read |
+| 1851 | Banco Central de Reserva del Peru (BCRP), current terms (session 4156) | https://estadisticas.bcrp.gob.pe/estadisticas/series/ayuda/condiciones-de-uso | 12:13:37 | 200 | 18041 | read |
+| 1852 | California State Portal / CA.gov, current terms (session 4156) | https://www.ca.gov/legal/conditions-of-use/ | 12:13:38 | 200 | 32717 | read |
+| 1853 | Canada Energy Regulator (CER), current terms (session 4156) | https://www.cer-rec.gc.ca/en/terms-conditions.html | 12:13:38 | 200 | 37940 | read |
+| 1854 | CivicPlus, current terms (session 4156) | https://www.civicplus.help/legal-center/docs/civicplus-terms-of-use | 12:13:38 | 200 | 729453 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -2126,12 +2170,20 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 
 | Publisher | First read | Read now | Day | The sentence | Verdict before | Verdict now | Note |
 |---|---|---|---|---|---|---|---|
+| Alberta Electric System Operator (AESO), Canada | #46 | #1845 | 2026-11-13 | on the page | may be public | may be public |  |
 | Amazon Web Services | #32 | #1754 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Banco Central de Reserva del Peru (BCRP) | #1082 | #1851 | 2026-11-13 | on the page | may be public | may be public |  |
 | Berkeley Lab | #1711 | #1711 | 2026-11-13 | cut again from this page | may be public | may be public | Session 4107: the sentence cut from the Queued Up 2026 edition page on eta-publications.lbl.gov (robots read 1666; emp.lbl.gov answers 403, read 14). The wind, solar and PPA files carry the same CC BY 4.0 notice inside each file (their tables' headers); the wind data page (read 1712) states none in its text. |
+| Bonneville Power Administration (BPA) | #54 | #1846 | 2026-11-13 | on the page | may be public | may be public |  |
+| Bureau of Ocean Energy Management (BOEM) | #86 | #1847 | 2026-11-13 | on the page | may be public | may be public |  |
 | CAISO | #3 | #1669 | 2026-11-13 | on the page | may be public | may be public |  |
 | CARB | #10 | #1742 | 2026-11-13 | on the page | may be public | may be public |  |
 | California Public Utilities Commission | #50 | #1680 | 2026-11-13 | on the page | may be public | may be public |  |
+| California State Portal | CA.gov | #51 | #1852 | 2026-11-13 | on the page | may be public | may be public |  |
+| Canada Energy Regulator (CER) | #96 | #1853 | 2026-11-13 | on the page | may be public | may be public |  |
+| Canary Media | #52 | #1836 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Census Bureau | #17 | #1679 | 2026-11-13 | on the page | may be public | may be public |  |
+| CivicPlus | #81 | #1854 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | DOE newsroom | #54 | #1676 | 2026-11-13 | on the page | may be public | may be public |  |
 | Data Center Frontier | #22 | #1747 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Data Center Knowledge | #23 | #1753 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
@@ -2139,30 +2191,43 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | EIA | #1 | #1667 | 2026-11-13 | on the page | may be public | may be public |  |
 | EPA | #55 | #1678 | 2026-11-13 | on the page | may be public | may be public |  |
 | ERCOT | #2 | #1668 | 2026-11-13 | on the page | may be public | may be public |  |
+| Energy-Charts.info (Fraunhofer ISE) | #442 | #1841 | 2026-11-13 | on the page | may be public | may be public |  |
 | Eurostat (Statistical Office of the European Union) | #280 | #1673 | 2026-11-13 | on the page | may be public | may be public |  |
 | FRB | #41 | #1743 | 2026-11-13 | on the page | may be public | may be public |  |
 | Google | #35 | #1756 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | IMF | #13 | #1744 | 2026-11-13 | on the page | may be public | may be public |  |
 | IMF PortWatch | #13 | #1744 | 2026-11-13 | on the page | may be public | may be public |  |
 | ISO-NE | #4 | #1672 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| JPT | #63 | #1837 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| LNG Prime | #64 | #1838 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Latitude Media | #27 | #1749 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Microsoft | #37 | #1757 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | NOAA NCEI | #9 | #1675 | 2026-11-13 | on the page | may be public | may be public |  |
 | NRC | #16 | #1677 | 2026-11-13 | on the page | may be public | may be public |  |
 | NWS | #8 | #1741 | 2026-11-13 | on the page | may be public | may be public |  |
 | NYISO | #5 | #1670 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| National Laboratory of the Rockies (NLR, formerly NREL) | #65 | #1848 | 2026-11-13 | on the page | may be public | may be public |  |
 | Natural Gas Intelligence | #28 | #1750 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Oak Ridge National Laboratory (ORNL), HydroSource | #116 | #1842 | 2026-11-13 | on the page | may be public | may be public |  |
+| Office of the Federal Register (NARA) | #91 | #1834 | 2026-11-13 | on the page | may be public | may be public |  |
 | Oracle | #38 | #1758 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | PJM | #15 | #1702 | 2026-11-13 | on the page | needs a paid license | needs a paid license |  |
 | POWER Magazine | #29 | #1751 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | RGGI | #18 | #1746 | 2026-11-13 | no sentence quoted | needs written permission | needs written permission |  |
 | RRC | #19 | #1745 | 2026-11-13 | on the page | may be public | may be public |  |
+| Rigzone | #75 | #1839 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | SPP | #6 | #1671 | 2026-11-13 | on the page | may be public | may be public |  |
+| STATEC (Luxembourg) | #1564 | #1844 | 2026-11-13 | on the page | may be public | may be public |  |
+| Statistics Canada | #361 | #1835 | 2026-11-13 | on the page | may be public | may be public |  |
 | Switch | #39 | #1759 | 2026-11-13 | no sentence quoted | needs written permission | needs written permission |  |
+| U.S. Bureau of Reclamation (USBR) | #173 | #1849 | 2026-11-13 | on the page | may be public | may be public | The verdict joins two pages: Reclamation's disclaimer (its piece on read 1849) and the Department of the Interior's copyright notice (its piece on read 1850, www.doi.gov/copyright, the page of read 159). |
 | U.S. Department of Energy (DOE) | #54 | #1676 | 2026-11-13 | on the page | may be public | may be public |  |
+| U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR) | #159 | #1850 | 2026-11-13 | on the page | may be public | may be public |  |
+| U.S. Geological Survey (USGS) | #87 | #1843 | 2026-11-13 | on the page | may be public | may be public |  |
 | UK Department for Energy Security and Net Zero (DESNZ) | #315 | #1674 | 2026-11-13 | on the page | may be public | may be public |  |
 | Vantage Data Centers | #40 | #1760 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | WSJ | #31 | #1752 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| World Nuclear News | #79 | #1840 | 2026-11-13 | on the page | may be public | may be public |  |
 
 **Publishers no read of this sweep covers (32):** Administrador del Mercado Mayorista (AMM), Guatemala; Africa Sustainable Futures Awards; Arizona Corporation Commission; CTVC; Danish Energy Agency (Energistyrelsen); FERC; Illinois Commerce Commission; Kosovo Agency of Statistics (ASK); Louisiana State Legislature; Ministry of Energy, Saudi Arabia, as published by GASTAT; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); PSE S.A. (Polskie Sieci Elektroenergetyczne); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility District No. 2 of Grant County, Washington (Grant PUD); Statistics Greenland (Gronlands Statistik); Statnett SF; Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov); USDA Natural Resources Conservation Service (NRCS); grid operators' guides and utilities' filed rules, read into the ERW's registry; the outlets of news_stories; the state commissions (filed tariffs), read into the ERW's registry; utilities and operators, each row's own document (not listed one by one).
 
