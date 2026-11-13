@@ -30,7 +30,8 @@ class TheFaults(unittest.TestCase):
         for key in ("own", "ownyears"):
             line = next(l for l in self.ui.splitlines() if l.strip().startswith(f'{{ key: "{key}",'))
             self.assertIn("applies: (t, s, P) => !statuteHeld(t, s, P)", line, key)
-        self.assertRegex(self.ui, r'statuteHeld = \(t: TechKey, s: string, P: Params\) =>\s*\n\s*\(P\.property\.states\[s\]\?\.rules \?\? \[\]\)\.some\(\(r\) => r\.technologies\.includes\(t\) && r\.kind !== "valuation"\)')
+        self.assertRegex(self.ui, r'statuteHeld = \(t: TechKey, s: string, P: Params\) =>\s*\n\s*\(P\.property\.states\[s\]\?\.rules \?\? \[\]\)\.some\(\(r\) => r\.technologies\.includes\(t\) && r\.kind !== "valuation" && r\.kind !== "exempt_years"\)')
+        # session 4223: Kansas's exemption also keeps the reader's own rate offered (for the years after it)
 
     def test_9_a_tax_not_held_is_left_out_of_the_chart_and_an_empty_year_is_zero(self):
         self.assertIn('...(r.property.held ? [{ name: "Property"', self.page)

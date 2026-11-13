@@ -216,6 +216,7 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "land_based_wind", "ia"), iaval: true, levy: 28 }, { ...F.defaults(P, "utility_pv", "mn"), mw: 80 }],
     [{ ...F.defaults(P, "natural_gas", "tx"), instate: 60 }, { ...F.defaults(P, "land_based_wind", "sd"), own: null }],
     [{ ...F.defaults(P, "geothermal", "ca") }, { ...F.defaults(P, "land_based_wind", "tx"), own: 1.2, ownyears: 20 }],
+    [{ ...F.defaults(P, "land_based_wind", "ks") }, { ...F.defaults(P, "utility_pv", "ks"), own: 0.8, ownyears: 25 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -291,4 +292,25 @@ test("each operating year's MWh and taxable value (Iowa's valuation, the reader'
   near(own.years.find((y) => y.phase === "operations").value, 150e6);
   assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "ne"), mw: 100 }, ROWS, P).years.at(-1).value, null, "a capacity tax is not on a value");
   assert.equal(F.run(F.defaults(P, "geothermal", "ca"), ROWS, P).years.at(-1).mwh, null, "no capacity factor held");
+});
+
+test("property tax: Kansas's ten-year exemption, then no rule held (the life has no total) or the reader's own rate", () => {
+  const ks = { ...F.defaults(P, "land_based_wind", "ks"), mw: 100, capex: 1500 };
+  const r = F.run(ks, ROWS, P);
+  assert.ok(r.ok, r.why);
+  const op = r.years.filter((y) => y.phase === "operations");
+  assert.deepEqual(op.slice(0, 10).map((y) => y.property), Array(10).fill(0));
+  assert.equal(op[10].property, null);
+  assert.equal(r.sums.property, null, "the life has no total");
+  assert.equal(r.property.held, false);
+  assert.match(r.property.note, /exempt for its first 10 years/);
+  const own = F.run({ ...ks, own: 1, ownyears: 20 }, ROWS, P);
+  assert.ok(own.property.held); near(own.sums.property, op.slice(10).reduce((a, _, j) => a + 150e6 * Math.max(0, 1 - (10 + j) / 20) * 0.01, 0));
+});
+test("property tax: Kansas's exemption by operating year", () => {
+  const ks = { ...F.defaults(P, "land_based_wind", "ks"), mw: 100, capex: 1500 };
+  assert.equal(F.propertyTax(P, ks, 0).tax, 0); assert.equal(F.propertyTax(P, ks, 9).tax, 0);
+  assert.equal(F.propertyTax(P, ks, 10).tax, null, "no rule held after ten years");
+  near(F.propertyTax(P, { ...ks, own: 1, ownyears: 20 }, 10).tax, 150e6 * 0.5 * 0.01, 1e-12, "the reader's own rate fills the later years");
+  assert.equal(F.propertyTax(P, { ...F.defaults(P, "natural_gas", "ks") }, 0).tax, null, "gas is not a renewable resource of the paragraph");
 });

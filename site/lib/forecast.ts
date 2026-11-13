@@ -42,7 +42,9 @@ export type IncomeState = {
   standard_deduction_single: number | null; personal_exemption_single: number | null; personal_credit_single: number | null;
 };
 export type PropertyRule = {
-  id: string; technologies: TechKey[]; kind: "capacity" | "production" | "valuation";
+  id: string; technologies: TechKey[]; kind: "capacity" | "production" | "valuation" | "exempt_years";
+  /** exempt_years: the operating years exempt (session 4223, Kansas) */
+  years?: number;
   usd_per_mw_year?: number; usd_per_mwh?: number; min_mw?: number;
   tiers?: { min_mw_exclusive?: number; min_mw_ac_exclusive?: number; max_mw?: number; usd_per_mwh: number }[];
   schedule_pct?: number[]; then_pct?: number; requires?: string;
@@ -193,6 +195,10 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
         const rate = tierRate(r, x.mw);
         if (rate > 0 && Number.isFinite(mwh)) { tax += mwh * rate; used.push(r.id); }
       }
+      else if (r.kind === "exempt_years") {
+        // exempt for its first years (0, a figure the statute gives); after them no rule is held: the reader's own rate, if any
+        if (i < (r.years ?? 0)) return { tax: 0, rule: r.id, value: null };
+      }
       else if (r.kind === "valuation") {
         if (!x.iaval) continue;
         if (x.levy === null) return { tax: null, rule: r.id };
@@ -252,7 +258,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
   } else sevNote = "a wind, solar or geothermal plant burns no gas";
   const st = P.income.states[x.state];
   const years: Year[] = [];
-  let propRule: string | null = null, propHeld = false;
+  let propRule: string | null = null, propHeld = false, propGap = false;
   for (let i = 0; i < x.build; i++) {
     const f = 1 / x.build;
     const jobs = scale(c.jobs, f), earnings = scale(c.earnings, f), output = scale(c.output, f);
@@ -262,7 +268,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
   }
   for (let i = 0; i < x.life; i++) {
     const p = propertyTax(P, x, i);
-    if (p.tax !== null) { propHeld = true; propRule = p.rule; }
+    if (p.tax !== null) { propHeld = true; propRule = p.rule; } else propGap = true;
     years.push({ year: x.start + x.build + i, phase: "operations", jobs: { ...o.jobs }, earnings: { ...o.earnings }, output: { ...o.output },
       property: p.tax, sales: null, income: o.jobs.total > 0 ? o.jobs.total * incomeTax(st, o.earnings.total / o.jobs.total) : 0,
       severance: x.tech === "natural_gas" ? sevYear : null,
@@ -276,22 +282,25 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
   };
   const sums: Streams = {
     jobs: sum((y) => y.jobs.total, false)!, earnings: sum((y) => y.earnings.total, false)!, output: sum((y) => y.output.total, false)!,
-    property: propHeld ? sum((y) => y.property, false) : null, sales: sum((y) => y.sales, false), income: sum((y) => y.income, false)!,
+    // a life with some years not held (Kansas after its exemption) has no total: a sum of the held years would read as the life's
+    property: propHeld && !propGap ? sum((y) => y.property, false) : null, sales: sum((y) => y.sales, false), income: sum((y) => y.income, false)!,
     severance: sevYear === null ? null : sum((y) => y.severance, false),
   };
   const pvS = {
     jobs: sums.jobs, earnings: sum((y) => y.earnings.total, true)!, output: sum((y) => y.output.total, true)!,
-    property: propHeld ? sum((y) => y.property, true) : null, sales: sum((y) => y.sales, true), income: sum((y) => y.income, true)!,
+    property: propHeld && !propGap ? sum((y) => y.property, true) : null, sales: sum((y) => y.sales, true), income: sum((y) => y.income, true)!,
     severance: sevYear === null ? null : sum((y) => y.severance, true),
   };
   const taxes = (pvS.property ?? 0) + (pvS.sales ?? 0) + pvS.income + (pvS.severance ?? 0);
   const rules = propertyRules(P, x);
-  const propNote = propHeld ? (propRule === "own" ? "the reader's own rate" : "the state's statute")
+  const exempt = rules.find((r) => r.kind === "exempt_years");
+  const propNote = propHeld && propGap && exempt ? `exempt for its first ${exempt.years} years; no rule held after them (the reader's own rate fills them)`
+    : propHeld ? (propRule === "own" ? "the reader's own rate" : "the state's statute")
     : rules.some((r) => r.kind === "valuation") ? (x.iaval ? "the local levy is not given" : "the county's special valuation is off and no other rule is held")
     : "no rule held for this state and technology";
   return {
     ok: true, years, sums, pv: { ...pvS, taxes }, construction: c, operations: o,
-    property: { held: propHeld, rule: propRule, note: propNote },
+    property: { held: propHeld && !propGap, rule: propRule, note: propNote },
     severance: { held: sevYear !== null, note: sevNote },
     sales: { held: salesHeld, note: salesHeld ? (x.exempt > 0 ? "after the exemption" : "before exemptions") : "no taxable share held for this technology" },
   };

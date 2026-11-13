@@ -95,6 +95,9 @@ def property_tax(d, i):
                         rate = t["usd_per_mwh"]; break
             if rate > 0:
                 total += mwh * rate; used = True
+        elif r["kind"] == "exempt_years":
+            if i < r["years"]:
+                return 0.0
         elif r["kind"] == "valuation":
             if not x["iaval"]:
                 continue
@@ -133,8 +136,10 @@ def run(d):
                           income=jobs * income_tax(d["income"], earn / jobs) if jobs > 0 else 0.0, severance=sev))
     disc = lambda y: 1 / (1 + x["rate"] / 100) ** (y - x["start"])
     tot = lambda k: sum(y[k] for y in years if y[k] is not None) if any(y[k] is not None for y in years) else None
-    pv = sum((y[k] or 0) * disc(y["year"]) for y in years for k in ("property", "sales", "income", "severance"))
-    return dict(jobs=tot("jobs"), earnings=tot("earnings"), property=tot("property"), sales=tot("sales"), income=tot("income"), severance=tot("severance"), pv_taxes=pv)
+    op = [y["property"] for y in years[x["build"]:]]
+    prop_total = tot("property") if all(v is not None for v in op) else None  # a year not held: no total (Kansas after its exemption)
+    pv = sum((y[k] or 0) * disc(y["year"]) for y in years for k in (("property",) if prop_total is not None else ()) + ("sales", "income", "severance"))
+    return dict(jobs=tot("jobs"), earnings=tot("earnings"), property=prop_total, sales=tot("sales"), income=tot("income"), severance=tot("severance"), pv_taxes=pv)
 
 
 for name, d in DATA.items():
@@ -185,7 +190,7 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
     // property: the same rules as the model, written out for this state and technology
     const spend = `${xi.capex} * ${xi.mw} * 1000`, mwh = `${xi.mw} * 8760 * ${xi.cf}`;
     const parts: string[] = [];
-    let valuation: string | null = null;
+    let valuation: string | null = null, exemptYears: number | null = null;
     for (const rl of d.property) {
       if (rl.min_mw !== undefined && xi.mw < rl.min_mw) continue;
       if (rl.kind === "capacity") parts.push(`${xi.mw} * ${rl.usd_per_mw_year}`);
@@ -193,6 +198,8 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
         let rate = rl.usd_per_mwh ?? 0;
         if (rl.usd_per_mwh === undefined) for (const t of rl.tiers ?? []) { const lo = t.min_mw_exclusive ?? t.min_mw_ac_exclusive ?? 0; if (xi.mw > lo && (t.max_mw === undefined || xi.mw <= t.max_mw)) { rate = t.usd_per_mwh; break; } }
         if (rate > 0 && Number.isFinite(xi.cf)) parts.push(`${mwh} * ${rate}`);  // geothermal holds no capacity factor
+      } else if (rl.kind === "exempt_years") {
+        exemptYears = rl.years ?? 0;
       } else if (rl.kind === "valuation" && xi.iaval && xi.levy !== null) {
         const s = rl.schedule_pct ?? [];
         valuation = `${spend} * cond(i < ${s.length}, ${s.map((v, k) => `(i == ${k}) * ${v}`).join(" + ")}, ${rl.then_pct}) / 100 * ${xi.levy} / 1000`;
@@ -200,12 +207,15 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
     }
     if (valuation) parts.push(valuation);
     if (parts.length) out.push(`replace property = ${parts.join(" + ")} if !build`);
-    else if (xi.own !== null && xi.ownyears) out.push(`replace property = ${spend} * max(0, 1 - i / ${xi.ownyears}) * ${xi.own} / 100 if !build`);
+    else {
+      if (exemptYears !== null) out.push(`replace property = 0 if !build & i < ${exemptYears}`);
+      if (xi.own !== null && xi.ownyears) out.push(`replace property = ${spend} * max(0, 1 - i / ${xi.ownyears}) * ${xi.own} / 100 if !build${exemptYears !== null ? ` & i >= ${exemptYears}` : ""}`);
+    }
     out.push(`gen double severance = ${d.severance_per_mcf === null ? "." : `cond(build, ., ${xi.mw} * 8760 * ${xi.cf} * ${xi.heat} / 1000 / (${d.btu_per_cf} / 1000) * ${xi.instate} / 100 * ${d.severance_per_mcf})`}`,
       `gen double disc = 1 / (1 + ${xi.rate} / 100) ^ (year - ${xi.start})`,
       "egen double t_jobs = total(jobs)", "egen double t_earn = total(earnings)", "egen double t_income = total(income)",
-      "egen double t_prop = total(property), missing", "egen double t_sales = total(sales), missing", "egen double t_sev = total(severance), missing",
-      "gen double pvt = (cond(missing(property), 0, property) + cond(missing(sales), 0, sales) + income + cond(missing(severance), 0, severance)) * disc",
+      "egen double t_prop = total(property), missing", "count if !build & missing(property)", "if r(N) > 0 replace t_prop = .", "egen double t_sales = total(sales), missing", "egen double t_sev = total(severance), missing",
+      "gen double pvt = (cond(missing(t_prop), 0, cond(missing(property), 0, property)) + cond(missing(sales), 0, sales) + income + cond(missing(severance), 0, severance)) * disc",
       "egen double t_pv = total(pvt)",
       `display "Scenario ${P_}"`,
       `display "  jobs       tool ${q(d.totals.jobs)}   do-file " t_jobs[1]`,
