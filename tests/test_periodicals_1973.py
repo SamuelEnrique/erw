@@ -635,6 +635,28 @@ class Row118TheLoadRowSaysWhatItLeavesOut(unittest.TestCase):
         self.assertEqual(cr.FIVE_LOAD_V.search(row).group(1), "52")
 
 
+class Row119NoEnDashNoPublishersTail(unittest.TestCase):
+    """Row 119: an en dash in a publisher's title is not printed, and its own tail goes from an "Also" line."""
+
+    def test_the_also_line(self):
+        x = {"kind": "topic", "links": [("Financial Times", "https://news.google.com/rss/articles/f")],
+             "title": "NTT DATA Announces Agreement with Bloom Energy for 900 MW of Onsite Power Generation Across Multiple Data "
+                      "Center Projects " + chr(0x2013) + " Company Announcement - FT.com"}
+        line = brief.also_line([x])
+        self.assertNotIn(chr(0x2013), line)
+        self.assertNotIn("FT.com", line)
+        self.assertIn("Across Multiple Data Center Projects ([Financial Times]", line)
+
+    def test_nodash(self):
+        from score import nodash
+        self.assertEqual(nodash("2015" + chr(0x2013) + "2025"), "2015-2025")
+        self.assertNotIn(chr(0x2013), nodash("a " + chr(0x2013) + " b"))
+
+    def test_a_dash_inside_a_title_stays(self):
+        x = {"kind": "topic", "links": [("Reuters", "https://example.org/r")], "title": "Shell - Exxon talks stall over Guyana"}
+        self.assertIn("Shell - Exxon talks stall over Guyana ([Reuters]", brief.also_line([x]))
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

@@ -1771,6 +1771,13 @@ def also_line(recs):
         # session 1981 (faults file row 86): the publisher's title in the issue's money style ("USD 1.5 billion", not
         # "$1.5 Billion" beside "USD 74 billion"), its words otherwise as published
         title = money_style(nodash(x["title"]).strip())
+        # session 3335 (faults file row 119): the publisher's own tail ("... Projects - Company Announcement - FT.com")
+        # goes, as why_fallback takes it off: the outlet is named in the brackets after it
+        outlet = outlet_name((x.get("links") or [("", "")])[0][0]).lower()
+        tail = re.search(r"(?:\s+[-|]\s+[\w.&' ]{1,40}){1,2}$", title)
+        if tail and (".com" in tail.group(0).lower() or "announcement" in tail.group(0).lower()
+                     or (outlet and outlet in tail.group(0).lower())):
+            title = title[:tail.start()].rstrip()
         return f"{title.rstrip('.')} ({link_text(x['links'])})" if x.get("links") else title
     topic = [part(x) for x in recs if x.get("kind") != "sector"]
     sector = [x for x in recs if x.get("kind") == "sector"]

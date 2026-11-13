@@ -129,7 +129,9 @@ def capacity_stated(text):
 
 def nodash(text):
     """The ERW writes no em dashes in any file (CLAUDE.md); model text is normalised."""
-    return " ".join(str(text).replace("—", " - ").split()) if text else text
+    # session 3335 (periodicals faults file row 119): an en dash too, as warehouse/chat/ask.py's nodash: "-" in a span
+    # ("2015-2025"), the spaces kept where the title has them ("Projects - Company Announcement")
+    return " ".join(str(text).replace("—", " - ").replace(chr(0x2013), "-").split()) if text else text
 
 
 def request_parts(ref_list, seen, stories, cache=True):
