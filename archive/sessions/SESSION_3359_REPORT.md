@@ -16,3 +16,9 @@ Energy Research Warehouse (ERW). Chain 246 (`queue/done/246-day-17-november-oldl
 - 139: the block's demand row named only the year when neither the year nor the week before is held; it says both, as the numbers in full do.
 - The 60 importing test files OK (1,139 tests). Row 10's head moved with them.
 
+## Session 3365: W39 and the Digest of 5 November with the model (dry runs), rows 140 and 141
+
+- 140: W39's subject kept a kicker ("Azerbaijan: TotalEnergies Announces Final"); a short kicker before a colon is dropped from a subject clause.
+- 141: the model run (USD 0.0269 + 0.0053) printed "Deal value: USD 12 billion" for "EQT's Zelestra unveils a USD 12 billion plan ..."; a plan reads "Investment planned", while "plans to buy" and "plans to raise" keep their nouns. The rest of the model's issue read cleanly.
+- The 60 importing test files OK (1,141 tests). Row 10's head moved with them.
+
