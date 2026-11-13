@@ -244,3 +244,17 @@ test("property tax: North Dakota's generation taxes, wind and the other sources"
   const geo = F.propertyTax(P, { ...F.defaults(P, "geothermal", "nd"), mw: 20 }, 0).tax;
   near(geo, 20 * 500, 1e-12, "geothermal: the capacity tax only (no capacity factor held)");
 });
+
+test("planned projects: a plant's generators of one technology added, its earliest year, its state and county", () => {
+  const rows = [
+    { entity_id: "eia860:100:G1", name: "Prairie Sun", capacity_mw: "80", tech: "solar", state: "MN", county: "Lyon", date: "2028-06-01" },
+    { entity_id: "eia860:100:G2", name: "Prairie Sun", capacity_mw: 40, tech: "solar", state: "MN", county: "Lyon", date: "2027-12-01" },
+    { entity_id: "eia860:100:B1", name: "Prairie Sun", capacity_mw: 50, tech: "storage", state: "MN", county: "Lyon", date: "2027-12-01" },
+    { entity_id: "eia860:200:W", name: "Ridge", capacity_mw: 150, tech: "wind", state: "IA", county: "Story", date: null },
+  ];
+  const g = F.groupPlanned(rows);
+  assert.equal(g.length, 2, "storage is not one of the four technologies");
+  const pv = g.find((p) => p.tech === "utility_pv");
+  assert.deepEqual(pv, { id: "100-utility_pv", name: "Prairie Sun", tech: "utility_pv", state: "mn", county: "Lyon", mw: 120, year: 2027 });
+  assert.equal(g.find((p) => p.tech === "land_based_wind").year, null);
+});

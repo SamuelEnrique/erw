@@ -108,7 +108,7 @@ export const FIELD = Object.fromEntries(FIELDS.map((f) => [f.key, f])) as Record
 /** The address name of a field: tech, state, mw, cost (USD/kW; old /impact links' capex was a percent and is dropped), ... */
 const NAME: Partial<Record<keyof Inputs, string>> = { capex: "cost" };
 export const param = (k: string, view: "a" | "b") => `${view === "b" ? "b" : ""}${NAME[k as keyof Inputs] ?? k}`;
-const PARAMS = new Set(FIELDS.flatMap((f) => [param(f.key, "a"), param(f.key, "b")]).concat(["view", "capex", "abate"]));
+const PARAMS = new Set(FIELDS.flatMap((f) => [param(f.key, "a"), param(f.key, "b")]).concat(["view", "capex", "abate", "proj", "bproj"]));
 export const dropParam = (name: string) => PARAMS.has(name);
 
 /** A scenario's values from the address (NaN for every field not given; technology and state always given). */
@@ -160,4 +160,20 @@ export function resolve(P: Params, v: Values): Inputs {
     if (Number.isFinite(val)) x[f.key] = f.key === "iaval" ? val === 1 : val;
   }
   return x as Inputs;
+}
+
+/** Session 4216: the planned project of each scenario, held as its place in the page's list (Values.proj, NaN for none)
+ *  and written in the address by its id (proj, bproj), so a link names the project, not a place in a list. */
+export function withProjects(s: Both, q: Record<string, string | undefined>, ids: string[]): Both {
+  const at = (v: string | undefined) => (v ? ids.indexOf(v) : -1);
+  const a = at(q.proj), b = at(q.bproj);
+  return { ...s, a: { ...s.a, proj: a >= 0 ? a : NaN }, b: { ...s.b, proj: b >= 0 ? b : NaN } };
+}
+export function queryWithProjects(s: Both, ids: string[]): [string, string][] {
+  const out = query(s);
+  for (const view of ["a", "b"] as const) {
+    const i = s[view].proj;
+    if (Number.isFinite(i) && ids[i]) out.push([view === "b" ? "bproj" : "proj", ids[i]]);
+  }
+  return out;
 }

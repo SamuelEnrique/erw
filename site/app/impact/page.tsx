@@ -5,8 +5,8 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { SourceLine, Tip, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
 import { NOT_MODELED, TABLE, TAX_TABLE } from "@/lib/impact";
 import { pack, type Row } from "@/lib/forecast";
-import { gasSeverance, params } from "@/lib/forecastdata";
-import { parse } from "@/lib/forecastui";
+import { gasSeverance, groupPlanned, params } from "@/lib/forecastdata";
+import { parse, withProjects } from "@/lib/forecastui";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { Forecast } from "./Forecast";
 
@@ -27,6 +27,12 @@ export default async function Impact({ searchParams }: { searchParams: Promise<R
   const start = parse(q);
   const read = await attempt(() => rest<Row>("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${TABLE}`, variable: "in.(jobs,earnings,output)", order: "entity,variable" }, HOURLY));
   const P = params();
+  // session 4216: the planned projects of the left box's list (EIA-860M's planned generators in energy_projects); a failed
+  // read leaves the list out and nothing else
+  const planned = await attempt(() => rest<{ entity_id: string; name: string | null; capacity_mw: number | null; tech: string | null; state: string | null; county: string | null; date: string | null }>("entities", {
+    select: "entity_id,name,capacity_mw,tech:extra->>technology_group,state:extra->>state,county:extra->>county,date:extra->>date",
+    table_name: "eq.energy_projects", "extra->>kind": "eq.planned", "extra->>technology_group": "in.(wind,solar,natural_gas,geothermal)", order: "entity_id" }, HOURLY, 10_000));
+  const list = planned.ok ? groupPlanned(planned.data) : [];
   return (
     <Brand noUsage>
       <ToolPage>
@@ -38,7 +44,7 @@ export default async function Impact({ searchParams }: { searchParams: Promise<R
         {!read.ok ? (
           <p className="border border-rule bg-paper px-3 py-2 text-sm" role="status">The table could not be read, so no number is shown: {read.reason}</p>
         ) : (
-          <Forecast P={P} jedi={pack(read.data)} start={start} rules={gasSeverance()} />
+          <Forecast P={P} jedi={pack(read.data)} start={withProjects(start, q, list.map((p) => p.id))} rules={gasSeverance()} planned={list} />
         )}
         <div className="mt-10">
           <TableDownloads tables={[TABLE]} />

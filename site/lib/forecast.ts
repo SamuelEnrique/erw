@@ -359,3 +359,24 @@ export function unpack(p: Packed, tech: TechKey, state: string): Row[] {
   if (!v) return [];
   return PACK.map(([ph, e, m], i) => ({ entity: `nlr_jedi:${tech}:${state}:${ph}:${e}`, variable: m, ts_utc: "", value: v[i] }));
 }
+
+/** Session 4216: the planned generators of the four technologies (energy_projects' EIA-860M planned rows, in the live
+ *  set), grouped by plant and technology: the left box's list of planned projects. A plant's MW is its generators'
+ *  nameplate added (AC for solar); its year the earliest planned operation date; its county EIA-860M's. */
+export type Planned = { id: string; name: string; tech: string; state: string; county: string; mw: number; year: number | null };
+const GROUP_TECH: Record<string, string> = { wind: "land_based_wind", solar: "utility_pv", natural_gas: "natural_gas", geothermal: "geothermal" };
+export function groupPlanned(rows: { entity_id: string; name: string | null; capacity_mw: number | string | null; tech: string | null; state: string | null; county: string | null; date: string | null }[]): Planned[] {
+  const by = new Map<string, Planned>();
+  for (const r of rows) {
+    const tech = GROUP_TECH[r.tech ?? ""];
+    const plant = r.entity_id.split(":").slice(0, 2).join(":");
+    if (!tech || !r.state) continue;
+    const k = `${plant}|${tech}`;
+    const year = r.date ? Number(r.date.slice(0, 4)) : null;
+    const p = by.get(k) ?? { id: `${plant.replace("eia860:", "")}-${tech}`, name: r.name ?? plant, tech, state: r.state.toLowerCase(), county: r.county ?? "", mw: 0, year };
+    p.mw += Number(r.capacity_mw ?? 0);
+    if (year !== null && (p.year === null || year < p.year)) p.year = year;
+    by.set(k, p);
+  }
+  return [...by.values()].filter((p) => p.mw > 0).sort((a, b) => a.state.localeCompare(b.state) || a.name.localeCompare(b.name));
+}

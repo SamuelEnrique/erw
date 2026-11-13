@@ -13,7 +13,7 @@ import taxable from "@/data/forecast/jedi_taxable.json";
 import gas from "@/data/forecast/gas.json";
 import severanceRules from "@/data/severance_rules.json";
 import { type Params } from "./forecast";
-export { pack, unpack, PACK, type Packed } from "./forecast";
+export { pack, unpack, PACK, groupPlanned, type Packed, type Planned } from "./forecast";
 
 export function params(): Params {
   const ec = eiaCapex.technologies as unknown as Params["eiaCapex"]["technologies"];

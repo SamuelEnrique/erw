@@ -13,7 +13,8 @@ import { Num } from "@/components/Num";
 import { TECHS, stateName } from "@/lib/impact";
 import { compute, type Rules } from "@/lib/severance";
 import { inputsKey, run, stat, unpack, type Inputs, type Packed, type Params, type Result, type TechKey } from "@/lib/forecast";
-import { FIELDS, GROUPS, clampTo, dropParam, query, resolve, stateOfIx, techOfIx, type Both, type FieldDef, type Values } from "@/lib/forecastui";
+import { FIELDS, GROUPS, clampTo, dropParam, queryWithProjects, resolve, stateOfIx, techOfIx, type Both, type FieldDef, type Values } from "@/lib/forecastui";
+import type { Planned } from "@/lib/forecast";
 import { csvOf, pythonOf, stataOf } from "@/lib/forecastfiles";
 import { StateChart } from "./StateChart";
 
@@ -41,24 +42,25 @@ function severanceOf(rules: Rules) {
   };
 }
 
-export function Forecast({ P, jedi, start, rules }: { P: Params; jedi: Packed; start: Both; rules: unknown }) {
+export function Forecast({ P, jedi, start, rules, planned }: { P: Params; jedi: Packed; start: Both; rules: unknown; planned: Planned[] }) {
+  const ids = planned.map((p) => p.id);
   return (
-    <ScenarioState start={start as never} query={query as never} drop={dropParam}>
-      <Body P={P} jedi={jedi} rules={rules as Rules} />
+    <ScenarioState start={start as never} query={((s: Both) => queryWithProjects(s, ids)) as never} drop={dropParam}>
+      <Body P={P} jedi={jedi} rules={rules as Rules} planned={planned} />
     </ScenarioState>
   );
 }
 
-function Body({ P, jedi, rules }: { P: Params; jedi: Packed; rules: Rules }) {
+function Body({ P, jedi, rules, planned }: { P: Params; jedi: Packed; rules: Rules; planned: Planned[] }) {
   const { s, update } = useScenarios<Values>();
   const sev = severanceOf(rules);
   const x = { a: resolve(P, s.a), b: resolve(P, s.b) };
   const r = { a: run(x.a, unpack(jedi, x.a.tech, x.a.state), P, sev), b: run(x.b, unpack(jedi, x.b.tech, x.b.state), P, sev) };
   return (
     <div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)]" data-forecast="1">
-      <aside><Panel P={P} s={s} update={update} /></aside>
+      <aside><Panel P={P} s={s} update={update} planned={planned} /></aside>
       <div className="min-w-0 space-y-8">
-        <Compare x={x} r={r} />
+        <Compare x={x} r={r} names={{ a: projectOf(planned, s.a, x.a), b: projectOf(planned, s.b, x.b) }} />
         <Years x={x[s.view]} r={r[s.view]} view={s.view} />
         <OtherStates P={P} jedi={jedi} x={x[s.view]} view={s.view} />
         <Downloads P={P} x={x} r={r} jedi={jedi} />
@@ -68,11 +70,27 @@ function Body({ P, jedi, rules }: { P: Params; jedi: Packed; rules: Rules }) {
 }
 
 // ---- the left box ----------------------------------------------------------------------------------------------------
-function Panel({ P, s, update }: { P: Params; s: Both; update: (b: Both) => void }) {
+/** The scenario's planned project, when one is picked and it is still of the scenario's technology and state */
+function projectOf(planned: Planned[], v: Values, x: Inputs): Planned | null {
+  const p = Number.isFinite(v.proj) ? planned[v.proj] : undefined;
+  return p && p.tech === x.tech && p.state === x.state ? p : null;
+}
+
+function Panel({ P, s, update, planned }: { P: Params; s: Both; update: (b: Both) => void; planned: Planned[] }) {
   const v = s[s.view];
   const tech = techOfIx(v.tech), state = stateOfIx(v.state);
   const d = resolve(P, { tech: v.tech, state: v.state } as Values);  // the defaults for the technology and state in view
-  const set = (k: string, val: number) => update({ ...s, [s.view]: { ...v, [k]: val } });
+  // a new technology or state leaves the planned project, which belongs to the old ones
+  const set = (k: string, val: number) => update({ ...s, [s.view]: { ...v, [k]: val, ...(k === "tech" || k === "state" ? { proj: NaN } : {}) } });
+  const mine = planned.map((p, i) => ({ p, i })).filter(({ p }) => p.tech === tech && p.state === state);
+  const pick = (i: number) => {
+    if (!Number.isFinite(i)) { update({ ...s, [s.view]: { ...v, proj: NaN } }); return; }
+    const p = planned[i];
+    const build = Number.isFinite(v.build) ? v.build : d.build;
+    const start = p.year === null ? v.start : Math.max(2026, p.year - build);
+    update({ ...s, [s.view]: { ...v, proj: i, mw: Math.round(p.mw * 1000) / 1000, start } });
+  };
+  const cur = Number.isFinite(v.proj) && planned[v.proj]?.tech === tech && planned[v.proj]?.state === state ? v.proj : NaN;
   const tab = (p: View) => (
     <button key={p} type="button" aria-pressed={s.view === p} data-view={p} onClick={() => update({ ...s, view: p })}
       style={s.view === p ? { color: "#fff" } : undefined}
@@ -98,7 +116,23 @@ function Panel({ P, s, update }: { P: Params; s: Both; update: (b: Both) => void
         return (
           <details key={g.key} className="border-t border-rule" data-group={g.key} open={g.open}>
             <summary className="cursor-pointer py-2 text-sm font-semibold">{g.title}{set_ ? <span className="ml-2 text-xs font-normal text-muted">{set_} changed</span> : null}</summary>
-            <div className="space-y-3 pb-3">{fs.map((f) => <One key={`${s.view}-${f.key}`} f={f} P={P} tech={tech} state={state} v={v} d={d} set={set} />)}</div>
+            <div className="space-y-3 pb-3">
+              {fs.flatMap((f) => {
+                const el = <One key={`${s.view}-${f.key}`} f={f} P={P} tech={tech} state={state} v={v} d={d} set={set} />;
+                if (f.key !== "state") return [el];
+                return [el, (
+                  <div key={`${s.view}-proj`} className="text-sm" data-field="proj">
+                    <div className="mb-1 font-semibold">Planned project</div>
+                    <select className={box} value={Number.isFinite(cur) ? cur : ""} data-assumption="proj" aria-label="A planned project in this state" disabled={!mine.length}
+                      onChange={(e) => pick(e.target.value === "" ? NaN : Number(e.target.value))}>
+                      <option value="">{mine.length ? "None: the inputs below" : "None planned in EIA-860M"}</option>
+                      {mine.map(({ p, i }) => <option key={p.id} value={i}>{p.name}, {plain(p.mw, 1)} MW{p.year ? `, ${p.year}` : ""}</option>)}
+                    </select>
+                    <p className="mt-1 text-xs leading-snug text-muted" data-default="proj">{Number.isFinite(cur) ? `${planned[cur].county} County. Sets the size and the first construction year.` : `${mine.length} planned in this state`}<Tip id="f-proj" label="the planned project">EIA-860M&apos;s planned generators of this technology in this state (the ERW&apos;s energy_projects, from eia860m_planned_generators), a plant&apos;s generators added; the year is its earliest planned operation date. Picking one sets the size and the first construction year; every other input stays the scenario&apos;s.</Tip></p>
+                  </div>
+                )];
+              })}
+            </div>
           </details>
         );
       })}
@@ -190,7 +224,7 @@ function scenarioWords(x: Inputs): string {
   return `${TECHS.find((t) => t.key === x.tech)?.label}, ${stateName(x.state)}, ${plain(x.mw, 1)} MW`;
 }
 
-function Compare({ x, r }: { x: Record<View, Inputs>; r: Record<View, Result> }) {
+function Compare({ x, r, names }: { x: Record<View, Inputs>; r: Record<View, Result>; names: Record<View, Planned | null> }) {
   const views: View[] = ["a", "b"];
   return (
     <section data-compare="1">
@@ -205,6 +239,7 @@ function Compare({ x, r }: { x: Record<View, Inputs>; r: Record<View, Result> })
                 <th key={p} scope="col" className="px-3 py-1.5 text-right font-normal" data-head={p}>
                   <span className="font-semibold">{p.toUpperCase()}</span>
                   <span className="block text-xs opacity-90">{scenarioWords(x[p])}</span>
+                  {names[p] ? <span className="block text-xs opacity-90" data-project={names[p]!.id}>{names[p]!.name}, {names[p]!.county} County</span> : null}
                   <span className="block text-xs opacity-90">rate {plain(x[p].rate)}%, {x[p].start} to {x[p].start + x[p].build + x[p].life - 1}</span>
                 </th>
               ))}
