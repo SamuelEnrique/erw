@@ -53,11 +53,40 @@ def newest(runs):
     return out
 
 
+def in_hand(q, rec, G):
+    """Session 5253: the number (from 1) of the first recorded tool call whose result holds every expected figure of a
+    key (eval_s267.py's own reading of a result's figures, within the key's tolerance), or None when no result does.
+    A call answered with the note of a repeated call is counted by the loop and not recorded, so the calls after the
+    figure are the loop's count less this number."""
+    if not q.get("expected"):
+        return None
+    for n, t in enumerate(rec.get("trace") or [], 1):
+        out = t.get("out") if isinstance(t, dict) else None
+        if not isinstance(out, dict) or t.get("isError") or t.get("is_error"):
+            continue
+        found = G.figures_in(out)
+        if found and all(G.matches(e, found, q["tolerance"]) or any(abs(round(e, 2) - v) < 1e-9 for v, _ in found) for e in q["expected"]):
+            return n
+    return None
+
+
+def past_the_figure(by, last, asked, G):
+    """[(id, the call the figure was in hand at, the calls made after it)] for the figure keys answered with a figure in a result."""
+    rows = []
+    for i in asked:
+        q, rec = by[i], last[i][1]
+        if q.get("kind") == "figure" and rec.get("status") == "answered":
+            n = in_hand(q, rec, G)
+            if n is not None:
+                rows.append((i, n, max(0, int(rec.get("tool_calls") or 0) - n)))
+    return rows
+
+
 def ids_line(ids):
     return ", ".join(ids) if ids else "none"
 
 
-def text(qs, runs):
+def text(qs, runs, G=None):
     by = {q["id"]: q for q in qs}
     last = newest(runs)
     asked = [i for i in by if i in last]
@@ -94,6 +123,16 @@ def text(qs, runs):
         if recs:
             calls = [int(q.get("tool_calls") or 0) for q in recs]
             lines.append(f"| {k} | {len(recs)} | {statistics.median(calls):g}, {max(calls)} | USD {sum(float(q.get('cost_usd') or 0) for q in recs) / len(recs):.3f} |")
+    if G is not None:
+        rows = past_the_figure(by, last, asked, G)
+        if rows:
+            after = [a for _, _, a in rows]
+            many = [f"{i} ({a})" for i, _, a in rows if a >= 3]
+            lines += ["", "### Calls past the figure", "",
+                      "A figure question answered: the call whose result first held the key's figure, and the calls made after it.", "",
+                      "| Answered with the figure in a result | In hand at call: median | Calls after it: median, most | With 3 or more after |", "|---:|---:|---|---:|",
+                      f"| {len(rows)} | {statistics.median(n for _, n, _ in rows):g} | {statistics.median(after):g}, {max(after)} | {len(many)} |", "",
+                      f"With 3 or more calls after the figure: {ids_line(many)}."]
     lines += ["", f"Asked: {ids_line(asked)}.", "", END]
     return "\n".join(lines)
 
@@ -124,7 +163,7 @@ def main(argv):
     qs, runs = load(S, E)
     with open(OUT, encoding="utf-8") as f:
         doc = f.read()
-    new = placed(doc, text(qs, runs))
+    new = placed(doc, text(qs, runs, E.G))
     if "--check" in argv:
         print("the review file's scores are the runs'" if new == doc else "the review file's scores are not what the runs give: python warehouse/chat/eval/platform_scores.py")
         return 0 if new == doc else 1

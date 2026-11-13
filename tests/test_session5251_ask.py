@@ -505,6 +505,18 @@ class TheAsking(unittest.TestCase):
         self.assertIn("- None.", text)
         wrong = PS.text(qs, runs[:1])
         self.assertIn("- `pw01` (figure, power; session 5300; status `answered`, 12 calls): not met: number.", wrong)
+        # session 5253: the call a figure was in hand at, and the calls made after it
+        key = {"id": "pw01", "sector": "power", "kind": "figure", "expected": [49421.9167], "tolerance": 0.5}
+        t = lambda out, err=False: {"tool": "query", "input": {}, "out": out, "isError": err}
+        got = {"status": "answered", "tool_calls": 7, "trace": [t({"tables": [{"rows": 49422}]}), t({"error": "49421.9167"}, True), t({"result": [{"value": 49421.916667, "n": 24}]}),
+                                                               t({"result": [{"count": 24}]})]}
+        self.assertEqual(PS.in_hand(key, got, E.G), 3, "not a count of rows, not an error: the first result that holds the figure")
+        self.assertIsNone(PS.in_hand(key, {"trace": [t({"result": [{"value": 1.0}]})]}, E.G))
+        self.assertIsNone(PS.in_hand({"expected": [], "tolerance": 0.01}, got, E.G))
+        self.assertEqual(PS.past_the_figure({"pw01": key}, {"pw01": ("5300", got, None)}, ["pw01"], E.G), [("pw01", 3, 4)])
+        with_calls = PS.text([key], [("5300", [{"id": "pw01", "cost_usd": 0.2, "retried": False, **got}], {"pw01": grade("pw01", True)})], E.G)
+        self.assertIn("| 1 | 3 | 4, 4 | 1 |", with_calls)
+        self.assertIn("With 3 or more calls after the figure: pw01 (4).", with_calls)
         doc = f"a\n{PS.BEGIN}\nold\n{PS.END}\nz\n"
         self.assertEqual(PS.placed(doc, text), f"a\n{text}\nz\n")
         with self.assertRaises(SystemExit):
