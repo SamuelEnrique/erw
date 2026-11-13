@@ -8,7 +8,7 @@ The stack is `wip/5100-security`; its landing row is in `docs/state/landing_requ
 
 ## Row 1 first: a visitor could read a page in review
 
-- **Found** 13 November 2026, about 10:25 UTC, by session 5101, reading the proxy's matcher against Next 16.4.5's own code.
+- **Found** 13 November 2026, 10:05 UTC (the answer's own `Date` header), by session 5101, reading the proxy's matcher against Next 16.4.5's own code.
 - **The fault.** The curtain (`site/proxy.ts`) did not run on an address that ends in a file extension. Vercel serves every prerendered page as data too, at `<page>.segments/<segment>.segment.rsc`. So a visitor, with no cookie, was answered the page.
 - **The proof**, on production, as a visitor (GET only, no token; the answers are in `runs/s5101/` of the session's worktree):
   - `/about`: 200, `X-Matched-Path: /in-review` (the curtain, as meant).
