@@ -21,7 +21,20 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 
 ## The gate
 
-- (written when it ends)
+- **Every step of `land_check.py` passed** (`f73b6f3c3`, 19:50 to 20:22 UTC):
+  - the suite: 8,951 tests OK;
+  - the build passed;
+  - check-values passed, with the `/policy` license floor accepted;
+  - check-routes, check-cross-checks and check-csp (97 pages) passed. **Row 23's new limits did not trip the gate's checks.**
+- **The landing:**
+  - Snapshot `before-f73b6f3c`, then the push to `task/4012-landing` at 20:23.
+  - Run 43501083643 merged at 20:47 (`ad7f16ca6`); the deploy succeeded at 20:48.
+  - Snapshot after: **0 differences**.
+- **Marked** on main as `e73b31e46` (0 differences):
+  - window 4's row 6 landed;
+  - row 23 landed in part (to `5411fef7d`);
+  - row 11 landed in part (to `91cc7525c`).
+  - The newer heads of rows 23 and 11 are in session 4013's gate.
 
 ## Decisions made without you
 

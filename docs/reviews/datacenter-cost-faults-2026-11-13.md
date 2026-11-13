@@ -36,3 +36,4 @@ Read on production (`https://erw-flame.vercel.app`, main as deployed on 13 Novem
 
 - The default (`LZ_NORTH`, a flat load, real time) and bought day-ahead, at both widths: no sideways scroll, no exception, no broken word.
 - **Row 4, new:** the "Price years" choice is of 20 October (33.73 beside the headline's 34.07). The data machine's (data request row 4).
+- **Second batch (session 5079), the same way, about 20:25 UTC:** CAISO's and SPP's load views, the all-grids view, the hours view (`run=hours`) and the all-grids view of a flexible load, at both widths: no sideways scroll, no exception, no broken word. CAISO's "Price years" default is 28.58 beside its headline's 29.72 for November 2025 to October 2026: row 4's cause, on another grid. SPP's agree (30.80, October 2025 to September 2026: its months have not moved).
