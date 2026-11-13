@@ -127,6 +127,43 @@ class LargeLoadResearch(unittest.TestCase):
         self.assertEqual(len(ids), len(set(ids)))
 
 
+CHANGES = {"filed", "approved", "in effect", "amended", "denied", "withdrawn", "suspended", "hearing set",
+           "order issued", "other"}
+LAW_STATUSES = {"introduced", "passed one chamber", "passed", "enacted", "in effect", "vetoed", "died"}
+
+
+def latest(prefix):
+    files = sorted(glob.glob(os.path.join(FOLDER, f"{prefix}_*.csv")))
+    return read_rows(files[-1]) if files else None
+
+
+class SecondAndThirdPasses(unittest.TestCase):
+    def test_every_change_is_dated_and_cited(self):
+        rows = latest("changes")
+        if rows is None:
+            self.skipTest("no changes_<date>.csv yet")
+        for r in rows:
+            self.assertRegex(r["source_url"], r"^https?://", r["change_id"])
+            self.assertRegex(r["date_read"], DATE, r["change_id"])
+            self.assertIn(r["change"], CHANGES, r["change_id"])
+            self.assertTrue(MONTH_OR_DATE.match(r["date"]) or r["date"] == "not published", r["change_id"])
+            self.assertTrue(placed(r["cite"]), f"{r['change_id']}: {r['cite'][:120]}")
+            self.assertIn(r["license"], ("public", "internal"), r["change_id"])
+
+    def test_every_law_is_read_in_its_own_text(self):
+        rows = latest("legislation")
+        if rows is None:
+            self.skipTest("no legislation_<date>.csv yet")
+        for r in rows:
+            self.assertRegex(r["source_url"], r"^https?://", r["law_id"])
+            self.assertRegex(r["date_read"], DATE, r["law_id"])
+            self.assertIn(r["status"], LAW_STATUSES, r["law_id"])
+            self.assertTrue(MONTH_OR_DATE.match(r["status_date"]) or r["status_date"] == "not published", r["law_id"])
+            self.assertTrue(placed(r["status_cite"]), f"{r['law_id']}: {r['status_cite'][:120]}")
+            if valued(r["threshold_mw"]):
+                self.assertTrue(placed(r["threshold_mw_cite"]), r["law_id"])
+
+
 class NoDash(unittest.TestCase):
     def test_no_em_or_en_dash_in_the_folder(self):
         for path in glob.glob(os.path.join(FOLDER, "**", "*"), recursive=True):
