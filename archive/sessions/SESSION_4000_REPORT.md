@@ -24,7 +24,14 @@ Energy Research Warehouse (ERW). Chain 228 (`queue/done/228-day-13-november-desk
   - Every suite process pays this, and so does every Python child a test starts. A profile of the first 263 modules, each run alone, gave a median peak of 708 MB.
   - `land_check.py` (`suite_env`), `suite_gate.py` (`clean_env`) and `suite_batches.py` now run the suite with the maths libraries on one thread (`ONE_THREAD`).
   - The laptops have fewer threads, so their saving per process is smaller but of the same kind. This is the likeliest cause of row 9's commitment-limit exits.
-  - A second profile with the caps (every module alone) is running. Its heaviest modules go to `scripts/suite_alone.txt`.
+  - **The second profile, with the caps:** every module run alone; 1,088 modules; median 132 MB, 90th percentile 171 MB, maximum 526 MB (`test_periodicals`).
+    - The five at 400 MB or more are in `scripts/suite_alone.txt`.
+    - Two pytest-style modules print `NO TESTS RAN` when run alone. The runner now reads that line as a pass.
+  - **The proof:** the whole suite through `suite_batches.py --batch 40 --alone scripts/suite_alone.txt`, 10:55 to 11:14 UTC.
+    - **8,648 tests OK, 382 skipped**, the same counts as discover, in 35 processes and 1,148 s. One process takes 1,000 to 1,200 s.
+    - The heaviest process peaked at 652 MB.
+    - **An 8 GB laptop can run the gate's suite** once this lands.
+    - The worktree took a merge of main while the run was under way. The list of modules is fixed at the start, and the counts match the profile's.
 
 ## Row 9 of the old laptop: landed at `3a82aebe4`
 

@@ -9,7 +9,7 @@ Energy Research Warehouse (ERW). Internal note: not published on the site (`site
 
 ## 2. The opening number (`roundup.opening_number`)
 
-In order, the first that holds: a benchmark's close a week apart that moved `WEEK_FUEL_PCT` = 3 percent or more and that a story of the week names; the deal of the week at `DEAL_USD_MIN` = USD 1 billion or more; the largest datacenter load first reported in the week at `DC_MW_MIN` = 500 MW or more; the top story's structural figure; an unnamed benchmark at 4.5 percent (`UNNAMED_FACTOR` = 1.5); a hub's weekly mean at 10 percent; the US48 peak. Its status is said: observed, calculated, or reported.
+In order, the first that holds: a benchmark's close a week apart that moved `WEEK_FUEL_PCT` = 3 percent or more and that a story of the week names; the deal of the week at `DEAL_USD_MIN` = USD 1 billion or more; the largest datacenter load first reported in the week at `DC_MW_MIN` = 500 MW or more; the top story's structural figure; an unnamed benchmark at 4.5 percent (`UNNAMED_FACTOR` = 1.5); a hub's weekly mean at 10 percent; the US48 peak. Its status is said: observed, calculated, or reported. A benchmark's newest close dated before the week began is no move of the week: the fuel table prints it, marked "EIA's newest close is from before this week, so this is no move of the week", and the opening, the subject and the five numbers do not use it (since 13 November, faults file row 147).
 
 ## 3. The week in five numbers (`roundup.five_numbers`)
 

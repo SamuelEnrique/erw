@@ -155,7 +155,9 @@ def robots(n, path, pages, out=print):
     rp = urllib.robotparser.RobotFileParser()
     rp.parse(lines)
     named = sorted({ln.split(":", 1)[1].strip() for ln in lines if ln.lower().startswith("user-agent")})
-    bad = [a for a in AGENTS if not rp.can_fetch(a, path)]
+    # session 4161: urllib's parser reads "*" and "$" literally; a rule such as "Disallow: /*/" is matched here as the
+    # usual convention reads it (longest matching rule wins, Allow on a tie), and the stricter of the two answers holds
+    bad = [a for a in AGENTS if not rp.can_fetch(a, path) or not wildcard_allows(lines, a, path)]
     for a in AGENTS:
         out(f"{a}: {'may fetch' if a not in bad else 'REFUSED'} {path}")
     named_ai = [a for a in named if re.search(r"(?i)claude|anthropic|\bai\b|gpt|ccbot", a)]
@@ -165,6 +167,45 @@ def robots(n, path, pages, out=print):
     if delay:
         out(f"crawl delay: {delay} s")
     return 1 if bad else 0
+
+
+def wildcard_allows(lines, agent, path):
+    """True when the robots rules allow agent to fetch path, reading "*" as any run of characters and a final "$" as
+    the end of the path. The group for the agent's own name (case blind, as a prefix of the agent) is used if there is
+    one, else the group for "*". Among the rules that match, the longest wins; Allow wins a tie."""
+    groups, cur, last_was_agent = [], None, False
+    for ln in lines:
+        if ":" not in ln:
+            continue
+        k, v = ln.split(":", 1)
+        k, v = k.strip().lower(), v.strip()
+        if k == "user-agent":
+            if not last_was_agent:
+                cur = {"agents": [], "rules": []}
+                groups.append(cur)
+            cur["agents"].append(v.lower())
+            last_was_agent = True
+        elif k in ("allow", "disallow") and cur is not None:
+            cur["rules"].append((k, v))
+            last_was_agent = False
+        else:
+            last_was_agent = False
+    a = agent.lower()
+    mine = [g for g in groups if any(x != "*" and a.startswith(x) for x in g["agents"])]
+    use = mine or [g for g in groups if "*" in g["agents"]]
+    best = None
+    for g in use:
+        for kind, pat in g["rules"]:
+            if not pat:
+                continue        # an empty Disallow allows everything
+            rx = "^" + re.escape(pat).replace(r"\*", ".*")
+            if rx.endswith(r"\$"):
+                rx = rx[:-2] + "$"
+            if re.match(rx, path):
+                key = (len(pat), kind == "allow")
+                if best is None or key > best[0]:
+                    best = (key, kind)
+    return best is None or best[1] == "allow"
 
 
 def find(key, n, pages, out=print):
