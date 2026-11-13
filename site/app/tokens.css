@@ -778,6 +778,10 @@ body:has(.brand-a) > footer :focus-visible {
 .brand-a .chart-archive li {
   border-top: 1px solid var(--color-rule);
   padding: 8px 0;
+  /* session 5004 (chain 233): a grid item is as wide as its longest word unless told otherwise; one entry's long
+     word made a page 563 px wide at 390. The item may shrink, and a long word breaks */
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .brand-a .chart-archive .archive-date {
   display: block;

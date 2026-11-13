@@ -12,6 +12,7 @@ suite the way GitHub's runner does and says which tests failed:
     python scripts/suite_gate.py --ref HEAD            the suite on a clean copy of a commit (git worktree add --detach): no
                                                        warehouse/output, no .env, no untracked file, as on GitHub's runner
     python scripts/suite_gate.py --ref HEAD --log runs/suite.out --summary "$GITHUB_STEP_SUMMARY"
+    python scripts/suite_gate.py --ref HEAD --batch 40   in processes of at most 40 modules (session 4000: 8 GB)
 
 The tests run as `python -m unittest discover -s tests` with ERW_LOCK_EXEMPT=1 and every key taken out of the
 environment (the names scripts/land_check.py takes out: Supabase, Anthropic, tokens, secrets), so a test cannot reach a
@@ -43,14 +44,22 @@ RAN = re.compile(r"^Ran (\d+) tests? in ")
 VERDICT = re.compile(r"^(OK|FAILED)\b(.*)$")
 
 
+# Session 4000: one thread for the maths libraries in the suite. numpy's OpenBLAS commits a buffer a thread at import:
+# about 610 MB on the desktop's 20 threads (17 MB before `import numpy, pandas`, 702 after; 91 with one thread), in the
+# suite's process and in every Python child a test starts. That commit is what the laptops' gates ran out of (row 9 of
+# docs/state/landing_request_oldlaptop.md: MemoryError and commitment-limit exits). No test asks for threaded BLAS.
+ONE_THREAD = {"OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1"}
+
+
 def clean_env(env=None):
-    """The environment the suite runs in: no key, the lock exemption on."""
+    """The environment the suite runs in: no key, the lock exemption on, the maths libraries on one thread."""
     env = dict(os.environ if env is None else env)
     for k in list(env):
         if SECRET_NAME.search(k):
             del env[k]
     env["ERW_LOCK_EXEMPT"] = "1"
     env["PYTHONIOENCODING"] = "utf-8"
+    env.update(ONE_THREAD)
     return env
 
 
@@ -91,12 +100,17 @@ def git(args, cwd):
     return subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="replace", stdin=subprocess.DEVNULL)
 
 
-def run_suite(root, log, python=sys.executable, env=None, timeout=None):
-    """The suite in root, its output into log. Returns (exit code or None at the timeout, the log's lines)."""
+def run_suite(root, log, python=sys.executable, env=None, timeout=None, batch=0):
+    """The suite in root, its output into log. Returns (exit code or None at the timeout, the log's lines). Session 4000:
+    with batch > 0, the same tests through this repository's scripts/suite_batches.py, at most `batch` modules a process
+    (a machine with 8 GB); its closing lines are unittest's own, so the reading below is the same."""
     os.makedirs(os.path.dirname(os.path.abspath(log)), exist_ok=True)
+    argv = [python, "-m", "unittest", "discover", "-s", "tests"]
+    if batch and batch > 0:
+        argv = [python, os.path.join(HERE, "suite_batches.py"), "--batch", str(batch)]
     with open(log, "w", encoding="utf-8", errors="replace") as f:
         try:
-            p = subprocess.run([python, "-m", "unittest", "discover", "-s", "tests"], cwd=root, env=clean_env(env),
+            p = subprocess.run(argv, cwd=root, env=clean_env(env),
                                stdout=f, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, timeout=timeout)
             code = p.returncode
         except subprocess.TimeoutExpired:
@@ -153,6 +167,8 @@ def main(argv):
     ap.add_argument("--summary", help="append the failing tests to this file (GitHub's step summary)")
     ap.add_argument("--names", help="write the failing tests' names to this file, one a line")
     ap.add_argument("--timeout-min", type=float, default=90.0)
+    ap.add_argument("--batch", type=int, default=0,
+                    help="run the suite at most this many modules a process (scripts/suite_batches.py; 40 suits 8 GB); 0, the default, one process")
     a = ap.parse_args(argv)
     root = os.path.abspath(a.root)
     head = git(["rev-parse", a.ref or "HEAD"], root)
@@ -162,7 +178,7 @@ def main(argv):
     sha = head.stdout.strip()
     log = a.log or os.path.join(root, "runs", "suite_gate", f"{sha}.out")
     if not a.ref:
-        code, lines = run_suite(root, log, timeout=a.timeout_min * 60)
+        code, lines = run_suite(root, log, timeout=a.timeout_min * 60, batch=a.batch)
         return report(code, lines, a.summary, a.names)
     tmp = tempfile.mkdtemp(prefix="erw-suite-")
     work = os.path.join(tmp, "checkout")
@@ -172,7 +188,7 @@ def main(argv):
         shutil.rmtree(tmp, ignore_errors=True)
         return 2
     try:
-        code, lines = run_suite(work, log, timeout=a.timeout_min * 60)
+        code, lines = run_suite(work, log, timeout=a.timeout_min * 60, batch=a.batch)
         return report(code, lines, a.summary, a.names, f" on {sha[:9]}")
     finally:
         git(["worktree", "remove", "--force", work], root)

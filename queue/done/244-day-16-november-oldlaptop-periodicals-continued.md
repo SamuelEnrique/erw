@@ -20,7 +20,13 @@ Long end 1:00 each. One step a session, in chain 242's order, as session 3342 li
 
 ### Unfinished steps (written by session 3342 of chain 242)
 
-(Session 3342 fills this list.)
+Chain 242 ran every session (3327 to 3342) and added rows 110 to 123 to `wip/1973-periodicals` (row 10, head `0b6bbbdd4`, requested). What it did not reach, in this order:
+
+1. (Session 3344) The Digest of 13 November as stored (written by the daily run after 14:00 UTC with main's code, so without row 10's fixes) read as a reader against a dry run of the same day and hour on the stack (`--no-model`), each difference checked, each new fault a numbered row (from 124), fixed with a test; its figures traced (`digest-figures.mjs --dir`, `check_digest.py`). Wait for the issue on main if the session starts before it is committed; take the next step meanwhile.
+2. (Session 3345) If row 10 has landed: the first issue after the landing read as stored, rows 79 to 123 checked in print, and the clean-up (the worktree `erw-1973` with its `.next` and `node_modules` removed, `wip/1973-periodicals` deleted on origin, row 10 marked landed). If not landed, skipped, said so.
+3. (Session 3346) The Roundup of W46 as stored (Sunday 15 November, 23:00 UTC), read the same way against the stack; before it is written, skipped, said so (its dry runs with and without the model were read by chain 242).
+4. More days and weeks with no stored issue, if the list runs out: the Digests of 26 to 29 October and W42 on the stack, read and traced as chain 242 read 30 October and W43.
+5. Rows 39, 65 and 109 stay the owner's; the held prices of W39 to W45 and the 12 November chart record wait for Samuel's ruling.
 
 ## Sessions 3350 to 3356: the periodicals, again
 

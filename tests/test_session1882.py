@@ -31,8 +31,8 @@ def quiet(*_a, **_k):
 class Row59TheMastheadAndTheSpan(unittest.TestCase):
     def test_the_masthead_says_where_the_stories_stop(self):
         L = roundup.masthead_lines("2026-W45", END, CUT, None, "A head.", "", NEWEST, RT_REACH)
-        self.assertEqual(L[2], "**Week ending 8 November 2026.** Stories through 5 November, 18:08 ET, 23:08 UTC; the week's "
-                               "tables reach 5 November (each table's reach is under ERW's Numbers This Week).")
+        self.assertEqual(L[2], "**Week ending 8 November 2026.** Stories through 5 November, 18:08 ET, 23:08 UTC; the real-time "
+                               "price tables reach 5 November (each table's reach is under ERW's Numbers This Week).")
         self.assertNotIn("Sources through 18:26 ET", "\n".join(L))
 
     def test_stories_to_the_cut_keep_the_old_line(self):

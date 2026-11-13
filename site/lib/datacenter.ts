@@ -115,9 +115,12 @@ export function flatMean(p: (number | null)[]): { mean: number | null; hours: nu
 
 /** The load in each hour of a year as a multiple of its size: 1 in an ordinary hour, 0 in an hour it is turned down,
  * between 0 and 2 where a day's energy is shifted; 0 where the price is not held (the hour is left out).
- *   hours  off in the n most expensive hours held of the year (n is for a whole year: a year held in part takes the
- *          same share of its hours, rounded);
- *   share  off in the most expensive pct percent of the hours held;
+ *   hours  off in the n most expensive hours held of the year;
+ *   share  off in the most expensive pct percent of the year's hours;
+ *          in both, the number of hours is the rule's budget for the year (shedBudget below), never more than the
+ *          hours held. Session 5003 (chain 233), the owner's ruling of 12 October 2026: "if perfectly foreseen" takes
+ *          the rule's hour budget in a partial year. Until then a year held in part took the same share of its hours
+ *          (session 138), which gave the foreseen load fewer hours than the rule (note, section 10, item 15);
  *   shift  each whole day, shift percent of the day's energy leaves its most expensive hours and is added to its
  *          cheapest (24 x shift / 100 hours of each, the last one in part), so the day's energy is unchanged. A day
  *          with an hour missing is not shifted.
@@ -128,7 +131,7 @@ export function weights(p: (number | null)[], x: Pick<Inputs, "run" | "n" | "pct
   if (x.run === "hours" || x.run === "share") {
     const held: number[] = [];
     for (let i = 0; i < p.length; i++) if (p[i] !== null) held.push(i);
-    const k = Math.min(held.length, Math.round(x.run === "hours" ? (x.n * held.length) / p.length : (x.pct / 100) * held.length));
+    const k = Math.min(held.length, shedBudget(x, p.length));
     held.sort((a, b) => (p[b] as number) - (p[a] as number) || a - b);
     for (let j = 0; j < k; j++) w[held[j]] = 0;
     return w;

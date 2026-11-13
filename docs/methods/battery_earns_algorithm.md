@@ -53,7 +53,7 @@ CAISO: `TH_SP15_GEN-APND` from `iso_hub_prices_history` then the rolling tables,
 
 A day is the market's local day (Central for ERCOT, Pacific for CAISO): 24 hours, 23 on the spring clock-change day, 25 on the autumn one. The model solves a day only when every one of those hours has an energy price and a price for every product bought that day. Otherwise the day is left out and counted, never estimated: no hour is filled, no day is scaled.
 
-The days run from the market's start (ERCOT 1 January 2018, CAISO 1 September 2024) to the last local day reached by both the energy price and the ancillary prices.
+The days run from the market's start (ERCOT 1 January 2018; CAISO 1 August 2023 since session 273, the first whole month OASIS still served when its history was pulled back, and 1 September 2024 before it) to the last local day reached by both the energy price and the ancillary prices.
 
 ### 3.3 The products and how long each must be backed
 
@@ -118,7 +118,7 @@ Each value is rounded to four decimals, half up. Entity `ercot:HB_HUBAVG` or `ca
 
 ### 4.1 The input panel's note
 
-- **Default annual debt payments**: `capex x 1000 x 0.6 x crf(0.08, 20) x MW`, rounded to a dollar, where `crf(i, n) = i / (1 - (1 + i)^-n) = 0.101852`. Capital cost per kW: 610 (2 hours), 1,110 (4 hours), 2,110 (8 hours). The 4-hour default: `1,110 x 1000 x 0.6 x 0.101852 x 100 = 6,783,357`.
+- **Default annual debt payments**: `capex x 1000 x 0.6 x crf(0.08, 20) x MW`, rounded to a dollar, where `crf(i, n) = i / (1 - (1 + i)^-n) = 0.101852`. Capital cost per kW: 610 (2 hours), 1,110 (4 hours), 2,110 (8 hours). The 4-hour default: `1,110 x 1000 x 0.6 x 0.101852 x 100 = 6,783,357`. This was the default of sessions 67 to 207 and stays as their record. **The page's default since session 208** is a debt share of 20 percent (section 11.1) and, since session 296, a capital cost of 2,300 at 8 hours (section 6): `capex x 1000 x 0.2 x crf(0.08, 20) x MW`, with `crf = 0.1018522`, so the 4-hour default is `1,110 x 1000 x 0.2 x 0.1018522 x 100 = 2,261,119` (session 5001 added these two sentences).
 
 ### 4.2 The summary sentence
 
@@ -132,9 +132,9 @@ Each value is rounded to four decimals, half up. Entity `ercot:HB_HUBAVG` or `ca
 
 1. **Last twelve months, all streams**: `l12_kw:total` again, and beneath it **USD for the reader's size** (`l12:total`): the twelve months' `r(m, total)` summed, scaled. Default: 8,140,219.
 2. **A bad month** (`p10_36`): take the 36 calendar months ending with the last twelve months' last month (or with the newest held month when there is no twelve-month window); keep the held ones (`n36` of them); sort by total revenue, ties by month; take the one at rank `ceil(0.1 x n36)` (nearest rank, at least 1); its total, scaled. Default: 36 months, rank 4, December 2024, 475,477. A market held for less than 36 months has fewer and the page says how many.
-3. **Debt coverage, last twelve months** (`cover`): `(sum of r(m, total) x MW - fom x 1000 x MW) / ds`. Revenue less a year of fixed O&M, over a year of debt payments. Shown with two decimals; not shown when `ds` is 0. Default: `(8,140,219 - 2,200,000) / 6,783,357 = 0.88`. The annual debt payment `ds` is printed beside it.
+3. **Debt coverage, last twelve months** (`cover`): `(sum of r(m, total) x MW - fom x 1000 x MW) / ds`. Revenue less a year of fixed O&M, over a year of debt payments. Shown with two decimals; not shown when `ds` is 0. Default: `(8,140,219 - 2,200,000) / 6,783,357 = 0.88` to session 207; since session 208 `(8,140,219 - 2,200,000) / 2,261,119 = 2.63`, the figure the page and `replication/battery/replicate.py` show. The annual debt payment `ds` is printed beside it.
 
-**Session 195: the summary sentence and these three numbers are scenario A's**, computed in the browser as A is changed (`BatteryHeadline` in `site/app/cost-of-power/battery/Scenarios.tsx`). `fom` is A's fixed O&M and `ds` is `round(capex x 1000 x share x crf(rate, n) x MW)` with A's capital cost, debt share, interest rate and years of debt: the multiplication of 4.1, so at the defaults `ds` is 6,783,357 to the dollar and the three numbers are what they were (81.40, 475,477, 0.88). At the model's own round-trip efficiency and cycle limit each figure carries its check key, written with A's `fom` and `ds`, and `check-values` recomputes it from the table. At another step of efficiency or of the cycle limit the first two read the months of the file of steps (section 11.1), as scenario A's rows do; the summary sentence then names the step and leaves out the ancillary share, which the file does not hold; those figures carry no check key, and the first number's note says that the sections below are the model's own run at 86 percent and one cycle a day. Each month's coverage in "Every month" (4.9) and the two coverage lines of "With your contract" (4.7) read A's fixed O&M and debt payment as well.
+**Session 195: the summary sentence and these three numbers are scenario A's**, computed in the browser as A is changed (`BatteryHeadline` in `site/app/cost-of-power/battery/Scenarios.tsx`). `fom` is A's fixed O&M and `ds` is `round(capex x 1000 x share x crf(rate, n) x MW)` with A's capital cost, debt share, interest rate and years of debt: the multiplication of 4.1, so at the defaults `ds` is 6,783,357 to the dollar and the three numbers are what they were (81.40, 475,477, 0.88); at session 208's defaults `ds` is 2,261,119 and the third is 2.63. At the model's own round-trip efficiency and cycle limit each figure carries its check key, written with A's `fom` and `ds`, and `check-values` recomputes it from the table. At another step of efficiency or of the cycle limit the first two read the months of the file of steps (section 11.1), as scenario A's rows do; the summary sentence then names the step and leaves out the ancillary share, which the file does not hold; those figures carry no check key, and the first number's note says that the sections below are the model's own run at 86 percent and one cycle a day. Each month's coverage in "Every month" (4.9) and the two coverage lines of "With your contract" (4.7) read A's fixed O&M and debt payment as well.
 
 ### 4.4 The chart: revenue by year, USD per kW
 
@@ -166,7 +166,7 @@ Rows: energy; ancillary services; each product; capacity (words only, never a nu
 
 **For CAISO, since session 257: the line beside its market monitor.** CAISO's storage awards are not held, so the line sets the model beside a published report: "In 2025, for a 4-hour battery on the day-ahead schedule, this model takes USD 42.31 per kW from energy and USD 42.25 from regulation; CAISO's market monitor reports that real batteries in its area with a full year of operation earned about USD 35 per kW from energy and USD 9 from regulation" (figures as the table stood on 13 October 2026), with the report cited: CAISO Department of Market Monitoring, 2025 Annual Report on Market Issues and Performance, June 2026, section 1.3.3, Tables 1.7 and 1.8. The model's two figures are computed, not typed: the sum of `r(m, energy)`, and of `r(m, regup)` plus `r(m, regdn)`, over the twelve held months of 2025 for the 4-hour day-ahead battery at SP15, divided by 1,000 (`year_kw:2025:energy` and `year_kw:2025:regup+regdn`, under the key of that case, `bs|grid=caiso&dur=4&strat=dayahead&...`; no figure unless all twelve months are held). The line does not follow the reader's strategy or duration: it is the one case the market monitor's own model and the fleet's figures are set beside in [the method note](battery_stack.md), "CAISO beside its market monitor". When the reader's battery is another, the page reads that case's months from the same table. The published 35 and 9 are a constant of `site/lib/batterystack.ts` (`FLEET_BESIDE`), held to the method note by `tests/test_session257.py`.
 
-### 4.7 With your contract (computed in the browser, never sent)
+### 4.7 With your contract (computed in the browser, never sent): gone from the page since session 208 (a scenario's assumptions)
 
 **Not on the page since session 208.** The contract is scenario A's and B's two assumptions, share and price (11.1, "The contract"), in the address like the others; the formulas below are those of sessions 67 to 207, kept as the record. The headline's coverage with a contract in A is 11.1's `(C + (1 - share_c) x R - fom) / debt`, the same arithmetic as the second line below, and carries no check key.
 
@@ -180,17 +180,17 @@ The reader types a share (percent), a price (USD per kW-month) and an end month.
 
 The contracted share earns nothing from the market. **The end month changes no number**: it only words the last row's label.
 
-### 4.8 Other grids
+### 4.8 Other grids: gone from the page since session 208 (one line under the grid picker)
 
 Words only. No number. **Since session 208 the table is one line under the grid picker** (`BatteryForm.tsx`, `data-other-grids`): PJM's prices are licensed and not held; NYISO and SPP are built and in review; ISO-NE's and MISO's reserve prices are held, not shown (license needed); their energy prices are on the seller tab.
 
-### 4.9 Every month (folded)
+### 4.9 Every month (folded): since session 208 the CSV download "Every month"
 
 **Since session 208 the fold is gone and the rows are a download**: `/cost-of-power/battery/months.csv` with the page's own parameters (`grid`, `dur`, `strat`, `mw`) and scenario A's, served by `site/app/cost-of-power/battery/months.csv/route.ts` from the same read as the page (`read.ts`) and the same library, with the provenance in `#` lines (the source table, when it was read, the fixed O&M and debt payments the coverage column uses, the 90 percent rule). Columns: month, held, energy, ancillary and total in USD for the size, total per kW, coverage (the formula below, blank for a month not held), days held, days in the month, days left out, days left out for a missing ancillary price, and each product's USD. The address takes the page's status: in review it answers the internal view alone (the proxy never sees a path with an extension, so the route applies `statusOf` itself).
 
 For each month the table holds, newest first: energy, ancillary and total (`month:<m>:<s>`: `r(m, s)`, scaled); **coverage**: `(r(m, total) x 12 x MW - fom x 1000 x MW) / ds`, the month's revenue less a month of fixed O&M over a month of debt payments, shown only for a held month; days held of days in the month; days left out. Beneath: the days left out in all (`out`), and how many for a missing ancillary price.
 
-### 4.10 Stress days (folded, ERCOT only)
+### 4.10 Stress days (folded, ERCOT only): gone from the page since session 208 (the table is public)
 
 **Not on the page since session 208.** The page no longer reads `battery_stack_stress_daily`; the table is public and the page links its download (`/api/download?table=battery_stack_stress_daily`) under the CSV line. The figures below are those the fold drew until then.
 
@@ -198,7 +198,7 @@ For each month the table holds, newest first: energy, ancillary and total (`mont
 
 From `battery_stack_stress_daily`: for Winter Storm Uri (7 to 24 February 2021), Winter Storm Elliott (19 to 29 December 2022) and the 2023 heat (1 August to 10 September 2023), over the solved days inside the window: the count of days, energy, ancillary and total summed and scaled (`stress:<event>:<s>`), and the best single day's total with its date (`stress:<event>:best`).
 
-### 4.11 What this model cannot see (folded)
+### 4.11 What this model cannot see (folded): since session 208 one sentence under the income table, the rest here
 
 <a id="cannot-see"></a>
 
@@ -412,7 +412,7 @@ Per kW of rated power; the page multiplies by `1,000 x MW` for the reader's size
 
 - **Capital recovery factor.** `crf(i, n) = i / (1 - (1 + i)^-n)`; at `i = 0`, `1 / n`.
 - **The debt's years.** `n = min(term, life)`: a term longer than the project life is cut to the life.
-- **Annual debt payment.** `debt = capex x share x crf(rate, n)`. Default case: `1,110 x 0.6 x 0.101852 = 67.83` per kW, USD 6,783,357 for 100 MW.
+- **Annual debt payment.** `debt = capex x share x crf(rate, n)`. Default case: `1,110 x 0.6 x 0.101852 = 67.83` per kW, USD 6,783,357 for 100 MW, to session 207; since session 208 `1,110 x 0.2 x 0.1018522 = 22.61` per kW, USD 2,261,119 for 100 MW.
 - **Revenue in year t.** `R_t = R x (1 - deg)^(t - 1)`: the last twelve months repeated every year of the life, falling by the degradation rate each year after the first. This is an assumption, not a forecast: the future is taken to repeat the last twelve months. Degradation is a haircut on revenue; the model itself has no fade (fade shortens duration, and revenue is not proportional to duration).
 - **Cash flows to equity.** `F_0 = -capex x (1 - share)`. For `t = 1 to life`: `F_t = R_t - fom - debt` while `t <= n`, and `F_t = R_t - fom` after. No tax, no tax credit, no augmentation, no residual value, no inflation: revenue and costs are flat in today's dollars apart from degradation.
 - **NPV at the hurdle rate.** `NPV = sum over t = 0 to life of F_t / (1 + hurdle)^t`. It is the value to equity, after debt payments, which is why the debt share, the interest rate and the term move it.
@@ -494,6 +494,28 @@ The same script also holds the default case's headline (81.40, 8,140,219, 33, 47
 
 For ERCOT at `HB_HUBAVG`, under "Income by stream": over the battery's own last twelve months, the day-ahead four-hour spread of ERCOT's storage nodes at the 10th percentile, the median and the 90th, the hub's own spread over the same days and the share of storage nodes wider than the hub, from `node_basis_summary` (`dam_storage_*`, `docs/methods/node_basis.md`), each month's figures with their keys in a fold and the twelve months' means weighted by the days held (`days`). The median node's spread over the hub's is the one ratio written: the energy this page counts at the hub would scale about with it, the reserves not at all. Added to no figure. Read in `site/lib/nodebasisread.ts`, so the page's own reads stay `read.ts`'s.
 
+## 12. The decisions on the page (session 5001)
+
+Session 5001, 13 November 2026 (chain 233). The page lists, at its foot, every modelling choice it makes, one line each, with the session that made it and the ruling where one exists (`site/lib/decisions.ts`, `BATTERY_DECISIONS`, drawn by `site/components/tool/DecisionsBlock.tsx`, `data-decisions="5001"`), the form of the generator's (session 463) and the datacenter's (session 462) pages. The block is drawn open, not folded, because the battery page has nothing collapsed (the owner's ruling of 12 October 2026). The list below is the same list, word for word; `tests/test_session5001.py` holds the two to it. No figure moved: the block is words, and no number of the page reads it.
+
+1. Energy and ancillary services are chosen together in one optimization a day, so a megawatt is discharged or held as an upward reserve in an hour, never both, and nothing is counted twice. (session 67)
+2. Each local day starts empty, with at most one full cycle a day and an 86 percent round trip (the low end of Lazard's range), split evenly between charging and discharging. (session 67)
+3. The day's prices are known in advance: "Perfect foresight" is paid the hourly mean of the real-time price, "Day-ahead schedule" the day-ahead price, and both are paid day-ahead reserve prices, so each figure is an upper bound. (session 67)
+4. The battery is a price taker, awarded up to its full power at the posted price; reserves are paid for being held and are never called. (session 67)
+5. Energy is priced at the hub (ERCOT's hub average, CAISO's SP15), not at the battery's node; ERCOT's storage nodes' band to the hub is shown and added to no figure. (sessions 67 and 355)
+6. Each reserve must be backed by the stored energy its market's rule requires on the day (ERCOT's NPRR 1096 and 1282, CAISO's tariff), one hour assumed where no rule is stated, which caps how much of a product a short battery can hold. (sessions 67 and 296)
+7. A day is solved only when every hour has an energy price and a price for every product bought that day; any other day is left out and counted, never filled or scaled. (session 67)
+8. A month counts when 90 percent of its days are solved, and the headline's last twelve months are whole months only, the newest twelve in a row. (sessions 67 and 195; the owner's ruling of 12 October 2026)
+9. A month that is more than a quarter of everything held (ERCOT's February 2021) stays in every figure and on the chart; only the average of every year is also shown without it. (session 71)
+10. One page, three questions, nothing collapsed: what it earned, whether it is worth building and what matters most; the monthly rows are the CSV download. (session 208; the owner's ruling of 12 October 2026)
+11. Scenarios A and B are the block the three economics pages share; scenario A sets the headline. The contract's share and price are two of each scenario's assumptions, 0 by default, so the default battery is fully merchant. (sessions 179, 195 and 208; the owner's ruling of 12 October 2026)
+12. Capital cost and fixed O&M default to the midpoints of Lazard's Levelized Cost of Storage at 2 and 4 hours, and at 8 hours to NREL's Annual Technology Baseline 2025, whose fixed O&M pays for augmentation. (sessions 67 and 296)
+13. Debt is 20 percent of the capital at 8 percent over 20 years, level payments: Lazard's storage financing, editable. (session 208; the owner's ruling of 12 October 2026)
+14. The NPV is to equity, after the debt payments, discounted at 12 percent, Lazard's cost of equity. (session 208; the owner's ruling of 12 October 2026)
+15. Revenue falls by 2.6 percent a year for degradation (Lazard's storage cases), as a yearly cut to revenue by default; capacity fade with augmentation is the other method a scenario may choose. (sessions 196 and 297)
+16. The investment tax credit and the stress repeats are scenario assumptions, 0 by default. (session 297)
+17. ERCOT and CAISO are open; NYISO and SPP are built and held in review until their licenses are answered; PJM, ISO-NE and MISO are not built, their prices needing a license. (sessions 86 and 89)
+
 ## Sign-off
 
 Session 1527 (chain 163) added this block, which the note lacked. The generator's and the datacenter's notes have one (session 463), and `docs/state/roadmap_item2_state_2026-11-07.md` lists the battery's signature as one of what roadmap item 2 still needs. Signing this note accepts, as the tool's rules:
@@ -501,6 +523,7 @@ Session 1527 (chain 163) added this block, which the note lacked. The generator'
 - the assumptions of section 6 at their defaults and sources;
 - the 90 percent month;
 - scenarios A and B as section 11.1 describes them;
+- the decisions of section 12, the list the page shows at its foot;
 - the owner's rulings this note records (11, 12, 15 and 19 October 2026).
 
 It leaves open the differences section 10 lists.
