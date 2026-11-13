@@ -44,3 +44,4 @@ Read on production (`https://erw-flame.vercel.app`, main as deployed on 13 Novem
 
 - ERCOT's default and CAISO's 4-hour battery with perfect foresight, at both widths: no sideways scroll, no exception, no broken word.
 - **Row 10, new:** CAISO's "Price years" choice is of 20 October (the last twelve months 79.31 beside the headline's 79.80; 2026 as 9 months beside the chart's 10). The data machine's (data request row 4).
+- **Session 5406, about 21:00 UTC, the last cases:** CAISO 2 and 4 hours on the day-ahead schedule and 8 hours with perfect foresight, ERCOT 2 hours with perfect foresight and 4 hours on the day-ahead schedule, at both widths: no sideways scroll, no exception, no broken word. Each CAISO case's "Price years" default differs from its headline (50.24 beside 51.75; 65.22 beside 65.96; 97.79 beside 97.02): row 10's cause. ERCOT's agree. With sessions 5077, 5078 and 5401, every battery case of both grids is read. No new fault.
