@@ -11,4 +11,4 @@ Written by session 4000 of chain 228 (the desktop's second window) on 13 Novembe
 - **`package tests` (21:13 UTC run):** the cite test's hand-made publisher map had no `datacenter` key for `datacenter_tracker_rollups` (KeyError). Fixed by session 3851 (`081e7a4dc`): the test reads a publisher its map lacks from the table's own source rows.
 - **Not failures:** `frb_treasury` failed once and passed on retry (the Board's empty body); `carb_lcfs` stale at CARB; `ercot_as_prices` not asked (ruling 2 of 6 November).
 
-Open across the fourteen days: the board's spark spread (above), and the Roundup's `api_cost_ledger` refusal of 8 November (3 rows short of the last upload; see `2026-11-08-health.md`).
+Open across the fourteen days: the board's spark spread (above), and, in part, the Roundup's `api_cost_ledger` refusal of 8 November (restored from an archive 6 rows behind the last upload; see `2026-11-08-health.md`).
