@@ -83,7 +83,13 @@ Energy Research Warehouse (ERW). portable-laptop, window P3, 13 November 2026 (1
 
 ## For Samuel's ruling
 
-- **The live set's missing days** (read 13 November, 18:50 to 19:10 UTC, a visitor's key). Default: this window changes nothing; the data machine fills them, and the builder then stops and names the questions to re-key.
+- **The live set's missing days** (read 13 November, 18:50 to 19:10 UTC, a visitor's key). Default: this window changes nothing; the data machine fills them, and the builder then stops and names the questions to re-key. The table is the section after this one.
+
+- **Should a query say when its window is short?** The tool returns the rows matched, not the steps the window should hold. Default: wait for the eight questions on these days; if the chat states a short window's figure as the whole window's, the tool gains a count of steps expected (sessions 5257 on).
+- **A visitor's question costs about USD 0.14** and the public ceiling is USD 3 a day: about 21 questions. Default: no change; said for the ceiling's owner.
+- **The Python loop and the site's loop list different tables** on a machine that holds the service key (184 and 140). Default: the weekly run stays as it is; this set is the visitor's measure.
+
+## The live set's missing days (the table of the first ruling above)
 
 | Table | Series | Missing |
 |---|---|---|
@@ -97,7 +103,3 @@ Energy Research Warehouse (ERW). portable-laptop, window P3, 13 November 2026 (1
 | `cost_of_power_monthly` | October 2026, both hubs | 48 of 744 hours |
 | `merchant_revenue_monthly` | October 2026, ERCOT hub average | 336 of 744 hours |
 | `node_basis_summary` | October 2026, ERCOT | 20 of 31 days |
-
-- **Should a query say when its window is short?** The tool returns the rows matched, not the steps the window should hold. Default: wait for the eight questions on these days; if the chat states a short window's figure as the whole window's, the tool gains a count of steps expected (sessions 5257 on).
-- **A visitor's question costs about USD 0.14** and the public ceiling is USD 3 a day: about 21 questions. Default: no change; said for the ceiling's owner.
-- **The Python loop and the site's loop list different tables** on a machine that holds the service key (184 and 140). Default: the weekly run stays as it is; this set is the visitor's measure.
