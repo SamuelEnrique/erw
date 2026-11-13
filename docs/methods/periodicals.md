@@ -56,3 +56,5 @@ Chain 228 read the Digest of 12 November and the Roundups of W45 and W46 as a re
 - The chart of the day says which story it follows only when that story names its measure, and a record's "record until now" is the highest value before it.
 - The Roundup's weekly table prints "licensed source needed" for a grid held for license, as the Digest does, and its page holds the figures the stored issues of W44 and W45 printed for NYISO and ISO-NE.
 - The Roundup's deal of the week names the outlet of its sum; a stand-in price move passes the opening's own bar; a story naming a benchmark is given the warehouse's close.
+
+Later the same day (rows 100 to 130): a Roundup opens on the week's benchmark move when any story of the week explains it, with that story's reason; a reason or a pointer is never a story of the other direction, of another gas market, or one quoting a price of its own; the five numbers say what they leave out; each list is numbered from 1; the Digest's first line says when a window holds few stories or many unscored ones; and no en dash or publisher's tail is printed from a feed's title.
