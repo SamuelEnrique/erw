@@ -90,3 +90,8 @@ Energy Research Warehouse (ERW). Chain 254 (`queue/done/254-day-21-november-oldl
 - A story opening's figure printed twice and carrying no key. Default: kept.
 - The fun fact's source wording ("US$3/barrel"). Default: kept.
 - As before: the 13 November chart record, subscribers with topics, the US48 UTC day, EIA's Veterans Day closes, rows 39, 65 and 109, and rulings item 13.
+
+## Session 3487: the next file, the queue
+
+- `queue/next/258-day-22-november-oldlaptop-periodicals-continued.md` lists what this chain did not finish: the stored W46 Roundup and the 16 November Digest (both written after this file), the red branch's landing, and row 11's clean-up.
+- Then the queue step: `.venv\Scripts\python.exe scripts\chain_queue.py next`.
