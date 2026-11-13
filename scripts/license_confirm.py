@@ -120,7 +120,8 @@ def norm(s):
         s = s.replace(chr(code), plain)
     for code in (0x200B, 0x200C, 0x200D, 0xFEFF):
         s = s.replace(chr(code), "")
-    return re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"\s+", " ", s)
+    return re.sub(r" ([.,;:!?)])", r"\1", s).replace("( ", "(").strip()
 
 
 def sentences(text):
@@ -170,9 +171,18 @@ def find(key, n, pages, out=print):
     if not s:
         out(f"{key}: its verdict quotes no sentence (read {v['read'] or 'none'}); nothing to find")
         return None
-    hit = s in text
-    out(f"{key}: the sentence of read {v['read']} is {'ON' if hit else 'NOT on'} read {n}'s page ({len(text)} characters)")
+    miss = [q for q in pieces(s) if q not in text]
+    hit = not miss
+    out(f"{key}: the sentence of read {v['read']} is {'ON' if hit else 'NOT on'} read {n}'s page ({len(text)} characters)"
+        + ("" if hit else f"; first piece missing: {miss[0][:160]!r}"))
     return hit
+
+
+def pieces(s):
+    """A quoted sentence's pieces: a verdict may join passages of one page with "[...]" or put a note in brackets
+    ("[The site's footer:]"); each passage of more than 15 characters must be on the page word for word."""
+    parts = re.split(r"\[[^\]]*\]|\.\.\.|" + chr(0x2026), s)
+    return [q.strip(" \"'") for q in parts if len(q.strip(" \"'")) > 15]
 
 
 def cut(n, words, pages, out=print):
@@ -185,7 +195,8 @@ def cut(n, words, pages, out=print):
     return sents
 
 
-def confirm(key, n, note="", session=SESSION, pages=None, out=print):
+def confirm(key, n, note="", session=None, pages=None, out=print):
+    session = SESSION if session is None else session
     verdicts = {r["key"]: r for r in rows(VERDICTS)}
     v = verdicts.get(key)
     if v is None:

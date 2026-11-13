@@ -12,11 +12,11 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **648 tables.** The flag and the verdict agree on 528; a ruling settles 47 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 71 are not settled (a publisher not read); 2 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 476 public, 115 internal, 57 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1651 publishers in the record: 1649 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 314 pages read, 1335 that could not be read, 2 not asked (paused).**
+- **1680 publishers in the record: 1678 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 340 pages read, 1338 that could not be read, 2 not asked (paused).**
 - **45 tables are flagged public where a publisher's sentence asks for permission or a license** (45 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 34; ISO-NE 30; MISO 27; Bloomberg 7; Data Center Dynamics 7; Data Center Frontier 7; Financial Times 7; Hart Energy 7; Heatmap News 7; Latitude Media 7; Natural Gas Intelligence 7; OilPrice.com 7; POWER Magazine 7; Reuters 7; Utility Dive 7; WSJ 7; Data Center Knowledge 6; ANS Nuclear Newswire 5; Amazon Web Services 5; Canary Media 5; Digital Realty 5; Equinix 5; Google 5; JPT 5; LNG Prime 5; Meta 5; Microsoft 5; Oracle 5; Rigzone 5; Switch 5; Vantage Data Centers 5; pv magazine USA 5; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **16 tables that may be public today would need permission if the ERW sells anything** (SPP 8; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
-- **Confirmed against the publisher's current page (chain 229, session 4101 on): 0 publishers, 0 of them with a sentence no longer on the page.** 0 tables rest on a verdict read more than 30 days before the newest read in the record (2026-10-26) and not confirmed since.
+- **Confirmed against the publisher's current page (chain 229, session 4101 on): 15 publishers, 0 of them with a sentence no longer on the page.** 63 tables rest on a verdict read more than 30 days before the newest read in the record (2026-11-13) and not confirmed since.
 
 ## The reads
 
@@ -1675,6 +1675,35 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 1649 | Eurostat (Statistical Office of the European Union), nrg_ind_ioc's data (session 2827) | https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_ind_ioc?format=SDMX-CSV&compressed=false | 06:58:49 | 200 | 469236 | read: the whole dataset, 6,497 observations, asked once before the fetch |
 | 1650 | Eurostat (Statistical Office of the European Union), ec.europa.eu's robots file (session 2832) | https://ec.europa.eu/robots.txt | 07:03:43 | 200 | 10827 | read: the same file as session 2827's, byte for byte; /eurostat/api/dissemination/ open; names no Claude agent |
 | 1651 | Eurostat (Statistical Office of the European Union), nrg_ind_di's data (session 2832) | https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_ind_di?format=SDMX-CSV&compressed=false | 07:03:47 | 200 | 57103 | read: the whole dataset, 891 observations, asked once before the fetch |
+| 1652 | EIA, www.eia.gov's robots file (session 4101) | https://www.eia.gov/robots.txt | 09:39:37 | 200 | 718 | read |
+| 1653 | ERCOT, www.ercot.com's robots file (session 4101) | https://www.ercot.com/robots.txt | 09:39:37 | 200 | 814 | read |
+| 1654 | CAISO, www.caiso.com's robots file (session 4101) | https://www.caiso.com/robots.txt | 09:39:37 | 200 | 47 | read |
+| 1655 | NYISO, www.nyiso.com's robots file (session 4101) | https://www.nyiso.com/robots.txt | 09:39:37 | 200 | 179 | read |
+| 1656 | SPP, www.spp.org's robots file (session 4101) | https://www.spp.org/robots.txt | 09:39:38 | 404 | 309 | not read: HTTP 404 |
+| 1657 | ISO-NE, www.iso-ne.com's robots file (session 4101) | https://www.iso-ne.com/robots.txt | 09:39:38 | 404 | 62616 | not read: HTTP 404 |
+| 1658 | Eurostat, ec.europa.eu's robots file (session 4101) | https://ec.europa.eu/robots.txt | 09:39:39 | 200 | 10827 | read |
+| 1659 | DESNZ, www.gov.uk's robots file (session 4101) | https://www.gov.uk/robots.txt | 09:39:39 | 200 | 1097 | read |
+| 1660 | NOAA NCEI, www.ncei.noaa.gov's robots file (session 4101) | https://www.ncei.noaa.gov/robots.txt | 09:39:39 | 200 | 254 | read |
+| 1661 | DOE, www.energy.gov's robots file (session 4101) | https://www.energy.gov/robots.txt | 09:39:40 | 200 | 2141 | read |
+| 1662 | NRC, www.nrc.gov's robots file (session 4101) | https://www.nrc.gov/robots.txt | 09:39:40 | 200 | 543 | read |
+| 1663 | EPA, www.epa.gov's robots file (session 4101) | https://www.epa.gov/robots.txt | 09:39:40 | 200 | 2035 | read |
+| 1664 | Census Bureau, www.census.gov's robots file (session 4101) | https://www.census.gov/robots.txt | 09:39:40 | 200 | 1300 | read |
+| 1665 | CPUC, www.cpuc.ca.gov's robots file (session 4101) | https://www.cpuc.ca.gov/robots.txt | 09:39:40 | 404 | 103 | not read: HTTP 404 |
+| 1666 | Berkeley Lab, eta-publications.lbl.gov's robots file (session 4101) | https://eta-publications.lbl.gov/robots.txt | 09:39:41 | 200 | 2027 | read |
+| 1667 | EIA, current terms (session 4101) | https://www.eia.gov/about/copyrights_reuse.php | 09:40:16 | 200 | 52536 | read |
+| 1668 | ERCOT, current terms (session 4101) | https://www.ercot.com/help/terms | 09:40:16 | 200 | 56656 | read |
+| 1669 | CAISO, current terms (session 4101) | https://www.caiso.com/privacy-terms-of-use | 09:40:16 | 200 | 81376 | read |
+| 1670 | NYISO, current terms (session 4101) | https://www.nyiso.com/legal-notice | 09:40:17 | 200 | 149468 | read |
+| 1671 | SPP, current terms (session 4101) | https://www.spp.org/terms-conditions/ | 09:40:17 | 200 | 68432 | read |
+| 1672 | ISO-NE, current terms (session 4101) | https://www.iso-ne.com/legal-privacy | 09:40:18 | 200 | 68108 | read |
+| 1673 | Eurostat, current terms (session 4101) | https://ec.europa.eu/eurostat/web/main/help/copyright-notice | 09:40:18 | 200 | 182956 | read |
+| 1674 | DESNZ, current terms (session 4101) | https://www.gov.uk/government/statistics/electricity-section-5-energy-trends | 09:40:19 | 200 | 145632 | read |
+| 1675 | NOAA NCEI, current terms (session 4101) | https://www.ncei.noaa.gov/pub/data/noaa/readme.txt | 09:40:19 | 200 | 5330 | read |
+| 1676 | DOE, current terms (session 4101) | https://www.energy.gov/web-policies | 09:40:20 | 200 | 133258 | read |
+| 1677 | NRC, current terms (session 4101) | https://www.nrc.gov/about-nrc/site-disclaimer | 09:40:20 | 200 | 103536 | read |
+| 1678 | EPA, current terms (session 4101) | https://www.epa.gov/web-policies-and-procedures/epa-disclaimers | 09:40:20 | 200 | 62565 | read |
+| 1679 | Census Bureau, current terms (session 4101) | https://www.census.gov/data/developers/about/terms-of-service.html | 09:40:20 | 200 | 302835 | read |
+| 1680 | CPUC, current terms (session 4101) | https://www.cpuc.ca.gov/about-cpuc/conditions-of-use | 09:40:20 | 200 | 68897 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -1944,7 +1973,23 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 
 A verdict read again on the publisher's page as it stands, by `scripts/license_confirm.py`: the host's robots file read first, one new request under a new label, and the verdict's sentence looked for word for word by code. "On the page" confirms the verdict; "changed" means the sentence is gone and the verdict waits to be cut again; "cut again" means a new sentence was taken from the new page.
 
-None yet.
+| Publisher | First read | Read now | Day | The sentence | Verdict before | Verdict now | Note |
+|---|---|---|---|---|---|---|---|
+| CAISO | #3 | #1669 | 2026-11-13 | on the page | may be public | may be public |  |
+| California Public Utilities Commission | #50 | #1680 | 2026-11-13 | on the page | may be public | may be public |  |
+| Census Bureau | #17 | #1679 | 2026-11-13 | on the page | may be public | may be public |  |
+| DOE newsroom | #54 | #1676 | 2026-11-13 | on the page | may be public | may be public |  |
+| EIA | #1 | #1667 | 2026-11-13 | on the page | may be public | may be public |  |
+| EPA | #55 | #1678 | 2026-11-13 | on the page | may be public | may be public |  |
+| ERCOT | #2 | #1668 | 2026-11-13 | on the page | may be public | may be public |  |
+| Eurostat (Statistical Office of the European Union) | #280 | #1673 | 2026-11-13 | on the page | may be public | may be public |  |
+| ISO-NE | #4 | #1672 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| NOAA NCEI | #9 | #1675 | 2026-11-13 | on the page | may be public | may be public |  |
+| NRC | #16 | #1677 | 2026-11-13 | on the page | may be public | may be public |  |
+| NYISO | #5 | #1670 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| SPP | #6 | #1671 | 2026-11-13 | on the page | may be public | may be public |  |
+| U.S. Department of Energy (DOE) | #54 | #1676 | 2026-11-13 | on the page | may be public | may be public |  |
+| UK Department for Energy Security and Net Zero (DESNZ) | #315 | #1674 | 2026-11-13 | on the page | may be public | may be public |  |
 
 **Publishers no read of this sweep covers (54):** Administrador del Mercado Mayorista (AMM), Guatemala; Africa Sustainable Futures Awards; Arizona Corporation Commission; CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Central Statistical Bureau of Latvia (CSP); Central Statistical Office of Grenada (CSO); Centro Nacional de Control de Energia (CENCE, ICE); Ceylon Electricity Board, Sri Lanka (CEB); Danish Energy Agency (Energistyrelsen); E-Control (Energie-Control Austria); ELES (the Slovenian transmission system operator); Electrek; Energeticky regulacni urad (ERU), Czechia; Energy Commission, Ghana; Energy Regulatory Commission of Mongolia (ERC); Energy-Storage.news; FERC; Georgia Public Service Commission; HOPS (the Croatian transmission system operator); Illinois Commerce Commission; Kosovo Agency of Statistics (ASK); Louisiana Department of Revenue; Louisiana State Legislature; Ministry of Energy, Saudi Arabia, as published by GASTAT; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); PSE S.A. (Polskie Sieci Elektroenergetyczne); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); REN (Redes Energeticas Nacionais); State Statistical Office of North Macedonia (MakStat); Statistics Greenland (Gronlands Statistik); Statnett SF; Svenska kraftnat; Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov); USDA Natural Resources Conservation Service (NRCS); Viceministerio de Minas y Energia (VMME), Paraguay; Virginia State Corporation Commission; grid operators' guides and utilities' filed rules, read into the ERW's registry; the outlets of news_stories; the state commissions (filed tariffs), read into the ERW's registry; utilities and operators, each row's own document (not listed one by one).
 
