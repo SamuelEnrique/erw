@@ -2,7 +2,7 @@
 
 machine: portable-laptop-window3
 
-Written first by session 5250 of chain 238 (`queue/done/238-day-14-november-portable-p3-ask-continued.md`) on 13 November 2026 at about 18:45 UTC, as that chain's rules ask, and to be updated by its session 5264 with what chain 238 did not finish. The first queue number free on origin's main, on every branch and in this machine's worktrees was 247 (never used in the history of any branch; 255, P1's, was the highest taken). It takes sessions 5265 to 5279, fifteen numbers after chain 238's last (5264); session 5265 checks each is free on origin's main and on every branch, skips a taken one upward and says so. Model: Fable, high effort.
+Written first by session 5250 of chain 238 (`queue/done/238-day-14-november-portable-p3-ask-continued.md`) on 13 November 2026 at about 18:45 UTC, as that chain's rules ask, and to be updated by its session 5264 with what chain 238 did not finish. It is 256: session 5250 first pushed it as 247, the one number never used below P1's 255, and window P2 pushed its own 247 a moment before, so this file took the first number free above every taken one on origin's main, on every branch and in this machine's worktrees. It takes sessions 5265 to 5279, fifteen numbers after chain 238's last (5264); session 5265 checks each is free on origin's main and on every branch, skips a taken one upward and says so. Model: Fable, high effort.
 
 ## Who else runs on this machine
 

@@ -62,3 +62,34 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Seen, for Samuel:** the Digest's US48 day is the UTC day. Its highest hour is its last (23:00 UTC, 18:00 Eastern) on 9 of the 70 days from 1 September, and its first (00:00 UTC, the evening before) on 12, so the US evening peak is split across two issues. Default: the UTC day stays (a method change, not a reader's fault in the words).
 - Tests: `Row159TheReasonADayIsNotHeld` (2), `Row160TheNoChartLineSaysWhy` (2). The 65 files naming `brief`, `roundup`, `digest.ts` or `daily_chart`: 1,238 passed, 20 skipped.
 - **Row 11:** moved to `e547f598f`.
+
+## Session 3462: the email of 13 November; a W46 dry run, rows 161 and 162
+
+- **The stored email** (`docs/digest/email/2026-11-13-daily.txt`): nothing new beyond the issue's own faults. It prints What moved's first three items by design (session 2703, `numbered(..., 3)`). Its two links go to `docs/digest/2026-11-13.md` on main, which is not there while the issue sits on `wip/red-daily-2026-11-13`, so a reader's click finds nothing until that branch lands (for Samuel).
+- **A partial W46 dry run on the stack** (`--no-model`, the daily run's own `news_stories`, `energy_deals` and `datacenter_projects`, cut at 18:40 UTC; `runs/periodicals_dryrun/s3462/`). The worktree's tracked tables were swapped in for the run and checked out again after.
+- **Row 161 (new, fixed):** the five named "USD 2.6 billion, Aramco, HUMAIN AI" as the deal of the week, and the Deals table below (US first, at most 15) left it out: it was the 16th of 19. The five's deal is now always in the table.
+- **Row 162 (new, fixed):** the five printed "20 MW, Syntys (1 larger load of the week name no operator or site ...)" above a table that names that larger load "CDC (developer)", 1,400 MW, Kemps Creek, Australia. A developer now names the load in the five as in the table, a non-US country follows the place, and one load "names": "1,400 MW, CDC (developer), Kemps Creek, Australia." Row 118's pinned words follow.
+- **Seen, the data machine's:** the Deals table holds Sempra's stake sale twice. The 11-13 row is KKR and CPP buying, closed; the 11-12 row is reversed (Sempra as buyer, "rumored"). MN8 Energy and FlexGen also read as buyer and seller of a supply contract. Both are the extraction's (row 77's file).
+- Tests: `Row161TheDealOfTheWeekIsInTheTable` (3), `Row162TheFivesLoadNamesItsDeveloper` (2). The 65 files: 1,243 passed, 20 skipped. `check_roundup.py --dir`: 15 ok, 0 failed.
+- **Row 11:** moved to `1385e767b`.
+
+## Session 3463: the method notes; the 12 November issue on the stack, rows 163 and 164
+
+- `docs/methods/digest_scoring.md` (section 8) and `roundup_selection.md` (section 9) carry rows 151 to 164.
+- **The 12 November issue** (on main) as a dry run on the stack with the restored tables, beside the stored issue: the differences are rows 79 to 162 as intended. Chain 251's runs of the same day read a copy of the tables nine days old, so their numbers differed from the stored issue's; this machine's tables now match it.
+- The worktree holds no `policy_actions.csv` (an ignored file), so the stack's dry runs of sessions 3457 to 3462 printed no policy action. The restored table was copied in (local, ignored), and the runs now print them.
+- **Row 163 (new, fixed):** "Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?" printed "(power prices)" under Power. A gas forwards or futures title, or an LNG market title, is now gas's.
+- **Row 164 (new, fixed):** the stored 12 and 13 November issues both print "Long Mott Energy, LLC; Long Mott Generating Station; Construction Permit (NRC notice, policy action)". Policy actions are dated by day and read from the window's first whole day, so an action of the day the window opens is in two issues. An action whose link an issue of the last week printed is now left out.
+- Tests: `Row163AGasForwardsTitleIsGass` (1), `Row164APolicyActionIsPrintedOnce` (3). The 65 files: 1,247 passed, 20 skipped.
+- **Row 11:** moved to `86e19d969`.
+
+## Session 3464: every stored Digest on the stack, rows 165 to 167
+
+- The 17 stored Digests on main (25 September to 12 November), each as a dry run on the stack at its own window's end (`runs/s3464_batch.py`, outputs in `runs/periodicals_dryrun/s3464/`), scanned for the new rows' classes.
+- **Row 164's reach:** besides 12 to 13 November, the stored issues of 9, 14 and 23 October each repeat one policy action from the issue before.
+- **Row 165 (new, fixed):** the stack's subject of 14 October read "Taiwan Commits Up to to Alaska LNG Megaproject": the figure was taken out and its quantity words were left. The same removal left "of" after a capacity and a lower-case first letter after "A 500 MW deal ...", and never took out a percent ("with 30% of output", since `\b` cannot follow "%"). All four are fixed in `roundup.head_clause`.
+- **Row 166 (new, fixed):** "Morgan Stanley: Global Fuel Market Will Stay Tight Through Mid-2027 (power prices)". "fuel market" is now oil's under a power tag.
+- **Row 167 (new, fixed):** "nearly USD 1 billion; Parties: US Energy Department." opened an item's line in lower case. The figures line now opens with a capital.
+- Left as they are: "French Power Prices Exceed EUR 100 ..." and "Japan Power Price at Four-Year High ..." are power price stories rightly tagged. The charts of the batch are today's candidates, not those days', so they were not read.
+- Tests: three classes, 4 tests. The 65 files: 1,251 passed, 20 skipped. The method notes carry rows 165 to 167.
+- **Row 11:** moved to `fce6e0cfd`.

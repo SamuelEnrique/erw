@@ -48,7 +48,8 @@ export type PropertyRule = {
   /** session 4255 (Wyoming's wind excise): a production tax's first exempt operating years, and a rule that adds to the
    *  property tax instead of standing in for it (the reader's own property tax rate is added to it) */
   exempt_years?: number; adds_to_property?: boolean;
-  /** own_exempt (session 4257, Florida's device exemption): the share of the reader's own rate's base exempt, through a calendar year */
+  /** own_exempt (session 4257, Florida's device exemption): the share of the reader's own rate's base exempt, through a calendar year;
+   *  with requires "option" and years (session 4262, Nevada's abatement) only when the option is on, for that many years from the first construction year */
   exempt_share?: number; until_year?: number;
   /** exempt_years: the operating years exempt (session 4223, Kansas) */
   years?: number;
@@ -237,7 +238,8 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
   if (x.own !== null && x.ownyears !== null && x.ownyears > 0) {
     const share = Math.max(0, 1 - i / x.ownyears);
     // an exemption of part of the base (Florida's 80 percent of a renewable device's value, through 2037) acts on the own rate
-    const ex = rules.find((r) => r.kind === "own_exempt" && x.start + x.build + i <= (r.until_year ?? Infinity));
+    const ex = rules.find((r) => r.kind === "own_exempt" && x.start + x.build + i <= (r.until_year ?? Infinity)
+      && (r.requires !== "option" || x.iaval) && (r.years === undefined || x.build + i < r.years));
     const taxed = ex ? 1 - (ex.exempt_share ?? 0) : 1;
     return { tax: spend * share * taxed * (x.own / 100), rule: ex ? `own+${ex.id}` : "own", value: spend * share * taxed };
   }
