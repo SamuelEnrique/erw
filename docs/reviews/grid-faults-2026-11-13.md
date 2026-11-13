@@ -32,3 +32,7 @@ Network, energy mix and Ask are one page since session 299: `/grid` draws four t
 | Cross-check table | `docs/methods/crosschecks/grid.md` |
 | Decisions block | the page's rulings block and the note's 25 assumptions (`replication/grid/assumptions.json`) |
 | One page | yes, since session 299 |
+
+## The wider read (session 5009)
+
+Session 5004's build, internal view, 1280 and 390: each of the eight grids (ERCOT, CAISO, PJM, MISO, NYISO, ISO-NE, SPP, the Lower 48) on each of the four tabs, 64 views, and Research's week `/research/2026-W45` at both widths. No console error, no broken text, nothing scrolls sideways at 390. No new fault.
