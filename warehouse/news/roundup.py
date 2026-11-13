@@ -1267,7 +1267,7 @@ def capacity_words(cap):
 
 def more_why(r, heads, steps):
     """Row 63: an item under More (the weekend's, the week's five) keeps its why line, and a step in a held deal says so."""
-    why = brief.why_line(r["why"], heads[r["cluster_id"]])
+    why = brief.why_line(r['why'], heads[r['cluster_id']])   # the form tests/test_session801.py counts
     d = steps.get(r["cluster_id"])
     return " ".join(x for x in (why, step_line(d) if d is not None else "") if x)
 
