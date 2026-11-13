@@ -42,3 +42,9 @@ Energy Research Warehouse (ERW). Chain 244 (`queue/done/244-day-16-november-oldl
 - W40's deal ("Anthropic's loan for Broadcom's chips lease financing") is the extraction's roles: the data machine's, not rowed.
 - The 60 importing test files OK (1,135 tests). Row 10's head moved with them.
 
+## Sessions 3354 and 3355: the stored Digests of 23 and 22 October against the stack, rows 136 and 137
+
+- 136: "Deal value: USD 14.4 billion" from "Kinder Morgan Backlog Surges ..." reads "Project backlog".
+- 137: "Capital raised: USD 825 billion" from "Meta Reports $825 Billion in Future Spending Commitments" reads "Spending committed"; a raise, a round, a loan keeps "Capital raised"; else "Capital".
+- The 60 importing test files OK (1,137 tests). Row 10's head moved with them.
+
