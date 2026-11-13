@@ -941,6 +941,10 @@ def without_figures(t, head):
         m = pat.search(t)
         if not m or not re.search(r"(?:^|\s)" + BEFORE_FIGURE + r"\s*$", t[:m.start()], re.I):
             return ""
+        # session 3493 (faults file row 183): a figure after a quantity's words cannot go and leave a sentence ("DOE says
+        # it intends to lend up to so Constellation can ...", the stack's W44; "worth about to the seller")
+        if re.search(r"\b(?:about|over|nearly|some|around|up to|more than|at least|almost|roughly)\s*$", t[:m.start()], re.I):
+            return ""
         t = (t[:m.start()] + t[m.end():]).replace("  ", " ")
         t = fix_article(re.sub(r"\s+([,;:.])", r"\1", t).strip(" ,;:"))
     words = re.findall(r"[A-Za-z]+", t)

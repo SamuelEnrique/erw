@@ -162,7 +162,11 @@ def policy_of_the_week(start, cut, log):
     L = [f"**{brief.money_style(policy_title(top['title']))}** ({top['agency']} {TYPE_LABEL.get(top['action_type'], top['action_type'])}, "
          f"{dated(top)}" + (f"; {dockets(top['docket'])}" if top["docket"] else "") + ")", ""]
     # session 577: brief.why_line, so a read without a final stop does not run into its link
-    L.append(brief.why_line(r.get("plain_read") or top["why"], top["title"]) + f" [Source]({top['source_url']})")
+    # session 3493 (faults file row 183): the impact read is the ERW's own sentence under its bold title, printed whole
+    # (the headline's figure taken out of it left "DOE says it intends to lend up to so Constellation can ...", W44); the
+    # scorer's line keeps the news items' rule
+    read = str(r.get("plain_read") or "").strip()
+    L.append((brief.why_line(read) if read else brief.why_line(top["why"], top["title"])) + f" [Source]({top['source_url']})")
     if r.get("timeline"):
         L += ["", f"Timeline: {r['timeline']}"]
     also = w.iloc[1:3]
