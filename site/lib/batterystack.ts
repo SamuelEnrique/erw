@@ -174,8 +174,27 @@ export function monthsOf(rows: Row[], strat: Strategy, dur: Duration): Month[] {
       total: has ? v.revenue_total_usd_per_mw : null, products,
     });
   }
-  return out;
+  return settle(out);
 }
+
+/** Session 1892 (session 1885's fault 2, the walk of 13 November 2026): the month the headline treats as incomplete is
+ * held nowhere. lastTwelve ends the window with the newest held month that is whole (session 195), so a month that has
+ * reached 90 percent of its days but is not yet whole, and is newer than every whole month, was outside the headline
+ * while the year chart and the income table counted it ("2026, 10 months", 66.39 per kW, beside a headline ending
+ * September 2026) and months.csv marked it "held: yes" (ERCOT's October 2026, 29 of 31 days solved and 1 left out).
+ * Such a month is now not held, here, so every reader of the months (the headline, the year chart, the income table,
+ * the averages, the bad month's window, months.csv, the check keys and site/scripts/price-years.mjs, which writes the
+ * "Price years" choice) takes the same months. A month that is not whole but older than a whole month stays held, as
+ * the headline counts it inside its window. The numbers' source is unchanged: only which months count. */
+export function settle(ms: Month[]): Month[] {
+  let lastWhole = "";
+  for (const r of ms) if (r.whole && r.m > lastWhole) lastWhole = r.m;
+  return ms.map((r) => (r.held && !r.whole && r.m > lastWhole ? { ...r, held: false } : r));
+}
+/** Session 1892: whether a month has 90 percent of its days solved but waits to be whole before it is held (the
+ * running month the headline leaves out); months.csv says so beside its "held: no". */
+export const waiting = (r: Month): boolean =>
+  !r.held && !r.whole && r.total !== null && r.daysInMonth > 0 && r.daysHeld / r.daysInMonth >= NEAR - 1e-9;
 
 export type Stream = "energy" | "ancillary" | "total" | string;
 const pick = (r: Month, s: Stream): number | null =>
