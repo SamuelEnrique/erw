@@ -5,13 +5,13 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 | Class | Refusals | Graded right |
 |---|---|---|
 | MISO's pause | 14 | 14 of 14 graded |
-| a license hold | 31 | 31 of 31 graded |
+| a license hold | 32 | 32 of 32 graded |
 | a table not in the live set | 21 | 21 of 21 graded |
 | the call limit | 1 | 0 of 1 graded |
 | the warehouse lacks the figure | 31 | 24 of 31 graded |
 | rows read, then refused | 4 | 4 of 4 graded |
 
-In all: 102 refusals.
+In all: 103 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -117,3 +117,4 @@ In all: 102 refusals.
 | session 5260, the site's loop, the platform set | po10 | 5 | a license hold | right |
 | session 5260, the site's loop, the platform set | dc02 | 9 | a license hold | right |
 | session 5260, the site's loop, the platform set | dc10 | 1 | the warehouse lacks the figure | right |
+| session 5261, the site's loop, the platform set | de01 | 4 | a license hold | right |
