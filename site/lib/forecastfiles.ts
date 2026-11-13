@@ -129,7 +129,9 @@ def property_tax(d, i):
         for r in d["property"]:
             if (r["kind"] == "own_exempt" and x["start"] + x["build"] + i <= r.get("until_year", 9999)
                     and (r.get("requires") != "option" or x["iaval"]) and (r.get("years") is None or x["build"] + i < r["years"])
-                    and (r.get("above_mw") is None or mw > r["above_mw"]) and (r.get("below_mw") is None or mw < r["below_mw"])):
+                    and (r.get("above_mw") is None or mw > r["above_mw"]) and (r.get("below_mw") is None or mw < r["below_mw"])
+                    and (r.get("op_years") is None or i < r["op_years"])
+                    and (r.get("built_before") is None or x["start"] + x["build"] <= r["built_before"])):
                 share = r.get("exempt_share", 0.0)
                 if r.get("exempt_steps"):  # Virginia's 80, 70 and 60 percent by years in service
                     share = next(st["share"] for st in r["exempt_steps"] if st.get("until") is None or i < st["until"])
@@ -244,10 +246,12 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
       if (exemptYears !== null) out.push(`replace property = 0 if !build & i < ${exemptYears}`);
       const fx = d.property.find((rl) => rl.kind === "own_exempt");
       // Nevada's abatement only with the option on, for its years from the first construction year
-      const fxOn = fx && (fx.requires !== "option" || xi.iaval) && (fx.above_mw === undefined || xi.mw > fx.above_mw) && (fx.below_mw === undefined || xi.mw < fx.below_mw);
+      const fxOn = fx && (fx.requires !== "option" || xi.iaval) && (fx.above_mw === undefined || xi.mw > fx.above_mw) && (fx.below_mw === undefined || xi.mw < fx.below_mw)
+        && (fx.built_before === undefined || xi.start + xi.build <= fx.built_before);
       const steps = (st: { until?: number; share: number }[]): string => st.length === 1 || st[0].until === undefined ? `${1 - st[0].share}` : `cond(i < ${st[0].until}, ${1 - st[0].share}, ${steps(st.slice(1))})`;
       const taxedShare = !fx || !fxOn ? "1"
         : fx.exempt_steps ? steps(fx.exempt_steps)
+        : fx.op_years !== undefined ? `cond(i < ${fx.op_years}, ${1 - (fx.exempt_share ?? 0)}, 1)`
         : fx.years !== undefined ? `cond(i < ${fx.years - xi.build}, ${1 - (fx.exempt_share ?? 0)}, 1)`
         : fx.until_year === undefined ? `${1 - (fx.exempt_share ?? 0)}` : `cond(year <= ${fx.until_year}, ${1 - (fx.exempt_share ?? 0)}, 1)`;
       if (xi.own !== null && xi.ownyears) out.push(`replace property = ${spend} * max(0, 1 - i / ${xi.ownyears}) * ${taxedShare} * ${xi.own} / 100 if !build${exemptYears !== null ? ` & i >= ${exemptYears}` : ""}`);

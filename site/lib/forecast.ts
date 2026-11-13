@@ -42,7 +42,7 @@ export type IncomeState = {
   standard_deduction_single: number | null; personal_exemption_single: number | null; personal_credit_single: number | null;
 };
 export type PropertyRule = {
-  id: string; technologies: TechKey[]; kind: "capacity" | "production" | "valuation" | "exempt_years" | "capacity_option" | "own_exempt";
+  id: string; technologies: TechKey[]; kind: "capacity" | "production" | "valuation" | "exempt_years" | "capacity_option" | "own_exempt" | "note";
   /** capacity_option (session 4225, Oregon's solar fee in lieu by county agreement): the statute's range and the default */
   usd_per_mw_min?: number; usd_per_mw_max?: number; default_usd_per_mw?: number;
   /** session 4255 (Wyoming's wind excise): a production tax's first exempt operating years, and a rule that adds to the
@@ -67,6 +67,8 @@ export type PropertyRule = {
   /** valuation (session 4294): the share of value assessed (a state's assessment ratio), a straight-line depreciation in
    *  points of value a year with a floor (in place of schedule_pct), and a statutory value per MW in place of the capital cost */
   assessment_ratio?: number; depr_pct_per_year?: number; floor_pct?: number; usd_per_mw_value?: number;
+  /** own_exempt (session 4295, New York's RPTL 487): the operating years exempt, and the year construction must end before */
+  op_years?: number; built_before?: number;
   /** the local option's switch and its rate, their hover words */
   option_tip?: string; rate_tip?: string;
 };
@@ -256,7 +258,8 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
     // an exemption of part of the base (Florida's 80 percent of a renewable device's value, through 2037) acts on the own rate
     const ex = rules.find((r) => r.kind === "own_exempt" && x.start + x.build + i <= (r.until_year ?? Infinity)
       && (r.requires !== "option" || x.iaval) && (r.years === undefined || x.build + i < r.years)
-      && (r.above_mw === undefined || x.mw > r.above_mw) && (r.below_mw === undefined || x.mw < r.below_mw));
+      && (r.above_mw === undefined || x.mw > r.above_mw) && (r.below_mw === undefined || x.mw < r.below_mw)
+      && (r.op_years === undefined || i < r.op_years) && (r.built_before === undefined || x.start + x.build <= r.built_before));
     const exShare = ex?.exempt_steps ? (ex.exempt_steps.find((st) => st.until === undefined || i < st.until)?.share ?? 0) : (ex?.exempt_share ?? 0);
     const taxed = ex ? 1 - exShare : 1;
     return { tax: spend * share * taxed * (x.own / 100), rule: ex ? `own+${ex.id}` : "own", value: spend * share * taxed };

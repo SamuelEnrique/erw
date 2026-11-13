@@ -465,3 +465,16 @@ test("a valuation by a statutory value per MW, an assessment ratio and a straigh
   near(F.propertyTax(P2, x, 10).tax, 100 * 500000 * 0.60 / 3 * 0.080, 1e-12, "year 11: 60 percent");
   near(F.propertyTax(P2, x, 24).tax, 100 * 500000 * 0.30 / 3 * 0.080, 1e-12, "the floor");
 });
+
+test("a note rule holds no figure and leaves the reader's own rate; an exemption in operating years for a plant built before a year", () => {
+  const note = { id: "test_note", technologies: ["utility_pv"], kind: "note", tip: "Test: ordinary local tax (Code 1)." };
+  const ex = { id: "test_op", technologies: ["land_based_wind"], kind: "own_exempt", exempt_share: 1, op_years: 15, built_before: 2029, tip: "Test (Law 2)", own_tip: "t" };
+  const P2 = { ...P, property: { ...P.property, states: { ...P.property.states, zz: { name: "Test", rules: [note, ex] } } } };
+  const pv = { ...F.defaults(P, "utility_pv", "tx"), state: "zz", mw: 100, capex: 1500, own: 1, ownyears: 30 };
+  assert.equal(F.propertyTax(P2, { ...pv, own: null }, 0).tax, null);
+  near(F.propertyTax(P2, pv, 0).tax, 150e6 * 0.01, 1e-12, "the reader's own rate");
+  const w = { ...F.defaults(P, "land_based_wind", "tx"), state: "zz", mw: 100, capex: 1500, start: 2027, build: 1, own: 1, ownyears: 30 };
+  assert.equal(F.propertyTax(P2, w, 14).tax, 0, "the 15th operating year: exempt");
+  near(F.propertyTax(P2, w, 15).tax, 150e6 * (1 - 15 / 30) * 0.01, 1e-12, "then the own rate");
+  near(F.propertyTax(P2, { ...w, start: 2029 }, 0).tax, 150e6 * 0.01, 1e-12, "built after 2029: no exemption");
+});

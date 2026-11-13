@@ -34,6 +34,7 @@ export function params(): Params {
     id: r.id, technologies: r.technologies, kind: r.kind, usd_per_mw_year: r.usd_per_mw_year, usd_per_mwh: r.usd_per_mwh, min_mw: r.min_mw,
     tiers: r.tiers, schedule_pct: r.schedule_pct, then_pct: r.then_pct, requires: r.requires, default_levy: r.default_levy, levy_words: r.levy_words, tip: r.tip, own_tip: r.own_tip, option_tip: r.option_tip, rate_tip: r.rate_tip,
     assessment_ratio: r.assessment_ratio, depr_pct_per_year: r.depr_pct_per_year, floor_pct: r.floor_pct, usd_per_mw_value: r.usd_per_mw_value,
+    op_years: r.op_years, built_before: r.built_before,
     years: r.years, usd_per_mw_min: r.usd_per_mw_min, usd_per_mw_max: r.usd_per_mw_max, default_usd_per_mw: r.default_usd_per_mw,
     exempt_years: r.exempt_years, adds_to_property: r.adds_to_property, exempt_share: r.exempt_share, until_year: r.until_year,
     above_mw: r.above_mw, below_mw: r.below_mw, exempt_steps: r.exempt_steps })) }]));  // fault 15: every field of PropertyRule kept (Kansas's years were dropped)

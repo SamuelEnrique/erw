@@ -54,7 +54,7 @@ const EXEMPT_WORDS: Record<string, string> = {
 /** fault 7: a statute's capacity or production tax is held for this technology and state (Iowa's valuation is optional, so
  *  the reader's own rate stays offered there) */
 export const statuteHeld = (t: TechKey, s: string, P: Params) =>
-  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && !(r.kind === "valuation" && r.requires === "option") && r.kind !== "exempt_years" && r.kind !== "capacity_option" && r.kind !== "own_exempt" && !r.adds_to_property);
+  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "note" && !(r.kind === "valuation" && r.requires === "option") && r.kind !== "exempt_years" && r.kind !== "capacity_option" && r.kind !== "own_exempt" && !r.adds_to_property);
 
 export const FIELDS: FieldDef[] = [
   { key: "tech", label: "Technology", unit: "", min: 0, max: TECHS.length - 1, whole: true, group: "project",
@@ -109,7 +109,8 @@ export const FIELDS: FieldDef[] = [
     source: (t, s, P) => {
       const rules = (P.property.states[s]?.rules ?? []).filter((r) => r.technologies.includes(t));
       return rules.find((r) => r.own_tip)?.own_tip
-        ?? (rules.length ? "The state's statute leaves some years or cases open (without the local option, or after an exemption or an agreement ends): a rate typed here is the reader's own for those years, applied to the capital cost as it falls."
+        ?? (rules.some((r) => r.kind === "note") ? `${rules.find((r) => r.kind === "note")!.tip} A rate typed here is the reader's own, applied to the capital cost as it falls.`
+          : rules.length ? "The state's statute leaves some years or cases open (without the local option, or after an exemption or an agreement ends): a rate typed here is the reader's own for those years, applied to the capital cost as it falls."
           : "No statute is held for this state and technology: a rate typed here is the reader's own, applied to the capital cost as it falls.");
     } },
   { key: "ownyears", label: "Taxable value falls to 0 over", unit: "years", min: 1, max: 60, whole: true, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
