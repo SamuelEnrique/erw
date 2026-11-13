@@ -29,3 +29,46 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Seen, not a fault of this code:** Henry Hub's and WTI's closes of 11 November (Veterans Day) equal 10 November's to the cent, so the issue prints them "Unchanged"; EIA held no close for either on Veterans Day 2025. The connector fills nothing (no `ffill` in `eia_fuels.py`), so the rows are EIA's as published; for the data machine to check against EIA's raw file.
 - **Seen, kept:** the watch fact gives its unit once ("412,568,374 MWh ..., up 18,149,509 from 394,418,865 a year earlier"), the form `warehouse/analysis/run.finding` has used since session 119, pinned by tests and printed in eight Automated Analysis pages.
 - **Row 11** of `docs/state/landing_request_oldlaptop.md`: `wip/3457-periodicals` at `f9da2109f`, requested (cut from main at `42bb28b1a`).
+
+## Session 3458: the real-time line, row 152
+
+- **Row 152 (new, fixed):** the stored issue's real-time line read "interval starting 2026-11-12 19:00 local (2026-11-13 01:00 UTC), PT15M `spp_rtm`, ERCOT's real-time settlement point price [4]". That is row 71's fault, fixed in the Roundup by session 1895 and left in the Digest. "local" names no zone, "PT15M" is an ISO 8601 code, and `spp_rtm` reads as SPP the grid operator. Now: "the 15-minute interval starting 2026-11-12 19:00 Central (2026-11-13 01:00 UTC) [4], ERCOT's real-time settlement point price.", with the variable on the Tables line.
+- `rt_when`, `interval_words` and `ZONE_WORDS` move from `roundup.py` to `brief.py`; `roundup.py` keeps its names for them. `site/lib/digest.ts` reads the variable from the Tables line and both forms of the line, so the stored issues keep their keys. `tests/test_periodicals.py`'s `RT_LINE` reads the new form.
+- Tests: `Row152TheRealTimeLineInWords` (4) and a node test (`test-digest-numbers.mjs`, 17 passed). The 62 files naming `brief`, `roundup` or `digest.ts`: 1,196 passed, 20 skipped.
+- The stack's dry run of 13 November: 22 figures ok, 0 failed (`digest-figures.mjs --dir`, then `check_digest.py --figures`), the new line's `digest_rt|iso_rtm_hub_prices|HB_SOUTH|spp_rtm|2026-11-13T01:00:00Z` among them.
+- **No build yet:** MemFree 2.45 GB, under the 2.5 GB this machine's rule asks. Row 11 says so.
+- **Row 11:** moved to `1590a900d`.
+
+## Session 3459: rows 153 to 156
+
+- **Row 153 (new, fixed):** What moved 5 printed "Oil commits capital to UK lower-carbon projects." The scorer wrote "Major oil major commits significant capital ...", and the voice's cleaner took out the noun "major" of "oil major" with the adjectives. Now "major" after oil, gas or energy stays: "Oil major commits capital to UK lower-carbon projects."
+- **Row 154 (new, fixed):** "IEA Sees Oil Surplus for First Time in Iran War" printed "(power prices)", the scorer's tag. Rows 13, 120 and 125 correct a price, refining or gas price title, not one on the oil market's balance. A power tag on an oil or gas market title (surplus, supply, demand, output, stocks, exports; OPEC) now gives that fuel; the day's oil price story then folds under it as one topic.
+- **Row 155 (new, fixed):** with no model (publishers' titles), the figures line repeated the why line's figure ("... from USD 118 to below USD 95 per barrel ... talks. USD 118 per barrel."). `detail` now reads the printed why line.
+- **Row 156 (new, fixed):** row 154 brought the Aramco item into the ten, and its figures line printed "2.6 billion", the scorer's sum with no currency (72 of 2,159 stored figures carry none, mostly percents). A sum with no unit, or no digit ("millions"), is left out.
+- Tests: four classes, 10 tests, each failing on main. The 62 files naming `brief`, `roundup` or `digest.ts`: 1,206 passed, 20 skipped. The dry run's 22 figures trace, 0 failed.
+- **Row 11:** moved to `f1a1d8211`.
+
+## Session 3460: rows 157 and 158
+
+- **Row 157 (new, fixed):** the stored subject read "ERW Daily | Centrus and Oklo finalise fuel agreements for up to five Aurora". With its figure out, the headline runs to 88 characters, and the cut at 70 fell inside "for up to five Aurora powerhouses". Row 89's rule goes back before a name only. Now a cut that drops a lower-case word inside a phrase goes back to before the phrase's preposition (a quantity's "up to" is no phrase), if four words or more remain: "ERW Daily | Centrus and Oklo finalise fuel agreements". It is in `roundup.head_clause`, which both subjects use. Of the stored issues' subjects only this one changes.
+- **Row 158 (new, fixed):** "AirTrunk commits to purchasing 1GW ..." under "AirTrunk signs 1,000 MW energy deal ..." is the headline's figure again in another unit, and the rule compared numbers as written. A capacity in the headline's other unit is now read as the headline's figure, in the why line and the figures line. Session 801's pinned Dominion item ("3,500 MW" under "... 3.5GW of BESS ...") had the same fault; its fixture now pins "".
+- Tests: `Row157TheSubjectEndsOnAWholePhrase` (3), `Row158OneCapacityInTwoUnitsIsOneFigure` (3). The 62 files: 1,212 passed, 20 skipped.
+- **Row 11:** moved to `486a48f0e`.
+
+## Session 3461: rows 159 and 160
+
+- **Row 159 (new, fixed):** "the same weekday a year before (2025-11-13) and a week before (2026-11-05) are not held: the hourly table's window does not reach them." The table starts on 26 August, so its window reaches 5 November; 5 to 8 November is a gap from the machines' pause. The reason is now read from the table: "the hourly table starts on 2026-08-26 and holds no hour of 2026-11-05."
+- **Row 160 (new, fixed):** "No chart is shown today: no candidate passed the chart's rules (the run log says why)." This points to a log no reader can open, and on 13 November the sentence was false (row 151). `daily_chart.section` now records why it gave nothing, and the line says "no candidate passed the chart's rules" or "the chart chosen by its rules could not be drawn".
+- **Seen, for Samuel:** the Digest's US48 day is the UTC day. Its highest hour is its last (23:00 UTC, 18:00 Eastern) on 9 of the 70 days from 1 September, and its first (00:00 UTC, the evening before) on 12, so the US evening peak is split across two issues. Default: the UTC day stays (a method change, not a reader's fault in the words).
+- Tests: `Row159TheReasonADayIsNotHeld` (2), `Row160TheNoChartLineSaysWhy` (2). The 65 files naming `brief`, `roundup`, `digest.ts` or `daily_chart`: 1,238 passed, 20 skipped.
+- **Row 11:** moved to `e547f598f`.
+
+## Session 3462: the email of 13 November; a W46 dry run, rows 161 and 162
+
+- **The stored email** (`docs/digest/email/2026-11-13-daily.txt`): nothing new beyond the issue's own faults. It prints What moved's first three items by design (session 2703, `numbered(..., 3)`). Its two links go to `docs/digest/2026-11-13.md` on main, which is not there while the issue sits on `wip/red-daily-2026-11-13`, so a reader's click finds nothing until that branch lands (for Samuel).
+- **A partial W46 dry run on the stack** (`--no-model`, the daily run's own `news_stories`, `energy_deals` and `datacenter_projects`, cut at 18:40 UTC; `runs/periodicals_dryrun/s3462/`). The worktree's tracked tables were swapped in for the run and checked out again after.
+- **Row 161 (new, fixed):** the five named "USD 2.6 billion, Aramco, HUMAIN AI" as the deal of the week, and the Deals table below (US first, at most 15) left it out: it was the 16th of 19. The five's deal is now always in the table.
+- **Row 162 (new, fixed):** the five printed "20 MW, Syntys (1 larger load of the week name no operator or site ...)" above a table that names that larger load "CDC (developer)", 1,400 MW, Kemps Creek, Australia. A developer now names the load in the five as in the table, a non-US country follows the place, and one load "names": "1,400 MW, CDC (developer), Kemps Creek, Australia." Row 118's pinned words follow.
+- **Seen, the data machine's:** the Deals table holds Sempra's stake sale twice. The 11-13 row is KKR and CPP buying, closed; the 11-12 row is reversed (Sempra as buyer, "rumored"). MN8 Energy and FlexGen also read as buyer and seller of a supply contract. Both are the extraction's (row 77's file).
+- Tests: `Row161TheDealOfTheWeekIsInTheTable` (3), `Row162TheFivesLoadNamesItsDeveloper` (2). The 65 files: 1,243 passed, 20 skipped. `check_roundup.py --dir`: 15 ok, 0 failed.
+- **Row 11:** moved to `1385e767b`.
