@@ -13,11 +13,11 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **648 tables.** The flag and the verdict agree on 544; a ruling settles 52 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling, and 1 public by the owner's ruling); disagree on 0; 26 are not settled (a publisher not read); 2 is internal by the ERW's own choice; 24 flagged internal wait for the owner's ruling, the sentence read allowing them (chain 229: never loosened by a session, the default "stays internal").
 - **The ERW's verdict (session 378): 479 public, 115 internal, 54 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1958 publishers in the record: 1955 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 573 pages read, 1382 that could not be read, 3 not asked (paused).**
+- **2024 publishers in the record: 2021 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 631 pages read, 1390 that could not be read, 3 not asked (paused).**
 - **49 tables are flagged public where a publisher's sentence asks for permission or a license** (49 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 34; ISO-NE 30; MISO 27; Bloomberg 7; Data Center Dynamics 7; Data Center Frontier 7; Energy-Storage.news 7; Financial Times 7; Hart Energy 7; Heatmap News 7; Latitude Media 7; Natural Gas Intelligence 7; OilPrice.com 7; POWER Magazine 7; Public Utility Commission of Texas 7; Reuters 7; Utility Dive 7; WSJ 7; Data Center Knowledge 6; ANS Nuclear Newswire 5; Amazon Web Services 5; Canary Media 5; Digital Realty 5; Electrek 5; Equinix 5; Google 5; JPT 5; LNG Prime 5; Meta 5; Microsoft 5; Oracle 5; Rigzone 5; Switch 5; Vantage Data Centers 5; pv magazine USA 5; Louisiana Department of Revenue 1; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **24 tables are flagged internal where the sentence read allows them:** `csp_latvia_electricity_monthly`, `econtrol_austria_electricity_monthly`, `ferc714_area_demand_2006`, `ferc714_area_demand_2007`, `ferc714_area_demand_2008`, `ferc714_area_demand_2009`, `ferc714_area_demand_2010`, `ferc714_area_demand_2011`, `ferc714_area_demand_2012`, `ferc714_area_demand_2013`, `ferc714_area_demand_2014`, `ferc714_area_demand_2015`, `ferc714_area_demand_2016`, `ferc714_area_demand_2017`, `ferc714_area_demand_2018`, `ferc714_area_demand_2019`, `ferc714_area_demand_2020`, `ferc714_area_demand_2021`, `ferc714_area_demand_2022`, `ferc714_area_demand_2023`, `ferc714_area_demand_2024`, `ferc714_area_demand_2025`, `ferc714_respondents`, `svk_sweden_production_hourly`.
 - **17 tables that may be public today would need permission if the ERW sells anything** (SPP 8; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; E-Control (Energie-Control Austria) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
-- **Confirmed against the publisher's current page (chain 229, session 4101 on): 109 publishers, 0 of them with a sentence no longer on the page.** 36 tables rest on a verdict read more than 30 days before the newest read in the record (2026-11-13) and not confirmed since.
+- **Confirmed against the publisher's current page (chain 229, session 4101 on): 143 publishers, 0 of them with a sentence no longer on the page.** 36 tables rest on a verdict read more than 30 days before the newest read in the record (2026-11-13) and not confirmed since.
 
 ## The reads
 
@@ -1983,6 +1983,72 @@ One request a label, no second try: a publisher's page asked again takes a new l
 | 1956 | Energy Regulation Board, Zambia (ERB), current terms (session 4158) | https://www.erb.org.zm/ | 12:21:28 | 200 | 104560 | read |
 | 1957 | Energy and Petroleum Regulatory Authority, Kenya (EPRA), current terms (session 4158) | https://www.epra.go.ke/sites/default/files/2026-09/Energy%20%26%20Petroleum%20Statistics%20Report%202026.pdf | 12:21:30 | 200 | 4410843 | read |
 | 1958 | Eswatini Electricity Company (EEC), current terms (session 4158) | https://www.eec.co.sz/terms/ | 12:21:33 | 200 | 29176 | read |
+| 1959 | Federal Emergency Management Agency (FEMA), www.fema.gov's robots file (session 4159) | https://www.fema.gov/robots.txt | 12:22:29 | 200 | 3287 | read |
+| 1960 | Fiji Bureau of Statistics (FBoS), www.statsfiji.gov.fj's robots file (session 4159) | https://www.statsfiji.gov.fj/robots.txt | 12:22:29 | 200 | 178 | read |
+| 1961 | GFZ Helmholtz Centre for Geosciences (Potsdam), kp.gfz.de's robots file (session 4159) | https://kp.gfz.de/robots.txt | 12:22:31 | 404 | 35475 | not read: HTTP 404 |
+| 1962 | Government of French Polynesia (Direction Polynesienne de l'Energie), www.service-public.pf's robots file (session 4159) | https://www.service-public.pf/robots.txt | 12:22:32 | 200 | 119 | read |
+| 1963 | Government of Jersey, www.gov.je's robots file (session 4159) | https://www.gov.je/robots.txt | 12:22:34 | 200 | 15 | read |
+| 1964 | Hawaii State Department of Business, Economic Development and Tourism (DBEDT), dbedt.hawaii.gov's robots file (session 4159) | https://dbedt.hawaii.gov/robots.txt | 12:22:34 | 200 | 77 | read |
+| 1965 | Indiana Utility Regulatory Commission, secure.in.gov's robots file (session 4159) | https://secure.in.gov/robots.txt | 12:22:34 | 200 | 57 | read |
+| 1966 | Institut Luxembourgeois de Regulation (ILR), data.public.lu's robots file (session 4159) | https://data.public.lu/robots.txt | 12:22:35 | 404 | 108397 | not read: HTTP 404 |
+| 1967 | Institut National de la Statistique (INSTAT), Madagascar, www.instat.mg's robots file (session 4159) | https://www.instat.mg/robots.txt | 12:22:36 | 200 | 75 | read |
+| 1968 | Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo, inseed.tg's robots file (session 4159) | https://inseed.tg/robots.txt | 12:22:37 | 200 | 110 | read |
+| 1969 | Instituto Nacional de Estadistica (INE), Spain, www.ine.es's robots file (session 4159) | https://www.ine.es/robots.txt | 12:22:41 | 200 | 251 | read |
+| 1970 | Internal Revenue Service (IRS), Statistics of Income, www.usa.gov's robots file (session 4159) | https://www.usa.gov/robots.txt | 12:22:41 | 200 | 1558 | read |
+| 1971 | International Renewable Energy Agency (IRENA), pxweb.irena.org's robots file (session 4159) | https://pxweb.irena.org/robots.txt | 12:22:41 | 404 | 1245 | not read: HTTP 404 |
+| 1972 | National Bureau of Statistics of the Republic of Moldova (StatBank), statistica.gov.md's robots file (session 4159) | https://statistica.gov.md/robots.txt | 12:22:42 | 200 | 24 | read |
+| 1973 | National Centre for Statistics and Information, Oman (NCSI), www.ncsi.gov.om's robots file (session 4159) | https://www.ncsi.gov.om/robots.txt | 12:22:43 | 404 | 3569 | not read: HTTP 404 |
+| 1974 | National Interagency Fire Center (NIFC), www.arcgis.com's robots file (session 4159) | https://www.arcgis.com/robots.txt | 12:22:45 | 200 | 61 | read |
+| 1975 | National Statistical Institute, Bulgaria (NSI), www.nsi.bg's robots file (session 4159) | https://www.nsi.bg/robots.txt | 12:22:45 | 200 | 32 | read |
+| 1976 | National Statistical Office of Malawi (NSO), www.nsomalawi.mw's robots file (session 4159) | https://www.nsomalawi.mw/robots.txt | 12:22:45 | 404 | 0 | not read: HTTP 404 |
+| 1977 | National Water and Electricity Company (NAWEC), nawec.gm's robots file (session 4159) | https://nawec.gm/robots.txt | 12:22:47 | 404 | 808 | not read: HTTP 404 |
+| 1978 | Norwegian Water Resources and Energy Directorate (NVE), api.nve.no's robots file (session 4159) | https://api.nve.no/robots.txt | 12:22:48 | 404 | 1245 | not read: HTTP 404 |
+| 1979 | Nova Scotia Power (NS Power), www.nspower.ca's robots file (session 4159) | https://www.nspower.ca/robots.txt | 12:22:49 | 200 | 42 | read |
+| 1980 | Oncor Electric Delivery Company LLC, www.oncor.com's robots file (session 4159) | https://www.oncor.com/robots.txt | 12:22:50 | 200 | 327 | read |
+| 1981 | Operador Nacional do Sistema Eletrico (ONS), dados.ons.org.br's robots file (session 4159) | https://dados.ons.org.br/robots.txt | 12:22:53 | 200 | 322 | read |
+| 1982 | RTE (Reseau de Transport d'Electricite), www.rte-france.com's robots file (session 4159) | https://www.rte-france.com/robots.txt | 12:22:53 | 200 | 2162 | read |
+| 1983 | Red Electrica (REE), www.ree.es's robots file (session 4159) | https://www.ree.es/robots.txt | 12:22:54 | 200 | 1849 | read |
+| 1984 | Samoa Bureau of Statistics (SBS), www.sbs.gov.ws's robots file (session 4159) | https://www.sbs.gov.ws/robots.txt | 12:22:54 | 200 | 115 | read |
+| 1985 | Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego), scrippsco2.ucsd.edu's robots file (session 4159) | https://scrippsco2.ucsd.edu/robots.txt | 12:22:56 | 200 | 88 | read |
+| 1986 | Singapore Department of Statistics (SingStat), www.singstat.gov.sg's robots file (session 4159) | https://www.singstat.gov.sg/robots.txt | 12:22:56 | 200 | 38 | read |
+| 1987 | Solomon Islands Electricity Authority (Solomon Power), solomonpower.com.sb's robots file (session 4159) | https://solomonpower.com.sb/robots.txt | 12:22:57 | 200 | 1550 | read |
+| 1988 | St. Lucia Electricity Services Limited (LUCELEC), www.lucelec.com's robots file (session 4159) | https://www.lucelec.com/robots.txt | 12:22:57 | 200 | 2189 | read |
+| 1989 | State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK), www.derk.ba's robots file (session 4159) | https://www.derk.ba/robots.txt | 12:22:58 | 200 | 304 | read |
+| 1990 | Central Statistical Organization, Iraq (COSIT), current terms (session 4159) | https://cosit.gov.iq/ar/ | 12:23:26 | no request |  | not read: ReadTimeout |
+| 1991 | Federal Emergency Management Agency (FEMA), current terms (session 4159) | https://www.fema.gov/about/openfema/terms-conditions | 12:24:26 | 200 | 145693 | read |
+| 1992 | Fiji Bureau of Statistics (FBoS), current terms (session 4159) | https://www.statsfiji.gov.fj/download/271/electricity/5954/2024-electricity.pdf | 12:24:26 | 200 | 678086 | read |
+| 1993 | GFZ Helmholtz Centre for Geosciences (Potsdam), current terms (session 4159) | https://kp.gfz.de/fileadmin/files_for_gfz_cms/Kp_ap_since_1932.txt | 12:24:28 | 200 | 16633962 | read |
+| 1994 | Government of French Polynesia (Direction Polynesienne de l'Energie), current terms (session 4159) | https://www.service-public.pf/mentions-legales/ | 12:24:31 | 200 | 125806 | read |
+| 1995 | Government of Jersey, current terms (session 4159) | https://www.gov.je/Pages/Terms.aspx | 12:24:32 | 200 | 36475 | read |
+| 1996 | Hawaii State Department of Business, Economic Development and Tourism (DBEDT), current terms (session 4159) | https://dbedt.hawaii.gov/economic/databook/db2025/ | 12:24:33 | 200 | 70068 | read |
+| 1997 | ICE, whose prices EIA republishes, current terms (session 4159) | https://www.eia.gov/electricity/wholesale/ | 12:24:33 | 200 | 63393 | read |
+| 1998 | IEA (standalone datasets), current terms (session 4159) | https://www.iea.org/terms | 12:24:34 | 200 | 232055 | read |
+| 1999 | Indiana Utility Regulatory Commission, current terms (session 4159) | https://secure.in.gov/core/terms_of_use.html | 12:24:34 | 200 | 66043 | read |
+| 2000 | Institut Luxembourgeois de Regulation (ILR), current terms (session 4159) | https://data.public.lu/api/1/datasets/licenses/ | 12:24:34 | 200 | 1861 | read |
+| 2001 | Institut National de la Statistique (INSTAT), Madagascar, current terms (session 4159) | https://www.instat.mg/ | 12:24:35 | 200 | 152058 | read |
+| 2002 | Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo, current terms (session 4159) | https://inseed.tg/ | 12:24:37 | 200 | 356125 | read |
+| 2003 | Instituto Nacional de Estadistica (INE), Spain, current terms (session 4159) | https://www.ine.es/dyngs/AYU/index.htm?cid=125 | 12:24:40 | 200 | 36408 | read |
+| 2004 | Internal Revenue Service (IRS), Statistics of Income, current terms (session 4159) | https://www.usa.gov/government-copyright | 12:24:41 | 200 | 40560 | read |
+| 2005 | International Renewable Energy Agency (IRENA), current terms (session 4159) | https://pxweb.irena.org/pxweb/en/IRENASTAT/ | 12:24:41 | 200 | 97276 | read |
+| 2006 | National Bureau of Statistics of the Republic of Moldova (StatBank), current terms (session 4159) | https://statistica.gov.md/en/terms-of-use-of-data-national-bureau-of-statistics-139_4417.html | 12:24:42 | 200 | 40533 | read |
+| 2007 | National Centre for Statistics and Information, Oman (NCSI), current terms (session 4159) | https://www.ncsi.gov.om/ | 12:24:44 | 200 | 483834 | read |
+| 2008 | National Interagency Fire Center (NIFC), current terms (session 4159) | https://www.arcgis.com/sharing/rest/content/items/b4402f7887ca4ea9a6189443f220ef28?f=json | 12:24:49 | 200 | 22904 | read |
+| 2009 | National Statistical Institute, Bulgaria (NSI), current terms (session 4159) | https://www.nsi.bg/en/pages/license-to-use-statistical-information-produced-and-disseminated-by-the-national-statistical-institute-485 | 12:24:49 | 200 | 49917 | read |
+| 2010 | National Statistical Office of Malawi (NSO), current terms (session 4159) | https://www.nsomalawi.mw/ | 12:24:50 | 200 | 3769723 | read |
+| 2011 | National Water and Electricity Company (NAWEC), current terms (session 4159) | https://nawec.gm/ | 12:24:53 | 200 | 79531 | read |
+| 2012 | Norwegian Water Resources and Energy Directorate (NVE), current terms (session 4159) | https://api.nve.no/doc/magasinstatistikk/ | 12:24:54 | 200 | 15045 | read |
+| 2013 | Nova Scotia Power (NS Power), current terms (session 4159) | https://www.nspower.ca/legal | 12:24:55 | 200 | 78366 | read |
+| 2014 | Oncor Electric Delivery Company LLC, current terms (session 4159) | https://www.oncor.com/content/oncorwww/us/en/home/legal.html | 12:24:55 | 200 | 214187 | read |
+| 2015 | Operador Nacional do Sistema Eletrico (ONS), current terms (session 4159) | https://dados.ons.org.br/dataset/balanco-energia-subsistema | 12:24:58 | 200 | 148178 | read |
+| 2016 | Our World in Data, current terms (session 4159) | https://raw.githubusercontent.com/owid/energy-data/master/README.md | 12:24:59 | 200 | 16149 | read |
+| 2017 | RTE (Reseau de Transport d'Electricite), current terms (session 4159) | https://www.rte-france.com/mentions-legales | 12:24:59 | 200 | 919179 | read |
+| 2018 | Red Electrica (REE), current terms (session 4159) | https://www.ree.es/en/legal-notice-privacy-policy | 12:25:00 | 200 | 152751 | read |
+| 2019 | Samoa Bureau of Statistics (SBS), current terms (session 4159) | https://www.sbs.gov.ws/?s=electricity | 12:25:02 | 200 | 481087 | read |
+| 2020 | Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego), current terms (session 4159) | https://scrippsco2.ucsd.edu/usage-restrictions/ | 12:25:04 | 200 | 42976 | read |
+| 2021 | Singapore Department of Statistics (SingStat), current terms (session 4159) | https://www.singstat.gov.sg/terms-of-use | 12:25:05 | 200 | 404382 | read |
+| 2022 | Solomon Islands Electricity Authority (Solomon Power), current terms (session 4159) | https://solomonpower.com.sb/ | 12:25:05 | 200 | 125825 | read |
+| 2023 | St. Lucia Electricity Services Limited (LUCELEC), current terms (session 4159) | https://www.lucelec.com/ | 12:25:06 | 200 | 52708 | read |
+| 2024 | State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK), current terms (session 4159) | https://www.derk.ba/en/ | 12:25:06 | 200 | 126089 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -2338,12 +2404,27 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | Eswatini Electricity Company (EEC) | #1053 | #1958 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Eurostat (Statistical Office of the European Union) | #280 | #1673 | 2026-11-13 | on the page | may be public | may be public |  |
 | FRB | #41 | #1743 | 2026-11-13 | on the page | may be public | may be public |  |
+| Federal Emergency Management Agency (FEMA) | #217 | #1991 | 2026-11-13 | on the page | may be public | may be public |  |
+| Fiji Bureau of Statistics (FBoS) | #831 | #1992 | 2026-11-13 | on the page | may be public | may be public |  |
+| GFZ Helmholtz Centre for Geosciences (Potsdam) | #332 | #1993 | 2026-11-13 | on the page | may be public | may be public |  |
 | Google | #35 | #1756 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Government of French Polynesia (Direction Polynesienne de l'Energie) | #1215 | #1994 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Government of Jersey | #1164 | #1995 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Hawaii State Department of Business, Economic Development and Tourism (DBEDT) | #1127 | #1996 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| ICE, whose prices EIA republishes | #192 | #1997 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | IEA | #60 | #1879 | 2026-11-13 | on the page | may be public | may be public |  |
+| IEA (standalone datasets) | #60 | #1998 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | IMF | #13 | #1744 | 2026-11-13 | on the page | may be public | may be public |  |
 | IMF PortWatch | #13 | #1744 | 2026-11-13 | on the page | may be public | may be public |  |
 | ISO-NE | #4 | #1672 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Independent Electricity System Operator (IESO), Ontario | #1880 | #1880 | 2026-11-13 | cut again from this page | may be public | may be public | Session 2070. The licence names no use it excludes but the trade-marks; each reproduction carries the notice (the table's header does). The prices were not taken (no CAD unit). Session 4157: cut again from read 1880; the notice's years now read 2004-2026 (2004-2022 before), the licence the same. |
+| Indiana Utility Regulatory Commission | #62 | #1999 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Institut Luxembourgeois de Regulation (ILR) | #690 | #2000 | 2026-11-13 | on the page | may be public | may be public |  |
+| Institut National de la Statistique (INSTAT), Madagascar | #973 | #2001 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo | #996 | #2002 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Instituto Nacional de Estadistica (INE), Spain | #1529 | #2003 | 2026-11-13 | on the page | may be public | may be public |  |
+| Internal Revenue Service (IRS), Statistics of Income | #253 | #2004 | 2026-11-13 | on the page | may be public | may be public |  |
+| International Renewable Energy Agency (IRENA) | #342 | #2005 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | JPT | #63 | #1837 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Korea Power Exchange | #547 | #1881 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | LNG Prime | #64 | #1838 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
@@ -2353,19 +2434,38 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | NRC | #16 | #1677 | 2026-11-13 | on the page | may be public | may be public |  |
 | NWS | #8 | #1741 | 2026-11-13 | on the page | may be public | may be public |  |
 | NYISO | #5 | #1670 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| National Bureau of Statistics of the Republic of Moldova (StatBank) | #673 | #2006 | 2026-11-13 | on the page | may be public | may be public |  |
+| National Centre for Statistics and Information, Oman (NCSI) | #873 | #2007 | 2026-11-13 | on the page | may be public | may be public |  |
+| National Interagency Fire Center (NIFC) | #326 | #2008 | 2026-11-13 | on the page | may be public | may be public |  |
 | National Laboratory of the Rockies (NLR, formerly NREL) | #65 | #1848 | 2026-11-13 | on the page | may be public | may be public |  |
+| National Statistical Institute, Bulgaria (NSI) | #1008 | #2009 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| National Statistical Office of Malawi (NSO) | #838 | #2010 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| National Water and Electricity Company (NAWEC) | #1236 | #2011 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Natural Gas Intelligence | #28 | #1750 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Norwegian Water Resources and Energy Directorate (NVE) | #929 | #2012 | 2026-11-13 | on the page | may be public | may be public |  |
+| Nova Scotia Power (NS Power) | #1427 | #2013 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Oak Ridge National Laboratory (ORNL), HydroSource | #116 | #1842 | 2026-11-13 | on the page | may be public | may be public |  |
 | Office of the Federal Register (NARA) | #91 | #1834 | 2026-11-13 | on the page | may be public | may be public |  |
+| Oncor Electric Delivery Company LLC | #69 | #2014 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Operador Nacional do Sistema Eletrico (ONS) | #416 | #2015 | 2026-11-13 | on the page | may be public | may be public |  |
 | Oracle | #38 | #1758 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Our World in Data | #284 | #2016 | 2026-11-13 | on the page | may be public | may be public |  |
 | PJM | #15 | #1702 | 2026-11-13 | on the page | needs a paid license | needs a paid license |  |
 | POWER Magazine | #29 | #1751 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | RGGI | #18 | #1746 | 2026-11-13 | no sentence quoted | needs written permission | needs written permission |  |
 | RRC | #19 | #1745 | 2026-11-13 | on the page | may be public | may be public |  |
+| RTE (Reseau de Transport d'Electricite) | #410 | #2017 | 2026-11-13 | on the page | may be public | may be public |  |
+| Red Electrica (REE) | #414 | #2018 | 2026-11-13 | on the page | may be public | may be public |  |
 | Rigzone | #75 | #1839 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | SPP | #6 | #1671 | 2026-11-13 | on the page | may be public | may be public |  |
 | STATEC (Luxembourg) | #1564 | #1844 | 2026-11-13 | on the page | may be public | may be public |  |
+| Samoa Bureau of Statistics (SBS) | #1097 | #2019 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego) | #338 | #2020 | 2026-11-13 | on the page | may be public | may be public | The page now marks the 2 of CO2 as a subscript, so its text reads 'CO 2'; with the subscript joined the sentence is on the page word for word. |
 | Secretaria Nacional de Energia, Panama | #716 | #1882 | 2026-11-13 | on the page | may be public | may be public |  |
+| Singapore Department of Statistics (SingStat) | #1001 | #2021 | 2026-11-13 | on the page | may be public | may be public | The page is now drawn by script: its terms are in the page's escaped data, where the sentence is found word for word once the escapes and tags are taken away. |
+| Solomon Islands Electricity Authority (Solomon Power) | #1171 | #2022 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| St. Lucia Electricity Services Limited (LUCELEC) | #854 | #2023 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK) | #1022 | #2024 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Statistics Austria (Statistik Austria) | #1518 | #1883 | 2026-11-13 | on the page | may be public | may be public |  |
 | Statistics Canada | #361 | #1835 | 2026-11-13 | on the page | may be public | may be public |  |
 | Statistics and Research Aland (ASUB) | #1326 | #1884 | 2026-11-13 | on the page | may be public | may be public |  |
