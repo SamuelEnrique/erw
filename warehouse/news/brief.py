@@ -2357,6 +2357,11 @@ def numbers_block(facts, op, recs, heads):
         status = ("the mean of the operating day's 24 hourly day-ahead prices" if cand_kind(c) == "hub"
                   # session 1976 (faults file row 81): the close's own day, not "about a week after" beside a close one day old
                   else f"EIA's spot close of the trading day {c['d']:%Y-%m-%d}, the newest EIA had published")
+        # session 3443 (faults file row 148): the block promises what changed since the last issue; a close that issue
+        # already printed says so instead of reading as the day's news
+        shown = (op.get("closes_shown") or {}).get(c.get("label"))
+        if cand_kind(c) == "fuel" and shown is not None and pd.Timestamp(c["d"]).tz_localize(None) <= shown:
+            status += ", the same close the last issue printed (no newer close is held)"
         L.append(f"- **Market price.** {mover_text(c, notes.ref(c['table']))}. Status: observed, {status}.")
     else:
         L.append("- **Market price.** No price with a value before it is held today, so no move is shown.")
@@ -2543,7 +2548,9 @@ def main(argv=None):
         recs = top10.to_dict("records")
         for r in recs:   # session 1983 (faults file row 88): the headline as the issue prints it, which the chart's line quotes
             r["head"] = heads.get(r["cluster_id"], "")
-        op = opening_number(facts.get("cands", []), recs, previous_opening(digest_date), previous_closes(digest_date))
+        closes_shown = previous_closes(digest_date)
+        op = opening_number(facts.get("cands", []), recs, previous_opening(digest_date), closes_shown)
+        op["closes_shown"] = closes_shown   # session 3443 (row 148): the numbers block's market row reads it
         log(f"  opening number: {op['kind'] or 'none'} {op['key']}")
         newest = pd.to_datetime(s["event_date"], utc=True, format="ISO8601").max() if len(s) else None
         L = masthead_lines(digest_date, now, op, newest) + [

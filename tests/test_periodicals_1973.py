@@ -956,5 +956,23 @@ class Row147ACloseBeforeTheWeekIsNoMoveOfTheWeek(unittest.TestCase):
         self.assertEqual(sorted(f["label"] for f in facts["fuel"]), ["Brent crude", "Henry Hub natural gas", "WTI Cushing crude"])
 
 
+class Row148TheMarketRowSaysTheCloseIsTheLastIssues(unittest.TestCase):
+    """Row 148 (session 3443): the block promises what changed since the last issue; a close that issue printed says so."""
+
+    def row(self, shown):
+        op = {"kind": "story", "key": "story:s", "rec": SPACEX, "closes_shown": shown}
+        lines = brief.numbers_block({"cands": [BRENT]}, op, [], {})
+        return next(ln for ln in lines if ln.startswith("- **Market price.**"))
+
+    def test_a_close_printed_before(self):
+        self.assertIn("the trading day 2026-11-11, the newest EIA had published, the same close the last issue printed (no "
+                      "newer close is held).", self.row({"Brent crude": pd.Timestamp("2026-11-11")}))
+
+    def test_a_newer_close(self):
+        for shown in ({"Brent crude": pd.Timestamp("2026-11-10")}, {"Henry Hub natural gas": pd.Timestamp("2026-11-11")}, {}):
+            self.assertNotIn("the last issue", self.row(shown))
+        self.assertTrue(self.row({}).endswith("the newest EIA had published."))
+
+
 if __name__ == "__main__":
     unittest.main()
