@@ -637,6 +637,10 @@ def an_word(word):
     """Whether a word takes 'an': a vowel sound, by its spelling, with the common exceptions ('a utility', 'a one-off',
     'an hour', 'an 8 GW')."""
     w = str(word).lower()
+    # session 3477 (faults file row 175): a word in capitals said letter by letter from "U" ("you") takes "a": "a major US
+    # LNG project" lost its adjective and printed "an US LNG project" (the stack's 28 September)
+    if re.fullmatch(r"U[A-Z.]+", str(word)):
+        return False
     if re.match(r"(uni|use|usu|uti|ura|eu|one|once|ubi)", w):
         return False
     if re.match(r"(hour|honest|honor|honour|heir|8|11\b|18\b|80)", w):

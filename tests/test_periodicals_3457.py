@@ -619,6 +619,22 @@ class Row174AStorysMoveBesideItsOwnDay(unittest.TestCase):
         self.assertIn("close is 92.14 USD/bbl on 2026-11-11, against 90.16 on 2026-11-10 [5]", gap)
 
 
+class Row175AUSProject(unittest.TestCase):
+    """Row 175: "Regulatory approval adds export volume at an US LNG project" (the stack's 28 September): the scorer's "a major
+    US LNG project" lost its adjective, and the article read "US" by its spelling."""
+
+    def test_the_article(self):
+        self.assertEqual(brief.why_line("Regulatory approval adds export volume at a major US LNG project, supporting expansion economics."),
+                         "Regulatory approval adds export volume at a US LNG project, supporting expansion economics.")
+        self.assertFalse(brief.an_word("US"))
+        self.assertFalse(brief.an_word("UK"))
+        self.assertFalse(brief.an_word("U.S."))
+        self.assertTrue(brief.an_word("EIA"))
+        self.assertTrue(brief.an_word("hour"))
+        self.assertFalse(brief.an_word("utility"))
+        self.assertTrue(brief.an_word("uncertain"))
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""
