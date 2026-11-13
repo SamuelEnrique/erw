@@ -31,3 +31,11 @@ Energy Research Warehouse (ERW). Chain 242 (`queue/done/242-day-15-november-oldl
 - 3334, W44 (dry run): 115, a European gas story ("100 euros per MWh as EU confronts refinery closures") was the reason for Henry Hub's 12.9% fall; another market's gas no longer names Henry Hub, and the direction words read support, lift, boost and rebound as a rise, and weigh, pressure, rout and retreat as a fall. 116: the subject's cut went back to its comma. 117: "1,253 scored stories".
 - One older test brought to row 111 (`test_periodicals.py`, "Outlet; Outlet"). The 59 importing test files OK (1,110 tests). **Row 10**: head `ed900cd13`, merges cleanly.
 
+## Session 3334 (continued): row 118
+
+- W44's five numbers said "Largest new datacenter load ...: 52 MW, Vyoma, Chennai" above a table of 10,400, 700 and 520 MW loads that name no operator or site. The row now says "(2 larger loads of the week name no operator or site; they are in the table below)". Row 10's head `99378c6c2`.
+
+## Session 3331 (taken when memory allowed): the lab path's step 04
+
+- MemFree reached 3.2 GB, so the step was taken: `origin/main` at `bd244b944` checked out in the `erw-1973` worktree (everything there committed), built in the foreground (exit 0, under ten minutes), read at 1280 and 390. Every cell of "The facilities against each grid" reads "license needed" (note 1), the grids' peak and capacity included, as session 1905's default puts them since the revert landed; no sideways scroll at 390. Written beside session 1904's reading in `docs/reviews/lab-path.md`. Then the server stopped by its port, the cookie file deleted, `paused.json` restored, the worktree back on `wip/1973-periodicals`.
+
