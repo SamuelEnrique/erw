@@ -27,6 +27,8 @@ Energy Research Warehouse (ERW). Sessions 4250 to 4263 and 4266 to 4268, about 1
 - **Check addresses:** a fifth and a sixth (Oregon with North Dakota; Michigan with Vermont). The last read gave 937 of 937 on the six.
 - **Downloads:** the Python file and the do-file carry every new rule kind: a capacity tax that adds to the property tax, an exclusion with no end year, an exclusion behind the switch.
 
+- **Chain 253 so far** (sessions 4270 and 4271): Maryland held (counties tax 50 percent of generating equipment, Tax-Property 7-237, every technology, on the reader's own rate); Idaho read and not held (3 and 3.5 percent of gross energy earnings, no sale price in the tool: ruling 16); California's and USDA's sites refused at their robots files.
+
 ## What waits in which landing row (`docs/state/landing_request_desktop_w4.md`, on main)
 
 - Row 1 landed at `71f8442ed`.
@@ -63,6 +65,7 @@ Energy Research Warehouse (ERW). Sessions 4250 to 4263 and 4266 to 4268, about 1
 13. Whether a Vermont plant also pays the education property tax [not held].
 14. Whether Wisconsin's payments belong on the property tax line, and whether its per-resident caps should be an input [on the line; caps not modeled].
 15. Whether `docs/methods/economic_impact.md` stays as the table's method [it stays].
+16. Idaho's tax on gross energy earnings, which needs a sale price [not held].
 
 ## Data requests for window A (`docs/state/data_requests_forecast.md`)
 
