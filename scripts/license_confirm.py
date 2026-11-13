@@ -141,6 +141,9 @@ def robots(n, path, pages, out=print):
         if r["http_status"] in ("404", "410"):
             out(f"read {n}: no robots file (HTTP {r['http_status']}): every agent may fetch")
             return 0
+        if r["http_status"] == "200" and r["bytes"] == "0":
+            out(f"read {n}: an empty robots file (HTTP 200, 0 bytes): every agent may fetch")
+            return 0
         out(f"read {n}: the robots file was not read ({r['outcome']}): treated as a refusal")
         return 2
     raw = open(page_path(n, pages), "rb").read().decode("utf-8", errors="replace")

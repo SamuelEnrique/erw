@@ -12,11 +12,11 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **648 tables.** The flag and the verdict agree on 532; a ruling settles 51 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 42 are not settled (a publisher not read); 2 is internal by the ERW's own choice; 21 flagged internal wait for the owner's ruling, the sentence read allowing them (chain 229: never loosened by a session, the default "stays internal").
 - **The ERW's verdict (session 378): 478 public, 115 internal, 55 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1710 publishers in the record: 1708 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 360 pages read, 1348 that could not be read, 2 not asked (paused).**
+- **1760 publishers in the record: 1758 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 403 pages read, 1355 that could not be read, 2 not asked (paused).**
 - **49 tables are flagged public where a publisher's sentence asks for permission or a license** (49 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 34; ISO-NE 30; MISO 27; Bloomberg 7; Data Center Dynamics 7; Data Center Frontier 7; Energy-Storage.news 7; Financial Times 7; Hart Energy 7; Heatmap News 7; Latitude Media 7; Natural Gas Intelligence 7; OilPrice.com 7; POWER Magazine 7; Public Utility Commission of Texas 7; Reuters 7; Utility Dive 7; WSJ 7; Data Center Knowledge 6; ANS Nuclear Newswire 5; Amazon Web Services 5; Canary Media 5; Digital Realty 5; Electrek 5; Equinix 5; Google 5; JPT 5; LNG Prime 5; Meta 5; Microsoft 5; Oracle 5; Rigzone 5; Switch 5; Vantage Data Centers 5; pv magazine USA 5; Louisiana Department of Revenue 1; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **21 tables are flagged internal where the sentence read allows them:** `ferc714_area_demand_2006`, `ferc714_area_demand_2007`, `ferc714_area_demand_2008`, `ferc714_area_demand_2009`, `ferc714_area_demand_2010`, `ferc714_area_demand_2011`, `ferc714_area_demand_2012`, `ferc714_area_demand_2013`, `ferc714_area_demand_2014`, `ferc714_area_demand_2015`, `ferc714_area_demand_2016`, `ferc714_area_demand_2017`, `ferc714_area_demand_2018`, `ferc714_area_demand_2019`, `ferc714_area_demand_2020`, `ferc714_area_demand_2021`, `ferc714_area_demand_2022`, `ferc714_area_demand_2023`, `ferc714_area_demand_2024`, `ferc714_area_demand_2025`, `ferc714_respondents`.
 - **16 tables that may be public today would need permission if the ERW sells anything** (SPP 8; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
-- **Confirmed against the publisher's current page (chain 229, session 4101 on): 16 publishers, 0 of them with a sentence no longer on the page.** 62 tables rest on a verdict read more than 30 days before the newest read in the record (2026-11-13) and not confirmed since.
+- **Confirmed against the publisher's current page (chain 229, session 4101 on): 37 publishers, 0 of them with a sentence no longer on the page.** 36 tables rest on a verdict read more than 30 days before the newest read in the record (2026-11-13) and not confirmed since.
 
 ## The reads
 
@@ -1734,6 +1734,56 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 1708 | ICE, its fee overview 2026 (session 4105) | https://www.ice.com/publicdocs/Fee_Overview_2026.pdf | 10:47:27 | 200 | 155773 | read |
 | 1709 | ICE, its fee overview 2027 (session 4105) | https://www.ice.com/publicdocs/Fee_Overview_2027.pdf | 10:48:06 | 200 | 132938 | read |
 | 1710 | U.S. Bureau of Labor Statistics (BLS), www.bls.gov's robots file (session 4106) | https://www.bls.gov/robots.txt | 10:51:03 | 403 | 1325 | not read: HTTP 403 |
+| 1711 | Berkeley Lab, Queued Up 2026 edition page (session 4107) | https://eta-publications.lbl.gov/publications/queued-2026-edition-characteristics | 10:54:25 | 200 | 24363 | read |
+| 1712 | Berkeley Lab, Land-Based Wind 2026 data page (session 4107) | https://eta-publications.lbl.gov/publications/land-based-wind-energy-technology-0 | 10:54:25 | 200 | 21023 | read |
+| 1713 | NWS, www.weather.gov's robots file (session 4107) | https://www.weather.gov/robots.txt | 10:54:56 | 404 | 28808 | not read: HTTP 404 |
+| 1714 | CARB, www.ca.gov's robots file (session 4107) | https://www.ca.gov/robots.txt | 10:54:56 | 200 | 379 | read |
+| 1715 | FRB, www.federalreserve.gov's robots file (session 4107) | https://www.federalreserve.gov/robots.txt | 10:54:57 | 404 | 83174 | not read: HTTP 404 |
+| 1716 | CFTC, www.cftc.gov's robots file (session 4107) | https://www.cftc.gov/robots.txt | 10:54:57 | 200 | 4817 | read |
+| 1717 | IMF, www.imf.org's robots file (session 4107) | https://www.imf.org/robots.txt | 10:54:57 | 404 | 48 | not read: HTTP 404 |
+| 1718 | RRC, www.rrc.texas.gov's robots file (session 4107) | https://www.rrc.texas.gov/robots.txt | 10:54:57 | 200 | 0 | not read: HTTP 200 |
+| 1719 | RGGI, www.rggi.org's robots file (session 4107) | https://www.rggi.org/robots.txt | 10:54:58 | 200 | 2141 | read |
+| 1720 | Bloomberg, www.bloomberg.com's robots file (session 4107) | https://www.bloomberg.com/robots.txt | 10:54:58 | 200 | 8033 | read |
+| 1721 | Data Center Dynamics, www.datacenterdynamics.com's robots file (session 4107) | https://www.datacenterdynamics.com/robots.txt | 10:54:58 | 200 | 2676 | read |
+| 1722 | Data Center Frontier, legalcenter.endeavorbusinessmedia.com's robots file (session 4107) | https://legalcenter.endeavorbusinessmedia.com/robots.txt | 10:54:58 | 200 | 13 | read |
+| 1723 | Financial Times, help.ft.com's robots file (session 4107) | https://help.ft.com/robots.txt | 10:54:59 | 200 | 144 | read |
+| 1724 | Hart Energy, www.hartenergy.com's robots file (session 4107) | https://www.hartenergy.com/robots.txt | 10:54:59 | 200 | 1147 | read |
+| 1725 | Heatmap News, heatmap.news's robots file (session 4107) | https://heatmap.news/robots.txt | 10:55:00 | 200 | 968 | read |
+| 1726 | Latitude Media, www.latitudemedia.com's robots file (session 4107) | https://www.latitudemedia.com/robots.txt | 10:55:00 | 200 | 878 | read |
+| 1727 | Natural Gas Intelligence, www.naturalgasintel.com's robots file (session 4107) | https://www.naturalgasintel.com/robots.txt | 10:55:00 | 200 | 205 | read |
+| 1728 | POWER Magazine, www.powermag.com's robots file (session 4107) | https://www.powermag.com/robots.txt | 10:55:00 | 200 | 544 | read |
+| 1729 | Reuters, www.reuters.com's robots file (session 4107) | https://www.reuters.com/robots.txt | 10:55:01 | 200 | 5190 | read |
+| 1730 | WSJ, www.dowjones.com's robots file (session 4107) | https://www.dowjones.com/robots.txt | 10:55:01 | 200 | 174 | read |
+| 1731 | Data Center Knowledge, www.informatechtarget.com's robots file (session 4107) | https://www.informatechtarget.com/robots.txt | 10:55:01 | 200 | 337 | read |
+| 1732 | Amazon Web Services, aws.amazon.com's robots file (session 4107) | https://aws.amazon.com/robots.txt | 10:55:01 | 200 | 13879 | read |
+| 1733 | Digital Realty, www.digitalrealty.com's robots file (session 4107) | https://www.digitalrealty.com/robots.txt | 10:55:01 | 200 | 123 | read |
+| 1734 | Equinix, www.equinix.com's robots file (session 4107) | https://www.equinix.com/robots.txt | 10:55:02 | 403 | 383 | not read: HTTP 403 |
+| 1735 | Google, policies.google.com's robots file (session 4107) | https://policies.google.com/robots.txt | 10:55:02 | 404 | 1652 | not read: HTTP 404 |
+| 1736 | Meta, www.facebook.com's robots file (session 4107) | https://www.facebook.com/robots.txt | 10:55:02 | 200 | 44806 | read |
+| 1737 | Microsoft, www.microsoft.com's robots file (session 4107) | https://www.microsoft.com/robots.txt | 10:55:02 | 200 | 9126 | read |
+| 1738 | Oracle, www.oracle.com's robots file (session 4107) | https://www.oracle.com/robots.txt | 10:55:02 | 200 | 2649 | read |
+| 1739 | Switch, www.switch.com's robots file (session 4107) | https://www.switch.com/robots.txt | 10:55:02 | 200 | 188 | read |
+| 1740 | Vantage Data Centers, vantage-dc.com's robots file (session 4107) | https://vantage-dc.com/robots.txt | 10:55:02 | 200 | 125 | read |
+| 1741 | NWS, current terms (session 4107) | https://www.weather.gov/disclaimer | 10:55:29 | 200 | 41679 | read |
+| 1742 | CARB, current terms (session 4107) | https://www.ca.gov/legal/conditions-of-use/ | 10:55:30 | 200 | 32717 | read |
+| 1743 | FRB, current terms (session 4107) | https://www.federalreserve.gov/disclaimer.htm | 10:55:30 | 200 | 87284 | read |
+| 1744 | IMF, current terms (session 4107) | https://www.imf.org/en/about/copyright-and-terms | 10:55:30 | 200 | 12908 | read |
+| 1745 | RRC, current terms (session 4107) | https://www.rrc.texas.gov/site-policies/railroad-commission-of-texas-site-policies | 10:55:30 | 200 | 46276 | read |
+| 1746 | RGGI, current terms (session 4107) | https://www.rggi.org/ | 10:55:31 | 200 | 21129 | read |
+| 1747 | Data Center Frontier, current terms (session 4107) | https://legalcenter.endeavorbusinessmedia.com/ | 10:55:31 | 200 | 1137789 | read |
+| 1748 | Financial Times, current terms (session 4107) | https://help.ft.com/en/legal-privacy/terms-conditions/ | 10:55:31 | 404 | 70581 | not read: HTTP 404 |
+| 1749 | Latitude Media, current terms (session 4107) | https://www.latitudemedia.com/https-latitudemedia-mystagingwebsite-com-terms-and-conditions/ (answered at https://www.latitudemedia.com/terms-of-use/) | 10:55:31 | 200 | 177400 | read |
+| 1750 | Natural Gas Intelligence, current terms (session 4107) | https://www.naturalgasintel.com/terms-of-service/ | 10:55:33 | 200 | 231049 | read |
+| 1751 | POWER Magazine, current terms (session 4107) | https://www.powermag.com/privacy-policy-terms-conditions/ | 10:55:34 | 200 | 303516 | read |
+| 1752 | WSJ, current terms (session 4107) | https://www.dowjones.com/terms-of-use/ | 10:55:34 | 200 | 221847 | read |
+| 1753 | Data Center Knowledge, current terms (session 4107) | https://www.informatechtarget.com/terms-of-use/ | 10:55:34 | 200 | 312471 | read |
+| 1754 | Amazon Web Services, current terms (session 4107) | https://aws.amazon.com/terms/ | 10:55:34 | 200 | 399650 | read |
+| 1755 | Digital Realty, current terms (session 4107) | https://www.digitalrealty.com/about/legal | 10:55:34 | 200 | 183812 | read |
+| 1756 | Google, current terms (session 4107) | https://policies.google.com/terms | 10:55:35 | 200 | 598784 | read |
+| 1757 | Microsoft, current terms (session 4107) | https://www.microsoft.com/en-us/legal/terms-of-use | 10:55:35 | 200 | 158843 | read |
+| 1758 | Oracle, current terms (session 4107) | https://www.oracle.com/legal/terms/ | 10:55:35 | 200 | 58274 | read |
+| 1759 | Switch, current terms (session 4107) | https://www.switch.com/policies-old/ | 10:55:35 | 200 | 345419 | read |
+| 1760 | Vantage Data Centers, current terms (session 4107) | https://vantage-dc.com/terms-of-use/ | 10:55:37 | 200 | 176458 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -1752,7 +1802,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | CFTC | #11: read | "Government information at the CFTC website is in the public domain. Public domain information may be freely distributed and copied, but it is requested that in any subsequent use the CFTC be given appropriate acknowledgement." | may be public | may be public | not named | none stated |  |
 | FRED | #12: read | "You may not, without the Bank's prior written consent: [...] Store, cache, or archive any portion of the FRED® Services or FRED® Content; provide any stored, cached, or archived portion of the FRED® Services or FRED® Content to any third party; or incorporate any FRED® Content in any database, compilation, archive, cache, or other medium. [...] These series may be under copyright or in the public domain and may be used without permission, provided you do not engage in any prohibited use." | needs written permission | needs written permission | none named in the sentences read | none stated | The series the ERW takes through FRED are EIA's and the Federal Reserve Board's, public domain at their own publishers: taking them there needs nobody's consent. |
 | IMF | #13: read | "Users may download, extract, copy, create derivative works, publish, distribute, and use Data obtained from IMF Sites subject to these conditions: Distributed or reproduced Data must appear accurately with attribution to the IMF as the source [...] For any potential commercial reuse of IMF Data, email copyright@imf.org to request permission. [...] The IMF prohibits bulk download of information by automated technology without explicit permission" | may be public | needs written permission | copyright@imf.org | none stated | "Data" lists Primary Commodity Prices by name. PortWatch is not named and its own page was not read. |
-| Berkeley Lab | #14: not read: HTTP 403 | none | may be public | may be public | not named | none stated | NOT READ: HTTP 403 on 12 October 2026. The verdict rests on an earlier session's reading, in the table's own header: "The Queued Up data file is licensed CC BY 4.0". |
+| Berkeley Lab | #1711: read | "Copyright Notice: The Queued Up data file is licensed CC BY 4.0. You may use, share, or adapt the dataset as long as you attribute it to Lawrence Berkeley National Laboratory and GridTracker." | may be public | may be public | not named | none stated | Session 4107: the sentence cut from the Queued Up 2026 edition page on eta-publications.lbl.gov (robots read 1666; emp.lbl.gov answers 403, read 14). The wind, solar and PPA files carry the same CC BY 4.0 notice inside each file (their tables' headers); the wind data page (read 1712) states none in its text. |
 | PJM | #15: read | "Permitted Use. Subject to Section 2 below, you may use the Data and the Tools for your internal business use or commercial purposes, including publishing and making derivatives of the Data, Members may republish data, however non-members are specifically prohibited from republishing data." | needs a paid license | needs a paid license | none named on the page | not stated on the page (membership of PJM; the page names "Member or Associate Member status") | The agreement of Data Miner 2. Non-members may make no more than six requests a minute. |
 | NRC | #16: read | "NRC's website constitutes a U.S. Government Work under federal copyright law and as such, it is not subject to copyright. It is freely available for non-exclusive rights in publication or reproduction for any purpose, in any form, and there are no restrictions on use." | may be public | may be public | not named | none stated | The NRC "would appreciate the courtesy of credit". |
 | Census Bureau | #17: read | "You may use the Census Bureau API to develop a service or service to search, display, analyze, retrieve, view and otherwise "get" information from Census Bureau data. [...] You may not use the Census Bureau name, or the like to imply endorsement of any product, service, or entity, not-for-profit, commercial or otherwise." | may be public | may be public | not named | none stated | The terms of the Bureau's API; the population files the ERW reads are plain downloads, and no page read restricts them. |
@@ -2010,22 +2060,43 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 
 | Publisher | First read | Read now | Day | The sentence | Verdict before | Verdict now | Note |
 |---|---|---|---|---|---|---|---|
+| Amazon Web Services | #32 | #1754 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Berkeley Lab | #1711 | #1711 | 2026-11-13 | cut again from this page | may be public | may be public | Session 4107: the sentence cut from the Queued Up 2026 edition page on eta-publications.lbl.gov (robots read 1666; emp.lbl.gov answers 403, read 14). The wind, solar and PPA files carry the same CC BY 4.0 notice inside each file (their tables' headers); the wind data page (read 1712) states none in its text. |
 | CAISO | #3 | #1669 | 2026-11-13 | on the page | may be public | may be public |  |
+| CARB | #10 | #1742 | 2026-11-13 | on the page | may be public | may be public |  |
 | California Public Utilities Commission | #50 | #1680 | 2026-11-13 | on the page | may be public | may be public |  |
 | Census Bureau | #17 | #1679 | 2026-11-13 | on the page | may be public | may be public |  |
 | DOE newsroom | #54 | #1676 | 2026-11-13 | on the page | may be public | may be public |  |
+| Data Center Frontier | #22 | #1747 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Data Center Knowledge | #23 | #1753 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Digital Realty | #33 | #1755 | 2026-11-13 | no sentence quoted | needs written permission | needs written permission |  |
 | EIA | #1 | #1667 | 2026-11-13 | on the page | may be public | may be public |  |
 | EPA | #55 | #1678 | 2026-11-13 | on the page | may be public | may be public |  |
 | ERCOT | #2 | #1668 | 2026-11-13 | on the page | may be public | may be public |  |
 | Eurostat (Statistical Office of the European Union) | #280 | #1673 | 2026-11-13 | on the page | may be public | may be public |  |
+| FRB | #41 | #1743 | 2026-11-13 | on the page | may be public | may be public |  |
+| Google | #35 | #1756 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| IMF | #13 | #1744 | 2026-11-13 | on the page | may be public | may be public |  |
+| IMF PortWatch | #13 | #1744 | 2026-11-13 | on the page | may be public | may be public |  |
 | ISO-NE | #4 | #1672 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Latitude Media | #27 | #1749 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Microsoft | #37 | #1757 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | NOAA NCEI | #9 | #1675 | 2026-11-13 | on the page | may be public | may be public |  |
 | NRC | #16 | #1677 | 2026-11-13 | on the page | may be public | may be public |  |
+| NWS | #8 | #1741 | 2026-11-13 | on the page | may be public | may be public |  |
 | NYISO | #5 | #1670 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Natural Gas Intelligence | #28 | #1750 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Oracle | #38 | #1758 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | PJM | #15 | #1702 | 2026-11-13 | on the page | needs a paid license | needs a paid license |  |
+| POWER Magazine | #29 | #1751 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| RGGI | #18 | #1746 | 2026-11-13 | no sentence quoted | needs written permission | needs written permission |  |
+| RRC | #19 | #1745 | 2026-11-13 | on the page | may be public | may be public |  |
 | SPP | #6 | #1671 | 2026-11-13 | on the page | may be public | may be public |  |
+| Switch | #39 | #1759 | 2026-11-13 | no sentence quoted | needs written permission | needs written permission |  |
 | U.S. Department of Energy (DOE) | #54 | #1676 | 2026-11-13 | on the page | may be public | may be public |  |
 | UK Department for Energy Security and Net Zero (DESNZ) | #315 | #1674 | 2026-11-13 | on the page | may be public | may be public |  |
+| Vantage Data Centers | #40 | #1760 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| WSJ | #31 | #1752 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 
 **Publishers no read of this sweep covers (49):** Administrador del Mercado Mayorista (AMM), Guatemala; Africa Sustainable Futures Awards; Arizona Corporation Commission; CME Group (NYMEX), whose prices EIA republished; CTVC; Central Statistical Bureau of Latvia (CSP); Central Statistical Office of Grenada (CSO); Centro Nacional de Control de Energia (CENCE, ICE); Ceylon Electricity Board, Sri Lanka (CEB); Danish Energy Agency (Energistyrelsen); E-Control (Energie-Control Austria); ELES (the Slovenian transmission system operator); Energeticky regulacni urad (ERU), Czechia; Energy Commission, Ghana; Energy Regulatory Commission of Mongolia (ERC); FERC; Georgia Public Service Commission; HOPS (the Croatian transmission system operator); Illinois Commerce Commission; Kosovo Agency of Statistics (ASK); Louisiana State Legislature; Ministry of Energy, Saudi Arabia, as published by GASTAT; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); PSE S.A. (Polskie Sieci Elektroenergetyczne); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility District No. 2 of Grant County, Washington (Grant PUD); REN (Redes Energeticas Nacionais); State Statistical Office of North Macedonia (MakStat); Statistics Greenland (Gronlands Statistik); Statnett SF; Svenska kraftnat; Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; U.S. Department of the Treasury, Bureau of the Fiscal Service (USAspending.gov); USDA Natural Resources Conservation Service (NRCS); Viceministerio de Minas y Energia (VMME), Paraguay; Virginia State Corporation Commission; grid operators' guides and utilities' filed rules, read into the ERW's registry; the outlets of news_stories; the state commissions (filed tariffs), read into the ERW's registry; utilities and operators, each row's own document (not listed one by one).
 
