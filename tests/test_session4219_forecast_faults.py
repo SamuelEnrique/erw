@@ -48,7 +48,9 @@ class TheFaults(unittest.TestCase):
 
     def test_12_a_charts_words_are_a_tip_not_part_of_its_title(self):
         self.assertNotRegex(self.page, r'tip="[^"]')
-        self.assertEqual(len(re.findall(r"tip=\{<Tip id=", self.page)), 2)
+        # every chart's tip is a Tip (two charts by year, and since session 4221 the taxes in other states)
+        self.assertGreaterEqual(len(re.findall(r"tip=\{<Tip id=", self.page)), 2)
+        self.assertEqual(len(re.findall(r"(?<![\w-])tip=", self.page)), len(re.findall(r"tip=\{<Tip id=", self.page)))
 
 
 if __name__ == "__main__":
