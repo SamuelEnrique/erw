@@ -361,3 +361,10 @@ test("Florida's device exemption: the reader's own rate on 20 percent of the bas
   assert.equal(F.propertyTax(P, { ...fl, own: null }, 0).tax, null, "no rate given, no figure");
   near(F.propertyTax(P, { ...F.defaults(P, "natural_gas", "fl"), mw: 100, capex: 1500, own: 1.5, ownyears: 30 }, 0).tax, 150e6 * 0.015, 1e-12, "gas is not a renewable device");
 });
+
+test("Arizona's valuation at 20 percent of depreciated cost through 2040, on the reader's own rate", () => {
+  const az = { ...F.defaults(P, "utility_pv", "az"), mw: 100, capex: 1500, start: 2027, build: 1, own: 1, ownyears: 35 };
+  near(F.propertyTax(P, az, 0).tax, 150e6 * 0.2 * 0.01);
+  near(F.propertyTax(P, az, 12).tax, 150e6 * (1 - 12 / 35) * 0.2 * 0.01, 1e-12, "2040, the last year");
+  near(F.propertyTax(P, az, 13).tax, 150e6 * (1 - 13 / 35) * 0.01, 1e-12, "2041");
+});
