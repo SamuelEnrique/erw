@@ -198,7 +198,8 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
       <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
           <div className="text-xs text-muted">Markets workbench</div>
-          <h2 className="font-serif text-xl leading-tight text-accent" title={row.code ? `Code: ${row.code}` : undefined}>{row.label}</h2>
+          {/* session 1891: the heading a click on the board moves the focus to (BoardView, onOpen); not in the tab order */}
+          <h2 className="font-serif text-xl leading-tight text-accent" tabIndex={-1} data-bench-heading={row.id} title={row.code ? `Code: ${row.code}` : undefined}>{row.label}</h2>
           <div className="text-xs text-muted">{row.at}{row.at ? " · " : ""}{row.last ? <>{fmt(row.last.v, row.unit)} {row.unit} on {dateWords(row.last.t, row.freq)}</> : null}{row.formula ? <span className="ml-1 cursor-help border-b border-dotted border-muted" title={row.formula}>formula</span> : null}</div>
         </div>
         <div className="flex gap-1">
