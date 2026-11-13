@@ -16,3 +16,14 @@ Energy Research Warehouse (ERW). Chain 246 (`queue/done/246-day-17-november-oldl
 - 139: the block's demand row named only the year when neither the year nor the week before is held; it says both, as the numbers in full do.
 - The 60 importing test files OK (1,139 tests). Row 10's head moved with them.
 
+## Session 3365: W39 and the Digest of 5 November with the model (dry runs), rows 140 and 141
+
+- 140: W39's subject kept a kicker ("Azerbaijan: TotalEnergies Announces Final"); a short kicker before a colon is dropped from a subject clause.
+- 141: the model run (USD 0.0269 + 0.0053) printed "Deal value: USD 12 billion" for "EQT's Zelestra unveils a USD 12 billion plan ..."; a plan reads "Investment planned", while "plans to buy" and "plans to raise" keep their nouns. The rest of the model's issue read cleanly.
+- The 60 importing test files OK (1,141 tests). Row 10's head moved with them.
+
+## Session 3366: the stack built and read
+
+- MemFree 2.7 GB: a foreground build of `wip/1973-periodicals` at `6ff16cb25`. The first try failed writing `/data/methods/interconnection_agreements` ("UNKNOWN: unknown error, write"), a page this branch does not touch; the retry passed (exit 0). Served with the internal cookie and read with curl: the stored Roundups W39, W40, W43, W44 and W45 show no held figure (row 108 complete). Server stopped by its port, the cookie file deleted, `paused.json` restored.
+- **Row 10**: head moved with the row's state; its tests and build recorded in its cell.
+
