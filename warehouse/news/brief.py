@@ -1836,12 +1836,16 @@ def opening_number(cands, stories, prev_key=None):
         ok.sort(key=lambda x: x[0])
         c = ok[0][1]
         return {"kind": "mover", "key": str(c["key"]).replace(" ", "_"), "cand": c}
+    if last:
+        last.sort(key=lambda x: x[0])
     for rank, r in enumerate(stories, 1):
         fig = story_figure(r)
         if fig:
-            return {"kind": "story", "key": f"story:{r['cluster_id']}", "rec": r, "figure": fig, "rank": rank}
+            # session 1974 (faults file row 79): the unnamed hub's move the rule passed over is kept, so the opening says
+            # what the rule did instead of "No price moved enough to lead" beside a 39.1% move in the numbers below
+            return {"kind": "story", "key": f"story:{r['cluster_id']}", "rec": r, "figure": fig, "rank": rank,
+                    "passed": last[0][1] if last else None}
     if last:
-        last.sort(key=lambda x: x[0])
         c = last[0][1]
         return {"kind": "mover", "key": str(c["key"]).replace(" ", "_"), "cand": c}
     return {"kind": None, "key": ""}
@@ -1868,6 +1872,17 @@ def outlet_of(r):
     return str(links[0][0]) if links else "its outlet"
 
 
+def passed_words(c):
+    """Session 1974 (faults file row 79): the sentence after a story's figure in the opening. With no move past its bar,
+    "No price moved enough to lead"; with a single hub's move that no story names (session 1440's last resort), that
+    move is named, so the opening does not deny a move the numbers below print."""
+    if not c:
+        return "No price moved enough to lead; this is a reported figure, not a warehouse table's."
+    word = "up" if float(c.get("ch", c["pct"])) >= 0 else "down"
+    return (f"The day's largest move, {c['label']} {word} {abs(float(c['pct'])):.1f}%, is one hub's and no story names it, so a "
+            "reported figure leads; it is the outlet's, not a warehouse table's.")
+
+
 def opening_lines(op, heads):
     """The opening number's section: one sentence with metric, value, unit, geography, period and comparison basis."""
     L = ["## The opening number", ""]
@@ -1879,7 +1894,7 @@ def opening_lines(op, heads):
         r = op["rec"]
         L.append(f"**{op['figure']}**: {heads.get(r['cluster_id'], str((r.get('titles') or [''])[0])).rstrip('.')}, as "
                  f"{outlet_of(r)} reported on {pd.Timestamp(r['first']):%Y-%m-%d} (ranked {op['rank']} of the day's top ten). "
-                 "No price moved enough to lead; this is a reported figure, not a warehouse table's.")
+                 + passed_words(op.get("passed")))
         return L + [""]
     return L + ["No price moved enough to lead, and no story of the day states a figure.", ""]
 
