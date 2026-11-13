@@ -12,7 +12,11 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 ## Row 18
 
 - Gated as `wip/w2-5100-security`, a copy of the branch's newest head `7fd58dfe3` (the row's head and the session's report) with `origin/main` merged: `197173eba`. P2 keeps stacking on its own branch, so no merge was pushed onto it.
-- (the gate, the landing, the curtain check after the deploy: written when they end)
+- **The gate** (`gate_held.sh`, task `5101-curtain`, port 5100, from 10:19 UTC):
+  - the suite: 8,640 tests OK, 382 skipped;
+  - `npm ci`, the build (94 s) and serve all passed;
+  - `check-curtain.mjs` against the gate's own server: exit 0, 8 pages and 32 addresses. On `next start` that proves only that nothing broke.
+- (check-values, the hand checks, the landing, the curtain check on production: written when they end)
 
 ## Row 17
 
