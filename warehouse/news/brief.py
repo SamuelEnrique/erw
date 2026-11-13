@@ -1274,7 +1274,8 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
                       + f" ({LICENSED_NOTE}).")
 
     # the fuel closes, with their age, and the close before each
-    lines += ["", "**Latest fuel spot closes** (EIA, trading dates; EIA publishes its closes about a week after the day):", ""]
+    # session 1976 (faults file row 81): EIA's lag varies (one day on 12 November, five on 8 November); each line gives its own
+    lines += ["", "**Latest fuel spot closes** (EIA, trading dates; EIA publishes a close from one day to about a week after its day):", ""]
     fuels = []
     try:
         fuel = erw.fetch("eia_fuel_spot_prices")
@@ -1285,7 +1286,7 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
             last = s.iloc[-1]
             age = (pd.Timestamp(digest_date).tz_localize("UTC") - last["ts_utc"]).days
             # a close dated after the issue's day: the table was read later than the issue (a rerun, a check)
-            when = (f"{age} days before this issue" if age >= 0 else "dated after this issue's day: the table was read later")
+            when = (f"{age} day{'' if age == 1 else 's'} before this issue" if age >= 0 else "dated after this issue's day: the table was read later")
             lines.append(f"- {label}: {last['value']:.2f} {last['unit']} on {last['ts_utc']:%Y-%m-%d} "
                          f"{notes.ref('eia_fuel_spot_prices')}, EIA's newest close when this was written ({when})")
             if len(s) > 1:
@@ -2002,7 +2003,8 @@ def numbers_block(facts, op, recs, heads):
     c = best_price(facts.get("cands", []), op.get("key"))
     if c:
         status = ("the mean of the operating day's 24 hourly day-ahead prices" if cand_kind(c) == "hub"
-                  else "EIA's spot close, published about a week after the trading day")
+                  # session 1976 (faults file row 81): the close's own day, not "about a week after" beside a close one day old
+                  else f"EIA's spot close of the trading day {c['d']:%Y-%m-%d}, the newest EIA had published")
         L.append(f"- **Market price.** {mover_text(c, notes.ref(c['table']))}. Status: observed, {status}.")
     else:
         L.append("- **Market price.** No price with a value before it is held today, so no move is shown.")

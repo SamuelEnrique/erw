@@ -78,5 +78,22 @@ class Row80TheMarketRowMoved(unittest.TestCase):
         self.assertEqual(brief.best_price([HH, spp_named, named], "story:s")["key"], "Brent crude")
 
 
+class Row81TheCloseSaysItsOwnDay(unittest.TestCase):
+    """Row 81: the market row names the close's trading day, not a lag of a week; "1 day", not "1 days"."""
+
+    def test_the_market_row(self):
+        op = {"kind": "story", "key": "story:s", "rec": SPACEX}
+        lines = brief.numbers_block({"cands": [BRENT]}, op, [], {})
+        row = next(ln for ln in lines if ln.startswith("- **Market price.**"))
+        self.assertIn("Status: observed, EIA's spot close of the trading day 2026-11-11, the newest EIA had published.", row)
+        self.assertNotIn("about a week", row)
+
+    def test_the_fuel_lines(self):
+        import inspect
+        src = inspect.getsource(brief.numbers_today)
+        self.assertNotIn("EIA publishes its closes about a week after the day", src)
+        self.assertIn("day{'' if age == 1 else 's'} before this issue", src)
+
+
 if __name__ == "__main__":
     unittest.main()
