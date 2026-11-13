@@ -354,6 +354,21 @@ class Row95TheWeeklySubjectHasNoOutletFigure(unittest.TestCase):
         self.assertEqual(out, "Gingerah Energy refers data centre complex with battery")
 
 
+class Row96TheDealSaysWhoseSum(unittest.TestCase):
+    """Row 96: the deal of the week names the outlet its sum was read from."""
+
+    def test_strathcona(self):
+        import roundup
+        r = {"deal_type": "m_and_a", "buyer": "Strathcona", "seller": "Greenfire", "asset": "Greenfire", "event_date": "2026-11-11T04:52:11Z",
+             "source": "Hart Energy"}
+        self.assertEqual(roundup.deal_words(r, "sum"), "Strathcona, Greenfire (acquisition, 2026-11-11; the sum as Hart Energy reported it)")
+        self.assertEqual(roundup.deal_words(r), "Strathcona, Greenfire (acquisition, 2026-11-11)")
+        self.assertIn("the MW as JPT reported it", roundup.deal_words(dict(r, source="JPT Homepage"), "MW"))
+        import check_roundup as cr
+        line = ("- **Deal of the week, by US dollars:** USD 2 billion, " + roundup.deal_words(r, "sum") + ".")
+        self.assertEqual(cr.FIVE_DEAL_V.search(line).group(1), "USD 2 billion")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

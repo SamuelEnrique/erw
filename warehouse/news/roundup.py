@@ -825,11 +825,22 @@ def deal_cells(r):
     return label, buyer, seller
 
 
-def deal_words(r):
+def deal_words(r, what=""):
     """Session 1472 (chain 150's faults file, row 50): the deal of the week after its sum: the parties, the asset, and in
     brackets the deal's kind and date. A party the asset already names is not printed again ("TeraWulf, TeraWulf data
     center in Kentucky" was the W45 dry run's), and the kind "other" is not printed ("(other, 2026-11-05)"); with neither
-    a party nor an asset the row says "parties not stated", as before."""
+    a party nor an asset the row says "parties not stated", as before. Session 1991 (faults file row 96): with `what`
+    ("sum", "MW"), the brackets end on the outlet the figure was read from ("; the sum as Hart Energy reported it"), since
+    another outlet's figure for the same deal can stand in the issue (JPT's "$2.1 Billion" beside Hart Energy's "$2B")."""
+    base = deal_words_base(r)
+    src = brief.outlet_name(r.get("source")) if str(r.get("source") or "").strip() else ""
+    if not (what and src):
+        return base
+    note = f"the {what} as {src} reported it"
+    return base[:-1] + f"; {note})" if base.endswith(")") else f"{base} ({note})"
+
+
+def deal_words_base(r):
     fin = finance_words(r)   # session 1882 (row 66): a financing by its roles
     if fin:
         return fin
@@ -971,12 +982,12 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
         dw["_m"] = pd.to_numeric(dw["mw"], errors="coerce")
         if dw["_d"].notna().any():
             r = dw.sort_values(["_d", "event_date"], ascending=[False, True]).iloc[0]
-            L.append(f"- **Deal of the week, by US dollars:** {usd_words(r['_d'])}, {deal_words(r)}.")   # session 1472
+            L.append(f"- **Deal of the week, by US dollars:** {usd_words(r['_d'])}, {deal_words(r, 'sum')}.")   # session 1472
             keys.append(f"the deal of the week, `energy_deals` {r['event_id']}")
             picked["deal"] = {"usd": float(r["_d"]), "text": L[-1].split(":** ", 1)[1].rstrip(".")}
         elif dw["_m"].notna().any():
             r = dw.sort_values(["_m", "event_date"], ascending=[False, True]).iloc[0]
-            L.append(f"- **Deal of the week, by MW (no deal of the week states dollars):** {float(r['_m']):,.0f} MW, {deal_words(r)}.")
+            L.append(f"- **Deal of the week, by MW (no deal of the week states dollars):** {float(r['_m']):,.0f} MW, {deal_words(r, 'MW')}.")
             keys.append(f"the deal of the week, `energy_deals` {r['event_id']}")
         else:
             L.append("- **Deal of the week:** " + stand_in(1, "no deal in `energy_deals` is dated this week" if not under else
