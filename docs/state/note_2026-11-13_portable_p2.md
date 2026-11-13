@@ -59,6 +59,23 @@ Its steps waited (the landing, the rulings, a scan of the git history), so it re
 - **A flaw in chain 237's own tests corrected**: their comment stripper left 4,680 characters of three files unread. Read now, those parts hold nothing forbidden.
 - **The repository at GitHub**: public, one collaborator, Dependabot alerts off (row 33).
 
+## For the other windows: what this window's standing tests will ask of you
+
+These tests are on `main` (or will be, with landing rows 23 and 27). Each fails on a change that needs a record, and its message says which. None is a fault of your change; each wants one line in a list.
+
+| You do this | This test fails | The line it wants |
+|---|---|---|
+| add a route handler that reads a body, or a POST | `tests/test_session5102.py` (`EveryRoute`) | a cap on the body, the guard's limit or the internal view, `sameOrigin`; the route in the test's list of body readers |
+| add a route handler that reads the address | `tests/test_session5160.py` | the route in `READS_THE_ADDRESS`, with the line that bounds what it reads |
+| add or remove `<Brand noUsage>` on a page | `tests/test_session5155.py` | the page in `NO_COUNT` (`site/lib/usagepath.ts`) and in the node test's line |
+| import a data file from a browser-side file | `tests/test_session5161.py` | the file in `CLIENT_DATA`, once read: every visitor can fetch it |
+| make a page redirect, or a server file read the disk | `tests/test_session5171.py` | the page, or the file with the line that decides the name it reads |
+| add a limit (`limited(req, "name", ...)`) | `tests/test_session5160.py` | the name in the test's list and in `docs/security.md` |
+| give a workflow a new secret, a third-party action, or an input written into a command | `tests/test_session5161.py`, `tests/test_session5169.py` | the secret in `WORKFLOW_SECRETS`; the action read and pinned; the input passed through `env:` |
+| add a table, a function the anon key may execute, a storage bucket, a scheduled job | `warehouse/supabase/verify_rls.py --catalog` (run by sessions) | the table in `EXPECTED`, the function in `ANON_FUNCTIONS`, the bucket in `EXPECTED_BUCKETS` |
+
+One that does not fail any more: marking `site/app/cost-of-power/battery/read.ts` `server-only` (row 26) passes since session 5186; the copy of the test on `main` until this window's next landing still fails on it, so land that line after landing row 27's newest head.
+
 ## For the next session of this window
 
 - Chain 234's design and browser tools are on this laptop at the user level (session 5100's report). No run of them was needed by a chain that does not build.
