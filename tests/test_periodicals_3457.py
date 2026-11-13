@@ -812,6 +812,22 @@ class Row184NoSiteTailOnAPublishersTitle(unittest.TestCase):
         self.assertEqual(brief.own_titles(c), {"a": "AEP Partners with Amazon in Indiana"})
 
 
+class Row185ACapacityInAnotherForm(unittest.TestCase):
+    """Row 185: "Google enters massive 3.6-GW power deal with Constellation Energy" (W41 on the stack, no model) carried no
+    word that its figure is the outlet's: the scored 3,600 MW was compared as written, and "3.6-GW" was read as no capacity."""
+
+    def test_the_hyphen(self):
+        self.assertEqual(brief.capacities_mw("Google enters massive 3.6-GW power deal"), {3600.0})
+        self.assertEqual(brief.capacities_mw("a 702 MW project and 1GW more"), {702.0, 1000.0})
+
+    def test_the_evidence_line(self):
+        import roundup
+        r = {"cluster_id": "g", "titles": ["Google enters massive 3.6-GW power deal with Constellation Energy"],
+             "why": "Gigawatt-scale nuclear offtake.", "parties": "Google; Constellation Energy", "mw": "3600", "price": "", "n": 11,
+             "sector": "nuclear", "links": [("Utility Dive", "https://example.org/u"), ("WNN", "https://example.org/w")]}
+        self.assertIn("the 3,600 MW is the outlet's figure, not a warehouse table's", roundup.evidence_gap(r, r["titles"][0]))
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""

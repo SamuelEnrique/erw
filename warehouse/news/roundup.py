@@ -1758,6 +1758,10 @@ def evidence_gap(r, head="", deal=None, plant=None, bench=None):
     # its cluster held it. With a headline, the figure is the item's when the headline or its printed why line states it
     printed = f"{head} {brief.why_line(r.get('why') or '', head, r.get('mw'))}" if head else f"{head} {titles}"
     said = bool(fig and brief.figures_of(fig) & brief.figures_of(printed))
+    # session 3496 (faults file row 185): a capacity printed in the other unit or with a hyphen is the figure too (W41's
+    # "Google enters massive 3.6-GW power deal ..." beside its scored 3,600 MW carried no word that the figure is the outlet's)
+    if fig and not said and fig.endswith(" MW"):
+        said = brief.capacity_mw(fig[:-3], "MW") in brief.capacities_mw(printed)
     if plant is not None:   # session 1895 (row 64): the table's listing, against the outlet's MW when the headline gives it
         mw_fig = fig if said and fig.endswith(" MW") else ""
         gaps.append(plant_words(plant, mw_fig))

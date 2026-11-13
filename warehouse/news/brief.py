@@ -788,7 +788,7 @@ SCALE_WORD = re.compile(r"\b(?:multi-?)?(?:gigawatt|GW)[- ]scale\s*", re.I)
 HEAD_MW = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s?(MW|GW)\b", re.I)
 # Session 3460 (faults file row 158): one capacity in two units ("AirTrunk commits to purchasing 1GW ..." under "AirTrunk
 # signs 1,000 MW energy deal ...", 13 November 2026) is one figure: the rule of no figure the headline gives read it as two
-CAPACITY = re.compile(r"(?<![\w.,])(\d[\d,]*(?:\.\d+)?)\s?(MW|GW)\b", re.I)
+CAPACITY = re.compile(r"(?<![\w.,])(\d[\d,]*(?:\.\d+)?)[\s-]?(MW|GW)\b", re.I)   # 3496, row 185: "3.6-GW" too
 
 
 def capacity_mw(number, unit):
