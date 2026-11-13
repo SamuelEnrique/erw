@@ -39,6 +39,9 @@ Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`q
 | desktop w4 6 (Virginia) | `wip/4270-forecast` | `ad7f16ca6` | 0 differences |
 | portable 23, in part (to `5411fef7d`, the security list) | `wip/5150-security` | `ad7f16ca6` | 0 differences |
 | old laptop 11, in part (to `91cc7525c`) | `wip/3457-periodicals` | `ad7f16ca6` | 0 differences |
+| portable 23, the rest (to `f300710e7`), and 24 | `wip/5150-security`, `wip/5072-analysis` | `8d44ea156` | 0 differences |
+| portable 25, in part (to `2adcd44dd`) | `wip/5072-read` | `8d44ea156` | 0 differences |
+| old laptop 11, in part (to `48b5fb1df`) | `wip/3457-periodicals` | `8d44ea156` | 0 differences |
 
 ## Rows that wait, and why
 
