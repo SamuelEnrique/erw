@@ -26,6 +26,9 @@ What is checked, and what a mismatch is:
      has no select policy for anon.
   6. With --catalog (session 5156): every function of schema public the anon key may execute is in ANON_FUNCTIONS,
      with the credential it asks for (the default privileges give a new function to the anon key).
+  7. With --catalog (session 5172): every storage bucket is in EXPECTED_BUCKETS as public or private, storage.objects
+     has row-level security on and no policy for the anon key or a signed-in user, and the anon key lists nothing of
+     a private bucket (the archive of every table's rows is one).
 
 Exit 0 when everything matches, 1 on any mismatch, 2 when the key or the address is not set. Never prints a key.
 """
@@ -113,6 +116,13 @@ ANON_FUNCTIONS = {
     "thesis_pitchbook_accept": "the run's one-time key",
     "rls_auto_enable": "an event trigger's function (Supabase's ensure_rls): Postgres refuses a direct call",
 }
+
+# Session 5172: the storage buckets. erw-archive is the ERW's durable store (warehouse/archive/, every table's rows by
+# month) and erw-thesis holds the thesis tool's files: both private. erw-public holds the few files a page fetches by
+# address (the network's hourly file): public by design. A bucket is listed here before --catalog passes again, and
+# storage.objects carries no policy for the anon key: with row-level security on and no policy, the anon key lists and
+# reads nothing of a private bucket, whatever table privilege it holds.
+EXPECTED_BUCKETS = {"erw-archive": "private", "erw-public": "public", "erw-thesis": "private"}
 
 def env(name):
     v = os.environ.get(name)
@@ -317,6 +327,66 @@ def check_functions(db_url, out=print):
     return bad
 
 
+def storage_list(origin, key, bucket):
+    """(status, number of entries or None) of a list of a bucket's top folder with this key. A read."""
+    req = urllib.request.Request(f"{origin}/storage/v1/object/list/{bucket}", method="POST", data=json.dumps({"prefix": "", "limit": 1}).encode(),
+                                 headers={"apikey": key, "Authorization": f"Bearer {key}", "Content-Type": "application/json", "Accept": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            status, body = r.status, r.read(20000).decode("utf-8", "replace")
+    except urllib.error.HTTPError as e:
+        status, body = e.code, e.read(2000).decode("utf-8", "replace")
+    try:
+        d = json.loads(body)
+    except ValueError:
+        return status, None
+    return status, len(d) if isinstance(d, list) else None
+
+
+def check_storage(db_url, origin, key, out=print, lister=storage_list):
+    """Session 5172: the storage buckets against EXPECTED_BUCKETS, the policies on storage.objects, and what the anon
+    key lists of a private bucket (nothing). Read-only: the catalog in a read-only transaction, one list a bucket."""
+    import psycopg
+    bad = 0
+    with psycopg.connect(db_url, autocommit=False) as conn:
+        conn.execute("set transaction read only")
+        buckets = conn.execute("select id, public from storage.buckets order by 1").fetchall()
+        policies = conn.execute(
+            "select policyname, cmd, roles::text from pg_policies where schemaname = 'storage' and tablename = 'objects' "
+            "and (roles && array['anon', 'public', 'authenticated']::name[]) order by 1").fetchall()
+        rls = conn.execute("select c.relrowsecurity from pg_class c join pg_namespace n on n.oid = c.relnamespace "
+                           "where n.nspname = 'storage' and c.relname = 'objects'").fetchall()
+        conn.rollback()
+    out("7. storage: the buckets, and what the anon key lists of each")
+    if not rls or not rls[0][0]:
+        bad += 1
+        out("   storage.objects                MISMATCH: row-level security is OFF")
+    for name, cmd, roles in policies:
+        bad += 1
+        out(f"   storage.objects                MISMATCH: the policy {name} ({cmd}) names {roles}: a policy for the anon key or a signed-in user opens objects")
+    found = set()
+    for bucket, public in buckets:
+        found.add(bucket)
+        want = EXPECTED_BUCKETS.get(bucket)
+        problems = []
+        if want is None:
+            problems.append("not in EXPECTED_BUCKETS (list it as public or private)")
+        elif want == "private" and public:
+            problems.append("private in the list, PUBLIC in the database: every object is readable by its address")
+        elif want == "public" and not public:
+            problems.append("public in the list, private in the database: a page's file would not load")
+        status, n = lister(origin, key, bucket)
+        if want == "private" and not public and status == 200 and (n is None or n > 0):
+            problems.append(f"the anon key lists it (HTTP {status}, {n} entries)")
+        bad += 1 if problems else 0
+        out(f"   {bucket:26s} {'public ' if public else 'private'} anon list HTTP {status}, {n if n is not None else '-'} entries"
+            f"{'  MISMATCH: ' + '; '.join(problems) if problems else ''}")
+    for bucket in sorted(set(EXPECTED_BUCKETS) - found):
+        bad += 1
+        out(f"   {bucket:26s} MISMATCH: in EXPECTED_BUCKETS, absent from the database")
+    return bad
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Verify what the anon key can read (read-only)")
     ap.add_argument("--catalog", action="store_true", help="also read the catalog over SUPABASE_DB_URL")
@@ -335,6 +405,7 @@ def main(argv=None):
             return 2
         bad += check_catalog(db_url, args.before_028)
         bad += check_functions(db_url)
+        bad += check_storage(db_url, f"{u.scheme}://{u.netloc}", key)
     print(f"{'PASS' if bad == 0 else 'FAIL'}: {bad} mismatch(es)")
     return 0 if bad == 0 else 1
 
