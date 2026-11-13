@@ -1381,7 +1381,7 @@ def policy_line(r, kinds):
     failed left "(DOE news release, policy action):  [DOE](...)", a colon introducing nothing and a double space; the line
     then closes on its bracket with a stop. The site keeps the line under a held news index by ", policy action)"
     (site/lib/digest.ts)."""
-    head = f"- {r['title']} ({r['agency']} {kinds.get(r['action_type'], r['action_type'])}, policy action)"
+    head = f"- {money_style(r['title'])} ({r['agency']} {kinds.get(r['action_type'], r['action_type'])}, policy action)"   # row 86
     why = why_line(r["why"], r["title"]).strip()
     return f"{head}: {why} [{r['agency']}]({r['source_url']})" if why else f"{head}. [{r['agency']}]({r['source_url']})"
 
@@ -1660,7 +1660,10 @@ def also_line(recs):
     Session 1466: the stories of the item's topic under ALSO_LABEL, then those folded because the sector was full under
     ALSO_SECTOR, one line."""
     def part(x):
-        return f"{nodash(x['title']).strip().rstrip('.')} ({link_text(x['links'])})" if x.get("links") else nodash(x["title"]).strip()
+        # session 1981 (faults file row 86): the publisher's title in the issue's money style ("USD 1.5 billion", not
+        # "$1.5 Billion" beside "USD 74 billion"), its words otherwise as published
+        title = money_style(nodash(x["title"]).strip())
+        return f"{title.rstrip('.')} ({link_text(x['links'])})" if x.get("links") else title
     topic = [part(x) for x in recs if x.get("kind") != "sector"]
     sector = [x for x in recs if x.get("kind") == "sector"]
     out = [f"{ALSO_LABEL} " + "; ".join(topic) + "."] if topic else []

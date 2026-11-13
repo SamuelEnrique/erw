@@ -174,5 +174,21 @@ class Row85ThePolicyLineCloses(unittest.TestCase):
         self.assertTrue(line.endswith(" [NRC](https://www.federalregister.gov/x)"))
 
 
+class Row86OneMoneyStyle(unittest.TestCase):
+    """Row 86: the titles printed as published carry the issue's money style."""
+
+    def test_the_also_line(self):
+        x = {"kind": "sector", "sector": "datacenter_power", "links": [("POWER Magazine", "https://example.org/p")],
+             "title": "Rowan Digital Infrastructure Secures $1.5 Billion in Financing for Hyperscale Development Platform"}
+        line = brief.also_line([x])
+        self.assertIn("Rowan Digital Infrastructure Secures USD 1.5 billion in Financing for Hyperscale Development Platform ([POWER", line)
+        self.assertNotIn("$", line)
+
+    def test_the_policy_title(self):
+        r = {"title": "Energy Department Closes $480 Million Loan to Expand American Energy Production", "agency": "DOE",
+             "action_type": "press_release", "why": "", "source_url": "https://www.energy.gov/x"}
+        self.assertIn("Energy Department Closes USD 480 million Loan", brief.policy_line(r, {"press_release": "news release"}))
+
+
 if __name__ == "__main__":
     unittest.main()
