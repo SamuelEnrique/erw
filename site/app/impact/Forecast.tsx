@@ -274,10 +274,11 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
   const cats = r.years.map((y) => ({ label: String(y.year), sub: y.phase === "construction" ? "build" : undefined }));
   const val = (f: (i: number) => number | null) => r.years.map((_, i) => f(i));
   // fault 9: a tax held for the scenario is 0 in the years it does not fall (sales after the build, property during it);
-  // a tax not held at all is left out of the chart, not drawn as "not held" in every year
-  const prop = val((i) => r.years[i].property ?? 0), sales = val((i) => r.years[i].sales ?? 0), inc = val((i) => r.years[i].income), sev = val((i) => r.years[i].severance ?? 0);
+  // a tax not held at all is left out of the chart, not drawn as "not held" in every year; fault 17: a property tax held
+  // for some years (an agreement, an exemption) is drawn for them
+  const prop = val((i) => (r.years[i].phase === "construction" ? 0 : r.years[i].property)), sales = val((i) => r.years[i].sales ?? 0), inc = val((i) => r.years[i].income), sev = val((i) => r.years[i].severance ?? 0);
   const taxSeries = [
-    ...(r.property.held ? [{ name: "Property", color: "var(--color-year-1)", values: prop }] : []),
+    ...(r.years.some((y) => y.property !== null) ? [{ name: "Property", color: "var(--color-year-1)", values: prop }] : []),
     ...(r.sales.held ? [{ name: "Sales and use", color: "var(--color-year-2)", values: sales }] : []),
     { name: "Income", color: "var(--color-year-3)", values: inc },
     ...(r.severance.held ? [{ name: "Severance", color: "var(--color-year-4)", values: sev }] : []),

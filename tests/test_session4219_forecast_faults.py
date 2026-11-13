@@ -39,9 +39,12 @@ class TheFaults(unittest.TestCase):
             self.assertIn(f'r.kind !== "{kind}"', held, kind)
 
     def test_9_a_tax_not_held_is_left_out_of_the_chart_and_an_empty_year_is_zero(self):
-        self.assertIn('...(r.property.held ? [{ name: "Property"', self.page)
+        # fault 17: a property tax held for some years is drawn (not only one held for every year)
+        self.assertIn('...(r.years.some((y) => y.property !== null) ? [{ name: "Property"', self.page)
         self.assertIn('...(r.sales.held ? [{ name: "Sales and use"', self.page)
         self.assertIn("r.years[i].sales ?? 0", self.page)
+        # an operating year with no rule (after an exemption or agreement) stays null: the chart says "not held" for it
+        self.assertIn('(r.years[i].phase === "construction" ? 0 : r.years[i].property)', self.page)
 
     def test_10_the_chart_does_not_write_its_unit_twice(self):
         self.assertIn('const short = (v: number) => usd(v).replace(/^USD /, "");', self.page)
