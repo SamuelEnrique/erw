@@ -286,3 +286,13 @@ Read again by session 3802 at about 17:10 UTC, after chain 212's section, on `wi
 - **Headroom, demand growth from the utilities' own forecasts:** drawn since chain 212 (`allgrids|forecast|<row>`); its cross-check now holds eleven planning areas outside the ISOs as well (session 3796, `docs/methods/ferc714_forecast_growth.md`).
 - **Substations and lines:** open. EIA's Energy Atlas names no transmission layer in its catalogue search (session 3799).
 - **No other row moved** (session 3799's report names each and why).
+## State on 13 November 2026, morning (chain 221)
+Read again by session 3850 at about 06:00 UTC, after chain 215's section, on `wip/c221-data` (main at `74f7df166`, chain 218 landed at `f9c87c4b6`). Chain 221's sessions 3846 to 3849:
+- **Transmission and 4CP, NYISO: filled for six of seven rows** (sessions 3846 and 3847; on the tab once `wip/c221-data` lands). The utilities' own sites are closed to this reader, so each schedule was read from the New York Department of Public Service's Electronic Tariff System (`ets.dps.ny.gov`), the Commission's own copy (no robots file; the DPS's Disclaimer sets no condition on reuse):
+  - CAPITL, WEST, GENESE and CENTRL: Niagara Mohawk's S.C. No. 3A over 60 kV, $4.89 per kW and $10,350.00 a month;
+  - DUNWOD and MILLWD: NYSEG's S.C. 7-4 Transmission, $2.07 per kW on-peak and $5,900.00 a month;
+  - N.Y.C.: Con Edison's S.C. No. 9 Rate II, "tariff filed" (its demand charges are by time of day; $510.00 a month and $0.0079 per kWh, and $19.41 per kW outside June to September);
+  - LONGIL stays "not held": LIPA's terms allow personal, non-commercial use only, and its tariff is not on the DPS's system (session 3849).
+- **Transmission and 4CP, ISO-NE (the Boston rows, Massachusetts Electric):** open. mass.gov's terms ask permission for use beyond fair use, and its tariffs page links National Grid's own site; the DPU's File Room names no document address (session 3848).
+- **Time to connect, NYISO:** open. The Commission's Case 26-E-0045 (large loads' interconnection reforms) has an order soliciting comments (12 February 2026) and an environmental draft scope, and states no step with a clock yet (session 3848).
+- **Still open:** as chain 215's section, with the two rows above.
