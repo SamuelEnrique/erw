@@ -411,6 +411,8 @@ def assert_unique(lines):
     heads, urls = [], []
     for ln in lines:
         m = re.match(r"^(?:\d+\. \*\*(.+?)\*\*|- (.+?) \()", ln)
+        if MOVER_LINE.match(ln):   # session 1986 (row 91): a mover is a figure; its reason links a story above by design
+            continue
         if m and not ln.startswith("- no "):  # "- no scored story in this group today" is not an item
             heads.append(norm_headline(m.group(1) or m.group(2)))
             urls += re.findall(r"\]\((https?://[^)]+)\)", ln)
@@ -444,6 +446,9 @@ def without_repeats(new, lines, log):
     return keep
 
 
+MOVER_LINE = re.compile(r"^- [^:\n]+: -?[\d,]+\.\d{2} \S+ on \d{4}-\d{2}-\d{2}, (?:up|down) ")   # mover_text's form
+
+
 def drop_repeated_items(lines, log):
     """Session 470 (digest audit fix 3): the issues of 5 and 6 October were lost to the hard check below, a repeated
     headline and a repeated DOE address that the sections' own checks did not see (a policy action, then the same
@@ -460,7 +465,9 @@ def drop_repeated_items(lines, log):
             while i + len(block) < len(lines) and lines[i + len(block)].startswith("   "):
                 block.append(lines[i + len(block)])
         i += len(block)
-        if not m or ln.startswith("- no "):
+        # session 1986 (faults file row 91): a mover is a figure, not a story item; its reason's link is a story printed above
+        # by design, and the link dropped Brent's move from "What moved most" on 12 November (Henry Hub's on main's run)
+        if not m or ln.startswith("- no ") or MOVER_LINE.match(ln):
             out += block
             continue
         h = norm_headline(m.group(2) or m.group(3))
@@ -1218,6 +1225,32 @@ def demand_lines(digest_date, log, notes, store=None):
     return out
 
 
+def mover_list(cands, clusters):
+    """"What moved most": its heading and its lines, from the candidates sorted by the size of their move. Session 1986
+    (faults file row 92): a price that did not move is no "largest move" ("Henry Hub natural gas: 3.00 USD/MMBtu ..., up
+    0.00 USD/MMBtu (0.0%)" with a reason, 12 November): the list ranks the moves, its heading counts them, and the
+    unchanged prices are named on a line of their own, with no figure (each is printed and keyed in its table below)."""
+    moved = [c for c in cands if abs(float(c["pct"])) >= 0.05]
+    still = [c for c in cands if abs(float(c["pct"])) < 0.05]
+    ranked = moved[:MOVERS_N]
+    count = "largest move" if len(ranked) == 1 else f"{len(ranked)} largest moves"
+    movers = ["", f"**What moved most** (the {count} in percent among the main hubs' day-ahead averages against the "
+              "day before, and EIA's spot closes against the close before them):", ""]
+    for c in ranked:
+        movers.append(f"- {c['label']}: {c['v']:.2f} {c['unit']} on {c['d']:%Y-%m-%d}, {'up' if c['ch'] >= 0 else 'down'} "
+                      f"{abs(c['ch']):.2f} {c['unit']} ({abs(c['pct']):.1f}%) from {c['pv']:.2f} {c['unit']} on {c['pd']:%Y-%m-%d} {c['ref']}."
+                      + price_reason(c["key"], clusters))
+    if not cands:
+        movers.append("- no price with a day before it is held, so no move is ranked.")
+    return movers
+
+
+def unchanged_line(cands):
+    """Session 1986 (row 92): the prices that did not move, named with no figure, after the list's "Not ranked" line."""
+    still = [c["label"] for c in cands if abs(float(c["pct"])) < 0.05]
+    return ["- Unchanged: " + ", ".join(still) + "."] if still else []
+
+
 def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     """The numbers section (session 804: what moved). clusters: the day's clusters (build_clusters), for the reasons.
     facts (session 2703): a dict filled with the candidates of the moves (each with its table and reason) and US48
@@ -1333,18 +1366,12 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
             continue
         cands.append(dict(f, key=f["label"], table="eia_fuel_spot_prices", **mv))
     cands.sort(key=lambda c: (-abs(c["pct"]), c["label"]))
-    movers = ["", f"**What moved most** (the {MOVERS_N} largest moves in percent among the main hubs' day-ahead averages against the "
-              "day before, and EIA's spot closes against the close before them):", ""]
-    for c in cands[:MOVERS_N]:
-        movers.append(f"- {c['label']}: {c['v']:.2f} {c['unit']} on {c['d']:%Y-%m-%d}, {'up' if c['ch'] >= 0 else 'down'} "
-                      f"{abs(c['ch']):.2f} {c['unit']} ({abs(c['pct']):.1f}%) from {c['pv']:.2f} {c['unit']} on {c['pd']:%Y-%m-%d} {c['ref']}."
-                      + price_reason(c["key"], clusters))
-    if not cands:
-        movers.append("- no price with a day before it is held, so no move is ranked.")
+    movers = mover_list(cands, clusters)
     not_ranked = [f"{h['label']} {h['node']} ({LICENSED_NOTE})" for h in hubs if h["held"] and not h["pause"]]
     not_ranked += [f"{h['label']} {h['node']} (paused by the ERW since {h['pause']['paused_on']})" for h in hubs if h["pause"]]
     not_ranked += [f"{name} ({why})" for name, why in NOT_HELD]
     movers.append("- Not ranked: " + "; ".join(not_ranked) + ".")
+    movers += unchanged_line(cands)   # session 1986 (row 92)
     lines = movers + [""] + lines
     store = {}
     lines += demand_lines(digest_date, log, notes, store)

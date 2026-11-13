@@ -308,5 +308,37 @@ class Row90TheFirstLine(unittest.TestCase):
         self.assertTrue(line.endswith("): 300 scored stories."), line)
 
 
+class Row91AMoverIsNotAnItem(unittest.TestCase):
+    """Row 91: a mover whose reason links a story printed above stays in What moved most, and the hard check passes."""
+
+    def test_brent_stays(self):
+        url = "https://news.google.com/rss/articles/oil?oc=5"
+        L = ["## What moved", "", "2. **Oil settles USD 3 higher on attacks on Saudi energy sites** (oil)  ",
+             f"   Sources: [Reuters]({url}) (via Google News)", "", "### ERW's Numbers Today", "",
+             f"- Brent crude: 92.14 USD/bbl on 2026-11-11, up 1.98 USD/bbl (2.2%) from 90.16 USD/bbl on 2026-11-10 [5]. Reason, from the "
+             f"day's stories: Attacks on Saudi oil sites. ([Reuters]({url}) (via Google News))"]
+        out = brief.drop_repeated_items(L, lambda _m: None)
+        self.assertTrue(any(ln.startswith("- Brent crude: 92.14") for ln in out))
+        self.assertEqual(brief.assert_unique(out), 1)
+
+    def test_unchanged_is_not_a_largest_move(self):
+        # row 92: 12 November's six candidates, Henry Hub and WTI unchanged
+        ercot = cand("ERCOT HB_NORTH day-ahead", "ERCOT", 40.34, 38.24, 5.49, table="iso_dam_hub_prices", unit="USD/MWh")
+        wti = cand("WTI Cushing crude", "WTI Cushing crude", 89.62, 89.62, 0.0, unit="USD/bbl")
+        cands = sorted([SPP, ercot, BRENT, HH, wti], key=lambda c: (-abs(c["pct"]), c["label"]))
+        L = brief.mover_list(cands, None)
+        self.assertIn("**What moved most** (the 3 largest moves in percent", L[1])
+        self.assertEqual(sum(1 for ln in L if brief.MOVER_LINE.match(ln)), 3)
+        self.assertEqual(brief.unchanged_line(cands), ["- Unchanged: Henry Hub natural gas, WTI Cushing crude."])
+        self.assertFalse(any("(0.0%)" in ln for ln in L))
+        one = brief.mover_list([SPP, HH], None)
+        self.assertIn("(the largest move in percent", one[1])
+
+    def test_a_story_line_is_still_dropped(self):
+        L = ["1. **A deal** (deal)  ", "   Sources: [X](https://example.org/a)", "- A deal (deal). [X](https://example.org/a)"]
+        out = brief.drop_repeated_items(L, lambda _m: None)
+        self.assertEqual(len(out), 2)
+
+
 if __name__ == "__main__":
     unittest.main()
