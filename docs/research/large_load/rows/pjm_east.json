@@ -1,0 +1,524 @@
+{
+ "group": "pjm_east",
+ "rows": [
+  {
+   "utility": "PPL Electric Utilities Corporation",
+   "state": "PA",
+   "iso_region": "PJM",
+   "rule_name": "Rate Schedule LP-6, Large Load Interconnections (Electric Pa. P.U.C. No. 202, Supplement No. 2, Pages 35C to 35F)",
+   "source_url": "https://www.puc.pa.gov/pcdocs/1946790.pdf",
+   "source_title": "PPL Electric Utilities Corporation, replacement pages for Tariff Supplement No. 2 to Electric Pa. P.U.C. No. 202 (Compliance Retail Tariff), filed 27 August 2026 at Docket R-2025-3057164 (clean copy, First Revised Pages 35C to 35F)",
+   "quoted_clause": {
+    "page": "243",
+    "section": "Rate Schedule LP-6, Application",
+    "quote": "This Rate Schedule is for large general service supplied from available lines of 69,000 volts or higher to large load (data center) customers that commenced service on or after October 1, 2025, and have a peak electric demand of 50 MW or greater at a single facility or at least equal to 75 MW in the aggregate among facilities taking service from PPL Electric at or above 69 kV within a 10-mile radius"
+   },
+   "docket": {
+    "value": "R-2025-3057164",
+    "cites": [
+     {
+      "page": "243",
+      "section": "Rate Schedule LP-6, Application",
+      "quote": "shall be served on all the parties at Docket No. R-2025-3057164"
+     },
+     {
+      "url": "https://www.puc.pa.gov/pcdocs/1938452.pdf",
+      "page": "1",
+      "quote": "Docket No. R-2025-3057164 Utility Code: 110500",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-07-01",
+    "cites": [
+     {
+      "page": "243",
+      "section": "page footer, First Revised Page No. 35C",
+      "quote": "Effective: July 1, 2026"
+     },
+     {
+      "url": "https://www.puc.pa.gov/pcdocs/1938452.pdf",
+      "page": "1",
+      "quote": "By Opinion and Order entered June 11, 2026, the Commission authorized PPL Electric Utilities Corporation (the Company) to file tariff supplements",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.puc.pa.gov/pcdocs/1938452.pdf",
+      "page": "1",
+      "quote": "the supplements are effective by operation of law as of the effective date contained on each page",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "50 MW or more peak demand at a single facility, or at least 75 MW in the aggregate among the customer's facilities served at 69 kV or above within a 10-mile radius; data center customers served from lines of 69,000 volts or higher that commenced service on or after 1 October 2025 (a single facility of 50 to 75 MW causing no transmission network upgrade costs may be moved to Rate LP-5 by Commission petition)",
+     "cites": [
+      {
+       "page": "243",
+       "section": "Rate Schedule LP-6, Application",
+       "quote": "have a peak electric demand of 50 MW or greater at a single facility or at least equal to 75 MW in the aggregate among facilities taking service from PPL Electric at or above 69 kV within a 10-mile radius"
+      },
+      {
+       "page": "243",
+       "section": "Rate Schedule LP-6, Application",
+       "quote": "the customer's interconnection and service requirements do not cause PPL Electric to incur transmission network upgrade costs, then PPL Electric may file a petition with the Commission requesting, subject to Commission review and approval, that the customer's facility be classified under Rate LP-5"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Until the Rate Base Security Obligation is satisfied: the greater of actual peak demand or 80 percent of the load in the load ramp schedule. After it is satisfied: the greater of actual peak demand or 80 percent of the ramp schedule load for the first 5 years of the initial term and 50 percent for the second 5 years. Voluntary interruptible option: minimum load guarantee reduced to 60 percent (first 5 years) and 30 percent (second 5 years). Monthly minimum distribution charge: the Customer Charge of $999.11 per month",
+     "cites": [
+      {
+       "page": "245",
+       "section": "Electric Service Agreement, term (7)",
+       "quote": "(7) Until the LP-6 customer's Rate Base Security Obligation is satisfied, the ESA will require the customer to pay applicable rates based on the greater of actual peak demand values, or 80% of the load provided in the load ramp schedule;"
+      },
+      {
+       "page": "245",
+       "section": "Electric Service Agreement, term (8)",
+       "quote": "(8) After the LP-6 customer's Rate Base Security Obligation is satisfied, the ESA will require the customer to pay applicable rate based on the greater of actual peak demand values, or 80% of the load provided in the load ramp schedule for the first (5) years of the initial term and 50% for the second five (5) years of the initial term;"
+      },
+      {
+       "page": "245",
+       "section": "Voluntary Interruptible Option",
+       "quote": "If voluntary interruptible service is chosen by the customer, the minimum load guarantee in the customer's ESA would be reduced to 60% for the first five years and 30% for the second five years."
+      },
+      {
+       "page": "243",
+       "section": "Net Monthly Rate; Minimum Charge",
+       "quote": "$999.11 per month (Customer Charge)"
+      },
+      {
+       "page": "243",
+       "section": "Minimum Charge",
+       "quote": "MINIMUM CHARGE The Monthly Minimum Distribution Charge is the Customer Charge."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Electric Service Agreement with an initial term of not less than 10 years; initial load ramp schedule for up to the first 5 years of the initial term",
+     "cites": [
+      {
+       "page": "244",
+       "section": "Electric Service Agreement, terms (1) and (2)",
+       "quote": "(1) The ESA will contain an initial term of not less than ten (10) years; (2) The ESA will require the customer to provide an initial load ramp schedule for up to the first five (5) years of the initial term"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Security equal to the cost of the upgrades needed to serve the customer that are placed in rate base and recovered through transmission rates (the Rate Base Security Obligation), by letter of credit, parent guarantee or other instrument acceptable to the Company; satisfied when transmission revenue from the customer equals that obligation. Contribution in aid of construction as up-front milestone payments for directly assignable transmission and distribution upgrades",
+     "cites": [
+      {
+       "page": "244",
+       "section": "Electric Service Agreement, term (3)",
+       "quote": "(3) The ESA will require the LP-6 customer to provide security in an amount equal to the cost of upgrades needed to serve the customer"
+      },
+      {
+       "page": "244",
+       "section": "Electric Service Agreement, term (3)",
+       "quote": "that are placed into rate base and recovered through transmission rates (such amount is referred to as the \"Rate Base Security Obligation\")"
+      },
+      {
+       "page": "244",
+       "section": "Electric Service Agreement, term (4)",
+       "quote": "(4) The ESA will require the security to be provided in the form of a letter of credit, parent guarantee, or other security instrument acceptable to the Company for the amount of the outstanding revenue guarantee;"
+      },
+      {
+       "page": "244",
+       "section": "Electric Service Agreement, term (6)",
+       "quote": "(6) The ESA will specify that the revenue guarantee shall be satisfied when the Company has received transmission revenue from the customer equaling the Rate Base Security Obligation;"
+      },
+      {
+       "page": "245",
+       "section": "Electric Service Agreement, term (10)",
+       "quote": "The ESA will require a contribution in aid of construction (\"CIAC\") as up- front milestone payments ahead of work performed for the cost of directly assignable transmission and distribution upgrades"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "The greater of the remaining minimum load guarantee obligation during the ESA term at termination, or the remaining amount of the Rate Base Security Obligation",
+     "cites": [
+      {
+       "page": "245",
+       "section": "Electric Service Agreement, term (9)",
+       "quote": "(9) The ESA will contain an exit fee that is equal to the remaining minimum load guarantee obligation during the ESA term at the time the customer terminates the ESA, or the remaining amount of the Rate Base Security Obligation, whichever is greater;"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Rate Schedule LP-6, First Revised Pages 35C to 35F (pdf pp. 243 to 246 of pcdocs/1946790.pdf, and the redline copy pp. 113 to 116); the Commission's compliance letter of 7 July 2026 (pcdocs/1938452.pdf)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Rate Schedule LP-6, First Revised Pages 35C to 35F (pdf pp. 243 to 246 of pcdocs/1946790.pdf); the Commission's compliance letter of 7 July 2026 (pcdocs/1938452.pdf)"
+    },
+    "queue_size": {
+     "value": "about 35.3 GW of data center load in advanced stages of planning, including 11.4 GW under signed electric service agreements and 8.5 GW under construction (PPL Corporation's third-quarter 2026 earnings release, 6 November 2026)",
+     "cites": [
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/922224/000092222426000050/ppl-9302026exhibit991.htm",
+       "page": "1",
+       "section": "Exhibit 99.1, earnings release",
+       "quote": "In Pennsylvania, PPL Electric Utilities' data center pipeline grew for the 11th consecutive quarter to approximately 35.3 GW in advanced stages of planning, including 11.4 GW under signed electric service agreements and 8.5 GW under construction.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/922224/000092222426000050/ppl-9302026exhibit991.htm",
+       "page": "1",
+       "section": "Exhibit 99.1, dateline",
+       "quote": "ALLENTOWN, Pa. (Nov. 6, 2026)",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the PA PUC's docket copy of PPL's filed compliance tariff (www.puc.pa.gov, robots allow it, a public record) and the Commission's letter; the pipeline figure from PPL Corporation's Form 8-K exhibit on SEC EDGAR",
+   "erw_overlap": "none held for PPL. Window A's large_load_connection_rules/pa_puc_large_load_model_tariff.yaml is the PUC's model, not PPL's tariff, and LP-6 differs from it: threshold 50 MW single or 75 MW aggregate within 10 miles at 69 kV or above (model: 50 MW individually or 100 MW aggregate); initial term at least 10 years with a ramp of up to 5 years (model: at least 5 years after a 3 to 5 year ramp)",
+   "notes": "LP-6 came out of PPL's base rate case settlement (Joint Petition for Non-Unanimous Settlement filed 13 March 2026, Large Load Interconnections at Joint Petition paragraphs III.I.91 to 97, per the I&E statement in support, www.puc.pa.gov/pcdocs/1918891.pdf p.13), approved as modified by the Opinion and Order entered 11 June 2026; compliance tariff filed 30 June 2026, effective 1 July 2026; replacement pages correcting typographical errors filed 27 August 2026 (the copy read). LP-6 also requires annual load forecasts to the Commission broken down by ESAs, LOAs and inquiries (p.246, Load Forecasts). Beginning 1 January 2027, $11 million a year of Universal Service Rider costs is allocated to LP-6 through a non-bypassable customer charge (pcdocs/1946790.pdf p.56). Pending, a lead not read: the Office of Consumer Advocate's complaint against PPL over data center cost allocation, Docket C-2026-3065756, filed 2 October 2026 per Governor Shapiro's petition to intervene of 15 October 2026 (pa.gov); it seeks a separate data center class and interruptible service, so LP-6 may change. PPL has not filed a tariff on the PUC's model (M-2025-3054271) that I found; the model order sets no filing date for the EDCs (pcdocs/1929842.pdf pp. 117 to 118, ordering paragraphs). PPL's own site (pplelectric.com) bars automated access in its terms of use, so its LP-6 PDF was not read.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Delmarva Power & Light Company",
+   "state": "DE",
+   "iso_region": "PJM",
+   "rule_name": "Proposed large load tariff, Delaware PSC Docket No. 25-0826 (filed 19 December 2025), with the interconnection pause for new large loads",
+   "source_url": "https://depsc.delaware.gov/wp-content/uploads/sites/54/2026/01/25-0826-Delmarva-Large-Load-Tariff-Notice-for-Public-Comment-Session.pdf",
+   "source_title": "Delaware Public Service Commission, Docket No. 25-0826, Notice of public comment session on the large load tariff to be promulgated by Delmarva Power & Light Company",
+   "quoted_clause": {
+    "page": "1",
+    "quote": "On October 15th, 2025, the Commission signed Order number 10829 formally opening a docket to establish a large load tariff and ordered Delmarva Power & Light Company (\"Delmarva\") to develop and file proposed revised tariff pages applicable to large load customers defined as customers that will use a monthly maximum demand of 25 MW or greater."
+   },
+   "docket": {
+    "value": "25-0826",
+    "cites": [
+     {
+      "page": "2",
+      "quote": "by searching for Docket No. 25-0826"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2025-12-19",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "On December 19, 2025, Delmarva filed a proposed tariff."
+     },
+     {
+      "page": "2",
+      "quote": "The Commission may approve or reject, in whole or in part, the proposed tariff."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "25 MW monthly maximum demand (the Commission's definition of a large load customer in Order No. 10829)",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "applicable to large load customers defined as customers that will use a monthly maximum demand of 25 MW or greater"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "DE PSC notice (Docket 25-0826) pp. 1 to 3 and the PSC's news release of 14 October 2025; Delmarva's proposed tariff is on DelaFile, whose robots file disallows this reader (refused)"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "DE PSC notice (Docket 25-0826) pp. 1 to 3; the PSC news release of 14 October 2025; DelaFile refused"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "DE PSC notice (Docket 25-0826) pp. 1 to 3; the PSC news release of 14 October 2025; DelaFile refused"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "DE PSC notice (Docket 25-0826) pp. 1 to 3; the PSC news release of 14 October 2025; DelaFile refused"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "DE PSC notice (Docket 25-0826) pp. 1 to 3; the PSC news release of 14 October 2025; DelaFile refused"
+    },
+    "connection_timeline": {
+     "value": "interconnection of new large load facilities in Delmarva's Delaware territory paused until a large load tariff is established (Commission oral vote on the petition presented 3 September 2025)",
+     "cites": [
+      {
+       "url": "https://depsc.delaware.gov/2025/10/14/delaware-psc-opens-docket-for-large-load-tariff-pauses-interconnections/",
+       "page": "1",
+       "section": "news release, 14 October 2025",
+       "quote": "By an oral vote, the Commission granted the request to open a docket to develop a large load tariff and to pause the interconnection of any new large load facilities in Delmarva Power & Light (\"Delmarva\") territory until a large load tariff is established, both of which Delmarva also supported.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://depsc.delaware.gov/2025/10/14/delaware-psc-opens-docket-for-large-load-tariff-pauses-interconnections/",
+       "page": "1",
+       "section": "news release, 14 October 2025",
+       "quote": "On September 3, 2025, the Delaware Division of the Public Advocate (\"DPA\") and Staff for the Delaware Public Service Commission (\"Staff\") jointly presented a petition",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "DE PSC notice and news release; Delmarva's filing on DelaFile refused; Exelon's Q3 2026 earnings slides give only a combined MidAtlantic figure (see notes)"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Delaware PSC's own notice and news release (depsc.delaware.gov, robots allow it)",
+   "erw_overlap": "none",
+   "notes": "Petition filed 28 August 2025 by the Public Advocate and PSC Staff (notice p.1, 'FILED AUGUST 28, 2025'). Comments were due 6 March 2026 (notice p.2). PSC Staff, DNREC and the Public Advocate filed joint comments raising concerns (depsc.delaware.gov post of 9 April 2026). Leads, not verified: Delmarva proposed a new class GS-LD and an application process for loads of 50 MW or more and recommended raising the threshold to 50 MW (technical.ly, Spotlight Delaware); PJM's consultant whitepaper of September 2026 lists Delaware's model large load tariff as paused (pjm.com, p.6 table) and says HB 233, passed 1 July 2026 and signed 26 August 2026, directs the PSC on large load tariffs; a tracker says HB 233 requires utilities to file an application within 180 days of its effective date. Delmarva's tariff text, testimony and its load pipeline are on DelaFile (refused).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Baltimore Gas and Electric Company; Potomac Electric Power Company; Delmarva Power & Light Company (Maryland); and Maryland's other electric companies",
+   "state": "MD",
+   "iso_region": "PJM",
+   "rule_name": "Proposed COMAR 20.96.01, Large Load Study and Tariff Requirements (Maryland PSC rulemaking RM 93), under Public Utilities Article 4-212",
+   "source_url": "https://dsd.maryland.gov/MDRIssues/5313/Assembled.aspx",
+   "source_title": "Maryland Register, Volume 53, Issue 13 (26 June 2026), Public Service Commission, Notice of Proposed Action [26-021-P], Subtitle 96 Large Load Customers, 20.96.01 Large Load Study and Tariff Requirements",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Subtitle 96, Notice of Proposed Action",
+    "quote": "The Public Service Commission proposes to adopt new Regulations .01 .08 under a new chapter, COMAR 20.96.01 Large Load Study and Tariff Requirements"
+   },
+   "docket": {
+    "value": "RM 93",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Subtitle 96, Notice of Proposed Action",
+      "quote": "This action was considered by the Public Service Commission at a scheduled rule-making (RM 93) meeting held on February 4, 2026"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-06-26",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Register index",
+      "quote": "20.96.01.01 .08 53:13 Md. R. 614 (6-26-26)"
+     },
+     {
+      "page": "1",
+      "section": "Opportunity for Public Comment",
+      "quote": "Comments will be accepted through July 27, 2026."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "large load customer as defined in Public Utilities Article 4-212(a) (now 7-232): aggregate monthly demand of at least 25 MW and a load factor of more than 60 percent; the specific rate schedule applies to more than 25 MW monthly maximum demand at a single location or more than 25 MW aggregated contract capacity in the company's territory (Chapter 353 of 2026, the Utility RELIEF Act)",
+     "cites": [
+      {
+       "page": "1",
+       "section": "20.96.01.01B(4)",
+       "quote": "Large load customer has the meaning stated in Public Utilities Article, 4-212(a), Annotated Code of Maryland."
+      },
+      {
+       "url": "https://mgaleg.maryland.gov/2026RS/Chapters_noln/CH_353_hb1532e.pdf",
+       "page": "73",
+       "section": "Public Utilities 7-232(e)(1)",
+       "quote": "HAS OR IS PROJECTED TO HAVE AN AGGREGATE MONTHLY DEMAND OF AT LEAST 25 MEGAWATTS",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://mgaleg.maryland.gov/2026RS/Chapters_noln/CH_353_hb1532e.pdf",
+       "page": "73",
+       "section": "Public Utilities 7-232(e)(1)(ii)",
+       "quote": "HAS OR IS PROJECTED TO HAVE A LOAD FACTOR OF MORE ... THAN 60%",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://mgaleg.maryland.gov/2026RS/Chapters_noln/CH_353_hb1532e.pdf",
+       "page": "34",
+       "section": "Public Utilities 4-212(c)(2)(i)",
+       "quote": "a monthly maximum demand of more than [100] 25 megawatts at a single location; or",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://mgaleg.maryland.gov/2026RS/Chapters_noln/CH_353_hb1532e.pdf",
+       "page": "34",
+       "section": "Public Utilities 4-212(c)(2)(i)",
+       "quote": "an aggregated contract capacity in the electric company's service territory of more than [100] 25 megawatts.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "proposed COMAR 20.96.01.01 to .08 (Md. R. 53:13); the regulations leave contract terms to each company's tariff"
+    },
+    "contract_term": {
+     "value": "after the initial contract, the customer may terminate on at least 1 year's written notice, and must give at least 1 year's written notice of a contract capacity adjustment, unless a tariff schedule or later contract says otherwise; terminations and adjustments otherwise follow the company's tariff and service contract",
+     "cites": [
+      {
+       "page": "1",
+       "section": "20.96.01.06D",
+       "quote": "After the conclusion of the initial contract for service between a large load customer and an electric company or municipal electric utility, a large load customer may terminate its service contract by providing written notice to the electric company or municipal electric utility at least 1 year before the termination date"
+      },
+      {
+       "page": "1",
+       "section": "20.96.01.06B",
+       "quote": "the large load customer shall provide written notice to the electric company or municipal electric utility at least 1 year before the proposed adjustment"
+      },
+      {
+       "page": "1",
+       "section": "20.96.01.06A",
+       "quote": "A large load customer is subject to the contract terminations and adjustments as described in the electric company or municipal electric utility tariff and applicable service contract."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "the company may require one or more of: a letter of credit from a financial institution with investment-grade credit metrics; a performance bond from a third-party issuer with investment-grade credit metrics; a corporate guarantee from a parent company with an investment-grade credit rating; or cash",
+     "cites": [
+      {
+       "page": "1",
+       "section": "20.96.01.07 Collateral",
+       "quote": "The electric company or municipal electric utility may require one or more of the following forms of collateral:"
+      },
+      {
+       "page": "1",
+       "section": "20.96.01.07A to D",
+       "quote": "A letter of credit from a financial institution with investment-grade credit metrics; ... A performance bond from a third-party issuer with investment-grade credit metrics; ... A corporate guarantee from a parent company with an investment-grade credit rating; or ... D. Cash."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "proposed COMAR 20.96.01.01 to .08 (Md. R. 53:13): .06A refers terminations to each company's tariff and contract"
+    },
+    "study_timeline": {
+     "value": "completeness determination within 30 calendar days of a load study request; the customer cures a deficiency within 10 business days; the company completes the load study and reports not later than 18 months after the load study agreement is executed and payment received; extensions by mutual agreement or, for good cause, on request to the Commission",
+     "cites": [
+      {
+       "page": "1",
+       "section": "20.96.01.03",
+       "quote": "Within 30 calendar days after an electric company or a municipal electric utility receives a request for a load study"
+      },
+      {
+       "page": "1",
+       "section": "20.96.01.03(2)(a)",
+       "quote": "or otherwise cure the deficiency within 10 business days of receipt of the request for additional information"
+      },
+      {
+       "page": "1",
+       "section": "20.96.01.04E",
+       "quote": "shall complete the load study and provide a report to the large load customer not later than 18 months after: (1) Execution of a load study agreement; and (2) Receipt of the payment."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "proposed COMAR 20.96.01.01 to .08 (Md. R. 53:13)"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "proposed COMAR 20.96.01 and Chapter 353; no Maryland-utility pipeline figure in the documents read (Exelon gives a combined MidAtlantic figure, see notes)"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Maryland Register as the Division of State Documents publishes it (dsd.maryland.gov, robots allow it) and the session law on the General Assembly's site (mgaleg.maryland.gov, no robots file)",
+   "erw_overlap": "none",
+   "notes": "A statewide rule, like window A's Pennsylvania model: it binds each Maryland electric company's own large load tariff. Status: published as proposed on 26 June 2026 with comments to 27 July 2026; whether the PSC has since adopted it was not verified (a later Maryland Register issue would show the final action). Each investor-owned company had to file its own large load rate schedule by 1 September 2026: Chapter 353 (HB 1532, signed 12 May 2026), Public Utilities 4-212(c)(1)(i), p.34 of the session law: 'On or before September 1, 2026, each investor-owned electric company and each electric cooperative shall submit to the Commission for approval a specific rate schedule for large load customers'. BGE's, Pepco's and Delmarva's filings were not read: the PSC's docket system (webpscxb.psc.state.md.us) bars Claude's agents in its robots file (refused). A lead: HB 1082 of 2026 would have moved that date to 1 January 2027 (its fiscal note); Chapter 353 as enacted keeps 1 September 2026. Exelon's Q3 2026 earnings slides (SEC EDGAR, exc-20261030ex992.htm, p.1) give a combined MidAtlantic figure: 'MidAtlantic ~2 GW' of high probability load and 'MidAtlantic ~9 GW' within cluster studies (MidAtlantic covers PECO, BGE, Pepco, Delmarva and Atlantic City Electric).",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "url": "https://www.puc.pa.gov/press-release/2026/puc-issues-decision-in-ppl-electric-rate-proceeding-06042026",
+   "reason": "robots.txt not readable (URLError: SSL certificate verify failed, self-signed certificate in certificate chain); not read, not retried (later requests to www.puc.pa.gov succeeded)",
+   "utility": "PPL Electric Utilities Corporation"
+  },
+  {
+   "url": "https://www.pplelectric.com/terms-of-use",
+   "reason": "PPL's terms of use bar automated access ('Do not use automated means to access this Site'); pplelectric.com not read for values (its LP-6 PDF was not opened; the PA PUC copy was used)",
+   "utility": "PPL Electric Utilities Corporation"
+  },
+  {
+   "url": "https://www.exeloncorp.com/terms-and-conditions",
+   "reason": "Exelon's terms, covering ComEd, PECO, BGE, Pepco, Delmarva and ACE sites, bar automated access ('You may not use any automated means to collect information or content from or otherwise access our Site ... without our prior permission'); comed.com, peco.com, bge.com, pepco.com and delmarva.com not read (the comed.com and bge.com terms pages rendered empty to the reader)",
+   "utility": "Commonwealth Edison Company (ComEd, IL)"
+  },
+  {
+   "url": "https://www.icc.illinois.gov/docket/P2025-0677/documents",
+   "reason": "blocked: the answer looks like a bot check; not retried with another agent (no other ICC page tried)",
+   "utility": "Commonwealth Edison Company (ComEd, IL)"
+  },
+  {
+   "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1109357&type=8-K&dateb=&owner=include&count=10",
+   "reason": "robots.txt 200: DISALLOWED for every agent (EDGAR's Archives paths were used instead)",
+   "utility": "Commonwealth Edison Company (ComEd, IL)"
+  },
+  {
+   "url": "https://ferc.gov/news-events/news/commissioner-rosners-concurrence-consumer-protection-and-cost-recovery-agreements",
+   "reason": "HTTP 403",
+   "utility": "Commonwealth Edison Company (ComEd, IL)"
+  },
+  {
+   "url": "https://webpscxb.psc.state.md.us/DMS/pc/PC72",
+   "reason": "robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai (the Maryland PSC docket system)",
+   "utility": "Baltimore Gas and Electric Company; Potomac Electric Power Company; Delmarva Power & Light Company (Maryland); and Maryland's other electric companies"
+  },
+  {
+   "url": "https://delafile.delaware.gov/AdvancedSearch/AdvancedSearchDocket.aspx",
+   "reason": "robots.txt 200: DISALLOWED for every agent (the Delaware PSC's DelaFile)",
+   "utility": "Delmarva Power & Light Company"
+  },
+  {
+   "url": "duquesnelight.com",
+   "reason": "barred host (not requested); only PA PUC copies were looked for",
+   "utility": "Duquesne Light Company (PA)"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "PECO Energy Company (PA)",
+   "searched": "PA PUC site and documents (www.puc.pa.gov): the model tariff docket M-2025-3054271 (PECO's comments only), web searches for a PECO large load tariff, supplement or rate case in 2026; PJM's consultant whitepaper of September 2026 lists for PECO only its supplier tariff and emergency curtailment pages (Electric Pa. P.U.C. No. 8, pp. 22 to 23 and 89). No PECO large load tariff or proposal found. peco.com not read: Exelon's terms of use bar automated access.",
+   "notes": "Queue (for a row if a PECO rule is found later): PJM Load Analysis Subcommittee, Exelon 2027 PJM Large Load Submission, 29 September 2026, p.3: 'Included Requests (12 GW)* • ComEd: 10.5 GW • PECO: 1.6 GW' with '* Includes in-service and new projects meeting forecast criteria; amounts may not sum due to rounding' (https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5i---exelon.pdf); the submission covers data centers only: 'Exelon's forecast includes only data centers: in-service and new data center projects at ComEd and PECO' (p.2). Lead: FERC accepted a Transmission Security Agreement between PECO and a customer (ferc.gov concurrence page; ferc.gov answered 403 to this reader)."
+  },
+  {
+   "utility": "Commonwealth Edison Company (ComEd, IL)",
+   "searched": "A rule exists per the leads but no primary copy could be read: the ICC's e-docket for Dockets 25-0677/25-0679 answered with a bot check (blocked); comed.com and exeloncorp.com are barred by Exelon's terms of use; ferc.gov answered 403; Exelon's Q3 2026 10-Q on EDGAR does not discuss it. Leads, unverified: ICC Order of 19 March 2026 in Dockets 25-0677/25-0679 approving revisions to ComEd's General Terms and Conditions (Large Demand Project Applicants or Customers, 50 MW or more) and Rider DE with additional financial security, letters of credit for larger deposits (a deposit over $2 million needs a letter of credit, per pv magazine) and a Cluster Study process (compliance filing 30 March 2026, Sheet No. 149.3), per PJM's consultant whitepaper of September 2026, pp. 96 to 100 (https://www.pjm.com/-/media/DotCom/markets-ops/large-load/energy-tariff-experts-report-on-retail-large-load-implementation.pdf); and FERC-accepted Transmission Security Agreements.",
+   "notes": "Queue, read in primary documents, for the ComEd row when one is possible: Exelon's Q3 2026 earnings slides (SEC EDGAR, https://www.sec.gov/Archives/edgar/data/1109357/000110935726000092/exc-20261030ex992.htm, p.1, dated 'October 30, 2026 Earnings Conference Call Third Quarter 2026'): 'ComEd ~9 GW Advanced phases of design or backed by FERC-approved TSAs (~45% with TSAs, backed by ~$1.2B in collateral)' and 'ComEd ~14 GW Within current or future cluster studies (2026 and 2027 conclusion)'; Exelon-wide '~11 GW High Probability Load' and 'Future Pipeline ~23 GW'. PJM LAS Exelon 2027 submission, 29 September 2026, p.3 (https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5i---exelon.pdf): 'Total Pipeline: 37 GW' and 'Included Requests (12 GW)* • ComEd: 10.5 GW • PECO: 1.6 GW'."
+  },
+  {
+   "utility": "Baltimore Gas and Electric Company (BGE, MD)",
+   "searched": "BGE's own large load rate schedule, due 1 September 2026 under Public Utilities 4-212(c)(1)(i), could not be read: the Maryland PSC's docket system bars Claude's agents (refused); psc.maryland.gov news and orders searched (BGE's base rate case is Case No. 9888, filed 2 July 2026, not found to include a large load schedule); bge.com barred by Exelon's terms. The statewide proposed COMAR 20.96.01 applies to BGE: see the Maryland row.",
+   "notes": "No BGE-specific queue figure read; Exelon reports MidAtlantic combined (see the Maryland row's notes)."
+  },
+  {
+   "utility": "Potomac Electric Power Company (Pepco, MD and DC)",
+   "searched": "Maryland: as for BGE (the PSC docket system refused; pepco.com barred by Exelon's terms); the statewide proposed COMAR 20.96.01 applies: see the Maryland row. DC: web searches of the DC PSC (dcpsc.org) found no Pepco large load tariff; a lead: the DC PSC's Formal Case No. 1183, an investigation into the impact of data centers (OPC-DC statement, June 2026), not read.",
+   "notes": "No Pepco-specific queue figure read."
+  },
+  {
+   "utility": "Delmarva Power & Light Company (Maryland service area)",
+   "searched": "As for BGE (Maryland PSC docket system refused; delmarva.com barred by Exelon's terms); the statewide proposed COMAR 20.96.01 applies: see the Maryland row. Delmarva's Delaware proposal is a row of its own.",
+   "notes": ""
+  },
+  {
+   "utility": "FirstEnergy Pennsylvania Electric Company (Met-Ed, Penelec, Penn Power, West Penn Power)",
+   "searched": "PA PUC site and documents (model tariff docket M-2025-3054271), web searches for a FirstEnergy Pennsylvania large load tariff or rate case in 2026; PJM's consultant whitepaper of September 2026 cites only FE Pennsylvania's emergency curtailment pages (Electric Pa P.U.C. No. 1, First Revised Page 57, Original Pages 58, 192 and 193) and lists FirstEnergy's large load tariff filing in Ohio (Schedule DCT, PUCO Case 26-697-EL-ATA), not Pennsylvania. No Pennsylvania large load tariff or proposal found.",
+   "notes": "Queue, company-wide only: PJM LAS, FirstEnergy 2027 submission, 29 September 2026, p.3 (https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5h---firstenergy.pdf): 'Total FE Growth Contract & Pipeline through 2035 is ~22.8 GW (Capacity)' and 'Areas of largest growth are ATSI & APS (~8 GW & ~10 GW capacity through 2035)'; the APS zone spans West Penn Power with Potomac Edison and Mon Power, so no figure for the Pennsylvania company alone."
+  },
+  {
+   "utility": "Duquesne Light Company (PA)",
+   "searched": "PA PUC site only (duquesnelight.com is barred): the model tariff docket M-2025-3054271 (Duquesne's comments), Duquesne's 2026 docket R-2026-3063446 (a commercial to residential conversion pilot, not large load), web searches for a Duquesne large load tariff or rate case. None found.",
+   "notes": "Queue: PJM LAS, Duquesne Light 2027 submission, 29 September 2026, p.4 (https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5g---duquesne.pdf): 'Duquesne Light applied its framework for assessing the maturity of large load interconnection requests for three data center projects under study.' and 'The cumulative capacity requested by the three projects is 1,145 MW.'"
+  },
+  {
+   "utility": "UGI Utilities, Inc. (Electric Division), Citizens' Electric Company, Wellsboro Electric Company and Pike County Light & Power (PA)",
+   "searched": "web searches of the PA PUC for a large load tariff by each; only UGI's load forecast docket (M-2025-3058814) answers on data center demand turned up. None found.",
+   "notes": ""
+  }
+ ]
+}
