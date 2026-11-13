@@ -1,6 +1,6 @@
 # Session 4105 report: the published prices
 
-Energy Research Warehouse (ERW). Chain 229, session 6 of 50, lab-desktop third window, 13 November 2026 10:47 to 10:52 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4100-licenses`.
+Energy Research Warehouse (ERW). Chain 229, session 6 of 50, lab-desktop third window, 13 November 2026 10:46 to 10:49 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4100-licenses`.
 
 ## Read
 

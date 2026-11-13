@@ -1,6 +1,6 @@
 # Session 4106 report: FRED's series and their primary sources
 
-Energy Research Warehouse (ERW). Chain 229, session 7 of 50, lab-desktop third window, 13 November 2026 10:52 to 11:00 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4100-licenses`.
+Energy Research Warehouse (ERW). Chain 229, session 7 of 50, lab-desktop third window, 13 November 2026 10:49 to 10:52 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4100-licenses`.
 
 ## FRED, series by series (`docs/state/data_requests_licenses.md`, rows 2 to 12)
 
