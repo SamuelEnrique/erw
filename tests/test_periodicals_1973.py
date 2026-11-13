@@ -425,6 +425,16 @@ class Row98AMarketMoveTheWarehouseHolds(unittest.TestCase):
         self.assertEqual(roundup.bench_of({"titles": ["WTI slips as stocks build"], "why": ""}, self.FACTS)["label"], "WTI Cushing crude")
 
 
+class Row99OneColon(unittest.TestCase):
+    def test_the_deals_status(self):
+        import roundup
+        op = roundup.opening_number({"deal": {"usd": 2e9, "text": "USD 2 billion, Strathcona, Greenfire"}})
+        self.assertEqual(op["key"], "deal")
+        line = roundup.opening_lines(op)[2]
+        self.assertEqual(line.count(":"), 1, line)
+        self.assertIn("Status: reported, extracted from the week's stories", line)
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

@@ -1105,7 +1105,7 @@ def opening_number(picked, stories=None):
         if named[m["label"]] and abs(float(m["pct"])) >= WEEK_FUEL_PCT:
             return mover(m)
     if deal and deal.get("usd") and float(deal["usd"]) >= DEAL_USD_MIN:
-        return {"key": "deal", "text": deal["text"], "status": "reported: extracted from the week's stories, every number checked against its story"}
+        return {"key": "deal", "text": deal["text"], "status": "reported, extracted from the week's stories, every number checked against its story"}
     if dc and dc.get("mw") and float(dc["mw"]) >= DC_MW_MIN:
         return {"key": "datacenter", "text": dc["text"], "status": "reported, as its stories state it"}
     if story and story.get("text"):
