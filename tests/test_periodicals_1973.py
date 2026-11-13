@@ -42,7 +42,7 @@ class Row79TheOpeningDoesNotDenyAMove(unittest.TestCase):
         self.assertEqual(op["passed"]["key"], "SPP")
         line = brief.opening_lines(op, {})[2]
         self.assertNotIn("No price moved enough to lead", line)
-        self.assertIn("The day's largest move, SPP SPPSOUTH_HUB day-ahead down 39.1%, is one hub's and no story names it", line)
+        self.assertIn("The day's largest move, SPP SPPSOUTH_HUB day-ahead's fall (in the numbers below), is one hub's and no story names it", line)
         self.assertIn("not a warehouse table's", line)
 
     def test_no_move_past_a_bar_keeps_the_old_sentence(self):
@@ -394,7 +394,7 @@ class Row97TheStandInMoved(unittest.TestCase):
                          ("Brent crude", "USD/bbl", 92.14, 91.84)])
         self.assertNotIn("Brent crude closed", row)
         self.assertNotIn("WTI Cushing crude closed", row)   # -2.3%, under the bar too
-        self.assertTrue(row.endswith("no other price moved 3% or more on the week (10% for a hub's weekly mean)."), row)
+        self.assertTrue(row.endswith("no other price passed the opening's bar for a move on the week (three percent for a benchmark's close, ten for a hub's weekly mean)."), row)
 
 
 class Row98AMarketMoveTheWarehouseHolds(unittest.TestCase):
@@ -734,6 +734,100 @@ class Row128ADescriptionIsNoName(unittest.TestCase):
         self.assertFalse(brief.party_in_head("Banco de Chile", "A loan closes"))
 
 
+class Rows131To133W41OnTheStack(unittest.TestCase):
+    def test_131_the_subject(self):
+        import roundup
+        out = roundup.subject_line({"move": {"label": "Henry Hub natural gas", "pct": 6.9}},
+                                   "Google enters massive 3.6-GW power deal with Constellation Energy")
+        self.assertEqual(out, "ERW Weekly | Henry Hub gas up 6.9% on the week; Google enters power deal")
+        self.assertNotIn("massive", brief.subject_clause("Google enters massive 3.6-GW power deal with Constellation Energy"))
+
+    def test_132_one_outlet_once(self):
+        links = [("Bloomberg.com", "https://news.google.com/rss/articles/a"), ("Bloomberg.com", "https://news.google.com/rss/articles/b"),
+                 ("WSJ", "https://news.google.com/rss/articles/c")]
+        self.assertEqual(brief.link_text(links).count("Bloomberg.com"), 1)
+        self.assertIn("[WSJ]", brief.link_text(links))
+
+    def test_133_ft(self):
+        self.assertEqual(brief.outlet_name("ft.com"), "Financial Times")
+
+
+class Rows134And135W40OnTheStack(unittest.TestCase):
+    def test_134_wsj(self):
+        self.assertEqual(brief.outlet_name("wsj.com"), "WSJ")
+
+    def test_135_an_lng(self):
+        out = brief.why_line("A final investment decision on a LNG expansion adds Pacific export supply.", "Shell Greenlights Project")
+        self.assertIn("on an LNG expansion", out)
+        self.assertIn("a FERC order", brief.why_line("Utilities wait on a FERC order for Texas.", "Grid rules"))
+
+
+class Row136ABacklogIsNoDeal(unittest.TestCase):
+    def test_kinder_morgan(self):
+        r = rec("k", "Kinder Morgan Backlog Surges on AI Data Centers, Southeast Power Demand", sector="deal", price="$14.4 billion",
+                parties="Kinder Morgan")
+        self.assertIn("Project backlog, USA: USD 14.4 billion", brief.story_row("x", [r], ("deal",), {}, None, "a figure", ("money",))[0])
+
+
+class Row137SpendingIsNotRaised(unittest.TestCase):
+    def row(self, title):
+        r = rec("m", title, sector="capital", price="$825 billion", parties="Meta")
+        return brief.story_row("x", [r], ("capital",), {}, None, "a figure", ("money",))[0]
+
+    def test_the_nouns(self):
+        self.assertIn("Spending committed, USA: USD 825 billion", self.row("Meta Reports $825 Billion in Future Spending Commitments"))
+        self.assertIn("Capital raised, USA", self.row("CoreWeave plans to raise at least $825 billion in a high-grade loan"))
+        self.assertIn("Capital, USA", self.row("Meta's $825 billion question"))
+
+
+class Rows138And139OctoberOnTheStack(unittest.TestCase):
+    def test_138_ppa(self):
+        r = rec("p", "Google signs 20-year PPA with AEP for 702MW Wyoming fuel cell project", sector="ppa", mw="702", parties="Google; AEP")
+        r["region"] = "Wyoming"
+        line = brief.story_row("Project or capacity", [r], ("ppa",), {}, None, "a capacity figure in MW", ("mw",))[0]
+        self.assertIn("Power contracted, Wyoming: 702 MW", line)
+
+    def test_139_neither_year_nor_week(self):
+        day = pd.Timestamp("2026-10-12", tz="UTC")
+        top = {"value": 581830.0, "ts_utc": pd.Timestamp("2026-10-12 21:00", tz="UTC")}
+        lines = brief.numbers_block({"demand": {"top": top, "day": day, "before": day - pd.Timedelta(days=364)}},
+                                    {"kind": None, "key": ""}, [], {})
+        row = next(ln for ln in lines if ln.startswith("- **Physical.**"))
+        self.assertIn("the same weekday a year before (2025-10-13) and a week before (2026-10-05) are not held, so no change is shown.", row)
+
+
+class Row140NoKickerInTheSubject(unittest.TestCase):
+    def test_w39(self):
+        import roundup
+        out = roundup.subject_line({"move": {"label": "Henry Hub natural gas", "pct": 8.1}},
+                                   "Azerbaijan: TotalEnergies Announces Final Investment Decision for Absheron Full Field Development")
+        self.assertNotIn("Azerbaijan", out)
+        self.assertTrue(out.startswith("ERW Weekly | Henry Hub gas up 8.1% on the week; TotalEnergies Announces"), out)
+        self.assertEqual(roundup.head_clause("Exclusive: Coreshell raises money for silicon anodes", 60), "Coreshell raises money for silicon anodes")
+        self.assertEqual(roundup.head_clause("Six reactors eyed for Kentucky", 60), "Six reactors eyed for Kentucky")
+
+
+class Row141APlanIsNoDeal(unittest.TestCase):
+    def row(self, title, sector="deal"):
+        r = rec("z", title, sector=sector, price="$12 billion", parties="EQT; Zelestra")
+        return brief.story_row("x", [r], (sector,), {}, None, "a figure", ("money",))[0]
+
+    def test_the_nouns(self):
+        self.assertIn("Investment planned, USA: USD 12 billion", self.row("EQT's Zelestra unveils a USD 12 billion plan to meet US AI demand"))
+        self.assertIn("Deal value, USA", self.row("EQT plans to buy Range Resources for USD 12 billion"))
+        self.assertIn("Deal value, USA", self.row("Strathcona pursues growth with a USD 12 billion deal"))
+
+
+class Rows142And143EarlyOctober(unittest.TestCase):
+    def test_142_a_price_per_share_is_no_sum(self):
+        self.assertEqual(brief.story_figure({"mw": "", "price": "C$12 Per Share"}), "")
+        self.assertEqual(brief.story_figure({"mw": "", "price": "$93.78/bbl"}), "")
+        self.assertEqual(brief.story_figure({"mw": "", "price": "$4.2 billion"}), "USD 4.2 billion")
+
+    def test_143_opec_plus(self):
+        self.assertEqual(brief.detail({"mw": "", "price": "", "parties": "OPEC+"}, "OPEC, Allies Hold Oil Output Steady Amid Middle East Tensions"), "")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
@@ -770,6 +864,166 @@ class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
         self.assertIn("926.42 USD/MWh at HB_WEST (ERCOT)", rt)
         self.assertNotIn("2000", rt)
         self.assertTrue(rt.endswith("Not read: NYISO (licensed source needed)."), rt)
+
+
+class Row146AClosePrintedBeforeDoesNotOpen(unittest.TestCase):
+    """Row 146 (session 3441): main's dry run of 12 November, with this machine's copy of EIA's closes nine days old,
+    opened on Henry Hub's close of 3 November up 3.5%; a close the previous issue already printed is no news since it."""
+
+    def setUp(self):
+        import tempfile
+        self.dir = tempfile.mkdtemp()
+        with open(os.path.join(self.dir, "2026-11-06.md"), "w", encoding="utf-8") as f:
+            f.write("**Latest fuel spot closes** (EIA, trading dates):\n\n"
+                    "- Henry Hub natural gas: 2.63 USD/MMBtu on 2026-11-03 [4], EIA's newest close when this was written\n"
+                    "- Brent crude: 107.03 USD/bbl on 2026-11-03 [4], EIA's newest close when this was written\n")
+
+    def tearDown(self):
+        import shutil
+        shutil.rmtree(self.dir, ignore_errors=True)
+
+    def hh(self, day):
+        c = cand("Henry Hub natural gas", "Henry Hub natural gas", 2.63, 2.54, 3.54, reason="Strong feedgas demand")
+        return dict(c, d=pd.Timestamp(day, tz="UTC"))
+
+    def test_the_previous_issues_closes_are_read(self):
+        shown = brief.previous_closes("2026-11-12", self.dir)
+        self.assertEqual(shown, {"Henry Hub natural gas": pd.Timestamp("2026-11-03"), "Brent crude": pd.Timestamp("2026-11-03")})
+        self.assertEqual(brief.previous_closes("2026-11-06", self.dir), {})
+
+    def test_a_close_printed_before_does_not_open(self):
+        shown = brief.previous_closes("2026-11-12", self.dir)
+        op = brief.opening_number([self.hh("2026-11-03")], [SPACEX], None, shown)
+        self.assertEqual(op["kind"], "story")
+        self.assertIsNone(op["passed"])
+        line = brief.opening_lines(op, {})[2]
+        self.assertNotIn("No price moved enough to lead", line)
+        self.assertIn("Henry Hub natural gas's rise on 2026-11-03 (in the numbers below) was in the last issue, so a "
+                      "reported figure leads; it is the outlet's, not a warehouse table's.", line)
+        none = brief.opening_number([self.hh("2026-11-03")], [rec("t", "A story with no figure")], None, shown)
+        self.assertEqual(none["kind"], None)
+        self.assertEqual(brief.opening_lines(none, {})[2], "No price moved enough to lead: Henry Hub natural gas's rise on "
+                         "2026-11-03 (in the numbers below) was in the last issue. No story of the day states a figure.")
+
+    def test_a_small_close_printed_before_says_nothing_new(self):
+        shown = brief.previous_closes("2026-11-12", self.dir)
+        op = brief.opening_number([dict(self.hh("2026-11-03"), pct=1.0, ch=0.03)], [SPACEX], None, shown)
+        self.assertIsNone(op["seen"])
+        self.assertIn("No price moved enough to lead; this is a reported figure", brief.opening_lines(op, {})[2])
+
+    def test_a_newer_close_still_opens(self):
+        shown = brief.previous_closes("2026-11-12", self.dir)
+        op = brief.opening_number([self.hh("2026-11-11")], [SPACEX], None, shown)
+        self.assertEqual((op["kind"], op["cand"]["key"]), ("mover", "Henry Hub natural gas"))
+        self.assertEqual(brief.opening_number([self.hh("2026-11-03")], [SPACEX])["kind"], "mover")
+
+
+class Row147ACloseBeforeTheWeekIsNoMoveOfTheWeek(unittest.TestCase):
+    """Row 147 (session 3442): the stack's W46, with this machine's copy of EIA's closes nine days old, opened on W45's
+    Brent close of 3 November (-13.1%); a newest close dated before the week began is printed, marked, and not the week's."""
+
+    def numbers(self, newest):
+        from unittest import mock
+        import roundup
+        utc = "UTC"
+        days = [pd.Timestamp("2026-10-27", tz=utc), pd.Timestamp(newest, tz=utc)]
+        fuel = pd.DataFrame({"entity": ["eia:brent"] * 2 + ["eia:henry_hub"] * 2 + ["eia:wti_cushing"] * 2,
+                             "ts_utc": days * 3, "value": [110.00, 107.03, 2.76, 2.63, 103.37, 99.64],
+                             "unit": ["USD/bbl", "USD/bbl", "USD/MMBtu", "USD/MMBtu", "USD/bbl", "USD/bbl"]})
+
+        def fetch(table, start=None, end=None, market=None, **k):
+            if table == "eia_fuel_spot_prices":
+                return fuel
+            raise RuntimeError("not on this machine")
+        facts = {}
+        with mock.patch.object(roundup, "dam_week", lambda *a: (None, 0, 168)), mock.patch.object(roundup.erw, "fetch", fetch), \
+                mock.patch.object(brief, "held_grids", lambda *a: set()), mock.patch.object(brief, "held_rt", lambda p, *a: set()), \
+                mock.patch.object(brief, "paused_row", lambda label: None), mock.patch.object(brief, "rt_parts", lambda: []), \
+                mock.patch.object(brief, "cite_short", lambda t: f"`{t}`"):
+            L = roundup.numbers(pd.Timestamp("2026-11-09", tz=utc), pd.Timestamp("2026-11-15 23:00", tz=utc), lambda *a: None, facts)
+        return L, facts
+
+    def test_a_close_before_the_week_is_marked_and_not_a_fact(self):
+        L, facts = self.numbers("2026-11-03")
+        brent = next(ln for ln in L if ln.startswith("| Brent crude |"))
+        self.assertIn("-2.97 (-2.7%); EIA's newest close is from before this week, so this is no move of the week", brent)
+        self.assertEqual(facts.get("fuel", []), [])
+
+    def test_a_close_in_the_week_is_the_weeks(self):
+        L, facts = self.numbers("2026-11-11")
+        brent = next(ln for ln in L if ln.startswith("| Brent crude |"))
+        self.assertNotIn("before this week", brent)
+        self.assertEqual(sorted(f["label"] for f in facts["fuel"]), ["Brent crude", "Henry Hub natural gas", "WTI Cushing crude"])
+
+
+class Row148TheMarketRowSaysTheCloseIsTheLastIssues(unittest.TestCase):
+    """Row 148 (session 3443): the block promises what changed since the last issue; a close that issue printed says so."""
+
+    def row(self, shown):
+        op = {"kind": "story", "key": "story:s", "rec": SPACEX, "closes_shown": shown}
+        lines = brief.numbers_block({"cands": [BRENT]}, op, [], {})
+        return next(ln for ln in lines if ln.startswith("- **Market price.**"))
+
+    def test_a_close_printed_before(self):
+        row = self.row({"Brent crude": pd.Timestamp("2026-11-11")})
+        self.assertIn("Status: observed, EIA's spot close of the trading day 2026-11-11, the same close the last issue printed "
+                      "(no newer close is held).", row)
+        self.assertNotIn("the newest EIA had published", row)
+
+    def test_a_newer_close(self):
+        for shown in ({"Brent crude": pd.Timestamp("2026-11-10")}, {"Henry Hub natural gas": pd.Timestamp("2026-11-11")}, {}):
+            self.assertNotIn("the last issue", self.row(shown))
+        self.assertTrue(self.row({}).endswith("the newest EIA had published."))
+
+
+class Row149AStoryAfterTheCloseIsNoReason(unittest.TestCase):
+    """Row 149 (session 3444): main's dry run of 12 November gave Henry Hub's close of 3 November a reason first reported
+    on 8 to 12 November; a story first reported more than REASON_LAG_DAYS after a move's day neither explains nor names it."""
+
+    def clusters(self, first):
+        return pd.DataFrame([{"cluster_id": "ngi", "titles": ["Record LNG Demand Ignites Natural Gas Forward Rally, But Will It Last?"],
+                              "why": "Strong feedgas demand from LNG and production outages are pushing natural gas prices higher "
+                                     "across the US and Canada.",
+                              "links": [("Natural Gas Intelligence", "https://example.org/ngi")], "first": first}])
+
+    def test_a_story_days_after_the_close(self):
+        cl = self.clusters("2026-11-10T14:00:00Z")
+        self.assertEqual(brief.price_reason("Henry Hub natural gas", cl, 3.5, pd.Timestamp("2026-11-03", tz="UTC")), "")
+        self.assertFalse(brief.price_named("Henry Hub natural gas", cl, 3.5, pd.Timestamp("2026-11-03", tz="UTC")))
+
+    def test_a_story_within_the_lag(self):
+        cl = self.clusters("2026-11-10T14:00:00Z")
+        for day in ("2026-11-07", "2026-11-10", "2026-11-11"):
+            self.assertIn("Reason, from the day's stories: Strong feedgas demand",
+                          brief.price_reason("Henry Hub natural gas", cl, 3.5, pd.Timestamp(day, tz="UTC")))
+            self.assertTrue(brief.price_named("Henry Hub natural gas", cl, 3.5, pd.Timestamp(day)))
+        self.assertIn("Strong feedgas demand", brief.price_reason("Henry Hub natural gas", cl, 3.5))
+
+
+class Row150TheRoundupsTablesSayWhatTheyHold(unittest.TestCase):
+    """Row 150 (session 3445): the stack's W46 printed "Kemps Creek" (Australia held), "not stated" as the operator of a row
+    whose developer is CDC, and a blank deal type."""
+
+    def test_the_place_names_a_country_not_the_us(self):
+        import roundup
+        self.assertEqual(roundup.dc_place({"city": "Kemps Creek", "county": "", "state": "", "country": "Australia"}),
+                         "Kemps Creek, Australia")
+        self.assertEqual(roundup.dc_place({"city": "", "county": "Lowndes County", "state": "AL", "country": "United States"}),
+                         "Lowndes County, AL")
+        self.assertEqual(roundup.dc_place({"city": "Milwaukee", "county": "", "state": ""}), "Milwaukee")
+        self.assertEqual(roundup.dc_place({"city": "", "county": "", "state": "", "country": ""}), "not stated")
+
+    def test_the_developer_stands_in_for_the_operator(self):
+        import roundup
+        self.assertEqual(roundup.dc_operator({"operator": "", "developer": "CDC"}), "CDC (developer)")
+        self.assertEqual(roundup.dc_operator({"operator": "Lambda", "developer": "CDC"}), "Lambda")
+        self.assertEqual(roundup.dc_operator({"operator": "", "developer": ""}), "not stated")
+        self.assertEqual(roundup.dc_operator({}), "not stated")
+
+    def test_a_deal_with_no_type(self):
+        import inspect
+        import roundup
+        self.assertIn("{kind or 'not stated'}", inspect.getsource(roundup))
 
 
 if __name__ == "__main__":
