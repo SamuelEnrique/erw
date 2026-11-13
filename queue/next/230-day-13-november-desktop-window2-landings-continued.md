@@ -23,7 +23,22 @@ At every session start: `git fetch`, then every `docs/state/landing_request_*.md
 
 What chain 228 did not finish (session 4049 writes it here):
 
-- (to be filled by session 4049)
+- **First: the portable laptop's row 28 (URGENT: the chat read tables the license file holds).**
+  - It is in its gate as `wip/w2-land-k`: land-j's commit `4c1be727a` with row 28's `ea581541b`, gated as main merged in after the lock. It was started at 21:59 UTC by session 4015, and its record is in `runs/land_check/` under the head of `erw-w2-landK`.
+  - When it ends: the printed commands, each its own, the snapshots, then the marks.
+  - Then the row's own proof from `site/` on the landed tree: `node --import ./scripts/alias-register.mjs scripts/eval-tool.mjs query '{"table":"isone_interconnection_queue","aggregation":"count"}'`, as the row says. Session 4015's report is to be finished.
+- **Then the newer heads:**
+  - portable 25 (`c44ca2f59`), 26 (`dab4c005d`) and 27 (`7204e8ba2`, row 23 within it);
+  - old laptop 11 (`f2ebae979`).
+  - Each row is landed in part to the head named in its state. One gate on land-k's gated commit.
+  - With them, `wip/w2-4000`: chain 228's reports of sessions 4004 to 4015 and 4049, and its note `docs/state/note_2026-11-13_desktop_window2.md`. It is docs only now; everything else on it has landed.
+- **The desk's method, kept:**
+  - Each requested row is gated as a `wip/w2-*` copy at its requested head. Later commits are taken only when the row allows them.
+  - Several requesters' rows go in one gate (`runs/c153/gate_held.sh`, run from the main checkout).
+  - The marks are pushed alone to main with snapshots.
+  - When a row moves while a gate is in flight, the next gate is stacked on the last gated commit.
+- **For Samuel (defaults taken):** `/policy` in `HELD_FLOOR_PAGES`; the forecast's menu name "Local impact".
+- **Fallback items still open:** the board's spark spread (window A's chain 226, session 3873), and the part of the 8 November ledger refusal that the logs do not explain.
 
 ## The last session: the note, the next file, the queue
 
