@@ -53,6 +53,23 @@ class TheFaults(unittest.TestCase):
         self.assertGreaterEqual(len(re.findall(r"tip=\{<Tip id=", self.page)), 2)
         self.assertEqual(len(re.findall(r"(?<![\w-])tip=", self.page)), len(re.findall(r"tip=\{<Tip id=", self.page)))
 
+class Fault15(unittest.TestCase):
+    def test_15_the_trimmed_parameters_keep_every_field_of_a_rule(self):
+        # the browser's parameters are trimmed by name (lib/forecastdata.ts); a field of PropertyRule left out of the trim
+        # is undefined in the page while the node tests (the full files) pass: Kansas's years were
+        src = read(SITE, "lib", "forecast.ts")
+        block = src[src.index("export type PropertyRule = {"):]
+        block = block[len("export type PropertyRule = {"):block.index("};")]
+        block = re.sub(r"/\*.*?\*/", "", block, flags=re.S)  # comments
+        block = re.sub(r"\{[^{}]*\}", "", block)  # nested types (a tier's own fields come with r.tiers)
+        keys = set(re.findall(r"\b([a-z_]+)\??:", block))
+        self.assertIn("years", keys)
+        data = read(SITE, "lib", "forecastdata.ts")
+        trim = data[data.index("rules: v.rules.map((r) => ({"):]
+        trim = trim[:trim.index("})) }]));") + 1]
+        for k in sorted(keys):
+            self.assertRegex(trim, rf"\b{k}:", k)
+
 
 if __name__ == "__main__":
     unittest.main()
