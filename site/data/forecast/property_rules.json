@@ -145,6 +145,12 @@
    "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtp&section=7-237&enactments=false",
    "read": "2026-11-13",
    "request": 110
+  },
+  "va_58_1_3660": {
+   "title": "Code of Virginia 58.1-3660, Certified pollution control equipment and facilities (the solar photovoltaic exemption)",
+   "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter36/section58.1-3660/",
+   "read": "2026-11-13",
+   "request": 117
   }
  },
  "states": {
@@ -572,6 +578,37 @@
      "cite": "md_tp_7_237",
      "quote": "(a) Except as provided in subsection (b) of this section, personal property is exempt from property tax if the property is machinery or equipment used to generate: (1) electricity or steam for sale; [...] (b) Subject to § 7-514 of this title, and except as provided in subsection (c) of this section, personal property that is machinery or equipment described in subsection (a) of this section is subject to county or municipal corporation property tax on: (1) 75% of its value for the taxable year beginning July 1, 2000; and (2) 50% of its value for the taxable year beginning July 1, 2001 and each subsequent taxable year.",
      "not_modeled": "No rate is in the section: the county's or municipality's rate is the reader's own, applied to 50 percent of the capital cost as it falls. The section reaches machinery and equipment (personal property), not land or buildings, which the tool does not separate. Section 7-514, to which subsection (b) is subject, is not read. The exemption of small community solar systems (subsection (c), 5 MW AC or less with conditions) is not modeled."
+    }
+   ]
+  },
+  "va": {
+   "name": "Virginia",
+   "rules": [
+    {
+     "id": "va_solar_exemption",
+     "technologies": [
+      "utility_pv"
+     ],
+     "kind": "own_exempt",
+     "above_mw": 5,
+     "below_mw": 150,
+     "exempt_steps": [
+      {
+       "until": 5,
+       "share": 0.8
+      },
+      {
+       "until": 10,
+       "share": 0.7
+      },
+      {
+       "share": 0.6
+      }
+     ],
+     "cite": "va_58_1_3660",
+     "quote": "C. For solar photovoltaic (electric energy) systems, this exemption applies only to [...] (v) 80 percent of the assessed value of all other projects equaling more than five megawatts and less than 150 megawatts, as measured in alternating current (AC) generation capacity for which an initial interconnection request form has been filed with an electric utility or a regional transmission organization on or after January 1, 2019. [...] F. Notwithstanding any provision to the contrary, for any solar photovoltaic project described in clauses (iii) and (v) of subsection C for which an initial interconnection request form has been filed with an electric utility or a regional transmission organization on or after January 1, 2019, the amount of the exemption shall be as follows: 80 percent of the assessed value in the first five years in service after commencement of commercial operation, 70 percent of the assessed value in the second five years in service, and 60 percent of the assessed value for all remaining years in service.",
+     "quote2": "D. The exemption for solar photovoltaic (electric energy) projects greater than five megawatts, as measured in alternating current (AC) generation capacity, shall not apply to any such project unless an application has been filed with the locality for the project before July 1, 2030, regardless of whether a locality assesses a revenue share on such project pursuant to the provisions of § 58.1-2636. If a locality adopts an energy revenue share ordinance under § 58.1-2636, the exemption for solar photovoltaic (electric energy) projects greater than five megawatts [...] shall be 100 percent of the assessed value. If a locality does not adopt an energy revenue share ordinance under § 58.1-2636, the exemption [...] shall be 80 percent of the assessed value when an application has been filed with the locality prior to July 1, 2030.",
+     "not_modeled": "No rate is in the section: the locality's rate is the reader's own, applied to the taxed share of the capital cost as it falls. Held for a locality without a revenue share ordinance, with subsection F's steps (80, 70, 60 percent) as F applies \"notwithstanding any provision to the contrary\"; subsection D's flat 80 percent for such a locality is read as the first step (a ruling). Where the locality has adopted a revenue share (58.1-2636), the exemption is 100 percent and the revenue share, not held, is owed instead. A project of 150 MW AC or more has no exemption here; a project of 5 MW or less has the whole exemption of clause (iv), not modeled. The application to the locality must be filed before 1 July 2030."
     }
    ]
   }

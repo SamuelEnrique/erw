@@ -223,6 +223,7 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "utility_pv", "nc"), own: 0.7, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "vt"), own: 1.4, ownyears: 25 }],
     [{ ...F.defaults(P, "utility_pv", "mi"), iaval: true }, { ...F.defaults(P, "utility_pv", "mi"), iaval: true, optrate: 2000, life: 30 }],
     [{ ...F.defaults(P, "utility_pv", "nv"), iaval: true, own: 1.1, ownyears: 30 }, { ...F.defaults(P, "geothermal", "nv"), iaval: true, own: 1.1, ownyears: 30 }],
+    [{ ...F.defaults(P, "utility_pv", "va"), own: 0.8, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "va"), mw: 160, own: 0.8, ownyears: 30 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -422,4 +423,15 @@ test("Maryland: counties tax 50 percent of generating equipment's value, every t
     near(F.propertyTax(P, md, 10).tax, 150e6 * (1 - 10 / 25) * 0.5 * 0.012, 1e-12, t + ", year 11");
   }
   assert.equal(F.propertyTax(P, { ...F.defaults(P, "utility_pv", "md"), own: null }, 0).tax, null, "no rate, no figure");
+});
+
+test("Virginia's solar exemption: 80, 70 and 60 percent by years in service, more than 5 and less than 150 MW AC", () => {
+  const va = { ...F.defaults(P, "utility_pv", "va"), mw: 100, capex: 1500, own: 0.8, ownyears: 30 };
+  near(F.propertyTax(P, va, 0).tax, 150e6 * 0.2 * 0.008);
+  near(F.propertyTax(P, va, 4).tax, 150e6 * (1 - 4 / 30) * 0.2 * 0.008, 1e-12, "the fifth year");
+  near(F.propertyTax(P, va, 5).tax, 150e6 * (1 - 5 / 30) * 0.3 * 0.008, 1e-12, "the sixth year");
+  near(F.propertyTax(P, va, 10).tax, 150e6 * (1 - 10 / 30) * 0.4 * 0.008, 1e-12, "the eleventh year");
+  near(F.propertyTax(P, va, 25).tax, 150e6 * (1 - 25 / 30) * 0.4 * 0.008, 1e-12, "and after");
+  near(F.propertyTax(P, { ...va, mw: 200, capex: 750 }, 0).tax, 150e6 * 0.008, 1e-12, "150 MW or more: no exemption");
+  near(F.propertyTax(P, { ...va, mw: 5, capex: 30000 }, 0).tax, 150e6 * 0.008, 1e-12, "5 MW: not this clause");
 });
