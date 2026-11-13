@@ -15,3 +15,11 @@ Energy Research Warehouse (ERW). Chain 244 (`queue/done/244-day-16-november-oldl
 - 125: "European Gas Hits €97 ..." sat under Power, tagged power prices; a title where gas hits, tops or falls is a gas price story.
 - The 60 importing test files OK (1,127 tests). Row 10's head moved with them.
 
+## Sessions 3348 and 3349 (step 4): W42 and the Digest of 28 October (dry runs), rows 126 to 129
+
+- 126: W42's opening gave "Brent near USD 106.80 and WTI USD 93.78" as the reason beside WTI's close of 108.21; a naming story's line or title with a sum of its own is now passed over.
+- 127: "(ppa, 4 stories)", "(lng, ...)" read "(PPA, ...)", "(LNG, ...)".
+- 128: "Also named: ..., US regulator": a description is not printed as a name.
+- 129 (data machine): some feeds cut titles at 128 characters ("... Emissions Guidelines for Ex"); the ingest would read the page's own title.
+- The 60 importing test files OK (1,130 tests). Row 10's head moved with them.
+
