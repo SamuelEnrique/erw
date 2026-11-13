@@ -17,7 +17,9 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
   - check-values passed: the `/policy` license floor accepted, the `/digest` floor a note;
   - check-routes, check-cross-checks and check-csp passed.
 - **Pushed** to `task/4011-landing` at 19:18 UTC, after snapshot `before-89622915`.
-- (the merge and the after snapshot: written when they come)
+- **Run 43490914368** (GitHub ran the suite again because main had moved) merged at 19:50 (`f71fda27e`); the deploy succeeded at 19:51.
+- **Snapshot after: 0 differences.**
+- **Marked** on main as `f2834a05e` (0 differences): row 11 is landed in part, to `e547f598f`. Its newer head `91cc7525c` is in session 4012's gate.
 
 ## Decisions made without you
 
