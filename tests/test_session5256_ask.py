@@ -63,6 +63,9 @@ class TheWords(unittest.TestCase):
         self.assertIn(said.replace("TABLE", "${table}"), ts, "site/lib/chat/refused.ts notLiveWords and tools.py not_live_words differ")
         for part in ("is not in this site's live set", "its full history is on Redivis", "No tool here can read it", "answer with not_in_warehouse true"):
             self.assertIn(part, said)
+        # session 5258: the words send the model to look in another table before it refuses (the held-out nu08 did, and was right)
+        self.assertIn("Another table you can read may hold what is asked (a derived table often carries a source table's figures): look before you refuse. If none does,", said)
+        self.assertNotIn("State no figure of it: answer with not_in_warehouse true", said)
         with open(os.path.join(ROOT, "site", "lib", "chat", "tools.ts"), encoding="utf-8") as f:
             self.assertIn("throw new ToolError(notLiveWords(name))", f.read())
 

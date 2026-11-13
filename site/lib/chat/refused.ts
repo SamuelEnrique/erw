@@ -7,7 +7,10 @@
 // that table as its source. Two causes, two mends:
 //
 //   the words   the refusal said where the table is and not how to answer, where a held table's refusal says both.
-//               notLiveWords() says both.
+//               notLiveWords() says both. Session 5258: and that another table may hold what is asked. The first
+//               wording said only "answer with not_in_warehouse true"; the held-out nu08 was refused EIA's generator
+//               table, looked on all the same, and found the unit's capacity in energy_projects, which carries it.
+//               The words must not forbid what rule 3 of the prompt asks for.
 //   the rule    the loop counts every table list_tables names as read, so the citation passed. refusedRead() tells a
 //               refusal of the table itself from any other tool error; lib/chat/ask.ts holds that an answer's citation
 //               of a table refused and never read is a citation of a table no tool read, and sends the draft back.
@@ -18,7 +21,7 @@
 
 /** The refusal of a table the catalogue lists and the live set does not hold: where it is, and how to answer. */
 export function notLiveWords(table: string): string {
-  return `table ${table} is not in this site's live set; its full history is on Redivis. No tool here can read it. State no figure of it: answer with not_in_warehouse true and say that ${table} is on Redivis and not in the live set this chat reads`;
+  return `table ${table} is not in this site's live set; its full history is on Redivis. No tool here can read it, and no figure of it may be stated. Another table you can read may hold what is asked (a derived table often carries a source table's figures): look before you refuse. If none does, answer with not_in_warehouse true and say that ${table} is on Redivis and not in the live set this chat reads`;
 }
 
 /** The table a tool's error refuses whole, among those the call named: one not in the live set, or held whole for a

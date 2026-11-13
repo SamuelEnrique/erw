@@ -5,13 +5,13 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 | Class | Refusals | Graded right |
 |---|---|---|
 | MISO's pause | 13 | 13 of 13 graded |
-| a license hold | 22 | 22 of 22 graded |
-| a table not in the live set | 13 | 13 of 13 graded |
+| a license hold | 23 | 23 of 23 graded |
+| a table not in the live set | 17 | 17 of 17 graded |
 | the call limit | 1 | 0 of 1 graded |
-| the warehouse lacks the figure | 25 | 18 of 25 graded |
+| the warehouse lacks the figure | 27 | 20 of 27 graded |
 | rows read, then refused | 4 | 4 of 4 graded |
 
-In all: 78 refusals.
+In all: 85 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -93,3 +93,10 @@ In all: 78 refusals.
 | session 5256, the site's loop, the platform set | tx09 | 2 | a table not in the live set | right |
 | session 5256, the site's loop, the platform set | po07 | 7 | a table not in the live set | right |
 | session 5257, the site's loop, the platform set | pr12 | 6 | MISO's pause | right |
+| session 5258, the site's loop, the platform set | ga10 | 4 | a table not in the live set | right |
+| session 5258, the site's loop, the platform set | ga12 | 5 | the warehouse lacks the figure | right |
+| session 5258, the site's loop, the platform set | oi06 | 2 | a license hold | right |
+| session 5258, the site's loop, the platform set | oi08 | 3 | a table not in the live set | right |
+| session 5258, the site's loop, the platform set | oi10 | 3 | a table not in the live set | right |
+| session 5258, the site's loop, the platform set | nu06 | 4 | the warehouse lacks the figure | right |
+| session 5258, the site's loop, the platform set | re10 | 6 | a table not in the live set | right |

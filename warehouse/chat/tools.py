@@ -290,9 +290,12 @@ def live_only():
 def not_live_words(table):
     """Session 5256, the words of site/lib/chat/refused.ts notLiveWords: the refusal of a table the catalogue lists and
     the live set does not hold says where it is and how to answer, as a held table's refusal says both. (The platform
-    set's oi07 was refused the table, said so rightly, and still answered as an answer with the table as its source.)"""
-    return (f"table {table} is not in this site's live set; its full history is on Redivis. No tool here can read it. State no figure of it: "
-            f"answer with not_in_warehouse true and say that {table} is on Redivis and not in the live set this chat reads")
+    set's oi07 was refused the table, said so rightly, and still answered as an answer with the table as its source.)
+    Session 5258: and that another table may hold what is asked (the held-out nu08 found a generator's capacity in
+    energy_projects after EIA's own table was refused): the words do not forbid the search rule 3 of the prompt asks for."""
+    return (f"table {table} is not in this site's live set; its full history is on Redivis. No tool here can read it, and no figure of it may be stated. "
+            "Another table you can read may hold what is asked (a derived table often carries a source table's figures): look before you refuse. "
+            f"If none does, answer with not_in_warehouse true and say that {table} is on Redivis and not in the live set this chat reads")
 
 
 def _table_read(name):

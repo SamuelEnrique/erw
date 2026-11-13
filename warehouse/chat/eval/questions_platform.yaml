@@ -1,7 +1,7 @@
 # Energy Research Warehouse (ERW): 134 questions for the AI chat over the warehouse across the whole platform, sessions 5202 and 5251
 # (chains 235 and 238, 13 November 2026): power, prices, gas, oil, nuclear, renewables, storage, transmission, projects, deals, policy and datacenters.
-# 79 have an answer in the live set (kind figure); 14 ask of a table or a grid held for a license (hold: the hold's words, no
-# figure); 2 of MISO's own rows (pause); 11 of a table of the record that is not loaded into the live set the chat reads
+# 80 have an answer in the live set (kind figure); 14 ask of a table or a grid held for a license (hold: the hold's words, no
+# figure); 2 of MISO's own rows (pause); 10 of a table of the record that is not loaded into the live set the chat reads
 # (not_live: the answer says so); 20 of something no table holds (outside: "not in the warehouse", the missing thing named);
 # 3 of a day a held series lacks (gap: "not in the warehouse", the day named); 5 of a window held in part (partial: the answer
 # says the window is not whole, in any of the text entry's words).
@@ -811,18 +811,18 @@ questions:
   note: "no table holds reactor status or outages: not in the warehouse, the thing named, no figure"
 - id: nu08
   sector: nuclear
-  kind: not_live
+  kind: figure
   grid: none
   via: general
   question: "What is the nameplate capacity of Vogtle Unit 4 in EIA's generator inventory, in MW?"
-  expected: []
-  tolerance: 0.01
-  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "generator|860M"]
-  tables: []
-  refuse: true
+  expected: [1114.0]
+  tolerance: 0.5
+  text: []
+  tables: ["energy_projects"]
+  refuse: false
   hold: false
   count: false
-  note: "eia860m_operating_generators is a table of the record, not loaded into the live set: the answer says so and states no figure"
+  note: "energy_projects (entities, derived): capacity_mw of the row eia860:649:4, whose source_table is eia860m_operating_generators (the method note: an EIA unit's MW is its nameplate). Session 5202 keyed a refusal, EIA's own table not being in the live set; the chat was refused that table, looked on, and answered from this one (session 5258)"
 - id: re01
   sector: renewables
   kind: figure

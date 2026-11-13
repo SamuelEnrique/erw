@@ -376,8 +376,10 @@ def build():
       "no table holds a uranium price: not in the warehouse, uranium named, no figure")
     r("nu07", "nuclear", "outside", "none", "general", "Which US nuclear reactors were in a refueling outage on 10 November 2026?", [NIW, "outage|reactor"],
       "no table holds reactor status or outages: not in the warehouse, the thing named, no figure")
-    r("nu08", "nuclear", "not_live", "none", "general", "What is the nameplate capacity of Vogtle Unit 4 in EIA's generator inventory, in MW?", [NOT_LIVE, "generator|860M"],
-      "eia860m_operating_generators is a table of the record, not loaded into the live set: the answer says so and states no figure", tables=["eia860m_operating_generators"])
+    f("nu08", "nuclear", "none", "general", "What is the nameplate capacity of Vogtle Unit 4 in EIA's generator inventory, in MW?", "energy_projects",
+      lambda: unit_mw("energy_projects", "eia860:649:4", "eia860m_operating_generators"),
+      "energy_projects (entities, derived): capacity_mw of the row eia860:649:4, whose source_table is eia860m_operating_generators (the method note: an EIA unit's MW is its "
+      "nameplate). Session 5202 keyed a refusal, EIA's own table not being in the live set; the chat was refused that table, looked on, and answered from this one (session 5258)")
 
     # ------------------------------------------------------------------ renewables
     f("re01", "renewables", "CAISO", "general", "How much solar generation did the California ISO curtail in September 2026, in MWh?", "iso_curtailment_monthly",
@@ -594,6 +596,14 @@ def whole_month(table, entity, month, days_variable):
     if held != want:
         raise SystemExit(f"{table} {entity} {month}: {days_variable} says {held:g} of {want} days: not a whole month's row")
     return True
+
+
+def unit_mw(table, entity_id, source_table):
+    """capacity_mw of one row of an entities table, checked to be one row that names its source table."""
+    rows = L.get("entities", table_name=f"eq.{table}", entity_id=f"eq.{entity_id}", select="capacity_mw,extra")
+    if len(rows) != 1 or (rows[0].get("extra") or {}).get("source_table") != source_table or rows[0].get("capacity_mw") in (None, ""):
+        raise SystemExit(f"{table} {entity_id}: {len(rows)} rows, or not from {source_table}, or no capacity_mw")
+    return float(rows[0]["capacity_mw"])
 
 
 def lbnl_operating(region, year):

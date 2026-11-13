@@ -11,8 +11,10 @@ import { notLiveWords, refusedAgainNote, refusedRead, refusedWhole, tablesNamed 
 test("the refusal of a table the live set lacks says where it is and how to answer", () => {
   const w = notLiveWords("eia_crude_imports_by_country");
   assert.ok(w.startsWith("table eia_crude_imports_by_country is not in this site's live set; its full history is on Redivis."));
-  assert.match(w, /No tool here can read it/);
-  assert.match(w, /State no figure of it: answer with not_in_warehouse true/);
+  assert.match(w, /No tool here can read it, and no figure of it may be stated\./);
+  // session 5258: the words do not forbid looking in another table (a derived table may carry the figure)
+  assert.match(w, /Another table you can read may hold what is asked \(a derived table often carries a source table's figures\): look before you refuse\./);
+  assert.match(w, /If none does, answer with not_in_warehouse true/);
   assert.match(w, /say that eia_crude_imports_by_country is on Redivis and not in the live set this chat reads$/);
 });
 

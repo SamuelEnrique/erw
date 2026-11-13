@@ -1,6 +1,6 @@
 {
  "_about": "Session 5202: the keys of questions_platform.yaml as computed from the live set by scripts/ask_eval/platform_questions.py, not a run.",
- "computed_at_utc": "2026-11-13T19:49:07Z",
+ "computed_at_utc": "2026-11-13T20:23:47Z",
  "source": "nrdylqzasarkjjsqturo catalogue, series, entities and events views, anon key",
  "keys": {
   "pw01": {
@@ -917,19 +917,20 @@
    "note": "no table holds reactor status or outages: not in the warehouse, the thing named, no figure"
   },
   "nu08": {
-   "expected": [],
-   "tolerance": 0.01,
-   "text": [
-    "Redivis|live set|not loaded|not available here|cannot read|can't read",
-    "generator|860M"
+   "expected": [
+    1114.0
    ],
-   "tables": [],
-   "refuse": true,
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "energy_projects"
+   ],
+   "refuse": false,
    "hold": false,
    "count": false,
    "sector": "nuclear",
-   "kind": "not_live",
-   "note": "eia860m_operating_generators is a table of the record, not loaded into the live set: the answer says so and states no figure"
+   "kind": "figure",
+   "note": "energy_projects (entities, derived): capacity_mw of the row eia860:649:4, whose source_table is eia860m_operating_generators (the method note: an EIA unit's MW is its nameplate). Session 5202 keyed a refusal, EIA's own table not being in the live set; the chat was refused that table, looked on, and answered from this one (session 5258)"
   },
   "re01": {
    "expected": [
