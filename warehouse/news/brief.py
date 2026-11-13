@@ -2386,7 +2386,9 @@ def numbers_block(facts, op, recs, heads):
         # already printed says so instead of reading as the day's news
         shown = (op.get("closes_shown") or {}).get(c.get("label"))
         if cand_kind(c) == "fuel" and shown is not None and pd.Timestamp(c["d"]).tz_localize(None) <= shown:
-            status += ", the same close the last issue printed (no newer close is held)"
+            # session 3446: "the newest EIA had published" is dropped beside it: the warehouse knows what it holds
+            status = (f"EIA's spot close of the trading day {c['d']:%Y-%m-%d}, the same close the last issue printed (no "
+                      "newer close is held)")
         L.append(f"- **Market price.** {mover_text(c, notes.ref(c['table']))}. Status: observed, {status}.")
     else:
         L.append("- **Market price.** No price with a value before it is held today, so no move is shown.")

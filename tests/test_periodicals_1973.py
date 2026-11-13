@@ -965,8 +965,10 @@ class Row148TheMarketRowSaysTheCloseIsTheLastIssues(unittest.TestCase):
         return next(ln for ln in lines if ln.startswith("- **Market price.**"))
 
     def test_a_close_printed_before(self):
-        self.assertIn("the trading day 2026-11-11, the newest EIA had published, the same close the last issue printed (no "
-                      "newer close is held).", self.row({"Brent crude": pd.Timestamp("2026-11-11")}))
+        row = self.row({"Brent crude": pd.Timestamp("2026-11-11")})
+        self.assertIn("Status: observed, EIA's spot close of the trading day 2026-11-11, the same close the last issue printed "
+                      "(no newer close is held).", row)
+        self.assertNotIn("the newest EIA had published", row)
 
     def test_a_newer_close(self):
         for shown in ({"Brent crude": pd.Timestamp("2026-11-10")}, {"Henry Hub natural gas": pd.Timestamp("2026-11-11")}, {}):

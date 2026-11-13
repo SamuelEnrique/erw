@@ -26,7 +26,7 @@ Energy Research Warehouse (ERW). Internal note: not published on the site (`site
 
 ## 4. The numbers block (`brief.numbers_block`)
 
-- **Market price**: the best candidate the opening did not take, a move of 0.0 percent after every move (since 13 November). A close the last issue printed says so in its status: "the same close the last issue printed (no newer close is held)" (row 148).
+- **Market price**: the best candidate the opening did not take, a move of 0.0 percent after every move (since 13 November). A close the last issue printed says so in its status, in place of "the newest EIA had published": "the same close the last issue printed (no newer close is held)" (row 148).
 - **Physical**: US48 demand's peak hour against the same weekday a year before, or a week before while the year is not held.
 - **Project or capacity** and **policy, capital or reliability**: the highest-ranked stories of the whole issue stating a MW or a sum, the measure named by the sector, or "dispatched" when the headline says the power was dispatched (since 13 November); never a price story.
 - **What moved most**: the moves of 0.05 percent or more, at most `MOVERS_N` = 5, the heading counting them; the unchanged prices on one line with no figure (since 13 November).
