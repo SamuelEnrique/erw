@@ -692,6 +692,13 @@ class Row123ACombinedCompanyIsNoDealValue(unittest.TestCase):
         one = rec("d", "Strathcona pursues growth with a USD 2.1 billion deal", sector="deal", price="$2.1 billion", parties="Strathcona")
         self.assertIn("Deal value, USA", brief.story_row("x", [one], ("deal",), {}, None, "a figure", ("money",))[0])
 
+    def test_124_a_purchase_price_stays_a_deal_value(self):
+        r = rec("b", "EQT to Buy Range Resources, Creating Largest US Gas Producer", sector="deal", price="$13 billion",
+                parties="EQT; Range Resources")
+        self.assertIn("Deal value, USA: USD 13 billion", brief.story_row("x", [r], ("deal",), {}, None, "a figure", ("money",))[0])
+        c = rec("c", "EQT-Range Deal Will Create $50 Billion Gas 'Champion'", sector="deal", price="$50 billion", parties="EQT")
+        self.assertIn("Combined company value", brief.story_row("x", [c], ("deal",), {}, None, "a figure", ("money",))[0])
+
 
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""

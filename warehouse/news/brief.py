@@ -2192,7 +2192,10 @@ SECTOR_NOUN = {"datacenter_power": "Datacenter load", "generation": "Generation 
 
 
 TOTAL_OF_DEALS = re.compile(r"\btotal(?:s|ed|ing)?\b|\bin [\w-]+(?: [\w-]+)? deals\b", re.I)   # session 3332, row 112
-COMBINED = re.compile(r"\bto (?:form|create)\b|\bcombine[sd]? to\b|\bcreating (?:the |a )?(?:largest|biggest|\w+ giant)", re.I)   # row 123
+# row 123, narrowed by row 124 (session 3347): the headline's sum stands right before the company it describes ("To Form $50B
+# Gas Giant", "Will Create $50 Billion Gas 'Champion'"); "Creating Largest US Gas Producer" with no sum keeps "Deal value"
+COMBINED = re.compile(r"(?:\$|USD ?)[\d.,]+\s?(?:B|bn|billion|trillion)?\b[^,.;]{0,24}?\b(?:giant|company|producer|group|firm|"
+                      r"champion|powerhouse)\b", re.I)
 DISPATCHED = re.compile(r"\b(?:dispatch(?:ed|es|ing)?|discharg(?:e|ed|es|ing)|delivered)\b", re.I)   # session 1977, row 82
 
 
