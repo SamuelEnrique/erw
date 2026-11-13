@@ -51,6 +51,9 @@ export type PropertyRule = {
   /** own_exempt (session 4257, Florida's device exemption): the share of the reader's own rate's base exempt, through a calendar year;
    *  with requires "option" and years (session 4262, Nevada's abatement) only when the option is on, for that many years from the first construction year */
   exempt_share?: number; until_year?: number;
+  /** own_exempt (session 4272, Virginia's solar exemption): only above and below a size (MW AC, both exclusive), and the
+   *  exempt share in steps by operating year (each step until an operating year, the last for the rest) */
+  above_mw?: number; below_mw?: number; exempt_steps?: { until?: number; share: number }[];
   /** exempt_years: the operating years exempt (session 4223, Kansas) */
   years?: number;
   usd_per_mw_year?: number; usd_per_mwh?: number; min_mw?: number;
@@ -239,8 +242,10 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
     const share = Math.max(0, 1 - i / x.ownyears);
     // an exemption of part of the base (Florida's 80 percent of a renewable device's value, through 2037) acts on the own rate
     const ex = rules.find((r) => r.kind === "own_exempt" && x.start + x.build + i <= (r.until_year ?? Infinity)
-      && (r.requires !== "option" || x.iaval) && (r.years === undefined || x.build + i < r.years));
-    const taxed = ex ? 1 - (ex.exempt_share ?? 0) : 1;
+      && (r.requires !== "option" || x.iaval) && (r.years === undefined || x.build + i < r.years)
+      && (r.above_mw === undefined || x.mw > r.above_mw) && (r.below_mw === undefined || x.mw < r.below_mw));
+    const exShare = ex?.exempt_steps ? (ex.exempt_steps.find((st) => st.until === undefined || i < st.until)?.share ?? 0) : (ex?.exempt_share ?? 0);
+    const taxed = ex ? 1 - exShare : 1;
     return { tax: spend * share * taxed * (x.own / 100), rule: ex ? `own+${ex.id}` : "own", value: spend * share * taxed };
   }
   return { tax: null, rule: null };

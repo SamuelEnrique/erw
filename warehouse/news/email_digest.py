@@ -66,7 +66,7 @@ RESEND = "https://api.resend.com/emails"
 SITE_DEFAULT = "https://erw-flame.vercel.app"  # the deployed site README.md links; SITE_URL overrides it
 TOP_HEADS = ("## Top of the industry", "## The five stories of the week")
 ALSO_LABEL = "Also on this topic:"   # session 802: the line under an item for the stories folded under it (brief.ALSO_LABEL)
-ALSO_RE = re.compile(r"^(Also (?:on this topic|in [a-z][a-z ]*):)")   # session 1466: or "Also in <sector>:" (brief.ALSO_RE)
+ALSO_RE = re.compile(r"^(Also (?:on this topic|in [A-Za-z][A-Za-z ]*):)")   # session 1466: or "Also in <sector>:" (brief.ALSO_RE)
 NUM_HEADS = ("## ERW's Numbers Today", "## ERW's Numbers This Week", "## Numbers today", "## Numbers of the week")
 LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 IMAGE = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
@@ -130,7 +130,7 @@ def numbered(lines, heads, n=5):
     """[(headline, sector, why, (source, url))] from a numbered list under one of heads."""
     items, cur = [], None
     for ln in section(lines, heads):
-        m = re.match(r"^\d+\. \*\*(.+?)\*\*(?: \(([a-z ]+)[,)])?", ln)
+        m = re.match(r"^\d+\. \*\*(.+?)\*\*(?: \(([A-Za-z ]+)[,)])?", ln)   # 3469 (row 172): "(LNG)" too
         if m:
             cur = {"head": m.group(1), "sector": (m.group(2) or "").strip(), "why": "", "src": None, "also": ""}
             items.append(cur)
@@ -246,7 +246,7 @@ def block(body, img_base="docs"):
                      + "".join(f"<tr>{cells(r, 'td')}</tr>" for r in rows) + "</table></div>")
         table.clear()
 
-    for ln in body:
+    for i, ln in enumerate(body):
         if ln.startswith("|"):
             table.append(ln)
             continue
@@ -259,7 +259,11 @@ def block(body, img_base="docs"):
             # session 2705: the ref the pictures are read from follows EMAIL_ASSET_REF (main by default), as the character's
             raw = RAW if not env("EMAIL_ASSET_REF") else RAW.rsplit("/", 1)[0] + "/" + env("EMAIL_ASSET_REF")
             url = src if re.match(r"https?://", src) else f"{raw}/{posixpath.normpath(img_base + '/' + src)}"
-            text.append(f"[chart: {im.group(1)}] {url}")
+            # session 3467 (faults file row 171): the Digest's picture is described by the fact printed on the next line, so
+            # the plain text named it twice running ("[chart: Net generation ...] <url>" then "Net generation ..."); the
+            # picture's line then gives its address alone (the HTML keeps the description for a screen reader)
+            after = next((x.strip() for x in body[i + 1:] if x.strip()), "")
+            text.append(f"[chart] {url}" if im.group(1).strip() and im.group(1).strip() == after else f"[chart: {im.group(1)}] {url}")
             parts.append(f"<p style=\"margin:8px 0\"><img src=\"{html.escape(url)}\" alt=\"{html.escape(im.group(1))}\" "
                          "width=\"600\" style=\"max-width:100%;height:auto;border:1px solid #D9D2C3\"></p>")
             continue
@@ -458,14 +462,19 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
 def items(lines, kind):
     """Session 23: every story item of the brief, in the brief's order (its ranking), with its sector:
     the numbered lists (Top of the industry; Weekend and the five stories of the week) and the bullets
-    of By sector and AI and power. [{head, sector, why, src}]"""
-    heads = (("## Top of the industry",), ("## By sector",), ("## AI and power",)) if kind == "daily" else \
-        (("## The five stories of the week",),)
+    of By sector and AI and power. [{head, sector, why, src}]
+    Session 3469 (faults file row 172): the v2 issues' headings too (the Digest's What moved, then under the fold the rest
+    of the top ten, By sector and AI and power; the Roundup's What mattered, then the five stories under More). Until then a
+    subscriber's topics found no story in a v2 issue and their email showed none ("No story in them made this brief"),
+    and a sector printed in capitals ("LNG", "PPA", since row 127) was read as no sector."""
+    heads = (("## What moved", "## Top of the industry"), ("### The rest of the top ten",), ("### By sector", "## By sector"),
+             ("### AI and power", "## AI and power")) if kind == "daily" else \
+        (("## What mattered",), ("### The five stories of the week", "## The five stories of the week"))
     out = []
     for hd in heads:
         out += numbered(lines, hd, 100)
         for ln in section(lines, hd):
-            m = re.match(r"^- (.+?) \(([a-z_ ]+)\)(?::|\.) (.*?)\s*(?:\[([^\]]+)\]\(([^)]+)\))?$", ln)   # 1467: or "). "
+            m = re.match(r"^- (.+?) \(([A-Za-z_ ]+)\)(?::|\.) (.*?)\s*(?:\[([^\]]+)\]\(([^)]+)\))?$", ln)   # 1467: or "). "; 3469: "(LNG)"
             if m and not ln.startswith("- no "):
                 out.append({"head": m.group(1), "sector": m.group(2), "why": m.group(3).strip(),
                             "src": (m.group(4), m.group(5)) if m.group(4) else None})

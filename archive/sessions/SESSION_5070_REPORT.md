@@ -1,6 +1,6 @@
 # Session 5070 report: chain 243, the next file and the ground
 
-Energy Research Warehouse (ERW). Chain 243 (`queue/done/243-day-15-november-portable-p1-five-tools-continued.md`), portable laptop window P1, 13 November 2026, about 18:33 to 18:55 UTC. Opus 5.5. Model spend USD 0.
+Energy Research Warehouse (ERW). Chain 243 (`queue/done/243-day-15-november-portable-p1-five-tools-continued.md`), portable laptop window P1, 13 November 2026, about 18:35 to 18:45 UTC. Opus 5.5. Model spend USD 0.
 
 - Taken by name; `chain_queue.py next --file` refused the window's mark again (exit 2, "portable-laptop is a code machine"); the move made by hand with the tool's message (`1d8f3ae68`), as for 233 and 236, pushed.
 - Chain 236 stopped after its session 5050 (no report of 5051 to 5069; its step list in this file was never written): this chain runs chain 236's five steps, as the file says.
@@ -9,7 +9,7 @@ Energy Research Warehouse (ERW). Chain 243 (`queue/done/243-day-15-november-port
 - Precheck: passed (exit 0). `freeze.py status`: no freeze (exit 0). Memory 1.2 GB free (three windows on 16 GB), disk 298 GB.
 - Worktree `erw-p1-5070` (detached at `origin/main`) holds this chain's reports and records; the main checkout keeps only the queue commits.
 
-## The five conditions, at 18:50 UTC
+## The five conditions, at 18:43 UTC
 
 1. Row 22 landed: **yes**. Rows 17 and 19 to 22 landed at `5fe21d6de` (session 4003, chain 228, desktop window 2; the suite 8,719 OK; snapshots 0 differences). Session 5071 does the step.
 2. A new ruling of the owner on the note's seven items: **no**. `docs/roadmap.md` last changed 12 October; no commit since the landing touches the five notes, their faults files of 13 November or a sign-off block.

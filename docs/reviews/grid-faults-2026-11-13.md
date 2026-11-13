@@ -36,3 +36,11 @@ Network, energy mix and Ask are one page since session 299: `/grid` draws four t
 ## The wider read (session 5009)
 
 Session 5004's build, internal view, 1280 and 390: each of the eight grids (ERCOT, CAISO, PJM, MISO, NYISO, ISO-NE, SPP, the Lower 48) on each of the four tabs, 64 views, and Research's week `/research/2026-W45` at both widths. No console error, no broken text, nothing scrolls sideways at 390. No new fault.
+
+## The read as one page (session 5076, chain 243)
+
+Read on production (`https://erw-flame.vercel.app`, main as deployed on 13 November 2026 between 19:59 and 20:12 UTC) in the internal view, the token posted as the site's form does, at 1280 by 900 and at 390 by 844 as a phone, with the site's own browser helper (`site/scripts/browser.mjs`): each page's end address, its scroll width against the window, the exceptions it threw, the words that betray a broken value (NaN, undefined, [object Object], Infinity), its text and a picture of the window and of the whole page (four looked at: the Grid's Ask flag and Network at 1280, Gravity at 390, the battery's CAISO view at 390; the others read by their measures and text). Not on a local build: the build of `wip/5072-analysis` was stopped by Claude Code when the laptop ran low on memory (three windows on 16 GB), and the stack changes no page's code.
+
+- **The one page.** In the internal view `/ask` and `/ask?q=...` answer 307 to `/grid?grid=us48&ask=1` (the question carried); `/network`, `/network?shape=gravity`, `/network?view=uri_2021&grid=ERCO`, `/mix`, `/mix?view=clean`, `/mix?view=stress` and `/emissions` answer 308 to the view of `/grid` that holds them, each word carried. As a visitor every address is the in-review page.
+- **Nine views at both widths:** the Lower 48 (the opening view, Network, Gravity by `view=gravity` and by `shape=gravity`, Clean, Mix, the Ask flag) and ERCOT (the opening view and Clean): no sideways scroll, no exception, no broken word. The Ask panel stands beside every view (at 390, below it).
+- **No new fault.** An address tried here, `/network?view=gravity`, opens the Network view: no page ever wrote it (the network's views were live, evening, uri_2021, east_heat_2025 and day; the gravity shape was `shape=gravity`, which opens Gravity), so it is not a fault.
