@@ -15,7 +15,7 @@
 // the page's own script sends nothing in that case), the request is another site's or a stock script's, the path is not
 // a page of this site, the server holds no secret, or the migration is not applied. The route sets no cookie.
 import { COOKIE, statusOf } from "@/lib/release";
-import { clientIp, limited, sameOrigin, scripted, typed, usageVisitor } from "@/lib/guard";
+import { clientIp, limited, sameOrigin, scripted, typed, usageNobody, usageVisitor, usageVisitorsOff } from "@/lib/guard";
 import { readSalt } from "@/lib/chat/limits";
 import { rpc } from "@/lib/supabase";
 import { internalOk } from "@/lib/thesis/server";
@@ -52,8 +52,11 @@ export async function POST(req: Request) {
   if (!(await limited(req, "usage", 600, 3600)).ok) return done();
   // a visitor who asked for a page in review was shown the in-review page: the count says so, under the page's path
   const opened = statusOf(path) === "live" || (await internalOk(cookieOf(req, COOKIE)));
+  // session 5154 (row 23): with USAGE_VISITORS=off no value stands for the visitor; the address and the user agent are
+  // then not read for the count at all
+  const visitor = usageVisitorsOff() ? usageNobody(path, secret) : usageVisitor(ip, req.headers.get("user-agent") ?? "", secret);
   try {
-    await rpc("site_usage_record", { p_token: token, p_path: path, p_tool: opened ? toolOf(path) : IN_REVIEW, p_event: body.event, p_visitor: usageVisitor(ip, req.headers.get("user-agent") ?? "", secret) });
+    await rpc("site_usage_record", { p_token: token, p_path: path, p_tool: opened ? toolOf(path) : IN_REVIEW, p_event: body.event, p_visitor: visitor });
   } catch {
     /* the migration is not applied, or the database did not answer: nothing is recorded, and nothing is logged */
   }

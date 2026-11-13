@@ -115,6 +115,22 @@ await test("usageVisitor: 64 hexadecimal characters, of the address and the user
   assert.ok(!a.includes("203"));
 });
 
+// session 5154 (docs/reviews/security-faults-2026-11-13.md, row 23)
+await test("usageVisitorsOff and usageNobody: the switch is one word, and what is sent then stands for the page alone", () => {
+  assert.equal(guard.usageVisitorsOff({}), false);                              // unset: the daily code, as since session 177
+  assert.equal(guard.usageVisitorsOff({ USAGE_VISITORS: "" }), false);
+  assert.equal(guard.usageVisitorsOff({ USAGE_VISITORS: "on" }), false);
+  assert.equal(guard.usageVisitorsOff({ USAGE_VISITORS: "off" }), true);
+  assert.equal(guard.usageVisitorsOff({ USAGE_VISITORS: " OFF " }), true);
+  const n = guard.usageNobody("/storage", SALT);
+  assert.match(n, /^[0-9a-f]{64}$/);                                            // the form the database's function asks for (migration 028)
+  assert.equal(n, guard.usageNobody("/storage", SALT));                         // the same for every request of the page
+  assert.notEqual(n, guard.usageNobody("/about", SALT));                        // one value a page: 400 lines a "visitor" a day is never met
+  assert.notEqual(n, guard.usageNobody("/storage", SALT + "x"));
+  assert.notEqual(n, guard.usageVisitor("/storage", "", SALT));                 // never a value a visitor's code could take
+  assert.equal(guard.usageNobody.length, 2);                                    // it is given no address and no user agent
+});
+
 await test("optedOut: Do Not Track and Global Privacy Control send nothing", () => {
   assert.equal(usage.optedOut({ doNotTrack: "1" }), true);
   assert.equal(usage.optedOut({ doNotTrack: "yes" }), true);

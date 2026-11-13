@@ -33,6 +33,17 @@ Never recorded, in a table or in a log: the IP address, the user agent string, t
 
 So what is kept of an earlier day is counts. The codes are gone, and the salt that made them is gone. Because the salt was random and not derived, it cannot be computed again from anything the database or the site keeps. Two days' codes for the same browser share nothing, and "the same browser on two days" is counted as two browser-days: the site cannot tell.
 
+## Counting with no code at all
+
+The daily code is deleted when its day is over, yet for that day it stands for one browser: an identifier, for a day. The server can be told to make none. With `USAGE_VISITORS=off` in the server's environment (session 5154, row 23 of `docs/reviews/security-faults-2026-11-13.md`):
+
+- Step 2 above is not taken. The address and the user agent are not read for the count.
+- In the code's place the server sends `HMAC-SHA256(key = ASK_VISITOR_SALT, "erw-usage-nobody\n" + path)`: one value a page, the same for every visitor, so it says nothing of who asked.
+- The database counts the events exactly as before. Its `visitors` numbers then count pages, not people: 1 for a page's line, and for a day the number of pages that were opened. `/internal/usage` shows them as it shows any number; read them as that.
+- The limit of 600 counts an hour from one address still holds (`site/lib/guard.ts`, `limited`). It keeps its own keyed hash of the address for the window of the limit, as every limit of the site does, in a table apart from the counts.
+
+Unset, or any other word, the daily code is made as described above. That is the state since session 177 and the default.
+
 ## What this cannot promise
 
 - **Backups.** Supabase keeps its own backups of the database for their retention period. A backup holds whatever the tables held when it ran, which can include a day's codes and that day's salt. Reversing a code would also need the server's secret and a candidate address and user agent to test.
