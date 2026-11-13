@@ -73,6 +73,26 @@ export const STUDIES = [
     published_words: "The Rush Creek Wind Farm construction supports an estimated 2,970 FTE jobs [...] the 290 FTEs include 245 FTEs for on-site construction and interconnection labor [...] 1,840 FTEs were local revenue, turbine, and supply chain workers [...] an additional 840 FTE-induced jobs; Supports approximately 180 jobs in Colorado annually",
     dollars_of: 2018,
   },
+  {
+    id: "wyoming_gas", title: "Estimated Economic Development Impacts from New Generation and Transmission in Wyoming and Colorado, NREL/TP-6A20-57411 (Lantz, Tegen and others, March 2013): the 225 MW gas plant, Wyoming's share",
+    url: "https://docs.nlr.gov/docs/fy13osti/57411.pdf", request: 107,
+    method: "JEDI Natural Gas with IMPLAN 2008 state multipliers and the Wyoming Infrastructure Authority's local shares (24 percent of construction and 39 percent of O&M spending in Wyoming, Table C3); jobs averaged over a three-year build (the cumulative figure is three times the average); dollar year not stated, taken as 2012",
+    tech: "natural_gas", state: "wy", mw: 225, cost_usd: 280e6, cost_year: 2012, cost_words: "Table 1: installed cost $280 million; a natural gas-fired generation facility with a nameplate capacity of 225 MW", life: 20,
+    published: { "construction:total:jobs": 191 * 3, "construction:onsite:jobs": 103 * 3, "construction:supply_chain:jobs": 47 * 3, "construction:induced:jobs": 40 * 3,
+      "operations:total:jobs": 36, "operations:onsite:jobs": 11, "sales:total": 10.2e6 },
+    published_words: "Table 6 (annual average over three years, Wyoming, gas): project development and onsite labor 103, turbine, power generation and equipment supply chain 47, induced 40, total 191; Table 7 (Wyoming, gas): onsite 11, supply chain 16, induced 9, total 36; Table 2: Wyoming sales/use tax revenue, gas, $10,200 thousand (6 percent on capital goods and materials)",
+    dollars_of: 2012,
+  },
+  {
+    id: "wyoming_wind", title: "The same study: the 900 MW wind plant, Wyoming's share (turbines made in Colorado)",
+    url: "https://docs.nlr.gov/docs/fy13osti/57411.pdf", request: 107,
+    method: "JEDI Wind with IMPLAN 2008 multipliers; turbines, blades and nacelles from Colorado (0 percent of turbine spending in Wyoming, 18 percent of all construction spending, Table C1); a 48.5 percent capacity factor for the generation tax; dollar year taken as 2012",
+    tech: "land_based_wind", state: "wy", mw: 900, cost_usd: 1350e6, cost_year: 2012, cost_words: "Table 1: installed cost $1,350 million; a 900-MW wind power plant", life: 20, cf: 0.485,
+    published: { "construction:total:jobs": 832 * 3, "construction:onsite:jobs": 151 * 3, "construction:supply_chain:jobs": 569 * 3, "construction:induced:jobs": 112 * 3,
+      "operations:total:jobs": 217, "operations:onsite:jobs": 41, "sales:total": 74.2e6, "property:year4": 3.8e6 },
+    published_words: "Table 6 (Wyoming, wind): onsite 151, supply chain 569, induced 112, total 832 a year over three years; Table 7 (Wyoming, wind): onsite 41, supply chain 121, induced 55, total 217; Table 2: Wyoming sales/use tax, wind, $74,200 thousand; Table 3: generation tax, wind, $3,800 thousand a year (the $1/MWh tax at a 48.5 percent net capacity factor)",
+    dollars_of: 2012,
+  },
 ];
 
 export function crosscheck(rows) {
@@ -81,12 +101,15 @@ export function crosscheck(rows) {
     const ilr = s.tech === "utility_pv" ? base.ilr : 1;
     const mw = s.mw ?? s.mw_dc / ilr;  // the model's PV MW are AC: the study's DC MW over the state's loading ratio
     const capex = (s.cost_usd * F.to2025(P, s.cost_year)) / (mw * 1000);
-    const x = { ...base, mw, capex, life: s.life };
+    const x = { ...base, mw, capex, life: s.life, ...(s.cf ? { cf: s.cf } : {}) };
     const r = F.run(x, rows, P);
     const back = 1 / F.to2025(P, s.dollars_of);  // the model's 2025 dollars in the study's dollars
     const model = {};
     for (const [k, v] of Object.entries(s.published)) {
       if (k === "property:year") { const y = r.years.find((t) => t.phase === "operations"); model[k] = y?.property ?? null; continue; }
+      // session 4263: the sales and use tax over the build, and a later operating year's property line (Wyoming's excise starts in the fourth)
+      if (k === "sales:total") { model[k] = r.sums.sales === null ? null : r.sums.sales * back; continue; }
+      if (k === "property:year4") { const y = r.years.filter((t) => t.phase === "operations")[3]; model[k] = y?.property ?? null; continue; }  // a statute rate per MWh: no dollar year to convert
       const [ph, e, m] = k.split(":");
       const val = r[ph][m][e];
       model[k] = m === "jobs" ? val : val * back;

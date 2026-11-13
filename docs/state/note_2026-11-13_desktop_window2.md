@@ -26,10 +26,14 @@ Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`q
 | desktop w3 4 (licenses, rows 1 to 3 within it) | `wip/4150-licenses`, with the desk's fix of a held count | `71f8442ed` | the menu's rename on 25 pages, expected |
 | desktop w4 1 (the forecast, `/impact`) | `wip/4200-forecast` | `71f8442ed` | the same |
 | old laptop 10, in part | `wip/1973-periodicals` to `88893595d` | `71f8442ed` | the same |
+| desktop w3 6 (licenses, rows 1 to 5 within it) | `wip/4166-licenses` | `f06f7f3d2` (pushed at 16:15) | 0 differences |
+| desktop w4 2 and 3, and 4 to `a544dbc19` | `wip/4250-forecast` | `f06f7f3d2` | 0 differences |
+| old laptop 10, the rest (to `a898be5be`) | `wip/1973-periodicals` | `f06f7f3d2` | 0 differences |
+| desktop w4 4, the rest (to `ea34a1ea8`) | `wip/4250-forecast` | `8f7995482` | 0 differences |
 
 ## Rows that wait, and why
 
-- **The old laptop's row 10, from `88893595d` to its newest head** (`1831d3fe5` at 13:41): the next gate, after the 14:00 to 16:15 blackout. The old laptop keeps stacking on the same branch.
+- **Window 4's branch past `ea34a1ea8`** (`93a66d4ee`, code): waits for a new row.
 
 ## The fallback's results
 
@@ -44,4 +48,20 @@ Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`q
 
 ## Decisions made without you
 
+- **One gate for several requesters' stacks** (sessions 4003, 4005 and 4007).
+  - The build lock is shared with window A and window 4's builds, and one gate takes about 35 minutes.
+  - Conflicts were resolved by rule:
+    - a generated file by its generator (`package/llms.txt`'s catalogue by `scripts/build_llms.py`);
+    - a request file by main's rows.
+- **A branch its owner keeps committing to is gated as a `wip/w2-*` copy**, never pushed onto. A row is landed at its requested head, and later commits are taken only when the row allows them (reports and notes).
+- **Row 18 (the curtain's hole) went before row 17**, which had been requested a few minutes earlier.
+- **A held table's row count is held** (session 4005, landed with window 3's row 4). This is the small, plainly correct fix the gate found.
+- **The batched suite is the gate's default only below 12 GB.** The desktop and GitHub keep one process. The maths libraries run on one thread everywhere in the suite.
+- **No push between 14:00 and 16:15.** The blackout's gate (land-c) was run before 16:15 and pushed at 16:15.
+
 ## For Samuel's ruling (each with the default taken)
+
+- **`/policy`'s floor (10)**: since `policy_actions` and `policy_reads` are held, the page carries 0 checked numbers and its "license needed" marks.
+  - Default: `/policy` is in `land_check.py`'s `HELD_FLOOR_PAGES` beside session 408's ten, a pass only when the page shows "license needed".
+  - The other way: lower the floor in `site/scripts/check-values-floor.json`.
+- **The forecast's menu name "Local impact"** (window 4's row): it landed with that default, and the menu reads "Local impact in review" on every page.

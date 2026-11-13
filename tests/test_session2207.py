@@ -30,7 +30,9 @@ class ThePage(unittest.TestCase):
 
     def test_the_live_reader_reads_the_fuel_closes_only_and_never_fails_the_page(self):
         s = src("site", "lib", "digestLive.ts")
-        self.assertIn('.filter((f) => f.part === "fuel" && !f.held)', s)
+        # session 4009: and US48 demand's peak hour (EIA revises its hourly demand), compared in whole MW
+        self.assertIn('.filter((f) => (f.part === "fuel" || f.part === "demand") && !f.held)', s)
+        self.assertIn("mw === Math.round(Number(f.raw))) continue;", s)
         self.assertIn("attempt(() => rest<Row>(", s)
         self.assertIn("if (!r.ok || !r.data.length) continue;", s)
         self.assertIn('v.toFixed(2) === Number(f.raw).toFixed(2)) continue;', s)
@@ -50,7 +52,7 @@ class ThePage(unittest.TestCase):
 class TheChecks(unittest.TestCase):
     def test_check_values_reads_the_note_as_a_pass(self):
         cv = src("site", "scripts", "check-values.mjs")
-        self.assertIn('if (!pass && /^digest_(dam|rt|fuel)\\|/.test(check) && t !== undefined && t !== null) {', cv)
+        self.assertIn('if (!pass && /^digest_(dam|rt|fuel|demand)\\|/.test(check) && t !== undefined && t !== null) {', cv)   # session 4009
         self.assertIn('data-revised-value="([^"]+)"', cv)
         self.assertIn('out.lines.push(`note | ${page} | ${check} | revised: page shows "${text}" as the issue printed it, its note says ${rv[1]} | page read ${raw} | Supabase ${t}`);', cv)
         body = cv[cv.index("if (!pass && /^digest_"):cv.index("pass ? out.ok++ : out.bad++;")]

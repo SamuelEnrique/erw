@@ -46,7 +46,7 @@
 | Sales tax | State rate plus population-weighted local rate, midyear 2026, on JEDI's taxable share | Tax Foundation (CC BY-NC 4.0); JEDI's "Sales Tax (Materials & Equipment Purchases)" line |
 | Sales tax exemption | The statute where read (Minnesota wind, Iowa wind and solar equipment, North Dakota's power plants), else 0 and "before exemptions" | `sales_exemptions.json`, each quoted |
 | Income tax | Each job a single filer at the phase's average wage, 2026 brackets held in real terms | Tax Foundation 2026 (`income_tax.json`) |
-| Property tax | The statute where read: MN, SD, ND, NE, IA, KS, OR, WY, FL, AZ; else the reader's rate; else none | `property_rules.json`, each rule quoted with its section |
+| Property tax | The statute where read: MN, SD, ND, NE, IA, KS, OR, WY, FL, AZ, NC, MI, VT, WI, NV; else the reader's rate; else none | `property_rules.json`, each rule quoted with its section |
 | Gas plant fuel | Heat rate 6,266 Btu/kWh, capacity factor 0.65, in-state share 0, Henry Hub 2025 mean USD 3.5267/MMBtu | EIA case 5; JEDI gas model; `eia_steo_forecasts` `NGHHUUS` (`gas.json`) |
 
 ## 4. The cross-checks
@@ -63,6 +63,8 @@
 | Indiana, operating jobs a year | The same | 232 against "approximately 260": 0.89 |
 | Rush Creek, Colorado, NREL 2019, construction jobs | The model at 600 MW and USD 1,164/kW (2018) | 1,523 against 2,970: 0.51; 0.71 without Vestas's 830 Colorado factory jobs |
 | Rush Creek, operating jobs a year | The same | 123 against "approximately 180": 0.69 |
+| NREL's Wyoming study (2013): a 225 MW gas plant, Wyoming's figures | The model at the study's MW and cost | Construction jobs 551 against 573: 0.96; operating 0.86; sales tax 0.90 |
+| The same study: a 900 MW wind plant | The same | Construction jobs 1.03; operating 0.70 (leases counted by the study); sales tax 0.80; generation tax 1.01 |
 | Minnesota's wind production tax, Lincoln County, fiscal 2024 (Center for Rural Affairs) | The statute's USD 1.20 per MWh | USD 1.189 per MWh: within 1 percent |
 | Every figure on five `/impact` addresses, tables by year included | check-values' own recomputation | 785 of 785 (13 November, after Arizona) |
 | The Python and Stata downloads | The tool's totals for both scenarios | The Python script equal to 1e-6 in the node tests (Florida and Wyoming pairs included); the do-file prints both side by side (not run: no Stata on this machine) |
@@ -78,7 +80,9 @@ The studies, their requests and the reasons for each gap are in `docs/methods/fo
 | Kansas's ten-year exemption | USD 0 for ten years, then not held unless the reader types a rate (fault 15 fixed the trim that lost the years) |
 | Oregon's fee in lieu, 20 years in a 35-year life | Drawn for its 20 years; the life's total names the years held (fault 17) |
 | Wyoming's wind excise | From the fourth operating year, MWh shown in the table (fault 20), added to the reader's own rate |
-| Florida and Arizona | Only on the reader's own rate: 20 percent of the base through 2037 or 2040, all of it after |
+| Florida, Arizona and North Carolina | Only on the reader's own rate: 20 percent of the base through 2037 or 2040 (North Carolina in every year), all of it after |
+| Michigan and Nevada | Behind the local option's switch, off by default: Michigan's USD 7,000 per MW AC for 20 years (2 MW at least); Nevada's 55 percent off the reader's rate for 20 years from the first construction year |
+| Vermont and Wisconsin | Vermont's USD 4 per kW capacity tax with the reader's own rate added; Wisconsin's USD 5,000 per MW a year paid by the state to the municipality and county, held on the property tax line |
 | Geothermal | No capacity factor held: no production tax, no MWh; capacity taxes only (fault 2 fixed the Python file) |
 | A scenario in other states | Each state resolved from its own defaults, not the scenario's state's (fault 14) |
 | An input out of range | No figure for that scenario and a line saying an input is out of range |
