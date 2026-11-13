@@ -4,11 +4,11 @@ Energy Research Warehouse (ERW). Written by chain 229 (`queue/done/229-day-13-no
 
 | # | Branch | Head | Task | Port | Requested (UTC) | Tests on this machine | State |
 |---:|---|---|---|---:|---|---|---|
-| 1 | `wip/4100-licenses` | `c21ab94fa` (or its one later commit, this file's) | `4100-licenses` | 4100 | 2026-11-13 10:55 | on the head's tree with `origin/main` merged at 10:52: `licenses.py check`, `build_llms.py --check`, `build_tables.py --check`, `release_v1.py --check`, `check_spec.py` exit 0; tests 4101 (new), 205, 207, 275 and 378: 53 passed. Before the merge, on session 4103's tree: the 34 test files that read the license files and the 62 that read the package record, llms.txt, the guide or the site's verdict files, with 275 and 1011: 972 passed, 30 skipped, 1 failed (275's README count, fixed at once; 275, 207, 215 and 248 then 44 passed); on session 4102's tree the 350 files that read the release package or the chat spec: 1,356 passed, 13 skipped, 0 failed. The whole suite not run (three windows on this machine); not built (this window never builds) | requested |
+| 1 | `wip/4100-licenses` | `3ab353fcc` (or its one later commit, this file's) | `4100-licenses` | 4100 | 2026-11-13 10:55, updated 11:20 (sessions 4100 to 4109) | on `3ab353fcc`'s tree (`origin/main` merged at 10:52): the 462 test files that read the license files, the package record, llms.txt, the guide, the site's verdict files, the release package or the live set, with this chain's tests 4101 and 4109: 2,999 passed, 94 skipped, 0 failed (6 min 51 s, 11:10 UTC); `licenses.py check`, `build_llms.py --check`, `build_tables.py --check`, `release_v1.py --check`, `check_spec.py` exit 0. The whole suite not run (three windows on this machine); not built (this window never builds). The branch takes no further commit: chain 229 goes on on `wip/4110-licenses` | requested |
 
 ## Row 1: what it holds
 
-Sessions 4100 to 4106, reports `archive/sessions/SESSION_4100_REPORT.md` to `SESSION_4106_REPORT.md`.
+Sessions 4100 to 4109, reports `archive/sessions/SESSION_4100_REPORT.md` to `SESSION_4109_REPORT.md`.
 
 - **The confirmation tool.** `scripts/license_confirm.py` checks robots first, finds a verdict's sentence on the current page, cuts sentences by code and records the result. Its record is the new `warehouse/metadata/license_confirmations.csv` (16 publishers confirmed on 13 November).
 - **The document.** `scripts/licenses.py` gains the stale count, the section "Confirmed against the current page (chain 229)", and the standing "waits for a ruling". The last one means a flag stricter than the verdict is never loosened by a session.
@@ -24,6 +24,13 @@ Sessions 4100 to 4106, reports `archive/sessions/SESSION_4100_REPORT.md` to `SES
   - the four permission letters brought up to date (`docs/reviews/licenses/`, nothing sent);
   - `docs/licenses_costs.md` (new);
   - `docs/state/data_requests_licenses.md` (new: window A's requests, the FRED series' primary sources among them).
+- **Sessions 4107 to 4109.**
+  - Berkeley Lab's verdict is now cut from a page (CC BY 4.0, the Queued Up 2026 page), and 20 more verdicts are confirmed on their current pages.
+  - New verdicts: Svenska kraftnat, Latvia's CSB and E-Control (their three internal tables wait for a ruling).
+  - Hosts whose robots files refuse Anthropic's agents are not asked, and window A is asked to stop three such fetches (requests 13 to 15).
+  - `large_load_public` is ruled public in `licenses.py` (the owner's ruling of 14 October).
+  - `warehouse/redivis/release_v1.py` holds out a table whose ERW verdict is unsettled (133 in v1, 51 held out).
+  - `tests/test_session4109_public_site.py` checks that no table reaches the public site while its verdict is not public. It names three findings cards built from internal tables (`gas_sets_price`, `siting_flexible`, `siting_gigawatt`), waiting for the owner's ruling, and stops `/` and `/research` from opening while they wait.
 - `site/lib/release.ts` not changed.
 
 ## Known on this machine
