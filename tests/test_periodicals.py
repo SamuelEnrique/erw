@@ -1088,8 +1088,9 @@ class V2RTheParts(unittest.TestCase):
         with mock.patch.object(roundup, "read_table", return_value=reads):
             got = roundup.next_week(pd.Timestamp("2026-10-27", tz="UTC"), quiet)
         # session 1447 (fault 36): the docket's short name, the company and the first clause joined by a comma
-        self.assertEqual(got, ["- **2 November 2026**: Northern Natural Gas Company, Notice (Federal Energy Regulatory Commission). Comments on the EA "
-                               "are due to FERC by 5:00 p.m. Eastern Time on November 2, 2026. ([source](https://www.federalregister.gov/x))"])
+        # session 1897 (faults file row 76): one line an item, the deadline in the row's form (tests/test_session1897.py)
+        self.assertEqual(got, ["- **2 November 2026**: Northern Natural Gas Company, Notice (Federal Energy Regulatory Commission): comments on the EA "
+                               "due 17:00 Eastern. ([source](https://www.federalregister.gov/x))"])
         with mock.patch.object(roundup, "read_table", return_value=reads.iloc[1:]):
             self.assertEqual(roundup.next_week(pd.Timestamp("2026-10-27", tz="UTC"), quiet), [])
 
@@ -1962,7 +1963,7 @@ class Session1447TablesAndArchive(unittest.TestCase):
         with mock.patch.object(roundup, "read_table", return_value=reads):
             out = roundup.next_week(pd.Timestamp("2026-11-02", tz="UTC"), quiet)
         self.assertEqual(len(out), 3)
-        self.assertTrue(out[0].startswith("- **2 November 2026**: A Pipeline, Notice of Availability of the EA (FERC)."), out[0])
+        self.assertTrue(out[0].startswith("- **2 November 2026**: A Pipeline, Notice of Availability of the EA (FERC): "), out[0])   # 1897 (row 76)
         self.assertFalse(any("B Pipeline" in x for x in out))   # the second FERC comment deadline of the same day waits
         self.assertTrue(any("C Rule (NRC)" in x for x in out))
         self.assertTrue(any("D Pipeline" in x for x in out))

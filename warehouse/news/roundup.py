@@ -1527,7 +1527,8 @@ def next_week(end, log, n=NEXT_WEEK_N):
             continue
         kinds.add(kind)
         src = f" ([source]({url}))" if url.startswith("http") else ""
-        out.append(f"- **{brief.day_words(day)}**: {short_title(title)} ({agency}). {sent.rstrip('.')}.{src}")
+        # session 1897 (row 76): one line an item, the deadline in the row's form ("comments on the draft EIS due 17:00 Eastern")
+        out.append(f"- **{brief.day_words(day)}**: {short_title(title)} ({agency}): {deadline_words(sent, day)}.{src}")
         if len(out) >= n:
             break
     log(f"  next week: {len(out)} dated item(s) of {len(items)} found in policy_reads")
@@ -1547,7 +1548,97 @@ def short_title(title, n=NEXT_TITLE_MAX):
         t = f"{parts[0]}, {parts[1]}"
     if len(t) <= n:
         return t
+    # session 1897 (row 76): a docket of several companies ("Cheniere Corpus Christi Pipeline, LP, Corpus Christi Liquefaction
+    # Stage IV, LLC, Corpus..." was cut inside its list) keeps the short name of the company its subject names
+    name = docket_company(title)
+    if name:
+        return name
     return t[:n].rsplit(" ", 1)[0].rstrip(",;:") + "..."
+
+
+CORP_SUFFIX = re.compile(r"^(?:and\s+)?(?:L\.?\s?L\.?\s?C\.?|L\.?\s?P\.?|Inc\.?|Corp\.?|Co\.?|Ltd\.?|LLP)$", re.I)
+CORP_TAIL = re.compile(r",?\s+(?:L\.?L\.?C|L\.?P|Inc|Corp|Ltd|LLP)\.?$", re.I)
+
+
+def docket_companies(title):
+    """The companies a filing's title opens with, their corporate suffixes taken off, and the title's subject (the first
+    part that is not a company): "A Pipeline, LP, B Stage IV, LLC; Notice of ..." gives (["A Pipeline", "B Stage IV"],
+    "Notice of ..."). Parts are separated by semicolons (a colon closes the list too); a part is a company while it ends in
+    a corporate suffix, the first part always."""
+    t = " ".join(str(title or "").split()).rstrip(".")
+    parts = [p.strip() for p in re.split(r";|:\s", t) if p.strip()]
+    if not parts:
+        return [], ""
+    heads, i = [parts[0]], 1
+    while i < len(parts) and CORP_TAIL.search(parts[i]):
+        heads.append(parts[i])
+        i += 1
+    subject = parts[i] if i < len(parts) else ""
+    names = []
+    for h in heads:
+        for piece in re.split(r",\s*", h):
+            piece = re.sub(r"^(?:(?:L\.?L\.?C|L\.?P|Inc|Corp|Ltd)\.?\s+)?and\s+", "", piece.strip())
+            if piece and not CORP_SUFFIX.match(piece):
+                piece = CORP_TAIL.sub("", piece).strip()
+                if piece and piece not in names:
+                    names.append(piece)
+    return names, subject
+
+
+def docket_company(title):
+    """Session 1897 (row 76): the short name of a docket of several companies, the one whose words the title's subject holds
+    most (the first on a tie): "Cheniere Corpus Christi Pipeline, LP, Corpus Christi Liquefaction Stage IV, LLC, Corpus
+    Christi Liquefaction, LLC; Notice of Availability of the Draft Environmental Impact Statement for the Proposed Corpus
+    Christi Liquefaction Stage 4 Project ..." gives "Corpus Christi Liquefaction Stage IV". One company: "" (the title is
+    cut at a word as before)."""
+    names, subject = docket_companies(title)
+    t = " ".join(str(title or "").split())
+    heads = t.split(subject)[0] if subject else t
+    if len(names) < 2 or len(re.findall(r"\b(?:L\.?\s?L\.?\s?C|L\.?\s?P|Inc|Corp|Ltd|LLP)\b", heads)) < 2:
+        return ""                       # two companies at least, each with its suffix ("City of Austin, Texas" is one name)
+    held = {w.lower() for w in re.findall(r"[A-Za-z0-9]+", subject)}
+    return max(names, key=lambda c: (sum(w.lower() in held for w in re.findall(r"[A-Za-z0-9]+", c)), -names.index(c)))
+
+
+CLOCK = re.compile(r"\b(\d{1,2})(?::(\d{2}))?\s*([ap])\.?\s?m\.?(?:\s+(eastern|central|mountain|pacific)(?:\s+(?:standard|daylight|prevailing))?"
+                   r"(?:\s+time)?)?", re.I)
+COMMENT_FORMS = (
+    re.compile(r"^(?:the\s+)?[\w.' -]+? must (?:receive|reach) (?P<what>(?:[\w,' -]+? )?comments?\b.*?) (?:by|on or before) (?P<when>.+)$", re.I),
+    re.compile(r"^(?P<what>.*?\bcomments?\b.*?) (?:are|is) due(?: to (?:the )?[\w ]+?)? (?:by|on or before|on) (?P<when>.+)$", re.I),
+    re.compile(r"^(?P<what>.*?\bcomments?\b.*?) must (?:be received|reach [\w ]+?)(?: by [\w ]+?)? (?:by|on or before) (?P<when>.+)$", re.I),
+)
+
+
+def clock_words(m):
+    """A time of day as the issue writes it: 24-hour, its zone's name ("5:00 p.m. Eastern Time" is "17:00 Eastern")."""
+    h, mins = int(m.group(1)) % 12 + (12 if m.group(3).lower() == "p" else 0), m.group(2) or "00"
+    return f"{h:02d}:{mins}" + (f" {m.group(4).title()}" if m.group(4) else "")
+
+
+def deadline_words(sent, day):
+    """Session 1897 (docs/reviews/periodicals-faults-2026-11-05.md, row 76): a dated sentence of policy_reads as one clause
+    of the item's line. A comment deadline in the row's form: what is due, "due", the time of day in 24 hours with its
+    zone, and the docket id the sentence gives ("FERC must receive comments on the draft EIS by 5:00 p.m. Eastern Time on
+    November 9, 2026." is "comments on the draft EIS due 17:00 Eastern"); the day is the item's bold date, so it is not
+    said again. Any other sentence, or one whose date is not the item's: the sentence as written, its first letter in
+    lower case where the second is, its closing stop off."""
+    s = " ".join(str(sent or "").split()).rstrip(".")
+    date = f"{day.strftime('%B')} {day.day}, {day.year}"
+    for form in COMMENT_FORMS:
+        m = form.match(s)
+        if not m or date not in m.group("when"):
+            continue
+        what = m.group("what").strip()
+        before, _, after = m.group("when").partition(date)
+        clock = CLOCK.search(before)
+        rest = CLOCK.sub("", before) if clock else before
+        if re.sub(r"\b(?:on|by|at|or|before)\b", "", rest).strip(" ,"):
+            break                                   # words between the time and the date this form does not know
+        docket = re.search(r"\bDocket (?:ID|No\.?|Number)\s*([A-Z0-9][\w.-]*[A-Za-z0-9])", after)
+        what = what[0].lower() + what[1:] if len(what) > 1 and what[1].islower() else what
+        return (f"{what} due" + (f" {clock_words(clock)}" if clock else "")
+                + (f" (docket {docket.group(1)})" if docket else ""))
+    return s[0].lower() + s[1:] if len(s) > 1 and s[1].islower() else s
 
 
 def event_kind(sentence):
