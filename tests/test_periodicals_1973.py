@@ -282,5 +282,31 @@ class Row89TheSubjectCarriesTheNews(unittest.TestCase):
         self.assertEqual(brief.subject_line({"kind": None, "key": ""}, "2026-11-12"), "ERW Daily | 12 November 2026")
 
 
+class Row90TheFirstLine(unittest.TestCase):
+    """Row 90: the first line reads in order, keeps the form STAMP_END reads, and says why a window is long."""
+
+    def write(self, d, *days):
+        for day in days:
+            with open(os.path.join(d, f"{day}.md"), "w", encoding="utf-8") as f:
+                f.write("x\n")
+
+    def test_12_november(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            self.write(d, "2026-11-05", "2026-11-06")
+            line = brief.stamp_line(96, pd.Timestamp("2026-11-08T22:56:00Z"), pd.Timestamp("2026-11-12T22:56:00Z"), 262, folder=d)
+        self.assertEqual(line, "ERW's weekday brief of energy news for the 96 hours to 2026-11-12 22:56 UTC (the window opened "
+                               "2026-11-08 22:56 UTC): 262 scored stories, the first issue since 6 November.")
+        self.assertEqual(brief.STAMP_END.search(line).group(1), "2026-11-12 22:56")
+        self.assertEqual(line.count(" from "), 0)
+
+    def test_a_monday_after_a_friday_says_nothing_more(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            self.write(d, "2026-11-13")
+            line = brief.stamp_line(72, pd.Timestamp("2026-11-13T22:56:00Z"), pd.Timestamp("2026-11-16T22:56:00Z"), 300, folder=d)
+        self.assertTrue(line.endswith("): 300 scored stories."), line)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1767,11 +1767,26 @@ def window_rows(df, now, hours, start=None):
     return s, start, ((held.min(), held.max()) if len(s) else None)
 
 
-def stamp_line(hours, start, now, n):
+def stamp_line(hours, start, now, n, folder=None):
     """The issue's first line: the window's real bounds, both ends written (session 2206; the form "for the N hours to
-    <time> UTC" stays first, as tests/test_session470.py reads it)."""
-    return (f"ERW's weekday brief of energy news for the {hours} hours to {now:%Y-%m-%d %H:%M} UTC, "
-            f"from {start:%Y-%m-%d %H:%M} UTC, from {n} scored stories.")
+    <time> UTC" stays first, as tests/test_session470.py and STAMP_END read it). Session 1985 (faults file row 90): no
+    "from ... from"; the start in a clause of its own; and when the issue before is more than one weekday back (no issue
+    from 7 to 11 November 2026), the reader is told why the window is long: "the first issue since 6 November"."""
+    since = previous_issue_day(f"{now:%Y-%m-%d}", folder)
+    gap = ""
+    if since is not None and len(pd.bdate_range(since + pd.Timedelta(days=1), pd.Timestamp(f"{now:%Y-%m-%d}"))) > 1:
+        gap = f", the first issue since {since.day} {since:%B}"
+    return (f"ERW's weekday brief of energy news for the {hours} hours to {now:%Y-%m-%d %H:%M} UTC (the window opened "
+            f"{start:%Y-%m-%d %H:%M} UTC): {n} scored stories{gap}.")
+
+
+def previous_issue_day(digest_date, folder=None):
+    """Session 1985: the date of the newest stored issue dated before `digest_date` (docs/digest/<date>.md), or None."""
+    try:
+        names = sorted(f for f in os.listdir(folder or DIGEST_DIR) if re.fullmatch(r"\d{4}-\d{2}-\d{2}\.md", f) and f[:10] < str(digest_date))
+    except OSError:
+        return None
+    return pd.Timestamp(names[-1][:10]) if names else None
 
 
 # ---------------------------------------------------------------------------------------------------------------------
