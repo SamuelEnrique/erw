@@ -80,5 +80,30 @@ class Fault2TheGridsOwnFiguresArePrinted(unittest.TestCase):
                                "dcgrid|share_of_peak|ERCOT": "held"})
 
 
+class Fault3TheNetExportCardHasNoUnitWithoutAFigure(unittest.TestCase):
+    """Fault 3: on /grid the Lower 48's second card read "Net export" then "by grid MW": words where the figure goes,
+    with the unit after them (and a grid with no tie read "not reported MW").
+
+    Fix: components/grid/NowView.tsx gives the card its unit only when the ties carry a figure
+    (unit={ties.length ? "MW" : undefined}); the words stand alone. components/tool/ToolPage.tsx HeadlineNumber draws
+    no unit when none is given."""
+
+    def card(self):
+        s = src("site", "components", "grid", "NowView.tsx")
+        i = s.index('label={ties.length && !out ? "Net import" : "Net export"}')
+        return s[i:s.index("/>", s.index("note={ties.length", i))]
+
+    def test_the_unit_follows_the_figure(self):
+        c = self.card()
+        self.assertIn('unit={ties.length ? "MW" : undefined}', c)
+        self.assertNotIn('unit="MW"', c)
+        # the words are still the card's (tests/test_session266.py holds them)
+        self.assertIn('grid.slug === "us48" ? "by grid" : "not reported"', c)
+
+    def test_headline_number_draws_no_unit_when_none_is_given(self):
+        s = src("site", "components", "tool", "ToolPage.tsx")
+        self.assertIn('{unit ? <span className="ml-1 font-sans text-sm text-muted">{unit}</span> : null}', s)
+
+
 if __name__ == "__main__":
     unittest.main()
