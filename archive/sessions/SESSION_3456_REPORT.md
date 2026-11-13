@@ -93,3 +93,13 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - Left as they are: "French Power Prices Exceed EUR 100 ..." and "Japan Power Price at Four-Year High ..." are power price stories rightly tagged. The charts of the batch are today's candidates, not those days', so they were not read.
 - Tests: three classes, 4 tests. The 65 files: 1,251 passed, 20 skipped. The method notes carry rows 165 to 167.
 - **Row 11:** moved to `fce6e0cfd`.
+
+## Session 3465: 21 October and 6 November on the stack, read whole; rows 168 to 170
+
+- **Row 168 (new, fixed):** the stack's ten of 21 October held one DOE announcement twice: "DOE Announces $967 Million in Grid Resilience Funding" and "Energy Department Announces New Investments to Strengthen America's Power Grid ...". Every word of "Department of Energy" and "US Energy Department" is generic, so the two named no party in common. An agency's long name now counts as its initials (DOE, EPA, FERC, NRC, EIA, IEA, DOI, BOEM), and the second folds under the first. Across all 17 stored issues this adds one other fold: 14 October's two DOE grid-reliability actions.
+- **Row 169 (new, fixed):** with no model, 6 November's first item read "Gigawatt-scale hyperscale power deal ..." for a 702 MW project. Row 44's check reads the headline's capacity, and the publisher's title states none. The cluster's own MW now counts too.
+- **Row 170 (new, fixed):** "Also in deal:" now reads "Also in deals:" (companies, PPAs likewise). The also line's two readers (the fold's count, the email) read lower case only, so row 127's "Also in LNG:" had slipped past both; they now read capitals.
+- **Seen, the owner's (rulings item 13):** a cluster with no region is of every region, so 6 November folds "Democratic landslide raises big questions for US energy policy" under the IEA's World Energy Outlook as one policy topic.
+- **Seen, a dry-run artifact:** a past day's dry run reads closes EIA published later, so "EIA's newest close ... (0 days before this issue)" appears on 21 October. A scheduled run cannot hold a close of its own day.
+- Tests: three classes, 6 tests. The 65 files (adding those naming `email_digest`): 1,256 passed, 20 skipped.
+- **Row 11:** moved to `abae3aea9`.
