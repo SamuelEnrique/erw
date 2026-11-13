@@ -20,7 +20,13 @@ Long end 1:00 each. One step a session, in chain 260's order, as session 3520 li
 
 ### Unfinished steps (written by session 3520 of chain 260)
 
-(Session 3520 fills this list.)
+Chain 260 found nothing more to read: every stored issue has been read against the stack, and it added no row. Row 11 (`wip/3457-periodicals`) has landed rows 151 to 177 (`f71fda27e`, `ad7f16ca6`, `8d44ea156`); `6047f82d1` (rows 178 to 182) was in the desk's session 4014, and `f2ebae979` (rows 183 to 185) follows. The note is `docs/state/note_2026-11-13_oldlaptop_c260.md`. **Start this file after Sunday 15 November, 23:00 UTC**, when the W46 Roundup is written: its steps read issues that do not exist before then. Session 3520 of chain 260 left it in `queue/next/` for that reason, rather than taking it on Friday evening with nothing to read. In this order:
+
+1. (Session 3522) The W46 Roundup as stored read as a reader against a dry run of the same hour on the stack (`--no-model`; the worktree `erw-3457` needs `policy_actions.csv` and `policy_reads.csv` copied from the main copy after `scripts/sync.py --tables` restores them, and the run's own `energy_deals.csv` and `datacenter_projects.csv` swapped in, then checked out again). Each new fault is a numbered row from 186.
+2. (Session 3523) Whether `wip/red-daily-2026-11-13` (the 13 November Digest) has landed, and the Digest of 16 November (Monday, after the daily run) as stored against the stack's dry run: its window should open at 13 November 16:01 UTC if the red branch landed, else at 12 November 22:56 UTC, which would repeat 13 November's items (said so if it does). Before it is written, skip it and say so.
+3. (Session 3524) If row 11 has landed in full: the clean-up. Remove the worktree `erw-3457` with its `site/.next` and `site/node_modules` (untracked copies of `.env`, `site/.env.local`, the 13 November fun fact item and two ignored tables, none to keep), delete `wip/3457-periodicals` on origin, and mark row 11 landed. If not, skip it and say so.
+4. The site build and the read of `/digest` and `/roundup` at 1280 and 390, only if MemFree reaches 2.5 GB. On 13 November Claude Code stopped the memory wait for low memory; it is not to be forced.
+5. Rows 39, 65 and 109 and rulings item 13 stay the owner's; rows 61, 77 and 129 the data machine's. The note lists what waits for Samuel.
 
 ## Sessions 3528 to 3534: the periodicals, again
 
