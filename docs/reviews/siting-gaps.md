@@ -304,3 +304,7 @@ Read again by session 3866 at about 08:15 UTC, after chain 221's section, on `wi
 - **Transmission and 4CP, PJM (the Allegheny row, FirstEnergy Pennsylvania):** open. The PUC's tariff list links FirstEnergy's own site, whose terms bar reuse (session 3863).
 - **Transmission and 4CP, MISO (the Indiana row, Duke Energy Indiana):** open. The IURC's in.gov terms ask permission, and its docket search names no address.
 - **Still open:** as chain 221's section, with the rows above.
+## State on 13 November 2026, before noon (chain 226)
+Read again by session 3882 at about 09:25 UTC, after chain 223's section (main at `2c841e04d`, chain 223 landed at `bae840210`):
+- **Time to connect, PACE (Utah):** Utah's rule R746-318 under S.B. 132 is not reached. It is published only through the Office of Administrative Rules' script-built portal, and its old static address answers 404 (session 3878). No tab row is in Utah.
+- **No other row moved.**
