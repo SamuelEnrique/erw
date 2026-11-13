@@ -13,7 +13,13 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 
 ## The gate
 
-- (written when it ends)
+- **Every step of `land_check.py` passed** (14:48 to 15:18 UTC, task `4007-landing`, port 4210):
+  - the suite: 8,822 tests OK, 382 skipped;
+  - the build passed;
+  - check-values passed. Its one failure was `/policy`'s floor, accepted by main's `land_check.py` as a license hold's floor (session 4005's addition at work) with the page showing "license needed". `/digest` was a note;
+  - check-routes, check-cross-checks and check-csp passed.
+- **Window 4's branch moved on during the gate** to `4a13f3ba2`, with code past the requested head (the forecast's page, model and tests). The row allows only reports and notes after `e6fa97ad8`, so these wait for a later row and are not in this landing.
+- (the push at 16:15 and the snapshots: written then)
 
 ## Decisions made without you
 
