@@ -2,7 +2,7 @@
 
 machine: portable-laptop-window2
 
-Written first by session 5100 of chain 234 (`queue/done/234-day-13-november-portable-p2-security.md`) on 13 November 2026 at about 10:00 UTC, as that chain's rules ask, and to be updated by its session 5149 with what chain 234 did not finish. The first queue number free on origin's main and every branch was 235. It takes sessions 5150 to 5165, sixteen numbers after chain 234's last (5149); session 5150 checks each is free on origin's main and on every branch, skips a taken one upward and says so. Model: Fable 5.2, high effort.
+Written first by session 5100 of chain 234 (`queue/done/234-day-13-november-portable-p2-security.md`) on 13 November 2026 at about 10:00 UTC, as that chain's rules ask, and to be updated by its session 5149 with what chain 234 did not finish. The first queue number free on origin's main and every branch was 236 (window P3 took 235 in the same minute). It takes sessions 5150 to 5165, sixteen numbers after chain 234's last (5149); session 5150 checks each is free on origin's main and on every branch, skips a taken one upward and says so. Model: Fable 5.2, high effort.
 
 ## Who else runs on this machine
 
