@@ -117,3 +117,17 @@ The limits per address as they stand on `wip/5150-security` (bucket, limit, wind
 | `virtualenv` 20.39.1 | the machines' Python (tooling, used by no run) | 19 advisories, fixed in 21.7.11 to 21.14.9 | **open: Samuel** (M7), unchanged |
 
 **What changed for M7 since 6 November: gridstatus 0.37.0 is on PyPI.** Its pins are `lxml<7,>=6.1.0`, `cryptography<51,>=50.0.0` and `certifi>=2025.1` (read from its metadata on 13 November; 0.36.0 pinned `lxml~=5.3`, `cryptography<47`, `certifi~=2025.1`, `setuptools<79`, `filelock<4`, `virtualenv<21`). With it the runner's resolving install (`requirements.txt`, where the daily run runs) could leave the old `lxml`, `cryptography` and `certifi` behind. It is a new minor version of the package under every grid connector: a session tries it on a branch with the daily run's tests and a dry run of the connectors, on Samuel's word (item 5's choice (a), now possible for the runner too).
+
+## The policy's inline scripts, read on 13 November 2026 (session 5153, row 22 of the list)
+
+The enforced policy says `script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com`. The word `'unsafe-inline'` is there for the framework: every page carries inline scripts Next writes itself (the data of the page it rendered). What a stricter rule would cost, from Next 16.4.5's own guide (`node_modules/next/dist/docs/01-app/02-guides/content-security-policy.md`):
+
+| Choice | What it takes | What it costs |
+|---|---|---|
+| (a) a nonce on each request | the proxy draws a nonce and writes the policy with it | every page is rendered on each request: no prerendered page, no page regenerated on a clock, no page cached at the host. Of the site's 104 pages, 28 are rendered on each request today; 39 are regenerated on a clock (the home page and `/storage` among them), and the rule that the home page is never cached with a failed read in it rests on that |
+| (b) keep the word | nothing | an injected inline script would run. The guards against one are the ones below |
+| (c) hashes written at build time (`experimental.sri`) | one line of configuration, a build, `check-csp.mjs` on every page | experimental in this version; it covers script files, and whether the framework's inline data passes without the word is only known on a build |
+
+**The guards that stand today, each with a test** (`tests/test_session5153.py`): the site's own source writes no script element, no `eval`, no `document.write`; the one script it adds is the chart library, with its integrity hash; markup reaches a page at 14 places and every one goes through the renderer of `site/lib/markdown.ts`, which escapes raw HTML and refuses a link that is not a plain address; the policy names no `'unsafe-eval'`, no other host for scripts than cdnjs, `object-src 'none'` and `base-uri 'self'`.
+
+The default is (b). (c) needs a window that builds.
