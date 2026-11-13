@@ -41,3 +41,11 @@ Energy Research Warehouse (ERW). Chain 251 (`queue/done/251-day-19-november-oldl
 - The dry run then prints the close with no reason. Its opening says "No price moved enough to lead": 3.5% unnamed is under the 4.5% bar. "What moved" takes one more story, because it sizes itself by how many price moves carry a story. The 13 figures trace.
 - Tests: `Row149AStoryAfterTheCloseIsNoReason` (2). The 32 files importing `brief` or `roundup`: 738 passed.
 - **Row 10:** pushed at `a327a797e`, the head moved; merges with `origin/main` with no conflict.
+
+## Session 3445: the Roundup's tables, row 150
+
+- The stack's W46 dry run read as a reader: the deals and datacenter tables hold this week's rows, and those rows show three faults.
+- **Row 150 (new, fixed):** "Kemps Creek" printed with no country (the row holds Australia) in a table read as US first; it now reads "Kemps Creek, Australia". The operator printed "not stated" where the row holds the developer CDC; it now reads "CDC (developer)". Two deals had a blank type, where every other empty cell says "not stated"; they now say "not stated". `check_roundup.py --dir`: 0 failed.
+- The order is right by its rule: Milwaukee's row holds no state, so neither row counts as US. That gap, and Microsoft's pledge extracted as the Forest County Potawatomi Community's facility, are the extraction's, so they belong to the data machine (noted in row 150).
+- Tests: `Row150TheRoundupsTablesSayWhatTheyHold` (3). The 24 files importing `roundup`: 612 passed.
+- **Row 10:** pushed at `9dea67903`, the head moved; merges with `origin/main` with no conflict.
