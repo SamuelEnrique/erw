@@ -63,3 +63,24 @@ says so in its name and its steps say "(proposed)".
 - **MISO's large-load definition:** known only secondhand.
 - **FERC's six orders to show cause of 18 June 2026:** known only from law-firm summaries.
 - **SPP's CHILLS:** known only secondhand.
+
+## Chain 223: Pennsylvania's model tariff (session 3863)
+
+The Pennsylvania Public Utility Commission's Final Order at Docket M-2025-3054271 (adopted 30 April 2026, entered 12 May
+2026) adopts a Model Tariff for customers at or over 50 MW individually or 100 MW in the aggregate (its Appendix, pages 119
+to 129). Each Pennsylvania electric distribution company files its own tariff on the model. The rows are therefore the
+model's steps under grid PJM, with no utility.
+
+The steps written (8):
+- the threshold;
+- two open seasons a year for interconnection studies, studied as clusters;
+- the studies completed within six months of a complete application;
+- half the study fee refunded for each 90 days late;
+- a load ramp period of three to five years;
+- an initial term of at least five years;
+- 48 months' notice to end or change the contract after it;
+- 14 business days to ask for a dispute's escalation.
+
+A range (the load ramp) and a frequency (the open seasons) are written with their words and no duration. The orders on
+reconsideration were read: the Energy Association of Pennsylvania's petition was withdrawn, and the order of 16 July
+2026 closed the docket, so the model stands as adopted.

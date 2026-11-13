@@ -297,3 +297,10 @@ Read again by session 3850 at about 06:00 UTC, after chain 215's section, on `wi
 - **Transmission and 4CP, ISO-NE (the Boston rows, Massachusetts Electric):** open. mass.gov's terms ask permission for use beyond fair use, and its tariffs page links National Grid's own site; the DPU's File Room names no document address (session 3848).
 - **Time to connect, NYISO:** open. The Commission's Case 26-E-0045 (large loads' interconnection reforms) has an order soliciting comments (12 February 2026) and an environmental draft scope, and states no step with a clock yet (session 3848).
 - **Still open:** as chain 215's section, with the two rows above.
+## State on 13 November 2026, late morning (chain 223)
+Read again by session 3866 at about 08:15 UTC, after chain 221's section, on `wip/c223-data` (main at `d36e4fe05`, chain 221 landed at `645ffe51b` and `fd986898c`). Chain 223's sessions 3862 to 3865:
+- **Time to connect, PJM: one more document of filed steps** (session 3863; on the tab's hover once `wip/c223-data` lands). The Pennsylvania PUC's Final Order adopting its Large Load Customer Model Tariff (Docket M-2025-3054271, entered 12 May 2026) gives 8 steps, among them interconnection studies completed within six months of a complete application, two open seasons a year and 48 months' notice. Each Pennsylvania utility files its own tariff on the model.
+- **Transmission and 4CP, SPP (the Kansas row):** open. The KCC holds no tariff library, and its docket search names no document address (session 3862).
+- **Transmission and 4CP, PJM (the Allegheny row, FirstEnergy Pennsylvania):** open. The PUC's tariff list links FirstEnergy's own site, whose terms bar reuse (session 3863).
+- **Transmission and 4CP, MISO (the Indiana row, Duke Energy Indiana):** open. The IURC's in.gov terms ask permission, and its docket search names no address.
+- **Still open:** as chain 221's section, with the rows above.
