@@ -52,3 +52,12 @@ Energy Research Warehouse (ERW). Chain 242 (`queue/done/242-day-15-november-oldl
 - 123: "Deal value: USD 50 billion" from "EQT, Range Resources To Combine To Form $50B Gas Giant", a combined company's size (the deal is USD 13 billion in `energy_deals`); such a figure is now "Combined company value".
 - The 60 importing test files OK (1,125 tests). **Row 10**: head `0b6bbbdd4`, merges cleanly.
 
+## Sessions 3338 and 3339: every figure of the new dry runs traced
+
+- The Digests of 11 and 5 November and 30 October on the stack: `check_digest.py` 86 ok, 0 failed (3 "not here" are fun facts those days never had: no item was written for them).
+- W43 and W44 on the stack: `check_roundup.py` 52 ok, 0 failed.
+
+## Session 3340
+
+- Not used separately: the stored Digest of 13 November is not written before the 14:00 UTC run; the next file takes it first.
+
