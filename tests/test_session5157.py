@@ -28,9 +28,23 @@ def src(*parts):
 
 
 def code(text):
-    """The text without its comments (a comment may tell the history)."""
-    text = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
-    return "\n".join(re.sub(r"(^|\s)//.*$", "", line) for line in text.splitlines())
+    """The text without its comments (a comment may tell the history), line by line (session 5169: a comment of several
+    lines is one whose first line begins with its opening mark; a slash and a star inside a string no longer take code
+    out with them)."""
+    out, inside = [], False
+    for line in text.splitlines():
+        s = line.strip()
+        if inside:
+            inside = "*/" not in s
+            continue
+        if s.startswith(("/*", "{/*")):
+            if "*/" not in s:
+                inside = True
+                continue
+            line = line.split("*/", 1)[1]
+        line = re.sub(r"\{/\*.*?\*/\}", "", line)
+        out.append(re.sub(r"(^|\s)//.*$", "", line))
+    return "\n".join(out)
 
 
 def site_files():
