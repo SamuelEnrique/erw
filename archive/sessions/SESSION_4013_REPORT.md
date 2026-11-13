@@ -19,7 +19,13 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
   - check-values passed;
   - check-routes, check-cross-checks and check-csp passed.
 - **Pushed** to `task/4013-landing` at 20:58 UTC, after snapshot `before-2765f24c`.
-- (the merge and the after snapshot: written when they come)
+- **Run 43506395644** (GitHub ran the suite again because main had moved) merged at 21:24 (`8d44ea156`); the deploy succeeded at 21:25.
+- **Snapshot after: 0 differences.**
+- **Marked** on main as `0cc1ca1c7` (0 differences):
+  - rows 23 and 24 landed;
+  - row 25 landed in part (to `2adcd44dd`);
+  - row 11 landed in part (to `48b5fb1df`).
+  - The newer heads of rows 25 and 11, with rows 26 and 27, are in session 4014's gate.
 
 ## Decisions made without you
 
