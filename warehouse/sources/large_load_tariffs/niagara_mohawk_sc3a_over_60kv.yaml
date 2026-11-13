@@ -1,0 +1,35 @@
+# Session 3846 (chain 221): read from the New York Department of Public Service's Electronic Tariff System
+# (ets.dps.ny.gov), the Commission's own copy of the filed tariff, not the utility's site (National Grid's terms bar this
+# reader, session 2937). Robots: documents.dps.ny.gov and ets.dps.ny.gov have none (HTTP 404); dps.ny.gov's disallows
+# only its admin, search and login paths, and names no AI agent. The DPS's Disclaimer (dps.ny.gov/disclaimer) sets no
+# condition on reuse. The system served the whole effective PSC No. 220 as one PDF (692 pages, 49,735,529 bytes,
+# sha256 b71a6364...), kept on this machine at runs/license_reads/s3846/nimo_psc220.pdf. Pages are the PDF's, each one
+# leaf. The document_url is the system's listing of PSC No. 220's effective leaves; the PDF's own address there is a
+# per-request token. Niagara Mohawk (National Grid) is EIA utility 13573, the utility with the most industrial sales
+# among those billing in the county of the tab's CAPITL, WEST, GENESE and CENTRL rows. The class's delivery demand
+# charge is printed as one figure a voltage ("Distribution Delivery Charges"), so it is written as demand_charge; the
+# column for delivery voltage over 60 kV is the one a 100 MW load connects at. Supply is billed hourly at market
+# (Leaf 392, Rule 46.1), so no energy charge is printed and none is written. The Rule adjustments of Leaf 392 are not
+# figures of this leaf and are not written.
+utility: Niagara Mohawk Power Corporation (National Grid)
+eia_id: 13573
+state: NY
+grid: NYISO
+sector: customers whose demand exceeds 2,000 kW (Service Classification No. 3A)
+schedule: Service Classification No. 3A, Large General Service, Time of Use Rate, delivery voltage over 60 kV
+tariff_sheet: PSC No. 220 Electricity, Leaf No. 391, Revision 27 (charges); Leaf No. 390, Revision 1 (applicability); Leaf No. 395, Revision 6 (term)
+effective: 2026-04-01
+voltage: {text: "CHARGES: Delivery Voltage Up to 2.2 kV 2.2-15 kV 22-50 kV Over 60 kV", page: 587}
+commission: New York State Public Service Commission
+docket: Case 24-E-0322 (Leaf 391, issued in compliance with the Order of 14 August 2025)
+document: Niagara Mohawk Power Corporation, PSC No. 220 Electricity, the effective tariff as served by the Department of Public Service's Electronic Tariff System
+document_url: https://ets.dps.ny.gov/ets_web/search/searchShortcutEffective.cfm?companyID=3569016&serviceType=ELECTRIC&psc_num=220
+retrieved_at: 2026-11-13T05:37:53Z
+license: public
+terms:
+  term: {text: "the Term under this service classification shall be one year from commencement of service and continuously thereafter until permanently canceled by customer upon ninety days' prior written notice to the Company", page: 591}
+figures:
+  - {variable: min_demand_mw, value: 2, printed: "When the monthly measured demand has exceeded 2,000 kW in any six consecutive months of the previous twelve months", page: 586}
+  - {variable: fixed_charge, value: 10350, printed: "Customer Charges: Distribution Delivery $4,150.00 $4,150.00 $5,100.00 $10,350.00", page: 587}
+  - {variable: demand_charge, value: 4.89, printed: "Distribution Delivery Charges; per kW: $15.58 $15.58 $5.42 $4.89", page: 587}
+  - {variable: min_contract_years, value: 1, printed: "the Term under this service classification shall be one year from commencement of service", page: 591}

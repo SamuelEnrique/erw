@@ -11,7 +11,7 @@ The method is `docs/methods/siting.md`. `/internal/siting-gaps` (internal view) 
 | Grid | Column | What is not held | The source that would fill it | Its license, as recorded | The connector it resembles |
 |---|---|---|---|---|---|
 | CAISO | Transmission and 4CP | the transmission and delivery charge a large load pays | the large-load (transmission-voltage) tariffs of PG&E, SCE and SDG&E filed with the CPUC, and CAISO's transmission access charge | CPUC: "in general ... in the public domain" (`rules.json` sources); CAISO: free for public use with credit (licenses.md #3) | `texas_delivery_charges.py` (tariff lines, one row a charge) |
-| NYISO | Transmission and 4CP | the same | the large-load service classifications of Con Edison, National Grid, NYSEG, RG&E, Central Hudson and O&R (PSC tariffs) | the utilities' tariffs: not read; NYISO: no license conferred (licenses.md #5) | `texas_delivery_charges.py` |
+| NYISO | Transmission and 4CP | the same, for LONGIL only since session 3847 (Niagara Mohawk's, NYSEG's and Con Edison's schedules are held for the other six rows) | the Long Island Power Authority's tariff (LIPA's own; it is not on the Commission's Electronic Tariff System) | the PSC tariffs: public, read from the DPS's Electronic Tariff System (session 3847); LIPA: personal, non-commercial use only (its terms, session 3849); NYISO: no license conferred (licenses.md #5) | `large_load_tariffs.py` (the registry) |
 | ISO-NE | Transmission and 4CP | the same | the large-load rates of Eversource, National Grid and the other New England utilities, and ISO-NE's regional network service rate | ISO-NE: permission to request (licenses.md #4); the utilities: not read | `texas_delivery_charges.py` |
 | SPP | Transmission and 4CP | the same | SPP's network integration transmission service rates by zone (its OATT), and the members' large-load tariffs | SPP: copy with citation, except within a commercial publication (licenses.md #6) | `texas_transmission_matrix.py` (a rate per zone from a filed document) |
 | MISO | Transmission and 4CP | the same; the grid is paused | MISO's zonal transmission rates (attachment O) and the members' large-load tariffs | MISO: written permission needed; paused (licenses.md #7, `miso_pause.md`) | `texas_transmission_matrix.py` |
@@ -286,3 +286,13 @@ Read again by session 3802 at about 17:10 UTC, after chain 212's section, on `wi
 - **Headroom, demand growth from the utilities' own forecasts:** drawn since chain 212 (`allgrids|forecast|<row>`); its cross-check now holds eleven planning areas outside the ISOs as well (session 3796, `docs/methods/ferc714_forecast_growth.md`).
 - **Substations and lines:** open. EIA's Energy Atlas names no transmission layer in its catalogue search (session 3799).
 - **No other row moved** (session 3799's report names each and why).
+## State on 13 November 2026, morning (chain 221)
+Read again by session 3850 at about 06:00 UTC, after chain 215's section, on `wip/c221-data` (main at `74f7df166`, chain 218 landed at `f9c87c4b6`). Chain 221's sessions 3846 to 3849:
+- **Transmission and 4CP, NYISO: filled for six of seven rows** (sessions 3846 and 3847; on the tab once `wip/c221-data` lands). The utilities' own sites are closed to this reader, so each schedule was read from the New York Department of Public Service's Electronic Tariff System (`ets.dps.ny.gov`), the Commission's own copy (no robots file; the DPS's Disclaimer sets no condition on reuse):
+  - CAPITL, WEST, GENESE and CENTRL: Niagara Mohawk's S.C. No. 3A over 60 kV, $4.89 per kW and $10,350.00 a month;
+  - DUNWOD and MILLWD: NYSEG's S.C. 7-4 Transmission, $2.07 per kW on-peak and $5,900.00 a month;
+  - N.Y.C.: Con Edison's S.C. No. 9 Rate II, "tariff filed" (its demand charges are by time of day; $510.00 a month and $0.0079 per kWh, and $19.41 per kW outside June to September);
+  - LONGIL stays "not held": LIPA's terms allow personal, non-commercial use only, and its tariff is not on the DPS's system (session 3849).
+- **Transmission and 4CP, ISO-NE (the Boston rows, Massachusetts Electric):** open. mass.gov's terms ask permission for use beyond fair use, and its tariffs page links National Grid's own site; the DPU's File Room names no document address (session 3848).
+- **Time to connect, NYISO:** open. The Commission's Case 26-E-0045 (large loads' interconnection reforms) has an order soliciting comments (12 February 2026) and an environmental draft scope, and states no step with a clock yet (session 3848).
+- **Still open:** as chain 215's section, with the two rows above.

@@ -48,6 +48,18 @@ pages or in its sitemap, and its robots file is open to this reader. Whether suc
 commission's copy is a question for the owner (session 2921's report). Con Edison's and Eversource's sites bar
 automated reading in their terms, and Duquesne Light's answers with a bot challenge: none of them was read.
 
+Session 3847 (chain 221): New York's utilities are read from the Commission's own copy instead. The Department of Public
+Service's Electronic Tariff System (`ets.dps.ny.gov`) serves each effective tariff as one PDF of its leaves. Its host has
+no robots file, and the DPS's Disclaimer sets no condition on reuse, so the rows are public:
+- Niagara Mohawk's S.C. No. 3A, PSC No. 220;
+- NYSEG's S.C. 7-4, PSC No. 120;
+- Con Edison's S.C. No. 9 Rate II, PSC No. 10.
+
+Each file's `document_url` is the system's listing of the tariff's effective leaves, because the PDF's own address there
+is a per-request token. Each page is the PDF's page, with the leaf named in `tariff_sheet`. Con Edison's demand charges
+are printed by time period and summed on the bill. The registry does not sum them, so only the one charge a high tension
+customer pays outside June to September is written (`demand_charge_winter`).
+
 ## The OpenEI rows
 
 `warehouse/connectors/openei_large_load_tariffs.py` (session 670) writes the same table from OpenEI's Utility Rate
