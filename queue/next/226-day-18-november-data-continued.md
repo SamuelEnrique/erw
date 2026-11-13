@@ -25,7 +25,14 @@ Long end 1:00. The next file. Memory and disk; `git worktree list`, landed workt
 
 ## Sessions 3873 to 3877: chain 223's other unfinished steps
 
-Long end 1:30 each. Session 3871 writes them here from chain 223's note. Where chain 223 finished everything, these sessions take the next sections' steps early and say so.
+Long end 1:30 each. Written by chain 223's session 3871 from its note (`docs/state/note_2026-11-13_data_c223.md`); chain 223's branch: landed at bae840210 (task/c223-data, run 43396492592; snapshots before and after, 0 differences). Chains 221 and 223 ran in the morning of 13 November, so every read of that day's runs falls to this chain. In this order; a run not yet run when its session comes is carried to the next file, not waited for over 20 minutes.
+
+- **3872's first unfinished step: the daily run of 13 November** (the 14:00 UTC dispatch), the first with every fix of 12 November and chain 221's cite test: its "daily run" ok, its commit on main through the guard by itself, `nyiso` ok, `package tests` ok, the health summary's "Stale on main" line gone. A refusal is read by its named test and fixed at its cause.
+- **3873: the board:** the run of 13 November's `board_tests` row; a failure reproduced here (the board's builder and tests 132 and 240) and fixed at its cause with its test.
+- **3874: the data machine's run of 13 November** (17:00 UTC): its page files on main without a session's help, every `dm_` step ok or skipped by its schedule, and the morning's two tables (`utility_large_load_tariffs` 95 rows, `large_load_connection_rules` 75) left as chains 221 and 223 wrote them.
+- **3875: check-values on the Digests of 13 and 14 November:** each issue's every key known and matching; a new key named and taught, with its rule.
+- **3876: the hunt again** (`check.py` after the daily commit's tables moved), and the 14 tables coverage does not list (session 3856's report) checked against the owner's word, if any.
+- **3877: the records and the rulings:** the tab's PJM hover read (whether Pennsylvania's steps show among its four lines); the rulings carried (chain 223's note); the branches listed for the owner.
 
 ## Sessions 3878 to 3881: the siting gaps a public US source can close
 
