@@ -94,3 +94,20 @@ One row a session, each with tests in `tests/test_periodicals_1973.py` (28 tests
 ### For Samuel's ruling
 
 - **W44 and W45 printed held prices (row 93).** NYISO's and ISO-NE's weekly means went into the stored markdown and, if the Sunday emails were sent to `DIGEST_RECIPIENTS`, into those emails. Default: nothing re-sent and the stored files left as written; the page now holds the cells. Whether the publishers need to be told is yours.
+
+## Session 1997: the build, the pages, the landing request
+
+- The Roundup workflow's "Send the Roundup by email" step succeeded on 1 November (run 41359885666) and 8 November (run 42532965996). The job log came back truncated, so whether the emails reached `DIGEST_RECIPIENTS` is not read here.
+- `npm ci` and `npm run build` in `erw-1973`: both exit 0 (the build lock taken and released). `next start` on port 3973 with the internal cookie (set by a one-shot local helper so the digest never entered a command; its file deleted after).
+- Read at 1280 and 390 (`runs/s1997/shots/`, not in git): `/roundup/2026-W45` shows NYISO and ISO-NE as "license needed", and neither 40.90 nor 40.28 is in the page's HTML (W44's 47.64 and 40.34 neither); no horizontal scroll at 390. `/digest/2026-11-12` renders the stored issue as written. `/data/methods/digest_scoring` answers 404 (internal).
+- The server and the helper stopped by their ports' processes; ports 3973 and 3974 free. The build's `site/data/policy/paused.json` restored (an artifact, not committed).
+- **Row 10** of `docs/state/landing_request_oldlaptop.md`: `wip/1973-periodicals`, task `1973-periodicals`, port 3973, requested; merges with `origin/main` at `97c501a77` with no conflict.
+
+## Session 1998: the note
+
+- `docs/state/note_2026-11-13_oldlaptop.md`.
+
+## Session 1999: the next file, the queue
+
+- `queue/next/232-day-14-november-oldlaptop-periodicals-continued.md` filled: the W45 dry run read in full, the emails, the no-model opening's title, the first issues after row 10 lands, its clean-up.
+- Then `chain_queue.py next`.
