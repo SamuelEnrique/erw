@@ -170,10 +170,18 @@ def sector_of(lead):
         # ("U.S. Refineries Make Dramatic Shift Away From Gasoline" under Power, tagged power prices, 5 November)
         if REFINING.search(str(lead.get("title") or "")):
             return "oil"
+        # session 3459 (faults file row 154): a title about the oil or gas market's balance is that fuel's ("IEA Sees Oil
+        # Surplus for First Time in Iran War" under the rest of the top ten, tagged power prices, 13 November 2026)
+        for fuel, pat in FUEL_MARKET.items():
+            if pat.search(str(lead.get("title") or "")):
+                return fuel
     return sector
 
 
 REFINING = re.compile(r"\b(?:refiner(?:y|ies|s)?|refining|gasoline|diesel(?! generat)|jet fuel)\b", re.I)   # 3335, row 120
+_BALANCE = r"(?:surplus|glut|shortage|supply|supplies|demand|market|markets|output|production|stocks|inventor(?:y|ies)|exports?|imports?)"
+FUEL_MARKET = {"oil": re.compile(rf"\b(?:oil {_BALANCE}\b|opec\b)", re.I),   # 3459, row 154
+               "gas": re.compile(rf"\b(?:natural )?gas {_BALANCE}\b", re.I)}
 
 
 def build_clusters(stories):
@@ -625,7 +633,9 @@ def an_word(word):
 WHY_ADJECTIVES = ("massive", "unprecedented", "significant", "major", "critical", "key", "huge")
 # Session 2206: unprecedented, critical and key join the list. "key" and "critical" are also plain words of the trade
 # ("the key to", "critical minerals"): TERM says where they stand, and plain() leaves those.
-HYPE = r"(?:major|massive|significant|significantly|huge|unprecedented|critical|critically|key)"
+# Session 3457 (faults file row 153): "an oil major" is a company, not an adjective; "Major oil major commits significant
+# capital ..." printed "Oil commits capital ..." on 13 November 2026. "major" after "oil", "gas" or "energy" stays.
+HYPE = r"(?:(?<!oil )(?<!gas )(?<!energy )major|massive|significant|significantly|huge|unprecedented|critical|critically|key)"
 # Session 1437 (chain 149, faults 7 to 11 of docs/reviews/periodicals-faults-2026-11-05.md): a verb that asserts nothing
 # in place of a fact ("capacity expansion signals rising demand"), and a line whose content words are the headline's
 # (half or more of them: "Major oil company nearing deal to invest in Venezuela's oil fields" under "Exxon nears
@@ -725,6 +735,34 @@ def why_check(text, head=""):
 # (as plain() takes an adjective out) and why_check names it in a raw line.
 SCALE_WORD = re.compile(r"\b(?:multi-?)?(?:gigawatt|GW)[- ]scale\s*", re.I)
 HEAD_MW = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s?(MW|GW)\b", re.I)
+# Session 3460 (faults file row 158): one capacity in two units ("AirTrunk commits to purchasing 1GW ..." under "AirTrunk
+# signs 1,000 MW energy deal ...", 13 November 2026) is one figure: the rule of no figure the headline gives read it as two
+CAPACITY = re.compile(r"(?<![\w.,])(\d[\d,]*(?:\.\d+)?)\s?(MW|GW)\b", re.I)
+
+
+def capacity_mw(number, unit):
+    """A capacity in MW, rounded to a thousandth: ('1', 'GW') is 1000.0, ('1,200', 'MW') is 1200.0."""
+    return round(float(str(number).replace(",", "")) * (1000 if str(unit).upper() == "GW" else 1), 3)
+
+
+def capacities_mw(text):
+    """The capacities a text states, in MW (CAPACITY)."""
+    return {capacity_mw(n, u) for n, u in CAPACITY.findall(str(text or ""))}
+
+
+def head_units(t, head):
+    """t with each capacity the headline states in the other unit written as the headline writes it ("1GW" as "1,000 MW"
+    under a headline's "1,000 MW"), so the figure check and without_figures read one figure (row 158)."""
+    forms = {}
+    for m in CAPACITY.finditer(str(head or "")):
+        forms.setdefault(capacity_mw(m.group(1), m.group(2)), (m.group(0), m.group(2).upper()))
+    if not forms:
+        return t
+
+    def one(m):
+        form = forms.get(capacity_mw(m.group(1), m.group(2)))
+        return form[0] if form and form[1] != m.group(2).upper() else m.group(0)
+    return CAPACITY.sub(one, str(t))
 
 
 def scale_against(text, head):
@@ -880,6 +918,8 @@ def why_line(text, head=""):
     short, is replaced by the headline's own clause (why_fallback), never by an invented fact."""
     t = money_style(plain(text)).strip()
     t = HOLLOW_TAIL.sub("", t)   # session 1462: a trailing ", signaling ..." clause is cut, its fact kept
+    if head:   # session 3460 (row 158): the headline's capacity in the other unit is the headline's figure
+        t = head_units(t, head)
     if head and scale_against(t, head):   # session 1466 (fault 44): the scale word goes, as an adjective does
         t = SCALE_WORD.sub("", t, count=1).strip()
         t = t[:1].upper() + t[1:]
@@ -907,16 +947,25 @@ def why_line(text, head=""):
     return t
 
 
-def detail(r, head=""):
+# Session 3459 (faults file row 156): a scored sum with no unit ("2.6 billion": of what currency?) or no figure at all
+# ("millions") is no figure a reader can use; detail() leaves it out
+UNITLESS = re.compile(r"^\s*[~≈]?\s*(?:about |around |nearly |over |up to )?\d[\d,]*(?:\.\d+)?\s*(?:billion|million|trillion|thousand|bn|mn|m|b|k)?\s*$", re.I)
+
+
+def detail(r, head="", why=""):
     """The figures line after the why line: the MW, the price and the parties of the cluster's scored fields. Session 801:
     a MW or a price whose figure the printed headline already gives is not printed again ("Anthropic may spend $750 Billion
-    ... $750 Billion; parties: Anthropic", 21 October, top 1)."""
+    ... $750 Billion; parties: Anthropic", 21 October, top 1). Session 3459 (faults file rows 155 and 156): nor one the
+    printed why line gives ("... from USD 118 to below USD 95 per barrel ... USD 118 per barrel.", 13 November, with no
+    model), nor a sum with no unit ("2.6 billion")."""
     bits = []
-    hf = figures_of(head)
-    if r["mw"] and not figures_of(f"{float(r['mw']):,.0f}") & hf:
+    hf = figures_of(head) | figures_of(why)
+    given_mw = capacities_mw(f"{head} {why}")   # 3460, row 158: "1GW" in the headline gives the scored 1,000 MW
+    if r["mw"] and not figures_of(f"{float(r['mw']):,.0f}") & hf and round(float(r["mw"]), 3) not in given_mw:
         bits.append(f"{float(r['mw']):,.0f} MW")
-    if r["price"] and not (figures_of(r["price"]) and figures_of(r["price"]) <= hf):
-        bits.append(money_style(r["price"]))  # session 470
+    price = money_style(r["price"]) if r["price"] else ""
+    if price and figures_of(price) and not UNITLESS.match(price) and not figures_of(price) <= hf:
+        bits.append(price)  # session 470
     if r["parties"] and bits:
         # kept as written beside a figure: the Roundup reads the parties of a stored issue's item here (roundup.ISSUE_FIELDS)
         bits.append("Parties: " + r["parties"])   # session 3350 (row 130): a label in capitals; the Roundup reads either case
@@ -1066,6 +1115,40 @@ def rt_label(iso, variable):
     if v.startswith("lmp_rtm"):
         return f"{name}'s real-time locational marginal price"
     return f"{name}'s real-time price"
+
+
+# Session 1895 (faults file row 71, the Roundup's line) and session 3457 (row 152, the Digest's): the zone a grid's local
+# time is written in, the interval's length in words, and the Tables line's words for the highest real-time price's
+# variable (lib/digest.ts, scripts/check_roundup.py and site/scripts/check-values.mjs read it there). Moved here from
+# roundup.py, which keeps its names for them.
+ZONE_WORDS = {"America/Chicago": "Central", "America/New_York": "Eastern", "America/Los_Angeles": "Pacific",
+              "America/Denver": "Mountain", "America/Phoenix": "Arizona", "EST": "Eastern Standard"}
+RT_VARIABLE_DAY = "; yesterday's highest real-time price is variable `"
+
+
+def interval_words(freq):
+    """'PT15M' as 'a 15-minute interval', 'PT1H' as 'an hourly interval', 'PT5M' as 'a 5-minute interval'."""
+    f = str(freq or "")
+    m = re.fullmatch(r"PT(\d+)M", f)
+    if m:
+        return f"a {m.group(1)}-minute interval"
+    if f == "PT1H":
+        return "an hourly interval"
+    return f"an interval of {f}" if f else "an interval of unstated length"
+
+
+def rt_when(ts, tz):
+    """Row 71: an interval's start in the grid's zone and in UTC, "2026-11-03 17:45 Central (23:45 UTC)", the UTC date
+    written only when it is not the local one ("2026-11-03 19:00 Central (2026-11-04 01:00 UTC)"); a grid with no zone
+    held is written in UTC alone ("2026-11-03 23:45 UTC")."""
+    ts = pd.Timestamp(ts)
+    ts = ts.tz_localize("UTC") if ts.tzinfo is None else ts.tz_convert("UTC")
+    zone = ZONE_WORDS.get(tz)
+    if not zone:
+        return f"{ts:%Y-%m-%d %H:%M} UTC"
+    loc = ts.tz_convert(tz)
+    utc = f"{ts:%H:%M}" if loc.date() == ts.date() else f"{ts:%Y-%m-%d %H:%M}"
+    return f"{loc:%Y-%m-%d %H:%M} {zone} ({utc} UTC)"
 
 
 def cite_short(table):
@@ -1300,6 +1383,25 @@ def price_reason(label, clusters, pct=None, day=None):
     return ""
 
 
+def held_from(day):
+    """The first day of US48 demand the hourly table holds (a fetch of the 400 days to `day`), or None."""
+    try:
+        df = erw.fetch("eia930_all_demand", start=day - pd.Timedelta(days=400), end=day + pd.Timedelta(days=1), ba="us48")
+    except Exception:
+        return None
+    df = df[df["variable"] == "demand_mw"] if "variable" in df else df
+    return None if df.empty else pd.Timestamp(df["ts_utc"].min()).tz_convert("UTC").normalize()
+
+
+def not_held_why(week, first):
+    """Session 3461 (faults file row 159): why the year before and the week before are not held. The year before is
+    always before the hourly table's window; the week before can be a day inside it that the table holds no hour of (13
+    November 2026: 5 to 8 November, the machines' pause), which "the window does not reach them" called the window's."""
+    if first is None or week < first:
+        return "the hourly table's window does not reach them"
+    return f"the hourly table starts on {first:%Y-%m-%d} and holds no hour of {week:%Y-%m-%d}"
+
+
 def demand_lines(digest_date, log, notes, store=None):
     """US48 demand's peak hour of yesterday (the UTC day before the issue) and, where the warehouse holds it, the peak of
     the same weekday a year before (364 days earlier); the two values and their hours, and the change in percent."""
@@ -1344,7 +1446,7 @@ def demand_lines(digest_date, log, notes, store=None):
             old = None
         if old is None:
             out[-1] += (f"the same weekday a year before ({before:%Y-%m-%d}) and a week before ({week:%Y-%m-%d}) are not held: "
-                        "the hourly table's window does not reach them.")
+                        f"{not_held_why(week, held_from(day))}.")
             return out
         span, before = "week", week
         if store is not None:
@@ -1449,11 +1551,15 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     lines += ["", "**Highest real-time price, yesterday:** "]
     if best:
         top, table, tz, iso = best
-        lines[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), "
-                      f"interval starting {top['ts_utc'].tz_convert(tz):%Y-%m-%d %H:%M} local "
-                      f"({top['ts_utc']:%Y-%m-%d %H:%M} UTC), {top['freq']} `{top['variable']}`, {rt_label(iso, top['variable'])}"
-                      f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''} "
-                      f"{notes.ref(table, 'real-time tables read: ' + ', '.join(rt_tables))}.")
+        # session 3457 (faults file row 152): row 71's fix of the Roundup's line, for the Digest's. The interval in the
+        # grid's zone and in UTC, its length in words; the source id ("spp_rtm", read as SPP in an ERCOT line) and the
+        # interval code ("PT15M") on the Tables line, where lib/digest.ts reads the variable for the figure's key
+        the_interval = re.sub(r"^an? ", "the ", interval_words(top.get("freq", "")))
+        lines[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), {the_interval} starting "
+                      f"{rt_when(top['ts_utc'], tz)} "
+                      f"{notes.ref(table, 'real-time tables read: ' + ', '.join(rt_tables) + RT_VARIABLE_DAY + top['variable'] + '`')}, "
+                      f"{rt_label(iso, top['variable'])}"
+                      f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''}.")
     else:
         lines[-1] += "no real-time table covers yesterday."
     if held_parts:
@@ -2468,10 +2574,26 @@ def lift_count(words, n0, n_recs):
     return n
 
 
-def no_chart_lines(facts, n=3):
-    """When no valid chart can be built: the issue says no chart is shown, and a small table of the day's largest moves
+# Session 3461 (faults file row 160): why the day's chart section is empty, as daily_chart.section left it ("none": no
+# candidate passed its rules; "error": a chart was chosen and could not be written), read by no_chart_lines
+NO_CHART_WHY = {"none": "no candidate passed the chart's rules", "error": "the chart chosen by its rules could not be drawn"}
+
+
+def chart_omitted():
+    """"none" or "error": why daily_chart.section gave nothing (its OMITTED), "error" when it raised before saying."""
+    try:
+        import daily_chart
+        return getattr(daily_chart, "OMITTED", "") or "error"
+    except Exception:
+        return "error"
+
+
+def no_chart_lines(facts, n=3, why="none"):
+    """When no valid chart can be built: the issue says no chart is shown, and why in words a reader can check (session
+    3461, row 160: "(the run log says why)" pointed to a log no reader sees, and on 13 November 2026 "no candidate passed
+    the chart's rules" was said of a chart that failed to be written), and a small table of the day's largest moves
     (numbers_today's candidates, at most n) stands in its place."""
-    L = ["", "## ERW's Chart of the Day", "", "No chart is shown today: no candidate passed the chart's rules (the run log says why)."]
+    L = ["", "## ERW's Chart of the Day", "", f"No chart is shown today: {NO_CHART_WHY.get(why, NO_CHART_WHY['error'])}."]
     cands = [c for c in facts.get("cands", []) if c.get("pct") is not None][:n]
     if cands:
         L += ["", "| Measure | Value | Change | Period | Table |", "|---|---|---|---|---|"]
@@ -2610,8 +2732,9 @@ def main(argv=None):
             if len(recs) <= n_moved:
                 M.append("- no further story in the top ten today")
             for i, r in enumerate(recs[n_moved:], n_moved + 1):
+                w = why_line(r['why'], heads[r['cluster_id']])
                 M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
-                                (why_line(r['why'], heads[r['cluster_id']]) + " " + detail(r, heads[r['cluster_id']])).strip(),
+                                (w + " " + detail(r, heads[r['cluster_id']], why=w)).strip(),   # 3459, row 155
                                 f"Sources: {link_text(r['links'])}")
             M += ["", "### By sector", ""]
             for g, c in by_group.items():
@@ -2633,7 +2756,7 @@ def main(argv=None):
             return M
 
         # session 232: the chart of the day, chosen and drawn by code; omitted, with the reason logged, when there is none
-        tail = daily_chart_section(digest_date, log, args.out, stories=recs) or no_chart_lines(facts)   # 805; 2703: the stand-in
+        tail = daily_chart_section(digest_date, log, args.out, stories=recs) or no_chart_lines(facts, why=chart_omitted())   # 805; 2703; 3461
         # session 23: the Fun fact, last; re-verified from its stored sources, omitted if it fails
         tail += fun_fact_section(digest_date, log)
         # session 21: the method is on /about#digest; the generation record stays in the file, not on the page
