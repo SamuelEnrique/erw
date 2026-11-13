@@ -231,6 +231,10 @@ Session 4298 added three NREL solar studies at state level, the South (Georgia, 
 - Abatements negotiated project by project (Texas chapter 312, Louisiana's ITEP, New Mexico's industrial revenue bonds, payments in lieu agreed with a county): they are not statutes with a rate, so the tool cannot hold them; the reader's rate input is the place for one.
 - Federal taxes and credits, and the owner's state corporate income or franchise tax.
 - Decommissioning, repowering, degradation of output over the life (the capacity factor is held constant).
+- Depreciation where a state's schedule was not read (session 4296): the value is held at the capital cost, an upper bound of the tax, in California, Washington, Georgia, Tennessee (wind, gas), New Mexico, South Carolina, Texas, Ohio, Montana, West Virginia (solar, gas) and Kentucky (solar), each said in its hover.
+- Local levies: a statewide figure is the default only where a state publishes one (California, Washington, Georgia, West Virginia; Kentucky's statutory machinery rate); a county's levy can differ widely from it.
+- Payments in lieu, local opt-outs and discretionary abatements (Texas chapter 312 and JETI, Louisiana's ITEP, South Carolina's fees, Massachusetts and New Hampshire agreements, Maryland 7-514, Alabama 40-9B, Mississippi 27-31-101, New York's opt-out): negotiated, held only as words in the hover.
+- Taxes on gross receipts or earnings (Idaho, Hawaii, Washington's public utility tax, Delaware's on distributors): the tool holds no sale price.
 
 **Sources missing or paid** (each also a ruling): BLS QCEW and CPI (www.bls.gov and api.bls.gov refuse automated reads); BEA's own tables (apps.bea.gov's flat files are disallowed; its API needs a key); the Lincoln Institute study (its host disallows all); county levies in every state; the property tax statutes of the states in section 4's last paragraph.
 
