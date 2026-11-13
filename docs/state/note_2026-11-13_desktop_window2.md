@@ -20,6 +20,9 @@ Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`q
 | old laptop 9 | `wip/1905-revert` | `3a82aebe4` | 0 differences |
 | portable 16 | `wip/3701-sellable` | already landed at `5a2193a1e` (12 November) | none needed |
 | portable 18 (urgent) | `wip/5100-security` | `b1ea7427a` | 0 differences; curtain exit 0 |
+| portable 17, 19 to 22 | `wip/5000-grid` (P1's stack) | `5fe21d6de` | 0 differences |
+| old laptop 10, in part | `wip/1973-periodicals` to `5f5aea071` | `5fe21d6de` | 0 differences |
+| this window's own | `wip/w2-4000` (the 8 GB gate, the root causes, the `/digest` floor) | `5fe21d6de` | 0 differences |
 
 ## Rows that wait, and why
 

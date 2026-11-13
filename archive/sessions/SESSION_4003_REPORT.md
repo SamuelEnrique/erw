@@ -15,7 +15,20 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 - **Built from `origin/main`** by merging `wip/5000-grid`, `wip/1973-periodicals` and `wip/w2-4000` (this window's sessions 4000 to 4002). All three merged with no conflict.
 - **Before the gate,** the tests both stacks touch were run on the merged tree: periodicals, periodicals_1973, 4000, 5001, 579, 402, 470, 802, 178, 462, 2206 and 1907. 361 passed, 3 skipped.
 - **The gate:** task `4003-landing`, port 5004; it took the lock at 11:16 UTC.
-- (the gate's result and the landing: written when they end)
+- **The gate passed every step of `land_check.py`, for the first time today on this machine** (`d975e0e64`, 11:16 to 11:47 UTC):
+  - the suite: 8,719 tests OK, 382 skipped;
+  - the build passed;
+  - **check-values passed.** `/digest`'s floor is a note: the page said today's issue was not written yet, the fix of session 4000, which was in this commit;
+  - check-routes, check-cross-checks and check-csp passed.
+- **The landing:**
+  - Freeze none. `task/c226-data` (window A) was in flight; the trial merge was clean.
+  - Snapshot `before-d975e0e6`, then the push to `task/4003-landing`.
+  - Run 43419910020: GitHub ran the suite again because main had moved. It merged at 12:11 (`5fe21d6de`); the deploy succeeded at 12:12.
+  - Snapshot after: **0 differences**.
+- **Landed with it:** rows 17 and 19 to 22 (P1's stack to `7f01f500d`), row 10 to `5f5aea071`, and this window's sessions 4000 to 4002. The batched gate for 8 GB, the one-thread maths, the root causes and the `/digest` floor are on main.
+- **The marks:** `4bfa361a8`, with snapshots before and after: 0 differences.
+  - The first push lost a race to the old laptop's update of row 10. It was redone on the new main.
+  - Row 10 now names `35c4cee4d` (rows 79 to 128). It stays requested, landed in part.
 
 ## The licenses row, prepared
 
