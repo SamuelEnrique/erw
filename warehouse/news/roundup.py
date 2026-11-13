@@ -1210,8 +1210,14 @@ def subject_line(op, first_head):
 
 SUBJECT_MAX = 90
 CLAUSE_TAIL = re.compile(r"(?:\s+(?:a|an|the|of|to|in|on|for|with|from|by|at|and|or|its|their|as|into|over))+$", re.I)
-FIGURE_IN_HEAD = re.compile(r"(?:\b(?:a|an)\s+)?(?:USD|CAD|AUD|EUR|GBP)\s\d[\d,.]*(?:\s(?:billion|million|trillion|thousand))?,?\s*|"
-                            r"(?:\b(?:a|an)\s+)?\d[\d,.]*[\s-]?(?:MW|GW|kW|MWh|GWh|TWh|kV|bcf/d|bcf|mtpa|percent|%)\b,?\s*", re.I)   # 3352: "3.6-GW"
+# session 3464 (faults file row 165): a quantity's words before the figure go with it ("Taiwan Commits Up to to Alaska LNG
+# Megaproject", the stack's subject of 14 October, of "Taiwan Commits Up to $4.4 Billion to Alaska LNG Megaproject")
+QUANTITY_WORDS = r"(?:\b(?:up to|more than|less than|at least|as much as|about|around|nearly|almost|roughly|some|over|under)\s+)?"
+# and (row 165) a capacity's "of" goes with it ("adds 2 GW of solar" to "adds solar"), and a percent sign is matched with no
+# word boundary after it ("with 30% of output" kept its figure in the subject before)
+FIGURE_IN_HEAD = re.compile(r"(?:\b(?:a|an)\s+)?" + QUANTITY_WORDS + r"(?:USD|CAD|AUD|EUR|GBP)\s\d[\d,.]*(?:\s(?:billion|million|trillion|thousand))?,?\s*|"
+                            r"(?:\b(?:a|an)\s+)?" + QUANTITY_WORDS + r"\d[\d,.]*[\s-]?(?:(?:MW|GW|kW|MWh|GWh|TWh|kV|bcf/d|bcf|mtpa|percent)\b|%)"
+                            r"(?:\s+of\b)?,?\s*", re.I)   # 3352: "3.6-GW"
 
 
 # Session 3460 (faults file row 157): a cut inside a phrase leaves it without its noun ("ERW Daily | Centrus and Oklo
@@ -1252,6 +1258,8 @@ def head_clause(head, n):
     t = re.sub(r"\s{2,}", " ", t).strip(" ,;:")
     if had:
         t = brief.fix_article(t)
+        if str(head or "")[:1].isupper():   # session 3464 (row 165): "A 500 MW deal ..." reads "A deal ...", not "a deal ..."
+            t = t[:1].upper() + t[1:]
     if len(t) > n:
         full = t
         t = t[:n + 1].rsplit(" ", 1)[0].rstrip(",;:")

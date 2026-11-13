@@ -427,5 +427,41 @@ class Row164APolicyActionIsPrintedOnce(unittest.TestCase):
         self.assertIn("printed=printed_links(earlier_issues(digest_date))", inspect.getsource(brief.main))
 
 
+class Row165NoQuantityWordsLeftInTheSubject(unittest.TestCase):
+    """Row 165: "ERW Daily | Taiwan Commits Up to to Alaska LNG Megaproject" (the stack's dry run of 14 October): the figure
+    taken out, its "Up to" left; and the same removal's other leftovers."""
+
+    def test_the_subjects(self):
+        for head, clause in [("Taiwan Commits Up to $4.4 Billion to Alaska LNG Megaproject", "Taiwan Commits to Alaska LNG Megaproject"),
+                             ("Utility adds nearly 2 GW of solar in Texas", "Utility adds solar in Texas"),
+                             ("A 500 MW deal is signed by Meta", "A deal is signed by Meta"),
+                             ("Prices rose 12% on Tuesday", "Prices rose on Tuesday"),
+                             ("SpaceX plans USD 74 billion in data center projects in Arizona and Texas",
+                              "SpaceX plans data center projects in Arizona and Texas")]:
+            self.assertEqual(brief.subject_clause(head), clause, head)
+
+    def test_a_percent_is_a_figure(self):
+        import roundup
+        self.assertNotIn("30", roundup.head_clause("Taiwan commits to Alaska LNG with 30% of output", 90))
+
+
+class Row166AFuelMarketTitleIsOils(unittest.TestCase):
+    """Row 166: "Morgan Stanley: Global Fuel Market Will Stay Tight Through Mid-2027 (power prices)" (the stack's 21 October)."""
+
+    def test_the_fuel_market(self):
+        self.assertEqual(brief.sector_of({"sector": "power_prices", "title": "Morgan Stanley: Global Fuel Market Will Stay Tight Through Mid-2027"}),
+                         "oil")
+        self.assertEqual(brief.sector_of({"sector": "power_prices", "title": "Fuel cell maker raises funds"}), "power_prices")
+
+
+class Row167TheFiguresLineOpensWithACapital(unittest.TestCase):
+    """Row 167: "nearly USD 1 billion; Parties: US Energy Department." opened an item's line in lower case (21 October)."""
+
+    def test_the_capital(self):
+        self.assertEqual(brief.detail(item(price="nearly $1 billion", parties="US Energy Department"), "DOE announces grid investments"),
+                         "Nearly USD 1 billion; Parties: US Energy Department. ")
+        self.assertEqual(brief.detail(item(mw="580", parties="Sunrun; Tesla"), "VPP dispatch"), "580 MW; Parties: Sunrun; Tesla. ")
+
+
 if __name__ == "__main__":
     unittest.main()

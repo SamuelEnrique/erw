@@ -180,7 +180,7 @@ def sector_of(lead):
 
 REFINING = re.compile(r"\b(?:refiner(?:y|ies|s)?|refining|gasoline|diesel(?! generat)|jet fuel)\b", re.I)   # 3335, row 120
 _BALANCE = r"(?:surplus|glut|shortage|supply|supplies|demand|market|markets|output|production|stocks|inventor(?:y|ies)|exports?|imports?)"
-FUEL_MARKET = {"oil": re.compile(rf"\b(?:oil {_BALANCE}\b|opec\b)", re.I),   # 3459, row 154
+FUEL_MARKET = {"oil": re.compile(rf"\b(?:oil {_BALANCE}\b|opec\b|fuels? markets?\b)", re.I),   # 3459, row 154; 3464, row 166
                # session 3463 (row 163): "Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?" (12 November)
                "gas": re.compile(rf"\b(?:(?:natural )?gas (?:{_BALANCE}|forwards?|futures)|lng {_BALANCE}|lng prices?)\b", re.I)}
 
@@ -975,7 +975,10 @@ def detail(r, head="", why=""):
         # Repsol." under "Repsol takes final investment decision ..."), and the others read as a sentence
         rest = [p.strip() for p in str(r["parties"]).split(";") if p.strip() and not party_in_head(p.strip(), head)]
         return f"Also named: {', '.join(rest)}. " if rest else ""
-    return ("; ".join(bits) + ". ") if bits else ""
+    line = "; ".join(bits)
+    # session 3464 (faults file row 167): the line follows a sentence, so it opens with a capital ("... projects. nearly USD 1
+    # billion; Parties: ..." on the stack's 21 October)
+    return (line[:1].upper() + line[1:] + ". ") if bits else ""
 
 
 COMMON_FIRST = {"united", "the", "new", "north", "south", "west", "east", "great", "federal", "national", "state",
