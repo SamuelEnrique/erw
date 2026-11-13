@@ -26,7 +26,12 @@ Long end 1:30 each. One step a session, in chain 220's order, as session 1929 li
 
 ### Unfinished steps (written by session 1929 of chain 220)
 
-(To be filled by session 1929: one line a step, in chain 220's order, with the exact commands where the step was a landing.)
+Chain 220 stopped inside its session 1916 (13 November, about 05:32 UTC): the gate for `wip/1905-revert` (`2e599ff77`) failed its suite for memory (six failures and three errors, each a `MemoryError`, a commitment-limit exit 3221225773 or a PowerShell dry run timed out at 120 s; `runs/land_check/2e599ff776a3630527163f9bc22c755828397b03/suite.out`), and sessions 1917 to 1929 never ran. Session 1930 rebuilt this list from session 1916's report (uncommitted in the main copy) and `runs/s1916/`; chain 220 wrote no note and no branch of its own:
+
+1. (Session 1930) The landing of `wip/1905-revert`: main merged again (`77e8916a0`), `scripts/land_check.py --ref 77e8916a0 --task 1930-revert --port 3930 --keep-worktree`; the snapshots; the branch deleted once an ancestor; `erw-1905` removed.
+2. (Session 1931) Chain 219's session 1913: the records and the clean-up (the five tools' table; `build_tables.py --check`).
+3. (Session 1932) Chain 219's session 1914: the paths walked again where chain 219 changed a step (the lab path's fault 2, the grids view held again by the revert).
+4. (Session 1933) Chain 219's note, `docs/state/note_2026-11-15_code_c219.md`, and chain 220's, `docs/state/note_2026-11-16_code_c220.md` (both unwritten; one note each, short, from the reports).
 
 ## Sessions 1936 to 1940: the faults files' open rows
 
@@ -34,7 +39,12 @@ Long end 1:30 each. One fault a session, in this order: `docs/reviews/deals-faul
 
 ### Open faults (written by session 1929 of chain 220)
 
-(To be filled by session 1929: every faults file's rows whose state is open, one a line, in the files' order; the owner's rows named, not to be decided here.)
+Rebuilt by session 1930 from the files on main (`aad738426`): no row open in any of them.
+
+- Deals, datacenter, policy, companies, attention faults files: every row `fixed`, `not a fault`, `data machine` or `ruling` (the owner's: deals 3, datacenter 4, policy 1, companies 1, attention 2).
+- Periodicals: every row fixed or `ruling` (rows 39 and 65 among the owner's, five in all).
+- Board audit: five rows `data machine`, one `not a fault`.
+- Trader, lab and On.Energy paths, session 1885's walk: the data machine's rows, and the lab's fault 2 the owner's (datacenter row 4).
 
 ## Session 1941: the records and the clean-up
 
