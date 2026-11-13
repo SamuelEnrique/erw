@@ -64,6 +64,9 @@ export type PropertyRule = {
   default_levy?: number; levy_words?: string;
   /** session 4293: the hover words of the rule with its citation, and the reader's own rate's words where it acts on one */
   tip?: string; own_tip?: string;
+  /** valuation (session 4294): the share of value assessed (a state's assessment ratio), a straight-line depreciation in
+   *  points of value a year with a floor (in place of schedule_pct), and a statutory value per MW in place of the capital cost */
+  assessment_ratio?: number; depr_pct_per_year?: number; floor_pct?: number; usd_per_mw_value?: number;
   /** the local option's switch and its rate, their hover words */
   option_tip?: string; rate_tip?: string;
 };
@@ -233,8 +236,10 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
         // Iowa's special valuation needs the county's ordinance (the local option); a state's own assessment does not
         if (r.requires === "option" && !x.iaval) continue;
         if (x.levy === null) return { tax: null, rule: r.id };
-        const pct = i < (r.schedule_pct ?? []).length ? r.schedule_pct![i] : (r.then_pct ?? 0);
-        value = spend * (pct / 100);
+        const base = r.usd_per_mw_value !== undefined ? x.mw * r.usd_per_mw_value : spend;
+        const pct = r.schedule_pct ? (i < r.schedule_pct.length ? r.schedule_pct[i] : (r.then_pct ?? 0))
+          : Math.max(r.floor_pct ?? 0, 100 - (r.depr_pct_per_year ?? 0) * i);
+        value = base * (pct / 100) * (r.assessment_ratio ?? 1);
         tax += value * (x.levy / 1000); used.push(r.id);
       }
     }

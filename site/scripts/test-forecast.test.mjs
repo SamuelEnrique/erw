@@ -455,3 +455,13 @@ test("fault 22: every property rule carries its hover words with a citation, and
     if (r.kind === "own_exempt" || r.adds_to_property) assert.ok(r.own_tip, `${s} ${r.id}: the own rate's words`);
   }
 });
+
+test("a valuation by a statutory value per MW, an assessment ratio and a straight line with a floor", () => {
+  // built for the test: USD 500,000 per MW, a third assessed, 4 points a year to a floor of 30, levy USD 80 per 1,000
+  const rule = { id: "test_mw_value", technologies: ["land_based_wind"], kind: "valuation", usd_per_mw_value: 500000, assessment_ratio: 1 / 3, depr_pct_per_year: 4, floor_pct: 30, tip: "test (x 1)" };
+  const P2 = { ...P, property: { ...P.property, states: { ...P.property.states, zz: { name: "Test", rules: [rule] } } } };
+  const x = { ...F.defaults(P, "land_based_wind", "tx"), state: "zz", mw: 100, levy: 80 };
+  near(F.propertyTax(P2, x, 0).tax, 100 * 500000 / 3 * 0.080);
+  near(F.propertyTax(P2, x, 10).tax, 100 * 500000 * 0.60 / 3 * 0.080, 1e-12, "year 11: 60 percent");
+  near(F.propertyTax(P2, x, 24).tax, 100 * 500000 * 0.30 / 3 * 0.080, 1e-12, "the floor");
+});
