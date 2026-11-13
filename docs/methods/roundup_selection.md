@@ -48,7 +48,7 @@ The weekend's stories, the five stories of the week, the deals and datacenter ta
 - The page holds a held grid's real-time line and summary sentence in stored issues (W39 to W44), as well as its table cells (row 108).
 - The fun fact repeats the week's newest Digest fact by design; a fact of the Roundup's own is the owner's to rule on (row 109).
 
-## 9. What changed on the evening of 13 November 2026 (chains 252 and 254, rows 152, 157, 161, 162, 165, 172 to 174, 178 and 179)
+## 9. What changed on the evening of 13 November 2026 (chains 252 to 258, rows 152, 157, 161, 162, 165, 172 to 174 and 178 to 182)
 
 - The real-time line's helpers (`rt_when`, `interval_words`, `ZONE_WORDS`) live in `brief.py`, which the Digest's line uses too (row 152); the Roundup's words are unchanged.
 - The subject's cut goes back to before a phrase it would cut inside (row 157, `phrase_back`).
@@ -60,3 +60,4 @@ The weekend's stories, the five stories of the week, the deals and datacenter ta
 - A story that names a benchmark is given the close of its own trading day against the close before it, when the week's closes hold it; else the week's pair (row 174).
 - The policy titles are in the issue's money style (row 178).
 - Next week: a rule effective on the item's day "takes effect" (row 179).
+- What the evidence does not establish names a figure only when the printed headline or why line states it (row 180); the opening's reason follows rows 181 and 182.

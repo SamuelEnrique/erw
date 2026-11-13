@@ -1745,7 +1745,11 @@ def evidence_gap(r, head="", deal=None, plant=None, bench=None):
     gaps = []
     fig = brief.story_figure(r)
     titles = " ".join(str(t) for t in (r.get("titles") or []))
-    said = bool(fig and brief.figures_of(fig) & brief.figures_of(f"{head} {titles}"))
+    # session 3492 (faults file row 180): "the USD 13 billion is the outlet's figure" was said of an item whose printed
+    # headline ("EQT to Buy Range Resources, Creating Largest US Gas Producer") and why line give no sum; another title of
+    # its cluster held it. With a headline, the figure is the item's when the headline or its printed why line states it
+    printed = f"{head} {brief.why_line(r.get('why') or '', head, r.get('mw'))}" if head else f"{head} {titles}"
+    said = bool(fig and brief.figures_of(fig) & brief.figures_of(printed))
     if plant is not None:   # session 1895 (row 64): the table's listing, against the outlet's MW when the headline gives it
         mw_fig = fig if said and fig.endswith(" MW") else ""
         gaps.append(plant_words(plant, mw_fig))

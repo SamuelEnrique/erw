@@ -704,6 +704,65 @@ class Row179NextWeeksEffectiveDate(unittest.TestCase):
                          "the rule is effective November 16, 2026, except for section 3")
 
 
+class Row180TheEvidenceLineNamesOnlyAPrintedFigure(unittest.TestCase):
+    """Row 180: "What the evidence does not establish: the USD 13 billion is the outlet's figure" under "EQT to Buy Range
+    Resources, Creating Largest US Gas Producer" (the stack's W44 with no model), which gives no sum; another title of its
+    cluster did."""
+
+    R = {"cluster_id": "e", "titles": ["EQT to Buy Range Resources, Creating Largest US Gas Producer", "EQT agrees $13 billion deal for Range"],
+         "why": "Merger creates largest US gas producer, consolidating Appalachian and Haynesville production assets.",
+         "parties": "EQT; Range Resources", "mw": "", "price": "$13 billion", "n": 9, "sector": "deal",
+         "links": [("LNG Prime", "https://example.org/l"), ("Heatmap News", "https://example.org/h")]}
+
+    def test_a_figure_the_item_does_not_print(self):
+        import roundup
+        gap = roundup.evidence_gap(self.R, self.R["titles"][0])
+        self.assertNotIn("13 billion", gap)
+
+    def test_a_figure_the_headline_prints(self):
+        import roundup
+        head = "EQT agrees USD 13 billion deal to buy Range Resources"
+        self.assertIn("the USD 13 billion is the outlet's figure, not a warehouse table's", roundup.evidence_gap(self.R, head))
+
+
+class Row181AReasonThatSpeaksOfTheOtherDirection(unittest.TestCase):
+    """Row 181: "Reason, from the week's stories: Strong LNG feedgas demand and declining Canadian imports support natural gas
+    prices despite warm weather." beside Henry Hub's fall of 12.9% (the stack's W44)."""
+
+    def clusters(self, *recs):
+        import pandas as pd
+        return pd.DataFrame(list(recs))
+
+    def test_the_line_itself_must_agree(self):
+        bulls = {"titles": ["Natural Gas Bulls Find a Pulse Beneath the Pressure"], "first": "2026-10-26T19:26:24Z",
+                 "why": "Strong LNG feedgas demand and declining Canadian imports support natural gas prices despite warm weather.",
+                 "links": [("Natural Gas Intelligence", "https://example.org/n")]}
+        mild = {"titles": ["Natural gas prices slide on mild forecasts"], "first": "2026-10-27T19:26:24Z",
+                "why": "Persistent mild weather reduces heating demand expectations heading into November.",
+                "links": [("Natural Gas Intelligence", "https://example.org/m")]}
+        got = brief.price_reason("Henry Hub natural gas", self.clusters(bulls, mild), -12.9)
+        self.assertIn("Persistent mild weather reduces heating demand", got)
+        self.assertEqual(brief.price_reason("Henry Hub natural gas", self.clusters(bulls), -12.9), "")
+        self.assertIn("support natural gas prices", brief.price_reason("Henry Hub natural gas", self.clusters(bulls), 5.0))
+
+    def test_easing_is_a_fall(self):
+        # 7 October's WTI reason: "Rising" is the exports', "easing" the prices'
+        self.assertTrue(brief.agrees(" rising gulf exports and emergency stock releases are easing crude prices ", -1.3))
+        self.assertFalse(brief.agrees(" prices are easing ", 2.0))
+
+
+class Row182AnotherHubIsAnotherMarket(unittest.TestCase):
+    """Row 182: Waha's prices, and a region's ("Eastern Natural Gas Prices Roar Back"), were given as Henry Hub's reason."""
+
+    def test_other_hubs_and_regions(self):
+        for text in (" permian basin takeaway capacity tightness could pressure waha benchmark prices starting late 2027 ",
+                     " eastern natural gas prices roar back, claim lion's share of gains ",
+                     " aeco gas prices fall as storage fills "):
+            self.assertFalse(brief.names_price("Henry Hub natural gas", text), text)
+        self.assertTrue(brief.names_price("Henry Hub natural gas", " natural gas prices slide on mild forecasts "))
+        self.assertTrue(brief.names_price("Henry Hub natural gas", " henry hub tops waha as permian flows fall "))
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""

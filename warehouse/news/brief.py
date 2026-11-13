@@ -1231,6 +1231,15 @@ CRUDE_MOVE = re.compile(r"\b(?:oil|crude)(?: prices?| futures)? (?:settles?|sett
 
 FOREIGN_GAS = re.compile(r"\b(?:euros?|eu|europe|european|ttf|dutch|asia|asian|jkm|japan|korea|china|uk|british|nbp|germany|"
                          r"german)\b")   # session 3334, row 115
+# session 3492 (faults file row 182): a North American hub other than Henry Hub is another market too ("Permian Basin
+# takeaway capacity tightness could pressure Waha benchmark prices ...", given for Henry Hub's W44 fall once row 181 passed
+# over the story before it)
+OTHER_HUB = re.compile(r"\b(?:waha|aeco|socal|algonquin|dominion south|transco|katy|el paso|sumas|malin|chicago citygate|"
+                       r"tetco|houston ship channel|eastern gas south)\b"
+                       # and a region's own prices ("Eastern Natural Gas Prices Roar Back, Claim Lion's Share of Gains",
+                       # the next story given for the same fall)
+                       r"|\b(?:eastern|western|northeast(?:ern)?|southeast(?:ern)?|appalachian|rockies|regional|west coast|"
+                       r"midwest(?:ern)?|permian|canadian|california)\s+(?:natural\s+)?gas\s+(?:prices?|markets?)\b")
 
 
 def names_price(label, text):
@@ -1238,7 +1247,7 @@ def names_price(label, text):
     words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
     # session 3334 (faults file row 115): a story of another gas market names no move of Henry Hub's ("Natural gas prices
     # hit 100 euros per MWh as EU confronts refinery closures", W44, given as the reason for Henry Hub's 12.9% fall)
-    if label == "Henry Hub natural gas" and "henry hub" not in text and FOREIGN_GAS.search(text):
+    if label == "Henry Hub natural gas" and "henry hub" not in text and (FOREIGN_GAS.search(text) or OTHER_HUB.search(text)):
         return False
     if any(w in text for w in words):
         return True
@@ -1261,7 +1270,9 @@ RISE_WORDS = re.compile(r"\b(?:rise|rises|rose|rising|higher|jumps?|jumped|surge
                         r"supports?|supported|lifts?|lifted|boosts?|boosted|rebounds?|rebounded)\b")   # 3334: W44's "support"
 FALL_WORDS = re.compile(r"\b(?:fall|falls|fell|falling|lower|drops?|dropped|slumps?|slumped|tumbles?|tumbled|slides?|slid|"
                         r"sinks?|sank|plunges?|plunged|declines?|declined|slips?|slipped|"
-                        r"weighs?|weighed|pressures?|pressured|routs?|retreats?|retreated)\b")
+                        r"weighs?|weighed|pressures?|pressured|routs?|retreats?|retreated|"
+                        # session 3492 (row 181): "... are easing crude prices" is a fall (7 October's WTI reason)
+                        r"eases?|eased|easing)\b")
 
 
 def agrees(text, pct):
@@ -1422,6 +1433,11 @@ def price_reason(label, clusters, pct=None, day=None):
             # session 3348 (faults file row 126): a line with prices of its own ("Brent near USD 106.80 and WTI USD 93.78")
             # contradicts the close it would explain (WTI at 108.21 the same week); the next naming story is tried
             if MONEY.search(why):
+                continue
+            # session 3492 (faults file row 181): the printed line itself must not speak of the other direction. The title
+            # and line together passed row 104 ("Natural Gas Bulls Find a Pulse Beneath the Pressure", a fall word) while
+            # the line printed "... support natural gas prices ..." beside Henry Hub's fall of 12.9% (the stack's W44)
+            if not agrees(f" {why} ".lower(), pct):
                 continue
             return f" Reason, from the day's stories: {why} ({link_text(list(r.get('links') or [])[:1])})"
     return ""
