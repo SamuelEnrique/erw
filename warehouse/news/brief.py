@@ -782,11 +782,17 @@ def head_units(t, head):
     return CAPACITY.sub(one, str(t))
 
 
-def scale_against(text, head):
+def scale_against(text, head, mw=None):
     """The scale word of a line ("gigawatt-scale") when every capacity the headline states is under 1,000 MW; "" when the
-    line has none, or the headline states no capacity or one of a gigawatt or more."""
+    line has none, or the headline states no capacity or one of a gigawatt or more. Session 3465 (faults file row 169):
+    the cluster's own scored MW (`mw`) counts as one, since a publisher's title (the issue with no model) often states none
+    ("Gigawatt-scale ..." under "AEP, Google Advance $4 Billion Fuel-Cell Project ...", a 702 MW project)."""
     m = SCALE_WORD.search(str(text or ""))
     caps = [float(v.replace(",", "")) * (1000 if u.upper() == "GW" else 1) for v, u in HEAD_MW.findall(str(head or ""))]
+    try:
+        caps += [float(mw)] if mw not in (None, "") and float(mw) > 0 else []
+    except (TypeError, ValueError):
+        pass
     if not m or not caps or max(caps) >= 1000:
         return ""
     return m.group(0).strip().lower()
@@ -925,7 +931,7 @@ def without_figures(t, head):
     return t[0].upper() + t[1:]
 
 
-def why_line(text, head=""):
+def why_line(text, head="", mw=None):
     """Session 577 (digest audit fixes 8 and 9, as session 470 left them): the scorer's reason as an issue prints it: the
     adjectives docs/voice.md cuts taken out (plain), each sum of money in the one style (money_style: the "$3.2bn" and
     "$45 Billion" of the why lines, not only the price field), and a stop at its end, so the figures or the links that
@@ -937,7 +943,7 @@ def why_line(text, head=""):
     t = HOLLOW_TAIL.sub("", t)   # session 1462: a trailing ", signaling ..." clause is cut, its fact kept
     if head:   # session 3460 (row 158): the headline's capacity in the other unit is the headline's figure
         t = head_units(t, head)
-    if head and scale_against(t, head):   # session 1466 (fault 44): the scale word goes, as an adjective does
+    if head and scale_against(t, head, mw):   # session 1466 (fault 44); 3465 (row 169): with the cluster's MW
         t = SCALE_WORD.sub("", t, count=1).strip()
         t = t[:1].upper() + t[1:]
     # "an $800MM loan" was right as written; as "USD 800 million" the article follows the code as it is said
@@ -1845,7 +1851,8 @@ ALSO_LABEL = "Also on this topic:"
 # topic ("Also on this topic: Lambda to develop four-building data center campus in Lowndes County, Alabama" under AEP and
 # Google's Wyoming fuel cells, the dry run of 6 November); it is said to be of the sector. Either label opens the line.
 ALSO_SECTOR = "Also in {sector}:"
-ALSO_RE = re.compile(r"^Also (?:on this topic|in [a-z][a-z ]*):")
+ALSO_NOUN = {"deal": "deals", "company": "companies", "ppa": "PPAs"}   # session 3465, row 170
+ALSO_RE = re.compile(r"^Also (?:on this topic|in [A-Za-z][A-Za-z ]*):")   # 3465, row 170: "Also in LNG:", "Also in PPAs:" too
 
 
 def region_key(r):
@@ -1981,7 +1988,10 @@ def also_line(recs):
     sector = [x for x in recs if x.get("kind") == "sector"]
     out = [f"{ALSO_LABEL} " + "; ".join(topic) + "."] if topic else []
     if sector:
-        label = ALSO_SECTOR.format(sector=sector_words(sector[0].get("sector")) or "this sector")
+        # session 3465 (faults file row 170): a sector named by a count noun reads as its plural ("Also in deals:", not "Also
+        # in deal:", the stack's 6 November)
+        s = str(sector[0].get("sector") or "")
+        label = ALSO_SECTOR.format(sector=ALSO_NOUN.get(s) or sector_words(s) or "this sector")
         out.append(f"{label} " + "; ".join(part(x) for x in sector) + ".")
     return " ".join(out)
 
@@ -1990,7 +2000,7 @@ def sector_line(r, head):
     """Session 1467 (chain 150, fault 46): a by-sector or AI and power line: "- headline (sector): why [Outlet](url)", or,
     when the story has no why line that passes the check, "- headline (sector). [Outlet](url)": no colon that introduces
     nothing (the dry run of 6 November: "... plans coal use to 2038 (generation): [Utility Dive](...)")."""
-    why = why_line(r["why"], head)
+    why = why_line(r["why"], head, r.get("mw"))   # 3465, row 169
     link = link_text(r["links"][:1])
     lead = f"- {head} ({sector_words(r['sector'])})"
     if why:
@@ -2762,14 +2772,14 @@ def main(argv=None):
             M = ["## What moved", ""]
             for i, r in enumerate(recs[:n_moved], 1):
                 M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
-                                " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), limitation(r)) if x),
+                                " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']], r.get('mw')), limitation(r)) if x),
                                 f"Sources: {link_text(r['links'])}")
             # rulings items 5 and 14: the rest folds under "More", not cut
             M += ["", FOLD_HEADING, "", "### The rest of the top ten", ""]
             if len(recs) <= n_moved:
                 M.append("- no further story in the top ten today")
             for i, r in enumerate(recs[n_moved:], n_moved + 1):
-                w = why_line(r['why'], heads[r['cluster_id']])
+                w = why_line(r['why'], heads[r['cluster_id']], r.get('mw'))
                 M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
                                 (w + " " + detail(r, heads[r['cluster_id']], why=w)).strip(),   # 3459, row 155
                                 f"Sources: {link_text(r['links'])}")

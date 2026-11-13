@@ -1663,7 +1663,7 @@ def capacity_words(cap):
 
 def more_why(r, heads, steps):
     """Row 63: an item under More (the weekend's, the week's five) keeps its why line, and a step in a held deal says so."""
-    why = brief.why_line(r['why'], heads[r['cluster_id']])   # the form tests/test_session801.py counts
+    why = brief.why_line(r['why'], heads[r['cluster_id']], r.get('mw'))   # the form tests/test_session801.py counts; 3465
     d = steps.get(r["cluster_id"])
     return " ".join(x for x in (why, step_line(d) if d is not None else "") if x)
 
@@ -2129,7 +2129,7 @@ def main(argv=None):
         for i, r in enumerate(recs, 1):
             W += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({brief.sector_words(r['sector'])}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
-                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']), plants.get(r['cluster_id']), bench_of(r, facts))) if x),
+                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']], r.get('mw')), evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']), plants.get(r['cluster_id']), bench_of(r, facts))) if x),
                                   f"Sources: {link_text(r['links'])}")
         nxt = next_week(end, log)
         tables_to = max(facts["reach"]) if facts.get("reach") else None   # session 1882 (row 59)

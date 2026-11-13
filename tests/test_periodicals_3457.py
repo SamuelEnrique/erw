@@ -487,5 +487,38 @@ class Row168AnAgencysNameIsItsInitials(unittest.TestCase):
         self.assertFalse(brief.same_topic(self.A, other))
 
 
+class Row169TheScaleWordReadsTheClustersMW(unittest.TestCase):
+    """Row 169: "Gigawatt-scale hyperscale power deal ..." under "AEP, Google Advance $4 Billion Fuel-Cell Project to Power
+    Cheyenne Data Centers" (the stack's 6 November with no model): a 702 MW project, the publisher's title stating no MW."""
+
+    def test_the_clusters_mw_counts(self):
+        why = "Gigawatt-scale hyperscale power deal combining fuel cells, natural gas, and private microgrid infrastructure for datacenter demand."
+        head = "AEP, Google Advance $4 Billion Fuel-Cell Project to Power Cheyenne Data Centers"
+        self.assertEqual(brief.why_line(why, head, "702"), "Hyperscale power deal combining fuel cells, natural gas, and private "
+                                                           "microgrid infrastructure for datacenter demand.")
+        self.assertEqual(brief.scale_against("Gigawatt-scale deal.", head, "702"), "gigawatt-scale")
+        self.assertEqual(brief.scale_against("Gigawatt-scale deal.", head, "1500"), "")
+        self.assertEqual(brief.scale_against("Gigawatt-scale deal.", head), "")
+        self.assertEqual(brief.scale_against("Gigawatt-scale deal.", head, "not a number"), "")
+
+
+class Row170AlsoInDeals(unittest.TestCase):
+    """Row 170: "Also in deal: Blackstone Leads USD 3.1 billion Investment ..." (the stack's 6 November); and the two readers
+    of that label read lower case only, so "Also in LNG:" (row 127's capitals) was not read as one."""
+
+    def test_the_plural(self):
+        rec = {"title": "Blackstone Leads $3.1 Billion Investment in Mitsubishi's Stake in LNG Canada", "kind": "sector", "sector": "deal",
+               "links": [("WSJ", "https://example.org/w")]}
+        self.assertTrue(brief.also_line([rec]).startswith("Also in deals: Blackstone Leads USD 3.1 billion Investment"))
+        self.assertTrue(brief.also_line([dict(rec, sector="nuclear")]).startswith("Also in nuclear: "))
+        self.assertTrue(brief.also_line([dict(rec, sector="lng")]).startswith("Also in LNG: "))
+
+    def test_the_readers_read_capitals(self):
+        import email_digest
+        for label in ("Also in LNG:", "Also in PPAs:", "Also in deals:", "Also on this topic:"):
+            self.assertTrue(brief.ALSO_RE.match(label + " x"), label)
+            self.assertEqual(email_digest.ALSO_RE.match(label + " x").group(1), label)
+
+
 if __name__ == "__main__":
     unittest.main()
