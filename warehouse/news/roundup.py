@@ -809,7 +809,7 @@ def finance_words(r):
         what = f"{raising}'s {asset}" if asset else raising
     when = str(r.get("event_date") or "")[:10]
     prep = FINANCE_PREP.get(roles[2], "of")   # session 3312 (faults file row 103): "investment in", "loan for"
-    head = f"{money}'s {roles[2]} {prep} {what}" if money and what else (f"{money}'s {roles[2]}" if money else f"a {roles[2]} {prep} {what}")
+    head = f"{money}'s {roles[2]} {prep} {what}" if money and what else (f"{money}'s {roles[2]}" if money else f"{an(roles[2])} {prep} {what}")   # session 3336 (row 121): "an investment"
     return head + (f" ({when})" if when else "")
 
 

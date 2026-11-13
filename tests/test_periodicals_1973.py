@@ -664,6 +664,16 @@ class Row120RefiningIsOil(unittest.TestCase):
         self.assertEqual(brief.sector_of({"sector": "generation", "title": "APS plans extending coal use to 2038"}), "generation")
 
 
+class Row121AnInvestment(unittest.TestCase):
+    def test_w43(self):
+        import roundup
+        r = {"deal_type": "equity_raise", "buyer": "", "seller": "Blackstone Energy Transition Partners V", "asset": "",
+             "event_date": "2026-10-19"}
+        self.assertTrue(roundup.finance_words(r).startswith("an investment in Blackstone Energy Transition Partners V"), roundup.finance_words(r))
+        loan = dict(r, deal_type="debt", seller="Calibrant Energy")
+        self.assertTrue(roundup.finance_words(loan).startswith("a loan for Calibrant Energy"))
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
