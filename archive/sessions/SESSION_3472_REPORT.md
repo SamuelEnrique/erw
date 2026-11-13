@@ -54,3 +54,11 @@ Energy Research Warehouse (ERW). Chain 254 (`queue/done/254-day-21-november-oldl
 - **Row 177 (new, fixed):** the block printed the country three ways: "Generation capacity, United States", "Storage dispatched, USA", "Transmission, US". These are the scorer's region as written (US 5,172, United States 794, USA 106), and the topic key read them as three regions. Both now read "US". Over the 17 issues, the block's places change, and two pairs fold as one topic: 21 October's heating oil and diesel policies, and 6 November's Lambda campus under the datacenter commentary (the owner's "one sector in one region" rule).
 - Tests: `Row177TheCountryIsUS` (2); 14 pins of `test_periodicals_1973.py` read "US". The 72 files: 1,387 passed, 20 skipped.
 - **Row 11:** moved to `48b5fb1df` (rows 161 to 177 wait).
+
+## Session 3480: W46 on the latest stack, rows 178 and 179
+
+- The partial W46 ran again on the stack with the policy tables present (`runs/periodicals_dryrun/s3480/`). Row 174 shows ("against 90.16 on 2026-11-10"), and the Policy of the Week and Next week are filled.
+- **Row 178 (new, fixed):** "Energy Department Closes $480 Million Loan ..." under Also this week. Row 86 put the Digest's policy lines in the money style, but the Roundup's policy titles were left. They are styled now.
+- **Row 179 (new, fixed):** Next week read "(EPA): the final rule is effective on November 16, 2026." under the bold "16 November 2026". A rule effective on the item's day now "takes effect", as row 76 wrote comment deadlines; `test_session1897.py`'s pin follows.
+- Tests: two classes, 3 tests. The 72 files: 1,390 passed, 20 skipped.
+- **Row 11:** moved to `9ced6f322` (rows 161 to 179 wait).
