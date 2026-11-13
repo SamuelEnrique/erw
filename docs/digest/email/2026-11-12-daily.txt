@@ -1,0 +1,52 @@
+ERW Daily Digest, 2026-11-12
+
+12 November 2026. Data through 17:56 ET, 22:56 UTC.
+
+ERW's weekday brief of energy news for the 96 hours to 2026-11-12 22:56 UTC, from 2026-11-08 22:56 UTC, from 262 scored stories.
+
+
+The opening number
+
+USD 74 billion: SpaceX plans USD 74 billion in data center projects in Arizona and Texas, as Bloomberg.com reported on 2026-11-11 (ranked 1 of the day's top ten). No price moved enough to lead; this is a reported figure, not a warehouse table's.
+
+The numbers
+
+- Market price. Henry Hub natural gas: 3.00 USD/MMBtu on 2026-11-11, up 0.00 USD/MMBtu (0.0%) from 3.00 USD/MMBtu on 2026-11-10 [1]. Status: observed, EIA's spot close, published about a week after the trading day.
+- Physical. US48 demand peaked at 488,034 MW in the hour starting 2026-11-11 23:00 UTC [2]; the same weekday a week before (2026-11-04) peaked at 496,093 MW in the hour starting 2026-11-04 22:00 UTC [2], so -1.6% on the week. The same weekday a year before is not held. Status: observed, EIA-930 hourly demand.
+- Project or capacity. Storage capacity, USA: 580 MW (Sunrun, Tesla; pv magazine USA, 2026-11-12) [3]. Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.
+- Policy, capital or reliability. Deal value: USD 2.1 billion (Strathcona, Greenfire; JPT Homepage, 2026-11-11) [3]. Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.
+Tables: [1] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt); [2] eia930_all_demand (eia:electricity/rto/region-data); balancing authority us48; [3] news_stories; story news:63369e9ec598452f (mw); story news:808f73a07b2ad109 (price).
+
+What moved
+
+1. SpaceX plans USD 74 billion in data center projects in Arizona and Texas
+   Bloomberg.com (via Google News)
+   Also in datacenter power: Rowan Digital Infrastructure Secures $1.5 Billion in Financing for Hyperscale Development Platform (POWER Magazine).
+2. Oil settles USD 3 higher on attacks on Saudi energy sites and Strait of Hormuz disruptions
+   Attacks on Saudi Arabian oil infrastructure and Strait of Hormuz transit risk trigger price move. One outlet has reported it so far.
+   Reuters (via Google News)
+3. Ontario Power Generation says first Darlington SMR unit will be late and over budget
+   First of four planned BWRX-300 units at Darlington will miss October 2030 target and exceed cost budget.
+   World Nuclear News: https://www.world-nuclear-news.org/articles/opg-to-revise-timeline-and-cost-of-first-smr-unit
+
+ERW's Chart of the Day
+
+[chart: Net generation from natural gas in Wyoming: 1,060,504 MWh in August 2026, the highest monthly value held since January 2001. The record until now was 765,381 MWh, in July 2024.] https://raw.githubusercontent.com/SamuelEnrique/erw/main/docs/digest/charts/2026-11-12.png
+Net generation from natural gas in Wyoming: 1,060,504 MWh in August 2026, the highest monthly value held since January 2001. The record until now was 765,381 MWh, in July 2024.
+The table holds 308 months of this series; the last is August 2026.
+Source: EIA (eia:electricity/electric-power-operational-data), period August 2026, newest period held 2026-08-01, retrieved by the ERW 2026-11-12 21:47 UTC. Table eia_state_generation_monthly, series entity=eia:generation:WY:NG, variable=net_generation, freq=P1M: the table and its download.
+Chosen by rule, not by a person or a model: the strongest flag of the day's scan that no Digest has shown (rule: record; 11.00 robust standard deviations past its threshold). It is the candidate most related to the day's top stories: it shares generation with 'OPG set to revise timeline and cost of first SMR unit'. How the chart is chosen.
+
+More on the site: the rest of the top ten, the sectors, AI and power, and the numbers in full: https://github.com/SamuelEnrique/erw/blob/main/docs/digest/2026-11-12.md
+
+ERW's Fun Fact
+
+The term horsepower was adopted in the late 18th century by Scottish engineer James Watt to compare the output of steam engines with the power of draft horses. The Citroën 2CV is named for its French fiscal horsepower rating, deux chevaux (2CV).
+Sources: Wikipedia, Horsepower (https://en.wikipedia.org/wiki/Horsepower).
+
+ERW
+
+All of ERW's Energy Digest: https://github.com/SamuelEnrique/erw/blob/main/docs/digest/2026-11-12.md
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Corrections: https://github.com/SamuelEnrique/erw/issues
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.
