@@ -38,3 +38,12 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - The stack's dry run of 13 November: 22 figures ok, 0 failed (`digest-figures.mjs --dir`, then `check_digest.py --figures`), the new line's `digest_rt|iso_rtm_hub_prices|HB_SOUTH|spp_rtm|2026-11-13T01:00:00Z` among them.
 - **No build yet:** MemFree 2.45 GB, under the 2.5 GB this machine's rule asks. Row 11 says so.
 - **Row 11:** moved to `1590a900d`.
+
+## Session 3459: rows 153 to 156
+
+- **Row 153 (new, fixed):** What moved 5 printed "Oil commits capital to UK lower-carbon projects." The scorer wrote "Major oil major commits significant capital ...", and the voice's cleaner took out the noun "major" of "oil major" with the adjectives. Now "major" after oil, gas or energy stays: "Oil major commits capital to UK lower-carbon projects."
+- **Row 154 (new, fixed):** "IEA Sees Oil Surplus for First Time in Iran War" printed "(power prices)", the scorer's tag. Rows 13, 120 and 125 correct a price, refining or gas price title, not one on the oil market's balance. A power tag on an oil or gas market title (surplus, supply, demand, output, stocks, exports; OPEC) now gives that fuel; the day's oil price story then folds under it as one topic.
+- **Row 155 (new, fixed):** with no model (publishers' titles), the figures line repeated the why line's figure ("... from USD 118 to below USD 95 per barrel ... talks. USD 118 per barrel."). `detail` now reads the printed why line.
+- **Row 156 (new, fixed):** row 154 brought the Aramco item into the ten, and its figures line printed "2.6 billion", the scorer's sum with no currency (72 of 2,159 stored figures carry none, mostly percents). A sum with no unit, or no digit ("millions"), is left out.
+- Tests: four classes, 10 tests, each failing on main. The 62 files naming `brief`, `roundup` or `digest.ts`: 1,206 passed, 20 skipped. The dry run's 22 figures trace, 0 failed.
+- **Row 11:** moved to `f1a1d8211`.
