@@ -1,0 +1,30 @@
+# Sessions 3488 to 3504: chain 258, the periodicals continued (13 November 2026)
+
+Energy Research Warehouse (ERW). Chain 258 (`queue/done/258-day-22-november-oldlaptop-periodicals-continued.md`), sessions 3488 to 3499 and 3501 to 3504, samueloldlaptop (code role), unattended, Opus 5.5. Taken at 20:45 UTC by chain 254's queue step (session 3487). One report for the chain, a section per session.
+
+## Session 3488: the next file, the ground
+
+- **Numbers:** sessions 3488 to 3499 and 3501 to 3504 named by nothing on origin's main or any branch.
+- **Next file:** `queue/next/260-day-23-november-oldlaptop-periodicals-continued.md` (sessions 3505 to 3520), committed alone and pushed (`384310760`). 259 was taken by the portable laptop.
+- **Precheck:** exit 0 (on duty for "session 3488" until 14 November 12:30 UTC). **Disk:** 81 GB free. **Memory:** MemFree about 2.0 GB.
+- **Worktrees:** `erw-1425` and `erw-1600` are not landed and are kept. `erw-3457` is the stack.
+- **Row 11:** rows 151 to 160 landed (`f71fda27e`); the rest (rows 161 to 179, head `9ced6f322`) has not.
+- **The 13 November Digest** is still not on main (`wip/red-daily-2026-11-13`).
+- **Chain 254's unfinished steps** are in the file: the stored W46 Roundup (Sunday 15 November, 23:00 UTC), the 16 November Digest (Monday), the red branch's landing, row 11's clean-up. It is Friday 13 November, 20:50 UTC, so all four wait.
+
+## Sessions 3489 to 3491: chain 254's unfinished steps
+
+- **3489, the stored W46 Roundup:** not written (Sunday 15 November, 23:00 UTC). Skipped.
+- **3490, the red branch and the 16 November Digest:** `wip/red-daily-2026-11-13` has not landed; the 16 November Digest is not written (Monday). Skipped.
+- **3491, row 11's clean-up:** row 11 has landed only in part. Skipped.
+- The free sessions take the periodicals.
+
+## Session 3492: W44 on the latest stack, rows 180 to 182
+
+- W44 ran again on the stack with the policy tables (`runs/periodicals_dryrun/s3492/`) and was read whole.
+- **Row 180 (new, fixed):** "the USD 13 billion is the outlet's figure" was printed under "EQT to Buy Range Resources, Creating Largest US Gas Producer", and "the USD 9 billion" under the GE Vernova item; neither headline gives a sum. Another title of each cluster held it. The figure now counts as the item's only when its printed headline or why line states it.
+- **Row 181 (new, fixed):** the opening explained Henry Hub's fall of 12.9% with "... support natural gas prices despite warm weather". The title and line passed row 104 together because the title held a fall word ("Pressure"). The printed line itself must now agree, and "easing" counts as a fall, so 7 October's WTI reason stays.
+- **Row 182 (new, fixed):** the next stories tried were Waha's prices and "Eastern Natural Gas Prices Roar Back". A North American hub other than Henry Hub, or a region's own gas prices, is now another market, as row 115 made Europe and Asia. W44 ends on "Persistent mild weather reduces heating demand expectations heading into November."
+- Over the 17 stored Digests on the stack: 20 October's Brent and WTI movers lose "Middle East tensions continue to support crude prices despite near-term weakness" (a line on support, beside falls). Nothing else changes.
+- Tests: three classes, 6 tests (failing on main). The 72 files: 1,395 passed, 20 skipped. Both method notes carry the rows.
+- **Row 11:** moved to `6047f82d1` (rows 161 to 182 wait).

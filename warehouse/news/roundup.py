@@ -495,36 +495,13 @@ def dam_week(label, table, node, tz, start, log):
     return (mean2(df["value"]) if len(df) else None), len(df), int((e - s) / pd.Timedelta(hours=1))
 
 
-def interval_words(freq):
-    """'PT15M' as 'a 15-minute interval', 'PT1H' as 'an hourly interval', 'PT5M' as 'a 5-minute interval'."""
-    f = str(freq or "")
-    m = re.fullmatch(r"PT(\d+)M", f)
-    if m:
-        return f"a {m.group(1)}-minute interval"
-    if f == "PT1H":
-        return "an hourly interval"
-    return f"an interval of {f}" if f else "an interval of unstated length"
-
-
-# Session 1895 (faults file row 71): the zone a grid's local time is written in, and the Tables line's words for the week's
-# highest real-time price's variable (scripts/check_roundup.py and site/scripts/check-values.mjs read it there)
-ZONE_WORDS = {"America/Chicago": "Central", "America/New_York": "Eastern", "America/Los_Angeles": "Pacific",
-              "America/Denver": "Mountain", "America/Phoenix": "Arizona", "EST": "Eastern Standard"}
+# Session 1895 (faults file row 71): the zone a grid's local time is written in, the interval in words, and the Tables
+# line's words for the week's highest real-time price's variable (scripts/check_roundup.py and site/scripts/check-values.mjs
+# read it there). Session 3457 (row 152): the helpers live in brief.py now, which writes the Digest's line the same way.
+interval_words = brief.interval_words
+ZONE_WORDS = brief.ZONE_WORDS
 RT_VARIABLE = "; the week's highest real-time price is variable `"
-
-
-def rt_when(ts, tz):
-    """Row 71: an interval's start in the grid's zone and in UTC, "2026-11-03 17:45 Central (23:45 UTC)", the UTC date
-    written only when it is not the local one ("2026-11-03 19:00 Central (2026-11-04 01:00 UTC)"); a grid with no zone
-    held is written in UTC alone ("2026-11-03 23:45 UTC")."""
-    ts = pd.Timestamp(ts)
-    ts = ts.tz_localize("UTC") if ts.tzinfo is None else ts.tz_convert("UTC")
-    zone = ZONE_WORDS.get(tz)
-    if not zone:
-        return f"{ts:%Y-%m-%d %H:%M} UTC"
-    loc = ts.tz_convert(tz)
-    utc = f"{ts:%H:%M}" if loc.date() == ts.date() else f"{ts:%Y-%m-%d %H:%M}"
-    return f"{loc:%Y-%m-%d %H:%M} {zone} ({utc} UTC)"
+rt_when = brief.rt_when
 
 
 def numbers(start, cut, log, facts=None):
@@ -741,13 +718,31 @@ def row_passes(r, table):
     return conf >= ROW_CONFIDENCE and any(str(r.get(f, "")).strip() for f in ROW_FIELDS[table])
 
 
-def floor_rows(df, table, n=ROW_MAX):
+def floor_rows(df, table, n=ROW_MAX, keep=None):
     """(rows to print, how many more pass the floor, how many fall under it): the rows that pass, US rows first, each
-    group in the frame's own order, at most n."""
+    group in the frame's own order, at most n. Session 3462 (faults file row 161): the row whose `event_id` is `keep`
+    (the five's deal of the week) is always among them, in place of the last row otherwise shown."""
     recs = df.to_dict("records")
     ok = [r for r in recs if row_passes(r, table)]
     ok = [r for r in ok if row_is_us(r)] + [r for r in ok if not row_is_us(r)]
-    return ok[:n], max(0, len(ok) - n), len(recs) - len(ok)
+    shown = ok[:n]
+    if keep and n and not any(r.get("event_id") == keep for r in shown):
+        pinned = [r for r in ok[n:] if r.get("event_id") == keep]
+        shown = shown[:n - len(pinned)] + pinned
+    return shown, max(0, len(ok) - len(shown)), len(recs) - len(ok)
+
+
+def deal_of_week_id(dw):
+    """Session 3462 (row 161): the event id of the five's deal of the week among the week's deals `dw`, by the five's own
+    rule (the Deals table's floor, then the most US dollars, else the most MW, the earlier on a tie); None when none."""
+    ok = dw[[row_passes(r, "energy_deals") for r in dw.to_dict("records")]] if len(dw) else dw
+    if ok.empty:
+        return None
+    for col in ("dollars", "mw"):
+        v = pd.to_numeric(ok[col], errors="coerce")
+        if v.notna().any():
+            return ok.assign(_v=v).sort_values(["_v", "event_date"], ascending=[False, True]).iloc[0]["event_id"]
+    return None
 
 
 def floor_note(table, what, shown, rest, under):
@@ -1041,7 +1036,10 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
         cw["_m"] = pd.to_numeric(cw["capacity_mw"] if "capacity_mw" in cw.columns else cw["mw"], errors="coerce")
         # session 1446 (fault 29): the week's largest load is a row with an operator or a site; a row with neither is
         # a figure with no subject ("1,000 MW, operator not stated, site not stated, Newport")
-        named = cw["operator"].astype(str).str.strip().ne("") | cw["site_name"].astype(str).str.strip().ne("")
+        # session 3462 (faults file row 162): a developer names the facility as the table below names it (row 150: "CDC
+        # (developer)"); W46's five passed over a 1,400 MW load the table showed with its developer
+        dev = cw["developer"].astype(str).str.strip().replace("nan", "") if "developer" in cw.columns else pd.Series("", index=cw.index)
+        named = cw["operator"].astype(str).str.strip().ne("") | cw["site_name"].astype(str).str.strip().ne("") | dev.ne("")
         unnamed = cw[~named]   # session 3334 (faults file row 118): kept to say how many larger ones the row leaves out
         cw = cw[named]
         # session 1474 (fault 52): and with the datacenter table's own floor (W45: 702 MW at confidence 0.55, "not stated"
@@ -1054,14 +1052,19 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
             # session 1473 (fault 51): a part the row does not state is left out of the sentence ("702 MW, Google, site not
             # stated, Cheyenne" was the W45 dry run's); the row has an operator or a site (session 1446)
             parts = [str(r.get(k) or "").strip() for k in ("operator", "site_name")]
-            place = ", ".join(x for x in (str(r.get("city") or "").strip(), str(r.get("state") or "").strip()) if x)
+            if not parts[0]:   # session 3462 (row 162): the developer stands in, said to be one, as in the table
+                parts[0] = dc_operator(r) if dc_operator(r) != "not stated" else ""
+            country = str(r.get("country") or "").strip()
+            place = ", ".join(x for x in (str(r.get("city") or "").strip(), str(r.get("state") or "").strip(),
+                                          country if country.lower() not in US_NAMES | {"nan"} else "") if x)
             words = ", ".join(x for x in (*parts, place) if x)
             # session 3334 (faults file row 118): W44's row said 52 MW above a table of 10,400, 700 and 520 MW loads that
             # name no operator or site; the row says how many larger ones it leaves out, and why
             big = unnamed[unnamed["_m"] > float(r["_m"])]
             big = big[[row_passes(x, "datacenter_projects") for x in big.to_dict("records")]] if len(big) else big
             if len(big):
-                words += (f" ({len(big)} larger {'load' if len(big) == 1 else 'loads'} of the week name no operator or site; "
+                words += (f" ({len(big)} larger {'load' if len(big) == 1 else 'loads'} of the week "
+                          f"{'names' if len(big) == 1 else 'name'} no operator, developer or site; "   # 3462, row 162
                           f"{'it is' if len(big) == 1 else 'they are'} in the table below)")
             L.append(f"- **Largest new datacenter load first reported this week:** {float(r['_m']):,.0f} MW, {words}.")
             keys.append(f"the datacenter load, `datacenter_projects` {r['entity_id']}")
@@ -1207,8 +1210,39 @@ def subject_line(op, first_head):
 
 SUBJECT_MAX = 90
 CLAUSE_TAIL = re.compile(r"(?:\s+(?:a|an|the|of|to|in|on|for|with|from|by|at|and|or|its|their|as|into|over))+$", re.I)
-FIGURE_IN_HEAD = re.compile(r"(?:\b(?:a|an)\s+)?(?:USD|CAD|AUD|EUR|GBP)\s\d[\d,.]*(?:\s(?:billion|million|trillion|thousand))?,?\s*|"
-                            r"(?:\b(?:a|an)\s+)?\d[\d,.]*[\s-]?(?:MW|GW|kW|MWh|GWh|TWh|kV|bcf/d|bcf|mtpa|percent|%)\b,?\s*", re.I)   # 3352: "3.6-GW"
+# session 3464 (faults file row 165): a quantity's words before the figure go with it ("Taiwan Commits Up to to Alaska LNG
+# Megaproject", the stack's subject of 14 October, of "Taiwan Commits Up to $4.4 Billion to Alaska LNG Megaproject")
+QUANTITY_WORDS = r"(?:\b(?:up to|more than|less than|at least|as much as|about|around|nearly|almost|roughly|some|over|under)\s+)?"
+# and (row 165) a capacity's "of" goes with it ("adds 2 GW of solar" to "adds solar"), and a percent sign is matched with no
+# word boundary after it ("with 30% of output" kept its figure in the subject before)
+FIGURE_IN_HEAD = re.compile(r"(?:\b(?:a|an)\s+)?" + QUANTITY_WORDS + r"(?:USD|CAD|AUD|EUR|GBP)\s\d[\d,.]*(?:\s(?:billion|million|trillion|thousand))?,?\s*|"
+                            r"(?:\b(?:a|an)\s+)?" + QUANTITY_WORDS + r"\d[\d,.]*[\s-]?(?:(?:MW|GW|kW|MWh|GWh|TWh|kV|bcf/d|bcf|mtpa|percent)\b|%)"
+                            r"(?:\s+of\b)?,?\s*", re.I)   # 3352: "3.6-GW"
+
+
+# Session 3460 (faults file row 157): a cut inside a phrase leaves it without its noun ("ERW Daily | Centrus and Oklo
+# finalise fuel agreements for up to five Aurora", 13 November 2026, of "... for up to five Aurora powerhouses at Ohio
+# campus"). Such a cut goes back to before the phrase's preposition; a quantity's "up to", "more than", "at least" is no
+# phrase of its own.
+PHRASE_START = re.compile(r"\s(?:for|at|in|with|to|of|on|from|by|after|over|into|near|across|amid|under|as|via)\b", re.I)
+QUANTITY = re.compile(r"\b(?:up to|more than|less than|fewer than|as many as|as much as|at least|at most)\b", re.I)
+PHRASE_MIN_WORDS = 4
+
+
+def phrase_back(t, full):
+    """t, a cut of full at a word: when the first word cut off is a lower-case word inside a phrase (not a preposition,
+    which would begin the next phrase), t back to before its last preposition, if PHRASE_MIN_WORDS words or more are left;
+    else t as it is. A cut before a name is the caller's (subject_clause)."""
+    rest = full[len(t):].split()
+    first = rest[0].strip(",;:") if rest else ""
+    if not first or not first[:1].islower() or PHRASE_START.fullmatch(" " + first):
+        return t
+    masked = QUANTITY.sub(lambda m: "#" * len(m.group(0)), t)
+    starts = [m.start() for m in PHRASE_START.finditer(masked)]
+    if not starts:
+        return t
+    back = t[:starts[-1]].rstrip(" ,;:")
+    return back if len(back.split()) >= PHRASE_MIN_WORDS else t
 
 
 def head_clause(head, n):
@@ -1224,12 +1258,16 @@ def head_clause(head, n):
     t = re.sub(r"\s{2,}", " ", t).strip(" ,;:")
     if had:
         t = brief.fix_article(t)
+        if str(head or "")[:1].isupper():   # session 3464 (row 165): "A 500 MW deal ..." reads "A deal ...", not "a deal ..."
+            t = t[:1].upper() + t[1:]
     if len(t) > n:
+        full = t
         t = t[:n + 1].rsplit(" ", 1)[0].rstrip(",;:")
         # session 3334 (faults file row 116): a cut that leaves a clause's first word or two after a comma ("EQT to Buy
         # Range Resources, Creating", W44) goes back to the comma
         if ", " in t and len(t.rsplit(", ", 1)[1].split()) <= 2:
             t = t.rsplit(", ", 1)[0]
+        t = phrase_back(t, full)
     t = CLAUSE_TAIL.sub("", t).strip(" ,;:")
     return t if len(re.findall(r"[A-Za-z]+", t)) >= 2 else ""
 
@@ -1625,7 +1663,7 @@ def capacity_words(cap):
 
 def more_why(r, heads, steps):
     """Row 63: an item under More (the weekend's, the week's five) keeps its why line, and a step in a held deal says so."""
-    why = brief.why_line(r['why'], heads[r['cluster_id']])   # the form tests/test_session801.py counts
+    why = brief.why_line(r['why'], heads[r['cluster_id']], r.get('mw'))   # the form tests/test_session801.py counts; 3465
     d = steps.get(r["cluster_id"])
     return " ".join(x for x in (why, step_line(d) if d is not None else "") if x)
 
@@ -2009,7 +2047,8 @@ def main(argv=None):
         else:
             dw = deals[(pd.to_datetime(deals["event_date"], utc=True, format="ISO8601") >= start)
                        & (pd.to_datetime(deals["event_date"], utc=True, format="ISO8601") < cut)].sort_values("event_date")
-            shown_d, rest_d, under_d = floor_rows(dw, "energy_deals")   # session 2702, rulings item 11
+            # session 2702, rulings item 11; session 3462 (row 161): the five's deal of the week is in the table
+            shown_d, rest_d, under_d = floor_rows(dw, "energy_deals", keep=deal_of_week_id(dw))
             if dw.empty:
                 L.append("- no deal in `energy_deals` is dated this week.")
             elif not shown_d:
@@ -2090,7 +2129,7 @@ def main(argv=None):
         for i, r in enumerate(recs, 1):
             W += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({brief.sector_words(r['sector'])}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
-                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']), plants.get(r['cluster_id']), bench_of(r, facts))) if x),
+                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']], r.get('mw')), evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']), plants.get(r['cluster_id']), bench_of(r, facts))) if x),
                                   f"Sources: {link_text(r['links'])}")
         nxt = next_week(end, log)
         tables_to = max(facts["reach"]) if facts.get("reach") else None   # session 1882 (row 59)
