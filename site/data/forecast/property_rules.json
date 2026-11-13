@@ -61,6 +61,12 @@
    "url": "https://ksrevisor.gov/statutes/chapters/ch79/079_002_0001.html",
    "read": "2026-11-13",
    "request": 65
+  },
+  "or_2015_c571": {
+   "title": "Oregon Revised Statutes, chapter 307 (2025 edition): sections 1 to 3, chapter 571, Oregon Laws 2015, printed as temporary provisions in the notes following ORS 307.175 (solar project exemption and fee in lieu of property taxes)",
+   "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors307.html",
+   "read": "2026-11-13",
+   "request": 68
   }
  },
  "states": {
@@ -285,6 +291,28 @@
      "cite": "ks_79_201",
      "quote": "Any exemption granted under the provisions of this subsection for such property when the applicant, after December 31, 2016, has filed such application or filed such application and received a conditional use permit, shall be in effect for the 10 taxable years immediately following the taxable year in which construction or installation of such property is completed. For purposes of this section, \"renewable energy resources or technologies\" shall include wind, solar, photovoltaic, biomass, hydropower, geothermal and landfill gas resources or technologies.",
      "not_modeled": "The exemption is granted by the Board of Tax Appeals on application; the tool assumes it is granted. After the ten years the property is taxed like other property, and no rule for that is held: the reader's own rate fills those years. Payments in lieu agreed with a county during the exemption (Jayhawk's USD 2,000 per MW, section 9 of the note) are agreements, not the statute."
+    }
+   ]
+  },
+  "or": {
+   "name": "Oregon",
+   "rules": [
+    {
+     "id": "or_solar_fee",
+     "technologies": [
+      "utility_pv"
+     ],
+     "kind": "capacity_option",
+     "usd_per_mw_min": 5500,
+     "usd_per_mw_max": 7000,
+     "default_usd_per_mw": 7000,
+     "years": 20,
+     "requires": "option",
+     "cite": "or_2015_c571",
+     "quote": "Sec. 1. (1)(a) The governing body of a county and the owner or person in possession or control of a solar project located within the county and outside the boundaries of any incorporated city may enter into an agreement that exempts from property taxes the property constituting the solar project and allows the payment of a fee in lieu of property taxes imposed on the property. (b) An agreement entered into under this section: (A) May not be for a term longer than 20 consecutive years; [...] (2) The fee in lieu of property taxes shall be computed at a rate not less than $5,500, and not more than $7,000, per megawatt of nameplate capacity of the solar project for each property tax year.",
+     "quote2": "Sec. 3. (1) Section 1, chapter 571, Oregon Laws 2015, is repealed on January 2, 2028. (2) Notwithstanding subsection (1) of this section, property constituting a solar project that is exempt from property taxes under section 1, chapter 571, Oregon Laws 2015, on the date specified in subsection (1) of this section shall continue to be exempt and to pay the fee in lieu of property taxes for the term specified in the agreement",
+     "default_why": "USD 7,000, the statute's maximum, which was its one fixed rate until the 2021 amendment set the range (a ruling)",
+     "not_modeled": "The agreement is the county's and the owner's: the tool offers it as a choice, off by default. The repeal of 2 January 2028: a project must be exempt under an agreement by then; the tool does not test the date. After the agreement's years no rule is held (no life total unless the reader types a rate). The land's treatment, which the agreement sets."
     }
    ]
   }

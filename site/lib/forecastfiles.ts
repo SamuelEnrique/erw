@@ -95,6 +95,12 @@ def property_tax(d, i):
                         rate = t["usd_per_mwh"]; break
             if rate > 0:
                 total += mwh * rate; used = True
+        elif r["kind"] == "capacity_option":
+            if not x["iaval"] or x["optrate"] is None:
+                continue
+            if i >= r["years"]:
+                return None
+            total += mw * min(r["usd_per_mw_max"], max(r["usd_per_mw_min"], x["optrate"])); used = True
         elif r["kind"] == "exempt_years":
             if i < r["years"]:
                 return 0.0
@@ -198,6 +204,8 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
         let rate = rl.usd_per_mwh ?? 0;
         if (rl.usd_per_mwh === undefined) for (const t of rl.tiers ?? []) { const lo = t.min_mw_exclusive ?? t.min_mw_ac_exclusive ?? 0; if (xi.mw > lo && (t.max_mw === undefined || xi.mw <= t.max_mw)) { rate = t.usd_per_mwh; break; } }
         if (rate > 0 && Number.isFinite(xi.cf)) parts.push(`${mwh} * ${rate}`);  // geothermal holds no capacity factor
+      } else if (rl.kind === "capacity_option" && xi.iaval && xi.optrate !== null) {
+        parts.push(`cond(i < ${rl.years}, ${xi.mw} * ${Math.min(rl.usd_per_mw_max ?? Infinity, Math.max(rl.usd_per_mw_min ?? 0, xi.optrate))}, .)`);
       } else if (rl.kind === "exempt_years") {
         exemptYears = rl.years ?? 0;
       } else if (rl.kind === "valuation" && xi.iaval && xi.levy !== null) {

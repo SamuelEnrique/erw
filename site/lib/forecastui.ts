@@ -48,7 +48,7 @@ const EXEMPT_WORDS: Record<string, string> = {
 /** fault 7: a statute's capacity or production tax is held for this technology and state (Iowa's valuation is optional, so
  *  the reader's own rate stays offered there) */
 export const statuteHeld = (t: TechKey, s: string, P: Params) =>
-  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "valuation" && r.kind !== "exempt_years");
+  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "valuation" && r.kind !== "exempt_years" && r.kind !== "capacity_option");
 
 export const FIELDS: FieldDef[] = [
   { key: "tech", label: "Technology", unit: "", min: 0, max: TECHS.length - 1, whole: true, group: "project",
@@ -82,10 +82,15 @@ export const FIELDS: FieldDef[] = [
     source: (t) => t === "geothermal" ? "JEDI's geothermal model holds no sales tax line: no share is held." : "JEDI's own base for sales tax, its materials and equipment purchases, as a share of its cost before tax." },
   { key: "exempt", label: "Sales tax exemption", unit: "% of the tax", min: 0, max: 100, whole: false, group: "taxes",
     source: (t, s, P) => (EXEMPT_WORDS[`${s}:${t}`] ?? (P.exemptions?.states[s]?.[t] ? "The state's statute exempts these purchases." : "No exemption of this state for this technology has been read: 0, so the sales tax is before exemptions.")) },
-  { key: "iaval", label: "Special valuation by county ordinance", unit: "", min: 0, max: 1, whole: true, group: "taxes",
+  { key: "iaval", label: "Local option by ordinance or agreement", unit: "", min: 0, max: 1, whole: true, group: "taxes",
     options: () => [{ value: 0, label: "No" }, { value: 1, label: "Yes" }],
-    applies: (t, s) => s === "ia" && t === "land_based_wind",
-    source: () => "Iowa Code 427B.26 applies where the county or city has adopted it by ordinance: 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh." },
+    applies: (t, s) => (s === "ia" && t === "land_based_wind") || (s === "or" && t === "utility_pv"),
+    source: (_t, s) => (s === "or"
+      ? "Oregon (2015 c.571, notes to ORS 307.175): a county and a solar project outside any city may agree to exempt it and take a fee in lieu, USD 5,500 to 7,000 per MW of nameplate a year, for up to 20 years; agreements end with projects exempt by 2 January 2028."
+      : "Iowa Code 427B.26 applies where the county or city has adopted it by ordinance: 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh.") },
+  { key: "optrate", label: "Fee in lieu", unit: "USD per MW a year", min: 0, max: 20000, whole: false, group: "taxes", nullable: true,
+    applies: (t, s) => s === "or" && t === "utility_pv",
+    source: () => "Within the statute's USD 5,500 to 7,000 (a rate outside it is held to it). Default 7,000, the statute's maximum and its one fixed rate until the 2021 amendment set the range." },
   { key: "levy", label: "Local levy", unit: "USD per 1,000", min: 0, max: 200, whole: false, group: "taxes", nullable: true,
     applies: (t, s) => s === "ia" && t === "land_based_wind",
     source: () => "No statewide figure is held: the county's consolidated levy, in dollars per 1,000 of taxable value." },

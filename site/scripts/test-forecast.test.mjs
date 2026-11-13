@@ -217,6 +217,7 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "natural_gas", "tx"), instate: 60 }, { ...F.defaults(P, "land_based_wind", "sd"), own: null }],
     [{ ...F.defaults(P, "geothermal", "ca") }, { ...F.defaults(P, "land_based_wind", "tx"), own: 1.2, ownyears: 20 }],
     [{ ...F.defaults(P, "land_based_wind", "ks") }, { ...F.defaults(P, "utility_pv", "ks"), own: 0.8, ownyears: 25 }],
+    [{ ...F.defaults(P, "utility_pv", "or"), iaval: true, optrate: 6200 }, { ...F.defaults(P, "utility_pv", "or"), iaval: true, own: 1, ownyears: 30 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -313,4 +314,15 @@ test("property tax: Kansas's exemption by operating year", () => {
   assert.equal(F.propertyTax(P, ks, 10).tax, null, "no rule held after ten years");
   near(F.propertyTax(P, { ...ks, own: 1, ownyears: 20 }, 10).tax, 150e6 * 0.5 * 0.01, 1e-12, "the reader's own rate fills the later years");
   assert.equal(F.propertyTax(P, { ...F.defaults(P, "natural_gas", "ks") }, 0).tax, null, "gas is not a renewable resource of the paragraph");
+});
+
+test("property tax: Oregon's solar fee in lieu by county agreement, within its range, for its years", () => {
+  const or = { ...F.defaults(P, "utility_pv", "or"), mw: 50 };
+  assert.equal(or.optrate, 7000); assert.equal(or.iaval, false);
+  assert.equal(F.propertyTax(P, or, 0).tax, null, "off by default");
+  const on = { ...or, iaval: true };
+  near(F.propertyTax(P, on, 0).tax, 50 * 7000); near(F.propertyTax(P, on, 19).tax, 50 * 7000);
+  assert.equal(F.propertyTax(P, on, 20).tax, null, "no rule held after the agreement's 20 years");
+  near(F.propertyTax(P, { ...on, optrate: 4000 }, 0).tax, 50 * 5500, 1e-12, "held to the statute's minimum");
+  assert.equal(F.defaults(P, "land_based_wind", "or").optrate, null, "the fee is a solar project's");
 });
