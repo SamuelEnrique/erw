@@ -13,6 +13,25 @@ next_week writes one line an item (the title's short name, the agency, a colon, 
 several companies cut by its length keeps the company its subject names (docket_company); a comment deadline is said in
 the row's form (deadline_words). The three deadlines of one day are three agencies' (FERC, NRC, BLM): session 1447's rule
 (one item of a kind an agency a day) stands.
+
+Row 65, the lines: "Annual forecast of global energy trends shapes investment and policy decisions." / "Public backlash against
+datacenter siting shifts permitting landscape and power infrastructure deployment calculus." / "Large capital commitment
+to power infrastructure for datacenter AI load." (the headline: "EQT's Zelestra unveils a USD 12 billion plan to meet US
+AI demand")
+The fault: "Lines naming no party, place, date, quantity or rule the headline lacks, \"Large\" standing for the headline's
+USD 12 billion: they pass because each shares under a quarter of its headline's words (row 7's `NOTHING_NEW_SHARE`); row
+43's test (`new_things` not empty) was applied to price reasons only. And an item with no figure and no line (IEA's
+outlook) holds one of three What mattered places"
+The fix: "The line is not printed: \"2. **IEA publishes World Energy Outlook 2026** (policy, 1 story)\" with its limitation;
+`why_check` asks `new_things` of every why line, as `price_reason` does; `what_mattered` puts an item with a figure (the
+week held NTT DATA and Bloom Energy's 900 MW, Zelestra's USD 12 billion) before one with neither figure nor line"
+Left open (session 1897): the count session 1882 asked for first, over the six stored Roundups (W39 to W45), finds 30
+of their 41 printed why lines name nothing their headline lacks (`brief.new_things` empty), every one of W45's four,
+AEP's "Hyperscale power deal combining fuel cells, natural gas, and private microgrid infrastructure ..." among them, which
+the row does not name. A Roundup-only refusal would take three lines in four out of the Roundup: the same question, in
+the same proportion, as the Digest's 560 of 784 that session 1458 left to the owner (NOTHING_NEW_SHARE = 0). The What
+mattered order rests on the same rule (IEA's item has "neither figure nor line" only once its line is refused). The
+class below pins the facts the count rests on; the rule waits for the owner.
 """
 
 import os
@@ -119,6 +138,34 @@ class Row76NextWeek(unittest.TestCase):
                 src = f.read()
             self.assertNotIn(EM, src)
             self.assertNotIn(EN, src)
+
+
+W45_WHY = [("AEP and Google advance a USD 4 billion, 702 MW Bloom Energy fuel-cell project in Cheyenne",
+            "Hyperscale power deal combining fuel cells, natural gas, and private microgrid infrastructure for datacenter demand."),
+           ("IEA publishes World Energy Outlook 2026", "Annual forecast of global energy trends shapes investment and policy decisions."),
+           ("Heatmap Pro poll asks Americans whether they would support a data center planned near their home",
+            "Public backlash against datacenter siting shifts permitting landscape and power infrastructure deployment calculus."),
+           ("EQT's Zelestra unveils a USD 12 billion plan to meet US AI demand",
+            "Large capital commitment to power infrastructure for datacenter AI load.")]
+
+
+class Row65LeftOpen(unittest.TestCase):
+    """Row 65 stays open (the module's docstring says why): these pin the facts the count rests on."""
+
+    def test_every_w45_line_names_nothing_its_headline_lacks(self):
+        import brief
+        for head, why in W45_WHY:
+            self.assertEqual(brief.new_things(why, head), [], head)
+
+    def test_the_lines_still_pass_and_print(self):
+        import brief
+        for head, why in W45_WHY:
+            self.assertEqual(brief.why_check(why, head), [], head)
+            self.assertEqual(brief.why_line(why, head), why, head)
+
+    def test_the_share_rule_stands(self):
+        import brief
+        self.assertEqual(brief.NOTHING_NEW_SHARE, 0.25)
 
 
 if __name__ == "__main__":
