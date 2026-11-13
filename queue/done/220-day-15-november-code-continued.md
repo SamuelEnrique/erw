@@ -26,7 +26,12 @@ Long end 1:30 each. One step a session, in chain 219's order, as session 1915 li
 
 ### Unfinished steps (written by session 1915 of chain 219)
 
-(To be filled by session 1915: one line a step, in chain 219's order, with the exact commands where the step was a landing.)
+Chain 219 stopped after its sessions 1909 to 1911 (13 November, about 03:58 UTC); session 1915 never ran, so session 1916 rebuilt this list from chain 219's reports (1902 to 1909), its branches (`wip/1905-revert` the only one left) and its `runs/s19NN/` folders:
+
+1. (Session 1916) The landing of `wip/1905-revert` (`211808fe4`, merged with main as `6f97ccefb`): main merged again, `scripts/land_check.py --ref <head> --task 1916-revert --keep-worktree`; it waited on the data machine's `task/c218-data`, which conflicted with main in `site/scripts/check-values.mjs` (its successor `task/c218-data2` holds it); the snapshots; the branch deleted once an ancestor.
+2. (Session 1917) Chain 219's session 1913: the records and the clean-up (`erw-1905` removed once landed; the five tools' table; `build_tables.py --check`).
+3. (Session 1918) Chain 219's session 1914: the paths walked again where chain 219 changed a step (the lab path's fault 2, the grids view held again by the revert).
+4. (Session 1919) Chain 219's note, `docs/state/note_2026-11-15_code_c219.md`.
 
 ## Sessions 1922 to 1926: the faults files' open rows
 
@@ -34,7 +39,12 @@ Long end 1:30 each. One fault a session, in this order: `docs/reviews/deals-faul
 
 ### Open faults (written by session 1915 of chain 219)
 
-(To be filled by session 1915: every faults file's rows whose state is open, one a line, in the files' order; the owner's rows named, not to be decided here.)
+Rebuilt by session 1916 from the files on main (sessions 1910 and 1911 found none open):
+
+- Deals, datacenter, policy, companies, attention faults files: no row open (every row fixed, `data machine` or `ruling`; datacenter row 4 is the owner's, the grids view's public columns).
+- Periodicals rows 39 and 65: the owner's. Rows 63 and 68: fixed with their open parts by sessions 1907 and 1908.
+- Board audit rows 46 to 50: the data machine's.
+- Trader, lab and On.Energy paths, session 1885's walk: the data machine's rows, and the lab's fault 2 the owner's (datacenter row 4).
 
 ## Session 1927: the records and the clean-up
 

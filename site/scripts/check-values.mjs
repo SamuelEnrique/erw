@@ -415,16 +415,30 @@ async function truth(check) {
     return r ? Math.round(r.value) : undefined;
   }
   if (p[0] === "digest_story") {
+    // session 3827 (chain 218): <id> is the story's cluster (warehouse/news/brief.py build_clusters), and the figure is the
+    // writer's: of the cluster's stories, strongest first (significance, then the earliest), the first non-blank mw, or for
+    // a sum the first non-blank price_mentioned in the issue's money style (brief.money_style, less "USD "). The issue of
+    // 12 November 2026 printed "USD 2.1 billion" from its cluster's second story, whose own price field is blank.
     const [, table, id, field] = p;
     if (!newsRows.has(table)) {
       const text = fs.readFileSync(path.join(here, "..", "..", "warehouse", "output", `${table}.csv`), "utf-8")
         .split(/\r?\n/).filter((l) => !l.startsWith("#")).join("\n");
-      newsRows.set(table, new Map(licCsv(text).map((r) => [r.event_id, r])));
+      const byCluster = new Map();
+      for (const r of licCsv(text)) {
+        const k = r.cluster_id || r.event_id;
+        if (!byCluster.has(k)) byCluster.set(k, []);
+        byCluster.get(k).push(r);
+      }
+      for (const g of byCluster.values()) g.sort((a, b) => (Number(b.significance) || 0) - (Number(a.significance) || 0) || String(a.event_date).localeCompare(String(b.event_date)));
+      newsRows.set(table, byCluster);
     }
-    const r = newsRows.get(table).get(id);
-    if (!r || r[field] === undefined || r[field] === "") return undefined;
-    const v = Number(r[field]);
-    return Number.isFinite(v) ? v : undefined;
+    const g = newsRows.get(table).get(id) ?? [];
+    if (field === "mw") {
+      const v = Number(g.map((r) => r.mw).find((x) => x !== undefined && x !== "" && Number(x) > 0));
+      return Number.isFinite(v) ? v : undefined;
+    }
+    const s = g.map((r) => r.price_mentioned).find((x) => x !== undefined && x !== "");
+    return s === undefined ? undefined : digestMoney(s);
   }
   // session 300: the home page's count of findings, from the library's own catalogue (site/data/findings/catalogue.json)
   if (p[0] === "findings" && p[1] === "count") {
@@ -1121,6 +1135,19 @@ async function eventRows(check) {
   return evRows.get(k);
 }
 
+/** Session 3827: a sum as the Digest prints it (warehouse/news/brief.py money_style: "$2.1B" to "USD 2.1 billion"), less the
+ *  "USD " its page reads off (lib/digest.ts); undefined where the text is not a sum. */
+function digestMoney(s) {
+  const m = /(?<![A-Za-z])(C\$|A\$|US\$|USD ?|CAD ?|AUD ?|EUR ?|GBP ?|\$|€|£)\s?(\d[\d,]*(?:\.\d+)?)(?:\s?(billion|bn|million|mn|mm|trillion|tn|thousand|k|b|m)\b)?/i.exec(String(s));
+  if (!m) return undefined;
+  const c = m[1].trim().toUpperCase();
+  const code = c === "C$" || c === "CAD" ? "CAD" : c === "A$" || c === "AUD" ? "AUD" : c === "€" || c === "EUR" ? "EUR" : c === "£" || c === "GBP" ? "GBP" : "USD";
+  const scale = { billion: "billion", bn: "billion", b: "billion", million: "million", mn: "million", mm: "million", m: "million",
+    trillion: "trillion", tn: "trillion", k: "thousand", thousand: "thousand" }[(m[3] ?? "").toLowerCase()];
+  const words = `${m[2]}${scale ? ` ${scale}` : ""}`;
+  return (code === "USD" ? words : `${code} ${words}`).replace(/,/g, "");
+}
+
 /** US dollars, short, as site/app/deals/DealsTable.tsx writes them (data-format usd). */
 function usd(v) {
   const t = (x) => x.toLocaleString("en-US", { maximumFractionDigits: 2 });
@@ -1388,7 +1415,10 @@ async function main() {
       // capacity and the margin were first checked by the gate of 13 November and failed on "164,685" against 164685.4
       const dcWhole = /^dcgrid\|(peak_mw|capacity_mw|facilities|with_mw|without|planned|under_construction|operating)\|/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
       const dcOne = /^dcgrid\|(share_of_peak|reserve_margin)\|/.test(check) && text === Number(raw).toFixed(1);
-      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || chartOk || dcWhole || dcOne;
+      // session 3827 (chain 218): a Digest story's sum is shown with its currency code before the raw the page reads ("USD 2.1
+      // billion" for "2.1 billion"; a non-US sum keeps its code in the raw itself)
+      const storyOk = /^digest_story\|[^|]+\|[^|]+\|price$/.test(check) && (text === raw || text === `USD ${raw}`);
+      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || chartOk || dcWhole || dcOne;
       let pass = t !== undefined && t !== null && same && textOk;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with

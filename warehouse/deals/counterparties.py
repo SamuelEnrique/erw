@@ -306,6 +306,13 @@ def main(argv=None):
     else:
         log = ip.Log(os.path.join(ip.LOG_DIR, f"deal_counterparties_{run_id}.log"))
         ip.write_csv(out, NAME, header, log, cols=COLS, key=["entity_id"], time_col="retrieved_at")
+        # session 3828 (chain 218): the rows name erw:energy_deals, and the catalogue's test (410) holds every listed
+        # table to a registry row naming it; the entry is warehouse/companies/seed_from_deals.py's, word for word (the
+        # registry rewrites a row's words from each entry), with this table added
+        ip.update_sources([dict(source="erw:energy_deals", publisher="Energy Research Warehouse (ERW)",
+                                report="Deal tracker counterparties (energy_deals, warehouse/deals/extract.py)",
+                                report_url="https://github.com/SamuelEnrique/erw/blob/main/warehouse/companies/seed_from_deals.py",
+                                document_list="", license="public", tables=[NAME])])
         log.close()
     print(f"deal_counterparties: {len(out)} names from {len(deals)} deals; utilities {int((out['kind'] == 'utility').sum())}, "
           f"ai buyers {int((out['kind'] == 'ai_buyer').sum())}, with a parent {int((out['parent'] != '').sum())}")
