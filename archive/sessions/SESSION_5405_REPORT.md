@@ -1,6 +1,6 @@
 # Session 5405 report: chain 255, two more published counterparts in the generator's cross-check table
 
-Energy Research Warehouse (ERW). Chain 255, portable laptop window P1, 13 November 2026, about 20:57 to 21:05 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5072-read`.
+Energy Research Warehouse (ERW). Chain 255, portable laptop window P1, 13 November 2026, about 20:55 to 20:59 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5072-read`.
 
 - From ERCOT's market monitor's 2025 report (read this evening; its text extracted, quoted, not copied):
   - **The default case's price received** (23.27 USD per MWh, solar at the hub average, October 2025 to September 2026), "No published counterpart held" until now, beside the report's "average captured price for solar at $21 per MWh" in 2025 (pages 19 and 20): +2.27, the hub against each plant's node (the report: congestion lowers nodal prices "in regions with high renewable capacity") and twelve months against calendar 2025.
