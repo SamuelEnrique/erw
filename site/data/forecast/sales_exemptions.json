@@ -1,0 +1,12 @@
+{
+ "about": "Sales and use tax exemptions for a generating project's construction purchases, read from each state's statute, quoted. The exemption becomes the tool's default exemption for that state and technology (docs/methods/forecast.md, section 5); a state and technology not here has none read, and the tool's sales tax is before exemptions. Request numbers are rows of runs/w4/probe.csv on lab-desktop (chain 239).",
+ "sources": {
+  "mn_297a_68": {"title": "Minnesota Statutes 2026, section 297A.68, Business and agricultural exemptions", "url": "https://www.revisor.mn.gov/statutes/cite/297A.68", "read": "2026-11-13", "request": 60}
+ },
+ "states": {
+  "mn": {
+   "land_based_wind": {"exempt_pct": 100, "cite": "mn_297a_68", "subdivision": "Subd. 12. Wind energy conversion systems.",
+    "quote": "Wind energy conversion systems, as defined in section 216C.06, subdivision 19, that are used as an electric power source are exempt, and the materials used to manufacture, install, construct, repair, or replace them are exempt."}
+  }
+ }
+}

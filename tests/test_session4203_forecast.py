@@ -17,7 +17,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SITE = os.path.join(ROOT, "site")
 DATA = os.path.join(SITE, "data", "forecast")
 FILES = ["jedi_costs.json", "eia_capex.json", "deflator.json", "capacity_factors.json", "sales_tax.json", "income_tax.json",
-         "property_rules.json", "jedi_taxable.json", "gas.json"]
+         "property_rules.json", "jedi_taxable.json", "gas.json", "sales_exemptions.json"]
 
 
 def load(name):

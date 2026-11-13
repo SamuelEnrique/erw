@@ -34,6 +34,8 @@ export type Params = {
   property: { states: Record<string, { name: string; rules: PropertyRule[]; in_lieu?: { quote: string } }> };
   taxable: { technologies: Record<TechKey, { taxable_share: number | null }> };
   gas: { heat_rate_btu_per_kwh: number; capacity_factor: number; price_usd_per_mmbtu: number | null; btu_per_cf: number };
+  /** session 4218: sales tax exemptions read from statutes (sales_exemptions.json); absent in older callers */
+  exemptions?: { states: Record<string, Partial<Record<TechKey, { exempt_pct: number }>>> };
 };
 export type IncomeState = {
   name: string; none?: boolean; brackets: { over_usd: number; rate: number }[];
@@ -140,7 +142,7 @@ export function defaults(P: Params, tech: TechKey, state: string): Inputs {
     start: DEFAULT_START, build: Math.ceil(e.construction_months / 12), life: e.operating_life_years,
     local: 100, om: 100, rate: 7, cf: round(cfDefault(P, tech, state).value, 4), ilr: tech === "utility_pv" ? round(ilrDefault(P, state).value, 4) : 1,
     sales: st ? round((st.state_rate + st.avg_local_rate) * 100, 4) : 0, taxable: share === null || share === undefined ? null : round(share * 100, 4),
-    exempt: 0, iaval: false, levy: null, own: null, ownyears: null,
+    exempt: P.exemptions?.states[state]?.[tech]?.exempt_pct ?? 0, iaval: false, levy: null, own: null, ownyears: null,
     heat: P.gas.heat_rate_btu_per_kwh, instate: 0, gasprice: P.gas.price_usd_per_mmbtu === null ? null : round(P.gas.price_usd_per_mmbtu, 4),
   };
 }
@@ -285,7 +287,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
     ok: true, years, sums, pv: { ...pvS, taxes }, construction: c, operations: o,
     property: { held: propHeld, rule: propRule, note: propNote },
     severance: { held: sevYear !== null, note: sevNote },
-    sales: { held: salesHeld, note: salesHeld ? (x.exempt > 0 ? "after the reader's exemption" : "before exemptions") : "no taxable share held for this technology" },
+    sales: { held: salesHeld, note: salesHeld ? (x.exempt > 0 ? "after the exemption" : "before exemptions") : "no taxable share held for this technology" },
   };
 }
 function scale(r: Record<Effect, number>, f: number): Record<Effect, number> {

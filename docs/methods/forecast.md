@@ -33,7 +33,7 @@ and each stream's sum and present value at the reader's discount rate (section 8
 | Capacity factor (wind, PV) | the state's median plant, else the national median | `capacity_factors.json` (section 4) |
 | PV inverter loading ratio (DC over AC) | the state's median plant, else the national median | `capacity_factors.json` |
 | Sales tax rate | the state's rate plus its population-weighted average local rate, midyear 2026 | `sales_tax.json` (Tax Foundation) |
-| Sales tax exemption on generating equipment | 0 percent | no state's exemption has been read (section 5): the line is labelled "before exemptions" |
+| Sales tax exemption on generating equipment | the state's statute where read (Minnesota wind: 100 percent), else 0 | `sales_exemptions.json` (section 5); with 0 the line is labelled "before exemptions" |
 | Property tax: Iowa wind's special valuation | off | an ordinance of the county or city must adopt it (Iowa Code 427B.26(1)) |
 | Property tax: local levy (Iowa) or effective rate (states with no rule) | none | no public statewide figure is held (section 4) |
 | Gas plant: heat rate, capacity factor | EIA's case 5 heat rate (6,266 Btu/kWh); JEDI's gas default capacity factor (65 percent) | EIA's case table; JEDI gas model, ProjectData |
@@ -82,7 +82,7 @@ T_sales = S times (taxable share) times (state rate + average local rate) times 
 - **The taxable share** is JEDI's own base, its "Sales Tax (Materials & Equipment Purchases)" line (`jedi_taxable.json`): wind 0.819282 (the tax over the rate times the cost before tax, at JEDI's saved project), gas 0.605882 (the same), PV 0.642105 (JEDI's utility materials and equipment share; JEDI's PV default exempts it entirely), geothermal none (JEDI's model has no sales tax line: no figure unless the reader types a share).
 - **EIA's capital cost excludes sales tax** (the study, "Basis of estimates": equipment and material costs are "inclusive of purchase price, duties, and freight, (but excluding any sales tax)"), so the tax is added to, not taken from, the capital cost. The tool does not add it to the spending that drives JEDI's effects.
 - **Rates**: Tax Foundation's midyear 2026 table (`sales_tax.json`), CC BY-NC 4.0: as the ERW is today, may be public with attribution; if the ERW sells anything, needs permission (`docs/licenses.md`'s two verdicts).
-- **Exemptions**: many states exempt generating equipment, wholly or in part. None has been read, so the default is 0 and the line says "before exemptions". A state's exemption, read from its statute, becomes its default.
+- **Exemptions**: many states exempt generating equipment, wholly or in part. An exemption read from the state's statute is the default for that state and technology (`sales_exemptions.json`, quoted): Minnesota exempts wind energy conversion systems and the materials to build them (297A.68, subd. 12), so Minnesota wind's default exemption is 100 percent. Every other state and technology has none read: the default is 0 and the line says "before exemptions".
 
 ## 6. State income tax on earnings
 

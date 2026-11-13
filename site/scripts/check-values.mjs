@@ -549,7 +549,7 @@ async function truth(check) {
     if (!forecastParams) {
       const d = (n) => JSON.parse(fs.readFileSync(path.join(here, "..", "data", "forecast", n), "utf-8"));
       forecastParams = { jediCosts: d("jedi_costs.json"), eiaCapex: d("eia_capex.json"), deflator: d("deflator.json"), capacity: d("capacity_factors.json"), sales: d("sales_tax.json"),
-        income: d("income_tax.json"), property: d("property_rules.json"), taxable: d("jedi_taxable.json"), gas: d("gas.json") };
+        income: d("income_tax.json"), property: d("property_rules.json"), taxable: d("jedi_taxable.json"), gas: d("gas.json"), exemptions: d("sales_exemptions.json") };
       const S = await import("../lib/severance.ts");
       const rules = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "severance_rules.json"), "utf-8"));
       forecastSev = (state, volume, price) => {

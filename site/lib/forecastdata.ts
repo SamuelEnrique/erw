@@ -11,6 +11,7 @@ import income from "@/data/forecast/income_tax.json";
 import property from "@/data/forecast/property_rules.json";
 import taxable from "@/data/forecast/jedi_taxable.json";
 import gas from "@/data/forecast/gas.json";
+import exemptions from "@/data/forecast/sales_exemptions.json";
 import severanceRules from "@/data/severance_rules.json";
 import { type Params } from "./forecast";
 export { pack, unpack, PACK, groupPlanned, type Packed, type Planned } from "./forecast";
@@ -42,6 +43,7 @@ export function params(): Params {
     property: { states: slimProp } as Params["property"],
     taxable: { technologies: Object.fromEntries(Object.entries(taxable.technologies).map(([t, v]) => [t, { taxable_share: v.taxable_share }])) } as Params["taxable"],
     gas: { heat_rate_btu_per_kwh: gas.heat_rate_btu_per_kwh, capacity_factor: gas.capacity_factor, price_usd_per_mmbtu: gas.price_usd_per_mmbtu, btu_per_cf: gas.btu_per_cf },
+    exemptions: { states: Object.fromEntries(Object.entries(exemptions.states).map(([s, v]) => [s, Object.fromEntries(Object.entries(v).map(([t, e]) => [t, { exempt_pct: e.exempt_pct }]))])) } as Params["exemptions"],
   };
 }
 

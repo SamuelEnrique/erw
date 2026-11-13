@@ -13,6 +13,7 @@ const data = (n) => JSON.parse(fs.readFileSync(path.join(here, "..", "data", "fo
 const P = {
   jediCosts: data("jedi_costs.json"), eiaCapex: data("eia_capex.json"), deflator: data("deflator.json"), capacity: data("capacity_factors.json"),
   sales: data("sales_tax.json"), income: data("income_tax.json"), property: data("property_rules.json"), taxable: data("jedi_taxable.json"), gas: data("gas.json"),
+  exemptions: data("sales_exemptions.json"),
 };
 const ROWS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "tests", "fixtures", "forecast", "jedi_rows.json"), "utf8")).rows;
 const near = (a, b, rel = 1e-9, msg = "") => assert.ok(Math.abs(a - b) <= rel * Math.max(1, Math.abs(b)), `${msg} ${a} is not ${b}`);
@@ -159,7 +160,7 @@ test("sales tax: spending times the taxable share times the rate, less the exemp
   const r = F.run(x, ROWS, P);
   const total = 500e6 * 0.605882 * 0.08 * 0.75;
   near(r.sums.sales, total, 1e-6); near(r.years[0].sales, total / 2, 1e-6);
-  assert.equal(r.sales.note, "after the reader's exemption");
+  assert.equal(r.sales.note, "after the exemption");
   const geo = F.run(F.defaults(P, "geothermal", "ca"), ROWS, P);
   assert.equal(geo.sums.sales, null); assert.equal(geo.sales.held, false);
 });
@@ -257,4 +258,13 @@ test("planned projects: a plant's generators of one technology added, its earlie
   const pv = g.find((p) => p.tech === "utility_pv");
   assert.deepEqual(pv, { id: "100-utility_pv", name: "Prairie Sun", tech: "utility_pv", state: "mn", county: "Lyon", mw: 120, year: 2027 });
   assert.equal(g.find((p) => p.tech === "land_based_wind").year, null);
+});
+
+test("sales tax: a statute's exemption is the default (Minnesota wind), elsewhere none", () => {
+  const mn = F.defaults(P, "land_based_wind", "mn");
+  assert.equal(mn.exempt, 100);
+  const r = F.run(mn, ROWS, P);
+  assert.equal(r.sums.sales, 0); assert.equal(r.sales.note, "after the exemption");
+  assert.equal(F.defaults(P, "utility_pv", "mn").exempt, 0, "no solar exemption read in 297A.68");
+  assert.equal(F.defaults(P, "land_based_wind", "tx").exempt, 0);
 });
